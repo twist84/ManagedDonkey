@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{fb59080f-57e1-4857-9a57-333f885779bb}</ProjectGuid>
+    <RootNamespace>hf2pgameclientcacherelease</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>game</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="source\camera\camera.cpp" />
+    <ClCompile Include="source\camera\director.cpp" />
+    <ClCompile Include="source\camera\observer.cpp" />
+    <ClCompile Include="source\cseries\cseries_string.cpp" />
+    <ClCompile Include="source\dllmain.cpp" />
+    <ClCompile Include="source\game\game_engine_variant.cpp" />
+    <ClCompile Include="source\game\game_globals.cpp" />
+    <ClCompile Include="source\game\game_options.cpp" />
+    <ClCompile Include="source\game\game_time.cpp" />
+    <ClCompile Include="source\game\player_control.cpp" />
+    <ClCompile Include="source\game\player_mapping.cpp" />
+    <ClCompile Include="source\main\main_game.cpp" />
+    <ClCompile Include="source\main\main_game_launch.cpp" />
+    <ClCompile Include="source\memory\data.cpp" />
+    <ClCompile Include="source\memory\module.cpp" />
+    <ClCompile Include="source\memory\thread_local.cpp" />
+    <ClCompile Include="source\networking\network_life_cycle.cpp" />
+    <ClCompile Include="source\physics\physics_constants.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\camera\camera.hpp" />
+    <ClInclude Include="source\camera\dead_camera.hpp" />
+    <ClInclude Include="source\camera\debug_director.hpp" />
+    <ClInclude Include="source\camera\director.hpp" />
+    <ClInclude Include="source\camera\editor_director.hpp" />
+    <ClInclude Include="source\camera\first_person_camera.hpp" />
+    <ClInclude Include="source\camera\flying_camera.hpp" />
+    <ClInclude Include="source\camera\following_camera.hpp" />
+    <ClInclude Include="source\camera\game_director.hpp" />
+    <ClInclude Include="source\camera\observer.hpp" />
+    <ClInclude Include="source\camera\observer_director.hpp" />
+    <ClInclude Include="source\camera\orbiting_camera.hpp" />
+    <ClInclude Include="source\camera\saved_film_director.hpp" />
+    <ClInclude Include="source\camera\static_camera.hpp" />
+    <ClInclude Include="source\cseries\cseries.hpp" />
+    <ClInclude Include="source\cseries\cseries_string.hpp" />
+    <ClInclude Include="source\cseries\integer_math.hpp" />
+    <ClInclude Include="source\cseries\language.hpp" />
+    <ClInclude Include="source\cseries\real_math.hpp" />
+    <ClInclude Include="source\game\game_engine_assault.hpp" />
+    <ClInclude Include="source\game\game_engine_assault_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_ctf.hpp" />
+    <ClInclude Include="source\game\game_engine_ctf_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_infection.hpp" />
+    <ClInclude Include="source\game\game_engine_infection_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_juggernaut.hpp" />
+    <ClInclude Include="source\game\game_engine_juggernaut_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_king.hpp" />
+    <ClInclude Include="source\game\game_engine_koth_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_oddball.hpp" />
+    <ClInclude Include="source\game\game_engine_oddball_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_player_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_sandbox.hpp" />
+    <ClInclude Include="source\game\game_engine_sandbox_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_slayer.hpp" />
+    <ClInclude Include="source\game\game_engine_slayer_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_territories.hpp" />
+    <ClInclude Include="source\game\game_engine_territories_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_traits.hpp" />
+    <ClInclude Include="source\game\game_engine_variant.hpp" />
+    <ClInclude Include="source\game\game_engine_vip.hpp" />
+    <ClInclude Include="source\game\game_engine_vip_traits.hpp" />
+    <ClInclude Include="source\game\game_globals.hpp" />
+    <ClInclude Include="source\game\game_mode.hpp" />
+    <ClInclude Include="source\game\game_options.hpp" />
+    <ClInclude Include="source\game\game_progression.hpp" />
+    <ClInclude Include="source\game\game_time.hpp" />
+    <ClInclude Include="source\game\player_control.hpp" />
+    <ClInclude Include="source\game\player_mapping.hpp" />
+    <ClInclude Include="source\main\main_game.hpp" />
+    <ClInclude Include="source\main\main_game_launch.hpp" />
+    <ClInclude Include="source\main\main_time.hpp" />
+    <ClInclude Include="source\memory\data.hpp" />
+    <ClInclude Include="source\memory\module.hpp" />
+    <ClInclude Include="source\memory\thread_local.hpp" />
+    <ClInclude Include="source\networking\network_life_cycle.hpp" />
+    <ClInclude Include="source\physics\physics_constants.hpp" />
+    <ClInclude Include="source\saved_games\saved_game_files.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
