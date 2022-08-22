@@ -65,7 +65,7 @@ void main_game_launch_ui_shell()
 
 void main_game_launch_set_coop_player_count(long player_count)
 {
-	if (player_count >= 0 && player_count <= 4)
+	if (player_count > 0 && player_count <= 4)
 	{
 		g_launch_globals.options.game_mode = _game_mode_campaign;
 		g_launch_globals_player_count = player_count;
@@ -78,7 +78,7 @@ void main_game_launch_set_coop_player_count(long player_count)
 
 void main_game_launch_set_multiplayer_splitscreen_count(long player_count)
 {
-	if (player_count >= 0 && player_count <= 4)
+	if (player_count > 0 && player_count <= 4)
 	{
 		g_launch_globals.options.game_mode = _game_mode_multiplayer;
 		g_launch_globals_player_count = player_count;
