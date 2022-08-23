@@ -11,15 +11,7 @@
 #include <stdio.h> //printf
 #include <string>
 
-// implement our own
-static long g_launch_globals_player_count = 1;
-
-s_main_game_launch_globals& g_launch_globals = *reinterpret_cast<s_main_game_launch_globals*>(0x023B6348);
-
-s_main_game_launch_globals& launch_globals_get()
-{
-	return g_launch_globals;
-}
+s_main_game_launch_globals g_launch_globals = { .player_count = 1, .options = *reinterpret_cast<game_options*>(0x023B6348) };
 
 // void main_game_launch_default()
 // void main_game_launch_default_editor()
@@ -68,7 +60,7 @@ void main_game_launch_set_coop_player_count(long player_count)
 	if (player_count > 0 && player_count <= 4)
 	{
 		g_launch_globals.options.game_mode = _game_mode_campaign;
-		g_launch_globals_player_count = player_count;
+		g_launch_globals.player_count = player_count;
 	}
 	else
 	{
@@ -81,7 +73,7 @@ void main_game_launch_set_multiplayer_splitscreen_count(long player_count)
 	if (player_count > 0 && player_count <= 4)
 	{
 		g_launch_globals.options.game_mode = _game_mode_multiplayer;
-		g_launch_globals_player_count = player_count;
+		g_launch_globals.player_count = player_count;
 		if (g_launch_globals.options.game_variant.m_game_engine_index == _game_engine_base_variant)
 			g_launch_globals.options.game_variant.m_game_engine_index = _game_engine_slayer_variant;
 
@@ -138,12 +130,12 @@ void main_game_launch(const char* map_name)
 
 	g_launch_globals.options.record_saved_film = false;
 
-	if (g_launch_globals_player_count < 1)
-		g_launch_globals_player_count = 1;
-	if (g_launch_globals_player_count > 4)
-		g_launch_globals_player_count = 4;
+	if (g_launch_globals.player_count < 1)
+		g_launch_globals.player_count = 1;
+	if (g_launch_globals.player_count > 4)
+		g_launch_globals.player_count = 4;
 
-	game_options_setup_default_players(g_launch_globals_player_count, &g_launch_globals.options);
+	game_options_setup_default_players(g_launch_globals.player_count, &g_launch_globals.options);
 	//game_options_validate(&g_launch_globals.options);
 	main_game_change(&g_launch_globals.options);
 }

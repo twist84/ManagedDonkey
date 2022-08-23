@@ -4,8 +4,6 @@
 
 struct s_main_game_launch_globals
 {
-	/* in release builds strip core_name and player_count
-
 	// main_game_change_immediate
 	// main_game_load_from_core_name
 	char core_name[256];
@@ -15,12 +13,10 @@ struct s_main_game_launch_globals
 	// main_game_launch_set_multiplayer_splitscreen_count
 	long player_count;
 
-	*/
-
-	game_options options;
+	game_options& options;
 };
 
-extern s_main_game_launch_globals& launch_globals_get();
+extern s_main_game_launch_globals g_launch_globals;
 
 //extern void main_game_launch_default();
 //extern void main_game_launch_default_editor();
