@@ -2,6 +2,7 @@
 
 #include "camera/director.hpp"
 #include "game/player_control.hpp"
+#include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 
 #include <windows.h>
@@ -40,6 +41,21 @@ void main_loop_body_begin()
     {
         player_control_toggle_machinima_camera_use_old_controls();
         Sleep(75);
+    }
+    else if (GetKeyState(VK_RCONTROL) & 0x8000)
+    {
+        global_preferences_set_shadow_quality(_quality_setting_high);
+        global_preferences_set_texture_resolution_quality(_quality_setting_high);
+        global_preferences_set_texture_filtering_quality(_quality_setting_high);
+        global_preferences_set_lighting_quality(_quality_setting_high);
+        global_preferences_set_effects_quality(_quality_setting_high);
+        global_preferences_set_details_quality(_quality_setting_high);
+        global_preferences_set_postprocessing_quality(_quality_setting_high);
+        global_preferences_set_vsync(true);
+        global_preferences_set_motion_blur(false);
+        global_preferences_set_antialiasing(true);
+        global_preferences_set_brightness(50);
+        global_preferences_set_contrast(50);
     }
 }
 
