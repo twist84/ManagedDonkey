@@ -100,6 +100,8 @@
     <ClCompile Include="source\memory\thread_local.cpp" />
     <ClCompile Include="source\networking\network_life_cycle.cpp" />
     <ClCompile Include="source\physics\physics_constants.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp" />
@@ -160,6 +162,8 @@
     <ClInclude Include="source\memory\thread_local.hpp" />
     <ClInclude Include="source\networking\network_life_cycle.hpp" />
     <ClInclude Include="source\physics\physics_constants.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_performance_throttles.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

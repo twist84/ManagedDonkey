@@ -4,6 +4,8 @@
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
+#include "rasterizer/rasterizer.hpp"
+#include "rasterizer/rasterizer_performance_throttles.hpp"
 
 #include <windows.h>
 #include <stdio.h>
@@ -56,6 +58,14 @@ void main_loop_body_begin()
         global_preferences_set_antialiasing(true);
         global_preferences_set_brightness(50);
         global_preferences_set_contrast(50);
+
+        global_preferences_set_fullscreen(true);
+        sub_79BA30(1920, 1080);
+
+        g_ignore_predefined_performance_throttles = true;
+        memcpy(&g_current_performance_throttles, &g_default_performance_throttles.throttles[0], sizeof(s_performane_throttle));
+
+        printf("");
     }
 }
 
@@ -63,8 +73,8 @@ void main_loop_body_end()
 {
     if (GetKeyState(VK_HOME) & 0x8000)
     {
-        main_game_launch_set_multiplayer_splitscreen_count(4);
-        //main_game_launch_set_coop_player_count(4);
+        //main_game_launch_set_multiplayer_splitscreen_count(4);
+        main_game_launch_set_coop_player_count(4);
         main_game_launch("maps\\riverworld");
     }
     else if (GetKeyState(VK_END) & 0x8000)

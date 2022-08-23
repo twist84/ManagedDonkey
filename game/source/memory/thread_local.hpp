@@ -7,6 +7,7 @@
 #include "game/player_control.hpp"
 #include "game/player_mapping.hpp"
 #include "game/game_time.hpp"
+#include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
 #include "physics/physics_constants.hpp"
 
@@ -1171,9 +1172,8 @@ struct s_thread_local_storage
 	// size: 0x40
 	s_main_time_globals* g_main_time_globals;
 
-	// size: 0x42000
-	//Blam::Preferences* g_global_preferences;
-	void* g_global_preferences;
+	// size: 0x84030
+	s_global_preferences_internals_type* g_global_preferences;
 
 	char* __unknown1C;
 
