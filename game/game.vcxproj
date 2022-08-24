@@ -161,6 +161,7 @@
     <ClInclude Include="source\memory\module.hpp" />
     <ClInclude Include="source\memory\thread_local.hpp" />
     <ClInclude Include="source\networking\network_life_cycle.hpp" />
+    <ClInclude Include="source\networking\transport\transport_address.hpp" />
     <ClInclude Include="source\networking\transport\transport_security.hpp" />
     <ClInclude Include="source\physics\physics_constants.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />

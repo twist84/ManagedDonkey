@@ -266,5 +266,8 @@
     <ClInclude Include="source\networking\transport\transport_security.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\transport\transport_address.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
