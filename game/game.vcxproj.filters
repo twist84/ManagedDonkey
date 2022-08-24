@@ -78,6 +78,9 @@
     <ClCompile Include="source\rasterizer\rasterizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\network_broadcast_search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\networking\logic\network_search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -264,6 +267,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\rasterizer\rasterizer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\network_broadcast_search.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\transport\transport_security.hpp">
