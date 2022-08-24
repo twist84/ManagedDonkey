@@ -4,6 +4,9 @@
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
+#include "networking/logic/network_broadcast_search.hpp"
+#include "networking/logic/network_join.hpp"
+#include "networking/logic/network_search.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_performance_throttles.hpp"
 
@@ -33,18 +36,21 @@ c_hook_call<0x0050605C> main_loop_body_end_call({ .pointer = main_loop_body_end 
 
 void main_loop_body_begin()
 {
-    if (GetKeyState(VK_PRIOR) & 0x8000)
+    // right control for tests
+    if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
-        player_control_toggle_machinima_camera_enabled();
-        player_control_toggle_machinima_camera_debug();
-        Sleep(75);
+        g_broadcast_search_globals;
+        g_network_search_globals;
+        g_network_join_data;
+
+        printf("");
     }
-    else if (GetKeyState(VK_PRIOR) & 0x8000)
-    {
-        player_control_toggle_machinima_camera_use_old_controls();
-        Sleep(75);
-    }
-    else if (GetKeyState(VK_RCONTROL) & 0x8000)
+}
+
+void main_loop_body_end()
+{
+    // home cluster keys
+    if (GetKeyState(VK_INSERT) & 0x8000)
     {
         global_preferences_set_shadow_quality(_quality_setting_high);
         global_preferences_set_texture_resolution_quality(_quality_setting_high);
@@ -61,17 +67,13 @@ void main_loop_body_begin()
 
         global_preferences_set_fullscreen(true);
         sub_79BA30(1920, 1080);
-
+    }
+    else if (GetKeyState(VK_DELETE) & 0x8000)
+    {
         g_ignore_predefined_performance_throttles = true;
         memcpy(&g_current_performance_throttles, &g_default_performance_throttles.throttles[0], sizeof(s_performane_throttle));
-
-        printf("");
     }
-}
-
-void main_loop_body_end()
-{
-    if (GetKeyState(VK_HOME) & 0x8000)
+    else if (GetKeyState(VK_HOME) & 0x8000)
     {
         //main_game_launch_set_multiplayer_splitscreen_count(4);
         main_game_launch_set_coop_player_count(4);
@@ -80,6 +82,17 @@ void main_loop_body_end()
     else if (GetKeyState(VK_END) & 0x8000)
     {
         director_toggle(0, _director_mode_debug);
+        Sleep(75);
+    }
+    else if (GetKeyState(VK_PRIOR) & 0x8000)
+    {
+        player_control_toggle_machinima_camera_enabled();
+        player_control_toggle_machinima_camera_debug();
+        Sleep(75);
+    }
+    else if (GetKeyState(VK_NEXT) & 0x8000)
+    {
+        player_control_toggle_machinima_camera_use_old_controls();
         Sleep(75);
     }
 }

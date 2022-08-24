@@ -99,6 +99,7 @@
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
     <ClCompile Include="source\networking\logic\network_broadcast_search.cpp" />
+    <ClCompile Include="source\networking\logic\network_join.cpp" />
     <ClCompile Include="source\networking\logic\network_search.cpp" />
     <ClCompile Include="source\networking\network_life_cycle.cpp" />
     <ClCompile Include="source\physics\physics_constants.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="source\memory\module.hpp" />
     <ClInclude Include="source\memory\thread_local.hpp" />
     <ClInclude Include="source\networking\logic\network_broadcast_search.hpp" />
+    <ClInclude Include="source\networking\logic\network_join.hpp" />
     <ClInclude Include="source\networking\logic\network_search.hpp" />
     <ClInclude Include="source\networking\network_life_cycle.hpp" />
     <ClInclude Include="source\networking\transport\transport_address.hpp" />
