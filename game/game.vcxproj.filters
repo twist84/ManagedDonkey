@@ -63,9 +63,6 @@
     <ClCompile Include="source\memory\thread_local.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\networking\network_life_cycle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\memory\module.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -85,6 +82,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\networking\logic\network_search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\network_life_cycle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,9 +257,6 @@
     <ClInclude Include="source\saved_games\saved_game_files.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\networking\network_life_cycle.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\memory\module.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -285,6 +282,66 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\logic\network_search.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\network_life_cycle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_none.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_pre_game.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_start_game.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_in_game.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_end_game_write_stats.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_leaving.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_joining.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_start.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_find_match_client.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_find_match.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_find_and_assemble_match.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_assemble_match.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_select_host.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_arbitration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_prepare_map.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_in_match.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_end_match_write_stats.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_post_match.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

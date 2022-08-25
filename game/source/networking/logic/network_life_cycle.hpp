@@ -1,0 +1,60 @@
+#pragma once
+
+#include "cseries/cseries.hpp"
+#include "networking/logic/life_cycle/life_cycle_manager.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_none.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_pre_game.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_start_game.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_in_game.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_end_game_write_stats.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_leaving.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_joining.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_matchmaking_start.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_matchmaking_find_match_client.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_matchmaking_find_match.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_matchmaking_find_and_assemble_match.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_matchmaking_assemble_match.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_matchmaking_select_host.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_matchmaking_arbitration.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_matchmaking_prepare_map.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_in_match.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_end_match_write_stats.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_post_match.hpp"
+
+struct s_network_life_cycle_globals
+{
+	bool initialized;
+	byte : 8;
+	byte : 8;
+	byte : 8;
+	byte : 8;
+	byte : 8;
+	byte : 8;
+	byte : 8;
+	c_life_cycle_state_manager m_state_manager;
+	c_life_cycle_state_handler_none handler_none;
+	c_life_cycle_state_handler_pre_game handler_pre_game;
+	c_life_cycle_state_handler_start_game handler_start_game;
+	c_life_cycle_state_handler_in_game handler_in_game;
+	c_life_cycle_state_handler_end_game_write_stats handler_end_game_write_stats;
+	c_life_cycle_state_handler_leaving handler_leaving;
+	c_life_cycle_state_handler_joining handler_joining;
+	c_life_cycle_state_handler_matchmaking_start handler_matchmaking_start;
+	c_life_cycle_state_handler_matchmaking_find_match_client handler_matchmaking_find_match_client;
+	c_life_cycle_state_handler_matchmaking_find_match handler_matchmaking_find_match;
+	c_life_cycle_state_handler_matchmaking_find_and_assemble_match handler_matchmaking_find_and_assemble_match;
+	c_life_cycle_state_handler_matchmaking_assemble_match handler_matchmaking_assemble_match;
+	c_life_cycle_state_handler_matchmaking_select_host handler_matchmaking_select_host;
+	c_life_cycle_state_handler_matchmaking_arbitration handler_matchmaking_arbitration;
+	c_life_cycle_state_handler_matchmaking_prepare_map handler_matchmaking_prepare_map;
+	c_life_cycle_state_handler_in_match handler_in_match;
+	c_life_cycle_state_handler_end_match_write_stats handler_end_match_write_stats;
+	c_life_cycle_state_handler_post_match handler_post_match;
+};
+static_assert(sizeof(s_network_life_cycle_globals) == 0x3D538);
+
+extern s_network_life_cycle_globals& life_cycle_globals;
+
+extern long __cdecl network_life_cycle_get_state();
+extern void __cdecl network_life_cycle_request_leave(bool disconnect);
+extern void __cdecl network_life_cycle_end();

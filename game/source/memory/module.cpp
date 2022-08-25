@@ -4,9 +4,7 @@
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
-#include "networking/logic/network_broadcast_search.hpp"
-#include "networking/logic/network_join.hpp"
-#include "networking/logic/network_search.hpp"
+#include "networking/logic/network_life_cycle.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_performance_throttles.hpp"
 
@@ -39,9 +37,7 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
-        g_broadcast_search_globals;
-        g_network_search_globals;
-        g_network_join_data;
+        life_cycle_globals;
 
         printf("");
     }

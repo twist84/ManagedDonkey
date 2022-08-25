@@ -1,4 +1,6 @@
-#include "networking/network_life_cycle.hpp"
+#include "networking/logic/network_life_cycle.hpp"
+
+s_network_life_cycle_globals& life_cycle_globals = *reinterpret_cast<s_network_life_cycle_globals*>(0x019AB7F0);
 
 long __cdecl network_life_cycle_get_state()
 {

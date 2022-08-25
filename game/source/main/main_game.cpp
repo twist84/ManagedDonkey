@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game_options.hpp"
-#include "networking/network_life_cycle.hpp"
+#include "networking/logic/network_life_cycle.hpp"
 
 // memcpy, timeGetTime
 #include <windows.h>
