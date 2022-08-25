@@ -36,8 +36,8 @@ void main_game_change(game_options const* options)
 	main_game_globals.game_loaded_time = 0;//timeGetTime();
 	if (!options)
 	{
-		if (network_life_cycle_get_state())
-			network_life_cycle_request_leave(0);
+		if (network_life_cycle_get_state() != _life_cycle_state_none)
+			network_life_cycle_request_leave(false);
 		else
 			network_life_cycle_end();
 	}
