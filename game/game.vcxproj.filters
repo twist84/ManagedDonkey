@@ -347,5 +347,11 @@
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_post_match.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\logic\logic_matchmaking_desirability.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\network_session_interface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
