@@ -85,6 +85,13 @@ template<typename t_type, size_t k_count>
 struct c_static_array
 {
 	t_type m_storage[k_count];
+
+	t_type operator[](long index)
+	{
+		if (index < k_count)
+			return m_storage[index];
+		return t_type(0);
+	}
 };
 
 template<typename t_type, typename t_storage_type, size_t k_count>
