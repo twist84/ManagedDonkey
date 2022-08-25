@@ -98,6 +98,7 @@
     <ClCompile Include="source\memory\data.cpp" />
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_manager.cpp" />
     <ClCompile Include="source\networking\logic\network_broadcast_search.cpp" />
     <ClCompile Include="source\networking\logic\network_join.cpp" />
     <ClCompile Include="source\networking\logic\network_life_cycle.cpp" />

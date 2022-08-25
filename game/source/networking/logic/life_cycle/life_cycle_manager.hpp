@@ -69,6 +69,8 @@ struct c_life_cycle_state_handler
 };
 static_assert(sizeof(c_life_cycle_state_handler) == 0x28);
 
+const long k_maximum_state_change_entry_data_size = 16;
+
 struct c_life_cycle_state_manager
 {
 	c_enum<e_life_cycle_state, long, k_life_cycle_state_count> m_current_state;
@@ -87,5 +89,11 @@ struct c_life_cycle_state_manager
 
 	long m_entry_data_size;
 	byte m_entry_data[0x9924];
+
+	void request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data);
+	void request_leave_sessions(bool disconnect);
+	void set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data);
+	e_life_cycle_state get_current_state();
+	void terminate();
 };
 static_assert(sizeof(c_life_cycle_state_manager) == 0x9990);
