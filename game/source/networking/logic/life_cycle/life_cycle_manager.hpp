@@ -88,7 +88,9 @@ struct c_life_cycle_state_manager
 	c_enum<e_life_cycle_state, long, k_life_cycle_state_count> m_pending_state;
 
 	long m_entry_data_size;
-	byte m_entry_data[0x9924];
+	byte m_entry_data[k_maximum_state_change_entry_data_size];
+
+	byte __data7C[0x9914];
 
 	void request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data);
 	void request_leave_sessions(bool disconnect);
