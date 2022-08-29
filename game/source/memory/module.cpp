@@ -60,20 +60,19 @@ c_data_patch<address>::c_data_patch(byte const(&bytes)[k_patch_size], bool remov
     m_bytes(bytes),
     m_bytes_original(new byte[m_byte_count]{})
 {
-    memcpy(m_bytes_original, m_addr.pointer, k_patch_size);
+    memcpy(m_bytes_original, m_addr.pointer, m_byte_count);
     apply();
 }
 
 template<dword address>
 template<typename t_type, long k_patch_size>
-c_data_patch<address>::c_data_patch(t_type const bytes, bool remove_base) :
+c_data_patch<address>::c_data_patch(const t_type type, bool remove_base) :
     m_addr({ .address = global_module.address + (remove_base ? address - 0x00400000 : address) }),
     m_byte_count(k_patch_size),
-    m_bytes(new byte[m_byte_count]{}),
+    m_bytes(reinterpret_cast<byte const*>(&type)),
     m_bytes_original(new byte[m_byte_count]{})
 {
-    memcpy(m_bytes, &bytes, k_patch_size);
-    memcpy(m_bytes_original, m_addr.pointer, k_patch_size);
+    memcpy(m_bytes_original, m_addr.pointer, m_byte_count);
     apply();
 }
 
