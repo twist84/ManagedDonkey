@@ -112,6 +112,9 @@ void main_loop_body_end();
 c_hook_call<0x00505C2B> main_loop_body_begin_call({ .pointer = main_loop_body_begin });
 c_hook_call<0x0050605C> main_loop_body_end_call({ .pointer = main_loop_body_end });
 
+// stops hf2p startup functions from running
+c_data_patch<0x018B59D4> g_hf2p_first_run(false);
+
 void main_loop_body_begin()
 {
     // right control for tests
