@@ -109,7 +109,8 @@ void main_game_launch_set_multiplayer_engine(char const* engine_name)
 
 void main_game_launch(const char* map_name)
 {
-	s_main_game_globals& main_game_globals = main_game_globals_get();
+	main_game_globals;
+	debug_load_panic_to_main_menu;
 
 	main_game_launch_set_map_name(map_name);
 	if (network_life_cycle_get_state())

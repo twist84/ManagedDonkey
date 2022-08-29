@@ -8,11 +8,7 @@
 #include <windows.h>
 
 s_main_game_globals& main_game_globals = *reinterpret_cast<s_main_game_globals*>(0x023916D8);
-
-s_main_game_globals& main_game_globals_get()
-{
-	return main_game_globals;
-}
+bool& debug_load_panic_to_main_menu = *reinterpret_cast<bool*>(0x023DAE90);
 
 // void main_game_initialize();
 // void main_game_launch_initialize();

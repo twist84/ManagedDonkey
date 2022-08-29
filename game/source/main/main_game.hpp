@@ -44,7 +44,10 @@ struct s_main_game_globals
 	game_options game_loaded_options;
 };
 
-extern s_main_game_globals& main_game_globals_get();
+extern s_main_game_globals& main_game_globals;
+
+// main_game_load_panic
+extern bool& debug_load_panic_to_main_menu;
 
 //extern void main_game_initialize();
 //extern void main_game_launch_initialize();
