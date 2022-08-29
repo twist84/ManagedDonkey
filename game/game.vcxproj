@@ -92,7 +92,9 @@
     <ClCompile Include="source\game\game_time.cpp" />
     <ClCompile Include="source\game\player_control.cpp" />
     <ClCompile Include="source\game\player_mapping.cpp" />
+    <ClCompile Include="source\interface\damaged_media.cpp" />
     <ClCompile Include="source\main\global_preferences.cpp" />
+    <ClCompile Include="source\main\main.cpp" />
     <ClCompile Include="source\main\main_game.cpp" />
     <ClCompile Include="source\main\main_game_launch.cpp" />
     <ClCompile Include="source\memory\data.cpp" />
@@ -157,7 +159,9 @@
     <ClInclude Include="source\game\game_time.hpp" />
     <ClInclude Include="source\game\player_control.hpp" />
     <ClInclude Include="source\game\player_mapping.hpp" />
+    <ClInclude Include="source\interface\damaged_media.hpp" />
     <ClInclude Include="source\main\global_preferences.hpp" />
+    <ClInclude Include="source\main\main.hpp" />
     <ClInclude Include="source\main\main_game.hpp" />
     <ClInclude Include="source\main\main_game_launch.hpp" />
     <ClInclude Include="source\main\main_time.hpp" />
@@ -195,6 +199,9 @@
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_performance_throttles.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\memory\module.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
