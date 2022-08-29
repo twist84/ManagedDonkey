@@ -109,6 +109,34 @@ bool c_data_patch<address>::revert()
 void main_loop_body_begin();
 void main_loop_body_end();
 
+bool test_damaged_media_hook = false;
+
+void damaged_media_display()
+{
+    if (!IsDebuggerPresent())
+        throw ("There once was a man from Bungie...... Nothing rhymes with Bungie.This is the worst possible way we can emulate a stupid !@#$%^& OS exception. And it's not our fault. And that makes it suck even more.I are sad.");
+
+    DebugBreak();
+}
+
+// Bungie OS exception, dirty disc error
+c_hook_call<0x00A9F6C0> damaged_media_display_faux_call({ .pointer = damaged_media_display });
+c_data_patch<0x00A9F6C0 + 5> damaged_media_display_faux_call_ret({ 0x90, 0x90, 0x90, 0x90, 0x90 });
+
+c_hook_call<0x00A9F6D9> damaged_media_update_faux_call({ .pointer = damaged_media_display });
+c_data_patch<0x00A9F6D9 + 5> damaged_media_update_faux_call_ret({ 0x90, 0x90, 0x90, 0x90, 0x90 });
+
+bool __cdecl sub_52F180(char* scenario_path, long map_load_type)
+{
+    if (test_damaged_media_hook)
+        return false;
+
+    // sub_52F180 calls main_load_map_with_insertion_point(-1, scenario_path, map_load_type);
+    return reinterpret_cast<decltype(sub_52F180)*>(0x52F180)(scenario_path, map_load_type);
+}
+
+c_hook_call<0x00567964> sub_52F180_call({ .pointer = sub_52F180 });
+
 c_hook_call<0x00505C2B> main_loop_body_begin_call({ .pointer = main_loop_body_begin });
 c_hook_call<0x0050605C> main_loop_body_end_call({ .pointer = main_loop_body_end });
 
