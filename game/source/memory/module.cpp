@@ -18,12 +18,93 @@ inline c_hook_call<address>::c_hook_call(module_address const function, bool rem
     m_addr({ .address = global_module.address + (remove_base ? address - 0x00400000 : address) }),
     m_call({ .opcode = 0xE8, .offset = (function.address - m_addr.address - sizeof(call_instruction)) })
 {
+    memcpy(&m_call_original, m_addr.pointer, sizeof(call_instruction));
+    apply();
+}
+
+template<dword address>
+bool c_hook_call<address>::apply()
+{
     dword protect;
     if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), PAGE_READWRITE, &protect))
-        return;
+        return false;
 
     memcpy(m_addr.pointer, &m_call, sizeof(call_instruction));
-    VirtualProtect(m_addr.pointer, sizeof(call_instruction), protect, &protect);
+
+    if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), protect, &protect))
+        return false;
+
+    return true;
+}
+
+template<dword address>
+bool c_hook_call<address>::revert()
+{
+    dword protect;
+    if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), PAGE_READWRITE, &protect))
+        return false;
+
+    memcpy(m_addr.pointer, &m_call_original, sizeof(call_instruction));
+
+    if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), protect, &protect))
+        return false;
+
+    return true;
+}
+
+template<dword address>
+template<long k_patch_size>
+c_data_patch<address>::c_data_patch(byte const(&bytes)[k_patch_size], bool remove_base) :
+    m_addr({ .address = global_module.address + (remove_base ? address - 0x00400000 : address) }),
+    m_byte_count(k_patch_size),
+    m_bytes(bytes),
+    m_bytes_original(new byte[m_byte_count]{})
+{
+    memcpy(m_bytes_original, m_addr.pointer, k_patch_size);
+    apply();
+}
+
+template<dword address>
+template<typename t_type, long k_patch_size>
+c_data_patch<address>::c_data_patch(t_type const bytes, bool remove_base) :
+    m_addr({ .address = global_module.address + (remove_base ? address - 0x00400000 : address) }),
+    m_byte_count(k_patch_size),
+    m_bytes(new byte[m_byte_count]{}),
+    m_bytes_original(new byte[m_byte_count]{})
+{
+    memcpy(m_bytes, &bytes, k_patch_size);
+    memcpy(m_bytes_original, m_addr.pointer, k_patch_size);
+    apply();
+}
+
+template<dword address>
+bool c_data_patch<address>::apply()
+{
+    dword protect;
+    if (!VirtualProtect(m_addr.pointer, m_byte_count, PAGE_READWRITE, &protect))
+        return false;
+
+    memcpy(m_addr.pointer, m_bytes, m_byte_count);
+
+    if (!VirtualProtect(m_addr.pointer, m_byte_count, protect, &protect))
+        return false;
+
+    return true;
+}
+
+template<dword address>
+bool c_data_patch<address>::revert()
+{
+    dword protect;
+    if (!VirtualProtect(m_addr.pointer, m_byte_count, PAGE_READWRITE, &protect))
+        return false;
+
+    memcpy(m_addr.pointer, m_bytes_original, m_byte_count);
+
+    if (!VirtualProtect(m_addr.pointer, m_byte_count, protect, &protect))
+        return false;
+
+    return true;
 }
 
 void main_loop_body_begin();
