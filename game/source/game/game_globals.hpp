@@ -45,7 +45,14 @@ struct game_globals_storage
 	c_flags<e_campaign_skulls_primary, dword, k_campaign_skull_primary_count> active_primary_skulls;
 	c_flags<e_campaign_skulls_secondary, dword, k_campaign_skull_secondary_count> active_secondary_skulls;
 
-	byte __data24BF4[4];
+	byte : 8;
+
+	// game_frame
+	// game_had_an_update_tick_this_frame
+	bool had_an_update_tick_this_frame;
+
+	byte : 8;
+	byte : 8;
 
 	s_game_cluster_bit_vectors cluster_pvs;
 	s_game_cluster_bit_vectors cluster_pvs_local;
