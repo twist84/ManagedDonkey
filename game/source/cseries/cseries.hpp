@@ -75,12 +75,6 @@ static_assert(sizeof(dword_flags) == 0x4);
 typedef float real;
 static_assert(sizeof(real) == 0x4);
 
-template<typename t_type, size_t k_bit_count>
-struct c_big_flags
-{
-	t_type m_storage[(k_bit_count / 8) / sizeof(t_type)];
-};
-
 template<typename t_type, size_t k_count>
 struct c_static_array
 {
@@ -133,6 +127,12 @@ public:
 
 protected:
 	t_storage_type m_storage;
+};
+
+template<size_t k_bit_count>
+struct c_static_flags
+{
+	dword m_storage[(k_bit_count / 8) / sizeof(dword)];
 };
 
 template<typename t_type, typename t_storage_type, size_t k_count>
