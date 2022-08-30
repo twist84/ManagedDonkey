@@ -1,5 +1,6 @@
 #include "physics/physics_constants.hpp"
 
+#include "game/game.hpp"
 #include "game/game_time.hpp"
 #include "memory/thread_local.hpp"
 

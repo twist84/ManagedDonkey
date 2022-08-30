@@ -5,7 +5,7 @@
 #include "camera/observer_director.hpp"
 #include "camera/debug_director.hpp"
 #include "camera/editor_director.hpp"
-#include "game/game_options.hpp"
+#include "game/game.hpp"
 
 #include "memory/thread_local.hpp"
 
@@ -65,10 +65,8 @@ e_director_mode director_mode_from_string(const char* str)
 inline s_director_globals* director_globals_get()
 {
 	s_thread_local_storage* tls = get_tls();
-	if (!tls || !tls->director_globals || !tls->director_globals->directors[0][0])
-		return nullptr;
 
-	return tls->director_globals;
+	return (tls && tls->director_globals && tls->director_globals->directors[0][0]) ? tls->director_globals : nullptr;
 }
 
 e_director_perspective c_director::get_perspective()
@@ -207,10 +205,8 @@ bool director_get_camera_third_person(long user_index)
 bool director_in_scripted_camera()
 {
 	s_thread_local_storage* tls = get_tls();
-	if (!tls || !tls->director_camera_scripted)
-		return false;
 
-	return tls->director_camera_scripted;
+	return (tls && tls->director_camera_scripted) ? *tls->director_camera_scripted : false;
 }
 
 void director_toggle(long user_index, e_director_mode director_mode)

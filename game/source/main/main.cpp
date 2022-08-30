@@ -1,6 +1,7 @@
 #include "main/main.hpp"
 
 #include "camera/director.hpp"
+#include "game/game_globals.hpp"
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
@@ -16,7 +17,7 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
-        life_cycle_globals;
+        game_globals_storage* game_globals = game_globals_get();
 
         printf("");
     }
@@ -56,7 +57,7 @@ void main_loop_body_end()
     }
     else if (GetKeyState(VK_END) & 0x8000)
     {
-        director_toggle(0, _director_mode_debug);
+        director_toggle(main_game_launch_get_last_player(), _director_mode_debug);
         Sleep(75);
     }
     else if (GetKeyState(VK_PRIOR) & 0x8000)

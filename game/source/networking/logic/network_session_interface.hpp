@@ -1,10 +1,10 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "game/game_mode.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 #include "networking/logic/logic_matchmaking_desirability.hpp"
+#include "shell/shell.hpp"
 
 #pragma pack(push, 1)
 struct s_network_squad_status_data

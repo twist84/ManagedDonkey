@@ -86,6 +86,7 @@
     <ClCompile Include="source\camera\observer.cpp" />
     <ClCompile Include="source\cseries\cseries_string.cpp" />
     <ClCompile Include="source\dllmain.cpp" />
+    <ClCompile Include="source\game\game.cpp" />
     <ClCompile Include="source\game\game_engine_variant.cpp" />
     <ClCompile Include="source\game\game_globals.cpp" />
     <ClCompile Include="source\game\game_options.cpp" />
@@ -127,8 +128,8 @@
     <ClInclude Include="source\cseries\cseries.hpp" />
     <ClInclude Include="source\cseries\cseries_string.hpp" />
     <ClInclude Include="source\cseries\integer_math.hpp" />
-    <ClInclude Include="source\cseries\language.hpp" />
     <ClInclude Include="source\cseries\real_math.hpp" />
+    <ClInclude Include="source\game\game.hpp" />
     <ClInclude Include="source\game\game_engine_assault.hpp" />
     <ClInclude Include="source\game\game_engine_assault_traits.hpp" />
     <ClInclude Include="source\game\game_engine_ctf.hpp" />
@@ -153,10 +154,11 @@
     <ClInclude Include="source\game\game_engine_vip.hpp" />
     <ClInclude Include="source\game\game_engine_vip_traits.hpp" />
     <ClInclude Include="source\game\game_globals.hpp" />
-    <ClInclude Include="source\game\game_mode.hpp" />
     <ClInclude Include="source\game\game_options.hpp" />
     <ClInclude Include="source\game\game_progression.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
+    <ClInclude Include="source\game\game_variant.hpp" />
+    <ClInclude Include="source\game\players.hpp" />
     <ClInclude Include="source\game\player_control.hpp" />
     <ClInclude Include="source\game\player_mapping.hpp" />
     <ClInclude Include="source\interface\damaged_media.hpp" />
@@ -167,7 +169,9 @@
     <ClInclude Include="source\main\main_time.hpp" />
     <ClInclude Include="source\memory\data.hpp" />
     <ClInclude Include="source\memory\module.hpp" />
+    <ClInclude Include="source\memory\secure_signature.hpp" />
     <ClInclude Include="source\memory\thread_local.hpp" />
+    <ClInclude Include="source\multithreading\synchronized_value.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_end_match_write_stats.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_in_match.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_arbitration.hpp" />
@@ -193,12 +197,18 @@
     <ClInclude Include="source\networking\logic\network_life_cycle.hpp" />
     <ClInclude Include="source\networking\logic\network_search.hpp" />
     <ClInclude Include="source\networking\logic\network_session_interface.hpp" />
+    <ClInclude Include="source\networking\network_utilities.hpp" />
+    <ClInclude Include="source\networking\tools\network_webstats.hpp" />
     <ClInclude Include="source\networking\transport\transport_address.hpp" />
     <ClInclude Include="source\networking\transport\transport_security.hpp" />
     <ClInclude Include="source\physics\physics_constants.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_performance_throttles.hpp" />
+    <ClInclude Include="source\render\render_visibility_collection.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
+    <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
+    <ClInclude Include="source\shell\shell.hpp" />
+    <ClInclude Include="source\tag_files\files_windows.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\memory\module.inl" />

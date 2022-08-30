@@ -39,3 +39,6 @@ extern void main_game_launch(const char* map_name);
 //extern void main_game_launch_process();
 extern void main_game_launch_set_active_skulls_primary(long primary_skulls);
 extern void main_game_launch_set_active_skulls_secondary(long secondary_skulls);
+
+extern long main_game_launch_get_player_count();
+extern long main_game_launch_get_last_player();

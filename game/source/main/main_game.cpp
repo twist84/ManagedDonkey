@@ -1,7 +1,7 @@
 #include "main/main_game.hpp"
 
 #include "cseries/cseries.hpp"
-#include "game/game_options.hpp"
+#include "game/game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
 // memcpy, timeGetTime

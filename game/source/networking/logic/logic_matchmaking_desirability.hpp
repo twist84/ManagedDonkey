@@ -1,47 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-
-// TODO: find a home
-struct s_machine_identifier
-{
-	long parts[2];
-};
-static_assert(sizeof(s_machine_identifier) == 0x8);
-
-// TODO: find a home
-struct s_player_configuration_from_client
-{
-	wchar_t player_name[16];
-
-	byte __data[0x10];
-};
-static_assert(sizeof(s_player_configuration_from_client) == 0x30);
-
-// TODO: find a home
-struct s_player_configuration_from_host
-{
-	s_machine_identifier machine_identifier;
-	wchar_t player_name[16];
-
-	byte __data[0x15C8];
-};
-static_assert(sizeof(s_player_configuration_from_host) == 0x15F0);
-
-// TODO: find a home
-struct s_player_configuration
-{
-	s_player_configuration_from_client client;
-	s_player_configuration_from_host host;
-};
-static_assert(sizeof(s_player_configuration) == 0x1620);
-
-// TODO: find a home
-struct s_player_identifier
-{
-	long parts[2];
-};
-static_assert(sizeof(s_player_identifier) == 0x8);
+#include "game/players.hpp"
 
 // TODO: find the actual name for this as well as a home
 struct s_player_configuration_with_identifier
@@ -74,7 +34,7 @@ struct s_matchmaking_session_properties
 
 	long player_count;
 	dword_flags player_valid_flags;
-	s_matchmaking_session_player_properties player_properties[16];
+	c_static_array<s_matchmaking_session_player_properties, 16> player_properties;
 	long avg_skill;
 	long maximum_skill_level;
 	long minimum_adjusted_skill_level;

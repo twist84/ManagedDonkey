@@ -2,33 +2,10 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "cseries/language.hpp"
-
-struct s_file_last_modification_date
-{
-	dword low;
-	dword hi;
-};
-static_assert(sizeof(s_file_last_modification_date) == 0x8);
-
-struct s_file_handle
-{
-	void* handle;
-};
-static_assert(sizeof(s_file_handle) == 0x4);
-
-struct c_synchronized_long
-{
-	volatile long m_value;
-};
-static_assert(sizeof(c_synchronized_long) == 0x4);
-
-// s_network_http_request_hash
-struct s_secure_signature
-{
-	dword data[5];
-};
-static_assert(sizeof(s_secure_signature) == 0x14);
+#include "memory/secure_signature.hpp"
+#include "multithreading/synchronized_value.hpp"
+#include "shell/shell.hpp"
+#include "tag_files/files_windows.hpp"
 
 struct s_gui_game_setup_storage
 {
@@ -212,11 +189,6 @@ enum e_quality_setting
 	_quality_setting_high,
 
 	k_quality_setting_count
-};
-
-enum e_content_item_type
-{
-
 };
 
 enum e_subtitle_setting

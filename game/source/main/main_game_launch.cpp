@@ -1,6 +1,6 @@
 #include "main_game_launch.hpp"
 
-#include "game/game_options.hpp"
+#include "game/game.hpp"
 #include "main/main_game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
@@ -151,4 +151,15 @@ void main_game_launch_set_active_skulls_primary(long primary_skull)
 void main_game_launch_set_active_skulls_secondary(long secondary_skull)
 {
 	g_launch_globals.options.skulls_secondary = secondary_skull;
+}
+
+long main_game_launch_get_player_count()
+{
+	return g_launch_globals.player_count;
+}
+
+// the last player controls the game visuals, hud and other stuff
+long main_game_launch_get_last_player()
+{
+	return g_launch_globals.player_count - 1;
 }

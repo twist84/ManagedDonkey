@@ -1,5 +1,6 @@
 #include "game/player_control.hpp"
 
+#include "game/game.hpp"
 #include "memory/thread_local.hpp"
 
 inline s_player_control_globals* player_control_globals_get()

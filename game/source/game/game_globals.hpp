@@ -4,13 +4,7 @@
 #include "memory/data.hpp"
 #include "game/game_options.hpp"
 #include "game/game_progression.hpp"
-
-// TODO: find a home
-struct s_game_cluster_bit_vectors
-{
-	c_static_array<c_big_flags<long, 256>, 16> flags;
-};
-static_assert(sizeof(s_game_cluster_bit_vectors) == 0x200);
+#include "render/render_visibility_collection.hpp"
 
 struct game_globals_storage
 {
@@ -49,7 +43,7 @@ struct game_globals_storage
 
 	// game_frame
 	// game_had_an_update_tick_this_frame
-	bool had_an_update_tick_this_frame;
+	bool update_tick_this_frame;
 
 	byte : 8;
 	byte : 8;
@@ -73,27 +67,10 @@ struct game_globals_storage
 	// scenario_group, scenario_block, scenario_cutscene_camera_point_block, camera_point_index
 	datum_index scripted_object_index; // scenario_group.scenario_block.cutscene_camera_points[camera_point_index]
 
-	byte __data25200[8];
+	long game_ragdoll_count;
+
+	byte __data25204[4];
 };
 static_assert(sizeof(game_globals_storage) == 0x25208);
 
 extern game_globals_storage* game_globals_get();
-extern s_game_cluster_bit_vectors* game_get_cluster_pvs();
-extern s_game_cluster_bit_vectors* game_get_cluster_pvs_local();
-extern s_game_cluster_bit_vectors* game_get_cluster_activation();
-//extern bool game_test_cluster_activation(s_cluster_reference* cluster_reference);
-extern void game_pvs_enable_scripted_camera_pvs();
-extern void game_pvs_clear_scripted_camera_pvs();
-extern void game_pvs_scripted_set_object(datum_index object_index);
-//extern void game_pvs_scripted_set_camera_point(short camera_point_index);
-extern void game_pvs_scripted_clear();
-//extern void game_update_pvs();
-//extern void game_won();
-//extern bool game_is_won();
-extern void game_lost(bool game_revert);
-extern bool game_is_lost();
-extern bool game_is_lost_immediate();
-extern void game_finish();
-extern void game_finish_immediate();
-extern bool game_is_finished();
-extern bool game_is_finished_immediate();
