@@ -3,6 +3,7 @@
 #include "camera/director.hpp"
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
+#include "interface/c_controller.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "networking/logic/network_life_cycle.hpp"
@@ -17,7 +18,7 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
-        game_globals_storage* game_globals = game_globals_get();
+        g_controller_globals;
 
         printf("");
     }
@@ -52,7 +53,7 @@ void main_loop_body_end()
     else if (GetKeyState(VK_HOME) & 0x8000)
     {
         //main_game_launch_set_multiplayer_splitscreen_count(4);
-        main_game_launch_set_coop_player_count(1);
+        main_game_launch_set_coop_player_count(2);
         main_game_launch("maps\\riverworld");
     }
     else if (GetKeyState(VK_END) & 0x8000)

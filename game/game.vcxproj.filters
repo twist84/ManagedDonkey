@@ -99,6 +99,9 @@
     <ClCompile Include="source\game\game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\c_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -393,6 +396,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\tag_files\files_windows.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\c_controller.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\c_player_profile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

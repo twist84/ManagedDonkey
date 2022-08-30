@@ -99,3 +99,8 @@ enum e_content_item_type
 {
 
 };
+
+enum e_player_model_choice
+{
+
+};

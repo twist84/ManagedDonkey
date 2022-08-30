@@ -93,6 +93,7 @@
     <ClCompile Include="source\game\game_time.cpp" />
     <ClCompile Include="source\game\player_control.cpp" />
     <ClCompile Include="source\game\player_mapping.cpp" />
+    <ClCompile Include="source\interface\c_controller.cpp" />
     <ClCompile Include="source\interface\damaged_media.cpp" />
     <ClCompile Include="source\main\global_preferences.cpp" />
     <ClCompile Include="source\main\main.cpp" />
@@ -161,6 +162,8 @@
     <ClInclude Include="source\game\players.hpp" />
     <ClInclude Include="source\game\player_control.hpp" />
     <ClInclude Include="source\game\player_mapping.hpp" />
+    <ClInclude Include="source\interface\c_controller.hpp" />
+    <ClInclude Include="source\interface\c_player_profile.hpp" />
     <ClInclude Include="source\interface\damaged_media.hpp" />
     <ClInclude Include="source\main\global_preferences.hpp" />
     <ClInclude Include="source\main\main.hpp" />
