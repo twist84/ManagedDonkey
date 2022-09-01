@@ -111,6 +111,9 @@
     <ClCompile Include="source\game\players.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\geometry\geometry_sampling.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -417,6 +420,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\first_person_weapons.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\geometry\geometry_sampling.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\effects\effects.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

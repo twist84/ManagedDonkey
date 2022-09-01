@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\geometry\geometry_sampling.cpp" />
     <ClCompile Include="source\game\players.cpp" />
     <ClCompile Include="source\interface\first_person_weapons.cpp" />
     <ClCompile Include="source\camera\camera.cpp" />
@@ -115,6 +116,8 @@
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\effects\effects.hpp" />
+    <ClInclude Include="source\geometry\geometry_sampling.hpp" />
     <ClInclude Include="source\interface\first_person_weapons.hpp" />
     <ClInclude Include="source\camera\camera.hpp" />
     <ClInclude Include="source\camera\dead_camera.hpp" />

@@ -7,6 +7,7 @@
 #include "game/player_control.hpp"
 #include "game/player_mapping.hpp"
 #include "game/game_time.hpp"
+#include "effects/effects.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
 #include "physics/physics_constants.hpp"
@@ -103,12 +104,6 @@ struct effect_messaging_queue
 	char __data[0x17084];
 };
 static_assert(sizeof(effect_messaging_queue) == 0x17084);
-
-struct effect_lightprobes
-{
-	char __data[0xFE00];
-};
-static_assert(sizeof(effect_lightprobes) == 0xFE00);
 
 struct s_havok_gamestate
 {
@@ -1282,8 +1277,8 @@ struct s_thread_local_storage
 	effect_messaging_queue* g_effect_message_queue;
 
 	// name: "effect lightprobes"
-	// size: 0xFE00
-	effect_lightprobes* effect_lightprobe_data;
+	// size: 0xFE00, sizeof(s_effect_lightprobe) * 128
+	s_effect_lightprobe(*effect_lightprobe_data)[128];
 
 	// name: "havok gamestate"
 	// size: 0x8
