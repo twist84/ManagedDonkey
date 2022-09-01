@@ -12,11 +12,21 @@ struct c_static_camera : public c_camera
 	dword __unknown30;
 
 	byte unused[0x18];
+
+	void ctor(long user_index)
+	{
+		DECLFUNC(0x0072F170, void, __thiscall, c_camera*, long)(this, user_index);
+	}
 };
 static_assert(sizeof(c_static_camera) == 0x4C);
 
 struct c_scripted_camera : public c_camera
 {
 	byte unused[0x3C];
+
+	void ctor()
+	{
+		DECLFUNC(0x0072BEB0, void, __thiscall, c_camera*)(this);
+	}
 };
 static_assert(sizeof(c_scripted_camera) == 0x4C);

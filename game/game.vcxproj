@@ -81,6 +81,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\game\players.cpp" />
+    <ClCompile Include="source\interface\first_person_weapons.cpp" />
     <ClCompile Include="source\camera\camera.cpp" />
     <ClCompile Include="source\camera\director.cpp" />
     <ClCompile Include="source\camera\observer.cpp" />
@@ -90,6 +92,7 @@
     <ClCompile Include="source\game\game_engine_variant.cpp" />
     <ClCompile Include="source\game\game_globals.cpp" />
     <ClCompile Include="source\game\game_options.cpp" />
+    <ClCompile Include="source\game\game_state.cpp" />
     <ClCompile Include="source\game\game_time.cpp" />
     <ClCompile Include="source\game\player_control.cpp" />
     <ClCompile Include="source\game\player_mapping.cpp" />
@@ -112,6 +115,7 @@
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\interface\first_person_weapons.hpp" />
     <ClInclude Include="source\camera\camera.hpp" />
     <ClInclude Include="source\camera\dead_camera.hpp" />
     <ClInclude Include="source\camera\debug_director.hpp" />
@@ -157,6 +161,7 @@
     <ClInclude Include="source\game\game_globals.hpp" />
     <ClInclude Include="source\game\game_options.hpp" />
     <ClInclude Include="source\game\game_progression.hpp" />
+    <ClInclude Include="source\game\game_state.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
     <ClInclude Include="source\game\game_variant.hpp" />
     <ClInclude Include="source\game\players.hpp" />

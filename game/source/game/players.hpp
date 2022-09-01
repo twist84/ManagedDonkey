@@ -58,3 +58,5 @@ struct game_player_options
 	byte __data[0x1640];
 };
 static_assert(sizeof(game_player_options) == 0x1640);
+
+extern long __cdecl players_first_active_user();

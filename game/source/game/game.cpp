@@ -3,15 +3,11 @@
 #include "game/game_globals.hpp"
 #include "game/game_options.hpp"
 #include "cseries/cseries.hpp"
+#include "game/game_state.hpp"
 #include "game/game_time.hpp"
 
 #include <cassert>
 #include <stdio.h>
-
-namespace
-{
-	void(__cdecl* game_state_prepare_for_revert)() = reinterpret_cast<decltype(game_state_prepare_for_revert)>(0x00510040);
-}
 
 bool game_in_startup_phase()
 {
@@ -53,17 +49,14 @@ bool game_options_valid()
 
 bool game_options_verify(game_options const* options, char* error_string, long error_string_length)
 {
-	bool(__cdecl * game_options_verify_ptr)(game_options const* options) = reinterpret_cast<decltype(game_options_verify_ptr)>(0x005326F0);
-
-	return game_options_verify_ptr(options);
+	return DECLFUNC(0x005326F0, bool, __cdecl, game_options const*)(options);
 }
 
 void assert_game_options_verify(game_options const* options)
 {
-	void(__cdecl * assert_game_options_verify_ptr)(game_options const* options) = reinterpret_cast<decltype(assert_game_options_verify_ptr)>(0x00530440);
-
 	char error_string[512]{};
 	assert(game_options_verify(options, error_string, sizeof(error_string)));
+	//DECLTHUNK(0x00530440, assert_game_options_verify)(options);
 }
 
 game_options* game_options_get()
@@ -327,9 +320,7 @@ e_language game_get_master_language()
 
 void game_options_setup_default_players(long player_count, game_options* options)
 {
-	void(__cdecl * game_options_setup_default_players_ptr)(long player_count, game_options*) = reinterpret_cast<decltype(game_options_setup_default_players_ptr)>(0x00532440);
-
-	return game_options_setup_default_players_ptr(player_count, options);
+	DECLFUNC(0x00532440, void, __cdecl, long, game_options*)(player_count, options);
 }
 
 // bool game_is_finished_waiting_for_level_advance()

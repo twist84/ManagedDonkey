@@ -118,7 +118,9 @@
 	};
 	static_assert(sizeof(s_director_globals) == 0x5C0);
 
-	extern c_director* director_get(long user_index);
+	template<typename t_type = c_director>
+	extern t_type* director_get(long user_index);
+
 	extern s_director_info* director_get_info(long user_index);
 	extern e_director_perspective director_get_perspective(long user_index);
 	extern void director_set_perspective(long user_index, e_director_perspective director_perspective);

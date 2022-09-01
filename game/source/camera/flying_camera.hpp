@@ -26,6 +26,11 @@ struct c_flying_camera : public c_camera
 
 	byte unused[0x10];
 
+	void ctor(long user_index)
+	{
+		DECLFUNC(0x0072ACA0, void, __thiscall, c_camera*, long)(this, user_index);
+	}
+
 	inline void set_lock_in_xy_plane(bool value)
 	{
 		if (value)

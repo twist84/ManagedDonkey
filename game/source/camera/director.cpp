@@ -6,29 +6,17 @@
 #include "camera/debug_director.hpp"
 #include "camera/editor_director.hpp"
 #include "game/game.hpp"
+#include "game/players.hpp"
+#include "interface/first_person_weapons.hpp"
 
 #include "memory/thread_local.hpp"
 
 #include <string.h>
 
-long(__cdecl* dead_or_alive_unit_from_user)(long) = reinterpret_cast<decltype(dead_or_alive_unit_from_user)>(0x005916F0);
-void(__cdecl* first_person_weapon_perspective_changed)(long) = reinterpret_cast<decltype(first_person_weapon_perspective_changed)>(0x00A9C550);
-long(__cdecl* players_first_active_user)(void) = reinterpret_cast<decltype(players_first_active_user)>(0x00589A30);
-
-void(__thiscall* game_director_ctor)(c_director*, long) = reinterpret_cast<decltype(game_director_ctor)>(0x007215C0);
-void(__thiscall* saved_film_director_ctor)(c_director*, long) = reinterpret_cast<decltype(saved_film_director_ctor)>(0x007276C0);
-void(__thiscall* observer_director_ctor)(c_director*, long) = reinterpret_cast<decltype(observer_director_ctor)>(0x00726430);
-void(__thiscall* debug_director_ctor)(c_director*, long) = reinterpret_cast<decltype(debug_director_ctor)>(0x007260D0);
-void(__thiscall* editor_director_ctor)(c_director*, long) = reinterpret_cast<decltype(editor_director_ctor)>(0x00727EA0);
-
-void(__thiscall* following_camera_ctor)(c_camera*, long) = reinterpret_cast<decltype(following_camera_ctor)>(0x00728630);
-void(__thiscall* orbiting_camera_ctor)(c_camera*, long) = reinterpret_cast<decltype(orbiting_camera_ctor)>(0x0072A5E0);
-void(__thiscall* flying_camera_ctor)(c_camera*, long) = reinterpret_cast<decltype(flying_camera_ctor)>(0x0072ACA0);
-void(__thiscall* first_person_camera_ctor)(c_camera*, long) = reinterpret_cast<decltype(first_person_camera_ctor)>(0x0065F410);
-void(__thiscall* dead_camera_ctor)(c_camera*, long) = reinterpret_cast<decltype(dead_camera_ctor)>(0x00729E60);
-void(__thiscall* static_camera_ctor)(c_camera*, long) = reinterpret_cast<decltype(static_camera_ctor)>(0x0072F170);
-void(__thiscall* scripted_camera_ctor)(c_camera*) = reinterpret_cast<decltype(scripted_camera_ctor)>(0x0072BEB0);
-void(__thiscall* authored_camera_ctor)(c_camera*, long) = reinterpret_cast<decltype(authored_camera_ctor)>(0x0072F2E0);
+long __cdecl dead_or_alive_unit_from_user(long user_index)
+{
+	return DECLTHUNK(0x005916F0, dead_or_alive_unit_from_user)(user_index);
+}
 
 const char* k_director_mode_names[k_number_of_director_modes]
 {
@@ -87,8 +75,7 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 	if (!can_use_camera_mode(camera_mode))
 		return false;
 
-	c_camera* camera = get_camera();
-	e_camera_mode current_camera_mode = camera->get_type();
+	e_camera_mode current_camera_mode = get_camera()->get_type();
 
 	bool result = camera_mode != current_camera_mode;
 	if (result || force_update)
@@ -96,28 +83,28 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 		switch (camera_mode)
 		{
 		case _camera_mode_following:
-			following_camera_ctor(camera, dead_or_alive_unit_from_user(m_user_index));
+			get_camera<c_following_camera>()->ctor(dead_or_alive_unit_from_user(m_user_index));
 			break;
 		case _camera_mode_orbiting:
-			orbiting_camera_ctor(camera, dead_or_alive_unit_from_user(m_user_index));
+			get_camera<c_orbiting_camera>()->ctor(dead_or_alive_unit_from_user(m_user_index));
 			break;
 		case _camera_mode_flying:
-			flying_camera_ctor(camera, m_user_index);
+			get_camera<c_flying_camera>()->ctor(m_user_index);
 			break;
 		case _camera_mode_first_person:
-			first_person_camera_ctor(camera, dead_or_alive_unit_from_user(m_user_index));
+			get_camera<c_first_person_camera>()->ctor(dead_or_alive_unit_from_user(m_user_index));
 			break;
 		case _camera_mode_dead:
-			dead_camera_ctor(camera, m_user_index);
+			get_camera<c_dead_camera>()->ctor(m_user_index);
 			break;
 		case _camera_mode_static:
-			static_camera_ctor(camera, m_user_index);
+			get_camera<c_static_camera>()->ctor(m_user_index);
 			break;
 		case _camera_mode_scripted:
-			scripted_camera_ctor(camera);
+			get_camera<c_scripted_camera>()->ctor();
 			break;
 		case _camera_mode_authored:
-			authored_camera_ctor(camera, m_user_index);
+			get_camera<c_authored_camera>()->ctor(m_user_index);
 			break;
 		}
 		m_transition_time = transition_time;
@@ -136,12 +123,13 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 	return result || force_update;
 }
 
-c_director* director_get(long user_index)
+template<typename t_type>
+t_type* director_get(long user_index)
 {
 	if (!director_globals_get())
 		return nullptr;
 
-	return (c_director*)&director_globals_get()->directors[user_index];
+	return (t_type*)&director_globals_get()->directors[user_index];
 }
 
 s_director_info* director_get_info(long user_index)
@@ -173,24 +161,22 @@ void director_set_perspective(long user_index, e_director_perspective director_p
 
 void director_set_mode(long user_index, e_director_mode director_mode)
 {
-	c_director* director = director_get(user_index);
-
 	switch (director_mode)
 	{
 	case _director_mode_game:
-		game_director_ctor(director, user_index);
+		director_get<c_game_director>(user_index)->ctor(user_index);
 		break;
 	case _director_mode_saved_film:
-		saved_film_director_ctor(director, user_index);
+		director_get<c_saved_film_director>(user_index)->ctor(user_index);
 		break;
 	case _director_mode_observer:
-		observer_director_ctor(director, user_index);
+		director_get<c_observer_director>(user_index)->ctor(user_index);
 		break;
 	case _director_mode_debug:
-		debug_director_ctor(director, user_index);
+		director_get<c_debug_director>(user_index)->ctor(user_index);
 		break;
 	case _director_mode_editor:
-		editor_director_ctor(director, user_index);
+		director_get<c_editor_director>(user_index)->ctor(user_index);
 		break;
 	}
 

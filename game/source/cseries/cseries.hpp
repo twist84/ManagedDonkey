@@ -3,6 +3,9 @@
 #include "cseries/integer_math.hpp"
 #include "cseries/real_math.hpp"
 
+#define DECLFUNC(ADDR, R, CC, ...) reinterpret_cast<R(CC*)(__VA_ARGS__)>(ADDR)
+#define DECLTHUNK(ADDR, TYPE, ...) reinterpret_cast<decltype(TYPE)*>(ADDR)
+
 #define try_bool(X) if (!X) return false
 
 // 4-character tag group identifier

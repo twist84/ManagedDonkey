@@ -17,6 +17,11 @@ struct c_following_camera : public c_camera
 	word __unknown32;
 
 	byte unused[0x18];
+
+	void ctor(long unit_index)
+	{
+		DECLFUNC(0x00728630, void, __thiscall, c_camera*, long)(this, unit_index);
+	}
 };
 static_assert(sizeof(c_following_camera) == 0x4C);
 #pragma pack(pop)

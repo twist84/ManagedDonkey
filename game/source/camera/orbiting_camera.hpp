@@ -14,5 +14,10 @@ struct c_orbiting_camera : public c_camera
 
 	byte pad[0x1];
 	byte unused[0x28];
+
+	void ctor(long unit_index)
+	{
+		DECLFUNC(0x0072A5E0, void, __thiscall, c_camera*, long)(this, unit_index);
+	}
 };
 static_assert(sizeof(c_orbiting_camera) == 0x4C);
