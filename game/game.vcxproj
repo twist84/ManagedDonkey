@@ -95,6 +95,8 @@ POPD
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\cache\cache_files.cpp" />
+    <ClCompile Include="source\cache\cache_files_windows.cpp" />
     <ClCompile Include="source\geometry\geometry_sampling.cpp" />
     <ClCompile Include="source\game\players.cpp" />
     <ClCompile Include="source\interface\first_person_weapons.cpp" />
@@ -130,6 +132,9 @@ POPD
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\cache\cache_files.hpp" />
+    <ClInclude Include="source\cache\cache_files_windows.hpp" />
+    <ClInclude Include="source\cache\cache_file_tag_resource_runtime.hpp" />
     <ClInclude Include="source\effects\effects.hpp" />
     <ClInclude Include="source\geometry\geometry_sampling.hpp" />
     <ClInclude Include="source\interface\first_person_weapons.hpp" />
@@ -233,6 +238,7 @@ POPD
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\shell\shell.hpp" />
+    <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
   </ItemGroup>
   <ItemGroup>

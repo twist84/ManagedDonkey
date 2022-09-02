@@ -1,5 +1,7 @@
 #include "main/main.hpp"
 
+#include "cache/cache_files.hpp"
+#include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
@@ -18,7 +20,9 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
-        g_controller_globals;
+        cache_file_table_of_contents;
+        cache_file_copy_globals;
+        g_cache_file_globals;
 
         printf("");
     }
