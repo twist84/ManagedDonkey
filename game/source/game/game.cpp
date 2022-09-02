@@ -47,15 +47,15 @@ bool game_options_valid()
 	return game_globals && (game_globals->initializing || game_globals->map_active);
 }
 
-bool game_options_verify(game_options const* options, char* error_string, long error_string_length)
+bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length)
 {
-	return DECLFUNC(0x005326F0, bool, __cdecl, game_options const*)(options);
+	return DECLTHUNK(0x005326F0, game_options_verify)(options, error_string, error_string_length);
 }
 
-void assert_game_options_verify(game_options const* options)
+void __cdecl assert_game_options_verify(game_options const* options)
 {
 	char error_string[512]{};
-	assert(game_options_verify(options, error_string, sizeof(error_string)));
+	assert(game_options_verify(options, error_string, sizeof(error_string))); // ("game_options_verify failed: %s", error_string)
 	//DECLTHUNK(0x00530440, assert_game_options_verify)(options);
 }
 
