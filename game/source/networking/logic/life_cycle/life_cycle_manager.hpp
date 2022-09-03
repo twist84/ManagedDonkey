@@ -43,15 +43,18 @@ static_assert(sizeof(c_life_cycle_state_handler) == 0x28);
 
 const long k_maximum_state_change_entry_data_size = 16;
 
+struct c_network_session_manager;
+struct c_network_session;
+struct c_network_observer;
 struct c_life_cycle_state_manager
 {
 	c_enum<e_life_cycle_state, long, k_life_cycle_state_count> m_current_state;
 	c_static_array<c_life_cycle_state_handler*, k_life_cycle_state_count> m_handlers;
-	struct c_network_session_manager* m_session_manager;
-	struct c_network_session* m_active_squad_session;
-	struct c_network_session* m_target_session;
-	struct c_network_session* m_group_session;
-	struct c_network_observer* m_observer;
+	c_network_session_manager* m_session_manager;
+	c_network_session* m_active_squad_session;
+	c_network_session* m_target_session;
+	c_network_session* m_group_session;
+	c_network_observer* m_observer;
 
 	bool m_pending_state_change;
 	byte : 8;

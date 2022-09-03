@@ -127,6 +127,9 @@ POPD
     <ClCompile Include="source\networking\logic\network_join.cpp" />
     <ClCompile Include="source\networking\logic\network_life_cycle.cpp" />
     <ClCompile Include="source\networking\logic\network_search.cpp" />
+    <ClCompile Include="source\networking\network_memory.cpp" />
+    <ClCompile Include="source\networking\session\network_session_parameters_base.cpp" />
+    <ClCompile Include="source\networking\session\network_session_parameter_type_collection.cpp" />
     <ClCompile Include="source\physics\physics_constants.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
@@ -197,6 +200,7 @@ POPD
     <ClInclude Include="source\main\main_game.hpp" />
     <ClInclude Include="source\main\main_game_launch.hpp" />
     <ClInclude Include="source\main\main_time.hpp" />
+    <ClInclude Include="source\memory\bitstream.hpp" />
     <ClInclude Include="source\memory\data.hpp" />
     <ClInclude Include="source\memory\module.hpp" />
     <ClInclude Include="source\memory\secure_signature.hpp" />
@@ -227,7 +231,10 @@ POPD
     <ClInclude Include="source\networking\logic\network_life_cycle.hpp" />
     <ClInclude Include="source\networking\logic\network_search.hpp" />
     <ClInclude Include="source\networking\logic\network_session_interface.hpp" />
+    <ClInclude Include="source\networking\network_memory.hpp" />
     <ClInclude Include="source\networking\network_utilities.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_base.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameter_type_collection.hpp" />
     <ClInclude Include="source\networking\tools\network_webstats.hpp" />
     <ClInclude Include="source\networking\transport\transport_address.hpp" />
     <ClInclude Include="source\networking\transport\transport_security.hpp" />

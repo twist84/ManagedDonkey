@@ -3,6 +3,7 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game_engine_traits.hpp"
+#include "memory/bitstream.hpp"
 #include "saved_games/saved_game_files.hpp"
 
 enum e_game_engine_variant
@@ -23,7 +24,6 @@ enum e_game_engine_variant
 	k_game_engine_variant_default = _game_engine_base_variant
 };
 
-class c_bitstream;
 struct c_game_engine_base_variant
 {
 	virtual long get_game_engine_name_string_id();

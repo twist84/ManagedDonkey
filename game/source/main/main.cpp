@@ -1,16 +1,11 @@
 #include "main/main.hpp"
 
-#include "cache/cache_files.hpp"
-#include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
-#include "game/game_globals.hpp"
 #include "game/player_control.hpp"
-#include "interface/c_controller.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
-#include "networking/logic/network_life_cycle.hpp"
+#include "networking/network_memory.hpp"
 #include "rasterizer/rasterizer.hpp"
-#include "rasterizer/rasterizer_performance_throttles.hpp"
 
 #include <windows.h>
 #include <stdio.h>
@@ -20,9 +15,7 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
-        cache_file_table_of_contents;
-        cache_file_copy_globals;
-        g_cache_file_globals;
+        network_base_memory_globals;
 
         printf("");
     }
@@ -51,8 +44,6 @@ void main_loop_body_end()
     }
     else if (GetKeyState(VK_DELETE) & 0x8000)
     {
-        g_ignore_predefined_performance_throttles = true;
-        memcpy(&g_current_performance_throttles, &g_default_performance_throttles.throttles[0], sizeof(s_performane_throttle));
     }
     else if (GetKeyState(VK_HOME) & 0x8000)
     {
