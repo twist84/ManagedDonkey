@@ -149,7 +149,7 @@ struct c_enum
 {
 public:
 	template<typename T>
-	inline bool operator==(T value)
+	inline bool operator==(T value) const
 	{
 		return m_storage == static_cast<t_storage_type>(value);
 	}

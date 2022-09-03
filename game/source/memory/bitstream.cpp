@@ -1,5 +1,7 @@
 #include "memory/bitstream.hpp"
 
+#include <cassert>
+
 void c_bitstream::begin_consistency_check()
 {
 	reset(_bitstream_state_read_only_for_consistency);
@@ -24,7 +26,8 @@ void c_bitstream::begin_writing(long data_size_alignment)
 
 void c_bitstream::discard_remaining_data()
 {
-	//assert(reading());
+	assert(reading());
+
 	m_data_size_in_bits = 8 * m_data_size_bytes;
 	m_window = 0;
 	m_window_bits_used = 0;
@@ -85,8 +88,9 @@ long c_bitstream::get_current_bit_position()
 
 byte const* c_bitstream::get_data(long* data_length) const
 {
-	//assert(!writing());
-	//assert(data_length);
+	assert(!writing());
+	assert(data_length);
+
 	*data_length = m_data_size_bytes;
 	return m_data;
 
@@ -95,30 +99,30 @@ byte const* c_bitstream::get_data(long* data_length) const
 
 void c_bitstream::pop_position(bool pop)
 {
-	//assert(reading() || writing());
-	//assert(m_position_stack_depth > 0);
+	assert(reading() || writing());
+	assert(m_position_stack_depth > 0);
 
 	DECLFUNC(0x00558310, void, __thiscall, c_bitstream const*, bool)(this, pop);
 }
 
 bool c_bitstream::read_bool()
 {
-	//assert(reading());
+	assert(reading());
 
 	return DECLFUNC(0x00558570, bool, __thiscall, c_bitstream const*)(this);
 }
 
 void c_bitstream::read_raw_data(void* data, long size_in_bits)
 {
-	//assert(reading());
+	assert(reading());
 
 	DECLFUNC(0x00558740, void, __thiscall, c_bitstream const*, void*, long)(this, data, size_in_bits);
 }
 
 dword c_bitstream::read_integer(long size_in_bits)
 {
-	//assert(reading());
-	//assert(size_in_bits>0 && size_in_bits<=LONG_BITS);
+	assert(reading());
+	assert(size_in_bits>0 && size_in_bits<=LONG_BITS);
 
 	//dword value = read_value_internal(size_in_bits)
 	//assert(value < (1 << size_in_bits));
@@ -128,8 +132,8 @@ dword c_bitstream::read_integer(long size_in_bits)
 
 void c_bitstream::read_point3d(char const* name, long_point3d* point, long axis_encoding_size_in_bits)
 {
-	//assert(reading());
-	//assert(axis_encoding_size_in_bits>=0&&axis_encoding_size_in_bits<=SIZEOF_BITS(point->n[0]));
+	assert(reading());
+	assert(axis_encoding_size_in_bits>=0&&axis_encoding_size_in_bits<=SIZEOF_BITS(point->n[0]));
 
 	//for (long axis = 0; axis < 3; ++axis)
 	//{
@@ -142,42 +146,42 @@ void c_bitstream::read_point3d(char const* name, long_point3d* point, long axis_
 
 real c_bitstream::read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints)
 {
-	//assert(reading());
+	assert(reading());
 
 	return DECLFUNC(0x00559080, real, __thiscall, c_bitstream const*, char const*, real, real, long, bool, bool)(this, name, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
 void c_bitstream::read_secure_address(char const* name, s_transport_secure_address* address)
 {
-	//assert(reading());
-	//assert(address);
+	assert(reading());
+	assert(address);
 
 	DECLFUNC(0x00559360, void, __thiscall, c_bitstream const*, char const*, s_transport_secure_address*)(this, name, address);
 }
 
 void c_bitstream::read_string(char const* name, char* _string, long max_string_size)
 {
-	//assert(reading());
-	//assert(_string);
-	//assert(max_string_size>0);
+	assert(reading());
+	assert(_string);
+	assert(max_string_size>0);
 
 	DECLFUNC(0x00559380, void, __thiscall, c_bitstream const*, char const*, char*, long)(this, name, _string, max_string_size);
 }
 
 void c_bitstream::read_string_utf8(char const* name, char* char_string, long max_string_size)
 {
-	//assert(reading());
-	//assert(char_string);
-	//assert(max_string_size>0);
+	assert(reading());
+	assert(char_string);
+	assert(max_string_size>0);
 
 	DECLFUNC(0x00559670, void, __thiscall, c_bitstream const*, char const*, utf8*, long)(this, name, char_string, max_string_size);
 }
 
 void c_bitstream::read_string_wchar(char const* name, wchar_t* _string, long max_string_size)
 {
-	//assert(reading());
-	//assert(_string);
-	//assert(max_string_size>0);
+	assert(reading());
+	assert(_string);
+	assert(max_string_size>0);
 
 	DECLFUNC(0x00559880, void, __thiscall, c_bitstream const*, char const*, wchar_t*, long)(this, name, _string, max_string_size);
 }
@@ -189,7 +193,7 @@ void c_bitstream::read_vector(char const* name, real_vector3d* vector, real min_
 
 void c_bitstream::reset(long state)
 {
-	//assert(state>=0 && state<k_bitstream_state_count);
+	assert(state>=0 && state<k_bitstream_state_count);
 	DECLFUNC(0x00559BE0, void, __thiscall, c_bitstream const*, long)(this, state);
 }
 
@@ -220,25 +224,24 @@ void c_bitstream::write_point3d(char const* name, long_point3d const* point, lon
 
 void c_bitstream::write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints)
 {
-	//assert(writing());
+	assert(writing());
 
 	DECLFUNC(0x0055A2B0, void, __thiscall, c_bitstream const*, char const*, real*, real, real, long, bool, bool)(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
 void c_bitstream::write_secure_address(char const* name, s_transport_secure_address const* address)
 {
-	//assert(writing());
-	//assert(address);
+	assert(writing());
+	assert(address);
 
 	DECLFUNC(0x0055A410, void, __thiscall, c_bitstream const*, char const*, s_transport_secure_address const*)(this, name, address);
 }
 
 void c_bitstream::write_string(char const* name, char const* _string, long max_string_size)
 {
-	//assert(writing());
-	//assert(_string);
-	//assert(max_string_size>0);
-	//assert(strnlen(string, max_string_size) < max_string_size);
+	assert(writing());
+	assert(_string);
+	assert(max_string_size>0);
 	//assert(strnlen(_string, max_string_size) < max_string_size);
 
 	DECLFUNC(0x0055A430, void, __thiscall, c_bitstream const*, char const*, char const*, long)(this, name, _string, max_string_size);
@@ -246,10 +249,9 @@ void c_bitstream::write_string(char const* name, char const* _string, long max_s
 
 void c_bitstream::write_string_utf8(char const* name, utf8 const* char_string, long max_string_size)
 {
-	//assert(writing());
-	//assert(char_string);
-	//assert(max_string_size>0);
-	//assert(strnlen(string, max_string_size) < max_string_size);
+	assert(writing());
+	assert(char_string);
+	assert(max_string_size>0);
 	//assert(strnlen(char_string, max_string_size) < max_string_size);
 
 	DECLFUNC(0x0055A650, void, __thiscall, c_bitstream const*, char const*, utf8 const*, long)(this, name, char_string, max_string_size);
@@ -257,9 +259,9 @@ void c_bitstream::write_string_utf8(char const* name, utf8 const* char_string, l
 
 void c_bitstream::write_string_wchar(char const* name, wchar_t const* _string, long max_string_size)
 {
-	//assert(writing());
-	//assert(_string);
-	//assert(max_string_size>0);
+	assert(writing());
+	assert(_string);
+	assert(max_string_size>0);
 
 	DECLFUNC(0x0055A6D0, void, __thiscall, c_bitstream const*, char const*, wchar_t const*, long)(this, name, _string, max_string_size);
 }
