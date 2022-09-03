@@ -5,12 +5,12 @@
 
 enum e_bitstream_state
 {
-	_bitstream_state_unknown0 = 0,
+	_bitstream_state_initial = 0,
 	_bitstream_state_writing,
 	_bitstream_state_write_finished,
 	_bitstream_state_reading,
 	_bitstream_state_read_only_for_consistency,
-	_bitstream_state_unknown5,
+	_bitstream_state_read_finished,
 
 	k_bitstream_state_count
 };
@@ -52,7 +52,7 @@ public:
 		m_data_max(0),
 		m_data_size_bytes(0)
 	{
-		reset(0);
+		reset(_bitstream_state_initial);
 	}
 
 	// functions as they appear in memory
@@ -63,9 +63,14 @@ public:
 	void discard_remaining_data();
 	bool overflowed() const;
 	bool error_occurred() const;
+
+	bool reading() const;
+	bool writing() const;
+
 	void finish_consistency_check();
 	void finish_reading();
 	void finish_writing(long* out_bits_remaining);
+
 	long get_current_bit_position();
 	byte const* get_data(long* data_length) const;
 	void pop_position(bool pop);
@@ -75,7 +80,7 @@ public:
 	dword read_integer(long size_in_bits);
 	void read_point3d(char const* name, long_point3d* point, long axis_encoding_size_in_bits);
 	real read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
-	void read_secure_address(char const* name, s_transport_secure_address* addresss);
+	void read_secure_address(char const* name, s_transport_secure_address* address);
 	void read_string(char const* name, char* _string, long max_string_size);
 	void read_string_utf8(char const* name, char* char_string, long max_string_size);
 	void read_string_wchar(char const* name, wchar_t* _string, long max_string_size);

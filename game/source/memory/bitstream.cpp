@@ -2,14 +2,14 @@
 
 void c_bitstream::begin_consistency_check()
 {
-	reset(4);
+	reset(_bitstream_state_read_only_for_consistency);
 
 	//DECLFUNC(0x00557490, void, __thiscall, c_bitstream const*)(this);
 }
 
 void c_bitstream::begin_reading()
 {
-	reset(3);
+	reset(_bitstream_state_reading);
 
 	//DECLFUNC(0x005574A0, void, __thiscall, c_bitstream const*)(this);
 }
@@ -17,7 +17,7 @@ void c_bitstream::begin_reading()
 void c_bitstream::begin_writing(long data_size_alignment)
 {
 	m_data_size_alignment = data_size_alignment;
-	reset(1);
+	reset(_bitstream_state_writing);
 
 	//DECLFUNC(0x005574B0, void, __thiscall, c_bitstream const*, long)(this, data_size_alignment);
 }
@@ -47,6 +47,16 @@ bool c_bitstream::error_occurred() const
 	//DECLFUNC(0x00558090, bool, __thiscall, c_bitstream const*)(this);
 }
 
+bool c_bitstream::reading() const
+{
+	return m_state == _bitstream_state_reading || m_state == _bitstream_state_read_only_for_consistency;
+}
+
+bool c_bitstream::writing() const
+{
+	return m_state == _bitstream_state_writing;
+}
+
 void c_bitstream::finish_consistency_check()
 {
 	finish_reading();
@@ -56,7 +66,7 @@ void c_bitstream::finish_consistency_check()
 
 void c_bitstream::finish_reading()
 {
-	m_state = 5;
+	m_state = _bitstream_state_read_finished;
 
 	//DECLFUNC(0x005580C0, void, __thiscall, c_bitstream const*)(this);
 }
@@ -137,12 +147,12 @@ real c_bitstream::read_quantized_real(char const* name, real min_value, real max
 	return DECLFUNC(0x00559080, real, __thiscall, c_bitstream const*, char const*, real, real, long, bool, bool)(this, name, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
-void c_bitstream::read_secure_address(char const* name, s_transport_secure_address* addresss)
+void c_bitstream::read_secure_address(char const* name, s_transport_secure_address* address)
 {
 	//assert(reading());
 	//assert(address);
 
-	DECLFUNC(0x00559360, void, __thiscall, c_bitstream const*, char const*, s_transport_secure_address*)(this, name, addresss);
+	DECLFUNC(0x00559360, void, __thiscall, c_bitstream const*, char const*, s_transport_secure_address*)(this, name, address);
 }
 
 void c_bitstream::read_string(char const* name, char* _string, long max_string_size)
@@ -188,7 +198,7 @@ void c_bitstream::set_data(byte* data, long data_length)
 	m_data = data;
 	m_data_max = &data[data_length];
 	m_data_size_bytes = data_length;
-	reset(0);
+	reset(_bitstream_state_initial);
 
 	//DECLFUNC(0x00559D90, void, __thiscall, c_bitstream const*, byte*, long)(this, data, data_length);
 }
@@ -229,6 +239,7 @@ void c_bitstream::write_string(char const* name, char const* _string, long max_s
 	//assert(_string);
 	//assert(max_string_size>0);
 	//assert(strnlen(string, max_string_size) < max_string_size);
+	//assert(strnlen(_string, max_string_size) < max_string_size);
 
 	DECLFUNC(0x0055A430, void, __thiscall, c_bitstream const*, char const*, char const*, long)(this, name, _string, max_string_size);
 }
@@ -239,6 +250,7 @@ void c_bitstream::write_string_utf8(char const* name, utf8 const* char_string, l
 	//assert(char_string);
 	//assert(max_string_size>0);
 	//assert(strnlen(string, max_string_size) < max_string_size);
+	//assert(strnlen(char_string, max_string_size) < max_string_size);
 
 	DECLFUNC(0x0055A650, void, __thiscall, c_bitstream const*, char const*, utf8 const*, long)(this, name, char_string, max_string_size);
 }
