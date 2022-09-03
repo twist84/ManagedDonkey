@@ -78,6 +78,12 @@ static_assert(sizeof(dword_flags) == 0x4);
 typedef float real;
 static_assert(sizeof(real) == 0x4);
 
+typedef char utf8;
+
+#define SIZEOF_BITS(value) 8 * sizeof(value)
+
+const long LONG_BITS = SIZEOF_BITS(long);
+
 template<typename t_type, size_t k_count>
 struct c_static_array
 {

@@ -119,6 +119,7 @@ POPD
     <ClCompile Include="source\main\main.cpp" />
     <ClCompile Include="source\main\main_game.cpp" />
     <ClCompile Include="source\main\main_game_launch.cpp" />
+    <ClCompile Include="source\memory\bitstream.cpp" />
     <ClCompile Include="source\memory\data.cpp" />
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />

@@ -7,6 +7,18 @@ struct point2d
 };
 static_assert(sizeof(point2d) == 0x4);
 
+union long_point3d
+{
+	struct
+	{
+		long x;
+		long y;
+		long z;
+	};
+
+	long n[3];
+};
+
 struct rectangle2d
 {
 	short top;
