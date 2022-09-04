@@ -485,6 +485,9 @@
     <ClInclude Include="source\networking\messages\network_message_type_collection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\units\units.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\memory\module.inl">

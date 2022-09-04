@@ -253,6 +253,7 @@ POPD
     <ClInclude Include="source\shell\shell.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
+    <ClInclude Include="source\units\units.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\memory\module.inl" />
