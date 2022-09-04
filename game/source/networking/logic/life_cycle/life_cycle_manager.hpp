@@ -37,7 +37,7 @@ struct c_life_cycle_state_handler
 	byte : 8;
 	byte : 8;
 
-	char __data14[0x14];
+	byte __data14[0x14];
 };
 static_assert(sizeof(c_life_cycle_state_handler) == 0x28);
 

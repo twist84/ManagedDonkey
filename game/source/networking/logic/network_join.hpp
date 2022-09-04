@@ -114,8 +114,8 @@ static_assert(sizeof(s_join_queue_entry) == 0x338);
 #pragma pack(push, 4)
 struct s_networking_join_data
 {
-	int local_join_state;
-	int local_join_result;
+	long local_join_state;
+	long local_join_result;
 	dword time;
 
 	bool __unknownC;

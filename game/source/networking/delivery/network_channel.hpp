@@ -18,8 +18,8 @@ public:
 
 	bool m_allocated;
 	bool read_simulation_data_expected;
-	char __unknownA;
-	char __unknownB;
+	byte __unknownA;
+	byte __unknownB;
 };
 static_assert(sizeof(c_network_channel_client) == 0x8);
 
@@ -39,7 +39,7 @@ struct c_network_channel_simulation_interface
 	s_network_channel_client_info m_clients[4];
 	bool __unknown30;
 	bool __unknown31;
-	char __pad32[2];
+	byte __pad32[0x2];
 };
 static_assert(sizeof(c_network_channel_simulation_interface) == 0x34);
 

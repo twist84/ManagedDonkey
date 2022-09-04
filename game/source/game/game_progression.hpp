@@ -30,7 +30,7 @@ struct s_persistent_campaign_player
 	s_persistent_campaign_player_weapon backpack_weapon;
 	s_persistent_campaign_player_weapon secondary_weapon;
 
-	char __unknown1A[4];
+	byte __unknown1A[0x4];
 };
 static_assert(sizeof(s_persistent_campaign_player) == 0x1E);
 

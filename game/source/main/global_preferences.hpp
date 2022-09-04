@@ -11,38 +11,38 @@ struct s_gui_game_setup_storage
 {
 	struct s_campaign_settings
 	{
-		char __data[0x198];
+		byte __data[0x198];
 	};
 	static_assert(sizeof(s_campaign_settings) == 0x198);
 
 	// `s_survival_settings` is `s_campaign_settings`
 	struct s_survival_settings
 	{
-		char __data[0x198];
+		byte __data[0x198];
 	};
 	static_assert(sizeof(s_survival_settings) == sizeof(s_campaign_settings));
 
 	struct s_matchmaking_settings
 	{
-		char __data[0x8];
+		byte __data[0x8];
 	};
 	static_assert(sizeof(s_matchmaking_settings) == 0x8);
 
 	struct s_multiplayer_settings
 	{
-		char __data[0xE718];
+		byte __data[0xE718];
 	};
 	static_assert(sizeof(s_multiplayer_settings) == 0xE718);
 
 	struct s_map_editor_settings
 	{
-		char __data[0xE2A8];
+		byte __data[0xE2A8];
 	};
 	static_assert(sizeof(s_map_editor_settings) == 0xE2A8);
 
 	struct s_theater_settings
 	{
-		char __data[0x24E80];
+		byte __data[0x24E80];
 	};
 	static_assert(sizeof(s_theater_settings) == 0x24E80);
 

@@ -16,7 +16,7 @@
 
 struct players_globals
 {
-	char __data[0x234];
+	byte __data[0x234];
 };
 static_assert(sizeof(players_globals) == 0x234);
 
@@ -56,13 +56,13 @@ static_assert(sizeof(game_engine_globals) == 0x15858);
 
 struct local_game_engine_globals
 {
-	char __data[0xC4];
+	byte __data[0xC4];
 };
 static_assert(sizeof(local_game_engine_globals) == 0xC4);
 
 struct s_breakable_surface_globals
 {
-	char __data[0x3CE18];
+	byte __data[0x3CE18];
 };
 static_assert(sizeof(s_breakable_surface_globals) == 0x3CE18);
 
@@ -93,7 +93,7 @@ static_assert(sizeof(hs_runtime) == 0x8);
 
 struct s_effect_counts
 {
-	char __data[0x18];
+	byte __data[0x18];
 };
 static_assert(sizeof(s_effect_counts) == 0x18);
 
@@ -101,7 +101,7 @@ static_assert(sizeof(s_effect_counts) == 0x18);
 
 struct effect_messaging_queue
 {
-	char __data[0x17084];
+	byte __data[0x17084];
 };
 static_assert(sizeof(effect_messaging_queue) == 0x17084);
 
@@ -114,7 +114,7 @@ static_assert(sizeof(s_havok_gamestate) == 0x8);
 
 struct s_player_control_globals_deterministic
 {
-	char __data[0x80];
+	byte __data[0x80];
 };
 static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
 
@@ -122,31 +122,31 @@ static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
 
 struct s_game_sound_globals
 {
-	char __data[0x154];
+	byte __data[0x154];
 };
 static_assert(sizeof(s_game_sound_globals) == 0x154);
 
 struct s_game_sound_impulse_datum
 {
-	char __data[0x200];
+	byte __data[0x200];
 };
 static_assert(sizeof(s_game_sound_impulse_datum) == 0x200);
 
 struct s_structure_seam_globals
 {
-	char __data[0x14614];
+	byte __data[0x14614];
 };
 static_assert(sizeof(s_structure_seam_globals) == 0x14614);
 
 struct visibility_active_portals
 {
-	char __data[0x800];
+	byte __data[0x800];
 };
 static_assert(sizeof(visibility_active_portals) == 0x800);
 
 struct s_campaign_metagame_globals
 {
-	char __data[0x1A158];
+	byte __data[0x1A158];
 };
 static_assert(sizeof(s_campaign_metagame_globals) == 0x1A158);
 
@@ -160,7 +160,7 @@ static_assert(sizeof(s_observer_gamestate_globals) == 0xC);
 
 struct rumble_global_data
 {
-	char __data[0x22C];
+	byte __data[0x22C];
 };
 static_assert(sizeof(rumble_global_data) == 0x22C);
 
@@ -173,19 +173,19 @@ static_assert(sizeof(s_bink_shared_game_state) == 0x8);
 
 struct sound_class_datum
 {
-	char __data[0x1144];
+	byte __data[0x1144];
 };
 static_assert(sizeof(sound_class_datum) == 0x1144);
 
 struct s_game_allegiance_globals
 {
-	char __data[0x184];
+	byte __data[0x184];
 };
 static_assert(sizeof(s_game_allegiance_globals) == 0x184);
 
 struct s_atmosphere_fog_globals
 {
-	char __data[0x14];
+	byte __data[0x14];
 };
 static_assert(sizeof(s_atmosphere_fog_globals) == 0x14);
 
@@ -200,36 +200,36 @@ static_assert(sizeof(s_scenario_soft_ceilings_globals) == 0x10);
 
 struct s_game_sound_player_effects_globals
 {
-	char __data[0x28];
+	byte __data[0x28];
 };
 static_assert(sizeof(s_game_sound_player_effects_globals) == 0x28);
 
 struct cinematic_new_globals
 {
-	char __data[0x3C];
+	byte __data[0x3C];
 };
 static_assert(sizeof(cinematic_new_globals) == 0x3C);
 
 struct cinematic_globals
 {
-	char __unknown0[4];
-	char show_letterbox;
-	char start_stop;
-	char skip_start_stop;
-	char suppress_bsp_object_creation;
-	char __unknown8[24];
+	byte __unknown0[4];
+	bool show_letterbox;
+	bool start_stop;
+	bool skip_start_stop;
+	bool suppress_bsp_object_creation;
+	byte __unknown8[24];
 	dword subtitle_string_id;
-	float subtitle_time_shown;
-	float subtitle_time_shown2;
-	char __unknown2C[2];
-	char outro_start_stop;
-	char __unknown2F[10201];
+	real subtitle_time_shown;
+	real subtitle_time_shown2;
+	byte __unknown2C[2];
+	bool outro_start_stop;
+	byte __unknown2F[10201];
 };
 static_assert(sizeof(cinematic_globals) == 0x2808);
 
 struct cinematic_light_globals
 {
-	char __data[0xB2C8];
+	byte __data[0xB2C8];
 };
 static_assert(sizeof(cinematic_light_globals) == 0xB2C8);
 
@@ -237,7 +237,7 @@ static_assert(sizeof(cinematic_light_globals) == 0xB2C8);
 
 struct s_game_save_globals
 {
-	char __data[0x18];
+	byte __data[0x18];
 };
 static_assert(sizeof(s_game_save_globals) == 0x18);
 
@@ -245,13 +245,13 @@ static_assert(sizeof(s_game_save_globals) == 0x18);
 
 struct s_player_effect_globals
 {
-	char __data[0x3A0];
+	byte __data[0x3A0];
 };
 static_assert(sizeof(s_player_effect_globals) == 0x3A0);
 
 struct s_scenario_interpolator_globals
 {
-	char __data[0x204];
+	byte __data[0x204];
 };
 static_assert(sizeof(s_scenario_interpolator_globals) == 0x204);
 
@@ -267,34 +267,34 @@ struct s_survival_mode_globals
 	long round_multiplier;
 	short waves_per_round;
 	short rounds_per_set;
-	char __unknown18[4];
+	byte __unknown18[4];
 	long __unknown1C;
-	char __unknown20[4];
+	byte __unknown20[4];
 	long __unknown24;
 	long __unknown28;
-	char __unknown2C[4];
+	byte __unknown2C[4];
 	long scoreboard;
-	char __unknown34[464];
+	byte __unknown34[464];
 
-	char __data[0x5DC];
+	byte __data[0x5DC];
 };
 static_assert(sizeof(s_survival_mode_globals) == 0x7E0);
 
 struct s_player_training_globals
 {
-	char __data[0x8E8];
+	byte __data[0x8E8];
 };
 static_assert(sizeof(s_player_training_globals) == 0x8E8);
 
 struct s_scenario_kill_trigger_volumes_state
 {
-	char __data[0x84];
+	byte __data[0x84];
 };
 static_assert(sizeof(s_scenario_kill_trigger_volumes_state) == 0x84);
 
 struct s_game_sound_deterministic_globals
 {
-	char __data[0x1300];
+	byte __data[0x1300];
 };
 static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
 
@@ -302,19 +302,19 @@ static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
 
 struct s_decal_counts
 {
-	char __data[0x20];
+	byte __data[0x20];
 };
 static_assert(sizeof(s_decal_counts) == 0x20);
 
 struct decal
 {
-	char __data[0x130];
+	byte __data[0x130];
 };
 static_assert(sizeof(decal) == 0x130);
 
 struct s_decal_message_queue
 {
-	char __data[0x824];
+	byte __data[0x824];
 };
 static_assert(sizeof(s_decal_message_queue) == 0x824);
 
@@ -346,7 +346,7 @@ static_assert(sizeof(object_list_header) == 0xC);
 
 struct list_object
 {
-	char __data[0x8C];
+	byte __data[0x8C];
 };
 static_assert(sizeof(list_object) == 0x8C);
 
@@ -360,67 +360,67 @@ static_assert(sizeof(scripted_camera_globals) == 0xF0);
 
 struct contrail_system
 {
-	char __data[0x4C];
+	byte __data[0x4C];
 };
 static_assert(sizeof(contrail_system) == 0x4C);
 
 struct contrail
 {
-	char __data[0x4C];
+	byte __data[0x4C];
 };
 static_assert(sizeof(contrail) == 0x4C);
 
 struct contrail_location
 {
-	char __data[0x60];
+	byte __data[0x60];
 };
 static_assert(sizeof(contrail_location) == 0x60);
 
 struct contrail_profile
 {
-	char __data[0x4C];
+	byte __data[0x4C];
 };
 static_assert(sizeof(contrail_profile) == 0x4C);
 
 struct particle_location
 {
-	char __data[0x60];
+	byte __data[0x60];
 };
 static_assert(sizeof(particle_location) == 0x60);
 
 struct light_volume_location
 {
-	char __data[0x2C];
+	byte __data[0x2C];
 };
 static_assert(sizeof(light_volume_location) == 0x2C);
 
 struct light_volume
 {
-	char __data[0x34];
+	byte __data[0x34];
 };
 static_assert(sizeof(light_volume) == 0x34);
 
 struct light_volume_system
 {
-	char __data[0x2C];
+	byte __data[0x2C];
 };
 static_assert(sizeof(light_volume_system) == 0x2C);
 
 struct beam_system
 {
-	char __data[0x34];
+	byte __data[0x34];
 };
 static_assert(sizeof(beam_system) == 0x34);
 
 struct beam
 {
-	char __data[0x2C];
+	byte __data[0x2C];
 };
 static_assert(sizeof(beam) == 0x2C);
 
 struct beam_location
 {
-	char __data[0x30];
+	byte __data[0x30];
 };
 static_assert(sizeof(beam_location) == 0x30);
 
@@ -436,44 +436,44 @@ static_assert(sizeof(hue_saturation_control) == 0x14);
 
 struct ragdolls
 {
-	char __data[0x130];
+	byte __data[0x130];
 };
 static_assert(sizeof(ragdolls) == 0x130);
 
 struct particle_emitter
 {
-	char __data[0x90];
+	byte __data[0x90];
 };
 static_assert(sizeof(particle_emitter) == 0x90);
 
 struct rasterizer_game_states
 {
-	char motion_blur;
-	char atmosphere_fog;
-	char patchy_fog;
-	char weather;
-	char cinematic_motion_blur;
-	char __unknown5[39];
-	char autoexposure;
-	char __unknown44[475];
+	bool motion_blur;
+	bool atmosphere_fog;
+	bool patchy_fog;
+	bool weather;
+	bool cinematic_motion_blur;
+	byte __unknown5[39];
+	bool autoexposure;
+	byte __unknown44[475];
 };
 static_assert(sizeof(rasterizer_game_states) == 0x208);
 
 struct scripted_exposure_globals
 {
-	char __data[0x34];
+	byte __data[0x34];
 };
 static_assert(sizeof(scripted_exposure_globals) == 0x34);
 
 struct render_hud_globals
 {
-	char __data[0x480];
+	byte __data[0x480];
 };
 static_assert(sizeof(render_hud_globals) == 0x480);
 
 struct water_interaction_ripples
 {
-	char __data[0x1400];
+	byte __data[0x1400];
 };
 static_assert(sizeof(water_interaction_ripples) == 0x1400);
 
@@ -493,9 +493,9 @@ struct render_texture_globals
 	long __unknown24;
 	real_point3d camera_position_world;
 	real_point3d camera_target_object;
-	char __unknown40[28];
-	float camera_fov;
-	float aspect_ratio;
+	byte __unknown40[0x1C];
+	real camera_fov;
+	real aspect_ratio;
 	long camera_resolution_width;
 	long camera_resolution_height;
 };
@@ -503,47 +503,47 @@ static_assert(sizeof(render_texture_globals) == 0x6C);
 
 struct render_game_globals
 {
-	char __data[0xD80];
+	byte __data[0xD80];
 };
 static_assert(sizeof(render_game_globals) == 0xD80);
 
 struct depth_of_field_globals
 {
 	bool enable;
-	char __unknown1[3];
-	float __unknown4;
-	float __unknown8;
-	float __unknownC;
-	float intensity;
-	float __unknown14;
-	float __unknown18;
-	float __unknown1C;
-	float __unknown20;
-	float __unknown24;
-	float __unknown28;
-	float __unknown2C;
-	float __unknown30;
-	float __unknown34;
-	float __unknown38;
-	float __unknown3C;
+	byte __unknown1[0x3];
+	real __unknown4;
+	real __unknown8;
+	real __unknownC;
+	real intensity;
+	real __unknown14;
+	real __unknown18;
+	real __unknown1C;
+	real __unknown20;
+	real __unknown24;
+	real __unknown28;
+	real __unknown2C;
+	real __unknown30;
+	real __unknown34;
+	real __unknown38;
+	real __unknown3C;
 };
 static_assert(sizeof(depth_of_field_globals) == 0x40);
 
 struct cached_object_render_states
 {
-	char __data[0x4D8];
+	byte __data[0x4D8];
 };
 static_assert(sizeof(cached_object_render_states) == 0x4D8);
 
 struct particle_emitter_gpu_row
 {
-	char __data[0x18];
+	byte __data[0x18];
 };
 static_assert(sizeof(particle_emitter_gpu_row) == 0x18);
 
 struct particle_emitter_gpu_1
 {
-	char __data[0x14];
+	byte __data[0x14];
 };
 static_assert(sizeof(particle_emitter_gpu_1) == 0x14);
 
@@ -602,51 +602,51 @@ static_assert(sizeof(light_volume_gpu_row) == 0xC);
 
 struct render_object_globals
 {
-	char __data[0x3C040];
+	byte __data[0x3C040];
 };
 static_assert(sizeof(render_object_globals) == 0x3C040);
 
 struct shield_render_cache_message
 {
-	char __data[0x14];
+	byte __data[0x14];
 };
 static_assert(sizeof(shield_render_cache_message) == 0x14);
 
 struct chud_player_hud_elements
 {
-	char __unknown0[2];
-	char crosshair;
-	char shield;
-	char grenades;
-	char messages;
-	char motion_sensor;
-	char spike_grenades;
-	char fire_grenades;
-	char compass;
-	char stamina;
-	char energy_meters;
-	char consumables;
+	byte __unknown0[0x2];
+	byte crosshair;
+	byte shield;
+	byte grenades;
+	byte messages;
+	byte motion_sensor;
+	byte spike_grenades;
+	byte fire_grenades;
+	byte compass;
+	byte stamina;
+	byte energy_meters;
+	byte consumables;
 };
 
 struct chud_persistent_user_data
 {
-	char __data[0x14D];
+	byte __data[0x14D];
 	chud_player_hud_elements player_hud;
-	char __unknown181[0x316];
+	byte __unknown181[0x316];
 };
 static_assert(sizeof(chud_persistent_user_data) == 0x470);
 
 struct chud_persistent_global_data
 {
-	char __unknown0[0x14D];
+	byte __unknown0[0x14D];
 	chud_player_hud_elements player_hud[4];
-	char __unknown181[0x273];
-	char bonus_round_show_timer;
-	char bonus_round_start_timer;
-	char __unknown3F6[2];
+	byte __unknown181[0x273];
+	byte bonus_round_show_timer;
+	byte bonus_round_start_timer;
+	byte __unknown3F6[2];
 	long bonus_round_set_timer;
 	long bonus_round_set_target_score;
-	char __unknown3FC[0xF640];
+	byte __unknown3FC[0xF640];
 };
 static_assert(sizeof(chud_persistent_global_data) == 0xFA40);
 
@@ -654,13 +654,13 @@ static_assert(sizeof(chud_persistent_global_data) == 0xFA40);
 
 struct s_first_person_orientations
 {
-	char __data[0x12C00];
+	byte __data[0x12C00];
 };
 static_assert(sizeof(s_first_person_orientations) == 0x12C00);
 
 struct first_person_weapon
 {
-	char __data[0x14000];
+	byte __data[0x14000];
 };
 static_assert(sizeof(first_person_weapon) == 0x14000);
 
@@ -675,49 +675,49 @@ static_assert(sizeof(s_cortana_globals) == 0x10);
 
 struct s_current_objective_state
 {
-	char __data[0x14];
+	byte __data[0x14];
 };
 static_assert(sizeof(s_current_objective_state) == 0x14);
 
 struct s_object_globals
 {
-	char __data[0x6608];
+	byte __data[0x6608];
 };
 static_assert(sizeof(s_object_globals) == 0x6608);
 
 struct objects_memory_pool
 {
-	char __data[0x44];
+	byte __data[0x44];
 };
 static_assert(sizeof(objects_memory_pool) == 0x44);
 
 struct object_messaging_queue
 {
-	char __data[0x4104];
+	byte __data[0x4104];
 };
 static_assert(sizeof(object_messaging_queue) == 0x4104);
 
 struct damage_globals
 {
-	char __data[0x810];
+	byte __data[0x810];
 };
 static_assert(sizeof(damage_globals) == 0x810);
 
 struct object_render_data
 {
-	char __data[0x2000];
+	byte __data[0x2000];
 };
 static_assert(sizeof(object_render_data) == 0x2000);
 
 struct s_damage_globals
 {
-	char __data[0x810];
+	byte __data[0x810];
 };
 static_assert(sizeof(s_damage_globals) == 0x810);
 
 struct s_object_placement_globals
 {
-	char __data[0x320];
+	byte __data[0x320];
 };
 static_assert(sizeof(s_object_placement_globals) == 0x320);
 
@@ -732,49 +732,49 @@ static_assert(sizeof(device_groups) == 0x10);
 
 struct object_scripting
 {
-	char __data[0x304];
+	byte __data[0x304];
 };
 static_assert(sizeof(object_scripting) == 0x304);
 
 struct s_object_broadphase
 {
-	char __data[0x32450];
+	byte __data[0x32450];
 };
 static_assert(sizeof(s_object_broadphase) == 0x32450);
 
 struct s_object_early_movers_globals
 {
-	char __data[0x2688];
+	byte __data[0x2688];
 };
 static_assert(sizeof(s_object_early_movers_globals) == 0x2688);
 
 struct s_object_scehdule_globals
 {
-	char __data[0x27C];
+	byte __data[0x27C];
 };
 static_assert(sizeof(s_object_scehdule_globals) == 0x27C);
 
 struct object_activation_regions
 {
-	char __data[0x28];
+	byte __data[0x28];
 };
 static_assert(sizeof(object_activation_regions) == 0x28);
 
 struct lights
 {
-	char __data[0xE4];
+	byte __data[0xE4];
 };
 static_assert(sizeof(lights) == 0xE4);
 
 struct lights_game_globals_definition
 {
-	char __data[0x40];
+	byte __data[0x40];
 };
 static_assert(sizeof(lights_game_globals_definition) == 0x40);
 
 struct s_nondeterministic_light_data
 {
-	char __data[0x2580];
+	byte __data[0x2580];
 };
 static_assert(sizeof(s_nondeterministic_light_data) == 0x2580);
 
@@ -788,7 +788,7 @@ static_assert(sizeof(widget) == 0xC);
 
 struct s_recycling_volumes
 {
-	char __data[0x148];
+	byte __data[0x148];
 };
 static_assert(sizeof(s_recycling_volumes) == 0x148);
 
@@ -796,78 +796,78 @@ static_assert(sizeof(s_recycling_volumes) == 0x148);
 
 struct muffin
 {
-	char __data[0x1890];
+	byte __data[0x1890];
 };
 static_assert(sizeof(muffin) == 0x1890);
 
 struct leaf_system
 {
-	char __data[0x94C];
+	byte __data[0x94C];
 };
 static_assert(sizeof(leaf_system) == 0x94C);
 
 struct antenna
 {
-	char __data[0x64];
+	byte __data[0x64];
 };
 static_assert(sizeof(antenna) == 0x64);
 
 struct cloth
 {
-	char __data[0x1704];
+	byte __data[0x1704];
 };
 static_assert(sizeof(cloth) == 0x1704);
 
 struct actor
 {
-	char __data[0xA98];
+	byte __data[0xA98];
 };
 static_assert(sizeof(actor) == 0xA98);
 
 struct actor_firing_position
 {
-	char __data[0x400];
+	byte __data[0x400];
 };
 static_assert(sizeof(actor_firing_position) == 0x400);
 
 struct ai_reference_frame
 {
-	char __data[0x4B0];
+	byte __data[0x4B0];
 };
 static_assert(sizeof(ai_reference_frame) == 0x4B0);
 
 struct ai_globals
 {
-	char enable;
-	char __unknown1;
+	byte enable;
+	byte __unknown1;
 	short flags;
-	char __unknown4;
-	char fast_and_dumb;
-	char __unknown5[1666];
+	byte __unknown4;
+	byte fast_and_dumb;
+	byte __unknown5[1666];
 };
 static_assert(sizeof(ai_globals) == 0x688);
 
 struct ai_player_state
 {
-	char __data[0xB0];
+	byte __data[0xB0];
 };
 static_assert(sizeof(ai_player_state) == 0xB0);
 
 struct vocalization_records
 {
-	char __data[0x5C];
+	byte __data[0x5C];
 };
 static_assert(sizeof(vocalization_records) == 0x5C);
 
 struct vocalization_timers
 {
-	char __data[0xFB8];
+	byte __data[0xFB8];
 };
 static_assert(sizeof(vocalization_timers) == 0xFB8);
 
 struct command_scripts
 {
-	char __data[0x188];
+	byte __data[0x188];
 };
 static_assert(sizeof(command_scripts) == 0x188);
 
@@ -881,31 +881,31 @@ static_assert(sizeof(objectives) == 0xC);
 
 struct task_records
 {
-	char __data[0x61A80];
+	byte __data[0x61A80];
 };
 static_assert(sizeof(task_records) == 0x61A80);
 
 struct squad
 {
-	char __data[0xEC];
+	byte __data[0xEC];
 };
 static_assert(sizeof(squad) == 0xEC);
 
 struct squad_group
 {
-	char __data[0x24];
+	byte __data[0x24];
 };
 static_assert(sizeof(squad_group) == 0x24);
 
 struct swarm
 {
-	char __data[0x34];
+	byte __data[0x34];
 };
 static_assert(sizeof(swarm) == 0x34);
 
 struct swarm_spawner
 {
-	char __data[0x258];
+	byte __data[0x258];
 };
 static_assert(sizeof(swarm_spawner) == 0x258);
 
@@ -917,61 +917,61 @@ static_assert(sizeof(spawner_globals) == 0x2);
 
 struct dynamic_firing_points
 {
-	char __data[0x584];
+	byte __data[0x584];
 };
 static_assert(sizeof(dynamic_firing_points) == 0x584);
 
 struct propref
 {
-	char __data[0x3C];
+	byte __data[0x3C];
 };
 static_assert(sizeof(propref) == 0x3C);
 
 struct prop
 {
-	char __data[0xC4];
+	byte __data[0xC4];
 };
 static_assert(sizeof(prop) == 0xC4);
 
 struct tracking
 {
-	char __data[0x100];
+	byte __data[0x100];
 };
 static_assert(sizeof(tracking) == 0x100);
 
 struct joint_state
 {
-	char __data[0xCC];
+	byte __data[0xCC];
 };
 static_assert(sizeof(joint_state) == 0xCC);
 
 struct clump
 {
-	char __data[0x108];
+	byte __data[0x108];
 };
 static_assert(sizeof(clump) == 0x108);
 
 struct squad_patrol
 {
-	char __data[0x6C4];
+	byte __data[0x6C4];
 };
 static_assert(sizeof(squad_patrol) == 0x6C4);
 
 struct flocks
 {
-	char __data[0x4C];
+	byte __data[0x4C];
 };
 static_assert(sizeof(flocks) == 0x4C);
 
 struct formations
 {
-	char __data[0x294];
+	byte __data[0x294];
 };
 static_assert(sizeof(formations) == 0x294);
 
 struct vision_mode
 {
-	char __data[0xF0];
+	byte __data[0xF0];
 };
 static_assert(sizeof(vision_mode) == 0xF0);
 
@@ -986,13 +986,13 @@ static_assert(sizeof(simulation_gamestate_entity_datum) == 0x10);
 
 struct breakable_surface_set_broken_event_datum : datum_header
 {
-	char __data[0x462];
+	byte __data[0x462];
 };
 static_assert(sizeof(breakable_surface_set_broken_event_datum) == 0x464);
 
 struct hs_thread_deterministic_data : datum_header
 {
-	char __data[0x522];
+	byte __data[0x522];
 };
 static_assert(sizeof(hs_thread_deterministic_data) == 0x524);
 
@@ -1005,7 +1005,7 @@ static_assert(sizeof(hs_global_data) == 0x8);
 
 struct hs_distributed_global_data : datum_header
 {
-	char __data[0x2A];
+	byte __data[0x2A];
 };
 static_assert(sizeof(hs_distributed_global_data) == 0x2C);
 
@@ -1019,43 +1019,43 @@ static_assert(sizeof(hs_thread_tracking_data) == 0xC);
 
 struct hs_thread_non_deterministic_data : datum_header
 {
-	char __data[0x522];
+	byte __data[0x522];
 };
 static_assert(sizeof(hs_thread_non_deterministic_data) == 0x524);
 
 struct effect_datum : datum_header
 {
-	char __data[0x9E];
+	byte __data[0x9E];
 };
 static_assert(sizeof(effect_datum) == 0xA0);
 
 struct effect_event_datum : datum_header
 {
-	char __data[0x12];
+	byte __data[0x12];
 };
 static_assert(sizeof(effect_event_datum) == 0x14);
 
 struct effect_location_datum : datum_header
 {
-	char __data[0x3E];
+	byte __data[0x3E];
 };
 static_assert(sizeof(effect_location_datum) == 0x40);
 
 struct effect_geometry_sample_datum : datum_header
 {
-	char __data[0x26];
+	byte __data[0x26];
 };
 static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 
 struct game_looping_sound_datum : datum_header
 {
-	char __data[0x1E];
+	byte __data[0x1E];
 };
 static_assert(sizeof(game_looping_sound_datum) == 0x20);
 
 struct recorded_animation_datum : datum_header
 {
-	char __data[0xA2];
+	byte __data[0xA2];
 };
 static_assert(sizeof(recorded_animation_datum) == 0xA4);
 
@@ -1063,7 +1063,7 @@ struct screen_effect_datum : datum_header
 {
 	word field_2;
 	dword tag_index;
-	float seconds_active;
+	real seconds_active;
 	real_vector3d position;
 	dword object_index;
 	dword field_1c;
@@ -1095,7 +1095,7 @@ struct s_decal_system_datum : datum_header
 	long __unknown44;
 	long __unknown48;
 	long __unknown4C;
-	char __unknown50[0x307];
+	byte __unknown50[0x308];
 };
 static_assert(sizeof(s_decal_system_datum) == 0x358);
 
@@ -1128,7 +1128,7 @@ static_assert(sizeof(s_particle_system_datum) == 0x58);
 
 struct chud_widget_datum : datum_header
 {
-	char __data[0x16];
+	byte __data[0x16];
 };
 static_assert(sizeof(chud_widget_datum) == 0x18);
 
@@ -1141,14 +1141,14 @@ struct cluster_partition
 
 struct recycling_group_datum : datum_header
 {
-	char __data[0x12];
+	byte __data[0x12];
 };
 static_assert(sizeof(recycling_group_datum) == 0x14);
 
 struct s_thread_local_storage
 {
-	char* __unknown0;
-	char* __unknown4;
+	void* __unknown0;
+	void* __unknown4;
 
 	//  name: "sim. gamestate entities"
 	// count: 2048
@@ -1170,21 +1170,21 @@ struct s_thread_local_storage
 	// size: 0x84030
 	s_global_preferences_internals_type* g_global_preferences;
 
-	char* __unknown1C;
+	void* __unknown1C;
 
 	// from assert
 	long g_registered_thread_index;
 
-	char* __unknown24;
-	char* __unknown28;
-	char* __unknown2C;
-	char* __unknown30;
+	void* __unknown24;
+	void* __unknown28;
+	void* __unknown2C;
+	void* __unknown30;
 
 	// name: "random math", "globals"
 	// size: 0x4
 	dword* g_deterministic_random_seed_ptr;
 
-	char* filo_related;
+	void* filo_related;
 
 	// name: "game globals"
 	// size: 0x25208
@@ -1239,14 +1239,14 @@ struct s_thread_local_storage
 	data_array<hs_thread_tracking_data>* hs_thread_tracking_data;
 	data_array<hs_thread_non_deterministic_data>* hs_thread_non_deterministic_data;
 	 
-	char* __unknown80;
-	char* __unknown84;
-	char* __unknown88;
-	char* __unknown8C;
-	char* __unknown90;
-	char* __unknown94;
-	char* __unknown98;
-	char* __unknown9C;
+	void* __unknown80;
+	void* __unknown84;
+	void* __unknown88;
+	void* __unknown8C;
+	void* __unknown90;
+	void* __unknown94;
+	void* __unknown98;
+	void* __unknown9C;
 
 	//  name: "effect"
 	// count: 640
@@ -1336,7 +1336,7 @@ struct s_thread_local_storage
 	// size: 0x8
 	s_bink_shared_game_state* bink_game_state;
 
-	char* __unknownF4;
+	void* __unknownF4;
 
 	struct s_font_cache_globals* g_font_cache_globals;
 
@@ -1363,139 +1363,139 @@ struct s_thread_local_storage
 	//  name: "havok proxies"
 	// count: 16
 	//  size: 0x44
-	char* g_havok_proxy_data; // s_data_array
+	void* g_havok_proxy_data; // s_data_array
 
-	char* __unknown114;
-	char* __unknown118;
-	char* __unknown11C;
-	char* __unknown120;
-	char* __unknown124;
-	char* __unknown128;
-	char* __unknown12C;
-	char* __unknown130;
-	char* __unknown134;
-	char* __unknown138;
-	char* __unknown13C;
-	char* __unknown140;
-	char* __unknown144;
-	char* __unknown148;
-	char* __unknown14C;
-	char* __unknown150;
-	char* __unknown154;
-	char* __unknown158;
-	char* __unknown15C;
-	char* __unknown160;
-	char* __unknown164;
-	char* __unknown168;
-	char* __unknown16C;
-	char* __unknown170;
-	char* __unknown174;
-	char* __unknown178;
-	char* __unknown17C;
-	char* __unknown180;
-	char* __unknown184;
-	char* __unknown188;
-	char* __unknown18C;
-	char* __unknown190;
-	char* __unknown194;
-	char* __unknown198;
-	char* __unknown19C;
-	char* __unknown1A0;
-	char* __unknown1A4;
-	char* __unknown1A8;
-	char* __unknown1AC;
-	char* __unknown1B0;
-	char* __unknown1B4;
-	char* __unknown1B8;
-	char* __unknown1BC;
-	char* __unknown1C0;
-	char* __unknown1C4;
-	char* __unknown1C8;
-	char* __unknown1CC;
-	char* __unknown1D0;
-	char* __unknown1D4;
-	char* __unknown1D8;
-	char* __unknown1Dc;
-	char* __unknown1E0;
-	char* __unknown1E4;
-	char* __unknown1E8;
-	char* __unknown1EC;
-	char* __unknown1F0;
-	char* __unknown1F4;
-	char* __unknown1F8;
-	char* __unknown1FC;
-	char* __unknown200;
-	char* __unknown204;
-	char* __unknown208;
-	char* __unknown20C;
-	char* __unknown210;
-	char* __unknown214;
-	char* __unknown218;
-	char* __unknown21C;
-	char* __unknown220;
-	char* __unknown224;
-	char* __unknown228;
-	char* __unknown22C;
-	char* __unknown230;
-	char* __unknown234;
-	char* __unknown238;
-	char* __unknown23C;
-	char* __unknown240;
-	char* __unknown244;
-	char* __unknown248;
-	char* __unknown24C;
-	char* __unknown250;
-	char* __unknown254;
-	char* __unknown258;
-	char* __unknown25C;
-	char* __unknown260;
-	char* __unknown264;
-	char* __unknown268;
-	char* __unknown26C;
-	char* __unknown270;
-	char* __unknown274;
-	char* __unknown278;
-	char* __unknown27C;
-	char* __unknown280;
-	char* __unknown284;
-	char* __unknown288;
-	char* __unknown28C;
-	char* __unknown290;
-	char* __unknown294;
-	char* __unknown298;
-	char* __unknown29C;
-	char* __unknown2A0;
-	char* __unknown2A4;
-	char* __unknown2A8;
-	char* __unknown2AC;
-	char* __unknown2B0;
-	char* __unknown2B4;
-	char* __unknown2B8;
-	char* __unknown2BC;
-	char* __unknown2C0;
-	char* __unknown2C4;
-	char* __unknown2C8;
-	char* __unknown2CC;
-	char* __unknown2D0;
-	char* __unknown2D4;
-	char* __unknown2D8;
-	char* __unknown2DC;
-	char* __unknown2E0;
-	char* __unknown2E4;
-	char* __unknown2E8;
-	char* __unknown2EC;
-	char* __unknown2F0;
-	char* __unknown2F4;
-	char* __unknown2F8;
-	char* __unknown2FC;
-	char* __unknown300;
-	char* __unknown304;
-	char* __unknown308;
-	char* __unknown30C;
-	char* __unknown310;
-	char* __unknown314;
-	char* __unknown318;
-	char* __unknown31C;
+	void* __unknown114;
+	void* __unknown118;
+	void* __unknown11C;
+	void* __unknown120;
+	void* __unknown124;
+	void* __unknown128;
+	void* __unknown12C;
+	void* __unknown130;
+	void* __unknown134;
+	void* __unknown138;
+	void* __unknown13C;
+	void* __unknown140;
+	void* __unknown144;
+	void* __unknown148;
+	void* __unknown14C;
+	void* __unknown150;
+	void* __unknown154;
+	void* __unknown158;
+	void* __unknown15C;
+	void* __unknown160;
+	void* __unknown164;
+	void* __unknown168;
+	void* __unknown16C;
+	void* __unknown170;
+	void* __unknown174;
+	void* __unknown178;
+	void* __unknown17C;
+	void* __unknown180;
+	void* __unknown184;
+	void* __unknown188;
+	void* __unknown18C;
+	void* __unknown190;
+	void* __unknown194;
+	void* __unknown198;
+	void* __unknown19C;
+	void* __unknown1A0;
+	void* __unknown1A4;
+	void* __unknown1A8;
+	void* __unknown1AC;
+	void* __unknown1B0;
+	void* __unknown1B4;
+	void* __unknown1B8;
+	void* __unknown1BC;
+	void* __unknown1C0;
+	void* __unknown1C4;
+	void* __unknown1C8;
+	void* __unknown1CC;
+	void* __unknown1D0;
+	void* __unknown1D4;
+	void* __unknown1D8;
+	void* __unknown1Dc;
+	void* __unknown1E0;
+	void* __unknown1E4;
+	void* __unknown1E8;
+	void* __unknown1EC;
+	void* __unknown1F0;
+	void* __unknown1F4;
+	void* __unknown1F8;
+	void* __unknown1FC;
+	void* __unknown200;
+	void* __unknown204;
+	void* __unknown208;
+	void* __unknown20C;
+	void* __unknown210;
+	void* __unknown214;
+	void* __unknown218;
+	void* __unknown21C;
+	void* __unknown220;
+	void* __unknown224;
+	void* __unknown228;
+	void* __unknown22C;
+	void* __unknown230;
+	void* __unknown234;
+	void* __unknown238;
+	void* __unknown23C;
+	void* __unknown240;
+	void* __unknown244;
+	void* __unknown248;
+	void* __unknown24C;
+	void* __unknown250;
+	void* __unknown254;
+	void* __unknown258;
+	void* __unknown25C;
+	void* __unknown260;
+	void* __unknown264;
+	void* __unknown268;
+	void* __unknown26C;
+	void* __unknown270;
+	void* __unknown274;
+	void* __unknown278;
+	void* __unknown27C;
+	void* __unknown280;
+	void* __unknown284;
+	void* __unknown288;
+	void* __unknown28C;
+	void* __unknown290;
+	void* __unknown294;
+	void* __unknown298;
+	void* __unknown29C;
+	void* __unknown2A0;
+	void* __unknown2A4;
+	void* __unknown2A8;
+	void* __unknown2AC;
+	void* __unknown2B0;
+	void* __unknown2B4;
+	void* __unknown2B8;
+	void* __unknown2BC;
+	void* __unknown2C0;
+	void* __unknown2C4;
+	void* __unknown2C8;
+	void* __unknown2CC;
+	void* __unknown2D0;
+	void* __unknown2D4;
+	void* __unknown2D8;
+	void* __unknown2DC;
+	void* __unknown2E0;
+	void* __unknown2E4;
+	void* __unknown2E8;
+	void* __unknown2EC;
+	void* __unknown2F0;
+	void* __unknown2F4;
+	void* __unknown2F8;
+	void* __unknown2FC;
+	void* __unknown300;
+	void* __unknown304;
+	void* __unknown308;
+	void* __unknown30C;
+	void* __unknown310;
+	void* __unknown314;
+	void* __unknown318;
+	void* __unknown31C;
 
 	// name: "cinematic new globals"
 	// size: 0x2808
@@ -1611,12 +1611,12 @@ struct s_thread_local_storage
 	beam_system* beam_system;
 	beam* beam;
 	beam_location* beam_location;
-	char* __unknown3B0_render_postprocess_color_tweaking;
+	void* __unknown3B0_render_postprocess_color_tweaking;
 	ragdolls* ragdolls;
 	particle_emitter* particle_emitter;
 	rasterizer_game_states* rasterizer_game_states;
 	hue_saturation_control* hue_saturation_control;
-	char* __unknown3C4;
+	void* __unknown3C4;
 	scripted_exposure_globals* scripted_exposure_globals;
 	render_hud_globals* render_hud_globals;
 	water_interaction_ripples* water_interaction_ripples;
@@ -1626,17 +1626,17 @@ struct s_thread_local_storage
 	cached_object_render_states* cached_object_render_states;
 	particle_emitter_gpu_row* particle_emitter_gpu_row;
 	particle_emitter_gpu_1* particle_emitter_gpu_1;
-	char* particle_emitter_gpu_2;
+	void* particle_emitter_gpu_2;
 	beam_gpu* beam_gpu;
 	beam_gpu_row* beam_gpu_row;
-	char* particle_emitter_gpu_3;
+	void* particle_emitter_gpu_3;
 	contrail_gpu_row* contrail_gpu_row;
 	contrail_gpu* contrail_gpu;
-	char* particle_emitter_gpu_4;
+	void* particle_emitter_gpu_4;
 	light_volume_gpu* light_volume_gpu;
 	light_volume_gpu_row* light_volume_gpu_row;
-	char* particle_emitter_gpu_5;
-	char* rasterizer_implicit_geometry_data;
+	void* particle_emitter_gpu_5;
+	void* rasterizer_implicit_geometry_data;
 	render_object_globals* render_object_globals;
 	shield_render_cache_message* shield_render_cache_message;
 	chud_persistent_user_data* chud_persistent_user_data;
@@ -1770,26 +1770,26 @@ struct s_thread_local_storage
 
 	cloth* cloth_data;
 
-	char* __unknown4CC;
-	char* __unknown4D0;
-	char* __unknown4D4;
-	char* __unknown4D8;
-	char* __unknown4DC;
-	char* __unknown4E0;
-	char* __unknown4E4;
-	char* __unknown4E8;
-	char* __unknown4EC;
-	char* __unknown4F0;
-	char* __unknown4F4;
-	char* __unknown4F8;
-	char* __unknown4FC;
-	char* __unknown500;
-	char* __unknown504;
-	char* __unknown508;
-	char* __unknown50C;
-	char* __unknown510;
-	char* __unknown514;
-	char* __unknown518;
+	void* __unknown4CC;
+	void* __unknown4D0;
+	void* __unknown4D4;
+	void* __unknown4D8;
+	void* __unknown4DC;
+	void* __unknown4E0;
+	void* __unknown4E4;
+	void* __unknown4E8;
+	void* __unknown4EC;
+	void* __unknown4F0;
+	void* __unknown4F4;
+	void* __unknown4F8;
+	void* __unknown4FC;
+	void* __unknown500;
+	void* __unknown504;
+	void* __unknown508;
+	void* __unknown50C;
+	void* __unknown510;
+	void* __unknown514;
+	void* __unknown518;
 
 	actor* actor;
 	actor_firing_position* actor_firing_position;
@@ -1820,7 +1820,7 @@ struct s_thread_local_storage
 	// size: 0xF0
 	vision_mode* vision_mode;
 
-	char* __unknown580;
+	void* __unknown580;
 };
 static_assert(sizeof(s_thread_local_storage) == 0x584);
 

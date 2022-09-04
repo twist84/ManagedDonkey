@@ -18,9 +18,9 @@ struct s_observer_command
 	dword __unknown84;
 	real_point3d center;
 	real timer;
-	char __data98[40];
+	byte __data98[0x28];
 	real __unknownC0[6];
-	char __dataD8[20];
+	byte __dataD8[0x14];
 };
 static_assert(sizeof(s_observer_command) == 0xEC);
 
@@ -28,12 +28,12 @@ struct s_observer_result
 {
 	real_point3d focus_point;
 	s_location location;
-	float __unknown10[3];
-	float __unknown1C[3];
+	real __unknown10[3];
+	real __unknown1C[3];
 	real_vector3d forward;
 	real_vector3d up;
 	real horizontal_field_of_view;
-	char __data44[36];
+	byte __data44[0x24];
 	real vertical_field_of_view;
 	real __unknown60;
 };
@@ -47,8 +47,8 @@ struct s_observer
 	bool __unknownF5;
 	bool __unknownF6;
 	bool __unknownF7;
-	float __unknownF8;
-	char __dataFC[16];
+	real __unknownF8;
+	byte __dataFC[0x10];
 	s_observer_result result;
 	real_point3d positions_focus_position;
 	real_vector3d positions_focus_offset;
@@ -60,13 +60,13 @@ struct s_observer
 	real_matrix4x3 focus_space;
 	real_vector3d velocities_v;
 	real_vector3d velocities_forward;
-	char __data208[16];
+	byte __data208[0x10];
 	real_vector3d velocities_r;
 	real_vector3d accelerations_a;
 	real_vector3d accelerations_r;
-	char __data244[16];
+	byte __data244[0x10];
 	real_vector3d accelerations_forward;
-	char __data258[364];
+	byte __data258[0x16C];
 	unsigned long trailer_signature;
 };
 static_assert(sizeof(s_observer) == 0x3C8);
@@ -75,9 +75,9 @@ struct s_observer_globals
 {
 	real __unknown0;
 	s_observer observers[4];
-	char __dataF24[2];
+	byte __dataF24[0x2];
 	bool block_for_one_frame;
-	char __dataF27[1];
+	byte __dataF27[0x1];
 };
 static_assert(sizeof(s_observer_globals) == 0xF28);
 

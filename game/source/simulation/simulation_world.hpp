@@ -58,7 +58,7 @@ struct c_simulation_world
 	byte __dataA4[0x4];
 	c_simulation_player m_players[16];
 	c_simulation_actor m_actors[16];
-	byte unknown14E8[0x4];
+	byte __data14E8[0x4];
 	long m_next_update_dequeue;
 	long m_update_queue_latest_entry_received_type;
 	long m_update_queue_latest_entry_received_update_number;

@@ -53,7 +53,7 @@
 		virtual bool can_use_camera_mode(e_camera_mode);
 		//virtual void select_fallback_target(); // c_observer_director, c_saved_film_director
 
-		char m_camera[0x4C];
+		byte m_camera[0x4C];
 
 		s_observer_command m_observer_command;
 		real m_transition_time;
@@ -107,14 +107,14 @@
 
 	struct s_director_globals
 	{
-		// c_static_array<unsigned char [352],4> directors;
-		unsigned char directors[4][0x160];
+		// c_static_array<byte[0x160], 4> directors;
+		byte directors[4][0x160];
 
 		s_director_info infos[4];
 		real __unknown5B0;
 		real __unknown5B4;
 		dword __unknown5B8;
-		char __data5BC[4];
+		byte __data5BC[0x4];
 	};
 	static_assert(sizeof(s_director_globals) == 0x5C0);
 

@@ -41,7 +41,7 @@ protected:
 	// why is this between `m_position_stack_depth` and `m_position_stack`, is `m_position_stack_depth` actually a qword?
 	dword __unknown34;
 
-	char m_position_stack[4][24];
+	byte m_position_stack[4][0x18];
 
 	dword __unknown98;
 	dword __unknown9C;
