@@ -476,6 +476,9 @@
     <ClInclude Include="source\networking\delivery\network_link.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\transport\transport_endpoint_winsock.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\networking\network_statistics.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
