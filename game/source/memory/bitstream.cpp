@@ -36,6 +36,16 @@ void c_bitstream::begin_writing(long data_size_alignment)
 	//DECLFUNC(0x005574B0, void, __thiscall, c_bitstream const*, long)(this, data_size_alignment);
 }
 
+
+void c_bitstream::data_is_untrusted(bool is_untrusted)
+{
+	// `m_data_is_untrusted` doesn't exist in release builds
+	//m_data_is_untrusted = is_untrusted;
+	
+	// this function is empty in release builds
+	DECLFUNC(0x00557D60, void, __thiscall, c_bitstream const*, bool)(this, is_untrusted);
+}
+
 void c_bitstream::discard_remaining_data()
 {
 	assert(reading());

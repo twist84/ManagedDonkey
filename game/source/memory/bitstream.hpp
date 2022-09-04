@@ -61,6 +61,7 @@ public:
 	void begin_consistency_check();
 	void begin_reading();
 	void begin_writing(long data_size_alignment);
+	void data_is_untrusted(bool is_untrusted);
 	void discard_remaining_data();
 	bool overflowed() const;
 	bool error_occurred() const;
