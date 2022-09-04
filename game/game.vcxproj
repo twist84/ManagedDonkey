@@ -254,6 +254,7 @@ POPD
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\shell\shell.hpp" />
+    <ClInclude Include="source\simulation\simulation_type_collection.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
     <ClInclude Include="source\units\units.hpp" />
