@@ -128,6 +128,7 @@ POPD
     <ClCompile Include="source\networking\logic\network_join.cpp" />
     <ClCompile Include="source\networking\logic\network_life_cycle.cpp" />
     <ClCompile Include="source\networking\logic\network_search.cpp" />
+    <ClCompile Include="source\networking\messages\network_message_type_collection.cpp" />
     <ClCompile Include="source\networking\network_memory.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters_base.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameter_type_collection.cpp" />
