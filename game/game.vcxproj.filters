@@ -476,6 +476,9 @@
     <ClInclude Include="source\networking\session\network_session_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\session\network_session.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\networking\session\network_observer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
