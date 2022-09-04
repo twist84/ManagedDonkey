@@ -473,6 +473,9 @@
     <ClInclude Include="source\networking\messages\network_message_handler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\session\network_session_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\networking\delivery\network_link.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

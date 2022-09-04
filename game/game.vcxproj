@@ -238,6 +238,7 @@ POPD
     <ClInclude Include="source\networking\network_memory.hpp" />
     <ClInclude Include="source\networking\network_statistics.hpp" />
     <ClInclude Include="source\networking\network_utilities.hpp" />
+    <ClInclude Include="source\networking\session\network_session_manager.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_base.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameter_type_collection.hpp" />
     <ClInclude Include="source\networking\tools\network_webstats.hpp" />
