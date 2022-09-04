@@ -27,10 +27,10 @@ struct c_network_message_gateway : c_network_out_of_band_consumer
 	c_network_link* m_link;
 	c_network_message_type_collection* m_message_types;
 	c_network_message_handler* m_message_handler;
-	byte __data14[0x1];
-	byte m_stream_data[0x5BE];
+	bool m_outgoing_packet_pending;
+	byte m_outgoing_packet_storage[0x5BE];
 	byte __data5D4[0x15];
-	c_bitstream m_stream;
+	c_bitstream m_outgoing_packet;
 };
 static_assert(sizeof(c_network_message_gateway) == 0x688);
 
