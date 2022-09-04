@@ -236,6 +236,7 @@ POPD
     <ClInclude Include="source\networking\messages\network_message_handler.hpp" />
     <ClInclude Include="source\networking\messages\network_message_type_collection.hpp" />
     <ClInclude Include="source\networking\network_memory.hpp" />
+    <ClInclude Include="source\networking\network_statistics.hpp" />
     <ClInclude Include="source\networking\network_utilities.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_base.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameter_type_collection.hpp" />
