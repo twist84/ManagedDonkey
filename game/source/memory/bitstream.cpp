@@ -2,6 +2,18 @@
 
 #include <cassert>
 
+void c_bitstream::append(c_bitstream const* stream)
+{
+	assert(stream->m_state == _bitstream_state_write_finished);
+	assert(writing());
+
+	write_raw_data(stream->m_data, stream->m_data_size_in_bits);
+	__unknown98 += stream->__unknown98;
+	__unknown9C += stream->__unknown9C;
+
+	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream const*, c_bitstream const*)(this, stream);
+}
+
 void c_bitstream::begin_consistency_check()
 {
 	reset(_bitstream_state_read_only_for_consistency);

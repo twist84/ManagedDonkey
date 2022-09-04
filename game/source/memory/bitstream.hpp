@@ -57,6 +57,7 @@ public:
 
 	// functions as they appear in memory
 
+	void append(c_bitstream const* stream);
 	void begin_consistency_check();
 	void begin_reading();
 	void begin_writing(long data_size_alignment);
