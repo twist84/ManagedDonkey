@@ -258,6 +258,7 @@ POPD
     <ClInclude Include="source\simulation\simulation_players.hpp" />
     <ClInclude Include="source\simulation\simulation_queue.hpp" />
     <ClInclude Include="source\simulation\simulation_type_collection.hpp" />
+    <ClInclude Include="source\simulation\simulation_watcher.hpp" />
     <ClInclude Include="source\simulation\simulation_world.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
