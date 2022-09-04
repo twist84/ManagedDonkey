@@ -512,6 +512,12 @@
     <ClInclude Include="source\simulation\simulation_type_collection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\simulation\simulation_view.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\delivery\network_channel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\units\units.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

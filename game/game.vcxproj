@@ -207,6 +207,7 @@ POPD
     <ClInclude Include="source\memory\secure_signature.hpp" />
     <ClInclude Include="source\memory\thread_local.hpp" />
     <ClInclude Include="source\multithreading\synchronized_value.hpp" />
+    <ClInclude Include="source\networking\delivery\network_channel.hpp" />
     <ClInclude Include="source\networking\delivery\network_link.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_end_match_write_stats.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_in_match.hpp" />
@@ -258,6 +259,7 @@ POPD
     <ClInclude Include="source\simulation\simulation_players.hpp" />
     <ClInclude Include="source\simulation\simulation_queue.hpp" />
     <ClInclude Include="source\simulation\simulation_type_collection.hpp" />
+    <ClInclude Include="source\simulation\simulation_view.hpp" />
     <ClInclude Include="source\simulation\simulation_watcher.hpp" />
     <ClInclude Include="source\simulation\simulation_world.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
