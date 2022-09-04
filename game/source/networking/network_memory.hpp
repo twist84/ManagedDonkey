@@ -34,6 +34,29 @@ struct c_network_message_gateway : c_network_out_of_band_consumer
 };
 static_assert(sizeof(c_network_message_gateway) == 0x688);
 
+struct s_data_array;
+struct c_rockall_heap;
+struct s_network_shared_memory_globals
+{
+	bool initialized;
+	long allocation_size;
+	void* allocation_low_address;
+	void* allocation_high_address;
+	bool distributed_simulation_available;
+	c_simulation_distributed_world* simulation_distributed_world;
+	s_data_array* simulation_view_data_array;
+	s_data_array* simulation_distributed_view_data_array;
+	long heap_size;
+	c_rockall_heap* heap;
+	void* heap_buffer;
+	dword : 32;
+
+	// not in release builds
+	//s_network_memory_status total_status;
+	//s_network_memory_status block_status[21];
+};
+static_assert(sizeof(s_network_shared_memory_globals) == 0x30);
+
 struct s_network_base_memory_globals
 {
 	c_network_link link;
@@ -52,4 +75,5 @@ struct s_network_base_memory_globals
 };
 static_assert(sizeof(s_network_base_memory_globals) == 0x7506C8);
 
+extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;

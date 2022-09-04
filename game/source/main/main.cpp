@@ -15,6 +15,7 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        network_shared_memory_globals;
         network_base_memory_globals;
 
         printf("");
