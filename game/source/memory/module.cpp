@@ -1,5 +1,7 @@
 #include "memory/module.hpp"
 
+#include "cache/cache_files.hpp"
+#include "cache/security_functions.hpp"
 #include "interface/damaged_media.hpp"
 #include "main/main.hpp"
 #include "memory/crc.hpp"

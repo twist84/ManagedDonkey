@@ -63,8 +63,10 @@ struct s_cache_file_header
 
 	long __data2E4[0x3C/4];
 
-	dword hash[5];
-	dword rsa_signature[64];
+#pragma pack(push, 4)
+	s_network_http_request_hash hash;
+	s_rsa_signature rsa_signature;
+#pragma pack(pop)
 
 	long section_offsets[4];
 	s_cache_file_section_file_bounds original_section_bounds[4];
@@ -240,3 +242,6 @@ t_type* tag_get(tag group_tag, long tag_index)
 
 	return reinterpret_cast<t_type*>(instance->get());
 }
+
+//bool cache_files_verify_header_rsa_signature(s_cache_file_header const *header);
+extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header *header);

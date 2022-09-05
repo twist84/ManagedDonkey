@@ -156,7 +156,7 @@ static_assert(sizeof(s_global_preferences_data) == 0x41DF0);
 
 struct s_global_preferences
 {
-	s_secure_signature secure_signature;
+	s_network_http_request_hash secure_signature;
 	byte __data14[4];
 	s_global_preferences_data data;
 	char __data41E08[0x1F8];

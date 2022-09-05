@@ -97,6 +97,8 @@ POPD
   <ItemGroup>
     <ClCompile Include="source\cache\cache_files.cpp" />
     <ClCompile Include="source\cache\cache_files_windows.cpp" />
+    <ClCompile Include="source\cache\cache_file_builder_security.cpp" />
+    <ClCompile Include="source\cache\security_functions.cpp" />
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\geometry\geometry_sampling.cpp" />
     <ClCompile Include="source\game\players.cpp" />
@@ -139,9 +141,11 @@ POPD
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\cache\cache_file_builder_security.hpp" />
     <ClInclude Include="source\cache\cache_files.hpp" />
     <ClInclude Include="source\cache\cache_files_windows.hpp" />
     <ClInclude Include="source\cache\cache_file_tag_resource_runtime.hpp" />
+    <ClInclude Include="source\cache\security_functions.hpp" />
     <ClInclude Include="source\cseries\cseries_windows.hpp" />
     <ClInclude Include="source\effects\effects.hpp" />
     <ClInclude Include="source\geometry\geometry_sampling.hpp" />
