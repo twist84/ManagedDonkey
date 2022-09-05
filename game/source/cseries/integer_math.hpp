@@ -1,9 +1,13 @@
 #pragma once
 
-struct point2d
+union point2d
 {
-	short x;
-	short y;
+	struct
+	{
+		short x;
+		short y;
+	};
+	short n[2];
 };
 static_assert(sizeof(point2d) == 0x4);
 
@@ -15,16 +19,20 @@ union long_point3d
 		long y;
 		long z;
 	};
-
 	long n[3];
 };
+static_assert(sizeof(long_point3d) == 0xC);
 
-struct rectangle2d
+union rectangle2d
 {
-	short top;
-	short left;
-	short bottom;
-	short right;
+	struct
+	{
+		short top;
+		short left;
+		short bottom;
+		short right;
+	};
+	short n[4];
 };
 static_assert(sizeof(rectangle2d) == 0x8);
 
@@ -34,9 +42,13 @@ static_assert(sizeof(rgb_color) == 0x4);
 typedef unsigned long argb_color;
 static_assert(sizeof(argb_color) == 0x4);
 
-struct short_bounds
+union short_bounds
 {
-	short lower;
-	short upper;
+	struct
+	{
+		short lower;
+		short upper;
+	};
+	short n[2];
 };
 static_assert(sizeof(short_bounds) == 0x4);
