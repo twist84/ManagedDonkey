@@ -38,6 +38,9 @@ long __cdecl cache_file_get_global_tag_index(tag group_tag)
 	return DECLTHUNK(0x005017E0, cache_file_get_global_tag_index, group_tag);
 }
 
+const bool override_cache_file_header_security_validate_hash = true;
+const bool override_cache_file_header_security_rsa_compute_and_verify_signature = true;
+
 bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header)
 {
 	if (header->header_signature != 'head' || header->footer_signature != 'foot')
@@ -53,8 +56,18 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 	s_network_http_request_hash hash{};
 	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, &header->hash, &hash))
 	{
+		if (!override_cache_file_header_security_validate_hash)
+		{
 			display_debug_string("cache_files:header failed hash verification - possible cheating?");
 			return false;
+		}
+
+		char* hash_string = nullptr;
+		buffer_as_byte_string((byte*)&hash, sizeof(hash), &hash_string);
+		display_debug_string("cache_files:header: failed hash verification - copying new validated values, %s", hash_string);
+		delete[] hash_string;
+
+		memcpy(&header->hash, &hash, sizeof(s_network_http_request_hash));
 	}
 
 	security_calculate_hash(&header->hash, sizeof(s_network_http_request_hash), true, &hash);
@@ -65,8 +78,11 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 	bool result = security_rsa_compute_and_verify_signature(&hash, &rsa_signature);
 	if (!result)
 	{
+		if (!override_cache_file_header_security_rsa_compute_and_verify_signature)
+		{
 			display_debug_string("cache_files:header failed RSA signature verification - possible cheating?");
 			return false;
+		}
 	}
 	return true;
 

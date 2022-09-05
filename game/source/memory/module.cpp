@@ -29,3 +29,9 @@ c_hook_call<0x00567964> sub_52F180_call({ .pointer = sub_52F180 });
 
 // override any mismatched tag checksums
 c_hook_call<0x0050286A> crc_checksum_buffer_alder32_call({ .pointer = crc_checksum_buffer_alder32 });
+
+// override header verification
+c_hook_call<0x00501A51> cache_files_verify_header_rsa_signature_call({ .pointer = cache_files_verify_header_rsa_signature });
+
+// override `scenario_load::secure_working_memory` verification
+c_hook_call<0x0050309E> security_rsa_compute_and_verify_signature_call({ .pointer = security_rsa_compute_and_verify_signature });
