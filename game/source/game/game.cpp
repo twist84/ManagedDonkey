@@ -49,14 +49,14 @@ bool game_options_valid()
 
 bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length)
 {
-	return DECLTHUNK(0x005326F0, game_options_verify)(options, error_string, error_string_length);
+	return DECLTHUNK(0x005326F0, game_options_verify, options, error_string, error_string_length);
 }
 
 void __cdecl assert_game_options_verify(game_options const* options)
 {
 	char error_string[512]{};
 	assert(game_options_verify(options, error_string, sizeof(error_string))); // ("game_options_verify failed: %s", error_string)
-	//DECLTHUNK(0x00530440, assert_game_options_verify)(options);
+	//DECLTHUNK(0x00530440, assert_game_options_verify, options);
 }
 
 game_options* game_options_get()

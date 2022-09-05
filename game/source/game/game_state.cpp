@@ -4,5 +4,5 @@
 
 void __cdecl game_state_prepare_for_revert()
 {
-	DECLTHUNK(0x00510040, game_state_prepare_for_revert)();
+	DECLTHUNK(0x00510040, game_state_prepare_for_revert);
 }

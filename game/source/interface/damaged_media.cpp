@@ -21,5 +21,5 @@ bool __cdecl sub_52F180(char* scenario_path, long map_load_type)
         return false;
 
     // sub_52F180 calls main_load_map_with_insertion_point(-1, scenario_path, map_load_type);
-    return DECLTHUNK(0x0052F180, sub_52F180)(scenario_path, map_load_type);
+    return DECLTHUNK(0x0052F180, sub_52F180, scenario_path, map_load_type);
 }
