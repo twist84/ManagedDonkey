@@ -1,6 +1,6 @@
 #include "memory/bitstream.hpp"
 
-#include <cassert>
+#include <assert.h>
 
 void c_bitstream::append(c_bitstream const* stream)
 {

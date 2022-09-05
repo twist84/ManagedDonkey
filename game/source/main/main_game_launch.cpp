@@ -7,7 +7,7 @@
 // memcpy, timeGetTime
 #include <windows.h>
 
-#include <cassert> // assert
+#include <assert.h> // assert
 #include <stdio.h> //printf
 #include <string>
 

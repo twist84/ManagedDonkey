@@ -3,7 +3,7 @@
 
 #include "cseries/cseries.hpp"
 
-#include <cassert>
+#include <assert.h>
 
 void c_network_session_parameter_type_collection::register_session_parameter_type(
 	e_network_session_parameter_type session_parameter_type,

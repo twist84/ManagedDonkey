@@ -5,7 +5,7 @@
 #include "game/game_time.hpp"
 #include "memory/thread_local.hpp"
 
-#include <cassert>
+#include <assert.h>
 #include <math.h>
 
 	bool __cdecl character_ground_adhesion_forces_disabled()

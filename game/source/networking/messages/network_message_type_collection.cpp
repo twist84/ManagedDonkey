@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-#include <cassert>
+#include <assert.h>
 
 void c_network_message_type_collection::register_message_type(
 	e_network_message_type message_type,

@@ -2,7 +2,7 @@
 
 #include "memory/thread_local.hpp"
 
-#include <cassert>
+#include <assert.h>
 
 inline s_player_mapping_globals* player_mapping_globals_get()
 {

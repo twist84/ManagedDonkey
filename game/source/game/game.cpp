@@ -6,7 +6,7 @@
 #include "game/game_state.hpp"
 #include "game/game_time.hpp"
 
-#include <cassert>
+#include <assert.h>
 #include <stdio.h>
 
 bool game_in_startup_phase()

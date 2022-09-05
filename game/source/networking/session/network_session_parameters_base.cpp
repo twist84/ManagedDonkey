@@ -1,6 +1,6 @@
 #include "networking/session/network_session_parameters_base.hpp"
 
-#include <cassert>
+#include <assert.h>
 #include <stdio.h>
 #include <string>
 

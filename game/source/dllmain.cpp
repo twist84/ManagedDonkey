@@ -8,7 +8,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
     {
         SetProcessDPIAware();
         DisableThreadLibraryCalls(hModule);
-        LoadLibraryW(L"D3DX9_43_orig.dll");;
+        LoadLibraryW(L"D3DX9_43_orig.dll");
         break;
     }
     case DLL_PROCESS_DETACH:
