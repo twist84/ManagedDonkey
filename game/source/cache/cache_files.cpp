@@ -63,7 +63,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 		}
 
 		char* hash_string = nullptr;
-		buffer_as_byte_string((byte*)&hash, sizeof(hash), &hash_string);
+		type_as_byte_string(&hash, &hash_string);
 		display_debug_string("cache_files:header: failed hash verification - copying new validated values, %s", hash_string);
 		delete[] hash_string;
 
