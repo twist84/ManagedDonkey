@@ -97,13 +97,14 @@ POPD
   <ItemGroup>
     <ClCompile Include="source\cache\cache_files.cpp" />
     <ClCompile Include="source\cache\cache_files_windows.cpp" />
+    <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\geometry\geometry_sampling.cpp" />
     <ClCompile Include="source\game\players.cpp" />
     <ClCompile Include="source\interface\first_person_weapons.cpp" />
     <ClCompile Include="source\camera\camera.cpp" />
     <ClCompile Include="source\camera\director.cpp" />
     <ClCompile Include="source\camera\observer.cpp" />
-    <ClCompile Include="source\cseries\cseries_string.cpp" />
+    <ClCompile Include="source\cseries\cseries.cpp" />
     <ClCompile Include="source\dllmain.cpp" />
     <ClCompile Include="source\game\game.cpp" />
     <ClCompile Include="source\game\game_engine_variant.cpp" />
@@ -140,6 +141,7 @@ POPD
     <ClInclude Include="source\cache\cache_files.hpp" />
     <ClInclude Include="source\cache\cache_files_windows.hpp" />
     <ClInclude Include="source\cache\cache_file_tag_resource_runtime.hpp" />
+    <ClInclude Include="source\cseries\cseries_windows.hpp" />
     <ClInclude Include="source\effects\effects.hpp" />
     <ClInclude Include="source\geometry\geometry_sampling.hpp" />
     <ClInclude Include="source\interface\first_person_weapons.hpp" />
@@ -158,7 +160,6 @@ POPD
     <ClInclude Include="source\camera\saved_film_director.hpp" />
     <ClInclude Include="source\camera\static_camera.hpp" />
     <ClInclude Include="source\cseries\cseries.hpp" />
-    <ClInclude Include="source\cseries\cseries_string.hpp" />
     <ClInclude Include="source\cseries\integer_math.hpp" />
     <ClInclude Include="source\cseries\real_math.hpp" />
     <ClInclude Include="source\game\game.hpp" />

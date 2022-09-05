@@ -27,7 +27,7 @@
     <ClCompile Include="source\camera\observer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\cseries\cseries_string.cpp">
+    <ClCompile Include="source\cseries\cseries.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\game\game_engine_variant.cpp">
@@ -135,6 +135,9 @@
     <ClCompile Include="source\networking\messages\network_message_type_collection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\cseries_windows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -180,9 +183,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cseries\cseries.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\cseries\cseries_string.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cseries\integer_math.hpp">
@@ -522,6 +522,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\units\units.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\cseries_windows.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

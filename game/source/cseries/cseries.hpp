@@ -84,6 +84,17 @@ typedef char utf8;
 
 const long LONG_BITS = SIZEOF_BITS(long);
 
+//extern long csstricmp(charchar const* s1, char const* s1);
+//extern long csstrnicmp(char const* s1, char const* s1, dword size);
+//extern char* csstristr(char const* s1, char const* s1);
+extern char* csstrnzcpy(char* s1, char const* s2, dword size);
+extern char* csstrnzcat(char* s1, char const* s2, dword size);
+extern dword csstrnlen(char const* s, dword size);
+//extern char* csstrnupr(char* s, dword size);
+//extern char* csstrnlwr(char* s, dword size);
+//extern char* csstrtok(char*, char const*, bool, struct csstrtok_data* data);
+extern long cvsnzprintf(char* buffer, dword size, char const* format, char* list);
+
 template<typename t_type, size_t k_count>
 struct c_static_array
 {
@@ -214,3 +225,48 @@ struct s_location
 	word leaf_index;
 };
 static_assert(sizeof(s_location) == 0x4);
+
+template<long k_max_count>
+struct c_static_string
+{
+public:
+	c_static_string() :
+		m_string{}
+	{
+	}
+
+	void set(char const* s)
+	{
+		csstrnzcpy(m_string, s, k_max_count);
+	}
+
+	void append(char const* s)
+	{
+		csstrnzcat(m_string, s, k_max_count);
+	}
+
+	char const* append_vprint(char const* format, char* list)
+	{
+		dword current_length = length();
+
+		//assert(format);
+		//assert(current_length >= 0 && current_length < k_max_count);
+
+		cvsnzprintf(m_string + current_length, k_max_count - current_length, format, list);
+
+		return m_string;
+	}
+
+	char const* get_string() const
+	{
+		return m_string;
+	}
+
+	long length() const
+	{
+		return csstrnlen(m_string, k_max_count);
+	}
+
+protected:
+	char m_string[k_max_count];
+};
