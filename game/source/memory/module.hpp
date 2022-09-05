@@ -54,3 +54,11 @@ private:
     byte* m_bytes_original;
     long m_byte_count;
 };
+
+extern void buffer_as_byte_string(byte* buffer, dword buffer_size, char** out_string);
+
+template<typename t_type>
+void type_as_byte_string(t_type* type, char** out_string)
+{
+    buffer_as_byte_string((byte*)type, sizeof(t_type), out_string);
+}

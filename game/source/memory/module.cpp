@@ -5,6 +5,7 @@
 #include "memory/crc.hpp"
 
 #include <windows.h>
+#include <stdio.h>
 
 #include "memory/module.inl"
 

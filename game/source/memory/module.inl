@@ -94,3 +94,18 @@ bool c_data_patch<address>::revert()
 
     return true;
 }
+
+void buffer_as_byte_string(byte* buffer, dword buffer_size, char** out_string)
+{
+    char* temp = new char[3 * buffer_size + 1] {};
+    for (dword i = 0; i < buffer_size; i++)
+        snprintf(&temp[3 * i], 3 * buffer_size + 1, "%02X ", buffer[i]);
+
+    if (out_string)
+    {
+        *out_string = temp;
+        return;
+    }
+
+    delete[] temp;
+}
