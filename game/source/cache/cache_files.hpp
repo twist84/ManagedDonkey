@@ -89,19 +89,72 @@ struct s_cache_file_header
 };
 static_assert(sizeof(s_cache_file_header) == 0x3390);
 
-struct cache_file_tag_instance
+union cache_file_tag_instance
 {
-	dword checksum;
-	long total_size;
-	short dependencies_count;
-	short data_fixup_count;
-	short resource_fixup_count;
-	short : 16;
-	dword address;
-	tag group_tags[3];
-	string_id group_name;
+	struct
+	{
+		dword checksum;
+		long total_size;
+		short dependency_count;
+		short data_fixup_count;
+		short resource_fixup_count;
+		short : 16;
+
+		// offset from `base`
+		dword offset;
+
+		tag group_tags[3];
+		string_id group_name;
+	};
+
+#pragma warning(push)
+#pragma warning(disable : 4200)
+	byte base[];
+#pragma warning(pop)
+
+	bool is_group(tag group_tag)
+	{
+		return group_tag != group_tags[0] && group_tag != group_tags[1] && group_tag != group_tags[2];
+	}
+
+	byte* get()
+	{
+		return base + offset;
+	}
 };
 static_assert(sizeof(cache_file_tag_instance) == 0x24);
+
+struct s_file_reference_persist
+{
+	tag signture;
+	word_flags flags;
+	short location;
+	char path[108];
+	dword handle;
+	long position;
+};
+static_assert(sizeof(s_file_reference_persist) == 0x7C);
+
+struct s_cache_file_report
+{
+	char __unknown0[32];
+	dword hash[5];
+	s_file_reference_persist file_reference;
+	dword __unknownB0[20];
+	dword __unknown100;
+	dword __unknown104;
+	dword __unknown108;
+	dword __unknown10C;
+	dword __unknown110;
+};
+static_assert(sizeof(s_cache_file_report) == 0x114);
+
+struct s_cache_file_reports
+{
+	long count;
+	s_cache_file_report* elements;
+};
+static_assert(sizeof(s_cache_file_reports) == 0x8);
 
 struct s_cache_file_tags_header
 {
@@ -133,20 +186,21 @@ struct s_cache_file_globals
 	bool tags_loaded;
 
 	// physical_memory_malloc_fixed(sizeof(long) * header.tag_count)
-	long(*tag_cache_offsets)[60000];
+	long(&tag_cache_offsets)[60000];
 
-	// tag_instances[absolute_index] = tag_cache_base_address[total_tags_size]
-	cache_file_tag_instance*(*tag_instances)[60000];
+	// instances[absolute_index] = tag_cache_base_address[total_tags_size]
+	cache_file_tag_instance*(&instances)[60000];
 
 	// tag_index_absolute_mapping[tag_index] = absolute_index;
-	long(*tag_index_absolute_mapping)[60000];
+	long(&tag_index_absolute_mapping)[60000];
+
 	// absolute_index_tag_mapping[absolute_index] = tag_index;
-	long(*absolute_index_tag_mapping)[60000];
+	long(&absolute_index_tag_mapping)[60000];
 
 	long tag_loaded_count;
 	long tag_total_count;
 
-	byte(*tag_cache_base_address)[0x4B00000];
+	byte(&tag_cache_base_address)[0x4B00000];
 	long tag_loaded_size;
 	long tag_cache_size;
 
@@ -159,7 +213,7 @@ struct s_cache_file_globals
 	long __unknown34CC[5 /* `resource_files` count? */];
 
 	long report_count;
-	struct s_cache_file_report* reports;
+	s_cache_file_report* reports;
 
 	const char* resource_files[5];
 	const char* map_directory;
@@ -167,3 +221,22 @@ struct s_cache_file_globals
 static_assert(sizeof(s_cache_file_globals) == 0x3508);
 
 extern s_cache_file_globals& g_cache_file_globals;
+
+extern long __cdecl cache_file_get_global_tag_index(tag group_tag);
+
+template<typename t_type = byte>
+t_type* tag_get(tag group_tag, long tag_index)
+{
+	long tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
+	if (tag_absolute_index == -1)
+		return nullptr;
+
+	cache_file_tag_instance* instance = g_cache_file_globals.instances[tag_absolute_index];
+	if (!instance)
+		return nullptr;
+
+	if (instance->is_group(group_tag))
+		return nullptr;
+
+	return reinterpret_cast<t_type*>(instance->get());
+}
