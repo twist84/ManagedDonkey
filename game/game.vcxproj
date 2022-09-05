@@ -121,6 +121,7 @@ POPD
     <ClCompile Include="source\main\main_game.cpp" />
     <ClCompile Include="source\main\main_game_launch.cpp" />
     <ClCompile Include="source\memory\bitstream.cpp" />
+    <ClCompile Include="source\memory\crc.cpp" />
     <ClCompile Include="source\memory\data.cpp" />
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
@@ -204,6 +205,7 @@ POPD
     <ClInclude Include="source\main\main_game_launch.hpp" />
     <ClInclude Include="source\main\main_time.hpp" />
     <ClInclude Include="source\memory\bitstream.hpp" />
+    <ClInclude Include="source\memory\crc.hpp" />
     <ClInclude Include="source\memory\data.hpp" />
     <ClInclude Include="source\memory\module.hpp" />
     <ClInclude Include="source\memory\secure_signature.hpp" />
