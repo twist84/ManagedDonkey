@@ -12,11 +12,16 @@ struct s_cache_file_section_file_bounds
 };
 static_assert(sizeof(s_cache_file_section_file_bounds) == 0x8);
 
+const long k_cache_file_header_signature = 'head';
+const long k_cache_file_footer_signature = 'foot';
+const long k_cache_file_version = 18;
+
+#pragma pack(push, 4)
 struct s_cache_file_header
 {
 	dword header_signature;
-	long file_version;
-	long file_size;
+	long version;
+	long size;
 
 	dword __unknownC;
 	dword __unknown10;
@@ -25,71 +30,54 @@ struct s_cache_file_header
 
 	long_string source_file;
 	string build;
-
 	short scenario_type;
 	short scenario_load_type;
-
 	bool __unknown140;
 	bool tracked_build;
 	bool has_insertion_points;
 	byte_flags header_flags;
-
-	s_file_last_modification_date last_modification_date;
+	s_file_last_modification_date modification_date;
 
 	byte __data14C[0xC];
 
-	long string_id_index_buffer_count;
-	long string_id_string_storage_size;
-	long string_id_index_buffer_offset;
-	long string_id_string_storage_offset;
-
-	// bool uses_shared_map[shared_file_count];
-	dword_flags shared_file_flags;
-
+	long string_id_index_buffer_length;
+	long string_id_string_storage_length;
+	long string_id_index_buffer;
+	long string_id_string_storage;
+	dword_flags shared_file_flags; // bool uses_shared_map[shared_file_count];
 	s_file_last_modification_date creation_time;
 	s_file_last_modification_date shared_file_times[6];
-
 	string name;
 	long game_language;
 	long_string relative_path;
 	long minor_version;
-
 	long debug_tag_name_count;
 	long debug_tag_name_buffer;
 	long debug_tag_name_buffer_length;
 	long debug_tag_name_offsets;
-
 	s_cache_file_section_file_bounds reports;
 
-	long __data2E4[0x3C/4];
+	byte __data2E4[0x3C];
 
-#pragma pack(push, 4)
 	s_network_http_request_hash hash;
 	s_rsa_signature rsa_signature;
-#pragma pack(pop)
-
-	long section_offsets[4];
-	s_cache_file_section_file_bounds original_section_bounds[4];
-
+	c_static_array<long, 4> section_offsets;
+	c_static_array<s_cache_file_section_file_bounds, 4> original_section_bounds;
 	s_cache_file_shared_resource_usage shared_resource_usage;
-
-	// has_insertion_points
-	long insertion_point_resource_usage_count;
+	long insertion_point_resource_usage_count; // `has_insertion_points`
 	c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_resource_usage;
-	
 	long tag_cache_offsets;
 	long tag_count;
 	long map_id;
 	long scenario_index;
-
-	// 'zone' tags don't exist in ms23
-	long cache_file_resource_gestalt_index;
+	long cache_file_resource_gestalt_index; // 'zone' tags don't exist in ms23
 
 	byte __data2DF8[0x594];
 
 	dword footer_signature;
 };
 static_assert(sizeof(s_cache_file_header) == 0x3390);
+#pragma pack(pop)
 
 union cache_file_tag_instance
 {
@@ -170,11 +158,14 @@ struct s_cache_file_tags_header
 };
 static_assert(sizeof(s_cache_file_tags_header) == 0x20);
 
+const long k_tag_cache_maximum_files_count = 60000;
+const long k_tag_cache_maximum_size = 0x4B00000;
+
 struct s_cache_file_tag_name_collection
 {
-	long offsets[60000];
-	char buffer[60000 * 256];
-	const char* storage[60000];
+	long offsets[k_tag_cache_maximum_files_count];
+	char buffer[k_tag_cache_maximum_files_count * 256];
+	const char* storage[k_tag_cache_maximum_files_count];
 };
 static_assert(sizeof(s_cache_file_tag_name_collection) == 0xF1B300);
 
@@ -188,23 +179,23 @@ struct s_cache_file_globals
 	bool tags_loaded;
 
 	// physical_memory_malloc_fixed(sizeof(long) * header.tag_count)
-	long(&tag_cache_offsets)[60000];
+	long(&tag_cache_offsets)[k_tag_cache_maximum_files_count];
 
-	// instances[absolute_index] = tag_cache_base_address[total_tags_size]
-	cache_file_tag_instance*(&instances)[60000];
+	// tag_instances[absolute_index] = tag_cache_base_address[total_tags_size]
+	cache_file_tag_instance*(&tag_instances)[k_tag_cache_maximum_files_count];
 
 	// tag_index_absolute_mapping[tag_index] = absolute_index;
-	long(&tag_index_absolute_mapping)[60000];
+	long(&tag_index_absolute_mapping)[k_tag_cache_maximum_files_count];
 
 	// absolute_index_tag_mapping[absolute_index] = tag_index;
-	long(&absolute_index_tag_mapping)[60000];
+	long(&absolute_index_tag_mapping)[k_tag_cache_maximum_files_count];
 
 	long tag_loaded_count;
 	long tag_total_count;
 
-	byte(&tag_cache_base_address)[0x4B00000];
+	byte(&tag_cache_base_address)[k_tag_cache_maximum_size];
 	long tag_loaded_size;
-	long tag_cache_size;
+	long tag_cache_size; // k_tag_cache_maximum_size
 
 	s_cache_file_header header;
 
@@ -225,6 +216,7 @@ static_assert(sizeof(s_cache_file_globals) == 0x3508);
 extern s_cache_file_globals& g_cache_file_globals;
 
 extern long __cdecl cache_file_get_global_tag_index(tag group_tag);
+extern s_cache_file_header const* cache_files_get_header();
 
 template<typename t_type = byte>
 t_type* tag_get(tag group_tag, long tag_index)
@@ -233,7 +225,7 @@ t_type* tag_get(tag group_tag, long tag_index)
 	if (tag_absolute_index == -1)
 		return nullptr;
 
-	cache_file_tag_instance* instance = g_cache_file_globals.instances[tag_absolute_index];
+	cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[tag_absolute_index];
 	if (!instance)
 		return nullptr;
 
