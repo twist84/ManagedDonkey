@@ -110,13 +110,13 @@ long c_bitstream::get_current_bit_position()
 
 byte const* c_bitstream::get_data(long* data_length) const
 {
+	//return DECLFUNC(0x00558250, byte const*, __thiscall, c_bitstream const*, long*)(this, data_length);
+
 	assert(!writing());
 	assert(data_length);
 
 	*data_length = m_data_size_bytes;
 	return m_data;
-
-	//return DECLFUNC(0x00558250, byte const*, __thiscall, c_bitstream const*, long*)(this, data_length);
 }
 
 void c_bitstream::pop_position(bool pop)
