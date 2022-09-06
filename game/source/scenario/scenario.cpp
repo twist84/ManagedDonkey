@@ -59,8 +59,10 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	return false;
 }
 
-bool scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
+bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
 {
+	//return DECLTHUNK(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
+
 	assert(scenario_path != 0);
 
 	scenario* global_scenario = global_scenario_get();
