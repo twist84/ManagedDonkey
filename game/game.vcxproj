@@ -119,6 +119,7 @@ POPD
     <ClCompile Include="source\interface\c_controller.cpp" />
     <ClCompile Include="source\interface\damaged_media.cpp" />
     <ClCompile Include="source\main\global_preferences.cpp" />
+    <ClCompile Include="source\main\loading.cpp" />
     <ClCompile Include="source\main\main.cpp" />
     <ClCompile Include="source\main\main_game.cpp" />
     <ClCompile Include="source\main\main_game_launch.cpp" />
@@ -204,6 +205,7 @@ POPD
     <ClInclude Include="source\interface\c_player_profile.hpp" />
     <ClInclude Include="source\interface\damaged_media.hpp" />
     <ClInclude Include="source\main\global_preferences.hpp" />
+    <ClInclude Include="source\main\loading.hpp" />
     <ClInclude Include="source\main\main.hpp" />
     <ClInclude Include="source\main\main_game.hpp" />
     <ClInclude Include="source\main\main_game_launch.hpp" />

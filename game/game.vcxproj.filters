@@ -147,6 +147,9 @@
     <ClCompile Include="source\cache\cache_file_builder_security.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\main\loading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -543,6 +546,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cache\cache_file_builder_security.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\main\loading.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "cache/security_functions.hpp"
 #include "interface/damaged_media.hpp"
+#include "main/loading.hpp"
 #include "main/main.hpp"
 #include "memory/crc.hpp"
 
@@ -25,7 +26,7 @@ c_hook_call<0x00A9F6D9> damaged_media_update_call({ .pointer = damaged_media_dis
 c_data_patch<0x00A9F6D9 + 5> damaged_media_update_call_ret({ 0x90, 0x90, 0x90, 0x90, 0x90 });
 
 // test dirty disc error hook
-c_hook_call<0x00567964> sub_52F180_call({ .pointer = sub_52F180 });
+c_hook_call<0x00567964> main_load_map_call({ .pointer = main_load_map });
 
 // override any mismatched tag checksums
 c_hook_call<0x0050286A> crc_checksum_buffer_alder32_call({ .pointer = crc_checksum_buffer_alder32 });
