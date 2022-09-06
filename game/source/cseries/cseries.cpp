@@ -1,8 +1,10 @@
 #include "cseries/cseries.hpp"
 
 #include <assert.h>
-#include <string.h>
+#include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
 
 #define MAXIMUM_STRING_SIZE 0x100000
 
@@ -38,8 +40,28 @@ dword csstrnlen(char const* s, dword size)
     return strnlen(s, size);
 }
 
-//char* csstrnupr(char* s, dword size)
-//char* csstrnlwr(char* s, dword size)
+char* csstrnupr(char* s, dword size)
+{
+    assert(s);
+    assert(size >= 0 && size <= MAXIMUM_STRING_SIZE);
+
+    for (dword i = 0; i < size; i++)
+        s[i] = toupper(s[i]);
+
+    return s;
+}
+
+char* csstrnlwr(char* s, dword size)
+{
+    assert(s);
+    assert(size >= 0 && size <= MAXIMUM_STRING_SIZE);
+
+    for (dword i = 0; i < size; i++)
+        s[i] = tolower(s[i]);
+
+    return s;
+}
+
 //char* csstrtok(char*, char const*, bool, struct csstrtok_data* data)
 
 long cvsnzprintf(char* buffer, dword size, char const* format, char* list)
@@ -52,4 +74,16 @@ long cvsnzprintf(char* buffer, dword size, char const* format, char* list)
     buffer[size - 1] = 0;
 
     return result;
+}
+
+char* csnzprintf(char* buffer, dword size, char const* format, ...)
+{
+    va_list list;
+    va_start(list, format);
+
+    cvsnzprintf(buffer, size, format, list);
+
+    va_end(list);
+
+    return buffer;
 }

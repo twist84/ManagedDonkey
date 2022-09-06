@@ -90,10 +90,11 @@ const long LONG_BITS = SIZEOF_BITS(long);
 extern char* csstrnzcpy(char* s1, char const* s2, dword size);
 extern char* csstrnzcat(char* s1, char const* s2, dword size);
 extern dword csstrnlen(char const* s, dword size);
-//extern char* csstrnupr(char* s, dword size);
-//extern char* csstrnlwr(char* s, dword size);
+extern char* csstrnupr(char* s, dword size);
+extern char* csstrnlwr(char* s, dword size);
 //extern char* csstrtok(char*, char const*, bool, struct csstrtok_data* data);
 extern long cvsnzprintf(char* buffer, dword size, char const* format, char* list);
+extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
 
 template<typename t_type, size_t k_count>
 struct c_static_array
