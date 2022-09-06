@@ -1,6 +1,5 @@
 #include "main/main.hpp"
 
-#include "cache/cache_files.hpp"
 #include "camera/director.hpp"
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
@@ -15,8 +14,6 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
-        byte* global_game_globals = tag_get('matg', cache_file_get_global_tag_index('matg'));
-        byte* global_scenario = tag_get('scnr', g_cache_file_globals.header.scenario_index);
 
         printf("");
     }

@@ -77,6 +77,8 @@ const bool override_cache_file_header_security_rsa_compute_and_verify_signature 
 
 bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header)
 {
+	//return DECLTHUNK(0x00502210, cache_files_verify_header_rsa_signature, header);
+
 	if (header->header_signature != 'head' || header->footer_signature != 'foot')
 	{
 		display_debug_string("cache_files:header is invalid, header/footer signatures are bad");
@@ -119,6 +121,15 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 		}
 	}
 	return true;
+}
 
-	//return DECLTHUNK(0x00502210, cache_files_verify_header_rsa_signature, header);
+void scenario_tags_load_finished()
+{
+	// nullsub
+	DECLTHUNK(0x00503190, scenario_tags_load_finished);
+}
+
+void __cdecl scenario_tags_unload()
+{
+	DECLTHUNK(0x00503200, scenario_tags_load_finished);
 }
