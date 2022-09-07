@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 #include "cache/security_functions.hpp"
+#include "game/game_engine_util.hpp"
 #include "interface/damaged_media.hpp"
 #include "main/loading.hpp"
 #include "main/main.hpp"
@@ -39,3 +40,6 @@ c_hook_call<0x00501A51> cache_files_verify_header_rsa_signature_call({ .pointer 
 c_hook_call<0x0050309E> security_rsa_compute_and_verify_signature_call({ .pointer = security_rsa_compute_and_verify_signature });
 
 c_hook_call<0x005679B5> scenario_load_call({ .pointer = scenario_load });
+
+// called from `game_engine_running`
+c_hook_call<0x00552410> current_game_engine_call({ .pointer = current_game_engine });

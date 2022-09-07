@@ -100,6 +100,7 @@ POPD
     <ClCompile Include="source\cache\cache_file_builder_security.cpp" />
     <ClCompile Include="source\cache\security_functions.cpp" />
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
+    <ClCompile Include="source\game\game_engine_util.cpp" />
     <ClCompile Include="source\geometry\geometry_sampling.cpp" />
     <ClCompile Include="source\game\players.cpp" />
     <ClCompile Include="source\interface\first_person_weapons.cpp" />
@@ -154,6 +155,7 @@ POPD
     <ClInclude Include="source\cseries\cseries_windows.hpp" />
     <ClInclude Include="source\effects\effects.hpp" />
     <ClInclude Include="source\game\game_engine_default.hpp" />
+    <ClInclude Include="source\game\game_engine_util.hpp" />
     <ClInclude Include="source\geometry\geometry_sampling.hpp" />
     <ClInclude Include="source\interface\first_person_weapons.hpp" />
     <ClInclude Include="source\camera\camera.hpp" />
