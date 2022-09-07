@@ -578,6 +578,9 @@
     <ClInclude Include="source\tag_files\tag_groups.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\game\game_engine_default.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\memory\module.inl">
