@@ -67,14 +67,15 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
     </Link>
-    <PreBuildEvent>
+    <PostBuildEvent>
       <Command>
 PUSHD $(OutDir)
-REM pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
+ECHO pdbgen: generating pdb from idb
 pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
+ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
 POPD
-</Command>
-    </PreBuildEvent>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -95,6 +96,15 @@ POPD
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
     </Link>
+    <PostBuildEvent>
+      <Command>
+PUSHD $(OutDir)
+ECHO pdbgen: generating pdb from idb
+pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
+ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
+POPD
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\cache\cache_files.cpp" />
