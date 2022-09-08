@@ -79,6 +79,7 @@ struct s_player_control
 };
 static_assert(sizeof(s_player_control) == 0xF8);
 
+#pragma pack(push, 4)
 struct player_action
 {
 	dword control_context;
@@ -114,6 +115,7 @@ struct player_action
 	qword action_test_flags;
 };
 static_assert(sizeof(player_action) == 0x80);
+#pragma pack(pop)
 
 struct s_player_control_globals
 {
