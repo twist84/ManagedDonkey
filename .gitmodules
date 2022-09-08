@@ -1,0 +1,3 @@
+[submodule "DIA"]
+	path = DIA
+	url = https://github.com/milostosic/DIA
