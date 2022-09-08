@@ -37,9 +37,10 @@ struct c_network_channel_simulation_interface
 	void(__cdecl* m_closure_callback)(void*);
 	long m_client_count;
 	s_network_channel_client_info m_clients[4];
-	bool __unknown30;
-	bool __unknown31;
-	byte __pad32[0x2];
+	bool m_authority;
+	bool m_established;
+	byte __unknown32;
+	byte __unknown33;
 };
 static_assert(sizeof(c_network_channel_simulation_interface) == 0x34);
 
