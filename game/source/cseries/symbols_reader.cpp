@@ -27,6 +27,8 @@ HRESULT pdb_get_rva_from_name(WCHAR(&pdb_path)[MAX_PATH], WCHAR(&function_name)[
 
         if (FAILED(result = pClassFactory->CreateInstance(NULL, IID_IDiaDataSource, (void**)&data_source)))
             return result;
+
+        pClassFactory.Release();
     }
 
     if (FAILED(result = data_source->loadDataFromPdb(pdb_path)))
@@ -58,6 +60,11 @@ HRESULT pdb_get_rva_from_name(WCHAR(&pdb_path)[MAX_PATH], WCHAR(&function_name)[
         if (out_rva)
             *out_rva = rva;
     }
+    current_symbol.Release();
+    enum_symbols.Release();
+    global.Release();
+    data_source.Release();
+    session.Release();
 
     return result;
 }
