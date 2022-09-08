@@ -1,8 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "game/game_engine_variant.hpp"
+#include "game/game_engine_default.hpp"
 #include "game/game_engine_infection_traits.hpp"
+#include "game/game_engine_variant.hpp"
 
 struct c_game_engine_infection_variant : c_game_engine_base_variant
 {
@@ -48,3 +49,7 @@ struct c_game_engine_infection_variant : c_game_engine_base_variant
 	byte unused[0x10];
 };
 static_assert(sizeof(c_game_engine_infection_variant) == 0x260);
+
+struct c_infection_engine : c_game_engine
+{
+};

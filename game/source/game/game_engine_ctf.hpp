@@ -1,8 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "game/game_engine_variant.hpp"
 #include "game/game_engine_ctf_traits.hpp"
+#include "game/game_engine_default.hpp"
+#include "game/game_engine_variant.hpp"
 
 struct c_game_engine_ctf_variant : c_game_engine_base_variant
 {
@@ -32,3 +33,22 @@ struct c_game_engine_ctf_variant : c_game_engine_base_variant
 	byte unused[0x60];
 };
 static_assert(sizeof(c_game_engine_ctf_variant) == 0x260);
+
+struct s_static_spawn_zone;
+struct c_ctf_engine : c_game_engine
+{
+public:
+	virtual bool static_spawn_zone_is_valid_for_player(long, s_static_spawn_zone const*) const;
+	virtual long get_object_definition_index(void) const;
+	virtual void process_player_holding_object(long, long) const;
+	virtual bool update_object(struct s_multiplayer_weapon_tracker const*) const;
+	virtual void initialize_object_data(long) const;
+	virtual short get_sudden_death_time(void) const;
+	virtual void emit_object_returned_event(long, bool) const;
+	virtual bool object_should_exist(long) const;
+
+	// unknown function, also exists in halo 3 mcc
+	virtual void* function88(void*, ...);
+
+	virtual bool verify_state(void) const;
+};

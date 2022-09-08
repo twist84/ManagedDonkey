@@ -1,8 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "game/game_engine_variant.hpp"
+#include "game/game_engine_default.hpp"
 #include "game/game_engine_oddball_traits.hpp"
+#include "game/game_engine_variant.hpp"
 
 struct c_game_engine_oddball_variant : c_game_engine_base_variant
 {
@@ -59,3 +60,7 @@ struct c_game_engine_oddball_variant : c_game_engine_base_variant
 	byte unused[0x60];
 };
 static_assert(sizeof(c_game_engine_oddball_variant) == 0x260);
+
+struct c_oddball_engine : c_game_engine
+{
+};

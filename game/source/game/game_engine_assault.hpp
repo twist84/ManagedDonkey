@@ -1,8 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "game/game_engine_variant.hpp"
 #include "game/game_engine_assault_traits.hpp"
+#include "game/game_engine_ctf.hpp"
+#include "game/game_engine_variant.hpp"
 
 struct c_game_engine_assault_variant : c_game_engine_base_variant
 {
@@ -67,3 +68,7 @@ struct c_game_engine_assault_variant : c_game_engine_base_variant
 	byte unused[0x38];
 };
 static_assert(sizeof(c_game_engine_assault_variant) == 0x260);
+
+struct c_assault_engine : c_ctf_engine
+{
+};

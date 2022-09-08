@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/game_engine_default.hpp"
 #include "game/game_engine_variant.hpp"
 #include "game/game_engine_slayer_traits.hpp"
 
@@ -76,3 +77,7 @@ struct c_game_engine_slayer_variant : c_game_engine_base_variant
 	byte unused[0x60];
 };
 static_assert(sizeof(c_game_engine_slayer_variant) == 0x260);
+
+struct c_slayer_engine : c_game_engine
+{
+};

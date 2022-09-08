@@ -107,5 +107,5 @@ public:
 	virtual long get_message_chud_reference(s_multiplayer_runtime_globals_definition*) const;
 	virtual long get_message_chud_reference() const;
 	virtual void dump_settings(s_file_reference*) const;
-	virtual void player_hump(long) const;
+	virtual void emit_game_start_event(long) const;
 };
