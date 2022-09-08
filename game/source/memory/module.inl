@@ -2,6 +2,11 @@
 
 static module_address global_module = { .pointer = GetModuleHandle(NULL) };
 
+dword global_address_get(dword rva)
+{
+    return global_module.address + rva;
+}
+
 template<dword address>
 c_hook_call<address>::c_hook_call(module_address const function, bool remove_base) :
     m_addr({ .address = global_module.address + (remove_base ? address - 0x00400000 : address) }),

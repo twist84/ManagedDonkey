@@ -10,6 +10,7 @@ union module_address
 };
 
 extern module_address global_module;
+extern dword global_address_get(dword rva);
 
 template<dword address>
 class c_hook_call

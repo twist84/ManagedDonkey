@@ -1,12 +1,15 @@
 #include "main/main.hpp"
 
 #include "camera/director.hpp"
+#include "cseries/symbols_reader.hpp"
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
+#include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 
 #include <windows.h>
+#include <assert.h>
 #include <stdio.h>
 
 void main_loop_body_begin()
@@ -14,6 +17,8 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        dword address = symbols_reader.get_rva_blocking(L"?main_loop_body_main_part@@YAXXZ");
+        assert(address == 0 || global_address_get(address) == 0x00505C10);
 
         printf("");
     }
