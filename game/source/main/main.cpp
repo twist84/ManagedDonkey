@@ -1,6 +1,7 @@
 #include "main/main.hpp"
 
 #include "camera/director.hpp"
+#include "cseries/cseries_windows.hpp"
 #include "cseries/symbols_reader.hpp"
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
@@ -19,6 +20,9 @@ void main_loop_body_begin()
     {
         dword address = symbols_reader.get_rva_blocking(L"?main_loop_body_main_part@@YAXXZ");
         assert(address == 0 || global_address_get(address) == 0x00505C10);
+
+        wchar_t const* name = symbols_reader.get_name_blocking(address);
+        display_debug_string("%ls", name);
 
         printf("");
     }

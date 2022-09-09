@@ -7,6 +7,7 @@ public:
     ~c_symbols_reader();
 
     unsigned long get_rva_blocking(wchar_t const* function_name);
+    wchar_t const* get_name_blocking(unsigned long rva);
 
 private:
     wchar_t m_symbols_path_buffer[260]; // MAX_PATH
