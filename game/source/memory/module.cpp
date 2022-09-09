@@ -21,11 +21,15 @@ c_hook_call<0x0050605C> main_loop_body_end_call({ .pointer = main_loop_body_end 
 //c_data_patch<0x018B59D4> g_hf2p_first_run(false);
 
 // Bungie OS exception, dirty disc error
-c_hook_call<0x00A9F6C0> damaged_media_display_call({ .pointer = damaged_media_display });
-c_data_patch<0x00A9F6C0 + 5> damaged_media_display_call_ret({ 0x90, 0x90, 0x90, 0x90, 0x90 });
-
-c_hook_call<0x00A9F6D9> damaged_media_update_call({ .pointer = damaged_media_display });
-c_data_patch<0x00A9F6D9 + 5> damaged_media_update_call_ret({ 0x90, 0x90, 0x90, 0x90, 0x90 });
+c_hook_call<0x00A9F6C0> damaged_media_exception_call0({ .pointer = damaged_media_exception });
+c_hook_call<0x00A9F6D9> damaged_media_exception_call1({ .pointer = damaged_media_exception });
+c_data_patch_array damaged_media_exception_call_rets(
+	{
+		damaged_media_exception_call0.get_address() + 5,
+		damaged_media_exception_call1.get_address() + 5
+	}, 
+	{ 0x90, 0x90, 0x90, 0x90, 0x90 }
+);
 
 // test dirty disc error hook
 c_hook_call<0x00567964> main_load_map_call({ .pointer = main_load_map });

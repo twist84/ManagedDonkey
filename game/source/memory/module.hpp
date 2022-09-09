@@ -27,8 +27,12 @@ class c_hook_call
 public:
     c_hook_call(module_address const function, bool remove_base = true);
 
-    bool apply();
-    bool revert();
+    bool apply(bool revert);
+
+    dword get_address()
+    {
+        return m_addr.address;
+    }
 
 private:
     module_address m_addr;
@@ -46,14 +50,36 @@ public:
     template<typename t_type, long k_patch_size = sizeof(t_type)>
     c_data_patch(t_type const patch, bool remove_base = true);
 
-    bool apply();
-    bool revert();
+    bool apply(bool revert);
 
 private:
     module_address m_addr;
     byte const* m_bytes;
     byte* m_bytes_original;
     long m_byte_count;
+};
+
+class c_data_patch_array
+{
+public:
+	template<long k_address_count, long k_patch_size>
+	c_data_patch_array(dword const(&_addresses)[k_address_count], byte const(&patch)[k_patch_size]);
+
+	template<long k_patch_size>
+	c_data_patch_array(dword address, byte const(&patch)[k_patch_size]);
+
+    ~c_data_patch_array();
+
+	void apply(bool revert);
+
+private:
+	long address_count;
+	long byte_count;
+
+	const dword* addresses;
+
+	const byte* bytes;
+	byte** bytes_original;
 };
 
 extern void buffer_as_byte_string(byte* buffer, dword buffer_size, char** out_string);

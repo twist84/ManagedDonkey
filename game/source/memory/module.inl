@@ -12,33 +12,20 @@ c_hook_call<address>::c_hook_call(module_address const function, bool remove_bas
     m_addr({ .address = global_module.address + (remove_base ? address - 0x00400000 : address) }),
     m_call({ .opcode = 0xE8, .offset = (function.address - m_addr.address - sizeof(call_instruction)) })
 {
-    memcpy(&m_call_original, m_addr.pointer, sizeof(call_instruction));
-    apply();
+    apply(false);
 }
 
 template<dword address>
-bool c_hook_call<address>::apply()
+bool c_hook_call<address>::apply(bool revert)
 {
+    if (!revert)
+        memcpy(&m_call_original, m_addr.pointer, sizeof(call_instruction));
+
     dword protect;
     if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), PAGE_READWRITE, &protect))
         return false;
 
-    memcpy(m_addr.pointer, &m_call, sizeof(call_instruction));
-
-    if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), protect, &protect))
-        return false;
-
-    return true;
-}
-
-template<dword address>
-bool c_hook_call<address>::revert()
-{
-    dword protect;
-    if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), PAGE_READWRITE, &protect))
-        return false;
-
-    memcpy(m_addr.pointer, &m_call_original, sizeof(call_instruction));
+    memcpy(m_addr.pointer, revert ? &m_call_original : &m_call, sizeof(call_instruction));
 
     if (!VirtualProtect(m_addr.pointer, sizeof(call_instruction), protect, &protect))
         return false;
@@ -54,8 +41,7 @@ c_data_patch<address>::c_data_patch(byte const(&bytes)[k_patch_size], bool remov
     m_bytes(bytes),
     m_bytes_original(new byte[m_byte_count]{})
 {
-    memcpy(m_bytes_original, m_addr.pointer, m_byte_count);
-    apply();
+    apply(false);
 }
 
 template<dword address>
@@ -66,18 +52,20 @@ c_data_patch<address>::c_data_patch(const t_type type, bool remove_base) :
     m_bytes(reinterpret_cast<byte const*>(&type)),
     m_bytes_original(new byte[m_byte_count]{})
 {
-    memcpy(m_bytes_original, m_addr.pointer, m_byte_count);
-    apply();
+    apply(false);
 }
 
 template<dword address>
-bool c_data_patch<address>::apply()
+bool c_data_patch<address>::apply(bool revert)
 {
+    if (!revert)
+        memcpy(m_bytes_original, m_addr.pointer, m_byte_count);
+
     dword protect;
     if (!VirtualProtect(m_addr.pointer, m_byte_count, PAGE_READWRITE, &protect))
         return false;
 
-    memcpy(m_addr.pointer, m_bytes, m_byte_count);
+    memcpy(m_addr.pointer, revert ? m_bytes_original : m_bytes, m_byte_count);
 
     if (!VirtualProtect(m_addr.pointer, m_byte_count, protect, &protect))
         return false;
@@ -85,19 +73,65 @@ bool c_data_patch<address>::apply()
     return true;
 }
 
-template<dword address>
-bool c_data_patch<address>::revert()
+template<long k_address_count, long k_patch_size>
+c_data_patch_array::c_data_patch_array(dword const(&_addresses)[k_address_count], byte const(&patch)[k_patch_size]) :
+	address_count(k_address_count),
+	byte_count(k_patch_size),
+	addresses(_addresses),
+	bytes(patch),
+	bytes_original(new byte* [k_patch_size] {})
 {
-    dword protect;
-    if (!VirtualProtect(m_addr.pointer, m_byte_count, PAGE_READWRITE, &protect))
-        return false;
+	apply(false);
+}
 
-    memcpy(m_addr.pointer, m_bytes_original, m_byte_count);
+template<long k_patch_size>
+c_data_patch_array::c_data_patch_array(dword address, byte const(&patch)[k_patch_size]) :
+	address_count(1),
+	byte_count(k_patch_size),
+	addresses(&address),
+	bytes(patch),
+	bytes_original(new byte* [k_patch_size] {})
+{
+	apply(false);
+}
 
-    if (!VirtualProtect(m_addr.pointer, m_byte_count, protect, &protect))
-        return false;
+c_data_patch_array::~c_data_patch_array()
+{
+    if (bytes_original)
+    {
+        for (long i = 0; i < address_count; i++)
+        {
+            if (bytes_original[i])
+            {
+                delete[] bytes_original[i];
+                bytes_original[i] = nullptr;
+            }
+        }
 
-    return true;
+        delete[] bytes_original;
+        bytes_original = nullptr;
+    }
+}
+
+void c_data_patch_array::apply(bool revert)
+{
+	module_address address{};
+	for (long i = 0; i < address_count; i++)
+	{
+		address.address = addresses[i];
+
+		if (!revert)
+			bytes_original[i] = (byte*)memcpy(new byte[byte_count]{}, address.pointer, byte_count);
+
+		dword protect;
+		if (!VirtualProtect(address.pointer, byte_count, PAGE_READWRITE, &protect))
+			continue;
+
+		memcpy(address.pointer, revert ? bytes_original[i] : bytes, byte_count);
+
+		if (!VirtualProtect(address.pointer, byte_count, protect, &protect))
+			continue;
+	}
 }
 
 void buffer_as_byte_string(byte* buffer, dword buffer_size, char** out_string)
