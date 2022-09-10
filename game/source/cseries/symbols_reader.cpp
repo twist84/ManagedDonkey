@@ -1,6 +1,5 @@
 #include "cseries/symbols_reader.hpp"
 
-
 #include <atlbase.h>
 #include <dia2.h>
 #pragma comment(lib, "diaguids.lib")
@@ -8,9 +7,24 @@
 #include <dbghelp.h>
 #pragma comment(lib, "dbghelp.lib")
 
+#include <map>
+#include <string>
+
+// I don't like this, but also don't know of a nostd way of doing it
+std::map<std::wstring, DWORD> name_to_rva_map;
+std::map<DWORD, std::wstring> rva_to_name_map;
+
 HRESULT pdb_get_rva_from_name(WCHAR(&pdb_path)[MAX_PATH], WCHAR(&function_name)[1024], DWORD* out_rva)
 {
     HRESULT result = S_OK;
+
+    if (name_to_rva_map.contains(function_name))
+    {
+        if (out_rva)
+            *out_rva = name_to_rva_map[function_name];
+
+        return result;
+    }
 
     CComPtr<IDiaDataSource> data_source;
     if (FAILED(CoCreateInstance(CLSID_DiaSource, NULL, CLSCTX_INPROC_SERVER, __uuidof(IDiaDataSource), (void**)&data_source)))
@@ -62,6 +76,7 @@ HRESULT pdb_get_rva_from_name(WCHAR(&pdb_path)[MAX_PATH], WCHAR(&function_name)[
 
         if (out_rva)
             *out_rva = rva;
+        name_to_rva_map[function_name] = rva;
     }
     current_symbol.Release();
     enum_symbols.Release();
@@ -75,6 +90,13 @@ HRESULT pdb_get_rva_from_name(WCHAR(&pdb_path)[MAX_PATH], WCHAR(&function_name)[
 HRESULT pdb_get_name_from_rva(WCHAR(&pdb_path)[MAX_PATH], DWORD rva, WCHAR(&out_function_name)[1024])
 {
     HRESULT result = S_OK;
+
+    if (rva_to_name_map.contains(rva))
+    {
+        wcsncpy_s(out_function_name, rva_to_name_map[rva].c_str(), 1024);
+
+        return result;
+    }
 
     CComPtr<IDiaDataSource> data_source;
     if (FAILED(CoCreateInstance(CLSID_DiaSource, NULL, CLSCTX_INPROC_SERVER, __uuidof(IDiaDataSource), (void**)&data_source)))
@@ -122,6 +144,7 @@ HRESULT pdb_get_name_from_rva(WCHAR(&pdb_path)[MAX_PATH], DWORD rva, WCHAR(&out_
         return result;
 
     swprintf_s(out_function_name, current_symbol_name);
+    rva_to_name_map[rva] = current_symbol_name;
 
     current_symbol.Release();
     enum_symbols_by_addr.Release();
