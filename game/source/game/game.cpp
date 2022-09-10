@@ -5,9 +5,11 @@
 #include "cseries/cseries.hpp"
 #include "game/game_state.hpp"
 #include "game/game_time.hpp"
+#include "tag_files/files_windows.hpp"
 
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
 bool game_in_startup_phase()
 {
@@ -492,4 +494,65 @@ bool game_is_finished_immediate()
 	assert(game_globals && game_globals->map_active);
 
 	return game_globals->game_finished && !game_globals->game_finished_wait_time;
+}
+
+void __cdecl game_options_new(game_options* options)
+{
+	DECLTHUNK(0x005323A0, game_options_new, options);
+}
+
+bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress)
+{
+	// nullsub
+	//return DECLTHUNK(0x006961C0, game_options_get_launch_settings, options, change_in_progress);
+
+	assert(options);
+
+	bool result = false;
+
+	FILE* launch_file;
+	if (fopen_s(&launch_file, "launch.txt", "r") == 0 && launch_file)
+	{
+		// bit 0 related to `change_in_progress`
+		// bit 1 delete after read
+		dword_flags launch_file_flags = 0;
+
+		char scenario_path[256]{};
+		if (fgets(scenario_path, sizeof(scenario_path), launch_file))
+		{
+			char* tmp = strpbrk(scenario_path, "\r\n");
+			if (tmp)
+				*tmp = 0;
+			else
+				fscanf_s(launch_file, "%*s\n");
+
+			game_options_new(options);
+			options->game_mode = _game_mode_campaign;
+			csstrnzcpy(options->scenario_path, scenario_path, sizeof(options->scenario_path));
+			options->campaign_difficulty = _campaign_difficulty_level_normal;
+			//options->campaign_allow_persistent_storage = true;
+			options->record_saved_film = true;
+			game_options_setup_default_players(1, options);
+
+			result = true;
+			if (fscanf_s(launch_file, "%d\n", &launch_file_flags) != 1)
+				launch_file_flags = 0;
+		}
+
+		if ((launch_file_flags & (1 << 0)) == 0)
+		{
+			result = result && !change_in_progress;
+		}
+
+		fclose(launch_file);
+
+		if ((launch_file_flags & (1 << 1)) != 0)
+		{
+			s_file_reference to_delete{};
+			file_reference_create_from_path(&to_delete, "launch.txt", false);
+			file_delete(&to_delete);
+		}
+	}
+
+	return result;
 }

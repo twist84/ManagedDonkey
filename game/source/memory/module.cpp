@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 #include "cache/security_functions.hpp"
+#include "game/game.hpp"
 #include "game/game_engine_util.hpp"
 #include "interface/damaged_media.hpp"
 #include "main/loading.hpp"
@@ -47,3 +48,5 @@ c_hook_call<0x005679B5> scenario_load_hook({ .pointer = scenario_load });
 
 // called from `game_engine_running`
 c_hook_call<0x00552410> current_game_engine_hook({ .pointer = current_game_engine });
+
+c_hook_call<0x005677AA> game_options_get_launch_settings_hook({ .pointer = game_options_get_launch_settings });
