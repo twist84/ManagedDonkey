@@ -159,6 +159,8 @@ POPD
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
     <ClCompile Include="source\scenario\scenario.cpp" />
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
+    <ClCompile Include="source\tag_files\files.cpp" />
+    <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\tag_groups.cpp" />
   </ItemGroup>
   <ItemGroup>

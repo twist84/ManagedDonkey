@@ -84,6 +84,8 @@ typedef char utf8;
 
 const long LONG_BITS = SIZEOF_BITS(long);
 
+#define NONE -1
+
 //extern long csstricmp(charchar const* s1, char const* s1);
 //extern long csstrnicmp(char const* s1, char const* s1, dword size);
 //extern char* csstristr(char const* s1, char const* s1);
