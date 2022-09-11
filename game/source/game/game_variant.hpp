@@ -15,7 +15,7 @@
 
 struct c_game_variant
 {
-	c_enum<e_game_engine_variant, long, k_game_engine_variant_count> m_game_engine_index;
+	c_enum<e_game_engine_type, long, k_game_engine_type_count> m_game_engine_index;
 
 	union
 	{

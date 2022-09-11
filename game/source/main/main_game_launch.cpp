@@ -88,14 +88,14 @@ void main_game_launch_set_multiplayer_splitscreen_count(long player_count)
 
 void main_game_launch_set_multiplayer_engine(char const* engine_name)
 {
-	e_game_engine_variant game_engine_index;
+	e_game_engine_type game_engine_index;
 
-	for (long i = _game_engine_base_variant; i < k_game_engine_variant_count; i++)
+	for (long i = _game_engine_base_variant; i < k_game_engine_type_count; i++)
 	{
 		if (strcmp(engine_name, game_engine_variant_get_name(i)) != 0)
 			continue;
 
-		game_engine_index = e_game_engine_variant(i);
+		game_engine_index = e_game_engine_type(i);
 	}
 
 	g_launch_globals.options.game_variant.m_game_engine_index = game_engine_index;

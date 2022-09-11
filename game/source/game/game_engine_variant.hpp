@@ -6,7 +6,7 @@
 #include "memory/bitstream.hpp"
 #include "saved_games/saved_game_files.hpp"
 
-enum e_game_engine_variant
+enum e_game_engine_type
 {
 	_game_engine_base_variant = 0,
 	_game_engine_ctf_variant,
@@ -20,8 +20,8 @@ enum e_game_engine_variant
 	_game_engine_assault_variant,
 	_game_engine_infection_variant,
 
-	k_game_engine_variant_count,
-	k_game_engine_variant_default = _game_engine_base_variant
+	k_game_engine_type_count,
+	k_game_engine_type_default = _game_engine_base_variant
 };
 
 struct c_game_engine_base_variant
@@ -35,7 +35,7 @@ struct c_game_engine_base_variant
 	virtual bool can_add_to_recent_list();
 	virtual long get_score_to_win_round();
 	virtual long get_score_unknown();                                  // halo online specific
-	virtual bool can_be_cast_to(e_game_engine_variant, void const**);
+	virtual bool can_be_cast_to(e_game_engine_type, void const**);
 	virtual void custom_team_score_stats(long, long, long);
 
 	dword __unknown4;
@@ -52,5 +52,8 @@ constexpr size_t k_game_engine_base_variant_size = sizeof(c_game_engine_base_var
 static_assert(k_game_engine_base_variant_size == 0x1D0);
 
 extern const char* game_engine_variant_get_name(long game_engine_variant);
+
+struct c_game_variant;
+extern c_game_variant* build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);
 
 #pragma pack(pop)
