@@ -102,11 +102,15 @@ void main_game_launch_set_multiplayer_engine(char const* engine_name)
 }
 
 // void main_game_launch_set_multiplayer_variant(char const*)
-// void main_game_launch_set_insertion_point(short)
 
 void main_game_launch_set_initial_zone_set_index(long initial_zone_set_index)
 {
 	g_launch_globals.options.initial_zone_set_index = static_cast<short>(initial_zone_set_index);
+}
+
+void main_game_launch_set_insertion_point(short insertion_point)
+{
+	g_launch_globals.options.campaign_insertion_point = insertion_point;
 }
 
 // void main_game_launch_set_tick_rate(long)

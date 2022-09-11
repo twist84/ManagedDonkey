@@ -34,7 +34,7 @@ struct game_options
 	long playback_start_ticks;
 	long playback_length_in_ticks;
 	c_enum<e_campaign_difficulty_level, short, k_campaign_difficulty_levels_count> campaign_difficulty;
-	short campaign_insertion_index;
+	short campaign_insertion_point;
 	short campaign_metagame_scoring;
 	bool campaign_metagame_enabled;
 	bool survival_enabled;
