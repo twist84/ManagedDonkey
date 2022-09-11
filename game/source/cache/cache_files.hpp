@@ -84,7 +84,7 @@ union cache_file_tag_instance
 	struct
 	{
 		dword checksum;
-		long total_size;
+		dword total_size;
 		short dependency_count;
 		short data_fixup_count;
 		short resource_fixup_count;

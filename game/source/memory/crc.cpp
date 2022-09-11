@@ -5,9 +5,10 @@
 
 #include <stdlib.h>
 
-dword __cdecl crc_checksum_buffer_alder32(dword seed, byte* buffer, dword buffer_size)
+// this function is closer to the adler32 implementation in zlib
+dword __cdecl crc_checksum_buffer_adler32(dword sum, byte* buffer, dword buffer_size)
 {
-	dword result = DECLTHUNK(0x0052CCC0, crc_checksum_buffer_alder32, seed, buffer, buffer_size);
+	dword result = DECLTHUNK(0x0052CCC0, crc_checksum_buffer_adler32, sum, buffer, buffer_size);
 
 	dword* checksum = reinterpret_cast<dword*>(buffer - 4);
 	if (result != *checksum)
@@ -19,4 +20,26 @@ dword __cdecl crc_checksum_buffer_alder32(dword seed, byte* buffer, dword buffer
 	}
 
 	return result;
+}
+
+dword adler_new()
+{
+	return adler32(0, 0, 0);
+}
+
+// modified version of https://github.com/skeeto/scratch/blob/365892d47ddb264415b5d9760dcd77c35f72219a/checksums/adler32.h
+dword adler32(dword sum, void const* data, dword len)
+{
+	if (!data)
+		return 1;
+
+	byte const* p = static_cast<byte const*>(data);
+
+	dword a = sum & 0xffff;
+	dword b = sum >> 16;
+
+	for (dword i = 0; i < len; i++)
+		b = (b + (a = (a + p[i]) % 65521)) % 65521;
+
+	return (b << 16) | a;
 }
