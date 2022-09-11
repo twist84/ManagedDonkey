@@ -113,6 +113,7 @@ POPD
     <ClCompile Include="source\cache\cache_files_windows.cpp" />
     <ClCompile Include="source\cache\cache_file_builder_security.cpp" />
     <ClCompile Include="source\cache\security_functions.cpp" />
+    <ClCompile Include="source\config\version.cpp" />
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\symbols_reader.cpp" />
     <ClCompile Include="source\game\game_engine_util.cpp" />
@@ -169,6 +170,7 @@ POPD
     <ClInclude Include="source\cache\cache_files_windows.hpp" />
     <ClInclude Include="source\cache\cache_file_tag_resource_runtime.hpp" />
     <ClInclude Include="source\cache\security_functions.hpp" />
+    <ClInclude Include="source\config\version.hpp" />
     <ClInclude Include="source\cseries\cseries_windows.hpp" />
     <ClInclude Include="source\cseries\symbols_reader.hpp" />
     <ClInclude Include="source\effects\effects.hpp" />
