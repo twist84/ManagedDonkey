@@ -1,8 +1,10 @@
 #include "game/game.hpp"
 
+#include "config/version.hpp"
+#include "cseries/cseries.hpp"
+#include "game/game_engine_variant.hpp"
 #include "game/game_globals.hpp"
 #include "game/game_options.hpp"
-#include "cseries/cseries.hpp"
 #include "game/game_state.hpp"
 #include "game/game_time.hpp"
 #include "tag_files/files_windows.hpp"
@@ -501,12 +503,121 @@ void __cdecl game_options_new(game_options* options)
 	DECLTHUNK(0x005323A0, game_options_new, options);
 }
 
+struct s_game_options_launch_settings
+{
+	long build_number;
+	char scenario_path[256];
+	long campaign_difficulty;
+	long game_mode;
+
+	// added by us
+	long game_engine_index;
+	short insertion_point;
+	short zone_set_index;
+
+	dword_flags launch_file_flags;
+
+	//char insertion_point_name[128]; // name speculation, never actually saw this used
+	//char zone_set_name[128];
+};
+//static_assert(sizeof(s_game_options_launch_settings) == 0x210);
+static_assert(sizeof(s_game_options_launch_settings) == 0x118);
+
+bool game_options_read_launch_settings_from_string(char const* buffer, s_game_options_launch_settings* out_launch_settings)
+{
+	s_game_options_launch_settings launch_settings{};
+
+	*launch_settings.scenario_path = 0;
+	//*launch_settings.insertion_point_name = 0;
+	//*launch_settings.zone_set_name = 0;
+
+	if (sscanf_s(buffer, "%d\n%s\n%d\n%d\n%d\n%hd\n%hd\n%d\n",
+		&launch_settings.build_number,
+		launch_settings.scenario_path, 256,
+		&launch_settings.campaign_difficulty,
+		&launch_settings.game_mode,
+		&launch_settings.game_engine_index,
+		&launch_settings.insertion_point,
+		&launch_settings.zone_set_index,
+		&launch_settings.launch_file_flags))
+	{
+		//launch_settings.insertion_point_name[0] &= (strncmp(launch_settings.insertion_point_name, "-", 128) == 0) - 1;
+		//launch_settings.zone_set_name[0] &= (strncmp(launch_settings.zone_set_name, "-", 128); == 0) - 1;
+		memcpy(out_launch_settings, &launch_settings, sizeof(s_game_options_launch_settings));
+		return true;
+	}
+
+	return false;
+}
+
+bool game_launch_get_settings(s_game_options_launch_settings* out_launch_settings)
+{
+	bool result = false;
+
+	FILE* launch_file;
+	if (fopen_s(&launch_file, "launch_reach.txt", "r") == 0 && launch_file)
+	{
+		char buffer[1072]{};
+		if (fread_s(buffer, 1024, 1, 1024, launch_file))
+		{
+			s_game_options_launch_settings launch_settings{};
+			*launch_settings.scenario_path = 0;
+			//*launch_settings.insertion_point_name = 0;
+			//*launch_settings.zone_set_name = 0;
+
+			if (game_options_read_launch_settings_from_string(buffer, &launch_settings) && launch_settings.build_number == version_get_build_number())
+			{
+				memcpy(out_launch_settings, &launch_settings, sizeof(s_game_options_launch_settings));
+				result = true;
+			}
+		}
+
+		fclose(launch_file);
+	}
+
+	return result;
+}
+
+const bool use_halo_reach_launch_settings = true;
+
 bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress)
 {
 	// nullsub
 	//return DECLTHUNK(0x006961C0, game_options_get_launch_settings, options, change_in_progress);
 
 	assert(options);
+
+	if (use_halo_reach_launch_settings)
+	{
+		s_game_options_launch_settings launch_settings{};
+		*launch_settings.scenario_path = 0;
+		//*launch_settings.insertion_point_name = 0;
+		//*launch_settings.zone_set_name = 0;
+
+		if (!game_launch_get_settings(&launch_settings))
+			return false;
+
+		game_options_new(options);
+		csstrnzcpy(options->scenario_path, launch_settings.scenario_path, sizeof(options->scenario_path));
+		options->game_mode = launch_settings.game_mode;
+		options->record_saved_film = true;//saved_film_manager_should_record_film(options);
+		options->campaign_difficulty = launch_settings.campaign_difficulty;
+
+		build_default_game_variant(&options->game_variant, options->game_mode == _game_mode_campaign ? _game_engine_base_variant : (e_game_engine_type)launch_settings.game_engine_index);
+
+		options->campaign_insertion_point = launch_settings.insertion_point;
+		options->initial_zone_set_index = launch_settings.zone_set_index;
+		game_options_setup_default_players(1, options);
+
+		if ((launch_settings.launch_file_flags & (1 << 1)) != 0)
+		{
+			s_file_reference to_delete{};
+			file_reference_create_from_path(&to_delete, "launch_reach.txt", false);
+			file_delete(&to_delete);
+		}
+
+		return true;
+	}
 
 	bool result = false;
 
