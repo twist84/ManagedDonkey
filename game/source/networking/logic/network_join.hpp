@@ -42,16 +42,24 @@ enum e_join_remote_state
 
 struct s_network_session_remote_session_join_data
 {
-	long join_state;
+	c_enum<e_join_remote_state, long, k_join_remote_state_count> join_state;
+
 	long join_from;
+
 	long join_to;
+
 	long join_target;
+
 	qword join_nonce;
+
 	long platform;
+
 	s_transport_secure_identifier session_id;
 	s_transport_secure_key session_key;
 	s_transport_secure_address host_secure_address;
+
 	long session_class;
+
 	long join_result;
 
 	bool join_to_public_slots;
@@ -121,8 +129,10 @@ struct s_network_session_join_request
 {
 	qword join_nonce;
 	qword join_party_nonce;
+
 	long joining_peer_count;
 	s_joining_peer joining_peers[17];
+
 	long joining_player_count;
 	s_joining_player joining_players[16];
 
@@ -149,8 +159,10 @@ static_assert(sizeof(s_join_queue_entry) == 0x338);
 #pragma pack(push, 4)
 struct s_networking_join_data
 {
-	long local_join_state;
+	c_enum<e_join_local_state, long, k_join_local_state_count> local_join_state;
+
 	long local_join_result;
+
 	dword time;
 
 	bool __unknownC;
@@ -185,7 +197,9 @@ struct s_networking_join_data
 	byte : 8;
 
 	long join_target;
-	long join_queue_mode;
+
+	c_enum<e_network_join_queue_mode, long, k_network_join_queue_mode_count> join_queue_mode;
+
 	long join_queue_entry_count;
 	long join_peer_count;
 
