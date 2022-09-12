@@ -27,6 +27,19 @@ enum e_join_local_state
 	k_join_local_state_count
 };
 
+enum e_join_remote_state
+{
+	_join_remote_state_none = 0,
+	_join_remote_state_party_start_join,
+	_join_remote_state_party_join_host,
+	_join_remote_state_party_join_clients,
+	_join_remote_state_party_leave_old_squad,
+	_join_remote_state_party_join_complete,
+	_join_remote_state_leave_group,
+
+	k_join_remote_state_count
+};
+
 struct s_network_session_remote_session_join_data
 {
 	long join_state;
