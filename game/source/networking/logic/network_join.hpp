@@ -16,6 +16,17 @@ enum e_network_join_queue_mode
 	k_network_join_queue_mode_count
 };
 
+enum e_join_local_state
+{
+	_join_local_state_none = 0,
+	_join_local_state_start_join_squad,
+	_join_local_state_joining_squad,
+	_join_local_state_leaving_old_squad,
+	_join_local_state_processing_join_to_us,
+
+	k_join_local_state_count
+};
+
 struct s_network_session_remote_session_join_data
 {
 	long join_state;
