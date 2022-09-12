@@ -5,6 +5,17 @@
 #include "networking/transport/transport_address.hpp"
 #include "networking/transport/transport_security.hpp"
 
+enum e_network_join_queue_mode
+{
+	_network_join_closed_to_all_joins = 0,
+	_network_join_open_to_join_squad,
+	_network_join_queue_joins_to_group,
+	_network_join_process_queued_group_joins,
+	_network_join_queue_closed_while_in_match,
+
+	k_network_join_queue_mode_count
+};
+
 struct s_network_session_remote_session_join_data
 {
 	long join_state;
