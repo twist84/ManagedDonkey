@@ -15,5 +15,12 @@ struct s_file_handle
 };
 static_assert(sizeof(s_file_handle) == 0x4);
 
+struct s_indirect_file
+{
+	// map_file_index?
+	void* handle;
+};
+static_assert(sizeof(s_indirect_file) == 0x4);
+
 struct s_file_reference;
 extern bool __cdecl file_delete(s_file_reference* file_reference);
