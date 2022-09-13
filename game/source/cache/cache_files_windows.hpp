@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "cache/cache_files.hpp"
+#include "multithreading/synchronized_value.hpp"
 #include "tag_files/files_windows.hpp"
 
 const long k_cached_map_files_count = 15;
@@ -45,7 +46,20 @@ struct s_cache_file_copy_globals
 {
 	s_cache_file_header header;
 
-	byte __data3390[0x358];
+	byte __data3390[0x20];
+
+	long copy_state;
+
+	long __unknown33B4;
+
+	c_synchronized_long copy_task_is_done;
+
+	byte __data33BC[0x224];
+
+	long_string map_name;
+	int pending_load_action;
+
+	byte __data36E4[4];
 };
 static_assert(sizeof(s_cache_file_copy_globals) == 0x36E8);
 

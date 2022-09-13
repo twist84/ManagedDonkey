@@ -1,5 +1,6 @@
 #include "main/main.hpp"
 
+#include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "cseries/symbols_reader.hpp"
@@ -18,11 +19,8 @@ void main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
-        dword address = symbols_reader.get_rva_blocking(L"?main_loop_body_main_part@@YAXXZ");
-        assert(address == 0 || global_address_get(address) == 0x00505C10);
-
-        wchar_t const* name = symbols_reader.get_name_blocking(address);
-        display_debug_string("%ls", name);
+        cache_file_table_of_contents;
+        cache_file_copy_globals;
 
         printf("");
     }
@@ -51,6 +49,11 @@ void main_loop_body_end()
     }
     else if (GetKeyState(VK_DELETE) & 0x8000)
     {
+        dword address = symbols_reader.get_rva_blocking(L"?main_loop_body_main_part@@YAXXZ");
+        assert(address == 0 || global_address_get(address) == 0x00505C10);
+
+        wchar_t const* name = symbols_reader.get_name_blocking(address);
+        display_debug_string("%ls", name);
     }
     else if (GetKeyState(VK_HOME) & 0x8000)
     {
