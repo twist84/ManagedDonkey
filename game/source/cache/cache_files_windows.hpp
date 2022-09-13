@@ -9,10 +9,13 @@ const long k_cached_map_files_count = 15;
 struct s_cached_map_file
 {
 	s_file_handle file_handle;
+
+	// io_lock_count?
 	dword __unknown4;
+
 	s_cache_file_header header;
-	s_file_handle indirect_file_handle;
-	s_file_handle file_handle339C;
+	s_indirect_file indirect_file;
+	s_file_handle overlapped_handle;
 };
 static_assert(sizeof(s_cached_map_file) == 0x33A0);
 
