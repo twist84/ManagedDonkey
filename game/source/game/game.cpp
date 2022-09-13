@@ -505,16 +505,20 @@ void __cdecl game_options_new(game_options* options)
 
 struct s_game_options_launch_settings
 {
+	// 106708
 	long build_number;
+
 	char scenario_path[256];
-	long campaign_difficulty;
-	long game_mode;
+
+	e_campaign_difficulty_level campaign_difficulty;
+	e_game_mode game_mode;
 
 	// added by us
-	long game_engine_index;
+	e_game_engine_type game_engine_index;
 	short insertion_point;
 	short zone_set_index;
 
+	// bit 1, delete after read
 	dword_flags launch_file_flags;
 
 	//char insertion_point_name[128]; // name speculation, never actually saw this used
@@ -603,7 +607,7 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 		options->record_saved_film = true;//saved_film_manager_should_record_film(options);
 		options->campaign_difficulty = launch_settings.campaign_difficulty;
 
-		build_default_game_variant(&options->game_variant, options->game_mode == _game_mode_campaign ? _game_engine_base_variant : (e_game_engine_type)launch_settings.game_engine_index);
+		build_default_game_variant(&options->game_variant, options->game_mode == _game_mode_campaign ? _game_engine_base_variant : launch_settings.game_engine_index);
 
 		options->campaign_insertion_point = launch_settings.insertion_point;
 		options->initial_zone_set_index = launch_settings.zone_set_index;
@@ -624,8 +628,8 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	FILE* launch_file;
 	if (fopen_s(&launch_file, "launch.txt", "r") == 0 && launch_file)
 	{
-		// bit 0 related to `change_in_progress`
-		// bit 1 delete after read
+		// bit 0, related to `change_in_progress`
+		// bit 1, delete after read
 		dword_flags launch_file_flags = 0;
 
 		char scenario_path[256]{};
