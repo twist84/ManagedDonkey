@@ -38,6 +38,9 @@ struct s_cache_file_table_of_contents
 	long map_file_index_end;
 	long map_file_size;
 
+	// it seems the cache file system still tries to load the shared and campaign map files
+	// failed_maps[0].path == "maps\shared.map"
+	// failed_maps[1].path == "maps\campaign.map"
 	c_static_array<s_failed_map, 8> failed_maps;
 };
 static_assert(sizeof(s_cache_file_table_of_contents) == 0x30EB0);
