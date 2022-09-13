@@ -1,11 +1,11 @@
 #include "memory/data.hpp"
 
-long data_array_header::get_index(long index) const
+long s_data_array::get_index(long index) const
 {
 	if ((index < 0) || (index >= first_unallocated))
 		return -1;
 
-	while (!((1 << (index & 0x1F)) & active_indices[index >> 5]))
+	while (!((1 << (index & 31)) & in_use_bit_vector[index >> 5]))
 	{
 		if (++index >= first_unallocated)
 			return -1;
@@ -14,61 +14,61 @@ long data_array_header::get_index(long index) const
 	return index;
 }
 
-long data_array_header::get_allocation_size() const
+long s_data_array::get_allocation_size() const
 {
 	long padding = flags ? ((1 << flags) - 1) : 0;
 
-	return padding + datum_size * capacity + 4 * (((capacity + 31) >> 5) + 21);
+	return padding + size * maximum_count + 4 * (((maximum_count + 31) >> 5) + 21);
 }
 
-datum_header* data_array_header::get_datum(const datum_index index) const
+s_datum_header* s_data_array::get_datum(const datum_index index) const
 {
-	if (index == -1 || DATUM_INDEX_INDEX(index) < (dword)first_unallocated)
+	if (index == -1 || DATUM_INDEX_TO_ABSOLUTE_INDEX(index) < (dword)first_unallocated)
 		return nullptr;
 
-	datum_header* datum = (datum_header*)&data[index * datum_size];
+	s_datum_header* datum = (s_datum_header*)&data[index * size];
 
-	if (!datum->salt || datum->salt != DATUM_INDEX_SALT(index))
+	if (!datum->identifier || datum->identifier != DATUM_INDEX_TO_IDENTIFIER(index))
 		return nullptr;
 
 	return datum;
 }
 
-data_iterator_header::data_iterator_header(const data_array_header* array) :
-	array(array), current_datum_index((datum_index)-1), current_index(-1)
+s_data_iterator::s_data_iterator(const s_data_array* data) :
+	data(data), index((datum_index)-1), current_index(-1)
 {
 }
 
-datum_header* data_iterator_header::next()
+s_datum_header* s_data_iterator::next()
 {
-	datum_header* result;
+	s_datum_header* result;
 
-	long index = array->get_index(current_index + 1);
+	long index = data->get_index(current_index + 1);
 
 	if (index == -1)
 	{
-		current_index = array->capacity;
-		current_datum_index = (datum_index)-1;
+		current_index = data->maximum_count;
+		index = (datum_index)-1;
 		result = nullptr;
 	}
 	else
 	{
-		result = (datum_header*)&array->data[index * array->datum_size];
+		result = (s_datum_header*)&data->data[index * data->size];
 		current_index = index;
-		current_datum_index = (datum_index)(index | (result->salt << 16));
+		index = (datum_index)(index | (result->identifier << 16));
 	}
 
 	return result;
 }
 
-bool data_iterator_header::operator==(const data_iterator_header& other) const
+bool s_data_iterator::operator==(const s_data_iterator& other) const
 {
-	return (array == other.array)
+	return (data == other.data)
 		&& (current_index == other.current_index)
-		&& (current_datum_index == other.current_datum_index);
+		&& (index == other.index);
 }
 
-bool data_iterator_header::operator!=(const data_iterator_header& other) const
+bool s_data_iterator::operator!=(const s_data_iterator& other) const
 {
 	return !(*this == other);
 }

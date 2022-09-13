@@ -11,102 +11,115 @@ enum : datum_index
 	_datum_index_none = 0xFFFFFFFF
 };
 
-#define DATUM_INDEX_INDEX(VALUE) ((VALUE) & 0xFFFF)
-#define DATUM_INDEX_SALT(VALUE)  ((VALUE) >> 16)
+#define DATUM_INDEX_TO_ABSOLUTE_INDEX(VALUE) ((VALUE) & 0xFFFF)
+#define DATUM_INDEX_TO_IDENTIFIER(VALUE)  ((VALUE) >> 16)
 
-struct datum_header
+struct s_datum_header
 {
-	word salt;
+	word identifier;
 };
-static_assert(sizeof(datum_header) == 0x2);
+static_assert(sizeof(s_datum_header) == 0x2);
 
-struct data_array_header
+struct s_data_array
 {
 	string name;
-	long capacity;
-	long datum_size;
-	byte alignment;
-	bool is_valid;
+	long maximum_count;
+	long size;
+	byte alignment_bits;
+	bool valid;
+
+	// bit 0, _data_array_can_disconnect_bit
+	// bit 1, _data_array_disconnected_bit
 	word flags;
+
 	tag signature;
+
+	// c_allocation_interface
 	void* allocator;
+
 	long next_index;
 	long first_unallocated;
 	long actual_count;
-	word next_salt;
-	word next_salt_alt;
+
+	// e_datum_salt
+	// salt_type == 0
+	word next_identifier;
+
+	// salt_type == 1
+	word isolated_next_identifier;
+
 	char* data;
-	dword* active_indices;
-	long header_size;
-	long total_size;
+	dword* in_use_bit_vector;
+	long offset_to_data;
+	long offset_to_bit_vector;
 
 	long get_index(long index) const;
 	long get_allocation_size() const;
-	datum_header* get_datum(const datum_index index) const;
+	s_datum_header* get_datum(const datum_index index) const;
 };
-static_assert(sizeof(data_array_header) == 0x54);
+static_assert(sizeof(s_data_array) == 0x54);
 
-template <typename datum>
-struct data_iterator;
+template <typename t_datum_type>
+struct c_data_iterator;
 
-template <typename datum>
-struct data_array : data_array_header
+template <typename t_datum_type>
+struct c_smart_data_array : s_data_array // #TODO: decide if this should be `c_smart_data_array` or `c_wrapped_data_array`
 {
-	static_assert(__is_base_of(datum_header, datum));
+	static_assert(__is_base_of(s_datum_header, t_datum_type));
 
-	datum& operator[](datum_index index) const { return *(datum*)get_datum(index); }
+	t_datum_type& operator[](datum_index index) const { return *(t_datum_type*)get_datum(index); }
 
-	data_iterator<datum> begin()
+	c_data_iterator<t_datum_type> begin()
 	{
-		data_iterator<datum> result(this);
+		c_data_iterator<t_datum_type> result(this);
 		result.next();
 		return result;
 	}
 
-	data_iterator<datum> end()
+	c_data_iterator<t_datum_type> end()
 	{
-		data_iterator<datum> result(this);
-		result.current_index = capacity;
+		c_data_iterator<t_datum_type> result(this);
+		result.current_index = maximum_count;
 		return result;
 	}
 };
-static_assert(sizeof(data_array<datum_header>) == sizeof(data_array_header));
+static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array));
 
-typedef data_array<datum_header> data_array_base;
+typedef c_smart_data_array<s_datum_header> data_array_base;
 
-struct data_iterator_header
+struct s_data_iterator
 {
-	const data_array_header* array;
-	datum_index current_datum_index;
+	const s_data_array* data;
+	datum_index index;
 	long current_index;
 
-	data_iterator_header(const data_array_header* array);
+	s_data_iterator(const s_data_array* data);
 
-	datum_header* next();
+	s_datum_header* next();
 
-	bool operator==(const data_iterator_header& other) const;
-	bool operator!=(const data_iterator_header& other) const;
+	bool operator==(const s_data_iterator& other) const;
+	bool operator!=(const s_data_iterator& other) const;
 };
-static_assert(sizeof(data_iterator_header) == 0xC);
+static_assert(sizeof(s_data_iterator) == 0xC);
 
-template <typename datum>
-struct data_iterator : data_iterator_header
+template <typename t_datum_type>
+struct c_data_iterator : s_data_iterator
 {
-	static_assert(__is_base_of(datum_header, datum));
+	static_assert(__is_base_of(s_datum_header, t_datum_type));
 
-	data_iterator(data_array<datum>* array) : data_iterator_header(array) {}
-	data_iterator() : data_iterator(nullptr) {}
+	c_data_iterator(c_smart_data_array<t_datum_type>* data) : s_data_iterator(data) {}
+	c_data_iterator() : c_data_iterator(nullptr) {}
 
-	//datum* next() { return static_cast<datum*>(data_iterator_base::next()); }
+	//t_datum_type* next() { return static_cast<t_datum_type*>(data_iterator_base::next()); }
 
-	data_iterator<datum>& operator++() { next(); return *this; }
-	data_iterator<datum> operator++(int) { auto result = *this; operator++(); return result; }
+	c_data_iterator<t_datum_type>& operator++() { next(); return *this; }
+	c_data_iterator<t_datum_type> operator++(int) { auto result = *this; operator++(); return result; }
 
-	datum* operator->() const { return (datum*)array->get_datum(current_datum_index); }
+	t_datum_type* operator->() const { return (t_datum_type*)data->get_datum(index); }
 
-	datum& operator*() const { return *operator->(); }
+	t_datum_type& operator*() const { return *operator->(); }
 };
-static_assert(sizeof(data_iterator<datum_header>) == sizeof(data_iterator_header));
+static_assert(sizeof(c_data_iterator<s_datum_header>) == sizeof(s_data_iterator));
 
 enum class data_address_type : long
 {

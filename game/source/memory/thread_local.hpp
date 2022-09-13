@@ -12,7 +12,7 @@
 #include "main/main_time.hpp"
 #include "physics/physics_constants.hpp"
 
-//struct simulation_gamestate_entity_datum : datum_header
+//struct simulation_gamestate_entity_datum : s_datum_header
 
 struct players_globals
 {
@@ -66,9 +66,9 @@ struct s_breakable_surface_globals
 };
 static_assert(sizeof(s_breakable_surface_globals) == 0x3CE18);
 
-//struct breakable_surface_set_broken_event_datum : datum_header
+//struct breakable_surface_set_broken_event_datum : s_datum_header
 
-//struct hs_thread_deterministic_data : datum_header
+//struct hs_thread_deterministic_data : s_datum_header
 
 struct hs_runtime
 {
@@ -77,19 +77,19 @@ struct hs_runtime
 };
 static_assert(sizeof(hs_runtime) == 0x8);
 
-//struct hs_global_data : datum_header
+//struct hs_global_data : s_datum_header
 
-//struct hs_distributed_global_data : datum_header
+//struct hs_distributed_global_data : s_datum_header
 
-//struct hs_thread_tracking_data : datum_header
+//struct hs_thread_tracking_data : s_datum_header
 
-//struct hs_thread_non_deterministic_data : datum_header
+//struct hs_thread_non_deterministic_data : s_datum_header
 
-//struct effect_datum : datum_header
+//struct effect_datum : s_datum_header
 
-//struct effect_event_datum : datum_header
+//struct effect_event_datum : s_datum_header
 
-//struct effect_location_datum : datum_header
+//struct effect_location_datum : s_datum_header
 
 struct s_effect_counts
 {
@@ -97,7 +97,7 @@ struct s_effect_counts
 };
 static_assert(sizeof(s_effect_counts) == 0x18);
 
-//struct effect_geometry_sample_datum : datum_header
+//struct effect_geometry_sample_datum : s_datum_header
 
 struct effect_messaging_queue
 {
@@ -118,7 +118,7 @@ struct s_player_control_globals_deterministic
 };
 static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
 
-//struct game_looping_sound_datum : datum_header
+//struct game_looping_sound_datum : s_datum_header
 
 struct s_game_sound_globals
 {
@@ -233,7 +233,7 @@ struct cinematic_light_globals
 };
 static_assert(sizeof(cinematic_light_globals) == 0xB2C8);
 
-//struct recorded_animation_datum : datum_header
+//struct recorded_animation_datum : s_datum_header
 
 struct s_game_save_globals
 {
@@ -241,7 +241,7 @@ struct s_game_save_globals
 };
 static_assert(sizeof(s_game_save_globals) == 0x18);
 
-//struct s_rasterizer_screen_effect : datum_header
+//struct s_rasterizer_screen_effect : s_datum_header
 
 struct s_player_effect_globals
 {
@@ -298,7 +298,7 @@ struct s_game_sound_deterministic_globals
 };
 static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
 
-//struct s_decal_system_datum : datum_header
+//struct s_decal_system_datum : s_datum_header
 
 struct s_decal_counts
 {
@@ -356,7 +356,7 @@ struct scripted_camera_globals
 };
 static_assert(sizeof(scripted_camera_globals) == 0xF0);
 
-//struct s_particle_system_datum : datum_header
+//struct s_particle_system_datum : s_datum_header
 
 struct contrail_system
 {
@@ -650,7 +650,7 @@ struct chud_persistent_global_data
 };
 static_assert(sizeof(chud_persistent_global_data) == 0xFA40);
 
-// struct chud_widget_datum : datum_header
+// struct chud_widget_datum : s_datum_header
 
 struct s_first_person_orientations
 {
@@ -792,7 +792,7 @@ struct s_recycling_volumes
 };
 static_assert(sizeof(s_recycling_volumes) == 0x148);
 
-//struct recycling_group_datum : datum_header
+//struct recycling_group_datum : s_datum_header
 
 struct muffin
 {
@@ -975,7 +975,7 @@ struct vision_mode
 };
 static_assert(sizeof(vision_mode) == 0xF0);
 
-struct simulation_gamestate_entity_datum : datum_header
+struct simulation_gamestate_entity_datum : s_datum_header
 {
 	word __unknown2;
 	dword __unknown4;
@@ -984,32 +984,32 @@ struct simulation_gamestate_entity_datum : datum_header
 };
 static_assert(sizeof(simulation_gamestate_entity_datum) == 0x10);
 
-struct breakable_surface_set_broken_event_datum : datum_header
+struct breakable_surface_set_broken_event_datum : s_datum_header
 {
 	byte __data[0x462];
 };
 static_assert(sizeof(breakable_surface_set_broken_event_datum) == 0x464);
 
-struct hs_thread_deterministic_data : datum_header
+struct hs_thread_deterministic_data : s_datum_header
 {
 	byte __data[0x522];
 };
 static_assert(sizeof(hs_thread_deterministic_data) == 0x524);
 
-struct hs_global_data : datum_header
+struct hs_global_data : s_datum_header
 {
 	word __unknown2;
 	dword __unknown4;
 };
 static_assert(sizeof(hs_global_data) == 0x8);
 
-struct hs_distributed_global_data : datum_header
+struct hs_distributed_global_data : s_datum_header
 {
 	byte __data[0x2A];
 };
 static_assert(sizeof(hs_distributed_global_data) == 0x2C);
 
-struct hs_thread_tracking_data : datum_header
+struct hs_thread_tracking_data : s_datum_header
 {
 	word __unknown2;
 	dword __unknown4;
@@ -1017,49 +1017,49 @@ struct hs_thread_tracking_data : datum_header
 };
 static_assert(sizeof(hs_thread_tracking_data) == 0xC);
 
-struct hs_thread_non_deterministic_data : datum_header
+struct hs_thread_non_deterministic_data : s_datum_header
 {
 	byte __data[0x522];
 };
 static_assert(sizeof(hs_thread_non_deterministic_data) == 0x524);
 
-struct effect_datum : datum_header
+struct effect_datum : s_datum_header
 {
 	byte __data[0x9E];
 };
 static_assert(sizeof(effect_datum) == 0xA0);
 
-struct effect_event_datum : datum_header
+struct effect_event_datum : s_datum_header
 {
 	byte __data[0x12];
 };
 static_assert(sizeof(effect_event_datum) == 0x14);
 
-struct effect_location_datum : datum_header
+struct effect_location_datum : s_datum_header
 {
 	byte __data[0x3E];
 };
 static_assert(sizeof(effect_location_datum) == 0x40);
 
-struct effect_geometry_sample_datum : datum_header
+struct effect_geometry_sample_datum : s_datum_header
 {
 	byte __data[0x26];
 };
 static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 
-struct game_looping_sound_datum : datum_header
+struct game_looping_sound_datum : s_datum_header
 {
 	byte __data[0x1E];
 };
 static_assert(sizeof(game_looping_sound_datum) == 0x20);
 
-struct recorded_animation_datum : datum_header
+struct recorded_animation_datum : s_datum_header
 {
 	byte __data[0xA2];
 };
 static_assert(sizeof(recorded_animation_datum) == 0xA4);
 
-struct screen_effect_datum : datum_header
+struct screen_effect_datum : s_datum_header
 {
 	word field_2;
 	dword tag_index;
@@ -1073,7 +1073,7 @@ struct screen_effect_datum : datum_header
 };
 static_assert(sizeof(screen_effect_datum) == 0x3C);
 
-struct s_decal_system_datum : datum_header
+struct s_decal_system_datum : s_datum_header
 {
 	short : 16;
 	long tag_index;
@@ -1099,7 +1099,7 @@ struct s_decal_system_datum : datum_header
 };
 static_assert(sizeof(s_decal_system_datum) == 0x358);
 
-struct s_particle_system_datum : datum_header
+struct s_particle_system_datum : s_datum_header
 {
 	short particle_tag_index;
 	long __unknown4;
@@ -1126,7 +1126,7 @@ struct s_particle_system_datum : datum_header
 };
 static_assert(sizeof(s_particle_system_datum) == 0x58);
 
-struct chud_widget_datum : datum_header
+struct chud_widget_datum : s_datum_header
 {
 	byte __data[0x16];
 };
@@ -1139,7 +1139,7 @@ struct cluster_partition
 	void* cluster_first_data_references;
 };
 
-struct recycling_group_datum : datum_header
+struct recycling_group_datum : s_datum_header
 {
 	byte __data[0x12];
 };
@@ -1153,7 +1153,7 @@ struct s_thread_local_storage
 	//  name: "sim. gamestate entities"
 	// count: 2048
 	//  size: 0x10
-	data_array<simulation_gamestate_entity_datum>* simulation_gamestate_entity_data;
+	c_smart_data_array<simulation_gamestate_entity_datum>* simulation_gamestate_entity_data;
 
 	// name: "gamestate timing samples", "global"
 	// size: 0x14
@@ -1193,7 +1193,7 @@ struct s_thread_local_storage
 	// name: "players"
 	// count: 16
 	//  size: 0x2F08
-	//data_array<Blam::Players::PlayerDatum>* player_data;
+	//c_smart_data_array<Blam::Players::PlayerDatum>* player_data;
 	void* player_data;
 
 	// name: "players globals"
@@ -1218,7 +1218,7 @@ struct s_thread_local_storage
 	//  name: "breakable surface set broken events"
 	// count: 64
 	//  size: 0x464
-	data_array<breakable_surface_set_broken_event_datum>* g_breakable_surface_set_broken_event_data;
+	c_smart_data_array<breakable_surface_set_broken_event_datum>* g_breakable_surface_set_broken_event_data;
 
 	// name: "player mapping globals"
 	// size: 0xE8
@@ -1232,12 +1232,12 @@ struct s_thread_local_storage
 	// size: 0x1
 	bool* director_camera_scripted;
 
-	data_array<hs_thread_deterministic_data>* hs_thread_deterministic_data;
+	c_smart_data_array<hs_thread_deterministic_data>* hs_thread_deterministic_data;
 	hs_runtime* hs_runtime;
-	data_array<hs_global_data>* hs_global_data;
-	data_array<hs_distributed_global_data>* hs_distributed_global_data;
-	data_array<hs_thread_tracking_data>* hs_thread_tracking_data;
-	data_array<hs_thread_non_deterministic_data>* hs_thread_non_deterministic_data;
+	c_smart_data_array<hs_global_data>* hs_global_data;
+	c_smart_data_array<hs_distributed_global_data>* hs_distributed_global_data;
+	c_smart_data_array<hs_thread_tracking_data>* hs_thread_tracking_data;
+	c_smart_data_array<hs_thread_non_deterministic_data>* hs_thread_non_deterministic_data;
 	 
 	void* __unknown80;
 	void* __unknown84;
@@ -1251,17 +1251,17 @@ struct s_thread_local_storage
 	//  name: "effect"
 	// count: 640
 	//  size: 0xA0
-	data_array<effect_datum>* effect_data;
+	c_smart_data_array<effect_datum>* effect_data;
 
 	//  name: "effect event"
 	// count: 640
 	//  size: 0x14
-	data_array<effect_event_datum>* event_data;
+	c_smart_data_array<effect_event_datum>* event_data;
 
 	//  name: "effect location"
 	// count: 1152
 	//  size: 0x40
-	data_array<effect_location_datum>* effect_location_data;
+	c_smart_data_array<effect_location_datum>* effect_location_data;
 
 	// name: "effect counts"
 	// size: 0x18
@@ -1270,7 +1270,7 @@ struct s_thread_local_storage
 	//  name: "effect geometry sample"
 	// count: 128
 	//  size: 0x28
-	data_array<effect_geometry_sample_datum>* effect_geometry_sample_data;
+	c_smart_data_array<effect_geometry_sample_datum>* effect_geometry_sample_data;
 
 	// name: "effect messaging queue"
 	// size: 0x17084
@@ -1298,7 +1298,7 @@ struct s_thread_local_storage
 	//  name: "object looping sounds"
 	// count: 1024
 	//  size: 0x20
-	data_array<game_looping_sound_datum>* game_looping_sound_data;
+	c_smart_data_array<game_looping_sound_datum>* game_looping_sound_data;
 
 	// name: "game sound globals"
 	// size: 0x154
@@ -1516,7 +1516,7 @@ struct s_thread_local_storage
 	//  name: "recorded animations"
 	// count: 1
 	//  size: 0xA4
-	data_array<recorded_animation_datum>* animation_threads;
+	c_smart_data_array<recorded_animation_datum>* animation_threads;
 
 	// name: "game save globals"
 	// size: 0x18
@@ -1525,7 +1525,7 @@ struct s_thread_local_storage
 	//  name: "screen_effect"
 	// count: 64
 	//  size: 0x3C
-	data_array<screen_effect_datum>* screen_effect_data;
+	c_smart_data_array<screen_effect_datum>* screen_effect_data;
 
 	// name: "player effects"
 	// size: 0x3A0
@@ -1554,7 +1554,7 @@ struct s_thread_local_storage
 	//  name: "decal_system"
 	// count: 856
 	//  size: 0x54
-	data_array<s_decal_system_datum>* decal_system;
+	c_smart_data_array<s_decal_system_datum>* decal_system;
 
 	// name: "decal counts"
 	// size: 0x20
@@ -1598,7 +1598,7 @@ struct s_thread_local_storage
 	scripted_camera_globals* scripted_camera_globals;
 
 	data_array_base* particles;
-	data_array<s_particle_system_datum>* particle_system;
+	c_smart_data_array<s_particle_system_datum>* particle_system;
 
 	contrail_system* contrail_system;
 	contrail* contrail;
@@ -1646,7 +1646,7 @@ struct s_thread_local_storage
 	// name: "chud widgets[1]"
 	// name: "chud widgets[2]"
 	// name: "chud widgets[3]"
-	data_array<chud_widget_datum>* chud_widgets[4];
+	c_smart_data_array<chud_widget_datum>* chud_widgets[4];
 
 	// name: "fp orientations"
 	// size: 0x12C00
@@ -1667,7 +1667,7 @@ struct s_thread_local_storage
 	//  name: "object"
 	// count: 2048
 	//  size: 0x18
-	//data_array<Blam::Objects::ObjectHeader>* object_header_data;
+	//c_smart_data_array<Blam::Objects::ObjectHeader>* object_header_data;
 	void* object_header_data;
 
 	// name: "object globals"
@@ -1760,7 +1760,7 @@ struct s_thread_local_storage
 	//  name: "recycling_group"
 	// count: 128
 	//  size: 0x14
-	data_array<recycling_group_datum>* recycling_groups;
+	c_smart_data_array<recycling_group_datum>* recycling_groups;
 
 	muffin* muffin_data;
 
