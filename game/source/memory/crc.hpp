@@ -5,4 +5,4 @@
 extern dword __cdecl crc_checksum_buffer_adler32(dword sum, byte* buffer, dword buffer_size);
 
 extern dword adler_new();
-extern dword adler32(dword sum, void const* data, dword len);
+extern dword adler32_update(dword sum, void const* data, dword len);

@@ -24,11 +24,11 @@ dword __cdecl crc_checksum_buffer_adler32(dword sum, byte* buffer, dword buffer_
 
 dword adler_new()
 {
-	return adler32(0, 0, 0);
+	return adler32_update(0, 0, 0);
 }
 
 // modified version of https://github.com/skeeto/scratch/blob/365892d47ddb264415b5d9760dcd77c35f72219a/checksums/adler32.h
-dword adler32(dword sum, void const* data, dword len)
+dword adler32_update(dword sum, void const* data, dword len)
 {
 	if (!data)
 		return 1;
