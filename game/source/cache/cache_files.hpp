@@ -238,11 +238,33 @@ t_type* tag_get(tag group_tag, long tag_index)
 extern char const* tag_get_name(long tag_name_index);
 extern char const* tag_get_name_safe(long tag_name_index);
 
-extern bool cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
-extern bool cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
-//bool cache_files_verify_header_rsa_signature(s_cache_file_header const *header);
-extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header);
+struct s_cache_file_security_globals;
 
-extern bool __cdecl scenario_tags_load(char const* scenario_path);
-extern void __cdecl scenario_tags_load_finished();
-extern void __cdecl scenario_tags_unload();
+bool __cdecl cache_file_blocking_read(long cache_file_section, long section_offset, long buffer_size, void* buffer);
+bool __cdecl cache_file_content_signatures_match(long signature0_size, byte const* signature0, long signature1_size, byte const* signature1, bool unused);
+bool __cdecl cache_file_get_content_signature(long* out_signature_size, byte const** out_signature);
+long __cdecl cache_file_get_global_tag_index(tag group_tag);
+void __cdecl cache_file_get_path(char const* mapname, char* buffer, long buffer_size);
+s_cache_file_security_globals* __cdecl cache_file_get_security_globals();
+void const* __cdecl cache_file_globals_get_tag_cache_base_address();
+bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
+bool __cdecl cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
+real __cdecl cache_file_map_progress_estimated_megabytes_remaining(long scenario_type, char const* scenario_path);
+long __cdecl cache_file_map_progress_estimated_miliseconds_remaining(long scenario_type, char const* scenario_path);
+real __cdecl cache_file_map_progress_helper(long scenario_type, char const* scenario_path, long progress_type);
+dword __cdecl cache_files_get_checksum();
+s_cache_file_header const* __cdecl cache_files_get_header();
+s_rsa_signature const* __cdecl cache_files_get_rsa_signature();
+long __cdecl cache_files_get_total_tags_size();
+char const* __cdecl cache_files_map_directory();
+bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header);
+dword __cdecl compute_realtime_checksum(char* a1, int a2);
+bool __cdecl scenario_tags_load(char const* scenario_path);
+void __cdecl scenario_tags_load_finished();
+void __cdecl scenario_tags_unload();
+
+struct tag_iterator;
+
+void __cdecl tag_files_close();
+void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag);
+long __cdecl tag_iterator_next(tag_iterator* iterator);
