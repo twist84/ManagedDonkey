@@ -241,5 +241,6 @@ extern char const* tag_get_name_safe(long tag_name_index);
 //bool cache_files_verify_header_rsa_signature(s_cache_file_header const *header);
 extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header *header);
 
+extern bool __cdecl scenario_tags_load(char const* scenario_path);
 extern void __cdecl scenario_tags_load_finished();
 extern void __cdecl scenario_tags_unload();

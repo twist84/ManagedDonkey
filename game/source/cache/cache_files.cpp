@@ -123,7 +123,12 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 	return true;
 }
 
-void scenario_tags_load_finished()
+bool __cdecl scenario_tags_load(char const* scenario_path)
+{
+	return DECLTHUNK(0x00502DC0, scenario_tags_load, scenario_path);
+}
+
+void __cdecl scenario_tags_load_finished()
 {
 	// nullsub
 	DECLTHUNK(0x00503190, scenario_tags_load_finished);
