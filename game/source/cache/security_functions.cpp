@@ -26,3 +26,9 @@ bool __cdecl security_rsa_compute_and_verify_signature(s_network_http_request_ha
 
 	return result;
 }
+
+//void security_get_working_memory(enum e_secure_memory_region, void**, long*);
+void __cdecl security_get_working_memory(long region, void** out_working_memory, long* out_working_memory_size)
+{
+	DECLTHUNK(0x00508DB0, security_get_working_memory, region, out_working_memory, out_working_memory_size);
+}
