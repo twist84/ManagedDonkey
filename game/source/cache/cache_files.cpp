@@ -72,6 +72,16 @@ char const* tag_get_name_safe(long tag_name_index)
 	return nullptr;
 }
 
+bool cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally)
+{
+	return DECLTHUNK(0x00501950, cache_file_header_verify, header, scenario_path, fail_fatally);
+}
+
+bool cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally)
+{
+	return DECLTHUNK(0x00501AD0, cache_file_header_verify_and_version, header, scenario_path, fail_fatally);
+}
+
 const bool override_cache_file_header_security_validate_hash = true;
 const bool override_cache_file_header_security_rsa_compute_and_verify_signature = true;
 

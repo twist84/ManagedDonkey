@@ -238,8 +238,10 @@ t_type* tag_get(tag group_tag, long tag_index)
 extern char const* tag_get_name(long tag_name_index);
 extern char const* tag_get_name_safe(long tag_name_index);
 
+extern bool cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
+extern bool cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
 //bool cache_files_verify_header_rsa_signature(s_cache_file_header const *header);
-extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header *header);
+extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header);
 
 extern bool __cdecl scenario_tags_load(char const* scenario_path);
 extern void __cdecl scenario_tags_load_finished();
