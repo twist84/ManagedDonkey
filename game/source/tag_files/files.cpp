@@ -31,8 +31,21 @@ s_file_reference* __cdecl file_reference_set_name(s_file_reference* file_referen
 //long __cdecl find_files(unsigned long, s_file_reference const*, long, s_file_reference*)
 //bool __cdecl file_is_readable(s_file_reference*, unsigned long*)
 //void __cdecl file_trim(s_file_reference*, long)
-//void* __cdecl file_read_into_memory_with_null_padding(s_file_reference*, unsigned long*, unsigned long)
-//void* __cdecl file_read_into_memory(s_file_reference*, unsigned long*)
-//bool __cdecl file_read_into_buffer(s_file_reference*, void*, unsigned long)
+
+void* __cdecl file_read_into_memory_with_null_padding(s_file_reference* file_reference, dword* out_size, dword pad_size)
+{
+	return DECLTHUNK(0x00528350, file_read_into_memory_with_null_padding, file_reference, out_size, pad_size);
+}
+
+void* __cdecl file_read_into_memory(s_file_reference* file_reference, dword* out_size)
+{
+	return DECLTHUNK(0x00528320, file_read_into_memory, file_reference, out_size);
+}
+
+bool __cdecl file_read_into_buffer(s_file_reference* file_reference, void* buffer, dword buffer_length)
+{
+	return DECLTHUNK(0x005282D0, file_read_into_buffer, file_reference, buffer, buffer_length);
+}
+
 //void __cdecl file_printf(s_file_reference*, char const*, ...)
 //void __cdecl file_vprintf(s_file_reference*, char const*, char*)
