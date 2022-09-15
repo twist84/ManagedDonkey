@@ -56,5 +56,6 @@ struct s_simulation_globals
 	byte __unknown126;
 	byte __unknown127;
 };
+static_assert(sizeof(s_simulation_globals) == 0x128);
 
 extern s_simulation_globals& simulation_globals;
