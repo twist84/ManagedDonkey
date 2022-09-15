@@ -166,6 +166,7 @@ POPD
     <ClCompile Include="source\tag_files\tag_groups.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\memory\byteswap.hpp" />
     <ClInclude Include="source\cache\cache_file_builder_security.hpp" />
     <ClInclude Include="source\cache\cache_files.hpp" />
     <ClInclude Include="source\cache\cache_files_windows.hpp" />
