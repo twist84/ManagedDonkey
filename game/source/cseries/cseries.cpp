@@ -1,5 +1,7 @@
 #include "cseries/cseries.hpp"
 
+#include "memory/byteswap.hpp"
+
 #include <assert.h>
 #include <ctype.h>
 #include <stdarg.h>
@@ -84,6 +86,14 @@ char* csnzprintf(char* buffer, dword size, char const* format, ...)
     cvsnzprintf(buffer, size, format, list);
 
     va_end(list);
+
+    return buffer;
+}
+
+char* tag_to_string(tag _tag, char* buffer)
+{
+    *(tag*)buffer = _byteswap_ulong(_tag);
+    buffer[4] = 0;
 
     return buffer;
 }

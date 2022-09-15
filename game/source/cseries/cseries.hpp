@@ -274,3 +274,5 @@ public:
 protected:
 	char m_string[k_max_count];
 };
+
+extern char* tag_to_string(tag _tag, char* buffer);
