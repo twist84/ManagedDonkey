@@ -9,6 +9,7 @@
 #include "main/main_game_launch.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "simulation/simulation.hpp"
 
 #include <windows.h>
 #include <assert.h>
@@ -21,6 +22,7 @@ void main_loop_body_begin()
     {
         cache_file_table_of_contents;
         cache_file_copy_globals;
+        simulation_globals;
 
         printf("");
     }
