@@ -2,29 +2,29 @@
 
 s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* file_reference, short location)
 {
-	return DECLTHUNK(0x00528500, file_reference_agnostic_create, file_reference, location);
+	return INVOKE(0x00528500, file_reference_agnostic_create, file_reference, location);
 }
 
 s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* file_reference, char const* path, bool a3)
 {
-	return DECLTHUNK(0x00528550, file_reference_create_from_path, file_reference, path, a3);
+	return INVOKE(0x00528550, file_reference_create_from_path, file_reference, path, a3);
 }
 
 s_file_reference* __cdecl file_reference_copy(s_file_reference* file_reference, s_file_reference const* other)
 {
-	return DECLTHUNK(0x00528530, file_reference_copy, file_reference, other);
+	return INVOKE(0x00528530, file_reference_copy, file_reference, other);
 }
 
 s_file_reference* __cdecl file_reference_add_directory(s_file_reference* file_reference, wchar_t const* directory)
 {
-	return DECLTHUNK(0x00528490, file_reference_add_directory, file_reference, directory);
+	return INVOKE(0x00528490, file_reference_add_directory, file_reference, directory);
 }
 
 //s_file_reference*__cdecl file_reference_remove_directory(s_file_reference* file_reference)
 
 s_file_reference* __cdecl file_reference_set_name(s_file_reference* file_reference, char const* name)
 {
-	return DECLTHUNK(0x005288B0, file_reference_set_name, file_reference, name);
+	return INVOKE(0x005288B0, file_reference_set_name, file_reference, name);
 }
 
 //s_file_reference* __cdecl file_reference_remove_name(s_file_reference*)
@@ -34,17 +34,17 @@ s_file_reference* __cdecl file_reference_set_name(s_file_reference* file_referen
 
 void* __cdecl file_read_into_memory_with_null_padding(s_file_reference* file_reference, dword* out_size, dword pad_size)
 {
-	return DECLTHUNK(0x00528350, file_read_into_memory_with_null_padding, file_reference, out_size, pad_size);
+	return INVOKE(0x00528350, file_read_into_memory_with_null_padding, file_reference, out_size, pad_size);
 }
 
 void* __cdecl file_read_into_memory(s_file_reference* file_reference, dword* out_size)
 {
-	return DECLTHUNK(0x00528320, file_read_into_memory, file_reference, out_size);
+	return INVOKE(0x00528320, file_read_into_memory, file_reference, out_size);
 }
 
 bool __cdecl file_read_into_buffer(s_file_reference* file_reference, void* buffer, dword buffer_length)
 {
-	return DECLTHUNK(0x005282D0, file_read_into_buffer, file_reference, buffer, buffer_length);
+	return INVOKE(0x005282D0, file_read_into_buffer, file_reference, buffer, buffer_length);
 }
 
 //void __cdecl file_printf(s_file_reference*, char const*, ...)

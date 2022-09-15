@@ -53,14 +53,14 @@ bool game_options_valid()
 
 bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length)
 {
-	return DECLTHUNK(0x005326F0, game_options_verify, options, error_string, error_string_length);
+	return INVOKE(0x005326F0, game_options_verify, options, error_string, error_string_length);
 }
 
 void __cdecl assert_game_options_verify(game_options const* options)
 {
 	char error_string[512]{};
 	assert(game_options_verify(options, error_string, sizeof(error_string))); // ("game_options_verify failed: %s", error_string)
-	//DECLTHUNK(0x00530440, assert_game_options_verify, options);
+	//INVOKE(0x00530440, assert_game_options_verify, options);
 }
 
 game_options* game_options_get()
@@ -500,7 +500,7 @@ bool game_is_finished_immediate()
 
 void __cdecl game_options_new(game_options* options)
 {
-	DECLTHUNK(0x005323A0, game_options_new, options);
+	INVOKE(0x005323A0, game_options_new, options);
 }
 
 struct s_game_options_launch_settings
@@ -587,7 +587,7 @@ const bool use_halo_reach_launch_settings = true;
 bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress)
 {
 	// nullsub
-	//return DECLTHUNK(0x006961C0, game_options_get_launch_settings, options, change_in_progress);
+	//return INVOKE(0x006961C0, game_options_get_launch_settings, options, change_in_progress);
 
 	assert(options);
 

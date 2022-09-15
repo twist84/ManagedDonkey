@@ -28,5 +28,5 @@ const char* game_engine_variant_get_name(long game_engine_index)
 
 c_game_variant* build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index)
 {
-	return DECLTHUNK(0x005721C0, build_default_game_variant, game_variant, game_engine_index);
+	return INVOKE(0x005721C0, build_default_game_variant, game_variant, game_engine_index);
 }

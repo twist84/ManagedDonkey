@@ -26,7 +26,7 @@ scenario* global_scenario_get()
 //bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
 {
-	//return DECLTHUNK(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
+	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
 
 	assert(scenario_path != 0);
 
@@ -42,13 +42,13 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 
 void __cdecl scenario_invalidate()
 {
-	return DECLTHUNK(0x004EA3E0, scenario_invalidate);
+	return INVOKE(0x004EA3E0, scenario_invalidate);
 }
 
 //bool __cdecl scenario_load(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path)
 {
-    //return DECLTHUNK(0x004EA5E0, scenario_load, campaign_id, map_id, scenario_path);
+    //return INVOKE(0x004EA5E0, scenario_load, campaign_id, map_id, scenario_path);
 
 	// saber function, crashes in `hf2p_game_client_cache_release.exe!sub_A28EC0` if not called
 	DECLFUNC(0x00600770, void, __cdecl)();

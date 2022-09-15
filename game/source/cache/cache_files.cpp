@@ -56,22 +56,22 @@ char const* tag_get_name_safe(long tag_name_index)
 //bool cache_file_blocking_read(enum e_cache_file_section,long,long,void *)
 bool __cdecl cache_file_blocking_read(long cache_file_section, long section_offset, long buffer_size, void* buffer)
 {
-	return DECLTHUNK(0x005016D0, cache_file_blocking_read, cache_file_section, section_offset, buffer_size, buffer);
+	return INVOKE(0x005016D0, cache_file_blocking_read, cache_file_section, section_offset, buffer_size, buffer);
 }
 
 bool __cdecl cache_file_content_signatures_match(long signature0_size, byte const* signature0, long signature1_size, byte const* signature1, bool unused)
 {
-	return DECLTHUNK(0x00501740, cache_file_content_signatures_match, signature0_size, signature0, signature1_size, signature1, unused);
+	return INVOKE(0x00501740, cache_file_content_signatures_match, signature0_size, signature0, signature1_size, signature1, unused);
 }
 
 bool __cdecl cache_file_get_content_signature(long* out_signature_size, byte const** out_signature)
 {
-	return DECLTHUNK(0x00501780, cache_file_get_content_signature, out_signature_size, out_signature);
+	return INVOKE(0x00501780, cache_file_get_content_signature, out_signature_size, out_signature);
 }
 
 long __cdecl cache_file_get_global_tag_index(tag group_tag)
 {
-	return DECLTHUNK(0x005017E0, cache_file_get_global_tag_index, group_tag);
+	return INVOKE(0x005017E0, cache_file_get_global_tag_index, group_tag);
 
 	//s_cache_file_global_tags_definition* global_tags = tag_get<s_cache_file_global_tags_definition>('cfgt', 0);
 	//if (!global_tags)
@@ -84,55 +84,55 @@ long __cdecl cache_file_get_global_tag_index(tag group_tag)
 
 void __cdecl cache_file_get_path(char const* mapname, char* buffer, long buffer_size)
 {
-	DECLTHUNK(0x005018C0, cache_file_get_path, mapname, buffer, buffer_size);
+	INVOKE(0x005018C0, cache_file_get_path, mapname, buffer, buffer_size);
 }
 
 s_cache_file_security_globals* __cdecl cache_file_get_security_globals()
 {
-	return DECLTHUNK(0x005018F0, cache_file_get_security_globals);
+	return INVOKE(0x005018F0, cache_file_get_security_globals);
 }
 
 void const* __cdecl cache_file_globals_get_tag_cache_base_address()
 {
-	return DECLTHUNK(0x00501930, cache_file_globals_get_tag_cache_base_address);
+	return INVOKE(0x00501930, cache_file_globals_get_tag_cache_base_address);
 }
 
 bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally)
 {
-	return DECLTHUNK(0x00501950, cache_file_header_verify, header, scenario_path, fail_fatally);
+	return INVOKE(0x00501950, cache_file_header_verify, header, scenario_path, fail_fatally);
 }
 
 bool __cdecl cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally)
 {
-	return DECLTHUNK(0x00501AD0, cache_file_header_verify_and_version, header, scenario_path, fail_fatally);
+	return INVOKE(0x00501AD0, cache_file_header_verify_and_version, header, scenario_path, fail_fatally);
 }
 
 //float cache_file_map_progress_estimated_megabytes_remaining(enum e_scenario_type,char const *)
 real __cdecl cache_file_map_progress_estimated_megabytes_remaining(long scenario_type, char const* scenario_path)
 {
-	return DECLTHUNK(0x00501B90, cache_file_map_progress_estimated_megabytes_remaining, scenario_type, scenario_path);
+	return INVOKE(0x00501B90, cache_file_map_progress_estimated_megabytes_remaining, scenario_type, scenario_path);
 }
 
 //long cache_file_map_progress_estimated_miliseconds_remaining(enum e_scenario_type,char const *)
 long __cdecl cache_file_map_progress_estimated_miliseconds_remaining(long scenario_type, char const* scenario_path)
 {
-	return DECLTHUNK(0x00501BB0, cache_file_map_progress_estimated_miliseconds_remaining, scenario_type, scenario_path);
+	return INVOKE(0x00501BB0, cache_file_map_progress_estimated_miliseconds_remaining, scenario_type, scenario_path);
 }
 
 //float cache_file_map_progress_helper(enum e_scenario_type, char const*, enum e_cache_file_progress_type)
 real __cdecl cache_file_map_progress_helper(long scenario_type, char const* scenario_path, long progress_type)
 {
-	return DECLTHUNK(0x00501BF0, cache_file_map_progress_helper, scenario_type, scenario_path, progress_type);
+	return INVOKE(0x00501BF0, cache_file_map_progress_helper, scenario_type, scenario_path, progress_type);
 }
 
 dword __cdecl cache_files_get_checksum()
 {
-	return DECLTHUNK(0x00501F40, cache_files_get_checksum);
+	return INVOKE(0x00501F40, cache_files_get_checksum);
 }
 
 s_cache_file_header const* __cdecl cache_files_get_header()
 {
-	//return DECLTHUNK(0x00501F90, cache_files_get_header);
+	//return INVOKE(0x00501F90, cache_files_get_header);
 
 	assert(g_cache_file_globals.header.header_signature == k_cache_file_header_signature);
 	assert(g_cache_file_globals.header.version == k_cache_file_version);
@@ -143,17 +143,17 @@ s_cache_file_header const* __cdecl cache_files_get_header()
 
 s_rsa_signature const* __cdecl cache_files_get_rsa_signature()
 {
-	return DECLTHUNK(0x00501FA0, cache_files_get_rsa_signature);
+	return INVOKE(0x00501FA0, cache_files_get_rsa_signature);
 }
 
 long __cdecl cache_files_get_total_tags_size()
 {
-	return DECLTHUNK(0x00501FB0, cache_files_get_total_tags_size);
+	return INVOKE(0x00501FB0, cache_files_get_total_tags_size);
 }
 
 char const* __cdecl cache_files_map_directory()
 {
-	return DECLTHUNK(0x00501FC0, cache_files_map_directory);
+	return INVOKE(0x00501FC0, cache_files_map_directory);
 }
 
 const bool override_cache_file_header_security_validate_hash = true;
@@ -161,7 +161,7 @@ const bool override_cache_file_header_security_rsa_compute_and_verify_signature 
 
 bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header)
 {
-	//return DECLTHUNK(0x00502210, cache_files_verify_header_rsa_signature, header);
+	//return INVOKE(0x00502210, cache_files_verify_header_rsa_signature, header);
 
 	if (header->header_signature != 'head' || header->footer_signature != 'foot')
 	{
@@ -213,33 +213,33 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 
 dword __cdecl compute_realtime_checksum(char* a1, int a2)
 {
-	return DECLTHUNK(0x00502300, compute_realtime_checksum, a1, a2);
+	return INVOKE(0x00502300, compute_realtime_checksum, a1, a2);
 }
 
 bool __cdecl scenario_tags_load(char const* scenario_path)
 {
-	return DECLTHUNK(0x00502DC0, scenario_tags_load, scenario_path);
+	return INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
 }
 
 void __cdecl scenario_tags_load_finished()
 {
 	// nullsub
-	DECLTHUNK(0x00503190, scenario_tags_load_finished);
+	INVOKE(0x00503190, scenario_tags_load_finished);
 }
 
 void __cdecl scenario_tags_unload()
 {
-	DECLTHUNK(0x00503200, scenario_tags_unload);
+	INVOKE(0x00503200, scenario_tags_unload);
 }
 
 void __cdecl tag_files_close()
 {
-	DECLTHUNK(0x00503300, tag_files_close);
+	INVOKE(0x00503300, tag_files_close);
 }
 
 void __cdecl tag_files_open()
 {
-	DECLTHUNK(0x00503340, tag_files_open);
+	INVOKE(0x00503340, tag_files_open);
 }
 
 // 00503370 //void* tag_get(dword,long)
@@ -247,10 +247,10 @@ void __cdecl tag_files_open()
 
 void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag)
 {
-	DECLTHUNK(0x005033E0, tag_iterator_new, iterator, group_tag);
+	INVOKE(0x005033E0, tag_iterator_new, iterator, group_tag);
 }
 
 long __cdecl tag_iterator_next(tag_iterator* iterator)
 {
-	return DECLTHUNK(0x00503400, tag_iterator_next, iterator);
+	return INVOKE(0x00503400, tag_iterator_next, iterator);
 }

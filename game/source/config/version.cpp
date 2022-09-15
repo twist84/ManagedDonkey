@@ -4,5 +4,5 @@
 
 long __cdecl version_get_build_number()
 {
-	return DECLTHUNK(0x00501420, version_get_build_number);
+	return INVOKE(0x00501420, version_get_build_number);
 }

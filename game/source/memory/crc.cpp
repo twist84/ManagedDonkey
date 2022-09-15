@@ -8,7 +8,7 @@
 // this function is closer to the adler32 implementation in zlib
 dword __cdecl crc_checksum_buffer_adler32(dword sum, byte* buffer, dword buffer_size)
 {
-	dword result = DECLTHUNK(0x0052CCC0, crc_checksum_buffer_adler32, sum, buffer, buffer_size);
+	dword result = INVOKE(0x0052CCC0, crc_checksum_buffer_adler32, sum, buffer, buffer_size);
 
 	dword* checksum = reinterpret_cast<dword*>(buffer - 4);
 	if (result != *checksum)

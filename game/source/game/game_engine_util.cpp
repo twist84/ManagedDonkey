@@ -47,7 +47,7 @@ c_infection_engine& internal_infection_engine = *reinterpret_cast<c_infection_en
 
 c_game_engine const* __cdecl current_game_engine()
 {
-	//return DECLTHUNK(0x005CE150, current_game_engine);
+	//return INVOKE(0x005CE150, current_game_engine);
 
 	game_engine_globals* game_engine = get_tls()->game_engine_globals;
 	if (game_engine && (game_engine->GameType > 0 && game_engine->GameType < 11))
