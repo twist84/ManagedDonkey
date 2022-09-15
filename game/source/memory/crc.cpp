@@ -1,25 +1,30 @@
 #include "memory/crc.hpp"
 
-#include "cseries/cseries_windows.hpp"
 #include "cache/cache_files.hpp"
+#include "cseries/cseries_windows.hpp"
 
-#include <stdlib.h>
+const bool g_require_secure_tag_instances = true;
 
-// this function is closer to the adler32 implementation in zlib
-dword __cdecl crc_checksum_buffer_adler32(dword sum, byte* buffer, dword buffer_size)
+dword __cdecl crc_checksum_buffer_adler32(dword adler, byte* buffer, dword buffer_size)
 {
-	dword result = INVOKE(0x0052CCC0, crc_checksum_buffer_adler32, sum, buffer, buffer_size);
+	//dword checksum = INVOKE(0x0052CCC0, crc_checksum_buffer_adler32, adler, buffer, buffer_size);
 
-	dword* checksum = reinterpret_cast<dword*>(buffer - 4);
-	if (result != *checksum)
+	dword checksum = adler32(adler, buffer, buffer_size);
+	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(buffer - 4);
+
+	if (checksum != instance->checksum)
 	{
-		union { tag t; char s[8]; } group_tag = { .t = _byteswap_ulong(reinterpret_cast<cache_file_tag_instance*>(checksum)->group_tags[0]) };
-		display_debug_string("tags: tag instance checksum mismatch calcutaled/expected %u/%u, ['%s', 0x%04X]", result, *checksum, group_tag.s, 0 /* tag index or tag section offset */);
+		if (!g_require_secure_tag_instances)
+			return instance->checksum;
 
-		*checksum = result;
+		char group_string[8]{};
+		tag_to_string(instance->group_tags[0], group_string);
+		display_debug_string("tags: tag instance checksum mismatch calcutaled/expected %08u/%08u, ['%s', 0x%04X]", checksum, instance->checksum, group_string, 0 /* tag index or tag section offset */);
+
+		instance->checksum = checksum;
 	}
 
-	return result;
+	return checksum;
 }
 
 dword adler_new()
