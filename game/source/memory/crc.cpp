@@ -24,22 +24,114 @@ dword __cdecl crc_checksum_buffer_adler32(dword sum, byte* buffer, dword buffer_
 
 dword adler_new()
 {
-	return adler32_update(0, 0, 0);
+	return adler32(0, 0, 0);
 }
 
-// modified version of https://github.com/skeeto/scratch/blob/365892d47ddb264415b5d9760dcd77c35f72219a/checksums/adler32.h
-dword adler32_update(dword sum, void const* data, dword len)
+dword adler32(dword adler, const byte* buf, dword len)
 {
-	if (!data)
-		return 1;
+	dword sum2 = (adler >> 16) & 0xFFFF;
+	adler &= 0xFFFF;
 
-	byte const* p = static_cast<byte const*>(data);
+	if (len == 1ul)
+	{
+		adler += buf[0];
 
-	dword a = sum & 0xffff;
-	dword b = sum >> 16;
+		if (adler >= 0xFFF1ul)
+			adler -= 0xFFF1ul;
 
-	for (dword i = 0; i < len; i++)
-		b = (b + (a = (a + p[i]) % 65521)) % 65521;
+		sum2 += adler;
 
-	return (b << 16) | a;
+		if (sum2 >= 0xFFF1ul)
+			sum2 -= 0xFFF1ul;
+
+		return adler | (sum2 << 16);
+	}
+
+	if (buf == nullptr)
+		return 1ul;
+
+	if (len < 16)
+	{
+		while (len--)
+		{
+			adler += *buf++;
+			sum2 += adler;
+		}
+
+		if (adler >= 0xFFF1ul)
+			adler -= 0xFFF1ul;
+
+		sum2 %= 0xFFF1ul;
+
+		return adler | (sum2 << 16);
+	}
+
+	while (len >= 0x15B0)
+	{
+		len -= 0x15B0;
+		dword n = 0x15B0 / 16;
+
+		do
+		{
+			adler += (buf)[0];  sum2 += adler;
+			adler += (buf)[1];  sum2 += adler;
+			adler += (buf)[2];  sum2 += adler;
+			adler += (buf)[3];  sum2 += adler;
+			adler += (buf)[4];  sum2 += adler;
+			adler += (buf)[5];  sum2 += adler;
+			adler += (buf)[6];  sum2 += adler;
+			adler += (buf)[7];  sum2 += adler;
+			adler += (buf)[8];  sum2 += adler;
+			adler += (buf)[9];  sum2 += adler;
+			adler += (buf)[10]; sum2 += adler;
+			adler += (buf)[11]; sum2 += adler;
+			adler += (buf)[12]; sum2 += adler;
+			adler += (buf)[13]; sum2 += adler;
+			adler += (buf)[14]; sum2 += adler;
+			adler += (buf)[15]; sum2 += adler;
+
+			buf += 16;
+		} while (--n);
+
+		adler %= 0xFFF1ul;
+		sum2 %= 0xFFF1ul;
+	}
+
+	if (len)
+	{
+		while (len >= 16)
+		{
+			len -= 16;
+
+			adler += (buf)[0];  sum2 += adler;
+			adler += (buf)[1];  sum2 += adler;
+			adler += (buf)[2];  sum2 += adler;
+			adler += (buf)[3];  sum2 += adler;
+			adler += (buf)[4];  sum2 += adler;
+			adler += (buf)[5];  sum2 += adler;
+			adler += (buf)[6];  sum2 += adler;
+			adler += (buf)[7];  sum2 += adler;
+			adler += (buf)[8];  sum2 += adler;
+			adler += (buf)[9];  sum2 += adler;
+			adler += (buf)[10]; sum2 += adler;
+			adler += (buf)[11]; sum2 += adler;
+			adler += (buf)[12]; sum2 += adler;
+			adler += (buf)[13]; sum2 += adler;
+			adler += (buf)[14]; sum2 += adler;
+			adler += (buf)[15]; sum2 += adler;
+
+			buf += 16;
+		}
+
+		while (len--)
+		{
+			adler += *buf++;
+			sum2 += adler;
+		}
+
+		adler %= 0xFFF1ul;
+		sum2 %= 0xFFF1ul;
+	}
+
+	return adler | (sum2 << 16);
 }
