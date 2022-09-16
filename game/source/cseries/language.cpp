@@ -5,6 +5,7 @@
 #include "text/font_loading.hpp"
 
 #include <windows.h>
+#include <assert.h>
 
 char const* k_language_names[k_language_count]
 {
@@ -164,7 +165,19 @@ char const* __cdecl get_language_suffix(e_language language, bool a2)
 
 void __cdecl get_localized_data_directory_name(e_language language, char* buffer, long count)
 {
-    INVOKE(0x00530070, get_localized_data_directory_name, language, buffer, count);
+    //INVOKE(0x00530070, get_localized_data_directory_name, language, buffer, count);
+
+    assert(buffer != NULL);
+    assert(count > 0);
+
+    char const* language_suffix = get_language_suffix(language, 1);
+    *buffer = 0;
+    csstrnzcat(buffer, "data", count);
+    if (*language_suffix)
+    {
+        csstrnzcat(buffer, "_", count);
+        csstrnzcat(buffer, language_suffix, count);
+    }
 }
 
 void __cdecl set_current_language(e_language language)
