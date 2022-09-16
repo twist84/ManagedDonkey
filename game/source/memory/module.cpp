@@ -4,6 +4,7 @@
 #include "cache/security_functions.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_util.hpp"
+#include "hf2p/hf2p.hpp"
 #include "interface/damaged_media.hpp"
 #include "main/loading.hpp"
 #include "main/main.hpp"
@@ -17,9 +18,6 @@
 
 c_hook_call<0x00505C2B> main_loop_body_begin_hook({ .pointer = main_loop_body_begin });
 c_hook_call<0x0050605C> main_loop_body_end_hook({ .pointer = main_loop_body_end });
-
-// stops hf2p startup functions from running
-//c_data_patch<0x018B59D4> g_hf2p_first_run_patch(false);
 
 // Bungie OS exception, dirty disc error
 c_hook_call<0x00A9F6C0> damaged_media_exception_hook0({ .pointer = damaged_media_exception });
@@ -50,3 +48,5 @@ c_hook_call<0x005679B5> scenario_load_hook({ .pointer = scenario_load });
 c_hook_call<0x00552410> current_game_engine_hook({ .pointer = current_game_engine });
 
 c_hook_call<0x005677AA> game_options_get_launch_settings_hook({ .pointer = game_options_get_launch_settings });
+
+c_hook_call<0x00530CFF> hf2p_dispose_hook({ .pointer = hf2p_dispose });

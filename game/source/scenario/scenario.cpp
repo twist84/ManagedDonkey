@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
+#include "hf2p/hf2p.hpp"
 #include "main/levels.hpp"
 #include "scenario/scenario_definitions.hpp"
 #include "scenario/scenario_tags_fixup.hpp"
@@ -60,8 +61,15 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 			scenario_tags_fixup();
 			scenario_tags_load_finished();
 
-			// saber function, uses `g_hf2p_first_run`
-			//game_perform_startup();
+			// override
+			g_hf2p_first_run = true;
+
+			// inlined saber function
+			if (!g_hf2p_first_run)
+			{
+				hf2p_initialize();
+				g_hf2p_first_run = true;
+			}
 
 			return true;
 		}

@@ -180,6 +180,9 @@
     <ClCompile Include="source\simulation\simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\hf2p\hf2p.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\text\font_loading.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -621,6 +624,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\memory\byteswap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\hf2p\hf2p.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\text\font_loading.hpp">
