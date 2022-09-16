@@ -169,7 +169,15 @@ void __cdecl get_localized_data_directory_name(e_language language, char* buffer
 
 void __cdecl set_current_language(e_language language)
 {
-    INVOKE(0x00530100, set_current_language, language);
+    //INVOKE(0x00530100, set_current_language, language);
+
+    if (language != g_game_language)
+    {
+        g_game_language = language;
+        font_reload();
+        window_manager_reset_screens();
+        main_game_notify_language_change(language);
+    }
 }
 
 void __cdecl set_current_language_from_display_name_slow(char const* display_name)
@@ -177,11 +185,6 @@ void __cdecl set_current_language_from_display_name_slow(char const* display_nam
     //INVOKE(0x00530130, set_current_language_from_display_name_slow, display_name);
 
     e_language language = get_language_from_display_name_slow(display_name);
-    if (language != _language_invalid && language != g_game_language)
-    {
-        g_game_language = language;
-        font_reload();
-        window_manager_reset_screens();
-        main_game_notify_language_change(language);
-    }
+    if (language != _language_invalid)
+        set_current_language(language);
 }
