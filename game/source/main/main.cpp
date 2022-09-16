@@ -10,6 +10,7 @@
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "simulation/simulation.hpp"
+#include "text/font_loading.hpp"
 
 #include <windows.h>
 #include <assert.h>
@@ -23,6 +24,7 @@ void main_loop_body_begin()
         cache_file_table_of_contents;
         cache_file_copy_globals;
         simulation_globals;
+        g_font_globals;
 
         printf("");
     }

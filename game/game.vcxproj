@@ -164,6 +164,7 @@ POPD
     <ClCompile Include="source\tag_files\files.cpp" />
     <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\tag_groups.cpp" />
+    <ClCompile Include="source\text\font_loading.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\memory\byteswap.hpp" />
@@ -309,6 +310,7 @@ POPD
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
     <ClInclude Include="source\tag_files\tag_groups.hpp" />
+    <ClInclude Include="source\text\font_loading.hpp" />
     <ClInclude Include="source\units\units.hpp" />
   </ItemGroup>
   <ItemGroup>

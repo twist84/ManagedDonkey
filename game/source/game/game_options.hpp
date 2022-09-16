@@ -16,7 +16,7 @@ struct game_options
 	short game_tick_rate;
 	qword game_instance;
 	dword random_seed;
-	c_enum<e_language, long, k_language_count> language;
+	c_enum<e_language, dword, k_language_count> language;
 	long determinism_version;
 	long campaign_id;
 	long map_id;
