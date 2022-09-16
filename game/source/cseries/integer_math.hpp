@@ -23,7 +23,7 @@ union long_point3d
 };
 static_assert(sizeof(long_point3d) == 0xC);
 
-union rectangle2d
+union short_rectangle2d
 {
 	struct
 	{
@@ -34,7 +34,7 @@ union rectangle2d
 	};
 	short n[4];
 };
-static_assert(sizeof(rectangle2d) == 0x8);
+static_assert(sizeof(short_rectangle2d) == 0x8);
 
 typedef unsigned long rgb_color;
 static_assert(sizeof(rgb_color) == 0x4);

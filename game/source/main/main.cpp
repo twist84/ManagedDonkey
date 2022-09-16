@@ -3,7 +3,6 @@
 #include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
 #include "cseries/cseries_windows.hpp"
-#include "cseries/language.hpp"
 #include "cseries/symbols_reader.hpp"
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
@@ -24,8 +23,6 @@ void main_loop_body_begin()
         cache_file_table_of_contents;
         cache_file_copy_globals;
         simulation_globals;
-
-        set_current_language_from_display_name_slow("japanese");
 
         printf("");
     }
