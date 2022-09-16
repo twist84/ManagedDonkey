@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "game/game_variant.hpp"
 
-const char* k_game_engine_variant_names[k_game_engine_type_count] =
+char const* k_game_engine_variant_names[k_game_engine_type_count] =
 {
 	"base",
 	"ctf",

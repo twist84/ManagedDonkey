@@ -48,7 +48,7 @@ struct s_cache_file_header
 	s_file_last_modification_date creation_time;
 	s_file_last_modification_date shared_file_times[6];
 	string name;
-	long game_language;
+	dword game_language;
 	long_string relative_path;
 	long minor_version;
 	long debug_tag_name_count;

@@ -10,9 +10,13 @@
 
 #define MAXIMUM_STRING_SIZE 0x100000
 
-//long csstricmp(charchar const* s1, char const* s1)
-//long csstrnicmp(char const* s1, char const* s1, dword size)
-//char* csstristr(char const* s1, char const* s1)
+long csstricmp(char const* s1, char const* s2)
+{
+    return _stricmp(s1, s2);
+}
+
+//long csstrnicmp(char const* s1, char const* s2, dword size)
+//char* csstristr(char const* s1, char const* s2)
 
 char* csstrnzcpy(char* s1, char const* s2, dword size)
 {

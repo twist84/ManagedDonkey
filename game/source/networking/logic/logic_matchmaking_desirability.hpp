@@ -46,7 +46,7 @@ struct s_matchmaking_session_properties
 	long party_nat_type;
 	long gamer_zone;
 	long gamer_region;
-	long language;
+	dword language;
 	long nat_type;
 
 	byte_flags flags;

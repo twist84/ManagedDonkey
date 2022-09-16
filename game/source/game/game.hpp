@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/language.hpp"
 #include "game/game_options.hpp"
 #include "memory/data.hpp"
 #include "render/render_visibility_collection.hpp"

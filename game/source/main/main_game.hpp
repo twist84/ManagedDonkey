@@ -69,3 +69,5 @@ extern void main_game_change(game_options const* options);
 //extern void main_game_load_panic();
 //extern void main_game_load_from_core_name(char const* core_name);
 //extern void main_game_load_from_core();
+
+extern void main_game_notify_language_change(e_language language);

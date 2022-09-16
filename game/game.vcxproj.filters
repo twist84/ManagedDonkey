@@ -183,6 +183,12 @@
     <ClCompile Include="source\text\font_loading.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\language.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\user_interface_window_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -618,6 +624,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\text\font_loading.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\language.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_window_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/language.hpp"
 #include "game/game_progression.hpp"
 #include "game/game_variant.hpp"
 #include "game/players.hpp"

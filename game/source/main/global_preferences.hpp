@@ -2,6 +2,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/language.hpp"
 #include "memory/secure_signature.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "shell/shell.hpp"
@@ -128,8 +129,8 @@ struct s_global_preferences_data
 	static_assert(sizeof(s_control_settings) == 0x19C);
 
 	long version;
-	long last_language;
-	long last_font_language;
+	dword last_language;
+	dword last_font_language;
 	s_file_last_modification_date last_fonts_modification_date;
 	long build_number;
 	long betrayal_count;
@@ -201,6 +202,8 @@ enum e_gui_network_session_advertisement_mode
 
 };
 
+extern void __cdecl global_preferences_flush();
+extern e_language __cdecl global_preferences_get_last_font_language();
 extern void __cdecl global_preferences_set_antialiasing(bool antialiasing);
 extern void __cdecl global_preferences_set_betrayal_count(float betrayal_count);
 extern void __cdecl global_preferences_set_build_number(long build_number);

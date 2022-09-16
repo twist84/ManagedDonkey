@@ -51,3 +51,8 @@ void main_game_change(game_options const* options)
 // void main_game_load_panic();
 // void main_game_load_from_core_name(char const* core_name);
 // void main_game_load_from_core();
+
+void main_game_notify_language_change(e_language language)
+{
+	INVOKE(0x00567BF0, main_game_notify_language_change, language);
+}

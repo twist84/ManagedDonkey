@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-const char* k_camera_mode_names[k_number_of_camera_modes]
+char const* k_camera_mode_names[k_number_of_camera_modes]
 {
 	"following",
 	"orbiting",

@@ -2,6 +2,16 @@
 
 s_global_preferences_internals_type* g_global_preferences = reinterpret_cast<s_global_preferences_internals_type*>(0x022C0128);
 
+void __cdecl global_preferences_flush()
+{
+	return INVOKE(0x0050A710, global_preferences_flush);
+}
+
+e_language __cdecl global_preferences_get_last_font_language()
+{
+	return INVOKE(0x0050B450, global_preferences_get_last_font_language);
+}
+
 void __cdecl global_preferences_set_antialiasing(bool antialiasing)
 {
 	INVOKE(0x0050CCE0, global_preferences_set_antialiasing, antialiasing);

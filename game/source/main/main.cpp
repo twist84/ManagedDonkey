@@ -3,6 +3,7 @@
 #include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
 #include "cseries/cseries_windows.hpp"
+#include "cseries/language.hpp"
 #include "cseries/symbols_reader.hpp"
 #include "game/player_control.hpp"
 #include "main/global_preferences.hpp"
@@ -10,7 +11,6 @@
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "simulation/simulation.hpp"
-#include "text/font_loading.hpp"
 
 #include <windows.h>
 #include <assert.h>
@@ -24,7 +24,8 @@ void main_loop_body_begin()
         cache_file_table_of_contents;
         cache_file_copy_globals;
         simulation_globals;
-        g_font_globals;
+
+        set_current_language_from_display_name_slow("japanese");
 
         printf("");
     }
@@ -61,8 +62,8 @@ void main_loop_body_end()
     }
     else if (GetKeyState(VK_HOME) & 0x8000)
     {
-        main_game_launch_set_multiplayer_splitscreen_count(2);
-        //main_game_launch_set_coop_player_count(2);
+        //main_game_launch_set_multiplayer_splitscreen_count(2);
+        main_game_launch_set_coop_player_count(1);
         main_game_launch("maps\\riverworld");
     }
     else if (GetKeyState(VK_END) & 0x8000)
