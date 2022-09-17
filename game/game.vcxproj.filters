@@ -201,6 +201,9 @@
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\items\weapons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -654,6 +657,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\simulation\simulation_debug_globals.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\items\weapons.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

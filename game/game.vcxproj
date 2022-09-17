@@ -140,6 +140,7 @@ POPD
     <ClCompile Include="source\interface\c_controller.cpp" />
     <ClCompile Include="source\interface\damaged_media.cpp" />
     <ClCompile Include="source\interface\user_interface_window_manager.cpp" />
+    <ClCompile Include="source\items\weapons.cpp" />
     <ClCompile Include="source\main\global_preferences.cpp" />
     <ClCompile Include="source\main\levels.cpp" />
     <ClCompile Include="source\main\loading.cpp" />
@@ -178,6 +179,7 @@ POPD
     <ClInclude Include="source\fmod\fmod.hpp" />
     <ClInclude Include="source\hf2p\hf2p.hpp" />
     <ClInclude Include="source\interface\user_interface_window_manager.hpp" />
+    <ClInclude Include="source\items\weapons.hpp" />
     <ClInclude Include="source\memory\byteswap.hpp" />
     <ClInclude Include="source\cache\cache_file_builder_security.hpp" />
     <ClInclude Include="source\cache\cache_files.hpp" />
