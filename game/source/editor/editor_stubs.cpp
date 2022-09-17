@@ -37,7 +37,10 @@ void __cdecl editor_initialize_for_new_structure_bsp(dword a1)
 
 bool __cdecl editor_input_inhibited()
 {
-	return INVOKE(0x0042E040, editor_input_inhibited);
+	//return INVOKE(0x0042E040, editor_input_inhibited);
+
+	static bool result = true;
+	return result;
 }
 
 void __cdecl editor_orphan_object(e_object_type a1, long a2)
@@ -72,5 +75,8 @@ void __cdecl editor_update()
 
 bool __cdecl game_in_editor()
 {
-	return INVOKE(0x0042E130, game_in_editor);
+	//return INVOKE(0x0042E130, game_in_editor);
+
+	static bool result = false;
+	return result;
 }

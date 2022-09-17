@@ -324,6 +324,7 @@ POPD
     <ClInclude Include="source\units\units.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="source\editor\editor_hooks.inl" />
     <None Include="source\memory\module.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
