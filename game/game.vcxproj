@@ -166,6 +166,7 @@ POPD
     <ClCompile Include="source\scenario\scenario.cpp" />
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />
+    <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
     <ClCompile Include="source\tag_files\files.cpp" />
     <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\tag_groups.cpp" />
@@ -311,6 +312,7 @@ POPD
     <ClInclude Include="source\shell\shell.hpp" />
     <ClInclude Include="source\simulation\simulation.hpp" />
     <ClInclude Include="source\simulation\simulation_actors.hpp" />
+    <ClInclude Include="source\simulation\simulation_debug_globals.hpp" />
     <ClInclude Include="source\simulation\simulation_players.hpp" />
     <ClInclude Include="source\simulation\simulation_queue.hpp" />
     <ClInclude Include="source\simulation\simulation_type_collection.hpp" />

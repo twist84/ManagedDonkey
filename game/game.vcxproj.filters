@@ -198,6 +198,9 @@
     <ClCompile Include="source\editor\editor_stubs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\simulation_debug_globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -648,6 +651,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\editor\editor_stubs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\simulation\simulation_debug_globals.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
