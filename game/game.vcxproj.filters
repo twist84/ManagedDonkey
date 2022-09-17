@@ -201,6 +201,9 @@
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\cheats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\items\weapons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -659,6 +662,9 @@
     <ClInclude Include="source\simulation\simulation_debug_globals.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\game\cheats.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\items\weapons.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -668,6 +674,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="source\editor\editor_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\items\weapons_hooks.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

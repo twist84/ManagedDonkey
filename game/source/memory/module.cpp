@@ -16,6 +16,7 @@
 
 #include "memory/module.inl"
 #include "editor/editor_hooks.inl"
+#include "items/weapons_hooks.inl"
 
 c_hook_call<0x00505C2B> main_loop_body_begin_hook({ .pointer = main_loop_body_begin });
 c_hook_call<0x0050605C> main_loop_body_end_hook({ .pointer = main_loop_body_end });
