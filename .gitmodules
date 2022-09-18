@@ -1,3 +1,3 @@
-[submodule "DIA"]
+[submodule "third_party/DIA"]
 	path = third_party/DIA
 	url = https://github.com/milostosic/DIA
