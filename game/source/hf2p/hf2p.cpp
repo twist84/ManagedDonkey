@@ -24,6 +24,28 @@ void __cdecl hf2p_initialize()
 	fmod_initialize();
 }
 
+void __cdecl hf2p_game_initialize()
+{
+	//INVOKE(0x006006F0, hf2p_game_initialize);
+}
+
+void __cdecl hf2p_scenario_tags_load_finished()
+{
+	//INVOKE(0x00600750, hf2p_scenario_tags_load_finished);
+
+	g_hf2p_first_run = true;
+	if (!g_hf2p_first_run)
+	{
+		hf2p_initialize();
+		g_hf2p_first_run = true;
+	}
+}
+
+void __cdecl hf2p_scenario_load()
+{
+	INVOKE(0x00600770, hf2p_scenario_load);
+}
+
 void __cdecl hf2p_dispose()
 {
 	//INVOKE(0x00600790, hf2p_dispose);

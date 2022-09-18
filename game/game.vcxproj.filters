@@ -207,6 +207,9 @@
     <ClCompile Include="source\items\weapons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\effects\contrails.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -668,15 +671,42 @@
     <ClInclude Include="source\items\weapons.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\effects\contrails.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\memory\module.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="source\editor\editor_hooks.inl">
+    <None Include="source\editor\hooks\editor_hooks.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="source\items\weapons_hooks.inl">
+    <None Include="source\items\hooks\items_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\hf2p\hooks\hf2p_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\effects\hooks\effects_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\interface\hooks\interface_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\main\hooks\main_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\cache\hooks\cache_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\game\hooks\game_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\memory\hooks\memory_hooks.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="source\scenario\hooks\scenario_hooks.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

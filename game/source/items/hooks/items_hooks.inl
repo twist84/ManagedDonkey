@@ -1,3 +1,7 @@
+#pragma once
+
+#include "memory/module.hpp"
+
 #include "items/weapons.hpp"
 
 // #TODO: eventually add a full implementation

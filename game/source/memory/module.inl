@@ -1,5 +1,8 @@
 #pragma once
 
+#include <windows.h>
+#include <stdio.h>
+
 static module_address global_module = { .pointer = GetModuleHandle(NULL) };
 
 dword global_address_get(dword rva)

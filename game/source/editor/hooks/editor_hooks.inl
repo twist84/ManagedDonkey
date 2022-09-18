@@ -1,3 +1,7 @@
+#pragma once
+
+#include "memory/module.hpp"
+
 #include "editor/editor_stubs.hpp"
 
 c_hook_call<0x0042E040> editor_input_inhibited_hook({ .pointer = editor_input_inhibited });

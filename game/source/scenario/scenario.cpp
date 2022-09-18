@@ -52,7 +52,7 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
     //return INVOKE(0x004EA5E0, scenario_load, campaign_id, map_id, scenario_path);
 
 	// saber function, crashes in `hf2p_game_client_cache_release.exe!sub_A28EC0` if not called
-	DECLFUNC(0x00600770, void, __cdecl)();
+	hf2p_scenario_load();
 
 	if (scenario_tags_load(scenario_path))
 	{
@@ -60,16 +60,7 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 		{
 			scenario_tags_fixup();
 			scenario_tags_load_finished();
-
-			// override
-			g_hf2p_first_run = true;
-
-			// inlined saber function
-			if (!g_hf2p_first_run)
-			{
-				hf2p_initialize();
-				g_hf2p_first_run = true;
-			}
+			hf2p_scenario_tags_load_finished();
 
 			return true;
 		}

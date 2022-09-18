@@ -35,11 +35,11 @@ HRESULT pdb_get_rva_from_name(WCHAR(&pdb_path)[MAX_PATH], WCHAR(&function_name)[
             return HRESULT_FROM_WIN32(GetLastError()); // library not found
 
         BOOL(WINAPI * DllGetClassObject)(REFCLSID, REFIID, LPVOID*) = (decltype(DllGetClassObject))GetProcAddress(hmodule, "DllGetClassObject");
-        if (!DllGetClassObject)
+        if (DllGetClassObject == NULL)
             return HRESULT_FROM_WIN32(GetLastError());
 
         CComPtr<IClassFactory> pClassFactory;
-        if (FAILED(result = DllGetClassObject(CLSID_DiaSource, IID_IClassFactory, (LPVOID*)&pClassFactory)))
+        if (DllGetClassObject(CLSID_DiaSource, IID_IClassFactory, (LPVOID*)&pClassFactory) == FALSE)
             return result;
 
         if (FAILED(result = pClassFactory->CreateInstance(NULL, IID_IDiaDataSource, (void**)&data_source)))
@@ -107,11 +107,11 @@ HRESULT pdb_get_name_from_rva(WCHAR(&pdb_path)[MAX_PATH], DWORD rva, WCHAR(&out_
             return HRESULT_FROM_WIN32(GetLastError()); // library not found
 
         BOOL(WINAPI * DllGetClassObject)(REFCLSID, REFIID, LPVOID*) = (decltype(DllGetClassObject))GetProcAddress(hmodule, "DllGetClassObject");
-        if (!DllGetClassObject)
+        if (DllGetClassObject == NULL)
             return HRESULT_FROM_WIN32(GetLastError());
 
         CComPtr<IClassFactory> pClassFactory;
-        if (FAILED(result = DllGetClassObject(CLSID_DiaSource, IID_IClassFactory, (LPVOID*)&pClassFactory)))
+        if (DllGetClassObject(CLSID_DiaSource, IID_IClassFactory, (LPVOID*)&pClassFactory) == FALSE)
             return result;
 
         if (FAILED(result = pClassFactory->CreateInstance(NULL, IID_IDiaDataSource, (void**)&data_source)))
