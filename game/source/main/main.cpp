@@ -59,8 +59,8 @@ void main_loop_body_end()
     }
     else if (GetKeyState(VK_HOME) & 0x8000)
     {
-        main_game_launch_set_multiplayer_splitscreen_count(1);
-        //main_game_launch_set_coop_player_count(1);
+        //main_game_launch_set_multiplayer_splitscreen_count(1);
+        main_game_launch_set_coop_player_count(1);
         main_game_launch("maps\\riverworld");
     }
     else if (GetKeyState(VK_END) & 0x8000)
