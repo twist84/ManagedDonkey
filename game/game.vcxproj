@@ -46,11 +46,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>C:\Games\Halo Online\Halo Online (1.106708 2015-03-20)\</OutDir>
-    <TargetName>D3DX9_43</TargetName>
+    <TargetName>game</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>C:\Games\Halo Online\Halo Online (1.106708 2015-03-20)\</OutDir>
-    <TargetName>D3DX9_43</TargetName>
+    <TargetName>game</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
