@@ -17,70 +17,83 @@ const long k_cache_file_footer_signature = 'foot';
 const long k_cache_file_version = 18;
 
 #pragma pack(push, 4)
-struct s_cache_file_header
+union s_cache_file_header
 {
-	dword header_signature;
-	long version;
-	long size;
+#pragma warning(push)
+#pragma warning(disable : 4200)
+	byte base[];
+#pragma warning(pop)
 
-	dword __unknownC;
-	dword __unknown10;
-	dword __unknown14;
-	dword __unknown18;
+	struct
+	{
+		dword header_signature;
+		long version;
+		long size;
 
-	long_string source_file;
-	string build;
-	short scenario_type;
-	short scenario_load_type;
-	bool __unknown140;
-	bool tracked_build;
-	bool has_insertion_points;
-	byte_flags header_flags;
-	s_file_last_modification_date modification_date;
+		dword __unknownC;
+		dword __unknown10;
+		dword __unknown14;
+		dword __unknown18;
 
-	byte __data14C[0xC];
+		long_string source_file;
+		string build;
+		short scenario_type;
+		short scenario_load_type;
+		bool __unknown140;
+		bool tracked_build;
+		bool has_insertion_points;
+		byte_flags header_flags;
+		s_file_last_modification_date modification_date;
 
-	long string_id_index_buffer_length;
-	long string_id_string_storage_length;
-	long string_id_index_buffer;
-	long string_id_string_storage;
-	dword_flags shared_file_flags; // bool uses_shared_map[shared_file_count];
-	s_file_last_modification_date creation_time;
-	s_file_last_modification_date shared_file_times[6];
-	string name;
-	dword game_language;
-	long_string relative_path;
-	long minor_version;
-	long debug_tag_name_count;
-	long debug_tag_name_buffer;
-	long debug_tag_name_buffer_length;
-	long debug_tag_name_offsets;
-	s_cache_file_section_file_bounds reports;
+		byte __data14C[0xC];
 
-	byte __data2E4[0x3C];
+		long string_id_index_buffer_length;
+		long string_id_string_storage_length;
+		long string_id_index_buffer;
+		long string_id_string_storage;
+		dword_flags shared_file_flags; // bool uses_shared_map[shared_file_count];
+		s_file_last_modification_date creation_time;
+		s_file_last_modification_date shared_file_times[6];
+		string name;
+		dword game_language;
+		long_string relative_path;
+		long minor_version;
+		long debug_tag_name_count;
+		long debug_tag_name_buffer;
+		long debug_tag_name_buffer_length;
+		long debug_tag_name_offsets;
+		s_cache_file_section_file_bounds reports;
 
-	s_network_http_request_hash hash;
-	s_rsa_signature rsa_signature;
-	c_static_array<long, 4> section_offsets;
-	c_static_array<s_cache_file_section_file_bounds, 4> original_section_bounds;
-	s_cache_file_shared_resource_usage shared_resource_usage;
-	long insertion_point_resource_usage_count; // `has_insertion_points`
-	c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_resource_usage;
-	long tag_cache_offsets;
-	long tag_count;
-	long map_id;
-	long scenario_index;
-	long cache_file_resource_gestalt_index; // 'zone' tags don't exist in ms23
+		byte __data2E4[0x3C];
 
-	byte __data2DF8[0x594];
+		s_network_http_request_hash hash;
+		s_rsa_signature rsa_signature;
+		c_static_array<long, 4> section_offsets;
+		c_static_array<s_cache_file_section_file_bounds, 4> original_section_bounds;
+		s_cache_file_shared_resource_usage shared_resource_usage;
+		long insertion_point_resource_usage_count; // `has_insertion_points`
+		c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_resource_usage;
+		long tag_cache_offsets;
+		long tag_count;
+		long map_id;
+		long scenario_index;
+		long cache_file_resource_gestalt_index; // 'zone' tags don't exist in ms23
 
-	dword footer_signature;
+		byte __data2DF8[0x594];
+
+		dword footer_signature;
+	};
 };
 static_assert(sizeof(s_cache_file_header) == 0x3390);
 #pragma pack(pop)
 
 union cache_file_tag_instance
 {
+#pragma warning(push)
+#pragma warning(disable : 4200)
+	byte base[];
+#pragma warning(pop)
+
 	struct
 	{
 		dword checksum;
@@ -96,11 +109,6 @@ union cache_file_tag_instance
 		tag group_tags[3];
 		string_id group_name;
 	};
-
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	byte base[];
-#pragma warning(pop)
 
 	bool is_group(tag group_tag)
 	{
@@ -146,15 +154,23 @@ struct s_cache_file_reports
 };
 static_assert(sizeof(s_cache_file_reports) == 0x8);
 
-struct s_cache_file_tags_header
+union s_cache_file_tags_header
 {
-	dword __unknown0;
-	long tag_cache_offsets;
-	long tag_count;
-	dword __unknownC;
-	s_file_last_modification_date creation_date;
-	dword __unknown18;
-	dword __unknown1C;
+#pragma warning(push)
+#pragma warning(disable : 4200)
+	byte base[];
+#pragma warning(pop)
+
+	struct
+	{
+		dword __unknown0;
+		long tag_cache_offsets;
+		long tag_count;
+		dword __unknownC;
+		s_file_last_modification_date creation_date;
+		dword __unknown18;
+		dword __unknown1C;
+	};
 };
 static_assert(sizeof(s_cache_file_tags_header) == 0x20);
 
