@@ -1,5 +1,6 @@
 #include "game/game_engine_util.hpp"
 
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_engine_ctf.hpp"
 #include "game/game_engine_slayer.hpp"
@@ -50,6 +51,8 @@ c_infection_engine& internal_infection_engine = *reinterpret_cast<c_infection_en
 
 c_game_engine const* __cdecl current_game_engine()
 {
+	FUNCTION_BEGIN(false)
+
 	c_game_engine const* result = nullptr;
 	HOOK_INVOKE(result =, current_game_engine);
 

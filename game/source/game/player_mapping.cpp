@@ -1,11 +1,14 @@
 #include "game/player_mapping.hpp"
 
+#include "cseries/console.hpp"
 #include "memory/thread_local.hpp"
 
 #include <assert.h>
 
 inline s_player_mapping_globals* player_mapping_globals_get()
 {
+	FUNCTION_BEGIN(true);
+
 	s_thread_local_storage* tls = get_tls();
 	if (!tls || !tls->player_control_globals)
 		return nullptr;
@@ -15,6 +18,8 @@ inline s_player_mapping_globals* player_mapping_globals_get()
 
 long player_index_from_user_index(long user_index)
 {
+	FUNCTION_BEGIN(true);
+
 	if (user_index == -1)
 		return -1;
 
@@ -33,6 +38,8 @@ long player_index_from_user_index(long user_index)
 
 bool players_user_is_active(long user_index)
 {
+	FUNCTION_BEGIN(true);
+
 	if (user_index == -1)
 		return false;
 
@@ -41,5 +48,7 @@ bool players_user_is_active(long user_index)
 
 long player_mapping_get_player_count()
 {
+	FUNCTION_BEGIN(true);
+
 	return player_mapping_globals_get()->active_output_user_count;
 }

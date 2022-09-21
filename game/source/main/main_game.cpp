@@ -1,5 +1,6 @@
 #include "main/main_game.hpp"
 
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
@@ -19,6 +20,8 @@ bool& debug_load_panic_to_main_menu = *reinterpret_cast<bool*>(0x023DAE90);
 
 void main_game_change(game_options const* options)
 {
+	FUNCTION_BEGIN(true);
+
 	// main_halt_and_display_errors
 	// c_life_cycle_state_handler_in_game::begin_load_map
 	if (options)
@@ -53,5 +56,7 @@ void main_game_change(game_options const* options)
 
 void main_game_notify_language_change(e_language language)
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00567BF0, main_game_notify_language_change, language);
 }

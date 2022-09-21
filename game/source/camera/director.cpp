@@ -5,6 +5,7 @@
 #include "camera/observer_director.hpp"
 #include "camera/debug_director.hpp"
 #include "camera/editor_director.hpp"
+#include "cseries/console.hpp"
 #include "game/game.hpp"
 #include "game/players.hpp"
 #include "interface/first_person_weapons.hpp"
@@ -15,6 +16,8 @@
 
 long __cdecl dead_or_alive_unit_from_user(long user_index)
 {
+	FUNCTION_BEGIN(true);
+
 	return INVOKE(0x005916F0, dead_or_alive_unit_from_user, user_index);
 }
 
@@ -30,6 +33,8 @@ char const* k_director_mode_names[k_number_of_director_modes]
 
 const char* director_mode_get_name(e_director_mode director_mode)
 {
+	FUNCTION_BEGIN(true);
+
 	if (director_mode < _director_mode_game || director_mode >= k_number_of_director_modes)
 		return "<invalid 'director_mode'>";
 
@@ -38,6 +43,8 @@ const char* director_mode_get_name(e_director_mode director_mode)
 
 e_director_mode director_mode_from_string(const char* str)
 {
+	FUNCTION_BEGIN(true);
+
 	e_director_mode director_mode = e_director_mode(-1);
 	for (long i = _camera_mode_following; i < k_number_of_director_modes; i++)
 	{
@@ -52,6 +59,8 @@ e_director_mode director_mode_from_string(const char* str)
 
 inline s_director_globals* director_globals_get()
 {
+	FUNCTION_BEGIN(true);
+
 	s_thread_local_storage* tls = get_tls();
 
 	return (tls && tls->director_globals && tls->director_globals->directors[0][0]) ? tls->director_globals : nullptr;
@@ -59,6 +68,8 @@ inline s_director_globals* director_globals_get()
 
 e_director_perspective c_director::get_perspective()
 {
+	FUNCTION_BEGIN(true);
+
 	if (!game_in_progress())
 		return _director_perspective_3;
 	e_director_perspective director_perspective = (e_director_perspective)get_camera()->get_perspective();
@@ -72,6 +83,8 @@ e_director_perspective c_director::get_perspective()
 
 bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transition_time, bool force_update)
 {
+	FUNCTION_BEGIN(true);
+
 	if (!can_use_camera_mode(camera_mode))
 		return false;
 
@@ -126,6 +139,8 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 template<typename t_type>
 t_type* director_get(long user_index)
 {
+	FUNCTION_BEGIN(true);
+
 	if (!director_globals_get())
 		return nullptr;
 
@@ -134,6 +149,8 @@ t_type* director_get(long user_index)
 
 s_director_info* director_get_info(long user_index)
 {
+	FUNCTION_BEGIN(true);
+
 	if (!director_globals_get())
 		return nullptr;
 
@@ -142,6 +159,8 @@ s_director_info* director_get_info(long user_index)
 
 e_director_perspective director_get_perspective(long user_index)
 {
+	FUNCTION_BEGIN(true);
+
 	c_director* director = director_get(user_index);
 	if (!director)
 		return _director_perspective_3;
@@ -151,6 +170,8 @@ e_director_perspective director_get_perspective(long user_index)
 
 void director_set_perspective(long user_index, e_director_perspective director_perspective)
 {
+	FUNCTION_BEGIN(true);
+
 	s_director_globals* director_globals = director_globals_get();
 	if (director_globals->infos[user_index].director_perspective != director_perspective)
 	{
@@ -161,6 +182,8 @@ void director_set_perspective(long user_index, e_director_perspective director_p
 
 void director_set_mode(long user_index, e_director_mode director_mode)
 {
+	FUNCTION_BEGIN(true);
+
 	switch (director_mode)
 	{
 	case _director_mode_game:
@@ -185,11 +208,15 @@ void director_set_mode(long user_index, e_director_mode director_mode)
 
 bool director_get_camera_third_person(long user_index)
 {
+	FUNCTION_BEGIN(true);
+
 	return director_get(user_index)->get_camera()->get_type() == _camera_mode_orbiting;
 }
 
 bool director_in_scripted_camera()
 {
+	FUNCTION_BEGIN(true);
+
 	s_thread_local_storage* tls = get_tls();
 
 	return (tls && tls->director_camera_scripted) ? *tls->director_camera_scripted : false;
@@ -197,6 +224,8 @@ bool director_in_scripted_camera()
 
 void director_toggle(long user_index, e_director_mode director_mode)
 {
+	FUNCTION_BEGIN(true);
+
 	static e_director_mode previous_mode = {};
 
 	if (director_get_info(user_index)->director_mode == director_mode)
@@ -207,6 +236,8 @@ void director_toggle(long user_index, e_director_mode director_mode)
 
 void director_toggle_perspective(long user_index, e_director_perspective director_perspective)
 {
+	FUNCTION_BEGIN(true);
+
 	static e_director_perspective previous_mode = {};
 
 	if (director_get_info(user_index)->director_perspective == director_perspective)
@@ -217,6 +248,8 @@ void director_toggle_perspective(long user_index, e_director_perspective directo
 
 void director_toggle_camera(long user_index, e_camera_mode camera_mode)
 {
+	FUNCTION_BEGIN(true);
+
 	static e_camera_mode previous_mode = {};
 
 	if (director_get_info(user_index)->camera_mode == camera_mode)

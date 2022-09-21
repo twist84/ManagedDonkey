@@ -1,5 +1,6 @@
 #include "networking/messages/network_message_type_collection.hpp"
 
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 
 #include <assert.h>
@@ -15,6 +16,8 @@ void c_network_message_type_collection::register_message_type(
 	compare_t* compare_function,
 	dispose_t* dispose_function)
 {
+	FUNCTION_BEGIN(true);
+
 	//assert(message_type >= 0 && message_type < k_network_message_type_count);
 	assert(message_type_name);
 	//assert(message_size > 0 && message_size <= k_network_message_maximum_size);

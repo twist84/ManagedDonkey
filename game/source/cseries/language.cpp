@@ -1,5 +1,6 @@
 #include "cseries/language.hpp"
 
+#include "cseries/console.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "main/main_game.hpp"
 #include "text/font_loading.hpp"
@@ -59,6 +60,8 @@ dword& g_game_language = *reinterpret_cast<dword*>(0x0189DEE4);
 
 e_language get_e_language_from_windows_language(LANGID id)
 {
+    FUNCTION_BEGIN(true);
+
     e_language result = _language_invalid;
     switch (id)
     {
@@ -99,6 +102,8 @@ e_language get_e_language_from_windows_language(LANGID id)
 
 e_language get_current_language()
 {
+    FUNCTION_BEGIN(true);
+
     return INVOKE(0x0052FC40, get_current_language);
 
     if (g_game_language != _language_invalid)
@@ -109,6 +114,8 @@ e_language get_current_language()
 
 char const* __cdecl get_current_language_suffix(bool a1)
 {
+    FUNCTION_BEGIN(true);
+
     //return INVOKE(0x0052FD20, get_current_language_suffix, a1);
 
     return get_language_suffix(get_current_language(), a1);
@@ -116,6 +123,8 @@ char const* __cdecl get_current_language_suffix(bool a1)
 
 char const* get_language_display_name(e_language language)
 {
+    FUNCTION_BEGIN(true);
+
     //return INVOKE(0x0052FDC0, get_language_display_name, language);
 
     if (language > _language_invalid && language < k_language_count)
@@ -126,6 +135,8 @@ char const* get_language_display_name(e_language language)
 
 e_language get_language_from_display_name_slow(char const* display_name)
 {
+    FUNCTION_BEGIN(true);
+
     //return INVOKE(0x0052FE60, get_language_from_display_name_slow, display_name);
 
     dword language = _language_english;
@@ -145,6 +156,8 @@ e_language get_language_from_display_name_slow(char const* display_name)
 
 char const* __cdecl get_language_iso_639_1_name(e_language language)
 {
+    FUNCTION_BEGIN(true);
+
     //return INVOKE(0x0052FF30, get_language_display_name, language);
 
     if (language > _language_invalid && language < k_language_count)
@@ -155,6 +168,8 @@ char const* __cdecl get_language_iso_639_1_name(e_language language)
 
 char const* __cdecl get_language_suffix(e_language language, bool a2)
 {
+    FUNCTION_BEGIN(true);
+
     //return INVOKE(0x0052FFD0, get_language_suffix, language, a2);
 
     if (language > _language_invalid && language < k_language_count)
@@ -165,6 +180,8 @@ char const* __cdecl get_language_suffix(e_language language, bool a2)
 
 void __cdecl get_localized_data_directory_name(e_language language, char* buffer, long count)
 {
+    FUNCTION_BEGIN(true);
+
     //INVOKE(0x00530070, get_localized_data_directory_name, language, buffer, count);
 
     assert(buffer != NULL);
@@ -182,6 +199,8 @@ void __cdecl get_localized_data_directory_name(e_language language, char* buffer
 
 void __cdecl set_current_language(e_language language)
 {
+    FUNCTION_BEGIN(true);
+
     //INVOKE(0x00530100, set_current_language, language);
 
     if (language != g_game_language)
@@ -195,6 +214,8 @@ void __cdecl set_current_language(e_language language)
 
 void __cdecl set_current_language_from_display_name_slow(char const* display_name)
 {
+    FUNCTION_BEGIN(true);
+
     //INVOKE(0x00530130, set_current_language_from_display_name_slow, display_name);
 
     e_language language = get_language_from_display_name_slow(display_name);

@@ -1,6 +1,7 @@
 #include "scenario/scenario.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "hf2p/hf2p.hpp"
 #include "main/levels.hpp"
@@ -19,6 +20,8 @@ scenario*& global_scenario = *reinterpret_cast<scenario**>(0x022AAEB4);
 
 scenario* global_scenario_get()
 {
+	FUNCTION_BEGIN(true);
+
 	// halo online
 	return tag_get<scenario>('scnr', global_scenario_index);
 
@@ -30,6 +33,8 @@ scenario* global_scenario_get()
 //bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
 {
+	FUNCTION_BEGIN(true);
+
 	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
 
 	assert(scenario_path != 0);
@@ -46,12 +51,16 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 
 void __cdecl scenario_invalidate()
 {
+	FUNCTION_BEGIN(true);
+
 	return INVOKE(0x004EA3E0, scenario_invalidate);
 }
 
 //bool __cdecl scenario_load(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path)
 {
+	FUNCTION_BEGIN(true);
+
 	//bool result = false;
 	//HOOK_INVOKE(result =, scenario_load, campaign_id, map_id, scenario_path);
 	//return result;

@@ -1,5 +1,6 @@
 #include "interface/damaged_media.hpp"
 
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
@@ -14,6 +15,8 @@ bool& g_show_damaged_media = *reinterpret_cast<bool*>(0x05260711);
 
 void damaged_media_exception()
 {
+    FUNCTION_BEGIN(true);
+
     //HOOK_INVOKE(, damaged_media_exception);
 
     if (!IsDebuggerPresent())
@@ -24,6 +27,8 @@ void damaged_media_exception()
 
 void __cdecl damaged_media_update()
 {
+    FUNCTION_BEGIN(false)
+
     //HOOK_INVOKE(, damaged_media_update);
 
     if (g_show_damaged_media)

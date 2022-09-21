@@ -1,5 +1,6 @@
 #include "physics/physics_constants.hpp"
 
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game.hpp"
 #include "game/game_time.hpp"
@@ -10,6 +11,8 @@
 
 	bool __cdecl character_ground_adhesion_forces_disabled()
 	{
+		FUNCTION_BEGIN(true);
+
 		//return INVOKE(0x006814B0, character_ground_adhesion_forces_disabled);
 
 		s_physics_constants* physics_constants = global_physics_constants_get();
@@ -20,6 +23,8 @@
 
 	void __cdecl disable_character_ground_adhesion_forces(real disable_time)
 	{
+		FUNCTION_BEGIN(true);
+
 		if (disable_time <= k_physics_character_ground_adhesion_force_minimum_disable_time)
 			disable_time = k_physics_character_ground_adhesion_force_minimum_disable_time;
 		if (disable_time >= k_physics_character_ground_adhesion_force_maximum_disable_time)
@@ -31,6 +36,8 @@
 
 	s_physics_constants* __cdecl global_physics_constants_get()
 	{
+		FUNCTION_BEGIN(true);
+
 		s_thread_local_storage* tls = get_tls();
 		if (!tls || !tls->g_physics_constants)
 			return nullptr;
@@ -42,6 +49,8 @@
 
 	real_vector3d* __cdecl global_physics_velocity_frame_get()
 	{
+		FUNCTION_BEGIN(true);
+
 		return &global_physics_constants_get()->velocity_frame;
 
 		//INVOKE(0x006815C0, global_physics_velocity_frame_get);
@@ -49,6 +58,8 @@
 
 	void __cdecl global_physics_velocity_frame_set(real i, real j, real k)
 	{
+		FUNCTION_BEGIN(true);
+
 		global_physics_constants_get()->velocity_frame = { i, j, k };
 
 		//INVOKE(0x006815E0, global_physics_velocity_frame_set, i, j, k);
@@ -56,6 +67,8 @@
 
 	real __cdecl global_slip_surface_maximum_k_get()
 	{
+		FUNCTION_BEGIN(true);
+
 		return game_is_multiplayer() ? 1.0f : global_physics_constants_get()->lip_surface_maximum_k;
 
 		//INVOKE(0x00681620, global_slip_surface_maximum_k_get);
@@ -63,6 +76,8 @@
 
 	real __cdecl global_standard_gravity_get()
 	{
+		FUNCTION_BEGIN(true);
+
 		return 4.1712594f;
 
 		//INVOKE(0x00681670, global_standard_gravity_get);
@@ -70,26 +85,36 @@
 
 	void __cdecl physics_constants_dispose()
 	{
+		FUNCTION_BEGIN(true);
+
 		INVOKE(0x00681680, physics_constants_dispose);
 	}
 
 	void __cdecl physics_constants_dispose_from_old_map()
 	{
+		FUNCTION_BEGIN(true);
+
 		INVOKE(0x006816A0, physics_constants_dispose_from_old_map);
 	}
 
 	void __cdecl physics_constants_initialize()
 	{
+		FUNCTION_BEGIN(true);
+
 		INVOKE(0x006816B0, physics_constants_initialize);
 	}
 
 	void __cdecl physics_constants_initialize_for_new_map()
 	{
+		FUNCTION_BEGIN(true);
+
 		INVOKE(0x00681770, physics_constants_initialize_for_new_map);
 	}
 
 	void __cdecl physics_constants_reset()
 	{
+		FUNCTION_BEGIN(true);
+
 		s_physics_constants* physics_constants = global_physics_constants_get();
 
 		physics_constants->gravity = global_standard_gravity_get();
@@ -104,6 +129,8 @@
 
 	void __cdecl physics_constants_set_gravity_absolute(real gravity)
 	{
+		FUNCTION_BEGIN(true);
+
 		global_physics_constants_get()->gravity = gravity;
 
 		//INVOKE(0x00681870, physics_constants_set_gravity_absolute, gravity);
@@ -111,6 +138,8 @@
 
 	void __cdecl physics_constants_set_gravity_halo_relative(real gravity)
 	{
+		FUNCTION_BEGIN(true);
+
 		physics_constants_set_gravity_absolute(gravity * global_standard_gravity_get());
 
 		//INVOKE(0x006818A0, physics_constants_set_gravity_absolute, gravity);
@@ -118,15 +147,21 @@
 
 	real __cdecl global_gravity_get()
 	{
+		FUNCTION_BEGIN(true);
+
 		return global_physics_constants_get()->gravity;
 	}
 
 	real __cdecl global_water_density_get()
 	{
+		FUNCTION_BEGIN(true);
+
 		return global_physics_constants_get()->water_density;
 	}
 
 	real __cdecl global_air_density_get()
 	{
+		FUNCTION_BEGIN(true);
+
 		return global_physics_constants_get()->air_density;
 	}

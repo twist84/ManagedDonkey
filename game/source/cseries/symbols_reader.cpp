@@ -1,5 +1,7 @@
 #include "cseries/symbols_reader.hpp"
 
+#include "cseries/console.hpp"
+
 #include <atlbase.h>
 #include <dia2.h>
 #pragma comment(lib, "diaguids.lib")
@@ -16,6 +18,8 @@ std::map<DWORD, std::wstring> rva_to_name_map;
 
 HRESULT pdb_get_rva_from_name(WCHAR(&pdb_path)[MAX_PATH], WCHAR(&function_name)[1024], DWORD* out_rva)
 {
+    FUNCTION_BEGIN(true);
+
     HRESULT result = S_OK;
 
     if (name_to_rva_map.contains(function_name))
@@ -89,6 +93,8 @@ HRESULT pdb_get_rva_from_name(WCHAR(&pdb_path)[MAX_PATH], WCHAR(&function_name)[
 
 HRESULT pdb_get_name_from_rva(WCHAR(&pdb_path)[MAX_PATH], DWORD rva, WCHAR(&out_function_name)[1024])
 {
+    FUNCTION_BEGIN(true);
+
     HRESULT result = S_OK;
 
     if (rva_to_name_map.contains(rva))
@@ -171,6 +177,8 @@ c_symbols_reader::~c_symbols_reader()
 
 unsigned long c_symbols_reader::get_rva_blocking(wchar_t const* function_name)
 {
+    FUNCTION_BEGIN(true);
+
     while (read_blocked)
     {
         Sleep(25);
@@ -188,6 +196,8 @@ unsigned long c_symbols_reader::get_rva_blocking(wchar_t const* function_name)
 
 wchar_t const* c_symbols_reader::get_name_blocking(unsigned long rva)
 {
+    FUNCTION_BEGIN(true);
+
     while (read_blocked)
     {
         Sleep(25);

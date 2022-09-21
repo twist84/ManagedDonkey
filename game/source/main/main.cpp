@@ -2,6 +2,7 @@
 
 #include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
+#include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "cseries/symbols_reader.hpp"
 #include "game/player_control.hpp"
@@ -13,17 +14,13 @@
 
 #include <assert.h>
 
-HOOK_DECLARE(0x00505C10, main_loop_body_main_part);
+HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
+HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
 
-void __cdecl main_loop_body_main_part()
+void __cdecl main_loop_body_begin()
 {
-    main_loop_body_begin();
-    HOOK_INVOKE(, main_loop_body_main_part);
-    main_loop_body_end();
-}
+    FUNCTION_BEGIN(false);
 
-void main_loop_body_begin()
-{
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
@@ -35,8 +32,10 @@ void main_loop_body_begin()
     }
 }
 
-void main_loop_body_end()
+void __cdecl main_loop_body_end()
 {
+    FUNCTION_BEGIN(false);
+
     // home cluster keys
     if (GetKeyState(VK_INSERT) & 0x8000)
     {

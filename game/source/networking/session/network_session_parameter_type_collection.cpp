@@ -1,6 +1,7 @@
 #include "networking/session/network_session_parameter_type_collection.hpp"
 #include "networking/session/network_session_parameters_base.hpp"
 
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 
 #include <assert.h>
@@ -16,6 +17,8 @@ void c_network_session_parameter_type_collection::register_session_parameter_typ
 	long change_request_size
 )
 {
+	FUNCTION_BEGIN(true);
+
 	assert(session_parameter_name);
 	assert(update_encode);
 	assert(update_decode);

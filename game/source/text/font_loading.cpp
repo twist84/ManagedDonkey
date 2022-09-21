@@ -1,5 +1,6 @@
 #include "text/font_loading.hpp"
 
+#include "cseries/console.hpp"
 #include "main/global_preferences.hpp"
 
 #include <string.h>
@@ -14,22 +15,30 @@ char const* const& k_font_package_suffix = *reinterpret_cast<char const* const*>
 
 void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state)
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00509140, font_block_until_load_completes, loading_state);
 }
 
 void __cdecl fonts_close_internal(s_font_loading_state* loading_state)
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x005091A0, fonts_close_internal, loading_state);
 }
 
 void __cdecl font_dispose()
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00509210, font_dispose);
 }
 
 //char const* __cdecl font_get_debug_name(e_font_index font_index);
 char const* __cdecl font_get_debug_name(long font_index)
 {
+	FUNCTION_BEGIN(true);
+
 	//return INVOKE(0x00509280, font_get_debug_name, font_index);
 
 	if (g_font_globals.font_package_header && font_index >= 0 && font_index < g_font_globals.font_package_header->font_count)
@@ -46,6 +55,8 @@ char const* __cdecl font_get_debug_name(long font_index)
 //e_font_index font_get_font_index(e_font_id font_id);
 long __cdecl font_get_font_index(long font_id)
 {
+	FUNCTION_BEGIN(true);
+
 	//return INVOKE(0x005092C0, font_get_font_index, font_id);
 
 	if (g_font_globals.font_package_header && font_id >= 0 && font_id < 16)
@@ -57,6 +68,8 @@ long __cdecl font_get_font_index(long font_id)
 //s_font_header const* font_get_header(e_font_id font_id)
 s_font_header const* __cdecl font_get_header(long font_id)
 {
+	FUNCTION_BEGIN(true);
+
 	//return INVOKE(0x005092F0, font_get_header, font_id);
 
 	long font_index = _font_index_none;
@@ -77,6 +90,8 @@ s_font_header const* __cdecl font_get_header(long font_id)
 
 s_font_header const* __cdecl font_get_loaded_header(long font_index)
 {
+	FUNCTION_BEGIN(true);
+
 	//return INVOKE(0x00509330, font_get_loaded_header, font_index);
 
 	if (g_font_globals.font_package_header && font_index >= 0 && font_index < g_font_globals.font_package_header->font_count)
@@ -90,11 +105,15 @@ s_font_header const* __cdecl font_get_loaded_header(long font_index)
 
 bool __cdecl font_get_package_file_handle(s_file_handle* out_file_handle)
 {
+	FUNCTION_BEGIN(true);
+
 	return INVOKE(0x00509360, font_get_package_file_handle, out_file_handle);
 }
 
 s_font_package_file_header const* __cdecl font_get_package_header_internal()
 {
+	FUNCTION_BEGIN(true);
+
 	//return INVOKE(0x00509380, font_get_package_header_internal);
 
 	return g_font_globals.font_package_header;
@@ -102,6 +121,8 @@ s_font_package_file_header const* __cdecl font_get_package_header_internal()
 
 void __cdecl font_idle()
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00509390, font_idle);
 
 	//if (g_font_globals.initialized && !g_font_globals.emergency_mode)
@@ -114,6 +135,8 @@ void __cdecl font_idle()
 
 bool __cdecl font_in_emergency_mode()
 {
+	FUNCTION_BEGIN(true);
+
 	//return INVOKE(0x005093C0, font_in_emergency_mode);
 
 	return g_font_globals.emergency_mode;
@@ -121,6 +144,8 @@ bool __cdecl font_in_emergency_mode()
 
 void __cdecl font_initialize()
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x005093D0, font_initialize);
 
 	//memset(&g_font_globals, 0, sizeof(g_font_globals));
@@ -139,34 +164,46 @@ void __cdecl font_initialize()
 
 void __cdecl font_initialize_emergency()
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00509420, font_initialize_emergency);
 }
 
 //void font_load(struct s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool load_blocking)
 void __cdecl font_load(s_font_loading_state* loading_state, long font_index, char const* filename, bool load_blocking)
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00509480, font_load, loading_state, font_index, filename, load_blocking);
 }
 
 //enum e_async_completion font_load_callback(void*)
 long __cdecl font_load_callback(void* userdata)
 {
+	FUNCTION_BEGIN(true);
+
 	return INVOKE(0x00509550, font_load_callback, userdata);
 }
 
 void __cdecl font_loading_idle()
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x005096F0, font_loading_idle);
 }
 
 void __cdecl font_reload()
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00509780, font_reload);
 }
 
 // specific to halo online
 void __cdecl font_load_wrapper(bool load_blocking)
 {
+	FUNCTION_BEGIN(true);
+
 	//INVOKE(0x005099A0, font_load_wrapper, load_blocking);
 
 	char font_package_filename[256]{};
@@ -177,6 +214,8 @@ void __cdecl font_load_wrapper(bool load_blocking)
 
 void __cdecl fonts_close()
 {
+	FUNCTION_BEGIN(true);
+
 	//INVOKE(0x00509A50, fonts_close);
 
 	fonts_close_internal(&g_font_globals.loading_state);
@@ -186,6 +225,8 @@ void __cdecl fonts_close()
 
 void __cdecl fonts_copy_to_hard_drive()
 {
+	FUNCTION_BEGIN(true);
+
 	//INVOKE(0x00509A90, fonts_copy_to_hard_drive);
 
 	g_font_globals.load_font_from_hard_drive = false;
@@ -193,6 +234,8 @@ void __cdecl fonts_copy_to_hard_drive()
 
 void __cdecl font_invalidate_cached_fonts()
 {
+	FUNCTION_BEGIN(true);
+
 	//INVOKE(0x00509AA0, font_invalidate_cached_fonts);
 
 	if (global_preferences_get_last_font_language() != _language_invalid)
@@ -204,6 +247,8 @@ void __cdecl font_invalidate_cached_fonts()
 
 void __cdecl fonts_select_language()
 {
+	FUNCTION_BEGIN(true);
+
 	//INVOKE(0x00509AC0, fonts_select_language);
 
 	dword current_language = get_current_language();
@@ -225,6 +270,8 @@ void __cdecl fonts_select_language()
 
 void __cdecl get_font_master_filename(dword language, char* buffer, long buffer_size)
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00509BB0, get_font_master_filename, language, buffer, buffer_size);
 
 	//csstrnzcpy(buffer, k_font_package_base_name, buffer_size);

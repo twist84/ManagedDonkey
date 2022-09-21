@@ -1,15 +1,18 @@
 #include "memory/crc.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "memory/module.hpp"
 
-c_hook_call crc_checksum_buffer_alder32_hook(0x0050286A, { .pointer = crc_checksum_buffer_adler32 });
+HOOK_DECLARE_CALL(0x0050286A, crc_checksum_buffer_adler32);
 
 const bool g_require_secure_tag_instances = true;
 
 dword __cdecl crc_checksum_buffer_adler32(dword adler, byte* buffer, dword buffer_size)
 {
+	FUNCTION_BEGIN(false);
+
 	//dword checksum = INVOKE(0x0052CCC0, crc_checksum_buffer_adler32, adler, buffer, buffer_size);
 
 	dword checksum = adler32(adler, buffer, buffer_size);

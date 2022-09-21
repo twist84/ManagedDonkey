@@ -7,6 +7,8 @@
 
 void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data)
 {
+	FUNCTION_BEGIN(true);
+
 	assert(entry_data_size <= k_maximum_state_change_entry_data_size);
 	assert(state != m_current_state);
 
@@ -24,6 +26,8 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 
 void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 {
+	FUNCTION_BEGIN(true);
+
 	c_console::write_line("networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
 
 	if (m_current_state == _life_cycle_state_leaving)
@@ -34,6 +38,8 @@ void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 
 void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data)
 {
+	FUNCTION_BEGIN(true);
+
 	assert((entry_data_size == 0 && entry_data == NULL) || (entry_data_size > 0 && entry_data != NULL));
 	if (m_current_state != state)
 	{
@@ -51,11 +57,15 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, lon
 
 e_life_cycle_state c_life_cycle_state_manager::get_current_state()
 {
+	FUNCTION_BEGIN(true);
+
 	assert(m_current_state >= _life_cycle_state_none && m_current_state < k_life_cycle_state_count);
 	return m_current_state;
 }
 
 void c_life_cycle_state_manager::terminate()
 {
+	FUNCTION_BEGIN(true);
+
 	set_current_state(_life_cycle_state_none, 0, 0);
 }

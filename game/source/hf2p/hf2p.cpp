@@ -1,5 +1,6 @@
 #include "hf2p/hf2p.hpp"
 
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "fmod/fmod.hpp"
 #include "memory/module.hpp"
@@ -11,6 +12,8 @@ bool& g_hf2p_first_run = *reinterpret_cast<bool*>(0x018B59D4);
 
 void __cdecl game_statistics_reset()
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00853FC0, game_statistics_reset);
 }
 
@@ -18,6 +21,7 @@ void* hp2p_ui_proxy = reinterpret_cast<void*>(0x0244ED28);
 
 void __cdecl hf2p_initialize()
 {
+	FUNCTION_BEGIN(true);
 
 	//INVOKE(0x00600630, hf2p_initialize);
 
@@ -31,11 +35,15 @@ void __cdecl hf2p_initialize()
 
 void __cdecl hf2p_game_initialize()
 {
+	FUNCTION_BEGIN(true);
+
 	//HOOK_INVOKE(, hf2p_game_initialize);
 }
 
 void __cdecl hf2p_scenario_tags_load_finished()
 {
+	FUNCTION_BEGIN(true);
+
 	//INVOKE(0x00600750, hf2p_scenario_tags_load_finished);
 
 	g_hf2p_first_run = true;
@@ -48,11 +56,14 @@ void __cdecl hf2p_scenario_tags_load_finished()
 
 void __cdecl hf2p_scenario_load()
 {
+	FUNCTION_BEGIN(true);
+
 	INVOKE(0x00600770, hf2p_scenario_load);
 }
 
 void __cdecl hf2p_game_dispose()
 {
+	FUNCTION_BEGIN(true);
 
 	//HOOK_INVOKE(, hf2p_game_dispose);
 	//

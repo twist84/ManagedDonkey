@@ -1,5 +1,6 @@
 #include "items/weapons.hpp"
 
+#include "cseries/console.hpp"
 #include "game/cheats.hpp"
 #include "memory/module.hpp"
 
@@ -8,6 +9,8 @@ HOOK_DECLARE(0x00B63C30, weapon_has_infinite_ammo);
 
 real __cdecl weapon_get_age(long weapon_index)
 {
+	FUNCTION_BEGIN(true);
+
 	real result = 0.0f;
 	HOOK_INVOKE(, weapon_get_age, weapon_index);
 
@@ -19,6 +22,8 @@ real __cdecl weapon_get_age(long weapon_index)
 
 bool __cdecl weapon_has_infinite_ammo(long weapon_index)
 {
+	FUNCTION_BEGIN(false)
+
 	bool result = false;
 	HOOK_INVOKE(result =, weapon_has_infinite_ammo, weapon_index);
 
