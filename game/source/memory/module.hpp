@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
+#define HOOK_DECLARE_CALL(ADDR, NAME) c_hook_call NAME##_hook(ADDR, { .pointer = NAME })
 #define HOOK_DECLARE(ADDR, NAME) c_hook NAME##_hook(ADDR, { .pointer = NAME })
 #define HOOK_INVOKE(RESULT, NAME, ...) { NAME##_hook.apply(true); RESULT reinterpret_cast<decltype(NAME)*>(NAME##_hook.get_original())(__VA_ARGS__); NAME##_hook.apply(false); }
 
@@ -112,4 +113,5 @@ template<typename t_type>
 void type_as_byte_string(t_type* type, char** out_string)
 {
     buffer_as_byte_string((byte*)type, sizeof(t_type), out_string);
+}
 
