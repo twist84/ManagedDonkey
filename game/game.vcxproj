@@ -115,6 +115,7 @@ POPD
     <ClCompile Include="source\cache\cache_file_builder_security.cpp" />
     <ClCompile Include="source\cache\security_functions.cpp" />
     <ClCompile Include="source\config\version.cpp" />
+    <ClCompile Include="source\cseries\console.cpp" />
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
     <ClCompile Include="source\cseries\symbols_reader.cpp" />
@@ -177,6 +178,7 @@ POPD
     <ClCompile Include="source\text\font_loading.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\cseries\console.hpp" />
     <ClInclude Include="source\cseries\language.hpp" />
     <ClInclude Include="source\editor\editor_stubs.hpp" />
     <ClInclude Include="source\effects\contrails.hpp" />

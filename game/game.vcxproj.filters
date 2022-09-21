@@ -210,6 +210,9 @@
     <ClCompile Include="source\effects\contrails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -689,6 +692,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="source\effects\hooks\effects_hooks.inl">
+    <ClInclude Include="source\cseries\console.hpp">
       <Filter>Header Files</Filter>
     </None>
     <None Include="source\interface\hooks\interface_hooks.inl">
@@ -709,5 +713,6 @@
     <None Include="source\scenario\hooks\scenario_hooks.inl">
       <Filter>Header Files</Filter>
     </None>
+    </ClInclude>
   </ItemGroup>
 </Project>
