@@ -11,7 +11,10 @@
 #include "game/game_engine_territories.hpp"
 #include "game/game_engine_assault.hpp"
 #include "game/game_engine_infection.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+
+HOOK_DECLARE(0x005CE150, current_game_engine);
 
 c_game_engine*(&game_engines)[11] = *reinterpret_cast<c_game_engine*(*)[11]>(0x0471A920);
 
@@ -47,11 +50,12 @@ c_infection_engine& internal_infection_engine = *reinterpret_cast<c_infection_en
 
 c_game_engine const* __cdecl current_game_engine()
 {
-	//return INVOKE(0x005CE150, current_game_engine);
+	c_game_engine const* result = nullptr;
+	HOOK_INVOKE(result =, current_game_engine);
 
 	game_engine_globals* game_engine = get_tls()->game_engine_globals;
 	if (game_engine && (game_engine->GameType > 0 && game_engine->GameType < 11))
 		return game_engines[game_engine->GameType];
 
-	return nullptr;
+	return result;
 }

@@ -1,15 +1,11 @@
 #include "main_game_launch.hpp"
 
+#include "cseries/console.hpp"
 #include "game/game.hpp"
 #include "main/main_game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
-// memcpy, timeGetTime
-#include <windows.h>
-
-#include <assert.h> // assert
-#include <stdio.h> //printf
-#include <string>
+#include <assert.h>
 
 s_main_game_launch_globals g_launch_globals = { .player_count = 1, .options = *reinterpret_cast<game_options*>(0x023B6348) };
 
@@ -24,7 +20,7 @@ void main_game_launch_initialize()
 void main_game_launch_set_map_name(char const* map_name)
 {
 	assert(map_name);
-	strncpy_s(g_launch_globals.options.scenario_path, map_name, 260);
+	csstrnzcpy(g_launch_globals.options.scenario_path, map_name, 260);
 }
 
 void main_game_launch_set_difficulty(e_campaign_difficulty_level campaign_difficulty)
@@ -64,7 +60,7 @@ void main_game_launch_set_coop_player_count(long player_count)
 	}
 	else
 	{
-		printf("main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", player_count, 4);
+		c_console::write_line("main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", player_count, 4);
 	}
 }
 
@@ -82,7 +78,7 @@ void main_game_launch_set_multiplayer_splitscreen_count(long player_count)
 	}
 	else
 	{
-		printf("main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)", player_count, 4);
+		c_console::write_line("main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)", player_count, 4);
 	}
 }
 
@@ -92,7 +88,7 @@ void main_game_launch_set_multiplayer_engine(char const* engine_name)
 
 	for (long i = _game_engine_base_variant; i < k_game_engine_type_count; i++)
 	{
-		if (strcmp(engine_name, game_engine_variant_get_name(i)) != 0)
+		if (csstricmp(engine_name, game_engine_variant_get_name(i)) != 0)
 			continue;
 
 		game_engine_index = e_game_engine_type(i);
@@ -131,7 +127,7 @@ void main_game_launch(const char* map_name)
 	}
 	else if (g_launch_globals.options.game_mode != _game_mode_multiplayer)
 	{
-		printf("main_game_launch: unknown game mode %d!", g_launch_globals.options.game_mode.get());
+		c_console::write_line("main_game_launch: unknown game mode %d!", g_launch_globals.options.game_mode.get());
 		return;
 	}
 

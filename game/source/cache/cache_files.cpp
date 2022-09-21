@@ -8,6 +8,8 @@
 #include <assert.h>
 #include <string.h>
 
+HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
+
 s_cache_file_globals& g_cache_file_globals = *reinterpret_cast<s_cache_file_globals*>(0x022AAFE8);
 
 struct s_cache_file_global_tags_definition
@@ -161,7 +163,9 @@ const bool override_cache_file_header_security_rsa_compute_and_verify_signature 
 
 bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header)
 {
-	//return INVOKE(0x00502210, cache_files_verify_header_rsa_signature, header);
+	//bool result = false;
+	//HOOK_INVOKE(result =, cache_files_verify_header_rsa_signature, header);
+	//return result;
 
 	if (header->header_signature != 'head' || header->footer_signature != 'foot')
 	{

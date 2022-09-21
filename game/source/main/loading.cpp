@@ -1,6 +1,9 @@
 #include "main/loading.hpp"
 
 #include "cseries/cseries.hpp"
+#include "memory/module.hpp"
+
+HOOK_DECLARE(0x0052F180, main_load_map);
 
 void __cdecl loading_basic_progress_complete()
 {
@@ -65,7 +68,9 @@ bool __cdecl main_load_map(char* scenario_path, long map_load_type)
     if (force_load_map_failed)
         return false;
 
-    return INVOKE(0x0052F180, main_load_map, scenario_path, map_load_type);
+    bool result = false;
+    HOOK_INVOKE(result =, main_load_map, scenario_path, map_load_type);
+    return result;
 }
 
 // a2 is possibly insertion_point

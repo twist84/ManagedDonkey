@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+#define HOOK_DECLARE(ADDR, NAME) c_hook NAME##_hook(ADDR, { .pointer = NAME })
+#define HOOK_INVOKE(RESULT, NAME, ...) { NAME##_hook.apply(true); RESULT reinterpret_cast<decltype(NAME)*>(NAME##_hook.get_original())(__VA_ARGS__); NAME##_hook.apply(false); }
+
 union module_address
 {
     dword address;
@@ -12,7 +15,28 @@ union module_address
 extern module_address global_module;
 extern dword global_address_get(dword rva);
 
-template<dword address>
+class c_hook
+{
+public:
+    c_hook(dword original, module_address const function, bool remove_base = true);
+
+    bool apply(bool revert);
+
+    dword get_address()
+    {
+        return m_addr.address;
+    }
+
+    dword get_original()
+    {
+        return m_orig.address;
+    }
+
+private:
+    module_address m_addr;
+    module_address m_orig;
+};
+
 class c_hook_call
 {
 #pragma pack(push, 1)
@@ -25,7 +49,7 @@ class c_hook_call
 #pragma pack(pop)
 
 public:
-    c_hook_call(module_address const function, bool remove_base = true);
+    c_hook_call(dword original, module_address const function, bool remove_base = true);
 
     bool apply(bool revert);
 
@@ -88,4 +112,4 @@ template<typename t_type>
 void type_as_byte_string(t_type* type, char** out_string)
 {
     buffer_as_byte_string((byte*)type, sizeof(t_type), out_string);
-}
+

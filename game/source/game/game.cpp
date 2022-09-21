@@ -1,17 +1,20 @@
 #include "game/game.hpp"
 
 #include "config/version.hpp"
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_engine_variant.hpp"
 #include "game/game_globals.hpp"
 #include "game/game_options.hpp"
 #include "game/game_state.hpp"
 #include "game/game_time.hpp"
+#include "memory/module.hpp"
 #include "tag_files/files_windows.hpp"
 
 #include <assert.h>
-#include <stdio.h>
 #include <string.h>
+
+HOOK_DECLARE(0x006961C0, game_options_get_launch_settings);
 
 bool game_in_startup_phase()
 {
@@ -76,7 +79,7 @@ void game_options_print_game_id()
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && (game_globals->initializing || game_globals->map_active));
 
-	printf("%I64d\n", game_options_get()->game_instance);
+	c_console::write_line("%I64d", game_options_get()->game_instance);
 }
 
 // void game_options_setup_for_saved_film(e_game_playback_type playback_type)
@@ -214,7 +217,7 @@ void game_simulation_set(e_game_simulation_type game_simulation)
 	assert(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	game_globals->options.game_simulation = game_simulation;
-	printf("game_simulation: %s\n", k_game_simulation_names[game_simulation]);
+	c_console::write_line("game_simulation: %s", k_game_simulation_names[game_simulation]);
 }
 
 bool game_is_synchronous_networking()
@@ -513,13 +516,13 @@ struct s_game_options_launch_settings
 	e_campaign_difficulty_level campaign_difficulty;
 	e_game_mode game_mode;
 
+	// bit 1, delete after read
+	dword_flags launch_file_flags;
+
 	// added by us
 	e_game_engine_type game_engine_index;
 	short insertion_point;
 	short zone_set_index;
-
-	// bit 1, delete after read
-	dword_flags launch_file_flags;
 
 	//char insertion_point_name[128]; // name speculation, never actually saw this used
 	//char zone_set_name[128];
@@ -535,15 +538,15 @@ bool game_options_read_launch_settings_from_string(char const* buffer, s_game_op
 	//*launch_settings.insertion_point_name = 0;
 	//*launch_settings.zone_set_name = 0;
 
-	if (sscanf_s(buffer, "%d\n%s\n%d\n%d\n%d\n%hd\n%hd\n%d\n",
+	if (sscanf_s(buffer, "%d\n%s\n%d\n%d\n%d\n%d\n%hd\n%hd\n",
 		&launch_settings.build_number,
 		launch_settings.scenario_path, 256,
 		&launch_settings.campaign_difficulty,
 		&launch_settings.game_mode,
+		&launch_settings.launch_file_flags,
 		&launch_settings.game_engine_index,
 		&launch_settings.insertion_point,
-		&launch_settings.zone_set_index,
-		&launch_settings.launch_file_flags))
+		&launch_settings.zone_set_index))
 	{
 		//launch_settings.insertion_point_name[0] &= (strncmp(launch_settings.insertion_point_name, "-", 128) == 0) - 1;
 		//launch_settings.zone_set_name[0] &= (strncmp(launch_settings.zone_set_name, "-", 128); == 0) - 1;
@@ -559,7 +562,7 @@ bool game_launch_get_settings(s_game_options_launch_settings* out_launch_setting
 	bool result = false;
 
 	FILE* launch_file;
-	if (fopen_s(&launch_file, "launch_reach.txt", "r") == 0 && launch_file)
+	if (fopen_s(&launch_file, "launch.txt", "r") == 0 && launch_file)
 	{
 		char buffer[1072]{};
 		if (fread_s(buffer, 1024, 1, 1024, launch_file))
@@ -582,92 +585,43 @@ bool game_launch_get_settings(s_game_options_launch_settings* out_launch_setting
 	return result;
 }
 
-const bool use_halo_reach_launch_settings = true;
-
 bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress)
 {
-	// nullsub
-	//return INVOKE(0x006961C0, game_options_get_launch_settings, options, change_in_progress);
 
 	assert(options);
 
-	if (use_halo_reach_launch_settings)
-	{
-		s_game_options_launch_settings launch_settings{};
-		*launch_settings.scenario_path = 0;
-		//*launch_settings.insertion_point_name = 0;
-		//*launch_settings.zone_set_name = 0;
 
-		if (!game_launch_get_settings(&launch_settings))
-			return false;
-
-		game_options_new(options);
-		csstrnzcpy(options->scenario_path, launch_settings.scenario_path, sizeof(options->scenario_path));
-		options->game_mode = launch_settings.game_mode;
-		options->record_saved_film = true;//saved_film_manager_should_record_film(options);
 		options->campaign_difficulty = launch_settings.campaign_difficulty;
+	//bool result = false;
+	//HOOK_INVOKE(result =, game_options_get_launch_settings, options, change_in_progress);
+	//return result;
 
-		build_default_game_variant(&options->game_variant, options->game_mode == _game_mode_campaign ? _game_engine_base_variant : launch_settings.game_engine_index);
+	s_game_options_launch_settings launch_settings{};
+	*launch_settings.scenario_path = 0;
+	//*launch_settings.insertion_point_name = 0;
+	//*launch_settings.zone_set_name = 0;
 
-		options->campaign_insertion_point = launch_settings.insertion_point;
-		options->initial_zone_set_index = launch_settings.zone_set_index;
-		game_options_setup_default_players(1, options);
+	if (!game_launch_get_settings(&launch_settings))
+		return false;
 
-		if ((launch_settings.launch_file_flags & (1 << 1)) != 0)
-		{
-			s_file_reference to_delete{};
-			file_reference_create_from_path(&to_delete, "launch_reach.txt", false);
-			file_delete(&to_delete);
-		}
+	game_options_new(options);
+	csstrnzcpy(options->scenario_path, launch_settings.scenario_path, sizeof(options->scenario_path));
+	options->game_mode = launch_settings.game_mode;
+	options->record_saved_film = true;//saved_film_manager_should_record_film(options);
+	options->campaign_difficulty = launch_settings.campaign_difficulty;
 
-		return true;
-	}
+	build_default_game_variant(&options->game_variant, options->game_mode == _game_mode_campaign ? _game_engine_base_variant : launch_settings.game_engine_index);
 
-	bool result = false;
+	options->campaign_insertion_point = launch_settings.insertion_point;
+	options->initial_zone_set_index = launch_settings.zone_set_index;
+	game_options_setup_default_players(1, options);
 
-	FILE* launch_file;
-	if (fopen_s(&launch_file, "launch.txt", "r") == 0 && launch_file)
+	if ((launch_settings.launch_file_flags & (1 << 1)) != 0)
 	{
-		// bit 0, related to `change_in_progress`
-		// bit 1, delete after read
-		dword_flags launch_file_flags = 0;
-
-		char scenario_path[256]{};
-		if (fgets(scenario_path, sizeof(scenario_path), launch_file))
-		{
-			char* tmp = strpbrk(scenario_path, "\r\n");
-			if (tmp)
-				*tmp = 0;
-			else
-				fscanf_s(launch_file, "%*s\n");
-
-			game_options_new(options);
-			options->game_mode = _game_mode_campaign;
-			csstrnzcpy(options->scenario_path, scenario_path, sizeof(options->scenario_path));
-			options->campaign_difficulty = _campaign_difficulty_level_normal;
-			//options->campaign_allow_persistent_storage = true;
-			options->record_saved_film = true;
-			game_options_setup_default_players(1, options);
-
-			result = true;
-			if (fscanf_s(launch_file, "%d\n", &launch_file_flags) != 1)
-				launch_file_flags = 0;
-		}
-
-		if ((launch_file_flags & (1 << 0)) == 0)
-		{
-			result = result && !change_in_progress;
-		}
-
-		fclose(launch_file);
-
-		if ((launch_file_flags & (1 << 1)) != 0)
-		{
-			s_file_reference to_delete{};
-			file_reference_create_from_path(&to_delete, "launch.txt", false);
-			file_delete(&to_delete);
-		}
+		s_file_reference to_delete{};
+		file_reference_create_from_path(&to_delete, "launch.txt", false);
+		file_delete(&to_delete);
 	}
 
-	return result;
+	return true;
 }

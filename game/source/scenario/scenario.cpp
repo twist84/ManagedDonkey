@@ -4,11 +4,14 @@
 #include "cseries/cseries.hpp"
 #include "hf2p/hf2p.hpp"
 #include "main/levels.hpp"
+#include "memory/module.hpp"
 #include "scenario/scenario_definitions.hpp"
 #include "scenario/scenario_tags_fixup.hpp"
 #include "tag_files/tag_groups.hpp"
 
 #include <assert.h>
+
+HOOK_DECLARE(0x004EA5E0, scenario_load);
 
 long& global_scenario_index = *reinterpret_cast<long*>(0x0189CCF8);
 
@@ -49,7 +52,9 @@ void __cdecl scenario_invalidate()
 //bool __cdecl scenario_load(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path)
 {
-    //return INVOKE(0x004EA5E0, scenario_load, campaign_id, map_id, scenario_path);
+	//bool result = false;
+	//HOOK_INVOKE(result =, scenario_load, campaign_id, map_id, scenario_path);
+	//return result;
 
 	// saber function, crashes in `hf2p_game_client_cache_release.exe!sub_A28EC0` if not called
 	hf2p_scenario_load();
@@ -68,6 +73,7 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 		{
 			scenario_tags_unload();
 			scenario_invalidate();
+
 			return false;
 		}
 	}

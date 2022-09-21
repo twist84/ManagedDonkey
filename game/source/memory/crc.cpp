@@ -2,6 +2,9 @@
 
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_windows.hpp"
+#include "memory/module.hpp"
+
+c_hook_call crc_checksum_buffer_alder32_hook(0x0050286A, { .pointer = crc_checksum_buffer_adler32 });
 
 const bool g_require_secure_tag_instances = true;
 

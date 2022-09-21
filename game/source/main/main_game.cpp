@@ -4,7 +4,6 @@
 #include "game/game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
-// memcpy, timeGetTime
 #include <windows.h>
 
 s_main_game_globals& main_game_globals = *reinterpret_cast<s_main_game_globals*>(0x023916D8);

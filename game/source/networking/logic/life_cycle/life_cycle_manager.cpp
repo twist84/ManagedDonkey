@@ -1,5 +1,7 @@
 #include "life_cycle_manager.hpp"
 
+#include "cseries/console.hpp"
+
 #include <assert.h>
 #include <string>
 
@@ -22,10 +24,10 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 
 void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 {
-	printf("networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
+	c_console::write_line("networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
 
 	if (m_current_state == _life_cycle_state_leaving)
-		printf("networking:logic:life-cycle: we are already leaving, no need to try again");
+		c_console::write_line("networking:logic:life-cycle: we are already leaving, no need to try again");
 	else
 		request_state_change(_life_cycle_state_leaving, 1, &disconnect);
 }

@@ -1,5 +1,7 @@
 #include "memory/thread_local.hpp"
 
+#include "memory/module.hpp"
+
 #include <windows.h>
 
 s_thread_local_storage* get_tls()
@@ -7,7 +9,7 @@ s_thread_local_storage* get_tls()
 	static dword tls_index = 'NOGO';
 	if (tls_index == 'NOGO')
 	{
-		byte* module_base = reinterpret_cast<byte*>(GetModuleHandle(NULL));
+		byte* module_base = reinterpret_cast<byte*>(global_address_get(0));
 		PIMAGE_DOS_HEADER dos_header = reinterpret_cast<PIMAGE_DOS_HEADER>(module_base);
 		PIMAGE_NT_HEADERS nt_headers = reinterpret_cast<PIMAGE_NT_HEADERS>(module_base + dos_header->e_lfanew);
 		PIMAGE_TLS_DIRECTORY tls_directory = reinterpret_cast<PIMAGE_TLS_DIRECTORY>(module_base + nt_headers->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_TLS].VirtualAddress);

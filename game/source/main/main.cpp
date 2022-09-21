@@ -11,9 +11,16 @@
 #include "rasterizer/rasterizer.hpp"
 #include "simulation/simulation.hpp"
 
-#include <windows.h>
 #include <assert.h>
-#include <stdio.h>
+
+HOOK_DECLARE(0x00505C10, main_loop_body_main_part);
+
+void __cdecl main_loop_body_main_part()
+{
+    main_loop_body_begin();
+    HOOK_INVOKE(, main_loop_body_main_part);
+    main_loop_body_end();
+}
 
 void main_loop_body_begin()
 {
