@@ -1184,7 +1184,8 @@ struct s_thread_local_storage
 	// size: 0x4
 	dword* g_deterministic_random_seed_ptr;
 
-	void* filo_related;
+	// used in `suppress_file_errors` and `file_error`
+	bool g_file_errors_suppressed;
 
 	// name: "game globals"
 	// size: 0x25208
