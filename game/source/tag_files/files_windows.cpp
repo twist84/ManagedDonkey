@@ -1,6 +1,25 @@
-#include "files_windows.hpp"
+#include "tag_files/files_windows.hpp"
 
 #include "cseries/console.hpp"
+#include "memory/thread_local.hpp"
+
+void suppress_file_errors(bool suppress)
+{
+    FUNCTION_BEGIN(true);
+
+    if (get_tls())
+        get_tls()->g_file_errors_suppressed = suppress;
+}
+
+bool file_errors_suppressed()
+{
+    FUNCTION_BEGIN(true);
+
+    if (get_tls())
+        return get_tls()->g_file_errors_suppressed;
+
+    return true;
+}
 
 bool __cdecl file_delete(s_file_reference* file_reference)
 {

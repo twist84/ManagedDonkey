@@ -23,5 +23,7 @@ struct s_indirect_file
 static_assert(sizeof(s_indirect_file) == 0x4);
 
 struct s_file_reference;
+extern void suppress_file_errors(bool suppress);
+extern bool file_errors_suppressed();
 extern bool __cdecl file_delete(s_file_reference* file_reference);
 extern bool __cdecl file_exists(s_file_reference const* file_reference);
