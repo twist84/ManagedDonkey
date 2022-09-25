@@ -27,7 +27,7 @@ public:
 	virtual void reset();
 	virtual bool is_result_successful(dword, dword, dword);
 
-	c_overlapped_task(char const* file, long line);
+	c_overlapped_task* constructor(char const* file, long line);
 
 	bool busy() const;
 	void set_file(char const* file);

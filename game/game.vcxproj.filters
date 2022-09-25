@@ -228,7 +228,13 @@
     <ClCompile Include="source\saved_games\c_storage_device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\online\online_guide_windows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\interface\user_interface_text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cseries\async_xoverlapped_memory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -713,7 +719,13 @@
     <ClInclude Include="source\saved_games\c_storage_device.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\online\online_guide_windows.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\interface\user_interface_text.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\async_xoverlapped_memory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
