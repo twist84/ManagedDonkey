@@ -19,7 +19,16 @@ s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info,
 {
 	FUNCTION_BEGIN(true);
 
-	return INVOKE(0x00528500, file_reference_agnostic_create, file_reference, location);
+	assert(info);
+	assert(location >= NONE && location < NUMBER_OF_FILE_REFERENCE_LOCATIONS);
+
+	memset(info, 0, sizeof(s_file_reference));
+	info->signature = FILE_REFERENCE_SIGNATURE;
+	info->location = location;
+
+	return info;
+
+	//return INVOKE(0x00528500, file_reference_agnostic_create, file_reference, location);
 }
 
 s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* file_reference, char const* path, bool a3)
