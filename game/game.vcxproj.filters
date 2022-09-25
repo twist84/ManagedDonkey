@@ -228,6 +228,9 @@
     <ClCompile Include="source\saved_games\c_storage_device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\user_interface_text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -708,6 +711,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\saved_games\c_storage_device.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_text.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
