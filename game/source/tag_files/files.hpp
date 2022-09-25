@@ -3,6 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/files_windows.hpp"
 
+#define FILE_REFERENCE_SIGNATURE 'filo'
+#define NUMBER_OF_FILE_REFERENCE_LOCATIONS 2
+
 struct file_reference_info
 {
 	dword signature;
@@ -19,6 +22,7 @@ struct s_file_reference : file_reference_info
 };
 static_assert(sizeof(s_file_reference) == 0x110);
 
+extern file_reference_info* file_reference_get_info(s_file_reference* info);
 extern s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, short location);
 extern s_file_reference* __cdecl file_reference_create_from_path(s_file_reference*, char const*, bool);
 extern s_file_reference* __cdecl file_reference_copy(s_file_reference*, s_file_reference const*);

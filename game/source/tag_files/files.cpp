@@ -2,7 +2,20 @@
 
 #include "cseries/console.hpp"
 
-s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* file_reference, short location)
+#include <assert.h>
+#include <string.h>
+
+file_reference_info* file_reference_get_info(s_file_reference* info)
+{
+	assert(info);
+	assert(info->signature == FILE_REFERENCE_SIGNATURE);
+	//assert(VALID_BITS(info->flags, NUMBER_OF_REFERENCE_INFO_FLAGS));
+	assert(info->location >= NONE && info->location < NUMBER_OF_FILE_REFERENCE_LOCATIONS);
+
+	return info;
+}
+
+s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, short location)
 {
 	FUNCTION_BEGIN(true);
 
