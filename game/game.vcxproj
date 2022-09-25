@@ -213,6 +213,7 @@ POPD
     <ClCompile Include="source\cache\cache_file_builder_security.cpp" />
     <ClCompile Include="source\cache\security_functions.cpp" />
     <ClCompile Include="source\config\version.cpp" />
+    <ClCompile Include="source\cseries\async_xoverlapped.cpp" />
     <ClCompile Include="source\cseries\console.cpp" />
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
@@ -266,6 +267,10 @@ POPD
     <ClCompile Include="source\physics\physics_constants.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
+    <ClCompile Include="source\saved_games\content_catalogue.cpp" />
+    <ClCompile Include="source\saved_games\content_catalogue_tasks.cpp" />
+    <ClCompile Include="source\saved_games\content_item.cpp" />
+    <ClCompile Include="source\saved_games\c_storage_device.cpp" />
     <ClCompile Include="source\scenario\scenario.cpp" />
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />
@@ -276,6 +281,7 @@ POPD
     <ClCompile Include="source\text\font_loading.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\cseries\async_xoverlapped.hpp" />
     <ClInclude Include="source\cseries\console.hpp" />
     <ClInclude Include="source\cseries\language.hpp" />
     <ClInclude Include="source\editor\editor_stubs.hpp" />
@@ -411,6 +417,10 @@ POPD
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_performance_throttles.hpp" />
     <ClInclude Include="source\render\render_visibility_collection.hpp" />
+    <ClInclude Include="source\saved_games\content_catalogue.hpp" />
+    <ClInclude Include="source\saved_games\content_catalogue_tasks.hpp" />
+    <ClInclude Include="source\saved_games\content_item.hpp" />
+    <ClInclude Include="source\saved_games\c_storage_device.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\scenario\scenario.hpp" />
