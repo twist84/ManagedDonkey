@@ -20,3 +20,5 @@ protected:
 #else
 #define FUNCTION_BEGIN(...)
 #endif // _DEBUG
+
+void get_error_message(unsigned long message_id, char(&message_buffer)[2048]);

@@ -39,27 +39,19 @@ void __cdecl file_error(char const* file_function, s_file_reference* file0, s_fi
     if (file1)
         info1 = file_reference_get_info(file1);
 
-    DWORD error = GetLastError();
+    DWORD error_message_id = GetLastError();
     if (!file_errors_suppressed() && !suppress_error)
     {
-        char system_text[1024]{};
+        char system_message[1024]{};
         if (info1)
-            csnzprintf(system_text, sizeof(system_text), "%s('%s', '%s')", file_function, info0->path, info1->path);
+            csnzprintf(system_message, sizeof(system_message), "%s('%s', '%s')", file_function, info0->path, info1->path);
         else
-            csnzprintf(system_text, sizeof(system_text), "%s('%s')", file_function, info0->path);
+            csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path);
 
-        char error_text[2048]{};
-        FormatMessageA(
-            FORMAT_MESSAGE_MAX_WIDTH_MASK | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-            0,
-            error,
-            0,
-            error_text,
-            sizeof(error_text),
-            NULL
-        );
+        char error_message[2048]{};
+        get_error_message(error_message_id, error_message);
 
-        c_console::write_line("system: %s error 0x%08x '%s'", system_text, error, error_text);
+        c_console::write_line("system: %s error 0x%08x '%s'", system_message, error_message_id, error_message);
     }
     SetLastError(ERROR_SUCCESS);
 
