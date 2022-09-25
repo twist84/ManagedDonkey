@@ -3,6 +3,8 @@
 #include "cseries/console.hpp"
 #include "memory/thread_local.hpp"
 
+#include <windows.h>
+
 void suppress_file_errors(bool suppress)
 {
     FUNCTION_BEGIN(true);
@@ -19,6 +21,43 @@ bool file_errors_suppressed()
         return get_tls()->g_file_errors_suppressed;
 
     return true;
+}
+
+//void file_error(char const*, s_file_reference const*, s_file_reference const*, bool)
+void __cdecl file_error(char const* file_function, s_file_reference* file0, s_file_reference* file1, bool suppress_error)
+{
+    FUNCTION_BEGIN(true);
+
+    file_reference_info* info0 = file_reference_get_info(file0);
+    file_reference_info* info1 = nullptr;
+    if (file1)
+        info1 = file_reference_get_info(file1);
+
+    DWORD error = GetLastError();
+    if (!file_errors_suppressed() && !suppress_error)
+    {
+        char system_text[1024]{};
+        if (info1)
+            csnzprintf(system_text, sizeof(system_text), "%s('%s', '%s')", file_function, info0->path, info1->path);
+        else
+            csnzprintf(system_text, sizeof(system_text), "%s('%s')", file_function, info0->path);
+
+        char error_text[2048]{};
+        FormatMessageA(
+            FORMAT_MESSAGE_MAX_WIDTH_MASK | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+            0,
+            error,
+            0,
+            error_text,
+            sizeof(error_text),
+            NULL
+        );
+
+        c_console::write_line("system: %s error 0x%08x '%s'", system_text, error, error_text);
+    }
+    SetLastError(ERROR_SUCCESS);
+
+    //return INVOKE(0x005294F0, file_error, file_function, file0, file1, suppress_error);
 }
 
 bool __cdecl file_delete(s_file_reference* file_reference)
