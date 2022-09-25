@@ -1,9 +1,15 @@
 #include "tag_files/files_windows.hpp"
 
 #include "cseries/console.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 
 #include <windows.h>
+
+HOOK_DECLARE(0x005294F0, file_error);
+HOOK_DECLARE(0x00529170, file_delete);
+HOOK_DECLARE(0x005295F0, file_exists);
+HOOK_DECLARE(0x0052A220, file_open);
 
 void suppress_file_errors(bool suppress)
 {
@@ -57,19 +63,32 @@ void __cdecl file_error(char const* file_function, s_file_reference* file0, s_fi
     }
     SetLastError(ERROR_SUCCESS);
 
-    //return INVOKE(0x005294F0, file_error, file_function, file0, file1, suppress_error);
+    //HOOK_INVOKE(, file_error, file_function, file0, file1, suppress_error);
 }
 
 bool __cdecl file_delete(s_file_reference* file_reference)
 {
     FUNCTION_BEGIN(true);
 
-    return INVOKE(0x00529170, file_delete, file_reference);
+    bool result = false;
+    HOOK_INVOKE(result =, file_delete, file_reference);
+    return result;
 }
 
 bool __cdecl file_exists(s_file_reference const* file_reference)
 {
     FUNCTION_BEGIN(true);
 
-    return INVOKE(0x005295F0, file_exists, file_reference);
+    bool result = false;
+    HOOK_INVOKE(result =, file_exists, file_reference);
+    return result;
+}
+
+bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword* error)
+{
+    FUNCTION_BEGIN(true);
+
+    bool result = false;
+    HOOK_INVOKE(result =, file_open, file_reference, open_flags, error);
+    return result;
 }
