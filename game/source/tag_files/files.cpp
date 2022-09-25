@@ -38,11 +38,14 @@ s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* file
 	return INVOKE(0x00528550, file_reference_create_from_path, file_reference, path, a3);
 }
 
-s_file_reference* __cdecl file_reference_copy(s_file_reference* file_reference, s_file_reference const* other)
+s_file_reference* __cdecl file_reference_copy(s_file_reference* info, s_file_reference const* other)
 {
 	FUNCTION_BEGIN(true);
 
-	return INVOKE(0x00528530, file_reference_copy, file_reference, other);
+	memcpy(info, other, sizeof(file_reference_info));
+	return info;
+
+	//return INVOKE(0x00528530, file_reference_copy, info, other);
 }
 
 s_file_reference* __cdecl file_reference_add_directory(s_file_reference* file_reference, wchar_t const* directory)
@@ -52,7 +55,7 @@ s_file_reference* __cdecl file_reference_add_directory(s_file_reference* file_re
 	return INVOKE(0x00528490, file_reference_add_directory, file_reference, directory);
 }
 
-//s_file_reference*__cdecl file_reference_remove_directory(s_file_reference* file_reference)
+//s_file_reference* __cdecl file_reference_remove_directory(s_file_reference* file_reference)
 
 s_file_reference* __cdecl file_reference_set_name(s_file_reference* file_reference, char const* name)
 {
