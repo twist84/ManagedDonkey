@@ -199,6 +199,12 @@ public:
 		m_storage = static_cast<t_storage_type>(value);
 	}
 
+	template<typename T>
+	inline void operator++()
+	{
+		m_storage++;
+	}
+
 	template <class T>
 	inline operator T () const
 	{
