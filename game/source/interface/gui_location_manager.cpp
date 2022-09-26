@@ -1,7 +1,6 @@
 #include "interface/gui_location_manager.hpp"
 
 #include "cseries/console.hpp"
-#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"
 #include "shell/shell.hpp"
@@ -45,11 +44,7 @@ void __fastcall c_gui_location_manager::change_location(c_gui_location_manager* 
 	HOOK_INVOKE_CLASS(, c_gui_location_manager, change_location, void(__thiscall*)(c_gui_location_manager*, long), _this, screen_name);
 
 	if (can_change_location)
-	{
-		void* load_screen_message = user_interface_malloc_tracked(0x3C, __FILE__, __LINE__);
-		void* message = load_screen_message_ctor(load_screen_message, screen_name, k_any_controller, _render_window4, _gui_string_id_bottom_most);
-		user_interface_messaging_post(message);
-	}
+		user_interface_messaging_post_load_screen(screen_name, k_any_controller, _render_window4, _gui_string_id_bottom_most);
 }
 
 // 00ADF870
