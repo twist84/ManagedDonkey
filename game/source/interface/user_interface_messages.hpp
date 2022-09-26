@@ -43,27 +43,54 @@ static_assert(sizeof(c_load_screen_message) == 0x3C);
 
 struct c_message_globals
 {
-	struct s_message_entry
+	struct s_message_queue_node
 	{
-		dword __unknown0;
-		dword __unknown4;
-		dword __unknown8;
+		s_message_queue_node* m_next;
+		s_message_queue_node* m_prev;
+		c_message* m_message;
 	};
 	
-	s_message_entry m_queue[32];
-	s_message_entry* m_queue_entry0;
-	s_message_entry* m_queue_entry1;
+protected:
+	s_message_queue_node m_queue[32];
+	s_message_queue_node* m_next_read;
+	s_message_queue_node* m_prev_read;
 
+	// HANDLE
+	//void* m_system_message_notification_handle;
 	bool m_xbox_guide_is_active;
+
+public:
+	c_message_globals();
+	~c_message_globals();
+
+	void initialize();
+	void dispose();
+	void initialize_for_new_map();
+	void dispose_from_old_map();
+	void empty_queue();
+	c_message* dequeue_node(s_message_queue_node* node, bool unknown);
+	bool can_read();
+	void queue(c_message* message);
+	bool can_write();
+	void get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference);
+	bool message_match(c_message* message, long screen_name, e_controller_index controller, e_window_index window);
+	void dequeue(c_message* message);
+	bool get_xbox_guide_is_active();
+	void set_xbox_guide_is_active(bool xbox_guide_is_active);
+	void* get_system_message_notification_handle();
 };
 static_assert(sizeof(c_message_globals) == 0x18C);
 
 extern c_message_globals& g_message_globals;
 
-extern void __cdecl user_interface_messaging_pop(c_message* message);
+extern void __cdecl user_interface_messaging_initialize();
+extern void __cdecl user_interface_messaging_dispose();
+extern void __cdecl user_interface_messaging_initialize_for_new_map();
+extern void __cdecl user_interface_messaging_dispose_from_old_map();
+extern void __cdecl user_interface_messaging_update();
 extern void __cdecl user_interface_messaging_post(c_message* message);
+extern bool __cdecl user_interface_messaging_get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference);
+extern void __cdecl user_interface_messaging_pop(c_message* message);
+extern bool __cdecl user_interface_message_queue_is_empty();
 
-extern c_load_screen_message* load_screen_message_ctor(c_load_screen_message* message, long message_id, long controller, long window, long layered_position);
-
-extern void user_interface_messaging_pop_load_screen(c_load_screen_message* message);
-extern c_load_screen_message* user_interface_messaging_post_load_screen(long message_id, long controller, long window, long layered_position);
+extern c_load_screen_message* load_screen_message_ctor(c_load_screen_message* message, long screen_name, e_controller_index controller, e_window_index window, long layered_position);
