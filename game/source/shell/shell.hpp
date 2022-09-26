@@ -83,3 +83,17 @@ enum e_player_model_choice
 {
 
 };
+
+enum e_controller_index
+{
+	_controller_index0 = 0,
+	_controller_index1,
+	_controller_index2,
+	_controller_index3,
+
+	k_number_of_controllers,
+
+	k_any_controller = 0xFF,
+	k_no_controller = 0xFFFFFFFF,
+};
+
