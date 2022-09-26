@@ -6,6 +6,8 @@
 #include "cseries/cseries_windows.hpp"
 #include "cseries/symbols_reader.hpp"
 #include "game/player_control.hpp"
+#include "interface/gui_location_manager.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
@@ -92,7 +94,11 @@ void __cdecl main_loop_body_end()
     // right control for tests
     if (GetKeyState(VK_ESCAPE) & 0x8000)
     {
-        user_interface_messaging_post_load_screen(_gui_string_id_start_menu, k_any_controller, _render_window4, _gui_string_id_top_most);
+        //window_manager_load_screen_hs(_gui_string_id_start_menu);
+        c_load_screen_message* message = (c_load_screen_message*)user_interface_malloc_tracked(sizeof(c_load_screen_message), __FILE__, __LINE__);
+        if (load_screen_message_ctor(message, _gui_string_id_start_menu, k_any_controller, _window_index4, _gui_string_id_top_most))
+            user_interface_messaging_post(message);
+
         Sleep(25);
     }
 }
