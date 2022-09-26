@@ -27,7 +27,7 @@ void damaged_media_exception()
 
 void __cdecl damaged_media_update()
 {
-    FUNCTION_BEGIN(false)
+    FUNCTION_BEGIN(false);
 
     //HOOK_INVOKE(, damaged_media_update);
 

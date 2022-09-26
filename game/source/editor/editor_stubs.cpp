@@ -70,7 +70,7 @@ void __cdecl editor_initialize_for_new_structure_bsp(dword a1)
 
 bool __cdecl editor_input_inhibited()
 {
-	FUNCTION_BEGIN(false)
+	FUNCTION_BEGIN(false);
 
 	bool result = false;
 	HOOK_INVOKE(result =, editor_input_inhibited);
@@ -86,7 +86,7 @@ void __cdecl editor_orphan_object(e_object_type a1, long a2)
 
 void __cdecl editor_register_new_object(e_object_type a1, long a2, long a3)
 {
-	FUNCTION_BEGIN(false)
+	FUNCTION_BEGIN(false);
 
 	HOOK_INVOKE(, editor_register_new_object, a1, a2, a3);
 }
@@ -118,14 +118,14 @@ bool __cdecl editor_switch_zone_set(long a1)
 
 void __cdecl editor_update()
 {
-	FUNCTION_BEGIN(false)
+	FUNCTION_BEGIN(false);
 
 	HOOK_INVOKE(, editor_update);
 }
 
 bool __cdecl game_in_editor()
 {
-	FUNCTION_BEGIN(false)
+	FUNCTION_BEGIN(false);
 
 	bool result = false;
 	HOOK_INVOKE(result =, game_in_editor);

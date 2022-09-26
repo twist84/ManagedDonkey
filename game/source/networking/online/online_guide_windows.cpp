@@ -47,11 +47,15 @@ c_virtual_keyboard_task* c_virtual_keyboard_task::constructor(
 
 void c_overlapped_task::set_file(char const* file)
 {
+	FUNCTION_BEGIN(true);
+
 	m_file = file;
 }
 
 void c_overlapped_task::set_line(long line)
 {
+	FUNCTION_BEGIN(true);
+
 	m_line = line;
 }
 
@@ -62,6 +66,8 @@ void c_virtual_keyboard_task::set_controller_index(long controller_index)
 
 void c_virtual_keyboard_task::set_default_text(wchar_t const* default_text)
 {
+	FUNCTION_BEGIN(true);
+
 	if (default_text)
 		wcscpy_s(m_default_text, default_text);
 	else
@@ -70,6 +76,8 @@ void c_virtual_keyboard_task::set_default_text(wchar_t const* default_text)
 
 void c_virtual_keyboard_task::set_title_text(wchar_t const* title_text)
 {
+	FUNCTION_BEGIN(true);
+
 	if (title_text)
 		wcscpy_s(m_title_text, title_text);
 	else
@@ -78,6 +86,8 @@ void c_virtual_keyboard_task::set_title_text(wchar_t const* title_text)
 
 void c_virtual_keyboard_task::set_description_text(wchar_t const* description_text)
 {
+	FUNCTION_BEGIN(true);
+
 	if (description_text)
 		wcscpy_s(m_description_text, description_text);
 	else
@@ -105,6 +115,8 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 	dword_flags character_flags
 )
 {
+	FUNCTION_BEGIN(true);
+
 	if (!m_instance)
 	{
 		m_instance = (c_virtual_keyboard_task*)overlapped_malloc_tracked(sizeof(c_virtual_keyboard_task), __FILE__, __LINE__);
