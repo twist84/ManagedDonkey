@@ -6,6 +6,7 @@
 #define DECLFUNC(ADDR, R, CC, ...) reinterpret_cast<R(CC*)(__VA_ARGS__)>(ADDR)
 #define INVOKE(ADDR, TYPE, ...) reinterpret_cast<decltype(TYPE)*>(ADDR)(__VA_ARGS__)
 
+#define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
 
 #define try_bool(X) if (!X) return false
 
