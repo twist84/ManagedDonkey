@@ -97,3 +97,13 @@ enum e_controller_index
 	k_no_controller = 0xFFFFFFFF,
 };
 
+enum e_render_window
+{
+	_render_window0 = 0,
+	_render_window1,
+	_render_window2,
+	_render_window3,
+	_render_window4,
+
+	k_number_of_render_windows
+};
