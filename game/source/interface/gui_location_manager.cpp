@@ -1,9 +1,9 @@
 #include "interface/gui_location_manager.hpp"
 
 #include "cseries/console.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"
-#include "shell/shell.hpp"
 #include "tag_files/string_ids.hpp"
 
 
@@ -44,13 +44,17 @@ void __fastcall c_gui_location_manager::change_location(c_gui_location_manager* 
 	HOOK_INVOKE_CLASS(, c_gui_location_manager, change_location, void(__thiscall*)(c_gui_location_manager*, long), _this, screen_name);
 
 	if (can_change_location)
-		user_interface_messaging_post_load_screen(screen_name, k_any_controller, _render_window4, _gui_string_id_bottom_most);
+	{
+		c_load_screen_message* message = (c_load_screen_message*)user_interface_malloc_tracked(sizeof(c_load_screen_message), __FILE__, __LINE__);
+		if (load_screen_message_ctor(message, screen_name, k_any_controller, _window_index4, _gui_string_id_bottom_most))
+			user_interface_messaging_post(message);
+	}
 }
 
 // 00ADF870
 long __fastcall c_gui_location_manager::get_current_ui_location(c_gui_location_manager* _this)
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	long result = 0;
 	HOOK_INVOKE_CLASS(result =, c_gui_location_manager, get_current_ui_location, long(__thiscall*)(c_gui_location_manager*), _this);
@@ -127,9 +131,9 @@ void __fastcall c_gui_location_manager::update(c_gui_location_manager* _this)
 	DECLFUNC(0x00ADFA10, void, __thiscall, c_gui_location_manager*)(_this);
 }
 
-void __cdecl window_manager_load_screen_hs(long screen)
+void __cdecl window_manager_load_screen_hs(long screen_name)
 {
 	FUNCTION_BEGIN(true);
 
-	INVOKE(0x00AAD9A0, window_manager_load_screen_hs, screen);
+	INVOKE(0x00AAD9A0, window_manager_load_screen_hs, screen_name);
 }
