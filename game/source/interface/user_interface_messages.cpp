@@ -3,6 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_memory.hpp"
 
+
+c_message_globals& g_message_globals = *reinterpret_cast<c_message_globals*>(0x052600D0);
+
 void __cdecl user_interface_messaging_pop(c_message* message)
 {
 	INVOKE(0x00A93430, user_interface_messaging_pop, message);

@@ -6,7 +6,7 @@
 #include "cseries/cseries_windows.hpp"
 #include "cseries/symbols_reader.hpp"
 #include "game/player_control.hpp"
-#include "interface/gui_location_manager.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/module.hpp"
@@ -29,6 +29,7 @@ void __cdecl main_loop_body_begin()
         cache_file_table_of_contents;
         cache_file_copy_globals;
         simulation_globals;
+        g_message_globals;
 
         printf("");
     }
@@ -91,7 +92,7 @@ void __cdecl main_loop_body_end()
     // right control for tests
     if (GetKeyState(VK_ESCAPE) & 0x8000)
     {
-        window_manager_load_screen_hs(_gui_string_id_start_menu);
+        user_interface_messaging_post_load_screen(_gui_string_id_start_menu, k_any_controller, _render_window4, _gui_string_id_top_most);
         Sleep(25);
     }
 }
