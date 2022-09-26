@@ -11,16 +11,22 @@
 
 long c_message::get_screen_name()
 {
+	FUNCTION_BEGIN(true);
+
 	return m_screen_name;
 }
 
 e_controller_index c_message::get_controller()
 {
+	FUNCTION_BEGIN(true);
+
 	return m_controller;
 }
 
 e_window_index c_message::get_window()
 {
+	FUNCTION_BEGIN(true);
+
 	return m_window;
 }
 
@@ -28,6 +34,8 @@ c_message_globals& g_message_globals = *reinterpret_cast<c_message_globals*>(0x0
 
 c_message_globals::c_message_globals()
 {
+	FUNCTION_BEGIN(true);
+
 	memset(m_queue, 0, sizeof(m_queue));
 	m_next_read = nullptr;
 	m_prev_read = nullptr;
@@ -37,16 +45,21 @@ c_message_globals::c_message_globals()
 
 c_message_globals::~c_message_globals()
 {
+	FUNCTION_BEGIN(true);
 }
 
 void c_message_globals::initialize()
 {
+	FUNCTION_BEGIN(true);
+
 	//m_system_message_notification_handle = XNotifyCreateListener(0x6F);
 	//XCustomRegisterDynamicActions();
 }
 
 void c_message_globals::dispose()
 {
+	FUNCTION_BEGIN(true);
+
 	//XCustomUnregisterDynamicActions();
 	//if (m_system_message_notification_handle && m_system_message_notification_handle != INVALID_HANDLE_VALUE)
 	//{
@@ -57,6 +70,8 @@ void c_message_globals::dispose()
 
 void c_message_globals::initialize_for_new_map()
 {
+	FUNCTION_BEGIN(true);
+
 	for (long i = 0; i < NUMBEROF(m_queue); ++i)
 	{
 		s_message_queue_node* next = nullptr;
@@ -81,11 +96,15 @@ void c_message_globals::initialize_for_new_map()
 
 void c_message_globals::dispose_from_old_map()
 {
+	FUNCTION_BEGIN(true);
+
 	empty_queue();
 }
 
 void c_message_globals::empty_queue()
 {
+	FUNCTION_BEGIN(true);
+
 	while (can_read())
 	{
 		c_message* message = dequeue_node(m_next_read, true);
@@ -98,6 +117,8 @@ void c_message_globals::empty_queue()
 
 c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unknown)
 {
+	FUNCTION_BEGIN(true);
+
 	assert(&m_queue[0] <= node && node <= &m_queue[NUMBEROF(m_queue) - 1]);
 	assert(node->m_message != nullptr);
 
@@ -150,6 +171,8 @@ bool c_message_globals::can_write()
 
 void c_message_globals::get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
+	FUNCTION_BEGIN(true);
+
 	assert(message_reference != nullptr);
 
 	s_message_queue_node* next_node = 0;
@@ -187,6 +210,8 @@ void c_message_globals::get_next_message(long screen_name, e_controller_index co
 
 bool c_message_globals::message_match(c_message* message, long screen_name, e_controller_index controller, e_window_index window)
 {
+	FUNCTION_BEGIN(true);
+
 	bool result = false;
 	if ((screen_name == _string_id_invalid || message->get_screen_name() == screen_name)
 		&& (controller == k_any_controller || message->get_controller() == controller)
@@ -200,6 +225,8 @@ bool c_message_globals::message_match(c_message* message, long screen_name, e_co
 
 void c_message_globals::dequeue(c_message* message)
 {
+	FUNCTION_BEGIN(true);
+
 	for (s_message_queue_node* node = m_next_read; node && node != m_prev_read; node = node->m_next)
 	{
 		if (node->m_message && node->m_message == message)
@@ -212,11 +239,15 @@ void c_message_globals::dequeue(c_message* message)
 
 bool c_message_globals::get_xbox_guide_is_active()
 {
+	FUNCTION_BEGIN(true);
+
 	return m_xbox_guide_is_active;
 }
 
 void c_message_globals::set_xbox_guide_is_active(bool xbox_guide_is_active)
 {
+	FUNCTION_BEGIN(true);
+
 	m_xbox_guide_is_active = xbox_guide_is_active;
 }
 
@@ -230,27 +261,36 @@ void* c_message_globals::get_system_message_notification_handle()
 
 void __cdecl user_interface_messaging_initialize()
 {
+	FUNCTION_BEGIN(true);
+
 	g_message_globals.initialize();
 }
 
 void __cdecl user_interface_messaging_dispose()
 {
+	FUNCTION_BEGIN(true);
+
 	g_message_globals.dispose();
 }
 
 void __cdecl user_interface_messaging_initialize_for_new_map()
 {
+	FUNCTION_BEGIN(true);
+
 	g_message_globals.initialize_for_new_map();
 }
 
 void __cdecl user_interface_messaging_dispose_from_old_map()
 {
+	FUNCTION_BEGIN(true);
+
 	g_message_globals.dispose_from_old_map();
 }
 
 // TODO
 void __cdecl user_interface_messaging_update()
 {
+	FUNCTION_BEGIN(true);
 }
 
 void __cdecl user_interface_messaging_post(c_message* message)
@@ -309,6 +349,8 @@ void __cdecl user_interface_messaging_pop(c_message* message)
 
 bool __cdecl user_interface_message_queue_is_empty()
 {
+	FUNCTION_BEGIN(true);
+
 	if (game_in_progress())
 		return !g_message_globals.can_read();
 
