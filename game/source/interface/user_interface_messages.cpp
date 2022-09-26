@@ -74,24 +74,23 @@ void c_message_globals::initialize_for_new_map()
 
 	for (long i = 0; i < NUMBEROF(m_queue); ++i)
 	{
-		s_message_queue_node* next = nullptr;
+		s_message_queue_node* next = m_queue[i].m_next;
 		if (i == NUMBEROF(m_queue) - 1)
 			next = m_queue;
 		else
 			next = &m_queue[i + 1];
-		m_queue[i].m_next = next;
 
-		s_message_queue_node* prev = nullptr;
+		s_message_queue_node* prev = m_queue[i].m_prev;
 		if (i)
 			prev = &m_queue[i - 1];
 		else
 			prev = &m_queue[NUMBEROF(m_queue) - 1];
 
-		m_queue[i].m_prev = prev;
 		m_queue[i].m_message = nullptr;
 	}
-	this->m_prev_read = m_queue;
-	this->m_next_read = m_queue;
+
+	m_prev_read = m_queue;
+	m_next_read = m_queue;
 }
 
 void c_message_globals::dispose_from_old_map()
