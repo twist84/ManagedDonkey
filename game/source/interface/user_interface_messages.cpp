@@ -3,6 +3,20 @@
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_memory.hpp"
 
+long c_message::get_screen_name()
+{
+	return m_screen_name;
+}
+
+e_controller_index c_message::get_controller()
+{
+	return m_controller;
+}
+
+e_window_index c_message::get_window()
+{
+	return m_window;
+}
 
 c_message_globals& g_message_globals = *reinterpret_cast<c_message_globals*>(0x052600D0);
 

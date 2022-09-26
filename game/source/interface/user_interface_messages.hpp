@@ -1,20 +1,34 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "shell/shell.hpp"
 
 struct c_message
 {
-	struct c_message_vtbl* __vftable /*VFT*/;
-	dword m_time;
-	long m_message_type;
-	long m_message_id;
-	long m_controller_index;
-	long m_window_index;
+public:
+	virtual void* destructor(dword);
+	virtual void initialize();
+	virtual void update();
+
+	long get_screen_name();
+	e_controller_index get_controller();
+	e_window_index get_window();
+
+protected:
+	dword m_game_time_at_creation;
+	long m_type;
+	long m_screen_name;
+	e_controller_index m_controller;
+	e_window_index m_window;
 };
 static_assert(sizeof(c_message) == 0x18);
 
+class c_gui_screen_widget;
 struct c_load_screen_message : c_message
 {
+	virtual void apply_initial_state(class c_gui_screen_widget*) const;
+
+protected:
 	dword __unknown18;
 	bool __unknown1C;
 	dword __unknown20;
