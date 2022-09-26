@@ -104,3 +104,8 @@ void __fastcall c_gui_location_manager::update(c_gui_location_manager* _this)
 {
 	DECLFUNC(0x00ADFA10, void, __thiscall, c_gui_location_manager*)(_this);
 }
+
+void __cdecl window_manager_load_screen_hs(long screen)
+{
+	INVOKE(0x00AAD9A0, window_manager_load_screen_hs, screen);
+}

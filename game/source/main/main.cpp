@@ -6,11 +6,13 @@
 #include "cseries/cseries_windows.hpp"
 #include "cseries/symbols_reader.hpp"
 #include "game/player_control.hpp"
+#include "interface/gui_location_manager.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "simulation/simulation.hpp"
+#include "tag_files/string_ids.hpp"
 
 #include <assert.h>
 
@@ -84,5 +86,12 @@ void __cdecl main_loop_body_end()
     {
         player_control_toggle_machinima_camera_use_old_controls();
         Sleep(75);
+    }
+
+    // right control for tests
+    if (GetKeyState(VK_ESCAPE) & 0x8000)
+    {
+        window_manager_load_screen_hs(_gui_string_id_start_menu);
+        Sleep(25);
     }
 }

@@ -34,3 +34,4 @@ extern c_gui_location_manager& g_location_manager;
 extern c_gui_location_manager* __cdecl location_manager_get();
 extern void __cdecl location_manager_start();
 extern void __cdecl location_manager_stop();
+extern void __cdecl window_manager_load_screen_hs(long screen);
