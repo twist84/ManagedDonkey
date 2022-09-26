@@ -448,6 +448,7 @@ POPD
     <ClInclude Include="source\simulation\simulation_world.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
+    <ClInclude Include="source\tag_files\string_ids.hpp" />
     <ClInclude Include="source\tag_files\tag_groups.hpp" />
     <ClInclude Include="source\text\font_loading.hpp" />
     <ClInclude Include="source\units\units.hpp" />

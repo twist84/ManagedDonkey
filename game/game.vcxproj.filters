@@ -740,5 +740,8 @@
     <ClInclude Include="source\interface\user_interface_messages.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\tag_files\string_ids.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

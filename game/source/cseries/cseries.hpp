@@ -30,11 +30,6 @@ static_assert(sizeof(long_string) == 0x100);
 typedef unsigned long string_id;
 static_assert(sizeof(string_id) == 0x4);
 
-enum : string_id
-{
-	_string_id_invalid = 0
-};
-
 // 8-bit unsigned integer ranging from 0 to 255
 typedef unsigned char byte;
 static_assert(sizeof(byte) == 0x1);
