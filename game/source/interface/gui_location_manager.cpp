@@ -1,13 +1,15 @@
 #include "interface/gui_location_manager.hpp"
 
+#include "cseries/console.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"
 #include "shell/shell.hpp"
 #include "tag_files/string_ids.hpp"
 
-c_hook_call change_location_hook(0x00ADFB73, { .pointer = c_gui_location_manager::change_location });
-c_hook_call get_current_ui_location_hook(0x00ADFA61, { .pointer = c_gui_location_manager::get_current_ui_location });
+
+HOOK_DECLARE_CLASS(0x00ADF6E0, c_gui_location_manager, change_location);
+HOOK_DECLARE_CLASS(0x00ADF870, c_gui_location_manager, get_current_ui_location);
 HOOK_DECLARE(0x00ADF9D0, location_manager_get);
 HOOK_DECLARE(0x00ADF9E0, location_manager_start);
 HOOK_DECLARE(0x00ADF9F0, location_manager_stop);
@@ -40,7 +42,7 @@ void __fastcall c_gui_location_manager::change_location(c_gui_location_manager* 
 
 	bool can_change_location = _this->can_change_location(_this);
 
-	DECLFUNC(0x00ADF6E0, void, __thiscall, c_gui_location_manager*, long)(_this, screen_name);
+	HOOK_INVOKE_CLASS(, c_gui_location_manager, change_location, void(__thiscall*)(c_gui_location_manager*, long), _this, screen_name);
 
 	if (can_change_location)
 	{
@@ -53,7 +55,11 @@ void __fastcall c_gui_location_manager::change_location(c_gui_location_manager* 
 // 00ADF870
 long __fastcall c_gui_location_manager::get_current_ui_location(c_gui_location_manager* _this)
 {
-	return DECLFUNC(0x00ADF870, long, __thiscall, c_gui_location_manager*)(_this);
+	FUNCTION_BEGIN(true);
+
+	long result = 0;
+	HOOK_INVOKE_CLASS(result =, c_gui_location_manager, get_current_ui_location, long(__thiscall*)(c_gui_location_manager*), _this);
+	return result;
 }
 
 // 00ADF8A0

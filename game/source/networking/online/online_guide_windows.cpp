@@ -7,10 +7,12 @@
 
 #include <string.h>
 
-HOOK_DECLARE(0x004E1A20, virtual_keyboard_task_success);
-c_hook virtual_keyboard_task_get_instance_hook(0x004E1840, { .pointer = c_virtual_keyboard_task::get_instance });
+HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
+HOOK_DECLARE_CLASS(0x004E1840, c_virtual_keyboard_task, get_instance);
+HOOK_DECLARE_CLASS(0x004E1A20, c_virtual_keyboard_task, success);
 
-c_virtual_keyboard_task* c_virtual_keyboard_task::constructor(
+c_virtual_keyboard_task* __fastcall c_virtual_keyboard_task::constructor(
+	c_virtual_keyboard_task* _this,
 	const char* file,
 	long line,
 	long controller_index,
@@ -20,19 +22,23 @@ c_virtual_keyboard_task* c_virtual_keyboard_task::constructor(
 	dword maximum_input_characters
 )
 {
-	return DECLFUNC(0x004E16A0, c_virtual_keyboard_task*, __thiscall,
-		c_virtual_keyboard_task const*,
-		char const*,
-		long,
-		long,
-		wchar_t const*,
-		wchar_t const*,
-		wchar_t const*,
-		dword,
-		long,
-		bool
-	)(
-		this,
+	FUNCTION_BEGIN(true);
+
+	c_virtual_keyboard_task* result = nullptr;
+	HOOK_INVOKE_CLASS(result =, c_virtual_keyboard_task, constructor, 
+		c_virtual_keyboard_task * (__thiscall*)(
+			c_virtual_keyboard_task*,
+			char const*,
+			long,
+			long,
+			wchar_t const*,
+			wchar_t const*,
+			wchar_t const*,
+			dword,
+			long,
+			bool
+		),
+		_this,
 		file,
 		line,
 		controller_index,
@@ -43,6 +49,7 @@ c_virtual_keyboard_task* c_virtual_keyboard_task::constructor(
 		0,
 		false
 	);
+	return result;
 }
 
 void c_overlapped_task::set_file(char const* file)
@@ -59,49 +66,55 @@ void c_overlapped_task::set_line(long line)
 	m_line = line;
 }
 
-void c_virtual_keyboard_task::set_controller_index(long controller_index)
+void __fastcall c_virtual_keyboard_task::set_controller_index(c_virtual_keyboard_task* _this, long controller_index)
 {
-	m_controller_index = controller_index;
+	FUNCTION_BEGIN(true);
+
+	_this->m_controller_index = controller_index;
 }
 
-void c_virtual_keyboard_task::set_default_text(wchar_t const* default_text)
+void __fastcall c_virtual_keyboard_task::set_default_text(c_virtual_keyboard_task* _this, wchar_t const* default_text)
 {
 	FUNCTION_BEGIN(true);
 
 	if (default_text)
-		wcscpy_s(m_default_text, default_text);
+		wcscpy_s(_this->m_default_text, default_text);
 	else
-		m_default_text[0] = 0;
+		_this->m_default_text[0] = 0;
 }
 
-void c_virtual_keyboard_task::set_title_text(wchar_t const* title_text)
+void __fastcall c_virtual_keyboard_task::set_title_text(c_virtual_keyboard_task* _this, wchar_t const* title_text)
 {
 	FUNCTION_BEGIN(true);
 
 	if (title_text)
-		wcscpy_s(m_title_text, title_text);
+		wcscpy_s(_this->m_title_text, title_text);
 	else
-		m_title_text[0] = 0;
+		_this->m_title_text[0] = 0;
 }
 
-void c_virtual_keyboard_task::set_description_text(wchar_t const* description_text)
+void __fastcall c_virtual_keyboard_task::set_description_text(c_virtual_keyboard_task* _this, wchar_t const* description_text)
 {
 	FUNCTION_BEGIN(true);
 
 	if (description_text)
-		wcscpy_s(m_description_text, description_text);
+		wcscpy_s(_this->m_description_text, description_text);
 	else
-		m_description_text[0] = 0;
+		_this->m_description_text[0] = 0;
 }
 
-void c_virtual_keyboard_task::set_maximum_input_characters(dword maximum_input_characters)
+void __fastcall c_virtual_keyboard_task::set_maximum_input_characters(c_virtual_keyboard_task* _this, dword maximum_input_characters)
 {
-	m_maximum_input_characters = maximum_input_characters;
+	FUNCTION_BEGIN(true);
+
+	_this->m_maximum_input_characters = maximum_input_characters;
 }
 
-void c_virtual_keyboard_task::set_character_flags(dword_flags character_flags)
+void __fastcall c_virtual_keyboard_task::set_character_flags(c_virtual_keyboard_task* _this, dword_flags character_flags)
 {
-	m_character_flags = character_flags;
+	FUNCTION_BEGIN(true);
+
+	_this->m_character_flags = character_flags;
 }
 
 c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
@@ -117,10 +130,23 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 {
 	FUNCTION_BEGIN(true);
 
+	//c_virtual_keyboard_task* result = nullptr;
+	//HOOK_INVOKE_CLASS(result =, c_virtual_keyboard_task, get_instance, decltype(get_instance)*,
+	//	file,
+	//	line,
+	//	controller_index,
+	//	default_text,
+	//	title_text,
+	//	description_text,
+	//	maximum_input_characters,
+	//	character_flags);
+	//return result;
+
 	if (!m_instance)
 	{
 		m_instance = (c_virtual_keyboard_task*)overlapped_malloc_tracked(sizeof(c_virtual_keyboard_task), __FILE__, __LINE__);
 		m_instance = m_instance->constructor(
+			m_instance,
 			file,
 			line,
 			controller_index,
@@ -136,12 +162,12 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 		{
 			m_instance->set_file(file);
 			m_instance->set_line(line);
-			m_instance->set_controller_index(controller_index);
-			m_instance->set_default_text(default_text);
-			m_instance->set_title_text(title_text);
-			m_instance->set_description_text(description_text);
-			m_instance->set_maximum_input_characters(maximum_input_characters);
-			m_instance->set_character_flags(character_flags);
+			m_instance->set_controller_index(m_instance, controller_index);
+			m_instance->set_default_text(m_instance, default_text);
+			m_instance->set_title_text(m_instance, title_text);
+			m_instance->set_description_text(m_instance, description_text);
+			m_instance->set_maximum_input_characters(m_instance, maximum_input_characters);
+			m_instance->set_character_flags(m_instance, character_flags);
 		}
 		else
 			c_console::write_line("ui: someone tried to get a duplicate instance of the virtual keyboard!");
@@ -152,13 +178,13 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 
 c_virtual_keyboard_task* c_virtual_keyboard_task::m_instance = nullptr;
 
-void __fastcall virtual_keyboard_task_success(c_virtual_keyboard_task* task, dword a1)
+void __fastcall c_virtual_keyboard_task::success(c_virtual_keyboard_task* _this, dword a1)
 {
-	virtual_keyboard_task_success_hook.apply(true);
-	reinterpret_cast<void(__thiscall*)(c_virtual_keyboard_task*, dword)>(virtual_keyboard_task_success_hook.get_original())(task, a1);
-	virtual_keyboard_task_success_hook.apply(false);
+	FUNCTION_BEGIN(true);
 
-	if (!wcsncmp(task->m_keyboard_results, L".fortune", 9))
-		wcsncpy_s(task->m_keyboard_results, L"My modem is on file", 256);
-	wchar_string_sanitize_for_game(task->m_keyboard_results, 256);
+	HOOK_INVOKE_CLASS(, c_virtual_keyboard_task, success, void(__thiscall*)(c_virtual_keyboard_task*, dword), _this, a1);
+
+	if (!wcsncmp(_this->m_keyboard_results, L".fortune", 9))
+		wcsncpy_s(_this->m_keyboard_results, L"My modem is on file", 256);
+	wchar_string_sanitize_for_game(_this->m_keyboard_results, 256);
 }

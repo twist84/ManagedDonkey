@@ -4,7 +4,9 @@
 
 #define HOOK_DECLARE_CALL(ADDR, NAME) c_hook_call NAME##_hook(ADDR, { .pointer = NAME })
 #define HOOK_DECLARE(ADDR, NAME) c_hook NAME##_hook(ADDR, { .pointer = NAME })
+#define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) c_hook CLASS##_##NAME##_hook(ADDR, { .pointer = CLASS::NAME })
 #define HOOK_INVOKE(RESULT, NAME, ...) { NAME##_hook.apply(true); RESULT reinterpret_cast<decltype(NAME)*>(NAME##_hook.get_original())(__VA_ARGS__); NAME##_hook.apply(false); }
+#define HOOK_INVOKE_CLASS(RESULT, CLASS, NAME, TYPE, ...) { CLASS##_##NAME##_hook.apply(true); RESULT reinterpret_cast<TYPE>(CLASS##_##NAME##_hook.get_original())(__VA_ARGS__); CLASS##_##NAME##_hook.apply(false); }
 
 union module_address
 {
