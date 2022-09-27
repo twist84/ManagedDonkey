@@ -29,15 +29,15 @@ struct c_load_screen_message : c_message
 	virtual void apply_initial_state(class c_gui_screen_widget*) const;
 
 protected:
-	dword __unknown18;
-	bool __unknown1C;
-	dword __unknown20;
-	dword __unknown24;
-	dword __unknown28;
-	dword __unknown2C;
-	dword __unknown30;
+	long m_transition_type;
+	bool m_respond_to_controller_events;
+	long m_focus_on_load_list_name;
+	long m_focus_on_load_element_handle;
+	long m_focus_on_load_column_name;
+	long m_focus_on_load_column_value;
+	long m_parent_screen_index;
 	long m_layered_position;
-	bool __unknown38;
+	bool m_applies_even_to_codeless_screens;
 };
 static_assert(sizeof(c_load_screen_message) == 0x3C);
 
