@@ -4,10 +4,21 @@
 #include "cseries/cseries.hpp"
 #include "game/game.hpp"
 #include "interface/user_interface_memory.hpp"
+#include "memory/module.hpp"
 #include "tag_files/string_ids.hpp"
 
 #include <windows.h>
 #include <assert.h>
+
+HOOK_DECLARE(0x00A93410, user_interface_messaging_initialize);
+HOOK_DECLARE(0x00A933B0, user_interface_messaging_dispose);
+HOOK_DECLARE(0x00A93420, user_interface_messaging_initialize_for_new_map);
+HOOK_DECLARE(0x00A933C0, user_interface_messaging_dispose_from_old_map);
+HOOK_DECLARE(0x00A934A0, user_interface_messaging_update);
+HOOK_DECLARE(0x00A93450, user_interface_messaging_post);
+HOOK_DECLARE(0x00A933D0, user_interface_messaging_get_next_message);
+HOOK_DECLARE(0x00A93430, user_interface_messaging_pop);
+//HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty); // TODO
 
 e_ui_message_type c_message::get_type() const
 {
@@ -323,7 +334,10 @@ bool c_message_globals::can_read()
 {
 	FUNCTION_BEGIN(true);
 
-	return m_next_read->m_message == 0;
+	if (m_next_read)
+		return m_next_read->m_message == 0;
+
+	return false;
 }
 
 void c_message_globals::queue(c_message* message)
@@ -333,54 +347,62 @@ void c_message_globals::queue(c_message* message)
 	assert(message != nullptr);
 	assert(can_write());
 
-	g_message_globals.m_prev_read->m_message = message;
-	g_message_globals.m_prev_read = g_message_globals.m_prev_read->m_next;
+	if (m_prev_read)
+	{
+		m_prev_read->m_message = message;
+		m_prev_read = m_prev_read->m_next;
+	}
 }
 
 bool c_message_globals::can_write()
 {
 	FUNCTION_BEGIN(true);
 
-	return m_prev_read->m_message == 0;
+	return !game_in_progress() || g_message_globals.m_next_read->m_message == 0;
 }
 
 void c_message_globals::get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	assert(message_reference != nullptr);
 
-	s_message_queue_node* next_node = 0;
 	if (*message_reference)
 	{
-		for (s_message_queue_node* next = m_next_read; next && next != m_prev_read; next = next->m_next)
+		if (m_next_read)
 		{
-			if (next->m_message && next->m_message == *message_reference)
+			while (m_next_read != m_prev_read)
 			{
-				next_node = next->m_next;
-				break;
+				if (m_next_read->m_message && m_next_read->m_message == *message_reference)
+				{
+					m_next_read = m_next_read->m_next;
+					break;
+				}
+
+				m_next_read = m_next_read->m_next;
+				if (!m_next_read)
+					break;
 			}
 		}
 	}
-	else
-	{
-		assert(m_next_read != nullptr);
-		next_node = m_next_read;
-	}
 
-	c_message* message = 0;
-	while (next_node && next_node != m_prev_read)
+	if (m_next_read)
 	{
-		if (next_node->m_message && message_match(next_node->m_message, screen_name, controller, window))
+		for (s_message_queue_node* prev_read = m_prev_read; m_next_read != prev_read; prev_read = m_prev_read)
 		{
-			message = next_node->m_message;
-			break;
-		}
+			if (m_next_read->m_message && message_match(m_next_read->m_message, screen_name, controller, window))
+			{
+				*message_reference = m_next_read->m_message;
+				return;
+			}
 
-		next_node = next_node->m_next;
+			m_next_read = m_next_read->m_next;
+			if (!m_next_read)
+				break;
+		}
 	}
 
-	*message_reference = message;
+	*message_reference = nullptr;
 }
 
 bool c_message_globals::message_match(c_message* message, long screen_name, e_controller_index controller, e_window_index window)
@@ -390,11 +412,10 @@ bool c_message_globals::message_match(c_message* message, long screen_name, e_co
 	bool result = false;
 	if ((screen_name == _string_id_invalid || message->get_screen_name() == screen_name)
 		&& (controller == k_any_controller || message->get_controller() == controller)
-		&& (window == 0xFF || window == -1 || message->get_window() == window))
+		&& (window == 0xFF || window == 0xFFFFFFFF || message->get_window() == window))
 	{
 		result = true;
 	}
-
 	return result;
 }
 
