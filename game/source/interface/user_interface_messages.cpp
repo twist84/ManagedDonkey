@@ -20,6 +20,7 @@ HOOK_DECLARE(0x00A933D0, user_interface_messaging_get_next_message);
 HOOK_DECLARE(0x00A93430, user_interface_messaging_pop);
 //HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty); // TODO
 
+//c_controller.obj
 e_ui_message_type c_message::get_type() const
 {
 	FUNCTION_BEGIN(true);
@@ -27,6 +28,7 @@ e_ui_message_type c_message::get_type() const
 	return m_type;
 }
 
+//user_interface_networking.obj
 long c_message::get_screen_name() const
 {
 	FUNCTION_BEGIN(true);
@@ -34,6 +36,7 @@ long c_message::get_screen_name() const
 	return m_screen_name;
 }
 
+//user_interface_networking.obj
 e_controller_index c_message::get_controller() const
 {
 	FUNCTION_BEGIN(true);
@@ -41,6 +44,7 @@ e_controller_index c_message::get_controller() const
 	return m_controller;
 }
 
+//user_interface_messages.obj
 e_window_index c_message::get_window() const
 {
 	FUNCTION_BEGIN(true);
@@ -48,6 +52,7 @@ e_window_index c_message::get_window() const
 	return m_window;
 }
 
+//user_interface_window_manager.obj
 long c_message::get_game_time_at_creation() const
 {
 	FUNCTION_BEGIN(true);
@@ -55,18 +60,23 @@ long c_message::get_game_time_at_creation() const
 	return m_game_time_at_creation;
 }
 
+//gui_screen_start_menu.obj
 e_event_type c_controller_input_message::get_event_type() const
 {
 	FUNCTION_BEGIN(true);
 
 	return m_event_type;
 }
+
+//gui_screen_start_menu.obj
 e_controller_component c_controller_input_message::get_component() const
 {
 	FUNCTION_BEGIN(true);
 
 	return m_component;
 }
+
+//gui_screen_scoreboard.obj
 long c_controller_input_message::get_event_value() const
 {
 	FUNCTION_BEGIN(true);
@@ -74,6 +84,7 @@ long c_controller_input_message::get_event_value() const
 	return m_event_value;
 }
 
+//c_controller.obj
 c_xenon_message::e_xenon_message_type c_xenon_message::get_xenon_message_type() const
 {
 	FUNCTION_BEGIN(true);
@@ -81,6 +92,7 @@ c_xenon_message::e_xenon_message_type c_xenon_message::get_xenon_message_type() 
 	return m_xenon_message_type;
 }
 
+//c_controller.obj
 long c_xenon_message::get_event_value() const
 {
 	FUNCTION_BEGIN(true);
@@ -88,6 +100,7 @@ long c_xenon_message::get_event_value() const
 	return m_event_value;
 }
 
+//saved_film_director.obj
 void c_load_screen_message::set_focus_on_load_by_name(long list_name, long column_name, long column_value)
 {
 	FUNCTION_BEGIN(true);
@@ -97,6 +110,7 @@ void c_load_screen_message::set_focus_on_load_by_name(long list_name, long colum
 	m_focus_on_load_column_value = column_value;
 }
 
+//gui_screen_start_menu.obj
 void c_load_screen_message::set_transition_type(e_screen_transition_type transition_type)
 {
 	FUNCTION_BEGIN(true);
@@ -104,6 +118,7 @@ void c_load_screen_message::set_transition_type(e_screen_transition_type transit
 	m_transition_type = transition_type;
 }
 
+//gui_screen_start_menu.obj
 void c_load_screen_message::set_focus_on_load(long list_name, long element_handle)
 {
 	FUNCTION_BEGIN(true);
@@ -112,6 +127,7 @@ void c_load_screen_message::set_focus_on_load(long list_name, long element_handl
 	m_focus_on_load_element_handle = element_handle;
 }
 
+//gui_screen_start_menu.obj
 void c_load_screen_message::set_parent_screen_index(long parent_screen_index)
 {
 	FUNCTION_BEGIN(true);
@@ -119,6 +135,7 @@ void c_load_screen_message::set_parent_screen_index(long parent_screen_index)
 	m_parent_screen_index = parent_screen_index;
 }
 
+//user_interface_window_manager.obj
 e_screen_transition_type c_load_screen_message::get_transition_type() const
 {
 	FUNCTION_BEGIN(true);
@@ -126,6 +143,7 @@ e_screen_transition_type c_load_screen_message::get_transition_type() const
 	return m_transition_type;
 }
 
+//user_interface_window_manager.obj
 bool c_load_screen_message::get_respond_to_controller_events() const
 {
 	FUNCTION_BEGIN(true);
@@ -133,6 +151,7 @@ bool c_load_screen_message::get_respond_to_controller_events() const
 	return m_respond_to_controller_events;
 }
 
+//user_interface_window_manager.obj
 long c_load_screen_message::get_focus_on_load_list_name() const
 {
 	FUNCTION_BEGIN(true);
@@ -140,6 +159,7 @@ long c_load_screen_message::get_focus_on_load_list_name() const
 	return m_focus_on_load_list_name;
 }
 
+//user_interface_window_manager.obj
 long c_load_screen_message::get_focus_on_load_element_handle() const
 {
 	FUNCTION_BEGIN(true);
@@ -147,6 +167,7 @@ long c_load_screen_message::get_focus_on_load_element_handle() const
 	return m_focus_on_load_element_handle;
 }
 
+//user_interface_window_manager.obj
 long c_load_screen_message::get_focus_on_load_column_name() const
 {
 	FUNCTION_BEGIN(true);
@@ -154,6 +175,7 @@ long c_load_screen_message::get_focus_on_load_column_name() const
 	return m_focus_on_load_column_name;
 }
 
+//user_interface_window_manager.obj
 long c_load_screen_message::get_focus_on_load_column_value() const
 {
 	FUNCTION_BEGIN(true);
@@ -161,6 +183,7 @@ long c_load_screen_message::get_focus_on_load_column_value() const
 	return m_focus_on_load_column_value;
 }
 
+//user_interface_window_manager.obj
 long c_load_screen_message::get_parent_screen_index() const
 {
 	FUNCTION_BEGIN(true);
@@ -168,6 +191,7 @@ long c_load_screen_message::get_parent_screen_index() const
 	return m_parent_screen_index;
 }
 
+//user_interface_window_manager.obj
 long c_load_screen_message::get_layered_position() const
 {
 	FUNCTION_BEGIN(true);
@@ -175,6 +199,7 @@ long c_load_screen_message::get_layered_position() const
 	return m_layered_position;
 }
 
+//user_interface_window_manager.obj
 bool c_load_screen_message::get_applies_even_to_codeless_screens() const
 {
 	FUNCTION_BEGIN(true);
@@ -182,6 +207,7 @@ bool c_load_screen_message::get_applies_even_to_codeless_screens() const
 	return m_applies_even_to_codeless_screens;
 }
 
+//gui_screen_start_menu.obj
 long c_screen_custom_message::get_sub_type() const
 {
 	FUNCTION_BEGIN(true);
@@ -189,6 +215,7 @@ long c_screen_custom_message::get_sub_type() const
 	return m_sub_type;
 }
 
+//user_interface_networking.obj
 long c_dialog_result_message::get_dialog_name() const
 {
 	FUNCTION_BEGIN(true);
@@ -196,6 +223,7 @@ long c_dialog_result_message::get_dialog_name() const
 	return m_dialog_name;
 }
 
+//user_interface_networking.obj
 e_gui_dialog_choice c_dialog_result_message::get_dialog_result() const
 {
 	FUNCTION_BEGIN(true);
@@ -203,6 +231,7 @@ e_gui_dialog_choice c_dialog_result_message::get_dialog_result() const
 	return m_dialog_result;
 }
 
+//gui_pregame_setup_manager.obj
 long c_dialog_result_message::get_dispose_on_success_screen_index() const
 {
 	FUNCTION_BEGIN(true);
@@ -210,11 +239,34 @@ long c_dialog_result_message::get_dispose_on_success_screen_index() const
 	return m_dispose_on_success_screen_index;
 }
 
+//gui_screen_dialog.obj
 void c_dialog_result_message::set_dispose_on_success_screen_index(long dispose_on_success_screen_index)
 {
 	FUNCTION_BEGIN(true);
 
 	m_dispose_on_success_screen_index = dispose_on_success_screen_index;
+}
+
+long c_load_dialog_screen_message::get_dialog_screen_name(long dialog_name)
+{
+	// TODO iterate through `user_interface_shared_globals->dialog_descriptions`,
+	// check `dialog_name` against `dialog_description->dialog_name`
+	// and return `(dialog_description->third_item != -1) + _gui_string_id_gui_dialog_two_items`
+	// if `dialog_description` doesn't contain `dialog_name` return `_string_id_invalid`
+	
+	return _string_id_invalid;
+}
+
+//gui_pregame_setup_manager.obj
+void c_load_dialog_screen_message::set_dispose_on_success_screen_index(long dispose_on_success_screen_index)
+{
+	m_dispose_on_success_screen_index = dispose_on_success_screen_index;
+}
+
+//gui_screen_dialog.obj
+void c_load_dialog_screen_message::set_test_mode(bool test_mode)
+{
+	m_test_mode = test_mode;
 }
 
 c_message_globals& g_message_globals = *reinterpret_cast<c_message_globals*>(0x052600D0);

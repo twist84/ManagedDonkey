@@ -52,10 +52,9 @@ protected:
 	e_controller_component m_component;
 	long m_event_value;
 
-
 	long __unknown24;
 };
-static_assert(sizeof(c_controller_input_message) == 0x28);
+static_assert(sizeof(c_controller_input_message) == sizeof(c_message) + 0x10);
 
 //_ui_message_type_xenon
 struct c_xenon_message : c_message
@@ -70,7 +69,7 @@ protected:
 	e_xenon_message_type m_xenon_message_type;
 	long m_event_value;
 };
-static_assert(sizeof(c_xenon_message) == 0x20);
+static_assert(sizeof(c_xenon_message) == sizeof(c_message) + 0x8);
 
 enum e_screen_transition_type;
 
@@ -106,7 +105,7 @@ protected:
 	long m_layered_position;
 	bool m_applies_even_to_codeless_screens;
 };
-static_assert(sizeof(c_load_screen_message) == 0x3C);
+static_assert(sizeof(c_load_screen_message) == sizeof(c_message) + 0x24);
 
 //_ui_message_type_screen_custom
 struct c_screen_custom_message : c_message
@@ -117,7 +116,7 @@ public:
 protected:
 	long m_sub_type;
 };
-static_assert(sizeof(c_screen_custom_message) == 0x1C);
+static_assert(sizeof(c_screen_custom_message) == sizeof(c_message) + 0x4);
 
 enum e_gui_dialog_choice;
 
@@ -135,7 +134,36 @@ protected:
 	long m_dialog_name;
 	long m_dispose_on_success_screen_index;
 };
-static_assert(sizeof(c_dialog_result_message) == 0x24);
+static_assert(sizeof(c_dialog_result_message) == sizeof(c_message) + 0xC);
+
+struct c_load_terminal_screen_message : c_load_screen_message
+{
+protected:
+	int m_initial_state; // apply_initial_state
+};
+static_assert(sizeof(c_load_terminal_screen_message) == sizeof(c_load_screen_message) + 0x4);
+
+struct c_load_alert_screen_message : c_load_screen_message
+{
+protected:
+	int m_error_name; // apply_initial_state
+};
+static_assert(sizeof(c_load_alert_screen_message) == sizeof(c_load_screen_message) + 0x4);
+
+struct c_load_dialog_screen_message : c_load_screen_message
+{
+public:
+	long get_dialog_screen_name(long dialog_name);
+	void set_dispose_on_success_screen_index(long dispose_on_success_screen_index);
+	void set_test_mode(bool test_mode);
+
+protected:
+	long m_dialog_name;
+	long m_dialog_invoker;
+	bool m_test_mode;
+	long m_dispose_on_success_screen_index;
+};
+static_assert(sizeof(c_load_dialog_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
 struct c_message_globals
 {

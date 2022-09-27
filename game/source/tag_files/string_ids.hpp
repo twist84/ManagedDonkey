@@ -1,5 +1,11 @@
 #pragma once
 
+// #TODO STRING_ID macro, namespace, name
+// examples from `halo3_tag_test.exe`
+// - STRING_ID(global, replace)
+// - STRING_ID(gui, start_menu)
+// - STRING_ID(gui, terminal_screen)
+
 enum e_string_id
 {
 	_string_id_invalid = 0xFFFFFFFF,
