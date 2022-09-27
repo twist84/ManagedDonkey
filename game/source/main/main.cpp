@@ -94,9 +94,9 @@ void __cdecl main_loop_body_end()
     // right control for tests
     if (GetKeyState(VK_ESCAPE) & 0x8000)
     {
-        //window_manager_load_screen_hs(_gui_string_id_start_menu);
+        //window_manager_load_screen_hs(STRING_ID(gui, start_menu));
         c_load_screen_message* message = (c_load_screen_message*)user_interface_malloc_tracked(sizeof(c_load_screen_message), __FILE__, __LINE__);
-        if (load_screen_message_ctor(message, _gui_string_id_start_menu, k_any_controller, _window_index4, _gui_string_id_top_most))
+        if (load_screen_message_ctor(message, STRING_ID(gui, start_menu), k_any_controller, _window_index4, STRING_ID(gui, top_most)))
             user_interface_messaging_post(message);
 
         Sleep(25);

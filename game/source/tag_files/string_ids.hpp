@@ -1,10 +1,8 @@
 #pragma once
 
-// #TODO STRING_ID macro, namespace, name
-// examples from `halo3_tag_test.exe`
-// - STRING_ID(global, replace)
-// - STRING_ID(gui, start_menu)
-// - STRING_ID(gui, terminal_screen)
+#define STRING_ID(NAMESPACE, STRING) _##NAMESPACE##_string_id_##STRING
+// Is this truly what the macro does?
+// Or does it pack the `NAMESPACE` and `STRING` into a 32 bit integer? Or would that be a `MAKE_STRING_ID` macro
 
 enum e_string_id
 {

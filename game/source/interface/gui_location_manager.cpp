@@ -46,7 +46,7 @@ void __fastcall c_gui_location_manager::change_location(c_gui_location_manager* 
 	if (can_change_location)
 	{
 		c_load_screen_message* message = (c_load_screen_message*)user_interface_malloc_tracked(sizeof(c_load_screen_message), __FILE__, __LINE__);
-		if (load_screen_message_ctor(message, screen_name, k_any_controller, _window_index4, _gui_string_id_bottom_most))
+		if (load_screen_message_ctor(message, screen_name, k_any_controller, _window_index4, STRING_ID(gui, bottom_most)))
 			user_interface_messaging_post(message);
 	}
 }
