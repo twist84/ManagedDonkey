@@ -3958,110 +3958,110 @@ enum e_gpu_string_id
 
 enum e_input_string_id
 {
-	_input_string_id_key_escape = 0 /*_string_id_namespace_input*/,
-	_input_string_id_key_f1,
-	_input_string_id_key_f2,
-	_input_string_id_key_f3,
-	_input_string_id_key_f4,
-	_input_string_id_key_f5,
-	_input_string_id_key_f6,
-	_input_string_id_key_f7,
-	_input_string_id_key_f8,
-	_input_string_id_key_f9,
-	_input_string_id_key_f10,
-	_input_string_id_key_f11,
-	_input_string_id_key_f12,
-	_input_string_id_key_print_screen,
-	_input_string_id_key_scroll_lock,
-	_input_string_id_key_pause,
-	_input_string_id_key_backquote,
-	_input_string_id_key_1,
-	_input_string_id_key_2,
-	_input_string_id_key_3,
-	_input_string_id_key_4,
-	_input_string_id_key_5,
-	_input_string_id_key_6,
-	_input_string_id_key_7,
-	_input_string_id_key_8,
-	_input_string_id_key_9,
-	_input_string_id_key_0,
-	_input_string_id_key_dash,
-	_input_string_id_key_equal,
-	_input_string_id_key_backspace,
-	_input_string_id_key_tab,
-	_input_string_id_key_q,
-	_input_string_id_key_w,
-	_input_string_id_key_e,
-	_input_string_id_key_r,
-	_input_string_id_key_t,
-	_input_string_id_key_y,
-	_input_string_id_key_u,
-	_input_string_id_key_i,
-	_input_string_id_key_o,
-	_input_string_id_key_p,
-	_input_string_id_key_left_bracket,
-	_input_string_id_key_right_bracket,
-	_input_string_id_key_backslash,
-	_input_string_id_key_caps_lock,
-	_input_string_id_key_a,
-	_input_string_id_key_s,
-	_input_string_id_key_d,
-	_input_string_id_key_f,
-	_input_string_id_key_g,
-	_input_string_id_key_h,
-	_input_string_id_key_j,
-	_input_string_id_key_k,
-	_input_string_id_key_l,
-	_input_string_id_key_semicolon,
-	_input_string_id_key_apostrophe,
-	_input_string_id_key_return,
-	_input_string_id_key_left_shift,
-	_input_string_id_key_z,
-	_input_string_id_key_x,
-	_input_string_id_key_c,
-	_input_string_id_key_v,
-	_input_string_id_key_b,
-	_input_string_id_key_n,
-	_input_string_id_key_m,
-	_input_string_id_key_comma,
-	_input_string_id_key_period,
-	_input_string_id_key_forwardslash,
-	_input_string_id_key_right_shift,
-	_input_string_id_key_left_control,
-	_input_string_id_key_left_windows,
-	_input_string_id_key_left_alt,
-	_input_string_id_key_space,
-	_input_string_id_key_right_alt,
-	_input_string_id_key_right_windows,
-	_input_string_id_key_menu,
-	_input_string_id_key_right_control,
-	_input_string_id_key_up_arrow,
-	_input_string_id_key_down_arrow,
-	_input_string_id_key_left_arrow,
-	_input_string_id_key_right_arrow,
-	_input_string_id_key_insert,
-	_input_string_id_key_home,
-	_input_string_id_key_page_up,
-	_input_string_id_key_delete,
-	_input_string_id_key_end,
-	_input_string_id_key_page_down,
-	_input_string_id_keypad_num_lock,
-	_input_string_id_keypad_divide,
-	_input_string_id_keypad_multiply,
-	_input_string_id_keypad_0,
-	_input_string_id_keypad_1,
-	_input_string_id_keypad_2,
-	_input_string_id_keypad_3,
-	_input_string_id_keypad_4,
-	_input_string_id_keypad_5,
-	_input_string_id_keypad_6,
-	_input_string_id_keypad_7,
-	_input_string_id_keypad_8,
-	_input_string_id_keypad_9,
-	_input_string_id_keypad_subtract,
-	_input_string_id_keypad_add,
-	_input_string_id_keypad_enter,
-	_input_string_id_keypad_decimal,
+	_input_string_id_key_escape = 0 /*_string_id_namespace_input*/, //_settings_keys_escape
+	_input_string_id_key_f1,                                        //_settings_keys_f1
+	_input_string_id_key_f2,                                        //_settings_keys_f2
+	_input_string_id_key_f3,                                        //_settings_keys_f3
+	_input_string_id_key_f4,                                        //_settings_keys_f4
+	_input_string_id_key_f5,                                        //_settings_keys_f5
+	_input_string_id_key_f6,                                        //_settings_keys_f6
+	_input_string_id_key_f7,                                        //_settings_keys_f7
+	_input_string_id_key_f8,                                        //_settings_keys_f8
+	_input_string_id_key_f9,                                        //_settings_keys_f9
+	_input_string_id_key_f10,                                       //_settings_keys_f10
+	_input_string_id_key_f11,                                       //_settings_keys_f11
+	_input_string_id_key_f12,                                       //_settings_keys_f12
+	_input_string_id_key_print_screen,                              //_settings_keys_print_screen
+	_input_string_id_key_scroll_lock,                               //_settings_keys_scroll_lock
+	_input_string_id_key_pause,                                     //_settings_keys_pause
+	_input_string_id_key_backquote,                                 //_settings_keys_backquote
+	_input_string_id_key_1,                                         //_settings_keys_1
+	_input_string_id_key_2,                                         //_settings_keys_2
+	_input_string_id_key_3,                                         //_settings_keys_3
+	_input_string_id_key_4,                                         //_settings_keys_4
+	_input_string_id_key_5,                                         //_settings_keys_5
+	_input_string_id_key_6,                                         //_settings_keys_6
+	_input_string_id_key_7,                                         //_settings_keys_7
+	_input_string_id_key_8,                                         //_settings_keys_8
+	_input_string_id_key_9,                                         //_settings_keys_9
+	_input_string_id_key_0,                                         //_settings_keys_0
+	_input_string_id_key_dash,                                      //_settings_keys_minus
+	_input_string_id_key_equal,                                     //_settings_keys_equal
+	_input_string_id_key_backspace,                                 //_settings_keys_backspace
+	_input_string_id_key_tab,                                       //_settings_keys_tab
+	_input_string_id_key_q,                                         //_settings_keys_q
+	_input_string_id_key_w,                                         //_settings_keys_w
+	_input_string_id_key_e,                                         //_settings_keys_e
+	_input_string_id_key_r,                                         //_settings_keys_r
+	_input_string_id_key_t,                                         //_settings_keys_t
+	_input_string_id_key_y,                                         //_settings_keys_y
+	_input_string_id_key_u,                                         //_settings_keys_u
+	_input_string_id_key_i,                                         //_settings_keys_i
+	_input_string_id_key_o,                                         //_settings_keys_o
+	_input_string_id_key_p,                                         //_settings_keys_p
+	_input_string_id_key_left_bracket,                              //_settings_keys_left_parenthesis
+	_input_string_id_key_right_bracket,                             //_settings_keys_right_parenthesis
+	_input_string_id_key_backslash,                                 //_settings_keys_backslash
+	_input_string_id_key_caps_lock,                                 //_settings_keys_caps_lock
+	_input_string_id_key_a,                                         //_settings_keys_a
+	_input_string_id_key_s,                                         //_settings_keys_s
+	_input_string_id_key_d,                                         //_settings_keys_d
+	_input_string_id_key_f,                                         //_settings_keys_f
+	_input_string_id_key_g,                                         //_settings_keys_g
+	_input_string_id_key_h,                                         //_settings_keys_h
+	_input_string_id_key_j,                                         //_settings_keys_j
+	_input_string_id_key_k,                                         //_settings_keys_k
+	_input_string_id_key_l,                                         //_settings_keys_l
+	_input_string_id_key_semicolon,                                 //_settings_keys_semicolon
+	_input_string_id_key_apostrophe,                                //_settings_keys_apostrophe
+	_input_string_id_key_return,                                    //_settings_keys_enter
+	_input_string_id_key_left_shift,                                //_settings_keys_left_shift
+	_input_string_id_key_z,                                         //_settings_keys_z
+	_input_string_id_key_x,                                         //_settings_keys_x
+	_input_string_id_key_c,                                         //_settings_keys_c
+	_input_string_id_key_v,                                         //_settings_keys_v
+	_input_string_id_key_b,                                         //_settings_keys_b
+	_input_string_id_key_n,                                         //_settings_keys_n
+	_input_string_id_key_m,                                         //_settings_keys_m
+	_input_string_id_key_comma,                                     //_settings_keys_comma
+	_input_string_id_key_period,                                    //_settings_keys_dot
+	_input_string_id_key_forwardslash,                              //_settings_keys_slash
+	_input_string_id_key_right_shift,                               //_settings_keys_right_shift
+	_input_string_id_key_left_control,                              //_settings_keys_left_control
+	_input_string_id_key_left_windows,                              //_settings_keys_left_windows
+	_input_string_id_key_left_alt,                                  //_settings_keys_left_alt
+	_input_string_id_key_space,                                     //_settings_keys_spacebar
+	_input_string_id_key_right_alt,                                 //_settings_keys_right_alt
+	_input_string_id_key_right_windows,                             //_settings_keys_right_windows
+	_input_string_id_key_menu,                                      //_settings_keys_context_menu
+	_input_string_id_key_right_control,                             //_settings_keys_right_control
+	_input_string_id_key_up_arrow,                                  //_settings_keys_up
+	_input_string_id_key_down_arrow,                                //_settings_keys_down
+	_input_string_id_key_left_arrow,                                //_settings_keys_left
+	_input_string_id_key_right_arrow,                               //_settings_keys_right
+	_input_string_id_key_insert,                                    //_settings_keys_ins
+	_input_string_id_key_home,                                      //_settings_keys_home
+	_input_string_id_key_page_up,                                   //_settings_keys_page_up
+	_input_string_id_key_delete,                                    //_settings_keys_delete
+	_input_string_id_key_end,                                       //_settings_keys_end
+	_input_string_id_key_page_down,                                 //_settings_keys_page_down
+	_input_string_id_keypad_num_lock,                               //_settings_keys_num_lock
+	_input_string_id_keypad_divide,                                 //_settings_keys_pad_divide
+	_input_string_id_keypad_multiply,                               //_settings_keys_pad_multiply
+	_input_string_id_keypad_0,                                      //_settings_keys_pad_0
+	_input_string_id_keypad_1,                                      //_settings_keys_pad_1
+	_input_string_id_keypad_2,                                      //_settings_keys_pad_2
+	_input_string_id_keypad_3,                                      //_settings_keys_pad_3
+	_input_string_id_keypad_4,                                      //_settings_keys_pad_4
+	_input_string_id_keypad_5,                                      //_settings_keys_pad_5
+	_input_string_id_keypad_6,                                      //_settings_keys_pad_6
+	_input_string_id_keypad_7,                                      //_settings_keys_pad_7
+	_input_string_id_keypad_8,                                      //_settings_keys_pad_8
+	_input_string_id_keypad_9,                                      //_settings_keys_pad_9
+	_input_string_id_keypad_subtract,                               //_settings_keys_pad_minus
+	_input_string_id_keypad_add,                                    //_settings_keys_pad_plus
+	_input_string_id_keypad_enter,                                  //_settings_keys_pad_enter
+	_input_string_id_keypad_decimal,                                //_settings_keys_pad_dot
 	_input_string_id_key_shift,
 	_input_string_id_key_control,
 	_input_string_id_key_windows,
@@ -4087,4 +4087,3 @@ static_assert(0x02F == k_online_string_id_count);
 static_assert(0x018 == k_saved_game_string_id_count);
 static_assert(0x00D == k_gpu_string_id_count);
 static_assert(0x073 == k_input_string_id_count);
-
