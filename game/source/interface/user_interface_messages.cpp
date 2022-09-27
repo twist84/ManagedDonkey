@@ -9,25 +9,201 @@
 #include <windows.h>
 #include <assert.h>
 
-long c_message::get_screen_name()
+e_ui_message_type c_message::get_type() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_type;
+}
+
+long c_message::get_screen_name() const
 {
 	FUNCTION_BEGIN(true);
 
 	return m_screen_name;
 }
 
-e_controller_index c_message::get_controller()
+e_controller_index c_message::get_controller() const
 {
 	FUNCTION_BEGIN(true);
 
 	return m_controller;
 }
 
-e_window_index c_message::get_window()
+e_window_index c_message::get_window() const
 {
 	FUNCTION_BEGIN(true);
 
 	return m_window;
+}
+
+long c_message::get_game_time_at_creation() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_game_time_at_creation;
+}
+
+e_event_type c_controller_input_message::get_event_type() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_event_type;
+}
+e_controller_component c_controller_input_message::get_component() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_component;
+}
+long c_controller_input_message::get_event_value() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_event_value;
+}
+
+c_xenon_message::e_xenon_message_type c_xenon_message::get_xenon_message_type() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_xenon_message_type;
+}
+
+long c_xenon_message::get_event_value() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_event_value;
+}
+
+void c_load_screen_message::set_focus_on_load_by_name(long list_name, long column_name, long column_value)
+{
+	FUNCTION_BEGIN(true);
+
+	m_focus_on_load_list_name = list_name;
+	m_focus_on_load_column_name = column_name;
+	m_focus_on_load_column_value = column_value;
+}
+
+void c_load_screen_message::set_transition_type(e_screen_transition_type transition_type)
+{
+	FUNCTION_BEGIN(true);
+
+	m_transition_type = transition_type;
+}
+
+void c_load_screen_message::set_focus_on_load(long list_name, long element_handle)
+{
+	FUNCTION_BEGIN(true);
+
+	m_focus_on_load_list_name = list_name;
+	m_focus_on_load_element_handle = element_handle;
+}
+
+void c_load_screen_message::set_parent_screen_index(long parent_screen_index)
+{
+	FUNCTION_BEGIN(true);
+
+	m_parent_screen_index = parent_screen_index;
+}
+
+e_screen_transition_type c_load_screen_message::get_transition_type() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_transition_type;
+}
+
+bool c_load_screen_message::get_respond_to_controller_events() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_respond_to_controller_events;
+}
+
+long c_load_screen_message::get_focus_on_load_list_name() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_focus_on_load_list_name;
+}
+
+long c_load_screen_message::get_focus_on_load_element_handle() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_focus_on_load_element_handle;
+}
+
+long c_load_screen_message::get_focus_on_load_column_name() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_focus_on_load_column_name;
+}
+
+long c_load_screen_message::get_focus_on_load_column_value() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_focus_on_load_column_value;
+}
+
+long c_load_screen_message::get_parent_screen_index() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_parent_screen_index;
+}
+
+long c_load_screen_message::get_layered_position() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_layered_position;
+}
+
+bool c_load_screen_message::get_applies_even_to_codeless_screens() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_applies_even_to_codeless_screens;
+}
+
+long c_screen_custom_message::get_sub_type() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_sub_type;
+}
+
+long c_dialog_result_message::get_dialog_name() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_dialog_name;
+}
+
+e_gui_dialog_choice c_dialog_result_message::get_dialog_result() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_dialog_result;
+}
+
+long c_dialog_result_message::get_dispose_on_success_screen_index() const
+{
+	FUNCTION_BEGIN(true);
+
+	return m_dispose_on_success_screen_index;
+}
+
+void c_dialog_result_message::set_dispose_on_success_screen_index(long dispose_on_success_screen_index)
+{
+	FUNCTION_BEGIN(true);
+
+	m_dispose_on_success_screen_index = dispose_on_success_screen_index;
 }
 
 c_message_globals& g_message_globals = *reinterpret_cast<c_message_globals*>(0x052600D0);
@@ -289,7 +465,7 @@ void __cdecl user_interface_messaging_dispose_from_old_map()
 // TODO
 void __cdecl user_interface_messaging_update()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 }
 
 void __cdecl user_interface_messaging_post(c_message* message)
@@ -328,7 +504,7 @@ void __cdecl user_interface_messaging_post(c_message* message)
 
 bool __cdecl user_interface_messaging_get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	//return INVOKE(0x00A933D0, user_interface_messaging_get_next_message, screen_name, controller, window, message_reference);
 
