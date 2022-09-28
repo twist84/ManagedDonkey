@@ -10,14 +10,14 @@
 #include <windows.h>
 #include <assert.h>
 
-HOOK_DECLARE(0x00A93410, user_interface_messaging_initialize);
-HOOK_DECLARE(0x00A933B0, user_interface_messaging_dispose);
-HOOK_DECLARE(0x00A93420, user_interface_messaging_initialize_for_new_map);
-HOOK_DECLARE(0x00A933C0, user_interface_messaging_dispose_from_old_map);
-HOOK_DECLARE(0x00A934A0, user_interface_messaging_update);
+//HOOK_DECLARE(0x00A93410, user_interface_messaging_initialize);
+//HOOK_DECLARE(0x00A933B0, user_interface_messaging_dispose);
+//HOOK_DECLARE(0x00A93420, user_interface_messaging_initialize_for_new_map);
+//HOOK_DECLARE(0x00A933C0, user_interface_messaging_dispose_from_old_map);
+//HOOK_DECLARE(0x00A934A0, user_interface_messaging_update);
 HOOK_DECLARE(0x00A93450, user_interface_messaging_post);
-HOOK_DECLARE(0x00A933D0, user_interface_messaging_get_next_message);
-HOOK_DECLARE(0x00A93430, user_interface_messaging_pop);
+//HOOK_DECLARE(0x00A933D0, user_interface_messaging_get_next_message);
+//HOOK_DECLARE(0x00A93430, user_interface_messaging_pop);
 
 // #TODO: find this
 //HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty);
@@ -386,7 +386,7 @@ c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unkn
 
 bool c_message_globals::can_read()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	if (m_next_read)
 		return m_next_read->m_message == 0;
@@ -461,7 +461,7 @@ void c_message_globals::get_next_message(long screen_name, e_controller_index co
 
 bool c_message_globals::message_match(c_message* message, long screen_name, e_controller_index controller, e_window_index window)
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	bool result = false;
 	if ((screen_name == _string_id_invalid || message->get_screen_name() == screen_name)
@@ -550,7 +550,8 @@ void __cdecl user_interface_messaging_post(c_message* message)
 
 	assert(message != nullptr);
 
-	//INVOKE(0x00A93450, user_interface_messaging_post, message);
+	HOOK_INVOKE(, user_interface_messaging_post, message);
+	return;
 
 	bool message_queued = false;
 	if (game_in_progress())
