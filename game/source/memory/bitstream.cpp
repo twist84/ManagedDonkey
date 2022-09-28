@@ -216,6 +216,16 @@ real c_bitstream::read_quantized_real(char const* name, real min_value, real max
 	return DECLFUNC(0x00559080, real, __thiscall, c_bitstream const*, char const*, real, real, long, bool, bool)(this, name, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
 }
 
+qword c_bitstream::read_qword_internal(long size_in_bits)
+{
+	FUNCTION_BEGIN(true);
+
+	assert(reading());
+	assert(size_in_bits > 0 && size_in_bits <= SIZEOF_BITS(qword));
+
+	return DECLFUNC(0x00559160, qword, __thiscall, c_bitstream const*, long)(this, size_in_bits);
+}
+
 void c_bitstream::read_secure_address(char const* name, s_transport_secure_address* address)
 {
 	FUNCTION_BEGIN(true);

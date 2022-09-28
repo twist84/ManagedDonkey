@@ -82,6 +82,7 @@ public:
 	dword read_integer(long size_in_bits);
 	void read_point3d(char const* name, long_point3d* point, long axis_encoding_size_in_bits);
 	real read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
+	qword read_qword_internal(long size_in_bits);
 	void read_secure_address(char const* name, s_transport_secure_address* address);
 	void read_string(char const* name, char* _string, long max_string_size);
 	void read_string_utf8(char const* name, char* char_string, long max_string_size);
