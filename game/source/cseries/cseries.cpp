@@ -26,6 +26,9 @@ char* csstrnzcpy(char* s1, char const* s2, dword size)
     strncpy_s(s1, size, s2, size);
     s1[size - 1] = 0;
 
+    size_t s2_size = strlen(s2);
+    memset(s1 + s2_size, 0, size - s2_size);
+
     return s1;
 }
 
@@ -78,6 +81,9 @@ long cvsnzprintf(char* buffer, dword size, char const* format, char* list)
 
     long result = vsnprintf(buffer, size - 1, format, list);
     buffer[size - 1] = 0;
+
+    size_t buf_size = strlen(buffer);
+    memset(buffer + buf_size, 0, size - buf_size);
 
     return result;
 }
