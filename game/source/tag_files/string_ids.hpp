@@ -1,51 +1,42 @@
 #pragma once
 
-#define STRING_ID(NAMESPACE, STRING) (_string_id_namespace_##NAMESPACE << 16) + _##NAMESPACE##_string_id_##STRING
+// halo 3, odst and halo online use a 16 bit namespace
+// halo reach uses a 17 bit namespace
+#define STRING_NAMESPACE_BITS 16
 
-// namespaces from `halo3_tag_test`
-enum e_string_id_namespace
+#define STRING_ID(NAMESPACE, STRING) (_namespace_##NAMESPACE << STRING_NAMESPACE_BITS) + _##NAMESPACE##_string_id_##STRING
+#define STRING_NAMESPACE_FROM_STRING_ID(ID) (ID >> STRING_NAMESPACE_BITS)
+#define STRING_INDEX_FROM_STRING_ID(ID) (ID & ((1 << STRING_NAMESPACE_BITS) - 1))
+
+enum e_namespace
 {
-	_string_id_namespace_global = 0,
-	_string_id_namespace_gui,
-	_string_id_namespace_gui_alert,
-	_string_id_namespace_gui_dialog,
-	_string_id_namespace_game_engine,
-	_string_id_namespace_game_start,
-	_string_id_namespace_online,
-	_string_id_namespace_saved_game,
-	_string_id_namespace_gpu,
+	_namespace_global = 0,
+	_namespace_gui,
+	_namespace_gui_alert,
+	_namespace_gui_dialog,
 
+	// Reach
+	//_namespace_cui,
+	//_namespace_cui_animation,
+	//_namespace_cui_shader,
+	//_namespace_properties,
+	//_namespace_components,
+
+	_namespace_game_engine,
+	_namespace_game_start,
+	_namespace_online,
+	_namespace_saved_game,
+	_namespace_gpu,
+
+	// Reach
+	//_namespace_ai_stimulus,
+	//_namespace_incident,
+	
 	// MCC
-	_string_id_namespace_input,
+	//_namespace_input,
 
-	k_string_id_namespace_count
+	k_namespace_count
 };
-
-/*
-// namespaces from `reach_tag_test`
-enum e_reach_string_id_namespace
-{
-	_string_id_namespace_global = 0,
-	_string_id_namespace_gui,
-	_string_id_namespace_gui_alert,
-	_string_id_namespace_gui_dialog,
-	_string_id_namespace_cui,
-	_string_id_namespace_cui_animation,
-	_string_id_namespace_cui_shader,
-	_string_id_namespace_properties,
-	_string_id_namespace_components,
-	_string_id_namespace_game_engine,
-	_string_id_namespace_game_start,
-	_string_id_namespace_online,
-	_string_id_namespace_saved_game,
-	_string_id_namespace_gpu,
-	_string_id_namespace_ai_stimulus,
-	_string_id_namespace_incident,
-	_string_id_namespace_input,
-
-	k_string_id_namespace_count
-};
-*/
 
 enum e_string_id
 {
@@ -58,7 +49,7 @@ enum e_string_id
 
 enum e_global_string_id
 {
-	k_global_string_id_unused = 0 /*(_string_id_namespace_global << 16)*/,
+	k_global_string_id_unused = 0,
 
 	_global_string_id_default,
 	_global_string_id_reload_1,
@@ -1620,7 +1611,7 @@ enum e_global_string_id
 
 enum e_gui_string_id
 {
-	_gui_string_id_primary_label = 0 /*(_string_id_namespace_gui << 16)*/,
+	_gui_string_id_primary_label = 0,
 	_gui_string_id_secondary_label,
 	_gui_string_id_tertiary_label,
 	_gui_string_id_quaternary_label,
@@ -3294,7 +3285,7 @@ enum e_gui_string_id
 
 enum e_gui_alert_string_id
 {
-	_gui_alert_string_id_all_vidmaster_achievements = 0 /*(_string_id_namespace_gui_alert << 16)*/,
+	_gui_alert_string_id_all_vidmaster_achievements = 0,
 	_gui_alert_string_id_alpha_custom_games_disabled,
 	_gui_alert_string_id_alpha_network_mode_disabled,
 	_gui_alert_string_id_alpha_sign_in_failed_no_split_screen,
@@ -3453,103 +3444,103 @@ enum e_gui_alert_string_id
 	k_gui_alert_string_id_count
 };
 
-enum e_gui_dialog_string_id_string_id
+enum e_gui_dialog_string_id
 {
-	_gui_dialog_string_id_string_id_not_signed_in_bring_up_guide = 0 /*(_string_id_namespace_gui_dialog << 16)*/,
-	_gui_dialog_string_id_string_id_not_signed_in_bring_up_guide_or_use_temporary_account,
-	_gui_dialog_string_id_string_id_confirm_the_use_of_a_temporary_account,
-	_gui_dialog_string_id_string_id_leave_postgame_lobby,
-	_gui_dialog_string_id_string_id_confirm_boot_betrayer,
-	_gui_dialog_string_id_string_id_confirm_boot_from_squad,
-	_gui_dialog_string_id_string_id_action_will_cause_leave_party,
-	_gui_dialog_string_id_string_id_settings_pick_gender,
-	_gui_dialog_string_id_string_id_sign_in_failed_online_permissions_1_player,
-	_gui_dialog_string_id_string_id_sign_in_failed_online_permissions_2_player,
-	_gui_dialog_string_id_string_id_sign_in_failed_online_permissions_3_player,
-	_gui_dialog_string_id_string_id_sign_in_failed_online_permissions_4_player,
-	_gui_dialog_string_id_string_id_back_out_lobby_local_players_with_profile,
-	_gui_dialog_string_id_string_id_back_out_lobby_local_players_no_profile,
-	_gui_dialog_string_id_string_id_back_out_lobby_remote_players,
-	_gui_dialog_string_id_string_id_back_out_main_menu_no_profile,
-	_gui_dialog_string_id_string_id_in_game_leave_game_last_player,
-	_gui_dialog_string_id_string_id_in_game_leave_game_more_players_with_profile,
-	_gui_dialog_string_id_string_id_in_game_leave_game_more_players_no_profile,
-	_gui_dialog_string_id_string_id_in_game_leave_game_ranked_lose_xp_warning,
-	_gui_dialog_string_id_string_id_in_game_end_game,
-	_gui_dialog_string_id_string_id_in_game_end_game_ranked_lose_xp_warning,
-	_gui_dialog_string_id_string_id_in_game_save_map,
-	_gui_dialog_string_id_string_id_in_game_exit_film_playback,
-	_gui_dialog_string_id_string_id_in_game_change_network_mode_warning,
-	_gui_dialog_string_id_string_id_post_game_leave_voted_to_party_up,
-	_gui_dialog_string_id_string_id_join_party_from_party_leader,
-	_gui_dialog_string_id_string_id_join_party_from_party_member,
-	_gui_dialog_string_id_string_id_in_game_leave_forge,
-	_gui_dialog_string_id_string_id_in_game_end_forge_session,
-	_gui_dialog_string_id_string_id_need_to_select_storage_device_to_save,
-	_gui_dialog_string_id_string_id_campaign_changing_setting_will_delete_saved_game,
-	_gui_dialog_string_id_string_id_campaign_changing_setting_will_delete_coop_saved_game,
-	_gui_dialog_string_id_string_id_matchmaking_lobby_switch_to_live,
-	_gui_dialog_string_id_string_id_matchmaking_back_out_leader,
-	_gui_dialog_string_id_string_id_matchmaking_back_out_member,
-	_gui_dialog_string_id_string_id_variant_save_options,
-	_gui_dialog_string_id_string_id_variant_save_options_dirty,
-	_gui_dialog_string_id_string_id_variant_save_options_nonwriteable,
-	_gui_dialog_string_id_string_id_pregame_selection_item_options,
-	_gui_dialog_string_id_string_id_pregame_selection_item_options_corrupt,
-	_gui_dialog_string_id_string_id_confirm_saved_game_overwrite,
-	_gui_dialog_string_id_string_id_confirm_saved_game_delete,
-	_gui_dialog_string_id_string_id_confirm_bad_name,
-	_gui_dialog_string_id_string_id_file_share_confirm_delete_from_share,
-	_gui_dialog_string_id_string_id_file_share_name_conflict,
-	_gui_dialog_string_id_string_id_file_share_upload_rename,
-	_gui_dialog_string_id_string_id_screenshot_uploading_leave_session,
-	_gui_dialog_string_id_string_id_screenshot_uploading_end_session,
-	_gui_dialog_string_id_string_id_in_campaign_save_and_quit,
-	_gui_dialog_string_id_string_id_in_campaign_revert_to_last_save,
-	_gui_dialog_string_id_string_id_in_campaign_restart_level,
-	_gui_dialog_string_id_string_id_in_coop_end_game,
-	_gui_dialog_string_id_string_id_in_match_leave_game_one_profile,
-	_gui_dialog_string_id_string_id_in_match_leave_game_multi_profile,
-	_gui_dialog_string_id_string_id_in_match_leave_game_one_profile_lose_skill,
-	_gui_dialog_string_id_string_id_in_match_leave_game_multi_profile_lose_skill,
-	_gui_dialog_string_id_string_id_in_match_leave_game_one_profile_lose_skill_and_xp,
-	_gui_dialog_string_id_string_id_in_match_leave_game_multi_profile_lose_skill_and_xp,
-	_gui_dialog_string_id_string_id_in_match_leave_game_one_profile_lose_xp,
-	_gui_dialog_string_id_string_id_in_match_leave_game_multi_profile_lose_xp,
-	_gui_dialog_string_id_string_id_in_forge_leave_game_one_profile,
-	_gui_dialog_string_id_string_id_in_forge_leave_game_multi_profile,
-	_gui_dialog_string_id_string_id_in_forge_leave_game_temp_profile,
-	_gui_dialog_string_id_string_id_in_theater_leave_game_one_profile,
-	_gui_dialog_string_id_string_id_in_theater_leave_game_multi_profile,
-	_gui_dialog_string_id_string_id_in_theater_leave_game_temp_profile,
-	_gui_dialog_string_id_string_id_join_party_from_party_leader_in_campaign,
-	_gui_dialog_string_id_string_id_join_party_from_party_member_in_campaign,
-	_gui_dialog_string_id_string_id_join_party_from_party_leader_in_survival,
-	_gui_dialog_string_id_string_id_join_party_from_party_member_in_survival,
-	_gui_dialog_string_id_string_id_join_party_from_party_leader_in_match,
-	_gui_dialog_string_id_string_id_join_party_from_party_member_in_match,
-	_gui_dialog_string_id_string_id_join_party_from_party_leader_in_match_lose_skill,
-	_gui_dialog_string_id_string_id_join_party_from_party_member_in_match_lose_skill,
-	_gui_dialog_string_id_string_id_join_party_from_party_leader_in_match_lose_skill_and_xp,
-	_gui_dialog_string_id_string_id_join_party_from_party_member_in_match_lose_skill_and_xp,
-	_gui_dialog_string_id_string_id_join_party_from_party_leader_in_match_lose_xp,
-	_gui_dialog_string_id_string_id_join_party_from_party_member_in_match_lose_xp,
-	_gui_dialog_string_id_string_id_join_party_from_party_leader_in_theater,
-	_gui_dialog_string_id_string_id_join_party_from_party_member_in_theater,
-	_gui_dialog_string_id_string_id_join_party_while_in_local_game,
-	_gui_dialog_string_id_string_id_join_party_while_in_local_campaign,
-	_gui_dialog_string_id_string_id_join_party_while_in_local_survival,
-	_gui_dialog_string_id_string_id_join_party_while_in_local_theater,
-	_gui_dialog_string_id_string_id_screenshot_name_conflict,
-	_gui_dialog_string_id_string_id_in_game_forge_reset_map,
-	_gui_dialog_string_id_string_id_in_game_change_network_privacy,
+	_gui_dialog_string_id_not_signed_in_bring_up_guide = 0,
+	_gui_dialog_string_id_not_signed_in_bring_up_guide_or_use_temporary_account,
+	_gui_dialog_string_id_confirm_the_use_of_a_temporary_account,
+	_gui_dialog_string_id_leave_postgame_lobby,
+	_gui_dialog_string_id_confirm_boot_betrayer,
+	_gui_dialog_string_id_confirm_boot_from_squad,
+	_gui_dialog_string_id_action_will_cause_leave_party,
+	_gui_dialog_string_id_settings_pick_gender,
+	_gui_dialog_string_id_sign_in_failed_online_permissions_1_player,
+	_gui_dialog_string_id_sign_in_failed_online_permissions_2_player,
+	_gui_dialog_string_id_sign_in_failed_online_permissions_3_player,
+	_gui_dialog_string_id_sign_in_failed_online_permissions_4_player,
+	_gui_dialog_string_id_back_out_lobby_local_players_with_profile,
+	_gui_dialog_string_id_back_out_lobby_local_players_no_profile,
+	_gui_dialog_string_id_back_out_lobby_remote_players,
+	_gui_dialog_string_id_back_out_main_menu_no_profile,
+	_gui_dialog_string_id_in_game_leave_game_last_player,
+	_gui_dialog_string_id_in_game_leave_game_more_players_with_profile,
+	_gui_dialog_string_id_in_game_leave_game_more_players_no_profile,
+	_gui_dialog_string_id_in_game_leave_game_ranked_lose_xp_warning,
+	_gui_dialog_string_id_in_game_end_game,
+	_gui_dialog_string_id_in_game_end_game_ranked_lose_xp_warning,
+	_gui_dialog_string_id_in_game_save_map,
+	_gui_dialog_string_id_in_game_exit_film_playback,
+	_gui_dialog_string_id_in_game_change_network_mode_warning,
+	_gui_dialog_string_id_post_game_leave_voted_to_party_up,
+	_gui_dialog_string_id_join_party_from_party_leader,
+	_gui_dialog_string_id_join_party_from_party_member,
+	_gui_dialog_string_id_in_game_leave_forge,
+	_gui_dialog_string_id_in_game_end_forge_session,
+	_gui_dialog_string_id_need_to_select_storage_device_to_save,
+	_gui_dialog_string_id_campaign_changing_setting_will_delete_saved_game,
+	_gui_dialog_string_id_campaign_changing_setting_will_delete_coop_saved_game,
+	_gui_dialog_string_id_matchmaking_lobby_switch_to_live,
+	_gui_dialog_string_id_matchmaking_back_out_leader,
+	_gui_dialog_string_id_matchmaking_back_out_member,
+	_gui_dialog_string_id_variant_save_options,
+	_gui_dialog_string_id_variant_save_options_dirty,
+	_gui_dialog_string_id_variant_save_options_nonwriteable,
+	_gui_dialog_string_id_pregame_selection_item_options,
+	_gui_dialog_string_id_pregame_selection_item_options_corrupt,
+	_gui_dialog_string_id_confirm_saved_game_overwrite,
+	_gui_dialog_string_id_confirm_saved_game_delete,
+	_gui_dialog_string_id_confirm_bad_name,
+	_gui_dialog_string_id_file_share_confirm_delete_from_share,
+	_gui_dialog_string_id_file_share_name_conflict,
+	_gui_dialog_string_id_file_share_upload_rename,
+	_gui_dialog_string_id_screenshot_uploading_leave_session,
+	_gui_dialog_string_id_screenshot_uploading_end_session,
+	_gui_dialog_string_id_in_campaign_save_and_quit,
+	_gui_dialog_string_id_in_campaign_revert_to_last_save,
+	_gui_dialog_string_id_in_campaign_restart_level,
+	_gui_dialog_string_id_in_coop_end_game,
+	_gui_dialog_string_id_in_match_leave_game_one_profile,
+	_gui_dialog_string_id_in_match_leave_game_multi_profile,
+	_gui_dialog_string_id_in_match_leave_game_one_profile_lose_skill,
+	_gui_dialog_string_id_in_match_leave_game_multi_profile_lose_skill,
+	_gui_dialog_string_id_in_match_leave_game_one_profile_lose_skill_and_xp,
+	_gui_dialog_string_id_in_match_leave_game_multi_profile_lose_skill_and_xp,
+	_gui_dialog_string_id_in_match_leave_game_one_profile_lose_xp,
+	_gui_dialog_string_id_in_match_leave_game_multi_profile_lose_xp,
+	_gui_dialog_string_id_in_forge_leave_game_one_profile,
+	_gui_dialog_string_id_in_forge_leave_game_multi_profile,
+	_gui_dialog_string_id_in_forge_leave_game_temp_profile,
+	_gui_dialog_string_id_in_theater_leave_game_one_profile,
+	_gui_dialog_string_id_in_theater_leave_game_multi_profile,
+	_gui_dialog_string_id_in_theater_leave_game_temp_profile,
+	_gui_dialog_string_id_join_party_from_party_leader_in_campaign,
+	_gui_dialog_string_id_join_party_from_party_member_in_campaign,
+	_gui_dialog_string_id_join_party_from_party_leader_in_survival,
+	_gui_dialog_string_id_join_party_from_party_member_in_survival,
+	_gui_dialog_string_id_join_party_from_party_leader_in_match,
+	_gui_dialog_string_id_join_party_from_party_member_in_match,
+	_gui_dialog_string_id_join_party_from_party_leader_in_match_lose_skill,
+	_gui_dialog_string_id_join_party_from_party_member_in_match_lose_skill,
+	_gui_dialog_string_id_join_party_from_party_leader_in_match_lose_skill_and_xp,
+	_gui_dialog_string_id_join_party_from_party_member_in_match_lose_skill_and_xp,
+	_gui_dialog_string_id_join_party_from_party_leader_in_match_lose_xp,
+	_gui_dialog_string_id_join_party_from_party_member_in_match_lose_xp,
+	_gui_dialog_string_id_join_party_from_party_leader_in_theater,
+	_gui_dialog_string_id_join_party_from_party_member_in_theater,
+	_gui_dialog_string_id_join_party_while_in_local_game,
+	_gui_dialog_string_id_join_party_while_in_local_campaign,
+	_gui_dialog_string_id_join_party_while_in_local_survival,
+	_gui_dialog_string_id_join_party_while_in_local_theater,
+	_gui_dialog_string_id_screenshot_name_conflict,
+	_gui_dialog_string_id_in_game_forge_reset_map,
+	_gui_dialog_string_id_in_game_change_network_privacy,
 
-	k_gui_dialog_string_id_string_id_count
+	k_gui_dialog_string_id_count
 };
 
 enum e_game_engine_string_id
 {
-	_game_engine_string_id_map_default = 0 /*(_string_id_namespace_game_engine << 16)*/,
+	_game_engine_string_id_map_default = 0,
 	_game_engine_string_id_frag_grenade,
 	_game_engine_string_id_plasma_grenade,
 	_game_engine_string_id_random,
@@ -3802,7 +3793,7 @@ enum e_game_engine_string_id
 
 enum e_game_start_string_id
 {
-	_game_start_string_id_status_none = 0 /*(_string_id_namespace_game_start << 16)*/,
+	_game_start_string_id_status_none = 0,
 	_game_start_string_id_status_not_pregame,
 	_game_start_string_id_status_join_in_progress,
 	_game_start_string_id_status_loading,
@@ -3884,7 +3875,7 @@ enum e_game_start_string_id
 
 enum e_online_string_id
 {
-	_online_string_id_achievement_beat_sc100 = 0 /*(_string_id_namespace_online << 16)*/,
+	_online_string_id_achievement_beat_sc100 = 0,
 	_online_string_id_achievement_beat_sc110,
 	_online_string_id_achievement_beat_sc120,
 	_online_string_id_achievement_beat_sc130,
@@ -3937,7 +3928,7 @@ enum e_online_string_id
 
 enum e_saved_game_string_id
 {
-	_saved_game_string_id_default_map_variant_save_name_format = 0 /*(_string_id_namespace_saved_game << 16)*/,
+	_saved_game_string_id_default_map_variant_save_name_format = 0,
 	_saved_game_string_id_default_map_variant_save_description_format,
 	_saved_game_string_id_default_game_variant_save_name_format,
 	_saved_game_string_id_default_game_variant_save_description_format,
@@ -3967,7 +3958,7 @@ enum e_saved_game_string_id
 
 enum e_gpu_string_id
 {
-	_gpu_string_id_g_all_memexport = 0 /*(_string_id_namespace_gpu << 16)*/,
+	_gpu_string_id_g_all_memexport = 0,
 	_gpu_string_id_g_all_state,
 	_gpu_string_id_g_all_functions,
 	_gpu_string_id_g_all_colors,
@@ -3986,110 +3977,110 @@ enum e_gpu_string_id
 
 enum e_input_string_id
 {
-	_input_string_id_key_escape = 0 /*(_string_id_namespace_input << 16)*/, //_settings_keys_escape
-	_input_string_id_key_f1,                                                //_settings_keys_f1
-	_input_string_id_key_f2,                                                //_settings_keys_f2
-	_input_string_id_key_f3,                                                //_settings_keys_f3
-	_input_string_id_key_f4,                                                //_settings_keys_f4
-	_input_string_id_key_f5,                                                //_settings_keys_f5
-	_input_string_id_key_f6,                                                //_settings_keys_f6
-	_input_string_id_key_f7,                                                //_settings_keys_f7
-	_input_string_id_key_f8,                                                //_settings_keys_f8
-	_input_string_id_key_f9,                                                //_settings_keys_f9
-	_input_string_id_key_f10,                                               //_settings_keys_f10
-	_input_string_id_key_f11,                                               //_settings_keys_f11
-	_input_string_id_key_f12,                                               //_settings_keys_f12
-	_input_string_id_key_print_screen,                                      //_settings_keys_print_screen
-	_input_string_id_key_scroll_lock,                                       //_settings_keys_scroll_lock
-	_input_string_id_key_pause,                                             //_settings_keys_pause
-	_input_string_id_key_backquote,                                         //_settings_keys_backquote
-	_input_string_id_key_1,                                                 //_settings_keys_1
-	_input_string_id_key_2,                                                 //_settings_keys_2
-	_input_string_id_key_3,                                                 //_settings_keys_3
-	_input_string_id_key_4,                                                 //_settings_keys_4
-	_input_string_id_key_5,                                                 //_settings_keys_5
-	_input_string_id_key_6,                                                 //_settings_keys_6
-	_input_string_id_key_7,                                                 //_settings_keys_7
-	_input_string_id_key_8,                                                 //_settings_keys_8
-	_input_string_id_key_9,                                                 //_settings_keys_9
-	_input_string_id_key_0,                                                 //_settings_keys_0
-	_input_string_id_key_dash,                                              //_settings_keys_minus
-	_input_string_id_key_equal,                                             //_settings_keys_equal
-	_input_string_id_key_backspace,                                         //_settings_keys_backspace
-	_input_string_id_key_tab,                                               //_settings_keys_tab
-	_input_string_id_key_q,                                                 //_settings_keys_q
-	_input_string_id_key_w,                                                 //_settings_keys_w
-	_input_string_id_key_e,                                                 //_settings_keys_e
-	_input_string_id_key_r,                                                 //_settings_keys_r
-	_input_string_id_key_t,                                                 //_settings_keys_t
-	_input_string_id_key_y,                                                 //_settings_keys_y
-	_input_string_id_key_u,                                                 //_settings_keys_u
-	_input_string_id_key_i,                                                 //_settings_keys_i
-	_input_string_id_key_o,                                                 //_settings_keys_o
-	_input_string_id_key_p,                                                 //_settings_keys_p
-	_input_string_id_key_left_bracket,                                      //_settings_keys_left_parenthesis
-	_input_string_id_key_right_bracket,                                     //_settings_keys_right_parenthesis
-	_input_string_id_key_backslash,                                         //_settings_keys_backslash
-	_input_string_id_key_caps_lock,                                         //_settings_keys_caps_lock
-	_input_string_id_key_a,                                                 //_settings_keys_a
-	_input_string_id_key_s,                                                 //_settings_keys_s
-	_input_string_id_key_d,                                                 //_settings_keys_d
-	_input_string_id_key_f,                                                 //_settings_keys_f
-	_input_string_id_key_g,                                                 //_settings_keys_g
-	_input_string_id_key_h,                                                 //_settings_keys_h
-	_input_string_id_key_j,                                                 //_settings_keys_j
-	_input_string_id_key_k,                                                 //_settings_keys_k
-	_input_string_id_key_l,                                                 //_settings_keys_l
-	_input_string_id_key_semicolon,                                         //_settings_keys_semicolon
-	_input_string_id_key_apostrophe,                                        //_settings_keys_apostrophe
-	_input_string_id_key_return,                                            //_settings_keys_enter
-	_input_string_id_key_left_shift,                                        //_settings_keys_left_shift
-	_input_string_id_key_z,                                                 //_settings_keys_z
-	_input_string_id_key_x,                                                 //_settings_keys_x
-	_input_string_id_key_c,                                                 //_settings_keys_c
-	_input_string_id_key_v,                                                 //_settings_keys_v
-	_input_string_id_key_b,                                                 //_settings_keys_b
-	_input_string_id_key_n,                                                 //_settings_keys_n
-	_input_string_id_key_m,                                                 //_settings_keys_m
-	_input_string_id_key_comma,                                             //_settings_keys_comma
-	_input_string_id_key_period,                                            //_settings_keys_dot
-	_input_string_id_key_forwardslash,                                      //_settings_keys_slash
-	_input_string_id_key_right_shift,                                       //_settings_keys_right_shift
-	_input_string_id_key_left_control,                                      //_settings_keys_left_control
-	_input_string_id_key_left_windows,                                      //_settings_keys_left_windows
-	_input_string_id_key_left_alt,                                          //_settings_keys_left_alt
-	_input_string_id_key_space,                                             //_settings_keys_spacebar
-	_input_string_id_key_right_alt,                                         //_settings_keys_right_alt
-	_input_string_id_key_right_windows,                                     //_settings_keys_right_windows
-	_input_string_id_key_menu,                                              //_settings_keys_context_menu
-	_input_string_id_key_right_control,                                     //_settings_keys_right_control
-	_input_string_id_key_up_arrow,                                          //_settings_keys_up
-	_input_string_id_key_down_arrow,                                        //_settings_keys_down
-	_input_string_id_key_left_arrow,                                        //_settings_keys_left
-	_input_string_id_key_right_arrow,                                       //_settings_keys_right
-	_input_string_id_key_insert,                                            //_settings_keys_ins
-	_input_string_id_key_home,                                              //_settings_keys_home
-	_input_string_id_key_page_up,                                           //_settings_keys_page_up
-	_input_string_id_key_delete,                                            //_settings_keys_delete
-	_input_string_id_key_end,                                               //_settings_keys_end
-	_input_string_id_key_page_down,                                         //_settings_keys_page_down
-	_input_string_id_keypad_num_lock,                                       //_settings_keys_num_lock
-	_input_string_id_keypad_divide,                                         //_settings_keys_pad_divide
-	_input_string_id_keypad_multiply,                                       //_settings_keys_pad_multiply
-	_input_string_id_keypad_0,                                              //_settings_keys_pad_0
-	_input_string_id_keypad_1,                                              //_settings_keys_pad_1
-	_input_string_id_keypad_2,                                              //_settings_keys_pad_2
-	_input_string_id_keypad_3,                                              //_settings_keys_pad_3
-	_input_string_id_keypad_4,                                              //_settings_keys_pad_4
-	_input_string_id_keypad_5,                                              //_settings_keys_pad_5
-	_input_string_id_keypad_6,                                              //_settings_keys_pad_6
-	_input_string_id_keypad_7,                                              //_settings_keys_pad_7
-	_input_string_id_keypad_8,                                              //_settings_keys_pad_8
-	_input_string_id_keypad_9,                                              //_settings_keys_pad_9
-	_input_string_id_keypad_subtract,                                       //_settings_keys_pad_minus
-	_input_string_id_keypad_add,                                            //_settings_keys_pad_plus
-	_input_string_id_keypad_enter,                                          //_settings_keys_pad_enter
-	_input_string_id_keypad_decimal,                                        //_settings_keys_pad_dot
+	_input_string_id_key_escape = 0,    //_settings_keys_escape
+	_input_string_id_key_f1,            //_settings_keys_f1
+	_input_string_id_key_f2,            //_settings_keys_f2
+	_input_string_id_key_f3,            //_settings_keys_f3
+	_input_string_id_key_f4,            //_settings_keys_f4
+	_input_string_id_key_f5,            //_settings_keys_f5
+	_input_string_id_key_f6,            //_settings_keys_f6
+	_input_string_id_key_f7,            //_settings_keys_f7
+	_input_string_id_key_f8,            //_settings_keys_f8
+	_input_string_id_key_f9,            //_settings_keys_f9
+	_input_string_id_key_f10,           //_settings_keys_f10
+	_input_string_id_key_f11,           //_settings_keys_f11
+	_input_string_id_key_f12,           //_settings_keys_f12
+	_input_string_id_key_print_screen,  //_settings_keys_print_screen
+	_input_string_id_key_scroll_lock,   //_settings_keys_scroll_lock
+	_input_string_id_key_pause,         //_settings_keys_pause
+	_input_string_id_key_backquote,     //_settings_keys_backquote
+	_input_string_id_key_1,             //_settings_keys_1
+	_input_string_id_key_2,             //_settings_keys_2
+	_input_string_id_key_3,             //_settings_keys_3
+	_input_string_id_key_4,             //_settings_keys_4
+	_input_string_id_key_5,             //_settings_keys_5
+	_input_string_id_key_6,             //_settings_keys_6
+	_input_string_id_key_7,             //_settings_keys_7
+	_input_string_id_key_8,             //_settings_keys_8
+	_input_string_id_key_9,             //_settings_keys_9
+	_input_string_id_key_0,             //_settings_keys_0
+	_input_string_id_key_dash,          //_settings_keys_minus
+	_input_string_id_key_equal,         //_settings_keys_equal
+	_input_string_id_key_backspace,     //_settings_keys_backspace
+	_input_string_id_key_tab,           //_settings_keys_tab
+	_input_string_id_key_q,             //_settings_keys_q
+	_input_string_id_key_w,             //_settings_keys_w
+	_input_string_id_key_e,             //_settings_keys_e
+	_input_string_id_key_r,             //_settings_keys_r
+	_input_string_id_key_t,             //_settings_keys_t
+	_input_string_id_key_y,             //_settings_keys_y
+	_input_string_id_key_u,             //_settings_keys_u
+	_input_string_id_key_i,             //_settings_keys_i
+	_input_string_id_key_o,             //_settings_keys_o
+	_input_string_id_key_p,             //_settings_keys_p
+	_input_string_id_key_left_bracket,  //_settings_keys_left_parenthesis
+	_input_string_id_key_right_bracket, //_settings_keys_right_parenthesis
+	_input_string_id_key_backslash,     //_settings_keys_backslash
+	_input_string_id_key_caps_lock,     //_settings_keys_caps_lock
+	_input_string_id_key_a,             //_settings_keys_a
+	_input_string_id_key_s,             //_settings_keys_s
+	_input_string_id_key_d,             //_settings_keys_d
+	_input_string_id_key_f,             //_settings_keys_f
+	_input_string_id_key_g,             //_settings_keys_g
+	_input_string_id_key_h,             //_settings_keys_h
+	_input_string_id_key_j,             //_settings_keys_j
+	_input_string_id_key_k,             //_settings_keys_k
+	_input_string_id_key_l,             //_settings_keys_l
+	_input_string_id_key_semicolon,     //_settings_keys_semicolon
+	_input_string_id_key_apostrophe,    //_settings_keys_apostrophe
+	_input_string_id_key_return,        //_settings_keys_enter
+	_input_string_id_key_left_shift,    //_settings_keys_left_shift
+	_input_string_id_key_z,             //_settings_keys_z
+	_input_string_id_key_x,             //_settings_keys_x
+	_input_string_id_key_c,             //_settings_keys_c
+	_input_string_id_key_v,             //_settings_keys_v
+	_input_string_id_key_b,             //_settings_keys_b
+	_input_string_id_key_n,             //_settings_keys_n
+	_input_string_id_key_m,             //_settings_keys_m
+	_input_string_id_key_comma,         //_settings_keys_comma
+	_input_string_id_key_period,        //_settings_keys_dot
+	_input_string_id_key_forwardslash,  //_settings_keys_slash
+	_input_string_id_key_right_shift,   //_settings_keys_right_shift
+	_input_string_id_key_left_control,  //_settings_keys_left_control
+	_input_string_id_key_left_windows,  //_settings_keys_left_windows
+	_input_string_id_key_left_alt,      //_settings_keys_left_alt
+	_input_string_id_key_space,         //_settings_keys_spacebar
+	_input_string_id_key_right_alt,     //_settings_keys_right_alt
+	_input_string_id_key_right_windows, //_settings_keys_right_windows
+	_input_string_id_key_menu,          //_settings_keys_context_menu
+	_input_string_id_key_right_control, //_settings_keys_right_control
+	_input_string_id_key_up_arrow,      //_settings_keys_up
+	_input_string_id_key_down_arrow,    //_settings_keys_down
+	_input_string_id_key_left_arrow,    //_settings_keys_left
+	_input_string_id_key_right_arrow,   //_settings_keys_right
+	_input_string_id_key_insert,        //_settings_keys_ins
+	_input_string_id_key_home,          //_settings_keys_home
+	_input_string_id_key_page_up,       //_settings_keys_page_up
+	_input_string_id_key_delete,        //_settings_keys_delete
+	_input_string_id_key_end,           //_settings_keys_end
+	_input_string_id_key_page_down,     //_settings_keys_page_down
+	_input_string_id_keypad_num_lock,   //_settings_keys_num_lock
+	_input_string_id_keypad_divide,     //_settings_keys_pad_divide
+	_input_string_id_keypad_multiply,   //_settings_keys_pad_multiply
+	_input_string_id_keypad_0,          //_settings_keys_pad_0
+	_input_string_id_keypad_1,          //_settings_keys_pad_1
+	_input_string_id_keypad_2,          //_settings_keys_pad_2
+	_input_string_id_keypad_3,          //_settings_keys_pad_3
+	_input_string_id_keypad_4,          //_settings_keys_pad_4
+	_input_string_id_keypad_5,          //_settings_keys_pad_5
+	_input_string_id_keypad_6,          //_settings_keys_pad_6
+	_input_string_id_keypad_7,          //_settings_keys_pad_7
+	_input_string_id_keypad_8,          //_settings_keys_pad_8
+	_input_string_id_keypad_9,          //_settings_keys_pad_9
+	_input_string_id_keypad_subtract,   //_settings_keys_pad_minus
+	_input_string_id_keypad_add,        //_settings_keys_pad_plus
+	_input_string_id_keypad_enter,      //_settings_keys_pad_enter
+	_input_string_id_keypad_decimal,    //_settings_keys_pad_dot
 	_input_string_id_key_shift,
 	_input_string_id_key_control,
 	_input_string_id_key_windows,
@@ -4108,10 +4099,20 @@ enum e_input_string_id
 static_assert(0x611 == k_global_string_id_count);
 static_assert(0x684 == k_gui_string_id_count);
 static_assert(0x09B == k_gui_alert_string_id_count);
-static_assert(0x058 == k_gui_dialog_string_id_string_id_count);
+static_assert(0x058 == k_gui_dialog_string_id_count);
 static_assert(0x0F7 == k_game_engine_string_id_count);
 static_assert(0x04C == k_game_start_string_id_count);
 static_assert(0x02F == k_online_string_id_count);
 static_assert(0x018 == k_saved_game_string_id_count);
 static_assert(0x00D == k_gpu_string_id_count);
 static_assert(0x073 == k_input_string_id_count);
+
+extern char const* string_id_get_string_const(long string_id);
+extern long string_id_retrieve(char const* string);
+
+
+// #TODO: map out and implement these
+//s_hash_table* g_string_id_globals
+//s_hash_table* g_string_id_mapping_globals
+//string_id_index_buffer
+//g_string_id_storage

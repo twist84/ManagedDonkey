@@ -246,6 +246,9 @@
     <ClCompile Include="source\interface\user_interface_messages.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\tag_files\string_ids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
