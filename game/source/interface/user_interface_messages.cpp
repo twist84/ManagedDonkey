@@ -18,7 +18,9 @@ HOOK_DECLARE(0x00A934A0, user_interface_messaging_update);
 HOOK_DECLARE(0x00A93450, user_interface_messaging_post);
 HOOK_DECLARE(0x00A933D0, user_interface_messaging_get_next_message);
 HOOK_DECLARE(0x00A93430, user_interface_messaging_pop);
-//HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty); // TODO
+
+// #TODO: find this
+//HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty);
 
 //c_controller.obj
 e_ui_message_type c_message::get_type() const
@@ -249,7 +251,7 @@ void c_dialog_result_message::set_dispose_on_success_screen_index(long dispose_o
 
 long c_load_dialog_screen_message::get_dialog_screen_name(long dialog_name)
 {
-	// TODO iterate through `user_interface_shared_globals->dialog_descriptions`,
+	// #TODO: iterate through `user_interface_shared_globals->dialog_descriptions`,
 	// check `dialog_name` against `dialog_description->dialog_name`
 	// and return `(dialog_description->third_item != -1) + STRING_ID(gui, gui_dialog_two_items)`
 	// if `dialog_description` doesn't contain `dialog_name` return `_string_id_invalid`
@@ -535,10 +537,11 @@ void __cdecl user_interface_messaging_dispose_from_old_map()
 	g_message_globals.dispose_from_old_map();
 }
 
-// TODO
 void __cdecl user_interface_messaging_update()
 {
 	FUNCTION_BEGIN(false);
+
+	// #TODO: implement
 }
 
 void __cdecl user_interface_messaging_post(c_message* message)

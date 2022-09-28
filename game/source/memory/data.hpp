@@ -62,8 +62,9 @@ static_assert(sizeof(s_data_array) == 0x54);
 template <typename t_datum_type>
 struct c_data_iterator;
 
+// #TODO: decide if this should be `c_smart_data_array` or `c_wrapped_data_array`
 template <typename t_datum_type>
-struct c_smart_data_array : s_data_array // #TODO: decide if this should be `c_smart_data_array` or `c_wrapped_data_array`
+struct c_smart_data_array : s_data_array
 {
 	static_assert(__is_base_of(s_datum_header, t_datum_type));
 

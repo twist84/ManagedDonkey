@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
 
-// TODO: find the actual name for this as well as a home
+// #TODO: find the actual name for this as well as a home
 struct s_player_configuration_with_identifier
 {
 	s_player_identifier identifier;
