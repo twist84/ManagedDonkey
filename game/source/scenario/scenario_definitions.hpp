@@ -399,6 +399,31 @@ struct scenario
 };
 static_assert(sizeof(scenario) == 0x824);
 
+enum e_scenario_zone_set_flags
+{
+	_scenario_zone_set_begin_loading_next_level_bit = 0,
+	_scenario_zone_set_debug_purposes_only_bit,
+	_scenario_zone_set_interal_zone_set_bit,
+
+	k_scenario_zone_set_flag_count
+};
+
+struct s_scenario_zone_set
+{
+	c_string_id name;
+	long pvs_index;                       // long_block_index
+	c_flags<e_scenario_zone_set_flags, dword, k_scenario_zone_set_flag_count> flags;
+	dword_flags bsp_zone_flags;           // long_block_flags
+
+	// designer_zone_flags
+	dword_flags required_designer_zones;  // long_block_flags
+	dword_flags forbidden_designer_zones; // long_block_flags
+	dword_flags cinematic_zones;          // long_block_flags
+	long hint_previous_zone_set;          // long_block_index
+	long audibility_index;                // long_block_index
+};
+static_assert(sizeof(s_scenario_zone_set) == 0x24);
+
 struct scenario_object_palette_entry
 {
 	c_typed_tag_reference<'obje'> name;
