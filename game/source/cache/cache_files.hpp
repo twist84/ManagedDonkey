@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "memory/secure_signature.hpp"
 #include "tag_files/files.hpp"
+#include "tag_files/tag_groups.hpp"
 
 struct s_cache_file_section_file_bounds
 {
@@ -107,7 +108,7 @@ union cache_file_tag_instance
 		dword offset;
 
 		tag group_tags[3];
-		string_id group_name;
+		c_string_id group_name;
 	};
 
 	bool is_group(tag group_tag)
