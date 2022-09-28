@@ -56,6 +56,8 @@ void __cdecl scenario_invalidate()
 	return INVOKE(0x004EA3E0, scenario_invalidate);
 }
 
+void on_scenario_loaded();
+
 //bool __cdecl scenario_load(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path)
 {
@@ -76,6 +78,7 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 			scenario_tags_load_finished();
 			hf2p_scenario_tags_load_finished();
 
+			on_scenario_loaded();
 			return true;
 		}
 		else
@@ -90,3 +93,43 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	tag_load_missing_tags_report();
 	return false;
 }
+
+#define PRINT_ZONE_SETS()\
+c_console::write_line("zone sets");\
+for (long i = 0; i < global_scenario->zone_sets.m_count; i++)\
+{\
+	s_scenario_zone_set* zone_set = global_scenario->zone_sets.m_elements + i;\
+	assert(zone_set);\
+	char const* name = zone_set->name.get_string();\
+	if (*name)\
+		c_console::write_line("    %s", name);\
+}\
+c_console::write_line("")
+
+#define PRINT_MAP_VARIANT_PALETTES(NAME)\
+c_console::write_line(#NAME);\
+for (long i = 0; i < global_scenario->map_variant_##NAME##_palette.m_count; i++)\
+{\
+	scenario_object_palette_entry_with_string_id* palette = global_scenario->map_variant_##NAME##_palette.m_elements + i;\
+	assert(palette);\
+	char const* display_name = palette->display_name.get_string();\
+	if (*display_name)\
+		c_console::write_line("    %s", display_name);\
+}\
+c_console::write_line("")
+
+void on_scenario_loaded()
+{
+	PRINT_MAP_VARIANT_PALETTES(vehicle);
+	PRINT_MAP_VARIANT_PALETTES(weapon);
+	PRINT_MAP_VARIANT_PALETTES(equipment);
+	PRINT_MAP_VARIANT_PALETTES(scenery);
+	PRINT_MAP_VARIANT_PALETTES(teleporters);
+	PRINT_MAP_VARIANT_PALETTES(goals);
+	PRINT_MAP_VARIANT_PALETTES(spawners);
+
+	PRINT_ZONE_SETS();
+}
+
+#undef PRINT_MAP_VARIANT_PALETTES
+#undef PRINT_ZONE_SETS
