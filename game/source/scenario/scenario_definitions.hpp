@@ -410,7 +410,7 @@ static_assert(sizeof(scenario_object_palette_entry) == 0x30);
 struct scenario_object_palette_entry_with_string_id
 {
 	c_typed_tag_reference<'obje'> name;
-	string_id display_name;
+	c_string_id display_name;
 	long maximum_allowed;
 	real price_per_instance;
 

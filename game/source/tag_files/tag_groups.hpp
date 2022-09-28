@@ -45,3 +45,12 @@ using c_typed_tag_reference = tag_reference;
 
 template<typename t_data_type, dword ...t_extra>
 using c_typed_tag_data = tag_data;
+
+struct c_string_id
+{
+public:
+	char const* get_string();
+
+protected:
+	string_id m_value;
+};
