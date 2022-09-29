@@ -501,6 +501,40 @@ struct s_scenario_soft_ceiling
 };
 static_assert(sizeof(s_scenario_soft_ceiling) == 0xC);
 
+struct scenario_starting_profile
+{
+	string name;
+
+	// [0,1]
+	real_fraction starting_health_damage;
+
+	// [0,1]
+	real_fraction starting_shield_damage;
+
+	c_typed_tag_reference<'weap'> primary_weapon;
+	short primary_rounds_loaded;
+	short primary_rounds_total;
+
+	c_typed_tag_reference<'weap'> secondary_weapon;
+	short secondary_rounds_loaded;
+	short secondary_rounds_total;
+
+	long __unknown50;
+	long __unknown54;
+
+	char starting_fragmentation_grenade_count;
+	char starting_plasma_grenade_count;
+	char starting_claymore_grenade_count;
+	char starting_firebomb_grenade_count;
+	
+	// s_scenario_editor_folder
+	short editor_folder; // short_block_index
+
+	// pad
+	byte AHDVHJE[2];
+};
+static_assert(sizeof(scenario_starting_profile) == 0x60);
+
 struct s_player_spawn_influence
 {
 	real override_full_weight_radius; // wu
