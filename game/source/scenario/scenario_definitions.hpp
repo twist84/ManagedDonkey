@@ -73,7 +73,7 @@ struct scenario_campaign_player_representation_names_block;
 struct editor_scenario_data_definition;
 struct editor_comment_definition;
 struct scenario_object_name;
-struct scenario_object_palette_entry;
+template<tag ...t_group_tags> struct scenario_object_palette_entry;
 struct scenario_scenery_block;
 struct scenario_biped_block;
 struct scenario_vehicle_block;
@@ -88,7 +88,7 @@ struct scenario_sound_scenery_block;
 struct scenario_giant_block;
 struct scenario_effect_scenery_block;
 struct scenario_light_block;
-struct scenario_object_palette_entry_with_string_id;
+template<tag ...t_group_tags> struct scenario_object_palette_entry_with_string_id;
 struct s_scenario_soft_ceiling;
 struct scenario_starting_profile;
 struct scenario_player;
@@ -198,53 +198,53 @@ struct s_scenario
 	c_typed_tag_block<scenario_object_name, 'sort'> object_names;
 
 	c_typed_tag_block<scenario_scenery_block> scenery;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> scenery_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'scen'>, 'sort'> scenery_palette;
 
 	c_typed_tag_block<scenario_biped_block> bipeds;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> biped_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'bipd'>, 'sort'> biped_palette;
 
 	c_typed_tag_block<scenario_vehicle_block> vehicles;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> vehicle_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'vehi'>, 'sort'> vehicle_palette;
 
 	c_typed_tag_block<scenario_equipment_block> equipment;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> equipment_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'eqip'>, 'sort'> equipment_palette;
 
 	c_typed_tag_block<scenario_weapon_block> weapons;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> weapon_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'weap'>, 'sort'> weapon_palette;
 
 	c_typed_tag_block<device_group_block> device_groups;
 
 	c_typed_tag_block<scenario_machine_block> machines;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> machine_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'mach'>, 'sort'> machine_palette;
 
 	c_typed_tag_block<scenario_terminal_block> terminals;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> terminal_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'term'>, 'sort'> terminal_palette;
 
 	c_typed_tag_block<scenario_arg_device_block> arg_devices;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> arg_device_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'argd'>, 'sort'> arg_device_palette;
 
 	c_typed_tag_block<scenario_control_block> controls;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> control_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'ctrl'>, 'sort'> control_palette;
 
 	c_typed_tag_block<scenario_sound_scenery_block> sound_scenery;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> sound_scenery_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'ssce'>, 'sort'> sound_scenery_palette;
 
 	c_typed_tag_block<scenario_giant_block> giants;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> giant_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'gint'>, 'sort'> giant_palette;
 
 	c_typed_tag_block<scenario_effect_scenery_block> effect_scenery;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> effect_scenery_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'efsc'>, 'sort'> effect_scenery_palette;
 
 	c_typed_tag_block<scenario_light_block> light_volumes;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> light_volume_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'ligh'>, 'sort'> light_volume_palette;
 
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id, 'sort'> map_variant_vehicle_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id, 'sort'> map_variant_weapon_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id, 'sort'> map_variant_equipment_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id, 'sort'> map_variant_scenery_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id, 'sort'> map_variant_teleporters_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id, 'sort'> map_variant_goals_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id, 'sort'> map_variant_spawners_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'vehi'>, 'sort'> map_variant_vehicle_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'weap'>, 'sort'> map_variant_weapon_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'eqip'>, 'sort'> map_variant_equipment_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'scen'>, 'sort'> map_variant_scenery_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'obje', 'vehi', 'scen', 'argd'>, 'sort'> map_variant_teleporters_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'obje', 'vehi', 'scen', 'argd'>, 'sort'> map_variant_goals_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'obje', 'vehi', 'scen', 'argd'>, 'sort'> map_variant_spawners_palette;
 
 	c_typed_tag_block<s_scenario_soft_ceiling> soft_ceilings;
 	c_typed_tag_block<scenario_starting_profile> player_starting_profile;
@@ -338,7 +338,7 @@ struct s_scenario
 	c_typed_tag_reference<'sfx+'> sound_effect_collection;
 
 	c_typed_tag_block<s_scenario_crate> crates;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> crate_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'bloc'>, 'sort'> crate_palette;
 
 	c_typed_tag_block<s_flock_palette_entry, 'sort'> flock_palette;
 	c_typed_tag_block<s_flock_instance> flocks;
@@ -346,7 +346,7 @@ struct s_scenario
 	c_typed_tag_reference<'unic'> subtitles;
 
 	c_typed_tag_block<s_scenario_creature> creatures;
-	c_typed_tag_block<scenario_object_palette_entry, 'sort'> creature_palette;
+	c_typed_tag_block<scenario_object_palette_entry<'crea'>, 'sort'> creature_palette;
 
 	c_typed_tag_block<s_scenario_editor_folder> editor_folders;
 	c_typed_tag_reference<'unic'> game_engine_strings;
@@ -536,24 +536,26 @@ struct scenario_object_name
 };
 static_assert(sizeof(scenario_object_name) == 0x24);
 
+template<tag ...t_group_tags>
 struct scenario_object_palette_entry
 {
-	c_typed_tag_reference<'obje'> name;
+	c_typed_tag_reference<t_group_tags> name;
 
 	byte GYFQQPUM[32]; // pad
 };
-static_assert(sizeof(scenario_object_palette_entry) == 0x30);
+static_assert(sizeof(scenario_object_palette_entry<'test'>) == 0x30);
 
+template<tag ...t_group_tags>
 struct scenario_object_palette_entry_with_string_id
 {
-	c_typed_tag_reference<'obje'> name;
+	c_typed_tag_reference<t_group_tags> name;
 	c_string_id display_name;
 	long maximum_allowed;
 	real price_per_instance;
 
 	byte GYFQQPUM[20]; // pad
 };
-static_assert(sizeof(scenario_object_palette_entry_with_string_id) == 0x30);
+static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x30);
 
 enum e_scenario_soft_ceiling_flags
 {
