@@ -16,14 +16,14 @@ HOOK_DECLARE(0x004EA5E0, scenario_load);
 
 long& global_scenario_index = *reinterpret_cast<long*>(0x0189CCF8);
 
-scenario*& global_scenario = *reinterpret_cast<scenario**>(0x022AAEB4);
+s_scenario*& global_scenario = *reinterpret_cast<s_scenario**>(0x022AAEB4);
 
-scenario* global_scenario_get()
+s_scenario* global_scenario_get()
 {
 	FUNCTION_BEGIN(true);
 
 	// halo online
-	return tag_get<scenario>('scnr', global_scenario_index);
+	return tag_get<s_scenario>('scnr', global_scenario_index);
 
 	// halo 3
 	//assert(global_scenario);
@@ -39,7 +39,7 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 
 	assert(scenario_path != 0);
 
-	scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 	if (levels_map_id_is_fake(map_id) || (campaign_id == -1 && map_id == -1))
 		return true;
 
@@ -201,7 +201,7 @@ if (scenario->trigger_volumes.count)\
 
 void on_scenario_loaded()
 {
-	scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_get();
 
 	PRINT_ZONE_SETS();
 	PRINT_CAMPAIN_PLAYERS();

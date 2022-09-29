@@ -164,7 +164,7 @@ struct s_scenario_cortana_effect;
 struct s_scenario_airprobe_info;
 struct s_scenario_budget_reference;
 struct s_effect_gpu_data;
-struct scenario
+struct s_scenario
 {
 	c_enum<e_scenario_type, char, k_scenario_type_count> type;
 	c_enum<e_scenario_campaign_type, char, k_scenario_campaign_type_count> campaign_type;
@@ -392,7 +392,7 @@ struct scenario
 	c_typed_tag_reference<'vmdx'> vision_mode_override;
 	c_typed_tag_block<s_effect_gpu_data> effect_gpu_data;
 };
-static_assert(sizeof(scenario) == 0x824);
+static_assert(sizeof(s_scenario) == 0x824);
 
 enum e_scenario_structure_size
 {
