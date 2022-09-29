@@ -680,6 +680,17 @@ struct s_real_sector_point
 };
 static_assert(sizeof(s_real_sector_point) == 0x14);
 
+struct s_trigger_volume_triangle
+{
+	real_plane3d lower_plane;
+	real_plane3d upper_plane;
+	real_point2d vertex[3];
+	real bounds_x[2];
+	real bounds_y[2];
+	real bounds_z[2];
+};
+static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
+
 struct s_player_spawn_influence
 {
 	real override_full_weight_radius; // wu
