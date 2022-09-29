@@ -100,7 +100,7 @@ if (scenario->zone_sets.count)\
 	c_console::write_line("zone sets");\
 	for (long i = 0; i < scenario->zone_sets.count; i++)\
 	{\
-		s_scenario_zone_set* zone_set = scenario->zone_sets.elements + i;\
+		auto zone_set = scenario->zone_sets.elements + i;\
 		assert(zone_set);\
 		char const* name = zone_set->name.get_string();\
 		if (*name)\
@@ -115,7 +115,7 @@ if (scenario->lighting_zone_sets.count)\
 	c_console::write_line("lighting zone sets");\
 	for (long i = 0; i < scenario->lighting_zone_sets.count; i++)\
 	{\
-		s_scenario_lighting_zone_set* lighting_zone_set = scenario->lighting_zone_sets.elements + i;\
+		auto lighting_zone_set = scenario->lighting_zone_sets.elements + i;\
 		assert(lighting_zone_set);\
 		char const* name = lighting_zone_set->name.get_string();\
 		if (*name)\
@@ -130,7 +130,7 @@ if (scenario->campaign_players.count)\
 	c_console::write_line("campaign players");\
 	for (long i = 0; i < scenario->campaign_players.count; i++)\
 	{\
-		scenario_campaign_player_representation_names_block* campaign_player = scenario->campaign_players.elements + i;\
+		auto campaign_player = scenario->campaign_players.elements + i;\
 		assert(campaign_player);\
 		char const* name = campaign_player->name.get_string();\
 		if (*name)\
@@ -145,7 +145,7 @@ if (scenario->object_names.count)\
 	c_console::write_line("object names");\
 	for (long i = 0; i < scenario->object_names.count; i++)\
 	{\
-		scenario_object_name* object_name = scenario->object_names.elements + i;\
+		auto object_name = scenario->object_names.elements + i;\
 		assert(object_name);\
 		char const* name = object_name->name;\
 		if (*name)\
@@ -160,7 +160,7 @@ if (scenario->map_variant_##NAME##_palette.count)\
 	c_console::write_line("%s palettes", #NAME);\
 	for (long i = 0; i < scenario->map_variant_##NAME##_palette.count; i++)\
 	{\
-		scenario_object_palette_entry_with_string_id* palette = scenario->map_variant_##NAME##_palette.elements + i;\
+		auto palette = scenario->map_variant_##NAME##_palette.elements + i;\
 		assert(palette);\
 		char const* display_name = palette->display_name.get_string();\
 		if (*display_name)\
@@ -175,7 +175,7 @@ if (scenario->soft_ceilings.count)\
 	c_console::write_line("soft ceilings");\
 	for (long i = 0; i < scenario->soft_ceilings.count; i++)\
 	{\
-		s_scenario_soft_ceiling* soft_ceiling = scenario->soft_ceilings.elements + i;\
+		auto soft_ceiling = scenario->soft_ceilings.elements + i;\
 		assert(soft_ceiling);\
 		char const* name = soft_ceiling->name.get_string();\
 		if (name)\
@@ -190,7 +190,7 @@ if (scenario->player_starting_profile.count)\
 	c_console::write_line("player starting profiles");\
 	for (long i = 0; i < scenario->player_starting_profile.count; i++)\
 	{\
-		scenario_starting_profile* profile = scenario->player_starting_profile.elements + i;\
+		auto profile = scenario->player_starting_profile.elements + i;\
 		assert(profile);\
 		char const* name = profile->name;\
 		if (*name)\
@@ -205,7 +205,7 @@ if (scenario->trigger_volumes.count)\
 	c_console::write_line("trigger volumes");\
 	for (long i = 0; i < scenario->trigger_volumes.count; i++)\
 	{\
-		scenario_trigger_volume_block* trigger_volume = scenario->trigger_volumes.elements + i;\
+		auto trigger_volume = scenario->trigger_volumes.elements + i;\
 		assert(trigger_volume);\
 		char const* name = trigger_volume->name.get_string();\
 		if (*name)\
