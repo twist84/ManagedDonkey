@@ -437,6 +437,12 @@ struct s_scenario_zone_set
 };
 static_assert(sizeof(s_scenario_zone_set) == 0x24);
 
+struct scenario_campaign_player_representation_names_block
+{
+	c_string_id name;
+};
+static_assert(sizeof(scenario_campaign_player_representation_names_block) == 0x4);
+
 struct scenario_object_palette_entry
 {
 	c_typed_tag_reference<'obje'> name;
