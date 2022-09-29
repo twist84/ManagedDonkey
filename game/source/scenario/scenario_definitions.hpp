@@ -164,7 +164,6 @@ struct s_scenario_cortana_effect;
 struct s_scenario_airprobe_info;
 struct s_scenario_budget_reference;
 struct s_effect_gpu_data;
-
 struct scenario
 {
 	c_enum<e_scenario_type, char, k_scenario_type_count> type;
@@ -178,10 +177,6 @@ struct scenario
 	real sandbox_budget;
 
 	c_typed_tag_block<scenario_structure_bsp_reference> structure_bsps;
-
-	//tag_reference scenario_pda;
-	//tag_block pda_definitions;
-
 	c_typed_tag_reference<'stse'> structure_seams;
 	c_typed_tag_block<s_scenario_sky_reference> sky_references;
 	c_typed_tag_block<s_scenario_zone_set_pvs> zone_set_pvs;
@@ -399,14 +394,83 @@ struct scenario
 };
 static_assert(sizeof(scenario) == 0x824);
 
-enum e_scenario_zone_set_flags
+enum e_scenario_structure_size
 {
-	_scenario_zone_set_begin_loading_next_level_bit = 0,
-	_scenario_zone_set_debug_purposes_only_bit,
-	_scenario_zone_set_interal_zone_set_bit,
+	_scenario_structure_size_1024x1024 = 0,
+	_scenario_structure_size_768x768,
+	_scenario_structure_size_512x512,
+	_scenario_structure_size_153x153,
+	_scenario_structure_size_256x256,
+	_scenario_structure_size_384x384,
 
-	k_scenario_zone_set_flag_count
+	k_scenario_structure_size_count
 };
+
+enum e_scenario_structure_bsp_reference_flags
+{
+	_scenario_structure_bsp_reference_flag_default_sky_enabled_bit,
+	_scenario_structure_bsp_reference_flag_do_not_compress_lightmaps_bit,
+	_scenario_structure_bsp_reference_flag_generate_fake_small_lightmaps_bit,
+	_scenario_structure_bsp_reference_flag_ray_trace_adjacent_bsps_on_sky_hits_bit,
+	_scenario_structure_bsp_reference_flag_lightmaps_use_conservative_subcharts_bit,
+	_scenario_structure_bsp_reference_flag_lightmaps_reduce_stretch_hack_bit,
+
+	// very_slow
+	_scenario_structure_bsp_reference_flag_lightmaps_use_extended_gathering_bit,
+
+	_scenario_structure_bsp_reference_flag_lightmaps_final_gather_ignores_backfacing_hits_bit,
+	_scenario_structure_bsp_reference_flag_lightmaps_use_more_samples_for_large_sky_lights_bit,
+
+	// incredibly_slow
+	_scenario_structure_bsp_reference_flag_lightmaps_use_more_precise_extended_gathering_bit,
+
+	_scenario_structure_bsp_reference_flag_no_AI_attachment_bit,
+
+	// check_this_on_shared_BSPs
+	_scenario_structure_bsp_reference_flag_not_a_normally_playable_space_in_an_mp_map_bit,
+
+	k_scenario_structure_bsp_reference_flag_count
+};
+
+struct scenario_structure_bsp_reference
+{
+	c_typed_tag_reference<'sbsp'> structure_bsp;
+	c_typed_tag_reference<'sddt'> structure_design;
+	c_typed_tag_reference<'stli'> structure_lighting_info;
+
+	// Size Class
+	// Tells lightmapper desired res for structure bitmaps.
+	// Numbers in parens are final sizes after compression
+	c_enum<e_scenario_structure_size, long, k_scenario_structure_size_count> size_class;
+
+	real hacky_ambient_min_luminance;
+	real direct_or_draft_ambient_min_luminance;
+
+	// this is the most that we can sink a soft surface link snow in the structure_bsp via vertex painting.
+	real structure_vertex_sink;
+
+	word_flags flags;
+
+	// s_scenario_sky_reference
+	short default_sky; // short_block_index
+
+	// >end, pixel size we start stippling out. code default 36
+	short default_instance_fade_start_pixels;
+
+	// <start, pixel size where we no longer render. code default 30
+	short default_instance_fade_end_pixels;
+
+	c_typed_tag_reference<'bitm'> cubemap_bitmap_group_reference;
+	c_typed_tag_reference<'wind'> wind;
+
+	// Clones
+	// Describes which other bsps are physical 'clones' of this bsp
+	// This is used to determine how to attach 'position-only' elements, like decorators, to the bsps:
+	// Each clone gets a separate copy of decorators that are in both.
+	// Non-cloned bsps cannot split decorators this way - the decorator will be given to the lowest numbered bsp
+	c_flags<e_scenario_structure_bsp_reference_flags, dword, k_scenario_structure_bsp_reference_flag_count> clone_bsp_flags; // long_block_flags
+};
+static_assert(sizeof(scenario_structure_bsp_reference) == 0x6C);
 
 struct s_scenario_sky_reference
 {
@@ -419,6 +483,15 @@ struct s_scenario_sky_reference
 	word_flags active_on_bsps; // word_block_flags
 };
 static_assert(sizeof(s_scenario_sky_reference) == 0x14);
+
+enum e_scenario_zone_set_flags
+{
+	_scenario_zone_set_begin_loading_next_level_bit = 0,
+	_scenario_zone_set_debug_purposes_only_bit,
+	_scenario_zone_set_interal_zone_set_bit,
+
+	k_scenario_zone_set_flag_count
+};
 
 struct s_scenario_zone_set
 {
