@@ -408,6 +408,18 @@ enum e_scenario_zone_set_flags
 	k_scenario_zone_set_flag_count
 };
 
+struct s_scenario_sky_reference
+{
+	c_typed_tag_reference<'scen'> sky;
+
+	// scenario_object_name
+	short name;                // short_block_index
+
+	// scenario_structure_bsp_reference_block
+	word_flags active_on_bsps; // word_block_flags
+};
+static_assert(sizeof(s_scenario_sky_reference) == 0x14);
+
 struct s_scenario_zone_set
 {
 	c_string_id name;
@@ -417,6 +429,7 @@ struct s_scenario_zone_set
 
 	// designer_zone_flags
 	dword_flags required_designer_zones;  // long_block_flags
+
 	dword_flags forbidden_designer_zones; // long_block_flags
 	dword_flags cinematic_zones;          // long_block_flags
 	long hint_previous_zone_set;          // long_block_index
