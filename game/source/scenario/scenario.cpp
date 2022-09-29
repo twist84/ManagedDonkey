@@ -214,6 +214,34 @@ if (scenario->trigger_volumes.count)\
 	c_console::write_line("");\
 }
 
+#define PRINT_SCRIPTS()\
+if (scenario->scripts.count)\
+{\
+	c_console::write_line("scripts");\
+	for (long i = 0; i < scenario->scripts.count; i++)\
+	{\
+		auto script = scenario->scripts.elements + i;\
+		assert(script);\
+		char const* script_name = script->name;\
+		if (*script_name)\
+			c_console::write_line("    %s", script_name);\
+		if (script->parameters.count)\
+		{\
+			c_console::write_line("    parameters");\
+			for (long i = 0; i < script->parameters.count; i++)\
+			{\
+				auto parameter = script->parameters.elements + i;\
+				assert(parameter);\
+				char const* parameter_name = parameter->name;\
+				if (*parameter_name)\
+					c_console::write_line("        %s", parameter_name);\
+			}\
+			c_console::write_line("");\
+		}\
+	}\
+	c_console::write_line("");\
+}
+
 void on_scenario_loaded()
 {
 	s_scenario* scenario = global_scenario_get();
@@ -232,6 +260,7 @@ void on_scenario_loaded()
 	PRINT_SOFT_CEILINGS();
 	PRINT_PLAYER_STARTING_PROFILES();
 	PRINT_TRIGGER_VOLUMES();
+	PRINT_SCRIPTS();
 
 	printf("");
 }
