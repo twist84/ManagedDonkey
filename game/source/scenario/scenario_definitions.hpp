@@ -443,6 +443,14 @@ struct scenario_campaign_player_representation_names_block
 };
 static_assert(sizeof(scenario_campaign_player_representation_names_block) == 0x4);
 
+struct scenario_object_name
+{
+	string name;
+	short object_type; // short_block_index_custom_search
+	short scenario_datum_index; // short_block_index_custom_search
+};
+static_assert(sizeof(scenario_object_name) == 0x24);
+
 struct scenario_object_palette_entry
 {
 	c_typed_tag_reference<'obje'> name;
