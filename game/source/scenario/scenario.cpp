@@ -242,6 +242,21 @@ if (scenario->scripts.count)\
 	c_console::write_line("");\
 }
 
+#define PRINT_GLOBALS()\
+if (scenario->globals.count)\
+{\
+	c_console::write_line("globals");\
+	for (long i = 0; i < scenario->globals.count; i++)\
+	{\
+		auto global = scenario->globals.elements + i;\
+		assert(global);\
+		char const* name = global->name;\
+		if (*name)\
+			c_console::write_line("    %s", name);\
+	}\
+	c_console::write_line("");\
+}
+
 void on_scenario_loaded()
 {
 	s_scenario* scenario = global_scenario_get();
@@ -261,6 +276,7 @@ void on_scenario_loaded()
 	PRINT_PLAYER_STARTING_PROFILES();
 	PRINT_TRIGGER_VOLUMES();
 	PRINT_SCRIPTS();
+	PRINT_GLOBALS();
 
 	printf("");
 }
