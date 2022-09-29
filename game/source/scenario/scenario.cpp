@@ -142,7 +142,7 @@ if (scenario->object_names.count)\
 #define PRINT_MAP_VARIANT_PALETTES(NAME)\
 if (scenario->map_variant_##NAME##_palette.count)\
 {\
-	c_console::write_line("%s palette", #NAME);\
+	c_console::write_line("%s palettes", #NAME);\
 	for (long i = 0; i < scenario->map_variant_##NAME##_palette.count; i++)\
 	{\
 		scenario_object_palette_entry_with_string_id* palette = scenario->map_variant_##NAME##_palette.elements + i;\
@@ -172,7 +172,7 @@ if (scenario->soft_ceilings.count)\
 #define PRINT_PLAYER_STARTING_PROFILES()\
 if (scenario->player_starting_profile.count)\
 {\
-	c_console::write_line("player starting profile");\
+	c_console::write_line("player starting profiles");\
 	for (long i = 0; i < scenario->player_starting_profile.count; i++)\
 	{\
 		scenario_starting_profile* profile = scenario->player_starting_profile.elements + i;\
@@ -183,6 +183,22 @@ if (scenario->player_starting_profile.count)\
 	}\
 	c_console::write_line("");\
 }
+
+#define PRINT_TRIGGER_VOLUMES()\
+if (scenario->trigger_volumes.count)\
+{\
+	c_console::write_line("trigger volumes");\
+	for (long i = 0; i < scenario->trigger_volumes.count; i++)\
+	{\
+		scenario_trigger_volume_block* trigger_volume = scenario->trigger_volumes.elements + i;\
+		assert(trigger_volume);\
+		char const* name = trigger_volume->name.get_string();\
+		if (*name)\
+			c_console::write_line("    %s", name);\
+	}\
+	c_console::write_line("");\
+}
+
 void on_scenario_loaded()
 {
 	scenario* scenario = global_scenario_get();
@@ -199,6 +215,7 @@ void on_scenario_loaded()
 	PRINT_MAP_VARIANT_PALETTES(spawners);
 	PRINT_SOFT_CEILINGS();
 	PRINT_PLAYER_STARTING_PROFILES();
+	PRINT_TRIGGER_VOLUMES();
 
 	printf("");
 }
