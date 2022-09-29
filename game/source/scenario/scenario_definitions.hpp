@@ -470,6 +470,37 @@ struct scenario_object_palette_entry_with_string_id
 };
 static_assert(sizeof(scenario_object_palette_entry_with_string_id) == 0x30);
 
+enum e_scenario_soft_ceiling_flags
+{
+	_scenario_soft_ceiling_flag_ignore_bipeds_bit = 0,
+	_scenario_soft_ceiling_flag_ignore_vehicles_bit,
+	_scenario_soft_ceiling_flag_ignore_camera_bit,
+	_scenario_soft_ceiling_flag_ignore_huge_vehicles_bit,
+
+	k_scenario_soft_ceiling_flag_count
+};
+
+enum e_soft_ceiling_type
+{
+	_soft_ceiling_type_acceleration = 0,
+	_soft_ceiling_type_soft_kill,
+	_soft_ceiling_type_slip_surface,
+
+	k_soft_ceiling_type_count
+};
+
+struct s_scenario_soft_ceiling
+{
+	c_flags<e_scenario_soft_ceiling_flags, word, k_scenario_soft_ceiling_flag_count> flags;
+	c_flags<e_scenario_soft_ceiling_flags, word, k_scenario_soft_ceiling_flag_count> runtime_flags;
+	c_string_id name;
+	c_enum<e_soft_ceiling_type, short, k_soft_ceiling_type_count> type;
+
+	// pad
+	byte my_name_is[2];
+};
+static_assert(sizeof(s_scenario_soft_ceiling) == 0xC);
+
 struct s_player_spawn_influence
 {
 	real override_full_weight_radius; // wu
