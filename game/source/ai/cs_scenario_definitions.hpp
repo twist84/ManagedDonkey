@@ -1,3 +1,62 @@
 #pragma once
 
-struct cs_script_data;
+#include "cseries/cseries.hpp"
+#include "tag_files/tag_groups.hpp"
+
+struct cs_point
+{
+	string name;
+	real_point3d position;
+
+	// ai_reference_frame
+	short manual_reference_frame; // short_block_index
+
+	// scenario_structure_bsp_reference
+	short structure_bsp; // short_block_index
+
+	short bsp_index;
+	short sector_index;
+
+	real_euler_angles2d facing_direction;
+};
+static_assert(sizeof(cs_point) == 0x3C);
+
+enum e_point_set_flags
+{
+	_point_set_flagmanual_reference_frame_bit = 0,
+	_point_set_flagturret_deployment_bit,
+	_point_set_flaggiant_set_bit,
+	_point_set_flaginvalid_sector_refs_bit,
+
+	k_point_set_flag_count
+};
+
+struct cs_point_set
+{
+	string name;
+	tag_block points;
+
+	// scenario_structure_bsp_reference
+	short bsp_index; // short_block_index
+
+	// ai_reference_frame
+	short manual_reference_frame; // short_block_index
+
+	c_flags<e_point_set_flags, dword, k_point_set_flag_count> flags;
+
+	// s_scenario_editor_folder
+	short editor_folder; // short_block_index
+
+	// pad
+	byte AJDEYNFD[2];
+};
+static_assert(sizeof(cs_point_set) == 0x38);
+
+struct cs_script_data
+{
+	c_typed_tag_block<cs_point_set> point_sets;
+
+	// pad
+	byte TPHWNCUR[0x78];
+};
+static_assert(sizeof(cs_script_data) == 0x84);
