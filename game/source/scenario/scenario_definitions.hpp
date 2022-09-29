@@ -673,6 +673,13 @@ struct scenario_trigger_volume_block
 };
 static_assert(sizeof(scenario_trigger_volume_block) == 0x7C);
 
+struct s_real_sector_point
+{
+	real_point3d position;
+	real_euler_angles2d normal;
+};
+static_assert(sizeof(s_real_sector_point) == 0x14);
+
 struct s_player_spawn_influence
 {
 	real override_full_weight_radius; // wu
