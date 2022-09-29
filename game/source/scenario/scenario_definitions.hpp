@@ -424,7 +424,7 @@ enum e_scenario_structure_bsp_reference_flags
 	// incredibly_slow
 	_scenario_structure_bsp_reference_flag_lightmaps_use_more_precise_extended_gathering_bit,
 
-	_scenario_structure_bsp_reference_flag_no_AI_attachment_bit,
+	_scenario_structure_bsp_reference_flag_no_ai_attachment_bit,
 
 	// check_this_on_shared_BSPs
 	_scenario_structure_bsp_reference_flag_not_a_normally_playable_space_in_an_mp_map_bit,
@@ -449,7 +449,7 @@ struct scenario_structure_bsp_reference
 	// this is the most that we can sink a soft surface link snow in the structure_bsp via vertex painting.
 	real structure_vertex_sink;
 
-	word_flags flags;
+	c_flags<e_scenario_structure_bsp_reference_flags, word, k_scenario_structure_bsp_reference_flag_count> flags;
 
 	// s_scenario_sky_reference
 	short default_sky; // short_block_index
@@ -468,7 +468,7 @@ struct scenario_structure_bsp_reference
 	// This is used to determine how to attach 'position-only' elements, like decorators, to the bsps:
 	// Each clone gets a separate copy of decorators that are in both.
 	// Non-cloned bsps cannot split decorators this way - the decorator will be given to the lowest numbered bsp
-	c_flags<e_scenario_structure_bsp_reference_flags, dword, k_scenario_structure_bsp_reference_flag_count> clone_bsp_flags; // long_block_flags
+	dword_flags clone_bsp_flags; // long_block_flags
 };
 static_assert(sizeof(scenario_structure_bsp_reference) == 0x6C);
 
