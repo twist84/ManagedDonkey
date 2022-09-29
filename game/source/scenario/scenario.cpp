@@ -109,6 +109,21 @@ if (scenario->zone_sets.count)\
 	c_console::write_line("");\
 }
 
+#define PRINT_LIGHTING_ZONE_SETS()\
+if (scenario->lighting_zone_sets.count)\
+{\
+	c_console::write_line("lighting zone sets");\
+	for (long i = 0; i < scenario->lighting_zone_sets.count; i++)\
+	{\
+		s_scenario_lighting_zone_set* lighting_zone_set = scenario->lighting_zone_sets.elements + i;\
+		assert(lighting_zone_set);\
+		char const* name = lighting_zone_set->name.get_string();\
+		if (*name)\
+			c_console::write_line("    %s", name);\
+	}\
+	c_console::write_line("");\
+}
+
 #define PRINT_CAMPAIN_PLAYERS()\
 if (scenario->campaign_players.count)\
 {\
@@ -204,6 +219,7 @@ void on_scenario_loaded()
 	s_scenario* scenario = global_scenario_get();
 
 	PRINT_ZONE_SETS();
+	PRINT_LIGHTING_ZONE_SETS();
 	PRINT_CAMPAIN_PLAYERS();
 	PRINT_OBJECT_NAMES();
 	PRINT_MAP_VARIANT_PALETTES(vehicle);

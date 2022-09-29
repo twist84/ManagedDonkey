@@ -510,6 +510,18 @@ struct s_scenario_zone_set
 };
 static_assert(sizeof(s_scenario_zone_set) == 0x24);
 
+struct s_scenario_lighting_zone_set
+{
+	c_string_id name;
+
+	// scenario_structure_bsp_reference
+	long rendered_bsp_flags; // long_block_flags
+
+	// scenario_structure_bsp_reference
+	long extra_bsp_flags; // long_block_flags
+};
+static_assert(sizeof(s_scenario_lighting_zone_set) == 0xC);
+
 struct scenario_campaign_player_representation_names_block
 {
 	c_string_id name;
