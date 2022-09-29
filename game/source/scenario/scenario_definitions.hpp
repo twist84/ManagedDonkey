@@ -3,6 +3,17 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 
+#include "ai/ai_scenario_definitions.hpp"
+#include "ai/cs_scenario_definitions.hpp"
+#include "editor/editor_scenario_definitions.hpp"
+#include "hs/hs_scenario_definitions.hpp"
+#include "scenario/scenario_cubemap_definitions.hpp"
+#include "scenario/scenario_decorator_definitions.hpp"
+#include "scenario/scenario_designer_zones_definitions.hpp"
+#include "scenario/scenario_object_definitions.hpp"
+#include "scenario/scenario_resource_definitions.hpp"
+#include "scenario/scenario_zone_debugger_definitions.hpp"
+
 enum e_scenario_type
 {
 	_scenario_type_solo = 0,
@@ -63,107 +74,71 @@ enum e_scenario_flags
 	k_scenario_flag_count
 };
 
-struct scenario_structure_bsp_reference;
-struct s_scenario_sky_reference;
-struct s_scenario_zone_set_pvs;
-struct s_game_audibility;
-struct s_scenario_zone_set;
-struct s_scenario_lighting_zone_set;
-struct scenario_campaign_player_representation_names_block;
-struct editor_scenario_data_definition;
-struct editor_comment_definition;
-struct scenario_object_name;
-template<tag ...t_group_tags> struct scenario_object_palette_entry;
-struct scenario_scenery_block;
-struct scenario_biped_block;
-struct scenario_vehicle_block;
-struct scenario_equipment_block;
-struct scenario_weapon_block;
+struct ai_scenario_mission_dialogue;
+struct ai_scene;
 struct device_group_block;
-struct scenario_machine_block;
-struct scenario_terminal_block;
-struct scenario_arg_device_block;
-struct scenario_control_block;
-struct scenario_sound_scenery_block;
-struct scenario_giant_block;
-struct scenario_effect_scenery_block;
-struct scenario_light_block;
-template<tag ...t_group_tags> struct scenario_object_palette_entry_with_string_id;
-struct s_scenario_soft_ceiling;
-struct scenario_starting_profile;
-struct scenario_player;
-struct scenario_trigger_volume_block;
+struct editor_comment_definition;
+struct editor_scenario_data_definition;
+struct orders_definition;
+struct pathfinding_data;
 struct recorded_animation_definition;
-struct s_scenario_zone_set_switch_trigger_volume;
-struct s_player_spawn_influence;
-struct s_weapon_spawn_influence;
-struct s_vehicle_spawn_influence;
-struct s_projectile_spawn_influence;
+struct s_ai_reference_frame_definition;
+struct s_campaign_metagame_scenario;
+struct s_cinematic_reference;
+struct s_effect_gpu_data;
 struct s_equipment_spawn_influence;
+struct s_flock_instance;
+struct s_flock_palette_entry;
+struct s_game_audibility;
+struct s_game_globals_player_representation;
 struct s_netgame_goal_spawn_influence;
+struct s_objective;
+struct s_player_spawn_influence;
+struct s_projectile_spawn_influence;
+struct s_scenario_acoustics_palette_entry;
+struct s_scenario_acoustics_volume;
+struct s_scenario_airprobe_info;
+struct s_scenario_budget_reference;
+struct s_scenario_cinematic_lighting_palette_entry;
+struct s_scenario_cluster_data;
+struct s_scenario_cortana_effect;
+struct s_scenario_cutscene_title;
+struct s_scenario_interpolator;
+struct s_scenario_kill_trigger_volume;
+struct s_scenario_lighting_zone_set;
+struct s_scenario_safe_zone_trigger_volume;
+struct s_scenario_sky_reference;
+struct s_scenario_soft_ceiling;
+struct s_scenario_spawn_data;
+struct s_scenario_zone_set;
+struct s_scenario_zone_set_pvs;
+struct s_scenario_zone_set_switch_trigger_volume;
+struct s_soft_surfaces_definition;
+struct s_squad_definition;
+struct s_squad_patrol_definition;
+struct s_vehicle_spawn_influence;
+struct s_weapon_spawn_influence;
+struct scenario_campaign_player_representation_names_block;
+struct scenario_cutscene_camera_point;
+struct scenario_cutscene_flag;
 struct scenario_decal;
 struct scenario_decal_palette_entry;
 struct scenario_detail_object_collection_palette_entry;
-struct style_palette_entry;
+struct scenario_object_name;
+struct scenario_player;
+struct scenario_starting_profile;
+struct scenario_structure_bsp_reference;
+struct scenario_trigger_volume_block;
 struct squad_group_definition;
-struct s_squad_definition;
-struct zone_definition;
-struct s_squad_patrol_definition;
-struct ai_scene;
-struct character_palette_entry;
-struct pathfinding_data;
-struct user_hint_data;
-struct ai_recording_reference_definition;
-struct hs_string_data_definition;
-struct hs_script;
-struct hs_global_internal;
-struct hs_tag_reference;
-struct hs_source_file;
-struct cs_script_data;
-struct scenario_cutscene_flag;
-struct scenario_cutscene_camera_point;
-struct s_scenario_cutscene_title;
-struct scenario_resources_definition;
-struct s_hs_unit_seat_mapping;
-struct s_scenario_kill_trigger_volume;
-struct s_scenario_safe_zone_trigger_volume;
-struct hs_syntax_node;
-struct orders_definition;
-struct trigger_definition;
-struct s_scenario_acoustics_palette_entry;
+struct structure_atmosphere_palette_entry;
 struct structure_background_sound_palette_entry;
+struct structure_camera_fx_palette_entry;
 struct structure_sound_environment_palette_entry;
 struct structure_weather_palette_entry;
-struct structure_atmosphere_palette_entry;
-struct structure_camera_fx_palette_entry;
-struct g_null_block;
-struct g_null_block;
-struct g_null_block;
-struct s_scenario_cluster_data;
-struct s_scenario_acoustics_volume;
-struct s_scenario_spawn_data;
-struct s_scenario_crate;
-struct s_flock_palette_entry;
-struct s_flock_instance;
-struct s_scenario_creature;
-struct s_scenario_editor_folder;
-struct ai_scenario_mission_dialogue;
-struct s_scenario_interpolator;
-struct s_ai_reference_frame_definition;
-struct s_objective;
-struct s_scenario_designer_zone;
-struct s_scenario_zone_debugger_definition;
-struct s_scenario_new_decorator_definition;
-struct s_cinematic_reference;
-struct s_scenario_cinematic_lighting_palette_entry;
-struct s_game_globals_player_representation;
-struct s_campaign_metagame_scenario;
-struct s_soft_surfaces_definition;
-struct s_scenario_cubemap_info;
-struct s_scenario_cortana_effect;
-struct s_scenario_airprobe_info;
-struct s_scenario_budget_reference;
-struct s_effect_gpu_data;
+struct style_palette_entry;
+struct trigger_definition;
+struct user_hint_data;
+struct zone_definition;
 struct s_scenario
 {
 	c_enum<e_scenario_type, char, k_scenario_type_count> type;
@@ -217,10 +192,10 @@ struct s_scenario
 	c_typed_tag_block<scenario_machine_block> machines;
 	c_typed_tag_block<scenario_object_palette_entry<'mach'>, 'sort'> machine_palette;
 
-	c_typed_tag_block<scenario_terminal_block> terminals;
+	c_typed_tag_block<s_scenario_terminal> terminals;
 	c_typed_tag_block<scenario_object_palette_entry<'term'>, 'sort'> terminal_palette;
 
-	c_typed_tag_block<scenario_arg_device_block> arg_devices;
+	c_typed_tag_block<s_scenario_arg_device> arg_devices;
 	c_typed_tag_block<scenario_object_palette_entry<'argd'>, 'sort'> arg_device_palette;
 
 	c_typed_tag_block<scenario_control_block> controls;
@@ -535,27 +510,6 @@ struct scenario_object_name
 	short scenario_datum_index; // short_block_index_custom_search
 };
 static_assert(sizeof(scenario_object_name) == 0x24);
-
-template<tag ...t_group_tags>
-struct scenario_object_palette_entry
-{
-	c_typed_tag_reference<t_group_tags> name;
-
-	byte GYFQQPUM[32]; // pad
-};
-static_assert(sizeof(scenario_object_palette_entry<'test'>) == 0x30);
-
-template<tag ...t_group_tags>
-struct scenario_object_palette_entry_with_string_id
-{
-	c_typed_tag_reference<t_group_tags> name;
-	c_string_id display_name;
-	long maximum_allowed;
-	real price_per_instance;
-
-	byte GYFQQPUM[20]; // pad
-};
-static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x30);
 
 enum e_scenario_soft_ceiling_flags
 {

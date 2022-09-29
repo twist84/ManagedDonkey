@@ -74,3 +74,5 @@ struct game_globals_storage
 static_assert(sizeof(game_globals_storage) == 0x25208);
 
 extern game_globals_storage* game_globals_get();
+
+struct s_game_globals_player_representation;

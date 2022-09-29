@@ -1,0 +1,6 @@
+#pragma once
+
+struct s_scenario_acoustics_palette_entry;
+struct s_scenario_acoustics_volume;
+struct structure_background_sound_palette_entry;
+struct structure_sound_environment_palette_entry;

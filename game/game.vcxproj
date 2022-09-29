@@ -288,15 +288,34 @@ POPD
     <ClCompile Include="source\text\font_loading.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\ai\ai_flocks.hpp" />
+    <ClInclude Include="source\ai\ai_hint_definitions.hpp" />
+    <ClInclude Include="source\ai\ai_mission_dialogue.hpp" />
+    <ClInclude Include="source\ai\ai_orders.hpp" />
+    <ClInclude Include="source\ai\ai_reference_frame.hpp" />
+    <ClInclude Include="source\ai\ai_scenario_definitions.hpp" />
+    <ClInclude Include="source\ai\cs_scenario_definitions.hpp" />
+    <ClInclude Include="source\ai\objectives.hpp" />
+    <ClInclude Include="source\ai\sector_definitions.hpp" />
+    <ClInclude Include="source\ai\squad_definitions.hpp" />
+    <ClInclude Include="source\ai\squad_patrol.hpp" />
+    <ClInclude Include="source\ai\styles.hpp" />
+    <ClInclude Include="source\ai\zone.hpp" />
     <ClInclude Include="source\cseries\async_xoverlapped.hpp" />
     <ClInclude Include="source\cseries\async_xoverlapped_memory.hpp" />
     <ClInclude Include="source\cseries\console.hpp" />
     <ClInclude Include="source\cseries\language.hpp" />
+    <ClInclude Include="source\cutscene\cinematics_definitions.hpp" />
+    <ClInclude Include="source\cutscene\recorded_animation_definitions.hpp" />
+    <ClInclude Include="source\editor\editor_scenario_definitions.hpp" />
     <ClInclude Include="source\editor\editor_stubs.hpp" />
     <ClInclude Include="source\effects\contrails.hpp" />
+    <ClInclude Include="source\effects\effect_definitions.hpp" />
     <ClInclude Include="source\fmod\fmod.hpp" />
+    <ClInclude Include="source\game\campaign_metagame_definitions.hpp" />
     <ClInclude Include="source\game\cheats.hpp" />
     <ClInclude Include="source\hf2p\hf2p.hpp" />
+    <ClInclude Include="source\hs\hs_scenario_definitions.hpp" />
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
     <ClInclude Include="source\interface\user_interface_memory.hpp" />
     <ClInclude Include="source\interface\user_interface_messages.hpp" />
@@ -437,9 +456,15 @@ POPD
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\scenario\scenario.hpp" />
+    <ClInclude Include="source\scenario\scenario_cubemap_definitions.hpp" />
+    <ClInclude Include="source\scenario\scenario_decorator_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_definitions.hpp" />
+    <ClInclude Include="source\scenario\scenario_designer_zones_definitions.hpp" />
+    <ClInclude Include="source\scenario\scenario_resource_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />
+    <ClInclude Include="source\scenario\scenario_zone_debugger_definitions.hpp" />
     <ClInclude Include="source\shell\shell.hpp" />
+    <ClInclude Include="source\scenario\scenario_object_definitions.hpp" />
     <ClInclude Include="source\simulation\simulation.hpp" />
     <ClInclude Include="source\simulation\simulation_actors.hpp" />
     <ClInclude Include="source\simulation\simulation_debug_globals.hpp" />
@@ -449,10 +474,15 @@ POPD
     <ClInclude Include="source\simulation\simulation_view.hpp" />
     <ClInclude Include="source\simulation\simulation_watcher.hpp" />
     <ClInclude Include="source\simulation\simulation_world.hpp" />
+    <ClInclude Include="source\sound\game_audibility.hpp" />
+    <ClInclude Include="source\sound\sound_acoustics_definitions.hpp" />
+    <ClInclude Include="source\structures\structure_bsp_definitions.hpp" />
+    <ClInclude Include="source\structures\structure_physics_definitions.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
     <ClInclude Include="source\tag_files\string_ids.hpp" />
     <ClInclude Include="source\tag_files\tag_groups.hpp" />
+    <ClInclude Include="source\tag_files\tag_group_definitions.hpp" />
     <ClInclude Include="source\text\font_loading.hpp" />
     <ClInclude Include="source\units\units.hpp" />
   </ItemGroup>

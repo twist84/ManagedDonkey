@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "tag_files/tag_group_definitions.hpp"
 
 extern void __cdecl tag_load_missing_tags_report();
 
