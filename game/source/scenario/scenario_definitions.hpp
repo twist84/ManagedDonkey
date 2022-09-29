@@ -535,6 +535,27 @@ struct scenario_starting_profile
 };
 static_assert(sizeof(scenario_starting_profile) == 0x60);
 
+enum e_scenario_player_flags
+{
+	_scenario_player_flag_survival_mode_bit = 0,
+
+	k_scenario_player_flag_count
+};
+
+struct scenario_player
+{
+	real_point3d position;
+	angle facing; // degrees
+	angle pitch; // degrees
+	short insertion_point_index;
+	c_flags<e_scenario_player_flags, word, k_scenario_player_flag_count> flags;
+	short editor_folder; // short_block_index
+
+	// pad
+	byte ANDYNDGE[2];
+};
+static_assert(sizeof(scenario_player) == 0x1C);
+
 struct s_player_spawn_influence
 {
 	real override_full_weight_radius; // wu

@@ -109,7 +109,7 @@ if (scenario->zone_sets.count)\
 	c_console::write_line("");\
 }
 
-#define PRINT_CAMPAIN_PLAYER()\
+#define PRINT_CAMPAIN_PLAYERS()\
 if (scenario->campaign_players.count)\
 {\
 	c_console::write_line("campaign players");\
@@ -188,7 +188,7 @@ void on_scenario_loaded()
 	scenario* scenario = global_scenario_get();
 
 	PRINT_ZONE_SETS();
-	PRINT_CAMPAIN_PLAYER();
+	PRINT_CAMPAIN_PLAYERS();
 	PRINT_OBJECT_NAMES();
 	PRINT_MAP_VARIANT_PALETTES(vehicle);
 	PRINT_MAP_VARIANT_PALETTES(weapon);
