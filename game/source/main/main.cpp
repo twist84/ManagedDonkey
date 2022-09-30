@@ -1,19 +1,19 @@
 #include "main/main.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "cseries/symbols_reader.hpp"
 #include "game/game.hpp"
+#include "game/game_globals.hpp"
 #include "game/player_control.hpp"
-#include "interface/gui_location_manager.hpp"
-#include "interface/user_interface_memory.hpp"
-#include "interface/user_interface_messages.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "scenario/scenario.hpp"
 #include "simulation/simulation.hpp"
 #include "tag_files/string_ids.hpp"
 
@@ -32,7 +32,8 @@ void __cdecl main_loop_body_begin()
         cache_file_table_of_contents;
         cache_file_copy_globals;
         simulation_globals;
-        g_message_globals;
+        g_cache_file_globals;
+        global_game_globals;
 
         printf("");
     }
@@ -94,11 +95,6 @@ void __cdecl main_loop_body_end()
 
     if (GetKeyState(VK_ESCAPE) & 0x8000)
     {
-        //window_manager_load_screen_hs(STRING_ID(gui, start_menu));
-        //c_load_screen_message* message = (c_load_screen_message*)user_interface_malloc_tracked(sizeof(c_load_screen_message), __FILE__, __LINE__);
-        //if (load_screen_message_ctor(message, STRING_ID(gui, start_menu), k_any_controller, _window_index4, STRING_ID(gui, top_most)))
-        //    user_interface_messaging_post(message);
-
         game_finish_immediate();
         Sleep(25);
     }

@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "game/game_globals.hpp"
 #include "hf2p/hf2p.hpp"
 #include "main/levels.hpp"
 #include "memory/module.hpp"
@@ -15,19 +16,49 @@
 HOOK_DECLARE(0x004EA5E0, scenario_load);
 
 long& global_scenario_index = *reinterpret_cast<long*>(0x0189CCF8);
+long& global_scenario_game_globals_index = *reinterpret_cast<long*>(0x0189CCFC);
 
 s_scenario*& global_scenario = *reinterpret_cast<s_scenario**>(0x022AAEB4);
+s_game_globals*& global_game_globals = *reinterpret_cast<s_game_globals**>(0x022AAEB8);
 
 s_scenario* global_scenario_get()
 {
 	FUNCTION_BEGIN(true);
 
-	// halo online
-	return tag_get<s_scenario>('scnr', global_scenario_index);
-
 	// halo 3
-	//assert(global_scenario);
-	//return global_scenario;
+	assert(global_scenario);
+	return global_scenario;
+
+	// halo online
+	//return tag_get<s_scenario>('scnr', global_scenario_index);
+}
+
+s_scenario* global_scenario_try_and_get()
+{
+	FUNCTION_BEGIN(true);
+
+	if (global_scenario)
+		return global_scenario_get();
+
+	return nullptr;
+}
+
+s_game_globals* scenario_get_game_globals()
+{
+	FUNCTION_BEGIN(true);
+
+	assert(global_game_globals);
+	return global_game_globals;
+}
+
+s_game_globals* scenario_try_and_get_game_globals()
+{
+	FUNCTION_BEGIN(true);
+
+	if (global_game_globals)
+		return scenario_get_game_globals();
+
+	return nullptr;
 }
 
 //bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
@@ -259,7 +290,7 @@ if (scenario->globals.count)\
 
 void on_scenario_loaded()
 {
-	s_scenario* scenario = global_scenario_get();
+	s_scenario* scenario = global_scenario_try_and_get();
 
 	PRINT_ZONE_SETS();
 	PRINT_LIGHTING_ZONE_SETS();

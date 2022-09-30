@@ -289,6 +289,7 @@ POPD
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ai\ai_flocks.hpp" />
+    <ClInclude Include="source\ai\ai_globals.hpp" />
     <ClInclude Include="source\ai\ai_hint_definitions.hpp" />
     <ClInclude Include="source\ai\ai_mission_dialogue.hpp" />
     <ClInclude Include="source\ai\ai_orders.hpp" />
@@ -314,6 +315,7 @@ POPD
     <ClInclude Include="source\fmod\fmod.hpp" />
     <ClInclude Include="source\game\campaign_metagame_definitions.hpp" />
     <ClInclude Include="source\game\cheats.hpp" />
+    <ClInclude Include="source\game\materials_definitions.hpp" />
     <ClInclude Include="source\hf2p\hf2p.hpp" />
     <ClInclude Include="source\hs\hs_scenario_definitions.hpp" />
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
@@ -476,6 +478,7 @@ POPD
     <ClInclude Include="source\simulation\simulation_world.hpp" />
     <ClInclude Include="source\sound\game_audibility.hpp" />
     <ClInclude Include="source\sound\sound_acoustics_definitions.hpp" />
+    <ClInclude Include="source\sound\sound_definitions.hpp" />
     <ClInclude Include="source\structures\structure_bsp_definitions.hpp" />
     <ClInclude Include="source\structures\structure_physics_definitions.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
@@ -484,6 +487,7 @@ POPD
     <ClInclude Include="source\tag_files\tag_groups.hpp" />
     <ClInclude Include="source\tag_files\tag_group_definitions.hpp" />
     <ClInclude Include="source\text\font_loading.hpp" />
+    <ClInclude Include="source\text\text_group.hpp" />
     <ClInclude Include="source\units\units.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

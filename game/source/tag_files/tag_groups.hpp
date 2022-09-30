@@ -8,7 +8,7 @@ extern void __cdecl tag_load_missing_tags_report();
 struct tag_block
 {
 	long count;
-	byte* elements;
+	byte(&elements)[];
 	byte* definition;
 };
 static_assert(sizeof(tag_block) == 0xC);
@@ -16,7 +16,7 @@ static_assert(sizeof(tag_block) == 0xC);
 struct tag_reference
 {
 	tag group_tag;
-	const char* name;
+	char const* name;
 	long name_length;
 	long index;
 };
@@ -27,7 +27,7 @@ struct tag_data
 	long size;
 	dword_flags flags;
 	long stream_position;
-	byte* elements;
+	byte(&base)[];
 	byte* definition;
 };
 static_assert(sizeof(tag_data) == 0x14);
@@ -37,7 +37,7 @@ template<typename t_element_type, dword ...t_extra>
 struct c_typed_tag_block
 {
 	long count;
-	t_element_type* elements;
+	t_element_type(&elements)[];
 	byte* definition;
 };
 

@@ -17,7 +17,7 @@ enum e_language
 	_language_chinese_traditional,
 	_language_chinese_simplified,
 	_language_portuguese,
-	_language_russian,
+	_language_russian, // polish replaced with russian
 
 	k_language_count,
 	k_language_default = _language_english
