@@ -165,6 +165,25 @@ protected:
 };
 static_assert(sizeof(c_load_dialog_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
+enum e_browser_type
+{
+	// names from string ids used it `<browser-title` game tag parser data function
+
+	_browser_type_system_link_games = 0,
+	_browser_type_friends_games,
+	_browser_type_xbox_live_games,
+
+	k_browser_type_count
+};
+
+struct c_load_game_browser_screen_message : c_load_screen_message
+{
+protected:
+	dword_flags m_squad_search_flags;
+	c_enum<e_browser_type, long, k_browser_type_count> m_type;
+};
+
+
 struct c_message_globals
 {
 	struct s_message_queue_node
