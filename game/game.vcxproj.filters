@@ -854,5 +854,8 @@
     <ClInclude Include="source\game\materials_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\interface\user_interface_data.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
