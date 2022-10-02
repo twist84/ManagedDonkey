@@ -247,6 +247,7 @@ POPD
     <ClCompile Include="source\interface\user_interface_memory.cpp" />
     <ClCompile Include="source\interface\user_interface_messages.cpp" />
     <ClCompile Include="source\interface\user_interface_text.cpp" />
+    <ClCompile Include="source\interface\user_interface_utilities.cpp" />
     <ClCompile Include="source\interface\user_interface_window_manager.cpp" />
     <ClCompile Include="source\items\weapons.cpp" />
     <ClCompile Include="source\main\global_preferences.cpp" />
@@ -320,11 +321,13 @@ POPD
     <ClInclude Include="source\hs\hs_scenario_definitions.hpp" />
     <ClInclude Include="source\interface\c_gui_screen_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_widget.hpp" />
+    <ClInclude Include="source\interface\gui_animation.hpp" />
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
     <ClInclude Include="source\interface\user_interface_memory.hpp" />
     <ClInclude Include="source\interface\user_interface_messages.hpp" />
     <ClInclude Include="source\interface\user_interface_text.hpp" />
+    <ClInclude Include="source\interface\user_interface_utilities.hpp" />
     <ClInclude Include="source\interface\user_interface_window_manager.hpp" />
     <ClInclude Include="source\items\weapons.hpp" />
     <ClInclude Include="source\memory\byte_swapping.hpp" />
