@@ -857,6 +857,9 @@
     <ClInclude Include="source\interface\user_interface_data.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\interface\c_gui_screen_widget.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\interface\c_gui_widget.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
