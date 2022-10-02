@@ -41,3 +41,4 @@ protected:
 
 	c_string_id m_name;
 };
+static_assert(sizeof(c_gui_data) == 0x8);
