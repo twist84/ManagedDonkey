@@ -23,7 +23,7 @@ public:
 	virtual bool get_text_value(long, long, wchar_t(&)[1024]);
 	virtual bool get_string_id_value(long, long, long*);
 	virtual bool get_qword_value(long, long, qword*);
-	virtual bool get_real_value(long, long, float*);
+	virtual bool get_real_value(long, long, real*);
 	virtual bool get_player_appearance(long, s_player_appearance*);
 	virtual c_gui_selected_item const* get_gui_selected_item(long) const;
 	virtual long get_maximum_item_count();
