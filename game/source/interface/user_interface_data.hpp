@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "tag_files/tag_groups.hpp"
 
 struct s_player_appearance;
 struct c_gui_selected_item;

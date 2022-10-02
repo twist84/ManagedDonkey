@@ -4,7 +4,6 @@
 #include "cseries/cseries.hpp"
 #include "memory/secure_signature.hpp"
 #include "tag_files/files.hpp"
-#include "tag_files/tag_groups.hpp"
 
 struct s_cache_file_section_file_bounds
 {

@@ -1,6 +1,7 @@
 #include "cseries/cseries.hpp"
 
 #include "memory/byteswap.hpp"
+#include "tag_files/string_ids.hpp"
 
 #include <assert.h>
 #include <ctype.h>
@@ -106,4 +107,9 @@ char* tag_to_string(tag _tag, char* buffer)
     buffer[4] = 0;
 
     return buffer;
+}
+
+char const* c_string_id::get_string()
+{
+    return string_id_get_string_const(m_value);
 }

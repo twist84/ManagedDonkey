@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_widget.hpp"
 #include "interface/user_interface_data.hpp"
-#include "tag_files/tag_groups.hpp"
 
 struct s_runtime_core_widget_definition
 {

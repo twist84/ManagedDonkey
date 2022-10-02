@@ -278,3 +278,12 @@ protected:
 };
 
 extern char* tag_to_string(tag _tag, char* buffer);
+
+struct c_string_id
+{
+public:
+	char const* get_string();
+
+protected:
+	string_id m_value;
+};
