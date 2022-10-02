@@ -318,6 +318,7 @@ POPD
     <ClInclude Include="source\game\materials_definitions.hpp" />
     <ClInclude Include="source\hf2p\hf2p.hpp" />
     <ClInclude Include="source\hs\hs_scenario_definitions.hpp" />
+    <ClInclude Include="source\interface\c_gui_widget.hpp" />
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
     <ClInclude Include="source\interface\user_interface_memory.hpp" />
