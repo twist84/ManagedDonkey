@@ -327,7 +327,7 @@ POPD
     <ClInclude Include="source\interface\user_interface_text.hpp" />
     <ClInclude Include="source\interface\user_interface_window_manager.hpp" />
     <ClInclude Include="source\items\weapons.hpp" />
-    <ClInclude Include="source\memory\byteswap.hpp" />
+    <ClInclude Include="source\memory\byte_swapping.hpp" />
     <ClInclude Include="source\cache\cache_file_builder_security.hpp" />
     <ClInclude Include="source\cache\cache_files.hpp" />
     <ClInclude Include="source\cache\cache_files_windows.hpp" />

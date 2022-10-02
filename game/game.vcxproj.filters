@@ -680,7 +680,7 @@
     <ClInclude Include="source\simulation\simulation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\memory\byteswap.hpp">
+    <ClInclude Include="source\memory\byte_swapping.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\fmod\fmod.hpp">

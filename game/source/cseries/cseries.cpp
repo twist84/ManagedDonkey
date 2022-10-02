@@ -1,6 +1,6 @@
 #include "cseries/cseries.hpp"
 
-#include "memory/byteswap.hpp"
+#include "memory/byte_swapping.hpp"
 #include "tag_files/string_ids.hpp"
 
 #include <assert.h>
