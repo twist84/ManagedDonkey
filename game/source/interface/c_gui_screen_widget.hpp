@@ -3,20 +3,52 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_widget.hpp"
 #include "interface/user_interface_data.hpp"
+#include "tag_files/tag_groups.hpp"
 
-struct s_runtime_core_widget_definition
+enum e_screen_widget_definition_flags
 {
-	long __unknown0;
-	c_string_id name;
-	byte __data8[0x2C];
+	_screen_widget_definition_flag_b_back_shouldnt_dispose_screen_bit = k_core_widget_definition_flag_count,
+	_screen_widget_definition_flag_overlays_other_screens_bit,
+
+	k_screen_widget_definition_flag_count
 };
-static_assert(sizeof(s_runtime_core_widget_definition) == 0x34);
+
+struct s_screen_widget_definition : s_core_widget_definition
+{
+	c_typed_tag_reference<'unic'> string_list;
+	c_typed_tag_reference<'scn3'> screen_template;
+
+	c_string_id initial_button_key_name;
+
+	tag_block debug_datasources;
+	tag_block groups;
+	tag_block button_keys;
+
+	// Sound Overrides
+	// To override global sound effects for this particular screen, specify them here
+	tag_reference sound_overrides;
+
+	// On Load Command Script
+	// To run a main menu scenario command script when this screen loads, specifiy script name here
+	// NOTE: must be of type 'command script' and will not interrupt any currently running script of the same name
+	char on_load_script_name[32];
+
+	short script_index;
+	byte scary[2];
+};
+static_assert(sizeof(s_screen_widget_definition) == 0xA8);
 
 struct s_runtime_screen_widget_definition : s_runtime_core_widget_definition
 {
-	byte __data34[0x4];
+	long string_list_index;
 	c_string_id initial_button_key_name;
-	byte __data3C[0x4C];
+	tag_block debug_datasources;
+	tag_block groups;
+	tag_block button_keys;
+	long sound_overrides_index;
+	string on_load_script_name;
+	short script_index;
+	byte scary[2];
 };
 static_assert(sizeof(s_runtime_screen_widget_definition) == 0x88);
 
