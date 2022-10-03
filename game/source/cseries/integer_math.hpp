@@ -36,6 +36,19 @@ union short_rectangle2d
 };
 static_assert(sizeof(short_rectangle2d) == 0x8);
 
+union rectangle2d
+{
+	struct
+	{
+		long top;
+		long left;
+		long bottom;
+		long right;
+	};
+	long n[4];
+};
+static_assert(sizeof(rectangle2d) == 0x10);
+
 typedef unsigned long rgb_color;
 static_assert(sizeof(rgb_color) == 0x4);
 
