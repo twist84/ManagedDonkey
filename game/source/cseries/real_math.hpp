@@ -210,3 +210,17 @@ union real_matrix4x3
 	real n[13];
 };
 static_assert(sizeof(real_matrix4x3) == 0x34);
+
+union real_rectangle2d
+{
+	struct
+	{
+		real top;
+		real left;
+		real bottom;
+		real right;
+	};
+	real n[4];
+};
+static_assert(sizeof(real_rectangle2d) == 0x10);
+
