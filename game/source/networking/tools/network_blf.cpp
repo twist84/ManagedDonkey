@@ -165,6 +165,19 @@ s_blffile_map_variant::s_blffile_map_variant() :
 	memset(pad, 0, sizeof(pad));
 }
 
+s_blf_chunk_campaign::s_blf_chunk_campaign()
+{
+	FUNCTION_BEGIN(true);
+
+	s_blf_header::setup('cmpn', sizeof(*this), 1, 1);
+
+	type_flags = 0;
+	campaign_id = -1;
+	memset(names, 0, sizeof(names));
+	memset(descriptions, 0, sizeof(descriptions));
+	memset(map_ids, 0, sizeof(map_ids));
+}
+
 s_blf_chunk_scenario::s_blf_chunk_scenario()
 {
 	FUNCTION_BEGIN(true);

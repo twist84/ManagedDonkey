@@ -162,6 +162,10 @@ static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 
 struct s_blf_chunk_campaign : s_blf_header
 {
+public:
+	s_blf_chunk_campaign();
+
+protected:
 	long campaign_id;
 
 	dword_flags type_flags;
