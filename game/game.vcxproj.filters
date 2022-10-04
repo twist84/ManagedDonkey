@@ -533,9 +533,6 @@
     <ClInclude Include="source\networking\network_utilities.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\game_variant.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\multithreading\synchronized_value.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

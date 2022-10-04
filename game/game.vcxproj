@@ -390,7 +390,6 @@ POPD
     <ClInclude Include="source\game\game_progression.hpp" />
     <ClInclude Include="source\game\game_state.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
-    <ClInclude Include="source\game\game_variant.hpp" />
     <ClInclude Include="source\game\players.hpp" />
     <ClInclude Include="source\game\player_control.hpp" />
     <ClInclude Include="source\game\player_mapping.hpp" />

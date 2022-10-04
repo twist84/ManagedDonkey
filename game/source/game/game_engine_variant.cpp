@@ -2,7 +2,7 @@
 
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
-#include "game/game_variant.hpp"
+#include "game/game_options.hpp"
 
 char const* k_game_engine_variant_names[k_game_engine_type_count] =
 {
