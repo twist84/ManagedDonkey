@@ -17,6 +17,11 @@ HOOK_DECLARE(0x005294F0, file_error);
 HOOK_DECLARE(0x005295F0, file_exists);
 HOOK_DECLARE(0x0052A220, file_open);
 
+HOOK_DECLARE(0x0052B450, find_files_end);
+HOOK_DECLARE(0x0052B4A0, find_files_next);
+HOOK_DECLARE(0x0052B830, find_files_start);
+HOOK_DECLARE(0x0052B850, find_files_start_with_search_spec);
+
 void suppress_file_errors(bool suppress)
 {
     FUNCTION_BEGIN(true);
@@ -129,4 +134,57 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
     bool result = false;
     HOOK_INVOKE(result =, file_open, file_reference, open_flags, error);
     return result;
+}
+
+void find_files_end(s_find_file_data* data)
+{
+    short depth = data->depth;
+    if (depth == 0)
+    {
+        s_file_handle* active_handle = &data->active_find_file_state.handles[depth];
+        do
+        {
+            if (active_handle->handle)
+            {
+                if (active_handle->handle != INVALID_HANDLE_VALUE)
+                {
+                    FindClose(active_handle->handle);
+                    active_handle->handle = INVALID_HANDLE_VALUE;
+                }
+            }
+            --depth;
+            --active_handle;
+
+        } while (depth == 0);
+    }
+}
+
+bool find_files_next(s_find_file_data* data, s_file_reference* out_file, s_file_last_modification_date* out_date)
+{
+    bool result = false;
+    HOOK_INVOKE(result =, find_files_next, data, out_file, out_date);
+    return result;
+}
+
+void find_files_start(s_find_file_data* data, dword_flags flags, s_file_reference const* file)
+{
+    find_files_start_with_search_spec(data, flags, file, "*.*");
+}
+
+void find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags, s_file_reference const* file, char const* search_spec)
+{
+    for (short i = 0; i < NUMBEROF(data->active_find_file_state.handles); i++)
+        data->active_find_file_state.handles[i].handle = INVALID_HANDLE_VALUE;
+
+    data->flags = flags;
+    data->depth = 0;
+    data->location = file->location;
+
+    dword path_size = strlen(file->path);
+    _snwprintf_s(data->path, 256, L"%hs", file->path);
+    memset(data->path + path_size, 0, 256 - path_size);
+
+    dword search_spec_size = strlen(search_spec);
+    _snwprintf_s(data->search_spec, 256, L"%hs", search_spec);
+    memset(data->search_spec + search_spec_size, 0, 256 - search_spec_size);
 }
