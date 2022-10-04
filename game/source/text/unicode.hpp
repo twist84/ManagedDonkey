@@ -2,14 +2,20 @@
 
 //extern int ustrcmp(wchar_t const*, wchar_t const*);
 //extern unsigned int ustrlen(wchar_t const *);
-//extern unsigned int ustrnlen(wchar_t const *,long);
+
+extern unsigned int ustrnlen(wchar_t const*, long);
+
 //extern wchar_t const * ustrchr(wchar_t const *,wchar_t);
 //extern int ustrcoll(wchar_t const *,wchar_t const *);
 //extern unsigned int ustrcspn(wchar_t const *,wchar_t const *);
-//extern wchar_t * ustrnzcat(wchar_t *,wchar_t const *,long);
+
+extern wchar_t* ustrnzcat(wchar_t*, wchar_t const*, long);
+
 //extern int ustrncmp(wchar_t const *,wchar_t const *,long);
 //extern wchar_t * ustrncpy(wchar_t *,wchar_t const *,long);
-//extern wchar_t * ustrnzcpy(wchar_t *,wchar_t const *,long);
+
+extern wchar_t* ustrnzcpy(wchar_t*, wchar_t const*, long);
+
 //extern wchar_t const * ustrpbrk(wchar_t const *,wchar_t const *);
 //extern wchar_t const * ustrrchr(wchar_t const *,wchar_t);
 //extern unsigned int ustrspn(wchar_t const *,wchar_t const *);
@@ -46,7 +52,9 @@
 //extern int usnzprintf(wchar_t *,long,wchar_t const *,...);
 //extern int uvfprintf(struct _iobuf *,wchar_t const *,char *);
 //extern int uvprintf(wchar_t const *,char *);
-//extern int uvsnzprintf(wchar_t *,long,wchar_t const *,char *);
+
+extern int uvsnzprintf(wchar_t*, long, wchar_t const*, char*);
+
 //extern struct _iobuf * ufdopen(int,wchar_t const *);
 //extern struct _iobuf * ufopen(wchar_t const *,wchar_t const *);
 //extern int ufclose(struct _iobuf *);
@@ -82,3 +90,48 @@
 //extern void wchar_string_to_utf8_string(wchar_t const *,struct utf8 *,long,long *);
 //extern void string_to_utf32_string<char,8>(char const *,struct s_escape_table const *,struct utf32 *,struct utf32 (*)(char const *,struct s_escape_table const *,char const * *,long *,struct utf32 *,long,long *),long,long *);
 //extern void string_to_utf32_string<wchar_t,8>(wchar_t const *,struct s_escape_table const *,struct utf32 *,struct utf32 (*)(wchar_t const *,struct s_escape_table const *,wchar_t const * *,long *,struct utf32 *,long,long *),long,long *);
+
+template<long k_buffer_size>
+struct c_static_wchar_string
+{
+public:
+	c_static_wchar_string() :
+		m_string{}
+	{
+	}
+
+	void set(wchar_t const* s)
+	{
+		ustrnzcpy(m_string, s, k_buffer_size);
+	}
+
+	void append(wchar_t const* s)
+	{
+		ustrnzcat(m_string, s, k_buffer_size);
+	}
+
+	wchar_t const* append_vprint(wchar_t const* format, char* list)
+	{
+		unsigned int current_length = length();
+
+		//assert(format);
+		//assert(current_length >= 0 && current_length < k_buffer_size);
+
+		uvsnzprintf(m_string + current_length, k_buffer_size - current_length, format, list);
+
+		return m_string;
+	}
+
+	wchar_t const* get_string() const
+	{
+		return m_string;
+	}
+
+	long length() const
+	{
+		return ustrnlen(m_string, k_buffer_size);
+	}
+
+protected:
+	wchar_t m_string[k_buffer_size];
+};
