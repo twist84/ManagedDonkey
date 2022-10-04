@@ -86,3 +86,4 @@ extern void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason r
 extern void __cdecl game_time_set_rate_scale(real rate_scale0, real rate_scale1, real rate_scale2); // 0x00565060
 extern void __cdecl game_time_set_speed(real speed); // 0x00565110
 extern void __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* tick_count); // 0x00565250
+extern void __cdecl game_time_update_paused_flags(); // 0x00565510

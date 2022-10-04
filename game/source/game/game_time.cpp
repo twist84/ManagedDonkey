@@ -180,3 +180,10 @@ void __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 
 	INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, tick_count);
 }
+
+void __cdecl game_time_update_paused_flags()
+{
+	FUNCTION_BEGIN(true);
+
+	INVOKE(0x00565510, game_time_update_paused_flags);
+}
