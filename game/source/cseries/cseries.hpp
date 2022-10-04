@@ -232,7 +232,7 @@ struct s_location
 };
 static_assert(sizeof(s_location) == 0x4);
 
-template<long k_max_count>
+template<long k_buffer_size>
 struct c_static_string
 {
 public:
@@ -243,12 +243,12 @@ public:
 
 	void set(char const* s)
 	{
-		csstrnzcpy(m_string, s, k_max_count);
+		csstrnzcpy(m_string, s, k_buffer_size);
 	}
 
 	void append(char const* s)
 	{
-		csstrnzcat(m_string, s, k_max_count);
+		csstrnzcat(m_string, s, k_buffer_size);
 	}
 
 	char const* append_vprint(char const* format, char* list)
@@ -256,9 +256,9 @@ public:
 		dword current_length = length();
 
 		//assert(format);
-		//assert(current_length >= 0 && current_length < k_max_count);
+		//assert(current_length >= 0 && current_length < k_buffer_size);
 
-		cvsnzprintf(m_string + current_length, k_max_count - current_length, format, list);
+		cvsnzprintf(m_string + current_length, k_buffer_size - current_length, format, list);
 
 		return m_string;
 	}
@@ -270,11 +270,11 @@ public:
 
 	long length() const
 	{
-		return csstrnlen(m_string, k_max_count);
+		return csstrnlen(m_string, k_buffer_size);
 	}
 
 protected:
-	char m_string[k_max_count];
+	char m_string[k_buffer_size];
 };
 
 extern char* tag_to_string(tag _tag, char* buffer);
