@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdarg.h>
+
+
 //extern int ustrcmp(wchar_t const*, wchar_t const*);
 //extern unsigned int ustrlen(wchar_t const *);
 
@@ -110,7 +113,18 @@ public:
 		ustrnzcat(m_string, s, k_buffer_size);
 	}
 
-	wchar_t const* append_vprint(wchar_t const* format, char* list)
+	wchar_t const* append_print(wchar_t const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		append_vprint(format, list);
+			
+		va_end(list);
+		return m_string;
+	}
+
+	wchar_t const* append_vprint(wchar_t const* format, va_list list)
 	{
 		unsigned int current_length = length();
 

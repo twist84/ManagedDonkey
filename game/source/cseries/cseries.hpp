@@ -3,6 +3,9 @@
 #include "cseries/integer_math.hpp"
 #include "cseries/real_math.hpp"
 
+#include <stdarg.h>
+
+
 #define DECLFUNC(ADDR, R, CC, ...) reinterpret_cast<R(CC*)(__VA_ARGS__)>(ADDR)
 #define INVOKE(ADDR, TYPE, ...) reinterpret_cast<decltype(TYPE)*>(ADDR)(__VA_ARGS__)
 
@@ -92,7 +95,7 @@ extern dword csstrnlen(char const* s, dword size);
 extern char* csstrnupr(char* s, dword size);
 extern char* csstrnlwr(char* s, dword size);
 //extern char* csstrtok(char*, char const*, bool, struct csstrtok_data* data);
-extern long cvsnzprintf(char* buffer, dword size, char const* format, char* list);
+extern long cvsnzprintf(char* buffer, dword size, char const* format, va_list list);
 extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
 
 template<typename t_type, size_t k_count>
@@ -251,7 +254,18 @@ public:
 		csstrnzcat(m_string, s, k_buffer_size);
 	}
 
-	char const* append_vprint(char const* format, char* list)
+	char const* append_print(wchar_t const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		char const* result = append_vprint(format);
+
+		va_end(list);
+		return result;
+	}
+
+	char const* append_vprint(char const* format, va_list list)
 	{
 		dword current_length = length();
 

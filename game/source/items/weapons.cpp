@@ -9,7 +9,7 @@ HOOK_DECLARE(0x00B63C30, weapon_has_infinite_ammo);
 
 real __cdecl weapon_get_age(long weapon_index)
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	real result = 0.0f;
 	HOOK_INVOKE(, weapon_get_age, weapon_index);

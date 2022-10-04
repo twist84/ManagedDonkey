@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "text/unicode.hpp"
 
 struct s_file_last_modification_date
 {
@@ -53,8 +54,8 @@ struct s_find_file_data
 	short depth;
 	short location;
 
-	wchar_t path[256];
-	wchar_t search_spec[256];
+	c_static_wchar_string<256> path;
+	c_static_wchar_string<256> search_spec;
 
 	s_find_file_state active_find_file_state;
 

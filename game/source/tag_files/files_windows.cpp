@@ -180,11 +180,6 @@ void find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags
     data->depth = 0;
     data->location = file->location;
 
-    dword path_size = strlen(file->path);
-    _snwprintf_s(data->path, 256, L"%hs", file->path);
-    memset(data->path + path_size, 0, 256 - path_size);
-
-    dword search_spec_size = strlen(search_spec);
-    _snwprintf_s(data->search_spec, 256, L"%hs", search_spec);
-    memset(data->search_spec + search_spec_size, 0, 256 - search_spec_size);
+    data->path.append_print(L"%hs", file->path);
+    data->search_spec.append_print(L"%hs", search_spec);
 }

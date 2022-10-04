@@ -76,7 +76,7 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 //int uvfprintf(struct _iobuf *,wchar_t const *,char *)
 //int uvprintf(wchar_t const *,char *)
 
-int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, char* list)
+int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list)
 {
     assert(string && format);
     assert(size > 0);

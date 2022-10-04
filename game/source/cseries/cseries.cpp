@@ -74,7 +74,7 @@ char* csstrnlwr(char* s, dword size)
 
 //char* csstrtok(char*, char const*, bool, struct csstrtok_data* data)
 
-long cvsnzprintf(char* buffer, dword size, char const* format, char* list)
+long cvsnzprintf(char* buffer, dword size, char const* format, va_list list)
 {
     assert(buffer);
     assert(format);
