@@ -10,6 +10,9 @@ HOOK_DECLARE(0x0054A4E0, levels_add_map_from_scripting);
 HOOK_DECLARE(0x0054A6A0, levels_add_fake_map_from_scripting);
 HOOK_DECLARE(0x0054A6C0, levels_add_level);
 
+HOOK_DECLARE(0x0054AEC0, levels_dvd_enumeration_callback2);
+HOOK_DECLARE(0x0054B250, levels_dvd_enumeration_callback);
+
 HOOK_DECLARE(0x0054C320, levels_map_id_is_fake);
 
 void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, char const* maps_path, bool is_dlc)
@@ -45,7 +48,29 @@ s_level_datum const* __cdecl levels_add_level(s_blf_chunk_scenario const* scenar
     return result;
 }
 
+// searches for `campaign`, `mapinfo`, `xex` and `preorder_unlock.txt`
+long __cdecl levels_dvd_enumeration_callback2(void* userdata)
+{
+    FUNCTION_BEGIN(true);
 
+    long result = 0;
+    HOOK_INVOKE(result =, levels_dvd_enumeration_callback2, userdata);
+
+    return result;
+}
+
+// searches for `map`
+long __cdecl levels_dvd_enumeration_callback(void* userdata)
+{
+    FUNCTION_BEGIN(true);
+
+    long result = 0;
+    HOOK_INVOKE(result =, levels_dvd_enumeration_callback, userdata);
+
+    return result;
+}
+
+//bool __cdecl levels_map_id_is_fake(e_map_id map_id)
 bool __cdecl levels_map_id_is_fake(long map_id)
 {
     FUNCTION_BEGIN(true);
