@@ -278,6 +278,7 @@ POPD
     <ClCompile Include="source\saved_games\content_catalogue_tasks.cpp" />
     <ClCompile Include="source\saved_games\content_item.cpp" />
     <ClCompile Include="source\saved_games\c_storage_device.cpp" />
+    <ClCompile Include="source\saved_games\scenario_map_variant.cpp" />
     <ClCompile Include="source\scenario\scenario.cpp" />
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />

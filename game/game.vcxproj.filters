@@ -252,6 +252,9 @@
     <ClCompile Include="source\interface\user_interface_utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\saved_games\scenario_map_variant.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\text\unicode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
