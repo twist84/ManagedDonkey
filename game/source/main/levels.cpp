@@ -60,7 +60,7 @@ long __cdecl levels_dvd_enumeration_callback2(void* userdata)
 }
 
 // searches for `map`
-long __cdecl levels_dvd_enumeration_callback(void* userdata)
+long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* userdata)
 {
     FUNCTION_BEGIN(true);
 
