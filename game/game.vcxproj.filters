@@ -884,6 +884,9 @@
     <ClInclude Include="source\text\unicode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\objects\objects.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
