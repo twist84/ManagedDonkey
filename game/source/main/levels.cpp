@@ -9,14 +9,38 @@ HOOK_DECLARE(0x0054A2A0, levels_add_campaign);
 HOOK_DECLARE(0x0054A4E0, levels_add_map_from_scripting);
 HOOK_DECLARE(0x0054A6A0, levels_add_fake_map_from_scripting);
 HOOK_DECLARE(0x0054A6C0, levels_add_level);
-
+//HOOK_DECLARE(0x0054AD80, levels_begin_dvd_enumeration);
+//HOOK_DECLARE(0x0054ADF0, levels_dispose);
+//HOOK_DECLARE(0x0054AEA0, levels_dispose_from_old_map);
 HOOK_DECLARE(0x0054AEC0, levels_dvd_enumeration_callback2);
 HOOK_DECLARE(0x0054B250, levels_dvd_enumeration_callback);
-
+//HOOK_DECLARE(0x0054B610, levels_get_available_map_mask);
+//HOOK_DECLARE(0x0054B670, levels_get_campaign_count);
+//HOOK_DECLARE(0x0054B6A0, levels_get_campaign_id_from_path);
+//HOOK_DECLARE(0x0054B7B0, levels_get_campaign_level_count);
+//HOOK_DECLARE(0x0054B8A0, levels_get_campaign_level_index);
+//HOOK_DECLARE(0x0054B9D0, levels_get_campaign_map_by_display_name);
+//HOOK_DECLARE(0x0054BAA0, levels_get_campaign_map_ids);
+//HOOK_DECLARE(0x0054BB80, levels_get_campaign_next_map_id);
+//HOOK_DECLARE(0x0054BCA0, levels_get_default_multiplayer_map_id);
+//HOOK_DECLARE(0x0054BDB0, levels_get_checksum);
+//HOOK_DECLARE(0x0054BE10, levels_get_multiplayer_map_by_display_name);
+//HOOK_DECLARE(0x0054BEE0, levels_get_multiplayer_map_ids);
+//HOOK_DECLARE(0x0054C040, levels_get_path);
+//HOOK_DECLARE(0x0054C110, levels_initialize);
+//HOOK_DECLARE(0x0054C2D0, levels_initialize_for_new_map);
 HOOK_DECLARE(0x0054C320, levels_map_id_is_fake);
-
+//HOOK_DECLARE(0x0054C330, levels_open_dlc);
+//HOOK_DECLARE(0x0054C360, levels_path_is_dlc);
+//HOOK_DECLARE(0x0054C3C0, levels_process_campaign_configuration_file);
 HOOK_DECLARE(0x0054C530, levels_process_level_configuration_file);
-
+//HOOK_DECLARE(0x0054C820, levels_delete);
+//HOOK_DECLARE(0x0054C910, levels_try_and_get_by_map_id);
+//HOOK_DECLARE(0x0054C9E0, levels_try_and_get_campaign_insertion);
+//HOOK_DECLARE(0x0054CAB0, levels_try_and_get_campaign_map);
+//HOOK_DECLARE(0x0054CAD0, levels_try_and_get_main_menu_map);
+//HOOK_DECLARE(0x0054CB00, levels_try_and_get_multiplayer_map);
+//HOOK_DECLARE(0x0054CB20, levels_update);
 
 void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, char const* maps_path, bool is_dlc)
 {
