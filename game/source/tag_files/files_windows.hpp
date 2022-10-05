@@ -80,4 +80,4 @@ extern bool __cdecl file_open(s_file_reference*, dword open_flags, dword* error)
 extern void find_files_end(s_find_file_data* data);
 extern bool find_files_next(s_find_file_data* data, s_file_reference* out_file, struct s_file_last_modification_date* out_date);
 extern void find_files_start(s_find_file_data* data, dword_flags flags, s_file_reference const* file);
-extern void find_files_start_with_search_spec(s_find_file_data* data, dword dword_flags, s_file_reference const* file, char const* search_spec);
+extern void find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags, s_file_reference const* file, char const* search_spec);
