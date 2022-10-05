@@ -224,3 +224,14 @@ union real_rectangle2d
 };
 static_assert(sizeof(real_rectangle2d) == 0x10);
 
+union real_rectangle3d
+{
+	struct
+	{
+		real_bounds x;
+		real_bounds y;
+		real_bounds z;
+	};
+	real_bounds n[3];
+};
+static_assert(sizeof(real_rectangle3d) == 0x18);

@@ -219,9 +219,7 @@ private:
 
 	long m_map_id;
 
-	real_bounds m_world_x_bounds;
-	real_bounds m_world_y_bounds;
-	real_bounds m_world_z_bounds;
+	real_rectangle3d m_world_bounds;
 
 	long m_game_engine_subtype;
 
