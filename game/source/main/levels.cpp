@@ -42,7 +42,7 @@ HOOK_DECLARE(0x0054C530, levels_process_level_configuration_file);
 //HOOK_DECLARE(0x0054CB00, levels_try_and_get_multiplayer_map);
 //HOOK_DECLARE(0x0054CB20, levels_update);
 
-void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, char const* maps_path, bool is_dlc)
+void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
 {
     FUNCTION_BEGIN(true);
 
