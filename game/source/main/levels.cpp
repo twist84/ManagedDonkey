@@ -9,7 +9,7 @@ HOOK_DECLARE(0x0054A2A0, levels_add_campaign);
 HOOK_DECLARE(0x0054A4E0, levels_add_map_from_scripting);
 HOOK_DECLARE(0x0054A6A0, levels_add_fake_map_from_scripting);
 HOOK_DECLARE(0x0054A6C0, levels_add_level);
-//HOOK_DECLARE(0x0054AD80, levels_begin_dvd_enumeration);
+HOOK_DECLARE(0x0054AD80, levels_begin_dvd_enumeration);
 //HOOK_DECLARE(0x0054ADF0, levels_dispose);
 //HOOK_DECLARE(0x0054AEA0, levels_dispose_from_old_map);
 HOOK_DECLARE(0x0054AEC0, levels_dvd_enumeration_callback2);
@@ -70,6 +70,15 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
     FUNCTION_BEGIN(true);
 
     HOOK_INVOKE(, levels_add_level, scenario, byte_swap, maps_path, is_dlc);
+}
+
+bool __cdecl levels_begin_dvd_enumeration()
+{
+    FUNCTION_BEGIN(true);
+
+    bool result = false;
+    HOOK_INVOKE(result =, levels_begin_dvd_enumeration);
+    return result;
 }
 
 // searches for `campaign`, `mapinfo`, `xex` and `preorder_unlock.txt`
