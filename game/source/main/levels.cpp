@@ -65,9 +65,25 @@ void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
     levels_add_map_from_scripting(-2, scenario_path);
 }
 
-void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
+//void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
+void __cdecl levels_add_level(s_blf_chunk_scenario* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
 {
     FUNCTION_BEGIN(true);
+
+    if ((scenario->type_flags & (1 << _scenario_type_flag_atlas_bit)) != 0)
+    {
+        scenario->image_file_base.set("c_");
+    }
+    else if ((scenario->type_flags & (1 << _scenario_type_flag_multi_bit)) != 0)
+    {
+        scenario->image_file_base.set("m_");
+    }
+    else if ((scenario->type_flags & (1 << _scenario_type_flag_dlc_bit)) != 0)
+    {
+        scenario->image_file_base.set("dlc_");
+    }
+
+    scenario->image_file_base.append(scenario->scenario_path.get_string());
 
     HOOK_INVOKE(, levels_add_level, scenario, byte_swap, maps_path, is_dlc);
 }

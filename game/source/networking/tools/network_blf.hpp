@@ -184,6 +184,16 @@ struct s_blf_chunk_scenario_insertion
 };
 static_assert(sizeof(s_blf_chunk_scenario_insertion) == 0xF10);
 
+enum e_scenario_type_flags
+{
+	_scenario_type_flag_ui_bit = 4,
+	_scenario_type_flag_atlas_bit,
+	_scenario_type_flag_multi_bit,
+	_scenario_type_flag_dlc_bit,
+	_scenario_type_flag_test_bit,
+	_scenario_type_flag_temp_bit,
+};
+
 struct s_blf_chunk_scenario : s_blf_header
 {
 public:
