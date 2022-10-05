@@ -243,6 +243,7 @@ POPD
     <ClCompile Include="source\game\player_mapping.cpp" />
     <ClCompile Include="source\interface\c_controller.cpp" />
     <ClCompile Include="source\interface\damaged_media.cpp" />
+    <ClCompile Include="source\interface\gui_custom_bitmap_widget.cpp" />
     <ClCompile Include="source\interface\gui_location_manager.cpp" />
     <ClCompile Include="source\interface\user_interface_memory.cpp" />
     <ClCompile Include="source\interface\user_interface_messages.cpp" />
@@ -325,6 +326,7 @@ POPD
     <ClInclude Include="source\interface\c_gui_screen_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_widget.hpp" />
     <ClInclude Include="source\interface\gui_animation.hpp" />
+    <ClInclude Include="source\interface\gui_custom_bitmap_widget.hpp" />
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
     <ClInclude Include="source\interface\user_interface_memory.hpp" />
