@@ -114,11 +114,10 @@ void s_blf_chunk_author::initialize()
 
 	setup('athr', sizeof(*this), 3, 1);
 
-	memset(build_name, 0, sizeof(build_name));
+	build_name.set(0);
 	build_identifier = 0;
-	memset(build_string, 0, sizeof(build_string));
-
-	memset(author_name, 0, sizeof(author_name));
+	build_string.set(0);
+	author_name.set(0);
 }
 
 s_blf_chunk_game_variant::s_blf_chunk_game_variant() :
@@ -188,8 +187,8 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 	type_flags = 0;
 	memset(names, 0, sizeof(names));
 	memset(descriptions, 0, sizeof(descriptions));
-	memset(image_file_base, 0, sizeof(image_file_base));
-	memset(scenario_path, 0, sizeof(scenario_path));
+	image_file_base.set(0);
+	scenario_path.set(0);
 	multiplayer_minimum_desired_players = 0;
 	multiplayer_maximum_desired_players = 0;
 	memset(engine_maximum_teams, 0, sizeof(engine_maximum_teams));

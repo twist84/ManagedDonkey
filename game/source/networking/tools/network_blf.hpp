@@ -9,7 +9,6 @@ struct s_blf_header
 public:
 	void setup(long signature, long chunk_size, long major_version, long minor_version);
 
-protected:
 	tag signature;
 	dword chunk_size;
 	word major_version;
@@ -24,7 +23,6 @@ public:
 
 	void initialize();
 
-protected:
 	word byte_order_marker;
 	string name;
 
@@ -51,7 +49,6 @@ public:
 
 	void initialize();
 
-protected:
 	long file_size;
 	c_enum<e_blf_file_authentication_type, char, k_blf_file_authentication_type_count> authentication_type;
 };
@@ -64,7 +61,6 @@ public:
 
 	void initialize();
 
-protected:
 	dword checksum;
 };
 static_assert(sizeof(s_blf_chunk_end_of_file_with_crc) == 0x15);
@@ -76,11 +72,10 @@ public:
 
 	void initialize();
 
-protected:
-	char build_name[16];
+	c_static_string<16> build_name;
 	qword build_identifier;
-	char build_string[28];
-	char author_name[16];
+	c_static_string<28> build_string;
+	c_static_string<16> author_name;
 };
 static_assert(sizeof(s_blf_chunk_author) == 0x50);
 
@@ -92,8 +87,6 @@ public:
 	s_blf_chunk_content_header();
 
 	void initialize();
-
-protected:
 
 	short build_number;
 	short map_minor_version;
@@ -107,7 +100,6 @@ struct s_blf_chunk_game_variant : s_blf_header
 public:
 	s_blf_chunk_game_variant();
 
-protected:
 	c_game_variant game_variant;
 };
 static_assert(sizeof(s_blf_chunk_game_variant) == 0x270);
@@ -117,7 +109,6 @@ struct s_blf_chunk_map_variant : s_blf_header
 public:
 	s_blf_chunk_map_variant();
 
-protected:
 	c_map_variant map_variant;
 	byte pad[4];
 };
@@ -128,7 +119,6 @@ struct s_blffile_saved_game_file
 public:
 	s_blffile_saved_game_file();
 
-protected:
 	s_blf_chunk_start_of_file start_of_file_chunk;
 	s_blf_chunk_content_header content_header_chunk;
 };
@@ -139,7 +129,6 @@ struct s_blffile_game_variant : s_blffile_saved_game_file
 public:
 	s_blffile_game_variant();
 
-protected:
 	s_blf_chunk_game_variant game_variant_chunk;
 	s_blf_chunk_end_of_file end_of_file_chunk;
 
@@ -152,7 +141,6 @@ struct s_blffile_map_variant : s_blffile_saved_game_file
 public:
 	s_blffile_map_variant();
 
-protected:
 	s_blf_chunk_map_variant map_variant_chunk;
 	s_blf_chunk_end_of_file end_of_file_chunk;
 
@@ -165,13 +153,12 @@ struct s_blf_chunk_campaign : s_blf_header
 public:
 	s_blf_chunk_campaign();
 
-protected:
 	long campaign_id;
 
 	dword_flags type_flags;
 
-	wchar_t names[12][64];
-	wchar_t descriptions[12][128];
+	c_static_wchar_string<64> names[12];
+	c_static_wchar_string<128> descriptions[12];
 
 	long map_ids[64];
 
@@ -189,8 +176,8 @@ struct s_blf_chunk_scenario_insertion
 
 	dword __unknown4;
 
-	wchar_t names[12][32];
-	wchar_t descriptions[12][128];
+	c_static_wchar_string<32> names[12];
+	c_static_wchar_string<128> descriptions[12];
 
 	dword __unknownF08;
 	dword __unknownF0C;
@@ -202,16 +189,15 @@ struct s_blf_chunk_scenario : s_blf_header
 public:
 	s_blf_chunk_scenario();
 
-protected:
 	long map_id;
 
 	dword_flags type_flags;
 
-	wchar_t names[12][32];
-	wchar_t descriptions[12][128];
+	c_static_wchar_string<32> names[12];
+	c_static_wchar_string<128> descriptions[12];
 
-	char image_file_base[256];
-	char scenario_path[256];
+	c_static_string<256> image_file_base;
+	c_static_string<256> scenario_path;
 
 	long precense_context_id;
 	long sort_order;
