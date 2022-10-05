@@ -105,7 +105,7 @@ public:
 		spawn_rate = 0;
 		teleporter_channel = _teleporter_channel_alpha;
 		boundary_shape = _multiplayer_object_boundary_shape_unused;
-		boundary_width_or_radius = 0.0f;
+		boundary_radius = 0.0f;
 		boundary_box_length = 0.0f;
 		boundary_positive_height = 0.0f;
 		boundary_negative_height = 0.0f;
@@ -130,7 +130,11 @@ protected:
 
 	c_enum<e_multiplayer_object_boundary_shape, char, k_multiplayer_object_boundary_shape_count> boundary_shape;
 
-	real boundary_width_or_radius;
+	union
+	{
+		real boundary_radius;
+		real boundary_width;
+	};
 	real boundary_box_length;
 	real boundary_positive_height;
 	real boundary_negative_height;
