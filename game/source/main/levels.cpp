@@ -41,14 +41,11 @@ void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
     levels_add_map_from_scripting(-2, scenario_path);
 }
 
-s_level_datum const* __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, char const* maps_path, bool is_dlc)
+void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
 {
     FUNCTION_BEGIN(true);
 
-    s_level_datum const* result = nullptr;
-    HOOK_INVOKE(result =, levels_add_level, scenario, byte_swap, maps_path, is_dlc);
-
-    return result;
+    HOOK_INVOKE(, levels_add_level, scenario, byte_swap, maps_path, is_dlc);
 }
 
 // searches for `campaign`, `mapinfo`, `xex` and `preorder_unlock.txt`
