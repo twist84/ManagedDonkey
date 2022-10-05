@@ -5,6 +5,8 @@ struct s_blf_chunk_scenario;
 
 struct s_level_datum;
 
+struct s_file_reference;
+
 struct s_find_file_data;
 struct s_levels_dvd_enumeration_callback_data
 {
@@ -21,3 +23,5 @@ extern long __cdecl levels_dvd_enumeration_callback2(void* userdata);
 extern long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* userdata);
 
 extern bool __cdecl levels_map_id_is_fake(long map_id);
+
+extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool unused);

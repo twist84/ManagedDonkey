@@ -15,6 +15,9 @@ HOOK_DECLARE(0x0054B250, levels_dvd_enumeration_callback);
 
 HOOK_DECLARE(0x0054C320, levels_map_id_is_fake);
 
+HOOK_DECLARE(0x0054C530, levels_process_level_configuration_file);
+
+
 void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, char const* maps_path, bool is_dlc)
 {
     FUNCTION_BEGIN(true);
@@ -80,4 +83,11 @@ bool __cdecl levels_map_id_is_fake(long map_id)
     //return result;
 
     return map_id == -2;
+}
+
+void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool unused)
+{
+    FUNCTION_BEGIN(true);
+
+    HOOK_INVOKE(, levels_process_level_configuration_file, file, maps_path, unused);
 }
