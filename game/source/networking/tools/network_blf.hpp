@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game_options.hpp"
+#include "memory/secure_signature.hpp"
 #include "saved_games/saved_game_files.hpp"
 
 struct s_blf_header
@@ -64,6 +65,12 @@ public:
 	dword checksum;
 };
 static_assert(sizeof(s_blf_chunk_end_of_file_with_crc) == 0x15);
+
+struct s_blf_chunk_end_of_file_with_rsa : s_blf_chunk_end_of_file
+{
+	s_rsa_signature rsa_signature;
+};
+static_assert(sizeof(s_blf_chunk_end_of_file_with_rsa) == 0x111);
 
 struct s_blf_chunk_author : s_blf_header
 {
