@@ -1,9 +1,12 @@
 #include "main/levels.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 #include "networking/tools/network_blf.hpp"
+#include "tag_files/files_windows.hpp"
+#include "text/unicode.hpp"
 
 HOOK_DECLARE(0x0054A2A0, levels_add_campaign);
 HOOK_DECLARE(0x0054A4E0, levels_add_map_from_scripting);
@@ -32,7 +35,7 @@ HOOK_DECLARE(0x0054B250, levels_dvd_enumeration_callback);
 HOOK_DECLARE(0x0054C320, levels_map_id_is_fake);
 //HOOK_DECLARE(0x0054C330, levels_open_dlc);
 //HOOK_DECLARE(0x0054C360, levels_path_is_dlc);
-//HOOK_DECLARE(0x0054C3C0, levels_process_campaign_configuration_file);
+HOOK_DECLARE(0x0054C3C0, levels_process_campaign_configuration_file);
 HOOK_DECLARE(0x0054C530, levels_process_level_configuration_file);
 //HOOK_DECLARE(0x0054C820, levels_delete);
 //HOOK_DECLARE(0x0054C910, levels_try_and_get_by_map_id);
@@ -44,25 +47,25 @@ HOOK_DECLARE(0x0054C530, levels_process_level_configuration_file);
 
 void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
 {
-    FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(true);
 
-    HOOK_INVOKE(, levels_add_campaign, campaign, byte_swap, maps_path, is_dlc);
+	HOOK_INVOKE(, levels_add_campaign, campaign, byte_swap, maps_path, is_dlc);
 }
 
 void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path)
 {
-    FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(true);
 
-    HOOK_INVOKE(, levels_add_map_from_scripting, map_id, scenario_path);
+	HOOK_INVOKE(, levels_add_map_from_scripting, map_id, scenario_path);
 }
 
 void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
 {
-    FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(true);
 
-    //HOOK_INVOKE(, levels_add_fake_map_from_scripting, scenario_path);
+	//HOOK_INVOKE(, levels_add_fake_map_from_scripting, scenario_path);
 
-    levels_add_map_from_scripting(-2, scenario_path);
+	levels_add_map_from_scripting(-2, scenario_path);
 }
 
 void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
@@ -74,52 +77,126 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 
 bool __cdecl levels_begin_dvd_enumeration()
 {
-    FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(true);
 
-    bool result = false;
-    HOOK_INVOKE(result =, levels_begin_dvd_enumeration);
-    return result;
+	bool result = false;
+	HOOK_INVOKE(result =, levels_begin_dvd_enumeration);
+	return result;
 }
 
 // searches for `campaign`, `mapinfo`, `xex` and `preorder_unlock.txt`
 long __cdecl levels_dvd_enumeration_callback2(void* userdata)
 {
-    FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(true);
 
-    long result = 0;
-    HOOK_INVOKE(result =, levels_dvd_enumeration_callback2, userdata);
+	long result = 0;
+	HOOK_INVOKE(result =, levels_dvd_enumeration_callback2, userdata);
 
-    return result;
+	return result;
 }
 
 // searches for `map`
 long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* userdata)
 {
-    FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(true);
 
-    long result = 0;
-    HOOK_INVOKE(result =, levels_dvd_enumeration_callback, userdata);
+	c_static_string<256> found_file{};
+	static s_file_reference map_directory_file{};
 
-    return result;
+	c_static_wchar_string<256> maps_path{};
+	c_static_wchar_string<256> extension{};
+
+	s_file_reference file{};
+	s_file_last_modification_date date{};
+
+	if (userdata->enumeration_index)
+	{
+		if (userdata->enumeration_index == 1)
+		{
+			if (!find_files_next(userdata->find_file_data, &file, &date))
+			{
+				find_files_end(userdata->find_file_data);
+				return ++userdata->enumeration_index == 2;
+			}
+
+			file_reference_get_name(&file, 12, &maps_path, 256);
+			found_file.append_print("%ls", maps_path.get_string());
+			file_reference_get_name(&file, 1, &maps_path, 256);
+			file_reference_get_name(&file, 8, &extension, 256);
+
+			if (ustricmp(extension.get_string(), L"campaign"))
+			{
+				if (!ustricmp(extension.get_string(), L"mapinfo"))
+				{
+					levels_process_level_configuration_file(&file, maps_path.get_string(), 0);
+					return userdata->enumeration_index == 2;
+				}
+			}
+			else
+			{
+				levels_process_campaign_configuration_file(&file, maps_path.get_string(), 0);
+				return userdata->enumeration_index == 2;
+			}
+		}
+	}
+	else
+	{
+		found_file.append_print("%sinfo", cache_files_map_directory());
+		file_reference_create_from_path(&map_directory_file, found_file.get_string(), true);
+		find_files_start(userdata->find_file_data, 0, &map_directory_file);
+
+		++userdata->enumeration_index;
+	}
+
+	return userdata->enumeration_index == 2;
+
+	////map_to_mapinfo_patch.apply(false);
+	//long result = 0;
+	//HOOK_INVOKE(result =, levels_dvd_enumeration_callback, userdata);
+	////map_to_mapinfo_patch.apply(true);
+	//return result;
 }
 
 //bool __cdecl levels_map_id_is_fake(e_map_id map_id)
 bool __cdecl levels_map_id_is_fake(long map_id)
 {
-    FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(true);
 
-    //bool result = false;
-    //HOOK_INVOKE(result =, levels_map_id_is_fake, map_id);
-    //return result;
+	//bool result = false;
+	//HOOK_INVOKE(result =, levels_map_id_is_fake, map_id);
+	//return result;
 
-    return map_id == -2;
+	return map_id == -2;
 }
 
-void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool unused)
+void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc)
 {
-    FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(true);
 
-    HOOK_INVOKE(, levels_process_level_configuration_file, file, maps_path, unused);
+	//HOOK_INVOKE(, levels_process_campaign_configuration_file, file, maps_path, is_dlc);
+
+	static char file_buffer[sizeof(s_blf_chunk_campaign)]{};
+	s_blf_chunk_campaign const* campaign = nullptr;
+	bool byte_swap = false;
+
+	levels_find_campaign_chunk(file, file_buffer, &campaign, &byte_swap);
+	if (campaign)
+		levels_add_campaign(campaign, byte_swap, maps_path, is_dlc);
+}
+
+void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc)
+{
+	FUNCTION_BEGIN(true);
+
+	//HOOK_INVOKE(, levels_process_level_configuration_file, file, maps_path, is_dlc);
+
+	static char file_buffer[sizeof(s_blf_chunk_scenario)]{};
+	s_blf_chunk_scenario const* level = nullptr;
+	bool byte_swap = false;
+
+	levels_find_scenario_chunk(file, file_buffer, &level, &byte_swap);
+	if (level)
+		levels_add_level(level, byte_swap, maps_path, is_dlc);
 }
 
 void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap)

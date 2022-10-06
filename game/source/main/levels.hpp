@@ -25,7 +25,9 @@ extern long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_cal
 
 extern bool __cdecl levels_map_id_is_fake(long map_id);
 
-extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool unused);extern void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap);
+extern void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
+extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
+
 
 extern void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap);
 extern void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_scenario const** out_scenario, bool* must_byte_swap);
