@@ -38,7 +38,7 @@ struct c_game_engine_base_variant
 	virtual bool can_be_cast_to(e_game_engine_type, void const**);
 	virtual void custom_team_score_stats(long, long, long);
 
-	dword __unknown4;
+	dword m_checksum;
 	char m_name[32];
 	s_saved_game_item_metadata m_metadata;
 	c_game_engine_miscellaneous_options m_miscellaneous_options;

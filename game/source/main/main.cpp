@@ -34,6 +34,7 @@ void __cdecl main_loop_body_begin()
         simulation_globals;
         g_cache_file_globals;
         global_game_globals;
+        game_options* options = game_options_get();
 
         printf("");
     }
