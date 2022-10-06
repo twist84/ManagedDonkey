@@ -4,8 +4,13 @@
 #include "cseries/console.hpp"
 #include "game/game_globals.hpp"
 #include "memory/byte_swapping.hpp"
+#include "memory/module.hpp"
 
 #include <string.h>
+
+HOOK_DECLARE(0x00463540, network_blf_verify_start_of_file);
+HOOK_DECLARE(0x00462F00, network_blf_find_chunk);
+HOOK_DECLARE(0x00463240, network_blf_verify_end_of_file);
 
 void s_blf_header::setup(long _signature, long _chunk_size, long _major_version, long _minor_version)
 {
@@ -194,4 +199,31 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 	memset(engine_maximum_teams, 0, sizeof(engine_maximum_teams));
 	allows_saved_films = false;
 	memset(insertions, 0, sizeof(insertions));
+}
+
+bool network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool* out_byte_swap, long* out_chunk_size)
+{
+	FUNCTION_BEGIN(true);
+
+	bool result = false;
+	HOOK_INVOKE(result =, network_blf_verify_start_of_file, buffer, buffer_size, out_byte_swap, out_chunk_size);
+	return result;
+}
+
+bool network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
+{
+	FUNCTION_BEGIN(true);
+
+	bool result = false;
+	HOOK_INVOKE(result =, network_blf_find_chunk, buffer, buffer_size, byte_swap, signature, major_version, out_chunk_size, out_chunk_buffer, chunk_buffer_size, out_minor_version, out_eof_chunk);
+	return result;
+}
+
+bool network_blf_verify_end_of_file(char const* buffer, long buffer_size, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type)
+{
+	FUNCTION_BEGIN(true);
+
+	bool result = false;
+	HOOK_INVOKE(result =, network_blf_verify_end_of_file, buffer, buffer_size, byte_swap, eof_chunk_buffer, authentication_type);
+	return result;
 }
