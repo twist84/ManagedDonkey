@@ -254,12 +254,12 @@ public:
 		csstrnzcat(m_string, s, k_buffer_size);
 	}
 
-	char const* append_print(wchar_t const* format, ...)
+	char const* append_print(char const* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
 
-		char const* result = append_vprint(format);
+		char const* result = append_vprint(format, list);
 
 		va_end(list);
 		return result;
