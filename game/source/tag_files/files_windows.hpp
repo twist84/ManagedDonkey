@@ -79,6 +79,7 @@ struct s_file_reference;
 extern void suppress_file_errors(bool suppress);
 extern bool file_errors_suppressed();
 
+extern bool __cdecl file_get_size(s_file_reference* file_reference, dword* out_file_size);
 extern bool __cdecl file_read(s_file_reference* file_reference, dword size, bool print_error, void* buffer);
 extern bool __cdecl file_close(s_file_reference* file_reference);
 extern int __cdecl file_compare_last_modification_dates(s_file_last_modification_date const* date1, s_file_last_modification_date const* date2);

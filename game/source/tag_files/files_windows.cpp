@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <assert.h>
 
+HOOK_DECLARE(0x00529B00, file_get_size);
 HOOK_DECLARE(0x0052A7E0, file_read);
 HOOK_DECLARE(0x00528B60, file_close);
 HOOK_DECLARE(0x00528C40, file_compare_last_modification_dates);
@@ -40,6 +41,27 @@ bool file_errors_suppressed()
         return get_tls()->g_file_errors_suppressed;
 
     return true;
+}
+
+bool file_get_size(s_file_reference* file_reference, dword* out_file_size)
+{
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_get_size, file_reference, out_file_size);
+    //return result;
+
+    assert(file_reference);
+    assert(out_file_size);
+
+    WIN32_FILE_ATTRIBUTE_DATA file_info{};
+    if (GetFileAttributesExA(file_reference->path, GetFileExInfoStandard, &file_info))
+    {
+        *out_file_size = file_info.nFileSizeLow;
+        return true;
+    }
+
+    file_error(__FUNCTION__, file_reference, nullptr, false);
+
+    return false;
 }
 
 bool __cdecl file_read(s_file_reference* file_reference, dword size, bool print_error, void* buffer)
