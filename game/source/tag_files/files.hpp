@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "tag_files/files_windows.hpp"
+#include "text/unicode.hpp"
 
 #define FILE_REFERENCE_SIGNATURE 'filo'
 #define NUMBER_OF_FILE_REFERENCE_LOCATIONS 2
@@ -44,3 +45,4 @@ extern void* __cdecl file_read_into_memory(s_file_reference*, dword*);
 extern bool __cdecl file_read_into_buffer(s_file_reference*, void*, dword);
 //extern void __cdecl file_printf(s_file_reference*, char const*, ...);
 //extern void __cdecl file_vprintf(s_file_reference*, char const*, char*);
+extern wchar_t* file_reference_get_name(s_file_reference const* file_reference, dword flags, c_static_wchar_string<256>* out_name, long name_length);
