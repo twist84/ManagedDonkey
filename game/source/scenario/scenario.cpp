@@ -71,13 +71,10 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 	assert(scenario_path != 0);
 
 	s_scenario* scenario = global_scenario_get();
-	if (levels_map_id_is_fake(map_id) || (campaign_id == -1 && map_id == -1))
+	if (levels_map_id_is_fake(map_id))
 		return true;
 
-	if (scenario->campaign_id == campaign_id && scenario->map_id == map_id)
-		return true;
-
-	return false;
+	return (scenario->campaign_id == campaign_id || campaign_id == -1) && (scenario->map_id == map_id || map_id == -1);
 }
 
 void __cdecl scenario_invalidate()
