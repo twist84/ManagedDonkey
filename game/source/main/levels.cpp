@@ -121,3 +121,175 @@ void __cdecl levels_process_level_configuration_file(s_file_reference* file, wch
 
     HOOK_INVOKE(, levels_process_level_configuration_file, file, maps_path, unused);
 }
+
+void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap)
+{
+	*out_campaign = nullptr;
+	*must_byte_swap = false;
+
+	bool file_added = false;
+	dword error = 0;
+	dword file_size = 0;
+	long chunk_size = 0;
+	char const* chunk_buffer = nullptr;
+	bool eof_chunk = false;
+	s_blf_chunk_campaign const* campaign = nullptr;
+	bool byte_swap = false;
+
+	if (!file_open(file, 1, &error))
+	{
+		c_console::write_line("levels: failed to open campaign info file");
+		file_close(file);
+		goto function_end;
+	}
+
+	if (!file_get_size(file, &file_size))
+	{
+		c_console::write_line("levels: failed to get file size of campaign info file");
+		goto function_finish;
+	}
+
+	if (file_size > 0x18AC)
+	{
+		c_console::write_line("levels: unexpected file size for campaign info file");
+	}
+	else
+	{
+		if (!file_read(file, file_size, 0, file_buffer))
+		{
+			c_console::write_line("levels: failed to read campaign info file");
+		}
+		else
+		{
+			if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
+			{
+				c_console::write_line("levels: failed to verify blf start of file for campaign info file");
+				goto function_finish;
+			}
+
+			if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, 'cmpn', 1, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+			{
+				c_console::write_line("levels: failed to find blf campaign chunk");
+				goto function_finish;
+			}
+
+			if (chunk_buffer)
+			{
+				campaign = reinterpret_cast<s_blf_chunk_campaign const*>(chunk_buffer - 0xC);
+				if (chunk_buffer != (char const*)0xC &&
+					network_blf_find_chunk(file_buffer, file_size, byte_swap, '_eof', 1, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+				{
+					if (chunk_buffer && chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) &&
+						network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - 0xC, _blf_file_authentication_type_rsa))
+					{
+						file_added = true;
+						goto function_finish;
+					}
+
+					c_console::write_line("levels: failed to verify blf end of file chunk");
+				}
+			}
+		}
+	}
+
+function_finish:
+	if (file_added)
+	{
+		*out_campaign = campaign;
+		*must_byte_swap = byte_swap;
+		file_close(file);
+	}
+function_end:
+
+	if (!file_added)
+	{
+		// #TODO: file_reference_get_name
+		c_console::write_line("levels: failed to add campaign file '%s'", file->path);
+	}
+}
+
+void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_scenario const** out_scenario, bool* must_byte_swap)
+{
+	*out_scenario = nullptr;
+	*must_byte_swap = false;
+
+	bool file_added = false;
+	dword error = 0;
+	dword file_size = 0;
+	long chunk_size = 0;
+	char const* chunk_buffer = nullptr;
+	bool eof_chunk = false;
+	s_blf_chunk_scenario const* scenario = nullptr;
+	bool byte_swap = false;
+
+	if (!file_open(file, 1, &error))
+	{
+		c_console::write_line("levels: failed to open level info file");
+		file_close(file);
+		goto function_end;
+	}
+
+	if (!file_get_size(file, &file_size))
+	{
+		c_console::write_line("levels: failed to get file size of level info file");
+		goto function_finish;
+	}
+
+	if (file_size > 0xCDD9)
+	{
+		c_console::write_line("levels: unexpected file size for level info file");
+	}
+	else
+	{
+		if (!file_read(file, file_size, 0, file_buffer))
+		{
+			c_console::write_line("levels: failed to read level info file");
+		}
+		else
+		{
+			if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
+			{
+				c_console::write_line("levels: failed to verify blf start of file");
+				goto function_finish;
+			}
+
+			if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, 'levl', 3, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+			{
+				c_console::write_line("levels: failed to find blf scenario chunk");
+				goto function_finish;
+			}
+
+			if (chunk_buffer)
+			{
+				scenario = reinterpret_cast<s_blf_chunk_scenario const*>(chunk_buffer - 0xC);
+				if (chunk_buffer != (char const*)0xC &&
+					network_blf_find_chunk(file_buffer, file_size, byte_swap, '_eof', 1, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+				{
+					if (chunk_buffer && chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) &&
+						network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - 0xC, _blf_file_authentication_type_rsa))
+					{
+						file_added = true;
+						goto function_finish;
+					}
+
+					c_console::write_line("levels: failed to verify blf end of file chunk");
+				}
+			}
+		}
+	}
+
+function_finish:
+	if (file_added)
+	{
+		*out_scenario = scenario;
+		*must_byte_swap = byte_swap;
+		file_close(file);
+	}
+function_end:
+
+	if (!file_added)
+	{
+		// #TODO: file_reference_get_name
+		c_console::write_line("levels: failed to add level file '%s'", file->path);
+	}
+}
