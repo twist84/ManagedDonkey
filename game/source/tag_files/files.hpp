@@ -13,6 +13,16 @@ enum e_file_reference_flags
 	_file_reference_flag_open_for_write,
 };
 
+enum e_name
+{
+	_name_directory_bit = 0,
+	_name_parent_directory_bit,
+	_name_file_bit,
+	_name_extension_bit,
+
+	k_name_count
+};
+
 struct file_reference_info
 {
 	dword signature;
@@ -45,4 +55,4 @@ extern void* __cdecl file_read_into_memory(s_file_reference*, dword*);
 extern bool __cdecl file_read_into_buffer(s_file_reference*, void*, dword);
 //extern void __cdecl file_printf(s_file_reference*, char const*, ...);
 //extern void __cdecl file_vprintf(s_file_reference*, char const*, char*);
-extern wchar_t* file_reference_get_name(s_file_reference const* file_reference, dword flags, c_static_wchar_string<256>* out_name, long name_length);
+extern wchar_t* file_reference_get_name(s_file_reference const* file_reference, dword_flags flags, c_static_wchar_string<256>* out_name, long name_length);

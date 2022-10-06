@@ -93,7 +93,7 @@ bool __cdecl file_read_into_buffer(s_file_reference* file_reference, void* buffe
 //void __cdecl file_printf(s_file_reference*, char const*, ...)
 //void __cdecl file_vprintf(s_file_reference*, char const*, char*)
 
-wchar_t* file_reference_get_name(s_file_reference const* file_reference, dword flags, c_static_wchar_string<256>* out_name, long name_length)
+wchar_t* file_reference_get_name(s_file_reference const* file_reference, dword_flags flags, c_static_wchar_string<256>* out_name, long name_length)
 {
 	return INVOKE(0x005286E0, file_reference_get_name, file_reference, flags, out_name, name_length);
 }

@@ -208,7 +208,7 @@ public:
 
 	long map_id;
 
-	dword_flags type_flags;
+	c_flags<e_scenario_type_flags, dword, _scenario_type_flag_temp_bit + 1> type_flags;
 
 	c_static_wchar_string<32> names[12];
 	c_static_wchar_string<128> descriptions[12];

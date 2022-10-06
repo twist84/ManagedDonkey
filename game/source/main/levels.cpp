@@ -99,48 +99,52 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 {
 	FUNCTION_BEGIN(true);
 
-	c_static_string<256> found_file{};
-	static s_file_reference map_directory_file{};
-
-	c_static_wchar_string<256> maps_path{};
-	c_static_wchar_string<256> extension{};
-
-	s_file_reference file{};
-	s_file_last_modification_date date{};
+	c_static_string<256> found_file_name{};
+	s_file_reference found_file{};
 
 	if (userdata->enumeration_index)
 	{
 		if (userdata->enumeration_index == 1)
 		{
+			s_file_reference file{};
+			s_file_last_modification_date date{};
+
 			if (!find_files_next(userdata->find_file_data, &file, &date))
 			{
 				find_files_end(userdata->find_file_data);
 				return ++userdata->enumeration_index == 2;
 			}
 
-			file_reference_get_name(&file, 12, &maps_path, 256);
-			found_file.append_print("%ls", maps_path.get_string());
-			file_reference_get_name(&file, 1, &maps_path, 256);
-			file_reference_get_name(&file, 8, &extension, 256);
+			c_static_wchar_string<256> file_directory{};
+			c_static_wchar_string<256> file_extension{};
+			c_static_wchar_string<256> file_name_with_extension{};
 
-			if (ustricmp(extension.get_string(), L"campaign"))
+			file_reference_get_name(&file, FLAG(_name_directory_bit), &file_directory, 256);
+			file_reference_get_name(&file, FLAG(_name_extension_bit), &file_extension, 256);
+			file_reference_get_name(&file, FLAG(_name_file_bit) | FLAG(_name_extension_bit), &file_name_with_extension, 256);
+
+			found_file_name.append_print("%ls", file_name_with_extension.get_string());
+
+			if (ustricmp(file_extension.get_string(), L"campaign"))
 			{
-				if (!ustricmp(extension.get_string(), L"mapinfo"))
+				if (!ustricmp(file_extension.get_string(), L"mapinfo"))
 				{
-					levels_process_level_configuration_file(&file, maps_path.get_string(), 0);
+					levels_process_level_configuration_file(&file, file_directory.get_string(), false);
 				}
 			}
 			else
 			{
-				levels_process_campaign_configuration_file(&file, maps_path.get_string(), 0);
+				levels_process_campaign_configuration_file(&file, file_directory.get_string(), false);
 			}
 		}
 	}
 	else
 	{
-		found_file.append_print("%sinfo", cache_files_map_directory());
-		file_reference_create_from_path(&map_directory_file, found_file.get_string(), true);
-		find_files_start(userdata->find_file_data, 0, &map_directory_file);
+		found_file_name.append_print("%sinfo", cache_files_map_directory());
+
+		file_reference_create_from_path(&found_file, found_file_name.get_string(), true);
+
+		find_files_start(userdata->find_file_data, 0, &found_file);
 
 		++userdata->enumeration_index;
 	}
