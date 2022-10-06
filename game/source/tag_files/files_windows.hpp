@@ -62,6 +62,19 @@ struct s_find_file_data
 	dword __unknown698;
 };
 
+enum e_file_open_flags
+{
+	_file_open_flag_desired_access_read = 0,
+	_file_open_flag_desired_access_write,
+	_file_open_flag_set_file_end_and_close,
+	_file_open_flag_share_mode_read,
+	_file_open_flag_print_error,
+	_file_open_flag_flags_and_attributes_write,
+	_file_open_flag_flags_and_attributes_delete_on_close,
+	_file_open_flag_flags_and_attributes_random_access,
+	_file_open_flag_flags_and_attributes_sequecial_scan,
+};
+
 struct s_file_reference;
 extern void suppress_file_errors(bool suppress);
 extern bool file_errors_suppressed();

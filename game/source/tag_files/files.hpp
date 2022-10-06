@@ -6,6 +6,12 @@
 #define FILE_REFERENCE_SIGNATURE 'filo'
 #define NUMBER_OF_FILE_REFERENCE_LOCATIONS 2
 
+enum e_file_reference_flags
+{
+	_file_reference_flag_is_file_name = 0,
+	_file_reference_flag_open_for_write,
+};
+
 struct file_reference_info
 {
 	dword signature;
