@@ -5,7 +5,9 @@
 #include "memory/thread_local.hpp"
 
 #include <windows.h>
+#include <assert.h>
 
+HOOK_DECLARE(0x0052A7E0, file_read);
 HOOK_DECLARE(0x00528B60, file_close);
 HOOK_DECLARE(0x00528C40, file_compare_last_modification_dates);
 HOOK_DECLARE(0x00528C60, file_copy_to);
@@ -40,11 +42,54 @@ bool file_errors_suppressed()
     return true;
 }
 
+bool __cdecl file_read(s_file_reference* file_reference, dword size, bool print_error, void* buffer)
+{
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_read, file_reference, size, print_error, buffer);
+    //return result;
+
+    assert(file_reference);
+    assert(buffer);
+    
+    unsigned long bytes_read = 0;
+    bool result = false;
+    
+    if (!size)
+        return true;
+    
+    if (ReadFile(file_reference->handle.handle, buffer, size, &bytes_read, NULL))
+    {
+        if (size == bytes_read)
+            result = true;
+        else
+            SetLastError(ERROR_HANDLE_EOF);
+    }
+    
+    file_reference->position += bytes_read;
+
+    if (!result)
+        file_error(__FUNCTION__, file_reference, nullptr, print_error);
+
+    return result;
+}
+
 bool __cdecl file_close(s_file_reference* file_reference)
 {
-    bool result = false;
-    HOOK_INVOKE(result =, file_close, file_reference);
-    return result;
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_close, file_reference);
+    //return result;
+
+    if (CloseHandle(file_reference->handle.handle))
+    {
+        file_reference->handle.handle = INVALID_HANDLE_VALUE;
+        file_reference->position = 0;
+
+        return true;
+    }
+
+    file_error(__FUNCTION__, file_reference, nullptr, false);
+
+    return false;
 }
 
 int __cdecl file_compare_last_modification_dates(s_file_last_modification_date const* date1, s_file_last_modification_date const* date2)
@@ -70,9 +115,25 @@ bool __cdecl file_copy_to_recursive(s_file_reference* file_reference, s_file_ref
 
 bool __cdecl file_create(s_file_reference* file_reference)
 {
-    bool result = false;
-    HOOK_INVOKE(result =, file_create, file_reference);
-    return result;
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_create, file_reference);
+    //return result;
+
+    assert(file_reference);
+
+    if ((file_reference->flags & (1 << _file_reference_flag_is_file_name)) != 0)
+    {
+        HANDLE handle = CreateFileA(file_reference->path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (handle && handle != INVALID_HANDLE_VALUE)
+        {
+            CloseHandle(handle);
+            return true;
+        }
+    }
+    else if (CreateDirectoryA(file_reference->path, NULL))
+        return true;
+
+    return false;
 }
 
 void __cdecl file_date_format_for_output(s_file_last_modification_date* date, char* buffer, long buffer_size)
@@ -122,17 +183,101 @@ bool __cdecl file_exists(s_file_reference const* file_reference)
 {
     FUNCTION_BEGIN(true);
 
-    bool result = false;
-    HOOK_INVOKE(result =, file_exists, file_reference);
-    return result;
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_exists, file_reference);
+    //return result;
+
+    assert(file_reference);
+
+    return GetFileAttributesA(file_reference->path) != INVALID_FILE_ATTRIBUTES;
 }
 
 bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword* error)
 {
     FUNCTION_BEGIN(true);
 
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_open, file_reference, open_flags, error);
+    //return result;
+
+    assert(file_reference);
+    assert(error);
+
     bool result = false;
-    HOOK_INVOKE(result =, file_open, file_reference, open_flags, error);
+    unsigned long desired_access = 0;
+    unsigned long share_mode = 0;
+    unsigned long flags_and_attributes = FILE_READ_ATTRIBUTES;
+
+    *error = 0;
+
+    if ((open_flags & (1 << _file_open_flag_desired_access_read)) != 0)
+        desired_access = GENERIC_READ;
+    if ((open_flags & (1 << _file_open_flag_desired_access_write)) != 0)
+        desired_access |= GENERIC_WRITE;
+
+    if ((open_flags & (1 << _file_open_flag_share_mode_read)) != 0)
+        share_mode |= (1 << (FILE_SHARE_READ >> 1));
+    if ((open_flags & (1 << _file_open_flag_desired_access_write)) != 0)
+        share_mode |= (1 << (FILE_SHARE_WRITE >> 1));
+
+    if ((open_flags & (1 << _file_open_flag_flags_and_attributes_write)) != 0)
+        flags_and_attributes = FILE_WRITE_ATTRIBUTES;
+    if ((open_flags & (1 << _file_open_flag_flags_and_attributes_delete_on_close)) != 0)
+        flags_and_attributes = FILE_FLAG_DELETE_ON_CLOSE;
+    if ((open_flags & (1 << _file_open_flag_flags_and_attributes_random_access)) != 0)
+        flags_and_attributes = FILE_FLAG_RANDOM_ACCESS;
+    if ((open_flags & (1 << _file_open_flag_flags_and_attributes_sequecial_scan)) != 0)
+        flags_and_attributes = FILE_FLAG_SEQUENTIAL_SCAN;
+
+    HANDLE handle = CreateFileA(file_reference->path, desired_access, share_mode, NULL, OPEN_EXISTING, flags_and_attributes, NULL);
+    if (!handle || handle == INVALID_HANDLE_VALUE)
+    {
+        switch (GetLastError())
+        {
+        case ERROR_FILE_NOT_FOUND:
+            *error = 1;
+            break;
+        case ERROR_PATH_NOT_FOUND:
+            *error = 3;
+            break;
+        case ERROR_ACCESS_DENIED:
+            *error = 2;
+            break;
+        case ERROR_INVALID_DRIVE:
+            *error = 4;
+            break;
+        case ERROR_SHARING_VIOLATION:
+            *error = 5;
+            break;
+        default:
+            *error = 6;
+            break;
+        }
+    }
+    else
+    {
+        result = true;
+
+        file_reference->handle.handle = handle;
+        file_reference->position = 0;
+
+        if ((open_flags & (1 << _file_open_flag_set_file_end_and_close)) != 0)
+        {
+            file_reference->position = SetFilePointer(file_reference->handle.handle, 0, 0, FILE_END);
+            if (file_reference->position == INVALID_SET_FILE_POINTER)
+            {
+                CloseHandle(file_reference->handle.handle);
+                file_reference->handle.handle = INVALID_HANDLE_VALUE;
+                file_reference->position = 0;
+
+                result = false;
+            }
+        }
+    }
+
+    if ((open_flags & (1 << _file_open_flag_desired_access_write)) != 0)
+        file_reference->flags &= ~(1 << _file_reference_flag_open_for_write);
+
     return result;
 }
 
