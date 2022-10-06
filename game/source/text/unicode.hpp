@@ -27,7 +27,7 @@ extern wchar_t* ustrnzcpy(wchar_t*, wchar_t const*, long);
 //extern unsigned int ustrxfrm(wchar_t *,wchar_t const *,long);
 //extern wchar_t * ustrnlwr(wchar_t *,long);
 //extern wchar_t * ustrnupr(wchar_t *,long);
-//extern int ustricmp(wchar_t const *,wchar_t const *);
+extern int ustricmp(wchar_t const *,wchar_t const *);
 //extern int ustrnicmp(wchar_t const *,wchar_t const *,long);
 //extern int uisalpha(wchar_t);
 //extern int uisupper(wchar_t);

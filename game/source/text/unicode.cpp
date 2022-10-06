@@ -1,5 +1,7 @@
 #include "text/unicode.hpp"
 
+#include "cseries/cseries.hpp"
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -47,7 +49,12 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 //unsigned int ustrxfrm(wchar_t *,wchar_t const *,long)
 //wchar_t * ustrnlwr(wchar_t *,long)
 //wchar_t * ustrnupr(wchar_t *,long)
-//int ustricmp(wchar_t const *,wchar_t const *)
+
+int ustricmp(wchar_t const* a1, wchar_t const* a2)
+{
+    return INVOKE(0x00401370, ustricmp, a1, a2);
+}
+
 //int ustrnicmp(wchar_t const *,wchar_t const *,long)
 //int uisalpha(wchar_t)
 //int uisupper(wchar_t)
