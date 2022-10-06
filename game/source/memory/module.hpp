@@ -73,11 +73,7 @@ private:
 class c_data_patch
 {
 public:
-	template<long k_patch_size>
-	c_data_patch(dword address, byte const(&patch)[k_patch_size], bool remove_base = true);
-
-	template<typename t_type, long k_patch_size = sizeof(t_type)>
-	c_data_patch(dword address, t_type const patch, bool remove_base = true);
+	c_data_patch(dword address, long patch_size, byte const(&patch)[], bool remove_base = true);
 
 	bool apply(bool revert);
 

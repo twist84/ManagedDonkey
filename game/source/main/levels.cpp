@@ -129,13 +129,11 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 				if (!ustricmp(extension.get_string(), L"mapinfo"))
 				{
 					levels_process_level_configuration_file(&file, maps_path.get_string(), 0);
-					return userdata->enumeration_index == 2;
 				}
 			}
 			else
 			{
 				levels_process_campaign_configuration_file(&file, maps_path.get_string(), 0);
-				return userdata->enumeration_index == 2;
 			}
 		}
 	}
@@ -149,12 +147,6 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 	}
 
 	return userdata->enumeration_index == 2;
-
-	////map_to_mapinfo_patch.apply(false);
-	//long result = 0;
-	//HOOK_INVOKE(result =, levels_dvd_enumeration_callback, userdata);
-	////map_to_mapinfo_patch.apply(true);
-	//return result;
 }
 
 //bool __cdecl levels_map_id_is_fake(e_map_id map_id)

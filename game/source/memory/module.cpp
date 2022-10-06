@@ -115,22 +115,10 @@ bool c_hook_call::apply(bool revert)
 	return true;
 }
 
-template<long k_patch_size>
-c_data_patch::c_data_patch(dword address, byte const(&bytes)[k_patch_size], bool remove_base) :
+c_data_patch::c_data_patch(dword address, long patch_size, byte const(&bytes)[], bool remove_base) :
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
-	m_byte_count(k_patch_size),
+	m_byte_count(patch_size),
 	m_bytes(bytes),
-	m_bytes_original(new byte[m_byte_count]{})
-{
-	if (g_data_patch_count < k_maximum_individual_modification_count)
-		data_patches[g_data_patch_count++] = this;
-}
-
-template<typename t_type, long k_patch_size>
-c_data_patch::c_data_patch(dword address, const t_type type, bool remove_base) :
-	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
-	m_byte_count(k_patch_size),
-	m_bytes(reinterpret_cast<byte const*>(&type)),
 	m_bytes_original(new byte[m_byte_count]{})
 {
 	if (g_data_patch_count < k_maximum_individual_modification_count)
