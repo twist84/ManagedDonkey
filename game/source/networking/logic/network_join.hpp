@@ -88,34 +88,6 @@ struct s_joining_peer
 };
 static_assert(sizeof(s_joining_peer) == 0x18);
 
-struct s_queried_player_global_statistics
-{
-	bool valid;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-
-	long experience_base;
-	long experience_penalty;
-	long highest_skill;
-};
-static_assert(sizeof(s_queried_player_global_statistics) == 0x10);
-
-struct s_queried_player_hopper_statistics
-{
-	bool valid;
-	byte : 8;
-	word identifier;
-
-	real mu;
-	real sigma;
-	long old_skill;
-	long games_played;
-	long games_completed;
-	long games_won;
-};
-static_assert(sizeof(s_queried_player_hopper_statistics) == 0x1C);
-
 struct s_joining_player
 {
 	s_player_identifier joining_peer_player_id;
