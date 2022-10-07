@@ -20,8 +20,8 @@ extern void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path
 extern void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
 extern bool __cdecl levels_begin_dvd_enumeration();
 
-extern long __cdecl levels_dvd_enumeration_callback2(void* userdata);
-extern long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* userdata);
+extern long __cdecl levels_dvd_enumeration_callback2(void* callback_data);
+extern long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* callback_data);
 
 extern bool __cdecl levels_map_id_is_fake(long map_id);
 

@@ -169,7 +169,7 @@ extern bool __cdecl font_in_emergency_mode();
 extern void __cdecl font_initialize();
 extern void __cdecl font_initialize_emergency();
 extern void __cdecl font_load(s_font_loading_state* loading_state, long font_index, char const* filename, bool load_blocking);
-extern long __cdecl font_load_callback(void* userdata);
+extern long __cdecl font_load_callback(void* callback_data);
 extern void __cdecl font_loading_idle();
 extern void __cdecl font_reload();
 extern void __cdecl font_load_wrapper(bool load_blocking);

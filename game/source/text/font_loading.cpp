@@ -178,11 +178,11 @@ void __cdecl font_load(s_font_loading_state* loading_state, long font_index, cha
 }
 
 //enum e_async_completion font_load_callback(void*)
-long __cdecl font_load_callback(void* userdata)
+long __cdecl font_load_callback(void* callback_data)
 {
 	FUNCTION_BEGIN(true);
 
-	return INVOKE(0x00509550, font_load_callback, userdata);
+	return INVOKE(0x00509550, font_load_callback, callback_data);
 }
 
 void __cdecl font_loading_idle()

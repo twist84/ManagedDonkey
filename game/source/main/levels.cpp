@@ -85,34 +85,34 @@ bool __cdecl levels_begin_dvd_enumeration()
 }
 
 // searches for `campaign`, `mapinfo`, `xex` and `preorder_unlock.txt`
-long __cdecl levels_dvd_enumeration_callback2(void* userdata)
+long __cdecl levels_dvd_enumeration_callback2(void* callback_data)
 {
 	FUNCTION_BEGIN(true);
 
 	long result = 0;
-	HOOK_INVOKE(result =, levels_dvd_enumeration_callback2, userdata);
+	HOOK_INVOKE(result =, levels_dvd_enumeration_callback2, callback_data);
 
 	return result;
 }
 
-long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* userdata)
+long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* callback_data)
 {
 	FUNCTION_BEGIN(true);
 
 	c_static_string<256> found_file_name{};
 	s_file_reference found_file{};
 
-	if (userdata->enumeration_index)
+	if (callback_data->enumeration_index)
 	{
-		if (userdata->enumeration_index == 1)
+		if (callback_data->enumeration_index == 1)
 		{
 			s_file_reference file{};
 			s_file_last_modification_date date{};
 
-			if (!find_files_next(userdata->find_file_data, &file, &date))
+			if (!find_files_next(callback_data->find_file_data, &file, &date))
 			{
-				find_files_end(userdata->find_file_data);
-				return ++userdata->enumeration_index == 2;
+				find_files_end(callback_data->find_file_data);
+				return ++callback_data->enumeration_index == 2;
 			}
 
 			c_static_wchar_string<256> file_directory{};
@@ -144,12 +144,12 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 
 		file_reference_create_from_path(&found_file, found_file_name.get_string(), true);
 
-		find_files_start(userdata->find_file_data, 0, &found_file);
+		find_files_start(callback_data->find_file_data, 0, &found_file);
 
-		++userdata->enumeration_index;
+		++callback_data->enumeration_index;
 	}
 
-	return userdata->enumeration_index == 2;
+	return callback_data->enumeration_index == 2;
 }
 
 //bool __cdecl levels_map_id_is_fake(e_map_id map_id)
