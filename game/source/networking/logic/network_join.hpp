@@ -116,13 +116,10 @@ struct s_network_session_join_request
 {
 	qword join_nonce;
 	qword join_party_nonce;
-
 	long joining_peer_count;
 	s_joining_peer joining_peers[17];
-
 	long joining_player_count;
 	s_joining_player joining_players[16];
-
 	bool join_to_public_slots;
 
 	s_group_session_join_request_payload join_request_payload;
@@ -132,14 +129,9 @@ static_assert(sizeof(s_network_session_join_request) == 0x310);
 struct s_networking_join_queue_entry
 {
 	transport_address address;
-
-	dword __unknown14;
-
 	s_network_session_join_request join_request;
 	dword times[2];
 	long session_desirability;
-
-	dword __unknown334;
 };
 static_assert(sizeof(s_networking_join_queue_entry) == 0x338);
 
