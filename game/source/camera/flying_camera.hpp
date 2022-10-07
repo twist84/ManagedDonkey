@@ -34,33 +34,33 @@ struct c_flying_camera : public c_camera
 	inline void set_lock_in_xy_plane(bool value)
 	{
 		if (value)
-			m_flags |= (1 << _lock_in_xy_plane_bit);
+			m_flags |= FLAG(_lock_in_xy_plane_bit);
 		else
-			m_flags |= ~(1 << _lock_in_xy_plane_bit);
+			m_flags |= ~FLAG(_lock_in_xy_plane_bit);
 	}
 
 	inline void set_collision(bool value)
 	{
 		if (value)
-			m_flags |= (1 << _collision_bit);
+			m_flags |= FLAG(_collision_bit);
 		else
-			m_flags |= ~(1 << _collision_bit);
+			m_flags |= ~FLAG(_collision_bit);
 	}
 
 	inline void enable_orientation(bool value)
 	{
 		if (value)
-			m_flags |= (1 << _orientation_bit);
+			m_flags |= FLAG(_orientation_bit);
 		else
-			m_flags |= ~(1 << _orientation_bit);
+			m_flags |= ~FLAG(_orientation_bit);
 	}
 
 	inline void enable_movement(bool value)
 	{
 		if (value)
-			m_flags |= (1 << _movement_bit);
+			m_flags |= FLAG(_movement_bit);
 		else
-			m_flags |= ~(1 << _movement_bit);
+			m_flags |= ~FLAG(_movement_bit);
 	}
 };
 static_assert(sizeof(c_flying_camera) == 0x4C);

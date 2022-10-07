@@ -727,7 +727,7 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	options->initial_zone_set_index = launch_settings.zone_set_index;
 	game_options_setup_default_players(1, options);
 
-	if ((launch_settings.launch_file_flags & (1 << 1)) != 0)
+	if (TEST_BIT(launch_settings.launch_file_flags, 1))
 	{
 		s_file_reference to_delete{};
 		file_reference_create_from_path(&to_delete, "launch.txt", false);

@@ -143,7 +143,7 @@ bool __cdecl file_create(s_file_reference* file_reference)
 
     assert(file_reference);
 
-    if ((file_reference->flags & (1 << _file_reference_flag_is_file_name)) != 0)
+    if (TEST_BIT(file_reference->flags, _file_reference_flag_is_file_name))
     {
         HANDLE handle = CreateFileA(file_reference->path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         if (handle && handle != INVALID_HANDLE_VALUE)
@@ -232,23 +232,23 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
 
     *error = 0;
 
-    if ((open_flags & (1 << _file_open_flag_desired_access_read)) != 0)
+    if (TEST_BIT(open_flags, _file_open_flag_desired_access_read))
         desired_access = GENERIC_READ;
-    if ((open_flags & (1 << _file_open_flag_desired_access_write)) != 0)
+    if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
         desired_access |= GENERIC_WRITE;
 
-    if ((open_flags & (1 << _file_open_flag_share_mode_read)) != 0)
-        share_mode |= (1 << (FILE_SHARE_READ >> 1));
-    if ((open_flags & (1 << _file_open_flag_desired_access_write)) != 0)
-        share_mode |= (1 << (FILE_SHARE_WRITE >> 1));
+    if (TEST_BIT(open_flags, _file_open_flag_share_mode_read))
+        share_mode |= FILE_SHARE_READ;
+    if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
+        share_mode |= FILE_SHARE_WRITE;
 
-    if ((open_flags & (1 << _file_open_flag_flags_and_attributes_write)) != 0)
+    if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_write))
         flags_and_attributes = FILE_WRITE_ATTRIBUTES;
-    if ((open_flags & (1 << _file_open_flag_flags_and_attributes_delete_on_close)) != 0)
+    if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_delete_on_close))
         flags_and_attributes = FILE_FLAG_DELETE_ON_CLOSE;
-    if ((open_flags & (1 << _file_open_flag_flags_and_attributes_random_access)) != 0)
+    if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_random_access))
         flags_and_attributes = FILE_FLAG_RANDOM_ACCESS;
-    if ((open_flags & (1 << _file_open_flag_flags_and_attributes_sequecial_scan)) != 0)
+    if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_sequecial_scan))
         flags_and_attributes = FILE_FLAG_SEQUENTIAL_SCAN;
 
     HANDLE handle = CreateFileA(file_reference->path, desired_access, share_mode, NULL, OPEN_EXISTING, flags_and_attributes, NULL);
@@ -283,7 +283,7 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
         file_reference->handle.handle = handle;
         file_reference->position = 0;
 
-        if ((open_flags & (1 << _file_open_flag_set_file_end_and_close)) != 0)
+        if (TEST_BIT(open_flags, _file_open_flag_set_file_end_and_close))
         {
             file_reference->position = SetFilePointer(file_reference->handle.handle, 0, 0, FILE_END);
             if (file_reference->position == INVALID_SET_FILE_POINTER)
@@ -297,8 +297,8 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
         }
     }
 
-    if ((open_flags & (1 << _file_open_flag_desired_access_write)) != 0)
-        file_reference->flags &= ~(1 << _file_reference_flag_open_for_write);
+    if (TEST_BIT(open_flags, _file_open_flag_desired_access_write))
+        file_reference->flags &= ~FLAG(_file_reference_flag_open_for_write);
 
     return result;
 }

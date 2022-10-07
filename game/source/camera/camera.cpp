@@ -45,5 +45,5 @@ void c_camera::set_next_move_instantly()
 	FUNCTION_BEGIN(true);
 
 	__unknownC = 5;
-	m_flags |= (1 << _next_move_instantly_bit);
+	m_flags |= FLAG(_next_move_instantly_bit);
 }

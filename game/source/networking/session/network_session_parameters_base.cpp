@@ -20,7 +20,7 @@ void c_network_session_parameter_base::set_desires_change_request()
 	FUNCTION_BEGIN(true);
 
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] desires change request", get_session_description(), m_type, m_name);
-	m_state_flags |= (1 << 1);
+	m_state_flags |= FLAG(1);
 	notify_set_change_request();
 }
 
@@ -63,7 +63,7 @@ void c_network_session_parameter_base::transition_state_to_become_host()
 
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] transitioning to host", get_session_description(), m_type, m_name);
 	memset(m_transmitted_peer_updates, 0, sizeof(m_transmitted_peer_updates));
-	m_state_flags &= (1 << 0);
+	m_state_flags &= FLAG(0);
 	notify_transition_state_to_become_host();
 }
 
@@ -130,7 +130,7 @@ void c_network_session_parameter_base::set_change_request_no_longer_desired()
 	FUNCTION_BEGIN(true);
 
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] change request no longer desired", get_session_description(), m_type, m_name);
-	m_state_flags &= ~(1 << 1);
+	m_state_flags &= ~FLAG(1);
 }
 
 void c_network_session_parameter_base::set_peer_no_longer_requires_update(long peer_index)
@@ -147,7 +147,7 @@ bool c_network_session_parameter_base::get_allowed() const
 {
 	FUNCTION_BEGIN(true);
 
-	return m_state_flags & (1 << 0);
+	return TEST_BIT(m_state_flags, 0);
 }
 
 bool c_network_session_parameter_base::set_allowed() const
