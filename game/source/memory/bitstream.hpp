@@ -17,6 +17,15 @@ enum e_bitstream_state
 
 struct c_bitstream
 {
+	struct s_bitstream_data
+	{
+		long current_memory_bit_position;
+		long current_stream_bit_position;
+		qword window;
+		long window_bits_used;
+		byte* next_data;
+	};
+
 protected:
 	byte* m_data;
 	byte* m_data_max;
@@ -26,15 +35,10 @@ protected:
 
 	c_enum<e_bitstream_state, long, k_bitstream_state_count> m_state;
 
+	// possibly part of `s_bitstream_data`
 	bool __unknown14;
 
-	long m_data_size_in_bits;
-	long m_current_bit_position;
-
-	qword m_window;
-	long m_window_bits_used;
-
-	byte* m_next_data;
+	s_bitstream_data m_bitstream_data;
 
 	long m_position_stack_depth;
 
@@ -73,7 +77,7 @@ public:
 	void finish_reading();
 	void finish_writing(long* out_bits_remaining);
 
-	long get_current_bit_position();
+	long get_current_stream_bit_position();
 	byte const* get_data(long* data_length) const;
 	void pop_position(bool pop);
 
@@ -96,7 +100,8 @@ public:
 	void set_data(byte* data, long data_length);
 
 	bool would_overflow(long size_in_bits) const;
-	void write_raw_data(void const* data, long size_in_bits);
+	void write_accumulator_to_memory(qword a1, long a2);
+	void write_bits_internal(void const* data, long size_in_bits);
 	void write_point3d(char const* name, long_point3d const* point, long axis_encoding_size_in_bits);
 	void write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	void write_secure_address(char const* name, s_transport_secure_address const* address);

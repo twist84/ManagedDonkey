@@ -4,6 +4,26 @@
 
 #include <assert.h>
 
+// ===================== halo 4 begin =====================
+
+template<typename t_type>
+t_type left_shift_fast(t_type value, long shift_bits)
+{
+	assert(shift_bits <= SIZEOF_BITS(t_type));
+
+	return t_type(value << shift_bits);
+}
+
+template<typename t_type>
+t_type right_shift_fast(t_type value, long shift_bits)
+{
+	assert(shift_bits < SIZEOF_BITS(t_type));
+
+	return t_type(value >> shift_bits);
+}
+
+// ====================== halo 4 end ======================
+
 void c_bitstream::append(c_bitstream const* stream)
 {
 	FUNCTION_BEGIN(true);
@@ -11,7 +31,7 @@ void c_bitstream::append(c_bitstream const* stream)
 	assert(stream->m_state == _bitstream_state_write_finished);
 	assert(writing());
 
-	write_raw_data(stream->m_data, stream->m_data_size_in_bits);
+	write_bits_internal(stream->m_data, stream->m_bitstream_data.current_memory_bit_position);
 	__unknown98 += stream->__unknown98;
 	__unknown9C += stream->__unknown9C;
 
@@ -40,6 +60,8 @@ void c_bitstream::begin_writing(long data_size_alignment)
 {
 	FUNCTION_BEGIN(true);
 
+	assert(m_data_size_bytes % data_size_alignment == 0);
+
 	m_data_size_alignment = data_size_alignment;
 	reset(_bitstream_state_writing);
 
@@ -63,9 +85,9 @@ void c_bitstream::discard_remaining_data()
 
 	assert(reading());
 
-	m_data_size_in_bits = 8 * m_data_size_bytes;
-	m_window = 0;
-	m_window_bits_used = 0;
+	m_bitstream_data.current_memory_bit_position = 8 * m_data_size_bytes;
+	m_bitstream_data.window = 0;
+	m_bitstream_data.window_bits_used = 0;
 
 	//DECLFUNC(0x00557F60, void, __thiscall, c_bitstream const*)(this);
 }
@@ -74,7 +96,7 @@ bool c_bitstream::overflowed() const
 {
 	FUNCTION_BEGIN(true);
 
-	return m_current_bit_position > 8 * m_data_size_bytes;
+	return m_bitstream_data.current_stream_bit_position > 8 * m_data_size_bytes;
 }
 
 bool c_bitstream::error_occurred() const
@@ -116,6 +138,15 @@ void c_bitstream::finish_reading()
 {
 	FUNCTION_BEGIN(true);
 
+	assert(reading());
+
+	if (overflowed())
+	{
+		c_console::write_line(
+			"finish_reading: bitstream read off the end of the stream (%d bits > %d max-size)", 
+			m_bitstream_data.current_memory_bit_position, 8 * m_data_size_bytes);
+	}
+
 	m_state = _bitstream_state_read_finished;
 
 	//DECLFUNC(0x005580C0, void, __thiscall, c_bitstream const*)(this);
@@ -125,14 +156,21 @@ void c_bitstream::finish_writing(long* bits_remaining)
 {
 	FUNCTION_BEGIN(true);
 
+	if (overflowed())
+	{
+		c_console::write_line(
+			"bitstream overflowed (%d bits > %d max-size), cannot be written successfully", 
+			m_bitstream_data.current_stream_bit_position, 8 * m_data_size_bytes);
+	}
+
 	DECLFUNC(0x005580D0, void, __thiscall, c_bitstream const*, long*)(this, bits_remaining);
 }
 
-long c_bitstream::get_current_bit_position()
+long c_bitstream::get_current_stream_bit_position()
 {
 	FUNCTION_BEGIN(true);
 
-	return m_current_bit_position;
+	return m_bitstream_data.current_stream_bit_position;
 
 	//DECLFUNC(0x00558240, void, __thiscall, c_bitstream const*)(this);
 }
@@ -303,7 +341,14 @@ bool c_bitstream::would_overflow(long size_in_bits) const
 	return DECLFUNC(0x00559E90, bool, __thiscall, c_bitstream const*, long)(this, size_in_bits);
 }
 
-void c_bitstream::write_raw_data(void const* data, long size_in_bits)
+void c_bitstream::write_accumulator_to_memory(qword a1, long a2)
+{
+	FUNCTION_BEGIN(true);
+
+	DECLFUNC(0x00559EB0, void, __thiscall, c_bitstream const*, qword, long)(this, a1, a2);
+}
+
+void c_bitstream::write_bits_internal(void const* data, long size_in_bits)
 {
 	FUNCTION_BEGIN(true);
 

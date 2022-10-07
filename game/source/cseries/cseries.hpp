@@ -85,6 +85,7 @@ typedef char utf8;
 const long LONG_BITS = SIZEOF_BITS(long);
 
 #define FLAG(bit) (1 << bit)
+#define MASK(bit) ((1 << bit) - 1)
 
 #define NONE -1
 
