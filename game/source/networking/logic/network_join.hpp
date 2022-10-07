@@ -124,9 +124,6 @@ struct s_network_session_join_request
 	s_joining_player joining_players[16];
 
 	bool join_to_public_slots;
-	byte : 8;
-	byte : 8;
-	byte : 8;
 
 	s_group_session_join_request_payload join_request_payload;
 };
