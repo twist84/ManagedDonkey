@@ -109,80 +109,28 @@ enum e_online_nat_type
 
 enum e_life_cycle_join_result
 {
-	// case _network_join_refuse_reason_none:
-	_life_cycle_join_result_00 = 0,
-
-	_life_cycle_join_result_in_progress,
-
-	// default:
-	_life_cycle_join_result_02,
-
-	// case _network_join_refuse_reason_not_found:
-	// case _network_join_refuse_reason_session_disband:
-	// case _network_join_refuse_reason_rejected_by_host:
-	_life_cycle_join_result_03,
-
-	// case _network_join_refuse_reason_session_full:
-	_life_cycle_join_result_04,
-
-	// case _network_join_refuse_reason_privacy_mode:
-	_life_cycle_join_result_05,
-
-	// case _network_join_refuse_reason_in_matchmaking:
-	_life_cycle_join_result_06,
-
-	// case _network_join_refuse_reason_join_timed_out:
-	// case _network_join_refuse_reason_session_booted:
-	// case _network_join_refuse_reason_aborted:
-	// case _network_join_refuse_reason_abort_ignored:
-	// case _network_join_refuse_reason_host_time_out:
-	_life_cycle_join_result_07,
-
-	// case _network_join_refuse_reason_peer_version_too_low:
-	_life_cycle_join_result_08,
-
-	// case _network_join_refuse_reason_host_version_too_low:
-	_life_cycle_join_result_09,
-
-	// case _network_join_refuse_reason_could_not_connect:
-	// - has no session
-	// - _online_nat_type_open
-	_life_cycle_join_result_10,
-
-	// - _online_nat_type_moderate
-	_life_cycle_join_result_11,
-
-	// - _online_nat_type_strict
-	_life_cycle_join_result_12,
-
-	// case _network_join_refuse_reason_could_not_connect:
-	// - has no session
-	// - _online_nat_type_open
-	_life_cycle_join_result_13,
-
-	// - _online_nat_type_moderate
-	_life_cycle_join_result_14,
-
-	// - _online_nat_type_strict
-	_life_cycle_join_result_15,
-
-	// case _network_join_refuse_reason_player_not_online_enabled:
-	_life_cycle_join_result_16,
-
-	// case _network_join_refuse_reason_film_in_progress:
-	_life_cycle_join_result_17,
-
-	// case _network_join_refuse_reason_campaign_in_progress:
-	_life_cycle_join_result_18,
-
-	// case _network_join_refuse_reason_user_content_not_allowed:
-	_life_cycle_join_result_19,
-
-	// case _network_join_refuse_reason_survival_in_progress:
-	_life_cycle_join_result_20,
-
-	// case _network_join_refuse_reason_executable_type_mismatch:
-	_life_cycle_join_result_21,
+	_life_cycle_join_result_none = 0,
+	_life_cycle_join_result_join_in_progress,
+	_life_cycle_join_result_join_failed_generic_error,
+	_life_cycle_join_result_join_failed_to_find_session,
+	_life_cycle_join_result_join_failed_not_enough_space,
+	_life_cycle_join_result_join_failed_game_not_open,
+	_life_cycle_join_result_join_failed_target_is_matchmaking,
+	_life_cycle_join_result_join_failed_host_timed_out,
+	_life_cycle_join_result_join_failed_peer_version_too_low,
+	_life_cycle_join_result_join_failed_host_version_too_low,
+	_life_cycle_join_result_join_failed_unable_to_connect_open_nat,
+	_life_cycle_join_result_join_failed_unable_to_connect_moderate_nat,
+	_life_cycle_join_result_join_failed_unable_to_connect_closed_nat,
+	_life_cycle_join_result_join_failed_unable_to_connect_party_open_nat,
+	_life_cycle_join_result_join_failed_unable_to_connect_party_moderate_nat,
+	_life_cycle_join_result_join_failed_unable_to_connect_party_strict_nat,
+	_life_cycle_join_result_join_failed_party_member_not_online_enabled,
+	_life_cycle_join_result_join_failed_film_in_progress,
+	_life_cycle_join_result_join_failed_campaign_in_progress,
+	_life_cycle_join_result_join_failed_user_content_not_permitted,
+	_life_cycle_join_result_join_failed_survival_in_progress,
+	_life_cycle_join_result_join_failed_invalid_executable_type,
 
 	k_life_cycle_join_result_count
 };
