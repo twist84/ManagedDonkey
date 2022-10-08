@@ -42,7 +42,10 @@ enum e_join_remote_state
 
 enum e_join_type
 {
-	k_join_type_count = 2
+	_join_type_squad = 0,
+	_join_type_group,
+
+	k_join_type_count
 };
 
 enum e_networking_join_destination_squad
