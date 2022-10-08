@@ -329,6 +329,7 @@ POPD
     <ClInclude Include="source\interface\gui_animation.hpp" />
     <ClInclude Include="source\interface\gui_custom_bitmap_widget.hpp" />
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
+    <ClInclude Include="source\interface\gui_selected_items.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
     <ClInclude Include="source\interface\user_interface_memory.hpp" />
     <ClInclude Include="source\interface\user_interface_messages.hpp" />
