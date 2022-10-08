@@ -97,6 +97,16 @@ enum e_network_join_refuse_reason
 	k_network_join_refuse_reason_count,
 };
 
+enum e_online_nat_type
+{
+	_online_nat_type_none = 0,
+	_online_nat_type_open,
+	_online_nat_type_moderate,
+	_online_nat_type_strict,
+
+	k_online_nat_type_count
+};
+
 enum e_life_cycle_join_result
 {
 	k_life_cycle_join_result_count = 22
