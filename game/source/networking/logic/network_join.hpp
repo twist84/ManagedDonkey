@@ -109,7 +109,82 @@ enum e_online_nat_type
 
 enum e_life_cycle_join_result
 {
-	k_life_cycle_join_result_count = 22
+	// case _network_join_refuse_reason_none:
+	_life_cycle_join_result_00 = 0,
+
+	_life_cycle_join_result_in_progress,
+
+	// default:
+	_life_cycle_join_result_02,
+
+	// case _network_join_refuse_reason_not_found:
+	// case _network_join_refuse_reason_session_disband:
+	// case _network_join_refuse_reason_rejected_by_host:
+	_life_cycle_join_result_03,
+
+	// case _network_join_refuse_reason_session_full:
+	_life_cycle_join_result_04,
+
+	// case _network_join_refuse_reason_privacy_mode:
+	_life_cycle_join_result_05,
+
+	// case _network_join_refuse_reason_in_matchmaking:
+	_life_cycle_join_result_06,
+
+	// case _network_join_refuse_reason_join_timed_out:
+	// case _network_join_refuse_reason_session_booted:
+	// case _network_join_refuse_reason_aborted:
+	// case _network_join_refuse_reason_abort_ignored:
+	// case _network_join_refuse_reason_host_time_out:
+	_life_cycle_join_result_07,
+
+	// case _network_join_refuse_reason_peer_version_too_low:
+	_life_cycle_join_result_08,
+
+	// case _network_join_refuse_reason_host_version_too_low:
+	_life_cycle_join_result_09,
+
+	// case _network_join_refuse_reason_could_not_connect:
+	// - has no session
+	// - _online_nat_type_open
+	_life_cycle_join_result_10,
+
+	// - _online_nat_type_moderate
+	_life_cycle_join_result_11,
+
+	// - _online_nat_type_strict
+	_life_cycle_join_result_12,
+
+	// case _network_join_refuse_reason_could_not_connect:
+	// - has no session
+	// - _online_nat_type_open
+	_life_cycle_join_result_13,
+
+	// - _online_nat_type_moderate
+	_life_cycle_join_result_14,
+
+	// - _online_nat_type_strict
+	_life_cycle_join_result_15,
+
+	// case _network_join_refuse_reason_player_not_online_enabled:
+	_life_cycle_join_result_16,
+
+	// case _network_join_refuse_reason_film_in_progress:
+	_life_cycle_join_result_17,
+
+	// case _network_join_refuse_reason_campaign_in_progress:
+	_life_cycle_join_result_18,
+
+	// case _network_join_refuse_reason_user_content_not_allowed:
+	_life_cycle_join_result_19,
+
+	// case _network_join_refuse_reason_survival_in_progress:
+	_life_cycle_join_result_20,
+
+	// case _network_join_refuse_reason_executable_type_mismatch:
+	_life_cycle_join_result_21,
+
+	k_life_cycle_join_result_count
 };
 
 enum e_network_session_class
@@ -173,7 +248,6 @@ struct s_network_session_join_request
 	long joining_player_count;
 	s_joining_player joining_players[16];
 	bool join_to_public_slots;
-
 	s_group_session_join_request_payload join_request_payload;
 };
 static_assert(sizeof(s_network_session_join_request) == 0x310);
@@ -222,7 +296,6 @@ extern s_networking_join_data& g_network_join_data;
 struct c_network_session;
 struct c_network_session_membership;
 enum e_network_join_squad_join_source;
-enum e_network_join_refuse_reason;
 
 //0x0047DC70;	void __cdecl network_join_add_join_to_queue(c_network_session*, transport_address const*, s_network_session_join_request const*);
 //0x0047DF10;	void __cdecl network_join_calculate_full_queue_desirability(c_network_session_membership* membership);
