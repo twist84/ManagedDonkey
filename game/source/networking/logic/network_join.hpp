@@ -58,6 +58,45 @@ enum e_transport_platform
 	k_transport_platform_count = 2
 };
 
+enum e_network_join_refuse_reason
+{
+	_network_join_refuse_reason_none = 0,
+	_network_join_refuse_reason_tried_to_join_self,
+	_network_join_refuse_reason_could_not_connect,
+	_network_join_refuse_reason_join_timed_out,
+	_network_join_refuse_reason_not_found,
+	_network_join_refuse_reason_privacy_mode,
+	_network_join_refuse_reason_not_joinable,
+	_network_join_refuse_reason_session_full,
+	_network_join_refuse_reason_alpha_split_screen,
+	_network_join_refuse_reason_session_disband,
+	_network_join_refuse_reason_session_booted,
+	_network_join_refuse_reason_address_invalid,
+	_network_join_refuse_reason_address_failed,
+	_network_join_refuse_reason_too_many_observers,
+	_network_join_refuse_reason_aborted,
+	_network_join_refuse_reason_abort_ignored,
+	_network_join_refuse_reason_wrong_payload_type,
+	_network_join_refuse_reason_no_reservation,
+	_network_join_refuse_reason_in_matchmaking,
+	_network_join_refuse_reason_player_count_zero,
+	_network_join_refuse_reason_player_not_online_enabled,
+	_network_join_refuse_reason_player_add_pending,
+	_network_join_refuse_reason_player_add_failed,
+	_network_join_refuse_reason_host_time_out,
+	_network_join_refuse_reason_rejected_by_host,
+	_network_join_refuse_reason_peer_version_too_low,
+	_network_join_refuse_reason_host_version_too_low,
+	_network_join_refuse_reason_holding_in_queue,
+	_network_join_refuse_reason_film_in_progress,
+	_network_join_refuse_reason_campaign_in_progress,
+	_network_join_refuse_reason_user_content_not_allowed,
+	_network_join_refuse_reason_survival_in_progress,
+	_network_join_refuse_reason_executable_type_mismatch,
+
+	k_network_join_refuse_reason_count,
+};
+
 enum e_life_cycle_join_result
 {
 	k_life_cycle_join_result_count = 22
