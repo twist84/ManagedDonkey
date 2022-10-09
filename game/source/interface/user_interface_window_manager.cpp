@@ -5,6 +5,13 @@
 
 void* c_window_manager::this_ptr = reinterpret_cast<void*>(0x05260F34);
 
+c_gui_screen_widget* __stdcall c_window_manager::allocate_codeless_screen(long screen_name)
+{
+	FUNCTION_BEGIN(true);
+
+	return INVOKE(0x00AA8D90, allocate_codeless_screen, screen_name);
+}
+
 void __cdecl window_manager_reset_screens()
 {
 	FUNCTION_BEGIN(true);
