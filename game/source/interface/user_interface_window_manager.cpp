@@ -12,6 +12,13 @@ c_gui_screen_widget* __stdcall c_window_manager::allocate_codeless_screen(long s
 	return INVOKE(0x00AA8D90, allocate_codeless_screen, screen_name);
 }
 
+c_gui_screen_widget* __stdcall c_window_manager::allocate_named_screen(long screen_name)
+{
+	FUNCTION_BEGIN(true);
+
+	return INVOKE(0x00AA8E00, allocate_named_screen, screen_name);
+}
+
 void __cdecl window_manager_reset_screens()
 {
 	FUNCTION_BEGIN(true);
