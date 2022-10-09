@@ -8,12 +8,14 @@
 #include "game/game_options.hpp"
 #include "game/game_state.hpp"
 #include "game/game_time.hpp"
+#include "interface/user_interface_hs.hpp"
 #include "memory/module.hpp"
 #include "tag_files/files_windows.hpp"
 
 #include <assert.h>
 #include <string.h>
 
+HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 HOOK_DECLARE(0x006961C0, game_options_get_launch_settings);
 
 bool game_in_startup_phase()
@@ -695,6 +697,17 @@ bool game_launch_get_settings(s_game_options_launch_settings* out_launch_setting
 	}
 
 	return result;
+}
+
+bool __cdecl game_launch_has_initial_script(char const* script_name)
+{
+	FUNCTION_BEGIN(true);
+
+	// fix for hanger background not being loaded
+	if (game_is_ui_shell())
+		user_interface_start_hs_script_by_name("humanhangar");
+
+	return false;
 }
 
 bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress)
