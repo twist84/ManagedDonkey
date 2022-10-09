@@ -8,6 +8,8 @@
 
 long start_script(hs_script const* script, long index)
 {
+    FUNCTION_BEGIN(true);
+
     assert(script);
     assert(index != NONE);
 
@@ -26,6 +28,8 @@ long start_script(hs_script const* script, long index)
 
 long user_interface_start_hs_script_by_name(char const* name)
 {
+    FUNCTION_BEGIN(true);
+
     s_scenario* scenario = global_scenario_get();
     if (!scenario)
         return NONE;
