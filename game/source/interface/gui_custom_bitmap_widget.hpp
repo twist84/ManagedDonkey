@@ -35,3 +35,5 @@ struct c_gui_custom_bitmap_widget : c_gui_bitmap_widget
 	byte __data46C[0x4];
 };
 static_assert(sizeof(c_gui_custom_bitmap_widget) == 0x470);
+
+extern long __cdecl map_image_load_callback(void* callback_data);
