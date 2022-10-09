@@ -124,7 +124,7 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 #define PRINT_ZONE_SETS()\
 if (scenario->zone_sets.count)\
 {\
-	c_console::write_line("zone sets");\
+	c_console::write_line("zone sets: %d", scenario->zone_sets.count);\
 	for (long i = 0; i < scenario->zone_sets.count; i++)\
 	{\
 		auto zone_set = scenario->zone_sets.elements + i;\
@@ -139,7 +139,7 @@ if (scenario->zone_sets.count)\
 #define PRINT_LIGHTING_ZONE_SETS()\
 if (scenario->lighting_zone_sets.count)\
 {\
-	c_console::write_line("lighting zone sets");\
+	c_console::write_line("lighting zone sets: %d", scenario->lighting_zone_sets.count);\
 	for (long i = 0; i < scenario->lighting_zone_sets.count; i++)\
 	{\
 		auto lighting_zone_set = scenario->lighting_zone_sets.elements + i;\
@@ -154,7 +154,7 @@ if (scenario->lighting_zone_sets.count)\
 #define PRINT_CAMPAIN_PLAYERS()\
 if (scenario->campaign_players.count)\
 {\
-	c_console::write_line("campaign players");\
+	c_console::write_line("campaign players: %d", scenario->campaign_players.count);\
 	for (long i = 0; i < scenario->campaign_players.count; i++)\
 	{\
 		auto campaign_player = scenario->campaign_players.elements + i;\
@@ -169,7 +169,7 @@ if (scenario->campaign_players.count)\
 #define PRINT_OBJECT_NAMES()\
 if (scenario->object_names.count)\
 {\
-	c_console::write_line("object names");\
+	c_console::write_line("object names: %d", scenario->object_names.count);\
 	for (long i = 0; i < scenario->object_names.count; i++)\
 	{\
 		auto object_name = scenario->object_names.elements + i;\
@@ -184,7 +184,7 @@ if (scenario->object_names.count)\
 #define PRINT_MAP_VARIANT_PALETTES(NAME)\
 if (scenario->map_variant_##NAME##_palette.count)\
 {\
-	c_console::write_line("%s palettes", #NAME);\
+	c_console::write_line("%s palettes: %d", #NAME, scenario->map_variant_##NAME##_palette.count);\
 	for (long i = 0; i < scenario->map_variant_##NAME##_palette.count; i++)\
 	{\
 		auto palette = scenario->map_variant_##NAME##_palette.elements + i;\
@@ -199,7 +199,7 @@ if (scenario->map_variant_##NAME##_palette.count)\
 #define PRINT_SOFT_CEILINGS()\
 if (scenario->soft_ceilings.count)\
 {\
-	c_console::write_line("soft ceilings");\
+	c_console::write_line("soft ceilings: %d", scenario->soft_ceilings.count);\
 	for (long i = 0; i < scenario->soft_ceilings.count; i++)\
 	{\
 		auto soft_ceiling = scenario->soft_ceilings.elements + i;\
@@ -214,7 +214,7 @@ if (scenario->soft_ceilings.count)\
 #define PRINT_PLAYER_STARTING_PROFILES()\
 if (scenario->player_starting_profile.count)\
 {\
-	c_console::write_line("player starting profiles");\
+	c_console::write_line("player starting profiles: %d", scenario->player_starting_profile.count);\
 	for (long i = 0; i < scenario->player_starting_profile.count; i++)\
 	{\
 		auto profile = scenario->player_starting_profile.elements + i;\
@@ -229,7 +229,7 @@ if (scenario->player_starting_profile.count)\
 #define PRINT_TRIGGER_VOLUMES()\
 if (scenario->trigger_volumes.count)\
 {\
-	c_console::write_line("trigger volumes");\
+	c_console::write_line("trigger volumes: %d", scenario->trigger_volumes.count);\
 	for (long i = 0; i < scenario->trigger_volumes.count; i++)\
 	{\
 		auto trigger_volume = scenario->trigger_volumes.elements + i;\
@@ -244,7 +244,7 @@ if (scenario->trigger_volumes.count)\
 #define PRINT_SCRIPTS()\
 if (scenario->scripts.count)\
 {\
-	c_console::write_line("scripts");\
+	c_console::write_line("scripts: %d", scenario->scripts.count);\
 	for (long i = 0; i < scenario->scripts.count; i++)\
 	{\
 		auto script = scenario->scripts.elements + i;\
@@ -254,7 +254,7 @@ if (scenario->scripts.count)\
 			c_console::write_line("    %s", script_name);\
 		if (script->parameters.count)\
 		{\
-			c_console::write_line("        parameters");\
+			c_console::write_line("        parameters: %d", script->parameters.count);\
 			for (long i = 0; i < script->parameters.count; i++)\
 			{\
 				auto parameter = script->parameters.elements + i;\
@@ -272,7 +272,7 @@ if (scenario->scripts.count)\
 #define PRINT_GLOBALS()\
 if (scenario->globals.count)\
 {\
-	c_console::write_line("globals");\
+	c_console::write_line("globals: %d", scenario->globals.count);\
 	for (long i = 0; i < scenario->globals.count; i++)\
 	{\
 		auto global = scenario->globals.elements + i;\

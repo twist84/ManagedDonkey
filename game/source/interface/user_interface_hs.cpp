@@ -20,7 +20,7 @@ long start_script(hs_script const* script, long index)
     }
     else
     {
-        c_console::write_line("ui:hs: started script %s (thread %d)", script->name, thread_index);
+        c_console::write_line("ui:hs: started script %s (thread 0x%08X)", script->name, thread_index);
     }
 
     return thread_index;
