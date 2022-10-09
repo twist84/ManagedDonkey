@@ -19,6 +19,13 @@ c_gui_screen_widget* __stdcall c_window_manager::allocate_named_screen(long scre
 	return INVOKE(0x00AA8E00, allocate_named_screen, screen_name);
 }
 
+c_gui_screen_widget* __cdecl c_window_manager::load_screen(long controller_index, bool unused, c_load_screen_message const* screen_message, long window_index)
+{
+	FUNCTION_BEGIN(true);
+
+	return DECLFUNC(0x00AABC30, c_gui_screen_widget*, __thiscall, void*, long, bool, c_load_screen_message const*, long)(this_ptr, controller_index, unused, screen_message, window_index);
+}
+
 bool __cdecl c_window_manager::named_screen_defined_in_code(long screen_name)
 {
 	FUNCTION_BEGIN(true);
