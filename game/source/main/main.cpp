@@ -9,6 +9,7 @@
 #include "game/game.hpp"
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
+#include "interface/user_interface_hs.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/module.hpp"
@@ -46,6 +47,8 @@ void __cdecl main_loop_body_end()
 {
     FUNCTION_BEGIN(false);
 
+    bool key_pressed = false;
+
     // home cluster keys
     if (GetKeyState(VK_INSERT) & 0x8000)
     {
@@ -64,41 +67,47 @@ void __cdecl main_loop_body_end()
 
         global_preferences_set_fullscreen(true);
         sub_79BA30(1920, 1080);
+        key_pressed = true;
     }
     else if (GetKeyState(VK_DELETE) & 0x8000)
     {
-        dword address = symbols_reader.get_rva_blocking(L"?main_loop_body_main_part@@YAXXZ");
-        assert(address == 0 || global_address_get(address) == 0x00505C10);
+        static bool elite_hanger = false;
 
-        wchar_t const* name = symbols_reader.get_name_blocking(address);
-        display_debug_string("%ls", name);
+        if (game_is_ui_shell())
+            user_interface_start_hs_script_by_name((elite_hanger = !elite_hanger) ? "elitehangar" : "humanhangar");
+
+        key_pressed = true;
     }
     else if (GetKeyState(VK_HOME) & 0x8000)
     {
         //main_game_launch_set_multiplayer_splitscreen_count(1);
         main_game_launch_set_coop_player_count(1);
         main_game_launch("maps\\riverworld");
+        key_pressed = true;
     }
     else if (GetKeyState(VK_END) & 0x8000)
     {
         director_toggle(main_game_launch_get_last_player(), _director_mode_debug);
-        Sleep(75);
+        key_pressed = true;
     }
     else if (GetKeyState(VK_PRIOR) & 0x8000)
     {
         player_control_toggle_machinima_camera_enabled();
         player_control_toggle_machinima_camera_debug();
-        Sleep(75);
+        key_pressed = true;
     }
     else if (GetKeyState(VK_NEXT) & 0x8000)
     {
         player_control_toggle_machinima_camera_use_old_controls();
-        Sleep(75);
+        key_pressed = true;
     }
 
     if (GetKeyState(VK_ESCAPE) & 0x8000)
     {
         game_finish_immediate();
-        Sleep(25);
+        key_pressed = true;
     }
+
+    if (key_pressed)
+        Sleep(75);
 }
