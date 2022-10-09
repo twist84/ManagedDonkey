@@ -8,7 +8,7 @@ struct hs_tag_reference
 };
 static_assert(sizeof(hs_tag_reference) == sizeof(tag_reference));
 
-enum hs_script_type
+enum e_hs_script_type
 {
 	_hs_script_startup = 0,
 	_hs_script_dormant,
@@ -17,10 +17,10 @@ enum hs_script_type
 	_hs_script_command_script,
 	_hs_script_stub,
 
-	hs_script_type_count
+	k_hs_script_type_count
 };
 
-enum hs_type
+enum e_hs_type
 {
 	_hs_type_unparsed = 0,
 	_hs_type_special_form,
@@ -107,13 +107,13 @@ enum hs_type
 	_hs_type_looping_sound_budget_reference,
 	_hs_type_sound_budget_reference,
 
-	hs_type_count
+	k_hs_type_count
 };
 
 struct hs_script_parameter
 {
 	string name;
-	c_enum<hs_type, short, hs_type_count> return_type;
+	c_enum<e_hs_type, short, k_hs_type_count> return_type;
 
 	// pad
 	byte JBG[2];
@@ -123,7 +123,7 @@ static_assert(sizeof(hs_script_parameter) == 0x24);
 struct hs_global_internal
 {
 	string name;
-	c_enum<hs_type, short, hs_type_count> type;
+	c_enum<e_hs_type, short, k_hs_type_count> type;
 
 	// pad
 	byte EB[2];
@@ -135,8 +135,8 @@ static_assert(sizeof(hs_global_internal) == 0x28);
 struct hs_script
 {
 	string name;
-	c_enum<hs_script_type, short, hs_script_type_count> script_type;
-	c_enum<hs_type, short, hs_type_count> return_type;
+	c_enum<e_hs_script_type, short, k_hs_script_type_count> script_type;
+	c_enum<e_hs_type, short, k_hs_type_count> return_type;
 	long root_expression_index;
 	c_typed_tag_block<hs_script_parameter> parameters;
 };

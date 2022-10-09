@@ -1,9 +1,10 @@
 #pragma once
 
+#include "scenario/scenario_definitions.hpp"
+
 extern long& global_scenario_index;
 extern long& global_scenario_game_globals_index;
 
-struct s_scenario;
 extern s_scenario*& global_scenario;
 
 struct s_game_globals;

@@ -7,7 +7,6 @@
 #include "hf2p/hf2p.hpp"
 #include "main/levels.hpp"
 #include "memory/module.hpp"
-#include "scenario/scenario_definitions.hpp"
 #include "scenario/scenario_tags_fixup.hpp"
 #include "tag_files/tag_groups.hpp"
 
@@ -255,14 +254,14 @@ if (scenario->scripts.count)\
 			c_console::write_line("    %s", script_name);\
 		if (script->parameters.count)\
 		{\
-			c_console::write_line("    parameters");\
+			c_console::write_line("        parameters");\
 			for (long i = 0; i < script->parameters.count; i++)\
 			{\
 				auto parameter = script->parameters.elements + i;\
 				assert(parameter);\
 				char const* parameter_name = parameter->name;\
 				if (*parameter_name)\
-					c_console::write_line("        %s", parameter_name);\
+					c_console::write_line("            %s", parameter_name);\
 			}\
 			c_console::write_line("");\
 		}\
