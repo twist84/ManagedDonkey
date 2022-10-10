@@ -46,3 +46,8 @@ struct c_object_identifier
 	c_enum<e_object_source, char, k_object_source_count> m_source;
 };
 static_assert(sizeof(c_object_identifier) == 0x8);
+
+extern long __cdecl object_get_ultimate_parent(long object_index);
+extern void __cdecl object_set_in_limbo(long object_index, bool deactivate);
+extern void __cdecl object_set_position(long object_index, real_point3d const* position, real_vector3d const* up, real_vector3d const* forward, s_location const* location);
+extern void __cdecl object_debug_teleport(long object_index, real_point3d const* position);

@@ -270,6 +270,9 @@
     <ClCompile Include="source\interface\user_interface_hs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\objects\objects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\physics\havok.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
