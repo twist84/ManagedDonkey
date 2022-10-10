@@ -7,7 +7,9 @@ struct s_player_control_non_deterministic_input_user_state
 {
 	byte __data0[0x6];
 	bool player_input_locked;
-	byte __data7[0x29];
+	byte __data7[0x11];
+	dword player_control_flags;
+	byte __data1C[0x14];
 };
 static_assert(sizeof(s_player_control_non_deterministic_input_user_state) == 0x30);
 
@@ -73,9 +75,10 @@ static_assert(sizeof(s_player_control_state) == 0x70);
 struct s_player_control
 {
 	s_player_control_state state;
-	byte __data70[0x78];
+	byte __data70[0x74];
+	bool gaze_locked;
 	real_point3d __positionE8;
-	byte __dataF4[0x4];
+	angle gaze_fov; // degrees
 };
 static_assert(sizeof(s_player_control) == 0xF8);
 
