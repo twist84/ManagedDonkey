@@ -119,12 +119,12 @@ template<typename t_type, typename t_storage_type, size_t k_count>
 struct c_flags
 {
 public:
-	inline void set_raw_bits(t_storage_type raw_bits)
+	void set_raw_bits(t_storage_type raw_bits)
 	{
 		m_storage = raw_bits;
 	}
 
-	inline void set(t_type bit, bool enable)
+	void set(t_type bit, bool enable)
 	{
 		if (bit < k_count)
 		{
@@ -135,19 +135,19 @@ public:
 		}
 	}
 
-	inline bool operator==(t_type value)
+	bool operator==(t_type value)
 	{
 		return !!(m_storage & (1 << value));
 	}
 
 	template <class T>
-	inline void operator= (T value)
+	void operator= (T value)
 	{
 		m_storage = static_cast<t_storage_type>(value);
 	}
 
 	template <class T>
-	inline operator T () const
+	operator T () const
 	{
 		return static_cast<T>(m_storage);
 	}
@@ -167,49 +167,49 @@ struct c_enum
 {
 public:
 	template<typename T>
-	inline bool operator==(T value) const
+	bool operator==(T value) const
 	{
 		return m_storage == static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	inline bool operator!=(T value)
+	bool operator!=(T value)
 	{
 		return m_storage != static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	inline bool operator<(T value)
+	bool operator<(T value)
 	{
 		return m_storage < static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	inline bool operator>(T value)
+	bool operator>(T value)
 	{
 		return m_storage > static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	inline bool operator>=(T value)
+	bool operator>=(T value)
 	{
 		return m_storage >= static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	inline void operator= (T value)
+	void operator= (T value)
 	{
 		m_storage = static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	inline void operator++()
+	void operator++()
 	{
 		m_storage++;
 	}
 
 	template <class T>
-	inline operator T () const
+	operator T () const
 	{
 		return static_cast<T>(m_storage);
 	}

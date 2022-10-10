@@ -66,13 +66,13 @@
 		e_director_perspective get_perspective();
 		bool set_camera_mode_internal(e_camera_mode camera_mode, real transition_time, bool force_update);
 
-		inline bool set_camera_mode(e_camera_mode camera_mode, real transition_time)
+		bool set_camera_mode(e_camera_mode camera_mode, real transition_time)
 		{
 			return set_camera_mode_internal(camera_mode, transition_time, false);
 		}
 
 		template<typename t_type = c_camera>
-		inline t_type* get_camera()
+		t_type* get_camera()
 		{
 			if (!m_camera[0])
 				return nullptr;
@@ -80,7 +80,7 @@
 			return (t_type*)&m_camera;
 		}
 
-		inline bool in_free_camera_mode()
+		bool in_free_camera_mode()
 		{
 			if (!m_camera[0])
 				return false;

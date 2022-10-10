@@ -31,7 +31,7 @@ struct c_flying_camera : public c_camera
 		DECLFUNC(0x0072ACA0, void, __thiscall, c_camera*, long)(this, user_index);
 	}
 
-	inline void set_lock_in_xy_plane(bool value)
+	void set_lock_in_xy_plane(bool value)
 	{
 		if (value)
 			m_flags |= FLAG(_lock_in_xy_plane_bit);
@@ -39,7 +39,7 @@ struct c_flying_camera : public c_camera
 			m_flags |= ~FLAG(_lock_in_xy_plane_bit);
 	}
 
-	inline void set_collision(bool value)
+	void set_collision(bool value)
 	{
 		if (value)
 			m_flags |= FLAG(_collision_bit);
@@ -47,7 +47,7 @@ struct c_flying_camera : public c_camera
 			m_flags |= ~FLAG(_collision_bit);
 	}
 
-	inline void enable_orientation(bool value)
+	void enable_orientation(bool value)
 	{
 		if (value)
 			m_flags |= FLAG(_orientation_bit);
@@ -55,7 +55,7 @@ struct c_flying_camera : public c_camera
 			m_flags |= ~FLAG(_orientation_bit);
 	}
 
-	inline void enable_movement(bool value)
+	void enable_movement(bool value)
 	{
 		if (value)
 			m_flags |= FLAG(_movement_bit);

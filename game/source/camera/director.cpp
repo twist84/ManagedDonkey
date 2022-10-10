@@ -57,7 +57,7 @@ e_director_mode director_mode_from_string(const char* str)
 	return director_mode;
 }
 
-inline s_director_globals* director_globals_get()
+s_director_globals* director_globals_get()
 {
 	FUNCTION_BEGIN(true);
 

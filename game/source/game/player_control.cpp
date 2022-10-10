@@ -4,7 +4,7 @@
 #include "game/game.hpp"
 #include "memory/thread_local.hpp"
 
-inline s_player_control_globals* player_control_globals_get()
+s_player_control_globals* player_control_globals_get()
 {
 	FUNCTION_BEGIN(true);
 
@@ -15,7 +15,7 @@ inline s_player_control_globals* player_control_globals_get()
 	return tls->player_control_globals;
 }
 
-inline bool player_control_get_machinima_camera_enabled()
+bool player_control_get_machinima_camera_enabled()
 {
 	FUNCTION_BEGIN(true);
 
@@ -25,7 +25,7 @@ inline bool player_control_get_machinima_camera_enabled()
 	return false;
 }
 
-inline bool player_control_get_machinima_camera_use_old_controls()
+bool player_control_get_machinima_camera_use_old_controls()
 {
 	FUNCTION_BEGIN(true);
 
@@ -35,7 +35,7 @@ inline bool player_control_get_machinima_camera_use_old_controls()
 	return false;
 }
 
-inline bool player_control_get_machinima_camera_debug()
+bool player_control_get_machinima_camera_debug()
 {
 	FUNCTION_BEGIN(true);
 
@@ -45,7 +45,7 @@ inline bool player_control_get_machinima_camera_debug()
 	return false;
 }
 
-inline void player_control_set_machinima_camera(bool enabled, bool debug, bool use_old_controls)
+void player_control_set_machinima_camera(bool enabled, bool debug, bool use_old_controls)
 {
 	FUNCTION_BEGIN(true);
 
@@ -58,7 +58,7 @@ inline void player_control_set_machinima_camera(bool enabled, bool debug, bool u
 	player_control_globals->machinima_camera_use_old_controls = use_old_controls;
 }
 
-inline void player_control_toggle_machinima_camera_enabled()
+void player_control_toggle_machinima_camera_enabled()
 {
 	FUNCTION_BEGIN(true);
 
@@ -69,7 +69,7 @@ inline void player_control_toggle_machinima_camera_enabled()
 	player_control_globals->machinima_camera_enabled = !player_control_globals->machinima_camera_enabled;
 }
 
-inline void player_control_toggle_machinima_camera_use_old_controls()
+void player_control_toggle_machinima_camera_use_old_controls()
 {
 	FUNCTION_BEGIN(true);
 
@@ -80,7 +80,7 @@ inline void player_control_toggle_machinima_camera_use_old_controls()
 	player_control_globals->machinima_camera_use_old_controls = !player_control_globals->machinima_camera_use_old_controls;
 }
 
-inline void player_control_toggle_machinima_camera_debug()
+void player_control_toggle_machinima_camera_debug()
 {
 	FUNCTION_BEGIN(true);
 
@@ -91,7 +91,7 @@ inline void player_control_toggle_machinima_camera_debug()
 	player_control_globals->machinima_camera_debug = !player_control_globals->machinima_camera_debug;
 }
 
-inline void player_control_toggle_player_input(long user_index)
+void player_control_toggle_player_input(long user_index)
 {
 	FUNCTION_BEGIN(true);
 
