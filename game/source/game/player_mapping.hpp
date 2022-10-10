@@ -23,3 +23,5 @@ static_assert(sizeof(s_player_mapping_globals) == 0xE8);
 extern long player_index_from_user_index(long user_index);
 extern bool players_user_is_active(long user_index);
 extern long player_mapping_get_player_count();
+extern long player_mapping_first_active_output_user();
+extern long player_mapping_get_unit_by_output_user(long output_user_index);

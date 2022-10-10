@@ -52,3 +52,24 @@ long player_mapping_get_player_count()
 
 	return player_mapping_globals_get()->active_output_user_count;
 }
+
+long player_mapping_first_active_output_user()
+{
+	FUNCTION_BEGIN(true);
+
+	long index = 0;
+	for (long* active_output_user = player_mapping_globals_get()->output_user_player_mapping; *active_output_user == -1; ++active_output_user)
+	{
+		if (++index >= 4)
+			return -1;
+	}
+
+	return index;
+}
+
+long player_mapping_get_unit_by_output_user(long output_user_index)
+{
+	assert(output_user_index != -1 && (output_user_index >= 0 && output_user_index < 4));
+
+	return player_mapping_globals_get()->output_user_unit_mapping[output_user_index];
+}
