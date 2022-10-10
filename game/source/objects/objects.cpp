@@ -15,6 +15,13 @@ void __cdecl object_set_in_limbo(long object_index, bool deactivate)
     INVOKE(0x00B32E20, object_set_in_limbo, object_index, deactivate);
 }
 
+void __cdecl object_set_position(long object_index, real_point3d const* position, real_vector3d const* up, real_vector3d const* forward, s_location const* location)
+{
+    FUNCTION_BEGIN(true);
+
+    INVOKE(0x00B33530, object_set_position, object_index, position, up, forward, location);
+}
+
 void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type)
 {
     FUNCTION_BEGIN(true);
