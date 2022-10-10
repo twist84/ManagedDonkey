@@ -36,3 +36,5 @@ static cheat_globals cheat
 	//.porcupine = true,
 	//.infinite_equipment_energy = true
 };
+
+extern void cheat_teleport_to_camera();
