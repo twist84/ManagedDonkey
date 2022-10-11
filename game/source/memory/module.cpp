@@ -207,17 +207,10 @@ bool c_data_patch_array::apply(bool revert)
 	return true;
 }
 
-void buffer_as_byte_string(byte* buffer, dword buffer_size, char** out_string)
+void buffer_as_byte_string(byte* buffer, dword buffer_size, char* out_string, long out_string_size)
 {
-	char* temp = new char[3 * buffer_size + 1] {};
+	memset(out_string, 0, out_string_size);
+
 	for (dword i = 0; i < buffer_size; i++)
-		csnzprintf(&temp[3 * i], 3 * buffer_size + 1, "%02X ", buffer[i]);
-
-	if (out_string)
-	{
-		*out_string = temp;
-		return;
-	}
-
-	delete[] temp;
+		csnzprintf(&out_string[3 * i], out_string_size, "%02X ", buffer[i]);
 }

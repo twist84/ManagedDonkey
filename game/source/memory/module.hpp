@@ -107,11 +107,11 @@ private:
 	byte** bytes_original;
 };
 
-extern void buffer_as_byte_string(byte* buffer, dword buffer_size, char** out_string);
+extern void buffer_as_byte_string(byte* buffer, dword buffer_size, char* out_string, long out_string_size);
 
-template<typename t_type>
-void type_as_byte_string(t_type* type, char** out_string)
+template<typename t_type, long k_string_size>
+void type_as_byte_string(t_type* type, char(&out_string)[k_string_size])
 {
-	buffer_as_byte_string((byte*)type, sizeof(t_type), out_string);
+	buffer_as_byte_string((byte*)type, sizeof(t_type), out_string, k_string_size);
 }
 

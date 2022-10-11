@@ -218,6 +218,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 	memmove(&clean_header, header, sizeof(s_cache_file_header));
 	cache_file_builder_security_clean_header(&clean_header);
 
+	static char hash_string[4096]{};
 	s_network_http_request_hash hash{};
 	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, &header->hash, &hash))
 	{
@@ -227,17 +228,13 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 			return false;
 		}
 
-		char* hash_string = nullptr;
-		type_as_byte_string(&hash, &hash_string);
+		type_as_byte_string(&hash, hash_string);
 		display_debug_string("cache_files:header: failed hash verification - copying new validated values, %s", hash_string);
-		delete[] hash_string;
 
 		memcpy(&header->hash, &hash, sizeof(s_network_http_request_hash));
 	}
 
-	//char* hash_string = nullptr;
-	//type_as_byte_string(&hash, &hash_string);
-	//delete[] hash_string;
+	//type_as_byte_string(&hash, hash_string);
 
 	security_calculate_hash(&header->hash, sizeof(s_network_http_request_hash), true, &hash);
 
