@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-#define HOOK_DECLARE_CALL(ADDR, NAME) c_hook_call NAME##_hook(ADDR, { .pointer = NAME })
+#define HOOK_DECLARE_CALL(ADDR, NAME) c_hook_call CONCAT(NAME##_hook,__LINE__)(ADDR, { .pointer = NAME })
 #define HOOK_DECLARE(ADDR, NAME) c_hook NAME##_hook(ADDR, { .pointer = NAME })
 #define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) c_hook CLASS##_##NAME##_hook(ADDR, { .pointer = CLASS::NAME })
 #define HOOK_INVOKE(RESULT, NAME, ...) { NAME##_hook.apply(true); RESULT reinterpret_cast<decltype(NAME)*>(NAME##_hook.get_original())(__VA_ARGS__); NAME##_hook.apply(false); }

@@ -4,16 +4,13 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
-void(__cdecl* rasterizer_get_display_pixel_bounds_ui0)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
-void(__cdecl* rasterizer_get_display_pixel_bounds_ui1)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
-void(__cdecl* rasterizer_get_display_pixel_bounds_logo)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
-void(__cdecl* rasterizer_get_display_pixel_bounds_watermark)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
+void(__cdecl* rasterizer_get_display_pixel_bounds)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
 
 //HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
-HOOK_DECLARE_CALL(0x00A9F706, rasterizer_get_display_pixel_bounds_ui0);
-HOOK_DECLARE_CALL(0x00A9FACB, rasterizer_get_display_pixel_bounds_ui1);
-HOOK_DECLARE_CALL(0x00A9F80C, rasterizer_get_display_pixel_bounds_logo);
-HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds_watermark);
+HOOK_DECLARE_CALL(0x00A9F706, rasterizer_get_display_pixel_bounds); // ui
+HOOK_DECLARE_CALL(0x00A9FACB, rasterizer_get_display_pixel_bounds); // ui
+HOOK_DECLARE_CALL(0x00A9F80C, rasterizer_get_display_pixel_bounds); // logo
+HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds); // watermark
 
 void __stdcall sub_79BA30(long width, long height)
 {
