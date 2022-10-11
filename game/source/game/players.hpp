@@ -60,3 +60,4 @@ struct game_player_options
 static_assert(sizeof(game_player_options) == 0x1640);
 
 extern long __cdecl players_first_active_user();
+extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
