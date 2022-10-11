@@ -130,7 +130,7 @@ if (scenario->zone_sets.count)\
 		auto zone_set = scenario->zone_sets.elements + i;\
 		assert(zone_set);\
 		char const* name = zone_set->name.get_string();\
-		if (*name)\
+		if (name && *name)\
 			c_console::write_line("    %s", name);\
 	}\
 	c_console::write_line("");\
@@ -145,7 +145,7 @@ if (scenario->lighting_zone_sets.count)\
 		auto lighting_zone_set = scenario->lighting_zone_sets.elements + i;\
 		assert(lighting_zone_set);\
 		char const* name = lighting_zone_set->name.get_string();\
-		if (*name)\
+		if (name && *name)\
 			c_console::write_line("    %s", name);\
 	}\
 	c_console::write_line("");\
@@ -160,7 +160,7 @@ if (scenario->campaign_players.count)\
 		auto campaign_player = scenario->campaign_players.elements + i;\
 		assert(campaign_player);\
 		char const* name = campaign_player->name.get_string();\
-		if (*name)\
+		if (name && *name)\
 			c_console::write_line("    %s", name);\
 	}\
 	c_console::write_line("");\
@@ -175,7 +175,7 @@ if (scenario->object_names.count)\
 		auto object_name = scenario->object_names.elements + i;\
 		assert(object_name);\
 		char const* name = object_name->name;\
-		if (*name)\
+		if (name && *name)\
 			c_console::write_line("    %s", name);\
 	}\
 	c_console::write_line("");\
@@ -190,7 +190,7 @@ if (scenario->map_variant_##NAME##_palette.count)\
 		auto palette = scenario->map_variant_##NAME##_palette.elements + i;\
 		assert(palette);\
 		char const* display_name = palette->display_name.get_string();\
-		if (*display_name)\
+		if (display_name && *display_name)\
 			c_console::write_line("    %s", display_name);\
 	}\
 	c_console::write_line("");\
@@ -205,7 +205,7 @@ if (scenario->soft_ceilings.count)\
 		auto soft_ceiling = scenario->soft_ceilings.elements + i;\
 		assert(soft_ceiling);\
 		char const* name = soft_ceiling->name.get_string();\
-		if (name)\
+		if (name && *name)\
 			c_console::write_line("    %s", name);\
 	}\
 	c_console::write_line("");\
@@ -220,7 +220,7 @@ if (scenario->player_starting_profile.count)\
 		auto profile = scenario->player_starting_profile.elements + i;\
 		assert(profile);\
 		char const* name = profile->name;\
-		if (*name)\
+		if (name && *name)\
 			c_console::write_line("    %s", name);\
 	}\
 	c_console::write_line("");\
@@ -235,7 +235,7 @@ if (scenario->trigger_volumes.count)\
 		auto trigger_volume = scenario->trigger_volumes.elements + i;\
 		assert(trigger_volume);\
 		char const* name = trigger_volume->name.get_string();\
-		if (*name)\
+		if (name && *name)\
 			c_console::write_line("    %s", name);\
 	}\
 	c_console::write_line("");\
@@ -250,7 +250,7 @@ if (scenario->scripts.count)\
 		auto script = scenario->scripts.elements + i;\
 		assert(script);\
 		char const* script_name = script->name;\
-		if (*script_name)\
+		if (script_name && *script_name)\
 			c_console::write_line("    %s", script_name);\
 		if (script->parameters.count)\
 		{\
@@ -260,7 +260,7 @@ if (scenario->scripts.count)\
 				auto parameter = script->parameters.elements + i;\
 				assert(parameter);\
 				char const* parameter_name = parameter->name;\
-				if (*parameter_name)\
+				if (parameter_name && *parameter_name)\
 					c_console::write_line("            %s", parameter_name);\
 			}\
 			c_console::write_line("");\
@@ -278,7 +278,7 @@ if (scenario->globals.count)\
 		auto global = scenario->globals.elements + i;\
 		assert(global);\
 		char const* name = global->name;\
-		if (*name)\
+		if (name && *name)\
 			c_console::write_line("    %s", name);\
 	}\
 	c_console::write_line("");\

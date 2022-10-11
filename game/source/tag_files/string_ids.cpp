@@ -85,9 +85,10 @@ char const* string_id_get_string_const(long string_id)
 
 	long const defined_in_tags_index = string_index - g_strings_defined_in_tags_starting_index;
 	long const defined_in_tags_count = NUMBEROF(g_strings_defined_in_tags);
-	assert(defined_in_tags_index >= 0 && defined_in_tags_index < NUMBEROF(g_strings_defined_in_tags));
 
-	char const* string = g_strings_defined_in_tags[defined_in_tags_index];
+	char const* string = nullptr;
+	if (defined_in_tags_index >= 0 && defined_in_tags_index < NUMBEROF(g_strings_defined_in_tags))
+		string = g_strings_defined_in_tags[defined_in_tags_index];
 
 	return string;
 }
