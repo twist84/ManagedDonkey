@@ -2,6 +2,18 @@
 
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "memory/module.hpp"
+
+void(__cdecl* rasterizer_get_display_pixel_bounds_ui0)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
+void(__cdecl* rasterizer_get_display_pixel_bounds_ui1)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
+void(__cdecl* rasterizer_get_display_pixel_bounds_logo)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
+void(__cdecl* rasterizer_get_display_pixel_bounds_watermark)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
+
+//HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
+HOOK_DECLARE_CALL(0x00A9F706, rasterizer_get_display_pixel_bounds_ui0);
+HOOK_DECLARE_CALL(0x00A9FACB, rasterizer_get_display_pixel_bounds_ui1);
+HOOK_DECLARE_CALL(0x00A9F80C, rasterizer_get_display_pixel_bounds_logo);
+HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds_watermark);
 
 void __stdcall sub_79BA30(long width, long height)
 {
@@ -57,6 +69,27 @@ real __cdecl c_rasterizer::get_aspect_ratio()
 	FUNCTION_BEGIN(true);
 
 	return INVOKE(0x00A1FA30, get_aspect_ratio);
+}
+
+void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_pixel_bounds)
+{
+	FUNCTION_BEGIN(false);
+
+	//HOOK_INVOKE_CLASS(, c_rasterizer, get_display_pixel_bounds, decltype(get_display_pixel_bounds)*, display_pixel_bounds);
+
+	*display_pixel_bounds = {};
+
+	short right  = 1152;
+	short bottom = 640;
+
+	if (right <= 8)
+		right = 8;
+
+	if (bottom <= 8)
+		bottom = 8;
+
+	display_pixel_bounds->right = right;
+	display_pixel_bounds->bottom = bottom;
 }
 
 void __cdecl c_rasterizer::initialize()
