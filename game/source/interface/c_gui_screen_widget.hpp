@@ -54,7 +54,21 @@ static_assert(sizeof(s_runtime_screen_widget_definition) == 0x88);
 
 struct s_window_manager_screen_render_data
 {
-	byte __data[0x1818];
+	struct s_render_list
+	{
+		long type;
+		long render_data_offset;
+		real rendered_depth;
+		long render_depth_bias;
+	};
+	static_assert(sizeof(s_render_list) == 0x10);
+
+	char* render_data_buffer;
+	long __unknown4;
+	long render_data_buffer_count;
+	s_render_list render_list[384];
+	long current_count;
+	short_rectangle2d window_bounds;
 };
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 
@@ -72,7 +86,8 @@ protected:
 	long m_display_groups[2][3];
 	bool m_can_receive_focus;
 	bool m_responds_to_controller_events;
-	byte __data112[2];
+	byte __unknown112;
+	byte __unknown113;
 	byte __data114[0x10];
 	s_runtime_screen_widget_definition m_core_definition;
 	c_gui_data* m_datasource[32];
