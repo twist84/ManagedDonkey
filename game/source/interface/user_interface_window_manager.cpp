@@ -3,7 +3,7 @@
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 
-void* c_window_manager::this_ptr = reinterpret_cast<void*>(0x05260F34);
+c_window_manager& g_window_manager = *reinterpret_cast<c_window_manager*>(0x05260F34);
 
 c_gui_screen_widget* __stdcall c_window_manager::allocate_codeless_screen(long screen_name)
 {
@@ -23,7 +23,7 @@ c_gui_screen_widget* __cdecl c_window_manager::load_screen(long controller_index
 {
 	FUNCTION_BEGIN(true);
 
-	return DECLFUNC(0x00AABC30, c_gui_screen_widget*, __thiscall, void*, long, bool, c_load_screen_message const*, long)(this_ptr, controller_index, unused, screen_message, window_index);
+	return DECLFUNC(0x00AABC30, c_gui_screen_widget*, __thiscall, c_window_manager*, long, bool, c_load_screen_message const*, long)(&g_window_manager, controller_index, unused, screen_message, window_index);
 }
 
 bool __cdecl c_window_manager::named_screen_defined_in_code(long screen_name)
