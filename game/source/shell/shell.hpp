@@ -107,3 +107,5 @@ enum e_window_index
 
 	k_number_of_windows
 };
+
+extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
