@@ -276,6 +276,9 @@
     <ClCompile Include="source\physics\havok.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_selected_items.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

@@ -246,6 +246,7 @@ POPD
     <ClCompile Include="source\interface\damaged_media.cpp" />
     <ClCompile Include="source\interface\gui_custom_bitmap_widget.cpp" />
     <ClCompile Include="source\interface\gui_location_manager.cpp" />
+    <ClCompile Include="source\interface\gui_selected_items.cpp" />
     <ClCompile Include="source\interface\user_interface_hs.cpp" />
     <ClCompile Include="source\interface\user_interface_memory.cpp" />
     <ClCompile Include="source\interface\user_interface_messages.cpp" />
