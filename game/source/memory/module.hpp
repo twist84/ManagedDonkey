@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
+#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) c_hook_call STRCONCAT(NAME##_hook,__LINE__)(ADDR, { .address = ADDR2 })
 #define HOOK_DECLARE_CALL(ADDR, NAME) c_hook_call STRCONCAT(NAME##_hook,__LINE__)(ADDR, { .pointer = NAME })
 #define HOOK_DECLARE(ADDR, NAME) c_hook NAME##_hook(ADDR, { .pointer = NAME })
 #define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) c_hook CLASS##_##NAME##_hook(ADDR, { .pointer = CLASS::NAME })
