@@ -15,6 +15,11 @@ HOOK_DECLARE(0x00501450, version_get_build_number_sequence_identifier);
 HOOK_DECLARE(0x00501460, version_get_build_string);
 HOOK_DECLARE(0x00501470, version_get_target_configuration);
 
+byte const k_build_date[] = __DATE__;
+byte const k_build_time[] = __TIME__;
+c_data_patch build_date_patch(0x016704A8, NUMBEROF(k_build_date), k_build_date);
+c_data_patch build_time_patch(0x016704B4, NUMBEROF(k_build_time), k_build_time);
+
 bool& k_tracked_build = *reinterpret_cast<bool*>(0x0189CFD0);
 
 __int64 make_int64(__int64 a, __int64 b)
