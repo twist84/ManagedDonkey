@@ -28,3 +28,5 @@ enum e_life_cycle_state
 
 	k_life_cycle_state_count,
 };
+
+extern bool __cdecl network_get_machine_name(wchar_t* machine_name, long machine_name_len);
