@@ -76,7 +76,9 @@ extern int uvsnzprintf(wchar_t*, long, wchar_t const*, char*);
 //extern struct utf32 wchar_string_to_utf32_characters(wchar_t const *,struct s_escape_table const *,wchar_t const * *,long *,struct utf32 *,long,long *);
 //extern void ascii_string_to_utf32_string(char const *,struct s_escape_table const *,struct utf32 *,long,long *);
 //extern void wchar_string_to_utf32_string(wchar_t const *,struct s_escape_table const *,struct utf32 *,long,long *);
-//extern void ascii_string_to_wchar_string(char const *,wchar_t *,long,long *);
+
+extern void ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, long* out_dest_len);
+
 //extern long utf32_character_to_utf16_string(struct utf32,struct utf16 *,long);
 //extern struct utf32 utf16_string_to_utf32_character(struct utf16 const *,struct utf16 const * *);
 //extern bool utf32_in_list(struct utf32,struct s_utf32_range const *,long);
