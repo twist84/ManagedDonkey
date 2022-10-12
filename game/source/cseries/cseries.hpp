@@ -103,6 +103,7 @@ extern char* csstrnlwr(char* s, dword size);
 //extern char* csstrtok(char*, char const*, bool, struct csstrtok_data* data);
 extern long cvsnzprintf(char* buffer, dword size, char const* format, va_list list);
 extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
+extern bool string_is_not_empty(char const* s);
 
 template<typename t_type, size_t k_count>
 struct c_static_array

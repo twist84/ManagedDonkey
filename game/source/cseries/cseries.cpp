@@ -101,6 +101,11 @@ char* csnzprintf(char* buffer, dword size, char const* format, ...)
     return buffer;
 }
 
+bool string_is_not_empty(char const* s)
+{
+    return s && *s;
+}
+
 char* tag_to_string(tag _tag, char* buffer)
 {
     *(tag*)buffer = _byteswap_ulong(_tag);
