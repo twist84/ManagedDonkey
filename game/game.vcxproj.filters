@@ -279,6 +279,15 @@
     <ClCompile Include="source\interface\gui_selected_items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\shell\shell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\network_utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\online\online.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -921,6 +930,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\havok.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\online\online.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
