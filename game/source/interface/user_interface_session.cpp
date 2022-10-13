@@ -4,7 +4,15 @@
 #include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
 
+HOOK_DECLARE(0x00A82AD0, user_interface_squad_get_countdown_delaying_player);
 HOOK_DECLARE(0x00A82AE0, user_interface_squad_get_countdown_timer);
+
+long __cdecl user_interface_squad_get_countdown_delaying_player()
+{
+    //return network_squad_session_get_countdown_delayed_culprit();
+
+    return -1;
+}
 
 long __cdecl user_interface_squad_get_countdown_timer()
 {
