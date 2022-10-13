@@ -17,7 +17,7 @@ game_time_globals_definition* game_time_globals_get()
 
 long __cdecl game_seconds_integer_to_ticks(long seconds)
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	return INVOKE(0x00564B40, game_seconds_integer_to_ticks, seconds);
 }

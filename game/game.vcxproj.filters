@@ -288,6 +288,9 @@
     <ClCompile Include="source\networking\online\online.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\game_engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\interface\user_interface_session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -948,6 +951,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\text\draw_string.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\game_engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\user_interface_session.hpp">
