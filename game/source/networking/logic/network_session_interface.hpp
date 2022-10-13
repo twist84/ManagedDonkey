@@ -69,3 +69,5 @@ struct s_network_squad_status_data
 };
 static_assert(sizeof(s_network_squad_status_data) == 0x164C0);
 #pragma pack(pop)
+
+extern long network_squad_session_get_countdown_timer();

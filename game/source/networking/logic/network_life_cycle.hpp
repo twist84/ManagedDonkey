@@ -58,3 +58,6 @@ extern s_network_life_cycle_globals& life_cycle_globals;
 extern e_life_cycle_state __cdecl network_life_cycle_get_state();
 extern void __cdecl network_life_cycle_request_leave(bool disconnect);
 extern void __cdecl network_life_cycle_end();
+
+struct c_network_session;
+extern bool __cdecl network_life_cycle_in_squad_session(c_network_session** out_active_squad_session);
