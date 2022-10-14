@@ -14,6 +14,65 @@ struct s_player_identifier
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
 
+struct s_player_appearance
+{
+	byte_flags flags;
+	byte player_model_choice;
+	byte : 8;
+	byte : 8;
+
+	struct
+	{
+		byte __data[0x650];
+	} __unknown4;
+
+	wchar_t service_tag[5];
+	byte : 8;
+	byte : 8;
+};
+static_assert(sizeof(s_player_appearance) == 0x660);
+
+struct s_s3d_player_armor_data
+{
+	byte_flags flags;
+	byte : 8;
+	byte : 8;
+	byte : 8;
+	dword loadout_index;
+
+	struct
+	{
+		dword colors[5];
+		byte armor[10];
+		byte : 8;
+		byte : 8;
+	} __unknown8[5];
+
+	dword __unknownA8[5][93];
+};
+static_assert(sizeof(s_s3d_player_armor_data) == 0x7EC);
+
+struct s_s3d_player_weapon_data
+{
+	bool __unknown0;
+	byte : 8;
+	byte : 8;
+	byte : 8;
+	dword loadout_index;
+
+	struct
+	{
+		byte __unknown0;
+		byte __unknown1;
+		byte __unknown2;
+		byte __unknown3[4];
+		byte __unknown7;
+	} __unknown8[5];
+
+	dword __unknown30[5][93];
+};
+static_assert(sizeof(s_s3d_player_weapon_data) == 0x774);
+
 struct s_player_configuration_from_client
 {
 	wchar_t player_name[16];
@@ -26,8 +85,11 @@ struct s_player_configuration_from_host
 {
 	s_player_identifier machine_identifier;
 	wchar_t player_name[16];
-
-	byte __data[0x15C8];
+	long team;
+	long player_assigned_team;
+	s_player_appearance appearance;
+	s_s3d_player_armor_data armor_data;
+	s_s3d_player_weapon_data weapon_data;
 };
 static_assert(sizeof(s_player_configuration_from_host) == 0x15F0);
 

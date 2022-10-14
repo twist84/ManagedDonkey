@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-struct s_player_appearance;
 struct c_gui_selected_item;
 struct c_gui_data
 {

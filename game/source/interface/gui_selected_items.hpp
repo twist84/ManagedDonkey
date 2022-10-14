@@ -2,7 +2,8 @@
 
 enum e_gui_selected_item_type
 {
-	_gui_selection_type_level = 0,
+	_gui_selection_type_none = -1,
+	_gui_selection_type_level,
 	_gui_selection_type_difficulty,
 	_gui_selection_type_map,
 	_gui_selection_type_game_variant,
