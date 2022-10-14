@@ -16,14 +16,13 @@ long __cdecl user_interface_squad_get_countdown_delaying_player()
 
 long __cdecl user_interface_squad_get_countdown_timer()
 {
-    if (user_interface_get_session_game_start_status(0, 0) == 7)
+    if (user_interface_get_session_game_start_status(0, 0) == _session_game_start_status_countdown)
         return network_squad_session_get_countdown_timer();
 
     return -1;
 }
 
-//e_session_game_start_status user_interface_get_session_game_start_status(e_session_game_start_error*, dword*)
-long __cdecl user_interface_get_session_game_start_status(long* error, dword* status)
+e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, dword* player_error_mask)
 {
-    return INVOKE(0x00A809F0, user_interface_get_session_game_start_status, error, status);
+    return INVOKE(0x00A809F0, user_interface_get_session_game_start_status, error, player_error_mask);
 }
