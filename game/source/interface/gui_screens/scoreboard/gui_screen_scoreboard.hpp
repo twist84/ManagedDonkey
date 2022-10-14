@@ -47,8 +47,8 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 
 protected:
 	long m_current_scoreboard_mode;
-	c_gui_scoreboard_data::s_player_row m_player_rows[25];
-	long m_player_row_count;
+	c_gui_scoreboard_data::s_player_row m_players[25];
+	long m_player_count;
 	long m_controller_index;
 };
 static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);
