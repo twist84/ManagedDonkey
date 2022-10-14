@@ -10,6 +10,7 @@
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
 #include "interface/user_interface_hs.hpp"
+#include "interface/user_interface_networking.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/module.hpp"
@@ -31,6 +32,7 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        user_interface_networking_globals;
         g_network_join_data;
         cache_file_table_of_contents;
         cache_file_copy_globals;
