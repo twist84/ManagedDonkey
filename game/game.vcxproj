@@ -347,6 +347,7 @@ POPD
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_details\gui_game_details.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_info_screen\game_info_screen.hpp" />
+    <ClInclude Include="source\interface\gui_screens\scoreboard\gui_screen_scoreboard.hpp" />
     <ClInclude Include="source\interface\gui_selected_items.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
     <ClInclude Include="source\interface\user_interface_hs.hpp" />
