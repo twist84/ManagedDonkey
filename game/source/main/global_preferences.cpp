@@ -46,6 +46,13 @@ void __cdecl global_preferences_set_camera_fov(float camera_fov)
 	INVOKE(0x0050CF20, global_preferences_set_camera_fov, camera_fov);
 }
 
+void __cdecl global_preferences_set_controls_method(long controls_method)
+{
+	FUNCTION_BEGIN(true);
+
+	INVOKE(0x0050CFB0, global_preferences_set_controls_method, controls_method);
+}
+
 void __cdecl global_preferences_set_details_quality(e_quality_setting details_quality)
 {
 	FUNCTION_BEGIN(true);
