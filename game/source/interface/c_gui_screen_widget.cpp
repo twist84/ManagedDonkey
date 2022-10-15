@@ -20,3 +20,8 @@ c_gui_data* c_gui_screen_widget::get_data(long name, long* datasource_index)
 
     return m_datasource[index];
 }
+
+void c_gui_screen_widget::add_datasource(c_gui_data* datasource)
+{
+	m_datasource[m_datasource_count++] = datasource;
+}

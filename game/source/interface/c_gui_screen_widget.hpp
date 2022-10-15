@@ -79,6 +79,8 @@ public:
 	c_gui_data* get_data(long name, long* datasource_index);
 
 protected:
+	void add_datasource(c_gui_data* datasource);
+
 	long __unknownDC;
 	long m_screen_index;
 	dword __timeE4;
