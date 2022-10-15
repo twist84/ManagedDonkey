@@ -43,6 +43,14 @@ void __cdecl main_loop_body_begin()
 
         printf("");
     }
+
+    if (GetKeyState(VK_PAUSE) & 0x8000)
+    {
+        static bool using_controller = 0;
+        global_preferences_set_controls_method((using_controller = !using_controller) ? 1 : 0);
+        *(bool*)0x0244DE98 = using_controller;
+        Sleep(75);
+    }
 }
 
 void __cdecl main_loop_body_end()
