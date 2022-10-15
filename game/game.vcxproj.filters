@@ -315,6 +315,9 @@
     <ClCompile Include="source\networking\transport\transport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\logic_qos_reply_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -993,6 +996,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\transport\transport.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\logic_qos_reply_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\transport\transport_qos.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

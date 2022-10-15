@@ -270,6 +270,7 @@ POPD
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_manager.cpp" />
+    <ClCompile Include="source\networking\logic\logic_qos_reply_manager.cpp" />
     <ClCompile Include="source\networking\logic\network_broadcast_search.cpp" />
     <ClCompile Include="source\networking\logic\network_join.cpp" />
     <ClCompile Include="source\networking\logic\network_life_cycle.cpp" />
@@ -465,6 +466,7 @@ POPD
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_pre_game.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_start_game.hpp" />
     <ClInclude Include="source\networking\logic\logic_matchmaking_desirability.hpp" />
+    <ClInclude Include="source\networking\logic\logic_qos_reply_manager.hpp" />
     <ClInclude Include="source\networking\logic\network_broadcast_search.hpp" />
     <ClInclude Include="source\networking\logic\network_join.hpp" />
     <ClInclude Include="source\networking\logic\network_life_cycle.hpp" />
@@ -489,6 +491,7 @@ POPD
     <ClInclude Include="source\networking\transport\transport.hpp" />
     <ClInclude Include="source\networking\transport\transport_address.hpp" />
     <ClInclude Include="source\networking\transport\transport_endpoint_winsock.hpp" />
+    <ClInclude Include="source\networking\transport\transport_qos.hpp" />
     <ClInclude Include="source\networking\transport\transport_security.hpp" />
     <ClInclude Include="source\objects\objects.hpp" />
     <ClInclude Include="source\physics\havok.hpp" />

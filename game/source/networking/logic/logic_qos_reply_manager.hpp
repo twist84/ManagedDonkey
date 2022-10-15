@@ -1,0 +1,51 @@
+#pragma once
+
+#include "cseries/cseries.hpp"
+#include "networking/transport/transport_qos.hpp"
+#include "networking/logic/network_session_interface.hpp"
+
+struct c_live_service_qos_manager
+{
+	s_transport_qos_result m_qos_result;
+	byte m_flags;
+	long m_live_service_qos_index;
+	long __unknown28;
+};
+static_assert(sizeof(c_live_service_qos_manager) == 0x2C);
+
+struct c_session_qos_reply_manager
+{
+protected:
+	virtual bool get_session_id(s_transport_secure_identifier* session_id);
+	virtual bool desires_qos_reply_block_set();
+	virtual bool get_qos_status(s_network_squad_status_data* status);
+	virtual long get_qos_reply_bandwidth_limit();
+	virtual void notify_qos_reply_block_set();
+
+	byte __data4[0x4];
+	bool m_initialized;
+	dword m_time;
+	s_network_squad_status_data game_status;
+};
+static_assert(sizeof(c_session_qos_reply_manager) == 0x164D0);
+
+struct c_squad_session_qos_reply_manager : c_session_qos_reply_manager
+{
+};
+static_assert(sizeof(c_squad_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
+
+struct c_group_session_qos_reply_manager : c_session_qos_reply_manager
+{
+};
+static_assert(sizeof(c_group_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
+
+struct s_logic_qos_reply_manager_globals
+{
+	bool initialized;
+	c_live_service_qos_manager live_service;
+	c_squad_session_qos_reply_manager squad_session;
+	c_group_session_qos_reply_manager group_session;
+};
+static_assert(sizeof(s_logic_qos_reply_manager_globals) == 0x2C9D0);
+
+extern s_logic_qos_reply_manager_globals& logic_qos_reply_manager_globals;

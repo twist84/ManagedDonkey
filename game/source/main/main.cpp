@@ -14,7 +14,10 @@
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/logic_qos_reply_manager.hpp"
 #include "networking/logic/network_join.hpp"
+#include "networking/transport/transport.hpp"
+#include "networking/transport/transport_security.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "scenario/scenario.hpp"
 #include "simulation/simulation.hpp"
@@ -32,6 +35,9 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        transport_globals;
+        transport_security_globals;
+        logic_qos_reply_manager_globals;
         user_interface_networking_globals;
         g_network_join_data;
         cache_file_table_of_contents;
