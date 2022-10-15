@@ -35,6 +35,8 @@ public:
 	virtual void disable_all_elements(long);
 	virtual void enable_element(long, long);
 
+	c_string_id get_name() { return m_name; }
+
 protected:
 	virtual long get_current_item_count_internal();
 
