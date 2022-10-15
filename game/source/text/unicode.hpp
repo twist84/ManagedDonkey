@@ -52,11 +52,13 @@ extern int ustricmp(wchar_t const *,wchar_t const *);
 //extern int ufprintf(struct _iobuf *,wchar_t const *,...);
 //extern int uprintf(wchar_t const *,...);
 //extern int usnprintf(wchar_t *,long,wchar_t const *,...);
-//extern int usnzprintf(wchar_t *,long,wchar_t const *,...);
+
+extern int usnzprintf(wchar_t *,long,wchar_t const *,...);
+
 //extern int uvfprintf(struct _iobuf *,wchar_t const *,char *);
 //extern int uvprintf(wchar_t const *,char *);
 
-extern int uvsnzprintf(wchar_t*, long, wchar_t const*, char*);
+extern int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list);
 
 //extern struct _iobuf * ufdopen(int,wchar_t const *);
 //extern struct _iobuf * ufopen(wchar_t const *,wchar_t const *);

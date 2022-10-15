@@ -84,7 +84,18 @@ void ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, 
 //int ufprintf(struct _iobuf *,wchar_t const *,...)
 //int uprintf(wchar_t const *,...)
 //int usnprintf(wchar_t *,long,wchar_t const *,...)
-//int usnzprintf(wchar_t *,long,wchar_t const *,...)
+
+int usnzprintf(wchar_t* string, long size, wchar_t const* format, ...)
+{
+    va_list list;
+    va_start(list, format);
+
+    int result = uvsnzprintf(string, size, format, list);
+
+    va_end(list);
+    return result;
+}
+
 //int uvfprintf(struct _iobuf *,wchar_t const *,char *)
 //int uvprintf(wchar_t const *,char *)
 
