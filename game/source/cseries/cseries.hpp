@@ -309,3 +309,5 @@ public:
 protected:
 	string_id m_value;
 };
+
+extern __int64 make_int64(__int64 a, __int64 b);

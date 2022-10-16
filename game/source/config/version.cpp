@@ -22,11 +22,6 @@ c_data_patch build_time_patch(0x016704B4, NUMBEROF(k_build_time), k_build_time);
 
 bool& k_tracked_build = *reinterpret_cast<bool*>(0x0189CFD0);
 
-__int64 make_int64(__int64 a, __int64 b)
-{
-	return ((a << 0) | (b << 32));
-}
-
 char const* __cdecl version_get_target_variant()
 {
 	FUNCTION_BEGIN(false);
