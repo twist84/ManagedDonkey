@@ -39,3 +39,5 @@ static_assert(sizeof(s_transport_security_globals) == 0x1D8);
 #pragma pack(pop)
 
 extern s_transport_security_globals& transport_security_globals;
+
+extern bool transport_secure_address_get_insecure(transport_address* address);
