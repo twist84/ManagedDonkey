@@ -145,7 +145,7 @@ void c_network_session_parameter_base::set_peer_no_longer_requires_update(long p
 
 bool c_network_session_parameter_base::get_allowed() const
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	return TEST_BIT(m_state_flags, 0);
 }

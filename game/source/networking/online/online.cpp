@@ -138,9 +138,7 @@ void __cdecl online_initialize()
 	FUNCTION_BEGIN(true);
 
 	online_set_is_connected_to_live(true);
-
 	gethostname(g_hostname, 256);
-
 }
 
 bool __cdecl online_is_connected_to_live()
@@ -161,7 +159,9 @@ qword __cdecl online_user_get_player_identifier(long controller_index)
 {
 	FUNCTION_BEGIN(false);
 
-	return 0;
+	qword result = 0;
+	HOOK_INVOKE(result =, online_user_get_player_identifier, controller_index);
+	return result;
 }
 
 qword __cdecl online_user_get_xuid(long controller_index)
