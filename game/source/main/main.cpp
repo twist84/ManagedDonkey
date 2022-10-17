@@ -16,6 +16,7 @@
 #include "memory/module.hpp"
 #include "networking/logic/logic_qos_reply_manager.hpp"
 #include "networking/logic/network_join.hpp"
+#include "networking/network_memory.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "rasterizer/rasterizer.hpp"
@@ -35,6 +36,7 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        network_base_memory_globals;
         transport_globals;
         transport_security_globals;
         logic_qos_reply_manager_globals;

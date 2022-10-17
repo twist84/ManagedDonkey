@@ -80,8 +80,8 @@ struct game_options
 	byte : 8;
 	byte : 8;
 	s_campaign_game_progression campaign_game_progression;
-	c_flags<e_campaign_skulls_primary, long, k_campaign_skull_primary_count> skulls_primary;
-	c_flags<e_campaign_skulls_secondary, long, k_campaign_skull_secondary_count> skulls_secondary;
+	c_flags<e_campaign_skulls_primary, long, k_campaign_skulls_primary_count> skulls_primary;
+	c_flags<e_campaign_skulls_secondary, long, k_campaign_skulls_secondary_count> skulls_secondary;
 	s_hub_progression hub_progression;
 	bool matchmade_game;
 	byte __align2C9[7];

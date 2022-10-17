@@ -1,5 +1,18 @@
 #pragma once
 
+enum e_gui_game_mode
+{
+	_ui_game_mode_none = -1,
+	_ui_game_mode_campaign,
+	_ui_game_mode_matchmaking,
+	_ui_game_mode_multiplayer,
+	_ui_game_mode_map_editor,
+	_ui_game_mode_theater,
+	_ui_game_mode_survival,
+
+	k_ui_game_mode_count
+};
+
 enum e_game_mode
 {
 	_game_mode_none = 0,
@@ -34,7 +47,7 @@ enum e_campaign_skulls_primary
 	_campaign_skull_tilt,
 	_campaign_skull_mythic,
 
-	k_campaign_skull_primary_count
+	k_campaign_skulls_primary_count
 };
 
 enum e_campaign_skulls_secondary
@@ -47,7 +60,7 @@ enum e_campaign_skulls_secondary
 	_campaign_skull_third_person,
 	_campaign_skull_directors_cut,
 
-	k_campaign_skull_secondary_count
+	k_campaign_skulls_secondary_count
 };
 
 // #TODO: find a home
@@ -61,6 +74,18 @@ enum e_game_simulation_type
 	_game_simulation_distributed_server,
 
 	k_game_simulation_count
+};
+
+enum e_network_game_simulation_protocol
+{
+	_network_game_simulation_none = 0,
+	_network_game_simulation_local,
+	_network_game_simulation_sync_client,
+	_network_game_simulation_sync_server,
+	_network_game_simulation_dist_client,
+	_network_game_simulation_dist_server,
+
+	k_network_game_simulation_count
 };
 
 // #TODO: find a home
@@ -106,6 +131,10 @@ enum e_window_index
 	_window_index4,
 
 	k_number_of_windows
+};
+
+enum e_network_game_start_mode
+{
 };
 
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
