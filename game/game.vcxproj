@@ -484,7 +484,14 @@ POPD
     <ClInclude Include="source\networking\session\network_session_manager.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_base.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_chunked.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_game.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_game_variant.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_generic.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_map_variant.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_saved_film_game_options.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_session.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_ui.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameter_type_collection.hpp" />
     <ClInclude Include="source\networking\tools\network_blf.hpp" />
     <ClInclude Include="source\networking\tools\network_webstats.hpp" />

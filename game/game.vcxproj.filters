@@ -1004,6 +1004,27 @@
     <ClInclude Include="source\networking\transport\transport_qos.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\session\network_session_parameters_generic.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\session\network_session_parameters_session.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\session\network_session_parameters_ui.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\session\network_session_parameters_game_variant.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\session\network_session_parameters_chunked.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\session\network_session_parameters_map_variant.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\session\network_session_parameters_saved_film_game_options.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
