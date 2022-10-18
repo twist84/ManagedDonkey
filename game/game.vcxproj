@@ -281,7 +281,7 @@ POPD
     <ClCompile Include="source\networking\network_memory.cpp" />
     <ClCompile Include="source\networking\network_utilities.cpp" />
     <ClCompile Include="source\networking\online\online.cpp" />
-    <ClCompile Include="source\networking\online\online_guide_windows.cpp" />
+    <ClCompile Include="source\networking\online\online_guide_pc.cpp" />
     <ClCompile Include="source\networking\session\network_session.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters_base.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters_game.cpp" />
@@ -479,7 +479,7 @@ POPD
     <ClInclude Include="source\networking\network_statistics.hpp" />
     <ClInclude Include="source\networking\network_utilities.hpp" />
     <ClInclude Include="source\networking\online\online.hpp" />
-    <ClInclude Include="source\networking\online\online_guide_windows.hpp" />
+    <ClInclude Include="source\networking\online\online_guide_pc.hpp" />
     <ClInclude Include="source\networking\session\network_observer.hpp" />
     <ClInclude Include="source\networking\session\network_session.hpp" />
     <ClInclude Include="source\networking\session\network_session_manager.hpp" />

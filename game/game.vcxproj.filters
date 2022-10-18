@@ -228,7 +228,7 @@
     <ClCompile Include="source\saved_games\c_storage_device.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\networking\online\online_guide_windows.cpp">
+    <ClCompile Include="source\networking\online\online_guide_pc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\interface\user_interface_text.cpp">
@@ -800,7 +800,7 @@
     <ClInclude Include="source\saved_games\c_storage_device.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\networking\online\online_guide_windows.hpp">
+    <ClInclude Include="source\networking\online\online_guide_pc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\user_interface_text.hpp">
