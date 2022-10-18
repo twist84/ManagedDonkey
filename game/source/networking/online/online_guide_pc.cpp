@@ -5,6 +5,7 @@
 #include "interface/user_interface_text.hpp"
 #include "memory/module.hpp"
 
+#include <windows.h>
 #include <string.h>
 
 HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
@@ -239,6 +240,8 @@ void __cdecl online_guide_show_damaged_media_ui()
 {
 	FUNCTION_BEGIN(true);
 
+	MessageBoxA(NULL, "networking:online:guide", "online_guide_show_damaged_media_ui", MB_OK);
+
 	//e_controller_index controller_index = controller_get_first_signed_in_controller();
 	//if (controller_index == k_any_controller)
 	//	controller_index = first_controller();
@@ -250,6 +253,8 @@ void __cdecl online_guide_show_file_share_recommendation(e_controller_index cont
 {
 	FUNCTION_BEGIN(true);
 
+	MessageBoxA(NULL, "networking:online:guide", "online_guide_show_file_share_recommendation", MB_OK);
+
 	//if (g_online_guide_globals->busy()) 
 	//	c_console::write_line("networking:online:guide: online_guide_show_file_share_recommendation called when task is already in progress");
 }
@@ -257,6 +262,8 @@ void __cdecl online_guide_show_file_share_recommendation(e_controller_index cont
 dword __cdecl online_guide_show_friend_request_ui(e_controller_index controller_index, qword user_xuid)
 {
 	FUNCTION_BEGIN(true);
+
+	MessageBoxA(NULL, "networking:online:guide", "online_guide_show_friend_request_ui", MB_OK);
 
 	//assert(VALID_INDEX(controller_index, k_number_of_controllers));
 	// 
@@ -278,6 +285,8 @@ dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
 {
 	FUNCTION_BEGIN(true);
 
+	MessageBoxA(NULL, "networking:online:guide", "online_guide_show_friends_ui", MB_OK);
+
 	//assert(VALID_INDEX(controller_index, k_number_of_controllers));
 	//
 	//dword result = 0x80004005;
@@ -296,6 +305,8 @@ dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
 dword __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_index, qword user_xuid)
 {
 	FUNCTION_BEGIN(true);
+
+	MessageBoxA(NULL, "networking:online:guide", "online_guide_show_gamer_card_ui", MB_OK);
 
 	//assert(VALID_INDEX(controller_index, k_number_of_controllers));
 	//
@@ -317,6 +328,8 @@ dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 {
 	FUNCTION_BEGIN(true);
 
+	MessageBoxA(NULL, "networking:online:guide", "online_guide_show_player_review_ui", MB_OK);
+
 	//assert(VALID_INDEX(controller_index, k_number_of_controllers));
 	//assert(target_user_xuid != NULL);
 	//
@@ -337,6 +350,8 @@ dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags)
 {
 	FUNCTION_BEGIN(true);
+
+	MessageBoxA(NULL, "networking:online:guide", "online_guide_show_sign_in_ui", MB_OK);
 
 	//assert(pane_count == 1 || pane_count == 2 || pane_count == 4);
 	//
