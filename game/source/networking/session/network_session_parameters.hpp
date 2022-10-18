@@ -6,6 +6,7 @@
 #include "networking/session/network_session_parameters_game.hpp"
 #include "networking/session/network_session_parameters_game_variant.hpp"
 #include "networking/session/network_session_parameters_map_variant.hpp"
+#include "networking/session/network_session_parameters_saved_film_game_options.hpp"
 #include "networking/session/network_session_parameters_ui.hpp"
 #include "shell/shell.hpp"
 
@@ -77,10 +78,7 @@ struct c_network_session_parameters
 		c_network_session_parameter_game_variant game_variant;
 		c_network_session_parameter_map_variant map_variant;
 		c_generic_network_session_parameter<s_saved_film_description> saved_film;
-
-		//c_network_session_parameter_saved_film_game_options saved_film_game_options;
-		c_static_array<byte, 0x5A740> saved_film_game_options;
-
+		c_network_session_parameter_saved_film_game_options saved_film_game_options;
 		c_network_session_parameter_game_start_status game_start_status;
 		c_network_session_parameter_countdown_timer countdown_timer;
 

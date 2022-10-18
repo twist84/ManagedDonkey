@@ -4,11 +4,11 @@
 #include "networking/session/network_session_parameters_generic.hpp"
 
 template <typename t_type, long k_payload_size>
-class c_network_session_parameter_chunked :
+struct c_network_session_parameter_chunked :
 	public c_network_session_parameter_base,
-	protected c_generic_network_session_parameter_data<t_type>
+	c_generic_network_session_parameter_data<t_type>
 {
-private:
+protected:
 	long m_transmitted_peer_update_chunk_indices[17];
 
 	long m_change_request_desired_chunk;
