@@ -112,7 +112,7 @@
       <Command>
 PUSHD $(OutDir)
 ECHO pdbgen: generating pdb from idb
-pdbgen.exe generate -l eldorado.exe eldorado.exe.json eldorado.pdb
+pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
 ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
 POPD
       </Command>
@@ -139,7 +139,7 @@ POPD
       <Command>
 PUSHD $(OutDir)
 ECHO pdbgen: generating pdb from idb
-pdbgen.exe generate -l eldorado.exe eldorado.exe.json eldorado.pdb
+pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
 ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
 POPD
       </Command>
@@ -170,7 +170,7 @@ POPD
       <Command>
 PUSHD $(OutDir)
 ECHO pdbgen: generating pdb from idb
-pdbgen.exe generate -l eldorado.exe eldorado.exe.json eldorado.pdb
+pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
 ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
 POPD
       </Command>
@@ -201,7 +201,7 @@ POPD
       <Command>
 PUSHD $(OutDir)
 ECHO pdbgen: generating pdb from idb
-pdbgen.exe generate -l eldorado.exe eldorado.exe.json eldorado.pdb
+pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
 ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
 POPD
       </Command>
