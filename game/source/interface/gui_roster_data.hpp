@@ -1,6 +1,8 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "interface/user_interface_data.hpp"
+#include "shell/shell.hpp"
 
 struct c_gui_roster_data : c_gui_ordered_data
 {
@@ -17,7 +19,7 @@ struct c_gui_roster_data : c_gui_ordered_data
 		byte __data164C[0x4];
 		qword m_party_nonce;
 		long m_leader_team_index;
-		long m_controller_index;
+		c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
 		byte __data1660[0x8];
 		bool m_is_leader;
 		bool m_show_teams;
@@ -31,7 +33,7 @@ protected:
 	byte __data114[4];
 	c_gui_roster_data::s_player_row m_players[16];
 	long m_player_count;
-	long m_controller_index;
+	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
 	bool __unknown168A0;
 	byte __data168A1[0x7];
 };

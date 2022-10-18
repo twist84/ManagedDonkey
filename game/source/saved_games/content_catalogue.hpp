@@ -5,11 +5,12 @@
 #include "saved_games/c_storage_device.hpp"
 #include "saved_games/content_catalogue_tasks.hpp"
 #include "saved_games/content_item.hpp"
+#include "shell/shell.hpp"
 
 struct s_data_array;
 struct c_content_catalogue
 {
-	long m_controller_index;
+	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
 	s_data_array* m_content_item_data_array;
 	s_content_item* m_content_item_array;
 	s_content_item m_content_item;

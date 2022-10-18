@@ -20,7 +20,7 @@ struct c_player_profile_interface
 
 	byte __data4[8];
 
-	long m_controller_index;
+	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
 
 	byte __data10[0x4];
 

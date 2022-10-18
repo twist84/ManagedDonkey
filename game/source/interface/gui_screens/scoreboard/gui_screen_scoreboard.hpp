@@ -1,7 +1,9 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/user_interface_data.hpp"
+#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 struct c_gui_screen_scoreboard : c_gui_screen_widget
@@ -49,6 +51,6 @@ protected:
 	long m_current_scoreboard_mode;
 	c_gui_scoreboard_data::s_player_row m_players[25];
 	long m_player_count;
-	long m_controller_index;
+	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
 };
 static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);

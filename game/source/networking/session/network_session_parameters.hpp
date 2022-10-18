@@ -45,7 +45,7 @@ struct s_saved_film_description
 	long difficulty;
 	c_static_wchar_string<256> film_path;
 	c_static_wchar_string<128> film_name;
-	long controller_index;
+	c_enum<e_controller_index, long, k_number_of_controllers> controller_index;
 	long length_seconds;
 };
 static_assert(sizeof(s_saved_film_description) == 0x31C);
