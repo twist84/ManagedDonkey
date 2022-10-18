@@ -2,8 +2,8 @@
 
 #include "cseries/async_xoverlapped.hpp"
 #include "cseries/cseries.hpp"
-
-#include <string.h>
+#include "networking/online/online_service_record.hpp"
+#include "shell/shell.hpp"
 
 struct c_virtual_keyboard_task : public c_overlapped_task
 {
@@ -11,14 +11,14 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 		c_virtual_keyboard_task* _this,
 		const char* file,
 		long line,
-		long controller_index,
+		e_controller_index controller_index,
 		const wchar_t* default_text,
 		const wchar_t* title_text,
 		const wchar_t* description_text,
 		dword maximum_input_characters
 	);
 
-	static void __fastcall set_controller_index(c_virtual_keyboard_task* _this, long controller_index);
+	static void __fastcall set_controller_index(c_virtual_keyboard_task* _this, e_controller_index controller_index);
 	static void __fastcall set_default_text(c_virtual_keyboard_task* _this, wchar_t const* default_text);
 	static void __fastcall set_title_text(c_virtual_keyboard_task* _this, wchar_t const* title_text);
 	static void __fastcall set_description_text(c_virtual_keyboard_task* _this, wchar_t const* description_text);
@@ -28,7 +28,7 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 	static c_virtual_keyboard_task* __cdecl get_instance(
 		char const* file,
 		long line,
-		long controller_index,
+		e_controller_index controller_index,
 		wchar_t const* default_text,
 		wchar_t const* title_text,
 		wchar_t const* description_text,
@@ -40,7 +40,7 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 
 	static c_virtual_keyboard_task* m_instance;
 
-	long m_controller_index;
+	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
 	dword_flags m_character_flags;
 	wchar_t m_keyboard_results[256];
 	wchar_t m_default_text[256];
@@ -49,3 +49,32 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 	long m_maximum_input_characters;
 	bool __unknown69C;
 };
+static_assert(sizeof(c_virtual_keyboard_task) == 0x6A0);
+
+enum e_online_guide_toast_position
+{
+	_toast_position0 = 0,
+	_toast_position1,
+	_toast_position2,
+	_toast_position3,
+	_toast_position4,
+	_toast_position5,
+	_toast_position6,
+	_toast_position7,
+	_toast_position8,
+
+	k_toast_position_count
+};
+
+extern dword __cdecl online_guide_delay_toasts(long milliseconds);
+extern void __cdecl online_guide_dispose();
+extern void __cdecl online_guide_initialize();
+extern void __cdecl online_guide_set_toast_position(e_online_guide_toast_position toast_position);
+extern void __cdecl online_guide_show_damaged_media_ui();
+extern void __cdecl online_guide_show_file_share_recommendation(e_controller_index controller_index, qword player_xuid, long a3, char const* a4, s_service_record_identity const* identity, wchar_t const* a6);
+extern dword __cdecl online_guide_show_friend_request_ui(e_controller_index controller_index, qword player_xuid);
+extern dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index);
+extern dword __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_index, qword player_xuid);
+extern dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_index, qword target_user_xuid);
+extern bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags);
+extern void __cdecl online_guide_update();

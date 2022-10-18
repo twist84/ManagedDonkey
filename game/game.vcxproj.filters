@@ -1031,6 +1031,9 @@
     <ClInclude Include="source\networking\session\network_session_parameters_matchmaking.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\online\online_service_record.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">

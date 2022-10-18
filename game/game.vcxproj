@@ -480,6 +480,7 @@ POPD
     <ClInclude Include="source\networking\network_utilities.hpp" />
     <ClInclude Include="source\networking\online\online.hpp" />
     <ClInclude Include="source\networking\online\online_guide_pc.hpp" />
+    <ClInclude Include="source\networking\online\online_service_record.hpp" />
     <ClInclude Include="source\networking\session\network_observer.hpp" />
     <ClInclude Include="source\networking\session\network_session.hpp" />
     <ClInclude Include="source\networking\session\network_session_manager.hpp" />
