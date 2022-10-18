@@ -119,6 +119,11 @@ char const* c_string_id::get_string()
     return string_id_get_string_const(m_value);
 }
 
+char const* c_string_id::get_string() const
+{
+    return string_id_get_string_const(m_value);
+}
+
 __int64 make_int64(__int64 a, __int64 b)
 {
     return ((a << 0) | (b << 32));

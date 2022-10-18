@@ -304,6 +304,7 @@ struct c_string_id
 {
 public:
 	char const* get_string();
+	char const* get_string() const;
 	long get_value() { return m_value; }
 
 protected:
