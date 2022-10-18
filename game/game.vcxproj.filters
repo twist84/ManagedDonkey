@@ -318,6 +318,9 @@
     <ClCompile Include="source\networking\logic\logic_qos_reply_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cache\cache_file_tag_resource_runtime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
