@@ -67,7 +67,14 @@ static_assert(sizeof(c_network_session_parameter_remote_join_data) == 0xE0);
 
 struct s_network_session_parameter_lobby_vote_set
 {
-	c_static_array<byte[3], 2> __unknown0;
+	struct s_lobby_vote
+	{
+		byte __unknown0;
+		byte __unknown1;
+		byte __unknown2;
+	};
+
+	c_static_array<s_lobby_vote, 2> __unknown0;
 	byte __unknown6;
 	byte : 8;
 };
