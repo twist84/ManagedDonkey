@@ -489,6 +489,7 @@ POPD
     <ClInclude Include="source\networking\session\network_session_parameters_game_variant.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_generic.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_map_variant.hpp" />
+    <ClInclude Include="source\networking\session\network_session_parameters_matchmaking.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_saved_film_game_options.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_session.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_ui.hpp" />

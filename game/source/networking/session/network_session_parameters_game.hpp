@@ -58,3 +58,9 @@ struct c_network_session_parameter_game_start_status
 {
 };
 static_assert(sizeof(c_network_session_parameter_game_start_status) == 0x48);
+
+struct s_network_session_parameter_leader_properties
+{
+	c_static_string<64> override_hopper_directory;
+};
+static_assert(sizeof(s_network_session_parameter_leader_properties) == 0x40);

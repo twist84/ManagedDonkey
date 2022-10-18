@@ -6,6 +6,7 @@
 #include "networking/session/network_session_parameters_game.hpp"
 #include "networking/session/network_session_parameters_game_variant.hpp"
 #include "networking/session/network_session_parameters_map_variant.hpp"
+#include "networking/session/network_session_parameters_matchmaking.hpp"
 #include "networking/session/network_session_parameters_saved_film_game_options.hpp"
 #include "networking/session/network_session_parameters_ui.hpp"
 #include "shell/shell.hpp"
@@ -49,6 +50,20 @@ struct s_saved_film_description
 };
 static_assert(sizeof(s_saved_film_description) == 0x31C);
 
+struct s_network_session_parameter_synchronous_out_of_sync
+{
+	bool synchronous_out_of_sync;
+	bool synchronous_determinism_failure;
+};
+static_assert(sizeof(s_network_session_parameter_synchronous_out_of_sync) == 0x2);
+
+struct s_network_session_parameter_request_campaign_quit
+{
+	long reason;
+	long peer_index;
+};
+static_assert(sizeof(s_network_session_parameter_request_campaign_quit) == 0x8);
+
 struct c_network_session;
 struct c_network_observer;
 struct c_network_session_parameters
@@ -81,8 +96,29 @@ struct c_network_session_parameters
 		c_network_session_parameter_saved_film_game_options saved_film_game_options;
 		c_network_session_parameter_game_start_status game_start_status;
 		c_network_session_parameter_countdown_timer countdown_timer;
-
-		byte __data[0x2010];
+		c_generic_network_session_parameter<long> voice_repeater;
+		c_network_session_parameter_requested_remote_join_data requested_remote_join_data;
+		c_network_session_parameter_remote_join_data remote_join_data;
+		c_generic_network_session_parameter<qword> matchmaking_arbitration_nonce;
+		c_network_session_parameter_matchmaking_hopper_list matchmaking_hopper_list;
+		c_generic_network_session_parameter<s_game_hopper_picked_game_collection> matchmaking_game_list;
+		c_generic_network_session_parameter<short> matchmaking_requested_hopper;
+		c_network_session_parameter_matchmaking_hopper matchmaking_hopper;
+		c_generic_network_session_parameter<bool> matchmaking_abort_requested;
+		c_generic_network_session_parameter<e_matchmaking_search_preference> matchmaking_search_preference;
+		c_generic_network_session_parameter<s_replicated_life_cycle_matchmaking_progress> matchmaking_progress;
+		c_generic_network_session_parameter<s_replicated_life_cycle_matchmaking_progress_search_criteria> matchmaking_progress_search_criteria;
+		c_generic_network_session_parameter<dword> matchmaking_peer_evict_mask;
+		c_network_session_parameter_matchmaking_rematch_data matchmaking_rematch_data;
+		c_network_session_parameter_matchmaking_hopper_statistics matchmaking_hopper_statistics;
+		c_generic_network_session_parameter<long> matchmaking_tip;
+		c_generic_network_session_parameter<bool> matchmaking_suppress_progress;
+		c_generic_network_session_parameter<s_network_session_parameter_synchronous_out_of_sync> synchronous_out_of_sync;
+		c_network_session_parameter_matchmaking_messaging matchmaking_messaging;
+		c_generic_network_session_parameter<e_network_rough_quality> host_frame_quality;
+		c_generic_network_session_parameter<s_network_session_parameter_request_campaign_quit> request_campaign_quit;
+		c_generic_network_session_parameter<s_network_session_parameter_leader_properties> leader_properties;
+		c_network_session_parameter_lobby_vote_set lobby_vote_set;
 	};
 	static_assert(sizeof(s_network_session_parameters_internal) == 0xB7858);
 
