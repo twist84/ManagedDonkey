@@ -101,6 +101,21 @@ char* csnzprintf(char* buffer, dword size, char const* format, ...)
     return buffer;
 }
 
+char* csnzappendf(char* buffer, dword size, char const* format, ...)
+{
+    dword current_length = strlen(buffer);
+    assert(current_length >= 0 && current_length < size);
+
+    va_list list;
+    va_start(list, format);
+
+    cvsnzprintf(&buffer[current_length], size - current_length, format, list);
+
+    va_end(list);
+
+    return buffer;
+}
+
 bool string_is_not_empty(char const* s)
 {
     return s && *s;
