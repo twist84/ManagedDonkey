@@ -1,28 +1,35 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "networking/transport/transport_address.hpp"
 
 struct s_transport_unique_identifier
 {
-	long parts[2];
+	dword parts[2];
 };
 static_assert(sizeof(s_transport_unique_identifier) == 0x8);
 
 struct s_transport_secure_identifier
 {
-	long parts[4];
+	dword part0;
+	word part4[2];
+	byte part8[8];
 };
 static_assert(sizeof(s_transport_secure_identifier) == 0x10);
 
 struct s_transport_secure_address
 {
-	long parts[4];
+	dword part0;
+	word part4[2];
+	byte part8[8];
 };
 static_assert(sizeof(s_transport_secure_address) == 0x10);
 
 struct s_transport_secure_key
 {
-	long parts[4];
+	dword part0;
+	word part4[2];
+	byte part8[8];
 };
 static_assert(sizeof(s_transport_secure_key) == 0x10);
 
@@ -52,4 +59,7 @@ static_assert(sizeof(s_transport_security_globals) == 0x1D8);
 
 extern s_transport_security_globals& transport_security_globals;
 
-extern bool transport_secure_address_get_insecure(transport_address* address);
+extern bool __cdecl transport_secure_address_get_insecure(transport_address* address);
+extern char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, long maximum_string_length, bool include_online, bool include_mac);
+extern char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifier const* secure_identifier);
+extern bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address);
