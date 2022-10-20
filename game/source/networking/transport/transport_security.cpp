@@ -20,3 +20,8 @@ char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifi
 	return INVOKE(0x00430ED0, transport_secure_identifier_get_string, secure_identifier);
 }
 
+bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address)
+{
+	return INVOKE(0x00430F30, transport_secure_identifier_retrieve, usable_address, transport_platform, secure_identifier, secure_address);
+}
+
