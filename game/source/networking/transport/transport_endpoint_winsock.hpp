@@ -44,3 +44,5 @@ struct transport_endpoint
 	c_enum<e_transport_type, long, k_transport_type_count> type;
 	dword_flags flags;
 };
+
+extern long __cdecl get_platform_socket_option(e_transport_endpoint_option option);
