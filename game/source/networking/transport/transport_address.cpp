@@ -18,158 +18,167 @@ HOOK_DECLARE(0x0043F8F0, transport_get_listen_address);
 
 bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b)
 {
-    assert(a != NULL);
-    assert(b != NULL);
+	FUNCTION_BEGIN(true);
 
-    short address_length = a->address_length <= b->address_length ? a->address_length : b->address_length;
-    return a->address_length > 0 && a->address_length == b->address_length && memcmp(a, b, address_length) == 0 && a->port == b->port;
+	assert(a != NULL);
+	assert(b != NULL);
+
+	short address_length = a->address_length <= b->address_length ? a->address_length : b->address_length;
+	return a->address_length > 0 && a->address_length == b->address_length && memcmp(a, b, address_length) == 0 && a->port == b->port;
 }
 
 char const* __cdecl transport_address_get_string(transport_address const* address)
 {
-    static char _string[256]{};
-    transport_address_to_string(address, nullptr, _string, 256, false, true);
+	FUNCTION_BEGIN(false);
 
-    return nullptr;
+	static char _string[256]{};
+	transport_address_to_string(address, nullptr, _string, 256, false, true);
+
+	return _string;
 }
 
 dword __cdecl transport_address_ipv4_extract(transport_address const* address)
 {
-    assert(address);
+	FUNCTION_BEGIN(true);
 
-    return address->ina.addr;
+	assert(address);
+
+	return address->ina.addr;
 }
 
 bool __cdecl transport_address_is_loopback(transport_address const* address)
 {
-    assert(address);
+	FUNCTION_BEGIN(true);
 
-    return address->address_length == 4 && address->ina.addr == 0x7F000001;
+	assert(address);
+
+	return address->address_length == 4 && address->ina.addr == 0x7F000001;
 }
 
 char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, short maximum_string_length, bool include_port, bool include_extra)
 {
-    assert(address);
-    assert(_string);
-    assert(maximum_string_length > 0);
+	FUNCTION_BEGIN(false);
 
-    char secure_address_string[256]{};
-    s_transport_secure_identifier secure_identifier_from_address;
-    s_transport_secure_address secure_address_from_address;
+	assert(address);
+	assert(_string);
+	assert(maximum_string_length > 0);
 
-    csstrnzcpy(_string, "", maximum_string_length);
-    if (address->address_length == 4)
-    {
-        csnzprintf(_string, maximum_string_length, "%hd.%hd.%hd.%hd",
-            address->ina.bytes[3], 
-            address->ina.bytes[2], 
-            address->ina.bytes[1], 
-            address->ina.bytes[0]);
+	char secure_address_string[256]{};
+	s_transport_secure_identifier secure_identifier_from_address;
+	s_transport_secure_address secure_address_from_address;
 
-        if (include_port)
-            csnzappendf(_string, maximum_string_length, ":%hd", address->port);
+	csstrnzcpy(_string, "", maximum_string_length);
+	switch (address->address_length)
+	{
+	case 4:
+		csnzprintf(_string, maximum_string_length, "%hd.%hd.%hd.%hd",
+			address->ina.bytes[3],
+			address->ina.bytes[2],
+			address->ina.bytes[1],
+			address->ina.bytes[0]);
 
-        if (include_extra)
-        {
-            if (secure_address)
-            {
-                transport_secure_address_to_string(secure_address, secure_address_string, 256, false, false);
-                csstrnzcat(_string, secure_address_string, maximum_string_length);
-            }
-            else if (transport_secure_identifier_retrieve(address, 0, &secure_identifier_from_address, &secure_address_from_address))
-            {
-                transport_secure_address_to_string(&secure_address_from_address, secure_address_string, 256, false, false);
-                csstrnzcat(_string, secure_address_string, maximum_string_length);
+		if (include_port)
+			csnzappendf(_string, maximum_string_length, ":%hd", address->port);
 
-                char const* secure_identifier_string = transport_secure_identifier_get_string(&secure_identifier_from_address);
-                csnzappendf(_string, maximum_string_length, "[%s]", secure_identifier_string);
-            }
-            else
-            {
-                csnzappendf(_string, maximum_string_length, " (insecure)");
-            }
-        }
-    }
-    else if (address->address_length == 16)
-    {
-        csnzprintf(_string, maximum_string_length, "%04X.%04X.%04X.%04X.%04X.%04X.%04X.%04X",
-            address->ina6.words[0],
-            address->ina6.words[1],
-            address->ina6.words[2],
-            address->ina6.words[3],
-            address->ina6.words[4],
-            address->ina6.words[5],
-            address->ina6.words[6],
-            address->ina6.words[7]);
+		if (include_extra)
+		{
+			if (secure_address)
+			{
+				transport_secure_address_to_string(secure_address, secure_address_string, 256, false, false);
+				csstrnzcat(_string, secure_address_string, maximum_string_length);
+			}
+			else if (transport_secure_identifier_retrieve(address, 0, &secure_identifier_from_address, &secure_address_from_address))
+			{
+				transport_secure_address_to_string(&secure_address_from_address, secure_address_string, 256, false, false);
+				csstrnzcat(_string, secure_address_string, maximum_string_length);
+				csnzappendf(_string, maximum_string_length, "[%s]", transport_secure_identifier_get_string(&secure_identifier_from_address));
+			}
+			else
+			{
+				csnzappendf(_string, maximum_string_length, " (insecure)");
+			}
+		}
+		break;
+	case 16:
+		csnzprintf(_string, maximum_string_length, "%04X.%04X.%04X.%04X.%04X.%04X.%04X.%04X",
+			address->ina6.words[0],
+			address->ina6.words[1],
+			address->ina6.words[2],
+			address->ina6.words[3],
+			address->ina6.words[4],
+			address->ina6.words[5],
+			address->ina6.words[6],
+			address->ina6.words[7]);
 
-        if (include_port)
-            csnzappendf(_string, maximum_string_length, ":%hd", address->port);
-    }
-    else if (address->address_length == 0xFFFF)
-    {
-        csstrnzcpy(_string, address->str, maximum_string_length);
-    }
-    else if (address->address_length)
-    {
-        c_console::write_line("invalid transport address");
-    }
-    else
-    {
-        csstrnzcpy(_string, "NULL_ADDRESS", maximum_string_length);
-    }
+		if (include_port)
+			csnzappendf(_string, maximum_string_length, ":%hd", address->port);
+		break;
+	case 0xFFFF:
+		csstrnzcpy(_string, address->str, maximum_string_length);
+		break;
+	case 0:
+		csstrnzcpy(_string, "NULL_ADDRESS", maximum_string_length);
+		break;
+	}
 
-    return _string;
+	return _string;
 }
 
 bool __cdecl transport_address_valid(transport_address const* address)
 {
-    bool result = false;
-    if (address)
-    {
-        switch (address->address_length)
-        {
-        case 0xFFFFFFFF:
-        {
-            result = address->ina.addr != 0;
-        }
-        break;
-        case 4:
-        {
-            result = address->ina.addr != 0;
-            if (!result)
-                c_console::write_line("networking:transport:transport_address_valid: the IPV4 address is NOT valid");
-        }
-        break;
-        case 16:
-        {
-            for (long i = 0; i < 8; ++i)
-            {
-                if (address->ina6.words[i])
-                {
-                    result = true;
-                    break;
-                }
-            }
-            if (!result)
-                c_console::write_line("networking:transport:transport_address_valid: the IPV6 address is NOT valid");
-        }
-        break;
-        }
-    }
+	FUNCTION_BEGIN(false);
 
-    return result;
+	bool result = false;
+	if (address)
+	{
+		switch (address->address_length)
+		{
+		case 0xFFFFFFFF:
+		{
+			result = address->ina.addr != 0;
+		}
+		break;
+		case 4:
+		{
+			result = address->ina.addr != 0;
+			if (!result)
+				c_console::write_line("networking:transport:transport_address_valid: the IPV4 address is NOT valid");
+		}
+		break;
+		case 16:
+		{
+			for (long i = 0; i < 8; ++i)
+			{
+				if (address->ina6.words[i])
+				{
+					result = true;
+					break;
+				}
+			}
+			if (!result)
+				c_console::write_line("networking:transport:transport_address_valid: the IPV6 address is NOT valid");
+		}
+		break;
+		}
+	}
+
+	return result;
 }
 
 void __cdecl transport_get_broadcast_address(transport_address* address, word port)
 {
-    address->address_length = 4;
-    address->ina.addr = -1;
-    address->port = port;
+	FUNCTION_BEGIN(true);
+
+	address->address_length = 4;
+	address->ina.addr = -1;
+	address->port = port;
 }
 
 void __cdecl transport_get_listen_address(transport_address* address, word port)
 {
-    address->address_length = 4;
-    address->ina.addr = 0;
-    address->port = port;
+	FUNCTION_BEGIN(true);
+
+	address->address_length = 4;
+	address->ina.addr = 0;
+	address->port = port;
 }
