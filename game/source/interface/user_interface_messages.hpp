@@ -36,8 +36,46 @@ protected:
 };
 static_assert(sizeof(c_message) == 0x18);
 
-enum e_event_type;
-enum e_controller_component;
+enum e_event_type
+{
+	_event_type_none = 0,
+	_event_type_vertical_navigation1,
+	_event_type_horizontal_navigation2,
+	_event_type_vertical_navigation3,
+	_event_type_horizontal_navigation4,
+	_event_type_vertical_navigation5,
+	_event_type_horizontal_navigation6,
+	_event_type_vertical_navigation7,
+	_event_type_horizontal_navigation8,
+	_event_type_vertical_navigation9,
+	_event_type_horizontal_navigation10,
+	_event_type_vertical_navigation11,
+	_event_type_horizontal_navigation12,
+	_event_type_controller_component,
+
+	k_event_type_count
+};
+
+enum e_controller_component
+{
+	_controller_component_button_a = 0,
+	_controller_component_button_b,
+	_controller_component_button_x,
+	_controller_component_button_y,
+	_controller_component_button_right_bumper,
+	_controller_component_button_left_bumper,
+	_controller_component_button_left_trigger,
+	_controller_component_button_right_trigger,
+	_controller_component_button_up,
+	_controller_component_button_down,
+	_controller_component_button_left,
+	_controller_component_button_right,
+	_controller_component_button_start,
+	_controller_component_button_back
+
+	// this enum seems to line up with `ButtonCodes` from ED
+	// ...
+};
 
 //_ui_message_type_controller_input
 struct c_controller_input_message : c_message

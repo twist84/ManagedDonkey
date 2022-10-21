@@ -221,6 +221,7 @@ POPD
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
     <ClCompile Include="source\cseries\symbols_reader.cpp" />
+    <ClCompile Include="source\cutscene\cinematics.cpp" />
     <ClCompile Include="source\editor\editor_stubs.cpp" />
     <ClCompile Include="source\effects\contrails.cpp" />
     <ClCompile Include="source\fmod\fmod.cpp" />
@@ -251,6 +252,7 @@ POPD
     <ClCompile Include="source\interface\damaged_media.cpp" />
     <ClCompile Include="source\interface\gui_custom_bitmap_widget.cpp" />
     <ClCompile Include="source\interface\gui_location_manager.cpp" />
+    <ClCompile Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.cpp" />
     <ClCompile Include="source\interface\gui_selected_items.cpp" />
     <ClCompile Include="source\interface\user_interface_hs.cpp" />
     <ClCompile Include="source\interface\user_interface_memory.cpp" />
@@ -335,6 +337,7 @@ POPD
     <ClInclude Include="source\cseries\async_xoverlapped_memory.hpp" />
     <ClInclude Include="source\cseries\console.hpp" />
     <ClInclude Include="source\cseries\language.hpp" />
+    <ClInclude Include="source\cutscene\cinematics.hpp" />
     <ClInclude Include="source\cutscene\cinematics_definitions.hpp" />
     <ClInclude Include="source\cutscene\recorded_animation_definitions.hpp" />
     <ClInclude Include="source\editor\editor_scenario_definitions.hpp" />
@@ -360,6 +363,7 @@ POPD
     <ClInclude Include="source\interface\gui_screens\game_details\gui_game_details.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_info_screen\game_info_screen.hpp" />
     <ClInclude Include="source\interface\gui_screens\scoreboard\gui_screen_scoreboard.hpp" />
+    <ClInclude Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.hpp" />
     <ClInclude Include="source\interface\gui_selected_items.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
     <ClInclude Include="source\interface\user_interface_hs.hpp" />

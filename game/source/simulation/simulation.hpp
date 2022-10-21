@@ -59,3 +59,5 @@ struct s_simulation_globals
 static_assert(sizeof(s_simulation_globals) == 0x128);
 
 extern s_simulation_globals& simulation_globals;
+
+extern bool __cdecl simulation_starting_up();
