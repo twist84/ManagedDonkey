@@ -9,7 +9,6 @@
 #include <string.h>
 
 HOOK_DECLARE(0x00AD86B0, parse_build_number);
-HOOK_DECLARE(0x00AD8E30, parse_version_number);
 
 bool parse_build_number(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
@@ -34,4 +33,3 @@ bool parse_build_number(void* this_ptr, wchar_t* buffer, long buffer_length)
 
     return true;
 }
-
