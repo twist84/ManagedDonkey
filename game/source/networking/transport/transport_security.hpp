@@ -5,30 +5,25 @@
 
 struct s_transport_unique_identifier
 {
-	dword parts[2];
+	dword part0;
+	word part4[2];
 };
 static_assert(sizeof(s_transport_unique_identifier) == 0x8);
 
-struct s_transport_secure_identifier
+struct s_transport_secure_identifier : s_transport_unique_identifier
 {
-	dword part0;
-	word part4[2];
 	byte part8[8];
 };
 static_assert(sizeof(s_transport_secure_identifier) == 0x10);
 
-struct s_transport_secure_address
+struct s_transport_secure_address : s_transport_unique_identifier
 {
-	dword part0;
-	word part4[2];
 	byte part8[8];
 };
 static_assert(sizeof(s_transport_secure_address) == 0x10);
 
-struct s_transport_secure_key
+struct s_transport_secure_key : s_transport_unique_identifier
 {
-	dword part0;
-	word part4[2];
 	byte part8[8];
 };
 static_assert(sizeof(s_transport_secure_key) == 0x10);
@@ -60,6 +55,12 @@ static_assert(sizeof(s_transport_security_globals) == 0x1D8);
 extern s_transport_security_globals& transport_security_globals;
 
 extern bool __cdecl transport_secure_address_get_insecure(transport_address* address);
+extern void __cdecl transport_secure_address_extract_identifier(s_transport_secure_address const* secure_address, s_transport_unique_identifier* unique_identifier);
+extern bool __cdecl transport_secure_address_resolve();
 extern char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, long maximum_string_length, bool include_online, bool include_mac);
 extern char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifier const* secure_identifier);
 extern bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address);
+extern void __cdecl transport_security_initialize();
+extern void __cdecl transport_security_startup();
+extern void __cdecl transport_secure_address_reset_for_new_networking_mode(void* callback_data);
+extern void __cdecl transport_unique_identifier_resolve();

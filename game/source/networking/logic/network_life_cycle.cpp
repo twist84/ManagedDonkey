@@ -34,5 +34,7 @@ void __cdecl network_life_cycle_end()
 
 bool __cdecl network_life_cycle_in_squad_session(c_network_session** out_active_squad_session)
 {
+    FUNCTION_BEGIN(true);
+
     return INVOKE(0x00454F20, network_life_cycle_in_squad_session, out_active_squad_session);
 }

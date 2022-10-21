@@ -70,4 +70,5 @@ struct s_network_squad_status_data
 static_assert(sizeof(s_network_squad_status_data) == 0x164C0);
 #pragma pack(pop)
 
-extern long network_squad_session_get_countdown_timer();
+extern long __cdecl network_squad_session_get_countdown_timer();
+extern void __cdecl network_session_interface_handle_message(long session_network_message);

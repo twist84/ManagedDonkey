@@ -330,6 +330,9 @@
     <ClCompile Include="source\networking\transport\transport_endpoint_winsock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\online\online_error.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1041,6 +1044,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\online\online_service_record.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\online\online_error.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

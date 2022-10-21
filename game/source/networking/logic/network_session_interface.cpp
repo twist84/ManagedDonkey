@@ -1,11 +1,14 @@
 #include "networking/logic/network_session_interface.hpp"
 
+#include "cseries/console.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
 
-long network_squad_session_get_countdown_timer()
+long __cdecl network_squad_session_get_countdown_timer()
 {
+	FUNCTION_BEGIN(true);
+
 	c_network_session* active_squad_session = nullptr;
 	if (network_life_cycle_in_squad_session(&active_squad_session) && active_squad_session->established())
 	{
@@ -16,4 +19,11 @@ long network_squad_session_get_countdown_timer()
 	}
 
     return -1;
+}
+
+void __cdecl network_session_interface_handle_message(long session_network_message)
+{
+	FUNCTION_BEGIN(true);
+
+	INVOKE(0x004365D0, network_session_interface_handle_message, session_network_message);
 }
