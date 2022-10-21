@@ -9,14 +9,30 @@
 #include "networking/online/online_service_record.hpp"
 #include "simulation/simulation.hpp"
 
-HOOK_DECLARE(0x00AE0720, handle_global_start_button_press);
+HOOK_DECLARE_CLASS(0x00AE05B0, c_start_menu_screen_widget, handle_controller_input_message);
+HOOK_DECLARE_CLASS(0x00AE0720, c_start_menu_screen_widget, handle_global_start_button_press);
 
-bool __cdecl load_start_menu(e_controller_index controller_index, s_player_identifier* player_identifier, qword* player_xuid, s_service_record_identity* identity, s_start_menu_breadcrumb* breadcrumbs, long breadcrumb_count)
+bool __fastcall c_start_menu_screen_widget::handle_controller_input_message(void* _this, void* unused, c_controller_input_message* input_message)
 {
-	return INVOKE(0x00AE0BE0, load_start_menu, controller_index, player_identifier, player_xuid, identity, breadcrumbs, breadcrumb_count);
+	if (input_message->get_event_type() == _event_type_controller_component)
+	{
+		if (input_message->get_component() == _controller_component_button_b || input_message->get_component() == _controller_component_button_start)
+		{
+			// c_static_stack<s_start_menu_breadcrumb, 8>::count != 0
+			if (reinterpret_cast<long>(static_cast<byte*>(_this) + 0x215C) != 1)
+			{
+				DECLFUNC(0x00AE01D0, void, __thiscall, void*)(_this);
+				return true;
+			}
+		}
+	}
+
+	bool result = false;
+	HOOK_INVOKE_CLASS(result =, c_start_menu_screen_widget, handle_controller_input_message, bool(__thiscall*)(void*, c_controller_input_message*), _this, input_message);
+	return result;
 }
 
-bool __cdecl handle_global_start_button_press(c_controller_input_message* input_message)
+bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_controller_input_message* input_message)
 {
     bool result = false;
 
@@ -48,4 +64,9 @@ bool __cdecl handle_global_start_button_press(c_controller_input_message* input_
 	}
 
     return result;
+}
+
+bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier* player_identifier, qword* player_xuid, s_service_record_identity* identity, s_start_menu_breadcrumb* breadcrumbs, long breadcrumb_count)
+{
+	return INVOKE(0x00AE0BE0, load_start_menu, controller_index, player_identifier, player_xuid, identity, breadcrumbs, breadcrumb_count);
 }
