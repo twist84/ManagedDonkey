@@ -120,12 +120,6 @@ void __cdecl main_loop_body_end()
         key_pressed = true;
     }
 
-    if (GetKeyState(VK_ESCAPE) & 0x8000)
-    {
-        game_finish_immediate();
-        key_pressed = true;
-    }
-
     if (key_pressed)
         Sleep(75);
 }
