@@ -333,6 +333,9 @@
     <ClCompile Include="source\networking\online\online_error.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\multiplayer_game_hopper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1047,6 +1050,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\online\online_error.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\multiplayer_game_hopper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
