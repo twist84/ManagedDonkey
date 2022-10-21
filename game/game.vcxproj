@@ -254,6 +254,7 @@ POPD
     <ClCompile Include="source\interface\gui_location_manager.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.cpp" />
     <ClCompile Include="source\interface\gui_selected_items.cpp" />
+    <ClCompile Include="source\interface\user_interface_global_text_parsers.cpp" />
     <ClCompile Include="source\interface\user_interface_hs.cpp" />
     <ClCompile Include="source\interface\user_interface_memory.cpp" />
     <ClCompile Include="source\interface\user_interface_messages.cpp" />
@@ -366,6 +367,7 @@ POPD
     <ClInclude Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.hpp" />
     <ClInclude Include="source\interface\gui_selected_items.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
+    <ClInclude Include="source\interface\user_interface_global_text_parsers.hpp" />
     <ClInclude Include="source\interface\user_interface_hs.hpp" />
     <ClInclude Include="source\interface\user_interface_memory.hpp" />
     <ClInclude Include="source\interface\user_interface_messages.hpp" />
