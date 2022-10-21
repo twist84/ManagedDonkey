@@ -2,6 +2,7 @@
 
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "main/main_game.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE(0x0052F180, main_load_map);
@@ -95,6 +96,11 @@ bool __cdecl main_load_map(char* scenario_path, long map_load_type)
 
     bool result = false;
     HOOK_INVOKE(result =, main_load_map, scenario_path, map_load_type);
+
+    // hack fix
+    if (csstricmp(scenario_path, "maps\\mainmenu") == 0)
+        main_menu_launch();
+
     return result;
 }
 
