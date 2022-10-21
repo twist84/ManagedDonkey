@@ -21,6 +21,7 @@ bool __fastcall c_start_menu_screen_widget::handle_controller_input_message(void
 			// c_static_stack<s_start_menu_breadcrumb, 8>::count != 0
 			if (reinterpret_cast<long>(static_cast<byte*>(_this) + 0x215C) != 1)
 			{
+				// back_out_current_pane
 				DECLFUNC(0x00AE01D0, void, __thiscall, void*)(_this);
 				return true;
 			}
