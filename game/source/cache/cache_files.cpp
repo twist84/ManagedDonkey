@@ -5,11 +5,15 @@
 #include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "memory/module.hpp"
+#include "scenario/scenario_definitions.hpp"
+#include "tag_files/string_ids.hpp"
 
 #include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
+HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_instance_data);
+HOOK_DECLARE(0x00503470, sub_503470);
 
 s_cache_file_globals& g_cache_file_globals = *reinterpret_cast<s_cache_file_globals*>(0x022AAFE8);
 
@@ -311,4 +315,26 @@ long __cdecl tag_iterator_next(tag_iterator* iterator)
 	FUNCTION_BEGIN(true);
 
 	return INVOKE(0x00503400, tag_iterator_next, iterator);
+}
+
+void __cdecl cache_file_tags_fixup_instance_data()
+{
+	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; ++i)
+	{
+		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
+		long* data_fixups = &instance->dependencies[instance->dependency_count];
+
+		for (long data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
+		{
+			long data_fixup_offset = data_fixups[data_fixup_index] & MASK(30);
+			long& data_fixup_address = *reinterpret_cast<long*>(instance->base + data_fixup_offset);
+			data_fixup_address += reinterpret_cast<long>(instance->base + (FLAG(30) | FLAG(31)));
+		}
+	}
+}
+
+// __thiscall
+void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, long tag_index)
+{
+	c_console::write_line("0x%08X.%s", tag_index, tag_instance->group_name.get_string());
 }
