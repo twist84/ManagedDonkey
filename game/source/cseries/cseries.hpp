@@ -262,6 +262,18 @@ public:
 		csstrnzcat(m_string, s, k_buffer_size);
 	}
 
+	char const* print(char const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		cvsnzprintf(m_string, k_buffer_size, format, list);
+
+		va_end(list);
+
+		return m_string;
+	}
+
 	char const* append_print(char const* format, ...)
 	{
 		va_list list;
