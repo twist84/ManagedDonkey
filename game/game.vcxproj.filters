@@ -348,6 +348,9 @@
     <ClCompile Include="source\interface\user_interface_global_text_parsers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1077,6 +1080,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\user_interface_global_text_parsers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
