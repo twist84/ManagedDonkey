@@ -92,6 +92,10 @@ const long LONG_BITS = SIZEOF_BITS(long);
 
 #define NONE -1
 
+extern int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size);
+extern void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size);
+extern void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size);
+
 extern long csstricmp(char const* s1, char const* s2);
 //extern long csstrnicmp(char const* s1, char const* s2, dword size);
 //extern char* csstristr(char const* s1, char const* s2);
@@ -295,6 +299,11 @@ public:
 		cvsnzprintf(m_string + current_length, k_buffer_size - current_length, format, list);
 
 		return m_string;
+	}
+
+	void clear()
+	{
+		csmemset(m_string, 0, sizeof(m_string));
 	}
 
 	char const* get_string() const

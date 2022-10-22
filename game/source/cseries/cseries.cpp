@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include <string.h>
 
+int (__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size) = memcmp;
+void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size) = memcpy;
+void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size) = memset;
+
 #define MAXIMUM_STRING_SIZE 0x100000
 
 long csstricmp(char const* s1, char const* s2)
