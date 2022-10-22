@@ -14,7 +14,7 @@ bool __fastcall c_gui_screen_pregame_lobby::handle_controller_input_message(void
 
 		// `c_gui_screen_pregame_lobby_multiplayer::handle_list_item_chosen`
 		// `c_gui_screen_pregame_lobby_mapeditor::handle_list_item_chosen`
-		// STRING_ID(gui, advanced_options)
+		// if (gui_data->get_string_id_value(list_item->get_element_handle(), STRING_ID(global, name), name) && name == STRING_ID(gui, advanced_options))
 		DECLFUNC(0x00B225B0, void, __thiscall, void*, e_controller_index)(_this, controller_index);
 	}
 
