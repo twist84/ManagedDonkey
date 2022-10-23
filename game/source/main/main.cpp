@@ -9,10 +9,12 @@
 #include "game/game.hpp"
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
+#include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
+#include "memory/data.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/logic_qos_reply_manager.hpp"
 #include "networking/logic/network_join.hpp"
@@ -36,6 +38,7 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        g_gui_custom_bitmap_storage_manager;
         network_base_memory_globals;
         transport_globals;
         transport_security_globals;

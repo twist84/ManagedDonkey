@@ -250,6 +250,7 @@ POPD
     <ClCompile Include="source\game\player_mapping.cpp" />
     <ClCompile Include="source\interface\c_controller.cpp" />
     <ClCompile Include="source\interface\damaged_media.cpp" />
+    <ClCompile Include="source\interface\gui_custom_bitmap_storage.cpp" />
     <ClCompile Include="source\interface\gui_custom_bitmap_widget.cpp" />
     <ClCompile Include="source\interface\gui_location_manager.cpp" />
     <ClCompile Include="source\interface\gui_screens\main_menu\gui_screen_main_menu.cpp" />
@@ -336,6 +337,7 @@ POPD
     <ClInclude Include="source\ai\squad_patrol.hpp" />
     <ClInclude Include="source\ai\styles.hpp" />
     <ClInclude Include="source\ai\zone.hpp" />
+    <ClInclude Include="source\bitmaps\bitmaps.hpp" />
     <ClInclude Include="source\cseries\async_xoverlapped.hpp" />
     <ClInclude Include="source\cseries\async_xoverlapped_memory.hpp" />
     <ClInclude Include="source\cseries\console.hpp" />
@@ -360,6 +362,7 @@ POPD
     <ClInclude Include="source\interface\c_gui_screen_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_widget.hpp" />
     <ClInclude Include="source\interface\gui_animation.hpp" />
+    <ClInclude Include="source\interface\gui_custom_bitmap_storage.hpp" />
     <ClInclude Include="source\interface\gui_custom_bitmap_widget.hpp" />
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
     <ClInclude Include="source\interface\gui_roster_data.hpp" />
@@ -525,6 +528,7 @@ POPD
     <ClInclude Include="source\physics\physics_constants.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_performance_throttles.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_text.hpp" />
     <ClInclude Include="source\render\render_visibility_collection.hpp" />
     <ClInclude Include="source\saved_games\content_catalogue.hpp" />
     <ClInclude Include="source\saved_games\content_catalogue_tasks.hpp" />

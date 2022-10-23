@@ -1,13 +1,12 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "rasterizer/rasterizer_text.hpp"
 
 #include <d3d9.h>
 
 // force update the backbuffer
 extern void __stdcall sub_79BA30(long width, long height);
-
-typedef dword c_rasterizer_texture_ref;
 
 enum e_platform;
 enum e_vertex_type;

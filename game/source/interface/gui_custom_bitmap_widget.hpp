@@ -19,8 +19,8 @@ struct c_gui_custom_bitmap_widget : c_gui_bitmap_widget
 	};
 
 	static bool __cdecl get_map_filename(e_custom_map_image_type type, long map_id, c_static_string<256>* out_filename);
-	static void __fastcall set_map_image(c_gui_custom_bitmap_widget* _this, void* unused, e_custom_map_image_type image_type, long map_id, bool allocate_bitmap);
-	void __cdecl load_from_file_async(bool allocate_bitmap, char const* file_path);
+	static void __fastcall set_map_image(c_gui_custom_bitmap_widget* _this, void* unused, e_custom_map_image_type image_type, long map_id, bool allocate_bitmap_as_dxt5);
+	void __cdecl load_from_file_async(bool allocate_bitmap_as_dxt5, char const* file_path);
 	void __cdecl clear();
 
 	long m_storage_item_index;
@@ -31,7 +31,7 @@ struct c_gui_custom_bitmap_widget : c_gui_bitmap_widget
 	c_synchronized_long __unknown14C;
 	c_synchronized_long __unknown150;
 	s_file_reference m_file;
-	bool m_allocate_bitmap;
+	bool m_allocate_bitmap_as_dxt5;
 	long __unknown268;
 	c_static_string<256> m_path;
 	c_static_string<256> m_name;
