@@ -89,6 +89,7 @@ const long LONG_BITS = SIZEOF_BITS(long);
 #define FLAG(bit) (1 << (bit))
 #define MASK(bit) ((1 << (bit)) - 1)
 #define TEST_BIT(flags, bit) ((flags & (1 << (bit))) != 0)
+#define ALIGN(value, bit) (((value) & ~((1 << (bit)) - 1)) + (1 << (bit)))
 
 #define NONE -1
 

@@ -33,6 +33,7 @@ void __stdcall XGOffsetResourceAddress(D3DBaseTexture* out_resource, void* base_
 	INVOKE(0x00D7AE34, XGOffsetResourceAddress, out_resource, base_address);
 }
 
+const dword bitmap_pixel_buffer_alignment_bits = 12;
 void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap_storage_item* _this, void* unused, long width, long height, bool allocate_bitmap_as_dxt5)
 {
 	short format = allocate_bitmap_as_dxt5 ? 16 : 11;
@@ -48,13 +49,13 @@ void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap
 	dword resource_bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, hardware_format, 0, 0, -1, 0, _this->texture_header, &base_size, &mip_size);
 	if (resource_bytes)
 	{
-		long allocate_bytes = resource_bytes + 4096;
+		long allocate_bytes = resource_bytes + FLAG(bitmap_pixel_buffer_alignment_bits);
 		_this->m_bitmap_pixel_buffer = (char*)user_interface_malloc_tracked(allocate_bytes, __FILE__, __LINE__);
 		if (_this->m_bitmap_pixel_buffer)
 		{
 			_this->m_width = width;
 			_this->m_height = height;
-			_this->m_bitmap_pixel_buffer_base = (char*)(((long)_this->m_bitmap_pixel_buffer & 0xFFFFF000) + 4096);
+			_this->m_bitmap_pixel_buffer_base = (char*)ALIGN((long)_this->m_bitmap_pixel_buffer, bitmap_pixel_buffer_alignment_bits);
 			_this->m_bitmap_pixel_buffer_length = allocate_bytes - (_this->m_bitmap_pixel_buffer_base - _this->m_bitmap_pixel_buffer);
 			assert(_this->m_bitmap_pixel_buffer_length <= allocate_bytes);
 
