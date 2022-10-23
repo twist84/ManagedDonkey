@@ -19,6 +19,9 @@ struct c_gui_custom_bitmap_widget : c_gui_bitmap_widget
 	};
 
 	static bool __cdecl get_map_filename(e_custom_map_image_type type, long map_id, c_static_string<256>* out_filename);
+	static void __fastcall set_map_image(c_gui_custom_bitmap_widget* _this, void* unused, e_custom_map_image_type image_type, long map_id, bool allocate_bitmap);
+	void __cdecl load_from_file_async(bool allocate_bitmap, char const* file_path);
+	void __cdecl clear();
 
 	long m_storage_item_index;
 	char* m_async_load_buffer;
