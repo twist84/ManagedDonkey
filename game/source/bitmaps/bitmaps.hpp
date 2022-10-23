@@ -26,3 +26,5 @@ struct bitmap_data
 	dword runtime_tag_base_address;
 };
 static_assert(sizeof(bitmap_data) == 0x30);
+
+extern void __cdecl bitmap_2d_initialize(bitmap_data* bitmap, short width, short height, short mipmap_count, short format, word flags, bool a7, bool a8);

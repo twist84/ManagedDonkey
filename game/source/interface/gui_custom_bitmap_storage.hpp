@@ -7,8 +7,16 @@
 
 struct D3DBaseTexture
 {
-	byte __data[0x34];
+	short width;
+	short height;
+	char depth;
+	char mipmap_count_plus_one;
+	bool high_res_pixels_size_nonzero;
+	char type;
+	dword xenon_d3d_format;
+	byte __dataC[0x28];
 };
+static_assert(sizeof(D3DBaseTexture) == 0x34);
 
 struct c_gui_custom_bitmap_storage_item
 {
@@ -33,7 +41,7 @@ struct c_gui_custom_bitmap_storage_item
 	char* m_bitmap_pixel_buffer;
 
 	// unsure on the name
-	char* m_bitmap_pixel_buffer_end_aligned;
+	char* m_bitmap_pixel_buffer_base;
 
 	long m_bitmap_pixel_buffer_length;
 

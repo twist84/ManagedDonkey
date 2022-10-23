@@ -354,6 +354,12 @@
     <ClCompile Include="source\interface\gui_custom_bitmap_storage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\rasterizer\rasterizer_textures_xenon_formats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bitmaps\bitmaps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1095,6 +1101,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\bitmaps\bitmaps.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rasterizer\rasterizer_textures_xenon_formats.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
