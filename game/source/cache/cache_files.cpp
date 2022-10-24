@@ -322,13 +322,17 @@ void __cdecl cache_file_tags_fixup_instance_data()
 	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; ++i)
 	{
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
-		long* data_fixups = &instance->dependencies[instance->dependency_count];
-
+		cache_address* data_fixups = instance->dependencies + instance->dependency_count;
+		
 		for (long data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
 		{
-			long data_fixup_offset = data_fixups[data_fixup_index] & MASK(30);
-			long& data_fixup_address = *reinterpret_cast<long*>(instance->base + data_fixup_offset);
-			data_fixup_address += reinterpret_cast<long>(instance->base + (FLAG(30) | FLAG(31)));
+			cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
+			assert(data_fixup.resource == false);
+			assert(data_fixup.definition == true);
+			assert(data_fixup.memory == false);
+
+			data_fixup.offset += (dword)instance->base;
+			data_fixup.definition = false;
 		}
 	}
 }

@@ -87,6 +87,19 @@ union s_cache_file_header
 static_assert(sizeof(s_cache_file_header) == 0x3390);
 #pragma pack(pop)
 
+union cache_address
+{
+	dword value;
+	struct
+	{
+		dword offset : 29;
+		dword resource : 1;
+		dword definition : 1;
+		dword memory : 1;
+	};
+};
+static_assert(sizeof(cache_address) == 0x4);
+
 union cache_file_tag_instance
 {
 #pragma warning(push)
@@ -111,7 +124,7 @@ union cache_file_tag_instance
 
 #pragma warning(push)
 #pragma warning(disable : 4200)
-		long dependencies[];
+		cache_address dependencies[];
 #pragma warning(pop)
 
 	};
