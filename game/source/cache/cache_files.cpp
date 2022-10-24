@@ -323,16 +323,14 @@ void __cdecl cache_file_tags_fixup_instance_data()
 	{
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 		cache_address* data_fixups = instance->dependencies + instance->dependency_count;
-		
 		for (long data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
 		{
 			cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
-			assert(data_fixup.resource == false);
-			assert(data_fixup.definition == true);
-			assert(data_fixup.memory == false);
+			assert(data_fixup.persistent == true);
 
 			data_fixup.offset += (dword)instance->base;
-			data_fixup.definition = false;
+			data_fixup.persistent = false;
+			assert(data_fixup.value == data_fixup.offset);
 		}
 	}
 }

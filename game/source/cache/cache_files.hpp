@@ -92,10 +92,9 @@ union cache_address
 	dword value;
 	struct
 	{
-		dword offset : 29;
-		dword resource : 1;
-		dword definition : 1;
-		dword memory : 1;
+		dword offset : 30;
+		dword persistent : 1;
+		dword : 1;
 	};
 };
 static_assert(sizeof(cache_address) == 0x4);
