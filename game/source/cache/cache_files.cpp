@@ -19,21 +19,10 @@ s_cache_file_globals& g_cache_file_globals = *reinterpret_cast<s_cache_file_glob
 
 struct s_cache_file_global_tags_definition
 {
-	struct
-	{
-		long count;
-
-		struct
-		{
-			tag group_tag;
-			long name_offset;
-			long name_length;
-			long index;
-		}* address;
-
-		void* definition;
-	} references;
+	c_typed_tag_block<tag_reference> references;
+	dword : 32;
 };
+static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 
 char const* tag_get_name(long tag_name_index)
 {
