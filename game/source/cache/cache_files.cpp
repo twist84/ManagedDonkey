@@ -12,7 +12,7 @@
 #include <string.h>
 
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
-HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_instance_data);
+HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
 HOOK_DECLARE(0x00503470, sub_503470);
 
 s_cache_file_globals& g_cache_file_globals = *reinterpret_cast<s_cache_file_globals*>(0x022AAFE8);
@@ -306,21 +306,25 @@ long __cdecl tag_iterator_next(tag_iterator* iterator)
 	return INVOKE(0x00503400, tag_iterator_next, iterator);
 }
 
-void __cdecl cache_file_tags_fixup_instance_data()
+void __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* instance)
+{
+	cache_address* data_fixups = instance->dependencies + instance->dependency_count;
+	for (long data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
+	{
+		cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
+		assert(data_fixup.persistent == true);
+
+		data_fixup.offset += (dword)instance->base;
+		data_fixup.persistent = false;
+		assert(data_fixup.value == data_fixup.offset);
+	}
+}
+
+void __cdecl cache_file_tags_fixup_all_instances()
 {
 	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; ++i)
 	{
-		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
-		cache_address* data_fixups = instance->dependencies + instance->dependency_count;
-		for (long data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
-		{
-			cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
-			assert(data_fixup.persistent == true);
-
-			data_fixup.offset += (dword)instance->base;
-			data_fixup.persistent = false;
-			assert(data_fixup.value == data_fixup.offset);
-		}
+		cache_file_tags_single_tag_instance_fixup(g_cache_file_globals.tag_instances[i]);
 	}
 }
 
@@ -329,3 +333,4 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 {
 	c_console::write_line("0x%08X.%s", tag_index, tag_instance->group_name.get_string());
 }
+

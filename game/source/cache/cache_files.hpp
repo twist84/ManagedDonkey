@@ -303,5 +303,6 @@ extern void __cdecl tag_files_close();
 extern void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag);
 extern long __cdecl tag_iterator_next(tag_iterator* iterator);
 
-extern void __cdecl cache_file_tags_fixup_instance_data();
+extern void __cdecl cache_file_tags_fixup_all_instances();
 extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, long tag_index);
+
