@@ -4,6 +4,7 @@
 #include "cache/security_functions.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
+#include "memory/crc.hpp"
 #include "memory/module.hpp"
 #include "scenario/scenario_definitions.hpp"
 #include "tag_files/string_ids.hpp"
@@ -332,5 +333,64 @@ void __cdecl cache_file_tags_fixup_all_instances()
 void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, long tag_index)
 {
 	c_console::write_line("0x%08X.%s", tag_index, tag_instance->group_name.get_string());
+}
+
+bool cache_file_tags_single_tag_file_load(s_file_reference* file, cache_file_tag_instance** out_instance)
+{
+	cache_file_tag_instance& tag_instance = *reinterpret_cast<cache_file_tag_instance*>(&g_cache_file_globals.tag_cache_base_address[g_cache_file_globals.tag_loaded_size]);
+
+	if (out_instance)
+		*out_instance = &tag_instance;
+
+	dword absolute_index = g_cache_file_globals.tag_loaded_count;
+	dword tag_index = 0;
+	while (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != -1)
+		tag_index++;
+
+	dword tag_buffer_size = ALIGN(8, 4);
+	if (!file_get_size(file, &tag_buffer_size))
+		return false;
+
+	if (!file_read(file, tag_buffer_size, 0, tag_instance.base))
+		return false;
+
+	g_cache_file_globals.tag_loaded_size += tag_instance.total_size;
+	g_cache_file_globals.tag_instances[absolute_index] = &tag_instance;
+	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = absolute_index;
+	g_cache_file_globals.absolute_index_tag_mapping[absolute_index] = tag_index;
+
+	if (adler32(adler_new(), tag_instance.base + 4, tag_instance.total_size - 4) == tag_instance.checksum)
+	{
+		g_cache_file_globals.tag_loaded_count++;
+		if (tag_instance.dependency_count <= 0)
+			return true;
+
+		short dependency_index = 0;
+		while (DECLFUNC(0x00502780, bool, __cdecl, dword)(tag_instance.dependencies[dependency_index].value))
+		{
+			if (++dependency_index >= tag_instance.dependency_count)
+				return true;
+		}
+	}
+
+	if (out_instance)
+		*out_instance = nullptr;
+
+	return false;
+}
+
+void cache_file_tags_load_single_tag_file_test(char const* file_name)
+{
+	s_file_reference file;
+	dword error = 0;
+
+	file_reference_create_from_path(&file, file_name, false);
+	if (file_open(&file, FLAG(_file_open_flag_desired_access_read), &error)/* && error == 0*/)
+	{
+		cache_file_tag_instance* instance = nullptr;
+		if (cache_file_tags_single_tag_file_load(&file, &instance) && instance)
+			cache_file_tags_single_tag_instance_fixup(instance);
+	}
+	file_close(&file);
 }
 

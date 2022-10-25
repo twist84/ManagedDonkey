@@ -305,4 +305,5 @@ extern long __cdecl tag_iterator_next(tag_iterator* iterator);
 
 extern void __cdecl cache_file_tags_fixup_all_instances();
 extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, long tag_index);
+extern void cache_file_tags_load_single_tag_file_test(char const* file_name);
 

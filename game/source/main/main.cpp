@@ -52,6 +52,8 @@ void __cdecl main_loop_body_begin()
         global_game_globals;
         game_options* options = game_options_get();
 
+        cache_file_tags_load_single_tag_file_test("tags\\test.tag");
+
         printf("");
     }
 
