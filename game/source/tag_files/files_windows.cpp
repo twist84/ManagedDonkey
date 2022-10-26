@@ -7,8 +7,6 @@
 #include <windows.h>
 #include <assert.h>
 
-HOOK_DECLARE(0x00529B00, file_get_size);
-HOOK_DECLARE(0x0052A7E0, file_read);
 HOOK_DECLARE(0x00528B60, file_close);
 HOOK_DECLARE(0x00528C40, file_compare_last_modification_dates);
 HOOK_DECLARE(0x00528C60, file_copy_to);
@@ -18,7 +16,19 @@ HOOK_DECLARE(0x00529130, file_date_format_for_output);
 HOOK_DECLARE(0x00529170, file_delete);
 HOOK_DECLARE(0x005294F0, file_error);
 HOOK_DECLARE(0x005295F0, file_exists);
+HOOK_DECLARE(0x00529B00, file_get_size);
 HOOK_DECLARE(0x0052A220, file_open);
+HOOK_DECLARE(0x0052A7E0, file_read);
+//HOOK_DECLARE(0x0052A850, file_read_from_position);
+//HOOK_DECLARE(0x0052A9A0, file_reference_create);
+//HOOK_DECLARE(0x0052AA50, file_reference_create_temporary);
+//HOOK_DECLARE(0x0052AC60, file_reference_get_file_handle);
+//HOOK_DECLARE(0x0052ACB0, file_rename);
+//HOOK_DECLARE(0x0052AEC0, file_set_eof);
+//HOOK_DECLARE(0x0052B060, file_set_position);
+//HOOK_DECLARE(0x0052B0D0, file_set_writeable);
+//HOOK_DECLARE(0x0052B250, file_write);
+//HOOK_DECLARE(0x0052B350, file_write_to_position);
 
 HOOK_DECLARE(0x0052B450, find_files_end);
 HOOK_DECLARE(0x0052B4A0, find_files_next);
@@ -41,58 +51,6 @@ bool file_errors_suppressed()
         return get_tls()->g_file_errors_suppressed;
 
     return true;
-}
-
-bool file_get_size(s_file_reference* file_reference, dword* out_file_size)
-{
-    //bool result = false;
-    //HOOK_INVOKE(result =, file_get_size, file_reference, out_file_size);
-    //return result;
-
-    assert(file_reference);
-    assert(out_file_size);
-
-    WIN32_FILE_ATTRIBUTE_DATA file_info{};
-    if (GetFileAttributesExA(file_reference->path, GetFileExInfoStandard, &file_info))
-    {
-        *out_file_size = file_info.nFileSizeLow;
-        return true;
-    }
-
-    file_error(__FUNCTION__, file_reference, nullptr, false);
-
-    return false;
-}
-
-bool __cdecl file_read(s_file_reference* file_reference, dword size, bool print_error, void* buffer)
-{
-    //bool result = false;
-    //HOOK_INVOKE(result =, file_read, file_reference, size, print_error, buffer);
-    //return result;
-
-    assert(file_reference);
-    assert(buffer);
-    
-    unsigned long bytes_read = 0;
-    bool result = false;
-    
-    if (!size)
-        return true;
-    
-    if (ReadFile(file_reference->handle.handle, buffer, size, &bytes_read, NULL))
-    {
-        if (size == bytes_read)
-            result = true;
-        else
-            SetLastError(ERROR_HANDLE_EOF);
-    }
-    
-    file_reference->position += bytes_read;
-
-    if (!result)
-        file_error(__FUNCTION__, file_reference, nullptr, print_error);
-
-    return result;
 }
 
 bool __cdecl file_close(s_file_reference* file_reference)
@@ -214,6 +172,27 @@ bool __cdecl file_exists(s_file_reference const* file_reference)
     return GetFileAttributesA(file_reference->path) != INVALID_FILE_ATTRIBUTES;
 }
 
+bool file_get_size(s_file_reference* file_reference, dword* out_file_size)
+{
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_get_size, file_reference, out_file_size);
+    //return result;
+
+    assert(file_reference);
+    assert(out_file_size);
+
+    WIN32_FILE_ATTRIBUTE_DATA file_info{};
+    if (GetFileAttributesExA(file_reference->path, GetFileExInfoStandard, &file_info))
+    {
+        *out_file_size = file_info.nFileSizeLow;
+        return true;
+    }
+
+    file_error(__FUNCTION__, file_reference, nullptr, false);
+
+    return false;
+}
+
 bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword* error)
 {
     FUNCTION_BEGIN(true);
@@ -226,9 +205,9 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
     assert(error);
 
     bool result = false;
-    unsigned long desired_access = 0;
-    unsigned long share_mode = 0;
-    unsigned long flags_and_attributes = FILE_READ_ATTRIBUTES;
+    dword desired_access = 0;
+    dword share_mode = 0;
+    dword flags_and_attributes = FILE_READ_ATTRIBUTES;
 
     *error = 0;
 
@@ -303,6 +282,70 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
     return result;
 }
 
+bool __cdecl file_read(s_file_reference* file_reference, dword size, bool print_error, void* buffer)
+{
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_read, file_reference, size, print_error, buffer);
+    //return result;
+
+    assert(file_reference);
+    assert(buffer);
+
+    unsigned long bytes_read = 0;
+    bool result = false;
+
+    if (!size)
+        return true;
+
+    if (ReadFile(file_reference->handle.handle, buffer, size, &bytes_read, NULL))
+    {
+        if (size == bytes_read)
+            result = true;
+        else
+            SetLastError(ERROR_HANDLE_EOF);
+    }
+
+    file_reference->position += bytes_read;
+
+    if (!result)
+        file_error(__FUNCTION__, file_reference, nullptr, print_error);
+
+    return result;
+}
+
+bool __cdecl file_read_from_position(s_file_reference* file_reference, dword offset, dword size, bool print_error, void* buffer)
+{
+    //bool result = false;
+    //HOOK_INVOKE(result =, file_read_from_position, file_reference, size, print_error, buffer);
+    //return result;
+
+    assert(file_reference);
+    assert(buffer);
+
+    bool result = false;
+    if (file_set_position(file_reference, offset, false))
+        result = file_read(file_reference, size, print_error, buffer);
+
+    return result;
+}
+
+bool __cdecl file_set_position(s_file_reference* file_reference, dword offset, bool print_error)
+{
+    if (file_reference->position == offset)
+        return true;
+
+    if (file_reference->handle.handle && file_reference->handle.handle != INVALID_HANDLE_VALUE)
+        file_reference->position = SetFilePointer(file_reference->handle.handle, offset, 0, 0);
+    else
+        SetLastError(ERROR_INVALID_HANDLE);
+
+    bool result = file_reference->position != INVALID_SET_FILE_POINTER;
+    if (!result)
+        file_error(__FUNCTION__, file_reference, 0, print_error);
+
+    return result;
+}
+
 void find_files_end(s_find_file_data* data)
 {
     short depth = data->depth;
@@ -319,8 +362,8 @@ void find_files_end(s_find_file_data* data)
                     active_handle->handle = INVALID_HANDLE_VALUE;
                 }
             }
-            --depth;
-            --active_handle;
+            depth--;
+            active_handle--;
 
         } while (depth == 0);
     }
