@@ -40,7 +40,7 @@ struct s_observer_result
 
 struct s_observer
 {
-	dword header_signature;
+	tag header_signature;
 	s_observer_command* pending_command;
 	s_observer_command command;
 	bool updated_for_frame;
@@ -67,7 +67,7 @@ struct s_observer
 	byte __data244[0x10];
 	real_vector3d accelerations_forward;
 	byte __data258[0x16C];
-	unsigned long trailer_signature;
+	tag trailer_signature;
 };
 static_assert(sizeof(s_observer) == 0x3C8);
 
