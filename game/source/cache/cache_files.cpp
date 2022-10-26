@@ -13,6 +13,7 @@
 #include <string.h>
 
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
+HOOK_DECLARE(0x00502780, cache_file_tags_load);
 HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
 HOOK_DECLARE(0x00503470, sub_503470);
 
@@ -307,10 +308,50 @@ long __cdecl tag_iterator_next(tag_iterator* iterator)
 	return INVOKE(0x00503400, tag_iterator_next, iterator);
 }
 
+bool __cdecl cache_file_tags_load(dword tag_index)
+{
+	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
+	dword& absolute_index = g_cache_file_globals.tag_loaded_count;
+	dword tag_cache_offset = g_cache_file_globals.tag_cache_offsets[tag_index];
+
+	if (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != -1)
+		return true;
+
+	if (!file_read_from_position(&g_cache_file_globals.tags_header, tag_cache_offset, sizeof(cache_file_tag_instance), false, instance))
+		return false;
+
+	g_cache_file_globals.tag_loaded_size += instance->total_size;
+	g_cache_file_globals.tag_instances[absolute_index] = instance;
+	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = absolute_index;
+	g_cache_file_globals.absolute_index_tag_mapping[absolute_index] = tag_index;
+
+	if (!file_read_from_position(&g_cache_file_globals.tags_header, tag_cache_offset, instance->total_size, false, instance))
+		return false;
+
+	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
+		return false;
+
+	g_cache_file_globals.tag_loaded_count++;
+
+	if (instance->dependency_count <= 0)
+		return true;
+	
+	short dependency_index = 0;
+	while (cache_file_tags_load(instance->dependencies[dependency_index]))
+	{
+		if (++dependency_index >= instance->dependency_count)
+			return true;
+	}
+
+	return false;
+}
+
 void __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* instance)
 {
-	cache_address* data_fixups = instance->dependencies + instance->dependency_count;
-	for (long data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
+	assert(instance);
+
+	cache_address* data_fixups = reinterpret_cast<cache_address*>(instance->dependencies + instance->dependency_count);
+	for (short data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
 	{
 		cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
 		assert(data_fixup.persistent == true);
@@ -323,54 +364,64 @@ void __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 
 void __cdecl cache_file_tags_fixup_all_instances()
 {
-	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; ++i)
+	for (dword i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
 	{
-		cache_file_tags_single_tag_instance_fixup(g_cache_file_globals.tag_instances[i]);
+		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
+		cache_file_tags_single_tag_instance_fixup(instance);
 	}
 }
 
 // __thiscall
-void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, long tag_index)
+void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* instance, dword tag_index)
 {
-	c_console::write_line("0x%08X.%s", tag_index, tag_instance->group_name.get_string());
+	assert(instance);
+
+	if (instance->dependency_count || instance->data_fixup_count || instance->resource_fixup_count)
+		return;
+
+	c_console::write_line("0x%08X.%s", tag_index, instance->group_name.get_string());
+	static char tag_instance_byte_string[sizeof(cache_file_tag_instance) * 3]{};
+	type_as_byte_string(instance, tag_instance_byte_string);
+	c_console::write_line(tag_instance_byte_string);
 }
 
 bool cache_file_tags_single_tag_file_load(s_file_reference* file, cache_file_tag_instance** out_instance)
 {
-	cache_file_tag_instance& tag_instance = *reinterpret_cast<cache_file_tag_instance*>(&g_cache_file_globals.tag_cache_base_address[g_cache_file_globals.tag_loaded_size]);
+	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
+	dword& absolute_index = g_cache_file_globals.tag_loaded_count;
+	dword tag_cache_offset = 0;
 
 	if (out_instance)
-		*out_instance = &tag_instance;
+		*out_instance = instance;
 
-	dword absolute_index = g_cache_file_globals.tag_loaded_count;
 	dword tag_index = 0;
 	while (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != -1)
 		tag_index++;
 
-	dword tag_buffer_size = ALIGN(8, 4);
-	if (!file_get_size(file, &tag_buffer_size))
+	if (!file_read_from_position(&g_cache_file_globals.tags_header, tag_cache_offset, sizeof(cache_file_tag_instance), false, instance))
 		return false;
 
-	if (!file_read(file, tag_buffer_size, 0, tag_instance.base))
-		return false;
-
-	g_cache_file_globals.tag_loaded_size += tag_instance.total_size;
-	g_cache_file_globals.tag_instances[absolute_index] = &tag_instance;
+	g_cache_file_globals.tag_loaded_size += instance->total_size;
+	g_cache_file_globals.tag_instances[absolute_index] = instance;
 	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = absolute_index;
 	g_cache_file_globals.absolute_index_tag_mapping[absolute_index] = tag_index;
 
-	if (adler32(adler_new(), tag_instance.base + 4, tag_instance.total_size - 4) == tag_instance.checksum)
-	{
-		g_cache_file_globals.tag_loaded_count++;
-		if (tag_instance.dependency_count <= 0)
-			return true;
+	if (!file_read_from_position(&g_cache_file_globals.tags_header, tag_cache_offset, instance->total_size, false, instance))
+		return false;
 
-		short dependency_index = 0;
-		while (DECLFUNC(0x00502780, bool, __cdecl, dword)(tag_instance.dependencies[dependency_index].value))
-		{
-			if (++dependency_index >= tag_instance.dependency_count)
-				return true;
-		}
+	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
+		return false;
+
+	g_cache_file_globals.tag_loaded_count++;
+
+	if (instance->dependency_count <= 0)
+		return true;
+
+	short dependency_index = 0;
+	while (cache_file_tags_load(instance->dependencies[dependency_index]))
+	{
+		if (++dependency_index >= instance->dependency_count)
+			return true;
 	}
 
 	if (out_instance)
