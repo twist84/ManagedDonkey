@@ -22,7 +22,7 @@ HOOK_DECLARE(0x0052A7E0, file_read);
 HOOK_DECLARE(0x0052A850, file_read_from_position);
 HOOK_DECLARE(0x0052A9A0, file_reference_create);
 //HOOK_DECLARE(0x0052AA50, file_reference_create_temporary);
-//HOOK_DECLARE(0x0052AC60, file_reference_get_file_handle);
+HOOK_DECLARE(0x0052AC60, file_reference_get_file_handle);
 //HOOK_DECLARE(0x0052ACB0, file_rename);
 //HOOK_DECLARE(0x0052AEC0, file_set_eof);
 HOOK_DECLARE(0x0052B060, file_set_position);
@@ -333,6 +333,13 @@ void __cdecl file_reference_create(s_file_reference* file_reference, short locat
 {
     file_reference_agnostic_create(file_reference, location);
     invalidate_file_handle(&file_reference->handle);
+}
+
+bool __cdecl file_reference_get_file_handle(s_file_reference* file_reference, s_file_handle* out_file_handle)
+{
+    *out_file_handle = file_reference->handle;
+
+    return file_reference->handle.handle != 0;
 }
 
 bool __cdecl file_set_position(s_file_reference* file_reference, dword offset, bool print_error)

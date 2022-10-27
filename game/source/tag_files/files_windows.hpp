@@ -93,6 +93,7 @@ extern bool __cdecl file_open(s_file_reference*, dword open_flags, dword* error)
 extern bool __cdecl file_read(s_file_reference* file_reference, dword size, bool print_error, void* buffer);
 extern bool __cdecl file_read_from_position(s_file_reference* file_reference, dword offset, dword size, bool print_error, void* buffer);
 extern void __cdecl file_reference_create(s_file_reference* file_reference, short location);
+extern bool __cdecl file_reference_get_file_handle(s_file_reference* file_reference, s_file_handle* out_file_handle);
 extern bool __cdecl file_set_position(s_file_reference* file_reference, dword offset, bool print_error);
 
 extern void find_files_end(s_find_file_data* data);
