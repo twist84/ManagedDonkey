@@ -10,6 +10,9 @@
 
 HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
 HOOK_DECLARE_CLASS(0x004E1840, c_virtual_keyboard_task, get_instance);
+HOOK_DECLARE_CLASS(0x004E19A0, c_virtual_keyboard_task, set_default_text);
+HOOK_DECLARE_CLASS(0x004E19B0, c_virtual_keyboard_task, set_description_text);
+HOOK_DECLARE_CLASS(0x004E19D0, c_virtual_keyboard_task, set_title_text);
 HOOK_DECLARE_CLASS(0x004E1A20, c_virtual_keyboard_task, success);
 
 HOOK_DECLARE(0x004E1860, online_guide_delay_toasts);
@@ -88,7 +91,7 @@ void __fastcall c_virtual_keyboard_task::set_controller_index(c_virtual_keyboard
 	_this->m_controller_index = controller_index;
 }
 
-void __fastcall c_virtual_keyboard_task::set_default_text(c_virtual_keyboard_task* _this, wchar_t const* default_text)
+void __fastcall c_virtual_keyboard_task::set_default_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* default_text)
 {
 	FUNCTION_BEGIN(true);
 
@@ -98,17 +101,7 @@ void __fastcall c_virtual_keyboard_task::set_default_text(c_virtual_keyboard_tas
 		_this->m_default_text[0] = 0;
 }
 
-void __fastcall c_virtual_keyboard_task::set_title_text(c_virtual_keyboard_task* _this, wchar_t const* title_text)
-{
-	FUNCTION_BEGIN(true);
-
-	if (title_text)
-		wcscpy_s(_this->m_title_text, title_text);
-	else
-		_this->m_title_text[0] = 0;
-}
-
-void __fastcall c_virtual_keyboard_task::set_description_text(c_virtual_keyboard_task* _this, wchar_t const* description_text)
+void __fastcall c_virtual_keyboard_task::set_description_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* description_text)
 {
 	FUNCTION_BEGIN(true);
 
@@ -116,6 +109,16 @@ void __fastcall c_virtual_keyboard_task::set_description_text(c_virtual_keyboard
 		wcscpy_s(_this->m_description_text, description_text);
 	else
 		_this->m_description_text[0] = 0;
+}
+
+void __fastcall c_virtual_keyboard_task::set_title_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* title_text)
+{
+	FUNCTION_BEGIN(true);
+
+	if (title_text)
+		wcscpy_s(_this->m_title_text, title_text);
+	else
+		_this->m_title_text[0] = 0;
 }
 
 void __fastcall c_virtual_keyboard_task::set_maximum_input_characters(c_virtual_keyboard_task* _this, dword maximum_input_characters)
@@ -178,9 +181,9 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 			m_instance->set_file(file);
 			m_instance->set_line(line);
 			m_instance->set_controller_index(m_instance, controller_index);
-			m_instance->set_default_text(m_instance, default_text);
-			m_instance->set_title_text(m_instance, title_text);
-			m_instance->set_description_text(m_instance, description_text);
+			m_instance->set_default_text(m_instance, 0, default_text);
+			m_instance->set_title_text(m_instance, 0, title_text);
+			m_instance->set_description_text(m_instance, 0, description_text);
 			m_instance->set_maximum_input_characters(m_instance, maximum_input_characters);
 			m_instance->set_character_flags(m_instance, character_flags);
 		}

@@ -19,9 +19,9 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 	);
 
 	static void __fastcall set_controller_index(c_virtual_keyboard_task* _this, e_controller_index controller_index);
-	static void __fastcall set_default_text(c_virtual_keyboard_task* _this, wchar_t const* default_text);
-	static void __fastcall set_title_text(c_virtual_keyboard_task* _this, wchar_t const* title_text);
-	static void __fastcall set_description_text(c_virtual_keyboard_task* _this, wchar_t const* description_text);
+	static void __fastcall set_default_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* default_text);
+	static void __fastcall set_description_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* description_text);
+	static void __fastcall set_title_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* title_text);
 	static void __fastcall set_maximum_input_characters(c_virtual_keyboard_task* _this, dword maximum_input_characters);
 	static void __fastcall set_character_flags(c_virtual_keyboard_task* _this, dword_flags character_flags);
 
