@@ -19,13 +19,13 @@ HOOK_DECLARE(0x005295F0, file_exists);
 HOOK_DECLARE(0x00529B00, file_get_size);
 HOOK_DECLARE(0x0052A220, file_open);
 HOOK_DECLARE(0x0052A7E0, file_read);
-//HOOK_DECLARE(0x0052A850, file_read_from_position);
-//HOOK_DECLARE(0x0052A9A0, file_reference_create);
+HOOK_DECLARE(0x0052A850, file_read_from_position);
+HOOK_DECLARE(0x0052A9A0, file_reference_create);
 //HOOK_DECLARE(0x0052AA50, file_reference_create_temporary);
 //HOOK_DECLARE(0x0052AC60, file_reference_get_file_handle);
 //HOOK_DECLARE(0x0052ACB0, file_rename);
 //HOOK_DECLARE(0x0052AEC0, file_set_eof);
-//HOOK_DECLARE(0x0052B060, file_set_position);
+HOOK_DECLARE(0x0052B060, file_set_position);
 //HOOK_DECLARE(0x0052B0D0, file_set_writeable);
 //HOOK_DECLARE(0x0052B250, file_write);
 //HOOK_DECLARE(0x0052B350, file_write_to_position);
@@ -327,6 +327,12 @@ bool __cdecl file_read_from_position(s_file_reference* file_reference, dword off
         result = file_read(file_reference, size, print_error, buffer);
 
     return result;
+}
+
+void __cdecl file_reference_create(s_file_reference* file_reference, short location)
+{
+    file_reference_agnostic_create(file_reference, location);
+    invalidate_file_handle(&file_reference->handle);
 }
 
 bool __cdecl file_set_position(s_file_reference* file_reference, dword offset, bool print_error)
