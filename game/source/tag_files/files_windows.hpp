@@ -98,3 +98,6 @@ extern void find_files_end(s_find_file_data* data);
 extern bool find_files_next(s_find_file_data* data, s_file_reference* out_file, struct s_file_last_modification_date* out_date);
 extern void find_files_start(s_find_file_data* data, dword_flags flags, s_file_reference const* file);
 extern void find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags, s_file_reference const* file, char const* search_spec);
+
+extern bool file_handle_is_valid(s_file_handle handle);
+extern void invalidate_file_handle(s_file_handle* handle);

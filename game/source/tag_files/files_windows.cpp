@@ -334,7 +334,7 @@ bool __cdecl file_set_position(s_file_reference* file_reference, dword offset, b
     if (file_reference->position == offset)
         return true;
 
-    if (file_reference->handle.handle && file_reference->handle.handle != INVALID_HANDLE_VALUE)
+    if (file_handle_is_valid(file_reference->handle))
         file_reference->position = SetFilePointer(file_reference->handle.handle, offset, 0, 0);
     else
         SetLastError(ERROR_INVALID_HANDLE);
@@ -356,7 +356,7 @@ void find_files_end(s_find_file_data* data)
         {
             if (active_handle->handle)
             {
-                if (active_handle->handle != INVALID_HANDLE_VALUE)
+                if (file_handle_is_valid(*active_handle))
                 {
                     FindClose(active_handle->handle);
                     active_handle->handle = INVALID_HANDLE_VALUE;
@@ -393,3 +393,9 @@ void find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags
     data->path.append_print(L"%hs", file->path);
     data->search_spec.append_print(L"%hs", search_spec);
 }
+
+bool file_handle_is_valid(s_file_handle handle)
+{
+    return handle.handle && handle.handle != INVALID_HANDLE_VALUE;
+}
+
