@@ -61,7 +61,7 @@ bool __cdecl file_close(s_file_reference* file_reference)
 
     if (CloseHandle(file_reference->handle.handle))
     {
-        file_reference->handle.handle = INVALID_HANDLE_VALUE;
+        invalidate_file_handle(&file_reference->handle);
         file_reference->position = 0;
 
         return true;
@@ -268,7 +268,7 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
             if (file_reference->position == INVALID_SET_FILE_POINTER)
             {
                 CloseHandle(file_reference->handle.handle);
-                file_reference->handle.handle = INVALID_HANDLE_VALUE;
+                invalidate_file_handle(&file_reference->handle);
                 file_reference->position = 0;
 
                 result = false;
@@ -359,7 +359,7 @@ void find_files_end(s_find_file_data* data)
                 if (file_handle_is_valid(*active_handle))
                 {
                     FindClose(active_handle->handle);
-                    active_handle->handle = INVALID_HANDLE_VALUE;
+                    invalidate_file_handle(active_handle);
                 }
             }
             depth--;
@@ -384,7 +384,7 @@ void find_files_start(s_find_file_data* data, dword_flags flags, s_file_referenc
 void find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags, s_file_reference const* file, char const* search_spec)
 {
     for (short i = 0; i < NUMBEROF(data->active_find_file_state.handles); i++)
-        data->active_find_file_state.handles[i].handle = INVALID_HANDLE_VALUE;
+        invalidate_file_handle(&data->active_find_file_state.handles[i]);
 
     data->flags = flags;
     data->depth = 0;
@@ -397,5 +397,10 @@ void find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags
 bool file_handle_is_valid(s_file_handle handle)
 {
     return handle.handle && handle.handle != INVALID_HANDLE_VALUE;
+}
+
+void invalidate_file_handle(s_file_handle* handle)
+{
+    handle->handle = INVALID_HANDLE_VALUE;
 }
 

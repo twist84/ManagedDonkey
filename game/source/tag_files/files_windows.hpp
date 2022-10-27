@@ -101,3 +101,4 @@ extern void find_files_start_with_search_spec(s_find_file_data* data, dword_flag
 
 extern bool file_handle_is_valid(s_file_handle handle);
 extern void invalidate_file_handle(s_file_handle* handle);
+
