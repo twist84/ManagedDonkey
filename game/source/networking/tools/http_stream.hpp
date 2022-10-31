@@ -41,3 +41,10 @@ struct c_http_get_stream : c_http_stream
 };
 static_assert(sizeof(c_http_get_stream) == sizeof(c_http_stream));
 
+struct c_http_post_stream : c_http_stream
+{
+	c_http_post_source m_post_source;
+	byte __dataC48[0x18C];
+};
+static_assert(sizeof(c_http_post_stream) == 0xDD4);
+
