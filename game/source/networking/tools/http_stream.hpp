@@ -36,3 +36,8 @@ public:
 };
 static_assert(sizeof(c_http_stream) == 0xB0C);
 
+struct c_http_get_stream : c_http_stream
+{
+};
+static_assert(sizeof(c_http_get_stream) == sizeof(c_http_stream));
+
