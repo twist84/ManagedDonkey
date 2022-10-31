@@ -58,7 +58,7 @@ long __fastcall c_http_buffer_downloader::get_download_status(c_http_buffer_down
         break;
     }
 
-    c_console::write_line(_this->m_url.m_string.get_string() + 24 /*_this->m_url.m_string.get_string() + csstrnlen("/storage/title/4D530877/", _this->m_url.m_string.length());*/);
+    c_console::write_line(_this->m_url.m_string.get_string() + (g_title_url_base_length == k_title_url_base_override_length ? 0 : g_title_url_base_length));
 
     return result;
 }
