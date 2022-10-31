@@ -16,7 +16,6 @@ enum e_download_status
 	k_download_status_count
 };
 
-#pragma pack(push, 1)
 struct c_http_buffer_downloader
 {
 	enum e_internal_status
@@ -33,18 +32,22 @@ struct c_http_buffer_downloader
 		k_internal_status_count
 	};
 
-//public:
+public:
 	virtual ~c_http_buffer_downloader();
 
 	static e_download_status __fastcall get_download_status(c_http_buffer_downloader* _this);
 	static e_download_status __fastcall get_data(c_http_buffer_downloader* _this, void* unused, char const** buffer, long* buffer_size);
 	static e_download_status __cdecl get_download_status_from_internal_status(e_internal_status internal_status);
 
+
+protected:
 	c_url_string m_url;
 
+#pragma pack(push, 1)
 	bool __unknown114;
 	s_network_http_request_hash m_hash;
 	byte __pad129[3];
+#pragma pack(pop)
 
 	c_http_post_source m_post_source;
 
@@ -67,5 +70,12 @@ struct c_http_buffer_downloader
 	dword __unknown694;
 };
 static_assert(sizeof(c_http_buffer_downloader) == 0x698);
-#pragma pack(pop)
+
+template<long k_buffer_size>
+struct c_http_stored_buffer_downloader
+	: public c_http_buffer_downloader
+{
+	char m_stored_buffer[k_buffer_size];
+};
+//static_assert(sizeof(c_http_stored_buffer_downloader<4>) == sizeof(c_http_buffer_downloader) + 4);
 
