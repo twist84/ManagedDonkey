@@ -1106,6 +1106,9 @@
     <ClInclude Include="source\rasterizer\rasterizer_textures_xenon_formats.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\online\online_url.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
