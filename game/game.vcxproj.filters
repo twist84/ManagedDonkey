@@ -1106,6 +1106,9 @@
     <ClInclude Include="source\rasterizer\rasterizer_textures_xenon_formats.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\logic\storage\network_http_buffer_downloader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\networking\tools\http_stream.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
