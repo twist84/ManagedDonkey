@@ -53,12 +53,12 @@ struct c_http_buffer_downloader
 	byte __pad669[3];
 
 	c_enum<e_internal_status, long, k_internal_status_count> m_internal_status;
-	long __unknown670;
+	dword m_request_cookie;
 	long m_cache_task_token;
 
 	char* m_buffer;
+	int m_buffer_max_size;
 	int m_buffer_size;
-	int m_buffer_size_downloaded;
 
 	dword __unknown684;
 	dword __unknown688;

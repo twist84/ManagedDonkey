@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 
 struct s_file_reference;
+
 struct c_http_post_source
 {
 	long m_source_type;
@@ -13,6 +14,7 @@ struct c_http_post_source
 	long m_contents_length;
 	long m_start_position;
 	bool __unknown138;
+	byte __pad139[3];
 };
 static_assert(sizeof(c_http_post_source) == 0x13C);
 
