@@ -11,6 +11,9 @@ struct c_http_buffer_downloader
 //public:
 	virtual ~c_http_buffer_downloader();
 
+	static long __fastcall get_download_status(c_http_buffer_downloader* _this);
+	static long __fastcall get_data(c_http_buffer_downloader* _this, void* unused, char const** buffer, long* buffer_size);
+
 	c_url_string m_url;
 
 	bool __unknown114;
