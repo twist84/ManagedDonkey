@@ -57,13 +57,13 @@ struct c_http_buffer_downloader
 	long m_cache_task_token;
 
 	char* m_buffer;
-	int m_buffer_max_size;
-	int m_buffer_size;
+	long m_buffer_max_size;
+	long m_buffer_size;
 
 	dword __unknown684;
 	dword __unknown688;
 	dword __unknown68C;
-	dword __unknown690;
+	long m_attempt_index;
 	dword __unknown694;
 };
 static_assert(sizeof(c_http_buffer_downloader) == 0x698);
