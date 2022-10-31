@@ -36,6 +36,9 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 		dword_flags character_flags
 	);
 
+	virtual void* destructor(dword a1) override;
+	virtual const char* get_context_string() override;
+	virtual dword start(void*) override;
 	static void __fastcall success(c_virtual_keyboard_task* _this, dword a1);
 
 	static c_virtual_keyboard_task* m_instance;

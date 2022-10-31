@@ -196,14 +196,30 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 
 c_virtual_keyboard_task* c_virtual_keyboard_task::m_instance = nullptr;
 
+void* c_virtual_keyboard_task::destructor(dword a1)
+{
+	DECLFUNC(0x004E17D0, void, __thiscall, c_virtual_keyboard_task*, dword)(this, a1);
+
+	return this;
+}
+
+const char* c_virtual_keyboard_task::get_context_string()
+{
+	return "XShowKeyboardUI";
+}
+
+dword c_virtual_keyboard_task::start(void* )
+{
+	return -1;
+}
+
 void __fastcall c_virtual_keyboard_task::success(c_virtual_keyboard_task* _this, dword a1)
 {
-	FUNCTION_BEGIN(true);
-
-	HOOK_INVOKE_CLASS(, c_virtual_keyboard_task, success, void(__thiscall*)(c_virtual_keyboard_task*, dword), _this, a1);
+	DECLFUNC(0x004E1A20, void, __thiscall, c_virtual_keyboard_task*, dword)(_this, a1);
 
 	if (!wcsncmp(_this->m_keyboard_results, L".fortune", 9))
 		wcsncpy_s(_this->m_keyboard_results, L"My modem is on file", 256);
+
 	wchar_string_sanitize_for_game(_this->m_keyboard_results, 256);
 }
 
