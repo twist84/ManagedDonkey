@@ -70,7 +70,7 @@ bool __fastcall c_gui_custom_bitmap_storage_item::sub_B20480(c_gui_custom_bitmap
 	return false;
 }
 
-bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_bitmap_storage_item* _this, void* unused, long storage_item_index, char const* buffer, long buffer_size, long a4)
+bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_bitmap_storage_item* _this, long storage_item_index, char const* buffer, long buffer_size, long a4)
 {
 	return false;
 }
