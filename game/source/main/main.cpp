@@ -20,6 +20,7 @@
 #include "networking/logic/network_join.hpp"
 #include "networking/logic/storage/network_http_request_queue.hpp"
 #include "networking/network_memory.hpp"
+#include "networking/tools/network_debug_dump.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "rasterizer/rasterizer.hpp"
@@ -39,6 +40,7 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        g_netdebug_globals;
         g_network_http_request_queue;
         g_gui_custom_bitmap_storage_manager;
         network_base_memory_globals;
