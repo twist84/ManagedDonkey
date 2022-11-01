@@ -372,6 +372,9 @@
     <ClCompile Include="source\networking\tools\network_debug_dump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\network_arbitration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1134,6 +1137,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\tools\network_debug_dump.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\network_arbitration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

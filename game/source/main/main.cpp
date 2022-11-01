@@ -17,6 +17,7 @@
 #include "memory/data.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/logic_qos_reply_manager.hpp"
+#include "networking/logic/network_arbitration.hpp"
 #include "networking/logic/network_join.hpp"
 #include "networking/logic/storage/network_http_request_queue.hpp"
 #include "networking/network_memory.hpp"
@@ -40,6 +41,7 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        network_arbitration_globals;
         g_netdebug_globals;
         g_network_http_request_queue;
         g_gui_custom_bitmap_storage_manager;
