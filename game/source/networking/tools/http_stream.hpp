@@ -46,7 +46,11 @@ static_assert(sizeof(c_http_get_stream) == sizeof(c_http_stream));
 struct c_http_post_stream : c_http_stream
 {
 	c_http_post_source m_post_source;
-	byte __dataC48[0x18C];
+	c_static_string<256> __stringC48;
+	c_static_string<128> __stringD48;
+	long m_headers_length;
+	long __stringC48_length;
+	long __stringD48_length;
 };
 static_assert(sizeof(c_http_post_stream) == 0xDD4);
 

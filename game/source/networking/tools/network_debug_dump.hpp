@@ -9,10 +9,9 @@
 struct s_netdebug_upload_task
 {
 	bool active;
-
 	c_static_string<260> __string4;
 
-	void(__cdecl* __func108)(bool, int);
+	void(__cdecl* __func108)(bool, long);
 	dword __func108_data;
 
 	s_file_reference file;
