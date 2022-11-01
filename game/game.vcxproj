@@ -287,6 +287,7 @@ POPD
     <ClCompile Include="source\networking\logic\network_search.cpp" />
     <ClCompile Include="source\networking\logic\network_session_interface.cpp" />
     <ClCompile Include="source\networking\logic\storage\network_http_buffer_downloader.cpp" />
+    <ClCompile Include="source\networking\logic\storage\network_http_request_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_message_type_collection.cpp" />
     <ClCompile Include="source\networking\network_memory.cpp" />
     <ClCompile Include="source\networking\network_utilities.cpp" />
@@ -497,6 +498,7 @@ POPD
     <ClInclude Include="source\networking\logic\network_search.hpp" />
     <ClInclude Include="source\networking\logic\network_session_interface.hpp" />
     <ClInclude Include="source\networking\logic\storage\network_http_buffer_downloader.hpp" />
+    <ClInclude Include="source\networking\logic\storage\network_http_request_queue.hpp" />
     <ClInclude Include="source\networking\messages\network_message_handler.hpp" />
     <ClInclude Include="source\networking\messages\network_message_type_collection.hpp" />
     <ClInclude Include="source\networking\network_memory.hpp" />

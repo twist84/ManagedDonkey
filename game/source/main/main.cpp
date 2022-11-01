@@ -18,6 +18,7 @@
 #include "memory/module.hpp"
 #include "networking/logic/logic_qos_reply_manager.hpp"
 #include "networking/logic/network_join.hpp"
+#include "networking/logic/storage/network_http_request_queue.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_security.hpp"
@@ -38,6 +39,7 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        g_network_http_request_queue;
         g_gui_custom_bitmap_storage_manager;
         network_base_memory_globals;
         transport_globals;
