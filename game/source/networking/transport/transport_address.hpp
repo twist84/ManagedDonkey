@@ -6,13 +6,14 @@ struct transport_address
 {
 	union
 	{
+		dword ipv4_address;
+
 		// in_addr
 		// address_length == 0x4
 		union
 		{
 			byte bytes[4];
 			word words[2];
-			dword addr;
 		} ina;
 
 		// in6_addr

@@ -43,7 +43,7 @@ dword __cdecl transport_address_ipv4_extract(transport_address const* address)
 
 	assert(address);
 
-	return address->ina.addr;
+	return address->ipv4_address;
 }
 
 bool __cdecl transport_address_is_loopback(transport_address const* address)
@@ -52,7 +52,7 @@ bool __cdecl transport_address_is_loopback(transport_address const* address)
 
 	assert(address);
 
-	return address->address_length == 4 && address->ina.addr == 0x7F000001;
+	return address->address_length == 4 && address->ipv4_address == 0x7F000001;
 }
 
 char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, short maximum_string_length, bool include_port, bool include_extra)
@@ -135,12 +135,12 @@ bool __cdecl transport_address_valid(transport_address const* address)
 		{
 		case 0xFFFFFFFF:
 		{
-			result = address->ina.addr != 0;
+			result = address->ipv4_address != 0;
 		}
 		break;
 		case 4:
 		{
-			result = address->ina.addr != 0;
+			result = address->ipv4_address != 0;
 			if (!result)
 				c_console::write_line("networking:transport:transport_address_valid: the IPV4 address is NOT valid");
 		}
@@ -170,7 +170,7 @@ void __cdecl transport_get_broadcast_address(transport_address* address, word po
 	FUNCTION_BEGIN(true);
 
 	address->address_length = 4;
-	address->ina.addr = -1;
+	address->ipv4_address = -1;
 	address->port = port;
 }
 
@@ -179,6 +179,6 @@ void __cdecl transport_get_listen_address(transport_address* address, word port)
 	FUNCTION_BEGIN(true);
 
 	address->address_length = 4;
-	address->ina.addr = 0;
+	address->ipv4_address = 0;
 	address->port = port;
 }
