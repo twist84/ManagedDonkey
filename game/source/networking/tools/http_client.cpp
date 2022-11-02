@@ -1,6 +1,7 @@
 #include "networking/tools/http_client.hpp"
 
 #include "cseries/console.hpp"
+#include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
 
 #include <assert.h>
@@ -56,6 +57,7 @@ bool c_http_client::do_work(
 
 			if (is_connected)
 				m_current_state = _upload_state_sending;
+			m_current_state = _upload_state_receiving_header;
 		}
 	}
 	break;
@@ -81,6 +83,7 @@ bool c_http_client::do_work(
 			result = true;
 		}
 	}
+	break;
 	default:
 	{
 		if (m_current_state)
@@ -156,7 +159,7 @@ long c_http_client::get_upstream_quota()
 
 bool c_http_client::is_connected()
 {
-	return m_current_state > _upload_state_connecting && m_current_state <= _upload_state_receiving_content;
+	return m_current_state == _upload_state_sending || m_current_state == _upload_state_receiving_header || m_current_state == _upload_state_receiving_content;
 }
 
 bool c_http_client::is_started()
@@ -229,18 +232,149 @@ bool c_http_client::parse_http_response(
 
 bool c_http_client::receive_data(
 	bool* out_completed_successfully,
-	char* destination,
+	char* out_response_content_buffer,
 	long* out_response_content_buffer_count,
 	long* out_http_response_code
 )
 {
-	// #TODO: implement code
-	bool result = DECLFUNC(0x00433760, bool, __thiscall, c_http_client*, bool*, char*, long*, long*)(
-		this,
-		out_completed_successfully,
-		destination,
-		out_response_content_buffer_count,
-		out_http_response_code);
+	bool result = false;
+
+	assert(out_completed_successfully);
+	assert(m_current_state == _upload_state_receiving_header || m_current_state == _upload_state_receiving_content);
+
+	short bytes_read = 0;
+	long input_buffer_size = 0;
+	*out_completed_successfully = 0;
+
+	if (out_response_content_buffer_count)
+	{
+		assert(*out_response_content_buffer_count > 0);
+		input_buffer_size = *out_response_content_buffer_count;
+		*out_response_content_buffer_count = 0;
+	}
+
+	if (4096 - m_response_buffer_count > 0 && (m_current_state == _upload_state_receiving_header || m_bytes_remaining > 0))
+	{
+		bytes_read = transport_endpoint_read(m_endpoint_ptr, m_response_buffer + m_response_buffer_count, static_cast<short>(4096 - m_response_buffer_count));
+		if (bytes_read <= 0)
+		{
+			if (bytes_read == -2)
+			{
+				result = true;
+				bytes_read = 0;
+			}
+			else if (bytes_read)
+			{
+				c_console::write_line("networking:http_client: transport_endpoint_read() failed to %s with error code %d.",
+					m_ip_address_string.get_string(),
+					bytes_read);
+			}
+			else
+			{
+				c_console::write_line("networking:http_client: transport_endpoint_read() because %s closed the socket.",
+					m_ip_address_string.get_string());
+			}
+		}
+		else
+		{
+			m_response_buffer_count += bytes_read;
+			result = true;
+		}
+	}
+	else
+	{
+		result = true;
+	}
+
+	if (result)
+	{
+		assert(bytes_read >= 0);
+
+		result = false;
+		if (m_current_state == _upload_state_receiving_header)
+		{
+			bool completed_successfully = false;
+			long http_header_size = 0;
+			long content_length = 0;
+			long http_response_code = 0;
+
+			if (parse_http_response(m_response_buffer, m_response_buffer_count, &completed_successfully, &http_header_size, &http_response_code, &content_length))
+			{
+				if (completed_successfully)
+				{
+					if (out_http_response_code)
+						*out_http_response_code = http_response_code;
+
+					if (http_response_code == 200)
+					{
+						if (out_response_content_buffer && out_response_content_buffer_count)
+						{
+							assert(m_response_buffer_count >= http_header_size);
+
+							long bytes_of_content_ready = m_response_buffer_count - http_header_size;
+							for (long i = 0; i < bytes_of_content_ready; ++i)
+								m_response_buffer[i] = m_response_buffer[i + http_header_size];
+
+							m_response_buffer_count = bytes_of_content_ready;
+							m_bytes_remaining = content_length - bytes_of_content_ready;
+							m_current_state = _upload_state_receiving_content;
+
+							result = true;
+						}
+						else
+						{
+							result = true;
+							*out_completed_successfully = true;
+						}
+					}
+					else
+					{
+						c_console::write_line("networking:http_client: Received an unexpected '%d' response from %s.",
+							http_response_code,
+							m_ip_address_string.get_string());
+					}
+				}
+				else
+				{
+					result = true;
+				}
+			}
+			else if (m_response_buffer_count < 4096)
+			{
+				result = true;
+			}
+			else
+			{
+				c_console::write("networking:http_client: The response header from '%s' is too big to fit in the buffer.",
+					m_ip_address_string.get_string());
+				c_console::write_line("  This is probably a misconfiguration on the server.");
+			}
+		}
+		else
+		{
+			m_bytes_remaining -= bytes_read;
+			result = true;
+		}
+	}
+	if (result && m_current_state == _upload_state_receiving_content && out_response_content_buffer && out_response_content_buffer_count)
+	{
+		assert(input_buffer_size > 0);
+		assert(m_response_buffer_count >= 0);
+
+		if (input_buffer_size > m_response_buffer_count)
+			input_buffer_size = m_response_buffer_count;
+
+		csmemcpy(out_response_content_buffer, m_response_buffer, input_buffer_size);
+		*out_response_content_buffer_count = input_buffer_size;
+
+		for (long i = 0; i < m_response_buffer_count - input_buffer_size; ++i)
+			m_response_buffer[i] = m_response_buffer[i + input_buffer_size];
+
+		m_response_buffer_count -= input_buffer_size;
+
+		if (!m_bytes_remaining && !m_response_buffer_count)
+			*out_completed_successfully = true;
+	}
 
 	return result;
 }

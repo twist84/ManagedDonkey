@@ -11,7 +11,7 @@ enum e_upload_state
 	_upload_state_connecting,
 	_upload_state_sending,
 	_upload_state_receiving_header,
-	_upload_state_receiving_content,
+	_upload_state_receiving_content
 };
 
 struct c_http_client
@@ -45,7 +45,7 @@ private:
 	);
 	bool receive_data(
 		bool* out_completed_successfully,
-		char* destination,
+		char* out_response_content_buffer,
 		long* out_response_content_buffer_count,
 		long* out_http_response_code
 	);
