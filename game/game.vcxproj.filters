@@ -375,6 +375,9 @@
     <ClCompile Include="source\networking\logic\network_arbitration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\tools\http_client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\networking\tools\http_stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
