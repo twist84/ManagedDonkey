@@ -105,6 +105,7 @@ extern char* csstrnzcat(char* s1, char const* s2, dword size);
 extern dword csstrnlen(char const* s, dword size);
 extern char* csstrnupr(char* s, dword size);
 extern char* csstrnlwr(char* s, dword size);
+extern char const* csstrstr(char const* s1, char const* s2);
 //extern char* csstrtok(char*, char const*, bool, struct csstrtok_data* data);
 extern long cvsnzprintf(char* buffer, dword size, char const* format, va_list list);
 extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
@@ -248,7 +249,7 @@ struct s_location
 };
 static_assert(sizeof(s_location) == 0x4);
 
-template<long k_buffer_size>
+template<long k_maximum_count>
 struct c_static_string
 {
 public:
@@ -259,12 +260,12 @@ public:
 
 	void set(char const* s)
 	{
-		csstrnzcpy(m_string, s, k_buffer_size);
+		csstrnzcpy(m_string, s, k_maximum_count);
 	}
 
 	void append(char const* s)
 	{
-		csstrnzcat(m_string, s, k_buffer_size);
+		csstrnzcat(m_string, s, k_maximum_count);
 	}
 
 	char const* print(char const* format, ...)
@@ -272,7 +273,7 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		cvsnzprintf(m_string, k_buffer_size, format, list);
+		cvsnzprintf(m_string, k_maximum_count, format, list);
 
 		va_end(list);
 
@@ -295,9 +296,9 @@ public:
 		dword current_length = length();
 
 		//assert(format);
-		//assert(current_length >= 0 && current_length < k_buffer_size);
+		//assert(current_length >= 0 && current_length < k_maximum_count);
 
-		cvsnzprintf(m_string + current_length, k_buffer_size - current_length, format, list);
+		cvsnzprintf(m_string + current_length, k_maximum_count - current_length, format, list);
 
 		return m_string;
 	}
@@ -314,11 +315,61 @@ public:
 
 	long length() const
 	{
-		return csstrnlen(m_string, k_buffer_size);
+		return csstrnlen(m_string, k_maximum_count);
+	}
+
+	bool starts_with(char const* _string) const
+	{
+		//assert(_string);
+
+		return csmemcmp(_string, get_string(), length()) == 0;
+	}
+
+	long next_index_of(char const* _string, long index) const
+	{
+		//assert(_string);
+
+		long result = -1;
+
+		if (index < length())
+		{
+			char const* s = csstrstr(m_string + index, _string);
+			if (s)
+				result = s - get_string();
+		}
+
+		return result;
+	}
+
+	long index_of(char const* _string) const
+	{
+		//assert(_string);
+
+		return next_index_of(_string, 0);
+	}
+
+	void set_bounded(char const* _string, long _length)
+	{
+		if (_length + 1 < k_maximum_count)
+			_length++;
+		else
+			_length = k_maximum_count;
+
+		csstrnzcpy(m_string, _string, _length);
+	}
+
+	bool substring(long index, long _length, c_static_string<k_maximum_count>& s) const
+	{
+		if (index < 0 || _length <= 0 || index + _length > length())
+			return false;
+
+		s.set_bounded(get_string() + index, _length);
+
+		return true;
 	}
 
 protected:
-	char m_string[k_buffer_size];
+	char m_string[k_maximum_count];
 };
 
 extern char* tag_to_string(tag _tag, char* buffer);

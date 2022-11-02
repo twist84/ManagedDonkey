@@ -76,6 +76,11 @@ char* csstrnlwr(char* s, dword size)
     return s;
 }
 
+char const* csstrstr(char const* s1, char const* s2)
+{
+    return strstr(s1, s2);
+}
+
 //char* csstrtok(char*, char const*, bool, struct csstrtok_data* data)
 
 long cvsnzprintf(char* buffer, dword size, char const* format, va_list list)
