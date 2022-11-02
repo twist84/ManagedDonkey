@@ -41,6 +41,7 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        g_broadcast_search_globals;
         network_arbitration_globals;
         g_netdebug_globals;
         g_network_http_request_queue;

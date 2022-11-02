@@ -130,3 +130,24 @@ void __cdecl transport_unique_identifier_resolve()
 	transport_secure_address_resolve();
 	transport_secure_address_extract_identifier(&transport_security_globals.secure_address, &transport_security_globals.local_unique_identifier);
 }
+
+void network_debug_print(const char* format, ...)
+{
+	switch ((long)format)
+	{
+	case 0x01612028:
+	case 0x01616488:
+		break;
+	default:
+	{
+		va_list list;
+		va_start(list, format);
+		c_console::write_line(format, list);
+		va_end(list);
+	}
+	break;
+	}
+}
+
+HOOK_DECLARE(0x000D858D0, network_debug_print);
+
