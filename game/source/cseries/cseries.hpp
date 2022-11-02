@@ -14,6 +14,7 @@
 #define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
 #define IN_RANGE_INCLUSIVE(value, begin, end) (((value) >= (begin)) && ((value) <= (end)))
 
+#define REFERENCE_DECLARE(address, type, name) type& name = *reinterpret_cast<type*>(address)
 #define try_bool(X) if (!X) return false
 
 // 4-character tag group identifier
