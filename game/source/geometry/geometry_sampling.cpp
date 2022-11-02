@@ -1,12 +1,14 @@
 #include "geometry/geometry_sampling.hpp"
 
+#include "cseries/cseries.hpp"
+
 // g_bounce_light_scale scales `s_geometry_sample::__vector1BC` 
 // as part of a call to `sh_eval_directional_light` from within the `c_geometry_sampler::sample`
 // - halo 3: 1.0f
 // - halo reach: 1.5f
 // - halo online: 1.5f
-float& c_geometry_sampler::g_bounce_light_scale = *reinterpret_cast<float*>(0x018F2FFC);
-s_geometry_sample& c_geometry_sampler::m_default_lightprobe_sample = *reinterpret_cast<s_geometry_sample*>(0x018F3000);
+REFERENCE_DECLARE(0x018F2FFC, real, c_geometry_sampler::g_bounce_light_scale);
+REFERENCE_DECLARE(0x018F3000, s_geometry_sample, c_geometry_sampler::m_default_lightprobe_sample);
 
 c_geometry_sampler::c_geometry_sampler()
 {

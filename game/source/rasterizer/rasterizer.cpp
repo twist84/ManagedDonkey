@@ -372,10 +372,11 @@ void __cdecl c_rasterizer::draw_indexed_primitive(c_rasterizer_index_buffer cons
 	INVOKE(0x00A28270, draw_indexed_primitive, a1, a2, a3, a4, a5);
 }
 
-IDirect3DDevice9Ex*& c_rasterizer::g_device = *reinterpret_cast<IDirect3DDevice9Ex**>(0x050DADDC);
-c_rasterizer::e_separate_alpha_blend_mode& c_rasterizer::g_current_separate_alpha_blend_mode = *reinterpret_cast<c_rasterizer::e_separate_alpha_blend_mode*>(0x050DADF8);
-bool& c_rasterizer::initialized = *reinterpret_cast<bool*>(0x050DAE02);
-bool& c_rasterizer::m_use_floating_point_z_buffer = *reinterpret_cast<bool*>(0x050DAE03);
-c_rasterizer::e_stencil_mode& c_rasterizer::g_current_stencil_mode = *reinterpret_cast<c_rasterizer::e_stencil_mode*>(0x050DAE04);
-dword& c_rasterizer::g_max_vs_gprs = *reinterpret_cast<dword*>(0x050DD9BC);
-dword& c_rasterizer::g_max_ps_gprs = *reinterpret_cast<dword*>(0x050DD9C0);
+REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
+REFERENCE_DECLARE(0x050DADF8, c_rasterizer::e_separate_alpha_blend_mode, c_rasterizer::g_current_separate_alpha_blend_mode);
+REFERENCE_DECLARE(0x050DAE02, bool, c_rasterizer::initialized);
+REFERENCE_DECLARE(0x050DAE03, bool, c_rasterizer::m_use_floating_point_z_buffer);
+REFERENCE_DECLARE(0x050DAE04, c_rasterizer::e_stencil_mode, c_rasterizer::g_current_stencil_mode);
+REFERENCE_DECLARE(0x050DD9BC, dword, c_rasterizer::g_max_vs_gprs);
+REFERENCE_DECLARE(0x050DD9C0, dword, c_rasterizer::g_max_ps_gprs);
+

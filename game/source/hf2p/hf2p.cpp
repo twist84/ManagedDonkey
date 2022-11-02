@@ -8,7 +8,7 @@
 HOOK_DECLARE(0x006006F0, hf2p_game_initialize);
 HOOK_DECLARE(0x00600790, hf2p_game_dispose);
 
-bool& g_hf2p_first_run = *reinterpret_cast<bool*>(0x018B59D4);
+REFERENCE_DECLARE(0x018B59D4, bool, g_hf2p_first_run);
 
 void __cdecl game_statistics_reset()
 {

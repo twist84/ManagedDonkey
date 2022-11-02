@@ -3,7 +3,7 @@
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 
-c_window_manager& g_window_manager = *reinterpret_cast<c_window_manager*>(0x05260F34);
+REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 
 c_gui_screen_widget* __stdcall c_window_manager::allocate_codeless_screen(long screen_name)
 {

@@ -22,6 +22,8 @@ HOOK_DECLARE(0x00A93450, user_interface_messaging_post);
 // #TODO: find this
 //HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty);
 
+REFERENCE_DECLARE(0x052600D0, c_message_globals, g_message_globals);
+
 //c_controller.obj
 e_ui_message_type c_message::get_type() const
 {
@@ -270,8 +272,6 @@ void c_load_dialog_screen_message::set_test_mode(bool test_mode)
 {
 	m_test_mode = test_mode;
 }
-
-c_message_globals& g_message_globals = *reinterpret_cast<c_message_globals*>(0x052600D0);
 
 c_message_globals::c_message_globals()
 {

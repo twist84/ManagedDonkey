@@ -17,7 +17,7 @@ HOOK_DECLARE(0x00502780, cache_file_tags_load);
 HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
 HOOK_DECLARE(0x00503470, sub_503470);
 
-s_cache_file_globals& g_cache_file_globals = *reinterpret_cast<s_cache_file_globals*>(0x022AAFE8);
+REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
 
 struct s_cache_file_global_tags_definition
 {

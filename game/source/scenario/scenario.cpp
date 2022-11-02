@@ -14,11 +14,10 @@
 
 HOOK_DECLARE(0x004EA5E0, scenario_load);
 
-long& global_scenario_index = *reinterpret_cast<long*>(0x0189CCF8);
-long& global_scenario_game_globals_index = *reinterpret_cast<long*>(0x0189CCFC);
-
-s_scenario*& global_scenario = *reinterpret_cast<s_scenario**>(0x022AAEB4);
-s_game_globals*& global_game_globals = *reinterpret_cast<s_game_globals**>(0x022AAEB8);
+REFERENCE_DECLARE(0x0189CCF8, long, global_scenario_index);
+REFERENCE_DECLARE(0x0189CCFC, long, global_scenario_game_globals_index);
+REFERENCE_DECLARE(0x022AAEB4, s_scenario*, global_scenario);
+REFERENCE_DECLARE(0x022AAEB8, s_game_globals*, global_game_globals);
 
 s_scenario* global_scenario_get()
 {

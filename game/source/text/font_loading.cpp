@@ -6,12 +6,12 @@
 #include <string.h>
 #include <assert.h>
 
-s_font_globals& g_font_globals = *reinterpret_cast<s_font_globals*>(0x022B7FAC);
+REFERENCE_DECLARE(0x022B7FAC, s_font_globals, g_font_globals);
 
-char const* const& k_hard_drive_font_directory = *reinterpret_cast<char const* const*>(0x0189D358);
-char const* const& k_dvd_font_directory = *reinterpret_cast<char const* const*>(0x0189D35C);
-char const* const& k_font_package_base_name = *reinterpret_cast<char const* const*>(0x0189D360);
-char const* const& k_font_package_suffix = *reinterpret_cast<char const* const*>(0x0189D364);
+REFERENCE_DECLARE(0x0189D358, char const* const, k_hard_drive_font_directory);
+REFERENCE_DECLARE(0x0189D35C, char const* const, k_dvd_font_directory);
+REFERENCE_DECLARE(0x0189D360, char const* const, k_font_package_base_name);
+REFERENCE_DECLARE(0x0189D364, char const* const, k_font_package_suffix);
 
 void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state)
 {

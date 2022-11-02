@@ -13,7 +13,7 @@
 HOOK_DECLARE(0x00430630, transport_available);
 HOOK_DECLARE(0x00430650, transport_dispose);
 
-s_transport_globals& transport_globals = *reinterpret_cast<s_transport_globals*>(0x0199FA28);
+REFERENCE_DECLARE(0x0199FA28, s_transport_globals, transport_globals);
 
 bool __cdecl transport_available()
 {

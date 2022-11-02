@@ -3,7 +3,7 @@
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 
-s_network_life_cycle_globals& life_cycle_globals = *reinterpret_cast<s_network_life_cycle_globals*>(0x019AB7F0);
+REFERENCE_DECLARE(0x019AB7F0, s_network_life_cycle_globals, life_cycle_globals);
 
 e_life_cycle_state __cdecl network_life_cycle_get_state()
 {

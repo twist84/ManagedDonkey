@@ -12,7 +12,7 @@ HOOK_DECLARE(0x00430DF0, transport_secure_address_retrieve);
 HOOK_DECLARE(0x00430ED0, transport_secure_identifier_get_string);
 HOOK_DECLARE(0x00431100, transport_secure_nonce_get_string);
 
-s_transport_security_globals& transport_security_globals = *reinterpret_cast<s_transport_security_globals*>(0x0199FAB0);
+REFERENCE_DECLARE(0x0199FAB0, s_transport_security_globals, transport_security_globals);
 
 bool __cdecl transport_secure_address_get_insecure(transport_address* address)
 {

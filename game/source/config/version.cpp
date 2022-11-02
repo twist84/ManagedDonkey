@@ -20,7 +20,7 @@ byte const k_build_time[] = __TIME__;
 c_data_patch build_date_patch(0x016704A8, NUMBEROF(k_build_date), k_build_date);
 c_data_patch build_time_patch(0x016704B4, NUMBEROF(k_build_time), k_build_time);
 
-bool& k_tracked_build = *reinterpret_cast<bool*>(0x0189CFD0);
+REFERENCE_DECLARE(0x0189CFD0, bool, k_tracked_build);
 
 char const* __cdecl version_get_target_variant()
 {

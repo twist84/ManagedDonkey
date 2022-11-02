@@ -56,7 +56,7 @@ char const* k_language_iso_639_1_names[k_language_count]
     "ru-RU"
 };
 
-dword& g_game_language = *reinterpret_cast<dword*>(0x0189DEE4);
+REFERENCE_DECLARE(0x0189DEE4, dword, g_game_language);
 
 e_language get_e_language_from_windows_language(LANGID id)
 {

@@ -13,7 +13,7 @@ HOOK_DECLARE(0x00ADF9D0, location_manager_get);
 HOOK_DECLARE(0x00ADF9E0, location_manager_start);
 HOOK_DECLARE(0x00ADF9F0, location_manager_stop);
 
-c_gui_location_manager& g_location_manager = *reinterpret_cast<c_gui_location_manager*>(0x01944204);
+REFERENCE_DECLARE(0x01944204, c_gui_location_manager, g_location_manager);
 
 // 00ADF680
 c_gui_location_manager::c_gui_location_manager() :

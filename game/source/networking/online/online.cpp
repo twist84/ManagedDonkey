@@ -29,8 +29,8 @@ HOOK_DECLARE(0x00442BB0, online_set_is_connected_to_live);
 HOOK_DECLARE(0x00442BC0, online_user_set_name);
 HOOK_DECLARE(0x00442BF0, online_update);
 
-s_online_user& g_online_user = *reinterpret_cast<s_online_user*>(0x019AB728);
-bool& g_online_is_connected_to_live = *reinterpret_cast<bool*>(0x02179468);
+REFERENCE_DECLARE(0x019AB728, s_online_user, g_online_user);
+REFERENCE_DECLARE(0x02179468, bool, g_online_is_connected_to_live);
 
 long g_nat_type_override = _online_nat_type_none;
 char g_hostname[264];
