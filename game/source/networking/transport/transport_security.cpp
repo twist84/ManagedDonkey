@@ -8,6 +8,7 @@
 #include <string.h>
 
 HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
+HOOK_DECLARE(0x00430DF0, transport_secure_address_retrieve);
 
 s_transport_security_globals& transport_security_globals = *reinterpret_cast<s_transport_security_globals*>(0x0199FAB0);
 
@@ -44,6 +45,13 @@ bool __cdecl transport_secure_address_resolve()
 	FUNCTION_BEGIN(true);
 
 	return INVOKE(0x00430CF0, transport_secure_address_resolve);
+}
+
+bool __cdecl transport_secure_address_retrieve(transport_address const* usable_address, long platform, s_transport_secure_address* secure_address)
+{
+	bool result = false;
+	HOOK_INVOKE(result =, transport_secure_address_retrieve, usable_address, platform, secure_address);
+	return result;
 }
 
 char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, long maximum_string_length, bool include_online, bool include_mac)
