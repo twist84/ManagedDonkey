@@ -296,7 +296,7 @@ bool c_http_client::start(c_http_stream* stream, long ip_address, word port, cha
 bool c_http_client::start_connect()
 {
 	assert(m_current_state == _upload_state_none);
-	assert(m_address.address_length == sizeof(unsigned long));
+	assert(m_address.address_length == sizeof(dword));
 	assert(m_address.ipv4_address != 0);
 	assert(m_address.port != 0);
 	assert(m_socket_count == 0);

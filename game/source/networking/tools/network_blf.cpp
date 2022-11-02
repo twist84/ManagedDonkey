@@ -39,9 +39,7 @@ void s_blf_chunk_start_of_file::initialize()
 
 	setup('_blf', sizeof(*this), 1, 2);
 
-	//byte_order_marker = -2;
-	byte_order_marker = _byteswap_ushort(-2);
-
+	byte_order_mark = _byteswap_ushort(0xFFFE);
 	memset(name, 0, sizeof(name));
 	memset(pad, 0, sizeof(pad));
 }

@@ -24,7 +24,10 @@ public:
 
 	void initialize();
 
-	word byte_order_marker;
+	// BOM: https://en.wikipedia.org/wiki/Byte_order_mark
+	// BOM: { UTF-16 (BE): FE FF }
+	word byte_order_mark;
+
 	string name;
 
 	byte pad[2];
