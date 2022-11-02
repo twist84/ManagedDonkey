@@ -1,9 +1,13 @@
 #include "networking/transport/transport_security.hpp"
 
 #include "cseries/console.hpp"
+#include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
 
+#include <assert.h>
 #include <string.h>
+
+HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
 
 s_transport_security_globals& transport_security_globals = *reinterpret_cast<s_transport_security_globals*>(0x0199FAB0);
 
@@ -22,6 +26,17 @@ void __cdecl transport_secure_address_extract_identifier(s_transport_secure_addr
 	FUNCTION_BEGIN(true);
 
 	memcpy(unique_identifier, secure_address, sizeof(s_transport_unique_identifier));
+}
+
+bool __cdecl transport_secure_address_decode(s_transport_session_description const* secure_host_description, s_transport_secure_address const* secure_address, transport_address* usable_address)
+{
+	assert(secure_host_description);
+	assert(secure_address);
+	assert(usable_address);
+
+	bool result = false;
+	HOOK_INVOKE(result =, transport_secure_address_decode, secure_host_description, secure_address, usable_address);
+	return result;
 }
 
 bool __cdecl transport_secure_address_resolve()
