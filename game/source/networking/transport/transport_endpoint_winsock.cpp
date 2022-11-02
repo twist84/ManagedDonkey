@@ -3,6 +3,9 @@
 #include "cseries/console.hpp"
 #include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
+#include "networking/transport/transport_endpoint_set_winsock.hpp"
+
+#include <assert.h>
 
 HOOK_DECLARE(0x0043F980, get_platform_socket_option);
 HOOK_DECLARE(0x0043FA30, transport_endpoint_accept);
@@ -118,7 +121,33 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 {
     FUNCTION_BEGIN(true);
 
-    HOOK_INVOKE(, transport_endpoint_disconnect, endpoint);
+    assert(endpoint != NULL);
+
+    if (endpoint->socket != INVALID_SOCKET)
+    {
+        if (transport_available())
+        {
+            if (TEST_BIT(endpoint->flags, 0))
+            {
+                if (shutdown(endpoint->socket, 2 /* SD_BOTH */))
+                {
+                    char const* winsock_error_string = winsock_error_to_string(WSAGetLastError());
+                    c_console::write_line("transport:endpoint: shutdown() failed: error= %s", winsock_error_string);
+                }
+            }
+            if (closesocket(endpoint->socket))
+            {
+                char const* winsock_error_string = winsock_error_to_string(WSAGetLastError());
+                c_console::write_line("transport:endpoint: closesocket() failed: error= %s", winsock_error_string);
+            }
+        }
+        else
+        {
+            c_console::write_line("networking:transport:endpoint: unable to disconnect endpoint, transport is unavailable (we probably leaked a socket and might crash)");
+        }
+    }
+    endpoint->socket = INVALID_SOCKET;
+    endpoint->flags = 0;
 }
 
 long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option)
@@ -170,9 +199,13 @@ bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endpoint)
 {
     FUNCTION_BEGIN(true);
 
-    bool result = false;
-    HOOK_INVOKE(result =, transport_endpoint_reject, listening_endpoint);
-    return result;
+    if (transport_available())
+    {
+        transport_endpoint* endpoint = transport_endpoint_accept(listening_endpoint);
+        if (endpoint)
+            transport_endpoint_delete(endpoint);
+    }
+    return true;
 }
 
 bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool blocking)
@@ -197,15 +230,47 @@ void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_
 {
     FUNCTION_BEGIN(true);
 
-    HOOK_INVOKE(, transport_endpoint_setup, endpoint, type);
+    assert(endpoint);
+    assert((type == _transport_type_udp) || (type == _transport_type_vdp) || (type == _transport_type_tcp));
+
+    endpoint->socket = INVALID_SOCKET;
+    endpoint->flags = 0;
+    endpoint->type = type;
 }
 
 short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, short length)
 {
     FUNCTION_BEGIN(true);
 
+    assert(endpoint != NULL);
+    assert(buffer != NULL);
+    assert(length > 0);
+    assert(endpoint->socket != INVALID_SOCKET);
+
     short result = 0;
-    HOOK_INVOKE(result =, transport_endpoint_write, endpoint, buffer, length);
+    if (transport_available() && TEST_BIT(endpoint->flags, 0))
+    {
+        short bytes_written = send(endpoint->socket, static_cast<const char*>(buffer), length, 0);
+        if (bytes_written == -1)
+        {
+            int error = WSAGetLastError();
+
+            if (error == WSAEWOULDBLOCK)
+            {
+                result = -2;
+            }
+            else if (error == WSAEHOSTUNREACH)
+            {
+                result = -1;
+            }
+            else
+            {
+                c_console::write_line("transport:write: send() failed w/ unknown error '%s'", winsock_error_to_string(error));
+                result = -1;
+            }
+        }
+        else assert(bytes_written > 0);
+    }
     return result;
 }
 
