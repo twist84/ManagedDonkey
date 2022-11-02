@@ -52,6 +52,20 @@ void c_console::write_line(char const* format, ...)
 #endif // _DEBUG
 }
 
+void c_console::write(char const* format, va_list list)
+{
+#ifdef _DEBUG
+    vprintf(format, list);
+#endif // _DEBUG
+}
+void c_console::write_line(char const* format, va_list list)
+{
+#ifdef _DEBUG
+    vprintf(format, list);
+    printf("\n");
+#endif // _DEBUG
+}
+
 void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
 {
     assert(message_buffer);
