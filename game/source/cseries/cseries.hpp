@@ -12,6 +12,7 @@
 #define INVOKE(ADDR, TYPE, ...) reinterpret_cast<decltype(TYPE)*>(ADDR)(__VA_ARGS__)
 
 #define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
+#define IN_RANGE_INCLUSIVE(value, first_value, last_value) value >= first_value && value <= last_value
 
 #define try_bool(X) if (!X) return false
 
