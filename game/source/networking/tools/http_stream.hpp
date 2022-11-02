@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+const long k_url_size = 256;
+
 struct s_file_reference;
 
 struct c_http_post_source
@@ -21,16 +23,20 @@ static_assert(sizeof(c_http_post_source) == 0x13C);
 struct c_http_stream
 {
 protected:
-	virtual void __cdecl build_headers();
-	virtual bool __cdecl verify_nescessary_state_is_set();
+	virtual void build_headers();
+	virtual bool verify_nescessary_state_is_set();
 
 public:
-	virtual bool __cdecl read(char* buffer, long buffer_length, long* bytes_read);
-	virtual long __cdecl get_length();
-	virtual bool __cdecl at_end();
-	virtual bool __cdecl reset();
+	virtual bool read(char* buffer, long buffer_length, long* bytes_read);
+	virtual long get_length();
+	virtual bool at_end();
+	virtual bool reset();
 
-	c_static_string<256> m_url;
+	long get_position();
+	void set_url(char const* url);
+	char const* get_url() const;
+
+	c_static_string<k_url_size> m_url;
 	c_static_string<1536> m_headers;
 	long __unknown704;
 	c_static_string<1024> m_extra_headers;
