@@ -39,6 +39,7 @@ bool c_http_client::do_work(
 	bool result = false;
 
 	*upload_complete = false;
+	bool is_connected = false;
 
 	__time1050 = __time1048;
 	__time1048 = __rdtsc();
@@ -57,7 +58,6 @@ bool c_http_client::do_work(
 
 			if (is_connected)
 				m_current_state = _upload_state_sending;
-			m_current_state = _upload_state_receiving_header;
 		}
 	}
 	break;
@@ -77,8 +77,7 @@ bool c_http_client::do_work(
 			upload_complete,
 			out_response_content_buffer,
 			out_response_content_buffer_count,
-			out_http_response_code)
-			)
+			out_http_response_code))
 		{
 			result = true;
 		}
@@ -381,8 +380,83 @@ bool c_http_client::receive_data(
 
 bool c_http_client::send_data()
 {
-	// #TODO: implement code
-	bool result = DECLFUNC(0x004339C0, bool, __thiscall, c_http_client*)(this);
+	assert(m_current_state == _upload_state_sending);
+
+	bool result = true;
+	long upstream_quota = -1;
+	word bytes_written = 0;
+
+	if (m_upstream_quota != -1)
+		upstream_quota = (m_upstream_quota * (__time1048 - __time1050)) / 1000;
+
+	while (result && (upstream_quota == -1 || upstream_quota > 0))
+	{
+		long position = m_http_stream->get_position();
+		long bytes_read = 0;
+
+		result = false;
+		if (transport_endpoint_writeable(m_endpoint_ptr))
+		{
+			result = true;
+			break;
+		}
+
+		char buffer[4096]{};
+		long buffer_length = 4096;
+
+		if (m_http_stream->read(buffer, buffer_length, &bytes_read))
+		{
+			bytes_written = 0;
+			assert(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
+
+			if (bytes_read)
+				bytes_written = transport_endpoint_write(m_endpoint_ptr, buffer, bytes_read);
+			else
+				bytes_written = 0;
+
+			if (bytes_written <= 0)
+			{
+				if (bytes_written == -2)
+				{
+					m_http_stream->set_position(position);
+					result = true;
+				}
+
+				if (bytes_written)
+				{
+					c_console::write_line("networking:http_client: transport_endpoint_write() failed with error code %d in async_upload_block()", bytes_written);
+				}
+				else
+				{
+					c_console::write_line("networking:http_client: transport_endpoint_write() failed because the endpoint was closed");
+				}
+			}
+			else
+			{
+				result = true;
+
+				if (upstream_quota != -1)
+					upstream_quota -= bytes_written;
+
+				if (bytes_written < bytes_read)
+				{
+					m_http_stream->set_position(position);
+					break;
+				}
+
+				if (m_http_stream->at_end())
+				{
+					m_response_buffer_count = 0;
+					m_current_state = _upload_state_receiving_header;
+					break;
+				}
+			}
+		}
+		else
+		{
+			c_console::write_line("networking:http_client: m_upload_stream::read failed from %s", m_ip_address_string.get_string());
+		}
+	}
 
 	return result;
 }
