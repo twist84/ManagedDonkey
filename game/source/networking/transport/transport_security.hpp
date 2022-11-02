@@ -62,6 +62,7 @@ extern bool __cdecl transport_secure_address_retrieve(transport_address const* u
 extern char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, long maximum_string_length, bool include_online, bool include_mac);
 extern char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifier const* secure_identifier);
 extern bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address);
+char const* __cdecl transport_secure_nonce_get_string(qword nonce);
 extern void __cdecl transport_security_initialize();
 extern void __cdecl transport_security_startup();
 extern void __cdecl transport_secure_address_reset_for_new_networking_mode(void* callback_data);

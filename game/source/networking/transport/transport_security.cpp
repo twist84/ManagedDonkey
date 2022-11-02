@@ -9,6 +9,8 @@
 
 HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
 HOOK_DECLARE(0x00430DF0, transport_secure_address_retrieve);
+HOOK_DECLARE(0x00430ED0, transport_secure_identifier_get_string);
+HOOK_DECLARE(0x00431100, transport_secure_nonce_get_string);
 
 s_transport_security_globals& transport_security_globals = *reinterpret_cast<s_transport_security_globals*>(0x0199FAB0);
 
@@ -65,7 +67,9 @@ char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifi
 {
 	FUNCTION_BEGIN(true);
 
-	return INVOKE(0x00430ED0, transport_secure_identifier_get_string, secure_identifier);
+	char* result = nullptr;
+	HOOK_INVOKE(result =, transport_secure_identifier_get_string, secure_identifier);
+	return result;
 }
 
 bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address)
@@ -75,6 +79,20 @@ bool __cdecl transport_secure_identifier_retrieve(transport_address const* usabl
 	return INVOKE(0x00430F30, transport_secure_identifier_retrieve, usable_address, transport_platform, secure_identifier, secure_address);
 }
 
+char const* __cdecl transport_secure_nonce_get_string(qword nonce)
+{
+	union
+	{
+		qword value;
+		byte bytes[8];
+	};
+
+	value = nonce;
+
+	static c_static_string<64> transport_secure_nonce_string;
+	transport_secure_nonce_string.print("%02X%02X%02X%02X-%02X%02X%02X%02X", bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0]);
+	return transport_secure_nonce_string.get_string();
+}
 
 void __cdecl transport_security_initialize()
 {
