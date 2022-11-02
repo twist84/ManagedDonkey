@@ -181,8 +181,40 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
 {
     FUNCTION_BEGIN(true);
 
-    short result = 0;
-    HOOK_INVOKE(result =, transport_endpoint_read, endpoint, buffer, length);
+    assert(endpoint != NULL);
+    assert(buffer != NULL);
+    assert(length > 0);
+    assert(endpoint->socket != INVALID_SOCKET);
+
+    short result;
+    if (transport_available() && TEST_BIT(endpoint->flags, 0))
+    {
+        word bytes_read = recv(endpoint->socket, static_cast<char*>(buffer), length, 0);
+        if (bytes_read == 0xFFFF)
+        {
+            int error = WSAGetLastError();
+            if (error == WSAEWOULDBLOCK)
+            {
+                result = -2;
+            }
+            else
+            {
+                c_console::write_line("transport:read: recv() failed w/ unknown error '%s'", winsock_error_to_string(error));
+                result = -3;
+            }
+        }
+        else if (bytes_read)
+        {
+            assert(bytes_read > 0);
+        }
+        else
+        {
+            endpoint->flags &= ~FLAG(0);
+            endpoint->flags &= ~FLAG(2);
+            endpoint->flags &= ~FLAG(5);
+        }
+    }
+
     return result;
 }
 
