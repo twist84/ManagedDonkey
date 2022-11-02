@@ -15,6 +15,8 @@
 #define IN_RANGE_INCLUSIVE(value, begin, end) (((value) >= (begin)) && ((value) <= (end)))
 
 #define REFERENCE_DECLARE(address, type, name) type& name = *reinterpret_cast<type*>(address)
+#define REFERENCE_DECLARE_ARRAY(address, type, name, count) type(&name)[count] = *reinterpret_cast<type(*)[count]>(address)
+
 #define try_bool(X) if (!X) return false
 
 // 4-character tag group identifier
