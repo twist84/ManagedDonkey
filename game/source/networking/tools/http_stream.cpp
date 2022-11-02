@@ -33,6 +33,11 @@ void c_http_stream::set_headers(char const* headers)
 	m_extra_headers.set(headers);
 }
 
+void c_http_stream::set_position(long position)
+{
+	m_position = position;
+}
+
 long c_http_stream::get_position()
 {
 	return m_position;

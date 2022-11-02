@@ -41,6 +41,7 @@ public:
 	void add_header(char const* key, char const* value);
 	void clear_headers();
 	void set_headers(char const* headers);
+	void set_position(long position);
 	long get_position();
 	void set_url(char const* url);
 	char const* get_url() const;
