@@ -28,6 +28,7 @@
 #include "scenario/scenario.hpp"
 #include "simulation/simulation.hpp"
 #include "tag_files/string_ids.hpp"
+#include "xbox/xnet.hpp"
 
 #include <assert.h>
 
@@ -41,6 +42,7 @@ void __cdecl main_loop_body_begin()
     // right control for tests
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
+        xnet_mapping;
         g_broadcast_search_globals;
         network_arbitration_globals;
         g_netdebug_globals;

@@ -384,6 +384,9 @@
     <ClCompile Include="source\networking\transport\transport_endpoint_set_winsock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\xbox\xnet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1152,6 +1155,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\transport\transport_endpoint_set_winsock.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\xbox\xnet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
