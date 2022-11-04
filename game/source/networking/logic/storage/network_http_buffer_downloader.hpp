@@ -38,6 +38,7 @@ public:
 	static e_download_status __fastcall get_download_status(c_http_buffer_downloader* _this);
 	static e_download_status __fastcall get_data(c_http_buffer_downloader* _this, void* unused, char const** buffer, long* buffer_size);
 	static e_download_status __cdecl get_download_status_from_internal_status(e_internal_status internal_status);
+	static void __fastcall update(c_http_buffer_downloader* _this);
 
 
 protected:

@@ -6,9 +6,12 @@
 HOOK_DECLARE_CLASS(0x00463A90, c_http_buffer_downloader, get_data);
 HOOK_DECLARE_CLASS(0x00463B30, c_http_buffer_downloader, get_download_status);
 HOOK_DECLARE_CLASS(0x00463B80, c_http_buffer_downloader, get_download_status_from_internal_status);
+HOOK_DECLARE_CLASS(0x004649A0, c_http_buffer_downloader, update);
 
 e_download_status __fastcall c_http_buffer_downloader::get_data(c_http_buffer_downloader* _this, void* unused, char const** buffer, long* buffer_size)
 {
+    update(_this);
+
     if (buffer)
         *buffer = 0;
 
@@ -71,3 +74,9 @@ e_download_status __cdecl c_http_buffer_downloader::get_download_status_from_int
 
     return result;
 }
+
+void __fastcall c_http_buffer_downloader::update(c_http_buffer_downloader* _this)
+{
+    HOOK_INVOKE_CLASS(, c_http_buffer_downloader, update, void(__thiscall*)(c_http_buffer_downloader*), _this);
+}
+
