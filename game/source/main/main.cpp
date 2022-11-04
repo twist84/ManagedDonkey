@@ -9,6 +9,7 @@
 #include "game/game.hpp"
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
+#include "interface/c_player_marketplace.hpp"
 #include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
@@ -43,6 +44,7 @@ void __cdecl main_loop_body_begin()
     if (GetKeyState(VK_RCONTROL) & 0x8000)
     {
         xnet_mapping;
+        g_player_marketplace;
         g_broadcast_search_globals;
         network_arbitration_globals;
         g_netdebug_globals;

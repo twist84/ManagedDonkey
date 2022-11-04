@@ -387,6 +387,9 @@
     <ClCompile Include="source\xbox\xnet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\c_player_marketplace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1158,6 +1161,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\xbox\xnet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\c_player_marketplace.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\online\online_marketplace.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
