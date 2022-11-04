@@ -387,7 +387,7 @@ bool c_http_client::send_data()
 	word bytes_written = 0;
 
 	if (m_upstream_quota != -1)
-		upstream_quota = (m_upstream_quota * (__time1048 - __time1050)) / 1000;
+		upstream_quota = static_cast<long>((m_upstream_quota * (__time1048 - __time1050)) / 1000);
 
 	while (result && (upstream_quota == -1 || upstream_quota > 0))
 	{
@@ -410,7 +410,7 @@ bool c_http_client::send_data()
 			assert(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
 
 			if (bytes_read)
-				bytes_written = transport_endpoint_write(m_endpoint_ptr, buffer, bytes_read);
+				bytes_written = transport_endpoint_write(m_endpoint_ptr, buffer, static_cast<short>(bytes_read));
 			else
 				bytes_written = 0;
 
