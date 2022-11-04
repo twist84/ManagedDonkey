@@ -80,3 +80,12 @@ struct c_http_stored_buffer_downloader
 };
 //static_assert(sizeof(c_http_stored_buffer_downloader<4>) == sizeof(c_http_buffer_downloader) + 4);
 
+template<typename t_blf_type>
+struct c_http_blf_simple_downloader
+	: public c_http_stored_buffer_downloader<sizeof(t_blf_type)>
+{
+	long __unknown_index_or_count;
+	char const* m_chunk_buffer;
+	long m_chunk_buffer_size;
+};
+
