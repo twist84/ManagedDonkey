@@ -103,7 +103,6 @@ struct s_game_globals_tag_reference;
 struct s_game_globals
 {
 	struct sound_block;
-	struct multiplayer_color_block;
 
 	// pad
 	byte YJLTWDSL[0xAC];
@@ -195,12 +194,5 @@ struct s_game_globals
 		tag_reference sound; // OBSOLETE
 	};
 	static_assert(sizeof(sound_block) == sizeof(tag_reference));
-
-	struct multiplayer_color_block
-	{
-		real_rgb_color color;
-	};
-	static_assert(sizeof(multiplayer_color_block) == sizeof(real_rgb_color));
-
 };
 static_assert(sizeof(s_game_globals) == 0x608);
