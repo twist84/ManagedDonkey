@@ -120,6 +120,8 @@ enum e_key_code
 	_key_code_keypad_enter,
 	_key_code_keypad_decimal,
 
+	_key_code_unknown104,
+
 	_key_code_shift,
 	_key_code_control,
 	_key_code_windows,
@@ -170,81 +172,81 @@ enum e_controller_button
 	k_controller_button_none
 };
 
-enum e_control_button
+enum e_gamepad_button
 {
 	// e_controller_button
-	_control_button_left_trigger = 0,
-	_control_button_right_trigger,
-	_control_button_dpad_up,
-	_control_button_dpad_down,
-	_control_button_dpad_left,
-	_control_button_dpad_right,
-	_control_button_start,
-	_control_button_back,
-	_control_button_left_stick,
-	_control_button_right_stick,
-	_control_button_a,
-	_control_button_b,
-	_control_button_x,
-	_control_button_y,
-	_control_button_right_bumper,
-	_control_button_left_bumper,
+	_gamepad_button_left_trigger = 0,
+	_gamepad_button_right_trigger,
+	_gamepad_button_dpad_up,
+	_gamepad_button_dpad_down,
+	_gamepad_button_dpad_left,
+	_gamepad_button_dpad_right,
+	_gamepad_button_start,
+	_gamepad_button_back,
+	_gamepad_button_left_stick,
+	_gamepad_button_right_stick,
+	_gamepad_button_a,
+	_gamepad_button_b,
+	_gamepad_button_x,
+	_gamepad_button_y,
+	_gamepad_button_right_bumper,
+	_gamepad_button_left_bumper,
 
-	_control_button_jump,
-	_control_button_switch_grenades,
-	_control_button_switch_weapons,
-	_control_button_unknown19,
-	_control_button_reload_right,
-	_control_button_use,
-	_control_button_reload_left,
-	_control_button_pick_up_left,
-	_control_button_melee,
-	_control_button_throw_grenade,
-	_control_button_fire_right,
-	_control_button_fire_left,
+	_gamepad_button_jump,
+	_gamepad_button_switch_grenades,
+	_gamepad_button_switch_weapons,
+	_gamepad_button_unknown19,
+	_gamepad_button_reload_right,
+	_gamepad_button_use,
+	_gamepad_button_reload_left,
+	_gamepad_button_pick_up_left,
+	_gamepad_button_melee,
+	_gamepad_button_throw_grenade,
+	_gamepad_button_fire_right,
+	_gamepad_button_fire_left,
 
 	// fires a weapon with a trigger bound to the melee key
-	_control_button_melee_fire,
+	_gamepad_button_melee_fire,
 
-	_control_button_crouch,
-	_control_button_zoom,
-	_control_button_unknown31,
-	_control_button_unknown32,
-	_control_button_sprint,
-	_control_button_flashlight,
-	_control_button_unknown35,
-	_control_button_unknown36,
-	_control_button_unknown37,
-	_control_button_unknown38,
-	_control_button_general_chat,
-	_control_button_team_chat,
-	_control_button_voice_chat,
-	_control_button_unknown42,
-	_control_button_unknown43,
-	_control_button_use_consumable_1,
-	_control_button_use_consumable_2,
-	_control_button_use_consumable_3,
-	_control_button_use_consumable_4,
-	_control_button_vehicle_boost,
-	_control_button_vehicle_dive,
-	_control_button_vehicle_raise,
-	_control_button_vehicle_accelerate,
-	_control_button_vehicle_reverse,
-	_control_button_vehicle_fire,
-	_control_button_vehicle_alt_fire,
-	_control_button_vehicle_use,
-	_control_button_next_player,
-	_control_button_prev_player,
-	_control_button_unknown58,
+	_gamepad_button_crouch,
+	_gamepad_button_zoom,
+	_gamepad_button_unknown31,
+	_gamepad_button_unknown32,
+	_gamepad_button_sprint,
+	_gamepad_button_flashlight,
+	_gamepad_button_unknown35,
+	_gamepad_button_unknown36,
+	_gamepad_button_unknown37,
+	_gamepad_button_unknown38,
+	_gamepad_button_general_chat,
+	_gamepad_button_team_chat,
+	_gamepad_button_voice_chat,
+	_gamepad_button_unknown42,
+	_gamepad_button_unknown43,
+	_gamepad_button_use_consumable_1,
+	_gamepad_button_use_consumable_2,
+	_gamepad_button_use_consumable_3,
+	_gamepad_button_use_consumable_4,
+	_gamepad_button_vehicle_boost,
+	_gamepad_button_vehicle_dive,
+	_gamepad_button_vehicle_raise,
+	_gamepad_button_vehicle_accelerate,
+	_gamepad_button_vehicle_reverse,
+	_gamepad_button_vehicle_fire,
+	_gamepad_button_vehicle_alt_fire,
+	_gamepad_button_vehicle_use,
+	_gamepad_button_next_player,
+	_gamepad_button_prev_player,
+	_gamepad_button_unknown58,
 
-	k_control_button_count_gamepad,
+	k_gamepad_button_count,
 
-	_control_button_move_forward = k_control_button_count_gamepad,
-	_control_button_move_back,
-	_control_button_move_left,
-	_control_button_move_right,
+	_gamepad_button_move_forward = k_gamepad_button_count,
+	_gamepad_button_move_back,
+	_gamepad_button_move_left,
+	_gamepad_button_move_right,
 
-	k_control_button_count_keyboard
+	k_gamepad_button_count_keyboard
 };
 
 struct s_gamepad_input_preferences
@@ -252,13 +254,13 @@ struct s_gamepad_input_preferences
 	real look_sensitivity_x;
 	real look_sensitivity_y;
 
-	c_static_array<c_enum<e_controller_button, char, k_controller_button_count>, k_control_button_count_gamepad> gamepad_buttons;
-	c_static_array<bool, k_control_button_count_gamepad> gamepad_buttons_held;
+	c_static_array<c_enum<e_controller_button, char, k_controller_button_count>, k_gamepad_button_count> gamepad_buttons;
+	c_static_array<bool, k_gamepad_button_count> gamepad_buttons_held;
 
-	c_static_array<c_enum<e_key_code, short, k_key_code_count>, k_control_button_count_keyboard> keys_primary;
-	c_static_array<c_enum<e_key_code, short, k_key_code_count>, k_control_button_count_keyboard> keys_secondary;
-	c_static_array<c_enum<e_mouse_button, char, k_mouse_button_count>, k_control_button_count_keyboard> mouse_buttons_primary;
-	c_static_array<c_enum<e_mouse_button, char, k_mouse_button_count>, k_control_button_count_keyboard> mouse_buttons_secondary;
+	c_static_array<c_enum<e_key_code, short, k_key_code_count>, k_gamepad_button_count_keyboard> keys_primary;
+	c_static_array<c_enum<e_key_code, short, k_key_code_count>, k_gamepad_button_count_keyboard> keys_secondary;
+	c_static_array<c_enum<e_mouse_button, char, k_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_primary;
+	c_static_array<c_enum<e_mouse_button, char, k_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_secondary;
 
 	short joystick_preset;
 	bool controller_look_inverted;
@@ -271,18 +273,35 @@ static_assert(sizeof(s_gamepad_input_preferences) == 0x208);
 
 struct c_abstract_button
 {
-	word down_msec;
-	byte down_frames;
-	byte flags;
-	real down_amount;
-	byte accessor;
-	bool locked;
+public:
+	
+	c_abstract_button();
+	void update(word down_msec, word down_frames, byte down_amount);
+	void set_accessor(long accessor); // e_button_action
+	void unlock();
+	bool locked();
+	void lock();
+	real down_amount();
+	bool access_valid() const;
+	word down_msec();
+	bool latched() const;
+	byte down_frames() const;
+	void set_latch_bit(bool set_bit);
+	void latch();
+
+protected:
+	word m_down_msec;
+	byte m_down_frames;
+	byte_flags m_flags;
+	real m_down_amount;
+	byte m_accessor;
+	byte m_locked;
 };
 static_assert(sizeof(c_abstract_button) == 0xC);
 
 struct s_game_input_state
 {
-	c_abstract_button abstract_buttons[k_control_button_count_keyboard];
+	c_abstract_button abstract_buttons[k_gamepad_button_count_keyboard];
 	byte __data2F4[0x34];
 };
 static_assert(sizeof(s_game_input_state) == 0x328);
