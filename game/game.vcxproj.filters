@@ -390,6 +390,9 @@
     <ClCompile Include="source\interface\c_player_marketplace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\input\input_abstraction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1167,6 +1170,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\online\online_marketplace.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\input\input_abstraction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

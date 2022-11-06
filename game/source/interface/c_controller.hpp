@@ -23,7 +23,7 @@ static_assert(sizeof(c_controller_interface) == 0x1448);
 
 struct s_controller_globals
 {
-	c_controller_interface m_controllers[4];
+	c_controller_interface m_controllers[k_number_of_controllers];
 };
 static_assert(sizeof(s_controller_globals) == 0x5120);
 
