@@ -68,6 +68,10 @@ void __cdecl main_loop_body_begin()
 		printf("");
 	}
 
+	memcpy(input_abstraction_globals.input_states + 1, input_abstraction_globals.input_states, sizeof(s_game_input_state));
+	memcpy(input_abstraction_globals.input_states + 2, input_abstraction_globals.input_states, sizeof(s_game_input_state));
+	memcpy(input_abstraction_globals.input_states + 3, input_abstraction_globals.input_states, sizeof(s_game_input_state));
+
 	if (GetKeyState(VK_PAUSE) & 0x8000)
 	{
 		static long controls_method = 0;
