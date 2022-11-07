@@ -4110,9 +4110,5 @@ static_assert(0x073 == k_input_string_id_count);
 extern char const* string_id_get_string_const(long string_id);
 extern long string_id_retrieve(char const* string);
 
+extern void string_id_initialize();
 
-// #TODO: map out and implement these
-//s_hash_table* g_string_id_globals
-//s_hash_table* g_string_id_mapping_globals
-//string_id_index_buffer
-//g_string_id_storage
