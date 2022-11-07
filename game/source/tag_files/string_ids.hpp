@@ -4,38 +4,38 @@
 // halo reach uses a 17 bit namespace
 #define STRING_NAMESPACE_BITS 16
 
-#define STRING_ID(NAMESPACE, STRING) (_namespace_##NAMESPACE << STRING_NAMESPACE_BITS) + _##NAMESPACE##_string_id_##STRING
+#define STRING_ID(NAMESPACE, STRING) (_string_namespace_##NAMESPACE << STRING_NAMESPACE_BITS) + _##NAMESPACE##_string_id_##STRING
 #define STRING_NAMESPACE_FROM_STRING_ID(ID) (ID >> STRING_NAMESPACE_BITS)
 #define STRING_INDEX_FROM_STRING_ID(ID) (ID & ((1 << STRING_NAMESPACE_BITS) - 1))
 
-enum e_namespace
+enum e_string_namespace
 {
-	_namespace_global = 0,
-	_namespace_gui,
-	_namespace_gui_alert,
-	_namespace_gui_dialog,
+	_string_namespace_global = 0,
+	_string_namespace_gui,
+	_string_namespace_gui_alert,
+	_string_namespace_gui_dialog,
 
 	// Reach
-	//_namespace_cui,
-	//_namespace_cui_animation,
-	//_namespace_cui_shader,
-	//_namespace_properties,
-	//_namespace_components,
+	//_string_namespace_cui,
+	//_string_namespace_cui_animation,
+	//_string_namespace_cui_shader,
+	//_string_namespace_properties,
+	//_string_namespace_components,
 
-	_namespace_game_engine,
-	_namespace_game_start,
-	_namespace_online,
-	_namespace_saved_game,
-	_namespace_gpu,
+	_string_namespace_game_engine,
+	_string_namespace_game_start,
+	_string_namespace_online,
+	_string_namespace_saved_game,
+	_string_namespace_gpu,
 
 	// Reach
-	//_namespace_ai_stimulus,
-	//_namespace_incident,
+	//_string_namespace_ai_stimulus,
+	//_string_namespace_incident,
 	
 	// MCC
-	//_namespace_input,
+	//_string_namespace_input,
 
-	k_namespace_count
+	k_string_namespace_count
 };
 
 enum e_string_id
