@@ -302,7 +302,18 @@ static_assert(sizeof(c_abstract_button) == 0xC);
 struct s_game_input_state
 {
 	c_abstract_button abstract_buttons[k_gamepad_button_count_keyboard];
-	byte __data2F4[0x34];
+	point2d abstract_sticks[2];
+	real forward_movement;
+	real strafe;
+	real yaw;
+	real pitch;
+	real __unknown30C;
+	real __unknown310;
+	real __unknown314;
+	real __unknown318;
+	real __unknown31C;
+	real __unknown320;
+	bool __unknown324;
 };
 static_assert(sizeof(s_game_input_state) == 0x328);
 
@@ -310,7 +321,7 @@ struct s_input_globals;
 struct s_input_abstraction_globals
 {
 	s_gamepad_input_preferences preferences[k_number_of_controllers];
-	s_game_input_state states[k_number_of_controllers];
+	s_game_input_state input_states[k_number_of_controllers];
 	dword controller_detection_timer;
 	bool input_has_gamepad[k_number_of_controllers];
 	long controls_method;
