@@ -370,7 +370,7 @@ bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags)
 {
 	FUNCTION_BEGIN(true);
 
-	MessageBoxA(NULL, "Signin UI Placeholder", "networking:online:guide", MB_OK);
+	//MessageBoxA(NULL, "Signin UI Placeholder", "networking:online:guide", MB_OK);
 
 	//assert(pane_count == 1 || pane_count == 2 || pane_count == 4);
 	//
@@ -384,7 +384,7 @@ bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags)
 	//
 	//return result == 0;
 
-	return false;
+	return true;
 }
 
 void __cdecl online_guide_update()
