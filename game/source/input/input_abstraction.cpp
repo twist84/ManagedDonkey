@@ -1,8 +1,20 @@
 #include "input/input_abstraction.hpp"
 
+#include "memory/module.hpp"
+
 #include <assert.h>
 
 REFERENCE_DECLARE(0x0244C9D0, s_input_abstraction_globals, input_abstraction_globals);
+
+HOOK_DECLARE(0x0060BFE0, input_abstraction_get_input_state);
+
+void input_abstraction_get_input_state(long controller_index, s_game_input_state** input_state)
+{
+	assert(input_state);
+	assert(controller_index >= 0 && controller_index < k_number_of_controllers);
+
+	*input_state = &input_abstraction_globals.input_states[controller_index];
+}
 
 c_abstract_button::c_abstract_button() :
 	m_down_msec(),

@@ -334,6 +334,8 @@ static_assert(sizeof(s_input_abstraction_globals) == 0x14D4);
 
 extern s_input_abstraction_globals& input_abstraction_globals;
 
+extern void input_abstraction_get_input_state(long controller_index, s_game_input_state** input_state);
+
 struct s_input_globals
 {
 	long __unknown0;
