@@ -23,3 +23,6 @@ struct s_effect_lightprobe
 	s_geometry_sample geometry_sample;
 };
 static_assert(sizeof(s_effect_lightprobe) == 0x1FC);
+
+extern void __cdecl screen_effect_update(real update_interval);
+
