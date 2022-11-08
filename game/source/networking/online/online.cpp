@@ -32,6 +32,14 @@ HOOK_DECLARE(0x00442BF0, online_update);
 REFERENCE_DECLARE(0x019AB728, s_online_user, g_online_user);
 REFERENCE_DECLARE(0x02179468, bool, g_online_is_connected_to_live);
 
+static s_online_user g_controller_users[4] =
+{
+	g_online_user,
+	{.initialized = true, .player_xuid = 1, .player_name = L"user1" },
+	{.initialized = true, .player_xuid = 2, .player_name = L"user2" },
+	{.initialized = true, .player_xuid = 3, .player_name = L"user3" },
+};
+
 long g_nat_type_override = _online_nat_type_none;
 char g_hostname[264];
 
@@ -152,7 +160,7 @@ wchar_t const* __cdecl online_user_get_name(long controller_index)
 {
 	FUNCTION_BEGIN(false);
 
-	return controller_index == 0 ? g_online_user.player_name : L"username";
+	return g_controller_users[controller_index].player_name;
 }
 
 qword __cdecl online_user_get_player_identifier(long controller_index)
@@ -168,7 +176,7 @@ qword __cdecl online_user_get_xuid(long controller_index)
 {
 	FUNCTION_BEGIN(false);
 
-	return controller_index == 0 ? g_online_user.player_xuid : 0;
+	return g_controller_users[controller_index].player_xuid;
 }
 
 bool __cdecl sub_442B00(long controller_index)
@@ -189,14 +197,14 @@ bool __cdecl online_has_signed_in_user(long controller_index)
 {
 	FUNCTION_BEGIN(false);
 
-	return controller_index == 0;
+	return g_controller_users[controller_index].initialized;
 }
 
 bool online_local_xuid_is_silver_or_gold_live(long controller_index)
 {
 	FUNCTION_BEGIN(false);
 
-	return controller_index == 0;
+	return g_controller_users[controller_index].initialized;
 }
 
 bool __cdecl sub_442B70()
