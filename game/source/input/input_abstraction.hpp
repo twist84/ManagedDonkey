@@ -317,7 +317,16 @@ struct s_game_input_state
 };
 static_assert(sizeof(s_game_input_state) == 0x328);
 
-struct s_input_globals;
+struct s_input_globals
+{
+	long __unknown0;
+	long __unknown4;
+	tag_data __unknown8;
+	tag_data __unknown1C;
+	long __unknown30;
+};
+static_assert(sizeof(s_input_globals) == 0x34);
+
 struct s_input_abstraction_globals
 {
 	s_gamepad_input_preferences preferences[k_number_of_controllers];
@@ -334,15 +343,28 @@ static_assert(sizeof(s_input_abstraction_globals) == 0x14D4);
 
 extern s_input_abstraction_globals& input_abstraction_globals;
 
+extern void __cdecl input_abstraction_dispose();
+extern void __cdecl input_abstraction_dispose_from_old_map();
+extern void __cdecl sub_60B3D0(struct gamepad_state* state, s_gamepad_input_preferences* preferences, s_game_input_state* input_state, long gamepad_index);
+extern short __cdecl input_abstraction_get_abstract_stick_pitch(long controller_index);
+extern long __cdecl input_abstraction_get_controls_method();
+extern void __cdecl sub_60BEA0(s_gamepad_input_preferences* preferences, void* bindings);
+extern void __cdecl input_abstraction_get_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences);
+extern void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferences* preferences);
 extern void input_abstraction_get_input_state(long controller_index, s_game_input_state** input_state);
+extern void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, real_euler_angles2d* angular_velocity);
+extern void __cdecl sub_60C040(int keyboard_preset, s_gamepad_input_preferences* preferences);
+extern void __cdecl input_abstraction_initialize();
+//extern void __cdecl input_abstraction_initialize_for_new_map();
+//extern void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
+//extern void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
 
-struct s_input_globals
-{
-	long __unknown0;
-	long __unknown4;
-	tag_data __unknown8;
-	tag_data __unknown1C;
-	long __unknown30;
-};
-static_assert(sizeof(s_input_globals) == 0x34);
-
+void __cdecl input_abstraction_latch_all_buttons(long controller_index);
+//extern void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
+//extern void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, long a3);
+//extern void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
+extern void __cdecl input_abstraction_reset_controller_detection_timer();
+//extern void __cdecl input_should_suppress_rumble(long controls_method);
+extern void __cdecl input_abstraction_set_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences);
+//extern void __cdecl input_abstraction_update();
+//extern void __cdecl input_abstraction_update_device_changes(dword_flags flags);
