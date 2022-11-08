@@ -33,6 +33,11 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(long screen_name)
 	return INVOKE(0x00AABFD0, named_screen_defined_in_code, screen_name);
 }
 
+c_window_manager* __cdecl window_manager_get()
+{
+	return &g_window_manager;
+}
+
 void __cdecl window_manager_reset_screens()
 {
 	FUNCTION_BEGIN(true);

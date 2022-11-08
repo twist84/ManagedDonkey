@@ -27,4 +27,5 @@ static_assert(sizeof(c_window_manager) == 0x128);
 
 extern c_window_manager& g_window_manager;
 
+extern c_window_manager* __cdecl window_manager_get();
 extern void __cdecl window_manager_reset_screens();
