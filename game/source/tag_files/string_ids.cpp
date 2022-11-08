@@ -58,15 +58,9 @@ const char* const k_string_namespace_names[k_string_namespace_count]
 	"gpu"
 };
 
-static dword g_string_count = 0;
-static dword g_string_ascii_storage_offsets[1 << 16]{};
-static char g_string_ascii_storage[(1 << 16) * 128]{};
-
 // this is far from the correct impementation
 char const* string_id_get_string_const(long string_id)
 {
-	//string_id_initialize();
-
 	if (string_id == _string_id_invalid)
 		return "<string id invalid>";
 
@@ -159,45 +153,3 @@ long string_id_retrieve(char const* string)
 	return _string_id_invalid;
 }
 
-struct cache_file_strings_header
-{
-	dword string_count;
-	dword string_buffer_size;
-};
-static_assert(sizeof(cache_file_strings_header) == 0x8);
-
-void string_id_initialize()
-{
-	static bool initialized = false;
-	if (!initialized)
-	{
-		cache_file_strings_header strings_header;
-
-		s_file_reference string_ids_file;
-		file_reference_create_from_path(&string_ids_file, "maps\\string_ids.dat", false);
-		if (file_exists(&string_ids_file))
-		{
-			dword error = 0;
-			if (file_open(&string_ids_file, FLAG(_file_open_flag_desired_access_read), &error))
-			{
-				dword file_size = 0;
-				if (file_get_size(&string_ids_file, &file_size))
-				{
-					if (file_read(&string_ids_file, sizeof(strings_header), false, &strings_header))
-					{
-						dword string_offsets_size = strings_header.string_count * sizeof(dword);
-						dword string_buffer_size = strings_header.string_buffer_size;
-
-						g_string_count = strings_header.string_count;
-						file_read(&string_ids_file, string_offsets_size, false, g_string_ascii_storage_offsets);
-						file_read(&string_ids_file, string_buffer_size, false, g_string_ascii_storage);
-					}
-				}
-
-				file_close(&string_ids_file);
-			}
-		}
-	}
-
-	initialized = true;
-}
