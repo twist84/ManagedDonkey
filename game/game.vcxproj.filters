@@ -396,6 +396,9 @@
     <ClCompile Include="source\effects\screen_effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\user_interface_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1179,6 +1182,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\effects\screen_effect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_controller.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

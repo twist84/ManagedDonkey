@@ -261,6 +261,7 @@ POPD
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.cpp" />
     <ClCompile Include="source\interface\gui_selected_items.cpp" />
+    <ClCompile Include="source\interface\user_interface_controller.cpp" />
     <ClCompile Include="source\interface\user_interface_global_text_parsers.cpp" />
     <ClCompile Include="source\interface\user_interface_hs.cpp" />
     <ClCompile Include="source\interface\user_interface_memory.cpp" />
@@ -390,6 +391,7 @@ POPD
     <ClInclude Include="source\interface\gui_screens\scoreboard\gui_screen_scoreboard.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.hpp" />
     <ClInclude Include="source\interface\gui_selected_items.hpp" />
+    <ClInclude Include="source\interface\user_interface_controller.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
     <ClInclude Include="source\interface\user_interface_global_text_parsers.hpp" />
     <ClInclude Include="source\interface\user_interface_hs.hpp" />
