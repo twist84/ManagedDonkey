@@ -15,7 +15,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 
-HOOK_DECLARE(0x005CE150, current_game_engine);
+//HOOK_DECLARE(0x005CE150, current_game_engine);
 
 REFERENCE_DECLARE_ARRAY(0x0471A920, c_game_engine*, game_engines, 11);
 
@@ -54,7 +54,7 @@ c_game_engine const* __cdecl current_game_engine()
 	FUNCTION_BEGIN(false);
 
 	c_game_engine const* result = nullptr;
-	HOOK_INVOKE(result =, current_game_engine);
+	//HOOK_INVOKE(result =, current_game_engine);
 
 	game_engine_globals* game_engine = get_tls()->game_engine_globals;
 	if (game_engine && (game_engine->GameType > 0 && game_engine->GameType < 11))
