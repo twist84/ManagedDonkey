@@ -104,12 +104,12 @@ struct s_global_preferences_data
 		struct s_bindings
 		{
 			// e_key_code
-			word primary_keys[63];
-			word alternative_keys[63];
+			c_static_array<short, 63> keys_primary;
+			c_static_array<short, 63> keys_secondary;
 
 			// e_mouse_button
-			byte primary_mouse_buttons[63];
-			byte alternative_mouse_buttons[63];
+			c_static_array<char, 63> mouse_buttons_primary;
+			c_static_array<char, 63> mouse_buttons_secondary;
 
 			short joystick_layout;
 		};
