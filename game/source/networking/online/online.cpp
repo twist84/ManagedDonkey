@@ -223,7 +223,7 @@ void __cdecl online_user_set_xuid(qword xuid)
 {
 	FUNCTION_BEGIN(false);
 
-	g_online_user.player_xuid = xuid;
+	g_controller_users[0].player_xuid = xuid;
 }
 
 void __cdecl online_set_is_connected_to_live(bool is_connected_to_live)
@@ -237,15 +237,15 @@ void __cdecl online_user_set_name(wchar_t const* name)
 {
 	FUNCTION_BEGIN(false);
 
-	ustrnzcpy(g_online_user.player_name, name, 16);
+	ustrnzcpy(g_controller_users[0].player_name, name, 16);
 }
 
 void __cdecl online_update()
 {
 	FUNCTION_BEGIN(false);
 
-	if (*g_online_user.player_name == 0)
+	if (*g_controller_users[0].player_name == 0)
 	{
-		wsprintfW(g_online_user.player_name, L"%S", g_hostname);
+		wsprintfW(g_controller_users[0].player_name, L"%S", g_hostname);
 	}
 }
