@@ -6,6 +6,7 @@
 struct s_data_array;
 struct c_gui_screen_widget;
 struct c_load_screen_message;
+struct s_event_record;
 struct c_window_manager
 {
 	s_data_array* m_active_screens;
@@ -19,6 +20,7 @@ struct c_window_manager
 	long __unknown124;
 
 	static c_gui_screen_widget* __stdcall allocate_codeless_screen(long screen_name);
+	void __cdecl handle_global_controller_event(s_event_record* event_record);
 	static c_gui_screen_widget* __stdcall allocate_named_screen(long screen_name);
 	static c_gui_screen_widget* load_screen(long controller_index, bool unused, c_load_screen_message const* screen_message, long window_index);
 	static bool __cdecl named_screen_defined_in_code(long screen_name);
