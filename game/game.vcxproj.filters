@@ -393,7 +393,7 @@
     <ClCompile Include="source\input\input_abstraction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\effects\effects.cpp">
+    <ClCompile Include="source\effects\screen_effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1176,6 +1176,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\input\input_abstraction.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\effects\screen_effect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

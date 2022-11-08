@@ -1,4 +1,4 @@
-#include "effects/effects.hpp"
+#include "effects/screen_effect.hpp"
 
 #include "memory/module.hpp"
 
@@ -8,3 +8,4 @@ void __cdecl screen_effect_update(real update_interval)
 {
 	HOOK_INVOKE(, screen_effect_update, update_interval);
 }
+

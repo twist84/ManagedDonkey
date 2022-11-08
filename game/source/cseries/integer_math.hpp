@@ -49,10 +49,30 @@ union rectangle2d
 };
 static_assert(sizeof(rectangle2d) == 0x10);
 
-typedef unsigned long rgb_color;
+union rgb_color
+{
+	struct
+	{
+		unsigned char : 8;
+		unsigned char red;
+		unsigned char green;
+		unsigned char blue;
+	};
+	unsigned char n[4];
+};
 static_assert(sizeof(rgb_color) == 0x4);
 
-typedef unsigned long argb_color;
+union argb_color
+{
+	struct
+	{
+		unsigned char alpha;
+		unsigned char red;
+		unsigned char green;
+		unsigned char blue;
+	};
+	unsigned char n[4];
+};
 static_assert(sizeof(argb_color) == 0x4);
 
 union short_bounds

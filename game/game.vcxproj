@@ -225,7 +225,7 @@ POPD
     <ClCompile Include="source\cutscene\cinematics.cpp" />
     <ClCompile Include="source\editor\editor_stubs.cpp" />
     <ClCompile Include="source\effects\contrails.cpp" />
-    <ClCompile Include="source\effects\effects.cpp" />
+    <ClCompile Include="source\effects\screen_effect.cpp" />
     <ClCompile Include="source\fmod\fmod.cpp" />
     <ClCompile Include="source\game\cheats.cpp" />
     <ClCompile Include="source\game\game_engine.cpp" />
@@ -363,6 +363,7 @@ POPD
     <ClInclude Include="source\editor\editor_stubs.hpp" />
     <ClInclude Include="source\effects\contrails.hpp" />
     <ClInclude Include="source\effects\effect_definitions.hpp" />
+    <ClInclude Include="source\effects\screen_effect.hpp" />
     <ClInclude Include="source\fmod\fmod.hpp" />
     <ClInclude Include="source\game\campaign_metagame_definitions.hpp" />
     <ClInclude Include="source\game\cheats.hpp" />

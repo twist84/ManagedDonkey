@@ -37,7 +37,7 @@ template<typename t_element_type, dword ...t_extra>
 struct c_typed_tag_block
 {
 	long count;
-	t_element_type(&elements)[];
+	t_element_type* elements;
 	byte* definition;
 };
 
@@ -45,4 +45,12 @@ template<tag ...k_group_tags>
 using c_typed_tag_reference = tag_reference;
 
 template<typename t_data_type, dword ...t_extra>
-using c_typed_tag_data = tag_data;
+//using c_typed_tag_data = tag_data;
+struct c_typed_tag_data
+{
+	long size;
+	dword_flags flags;
+	long stream_position;
+	t_data_type* base;
+	byte* definition;
+};
