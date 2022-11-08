@@ -252,23 +252,6 @@ extern s_cache_file_globals& g_cache_file_globals;
 extern long __cdecl cache_file_get_global_tag_index(tag group_tag);
 extern s_cache_file_header const* cache_files_get_header();
 
-template<typename t_type = byte>
-t_type* tag_get(tag group_tag, long tag_index)
-{
-	long tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
-	if (tag_absolute_index == -1)
-		return nullptr;
-
-	cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[tag_absolute_index];
-	if (!instance)
-		return nullptr;
-
-	if (instance->is_group(group_tag))
-		return nullptr;
-
-	return reinterpret_cast<t_type*>(instance->get());
-}
-
 extern char const* tag_get_name(long tag_name_index);
 extern char const* tag_get_name_safe(long tag_name_index);
 
@@ -305,6 +288,7 @@ extern long __cdecl tag_iterator_next(tag_iterator* iterator);
 
 extern bool __cdecl cache_file_tags_load(dword tag_index);
 extern void __cdecl cache_file_tags_fixup_all_instances();
+extern void* __cdecl tag_get(tag group_tag, long tag_index);
 extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, dword tag_index);
 extern void cache_file_tags_load_single_tag_file_test(char const* file_name);
 

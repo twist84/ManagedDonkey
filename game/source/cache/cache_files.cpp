@@ -15,6 +15,7 @@
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
 HOOK_DECLARE(0x00502780, cache_file_tags_load);
 HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
+HOOK_DECLARE(0x00503370, tag_get);
 HOOK_DECLARE(0x00503470, sub_503470);
 
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
@@ -291,7 +292,17 @@ void __cdecl tag_files_open()
 	INVOKE(0x00503340, tag_files_open);
 }
 
-// 00503370 //void* tag_get(dword,long)
+void* __cdecl tag_get(tag group_tag, long tag_index)
+{
+	long tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
+	if (tag_absolute_index == -1)
+		return nullptr;
+
+	void* data = g_cache_file_globals.tag_instances[tag_absolute_index]->base + g_cache_file_globals.tag_instances[tag_absolute_index]->offset;
+
+	return data;
+}
+
 // 005033A0 //dword tag_get_group_tag(long)
 
 void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag)
