@@ -1,5 +1,8 @@
 #pragma once
 
+#define PI 3.14159265359
+#define RAD PI / 180
+
 typedef float real;
 static_assert(sizeof(real) == 0x4);
 
