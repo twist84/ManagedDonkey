@@ -10,7 +10,10 @@ static_assert(sizeof(s_machine_identifier) == 0x10);
 
 struct s_player_identifier
 {
-	long parts[2];
+	// make_int64(ip, port)
+	dword ip_addr;
+	word port;
+	short : 16;
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
 
