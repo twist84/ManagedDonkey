@@ -5,6 +5,8 @@
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
 
+REFERENCE_DECLARE(0x019A0328, s_network_session_interface_globals, session_interface_globals);
+
 long __cdecl network_squad_session_get_countdown_timer()
 {
 	FUNCTION_BEGIN(true);

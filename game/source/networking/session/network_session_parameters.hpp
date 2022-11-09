@@ -2,6 +2,7 @@
 
 #include "cseries/language.hpp"
 #include "game/game_progression.hpp"
+#include "networking/logic/network_session_interface.hpp"
 #include "networking/session/network_session_parameters_session.hpp"
 #include "networking/session/network_session_parameters_game.hpp"
 #include "networking/session/network_session_parameters_game_variant.hpp"
@@ -9,7 +10,6 @@
 #include "networking/session/network_session_parameters_matchmaking.hpp"
 #include "networking/session/network_session_parameters_saved_film_game_options.hpp"
 #include "networking/session/network_session_parameters_ui.hpp"
-#include "shell/shell.hpp"
 
 struct s_network_session_parameter_map
 {
@@ -34,21 +34,6 @@ struct s_network_ui_state
 	c_flags<e_network_ui_state_flags, word, k_network_ui_state_flag_count> flags;
 };
 static_assert(sizeof(s_network_ui_state) == 0x2);
-
-struct s_saved_film_description
-{
-	long film_category;
-	long campaign_id;
-	long map_id;
-	short campaign_insertion_point;
-	bool campaign_survival_enabled;
-	long difficulty;
-	c_static_wchar_string<256> film_path;
-	c_static_wchar_string<128> film_name;
-	c_enum<e_controller_index, long, k_number_of_controllers> controller_index;
-	long length_seconds;
-};
-static_assert(sizeof(s_saved_film_description) == 0x31C);
 
 struct s_network_session_parameter_synchronous_out_of_sync
 {

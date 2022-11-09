@@ -23,6 +23,7 @@
 #include "networking/logic/logic_qos_reply_manager.hpp"
 #include "networking/logic/network_arbitration.hpp"
 #include "networking/logic/network_join.hpp"
+#include "networking/logic/network_session_interface.hpp"
 #include "networking/logic/storage/network_http_request_queue.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/tools/network_debug_dump.hpp"
@@ -47,6 +48,7 @@ void __cdecl main_loop_body_begin()
 	if (GetKeyState(VK_RCONTROL) & 0x8000)
 	{
 		xnet_mapping;
+		session_interface_globals;
 		g_controller_globals;
 		g_parse_manager;
 		input_abstraction_globals;
