@@ -560,8 +560,8 @@ struct scenario_starting_profile
 	short secondary_rounds_loaded;
 	short secondary_rounds_total;
 
-	long __unknown50;
-	long __unknown54;
+	// short block index multiplayer_globals->universal[0]->equipment
+	short starting_consumable_indices[4];
 
 	char starting_fragmentation_grenade_count;
 	char starting_plasma_grenade_count;
