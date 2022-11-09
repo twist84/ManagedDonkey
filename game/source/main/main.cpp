@@ -10,6 +10,7 @@
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/c_player_marketplace.hpp"
 #include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/user_interface_hs.hpp"
@@ -46,6 +47,7 @@ void __cdecl main_loop_body_begin()
 	if (GetKeyState(VK_RCONTROL) & 0x8000)
 	{
 		xnet_mapping;
+		g_controller_globals;
 		g_parse_manager;
 		input_abstraction_globals;
 		g_player_marketplace;

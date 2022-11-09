@@ -3,14 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
 
-// #TODO: find the actual name for this as well as a home
-struct s_player_configuration_with_identifier
-{
-	s_player_identifier identifier;
-	s_player_configuration configuration;
-};
-static_assert(sizeof(s_player_configuration_with_identifier) == 0x1628);
-
 struct s_matchmaking_session_preferences
 {
 	long search_preference;

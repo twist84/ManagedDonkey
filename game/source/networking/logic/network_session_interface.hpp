@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "networking/online/online_guide_pc.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 #include "networking/logic/logic_matchmaking_desirability.hpp"
@@ -53,7 +54,7 @@ struct s_network_squad_status_data
 	short best_player_score;
 	short player_count;
 	short : 16;
-	s_player_configuration_with_identifier players[16];
+	s_network_session_status_data_player players[16];
 	byte : 8;
 	byte : 8;
 	long player_encoded_count;
