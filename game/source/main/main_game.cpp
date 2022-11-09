@@ -2,6 +2,7 @@
 
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_windows.hpp"
 #include "game/game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
@@ -31,7 +32,7 @@ void main_game_change(game_options const* options)
 	}
 	main_game_globals.change_in_progress = 1;
 	main_game_globals.game_load_pending = options == nullptr;
-	main_game_globals.game_loaded_time = 0;//timeGetTime();
+	main_game_globals.game_loaded_time = system_milliseconds();
 	if (!options)
 	{
 		if (network_life_cycle_get_state() != _life_cycle_state_none)

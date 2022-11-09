@@ -20,3 +20,9 @@ void display_debug_string(const char* format, ...)
 
     va_end(list);
 }
+
+unsigned long system_milliseconds()
+{
+    return timeGetTime();
+}
+

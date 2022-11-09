@@ -1,5 +1,6 @@
 #include "input/input_abstraction.hpp"
 
+#include "cseries/cseries_windows.hpp"
 #include "input/controllers.hpp"
 #include "input/input.hpp"
 #include "memory/module.hpp"
@@ -159,7 +160,7 @@ void __cdecl input_abstraction_latch_all_buttons(long controller_index)
 
 void __cdecl input_abstraction_reset_controller_detection_timer()
 {
-	HOOK_INVOKE(, input_abstraction_reset_controller_detection_timer);
+	input_abstraction_globals.controller_detection_timer = system_milliseconds();
 }
 
 //void __cdecl input_should_suppress_rumble(long controls_method)
