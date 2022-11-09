@@ -14,6 +14,7 @@
 #include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "interface/user_interface_text_parser.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/data.hpp"
@@ -45,6 +46,7 @@ void __cdecl main_loop_body_begin()
 	if (GetKeyState(VK_RCONTROL) & 0x8000)
 	{
 		xnet_mapping;
+		g_parse_manager;
 		input_abstraction_globals;
 		g_player_marketplace;
 		g_broadcast_search_globals;

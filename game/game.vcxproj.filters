@@ -405,6 +405,9 @@
     <ClCompile Include="source\input\input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\user_interface_text_parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1197,6 +1200,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\input\input.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_text_parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\text\xml_parser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
