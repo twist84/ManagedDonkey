@@ -129,7 +129,7 @@ void __cdecl input_abstraction_initialize()
 {
 	csmemset(&input_abstraction_globals, 0, sizeof(s_input_abstraction_globals));
 
-	for (long controller_index = first_controller(); controller_index != k_any_controller; controller_index = next_controller(controller_index))
+	for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
 		input_abstraction_get_default_preferences(&input_abstraction_globals.preferences[controller_index]);
 		input_abstraction_globals.input_has_gamepad[controller_index] = input_has_gamepad(static_cast<short>(controller_index));
