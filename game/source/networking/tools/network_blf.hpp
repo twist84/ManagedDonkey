@@ -11,9 +11,9 @@ public:
 	void setup(long signature, long chunk_size, long major_version, long minor_version);
 
 	tag signature;
-	dword chunk_size;
-	word major_version;
-	word minor_version;
+	long chunk_size;
+	short major_version;
+	short minor_version;
 };
 static_assert(sizeof(s_blf_header) == 0xC);
 
@@ -26,7 +26,7 @@ public:
 
 	// BOM: https://en.wikipedia.org/wiki/Byte_order_mark
 	// BOM: { UTF-16 (BE): FE FF }
-	word byte_order_mark;
+	short byte_order_mark;
 
 	string name;
 
