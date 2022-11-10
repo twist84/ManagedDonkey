@@ -34,7 +34,7 @@ struct c_gui_custom_bitmap_storage_item
 	// true for `dxt5`, false for `a8r8g8b8`
 	bool m_format_is_dxt5;
 
-	bitmap_data m_bitmap;
+	bitmap_data_block_def m_bitmap;
 	bool m_allocated;
 	c_rasterizer_texture_ref m_hardware_format_bitmap;
 	bool m_bitmap_ready;

@@ -1,30 +1,6 @@
 #pragma once
 
+#include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "cseries/cseries.hpp"
 
-// constructors in and `rasterizer_textures_xenon_header` `font_cache`
-struct bitmap_data
-{
-	tag signature;
-	short width;
-	short height;
-	char depth;
-	byte_flags more_flags;
-	short type;
-	short format;
-	word_flags flags;
-	point2d registration_point;
-	char mipmap_count;
-	char curve;
-	char interleaved_interop;
-	char interleaved_texture_index;
-	long pixels_offset;
-	long pixels_size;
-	long high_res_pixels_offset_offset;
-	long high_res_pixels_size;
-	long hardware_format;
-	dword runtime_tag_base_address;
-};
-static_assert(sizeof(bitmap_data) == 0x30);
-
-extern void __cdecl bitmap_2d_initialize(bitmap_data* bitmap, short width, short height, short mipmap_count, short format, word flags, bool a7, bool a8);
+extern void __cdecl bitmap_2d_initialize(bitmap_data_block_def* bitmap, short width, short height, short mipmap_count, short format, word flags, bool a7, bool a8);

@@ -356,6 +356,7 @@ POPD
     <ClInclude Include="source\ai\styles.hpp" />
     <ClInclude Include="source\ai\zone.hpp" />
     <ClInclude Include="source\bitmaps\bitmaps.hpp" />
+    <ClInclude Include="source\bitmaps\bitmap_group_tag_definition.hpp" />
     <ClInclude Include="source\cseries\async_xoverlapped.hpp" />
     <ClInclude Include="source\cseries\async_xoverlapped_memory.hpp" />
     <ClInclude Include="source\cseries\console.hpp" />
