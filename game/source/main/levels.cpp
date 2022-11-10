@@ -362,6 +362,6 @@ function_end:
 	if (!file_added)
 	{
 		// #TODO: file_reference_get_name
-		c_console::write_line("levels: failed to add level file '%s'", file->path);
+		c_console::write_line("levels: failed to add level file '%s'", file->path.get_string());
 	}
 }

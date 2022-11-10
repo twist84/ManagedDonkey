@@ -103,14 +103,14 @@ bool __cdecl file_create(s_file_reference* file_reference)
 
     if (TEST_BIT(file_reference->flags, _file_reference_flag_is_file_name))
     {
-        HANDLE handle = CreateFileA(file_reference->path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        HANDLE handle = CreateFileA(file_reference->path.get_string(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         if (handle && handle != INVALID_HANDLE_VALUE)
         {
             CloseHandle(handle);
             return true;
         }
     }
-    else if (CreateDirectoryA(file_reference->path, NULL))
+    else if (CreateDirectoryA(file_reference->path.get_string(), NULL))
         return true;
 
     return false;
@@ -169,7 +169,7 @@ bool __cdecl file_exists(s_file_reference const* file_reference)
 
     assert(file_reference);
 
-    return GetFileAttributesA(file_reference->path) != INVALID_FILE_ATTRIBUTES;
+    return GetFileAttributesA(file_reference->path.get_string()) != INVALID_FILE_ATTRIBUTES;
 }
 
 bool file_get_size(s_file_reference* file_reference, dword* out_file_size)
@@ -182,7 +182,7 @@ bool file_get_size(s_file_reference* file_reference, dword* out_file_size)
     assert(out_file_size);
 
     WIN32_FILE_ATTRIBUTE_DATA file_info{};
-    if (GetFileAttributesExA(file_reference->path, GetFileExInfoStandard, &file_info))
+    if (GetFileAttributesExA(file_reference->path.get_string(), GetFileExInfoStandard, &file_info))
     {
         *out_file_size = file_info.nFileSizeLow;
         return true;
@@ -230,7 +230,7 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
     if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_sequecial_scan))
         flags_and_attributes = FILE_FLAG_SEQUENTIAL_SCAN;
 
-    HANDLE handle = CreateFileA(file_reference->path, desired_access, share_mode, NULL, OPEN_EXISTING, flags_and_attributes, NULL);
+    HANDLE handle = CreateFileA(file_reference->path.get_string(), desired_access, share_mode, NULL, OPEN_EXISTING, flags_and_attributes, NULL);
     if (!handle || handle == INVALID_HANDLE_VALUE)
     {
         switch (GetLastError())
@@ -403,7 +403,7 @@ void find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags
     data->depth = 0;
     data->location = file->location;
 
-    data->path.append_print(L"%hs", file->path);
+    data->path.append_print(L"%hs", file->path.get_string());
     data->search_spec.append_print(L"%hs", search_spec);
 }
 

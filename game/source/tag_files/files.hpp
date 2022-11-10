@@ -25,10 +25,10 @@ enum e_name
 
 struct file_reference_info
 {
-	dword signature;
+	tag signature;
 	word_flags flags;
 	short location;
-	long_string path;
+	c_static_string<256> path;
 };
 static_assert(sizeof(file_reference_info) == 0x108);
 
