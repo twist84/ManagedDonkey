@@ -203,9 +203,40 @@ bool network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool
 {
 	FUNCTION_BEGIN(true);
 
-	bool result = false;
-	HOOK_INVOKE(result =, network_blf_verify_start_of_file, buffer, buffer_size, out_byte_swap, out_chunk_size);
-	return result;
+	if (out_chunk_size)
+		*out_chunk_size = 0;
+
+	if (buffer_size < sizeof(s_blf_chunk_start_of_file))
+		return false;
+
+	s_blf_chunk_start_of_file const* chunk = reinterpret_cast<s_blf_chunk_start_of_file const*>(buffer);
+
+	tag signature = chunk->signature;
+	dword chunk_size = chunk->chunk_size;
+	word major_version = chunk->major_version;
+	word minor_version = chunk->minor_version;
+
+	if (out_byte_swap)
+		*out_byte_swap = false;
+
+	if (_byteswap_ushort(chunk->byte_order_mark) == 0xFFFE)
+	{
+		signature = _byteswap_ulong(signature);
+		chunk_size = _byteswap_ulong(chunk_size);
+		major_version = _byteswap_ushort(major_version);
+		minor_version = _byteswap_ushort(minor_version);
+
+		if (out_byte_swap)
+			*out_byte_swap = true;
+	}
+
+	if (signature != '_blf' || major_version != 1 || chunk_size < sizeof(s_blf_chunk_start_of_file))
+		return false;
+
+	if (out_chunk_size)
+		*out_chunk_size = chunk_size;
+
+	return true;
 }
 
 bool network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
