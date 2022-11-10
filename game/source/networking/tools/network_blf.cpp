@@ -244,7 +244,123 @@ bool network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap
 	FUNCTION_BEGIN(true);
 
 	bool result = false;
-	HOOK_INVOKE(result =, network_blf_find_chunk, buffer, buffer_size, byte_swap, signature, major_version, out_chunk_size, out_chunk_buffer, chunk_buffer_size, out_minor_version, out_eof_chunk);
+
+	do
+	{
+		s_blf_header const* chunk = reinterpret_cast<s_blf_header const*>(buffer);
+
+		char const* chunk_buffer = nullptr;
+
+		tag chunk_signature = 0;
+		long chunk_size = 0;
+		short chunk_major_version = 0;
+		short chunk_minor_version = 0;
+
+		bool eof_chunk = false;
+		bool unknown = false;
+
+		if (chunk_buffer_size)
+			*chunk_buffer_size = 0;
+
+		if (out_minor_version)
+			*out_minor_version = 0;
+
+		if (buffer_size >= sizeof(s_blf_header))
+		{
+			chunk_signature = chunk->signature;
+			chunk_size = chunk->chunk_size;
+			chunk_major_version = chunk->major_version;
+			chunk_minor_version = chunk->minor_version;
+
+			if (byte_swap)
+			{
+				chunk_signature = _byteswap_ulong(chunk_signature);
+				chunk_size = _byteswap_ulong(chunk_size);
+				chunk_major_version = _byteswap_ushort(chunk_major_version);
+				chunk_minor_version = _byteswap_ushort(chunk_minor_version);
+			}
+
+			if (chunk_size >= sizeof(s_blf_header))
+			{
+				if (chunk_size > buffer_size)
+				{
+					chunk_buffer = nullptr;
+					unknown = false;
+
+					goto end_loop;
+				}
+
+				if (chunk_major_version >= 0 && chunk_minor_version >= 0)
+				{
+					if (chunk_signature == signature && chunk_major_version == major_version)
+					{
+						if (out_minor_version)
+							*out_minor_version = chunk_minor_version;
+
+						chunk_buffer = buffer + sizeof(s_blf_header);
+
+						if (chunk_buffer_size)
+							*chunk_buffer_size = chunk_size - sizeof(s_blf_header);
+
+						if (chunk_signature == '_eof' && chunk_size >= sizeof(s_blf_chunk_end_of_file))
+							eof_chunk = buffer_size >= sizeof(s_blf_chunk_end_of_file);
+
+						unknown = true;
+						goto end_loop;
+					}
+
+					if (chunk_signature != '_eof')
+					{
+						unknown = true;
+						goto end_loop;
+					}
+
+					if (chunk_size >= sizeof(s_blf_chunk_end_of_file))
+					{
+						chunk_buffer = nullptr;
+						if (buffer_size >= sizeof(s_blf_chunk_end_of_file))
+						{
+							eof_chunk = true;
+							unknown = true;
+							goto end_loop;
+						}
+
+						unknown = false;
+						goto end_loop;
+					}
+				}
+			}
+
+			unknown = false;
+		}
+
+	end_loop:;
+
+		if (out_chunk_size)
+			*out_chunk_size = chunk_size;
+
+		if (out_chunk_buffer)
+			*out_chunk_buffer = chunk_buffer;
+
+		if (out_eof_chunk)
+			*out_eof_chunk = eof_chunk;
+
+		result = chunk_buffer && chunk_size > 0;
+
+		if (!unknown)
+			break;
+
+		if (eof_chunk)
+			break;
+
+		if (chunk_size <= 0)
+			break;
+
+		buffer_size -= chunk_size;
+		buffer += chunk_size;
+
+	} while (!result);
+
 	return result;
 }
 
