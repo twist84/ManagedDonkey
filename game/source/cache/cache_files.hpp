@@ -130,7 +130,7 @@ union cache_file_tag_instance
 
 	bool is_group(tag group_tag)
 	{
-		return group_tag != group_tags[0] && group_tag != group_tags[1] && group_tag != group_tags[2];
+		return group_tag == group_tags[0] || group_tag == group_tags[1] || group_tag == group_tags[2];
 	}
 
 	byte* get()
