@@ -236,6 +236,7 @@ public:
 };
 static_assert(sizeof(s_blf_chunk_scenario) == 0x98C0);
 
-extern bool network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool* out_byte_swap, long* out_chunk_size);
-extern bool network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
-extern bool network_blf_verify_end_of_file(char const* buffer, long buffer_size, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type);
+extern bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool* out_byte_swap, long* out_chunk_size);
+extern bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
+extern bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
+extern bool __cdecl network_blf_verify_end_of_file(char const* buffer, long buffer_size, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type);

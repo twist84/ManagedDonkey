@@ -6,10 +6,12 @@
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 
+#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE(0x00463540, network_blf_verify_start_of_file);
 HOOK_DECLARE(0x00462F00, network_blf_find_chunk);
+HOOK_DECLARE(0x004630D0, network_blf_read_for_known_chunk);
 HOOK_DECLARE(0x00463240, network_blf_verify_end_of_file);
 
 void s_blf_header::setup(long _signature, long _chunk_size, long _major_version, long _minor_version)
@@ -199,7 +201,7 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 	memset(insertions, 0, sizeof(insertions));
 }
 
-bool network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool* out_byte_swap, long* out_chunk_size)
+bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool* out_byte_swap, long* out_chunk_size)
 {
 	FUNCTION_BEGIN(true);
 
@@ -211,26 +213,26 @@ bool network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool
 
 	s_blf_chunk_start_of_file const* chunk = reinterpret_cast<s_blf_chunk_start_of_file const*>(buffer);
 
-	tag signature = chunk->signature;
-	dword chunk_size = chunk->chunk_size;
-	word major_version = chunk->major_version;
-	word minor_version = chunk->minor_version;
+	tag chunk_signature = chunk->signature;
+	long chunk_size = chunk->chunk_size;
+	short chunk_major_version = chunk->major_version;
+	short chunk_minor_version = chunk->minor_version;
 
 	if (out_byte_swap)
 		*out_byte_swap = false;
 
 	if (_byteswap_ushort(chunk->byte_order_mark) == 0xFFFE)
 	{
-		signature = _byteswap_ulong(signature);
+		chunk_signature = _byteswap_ulong(chunk_signature);
 		chunk_size = _byteswap_ulong(chunk_size);
-		major_version = _byteswap_ushort(major_version);
-		minor_version = _byteswap_ushort(minor_version);
+		chunk_major_version = _byteswap_ushort(chunk_major_version);
+		chunk_minor_version = _byteswap_ushort(chunk_minor_version);
 
 		if (out_byte_swap)
 			*out_byte_swap = true;
 	}
 
-	if (signature != '_blf' || major_version != 1 || chunk_size < sizeof(s_blf_chunk_start_of_file))
+	if (chunk_signature != '_blf' || chunk_major_version != 1 || chunk_size < sizeof(s_blf_chunk_start_of_file))
 		return false;
 
 	if (out_chunk_size)
@@ -239,102 +241,19 @@ bool network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool
 	return true;
 }
 
-bool network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
+bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
 {
 	FUNCTION_BEGIN(true);
 
 	bool result = false;
 
-	do
+	while (!result)
 	{
-		s_blf_header const* chunk = reinterpret_cast<s_blf_header const*>(buffer);
-
 		char const* chunk_buffer = nullptr;
-
-		tag chunk_signature = 0;
 		long chunk_size = 0;
-		short chunk_major_version = 0;
-		short chunk_minor_version = 0;
-
 		bool eof_chunk = false;
-		bool unknown = false;
 
-		if (chunk_buffer_size)
-			*chunk_buffer_size = 0;
-
-		if (out_minor_version)
-			*out_minor_version = 0;
-
-		if (buffer_size >= sizeof(s_blf_header))
-		{
-			chunk_signature = chunk->signature;
-			chunk_size = chunk->chunk_size;
-			chunk_major_version = chunk->major_version;
-			chunk_minor_version = chunk->minor_version;
-
-			if (byte_swap)
-			{
-				chunk_signature = _byteswap_ulong(chunk_signature);
-				chunk_size = _byteswap_ulong(chunk_size);
-				chunk_major_version = _byteswap_ushort(chunk_major_version);
-				chunk_minor_version = _byteswap_ushort(chunk_minor_version);
-			}
-
-			if (chunk_size >= sizeof(s_blf_header))
-			{
-				if (chunk_size > buffer_size)
-				{
-					chunk_buffer = nullptr;
-					unknown = false;
-
-					goto end_loop;
-				}
-
-				if (chunk_major_version >= 0 && chunk_minor_version >= 0)
-				{
-					if (chunk_signature == signature && chunk_major_version == major_version)
-					{
-						if (out_minor_version)
-							*out_minor_version = chunk_minor_version;
-
-						chunk_buffer = buffer + sizeof(s_blf_header);
-
-						if (chunk_buffer_size)
-							*chunk_buffer_size = chunk_size - sizeof(s_blf_header);
-
-						if (chunk_signature == '_eof' && chunk_size >= sizeof(s_blf_chunk_end_of_file))
-							eof_chunk = buffer_size >= sizeof(s_blf_chunk_end_of_file);
-
-						unknown = true;
-						goto end_loop;
-					}
-
-					if (chunk_signature != '_eof')
-					{
-						unknown = true;
-						goto end_loop;
-					}
-
-					if (chunk_size >= sizeof(s_blf_chunk_end_of_file))
-					{
-						chunk_buffer = nullptr;
-						if (buffer_size >= sizeof(s_blf_chunk_end_of_file))
-						{
-							eof_chunk = true;
-							unknown = true;
-							goto end_loop;
-						}
-
-						unknown = false;
-						goto end_loop;
-					}
-				}
-			}
-
-			unknown = false;
-		}
-
-	end_loop:;
+		bool read_result = network_blf_read_for_known_chunk(buffer, buffer_size, byte_swap, signature, major_version, &chunk_size, &chunk_buffer, out_chunk_buffer_size, out_minor_version, &eof_chunk);
 
 		if (out_chunk_size)
 			*out_chunk_size = chunk_size;
@@ -347,19 +266,96 @@ bool network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap
 
 		result = chunk_buffer && chunk_size > 0;
 
-		if (!unknown)
-			break;
-
-		if (eof_chunk)
-			break;
-
-		if (chunk_size <= 0)
+		if (!read_result || eof_chunk || chunk_size <= 0)
 			break;
 
 		buffer_size -= chunk_size;
 		buffer += chunk_size;
+	}
 
-	} while (!result);
+	return result;
+}
+
+bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
+{
+	FUNCTION_BEGIN(true);
+
+	assert(out_chunk_size);
+
+	bool result = false;
+
+	*out_chunk_size = 0;
+
+	if (out_chunk_buffer)
+		*out_chunk_buffer = 0;
+
+	if (out_chunk_buffer_size)
+		*out_chunk_buffer_size = 0;
+
+	if (out_minor_version)
+		*out_minor_version = 0;
+
+	if (out_eof_chunk)
+		*out_eof_chunk = 0;
+
+	s_blf_header const* chunk = reinterpret_cast<s_blf_header const*>(buffer);
+
+	if (buffer_size >= sizeof(s_blf_header))
+	{
+		tag chunk_signature = chunk->signature;
+		long chunk_size = chunk->chunk_size;
+		short chunk_major_version = chunk->major_version;
+		short chunk_minor_version = chunk->minor_version;
+
+		if (byte_swap)
+		{
+			chunk_signature = _byteswap_ulong(chunk_signature);
+			chunk_size = _byteswap_ulong(chunk_size);
+			chunk_major_version = _byteswap_ushort(chunk_major_version);
+			chunk_minor_version = _byteswap_ushort(chunk_minor_version);
+		}
+
+		if (chunk_size >= sizeof(s_blf_header) && chunk_size <= buffer_size && chunk_major_version >= 0 && chunk_minor_version >= 0)
+		{
+			*out_chunk_size = chunk_size;
+			if (chunk_signature == signature && chunk_major_version == major_version)
+			{
+				if (out_minor_version)
+					*out_minor_version = chunk_minor_version;
+
+				if (out_chunk_buffer)
+					*out_chunk_buffer = buffer + sizeof(s_blf_header);
+
+				if (out_chunk_buffer_size)
+					*out_chunk_buffer_size = chunk_size - sizeof(s_blf_header);
+
+				result = true;
+
+				if (chunk_signature == '_eof' && chunk_size >= sizeof(s_blf_chunk_end_of_file) && buffer_size >= sizeof(s_blf_chunk_end_of_file) && out_eof_chunk)
+				{
+					*out_eof_chunk = true;
+					result = true;
+				}
+			}
+			else if (chunk_signature == '_eof')
+			{
+				if (chunk_size >= sizeof(s_blf_chunk_end_of_file) && buffer_size >= sizeof(s_blf_chunk_end_of_file))
+				{
+					result = true;
+
+					if (out_eof_chunk)
+					{
+						*out_eof_chunk = true;
+						result = true;
+					}
+				}
+			}
+			else
+			{
+				result = true;
+			}
+		}
+	}
 
 	return result;
 }
