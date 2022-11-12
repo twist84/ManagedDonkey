@@ -1,6 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_player_traits.hpp"
+#include "memory/data.hpp"
 
 struct s_machine_identifier
 {
@@ -35,46 +37,54 @@ struct s_player_appearance
 };
 static_assert(sizeof(s_player_appearance) == 0x660);
 
-struct s_s3d_player_armor_data
+struct s_s3d_player_armor_configuration_loadout
+{
+	c_static_array<dword, 5> colors;
+	c_static_array<byte, 10> armors;
+	byte : 8;
+	byte : 8;
+};
+static_assert(sizeof(s_s3d_player_armor_configuration_loadout) == 0x20);
+
+struct s_s3d_player_armor_configuration
 {
 	byte_flags flags;
 	byte : 8;
 	byte : 8;
 	byte : 8;
+
 	dword loadout_index;
+	s_s3d_player_armor_configuration_loadout loadouts[5];
 
-	struct
-	{
-		dword colors[5];
-		byte armor[10];
-		byte : 8;
-		byte : 8;
-	} __unknown8[5];
-
-	dword __unknownA8[5][93];
+	c_static_array<c_static_array<dword, 93>, 5> __unknownA8;
 };
-static_assert(sizeof(s_s3d_player_armor_data) == 0x7EC);
+static_assert(sizeof(s_s3d_player_armor_configuration) == 0x7EC);
 
-struct s_s3d_player_weapon_data
+struct s_s3d_player_weapon_configuration_loadout
+{
+	byte primary_weapon_index;
+	byte secondary_weapon_index;
+	byte grenade_index;
+	c_static_array<byte, 4> consumables;
+
+	// padding?
+	byte __unknown7;
+};
+static_assert(sizeof(s_s3d_player_weapon_configuration_loadout) == 0x8);
+
+struct s_s3d_player_weapon_configuration
 {
 	bool __unknown0;
 	byte : 8;
 	byte : 8;
 	byte : 8;
+
 	dword loadout_index;
+	s_s3d_player_weapon_configuration_loadout loadouts[5];
 
-	struct
-	{
-		byte __unknown0;
-		byte __unknown1;
-		byte __unknown2;
-		byte __unknown3[4];
-		byte __unknown7;
-	} __unknown8[5];
-
-	dword __unknown30[5][93];
+	c_static_array<c_static_array<dword, 93>, 5> __unknown30;
 };
-static_assert(sizeof(s_s3d_player_weapon_data) == 0x774);
+static_assert(sizeof(s_s3d_player_weapon_configuration) == 0x774);
 
 struct s_player_configuration_from_client
 {
@@ -91,8 +101,8 @@ struct s_player_configuration_from_host
 	long team;
 	long player_assigned_team;
 	s_player_appearance appearance;
-	s_s3d_player_armor_data armor_data;
-	s_s3d_player_weapon_data weapon_data;
+	s_s3d_player_armor_configuration armor_configuration;
+	s_s3d_player_weapon_configuration weapon_configuration;
 };
 static_assert(sizeof(s_player_configuration_from_host) == 0x15F0);
 
@@ -124,5 +134,72 @@ struct game_player_options
 };
 static_assert(sizeof(game_player_options) == 0x1640);
 
+struct player_datum : s_datum_header
+{
+	short __unknown2;
+	dword_flags player_flags;
+	s_player_identifier player_identifier;
+	dword __unknown10;
+	s_machine_identifier machine_identifier;
+	short machine_index;
+	short machine_user_index;
+	long player_index;
+	s_location location;
+	datum_index unit_index;
+	datum_index dead_unit_index;
+	datum_index previous_unit_index;
+	dword __unknown3C;
+	word __unknown40;
+	word __unknown42;
+	word __unknown44;
+	word __unknown46;
+	dword __unknown48;
+	long active_armor_loadout;
+	long active_weapon_loadout;
+	byte __unknown54;
+	byte __unknown55;
+	byte __unknown56;
+	bool __unknown57;
+	bool __unknown58;
+	bool __unknown59;
+	bool __unknown5A;
+	byte __unknown5B;
+	word __unknown5C;
+	byte __unknown5E;
+	byte __unknown5F;
+	byte __unknown60;
+	byte __unknown61;
+	word __unknown62;
+	real_vector3d position;
+	s_player_configuration configuration;
+	s_player_configuration desired_configuration;
+	long __unknown2CB0;
+	byte unknown2CB0[0x4];
+	long respawn_time;
+	long spawn_timer;
+	long penalty_time;
+	long __unknown2CC4;
+	long __unknown2CC8;
+	long __unknown2CCC;
+	long __unknown2CD0;
+	long __unknown2CD4;
+	long __unknown2CD8;
+	byte __data2CDC[0xC4];
+	short unknown2DA0;
+	short lives_per_round;
+	byte __data2DA4[0x8];
+	c_player_traits player_traits;
+	byte __data2DC8[0x140];
+};
+static_assert(sizeof(player_datum) == 0x2F08);
+
+struct players_globals
+{
+	byte __data[0x234];
+};
+static_assert(sizeof(players_globals) == 0x234);
+
 extern long __cdecl players_first_active_user();
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
+extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player);
+extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
