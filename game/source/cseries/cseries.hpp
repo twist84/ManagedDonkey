@@ -123,11 +123,11 @@ struct c_static_array
 {
 	t_type m_storage[k_count];
 
-	t_type operator[](long index)
+	t_type& operator[](long index)
 	{
-		if (index < k_count)
-			return m_storage[index];
-		return t_type(0);
+		//assert(index >= 0 && index >= k_count);
+
+		return m_storage[index];
 	}
 };
 
