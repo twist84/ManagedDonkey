@@ -8,27 +8,29 @@
 struct s_blf_header
 {
 public:
-	void setup(long signature, long chunk_size, long major_version, long minor_version);
+	void setup(long chunk_type, long chunk_size, long major_version, long minor_version);
 
-	tag signature;
+	long chunk_type;
 	long chunk_size;
 	short major_version;
 	short minor_version;
 };
 static_assert(sizeof(s_blf_header) == 0xC);
 
-struct s_blf_chunk_start_of_file : s_blf_header
+struct s_blf_chunk_start_of_file
 {
 public:
 	s_blf_chunk_start_of_file();
 
 	void initialize();
 
+	s_blf_header header;
+
 	// BOM: https://en.wikipedia.org/wiki/Byte_order_mark
 	// BOM: { UTF-16 (BE): FE FF }
 	short byte_order_mark;
 
-	string name;
+	c_static_string<32> name;
 
 	byte pad[2];
 };
@@ -46,12 +48,14 @@ enum e_blf_file_authentication_type
 	k_blf_file_authentication_type_count
 };
 
-struct s_blf_chunk_end_of_file : s_blf_header
+struct s_blf_chunk_end_of_file
 {
 public:
 	s_blf_chunk_end_of_file();
 
 	void initialize();
+
+	s_blf_header header;
 
 	long file_size;
 	c_enum<e_blf_file_authentication_type, char, k_blf_file_authentication_type_count> authentication_type;
@@ -75,12 +79,14 @@ struct s_blf_chunk_end_of_file_with_rsa : s_blf_chunk_end_of_file
 };
 static_assert(sizeof(s_blf_chunk_end_of_file_with_rsa) == 0x111);
 
-struct s_blf_chunk_author : s_blf_header
+struct s_blf_chunk_author
 {
 public:
 	s_blf_chunk_author();
 
 	void initialize();
+
+	s_blf_header header;
 
 	c_static_string<16> build_name;
 	qword build_identifier;
@@ -91,12 +97,14 @@ static_assert(sizeof(s_blf_chunk_author) == 0x50);
 
 #pragma pack(pop)
 
-struct s_blf_chunk_content_header : s_blf_header
+struct s_blf_chunk_content_header
 {
 public:
 	s_blf_chunk_content_header();
 
 	void initialize();
+
+	s_blf_header header;
 
 	short build_number;
 	short map_minor_version;
@@ -105,19 +113,23 @@ public:
 };
 static_assert(sizeof(s_blf_chunk_content_header) == 0x108);
 
-struct s_blf_chunk_game_variant : s_blf_header
+struct s_blf_chunk_game_variant
 {
 public:
 	s_blf_chunk_game_variant();
+
+	s_blf_header header;
 
 	c_game_variant game_variant;
 };
 static_assert(sizeof(s_blf_chunk_game_variant) == 0x270);
 
-struct s_blf_chunk_map_variant : s_blf_header
+struct s_blf_chunk_map_variant
 {
 public:
 	s_blf_chunk_map_variant();
+
+	s_blf_header header;
 
 	c_map_variant map_variant;
 	byte pad[4];
@@ -158,10 +170,12 @@ public:
 };
 static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 
-struct s_blf_chunk_campaign : s_blf_header
+struct s_blf_chunk_campaign
 {
 public:
 	s_blf_chunk_campaign();
+
+	s_blf_header header;
 
 	long campaign_id;
 
@@ -169,8 +183,7 @@ public:
 
 	c_static_wchar_string<64> names[12];
 	c_static_wchar_string<128> descriptions[12];
-
-	long map_ids[64];
+	c_static_array<long, 64> map_ids;
 
 	long : 32;
 };
@@ -186,8 +199,8 @@ struct s_blf_chunk_scenario_insertion
 
 	dword __unknown4;
 
-	c_static_wchar_string<32> names[12];
-	c_static_wchar_string<128> descriptions[12];
+	c_static_array<c_static_wchar_string<32>, 12> names;
+	c_static_array<c_static_wchar_string<128>, 12> descriptions;
 
 	dword __unknownF08;
 	dword __unknownF0C;
@@ -204,10 +217,12 @@ enum e_scenario_type_flags
 	_scenario_type_flag_temp_bit,
 };
 
-struct s_blf_chunk_scenario : s_blf_header
+struct s_blf_chunk_scenario
 {
 public:
 	s_blf_chunk_scenario();
+
+	s_blf_header header;
 
 	long map_id;
 
@@ -236,7 +251,7 @@ public:
 };
 static_assert(sizeof(s_blf_chunk_scenario) == 0x98C0);
 
-extern bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_size, bool* out_byte_swap, long* out_chunk_size);
-extern bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
-extern bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_size, bool byte_swap, long signature, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
-extern bool __cdecl network_blf_verify_end_of_file(char const* buffer, long buffer_size, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type);
+extern bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_count, bool* out_byte_swap, long* out_chunk_size);
+extern bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
+extern bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
+extern bool __cdecl network_blf_verify_end_of_file(char const* buffer, long buffer_count, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type);
