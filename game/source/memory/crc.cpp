@@ -5,7 +5,10 @@
 #include "cseries/cseries_windows.hpp"
 #include "memory/module.hpp"
 
-HOOK_DECLARE_CALL(0x0050286A, crc_checksum_buffer_adler32);
+#include <assert.h>
+
+HOOK_DECLARE_CALL(0x0050286A, crc_checksum_buffer_adler32); // 0x0052CCC0
+//HOOK_DECLARE(0x0052CD20, crc_checksum_buffer);
 
 const bool g_require_secure_tag_instances = true;
 
@@ -29,6 +32,15 @@ dword __cdecl crc_checksum_buffer_adler32(dword adler, byte* buffer, dword buffe
 
 		instance->checksum = checksum;
 	}
+
+	return checksum;
+}
+
+dword __cdecl crc_checksum_buffer(dword crc, byte* buffer, dword buffer_size)
+{
+	FUNCTION_BEGIN(false);
+
+	dword checksum = crc32(crc, buffer, buffer_size);
 
 	return checksum;
 }
@@ -146,3 +158,47 @@ dword adler32(dword adler, const byte* buf, dword len)
 
 	return adler | (sum2 << 16);
 }
+
+dword crc_new()
+{
+	return 0xFFFFFFFF;
+}
+
+dword __cdecl crc32(dword crc, const byte* buf, dword len)
+{
+	static dword crc_table[256]{};
+	static bool crc_table_initialized = false;
+
+	if (!crc_table_initialized)
+	{
+		for (long byte = 0; byte < 256; byte++)
+		{
+			dword crc = static_cast<dword>(byte);
+
+			for (char bit = 0; bit < 8; bit++)
+			{
+				if (TEST_BIT(crc, 0))
+					crc = (crc >> 1) ^ 0xEDB88320;
+				else
+					crc >>= 1;
+			}
+
+			crc_table[byte] = crc;
+		}
+
+		assert(crc_table[128] == 0xEDB88320);
+
+		crc_table_initialized = true;
+	}
+
+	if (len <= 0)
+		return crc;
+
+	while (len-- > 0)
+	{
+		crc = crc_table[(crc ^ *buf++) & 0xFF] ^ (crc >> 8);
+	}
+
+	return crc;
+}
+
