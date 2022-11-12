@@ -1,7 +1,6 @@
 #include "game/multiplayer_game_hopper.hpp"
 
 #include "cseries/cseries.hpp"
-#include "interface/user_interface_session.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE(0x00545710, multiplayer_game_hopper_check_required_files);

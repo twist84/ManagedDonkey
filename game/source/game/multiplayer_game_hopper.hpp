@@ -1,8 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "shell/shell.hpp"
 
-enum e_session_game_start_error;
 struct c_network_session_membership;
 
 extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);

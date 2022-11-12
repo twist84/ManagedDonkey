@@ -535,6 +535,7 @@ POPD
     <ClInclude Include="source\networking\session\network_observer.hpp" />
     <ClInclude Include="source\networking\session\network_session.hpp" />
     <ClInclude Include="source\networking\session\network_session_manager.hpp" />
+    <ClInclude Include="source\networking\session\network_session_membership.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_base.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameters_chunked.hpp" />
