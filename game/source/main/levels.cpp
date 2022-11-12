@@ -294,7 +294,7 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 	s_blf_chunk_scenario const* scenario = nullptr;
 	bool byte_swap = false;
 
-	if (!file_open(file, 1, &error))
+	if (!file_open(file, FLAG(0), &error))
 	{
 		c_console::write_line("levels: failed to open level info file");
 		file_close(file);
@@ -313,7 +313,7 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 	}
 	else
 	{
-		if (!file_read(file, file_size, 0, file_buffer))
+		if (!file_read(file, file_size, false, file_buffer))
 		{
 			c_console::write_line("levels: failed to read level info file");
 		}
@@ -337,11 +337,13 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 				if (chunk_buffer != (char const*)0xC &&
 					network_blf_find_chunk(file_buffer, file_size, byte_swap, '_eof', 1, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 				{
-					if (chunk_buffer && chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) &&
-						network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - 0xC, _blf_file_authentication_type_rsa))
+					if (chunk_buffer && chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) && eof_chunk)
 					{
-						file_added = true;
-						goto function_finish;
+						if (network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - 0xC, _blf_file_authentication_type_rsa))
+						{
+							file_added = true;
+							goto function_finish;
+						}
 					}
 
 					c_console::write_line("levels: failed to verify blf end of file chunk");

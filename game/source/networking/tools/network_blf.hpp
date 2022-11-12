@@ -28,7 +28,7 @@ public:
 
 	// BOM: https://en.wikipedia.org/wiki/Byte_order_mark
 	// BOM: { UTF-16 (BE): FE FF }
-	short byte_order_mark;
+	word byte_order_mark;
 
 	c_static_string<32> name;
 

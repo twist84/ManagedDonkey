@@ -233,7 +233,7 @@ bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool 
 	return result;
 }
 
-bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
+bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool byte_swap, long type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
 {
 	FUNCTION_BEGIN(true);
 
@@ -275,7 +275,7 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 		if (chunk_size >= sizeof(s_blf_header) && chunk_size <= buffer_count && chunk_major_version >= 0 && chunk_minor_version >= 0)
 		{
 			*out_chunk_size = chunk_size;
-			if (chunk_type == chunk_type && chunk_major_version == major_version)
+			if (chunk_type == type && chunk_major_version == major_version)
 			{
 				if (out_minor_version)
 					*out_minor_version = chunk_minor_version;
