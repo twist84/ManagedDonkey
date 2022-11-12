@@ -54,7 +54,7 @@ struct s_s3d_player_armor_configuration
 	byte : 8;
 
 	dword loadout_index;
-	s_s3d_player_armor_configuration_loadout loadouts[5];
+	c_static_array<s_s3d_player_armor_configuration_loadout, 5> loadouts;
 
 	c_static_array<c_static_array<dword, 93>, 5> __unknownA8;
 };
@@ -90,7 +90,7 @@ struct s_s3d_player_weapon_configuration
 	byte : 8;
 
 	dword loadout_index;
-	s_s3d_player_weapon_configuration_loadout loadouts[5];
+	c_static_array<s_s3d_player_weapon_configuration_loadout, 5> loadouts;
 
 	c_static_array<c_static_array<dword, 93>, 5> __unknown30;
 };
