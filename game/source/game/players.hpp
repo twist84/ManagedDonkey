@@ -60,11 +60,21 @@ struct s_s3d_player_armor_configuration
 };
 static_assert(sizeof(s_s3d_player_armor_configuration) == 0x7EC);
 
+enum e_grenade_type
+{
+	_grenade_type_frag = 0,
+	_grenade_type_plasma,
+	_grenade_type_claymore,
+	_grenade_type_firebomb,
+
+	k_grenade_type_count
+};
+
 struct s_s3d_player_weapon_configuration_loadout
 {
 	byte primary_weapon_index;
 	byte secondary_weapon_index;
-	byte grenade_index;
+	c_enum<e_grenade_type, char, k_grenade_type_count> grenade_index;
 	c_static_array<byte, 4> consumables;
 
 	// padding?
