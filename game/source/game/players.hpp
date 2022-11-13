@@ -216,4 +216,4 @@ static_assert(sizeof(players_globals) == 0x234);
 extern long __cdecl players_first_active_user();
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
 extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player);
-extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
+
