@@ -199,7 +199,11 @@ struct player_datum : s_datum_header
 	short lives_per_round;
 	byte __data2DA4[0x8];
 	c_player_traits player_traits;
-	byte __data2DC8[0x140];
+
+	// count is number of powerup flavors, red, blue and yellow
+	dword powerup_pickup_time[3];
+
+	byte __data2DD4[0x134];
 };
 static_assert(sizeof(player_datum) == 0x2F08);
 
