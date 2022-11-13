@@ -1,7 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/language.hpp"
 #include "game/players.hpp"
+#include "networking/online/online.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
@@ -31,12 +33,12 @@ struct s_network_session_peer_properties
 	long estimated_downstream_bandwidth_bps;
 	long estimated_upstream_bandwidth_bps;
 	bool estimated_upstream_is_reliable;
-	long nat_type;
+	c_enum<e_online_nat_type, long, k_online_nat_type_count> nat_type;
 	long connectivity_badness_rating;
 	long host_badness_rating;
 	long client_badness_rating;
 	s_network_session_peer_connectivity connectivity;
-	long language;
+	c_enum<e_language, long, k_language_count> language;
 	long determinism_version;
 	long determinism_compatible_version;
 	dword_flags flags;
