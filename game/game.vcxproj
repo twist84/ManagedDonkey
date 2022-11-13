@@ -374,6 +374,7 @@ POPD
     <ClInclude Include="source\game\cheats.hpp" />
     <ClInclude Include="source\game\game_engine.hpp" />
     <ClInclude Include="source\game\materials_definitions.hpp" />
+    <ClInclude Include="source\game\multiplayer_definitions.hpp" />
     <ClInclude Include="source\game\multiplayer_game_hopper.hpp" />
     <ClInclude Include="source\hf2p\hf2p.hpp" />
     <ClInclude Include="source\hs\hs_runtime.hpp" />
