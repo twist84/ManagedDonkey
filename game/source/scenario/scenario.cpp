@@ -4,6 +4,7 @@
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_globals.hpp"
+#include "game/multiplayer_definitions.hpp"
 #include "hf2p/hf2p.hpp"
 #include "main/levels.hpp"
 #include "memory/module.hpp"
@@ -283,6 +284,67 @@ if (scenario->globals.count)\
 	c_console::write_line("");\
 }
 
+#define PRINT_EQUIPMENT()\
+if (universal_data->equipment.count)\
+{\
+	c_console::write_line("equipment: %d", universal_data->equipment.count);\
+	for (long i = 0; i < universal_data->equipment.count; i++)\
+	{\
+		auto equipment = universal_data->equipment.elements + i;\
+			assert(equipment);\
+		char const* name = equipment->name.get_string();\
+		if (name && *name)\
+			c_console::write_line("    %s", name); \
+	}\
+	c_console::write_line("");\
+}
+
+#define PRINT_SELECTIONS(NAME)\
+if (universal_data->NAME##_selections.count)\
+{\
+	c_console::write_line("%s selections: %d", #NAME, universal_data->NAME##_selections.count);\
+	for (long i = 0; i < universal_data->NAME##_selections.count; i++)\
+	{\
+		auto selection = universal_data->NAME##_selections.elements + i;\
+		assert(selection);\
+		char const* name = selection->name.get_string();\
+		if (name && *name)\
+			c_console::write_line("    %s", name);\
+	}\
+	c_console::write_line("");\
+}
+
+#define PRINT_SETS(NAME)\
+if (universal_data->NAME##_sets.count)\
+{\
+	c_console::write_line("%s sets: %d", #NAME, universal_data->NAME##_sets.count);\
+	for (long i = 0; i < universal_data->NAME##_sets.count; i++)\
+	{\
+		auto set = universal_data->NAME##_sets.elements + i;\
+		assert(set);\
+		char const* name = set->name.get_string();\
+		if (name && *name)\
+			c_console::write_line("    %s", name);\
+		if (set->remap_table.count)\
+		{\
+			c_console::write_line("        remap_table: %d", set->remap_table.count);\
+			for (long i = 0; i < set->remap_table.count; i++)\
+			{\
+				auto remap_entry = set->remap_table.elements + i;\
+				assert(remap_entry);\
+				char const* placed_object_name = remap_entry->placed_object_name.get_string();\
+				char const* remapped_object_name = remap_entry->remapped_object_name.get_string();\
+				if (placed_object_name && *placed_object_name)\
+					c_console::write_line("            %s", placed_object_name);\
+				if (remapped_object_name && *remapped_object_name)\
+					c_console::write_line("            %s", remapped_object_name);\
+			}\
+			c_console::write_line("");\
+		}\
+	}\
+	c_console::write_line("");\
+}
+
 void on_scenario_loaded()
 {
 	s_scenario* scenario = global_scenario_try_and_get();
@@ -304,9 +366,26 @@ void on_scenario_loaded()
 	PRINT_SCRIPTS();
 	PRINT_GLOBALS();
 
+	s_game_globals* game_globals = scenario_try_and_get_game_globals();
+	s_multiplayer_globals_definition* multiplayer_globals = static_cast<s_multiplayer_globals_definition*>(tag_get(game_globals->multiplayer_globals.group_tag, game_globals->multiplayer_globals.index));
+
+	s_multiplayer_universal_globals_definition* universal_data = multiplayer_globals->universal.elements;
+	if (!universal_data)
+		return;
+
+	PRINT_EQUIPMENT();
+	PRINT_SELECTIONS(weapon);
+	PRINT_SELECTIONS(vehicle);
+	PRINT_SELECTIONS(grenade);
+	PRINT_SETS(weapon);
+	PRINT_SETS(vehicle);
+
 	printf("");
 }
 
+#undef PRINT_SETS
+#undef PRINT_SELECTIONS
+#undef PRINT_EQUIPMENT
 #undef PRINT_GLOBALS
 #undef PRINT_SCRIPTS
 #undef PRINT_TRIGGER_VOLUMES
