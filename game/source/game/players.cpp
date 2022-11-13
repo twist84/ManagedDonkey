@@ -42,6 +42,34 @@ long get_equipment_index_by_name(char const* name)
 	return 0;
 }
 
+// "empty"
+// "jammer"
+// "powerdrain"
+// "invisibility"
+// "invisibility_vehicle"
+// "bubbleshield"
+// "superflare"
+// "regenerator"
+// "tripmine"
+// "auto_turret"
+// "deployable_cover"
+// "forced_reload"
+// "concussive_blast"
+// "tank_mode"
+// "mag_pulse"
+// "hologram"
+// "reactive_armor"
+// "bomb_run"
+// "armor_lock"
+// "adrenaline"
+// "lightning_strike"
+// "scrambler"
+// "weapon_jammer"
+// "ammo_pack"
+// "consumable_vision"
+// "bubbleshield_tutorial"
+// "consumable_vision_tutorial"
+
 s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player)
 {
 	s_s3d_player_weapon_configuration_loadout& loadout = player->configuration.host.weapon_configuration.loadouts[player->active_weapon_loadout];
@@ -52,10 +80,11 @@ s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(pla
 
 	loadout.grenade_index = _grenade_type_firebomb;
 
-	loadout.consumables[0] = 5; // #TODO: replace with enum
-	loadout.consumables[1] = 6; // #TODO: replace with enum
-	loadout.consumables[2] = 7; // #TODO: replace with enum
-	loadout.consumables[3] = 8; // #TODO: replace with enum
+	// #TODO: pull these from a config file
+	loadout.consumables[0] = static_cast<char>(get_equipment_index_by_name("reactive_armor"));
+	loadout.consumables[1] = static_cast<char>(get_equipment_index_by_name("consumable_vision"));
+	loadout.consumables[2] = static_cast<char>(get_equipment_index_by_name("bubbleshield_tutorial"));
+	loadout.consumables[3] = static_cast<char>(get_equipment_index_by_name("consumable_vision_tutorial"));
 
 	return &loadout;
 }
