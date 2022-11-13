@@ -345,6 +345,37 @@ if (universal_data->NAME##_sets.count)\
 	c_console::write_line("");\
 }
 
+#define PRINT_CUSTOMIZED_CHARACTERS(NAME)\
+if (universal_data->customized_##NAME##_characters.count)\
+{\
+	c_console::write_line("customized %s characters: %d", #NAME, universal_data->customized_##NAME##_characters.count);\
+	for (long i = 0; i < universal_data->customized_##NAME##_characters.count; i++)\
+	{\
+		auto customized_character = universal_data->customized_##NAME##_characters.elements + i;\
+		assert(customized_character);\
+		char const* armor_region = customized_character->armor_region.get_string();\
+		if (armor_region && *armor_region)\
+			c_console::write_line("    %s", armor_region);\
+		char const* biped_region = customized_character->biped_region.get_string();\
+		if (biped_region && *biped_region)\
+			c_console::write_line("    %s", biped_region);\
+		if (customized_character->customized_areas.count)\
+		{\
+			c_console::write_line("        customized areas: %d", customized_character->customized_areas.count);\
+			for (long i = 0; i < customized_character->customized_areas.count; i++)\
+			{\
+				auto customized_area = customized_character->customized_areas.elements + i;\
+				assert(customized_area);\
+				char const* selection_name = customized_area->selection_name.get_string();\
+				if (selection_name && *selection_name)\
+					c_console::write_line("            %s", selection_name);\
+			}\
+			c_console::write_line("");\
+		}\
+	}\
+	c_console::write_line("");\
+}
+
 void on_scenario_loaded()
 {
 	s_scenario* scenario = global_scenario_try_and_get();
@@ -370,6 +401,8 @@ void on_scenario_loaded()
 	if (!universal_data)
 		return;
 
+	PRINT_CUSTOMIZED_CHARACTERS(spartan);
+	PRINT_CUSTOMIZED_CHARACTERS(elite);
 	PRINT_EQUIPMENT();
 	PRINT_SELECTIONS(weapon);
 	PRINT_SELECTIONS(vehicle);
@@ -380,6 +413,7 @@ void on_scenario_loaded()
 	printf("");
 }
 
+#undef PRINT_CUSTOMIZED_CHARACTERS
 #undef PRINT_SETS
 #undef PRINT_SELECTIONS
 #undef PRINT_EQUIPMENT
@@ -393,3 +427,4 @@ void on_scenario_loaded()
 #undef PRINT_CAMPAIN_PLAYERS
 #undef PRINT_LIGHTING_ZONE_SETS
 #undef PRINT_ZONE_SETS
+
