@@ -47,6 +47,33 @@ struct c_object_identifier
 };
 static_assert(sizeof(c_object_identifier) == 0x8);
 
+struct object_placement_data
+{
+	long definition_index;
+	c_object_identifier object_identifier;
+	long model_variant_index;
+	long scenario_datum_index;
+
+	byte __unknown14;
+	byte __pad15[3];
+
+	dword_flags flags;
+	real_point3d position;
+	real_vector3d forward;
+	real_vector3d up;
+	real_vector3d linear_velocity;
+	real_vector3d angular_velocity;
+	real scale;
+
+	byte __data5C[0x100];
+	word __unknown15C;
+	byte __data15E[0x5];
+	byte __unknown163;
+	byte __data164[0x28];
+};
+static_assert(sizeof(object_placement_data) == 0x18C);
+
+extern void __cdecl object_delete(long object_index);
 extern long __cdecl object_get_ultimate_parent(long object_index);
 extern void __cdecl object_set_in_limbo(long object_index, bool deactivate);
 extern void __cdecl object_set_position(long object_index, real_point3d const* position, real_vector3d const* up, real_vector3d const* forward, s_location const* location);
