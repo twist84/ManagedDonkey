@@ -366,10 +366,7 @@ void on_scenario_loaded()
 	PRINT_SCRIPTS();
 	PRINT_GLOBALS();
 
-	s_game_globals* game_globals = scenario_try_and_get_game_globals();
-	s_multiplayer_globals_definition* multiplayer_globals = static_cast<s_multiplayer_globals_definition*>(tag_get(game_globals->multiplayer_globals.group_tag, game_globals->multiplayer_globals.index));
-
-	s_multiplayer_universal_globals_definition* universal_data = multiplayer_globals->universal.elements;
+	s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data();
 	if (!universal_data)
 		return;
 

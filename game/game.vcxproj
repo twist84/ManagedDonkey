@@ -230,6 +230,7 @@ POPD
     <ClCompile Include="source\game\cheats.cpp" />
     <ClCompile Include="source\game\game_engine.cpp" />
     <ClCompile Include="source\game\game_engine_util.cpp" />
+    <ClCompile Include="source\game\multiplayer_definitions.cpp" />
     <ClCompile Include="source\game\multiplayer_game_hopper.cpp" />
     <ClCompile Include="source\geometry\geometry_sampling.cpp" />
     <ClCompile Include="source\game\players.cpp" />

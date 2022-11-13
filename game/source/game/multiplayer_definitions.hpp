@@ -181,3 +181,13 @@ struct s_multiplayer_podium_move_animation
 };
 static_assert(sizeof(s_multiplayer_podium_move_animation) == 0x50);
 
+//struct s_multiplayer_runtime_globals_definition
+//{
+//};
+//static_assert(sizeof(s_multiplayer_runtime_globals_definition) == 0x);
+
+extern s_multiplayer_runtime_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_runtime_data();
+extern s_multiplayer_universal_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_universal_data();
+
+extern s_multiplayer_universal_globals_definition* multiplayer_globals_try_and_get_universal_data(s_multiplayer_globals_definition* multiplayer_globals);
+
