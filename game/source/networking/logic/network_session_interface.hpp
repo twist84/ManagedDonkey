@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "networking/online/online_guide_pc.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 #include "networking/logic/logic_matchmaking_desirability.hpp"

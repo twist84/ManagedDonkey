@@ -69,13 +69,6 @@ enum e_online_guide_toast_position
 	k_toast_position_count
 };
 
-struct s_network_session_status_data_player
-{
-	s_player_identifier identifier;
-	s_player_configuration configuration;
-};
-static_assert(sizeof(s_network_session_status_data_player) == 0x1628);
-
 extern dword __cdecl online_guide_delay_toasts(long milliseconds);
 extern void __cdecl online_guide_dispose();
 extern void __cdecl online_guide_initialize();
