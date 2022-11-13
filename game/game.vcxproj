@@ -339,6 +339,7 @@ POPD
     <ClCompile Include="source\tag_files\tag_groups.cpp" />
     <ClCompile Include="source\text\font_loading.cpp" />
     <ClCompile Include="source\text\unicode.cpp" />
+    <ClCompile Include="source\units\units.cpp" />
     <ClCompile Include="source\xbox\xnet.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -78,8 +78,8 @@ struct s_multiplayer_customized_model_selection
 	short __unknown24;
 	byte __pad26[2];
 
-	c_string_id parent_attack_marker;
-	c_string_id child_attack_marker;
+	c_string_id parent_attach_marker;
+	c_string_id child_attach_marker;
 };
 static_assert(sizeof(s_multiplayer_customized_model_selection) == 0x30);
 

@@ -3,11 +3,26 @@
 #include "cseries/console.hpp"
 #include "physics/havok.hpp"
 
+void __cdecl object_delete(long object_index)
+{
+    INVOKE(0x00B2CD10, object_delete, object_index);
+}
+
 long __cdecl object_get_ultimate_parent(long object_index)
 {
     FUNCTION_BEGIN(true);
 
     return INVOKE(0x00B2EAB0, object_get_ultimate_parent, object_index);
+}
+
+long __cdecl object_new(object_placement_data* placement_data)
+{
+    return INVOKE(0x00B30440, object_new, placement_data);
+}
+
+void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, s_damage_owner const* damage_owner)
+{
+    INVOKE(0x00B31590, object_placement_data_new, placement_data, object_definition_index, object_datum_index, damage_owner);
 }
 
 void __cdecl object_set_in_limbo(long object_index, bool deactivate)
