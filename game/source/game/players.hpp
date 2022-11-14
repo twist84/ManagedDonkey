@@ -51,8 +51,8 @@ enum e_color_type
 enum e_armor_type
 {
 	_armor_type_helmet = 0,
-	_armor_type_shoulders,
 	_armor_type_chest,
+	_armor_type_shoulders,
 	_armor_type_arms,
 	_armor_type_legs,
 

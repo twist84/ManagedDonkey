@@ -111,8 +111,8 @@ s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(playe
 	if (!loadout.armor_is_set)
 	{
 		loadout.armors[_armor_type_helmet    ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("helmet", "tankmode_human"));
-		loadout.armors[_armor_type_shoulders ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("shoulders", "tankmode_human"));
 		loadout.armors[_armor_type_chest     ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("chest", "tankmode_human"));
+		loadout.armors[_armor_type_shoulders ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("shoulders", "tankmode_human"));
 		loadout.armors[_armor_type_arms      ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("arms", "tankmode_human"));
 		loadout.armors[_armor_type_legs      ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("legs", "tankmode_human"));
 		loadout.armors[_armor_type_acc       ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("acc", "bullet_shield"));
