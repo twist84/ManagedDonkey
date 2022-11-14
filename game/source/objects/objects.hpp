@@ -77,7 +77,9 @@ extern void __cdecl object_delete(long object_index);
 extern long __cdecl object_get_ultimate_parent(long object_index);
 extern long __cdecl object_new(object_placement_data* placement_data);
 extern void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, struct s_damage_owner const* damage_owner);
+extern bool __cdecl object_set_base_change_color_by_index(long object_index, long color_index, real_rgb_color const* color);
 extern void __cdecl object_set_in_limbo(long object_index, bool deactivate);
 extern void __cdecl object_set_position(long object_index, real_point3d const* position, real_vector3d const* up, real_vector3d const* forward, s_location const* location);
 extern void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type);
 extern void __cdecl object_debug_teleport(long object_index, real_point3d const* position);
+

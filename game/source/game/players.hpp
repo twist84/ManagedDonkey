@@ -39,8 +39,12 @@ static_assert(sizeof(s_player_appearance) == 0x660);
 
 struct s_s3d_player_armor_configuration_loadout
 {
-	c_static_array<dword, 5> colors;
-	c_static_array<byte, 10> armors;
+	c_static_array<rgb_color, 5> colors;
+	c_static_array<byte, 6> armors;
+	byte : 8;
+	byte : 8;
+	byte : 8;
+	byte : 8;
 	byte : 8;
 	byte : 8;
 };

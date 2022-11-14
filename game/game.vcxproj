@@ -282,6 +282,7 @@ POPD
     <ClCompile Include="source\main\main.cpp" />
     <ClCompile Include="source\main\main_game.cpp" />
     <ClCompile Include="source\main\main_game_launch.cpp" />
+    <ClCompile Include="source\math\color_math.cpp" />
     <ClCompile Include="source\memory\bitstream.cpp" />
     <ClCompile Include="source\memory\crc.cpp" />
     <ClCompile Include="source\memory\data.cpp" />
@@ -413,6 +414,7 @@ POPD
     <ClInclude Include="source\interface\user_interface_utilities.hpp" />
     <ClInclude Include="source\interface\user_interface_window_manager.hpp" />
     <ClInclude Include="source\items\weapons.hpp" />
+    <ClInclude Include="source\math\color_math.hpp" />
     <ClInclude Include="source\memory\byte_swapping.hpp" />
     <ClInclude Include="source\cache\cache_file_builder_security.hpp" />
     <ClInclude Include="source\cache\cache_files.hpp" />

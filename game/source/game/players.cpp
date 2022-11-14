@@ -41,33 +41,6 @@ long multiplayer_universal_data_get_equipment_absolute_index_from_name(char cons
 	return result;
 }
 
-// "empty"
-// "jammer"
-// "powerdrain"
-// "invisibility"
-// "invisibility_vehicle"
-// "bubbleshield"
-// "superflare"
-// "regenerator"
-// "tripmine"
-// "auto_turret"
-// "deployable_cover"
-// "forced_reload"
-// "concussive_blast"
-// "tank_mode"
-// "mag_pulse"
-// "hologram"
-// "reactive_armor"
-// "bomb_run"
-// "armor_lock"
-// "adrenaline"
-// "lightning_strike"
-// "scrambler"
-// "weapon_jammer"
-// "ammo_pack"
-// "consumable_vision"
-// "bubbleshield_tutorial"
-// "consumable_vision_tutorial"
 
 // this function gets called in `player_spawn` -> `game_engine_add_starting_equipment`
 // #TODO: hook `game_engine_add_starting_equipment` and reimplement the original functionality
@@ -81,11 +54,40 @@ s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(pla
 
 	loadout.grenade_index = _grenade_type_firebomb;
 
+	// "empty"
+	// "jammer"
+	// "powerdrain"
+	// "invisibility"
+	// "invisibility_vehicle"
+	// "bubbleshield"
+	// "superflare"
+	// "regenerator"
+	// "tripmine"
+	// "auto_turret"
+	// "deployable_cover"
+	// "forced_reload"
+	// "concussive_blast"
+	// "tank_mode"
+	// "mag_pulse"
+	// "hologram"
+	// "reactive_armor"
+	// "bomb_run"
+	// "armor_lock"
+	// "adrenaline"
+	// "lightning_strike"
+	// "scrambler"
+	// "weapon_jammer"
+	// "ammo_pack"
+	// "consumable_vision"
+	// "bubbleshield_tutorial"
+	// "consumable_vision_tutorial"
+
 	// #TODO: pull these from a config file
-	loadout.consumables[0] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("reactive_armor"));
-	loadout.consumables[1] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("consumable_vision"));
-	loadout.consumables[2] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("bubbleshield_tutorial"));
-	loadout.consumables[3] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("consumable_vision_tutorial"));
+	loadout.consumables[0] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("adrenaline"));
+	loadout.consumables[1] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("reactive_armor"));
+	loadout.consumables[2] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("consumable_vision"));
+	loadout.consumables[3] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("lightning_strike"));
 
 	return &loadout;
 }
+

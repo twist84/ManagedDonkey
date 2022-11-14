@@ -25,6 +25,11 @@ void __cdecl object_placement_data_new(object_placement_data* placement_data, lo
     INVOKE(0x00B31590, object_placement_data_new, placement_data, object_definition_index, object_datum_index, damage_owner);
 }
 
+bool __cdecl object_set_base_change_color_by_index(long object_index, long color_index, real_rgb_color const* color)
+{
+    return INVOKE(0x00B328F0, object_set_base_change_color_by_index, object_index, color_index, color);
+}
+
 void __cdecl object_set_in_limbo(long object_index, bool deactivate)
 {
     INVOKE(0x00B32E20, object_set_in_limbo, object_index, deactivate);
@@ -64,3 +69,4 @@ void __cdecl object_debug_teleport(long object_index, real_point3d const* positi
         c_console::write_line("Failed to get a valid object in %s.", __FUNCTION__);
     }
 }
+

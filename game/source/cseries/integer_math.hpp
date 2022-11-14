@@ -59,6 +59,7 @@ union rgb_color
 		unsigned char blue;
 	};
 	unsigned char n[4];
+	unsigned long value;
 };
 static_assert(sizeof(rgb_color) == 0x4);
 
@@ -72,6 +73,7 @@ union argb_color
 		unsigned char blue;
 	};
 	unsigned char n[4];
+	unsigned long value;
 };
 static_assert(sizeof(argb_color) == 0x4);
 
