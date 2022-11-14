@@ -85,8 +85,6 @@ extern game_globals_storage* game_globals_get();
 
 extern long get_map_minor_version();
 
-struct s_game_globals_player_representation;
-
 struct s_damage_globals_definition;
 struct s_game_globals_camera;
 struct s_game_globals_difficulty_information;
@@ -196,3 +194,20 @@ struct s_game_globals
 	static_assert(sizeof(sound_block) == sizeof(tag_reference));
 };
 static_assert(sizeof(s_game_globals) == 0x608);
+
+struct s_game_globals_player_representation
+{
+	c_string_id name;
+	char_enum model_choice;
+	char_enum _class;
+	byte __pad6[2];
+	tag_reference first_person_hands;
+	tag_reference first_person_body;
+	tag_reference first_person_unit;
+	c_string_id third_person_variant;
+	tag_reference binoculars_zoom_in_sounds;
+	tag_reference binoculars_zoom_out_sounds;
+	tag_reference voice;
+};
+static_assert(sizeof(s_game_globals_player_representation) == 0x6C);
+

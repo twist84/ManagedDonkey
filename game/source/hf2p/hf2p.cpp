@@ -79,7 +79,10 @@ void __cdecl hf2p_game_dispose()
 	//fmod_terminate();
 }
 
-REFERENCE_DECLARE(0x04FE67A0, dword, mainmenu_unit_index);
+REFERENCE_DECLARE(0x04FE67A0, dword, mainmenu_spartan_unit_index);
+REFERENCE_DECLARE(0x04FE67A4, dword, mainmenu_elite_unit_index);
+
+dword& mainmenu_unit_index = mainmenu_spartan_unit_index;
 
 void __cdecl hf2p_game_update()
 {
