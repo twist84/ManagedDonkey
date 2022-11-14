@@ -21,25 +21,84 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 	return INVOKE(0x0053F550, player_teleport, player_index, object_index, position);
 }
 
-long multiplayer_universal_data_get_equipment_absolute_index_from_name(char const* name)
+s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
 {
-	s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data();
-	if (!universal_data)
-		return 0;
+	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor_configuration.loadouts[player->active_armor_loadout];
 
-	long result = 0;
-	for (long equipment_absolute_index = 0; equipment_absolute_index < universal_data->equipment.count; equipment_absolute_index++)
+	if (!loadout.armor_is_set)
 	{
-		s_multiplayer_equipment& equipment = universal_data->equipment.elements[equipment_absolute_index];
-		char const* equipment_name = equipment.name.get_string();
-		if (equipment_name && csstricmp(name, equipment_name) == 0)
+		// #TODO: pull these from a config file
+		loadout.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", "tankmode_human"));
+		loadout.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", "tankmode_human"));
+		loadout.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", "tankmode_human"));
+		loadout.armors[_armor_type_arms] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("arms", "tankmode_human"));
+		loadout.armors[_armor_type_legs] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("legs", "tankmode_human"));
+		loadout.armors[_armor_type_acc] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("acc", "bullet_shield"));
+		loadout.armors[_armor_type_pelvis] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("pelvis", "tankmode_human"));
+
+		for (long color_index = 0; color_index < k_color_type_count; color_index++)
 		{
-			result = equipment_absolute_index;
-			break;
+			rgb_color& color = loadout.colors[color_index];
+			color.red = byte(~127);
+			color.green = byte(~0);
+			color.blue = byte(~127);
 		}
+
+		loadout.armor_is_set = true;
 	}
 
-	return result;
+	return &loadout;
+}
+
+// this function gets called in `player_spawn` -> `game_engine_add_starting_equipment`
+// #TODO: hook `game_engine_add_starting_equipment` and reimplement the original functionality
+s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player)
+{
+	s_s3d_player_weapon_configuration_loadout& loadout = player->configuration.host.weapon_configuration.loadouts[player->active_weapon_loadout];
+
+	// allow player traits override
+	// #TODO: pull these from tags
+	loadout.primary_weapon_index = 0xFF;
+	loadout.secondary_weapon_index = 0xFF;
+
+	// #TODO: pull this from tags
+	loadout.grenade_index = _grenade_type_firebomb;
+
+	// "empty"
+	// "jammer"
+	// "powerdrain"
+	// "invisibility"
+	// "invisibility_vehicle"
+	// "bubbleshield"
+	// "superflare"
+	// "regenerator"
+	// "tripmine"
+	// "auto_turret"
+	// "deployable_cover"
+	// "forced_reload"
+	// "concussive_blast"
+	// "tank_mode"
+	// "mag_pulse"
+	// "hologram"
+	// "reactive_armor"
+	// "bomb_run"
+	// "armor_lock"
+	// "adrenaline"
+	// "lightning_strike"
+	// "scrambler"
+	// "weapon_jammer"
+	// "ammo_pack"
+	// "consumable_vision"
+	// "bubbleshield_tutorial"
+	// "consumable_vision_tutorial"
+
+	// #TODO: pull these from a config file
+	loadout.consumables[0] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("adrenaline"));
+	loadout.consumables[1] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("reactive_armor"));
+	loadout.consumables[2] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("armor_lock"));
+	loadout.consumables[3] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("tank_mode"));
+
+	return &loadout;
 }
 
 // find a better name?
@@ -85,8 +144,29 @@ long customized_spartan_character_from_name(s_multiplayer_customized_model_chara
 	return 0;
 }
 
+long multiplayer_universal_data_get_absolute_equipment_block_index(char const* name)
+{
+	s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data();
+	if (!universal_data)
+		return 0;
+
+	long result = 0;
+	for (long equipment_absolute_index = 0; equipment_absolute_index < universal_data->equipment.count; equipment_absolute_index++)
+	{
+		s_multiplayer_equipment& equipment = universal_data->equipment.elements[equipment_absolute_index];
+		char const* equipment_name = equipment.name.get_string();
+		if (equipment_name && csstricmp(name, equipment_name) == 0)
+		{
+			result = equipment_absolute_index;
+			break;
+		}
+	}
+
+	return result;
+}
+
 // find a better name?
-long multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name(char const* region_or_biped_name, char const* selection_name)
+long multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(char const* region_or_biped_name, char const* selection_name)
 {
 	s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data();
 	if (!universal_data)
@@ -104,80 +184,25 @@ long multiplayer_universal_data_get_customized_spartan_characters_absolute_index
 	return result;
 }
 
-s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
+// find a better name?
+short multiplayer_universal_data_get_absolute_weapons_selection_block_index(char const* selection_name)
 {
-	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor_configuration.loadouts[player->active_armor_loadout];
+	s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data();
+	if (!universal_data)
+		return short(0xFFFD);
 
-	if (!loadout.armor_is_set)
+	if (universal_data->weapon_selections.count)
 	{
-		loadout.armors[_armor_type_helmet    ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("helmet", "tankmode_human"));
-		loadout.armors[_armor_type_chest     ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("chest", "tankmode_human"));
-		loadout.armors[_armor_type_shoulders ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("shoulders", "tankmode_human"));
-		loadout.armors[_armor_type_arms      ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("arms", "tankmode_human"));
-		loadout.armors[_armor_type_legs      ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("legs", "tankmode_human"));
-		loadout.armors[_armor_type_acc       ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("acc", "bullet_shield"));
-		loadout.armors[_armor_type_pelvis    ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("pelvis", "tankmode_human"));
-
-		for (long color_index = 0; color_index < k_color_type_count; color_index++)
+		for (short weapon_selection_index = 0; weapon_selection_index < universal_data->weapon_selections.count; weapon_selection_index++)
 		{
-			rgb_color& color = loadout.colors[color_index];
-			color.red = byte(~127);
-			color.green = byte(~0);
-			color.blue = byte(~127);
-		}
+			s_multiplayer_weapon_selection& weapon_selection = universal_data->weapon_selections.elements[weapon_selection_index];
 
-		loadout.armor_is_set = true;
+			char const* name = weapon_selection.name.get_string();
+			if (name && csstricmp(selection_name, name) == 0)
+				return weapon_selection_index;
+		}
 	}
 
-	return &loadout;
-}
-
-// this function gets called in `player_spawn` -> `game_engine_add_starting_equipment`
-// #TODO: hook `game_engine_add_starting_equipment` and reimplement the original functionality
-s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player)
-{
-	s_s3d_player_weapon_configuration_loadout& loadout = player->configuration.host.weapon_configuration.loadouts[player->active_weapon_loadout];
-
-	// allow player traits override
-	loadout.primary_weapon_index = 0xFF;
-	loadout.secondary_weapon_index = 0xFF;
-
-	loadout.grenade_index = _grenade_type_firebomb;
-
-	// "empty"
-	// "jammer"
-	// "powerdrain"
-	// "invisibility"
-	// "invisibility_vehicle"
-	// "bubbleshield"
-	// "superflare"
-	// "regenerator"
-	// "tripmine"
-	// "auto_turret"
-	// "deployable_cover"
-	// "forced_reload"
-	// "concussive_blast"
-	// "tank_mode"
-	// "mag_pulse"
-	// "hologram"
-	// "reactive_armor"
-	// "bomb_run"
-	// "armor_lock"
-	// "adrenaline"
-	// "lightning_strike"
-	// "scrambler"
-	// "weapon_jammer"
-	// "ammo_pack"
-	// "consumable_vision"
-	// "bubbleshield_tutorial"
-	// "consumable_vision_tutorial"
-
-	// #TODO: pull these from a config file
-	loadout.consumables[0] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("adrenaline"));
-	loadout.consumables[1] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("reactive_armor"));
-	loadout.consumables[2] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("armor_lock"));
-	loadout.consumables[3] = static_cast<char>(multiplayer_universal_data_get_equipment_absolute_index_from_name("tank_mode"));
-
-	return &loadout;
+	return short(0xFFFD);
 }
 

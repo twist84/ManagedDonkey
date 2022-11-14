@@ -94,13 +94,27 @@ void __cdecl hf2p_game_update()
 	if (mainmenu_unit_index != 0xFFFFFFFF)
 	{
 		{
-			s_s3d_player_armor_configuration_loadout loadout{};
+			// only allow one instance of this
+			static s_s3d_player_armor_configuration_loadout loadout{};
+
+			if (!loadout.armor_is_set)
 			{
+				// #TODO: pull these from a config file
+				loadout.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", "tankmode_human"));
+				loadout.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", "tankmode_human"));
+				loadout.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", "tankmode_human"));
+				loadout.armors[_armor_type_arms] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("arms", "tankmode_human"));
+				loadout.armors[_armor_type_legs] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("legs", "tankmode_human"));
+				loadout.armors[_armor_type_acc] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("acc", "bullet_shield"));
+				loadout.armors[_armor_type_pelvis] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("pelvis", "tankmode_human"));
+
 				for (long color_index = 0; color_index < k_color_type_count; color_index++)
 					loadout.colors[color_index].value = ~((system_milliseconds() * rand()) % 0xFFFFFF);
 
-				for (long armor_index = 0; armor_index < k_armor_type_count; armor_index++)
-					loadout.armors[armor_index] = (system_milliseconds() * rand()) % 70;
+				//for (long armor_index = 0; armor_index < k_armor_type_count; armor_index++)
+				//	loadout.armors[armor_index] = (system_milliseconds() * rand()) % 70;
+
+				loadout.armor_is_set = true;
 			}
 			DECLFUNC(0x005A4430, void, __cdecl, s_s3d_player_armor_configuration_loadout*, dword)(&loadout, mainmenu_unit_index);
 

@@ -259,4 +259,7 @@ extern long __cdecl players_first_active_user();
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
 extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
 extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player);
+extern long multiplayer_universal_data_get_absolute_equipment_block_index(char const* name);
+extern long multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(char const* region_or_biped_name, char const* selection_name);
+extern short multiplayer_universal_data_get_absolute_weapons_selection_block_index(char const* selection_name);
 
