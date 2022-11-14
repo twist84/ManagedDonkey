@@ -110,15 +110,15 @@ s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(playe
 
 	if (!loadout.armor_is_set)
 	{
-		loadout.armors[0] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("helmet", "tankmode_human"));
-		loadout.armors[1] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("chest", "tankmode_human"));
-		loadout.armors[2] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("shoulders", "tankmode_human"));
-		loadout.armors[3] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("arms", "tankmode_human"));
-		loadout.armors[4] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("legs", "tankmode_human"));
-		loadout.armors[5] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("acc", "bullet_shield"));
-		loadout.armors[6] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("pelvis", "tankmode_human"));
+		loadout.armors[_armor_type_helmet    ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("helmet", "tankmode_human"));
+		loadout.armors[_armor_type_shoulders ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("shoulders", "tankmode_human"));
+		loadout.armors[_armor_type_chest     ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("chest", "tankmode_human"));
+		loadout.armors[_armor_type_arms      ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("arms", "tankmode_human"));
+		loadout.armors[_armor_type_legs      ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("legs", "tankmode_human"));
+		loadout.armors[_armor_type_acc       ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("acc", "bullet_shield"));
+		loadout.armors[_armor_type_pelvis    ] = static_cast<byte>(multiplayer_universal_data_get_customized_spartan_characters_absolute_index_from_name("pelvis", "tankmode_human"));
 
-		for (long color_index = 0; color_index < 5; color_index++)
+		for (long color_index = 0; color_index < k_color_type_count; color_index++)
 		{
 			rgb_color& color = loadout.colors[color_index];
 			color.red = byte(~127);

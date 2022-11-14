@@ -93,15 +93,15 @@ void __cdecl hf2p_game_update()
 		{
 			s_s3d_player_armor_configuration_loadout loadout{};
 			{
-				for (long color_index = 0; color_index < 5; color_index++)
+				for (long color_index = 0; color_index < k_color_type_count; color_index++)
 					loadout.colors[color_index].value = (system_milliseconds() * rand()) % 0x2F3F4F;
 
-				for (long armor_index = 0; armor_index < 6; armor_index++)
+				for (long armor_index = 0; armor_index < k_armor_type_count; armor_index++)
 					loadout.armors[armor_index] = (system_milliseconds() * rand()) % 70;
 			}
 			DECLFUNC(0x005A4430, void, __cdecl, s_s3d_player_armor_configuration_loadout*, dword)(&loadout, mainmenu_unit_index);
 
-			for (long color_index = 0; color_index < 5; color_index++)
+			for (long color_index = 0; color_index < k_color_type_count; color_index++)
 			{
 				rgb_color& color = loadout.colors[color_index];
 				real_rgb_color real_color;

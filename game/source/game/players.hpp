@@ -37,10 +37,35 @@ struct s_player_appearance
 };
 static_assert(sizeof(s_player_appearance) == 0x660);
 
+enum e_color_type
+{
+	_color_type_primary = 0,
+	_color_type_secondary,
+	_color_type_visor,
+	_color_type_lights,
+	_color_type_holo,
+
+	k_color_type_count
+};
+
+enum e_armor_type
+{
+	_armor_type_helmet = 0,
+	_armor_type_shoulders,
+	_armor_type_chest,
+	_armor_type_arms,
+	_armor_type_legs,
+
+	_armor_type_acc,
+	_armor_type_pelvis,
+
+	k_armor_type_count
+};
+
 struct s_s3d_player_armor_configuration_loadout
 {
-	c_static_array<rgb_color, 5> colors;
-	c_static_array<byte, 7> armors;
+	c_static_array<rgb_color, k_color_type_count> colors;
+	c_static_array<byte, k_armor_type_count> armors;
 	byte : 8;
 	byte : 8;
 	byte : 8;
