@@ -333,9 +333,8 @@ struct s_scenario
 
 	c_typed_tag_block<s_scenario_interpolator> interpolators;
 
-	tag_block __unknown6BC;
-	tag_block __unknown6C8;
-
+	tag_block shared_references;
+	tag_block screen_effect_references;
 	tag_block simulation_definition_table;
 
 	c_typed_tag_reference<'cfxs'> camera_effects;

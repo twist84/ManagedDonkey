@@ -9,26 +9,28 @@ struct tag_block
 {
 	long count;
 	byte(&elements)[];
-	byte* definition;
+	long : 32; // byte* definition;
 };
 static_assert(sizeof(tag_block) == 0xC);
 
 struct tag_reference
 {
 	tag group_tag;
-	char const* name;
-	long name_length;
+	long : 32; // char const* name;
+	long : 32; // long name_length;
 	long index;
+
+	void* get_definition();
 };
 static_assert(sizeof(tag_reference) == 0x10);
 
 struct tag_data
 {
 	long size;
-	dword_flags flags;
-	long stream_position;
+	long : 32; //  flags;
+	long : 32; // long stream_position;
 	byte(&base)[];
-	byte* definition;
+	long : 32; // byte* definition;
 };
 static_assert(sizeof(tag_data) == 0x14);
 
@@ -38,7 +40,7 @@ struct c_typed_tag_block
 {
 	long count;
 	t_element_type* elements;
-	byte* definition;
+	long : 32; // byte* definition;
 };
 
 template<tag ...k_group_tags>
@@ -49,8 +51,8 @@ template<typename t_data_type, dword ...t_extra>
 struct c_typed_tag_data
 {
 	long size;
-	dword_flags flags;
-	long stream_position;
+	long : 32; // dword_flags flags;
+	long : 32; // long stream_position;
 	t_data_type* base;
-	byte* definition;
+	long : 32; // byte* definition;
 };
