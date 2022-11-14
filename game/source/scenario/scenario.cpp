@@ -121,147 +121,147 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	return false;
 }
 
-#define PRINT_ZONE_SETS()\
+#define SCENARIO_PRINT_ZONE_SETS()\
 if (scenario->zone_sets.count)\
 {\
-	c_console::write_line("zone sets: %d", scenario->zone_sets.count);\
+	c_console::write_line("    zone sets: %d", scenario->zone_sets.count);\
 	for (long i = 0; i < scenario->zone_sets.count; i++)\
 	{\
 		auto zone_set = scenario->zone_sets.elements + i;\
 		assert(zone_set);\
 		char const* name = zone_set->name.get_string();\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_LIGHTING_ZONE_SETS()\
+#define SCENARIO_PRINT_LIGHTING_ZONE_SETS()\
 if (scenario->lighting_zone_sets.count)\
 {\
-	c_console::write_line("lighting zone sets: %d", scenario->lighting_zone_sets.count);\
+	c_console::write_line("    lighting zone sets: %d", scenario->lighting_zone_sets.count);\
 	for (long i = 0; i < scenario->lighting_zone_sets.count; i++)\
 	{\
 		auto lighting_zone_set = scenario->lighting_zone_sets.elements + i;\
 		assert(lighting_zone_set);\
 		char const* name = lighting_zone_set->name.get_string();\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_CAMPAIN_PLAYERS()\
+#define SCENARIO_PRINT_CAMPAIN_PLAYERS()\
 if (scenario->campaign_players.count)\
 {\
-	c_console::write_line("campaign players: %d", scenario->campaign_players.count);\
+	c_console::write_line("    campaign players: %d", scenario->campaign_players.count);\
 	for (long i = 0; i < scenario->campaign_players.count; i++)\
 	{\
 		auto campaign_player = scenario->campaign_players.elements + i;\
 		assert(campaign_player);\
 		char const* name = campaign_player->name.get_string();\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_OBJECT_NAMES()\
+#define SCENARIO_PRINT_OBJECT_NAMES()\
 if (scenario->object_names.count)\
 {\
-	c_console::write_line("object names: %d", scenario->object_names.count);\
+	c_console::write_line("    object names: %d", scenario->object_names.count);\
 	for (long i = 0; i < scenario->object_names.count; i++)\
 	{\
 		auto object_name = scenario->object_names.elements + i;\
 		assert(object_name);\
 		char const* name = object_name->name;\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_MAP_VARIANT_PALETTES(NAME)\
+#define SCENARIO_PRINT_MAP_VARIANT_PALETTES(NAME)\
 if (scenario->map_variant_##NAME##_palette.count)\
 {\
-	c_console::write_line("%s palettes: %d", #NAME, scenario->map_variant_##NAME##_palette.count);\
+	c_console::write_line("    %s palettes: %d", #NAME, scenario->map_variant_##NAME##_palette.count);\
 	for (long i = 0; i < scenario->map_variant_##NAME##_palette.count; i++)\
 	{\
 		auto palette = scenario->map_variant_##NAME##_palette.elements + i;\
 		assert(palette);\
 		char const* display_name = palette->display_name.get_string();\
 		if (display_name && *display_name)\
-			c_console::write_line("    %s", display_name);\
+			c_console::write_line("        display name: %s", display_name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_SOFT_CEILINGS()\
+#define SCENARIO_PRINT_SOFT_CEILINGS()\
 if (scenario->soft_ceilings.count)\
 {\
-	c_console::write_line("soft ceilings: %d", scenario->soft_ceilings.count);\
+	c_console::write_line("    soft ceilings: %d", scenario->soft_ceilings.count);\
 	for (long i = 0; i < scenario->soft_ceilings.count; i++)\
 	{\
 		auto soft_ceiling = scenario->soft_ceilings.elements + i;\
 		assert(soft_ceiling);\
 		char const* name = soft_ceiling->name.get_string();\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_PLAYER_STARTING_PROFILES()\
+#define SCENARIO_PRINT_PLAYER_STARTING_PROFILES()\
 if (scenario->player_starting_profile.count)\
 {\
-	c_console::write_line("player starting profiles: %d", scenario->player_starting_profile.count);\
+	c_console::write_line("    player starting profiles: %d", scenario->player_starting_profile.count);\
 	for (long i = 0; i < scenario->player_starting_profile.count; i++)\
 	{\
 		auto profile = scenario->player_starting_profile.elements + i;\
 		assert(profile);\
 		char const* name = profile->name;\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_TRIGGER_VOLUMES()\
+#define SCENARIO_PRINT_TRIGGER_VOLUMES()\
 if (scenario->trigger_volumes.count)\
 {\
-	c_console::write_line("trigger volumes: %d", scenario->trigger_volumes.count);\
+	c_console::write_line("    trigger volumes: %d", scenario->trigger_volumes.count);\
 	for (long i = 0; i < scenario->trigger_volumes.count; i++)\
 	{\
 		auto trigger_volume = scenario->trigger_volumes.elements + i;\
 		assert(trigger_volume);\
 		char const* name = trigger_volume->name.get_string();\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_SCRIPTS()\
+#define SCENARIO_PRINT_SCRIPTS()\
 if (scenario->scripts.count)\
 {\
-	c_console::write_line("scripts: %d", scenario->scripts.count);\
+	c_console::write_line("    scripts: %d", scenario->scripts.count);\
 	for (long i = 0; i < scenario->scripts.count; i++)\
 	{\
 		auto script = scenario->scripts.elements + i;\
 		assert(script);\
 		char const* script_name = script->name;\
 		if (script_name && *script_name)\
-			c_console::write_line("    %s", script_name);\
+			c_console::write_line("        name: %s", script_name);\
 		if (script->parameters.count)\
 		{\
-			c_console::write_line("        parameters: %d", script->parameters.count);\
+			c_console::write_line("            parameters: %d", script->parameters.count);\
 			for (long i = 0; i < script->parameters.count; i++)\
 			{\
 				auto parameter = script->parameters.elements + i;\
 				assert(parameter);\
 				char const* parameter_name = parameter->name;\
 				if (parameter_name && *parameter_name)\
-					c_console::write_line("            %s", parameter_name);\
+					c_console::write_line("                name: %s", parameter_name);\
 			}\
 			c_console::write_line("");\
 		}\
@@ -269,65 +269,82 @@ if (scenario->scripts.count)\
 	c_console::write_line("");\
 }
 
-#define PRINT_GLOBALS()\
+#define SCENARIO_PRINT_GLOBALS()\
 if (scenario->globals.count)\
 {\
-	c_console::write_line("globals: %d", scenario->globals.count);\
+	c_console::write_line("    globals: %d", scenario->globals.count);\
 	for (long i = 0; i < scenario->globals.count; i++)\
 	{\
 		auto global = scenario->globals.elements + i;\
 		assert(global);\
 		char const* name = global->name;\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_EQUIPMENT()\
+#define GLOBALS_PRINT_PLAYER_REPRESENTATION()\
+if (game_globals->player_representation.count)\
+{\
+	c_console::write_line("    player representation: %d", game_globals->player_representation.count);\
+	for (long i = 0; i < game_globals->player_representation.count; i++)\
+	{\
+		auto player_representation = game_globals->player_representation.elements + i;\
+		char const* name = player_representation->name.get_string();\
+		if (name && *name)\
+			c_console::write_line("                        name: %s", name);\
+		char const* third_person_variant = player_representation->third_person_variant.get_string();\
+		if (third_person_variant && *third_person_variant)\
+			c_console::write_line("        third person variant: %s", third_person_variant);\
+	}\
+	c_console::write_line("");\
+}
+
+#define UNIVERSAL_DATA_PRINT_EQUIPMENT()\
 if (universal_data->equipment.count)\
 {\
-	c_console::write_line("equipment: %d", universal_data->equipment.count);\
+	c_console::write_line("    equipment: %d", universal_data->equipment.count);\
 	for (long i = 0; i < universal_data->equipment.count; i++)\
 	{\
 		auto equipment = universal_data->equipment.elements + i;\
 			assert(equipment);\
 		char const* name = equipment->name.get_string();\
 		if (name && *name)\
-			c_console::write_line("    %s", name); \
+			c_console::write_line("        name: %s", name); \
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_SELECTIONS(NAME)\
+#define UNIVERSAL_DATA_PRINT_SELECTIONS(NAME)\
 if (universal_data->NAME##_selections.count)\
 {\
-	c_console::write_line("%s selections: %d", #NAME, universal_data->NAME##_selections.count);\
+	c_console::write_line("    %s selections: %d", #NAME, universal_data->NAME##_selections.count);\
 	for (long i = 0; i < universal_data->NAME##_selections.count; i++)\
 	{\
 		auto selection = universal_data->NAME##_selections.elements + i;\
 		assert(selection);\
 		char const* name = selection->name.get_string();\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 	}\
 	c_console::write_line("");\
 }
 
-#define PRINT_SETS(NAME)\
+#define UNIVERSAL_DATA_PRINT_SETS(NAME)\
 if (universal_data->NAME##_sets.count)\
 {\
-	c_console::write_line("%s sets: %d", #NAME, universal_data->NAME##_sets.count);\
+	c_console::write_line("    %s sets: %d", #NAME, universal_data->NAME##_sets.count);\
 	for (long i = 0; i < universal_data->NAME##_sets.count; i++)\
 	{\
 		auto set = universal_data->NAME##_sets.elements + i;\
 		assert(set);\
 		char const* name = set->name.get_string();\
 		if (name && *name)\
-			c_console::write_line("    %s", name);\
+			c_console::write_line("        name: %s", name);\
 		if (set->remap_table.count)\
 		{\
-			c_console::write_line("        remap_table: %d", set->remap_table.count);\
+			c_console::write_line("            remap table: %d", set->remap_table.count);\
 			for (long i = 0; i < set->remap_table.count; i++)\
 			{\
 				auto remap_entry = set->remap_table.elements + i;\
@@ -335,9 +352,9 @@ if (universal_data->NAME##_sets.count)\
 				char const* placed_object_name = remap_entry->placed_object_name.get_string();\
 				char const* remapped_object_name = remap_entry->remapped_object_name.get_string();\
 				if (placed_object_name && *placed_object_name)\
-					c_console::write_line("            %s", placed_object_name);\
+					c_console::write_line("                  placed object name: %s", placed_object_name);\
 				if (remapped_object_name && *remapped_object_name)\
-					c_console::write_line("            %s", remapped_object_name);\
+					c_console::write_line("                remapped object name: %s", remapped_object_name);\
 			}\
 			c_console::write_line("");\
 		}\
@@ -345,30 +362,30 @@ if (universal_data->NAME##_sets.count)\
 	c_console::write_line("");\
 }
 
-#define PRINT_CUSTOMIZED_CHARACTERS(NAME)\
+#define UNIVERSAL_DATA_PRINT_CUSTOMIZED_CHARACTERS(NAME)\
 if (universal_data->customized_##NAME##_characters.count)\
 {\
-	c_console::write_line("customized %s characters: %d", #NAME, universal_data->customized_##NAME##_characters.count);\
+	c_console::write_line("    customized %s characters: %d", #NAME, universal_data->customized_##NAME##_characters.count);\
 	for (long i = 0; i < universal_data->customized_##NAME##_characters.count; i++)\
 	{\
 		auto customized_character = universal_data->customized_##NAME##_characters.elements + i;\
 		assert(customized_character);\
 		char const* armor_region = customized_character->armor_region.get_string();\
 		if (armor_region && *armor_region)\
-			c_console::write_line("    %s", armor_region);\
+			c_console::write_line("        armor region: %s", armor_region);\
 		char const* biped_region = customized_character->biped_region.get_string();\
 		if (biped_region && *biped_region)\
-			c_console::write_line("    %s", biped_region);\
+			c_console::write_line("        biped region: %s", biped_region);\
 		if (customized_character->customized_areas.count)\
 		{\
-			c_console::write_line("        customized areas: %d", customized_character->customized_areas.count);\
+			c_console::write_line("            customized areas: %d", customized_character->customized_areas.count);\
 			for (long i = 0; i < customized_character->customized_areas.count; i++)\
 			{\
 				auto customized_area = customized_character->customized_areas.elements + i;\
 				assert(customized_area);\
 				char const* selection_name = customized_area->selection_name.get_string();\
 				if (selection_name && *selection_name)\
-					c_console::write_line("            %s", selection_name);\
+					c_console::write_line("                selection name: %s", selection_name);\
 			}\
 			c_console::write_line("");\
 		}\
@@ -379,56 +396,68 @@ if (universal_data->customized_##NAME##_characters.count)\
 void on_scenario_loaded()
 {
 	s_scenario* scenario = global_scenario_try_and_get();
+	if (!scenario)
+		return;
 
-	PRINT_ZONE_SETS();
-	PRINT_LIGHTING_ZONE_SETS();
-	PRINT_CAMPAIN_PLAYERS();
-	PRINT_OBJECT_NAMES();
-	PRINT_MAP_VARIANT_PALETTES(vehicle);
-	PRINT_MAP_VARIANT_PALETTES(weapon);
-	PRINT_MAP_VARIANT_PALETTES(equipment);
-	PRINT_MAP_VARIANT_PALETTES(scenery);
-	PRINT_MAP_VARIANT_PALETTES(teleporters);
-	PRINT_MAP_VARIANT_PALETTES(goals);
-	PRINT_MAP_VARIANT_PALETTES(spawners);
-	PRINT_SOFT_CEILINGS();
-	PRINT_PLAYER_STARTING_PROFILES();
-	PRINT_TRIGGER_VOLUMES();
-	PRINT_SCRIPTS();
-	PRINT_GLOBALS();
+	s_game_globals* game_globals = scenario_try_and_get_game_globals();
+	if (!game_globals)
+		return;
 
 	s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data();
 	if (!universal_data)
 		return;
 
-	PRINT_CUSTOMIZED_CHARACTERS(spartan);
-	PRINT_CUSTOMIZED_CHARACTERS(elite);
-	PRINT_EQUIPMENT();
-	PRINT_SELECTIONS(weapon);
-	PRINT_SELECTIONS(vehicle);
-	PRINT_SELECTIONS(grenade);
-	PRINT_SETS(weapon);
-	PRINT_SETS(vehicle);
-
 	s_multiplayer_runtime_globals_definition* runtime_data = scenario_multiplayer_globals_try_and_get_runtime_data();
 	if (!runtime_data)
 		return;
 
+	c_console::write_line("scenario:");
+	SCENARIO_PRINT_ZONE_SETS();
+	SCENARIO_PRINT_LIGHTING_ZONE_SETS();
+	SCENARIO_PRINT_CAMPAIN_PLAYERS();
+	SCENARIO_PRINT_OBJECT_NAMES();
+	SCENARIO_PRINT_MAP_VARIANT_PALETTES(vehicle);
+	SCENARIO_PRINT_MAP_VARIANT_PALETTES(weapon);
+	SCENARIO_PRINT_MAP_VARIANT_PALETTES(equipment);
+	SCENARIO_PRINT_MAP_VARIANT_PALETTES(scenery);
+	SCENARIO_PRINT_MAP_VARIANT_PALETTES(teleporters);
+	SCENARIO_PRINT_MAP_VARIANT_PALETTES(goals);
+	SCENARIO_PRINT_MAP_VARIANT_PALETTES(spawners);
+	SCENARIO_PRINT_SOFT_CEILINGS();
+	SCENARIO_PRINT_PLAYER_STARTING_PROFILES();
+	SCENARIO_PRINT_TRIGGER_VOLUMES();
+	SCENARIO_PRINT_SCRIPTS();
+	SCENARIO_PRINT_GLOBALS();
+
+	c_console::write_line("globals:");
+	GLOBALS_PRINT_PLAYER_REPRESENTATION();
+
+	c_console::write_line("multiplayer globals universal data:");
+	UNIVERSAL_DATA_PRINT_CUSTOMIZED_CHARACTERS(spartan);
+	UNIVERSAL_DATA_PRINT_CUSTOMIZED_CHARACTERS(elite);
+	UNIVERSAL_DATA_PRINT_EQUIPMENT();
+	UNIVERSAL_DATA_PRINT_SELECTIONS(weapon);
+	UNIVERSAL_DATA_PRINT_SELECTIONS(vehicle);
+	UNIVERSAL_DATA_PRINT_SELECTIONS(grenade);
+	UNIVERSAL_DATA_PRINT_SETS(weapon);
+	UNIVERSAL_DATA_PRINT_SETS(vehicle);
+
 	printf("");
 }
 
-#undef PRINT_CUSTOMIZED_CHARACTERS
-#undef PRINT_SETS
-#undef PRINT_SELECTIONS
-#undef PRINT_EQUIPMENT
-#undef PRINT_GLOBALS
-#undef PRINT_SCRIPTS
-#undef PRINT_TRIGGER_VOLUMES
-#undef PRINT_PLAYER_STARTING_PROFILES
-#undef PRINT_SOFT_CEILINGS
-#undef PRINT_MAP_VARIANT_PALETTES
-#undef PRINT_OBJECT_NAMES
-#undef PRINT_CAMPAIN_PLAYERS
-#undef PRINT_LIGHTING_ZONE_SETS
-#undef PRINT_ZONE_SETS
+#undef UNIVERSAL_DATA_PRINT_CUSTOMIZED_CHARACTERS
+#undef UNIVERSAL_DATA_PRINT_SETS
+#undef UNIVERSAL_DATA_PRINT_SELECTIONS
+#undef UNIVERSAL_DATA_PRINT_EQUIPMENT
+#undef GLOBALS_PRINT_PLAYER_REPRESENTATION
+#undef SCENARIO_PRINT_GLOBALS
+#undef SCENARIO_PRINT_SCRIPTS
+#undef SCENARIO_PRINT_TRIGGER_VOLUMES
+#undef SCENARIO_PRINT_PLAYER_STARTING_PROFILES
+#undef SCENARIO_PRINT_SOFT_CEILINGS
+#undef SCENARIO_PRINT_MAP_VARIANT_PALETTES
+#undef SCENARIO_PRINT_OBJECT_NAMES
+#undef SCENARIO_PRINT_CAMPAIN_PLAYERS
+#undef SCENARIO_PRINT_LIGHTING_ZONE_SETS
+#undef SCENARIO_PRINT_ZONE_SETS
 
