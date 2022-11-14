@@ -410,6 +410,10 @@ void on_scenario_loaded()
 	PRINT_SETS(weapon);
 	PRINT_SETS(vehicle);
 
+	s_multiplayer_runtime_globals_definition* runtime_data = scenario_multiplayer_globals_try_and_get_runtime_data();
+	if (!runtime_data)
+		return;
+
 	printf("");
 }
 

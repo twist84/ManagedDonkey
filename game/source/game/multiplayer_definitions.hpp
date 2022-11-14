@@ -181,10 +181,70 @@ struct s_multiplayer_podium_move_animation
 };
 static_assert(sizeof(s_multiplayer_podium_move_animation) == 0x50);
 
-//struct s_multiplayer_runtime_globals_definition
-//{
-//};
-//static_assert(sizeof(s_multiplayer_runtime_globals_definition) == 0x);
+struct s_multiplayer_runtime_globals_definition
+{
+	c_typed_tag_reference<'bipd'> editor_biped;
+	c_typed_tag_reference<'scen'> editor_helper;
+	c_typed_tag_reference<'weap'> flag;
+	c_typed_tag_reference<'weap'> ball;
+	c_typed_tag_reference<'weap'> assault_bomb;
+	c_typed_tag_reference<'bloc'> vip_influence_area;
+	c_typed_tag_reference<'unic'> in_game_text;
+
+	c_typed_tag_reference<'proj'> __reference70;
+	c_typed_tag_reference<'effe'> __reference80;
+	c_typed_tag_reference<'effe'> __reference90;
+
+	// reach: megalo sounds (english)?
+	c_typed_tag_reference<'snd!'> __referenceA0;
+
+	// reach: communication sounds (comm english)?
+	c_typed_tag_reference<'snd!'> __referenceB0;
+
+	tag_block sounds;
+	tag_block looping_sounds;
+	tag_block earn_wp_events;
+	tag_block general_events;
+	tag_block flavor_events;
+	tag_block slayer_events;
+	tag_block ctf_events;
+	tag_block oddball_events;
+	tag_block king_events;
+	tag_block vip_events;
+	tag_block juggernaut_events;
+	tag_block territories_events;
+	tag_block assault_events;
+	tag_block infection_events;
+
+	long maximum_frag_count;
+	long maximum_plasma_count;
+
+	tag_block multiplayer_constants;
+	tag_block state_responses;
+
+	c_typed_tag_reference<'bitm'> scoreboard_emblem_bitmap;
+	c_typed_tag_reference<'bitm'> scoreboard_dead_emblem_bitmap;
+
+	c_typed_tag_reference<'rmhg'> hill_shader;
+
+	c_typed_tag_reference<'chdt'> unused_intro_message;
+	c_typed_tag_reference<'chdt'> ctf_intro_message;
+	c_typed_tag_reference<'chdt'> slayer_intro_message;
+	c_typed_tag_reference<'chdt'> oddball_intro_message;
+	c_typed_tag_reference<'chdt'> king_intro_message;
+	c_typed_tag_reference<'chdt'> sandbox_intro_message;
+	c_typed_tag_reference<'chdt'> vip_intro_message;
+	c_typed_tag_reference<'chdt'> juggernaut_intro_message;
+	c_typed_tag_reference<'chdt'> territories_intro_message;
+	c_typed_tag_reference<'chdt'> assault_intro_message;
+	c_typed_tag_reference<'chdt'> infection_intro_message;
+
+	c_typed_tag_reference<'lsnd'> menu_music_a;
+	c_typed_tag_reference<'lsnd'> menu_music_b;
+	c_typed_tag_reference<'lsnd'> menu_music_c;
+	c_typed_tag_reference<'lsnd'> menu_music_d;
+};
+static_assert(sizeof(s_multiplayer_runtime_globals_definition) == 0x2A8);
 
 extern s_multiplayer_runtime_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_runtime_data();
 extern s_multiplayer_universal_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_universal_data();
