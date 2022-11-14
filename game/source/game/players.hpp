@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "game/game_engine_player_traits.hpp"
 #include "memory/data.hpp"
+#include "text/unicode.hpp"
 
 struct s_machine_identifier
 {
@@ -28,10 +29,32 @@ struct s_player_appearance
 
 	struct
 	{
-		byte __data[0x650];
-	} __unknown4;
+		struct
+		{
+			struct
+			{
+				word __unknown0;
+				word __unknown2;
+				word __unknown4;
+				word __unknown6;
+				word __unknown8;
+				word __unknownA;
+				word __unknownC;
+				byte __unknownE;
+				byte __unknownF;
+			} __unknown0[50];
 
-	wchar_t service_tag[5];
+			long __unknown0_count;
+		} __unknown0[2];
+
+		// checksums calculated with `fast_checksum` 
+		// `fast_checksum` is a wrapper around the `hashlittle` as part of `lookup3`
+		// lookup3.c, by Bob Jenkins, May 2006, Public Domain.
+		// https://burtleburtle.net/bob/c/lookup3.c
+		dword __unknown0_checksums[2];
+	} __unknown4_emblems;
+
+	c_static_wchar_string<5> service_tag;
 	byte : 8;
 	byte : 8;
 };
@@ -59,16 +82,19 @@ enum e_armor_type
 	_armor_type_acc,
 	_armor_type_pelvis,
 
+	_armor_type_unknown7,
+	_armor_type_unknown8,
+	_armor_type_unknown9,
+
 	k_armor_type_count
 };
 
 struct s_s3d_player_armor_configuration_loadout
 {
 	c_static_array<rgb_color, k_color_type_count> colors;
+
+	// array of 10 based on the decode function for this struct
 	c_static_array<byte, k_armor_type_count> armors;
-	byte : 8;
-	byte : 8;
-	byte : 8;
 	byte : 8;
 
 	// using this byte for our implementation

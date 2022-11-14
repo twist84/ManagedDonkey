@@ -111,7 +111,7 @@ void __cdecl hf2p_game_update()
 				for (long color_index = 0; color_index < k_color_type_count; color_index++)
 					loadout.colors[color_index].value = ~((system_milliseconds() * rand()) % 0xFFFFFF);
 
-				//for (long armor_index = 0; armor_index < k_armor_type_count; armor_index++)
+				//for (long armor_index = 0; armor_index < _armor_type_pelvis + 1; armor_index++)
 				//	loadout.armors[armor_index] = (system_milliseconds() * rand()) % 70;
 
 				loadout.armor_is_set = true;
