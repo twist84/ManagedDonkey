@@ -2,6 +2,7 @@
 
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);
 
@@ -36,6 +37,11 @@ bool __cdecl c_window_manager::named_screen_defined_in_code(long screen_name)
 	FUNCTION_BEGIN(true);
 
 	return INVOKE(0x00AABFD0, named_screen_defined_in_code, screen_name);
+}
+
+c_gui_screen_widget* __cdecl c_window_manager::get_screen_above(e_window_index window_index, c_gui_screen_widget* screen)
+{
+	return DECLFUNC(0x00AAB490, c_gui_screen_widget*, __thiscall, c_window_manager*, e_window_index, c_gui_screen_widget*)(this, window_index, screen);
 }
 
 c_window_manager* __cdecl window_manager_get()

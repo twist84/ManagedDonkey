@@ -7,6 +7,7 @@ struct s_data_array;
 struct c_gui_screen_widget;
 struct c_load_screen_message;
 struct s_event_record;
+enum e_window_index;
 struct c_window_manager
 {
 	s_data_array* m_active_screens;
@@ -24,6 +25,7 @@ struct c_window_manager
 	static c_gui_screen_widget* __stdcall allocate_named_screen(long screen_name);
 	static c_gui_screen_widget* load_screen(long controller_index, bool unused, c_load_screen_message const* screen_message, long window_index);
 	static bool __cdecl named_screen_defined_in_code(long screen_name);
+	c_gui_screen_widget* __cdecl get_screen_above(e_window_index window_index, c_gui_screen_widget* screen);
 };
 static_assert(sizeof(c_window_manager) == 0x128);
 

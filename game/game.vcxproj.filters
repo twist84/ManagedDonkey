@@ -417,6 +417,9 @@
     <ClCompile Include="source\interface\gui_screens\scoreboard\gui_screen_scoreboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\user_interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1224,6 +1227,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\math\color_math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
