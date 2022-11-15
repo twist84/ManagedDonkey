@@ -97,9 +97,19 @@ bool __cdecl main_load_map(char* scenario_path, long map_load_type)
     bool result = false;
     HOOK_INVOKE(result =, main_load_map, scenario_path, map_load_type);
 
-    // hack fix
+    // still a hack fix
     if (csstricmp(scenario_path, "maps\\mainmenu") == 0)
+    {
+        static long count = 0;
+        count++;
+
+        // 300 gives the scoreboard enough time to show up
+        if (count <= 300)
+            return result;
+
+        count = 0;
         main_menu_launch();
+    }
 
     return result;
 }
