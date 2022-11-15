@@ -13,6 +13,7 @@
 #include "interface/c_controller.hpp"
 #include "interface/c_player_marketplace.hpp"
 #include "interface/gui_custom_bitmap_storage.hpp"
+#include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_text_parser.hpp"
@@ -88,10 +89,8 @@ void __cdecl main_loop_body_begin()
 
 	if (GetKeyState(VK_TAB) & 0x8000)
 	{
-		// #TODO: reimplement needed calls for a proper user interaction
-
-		// c_gui_screen_scoreboard::show_scoreboard(e_controller_index controller_index, bool is_interactive)
-		DECLFUNC(0x00AB3C60, void, __cdecl, e_controller_index, bool)(k_any_controller, false);
+		// #TODO: reimplement needed calls for proper user interaction
+		c_gui_screen_scoreboard::show_scoreboard(k_any_controller, false);
 		Sleep(1);
 	}
 }
