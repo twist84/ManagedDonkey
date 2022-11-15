@@ -47,9 +47,9 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 		c_static_wchar_string<48> player_name;
 		c_static_wchar_string<48> service_tag;
 		long base_color;
-		long team_color;
-		bool team;
-		long controller_index;
+		long multiplayer_team;
+		bool team_game;
+		e_controller_index controller_index;
 		long voice_output;
 		long connectivity_rating;
 		c_static_wchar_string<48> place;
@@ -59,6 +59,25 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 		bool left;
 	};
 	static_assert(sizeof(s_player_row) == 0x868);
+
+	bool __cdecl add_player_internal(
+		e_player_row_type row_type,
+		long player_index,
+		long network_player_index,
+		s_player_appearance const* appearance,
+		wchar_t const* player_name,
+		wchar_t const* service_tag,
+		long base_color,
+		long multiplayer_team,
+		bool team_game,
+		e_controller_index controller_index,
+		long voice_output,
+		long connectivity_rating,
+		wchar_t const* place,
+		wchar_t const* score,
+		wchar_t const* round_score,
+		bool dead,
+		bool left);
 
 protected:
 	long m_current_scoreboard_mode;
