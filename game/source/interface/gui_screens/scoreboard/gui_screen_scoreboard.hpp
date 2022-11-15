@@ -8,11 +8,24 @@
 
 struct c_gui_screen_scoreboard : c_gui_screen_widget
 {
+public:
 	enum e_scoreboard_mode;
+
+	static real __cdecl get_scoreboard_alpha(e_controller_index controller_index);
+	static c_gui_screen_scoreboard* __cdecl get_scoreboard_screen(e_controller_index controller_index);
+	static void __cdecl hide_scoreboard(e_controller_index controller_index);
+	static bool __cdecl is_scoreboard_displayed(e_controller_index controller_index);
+	static bool __cdecl is_scoreboard_interactive(e_controller_index controller_index);
+	static void __cdecl show_scoreboard(e_controller_index controller_index, bool is_interactive);
+	static void __cdecl update_scoreboard_alpha(e_controller_index controller_index);
 
 protected:
 	long m_current_scoreboard_mode;
 	bool m_is_interactive;
+
+private:
+	static real(&m_scoreboard_alpha)[4];
+	static real& m_console_scoreboard_alpha;
 };
 
 struct c_gui_scoreboard_data : c_gui_ordered_data
