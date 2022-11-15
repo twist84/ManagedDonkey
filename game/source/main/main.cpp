@@ -85,6 +85,15 @@ void __cdecl main_loop_body_begin()
 		input_abstraction_globals.controls_method = controls_method;
 		Sleep(75);
 	}
+
+	if (GetKeyState(VK_TAB) & 0x8000)
+	{
+		// #TODO: reimplement needed calls for a for proper user interaction
+
+		// c_gui_screen_scoreboard::show_scoreboard(e_controller_index controller_index, bool is_interactive)
+		DECLFUNC(0x00AB3C60, void, __cdecl, e_controller_index, bool)(k_any_controller, false);
+		Sleep(1);
+	}
 }
 
 void __cdecl main_loop_body_end()
