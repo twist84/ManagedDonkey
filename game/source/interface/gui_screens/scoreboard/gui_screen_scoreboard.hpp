@@ -28,29 +28,29 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 	struct s_player_row
 	{
 		c_enum<e_player_row_type, long, k_player_row_type_count> player_row_type;
-		long __unknown4;
-		long __unknown8;
+		long player_index;
+		long network_player_index;
 		s_player_appearance player_appearance;
-		c_static_wchar_string<48> __unknown66C;
-		c_static_wchar_string<48> __unknown6CC;
-		long __unknown72C;
-		long __unknown730;
-		bool __unknown734;
-		long __unknown738;
-		long __unknown73C;
-		long __unknown740;
-		c_static_wchar_string<48> __unknown744;
-		c_static_wchar_string<48> __unknown7A4;
-		c_static_wchar_string<48> __unknown804;
-		bool __unknown864;
-		bool __unknown865;
+		c_static_wchar_string<48> player_name;
+		c_static_wchar_string<48> service_tag;
+		long base_color;
+		long team_color;
+		bool team;
+		long controller_index;
+		long voice_output;
+		long connectivity_rating;
+		c_static_wchar_string<48> place;
+		c_static_wchar_string<48> score;
+		c_static_wchar_string<48> round_score;
+		bool dead;
+		bool left;
 	};
 	static_assert(sizeof(s_player_row) == 0x868);
 
 protected:
 	long m_current_scoreboard_mode;
-	c_gui_scoreboard_data::s_player_row m_players[25];
-	long m_player_count;
+	c_static_array<s_player_row, 25> m_player_rows;
+	long m_player_row_count;
 	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
 };
 static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);
