@@ -140,3 +140,40 @@ union data_address
 	};
 };
 static_assert(sizeof(data_address) == 0x4);
+
+template <typename t_datum_type>
+struct c_typed_data_array
+{
+	string name;
+	long maximum_count;
+	long size;
+	byte alignment_bits;
+	bool valid;
+
+	// bit 0, _data_array_can_disconnect_bit
+	// bit 1, _data_array_disconnected_bit
+	word flags;
+
+	tag signature;
+
+	// c_allocation_interface
+	void* allocator;
+
+	long next_index;
+	long first_unallocated;
+	long actual_count;
+
+	// e_datum_salt
+	// salt_type == 0
+	word next_identifier;
+
+	// salt_type == 1
+	word isolated_next_identifier;
+
+	t_datum_type* data;
+	dword* in_use_bit_vector;
+	long offset_to_data;
+	long offset_to_bit_vector;
+};
+static_assert(sizeof(c_typed_data_array<void>) == sizeof(s_data_array));
+

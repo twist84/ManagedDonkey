@@ -1,6 +1,7 @@
 #pragma once
 
 #include "memory/data.hpp"
+#include "tag_files/tag_groups.hpp"
 
 struct hs_tag_reference
 {
@@ -164,10 +165,10 @@ struct hs_syntax_node : s_datum_header
 	{
 		short script_index;
 		short function_index;
-		short constant_type;
+		c_enum<e_hs_type, short, k_hs_type_count> constant_type;
 	};
 
-	short type;
+	c_enum<e_hs_type, short, k_hs_type_count> type;
 	word_flags flags;
 	long next_node_index;
 	long source_offset;
