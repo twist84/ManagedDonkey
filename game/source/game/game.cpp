@@ -40,7 +40,7 @@ bool game_in_startup_phase()
 
 bool game_in_progress()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals && game_globals->game_in_progress)
@@ -80,7 +80,7 @@ void __cdecl assert_game_options_verify(game_options const* options)
 
 game_options* game_options_get()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && (game_globals->initializing || game_globals->map_active));
@@ -131,14 +131,14 @@ e_campaign_difficulty_level game_difficulty_level_get_ignore_easy()
 
 e_game_mode game_mode_get()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	return game_options_get()->game_mode;
 }
 
 bool game_is_ui_shell()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	return game_mode_get() == _game_mode_mainmenu;
 }

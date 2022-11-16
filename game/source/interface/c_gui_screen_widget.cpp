@@ -21,6 +21,11 @@ c_gui_data* c_gui_screen_widget::get_data(long name, long* datasource_index)
     return m_datasource[index];
 }
 
+e_window_index c_gui_screen_widget::get_render_window()
+{
+	return DECLFUNC(0x00AB0FF0, e_window_index, __thiscall, c_gui_screen_widget*)(this);
+}
+
 void c_gui_screen_widget::add_datasource(c_gui_data* datasource)
 {
 	m_datasource[m_datasource_count++] = datasource;

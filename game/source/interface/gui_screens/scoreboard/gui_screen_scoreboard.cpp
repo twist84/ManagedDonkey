@@ -15,6 +15,8 @@
 REFERENCE_DECLARE_ARRAY(0x05269788, real, c_gui_screen_scoreboard::m_scoreboard_alpha, 4);
 REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboard_alpha);
 
+HOOK_DECLARE(0x00AB3DA0, gui_scoreboard_data_update);
+
 real __cdecl c_gui_screen_scoreboard::get_scoreboard_alpha(e_controller_index controller_index)
 {
 	return INVOKE(0x00AB30F0, c_gui_screen_scoreboard::get_scoreboard_alpha, controller_index);
@@ -328,5 +330,4 @@ void __fastcall gui_scoreboard_data_update(c_gui_scoreboard_data* _this)
 		_this->update_for_scoreboard_mode(true, false);
 	}
 }
-HOOK_DECLARE(0x00AB3DA0, gui_scoreboard_data_update);
 

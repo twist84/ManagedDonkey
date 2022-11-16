@@ -72,11 +72,13 @@ struct s_window_manager_screen_render_data
 };
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 
+enum e_window_index;
 struct c_game_tag_parser;
 struct c_gui_screen_widget : c_gui_widget
 {
 public:
 	c_gui_data* get_data(long name, long* datasource_index);
+	e_window_index get_render_window();
 
 protected:
 	void add_datasource(c_gui_data* datasource);

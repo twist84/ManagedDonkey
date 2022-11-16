@@ -88,3 +88,6 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
 };
 static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);
+
+extern void __fastcall gui_scoreboard_data_update(c_gui_scoreboard_data* _this);
+

@@ -49,11 +49,12 @@ struct game_engine_globals
 };
 static_assert(sizeof(game_engine_globals) == 0x15858);
 
-struct local_game_engine_globals
+struct s_local_game_engine_globals
 {
-	byte __data[0xC4];
+	dword __time0;
+	byte __data[0xC0];
 };
-static_assert(sizeof(local_game_engine_globals) == 0xC4);
+static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
 
 struct s_breakable_surface_globals
 {
@@ -1200,7 +1201,7 @@ struct s_thread_local_storage
 
 	// name: "local game engine globals"
 	// size: 0xC4
-	local_game_engine_globals* local_game_engine_globals;
+	s_local_game_engine_globals* local_game_engine_globals;
 
 	// name: "game time globals"
 	// size: 0x2C
