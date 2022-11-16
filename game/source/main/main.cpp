@@ -1,45 +1,34 @@
 #include "main/main.hpp"
 
-#include "cache/cache_files.hpp"
-#include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
 #include "cseries/console.hpp"
-#include "cseries/cseries_windows.hpp"
-#include "cseries/symbols_reader.hpp"
 #include "game/game.hpp"
-#include "game/game_globals.hpp"
 #include "game/player_control.hpp"
+#include "hs/hs_function.hpp"
+#include "hs/hs_globals_external.hpp"
 #include "input/input_abstraction.hpp"
-#include "interface/c_controller.hpp"
-#include "interface/c_player_marketplace.hpp"
-#include "interface/gui_custom_bitmap_storage.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_hs.hpp"
-#include "interface/user_interface_networking.hpp"
-#include "interface/user_interface_text_parser.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/data.hpp"
 #include "memory/module.hpp"
-#include "networking/logic/logic_qos_reply_manager.hpp"
-#include "networking/logic/network_arbitration.hpp"
-#include "networking/logic/network_join.hpp"
-#include "networking/logic/network_session_interface.hpp"
-#include "networking/logic/storage/network_http_request_queue.hpp"
-#include "networking/network_memory.hpp"
-#include "networking/tools/network_debug_dump.hpp"
-#include "networking/transport/transport.hpp"
-#include "networking/transport/transport_security.hpp"
 #include "rasterizer/rasterizer.hpp"
-#include "scenario/scenario.hpp"
-#include "simulation/simulation.hpp"
-#include "tag_files/string_ids.hpp"
-#include "xbox/xnet.hpp"
 
 #include <assert.h>
 
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
+
+void copy_input_states(bool enabled)
+{
+	if (enabled)
+	{
+		memcpy(input_abstraction_globals.input_states + 1, input_abstraction_globals.input_states, sizeof(s_game_input_state));
+		memcpy(input_abstraction_globals.input_states + 2, input_abstraction_globals.input_states, sizeof(s_game_input_state));
+		memcpy(input_abstraction_globals.input_states + 3, input_abstraction_globals.input_states, sizeof(s_game_input_state));
+	}
+}
 
 void __cdecl main_loop_body_begin()
 {
@@ -48,36 +37,13 @@ void __cdecl main_loop_body_begin()
 	// right control for tests
 	if (GetKeyState(VK_RCONTROL) & 0x8000)
 	{
-		xnet_mapping;
-		session_interface_globals;
-		g_controller_globals;
-		g_parse_manager;
-		input_abstraction_globals;
-		g_player_marketplace;
-		g_broadcast_search_globals;
-		network_arbitration_globals;
-		g_netdebug_globals;
-		g_network_http_request_queue;
-		g_gui_custom_bitmap_storage_manager;
-		network_base_memory_globals;
-		transport_globals;
-		transport_security_globals;
-		logic_qos_reply_manager_globals;
-		user_interface_networking_globals;
-		g_network_join_data;
-		cache_file_table_of_contents;
-		cache_file_copy_globals;
-		simulation_globals;
-		g_cache_file_globals;
-		global_game_globals;
-		game_options* options = game_options_get();
+		hs_function_table;
+		hs_external_globals;
 
 		printf("");
 	}
 
-	memcpy(input_abstraction_globals.input_states + 1, input_abstraction_globals.input_states, sizeof(s_game_input_state));
-	memcpy(input_abstraction_globals.input_states + 2, input_abstraction_globals.input_states, sizeof(s_game_input_state));
-	memcpy(input_abstraction_globals.input_states + 3, input_abstraction_globals.input_states, sizeof(s_game_input_state));
+	copy_input_states(true);
 
 	if (GetKeyState(VK_PAUSE) & 0x8000)
 	{
@@ -157,3 +123,4 @@ void __cdecl main_loop_body_end()
 	if (key_pressed)
 		Sleep(75);
 }
+
