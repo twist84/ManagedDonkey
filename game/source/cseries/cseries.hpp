@@ -129,6 +129,11 @@ struct c_static_array
 
 		return m_storage[index];
 	}
+
+	void clear()
+	{
+		csmemset(m_storage, 0, sizeof(m_storage));
+	}
 };
 
 template<typename t_type, typename t_storage_type, size_t k_count>
