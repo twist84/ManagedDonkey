@@ -397,3 +397,38 @@ protected:
 };
 
 extern __int64 make_int64(__int64 a, __int64 b);
+
+// IDA
+template<class T>
+T rotate_left(T value, int count)
+{
+	const dword nbits = sizeof(T) * 8;
+
+	if (count > 0)
+	{
+		count %= nbits;
+		T high = value >> (nbits - count);
+		if (T(-1) < 0) // signed value
+			high &= ~((T(-1) << count));
+		value <<= count;
+		value |= high;
+	}
+	else
+	{
+		count = -count % nbits;
+		T low = value << (nbits - count);
+		value >>= count;
+		value |= low;
+	}
+	return value;
+}
+
+#define __ROL1__(value, count) rotate_left(static_cast<byte>(value), count)
+#define __ROL2__(value, count) rotate_left(static_cast<word>(value), count)
+#define __ROL4__(value, count) rotate_left(static_cast<dword>(value), count)
+#define __ROL8__(value, count) rotate_left(static_cast<qword>(value), count)
+#define __ROR1__(value, count) rotate_left(static_cast<byte>(value), -count)
+#define __ROR2__(value, count) rotate_left(static_cast<word>(value), -count)
+#define __ROR4__(value, count) rotate_left(static_cast<dword>(value), -count)
+#define __ROR8__(value, count) rotate_left(static_cast<qword>(value), -count)
+
