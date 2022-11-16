@@ -229,6 +229,8 @@ POPD
     <ClCompile Include="source\fmod\fmod.cpp" />
     <ClCompile Include="source\game\cheats.cpp" />
     <ClCompile Include="source\game\game_engine.cpp" />
+    <ClCompile Include="source\game\game_engine_display.cpp" />
+    <ClCompile Include="source\game\game_engine_team.cpp" />
     <ClCompile Include="source\game\game_engine_util.cpp" />
     <ClCompile Include="source\game\multiplayer_definitions.cpp" />
     <ClCompile Include="source\game\multiplayer_game_hopper.cpp" />
@@ -380,6 +382,8 @@ POPD
     <ClInclude Include="source\game\campaign_metagame_definitions.hpp" />
     <ClInclude Include="source\game\cheats.hpp" />
     <ClInclude Include="source\game\game_engine.hpp" />
+    <ClInclude Include="source\game\game_engine_display.hpp" />
+    <ClInclude Include="source\game\game_engine_team.hpp" />
     <ClInclude Include="source\game\materials_definitions.hpp" />
     <ClInclude Include="source\game\multiplayer_definitions.hpp" />
     <ClInclude Include="source\game\multiplayer_game_hopper.hpp" />

@@ -26,3 +26,8 @@ e_session_game_start_status __cdecl user_interface_get_session_game_start_status
 {
     return INVOKE(0x00A809F0, user_interface_get_session_game_start_status, error, player_error_mask);
 }
+
+bool __cdecl user_interface_squad_is_player_valid(long session_player_index)
+{
+    return INVOKE(0x00A81E80, user_interface_squad_is_player_valid, session_player_index);
+}

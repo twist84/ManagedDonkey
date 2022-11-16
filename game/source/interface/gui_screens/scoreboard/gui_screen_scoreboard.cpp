@@ -1,7 +1,14 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 
 #include "cseries/cseries.hpp"
+#include "game/game.hpp"
+#include "game/game_engine.hpp"
+#include "game/game_engine_display.hpp"
+#include "game/game_engine_team.hpp"
+#include "interface/user_interface_session.hpp"
 #include "memory/module.hpp"
+
+#include <cstdlib> // qsort
 
 REFERENCE_DECLARE_ARRAY(0x05269788, real, c_gui_screen_scoreboard::m_scoreboard_alpha, 4);
 REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboard_alpha);
@@ -88,50 +95,81 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
     return result;
 }
 
-// `add_player_internal` function is used only once in `update_for_scoreboard_mode`
-// `add_player_internal` is only setup for teams and not players, TODO reimplement `update_for_scoreboard_mode` for all types
-bool __fastcall gui_scoreboard_data_add_player_internal(
-	c_gui_scoreboard_data* _this,
-	void* unused,
-	c_gui_scoreboard_data::e_player_row_type row_type,
-	long player_index,
-	long network_player_index,
-	s_player_appearance const* appearance,
-	wchar_t const* player_name,
-	wchar_t const* service_tag,
-	long base_color,
-	long multiplayer_team,
-	bool team_game,
-	e_controller_index controller_index,
-	long voice_output,
-	long connectivity_rating,
-	wchar_t const* place,
-	wchar_t const* score,
-	wchar_t const* round_score,
-	bool dead,
-	bool left
-)
+// #TODO: reimplement missing functionality
+void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool a2)
 {
-	bool result = _this->add_player_internal(
-		row_type,
-		player_index,
-		network_player_index,
-		appearance,
-		player_name,
-		service_tag,
-		base_color,
-		multiplayer_team,
-		team_game,
-		controller_index,
-		voice_output,
-		connectivity_rating,
-		place,
-		score,
-		round_score,
-		dead,
-		left
-	);
-	return result;
+	c_static_wchar_string<256> place;
+	c_static_wchar_string<256> score;
+	c_static_wchar_string<256> round_score;
+
+	place.set(L" ");
+	score.set(L" ");
+	round_score.set(L" ");
+
+	m_player_row_count = 0;
+	m_player_rows.clear();
+
+	if (a1)
+	{
+		for (long session_player_index = 0; session_player_index < 16; ++session_player_index)
+			user_interface_squad_is_player_valid(session_player_index);
+	}
+
+	bool v5 = a2 && game_engine_has_teams();
+	if (v5)
+	{
+		s_player_appearance player_appearance;
+		c_static_wchar_string<256> team_name;
+
+		csmemset(&player_appearance, 0, sizeof(s_player_appearance));
+		team_name.clear();
+
+		long v8 = 1;
+		for (long team_index = 0; team_index < 8; team_index++)
+		{
+			if (game_engine_is_team_ever_active(team_index))
+			{
+				if (a2)
+				{
+					long team_place = 0;
+					long player_score = 0;
+					long team_score = 0;
+					if (game_engine_is_team_ever_active(team_index))
+					{
+						team_place = game_engine_get_team_place(team_index);
+						player_score = game_engine_get_team_score_for_display(team_index, 1);
+						team_score = game_engine_get_team_score_for_display(team_index, 0);
+					}
+					game_engine_get_place_string(team_place, &place);
+					game_engine_get_score_string(player_score, &score);
+					game_engine_get_score_string(team_score, &round_score);
+				}
+				game_engine_get_team_name(team_index, &team_name);
+				add_player_internal(_player_row_type_team_bar, -1, -1, &player_appearance, team_name.get_string(), L" ", -1, team_index, 1, k_no_controller, 0, -1, place.get_string(), score.get_string(), round_score.get_string(), 0, 0);
+			}
+
+			v8 = __ROL4__(v8, 1);
+		}
+	}
+
+	int(__cdecl* scoreboard_sort_proc)(void const*, void const*) = reinterpret_cast<decltype(scoreboard_sort_proc)>(a1 ? 0x00AB3A00 : 0x00AB38A0);
+	qsort(m_player_rows.m_storage, m_player_row_count, sizeof(s_player_row), scoreboard_sort_proc);
 }
-HOOK_DECLARE(0x00AB2C30, gui_scoreboard_data_add_player_internal);
+
+void __fastcall gui_scoreboard_data_update(c_gui_scoreboard_data* _this)
+{
+	long mode = _this->m_current_scoreboard_mode;
+	if (mode == 1 || mode == 2)
+	{
+		if (game_in_progress() && game_is_multiplayer())
+			_this->update_for_scoreboard_mode(false, true);
+		else
+			_this->update_for_scoreboard_mode(false, false);
+	}
+	else if (mode == 3 || mode == 4)
+	{
+		_this->update_for_scoreboard_mode(true, false);
+	}
+}
+HOOK_DECLARE(0x00AB3DA0, gui_scoreboard_data_update);
 

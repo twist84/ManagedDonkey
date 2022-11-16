@@ -79,7 +79,9 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 		bool dead,
 		bool left);
 
-protected:
+	void __cdecl update_for_scoreboard_mode(bool a1, bool a2);
+
+//protected:
 	long m_current_scoreboard_mode;
 	c_static_array<s_player_row, 25> m_player_rows;
 	long m_player_row_count;
