@@ -72,3 +72,14 @@ bool s_data_iterator::operator!=(const s_data_iterator& other) const
 {
 	return !(*this == other);
 }
+
+void data_iterator_begin(s_data_iterator* iterator, s_data_array* data)
+{
+	INVOKE(0x0055AE10, data_iterator_begin, iterator, data);
+}
+
+void* data_iterator_next(s_data_iterator* iterator)
+{
+	return INVOKE(0x0055AE30, data_iterator_next, iterator);
+}
+

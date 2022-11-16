@@ -177,3 +177,6 @@ struct c_typed_data_array
 };
 static_assert(sizeof(c_typed_data_array<void>) == sizeof(s_data_array));
 
+extern void data_iterator_begin(s_data_iterator* iterator, s_data_array* data);
+extern void* data_iterator_next(s_data_iterator* iterator);
+

@@ -7,6 +7,8 @@
 #include "game/game_engine_team.hpp"
 #include "interface/user_interface_session.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
+#include "simulation/simulation.hpp"
 
 #include <cstdlib> // qsort
 
@@ -95,7 +97,6 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
     return result;
 }
 
-// #TODO: reimplement missing functionality
 void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool include_score)
 {
 	c_static_wchar_string<256> place;
@@ -109,67 +110,202 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 	m_player_row_count = 0;
 	m_player_rows.clear();
 
+	bool team_game = game_engine_has_teams();
+	bool include_team_score = include_score && team_game;
+	long team_round_score = 0;
+	dword_flags team_flags = 0;
+
 	if (a1)
 	{
 		for (long session_player_index = 0; session_player_index < 16; ++session_player_index)
-			user_interface_squad_is_player_valid(session_player_index);
-	}
-
-	bool v5 = include_score && game_engine_has_teams();
-	if (v5)
-	{
-		s_player_appearance player_appearance; // for emblem?
-		c_static_wchar_string<256> team_name;
-
-		csmemset(&player_appearance, 0, sizeof(s_player_appearance));
-		team_name.clear();
-
-		long teams_mask = 1;
-		for (long team_index = 0; team_index < 8; team_index++)
 		{
-			if (game_engine_is_team_ever_active(team_index))
+			if (user_interface_squad_is_player_valid(session_player_index))
 			{
-				if (include_score)
+				s_player_configuration* player_data = user_interface_session_get_player_data(session_player_index);
+				if (player_data->host.team != -1)
 				{
-					long team_place = 0;
-					long player_score = 0;
-					long team_score = 0;
+					long player_rating = -1;
+					e_controller_index controller_index = k_no_controller;
+					//if (user_interface_session_is_local_player(session_player_index))
+					controller_index = user_interface_session_get_controller_index(session_player_index);
 
-					if (game_engine_is_team_ever_active(team_index))
+					long primary_color = reinterpret_cast<long>(&player_data->host.armor_configuration.loadouts[player_data->host.armor_configuration.loadout_index].colors[_color_type_primary].value);
+					long voice_for_player = 0;
+
+					add_player_internal(
+						/* row_type             */ _player_row_type_player,
+						/* player_index         */ -1,
+						/* network_player_index */ session_player_index,
+						/* appearance           */ &player_data->host.appearance,
+						/* player_name          */ player_data->host.player_name.get_string(),
+						/* service_tag          */ player_data->host.appearance.service_tag.get_string(),
+						/* base_color           */ primary_color,
+						/* multiplayer_team     */ -1,
+						/* team_game            */ false,
+						/* controller_index     */ controller_index,
+						/* voice_output         */ voice_for_player,
+						/* connectivity_rating  */ player_rating,
+						/* place                */ place.get_string(),
+						/* score                */ score.get_string(),
+						/* round_score          */ round_score.get_string(),
+						/* dead                 */ false,
+						/* left                 */ false
+					);
+				}
+			}
+		}
+	}
+	else
+	{
+		s_data_iterator player_iterator(get_tls()->player_data);
+		player_datum* player = (player_datum*)data_iterator_next(&player_iterator);
+		if (player)
+		{
+			while (true)
+			{
+				long network_player_index = user_interface_squad_get_player_index(&player->player_identifier);
+				if (player->configuration.host.team != -1)
+				{
+					bool dead = !TEST_BIT(player->player_flags, 3) && player->unit_index == -1 && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
+
+					if (include_score)
 					{
-						team_place = game_engine_get_team_place(team_index);
-						player_score = game_engine_get_team_score_for_display(team_index, true);
-						team_score = game_engine_get_team_score_for_display(team_index, false);
+						long finalized_place = game_engine_get_player_place(player_iterator.index);
+						if (include_team_score)
+							finalized_place = game_engine_get_team_place(player->configuration.host.team);
+
+						game_engine_get_place_string(finalized_place, &place);
+						long player_score = game_engine_get_player_score_for_display(player_iterator.index, true);
+						game_engine_get_score_string(player_score, &score);
+						long player_round_score = game_engine_get_player_score_for_display(player_iterator.index, false);
+						game_engine_get_score_string(player_round_score, &round_score);
 					}
 
-					game_engine_get_place_string(team_place, &place);
-					game_engine_get_score_string(player_score, &score);
-					game_engine_get_score_string(team_score, &round_score);
+					if (include_team_score)
+						team_flags |= 1 << player->configuration.host.team;
+
+					if (network_player_index != -1)
+					{
+						long player_rating = -1;
+
+						// #TODO: implement `user_interface_session_is_local_player`
+						e_controller_index controller_index = k_no_controller;
+						//if (user_interface_session_is_local_player(network_player_index))
+						//controller_index = user_interface_session_get_controller_index(network_player_index);
+
+						long base_color = reinterpret_cast<long>(&player->configuration.host.armor_configuration.loadouts[player->configuration.host.armor_configuration.loadout_index].colors[_color_type_primary].value);
+						long voice_for_player = 0;
+
+						add_player_internal(
+							/* row_type             */ _player_row_type_player,
+							/* player_index         */ -1,
+							/* network_player_index */ network_player_index,
+							/* appearance           */ &player->configuration.host.appearance,
+							/* player_name          */ player->configuration.host.player_name.get_string(),
+							/* service_tag          */ player->configuration.host.appearance.service_tag.get_string(),
+							/* base_color           */ base_color,
+							/* multiplayer_team     */ player->configuration.host.team,
+							/* team_game            */ team_game,
+							/* controller_index     */ controller_index,
+							/* voice_output         */ voice_for_player,
+							/* connectivity_rating  */ player_rating,
+							/* place                */ place.get_string(),
+							/* score                */ score.get_string(),
+							/* round_score          */ round_score.get_string(),
+							/* dead                 */ dead,
+							/* left                 */ false
+						);
+						team_round_score = 0;
+					}
+					else
+					{
+						long primary_color = reinterpret_cast<long>(&player->configuration.host.armor_configuration.loadouts[player->configuration.host.armor_configuration.loadout_index].colors[_color_type_primary].value);
+						long player_index = player_iterator.index;
+						bool left = TEST_BIT(player->player_flags, 1);
+						team_round_score = 0;
+
+						c_gui_scoreboard_data::add_player_internal(
+							/* row_type             */ _player_row_type_player,
+							/* player_index         */ player_index,
+							/* network_player_index */ -1,
+							/* appearance           */ &player->configuration.host.appearance,
+							/* player_name          */ player->configuration.host.player_name.get_string(),
+							/* service_tag          */ player->configuration.host.appearance.service_tag.get_string(),
+							/* base_color           */ primary_color,
+							/* multiplayer_team     */ player->configuration.host.team,
+							/* team_game            */ team_game,
+							/* controller_index     */ k_no_controller,
+							/* voice_output         */ 0,
+							/* connectivity_rating  */ -1,
+							/* place                */ place.get_string(),
+							/* score                */ score.get_string(),
+							/* round_score          */ round_score.get_string(),
+							/* dead                 */ dead,
+							/* left                 */ left
+						);
+					}
 				}
-				game_engine_get_team_name(team_index, &team_name);
 
-				add_player_internal(
-					/* row_type             */ _player_row_type_team_bar,
-					/* player_index         */ -1,
-					/* network_player_index */ -1,
-					/* appearance           */ &player_appearance,
-					/* player_name          */ team_name.get_string(),
-					/* service_tag          */ L" ",
-					/* base_color           */ -1,
-					/* multiplayer_team     */ team_index,
-					/* team_game            */ true,
-					/* controller_index     */ k_no_controller,
-					/* voice_output         */ 0,
-					/* connectivity_rating  */ -1,
-					/* place                */ place.get_string(),
-					/* score                */ score.get_string(),
-					/* round_score          */ round_score.get_string(),
-					/* dead                 */ false,
-					/* left                 */ false
-				);
+				player = (player_datum*)data_iterator_next(&player_iterator);
+				if (!player)
+					break;
 			}
+		}
 
-			teams_mask = __ROL4__(teams_mask, 1);
+		if (include_team_score)
+		{
+			s_player_appearance player_appearance; // for emblem?
+			c_static_wchar_string<256> team_name;
+
+			csmemset(&player_appearance, 0, sizeof(s_player_appearance));
+			team_name.clear();
+
+			long team_mask = 1;
+			for (long team_index = 0; team_index < 8; team_index++)
+			{
+				if (game_engine_is_team_ever_active(team_index) || (team_mask & team_flags) != 0)
+				{
+					if (include_score)
+					{
+						long team_place = 0;
+						long team_score = 0;
+
+						if (game_engine_is_team_ever_active(team_index))
+						{
+							team_place = game_engine_get_team_place(team_index);
+							team_score = game_engine_get_team_score_for_display(team_index, true);
+							team_round_score = game_engine_get_team_score_for_display(team_index, false);
+						}
+
+						game_engine_get_place_string(team_place, &place);
+						game_engine_get_score_string(team_score, &score);
+						game_engine_get_score_string(team_round_score, &round_score);
+					}
+					game_engine_get_team_name(team_index, &team_name);
+
+					add_player_internal(
+						/* row_type             */ _player_row_type_team_bar,
+						/* player_index         */ -1,
+						/* network_player_index */ -1,
+						/* appearance           */ &player_appearance,
+						/* player_name          */ team_name.get_string(),
+						/* service_tag          */ L" ",
+						/* base_color           */ -1,
+						/* multiplayer_team     */ team_index,
+						/* team_game            */ true,
+						/* controller_index     */ k_no_controller,
+						/* voice_output         */ 0,
+						/* connectivity_rating  */ -1,
+						/* place                */ place.get_string(),
+						/* score                */ score.get_string(),
+						/* round_score          */ round_score.get_string(),
+						/* dead                 */ false,
+						/* left                 */ false
+					);
+				}
+
+				team_mask = __ROL4__(team_mask, 1);
+			}
 		}
 	}
 

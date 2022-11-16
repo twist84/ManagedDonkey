@@ -163,7 +163,7 @@ static_assert(sizeof(s_player_configuration_from_client) == 0x30);
 struct s_player_configuration_from_host
 {
 	s_player_identifier machine_identifier;
-	wchar_t player_name[16];
+	c_static_wchar_string<16> player_name;
 	long team;
 	long player_assigned_team;
 	s_player_appearance appearance;
