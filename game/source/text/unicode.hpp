@@ -112,6 +112,11 @@ public:
 		ustrnzcpy(m_string, s, k_buffer_size);
 	}
 
+	void clear()
+	{
+		*m_string = 0;
+	}
+
 	void append(wchar_t const* s)
 	{
 		ustrnzcat(m_string, s, k_buffer_size);
