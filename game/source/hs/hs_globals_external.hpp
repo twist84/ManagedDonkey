@@ -6,7 +6,7 @@
 struct hs_global_external
 {
 	c_enum<e_hs_type, short, k_hs_type_count> type;
-	short __unknown;
+	short __unknown2;
 	void* value;
 };
 static_assert(sizeof(hs_global_external) == 0x8);
