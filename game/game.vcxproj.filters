@@ -423,6 +423,9 @@
     <ClCompile Include="source\hs\hs_function.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\hs\hs_globals_external.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1236,6 +1239,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\hs\hs_function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\hs\hs_globals_external.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
