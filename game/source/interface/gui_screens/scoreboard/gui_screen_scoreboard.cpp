@@ -96,7 +96,7 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 }
 
 // #TODO: reimplement missing functionality
-void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool a2)
+void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool include_score)
 {
 	c_static_wchar_string<256> place;
 	c_static_wchar_string<256> score;
@@ -115,40 +115,61 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool a2)
 			user_interface_squad_is_player_valid(session_player_index);
 	}
 
-	bool v5 = a2 && game_engine_has_teams();
+	bool v5 = include_score && game_engine_has_teams();
 	if (v5)
 	{
-		s_player_appearance player_appearance;
+		s_player_appearance player_appearance; // for emblem?
 		c_static_wchar_string<256> team_name;
 
 		csmemset(&player_appearance, 0, sizeof(s_player_appearance));
 		team_name.clear();
 
-		long v8 = 1;
+		long teams_mask = 1;
 		for (long team_index = 0; team_index < 8; team_index++)
 		{
 			if (game_engine_is_team_ever_active(team_index))
 			{
-				if (a2)
+				if (include_score)
 				{
 					long team_place = 0;
 					long player_score = 0;
 					long team_score = 0;
+
 					if (game_engine_is_team_ever_active(team_index))
 					{
 						team_place = game_engine_get_team_place(team_index);
-						player_score = game_engine_get_team_score_for_display(team_index, 1);
-						team_score = game_engine_get_team_score_for_display(team_index, 0);
+						player_score = game_engine_get_team_score_for_display(team_index, true);
+						team_score = game_engine_get_team_score_for_display(team_index, false);
 					}
+
 					game_engine_get_place_string(team_place, &place);
 					game_engine_get_score_string(player_score, &score);
 					game_engine_get_score_string(team_score, &round_score);
 				}
 				game_engine_get_team_name(team_index, &team_name);
-				add_player_internal(_player_row_type_team_bar, -1, -1, &player_appearance, team_name.get_string(), L" ", -1, team_index, 1, k_no_controller, 0, -1, place.get_string(), score.get_string(), round_score.get_string(), 0, 0);
+
+				add_player_internal(
+					/* row_type             */ _player_row_type_team_bar,
+					/* player_index         */ -1,
+					/* network_player_index */ -1,
+					/* appearance           */ &player_appearance,
+					/* player_name          */ team_name.get_string(),
+					/* service_tag          */ L" ",
+					/* base_color           */ -1,
+					/* multiplayer_team     */ team_index,
+					/* team_game            */ true,
+					/* controller_index     */ k_no_controller,
+					/* voice_output         */ 0,
+					/* connectivity_rating  */ -1,
+					/* place                */ place.get_string(),
+					/* score                */ score.get_string(),
+					/* round_score          */ round_score.get_string(),
+					/* dead                 */ false,
+					/* left                 */ false
+				);
 			}
 
-			v8 = __ROL4__(v8, 1);
+			teams_mask = __ROL4__(teams_mask, 1);
 		}
 	}
 
