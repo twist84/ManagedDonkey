@@ -235,6 +235,7 @@ POPD
     <ClCompile Include="source\geometry\geometry_sampling.cpp" />
     <ClCompile Include="source\game\players.cpp" />
     <ClCompile Include="source\hf2p\hf2p.cpp" />
+    <ClCompile Include="source\hs\hs_function.cpp" />
     <ClCompile Include="source\hs\hs_runtime.cpp" />
     <ClCompile Include="source\input\controllers.cpp" />
     <ClCompile Include="source\input\input.cpp" />
@@ -381,6 +382,7 @@ POPD
     <ClInclude Include="source\game\multiplayer_definitions.hpp" />
     <ClInclude Include="source\game\multiplayer_game_hopper.hpp" />
     <ClInclude Include="source\hf2p\hf2p.hpp" />
+    <ClInclude Include="source\hs\hs_function.hpp" />
     <ClInclude Include="source\hs\hs_runtime.hpp" />
     <ClInclude Include="source\hs\hs_scenario_definitions.hpp" />
     <ClInclude Include="source\input\controllers.hpp" />
