@@ -17,37 +17,37 @@ REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboar
 
 real __cdecl c_gui_screen_scoreboard::get_scoreboard_alpha(e_controller_index controller_index)
 {
-    return INVOKE(0x00AB30F0, c_gui_screen_scoreboard::get_scoreboard_alpha, controller_index);
+	return INVOKE(0x00AB30F0, c_gui_screen_scoreboard::get_scoreboard_alpha, controller_index);
 }
 
 c_gui_screen_scoreboard* __cdecl c_gui_screen_scoreboard::get_scoreboard_screen(e_controller_index controller_index)
 {
-    return INVOKE(0x00AB3120, c_gui_screen_scoreboard::get_scoreboard_screen, controller_index);
+	return INVOKE(0x00AB3120, c_gui_screen_scoreboard::get_scoreboard_screen, controller_index);
 }
 
 void __cdecl c_gui_screen_scoreboard::hide_scoreboard(e_controller_index controller_index)
 {
-    return INVOKE(0x00AB3560, c_gui_screen_scoreboard::hide_scoreboard, controller_index);
+	return INVOKE(0x00AB3560, c_gui_screen_scoreboard::hide_scoreboard, controller_index);
 }
 
 bool __cdecl c_gui_screen_scoreboard::is_scoreboard_displayed(e_controller_index controller_index)
 {
-    return INVOKE(0x00AB3690, c_gui_screen_scoreboard::is_scoreboard_displayed, controller_index);
+	return INVOKE(0x00AB3690, c_gui_screen_scoreboard::is_scoreboard_displayed, controller_index);
 }
 
 bool __cdecl c_gui_screen_scoreboard::is_scoreboard_interactive(e_controller_index controller_index)
 {
-    return INVOKE(0x00AB3740, c_gui_screen_scoreboard::is_scoreboard_interactive, controller_index);
+	return INVOKE(0x00AB3740, c_gui_screen_scoreboard::is_scoreboard_interactive, controller_index);
 }
 
 void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index controller_index, bool is_interactive)
 {
-    INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
+	INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
 }
 
 void __cdecl c_gui_screen_scoreboard::update_scoreboard_alpha(e_controller_index controller_index)
 {
-    INVOKE(0x00AB4C50, c_gui_screen_scoreboard::update_scoreboard_alpha, controller_index);
+	INVOKE(0x00AB4C50, c_gui_screen_scoreboard::update_scoreboard_alpha, controller_index);
 }
 
 bool __cdecl c_gui_scoreboard_data::add_player_internal(
@@ -73,28 +73,28 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 	bool result = m_player_row_count < 25;
 	if (result)
 	{
-        m_player_rows[m_player_row_count].player_row_type = row_type;
-        m_player_rows[m_player_row_count].player_index = player_index;
-        m_player_rows[m_player_row_count].network_player_index = network_player_index;
-        csmemcpy(&m_player_rows[m_player_row_count].player_appearance, appearance, sizeof(s_player_appearance));
-        m_player_rows[m_player_row_count].player_name.set(player_name);
-        m_player_rows[m_player_row_count].service_tag.set(service_tag);
-        m_player_rows[m_player_row_count].base_color = base_color;
-        m_player_rows[m_player_row_count].multiplayer_team = multiplayer_team;
-        m_player_rows[m_player_row_count].team_game = team_game;
-        m_player_rows[m_player_row_count].controller_index = controller_index;
-        m_player_rows[m_player_row_count].voice_output = voice_output;
-        m_player_rows[m_player_row_count].connectivity_rating = connectivity_rating;
-        m_player_rows[m_player_row_count].place.set(place);
-        m_player_rows[m_player_row_count].score.set(score);
-        m_player_rows[m_player_row_count].round_score.set(round_score);
-        m_player_rows[m_player_row_count].dead = dead;
-        m_player_rows[m_player_row_count].left = left;
+		m_player_rows[m_player_row_count].player_row_type = row_type;
+		m_player_rows[m_player_row_count].player_index = player_index;
+		m_player_rows[m_player_row_count].network_player_index = network_player_index;
+		csmemcpy(&m_player_rows[m_player_row_count].player_appearance, appearance, sizeof(s_player_appearance));
+		m_player_rows[m_player_row_count].player_name.set(player_name);
+		m_player_rows[m_player_row_count].service_tag.set(service_tag);
+		m_player_rows[m_player_row_count].base_color = base_color;
+		m_player_rows[m_player_row_count].multiplayer_team = multiplayer_team;
+		m_player_rows[m_player_row_count].team_game = team_game;
+		m_player_rows[m_player_row_count].controller_index = controller_index;
+		m_player_rows[m_player_row_count].voice_output = voice_output;
+		m_player_rows[m_player_row_count].connectivity_rating = connectivity_rating;
+		m_player_rows[m_player_row_count].place.set(place);
+		m_player_rows[m_player_row_count].score.set(score);
+		m_player_rows[m_player_row_count].round_score.set(round_score);
+		m_player_rows[m_player_row_count].dead = dead;
+		m_player_rows[m_player_row_count].left = left;
 
 		m_player_row_count++;
 	}
 
-    return result;
+	return result;
 }
 
 void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool include_score)
@@ -309,7 +309,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 		}
 	}
 
-	int(__cdecl* scoreboard_sort_proc)(void const*, void const*) = reinterpret_cast<decltype(scoreboard_sort_proc)>(a1 ? 0x00AB3A00 : 0x00AB38A0);
+	int(__cdecl * scoreboard_sort_proc)(void const*, void const*) = reinterpret_cast<decltype(scoreboard_sort_proc)>(a1 ? 0x00AB3A00 : 0x00AB38A0);
 	qsort(m_player_rows.m_storage, m_player_row_count, sizeof(s_player_row), scoreboard_sort_proc);
 }
 
