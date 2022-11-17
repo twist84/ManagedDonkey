@@ -41,20 +41,34 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 	struct s_player_row
 	{
 		c_enum<e_player_row_type, long, k_player_row_type_count> player_row_type;
+
 		long player_index;
 		long network_player_index;
+
 		s_player_appearance player_appearance;
 		c_static_wchar_string<48> player_name;
 		c_static_wchar_string<48> service_tag;
+
+		// `base_color` -> `color_list_index`
+		// tint_color = user_interface_shared_tag_globals->tint_colors
+		// color_list = tint_color->text_player[color_list_index]
+		// color_list = tint_color->text_team[color_list_index]
+		// color_list = tint_color->bitmap_player[color_list_index]
+		// color_list = tint_color->bitmap_team[color_list_index]
+		// color = color_list.color
 		long base_color;
+
 		long multiplayer_team;
 		bool team_game;
+
 		e_controller_index controller_index;
 		long voice_output;
 		long connectivity_rating;
+
 		c_static_wchar_string<48> place;
 		c_static_wchar_string<48> score;
 		c_static_wchar_string<48> round_score;
+
 		bool dead;
 		bool left;
 	};

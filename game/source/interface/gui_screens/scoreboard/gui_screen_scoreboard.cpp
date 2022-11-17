@@ -128,10 +128,10 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 				{
 					long player_rating = -1;
 					e_controller_index controller_index = k_no_controller;
-					//if (user_interface_session_is_local_player(session_player_index))
-					controller_index = user_interface_session_get_controller_index(session_player_index);
+					if (user_interface_session_is_local_player(session_player_index))
+						controller_index = user_interface_session_get_controller_index(session_player_index);
 
-					long primary_color = reinterpret_cast<long>(&player_data->host.armor_configuration.loadouts[player_data->host.armor_configuration.loadout_index].colors[_color_type_primary].value);
+					long base_color = -1;
 					long voice_for_player = 0;
 
 					add_player_internal(
@@ -141,7 +141,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 						/* appearance           */ &player_data->host.appearance,
 						/* player_name          */ player_data->host.player_name.get_string(),
 						/* service_tag          */ player_data->host.appearance.service_tag.get_string(),
-						/* base_color           */ primary_color,
+						/* base_color           */ base_color,
 						/* multiplayer_team     */ -1,
 						/* team_game            */ false,
 						/* controller_index     */ controller_index,
@@ -190,12 +190,11 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					{
 						long player_rating = -1;
 
-						// #TODO: implement `user_interface_session_is_local_player`
 						e_controller_index controller_index = k_no_controller;
-						//if (user_interface_session_is_local_player(network_player_index))
-						//controller_index = user_interface_session_get_controller_index(network_player_index);
+						if (user_interface_session_is_local_player(network_player_index))
+							controller_index = user_interface_session_get_controller_index(network_player_index);
 
-						long base_color = reinterpret_cast<long>(&player->configuration.host.armor_configuration.loadouts[player->configuration.host.armor_configuration.loadout_index].colors[_color_type_primary].value);
+						long base_color = -1;
 						long voice_for_player = 0;
 
 						add_player_internal(
@@ -221,7 +220,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					}
 					else
 					{
-						long primary_color = reinterpret_cast<long>(&player->configuration.host.armor_configuration.loadouts[player->configuration.host.armor_configuration.loadout_index].colors[_color_type_primary].value);
+						long base_color = -1;
 						long player_index = player_iterator.index;
 						bool left = TEST_BIT(player->player_flags, 1);
 						team_round_score = 0;
@@ -233,7 +232,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 							/* appearance           */ &player->configuration.host.appearance,
 							/* player_name          */ player->configuration.host.player_name.get_string(),
 							/* service_tag          */ player->configuration.host.appearance.service_tag.get_string(),
-							/* base_color           */ primary_color,
+							/* base_color           */ base_color,
 							/* multiplayer_team     */ player->configuration.host.team,
 							/* team_game            */ team_game,
 							/* controller_index     */ k_no_controller,

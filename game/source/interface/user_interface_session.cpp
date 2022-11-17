@@ -22,6 +22,11 @@ s_player_configuration* __cdecl user_interface_session_get_player_data(long sess
     return INVOKE(0x00A818D0, user_interface_session_get_player_data, session_player_index);
 }
 
+bool __cdecl user_interface_session_is_local_player(long session_player_index)
+{
+    return INVOKE(0x00A81DF0, user_interface_session_is_local_player, session_player_index);
+}
+
 bool __cdecl user_interface_squad_is_player_valid(long session_player_index)
 {
     return INVOKE(0x00A81E80, user_interface_squad_is_player_valid, session_player_index);
