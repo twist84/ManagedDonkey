@@ -135,12 +135,14 @@ struct s_player_control_globals
 };
 static_assert(sizeof(s_player_control_globals) == 0x8B0);
 
-extern s_player_control_globals* player_control_globals_get();
-extern bool player_control_get_machinima_camera_enabled();
-extern bool player_control_get_machinima_camera_use_old_controls();
-extern bool player_control_get_machinima_camera_debug();
-extern void player_control_set_machinima_camera(bool enabled, bool debug, bool use_old_controls);
-extern void player_control_toggle_machinima_camera_enabled();
-extern void player_control_toggle_machinima_camera_use_old_controls();
-extern void player_control_toggle_machinima_camera_debug();
-extern void player_control_toggle_player_input(long user_index);
+extern s_player_control_globals* __cdecl player_control_globals_get();
+extern bool __cdecl player_control_get_machinima_camera_enabled();
+extern bool __cdecl player_control_get_machinima_camera_use_old_controls();
+extern bool __cdecl player_control_get_machinima_camera_debug();
+extern void __cdecl player_control_set_machinima_camera(bool enabled, bool debug, bool use_old_controls);
+extern void __cdecl player_control_toggle_machinima_camera_enabled();
+extern void __cdecl player_control_toggle_machinima_camera_use_old_controls();
+extern void __cdecl player_control_toggle_machinima_camera_debug();
+extern void __cdecl player_control_toggle_player_input(long user_index);
+extern short __cdecl player_control_get_zoom_level(long user_index);
+
