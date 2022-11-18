@@ -9,6 +9,7 @@
 #include "game/player_mapping.hpp"
 #include "game/players.hpp"
 #include "game/game_time.hpp"
+#include "game/survival_mode.hpp"
 #include "effects/effects.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
@@ -210,31 +211,6 @@ struct s_scenario_interpolator_globals
 	byte __data[0x204];
 };
 static_assert(sizeof(s_scenario_interpolator_globals) == 0x204);
-
-struct s_survival_mode_globals
-{
-	long lives;
-	short set;
-	short round;
-	short wave;
-	short __unknownA;
-	short set_multiplier;
-	short __unknown10;
-	long round_multiplier;
-	short waves_per_round;
-	short rounds_per_set;
-	byte __unknown18[4];
-	long __unknown1C;
-	byte __unknown20[4];
-	long __unknown24;
-	long __unknown28;
-	byte __unknown2C[4];
-	long scoreboard;
-	byte __unknown34[464];
-
-	byte __data[0x5DC];
-};
-static_assert(sizeof(s_survival_mode_globals) == 0x7E0);
 
 struct s_player_training_globals
 {
