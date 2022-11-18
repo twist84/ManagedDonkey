@@ -2,45 +2,64 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game_engine_candy_monitor.hpp"
+#include "game/game_engine_spawn_influencer.hpp"
+#include "game/game_engine_variant.hpp"
 #include "game/game_statborg.hpp"
 #include "saved_games/scenario_map_variant.hpp"
+
+struct s_multiplayer_weapon_tracker
+{
+	dword weapon_index;
+	word multiplayer_weapon_identifier;
+	dword owner_unit_index;
+	dword owner_player_index;
+};
+static_assert(sizeof(s_multiplayer_weapon_tracker) == 0x10);
 
 struct s_game_engine_globals
 {
 	dword_flags flags;
-	dword __unknown4;
-	dword __unknown8;
+	word valid_team_mask;
+	word __unknown6;
+	word __unknown8;
+	word __unknownA;
 	word __unknownC;
 	word game_simulation;
-	dword __unknown16[7];
+	c_static_array<short, 9> team_designator_to_team_index;
+	c_static_array<byte, 8> team_lives_per_round;
+	short __unknown2A;
 	dword gamestate_index;
 	dword statborg_gamestate_index;
 	c_static_array<long, 16> player_simulation_object_glue_indices;
 	byte __data74[0x4];
 	c_map_variant map_variant;
 	short state;
-	short current_round;
-	dword round_ticks_elapsed;
+	short round_index;
+	dword round_time;
 	byte game_engine_round_condition;
 	byte __unknownE111[0x3];
 	byte __unknownE114[0x7C];
 	byte __unknownE190[0x728];
 	byte forge_legal_notice;
 	byte __unknownE8B9[0x10D7];
-	word round_time_limit;
+	word timer;
 	word __unknownF992;
 	dword game_variant_round_time_limit_ticks_per_second;
-	byte __unknownF996[0x518];
+	real __unknownF996[4];
+	byte __dataF9A8[2];
+	short __unknownF9A8;
+	long __unknownF9AC;
+	c_static_array<s_dead_player_info, 64> spawn_influencers;
 	c_game_statborg statborg;
 	byte __data102D4[0x2C8];
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
 	dword __unknown13D9C;
 	dword desired_state;
 	dword __unknown13DA4[3];
-	dword game_variant_game_type;
-	dword object_count;
-	dword __unknown13DB8;
-	byte __unknown13DBC[0x1A9C];
+	c_enum<e_game_engine_type, long, k_game_engine_type_count> game_engine_index;
+	long multiplayer_weapon_count;
+	c_static_array<s_multiplayer_weapon_tracker, 8> multiplayer_weapons;
+	byte __unknown13E38[0x1A20];
 };
 static_assert(sizeof(s_game_engine_globals) == 0x15858);
 
