@@ -382,8 +382,10 @@ POPD
     <ClInclude Include="source\game\campaign_metagame_definitions.hpp" />
     <ClInclude Include="source\game\cheats.hpp" />
     <ClInclude Include="source\game\game_engine.hpp" />
+    <ClInclude Include="source\game\game_engine_candy_monitor.hpp" />
     <ClInclude Include="source\game\game_engine_display.hpp" />
     <ClInclude Include="source\game\game_engine_team.hpp" />
+    <ClInclude Include="source\game\game_statborg.hpp" />
     <ClInclude Include="source\game\materials_definitions.hpp" />
     <ClInclude Include="source\game\multiplayer_definitions.hpp" />
     <ClInclude Include="source\game\multiplayer_game_hopper.hpp" />

@@ -57,9 +57,9 @@ c_game_engine const* __cdecl current_game_engine()
 	c_game_engine const* result = nullptr;
 	//HOOK_INVOKE(result =, current_game_engine);
 
-	game_engine_globals* game_engine = get_tls()->game_engine_globals;
-	if (game_engine && (game_engine->GameType > 0 && game_engine->GameType < 11))
-		return game_engines[game_engine->GameType];
+	s_game_engine_globals* game_engine = get_tls()->game_engine_globals;
+	if (game_engine && (game_engine->game_variant_game_type > 0 && game_engine->game_variant_game_type < 11))
+		return game_engines[game_engine->game_variant_game_type];
 
 	return result;
 }

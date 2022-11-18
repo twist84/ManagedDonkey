@@ -12,6 +12,7 @@
 #include "main/global_preferences.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/data.hpp"
+#include "memory/thread_local.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 
@@ -39,6 +40,13 @@ void __cdecl main_loop_body_begin()
 	{
 		hs_function_table;
 		hs_external_globals;
+
+		if (game_in_progress() && !game_is_ui_shell())
+		{
+			s_game_engine_globals* game_engine_globals = get_tls()->game_engine_globals;
+
+			printf("");
+		}
 
 		printf("");
 	}

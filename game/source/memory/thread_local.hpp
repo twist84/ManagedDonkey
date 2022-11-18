@@ -3,6 +3,7 @@
 #include "camera/observer.hpp"
 #include "camera/camera.hpp"
 #include "camera/director.hpp"
+#include "game/game_engine.hpp"
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
 #include "game/player_mapping.hpp"
@@ -14,47 +15,6 @@
 #include "physics/physics_constants.hpp"
 
 //struct simulation_gamestate_entity_datum : s_datum_header
-
-struct game_engine_globals
-{
-	dword Flags;
-	dword __unknown4;
-	dword __unknown8;
-	word __unknownC;
-	word GameSimulation;
-	dword __unknown16[7];
-	dword __unknown2C;
-	dword __unknown30[14390];
-	word __unknownE108;
-	word __unknownE10A;
-	dword __unknownE10C;
-	byte __unknownE110;
-	byte __unknownE111[3];
-	byte __unknownE114[124];
-	byte __unknownE190[1832];
-	byte ForgeLegalNotice;
-	byte __unknownE8B9[4311];
-	word RoundTimeLimit;
-	word __unknownF992;
-	dword RoundTimeLimitTicksPerSecond;
-	byte __unknownF996[1304];
-	byte MultiplayerScoreboard[0x420];
-	byte __unknown102D0[0x3AD0];
-	dword __unknown13DA0;
-	dword __unknown13DA4[3];
-	dword GameType;
-	dword ObjectCount;
-	dword __unknown13DB8;
-	byte __unknown13DBC[6812];
-};
-static_assert(sizeof(game_engine_globals) == 0x15858);
-
-struct s_local_game_engine_globals
-{
-	dword __time0;
-	byte __data[0xC0];
-};
-static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
 
 struct s_breakable_surface_globals
 {
@@ -1197,7 +1157,7 @@ struct s_thread_local_storage
 
 	// name: "game engine globals"
 	// size: 0x15858
-	game_engine_globals* game_engine_globals;
+	s_game_engine_globals* game_engine_globals;
 
 	// name: "local game engine globals"
 	// size: 0xC4

@@ -1262,6 +1262,12 @@
     <ClInclude Include="source\game\game_engine_display.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\game\game_engine_candy_monitor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\game_statborg.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
