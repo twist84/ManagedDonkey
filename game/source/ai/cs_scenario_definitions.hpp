@@ -23,10 +23,10 @@ static_assert(sizeof(cs_point) == 0x3C);
 
 enum e_point_set_flags
 {
-	_point_set_flagmanual_reference_frame_bit = 0,
-	_point_set_flagturret_deployment_bit,
-	_point_set_flaggiant_set_bit,
-	_point_set_flaginvalid_sector_refs_bit,
+	_point_set_flag_manual_reference_frame_bit = 0,
+	_point_set_flag_turret_deployment_bit,
+	_point_set_flag_giant_set_bit,
+	_point_set_flag_invalid_sector_refs_bit,
 
 	k_point_set_flag_count
 };
