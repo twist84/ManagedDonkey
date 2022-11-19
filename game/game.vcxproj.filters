@@ -1274,6 +1274,15 @@
     <ClInclude Include="source\game\game_engine_spawn_influencer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\game\game_engine_teleporters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\game_engine_area_set.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\objects\multiplayer_game_objects.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
