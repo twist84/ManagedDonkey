@@ -93,3 +93,7 @@ enum e_action
 	k_action_count
 };
 
+struct action_request;
+extern bool __cdecl action_submit_request(long object_index, action_request const* request);
+extern bool __cdecl action_submit(long object_index, e_action action);
+

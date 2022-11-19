@@ -294,6 +294,7 @@ POPD
     <ClCompile Include="source\memory\data.cpp" />
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
+    <ClCompile Include="source\motor\actions.cpp" />
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_manager.cpp" />
     <ClCompile Include="source\networking\logic\logic_qos_reply_manager.cpp" />
     <ClCompile Include="source\networking\logic\network_arbitration.cpp" />
