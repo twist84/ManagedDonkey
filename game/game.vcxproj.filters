@@ -1283,6 +1283,9 @@
     <ClInclude Include="source\objects\multiplayer_game_objects.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\motor\actions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">

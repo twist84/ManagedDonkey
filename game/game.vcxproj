@@ -511,6 +511,7 @@ POPD
     <ClInclude Include="source\memory\module.hpp" />
     <ClInclude Include="source\memory\secure_signature.hpp" />
     <ClInclude Include="source\memory\thread_local.hpp" />
+    <ClInclude Include="source\motor\actions.hpp" />
     <ClInclude Include="source\multithreading\synchronized_value.hpp" />
     <ClInclude Include="source\networking\delivery\network_channel.hpp" />
     <ClInclude Include="source\networking\delivery\network_link.hpp" />
