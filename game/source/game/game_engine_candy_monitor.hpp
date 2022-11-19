@@ -31,3 +31,10 @@ struct c_multiplayer_candy_monitor_manager
 };
 static_assert(sizeof(c_multiplayer_candy_monitor_manager) == 0x3800);
 
+extern bool __cdecl game_engine_object_has_been_abandoned(long object_index);
+extern bool __cdecl game_engine_object_has_been_disturbed(long object_index);
+extern bool __cdecl game_engine_object_is_item_in_inventory(long object_index);
+extern bool __cdecl game_engine_object_is_useless_weapon(long object_index);
+extern bool __cdecl game_engine_player_is_looking_at_sphere(long player_index, union real_point3d const* position, real radius);
+extern bool __cdecl game_engine_player_is_nearby(real_point3d const* position, real radius);
+
