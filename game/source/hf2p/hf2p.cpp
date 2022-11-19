@@ -99,14 +99,16 @@ void __cdecl hf2p_game_update()
 
 			if (!loadout.armor_is_set)
 			{
+				char const* name = "base";
+
 				// #TODO: pull these from a config file
-				loadout.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", "tankmode_human"));
-				loadout.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", "tankmode_human"));
-				loadout.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", "tankmode_human"));
-				loadout.armors[_armor_type_arms] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("arms", "tankmode_human"));
-				loadout.armors[_armor_type_legs] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("legs", "tankmode_human"));
+				loadout.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", name));
+				loadout.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", name));
+				loadout.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", name));
+				loadout.armors[_armor_type_arms] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("arms", name));
+				loadout.armors[_armor_type_legs] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("legs", name));
 				loadout.armors[_armor_type_acc] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("acc", "bullet_shield"));
-				loadout.armors[_armor_type_pelvis] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("pelvis", "tankmode_human"));
+				loadout.armors[_armor_type_pelvis] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("pelvis", name));
 
 				for (long color_index = 0; color_index < k_color_type_count; color_index++)
 					loadout.colors[color_index].value = ~((system_milliseconds() * rand()) % 0xFFFFFF);
