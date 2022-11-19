@@ -181,6 +181,7 @@ struct s_multiplayer_podium_move_animation
 };
 static_assert(sizeof(s_multiplayer_podium_move_animation) == 0x50);
 
+struct s_multiplayer_constants;
 struct s_multiplayer_runtime_globals_definition
 {
 	c_typed_tag_reference<'bipd'> editor_biped;
@@ -191,15 +192,10 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<'bloc'> vip_influence_area;
 	c_typed_tag_reference<'unic'> in_game_text;
 
-	c_typed_tag_reference<'proj'> __reference70;
-	c_typed_tag_reference<'effe'> __reference80;
-	c_typed_tag_reference<'effe'> __reference90;
-
-	// reach: megalo sounds (english)?
-	c_typed_tag_reference<'snd!'> __referenceA0;
-
-	// reach: communication sounds (comm english)?
-	c_typed_tag_reference<'snd!'> __referenceB0;
+	c_typed_tag_reference<'proj'> __reference70_projectile;
+	c_typed_tag_reference<'effe'> __reference80_effect;
+	c_typed_tag_reference<'effe'> __reference90_effect;
+	c_static_array<c_typed_tag_reference<'snd!'>, 2> __referenceA0_sounds;
 
 	tag_block sounds;
 	tag_block looping_sounds;
@@ -219,7 +215,7 @@ struct s_multiplayer_runtime_globals_definition
 	long maximum_frag_count;
 	long maximum_plasma_count;
 
-	tag_block multiplayer_constants;
+	c_typed_tag_block<s_multiplayer_constants> multiplayer_constants;
 	tag_block state_responses;
 
 	c_typed_tag_reference<'bitm'> scoreboard_emblem_bitmap;
@@ -245,6 +241,181 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<'lsnd'> menu_music_d;
 };
 static_assert(sizeof(s_multiplayer_runtime_globals_definition) == 0x2A8);
+
+struct s_multiplayer_constants
+{
+	// PLAYER SPAWN INFLUENCERS
+	// These are things that influence player spawn points
+
+	// ENEMY FORBID
+	// This is a tight cylinder around the player with a strong negative weight. It serves to protect players from spawning close to an enemy, or having and enemy spawn close to them.
+	real ef_full_weight_radius; // wu
+	real ef_fall_off_radius; // wu
+	real ef_upper_height; // wu
+	real ef_lower_height; // wu
+	real ef_weight;
+
+	// ENEMY BIAS
+	// This is a larger cylinder, with a size set specifically for the size of the map. It has a weak negative weight which falls to zero towards the outer radius. It serves to bias players away from spawning near enemies, or in enemy held areas.
+	real eb_full_weight_radius; // wu
+	real eb_fall_off_radius; // wu
+	real eb_upper_height; // wu
+	real eb_lower_height; // wu
+	real eb_weight;
+
+	// ALLY BIAS
+	// This is a larger cylinder, with a size set specifically for the size of the map. It has a weak positive weight which falls to zero towards the outer radius. It serves to bias players towards spawning with allies, or in areas which are controlled by friendly players.
+	real ab_full_weight_radius; // wu
+	real ab_fall_off_radius; // wu
+	real ab_upper_height; // wu
+	real ab_lower_height; // wu
+	real ab_weight;
+
+	// SELECTED ALLY BIAS", "Same as ALLY BIAS, but used when the ally is selected in the dead-camera.
+	real sab_full_weight_radius; // wu
+	real sab_fall_off_radius; // wu
+	real sab_upper_height; // wu
+	real sab_lower_height; // wu
+	real sab_weight;
+
+	// DEAD TEAMMATE BIAS
+	// Dead teammate influences are cylinders centered upon the body of a dead teammate (or the player's own dead body).
+	real dt_full_weight_radius; // wu
+	real dt_fall_off_radius; // wu
+	real dt_upper_height; // wu
+	real dt_lower_height; // wu
+	real dt_weight;
+	real dead_teammate_influence_duration; // seconds
+
+	// WEAPON INFLUENCERS
+	// These influencers are induced by weapons either weilded or carried in the player's backpack
+	tag_block weapon_influencers;
+
+	// VEHICLE INFLUENCERS
+	// These influencers are induced by vehicles.
+	tag_block vehicle_influencers;
+
+	// PROJECTILE INFLUENCERS
+	// These influencers are induced by projectiles.
+	tag_block projectile_influencers;
+
+	// EQUIPMENT INFLUENCERS
+	// These influencers are induced by equipment.
+	tag_block equipment_influencers;
+
+	// KOTH HILL INFLUENCER
+	// This influencer is induced by the King of the Hill hill goal area.
+	real koth_full_weight_radius; // wu
+	real koth_falloff_radius; // wu
+	real koth_upper_cylinder_height; // wu
+	real koth_lower_cylinder_height; // wu
+	real koth_weight;
+
+	// ODDBALL INFLUENCER
+	// This influencer is induced by the oddball.
+	real ob_full_weight_radius; // wu
+	real ob_falloff_radius; // wu
+	real ob_upper_cylinder_height; // wu
+	real ob_lower_cylinder_height; // wu
+	real ob_weight;
+
+	// CTF FLAG AWAY INFLUENCER
+	// This influencer is induced by the CTF flag stand when the flag is away.
+	real ctf_full_weight_radius; // wu
+	real ctf_falloff_radius; // wu
+	real ctf_upper_cylinder_height; // wu
+	real ctf_lower_cylinder_height; // wu
+	real ctf_weight;
+
+	// TERRITORY ALLY INFLUENCER
+	// This influencer is induced by territories controlled by teammates.
+	real tera_full_weight_radius; // wu
+	real tera_falloff_radius; // wu
+	real tera_upper_cylinder_height; // wu
+	real tera_lower_cylinder_height; // wu
+	real tera_weight;
+
+	// TERRITORY ENEMY INFLUENCER
+	// This influencer is induced by territories controlled by an enemy.
+	real tere_full_weight_radius; // wu
+	real tere_falloff_radius; // wu
+	real tere_upper_cylinder_height; // wu
+	real tere_lower_cylinder_height; // wu
+	real tere_weight;
+
+	// INFECTION SAFE ZONE HUMAN INFLUENCER
+	// This influencer is induced by an infection safe zone upon humans.
+	real infh_full_weight_radius; // wu
+	real infh_falloff_radius; // wu
+	real infh_upper_cylinder_height; // wu
+	real infh_lower_cylinder_height; // wu
+	real infh_weight;
+
+	// INFECTION SAFE ZONE ZOMBIE INFLUENCER
+	// This influencer is induced by an infection safe zone upon zombies.
+	real infz_full_weight_radius; // wu
+	real infz_falloff_radius; // wu
+	real infz_upper_cylinder_height; // wu
+	real infz_lower_cylinder_height; // wu
+	real infz_weight;
+
+	// VIP INFLUENCER
+	// This influencer is induced by a VIP upon his teammates.
+	real vip_full_weight_radius; // wu
+	real vip_falloff_radius; // wu
+	real vip_upper_cylinder_height; // wu
+	real vip_lower_cylinder_height; // wu
+	real vip_weight;
+
+	// MORE MP CONSTANTS
+	// More old Halo2 stuff follows...
+	real maximum_random_spawn_bias;
+	real teleporter_recharge_time; // seconds
+	real grenade_danger_weight;
+	real grenade_danger_inner_radius;
+	real grenade_danger_outer_radius;
+	real grenade_danger_lead_time; // seconds
+	real vehicle_danger_min_speed; // wu/sec
+	real vehicle_danger_weight;
+	real vehicle_danger_radius;
+	real vehicle_danger_lead_time; // seconds
+	real vehicle_nearby_player_dist; // how nearby a player is to count a vehicle as 'occupied'
+	c_typed_tag_reference<'bitm'> hill_bitmap;
+	real flag_return_distance;
+	real flag_contest_inner_radius;
+	real flag_contest_outer_radius;
+	real territories_waypoint_vertical_offset;
+	c_typed_tag_reference<'effe'> bomb_explode_effect;
+	c_typed_tag_reference<'effe'> bomb_explode_secondary_effect;
+	c_typed_tag_reference<'effe'> bomb_explode_dmg_effect;
+	c_typed_tag_reference<'effe'> bomb_defuse_effect;
+	c_typed_tag_reference<'effe'> sandbox_effect;
+	c_string_id bomb_defusal_string;
+	c_string_id blocked_teleporter_string;
+	long __unknown1DC;
+
+	// RESPAWN STRINGS
+	// These are used for respawn status message displays
+	// The text comes from the in-game-text multiplayer message strings list tag
+	// in the multiplayer runtime globals block above
+	c_string_id voluntary_respawn_control_instructions;
+	c_string_id spawn_allowed_default_respawn;
+	c_string_id spawn_at_player_allowed_looking_at_self;
+	c_string_id spawn_at_player_allowed_looking_at_target;
+	c_string_id spawn_at_player_allowed_looking_at_potential_target;
+	c_string_id spawn_at_territory_allowed_looking_at_target;
+	c_string_id spawn_at_territory_allowed_looking_at_potential_target;
+	c_string_id you_are_out_of_lives;
+	c_string_id invalid_spawn_target_selected;
+	c_string_id targetted_player_enemies_nearby;
+	c_string_id targetted_player_unfriendly_team;
+	c_string_id targetted_player_dead;
+	c_string_id targetted_player_in_combat;
+	c_string_id targetted_player_too_far_from_owned_flag;
+	c_string_id no_available_netpoints;
+	c_string_id targetted_netpoint_contested;
+};
+static_assert(sizeof(s_multiplayer_constants) == 0x220);
 
 extern s_multiplayer_runtime_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_runtime_data();
 extern s_multiplayer_universal_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_universal_data();
