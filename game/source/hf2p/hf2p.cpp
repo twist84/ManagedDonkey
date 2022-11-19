@@ -130,20 +130,11 @@ void __cdecl hf2p_game_update()
 			DECLFUNC(0x005A2FA0, void, __cdecl, dword)(mainmenu_unit_index);
 		}
 
-		{
-			long weapon_definition_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ short(0xFFFD), _weapon_set_primary);
-			if (!unit_has_weapon_definition_index(mainmenu_unit_index, weapon_definition_index))
-			{
-				object_placement_data placement_data{};
-				placement_data.multiplayer_object_properties.game_engine_flags.set_raw_bits(0);
-				placement_data.multiplayer_object_properties.spawn_flags.set_raw_bits(0);
-				object_placement_data_new(&placement_data, weapon_definition_index, 0xFFFFFFFF, nullptr);
-				placement_data.model_variant_index = 0;
-				long object_index = object_new(&placement_data);
-				if (object_index != -1 && !unit_add_weapon_to_inventory(mainmenu_unit_index, object_index, 8))
-					object_delete(object_index);
-			}
-		}
+		long primary_weapon_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ short(0xFFFD), _weapon_set_primary);
+		long secondary_weapon_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ short(0xFFFD), _weapon_set_secondary);
+
+		game_engine_add_starting_weapon_to_player(mainmenu_unit_index, primary_weapon_index, 1);
+		game_engine_add_starting_weapon_to_player(mainmenu_unit_index, secondary_weapon_index, 2);
 	}
 
 	printf("");

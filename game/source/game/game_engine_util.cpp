@@ -69,3 +69,8 @@ long __cdecl game_engine_weapon_item_definition_index_from_absolute_weapons_sele
 	return INVOKE(0x005CECD0, game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index, absolute_weapons_selection_block_index, weapon_set);
 }
 
+long __cdecl game_engine_add_starting_weapon_to_player(long unit_index, long definition_index, long method)
+{
+	return INVOKE(0x005CE210, game_engine_add_starting_weapon_to_player, unit_index, definition_index, method);
+}
+
