@@ -133,8 +133,8 @@ void __cdecl hf2p_game_update()
 			if (!unit_has_weapon_definition_index(mainmenu_unit_index, weapon_definition_index))
 			{
 				object_placement_data placement_data{};
-				placement_data.__unknown15C = 0;
-				placement_data.__unknown163 = 0;
+				placement_data.multiplayer_object_properties.game_engine_flags.set_raw_bits(0);
+				placement_data.multiplayer_object_properties.spawn_flags.set_raw_bits(0);
 				object_placement_data_new(&placement_data, weapon_definition_index, 0xFFFFFFFF, nullptr);
 				placement_data.model_variant_index = 0;
 				long object_index = object_new(&placement_data);

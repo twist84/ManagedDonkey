@@ -1,6 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "objects/multiplayer_game_objects.hpp"
+#include "scenario/scenario_object_definitions.hpp"
 
 enum e_object_type
 {
@@ -65,11 +67,20 @@ struct object_placement_data
 	real_vector3d angular_velocity;
 	real scale;
 
-	byte __data5C[0x100];
-	word __unknown15C;
-	byte __data15E[0x5];
-	byte __unknown163;
-	byte __data164[0x28];
+	long player_index;
+
+	long __unknown60;
+
+	long team_index;
+
+	byte __data68[0xC];
+
+	dword_flags change_color_flags;
+	c_static_array<real_rgb_color, 5> change_colors;
+
+	byte __dataB4[0xA4];
+
+	s_scenario_multiplayer_object_properties multiplayer_object_properties;
 };
 static_assert(sizeof(object_placement_data) == 0x18C);
 
