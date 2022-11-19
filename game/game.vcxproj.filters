@@ -1289,6 +1289,9 @@
     <ClInclude Include="source\motor\actions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\shell\game_interface\simulation_game_events.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">

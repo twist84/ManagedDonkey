@@ -606,6 +606,7 @@ POPD
     <ClInclude Include="source\scenario\scenario_resource_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />
     <ClInclude Include="source\scenario\scenario_zone_debugger_definitions.hpp" />
+    <ClInclude Include="source\shell\game_interface\simulation_game_events.hpp" />
     <ClInclude Include="source\shell\shell.hpp" />
     <ClInclude Include="source\scenario\scenario_object_definitions.hpp" />
     <ClInclude Include="source\simulation\simulation.hpp" />
