@@ -56,7 +56,7 @@ struct object_placement_data
 	long model_variant_index;
 	long scenario_datum_index;
 
-	byte __unknown14;
+	byte bsp_placement_policy;
 	byte __pad15[3];
 
 	dword_flags flags;
@@ -68,9 +68,7 @@ struct object_placement_data
 	real scale;
 
 	long player_index;
-
-	long __unknown60;
-
+	long object_index;
 	long team_index;
 
 	byte __data68[0xC];
