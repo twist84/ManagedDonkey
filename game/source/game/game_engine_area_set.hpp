@@ -5,7 +5,7 @@
 
 struct c_area
 {
-	s_multiplayer_object_boundary_geometry_data m_multiplayer_object_boundary;
+	s_multiplayer_object_boundary_geometry_data m_geometry_data;
 	byte __data50[0x10];
 	long m_object_index;
 };
