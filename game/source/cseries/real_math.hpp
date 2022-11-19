@@ -208,7 +208,7 @@ union real_matrix4x3
 		real_vector3d forward;
 		real_vector3d left;
 		real_vector3d up;
-		real_vector3d position;
+		real_vector3d center;
 	};
 	real n[13];
 };
