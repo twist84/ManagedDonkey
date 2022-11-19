@@ -2,11 +2,14 @@
 
 #include "camera/director.hpp"
 #include "cseries/console.hpp"
+#include "cseries/cseries_windows.hpp"
 #include "game/game.hpp"
+#include "game/game_engine_candy_monitor.hpp"
 #include "game/player_control.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/chud/chud_messaging.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "main/global_preferences.hpp"
@@ -31,6 +34,43 @@ void copy_input_states(bool enabled)
 	}
 }
 
+struct s_location_message
+{
+	real_point3d position;
+	real radius;
+	wchar_t const* message;
+};
+
+static s_location_message location_messages[] =
+{
+	// valhalla
+	{ { 80.8f, -72.4f, 6.7f }, 2.0f, L"a player took the lake base center man cannon" }
+};
+
+void show_location_messages()
+{
+	static real last_message_time = game_time_get_safe_in_seconds();
+
+	long location_message_index = -1;
+	for (long i = 0; i < NUMBEROF(location_messages); i++)
+	{
+		if (!game_engine_player_is_nearby(&location_messages[i].position, location_messages[i].radius))
+			continue;
+
+		location_message_index = i;
+		break;
+	}
+
+	if (location_message_index == -1)
+		return;
+
+	if ((last_message_time + 1.0f) < game_time_get_safe_in_seconds())
+	{
+		chud_messaging_post(player_mapping_first_active_output_user(), location_messages[location_message_index].message, _chud_message_context_self);
+		last_message_time = game_time_get_safe_in_seconds();
+	}
+}
+
 void __cdecl main_loop_body_begin()
 {
 	FUNCTION_BEGIN(false);
@@ -51,8 +91,6 @@ void __cdecl main_loop_body_begin()
 		printf("");
 	}
 
-	copy_input_states(true);
-
 	if (GetKeyState(VK_PAUSE) & 0x8000)
 	{
 		static long controls_method = 0;
@@ -60,6 +98,9 @@ void __cdecl main_loop_body_begin()
 		input_abstraction_globals.controls_method = controls_method;
 		Sleep(75);
 	}
+
+	copy_input_states(true);
+	show_location_messages();
 }
 
 void __cdecl main_loop_body_end()

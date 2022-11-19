@@ -113,7 +113,7 @@ bool __cdecl game_time_get_paused_for_reason(e_game_time_pause_reason reason)
 
 real __cdecl game_time_get_safe_in_seconds()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	return INVOKE(0x00564E60, game_time_get_safe_in_seconds);
 }

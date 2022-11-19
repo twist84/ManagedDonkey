@@ -59,7 +59,7 @@ e_director_mode director_mode_from_string(const char* str)
 
 s_director_globals* director_globals_get()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	s_thread_local_storage* tls = get_tls();
 
@@ -139,7 +139,7 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 template<typename t_type>
 t_type* director_get(long user_index)
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	if (!director_globals_get())
 		return nullptr;

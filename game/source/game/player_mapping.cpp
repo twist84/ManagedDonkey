@@ -7,7 +7,7 @@
 
 s_player_mapping_globals* player_mapping_globals_get()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	s_thread_local_storage* tls = get_tls();
 	if (!tls || !tls->player_control_globals)
@@ -55,7 +55,7 @@ long player_mapping_get_player_count()
 
 long player_mapping_first_active_output_user()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	long index = 0;
 	for (long* active_output_user = player_mapping_globals_get()->output_user_player_mapping; *active_output_user == -1; ++active_output_user)
