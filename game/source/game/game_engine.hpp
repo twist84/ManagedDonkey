@@ -4,6 +4,7 @@
 #include "game/game_engine_candy_monitor.hpp"
 #include "game/game_engine_spawn_influencer.hpp"
 #include "game/game_engine_variant.hpp"
+#include "game/game_engine_simulation.hpp"
 #include "game/game_engine_teleporters.hpp"
 #include "game/game_statborg.hpp"
 #include "saved_games/scenario_map_variant.hpp"
@@ -69,7 +70,9 @@ struct s_game_engine_globals
 	long multiplayer_weapon_count;
 	c_static_array<s_multiplayer_weapon_tracker, 8> multiplayer_weapons;
 	c_area_set<c_teleporter_area, 32> teleporters;
-	byte __data14C48[0xC10];
+	long current_event_identifier;
+	c_static_array<s_game_engine_queued_event, 64> event_queue;
+	byte __data1584C[0xC];
 };
 static_assert(sizeof(s_game_engine_globals) == 0x15858);
 
