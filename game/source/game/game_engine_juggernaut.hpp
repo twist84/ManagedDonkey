@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_juggernaut_traits.hpp"
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_juggernaut_traits.hpp"
 #include "game/game_engine_variant.hpp"
@@ -62,3 +63,15 @@ static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x260);
 struct c_juggernaut_engine : c_game_engine
 {
 };
+
+struct s_juggernaut_globals
+{
+	dword __unknown0;
+	word __unknown4;
+	byte __unknown6;
+	dword __unknown8;
+	c_area_set<c_area, 12> area_set;
+	c_static_array<long, 16> __unknown4CC;
+};
+static_assert(sizeof(s_juggernaut_globals) == 0x50C);
+
