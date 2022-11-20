@@ -50,3 +50,11 @@ static_assert(sizeof(c_game_engine_king_variant) == 0x260);
 struct c_king_engine : c_game_engine
 {
 };
+
+struct s_king_globals
+{
+	c_area_set<c_area, 10> area_set;
+	byte __data3F8[0x88];
+};
+static_assert(sizeof(s_king_globals) == 0x480);
+
