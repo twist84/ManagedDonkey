@@ -23,3 +23,22 @@ static_assert(sizeof(c_game_engine_territories_variant) == 0x260);
 struct c_territories_engine : c_game_engine
 {
 };
+
+struct s_territory_data : c_area
+{
+	c_static_array<word, 8> __unknown64;
+	c_static_array<byte, 8> __unknown74;
+	long __unknown7C;
+	long __unknown80;
+};
+static_assert(sizeof(s_territory_data) == 0x84);
+
+struct s_territories_globals
+{
+	c_area_set<s_territory_data, 8> area_set;
+	long __unknown430;
+	long __unknown434;
+	long __unknown438;
+};
+static_assert(sizeof(s_territories_globals) == 0x43C);
+
