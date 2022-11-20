@@ -6,7 +6,7 @@
 struct c_area
 {
 	s_multiplayer_object_boundary_geometry_data m_geometry_data;
-	byte __data50[0x10];
+	real_argb_color m_color;
 	long m_object_index;
 };
 static_assert(sizeof(c_area) == 0x64);
