@@ -71,3 +71,19 @@ static_assert(sizeof(c_game_engine_vip_variant) == 0x260);
 struct c_vip_engine : c_game_engine
 {
 };
+
+struct c_destination_zone : c_area
+{
+	byte_flags m_team_designator_flags;
+};
+static_assert(sizeof(c_destination_zone) == 0x68);
+
+struct s_vip_globals
+{
+	c_static_array<long, 8> __unknown0;
+	dword __unknown20;
+	c_static_array<s_multiplayer_object_boundary_geometry_data, 8> geometry_datas;
+	c_area_set<c_destination_zone, 12> destination_zones;
+};
+static_assert(sizeof(s_vip_globals) == 0x794);
+
