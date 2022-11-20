@@ -64,3 +64,16 @@ static_assert(sizeof(c_game_engine_oddball_variant) == 0x260);
 struct c_oddball_engine : c_game_engine
 {
 };
+
+struct s_oddball_globals
+{
+	c_static_array<long, 5> __unknown0;
+	c_static_array<real_point3d, 5> __unknown14;
+	c_static_array<short, 5> __unknown50;
+	c_static_array<long, 5> __unknown5C;
+	c_static_array<char, 5> __unknown70;
+	c_static_array<char, 5> __unknown75;
+	c_static_array<long, 5> __unknown7C;
+};
+static_assert(sizeof(s_oddball_globals) == 0x90);
+
