@@ -8,6 +8,12 @@
 #include "game/game_statborg.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 
+struct s_player_waypoint_data
+{
+	byte __data[0x1C];
+};
+static_assert(sizeof(s_player_waypoint_data) == 0x1C);
+
 struct s_multiplayer_weapon_tracker
 {
 	dword weapon_index;
@@ -52,7 +58,9 @@ struct s_game_engine_globals
 	long __unknownF9AC;
 	c_static_array<s_dead_player_info, 64> spawn_influencers;
 	c_game_statborg statborg;
-	byte __data102D4[0x2C8];
+	long __unknown102D4;
+	c_static_array<s_player_waypoint_data, 16> player_waypoints;
+	byte __data10498[0x104];
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
 	dword __unknown13D9C;
 	dword desired_state;
