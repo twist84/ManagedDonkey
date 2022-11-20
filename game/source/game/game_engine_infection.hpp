@@ -53,3 +53,17 @@ static_assert(sizeof(c_game_engine_infection_variant) == 0x260);
 struct c_infection_engine : c_game_engine
 {
 };
+
+struct s_infection_globals
+{
+	dword __unknown0;
+	word __unknown4;
+	byte __unknown6;
+	dword __unknown8;
+	c_area_set<c_area, 12> area_set;
+	c_static_array<long, 16> __unknown40C;
+	c_static_array<long, 16> __unknown44C;
+	byte __unknown54C;
+};
+static_assert(sizeof(s_infection_globals) == 0x550);
+
