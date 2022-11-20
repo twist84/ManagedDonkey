@@ -6,6 +6,7 @@
 #include "game/game_engine_variant.hpp"
 #include "game/game_engine_simulation.hpp"
 #include "game/game_engine_teleporters.hpp"
+#include "game/game_engine_util.hpp"
 #include "game/game_statborg.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 
@@ -47,9 +48,24 @@ struct s_game_engine_globals
 	byte game_engine_round_condition;
 	byte __unknownE111[0x3];
 	byte __unknownE114[0x7C];
-	byte __unknownE190[0x728];
-	byte forge_legal_notice;
-	byte __unknownE8B9[0x10D7];
+
+	union
+	{
+		s_ctf_globals ctf_globals;
+		//s_slayer_globals slayer_globals;
+		s_oddball_globals oddball_globals;
+		s_king_globals king_globals;
+		s_sandbox_globals sandbox_globals;
+		s_vip_globals vip_globals;
+		s_juggernaut_globals juggernaut_globals;
+		s_territories_globals territories_globals;
+		s_assault_globals assault_globals;
+		s_infection_globals infection_globals;
+
+		// probably contains more bytes than it should
+		byte globals_storage[0x1800];
+	};
+
 	word timer;
 	word __unknownF992;
 	dword game_variant_round_time_limit_ticks_per_second;
