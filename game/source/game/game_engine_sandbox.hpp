@@ -1,9 +1,11 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_area_set.hpp"
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_sandbox_traits.hpp"
 #include "game/game_engine_variant.hpp"
+#include "saved_games/scenario_map_variant.hpp"
 
 struct c_game_engine_sandbox_variant : c_game_engine_base_variant
 {
@@ -19,3 +21,28 @@ static_assert(sizeof(c_game_engine_sandbox_variant) == 0x260);
 struct c_sandbox_engine : c_game_engine
 {
 };
+
+struct s_sandbox_globals
+{
+	dword __unknown0;
+	byte maximum_count;
+	byte minimum_count;
+	bool placed_on_map;
+	word player_mode_flags;
+	dword held_objects[16];
+	real held_object_distances[16];
+	real_vector3d crosshair_points[16];
+	real_vector3d crosshair_intersect_normals[16];
+	real_vector3d crosshair_redirections[16];
+	dword crosshair_objects[16];
+	byte __unknown30C[16];
+	dword __unknown31C[64];
+	byte __data41C[768];
+	dword __unknown71C;
+	byte __unknown720[8];
+	bool forge_legal_notice;
+	dword __unknown72C;
+	s_variant_multiplayer_object_properties_definition object_properties;
+};
+static_assert(sizeof(s_sandbox_globals) == 0x748);
+
