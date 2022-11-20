@@ -61,8 +61,8 @@ struct s_infection_globals
 	byte __unknown6;
 	dword __unknown8;
 	c_area_set<c_area, 12> area_set;
-	c_static_array<long, 16> __unknown40C;
 	c_static_array<long, 16> __unknown44C;
+	c_static_array<long, 16> __unknown50C;
 	byte __unknown54C;
 };
 static_assert(sizeof(s_infection_globals) == 0x550);
