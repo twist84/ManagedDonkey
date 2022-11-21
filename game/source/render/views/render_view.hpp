@@ -35,3 +35,11 @@ struct c_fullscreen_view :
 };
 static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
 
+// 01692BDC
+struct c_world_view :
+	public c_view
+{
+	s_location m_location;
+};
+static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
+
