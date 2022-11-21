@@ -73,3 +73,11 @@ struct c_reflection_view :
 };
 static_assert(sizeof(c_reflection_view) == sizeof(c_view));
 
+// 0165E11C
+struct c_first_person_view :
+	public c_view
+{
+	byte __data294[0x4];
+};
+static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
+
