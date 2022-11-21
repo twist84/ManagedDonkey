@@ -388,6 +388,7 @@ POPD
     <ClInclude Include="source\game\game_engine_area_set.hpp" />
     <ClInclude Include="source\game\game_engine_candy_monitor.hpp" />
     <ClInclude Include="source\game\game_engine_display.hpp" />
+    <ClInclude Include="source\game\game_engine_scoring.hpp" />
     <ClInclude Include="source\game\game_engine_simulation.hpp" />
     <ClInclude Include="source\game\game_engine_spawn_influencer.hpp" />
     <ClInclude Include="source\game\game_engine_team.hpp" />

@@ -4,6 +4,7 @@
 #include "game/game_engine_candy_monitor.hpp"
 #include "game/game_engine_spawn_influencer.hpp"
 #include "game/game_engine_variant.hpp"
+#include "game/game_engine_scoring.hpp"
 #include "game/game_engine_simulation.hpp"
 #include "game/game_engine_teleporters.hpp"
 #include "game/game_engine_util.hpp"
@@ -32,7 +33,7 @@ struct s_game_engine_globals
 	word __unknown6;
 	word __unknown8;
 	word __unknownA;
-	word __unknownC;
+	word_flags __unknownC;
 	word game_simulation;
 	c_static_array<short, 9> team_designator_to_team_index;
 	c_static_array<byte, 8> team_lives_per_round;
@@ -46,8 +47,7 @@ struct s_game_engine_globals
 	short round_index;
 	dword round_time;
 	byte game_engine_round_condition;
-	byte __unknownE111[0x3];
-	byte __unknownE114[0x7C];
+	s_game_engine_score_list score_list;
 
 	union
 	{
@@ -81,7 +81,9 @@ struct s_game_engine_globals
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
 	dword __unknown13D9C;
 	dword desired_state;
-	dword __unknown13DA4[3];
+	bool __unknown13DA4;
+	dword __unknown13DA8;
+	dword __unknown13DAC;
 	c_enum<e_game_engine_type, long, k_game_engine_type_count> game_engine_index;
 	long multiplayer_weapon_count;
 	c_static_array<s_multiplayer_weapon_tracker, 8> multiplayer_weapons;
