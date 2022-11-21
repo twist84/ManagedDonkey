@@ -444,6 +444,9 @@
     <ClCompile Include="source\interface\chud\chud_messaging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\views\render_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1305,6 +1308,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\game_engine_scoring.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\views\render_view.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\render_cameras.hpp">
