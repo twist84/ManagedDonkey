@@ -145,7 +145,7 @@ void __cdecl main_loop_body_end()
 	}
 	else if (GetKeyState(VK_HOME) & 0x8000)
 	{
-		//main_game_launch_set_multiplayer_splitscreen_count(1);
+		//main_game_launch_set_multiplayer_splitscreen_count(2);
 		main_game_launch_set_coop_player_count(2);
 		main_game_launch("maps\\riverworld");
 		key_pressed = true;

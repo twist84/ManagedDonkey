@@ -447,6 +447,9 @@
     <ClCompile Include="source\render\views\render_view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\main\main_render.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\rasterizer\rasterizer_globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1320,6 +1323,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\render_patchy_fog.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\main\main_render.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\rasterizer\rasterizer_globals.hpp">
