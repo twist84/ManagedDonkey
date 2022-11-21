@@ -27,10 +27,10 @@ union short_rectangle2d
 {
 	struct
 	{
-		short top;
-		short left;
-		short bottom;
-		short right;
+		short y0;
+		short x0;
+		short y1;
+		short x1;
 	};
 	short n[4];
 };
@@ -40,10 +40,10 @@ union rectangle2d
 {
 	struct
 	{
-		long top;
-		long left;
-		long bottom;
-		long right;
+		long y0;
+		long x0;
+		long y1;
+		long x1;
 	};
 	long n[4];
 };

@@ -76,17 +76,17 @@ void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_p
 
 	*display_pixel_bounds = {};
 
-	short right  = 1152;
-	short bottom = 640;
+	short width  = 1152;
+	short height = 640;
 
-	if (right <= 8)
-		right = 8;
+	if (width <= 8)
+		width = 8;
 
-	if (bottom <= 8)
-		bottom = 8;
+	if (height <= 8)
+		height = 8;
 
-	display_pixel_bounds->right = right;
-	display_pixel_bounds->bottom = bottom;
+	display_pixel_bounds->x1 = width;
+	display_pixel_bounds->y1 = height;
 }
 
 void __cdecl c_rasterizer::initialize()
