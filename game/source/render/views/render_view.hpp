@@ -20,3 +20,11 @@ public:
 };
 static_assert(sizeof(c_view) == 0x294);
 
+// 0165DBAC
+struct c_ui_view :
+	public c_view
+{
+	byte __data294[0x8];
+};
+static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
+
