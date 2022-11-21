@@ -73,3 +73,9 @@ long player_mapping_get_unit_by_output_user(long output_user_index)
 
 	return player_mapping_globals_get()->output_user_unit_mapping[output_user_index];
 }
+
+long player_mapping_output_user_active_count()
+{
+	return player_mapping_globals_get()->active_output_user_count;
+}
+
