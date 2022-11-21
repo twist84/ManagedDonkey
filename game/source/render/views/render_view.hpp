@@ -111,3 +111,9 @@ struct c_player_view :
 };
 static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
 
+struct c_hud_camera_view :
+	public c_player_view
+{
+};
+static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
+
