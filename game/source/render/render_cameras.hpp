@@ -27,7 +27,12 @@ static_assert(sizeof(render_camera) == 0x88);
 
 struct render_projection
 {
-	byte __data[0xC0];
+	real_matrix4x3 world_to_view;
+	real_matrix4x3 view_to_world;
+	real_rectangle2d projection_bounds;
+	real projection_matrix[4][4];
+	real __unknownB8;
+	real __unknownBC;
 };
 static_assert(sizeof(render_projection) == 0xC0);
 
