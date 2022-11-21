@@ -1307,6 +1307,9 @@
     <ClInclude Include="source\game\game_engine_scoring.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\render\render_cameras.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
