@@ -43,3 +43,11 @@ struct c_world_view :
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
 
+// 0165E0C4
+struct c_lights_view :
+	public c_world_view
+{
+	byte __data298[0xFD8];
+};
+static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
+
