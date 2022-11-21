@@ -598,6 +598,7 @@ POPD
     <ClInclude Include="source\rasterizer\rasterizer_text.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_textures_xenon_formats.hpp" />
     <ClInclude Include="source\render\render_cameras.hpp" />
+    <ClInclude Include="source\render\render_patchy_fog.hpp" />
     <ClInclude Include="source\render\render_visibility_collection.hpp" />
     <ClInclude Include="source\render\views\render_view.hpp" />
     <ClInclude Include="source\saved_games\content_catalogue.hpp" />

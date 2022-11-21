@@ -1,0 +1,18 @@
+#pragma once
+
+#include "cseries/cseries.hpp"
+
+struct c_patchy_fog
+{
+	real_point3d __point0;
+	real_vector3d __vectorC;
+	real_vector3d __vector18;
+	real __unknown24;
+	real __unknown28;
+	real __unknown2C;
+	long __unknown30;
+	c_static_array<real, 100> __unknown34;
+	c_static_array<real, 100> __unknown1C4;
+};
+static_assert(sizeof(c_patchy_fog) == 0x354);
+

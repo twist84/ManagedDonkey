@@ -1316,6 +1316,9 @@
     <ClInclude Include="source\render\render_cameras.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\render\render_patchy_fog.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
