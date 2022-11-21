@@ -59,3 +59,10 @@ struct c_lightmap_shadows_view :
 };
 static_assert(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
 
+// 0165E0EC
+struct c_occlusion_view :
+	public c_lightmap_shadows_view
+{
+};
+static_assert(sizeof(c_occlusion_view) == sizeof(c_lightmap_shadows_view));
+
