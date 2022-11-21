@@ -117,3 +117,21 @@ struct c_hud_camera_view :
 };
 static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
 
+struct c_texture_camera_view :
+	public c_player_view
+{
+	long __unknown26B8;
+	long __unknown26BC;
+	long __unknown26C0;
+	long __unknown26C4;
+	long __unknown26C8;
+	long __unknown26CC;
+	long __unknown26D0;
+	long __unknown26D4;
+	long __unknown26D8;
+	long __unknown26DC;
+	long __unknown26E0;
+	long __unknown26E4;
+};
+static_assert(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
+
