@@ -102,11 +102,11 @@ struct c_player_view :
 	c_reflection_view m_reflection_view;
 	c_occlusion_view m_occlusion_view;
 	short_rectangle2d __rectangle2690;
-	long __unknown2698_user_index;
-	long __unknown269C_player_count;
-	long __unknown26A0;
-	long __unknown26A4_user_index;
-	long __unknown26A8_user_index;
+	long m_player_index;
+	long m_window_count;
+	long m_window_arrangement;
+	long m_user_index;
+	long m_output_user_index;
 	byte __data26AC[0xC];
 };
 static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
