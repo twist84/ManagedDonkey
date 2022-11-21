@@ -28,3 +28,10 @@ struct c_ui_view :
 };
 static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
 
+// 0165DBBC
+struct c_fullscreen_view :
+	public c_view
+{
+};
+static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
+
