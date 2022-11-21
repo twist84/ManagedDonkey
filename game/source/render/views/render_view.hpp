@@ -66,3 +66,10 @@ struct c_occlusion_view :
 };
 static_assert(sizeof(c_occlusion_view) == sizeof(c_lightmap_shadows_view));
 
+// 0165E108
+struct c_reflection_view :
+	public c_view
+{
+};
+static_assert(sizeof(c_reflection_view) == sizeof(c_view));
+
