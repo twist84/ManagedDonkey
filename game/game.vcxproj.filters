@@ -453,6 +453,9 @@
     <ClCompile Include="source\rasterizer\rasterizer_globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render_objects_static_lighting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1329,6 +1332,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\rasterizer\rasterizer_globals.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_objects_static_lighting.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

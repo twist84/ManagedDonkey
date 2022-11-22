@@ -18,6 +18,7 @@
 #include "memory/thread_local.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
 
 #include <assert.h>
@@ -85,6 +86,7 @@ void __cdecl main_loop_body_begin()
 		c_view::g_view_stack;
 		c_player_view::x_current_player_view;
 		c_player_view::x_global_player_views;
+		render_object_globals;
 
 		if (game_in_progress() && !game_is_ui_shell())
 		{
