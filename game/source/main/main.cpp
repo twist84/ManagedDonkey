@@ -1,5 +1,6 @@
 #include "main/main.hpp"
 
+#include "cache/cache_files.hpp"
 #include "camera/director.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
@@ -87,6 +88,14 @@ void __cdecl main_loop_body_begin()
 		c_player_view::x_current_player_view;
 		c_player_view::x_global_player_views;
 		render_object_globals;
+		g_cache_file_globals;
+
+		assert(g_cache_file_globals.loaded_resources->resource_loaded_count <=
+			g_cache_file_globals.resource_file_counts_mapping[0] +
+			g_cache_file_globals.resource_file_counts_mapping[1] + 
+			g_cache_file_globals.resource_file_counts_mapping[2] + 
+			g_cache_file_globals.resource_file_counts_mapping[3] + 
+			g_cache_file_globals.resource_file_counts_mapping[4]);
 
 		if (game_in_progress() && !game_is_ui_shell())
 		{

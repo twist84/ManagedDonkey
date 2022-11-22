@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "memory/secure_signature.hpp"
 #include "tag_files/files.hpp"
+#include "tag_files/tag_groups.hpp"
 
 struct s_cache_file_section_file_bounds
 {
@@ -197,11 +198,64 @@ const long k_tag_cache_maximum_size = 0x4B00000;
 
 struct s_cache_file_tag_name_collection
 {
-	long offsets[k_tag_cache_maximum_files_count];
-	char buffer[k_tag_cache_maximum_files_count * 256];
-	const char* storage[k_tag_cache_maximum_files_count];
+	c_static_array<dword, k_tag_cache_maximum_files_count> offsets;
+	c_static_array<char, k_tag_cache_maximum_files_count * 256> buffer;
+	c_static_array<const char*, k_tag_cache_maximum_files_count> storage;
 };
 static_assert(sizeof(s_cache_file_tag_name_collection) == 0xF1B300);
+
+struct cache_file_resource_location
+{
+	short header_salt; // header_salt_at_runtime
+	byte_flags flags;
+	char codec;
+	short shared_file;
+	short shared_file_location_index;
+	dword file_size;
+	dword size;
+	dword checksum;
+	short resource_reference_count;
+	short streaming_sublocation_table;
+	dword __unknown18;
+	dword __unknown1C;
+	dword __unknown20;
+};
+static_assert(sizeof(cache_file_resource_location) == 0x24);
+
+struct s_cache_file_resource_fixup_location
+{
+	long encoded_fixup_location;
+	long encoded_fixup_value;
+};
+static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
+
+struct s_cache_file_resource_interop_location
+{
+	long encoded_interop_location;
+	long interop_type_index; // long_block_index
+};
+static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
+
+struct cache_file_resource_data
+{
+	tag_reference owner_tag;
+	short resource_salt;
+	char resource_type_index;
+	byte control_alignment_bits;
+	tag_data __unknown14;
+	dword root_fixup;
+	c_typed_tag_block<s_cache_file_resource_fixup_location> control_fixups;
+	c_typed_tag_block<s_cache_file_resource_interop_location> interop_locations;
+	dword __unknown44;
+};
+static_assert(sizeof(cache_file_resource_data) == 0x48);
+
+struct cache_file_resource_instance
+{
+	cache_file_resource_location location;
+	cache_file_resource_data data;
+};
+static_assert(sizeof(cache_file_resource_instance) == 0x6C);
 
 struct s_cache_file_globals
 {
@@ -213,16 +267,16 @@ struct s_cache_file_globals
 	bool tags_loaded;
 
 	// physical_memory_malloc_fixed(sizeof(long) * header.tag_count)
-	dword(&tag_cache_offsets)[k_tag_cache_maximum_files_count];
+	c_static_array<dword, k_tag_cache_maximum_files_count>& tag_cache_offsets;
 
 	// tag_instances[absolute_index] = tag_cache_base_address[total_tags_size]
-	cache_file_tag_instance*(&tag_instances)[k_tag_cache_maximum_files_count];
+	c_static_array<cache_file_tag_instance*, k_tag_cache_maximum_files_count>& tag_instances;
 
 	// tag_index_absolute_mapping[tag_index] = absolute_index;
-	dword(&tag_index_absolute_mapping)[k_tag_cache_maximum_files_count];
+	c_static_array<dword, k_tag_cache_maximum_files_count>& tag_index_absolute_mapping;
 
 	// absolute_index_tag_mapping[absolute_index] = tag_index;
-	dword(&absolute_index_tag_mapping)[k_tag_cache_maximum_files_count];
+	c_static_array<dword, k_tag_cache_maximum_files_count>& absolute_index_tag_mapping;
 
 	dword tag_loaded_count;
 	dword tag_total_count;
@@ -236,13 +290,26 @@ struct s_cache_file_globals
 	// s_cache_file_tags_header* tags_header;
 	s_file_reference tags_header;
 
-	void* __unknown34C8;
-	dword __unknown34CC[5 /* `resource_files` count? */];
+	struct
+	{
+		dword resource_loaded_count;
+		cache_file_resource_instance*(&resource_instances)[k_tag_cache_maximum_files_count];
+
+		dword __unknown8;
+		dword resource_loaded_size;
+		dword __unknown10;
+
+		byte __data14[0x168];
+	}* loaded_resources;
+	static_assert(sizeof(*loaded_resources) == 0x17C);
+
+	// resource_file_counts_mapping[resource_file_index] = resource_count;
+	c_static_array<dword, 5> resource_file_counts_mapping;
 
 	dword report_count;
 	s_cache_file_report* reports;
 
-	const char* resource_files[5];
+	c_static_array<const char*, 5> resource_files;
 	const char* map_directory;
 };
 static_assert(sizeof(s_cache_file_globals) == 0x3508);
