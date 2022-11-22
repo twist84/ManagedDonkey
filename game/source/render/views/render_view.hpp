@@ -117,12 +117,14 @@ struct c_player_view :
 	long m_player_index;
 	long m_window_count;
 	long m_window_arrangement;
-	long m_user_index;
+	long m_window_index;
 	long m_output_user_index;
 	long m_splitscreen_res;
 
 	long __unknown26B0;
-	long __unknown26B4;
+
+	// __unknown26B4 = player_window_index == iterator.m_window_count - 1
+	bool __unknown26B4;
 };
 static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
 
