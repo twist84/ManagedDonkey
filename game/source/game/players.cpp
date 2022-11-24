@@ -23,7 +23,7 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
 {
-	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor_configuration.loadouts[player->active_armor_loadout];
+	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor.loadouts[player->active_armor_loadout];
 
 	if (!loadout.armor_is_set)
 	{
@@ -54,7 +54,7 @@ s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(playe
 // #TODO: hook `game_engine_add_starting_equipment` and reimplement the original functionality
 s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player)
 {
-	s_s3d_player_weapon_configuration_loadout& loadout = player->configuration.host.weapon_configuration.loadouts[player->active_weapon_loadout];
+	s_s3d_player_weapon_configuration_loadout& loadout = player->configuration.host.weapon.loadouts[player->active_weapon_loadout];
 
 	// allow player traits override
 	// #TODO: pull these from tags
