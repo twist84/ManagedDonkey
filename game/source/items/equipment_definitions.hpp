@@ -31,4 +31,5 @@ enum e_equipment_type
 };
 
 extern e_equipment_type equipment_definition_get_type(long definition_index, long equipment_type_index);
+extern bool equipment_definition_has_type(long definition_index, e_equipment_type equipment_type);
 
