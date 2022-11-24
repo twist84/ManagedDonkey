@@ -2,6 +2,7 @@
 
 #include "render/render_cameras.hpp"
 #include "render/render_patchy_fog.hpp"
+#include "rasterizer/rasterizer_text.hpp"
 
 // 0165DB98
 struct c_view
@@ -137,14 +138,14 @@ static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
 struct c_texture_camera_view :
 	public c_player_view
 {
-	long __unknown26B8;
-	long __unknown26BC;
-	long __unknown26C0;
-	long __unknown26C4;
-	long __unknown26C8;
+	c_rasterizer_texture_ref m_accumulation_texture_ref;
+	c_rasterizer_texture_ref m_albedo_texture_ref;
+	c_rasterizer_texture_ref m_normal_texture_ref;
+	c_rasterizer_texture_ref __unknown26C4_texture_ref;
+	c_rasterizer_texture_ref __unknown26C8_texture_ref;
 	long __unknown26CC;
-	long __unknown26D0;
-	dword_flags __unknown26D4;
+	long m_depth_stencil_surface_index;
+	dword_flags __unknown26D4_flags;
 	long __unknown26D8;
 	long __unknown26DC;
 	long __unknown26E0;
