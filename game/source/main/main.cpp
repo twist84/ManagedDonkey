@@ -78,6 +78,8 @@ void __cdecl main_loop_body_begin()
 {
 	FUNCTION_BEGIN(false);
 
+	bool key_pressed = false;
+
 	// right control for tests
 	if (GetKeyState(VK_RCONTROL) & 0x8000)
 	{
@@ -101,10 +103,20 @@ void __cdecl main_loop_body_begin()
 		{
 			s_game_engine_globals* game_engine_globals = get_tls()->game_engine_globals;
 
+			long output_user_index = player_mapping_first_active_output_user();
+			long unit_index = player_mapping_get_unit_by_output_user(output_user_index);
+			if (unit_index != 0xFFFFFFFF)
+			{
+				unit_add_grenade_type_to_inventory(unit_index, _grenade_type_frag, 8);
+				unit_add_grenade_type_to_inventory(unit_index, _grenade_type_plasma, 8);
+				unit_add_grenade_type_to_inventory(unit_index, _grenade_type_claymore, 8);
+				unit_add_grenade_type_to_inventory(unit_index, _grenade_type_firebomb, 8);
+			}
+
 			printf("");
 		}
 
-		printf("");
+		key_pressed = true;
 	}
 
 	if (GetKeyState(VK_PAUSE) & 0x8000)
@@ -112,11 +124,14 @@ void __cdecl main_loop_body_begin()
 		static long controls_method = 0;
 		global_preferences_set_controls_method(controls_method = !controls_method);
 		input_abstraction_globals.controls_method = controls_method;
-		Sleep(75);
+		key_pressed = true;
 	}
 
 	copy_input_states(true);
 	show_location_messages();
+
+	if (key_pressed)
+		Sleep(75);
 }
 
 void __cdecl main_loop_body_end()
