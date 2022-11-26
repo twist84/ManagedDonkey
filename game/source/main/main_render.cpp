@@ -117,3 +117,8 @@ void __cdecl main_render_pregame_loading_screen()
     INVOKE(0x00604990, main_render_pregame_loading_screen);
 }
 
+void __cdecl main_render_status_message(wchar_t const* loading_status)
+{
+    INVOKE(0x00604AF0, main_render_status_message, loading_status);
+}
+
