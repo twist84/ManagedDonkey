@@ -380,6 +380,21 @@ struct players_globals
 };
 static_assert(sizeof(players_globals) == 0x234);
 
+struct c_player_in_game_iterator :
+	public c_data_iterator<player_datum>
+{
+	bool next()
+	{
+		for (m_datum = (player_datum*)data_iterator_next(&m_iterator);
+			m_datum && TEST_BIT(m_datum->player_flags, 1);
+			m_datum = (player_datum*)data_iterator_next(&m_iterator))
+		{
+		}
+
+		return m_datum != nullptr;
+	}
+};
+
 extern long __cdecl players_first_active_user();
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
 extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
