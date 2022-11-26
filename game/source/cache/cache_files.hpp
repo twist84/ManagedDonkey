@@ -293,7 +293,7 @@ struct s_cache_file_globals
 	struct
 	{
 		dword resource_loaded_count;
-		cache_file_resource_instance*(&resource_instances)[k_tag_cache_maximum_files_count];
+		c_static_array<cache_file_resource_instance*, k_tag_cache_maximum_files_count>& resource_instances;
 
 		dword __unknown8;
 		dword resource_loaded_size;

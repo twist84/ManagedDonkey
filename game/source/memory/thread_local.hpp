@@ -532,11 +532,11 @@ struct light_volume_gpu_row
 };
 static_assert(sizeof(light_volume_gpu_row) == 0xC);
 
-struct render_object_globals
+struct s_render_object_globals
 {
 	byte __data[0x3C040];
 };
-static_assert(sizeof(render_object_globals) == 0x3C040);
+static_assert(sizeof(s_render_object_globals) == 0x3C040);
 
 struct shield_render_cache_message
 {
@@ -1210,7 +1210,7 @@ struct s_thread_local_storage
 
 	// name: "effect lightprobes"
 	// size: 0xFE00, sizeof(s_effect_lightprobe) * 128
-	s_effect_lightprobe(*effect_lightprobe_data)[128];
+	c_static_array<s_effect_lightprobe, 128>* effect_lightprobe_data;
 
 	// name: "havok gamestate"
 	// size: 0x8
@@ -1569,7 +1569,7 @@ struct s_thread_local_storage
 	light_volume_gpu_row* light_volume_gpu_row;
 	void* particle_emitter_gpu_5;
 	void* rasterizer_implicit_geometry_data;
-	render_object_globals* render_object_globals;
+	s_render_object_globals* render_object_globals;
 	shield_render_cache_message* shield_render_cache_message;
 	chud_persistent_user_data* chud_persistent_user_data;
 	chud_persistent_global_data* chud_persistent_global_data;
@@ -1578,7 +1578,7 @@ struct s_thread_local_storage
 	// name: "chud widgets[1]"
 	// name: "chud widgets[2]"
 	// name: "chud widgets[3]"
-	c_smart_data_array<chud_widget_datum>* chud_widgets[4];
+	c_static_array<c_smart_data_array<chud_widget_datum>*, 4> chud_widgets;
 
 	// name: "fp orientations"
 	// size: 0x12C00
@@ -1613,7 +1613,7 @@ struct s_thread_local_storage
 
 	// name: "object name list"
 	// size: 0x2000
-	long(*g_object_name_list)[2048];
+	c_static_array<long, 2048>* g_object_name_list;
 
 	// name: "object messaging queue"
 	// size: 0x4104

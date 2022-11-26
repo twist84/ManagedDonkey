@@ -195,7 +195,11 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<'proj'> __reference70_projectile;
 	c_typed_tag_reference<'effe'> __reference80_effect;
 	c_typed_tag_reference<'effe'> __reference90_effect;
-	c_static_array<c_typed_tag_reference<'snd!'>, 2> __referenceA0_sounds;
+
+	// `player_spawn`
+	// long sound_index = player_has_gameplay_modifier(_gameplay_modifier_respawn_modifier) ? runtime_data->modifier_respawn_sound.index : runtime_data->default_respawn_sound.index
+	c_typed_tag_reference<'snd!'> default_respawn_sound;
+	c_typed_tag_reference<'snd!'> modifier_respawn_sound;
 
 	tag_block sounds;
 	tag_block looping_sounds;
