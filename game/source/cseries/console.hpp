@@ -10,9 +10,13 @@ public:
 
     static void write(char const* format, ...);
     static void write_line(char const* format, ...);
+    static void write(wchar_t const* format, ...);
+    static void write_line(wchar_t const* format, ...);
 
     static void write(char const* format, va_list list);
     static void write_line(char const* format, va_list list);
+    static void write(wchar_t const* format, va_list list);
+    static void write_line(wchar_t const* format, va_list list);
 
 protected:
     static FILE* m_file;

@@ -39,6 +39,7 @@ void c_console::write(char const* format, ...)
     va_end(list);
 #endif // _DEBUG
 }
+
 void c_console::write_line(char const* format, ...)
 {
 #ifdef _DEBUG
@@ -47,6 +48,31 @@ void c_console::write_line(char const* format, ...)
 
     vprintf(format, list);
     printf("\n");
+
+    va_end(list);
+#endif // _DEBUG
+}
+
+void c_console::write(wchar_t const* format, ...)
+{
+#ifdef _DEBUG
+    va_list list;
+    va_start(list, format);
+
+    vwprintf(format, list);
+
+    va_end(list);
+#endif // _DEBUG
+}
+
+void c_console::write_line(wchar_t const* format, ...)
+{
+#ifdef _DEBUG
+    va_list list;
+    va_start(list, format);
+
+    vwprintf(format, list);
+    wprintf(L"\n");
 
     va_end(list);
 #endif // _DEBUG
@@ -63,6 +89,21 @@ void c_console::write_line(char const* format, va_list list)
 #ifdef _DEBUG
     vprintf(format, list);
     printf("\n");
+#endif // _DEBUG
+}
+
+void c_console::write(wchar_t const* format, va_list list)
+{
+#ifdef _DEBUG
+    vwprintf(format, list);
+#endif // _DEBUG
+}
+
+void c_console::write_line(wchar_t const* format, va_list list)
+{
+#ifdef _DEBUG
+    vwprintf(format, list);
+    wprintf(L"\n");
 #endif // _DEBUG
 }
 
