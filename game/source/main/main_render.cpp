@@ -107,3 +107,13 @@ s_observer_result const* c_player_render_camera_iterator::get_observer_result() 
     return m_current_observer_result;
 }
 
+void __cdecl main_render_pregame(long main_pregame_frame, char const* loading_status)
+{
+    INVOKE(0x00604860, main_render_pregame, main_pregame_frame, loading_status);
+}
+
+void __cdecl main_render_pregame_loading_screen()
+{
+    INVOKE(0x00604990, main_render_pregame_loading_screen);
+}
+

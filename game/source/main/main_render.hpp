@@ -23,3 +23,6 @@ protected:
 };
 static_assert(sizeof(c_player_render_camera_iterator) == 0x14);
 
+extern void __cdecl main_render_pregame(long main_pregame_frame, char const* loading_status);
+extern void __cdecl main_render_pregame_loading_screen();
+
