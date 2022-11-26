@@ -22,3 +22,6 @@ struct s_main_time_globals
 	dword __unknown3C;
 };
 static_assert(sizeof(s_main_time_globals) == 0x40);
+
+extern void main_time_throttle(qword a1);
+
