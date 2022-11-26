@@ -80,7 +80,7 @@ struct c_smart_data_array : s_data_array
 	c_data_iterator<t_datum_type> end()
 	{
 		c_data_iterator<t_datum_type> result(this);
-		result.current_index = maximum_count;
+		result.absolute_index = maximum_count;
 		return result;
 	}
 };
@@ -90,37 +90,18 @@ typedef c_smart_data_array<s_datum_header> data_array_base;
 
 struct s_data_iterator
 {
-	const s_data_array* data;
-	datum_index index;
-	long current_index;
+	s_data_array const* data;
+	long index;
+	long absolute_index;
 
-	s_data_iterator(const s_data_array* data);
-
-	s_datum_header* next();
-
-	bool operator==(const s_data_iterator& other) const;
-	bool operator!=(const s_data_iterator& other) const;
+	s_data_iterator(const s_data_array* data) :
+		data(data),
+		index((datum_index)-1),
+		absolute_index(-1)
+	{
+	}
 };
 static_assert(sizeof(s_data_iterator) == 0xC);
-
-template <typename t_datum_type>
-struct c_data_iterator : s_data_iterator
-{
-	static_assert(__is_base_of(s_datum_header, t_datum_type));
-
-	c_data_iterator(c_smart_data_array<t_datum_type>* data) : s_data_iterator(data) {}
-	c_data_iterator() : c_data_iterator(nullptr) {}
-
-	//t_datum_type* next() { return static_cast<t_datum_type*>(data_iterator_base::next()); }
-
-	c_data_iterator<t_datum_type>& operator++() { next(); return *this; }
-	c_data_iterator<t_datum_type> operator++(int) { auto result = *this; operator++(); return result; }
-
-	t_datum_type* operator->() const { return (t_datum_type*)data->get_datum(index); }
-
-	t_datum_type& operator*() const { return *operator->(); }
-};
-static_assert(sizeof(c_data_iterator<s_datum_header>) == sizeof(s_data_iterator));
 
 enum class data_address_type : long
 {
@@ -186,7 +167,7 @@ extern void __cdecl data_dispose(s_data_array* data);
 extern void __cdecl data_initialize(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation);
 extern void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation, dword* in_use_bit_vector);
 extern void __cdecl data_iterator_begin(s_data_iterator* iterator, s_data_array* data);
-extern void const* __cdecl data_iterator_next(s_data_iterator* iterator);
+extern void* __cdecl data_iterator_next(s_data_iterator* iterator);
 extern void* __cdecl data_iterator_next_with_word_flags(s_data_iterator* iterator, long flag_offset, word flag_mask, word flag_value);
 extern void __cdecl data_make_invalid(s_data_array* data);
 extern void __cdecl data_make_valid(s_data_array* data);
@@ -207,4 +188,46 @@ extern long __cdecl datum_new_in_range(s_data_array* data, long begin_index, lon
 extern void* __cdecl datum_try_and_get(s_data_array const* data, long index);
 extern void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index);
 extern void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index);
+
+template<typename t_datum_type>
+struct c_data_iterator
+{
+	static_assert(__is_base_of(s_datum_header, t_datum_type));
+
+public:
+	c_data_iterator(s_data_array* data) :
+		m_iterator(data)
+	{
+	}
+
+	void begin(s_data_array* data)
+	{
+		data_iterator_begin(&m_iterator, data);
+	}
+
+	bool next()
+	{
+		m_datum = (t_datum_type*)data_iterator_next(&m_iterator);
+		return m_datum != nullptr;
+	}
+
+	long get_index()// const
+	{
+		return m_iterator.index;
+	}
+
+	short get_absolute_index()// const
+	{
+		return static_cast<short>(m_iterator.absolute_index);
+	}
+
+	t_datum_type* get_datum()// const
+	{
+		return m_datum;
+	}
+
+protected:
+	t_datum_type* m_datum;
+	s_data_iterator m_iterator;
+};
 

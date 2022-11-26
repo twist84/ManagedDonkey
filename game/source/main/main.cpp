@@ -92,6 +92,18 @@ void __cdecl main_loop_body_begin()
 		render_object_globals;
 		g_cache_file_globals;
 
+
+		c_console::write_line("players");
+		c_data_iterator<player_datum> player_iterator(get_tls()->player_data);
+		while (player_iterator.next())
+		{
+			long index = player_iterator.get_index();
+			short absolute_index = player_iterator.get_absolute_index();
+			player_datum* player = player_iterator.get_datum();
+
+			c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.player_name.get_string());
+		}
+
 		assert(g_cache_file_globals.loaded_resources->resource_loaded_count <=
 			g_cache_file_globals.resource_file_counts_mapping[0] +
 			g_cache_file_globals.resource_file_counts_mapping[1] + 

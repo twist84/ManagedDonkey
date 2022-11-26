@@ -34,45 +34,6 @@ s_datum_header* s_data_array::get_datum(const datum_index index) const
 	return datum;
 }
 
-s_data_iterator::s_data_iterator(const s_data_array* data) :
-	data(data), index((datum_index)-1), current_index(-1)
-{
-}
-
-s_datum_header* s_data_iterator::next()
-{
-	s_datum_header* result;
-
-	long index = data->get_index(current_index + 1);
-
-	if (index == -1)
-	{
-		current_index = data->maximum_count;
-		index = (datum_index)-1;
-		result = nullptr;
-	}
-	else
-	{
-		result = (s_datum_header*)&data->data[index * data->size];
-		current_index = index;
-		index = (datum_index)(index | (result->identifier << 16));
-	}
-
-	return result;
-}
-
-bool s_data_iterator::operator==(const s_data_iterator& other) const
-{
-	return (data == other.data)
-		&& (current_index == other.current_index)
-		&& (index == other.index);
-}
-
-bool s_data_iterator::operator!=(const s_data_iterator& other) const
-{
-	return !(*this == other);
-}
-
 long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits)
 {
 	return INVOKE(0x0055AAB0, data_allocation_size, maximum_count, size, alignment_bits);
@@ -113,7 +74,7 @@ void data_iterator_begin(s_data_iterator* iterator, s_data_array* data)
 	INVOKE(0x0055AE10, data_iterator_begin, iterator, data);
 }
 
-void const* data_iterator_next(s_data_iterator* iterator)
+void* data_iterator_next(s_data_iterator* iterator)
 {
 	return INVOKE(0x0055AE30, data_iterator_next, iterator);
 }

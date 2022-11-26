@@ -145,7 +145,7 @@ bool game_is_ui_shell()
 
 bool game_is_multiplayer()
 {
-	FUNCTION_BEGIN(true);
+	FUNCTION_BEGIN(false);
 
 	return game_mode_get() == _game_mode_multiplayer;
 }
