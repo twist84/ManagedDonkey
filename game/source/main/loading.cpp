@@ -183,11 +183,16 @@ long __cdecl main_loading_get_gui_game_mode()
 }
 
 //enum e_main_pregame_frame __cdecl main_loading_get_loading_status(class c_static_wchar_string<12288> *)
-long __cdecl main_loading_get_loading_status(wchar_t* status_message)
+long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* status_message)
 {
-    FUNCTION_BEGIN(true);
+    FUNCTION_BEGIN(false);
 
-    return INVOKE(0x0052F930, main_loading_get_loading_status, status_message);
+    //status_message->set(L"LOADING|n|nhttps://github.com/theTwist84/ManagedDonkey");
+    //return 3;
+
+    long result = INVOKE(0x0052F930, main_loading_get_loading_status, status_message);
+    status_message->append(L"|n|nhttps://github.com/theTwist84/ManagedDonkey");
+    return result;
 }
 
 void __cdecl main_loading_idle_with_blocking_load(bool blocking_load)
@@ -231,3 +236,4 @@ void __cdecl main_loading_progress_update(char const* scenario_path, char const*
 
     INVOKE(0x0052FB80, main_loading_progress_update, scenario_path, a2, progress, a4);
 }
+
