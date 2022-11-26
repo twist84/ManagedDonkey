@@ -459,6 +459,9 @@
     <ClCompile Include="source\items\equipment_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\multithreading\synchronized_value.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\cache\restricted_memory_regions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
