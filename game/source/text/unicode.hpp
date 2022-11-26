@@ -73,7 +73,9 @@ extern int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_lis
 //extern wchar_t * ustrftime_tm(wchar_t *,long,wchar_t const *,struct tm const *);
 //extern wchar_t * ustrftime(wchar_t *,long,wchar_t const *,__int64);
 //extern int uatoi(wchar_t const *);
-//extern void wchar_string_to_ascii_string(wchar_t const *,char *,long,long *);
+
+extern void wchar_string_to_ascii_string(wchar_t const* source, char* destination, long source_length, long* destination_length);
+
 //extern struct utf32 ascii_string_to_utf32_characters(char const *,struct s_escape_table const *,char const * *,long *,struct utf32 *,long,long *);
 //extern struct utf32 wchar_string_to_utf32_characters(wchar_t const *,struct s_escape_table const *,wchar_t const * *,long *,struct utf32 *,long,long *);
 //extern void ascii_string_to_utf32_string(char const *,struct s_escape_table const *,struct utf32 *,long,long *);
@@ -105,6 +107,7 @@ public:
 	c_static_wchar_string() :
 		m_string{}
 	{
+		clear();
 	}
 
 	void set(wchar_t const* s)

@@ -123,7 +123,12 @@ int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list)
 //wchar_t * ustrftime_tm(wchar_t *,long,wchar_t const *,struct tm const *)
 //wchar_t * ustrftime(wchar_t *,long,wchar_t const *,__int64)
 //int uatoi(wchar_t const *)
-//void wchar_string_to_ascii_string(wchar_t const *,char *,long,long *)
+
+void wchar_string_to_ascii_string(wchar_t const* source, char* destination, long source_length, long* destination_length)
+{
+    INVOKE(0x004EDD60, wchar_string_to_ascii_string, source, destination, source_length, destination_length);
+}
+
 //struct utf32 ascii_string_to_utf32_characters(char const *,struct s_escape_table const *,char const * *,long *,struct utf32 *,long,long *)
 //struct utf32 wchar_string_to_utf32_characters(wchar_t const *,struct s_escape_table const *,wchar_t const * *,long *,struct utf32 *,long,long *)
 //void ascii_string_to_utf32_string(char const *,struct s_escape_table const *,struct utf32 *,long,long *)
