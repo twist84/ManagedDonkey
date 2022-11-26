@@ -459,6 +459,9 @@
     <ClCompile Include="source\items\equipment_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cache\restricted_memory_regions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1341,6 +1344,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\items\equipment_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cache\restricted_memory_regions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
