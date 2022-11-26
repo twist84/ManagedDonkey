@@ -1,6 +1,7 @@
 #include "main/main.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
@@ -14,7 +15,9 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "main/global_preferences.hpp"
+#include "main/loading.hpp"
 #include "main/main_game_launch.hpp"
+#include "main/main_render.hpp"
 #include "memory/data.hpp"
 #include "memory/thread_local.hpp"
 #include "memory/module.hpp"
@@ -26,6 +29,9 @@
 
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
+HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
+
+REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
 
 void copy_input_states(bool enabled)
 {
@@ -213,5 +219,63 @@ void __cdecl main_loop_body_end()
 
 	if (key_pressed)
 		Sleep(75);
+}
+
+bool game_is_multithreaded()
+{
+	return INVOKE(0x0042E2C0, game_is_multithreaded);
+}
+
+dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
+{
+	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
+}
+
+void __cdecl main_loop_pregame_show_progress_screen()
+{
+	static c_static_wchar_string<12288> loading_status;
+	long main_pregame_frame = main_loading_get_loading_status(&loading_status);
+	if (!main_pregame_frame)
+		return;
+
+	dword flags = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+
+	c_rasterizer::begin_frame();
+	c_rasterizer::setup_targets_simple();
+
+	if (main_pregame_frame == 8)
+	{
+		main_render_pregame_loading_screen();
+	}
+	else if (main_pregame_frame == 3)
+	{
+		main_render_status_message(loading_status.get_string());
+	}
+	else
+	{
+		static char loading_status_ascii[12288];
+		loading_status_ascii[0] = 0;
+
+		wchar_string_to_ascii_string(loading_status.get_string(), loading_status_ascii, 12288, nullptr);
+		main_render_pregame(main_pregame_frame, loading_status_ascii);
+	}
+
+	if (main_pregame_frame != 2)
+		main_time_throttle(0);
+
+	c_rasterizer::end_frame();
+
+	if (game_is_multithreaded())
+	{
+		if (TEST_BIT(flags, 0))
+		{
+			c_rasterizer::rasterizer_device_release_thread();
+			restricted_region_unlock_primary(4);
+			restricted_region_unlock_primary(2);
+		}
+
+		if (TEST_BIT(flags, 1) && game_is_multithreaded())
+			g_render_thread_enabled.set_if_equal(true, false);
+	}
 }
 
