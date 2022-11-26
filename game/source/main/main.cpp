@@ -92,9 +92,15 @@ void __cdecl main_loop_body_begin()
 		render_object_globals;
 		g_cache_file_globals;
 
+		long player_count = 0;
+		{
+			c_player_in_game_iterator player_iterator(get_tls()->player_data);
+			while (player_iterator.next())
+				player_count++;
+		}
 
-		c_console::write_line("players");
-		c_data_iterator<player_datum> player_iterator(get_tls()->player_data);
+		c_console::write_line("players: %i", player_count);
+		c_player_with_unit_iterator player_iterator(get_tls()->player_data);
 		while (player_iterator.next())
 		{
 			long index = player_iterator.get_index();
