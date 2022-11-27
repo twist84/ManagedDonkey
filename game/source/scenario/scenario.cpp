@@ -27,8 +27,6 @@ REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
 
 s_scenario* global_scenario_get()
 {
-	FUNCTION_BEGIN(true);
-
 	// halo 3
 	assert(global_scenario);
 	return global_scenario;
@@ -39,8 +37,6 @@ s_scenario* global_scenario_get()
 
 s_scenario* global_scenario_try_and_get()
 {
-	FUNCTION_BEGIN(true);
-
 	if (global_scenario)
 		return global_scenario_get();
 
@@ -49,16 +45,12 @@ s_scenario* global_scenario_try_and_get()
 
 s_game_globals* scenario_get_game_globals()
 {
-	FUNCTION_BEGIN(true);
-
 	assert(global_game_globals);
 	return global_game_globals;
 }
 
 s_game_globals* scenario_try_and_get_game_globals()
 {
-	FUNCTION_BEGIN(true);
-
 	if (global_game_globals)
 		return scenario_get_game_globals();
 
@@ -68,8 +60,6 @@ s_game_globals* scenario_try_and_get_game_globals()
 //bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
 {
-	FUNCTION_BEGIN(true);
-
 	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
 
 	assert(scenario_path != 0);
@@ -83,8 +73,6 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 
 void __cdecl scenario_invalidate()
 {
-	FUNCTION_BEGIN(true);
-
 	return INVOKE(0x004EA3E0, scenario_invalidate);
 }
 
@@ -93,8 +81,6 @@ void on_scenario_loaded();
 //bool __cdecl scenario_load(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path)
 {
-	FUNCTION_BEGIN(true);
-
 	//bool result = false;
 	//HOOK_INVOKE(result =, scenario_load, campaign_id, map_id, scenario_path);
 	//return result;

@@ -16,8 +16,6 @@ HOOK_DECLARE(0x00463540, network_blf_verify_start_of_file);
 
 void s_blf_header::setup(long _chunk_type, long _chunk_size, long _major_version, long _minor_version)
 {
-	FUNCTION_BEGIN(true);
-
 	chunk_type = _byteswap_ulong(_chunk_type);
 	chunk_size = _byteswap_ulong(_chunk_size);
 	major_version = _byteswap_ushort(static_cast<short>(_major_version));
@@ -26,15 +24,11 @@ void s_blf_header::setup(long _chunk_type, long _chunk_size, long _major_version
 
 s_blf_chunk_start_of_file::s_blf_chunk_start_of_file()
 {
-	FUNCTION_BEGIN(true);
-
 	initialize();
 }
 
 void s_blf_chunk_start_of_file::initialize()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('_blf', sizeof(*this), 1, 2);
 
 	byte_order_mark = _byteswap_ushort(0xFFFE);
@@ -44,15 +38,11 @@ void s_blf_chunk_start_of_file::initialize()
 
 s_blf_chunk_end_of_file::s_blf_chunk_end_of_file()
 {
-	FUNCTION_BEGIN(true);
-
 	initialize();
 }
 
 void s_blf_chunk_end_of_file::initialize()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('_eof', sizeof(*this), 1, 1);
 
 	file_size = 0;
@@ -61,15 +51,11 @@ void s_blf_chunk_end_of_file::initialize()
 
 s_blf_chunk_end_of_file_with_crc::s_blf_chunk_end_of_file_with_crc()
 {
-	FUNCTION_BEGIN(true);
-
 	initialize();
 }
 
 void s_blf_chunk_end_of_file_with_crc::initialize()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('_eof', sizeof(*this), 1, 1);
 
 	file_size = 0;
@@ -78,15 +64,11 @@ void s_blf_chunk_end_of_file_with_crc::initialize()
 
 s_blf_chunk_content_header::s_blf_chunk_content_header()
 {
-	FUNCTION_BEGIN(true);
-
 	initialize();
 }
 
 void s_blf_chunk_content_header::initialize()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('chdr', sizeof(*this), 9, 1);
 
 	build_number = static_cast<short>(version_get_build_number());
@@ -104,15 +86,11 @@ void s_blf_chunk_content_header::initialize()
 
 s_blf_chunk_author::s_blf_chunk_author()
 {
-	FUNCTION_BEGIN(true);
-
 	initialize();
 }
 
 void s_blf_chunk_author::initialize()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('athr', sizeof(*this), 3, 1);
 
 	build_name.set(0);
@@ -124,16 +102,12 @@ void s_blf_chunk_author::initialize()
 s_blf_chunk_game_variant::s_blf_chunk_game_variant() :
 	game_variant()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('mpvr', sizeof(*this), 3, 1);
 }
 
 s_blf_chunk_map_variant::s_blf_chunk_map_variant() :
 	map_variant()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('mpvr', sizeof(*this), 12, 1);
 
 	memset(pad, 0, sizeof(pad));
@@ -143,7 +117,6 @@ s_blffile_saved_game_file::s_blffile_saved_game_file() :
 	start_of_file_chunk(),
 	content_header_chunk()
 {
-	FUNCTION_BEGIN(true);
 }
 
 s_blffile_game_variant::s_blffile_game_variant() :
@@ -151,8 +124,6 @@ s_blffile_game_variant::s_blffile_game_variant() :
 	game_variant_chunk(),
 	end_of_file_chunk()
 {
-	FUNCTION_BEGIN(true);
-
 	memset(pad, 0, sizeof(pad));
 }
 
@@ -161,15 +132,11 @@ s_blffile_map_variant::s_blffile_map_variant() :
 	map_variant_chunk(),
 	end_of_file_chunk()
 {
-	FUNCTION_BEGIN(true);
-
 	memset(pad, 0, sizeof(pad));
 }
 
 s_blf_chunk_campaign::s_blf_chunk_campaign()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('cmpn', sizeof(*this), 1, 1);
 
 	type_flags = 0;
@@ -181,8 +148,6 @@ s_blf_chunk_campaign::s_blf_chunk_campaign()
 
 s_blf_chunk_scenario::s_blf_chunk_scenario()
 {
-	FUNCTION_BEGIN(true);
-
 	header.setup('levl', sizeof(*this), 3, 2);
 
 	map_id = -1;
@@ -200,8 +165,6 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 
 bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
 {
-	FUNCTION_BEGIN(true);
-
 	bool result = false;
 
 	while (!result)
@@ -235,8 +198,6 @@ bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool 
 
 bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool byte_swap, long type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
 {
-	FUNCTION_BEGIN(true);
-
 	assert(out_chunk_size);
 
 	bool result = false;
@@ -319,8 +280,6 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 
 bool __cdecl network_blf_verify_end_of_file(char const* buffer, long buffer_count, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type)
 {
-	FUNCTION_BEGIN(true);
-
 	bool result = false;
 	HOOK_INVOKE(result =, network_blf_verify_end_of_file, buffer, buffer_count, byte_swap, eof_chunk_buffer, authentication_type);
 	return result;
@@ -328,8 +287,6 @@ bool __cdecl network_blf_verify_end_of_file(char const* buffer, long buffer_coun
 
 bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_count, bool* out_byte_swap, long* out_chunk_size)
 {
-	FUNCTION_BEGIN(true);
-
 	bool result = false;
 
 	if (out_chunk_size)

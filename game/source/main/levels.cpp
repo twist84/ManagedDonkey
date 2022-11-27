@@ -47,22 +47,16 @@ HOOK_DECLARE(0x0054C530, levels_process_level_configuration_file);
 
 void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, levels_add_campaign, campaign, byte_swap, maps_path, is_dlc);
 }
 
 void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path)
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, levels_add_map_from_scripting, map_id, scenario_path);
 }
 
 void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
 {
-	FUNCTION_BEGIN(true);
-
 	//HOOK_INVOKE(, levels_add_fake_map_from_scripting, scenario_path);
 
 	levels_add_map_from_scripting(-2, scenario_path);
@@ -70,15 +64,11 @@ void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
 
 void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, levels_add_level, scenario, byte_swap, maps_path, is_dlc);
 }
 
 bool __cdecl levels_begin_dvd_enumeration()
 {
-	FUNCTION_BEGIN(true);
-
 	bool result = false;
 	HOOK_INVOKE(result =, levels_begin_dvd_enumeration);
 	return result;
@@ -87,8 +77,6 @@ bool __cdecl levels_begin_dvd_enumeration()
 // searches for `campaign`, `mapinfo`, `xex` and `preorder_unlock.txt`
 long __cdecl levels_dvd_enumeration_callback2(void* callback_data)
 {
-	FUNCTION_BEGIN(true);
-
 	long result = 0;
 	HOOK_INVOKE(result =, levels_dvd_enumeration_callback2, callback_data);
 
@@ -97,8 +85,6 @@ long __cdecl levels_dvd_enumeration_callback2(void* callback_data)
 
 long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* callback_data)
 {
-	FUNCTION_BEGIN(true);
-
 	c_static_string<256> found_file_name{};
 	s_file_reference found_file{};
 
@@ -155,8 +141,6 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 //bool __cdecl levels_map_id_is_fake(e_map_id map_id)
 bool __cdecl levels_map_id_is_fake(long map_id)
 {
-	FUNCTION_BEGIN(true);
-
 	//bool result = false;
 	//HOOK_INVOKE(result =, levels_map_id_is_fake, map_id);
 	//return result;
@@ -166,8 +150,6 @@ bool __cdecl levels_map_id_is_fake(long map_id)
 
 void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc)
 {
-	FUNCTION_BEGIN(true);
-
 	//HOOK_INVOKE(, levels_process_campaign_configuration_file, file, maps_path, is_dlc);
 
 	static char file_buffer[sizeof(s_blf_chunk_campaign)]{};
@@ -181,8 +163,6 @@ void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, 
 
 void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc)
 {
-	FUNCTION_BEGIN(true);
-
 	//HOOK_INVOKE(, levels_process_level_configuration_file, file, maps_path, is_dlc);
 
 	static char file_buffer[sizeof(s_blf_chunk_scenario)]{};

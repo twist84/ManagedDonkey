@@ -22,10 +22,4 @@ protected:
     static FILE* m_file;
 };
 
-#ifdef _DEBUG
-#define FUNCTION_BEGIN(PRINT) { if (PRINT) { c_console::write_line(__FUNCTION__); c_console::write_line("%s %d\n", __FILE__, __LINE__); } }
-#else
-#define FUNCTION_BEGIN(...)
-#endif // _DEBUG
-
 void get_error_message(unsigned long message_id, char(&message_buffer)[2048]);

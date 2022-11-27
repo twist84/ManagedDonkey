@@ -9,8 +9,6 @@ REFERENCE_DECLARE(0x019A0328, s_network_session_interface_globals, session_inter
 
 long __cdecl network_squad_session_get_countdown_timer()
 {
-	FUNCTION_BEGIN(true);
-
 	c_network_session* active_squad_session = nullptr;
 	if (network_life_cycle_in_squad_session(&active_squad_session) && active_squad_session->established())
 	{
@@ -25,7 +23,5 @@ long __cdecl network_squad_session_get_countdown_timer()
 
 void __cdecl network_session_interface_handle_message(long session_network_message)
 {
-	FUNCTION_BEGIN(true);
-
 	INVOKE(0x004365D0, network_session_interface_handle_message, session_network_message);
 }

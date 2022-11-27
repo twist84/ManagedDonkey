@@ -14,8 +14,6 @@ const bool g_require_secure_tag_instances = true;
 
 dword __cdecl crc_checksum_buffer_adler32(dword adler, byte* buffer, dword buffer_size)
 {
-	FUNCTION_BEGIN(false);
-
 	//dword checksum = INVOKE(0x0052CCC0, crc_checksum_buffer_adler32, adler, buffer, buffer_size);
 
 	dword checksum = adler32(adler, buffer, buffer_size);
@@ -38,8 +36,6 @@ dword __cdecl crc_checksum_buffer_adler32(dword adler, byte* buffer, dword buffe
 
 dword __cdecl crc_checksum_buffer(dword crc, byte* buffer, dword buffer_size)
 {
-	FUNCTION_BEGIN(false);
-
 	dword checksum = crc32(crc, buffer, buffer_size);
 
 	return checksum;

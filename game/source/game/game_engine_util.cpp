@@ -42,8 +42,6 @@ REFERENCE_DECLARE(0x0190E3C0, c_infection_engine, internal_infection_engine);
 
 c_game_engine const* __cdecl current_game_engine()
 {
-	FUNCTION_BEGIN(false);
-
 	c_game_engine const* result = nullptr;
 	//HOOK_INVOKE(result =, current_game_engine);
 

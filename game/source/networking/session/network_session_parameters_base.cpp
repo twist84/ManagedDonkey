@@ -7,8 +7,6 @@
 
 char const* c_network_session_parameter_base::get_session_description()
 {
-	FUNCTION_BEGIN(true);
-
 	//if (m_session && m_session->get_session_id(nullptr))
 	//	return managed_session_get_id_string(m_session->managed_session_index());
 
@@ -17,8 +15,6 @@ char const* c_network_session_parameter_base::get_session_description()
 
 void c_network_session_parameter_base::set_desires_change_request()
 {
-	FUNCTION_BEGIN(true);
-
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] desires change request", get_session_description(), m_type, m_name);
 	m_state_flags |= FLAG(1);
 	notify_set_change_request();
@@ -26,8 +22,6 @@ void c_network_session_parameter_base::set_desires_change_request()
 
 void c_network_session_parameter_base::reset_peer_state(long peer_index)
 {
-	FUNCTION_BEGIN(true);
-
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] resetting peer %d state", get_session_description(), m_type, m_name, peer_index);
 	m_transmitted_peer_updates[peer_index] = false;
 	notify_reset_peer_state(peer_index);
@@ -35,8 +29,6 @@ void c_network_session_parameter_base::reset_peer_state(long peer_index)
 
 void c_network_session_parameter_base::notify_update_sent_to_peer(long peer_index)
 {
-	FUNCTION_BEGIN(true);
-
 	c_console::write_line("networking:session_parameters: [%s] notify parameter %d update sent to peer %d", get_session_description(), m_type, peer_index);
 	notify_update_payload_sent_to_peer(peer_index);
 	if (can_set_peer_no_longer_requires_update(peer_index))
@@ -48,8 +40,6 @@ void c_network_session_parameter_base::notify_update_sent_to_peer(long peer_inde
 
 void c_network_session_parameter_base::set_update_required()
 {
-	FUNCTION_BEGIN(true);
-
 	assert(set_allowed());
 
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] marking dirty", get_session_description(), m_type, m_name);
@@ -59,8 +49,6 @@ void c_network_session_parameter_base::set_update_required()
 
 void c_network_session_parameter_base::transition_state_to_become_host()
 {
-	FUNCTION_BEGIN(true);
-
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] transitioning to host", get_session_description(), m_type, m_name);
 	memset(m_transmitted_peer_updates, 0, sizeof(m_transmitted_peer_updates));
 	m_state_flags &= FLAG(0);
@@ -69,8 +57,6 @@ void c_network_session_parameter_base::transition_state_to_become_host()
 
 void c_network_session_parameter_base::notify_change_request_sent()
 {
-	FUNCTION_BEGIN(true);
-
 	c_console::write_line("networking:session_parameters: [%s] notify parameter %d change request sent to host", get_session_description(), m_type);
 	notify_change_request_payload_sent();
 	if (can_clear_change_request_desired())
@@ -82,8 +68,6 @@ void c_network_session_parameter_base::notify_change_request_sent()
 
 bool c_network_session_parameter_base::handle_change_request(void const* change_request, long change_request_size)
 {
-	FUNCTION_BEGIN(true);
-
 	assert(change_request);
 	assert(change_request_size == get_change_request_size());
 
@@ -97,15 +81,11 @@ bool c_network_session_parameter_base::handle_change_request(void const* change_
 
 long c_network_session_parameter_base::get_change_request_size() const
 {
-	FUNCTION_BEGIN(true);
-
 	return get_change_request_payload_size();
 }
 
 bool c_network_session_parameter_base::handle_update(s_network_session_parameter_update const* update, long update_size)
 {
-	FUNCTION_BEGIN(true);
-
 	assert(update);
 	assert(update->payload);
 	assert(update_size == get_update_size());
@@ -120,23 +100,17 @@ bool c_network_session_parameter_base::handle_update(s_network_session_parameter
 
 long c_network_session_parameter_base::get_update_size() const
 {
-	FUNCTION_BEGIN(true);
-
 	return get_update_payload_size();
 }
 
 void c_network_session_parameter_base::set_change_request_no_longer_desired()
 {
-	FUNCTION_BEGIN(true);
-
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] change request no longer desired", get_session_description(), m_type, m_name);
 	m_state_flags &= ~FLAG(1);
 }
 
 void c_network_session_parameter_base::set_peer_no_longer_requires_update(long peer_index)
 {
-	FUNCTION_BEGIN(true);
-
 	assert(!m_transmitted_peer_updates[peer_index]);
 
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] peer %d no longer requires update", get_session_description(), m_type, m_name, peer_index);
@@ -145,15 +119,11 @@ void c_network_session_parameter_base::set_peer_no_longer_requires_update(long p
 
 bool c_network_session_parameter_base::get_allowed() const
 {
-	FUNCTION_BEGIN(false);
-
 	return TEST_BIT(m_state_flags, 0);
 }
 
 bool c_network_session_parameter_base::set_allowed() const
 {
-	FUNCTION_BEGIN(true);
-
 	//return m_session->established() && m_session()->is_host();
 
 	return DECLFUNC(0x00451210, bool, __thiscall, c_network_session_parameter_base const*)(this);
@@ -161,8 +131,6 @@ bool c_network_session_parameter_base::set_allowed() const
 
 bool c_network_session_parameter_base::change_request_allowed() const
 {
-	FUNCTION_BEGIN(true);
-
 	//if (m_session->established())
 	//{
 	//	if (m_change_request_access == 2)
@@ -181,8 +149,6 @@ bool c_network_session_parameter_base::change_request_allowed() const
 
 char const* c_network_session_parameter_base::get_set_denied_reason() const
 {
-	FUNCTION_BEGIN(true);
-
 	//if (set_allowed())
 	//	return "NONE";
 	//

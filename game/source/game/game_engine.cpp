@@ -82,8 +82,6 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 
 long __cdecl game_engine_get_pre_round_ticks()
 {
-	FUNCTION_BEGIN(false);
-
 	return game_seconds_integer_to_ticks(8);
 }
 

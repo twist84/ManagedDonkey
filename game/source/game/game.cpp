@@ -20,8 +20,6 @@ HOOK_DECLARE(0x006961C0, game_options_get_launch_settings);
 
 bool game_in_startup_phase()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 	{
@@ -40,8 +38,6 @@ bool game_in_startup_phase()
 
 bool game_in_progress()
 {
-	FUNCTION_BEGIN(false);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals && game_globals->game_in_progress)
 		return !game_globals->initializing && game_globals->map_active;
@@ -55,8 +51,6 @@ bool game_in_progress()
 
 bool game_options_valid()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 
 	return game_globals && (game_globals->initializing || game_globals->map_active);
@@ -64,15 +58,11 @@ bool game_options_valid()
 
 bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length)
 {
-	FUNCTION_BEGIN(true);
-
 	return INVOKE(0x005326F0, game_options_verify, options, error_string, error_string_length);
 }
 
 void __cdecl assert_game_options_verify(game_options const* options)
 {
-	FUNCTION_BEGIN(true);
-
 	char error_string[512]{};
 	assert(game_options_verify(options, error_string, sizeof(error_string))); // ("game_options_verify failed: %s", error_string)
 	//INVOKE(0x00530440, assert_game_options_verify, options);
@@ -80,8 +70,6 @@ void __cdecl assert_game_options_verify(game_options const* options)
 
 game_options* game_options_get()
 {
-	FUNCTION_BEGIN(false);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && (game_globals->initializing || game_globals->map_active));
 
@@ -90,8 +78,6 @@ game_options* game_options_get()
 
 void game_options_print_game_id()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && (game_globals->initializing || game_globals->map_active));
 
@@ -102,8 +88,6 @@ void game_options_print_game_id()
 
 void game_options_clear_game_playback()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && (game_globals->initializing || game_globals->map_active));
 
@@ -114,15 +98,11 @@ void game_options_clear_game_playback()
 
 e_campaign_difficulty_level game_difficulty_level_get()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_options_get()->campaign_difficulty;
 }
 
 e_campaign_difficulty_level game_difficulty_level_get_ignore_easy()
 {
-	FUNCTION_BEGIN(true);
-
 	if (game_difficulty_level_get() == _campaign_difficulty_level_easy)
 		return _campaign_difficulty_level_normal;
 
@@ -131,29 +111,21 @@ e_campaign_difficulty_level game_difficulty_level_get_ignore_easy()
 
 e_game_mode game_mode_get()
 {
-	FUNCTION_BEGIN(false);
-
 	return game_options_get()->game_mode;
 }
 
 bool game_is_ui_shell()
 {
-	FUNCTION_BEGIN(false);
-
 	return game_mode_get() == _game_mode_mainmenu;
 }
 
 bool game_is_multiplayer()
 {
-	FUNCTION_BEGIN(false);
-
 	return game_mode_get() == _game_mode_multiplayer;
 }
 
 bool game_is_campaign()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_mode_get() == _game_mode_campaign;
 }
 
@@ -161,8 +133,6 @@ static bool g_debug_survival_mode = false;
 
 bool game_is_survival()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals && (game_globals->initializing || game_globals->map_active))
 		return game_globals->options.game_mode == _game_mode_campaign && game_globals->options.survival_enabled;
@@ -172,15 +142,11 @@ bool game_is_survival()
 
 bool game_is_campaign_or_survival()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_is_campaign() || game_is_survival();
 }
 
 void game_set_active_skulls(dword* active_primary_skulls, dword* active_secondary_skulls)
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 	{
@@ -194,8 +160,6 @@ void game_set_active_skulls(dword* active_primary_skulls, dword* active_secondar
 
 void game_set_difficulty(e_campaign_difficulty_level campaign_difficulty)
 {
-	FUNCTION_BEGIN(true);
-
 	if (game_in_progress() &&
 		game_is_campaign() &&
 		campaign_difficulty >= _campaign_difficulty_level_easy &&
@@ -210,15 +174,11 @@ void game_set_difficulty(e_campaign_difficulty_level campaign_difficulty)
 
 bool game_is_playtest()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_options_get()->playtest_mode;
 }
 
 bool game_had_an_update_tick_this_frame()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 
 	return game_globals && game_globals->update_tick_this_frame;
@@ -226,22 +186,16 @@ bool game_had_an_update_tick_this_frame()
 
 e_game_simulation_type game_simulation_get()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_options_get()->game_simulation;
 }
 
 bool game_is_playback()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_playback_get();
 }
 
 e_game_playback_type game_playback_get()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_options_get()->game_playback;
 }
 
@@ -249,8 +203,6 @@ e_game_playback_type game_playback_get()
 
 void game_simulation_set(e_game_simulation_type game_simulation)
 {
-	FUNCTION_BEGIN(true);
-
 	char const* k_game_simulation_names[k_game_simulation_count]
 	{
 		"none",
@@ -272,8 +224,6 @@ void game_simulation_set(e_game_simulation_type game_simulation)
 
 bool game_is_synchronous_networking()
 {
-	FUNCTION_BEGIN(true);
-
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_synchronous_client &&
 		game_simulation <= _game_simulation_synchronous_server)
@@ -284,8 +234,6 @@ bool game_is_synchronous_networking()
 
 bool game_is_networked()
 {
-	FUNCTION_BEGIN(true);
-
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_synchronous_client &&
 		game_simulation <= _game_simulation_distributed_server)
@@ -298,8 +246,6 @@ bool game_is_networked()
 
 bool game_is_server()
 {
-	FUNCTION_BEGIN(true);
-
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
 	if (game_simulation == _game_simulation_synchronous_server ||
 		game_simulation == _game_simulation_distributed_server)
@@ -310,22 +256,16 @@ bool game_is_server()
 
 bool game_is_authoritative()
 {
-	FUNCTION_BEGIN(true);
-
 	return !game_is_predicted();
 }
 
 bool game_is_predicted()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_options_get()->game_simulation == _game_simulation_distributed_client;
 }
 
 bool game_is_distributed()
 {
-	FUNCTION_BEGIN(true);
-
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_distributed_client &&
 		game_simulation <= _game_simulation_distributed_server)
@@ -336,15 +276,11 @@ bool game_is_distributed()
 
 long game_tick_rate_get()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_options_get()->game_tick_rate;
 }
 
 bool game_skull_is_active_primary(e_campaign_skulls_primary primary_skull)
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		return game_globals->active_primary_skulls == primary_skull;
@@ -354,8 +290,6 @@ bool game_skull_is_active_primary(e_campaign_skulls_primary primary_skull)
 
 bool game_skull_is_active_secondary(e_campaign_skulls_secondary secondary_skull)
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		return game_globals->active_secondary_skulls == secondary_skull;
@@ -365,8 +299,6 @@ bool game_skull_is_active_secondary(e_campaign_skulls_secondary secondary_skull)
 
 void game_skull_enable_primary(e_campaign_skulls_primary primary_skull, bool enable)
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->active_primary_skulls.set(primary_skull, enable);
@@ -374,8 +306,6 @@ void game_skull_enable_primary(e_campaign_skulls_primary primary_skull, bool ena
 
 void game_skull_enable_secondary(e_campaign_skulls_secondary secondary_skull, bool enable)
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->active_secondary_skulls.set(secondary_skull, enable);
@@ -383,8 +313,6 @@ void game_skull_enable_secondary(e_campaign_skulls_secondary secondary_skull, bo
 
 bool game_coop_allow_respawn()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 
 	return game_globals && game_globals->options.game_mode == _game_mode_campaign && !game_skull_is_active_primary(_campaign_skull_iron);
@@ -394,8 +322,6 @@ bool game_coop_allow_respawn()
 
 e_language game_get_master_language()
 {
-	FUNCTION_BEGIN(true);
-
 	return game_options_get()->language;
 }
 
@@ -403,8 +329,6 @@ e_language game_get_master_language()
 
 void game_options_setup_default_players(long player_count, game_options* options)
 {
-	FUNCTION_BEGIN(true);
-
 	DECLFUNC(0x00532440, void, __cdecl, long, game_options*)(player_count, options);
 }
 
@@ -412,8 +336,6 @@ void game_options_setup_default_players(long player_count, game_options* options
 
 bool game_is_available(void)
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 
 	return game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask;
@@ -421,8 +343,6 @@ bool game_is_available(void)
 
 s_game_cluster_bit_vectors* game_get_cluster_pvs()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
@@ -431,8 +351,6 @@ s_game_cluster_bit_vectors* game_get_cluster_pvs()
 
 s_game_cluster_bit_vectors* game_get_cluster_pvs_local()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
@@ -441,8 +359,6 @@ s_game_cluster_bit_vectors* game_get_cluster_pvs_local()
 
 s_game_cluster_bit_vectors* game_get_cluster_activation()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
@@ -453,8 +369,6 @@ s_game_cluster_bit_vectors* game_get_cluster_activation()
 
 void game_pvs_enable_scripted_camera_pvs()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted_camera_pvs = true;
@@ -462,8 +376,6 @@ void game_pvs_enable_scripted_camera_pvs()
 
 void game_pvs_clear_scripted_camera_pvs()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted_camera_pvs = false;
@@ -471,8 +383,6 @@ void game_pvs_clear_scripted_camera_pvs()
 
 void game_pvs_scripted_set_object(datum_index object_index)
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (!game_globals)
 		return;
@@ -489,8 +399,6 @@ void game_pvs_scripted_set_object(datum_index object_index)
 
 void game_pvs_scripted_clear()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted = 0;
@@ -502,8 +410,6 @@ void game_pvs_scripted_clear()
 
 void game_lost(bool game_revert)
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active);
 
@@ -532,8 +438,6 @@ void game_lost(bool game_revert)
 
 bool game_is_lost()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active);
 
@@ -543,8 +447,6 @@ bool game_is_lost()
 // custom like `game_is_finished_immediate`
 bool game_is_lost_immediate()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active);
 
@@ -553,8 +455,6 @@ bool game_is_lost_immediate()
 
 void game_finish()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active);
 
@@ -577,8 +477,6 @@ void game_finish()
 
 void game_finish_immediate()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active);
 
@@ -591,8 +489,6 @@ void game_finish_immediate()
 
 bool game_is_finished()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active);
 
@@ -601,8 +497,6 @@ bool game_is_finished()
 
 bool game_is_finished_immediate()
 {
-	FUNCTION_BEGIN(true);
-
 	game_globals_storage* game_globals = game_globals_get();
 	assert(game_globals && game_globals->map_active);
 
@@ -611,8 +505,6 @@ bool game_is_finished_immediate()
 
 void __cdecl game_options_new(game_options* options)
 {
-	FUNCTION_BEGIN(true);
-
 	INVOKE(0x005323A0, game_options_new, options);
 }
 
@@ -642,8 +534,6 @@ static_assert(sizeof(s_game_options_launch_settings) == 0x118);
 
 bool game_options_read_launch_settings_from_string(char const* buffer, s_game_options_launch_settings* out_launch_settings)
 {
-	FUNCTION_BEGIN(true);
-
 	s_game_options_launch_settings launch_settings{};
 
 	*launch_settings.scenario_path = 0;
@@ -671,8 +561,6 @@ bool game_options_read_launch_settings_from_string(char const* buffer, s_game_op
 
 bool game_launch_get_settings(s_game_options_launch_settings* out_launch_settings)
 {
-	FUNCTION_BEGIN(true);
-
 	bool result = false;
 
 	FILE* launch_file;
@@ -701,8 +589,6 @@ bool game_launch_get_settings(s_game_options_launch_settings* out_launch_setting
 
 bool __cdecl game_launch_has_initial_script(char const* script_name)
 {
-	FUNCTION_BEGIN(true);
-
 	// fix for hanger background not being loaded
 	if (game_is_ui_shell())
 		user_interface_start_hs_script_by_name("humanhangar");
@@ -712,8 +598,6 @@ bool __cdecl game_launch_has_initial_script(char const* script_name)
 
 bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress)
 {
-	FUNCTION_BEGIN(true);
-
 	assert(options);
 
 	//bool result = false;

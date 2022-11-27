@@ -9,8 +9,6 @@ HOOK_DECLARE(0x0042ED50, network_get_machine_name);
 
 bool __cdecl network_get_machine_name(wchar_t* machine_name, long machine_name_len)
 {
-    FUNCTION_BEGIN(false);
-
     char system_identifier[264];
     if (!shell_get_system_identifier(system_identifier, 256) || !system_identifier[0])
         return false;

@@ -82,8 +82,6 @@ void show_location_messages()
 
 void __cdecl main_loop_body_begin()
 {
-	FUNCTION_BEGIN(false);
-
 	bool key_pressed = false;
 
 	// right control for tests
@@ -165,8 +163,6 @@ void __cdecl main_loop_body_begin()
 
 void __cdecl main_loop_body_end()
 {
-	FUNCTION_BEGIN(false);
-
 	bool key_pressed = false;
 
 	// home cluster keys

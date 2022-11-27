@@ -17,15 +17,11 @@ REFERENCE_DECLARE(0x0199FA28, s_transport_globals, transport_globals);
 
 bool __cdecl transport_available()
 {
-	FUNCTION_BEGIN(false);
-
 	return transport_globals.initialized && transport_globals.winsock_initialized;
 }
 
 void __cdecl transport_dispose()
 {
-	FUNCTION_BEGIN(true);
-
 	if (transport_globals.initialized)
 	{
 		transport_shutdown();
@@ -37,15 +33,11 @@ void __cdecl transport_dispose()
 
 long __cdecl transport_get_packet_maximum_payload(long type)
 {
-	FUNCTION_BEGIN(true);
-
 	return 4096;
 }
 
 long __cdecl transport_get_packet_overhead(long type)
 {
-	FUNCTION_BEGIN(true);
-
 	if (type >= 0)
 	{
 		if (type <= 1)
@@ -60,8 +52,6 @@ long __cdecl transport_get_packet_overhead(long type)
 
 void __cdecl transport_global_update()
 {
-	FUNCTION_BEGIN(true);
-
 	if (transport_globals.initialized)
 	{
 		bool available = transport_network_available();

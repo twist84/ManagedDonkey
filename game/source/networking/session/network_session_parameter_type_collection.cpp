@@ -17,8 +17,6 @@ void c_network_session_parameter_type_collection::register_session_parameter_typ
 	long change_request_size
 )
 {
-	FUNCTION_BEGIN(true);
-
 	assert(session_parameter_name);
 	assert(update_encode);
 	assert(update_decode);

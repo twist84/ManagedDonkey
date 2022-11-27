@@ -5,7 +5,5 @@
 
 void __cdecl cache_file_builder_security_clean_header(s_cache_file_header* out_header)
 {
-	FUNCTION_BEGIN(true);
-
 	INVOKE(0x00601BF0, cache_file_builder_security_clean_header, out_header);
 }

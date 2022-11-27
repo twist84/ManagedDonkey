@@ -7,8 +7,6 @@
 
 s_observer* observer_get(long user_index)
 {
-	FUNCTION_BEGIN(true);
-
 	assert(user_index >= 0 && user_index < 4);
 
 	s_thread_local_storage* tls = get_tls();

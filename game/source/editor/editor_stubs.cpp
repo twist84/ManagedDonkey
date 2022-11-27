@@ -21,57 +21,41 @@ HOOK_DECLARE(0x0042E130, game_in_editor);
 
 void __cdecl editor_change_pvs(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, bool a3)
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_change_pvs, a1, a2, a3);
 }
 
 void __cdecl editor_dispose()
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_dispose);
 }
 
 void __cdecl editor_dispose_from_old_map()
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_dispose_from_old_map);
 }
 
 void __cdecl editor_dispose_from_old_structure_bsp(dword a1)
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_dispose_from_old_structure_bsp, a1);
 }
 
 void __cdecl editor_initialize()
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_initialize);
 }
 
 void __cdecl editor_initialize_for_new_map()
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_initialize_for_new_map);
 }
 
 void __cdecl editor_initialize_for_new_structure_bsp(dword a1)
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_initialize_for_new_structure_bsp, a1);
 }
 
 bool __cdecl editor_input_inhibited()
 {
-	FUNCTION_BEGIN(false);
-
 	bool result = false;
 	HOOK_INVOKE(result =, editor_input_inhibited);
 	return result;
@@ -79,29 +63,21 @@ bool __cdecl editor_input_inhibited()
 
 void __cdecl editor_orphan_object(e_object_type a1, long a2)
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_orphan_object, a1, a2);
 }
 
 void __cdecl editor_register_new_object(e_object_type a1, long a2, long a3)
 {
-	FUNCTION_BEGIN(false);
-
 	HOOK_INVOKE(, editor_register_new_object, a1, a2, a3);
 }
 
 void __cdecl editor_save_progress()
 {
-	FUNCTION_BEGIN(true);
-
 	HOOK_INVOKE(, editor_save_progress);
 }
 
 bool __cdecl editor_should_render_transparent_geometry()
 {
-	FUNCTION_BEGIN(true);
-
 	bool result = false;
 	HOOK_INVOKE(result =, editor_should_render_transparent_geometry);
 	return result;
@@ -109,8 +85,6 @@ bool __cdecl editor_should_render_transparent_geometry()
 
 bool __cdecl editor_switch_zone_set(long a1)
 {
-	FUNCTION_BEGIN(true);
-
 	bool result = false;
 	HOOK_INVOKE(result =, editor_switch_zone_set, a1);
 	return result;
@@ -118,15 +92,11 @@ bool __cdecl editor_switch_zone_set(long a1)
 
 void __cdecl editor_update()
 {
-	FUNCTION_BEGIN(false);
-
 	HOOK_INVOKE(, editor_update);
 }
 
 bool __cdecl game_in_editor()
 {
-	FUNCTION_BEGIN(false);
-
 	bool result = false;
 	HOOK_INVOKE(result =, game_in_editor);
 	return result;

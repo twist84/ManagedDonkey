@@ -11,8 +11,6 @@
 
 void cheat_teleport_to_camera()
 {
-    FUNCTION_BEGIN(true);
-
     long output_user = player_mapping_first_active_output_user();
     if (output_user == -1)
         return;

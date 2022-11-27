@@ -32,8 +32,6 @@ HOOK_DECLARE(0x004407D0, transport_get_endpoint_address);
 
 long __cdecl get_platform_socket_option(e_transport_endpoint_option option)
 {
-    FUNCTION_BEGIN(true);
-
     switch (option)
     {
     case _transport_endpoint_option_reuse_address:
@@ -58,8 +56,6 @@ long __cdecl get_platform_socket_option(e_transport_endpoint_option option)
 
 transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listening_endpoint)
 {
-    FUNCTION_BEGIN(true);
-
     transport_endpoint* result = nullptr;
     HOOK_INVOKE(result =, transport_endpoint_accept, listening_endpoint);
     return result;
@@ -67,8 +63,6 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
 
 bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, transport_address const* address)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_async_connect, endpoint, address);
     return result;
@@ -76,8 +70,6 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, tran
 
 bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint, bool* is_connected)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_async_is_connected, endpoint, is_connected);
     return result;
@@ -85,8 +77,6 @@ bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint,
 
 bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_address* address)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_bind, endpoint, address);
     return result;
@@ -94,8 +84,6 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 
 transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type)
 {
-    FUNCTION_BEGIN(true);
-
     transport_endpoint* result = nullptr;
     HOOK_INVOKE(result =, transport_endpoint_create, type);
     return result;
@@ -103,8 +91,6 @@ transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type)
 
 bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, transport_address const* address)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_create_socket, endpoint, address);
     return result;
@@ -112,15 +98,11 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, tran
 
 void __cdecl transport_endpoint_delete(transport_endpoint* endpoint)
 {
-    FUNCTION_BEGIN(true);
-
     HOOK_INVOKE(, transport_endpoint_delete, endpoint);
 }
 
 void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 {
-    FUNCTION_BEGIN(true);
-
     assert(endpoint != NULL);
 
     if (endpoint->socket != INVALID_SOCKET)
@@ -152,8 +134,6 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 
 long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option)
 {
-    FUNCTION_BEGIN(true);
-
     long result = 0;
     HOOK_INVOKE(result =, transport_endpoint_get_option_value, endpoint, option);
     return result;
@@ -161,8 +141,6 @@ long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e
 
 bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, long* socket_address_size, byte* const socket_address)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_get_socket_address, address, socket_address_size, socket_address);
     return result;
@@ -170,8 +148,6 @@ bool __cdecl transport_endpoint_get_socket_address(transport_address const* addr
 
 bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, byte const* const socket_address, transport_address* address)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_get_transport_address, socket_address_length, socket_address, address);
     return result;
@@ -179,8 +155,6 @@ bool __cdecl transport_endpoint_get_transport_address(long socket_address_length
 
 short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, short length)
 {
-    FUNCTION_BEGIN(true);
-
     assert(endpoint != NULL);
     assert(buffer != NULL);
     assert(length > 0);
@@ -220,8 +194,6 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
 
 short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* buffer, short length, transport_address* source)
 {
-    FUNCTION_BEGIN(false);
-
     short result = 0;
     HOOK_INVOKE(result =, transport_endpoint_read_from, endpoint, buffer, length, source);
     return result;
@@ -229,8 +201,6 @@ short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* b
 
 bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endpoint)
 {
-    FUNCTION_BEGIN(true);
-
     if (transport_available())
     {
         transport_endpoint* endpoint = transport_endpoint_accept(listening_endpoint);
@@ -242,8 +212,6 @@ bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endpoint)
 
 bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool blocking)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_set_blocking, endpoint, blocking);
     return result;
@@ -251,8 +219,6 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 
 bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option, long value)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_set_option_value, endpoint, option, value);
     return result;
@@ -260,8 +226,6 @@ bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e
 
 void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_type type)
 {
-    FUNCTION_BEGIN(true);
-
     assert(endpoint);
     assert((type == _transport_type_udp) || (type == _transport_type_vdp) || (type == _transport_type_tcp));
 
@@ -272,8 +236,6 @@ void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_
 
 short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, short length)
 {
-    FUNCTION_BEGIN(true);
-
     assert(endpoint != NULL);
     assert(buffer != NULL);
     assert(length > 0);
@@ -308,8 +270,6 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
 
 short __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, short length, transport_address const* destination)
 {
-    FUNCTION_BEGIN(true);
-
     short result = 0;
     HOOK_INVOKE(result =, transport_endpoint_write_to, endpoint, buffer, length, destination);
     return result;
@@ -317,8 +277,6 @@ short __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void con
 
 bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_writeable, endpoint);
     return result;
@@ -326,8 +284,6 @@ bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint)
 
 bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transport_address* address)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, transport_get_endpoint_address, endpoint, address);
     return result;

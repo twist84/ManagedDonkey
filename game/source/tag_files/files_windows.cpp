@@ -37,16 +37,12 @@ HOOK_DECLARE(0x0052B850, find_files_start_with_search_spec);
 
 void suppress_file_errors(bool suppress)
 {
-    FUNCTION_BEGIN(true);
-
     if (get_tls())
         get_tls()->g_file_errors_suppressed = suppress;
 }
 
 bool file_errors_suppressed()
 {
-    FUNCTION_BEGIN(true);
-
     if (get_tls())
         return get_tls()->g_file_errors_suppressed;
 
@@ -124,8 +120,6 @@ void __cdecl file_date_format_for_output(s_file_last_modification_date* date, ch
 
 bool __cdecl file_delete(s_file_reference* file_reference)
 {
-    FUNCTION_BEGIN(true);
-
     bool result = false;
     HOOK_INVOKE(result =, file_delete, file_reference);
     return result;
@@ -134,8 +128,6 @@ bool __cdecl file_delete(s_file_reference* file_reference)
 //void file_error(char const*, s_file_reference const*, s_file_reference const*, bool)
 void __cdecl file_error(char const* file_function, s_file_reference* file0, s_file_reference* file1, bool suppress_error)
 {
-    FUNCTION_BEGIN(true);
-
     file_reference_info* info0 = file_reference_get_info(file0);
     file_reference_info* info1 = nullptr;
     if (file1)
@@ -161,8 +153,6 @@ void __cdecl file_error(char const* file_function, s_file_reference* file0, s_fi
 }
 bool __cdecl file_exists(s_file_reference const* file_reference)
 {
-    FUNCTION_BEGIN(true);
-
     //bool result = false;
     //HOOK_INVOKE(result =, file_exists, file_reference);
     //return result;
@@ -195,8 +185,6 @@ bool file_get_size(s_file_reference* file_reference, dword* out_file_size)
 
 bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword* error)
 {
-    FUNCTION_BEGIN(true);
-
     //bool result = false;
     //HOOK_INVOKE(result =, file_open, file_reference, open_flags, error);
     //return result;
