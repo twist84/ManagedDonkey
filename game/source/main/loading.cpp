@@ -1,9 +1,13 @@
 #include "main/loading.hpp"
 
+#include "bink/bink_playback.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_windows.hpp"
+#include "game/game.hpp"
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
+#include "scenario/scenario.hpp"
 
 HOOK_DECLARE(0x0052F180, main_load_map);
 
@@ -152,14 +156,58 @@ long __cdecl main_loading_get_gui_game_mode()
 }
 
 //enum e_main_pregame_frame __cdecl main_loading_get_loading_status(class c_static_wchar_string<12288> *)
-long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* status_message)
+long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_status)
 {
+#ifdef _DEBUG
+    loading_globals_spinner_enabled = true;
+#endif // _DEBUG
 
-    //status_message->set(L"LOADING|n|nhttps://github.com/theTwist84/ManagedDonkey");
-    //return 3;
+    if (bink_playback_active())
+        return 1;
 
-    long result = INVOKE(0x0052F930, main_loading_get_loading_status, status_message);
-    status_message->append(L"|n|nhttps://github.com/theTwist84/ManagedDonkey");
+    if (loading_globals_spinner_enabled)
+    {
+        if (loading_globals_basic_progress_enabled)
+        {
+            if (disable_progress_screen)
+                return 8;
+
+            if (!g_active_designer_zone_mask)
+            {
+                static wchar_t const* spinner_states[] = { L"/", L"-", L"\\" };
+                static long spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
+
+                static dword last_time = system_milliseconds();
+                dword time = system_milliseconds();
+                if (time < last_time + 250)
+                    return 0;
+
+                last_time = time;
+                spinner_state_index = (spinner_state_index + 1) % NUMBEROF(spinner_states);
+
+                if (game_in_progress() && !loading_globals_tag_load_in_progress)
+                    return 0;
+
+                if (loading_status)
+                    loading_status->print(L"%s|n", spinner_states[spinner_state_index]);
+
+                if (string_is_not_empty(loading_globals_scenario_path))
+                {
+                    if (loading_status)
+                        loading_status->append_print(L"loading scenario %hs...", loading_globals_scenario_path);
+                }
+
+                if (loading_status)
+                    loading_status->append(L"|n");
+
+                // #TODO: fix `main_render_pregame` not displaying text for certain `e_main_pregame_frame` so we can return 2 for green background
+                return 4;
+            }
+        }
+    }
+
+    long result = INVOKE(0x0052F930, main_loading_get_loading_status, loading_status);
+    loading_status->append(L"|n|nhttps://github.com/theTwist84/ManagedDonkey");
     return result;
 }
 
