@@ -150,7 +150,7 @@ void __cdecl main_loop_body_begin()
 	if (GetKeyState(VK_PAUSE) & 0x8000)
 	{
 		static long controls_method = 0;
-		global_preferences_set_controls_method(controls_method = !controls_method);
+		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
 		input_abstraction_globals.controls_method = controls_method;
 		key_pressed = true;
 	}
