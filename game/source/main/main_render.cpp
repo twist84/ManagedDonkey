@@ -107,9 +107,73 @@ s_observer_result const* c_player_render_camera_iterator::get_observer_result() 
     return m_current_observer_result;
 }
 
+void __cdecl main_render()
+{
+    INVOKE(0x006042C0, main_render);
+}
+
+void __cdecl main_render_assert_no_pending_messages()
+{
+    INVOKE(0x00604420, main_render_assert_no_pending_messages);
+}
+
+void __cdecl main_render_frame_begin()
+{
+    INVOKE(0x00604430, main_render_frame_begin);
+}
+
+void __cdecl main_render_game()
+{
+    INVOKE(0x00604440, main_render_game);
+}
+
+bool __cdecl sub_42E5D0()
+{
+    return INVOKE(0x0042E5D0, sub_42E5D0);
+}
+
 void __cdecl main_render_pregame(long main_pregame_frame, char const* loading_status)
 {
     INVOKE(0x00604860, main_render_pregame, main_pregame_frame, loading_status);
+
+    //if (!sub_42E5D0())
+    //{
+    //    dword flags = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+    //
+    //    c_view::abort_current_view_stack();
+    //
+    //    c_fullscreen_view fullscreen_view;
+    //    fullscreen_view.setup_camera(nullptr);
+    //    fullscreen_view.begin();
+    //    fullscreen_view.render_blank_frame(fullscreen_text_context_colors[main_pregame_frame][0]);
+    //
+    //    s_render_fullscreen_text_context context;
+    //    context.text = text;
+    //    context.color = &fullscreen_text_context_colors[pregame_frame_type][1];
+    //    context.shadow_color = &fullscreen_text_context_colors[pregame_frame_type][2];
+    //    context.scale = fullscreen_text_context_scales[pregame_frame_type];
+    //
+    //    if (pregame_frame_type == 4 || pregame_frame_type == 5)
+    //    {
+    //        render_fullscreen_text(&context, true);
+    //        overlapped_render();
+    //        controllers_render();
+    //    }
+    //
+    //    if (pregame_frame_type == 1)
+    //    {
+    //        c_fullscreen_view::render();
+    //        if (bink_playback_active())
+    //        {
+    //            bink_playback_update();
+    //            bink_playback_check_for_terminate();
+    //            bink_playback_render();
+    //        }
+    //    }
+    //    c_view::end();
+    //
+    //    unlock_resources_and_resume_render_thread(flags);
+    //}
 }
 
 void __cdecl main_render_pregame_loading_screen()
@@ -117,8 +181,34 @@ void __cdecl main_render_pregame_loading_screen()
     INVOKE(0x00604990, main_render_pregame_loading_screen);
 }
 
+// 00604A20
+// calls `c_rasterizer::end_frame`
+
+void __cdecl main_render_process_messages()
+{
+    INVOKE(0x00604A60, main_render_process_messages);
+}
+
+void __cdecl main_render_purge_pending_messages()
+{
+    INVOKE(0x00604AA0, main_render_purge_pending_messages);
+}
+
+// 00604AD0
+// sets a bool related to D3D
+
+void __cdecl main_render_start_blocking_frame()
+{
+    INVOKE(0x00604AE0, main_render_start_blocking_frame);
+}
+
 void __cdecl main_render_status_message(wchar_t const* loading_status)
 {
     INVOKE(0x00604AF0, main_render_status_message, loading_status);
+}
+
+void __cdecl main_render_update_loading_screen()
+{
+    INVOKE(0x00604C70, main_render_update_loading_screen);
 }
 
