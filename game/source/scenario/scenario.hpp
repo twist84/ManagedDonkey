@@ -9,6 +9,11 @@ extern s_scenario*& global_scenario;
 
 struct s_game_globals;
 extern s_game_globals*& global_game_globals;
+extern dword& g_active_structure_bsp_mask;
+extern dword& g_touched_structure_bsp_mask;
+extern dword& g_active_designer_zone_mask;
+extern dword& g_active_cinematic_zone_mask;
+extern dword& g_touched_cinematic_zone_mask;
 
 extern s_scenario* global_scenario_get();
 extern s_scenario* global_scenario_try_and_get();

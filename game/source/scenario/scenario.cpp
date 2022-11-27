@@ -19,6 +19,11 @@ REFERENCE_DECLARE(0x0189CCF8, long, global_scenario_index);
 REFERENCE_DECLARE(0x0189CCFC, long, global_scenario_game_globals_index);
 REFERENCE_DECLARE(0x022AAEB4, s_scenario*, global_scenario);
 REFERENCE_DECLARE(0x022AAEB8, s_game_globals*, global_game_globals);
+REFERENCE_DECLARE(0x022AAEBC, dword, g_active_structure_bsp_mask);
+REFERENCE_DECLARE(0x022AAEC0, dword, g_touched_structure_bsp_mask);
+REFERENCE_DECLARE(0x022AAEC4, dword, g_active_designer_zone_mask);
+REFERENCE_DECLARE(0x022AAEC8, dword, g_active_cinematic_zone_mask);
+REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
 
 s_scenario* global_scenario_get()
 {
