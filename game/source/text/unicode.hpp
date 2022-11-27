@@ -125,6 +125,18 @@ public:
 		ustrnzcat(m_string, s, k_buffer_size);
 	}
 
+	wchar_t const* print(wchar_t const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		uvsnzprintf(m_string, k_buffer_size, format, list);
+
+		va_end(list);
+
+		return m_string;
+	}
+
 	wchar_t const* append_print(wchar_t const* format, ...)
 	{
 		va_list list;
