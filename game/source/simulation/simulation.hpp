@@ -2,6 +2,17 @@
 
 #include "cseries/cseries.hpp"
 
+
+class c_wait_for_render_thread
+{
+public:
+	c_wait_for_render_thread(char const* file, long line);
+	~c_wait_for_render_thread();
+
+protected:
+	dword m_flags;
+};
+
 enum e_simulation_abort_reason
 {
 	_simulation_abort_reason_exiting_in_game = 0,

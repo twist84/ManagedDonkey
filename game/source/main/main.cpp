@@ -24,6 +24,7 @@
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
+#include "simulation/simulation.hpp"
 
 #include <assert.h>
 
@@ -260,8 +261,7 @@ void __cdecl main_loop_pregame_show_progress_screen()
 		return;
 	}
 
-	dword flags = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
-
+	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 	if (c_rasterizer::begin_frame())
 	{
 		c_rasterizer::setup_targets_simple();
@@ -285,7 +285,6 @@ void __cdecl main_loop_pregame_show_progress_screen()
 			if (main_pregame_frame == 2)
 			{
 				c_rasterizer::end_frame();
-				unlock_resources_and_resume_render_thread(flags);
 				return;
 			}
 		}
@@ -293,7 +292,5 @@ void __cdecl main_loop_pregame_show_progress_screen()
 		main_time_throttle(0);
 		c_rasterizer::end_frame();
 	}
-
-	unlock_resources_and_resume_render_thread(flags);
 }
 
