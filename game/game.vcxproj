@@ -208,6 +208,7 @@ POPD
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\bink\bink_playback.cpp" />
     <ClCompile Include="source\bitmaps\bitmaps.cpp" />
     <ClCompile Include="source\cache\cache_files.cpp" />
     <ClCompile Include="source\cache\cache_files_windows.cpp" />
@@ -375,6 +376,7 @@ POPD
     <ClInclude Include="source\ai\squad_patrol.hpp" />
     <ClInclude Include="source\ai\styles.hpp" />
     <ClInclude Include="source\ai\zone.hpp" />
+    <ClInclude Include="source\bink\bink_playback.hpp" />
     <ClInclude Include="source\bitmaps\bitmaps.hpp" />
     <ClInclude Include="source\bitmaps\bitmap_group_tag_definition.hpp" />
     <ClInclude Include="source\cache\restricted_memory_regions.hpp" />
