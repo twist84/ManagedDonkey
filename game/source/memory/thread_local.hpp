@@ -1170,14 +1170,13 @@ struct s_thread_local_storage
 	c_smart_data_array<hs_distributed_global_data>* hs_distributed_global_data;
 	c_smart_data_array<hs_thread_tracking_data>* hs_thread_tracking_data;
 	c_smart_data_array<hs_thread_non_deterministic_data>* hs_thread_non_deterministic_data;
-	 
-	void* __unknown80;
-	void* __unknown84;
-	void* __unknown88;
-	void* __unknown8C;
-	void* __unknown90;
-	void* __unknown94;
-	void* __unknown98;
+
+	// from assert
+	void* g_restricted_address[5];
+
+	// from assert
+	bool g_restricted_alias[5];
+
 	void* __unknown9C;
 
 	//  name: "effect"
