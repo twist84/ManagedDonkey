@@ -3,6 +3,19 @@
 #include "cseries/cseries.hpp"
 #include "text/unicode.hpp"
 
+extern bool& disable_progress_screen;
+
+// struct `s_loading_globals`
+extern char const*& loading_globals_scenario_path;
+extern long& loading_globals_insertion_point;
+extern bool& loading_globals_tag_load_in_progress;
+extern bool& loading_globals_basic_progress_enabled;
+extern bool& loading_globals_progress_sizes;
+extern long& loading_globals_basic_progress_phase;
+extern real& loading_globals_progress;
+extern bool& loading_globals_spinner_enabled;
+extern bool& loading_globals_progress_start;
+
 extern void __cdecl loading_basic_progress_complete();
 extern void __cdecl loading_basic_progress_disable();
 extern void __cdecl loading_basic_progress_enable(char const* scenario_path, long insertion_point);

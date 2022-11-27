@@ -7,6 +7,17 @@
 
 HOOK_DECLARE(0x0052F180, main_load_map);
 
+REFERENCE_DECLARE(0x02390D00, bool, disable_progress_screen);
+REFERENCE_DECLARE(0x02390D04, char const*, loading_globals_scenario_path);
+REFERENCE_DECLARE(0x02390D08, long, loading_globals_insertion_point);
+REFERENCE_DECLARE(0x02390D0C, bool, loading_globals_tag_load_in_progress);
+REFERENCE_DECLARE(0x02390D14, bool, loading_globals_basic_progress_enabled);
+REFERENCE_DECLARE(0x02390D15, bool, loading_globals_progress_sizes);
+REFERENCE_DECLARE(0x02390D18, long, loading_globals_basic_progress_phase);
+REFERENCE_DECLARE(0x02390D34, real, loading_globals_progress);
+REFERENCE_DECLARE(0x02390D38, bool, loading_globals_spinner_enabled);
+REFERENCE_DECLARE(0x02390D39, bool, loading_globals_progress_start);
+
 void __cdecl loading_basic_progress_complete()
 {
     FUNCTION_BEGIN(true);
