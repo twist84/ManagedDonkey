@@ -424,4 +424,5 @@ enum e_network_session_peer_state
 	k_network_session_peer_state_count
 };
 
+extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
