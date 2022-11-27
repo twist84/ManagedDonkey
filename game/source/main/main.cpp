@@ -1,6 +1,7 @@
 #include "main/main.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
 #include "cseries/console.hpp"
@@ -96,6 +97,8 @@ void __cdecl main_loop_body_begin()
 		c_player_view::x_global_player_views;
 		render_object_globals;
 		g_cache_file_globals;
+		g_restricted_region_names;
+		g_restricted_regions;
 
 		long player_count = 0;
 		{

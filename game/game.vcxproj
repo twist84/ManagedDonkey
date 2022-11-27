@@ -214,6 +214,7 @@ POPD
     <ClCompile Include="source\cache\cache_files_windows.cpp" />
     <ClCompile Include="source\cache\cache_file_builder_security.cpp" />
     <ClCompile Include="source\cache\cache_file_tag_resource_runtime.cpp" />
+    <ClCompile Include="source\cache\restricted_memory.cpp" />
     <ClCompile Include="source\cache\restricted_memory_regions.cpp" />
     <ClCompile Include="source\cache\security_functions.cpp" />
     <ClCompile Include="source\camera\editor_director.cpp" />
@@ -379,6 +380,7 @@ POPD
     <ClInclude Include="source\bink\bink_playback.hpp" />
     <ClInclude Include="source\bitmaps\bitmaps.hpp" />
     <ClInclude Include="source\bitmaps\bitmap_group_tag_definition.hpp" />
+    <ClInclude Include="source\cache\restricted_memory.hpp" />
     <ClInclude Include="source\cache\restricted_memory_regions.hpp" />
     <ClInclude Include="source\cseries\async_xoverlapped.hpp" />
     <ClInclude Include="source\cseries\async_xoverlapped_memory.hpp" />
