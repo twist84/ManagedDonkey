@@ -143,6 +143,11 @@ void __cdecl main_loop_body_begin()
 		key_pressed = true;
 	}
 
+	if (GetKeyState(VK_ADD) & 0x8000)
+	{
+		shell_halt_with_message("FUCK");
+	}
+
 	if (GetKeyState(VK_PAUSE) & 0x8000)
 	{
 		static long controls_method = 0;
@@ -231,51 +236,68 @@ dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, 
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
 }
 
+void __cdecl unlock_resources_and_resume_render_thread(dword flags)
+{
+	INVOKE(0x00507940, unlock_resources_and_resume_render_thread, flags);
+
+	//if (game_is_multithreaded())
+	//{
+	//	if (TEST_BIT(flags, 0))
+	//	{
+	//		c_rasterizer::rasterizer_device_release_thread();
+	//		restricted_region_unlock_primary(4);
+	//		restricted_region_unlock_primary(2);
+	//	}
+	//
+	//	if (TEST_BIT(flags, 1) && game_is_multithreaded())
+	//		g_render_thread_enabled.set_if_equal(true, false);
+	//}
+}
+
 void __cdecl main_loop_pregame_show_progress_screen()
 {
 	static c_static_wchar_string<12288> loading_status;
 	long main_pregame_frame = main_loading_get_loading_status(&loading_status);
 	if (!main_pregame_frame)
+	{
+		//editor_show_pregame_progress(main_pregame_frame, loading_status.get_string());
 		return;
+	}
 
 	dword flags = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
 
-	c_rasterizer::begin_frame();
-	c_rasterizer::setup_targets_simple();
-
-	if (main_pregame_frame == 8)
+	if (c_rasterizer::begin_frame())
 	{
-		main_render_pregame_loading_screen();
-	}
-	else if (main_pregame_frame == 3)
-	{
-		main_render_status_message(loading_status.get_string());
-	}
-	else
-	{
-		static char loading_status_ascii[12288];
-		loading_status_ascii[0] = 0;
+		c_rasterizer::setup_targets_simple();
 
-		wchar_string_to_ascii_string(loading_status.get_string(), loading_status_ascii, 12288, nullptr);
-		main_render_pregame(main_pregame_frame, loading_status_ascii);
-	}
-
-	if (main_pregame_frame != 2)
-		main_time_throttle(0);
-
-	c_rasterizer::end_frame();
-
-	if (game_is_multithreaded())
-	{
-		if (TEST_BIT(flags, 0))
+		if (main_pregame_frame == 8)
 		{
-			c_rasterizer::rasterizer_device_release_thread();
-			restricted_region_unlock_primary(4);
-			restricted_region_unlock_primary(2);
+			main_render_pregame_loading_screen();
+		}
+		else if (main_pregame_frame == 3)
+		{
+			main_render_status_message(loading_status.get_string());
+		}
+		else
+		{
+			static char loading_status_ascii[12288];
+			loading_status_ascii[0] = 0;
+
+			wchar_string_to_ascii_string(loading_status.get_string(), loading_status_ascii, 12288, nullptr);
+			main_render_pregame(main_pregame_frame, loading_status_ascii);
+
+			if (main_pregame_frame == 2)
+			{
+				c_rasterizer::end_frame();
+				unlock_resources_and_resume_render_thread(flags);
+				return;
+			}
 		}
 
-		if (TEST_BIT(flags, 1) && game_is_multithreaded())
-			g_render_thread_enabled.set_if_equal(true, false);
+		main_time_throttle(0);
+		c_rasterizer::end_frame();
 	}
+
+	unlock_resources_and_resume_render_thread(flags);
 }
 
