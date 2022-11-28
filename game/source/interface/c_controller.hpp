@@ -32,3 +32,5 @@ extern s_controller_globals& g_controller_globals;
 enum e_controller_index;
 
 extern c_controller_interface* __cdecl controller_get(e_controller_index controller_index);
+extern void __cdecl controllers_render();
+
