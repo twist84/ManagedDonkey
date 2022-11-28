@@ -1,7 +1,6 @@
 #include "main/loading.hpp"
 
 #include "bink/bink_playback.hpp"
-#include "config/version.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_windows.hpp"
@@ -175,9 +174,6 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 
             if (!g_active_designer_zone_mask)
             {
-                if (loading_status)
-                    loading_status->print(L"%hs|n", version_get_full_string());
-
                 static wchar_t const* spinner_states[] = { L"/", L"-", L"\\" };
                 static long spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
 
@@ -193,7 +189,7 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
                     return 0;
 
                 if (loading_status)
-                    loading_status->append_print(L"%s|n", spinner_states[spinner_state_index]);
+                    loading_status->print(L"%s|n", spinner_states[spinner_state_index]);
 
                 if (string_is_not_empty(loading_globals_scenario_path))
                 {
