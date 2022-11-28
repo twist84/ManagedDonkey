@@ -4,15 +4,46 @@
 #include "render/render_patchy_fog.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 
+struct s_observer_result;
+
 // 0165DB98
 struct c_view
 {
 public:
-	virtual void __cdecl render();
-	virtual long __cdecl render_setup();
-	virtual long __cdecl compute_visibility();
-	virtual long __cdecl render_submit_visibility();
 
+	// HACK: so we don't have to manually construct the class
+	struct
+	{
+		void(__thiscall* render)(c_view*);
+		long(__thiscall* render_setup)(c_view*);
+		long(__thiscall* compute_visibility)(c_view*);
+		long(__thiscall* render_submit_visibility)(c_view*);
+	}* __vftable;
+
+	void __cdecl render() { __vftable->render(this); }
+	long __cdecl render_setup() { return __vftable->render_setup(this); }
+	long __cdecl compute_visibility() { return __vftable->compute_visibility(this); }
+	long __cdecl render_submit_visibility() { return __vftable->render_submit_visibility(this); }
+
+	static void __cdecl abort_current_view_stack();
+	static void __cdecl begin(c_view* view);
+	static void __cdecl end();
+	static long __cdecl get_current_stack_level();
+	static c_view* __cdecl top();
+	
+	render_camera const* __cdecl get_render_camera() const;
+	render_camera* __cdecl get_render_camera_modifiable();
+
+	render_camera const* __cdecl get_rasterizer_camera() const;
+	render_camera* __cdecl get_rasterizer_camera_modifiable();
+
+	render_projection const* __cdecl get_rasterizer_projection() const;
+	render_projection* __cdecl get_rasterizer_projection_modifiable();
+
+	render_projection const* __cdecl get_render_projection() const;
+	render_projection* __cdecl get_render_projection_modifiable();
+
+protected:
 	static long& g_view_stack_top;
 	static c_view*(&g_view_stack)[4];
 
@@ -35,6 +66,9 @@ static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
 struct c_fullscreen_view :
 	public c_view
 {
+public:
+	void __cdecl setup_camera(s_observer_result const* result);
+	void __cdecl render_blank_frame(real_rgb_color const* color);
 };
 static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
 
@@ -152,4 +186,11 @@ struct c_texture_camera_view :
 	long __unknown26E4;
 };
 static_assert(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
+
+struct s_render_fullscreen_text_context_colors
+{
+	real_rgb_color blank_frame;
+	real_rgb_color text_color;
+	real_rgb_color text_shadow_color;
+};
 
