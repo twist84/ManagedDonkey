@@ -6,6 +6,71 @@ REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
 REFERENCE_DECLARE(0x050DEDF0, c_player_view*, c_player_view::x_current_player_view);
 REFERENCE_DECLARE_ARRAY(0x050DEE10, c_player_view, c_player_view::x_global_player_views, 4);
 
+REFERENCE_DECLARE_ARRAY(0x018BABE8, real, pregame_frame_scales, 9);
+REFERENCE_DECLARE_ARRAY(0x0165DA08, s_render_fullscreen_text_context_colors, pregame_frame_colors, 9);
+
+//real pregame_frame_scales[9] =
+//{
+//    1.0f,
+//    1.0f,
+//    1.0f,
+//    1.0f,
+//    1.0f,
+//    1.0f,
+//    1.0f,
+//    1.0f,
+//    1.0f
+//};
+//
+//s_render_fullscreen_text_context_colors pregame_frame_colors[9] =
+//{
+//    {
+//        .blank_frame = { 0.0f, 0.0f, 0.0f },
+//        .text_color = { 1.0f, 1.0f, 1.0f },
+//        .text_shadow_color = { 0.0f, 0.0f, 0.0f }
+//    },
+//    {
+//        .blank_frame = { 0.0f, 0.0f, 0.0f },
+//        .text_color = { 1.0f, 1.0f, 1.0f },
+//        .text_shadow_color = { 0.0f, 0.0f, 0.0f }
+//    },
+//    {
+//        .blank_frame = { 0.0f, 0.2f, 0.0f },
+//        .text_color = { 0.55000001f, 0.44999999f, 0.64999998f },
+//        .text_shadow_color = { 0.079999998f, 0.050000001f, 0.012f }
+//    },
+//    {
+//        .blank_frame = { 0.047058824f, 0.06666667f, 0.1254902f },
+//        .text_color = { 1.0f, 1.0f, 1.0f },
+//        .text_shadow_color = { 0.015686275f, 0.023529412f, 0.039215688f }
+//    },
+//    {
+//        .blank_frame = { 0.0f, 0.0f, 0.0f },
+//        .text_color = { 0.55000001f, 0.44999999f, 0.64999998f },
+//        .text_shadow_color = { 0.079999998f, 0.050000001f, 0.012f }
+//    },
+//    {
+//        .blank_frame = { 0.0f, 0.0f, 0.0f },
+//        .text_color = { 0.55000001f, 0.44999999f, 0.64999998f },
+//        .text_shadow_color = { 0.079999998f, 0.050000001f, 0.012f }
+//    },
+//    {
+//        .blank_frame = { 0.28999999f, 0.059999999f, 0.36000001f },
+//        .text_color = { 0.55000001f, 0.44999999f, 0.64999998f },
+//        .text_shadow_color = { 0.079999998f, 0.050000001f, 0.012f }
+//    },
+//    {
+//        .blank_frame = { 1.0f, 1.0f, 1.0f },
+//        .text_color = { 0.0f, 0.0f, 0.0f },
+//        .text_shadow_color = { 1.0f, 1.0f, 1.0f }
+//    },
+//    {
+//        .blank_frame = { 0.047058824f, 0.06666667f, 0.1254902f },
+//        .text_color = { 1.0f, 1.0f, 1.0f },
+//        .text_shadow_color = { 0.015686275f, 0.023529412f, 0.039215688f }
+//    }
+//};
+
 void __cdecl c_view::abort_current_view_stack()
 {
 	g_view_stack_top = -1;

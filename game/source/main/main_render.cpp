@@ -1,8 +1,14 @@
 #include "main/main_render.hpp"
 
+#include "bink/bink_playback.hpp"
+#include "cseries/async_xoverlapped.hpp"
 #include "cutscene/cinematics.hpp"
 #include "game/player_mapping.hpp"
+#include "interface/c_controller.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
+#include "render/render.hpp"
+#include "render/views/render_view.hpp"
+#include "simulation/simulation.hpp"
 
 #include <assert.h>
 
@@ -132,48 +138,57 @@ bool __cdecl sub_42E5D0()
     return INVOKE(0x0042E5D0, sub_42E5D0);
 }
 
-void __cdecl main_render_pregame(long main_pregame_frame, char const* loading_status)
+void __cdecl main_render_pregame(long pregame_frame_type, char const* text)
 {
-    INVOKE(0x00604860, main_render_pregame, main_pregame_frame, loading_status);
+    //INVOKE(0x00604860, main_render_pregame, pregame_frame_type, text);
 
-    //if (!sub_42E5D0())
-    //{
-    //    dword flags = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
-    //
-    //    c_view::abort_current_view_stack();
-    //
-    //    c_fullscreen_view fullscreen_view;
-    //    fullscreen_view.setup_camera(nullptr);
-    //    fullscreen_view.begin();
-    //    fullscreen_view.render_blank_frame(fullscreen_text_context_colors[main_pregame_frame][0]);
-    //
-    //    s_render_fullscreen_text_context context;
-    //    context.text = text;
-    //    context.color = &fullscreen_text_context_colors[pregame_frame_type][1];
-    //    context.shadow_color = &fullscreen_text_context_colors[pregame_frame_type][2];
-    //    context.scale = fullscreen_text_context_scales[pregame_frame_type];
-    //
-    //    if (pregame_frame_type == 4 || pregame_frame_type == 5)
-    //    {
-    //        render_fullscreen_text(&context, true);
-    //        overlapped_render();
-    //        controllers_render();
-    //    }
-    //
-    //    if (pregame_frame_type == 1)
-    //    {
-    //        c_fullscreen_view::render();
-    //        if (bink_playback_active())
-    //        {
-    //            bink_playback_update();
-    //            bink_playback_check_for_terminate();
-    //            bink_playback_render();
-    //        }
-    //    }
-    //    c_view::end();
-    //
-    //    unlock_resources_and_resume_render_thread(flags);
-    //}
+    if (!sub_42E5D0())
+    {
+        c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+    
+        c_view::abort_current_view_stack();
+    
+        c_fullscreen_view fullscreen_view;
+        csmemset(&fullscreen_view, 0, sizeof(c_fullscreen_view));
+
+        // c_fullscreen_view::c_fullscreen_view
+        fullscreen_view.__vftable = reinterpret_cast<decltype(fullscreen_view.__vftable)>(0x0165DBC0);
+        //DECLFUNC(0x006040B0, c_fullscreen_view, __thiscall, c_fullscreen_view*)(&fullscreen_view);
+
+        fullscreen_view.setup_camera(nullptr);
+        fullscreen_view.begin(&fullscreen_view);
+        fullscreen_view.render_blank_frame(&pregame_frame_colors[pregame_frame_type].blank_frame);
+    
+        s_render_fullscreen_text_context context;
+        context.text = text;
+        context.color = &pregame_frame_colors[pregame_frame_type].text_color;
+        context.shadow_color = &pregame_frame_colors[pregame_frame_type].text_shadow_color;
+        context.scale = pregame_frame_scales[pregame_frame_type];
+    
+        bool simple_font = true;
+        if (pregame_frame_type == 1 || (pregame_frame_type - 4) <= 1)
+        {
+            simple_font = false;
+        }
+
+        render_fullscreen_text(&context, simple_font);
+        overlapped_render();
+        controllers_render();
+    
+        if (pregame_frame_type == 1)
+        {
+            fullscreen_view.render();
+
+            if (bink_playback_active())
+            {
+                bink_playback_update();
+                bink_playback_check_for_terminate();
+                bink_playback_render();
+            }
+        }
+
+        c_view::end();
+    }
 }
 
 void __cdecl main_render_pregame_loading_screen()

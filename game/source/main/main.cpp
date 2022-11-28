@@ -91,8 +91,6 @@ void __cdecl main_loop_body_begin()
 	{
 		hs_function_table;
 		hs_external_globals;
-		c_view::g_view_stack_top;
-		c_view::g_view_stack;
 		c_player_view::x_current_player_view;
 		c_player_view::x_global_player_views;
 		render_object_globals;

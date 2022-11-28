@@ -194,3 +194,6 @@ struct s_render_fullscreen_text_context_colors
 	real_rgb_color text_shadow_color;
 };
 
+extern real(&pregame_frame_scales)[9];
+extern s_render_fullscreen_text_context_colors(&pregame_frame_colors)[9];
+

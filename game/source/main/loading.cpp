@@ -204,8 +204,7 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
                 if (loading_status)
                     loading_status->append(L"|n");
 
-                // #TODO: fix `main_render_pregame` not displaying text for certain `e_main_pregame_frame` so we can return 2 for green background
-                return 4;
+                return 2;
             }
         }
     }
