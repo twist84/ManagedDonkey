@@ -11,3 +11,9 @@ bool c_overlapped_task::busy() const
 		|| m_task_state == _overlapped_task_state_pending
 		|| m_task_state == _overlapped_task_state_completing;
 }
+
+void __cdecl overlapped_render()
+{
+	INVOKE(0x005A8E20, overlapped_render);
+}
+

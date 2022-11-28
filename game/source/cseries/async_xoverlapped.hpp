@@ -43,3 +43,6 @@ public:
 	long m_line;
 };
 static_assert(sizeof(c_overlapped_task) == 0x10);
+
+extern void __cdecl overlapped_render();
+
