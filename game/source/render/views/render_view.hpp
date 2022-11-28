@@ -9,7 +9,7 @@ struct s_observer_result;
 // 0165DB98
 struct c_view
 {
-public:
+protected:
 
 	// HACK: so we don't have to manually construct the class
 	struct
@@ -18,7 +18,17 @@ public:
 		long(__thiscall* render_setup)(c_view*);
 		long(__thiscall* compute_visibility)(c_view*);
 		long(__thiscall* render_submit_visibility)(c_view*);
-	}* __vftable;
+	}*__vftable;
+
+public:
+	c_view() :
+		__vftable(reinterpret_cast<decltype(__vftable)>(0x0165DB98)),
+		m_rasterizer_camera(),
+		m_rasterizer_projection(),
+		m_render_camera(),
+		m_render_projection()
+	{
+	}
 
 	void __cdecl render() { __vftable->render(this); }
 	long __cdecl render_setup() { return __vftable->render_setup(this); }
@@ -58,15 +68,29 @@ static_assert(sizeof(c_view) == 0x294);
 struct c_ui_view :
 	public c_view
 {
+public:
+	c_ui_view() :
+		c_view(),
+		__data294()
+	{
+		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBAC);
+	}
+
 	byte __data294[0x8];
 };
 static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
 
-// 0165DBBC
+// 0165DBC0
 struct c_fullscreen_view :
 	public c_view
 {
 public:
+	c_fullscreen_view() :
+		c_view()
+	{
+		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBC0);
+	}
+
 	void __cdecl setup_camera(s_observer_result const* result);
 	void __cdecl render_blank_frame(real_rgb_color const* color);
 };
@@ -76,6 +100,7 @@ static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
 struct c_world_view :
 	public c_view
 {
+protected:
 	s_location m_location;
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
@@ -84,6 +109,7 @@ static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
 struct c_lights_view :
 	public c_world_view
 {
+protected:
 	byte __data298[0xD54];
 	byte __dataFEC[0x280];
 	real m_light_intensity_scale;
@@ -94,6 +120,7 @@ static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
 struct c_lightmap_shadows_view :
 	public c_world_view
 {
+protected:
 	byte __data298[0x40];
 };
 static_assert(sizeof(c_lightmap_shadows_view) == sizeof(c_world_view) + 0x40);
@@ -116,6 +143,7 @@ static_assert(sizeof(c_reflection_view) == sizeof(c_view));
 struct c_first_person_view :
 	public c_view
 {
+protected:
 	byte __data294[0x4];
 };
 static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
@@ -127,6 +155,7 @@ struct c_player_view :
 	static c_player_view*& x_current_player_view;
 	static c_player_view(&x_global_player_views)[4];
 
+protected:
 	// c_camera_fx_values?
 	byte __data298[0x20];
 
@@ -172,6 +201,7 @@ static_assert(sizeof(c_hud_camera_view) == sizeof(c_player_view));
 struct c_texture_camera_view :
 	public c_player_view
 {
+protected:
 	c_rasterizer_texture_ref m_accumulation_texture_ref;
 	c_rasterizer_texture_ref m_albedo_texture_ref;
 	c_rasterizer_texture_ref m_normal_texture_ref;
