@@ -341,6 +341,7 @@ POPD
     <ClCompile Include="source\rasterizer\rasterizer_globals.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_textures_xenon_formats.cpp" />
+    <ClCompile Include="source\render\render.cpp" />
     <ClCompile Include="source\render\render_cameras.cpp" />
     <ClCompile Include="source\render\render_objects_static_lighting.cpp" />
     <ClCompile Include="source\render\views\render_view.cpp" />
@@ -613,6 +614,7 @@ POPD
     <ClInclude Include="source\rasterizer\rasterizer_performance_throttles.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_text.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_textures_xenon_formats.hpp" />
+    <ClInclude Include="source\render\render.hpp" />
     <ClInclude Include="source\render\render_cameras.hpp" />
     <ClInclude Include="source\render\render_objects_static_lighting.hpp" />
     <ClInclude Include="source\render\render_patchy_fog.hpp" />

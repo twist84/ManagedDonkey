@@ -474,6 +474,9 @@
     <ClCompile Include="source\cache\restricted_memory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\render\render_cameras.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1368,6 +1371,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cache\restricted_memory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
