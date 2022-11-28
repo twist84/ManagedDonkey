@@ -36,3 +36,9 @@ struct render_projection
 };
 static_assert(sizeof(render_projection) == 0xC0);
 
+struct s_observer_result;
+extern void __cdecl render_camera_build(render_camera* camera, s_observer_result const* result);
+extern void __cdecl render_camera_build_projection(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_projection* projection, real a4);
+extern void __cdecl render_camera_build_viewport_frustum_bounds(render_camera const* camera, real_rectangle2d* frustum_bounds);
+extern void __cdecl render_view_compute_fullscreen_bounds(render_camera* camera);
+
