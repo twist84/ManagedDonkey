@@ -480,6 +480,9 @@
     <ClCompile Include="source\render\render_cameras.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\text\draw_string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

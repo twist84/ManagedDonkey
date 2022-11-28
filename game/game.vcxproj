@@ -359,6 +359,7 @@ POPD
     <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\string_ids.cpp" />
     <ClCompile Include="source\tag_files\tag_groups.cpp" />
+    <ClCompile Include="source\text\draw_string.cpp" />
     <ClCompile Include="source\text\font_loading.cpp" />
     <ClCompile Include="source\text\unicode.cpp" />
     <ClCompile Include="source\units\units.cpp" />

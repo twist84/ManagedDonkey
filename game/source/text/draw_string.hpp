@@ -40,6 +40,11 @@ public:
 	virtual bool precache_character(c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, s_font_character const** font_character);
 	virtual void draw_character(c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, dword a4, dword a5, real a6, real a7, real a8, real a9, real a10, real a11);
 
+	void __cdecl set_color(real_argb_color const* color);
+	void __cdecl set_shadow_color(real_argb_color const* shadow_color);
+	void __cdecl set_scale(real scale);
+	bool __cdecl draw_more(c_font_cache_base* font_cache, char const* s);
+
 protected:
 	c_flags<e_text_flags, dword, k_text_flag_count> m_flags;
 
