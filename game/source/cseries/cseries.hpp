@@ -291,6 +291,13 @@ public:
 		return m_string;
 	}
 
+	char const* vprint(char const* format, va_list list)
+	{
+		cvsnzprintf(m_string, k_maximum_count, format, list);
+
+		return m_string;
+	}
+
 	char const* append_print(char const* format, ...)
 	{
 		va_list list;
