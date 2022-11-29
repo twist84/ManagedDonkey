@@ -14,6 +14,11 @@ e_language __cdecl global_preferences_get_last_font_language()
 	return INVOKE(0x0050B450, global_preferences_get_last_font_language);
 }
 
+void __cdecl global_preferences_get_screen_resolution(long* width, long* height)
+{
+	INVOKE(0x0050C030, global_preferences_get_screen_resolution, width, height);
+}
+
 void __cdecl global_preferences_set_antialiasing(bool antialiasing)
 {
 	INVOKE(0x0050CCE0, global_preferences_set_antialiasing, antialiasing);
