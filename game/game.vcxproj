@@ -250,6 +250,7 @@ POPD
     <ClCompile Include="source\input\input_abstraction.cpp" />
     <ClCompile Include="source\interface\chud\chud.cpp" />
     <ClCompile Include="source\interface\chud\chud_messaging.cpp" />
+    <ClCompile Include="source\interface\chud\chud_navpoints.cpp" />
     <ClCompile Include="source\interface\c_gui_screen_widget.cpp" />
     <ClCompile Include="source\interface\c_player_marketplace.cpp" />
     <ClCompile Include="source\interface\first_person_weapons.cpp" />
@@ -426,6 +427,7 @@ POPD
     <ClInclude Include="source\input\input_abstraction.hpp" />
     <ClInclude Include="source\interface\chud\chud.hpp" />
     <ClInclude Include="source\interface\chud\chud_messaging.hpp" />
+    <ClInclude Include="source\interface\chud\chud_navpoints.hpp" />
     <ClInclude Include="source\interface\c_gui_bitmap_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_screen_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_widget.hpp" />
