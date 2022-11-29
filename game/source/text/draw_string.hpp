@@ -10,6 +10,8 @@ enum e_utf32;
 struct s_font_header;
 struct s_font_character;
 
+struct s_widget_geometry;
+
 // 0165FCB0
 struct c_font_cache_base
 {
@@ -216,12 +218,9 @@ public:
 	c_chud_draw_string();
 
 protected:
-	real __unknown100;
-	real __unknown104;
-	real __unknown108;
-	real __unknown10C;
-	real __unknown110;
-	real __unknown114;
+	s_widget_geometry* m_geometry;
+	real m_character_scale;
+	real_rectangle2d m_pixel_clip;
 };
 static_assert(sizeof(c_chud_draw_string) == sizeof(c_draw_string) + 0x18);
 

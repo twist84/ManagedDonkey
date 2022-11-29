@@ -119,12 +119,9 @@ c_rasterizer_draw_string::c_rasterizer_draw_string() :
 
 c_chud_draw_string::c_chud_draw_string() :
 	c_draw_string(),
-	__unknown100(),
-	__unknown104(),
-	__unknown108(),
-	__unknown10C(),
-	__unknown110(),
-	__unknown114()
+	m_geometry(),
+	m_character_scale(),
+	m_pixel_clip()
 {
 	__vftable = reinterpret_cast<decltype(__vftable)>(0x0169A144);
 	DECLFUNC(0x00A95570, void, __thiscall, c_chud_draw_string*)(this);
