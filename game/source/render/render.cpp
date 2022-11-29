@@ -11,7 +11,19 @@ void __cdecl render_frame_begin()
 
 void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* context, bool simple_font)
 {
-	INVOKE(0x00A297A0, render_fullscreen_text, context, simple_font);
+	if (simple_font)
+	{
+		c_simple_font_draw_string simple_font_draw_string;
+		render_fullscreen_text_internal(context, &simple_font_draw_string, nullptr);
+	}
+	else
+	{
+		c_rasterizer_draw_string rasterizer_draw_string;
+		c_font_cache_mt_safe font_cache;
+
+		rasterizer_draw_string.set_font(-2);
+		render_fullscreen_text_internal(context, &rasterizer_draw_string, &font_cache);
+	}
 }
 
 HOOK_DECLARE(0x00A29860, render_fullscreen_text_internal);
