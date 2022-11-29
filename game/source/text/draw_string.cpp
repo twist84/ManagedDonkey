@@ -14,7 +14,7 @@ void __cdecl c_draw_string::set_shadow_color(real_argb_color const* shadow_color
 
 void __cdecl c_draw_string::set_scale(real scale)
 {
-	m_scale.lower = scale;
+	m_scale = scale;
 }
 
 void __cdecl c_draw_string::set_font(long font_id)
@@ -62,16 +62,21 @@ c_draw_string::c_draw_string() :
 	m_color(),
 	m_shadow_color(),
 	m_scale(),
-	__unknown44(),
+	m_display_resolution_scale_adjustment(),
+	m_height_adjust(),
 	m_tab_stop_count(),
 	m_tab_stops(),
 	m_bounds(),
 	m_cursor(),
-	__unknownA0(),
-	__unknownA4(),
-	__unknownA8(),
+	m_permutation_proc(),
+	m_permutation_proc_data(),
+	m_initial_indent(),
+	m_paragraph_indent(),
 	m_parse_string_state(),
-	__unknownF8()
+	__unknownF8(),
+	__unknownFA(),
+	__unknownFC(),
+	__unknownFE()
 {
 	DECLFUNC(0x00657010, void, __thiscall, c_draw_string*)(this);
 }

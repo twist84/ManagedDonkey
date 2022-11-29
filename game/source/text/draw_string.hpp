@@ -10,6 +10,7 @@ enum e_utf32;
 struct s_font_header;
 struct s_font_character;
 
+struct dynamic_screen_vertex;
 struct s_widget_geometry;
 
 // 0165FCB0
@@ -132,22 +133,30 @@ protected:
 
 	real_argb_color m_color;
 	real_argb_color m_shadow_color;
-	real_bounds m_scale;
 
-	short __unknown44;
+	real m_scale;
+	real m_display_resolution_scale_adjustment;
+
+	short m_height_adjust;
 
 	short m_tab_stop_count;
 	short m_tab_stops[16];
+
 	real_rectangle2d m_bounds[3];
 	real_point2d m_cursor;
 
-	real __unknownA0;
-	real __unknownA4;
-	byte __unknownA8[4];
+	bool(__cdecl* m_permutation_proc)(dynamic_screen_vertex*, void*);
+	void* m_permutation_proc_data;
+
+	short m_initial_indent;
+	short m_paragraph_indent;
 
 	c_draw_string::s_parse_string_state m_parse_string_state;
 
-	word __unknownF8[4];
+	word __unknownF8;
+	word __unknownFA;
+	word __unknownFC;
+	word __unknownFE;
 };
 static_assert(sizeof(c_draw_string) == 0x100);
 
