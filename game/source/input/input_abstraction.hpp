@@ -19,12 +19,11 @@ enum e_key_code
 	_key_code_f10,
 	_key_code_f11,
 	_key_code_f12,
-
-	_key_code_print_screen,
+	_key_code_f13, // print screen
 	_key_code_f14,
 	_key_code_f15,
-	_key_code_backquote,
 
+	_key_code_backquote,
 	_key_code_1,
 	_key_code_2,
 	_key_code_3,
