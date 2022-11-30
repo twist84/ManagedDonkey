@@ -5,7 +5,7 @@
 struct c_first_person_camera : public c_camera
 {
 	real m_field_of_view;
-	real_euler_angles2d m_facing;
+	euler_angles2d m_facing;
 	bool __unknown1C;
 
 	void ctor(long unit_index)
@@ -21,7 +21,7 @@ struct c_authored_camera : public c_camera
 	bool __unknown11;
 	c_first_person_camera m_first_person_camera;
 	real_point3d m_position;
-	real_vector3d m_forward;
+	vector3d m_forward;
 
 	void ctor(long user_index)
 	{

@@ -36,7 +36,7 @@ struct s_aim_assist_targeting_result
 	dword model_target;
 	real primary_autoaim_level;
 	real secondary_autoaim_level;
-	real_vector3d lead_vector;
+	vector3d lead_vector;
 	dword_flags flags;
 };
 static_assert(sizeof(s_aim_assist_targeting_result) == 0x28);
@@ -45,7 +45,7 @@ struct s_player_control_internal_state
 {
 	dword control_flags;
 	dword action_flags;
-	real_euler_angles2d desired_angles;
+	euler_angles2d desired_angles;
 	real_point2d throttle;
 	real primary_trigger;
 	real secondary_trigger;
@@ -58,7 +58,7 @@ struct s_player_control_internal_state
 	bool map_editor_player_locked_for_manipulation;
 	byte : 8;
 	byte : 8;
-	real_euler_angles2d map_editor_rotation;
+	euler_angles2d map_editor_rotation;
 	word_flags map_editor_flags;
 	byte : 8;
 	byte : 8;
@@ -91,13 +91,13 @@ struct player_action
 	byte : 8;
 	byte : 8;
 	dword_flags control_flags;
-	real_euler_angles2d angles;
+	euler_angles2d angles;
 	real_point2d throttle;
 	bool map_editor_rotation_valid;
 	bool map_editor_player_locked_for_manipulation;
 	byte : 8;
 	byte : 8;
-	real_euler_angles2d map_editor_rotation;
+	euler_angles2d map_editor_rotation;
 	word_flags map_editor_flags;
 	byte : 8;
 	byte : 8;

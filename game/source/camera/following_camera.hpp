@@ -8,7 +8,7 @@ struct c_following_camera : public c_camera
 	dword __unknown10;
 	dword __unknown14;
 	real __unknown18;
-	real_vector3d __vector1C;
+	vector3d __vector1C;
 
 	datum_index m_target_object_index;
 

@@ -347,7 +347,7 @@ struct player_datum : s_datum_header
 	byte __unknown60;
 	byte __unknown61;
 	word __unknown62;
-	real_vector3d position;
+	vector3d position;
 	s_player_configuration configuration;
 	s_player_configuration desired_configuration;
 	long __unknown2CB0;

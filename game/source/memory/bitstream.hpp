@@ -84,14 +84,14 @@ public:
 	bool read_bool();
 	void read_raw_data(void* data, long size_in_bits);
 	dword read_integer(long size_in_bits);
-	void read_point3d(char const* name, long_point3d* point, long axis_encoding_size_in_bits);
+	void read_point3d(char const* name, int32_point3d* point, long axis_encoding_size_in_bits);
 	real read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	qword read_qword_internal(long size_in_bits);
 	void read_secure_address(char const* name, s_transport_secure_address* address);
 	void read_string(char const* name, char* _string, long max_string_size);
 	void read_string_utf8(char const* name, char* char_string, long max_string_size);
 	void read_string_wchar(char const* name, wchar_t* _string, long max_string_size);
-	void read_vector(char const* name, real_vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
+	void read_vector(char const* name, vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
 
 private:
 	void reset(long state);
@@ -103,7 +103,7 @@ public:
 	void write_accumulator_to_memory(qword a1, long a2);
 	void write_bits_internal(void const* data, long size_in_bits);
 	void write_identifier(char const* identifier);
-	void write_point3d(char const* name, long_point3d const* point, long axis_encoding_size_in_bits);
+	void write_point3d(char const* name, int32_point3d const* point, long axis_encoding_size_in_bits);
 	void write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	void write_secure_address(char const* name, s_transport_secure_address const* address);
 	void write_string(char const* name, char const* _string, long max_string_size);

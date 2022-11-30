@@ -5,7 +5,7 @@
 struct c_dead_camera : public c_camera
 {
 	real_point3d m_position;
-	real_euler_angles2d m_facing;
+	euler_angles2d m_facing;
 	real m_focus_distance;
 	real m_field_of_view;
 	real __unknown2C;

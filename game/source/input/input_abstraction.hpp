@@ -391,7 +391,7 @@ static_assert(sizeof(c_abstract_button) == 0xC);
 struct s_game_input_state
 {
 	c_abstract_button abstract_buttons[k_gamepad_button_count_keyboard];
-	point2d abstract_sticks[2];
+	int16_point2d abstract_sticks[2];
 	real forward_movement;
 	real strafe;
 	real yaw;
@@ -441,7 +441,7 @@ extern void __cdecl sub_60BEA0(s_gamepad_input_preferences* preferences, void* b
 extern void __cdecl input_abstraction_get_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences);
 extern void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferences* preferences);
 extern void input_abstraction_get_input_state(long controller_index, s_game_input_state** input_state);
-extern void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, real_euler_angles2d* angular_velocity);
+extern void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, euler_angles2d* angular_velocity);
 extern void __cdecl sub_60C040(int keyboard_preset, s_gamepad_input_preferences* preferences);
 extern void __cdecl input_abstraction_initialize();
 //extern void __cdecl input_abstraction_initialize_for_new_map();

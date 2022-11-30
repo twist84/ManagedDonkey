@@ -31,9 +31,9 @@ struct s_sandbox_globals
 	word player_mode_flags;
 	dword held_objects[16];
 	real held_object_distances[16];
-	real_vector3d crosshair_points[16];
-	real_vector3d crosshair_intersect_normals[16];
-	real_vector3d crosshair_redirections[16];
+	vector3d crosshair_points[16];
+	vector3d crosshair_intersect_normals[16];
+	vector3d crosshair_redirections[16];
 	dword crosshair_objects[16];
 	byte __unknown30C[16];
 	dword __unknown31C[64];

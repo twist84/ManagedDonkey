@@ -176,8 +176,8 @@ protected:
 
 	// axis
 	real_point3d position;
-	real_vector3d forward;
-	real_vector3d up;
+	vector3d forward;
+	vector3d up;
 
 	c_object_identifier parent_object_identifier;
 	s_variant_multiplayer_object_properties_definition multiplayer_game_object_properties;

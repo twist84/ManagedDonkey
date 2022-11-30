@@ -79,7 +79,7 @@ public:
 	virtual void player_assisted_with_kill(long) const;
 	virtual long player_killed_player_get_kill_message(long, long, bool) const;
 	virtual bool test_flag(long) const;
-	virtual void adjust_object_gravity(long, real_vector3d*) const;
+	virtual void adjust_object_gravity(long, vector3d*) const;
 	virtual void prepare_for_new_state(long) const;
 	virtual bool should_end_round(long*) const;
 	virtual long get_player_state_index(long, bool*) const;

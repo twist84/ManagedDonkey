@@ -163,8 +163,8 @@ protected:
 
 	// struct?
 	real_point3d m_position;
-	real_vector3d m_forward;
-	real_vector3d m_up;
+	vector3d m_forward;
+	vector3d m_up;
 	long __unknown630;
 	real_matrix4x3 __matrix634;
 	real m_projection_matrix[4][4];

@@ -991,11 +991,11 @@ struct screen_effect_datum : s_datum_header
 	word field_2;
 	dword tag_index;
 	real seconds_active;
-	real_vector3d position;
+	vector3d position;
 	dword object_index;
 	dword field_1c;
-	real_vector3d field_20;
-	real_vector3d field_2c;
+	vector3d field_20;
+	vector3d field_2c;
 	dword field_38;
 };
 static_assert(sizeof(screen_effect_datum) == 0x3C);

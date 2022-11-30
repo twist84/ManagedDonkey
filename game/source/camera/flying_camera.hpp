@@ -14,7 +14,7 @@ struct c_flying_camera : public c_camera
 	};
 
 	real_point3d m_position;
-	real_euler_angles2d m_facing;
+	euler_angles2d m_facing;
 	real m_roll;
 
 	real __unknown28;

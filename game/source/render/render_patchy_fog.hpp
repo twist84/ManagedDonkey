@@ -5,8 +5,8 @@
 struct c_patchy_fog
 {
 	real_point3d __point0;
-	real_vector3d __vectorC;
-	real_vector3d __vector18;
+	vector3d __vectorC;
+	vector3d __vector18;
 	real __unknown24;
 	real __unknown28;
 	real __unknown2C;

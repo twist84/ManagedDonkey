@@ -43,7 +43,7 @@ union real_point3d
 };
 static_assert(sizeof(real_point3d) == 0xC);
 
-union real_vector2d
+union vector2d
 {
 	struct
 	{
@@ -52,9 +52,9 @@ union real_vector2d
 	};
 	real n[2];
 };
-static_assert(sizeof(real_vector2d) == 0x8);
+static_assert(sizeof(vector2d) == 0x8);
 
-union real_vector3d
+union vector3d
 {
 	struct
 	{
@@ -64,42 +64,30 @@ union real_vector3d
 	};
 	real n[3];
 };
-static_assert(sizeof(real_vector3d) == 0xC);
+static_assert(sizeof(vector3d) == 0xC);
 
-union real_quaternion
+struct real32_quaternion
 {
-	struct
-	{
-		real i;
-		real j;
-		real k;
-		real w;
-	};
-	real n[4];
+	real i;
+	real j;
+	real k;
+	real w;
 };
-static_assert(sizeof(real_quaternion) == 0x10);
+static_assert(sizeof(real32_quaternion) == 0x10);
 
-union real_plane2d
+struct plane2d
 {
-	struct
-	{
-		real_vector2d normal;
-		real distance;
-	};
-	real n[3];
+	vector2d normal;
+	real distance;
 };
-static_assert(sizeof(real_plane2d) == 0xC);
+static_assert(sizeof(plane2d) == 0xC);
 
-union real_plane3d
+struct plane3d
 {
-	struct
-	{
-		real_vector3d normal;
-		real distance;
-	};
-	real n[4];
+	vector3d normal;
+	real distance;
 };
-static_assert(sizeof(real_plane3d) == 0x10);
+static_assert(sizeof(plane3d) == 0x10);
 
 union real_rgb_color
 {
@@ -165,7 +153,7 @@ union angle_bounds
 };
 static_assert(sizeof(angle_bounds) == 0x8);
 
-union real_euler_angles2d
+union euler_angles2d
 {
 	struct
 	{
@@ -174,9 +162,9 @@ union real_euler_angles2d
 	};
 	angle n[2];
 };
-static_assert(sizeof(real_euler_angles2d) == 0x8);
+static_assert(sizeof(euler_angles2d) == 0x8);
 
-union real_euler_angles3d
+union euler_angles3d
 {
 	struct
 	{
@@ -186,31 +174,23 @@ union real_euler_angles3d
 	};
 	angle n[3];
 };
-static_assert(sizeof(real_euler_angles3d) == 0xC);
+static_assert(sizeof(euler_angles3d) == 0xC);
 
-union real_matrix3x3
+struct matrix3x3
 {
-	struct
-	{
-		real_vector3d forward;
-		real_vector3d left;
-		real_vector3d up;
-	};
-	real n[9];
+	vector3d forward;
+	vector3d left;
+	vector3d up;
 };
-static_assert(sizeof(real_matrix3x3) == 0x24);
+static_assert(sizeof(matrix3x3) == 0x24);
 
-union real_matrix4x3
+struct real_matrix4x3
 {
-	struct
-	{
-		real scale;
-		real_vector3d forward;
-		real_vector3d left;
-		real_vector3d up;
-		real_vector3d center;
-	};
-	real n[13];
+	real scale;
+	vector3d forward;
+	vector3d left;
+	vector3d up;
+	vector3d center;
 };
 static_assert(sizeof(real_matrix4x3) == 0x34);
 

@@ -61,10 +61,10 @@ struct object_placement_data
 
 	dword_flags flags;
 	real_point3d position;
-	real_vector3d forward;
-	real_vector3d up;
-	real_vector3d linear_velocity;
-	real_vector3d angular_velocity;
+	vector3d forward;
+	vector3d up;
+	vector3d linear_velocity;
+	vector3d angular_velocity;
 	real scale;
 
 	long player_index;
@@ -88,7 +88,7 @@ extern long __cdecl object_new(object_placement_data* placement_data);
 extern void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, struct s_damage_owner const* damage_owner);
 extern bool __cdecl object_set_base_change_color_by_index(long object_index, long color_index, real_rgb_color const* color);
 extern void __cdecl object_set_in_limbo(long object_index, bool deactivate);
-extern void __cdecl object_set_position(long object_index, real_point3d const* position, real_vector3d const* up, real_vector3d const* forward, s_location const* location);
+extern void __cdecl object_set_position(long object_index, real_point3d const* position, vector3d const* up, vector3d const* forward, s_location const* location);
 extern void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type);
 extern void __cdecl object_debug_teleport(long object_index, real_point3d const* position);
 

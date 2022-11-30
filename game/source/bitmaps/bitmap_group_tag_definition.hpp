@@ -14,7 +14,7 @@ struct bitmap_data_block_def
 	short type;
 	short format;
 	word_flags flags;
-	point2d registration_point;
+	int16_point2d registration_point;
 	char mipmap_count;
 	char curve;
 	char interleaved_interop;

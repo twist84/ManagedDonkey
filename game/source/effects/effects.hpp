@@ -8,9 +8,9 @@ struct s_geometry_sample
 	byte __dataC[0x90];
 	byte __data9C[0x90];
 	byte __data12C[0x90];
-	real_vector3d __vector1BC;
-	real_vector3d up;
-	real_vector3d __vector1D4;
+	vector3d __vector1BC;
+	vector3d up;
+	vector3d __vector1D4;
 	real_rgb_color color;
 	float __unknown1EC;
 	byte __data1F0[8];

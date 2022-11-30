@@ -1,6 +1,6 @@
 #pragma once
 
-union point2d
+union int16_point2d
 {
 	struct
 	{
@@ -9,9 +9,32 @@ union point2d
 	};
 	short n[2];
 };
-static_assert(sizeof(point2d) == 0x4);
+static_assert(sizeof(int16_point2d) == 0x4);
 
-union long_point3d
+union int16_point3d
+{
+	struct
+	{
+		short x;
+		short y;
+		short z;
+	};
+	short n[3];
+};
+static_assert(sizeof(int16_point3d) == 0x6);
+
+union point2d
+{
+	struct
+	{
+		long x;
+		long y;
+	};
+	long n[2];
+};
+static_assert(sizeof(point2d) == 0x8);
+
+union int32_point3d
 {
 	struct
 	{
@@ -21,7 +44,7 @@ union long_point3d
 	};
 	long n[3];
 };
-static_assert(sizeof(long_point3d) == 0xC);
+static_assert(sizeof(int32_point3d) == 0xC);
 
 union short_rectangle2d
 {
@@ -77,13 +100,3 @@ union argb_color
 };
 static_assert(sizeof(argb_color) == 0x4);
 
-union short_bounds
-{
-	struct
-	{
-		short lower;
-		short upper;
-	};
-	short n[2];
-};
-static_assert(sizeof(short_bounds) == 0x4);

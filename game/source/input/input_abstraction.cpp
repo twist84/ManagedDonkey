@@ -52,7 +52,7 @@ short __cdecl input_abstraction_get_abstract_stick_pitch(long controller_index)
 {
 	assert(controller_index >= 0 && controller_index < k_number_of_controllers);
 
-	point2d* abstract_sticks = input_abstraction_globals.input_states[controller_index].abstract_sticks;
+	int16_point2d* abstract_sticks = input_abstraction_globals.input_states[controller_index].abstract_sticks;
 	short joystick_preset = input_abstraction_globals.preferences[controller_index].joystick_preset;
 
 	return abstract_sticks[(joystick_preset == 1 || joystick_preset == 3) ? 0 : 1].y;
@@ -109,7 +109,7 @@ void __cdecl input_abstraction_get_input_state(long controller_index, s_game_inp
 	*input_state = &input_abstraction_globals.input_states[controller_index];
 }
 
-void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, real_euler_angles2d* angular_velocity)
+void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, euler_angles2d* angular_velocity)
 {
 	angular_velocity->yaw = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_x * RAD);
 	angular_velocity->pitch = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_y * RAD);
