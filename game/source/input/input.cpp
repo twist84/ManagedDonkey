@@ -6,9 +6,19 @@
 
 #include <assert.h>
 
-bool __cdecl input_peek_key(key_stroke* key, e_input_type input_type)
+bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type)
 {
 	return INVOKE(0x005118C0, input_peek_key, key, input_type);
+}
+
+// 00511990
+// 00511EC0
+// Because of the way the game handles input this function won't actually run when the game is tabbed in
+// In the window proc the `WM_INPUT` message is handled with a `RawInput` function
+// Raw input is great but I want to peek the damn mouse state
+bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type)
+{
+	return INVOKE(0x00511990, input_peek_mouse, mouse, input_type);
 }
 
 bool __cdecl input_has_gamepad(short gamepad_index)

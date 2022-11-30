@@ -130,24 +130,6 @@ enum e_key_code
 	k_key_code_none = -1
 };
 
-enum e_mouse_button
-{
-	_mouse_button_1 = 0, // left-click
-	_mouse_button_2,     // middle-click
-	_mouse_button_3,     // right-click
-	_mouse_button_4,     // mouse 4
-	_mouse_button_5,     // mouse 5
-	_mouse_button_6,
-	_mouse_button_7,
-	_mouse_button_8,
-
-	_mouse_button_up,
-	_mouse_button_down,
-
-	k_mouse_button_count,
-	k_mouse_button_none = -1
-};
-
 enum e_input_type
 {
 	_input_type_ui = 0,
@@ -159,8 +141,13 @@ enum e_input_type
 
 enum e_key_modifier_flags
 {
-	_key_modifier_flag_shift_key_bit,
+	// GetKeyState(VK_SHIFT)
+	_key_modifier_flag_shift_key_bit = 0,
+
+	// GetKeyState(VK_CONTROL)
 	_key_modifier_flag_control_key_bit,
+
+	// GetKeyState(VK_MENU)
 	_key_modifier_flag_alt_key_bit,
 
 	k_key_modifier_flag_count
@@ -168,22 +155,88 @@ enum e_key_modifier_flags
 
 enum e_key_type
 {
+	// message == WM_KEYDOWN
+	// message == WM_SYSKEYDOWN
 	_key_type_down = 0,
+
+	// message == WM_KEYUP
+	// message == WM_SYSKEYUP
 	_key_type_up,
+
+	// message == WM_CHAR
+	// message == WM_SYSCHAR
 	_key_type_char,
 
 	k_key_type_count
 };
 
-struct key_stroke
+// key_stroke
+struct s_key_state
 {
 	c_flags<e_key_modifier_flags, byte, k_key_modifier_flag_count> modifier;
 	c_enum<e_key_type, long, k_key_type_count> key_type;
 	c_enum<e_key_code, short, k_key_code_count> key_code;
-	wchar_t typed_char;
-	byte previous_state;
+
+	// virtual-key code
+	// LOWORD(wParam);
+	word vk_code;
+
+	// if WM_KEYDOWN or WM_SYSKEYDOWN or WM_CHAR or WM_SYSCHAR
+	// = (HIWORD(lParam) & KF_REPEAT) == KF_REPEAT;
+	bool was_key_down;
 };
-static_assert(sizeof(key_stroke) == 0x10);
+static_assert(sizeof(s_key_state) == 0x10);
+
+enum e_mouse_button
+{
+	_mouse_button_1 = 0, // left-click
+	_mouse_button_2,     // middle-click
+	_mouse_button_3,     // right-click
+	_mouse_button_4,     // mouse 4
+	_mouse_button_5,     // mouse 5
+	_mouse_button_6,
+	_mouse_button_7,
+	_mouse_button_8,
+
+	_mouse_button_wheel_up,
+	_mouse_button_wheel_down,
+
+	k_mouse_button_count,
+	k_mouse_button_none = -1
+};
+
+enum e_mouse_type
+{
+	// WM_MOUSEMOVE
+	_mouse_type_move = 0,
+
+	// WM_LBUTTONDOWN
+	// WM_RBUTTONDOWN
+	// WM_MBUTTONDOWN
+	// WM_XBUTTONDOWN
+	_mouse_type_down,
+
+	// WM_LBUTTONUP
+	// WM_RBUTTONUP
+	// WM_MBUTTONUP
+	// WM_XBUTTONUP
+	_mouse_type_up,
+
+	// WM_MOUSEWHEEL
+	_mouse_type_wheel,
+
+	k_mouse_type_count
+};
+
+struct s_mouse_state
+{
+	c_enum<e_mouse_type, long, k_mouse_type_count> mouse_type;
+	dword x;
+	dword y;
+	dword wheel_delta;
+	c_enum<e_mouse_button, char, k_mouse_button_count> mouse_button;
+};
+static_assert(sizeof(s_mouse_state) == 0x14);
 
 enum e_controller_button
 {
