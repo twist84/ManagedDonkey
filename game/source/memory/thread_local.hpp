@@ -14,6 +14,7 @@
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
 #include "physics/physics_constants.hpp"
+#include "scenario/scenario_interpolators.hpp"
 
 //struct simulation_gamestate_entity_datum : s_datum_header
 
@@ -205,12 +206,6 @@ struct s_player_effect_globals
 	byte __data[0x3A0];
 };
 static_assert(sizeof(s_player_effect_globals) == 0x3A0);
-
-struct s_scenario_interpolator_globals
-{
-	byte __data[0x204];
-};
-static_assert(sizeof(s_scenario_interpolator_globals) == 0x204);
 
 struct s_player_training_globals
 {

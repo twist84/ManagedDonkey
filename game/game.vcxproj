@@ -636,6 +636,7 @@ POPD
     <ClInclude Include="source\scenario\scenario_decorator_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_designer_zones_definitions.hpp" />
+    <ClInclude Include="source\scenario\scenario_interpolators.hpp" />
     <ClInclude Include="source\scenario\scenario_resource_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />
     <ClInclude Include="source\scenario\scenario_zone_debugger_definitions.hpp" />
