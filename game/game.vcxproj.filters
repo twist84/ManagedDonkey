@@ -489,6 +489,9 @@
     <ClCompile Include="source\interface\chud\chud.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\closed_caption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1392,6 +1395,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\scenario\scenario_interpolators.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\closed_caption.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
