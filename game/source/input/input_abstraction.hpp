@@ -21,8 +21,8 @@ enum e_key_code
 	_key_code_f12,
 
 	_key_code_print_screen,
-	_key_code_scroll_lock,
-	_key_code_pause,
+	_key_code_f14,
+	_key_code_f15,
 	_key_code_backquote,
 
 	_key_code_1,
@@ -95,7 +95,7 @@ enum e_key_code
 	_key_code_left,
 	_key_code_right,
 
-	_key_code_ins,
+	_key_code_insert,
 	_key_code_home,
 	_key_code_page_up,
 	_key_code_delete,
@@ -133,11 +133,11 @@ enum e_key_code
 
 enum e_mouse_button
 {
-	_mouse_button_1 = 0, // left
-	_mouse_button_2,     // middle
-	_mouse_button_3,     // right
-	_mouse_button_4,     // wheel
-	_mouse_button_5,
+	_mouse_button_1 = 0, // left-click
+	_mouse_button_2,     // middle-click
+	_mouse_button_3,     // right-click
+	_mouse_button_4,     // mouse 4
+	_mouse_button_5,     // mouse 5
 	_mouse_button_6,
 	_mouse_button_7,
 	_mouse_button_8,
@@ -148,6 +148,43 @@ enum e_mouse_button
 	k_mouse_button_count,
 	k_mouse_button_none = -1
 };
+
+enum e_input_type
+{
+	_input_type_ui = 0,
+	_input_type_game,
+	_input_type_special,
+
+	k_input_type_count
+};
+
+enum e_key_modifier_flags
+{
+	_key_modifier_flag_shift_key_bit,
+	_key_modifier_flag_control_key_bit,
+	_key_modifier_flag_alt_key_bit,
+
+	k_key_modifier_flag_count
+};
+
+enum e_key_type
+{
+	_key_type_down = 0,
+	_key_type_up,
+	_key_type_char,
+
+	k_key_type_count
+};
+
+struct key_stroke
+{
+	c_flags<e_key_modifier_flags, byte, k_key_modifier_flag_count> modifier;
+	c_enum<e_key_type, long, k_key_type_count> key_type;
+	c_enum<e_key_code, short, k_key_code_count> key_code;
+	wchar_t typed_char;
+	byte previous_state;
+};
+static_assert(sizeof(key_stroke) == 0x10);
 
 enum e_controller_button
 {

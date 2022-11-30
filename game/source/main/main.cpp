@@ -11,6 +11,7 @@
 #include "game/player_control.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
+#include "input/input.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/chud/chud_messaging.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
@@ -87,7 +88,7 @@ void __cdecl main_loop_body_begin()
 	bool key_pressed = false;
 
 	// right control for tests
-	if (GetKeyState(VK_RCONTROL) & 0x8000)
+	if (input_key_frames_down(_key_code_right_control, _input_type_ui))
 	{
 		hs_function_table;
 		hs_external_globals;
@@ -143,12 +144,12 @@ void __cdecl main_loop_body_begin()
 		key_pressed = true;
 	}
 
-	if (GetKeyState(VK_ADD) & 0x8000)
+	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
 	{
 		shell_halt_with_message("FUCK");
 	}
 
-	if (GetKeyState(VK_PAUSE) & 0x8000)
+	if (input_key_frames_down(_key_code_keypad_subtract, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
 	{
 		static long controls_method = 0;
 		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
@@ -168,7 +169,7 @@ void __cdecl main_loop_body_end()
 	bool key_pressed = false;
 
 	// home cluster keys
-	if (GetKeyState(VK_INSERT) & 0x8000)
+	if (input_key_frames_down(_key_code_insert, _input_type_ui) == 1)
 	{
 		global_preferences_set_shadow_quality(_quality_setting_high);
 		global_preferences_set_texture_resolution_quality(_quality_setting_high);
@@ -187,7 +188,7 @@ void __cdecl main_loop_body_end()
 		sub_79BA30(1920, 1080);
 		key_pressed = true;
 	}
-	else if (GetKeyState(VK_DELETE) & 0x8000)
+	if (input_key_frames_down(_key_code_delete, _input_type_ui) == 1)
 	{
 		static bool elite_hanger = false;
 
@@ -196,25 +197,25 @@ void __cdecl main_loop_body_end()
 
 		key_pressed = true;
 	}
-	else if (GetKeyState(VK_HOME) & 0x8000)
+	if (input_key_frames_down(_key_code_home, _input_type_ui) == 1)
 	{
 		//main_game_launch_set_multiplayer_splitscreen_count(2);
 		main_game_launch_set_coop_player_count(2);
 		main_game_launch("maps\\riverworld");
 		key_pressed = true;
 	}
-	else if (GetKeyState(VK_END) & 0x8000)
+	if (input_key_frames_down(_key_code_end, _input_type_ui) == 1)
 	{
 		director_toggle(main_game_launch_get_last_player(), _director_mode_debug);
 		key_pressed = true;
 	}
-	else if (GetKeyState(VK_PRIOR) & 0x8000)
+	if (input_key_frames_down(_key_code_page_up, _input_type_ui) == 1)
 	{
 		player_control_toggle_machinima_camera_enabled();
 		player_control_toggle_machinima_camera_debug();
 		key_pressed = true;
 	}
-	else if (GetKeyState(VK_NEXT) & 0x8000)
+	if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
 	{
 		player_control_toggle_machinima_camera_use_old_controls();
 		key_pressed = true;
