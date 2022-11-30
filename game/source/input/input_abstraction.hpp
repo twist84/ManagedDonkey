@@ -155,16 +155,16 @@ enum e_key_modifier_flags
 
 enum e_key_type
 {
-	// message == WM_KEYDOWN
-	// message == WM_SYSKEYDOWN
+	// uMsg == WM_KEYDOWN
+	// Msg == WM_SYSKEYDOWN
 	_key_type_down = 0,
 
-	// message == WM_KEYUP
-	// message == WM_SYSKEYUP
+	// uMsg == WM_KEYUP
+	// uMsg == WM_SYSKEYUP
 	_key_type_up,
 
-	// message == WM_CHAR
-	// message == WM_SYSCHAR
+	// uMsg == WM_CHAR
+	// uMsg == WM_SYSCHAR
 	_key_type_char,
 
 	k_key_type_count
@@ -181,7 +181,10 @@ struct s_key_state
 	// LOWORD(wParam);
 	word vk_code;
 
-	// if WM_KEYDOWN or WM_SYSKEYDOWN or WM_CHAR or WM_SYSCHAR
+	// uMsg == WM_KEYDOWN
+	// uMsg == WM_SYSKEYDOWN
+	// uMsg == WM_CHAR
+	// uMsg == WM_SYSCHAR
 	// = (HIWORD(lParam) & KF_REPEAT) == KF_REPEAT;
 	bool was_key_down;
 };
@@ -189,11 +192,21 @@ static_assert(sizeof(s_key_state) == 0x10);
 
 enum e_mouse_button
 {
-	_mouse_button_1 = 0, // left-click
-	_mouse_button_2,     // middle-click
-	_mouse_button_3,     // right-click
-	_mouse_button_4,     // mouse 4
-	_mouse_button_5,     // mouse 5
+	// left-click
+	_mouse_button_1 = 0,
+
+	// middle-click
+	_mouse_button_2,
+
+	// right-click
+	_mouse_button_3,
+
+	// mouse 4
+	_mouse_button_4,
+
+	// mouse 5
+	_mouse_button_5,
+
 	_mouse_button_6,
 	_mouse_button_7,
 	_mouse_button_8,
@@ -207,22 +220,22 @@ enum e_mouse_button
 
 enum e_mouse_type
 {
-	// WM_MOUSEMOVE
+	// uMsg == WM_MOUSEMOVE
 	_mouse_type_move = 0,
 
-	// WM_LBUTTONDOWN
-	// WM_RBUTTONDOWN
-	// WM_MBUTTONDOWN
-	// WM_XBUTTONDOWN
+	// uMsg == WM_LBUTTONDOWN
+	// uMsg == WM_RBUTTONDOWN
+	// uMsg == WM_MBUTTONDOWN
+	// uMsg == WM_XBUTTONDOWN
 	_mouse_type_down,
 
-	// WM_LBUTTONUP
-	// WM_RBUTTONUP
-	// WM_MBUTTONUP
-	// WM_XBUTTONUP
+	// uMsg == WM_LBUTTONUP
+	// uMsg == WM_RBUTTONUP
+	// uMsg == WM_MBUTTONUP
+	// uMsg == WM_XBUTTONUP
 	_mouse_type_up,
 
-	// WM_MOUSEWHEEL
+	// uMsg == WM_MOUSEWHEEL
 	_mouse_type_wheel,
 
 	k_mouse_type_count
@@ -234,7 +247,7 @@ struct s_mouse_state
 	dword x;
 	dword y;
 	dword wheel_delta;
-	c_enum<e_mouse_button, char, k_mouse_button_count> mouse_button;
+	c_enum<e_mouse_button, char, _mouse_button_5 + 1> mouse_button;
 };
 static_assert(sizeof(s_mouse_state) == 0x14);
 
