@@ -1,10 +1,13 @@
 #include "input/input.hpp"
 
 #include "cseries/cseries.hpp"
-#include "input/input_abstraction.hpp"
 #include "shell/shell.hpp"
 
 #include <assert.h>
+
+REFERENCE_DECLARE_ARRAY(0x01650980, short const, virtual_to_key_table, 256);
+REFERENCE_DECLARE_ARRAY(0x01650BE8, short const, ascii_to_key_table, 256);
+REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
 
 bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type)
 {
