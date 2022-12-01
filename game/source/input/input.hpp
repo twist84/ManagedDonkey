@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+const long k_number_of_windows_input_virtual_codes = 256;
+const long k_number_of_input_ascii_codes = 128;
+
 enum e_key_code
 {
 	_key_code_escape = 0,         // VK_ESCAPE
@@ -457,16 +460,16 @@ extern byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input
 extern word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
 
 // key_to_virtual_table[_key_code_escape] = VK_ESCAPE
-extern c_static_array<char const, 104>& key_to_virtual_table;
+extern c_static_array<char const, k_key_code_count>& key_to_virtual_table;
 
 // virtual_to_key_table[VK_ESCAPE] = _key_code_escape
-extern c_static_array<short const, 256>& virtual_to_key_table;
+extern c_static_array<short const, k_number_of_windows_input_virtual_codes>& virtual_to_key_table;
 
 // key_to_ascii_table[_key_code_spacebar] = ' '
-extern c_static_array<char const, 104>& key_to_ascii_table;
+extern c_static_array<char const, k_key_code_count>& key_to_ascii_table;
 
 // key_to_ascii_table[' '] = _key_code_spacebar
-extern c_static_array<short const, 128>& ascii_to_key_table;
+extern c_static_array<short const, k_number_of_input_ascii_codes>& ascii_to_key_table;
 
 extern s_input_globals& input_globals;
 

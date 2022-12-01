@@ -5,10 +5,10 @@
 
 #include <assert.h>
 
-REFERENCE_DECLARE_STATIC_ARRAY(0x01650918, char const, 104, key_to_virtual_table);
-REFERENCE_DECLARE_STATIC_ARRAY(0x01650980, short const, 256, virtual_to_key_table);
-REFERENCE_DECLARE_STATIC_ARRAY(0x01650B80, char const, 104, key_to_ascii_table);
-REFERENCE_DECLARE_STATIC_ARRAY(0x01650BE8, short const, 128, ascii_to_key_table);
+REFERENCE_DECLARE_STATIC_ARRAY(0x01650918, char const, k_key_code_count, key_to_virtual_table);
+REFERENCE_DECLARE_STATIC_ARRAY(0x01650980, short const, k_number_of_windows_input_virtual_codes, virtual_to_key_table);
+REFERENCE_DECLARE_STATIC_ARRAY(0x01650B80, char const, k_key_code_count, key_to_ascii_table);
+REFERENCE_DECLARE_STATIC_ARRAY(0x01650BE8, short const, k_number_of_input_ascii_codes, ascii_to_key_table);
 REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
 
 bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type)
