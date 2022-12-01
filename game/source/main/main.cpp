@@ -98,6 +98,7 @@ void __cdecl main_loop_body_begin()
 		g_cache_file_globals;
 		g_restricted_region_names;
 		g_restricted_regions;
+		input_globals;
 
 		long player_count = 0;
 		{

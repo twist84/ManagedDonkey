@@ -13,10 +13,10 @@ struct s_gamepad_input_preferences
 	c_static_array<c_enum<e_controller_button, char, k_controller_button_count>, k_gamepad_button_count> gamepad_buttons;
 	c_static_array<bool, k_gamepad_button_count> gamepad_buttons_held;
 
-	c_static_array<c_enum<e_key_code, short, k_key_code_count>, k_gamepad_button_count_keyboard> keys_primary;
-	c_static_array<c_enum<e_key_code, short, k_key_code_count>, k_gamepad_button_count_keyboard> keys_secondary;
-	c_static_array<c_enum<e_mouse_button, char, k_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_primary;
-	c_static_array<c_enum<e_mouse_button, char, k_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_secondary;
+	c_static_array<c_enum<e_key_code, short, k_total_key_code_count>, k_gamepad_button_count_keyboard> keys_primary;
+	c_static_array<c_enum<e_key_code, short, k_total_key_code_count>, k_gamepad_button_count_keyboard> keys_secondary;
+	c_static_array<c_enum<e_mouse_button, char, k_total_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_primary;
+	c_static_array<c_enum<e_mouse_button, char, k_total_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_secondary;
 
 	short joystick_preset;
 	bool controller_look_inverted;

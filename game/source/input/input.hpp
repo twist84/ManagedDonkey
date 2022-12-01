@@ -117,14 +117,14 @@ enum e_key_code
 	_key_code_keypad_enter,
 	_key_code_keypad_decimal,
 
-	_key_code_unknown104,
+	k_key_code_count,
 
 	_key_code_shift,
 	_key_code_control,
 	_key_code_windows,
 	_key_code_alt,
 
-	k_key_code_count,
+	k_total_key_code_count,
 	k_key_code_none = -1
 };
 
@@ -185,14 +185,14 @@ enum e_mouse_button
 	// mouse 5
 	_mouse_button_5,
 
-	_mouse_button_6,
+	k_mouse_button_count,
 	_mouse_button_7,
 	_mouse_button_8,
 
 	_mouse_button_wheel_up,
 	_mouse_button_wheel_down,
 
-	k_mouse_button_count,
+	k_total_mouse_button_count,
 	k_mouse_button_none = -1
 };
 
@@ -319,12 +319,22 @@ enum e_gamepad_button
 	k_gamepad_button_count_keyboard
 };
 
+struct key_state
+{
+	word msec_down;
+	byte frames_down;
+
+	// Set in `sub_511C50`, `sub_511C50` is only referenced by itself
+	bool __unknown3;
+};
+static_assert(sizeof(key_state) == 0x4);
+
 // key_stroke
 struct s_key_state
 {
 	c_flags<e_key_modifier_flags, byte, k_key_modifier_flag_count> modifier;
 	c_enum<e_key_type, long, k_key_type_count> key_type;
-	c_enum<e_key_code, short, k_key_code_count> key_code;
+	c_enum<e_key_code, short, k_total_key_code_count> key_code;
 
 	// virtual-key code
 	// LOWORD(wParam);
@@ -345,7 +355,7 @@ struct s_mouse_state
 	dword x;
 	dword y;
 	dword wheel_delta;
-	c_enum<e_mouse_button, char, _mouse_button_5 + 1> mouse_button;
+	c_enum<e_mouse_button, char, k_mouse_button_count> mouse_button;
 };
 static_assert(sizeof(s_mouse_state) == 0x14);
 
@@ -354,8 +364,8 @@ struct mouse_state
 	dword __unknown0;
 	dword __unknown4;
 	dword __unknown8;
-	c_static_array<byte, 5> frames_down;
-	c_static_array<word, 5> msec_down;
+	c_static_array<byte, k_mouse_button_count> frames_down;
+	c_static_array<word, k_mouse_button_count> msec_down;
 	byte_flags flags;
 	dword x;
 	dword y;
@@ -363,16 +373,29 @@ struct mouse_state
 };
 static_assert(sizeof(mouse_state) == 0x2C);
 
+// based on `XINPUT_STATE`
 struct gamepad_state
 {
-	byte __unknown0[2];
-	byte __unknown2[2];
-	byte __unknown4[2];
+	c_static_array<byte, 2> trigger_down_amount;
 
-	byte __data[0x36];
+	// max_trigger_down_amount
+	byte __unknown2[2];
+
+	c_static_array<byte, 2> trigger_down_frames;
+
+	c_static_array<byte, 14> buttons_down_frames;
+	c_static_array<word, 14> buttons_down_msec;
+
+	word thumb_left_x;
+	word thumb_left_y;
+	word thumb_right_x;
+	word thumb_right_y;
+
+	dword __unknown38;
 };
 static_assert(sizeof(gamepad_state) == 0x3C);
 
+// based on `XINPUT_VIBRATION`
 struct rumble_state
 {
 	word left_motor_speed;
@@ -387,14 +410,9 @@ struct s_input_globals
 	bool suppressed;
 	c_static_array<bool, k_input_type_count> input_type_suppressed;
 	bool feedback_suppressed;
-	dword time;
+	dword update_time;
 
-	struct
-	{
-		word __unknown0;
-		byte __unknown2;
-		byte __unknown3;
-	} __unknownC[104];
+	c_static_array<key_state, k_key_code_count> keys;
 
 	short buffered_key_read_index;
 	short buffered_key_read_count;
@@ -419,8 +437,7 @@ struct s_input_globals
 	long __unknownB20;
 	long __unknownB24;
 
-	long __unknownB28[1];
-
+	c_static_flags<32> gamepad_valid_mask;
 	c_static_array<gamepad_state, 4> gamepad_states;
 	gamepad_state suppressed_gamepad_state;
 
@@ -439,7 +456,17 @@ extern word __cdecl input_key_msec_down(e_key_code key_code, e_input_type input_
 extern byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type);
 extern word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
 
-extern short const(&virtual_to_key_table)[256];
-extern short const(&ascii_to_key_table)[256];
+// key_to_virtual_table[_key_code_escape] = VK_ESCAPE
+extern c_static_array<char const, 104>& key_to_virtual_table;
+
+// virtual_to_key_table[VK_ESCAPE] = _key_code_escape
+extern c_static_array<short const, 256>& virtual_to_key_table;
+
+// key_to_ascii_table[_key_code_spacebar] = ' '
+extern c_static_array<char const, 104>& key_to_ascii_table;
+
+// key_to_ascii_table[' '] = _key_code_spacebar
+extern c_static_array<short const, 128>& ascii_to_key_table;
+
 extern s_input_globals& input_globals;
 
