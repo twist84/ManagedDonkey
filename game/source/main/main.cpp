@@ -85,8 +85,6 @@ void show_location_messages()
 
 void __cdecl main_loop_body_begin()
 {
-	bool key_pressed = false;
-
 	// right control for tests
 	if (input_key_frames_down(_key_code_right_control, _input_type_ui))
 	{
@@ -141,8 +139,6 @@ void __cdecl main_loop_body_begin()
 
 			printf("");
 		}
-
-		key_pressed = true;
 	}
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
@@ -155,20 +151,14 @@ void __cdecl main_loop_body_begin()
 		static long controls_method = 0;
 		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
 		input_abstraction_globals.controls_method = controls_method;
-		key_pressed = true;
 	}
 
 	copy_input_states(true);
 	show_location_messages();
-
-	if (key_pressed)
-		Sleep(75);
 }
 
 void __cdecl main_loop_body_end()
 {
-	bool key_pressed = false;
-
 	// home cluster keys
 	if (input_key_frames_down(_key_code_insert, _input_type_ui) == 1)
 	{
@@ -187,7 +177,6 @@ void __cdecl main_loop_body_end()
 
 		global_preferences_set_fullscreen(true);
 		sub_79BA30(1920, 1080);
-		key_pressed = true;
 	}
 	if (input_key_frames_down(_key_code_delete, _input_type_ui) == 1)
 	{
@@ -195,35 +184,26 @@ void __cdecl main_loop_body_end()
 
 		if (game_is_ui_shell())
 			user_interface_start_hs_script_by_name((elite_hanger = !elite_hanger) ? "elitehangar" : "humanhangar");
-
-		key_pressed = true;
 	}
 	if (input_key_frames_down(_key_code_home, _input_type_ui) == 1)
 	{
 		//main_game_launch_set_multiplayer_splitscreen_count(2);
 		main_game_launch_set_coop_player_count(2);
 		main_game_launch("maps\\riverworld");
-		key_pressed = true;
 	}
 	if (input_key_frames_down(_key_code_end, _input_type_ui) == 1)
 	{
 		director_toggle(main_game_launch_get_last_player(), _director_mode_debug);
-		key_pressed = true;
 	}
 	if (input_key_frames_down(_key_code_page_up, _input_type_ui) == 1)
 	{
 		player_control_toggle_machinima_camera_enabled();
 		player_control_toggle_machinima_camera_debug();
-		key_pressed = true;
 	}
 	if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
 	{
 		player_control_toggle_machinima_camera_use_old_controls();
-		key_pressed = true;
 	}
-
-	if (key_pressed)
-		Sleep(75);
 }
 
 bool game_is_multithreaded()
