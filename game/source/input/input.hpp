@@ -4,118 +4,118 @@
 
 enum e_key_code
 {
-	_key_code_escape = 0,
-	_key_code_f1,
-	_key_code_f2,
-	_key_code_f3,
-	_key_code_f4,
-	_key_code_f5,
-	_key_code_f6,
-	_key_code_f7,
-	_key_code_f8,
-	_key_code_f9,
-	_key_code_f10,
-	_key_code_f11,
-	_key_code_f12,
-	_key_code_f13, // print screen
-	_key_code_f14,
-	_key_code_f15,
+	_key_code_escape = 0,         // VK_ESCAPE
+	_key_code_f1,                 // VK_F1
+	_key_code_f2,                 // VK_F2
+	_key_code_f3,                 // VK_F3
+	_key_code_f4,                 // VK_F4
+	_key_code_f5,                 // VK_F5
+	_key_code_f6,                 // VK_F6
+	_key_code_f7,                 // VK_F7
+	_key_code_f8,                 // VK_F8
+	_key_code_f9,                 // VK_F9
+	_key_code_f10,                // VK_F10
+	_key_code_f11,                // VK_F11
+	_key_code_f12,                // VK_F12
+	_key_code_print_screen,       // VK_SNAPSHOT
+	_key_code_f14,                // VK_F14
+	_key_code_f15,                // VK_F15
 
-	_key_code_backquote,
-	_key_code_1,
-	_key_code_2,
-	_key_code_3,
-	_key_code_4,
-	_key_code_5,
-	_key_code_6,
-	_key_code_7,
-	_key_code_8,
-	_key_code_9,
-	_key_code_0,
-	_key_code_minus,
-	_key_code_equal,
-	_key_code_backspace,
+	_key_code_backquote,          // VK_OEM_3         '`~' for US
+	_key_code_1,                  // '1'
+	_key_code_2,                  // '2'
+	_key_code_3,                  // '3'
+	_key_code_4,                  // '4'
+	_key_code_5,                  // '5'
+	_key_code_6,                  // '6'
+	_key_code_7,                  // '7'
+	_key_code_8,                  // '8'
+	_key_code_9,                  // '9'
+	_key_code_0,                  // '0'
+	_key_code_minus,              // VK_OEM_MINUS     '-' any country
+	_key_code_plus,               // VK_OEM_PLUS      '+' any country
+	_key_code_backspace,          // VK_BACK
 
-	_key_code_tab,
-	_key_code_q,
-	_key_code_w,
-	_key_code_e,
-	_key_code_r,
-	_key_code_t,
-	_key_code_y,
-	_key_code_u,
-	_key_code_i,
-	_key_code_o,
-	_key_code_p,
-	_key_code_left_parenthesis,
-	_key_code_right_parenthesis,
-	_key_code_backslash,
+	_key_code_tab,                // VK_TAB
+	_key_code_q,                  // 'Q'
+	_key_code_w,                  // 'W'
+	_key_code_e,                  // 'E'
+	_key_code_r,                  // 'R'
+	_key_code_t,                  // 'T'
+	_key_code_y,                  // 'Y'
+	_key_code_u,                  // 'U'
+	_key_code_i,                  // 'I'
+	_key_code_o,                  // 'O'
+	_key_code_p,                  // 'P'
+	_key_code_left_parenthesis,   // VK_OEM_4         '[{' for US
+	_key_code_right_parenthesis,  // VK_OEM_6         ']}' for US
+	_key_code_backslash,          // VK_OEM_5         '\|' for US
 
-	_key_code_caps_lock,
-	_key_code_a,
-	_key_code_s,
-	_key_code_d,
-	_key_code_f,
-	_key_code_g,
-	_key_code_h,
-	_key_code_j,
-	_key_code_k,
-	_key_code_l,
-	_key_code_semicolon,
-	_key_code_apostrophe,
-	_key_code_enter,
+	_key_code_caps_lock,          // VK_CAPITAL
+	_key_code_a,                  // 'A'
+	_key_code_s,                  // 'S'
+	_key_code_d,                  // 'D'
+	_key_code_f,                  // 'F'
+	_key_code_g,                  // 'G'
+	_key_code_h,                  // 'H'
+	_key_code_j,                  // 'J'
+	_key_code_k,                  // 'K'
+	_key_code_l,                  // 'L'
+	_key_code_semicolon,          // VK_OEM_1         ';:' for US
+	_key_code_apostrophe,         // VK_OEM_7         ''"' for US
+	_key_code_enter,              // VK_RETURN
 
-	_key_code_left_shift,
-	_key_code_z,
-	_key_code_x,
-	_key_code_c,
-	_key_code_v,
-	_key_code_b,
-	_key_code_n,
-	_key_code_m,
-	_key_code_comma,
-	_key_code_dot,
-	_key_code_slash,
-	_key_code_right_shift,
+	_key_code_left_shift,         // VK_LSHIFT
+	_key_code_z,                  // 'Z'
+	_key_code_x,                  // 'X'
+	_key_code_c,                  // 'C'
+	_key_code_v,                  // 'V'
+	_key_code_b,                  // 'B'
+	_key_code_n,                  // 'N'
+	_key_code_m,                  // 'M'
+	_key_code_comma,              // VK_OEM_COMMA     ',' any country
+	_key_code_dot,                // VK_OEM_PERIOD    '.' any country
+	_key_code_slash,              // VK_OEM_2         '/?' for US
+	_key_code_right_shift,        // VK_RSHIFT
 
-	_key_code_left_control,
-	_key_code_left_windows,
-	_key_code_left_alt,
-	_key_code_spacebar,
-	_key_code_right_alt,
-	_key_code_right_windows,
-	_key_code_context_menu,
-	_key_code_right_control,
+	_key_code_left_control,       // VK_LCONTROL
+	_key_code_left_windows,       // VK_LWIN
+	_key_code_left_alt,           // VK_LMENU
+	_key_code_spacebar,           // VK_SPACE
+	_key_code_right_alt,          // VK_RMENU
+	_key_code_right_windows,      // VK_RWIN
+	_key_code_context_menu,       // VK_APPS
+	_key_code_right_control,      // VK_RCONTROL
 
-	_key_code_up,
-	_key_code_down,
-	_key_code_left,
-	_key_code_right,
+	_key_code_up,                 // VK_UP
+	_key_code_down,               // VK_DOWN
+	_key_code_left,               // VK_LEFT
+	_key_code_right,              // VK_RIGHT
 
-	_key_code_insert,
-	_key_code_home,
-	_key_code_page_up,
-	_key_code_delete,
-	_key_code_end,
-	_key_code_page_down,
+	_key_code_insert,             // VK_INSERT
+	_key_code_home,               // VK_HOME
+	_key_code_page_up,            // VK_PRIOR
+	_key_code_delete,             // VK_DELETE
+	_key_code_end,                // VK_END
+	_key_code_page_down,          // VK_NEXT
 
-	_key_code_keypad_num_lock,
-	_key_code_keypad_divide,
-	_key_code_keypad_multiply,
-	_key_code_keypad_0,
-	_key_code_keypad_1,
-	_key_code_keypad_2,
-	_key_code_keypad_3,
-	_key_code_keypad_4,
-	_key_code_keypad_5,
-	_key_code_keypad_6,
-	_key_code_keypad_7,
-	_key_code_keypad_8,
-	_key_code_keypad_9,
-	_key_code_keypad_subtract,
-	_key_code_keypad_add,
-	_key_code_keypad_enter,
-	_key_code_keypad_decimal,
+	_key_code_keypad_num_lock,    // VK_NUMLOCK
+	_key_code_keypad_divide,      // VK_DIVIDE
+	_key_code_keypad_multiply,    // VK_MULTIPLY
+	_key_code_keypad_0,           // VK_NUMPAD0
+	_key_code_keypad_1,           // VK_NUMPAD1
+	_key_code_keypad_2,           // VK_NUMPAD2
+	_key_code_keypad_3,           // VK_NUMPAD3
+	_key_code_keypad_4,           // VK_NUMPAD4
+	_key_code_keypad_5,           // VK_NUMPAD5
+	_key_code_keypad_6,           // VK_NUMPAD6
+	_key_code_keypad_7,           // VK_NUMPAD7
+	_key_code_keypad_8,           // VK_NUMPAD8
+	_key_code_keypad_9,           // VK_NUMPAD9
+	_key_code_keypad_subtract,    // VK_SUBTRACT
+	_key_code_keypad_add,         // VK_ADD
+	_key_code_keypad_enter,       // VK_RETURN
+	_key_code_keypad_decimal,     // VK_DECIMAL
 
 	k_key_code_count,
 
