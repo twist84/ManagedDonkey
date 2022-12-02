@@ -451,13 +451,15 @@ struct s_input_globals
 };
 static_assert(sizeof(s_input_globals) == 0xC70);
 
-extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);
-extern bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type);
+extern bool __cdecl input_get_key(s_key_state* key, e_input_type input_type);
+extern bool __cdecl input_get_mouse(s_mouse_state* mouse, e_input_type input_type);
 extern bool __cdecl input_has_gamepad(short gamepad_index);
 extern byte __cdecl input_key_frames_down(e_key_code key_code, e_input_type input_type);
 extern word __cdecl input_key_msec_down(e_key_code key_code, e_input_type input_type);
 extern byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type);
 extern word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
+extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);
+extern bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type);
 
 // key_to_virtual_table[_key_code_escape] = VK_ESCAPE
 extern c_static_array<char const, k_key_code_count>& key_to_virtual_table;
