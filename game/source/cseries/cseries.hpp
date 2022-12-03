@@ -439,3 +439,21 @@ T rotate_left(T value, int count)
 #define __ROR4__(value, count) rotate_left(static_cast<dword>(value), -count)
 #define __ROR8__(value, count) rotate_left(static_cast<qword>(value), -count)
 
+extern real_argb_color const* const& global_real_argb_white;
+extern real_argb_color const* const& global_real_argb_grey;
+extern real_argb_color const* const& global_real_argb_black;
+extern real_argb_color const* const& global_real_argb_red;
+extern real_argb_color const* const& global_real_argb_green;
+extern real_argb_color const* const& global_real_argb_blue;
+extern real_argb_color const* const& global_real_argb_yellow;
+extern real_argb_color const* const& global_real_argb_cyan;
+extern real_argb_color const* const& global_real_argb_magenta;
+extern real_argb_color const* const& global_real_argb_pink;
+extern real_argb_color const* const& global_real_argb_lightblue;
+extern real_argb_color const* const& global_real_argb_orange;
+extern real_argb_color const* const& global_real_argb_purple;
+extern real_argb_color const* const& global_real_argb_aqua;
+extern real_argb_color const* const& global_real_argb_darkgreen;
+extern real_argb_color const* const& global_real_argb_salmon;
+extern real_argb_color const* const& global_real_argb_violet;
+

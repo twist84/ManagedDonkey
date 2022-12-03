@@ -9,6 +9,24 @@
 #include <stdio.h>
 #include <string.h>
 
+REFERENCE_DECLARE(0x0189CD54, real_argb_color const* const, global_real_argb_white);
+REFERENCE_DECLARE(0x0189CD58, real_argb_color const* const, global_real_argb_grey);
+REFERENCE_DECLARE(0x0189CD5C, real_argb_color const* const, global_real_argb_black);
+REFERENCE_DECLARE(0x0189CD60, real_argb_color const* const, global_real_argb_red);
+REFERENCE_DECLARE(0x0189CD64, real_argb_color const* const, global_real_argb_green);
+REFERENCE_DECLARE(0x0189CD68, real_argb_color const* const, global_real_argb_blue);
+REFERENCE_DECLARE(0x0189CD6C, real_argb_color const* const, global_real_argb_yellow);
+REFERENCE_DECLARE(0x0189CD70, real_argb_color const* const, global_real_argb_cyan);
+REFERENCE_DECLARE(0x0189CD74, real_argb_color const* const, global_real_argb_magenta);
+REFERENCE_DECLARE(0x0189CD78, real_argb_color const* const, global_real_argb_pink);
+REFERENCE_DECLARE(0x0189CD7C, real_argb_color const* const, global_real_argb_lightblue);
+REFERENCE_DECLARE(0x0189CD80, real_argb_color const* const, global_real_argb_orange);
+REFERENCE_DECLARE(0x0189CD84, real_argb_color const* const, global_real_argb_purple);
+REFERENCE_DECLARE(0x0189CD88, real_argb_color const* const, global_real_argb_aqua);
+REFERENCE_DECLARE(0x0189CD8C, real_argb_color const* const, global_real_argb_darkgreen);
+REFERENCE_DECLARE(0x0189CD90, real_argb_color const* const, global_real_argb_salmon);
+REFERENCE_DECLARE(0x0189CD94, real_argb_color const* const, global_real_argb_violet);
+
 int (__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size) = memcmp;
 void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size) = memcpy;
 void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size) = memset;
