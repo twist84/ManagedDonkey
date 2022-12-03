@@ -83,3 +83,5 @@ static_assert(sizeof(s_observer_globals) == 0xF28);
 
 extern s_observer* observer_get(long user_index);
 extern s_observer_result const* observer_get_camera(long output_user_index);
+extern s_observer_result const* __cdecl observer_try_and_get_camera(long output_user_index);
+

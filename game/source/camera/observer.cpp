@@ -21,3 +21,9 @@ s_observer_result const* observer_get_camera(long output_user_index)
 
 	return &observer->result;
 }
+
+s_observer_result const* __cdecl observer_try_and_get_camera(long output_user_index)
+{
+	return INVOKE(0x00613960, observer_try_and_get_camera, output_user_index);
+}
+
