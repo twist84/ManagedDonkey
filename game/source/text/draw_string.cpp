@@ -2,6 +2,11 @@
 
 #include "text/font_loading.hpp"
 
+void __cdecl c_draw_string::set_bounds(short_rectangle2d const* bounds)
+{
+	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, short_rectangle2d const*)(this, bounds);
+}
+
 void __cdecl c_draw_string::set_color(real_argb_color const* color)
 {
 	m_color = *color;
@@ -10,6 +15,11 @@ void __cdecl c_draw_string::set_color(real_argb_color const* color)
 void __cdecl c_draw_string::set_shadow_color(real_argb_color const* shadow_color)
 {
 	m_shadow_color = *shadow_color;
+}
+
+void __cdecl c_draw_string::set_style(long style)
+{
+	m_style = style;
 }
 
 void __cdecl c_draw_string::set_scale(real scale)
@@ -26,6 +36,11 @@ void __cdecl c_draw_string::set_font(long font_id)
 
 	m_font_id = font_id;
 	m_font = font_get_header(font_id);
+}
+
+void __cdecl c_draw_string::set_justification(long justification)
+{
+	m_justification = justification;
 }
 
 bool __cdecl c_draw_string::draw_more(c_font_cache_base* font_cache, char const* s)

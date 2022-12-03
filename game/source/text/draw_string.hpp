@@ -108,10 +108,13 @@ public:
 		return __vftable->draw_character(this, font_cache, font_id, character, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
 
+	void __cdecl set_bounds(short_rectangle2d const* bounds);
 	void __cdecl set_color(real_argb_color const* color);
 	void __cdecl set_shadow_color(real_argb_color const* shadow_color);
+	void __cdecl set_style(long style);
 	void __cdecl set_scale(real scale);
 	void __cdecl set_font(long font_id);
+	void __cdecl set_justification(long justification);
 	bool __cdecl draw_more(c_font_cache_base* font_cache, char const* s);
 
 protected:
