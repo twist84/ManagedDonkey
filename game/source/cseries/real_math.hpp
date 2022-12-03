@@ -2,7 +2,7 @@
 
 #define PI 3.14159265359
 #define TWO_PI PI * 2
-#define RAD PI / 180
+#define RAD 180 / PI
 
 typedef float real;
 static_assert(sizeof(real) == 0x4);
