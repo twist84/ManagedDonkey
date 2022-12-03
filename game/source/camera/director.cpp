@@ -1,16 +1,19 @@
 #include "camera/director.hpp"
 
-#include "camera/game_director.hpp"
-#include "camera/saved_film_director.hpp"
-#include "camera/observer_director.hpp"
+#include "camera/camera_globals.hpp"
 #include "camera/debug_director.hpp"
 #include "camera/editor_director.hpp"
+#include "camera/game_director.hpp"
+#include "camera/observer_director.hpp"
+#include "camera/saved_film_director.hpp"
 #include "cseries/console.hpp"
+#include "interface/first_person_weapons.hpp"
+#include "interface/interface_constants.hpp"
 #include "game/game.hpp"
 #include "game/players.hpp"
-#include "interface/first_person_weapons.hpp"
-
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "text/draw_string.hpp"
 
 #include <string.h>
 
@@ -225,3 +228,53 @@ void director_toggle_camera(long user_index, e_camera_mode camera_mode)
 
 	director_get(user_index)->set_camera_mode(camera_mode, 0.0f);
 }
+
+void __cdecl director_render()
+{
+	// if (game_is_playback())
+	// skipping for now since we haven't implemented saved film support *yet*
+
+	if (player_control_get_machinima_camera_debug())
+	{
+		long active_output_user = player_mapping_first_active_output_user();
+		s_observer_result const* camera = observer_try_and_get_camera(active_output_user);
+		if (camera)
+		{
+			c_rasterizer_draw_string rasterizer_draw_string;
+			c_font_cache_mt_safe font_cache;
+
+			euler_angles2d facing{};
+			euler_angles2d_from_vector3d(&facing, &camera->forward);
+			if (facing.yaw < 0.0f)
+				facing.yaw += real(TWO_PI);
+
+			char const* control_mode = "normal";
+			if (player_control_get_machinima_camera_use_old_controls())
+				control_mode = "pan-cam";
+
+			c_static_string<256> rasterizer_string;
+			rasterizer_string.print("%.3f %.3f %.3f / %.2f %.2f / %.3f [%s]",
+				camera->focus_point.x,
+				camera->focus_point.y,
+				camera->focus_point.z,
+				RAD * facing.yaw,
+				RAD * facing.pitch,
+				g_director_camera_speed_scale,
+				control_mode
+			);
+
+			short_rectangle2d bounds{};
+			interface_get_current_display_settings(nullptr, nullptr, nullptr, &bounds);
+			bounds.y0 += 80;
+
+			rasterizer_draw_string.set_font(4);
+			rasterizer_draw_string.set_style(-1);
+			rasterizer_draw_string.set_justification(0);
+			rasterizer_draw_string.set_bounds(&bounds);
+			rasterizer_draw_string.set_color(global_real_argb_white);
+			rasterizer_draw_string.draw(&font_cache, rasterizer_string.get_string());
+		}
+	}
+}
+HOOK_DECLARE(0x00591F80, director_render);
+
