@@ -278,6 +278,7 @@ POPD
     <ClCompile Include="source\interface\gui_screens\scoreboard\gui_screen_scoreboard.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.cpp" />
     <ClCompile Include="source\interface\gui_selected_items.cpp" />
+    <ClCompile Include="source\interface\interface_constants.cpp" />
     <ClCompile Include="source\interface\user_interface.cpp" />
     <ClCompile Include="source\interface\user_interface_controller.cpp" />
     <ClCompile Include="source\interface\user_interface_global_text_parsers.cpp" />
@@ -446,6 +447,7 @@ POPD
     <ClInclude Include="source\interface\gui_screens\scoreboard\gui_screen_scoreboard.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.hpp" />
     <ClInclude Include="source\interface\gui_selected_items.hpp" />
+    <ClInclude Include="source\interface\interface_constants.hpp" />
     <ClInclude Include="source\interface\user_interface.hpp" />
     <ClInclude Include="source\interface\user_interface_controller.hpp" />
     <ClInclude Include="source\interface\user_interface_data.hpp" />
