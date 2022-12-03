@@ -1,6 +1,7 @@
 #pragma once
 
 #define PI 3.14159265359
+#define TWO_PI PI * 2
 #define RAD PI / 180
 
 typedef float real;
@@ -218,3 +219,6 @@ union real_rectangle3d
 	real_bounds n[3];
 };
 static_assert(sizeof(real_rectangle3d) == 0x18);
+
+extern euler_angles2d* euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward);
+

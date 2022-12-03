@@ -492,6 +492,9 @@
     <ClCompile Include="source\interface\closed_caption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\real_math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\camera\camera_globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
