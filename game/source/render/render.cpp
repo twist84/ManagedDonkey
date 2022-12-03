@@ -28,8 +28,7 @@ void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* cont
 
 void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context const* context, c_draw_string* draw_string, c_font_cache_base* font_cache)
 {
-	real_argb_color color = { 1.0f, 1.0f, 1.0f, 1.0f };
-	
+	real_argb_color color = *global_real_argb_white;
 	if (context->color)
 	{
 		color.red = context->color->red;

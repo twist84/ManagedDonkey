@@ -26,6 +26,23 @@ REFERENCE_DECLARE(0x0189CD88, real_argb_color const* const, global_real_argb_aqu
 REFERENCE_DECLARE(0x0189CD8C, real_argb_color const* const, global_real_argb_darkgreen);
 REFERENCE_DECLARE(0x0189CD90, real_argb_color const* const, global_real_argb_salmon);
 REFERENCE_DECLARE(0x0189CD94, real_argb_color const* const, global_real_argb_violet);
+REFERENCE_DECLARE(0x0189CD98, real_rgb_color const* const, global_real_rgb_white);
+REFERENCE_DECLARE(0x0189CD9C, real_rgb_color const* const, global_real_rgb_grey);
+REFERENCE_DECLARE(0x0189CDA0, real_rgb_color const* const, global_real_rgb_black);
+REFERENCE_DECLARE(0x0189CDA4, real_rgb_color const* const, global_real_rgb_red);
+REFERENCE_DECLARE(0x0189CDA8, real_rgb_color const* const, global_real_rgb_green);
+REFERENCE_DECLARE(0x0189CDAC, real_rgb_color const* const, global_real_rgb_blue);
+REFERENCE_DECLARE(0x0189CDB0, real_rgb_color const* const, global_real_rgb_yellow);
+REFERENCE_DECLARE(0x0189CDB4, real_rgb_color const* const, global_real_rgb_cyan);
+REFERENCE_DECLARE(0x0189CDB8, real_rgb_color const* const, global_real_rgb_magenta);
+REFERENCE_DECLARE(0x0189CDBC, real_rgb_color const* const, global_real_rgb_pink);
+REFERENCE_DECLARE(0x0189CDC0, real_rgb_color const* const, global_real_rgb_lightblue);
+REFERENCE_DECLARE(0x0189CDC4, real_rgb_color const* const, global_real_rgb_orange);
+REFERENCE_DECLARE(0x0189CDC8, real_rgb_color const* const, global_real_rgb_purple);
+REFERENCE_DECLARE(0x0189CDCC, real_rgb_color const* const, global_real_rgb_aqua);
+REFERENCE_DECLARE(0x0189CDD0, real_rgb_color const* const, global_real_rgb_darkgreen);
+REFERENCE_DECLARE(0x0189CDD4, real_rgb_color const* const, global_real_rgb_salmon);
+REFERENCE_DECLARE(0x0189CDD8, real_rgb_color const* const, global_real_rgb_violet);
 
 int (__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size) = memcmp;
 void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size) = memcpy;
