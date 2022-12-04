@@ -111,8 +111,8 @@ void __cdecl input_abstraction_get_input_state(long controller_index, s_game_inp
 
 void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, euler_angles2d* angular_velocity)
 {
-	angular_velocity->yaw = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_x * RAD);
-	angular_velocity->pitch = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_y * RAD);
+	angular_velocity->yaw = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_x * DEG);
+	angular_velocity->pitch = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_y * DEG);
 }
 
 //void __cdecl sub_60C040(int keyboard_preset, s_gamepad_input_preferences* preferences)

@@ -3,6 +3,7 @@
 #define PI 3.14159265359
 #define TWO_PI PI * 2
 #define RAD 180 / PI
+#define DEG PI / 180
 
 typedef float real;
 static_assert(sizeof(real) == 0x4);

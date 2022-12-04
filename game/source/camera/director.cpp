@@ -17,6 +17,8 @@
 
 #include <string.h>
 
+HOOK_DECLARE(0x00591F80, director_render);
+
 long __cdecl dead_or_alive_unit_from_user(long user_index)
 {
 	return INVOKE(0x005916F0, dead_or_alive_unit_from_user, user_index);
@@ -276,5 +278,4 @@ void __cdecl director_render()
 		}
 	}
 }
-HOOK_DECLARE(0x00591F80, director_render);
 
