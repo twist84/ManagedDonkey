@@ -236,11 +236,11 @@ void __cdecl unlock_resources_and_resume_render_thread(dword flags)
 
 void __cdecl main_loop_pregame_show_progress_screen()
 {
-	static c_static_wchar_string<12288> loading_status;
-	long main_pregame_frame = main_loading_get_loading_status(&loading_status);
+	static c_static_wchar_string<12288> status_message;
+	long main_pregame_frame = main_loading_get_loading_status(&status_message);
 	if (!main_pregame_frame)
 	{
-		//editor_show_pregame_progress(main_pregame_frame, loading_status.get_string());
+		//editor_show_pregame_progress(main_pregame_frame, status_message.get_string());
 		return;
 	}
 
@@ -255,15 +255,15 @@ void __cdecl main_loop_pregame_show_progress_screen()
 		}
 		else if (main_pregame_frame == 3)
 		{
-			main_render_status_message(loading_status.get_string());
+			main_render_status_message(status_message.get_string());
 		}
 		else
 		{
-			static char loading_status_ascii[12288];
-			loading_status_ascii[0] = 0;
+			static char status_message_ascii[12288];
+			status_message_ascii[0] = 0;
 
-			wchar_string_to_ascii_string(loading_status.get_string(), loading_status_ascii, 12288, nullptr);
-			main_render_pregame(main_pregame_frame, loading_status_ascii);
+			wchar_string_to_ascii_string(status_message.get_string(), status_message_ascii, 12288, nullptr);
+			main_render_pregame(main_pregame_frame, status_message_ascii);
 
 			if (main_pregame_frame == 2)
 			{
@@ -275,5 +275,17 @@ void __cdecl main_loop_pregame_show_progress_screen()
 		main_time_throttle(0);
 		c_rasterizer::end_frame();
 	}
+}
+
+void __cdecl main_loop_status_message(wchar_t const* status_message)
+{
+	//INVOKE(0x00506900, main_loop_status_message, status_message);
+
+	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	c_rasterizer::begin_frame();
+	c_rasterizer::setup_targets_simple();
+	main_render_status_message(status_message);
+	main_time_throttle(0);
+	c_rasterizer::end_frame();
 }
 
