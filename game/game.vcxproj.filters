@@ -501,6 +501,9 @@
     <ClCompile Include="source\interface\interface_constants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1413,6 +1416,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\interface_constants.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
