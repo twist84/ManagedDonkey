@@ -5,6 +5,7 @@
 #include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
+struct s_game_hopper_picked_game_collection;
 struct c_network_session_membership;
 
 struct c_hopper_configuration
@@ -90,5 +91,10 @@ struct c_hopper_configuration
 };
 static_assert(sizeof(c_hopper_configuration) == 0x260);
 
-extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);
+extern void __cdecl multiplayer_game_hopper_update();
+extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration();
+extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuration(word hopper_identifier);
+extern bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_count, long valid_map_mask, s_game_hopper_picked_game_collection* game_collection_out);
 extern e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_identifier, bool is_matchmaking, bool check_hopper, c_network_session_membership const* session_membership, word* out_player_error_mask);
+extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);
+
