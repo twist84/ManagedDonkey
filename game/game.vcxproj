@@ -312,6 +312,7 @@ POPD
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
     <ClCompile Include="source\motor\actions.cpp" />
+    <ClCompile Include="source\multithreading\primitives\synchronized_list_windows.cpp" />
     <ClCompile Include="source\multithreading\synchronized_value.cpp" />
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_manager.cpp" />
     <ClCompile Include="source\networking\logic\logic_qos_reply_manager.cpp" />
@@ -554,6 +555,7 @@ POPD
     <ClInclude Include="source\memory\secure_signature.hpp" />
     <ClInclude Include="source\memory\thread_local.hpp" />
     <ClInclude Include="source\motor\actions.hpp" />
+    <ClInclude Include="source\multithreading\primitives\synchronized_list_windows.hpp" />
     <ClInclude Include="source\multithreading\synchronized_value.hpp" />
     <ClInclude Include="source\networking\delivery\network_channel.hpp" />
     <ClInclude Include="source\networking\delivery\network_link.hpp" />
