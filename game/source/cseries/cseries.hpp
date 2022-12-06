@@ -99,6 +99,11 @@ const long LONG_BITS = SIZEOF_BITS(long);
 
 #define NONE -1
 
+bool pointer_is_aligned(void* pointer, long alignment_bits)
+{
+	return ((unsigned long)pointer & ((1 << alignment_bits) - 1)) == 0;
+}
+
 extern int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size);
 extern void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size);
 extern void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size);
