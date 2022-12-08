@@ -1124,7 +1124,7 @@ struct s_thread_local_storage
 	c_smart_data_array<player_datum>* player_data;
 
 	// name: "players globals"
-	players_globals* players_globals;
+	s_players_global_data* players_globals;
 
 	// name: "game engine globals"
 	// size: 0x15858

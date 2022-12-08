@@ -374,11 +374,84 @@ struct player_datum : s_datum_header
 };
 static_assert(sizeof(player_datum) == 0x2F08);
 
-struct players_globals
+#pragma pack(push, 1)
+struct s_players_global_data
 {
-	byte __data[0x234];
+	long players_in_game_count;
+
+	bool input_disabled;
+	bool mostly_inhibit;
+
+	bool __unknown6;
+	bool __unknown7;
+
+	byte __data8[4];
+
+	dword machine_valid_mask;
+	c_static_array<s_machine_identifier, 17> machine_identifiers;
+
+	bool local_machine_exists;
+	s_machine_identifier local_machine_identifier;
+	byte __pad131[0x3];
+
+	long local_machine_index;
+
+	// set to `false` when `__data16C` is memset
+	bool __unknown138;
+
+	byte __data139;
+
+	short respawn_failure;
+
+	// player_positions_initialize_for_new_structure_bsp
+	// players_update_after_game
+	bool __unknown13C;
+
+	byte __data13D[0x3];
+
+	real_point3d switching_player_position;
+	vector3d switching_player_forward;
+
+	// player_positions_initialize_for_new_structure_bsp
+	// players_update_after_game
+	long begin_zone_set_switch_trigger_volume_index;
+	long commit_zone_set_switch_trigger_volume_index;
+
+	// players_update_after_game
+	// if (player_index != -1 && ++__unknown160 > 12)
+	//    __unknown160 = 0
+	short __unknown160;
+
+	short __unknown162;
+
+	// players_update_after_game
+	long player_index;
+
+	// players_update_after_game
+	long zoneset_index;
+
+	// memset in `players_initialize_for_new_map`
+	// zone_set_trigger_volume_index
+	c_static_flags<1024> zone_set_switch_flags;
+
+	// `terminal_was_completed`
+	// - returns whether or not the given terminal was read to completion
+	word terminal_completed_flags;
+
+	// `terminal_was_accessed`
+	// - returns whether or not the given terminal was accessed
+	word terminal_accessed_flags;
+
+	// `terminal_is_being_read`
+	// - returns whether or not a terminal is currently being read
+	bool terminal_being_read;
+
+	byte __data1F1[0x3];
+
+	byte __data1F4[0x40];
 };
-static_assert(sizeof(players_globals) == 0x234);
+static_assert(sizeof(s_players_global_data) == 0x234);
+#pragma pack(pop)
 
 struct c_player_in_game_iterator :
 	public c_data_iterator<player_datum>
