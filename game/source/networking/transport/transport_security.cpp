@@ -14,6 +14,11 @@ HOOK_DECLARE(0x00431100, transport_secure_nonce_get_string);
 
 REFERENCE_DECLARE(0x0199FAB0, s_transport_security_globals, transport_security_globals);
 
+bool __cdecl transport_secure_address_compare(s_transport_secure_address const* a, s_transport_secure_address const* b)
+{
+	return INVOKE(0x00430B20, transport_secure_address_compare, a, b);
+}
+
 bool __cdecl transport_secure_address_get_insecure(transport_address* address)
 {
 	if (address)

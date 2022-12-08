@@ -54,6 +54,7 @@ static_assert(sizeof(s_transport_security_globals) == 0x1D8);
 
 extern s_transport_security_globals& transport_security_globals;
 
+extern bool __cdecl transport_secure_address_compare(s_transport_secure_address const* a, s_transport_secure_address const* b);
 extern bool __cdecl transport_secure_address_get_insecure(transport_address* address);
 extern void __cdecl transport_secure_address_extract_identifier(s_transport_secure_address const* secure_address, s_transport_unique_identifier* unique_identifier);
 extern bool __cdecl transport_secure_address_decode(s_transport_session_description const* secure_host_description, s_transport_secure_address const* secure_address, transport_address* usable_address);
