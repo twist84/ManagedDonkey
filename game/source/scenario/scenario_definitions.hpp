@@ -541,6 +541,14 @@ struct s_scenario_soft_ceiling
 };
 static_assert(sizeof(s_scenario_soft_ceiling) == 0xC);
 
+struct scenario_starting_profile_weapon
+{
+	c_typed_tag_reference<'weap'> weapon;
+	short rounds_loaded;
+	short rounds_total;
+};
+static_assert(sizeof(scenario_starting_profile_weapon) == 0x14);
+
 struct scenario_starting_profile
 {
 	string name;
@@ -551,21 +559,14 @@ struct scenario_starting_profile
 	// [0,1]
 	real_fraction starting_shield_damage;
 
-	c_typed_tag_reference<'weap'> primary_weapon;
-	short primary_rounds_loaded;
-	short primary_rounds_total;
+	// multiplayer_globals->universal[0]->weapon_selections
+	scenario_starting_profile_weapon starting_weapons[2];
 
-	c_typed_tag_reference<'weap'> secondary_weapon;
-	short secondary_rounds_loaded;
-	short secondary_rounds_total;
+	// multiplayer_globals->universal[0]->equipment
+	short starting_equipment[4]; // short_block_index
 
-	// short block index multiplayer_globals->universal[0]->equipment
-	short starting_consumable_indices[4];
-
-	char starting_fragmentation_grenade_count;
-	char starting_plasma_grenade_count;
-	char starting_claymore_grenade_count;
-	char starting_firebomb_grenade_count;
+	// multiplayer_globals->universal[0]->grenade_selections
+	char starting_grenades[4]; // short_block_index
 	
 	// s_scenario_editor_folder
 	short editor_folder; // short_block_index
