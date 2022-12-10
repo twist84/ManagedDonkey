@@ -276,6 +276,7 @@ POPD
     <ClCompile Include="source\interface\gui_custom_bitmap_storage.cpp" />
     <ClCompile Include="source\interface\gui_custom_bitmap_widget.cpp" />
     <ClCompile Include="source\interface\gui_location_manager.cpp" />
+    <ClCompile Include="source\interface\gui_roster_data.cpp" />
     <ClCompile Include="source\interface\gui_screens\main_menu\gui_screen_main_menu.cpp" />
     <ClCompile Include="source\interface\gui_screens\matchmaking\gui_screen_matchmaking_match_found.cpp" />
     <ClCompile Include="source\interface\gui_screens\matchmaking\gui_screen_matchmaking_searching.cpp" />
