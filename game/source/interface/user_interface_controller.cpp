@@ -5,7 +5,8 @@
 #include "memory/module.hpp"
 
 HOOK_DECLARE(0x00A935C0, event_manager_button_pressed);
-HOOK_DECLARE(0x00A936B0, event_manager_tab);
+//HOOK_DECLARE(0x00A936B0, event_manager_tab);
+HOOK_DECLARE_CALL(0x00A941B9, event_manager_tab);
 HOOK_DECLARE(0x00A94B40, user_interface_controller_input_event_submit);
 
 void __cdecl event_manager_button_pressed(e_controller_index controller_index, char gamepad_button)
@@ -63,15 +64,15 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, c
     user_interface_controller_input_event_submit(&event_record);
 }
 
-//HOOK_DECLARE_CALL(0x00A941B9, event_manager_tab);
 void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, int16_point2d const* a3, dword a4, e_controller_component controller_component)
 {
     // skip extra button processing in `event_manager_update`,
     // fixes double button pressing when no controller is plugged in
-    if (controller_component == _controller_component_unknown16)
-        return;
+    //if (controller_component == _controller_component_any_stick)
+    //    return;
 
-    HOOK_INVOKE(, event_manager_tab, gamepad_stick, controller_index, a3, a4, controller_component);
+    //INVOKE(0x00A936B0, event_manager_tab, gamepad_stick, controller_index, a3, a4, controller_component);
+    //HOOK_INVOKE(, event_manager_tab, gamepad_stick, controller_index, a3, a4, controller_component);
 }
 
 void __cdecl user_interface_controller_input_event_submit(s_event_record* event_record)

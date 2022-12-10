@@ -46,7 +46,8 @@ enum e_controller_component
 	_controller_component_button_left_stick,
 	_controller_component_button_right_stick,
 
-	_controller_component_unknown16,
+	_controller_component_any_stick,
+
 	_controller_component_unknown17,
 
 	_controller_component_left_stick_left,
