@@ -75,5 +75,6 @@ struct s_event_record
 };
 
 extern void __cdecl event_manager_button_pressed(e_controller_index controller_index, char gamepad_button);
-extern void user_interface_controller_input_event_submit(s_event_record* event_record);
+extern void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, int16_point2d const* a3, dword a4, e_controller_component controller_component);
+extern void __cdecl user_interface_controller_input_event_submit(s_event_record* event_record);
 
