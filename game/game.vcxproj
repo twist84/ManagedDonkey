@@ -294,6 +294,7 @@ POPD
     <ClCompile Include="source\interface\user_interface_session.cpp" />
     <ClCompile Include="source\interface\user_interface_text.cpp" />
     <ClCompile Include="source\interface\user_interface_text_parser.cpp" />
+    <ClCompile Include="source\interface\user_interface_utilities.cpp" />
     <ClCompile Include="source\interface\user_interface_window_manager.cpp" />
     <ClCompile Include="source\items\equipment_definitions.cpp" />
     <ClCompile Include="source\items\weapons.cpp" />
@@ -470,6 +471,7 @@ POPD
     <ClInclude Include="source\interface\user_interface_session.hpp" />
     <ClInclude Include="source\interface\user_interface_text.hpp" />
     <ClInclude Include="source\interface\user_interface_text_parser.hpp" />
+    <ClInclude Include="source\interface\user_interface_utilities.hpp" />
     <ClInclude Include="source\interface\user_interface_window_manager.hpp" />
     <ClInclude Include="source\items\equipment_definitions.hpp" />
     <ClInclude Include="source\items\weapons.hpp" />

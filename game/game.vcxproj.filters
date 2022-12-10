@@ -516,6 +516,9 @@
     <ClCompile Include="source\multithreading\primitives\synchronized_list_windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\user_interface_utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1443,6 +1446,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\multithreading\primitives\synchronized_list_windows.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_utilities.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
