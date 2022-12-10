@@ -445,6 +445,7 @@ POPD
     <ClInclude Include="source\interface\c_gui_bitmap_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_list_item_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_screen_widget.hpp" />
+    <ClInclude Include="source\interface\c_gui_text_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_widget.hpp" />
     <ClInclude Include="source\interface\c_player_marketplace.hpp" />
     <ClInclude Include="source\interface\gui_animation.hpp" />
