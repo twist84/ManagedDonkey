@@ -516,6 +516,9 @@
     <ClCompile Include="source\multithreading\primitives\synchronized_list_windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\c_gui_widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\interface\user_interface_utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
