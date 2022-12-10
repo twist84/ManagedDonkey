@@ -20,8 +20,8 @@ struct s_runtime_list_widget_definition : s_runtime_core_widget_definition
 	long skin_index;
 	long rows;
 	tag_block items;
-	long prev_indicator_bitmap_index;
-	long next_indicator_bitmap_index;
+	long prev_indicator_bitmap_reference_index;
+	long next_indicator_bitmap_reference_index;
 };
 static_assert(sizeof(s_runtime_list_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x20);
 
