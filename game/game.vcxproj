@@ -455,6 +455,7 @@ POPD
     <ClInclude Include="source\interface\gui_custom_bitmap_widget.hpp" />
     <ClInclude Include="source\interface\gui_location_manager.hpp" />
     <ClInclude Include="source\interface\gui_roster_data.hpp" />
+    <ClInclude Include="source\interface\gui_roster_list_widget.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_details\gui_game_details.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_info_screen\game_info_screen.hpp" />
     <ClInclude Include="source\interface\gui_screens\main_menu\gui_screen_main_menu.hpp" />
