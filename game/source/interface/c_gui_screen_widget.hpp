@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_widget.hpp"
-#include "interface/user_interface_data.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_screen_widget_definition_flags
@@ -73,6 +72,7 @@ struct s_window_manager_screen_render_data
 static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 
 enum e_window_index;
+struct c_gui_data;
 struct c_game_tag_parser;
 struct c_gui_screen_widget : c_gui_widget
 {

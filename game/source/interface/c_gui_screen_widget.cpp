@@ -1,5 +1,7 @@
 #include "interface/c_gui_screen_widget.hpp"
 
+#include "interface/user_interface_data.hpp"
+
 c_gui_data* c_gui_screen_widget::get_data(long name, long* datasource_index)
 {
 	if (datasource_index)
