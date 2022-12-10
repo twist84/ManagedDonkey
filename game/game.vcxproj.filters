@@ -1454,6 +1454,9 @@
     <ClInclude Include="source\multithreading\primitives\synchronized_list_windows.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\interface\c_gui_list_item_widget.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\interface\user_interface_utilities.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

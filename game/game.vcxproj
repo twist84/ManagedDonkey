@@ -443,6 +443,7 @@ POPD
     <ClInclude Include="source\interface\chud\chud_navpoints.hpp" />
     <ClInclude Include="source\interface\closed_caption.hpp" />
     <ClInclude Include="source\interface\c_gui_bitmap_widget.hpp" />
+    <ClInclude Include="source\interface\c_gui_list_item_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_screen_widget.hpp" />
     <ClInclude Include="source\interface\c_gui_widget.hpp" />
     <ClInclude Include="source\interface\c_player_marketplace.hpp" />
