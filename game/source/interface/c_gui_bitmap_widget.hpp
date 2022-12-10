@@ -29,7 +29,7 @@ struct s_runtime_bitmap_widget_definition : s_runtime_core_widget_definition
 };
 static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 
-struct c_gui_bitmap_widget : c_gui_widget
+struct c_gui_bitmap_widget : public c_gui_widget
 {
 	long __unknownDC;
 	long __unknownE0;
