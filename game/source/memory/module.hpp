@@ -9,8 +9,8 @@
 #define HOOK_INVOKE(RESULT, NAME, ...) { NAME##_hook.apply(true); RESULT reinterpret_cast<decltype(NAME)*>(NAME##_hook.get_original())(__VA_ARGS__); NAME##_hook.apply(false); }
 #define HOOK_INVOKE_CLASS(RESULT, CLASS, NAME, TYPE, ...) { CLASS##_##NAME##_hook.apply(true); RESULT reinterpret_cast<TYPE>(CLASS##_##NAME##_hook.get_original())(__VA_ARGS__); CLASS##_##NAME##_hook.apply(false); }
 
-#define DATA_PATCH_DECLARE(ADDR, NAME, BYTES) c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, NUMBEROF(##BYTES), BYTES)
-#define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, BYTES) c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, SIZE, BYTES)
+#define DATA_PATCH_DECLARE(ADDR, NAME, ...) c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
+#define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, ...) c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, SIZE, __VA_ARGS__)
 
 union module_address
 {
