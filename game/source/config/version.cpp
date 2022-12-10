@@ -17,8 +17,8 @@ HOOK_DECLARE(0x00501470, version_get_target_configuration);
 
 byte const k_build_date[] = __DATE__;
 byte const k_build_time[] = __TIME__;
-c_data_patch build_date_patch(0x016704A8, NUMBEROF(k_build_date), k_build_date);
-c_data_patch build_time_patch(0x016704B4, NUMBEROF(k_build_time), k_build_time);
+DATA_PATCH_DECLARE(0x016704A8, build_date, k_build_date);
+DATA_PATCH_DECLARE(0x016704B4, build_time, k_build_time);
 
 REFERENCE_DECLARE(0x0189CFD0, bool, k_tracked_build);
 
