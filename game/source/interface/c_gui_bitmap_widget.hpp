@@ -3,14 +3,38 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_widget.hpp"
 
+struct s_bitmap_widget_definition : s_core_widget_definition
+{
+	tag_reference bitmap_tag;
+	tag_reference custom_pixel_shader;
+	short_enum bitmap_blend_method;
+	short initial_sprite_sequence;
+	short initial_sprite_frame;
+	byte : 8;
+	byte : 8;
+	string_id value_override_list;
+	string_id value_identifier;
+};
+static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
+
+struct s_runtime_bitmap_widget_definition : s_runtime_core_widget_definition
+{
+	long bitmap_tag_reference_index;
+	long __unknown38;
+	long bitmap_blend_method;
+	short initial_sprite_sequence;
+	short initial_sprite_frame;
+	string_id value_override_list;
+	string_id value_identifier;
+};
+static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
+
 struct c_gui_bitmap_widget : c_gui_widget
 {
-	byte __dataDC[0x8];
+	long __unknownDC;
+	long __unknownE0;
 	long m_sprite_frame;
-	char __dataE8[0x8];
-	c_string_id m_name;
-	byte __dataF4[0x2C];
-	long m_bitmap_definition_index;
-	byte __data124[0x14];
+	long __unknownE8;
+	s_runtime_bitmap_widget_definition m_core_definition;
 };
 static_assert(sizeof(c_gui_bitmap_widget) == 0x138);
