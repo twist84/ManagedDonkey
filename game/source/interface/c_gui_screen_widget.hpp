@@ -35,7 +35,7 @@ struct s_screen_widget_definition : s_core_widget_definition
 	short script_index;
 	byte scary[2];
 };
-static_assert(sizeof(s_screen_widget_definition) == 0xA8);
+static_assert(sizeof(s_screen_widget_definition) == sizeof(s_core_widget_definition) + 0x7C);
 
 struct s_runtime_screen_widget_definition : s_runtime_core_widget_definition
 {
@@ -49,7 +49,7 @@ struct s_runtime_screen_widget_definition : s_runtime_core_widget_definition
 	short script_index;
 	byte scary[2];
 };
-static_assert(sizeof(s_runtime_screen_widget_definition) == 0x88);
+static_assert(sizeof(s_runtime_screen_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x54);
 
 struct s_window_manager_screen_render_data
 {
