@@ -5,6 +5,9 @@
 
 struct c_gui_roster_list_widget : c_gui_list_widget
 {
+public:
+	static void __fastcall update_render_state(c_gui_roster_list_widget* _this, void* unused, dword a2);
+
 protected:
 	bool m_game_roster_is_local_party;
 	bool m_is_team_game;

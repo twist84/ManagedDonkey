@@ -519,6 +519,9 @@
     <ClCompile Include="source\interface\gui_roster_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_roster_list_widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\interface\c_gui_widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
