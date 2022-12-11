@@ -157,11 +157,6 @@ bool __cdecl c_gui_widget::get_string_by_string_id(string_id name, c_static_wcha
 	return __vftable->get_string_by_string_id(this, name, out_string);
 }
 
-void __cdecl c_gui_widget::_initialize(s_list_widget_block const* a1)
-{
-	__vftable->_initialize(this, a1);
-}
-
 c_gui_list_item_widget* __cdecl c_gui_widget::get_next_list_item_widget(bool a1)
 {
 	return DECLFUNC(0x00AB9230, c_gui_list_item_widget*, __thiscall, c_gui_widget*, bool)(this, a1);

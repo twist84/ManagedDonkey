@@ -114,46 +114,50 @@ struct c_gui_widget
 protected:
 
 	// HACK: so we don't have to manually construct the class
-	struct
+	union MyUnion
 	{
-		long(__thiscall* get_ambient_state)(c_gui_widget*);
-		void* (__thiscall* destructor)(c_gui_widget*, dword);
-		void(__thiscall* initialize)(c_gui_widget*);
-		void(__thiscall* post_initialize)(c_gui_widget*);
-		void(__thiscall* dispose)(c_gui_widget*);
-		long(__thiscall* get_name)(c_gui_widget*);
-		long(__thiscall* get_element_handle)(c_gui_widget*);
-		long(__thiscall* get_datasource_index)(c_gui_widget*);
-		bool(__thiscall* get_enabled)(c_gui_widget*);
-		void(__thiscall* set_enabled)(c_gui_widget*, bool);
-		s_runtime_core_widget_definition* (__thiscall* get_core_definition)(c_gui_widget*);
-		real_rectangle2d* (__thiscall* get_current_bounds)(c_gui_widget*, real_rectangle2d*);
-		real_rectangle2d* (__thiscall* get_container_current_bounds)(c_gui_widget*, real_rectangle2d*);
-		bool(__thiscall* should_render)(c_gui_widget*, bool*);
-		real_argb_color* (__thiscall* get_cumulative_color_tint)(c_gui_widget*, real_argb_color*);
-		bool(__thiscall* can_receive_focus)(c_gui_widget*);
-		bool(__thiscall* within_focus_chain)(c_gui_widget*);
-		c_gui_text_widget* (__thiscall* create_text_widget)(c_gui_widget*, s_runtime_text_widget_definition const*);
-		c_gui_bitmap_widget* (__thiscall* create_bitmap_widget)(c_gui_widget*, s_runtime_bitmap_widget_definition const*);
-		c_gui_group_widget* (__thiscall* create_group_widget)(c_gui_widget*, s_group_widget_definition const*);
-		c_gui_button_key_widget* (__thiscall* create_button_key_widget)(c_gui_widget*, s_button_key_definition const*);
-		c_gui_list_widget* (__thiscall* create_list_widget)(c_gui_widget*, s_list_widget_block const*);
-		c_gui_list_item_widget* (__thiscall* create_list_item_widget)(c_gui_widget*, s_list_item_widget_block const*);
-		c_gui_model_widget* (__thiscall* create_model_widget)(c_gui_widget*, s_model_widget_block const*);
-		void(__thiscall* update)(c_gui_widget*, dword);
-		void(__thiscall* update_render_state)(c_gui_widget*, dword);
-		void(__thiscall* set_animated_state_baseline)(c_gui_widget*, s_animation_transform*);
-		void* __func27;
-		void* __func28;
-		void(__thiscall* assemble_render_data)(c_gui_widget*, s_gui_widget_render_data*, rectangle2d const*, e_controller_index, long, bool, bool, bool);
-		bool(__thiscall* handle_widget_back_out)(c_gui_widget*);
-		void* __func31;
-		bool(__thiscall* handle_tab)(c_gui_widget*, c_controller_input_message const*);
-		void* __func33;
-		void* __func34;
-		void* __func35;
-		bool(__thiscall* get_string_by_string_id)(c_gui_widget*, string_id, c_static_wchar_string<1024>*);
-		void(__thiscall* _initialize)(c_gui_widget*, s_list_widget_block const*);
+		struct
+		{
+			long(__thiscall* get_ambient_state)(c_gui_widget*);
+			void* (__thiscall* destructor)(c_gui_widget*, dword);
+			void(__thiscall* initialize)(c_gui_widget*);
+			void(__thiscall* post_initialize)(c_gui_widget*);
+			void(__thiscall* dispose)(c_gui_widget*);
+			long(__thiscall* get_name)(c_gui_widget*);
+			long(__thiscall* get_element_handle)(c_gui_widget*);
+			long(__thiscall* get_datasource_index)(c_gui_widget*);
+			bool(__thiscall* get_enabled)(c_gui_widget*);
+			void(__thiscall* set_enabled)(c_gui_widget*, bool);
+			s_runtime_core_widget_definition* (__thiscall* get_core_definition)(c_gui_widget*);
+			real_rectangle2d* (__thiscall* get_current_bounds)(c_gui_widget*, real_rectangle2d*);
+			real_rectangle2d* (__thiscall* get_container_current_bounds)(c_gui_widget*, real_rectangle2d*);
+			bool(__thiscall* should_render)(c_gui_widget*, bool*);
+			real_argb_color* (__thiscall* get_cumulative_color_tint)(c_gui_widget*, real_argb_color*);
+			bool(__thiscall* can_receive_focus)(c_gui_widget*);
+			bool(__thiscall* within_focus_chain)(c_gui_widget*);
+			c_gui_text_widget* (__thiscall* create_text_widget)(c_gui_widget*, s_runtime_text_widget_definition const*);
+			c_gui_bitmap_widget* (__thiscall* create_bitmap_widget)(c_gui_widget*, s_runtime_bitmap_widget_definition const*);
+			c_gui_group_widget* (__thiscall* create_group_widget)(c_gui_widget*, s_group_widget_definition const*);
+			c_gui_button_key_widget* (__thiscall* create_button_key_widget)(c_gui_widget*, s_button_key_definition const*);
+			c_gui_list_widget* (__thiscall* create_list_widget)(c_gui_widget*, s_list_widget_block const*);
+			c_gui_list_item_widget* (__thiscall* create_list_item_widget)(c_gui_widget*, s_list_item_widget_block const*);
+			c_gui_model_widget* (__thiscall* create_model_widget)(c_gui_widget*, s_model_widget_block const*);
+			void(__thiscall* update)(c_gui_widget*, dword);
+			void(__thiscall* update_render_state)(c_gui_widget*, dword);
+			void(__thiscall* set_animated_state_baseline)(c_gui_widget*, s_animation_transform*);
+			void* __func27;
+			void* __func28;
+			void(__thiscall* assemble_render_data)(c_gui_widget*, s_gui_widget_render_data*, rectangle2d const*, e_controller_index, long, bool, bool, bool);
+			bool(__thiscall* handle_widget_back_out)(c_gui_widget*);
+			void* __func31;
+			bool(__thiscall* handle_tab)(c_gui_widget*, c_controller_input_message const*);
+			void* __func33;
+			void* __func34;
+			void* __func35;
+			bool(__thiscall* get_string_by_string_id)(c_gui_widget*, string_id, c_static_wchar_string<1024>*);
+		};
+
+		void* __funcs[64];
 	}*__vftable;
 
 	long __cdecl get_ambient_state();
@@ -189,7 +193,6 @@ public:
 	bool __cdecl handle_widget_back_out();
 	bool __cdecl handle_tab(c_controller_input_message const* input_message);
 	bool __cdecl get_string_by_string_id(string_id name, c_static_wchar_string<1024>* out_string);
-	void __cdecl _initialize(s_list_widget_block const* a1);
 	
 	c_gui_list_item_widget* __cdecl get_next_list_item_widget(bool a1);
 	void __cdecl set_visible(bool is_visible);

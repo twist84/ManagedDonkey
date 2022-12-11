@@ -32,6 +32,11 @@ struct c_gui_text_widget : public c_gui_widget
 	};
 	static_assert(sizeof(s_text_source_data) == 0xC);
 
+public:
+
+	void __cdecl set_text(wchar_t const* text);
+
+protected:
 	long __unknownDC;
 	s_text_source_data text_source_data;
 	s_runtime_text_widget_definition m_core_definition;

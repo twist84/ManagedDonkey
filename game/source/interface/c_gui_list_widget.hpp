@@ -30,6 +30,7 @@ struct c_gui_list_widget : public c_gui_widget
 {
 public:
 	c_gui_data* __cdecl get_data();
+	void __cdecl set_selectable_item_cap_count(long selectable_item_cap_count);
 
 protected:
 	long __unknownDC;

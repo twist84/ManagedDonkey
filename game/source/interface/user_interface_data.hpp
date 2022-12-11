@@ -19,7 +19,7 @@ public:
 	virtual void get_column_names(long* const, long*);
 	virtual bool get_element(long, void*, long);
 	virtual bool get_integer_value(long, long, long*);
-	virtual bool get_text_value(long, long, wchar_t(&)[1024]);
+	virtual bool get_text_value(long, long, c_static_wchar_string<1024>*);
 	virtual bool get_string_id_value(long, long, long*);
 	virtual bool get_qword_value(long, long, qword*);
 	virtual bool get_real_value(long, long, real*);
