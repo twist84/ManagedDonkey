@@ -5,6 +5,7 @@
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_text_widget.hpp"
+#include "interface/gui_roster_data.hpp"
 #include "interface/user_interface_data.hpp"
 #include "interface/user_interface_utilities.hpp"
 #include "memory/module.hpp"
@@ -21,8 +22,8 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 
 	long selectable_item_cap_count = 0;
 
-	c_gui_data* data = _this->get_data();
-	if (data)
+	c_gui_roster_data* roster_data = static_cast<c_gui_roster_data*>(_this->get_data());
+	if (roster_data)
 	{
 		_this->update_team_mode();
 
@@ -95,17 +96,17 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				&& experience_hilite_bitmap_widget
 				&& rank_tray_bitmap_widget
 				&& rank_tray_hilite_bitmap_widget
-				&& data->get_text_value(element_handle, STRING_ID(gui, service_tag), &service_tag)
-				&& data->get_player_appearance(element_handle, &player_appearance)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, player_index), &session_player_index)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, controller_index), &controller_index)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, voice_output), &voice_output)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, special_status), &special_status)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, experience), &experience)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, skill_level), &skill_level)
-				&& data->get_integer_value(element_handle, STRING_ID(gui, bungienet_user), &bungienet_user)
-				//&& data->get_integer_value(element_handle, STRING_ID(gui, matchmaking), &matchmaking) // halo 3 tag test
+				&& roster_data->get_text_value(element_handle, STRING_ID(gui, service_tag), &service_tag)
+				&& roster_data->get_player_appearance(element_handle, &player_appearance)
+				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, player_index), &session_player_index)
+				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type)
+				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, controller_index), &controller_index)
+				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, voice_output), &voice_output)
+				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, special_status), &special_status)
+				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, experience), &experience)
+				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, skill_level), &skill_level)
+				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, bungienet_user), &bungienet_user)
+				//&& roster_data->get_integer_value(element_handle, STRING_ID(gui, matchmaking), &matchmaking) // halo 3 tag test
 				)
 			{
 
@@ -137,23 +138,16 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				press_a_to_join_bitmap_widget->set_visible(player_row_type3);
 				press_a_to_join_text_widget->set_visible(player_row_type3);
 
-				check_bitmap_widget->set_visible((special_status - 2) <= 2);
-				party_up_bitmap_widget->set_visible((special_status - 3) <= 1);
+				long nameplate_sprite_frame = TEST_BIT(bungienet_user, 0);
+				if (TEST_BIT(bungienet_user, 1))
+				{
+					nameplate_sprite_frame = 2;
+				}
+				else if (TEST_BIT(bungienet_user, 2))
+				{
+					nameplate_sprite_frame = 3;
+				}
 
-				// Look At Me. I'm The Bungie Now.
-				long nameplate_sprite_frame = 3;
-				//if (TEST_BIT(bungienet_user, 2))
-				//{
-				//	nameplate_sprite_frame = 3;
-				//}
-				//else if (TEST_BIT(bungienet_user, 1))
-				//{
-				//	nameplate_sprite_frame = 2;
-				//}
-				//else
-				//{
-				//	nameplate_sprite_frame = TEST_BIT(bungienet_user, 0);
-				//}
 				base_color_bitmap_widget->m_sprite_frame = nameplate_sprite_frame;
 				base_color_hilite_bitmap_widget->m_sprite_frame = nameplate_sprite_frame;
 
@@ -200,20 +194,33 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 					//sub_1409C7CB0(rank_tray_hilite_bitmap_widget, show_rank_tray);
 				}
 
+				check_bitmap_widget->set_visible(true);
+				party_up_bitmap_widget->set_visible(true);
 				switch (special_status)
 				{
 				case 2:
 					check_bitmap_widget->m_sprite_frame = 0;
+					party_up_bitmap_widget->m_sprite_frame = 0;
 					break;
 				case 3:
 					check_bitmap_widget->m_sprite_frame = 1;
+					party_up_bitmap_widget->m_sprite_frame = 1;
 					break;
 				case 4:
 					check_bitmap_widget->m_sprite_frame = 2;
+					party_up_bitmap_widget->m_sprite_frame = 2;
 					break;
+				default:
+					check_bitmap_widget->set_visible(false);
+					party_up_bitmap_widget->set_visible(false);
 				}
 
-				if (controller_index == -1)
+				if (controller_index != -1)
+				{
+					ring_of_light_bitmap_widget->set_visible(true);
+					ring_of_light_bitmap_widget->m_sprite_frame = controller_index;
+				}
+				else
 				{
 					switch (voice_output)
 					{
@@ -237,11 +244,6 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 						ring_of_light_bitmap_widget->set_visible(false);
 						break;
 					}
-				}
-				else
-				{
-					ring_of_light_bitmap_widget->set_visible(true);
-					ring_of_light_bitmap_widget->m_sprite_frame = controller_index;
 				}
 
 
@@ -283,7 +285,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				else
 				{
 					name.clear();
-					data->get_text_value(element_handle, STRING_ID(global, player_name), &name);
+					roster_data->get_text_value(element_handle, STRING_ID(global, player_name), &name);
 					name_text_widget->set_text(name.get_string());
 					name_hilite_text_widget->set_text(name.get_string());
 				}
@@ -350,7 +352,10 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 				long color_list_index = base_color;
 				if (is_team_game)
 				{
-					if (session_player_index == -1 || _this->m_temporary_team[session_player_index].temporary_team_change_active)
+					if (session_player_index == -1
+						// swap this for `get_current_team_change_team_index`?
+						|| !_this->m_temporary_team[session_player_index].temporary_team_change_active
+						&& _this->m_temporary_team->lying_begin_time < a2)
 					{
 						long team = -1;
 						if (data)
