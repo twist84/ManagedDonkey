@@ -8,12 +8,16 @@ struct c_gui_roster_data : c_gui_ordered_data
 {
 	enum e_player_row_type
 	{
-		_player_row_type_service_tag,
+		_player_row_type_player,
 		_player_row_type_player_found,
 		_player_row_type_looking_for_player,
 		_player_row_type_press_a_to_join,
 
 		k_player_row_type_count
+	};
+
+	enum e_voice_talking_state
+	{
 	};
 
 	struct s_player_row
@@ -33,7 +37,7 @@ struct c_gui_roster_data : c_gui_ordered_data
 		qword party_nonce;
 		long leader_team_index;
 		c_enum<e_controller_index, long, k_number_of_controllers> controller_index;
-		long voice_output;
+		long voice_talking_state;
 		long party_bar_length;
 		bool is_leader;
 		bool show_teams;

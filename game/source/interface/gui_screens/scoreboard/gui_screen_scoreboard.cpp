@@ -63,7 +63,7 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 	long multiplayer_team,
 	bool team_game,
 	e_controller_index controller_index,
-	long voice_output,
+	long voice_talking_state,
 	long connectivity_rating,
 	wchar_t const* place,
 	wchar_t const* score,
@@ -85,7 +85,7 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 		m_player_rows[m_player_row_count].multiplayer_team = multiplayer_team;
 		m_player_rows[m_player_row_count].team_game = team_game;
 		m_player_rows[m_player_row_count].controller_index = controller_index;
-		m_player_rows[m_player_row_count].voice_output = voice_output;
+		m_player_rows[m_player_row_count].voice_talking_state = voice_talking_state;
 		m_player_rows[m_player_row_count].connectivity_rating = connectivity_rating;
 		m_player_rows[m_player_row_count].place.set(place);
 		m_player_rows[m_player_row_count].score.set(score);
@@ -145,7 +145,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 						/* multiplayer_team     */ -1,
 						/* team_game            */ false,
 						/* controller_index     */ controller_index,
-						/* voice_output         */ voice_for_player,
+						/* voice_talking_state  */ voice_for_player,
 						/* connectivity_rating  */ player_rating,
 						/* place                */ place.get_string(),
 						/* score                */ score.get_string(),
@@ -208,7 +208,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 							/* multiplayer_team     */ player->configuration.host.team,
 							/* team_game            */ team_game,
 							/* controller_index     */ controller_index,
-							/* voice_output         */ voice_for_player,
+							/* voice_talking_state  */ voice_for_player,
 							/* connectivity_rating  */ player_rating,
 							/* place                */ place.get_string(),
 							/* score                */ score.get_string(),
@@ -236,7 +236,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 							/* multiplayer_team     */ player->configuration.host.team,
 							/* team_game            */ team_game,
 							/* controller_index     */ k_no_controller,
-							/* voice_output         */ 0,
+							/* voice_talking_state  */ 0,
 							/* connectivity_rating  */ -1,
 							/* place                */ place.get_string(),
 							/* score                */ score.get_string(),
@@ -295,7 +295,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 						/* multiplayer_team     */ team_index,
 						/* team_game            */ true,
 						/* controller_index     */ k_no_controller,
-						/* voice_output         */ 0,
+						/* voice_talking_state  */ 0,
 						/* connectivity_rating  */ -1,
 						/* place                */ place.get_string(),
 						/* score                */ score.get_string(),

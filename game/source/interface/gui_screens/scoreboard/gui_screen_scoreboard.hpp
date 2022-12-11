@@ -38,6 +38,10 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 		k_player_row_type_count
 	};
 
+	enum e_voice_talking_state
+	{
+	};
+
 	struct s_player_row
 	{
 		c_enum<e_player_row_type, long, k_player_row_type_count> player_row_type;
@@ -62,7 +66,7 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 		bool team_game;
 
 		e_controller_index controller_index;
-		long voice_output;
+		long voice_talking_state;
 		long connectivity_rating;
 
 		c_static_wchar_string<48> place;
@@ -85,7 +89,7 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 		long multiplayer_team,
 		bool team_game,
 		e_controller_index controller_index,
-		long voice_output,
+		long voice_talking_state,
 		long connectivity_rating,
 		wchar_t const* place,
 		wchar_t const* score,
