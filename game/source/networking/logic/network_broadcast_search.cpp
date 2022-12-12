@@ -50,7 +50,9 @@ bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_
 
 void __cdecl network_broadcast_search_dispose()
 {
-	INVOKE(0x004D9CF0, network_broadcast_search_dispose);
+	//INVOKE(0x004D9CF0, network_broadcast_search_dispose);
+
+	csmemset(&g_broadcast_search_globals, 0, sizeof(s_broadcast_search_globals));
 }
 
 void __cdecl network_broadcast_search_end()
