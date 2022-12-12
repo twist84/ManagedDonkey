@@ -3,6 +3,7 @@
 #include "cseries/console.hpp"
 #include "networking/delivery/network_link.hpp"
 #include "networking/network_memory.hpp"
+#include "networking/network_time.hpp"
 
 #include <assert.h>
 
@@ -80,6 +81,35 @@ bool __cdecl network_broadcast_search_initialize(c_network_link* link, c_network
 
 void __cdecl network_broadcast_search_update()
 {
+	assert(g_broadcast_search_globals.initialized);
+
 	INVOKE(0x004D9EC0, network_broadcast_search_update);
+
+	//if (g_broadcast_search_globals.search_active)
+	//{
+	//	if (network_time_since(g_broadcast_search_globals.search_time) > 2000)
+	//	{
+	//		s_network_message_broadcast_search message;
+	//		message.protocol_version = 9;
+	//		message.nonce = g_broadcast_search_globals.search_nonce;
+	//
+	//		g_broadcast_search_globals.message_gateway->send_message_broadcast(_network_message_broadcast_search, sizeof(message), &message, 11774);
+	//
+	//		g_broadcast_search_globals.search_time = network_time_get();
+	//	}
+	//
+	//	for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
+	//	{
+	//		s_available_session* session = g_broadcast_search_globals.available_sessions + i;
+	//		if (session->initialized)
+	//		{
+	//			if (network_time_since(session->time) > 4000)
+	//			{
+	//				csmemset(session, 0, sizeof(s_available_session));
+	//				g_broadcast_search_globals.__unknownD = true;
+	//			}
+	//		}
+	//	}
+	//}
 }
 
