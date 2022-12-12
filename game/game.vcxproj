@@ -296,6 +296,7 @@ POPD
     <ClCompile Include="source\interface\user_interface_memory.cpp" />
     <ClCompile Include="source\interface\user_interface_messages.cpp" />
     <ClCompile Include="source\interface\user_interface_networking.cpp" />
+    <ClCompile Include="source\interface\user_interface_network_search.cpp" />
     <ClCompile Include="source\interface\user_interface_session.cpp" />
     <ClCompile Include="source\interface\user_interface_text.cpp" />
     <ClCompile Include="source\interface\user_interface_text_parser.cpp" />
@@ -479,6 +480,7 @@ POPD
     <ClInclude Include="source\interface\user_interface_memory.hpp" />
     <ClInclude Include="source\interface\user_interface_messages.hpp" />
     <ClInclude Include="source\interface\user_interface_networking.hpp" />
+    <ClInclude Include="source\interface\user_interface_network_search.hpp" />
     <ClInclude Include="source\interface\user_interface_session.hpp" />
     <ClInclude Include="source\interface\user_interface_text.hpp" />
     <ClInclude Include="source\interface\user_interface_text_parser.hpp" />
