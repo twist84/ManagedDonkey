@@ -21,8 +21,11 @@ public:
 };
 static_assert(sizeof(c_network_out_of_band_consumer) == 0x4);
 
+enum e_network_message_type;
 struct c_network_message_gateway : c_network_out_of_band_consumer
 {
+	bool __cdecl send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port);
+
 	bool m_initialized;
 	c_network_link* m_link;
 	c_network_message_type_collection* m_message_types;

@@ -543,6 +543,9 @@
     <ClCompile Include="source\networking\network_time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\messages\network_message_gateway.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
