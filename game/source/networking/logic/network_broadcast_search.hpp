@@ -37,3 +37,15 @@ struct s_broadcast_search_globals
 static_assert(sizeof(s_broadcast_search_globals) == 0x28);
 
 extern s_broadcast_search_globals& g_broadcast_search_globals;
+
+struct transport_address;
+struct s_network_message_broadcast_reply;
+
+extern bool __cdecl network_broadcast_search_active(qword* search_nonce);
+extern bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_session_count, s_available_session* session_storage);
+extern void __cdecl network_broadcast_search_dispose();
+extern void __cdecl network_broadcast_search_end();
+extern void __cdecl network_broadcast_search_handle_reply(transport_address const* address, s_network_message_broadcast_reply const* message);
+extern void __cdecl network_broadcast_search_initialize(c_network_link* link, c_network_message_gateway* message_gateway);
+extern void __cdecl network_broadcast_search_update();
+
