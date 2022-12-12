@@ -19,16 +19,19 @@ struct s_available_session
 };
 static_assert(sizeof(s_available_session) == 0x164F8);
 
+struct c_allocation_base;
 struct s_network_search_globals
 {
 	long search_category;
 	long reference_count;
 	long maximum_sessions;
 	dword_flags squad_search_flags;
-	struct c_allocation_base* allocation;
+	c_allocation_base* available_sessions_allocator;
 	long available_session_count;
 	s_available_session* available_sessions;
 };
 static_assert(sizeof(s_network_search_globals) == 0x1C);
 
 extern s_network_search_globals& g_network_search_globals;
+
+extern void __cdecl network_search_active(long controller_index, bool active);
