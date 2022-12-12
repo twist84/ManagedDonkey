@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 
 #include "networking/logic/network_search.hpp"
+#include "networking/messages/network_message_type_collection.hpp"
 
 struct s_network_message_broadcast_search
 {
