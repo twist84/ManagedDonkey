@@ -10,7 +10,14 @@ REFERENCE_DECLARE(0x0228E6B8, s_broadcast_search_globals, g_broadcast_search_glo
 
 bool __cdecl network_broadcast_search_active(qword* search_nonce)
 {
-	return INVOKE(0x004D9C40, network_broadcast_search_active, search_nonce);
+	//return INVOKE(0x004D9C40, network_broadcast_search_active, search_nonce);
+
+	assert(g_broadcast_search_globals.initialized);
+
+	if (g_broadcast_search_globals.search_active && search_nonce)
+		*search_nonce = g_broadcast_search_globals.search_nonce;
+
+	return g_broadcast_search_globals.search_active;
 }
 
 bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_session_count, s_available_session* session_storage)
