@@ -17,6 +17,7 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
     if (name == STRING_ID(gui, bungienet_user))
     {
         *integer_value |= FLAG(2);
+        return true;
     }
 
     return result;
