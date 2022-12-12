@@ -2,8 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-#include "networking/delivery/network_link.hpp"
 #include "networking/logic/network_search.hpp"
+
+struct c_network_link;
+struct c_network_message_gateway;
 
 struct s_broadcast_search_globals
 {
@@ -13,7 +15,7 @@ struct s_broadcast_search_globals
 	byte : 8;
 
 	c_network_link* link;
-	struct c_network_message_gateway* message_gateway;
+	c_network_message_gateway* message_gateway;
 
 	bool search_active;
 
