@@ -6,6 +6,8 @@
 struct c_network_out_of_band_consumer;
 struct c_network_link
 {
+	static bool __cdecl physical_link_available();
+
 	bool m_initialized;
 	long __unknown4;
 	long __unknown8;
@@ -15,3 +17,4 @@ struct c_network_link
 	c_network_time_statistics m_time_statistics[4];
 };
 static_assert(sizeof(c_network_link) == 0x378);
+
