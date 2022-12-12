@@ -114,7 +114,7 @@ struct c_gui_widget
 protected:
 
 	// HACK: so we don't have to manually construct the class
-	union MyUnion
+	union
 	{
 		struct
 		{
