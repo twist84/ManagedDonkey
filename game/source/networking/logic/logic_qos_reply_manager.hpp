@@ -18,14 +18,14 @@ struct c_session_qos_reply_manager
 protected:
 	virtual bool get_session_id(s_transport_secure_identifier* session_id);
 	virtual bool desires_qos_reply_block_set();
-	virtual bool get_qos_status(s_network_squad_status_data* status);
+	virtual bool get_qos_status(s_network_session_status_data* status);
 	virtual long get_qos_reply_bandwidth_limit();
 	virtual void notify_qos_reply_block_set();
 
 	byte __data4[0x4];
 	bool m_initialized;
 	dword m_time;
-	s_network_squad_status_data game_status;
+	s_network_session_status_data game_status;
 };
 static_assert(sizeof(c_session_qos_reply_manager) == 0x164D0);
 

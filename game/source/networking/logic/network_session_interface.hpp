@@ -9,13 +9,19 @@
 #include "text/unicode.hpp"
 
 #pragma pack(push, 1)
-struct s_network_squad_status_data
+struct s_network_session_status_data
 {
-	short protocol;
-	short platform;
-	long executable_type;
-	long executable_version;
-	long compatible_version;
+	struct s_header
+	{
+		short protocol;
+		short platform;
+		long executable_type;
+		long executable_version;
+		long compatible_version;
+	};
+	static_assert(sizeof(s_header) == 0x10);
+
+	s_header header;
 	long session_mode;
 	byte : 8;
 	byte : 8;
@@ -54,10 +60,8 @@ struct s_network_squad_status_data
 	short score_to_win_round;
 	short best_player_score;
 	short player_count;
-	short : 16;
+	long __unknown134;
 	s_network_session_status_data_player players[16];
-	byte : 8;
-	byte : 8;
 	long player_encoded_count;
 	long game_timer_type;
 	long game_timer_seconds;
@@ -69,7 +73,7 @@ struct s_network_squad_status_data
 	byte : 8;
 	byte : 8;
 };
-static_assert(sizeof(s_network_squad_status_data) == 0x164C0);
+static_assert(sizeof(s_network_session_status_data) == 0x164C0);
 
 struct s_network_session_interface_user
 {
