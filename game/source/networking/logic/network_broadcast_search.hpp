@@ -60,6 +60,6 @@ extern bool __cdecl network_broadcast_search_begin(long controller_index, long m
 extern void __cdecl network_broadcast_search_dispose();
 extern void __cdecl network_broadcast_search_end();
 extern void __cdecl network_broadcast_search_handle_reply(transport_address const* address, s_network_message_broadcast_reply const* message);
-extern void __cdecl network_broadcast_search_initialize(c_network_link* link, c_network_message_gateway* message_gateway);
+extern bool __cdecl network_broadcast_search_initialize(c_network_link* link, c_network_message_gateway* message_gateway);
 extern void __cdecl network_broadcast_search_update();
 

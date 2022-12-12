@@ -56,9 +56,15 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 	INVOKE(0x004D9D30, network_broadcast_search_handle_reply, address, message);
 }
 
-void __cdecl network_broadcast_search_initialize(c_network_link* link, c_network_message_gateway* message_gateway)
+bool __cdecl network_broadcast_search_initialize(c_network_link* link, c_network_message_gateway* message_gateway)
 {
-	INVOKE(0x004D9EA0, network_broadcast_search_initialize, link, message_gateway);
+	//INVOKE(0x004D9EA0, network_broadcast_search_initialize, link, message_gateway);
+
+	g_broadcast_search_globals.link = link;
+	g_broadcast_search_globals.message_gateway = message_gateway;
+	g_broadcast_search_globals.initialized = true;
+
+	return true;
 }
 
 void __cdecl network_broadcast_search_update()
