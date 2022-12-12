@@ -11,6 +11,14 @@ struct s_network_message_broadcast_search
 };
 static_assert(sizeof(s_network_message_broadcast_search) == 0x10);
 
+struct s_network_message_broadcast_reply
+{
+	word protocol_version;
+	qword search_nonce;
+	s_network_session_status_data status_data;
+};
+static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);
+
 struct c_network_link;
 struct c_network_message_gateway;
 
@@ -46,7 +54,6 @@ static_assert(sizeof(s_broadcast_search_globals) == 0x28);
 extern s_broadcast_search_globals& g_broadcast_search_globals;
 
 struct transport_address;
-struct s_network_message_broadcast_reply;
 
 extern bool __cdecl network_broadcast_search_active(qword* search_nonce);
 extern bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_session_count, s_available_session* session_storage);
