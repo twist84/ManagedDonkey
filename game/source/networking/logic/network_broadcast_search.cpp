@@ -57,7 +57,9 @@ void __cdecl network_broadcast_search_dispose()
 
 void __cdecl network_broadcast_search_end()
 {
-	INVOKE(0x004D9D20, network_broadcast_search_end);
+	//INVOKE(0x004D9D20, network_broadcast_search_end);
+
+	g_broadcast_search_globals.search_active = 0;
 }
 
 void __cdecl network_broadcast_search_handle_reply(transport_address const* address, s_network_message_broadcast_reply const* message)
