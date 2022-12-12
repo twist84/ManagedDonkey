@@ -14,7 +14,9 @@ struct s_available_session
 	byte : 8;
 	byte : 8;
 	byte : 8;
-	char __dataC[0x2C];
+	byte __dataC[0x24];
+	bool __unknown30;
+	byte __data31[0x7];
 	s_network_session_status_data status_data;
 };
 static_assert(sizeof(s_available_session) == 0x164F8);
