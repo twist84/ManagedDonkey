@@ -35,3 +35,13 @@ static_assert(sizeof(s_network_search_globals) == 0x1C);
 extern s_network_search_globals& g_network_search_globals;
 
 extern void __cdecl network_search_active(long controller_index, bool active);
+extern bool __cdecl network_search_begin(long controller_index);
+extern void __cdecl network_search_dispose();
+extern void __cdecl network_search_end();
+extern bool __cdecl network_search_initialize();
+extern s_available_session* __cdecl network_search_session(long available_squad_index);
+extern long __cdecl network_search_session_count();
+extern bool __cdecl network_search_session_valid(s_available_session* session);
+extern bool __cdecl network_search_start(long controller_index, long category, long maximum_sessions, dword_flags available_squad_search_flags, c_allocation_base* session_allocator);
+extern void __cdecl network_search_stop();
+
