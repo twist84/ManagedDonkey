@@ -9,3 +9,9 @@ void* __cdecl user_interface_malloc_tracked(dword size, char const* file, long l
 {
 	return INVOKE(0x00AB4EF0, user_interface_malloc_tracked, size, file, line);
 }
+
+c_allocation_base* __cdecl user_interface_memory_allocation()
+{
+	return INVOKE(0x00AB4FE0, user_interface_memory_allocation);
+}
+
