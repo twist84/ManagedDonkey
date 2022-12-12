@@ -109,7 +109,11 @@ bool __cdecl transport_secure_identifier_retrieve(transport_address const* usabl
 //00430F60 ; bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform)
 //00430FD0 ; bool __cdecl transport_secure_key_register(s_transport_session_description*, e_transport_platform)
 //00430FF0 ; bool __cdecl transport_secure_nonce_compare(qword, qword)
-//00431010 ; qword __cdecl transport_secure_nonce_generate()
+
+qword __cdecl transport_secure_nonce_generate()
+{
+	return INVOKE(0x00431010, transport_secure_nonce_generate);
+}
 
 char const* __cdecl transport_secure_nonce_get_string(qword nonce)
 {

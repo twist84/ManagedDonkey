@@ -75,7 +75,7 @@ extern bool __cdecl transport_secure_identifier_retrieve(transport_address const
 //extern bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform);
 //extern bool __cdecl transport_secure_key_register(s_transport_session_description*, e_transport_platform);
 //extern bool __cdecl transport_secure_nonce_compare(qword, qword);
-//extern qword __cdecl transport_secure_nonce_generate();
+extern qword __cdecl transport_secure_nonce_generate();
 extern char const* __cdecl transport_secure_nonce_get_string(qword nonce);
 //extern void __cdecl transport_secure_random(long, byte*);
 extern void __cdecl transport_security_initialize();
