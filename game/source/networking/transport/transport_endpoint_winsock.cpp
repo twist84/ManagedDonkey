@@ -20,7 +20,7 @@ HOOK_DECLARE(0x0043FF80, transport_endpoint_get_option_value);
 HOOK_DECLARE(0x00440000, transport_endpoint_get_socket_address);
 HOOK_DECLARE(0x00440120, transport_endpoint_get_transport_address);
 HOOK_DECLARE(0x00440290, transport_endpoint_read);
-HOOK_DECLARE(0x004402F0, transport_endpoint_read_from);
+//HOOK_DECLARE(0x004402F0, transport_endpoint_read_from);
 HOOK_DECLARE(0x00440440, transport_endpoint_reject);
 HOOK_DECLARE(0x00440470, transport_endpoint_set_blocking);
 HOOK_DECLARE(0x00440520, transport_endpoint_set_option_value);
@@ -194,9 +194,11 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
 
 short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* buffer, short length, transport_address* source)
 {
-    short result = 0;
-    HOOK_INVOKE(result =, transport_endpoint_read_from, endpoint, buffer, length, source);
-    return result;
+    //short result = 0;
+    //HOOK_INVOKE(result =, transport_endpoint_read_from, endpoint, buffer, length, source);
+    //return result;
+
+    return INVOKE(0x004402F0, transport_endpoint_read_from, endpoint, buffer, length, source);
 }
 
 bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endpoint)
