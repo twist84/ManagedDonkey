@@ -4,6 +4,13 @@
 
 #include "networking/logic/network_search.hpp"
 
+struct s_network_message_broadcast_search
+{
+	word protocol_version;
+	qword nonce;
+};
+static_assert(sizeof(s_network_message_broadcast_search) == 0x10);
+
 struct c_network_link;
 struct c_network_message_gateway;
 
