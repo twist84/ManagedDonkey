@@ -22,6 +22,7 @@ static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);
 
 struct c_network_link;
 struct c_network_message_gateway;
+struct s_available_session;
 
 struct s_broadcast_search_globals
 {

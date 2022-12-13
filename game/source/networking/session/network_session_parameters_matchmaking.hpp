@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "networking/logic/life_cycle/life_cycle_matchmaking_quality.hpp"
 
 struct s_network_session_matchmaking_hopper_category
 {
@@ -42,12 +43,6 @@ struct c_network_session_parameter_matchmaking_hopper_list :
 {
 };
 static_assert(sizeof(c_network_session_parameter_matchmaking_hopper_list) == 0xD78);
-
-struct s_game_hopper_picked_game_collection
-{
-	byte __data[0x1B0];
-};
-static_assert(sizeof(s_game_hopper_picked_game_collection) == 0x1B0);
 
 struct s_network_session_matchmaking_hopper
 {

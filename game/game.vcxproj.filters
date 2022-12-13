@@ -546,6 +546,9 @@
     <ClCompile Include="source\networking\messages\network_message_gateway.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\network_recruiting_search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1500,6 +1503,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\messages\network_messages_session_protocol.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\network_recruiting_search.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_matchmaking_quality.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

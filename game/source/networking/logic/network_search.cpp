@@ -2,6 +2,7 @@
 
 #include "interface/user_interface_memory.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
+#include "networking/logic/network_recruiting_search.hpp"
 
 #include <assert.h>
 
@@ -43,8 +44,7 @@ bool __cdecl network_search_begin(long controller_index)
 			result = network_broadcast_search_begin(controller_index, g_network_search_globals.available_session_count, g_network_search_globals.available_sessions);
 			break;
 		case 1:
-			// #TODO: map `network_recruiting_search`
-			//result = network_recruiting_search_begin(controller_index, g_network_search_globals.squad_search_flags, g_network_search_globals.available_session_count, g_network_search_globals.available_sessions);
+			result = network_recruiting_search_begin(controller_index, g_network_search_globals.squad_search_flags, g_network_search_globals.available_session_count, g_network_search_globals.available_sessions);
 			break;
 		case 2:
 			//assert(false);
@@ -74,8 +74,7 @@ void __cdecl network_search_end()
 		network_broadcast_search_end();
 		break;
 	case 1:
-		// #TODO: map `network_recruiting_search`
-		//network_recruiting_search_end();
+		network_recruiting_search_end();
 		break;
 	case 2:
 		//assert(false);

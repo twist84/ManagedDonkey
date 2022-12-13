@@ -328,6 +328,7 @@ POPD
     <ClCompile Include="source\networking\logic\network_broadcast_search.cpp" />
     <ClCompile Include="source\networking\logic\network_join.cpp" />
     <ClCompile Include="source\networking\logic\network_life_cycle.cpp" />
+    <ClCompile Include="source\networking\logic\network_recruiting_search.cpp" />
     <ClCompile Include="source\networking\logic\network_search.cpp" />
     <ClCompile Include="source\networking\logic\network_session_interface.cpp" />
     <ClCompile Include="source\networking\logic\storage\network_http_buffer_downloader.cpp" />
@@ -595,12 +596,14 @@ POPD
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_none.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_pre_game.hpp" />
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_handler_start_game.hpp" />
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_matchmaking_quality.hpp" />
     <ClInclude Include="source\networking\logic\logic_matchmaking_desirability.hpp" />
     <ClInclude Include="source\networking\logic\logic_qos_reply_manager.hpp" />
     <ClInclude Include="source\networking\logic\network_arbitration.hpp" />
     <ClInclude Include="source\networking\logic\network_broadcast_search.hpp" />
     <ClInclude Include="source\networking\logic\network_join.hpp" />
     <ClInclude Include="source\networking\logic\network_life_cycle.hpp" />
+    <ClInclude Include="source\networking\logic\network_recruiting_search.hpp" />
     <ClInclude Include="source\networking\logic\network_search.hpp" />
     <ClInclude Include="source\networking\logic\network_session_interface.hpp" />
     <ClInclude Include="source\networking\logic\storage\network_http_buffer_downloader.hpp" />
