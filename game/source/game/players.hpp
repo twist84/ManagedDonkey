@@ -253,9 +253,14 @@ static_assert(sizeof(s_s3d_player_configuration_weapon) == 0x774);
 
 struct s_player_configuration_from_client
 {
-	wchar_t player_name[16];
-
-	byte __data[0x10];
+	c_static_wchar_string<16> desired_name;
+	byte user_selected_team_index;
+	byte vote_selection_index;
+	byte active_armor_loadout;
+	byte active_weapon_loadout;
+	bool player_is_griefer;
+	dword_flags cheat_flags;
+	dword_flags ban_flags;
 };
 static_assert(sizeof(s_player_configuration_from_client) == 0x30);
 

@@ -113,7 +113,7 @@ void __cdecl main_loop_body_begin()
 			short absolute_index = player_iterator.get_absolute_index();
 			player_datum* player = player_iterator.get_datum();
 
-			c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.player_name.get_string());
+			c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.name.get_string());
 		}
 
 		assert(g_cache_file_globals.loaded_resources->resource_loaded_count <=
