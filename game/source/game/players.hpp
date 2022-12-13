@@ -262,9 +262,9 @@ static_assert(sizeof(s_player_configuration_from_client) == 0x30);
 struct s_player_configuration_from_host
 {
 	s_player_identifier machine_identifier;
-	c_static_wchar_string<16> player_name;
-	long team;
-	long player_assigned_team;
+	c_static_wchar_string<16> name;
+	long team_index; // renamed to `multiplayer_team` some time after ODST
+	long user_selected_team_index;
 	s_player_appearance appearance;
 	s_s3d_player_configuration_armor armor;
 	s_s3d_player_configuration_weapon weapon;

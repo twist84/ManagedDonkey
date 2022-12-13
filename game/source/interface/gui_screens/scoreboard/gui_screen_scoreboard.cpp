@@ -124,7 +124,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 			if (user_interface_squad_is_player_valid(session_player_index))
 			{
 				s_player_configuration* player_data = user_interface_session_get_player_data(session_player_index);
-				if (player_data->host.team != -1)
+				if (player_data->host.team_index != -1)
 				{
 					long player_rating = -1;
 					e_controller_index controller_index = k_no_controller;
@@ -139,7 +139,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 						/* player_index         */ -1,
 						/* network_player_index */ session_player_index,
 						/* appearance           */ &player_data->host.appearance,
-						/* player_name          */ player_data->host.player_name.get_string(),
+						/* player_name          */ player_data->host.name.get_string(),
 						/* service_tag          */ player_data->host.appearance.service_tag.get_string(),
 						/* base_color           */ base_color,
 						/* multiplayer_team     */ -1,
@@ -166,7 +166,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 			while (true)
 			{
 				long network_player_index = user_interface_squad_get_player_index(&player->player_identifier);
-				if (player->configuration.host.team != -1)
+				if (player->configuration.host.team_index != -1)
 				{
 					bool dead = !TEST_BIT(player->player_flags, 3) && player->unit_index == -1 && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
 
@@ -174,7 +174,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					{
 						long finalized_place = game_engine_get_player_place(player_iterator.index);
 						if (include_team_score)
-							finalized_place = game_engine_get_team_place(player->configuration.host.team);
+							finalized_place = game_engine_get_team_place(player->configuration.host.team_index);
 
 						game_engine_get_place_string(finalized_place, &place);
 						long player_score = game_engine_get_player_score_for_display(player_iterator.index, true);
@@ -184,7 +184,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					}
 
 					if (include_team_score)
-						team_flags |= 1 << player->configuration.host.team;
+						team_flags |= 1 << player->configuration.host.team_index;
 
 					if (network_player_index != -1)
 					{
@@ -202,10 +202,10 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 							/* player_index         */ -1,
 							/* network_player_index */ network_player_index,
 							/* appearance           */ &player->configuration.host.appearance,
-							/* player_name          */ player->configuration.host.player_name.get_string(),
+							/* player_name          */ player->configuration.host.name.get_string(),
 							/* service_tag          */ player->configuration.host.appearance.service_tag.get_string(),
 							/* base_color           */ base_color,
-							/* multiplayer_team     */ player->configuration.host.team,
+							/* multiplayer_team     */ player->configuration.host.team_index,
 							/* team_game            */ team_game,
 							/* controller_index     */ controller_index,
 							/* voice_talking_state  */ voice_for_player,
@@ -230,10 +230,10 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 							/* player_index         */ player_index,
 							/* network_player_index */ -1,
 							/* appearance           */ &player->configuration.host.appearance,
-							/* player_name          */ player->configuration.host.player_name.get_string(),
+							/* player_name          */ player->configuration.host.name.get_string(),
 							/* service_tag          */ player->configuration.host.appearance.service_tag.get_string(),
 							/* base_color           */ base_color,
-							/* multiplayer_team     */ player->configuration.host.team,
+							/* multiplayer_team     */ player->configuration.host.team_index,
 							/* team_game            */ team_game,
 							/* controller_index     */ k_no_controller,
 							/* voice_talking_state  */ 0,
