@@ -1,4 +1,4 @@
-#include "c_gui_text_widget.hpp"
+#include "interface/c_gui_text_widget.hpp"
 
 void __cdecl c_gui_text_widget::set_text(wchar_t const* text)
 {
