@@ -28,15 +28,17 @@ struct s_observer_result
 {
 	real_point3d focus_point;
 	s_location location;
-	real __unknown10[3];
-	real __unknown1C[3];
+	vector3d __vector10;
+	vector3d __vector1C;
 	vector3d forward;
 	vector3d up;
 	real horizontal_field_of_view;
-	byte __data44[0x24];
+	byte __data44[0x20];
+	real __unknown64;
 	real vertical_field_of_view;
-	real __unknown60;
+	real __unknown6C;
 };
+static_assert(sizeof(s_observer_result) == 0x70);
 
 struct s_observer
 {
