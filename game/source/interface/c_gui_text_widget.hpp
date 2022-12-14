@@ -1,6 +1,7 @@
 #pragma once
 
 #include "interface/c_gui_widget.hpp"
+#include "interface/user_interface_text.hpp"
 
 struct s_text_widget_definition : s_core_widget_definition
 {
@@ -54,4 +55,13 @@ struct c_sized_user_interface_text : c_user_interface_text
 static_assert(sizeof(c_sized_user_interface_text<48>) == 0x120);
 static_assert(sizeof(c_sized_user_interface_text<256>) == 0x460);
 static_assert(sizeof(c_sized_user_interface_text<1024>) == 0x1060);
+
+template<long k_text_buffer_size>
+struct c_gui_sized_text_widget : c_gui_text_widget
+{
+	c_sized_user_interface_text<k_text_buffer_size> m_text_buffer;
+};
+static_assert(sizeof(c_gui_sized_text_widget<48>) == 0x260);
+static_assert(sizeof(c_gui_sized_text_widget<256>) == 0x5A0);
+static_assert(sizeof(c_gui_sized_text_widget<1024>) == 0x11A0);
 
