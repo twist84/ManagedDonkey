@@ -171,13 +171,12 @@ public:
 	c_hardware_draw_string();
 
 protected:
-	c_font_cache_mt_safe* m_font_cache;
-	long __unknown104;
+	c_font_cache_mt_safe m_font_cache;
 	long __unknown108;
 	long __unknown10C;
 	long __unknown110;
 };
-
+static_assert(sizeof(c_hardware_draw_string) == sizeof(c_draw_string) + 0x14);
 
 // 01697104
 struct c_simple_font_draw_string :

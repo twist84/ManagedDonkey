@@ -104,7 +104,6 @@ c_draw_string::~c_draw_string()
 c_hardware_draw_string::c_hardware_draw_string() : 
 	c_draw_string(),
 	m_font_cache(),
-	__unknown104(),
 	__unknown108(),
 	__unknown10C(),
 	__unknown110()
