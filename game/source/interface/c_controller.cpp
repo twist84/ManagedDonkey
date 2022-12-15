@@ -1,6 +1,26 @@
 #include "interface/c_controller.hpp"
 
+#include "memory/module.hpp"
+
 REFERENCE_DECLARE(0x0524EC48, s_controller_globals, g_controller_globals);
+
+// simulate added controllers
+c_controller_interface* __cdecl controller_get_hook(e_controller_index controller_index)
+{
+	c_controller_interface* controller = controller_get(controller_index);
+	if (!controller->is_attached())
+	{
+		// set attached bit
+		controller->m_flags |= FLAG(0);
+		controller->m_user_index = (short)controller_index;
+		controller->m_display_name.print(L"Player%hd", controller->m_user_index + 1);
+	}
+
+	return controller;
+}
+
+// c_gui_active_roster_data::update_press_a_to_join_slots
+HOOK_DECLARE_CALL(0x00B25952, controller_get_hook);
 
 c_controller_interface* __cdecl controller_get(e_controller_index controller_index)
 {
