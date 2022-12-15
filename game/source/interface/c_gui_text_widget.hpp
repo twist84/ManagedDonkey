@@ -46,8 +46,15 @@ protected:
 static_assert(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x64);
 
 template<long k_maximum_count>
-struct c_sized_user_interface_text : c_user_interface_text
+struct c_sized_user_interface_text : public c_user_interface_text
 {
+public:
+	void set_font(long font)
+	{
+		m_font = font;
+	}
+
+protected:
 	c_static_wchar_string<k_maximum_count> m_string1;
 	c_static_wchar_string<k_maximum_count> m_string2;
 	dword m_unknown3;
