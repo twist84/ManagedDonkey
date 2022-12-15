@@ -54,6 +54,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 			c_gui_bitmap_widget* experience_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, experience_hilite));
 			c_gui_bitmap_widget* rank_tray_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray));
 			c_gui_bitmap_widget* rank_tray_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray_hilite));
+			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
 
 			long element_handle = list_item_widget->get_element_handle();
 
@@ -71,7 +72,6 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 			csmemset(&player_appearance, 0, sizeof(s_player_appearance));
 
 			c_static_wchar_string<1024> service_tag;
-			service_tag.clear();
 
 			if (base_color_bitmap_widget
 				&& base_color_hilite_bitmap_widget
@@ -96,6 +96,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				&& experience_hilite_bitmap_widget
 				&& rank_tray_bitmap_widget
 				&& rank_tray_hilite_bitmap_widget
+				&& service_tag_text_widget
 				&& roster_data->get_text_value(element_handle, STRING_ID(gui, service_tag), &service_tag)
 				&& roster_data->get_player_appearance(element_handle, &player_appearance)
 				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, player_index), &session_player_index)
@@ -157,7 +158,9 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				player_emblem_bitmap_widget->set_visible(player_row_type0);
 				player_emblem_hilite_bitmap_widget->set_visible(player_row_type0);
 
-				DECLFUNC(0x00AA63A0, void, __cdecl, c_gui_widget*, bool, wchar_t const*)(list_item_widget, player_row_type0, service_tag.get_string());
+				service_tag_text_widget->set_visible(player_row_type0);
+				service_tag_text_widget->set_text(service_tag.get_string());
+				//DECLFUNC(0x00AA63A0, void, __cdecl, c_gui_widget*, bool, wchar_t const*)(list_item_widget, player_row_type0, service_tag.get_string());
 
 				skill_level_bitmap_widget->set_visible(skill_level != -1);
 				skill_level_hilite_bitmap_widget->set_visible(skill_level != -1);
