@@ -27,7 +27,7 @@ protected:
 	long m_drop_shadow_style;
 	long m_style;
 	long m_justification;
-	word m_tab_stops[16];
+	short m_tab_stops[16];
 	long m_tab_stop_count;
 	real_point2d m_rotation_origin;
 	real m_rotation;
