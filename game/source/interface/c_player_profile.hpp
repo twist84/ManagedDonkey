@@ -48,16 +48,23 @@ struct c_player_profile_interface
 	long player_model_choice;
 	byte __data4A0[0x650];
 	byte __dataAF0[0xA];
-	wchar_t service_tag_for_live[5];
+
 	wchar_t service_tag[5];
-	bool __unknownB0E; // service_tag_for_live updated?
-	bool __unknownB0F; // service_tag updated?
+	wchar_t desired_service_tag[5];
+	bool service_tag_was_randomly_generated;
+	bool service_tag_failed_verification;
 
 	byte __dataB10[0x20];
 	byte __dataB30[0x80];
-	byte __dataBB0[0x2C];
 
-	// c_overlapped_task
+	bool film_auto_save[3];
+	byte __unknownBB3;
+
+	byte __dataBB4[0x4];
+	long gamer_zone;
+	byte __dataBBC[0x20];
+
+	// c_string_verify_task
 	byte string_verify_task[0x81C];
 };
 static_assert(sizeof(c_player_profile_interface) == 0x13F8);
