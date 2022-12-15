@@ -2,10 +2,13 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/c_player_profile.hpp"
+#include "text/unicode.hpp"
 
 struct s_player_identifier;
+struct c_player_marketplace;
 struct c_controller_interface
 {
+	bool is_attached();
 	bool in_use();
 	bool is_signed_in_to_machine();
 	short get_user_index();
@@ -16,8 +19,10 @@ struct c_controller_interface
 	short m_user_index;
 	dword __unknown4;
 	c_player_profile_interface m_player_profile;
-	wchar_t m_display_name[16];
-	byte __data1420[40];
+	c_static_wchar_string<16> m_display_name;
+	byte __data1420[0x18];
+	c_player_marketplace* m_marketplace;
+	byte __data143C[0xC];
 };
 static_assert(sizeof(c_controller_interface) == 0x1448);
 

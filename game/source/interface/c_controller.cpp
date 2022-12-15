@@ -12,6 +12,11 @@ void __cdecl controllers_render()
 	INVOKE(0x00A7D180, controllers_render);
 }
 
+bool c_controller_interface::is_attached()
+{
+	return TEST_BIT(m_flags, 0);
+}
+
 bool c_controller_interface::in_use()
 {
 	return is_signed_in_to_machine() || TEST_BIT(m_flags, 2);
