@@ -150,7 +150,7 @@ public:
 
 	wchar_t const* append_vprint(wchar_t const* format, va_list list)
 	{
-		unsigned int current_length = length();
+		long current_length = length();
 
 		//assert(format);
 		//assert(current_length >= 0 && current_length < k_buffer_size);
