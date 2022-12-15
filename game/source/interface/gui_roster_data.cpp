@@ -125,6 +125,23 @@ bool __fastcall c_gui_roster_data::_get_text_value(c_gui_roster_data* _this, voi
     break;
     case STRING_ID(gui, service_tag):
     {
+        // if no player has no service tag, get it from the controller interface (only safe for local players)
+        if (!_this->m_players[player_row_index].player_data.host.appearance.service_tag.length())
+        {
+            if (player_row_index >= 0 && player_row_index < 4)
+            {
+                if (text_value->length())
+                {
+                    text_value->append(controller_get(static_cast<e_controller_index>(player_row_index))->m_player_profile.desired_service_tag);
+                }
+                else
+                {
+                    // simulate added controllers
+                    text_value->append_print(L"%s - %s", L"SPARTAN", controller_get(static_cast<e_controller_index>(player_row_index))->m_player_profile.desired_service_tag);
+                }
+            }
+        }
+
         if (!result)
             return true;
     }
