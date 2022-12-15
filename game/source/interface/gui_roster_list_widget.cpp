@@ -68,9 +68,9 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 			long bungienet_user = 0;
 			long matchmaking = 0;
 
-			s_player_appearance player_appearance;
-			csmemset(&player_appearance, 0, sizeof(s_player_appearance));
-
+			c_static_wchar_string<1024> player_found;
+			c_static_wchar_string<1024> looking_for_player;
+			c_static_wchar_string<1024> press_a_to_join;
 			c_static_wchar_string<1024> service_tag;
 
 			if (base_color_bitmap_widget
@@ -98,7 +98,6 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				&& rank_tray_hilite_bitmap_widget
 				&& service_tag_text_widget
 				&& roster_data->get_text_value(element_handle, STRING_ID(gui, service_tag), &service_tag)
-				&& roster_data->get_player_appearance(element_handle, &player_appearance)
 				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, player_index), &session_player_index)
 				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type)
 				&& roster_data->get_integer_value(element_handle, STRING_ID(gui, controller_index), &controller_index)
@@ -110,11 +109,10 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				//&& roster_data->get_integer_value(element_handle, STRING_ID(gui, matchmaking), &matchmaking) // halo 3 tag test
 				)
 			{
-
-				bool player_row_type0 = player_row_type == 0;
-				bool player_row_type1 = player_row_type == 1;
-				bool player_row_type2 = player_row_type == 2;
-				bool player_row_type3 = player_row_type == 3;
+				bool player_row_type0 = player_row_type == c_gui_roster_data::_player_row_type_player;
+				bool player_row_type1 = player_row_type == c_gui_roster_data::_player_row_type_player_found;
+				bool player_row_type2 = player_row_type == c_gui_roster_data::_player_row_type_looking_for_player;
+				bool player_row_type3 = player_row_type == c_gui_roster_data::_player_row_type_press_a_to_join;
 
 				//assert((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
 
@@ -128,14 +126,17 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 
 				list_item_widget->set_enabled(player_row_type0);
 
+				player_found_text_widget->set_text(player_found.get_string());
 				player_found_bitmap_widget->set_visible(player_row_type1);
 				player_found_text_widget->set_visible(player_row_type1);
 
+				looking_for_player_text_widget->set_text(looking_for_player.get_string());
 				looking_for_player_bitmap_widget->set_visible(player_row_type2);
 				looking_for_player2_bitmap_widget->set_visible(player_row_type2);
 				looking_for_player3_bitmap_widget->set_visible(player_row_type2);
 				looking_for_player_text_widget->set_visible(player_row_type2);
 
+				press_a_to_join_text_widget->set_text(press_a_to_join.get_string());
 				press_a_to_join_bitmap_widget->set_visible(player_row_type3);
 				press_a_to_join_text_widget->set_visible(player_row_type3);
 
@@ -250,8 +251,8 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				}
 
 
-				static c_static_wchar_string<1024> name;
-				static c_static_wchar_string<256> team_name;
+				c_static_wchar_string<1024> name;
+				c_static_wchar_string<256> team_name;
 
 				bool team_change_active = false;
 				if (is_team_game)
@@ -273,12 +274,14 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 							wchar_t right_bumper[4];
 						};
 
-						name.clear();
 						name.append_print(L"%ls %s %ls", left_bumper, team_name.get_string(), right_bumper);
 
 						team_change_active = true;
 					}
 				}
+
+				// set name font to the correct id
+				static_cast<c_gui_sized_text_widget<48>*>(name_text_widget)->set_font(1);
 
 				if (team_change_active)
 				{
@@ -287,7 +290,6 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				}
 				else
 				{
-					name.clear();
 					roster_data->get_text_value(element_handle, STRING_ID(global, player_name), &name);
 					name_text_widget->set_text(name.get_string());
 					name_hilite_text_widget->set_text(name.get_string());
