@@ -64,8 +64,15 @@ static_assert(sizeof(c_sized_user_interface_text<256>) == 0x460);
 static_assert(sizeof(c_sized_user_interface_text<1024>) == 0x1060);
 
 template<long k_text_buffer_size>
-struct c_gui_sized_text_widget : c_gui_text_widget
+struct c_gui_sized_text_widget : public c_gui_text_widget
 {
+public:
+	void set_font(long font)
+	{
+		m_text_buffer.set_font(font);
+	}
+
+protected:
 	c_sized_user_interface_text<k_text_buffer_size> m_text_buffer;
 };
 static_assert(sizeof(c_gui_sized_text_widget<48>) == 0x260);
