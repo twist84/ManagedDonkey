@@ -4,6 +4,8 @@
 
 struct c_life_cycle_state_handler_pre_game : c_life_cycle_state_handler
 {
-	byte __data[0x10];
+	dword m_time;
+	long m_countdown_timer;
+	byte __data[0x8];
 };
 static_assert(sizeof(c_life_cycle_state_handler_pre_game) == 0x38);
