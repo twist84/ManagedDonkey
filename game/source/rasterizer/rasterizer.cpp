@@ -6,11 +6,11 @@
 
 void(__cdecl* rasterizer_get_display_pixel_bounds)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
 
-//HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
-HOOK_DECLARE_CALL(0x00A9F706, rasterizer_get_display_pixel_bounds); // ui
-HOOK_DECLARE_CALL(0x00A9FACB, rasterizer_get_display_pixel_bounds); // ui
-HOOK_DECLARE_CALL(0x00A9F80C, rasterizer_get_display_pixel_bounds); // logo
-HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds); // watermark
+HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
+//HOOK_DECLARE_CALL(0x00A9F706, rasterizer_get_display_pixel_bounds); // ui
+//HOOK_DECLARE_CALL(0x00A9FACB, rasterizer_get_display_pixel_bounds); // ui
+//HOOK_DECLARE_CALL(0x00A9F80C, rasterizer_get_display_pixel_bounds); // logo
+//HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds); // watermark
 
 void __stdcall sub_79BA30(long width, long height)
 {
@@ -58,8 +58,22 @@ void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_p
 
 	*display_pixel_bounds = {};
 
-	short width  = 1152;
-	short height = 640;
+	// TESTING
+	const long resolution_index = 0;
+	short resolutions[3][2]
+	{
+		// 1152x640
+		{ 1152, 640 },
+
+		// 1920x1080
+		{ 1920, 1080 },
+
+		// 3840x2160
+		{ 3840, 2160 }
+	};
+
+	short width  = resolutions[resolution_index][0];
+	short height = resolutions[resolution_index][1];
 
 	if (width <= 8)
 		width = 8;

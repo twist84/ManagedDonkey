@@ -1,6 +1,7 @@
 #include "interface/c_gui_widget.hpp"
 
 #include "interface/user_interface_data.hpp"
+#include "memory/module.hpp"
 
 long __cdecl c_gui_widget::get_ambient_state()
 {
@@ -205,5 +206,37 @@ c_gui_widget* __cdecl c_gui_widget::get_child_widget(e_gui_widget_type widget_ty
 c_gui_widget* __cdecl c_gui_widget::get_first_child_widget_by_type(e_gui_widget_type widget_type)
 {
 	return DECLFUNC(0x00AB8F80, c_gui_widget*, __thiscall, c_gui_widget*, e_gui_widget_type)(this, widget_type);
+}
+
+HOOK_DECLARE_CLASS(0x00AB97C0, c_gui_widget, get_unprojected_bounds);
+void __fastcall c_gui_widget::get_unprojected_bounds(c_gui_widget* _this, void* unused, gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5)
+{
+	HOOK_INVOKE_CLASS(, c_gui_widget, get_unprojected_bounds, void(__thiscall*)(c_gui_widget*, gui_real_rectangle2d*, bool, bool, bool), _this, unprojected_bounds, a3, a4, a5);
+
+	// TESTING
+	const long scale_index = 0;
+	real scales[3]
+	{
+		// 1152x640
+		1.0f,
+
+		// 1920x1080
+		1.7f,
+
+		// 3840x2160
+		3.4f
+	};
+
+	real scale = scales[scale_index];
+
+	unprojected_bounds->__unknown0 *= scale;
+	unprojected_bounds->__unknown0 *= scale;
+	unprojected_bounds->__unknown1 *= scale;
+	unprojected_bounds->__unknown2 *= scale;
+	unprojected_bounds->__unknown3 *= scale;
+	unprojected_bounds->__unknown4 *= scale;
+	unprojected_bounds->__unknown5 *= scale;
+	unprojected_bounds->__unknown6 *= scale;
+	unprojected_bounds->__unknown7 *= scale;
 }
 

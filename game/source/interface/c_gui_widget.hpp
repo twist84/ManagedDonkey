@@ -109,6 +109,19 @@ struct s_animation_transform;
 struct s_gui_widget_render_data;
 struct c_controller_input_message;
 
+struct gui_real_rectangle2d
+{
+	real __unknown0;
+	real __unknown1;
+	real __unknown2;
+	real __unknown3;
+	real __unknown4;
+	real __unknown5;
+	real __unknown6;
+	real __unknown7;
+};
+static_assert(sizeof(gui_real_rectangle2d) == 0x20);
+
 struct c_gui_widget
 {
 protected:
@@ -204,6 +217,8 @@ public:
 	c_gui_model_widget* __cdecl get_child_model_widget(string_id name);
 	c_gui_text_widget* __cdecl get_child_text_widget(string_id name);
 	c_gui_widget* __cdecl get_first_child_widget_by_type(e_gui_widget_type widget_type);
+
+	static void __fastcall get_unprojected_bounds(c_gui_widget* _this, void* unused, gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5);
 
 protected:
 	long __unknown4;
