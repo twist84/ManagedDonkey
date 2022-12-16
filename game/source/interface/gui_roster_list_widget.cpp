@@ -59,7 +59,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 			long element_handle = list_item_widget->get_element_handle();
 
 			long session_player_index = -1;
-			long player_row_type = 0;
+			long player_row_type = c_gui_roster_data::_player_row_type_player;
 			long controller_index = -1;
 			long voice_output = 0;
 			long special_status = 0;
@@ -175,8 +175,8 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				experience_hilite_bitmap_widget->set_visible(experience != -1);
 				if (experience != -1)
 				{
-					skill_level_bitmap_widget->m_sprite_frame = skill_level;
-					skill_level_hilite_bitmap_widget->m_sprite_frame = skill_level;
+					experience_bitmap_widget->m_sprite_frame = experience;
+					experience_hilite_bitmap_widget->m_sprite_frame = experience;
 
 					// halo 3 tag test
 					//sub_1409C7C80(experience_bitmap_widget, show_experience);
@@ -325,7 +325,7 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 			long element_handle = list_item_widget->get_element_handle();
 
 			long session_player_index = -1;
-			long player_row_type = 0;
+			long player_row_type = c_gui_roster_data::_player_row_type_player;
 			long party_bar_length = 0;
 			long base_color = 0;
 
@@ -343,7 +343,7 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 
 				assert((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
 
-				bool player_row_type0 = player_row_type == 0;
+				bool player_row_type0 = player_row_type == c_gui_roster_data::_player_row_type_player;
 
 				bool show_party_bar = player_row_type0 && _this->m_show_party_bar && party_bar_length > 0;
 
