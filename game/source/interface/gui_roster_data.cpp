@@ -57,6 +57,9 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
     break;
 	case STRING_ID(gui, experience):
     {
+        *integer_value = (player_row_index % 4) + 1;
+        //*integer_value = 42;
+
         if (!result)
             return true;
     }
