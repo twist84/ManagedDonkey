@@ -12,6 +12,63 @@ public:
 	virtual wchar_t const* get_string();
 	virtual void update(long);
 
+	void set_flags(dword_flags flags)
+	{
+		m_flags = flags;
+	}
+
+	void set_unknown8(long unknown8)
+	{
+		__unknown8 = unknown8;
+	}
+
+	void set_font(long font)
+	{
+		m_font = font;
+	}
+
+	void set_argb_color(argb_color color)
+	{
+		m_argb_color = color;
+	}
+
+	void set_drop_shadow_style(long drop_shadow_style)
+	{
+		m_drop_shadow_style = drop_shadow_style;
+	}
+
+	void set_style(long style)
+	{
+		m_style = style;
+	}
+
+	void set_justification(long justification)
+	{
+		m_justification = justification;
+	}
+
+	void set_rotation_origin(real x, real y)
+	{
+		m_rotation_origin.x = x;
+		m_rotation_origin.y = y;
+	}
+
+	void set_rotation(real rotation)
+	{
+		m_rotation = rotation;
+	}
+
+	void set_scroll_amount(real i, real j)
+	{
+		m_scroll_amount.i = i;
+		m_scroll_amount.j = j;
+	}
+
+	void set_scale(real scale)
+	{
+		m_scale = scale;
+	}
+
 protected:
 	// 1:  render_uppercase
 	// 2:  align_vertically
