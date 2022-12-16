@@ -48,12 +48,6 @@ static_assert(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x64);
 template<long k_maximum_count>
 struct c_sized_user_interface_text : public c_user_interface_text
 {
-public:
-	void set_font(long font)
-	{
-		m_font = font;
-	}
-
 protected:
 	c_static_wchar_string<k_maximum_count> m_string1;
 	c_static_wchar_string<k_maximum_count> m_string2;
@@ -67,9 +61,9 @@ template<long k_text_buffer_size>
 struct c_gui_sized_text_widget : public c_gui_text_widget
 {
 public:
-	void set_font(long font)
+	c_sized_user_interface_text<k_text_buffer_size>* get_text_buffer()
 	{
-		m_text_buffer.set_font(font);
+		return &m_text_buffer;
 	}
 
 protected:

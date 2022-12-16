@@ -33,16 +33,16 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 		{
 			c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
 			c_gui_bitmap_widget* base_color_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color_hilite));
-			c_gui_text_widget* name_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, name));
-			c_gui_text_widget* name_hilite_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, name_hilite));
+			c_gui_sized_text_widget<48>* name_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(global, name)));
+			c_gui_sized_text_widget<48>* name_hilite_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(gui, name_hilite)));
 			c_gui_bitmap_widget* ring_of_light_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, ring_of_light));
-			c_gui_text_widget* press_a_to_join_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, press_a_to_join));
+			c_gui_sized_text_widget<48>* press_a_to_join_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(global, press_a_to_join)));
 			c_gui_bitmap_widget* press_a_to_join_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(global, press_a_to_join));
-			c_gui_text_widget* looking_for_player_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, looking_for_player));
+			c_gui_sized_text_widget<48>* looking_for_player_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(gui, looking_for_player)));
 			c_gui_bitmap_widget* looking_for_player_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, looking_for_player));
 			c_gui_bitmap_widget* looking_for_player2_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, looking_for_player2));
 			c_gui_bitmap_widget* looking_for_player3_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, looking_for_player3));
-			c_gui_text_widget* player_found_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, player_found));
+			c_gui_sized_text_widget<48>* player_found_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(gui, player_found)));
 			c_gui_bitmap_widget* player_found_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, player_found));
 			c_gui_bitmap_widget* party_up_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, party_up));
 			c_gui_bitmap_widget* check_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, check));
@@ -54,7 +54,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 			c_gui_bitmap_widget* experience_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, experience_hilite));
 			c_gui_bitmap_widget* rank_tray_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray));
 			c_gui_bitmap_widget* rank_tray_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray_hilite));
-			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
+			c_gui_sized_text_widget<48>* service_tag_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag)));
 
 			long element_handle = list_item_widget->get_element_handle();
 
@@ -281,7 +281,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				}
 
 				// set name font to the correct id
-				static_cast<c_gui_sized_text_widget<48>*>(name_text_widget)->set_font(1);
+				name_text_widget->get_text_buffer()->set_font(1);
 
 				if (team_change_active)
 				{
