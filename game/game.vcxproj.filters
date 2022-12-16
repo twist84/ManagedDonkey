@@ -552,6 +552,9 @@
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_start.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\user_interface_matchmaking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1512,6 +1515,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\logic\life_cycle\life_cycle_matchmaking_quality.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_matchmaking.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

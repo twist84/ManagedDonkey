@@ -1,7 +1,10 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "networking/session/network_session_parameters_generic.hpp"
 #include "networking/logic/life_cycle/life_cycle_matchmaking_quality.hpp"
+#include "networking/transport/transport_security.hpp"
+#include "shell/shell.hpp"
 
 struct s_network_session_matchmaking_hopper_category
 {

@@ -55,9 +55,11 @@ static_assert(sizeof(s_network_life_cycle_globals) == 0x3D538);
 
 extern s_network_life_cycle_globals& life_cycle_globals;
 
-extern e_life_cycle_state __cdecl network_life_cycle_get_state();
-extern void __cdecl network_life_cycle_request_leave(bool disconnect);
-extern void __cdecl network_life_cycle_end();
-
+struct s_life_cycle_matchmaking_progress;
 struct c_network_session;
+
+extern void __cdecl network_life_cycle_end();
+extern void __cdecl network_life_cycle_get_matchmaking_progress(s_life_cycle_matchmaking_progress* progress_out);
+extern e_life_cycle_state __cdecl network_life_cycle_get_state();
 extern bool __cdecl network_life_cycle_in_squad_session(c_network_session** out_active_squad_session);
+extern void __cdecl network_life_cycle_request_leave(bool disconnect);
