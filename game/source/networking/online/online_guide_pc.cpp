@@ -6,6 +6,7 @@
 #include "memory/module.hpp"
 
 #include <windows.h>
+#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
@@ -250,8 +251,8 @@ dword __cdecl online_guide_show_friend_request_ui(e_controller_index controller_
 {
 	MessageBoxA(NULL, "Friend Request UI Placeholder", "networking:online:guide", MB_OK);
 
-	//assert(VALID_INDEX(controller_index, k_number_of_controllers));
-	// 
+	assert(VALID_INDEX(controller_index, k_number_of_controllers));
+	 
 	//dword result = 0x80004005;
 	//c_static_string<256> error_string;
 	//
@@ -270,8 +271,8 @@ dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
 {
 	MessageBoxA(NULL, "Friends UI Placeholder", "networking:online:guide", MB_OK);
 
-	//assert(VALID_INDEX(controller_index, k_number_of_controllers));
-	//
+	assert(VALID_INDEX(controller_index, k_number_of_controllers));
+	
 	//dword result = 0x80004005;
 	//
 	//if (controller_get(controller_index)->is_signed_in_to_live())
@@ -289,8 +290,8 @@ dword __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_inde
 {
 	MessageBoxA(NULL, "Gamer Card UI Placeholder", "networking:online:guide", MB_OK);
 
-	//assert(VALID_INDEX(controller_index, k_number_of_controllers));
-	//
+	assert(VALID_INDEX(controller_index, k_number_of_controllers));
+	
 	//dword result = 0x80004005;
 	//c_static_string<256> error_string;
 	//
@@ -309,9 +310,9 @@ dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 {
 	MessageBoxA(NULL, "Player Review UI Placeholder", "networking:online:guide", MB_OK);
 
-	//assert(VALID_INDEX(controller_index, k_number_of_controllers));
-	//assert(target_user_xuid != NULL);
-	//
+	assert(VALID_INDEX(controller_index, k_number_of_controllers));
+	assert(target_user_xuid != NULL);
+	
 	//dword result = 0x80004005;
 	//c_static_string<256> error_string;
 	//
@@ -330,8 +331,8 @@ bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags)
 {
 	//MessageBoxA(NULL, "Signin UI Placeholder", "networking:online:guide", MB_OK);
 
-	//assert(pane_count == 1 || pane_count == 2 || pane_count == 4);
-	//
+	assert(pane_count == 1 || pane_count == 2 || pane_count == 4);
+	
 	//dword result = 0;
 	//dword signin_flags0 = (TEST_BIT(flags, 1) | TEST_BIT(flags, 2)) ? 2 : 0;
 	//dword signin_flags1 = TEST_BIT(flags, 4) ? 0x400000 : 0;

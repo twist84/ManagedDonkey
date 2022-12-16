@@ -114,7 +114,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				bool player_row_type2 = player_row_type == c_gui_roster_data::_player_row_type_looking_for_player;
 				bool player_row_type3 = player_row_type == c_gui_roster_data::_player_row_type_press_a_to_join;
 
-				//assert((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
+				assert((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
 
 				bool show_experience = matchmaking > 0;
 				bool show_rank_tray = experience != -1;
@@ -341,7 +341,7 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 				data->get_integer_value(element_handle, STRING_ID(gui, party_bar_length), &party_bar_length);
 				data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color);
 
-				//assert((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
+				assert((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
 
 				bool player_row_type0 = player_row_type == 0;
 

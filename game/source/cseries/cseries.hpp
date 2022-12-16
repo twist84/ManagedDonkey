@@ -19,6 +19,8 @@
 #define REFERENCE_DECLARE_ARRAY(address, type, name, count) type(&name)[count] = *reinterpret_cast<type(*)[count]>(address)
 #define REFERENCE_DECLARE_STATIC_ARRAY(address, type, count, name) c_static_array<type, count> &name = *reinterpret_cast<c_static_array<type, count>*>(address)
 
+#define VALID_INDEX(index, count) ((index) >= 0 && (index) < count)
+
 #define try_bool(X) if (!X) return false
 
 // 4-character tag group identifier
