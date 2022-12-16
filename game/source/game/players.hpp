@@ -20,43 +20,39 @@ struct s_player_identifier
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
 
-struct s_player_appearance
+struct s_emblem_info
 {
-	byte_flags flags;
-	byte player_model_choice;
-	byte : 8;
-	byte : 8;
-
 	struct
 	{
 		struct
 		{
-			struct
-			{
-				word __unknown0;
-				word __unknown2;
-				word __unknown4;
-				word __unknown6;
-				word __unknown8;
-				word __unknownA;
-				word __unknownC;
-				byte __unknownE;
-				byte __unknownF;
-			} __unknown0[50];
+			word __unknown0;
+			word __unknown2;
+			word __unknown4;
+			word __unknown6;
+			word __unknown8;
+			word __unknownA;
+			word __unknownC;
+			byte __unknownE;
+			byte __unknownF;
+		} __unknown0[50];
 
-			long __unknown0_count;
-		} __unknown0[2];
+		long __unknown0_count;
+	} __unknown0[2];
 
-		// checksums calculated with `fast_checksum` 
-		// `fast_checksum` is a wrapper around the `hashlittle` as part of `lookup3`
-		// lookup3.c, by Bob Jenkins, May 2006, Public Domain.
-		// https://burtleburtle.net/bob/c/lookup3.c
-		dword __unknown0_checksums[2];
-	} __unknown4_emblems;
+	// checksums calculated with `fast_checksum` 
+	// `fast_checksum` is a wrapper around the `hashlittle` as part of `lookup3`
+	// lookup3.c, by Bob Jenkins, May 2006, Public Domain.
+	// https://burtleburtle.net/bob/c/lookup3.c
+	dword __unknown0_checksums[2];
+};
 
+struct s_player_appearance
+{
+	byte_flags flags;
+	byte player_model_choice;
+	s_emblem_info emblem_info;
 	c_static_wchar_string<5> service_tag;
-	byte : 8;
-	byte : 8;
 };
 static_assert(sizeof(s_player_appearance) == 0x660);
 
