@@ -39,7 +39,7 @@ struct s_network_session_status_data
 	short private_slots;
 	short public_players;
 	short private_players;
-	c_enum<e_game_mode, short, k_game_mode_count> game_mode;
+	c_enum<e_session_game_mode, short, k_session_game_mode_count> game_mode;
 	short game_state;
 	short network_game_type;
 	short connection_quality;

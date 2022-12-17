@@ -1,5 +1,16 @@
 #pragma once
 
+enum e_session_game_mode
+{
+	_session_game_mode_none = 0,
+	_session_game_mode_matchmaking,
+	_session_game_mode_pregame,
+	_session_game_mode_ingame,
+	_session_game_mode_postgame,
+
+	k_session_game_mode_count
+};
+
 enum e_gui_game_mode
 {
 	_ui_game_mode_none = -1,
