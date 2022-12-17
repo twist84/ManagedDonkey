@@ -80,7 +80,7 @@ bool __cdecl transport_secure_address_resolve()
 
 bool __cdecl transport_secure_address_retrieve(transport_address const* usable_address, long platform, s_transport_secure_address* secure_address)
 {
-	//return INVOKE(0x00430E20, transport_secure_address_retrieve, usable_address, platform, secure_address);
+	//return INVOKE(0x00430DF0, transport_secure_address_retrieve, usable_address, platform, secure_address);
 
 	bool result = false;
 	HOOK_INVOKE(result =, transport_secure_address_retrieve, usable_address, platform, secure_address);
