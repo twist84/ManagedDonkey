@@ -21,6 +21,12 @@ bool __cdecl transport_secure_address_compare(s_transport_secure_address const* 
 	return INVOKE(0x00430B20, transport_secure_address_compare, a, b);
 }
 
+// `transport_secure_identifier_compare` and `transport_secure_address_compare` are basically the same function
+bool __cdecl transport_secure_identifier_compare(s_transport_secure_identifier const* a, s_transport_secure_identifier const* b)
+{
+	return INVOKE(0x00430B20, transport_secure_identifier_compare, a, b);
+}
+
 bool __cdecl transport_secure_address_decode(s_transport_session_description const* secure_host_description, s_transport_secure_address const* secure_address, transport_address* usable_address)
 {
 	assert(secure_host_description);
