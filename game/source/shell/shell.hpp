@@ -1,5 +1,26 @@
 #pragma once
 
+enum e_network_game_type
+{
+	_network_game_type_none = 0,
+	_network_game_type_custom_game,
+	_network_game_type_matchmaking,
+	_network_game_type_film,
+
+	k_network_game_type_count
+};
+
+enum e_desired_multiplayer_mode
+{
+	_desired_multiplayer_mode_none = -1,
+	_desired_multiplayer_mode_campaign,
+	_desired_multiplayer_mode_custom_game,
+	_desired_multiplayer_mode_matchmaking,
+	_desired_multiplayer_mode_film,
+
+	k_desired_multiplayer_mode_count
+};
+
 enum e_session_game_mode
 {
 	_session_game_mode_none = 0,
@@ -117,7 +138,10 @@ enum e_content_item_type
 
 enum e_player_model_choice
 {
+	_player_model_choice_spartan,
+	_player_model_choice_elite,
 
+	k_player_model_choice_count
 };
 
 enum e_controller_index
