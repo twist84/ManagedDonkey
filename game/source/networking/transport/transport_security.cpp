@@ -2,7 +2,9 @@
 
 #include "cseries/console.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/network_broadcast_search.hpp"
 #include "networking/transport/transport.hpp"
+#include "xbox/xnet.hpp"
 
 #include <assert.h>
 #include <string.h>
@@ -10,6 +12,7 @@
 HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
 HOOK_DECLARE(0x00430DF0, transport_secure_address_retrieve);
 HOOK_DECLARE(0x00430ED0, transport_secure_identifier_get_string);
+HOOK_DECLARE(0x00430F30, transport_secure_identifier_retrieve);
 HOOK_DECLARE(0x00431100, transport_secure_nonce_get_string);
 
 REFERENCE_DECLARE(0x0199FAB0, s_transport_security_globals, transport_security_globals);
@@ -35,9 +38,31 @@ bool __cdecl transport_secure_address_decode(s_transport_session_description con
 
 	//INVOKE(0x00430B60, transport_secure_address_decode, secure_host_description, secure_address, usable_address);
 
-	bool result = false;
-	HOOK_INVOKE(result =, transport_secure_address_decode, secure_host_description, secure_address, usable_address);
-	return result;
+	//bool result = false;
+	//HOOK_INVOKE(result =, transport_secure_address_decode, secure_host_description, secure_address, usable_address);
+	//return result;
+
+	for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
+	{
+		s_available_session* session = g_broadcast_search_globals.available_sessions + i;
+
+		if (session && session->initialized)
+		{
+			if (transport_secure_address_compare(secure_address, &session->status_data.host_address) == 0 &&
+				transport_secure_identifier_compare(&secure_host_description->id, &session->status_data.session_id) == 0)
+			{
+				s_player_identifier& player_identifier = session->status_data.players[0].identifier;
+
+				usable_address->ipv4_address = player_identifier.ip_addr;
+				usable_address->port = player_identifier.port;
+				usable_address->address_length = sizeof(dword);
+
+				return true;
+			}
+		}
+	}
+
+	return XNetXnAddrToInAddr(secure_address, &secure_host_description->id, usable_address);
 }
 
 void __cdecl transport_secure_address_extract_identifier(s_transport_secure_address const* secure_address, s_transport_unique_identifier* unique_identifier)
@@ -107,9 +132,39 @@ char* __cdecl transport_secure_identifier_get_string(s_transport_secure_identifi
 	return result;
 }
 
-bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address)
+bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address)
 {
-	return INVOKE(0x00430F30, transport_secure_identifier_retrieve, usable_address, transport_platform, secure_identifier, secure_address);
+	//return INVOKE(0x00430F30, transport_secure_identifier_retrieve, usable_address, platform, secure_identifier, secure_address);
+
+	//bool result = false;
+	//HOOK_INVOKE(result =, transport_secure_identifier_retrieve, usable_address, platform, secure_identifier, secure_address);
+	//return result;
+
+	if (usable_address->address_length == sizeof(dword) && usable_address->ipv4_address && platform)
+	{
+		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
+		{
+			s_available_session* session = g_broadcast_search_globals.available_sessions + i;
+
+			if (session && session->initialized)
+			{
+				s_player_identifier& player_identifier = session->status_data.players[0].identifier;
+
+				if (player_identifier.ip_addr == usable_address->ipv4_address &&
+					player_identifier.port == usable_address->port)
+				{
+					*secure_identifier = session->status_data.session_id;
+					*secure_address = session->status_data.host_address;
+
+					return true;
+				}
+			}
+		}
+
+		return XNetInAddrToXnAddr(usable_address, secure_address);
+	}
+
+	return false;
 }
 
 //00430F60 ; bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform)
