@@ -23,6 +23,7 @@
 #include "memory/data.hpp"
 #include "memory/thread_local.hpp"
 #include "memory/module.hpp"
+#include "networking/session/network_managed_session.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
@@ -97,6 +98,7 @@ void __cdecl main_loop_body_begin()
 		g_restricted_region_names;
 		g_restricted_regions;
 		input_globals;
+		online_session_manager_globals;
 
 		long player_count = 0;
 		{
