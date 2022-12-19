@@ -91,11 +91,14 @@ protected:
 	c_gui_widget* m_focused_widget;
 	bool m_suppress_focus;
 	long m_display_groups[2][3];
-	bool m_can_receive_focus;
+	bool m_reload_next_frame;
 	bool m_responds_to_controller_events;
 	byte __unknown112;
 	byte __unknown113;
-	byte __data114[0x10];
+	long m_focus_on_load_list_name;
+	long m_focus_on_load_element_handle;
+	long m_focus_on_load_column_name;
+	long m_focus_on_load_column_value;
 	s_runtime_screen_widget_definition m_core_definition;
 	c_gui_data* m_datasource[32];
 	long m_datasource_count;
