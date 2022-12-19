@@ -22,6 +22,9 @@ union module_address
 extern module_address global_module;
 extern dword global_address_get(dword rva);
 
+extern void set_donkey_module(void* _module);
+extern void* get_donkey_module();
+
 extern void apply_all_hooks(bool revert);
 extern void apply_all_patches(bool revert);
 

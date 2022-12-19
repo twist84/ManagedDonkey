@@ -6,6 +6,7 @@
 
 void process_attach(HMODULE hModule)
 {
+	set_donkey_module(hModule);
 	DisableThreadLibraryCalls(hModule);
 	SetProcessDPIAware();
 

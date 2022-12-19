@@ -15,6 +15,17 @@ dword global_address_get(dword rva)
 	return global_module.address + rva;
 }
 
+static void* donkey_module;
+void set_donkey_module(void* _module)
+{
+	donkey_module = _module;
+}
+
+void* get_donkey_module()
+{
+	return donkey_module;
+}
+
 const long k_maximum_individual_modification_count = 1024;
 
 long g_call_hook_count = 0;

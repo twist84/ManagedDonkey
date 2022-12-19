@@ -156,7 +156,7 @@ void __cdecl main_loop_body_begin()
 		input_abstraction_globals.controls_method = controls_method;
 	}
 
-	copy_input_states(true);
+	copy_input_states(false);
 	show_location_messages();
 }
 
