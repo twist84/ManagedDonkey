@@ -33,16 +33,16 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 		{
 			c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
 			c_gui_bitmap_widget* base_color_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color_hilite));
-			c_gui_sized_text_widget<48>* name_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(global, name)));
-			c_gui_sized_text_widget<48>* name_hilite_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(gui, name_hilite)));
+			c_gui_text_widget* name_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, name));
+			c_gui_text_widget* name_hilite_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, name_hilite));
 			c_gui_bitmap_widget* ring_of_light_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, ring_of_light));
-			c_gui_sized_text_widget<48>* press_a_to_join_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(global, press_a_to_join)));
+			c_gui_text_widget* press_a_to_join_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, press_a_to_join));
 			c_gui_bitmap_widget* press_a_to_join_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(global, press_a_to_join));
-			c_gui_sized_text_widget<48>* looking_for_player_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(gui, looking_for_player)));
+			c_gui_text_widget* looking_for_player_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, looking_for_player));
 			c_gui_bitmap_widget* looking_for_player_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, looking_for_player));
 			c_gui_bitmap_widget* looking_for_player2_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, looking_for_player2));
 			c_gui_bitmap_widget* looking_for_player3_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, looking_for_player3));
-			c_gui_sized_text_widget<48>* player_found_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(gui, player_found)));
+			c_gui_text_widget* player_found_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, player_found));
 			c_gui_bitmap_widget* player_found_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, player_found));
 			c_gui_bitmap_widget* party_up_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, party_up));
 			c_gui_bitmap_widget* check_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, check));
@@ -54,7 +54,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 			c_gui_bitmap_widget* experience_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, experience_hilite));
 			c_gui_bitmap_widget* rank_tray_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray));
 			c_gui_bitmap_widget* rank_tray_hilite_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, rank_tray_hilite));
-			c_gui_sized_text_widget<48>* service_tag_text_widget = static_cast<c_gui_sized_text_widget<48>*>(list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag)));
+			c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
 
 			long element_handle = list_item_widget->get_element_handle();
 
@@ -150,8 +150,8 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 					nameplate_sprite_frame = 3;
 				}
 
-				base_color_bitmap_widget->m_sprite_frame = nameplate_sprite_frame;
-				base_color_hilite_bitmap_widget->m_sprite_frame = nameplate_sprite_frame;
+				base_color_bitmap_widget->set_sprite_frame(nameplate_sprite_frame);
+				base_color_hilite_bitmap_widget->set_sprite_frame(nameplate_sprite_frame);
 
 				name_text_widget->set_visible(player_row_type0);
 				name_hilite_text_widget->set_visible(player_row_type0);
@@ -167,16 +167,16 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				skill_level_hilite_bitmap_widget->set_visible(skill_level != -1);
 				if (skill_level != -1)
 				{
-					skill_level_bitmap_widget->m_sprite_frame = skill_level;
-					skill_level_hilite_bitmap_widget->m_sprite_frame = skill_level;
+					skill_level_bitmap_widget->set_sprite_frame(skill_level);
+					skill_level_hilite_bitmap_widget->set_sprite_frame(skill_level);
 				}
 
 				experience_bitmap_widget->set_visible(experience != -1);
 				experience_hilite_bitmap_widget->set_visible(experience != -1);
 				if (experience != -1)
 				{
-					experience_bitmap_widget->m_sprite_frame = experience;
-					experience_hilite_bitmap_widget->m_sprite_frame = experience;
+					experience_bitmap_widget->set_sprite_frame(experience);
+					experience_hilite_bitmap_widget->set_sprite_frame(experience);
 
 					// halo 3 tag test
 					//sub_1409C7C80(experience_bitmap_widget, show_experience);
@@ -203,16 +203,16 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				switch (special_status)
 				{
 				case 2:
-					check_bitmap_widget->m_sprite_frame = 0;
-					party_up_bitmap_widget->m_sprite_frame = 0;
+					check_bitmap_widget->set_sprite_frame(0);
+					party_up_bitmap_widget->set_sprite_frame(0);
 					break;
 				case 3:
-					check_bitmap_widget->m_sprite_frame = 1;
-					party_up_bitmap_widget->m_sprite_frame = 1;
+					check_bitmap_widget->set_sprite_frame(1);
+					party_up_bitmap_widget->set_sprite_frame(1);
 					break;
 				case 4:
-					check_bitmap_widget->m_sprite_frame = 2;
-					party_up_bitmap_widget->m_sprite_frame = 2;
+					check_bitmap_widget->set_sprite_frame(2);
+					party_up_bitmap_widget->set_sprite_frame(2);
 					break;
 				default:
 					check_bitmap_widget->set_visible(false);
@@ -222,7 +222,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				if (controller_index != -1)
 				{
 					ring_of_light_bitmap_widget->set_visible(true);
-					ring_of_light_bitmap_widget->m_sprite_frame = controller_index;
+					ring_of_light_bitmap_widget->set_sprite_frame(controller_index);
 				}
 				else
 				{
@@ -230,19 +230,19 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 					{
 					case 1:
 						ring_of_light_bitmap_widget->set_visible(true);
-						ring_of_light_bitmap_widget->m_sprite_frame = 4;
+						ring_of_light_bitmap_widget->set_sprite_frame(4);
 						break;
 					case 2:
 						ring_of_light_bitmap_widget->set_visible(true);
-						ring_of_light_bitmap_widget->m_sprite_frame = 5;
+						ring_of_light_bitmap_widget->set_sprite_frame(5);
 						break;
 					case 3:
 						ring_of_light_bitmap_widget->set_visible(true);
-						ring_of_light_bitmap_widget->m_sprite_frame = 6;
+						ring_of_light_bitmap_widget->set_sprite_frame(6);
 						break;
 					case 4:
 						ring_of_light_bitmap_widget->set_visible(true);
-						ring_of_light_bitmap_widget->m_sprite_frame = 7;
+						ring_of_light_bitmap_widget->set_sprite_frame(7);
 						break;
 					default:
 						ring_of_light_bitmap_widget->set_visible(false);
@@ -281,7 +281,8 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				}
 
 				// set name font to the correct id
-				name_text_widget->get_text_buffer()->set_font(1);
+
+				name_text_widget->get_text_internal()->set_font(1);
 
 				if (team_change_active)
 				{
@@ -381,7 +382,7 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 				tint_widget_to_change_color(party_bar_player_bitmap_widget, color_list_index, is_team_game);
 				tint_widget_to_change_color(name_text_widget, color_list_index, is_team_game);
 				tint_widget_to_change_color(service_tag_text_widget, color_list_index, is_team_game);
-				party_bar_player_bitmap_widget->m_sprite_frame = party_bar_length - 1;
+				party_bar_player_bitmap_widget->set_sprite_frame(party_bar_length - 1);
 			}
 		}
 	}

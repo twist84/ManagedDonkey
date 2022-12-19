@@ -23,6 +23,7 @@ struct s_runtime_text_widget_definition : s_runtime_core_widget_definition
 };
 static_assert(sizeof(s_runtime_text_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1C);
 
+struct c_gui_screen_widget;
 struct c_gui_text_widget : public c_gui_widget
 {
 	struct s_text_source_data
@@ -35,7 +36,11 @@ struct c_gui_text_widget : public c_gui_widget
 
 public:
 
+	c_user_interface_text* __cdecl get_text_internal();
+	dword __cdecl get_text_buffer_size() const;
 	void __cdecl set_text(wchar_t const* text);
+	void __cdecl set_text_from_string_id(c_gui_screen_widget* screen, long id);
+	wchar_t const* __cdecl get_text();
 
 protected:
 	long __unknownDC;
@@ -60,12 +65,6 @@ static_assert(sizeof(c_sized_user_interface_text<1024>) == 0x1060);
 template<long k_text_buffer_size>
 struct c_gui_sized_text_widget : public c_gui_text_widget
 {
-public:
-	c_sized_user_interface_text<k_text_buffer_size>* get_text_buffer()
-	{
-		return &m_text_buffer;
-	}
-
 protected:
 	c_sized_user_interface_text<k_text_buffer_size> m_text_buffer;
 };
