@@ -45,17 +45,22 @@ struct XShowKeyboardUI_struct
 	wchar_t* result_text;
 	dword maximum_character_count;
 	void* platform_handle;
-} *XShowKeyboardUI_params;
+} XShowKeyboardUI_params;
 
 INT_PTR CALLBACK XShowKeyboardUI_proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == WM_INITDIALOG)
+	{
+		SetWindowText(hDlg, XShowKeyboardUI_params.title_text);
+		SetWindowText(GetDlgItem(hDlg, IDTEXT), XShowKeyboardUI_params.default_text);
+
 		SetFocus(GetDlgItem(hDlg, IDTEXT));
+	}
 
 	if (uMsg == WM_COMMAND && wParam == 1)
 	{
-		HWND text_edit_handle = GetDlgItem(hDlg, IDTEXT);
-		SendMessage(text_edit_handle, WM_GETTEXT, (WPARAM)XShowKeyboardUI_params->maximum_character_count, (LPARAM)XShowKeyboardUI_params->result_text);
+		SendMessage(GetDlgItem(hDlg, IDTEXT), WM_GETTEXT, (WPARAM)XShowKeyboardUI_params.maximum_character_count, (LPARAM)XShowKeyboardUI_params.result_text);
+
 		EndDialog(hDlg, IDTEXT);
 
 		return true;
@@ -66,9 +71,8 @@ INT_PTR CALLBACK XShowKeyboardUI_proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 
 long XShowKeyboardUI(long controller_index, dword_flags character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, dword maximum_character_count, void* platform_handle)
 {
-	XShowKeyboardUI_params = new XShowKeyboardUI_struct { controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, platform_handle };
+	XShowKeyboardUI_params = XShowKeyboardUI_struct { controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, platform_handle };
 	DialogBoxParam((HINSTANCE)platform_handle, MAKEINTRESOURCE(IDD_DIALOG1), g_GameWindow, &XShowKeyboardUI_proc, 0);
-	delete XShowKeyboardUI_params;
 
 	return 0;
 }
