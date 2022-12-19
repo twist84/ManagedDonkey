@@ -283,6 +283,8 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				// set name font to the correct id
 
 				name_text_widget->get_text_internal()->set_font(1);
+				name_hilite_text_widget->get_text_internal()->set_font(1);
+				service_tag_text_widget->get_text_internal()->set_font(1);
 
 				if (team_change_active)
 				{
