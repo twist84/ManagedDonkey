@@ -2,19 +2,25 @@
 
 #include "cseries/async_xoverlapped_memory.hpp"
 #include "cseries/console.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/user_interface_text.hpp"
 #include "memory/module.hpp"
+
+#include "resource.h"
 
 #include <windows.h>
 #include <assert.h>
 #include <string.h>
+
+REFERENCE_DECLARE(0x0199C014, HWND, g_GameWindow);
 
 HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
 HOOK_DECLARE_CLASS(0x004E1840, c_virtual_keyboard_task, get_instance);
 HOOK_DECLARE_CLASS(0x004E19A0, c_virtual_keyboard_task, set_default_text);
 HOOK_DECLARE_CLASS(0x004E19B0, c_virtual_keyboard_task, set_description_text);
 HOOK_DECLARE_CLASS(0x004E19D0, c_virtual_keyboard_task, set_title_text);
-HOOK_DECLARE_CLASS(0x004E1A20, c_virtual_keyboard_task, success);
+HOOK_DECLARE_CLASS(0x004E1A00, c_virtual_keyboard_task, _start);
+HOOK_DECLARE_CLASS(0x004E1A20, c_virtual_keyboard_task, _success);
 
 HOOK_DECLARE(0x004E1860, online_guide_delay_toasts);
 HOOK_DECLARE(0x004E1870, online_guide_dispose);
@@ -29,6 +35,43 @@ HOOK_DECLARE(0x004E1950, online_guide_show_player_review_ui);
 HOOK_DECLARE(0x004E1960, online_guide_show_sign_in_ui);
 HOOK_DECLARE(0x004E1980, online_guide_update);
 
+struct XShowKeyboardUI_struct
+{
+	long controller_index;
+	dword_flags character_flags;
+	wchar_t const* default_text;
+	wchar_t const* title_text;
+	wchar_t const* description_text;
+	wchar_t* result_text;
+	dword maximum_character_count;
+	void* platform_handle;
+} *XShowKeyboardUI_params;
+
+INT_PTR CALLBACK XShowKeyboardUI_proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	if (uMsg == WM_INITDIALOG)
+		SetFocus(GetDlgItem(hDlg, IDTEXT));
+
+	if (uMsg == WM_COMMAND && wParam == 1)
+	{
+		HWND text_edit_handle = GetDlgItem(hDlg, IDTEXT);
+		SendMessage(text_edit_handle, WM_GETTEXT, (WPARAM)XShowKeyboardUI_params->maximum_character_count, (LPARAM)XShowKeyboardUI_params->result_text);
+		EndDialog(hDlg, IDTEXT);
+
+		return true;
+	}
+
+	return false;
+}
+
+long XShowKeyboardUI(long controller_index, dword_flags character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, dword maximum_character_count, void* platform_handle)
+{
+	XShowKeyboardUI_params = new XShowKeyboardUI_struct { controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, platform_handle };
+	DialogBoxParam((HINSTANCE)platform_handle, MAKEINTRESOURCE(IDD_DIALOG1), g_GameWindow, &XShowKeyboardUI_proc, 0);
+	delete XShowKeyboardUI_params;
+
+	return 0;
+}
 
 c_virtual_keyboard_task* __fastcall c_virtual_keyboard_task::constructor(
 	c_virtual_keyboard_task* _this,
@@ -189,19 +232,52 @@ const char* c_virtual_keyboard_task::get_context_string()
 	return "XShowKeyboardUI";
 }
 
-dword c_virtual_keyboard_task::start(void* )
+dword __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, dword_flags character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, dword maximum_character_count, void* platform_handle)
 {
-	return -1;
+	assert(VALID_INDEX(controller_index, k_number_of_controllers));
+	assert(result_text != NULL);
+	assert(maximum_character_count > 0);
+	assert(platform_handle != NULL);
+
+	c_controller_interface* controller = controller_get(controller_index);
+	if (!controller->is_signed_in_to_machine())
+		return 0x80004005;
+
+	return XShowKeyboardUI(controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, platform_handle);
 }
 
-void __fastcall c_virtual_keyboard_task::success(c_virtual_keyboard_task* _this, dword a1)
+dword c_virtual_keyboard_task::start(void* platform_handle)
+{
+	c_controller_interface* controller = controller_get(m_controller_index);
+	if (!controller->is_signed_in_to_machine())
+		return 0x80004005;
+
+	if (m_maximum_input_characters > 256)
+		return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, 256, platform_handle);
+
+	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, m_maximum_input_characters, platform_handle);
+}
+
+dword __fastcall c_virtual_keyboard_task::_start(c_virtual_keyboard_task* _this, void* unused, void* platform_handle)
+{
+	c_controller_interface* controller = controller_get(_this->m_controller_index);
+	if (!controller->is_signed_in_to_machine())
+		return 0x80004005;
+
+	if (_this->m_maximum_input_characters > 256)
+		return online_guide_show_virtual_keyboard_ui(_this->m_controller_index, _this->m_character_flags, _this->m_default_text, _this->m_title_text, _this->m_description_text, _this->m_result_text, 256, platform_handle);
+
+	return online_guide_show_virtual_keyboard_ui(_this->m_controller_index, _this->m_character_flags, _this->m_default_text, _this->m_title_text, _this->m_description_text, _this->m_result_text, _this->m_maximum_input_characters, platform_handle);
+}
+
+void __fastcall c_virtual_keyboard_task::_success(c_virtual_keyboard_task* _this, dword a1)
 {
 	DECLFUNC(0x004E1A20, void, __thiscall, c_virtual_keyboard_task*, dword)(_this, a1);
 
-	if (!wcsncmp(_this->m_keyboard_results, L".fortune", 9))
-		wcsncpy_s(_this->m_keyboard_results, L"My modem is on file", 256);
+	if (!wcsncmp(_this->m_result_text, L".fortune", 9))
+		wcsncpy_s(_this->m_result_text, L"My modem is on file", 256);
 
-	wchar_string_sanitize_for_game(_this->m_keyboard_results, 256);
+	wchar_string_sanitize_for_game(_this->m_result_text, 256);
 }
 
 dword __cdecl online_guide_delay_toasts(long milliseconds)
@@ -352,3 +428,4 @@ void __cdecl online_guide_update()
 	//online_guide_update_get_game_details();
 	//online_guide_update_get_service_record();
 }
+
