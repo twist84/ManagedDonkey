@@ -286,17 +286,11 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				name_hilite_text_widget->get_text_internal()->set_font(1);
 				service_tag_text_widget->get_text_internal()->set_font(1);
 
-				if (team_change_active)
-				{
-					name_text_widget->set_text(name.get_string());
-					name_hilite_text_widget->set_text(name.get_string());
-				}
-				else
-				{
+				if (!team_change_active)
 					roster_data->get_text_value(element_handle, STRING_ID(global, player_name), &name);
-					name_text_widget->set_text(name.get_string());
-					name_hilite_text_widget->set_text(name.get_string());
-				}
+
+				name_text_widget->set_text(name.get_string());
+				name_hilite_text_widget->set_text(name.get_string());
 			}
 		}
 	}
