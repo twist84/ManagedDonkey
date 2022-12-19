@@ -45,4 +45,5 @@ public:
 static_assert(sizeof(c_overlapped_task) == 0x10);
 
 extern void __cdecl overlapped_render();
+extern bool __stdcall overlapped_task_start_internal(c_overlapped_task* task, const char* file, int line);
 
