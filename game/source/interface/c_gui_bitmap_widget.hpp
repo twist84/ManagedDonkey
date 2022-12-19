@@ -33,12 +33,13 @@ struct c_gui_bitmap_widget : public c_gui_widget
 {
 public:
 	void __cdecl set_sprite_frame(long sprite_frame);
+	void __cdecl set_sprite_sequence(long sprite_sequence);
 
 protected:
 	long __unknownDC;
 	long __unknownE0;
 	long m_sprite_frame;
-	long __unknownE8;
+	long m_sprite_sequence;
 	s_runtime_bitmap_widget_definition m_core_definition;
 };
 static_assert(sizeof(c_gui_bitmap_widget) == 0x138);
