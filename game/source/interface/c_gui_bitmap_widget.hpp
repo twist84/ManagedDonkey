@@ -31,6 +31,10 @@ static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_cor
 
 struct c_gui_bitmap_widget : public c_gui_widget
 {
+public:
+	void __cdecl set_sprite_frame(long sprite_frame);
+
+protected:
 	long __unknownDC;
 	long __unknownE0;
 	long m_sprite_frame;
