@@ -392,6 +392,7 @@ POPD
     <ClCompile Include="source\xbox\xnet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\resource.h" />
     <ClInclude Include="source\ai\ai_flocks.hpp" />
     <ClInclude Include="source\ai\ai_globals.hpp" />
     <ClInclude Include="source\ai\ai_hint_definitions.hpp" />
@@ -726,6 +727,9 @@ POPD
     <None Include="source\tag_files\string_ids\string_ids.gui_strings.inl" />
     <None Include="source\tag_files\string_ids\string_ids.online_strings.inl" />
     <None Include="source\tag_files\string_ids\string_ids.saved_game_strings.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="source\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

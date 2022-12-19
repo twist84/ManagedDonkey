@@ -1529,6 +1529,9 @@
     <ClInclude Include="source\networking\session\network_managed_session.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
@@ -1561,5 +1564,10 @@
     <None Include="source\tag_files\string_ids\string_ids.defined_in_tags.inl">
       <Filter>Header Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="source\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
