@@ -8,6 +8,34 @@ struct s_player_identifier;
 struct c_player_marketplace;
 struct c_controller_interface
 {
+public:
+
+	// 4066
+	// 0000 1111 1110 0010
+	enum e_controller_state_flags
+	{
+		_controller_state_flag_attached = 0,
+		_controller_state_flag_voice_device_connected,
+		_controller_state_flag_unsigned_in_user,
+		_controller_state_flag_storage_device_selection_performed,
+
+		_controller_state_flag_allow_communications,
+		_controller_state_flag_allow_communications_friends_only,
+
+		_controller_state_flag_allow_profile_viewing,
+		_controller_state_flag_allow_profile_viewing_friends_only,
+
+		_controller_state_flag_allow_user_created_content,
+		_controller_state_flag_allow_user_created_content_friends_only,
+
+		_controller_state_flag_allow_purchace_content,
+
+		_controller_state_flag_allow_presence,
+		_controller_state_flag_allow_presence_friends_only,
+
+		k_controller_state_flag_count
+	};
+
 	bool is_attached();
 	bool in_use();
 	bool is_signed_in_to_machine();
@@ -15,7 +43,7 @@ struct c_controller_interface
 	void get_player_identifier(s_player_identifier* out_player_identifier);
 	qword get_player_xuid();
 
-	word_flags m_flags;
+	c_flags<e_controller_state_flags, short, k_controller_state_flag_count> m_state_flags;
 	short m_user_index;
 	dword __unknown4;
 	c_player_profile_interface m_player_profile;

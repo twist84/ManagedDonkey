@@ -11,7 +11,7 @@ c_controller_interface* __cdecl controller_get_hook(e_controller_index controlle
 	if (!controller->is_attached())
 	{
 		// set attached bit
-		controller->m_flags |= FLAG(0);
+		controller->m_state_flags.set(c_controller_interface::_controller_state_flag_attached, true);
 		controller->m_user_index = (short)controller_index;
 		controller->m_display_name.print(L"Player%hd", controller->m_user_index + 1);
 	}
@@ -34,12 +34,12 @@ void __cdecl controllers_render()
 
 bool c_controller_interface::is_attached()
 {
-	return TEST_BIT(m_flags, 0);
+	return m_state_flags.test(_controller_state_flag_attached);
 }
 
 bool c_controller_interface::in_use()
 {
-	return is_signed_in_to_machine() || TEST_BIT(m_flags, 2);
+	return is_signed_in_to_machine() || m_state_flags.test(_controller_state_flag_unsigned_in_user);
 }
 
 bool c_controller_interface::is_signed_in_to_machine()
