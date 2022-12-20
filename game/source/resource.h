@@ -3,7 +3,6 @@
 // Used by resource.rc
 //
 #define IDTEXT                          0
-#define IDOK                            1
 #define IDD_DIALOG1                     101
 
 // Next default values for new objects

@@ -5,14 +5,11 @@
 #include "interface/c_controller.hpp"
 #include "interface/user_interface_text.hpp"
 #include "memory/module.hpp"
-
-#include "resource.h"
+#include "xbox/xbox.hpp"
 
 #include <windows.h>
 #include <assert.h>
 #include <string.h>
-
-REFERENCE_DECLARE(0x0199C014, HWND, g_GameWindow);
 
 HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
 HOOK_DECLARE_CLASS(0x004E1840, c_virtual_keyboard_task, get_instance);
@@ -34,48 +31,6 @@ HOOK_DECLARE(0x004E1910, online_guide_show_gamer_card_ui);
 HOOK_DECLARE(0x004E1950, online_guide_show_player_review_ui);
 HOOK_DECLARE(0x004E1960, online_guide_show_sign_in_ui);
 HOOK_DECLARE(0x004E1980, online_guide_update);
-
-struct XShowKeyboardUI_struct
-{
-	long controller_index;
-	dword_flags character_flags;
-	wchar_t const* default_text;
-	wchar_t const* title_text;
-	wchar_t const* description_text;
-	wchar_t* result_text;
-	dword maximum_character_count;
-	void* platform_handle;
-} XShowKeyboardUI_params;
-
-INT_PTR CALLBACK XShowKeyboardUI_proc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	if (uMsg == WM_INITDIALOG)
-	{
-		SetWindowText(hDlg, XShowKeyboardUI_params.title_text);
-		SetWindowText(GetDlgItem(hDlg, IDTEXT), XShowKeyboardUI_params.default_text);
-
-		SetFocus(GetDlgItem(hDlg, IDTEXT));
-	}
-
-	if (uMsg == WM_COMMAND && wParam == 1)
-	{
-		SendMessage(GetDlgItem(hDlg, IDTEXT), WM_GETTEXT, (WPARAM)XShowKeyboardUI_params.maximum_character_count, (LPARAM)XShowKeyboardUI_params.result_text);
-
-		EndDialog(hDlg, IDTEXT);
-
-		return true;
-	}
-
-	return false;
-}
-
-long XShowKeyboardUI(long controller_index, dword_flags character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, dword maximum_character_count, void* platform_handle)
-{
-	XShowKeyboardUI_params = XShowKeyboardUI_struct { controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, platform_handle };
-	DialogBoxParam((HINSTANCE)platform_handle, MAKEINTRESOURCE(IDD_DIALOG1), g_GameWindow, &XShowKeyboardUI_proc, 0);
-
-	return 0;
-}
 
 c_virtual_keyboard_task* __fastcall c_virtual_keyboard_task::constructor(
 	c_virtual_keyboard_task* _this,

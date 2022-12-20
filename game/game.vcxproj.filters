@@ -561,6 +561,9 @@
     <ClCompile Include="source\interface\c_gui_bitmap_widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\xbox\xbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1530,6 +1533,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\xbox\xbox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
