@@ -162,6 +162,17 @@ public:
 		}
 	}
 
+	bool valid_bit(t_type bit)
+	{
+		return VALID_INDEX(0, k_count);
+	}
+
+	bool test(t_type bit)
+	{
+		//assert(valid_bit(bit));
+		return TEST_BIT(m_storage, bit);
+	}
+
 	bool operator==(t_type value)
 	{
 		return !!(m_storage & (1 << value));
