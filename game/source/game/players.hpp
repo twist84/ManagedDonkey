@@ -16,7 +16,10 @@ struct s_player_identifier
 	// make_int64(ip, port)
 	dword ip_addr;
 	word port;
-	short : 16;
+
+	// online_xuid_is_guest_account
+	// 0000 0000 1100 1001
+	word_flags flags;
 };
 static_assert(sizeof(s_player_identifier) == 0x8);
 
@@ -262,7 +265,7 @@ static_assert(sizeof(s_player_configuration_from_client) == 0x30);
 
 struct s_player_configuration_from_host
 {
-	s_player_identifier machine_identifier;
+	s_player_identifier player_identifier;
 	c_static_wchar_string<16> name;
 	long team_index; // renamed to `multiplayer_team` some time after ODST
 	long user_selected_team_index;
