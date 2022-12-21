@@ -17,7 +17,7 @@ void __cdecl XNetCreateKey(s_transport_secure_identifier* out_secure_identifier)
 
 	s_transport_secure_identifier secure_identifier;
 	csmemset(&secure_identifier, 0, sizeof(s_transport_secure_identifier));
-	
+
 	assert(SUCCEEDED(CoCreateGuid(reinterpret_cast<GUID*>(&secure_identifier))));
 	*out_secure_identifier = secure_identifier;
 }
@@ -31,19 +31,19 @@ long __cdecl XNetFindEntry(transport_address const* address, s_transport_secure_
 	for (long entry_index = 0; entry_index < NUMBEROF(xnet_mapping); entry_index++)
 	{
 		s_xnet_entry& entry = xnet_mapping[entry_index];
-	
+
 		if (ignore_invalid && !entry.initialized)
 			break;
-	
+
 		if (address && transport_address_equivalent(&entry.address, address))
 			return entry_index;
-	
-		if (secure_address && transport_secure_address_compare(&entry.secure_address ,secure_address))
+
+		if (secure_address && transport_secure_address_compare(&entry.secure_address, secure_address))
 			return entry_index;
-	
+
 		result = entry_index;
 	}
-	
+
 	return result;
 }
 
@@ -56,7 +56,7 @@ void __cdecl XNetAddEntry(transport_address const* address, s_transport_secure_a
 	long entry_index = XNetFindEntry(address, secure_address, false);
 	if (entry_index == -1)
 		return;
-	
+
 	s_xnet_entry& entry = xnet_mapping[entry_index];
 	entry.initialized = true;
 	entry.address = *address;
