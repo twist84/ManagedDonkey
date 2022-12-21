@@ -92,14 +92,14 @@ void show_location_messages()
 	}
 }
 
-void __cdecl show_direct_connect_dialog(transport_address address, s_transport_session_description description)
+void __cdecl direct_connect(transport_address address, s_transport_session_description description)
 {
 	XNetAddEntry(&address, &description.address, &description.id);
 	sub_69D600();
 	user_interface_join_remote_session(false, _network_session_class_system_link, &description.id, &description.address, &description.key);
 }
 
-void test_show_direct_connect_dialog()
+void show_direct_connect_dialog()
 {
 	c_static_wchar_string<16> insecure_ip;
 	c_static_wchar_string<128> secure_ip;
@@ -134,7 +134,7 @@ void test_show_direct_connect_dialog()
 		transport_secure_address_from_string(result_address_text, description.address);
 	}
 
-	show_direct_connect_dialog(address, description);
+	direct_connect(address, description);
 }
 
 void __cdecl main_loop_body_begin()
@@ -213,7 +213,7 @@ void __cdecl main_loop_body_begin()
 
 	if (input_key_frames_down(_key_code_right_alt, _input_type_ui) == 1)
 	{
-		test_show_direct_connect_dialog();
+		show_direct_connect_dialog();
 	}
 }
 
