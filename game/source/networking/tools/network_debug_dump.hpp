@@ -46,3 +46,5 @@ static_assert(sizeof(s_netdebug_globals) == 0x3970);
 extern s_netdebug_globals& g_netdebug_globals;
 extern c_synchronized_long& g_net_debug_thread_has_exited;
 
+extern void __cdecl get_system_ip_addresses(c_static_string<16>* insecure_ip, c_static_string<128>* secure_ip);
+

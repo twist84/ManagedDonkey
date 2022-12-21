@@ -42,3 +42,7 @@ struct s_user_interface_networking_globals
 static_assert(sizeof(s_user_interface_networking_globals) == 0x88);
 
 extern s_user_interface_networking_globals& user_interface_networking_globals;
+
+extern void __cdecl sub_69D600();
+extern bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, long session_class, s_transport_secure_identifier* remote_session_id, s_transport_secure_address* remote_host_address, s_transport_secure_key* key);
+

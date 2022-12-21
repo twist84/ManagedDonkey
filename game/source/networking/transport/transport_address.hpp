@@ -43,3 +43,6 @@ extern char* __cdecl transport_address_to_string(transport_address const* addres
 extern bool __cdecl transport_address_valid(transport_address const* address);
 extern void __cdecl transport_get_broadcast_address(transport_address* address, word port);
 extern void __cdecl transport_get_listen_address(transport_address* address, word port);
+
+extern void transport_address_from_string(wchar_t const* str, transport_address& address);
+

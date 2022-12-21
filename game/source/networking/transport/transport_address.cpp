@@ -166,3 +166,18 @@ void __cdecl transport_get_listen_address(transport_address* address, word port)
 	address->ipv4_address = 0;
 	address->port = port;
 }
+
+void transport_address_from_string(wchar_t const* str, transport_address& address)
+{
+	word ip_addr[4]{};
+	if (swscanf_s(str, L"%hd.%hd.%hd.%hd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
+	{
+		address.ina.bytes[3] = static_cast<byte>(ip_addr[3]);
+		address.ina.bytes[2] = static_cast<byte>(ip_addr[2]);
+		address.ina.bytes[1] = static_cast<byte>(ip_addr[1]);
+		address.ina.bytes[0] = static_cast<byte>(ip_addr[0]);
+
+		address.address_length = sizeof(address.ina);
+	}
+}
+

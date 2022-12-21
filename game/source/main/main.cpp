@@ -17,6 +17,7 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_hs.hpp"
+#include "interface/user_interface_networking.hpp"
 #include "main/global_preferences.hpp"
 #include "main/loading.hpp"
 #include "main/main_game_launch.hpp"
@@ -24,11 +25,17 @@
 #include "memory/data.hpp"
 #include "memory/thread_local.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/network_broadcast_search.hpp"
+#include "networking/logic/network_join.hpp"
+#include "networking/logic/network_session_interface.hpp"
 #include "networking/session/network_managed_session.hpp"
+#include "networking/tools/network_debug_dump.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
 #include "simulation/simulation.hpp"
+#include "xbox/xbox.hpp"
+#include "xbox/xnet.hpp"
 
 #include <assert.h>
 
@@ -83,6 +90,51 @@ void show_location_messages()
 		chud_messaging_post(player_mapping_first_active_output_user(), location_messages[location_message_index].message, _chud_message_context_self);
 		last_message_time = game_time_get_safe_in_seconds();
 	}
+}
+
+void __cdecl show_direct_connect_dialog(transport_address address, s_transport_session_description description)
+{
+	XNetAddEntry(&address, &description.address, &description.id);
+	sub_69D600();
+	user_interface_join_remote_session(false, _network_session_class_system_link, &description.id, &description.address, &description.key);
+}
+
+void test_show_direct_connect_dialog()
+{
+	c_static_wchar_string<16> insecure_ip;
+	c_static_wchar_string<128> secure_ip;
+	c_static_wchar_string<128> session_id;
+	{
+		c_static_string<16> _insecure_ip;
+		c_static_string<128> _secure_ip;
+		get_system_ip_addresses(&_insecure_ip, &_secure_ip);
+
+		char const* _session_id = managed_session_get_id_string(1);
+
+		insecure_ip.print(L"%hs", _insecure_ip.get_string());
+		secure_ip.print(L"%hs", _secure_ip.get_string());
+
+		session_id.print(L"%hs", _session_id);
+	}
+
+	transport_address address{};
+	s_transport_session_description description{};
+	{
+		wchar_t result_ip_text[128]{};
+		wchar_t result_port_text[128]{};
+		wchar_t result_id_text[128]{};
+		wchar_t result_address_text[128]{};
+		XShowConnectUI(insecure_ip.get_string(), L"11774", session_id.get_string(), secure_ip.get_string(), result_ip_text, result_port_text, result_id_text, result_address_text, get_donkey_module());
+
+		c_static_wchar_string<32> ip_port_str;
+		ip_port_str.print(L"%s:%s", result_ip_text, result_port_text);
+
+		transport_address_from_string(ip_port_str.get_string(), address);
+		transport_secure_identifier_from_string(result_id_text, description.id);
+		transport_secure_address_from_string(result_address_text, description.address);
+	}
+
+	show_direct_connect_dialog(address, description);
 }
 
 void __cdecl main_loop_body_begin()
@@ -158,6 +210,7 @@ void __cdecl main_loop_body_begin()
 
 	copy_input_states(false);
 	show_location_messages();
+	test_show_direct_connect_dialog();
 }
 
 void __cdecl main_loop_body_end()

@@ -228,6 +228,38 @@ void __cdecl transport_unique_identifier_resolve()
 	transport_secure_address_extract_identifier(&transport_security_globals.secure_address, &transport_security_globals.local_unique_identifier);
 }
 
+void transport_secure_identifier_from_string(wchar_t const* str, s_transport_secure_identifier& secure_identifier)
+{
+	swscanf_s(str, L"%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
+		&secure_identifier.part0,
+		&secure_identifier.part4[0],
+		&secure_identifier.part4[1],
+		&secure_identifier.part8[0],
+		&secure_identifier.part8[1],
+		&secure_identifier.part8[2],
+		&secure_identifier.part8[3],
+		&secure_identifier.part8[4],
+		&secure_identifier.part8[5],
+		&secure_identifier.part8[6],
+		&secure_identifier.part8[7]);
+}
+
+void transport_secure_address_from_string(wchar_t const* str, s_transport_secure_address& secure_address)
+{
+	swscanf_s(str, L"%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
+		&secure_address.part0,
+		&secure_address.part4[0],
+		&secure_address.part4[1],
+		&secure_address.part8[0],
+		&secure_address.part8[1],
+		&secure_address.part8[2],
+		&secure_address.part8[3],
+		&secure_address.part8[4],
+		&secure_address.part8[5],
+		&secure_address.part8[6],
+		&secure_address.part8[7]);
+}
+
 // used inplace of `c_event::generate`
 // net::REMOTE_BINLOGGER
 void network_debug_print(const char* format, ...)
