@@ -101,7 +101,10 @@ void __cdecl direct_connect(transport_address address, s_transport_session_descr
 
 void show_direct_connect_dialog()
 {
+	bool dialog_succeeded = false;
+
 	c_static_wchar_string<16> insecure_ip;
+	c_static_wchar_string<16> port;
 	c_static_wchar_string<128> secure_ip;
 	c_static_wchar_string<128> session_id;
 	{
@@ -115,6 +118,9 @@ void show_direct_connect_dialog()
 		secure_ip.print(L"%hs", _secure_ip.get_string());
 
 		session_id.print(L"%hs", _session_id);
+
+		REFERENCE_DECLARE(0x01860454, word, game_port);
+		port.print(L"%hd", game_port);
 	}
 
 	transport_address address{};
@@ -124,7 +130,7 @@ void show_direct_connect_dialog()
 		wchar_t result_port_text[128]{};
 		wchar_t result_id_text[128]{};
 		wchar_t result_address_text[128]{};
-		XShowConnectUI(insecure_ip.get_string(), L"11774", session_id.get_string(), secure_ip.get_string(), result_ip_text, result_port_text, result_id_text, result_address_text, get_donkey_module());
+		XShowConnectUI(insecure_ip.get_string(), port.get_string(), session_id.get_string(), secure_ip.get_string(), result_ip_text, result_port_text, result_id_text, result_address_text, get_donkey_module(), &dialog_succeeded);
 
 		c_static_wchar_string<32> ip_port_str;
 		ip_port_str.print(L"%s:%s", result_ip_text, result_port_text);
@@ -134,7 +140,8 @@ void show_direct_connect_dialog()
 		transport_secure_address_from_string(result_address_text, description.address);
 	}
 
-	direct_connect(address, description);
+	if (dialog_succeeded)
+		direct_connect(address, description);
 }
 
 void __cdecl main_loop_body_begin()

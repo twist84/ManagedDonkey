@@ -104,6 +104,8 @@ struct XShowConnectUI_struct
 	wchar_t* result_id_text;       // buffer must be 128 characters in size
 	wchar_t* result_address_text;  // buffer must be 128 characters in size
 
+	bool* dialog_succeeded;
+
 	void dialog_initialize_handler(HWND dialog_handle)
 	{
 		SetWindowText(dialog_handle, L"Direct Connect");
@@ -124,9 +126,11 @@ struct XShowConnectUI_struct
 			SendMessage(GetDlgItem(dialog_handle, ID_SESSION_ID_TEXT), WM_GETTEXT, (WPARAM)128, (LPARAM)result_id_text);
 			SendMessage(GetDlgItem(dialog_handle, ID_SESSION_ADDRESS_TEXT), WM_GETTEXT, (WPARAM)128, (LPARAM)result_address_text);
 			EndDialog(dialog_handle, IDCONNECT);
+			*dialog_succeeded = true;
 			break;
 		case IDCANCEL:
 			EndDialog(dialog_handle, IDCANCEL);
+			*dialog_succeeded = false;
 			break;
 		}
 	}
@@ -166,7 +170,8 @@ long XShowConnectUI(
 	wchar_t* result_port_text,
 	wchar_t* result_id_text,
 	wchar_t* result_address_text,
-	void* platform_handle
+	void* platform_handle,
+	bool* dialog_succeeded
 )
 {
 	XShowConnectUI_struct params
@@ -178,7 +183,8 @@ long XShowConnectUI(
 		result_ip_text,
 		result_port_text,
 		result_id_text,
-		result_address_text
+		result_address_text,
+		dialog_succeeded
 	};
 	DialogBoxParam((HINSTANCE)platform_handle, MAKEINTRESOURCE(IDD_CONNECT_DIALOG), g_game_window_handle, &XShowConnectUI_proc, (LPARAM)&params);
 

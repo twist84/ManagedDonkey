@@ -19,6 +19,7 @@ extern long XShowConnectUI(
 	wchar_t* result_port_text,
 	wchar_t* result_id_text,
 	wchar_t* result_address_text,
-	void* platform_handle
+	void* platform_handle,
+	bool* should_connect
 );
 
