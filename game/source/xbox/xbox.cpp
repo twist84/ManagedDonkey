@@ -120,12 +120,12 @@ struct XShowConnectUI_struct
 	{
 		switch (command)
 		{
-		case IDCONNECT:
+		case IDOK:
 			SendMessage(GetDlgItem(dialog_handle, ID_IP_TEXT), WM_GETTEXT, (WPARAM)16, (LPARAM)result_ip_text);
 			SendMessage(GetDlgItem(dialog_handle, ID_PORT_TEXT), WM_GETTEXT, (WPARAM)16, (LPARAM)result_port_text);
 			SendMessage(GetDlgItem(dialog_handle, ID_SESSION_ID_TEXT), WM_GETTEXT, (WPARAM)128, (LPARAM)result_id_text);
 			SendMessage(GetDlgItem(dialog_handle, ID_SESSION_ADDRESS_TEXT), WM_GETTEXT, (WPARAM)128, (LPARAM)result_address_text);
-			EndDialog(dialog_handle, IDCONNECT);
+			EndDialog(dialog_handle, IDOK);
 			*dialog_succeeded = true;
 			break;
 		case IDCANCEL:
