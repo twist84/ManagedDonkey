@@ -7,6 +7,11 @@
 HOOK_DECLARE(0x00A82AD0, user_interface_squad_get_countdown_delaying_player);
 HOOK_DECLARE(0x00A82AE0, user_interface_squad_get_countdown_timer);
 
+bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode)
+{
+    return INVOKE(0x00A7F950, user_interface_squad_set_session_advertisement, advertisement_mode);
+}
+
 e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, dword* player_error_mask)
 {
     return INVOKE(0x00A809F0, user_interface_get_session_game_start_status, error, player_error_mask);
@@ -54,5 +59,12 @@ long __cdecl user_interface_squad_get_countdown_timer()
         return network_squad_session_get_countdown_timer();
 
     return -1;
+}
+
+e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode()
+{
+    //return INVOKE(0x00A83180, user_interface_squad_get_ui_game_mode);
+
+    return network_life_cycle_squad_session_get_ui_game_mode();
 }
 

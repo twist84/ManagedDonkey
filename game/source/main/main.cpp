@@ -6,6 +6,7 @@
 #include "camera/director.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
+#include "dialogs/show_direct_connect.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_candy_monitor.hpp"
 #include "game/player_control.hpp"
@@ -17,7 +18,6 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_hs.hpp"
-#include "interface/user_interface_networking.hpp"
 #include "main/global_preferences.hpp"
 #include "main/loading.hpp"
 #include "main/main_game_launch.hpp"
@@ -29,7 +29,6 @@
 #include "networking/logic/network_join.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/session/network_managed_session.hpp"
-#include "networking/tools/network_debug_dump.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
@@ -92,58 +91,6 @@ void show_location_messages()
 	}
 }
 
-void __cdecl direct_connect(transport_address address, s_transport_session_description description)
-{
-	XNetAddEntry(&address, &description.address, &description.id);
-	sub_69D600();
-	user_interface_join_remote_session(false, _network_session_class_system_link, &description.id, &description.address, &description.key);
-}
-
-void show_direct_connect_dialog()
-{
-	bool dialog_succeeded = false;
-
-	c_static_wchar_string<16> insecure_ip;
-	c_static_wchar_string<16> port;
-	c_static_wchar_string<128> secure_ip;
-	c_static_wchar_string<128> session_id;
-	{
-		c_static_string<16> _insecure_ip;
-		c_static_string<128> _secure_ip;
-		get_system_ip_addresses(&_insecure_ip, &_secure_ip);
-
-		char const* _session_id = managed_session_get_id_string(1);
-
-		insecure_ip.print(L"%hs", _insecure_ip.get_string());
-		secure_ip.print(L"%hs", _secure_ip.get_string());
-
-		session_id.print(L"%hs", _session_id);
-
-		REFERENCE_DECLARE(0x01860454, word, game_port);
-		port.print(L"%hd", game_port);
-	}
-
-	transport_address address{};
-	s_transport_session_description description{};
-	{
-		wchar_t result_ip_text[128]{};
-		wchar_t result_port_text[128]{};
-		wchar_t result_id_text[128]{};
-		wchar_t result_address_text[128]{};
-		XShowConnectUI(insecure_ip.get_string(), port.get_string(), session_id.get_string(), secure_ip.get_string(), result_ip_text, result_port_text, result_id_text, result_address_text, get_donkey_module(), &dialog_succeeded);
-
-		c_static_wchar_string<32> ip_port_str;
-		ip_port_str.print(L"%s:%s", result_ip_text, result_port_text);
-
-		transport_address_from_string(ip_port_str.get_string(), address);
-		transport_secure_identifier_from_string(result_id_text, description.id);
-		transport_secure_address_from_string(result_address_text, description.address);
-	}
-
-	if (dialog_succeeded)
-		direct_connect(address, description);
-}
-
 void __cdecl main_loop_body_begin()
 {
 	// right control for tests
@@ -159,6 +106,9 @@ void __cdecl main_loop_body_begin()
 		g_restricted_regions;
 		input_globals;
 		online_session_manager_globals;
+
+		//transport_address local_machine_address{};
+		//get_local_machine_address(&local_machine_address);
 
 		long player_count = 0;
 		{
@@ -215,7 +165,7 @@ void __cdecl main_loop_body_begin()
 		input_abstraction_globals.controls_method = controls_method;
 	}
 
-	copy_input_states(false);
+	copy_input_states(true);
 	show_location_messages();
 
 	if (input_key_frames_down(_key_code_right_alt, _input_type_ui) == 1)

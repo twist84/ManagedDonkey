@@ -564,6 +564,12 @@
     <ClCompile Include="source\xbox\xbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\network_globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\dialogs\show_direct_connect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1536,6 +1542,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\xbox\xbox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\network_globals.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\dialogs\show_direct_connect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

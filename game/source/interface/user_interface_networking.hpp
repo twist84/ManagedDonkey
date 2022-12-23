@@ -43,6 +43,11 @@ static_assert(sizeof(s_user_interface_networking_globals) == 0x88);
 
 extern s_user_interface_networking_globals& user_interface_networking_globals;
 
+enum e_gui_game_mode;
+enum e_gui_network_session_advertisement_mode;
+
 extern void __cdecl sub_69D600();
 extern bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, long session_class, s_transport_secure_identifier* remote_session_id, s_transport_secure_address* remote_host_address, s_transport_secure_key* key);
+extern bool __cdecl user_interface_networking_enter_pregame_location(e_gui_game_mode game_mode);
+extern e_gui_network_session_advertisement_mode __cdecl user_interface_networking_get_session_advertisement();
 

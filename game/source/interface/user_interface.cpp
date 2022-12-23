@@ -49,3 +49,8 @@ bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_
     return INVOKE(0x00A84D60, user_interface_should_show_console_scoreboard, user_interface_show_busy_state);
 }
 
+void __cdecl user_interface_update(real ui_time)
+{
+    INVOKE(0x00A84EE0, user_interface_update, ui_time);
+}
+
