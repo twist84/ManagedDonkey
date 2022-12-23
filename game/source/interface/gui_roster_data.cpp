@@ -23,7 +23,10 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
 	case STRING_ID(gui, base_color_hilite):
     {
         s_player_configuration* player_data = user_interface_session_get_player_data(_this->m_players[player_row_index].player_index);
-        *integer_value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
+        if (player_data)
+        {
+            *integer_value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
+        }
 
         // #TODO: update the session player with correct data, for now we grey
         *integer_value = 0xFF7F7F7F;
@@ -163,13 +166,16 @@ bool __fastcall c_gui_roster_data::_get_text_value(c_gui_roster_data* _this, voi
             else
             {
                 s_player_configuration* player_data = user_interface_session_get_player_data(player_index);
-                if (!text_value->length())
+                if (player_data)
                 {
-                    text_value->print(L"%s - %s", L"SPARTAN", player_data->host.appearance.service_tag.get_string());
-                }
-                else
-                {
-                    text_value->append(player_data->host.appearance.service_tag.get_string());
+                    if (!text_value->length())
+                    {
+                        text_value->print(L"%s - %s", L"SPARTAN", player_data->host.appearance.service_tag.get_string());
+                    }
+                    else
+                    {
+                        text_value->append(player_data->host.appearance.service_tag.get_string());
+                    }
                 }
             }
         }
