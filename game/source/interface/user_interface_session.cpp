@@ -39,6 +39,8 @@ long __cdecl user_interface_squad_get_player_index(s_player_identifier const* pl
 
 long __cdecl user_interface_squad_get_countdown_delaying_player()
 {
+    //return INVOKE(0x00A82AD0, user_interface_squad_get_countdown_delaying_player);
+
     //return network_squad_session_get_countdown_delayed_culprit();
 
     return -1;
@@ -46,6 +48,8 @@ long __cdecl user_interface_squad_get_countdown_delaying_player()
 
 long __cdecl user_interface_squad_get_countdown_timer()
 {
+    //return INVOKE(0x00A82AE0, user_interface_squad_get_countdown_timer);
+
     if (user_interface_get_session_game_start_status(0, 0) == _session_game_start_status_countdown)
         return network_squad_session_get_countdown_timer();
 

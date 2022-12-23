@@ -197,11 +197,6 @@ enum e_subtitle_setting
 
 };
 
-enum e_gui_network_session_advertisement_mode
-{
-
-};
-
 extern void __cdecl global_preferences_flush();
 extern e_language __cdecl global_preferences_get_last_font_language();
 extern void __cdecl global_preferences_get_screen_resolution(long* width, long* height);

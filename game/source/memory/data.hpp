@@ -196,6 +196,7 @@ struct c_data_iterator
 
 public:
 	c_data_iterator(s_data_array* data) :
+		m_datum(),
 		m_iterator(data)
 	{
 	}

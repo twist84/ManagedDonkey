@@ -459,5 +459,19 @@ enum e_network_session_peer_state
 	k_network_session_peer_state_count
 };
 
+enum e_gui_network_session_advertisement_mode
+{
+	_gui_network_session_advertisement_mode_invalid = 0xFFFFFFFF,
+	_gui_network_session_advertisement_mode_open_to_public,
+	_gui_network_session_advertisement_mode_open_to_friends,
+	_gui_network_session_advertisement_mode_invite_only,
+	_gui_network_session_advertisement_mode_system_link,
+	_gui_network_session_advertisement_mode_offline,
+	_gui_network_session_advertisement_mode_full,
+
+	k_gui_network_session_advertisement_mode_count
+};
+
+
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
