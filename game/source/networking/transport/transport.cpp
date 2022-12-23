@@ -10,10 +10,10 @@
 #include <string.h>
 #include <WinSock2.h>
 
+REFERENCE_DECLARE(0x0199FA28, s_transport_globals, transport_globals);
+
 HOOK_DECLARE(0x00430630, transport_available);
 HOOK_DECLARE(0x00430650, transport_dispose);
-
-REFERENCE_DECLARE(0x0199FA28, s_transport_globals, transport_globals);
 
 bool __cdecl transport_available()
 {

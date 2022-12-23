@@ -48,8 +48,8 @@ bool __cdecl transport_secure_address_decode(s_transport_session_description con
 
 		if (session && session->initialized)
 		{
-			if (transport_secure_address_compare(secure_address, &session->status_data.host_address) == 0 &&
-				transport_secure_identifier_compare(&secure_host_description->id, &session->status_data.session_id) == 0)
+			if (transport_secure_address_compare(secure_address, &session->status_data.host_address) &&
+				transport_secure_identifier_compare(&secure_host_description->id, &session->status_data.session_id))
 			{
 				s_player_identifier& player_identifier = session->status_data.players[0].identifier;
 
@@ -107,9 +107,31 @@ bool __cdecl transport_secure_address_retrieve(transport_address const* usable_a
 {
 	//return INVOKE(0x00430DF0, transport_secure_address_retrieve, usable_address, platform, secure_address);
 
-	bool result = false;
-	HOOK_INVOKE(result =, transport_secure_address_retrieve, usable_address, platform, secure_address);
-	return result;
+	//bool result = false;
+	//HOOK_INVOKE(result =, transport_secure_address_retrieve, usable_address, platform, secure_address);
+	//return result;
+
+	if (usable_address->address_length == sizeof(dword) && usable_address->ipv4_address && platform)
+	{
+		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
+		{
+			s_available_session* session = g_broadcast_search_globals.available_sessions + i;
+
+			if (session && session->initialized)
+			{
+				if (session->status_data.players[0].identifier.ip_addr == usable_address->ipv4_address)
+				{
+					*secure_address = session->status_data.host_address;
+
+					return true;
+				}
+			}
+		}
+
+		return _XNetInAddrToXnAddr(usable_address, secure_address);
+	}
+
+	return false;
 }
 
 char* __cdecl transport_secure_address_to_string(s_transport_secure_address const* secure_address, char* _string, long maximum_string_length, bool include_online, bool include_mac)
@@ -161,7 +183,7 @@ bool __cdecl transport_secure_identifier_retrieve(transport_address const* usabl
 			}
 		}
 
-		return XNetInAddrToXnAddr(usable_address, secure_address);
+		return XNetInAddrToXnAddr(usable_address, secure_address, secure_identifier);
 	}
 
 	return false;

@@ -69,23 +69,6 @@ bool __cdecl XNetXnAddrToInAddr(s_transport_secure_address const* secure_address
 {
 	//return INVOKE(0x0052D840, XNetXnAddrToInAddr, secure_address, secure_identifier, out_address);
 
-	for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
-	{
-		s_available_session* session = g_broadcast_search_globals.available_sessions + i;
-
-		if (session->initialized)
-		{
-			if (secure_address && transport_secure_address_compare(&session->status_data.host_address, secure_address) &&
-				secure_identifier && transport_secure_identifier_compare(&session->status_data.session_id, secure_identifier))
-			{
-				out_address->ipv4_address = session->status_data.players[0].identifier.ip_addr;
-				out_address->port = 11774;
-				out_address->address_length = sizeof(dword);
-				return true;
-			}
-		}
-	}
-
 	long entry_index = XNetFindEntry(nullptr, secure_address, true);
 	if (entry_index == -1)
 		return false;
@@ -97,23 +80,9 @@ bool __cdecl XNetXnAddrToInAddr(s_transport_secure_address const* secure_address
 }
 
 // called from `transport_secure_address_retrieve`
-bool __cdecl XNetInAddrToXnAddr(transport_address const* address, s_transport_secure_address* out_secure_address)
+bool __cdecl _XNetInAddrToXnAddr(transport_address const* address, s_transport_secure_address* out_secure_address)
 {
 	//return INVOKE(0x0052D8F0, XNetInAddrToXnAddr, address, out_secure_address);
-
-	for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
-	{
-		s_available_session* session = g_broadcast_search_globals.available_sessions + i;
-
-		if (session->initialized)
-		{
-			if (session->status_data.players[0].identifier.ip_addr == address->ipv4_address)
-			{
-				*out_secure_address = session->status_data.host_address;
-				return true;
-			}
-		}
-	}
 
 	long entry_index = XNetFindEntry(address, nullptr, true);
 	if (entry_index == -1)
@@ -126,24 +95,9 @@ bool __cdecl XNetInAddrToXnAddr(transport_address const* address, s_transport_se
 }
 
 // called from `transport_secure_identifier_retrieve`
-bool __cdecl _XNetInAddrToXnAddr(transport_address const* address, s_transport_secure_address* out_secure_address, s_transport_secure_identifier* out_secure_identifier)
+bool __cdecl XNetInAddrToXnAddr(transport_address const* address, s_transport_secure_address* out_secure_address, s_transport_secure_identifier* out_secure_identifier)
 {
-	//return INVOKE(0x0052D970, _XNetInAddrToXnAddr, address, out_secure_address, out_secure_identifier);
-
-	for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
-	{
-		s_available_session* session = g_broadcast_search_globals.available_sessions + i;
-
-		if (session->initialized)
-		{
-			if (session->status_data.players[0].identifier.ip_addr == address->ipv4_address)
-			{
-				*out_secure_address = session->status_data.host_address;
-				*out_secure_identifier = session->status_data.session_id;
-				return true;
-			}
-		}
-	}
+	//return INVOKE(0x0052D970, XNetInAddrToXnAddr, address, out_secure_address, out_secure_identifier);
 
 	long entry_index = XNetFindEntry(address, nullptr, true);
 	if (entry_index == -1)
