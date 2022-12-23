@@ -3,11 +3,14 @@
 #include "cseries/console.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/c_gui_widget.hpp"
+#include "interface/user_interface_session.hpp"
 #include "memory/module.hpp"
 #include "tag_files/string_ids.hpp"
 
 HOOK_DECLARE_CLASS(0x00B24CA0, c_gui_roster_data, _get_integer_value);
 HOOK_DECLARE_CLASS(0x00B24FE0, c_gui_roster_data, _get_text_value);
+
+// #TODO: reimplement `c_gui_active_roster_data::update`
 
 bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, void* unused, long player_row_index, long name, long* integer_value)
 {
@@ -16,6 +19,19 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
     
     switch (name)
     {
+	case STRING_ID(gui, base_color):
+	case STRING_ID(gui, base_color_hilite):
+    {
+        s_player_configuration* player_data = user_interface_session_get_player_data(_this->m_players[player_row_index].player_index);
+        *integer_value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
+
+        // #TODO: update the session player with correct data, for now we grey
+        *integer_value = 0xFF7F7F7F;
+
+        if (!result)
+            return true;
+    }
+    break;
 	case STRING_ID(gui, player_index):
     {
         if (!result)
@@ -95,9 +111,6 @@ bool __fastcall c_gui_roster_data::_get_text_value(c_gui_roster_data* _this, voi
     {
     case STRING_ID(global, player_name):
     {
-        if (player_row_index >= 1 && player_row_index < 4)
-            text_value->set(controller_get(static_cast<e_controller_index>(player_row_index))->m_display_name.get_string());
-
         if (!result)
             return true;
     }
@@ -131,19 +144,32 @@ bool __fastcall c_gui_roster_data::_get_text_value(c_gui_roster_data* _this, voi
     break;
     case STRING_ID(gui, service_tag):
     {
-        // if no player has no service tag, get it from the controller interface (only safe for local players)
         if (!_this->m_players[player_row_index].player_data.host.appearance.service_tag.length())
         {
-            if (player_row_index >= 0 && player_row_index < 4)
+            long player_index = _this->m_players[player_row_index].player_index;
+            if (user_interface_session_is_local_player(player_index))
             {
-                if (text_value->length())
+                c_controller_interface* controller = controller_get(_this->m_players[player_row_index].controller_index);
+
+                if (!text_value->length())
                 {
-                    text_value->append(controller_get(static_cast<e_controller_index>(player_row_index))->m_player_profile.desired_service_tag);
+                    text_value->print(L"%s - %s", L"SPARTAN", controller->m_player_profile.desired_service_tag);
                 }
                 else
                 {
-                    // simulate added controllers
-                    text_value->append_print(L"%s - %s", L"SPARTAN", controller_get(static_cast<e_controller_index>(player_row_index))->m_player_profile.desired_service_tag);
+                    text_value->append(controller->m_player_profile.desired_service_tag);
+                }
+            }
+            else
+            {
+                s_player_configuration* player_data = user_interface_session_get_player_data(player_index);
+                if (!text_value->length())
+                {
+                    text_value->print(L"%s - %s", L"SPARTAN", player_data->host.appearance.service_tag.get_string());
+                }
+                else
+                {
+                    text_value->append(player_data->host.appearance.service_tag.get_string());
                 }
             }
         }

@@ -19,6 +19,8 @@ public:
 	static void __cdecl show_scoreboard(e_controller_index controller_index, bool is_interactive);
 	static void __cdecl update_scoreboard_alpha(e_controller_index controller_index);
 
+	static void __fastcall _update_render_state(c_gui_screen_scoreboard* _this, void* unused, dword a2);
+
 protected:
 	long m_current_scoreboard_mode;
 	bool m_is_interactive;

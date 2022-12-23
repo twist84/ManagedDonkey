@@ -5,10 +5,15 @@
 #include "game/game_engine.hpp"
 #include "game/game_engine_display.hpp"
 #include "game/game_engine_team.hpp"
+#include "interface/c_gui_bitmap_widget.hpp"
+#include "interface/c_gui_list_item_widget.hpp"
+#include "interface/c_gui_list_widget.hpp"
 #include "interface/user_interface_session.hpp"
+#include "interface/user_interface_utilities.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "simulation/simulation.hpp"
+#include "tag_files/string_ids.hpp"
 
 #include <cstdlib> // qsort
 
@@ -45,6 +50,39 @@ bool __cdecl c_gui_screen_scoreboard::is_scoreboard_interactive(e_controller_ind
 void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index controller_index, bool is_interactive)
 {
 	INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
+}
+
+HOOK_DECLARE_CLASS(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
+
+void __fastcall c_gui_screen_scoreboard::_update_render_state(c_gui_screen_scoreboard* _this, void* unused, dword a2)
+{
+	HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, dword), _this, a2);
+
+	c_gui_list_widget* child_list_widget = _this->get_child_list_widget(STRING_ID(gui, scoreboard));
+	c_gui_data* data = _this->get_data(STRING_ID(gui, scoreboard), 0);
+	if (child_list_widget && data)
+	{
+		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
+			list_item_widget;
+			list_item_widget = list_item_widget->get_next_list_item_widget(true))
+		{
+			c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
+
+			long element_handle = list_item_widget->get_element_handle();
+
+			long base_color = 0;
+
+			if (base_color_bitmap_widget)
+			{
+				if (game_engine_has_teams())
+					return;
+
+				data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color);
+
+				tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<dword>(base_color) });
+			}
+		}
+	}
 }
 
 void __cdecl c_gui_screen_scoreboard::update_scoreboard_alpha(e_controller_index controller_index)
@@ -131,7 +169,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					if (user_interface_session_is_local_player(session_player_index))
 						controller_index = user_interface_session_get_controller_index(session_player_index);
 
-					long base_color = -1;
+					long base_color = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
 					long voice_for_player = 0;
 
 					add_player_internal(
@@ -194,7 +232,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 						if (user_interface_session_is_local_player(network_player_index))
 							controller_index = user_interface_session_get_controller_index(network_player_index);
 
-						long base_color = -1;
+						long base_color = player->configuration.host.armor.loadouts[player->active_armor_loadout].colors[0].value;
 						long voice_for_player = 0;
 
 						add_player_internal(
@@ -220,7 +258,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					}
 					else
 					{
-						long base_color = -1;
+						long base_color = player->configuration.host.armor.loadouts[player->active_armor_loadout].colors[0].value;
 						long player_index = player_iterator.index;
 						bool left = TEST_BIT(player->player_flags, 1);
 						team_round_score = 0;
