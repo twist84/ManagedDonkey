@@ -126,7 +126,7 @@ POPD
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -397,7 +397,7 @@ POPD
   <ItemGroup>
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\networking\network_globals.hpp" />
-    <ClInclude Include="source\resource.h" />
+    <ClInclude Include="resource\resource.h" />
     <ClInclude Include="source\ai\ai_flocks.hpp" />
     <ClInclude Include="source\ai\ai_globals.hpp" />
     <ClInclude Include="source\ai\ai_hint_definitions.hpp" />
@@ -735,7 +735,7 @@ POPD
     <None Include="source\tag_files\string_ids\string_ids.saved_game_strings.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="source\resource.rc" />
+    <ResourceCompile Include="resource\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
