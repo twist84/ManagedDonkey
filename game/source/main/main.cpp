@@ -1,5 +1,6 @@
 #include "main/main.hpp"
 
+#include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files.hpp"
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
@@ -106,6 +107,7 @@ void __cdecl main_loop_body_begin()
 		g_restricted_regions;
 		input_globals;
 		online_session_manager_globals;
+		g_cache_file_io_arena;
 
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);
