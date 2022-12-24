@@ -16,6 +16,9 @@ extern real& loading_globals_progress;
 extern bool& loading_globals_spinner_enabled;
 extern bool& loading_globals_progress_start;
 
+extern long& loaded_resource_bytes;
+extern long& total_resource_bytes;
+
 extern void __cdecl loading_basic_progress_complete();
 extern void __cdecl loading_basic_progress_disable();
 extern void __cdecl loading_basic_progress_enable(char const* scenario_path, long insertion_point);

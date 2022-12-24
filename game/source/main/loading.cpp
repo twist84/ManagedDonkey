@@ -22,6 +22,9 @@ REFERENCE_DECLARE(0x02390D34, real, loading_globals_progress);
 REFERENCE_DECLARE(0x02390D38, bool, loading_globals_spinner_enabled);
 REFERENCE_DECLARE(0x02390D39, bool, loading_globals_progress_start);
 
+REFERENCE_DECLARE(0x0471AA58, long, loaded_resource_bytes);
+REFERENCE_DECLARE(0x0471AA5C, long, total_resource_bytes);
+
 void __cdecl loading_basic_progress_complete()
 {
 	INVOKE(0x0052EDF0, loading_basic_progress_complete);
@@ -170,12 +173,9 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 		if (disable_progress_screen)
 			return 8;
 
-		REFERENCE_DECLARE(0x0471AA58, long, long_471AA58);
-		REFERENCE_DECLARE(0x0471AA5C, long, long_471AA5C);
-
 		long loading_progress = 0;
-		if (long_471AA58 > 0 && long_471AA5C > 0)
-			loading_progress = long((long_471AA58 * 100.0f) / long_471AA5C);
+		if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
+			loading_progress = long((loaded_resource_bytes * 100.0f) / total_resource_bytes);
 
 		if (loading_globals_spinner_enabled)
 		{
@@ -211,7 +211,7 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 			}
 		}
 
-		if (long_471AA58 > 0 && long_471AA5C > 0)
+		if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
 		{
 			REFERENCE_DECLARE(0x0189DEE4, dword, game_language);
 
