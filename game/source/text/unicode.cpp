@@ -35,7 +35,7 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
     assert(src != NULL);
     assert(count > 0);
 
-    wcsncpy_s(dest, count - 1, src, count);
+    wcsncpy_s(dest, (count - 1) * 2, src, count);
     dest[count - 1] = 0;
 
     return dest;
