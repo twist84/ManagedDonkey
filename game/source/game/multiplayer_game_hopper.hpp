@@ -91,6 +91,24 @@ struct c_hopper_configuration
 };
 static_assert(sizeof(c_hopper_configuration) == 0x260);
 
+struct s_hopper_configuration_table
+{
+	byte __data[0x4C98];
+};
+static_assert(sizeof(s_hopper_configuration_table) == 0x4C98);
+
+struct s_game_hopper_description_table
+{
+	byte __data[0x4204];
+};
+static_assert(sizeof(s_game_hopper_description_table) == 0x4204);
+
+struct s_game_set
+{
+	byte __data[0x3C04];
+};
+static_assert(sizeof(s_game_set) == 0x3C04);
+
 extern void __cdecl multiplayer_game_hopper_update();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuration(word hopper_identifier);
