@@ -6,6 +6,8 @@
 #include <assert.h>
 #include <string.h>
 
+REFERENCE_DECLARE_ARRAY(0x01942C48, s_parse_text_entry, g_parse_text_table, 131);
+
 HOOK_DECLARE(0x00ABC070, parse_build_number_string);
 
 void wchar_string_sanitize_for_game(wchar_t* string, long maximum_character_count)
@@ -55,13 +57,13 @@ void __cdecl parse_build_number_string(e_controller_index controller_index, e_ut
     }
 }
 
-void magic_character_to_string(e_magic_character magic_character, wchar_t(&magic_string)[2])
+void utf32_to_string(e_utf32 utf32, wchar_t(&out_string)[2])
 {
     union
     {
-        dword value;
+        e_utf32 value;
         wchar_t str[2];
-    } out = { .value = magic_character };
+    } out = { .value = utf32 };
 
-    ustrnzcpy(magic_string, out.str, 2);
+    ustrnzcpy(out_string, out.str, 2);
 }

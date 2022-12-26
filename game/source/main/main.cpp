@@ -19,6 +19,7 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_hs.hpp"
+#include "interface/user_interface_text.hpp"
 #include "main/global_preferences.hpp"
 #include "main/loading.hpp"
 #include "main/main_game_launch.hpp"
@@ -108,6 +109,7 @@ void __cdecl main_loop_body_begin()
 		input_globals;
 		online_session_manager_globals;
 		g_cache_file_io_arena;
+		g_parse_text_table;
 
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);
