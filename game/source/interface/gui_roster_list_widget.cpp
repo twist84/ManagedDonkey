@@ -7,6 +7,7 @@
 #include "interface/c_gui_text_widget.hpp"
 #include "interface/gui_roster_data.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_text.hpp"
 #include "interface/user_interface_utilities.hpp"
 #include "memory/module.hpp"
 #include "tag_files/string_ids.hpp"
@@ -260,20 +261,9 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 					if (session_player_index != -1 && _this->m_temporary_team[session_player_index].temporary_team_change_active)
 					{
 						game_engine_get_team_name(_this->m_temporary_team[session_player_index].temporary_team_index, &team_name);
-						team_name;
 
-						union
-						{
-							dword left_bumper_value = 0x0000E104;
-							wchar_t left_bumper[4];
-						};
-
-						union
-						{
-							dword right_bumper_value = 0x0000E105;
-							wchar_t right_bumper[4];
-						};
-
+						MAGIC_CHARACTER(left_bumper);
+						MAGIC_CHARACTER(right_bumper);
 						name.append_print(L"%ls %s %ls", left_bumper, team_name.get_string(), right_bumper);
 
 						team_change_active = true;

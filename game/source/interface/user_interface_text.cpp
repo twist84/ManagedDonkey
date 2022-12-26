@@ -54,3 +54,14 @@ void __cdecl parse_build_number_string(e_controller_index controller_index, e_ut
         out_string->append_print(L"%hs", build_string);
     }
 }
+
+void magic_character_to_string(e_magic_character magic_character, wchar_t(&magic_string)[2])
+{
+    union
+    {
+        dword value;
+        wchar_t str[2];
+    } out = { .value = magic_character };
+
+    ustrnzcpy(magic_string, out.str, 2);
+}
