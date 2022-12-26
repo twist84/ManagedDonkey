@@ -284,8 +284,8 @@ enum e_gamepad_button
 	_gamepad_button_crouch,
 	_gamepad_button_zoom,
 	_gamepad_button_unknown31,
-	_gamepad_button_unknown32,
-	_gamepad_button_sprint,
+	_gamepad_button_lean_left,
+	_gamepad_button_lean_right, // sprint
 	_gamepad_button_flashlight,
 	_gamepad_button_unknown35,
 	_gamepad_button_unknown36,
