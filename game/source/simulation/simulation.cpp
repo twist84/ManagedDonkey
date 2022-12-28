@@ -1,4 +1,5 @@
 #include "simulation/simulation.hpp"
+
 #include "main/main.hpp"
 
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);

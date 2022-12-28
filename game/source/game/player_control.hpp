@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/aim_assist.hpp"
 #include "units/units.hpp"
 
 struct s_player_control_non_deterministic_input_user_state
@@ -27,19 +28,6 @@ struct s_player_action_context
 	dword melee_target_unit;
 };
 static_assert(sizeof(s_player_action_context) == 0xC);
-
-struct s_aim_assist_targeting_result
-{
-	bool __unknown0;
-	dword target_player_index;
-	dword target_object_index;
-	dword model_target;
-	real primary_autoaim_level;
-	real secondary_autoaim_level;
-	vector3d lead_vector;
-	dword_flags flags;
-};
-static_assert(sizeof(s_aim_assist_targeting_result) == 0x28);
 
 struct s_player_control_internal_state
 {

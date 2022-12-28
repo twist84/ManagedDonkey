@@ -396,6 +396,7 @@ POPD
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
+    <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\networking\network_globals.hpp" />
     <ClInclude Include="resource\resource.h" />
     <ClInclude Include="source\ai\ai_flocks.hpp" />
@@ -676,10 +677,12 @@ POPD
     <ClInclude Include="source\render\render_patchy_fog.hpp" />
     <ClInclude Include="source\render\render_visibility_collection.hpp" />
     <ClInclude Include="source\render\views\render_view.hpp" />
+    <ClInclude Include="source\replication\replication_encoding.hpp" />
     <ClInclude Include="source\saved_games\content_catalogue.hpp" />
     <ClInclude Include="source\saved_games\content_catalogue_tasks.hpp" />
     <ClInclude Include="source\saved_games\content_item.hpp" />
     <ClInclude Include="source\saved_games\c_storage_device.hpp" />
+    <ClInclude Include="source\saved_games\determinism_debug_manager.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\scenario\scenario.hpp" />

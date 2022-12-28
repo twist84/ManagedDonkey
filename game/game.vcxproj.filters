@@ -1550,6 +1550,15 @@
     <ClInclude Include="source\dialogs\show_direct_connect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\game\aim_assist.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\replication\replication_encoding.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\saved_games\determinism_debug_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
