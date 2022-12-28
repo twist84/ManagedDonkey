@@ -111,14 +111,14 @@ struct c_controller_input_message;
 
 struct gui_real_rectangle2d
 {
-	real __unknown0;
-	real __unknown1;
-	real __unknown2;
-	real __unknown3;
-	real __unknown4;
-	real __unknown5;
-	real __unknown6;
-	real __unknown7;
+	real x0_0;
+	real y0_0;
+	real x0_1;
+	real y0_1;
+	real x1_0;
+	real y0_2;
+	real x1_1;
+	real y1_0;
 };
 static_assert(sizeof(gui_real_rectangle2d) == 0x20);
 

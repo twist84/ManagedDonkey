@@ -229,13 +229,13 @@ void __fastcall c_gui_widget::get_unprojected_bounds(c_gui_widget* _this, void* 
 
 	real scale = scales[scale_index];
 
-	unprojected_bounds->__unknown0 *= scale;
-	unprojected_bounds->__unknown1 *= scale;
-	unprojected_bounds->__unknown2 *= scale;
-	unprojected_bounds->__unknown3 *= scale;
-	unprojected_bounds->__unknown4 *= scale;
-	unprojected_bounds->__unknown5 *= scale;
-	unprojected_bounds->__unknown6 *= scale;
-	unprojected_bounds->__unknown7 *= scale;
+	unprojected_bounds->x0_0 *= scale;
+	unprojected_bounds->y0_0 *= scale;
+	unprojected_bounds->x0_1 *= scale;
+	unprojected_bounds->y0_1 *= scale;
+	unprojected_bounds->x1_0 *= scale;
+	unprojected_bounds->y0_2 *= scale;
+	unprojected_bounds->x1_1 *= scale;
+	unprojected_bounds->y1_0 *= scale;
 }
 
