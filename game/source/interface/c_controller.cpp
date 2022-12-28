@@ -10,7 +10,7 @@ REFERENCE_DECLARE(0x0524EC48, s_controller_globals, g_controller_globals);
 c_controller_interface* __cdecl controller_get_hook(e_controller_index controller_index)
 {
 	c_controller_interface* controller = controller_get(controller_index);
-	if (!controller->is_attached())
+	if (false && !controller->is_attached())
 	{
 		// set attached bit
 		controller->m_state_flags.set(c_controller_interface::_controller_state_flag_attached, true);
