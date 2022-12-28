@@ -71,11 +71,11 @@ struct c_hopper_configuration
 	byte chance_of_gathering[16];
 	long experience_points_per_win;
 	long experience_penalty_per_drop;
-	long minimum_mu_per_level[49];
+	real minimum_mu_per_level[49];
 	char maximum_skill_level_match_delta[50];
-	long trueskill_sigma_multiplier;
-	long trueskill_beta_performance_variation;
-	long trueskill_tau_dynamics_factor;
+	real trueskill_sigma_multiplier;
+	real trueskill_beta_performance_variation;
+	real trueskill_tau_dynamics_factor;
 	bool trueskill_adjust_tau_with_update_weight;
 	long trueskill_draw_probability;
 	long trueskill_hillclimb_w0;
@@ -204,10 +204,10 @@ struct s_game_set
 };
 static_assert(sizeof(s_game_set) == 0x3C04);
 
+extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);
 extern void __cdecl multiplayer_game_hopper_update();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuration(word hopper_identifier);
 extern bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_count, long valid_map_mask, s_game_hopper_picked_game_collection* game_collection_out);
 extern e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_identifier, bool is_matchmaking, bool check_hopper, c_network_session_membership const* session_membership, word* out_player_error_mask);
-extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);
 
