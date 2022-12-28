@@ -11,8 +11,10 @@ enum e_simulation_world_type
 	_simulation_world_type_none = 0,
 	_simulation_world_type_local,
 	_simulation_world_type_local_playback,
-	_simulation_world_type_synchronous_server,
-	_simulation_world_type_synchronous_client,
+	_simulation_world_type_synchronous_game_server,
+	_simulation_world_type_synchronous_game_client,
+	_simulation_world_type_synchronous_film_server,
+	_simulation_world_type_synchronous_film_client,
 	_simulation_world_type_distributed_server,
 	_simulation_world_type_distributed_client,
 
