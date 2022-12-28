@@ -2,19 +2,12 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/secure_signature.hpp"
+#include "networking/session/network_session_parameters_matchmaking.hpp"
 #include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
 struct s_game_hopper_picked_game_collection;
 struct c_network_session_membership;
-
-struct c_hopper_category
-{
-	word category_identifier;
-	short category_image;
-	c_static_string<32> category_name;
-};
-static_assert(sizeof(c_hopper_category) == 0x24);
 
 enum e_hopper_type
 {
@@ -166,7 +159,7 @@ static_assert(sizeof(c_hopper_configuration) == 0x260);
 struct s_hopper_configuration_table
 {
 	long hopper_category_count;
-	c_static_array<c_hopper_category, 4> hopper_category;
+	c_static_array<s_network_session_matchmaking_hopper_category, 4> hopper_category;
 
 	long hopper_configuration_count;
 	c_static_array<c_hopper_configuration, 32> hopper_configurations;
