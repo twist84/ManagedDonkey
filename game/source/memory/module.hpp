@@ -2,15 +2,15 @@
 
 #include "cseries/cseries.hpp"
 
-#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) c_hook_call STRCONCAT(NAME##_hook,__LINE__)(ADDR, { .address = ADDR2 })
-#define HOOK_DECLARE_CALL(ADDR, NAME) c_hook_call STRCONCAT(NAME##_hook,__LINE__)(ADDR, { .pointer = NAME })
-#define HOOK_DECLARE(ADDR, NAME) c_hook NAME##_hook(ADDR, { .pointer = NAME })
-#define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) c_hook CLASS##_##NAME##_hook(ADDR, { .pointer = CLASS::NAME })
+#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(ADDR, { .address = ADDR2 })
+#define HOOK_DECLARE_CALL(ADDR, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(ADDR, { .pointer = NAME })
+#define HOOK_DECLARE(ADDR, NAME) static c_hook NAME##_hook(ADDR, { .pointer = NAME })
+#define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) static c_hook CLASS##_##NAME##_hook(ADDR, { .pointer = CLASS::NAME })
 #define HOOK_INVOKE(RESULT, NAME, ...) { NAME##_hook.apply(true); RESULT reinterpret_cast<decltype(NAME)*>(NAME##_hook.get_original())(__VA_ARGS__); NAME##_hook.apply(false); }
 #define HOOK_INVOKE_CLASS(RESULT, CLASS, NAME, TYPE, ...) { CLASS##_##NAME##_hook.apply(true); RESULT reinterpret_cast<TYPE>(CLASS##_##NAME##_hook.get_original())(__VA_ARGS__); CLASS##_##NAME##_hook.apply(false); }
 
-#define DATA_PATCH_DECLARE(ADDR, NAME, ...) c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
-#define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, ...) c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, SIZE, __VA_ARGS__)
+#define DATA_PATCH_DECLARE(ADDR, NAME, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
+#define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, SIZE, __VA_ARGS__)
 
 union module_address
 {
