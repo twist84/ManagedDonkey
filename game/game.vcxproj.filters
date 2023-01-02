@@ -570,6 +570,9 @@
     <ClCompile Include="source\dialogs\show_direct_connect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\cseries_events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1557,6 +1560,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\saved_games\determinism_debug_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\cseries_events.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

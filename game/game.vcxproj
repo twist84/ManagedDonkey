@@ -223,6 +223,7 @@ POPD
     <ClCompile Include="source\cseries\async_xoverlapped.cpp" />
     <ClCompile Include="source\cseries\async_xoverlapped_memory.cpp" />
     <ClCompile Include="source\cseries\console.cpp" />
+    <ClCompile Include="source\cseries\cseries_events.cpp" />
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
     <ClCompile Include="source\cseries\real_math.cpp" />
@@ -395,6 +396,7 @@ POPD
     <ClCompile Include="source\xbox\xnet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\cseries\cseries_events.hpp" />
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\networking\network_globals.hpp" />
