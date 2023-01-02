@@ -14,10 +14,27 @@ enum e_game_team;
 enum e_multiplayer_team_designator;
 enum e_game_engine_kill_flags;
 enum e_simulation_entity_type;
-struct s_game_engine_state_data;
 struct s_game_engine_event_data;
 enum e_simulation_event_type;
 struct s_multiplayer_runtime_globals_definition;
+
+struct s_game_engine_state_data
+{
+	word_flags initial_teams;
+	word_flags valid_designators;
+	word_flags valid_teams;
+	word_flags active_teams;
+	word game_simulation;
+	c_static_array<short, 9> team_designator_to_team_index;
+	c_static_array<byte, 8> team_lives_per_round;
+	byte current_state;
+	bool game_finished;
+	word round_index;
+	word round_timer;
+	byte_flags round_condition_flags;
+	byte pad2B[1];
+};
+static_assert(sizeof(s_game_engine_state_data) == 0x2C);
 
 struct c_game_engine
 {

@@ -29,11 +29,11 @@ static_assert(sizeof(s_multiplayer_weapon_tracker) == 0x10);
 struct s_game_engine_globals
 {
 	dword_flags flags;
-	word valid_team_mask;
-	word __unknown6;
-	word __unknown8;
-	word __unknownA;
-	word_flags __unknownC;
+	word_flags valid_team_mask;
+	word_flags initial_teams;
+	word_flags valid_designators;
+	word_flags valid_teams;
+	word_flags active_teams;
 	word game_simulation;
 	c_static_array<short, 9> team_designator_to_team_index;
 	c_static_array<byte, 8> team_lives_per_round;
@@ -43,10 +43,10 @@ struct s_game_engine_globals
 	c_static_array<long, 16> player_simulation_object_glue_indices;
 	byte __data74[0x4];
 	c_map_variant map_variant;
-	short state;
+	short current_state;
 	short round_index;
-	dword round_time;
-	byte game_engine_round_condition;
+	dword round_timer;
+	byte round_condition_flags;
 	s_game_engine_score_list score_list;
 
 	union
@@ -81,7 +81,7 @@ struct s_game_engine_globals
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
 	dword __unknown13D9C;
 	dword desired_state;
-	bool __unknown13DA4;
+	bool game_finished;
 	dword __unknown13DA8;
 	dword __unknown13DAC;
 	c_enum<e_game_engine_type, long, k_game_engine_type_count> game_engine_index;
