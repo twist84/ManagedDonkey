@@ -8,6 +8,9 @@
 
 struct c_gui_screen_scoreboard : c_gui_screen_widget
 {
+private:
+	static void __cdecl translate_widget_recursive(c_gui_widget* widget, long a2, long a3);
+
 public:
 	enum e_scoreboard_mode;
 

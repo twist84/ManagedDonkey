@@ -86,6 +86,9 @@ c_hook::c_hook(dword address, module_address const function, bool remove_base) :
 
 bool c_hook::apply(bool revert)
 {
+	if (m_addr.pointer == nullptr || m_orig.pointer == nullptr)
+		return false;
+
 	if (NO_ERROR != DetourTransactionBegin())
 		return false;
 

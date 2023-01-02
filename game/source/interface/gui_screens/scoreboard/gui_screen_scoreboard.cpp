@@ -20,7 +20,15 @@
 REFERENCE_DECLARE_ARRAY(0x05269788, real, c_gui_screen_scoreboard::m_scoreboard_alpha, 4);
 REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboard_alpha);
 
+// for some reason unknown to me these hooks are being zeroed out
+// meaning `HOOK_INVOKE` and `HOOK_INVOKE_CLASS` can't be used, so they're mostly reimplement now
 HOOK_DECLARE(0x00AB3DA0, gui_scoreboard_data_update);
+HOOK_DECLARE_CLASS(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
+
+void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, long a2, long a3)
+{
+	INVOKE(0x00AB2870, c_gui_screen_scoreboard::translate_widget_recursive, widget, a2, a3);
+}
 
 real __cdecl c_gui_screen_scoreboard::get_scoreboard_alpha(e_controller_index controller_index)
 {
@@ -52,34 +60,88 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
 }
 
-HOOK_DECLARE_CLASS(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
-
 void __fastcall c_gui_screen_scoreboard::_update_render_state(c_gui_screen_scoreboard* _this, void* unused, dword a2)
 {
-	HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, dword), _this, a2);
+	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, dword), _this, a2);
 
 	c_gui_list_widget* child_list_widget = _this->get_child_list_widget(STRING_ID(gui, scoreboard));
 	c_gui_data* data = _this->get_data(STRING_ID(gui, scoreboard), 0);
-	if (child_list_widget && data)
+
+	//c_gui_widget::update_render_state
+	DECLFUNC(0x00ABB1A0, void, __thiscall, c_gui_widget*, dword)(_this, a2);
+
+	if (child_list_widget)
 	{
-		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
-			list_item_widget;
-			list_item_widget = list_item_widget->get_next_list_item_widget(true))
+		if (data)
 		{
-			c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
+			bool has_teams = game_engine_has_teams();
 
-			long element_handle = list_item_widget->get_element_handle();
-
-			long base_color = 0;
-
-			if (base_color_bitmap_widget)
+			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
+				list_item_widget;
+				list_item_widget = list_item_widget->get_next_list_item_widget(true))
 			{
-				if (game_engine_has_teams())
-					return;
+				c_gui_bitmap_widget* base_color_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, base_color));
+				c_gui_text_widget* name_text_widget = list_item_widget->get_child_text_widget(STRING_ID(global, name));
+				c_gui_text_widget* team_bar_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, team_bar));
+				c_gui_text_widget* service_tag_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag));
+				c_gui_text_widget* service_tag_hilite_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, service_tag_hilite));
+				c_gui_text_widget* place_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, place));
+				c_gui_text_widget* score_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, score));
+				c_gui_text_widget* round_score_text_widget = list_item_widget->get_child_text_widget(STRING_ID(gui, round_score));
+				c_gui_bitmap_widget* team_bar_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, team_bar));
+				c_gui_bitmap_widget* observer_bitmap_widget = list_item_widget->get_child_bitmap_widget(STRING_ID(gui, observer));
 
-				data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color);
+				long element_handle = list_item_widget->get_element_handle();
 
-				tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<dword>(base_color) });
+				long player_row_type = 0;
+				long base_color = 0;
+				long team_color = -1;
+
+				if (data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type)
+					&& data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color)
+					&& data->get_integer_value(element_handle, STRING_ID(gui, team_color), &team_color))
+				{
+					long color_list_index = base_color;
+					if (has_teams)
+						color_list_index = team_color;
+
+					if (has_teams)
+						tint_widget_to_change_color(base_color_bitmap_widget, color_list_index, has_teams);
+					else
+						tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<dword>(base_color) });
+
+					tint_widget_to_change_color((c_gui_widget*)name_text_widget, color_list_index, has_teams);
+					tint_widget_to_change_color((c_gui_widget*)team_bar_text_widget, color_list_index, has_teams);
+					tint_widget_to_change_color((c_gui_widget*)service_tag_text_widget, color_list_index, has_teams);
+					tint_widget_to_change_color((c_gui_widget*)service_tag_hilite_text_widget, color_list_index, has_teams);
+					tint_widget_to_change_color((c_gui_widget*)place_text_widget, color_list_index, has_teams);
+					tint_widget_to_change_color((c_gui_widget*)score_text_widget, color_list_index, has_teams);
+					tint_widget_to_change_color((c_gui_widget*)round_score_text_widget, color_list_index, has_teams);
+					tint_widget_to_change_color(team_bar_bitmap_widget, color_list_index, true);
+					tint_widget_to_change_color(observer_bitmap_widget, 16, true);
+				}
+			}
+		}
+
+		c_gui_widget* button_key_child_list_widget = _this->get_first_child_widget_by_type(_gui_widget_type_button_key_widget);
+		if (button_key_child_list_widget)
+		{
+			long v18 = 0;
+			long y19 = 0;
+			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
+				list_item_widget;
+				list_item_widget = list_item_widget->get_next_list_item_widget(false))
+			{
+				real_rectangle2d current_bounds{};
+				list_item_widget->get_current_bounds(&current_bounds);
+
+				if (list_item_widget->get_element_handle() == -1)
+					y19 = (long)current_bounds.bottom;
+				else
+					v18 = (long)current_bounds.bottom;
+
+				if (y19 != v18)
+					_this->translate_widget_recursive(button_key_child_list_widget, 0, v18 - y19);
 			}
 		}
 	}
@@ -139,9 +201,9 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 
 void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool include_score)
 {
-	c_static_wchar_string<256> place;
-	c_static_wchar_string<256> score;
-	c_static_wchar_string<256> round_score;
+	static c_static_wchar_string<256> place;
+	static c_static_wchar_string<256> score;
+	static c_static_wchar_string<256> round_score;
 
 	place.set(L" ");
 	score.set(L" ");
@@ -293,8 +355,8 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 
 		if (include_team_score)
 		{
-			s_player_appearance player_appearance; // for emblem?
-			c_static_wchar_string<256> team_name;
+			static s_player_appearance player_appearance; // for emblem?
+			static c_static_wchar_string<256> team_name;
 
 			csmemset(&player_appearance, 0, sizeof(s_player_appearance));
 			team_name.clear();
