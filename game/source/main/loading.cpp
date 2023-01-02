@@ -81,6 +81,7 @@ bool __cdecl main_blocking_load_in_progress(real* out_progress)
 }
 
 bool force_load_map_failed = false;
+bool force_load_map_mainmenu_launch = false;
 
 //bool __cdecl main_load_map(char const *,enum e_map_load_type)
 bool __cdecl main_load_map(char* scenario_path, long map_load_type)
@@ -88,24 +89,23 @@ bool __cdecl main_load_map(char* scenario_path, long map_load_type)
 	if (force_load_map_failed)
 		return false;
 
-	bool result = false;
-	HOOK_INVOKE(result =, main_load_map, scenario_path, map_load_type);
-
-	// still a hack fix
-	if (csstricmp(scenario_path, "maps\\mainmenu") == 0)
+	// there isn't actually a need for the code below to run,
+	// the game will load when something is set somewhere else unrelated to this function
+	// use `force_load_map_mainmenu_launch` for quickload back to the mainmenu
+	if (force_load_map_mainmenu_launch && csstricmp(scenario_path, "maps\\mainmenu") == 0)
 	{
 		static long count = 0;
 		count++;
-
+	
 		// 300 gives the scoreboard enough time to show up
 		if (count <= 300)
-			return result;
-
+			return true;
+	
 		count = 0;
 		main_menu_launch();
 	}
 
-	return result;
+	return main_load_map_with_insertion_point(-1, scenario_path, map_load_type);
 }
 
 // a2 is possibly insertion_point
