@@ -129,3 +129,4 @@ static_assert(sizeof(s_simulation_globals) == 0x1784);
 extern s_simulation_globals& simulation_globals;
 
 extern bool __cdecl simulation_starting_up();
+

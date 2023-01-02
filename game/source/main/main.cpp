@@ -110,6 +110,7 @@ void __cdecl main_loop_body_begin()
 		online_session_manager_globals;
 		g_cache_file_io_arena;
 		g_parse_text_table;
+		simulation_globals;
 
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);
