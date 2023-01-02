@@ -43,7 +43,7 @@ public:
 	wchar_t const* __cdecl get_text();
 
 protected:
-	long __unknownDC;
+	real __unknownDC;
 	s_text_source_data text_source_data;
 	s_runtime_text_widget_definition m_core_definition;
 	long __unknown13C;
