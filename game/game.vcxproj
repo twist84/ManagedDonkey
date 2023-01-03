@@ -636,6 +636,7 @@ POPD
     <ClInclude Include="source\networking\online\online_marketplace.hpp" />
     <ClInclude Include="source\networking\online\online_service_record.hpp" />
     <ClInclude Include="source\networking\online\online_url.hpp" />
+    <ClInclude Include="source\networking\replication\replication_entity_manager.hpp" />
     <ClInclude Include="source\networking\session\network_managed_session.hpp" />
     <ClInclude Include="source\networking\session\network_observer.hpp" />
     <ClInclude Include="source\networking\session\network_session.hpp" />
