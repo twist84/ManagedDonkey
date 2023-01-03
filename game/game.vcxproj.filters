@@ -1571,6 +1571,9 @@
     <ClInclude Include="source\networking\replication\replication_event_manager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\simulation\simulation_event_handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
