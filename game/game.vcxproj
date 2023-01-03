@@ -704,6 +704,7 @@ POPD
     <ClInclude Include="source\simulation\simulation.hpp" />
     <ClInclude Include="source\simulation\simulation_actors.hpp" />
     <ClInclude Include="source\simulation\simulation_debug_globals.hpp" />
+    <ClInclude Include="source\simulation\simulation_entity_database.hpp" />
     <ClInclude Include="source\simulation\simulation_event_handler.hpp" />
     <ClInclude Include="source\simulation\simulation_players.hpp" />
     <ClInclude Include="source\simulation\simulation_queue.hpp" />
