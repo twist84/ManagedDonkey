@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
+#include "networking/replication/replication_entity_manager.hpp"
+#include "networking/replication/replication_event_manager.hpp"
+#include "simulation/simulation_entity_database.hpp"
 #include "simulation/simulation_actors.hpp"
 #include "simulation/simulation_players.hpp"
 #include "simulation/simulation_queue.hpp"
@@ -35,7 +38,9 @@ enum e_simulation_world_state
 
 struct c_simulation_distributed_world
 {
-	byte __data[0xD0C8];
+	c_replication_entity_manager m_entity_manager;
+	c_replication_event_manager m_event_manager;
+	c_simulation_entity_database m_entity_database;
 };
 static_assert(sizeof(c_simulation_distributed_world) == 0xD0C8);
 
