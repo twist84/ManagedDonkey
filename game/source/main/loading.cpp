@@ -5,6 +5,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "game/game.hpp"
+#include "interface/user_interface_networking.hpp"
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
 #include "scenario/scenario.hpp"
@@ -89,10 +90,7 @@ bool __cdecl main_load_map(char* scenario_path, long map_load_type)
 	if (force_load_map_failed)
 		return false;
 
-	// there isn't actually a need for the code below to run,
-	// the game will load when something is set somewhere else unrelated to this function
-	// use `force_load_map_mainmenu_launch` for quickload back to the mainmenu
-	if (force_load_map_mainmenu_launch && csstricmp(scenario_path, "maps\\mainmenu") == 0)
+	if (csstricmp(scenario_path, "maps\\mainmenu") == 0)
 	{
 		static long count = 0;
 		count++;
@@ -102,7 +100,10 @@ bool __cdecl main_load_map(char* scenario_path, long map_load_type)
 			return true;
 	
 		count = 0;
-		main_menu_launch();
+
+		// main_game_change_update
+		if (!user_interface_reset_networking_to_pregame() && force_load_map_mainmenu_launch)
+			main_menu_launch();
 	}
 
 	return main_load_map_with_insertion_point(-1, scenario_path, map_load_type);

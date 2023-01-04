@@ -56,7 +56,9 @@ extern bool& debug_load_panic_to_main_menu;
 //extern void main_game_reset_map(bool reset_map);
 //extern bool main_game_reset_in_progress();
 //extern bool main_game_change_in_progress();
+
 extern void main_game_change(game_options const* options);
+
 //extern void main_game_change_abort();
 //extern void main_game_change_update();
 //extern bool main_game_change_immediate(game_options const* options);
@@ -69,6 +71,7 @@ extern void main_game_change(game_options const* options);
 //extern void main_game_load_panic();
 //extern void main_game_load_from_core_name(char const* core_name);
 //extern void main_game_load_from_core();
+
 extern void __cdecl main_menu_launch();
 
 extern void main_game_notify_language_change(e_language language);
