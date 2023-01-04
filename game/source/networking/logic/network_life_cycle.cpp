@@ -36,3 +36,8 @@ void __cdecl network_life_cycle_request_leave(bool disconnect)
     life_cycle_globals.m_state_manager.request_leave_sessions(disconnect);
 }
 
+bool __cdecl network_life_cycle_set_pre_game_state()
+{
+    return INVOKE(0x00455280, network_life_cycle_set_pre_game_state);
+}
+

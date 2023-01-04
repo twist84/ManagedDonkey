@@ -159,4 +159,5 @@ extern s_network_session_interface_globals& session_interface_globals;
 extern long __cdecl network_squad_session_get_countdown_timer();
 extern e_gui_game_mode __cdecl network_life_cycle_squad_session_get_ui_game_mode();
 extern void __cdecl network_session_interface_handle_message(long session_network_message);
+extern bool __cdecl network_squad_session_local_peer_is_leader();
 

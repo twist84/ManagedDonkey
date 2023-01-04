@@ -31,3 +31,9 @@ void __cdecl network_session_interface_handle_message(long session_network_messa
 	INVOKE(0x004365D0, network_session_interface_handle_message, session_network_message);
 }
 
+bool __cdecl network_squad_session_local_peer_is_leader()
+{
+	return INVOKE(0x00455320, network_squad_session_local_peer_is_leader);
+}
+
+
