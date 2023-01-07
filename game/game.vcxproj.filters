@@ -573,6 +573,9 @@
     <ClCompile Include="source\cseries\cseries_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\network_configuration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1575,6 +1578,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\simulation\simulation_event_handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\network_configuration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
