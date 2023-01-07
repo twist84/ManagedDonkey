@@ -21,3 +21,19 @@ struct c_network_time_statistics
 };
 static_assert(sizeof(c_network_time_statistics) == 0xD8);
 #pragma pack(pop)
+
+struct c_network_window_statistics
+{
+	long m_window_size;
+	long m_window_next_entry;
+
+	struct
+	{
+		byte __data[8];
+	} m_window_entries[32];
+
+	long m_window_total_values;
+	long m_window_aperture_msec;
+};
+static_assert(sizeof(c_network_time_statistics) == 0xD8);
+

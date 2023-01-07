@@ -400,6 +400,11 @@ POPD
     <ClInclude Include="source\cseries\cseries_events.hpp" />
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
+    <ClInclude Include="source\memory\ring_buffer.hpp" />
+    <ClInclude Include="source\memory\sliding_window.hpp" />
+    <ClInclude Include="source\networking\delivery\network_connection.hpp" />
+    <ClInclude Include="source\networking\logic\network_bandwidth.hpp" />
+    <ClInclude Include="source\networking\messages\network_message_queue.hpp" />
     <ClInclude Include="source\networking\network_configuration.hpp" />
     <ClInclude Include="source\networking\network_globals.hpp" />
     <ClInclude Include="resource\resource.h" />

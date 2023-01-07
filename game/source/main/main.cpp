@@ -31,6 +31,7 @@
 #include "networking/logic/network_join.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_configuration.hpp"
+#include "networking/network_memory.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
@@ -114,6 +115,8 @@ void __cdecl main_loop_body_begin()
 		simulation_globals;
 		g_network_configuration_initialized;
 		g_network_configuration;
+		network_shared_memory_globals;
+		network_base_memory_globals;
 
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);
