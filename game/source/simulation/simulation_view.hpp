@@ -1,11 +1,23 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/players.hpp"
 #include "networking/delivery/network_channel.hpp"
+#include "networking/replication/replication_control_view.hpp"
+#include "networking/replication/replication_entity_manager_view.hpp"
+#include "networking/replication/replication_event_manager_view.hpp"
+#include "networking/replication/replication_scheduler.hpp"
 
 struct c_simulation_distributed_view
 {
-	byte __data[0x22948];
+	byte __data0[0x4];
+	c_replication_scheduler m_scheduler;
+	c_replication_entity_manager_view m_entity_manager_view;
+	c_replication_event_manager_view m_event_manager_view;
+	c_replication_control_view m_control_view;
+
+	byte __data[0x22948 - 0x74F0];
+	//s_game_results_incremental game_results_incremental;
 };
 static_assert(sizeof(c_simulation_distributed_view) == 0x22948);
 
