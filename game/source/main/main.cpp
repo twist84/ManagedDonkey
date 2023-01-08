@@ -178,11 +178,7 @@ void __cdecl main_loop_body_begin()
 
 	copy_input_states(true);
 	show_location_messages();
-
-	if (input_key_frames_down(_key_code_right_alt, _input_type_ui) == 1)
-	{
-		show_direct_connect_dialog();
-	}
+	show_direct_connect_dialog();
 }
 
 void __cdecl main_loop_body_end()

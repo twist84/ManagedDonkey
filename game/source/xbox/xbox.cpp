@@ -94,10 +94,10 @@ long XShowKeyboardUI(
 
 struct XShowConnectUI_struct
 {
-	wchar_t const*& default_ip_text;
-	wchar_t const*& default_port_text;
-	wchar_t const*& default_id_text;
-	wchar_t const*& default_address_text;
+	wchar_t const* default_ip_text;
+	wchar_t const* default_port_text;
+	wchar_t const* default_id_text;
+	wchar_t const* default_address_text;
 
 	wchar_t* result_ip_text;       // buffer must be 16 characters in size
 	wchar_t* result_port_text;     // buffer must be 16 characters in size
@@ -174,7 +174,7 @@ long XShowConnectUI(
 	bool* dialog_succeeded
 )
 {
-	XShowConnectUI_struct params
+	static XShowConnectUI_struct params
 	{
 		default_ip_text,
 		default_port_text,
@@ -186,7 +186,7 @@ long XShowConnectUI(
 		result_address_text,
 		dialog_succeeded
 	};
-	DialogBoxParam((HINSTANCE)platform_handle, MAKEINTRESOURCE(IDD_CONNECT_DIALOG), g_game_window_handle, &XShowConnectUI_proc, (LPARAM)&params);
+	CreateDialogParam((HINSTANCE)platform_handle, MAKEINTRESOURCE(IDD_CONNECT_DIALOG), g_game_window_handle, &XShowConnectUI_proc, (LPARAM)&params);
 
 	return 0;
 }
