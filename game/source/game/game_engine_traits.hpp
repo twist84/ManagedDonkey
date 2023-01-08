@@ -26,6 +26,12 @@ enum e_game_engine_respawn_options_flags
 	_game_engine_respawn_options_respawn_at_location,
 	_game_engine_respawn_options_respawn_on_kills,
 
+	// "is_auto_respawn_countdown"
+	// "is_early_respawn_enabled"
+	// "is_early_respawn_requested"
+	// auto_respawn_enabled = !TEST_BIT(variant.respawn_options.flags, _game_engine_respawn_options_auto_respawn_disabled)
+	_game_engine_respawn_options_auto_respawn_disabled,
+
 	k_game_engine_respawn_options_flags
 };
 
@@ -36,9 +42,14 @@ enum e_game_engine_social_options_flags
 	_game_engine_social_options_team_changing_balancing_only,
 	_game_engine_social_options_friendly_fire_enabled,
 	_game_engine_social_options_betrayal_booting_enabled,
-	_game_engine_social_options_enemy_voice_enabled,
-	_game_engine_social_options_open_channel_voice_enabled,
-	_game_engine_social_options_dead_player_voice_enabled,
+
+	// removed from halo online
+	//_game_engine_social_options_enemy_voice_enabled,
+	//_game_engine_social_options_open_channel_voice_enabled,
+	//_game_engine_social_options_dead_player_voice_enabled,
+
+	// added in halo online
+	_game_engine_social_options_spartans_vs_elites_enabled,
 
 	k_game_engine_social_options_flags
 };
