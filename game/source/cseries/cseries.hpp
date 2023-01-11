@@ -83,6 +83,10 @@ static_assert(sizeof(word_flags) == 0x2);
 typedef dword dword_flags;
 static_assert(sizeof(dword_flags) == 0x4);
 
+// 64-bit flags container
+typedef qword qword_flags;
+static_assert(sizeof(qword_flags) == 0x8);
+
 // 32-bit floating-point number ranging from 1.175494351e-38F to 3.402823466e+38F
 typedef float real;
 static_assert(sizeof(real) == 0x4);

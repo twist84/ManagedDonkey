@@ -6,17 +6,41 @@
 struct s_replication_entity_view_data
 {
 	word_flags flags;
-	byte __data[0x16];
+	short view_state;
+	long entity_index;
+	qword_flags update_mask;
+
+	byte __data[0x8];
 };
 static_assert(sizeof(s_replication_entity_view_data) == 0x18);
 
+struct c_replication_entity_manager;
+struct c_replication_entity_packet_record;
+struct c_replication_entity_status_record;
 struct c_replication_entity_manager_view : c_replication_scheduler_client
 {
-	byte __data4[0x24];
+	byte __data4[0x4];
+
+	bool m_initialized;
+	bool __unknown9;
+	bool m_fatal_error;
+	byte __unknownB; // pad?
+
+	long m_view_index;
+	dword m_view_mask;
+
+	byte __dataC[0x4];
+
+	c_replication_entity_manager* m_entity_manager;
+	c_replication_entity_packet_record* m_packet_records;
+	c_replication_entity_status_record* m_outgoing_packet;
+
+	byte __data14[0x4];
 
 	c_static_array<s_replication_entity_view_data, 1024> m_views;
+	qword_flags __flags6028;
 
-	byte __data[0x96];
+	byte __data[0x90];
 };
 static_assert(sizeof(c_replication_entity_manager_view) == 0x60C0);
 

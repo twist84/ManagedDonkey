@@ -10,8 +10,8 @@ struct s_simulation_entity
 	bool exists_in_gameworld;
 	byte event_reference_count;
 	dword gamestate_index;
-	qword pending_update_mask;
-	qword force_update_mask;
+	qword_flags pending_update_mask;
+	qword_flags force_update_mask;
 	dword creation_data_size;
 	void* creation_data;
 	dword state_data_size;

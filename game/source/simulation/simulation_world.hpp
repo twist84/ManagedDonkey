@@ -45,6 +45,7 @@ struct c_simulation_distributed_world
 static_assert(sizeof(c_simulation_distributed_world) == 0xD0C8);
 
 struct c_simulation_view;
+struct s_simulation_update_node;
 struct c_simulation_world
 {
 	bool exists()
@@ -79,47 +80,63 @@ struct c_simulation_world
 
 	long m_local_machine_index;
 	c_enum<e_simulation_world_state, long, k_simulation_world_state_count> m_world_state;
+
 	dword m_last_time_disconnected;
 
-	byte __data2C[0x4];
+	long __unknown2C;
 
 	bool m_time_running;
 	bool m_time_immediate_update;
-	byte __data32[0x2];
+	byte __unknown32; // pad?
+	byte __unknown33; // pad?
 
-	long __unknown34;
+	long m_next_update_number;
 	long m_current_update_number;
 
-	byte __data3C[0x4];
+	bool m_synchronous_out_of_sync;
+	bool m_synchronous_determinism_failure;
+	byte __unknown3E; // pad?
+	byte __unknown3F; // pad?
 
-	bool __unknown40;
-	bool __unknown41;
+	// c_simulation_world::notify_gamestate_flush
+	bool m_notify_gamestate_flushed;
+
+	// c_simulation_world::notify_gamestate_flush_outside_game_tick
+	bool m_notify_gamestate_flushed_outside_game_tick;
+
+	// c_simulation_world::attach_to_map
 	bool m_attached_to_map;
-	bool __unknown43;
+
+	// c_simulation_world::skip_next_gamestate_flush
+	bool m_skipped_next_gamestate_flush;
 
 	long m_join_attempt_count;
 	dword m_last_time_active;
+
 	long __unknown4C;
 	long __unknown50;
 
-	byte __data54[0x10];
+	long __unknown54;
+	long __unknown58;
+	long __unknown5C;
 
+	long m_view_count;
 	c_static_array<c_simulation_view*, 16> m_views;
 
-	byte __dataA4[0x4];
+	long __unknownA4;
 
 	c_static_array<c_simulation_player, 16> m_players;
 	c_static_array<c_simulation_actor, 16> m_actors;
 
-	byte __data14E8[0x4];
+	long __unknown14E8;
 
 	long m_next_update_dequeue;
 	long m_update_queue_latest_entry_received_type;
 	long m_update_queue_latest_entry_received_update_number;
 	long m_update_queue_length;
 	long m_update_queue_number_of_updates;
-	long* m_update_queue_head;
-	long* m_update_queue_tail;
+	s_simulation_update_node* m_update_queue_head;
+	s_simulation_update_node* m_update_queue_tail;
 	c_simulation_queue m_bookkeeping_simulation_queue;
 	c_simulation_queue m_game_simulation_queue;
 };
