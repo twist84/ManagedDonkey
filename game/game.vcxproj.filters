@@ -576,6 +576,12 @@
     <ClCompile Include="source\networking\network_configuration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\logic_session_tracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\game_browser\gui_game_browser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1608,6 +1614,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\replication\replication_control_view.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\logic_session_tracker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

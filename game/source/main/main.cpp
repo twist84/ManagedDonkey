@@ -16,6 +16,7 @@
 #include "input/input.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/chud/chud_messaging.hpp"
+#include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_hs.hpp"
@@ -237,6 +238,28 @@ void __cdecl main_loop_body_end()
 	if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
 	{
 		player_control_toggle_machinima_camera_use_old_controls();
+	}
+
+	static long browser_type = _browser_type_system_link_games;
+	static char const* browser_type_names[k_browser_type_count]
+	{
+		"system link games",
+		"friends games",
+		"xbox live games"
+	};
+
+	if (input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
+	{
+		browser_type = (browser_type + 1) % k_browser_type_count;
+
+		c_console::write_line("setting browser type: %s", browser_type_names[browser_type]);
+	}
+
+	if (input_key_frames_down(_key_code_keypad_decimal, _input_type_ui) == 1)
+	{
+		load_game_browser(_controller_index0, 0, (e_browser_type)browser_type);
+
+		c_console::write_line("browser type: %s", browser_type_names[browser_type]);
 	}
 }
 

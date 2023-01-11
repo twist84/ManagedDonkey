@@ -3,8 +3,10 @@
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game.hpp"
+#include "game/game_time.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/logic_session_tracker.hpp"
 #include "tag_files/string_ids.hpp"
 
 #include <windows.h>
@@ -23,6 +25,18 @@ HOOK_DECLARE(0x00A93450, user_interface_messaging_post);
 //HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty);
 
 REFERENCE_DECLARE(0x052600D0, c_message_globals, g_message_globals);
+
+//c_message::c_message(e_ui_message_type type, long screen_name, e_controller_index controller, e_window_index window) :
+//	m_type(type),
+//	m_screen_name(screen_name),
+//	m_controller(controller),
+//	m_window(window)
+//{
+//	if (game_time_initialized())
+//		m_game_time_at_creation = game_time_get();
+//	else
+//		m_game_time_at_creation = 0;
+//}
 
 //c_controller.obj
 e_ui_message_type c_message::get_type() const
@@ -507,3 +521,10 @@ c_load_screen_message* load_screen_message_ctor(c_load_screen_message* message, 
 {
 	return DECLFUNC(0x00A92780, c_load_screen_message*, __thiscall, c_load_screen_message*, long, e_controller_index, e_window_index, long)(message, screen_name, controller, window, layered_position);
 }
+
+// c_load_game_browser_screen_message::c_load_game_browser_screen_message
+c_load_game_browser_screen_message* load_game_browser_screen_message_ctor(c_load_game_browser_screen_message* message, long screen_name, e_controller_index controller, e_window_index window, long layered_position, long search_flags, e_browser_type type)
+{
+	return DECLFUNC(0x00ADE0B0, c_load_game_browser_screen_message*, __thiscall, c_load_game_browser_screen_message*, long, e_controller_index, e_window_index, long, long, e_browser_type)(message, screen_name, controller, window, layered_position, search_flags, type);
+}
+

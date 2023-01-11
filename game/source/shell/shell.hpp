@@ -472,6 +472,29 @@ enum e_gui_network_session_advertisement_mode
 	k_gui_network_session_advertisement_mode_count
 };
 
+enum e_ui_message_type
+{
+	_ui_message_type_unknown0 = 0,
+	_ui_message_type_controller_input,
+	_ui_message_type_xenon,
+	_ui_message_type_load_screen,
+	_ui_message_type_unknown4,
+	_ui_message_type_screen_custom,
+	_ui_message_type_unknown6,
+	_ui_message_type_dialog_result,
+};
+
+enum e_browser_type
+{
+	// names from string ids used it `<browser-title` game tag parser data function
+
+	_browser_type_system_link_games = 0,
+	_browser_type_friends_games,
+	_browser_type_xbox_live_games,
+
+	k_browser_type_count
+};
+
 
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);

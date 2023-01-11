@@ -283,6 +283,7 @@ POPD
     <ClCompile Include="source\interface\gui_location_manager.cpp" />
     <ClCompile Include="source\interface\gui_roster_data.cpp" />
     <ClCompile Include="source\interface\gui_roster_list_widget.cpp" />
+    <ClCompile Include="source\interface\gui_screens\game_browser\gui_game_browser.cpp" />
     <ClCompile Include="source\interface\gui_screens\main_menu\gui_screen_main_menu.cpp" />
     <ClCompile Include="source\interface\gui_screens\matchmaking\gui_screen_matchmaking_match_found.cpp" />
     <ClCompile Include="source\interface\gui_screens\matchmaking\gui_screen_matchmaking_searching.cpp" />
@@ -329,6 +330,7 @@ POPD
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_start.cpp" />
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_manager.cpp" />
     <ClCompile Include="source\networking\logic\logic_qos_reply_manager.cpp" />
+    <ClCompile Include="source\networking\logic\logic_session_tracker.cpp" />
     <ClCompile Include="source\networking\logic\network_arbitration.cpp" />
     <ClCompile Include="source\networking\logic\network_broadcast_search.cpp" />
     <ClCompile Include="source\networking\logic\network_join.cpp" />
@@ -400,9 +402,11 @@ POPD
     <ClInclude Include="source\cseries\cseries_events.hpp" />
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
+    <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />
+    <ClInclude Include="source\networking\logic\logic_session_tracker.hpp" />
     <ClInclude Include="source\networking\logic\network_bandwidth.hpp" />
     <ClInclude Include="source\networking\messages\network_message_queue.hpp" />
     <ClInclude Include="source\networking\network_configuration.hpp" />

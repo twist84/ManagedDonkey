@@ -4,15 +4,6 @@
 #include "interface/user_interface_controller.hpp"
 #include "shell/shell.hpp"
 
-enum e_ui_message_type
-{
-	_ui_message_type_controller_input = 0x1,
-	_ui_message_type_xenon = 0x2,
-	_ui_message_type_load_screen = 0x3,
-	_ui_message_type_screen_custom = 0x6,
-	_ui_message_type_dialog_result = 0x7,
-};
-
 struct c_gui_screen_widget;
 
 struct c_message
@@ -21,6 +12,8 @@ public:
 	virtual void* destructor(dword);
 	virtual void initialize();
 	virtual void update();
+
+	//c_message(e_ui_message_type type, long screen_name, e_controller_index controller, e_window_index window);
 
 	e_ui_message_type get_type() const;
 	long get_screen_name() const;
@@ -163,24 +156,13 @@ protected:
 };
 static_assert(sizeof(c_load_dialog_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
-enum e_browser_type
-{
-	// names from string ids used it `<browser-title` game tag parser data function
-
-	_browser_type_system_link_games = 0,
-	_browser_type_friends_games,
-	_browser_type_xbox_live_games,
-
-	k_browser_type_count
-};
-
 struct c_load_game_browser_screen_message : c_load_screen_message
 {
 protected:
 	dword_flags m_squad_search_flags;
 	c_enum<e_browser_type, long, k_browser_type_count> m_type;
 };
-
+static_assert(sizeof(c_load_game_browser_screen_message) == sizeof(c_load_screen_message) + 0x8);
 
 struct c_message_globals
 {
@@ -235,3 +217,5 @@ extern void __cdecl user_interface_messaging_pop(c_message* message);
 extern bool __cdecl user_interface_message_queue_is_empty();
 
 extern c_load_screen_message* load_screen_message_ctor(c_load_screen_message* message, long screen_name, e_controller_index controller, e_window_index window, long layered_position);
+extern c_load_game_browser_screen_message* load_game_browser_screen_message_ctor(c_load_game_browser_screen_message* message, long screen_name, e_controller_index controller, e_window_index window, long layered_position, long search_flags, e_browser_type type);
+
