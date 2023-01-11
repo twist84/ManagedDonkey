@@ -8,6 +8,30 @@
 #include "networking/replication/replication_event_manager_view.hpp"
 #include "networking/replication/replication_scheduler.hpp"
 
+/*
+	built from `c_simulation_view::get_statistics`
+
+	char* status_line = g_simulation_view_send_status_lines[world_view_index];
+	status_line.print(
+		"events%d/%d/%d updates%d/%d creations%d/%d deletions%d/%d",
+		event_statistics.events_pending,
+		event_statistics.events_in_transit,
+		event_statistics.__unknown0,
+		entity_statistics.updates_pending,
+		entity_statistics.updates_unknown,
+		entity_statistics.creations_pending,
+		entity_statistics.creations_unknown,
+		entity_statistics.deletions_pending,
+		entity_statistics.deletions_unknown
+	);
+*/
+struct s_simulation_view_statistics
+{
+	s_replication_entity_manager_view_statistics entity_statistics;
+	s_replication_event_manager_view_statistics event_statistics;
+};
+static_assert(sizeof(s_simulation_view_statistics) == 0x24);
+
 struct c_simulation_distributed_view
 {
 	byte __data0[0x4];
