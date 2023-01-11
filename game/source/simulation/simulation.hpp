@@ -92,7 +92,7 @@ static_assert(sizeof(s_simulation_update_metadata) == 0xC);
 
 enum e_update_queue_node
 {
-	_update_queue_node_update,
+	_update_queue_node_update = 0,
 	_update_queue_node_playback_event,
 
 	k_update_queue_node_count,
