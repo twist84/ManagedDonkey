@@ -486,7 +486,7 @@ enum e_ui_message_type
 
 enum e_browser_type
 {
-	// names from string ids used it `<browser-title` game tag parser data function
+	// names from string ids used with `<browser-title` game tag parser data function
 
 	_browser_type_system_link_games = 0,
 	_browser_type_friends_games,
