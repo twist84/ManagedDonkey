@@ -39,9 +39,6 @@ struct c_simulation_distributed_view
 	c_replication_entity_manager_view m_entity_manager_view;
 	c_replication_event_manager_view m_event_manager_view;
 	c_replication_control_view m_control_view;
-
-	byte __data[0x22948 - 0x74F0];
-	//s_game_results_incremental game_results_incremental;
 };
 static_assert(sizeof(c_simulation_distributed_view) == 0x22948);
 

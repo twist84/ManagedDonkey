@@ -582,6 +582,9 @@
     <ClCompile Include="source\interface\gui_screens\game_browser\gui_game_browser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\game_results.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1620,6 +1623,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\game_results.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\aim_target.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

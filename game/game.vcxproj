@@ -240,6 +240,7 @@ POPD
     <ClCompile Include="source\game\game_engine_display.cpp" />
     <ClCompile Include="source\game\game_engine_team.cpp" />
     <ClCompile Include="source\game\game_engine_util.cpp" />
+    <ClCompile Include="source\game\game_results.cpp" />
     <ClCompile Include="source\game\multiplayer_definitions.cpp" />
     <ClCompile Include="source\game\multiplayer_game_hopper.cpp" />
     <ClCompile Include="source\geometry\geometry_sampling.cpp" />
@@ -402,6 +403,8 @@ POPD
     <ClInclude Include="source\cseries\cseries_events.hpp" />
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
+    <ClInclude Include="source\game\aim_target.hpp" />
+    <ClInclude Include="source\game\game_results.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />

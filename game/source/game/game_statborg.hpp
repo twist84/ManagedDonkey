@@ -35,8 +35,8 @@ enum e_statborg_entry
 struct c_game_statborg
 {
 	short __unknown0[2];
-	c_static_array<c_static_array<short, 26>, 16> players_statistics;
-	c_static_array<c_static_array<short, 13>, 8>  teams_statistics;
+	c_static_array<c_static_array<word, 26>, 16> players_statistics;
+	c_static_array<c_static_array<word, 13>, 8>  teams_statistics;
 	bool stats_paused;
 	dword __unknown418;
 	dword __unknown41C;
