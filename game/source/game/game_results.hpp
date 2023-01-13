@@ -2,6 +2,13 @@
 
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
+#include "networking/tools/network_webstats.hpp"
+#include "game/game_options.hpp"
+
+struct s_integer_statistic_update
+{
+	word statistic;
+};
 
 struct s_game_results_player_data
 {
@@ -32,20 +39,27 @@ static_assert(sizeof(s_game_results_player_data) == 0x1640);
 
 struct s_game_results_player_data_update
 {
-	bool player_valid;
-	bool player_data_valid;
+	bool valid;
+	bool data_valid;
 	byte __pad2[0x6];
 	s_game_results_player_data update;
 };
 static_assert(sizeof(s_game_results_player_data_update) == 0x1648);
 
-struct s_game_results_team_data_update
+struct s_game_results_team_data
 {
-	bool team_valid;
-	bool team_data_valid;
 	bool team_exists;
 	byte team_standing;
 	word team_score;
+};
+static_assert(sizeof(s_game_results_team_data) == 0x4);
+
+struct s_game_results_team_data_update
+{
+	bool valid;
+	bool data_valid;
+
+	s_game_results_team_data update;
 };
 static_assert(sizeof(s_game_results_team_data_update) == 0x6);
 
@@ -113,13 +127,13 @@ enum e_game_results_medal
 	k_game_results_medal_count
 };
 
-struct s_game_results_player_medal_statistics
+struct s_game_results_player_medal_statistics_update
 {
 	bool valid;
-	byte __pad[1];
-	word statistics[k_game_results_medal_count];
+	byte __pad[1]; // statistics_valid?
+	s_integer_statistic_update statistics[k_game_results_medal_count];
 };
-static_assert(sizeof(s_game_results_player_medal_statistics) == 0x76);
+static_assert(sizeof(s_game_results_player_medal_statistics_update) == 0x76);
 
 enum e_achievement
 {
@@ -174,13 +188,13 @@ enum e_achievement
 	k_achievement_count
 };
 
-struct s_game_results_player_achievement_statistics
+struct s_game_results_player_achievement_statistics_update
 {
 	bool valid;
-	byte __pad[1];
-	word statistics[k_achievement_count];
+	byte __pad[1]; // statistics_valid?
+	s_integer_statistic_update statistics[k_achievement_count];
 };
-static_assert(sizeof(s_game_results_player_achievement_statistics) == 0x60);
+static_assert(sizeof(s_game_results_player_achievement_statistics_update) == 0x60);
 
 enum e_game_results_damage_statistic
 {
@@ -193,13 +207,13 @@ enum e_game_results_damage_statistic
 	k_game_results_damage_statistic_count
 };
 
-struct s_game_results_player_damage_statistics
+struct s_game_results_player_damage_statistics_update
 {
 	bool valid;
-	byte __pad1[1];
-	word statistics[k_game_results_damage_statistic_count];
+	byte __pad1[1]; // statistics_valid?
+	s_integer_statistic_update statistics[k_game_results_damage_statistic_count];
 };
-static_assert(sizeof(s_game_results_player_damage_statistics) == 0xC);
+static_assert(sizeof(s_game_results_player_damage_statistics_update) == 0xC);
 
 enum e_game_results_statistic
 {
@@ -330,15 +344,26 @@ enum e_damage_reporting_type
 
 struct s_game_results_player_statistics
 {
+	s_integer_statistic_update statistics[k_game_results_statistic_count];
+
+	s_integer_statistic_update medals[k_game_results_medal_count];
+	s_integer_statistic_update achievements[k_achievement_count];
+
+	s_game_results_player_damage_statistics_update damage[k_damage_reporting_type_count];
+};
+static_assert(sizeof(s_game_results_player_statistics) == 0x438);
+
+struct s_game_results_player_statistics_update
+{
 	bool valid;
 	bool statistics_valid;
-	word statistics[k_game_results_statistic_count];
+	s_integer_statistic_update statistics[k_game_results_statistic_count];
 
-	s_game_results_player_medal_statistics medals;
-	s_game_results_player_achievement_statistics achievements;
-	s_game_results_player_damage_statistics damage[k_damage_reporting_type_count];
+	s_game_results_player_medal_statistics_update medals;
+	s_game_results_player_achievement_statistics_update achievements;
+	s_game_results_player_damage_statistics_update damage[k_damage_reporting_type_count];
 };
-static_assert(sizeof(s_game_results_player_statistics) == 0x43E);
+static_assert(sizeof(s_game_results_player_statistics_update) == 0x43E);
 
 enum e_game_results_player_vs_player_statistic
 {
@@ -350,19 +375,31 @@ enum e_game_results_player_vs_player_statistic
 
 struct s_game_results_player_vs_player_statistics
 {
-	bool valid;
-	byte __pad1[1];
-	word statistics[k_game_results_player_vs_player_statistic_count];
+	s_integer_statistic_update statistics[k_game_results_player_vs_player_statistic_count];
 };
-static_assert(sizeof(s_game_results_player_vs_player_statistics) == 0x6);
+static_assert(sizeof(s_game_results_player_vs_player_statistics) == 0x4);
+
+struct s_game_results_player_vs_player_statistics_update
+{
+	bool valid;
+	byte __pad1[1]; // statistics_valid?
+	s_game_results_player_vs_player_statistics update;
+};
+static_assert(sizeof(s_game_results_player_vs_player_statistics_update) == 0x6);
 
 struct s_game_results_team_statistics
 {
-	bool team_valid;
-	byte __pad1[1];
-	word statistics[k_game_results_statistic_count];
+	s_integer_statistic_update statistics[k_game_results_statistic_count];
 };
-static_assert(sizeof(s_game_results_team_statistics) == 0x68);
+static_assert(sizeof(s_game_results_team_statistics) == 0x66);
+
+struct s_game_results_team_statistics_update
+{
+	bool team_valid;
+	byte __pad1[1]; // statistics_valid?
+	s_game_results_team_statistics update;
+};
+static_assert(sizeof(s_game_results_team_statistics_update) == 0x68);
 
 struct s_game_results_statistics
 {
@@ -373,14 +410,22 @@ struct s_game_results_statistics
 
 	c_static_array<s_game_results_team_statistics, 16> team;
 };
-static_assert(sizeof(s_game_results_statistics) == 0x5060);
+static_assert(sizeof(s_game_results_statistics) == 0x4DE0);
+
+struct s_game_results_statistics_update
+{
+	c_static_array<s_game_results_player_statistics_update, 16> player;
+
+	// player_vs_player[subject_player_absolute_index][reference_player_absolute_index].statistics
+	c_static_array<c_static_array<s_game_results_player_vs_player_statistics_update, 16>, 16> player_vs_player;
+
+	c_static_array<s_game_results_team_statistics_update, 16> team;
+};
+static_assert(sizeof(s_game_results_statistics_update) == 0x5060);
 
 #pragma pack(push, 1)
 struct s_game_results_machine_data
 {
-	bool machine_valid;
-	byte __pad1[1];
-
 	s_machine_identifier machine_identifier;
 
 	bool machine_exists;
@@ -397,8 +442,17 @@ struct s_game_results_machine_data
 		byte __data[0xA];
 	} machine_bandwidth_estimate;
 };
-static_assert(sizeof(s_game_results_machine_data) == 0x22);
+static_assert(sizeof(s_game_results_machine_data) == 0x20);
 #pragma pack(pop)
+
+struct s_game_results_machine_data_update
+{
+	bool machine_valid;
+	byte __pad1[1];
+
+	s_game_results_machine_data update;
+};
+static_assert(sizeof(s_game_results_machine_data_update) == 0x22);
 
 struct s_game_results_incremental_update
 {
@@ -410,31 +464,68 @@ struct s_game_results_incremental_update
 	dword finish_reason;
 	c_static_array<s_game_results_player_data_update, 16> player_updates;
 	c_static_array<s_game_results_team_data_update, 16> team_updates;
-	s_game_results_statistics statistics;
-	c_static_array<s_game_results_machine_data, 17> machines;
+	s_game_results_statistics_update statistics;
+	c_static_array<s_game_results_machine_data_update, 17> machines;
 	byte __pad1[6];
 };
 static_assert(sizeof(s_game_results_incremental_update) == 0x1B7A0);
 
-// TODO
 struct s_game_results_incremental
 {
-	byte __data0[0x10];
-
-	c_static_array<game_player_options, 16> players;
-
-	dword teams[16];
-
-	struct
-	{
-		byte player[0x4380];
-		byte player_vs_player[0x400];
-		byte team[0x660];
-	} statistics;
-
-	byte machines[17][32];
+	bool finalized;
+	bool started;
+	dword start_time;
+	bool finished;
+	dword finish_time;
+	c_static_array<s_game_results_player_data, 16> players;
+	c_static_array<s_game_results_team_data, 16> teams;
+	s_game_results_statistics statistics;
+	c_static_array<s_game_results_machine_data, 17> machines;
 };
 static_assert(sizeof(s_game_results_incremental) == 0x1B450);
+
+struct s_game_results_event
+{
+	byte type;
+	byte player_index;
+	byte union_storage[0x1E];
+	dword time;
+};
+static_assert(sizeof(s_game_results_event) == 0x24);
+
+struct c_game_results
+{
+	byte finish_reason;
+	bool initialized;
+	bool finalized;
+
+	// is this game result specific version of `s_game_matchmaking_options`?
+	s_game_matchmaking_options matchmaking_options;
+
+	bool team_game;
+	byte __data65[7]; // pad?
+	qword game_instance;
+	c_game_variant game_variant;
+	c_static_wchar_string<32> map_variant_name;
+	long map_id;
+	c_static_string<260> scenario_path;
+
+	bool started;
+	dword start_time;
+	bool finished;
+	dword finish_time;
+
+	byte __data24C[2];
+	bool simulation_aborted;
+	byte __data24F[1]; // pad?
+
+	c_static_array<s_game_results_player_data, 16> players;
+	c_static_array<s_game_results_team_data, 16> teams;
+	s_game_results_statistics statistics;
+	c_static_array<s_game_results_event, 1000> events;
+	c_static_array<s_game_results_machine_data, 17> machines;
+};
+static_assert(sizeof(s_game_results_event) == 0x24);
 
 struct c_simulation_view;
 struct c_game_results_replicator
@@ -450,11 +541,6 @@ struct c_game_results_replicator
 	byte __data1B464[4];
 };
 static_assert(sizeof(c_game_results_replicator) == 0x1B468);
-
-struct s_integer_statistic_update
-{
-	word statistic;
-};
 
 struct s_integer_statistic_definition
 {
