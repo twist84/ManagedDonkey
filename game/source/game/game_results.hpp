@@ -527,6 +527,17 @@ struct c_game_results
 };
 static_assert(sizeof(s_game_results_event) == 0x24);
 
+struct s_game_results_globals
+{
+	bool recording;
+	bool recording_paused;
+	bool updating;
+	long event_index;
+	dword __time8;
+	c_game_results* results;
+};
+static_assert(sizeof(s_game_results_globals) == 0x10);
+
 struct c_simulation_view;
 struct c_game_results_replicator
 {
@@ -560,6 +571,9 @@ extern s_integer_statistic_definition(&g_game_results_statistic_definitions)[k_g
 extern s_integer_statistic_definition(&g_game_results_damage_statistic_definitions)[k_game_results_damage_statistic_count];
 extern s_integer_statistic_definition(&g_game_results_player_vs_player_statistic_definitions)[k_game_results_player_vs_player_statistic_count];
 extern s_integer_statistic_definition(&g_game_results_medal_statistic_definitions)[k_game_results_medal_count];
+
+extern s_game_results_globals& g_game_results_globals;
+extern c_game_results& g_current_game_results;
 
 struct c_bitstream;
 
