@@ -10,6 +10,7 @@
 #include "dialogs/show_direct_connect.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_candy_monitor.hpp"
+#include "game/game_results.hpp"
 #include "game/player_control.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
@@ -118,6 +119,9 @@ void __cdecl main_loop_body_begin()
 		g_network_configuration;
 		network_shared_memory_globals;
 		network_base_memory_globals;
+		g_game_results_globals;
+		g_current_game_results;
+
 
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);

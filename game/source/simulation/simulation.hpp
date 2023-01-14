@@ -63,7 +63,7 @@ struct simulation_update
 	c_static_array<long, 16> actor_unit_indices;
 	c_static_array<unit_control_data, 16> actor_control;
 
-	bool machine_update_exists;
+	bool machine_update_valid;
 	simulation_machine_update machine_update;
 
 	dword valid_player_prediction_mask;

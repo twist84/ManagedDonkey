@@ -96,13 +96,14 @@ struct c_simulation_world
 	bool m_synchronous_out_of_sync;
 	bool m_synchronous_determinism_failure;
 	byte __unknown3E; // pad?
-	byte __unknown3F; // pad?
 
 	// c_simulation_world::notify_gamestate_flush
 	bool m_notify_gamestate_flushed;
 
 	// c_simulation_world::notify_gamestate_flush_outside_game_tick
 	bool m_notify_gamestate_flushed_outside_game_tick;
+
+	byte __unknown41; // pad?
 
 	// c_simulation_world::attach_to_map
 	bool m_attached_to_map;
