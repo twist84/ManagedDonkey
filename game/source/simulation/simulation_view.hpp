@@ -28,6 +28,17 @@ enum e_simulation_view_reason
 	k_simulation_view_reason_count
 };
 
+enum e_simulation_view_type
+{
+	_simulation_view_type_none = 0,
+	_simulation_view_type_synchronous_to_remote_authority,
+	_simulation_view_type_synchronous_to_remote_client,
+	_simulation_view_type_distributed_to_remote_authority,
+	_simulation_view_type_distributed_to_remote_client,
+
+	k_simulation_view_type_count
+};
+
 /*
 	built from `c_simulation_view::get_statistics`
 
@@ -67,7 +78,7 @@ struct c_network_observer;
 struct c_simulation_view
 {
 	byte __data0[0x4];
-	long m_view_type;
+	c_enum<e_simulation_view_type, long, k_simulation_view_type_count> m_view_type;
 	long m_view_datum_index;
 	c_simulation_distributed_view* m_distributed_view;
 	c_simulation_world* m_world;
