@@ -8,6 +8,26 @@
 #include "networking/replication/replication_event_manager_view.hpp"
 #include "networking/replication/replication_scheduler.hpp"
 
+enum e_simulation_view_reason
+{
+	_simulation_view_reason_none = 0,
+	_simulation_view_reason_disconnected,
+	_simulation_view_reason_out_of_sync,
+	_simulation_view_reason_failed_to_join,
+	_simulation_view_reason_blocking,
+	_simulation_view_reason_catchup_fail,
+	_simulation_view_reason_ended,
+	_simulation_view_reason_mode_error,
+	_simulation_view_reason_player_error,
+	_simulation_view_reason_replication_entity,
+	_simulation_view_reason_replication_event,
+	_simulation_view_reason_replication_game_results,
+	_simulation_view_reason_no_longer_authority,
+	_simulation_view_reason_signature_invalid,
+
+	k_simulation_view_reason_count
+};
+
 /*
 	built from `c_simulation_view::get_statistics`
 
@@ -67,3 +87,4 @@ struct c_simulation_view
 	byte __data84[0x3C];
 };
 static_assert(sizeof(c_simulation_view) == 0xC0);
+
