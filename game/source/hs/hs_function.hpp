@@ -10,12 +10,14 @@ struct hs_function_definition
 	short(__cdecl* evaluate)(long, long, bool);
 	const char* usage;
 
+	short parameter_count;
+
 #pragma warning(push)
 #pragma warning(disable : 4200)
-	short parameters[];
+	c_enum<e_hs_type, short, k_hs_type_count> parameters[];
 #pragma warning(pop)
 };
-static_assert(sizeof(hs_function_definition) == 0xC);
+static_assert(sizeof(hs_function_definition) == 0x10);
 
 long const hs_function_table_count = 1675;
 extern hs_function_definition* (&hs_function_table)[hs_function_table_count];
