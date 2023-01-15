@@ -35,14 +35,14 @@ struct c_replication_entity_manager_view : c_replication_scheduler_client
 	byte __data4[0x4];
 
 	bool m_initialized;
-	bool m_is_replicating;
+	bool m_replicating;
 	bool m_fatal_error;
 	byte __unknownB; // pad?
 
 	long m_view_index;
-	dword m_view_mask; // qword?
+	dword m_view_mask;
 
-	byte __dataC[0x4];
+	dword m_replication_start_time;
 
 	c_replication_entity_manager* m_entity_manager;
 	c_replication_entity_packet_record* m_packet_records;
