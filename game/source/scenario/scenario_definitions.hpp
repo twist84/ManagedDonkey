@@ -85,7 +85,6 @@ struct recorded_animation_definition;
 struct s_ai_reference_frame_definition;
 struct s_campaign_metagame_scenario;
 struct s_cinematic_reference;
-struct s_effect_gpu_data;
 struct s_equipment_spawn_influence;
 struct s_flock_instance;
 struct s_flock_palette_entry;
@@ -139,6 +138,7 @@ struct style_palette_entry;
 struct trigger_definition;
 struct user_hint_data;
 struct zone_definition;
+struct s_background_bitmap_reference_definition;
 struct s_scenario
 {
 	c_enum<e_scenario_type, char, k_scenario_type_count> type;
@@ -364,7 +364,7 @@ struct s_scenario
 
 	c_typed_tag_reference<'effe'> tchou_shader_effect;
 	c_typed_tag_reference<'vmdx'> vision_mode_override;
-	c_typed_tag_block<s_effect_gpu_data> effect_gpu_data;
+	c_typed_tag_block<s_background_bitmap_reference_definition> background_bitmap_references;
 };
 static_assert(sizeof(s_scenario) == 0x824);
 
@@ -678,3 +678,9 @@ struct s_netgame_goal_spawn_influence
 	real override_weight;
 };
 static_assert(sizeof(s_netgame_goal_spawn_influence) == 0x14);
+
+struct s_background_bitmap_reference_definition
+{
+	c_typed_tag_reference<'bitm'> background_bitmap_group_reference;
+};
+
