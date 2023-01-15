@@ -103,7 +103,8 @@ struct c_simulation_world
 	// c_simulation_world::notify_gamestate_flush_outside_game_tick
 	bool m_notify_gamestate_flushed_outside_game_tick;
 
-	byte __unknown41; // pad?
+	// c_simulation_world::update_joining_view
+	bool __unknown41;
 
 	// c_simulation_world::attach_to_map
 	bool m_attached_to_map;
@@ -129,9 +130,8 @@ struct c_simulation_world
 	c_static_array<c_simulation_player, 16> m_players;
 	c_static_array<c_simulation_actor, 16> m_actors;
 
-	long __unknown14E8;
-
 	long m_next_update_dequeue;
+	long m_update_queue_next_update_number_to_dequeue;
 	long m_update_queue_latest_entry_received_type;
 	long m_update_queue_latest_entry_received_update_number;
 	long m_update_queue_length;
