@@ -11,6 +11,7 @@
 #include "game/game.hpp"
 #include "game/game_engine_candy_monitor.hpp"
 #include "game/game_results.hpp"
+#include "game/game_state.hpp"
 #include "game/player_control.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
@@ -121,6 +122,7 @@ void __cdecl main_loop_body_begin()
 		network_base_memory_globals;
 		g_game_results_globals;
 		g_current_game_results;
+		game_state_globals;
 
 
 		//transport_address local_machine_address{};

@@ -2,6 +2,19 @@
 
 #include "scenario/scenario_definitions.hpp"
 
+struct s_scenario_game_state
+{
+	dword scenario_designer_zones_active;
+	dword zone_set_index;
+	dword active_designer_zone_mask;
+	dword active_structure_bsp_mask;
+	dword touched_structure_bsp_mask;
+	dword active_cinematic_zone_mask;
+	dword touched_cinematic_zone_mask;
+	dword loaded_cinematic_zone_mask;
+};
+static_assert(sizeof(s_scenario_game_state) == 0x20);
+
 extern long& global_scenario_index;
 extern long& global_scenario_game_globals_index;
 
