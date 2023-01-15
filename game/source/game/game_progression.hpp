@@ -1,20 +1,11 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-
-enum e_game_progression_level
-{
-	_game_progression_level_none = 0,
-	_game_progression_level_normal,
-	_game_progression_level_hub_and_level_is_hub,
-	_game_progression_level_spoke_and_level_is_spoke,
-
-	k_game_progression_level_count
-};
+#include "shell/shell.hpp"
 
 struct s_persistent_campaign_player_weapon
 {
-	short damage_reporting_type;
+	c_enum<e_damage_reporting_type, short, k_damage_reporting_type_count> damage_reporting_type;
 	short rounds_loaded_maximum;
 	short runtime_rounds_inventory_maximum;
 	short rounds_loaded_amount;
