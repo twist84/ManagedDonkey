@@ -95,6 +95,8 @@ struct c_simulation_view
 	c_network_channel* m_channel;
 	dword m_channel_connection_identifier;
 	c_network_channel_simulation_interface m_simulation_interface;
+
+	// synchronous catchup data
 	byte __data84[0x3C];
 };
 static_assert(sizeof(c_simulation_view) == 0xC0);

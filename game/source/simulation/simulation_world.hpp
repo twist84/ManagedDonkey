@@ -114,8 +114,8 @@ struct c_simulation_world
 
 	long m_join_attempt_count;
 	dword m_last_time_active;
+	long m_view_establishment_identifier;
 
-	long __unknown4C;
 	long __unknown50;
 
 	long __unknown54;
