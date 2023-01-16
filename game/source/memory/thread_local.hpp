@@ -1537,7 +1537,10 @@ struct s_thread_local_storage
 	beam_system* beam_system;
 	beam* beam;
 	beam_location* beam_location;
-	void* __unknown3B0_render_postprocess_color_tweaking;
+
+	// from assert
+	bool g_havok_memory_allocator_locked;
+
 	ragdolls* ragdolls;
 	particle_emitter* particle_emitter;
 	rasterizer_game_states* rasterizer_game_states;
