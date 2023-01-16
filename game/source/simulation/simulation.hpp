@@ -127,20 +127,21 @@ struct s_simulation_globals
 {
 	bool initialized;
 	bool fatal_error;
-	byte __unknown2;
+	bool saved_film_revert;
 	bool aborted;
 
 	dword network_time_since_abort;
 
 	c_enum<e_simulation_abort_reason, long, k_simulation_abort_reason_count> abort_reason;
 
-	bool simulation_reset;
-	bool simulation_reset_in_progress;
+	bool reset;
+	bool reset_in_progress;
+
 	byte __unknownE;
 
-	bool simulation_prepare_to_load_saved_game;
-
+	bool prepare_to_load_saved_game;
 	bool recording_film;
+
 	byte __unknown11;
 	byte __unknown12;
 	byte __unknown13;
@@ -151,9 +152,10 @@ struct s_simulation_globals
 
 	dword __unknown20;
 
-	char simulation_status[256];
+	c_static_string<256> status;
 
-	byte simulation_paused;
+	bool paused;
+
 	byte __unknown125;
 	byte __unknown126;
 	byte __unknown127;
