@@ -1,5 +1,9 @@
 #include "memory/data.hpp"
 
+#include "interface/user_interface_memory.hpp"
+
+#include <assert.h>
+
 long s_data_array::get_index(long index) const
 {
 	if ((index < 0) || (index >= first_unallocated))
@@ -37,6 +41,12 @@ s_datum_header* s_data_array::get_datum(const datum_index index) const
 long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits)
 {
 	return INVOKE(0x0055AAB0, data_allocation_size, maximum_count, size, alignment_bits);
+
+	//long alignment = 0;
+	//if (alignment_bits)
+	//	alignment = (1 << alignment_bits) - 1;
+	//
+	//return maximum_count * size + sizeof(s_data_array) + alignment + 4 * ((maximum_count + 31) >> 5);
 }
 
 void __cdecl data_connect(s_data_array* data, long count, void* datums)
@@ -52,11 +62,27 @@ void __cdecl data_delete_all(s_data_array* data)
 void __cdecl data_disconnect(s_data_array* data)
 {
 	INVOKE(0x0055ACA0, data_disconnect, data);
+
+	//assert(!TEST_BIT(data->flags, _data_array_disconnected_bit));
+	//assert(TEST_BIT(data->flags, _data_array_can_disconnect_bit));
+	//
+	//data->flags.set(_data_array_disconnected_bit, true);
+	//data->data = nullptr;
+	//data->offset_to_data = 0;
+	//data->valid = false;
 }
 
 void __cdecl data_dispose(s_data_array* data)
 {
 	INVOKE(0x0055ACC0, data_dispose, data);
+
+	//c_allocation_base* allocation = data->allocator;
+	//assert(allocation != NULL);
+	//
+	//csmemset(data, 0, sizeof(s_data_array));
+	//
+	//if (allocation)
+	//	allocation->deallocate(data);
 }
 
 void __cdecl data_initialize(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation)

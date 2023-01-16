@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+struct c_allocation_base;
+
 // 32-bit data array index handle
 typedef unsigned long datum_index;
 static_assert(sizeof(datum_index) == 0x4);
@@ -20,6 +22,14 @@ struct s_datum_header
 };
 static_assert(sizeof(s_datum_header) == 0x2);
 
+enum e_data_array_flags
+{
+	_data_array_can_disconnect_bit = 0,
+	_data_array_disconnected_bit,
+
+	// are there more flags?
+};
+
 struct s_data_array
 {
 	string name;
@@ -28,14 +38,12 @@ struct s_data_array
 	byte alignment_bits;
 	bool valid;
 
-	// bit 0, _data_array_can_disconnect_bit
-	// bit 1, _data_array_disconnected_bit
-	word flags;
+	// e_data_array_flags
+	word_flags flags;
 
 	tag signature;
 
-	// c_allocation_interface
-	void* allocator;
+	c_allocation_base* allocator;
 
 	long next_index;
 	long first_unallocated;
@@ -158,7 +166,6 @@ struct c_typed_data_array
 };
 static_assert(sizeof(c_typed_data_array<void>) == sizeof(s_data_array));
 
-struct c_allocation_base;
 extern long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits);
 extern void __cdecl data_connect(s_data_array* data, long count, void* datums);
 extern void __cdecl data_delete_all(s_data_array* data);
