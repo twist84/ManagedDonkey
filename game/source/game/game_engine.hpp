@@ -11,6 +11,38 @@
 #include "game/game_statborg.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 
+enum e_game_engine_end_condition
+{
+	_game_engine_end_condition_end_default = 0,
+	_game_engine_end_condition_game_end_scripting,
+	_game_engine_end_condition_should_end_not_enough_living,
+	_game_engine_end_condition_should_end_all_dead,
+	_game_engine_end_condition_should_end_current_engine_override,
+	_game_engine_end_condition_round_end_team_scoring,
+	_game_engine_end_condition_round_end_scoring,
+	_game_engine_end_condition_game_end_rounds,
+	_game_engine_end_condition_game_end_rounds_team_early_victory,
+	_game_engine_end_condition_game_end_rounds_early_victory,
+	_game_engine_end_condition_game_end_rounds_exceeded,
+	_game_engine_end_condition_round_end_time_ran_out,
+	_game_engine_end_condition_game_end_external,
+	_game_engine_end_condition_game_end_invalid_team_mapping,
+	_game_engine_end_condition_game_end_due_to_automation,
+	_game_engine_end_condition_game_end_exceeded_maximum_rounds,
+	_game_engine_end_condition_round_end_juggernaut_left,
+	_game_engine_end_condition_round_end_juggernaut_unknown1,
+	_game_engine_end_condition_round_end_juggernaut_unknown2,
+	_game_engine_end_condition_round_end_infection,
+	_game_engine_end_condition_round_end_ctf_sides,
+	_game_engine_end_condition_round_end_editor_reset,
+	_game_engine_end_condition_round_end_editor_change_mode,
+	_game_engine_end_condition_round_end_vip_vip_killed,
+
+	k_game_engine_end_condition_count
+};
+
+//.data:0189ECF0 ; char const* k_game_engine_end_conditions[k_game_engine_end_condition_count]
+
 struct s_player_waypoint_data
 {
 	byte __data[0x1C];
