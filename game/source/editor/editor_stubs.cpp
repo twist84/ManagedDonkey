@@ -14,6 +14,7 @@ HOOK_DECLARE(0x0042E040, editor_input_inhibited);
 HOOK_DECLARE(0x0042E060, editor_orphan_object);
 HOOK_DECLARE(0x0042E080, editor_register_new_object);
 HOOK_DECLARE(0x0042E0C0, editor_save_progress);
+HOOK_DECLARE(0x0042E0D0, editor_should_render_object);
 HOOK_DECLARE(0x0042E0E0, editor_should_render_transparent_geometry);
 HOOK_DECLARE(0x0042E110, editor_switch_zone_set);
 HOOK_DECLARE(0x0042E120, editor_update);
@@ -74,6 +75,13 @@ void __cdecl editor_register_new_object(e_object_type a1, long a2, long a3)
 void __cdecl editor_save_progress()
 {
 	HOOK_INVOKE(, editor_save_progress);
+}
+
+bool __cdecl editor_should_render_object(long object_index)
+{
+	bool result = false;
+	HOOK_INVOKE(result =, editor_should_render_object, object_index);
+	return result;
 }
 
 bool __cdecl editor_should_render_transparent_geometry()

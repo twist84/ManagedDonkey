@@ -16,6 +16,7 @@ extern bool __cdecl editor_input_inhibited();
 extern void __cdecl editor_orphan_object(e_object_type a1, long a2);
 extern void __cdecl editor_register_new_object(e_object_type a1, long a2, long a3);
 extern void __cdecl editor_save_progress();
+extern bool __cdecl editor_should_render_object(long object_index);
 extern bool __cdecl editor_should_render_transparent_geometry();
 extern bool __cdecl editor_switch_zone_set(long a1);
 extern void __cdecl editor_update();
