@@ -41,7 +41,19 @@ enum e_game_engine_end_condition
 	k_game_engine_end_condition_count
 };
 
-//.data:0189ECF0 ; char const* k_game_engine_end_conditions[k_game_engine_end_condition_count]
+extern char const* (&k_game_engine_end_conditions)[k_game_engine_end_condition_count];
+
+// game_engine_hud_get_state_message
+// e_global_string_id
+enum e_game_engine_state
+{
+	_game_engine_state_game_over = 0,
+	_game_engine_state_round_progress,
+	_game_engine_state_round_over,
+	_game_engine_state_waiting_for_next_round,
+
+	k_game_engine_state_count
+};
 
 struct s_player_waypoint_data
 {
@@ -75,7 +87,7 @@ struct s_game_engine_globals
 	c_static_array<long, 16> player_simulation_object_glue_indices;
 	byte __data74[0x4];
 	c_map_variant map_variant;
-	short current_state;
+	c_enum<e_game_engine_state, short, k_game_engine_state_count> current_state;
 	short round_index;
 	dword round_timer;
 	byte round_condition_flags;
@@ -112,7 +124,7 @@ struct s_game_engine_globals
 	byte __data10498[0x104];
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
 	dword __unknown13D9C;
-	dword desired_state;
+	c_enum<e_game_engine_state, long, k_game_engine_state_count> desired_state;
 	bool game_finished;
 	dword __unknown13DA8;
 	dword __unknown13DAC;

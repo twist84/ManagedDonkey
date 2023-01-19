@@ -11,6 +11,8 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 
+REFERENCE_DECLARE_ARRAY(0x0189ECF0, char const*, k_game_engine_end_conditions, k_game_engine_end_condition_count);
+
 HOOK_DECLARE(0x00551780, game_engine_interface_update);
 //HOOK_DECLARE(0x005521D0, game_engine_get_pre_round_ticks);
 
