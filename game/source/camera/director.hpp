@@ -109,10 +109,10 @@ struct s_director_globals
 	byte directors[4][0x160];
 
 	s_director_info infos[4];
-	real __unknown5B0;
-	real __unknown5B4;
-	dword __unknown5B8;
-	byte __data5BC[0x4];
+	real timestep;
+	real fade_timer5B4; // in?
+	real fade_timer5B8; // out?
+	bool debug_force_scripted_camera_disable;
 };
 static_assert(sizeof(s_director_globals) == 0x5C0);
 
