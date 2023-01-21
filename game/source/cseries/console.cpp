@@ -1,5 +1,8 @@
 #include "cseries/console.hpp"
 
+#include "cseries/cseries.hpp"
+#include "text/unicode.hpp"
+
 #include <windows.h>
 #include <assert.h>
 
@@ -30,81 +33,148 @@ void c_console::dispose()
 
 void c_console::write(char const* format, ...)
 {
-#ifdef _DEBUG
+    c_static_string<4096> s;
+
     va_list list;
     va_start(list, format);
-
-    vprintf(format, list);
-
+    s.vprint(format, list);
     va_end(list);
+
+    char const* str = s.get_string();
+
+#ifdef _DEBUG
+    printf(str);
+#else
+    OutputDebugStringA(str);
 #endif // _DEBUG
+
 }
 
 void c_console::write_line(char const* format, ...)
 {
-#ifdef _DEBUG
+    c_static_string<4096> s;
+
     va_list list;
     va_start(list, format);
-
-    vprintf(format, list);
-    printf("\n");
-
+    s.vprint(format, list);
+    s.append("\n");
     va_end(list);
+
+    char const* str = s.get_string();
+
+#ifdef _DEBUG
+    printf(str);
+#else
+    OutputDebugStringA(str);
 #endif // _DEBUG
+
 }
 
 void c_console::write(wchar_t const* format, ...)
 {
-#ifdef _DEBUG
+    c_static_wchar_string<4096> s;
+
     va_list list;
     va_start(list, format);
 
-    vwprintf(format, list);
+    s.vprint(format, list);
 
     va_end(list);
+
+    wchar_t const* str = s.get_string();
+
+#ifdef _DEBUG
+    wprintf(str);
+#else
+    OutputDebugStringW(str);
 #endif // _DEBUG
+
 }
 
 void c_console::write_line(wchar_t const* format, ...)
 {
-#ifdef _DEBUG
+    c_static_wchar_string<4096> s;
+
     va_list list;
     va_start(list, format);
-
-    vwprintf(format, list);
-    wprintf(L"\n");
-
+    s.vprint(format, list);
+    s.append(L"\n");
     va_end(list);
+
+    wchar_t const* str = s.get_string();
+
+#ifdef _DEBUG
+    wprintf(str);
+#else
+    OutputDebugStringW(str);
 #endif // _DEBUG
+
 }
 
 void c_console::write(char const* format, va_list list)
 {
+    c_static_string<4096> s;
+
+    s.vprint(format, list);
+
+    char const* str = s.get_string();
+
 #ifdef _DEBUG
-    vprintf(format, list);
+    printf(str);
+#else
+    OutputDebugStringA(str);
 #endif // _DEBUG
+
 }
+
 void c_console::write_line(char const* format, va_list list)
 {
+    c_static_string<4096> s;
+
+    s.vprint(format, list);
+    s.append("\n");
+
+    char const* str = s.get_string();
+
 #ifdef _DEBUG
-    vprintf(format, list);
-    printf("\n");
+    printf(str);
+#else
+    OutputDebugStringA(str);
 #endif // _DEBUG
+
 }
 
 void c_console::write(wchar_t const* format, va_list list)
 {
+    c_static_wchar_string<4096> s;
+
+    s.vprint(format, list);
+
+    wchar_t const* str = s.get_string();
+
 #ifdef _DEBUG
-    vwprintf(format, list);
+    wprintf(str);
+#else
+    OutputDebugStringW(str);
 #endif // _DEBUG
+
 }
 
 void c_console::write_line(wchar_t const* format, va_list list)
 {
+    c_static_wchar_string<4096> s;
+
+    s.vprint(format, list);
+    s.append(L"\n");
+
+    wchar_t const* str = s.get_string();
+
 #ifdef _DEBUG
-    vwprintf(format, list);
-    wprintf(L"\n");
+    wprintf(str);
+#else
+    OutputDebugStringW(str);
 #endif // _DEBUG
+
 }
 
 void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
