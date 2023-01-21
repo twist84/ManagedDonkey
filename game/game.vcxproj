@@ -82,12 +82,12 @@
     <IntDir>$(SolutionDir)bin\$(TargetName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>C:\Games\Halo Online\Halo Online (1.106708 2015-03-20)\</OutDir>
+    <OutDir>C:\Games\Halo Online\ManagedDonkeyTest\</OutDir>
     <TargetName>game</TargetName>
     <IntDir>$(SolutionDir)bin\$(TargetName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseProxy|Win32'">
-    <OutDir>C:\Games\Halo Online\Halo Online (1.106708 2015-03-20)\</OutDir>
+    <OutDir>C:\Games\Halo Online\ManagedDonkeyTest\</OutDir>
     <TargetName>D3DX9_43</TargetName>
     <IntDir>$(SolutionDir)bin\$(TargetName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -168,11 +168,6 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
-PUSHD $(OutDir)
-ECHO pdbgen: generating pdb from idb
-pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
-ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
-POPD
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -199,11 +194,6 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
-PUSHD $(OutDir)
-ECHO pdbgen: generating pdb from idb
-pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
-ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
-POPD
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
