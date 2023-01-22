@@ -381,6 +381,24 @@ struct player_datum : s_datum_header
 };
 static_assert(sizeof(player_datum) == 0x2F08);
 
+enum e_player_respawn_failure
+{
+	_player_respawn_failure_none = 0,
+	_player_respawn_failure_in_editor,
+	_player_respawn_failure_cinematic_playing,
+	_player_respawn_failure_scripting_says_it_isnt_safe,
+	_player_respawn_failure_waiting_on_respawn_timer,
+	_player_respawn_failure_friend_in_combat,
+	_player_respawn_failure_nearby_enemies_pursuing_friend,
+	_player_respawn_failure_friend_airborne_or_moving,
+	_player_respawn_failure_friend_in_vehicle,
+	_player_respawn_failure_everybody_is_dead,
+	_player_respawn_failure_waiting_for_checkpoint,
+	_player_respawn_failure_can_not_find_valid_location,
+
+	k_player_respawn_failure_count
+};
+
 #pragma pack(push, 1)
 struct s_players_global_data
 {
@@ -403,12 +421,12 @@ struct s_players_global_data
 
 	long local_machine_index;
 
-	// set to `false` when `__data16C` is memset
+	// set to `false` when `zone_set_switch_flags` is memset
 	bool __unknown138;
 
 	byte __data139;
 
-	short respawn_failure;
+	c_enum<e_player_respawn_failure, short, k_player_respawn_failure_count> respawn_failure;
 
 	// player_positions_initialize_for_new_structure_bsp
 	// players_update_after_game
