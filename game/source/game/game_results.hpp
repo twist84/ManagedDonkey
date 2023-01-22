@@ -381,7 +381,7 @@ struct c_game_results
 	s_game_matchmaking_options matchmaking_options;
 
 	bool team_game;
-	byte __data65[7]; // pad?
+	byte __data61[7]; // pad?
 	qword game_instance;
 	c_game_variant game_variant;
 	c_static_wchar_string<32> map_variant_name;
@@ -393,9 +393,9 @@ struct c_game_results
 	bool finished;
 	dword finish_time;
 
-	byte __data24C[2];
+	byte __data42C[2];
 	bool simulation_aborted;
-	byte __data24F[1]; // pad?
+	byte __data42F[1]; // pad?
 
 	c_static_array<s_game_results_player_data, 16> players;
 	c_static_array<s_game_results_team_data, 16> teams;
@@ -403,7 +403,7 @@ struct c_game_results
 	c_static_array<s_game_results_event, 1000> events;
 	c_static_array<s_game_results_machine_data, 17> machines;
 };
-static_assert(sizeof(s_game_results_event) == 0x24);
+static_assert(sizeof(c_game_results) == 0x24510);
 
 struct s_game_results_globals
 {
