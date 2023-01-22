@@ -328,7 +328,7 @@ struct player_datum : s_datum_header
 	s_location location;
 	datum_index unit_index;
 	datum_index dead_unit_index;
-	datum_index previous_unit_index;
+	datum_index failed_teleport_unit_index;
 	dword __unknown3C;
 	word __unknown40;
 	word __unknown42;
@@ -354,8 +354,11 @@ struct player_datum : s_datum_header
 	vector3d position;
 	s_player_configuration configuration;
 	s_player_configuration desired_configuration;
-	long __unknown2CB0;
-	byte unknown2CB0[0x4];
+	long coop_respawn_time;
+	bool early_respawn_requested;
+	byte coop_respawn_unknown2CB5;
+	byte coop_respawn_unknown2CB6;
+	byte __unknown2CB7;
 	long respawn_time;
 	long spawn_timer;
 	long penalty_time;
