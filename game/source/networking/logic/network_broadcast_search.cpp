@@ -164,9 +164,9 @@ bool __cdecl network_broadcast_search_initialize(c_network_link* link, c_network
 
 void __cdecl network_broadcast_search_update()
 {
-	assert(g_broadcast_search_globals.initialized);
+	//INVOKE(0x004D9EC0, network_broadcast_search_update);
 
-	INVOKE(0x004D9EC0, network_broadcast_search_update);
+	assert(g_broadcast_search_globals.initialized);
 
 	if (g_broadcast_search_globals.search_active)
 	{

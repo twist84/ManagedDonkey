@@ -95,9 +95,19 @@ struct c_simulation_view
 	c_network_channel* m_channel;
 	dword m_channel_connection_identifier;
 	c_network_channel_simulation_interface m_simulation_interface;
+	bool m_simulation_active;
+	dword_flags m_acknowledged_player_mask;
 
 	// synchronous catchup data
-	byte __data84[0x3C];
+	// edit: is this `c_simulation_view_synchronous_catchup_manager` from reach?
+	byte __data8C[0x8];
+	dword m_synchronous_catchup_attempt_count;
+	dword m_synchronous_catchup_update_number;
+	dword m_synchronous_catchup_finish_time;
+	dword m_synchronous_catchup_unknownA0;
+	dword m_synchronous_catchup_progress;
+	dword m_synchronous_catchup_unknownA8;
+	byte __dataAC[0x14];
 };
 static_assert(sizeof(c_simulation_view) == 0xC0);
 
