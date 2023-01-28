@@ -39,4 +39,31 @@ struct c_gui_custom_bitmap_widget : c_gui_bitmap_widget
 };
 static_assert(sizeof(c_gui_custom_bitmap_widget) == 0x470);
 
-extern long __cdecl map_image_load_callback(void* callback_data);
+struct s_map_image_load_callback_data
+{
+	long async_load_stage;
+
+	s_file_reference* async_load_file;
+	dword async_load_file_size;
+
+	// size: 0xC000
+	char* async_load_buffer;
+	dword async_load_buffer_size;
+
+	long bitmap_storage_item_index;
+
+	// c_gui_custom_bitmap_widget::__unknown268
+	long __unknown18;
+
+	// &c_gui_custom_bitmap_widget::__unknown14C
+	c_synchronized_long* __unknown1C;
+
+	// &c_gui_custom_bitmap_widget::__unknown150
+	c_synchronized_long* __unknown20;
+
+	// `c_storage_device` related, mounted/opened?
+	bool __unknown24;
+};
+static_assert(sizeof(s_map_image_load_callback_data) == 0x28);
+
+extern long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_data);

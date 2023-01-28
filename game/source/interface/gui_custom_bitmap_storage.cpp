@@ -4,6 +4,7 @@
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_textures_xenon_formats.hpp"
+#include "xbox/xgraphics.hpp"
 
 #include <assert.h>
 #include <stdio.h>
@@ -20,17 +21,16 @@ REFERENCE_DECLARE(0x05270C14, c_gui_custom_bitmap_storage_manager, g_gui_custom_
 
 void __fastcall c_gui_custom_bitmap_storage_item::dispose(c_gui_custom_bitmap_storage_item* _this, void* unused)
 {
-	return;
-}
+	assert(!_this->m_bitmap_ready);
+	assert(!_this->m_hardware_format_bitmap.valid());
 
-dword __stdcall XGSetTextureHeader(dword width, dword height, dword levels, dword usage, dword format, dword pool, dword base_offset, dword mip_offset, dword pitch, D3DBaseTexture* out_texture, dword* out_base_size, dword* out_mip_size)
-{
-	return INVOKE(0x00D7AA12, XGSetTextureHeader, width, height, levels, usage, format, pool, base_offset, mip_offset, pitch, out_texture, out_base_size, out_mip_size);
-}
+	if (_this->m_bitmap_pixel_buffer)
+	{
+		user_interface_free(_this->m_bitmap_pixel_buffer);
+		_this->m_bitmap_pixel_buffer = nullptr;
+	}
 
-void __stdcall XGOffsetResourceAddress(D3DBaseTexture* out_resource, void* base_address)
-{
-	INVOKE(0x00D7AE34, XGOffsetResourceAddress, out_resource, base_address);
+	_this->m_allocated = false;
 }
 
 const dword bitmap_pixel_buffer_alignment_bits = 12;
@@ -72,6 +72,7 @@ bool __fastcall c_gui_custom_bitmap_storage_item::sub_B20480(c_gui_custom_bitmap
 
 bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_bitmap_storage_item* _this, long storage_item_index, char const* buffer, long buffer_size, long a4)
 {
+	// #TODO: implement this, it's kind of important!
 	return false;
 }
 
@@ -87,5 +88,8 @@ void __fastcall c_gui_custom_bitmap_storage_item::sub_B204D0(c_gui_custom_bitmap
 
 void __fastcall c_gui_custom_bitmap_storage_item::unload_rendered_bitmap(c_gui_custom_bitmap_storage_item* _this, void* unused)
 {
-	return;
-}
+	if (_this->m_hardware_format_bitmap.valid())
+		c_rasterizer_texture_ref::release(_this->m_hardware_format_bitmap);
+	
+	_this->m_bitmap_ready = false;
+};

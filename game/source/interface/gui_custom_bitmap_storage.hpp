@@ -57,7 +57,7 @@ struct c_gui_custom_bitmap_storage_manager
 	struct s_bitmap_storage_handle_datum : s_datum_header
 	{
 		word __unknown2;
-		long __unknown4;
+		long reference_count;
 		long __unknown8;
 		c_gui_custom_bitmap_storage_item storage_item;
 	};

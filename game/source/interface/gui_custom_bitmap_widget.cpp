@@ -1,5 +1,6 @@
 #include "interface/gui_custom_bitmap_widget.hpp"
 
+#include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE_CLASS(0x00AC3900, c_gui_custom_bitmap_widget, get_map_filename);
@@ -36,9 +37,39 @@ void __cdecl c_gui_custom_bitmap_widget::clear()
     m_path.clear();
 }
 
-long __cdecl map_image_load_callback(void* callback_data)
+long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_data)
 {
     long result = 0;
     HOOK_INVOKE(result =, map_image_load_callback, callback_data);
     return result;
 }
+
+char const* __cdecl network_blf_buffer_reader_find_chunk(char const* buffer, long buffer_size, long signature, long chunk_version, long authentication_type, long* out_chunk_size)
+{
+    // #TODO: possibly replace this call with one that returns if the chunk should be byte-swapped
+    char const* chunk = INVOKE(0x00462B40, network_blf_buffer_reader_find_chunk, buffer, buffer_size, signature, chunk_version, authentication_type, out_chunk_size);
+
+    if (chunk)
+    {
+        if (*out_chunk_size > 8)
+        {
+            if (*chunk >= 0 && *chunk < 2)
+            {
+                long const& chunk_read_size = *reinterpret_cast<long const*>(chunk + 4);
+
+                if (chunk_read_size == *out_chunk_size - 8)
+                    return chunk;
+
+                if (_byteswap_ulong(chunk_read_size) == *out_chunk_size - 8)
+                {
+                    // this is bad but necessary
+                    const_cast<long&>(chunk_read_size) = _byteswap_ulong(chunk_read_size);
+                }
+            }
+        }
+    }
+
+    return chunk;
+}
+HOOK_DECLARE_CALL(0x00AC3C73, network_blf_buffer_reader_find_chunk);
+
