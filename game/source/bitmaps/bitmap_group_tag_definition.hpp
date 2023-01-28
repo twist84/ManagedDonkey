@@ -24,7 +24,7 @@ struct bitmap_data_block_def
 	long high_res_pixels_offset_offset;
 	long high_res_pixels_size;
 	long hardware_format;
-	dword runtime_tag_base_address;
+	dword base_address;
 };
 static_assert(sizeof(bitmap_data_block_def) == 0x30);
 
