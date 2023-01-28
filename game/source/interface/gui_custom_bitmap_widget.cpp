@@ -37,6 +37,8 @@ void __cdecl c_gui_custom_bitmap_widget::clear()
     m_path.clear();
 }
 
+// #TODO: reimplement `map_image_load_callback`
+// after implementing `c_gui_custom_bitmap_storage_item` this function is now having access violation issues see `ENABLE_LOAD_FROM_BUFFER_HOOK`
 long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_data)
 {
     long result = 0;

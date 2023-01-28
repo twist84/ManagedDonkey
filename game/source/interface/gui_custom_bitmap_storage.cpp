@@ -6,6 +6,7 @@
 #include "memory/module.hpp"
 #include "networking/online/online_error.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "rasterizer/rasterizer_d3d_allocations.hpp"
 #include "rasterizer/rasterizer_textures_xenon_formats.hpp"
 #include "xbox/xgraphics.hpp"
 
@@ -16,10 +17,16 @@
 #include <d3dx9.h>
 #include <d3dx9tex.h>
 
+//#define ENABLE_LOAD_FROM_BUFFER_HOOK
+
 HOOK_DECLARE_CLASS(0x00B20460, c_gui_custom_bitmap_storage_item, dispose);
 HOOK_DECLARE_CLASS(0x00B20470, c_gui_custom_bitmap_storage_item, initialize);
 HOOK_DECLARE_CLASS(0x00B20480, c_gui_custom_bitmap_storage_item, sub_B20480);
+
+#ifdef ENABLE_LOAD_FROM_BUFFER_HOOK
 HOOK_DECLARE_CLASS(0x00B20490, c_gui_custom_bitmap_storage_item, load_from_buffer);
+#endif // ENABLE_LOAD_FROM_BUFFER_HOOK
+
 HOOK_DECLARE_CLASS(0x00B204B0, c_gui_custom_bitmap_storage_item, sub_B204B0);
 HOOK_DECLARE_CLASS(0x00B204D0, c_gui_custom_bitmap_storage_item, sub_B204D0);
 HOOK_DECLARE_CLASS(0x00B204E0, c_gui_custom_bitmap_storage_item, unload_rendered_bitmap);
@@ -48,6 +55,10 @@ void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap
 	_this->m_use_compressed_format = use_compressed_format;
 	bitmap_2d_initialize(&_this->m_bitmap, static_cast<short>(width), static_cast<short>(height), 0, format, FLAG(3) | FLAG(6), false, false);
 	_this->m_bitmap.curve = 3;
+
+#ifdef ENABLE_LOAD_FROM_BUFFER_HOOK
+	c_rasterizer_texture_ref::allocate(_this->m_hardware_format_bitmap, width, height, 1, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, false, 0, 0);
+#endif // ENABLE_LOAD_FROM_BUFFER_HOOK
 
 	_this->texture_header = new D3DBaseTexture();
 
@@ -79,37 +90,30 @@ bool __fastcall c_gui_custom_bitmap_storage_item::sub_B20480(c_gui_custom_bitmap
 
 bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_bitmap_storage_item* _this, long storage_item_index, char const* buffer, long buffer_size, long a4)
 {
-	// #TODO: implement this, it's kind of important!
-
-	assert(!buffer);
+	assert(buffer);
 	assert(!_this->m_bitmap_ready);
 
 	bool result = false;
 
 	if (_this->m_allocated)
 	{
-		//_this->m_hardware_format_bitmap = ;
 		if (_this->m_hardware_format_bitmap.valid())
 		{
-			/*
+			_this->m_bitmap.flags |= FLAG(6);
 
-			IDirect3DTexture9* pTexture;
-			// TODO: `pTexture`
+			IDirect3DTexture9* pTexture = _this->m_hardware_format_bitmap.get_d3d_texture();
 			assert(pTexture != NULL);
 
 			IDirect3DSurface9* pSurface;
 			HRESULT get_surface_level_result = pTexture->GetSurfaceLevel(0, &pSurface);
 			if (SUCCEEDED(get_surface_level_result))
 			{
-				HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(pSurface, NULL, NULL, buffer, buffer_size, NULL, NULL, -1, NULL);
+				HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(pSurface, NULL, NULL, buffer, buffer_size, NULL, D3DX_DEFAULT, 0, NULL);
 				pSurface->Release();
 
 				if (SUCCEEDED(load_surface_result))
 				{
-					short format = _this->m_use_compressed_format == 0 ? 11 : 16;
-					// c_rasterizer::bitmap_format_to_hardware_format
-					dword hardware_format = rasterizer_bitmap_format_to_hardware_format_xenon_unchecked(format, true, false, false);
-
+					D3DFORMAT hardware_format = _this->m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
 					dword bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, hardware_format, 1, 0, -1, 0, _this->texture_header, 0, 0);
 					assert(bytes > 0);
 
@@ -120,11 +124,11 @@ bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_
 				}
 				else
 				{
-					c_console::write_line("ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code %s", online_error_get_string(load_surface_result));
+					c_console::write_line("ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code 0x%08X", load_surface_result);
 				}
 			}
 
-			*/
+			return result;
 		}
 	}
 
