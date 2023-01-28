@@ -594,6 +594,9 @@
     <ClCompile Include="source\xbox\xgraphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\rasterizer\rasterizer_d3d_allocations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1644,6 +1647,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\xbox\xgraphics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rasterizer\rasterizer_d3d_allocations.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
