@@ -35,7 +35,10 @@ struct c_gui_custom_bitmap_storage_item
 	bool m_format_is_dxt5;
 
 	bitmap_data_block_def m_bitmap;
+
 	bool m_allocated;
+	byte __pad3D[3];
+
 	c_rasterizer_texture_ref m_hardware_format_bitmap;
 	bool m_bitmap_ready;
 	char* m_bitmap_pixel_buffer;
