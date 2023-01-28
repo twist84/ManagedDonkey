@@ -50,10 +50,8 @@ void __fastcall c_gui_custom_bitmap_storage_item::dispose(c_gui_custom_bitmap_st
 const dword bitmap_pixel_buffer_alignment_bits = 12;
 void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap_storage_item* _this, void* unused, long width, long height, bool use_compressed_format)
 {
-	short format = use_compressed_format ? 16 : 11;
-	D3DFORMAT hardware_format = use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
 	_this->m_use_compressed_format = use_compressed_format;
-	bitmap_2d_initialize(&_this->m_bitmap, static_cast<short>(width), static_cast<short>(height), 0, format, FLAG(3) | FLAG(6), false, false);
+	bitmap_2d_initialize(&_this->m_bitmap, static_cast<short>(width), static_cast<short>(height), 0, _this->m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8, FLAG(3) | FLAG(6), false, false);
 	_this->m_bitmap.curve = 3;
 
 #ifdef ENABLE_LOAD_FROM_BUFFER_HOOK
@@ -64,7 +62,7 @@ void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap
 
 	dword base_size = 0;
 	dword mip_size = 0;
-	dword resource_bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, hardware_format, 0, 0, -1, 0, _this->texture_header, &base_size, &mip_size);
+	dword resource_bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, _this->m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8, 0, 0, -1, 0, _this->texture_header, &base_size, &mip_size);
 	if (resource_bytes)
 	{
 		long allocate_bytes = resource_bytes + FLAG(bitmap_pixel_buffer_alignment_bits);
@@ -113,8 +111,7 @@ bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_
 
 				if (SUCCEEDED(load_surface_result))
 				{
-					D3DFORMAT hardware_format = _this->m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
-					dword bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, hardware_format, 1, 0, -1, 0, _this->texture_header, 0, 0);
+					dword bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, _this->m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8, 1, 0, -1, 0, _this->texture_header, 0, 0);
 					assert(bytes > 0);
 
 					XGOffsetResourceAddress(_this->texture_header, _this->m_bitmap_pixel_buffer_base);
