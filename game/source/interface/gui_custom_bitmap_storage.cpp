@@ -41,12 +41,11 @@ void __fastcall c_gui_custom_bitmap_storage_item::dispose(c_gui_custom_bitmap_st
 }
 
 const dword bitmap_pixel_buffer_alignment_bits = 12;
-void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap_storage_item* _this, void* unused, long width, long height, bool allocate_bitmap_as_dxt5)
+void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap_storage_item* _this, void* unused, long width, long height, bool use_compressed_format)
 {
-	short format = allocate_bitmap_as_dxt5 ? 16 : 11;
-	// c_rasterizer::bitmap_format_to_hardware_format
-	dword hardware_format = rasterizer_bitmap_format_to_hardware_format_xenon_unchecked(format, true, false, false);
-	_this->m_format_is_dxt5 = allocate_bitmap_as_dxt5;
+	short format = use_compressed_format ? 16 : 11;
+	D3DFORMAT hardware_format = use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8;
+	_this->m_use_compressed_format = use_compressed_format;
 	bitmap_2d_initialize(&_this->m_bitmap, static_cast<short>(width), static_cast<short>(height), 0, format, FLAG(3) | FLAG(6), false, false);
 	_this->m_bitmap.curve = 3;
 
@@ -107,7 +106,7 @@ bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_
 
 				if (SUCCEEDED(load_surface_result))
 				{
-					short format = _this->m_format_is_dxt5 == 0 ? 11 : 16;
+					short format = _this->m_use_compressed_format == 0 ? 11 : 16;
 					// c_rasterizer::bitmap_format_to_hardware_format
 					dword hardware_format = rasterizer_bitmap_format_to_hardware_format_xenon_unchecked(format, true, false, false);
 

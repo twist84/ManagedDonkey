@@ -21,7 +21,7 @@ static_assert(sizeof(D3DBaseTexture) == 0x34);
 struct c_gui_custom_bitmap_storage_item
 {
 	static void __fastcall dispose(c_gui_custom_bitmap_storage_item* _this, void* unused);
-	static void __fastcall initialize(c_gui_custom_bitmap_storage_item* _this, void* unused, long width, long height, bool allocate_bitmap_as_dxt5);
+	static void __fastcall initialize(c_gui_custom_bitmap_storage_item* _this, void* unused, long width, long height, bool use_compressed_format);
 	static bool __fastcall sub_B20480(c_gui_custom_bitmap_storage_item* _this, void* unused, long a1, long a2, long a3, long a4, long a5);
 	static bool __fastcall load_from_buffer(c_gui_custom_bitmap_storage_item* _this, long storage_item_index, char const* buffer, long buffer_size, long a4);
 	static bool __fastcall sub_B204B0(c_gui_custom_bitmap_storage_item* _this, void* unused, long a1, long a2, long a3, long a4, long a5, long a6);
@@ -32,7 +32,7 @@ struct c_gui_custom_bitmap_storage_item
 	long m_height;
 
 	// true for `dxt5`, false for `a8r8g8b8`
-	bool m_format_is_dxt5;
+	bool m_use_compressed_format;
 
 	bitmap_data_block_def m_bitmap;
 

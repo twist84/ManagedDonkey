@@ -14,21 +14,21 @@ bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_typ
     return result;
 }
 
-void __fastcall c_gui_custom_bitmap_widget::set_map_image(c_gui_custom_bitmap_widget* _this, void* unused, e_custom_map_image_type image_type, long map_id, bool allocate_bitmap_as_dxt5)
+void __fastcall c_gui_custom_bitmap_widget::set_map_image(c_gui_custom_bitmap_widget* _this, void* unused, e_custom_map_image_type image_type, long map_id, bool use_compressed_format)
 {
     static c_static_string<256> map_image_path;
     map_image_path.clear();
 
     if (get_map_filename(image_type, map_id, &map_image_path))
-        _this->load_from_file_async(allocate_bitmap_as_dxt5, map_image_path.get_string());
+        _this->load_from_file_async(use_compressed_format, map_image_path.get_string());
     else
         _this->clear();
 }
 
-void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool allocate_bitmap_as_dxt5, char const* file_path)
+void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, char const* file_path)
 {
     m_path.set(file_path);
-    m_allocate_bitmap_as_dxt5 = allocate_bitmap_as_dxt5;
+    m_use_compressed_format = use_compressed_format;
     __unknown268 = 0;
 }
 
