@@ -1,8 +1,6 @@
 #include "rasterizer/rasterizer_text.hpp"
 
-#include "cseries/cseries.hpp"
-
-void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, long width, long height, long levels, unsigned long format, long a6, bool a7, long a8, long a9)
+void __cdecl c_rasterizer_texture_ref::allocate(c_rasterizer_texture_ref& texture_ref, long width, long height, long levels, dword format, long a6, bool a7, long a8, long a9)
 {
 	INVOKE(0x00A6DEF0, c_rasterizer_texture_ref::allocate, texture_ref, width, height, levels, format, a6, a7, a8, a9);
 }
