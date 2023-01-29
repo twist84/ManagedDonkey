@@ -2,6 +2,10 @@
 
 struct c_synchronized_long
 {
+public:
+	long peek() const;
+
+protected:
 	volatile long m_value;
 };
 static_assert(sizeof(c_synchronized_long) == 0x4);
