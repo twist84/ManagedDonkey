@@ -149,3 +149,14 @@ void __fastcall c_gui_custom_bitmap_storage_item::unload_rendered_bitmap(c_gui_c
 	
 	_this->m_bitmap_ready = false;
 };
+
+c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager::get()
+{
+	return &g_gui_custom_bitmap_storage_manager;
+}
+
+bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long a5)
+{
+	return false;
+	return DECLFUNC(0x00AE5440, bool, __thiscall, c_gui_custom_bitmap_storage_manager*, long, char const*, long, long)(this, storage_item_index, buffer, buffer_size, a5);
+}
