@@ -4,6 +4,7 @@ struct c_synchronized_long
 {
 public:
 	long peek() const;
+	void operator=(long Value);
 
 protected:
 	volatile long m_value;
