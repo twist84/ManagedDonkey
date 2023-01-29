@@ -29,7 +29,7 @@ s_blf_chunk_start_of_file::s_blf_chunk_start_of_file()
 
 void s_blf_chunk_start_of_file::initialize()
 {
-	header.setup('_blf', sizeof(*this), 1, 2);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	byte_order_mark = _byteswap_ushort(0xFFFE);
 	name.clear();
@@ -43,7 +43,7 @@ s_blf_chunk_end_of_file::s_blf_chunk_end_of_file()
 
 void s_blf_chunk_end_of_file::initialize()
 {
-	header.setup('_eof', sizeof(*this), 1, 1);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	file_size = 0;
 	authentication_type = _blf_file_authentication_type_none;
@@ -56,7 +56,7 @@ s_blf_chunk_end_of_file_with_crc::s_blf_chunk_end_of_file_with_crc()
 
 void s_blf_chunk_end_of_file_with_crc::initialize()
 {
-	header.setup('_eof', sizeof(*this), 1, 1);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	file_size = 0;
 	authentication_type = _blf_file_authentication_type_crc;
@@ -69,7 +69,7 @@ s_blf_chunk_content_header::s_blf_chunk_content_header()
 
 void s_blf_chunk_content_header::initialize()
 {
-	header.setup('chdr', sizeof(*this), 9, 1);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	build_number = static_cast<short>(version_get_build_number());
 	map_minor_version = static_cast<short>(get_map_minor_version());
@@ -91,7 +91,7 @@ s_blf_chunk_author::s_blf_chunk_author()
 
 void s_blf_chunk_author::initialize()
 {
-	header.setup('athr', sizeof(*this), 3, 1);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	build_name.set(0);
 	build_identifier = 0;
@@ -102,13 +102,13 @@ void s_blf_chunk_author::initialize()
 s_blf_chunk_game_variant::s_blf_chunk_game_variant() :
 	game_variant()
 {
-	header.setup('mpvr', sizeof(*this), 3, 1);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 }
 
 s_blf_chunk_map_variant::s_blf_chunk_map_variant() :
 	map_variant()
 {
-	header.setup('mpvr', sizeof(*this), 12, 1);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	memset(pad, 0, sizeof(pad));
 }
@@ -137,7 +137,7 @@ s_blffile_map_variant::s_blffile_map_variant() :
 
 s_blf_chunk_campaign::s_blf_chunk_campaign()
 {
-	header.setup('cmpn', sizeof(*this), 1, 1);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	type_flags = 0;
 	campaign_id = -1;
@@ -148,7 +148,7 @@ s_blf_chunk_campaign::s_blf_chunk_campaign()
 
 s_blf_chunk_scenario::s_blf_chunk_scenario()
 {
-	header.setup('levl', sizeof(*this), 3, 2);
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
 	map_id = -1;
 	type_flags = 0;
@@ -249,13 +249,13 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 
 				result = true;
 
-				if (chunk_type == '_eof' && chunk_size >= sizeof(s_blf_chunk_end_of_file) && buffer_count >= sizeof(s_blf_chunk_end_of_file) && out_eof_chunk)
+				if (chunk_type == s_blf_chunk_end_of_file::k_chunk_type && chunk_size >= sizeof(s_blf_chunk_end_of_file) && buffer_count >= sizeof(s_blf_chunk_end_of_file) && out_eof_chunk)
 				{
 					*out_eof_chunk = true;
 					result = true;
 				}
 			}
-			else if (chunk_type == '_eof')
+			else if (chunk_type == s_blf_chunk_end_of_file::k_chunk_type)
 			{
 				if (chunk_size >= sizeof(s_blf_chunk_end_of_file) && buffer_count >= sizeof(s_blf_chunk_end_of_file))
 				{
@@ -315,7 +315,7 @@ bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_co
 				*out_byte_swap = true;
 		}
 
-		if (chunk_type == '_blf' && chunk_major_version == 1 && chunk_size >= sizeof(s_blf_chunk_start_of_file))
+		if (chunk_type == s_blf_chunk_start_of_file::k_chunk_type && chunk_major_version == 1 && chunk_size >= sizeof(s_blf_chunk_start_of_file))
 		{
 			if (out_chunk_size)
 				*out_chunk_size = chunk_size;
