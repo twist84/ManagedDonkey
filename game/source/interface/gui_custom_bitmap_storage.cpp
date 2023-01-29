@@ -17,16 +17,10 @@
 #include <d3dx9.h>
 #include <d3dx9tex.h>
 
-//#define ENABLE_LOAD_FROM_BUFFER_HOOK
-
 HOOK_DECLARE_CLASS(0x00B20460, c_gui_custom_bitmap_storage_item, dispose);
 HOOK_DECLARE_CLASS(0x00B20470, c_gui_custom_bitmap_storage_item, initialize);
 HOOK_DECLARE_CLASS(0x00B20480, c_gui_custom_bitmap_storage_item, sub_B20480);
-
-#ifdef ENABLE_LOAD_FROM_BUFFER_HOOK
 HOOK_DECLARE_CLASS(0x00B20490, c_gui_custom_bitmap_storage_item, load_from_buffer);
-#endif // ENABLE_LOAD_FROM_BUFFER_HOOK
-
 HOOK_DECLARE_CLASS(0x00B204B0, c_gui_custom_bitmap_storage_item, sub_B204B0);
 HOOK_DECLARE_CLASS(0x00B204D0, c_gui_custom_bitmap_storage_item, sub_B204D0);
 HOOK_DECLARE_CLASS(0x00B204E0, c_gui_custom_bitmap_storage_item, unload_rendered_bitmap);
@@ -54,10 +48,7 @@ void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap
 	bitmap_2d_initialize(&_this->m_bitmap, static_cast<short>(width), static_cast<short>(height), 0, _this->m_use_compressed_format ? _bitmap_format_dxt5 : _bitmap_format_a8r8g8b8, FLAG(3) | FLAG(6), false, false);
 	_this->m_bitmap.curve = 3;
 
-#ifdef ENABLE_LOAD_FROM_BUFFER_HOOK
 	c_rasterizer_texture_ref::allocate(_this->m_hardware_format_bitmap, width, height, 1, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, false, 0, 0);
-#endif // ENABLE_LOAD_FROM_BUFFER_HOOK
-
 	_this->texture_header = new D3DBaseTexture();
 
 	dword base_size = 0;
@@ -158,5 +149,10 @@ c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager
 bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long a5)
 {
 	return false;
-	return DECLFUNC(0x00AE5440, bool, __thiscall, c_gui_custom_bitmap_storage_manager*, long, char const*, long, long)(this, storage_item_index, buffer, buffer_size, a5);
+
+	// #TODO: investigate the error below, the calling convention is __thiscall in IDA
+	// - Run-Time Check Failure #0 - The value of ESP was not properly saved across a function call.
+	// - This is usually a result of calling a function declared with one calling convention with a function pointer declared with a different calling convention.
+	// 
+	//return DECLFUNC(0x00AE5440, bool, __thiscall, c_gui_custom_bitmap_storage_manager*, long, char const*, long, long)(this, storage_item_index, buffer, buffer_size, a5);
 }
