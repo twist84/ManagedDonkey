@@ -560,7 +560,7 @@ enum e_achievement
 
 enum e_damage_reporting_type
 {
-	_damage_reporting_type_unknown,
+	_damage_reporting_type_unknown = 0,
 	_damage_reporting_type_guardians,
 	_damage_reporting_type_falling_damage,
 	_damage_reporting_type_generic_collision_damage,
@@ -626,6 +626,23 @@ enum e_damage_reporting_type
 	_damage_reporting_type_marksman_rifle,
 
 	k_damage_reporting_type_count
+};
+
+enum e_interface_font
+{
+	_interface_font_terminal = 0,
+	_interface_font_body_text,
+	_interface_font_title,
+	_interface_font_super_large_font,
+	_interface_font_large_body_text,
+	_interface_font_split_screen_hud_message,
+	_interface_font_full_screen_hud_message,
+	_interface_font_english_body_text,
+	_interface_font_HUD_number_text,
+	_interface_font_subtitle_font,
+	_interface_font_main_menu_font,
+
+	k_interface_font_count
 };
 
 

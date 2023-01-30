@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "shell/shell.hpp"
 
 struct s_animation_transform
 {
@@ -30,6 +31,6 @@ struct s_animation_transform
 
 	short sequence_index;
 	short frame_index;
-	long custom_font;
+	c_enum<e_interface_font, long, k_interface_font_count> custom_font;
 };
 static_assert(sizeof(s_animation_transform) == 0x88);

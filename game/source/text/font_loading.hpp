@@ -1,8 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "shell/shell.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "shell/shell.hpp"
 #include "tag_files/files.hpp"
 
 enum e_font_index
