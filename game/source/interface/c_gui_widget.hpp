@@ -33,6 +33,12 @@ enum e_widget_positioning
 struct s_core_widget_definition
 {
 	// e_core_widget_definition_flags
+	// override: e_bitmap_widget_definition_flags
+	// override: e_group_widget_definition_flags
+	// override: e_list_widget_definition_flags
+	// override: e_model_widget_definition_flags
+	// override: e_screen_widget_definition_flags
+	// override: e_text_widget_definition_flags
 	dword_flags flags;
 
 	// identification only
@@ -53,6 +59,12 @@ static_assert(sizeof(s_core_widget_definition) == 0x2C);
 struct s_runtime_core_widget_definition
 {
 	// e_core_widget_definition_flags
+	// override: e_bitmap_widget_definition_flags
+	// override: e_group_widget_definition_flags
+	// override: e_list_widget_definition_flags
+	// override: e_model_widget_definition_flags
+	// override: e_screen_widget_definition_flags
+	// override: e_text_widget_definition_flags
 	dword_flags flags;
 
 	// identification only

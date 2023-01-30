@@ -3,6 +3,22 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_widget.hpp"
 
+enum e_bitmap_widget_definition_flags
+{
+	_bitmap_widget_definition_flag_scale_to_fit_bounds_bit = k_core_widget_definition_flag_count,
+	_bitmap_widget_definition_flag_render_as_screen_blur_bit,
+	_bitmap_widget_definition_flag_render_as_player_emblem_bit,
+	_bitmap_widget_definition_flag_sprite_from_exported_integer_bit,
+	_bitmap_widget_definition_flag_sequence_from_exported_integer_bit,
+	_bitmap_widget_definition_flag_attach_shader_to_exported_integer_bit,
+	_bitmap_widget_definition_flag_allow_list_item_to_override_animation_skin_bit,
+	_bitmap_widget_definition_flag_can_recieve_focus_bit,
+	_bitmap_widget_definition_flag_scale0_5_bit,
+	_bitmap_widget_definition_flag_stretch_bit,
+
+	k_bitmap_widget_definition_flag_count
+};
+
 struct s_bitmap_widget_definition : s_core_widget_definition
 {
 	tag_reference bitmap_tag;

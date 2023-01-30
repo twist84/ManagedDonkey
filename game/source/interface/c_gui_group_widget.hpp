@@ -4,6 +4,15 @@
 #include "interface/c_gui_widget.hpp"
 #include "tag_files/tag_groups.hpp"
 
+enum e_group_widget_definition_flags
+{
+	_group_widget_definition_flag_not_loaded_upon_initialization_bit = k_core_widget_definition_flag_count,
+	_group_widget_definition_flag_bit4,
+	_group_widget_definition_flag_bit5,
+
+	k_group_widget_definition_flag_count
+};
+
 struct s_group_widget_definition : s_core_widget_definition
 {
 	tag_block list;

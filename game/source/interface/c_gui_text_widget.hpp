@@ -4,6 +4,28 @@
 #include "interface/user_interface_text.hpp"
 #include "shell/shell.hpp"
 
+enum e_text_widget_definition_flags
+{
+	_text_widget_definition_flag_left_justify_bit = k_core_widget_definition_flag_count,
+	_text_widget_definition_flag_right_justify_bit,
+	_text_widget_definition_flag_scrollable_bit,
+	_text_widget_definition_flag_uppercase_bit,
+	_text_widget_definition_flag_string_from_exported_text_bit,
+	_text_widget_definition_flag_string_from_exported_string_id_bit,
+	_text_widget_definition_flag_string_from_exported_global_string_id_bit,
+	_text_widget_definition_flag_string_from_exported_integer_bit,
+	_text_widget_definition_flag_string_from_list_item_label_bit,
+	_text_widget_definition_flag_use_brackets_to_indicate_focus_bit,
+	_text_widget_definition_flag_large_text_buffer_255_chars_bit,
+	_text_widget_definition_flag_extra_large_text_buffer_bit,
+	_text_widget_definition_flag_single_drop_shadow_bit,
+	_text_widget_definition_flag_no_drop_shadow_bit,
+	_text_widget_definition_flag_allow_list_item_to_override_animation_skin_bit,
+	_text_widget_definition_flag_do_not_wrap_text_bit,
+
+	k_text_widget_definition_flag_count
+};
+
 struct s_text_widget_definition : s_core_widget_definition
 {
 	string_id value_override_list;
