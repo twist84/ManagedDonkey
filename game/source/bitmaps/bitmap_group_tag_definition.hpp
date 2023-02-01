@@ -4,6 +4,45 @@
 #include "rasterizer/rasterizer_text.hpp"
 #include "tag_files/tag_groups.hpp"
 
+enum e_bitmap_more_flags
+{
+	// is this even used anymore?
+	_bitmap_more_flag_delete_from_cache_file_bit = 0,
+	
+	// (memory spacing) DO NOT CHANGE
+	_bitmap_more_flag_xbox360_pitch_bit,
+	
+	// DO NOT CHANGE
+	_bitmap_more_flag_xbox360_byte_order_bit,
+	
+	// DO NOT CHANGE
+	_bitmap_more_flag_xbox360_tiled_texture_bit,
+	
+	// (hack for bumpmaps) DO NOT CHANGE
+	_bitmap_more_flag_xbox360_created_correctly_bit,
+	
+	// DO NOT CHANGE
+	_bitmap_more_flag_xbox360_high_resolution_offset_is_valid_bit,
+	
+	// DO NOT CHANGE
+	_bitmap_more_flag_xbox360_use_interleaved_textures_bit,
+	
+	// DO NOT CHANGE
+	_bitmap_more_flag_xbox360_use_on_demand_only_bit,
+
+	k_bitmap_more_flag_count
+};
+
+enum e_bitmap_type
+{
+	_bitmap_type_2d_texture = 0,
+	_bitmap_type_3d_texture,
+	_bitmap_type_cube_map,
+	_bitmap_type_array,
+
+	k_bitmap_type_count
+};
+
 enum e_bitmap_format
 {
 	_bitmap_format_a8 = 0,
@@ -50,27 +89,72 @@ enum e_bitmap_format
 	k_bitmap_format_count
 };
 
+enum e_bitmap_flags
+{
+	// DO NOT CHANGE
+	_bitmap_flag_power_of_two_dimensions = 0,
+
+	// DO NOT CHANGE
+	_bitmap_flag_compressed,
+
+	// DO NOT CHANGE
+	_bitmap_flag_swap_axes,
+
+	_bitmap_flag_bit3,
+
+	k_bitmap_flag_count
+};
+
 // constructors in `rasterizer_textures_xenon_header` and `font_cache`
 struct bitmap_data
 {
-	tag signature;
+	tag signature; // should be 'bitm'
+
+	// DO NOT CHANGE
 	short width;
+
+	// DO NOT CHANGE
 	short height;
+
+	// DO NOT CHANGE
 	char depth;
-	byte_flags more_flags;
-	short type;
-	short format;
-	word_flags flags;
+
+	c_flags<e_bitmap_more_flags, byte, k_bitmap_more_flag_count> more_flags;
+
+	// DO NOT CHANGE
+	c_enum<e_bitmap_type, short, k_bitmap_type_count> type;
+
+	// DO NOT CHANGE
+	c_enum<e_bitmap_format, short, k_bitmap_format_count> format;
+
+	c_flags<e_bitmap_flags, word, k_bitmap_flag_count> flags;
+
+	// the 'center' of the bitmap - i.e. for particles
 	int16_point2d registration_point;
+
+	// DO NOT CHANGE
 	char mipmap_count;
+
+	// how to convert from pixel value to linear
 	char curve;
+
 	char interleaved_interop;
 	char interleaved_texture_index;
-	long pixels_offset;
-	long pixels_size;
+
+	// DO NOT CHANGE (offset of the beginning of this bitmap, into pixel data)
+	long pixels_offset; // bytes
+
+	// DO NOT CHANGE (total bytes used by this bitmap)
+	long pixels_size; // bytes
+
+	// DO NOT CHANGE
 	long high_res_pixels_offset_offset;
+
+	// DO NOT CHANGE
 	long high_res_pixels_size;
+
 	c_rasterizer_texture_ref hardware_format;
+
 	dword base_address;
 };
 static_assert(sizeof(bitmap_data) == 0x30);
