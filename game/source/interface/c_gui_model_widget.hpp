@@ -109,9 +109,17 @@ struct c_gui_model_widget : public c_gui_widget
 
 	s_player_appearance m_player_appearance;
 
-	byte __data1C04[0x4C];
+	dword __unknown1C04;
+	real_point3d __point1C08;
+	real_point3d __point1C14;
+	real_point3d __point1C20;
+
+	byte __data1C2C[0x24];
+
 	long m_object_index;
-	byte __data1C54[0x1C];
+	long m_render_window;
+
+	byte __data1C58[0x18];
 };
 static_assert(sizeof(c_gui_model_widget) == sizeof(c_gui_widget) + 0x1B94);
 
