@@ -90,15 +90,15 @@ bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_
 		{
 			_this->m_bitmap.flags |= FLAG(6);
 
-			IDirect3DTexture9* pTexture = _this->m_hardware_format_bitmap.get_d3d_texture();
-			assert(pTexture != NULL);
+			IDirect3DTexture9* d3d_texture = _this->m_hardware_format_bitmap.get_d3d_texture();
+			assert(d3d_texture != NULL);
 
-			IDirect3DSurface9* pSurface;
-			HRESULT get_surface_level_result = pTexture->GetSurfaceLevel(0, &pSurface);
+			IDirect3DSurface9* d3d_surface;
+			HRESULT get_surface_level_result = d3d_texture->GetSurfaceLevel(0, &d3d_surface);
 			if (SUCCEEDED(get_surface_level_result))
 			{
-				HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(pSurface, NULL, NULL, buffer, buffer_size, NULL, D3DX_DEFAULT, 0, NULL);
-				pSurface->Release();
+				HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_size, NULL, D3DX_DEFAULT, 0, NULL);
+				d3d_surface->Release();
 
 				if (SUCCEEDED(load_surface_result))
 				{

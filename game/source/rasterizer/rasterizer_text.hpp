@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 
 struct IDirect3DTexture9;
-struct bitmap_data_block_def;
 struct c_rasterizer_texture_ref
 {
 public:

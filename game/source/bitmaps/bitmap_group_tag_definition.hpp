@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "rasterizer/rasterizer_text.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_bitmap_format
@@ -50,7 +51,7 @@ enum e_bitmap_format
 };
 
 // constructors in `rasterizer_textures_xenon_header` and `font_cache`
-struct bitmap_data_block_def
+struct bitmap_data
 {
 	tag signature;
 	short width;
@@ -69,10 +70,10 @@ struct bitmap_data_block_def
 	long pixels_size;
 	long high_res_pixels_offset_offset;
 	long high_res_pixels_size;
-	long hardware_format;
+	c_rasterizer_texture_ref hardware_format;
 	dword base_address;
 };
-static_assert(sizeof(bitmap_data_block_def) == 0x30);
+static_assert(sizeof(bitmap_data) == 0x30);
 
 struct bitmap_group
 {
@@ -121,9 +122,9 @@ struct bitmap_group
 
 	tag_data processed_pixel_data;
 	tag_block sequences;
-	c_typed_tag_block<bitmap_data_block_def> bitmaps;
+	c_typed_tag_block<bitmap_data> bitmaps;
 	tag_data xenon_processed_pixel_data;
-	c_typed_tag_block<bitmap_data_block_def> xenon_bitmaps;
+	c_typed_tag_block<bitmap_data> xenon_bitmaps;
 	tag_block hardware_textures;
 	tag_block interleaved_hardware_textures;
 	long __unknownB4;

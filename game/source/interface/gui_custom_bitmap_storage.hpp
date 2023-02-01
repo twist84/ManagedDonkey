@@ -34,7 +34,7 @@ struct c_gui_custom_bitmap_storage_item
 	// true for `dxt5`, false for `a8r8g8b8`
 	bool m_use_compressed_format;
 
-	bitmap_data_block_def m_bitmap;
+	bitmap_data m_bitmap;
 
 	bool m_allocated;
 	byte __pad3D[3];
