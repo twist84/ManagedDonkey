@@ -77,7 +77,11 @@ bool __fastcall c_gui_custom_bitmap_storage_item::sub_B20480(c_gui_custom_bitmap
 	return false;
 }
 
-bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_bitmap_storage_item* _this, long storage_item_index, char const* buffer, long buffer_size, long a4)
+// buffer:       blf, async_file_buffer
+// buffer_size:  blf, async_file_buffer_size
+// buffer2:      c_gui_custom_bitmap_storage_manager::m_buffer
+// buffer2_size: c_gui_custom_bitmap_storage_manager::m_buffer_size
+bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_bitmap_storage_item* _this, long storage_item_index, char const* buffer, long buffer_size, void* buffer2, long buffer2_size, long a6)
 {
 	assert(buffer);
 	assert(!_this->m_bitmap_ready);
@@ -91,29 +95,34 @@ bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_
 			_this->m_bitmap.flags |= FLAG(6);
 
 			IDirect3DTexture9* d3d_texture = _this->m_hardware_format_bitmap.get_d3d_texture();
-			assert(d3d_texture != NULL);
-
-			IDirect3DSurface9* d3d_surface;
-			HRESULT get_surface_level_result = d3d_texture->GetSurfaceLevel(0, &d3d_surface);
-			if (SUCCEEDED(get_surface_level_result))
+			if (d3d_texture != NULL)
 			{
-				HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_size, NULL, D3DX_DEFAULT, 0, NULL);
-				d3d_surface->Release();
-
-				if (SUCCEEDED(load_surface_result))
+				IDirect3DSurface9* d3d_surface = NULL;
+				HRESULT get_surface_level_result = d3d_texture->GetSurfaceLevel(0, &d3d_surface);
+				if (SUCCEEDED(get_surface_level_result))
 				{
-					dword bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, _this->m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8, 1, 0, -1, 0, _this->texture_header, 0, 0);
-					assert(bytes > 0);
+					HRESULT load_surface_result = D3DXLoadSurfaceFromFileInMemory(d3d_surface, NULL, NULL, buffer, buffer_size, NULL, D3DX_DEFAULT, 0, NULL);
+					d3d_surface->Release();
 
-					XGOffsetResourceAddress(_this->texture_header, _this->m_bitmap_pixel_buffer_base);
+					if (SUCCEEDED(load_surface_result))
+					{
+						dword bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, _this->m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8, 1, 0, -1, 0, _this->texture_header, 0, 0);
+						assert(bytes > 0);
 
-					_this->m_bitmap_ready = true;
-					result = true;
+						XGOffsetResourceAddress(_this->texture_header, _this->m_bitmap_pixel_buffer_base);
+
+						_this->m_bitmap_ready = true;
+						result = true;
+					}
+					else
+					{
+						c_console::write_line("ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code 0x%08X", load_surface_result);
+					}
 				}
-				else
-				{
-					c_console::write_line("ui:custom_bitmaps: D3DXLoadSurfaceFromFile failed with error code 0x%08X", load_surface_result);
-				}
+			}
+			else
+			{
+				c_console::write_line("ui:custom_bitmaps: d3d_texture is null");
 			}
 
 			return result;
@@ -148,11 +157,11 @@ c_gui_custom_bitmap_storage_manager* __cdecl c_gui_custom_bitmap_storage_manager
 
 bool __cdecl c_gui_custom_bitmap_storage_manager::load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long a5)
 {
-	return false;
-
 	// #TODO: investigate the error below, the calling convention is __thiscall in IDA
 	// - Run-Time Check Failure #0 - The value of ESP was not properly saved across a function call.
 	// - This is usually a result of calling a function declared with one calling convention with a function pointer declared with a different calling convention.
 	// 
 	//return DECLFUNC(0x00AE5440, bool, __thiscall, c_gui_custom_bitmap_storage_manager*, long, char const*, long, long)(this, storage_item_index, buffer, buffer_size, a5);
+
+	return false;
 }
