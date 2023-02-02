@@ -38,7 +38,7 @@ public:
 
 	byte pad[2];
 };
-static_assert(sizeof(s_blf_chunk_start_of_file) == 0x30);
+static_assert(sizeof(s_blf_chunk_start_of_file) == sizeof(s_blf_header) + 0x24);
 
 #pragma pack(push, 1)
 
@@ -68,7 +68,7 @@ public:
 	long file_size;
 	c_enum<e_blf_file_authentication_type, char, k_blf_file_authentication_type_count> authentication_type;
 };
-static_assert(sizeof(s_blf_chunk_end_of_file) == 0x11);
+static_assert(sizeof(s_blf_chunk_end_of_file) == sizeof(s_blf_header) + 0x5);
 
 struct s_blf_chunk_end_of_file_with_crc : s_blf_chunk_end_of_file
 {
@@ -105,7 +105,7 @@ public:
 	c_static_string<28> build_string;
 	c_static_string<16> author_name;
 };
-static_assert(sizeof(s_blf_chunk_author) == 0x50);
+static_assert(sizeof(s_blf_chunk_author) == sizeof(s_blf_header) + 0x44);
 
 #pragma pack(pop)
 
@@ -127,7 +127,7 @@ public:
 
 	s_saved_game_item_metadata metadata;
 };
-static_assert(sizeof(s_blf_chunk_content_header) == 0x108);
+static_assert(sizeof(s_blf_chunk_content_header) == sizeof(s_blf_header) + 0xFC);
 
 struct s_blf_chunk_game_variant
 {
@@ -142,7 +142,7 @@ public:
 
 	c_game_variant game_variant;
 };
-static_assert(sizeof(s_blf_chunk_game_variant) == 0x270);
+static_assert(sizeof(s_blf_chunk_game_variant) == sizeof(s_blf_header) + 0x264);
 
 struct s_blf_chunk_map_variant
 {
@@ -158,7 +158,7 @@ public:
 	c_map_variant map_variant;
 	byte pad[4];
 };
-static_assert(sizeof(s_blf_chunk_map_variant) == 0xE0A0);
+static_assert(sizeof(s_blf_chunk_map_variant) == sizeof(s_blf_header) + 0xE094);
 
 struct s_blffile_saved_game_file
 {
@@ -215,7 +215,7 @@ public:
 
 	long : 32;
 };
-static_assert(sizeof(s_blf_chunk_campaign) == 0x1318);
+static_assert(sizeof(s_blf_chunk_campaign) == sizeof(s_blf_header) + 0x130C);
 
 struct s_blf_chunk_scenario_insertion
 {
@@ -281,7 +281,15 @@ public:
 
 	s_blf_chunk_scenario_insertion insertions[9];
 };
-static_assert(sizeof(s_blf_chunk_scenario) == 0x98C0);
+static_assert(sizeof(s_blf_chunk_scenario) == sizeof(s_blf_header) + 0x98B4);
+
+enum e_map_image_type
+{
+	_map_image_type_jpg = 0,
+	_map_image_type_png,
+
+	k_map_image_type_count
+};
 
 struct s_blf_chunk_map_image
 {
@@ -297,10 +305,10 @@ public:
 
 #pragma warning(push)
 #pragma warning(disable : 4200)
-	byte buffer[];
+	char buffer[];
 #pragma warning(pop)
 };
-static_assert(sizeof(s_blf_chunk_map_image) == 0xC + 0x8);
+static_assert(sizeof(s_blf_chunk_map_image) == sizeof(s_blf_header) + 0x8);
 
 extern bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_count, bool* out_byte_swap, long* out_chunk_size);
 extern bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);

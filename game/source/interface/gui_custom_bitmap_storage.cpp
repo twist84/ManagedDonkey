@@ -92,8 +92,6 @@ bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_
 	{
 		if (_this->m_hardware_format_bitmap.valid())
 		{
-			_this->m_bitmap.flags |= FLAG(6);
-
 			IDirect3DTexture9* d3d_texture = _this->m_hardware_format_bitmap.get_d3d_texture();
 			if (d3d_texture != NULL)
 			{

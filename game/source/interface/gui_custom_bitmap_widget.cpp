@@ -107,7 +107,7 @@ long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_da
 
             if (chunk)
             {
-                if (chunk_size > 8 && *chunk >= 0 && *chunk < 2)
+                if (chunk_size > 8 && VALID_INDEX(*chunk, k_map_image_type_count))
                 {
                     long buffer_size = *reinterpret_cast<long const*>(chunk + 4);
                     char const* buffer = reinterpret_cast<char const*>(chunk + 8);
