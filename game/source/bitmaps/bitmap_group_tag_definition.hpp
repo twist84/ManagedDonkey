@@ -35,9 +35,16 @@ enum e_bitmap_more_flags
 
 enum e_bitmap_type
 {
-	_bitmap_type_2d_texture = 0,
-	_bitmap_type_3d_texture,
+	// 2D
+	_bitmap_type_2d = 0,
+
+	// 3D
+	_bitmap_type_3d,
+
+	// CUBE MAP
 	_bitmap_type_cube_map,
+
+	// No string found in ms23. MCC specific?
 	_bitmap_type_array,
 
 	k_bitmap_type_count
@@ -45,45 +52,118 @@ enum e_bitmap_type
 
 enum e_bitmap_format
 {
+	// alpha
 	_bitmap_format_a8 = 0,
+	
+	// intensity
 	_bitmap_format_y8,
+	
+	// combined alpha-intensity
 	_bitmap_format_ay8,
+	
+	// separate alpha-intensity
 	_bitmap_format_a8y8,
-	_bitmap_format_r8,
+	
+	_bitmap_format_unused1,
+	
 	_bitmap_format_unused2,
+	
+	// high-color
 	_bitmap_format_r5g6b5,
+	
+	// r6g5b5
 	_bitmap_format_unused3,
+	
+	// high-color with 1-bit alpha
 	_bitmap_format_a1r5g5b5,
+	
+	// high-color with alpha
 	_bitmap_format_a4r4g4b4,
+	
+	// true-color
 	_bitmap_format_x8r8g8b8,
+	
+	// true-color with alpha
 	_bitmap_format_a8r8g8b8,
+	
 	_bitmap_format_unused4,
+	
 	_bitmap_format_unused5,
+	
+	// compressed with color-key transparency
 	_bitmap_format_dxt1,
+	
+	// compressed with explicit alpha
 	_bitmap_format_dxt3,
+	
+	// compressed with interpolated alpha
 	_bitmap_format_dxt5,
+	
+	// font format
 	_bitmap_format_a4r4g4b4_font,
+	
+	// palettized
 	_bitmap_format_unused7,
+	
 	_bitmap_format_unused8,
-	_bitmap_format_software_rgbfp32,
+	
+	// SOFTWARE 32 bit float RGB
+	_bitmap_format_SOFTWARE_rgbfp32,
+	
 	_bitmap_format_unused9,
+	
+	// v8u8 signed 8-bit
 	_bitmap_format_v8u8,
+	
+	// g8b8 unsigned 8-bit
 	_bitmap_format_g8b8,
+	
+	// 32 bit float ABGR
 	_bitmap_format_abgrfp32,
+	
+	// 16 bit float ABGR
 	_bitmap_format_abgrfp16,
+	
+	// 8 bit signed 4 channel
 	_bitmap_format_q8w8v8u8,
+	
+	// 30-bit color 2-bit alpha
 	_bitmap_format_a2r10g10b10,
+	
+	// 48-bit color 16-bit alpha
 	_bitmap_format_a16b16g16r16,
+	
+	// v16u16 signed 16-bit
 	_bitmap_format_v16u16,
+	
+	// compressed 4-bit single channel
 	_bitmap_format_dxt3a,
+	
+	// compressed interpolated single channel
 	_bitmap_format_dxt5a,
+	
+	// compressed channel mask
 	_bitmap_format_dxt3a_1111,
+	
+	// compressed normals: high quality
 	_bitmap_format_dxn,
+	
+	// compressed normals: high compression
 	_bitmap_format_ctx1,
+	
+	// compressed 4-bit alpha channel
 	_bitmap_format_dxt3a_alpha,
+	
+	// compressed interpolated alpha channel
 	_bitmap_format_dxt3a_mono,
+	
+	// compressed 4-bit monochrome
 	_bitmap_format_dxt5a_alpha,
+	
+	// compressed interpolated monochrome
 	_bitmap_format_dxt5a_mono,
+
+	// compressed interpolated monochrome + alpha
 	_bitmap_format_dxn_mono_alpha,
 
 	k_bitmap_format_count
@@ -133,7 +213,7 @@ struct bitmap_data
 	int16_point2d registration_point;
 
 	// DO NOT CHANGE
-	char mipmap_count;
+	char mipmap_count_excluding_highest;
 
 	// how to convert from pixel value to linear
 	char curve;
@@ -153,7 +233,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	long high_res_pixels_size;
 
-	c_rasterizer_texture_ref hardware_format;
+	c_rasterizer_texture_ref internal_hardware_format;
 
 	dword base_address;
 };
