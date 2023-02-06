@@ -597,6 +597,9 @@
     <ClCompile Include="source\rasterizer\rasterizer_d3d_allocations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render_methods\render_method_submit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1653,6 +1656,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\c_gui_model_widget.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render_methods\render_method_submit.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
