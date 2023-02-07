@@ -593,7 +593,7 @@ static_assert(sizeof(first_person_weapon) == 0x14000);
 
 struct s_cortana_globals
 {
-	dword __unknown0;
+	dword cortana_effect_definition_index;
 	dword __unknown4;
 	dword __unknown8;
 	dword __unknownC;
