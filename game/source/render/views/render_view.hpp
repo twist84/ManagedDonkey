@@ -150,6 +150,9 @@ protected:
 	// hs_external_globals[242]
 	static real& m_fov_scale;
 
+	// c_first_person_view::override_projection
+	static real& m_z_far_scale; // from reach, missing `g_enable_first_person_squish && ` in if statement, always `1.0f`
+
 	byte __data294[0x4];
 };
 static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);
