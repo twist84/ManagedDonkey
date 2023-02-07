@@ -144,6 +144,12 @@ struct c_first_person_view :
 	public c_view
 {
 protected:
+
+	// c_first_person_camera::update
+	// c_first_person_view::override_projection
+	// hs_external_globals[242]
+	static real& m_fov_scale;
+
 	byte __data294[0x4];
 };
 static_assert(sizeof(c_first_person_view) == sizeof(c_view) + 0x4);

@@ -6,6 +6,8 @@ REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
 REFERENCE_DECLARE(0x050DEDF0, c_player_view*, c_player_view::x_current_player_view);
 REFERENCE_DECLARE_ARRAY(0x050DEE10, c_player_view, c_player_view::x_global_player_views, 4);
 
+REFERENCE_DECLARE(0x01913434, real, c_first_person_view::m_fov_scale);
+
 REFERENCE_DECLARE_ARRAY(0x018BABE8, real, pregame_frame_scales, 9);
 REFERENCE_DECLARE_ARRAY(0x0165DA08, s_render_fullscreen_text_context_colors, pregame_frame_colors, 9);
 
