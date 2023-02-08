@@ -402,6 +402,7 @@ POPD
     <ClInclude Include="source\game\game_results.hpp" />
     <ClInclude Include="source\interface\c_gui_model_widget.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
+    <ClInclude Include="source\interface\user_interface_objectives.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />

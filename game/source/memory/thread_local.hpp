@@ -11,6 +11,7 @@
 #include "game/game_time.hpp"
 #include "game/survival_mode.hpp"
 #include "effects/effects.hpp"
+#include "interface/user_interface_objectives.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
 #include "physics/physics_constants.hpp"
@@ -599,12 +600,6 @@ struct s_cortana_globals
 	dword __unknownC;
 };
 static_assert(sizeof(s_cortana_globals) == 0x10);
-
-struct s_current_objective_state
-{
-	byte __data[0x14];
-};
-static_assert(sizeof(s_current_objective_state) == 0x14);
 
 struct s_object_globals
 {

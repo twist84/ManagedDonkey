@@ -1661,6 +1661,9 @@
     <ClInclude Include="source\render_methods\render_method_submit.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\interface\user_interface_objectives.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
