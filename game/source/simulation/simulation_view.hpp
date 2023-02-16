@@ -88,10 +88,13 @@ struct c_simulation_view
 	c_network_observer* m_observer;
 	long m_observer_channel_index;
 	long m_view_death_reason;
+
 	long m_view_establishment_mode;
 	dword m_view_establishment_identifier;
+
+	long m_valid_view_establishment_mode;
 	dword m_valid_view_establishment_identifier;
-	byte __data44[0x4];
+
 	c_network_channel* m_channel;
 	dword m_channel_connection_identifier;
 	c_network_channel_simulation_interface m_simulation_interface;
@@ -99,15 +102,26 @@ struct c_simulation_view
 	dword_flags m_acknowledged_player_mask;
 
 	// synchronous catchup data
-	// edit: is this `c_simulation_view_synchronous_catchup_manager` from reach?
-	byte __data8C[0x8];
+
+	// if (m_view_type == _simulation_view_type_synchronous_to_remote_client)
+	//     __unknown8C = -1;
+	//     __unknown90 = -1;
+	dword __unknown8C;
+	dword __unknown90;
+
 	dword m_synchronous_catchup_attempt_count;
 	dword m_synchronous_catchup_update_number;
 	dword m_synchronous_catchup_finish_time;
 	dword m_synchronous_catchup_unknownA0;
 	dword m_synchronous_catchup_progress;
 	dword m_synchronous_catchup_unknownA8;
-	byte __dataAC[0x14];
+
+	// s_network_message_synchronous_gamestate?
+	byte __dataAC[0x10];
+
+	// if (m_view_type == _simulation_view_type_synchronous_to_remote_authority)
+	//     __unknownBC = 0;
+	dword __unknownBC;
 };
 static_assert(sizeof(c_simulation_view) == 0xC0);
 
