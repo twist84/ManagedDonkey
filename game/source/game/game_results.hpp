@@ -362,12 +362,64 @@ struct s_game_results_incremental
 };
 static_assert(sizeof(s_game_results_incremental) == 0x1B450);
 
+enum e_game_results_event_type
+{
+	_game_results_event_type_none = 0,
+	_game_results_event_type_kill,
+	_game_results_event_type_carry,
+	_game_results_event_type_score,
+
+	k_game_results_event_type_count
+};
+
 struct s_game_results_event
 {
-	byte type;
-	byte player_index;
-	byte union_storage[0x1E];
-	dword time;
+	/* 0x00 */ c_enum<e_game_results_event_type, char, k_game_results_event_type_count> type;
+
+	union
+	{
+#pragma pack(push, 1)
+		struct
+		{
+			/* 0x01 */ byte killing_player_index;
+			/* 0x02 */ byte dead_player_index;
+			/* 0x03 */ byte __pad3;
+
+			/* 0x04 */ real_point3d killing_player_position;
+			/* 0x10 */ real_point3d dead_player_position;
+
+			/* 0x1C */ c_enum<e_damage_reporting_type, long, k_damage_reporting_type_count> tracked_damage_type; // from damage reporting info
+		} kill;
+
+		struct
+		{
+			/* 0x01 */ byte player_index;
+			/* 0x02 */ byte __unknown2; // -1
+			/* 0x03 */ byte __pad3;
+
+			/* 0x04 */ real_point3d player_position;
+
+			/* 0x10 */ long carry;      // weapon_identifier?
+			/* 0x14 */ long carry_type; // e_game_results_event_carry_type
+		} carry;
+
+		struct
+		{
+			/* 0x01 */ byte player_index;
+			/* 0x02 */ byte __unknown2; // -1
+			/* 0x03 */ byte __pad3;
+
+			/* 0x04 */ real_point3d player_position;
+
+			/* 0x10 */ long score;
+			/* 0x14 */ long score_type; // e_game_results_event_score_type
+		} score;
+#pragma pack(pop)
+
+		byte event_type_storage[0x1F];
+	};
+
+	/* 0x20 */ dword time;
 };
 static_assert(sizeof(s_game_results_event) == 0x24);
 
