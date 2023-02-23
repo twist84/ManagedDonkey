@@ -6,6 +6,27 @@
 #include "game/game_options.hpp"
 #include "shell/shell.hpp"
 
+struct s_game_results_game_description // s_game_results_multiplayer_game_description?
+{
+	bool team_game;
+	qword game_instance;
+	c_game_variant game_variant;
+	c_static_wchar_string<32> map_variant_name;
+	long map_id;
+	c_static_string<260> scenario_path;
+	bool started;
+	dword start_time;
+	bool finished;
+	dword finish_time;
+
+	byte __unknown3CC;
+	byte __unknown3CD;
+	bool simulation_aborted;
+
+	byte __pad3CF[1];
+};
+static_assert(sizeof(s_game_results_game_description) == 0x3D0);
+
 struct s_integer_statistic_update
 {
 	word statistic;
@@ -431,24 +452,7 @@ struct c_game_results
 
 	// is this game result specific version of `s_game_matchmaking_options`?
 	s_game_matchmaking_options matchmaking_options;
-
-	bool team_game;
-	byte __data61[7]; // pad?
-	qword game_instance;
-	c_game_variant game_variant;
-	c_static_wchar_string<32> map_variant_name;
-	long map_id;
-	c_static_string<260> scenario_path;
-
-	bool started;
-	dword start_time;
-	bool finished;
-	dword finish_time;
-
-	byte __data42C[2];
-	bool simulation_aborted;
-	byte __data42F[1]; // pad?
-
+	s_game_results_game_description game_description;
 	c_static_array<s_game_results_player_data, 16> players;
 	c_static_array<s_game_results_team_data, 16> teams;
 	s_game_results_statistics statistics;
