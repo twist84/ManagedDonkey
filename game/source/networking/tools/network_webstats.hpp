@@ -13,8 +13,8 @@ struct s_game_matchmaking_options
 	byte : 8;
 	byte : 8;
 	long draw_probability;
-	long beta;
-	long tau;
+	real beta;
+	real tau;
 	long experience_base_increment;
 	long experience_penalty_decrement;
 };
