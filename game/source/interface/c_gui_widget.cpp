@@ -1,5 +1,6 @@
 #include "interface/c_gui_widget.hpp"
 
+#include "interface/interface_constants.hpp"
 #include "interface/user_interface_data.hpp"
 #include "memory/module.hpp"
 
@@ -213,29 +214,21 @@ void __fastcall c_gui_widget::get_unprojected_bounds(c_gui_widget* _this, void* 
 {
 	HOOK_INVOKE_CLASS(, c_gui_widget, get_unprojected_bounds, void(__thiscall*)(c_gui_widget*, gui_real_rectangle2d*, bool, bool, bool), _this, unprojected_bounds, a3, a4, a5);
 
-	// TESTING
-	const long scale_index = 0;
-	real scales[3]
-	{
-		// 1152x640
-		1.0f,
+	// this is more or less what Halo 3 MCC is doing
 
-		// 1920x1080
-		1.7f,
+	short_rectangle2d display_pixel_bounds;
+	interface_get_current_display_settings(nullptr, nullptr, &display_pixel_bounds, nullptr);
 
-		// 3840x2160
-		3.4f
-	};
+	real width_scale_factor = (display_pixel_bounds.x1 - display_pixel_bounds.x0) / 1152.0f;
+	real height_scale_factor = (display_pixel_bounds.y1 - display_pixel_bounds.y0) / 640.0f;
 
-	real scale = scales[scale_index];
-
-	unprojected_bounds->x0_0 *= scale;
-	unprojected_bounds->y0_0 *= scale;
-	unprojected_bounds->x0_1 *= scale;
-	unprojected_bounds->y0_1 *= scale;
-	unprojected_bounds->x1_0 *= scale;
-	unprojected_bounds->y0_2 *= scale;
-	unprojected_bounds->x1_1 *= scale;
-	unprojected_bounds->y1_0 *= scale;
+	unprojected_bounds->x0_0 *= width_scale_factor;
+	unprojected_bounds->y0_0 *= height_scale_factor;
+	unprojected_bounds->x0_1 *= width_scale_factor;
+	unprojected_bounds->y0_1 *= height_scale_factor;
+	unprojected_bounds->x1_0 *= width_scale_factor;
+	unprojected_bounds->y0_2 *= height_scale_factor;
+	unprojected_bounds->x1_1 *= width_scale_factor;
+	unprojected_bounds->y1_0 *= height_scale_factor;
 }
 
