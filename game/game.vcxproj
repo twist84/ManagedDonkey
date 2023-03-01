@@ -353,6 +353,7 @@ POPD
     <ClCompile Include="source\networking\tools\http_stream.cpp" />
     <ClCompile Include="source\networking\tools\network_blf.cpp" />
     <ClCompile Include="source\networking\tools\network_debug_dump.cpp" />
+    <ClCompile Include="source\networking\tools\remote_command.cpp" />
     <ClCompile Include="source\networking\transport\transport.cpp" />
     <ClCompile Include="source\networking\transport\transport_address.cpp" />
     <ClCompile Include="source\networking\transport\transport_endpoint_set_winsock.cpp" />
@@ -677,6 +678,7 @@ POPD
     <ClInclude Include="source\networking\tools\network_blf.hpp" />
     <ClInclude Include="source\networking\tools\network_debug_dump.hpp" />
     <ClInclude Include="source\networking\tools\network_webstats.hpp" />
+    <ClInclude Include="source\networking\tools\remote_command.hpp" />
     <ClInclude Include="source\networking\transport\transport.hpp" />
     <ClInclude Include="source\networking\transport\transport_address.hpp" />
     <ClInclude Include="source\networking\transport\transport_endpoint_set_winsock.hpp" />
