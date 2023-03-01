@@ -201,6 +201,10 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 		goto function_finish;
 	}
 
+	// .campaign file size
+	// - 0x1459, Halo 3 to Halo Reach
+	// - 0x18AC, Specific to Halo Online?
+	// - 0x1C19, Halo 4
 	if (file_size > 0x18AC)
 	{
 		c_console::write_line("levels: unexpected file size for campaign info file");
@@ -219,7 +223,7 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 				goto function_finish;
 			}
 
-			if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, 'cmpn', 1, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+			if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_campaign::k_chunk_type, s_blf_chunk_campaign::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 			{
 				c_console::write_line("levels: failed to find blf campaign chunk");
 				goto function_finish;
@@ -227,12 +231,12 @@ void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer,
 
 			if (chunk_buffer)
 			{
-				campaign = reinterpret_cast<s_blf_chunk_campaign const*>(chunk_buffer - 0xC);
+				campaign = reinterpret_cast<s_blf_chunk_campaign const*>(chunk_buffer - sizeof(s_blf_header));
 				if (chunk_buffer != (char const*)0xC &&
-					network_blf_find_chunk(file_buffer, file_size, byte_swap, '_eof', 1, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+					network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 				{
 					if (chunk_buffer && chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) &&
-						network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - 0xC, _blf_file_authentication_type_rsa))
+						network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - sizeof(s_blf_header), _blf_file_authentication_type_rsa))
 					{
 						file_added = true;
 						goto function_finish;
@@ -287,6 +291,11 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 		goto function_finish;
 	}
 
+	// .mapinfo file size
+	// - 0x4E91, Halo 3
+	// - 0x9A01, Halo 3: ODST
+	// - 0xCDD9, Halo Reach
+	// - 0x11F19, Halo 4
 	if (file_size > 0xCDD9)
 	{
 		c_console::write_line("levels: unexpected file size for level info file");
@@ -305,7 +314,7 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 				goto function_finish;
 			}
 
-			if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, 'levl', 3, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+			if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_scenario::k_chunk_type, s_blf_chunk_scenario::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 			{
 				c_console::write_line("levels: failed to find blf scenario chunk");
 				goto function_finish;
@@ -313,13 +322,13 @@ void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer,
 
 			if (chunk_buffer)
 			{
-				scenario = reinterpret_cast<s_blf_chunk_scenario const*>(chunk_buffer - 0xC);
+				scenario = reinterpret_cast<s_blf_chunk_scenario const*>(chunk_buffer - sizeof(s_blf_header));
 				if (chunk_buffer != (char const*)0xC &&
-					network_blf_find_chunk(file_buffer, file_size, byte_swap, '_eof', 1, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+					network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
 				{
 					if (chunk_buffer && chunk_size == sizeof(s_blf_chunk_end_of_file_with_rsa) && eof_chunk)
 					{
-						if (network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - 0xC, _blf_file_authentication_type_rsa))
+						if (network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - sizeof(s_blf_header), _blf_file_authentication_type_rsa))
 						{
 							file_added = true;
 							goto function_finish;
