@@ -69,4 +69,5 @@ extern short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void
 extern short __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, short length, transport_address const* destination);
 extern bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint);
 extern bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transport_address* address);
+extern bool __cdecl transport_endpoint_connected(transport_endpoint* endpoint);
 

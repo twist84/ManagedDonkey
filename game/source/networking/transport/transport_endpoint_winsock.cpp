@@ -297,3 +297,12 @@ bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transp
     HOOK_INVOKE(result =, transport_get_endpoint_address, endpoint, address);
     return result;
 }
+
+bool __cdecl transport_endpoint_connected(transport_endpoint* endpoint)
+{
+    assert(endpoint != NULL);
+
+    // ((endpoint->flags & 1) & 32) == 0
+    return TEST_BIT(endpoint->flags, 8);
+}
+
