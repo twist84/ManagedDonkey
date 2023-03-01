@@ -4,6 +4,8 @@
 #include "cseries/console.hpp"
 #include "memory/module.hpp"
 
+#include "donkey_networking/donkey_command_server.hpp"
+
 void process_attach(HMODULE hModule)
 {
 	set_donkey_module(hModule);
@@ -18,6 +20,8 @@ void process_attach(HMODULE hModule)
 
 	apply_all_patches(false);
 	apply_all_hooks(false);
+
+	patch_remote_command();
 }
 
 void process_detach(HMODULE hModule)
