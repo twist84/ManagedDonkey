@@ -60,6 +60,7 @@ extern bool __cdecl transport_endpoint_get_socket_address(transport_address cons
 extern bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, byte const* const socket_address, transport_address* address);
 extern short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, short length);
 extern short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* buffer, short length, transport_address* source);
+extern bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint);
 extern bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endpoint);
 extern bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool blocking);
 extern bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option, long value);

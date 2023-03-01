@@ -201,6 +201,13 @@ short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* b
     return INVOKE(0x004402F0, transport_endpoint_read_from, endpoint, buffer, length, source);
 }
 
+bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
+{
+    assert(endpoint != NULL);
+
+    return INVOKE(0x00440390, transport_endpoint_readable, endpoint);
+}
+
 bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endpoint)
 {
     if (transport_available())
