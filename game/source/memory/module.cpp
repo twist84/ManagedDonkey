@@ -228,3 +228,18 @@ void buffer_as_byte_string(byte* buffer, dword buffer_size, char* out_string, lo
 	for (dword i = 0; i < buffer_size; i++)
 		csnzprintf(&out_string[3 * i], out_string_size, "%02X ", buffer[i]);
 }
+
+bool patch_pointer(module_address address, const void* pointer)
+{
+	dword protect;
+	if (!VirtualProtect(address.pointer, sizeof(void*), PAGE_READWRITE, &protect))
+		return false;
+
+	memcpy(address.pointer, &pointer, sizeof(void*));
+
+	if (!VirtualProtect(address.pointer, sizeof(void*), protect, &protect))
+		return false;
+
+	return true;
+}
+

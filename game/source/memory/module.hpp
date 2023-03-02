@@ -122,3 +122,4 @@ void type_as_byte_string(t_type* type, char(&out_string)[k_string_size])
 	buffer_as_byte_string((byte*)type, sizeof(t_type), out_string, k_string_size);
 }
 
+bool patch_pointer(module_address address, const void* pointer);

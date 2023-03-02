@@ -1,5 +1,7 @@
 #include "networking/tools/remote_command.hpp"
 
+#include "donkey_networking/donkey_command_server.hpp"
+
 #include "camera/observer.hpp"
 #include "cseries/console.hpp"
 #include "game/game.hpp"
@@ -9,6 +11,16 @@
 #include <assert.h>
 
 s_remote_command_globals remote_command_globals;
+
+void __cdecl remote_command_initialize()
+{
+    command_server.start(11770);
+}
+
+void __cdecl remote_command_dispose()
+{
+    command_server.stop();
+}
 
 void __cdecl remote_command_disconnect()
 {
