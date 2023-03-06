@@ -37,6 +37,7 @@ struct s_transport_secure_address;
 
 extern bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b);
 extern char const* __cdecl transport_address_get_string(transport_address const* address);
+extern void __cdecl transport_address_ipv4_build(transport_address* address, dword ip_address, word port);
 extern dword __cdecl transport_address_ipv4_extract(transport_address const* address);
 extern bool __cdecl transport_address_is_loopback(transport_address const* address);
 extern char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, short maximum_string_length, bool include_port, bool include_extra);

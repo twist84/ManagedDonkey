@@ -33,6 +33,13 @@ char const* __cdecl transport_address_get_string(transport_address const* addres
 	return _string;
 }
 
+void __cdecl transport_address_ipv4_build(transport_address* address, dword ip_address, word port)
+{
+	address->address_length = sizeof(dword);
+	address->ipv4_address = ip_address;
+	address->port = port;
+}
+
 dword __cdecl transport_address_ipv4_extract(transport_address const* address)
 {
 	assert(address);
@@ -44,7 +51,7 @@ bool __cdecl transport_address_is_loopback(transport_address const* address)
 {
 	assert(address);
 
-	return address->address_length == 4 && address->ipv4_address == 0x7F000001;
+	return address->address_length == sizeof(dword) && address->ipv4_address == 0x7F000001;
 }
 
 char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, short maximum_string_length, bool include_port, bool include_extra)
@@ -155,14 +162,14 @@ bool __cdecl transport_address_valid(transport_address const* address)
 
 void __cdecl transport_get_broadcast_address(transport_address* address, word port)
 {
-	address->address_length = 4;
-	address->ipv4_address = -1;
+	address->address_length = sizeof(dword);
+	address->ipv4_address = 0xFFFFFFFF;
 	address->port = port;
 }
 
 void __cdecl transport_get_listen_address(transport_address* address, word port)
 {
-	address->address_length = 4;
+	address->address_length = sizeof(dword);
 	address->ipv4_address = 0;
 	address->port = port;
 }
