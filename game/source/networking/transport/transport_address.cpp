@@ -35,6 +35,8 @@ char const* __cdecl transport_address_get_string(transport_address const* addres
 
 void __cdecl transport_address_ipv4_build(transport_address* address, dword ip_address, word port)
 {
+	assert(address);
+
 	address->address_length = sizeof(dword);
 	address->ipv4_address = ip_address;
 	address->port = port;
@@ -162,6 +164,8 @@ bool __cdecl transport_address_valid(transport_address const* address)
 
 void __cdecl transport_get_broadcast_address(transport_address* address, word port)
 {
+	assert(address);
+
 	address->address_length = sizeof(dword);
 	address->ipv4_address = 0xFFFFFFFF;
 	address->port = port;
@@ -169,8 +173,19 @@ void __cdecl transport_get_broadcast_address(transport_address* address, word po
 
 void __cdecl transport_get_listen_address(transport_address* address, word port)
 {
+	assert(address);
+
 	address->address_length = sizeof(dword);
 	address->ipv4_address = 0;
+	address->port = port;
+}
+
+void __cdecl transport_get_loopback_address(transport_address* address, word port)
+{
+	assert(address);
+
+	address->address_length = sizeof(dword);
+	address->ipv4_address = 0x7F000001;
 	address->port = port;
 }
 
