@@ -161,9 +161,34 @@ bool __cdecl transport_endpoint_get_transport_address(long socket_address_length
     return result;
 }
 
-short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, short length)
+e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoint)
 {
     assert(endpoint != NULL);
+
+    return endpoint->type;
+}
+
+bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint)
+{
+    assert(endpoint != NULL);
+    assert(endpoint->socket != INVALID_SOCKET);
+
+    if (!transport_available())
+        return false;
+
+    if (listen(endpoint->socket, 16))
+    {
+        c_console::write_line("transport:endpoint: listen() failed: error= %s", winsock_error_to_string(WSAGetLastError()));
+
+        return false;
+    }
+
+    endpoint->flags |= FLAG(1);
+    return true;
+}
+
+short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, short length)
+{
     assert(buffer != NULL);
     assert(length > 0);
     assert(endpoint->socket != INVALID_SOCKET);

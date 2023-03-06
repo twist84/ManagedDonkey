@@ -59,6 +59,8 @@ extern void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint);
 extern long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option);
 extern bool __cdecl transport_endpoint_get_socket_address(transport_address const* address, long* socket_address_size, byte* const socket_address);
 extern bool __cdecl transport_endpoint_get_transport_address(long socket_address_length, byte const* const socket_address, transport_address* address);
+extern e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoint);
+extern bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint);
 extern short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, short length);
 extern short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* buffer, short length, transport_address* source);
 extern bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint);
