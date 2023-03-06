@@ -66,6 +66,7 @@ extern bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endp
 extern bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool blocking);
 extern bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option, long value);
 extern void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_type type);
+extern bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, transport_address const* address);
 extern short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, short length);
 extern short __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, short length, transport_address const* destination);
 extern bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint);

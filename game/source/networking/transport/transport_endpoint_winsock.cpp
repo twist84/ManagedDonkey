@@ -251,6 +251,14 @@ void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_
     endpoint->type = type;
 }
 
+bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, transport_address const* address)
+{
+    assert(endpoint != NULL);
+    assert(address != NULL);
+
+    return INVOKE(0x004405C0, transport_endpoint_test, endpoint, address);
+}
+
 short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, short length)
 {
     assert(endpoint != NULL);
