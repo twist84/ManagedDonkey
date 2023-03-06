@@ -82,6 +82,14 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
     return result;
 }
 
+bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_address const* address)
+{
+    assert(endpoint != NULL);
+    assert(address != NULL);
+
+    return INVOKE(0x0043FD70, transport_endpoint_connect, endpoint, address);
+}
+
 transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type)
 {
     transport_endpoint* result = nullptr;

@@ -51,6 +51,7 @@ extern transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint*
 extern bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, transport_address const* address);
 extern bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint, bool* is_connected);
 extern bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_address* address);
+extern bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_address const* address);
 extern transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type);
 extern bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, transport_address const* address);
 extern void __cdecl transport_endpoint_delete(transport_endpoint* endpoint);
