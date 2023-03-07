@@ -327,7 +327,7 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
     if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
     {
         bytes_read = recv(endpoint->socket, static_cast<char*>(buffer), length, 0);
-        if (bytes_read == 0xFFFF)
+        if (bytes_read == short(0xFFFF))
         {
             int error = WSAGetLastError();
             if (error == WSAEWOULDBLOCK)
@@ -460,7 +460,7 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
     if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
     {
         short bytes_written = send(endpoint->socket, static_cast<const char*>(buffer), length, 0);
-        if (bytes_written == 0xFFFF)
+        if (bytes_written == short(0xFFFF))
         {
             int error = WSAGetLastError();
 
@@ -478,7 +478,11 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
                 result = short(0xFFFF);
             }
         }
-        else assert(bytes_written > 0);
+        else
+        {
+            assert(bytes_written > 0);
+            return bytes_written;
+        }
     }
     return result;
 }

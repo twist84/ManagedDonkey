@@ -9,6 +9,7 @@
 #include "game/game.hpp"
 #include "game/game_time.hpp"
 #include "game/player_mapping.hpp"
+#include "interface/user_interface_networking.hpp"
 #include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
@@ -185,10 +186,22 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 	assert(buffer);
 	assert(buffer_length > 0);
 
+	if (strcmp(buffer, "disconnect") == 0)
+	{
+		return false;
+	}
+	else if (strcmp(buffer, "enter_pregame") == 0)
+	{
+		sub_69D600();
+	}
+	else
+	{
+
+	}
+
 	// #TODO: while loop...
 
-	// disconnect from remote host
-	return false;
+	return true;
 }
 
 bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* encoded_command_buffer, long payload_size, void const* payload)
@@ -199,7 +212,7 @@ bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* 
 	assert(((payload_size == 0) && (payload == nullptr)) || ((payload_size > 0) && (payload_size <= MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE) && (payload != nullptr)));
 
 	// Check if the remote command is connected
-	if (remote_command_connected())
+	if (!remote_command_connected())
 		return false;
 
 	// Create a buffer for the encoded packet and construct the packet header
@@ -255,9 +268,9 @@ bool __cdecl remote_command_send(long command_type, void const* a2, long payload
 		char encoded_command_buffer[1024]{};
 	
 		//if (data_packet_group_encode_packet(remote_command_packets_group, a2, encoded_command_buffer, &encoded_command_size, command_type, 1))
-		//{
-		//	return remote_command_send_encoded(encoded_command_size, encoded_command_buffer, payload_size, payload);
-		//}
+		{
+			return remote_command_send_encoded(encoded_command_size, encoded_command_buffer, payload_size, payload);
+		}
 	
 		c_console::write_line("remote command couldn't encode packet type %d (%s)", command_type, k_remote_command_type_names[command_type]);
 	}
