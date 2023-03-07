@@ -375,7 +375,27 @@ bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
 {
     assert(endpoint != NULL);
 
-    return INVOKE(0x00440390, transport_endpoint_readable, endpoint);
+    //return INVOKE(0x00440390, transport_endpoint_readable, endpoint);
+
+    if (!transport_available())
+        return false;
+
+    if (endpoint->socket == INVALID_SOCKET)
+        return false;
+
+    if (TEST_BIT(endpoint->flags, _transport_endpoint_readable_bit))
+        return TEST_BIT(endpoint->flags, _transport_endpoint_unknown2_bit);
+
+
+    timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0;
+
+    fd_set readfds;
+    FD_ZERO(&readfds);
+    FD_SET(endpoint->socket, &readfds);
+
+    return select(1, &readfds, nullptr, nullptr, &timeout) == 1 && FD_ISSET(endpoint->socket, &readfds);
 }
 
 bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endpoint)
