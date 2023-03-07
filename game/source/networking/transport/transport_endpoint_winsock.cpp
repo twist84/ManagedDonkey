@@ -501,9 +501,25 @@ bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint)
 {
     assert(endpoint != NULL);
 
-    bool result = false;
-    HOOK_INVOKE(result =, transport_endpoint_writeable, endpoint);
-    return result;
+    //bool result = false;
+    //HOOK_INVOKE(result =, transport_endpoint_writeable, endpoint);
+    //return result;
+
+    if (!transport_available())
+        return false;
+
+    if (endpoint->socket == INVALID_SOCKET)
+        return false;
+
+    timeval timeout;
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 0;
+
+    fd_set writefds;
+    FD_ZERO(&writefds);
+    FD_SET(endpoint->socket, &writefds);
+
+    return select(1, nullptr, &writefds, nullptr, &timeout) == 1 && FD_ISSET(endpoint->socket, &writefds);
 }
 
 bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transport_address* address)
