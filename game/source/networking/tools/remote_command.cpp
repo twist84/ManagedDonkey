@@ -148,6 +148,7 @@ void __cdecl remote_command_process()
 				c_console::write_line("remote command client couldn't process received command");
 
 				// Disconnect if there's an error
+				c_console::write_line("### lost connection to remote host");
 				remote_command_disconnect();
 				continue_processing = false;
 				break;
@@ -186,7 +187,8 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 
 	// #TODO: while loop...
 
-	return true;
+	// disconnect from remote host
+	return false;
 }
 
 bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* encoded_command_buffer, long payload_size, void const* payload)
