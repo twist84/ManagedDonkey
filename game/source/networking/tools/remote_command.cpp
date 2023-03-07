@@ -4,11 +4,13 @@
 
 #include "camera/observer.hpp"
 #include "cseries/console.hpp"
+#include "cseries/cseries.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
 #include "game/game_time.hpp"
 #include "game/player_mapping.hpp"
+#include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
@@ -194,6 +196,12 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 	{
 		sub_69D600();
 	}
+	else if (STARTSWITH(buffer, buffer_length, "hs:"))
+	{
+		char const* name = buffer + csstrnlen("hs:", buffer_length);
+		c_console::write_line("starting script: '%s'", name);
+		user_interface_start_hs_script_by_name(name);
+	}
 	else
 	{
 
@@ -217,7 +225,7 @@ bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* 
 
 	// Create a buffer for the encoded packet and construct the packet header
 	static char encode_packet[MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE + MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE]{};
-	long header_length = sprintf_s(encode_packet, 32, "%c%s%d:%d%c", '>', REMOTE_COMMAND_HEADER_TAG, encoded_command_size + payload_size, payload_size, '/');
+	long header_length = sprintf_s(encode_packet, 32, "%c%s%04d:%04d%c", '>', REMOTE_COMMAND_HEADER_TAG, encoded_command_size + payload_size, payload_size, '/');
 
 	// Copy the encoded command buffer to the encoded packet buffer
 	csmemcpy(encode_packet + header_length, encoded_command_buffer, encoded_command_size);
