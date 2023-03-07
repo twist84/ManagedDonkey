@@ -266,7 +266,7 @@ bool __cdecl remote_command_send(long command_type, void const* a2, long payload
 bool __cdecl remote_camera_update(long user_index, s_observer_result const* camera)
 {
 	// Check if the game is being run in the editor or if the user index is not the first active user.
-	if (!game_in_editor() || user_index != players_first_active_user())
+	if (/*!game_in_editor() ||*/ user_index != players_first_active_user())
 		return false;
 
 	// Get the current time in milliseconds.
