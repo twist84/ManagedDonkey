@@ -37,10 +37,39 @@ enum e_transport_endpoint_option
 	k_transport_endpoint_option_count
 };
 
+enum e_transport_endpoint_flags
+{
+	_transport_endpoint_connected_bit = 0,
+
+	_transport_endpoint_listening_bit,
+
+	_transport_endpoint_unknown2_bit,
+
+	// = TEST_BIT(flags, _transport_endpoint_unknown2_bit)
+	_transport_endpoint_readable_bit, 
+
+	_transport_endpoint_blocking_bit,
+
+	_transport_endpoint_unknown5_bit,
+
+
+	// reach?
+
+	_transport_endpoint_unknown6_bit,
+
+	_transport_endpoint_unknown7_bit,
+
+	_transport_endpoint_pending_deletion_bit,
+
+	_transport_endpoint_unknown9_bit
+};
+
 struct transport_endpoint
 {
 	SOCKET socket;
 	c_enum<e_transport_type, long, k_transport_type_count> type;
+
+	// e_transport_endpoint_flags
 	dword_flags flags;
 };
 
