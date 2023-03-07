@@ -457,7 +457,7 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
     assert(endpoint->socket != INVALID_SOCKET);
 
     short result = 0;
-    if (transport_available() && TEST_BIT(endpoint->flags, 0))
+    if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
     {
         short bytes_written = send(endpoint->socket, static_cast<const char*>(buffer), length, 0);
         if (bytes_written == 0xFFFF)
@@ -535,6 +535,6 @@ bool __cdecl transport_endpoint_connected(transport_endpoint* endpoint)
 {
     assert(endpoint != NULL);
 
-    return TEST_BIT(endpoint->flags, FLAG(_transport_endpoint_connected_bit));
+    return TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit);
 }
 
