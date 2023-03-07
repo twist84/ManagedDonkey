@@ -4,20 +4,50 @@
 
 #include "camera/observer.hpp"
 #include "cseries/console.hpp"
+#include "cseries/cseries_windows.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
+#include "game/game_time.hpp"
 #include "game/player_mapping.hpp"
+#include "memory/module.hpp"
+#include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
 
 #include <assert.h>
-#include <game/game_time.hpp>
-#include <cseries/cseries_windows.hpp>
 
 s_remote_command_globals remote_command_globals;
+
+void __cdecl remote_command_transport_shutdown(void*)
+{
+	remote_command_dispose();
+}
 
 void __cdecl remote_command_initialize()
 {
 	command_server.start(11770);
+
+	remote_command_globals.reception_header_size = -1;
+	remote_command_globals.connected = false;
+	if (!remote_command_globals.listen_endpoint)
+	{
+		remote_command_globals.listen_endpoint = transport_endpoint_create(_transport_type_tcp);
+		if (remote_command_globals.listen_endpoint)
+		{
+			transport_address listen_address{};
+			transport_register_transition_functions(nullptr, remote_command_transport_shutdown, nullptr, nullptr);
+			transport_get_listen_address(&listen_address, 1030);
+			if (!transport_endpoint_bind(remote_command_globals.listen_endpoint, &listen_address) || !transport_endpoint_listen(remote_command_globals.listen_endpoint))
+			{
+				c_console::write_line("remote command client couldn't listen for incoming commands");
+				transport_endpoint_delete(remote_command_globals.listen_endpoint);
+				remote_command_globals.listen_endpoint = nullptr;
+			}
+		}
+		else
+		{
+			c_console::write_line("remote command client couldn't create_transport_endpoint() for incoming commands");
+		}
+	}
 }
 
 void __cdecl remote_command_dispose()
@@ -51,6 +81,7 @@ void __cdecl remote_command_disconnect()
 	}
 }
 
+HOOK_DECLARE_CALL(0x00505CD5, remote_command_process);
 void __cdecl remote_command_process()
 {
 	// Check if there's a pending incoming connection request
@@ -198,22 +229,36 @@ bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* 
 	return bytes_written > 0;
 }
 
+char const* k_remote_command_type_names[NUMBER_OF_REMOTE_COMMANDS]
+{
+	"map_reset",
+	"map_synch",
+	"camera",
+	"add_object",
+	"modify_object",
+	"delete_object",
+	"sound_command",
+	"hs_expression",
+	"tag_placement",
+	"flag_placement"
+};
+
 bool __cdecl remote_command_send(long command_type, void const* a2, long payload_size, void const* payload)
 {
 	assert((command_type >= 0) && (command_type < NUMBER_OF_REMOTE_COMMANDS));
 
-	//if (remote_command_connected())
-	//{
-	//	long encoded_command_size = 1024;
-	//	char encoded_command_buffer[1024]{};
-	//
-	//	if (data_packet_group_encode_packet(remote_command_packets_group, a2, encoded_command_buffer, &encoded_command_size, command_type, 1))
-	//	{
-	//		return remote_command_send_encoded(encoded_command_size, encoded_command_buffer, payload_size, payload);
-	//	}
-	//
-	//	c_console::write_line("remote command couldn't encode packet type %d (%s)", command_type, "");
-	//}
+	if (remote_command_connected())
+	{
+		long encoded_command_size = 1024;
+		char encoded_command_buffer[1024]{};
+	
+		//if (data_packet_group_encode_packet(remote_command_packets_group, a2, encoded_command_buffer, &encoded_command_size, command_type, 1))
+		//{
+		//	return remote_command_send_encoded(encoded_command_size, encoded_command_buffer, payload_size, payload);
+		//}
+	
+		c_console::write_line("remote command couldn't encode packet type %d (%s)", command_type, k_remote_command_type_names[command_type]);
+	}
 
 	return false;
 }

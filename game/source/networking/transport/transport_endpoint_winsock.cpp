@@ -87,6 +87,7 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
             endpoint->flags |= FLAG(_transport_endpoint_connected_bit);
             endpoint->socket = listening_socket;
         }
+        return endpoint;
     }
 
     return nullptr;
