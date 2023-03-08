@@ -12,6 +12,8 @@
 #include "game/player_mapping.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "memory/data_packets.hpp"
+#include "memory/data_packet_groups.hpp"
 #include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
@@ -252,19 +254,32 @@ bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* 
 	return bytes_written > 0;
 }
 
-char const* k_remote_command_type_names[NUMBER_OF_REMOTE_COMMANDS]
+DATA_PACKET_DEFINITION(remote_command_packet_map_reset,        0x0 /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_map_synch,        0x4 /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_camera,          0x70 /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_add_object,       0xC /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_modify_object,  0x114 /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_delete_object,   0x10 /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_sound_command,    0x4 /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_hs_expression,  0x3FF /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_tag_placement,  0x104 /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+DATA_PACKET_DEFINITION(remote_command_packet_flag_placement, 0x12C /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
+
+data_packet remote_command_packets[NUMBER_OF_REMOTE_COMMANDS]
 {
-	"map_reset",
-	"map_synch",
-	"camera",
-	"add_object",
-	"modify_object",
-	"delete_object",
-	"sound_command",
-	"hs_expression",
-	"tag_placement",
-	"flag_placement"
+	DATA_PACKET(0, remote_command_packet_map_reset),
+	DATA_PACKET(0, remote_command_packet_map_synch),
+	DATA_PACKET(0, remote_command_packet_camera),
+	DATA_PACKET(0, remote_command_packet_add_object),
+	DATA_PACKET(0, remote_command_packet_modify_object),
+	DATA_PACKET(0, remote_command_packet_delete_object),
+	DATA_PACKET(0, remote_command_packet_sound_command),
+	DATA_PACKET(0, remote_command_packet_hs_expression),
+	DATA_PACKET(0, remote_command_packet_tag_placement),
+	DATA_PACKET(0, remote_command_packet_flag_placement)
 };
+
+DATA_PACKET_GROUP_DEFINITION(remote_command_packets_group, NUMBER_OF_REMOTE_COMMANDS, 1, MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE, MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE, remote_command_packets);
 
 bool __cdecl remote_command_send(long command_type, void const* a2, long payload_size, void const* payload)
 {
@@ -272,15 +287,15 @@ bool __cdecl remote_command_send(long command_type, void const* a2, long payload
 
 	if (remote_command_connected())
 	{
-		long encoded_command_size = 1024;
-		char encoded_command_buffer[1024]{};
+		short encoded_command_size = MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE;
+		char encoded_command_buffer[MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE]{};
 	
-		//if (data_packet_group_encode_packet(remote_command_packets_group, a2, encoded_command_buffer, &encoded_command_size, command_type, 1))
+		if (data_packet_group_encode_packet(&remote_command_packets_group, const_cast<void*>(a2), encoded_command_buffer, &encoded_command_size, static_cast<short>(command_type), REMOTE_COMMAND_PACKET_VERSION))
 		{
 			return remote_command_send_encoded(encoded_command_size, encoded_command_buffer, payload_size, payload);
 		}
 	
-		c_console::write_line("remote command couldn't encode packet type %d (%s)", command_type, k_remote_command_type_names[command_type]);
+		c_console::write_line("remote command couldn't encode packet type %d (%s)", command_type, remote_command_packets_group.packets[command_type].definition->name);
 	}
 
 	return false;
@@ -303,7 +318,7 @@ bool __cdecl remote_camera_update(long user_index, s_observer_result const* came
 	}
 
 	// Send the updated camera information to the remote endpoint.
-	bool result = remote_command_send(_remote_command_packet_camera, camera, 0, nullptr);
+	bool result = remote_command_send(_remote_command_camera, camera, 0, nullptr);
 
 	// Store the current time and updated camera information.
 	remote_command_globals.camera_send_time = time;

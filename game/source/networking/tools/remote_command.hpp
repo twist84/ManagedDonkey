@@ -8,18 +8,18 @@
 #define MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE 0x400
 #define MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE 0x10000
 
-enum e_remote_command_packet
+enum e_remote_command
 {
-	_remote_command_packet_map_reset = 0,
-	_remote_command_packet_map_synch,
-	_remote_command_packet_camera,
-	_remote_command_packet_add_object,
-	_remote_command_packet_modify_object,
-	_remote_command_packet_delete_object,
-	_remote_command_packet_sound_command,
-	_remote_command_packet_hs_expression,
-	_remote_command_packet_tag_placement,
-	_remote_command_packet_flag_placement,
+	_remote_command_map_reset = 0,
+	_remote_command_map_synch,
+	_remote_command_camera,
+	_remote_command_add_object,
+	_remote_command_modify_object,
+	_remote_command_delete_object,
+	_remote_command_sound_command,
+	_remote_command_hs_expression,
+	_remote_command_tag_placement,
+	_remote_command_flag_placement,
 	
 	NUMBER_OF_REMOTE_COMMANDS
 };

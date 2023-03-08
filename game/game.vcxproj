@@ -313,6 +313,9 @@ POPD
     <ClCompile Include="source\memory\bitstream.cpp" />
     <ClCompile Include="source\memory\crc.cpp" />
     <ClCompile Include="source\memory\data.cpp" />
+    <ClCompile Include="source\memory\data_encoding.cpp" />
+    <ClCompile Include="source\memory\data_packets.cpp" />
+    <ClCompile Include="source\memory\data_packet_groups.cpp" />
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
     <ClCompile Include="source\motor\actions.cpp" />
@@ -406,6 +409,9 @@ POPD
     <ClInclude Include="source\interface\c_gui_model_widget.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />
+    <ClInclude Include="source\memory\data_encoding.hpp" />
+    <ClInclude Include="source\memory\data_packets.hpp" />
+    <ClInclude Include="source\memory\data_packet_groups.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />
