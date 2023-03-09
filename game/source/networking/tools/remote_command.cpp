@@ -5,7 +5,6 @@
 #include "camera/observer.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_windows.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
 #include "game/game_time.hpp"
@@ -15,6 +14,7 @@
 #include "memory/data_packets.hpp"
 #include "memory/data_packet_groups.hpp"
 #include "memory/module.hpp"
+#include "networking/network_time.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
 
@@ -31,6 +31,7 @@ void __cdecl remote_command_initialize()
 {
 	command_server.start(11770);
 
+	remote_command_globals.camera_send_time = network_time_get();
 	remote_command_globals.reception_header_size = -1;
 	remote_command_globals.connected = false;
 	if (!remote_command_globals.listen_endpoint)
@@ -307,11 +308,8 @@ bool __cdecl remote_camera_update(long user_index, s_observer_result const* came
 	if (/*!game_in_editor() ||*/ user_index != players_first_active_user())
 		return false;
 
-	// Get the current time in milliseconds.
-	dword time = system_milliseconds();
-
 	// If less than 4 seconds have passed since the last update, store the updated camera information and return false.
-	if ((game_ticks_to_seconds(4.0f) + remote_command_globals.camera_send_time) > time)
+	if (network_time_since(remote_command_globals.camera_send_time) < 4000)
 	{
 		remote_command_globals.camera = *camera;
 		return false;
@@ -321,7 +319,7 @@ bool __cdecl remote_camera_update(long user_index, s_observer_result const* came
 	bool result = remote_command_send(_remote_command_camera, camera, 0, nullptr);
 
 	// Store the current time and updated camera information.
-	remote_command_globals.camera_send_time = time;
+	remote_command_globals.camera_send_time = network_time_get();
 	remote_command_globals.camera = *camera;
 
 	return result;
