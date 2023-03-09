@@ -190,22 +190,22 @@ void __cdecl remote_command_process()
 #define DECLARE_FUNCTION_AS(_old, _new) decltype(_old)* _new = _old
 
 #define REMOTE_COMMAND_NO_PARAMS(_name, _format) \
-else if (strcmp(buffer, #_name) == 0) \
-{                                     \
-    c_console::write_line(_format""); \
-    _name();                          \
+else if (strcmp(buffer, #_name) == 0)            \
+{                                                \
+    c_console::write_line(_format"");            \
+    _name();                                     \
 }
 
-#define REMOTE_COMMAND_LONG(_name, _format) \
-else if (STARTSWITH(buffer, buffer_length, #_name" ")) \
+#define REMOTE_COMMAND_LONG(_name, _format)                               \
+else if (STARTSWITH(buffer, buffer_length, #_name" "))                    \
 {                                                                         \
     long long_value = atol(buffer + csstrnlen(#_name" ", buffer_length)); \
     c_console::write_line(_format" '%d'", long_value);                    \
     _name(long_value);                                                    \
 }
 
-#define REMOTE_COMMAND_STRING(_name, _format) \
-else if (STARTSWITH(buffer, buffer_length, #_name" ")) \
+#define REMOTE_COMMAND_STRING(_name, _format)                                \
+else if (STARTSWITH(buffer, buffer_length, #_name" "))                       \
 {                                                                            \
     char const* string_value = buffer + csstrnlen(#_name" ", buffer_length); \
     c_console::write_line(_format" '%s'", string_value);                     \
