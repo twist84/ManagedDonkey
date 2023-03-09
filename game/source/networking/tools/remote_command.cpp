@@ -11,6 +11,7 @@
 #include "game/player_mapping.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "main/main_game_launch.hpp"
 #include "memory/data_packets.hpp"
 #include "memory/data_packet_groups.hpp"
 #include "memory/module.hpp"
@@ -213,6 +214,10 @@ else if (STARTSWITH(buffer, buffer_length, #_name" ")) \
 
 DECLARE_FUNCTION_AS(sub_69D600, enter_pregame);
 DECLARE_FUNCTION_AS(user_interface_start_hs_script_by_name, start_hs_script_by_name);
+DECLARE_FUNCTION_AS(main_game_launch_set_multiplayer_splitscreen_count, game_splitscreen);
+DECLARE_FUNCTION_AS(main_game_launch_set_coop_player_count, game_coop_players);
+DECLARE_FUNCTION_AS(main_game_launch, game_start);
+
 bool __cdecl remote_command_process_received_chunk(char const* buffer, long buffer_length)
 {
 	assert(buffer);
@@ -224,6 +229,9 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 	}
 	REMOTE_COMMAND_NO_PARAMS(enter_pregame, "entering pregame lobby")
 	REMOTE_COMMAND_STRING(start_hs_script_by_name, "starting script")
+	REMOTE_COMMAND_LONG(game_splitscreen, "debug map launching: sets the number of multiplayer splitscreen players for the next map.")
+	REMOTE_COMMAND_LONG(game_coop_players, "debug map launching: sets the number of coop players for the next map.")
+	REMOTE_COMMAND_STRING(game_start, "debug map launching: starts a game on the specified map.")
 	else
 	{
 
