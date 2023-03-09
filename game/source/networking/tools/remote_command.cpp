@@ -211,6 +211,8 @@ else if (STARTSWITH(buffer, buffer_length, #_name" ")) \
     _name(string_value);                                                     \
 }
 
+DECLARE_FUNCTION_AS(sub_69D600, enter_pregame);
+DECLARE_FUNCTION_AS(user_interface_start_hs_script_by_name, start_hs_script_by_name);
 bool __cdecl remote_command_process_received_chunk(char const* buffer, long buffer_length)
 {
 	assert(buffer);
@@ -220,16 +222,8 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 	{
 		return false;
 	}
-	else if (strcmp(buffer, "enter_pregame") == 0)
-	{
-		sub_69D600();
-	}
-	else if (STARTSWITH(buffer, buffer_length, "start_hs_script_by_name "))
-	{
-		char const* name = buffer + csstrnlen("hs_script_by_name ", buffer_length);
-		c_console::write_line("starting script: '%s'", name);
-		user_interface_start_hs_script_by_name(name);
-	}
+	REMOTE_COMMAND_NO_PARAMS(enter_pregame, "entering pregame lobby")
+	REMOTE_COMMAND_STRING(start_hs_script_by_name, "starting script")
 	else
 	{
 
