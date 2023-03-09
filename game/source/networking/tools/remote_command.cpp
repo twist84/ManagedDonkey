@@ -138,7 +138,7 @@ void __cdecl remote_command_process()
 				break;
 			}
 
-			char buffer[32] = {};
+			char buffer[512] = {};
 			short buffer_length = transport_endpoint_read(remote_command_globals.receive_endpoint, buffer, sizeof(buffer));
 
 			// If there's no data to read or an error occurred, stop processing
@@ -199,9 +199,9 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 	{
 		sub_69D600();
 	}
-	else if (STARTSWITH(buffer, buffer_length, "hs:"))
+	else if (STARTSWITH(buffer, buffer_length, "start_hs_script_by_name "))
 	{
-		char const* name = buffer + csstrnlen("hs:", buffer_length);
+		char const* name = buffer + csstrnlen("hs_script_by_name ", buffer_length);
 		c_console::write_line("starting script: '%s'", name);
 		user_interface_start_hs_script_by_name(name);
 	}
