@@ -6,7 +6,7 @@ data_packet_definition _name = \
     .name = #_name,            \
     .size = _size,             \
     .version = _version,       \
-    .fields = {__VA_ARGS__}    \
+    .fields = { __VA_ARGS__ }  \
 }
 
 #define DATA_PACKET(_packet_class, _definition) \

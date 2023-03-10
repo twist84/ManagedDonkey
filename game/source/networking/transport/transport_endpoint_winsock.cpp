@@ -336,7 +336,7 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
             }
             else
             {
-                c_console::write_line("transport:read: recv() failed w/ unknown error '%s'", winsock_error_to_string(error));
+                //c_console::write_line("transport:read: recv() failed w/ unknown error '%s'", winsock_error_to_string(error));
                 bytes_read = short(0xFFFD);
             }
         }
