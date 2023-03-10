@@ -199,6 +199,15 @@ else if (strcmp(buffer, #_name) == 0)            \
     REMOTE_COMMAND_SEND_STRING("test");          \
 }
 
+#define REMOTE_COMMAND_BOOL(_name, _format)                                 \
+else if (STARTSWITH(buffer, buffer_length, #_name" "))                      \
+{                                                                           \
+    bool bool_value = !!atol(buffer + csstrnlen(#_name" ", buffer_length)); \
+    c_console::write_line(_format" '%s'", bool_value ? "true" : "false");   \
+    _name(bool_value);                                                      \
+    REMOTE_COMMAND_SEND_STRING("test");                                     \
+}
+
 #define REMOTE_COMMAND_LONG(_name, _format)                               \
 else if (STARTSWITH(buffer, buffer_length, #_name" "))                    \
 {                                                                         \
@@ -208,13 +217,22 @@ else if (STARTSWITH(buffer, buffer_length, #_name" "))                    \
     REMOTE_COMMAND_SEND_STRING("test");                                   \
 }
 
-#define REMOTE_COMMAND_STRING(_name, _format)                                  \
-else if (STARTSWITH(buffer, buffer_length, #_name" "))                         \
-{                                                                              \
-    char const* string_value = buffer + csstrnlen(#_name" ", buffer_length);   \
-    c_console::write_line(_format" '%s'", string_value);                       \
-    _name(string_value);                                                       \
-    REMOTE_COMMAND_SEND_STRING("test");                                        \
+#define REMOTE_COMMAND_REAL(_name, _format)                                     \
+else if (STARTSWITH(buffer, buffer_length, #_name" "))                          \
+{                                                                               \
+    real real_value = (real)atof(buffer + csstrnlen(#_name" ", buffer_length)); \
+    c_console::write_line(_format" '%.2f'", real_value);                        \
+    _name(real_value);                                                          \
+    REMOTE_COMMAND_SEND_STRING("test");                                         \
+}
+
+#define REMOTE_COMMAND_STRING(_name, _format)                                \
+else if (STARTSWITH(buffer, buffer_length, #_name" "))                       \
+{                                                                            \
+    char const* string_value = buffer + csstrnlen(#_name" ", buffer_length); \
+    c_console::write_line(_format" '%s'", string_value);                     \
+    _name(string_value);                                                     \
+    REMOTE_COMMAND_SEND_STRING("test");                                      \
 }
 
 DECLARE_FUNCTION_AS(sub_69D600, enter_pregame);
