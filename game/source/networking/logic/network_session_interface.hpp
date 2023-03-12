@@ -156,8 +156,34 @@ static_assert(sizeof(s_network_session_interface_globals) == 0x5F08);
 
 extern s_network_session_interface_globals& session_interface_globals;
 
+enum e_gui_game_mode;
+enum e_campaign_difficulty_level;
+enum e_network_game_simulation_protocol;
+enum e_network_game_start_mode;
+enum e_gui_game_mode;
+struct s_saved_film_description;
+struct c_game_variant;
+struct c_map_variant;
+struct s_network_ui_state;
+
 extern long __cdecl network_squad_session_get_countdown_timer();
 extern e_gui_game_mode __cdecl network_life_cycle_squad_session_get_ui_game_mode();
 extern void __cdecl network_session_interface_handle_message(long session_network_message);
+extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty);
+extern bool __cdecl network_squad_session_set_campaign_insertion_point(short campaign_insertion_point);
+extern bool __cdecl network_squad_session_set_closed_by_user(bool closed_by_user);
+extern bool __cdecl network_squad_session_set_closed_status(long closed_status);
+extern bool __cdecl network_squad_session_set_coop_game_options(long campaign_id, long map_id, char const* scenario_path);
+extern bool __cdecl network_squad_session_set_film(s_saved_film_description const* film);
+extern bool __cdecl network_squad_session_set_game_variant(c_game_variant const* game_variant);
+extern bool __cdecl network_squad_session_set_map(long campaign_id, long map_id, char const* scenario_path);
+extern bool __cdecl network_squad_session_set_map_variant(c_map_variant const* map_variant);
+extern bool __cdecl network_squad_session_set_maximum_player_count(long maximum_player_count);
+extern bool __cdecl network_squad_session_set_privacy_mode(long privacy_mode);
+extern bool __cdecl network_squad_session_set_simulation_protocol(e_network_game_simulation_protocol simulation_protocol);
+extern bool __cdecl network_squad_session_set_start_mode(e_network_game_start_mode start_mode);
+extern bool __cdecl network_squad_session_set_ui_game_mode(e_gui_game_mode ui_game_mode);
+extern bool __cdecl network_squad_session_set_ui_state(s_network_ui_state const* ui_state);
+extern bool __cdecl network_squad_session_whack_to_offline_session_class();
 extern bool __cdecl network_squad_session_local_peer_is_leader();
 

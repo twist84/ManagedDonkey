@@ -31,6 +31,90 @@ void __cdecl network_session_interface_handle_message(long session_network_messa
 	INVOKE(0x004365D0, network_session_interface_handle_message, session_network_message);
 }
 
+bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty)
+{
+	return INVOKE(0x00439510, network_squad_session_set_campaign_difficulty, campaign_difficulty);
+}
+
+bool __cdecl network_squad_session_set_campaign_insertion_point(short campaign_insertion_point)
+{
+	return INVOKE(0x00439580, network_squad_session_set_campaign_insertion_point, campaign_insertion_point);
+}
+
+bool __cdecl network_squad_session_set_closed_by_user(bool closed_by_user)
+{
+	return INVOKE(0x00439660, network_squad_session_set_closed_by_user, closed_by_user);
+}
+
+//bool __cdecl network_squad_session_set_closed_status(enum e_network_session_closed_status closed_status)
+bool __cdecl network_squad_session_set_closed_status(long closed_status)
+{
+	return INVOKE(0x004396B0, network_squad_session_set_closed_status, closed_status);
+}
+
+//bool __cdecl network_squad_session_set_coop_game_options(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
+bool __cdecl network_squad_session_set_coop_game_options(long campaign_id, long map_id, char const* scenario_path)
+{
+	return INVOKE(0x004396F0, network_squad_session_set_coop_game_options, campaign_id, map_id, scenario_path);
+}
+
+bool __cdecl network_squad_session_set_film(s_saved_film_description const* film)
+{
+	return INVOKE(0x00439800, network_squad_session_set_film, film);
+}
+
+bool __cdecl network_squad_session_set_game_variant(c_game_variant const* game_variant)
+{
+	return INVOKE(0x00439860, network_squad_session_set_game_variant, game_variant);
+}
+
+//bool network_squad_session_set_map(e_campaign_id campaign_id, e_map_id map_id, char const* scenario_path)
+bool __cdecl network_squad_session_set_map(long campaign_id, long map_id, char const* scenario_path)
+{
+	return INVOKE(0x00439A00, network_squad_session_set_map, campaign_id, map_id, scenario_path);
+}
+
+bool __cdecl network_squad_session_set_map_variant(c_map_variant const* map_variant)
+{
+	return INVOKE(0x00439AB0, network_squad_session_set_map_variant, map_variant);
+}
+
+bool __cdecl network_squad_session_set_maximum_player_count(long maximum_player_count)
+{
+	return INVOKE(0x00439BA0, network_squad_session_set_maximum_player_count, maximum_player_count);
+}
+
+//bool __cdecl network_squad_session_set_privacy_mode(e_network_game_privacy privacy_mode)
+bool __cdecl network_squad_session_set_privacy_mode(long privacy_mode)
+{
+	return INVOKE(0x00439C60, network_squad_session_set_privacy_mode, privacy_mode);
+}
+
+bool __cdecl network_squad_session_set_simulation_protocol(e_network_game_simulation_protocol simulation_protocol)
+{
+	return INVOKE(0x00439CB0, network_squad_session_set_simulation_protocol, simulation_protocol);
+}
+
+bool __cdecl network_squad_session_set_start_mode(e_network_game_start_mode start_mode)
+{
+	return INVOKE(0x00439D00, network_squad_session_set_start_mode, start_mode);
+}
+
+bool __cdecl network_squad_session_set_ui_game_mode(e_gui_game_mode ui_game_mode)
+{
+	return INVOKE(0x00439D50, network_squad_session_set_ui_game_mode, ui_game_mode);
+}
+
+bool __cdecl network_squad_session_set_ui_state(s_network_ui_state const* ui_state)
+{
+	return INVOKE(0x00439DA0, network_squad_session_set_ui_state, ui_state);
+}
+
+bool __cdecl network_squad_session_whack_to_offline_session_class()
+{
+	return INVOKE(0x00439DF0, network_squad_session_whack_to_offline_session_class);
+}
+
 bool __cdecl network_squad_session_local_peer_is_leader()
 {
 	return INVOKE(0x00455320, network_squad_session_local_peer_is_leader);
