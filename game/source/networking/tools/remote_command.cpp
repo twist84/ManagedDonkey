@@ -149,6 +149,10 @@ void __cdecl remote_command_process()
 				break;
 			}
 
+			// HACK: PuTTY adds trailing characters
+			while (buffer[buffer_length - 1] == '\n' || buffer[buffer_length - 1] == '\r')
+				buffer[(buffer_length--)-1] = 0;
+
 			// Process the received data
 			if (!remote_command_process_received_chunk(buffer, buffer_length))
 			{
@@ -196,7 +200,7 @@ else if (strcmp(buffer, #_name) == 0)            \
 {                                                \
     c_console::write_line(_format"");            \
     _name();                                     \
-    REMOTE_COMMAND_SEND_STRING("test");          \
+    REMOTE_COMMAND_SEND_STRING("test\r\n");      \
 }
 
 #define REMOTE_COMMAND_BOOL(_name, _format)                                 \
@@ -205,7 +209,7 @@ else if (STARTSWITH(buffer, buffer_length, #_name" "))                      \
     bool bool_value = !!atol(buffer + csstrnlen(#_name" ", buffer_length)); \
     c_console::write_line(_format" '%s'", bool_value ? "true" : "false");   \
     _name(bool_value);                                                      \
-    REMOTE_COMMAND_SEND_STRING("test");                                     \
+    REMOTE_COMMAND_SEND_STRING("test\r\n");                                 \
 }
 
 #define REMOTE_COMMAND_LONG(_name, _format)                               \
@@ -214,7 +218,7 @@ else if (STARTSWITH(buffer, buffer_length, #_name" "))                    \
     long long_value = atol(buffer + csstrnlen(#_name" ", buffer_length)); \
     c_console::write_line(_format" '%d'", long_value);                    \
     _name(long_value);                                                    \
-    REMOTE_COMMAND_SEND_STRING("test");                                   \
+    REMOTE_COMMAND_SEND_STRING("test\r\n");                               \
 }
 
 #define REMOTE_COMMAND_REAL(_name, _format)                                     \
@@ -223,7 +227,7 @@ else if (STARTSWITH(buffer, buffer_length, #_name" "))                          
     real real_value = (real)atof(buffer + csstrnlen(#_name" ", buffer_length)); \
     c_console::write_line(_format" '%.2f'", real_value);                        \
     _name(real_value);                                                          \
-    REMOTE_COMMAND_SEND_STRING("test");                                         \
+    REMOTE_COMMAND_SEND_STRING("test\r\n");                                     \
 }
 
 #define REMOTE_COMMAND_STRING(_name, _format)                                \
@@ -232,7 +236,7 @@ else if (STARTSWITH(buffer, buffer_length, #_name" "))                       \
     char const* string_value = buffer + csstrnlen(#_name" ", buffer_length); \
     c_console::write_line(_format" '%s'", string_value);                     \
     _name(string_value);                                                     \
-    REMOTE_COMMAND_SEND_STRING("test");                                      \
+    REMOTE_COMMAND_SEND_STRING("test\r\n");                                  \
 }
 
 DECLARE_FUNCTION_AS(sub_69D600, enter_pregame);
@@ -355,7 +359,7 @@ bool __cdecl remote_command_send(long command_type, void const* a2, long payload
 bool __cdecl remote_camera_update(long user_index, s_observer_result const* camera)
 {
 	// Check if the game is being run in the editor or if the user index is not the first active user.
-	if (/*!game_in_editor() ||*/ user_index != players_first_active_user())
+	if (!game_in_editor() || user_index != players_first_active_user())
 		return false;
 
 	// If less than 4 seconds have passed since the last update, store the updated camera information and return false.
