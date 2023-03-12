@@ -122,3 +122,8 @@ long __cdecl sub_A7FFA0(long player_index)
     return INVOKE(0x00A7FFA0, sub_A7FFA0, player_index);
 }
 
+void __cdecl user_interface_set_desired_multiplayer_mode(e_desired_multiplayer_mode desired_multiplayer_mode)
+{
+    INVOKE(0x00A7FFB0, user_interface_set_desired_multiplayer_mode, desired_multiplayer_mode);
+}
+
