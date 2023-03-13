@@ -54,6 +54,7 @@ static_assert(k_game_engine_base_variant_size == 0x1D0);
 extern const char* game_engine_variant_get_name(long game_engine_variant);
 
 struct c_game_variant;
-extern c_game_variant* build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);
+extern c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);
+extern bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, long variant_index, c_game_variant* game_variant);
 
 #pragma pack(pop)
