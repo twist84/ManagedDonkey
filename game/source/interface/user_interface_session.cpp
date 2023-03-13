@@ -73,3 +73,8 @@ bool __cdecl user_interface_squad_set_map_variant(c_map_variant const* map_varia
     return INVOKE(0x00A83AB0, user_interface_squad_set_map_variant, map_variant);
 }
 
+bool __cdecl user_interface_squad_set_game_variant(c_game_variant const* game_variant)
+{
+    return INVOKE(0x00A838B0, user_interface_squad_set_game_variant, game_variant);
+}
+
