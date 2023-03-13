@@ -329,6 +329,19 @@ public:
 		return m_string;
 	}
 
+	char const* print_line(char const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		cvsnzprintf(m_string, k_maximum_count, format, list);
+		append_line();
+
+		va_end(list);
+
+		return m_string;
+	}
+
 	char const* vprint(char const* format, va_list list)
 	{
 		cvsnzprintf(m_string, k_maximum_count, format, list);
@@ -389,6 +402,13 @@ public:
 	long length() const
 	{
 		return csstrnlen(m_string, k_maximum_count);
+	}
+
+	bool equals(char const* _string) const
+	{
+		//assert(_string);
+
+		return csstrnlen(_string, k_maximum_count) == length() && csmemcmp(get_string(), _string, length()) == 0;
 	}
 
 	bool starts_with(char const* _string) const
