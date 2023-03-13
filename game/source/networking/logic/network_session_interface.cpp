@@ -5,6 +5,8 @@
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
 
+#include <assert.h>
+
 REFERENCE_DECLARE(0x019A0328, s_network_session_interface_globals, session_interface_globals);
 
 long __cdecl network_squad_session_get_countdown_timer()
@@ -29,6 +31,17 @@ e_gui_game_mode __cdecl network_life_cycle_squad_session_get_ui_game_mode()
 void __cdecl network_session_interface_handle_message(long session_network_message)
 {
 	INVOKE(0x004365D0, network_session_interface_handle_message, session_network_message);
+}
+
+bool __cdecl network_squad_session_can_set_game_settings()
+{
+	//return INVOKE(0x00438590, network_squad_session_can_set_game_settings);
+
+	c_network_session* in_squad_session = nullptr;
+	return network_life_cycle_in_squad_session(&in_squad_session)
+		&& in_squad_session->established()
+		&& in_squad_session->is_leader()
+		&& in_squad_session->session_mode() == _network_session_mode_idle;
 }
 
 bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty)
@@ -120,4 +133,47 @@ bool __cdecl network_squad_session_local_peer_is_leader()
 	return INVOKE(0x00455320, network_squad_session_local_peer_is_leader);
 }
 
+char const* k_network_session_mode_names[k_network_session_mode_count]
+{
+	"none",
+	"idle",
+	"setup",
+	"in_game",
+	"end_game",
+	"post_game",
+	"matchmaking_start",
+	"matchmaking_searching",
+	"matchmaking_gathering",
+	"matchmaking_slave",
+	"matchmaking_disbanding",
+	"matchmaking_arbitrating",
+	"matchmaking_choosing_game"
+};
+
+char const* network_session_mode_get_name(long session_mode)
+{
+	if (session_mode < _network_session_mode_none || session_mode >= k_network_session_mode_count)
+		return "<invalid 'network_session_mode'>";
+
+	return k_network_session_mode_names[session_mode];
+}
+
+bool __cdecl network_squad_session_set_session_mode(e_network_session_mode session_mode)
+{
+	bool success = false;
+	//if (network_squad_session_can_set_game_settings())
+	if (network_squad_session_local_peer_is_leader())
+	{
+		c_network_session* in_squad_session = nullptr;
+		if (network_life_cycle_in_squad_session(&in_squad_session))
+		{
+			assert(in_squad_session);
+
+			success = in_squad_session->get_session_parameters()->m_parameters_internal.session_mode.request_change(session_mode);
+			assert(success);
+		}
+	}
+
+	return success;
+}
 

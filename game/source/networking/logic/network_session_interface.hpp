@@ -169,6 +169,7 @@ struct s_network_ui_state;
 extern long __cdecl network_squad_session_get_countdown_timer();
 extern e_gui_game_mode __cdecl network_life_cycle_squad_session_get_ui_game_mode();
 extern void __cdecl network_session_interface_handle_message(long session_network_message);
+extern bool __cdecl network_squad_session_can_set_game_settings();
 extern bool __cdecl network_squad_session_set_campaign_difficulty(e_campaign_difficulty_level campaign_difficulty);
 extern bool __cdecl network_squad_session_set_campaign_insertion_point(short campaign_insertion_point);
 extern bool __cdecl network_squad_session_set_closed_by_user(bool closed_by_user);
@@ -186,4 +187,7 @@ extern bool __cdecl network_squad_session_set_ui_game_mode(e_gui_game_mode ui_ga
 extern bool __cdecl network_squad_session_set_ui_state(s_network_ui_state const* ui_state);
 extern bool __cdecl network_squad_session_whack_to_offline_session_class();
 extern bool __cdecl network_squad_session_local_peer_is_leader();
+
+extern char const* network_session_mode_get_name(long session_mode);
+extern bool __cdecl network_squad_session_set_session_mode(e_network_session_mode session_mode);
 
