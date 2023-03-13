@@ -290,6 +290,14 @@ public:
 	c_static_string() :
 		m_string{}
 	{
+		clear();
+	}
+
+	c_static_string(char const* s) :
+		m_string{}
+	{
+		clear();
+		set(s);
 	}
 
 	void set(char const* s)
@@ -300,6 +308,13 @@ public:
 	void append(char const* s)
 	{
 		csstrnzcat(m_string, s, k_maximum_count);
+	}
+
+	void append_line(char const* s = nullptr)
+	{
+		if (s != nullptr)
+			csstrnzcat(m_string, s, k_maximum_count);
+		csstrnzcat(m_string, "\r\n", k_maximum_count);
 	}
 
 	char const* print(char const* format, ...)
@@ -332,6 +347,18 @@ public:
 		return result;
 	}
 
+	char const* append_print_line(char const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		char const* result = append_vprint(format, list);
+		append_line();
+
+		va_end(list);
+		return result;
+	}
+
 	char const* append_vprint(char const* format, va_list list)
 	{
 		dword current_length = length();
@@ -347,6 +374,11 @@ public:
 	void clear()
 	{
 		csmemset(m_string, 0, sizeof(m_string));
+	}
+
+	bool empty()
+	{
+		return m_string[0] == '\0';
 	}
 
 	char const* get_string() const
