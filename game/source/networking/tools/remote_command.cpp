@@ -91,6 +91,8 @@ void __cdecl remote_command_disconnect()
 	}
 }
 
+void command_handler(char* buffer, long buffer_length);
+
 HOOK_DECLARE_CALL(0x00505CD5, remote_command_process);
 void __cdecl remote_command_process()
 {
@@ -152,9 +154,7 @@ void __cdecl remote_command_process()
 				break;
 			}
 
-			// HACK: PuTTY adds trailing characters
-			while (buffer[buffer_length - 1] == '\n' || buffer[buffer_length - 1] == '\r')
-				buffer[(buffer_length--)-1] = 0;
+			command_handler(buffer, buffer_length);
 
 			// Process the received data
 			if (!remote_command_process_received_chunk(buffer, buffer_length))
@@ -194,63 +194,6 @@ void __cdecl remote_command_process()
 	}
 }
 
-#define REMOTE_COMMAND_SEND_STRING(_string) transport_endpoint_write(remote_command_globals.send_endpoint, _string, NUMBEROF(_string))
-
-#define DECLARE_FUNCTION_AS(_old, _new) decltype(_old)* _new = _old
-
-#define REMOTE_COMMAND_NO_PARAMS(_name, _format) \
-else if (strcmp(buffer, #_name) == 0)            \
-{                                                \
-    c_console::write_line(_format"");            \
-    _name();                                     \
-    REMOTE_COMMAND_SEND_STRING("test\r\n");      \
-}
-
-#define REMOTE_COMMAND_BOOL(_name, _format)                                 \
-else if (STARTSWITH(buffer, buffer_length, #_name" "))                      \
-{                                                                           \
-    bool bool_value = !!atol(buffer + csstrnlen(#_name" ", buffer_length)); \
-    c_console::write_line(_format" '%s'", bool_value ? "true" : "false");   \
-    _name(bool_value);                                                      \
-    REMOTE_COMMAND_SEND_STRING("test\r\n");                                 \
-}
-
-#define REMOTE_COMMAND_LONG(_name, _format)                               \
-else if (STARTSWITH(buffer, buffer_length, #_name" "))                    \
-{                                                                         \
-    long long_value = atol(buffer + csstrnlen(#_name" ", buffer_length)); \
-    c_console::write_line(_format" '%d'", long_value);                    \
-    _name(long_value);                                                    \
-    REMOTE_COMMAND_SEND_STRING("test\r\n");                               \
-}
-
-#define REMOTE_COMMAND_REAL(_name, _format)                                     \
-else if (STARTSWITH(buffer, buffer_length, #_name" "))                          \
-{                                                                               \
-    real real_value = (real)atof(buffer + csstrnlen(#_name" ", buffer_length)); \
-    c_console::write_line(_format" '%.2f'", real_value);                        \
-    _name(real_value);                                                          \
-    REMOTE_COMMAND_SEND_STRING("test\r\n");                                     \
-}
-
-#define REMOTE_COMMAND_STRING(_name, _format)                                \
-else if (STARTSWITH(buffer, buffer_length, #_name" "))                       \
-{                                                                            \
-    char const* string_value = buffer + csstrnlen(#_name" ", buffer_length); \
-    c_console::write_line(_format" '%s'", string_value);                     \
-    _name(string_value);                                                     \
-    REMOTE_COMMAND_SEND_STRING("test\r\n");                                  \
-}
-
-DECLARE_FUNCTION_AS(user_interface_start_hs_script_by_name, start_hs_script_by_name);
-DECLARE_FUNCTION_AS(main_game_launch_set_multiplayer_splitscreen_count, game_splitscreen);
-DECLARE_FUNCTION_AS(main_game_launch_set_coop_player_count, game_coop_players);
-DECLARE_FUNCTION_AS(main_game_launch, game_start);
-DECLARE_FUNCTION_AS(network_test_create_session, net_test_create);
-DECLARE_FUNCTION_AS(network_test_set_map_name, net_test_map_name);
-DECLARE_FUNCTION_AS(network_test_set_game_variant, net_test_variant);
-DECLARE_FUNCTION_AS(network_test_set_session_mode, net_test_mode);
-
 bool __cdecl remote_command_process_received_chunk(char const* buffer, long buffer_length)
 {
 	assert(buffer);
@@ -259,18 +202,6 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 	if (strcmp(buffer, "disconnect") == 0)
 	{
 		return false;
-	}
-	REMOTE_COMMAND_STRING(start_hs_script_by_name, "starting script")
-	REMOTE_COMMAND_LONG(game_splitscreen, "debug map launching: sets the number of multiplayer splitscreen players for the next map.")
-	REMOTE_COMMAND_LONG(game_coop_players, "debug map launching: sets the number of coop players for the next map.")
-	REMOTE_COMMAND_STRING(game_start, "debug map launching: starts a game on the specified map.")
-	REMOTE_COMMAND_NO_PARAMS(net_test_create, "network test: creates a session to play")
-	REMOTE_COMMAND_STRING(net_test_map_name, "network test: sets the name of the scenario to play")
-	REMOTE_COMMAND_STRING(net_test_variant, "network test: sets the game variant to play")
-	REMOTE_COMMAND_STRING(net_test_mode, "network test: sets the session mode to play")
-	else
-	{
-
 	}
 
 	// #TODO: while loop...
@@ -386,5 +317,278 @@ bool __cdecl remote_camera_update(long user_index, s_observer_result const* came
 	remote_command_globals.camera = *camera;
 
 	return result;
+}
+
+//-----------------------------------------------------------------------------
+
+// #TODO: move this somewhere else?
+
+#define k_maximum_number_of_tokens 100
+#define k_token_length 256
+
+#define COMMAND_CALLBACK_DECLARE(_name) c_static_string<1024> _name##_callback(void const* userdata, long token_count, tokens_t const tokens)
+#define COMMAND_CALLBACK_REGISTER(_name, _parameter_count, _parameters, ...) { #_name, _parameter_count, _name##_callback, _parameters, __VA_ARGS__ }
+
+#define COMMAND_CALLBACK_PARAMETER_CHECK                                      \
+assert(userdata != nullptr);                                                  \
+assert((token_count - 1) >= 0);                                               \
+                                                                              \
+s_command const& command = *static_cast<s_command const*>(userdata);          \
+if ((token_count - 1) != command.parameter_count)                             \
+{                                                                             \
+    c_static_string<1024> result = "Invalid usage. ";                         \
+    result.append_print_line("%s %s", command.name, command.parameter_types); \
+    result.append(command.extra_info);                                        \
+    return result;                                                            \
+}
+
+//-----------------------------------------------------------------------------
+
+using _token_t = c_static_string<k_token_length>;
+using token_t = _token_t*;
+using tokens_t = c_static_array<token_t, k_maximum_number_of_tokens>;
+using callback_t = c_static_string<1024>(void const* userdata, long, tokens_t const);
+struct s_command
+{
+	char const* name;
+	long parameter_count;
+	callback_t* callback;
+	char const* parameter_types;
+	char const* extra_info;
+};
+
+//-----------------------------------------------------------------------------
+
+COMMAND_CALLBACK_DECLARE(help);
+COMMAND_CALLBACK_DECLARE(breakpoint);
+
+COMMAND_CALLBACK_DECLARE(script_start);
+COMMAND_CALLBACK_DECLARE(game_splitscreen);
+COMMAND_CALLBACK_DECLARE(game_coop_players);
+COMMAND_CALLBACK_DECLARE(game_start);
+COMMAND_CALLBACK_DECLARE(net_test_create);
+COMMAND_CALLBACK_DECLARE(net_test_map_name);
+COMMAND_CALLBACK_DECLARE(net_test_variant);
+COMMAND_CALLBACK_DECLARE(net_test_mode);
+
+s_command const k_registered_commands[] =
+{
+	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints a description of the named function.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(breakpoint, 1, "<string>", "If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).\r\nNETWORK SAFE: Yes"),
+
+	COMMAND_CALLBACK_REGISTER(script_start, 1, "<string>", "debug script launching: starts a scenario script by name.\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(net_test_create, 0, "", "network test: creates a session to play\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_map_name, 1, "<string>", "network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_variant, 1, "<string>", "network test: sets the game variant to play\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_mode, 1, "<string>", "network test: sets the session mode to play\r\nNETWORK SAFE: Yes"),
+};
+
+//-----------------------------------------------------------------------------
+
+void command_tokenize(char const* input, tokens_t& tokens, long* token_count)
+{
+	bool in_quotes = false;
+	long num_chars = strlen(input);
+	char current_token[k_token_length] = { '\0' };
+
+	for (int i = 0; i < num_chars; i++)
+	{
+		char c = input[i];
+
+		if (c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == '\0')
+		{
+			if (in_quotes)
+			{
+				current_token[strlen(current_token)] = c;
+			}
+			else if (strlen(current_token) > 0)
+			{
+				token_t& token = tokens[*token_count] = new _token_t();
+				token->set(current_token);
+				(*token_count)++;
+				memset(current_token, '\0', k_token_length);
+			}
+		}
+		else if (c == '"')
+		{
+			if (in_quotes)
+			{
+				in_quotes = false;
+			}
+			else
+			{
+				in_quotes = true;
+			}
+		}
+		else
+		{
+			current_token[strlen(current_token)] = c;
+		}
+	}
+
+	if (strlen(current_token) > 0)
+	{
+		token_t& token = tokens[*token_count] = new _token_t();
+		token->set(current_token);
+		(*token_count)++;
+	}
+}
+
+void command_execute(long token_count, tokens_t& tokens, long command_count, s_command const* commands)
+{
+	if (token_count == 0)
+		return;
+
+	c_static_string<1024> output;
+
+	for (long i = 0; i < command_count; i++)
+	{
+		if (tokens[0]->equals(commands[i].name))
+		{
+			output = commands[i].callback(&commands[i], token_count, tokens);
+			output.append_line();
+			transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), 1024);
+			return;
+		}
+	}
+
+	output.print_line("Unknown command: '%s'", tokens[0]->get_string());
+	output.append_line("For a list of command use 'help'");
+	//output = help_callback(nullptr, 1, {});
+	transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), static_cast<short>(output.length()));
+}
+
+void command_handler(char* buffer, long buffer_length)
+{
+	tokens_t tokens{};
+	long token_count = 0;
+	command_tokenize(buffer, tokens, &token_count);
+	command_execute(token_count, tokens, NUMBEROF(k_registered_commands), k_registered_commands);
+}
+
+//-----------------------------------------------------------------------------
+
+c_static_string<1024> help_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	assert(token_count >= 1);
+
+	static c_static_string<1024> result;
+	if (result.empty())
+	{
+		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
+		{
+			s_command const& command = k_registered_commands[i];
+
+			result.append_print("%s ", command.name);
+			result.append_line(command.parameter_types && *command.parameter_types != '\0' ? command.parameter_types : "");
+
+			if (command.extra_info && *command.extra_info != '\0')
+			{
+				result.append_line(command.extra_info);
+				result.append_line();
+			}
+			result.append_line();
+
+		}
+	}
+
+	return result;
+}
+
+c_static_string<1024> breakpoint_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* message = tokens.m_storage[1]->get_string();
+	c_console::write_line(message);
+
+	if (!IsDebuggerPresent())
+		return __FUNCTION__ ": failed";
+
+	__asm { int 3 };
+
+	return __FUNCTION__ ": succeeded";
+}
+
+c_static_string<1024> script_start_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* name = tokens.m_storage[1]->get_string();
+	user_interface_start_hs_script_by_name(name);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+c_static_string<1024> game_splitscreen_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long multiplayer_splitscreen_count = atol(tokens.m_storage[1]->get_string());
+	main_game_launch_set_multiplayer_splitscreen_count(multiplayer_splitscreen_count);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+c_static_string<1024> game_coop_players_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long coop_player_count = atol(tokens.m_storage[1]->get_string());
+	main_game_launch_set_coop_player_count(coop_player_count);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+c_static_string<1024> game_start_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* map_name = tokens.m_storage[1]->get_string();
+	main_game_launch(map_name);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+c_static_string<1024> net_test_create_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	network_test_create_session();
+
+	return __FUNCTION__ ": succeeded";
+}
+
+c_static_string<1024> net_test_map_name_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* scenario_path = tokens.m_storage[1]->get_string();
+	network_test_set_map_name(scenario_path);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+c_static_string<1024> net_test_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* game_engine_name = tokens.m_storage[1]->get_string();
+	network_test_set_game_variant(game_engine_name);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+c_static_string<1024> net_test_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* session_mode_name = tokens.m_storage[1]->get_string();
+	network_test_set_session_mode(session_mode_name);
+
+	return __FUNCTION__ ": succeeded";
 }
 
