@@ -85,3 +85,18 @@ void __cdecl network_test_set_game_variant(char const* game_engine_name)
 	network_test_set_game_variant(game_engine_index);
 }
 
+void __cdecl network_test_set_session_mode(char const* session_mode_name)
+{
+	e_network_session_mode session_mode = _network_session_mode_none;
+
+	for (long i = _network_session_mode_none; i < k_network_session_mode_count; i++)
+	{
+		if (csstricmp(session_mode_name, network_session_mode_get_name(i)) != 0)
+			continue;
+
+		session_mode = e_network_session_mode(i);
+	}
+
+	network_squad_session_set_session_mode(session_mode);
+}
+
