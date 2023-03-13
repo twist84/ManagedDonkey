@@ -17,6 +17,9 @@ struct c_network_session_parameter_session_mode :
 	public c_network_session_parameter_base,
 	c_generic_network_session_parameter_data<s_network_session_parameter_session_mode>
 {
+	e_network_session_mode get() const;
+	bool request_change(e_network_session_mode session_mode);
+	bool set(e_network_session_mode session_mode);
 };
 static_assert(sizeof(c_network_session_parameter_session_mode) == 0x48);
 
