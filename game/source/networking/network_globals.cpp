@@ -3,6 +3,8 @@
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_options.hpp"
+#include "interface/user_interface.hpp"
+#include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
 #include "main/levels.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -98,5 +100,21 @@ void __cdecl network_test_set_session_mode(char const* session_mode_name)
 	}
 
 	network_squad_session_set_session_mode(session_mode);
+}
+
+void __cdecl network_test_create_session()
+{
+#define UI_WAIT(_time, _set_value, _get_value, _value) \
+_set_value(_value);                             \
+do                                              \
+{                                               \
+    user_interface_update(_time);               \
+    network_update();                           \
+} while (_get_value() != _value);               \
+
+	UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, _ui_game_mode_multiplayer);
+	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, _gui_network_session_advertisement_mode_system_link);
+
+	user_interface_set_desired_multiplayer_mode(_desired_multiplayer_mode_custom_game);
 }
 
