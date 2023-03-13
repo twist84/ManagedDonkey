@@ -14,19 +14,16 @@ void __cdecl sub_69D600()
 {
     //INVOKE(0x0069D600, sub_69D600);
 
-    user_interface_networking_enter_pregame_location(_ui_game_mode_multiplayer);
-    do
-    {
-        user_interface_update(0.1f);
-        network_update();
-    } while (user_interface_squad_get_ui_game_mode() != _ui_game_mode_multiplayer);
+#define UI_WAIT(_time, _set_value, _get_value, _value) \
+_set_value(_value);                             \
+do                                              \
+{                                               \
+    user_interface_update(_time);               \
+    network_update();                           \
+} while (_get_value() != _value);               \
 
-    user_interface_squad_set_session_advertisement(_gui_network_session_advertisement_mode_system_link);
-    do
-    {
-        user_interface_update(0.1f);
-        network_update();
-    } while (user_interface_networking_get_session_advertisement() != _gui_network_session_advertisement_mode_system_link);
+    UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, _ui_game_mode_multiplayer);
+    UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, _gui_network_session_advertisement_mode_system_link);
 }
 
 bool __cdecl user_interface_join_remote_session(bool join_to_public_slots, long session_class, s_transport_secure_identifier* remote_session_id, s_transport_secure_address* remote_host_address, s_transport_secure_key* key)
