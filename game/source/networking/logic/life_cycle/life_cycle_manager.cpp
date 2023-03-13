@@ -57,5 +57,6 @@ e_life_cycle_state c_life_cycle_state_manager::get_current_state()
 
 void c_life_cycle_state_manager::terminate()
 {
-	set_current_state(_life_cycle_state_none, 0, 0);
+	set_current_state(_life_cycle_state_none, 0, nullptr);
 }
+
