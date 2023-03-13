@@ -138,6 +138,18 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 	return callback_data->enumeration_index == 2;
 }
 
+//e_map_id levels_get_default_multiplayer_map_id()
+long levels_get_default_multiplayer_map_id()
+{
+	return INVOKE(0x0054BCA0, levels_get_default_multiplayer_map_id);
+}
+
+//e_map_id __cdecl levels_get_multiplayer_map_by_display_name(wchar_t* display_name)
+long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name)
+{
+	return INVOKE(0x0054BE10, levels_get_multiplayer_map_by_display_name, display_name);
+}
+
 //bool __cdecl levels_map_id_is_fake(e_map_id map_id)
 bool __cdecl levels_map_id_is_fake(long map_id)
 {

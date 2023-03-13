@@ -23,6 +23,8 @@ extern bool __cdecl levels_begin_dvd_enumeration();
 extern long __cdecl levels_dvd_enumeration_callback2(void* callback_data);
 extern long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* callback_data);
 
+extern long levels_get_default_multiplayer_map_id();
+extern long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name);
 extern bool __cdecl levels_map_id_is_fake(long map_id);
 
 extern void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
