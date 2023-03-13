@@ -68,3 +68,8 @@ e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode()
     return network_life_cycle_squad_session_get_ui_game_mode();
 }
 
+bool __cdecl user_interface_squad_set_map_variant(c_map_variant const* map_variant)
+{
+    return INVOKE(0x00A83AB0, user_interface_squad_set_map_variant, map_variant);
+}
+

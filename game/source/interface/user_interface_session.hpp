@@ -6,6 +6,7 @@
 enum e_controller_index;
 struct s_player_configuration;
 struct s_player_identifier;
+struct c_map_variant;
 
 extern bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode);
 extern e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, dword* player_error_mask);
@@ -17,4 +18,5 @@ extern long __cdecl user_interface_squad_get_player_index(s_player_identifier co
 extern long __cdecl user_interface_squad_get_countdown_delaying_player();
 extern long __cdecl user_interface_squad_get_countdown_timer();
 extern e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode();
+extern bool __cdecl user_interface_squad_set_map_variant(c_map_variant const* map_variant);
 
