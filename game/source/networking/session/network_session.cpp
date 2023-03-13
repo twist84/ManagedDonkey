@@ -13,3 +13,14 @@ bool c_network_session::established()
 {
     return m_local_state > 3;
 }
+
+bool c_network_session::is_leader()
+{
+    return m_session_membership.m_local_peer_index == m_session_membership.m_shared_network_membership.leader_peer_index;
+}
+
+e_network_session_mode c_network_session::session_mode() const
+{
+    return m_session_parameters.m_parameters_internal.session_mode.get();
+}
+

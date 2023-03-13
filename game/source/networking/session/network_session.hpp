@@ -48,6 +48,8 @@ struct c_network_session : c_network_channel_owner
 {
 	c_network_session_parameters* get_session_parameters();
 	bool established();
+	bool is_leader();
+	e_network_session_mode session_mode() const;
 
 	c_network_message_gateway* m_message_gateway;
 	c_network_observer* m_observer;
