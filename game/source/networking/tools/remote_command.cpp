@@ -1,7 +1,5 @@
 #include "networking/tools/remote_command.hpp"
 
-#include "donkey_networking/donkey_command_server.hpp"
-
 #include "camera/observer.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
@@ -26,6 +24,12 @@
 
 s_remote_command_globals remote_command_globals;
 
+void patch_remote_command()
+{
+	patch_pointer({ .address = 0x01655B90 }, remote_command_initialize);
+	patch_pointer({ .address = 0x01655B94 }, remote_command_dispose);
+}
+
 void __cdecl remote_command_transport_shutdown(void*)
 {
 	remote_command_dispose();
@@ -33,8 +37,6 @@ void __cdecl remote_command_transport_shutdown(void*)
 
 void __cdecl remote_command_initialize()
 {
-	command_server.start(11770);
-
 	remote_command_globals.camera_send_time = network_time_get();
 	remote_command_globals.reception_header_size = -1;
 	remote_command_globals.connected = false;
@@ -62,7 +64,6 @@ void __cdecl remote_command_initialize()
 
 void __cdecl remote_command_dispose()
 {
-	command_server.stop();
 }
 
 bool __cdecl remote_command_connected()
@@ -506,7 +507,7 @@ c_static_string<1024> breakpoint_callback(void const* userdata, long token_count
 	c_console::write_line(message);
 
 	if (!IsDebuggerPresent())
-		return __FUNCTION__ ": failed";
+		return __FUNCTION__ ": failed, no debugger present";
 
 	__asm { int 3 };
 

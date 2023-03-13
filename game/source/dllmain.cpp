@@ -4,7 +4,7 @@
 #include "cseries/console.hpp"
 #include "memory/module.hpp"
 
-#include "donkey_networking/donkey_command_server.hpp"
+#include "networking/tools/remote_command.hpp"
 
 void process_attach(HMODULE hModule)
 {

@@ -600,9 +600,6 @@
     <ClCompile Include="source\render_methods\render_method_submit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\donkey_networking\donkey_command_server.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\networking\tools\remote_command.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1680,9 +1677,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\user_interface_objectives.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\donkey_networking\donkey_command_server.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\tools\remote_command.hpp">
