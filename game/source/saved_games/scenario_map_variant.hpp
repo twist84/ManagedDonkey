@@ -211,6 +211,7 @@ struct c_map_variant
 {
 public:
 	c_map_variant();
+	void __cdecl create_default(long map_id);
 
 private:
 	s_saved_game_item_metadata m_metadata;

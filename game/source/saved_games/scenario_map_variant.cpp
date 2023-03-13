@@ -8,3 +8,10 @@ c_map_variant::c_map_variant()
 
 	DECLFUNC(0x00580B80, void, __thiscall, c_map_variant*)(this);
 }
+
+//void __cdecl c_map_variant::create_default(e_map_id map_id)
+void __cdecl c_map_variant::create_default(long map_id)
+{
+	DECLFUNC(0x00581F70, void, __thiscall, c_map_variant*, long)(this, map_id);
+}
+
