@@ -15,6 +15,9 @@
 #include "memory/data_packets.hpp"
 #include "memory/data_packet_groups.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/network_life_cycle.hpp"
+#include "networking/logic/network_session_interface.hpp"
+#include "networking/network_globals.hpp"
 #include "networking/network_time.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
@@ -239,11 +242,14 @@ else if (STARTSWITH(buffer, buffer_length, #_name" "))                       \
     REMOTE_COMMAND_SEND_STRING("test\r\n");                                  \
 }
 
-DECLARE_FUNCTION_AS(sub_69D600, enter_pregame);
 DECLARE_FUNCTION_AS(user_interface_start_hs_script_by_name, start_hs_script_by_name);
 DECLARE_FUNCTION_AS(main_game_launch_set_multiplayer_splitscreen_count, game_splitscreen);
 DECLARE_FUNCTION_AS(main_game_launch_set_coop_player_count, game_coop_players);
 DECLARE_FUNCTION_AS(main_game_launch, game_start);
+DECLARE_FUNCTION_AS(network_test_create_session, net_test_create);
+DECLARE_FUNCTION_AS(network_test_set_map_name, net_test_map_name);
+DECLARE_FUNCTION_AS(network_test_set_game_variant, net_test_variant);
+DECLARE_FUNCTION_AS(network_test_set_session_mode, net_test_mode);
 
 bool __cdecl remote_command_process_received_chunk(char const* buffer, long buffer_length)
 {
@@ -254,11 +260,14 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 	{
 		return false;
 	}
-	REMOTE_COMMAND_NO_PARAMS(enter_pregame, "entering pregame lobby")
 	REMOTE_COMMAND_STRING(start_hs_script_by_name, "starting script")
 	REMOTE_COMMAND_LONG(game_splitscreen, "debug map launching: sets the number of multiplayer splitscreen players for the next map.")
 	REMOTE_COMMAND_LONG(game_coop_players, "debug map launching: sets the number of coop players for the next map.")
 	REMOTE_COMMAND_STRING(game_start, "debug map launching: starts a game on the specified map.")
+	REMOTE_COMMAND_NO_PARAMS(net_test_create, "network test: creates a session to play")
+	REMOTE_COMMAND_STRING(net_test_map_name, "network test: sets the name of the scenario to play")
+	REMOTE_COMMAND_STRING(net_test_variant, "network test: sets the game variant to play")
+	REMOTE_COMMAND_STRING(net_test_mode, "network test: sets the session mode to play")
 	else
 	{
 
