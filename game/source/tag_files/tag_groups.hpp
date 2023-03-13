@@ -3,8 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_group_definitions.hpp"
 
-extern void __cdecl tag_load_missing_tags_report();
-
 struct tag_block
 {
 	long count;
@@ -56,3 +54,8 @@ struct c_typed_tag_data
 	t_data_type* base;
 	long : 32; // byte* definition;
 };
+
+extern void __cdecl tag_load_missing_tags_report();
+extern char const* __cdecl tag_name_strip_path(char const* path);
+extern wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path);
+
