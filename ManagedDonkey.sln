@@ -7,8 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game\game.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "launcher", "launcher\launcher.vcxproj", "{F16090B0-3456-4A56-9542-4243EB165CD2}"
 	ProjectSection(ProjectDependencies) = postProject
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C} = {DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}
 		{FB59080F-57E1-4857-9A57-333F885779BB} = {FB59080F-57E1-4857-9A57-333F885779BB}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "remote", "remote\remote.vcxproj", "{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +37,14 @@ Global
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.Release|x86.Build.0 = Release|Win32
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.ReleaseProxy|x86.ActiveCfg = ReleaseProxy|Win32
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.ReleaseProxy|x86.Build.0 = ReleaseProxy|Win32
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.Debug|x86.ActiveCfg = Debug|Win32
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.Debug|x86.Build.0 = Debug|Win32
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.DebugProxy|x86.ActiveCfg = Debug|Win32
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.DebugProxy|x86.Build.0 = Debug|Win32
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.Release|x86.ActiveCfg = Release|Win32
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.Release|x86.Build.0 = Release|Win32
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.ReleaseProxy|x86.ActiveCfg = Release|Win32
+		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.ReleaseProxy|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
