@@ -16,30 +16,31 @@ int main(int argc, char* argv[])
     if (GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
         return 2;
 
-    printf("Launcher: Checking %s exists\n", ApplicationName);
+    printf("Launcher: Checking `%s` exists\n", ApplicationName);
 
     PathCombineA(ApplicationPath, CurrentDirectory, ApplicationName);
     if (GetFileAttributesA(ApplicationPath) == INVALID_FILE_ATTRIBUTES)
         return 3;
 
-    printf("Launcher: Checking %s exists\n", DllName);
+    printf("Launcher: Checking `%s` exists\n", DllName);
 
     PathCombineA(DllPath, CurrentDirectory, DllName);
     if (GetFileAttributesA(DllPath) == INVALID_FILE_ATTRIBUTES)
         return 4;
 
-    printf("Launcher: Creating process\n");
+    printf("Launcher: Creating process `%s`\n", ApplicationName);
 
     if (DetourCreateProcessWithDllA(ApplicationPath, NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
         return 5;
 
-    printf("Launcher: Waiting for %s exit\n", ApplicationName);
-
 #ifdef _DEBUG
     WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
+#else
+    // leave enough time for `remote_command_initialize` to be called
+    Sleep(1000);
+    printf("Launcher: Creating process `%s`\n", "remote.exe");
+    CreateProcessA("remote.exe", NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo);
 #endif // _DEBUG
-
-    printf("Launcher: Exiting\n");
 
     return 0;
 }
