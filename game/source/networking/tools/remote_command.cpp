@@ -145,7 +145,7 @@ void __cdecl remote_command_process()
 				break;
 			}
 
-			char buffer[512] = {};
+			char buffer[4096] = {};
 			short buffer_length = transport_endpoint_read(remote_command_globals.receive_endpoint, buffer, sizeof(buffer));
 
 			// If there's no data to read or an error occurred, stop processing
@@ -327,7 +327,7 @@ bool __cdecl remote_camera_update(long user_index, s_observer_result const* came
 #define k_maximum_number_of_tokens 100
 #define k_token_length 256
 
-#define COMMAND_CALLBACK_DECLARE(_name) c_static_string<1024> _name##_callback(void const* userdata, long token_count, tokens_t const tokens)
+#define COMMAND_CALLBACK_DECLARE(_name) callback_result_t _name##_callback(void const* userdata, long token_count, tokens_t const tokens)
 #define COMMAND_CALLBACK_REGISTER(_name, _parameter_count, _parameters, ...) { #_name, _parameter_count, _name##_callback, _parameters, __VA_ARGS__ }
 
 #define COMMAND_CALLBACK_PARAMETER_CHECK                                      \
@@ -337,7 +337,7 @@ assert((token_count - 1) >= 0);                                               \
 s_command const& command = *static_cast<s_command const*>(userdata);          \
 if ((token_count - 1) != command.parameter_count)                             \
 {                                                                             \
-    c_static_string<1024> result = "Invalid usage. ";                         \
+    callback_result_t result = "Invalid usage. ";                             \
     result.append_print_line("%s %s", command.name, command.parameter_types); \
     result.append(command.extra_info);                                        \
     return result;                                                            \
@@ -348,7 +348,10 @@ if ((token_count - 1) != command.parameter_count)                             \
 using _token_t = c_static_string<k_token_length>;
 using token_t = _token_t*;
 using tokens_t = c_static_array<token_t, k_maximum_number_of_tokens>;
-using callback_t = c_static_string<1024>(void const* userdata, long, tokens_t const);
+
+using callback_result_t = c_static_string<4096>;
+using callback_t = callback_result_t(void const* userdata, long, tokens_t const);
+
 struct s_command
 {
 	char const* name;
@@ -443,7 +446,7 @@ void command_execute(long token_count, tokens_t& tokens, long command_count, s_c
 	if (token_count == 0)
 		return;
 
-	c_static_string<1024> output;
+	callback_result_t output;
 
 	for (long i = 0; i < command_count; i++)
 	{
@@ -451,13 +454,14 @@ void command_execute(long token_count, tokens_t& tokens, long command_count, s_c
 		{
 			output = commands[i].callback(&commands[i], token_count, tokens);
 			output.append_line();
-			transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), 1024);
+			transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), static_cast<short>(output.length()));
 			return;
 		}
 	}
 
 	output.print_line("Unknown command: '%s'", tokens[0]->get_string());
 	output.append_line("For a list of command use 'help'");
+	output.append_line();
 	//output = help_callback(nullptr, 1, {});
 	transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), static_cast<short>(output.length()));
 }
@@ -472,11 +476,11 @@ void command_handler(char* buffer, long buffer_length)
 
 //-----------------------------------------------------------------------------
 
-c_static_string<1024> help_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t help_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	assert(token_count >= 1);
 
-	static c_static_string<1024> result;
+	static callback_result_t result;
 	if (result.empty())
 	{
 		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
@@ -485,21 +489,15 @@ c_static_string<1024> help_callback(void const* userdata, long token_count, toke
 
 			result.append_print("%s ", command.name);
 			result.append_line(command.parameter_types && *command.parameter_types != '\0' ? command.parameter_types : "");
-
-			if (command.extra_info && *command.extra_info != '\0')
-			{
-				result.append_line(command.extra_info);
-				result.append_line();
-			}
+			result.append_line(command.extra_info && *command.extra_info != '\0' ? command.extra_info : "");
 			result.append_line();
-
 		}
 	}
 
 	return result;
 }
 
-c_static_string<1024> breakpoint_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t breakpoint_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -514,7 +512,7 @@ c_static_string<1024> breakpoint_callback(void const* userdata, long token_count
 	return __FUNCTION__ ": succeeded";
 }
 
-c_static_string<1024> script_start_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t script_start_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -524,7 +522,7 @@ c_static_string<1024> script_start_callback(void const* userdata, long token_cou
 	return __FUNCTION__ ": succeeded";
 }
 
-c_static_string<1024> game_splitscreen_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t game_splitscreen_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -534,7 +532,7 @@ c_static_string<1024> game_splitscreen_callback(void const* userdata, long token
 	return __FUNCTION__ ": succeeded";
 }
 
-c_static_string<1024> game_coop_players_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t game_coop_players_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -544,7 +542,7 @@ c_static_string<1024> game_coop_players_callback(void const* userdata, long toke
 	return __FUNCTION__ ": succeeded";
 }
 
-c_static_string<1024> game_start_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t game_start_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -554,7 +552,7 @@ c_static_string<1024> game_start_callback(void const* userdata, long token_count
 	return __FUNCTION__ ": succeeded";
 }
 
-c_static_string<1024> net_test_create_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t net_test_create_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -563,7 +561,7 @@ c_static_string<1024> net_test_create_callback(void const* userdata, long token_
 	return __FUNCTION__ ": succeeded";
 }
 
-c_static_string<1024> net_test_map_name_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t net_test_map_name_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -573,7 +571,7 @@ c_static_string<1024> net_test_map_name_callback(void const* userdata, long toke
 	return __FUNCTION__ ": succeeded";
 }
 
-c_static_string<1024> net_test_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t net_test_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -583,7 +581,7 @@ c_static_string<1024> net_test_variant_callback(void const* userdata, long token
 	return __FUNCTION__ ": succeeded";
 }
 
-c_static_string<1024> net_test_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t net_test_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
