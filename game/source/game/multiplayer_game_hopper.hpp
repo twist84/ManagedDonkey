@@ -8,6 +8,7 @@
 
 struct s_game_hopper_picked_game_collection;
 struct c_network_session_membership;
+struct c_game_variant;
 
 enum e_hopper_type
 {
@@ -205,9 +206,15 @@ struct s_game_set
 static_assert(sizeof(s_game_set) == 0x3C04);
 
 extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);
+extern long __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, long buffer_size, c_game_variant const* game_variant);
+extern bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, long buffer_size, c_game_variant* game_variant);
 extern void __cdecl multiplayer_game_hopper_update();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuration(word hopper_identifier);
 extern bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_count, long valid_map_mask, s_game_hopper_picked_game_collection* game_collection_out);
 extern e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_identifier, bool is_matchmaking, bool check_hopper, c_network_session_membership const* session_membership, word* out_player_error_mask);
+
+extern void __cdecl network_build_game_variant(char const* filename);
+extern void __cdecl network_load_and_use_packed_game_variant_file(char const* filename);
+extern void __cdecl network_verify_packed_game_variant_file(char const* filename);
 

@@ -1,7 +1,13 @@
 #include "game/multiplayer_game_hopper.hpp"
 
+#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "game/game_options.hpp"
+#include "game/game_engine_util.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/network_session_interface.hpp"
+
+#include <assert.h>
 
 HOOK_DECLARE(0x00545710, multiplayer_game_hopper_check_required_files);
 HOOK_DECLARE(0x00549610, multiplayer_game_hopper_update);
@@ -55,7 +61,13 @@ e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(
 //.text:005483D0 ; sub_5483D0
 //.text:005483E0 ; e_network_file_load_status __cdecl multiplayer_game_hopper_map_variant_load_status();
 //.text:005483F0 ; long __cdecl multiplayer_game_hopper_pack_game_set(void*, long, s_game_set const*);
+
 //.text:00548610 ; long __cdecl multiplayer_game_hopper_pack_game_variant(void*, long, c_game_variant const*);
+long __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, long buffer_size, c_game_variant const* game_variant)
+{
+    return INVOKE(0x00548610, multiplayer_game_hopper_pack_game_variant, buffer, buffer_size, game_variant);
+}
+
 //.text:00548830 ; long __cdecl multiplayer_game_hopper_pack_hopper_description(void*, long, s_game_hopper_description_table const*);
 //.text:00548A50 ; long __cdecl multiplayer_game_hopper_pack_hopper_file(void*, long, s_hopper_configuration_table const*);
 //.text:00548C70 ; long __cdecl multiplayer_game_hopper_pack_map_variant(void*, long, c_map_variant const*);
@@ -64,7 +76,13 @@ e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(
 //.text:00548EB0 ; bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(word);
 //.text:00548EC0 ; sub_548EC0
 //.text:00548ED0 ; bool __cdecl multiplayer_game_hopper_unpack_game_set(void const*, long, s_game_set*);
+
 //.text:00549050 ; bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const*, long, c_game_variant*);
+bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, long buffer_size, c_game_variant* game_variant)
+{
+    return INVOKE(0x00549050, multiplayer_game_hopper_unpack_game_variant, buffer, buffer_size, game_variant);
+}
+
 //.text:005491D0 ; bool __cdecl multiplayer_game_hopper_unpack_hopper_description(void const*, long, s_game_hopper_description_table*);
 //.text:00549350 ; bool __cdecl multiplayer_game_hopper_unpack_hopper_file(void const*, long, s_hopper_configuration_table*);
 //.text:005494D0 ; bool __cdecl multiplayer_game_hopper_unpack_map_variant(void const*, long, c_map_variant*);
@@ -107,4 +125,137 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 //.text:00549870 ; bool __cdecl multiplayer_game_set_decode(c_bitstream*, s_game_set*);
 //.text:00549970 ; void __cdecl multiplayer_game_set_encode(c_bitstream*, s_game_set const*);
 //.text:00549B70 ; char const* __cdecl multiplayer_game_start_error_to_string(e_session_game_start_error);
+
+bool __cdecl create_configuration_file(const char* filename, const void* file_contents, int file_size)
+{
+    assert(file_size > 0);
+    assert(file_contents);
+
+    s_file_reference info;
+    file_reference_create_from_path(&info, filename, false);
+
+    if (!file_create_parent_directories_if_not_present(&info))
+    {
+        c_console::write_line("create_configuration_file: unable to create parent directories: %s", filename);
+        return false;
+    }
+
+    if (!file_create(&info))
+    {
+        c_console::write_line("create_configuration_file: unable to create file: %s", filename);
+        return false;
+    }
+
+    dword error = 0;
+    if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
+    {
+        c_console::write_line("create_configuration_file: unable to open file: %s", filename);
+        return false;
+    }
+
+    bool result = file_write(&info, file_size, file_contents);
+    if (!file_close(&info))
+    {
+        c_console::write_line("create_configuration_file: unable to close file: %s", filename);
+    }
+
+    return result;
+}
+
+void __cdecl network_build_game_variant(char const* filename)
+{
+    char buffer[0x600]{};
+    c_static_string<256> filepath;
+
+    c_game_variant const* game_variant = current_game_variant();
+    long file_size = multiplayer_game_hopper_pack_game_variant(buffer, sizeof(buffer), game_variant);
+
+    // 5:  halo3_cache_debug
+    // 10: halo3_tag_test
+    // 18: hf2p_game_client_cache_release, using `k_cache_file_version`
+    filepath.print("game_variants\\%s_%03u.bin", filename, 18);
+    if (!create_configuration_file(filepath.get_string(), buffer, file_size))
+    {
+        c_console::write_line("failed!");
+    }
+}
+
+void __cdecl network_verify_or_load_and_use_packed_game_variant_file(char const* filename, bool load_and_use)
+{
+    s_file_reference info;
+    if (!file_reference_create_from_path(&info, filename, 0))
+    {
+        c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
+        return;
+    }
+
+    dword error = 0;
+    if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
+    {
+        c_console::write_line("networking:configuration: failed to open file '%s'", filename);
+        return;
+    }
+
+    dword size = 0;
+    if (!file_get_size(&info, &size))
+    {
+        c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    byte buffer[0x400]{};
+    csmemset(buffer, 0, sizeof(buffer));
+
+    if (size > sizeof(buffer))
+    {
+        c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
+        file_close(&info);
+        return;
+    }
+
+    if (!file_read(&info, size, false, buffer))
+    {
+        c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    c_game_variant game_variant;
+    if (!multiplayer_game_hopper_unpack_game_variant(buffer, size, &game_variant))
+    {
+        c_console::write_line("networking:configuration: failed to unpack game variant in file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    if (!game_engine_variant_is_valid(&game_variant))
+    {
+        c_console::write_line("networking:configuration: game variant in file '%s' is invalid", filename);
+        file_close(&info);
+        return;
+    }
+
+    c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+
+    if (load_and_use)
+    {
+        if (!network_squad_session_set_game_variant(&game_variant))
+        {
+            c_console::write_line("networking:configuration: failed to set session game variant traits, probably not in a session");
+        }
+    }
+
+    file_close(&info);
+}
+
+void __cdecl network_load_and_use_packed_game_variant_file(char const* filename)
+{
+    network_verify_or_load_and_use_packed_game_variant_file(filename, true);
+}
+
+void __cdecl network_verify_packed_game_variant_file(char const* filename)
+{
+    network_verify_or_load_and_use_packed_game_variant_file(filename, false);
+}
 

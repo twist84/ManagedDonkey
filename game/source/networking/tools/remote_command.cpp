@@ -6,6 +6,7 @@
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
 #include "game/game_time.hpp"
+#include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
@@ -371,12 +372,15 @@ COMMAND_CALLBACK_DECLARE(script_start);
 COMMAND_CALLBACK_DECLARE(game_splitscreen);
 COMMAND_CALLBACK_DECLARE(game_coop_players);
 COMMAND_CALLBACK_DECLARE(game_start);
-COMMAND_CALLBACK_DECLARE(net_test_create);
+COMMAND_CALLBACK_DECLARE(net_session_create);
 COMMAND_CALLBACK_DECLARE(net_test_map_name);
 COMMAND_CALLBACK_DECLARE(net_test_variant);
 COMMAND_CALLBACK_DECLARE(net_test_session_mode);
 COMMAND_CALLBACK_DECLARE(net_test_ui_game_mode);
 COMMAND_CALLBACK_DECLARE(net_test_advertisement_mode);
+COMMAND_CALLBACK_DECLARE(net_build_game_variant);
+COMMAND_CALLBACK_DECLARE(net_verify_game_variant);
+COMMAND_CALLBACK_DECLARE(net_load_and_use_game_variant);
 
 s_command const k_registered_commands[] =
 {
@@ -388,12 +392,15 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for mainmenu only"),
-	COMMAND_CALLBACK_REGISTER(net_test_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> network test: creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_map_name, 1, "<string>", "network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_variant, 1, "<string>", "network test: sets the game variant to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_session_mode, 1, "<string>", "network test: sets the session mode to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_ui_game_mode, 1, "<string>", "network test: sets the ui game mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_advertisement_mode, 1, "<string>", "network test: sets the advertisement mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(net_build_game_variant, 1, "<string>", "writes the current game variant to a file\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_verify_game_variant, 1, "<string>", "verifies the contents of a packed game variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(net_load_and_use_game_variant, 1, "<string>", "loads the contents of a packed game variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 //-----------------------------------------------------------------------------
@@ -563,7 +570,7 @@ callback_result_t game_start_callback(void const* userdata, long token_count, to
 	return __FUNCTION__ ": succeeded";
 }
 
-callback_result_t net_test_create_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t net_session_create_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
@@ -624,6 +631,36 @@ callback_result_t net_test_advertisement_mode_callback(void const* userdata, lon
 
 	char const* advertisement_mode_name = tokens.m_storage[1]->get_string();
 	network_test_set_advertisement_mode(advertisement_mode_name);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+callback_result_t net_build_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	network_build_game_variant(filename);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+callback_result_t net_verify_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	network_verify_packed_game_variant_file(filename);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+callback_result_t net_load_and_use_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	network_load_and_use_packed_game_variant_file(filename);
 
 	return __FUNCTION__ ": succeeded";
 }

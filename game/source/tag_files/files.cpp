@@ -15,6 +15,11 @@ file_reference_info* file_reference_get_info(s_file_reference* info)
 	return info;
 }
 
+bool __cdecl file_create_parent_directories_if_not_present(struct s_file_reference const* info)
+{
+	return INVOKE(0x00527FF0, file_create_parent_directories_if_not_present, info);
+}
+
 s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, short location)
 {
 	assert(info);

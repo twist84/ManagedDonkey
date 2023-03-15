@@ -2,6 +2,7 @@
 
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "game/game.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "units/units.hpp"
@@ -50,6 +51,15 @@ c_game_engine const* __cdecl current_game_engine()
 		return game_engines[game_engine->game_engine_index.get()];
 
 	return result;
+}
+
+c_game_variant const* __cdecl current_game_variant()
+{
+	game_options* options = game_options_get();
+	if (options->game_mode == _game_mode_multiplayer)
+		return &options->game_variant;
+
+	return nullptr;
 }
 
 long __cdecl game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(short absolute_weapons_selection_block_index, e_weapon_set weapon_set)

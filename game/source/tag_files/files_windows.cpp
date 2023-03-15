@@ -347,6 +347,11 @@ bool __cdecl file_set_position(s_file_reference* file_reference, dword offset, b
     return result;
 }
 
+bool __cdecl file_write(s_file_reference* file_reference, dword size, void const* buffer)
+{
+    return INVOKE(0x0052B250, file_write, file_reference, size, buffer);
+}
+
 void find_files_end(s_find_file_data* data)
 {
     short depth = data->depth;
