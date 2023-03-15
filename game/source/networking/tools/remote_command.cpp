@@ -365,6 +365,7 @@ struct s_command
 
 COMMAND_CALLBACK_DECLARE(help);
 COMMAND_CALLBACK_DECLARE(breakpoint);
+COMMAND_CALLBACK_DECLARE(close_game);
 
 COMMAND_CALLBACK_DECLARE(script_start);
 COMMAND_CALLBACK_DECLARE(game_splitscreen);
@@ -373,21 +374,26 @@ COMMAND_CALLBACK_DECLARE(game_start);
 COMMAND_CALLBACK_DECLARE(net_test_create);
 COMMAND_CALLBACK_DECLARE(net_test_map_name);
 COMMAND_CALLBACK_DECLARE(net_test_variant);
-COMMAND_CALLBACK_DECLARE(net_test_mode);
+COMMAND_CALLBACK_DECLARE(net_test_session_mode);
+COMMAND_CALLBACK_DECLARE(net_test_ui_game_mode);
+COMMAND_CALLBACK_DECLARE(net_test_advertisement_mode);
 
 s_command const k_registered_commands[] =
 {
 	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints a description of the named function.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(breakpoint, 1, "<string>", "If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(close_game, 0, "", "closes the game.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(script_start, 1, "<string>", "debug script launching: starts a scenario script by name.\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
-	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for for mainmenu only"),
-	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for for mainmenu only"),
-	COMMAND_CALLBACK_REGISTER(net_test_create, 0, "", "network test: creates a session to play\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(net_test_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> network test: creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_map_name, 1, "<string>", "network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_variant, 1, "<string>", "network test: sets the game variant to play\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(net_test_mode, 1, "<string>", "network test: sets the session mode to play\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_session_mode, 1, "<string>", "network test: sets the session mode to play\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_ui_game_mode, 1, "<string>", "network test: sets the ui game mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(net_test_advertisement_mode, 1, "<string>", "network test: sets the advertisement mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
 };
 
 //-----------------------------------------------------------------------------
@@ -512,6 +518,11 @@ callback_result_t breakpoint_callback(void const* userdata, long token_count, to
 	return __FUNCTION__ ": succeeded";
 }
 
+callback_result_t close_game_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	exit(-1);
+}
+
 callback_result_t script_start_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -556,7 +567,13 @@ callback_result_t net_test_create_callback(void const* userdata, long token_coun
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	network_test_create_session();
+	//network_test_create_session();
+
+	char const* ui_game_mode_name = tokens.m_storage[1]->get_string();
+	char const* advertisement_mode_name = tokens.m_storage[2]->get_string();
+
+	network_test_set_ui_game_mode(ui_game_mode_name);
+	network_test_set_advertisement_mode(advertisement_mode_name);
 
 	return __FUNCTION__ ": succeeded";
 }
@@ -581,12 +598,32 @@ callback_result_t net_test_variant_callback(void const* userdata, long token_cou
 	return __FUNCTION__ ": succeeded";
 }
 
-callback_result_t net_test_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t net_test_session_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	char const* session_mode_name = tokens.m_storage[1]->get_string();
 	network_test_set_session_mode(session_mode_name);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+callback_result_t net_test_ui_game_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* ui_game_mode_name = tokens.m_storage[1]->get_string();
+	network_test_set_ui_game_mode(ui_game_mode_name);
+
+	return __FUNCTION__ ": succeeded";
+}
+
+callback_result_t net_test_advertisement_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* advertisement_mode_name = tokens.m_storage[1]->get_string();
+	network_test_set_advertisement_mode(advertisement_mode_name);
 
 	return __FUNCTION__ ": succeeded";
 }

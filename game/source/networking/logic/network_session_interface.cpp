@@ -133,31 +133,6 @@ bool __cdecl network_squad_session_local_peer_is_leader()
 	return INVOKE(0x00455320, network_squad_session_local_peer_is_leader);
 }
 
-char const* k_network_session_mode_names[k_network_session_mode_count]
-{
-	"none",
-	"idle",
-	"setup",
-	"in_game",
-	"end_game",
-	"post_game",
-	"matchmaking_start",
-	"matchmaking_searching",
-	"matchmaking_gathering",
-	"matchmaking_slave",
-	"matchmaking_disbanding",
-	"matchmaking_arbitrating",
-	"matchmaking_choosing_game"
-};
-
-char const* network_session_mode_get_name(long session_mode)
-{
-	if (session_mode < _network_session_mode_none || session_mode >= k_network_session_mode_count)
-		return "<invalid 'network_session_mode'>";
-
-	return k_network_session_mode_names[session_mode];
-}
-
 bool __cdecl network_squad_session_set_session_mode(e_network_session_mode session_mode)
 {
 	bool success = false;

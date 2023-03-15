@@ -13,6 +13,14 @@
 
 #include <stdlib.h>
 
+#define UI_WAIT(_time, _set_value, _get_value, _value) \
+_set_value(_value);                                    \
+do                                                     \
+{                                                      \
+    user_interface_update(_time);                      \
+    network_update();                                  \
+} while (_get_value() != _value);
+
 void __cdecl network_update()
 {
 	INVOKE(0x0049E7B0, network_update);
@@ -102,19 +110,33 @@ void __cdecl network_test_set_session_mode(char const* session_mode_name)
 	network_squad_session_set_session_mode(session_mode);
 }
 
-void __cdecl network_test_create_session()
+void __cdecl network_test_set_ui_game_mode(char const* ui_game_mode_name)
 {
-#define UI_WAIT(_time, _set_value, _get_value, _value) \
-_set_value(_value);                             \
-do                                              \
-{                                               \
-    user_interface_update(_time);               \
-    network_update();                           \
-} while (_get_value() != _value);               \
+	e_gui_game_mode ui_game_mode = _ui_game_mode_none;
 
-	UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, _ui_game_mode_multiplayer);
-	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, _gui_network_session_advertisement_mode_system_link);
+	for (long i = _ui_game_mode_campaign; i < k_ui_game_mode_count; i++)
+	{
+		if (csstricmp(ui_game_mode_name, ui_game_mode_get_name(i)) != 0)
+			continue;
 
-	user_interface_set_desired_multiplayer_mode(_desired_multiplayer_mode_custom_game);
+		ui_game_mode = e_gui_game_mode(i);
+	}
+
+	UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, ui_game_mode);
+}
+
+void __cdecl network_test_set_advertisement_mode(char const* advertisement_mode_name)
+{
+	e_gui_network_session_advertisement_mode advertisement_mode = _gui_network_session_advertisement_mode_invalid;
+
+	for (long i = _gui_network_session_advertisement_mode_open_to_public; i < k_gui_network_session_advertisement_mode_count; i++)
+	{
+		if (csstricmp(advertisement_mode_name, gui_network_session_advertisement_mode_get_name(i)) != 0)
+			continue;
+
+		advertisement_mode = e_gui_network_session_advertisement_mode(i);
+	}
+
+	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, advertisement_mode);
 }
 

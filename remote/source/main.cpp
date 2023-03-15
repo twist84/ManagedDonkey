@@ -114,6 +114,12 @@ void c_raw_connection::update()
 			break;
 		}
 
+		if (strcmp(buffer, "close_game") == 0)
+		{
+			send(m_socket, buffer, len, 0);
+			break;
+		}
+
 		if (send(m_socket, buffer, len, 0) == SOCKET_ERROR)
 		{
 			printf("Failed to send data to server. Error code: %d\n", WSAGetLastError());

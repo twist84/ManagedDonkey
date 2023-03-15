@@ -648,3 +648,8 @@ enum e_interface_font
 
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
+
+extern char const* network_session_mode_get_name(long session_mode);
+extern char const* ui_game_mode_get_name(long ui_game_mode);
+extern char const* gui_network_session_advertisement_mode_get_name(long advertisement_mode);
+
