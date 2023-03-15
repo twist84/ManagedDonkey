@@ -286,12 +286,12 @@ bool __cdecl remote_command_send(long command_type, void const* a2, long payload
 	{
 		short encoded_command_size = MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE;
 		char encoded_command_buffer[MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE]{};
-	
+
 		if (data_packet_group_encode_packet(&remote_command_packets_group, const_cast<void*>(a2), encoded_command_buffer, &encoded_command_size, static_cast<short>(command_type), REMOTE_COMMAND_PACKET_VERSION))
 		{
 			return remote_command_send_encoded(encoded_command_size, encoded_command_buffer, payload_size, payload);
 		}
-	
+
 		c_console::write_line("remote command couldn't encode packet type %d (%s)", command_type, remote_command_packets_group.packets[command_type].definition->name);
 	}
 
@@ -336,9 +336,11 @@ assert(userdata != nullptr);                                                  \
 assert((token_count - 1) >= 0);                                               \
                                                                               \
 s_command const& command = *static_cast<s_command const*>(userdata);          \
+callback_result_t result = command.name;                                      \
+result.append_line(": succeeded");                                            \
 if ((token_count - 1) != command.parameter_count)                             \
 {                                                                             \
-    callback_result_t result = "Invalid usage. ";                             \
+    result = "Invalid usage. ";                                               \
     result.append_print_line("%s %s", command.name, command.parameter_types); \
     result.append(command.extra_info);                                        \
     return result;                                                            \
@@ -372,15 +374,21 @@ COMMAND_CALLBACK_DECLARE(script_start);
 COMMAND_CALLBACK_DECLARE(game_splitscreen);
 COMMAND_CALLBACK_DECLARE(game_coop_players);
 COMMAND_CALLBACK_DECLARE(game_start);
+
 COMMAND_CALLBACK_DECLARE(net_session_create);
+
 COMMAND_CALLBACK_DECLARE(net_test_map_name);
 COMMAND_CALLBACK_DECLARE(net_test_variant);
 COMMAND_CALLBACK_DECLARE(net_test_session_mode);
 COMMAND_CALLBACK_DECLARE(net_test_ui_game_mode);
 COMMAND_CALLBACK_DECLARE(net_test_advertisement_mode);
+
 COMMAND_CALLBACK_DECLARE(net_build_game_variant);
 COMMAND_CALLBACK_DECLARE(net_verify_game_variant);
 COMMAND_CALLBACK_DECLARE(net_load_and_use_game_variant);
+
+COMMAND_CALLBACK_DECLARE(net_build_map_variant);
+COMMAND_CALLBACK_DECLARE(net_verify_map_variant);
 
 s_command const k_registered_commands[] =
 {
@@ -392,15 +400,21 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for mainmenu only"),
+
 	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
+
 	COMMAND_CALLBACK_REGISTER(net_test_map_name, 1, "<string>", "network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_variant, 1, "<string>", "network test: sets the game variant to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_session_mode, 1, "<string>", "network test: sets the session mode to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_ui_game_mode, 1, "<string>", "network test: sets the ui game mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_advertisement_mode, 1, "<string>", "network test: sets the advertisement mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
+
 	COMMAND_CALLBACK_REGISTER(net_build_game_variant, 1, "<string>", "writes the current game variant to a file\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_verify_game_variant, 1, "<string>", "verifies the contents of a packed game variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(net_load_and_use_game_variant, 1, "<string>", "loads the contents of a packed game variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(net_build_map_variant, 1, "<string>", "writes the current map variant to a file\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_verify_map_variant, 1, "<string>", "verifies the contents of a packed map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 //-----------------------------------------------------------------------------
@@ -522,7 +536,7 @@ callback_result_t breakpoint_callback(void const* userdata, long token_count, to
 
 	__asm { int 3 };
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t close_game_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -537,7 +551,7 @@ callback_result_t script_start_callback(void const* userdata, long token_count, 
 	char const* name = tokens.m_storage[1]->get_string();
 	user_interface_start_hs_script_by_name(name);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t game_splitscreen_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -547,7 +561,7 @@ callback_result_t game_splitscreen_callback(void const* userdata, long token_cou
 	long multiplayer_splitscreen_count = atol(tokens.m_storage[1]->get_string());
 	main_game_launch_set_multiplayer_splitscreen_count(multiplayer_splitscreen_count);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t game_coop_players_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -557,7 +571,7 @@ callback_result_t game_coop_players_callback(void const* userdata, long token_co
 	long coop_player_count = atol(tokens.m_storage[1]->get_string());
 	main_game_launch_set_coop_player_count(coop_player_count);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t game_start_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -567,7 +581,7 @@ callback_result_t game_start_callback(void const* userdata, long token_count, to
 	char const* map_name = tokens.m_storage[1]->get_string();
 	main_game_launch(map_name);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_session_create_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -582,7 +596,7 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 	network_test_set_ui_game_mode(ui_game_mode_name);
 	network_test_set_advertisement_mode(advertisement_mode_name);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_test_map_name_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -592,7 +606,7 @@ callback_result_t net_test_map_name_callback(void const* userdata, long token_co
 	char const* scenario_path = tokens.m_storage[1]->get_string();
 	network_test_set_map_name(scenario_path);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_test_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -602,7 +616,7 @@ callback_result_t net_test_variant_callback(void const* userdata, long token_cou
 	char const* game_engine_name = tokens.m_storage[1]->get_string();
 	network_test_set_game_variant(game_engine_name);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_test_session_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -612,7 +626,7 @@ callback_result_t net_test_session_mode_callback(void const* userdata, long toke
 	char const* session_mode_name = tokens.m_storage[1]->get_string();
 	network_test_set_session_mode(session_mode_name);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_test_ui_game_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -622,7 +636,7 @@ callback_result_t net_test_ui_game_mode_callback(void const* userdata, long toke
 	char const* ui_game_mode_name = tokens.m_storage[1]->get_string();
 	network_test_set_ui_game_mode(ui_game_mode_name);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_test_advertisement_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -632,7 +646,7 @@ callback_result_t net_test_advertisement_mode_callback(void const* userdata, lon
 	char const* advertisement_mode_name = tokens.m_storage[1]->get_string();
 	network_test_set_advertisement_mode(advertisement_mode_name);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_build_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -642,7 +656,7 @@ callback_result_t net_build_game_variant_callback(void const* userdata, long tok
 	char const* filename = tokens.m_storage[1]->get_string();
 	network_build_game_variant(filename);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_verify_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -652,7 +666,7 @@ callback_result_t net_verify_game_variant_callback(void const* userdata, long to
 	char const* filename = tokens.m_storage[1]->get_string();
 	network_verify_packed_game_variant_file(filename);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
 }
 
 callback_result_t net_load_and_use_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -662,6 +676,26 @@ callback_result_t net_load_and_use_game_variant_callback(void const* userdata, l
 	char const* filename = tokens.m_storage[1]->get_string();
 	network_load_and_use_packed_game_variant_file(filename);
 
-	return __FUNCTION__ ": succeeded";
+	return result;
+}
+
+callback_result_t net_build_map_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	network_build_map_variant(filename);
+
+	return result;
+}
+
+callback_result_t net_verify_map_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	network_verify_packed_map_variant_file(filename);
+
+	return result;
 }
 

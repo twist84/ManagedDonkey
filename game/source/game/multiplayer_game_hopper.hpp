@@ -218,3 +218,7 @@ extern void __cdecl network_build_game_variant(char const* filename);
 extern void __cdecl network_load_and_use_packed_game_variant_file(char const* filename);
 extern void __cdecl network_verify_packed_game_variant_file(char const* filename);
 
+extern void __cdecl network_build_map_variant(char const* filename);
+extern void __cdecl network_load_and_use_packed_map_variant_file(char const* filename);
+extern void __cdecl network_verify_packed_map_variant_file(char const* filename);
+

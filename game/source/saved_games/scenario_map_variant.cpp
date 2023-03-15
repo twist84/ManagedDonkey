@@ -15,3 +15,8 @@ void __cdecl c_map_variant::create_default(long map_id)
 	DECLFUNC(0x00581F70, void, __thiscall, c_map_variant*, long)(this, map_id);
 }
 
+bool __cdecl c_map_variant::validate()
+{
+	return DECLFUNC(0x00586D00, bool, __thiscall, c_map_variant*)(this);
+}
+
