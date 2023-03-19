@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_area_set.hpp"
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_territories_traits.hpp"
 #include "game/game_engine_variant.hpp"
@@ -17,6 +18,8 @@ struct c_game_engine_territories_variant : c_game_engine_base_variant
 	c_player_traits m_attacker_traits;
 
 	byte unused[0x50];
+
+	void byteswap();
 };
 static_assert(sizeof(c_game_engine_territories_variant) == 0x260);
 
