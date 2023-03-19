@@ -235,7 +235,10 @@ POPD
     <ClCompile Include="source\game\game_engine_king.cpp" />
     <ClCompile Include="source\game\game_engine_oddball.cpp" />
     <ClCompile Include="source\game\game_engine_player_traits.cpp" />
+    <ClCompile Include="source\game\game_engine_sandbox.cpp" />
+    <ClCompile Include="source\game\game_engine_slayer.cpp" />
     <ClCompile Include="source\game\game_engine_team.cpp" />
+    <ClCompile Include="source\game\game_engine_territories.cpp" />
     <ClCompile Include="source\game\game_engine_util.cpp" />
     <ClCompile Include="source\game\game_results.cpp" />
     <ClCompile Include="source\game\multiplayer_definitions.cpp" />
