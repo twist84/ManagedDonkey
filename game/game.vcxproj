@@ -231,6 +231,7 @@ POPD
     <ClCompile Include="source\game\game_engine_ctf.cpp" />
     <ClCompile Include="source\game\game_engine_display.cpp" />
     <ClCompile Include="source\game\game_engine_infection.cpp" />
+    <ClCompile Include="source\game\game_engine_juggernaut.cpp" />
     <ClCompile Include="source\game\game_engine_player_traits.cpp" />
     <ClCompile Include="source\game\game_engine_team.cpp" />
     <ClCompile Include="source\game\game_engine_util.cpp" />

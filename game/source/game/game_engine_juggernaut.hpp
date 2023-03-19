@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_area_set.hpp"
 #include "game/game_engine_juggernaut_traits.hpp"
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_juggernaut_traits.hpp"
@@ -56,6 +57,8 @@ struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
 
 	byte m_pad1[2];
 	byte unused[0x60];
+
+	void byteswap();
 };
 static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x260);
 
