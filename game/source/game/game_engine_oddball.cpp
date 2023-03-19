@@ -6,6 +6,8 @@
 
 void c_game_engine_oddball_variant::byteswap()
 {
+	static_cast<c_game_engine_base_variant*>(this)->byteswap();
+
 	bswap_dword_inplace(m_variant_flags);
 	bswap_word_inplace(m_score_to_win);
 	bswap_word_inplace(m_carrying_points);
