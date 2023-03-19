@@ -32,6 +32,8 @@ struct c_game_engine_ctf_variant : c_game_engine_base_variant
 
 	byte m_pad1[6];
 	byte unused[0x60];
+
+	void byteswap();
 };
 static_assert(sizeof(c_game_engine_ctf_variant) == 0x260);
 
