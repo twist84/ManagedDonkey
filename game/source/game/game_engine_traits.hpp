@@ -115,7 +115,7 @@ struct c_game_engine_respawn_options
 
 	// default: 5
 	// maximum: 60
-	byte m_respawn_player_traits_duration;
+	byte m_respawn_player_traits_duration_seconds;
 
 	// woman bound for glory, why you leaving me again?
 	byte pad[3];
@@ -140,8 +140,8 @@ struct c_game_engine_map_override_options
 
 	c_player_traits m_player_traits;
 
-	word m_weapon_set;
-	word m_vehicle_set;
+	word m_weapon_set_absolute_index;
+	word m_vehicle_set_absolute_index;
 
 	c_player_traits m_red_powerup_traits;
 	c_player_traits m_blue_powerup_traits;
