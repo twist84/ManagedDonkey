@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_area_set.hpp"
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_variant.hpp"
 #include "game/game_engine_vip_traits.hpp"
@@ -65,6 +66,8 @@ struct c_game_engine_vip_variant : c_game_engine_base_variant
 	c_player_traits m_vip_traits;
 
 	byte unused[0x28];
+
+	void byteswap();
 };
 static_assert(sizeof(c_game_engine_vip_variant) == 0x260);
 

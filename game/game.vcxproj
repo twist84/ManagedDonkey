@@ -240,6 +240,7 @@ POPD
     <ClCompile Include="source\game\game_engine_team.cpp" />
     <ClCompile Include="source\game\game_engine_territories.cpp" />
     <ClCompile Include="source\game\game_engine_util.cpp" />
+    <ClCompile Include="source\game\game_engine_vip.cpp" />
     <ClCompile Include="source\game\game_results.cpp" />
     <ClCompile Include="source\game\multiplayer_definitions.cpp" />
     <ClCompile Include="source\game\multiplayer_game_hopper.cpp" />
