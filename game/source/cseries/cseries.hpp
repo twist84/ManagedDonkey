@@ -4,6 +4,8 @@
 #include "cseries/real_math.hpp"
 
 #include <stdarg.h>
+#include <type_traits>
+
 
 #define STARTSWITH(s1, s1_len, s2) (csmemcmp((s1), (s2), csstrnlen((s2), (s1_len))) == 0)
 
@@ -109,6 +111,19 @@ const long LONG_BITS = SIZEOF_BITS(long);
 constexpr bool pointer_is_aligned(void* pointer, long alignment_bits)
 {
 	return ((unsigned long)pointer & ((1 << alignment_bits) - 1)) == 0;
+}
+
+template<typename t_type, long count>
+typename std::enable_if<!std::is_floating_point<t_type>::value, bool>::type
+array_is_zeroed(t_type(&data)[count])
+{
+	for (long i = 0; i < count; i++)
+	{
+		if (data[i] != 0)
+			return false;
+	}
+
+	return true;
 }
 
 extern int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size);
