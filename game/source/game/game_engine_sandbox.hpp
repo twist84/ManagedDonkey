@@ -15,6 +15,8 @@ struct c_game_engine_sandbox_variant : c_game_engine_base_variant
 	c_player_traits m_all_player_traits;
 
 	byte unused[0x70];
+
+	void byteswap();
 };
 static_assert(sizeof(c_game_engine_sandbox_variant) == 0x260);
 
