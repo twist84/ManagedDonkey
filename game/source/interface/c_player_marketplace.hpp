@@ -16,7 +16,7 @@ private:
 	static c_http_stored_buffer_downloader<4096>& m_downloader;
 
 protected:
-	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
 
 	bool m_refresh;
 	long m_marketplace_state;

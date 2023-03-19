@@ -45,7 +45,7 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 
 	static c_virtual_keyboard_task* m_instance;
 
-	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
 	dword_flags m_character_flags;
 	wchar_t m_result_text[256];
 	wchar_t m_default_text[256];

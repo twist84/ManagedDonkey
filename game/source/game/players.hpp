@@ -229,7 +229,7 @@ struct s_s3d_player_weapon_configuration_loadout
 {
 	byte primary_weapon_index;
 	byte secondary_weapon_index;
-	c_enum<e_grenade_type, char, k_grenade_type_count> grenade_index;
+	c_enum<e_grenade_type, char, _grenade_type_frag, k_grenade_type_count> grenade_index;
 	c_static_array<char, 4> consumables;
 
 	// padding?
@@ -426,7 +426,7 @@ struct s_players_global_data
 
 	byte __data139;
 
-	c_enum<e_player_respawn_failure, short, k_player_respawn_failure_count> respawn_failure;
+	c_enum<e_player_respawn_failure, short, _player_respawn_failure_none, k_player_respawn_failure_count> respawn_failure;
 
 	// player_positions_initialize_for_new_structure_bsp
 	// players_update_after_game

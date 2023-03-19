@@ -5,7 +5,7 @@
 
 struct s_persistent_campaign_player_weapon
 {
-	c_enum<e_damage_reporting_type, short, k_damage_reporting_type_count> damage_reporting_type;
+	c_enum<e_damage_reporting_type, short, _damage_reporting_type_unknown, k_damage_reporting_type_count> damage_reporting_type;
 	short rounds_loaded_maximum;
 	short runtime_rounds_inventory_maximum;
 	short rounds_loaded_amount;

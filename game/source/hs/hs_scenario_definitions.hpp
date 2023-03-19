@@ -114,7 +114,7 @@ enum e_hs_type
 struct hs_script_parameter
 {
 	string name;
-	c_enum<e_hs_type, short, k_hs_type_count> return_type;
+	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> return_type;
 
 	// pad
 	byte JBG[2];
@@ -124,7 +124,7 @@ static_assert(sizeof(hs_script_parameter) == 0x24);
 struct hs_global_internal
 {
 	string name;
-	c_enum<e_hs_type, short, k_hs_type_count> type;
+	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
 
 	// pad
 	byte EB[2];
@@ -136,8 +136,8 @@ static_assert(sizeof(hs_global_internal) == 0x28);
 struct hs_script
 {
 	string name;
-	c_enum<e_hs_script_type, short, k_hs_script_type_count> script_type;
-	c_enum<e_hs_type, short, k_hs_type_count> return_type;
+	c_enum<e_hs_script_type, short, _hs_script_startup, k_hs_script_type_count> script_type;
+	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> return_type;
 	long root_expression_index;
 	c_typed_tag_block<hs_script_parameter> parameters;
 };
@@ -165,10 +165,10 @@ struct hs_syntax_node : s_datum_header
 	{
 		short script_index;
 		short function_index;
-		c_enum<e_hs_type, short, k_hs_type_count> constant_type;
+		c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> constant_type;
 	};
 
-	c_enum<e_hs_type, short, k_hs_type_count> type;
+	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
 	word_flags flags;
 	long next_node_index;
 	long source_offset;

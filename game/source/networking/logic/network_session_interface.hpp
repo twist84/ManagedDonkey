@@ -22,16 +22,16 @@ struct s_network_session_status_data
 	static_assert(sizeof(s_header) == 0x10);
 
 	s_header header;
-	c_enum<e_network_session_mode, long, k_network_session_mode_count> session_mode;
+	c_enum<e_network_session_mode, long, _network_session_mode_none, k_network_session_mode_count> session_mode;
 	byte : 8;
 	byte : 8;
 	byte : 8;
 	byte : 8;
-	c_enum<e_network_session_class, long, k_network_session_class_count> session_class;
-	c_enum<e_network_session_type, long, k_network_session_type_count> session_type;
+	c_enum<e_network_session_class, long, _network_session_class_offline, k_network_session_class_count> session_class;
+	c_enum<e_network_session_type, long, _network_session_type_none, k_network_session_type_count> session_type;
 	long privacy_mode;
 	c_static_wchar_string<32> session_name;
-	c_enum<e_life_cycle_state, short, k_life_cycle_state_count> life_cycle_state;
+	c_enum<e_life_cycle_state, short, _life_cycle_state_none, k_life_cycle_state_count> life_cycle_state;
 	s_transport_secure_identifier session_id;
 	s_transport_secure_address host_address;
 	s_transport_secure_key key;
@@ -39,9 +39,9 @@ struct s_network_session_status_data
 	short private_slots;
 	short public_players;
 	short private_players;
-	c_enum<e_session_game_mode, short, k_session_game_mode_count> game_mode;
+	c_enum<e_session_game_mode, short, _session_game_mode_none, k_session_game_mode_count> game_mode;
 	short game_state;
-	c_enum<e_network_game_type, short, k_network_game_type_count> network_game_type;
+	c_enum<e_network_game_type, short, _network_game_type_none, k_network_game_type_count> network_game_type;
 	short connection_quality;
 	c_static_string<16> playlist_name;
 	byte : 8;
@@ -99,7 +99,7 @@ struct s_saved_film_description
 	long difficulty;
 	c_static_wchar_string<256> film_path;
 	c_static_wchar_string<128> film_name;
-	c_enum<e_controller_index, long, k_number_of_controllers> controller_index;
+	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> controller_index;
 	long length_seconds;
 };
 static_assert(sizeof(s_saved_film_description) == 0x31C);

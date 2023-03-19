@@ -8,9 +8,9 @@
 struct c_game_engine_infection_variant : c_game_engine_base_variant
 {
 	c_flags<e_infection_variant_flags, byte_flags, k_infection_variant_flags> m_variant_flags;
-	c_enum<e_infection_safe_havens_settings, char, k_infection_safe_havens_settings> m_safe_havens;
-	c_enum<e_infection_next_zombie_settings, char, k_infection_next_zombie_settings> m_next_zombie;
-	c_enum<e_infection_initial_zombie_count_settings, char, k_infection_initial_zombie_count_settings> m_initial_zombie_count;
+	c_enum<e_infection_safe_havens_settings, char, _infection_safe_havens_off, k_infection_safe_havens_settings> m_safe_havens;
+	c_enum<e_infection_next_zombie_settings, char, _infection_next_zombie_winner, k_infection_next_zombie_settings> m_next_zombie;
+	c_enum<e_infection_initial_zombie_count_settings, char, _infection_initial_zombie_count_25_percent, k_infection_initial_zombie_count_settings> m_initial_zombie_count;
 
 	// default: 30
 	// maximum: 120

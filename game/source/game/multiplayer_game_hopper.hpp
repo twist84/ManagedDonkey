@@ -26,7 +26,7 @@ struct c_hopper_configuration
 	s_network_http_request_hash game_set_hash;
 	word hopper_identifier;
 	long hopper_category;
-	c_enum<e_hopper_type, long, k_hopper_type_count> hopper_type;
+	c_enum<e_hopper_type, long, _hopper_type_ffa_unranked, k_hopper_type_count> hopper_type;
 	long image_index;
 	long xlast_index;
 	byte rich_presence_id[8];

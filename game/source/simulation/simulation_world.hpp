@@ -62,7 +62,7 @@ struct c_simulation_world
 
 	c_simulation_watcher* m_watcher;
 	c_simulation_distributed_world* m_distributed_world;
-	c_enum<e_simulation_world_type, long, k_simulation_world_type_count> m_world_type;
+	c_enum<e_simulation_world_type, long, _simulation_world_type_none, k_simulation_world_type_count> m_world_type;
 
 	union
 	{
@@ -79,7 +79,7 @@ struct c_simulation_world
 	};
 
 	long m_local_machine_index;
-	c_enum<e_simulation_world_state, long, k_simulation_world_state_count> m_world_state;
+	c_enum<e_simulation_world_state, long, _simulation_world_state_none, k_simulation_world_state_count> m_world_state;
 
 	dword m_last_time_disconnected;
 

@@ -336,8 +336,8 @@ static_assert(sizeof(key_state) == 0x4);
 struct s_key_state
 {
 	c_flags<e_key_modifier_flags, byte, k_key_modifier_flag_count> modifier;
-	c_enum<e_key_type, long, k_key_type_count> key_type;
-	c_enum<e_key_code, short, k_total_key_code_count> key_code;
+	c_enum<e_key_type, long, _key_type_down, k_key_type_count> key_type;
+	c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
 
 	// virtual-key code
 	// LOWORD(wParam);
@@ -354,11 +354,11 @@ static_assert(sizeof(s_key_state) == 0x10);
 
 struct s_mouse_state
 {
-	c_enum<e_mouse_type, long, k_mouse_type_count> mouse_type;
+	c_enum<e_mouse_type, long, _mouse_type_move, k_mouse_type_count> mouse_type;
 	dword x;
 	dword y;
 	dword wheel_delta;
-	c_enum<e_mouse_button, char, k_mouse_button_count> mouse_button;
+	c_enum<e_mouse_button, char, _mouse_button_1, k_mouse_button_count> mouse_button;
 };
 static_assert(sizeof(s_mouse_state) == 0x14);
 

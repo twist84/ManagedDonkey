@@ -56,7 +56,7 @@ protected:
 	c_static_string<1024> m_extra_headers;
 	byte __pad669[3];
 
-	c_enum<e_internal_status, long, k_internal_status_count> m_internal_status;
+	c_enum<e_internal_status, long, _internal_status_none, k_internal_status_count> m_internal_status;
 	dword m_request_cookie;
 	long m_cache_task_token;
 

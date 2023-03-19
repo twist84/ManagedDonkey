@@ -33,7 +33,7 @@ protected:
 	long m_data_size_bytes;
 	long m_data_size_alignment;
 
-	c_enum<e_bitstream_state, long, k_bitstream_state_count> m_state;
+	c_enum<e_bitstream_state, long, _bitstream_state_initial, k_bitstream_state_count> m_state;
 
 	// possibly part of `s_bitstream_data`
 	bool __unknown14;

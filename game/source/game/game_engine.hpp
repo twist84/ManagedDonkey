@@ -87,7 +87,7 @@ struct s_game_engine_globals
 	c_static_array<long, 16> player_simulation_object_glue_indices;
 	byte __data74[0x4];
 	c_map_variant map_variant;
-	c_enum<e_game_engine_state, short, k_game_engine_state_count> current_state;
+	c_enum<e_game_engine_state, short, _game_engine_state_game_over, k_game_engine_state_count> current_state;
 	short round_index;
 	dword round_timer;
 	byte round_condition_flags;
@@ -124,11 +124,11 @@ struct s_game_engine_globals
 	byte __data10498[0x104];
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
 	dword __unknown13D9C;
-	c_enum<e_game_engine_state, long, k_game_engine_state_count> desired_state;
+	c_enum<e_game_engine_state, long, _game_engine_state_game_over, k_game_engine_state_count> desired_state;
 	bool game_finished;
 	dword __unknown13DA8;
 	dword __unknown13DAC;
-	c_enum<e_game_engine_type, long, k_game_engine_type_count> game_engine_index;
+	c_enum<e_game_engine_type, long, _game_engine_base_variant, k_game_engine_type_count> game_engine_index;
 	long multiplayer_weapon_count;
 	c_static_array<s_multiplayer_weapon_tracker, 8> multiplayer_weapons;
 	c_area_set<c_teleporter_area, 32> teleporters;

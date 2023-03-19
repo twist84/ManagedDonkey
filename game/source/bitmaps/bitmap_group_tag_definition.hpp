@@ -202,10 +202,10 @@ struct bitmap_data
 	c_flags<e_bitmap_more_flags, byte, k_bitmap_more_flag_count> more_flags;
 
 	// DO NOT CHANGE
-	c_enum<e_bitmap_type, short, k_bitmap_type_count> type;
+	c_enum<e_bitmap_type, short, _bitmap_type_2d, k_bitmap_type_count> type;
 
 	// DO NOT CHANGE
-	c_enum<e_bitmap_format, short, k_bitmap_format_count> format;
+	c_enum<e_bitmap_format, short, _bitmap_format_a8, k_bitmap_format_count> format;
 
 	c_flags<e_bitmap_flags, word, k_bitmap_flag_count> flags;
 
@@ -569,7 +569,7 @@ enum e_bitmap_usage_format
 struct bitmap_group
 {
 	// choose how you are using this bitmap
-	c_enum<e_bitmap_usage_global, long, k_bitmap_usage_global_count> usage;
+	c_enum<e_bitmap_usage_global, long, _bitmap_usage_global_diffuse_map, k_bitmap_usage_global_count> usage;
 
 	c_flags<e_bitmap_group_flags, word, k_bitmap_group_flag_count> flags;
 
@@ -583,7 +583,7 @@ struct bitmap_group
 	real_fraction fade_factor; // [0,1]
 
 	// automatic chooses FAST if your bitmap is bright, and PRETTY if your bitmap has dark bits
-	c_enum<e_bitmap_curve_override, char, k_bitmap_curve_override_count> curve_mode;
+	c_enum<e_bitmap_curve_override, char, _bitmap_curve_override_choose_best, k_bitmap_curve_override_count> curve_mode;
 
 	// 0 = use default defined by usage
 	char max_mipmap_level;
@@ -593,7 +593,7 @@ struct bitmap_group
 	byte post_max_resolution[2];
 
 	// overrides the format defined by usage
-	c_enum<e_bitmap_usage_format, short, k_bitmap_usage_format_count> force_bitmap_format;
+	c_enum<e_bitmap_usage_format, short, _bitmap_usage_format_use_default_defined_by_usage, k_bitmap_usage_format_count> force_bitmap_format;
 
 	tag_block tight_bounds;
 	tag_block usage_override;

@@ -22,7 +22,7 @@ struct c_gui_roster_data : c_gui_ordered_data
 
 	struct s_player_row
 	{
-		c_enum<e_player_row_type, long, k_player_row_type_count> player_row_type;
+		c_enum<e_player_row_type, long, _player_row_type_player, k_player_row_type_count> player_row_type;
 		long player_index;
 		s_player_identifier player_identifier;
 		bool __unknown10;
@@ -36,7 +36,7 @@ struct c_gui_roster_data : c_gui_ordered_data
 		long __unknown164C;
 		qword party_nonce;
 		long leader_team_index;
-		c_enum<e_controller_index, long, k_number_of_controllers> controller_index;
+		c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> controller_index;
 		long voice_talking_state;
 		long party_bar_length;
 		bool is_leader;
@@ -56,7 +56,7 @@ protected:
 	byte __data114[4];
 	c_gui_roster_data::s_player_row m_players[16];
 	long m_player_count;
-	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
 	bool __unknown168A0;
 	byte __data168A1[0x7];
 };

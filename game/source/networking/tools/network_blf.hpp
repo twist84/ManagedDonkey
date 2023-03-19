@@ -66,7 +66,7 @@ public:
 	s_blf_header header;
 
 	long file_size;
-	c_enum<e_blf_file_authentication_type, char, k_blf_file_authentication_type_count> authentication_type;
+	c_enum<e_blf_file_authentication_type, char, _blf_file_authentication_type_none, k_blf_file_authentication_type_count> authentication_type;
 };
 static_assert(sizeof(s_blf_chunk_end_of_file) == sizeof(s_blf_header) + 0x5);
 

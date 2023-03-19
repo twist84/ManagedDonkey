@@ -217,12 +217,17 @@ enum e_join_type
 
 enum e_networking_join_destination_squad
 {
-	k_join_destination_count = 1
+	_join_destination_unknown0 = 0,
+
+	k_join_destination_count
 };
 
 enum e_transport_platform
 {
-	k_transport_platform_count = 2
+	_transport_platform_unknown0 = 0,
+	_transport_platform_unknown1,
+
+	k_transport_platform_count
 };
 
 enum e_network_join_refuse_reason

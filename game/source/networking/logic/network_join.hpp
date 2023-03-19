@@ -57,8 +57,8 @@ static_assert(sizeof(s_networking_join_queue_entry) == 0x338);
 struct s_networking_join_data
 {
 	bool disable_outgoing_joins;
-	c_enum<e_join_local_state, long, k_join_local_state_count> local_join_state;
-	c_enum<e_life_cycle_join_result, long, k_life_cycle_join_result_count> local_join_result;
+	c_enum<e_join_local_state, long, _join_local_state_none, k_join_local_state_count> local_join_state;
+	c_enum<e_life_cycle_join_result, long, _life_cycle_join_result_none, k_life_cycle_join_result_count> local_join_result;
 	dword time;
 
 	// network_join_update
@@ -76,8 +76,8 @@ struct s_networking_join_data
 	// network_join_leave_group_session_and_swap_if_necessary
 	bool __unknown1B0;
 
-	c_enum<e_networking_join_destination_squad, long, k_join_destination_count> join_target;
-	c_enum<e_network_join_queue_mode, long, k_network_join_queue_mode_count> join_queue_mode;
+	c_enum<e_networking_join_destination_squad, long, _join_destination_unknown0, k_join_destination_count> join_target;
+	c_enum<e_network_join_queue_mode, long, _network_join_closed_to_all_joins, k_network_join_queue_mode_count> join_queue_mode;
 	long join_queue_entry_count;
 	long join_peer_count;
 	c_static_array<s_networking_join_queue_entry, 32> join_queue;

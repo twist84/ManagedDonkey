@@ -23,22 +23,22 @@ struct s_network_session_peer_properties
 	c_static_wchar_string<32> peer_session_name;
 	dword peer_mp_map_mask[1];
 	long peer_map;
-	c_enum<e_network_session_map_status, long, k_network_session_map_status_count> peer_map_status;
+	c_enum<e_network_session_map_status, long, _network_session_map_status_none, k_network_session_map_status_count> peer_map_status;
 	long peer_map_progress_percentage;
 	qword peer_game_instance;
 	short ready_hopper_id;
 	short : 16;
-	c_enum<e_session_game_start_error, long, k_session_game_start_error_count> game_start_error;
+	c_enum<e_session_game_start_error, long, _session_game_start_error_none, k_session_game_start_error_count> game_start_error;
 	bool peer_has_hard_drive;
 	long estimated_downstream_bandwidth_bps;
 	long estimated_upstream_bandwidth_bps;
 	bool estimated_upstream_is_reliable;
-	c_enum<e_online_nat_type, long, k_online_nat_type_count> nat_type;
+	c_enum<e_online_nat_type, long, _online_nat_type_none, k_online_nat_type_count> nat_type;
 	long connectivity_badness_rating;
 	long host_badness_rating;
 	long client_badness_rating;
 	s_network_session_peer_connectivity connectivity;
-	c_enum<e_language, long, k_language_count> language;
+	c_enum<e_language, long, _language_invalid, k_language_count> language;
 	long determinism_version;
 	long determinism_compatible_version;
 	dword_flags flags;
@@ -48,7 +48,7 @@ static_assert(sizeof(s_network_session_peer_properties) == 0xC0);
 struct s_network_session_peer
 {
 	s_transport_secure_address secure_address;
-	c_enum<e_network_session_peer_state, long, k_network_session_peer_state_count> connection_state;
+	c_enum<e_network_session_peer_state, long, _network_session_peer_state_none, k_network_session_peer_state_count> connection_state;
 	long version;
 	dword join_start_time;
 	long __unknown1C;

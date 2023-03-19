@@ -20,7 +20,7 @@ enum e_game_loaded_status
 struct s_main_game_globals
 {
 	long map_memory_configuration;
-	c_enum<e_game_loaded_status, long, k_game_loaded_status_count> game_loaded_status;
+	c_enum<e_game_loaded_status, long, _game_loaded_status_none, k_game_loaded_status_count> game_loaded_status;
 	char game_loaded_scenario_path[260];
 
 	bool reset_in_progress;
@@ -29,7 +29,7 @@ struct s_main_game_globals
 	byte : 8;
 
 	// ODST, game_progression_levels_block: "type" and block index
-	c_enum<e_game_progression_level, long, k_game_progression_level_count> gp_level_advance_type;
+	c_enum<e_game_progression_level, long, _game_progression_level_none, k_game_progression_level_count> gp_level_advance_type;
 	long gp_level_block_index;
 
 	bool change_in_progress;

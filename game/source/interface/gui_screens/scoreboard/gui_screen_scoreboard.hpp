@@ -49,7 +49,7 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 
 	struct s_player_row
 	{
-		c_enum<e_player_row_type, long, k_player_row_type_count> player_row_type;
+		c_enum<e_player_row_type, long, _player_row_type_player, k_player_row_type_count> player_row_type;
 
 		long player_index;
 		long network_player_index;
@@ -108,7 +108,7 @@ struct c_gui_scoreboard_data : c_gui_ordered_data
 	long m_current_scoreboard_mode;
 	c_static_array<s_player_row, 25> m_player_rows;
 	long m_player_row_count;
-	c_enum<e_controller_index, long, k_number_of_controllers> m_controller_index;
+	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
 };
 static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);
 

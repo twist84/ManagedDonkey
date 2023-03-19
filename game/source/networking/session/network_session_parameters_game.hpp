@@ -45,7 +45,7 @@ static_assert(sizeof(c_network_session_parameter_initial_participants) == 0x2CA9
 
 struct s_network_session_parameter_game_start_status
 {
-	c_enum<e_session_game_start_status, long, k_session_game_start_status_count> game_start_status;
+	c_enum<e_session_game_start_status, long, _session_game_start_status_none, k_session_game_start_status_count> game_start_status;
 	long game_start_error;
 	word player_error_mask;
 	short map_load_progress;

@@ -29,7 +29,7 @@ struct c_life_cycle_state_handler
 	byte : 8;
 	byte : 8;
 
-	c_enum<e_life_cycle_state, long, k_life_cycle_state_count> m_state;
+	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_state;
 	c_life_cycle_state_manager* m_manager;
 
 	c_flags<e_life_cycle_state_handler_flags, byte_flags, k_life_cycle_state_handler_bit_count> m_handler_flags;
@@ -48,7 +48,7 @@ struct c_network_session;
 struct c_network_observer;
 struct c_life_cycle_state_manager
 {
-	c_enum<e_life_cycle_state, long, k_life_cycle_state_count> m_current_state;
+	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_current_state;
 	c_static_array<c_life_cycle_state_handler*, k_life_cycle_state_count> m_handlers;
 	c_network_session_manager* m_session_manager;
 	c_network_session* m_active_squad_session;
@@ -60,7 +60,7 @@ struct c_life_cycle_state_manager
 	byte : 8;
 	byte : 8;
 	byte : 8;
-	c_enum<e_life_cycle_state, long, k_life_cycle_state_count> m_pending_state;
+	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_pending_state;
 
 	long m_entry_data_size;
 	byte m_entry_data[k_maximum_state_change_entry_data_size];

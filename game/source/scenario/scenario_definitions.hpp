@@ -141,8 +141,8 @@ struct zone_definition;
 struct s_background_bitmap_reference_definition;
 struct s_scenario
 {
-	c_enum<e_scenario_type, char, k_scenario_type_count> type;
-	c_enum<e_scenario_campaign_type, char, k_scenario_campaign_type_count> campaign_type;
+	c_enum<e_scenario_type, char, _scenario_type_solo, k_scenario_type_count> type;
+	c_enum<e_scenario_campaign_type, char, _scenario_campaign_type_unknown, k_scenario_campaign_type_count> campaign_type;
 	c_flags<e_scenario_flags, word, k_scenario_flag_count> flags;
 
 	long campaign_id;
@@ -415,7 +415,7 @@ struct scenario_structure_bsp_reference
 	// Size Class
 	// Tells lightmapper desired res for structure bitmaps.
 	// Numbers in parens are final sizes after compression
-	c_enum<e_scenario_structure_size, long, k_scenario_structure_size_count> size_class;
+	c_enum<e_scenario_structure_size, long, _scenario_structure_size_1024x1024, k_scenario_structure_size_count> size_class;
 
 	real hacky_ambient_min_luminance;
 	real direct_or_draft_ambient_min_luminance;
@@ -534,7 +534,7 @@ struct s_scenario_soft_ceiling
 	c_flags<e_scenario_soft_ceiling_flags, word, k_scenario_soft_ceiling_flag_count> flags;
 	c_flags<e_scenario_soft_ceiling_flags, word, k_scenario_soft_ceiling_flag_count> runtime_flags;
 	c_string_id name;
-	c_enum<e_soft_ceiling_type, short, k_soft_ceiling_type_count> type;
+	c_enum<e_soft_ceiling_type, short, _soft_ceiling_type_acceleration, k_soft_ceiling_type_count> type;
 
 	// pad
 	byte my_name_is[2];

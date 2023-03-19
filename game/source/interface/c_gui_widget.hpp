@@ -45,7 +45,7 @@ struct s_core_widget_definition
 	c_string_id name;
 
 	// scaled positioning & scaled anchoring
-	c_enum<e_widget_positioning, short, k_widget_positioning_count> scaled_positioning;
+	c_enum<e_widget_positioning, short, _widget_positioning_unused, k_widget_positioning_count> scaled_positioning;
 	short render_depth_bias;
 
 	// bounds 720p & bounds 16x9 (1152x640)
@@ -71,7 +71,7 @@ struct s_runtime_core_widget_definition
 	c_string_id name;
 
 	// scaled positioning & scaled anchoring
-	c_enum<e_widget_positioning, long, k_widget_positioning_count> scaled_positioning;
+	c_enum<e_widget_positioning, long, _widget_positioning_unused, k_widget_positioning_count> scaled_positioning;
 	long render_depth_bias;
 
 	// bounds 720p & bounds 16x9 (1152x640)
@@ -234,7 +234,7 @@ public:
 
 protected:
 	long __unknown4;
-	c_enum<e_gui_widget_type, long, k_gui_widget_type_count> m_type;
+	c_enum<e_gui_widget_type, long, _gui_widget_type_text_widget, k_gui_widget_type_count> m_type;
 
 	bool m_visible;
 	bool m_enabled;

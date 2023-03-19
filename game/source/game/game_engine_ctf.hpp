@@ -9,11 +9,11 @@
 struct c_game_engine_ctf_variant : c_game_engine_base_variant
 {
 	c_flags<e_ctf_variant_flags, char, k_ctf_variant_flags> m_variant_flags;
-	c_enum<e_ctf_home_flag_waypoint_settings, char, k_ctf_home_flag_waypoint_settings> m_home_flag_waypoint;
-	c_enum<e_ctf_game_type_settings, char, k_ctf_game_type_settings> m_game_type;
-	c_enum<e_ctf_respawn_settings, char, k_ctf_respawn_settings> m_respawn;
-	c_enum<e_ctf_touch_return_settings, short, k_ctf_touch_return_settings> m_touch_return_timeout;
-	c_enum<e_ctf_sudden_death_time, short, k_ctf_sudden_death_times> m_sudden_death_time;
+	c_enum<e_ctf_home_flag_waypoint_settings, char, _ctf_home_flag_waypoint_settings_never, k_ctf_home_flag_waypoint_settings> m_home_flag_waypoint;
+	c_enum<e_ctf_game_type_settings, char, _ctf_game_type_settings_multi_flag, k_ctf_game_type_settings> m_game_type;
+	c_enum<e_ctf_respawn_settings, char, _ctf_respawn_settings_normal, k_ctf_respawn_settings> m_respawn;
+	c_enum<e_ctf_touch_return_settings, short, _ctf_touch_return_settings_off, k_ctf_touch_return_settings> m_touch_return_timeout;
+	c_enum<e_ctf_sudden_death_time, short, _ctf_sudden_death_time_infinite, k_ctf_sudden_death_times> m_sudden_death_time;
 
 	// default: 5
 	// maximum: 50

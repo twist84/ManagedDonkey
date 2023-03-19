@@ -206,7 +206,7 @@ struct c_static_flags
 	dword m_storage[(k_bit_count / 8) / sizeof(dword)];
 };
 
-template<typename t_type, typename t_storage_type, size_t k_count>
+template<typename t_type, typename t_storage_type, t_type k_minimum_value, t_type k_maximum_value_plus_one>
 struct c_enum
 {
 public:

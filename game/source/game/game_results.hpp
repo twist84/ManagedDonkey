@@ -395,7 +395,7 @@ enum e_game_results_event_type
 
 struct s_game_results_event
 {
-	/* 0x00 */ c_enum<e_game_results_event_type, char, k_game_results_event_type_count> type;
+	/* 0x00 */ c_enum<e_game_results_event_type, char, _game_results_event_type_none, k_game_results_event_type_count> type;
 
 	union
 	{
@@ -409,7 +409,7 @@ struct s_game_results_event
 			/* 0x04 */ real_point3d killing_player_position;
 			/* 0x10 */ real_point3d dead_player_position;
 
-			/* 0x1C */ c_enum<e_damage_reporting_type, long, k_damage_reporting_type_count> tracked_damage_type; // from damage reporting info
+			/* 0x1C */ c_enum<e_damage_reporting_type, long, _damage_reporting_type_unknown, k_damage_reporting_type_count> tracked_damage_type; // from damage reporting info
 		} kill;
 
 		struct

@@ -50,9 +50,9 @@ struct c_game_engine_vip_variant : c_game_engine_base_variant
 	// maximum: 20
 	char m_vip_suicide_points;
 
-	c_enum<e_vip_selection_settings, char, k_vip_selection_settings> m_vip_selection;
-	c_enum<e_vip_zone_movement_settings, char, k_vip_zone_movement_settings> m_zone_movement;
-	c_enum<e_vip_zone_order_settings, char, k_vip_zone_order_settings> m_zone_order;
+	c_enum<e_vip_selection_settings, char, _vip_selection_settings_random, k_vip_selection_settings> m_vip_selection;
+	c_enum<e_vip_zone_movement_settings, char, _vip_zone_movement_settings_off, k_vip_zone_movement_settings> m_zone_movement;
+	c_enum<e_vip_zone_order_settings, char, _vip_zone_order_settings_random, k_vip_zone_order_settings> m_zone_order;
 
 	byte m_pad1[1];
 

@@ -30,7 +30,7 @@ struct s_network_arbitration_globals
 {
 	bool initialized;
 	long managed_session_index;
-	c_enum<e_online_arbitration_registration_status, long, k_network_arbitration_status_count> arbitration_status;
+	c_enum<e_online_arbitration_registration_status, long, _network_arbitration_status_none, k_network_arbitration_status_count> arbitration_status;
 	s_arbitration_registration_result registration_result;
 };
 static_assert(sizeof(s_network_arbitration_globals) == 0x198);

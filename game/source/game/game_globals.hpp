@@ -105,7 +105,7 @@ struct s_game_globals
 	// pad
 	byte YJLTWDSL[0xAC];
 
-	c_enum<e_language, long, k_language_count> language;
+	c_enum<e_language, long, _language_invalid, k_language_count> language;
 	c_typed_tag_block<s_game_globals_havok_cleanup_resources> havok_cleanup_resources;
 	c_typed_tag_block<s_sound_globals_definition> sound_globals;
 

@@ -21,8 +21,8 @@ struct c_game_engine_king_variant : c_game_engine_base_variant
 	// maximum: 1000
 	short m_score_unknown;
 
-	c_enum<e_king_moving_hill_settings, char, k_king_moving_hill_settings> m_moving_hill;
-	c_enum<e_king_moving_hill_order_settings, char, k_king_moving_hill_order_settings> m_moving_hill_order;
+	c_enum<e_king_moving_hill_settings, char, _king_moving_hill_settings_off, k_king_moving_hill_settings> m_moving_hill;
+	c_enum<e_king_moving_hill_order_settings, char, _king_moving_hill_order_settings_random, k_king_moving_hill_order_settings> m_moving_hill_order;
 
 	// default: 0
 	// maximum: 20

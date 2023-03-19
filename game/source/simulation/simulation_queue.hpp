@@ -24,7 +24,7 @@ enum e_simulation_queue_element_type
 
 struct c_simulation_queue_element
 {
-	c_enum<e_simulation_queue_element_type, long, k_simulation_queue_element_type_count> m_type;
+	c_enum<e_simulation_queue_element_type, long, _simulation_queue_element_type_none, k_simulation_queue_element_type_count> m_type;
 	c_simulation_queue_element* m_next;
 	long m_data_size;
 	byte* m_data;

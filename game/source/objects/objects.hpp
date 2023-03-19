@@ -44,8 +44,8 @@ struct c_object_identifier
 	// scenario_structure_bsp_reference
 	short origin_bsp_index;
 
-	c_enum<e_object_type, char, k_object_type_count> m_type;
-	c_enum<e_object_source, char, k_object_source_count> m_source;
+	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> m_type;
+	c_enum<e_object_source, char, _object_source_structure, k_object_source_count> m_source;
 };
 static_assert(sizeof(c_object_identifier) == 0x8);
 

@@ -67,7 +67,7 @@ enum e_transport_endpoint_flags
 struct transport_endpoint
 {
 	SOCKET socket;
-	c_enum<e_transport_type, long, k_transport_type_count> type;
+	c_enum<e_transport_type, long, _transport_type_udp, k_transport_type_count> type;
 
 	// e_transport_endpoint_flags
 	dword_flags flags;
