@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_area_set.hpp"
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_infection_traits.hpp"
 #include "game/game_engine_variant.hpp"
