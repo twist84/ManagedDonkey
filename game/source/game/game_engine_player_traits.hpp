@@ -541,8 +541,8 @@ static_assert(sizeof(c_player_trait_appearance) == 0x4);
 // Traits that affect the HUD motion sensor behavior
 struct c_player_trait_sensors
 {
-	c_enum<e_motion_tracker_setting, short, _motion_tracker_setting_unchanged, k_motion_tracker_settings> m_motion_tracker_settings;
-	c_enum<e_motion_tracker_range_setting, short, _motion_tracker_range_setting_unchanged, k_motion_tracker_range_settings> m_motion_tracker_range;
+	c_enum<e_motion_tracker_setting, short, _motion_tracker_setting_unchanged, k_motion_tracker_settings> m_motion_tracker_setting;
+	c_enum<e_motion_tracker_range_setting, short, _motion_tracker_range_setting_unchanged, k_motion_tracker_range_settings> m_motion_tracker_range_setting;
 };
 static_assert(sizeof(c_player_trait_sensors) == 0x4);
 
@@ -553,6 +553,8 @@ struct c_player_traits
 	c_player_trait_movement m_movement_traits;
 	c_player_trait_appearance m_appearance_traits;
 	c_player_trait_sensors m_sensor_traits;
+
+	void byteswap();
 };
 static_assert(sizeof(c_player_traits) == 0x1C);
 
