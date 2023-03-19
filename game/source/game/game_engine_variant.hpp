@@ -47,6 +47,8 @@ struct c_game_engine_base_variant
 	c_game_engine_map_override_options m_map_override_options;
 	word_flags m_flags;
 	short m_team_scoring_method;
+
+	void byteswap();
 };
 constexpr size_t k_game_engine_base_variant_size = sizeof(c_game_engine_base_variant);
 static_assert(k_game_engine_base_variant_size == 0x1D0);
