@@ -45,7 +45,7 @@ struct c_game_engine_infection_variant : c_game_engine_base_variant
 	c_player_traits m_safe_haven_defender_traits;
 	c_player_traits m_last_human_traits;
 
-	byte pad[4];
+	byte m_pad1[4];
 	byte unused[0x10];
 };
 static_assert(sizeof(c_game_engine_infection_variant) == 0x260);

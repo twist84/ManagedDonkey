@@ -21,7 +21,7 @@ struct s_saved_game_item_metadata
 	long campaign_difficulty;
 	byte campaign_insertion_point;
 	bool campaign_survival_enabled;
-	byte pad1[1];
+	byte pad[1];
 	qword game_id;
 };
 static_assert(sizeof(s_saved_game_item_metadata) == 0xF8);

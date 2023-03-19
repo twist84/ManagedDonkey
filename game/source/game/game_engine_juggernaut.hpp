@@ -16,8 +16,7 @@ struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
 	// maximum: 500
 	short m_score_unknown;
 
-	// always set to '0'
-	short m_unknown;
+	byte m_pad[2];
 
 	c_enum<e_juggernaut_initial_juggernaut_settings, char, k_juggernaut_initial_juggernaut_settings> m_initial_juggernaut;
 	c_enum<e_juggernaut_next_juggernaut_settings, char, k_juggernaut_next_juggernaut_settings> m_next_juggernaut;
@@ -55,7 +54,7 @@ struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
 
 	c_player_traits m_juggernaut_traits;
 
-	byte pad[2];
+	byte m_pad1[2];
 	byte unused[0x60];
 };
 static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x260);

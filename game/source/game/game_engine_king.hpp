@@ -42,7 +42,7 @@ struct c_game_engine_king_variant : c_game_engine_base_variant
 
 	c_player_traits m_inside_hill_traits_name;
 
-	byte pad[6];
+	byte m_pad1[6];
 	byte unused[0x60];
 };
 static_assert(sizeof(c_game_engine_king_variant) == 0x260);

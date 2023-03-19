@@ -64,7 +64,7 @@ struct c_game_engine_assault_variant : c_game_engine_base_variant
 	c_player_traits m_carrier_traits;
 	c_player_traits m_arming_traits;
 
-	byte pad[4];
+	byte m_pad1[4];
 	byte unused[0x38];
 };
 static_assert(sizeof(c_game_engine_assault_variant) == 0x260);

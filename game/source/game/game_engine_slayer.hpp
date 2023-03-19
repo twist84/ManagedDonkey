@@ -73,7 +73,7 @@ struct c_game_engine_slayer_variant : c_game_engine_base_variant
 	// leader team traits if teams enabled
 	c_player_traits m_leader_traits;
 
-	byte pad[2];
+	byte m_pad1[2];
 	byte unused[0x60];
 };
 static_assert(sizeof(c_game_engine_slayer_variant) == 0x260);

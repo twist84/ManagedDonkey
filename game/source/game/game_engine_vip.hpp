@@ -54,7 +54,7 @@ struct c_game_engine_vip_variant : c_game_engine_base_variant
 	c_enum<e_vip_zone_movement_settings, char, k_vip_zone_movement_settings> m_zone_movement;
 	c_enum<e_vip_zone_order_settings, char, k_vip_zone_order_settings> m_zone_order;
 
-	byte pad[1];
+	byte m_pad1[1];
 
 	// default: 0
 	// maximum: 50

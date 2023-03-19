@@ -56,7 +56,7 @@ struct c_game_engine_oddball_variant : c_game_engine_base_variant
 
 	c_player_traits m_carrier_traits;
 
-	byte pad[2];
+	byte m_pad1[2];
 	byte unused[0x60];
 };
 static_assert(sizeof(c_game_engine_oddball_variant) == 0x260);
