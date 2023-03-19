@@ -615,6 +615,9 @@
     <ClCompile Include="source\networking\session\network_session_parameters_session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\saved_games\saved_game_files.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

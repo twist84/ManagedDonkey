@@ -23,5 +23,8 @@ struct s_saved_game_item_metadata
 	bool campaign_survival_enabled;
 	byte pad[1];
 	qword game_id;
+
+	void byteswap();
 };
 static_assert(sizeof(s_saved_game_item_metadata) == 0xF8);
+
