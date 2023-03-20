@@ -30,8 +30,9 @@ struct c_game_engine_base_variant
 	virtual long get_game_engine_default_description_string_id();
 	virtual void initialize();
 	virtual void validate();
-	virtual void encode(c_bitstream*);
-	virtual void decode(c_bitstream*);
+	virtual void encode(c_bitstream* packet);
+	virtual void decode(c_bitstream* packet);
+	//virtual void byteswap(); // MCC
 	virtual bool can_add_to_recent_list();
 	virtual long get_score_to_win_round();
 	virtual long get_score_unknown();                                  // halo online specific
