@@ -138,7 +138,7 @@ struct c_game_engine_map_override_options
 {
 	c_flags<e_game_engine_map_override_options_flags, dword_flags, k_game_engine_map_override_options_flags> m_flags;
 
-	c_player_traits m_player_traits;
+	c_player_traits m_base_player_traits;
 
 	word m_weapon_set_absolute_index;
 	word m_vehicle_set_absolute_index;

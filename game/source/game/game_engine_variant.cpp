@@ -35,7 +35,7 @@ void c_game_engine_base_variant::byteswap()
 	bswap_word_inplace(m_social_options.m_flags);
 	bswap_word_inplace(m_social_options.m_team_changing);
 	bswap_dword_inplace(m_map_override_options.m_flags);
-	m_map_override_options.m_player_traits.byteswap();
+	m_map_override_options.m_base_player_traits.byteswap();
 	bswap_word_inplace(m_map_override_options.m_weapon_set_absolute_index);
 	bswap_word_inplace(m_map_override_options.m_vehicle_set_absolute_index);
 	m_map_override_options.m_red_powerup_traits.byteswap();
