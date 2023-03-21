@@ -188,10 +188,21 @@ public:
 		return VALID_INDEX(0, k_count);
 	}
 
+	bool valid_bit(t_type bit) const
+	{
+		return VALID_INDEX(0, k_count);
+	}
+
 	bool test(t_type bit)
 	{
 		//assert(valid_bit(bit));
-		return TEST_BIT(m_storage, bit);
+		return TEST_BIT(m_storage, static_cast<t_storage_type>(bit));
+	}
+
+	bool test(t_type bit) const
+	{
+		//assert(valid_bit(bit));
+		return TEST_BIT(m_storage, static_cast<t_storage_type>(bit));
 	}
 
 	bool operator==(t_type value)
