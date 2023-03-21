@@ -97,6 +97,49 @@ struct c_game_engine_respawn_options
 {
 	void byteswap();
 
+	bool get_inherit_respawn_time_enabled() const;
+	void set_inherit_respawn_time_enabled(bool respawn_time_enabled);
+
+	bool get_respawn_with_teammate_enabled() const;
+	void set_respawn_with_teammate_enabled(bool respawn_with_teammate_enabled);
+
+	bool get_respawn_at_location_enabled() const;
+	void set_respawn_at_location_enabled(bool respawn_at_location_enabled);
+
+	bool get_respawn_on_kills_enabled() const;
+	void set_respawn_on_kills_enabled(bool respawn_on_kills_enabled);
+
+	bool get_auto_respawn_disabled() const;
+	void set_auto_respawn_disabled(bool auto_respawn_disabled);
+
+	byte get_lives_per_round() const;
+	void set_lives_per_round(long lives_per_round);
+
+	byte get_team_lives_per_round() const;
+	void set_team_lives_per_round(long team_lives_per_round);
+
+	byte get_respawn_time_seconds() const;
+	void set_respawn_time_seconds(long respawn_time_seconds);
+
+	byte get_suicide_penalty_seconds() const;
+	void set_suicide_penalty_seconds(long suicide_penalty_seconds);
+
+	byte get_betrayal_penalty_seconds() const;
+	void set_betrayal_penalty_seconds(long betrayal_penalty_seconds);
+
+	byte get_unknown_penalty_seconds() const;
+	void set_unknown_penalty_seconds(long unknown_penalty_seconds);
+
+	byte get_respawn_growth_seconds() const;
+	void set_respawn_growth_seconds(long respawn_growth_seconds);
+
+	byte get_respawn_player_traits_duration_seconds() const;
+	void set_respawn_player_traits_duration_seconds(long respawn_player_traits_duration_seconds);
+
+	c_player_traits const* get_respawn_player_traits() const;
+	c_player_traits* get_respawn_player_traits_writeable();
+	//void set_respawn_player_traits(c_player_traits const* respawn_player_traits, bool);
+
 	c_flags<e_game_engine_respawn_options_flags, byte_flags, k_game_engine_respawn_options_flags> m_flags;
 	c_enum<long, byte, 0, 50> m_lives_per_round;
 	c_enum<long, byte, 0, 100> m_team_lives_per_round;
