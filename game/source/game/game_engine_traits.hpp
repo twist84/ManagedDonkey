@@ -65,57 +65,23 @@ enum e_game_engine_map_override_options_flags
 struct c_game_engine_miscellaneous_options
 {
 	c_flags<e_game_engine_miscellaneous_option_flags, byte_flags, k_game_engine_miscellaneous_option_flags> m_flags;
-
-	// default: 8
-	// maximum: 60
-	byte m_round_time_limit; // minutes
-
-	// default: 1
-	// maximum: 15
-	byte m_number_of_rounds;
-
-	// default: 2
-	// maximum: 15
-	byte m_early_victory_win_count;
+	c_enum<long, byte, 8, 60> m_round_time_limit_minutes;
+	c_enum<long, byte, 1, 15> m_round_limit;
+	c_enum<long, byte, 2, 15> m_early_victory_win_count;
 };
 static_assert(sizeof(c_game_engine_miscellaneous_options) == 0x4);
 
 struct c_game_engine_respawn_options
 {
 	c_flags<e_game_engine_respawn_options_flags, byte_flags, k_game_engine_respawn_options_flags> m_flags;
-
-	// default: 0
-	// maximum: 50
-	byte m_lives_per_round;
-
-	// default: 0
-	// maximum: 100
-	byte m_team_lives_per_round;
-
-	// default: 5
-	// maximum: 240
-	byte m_respawn_time; // seconds
-
-	// default: 10
-	// maximum: 240
-	byte m_suicide_penalty; // seconds
-
-	// default: 5
-	// maximum: 240
-	byte m_betrayal_penalty; // seconds
-
-	// halo online specific
-	// default: 5
-	// maximum: 240
-	byte m_unknown_penalty; // seconds
-
-	// default: 0
-	// maximum: 15
-	byte m_respawn_growth;
-
-	// default: 5
-	// maximum: 60
-	byte m_respawn_player_traits_duration_seconds;
+	c_enum<long, byte, 0, 50> m_lives_per_round;
+	c_enum<long, byte, 0, 100> m_team_lives_per_round;
+	c_enum<long, byte, 5, 100> m_respawn_time_seconds;
+	c_enum<long, byte, 10, 240> m_suicide_penalty_seconds;
+	c_enum<long, byte, 5, 240> m_betrayal_penalty_seconds;
+	c_enum<long, byte, 5, 240> m_unknown_penalty_seconds;
+	c_enum<long, byte, 0, 15> m_respawn_growth_seconds;
+	c_enum<long, byte, 5, 60> m_respawn_player_traits_duration_seconds;
 
 	// woman bound for glory, why you leaving me again?
 	byte pad[3];
@@ -126,40 +92,28 @@ static_assert(sizeof(c_game_engine_respawn_options) == 0x28);
 
 struct c_game_engine_social_options
 {
-	c_flags<e_game_engine_social_options_flags, word_flags, k_game_engine_social_options_flags> m_flags;
 
-	// default: 0
-	// maximum: 2
-	word m_team_changing;
+	c_flags<e_game_engine_social_options_flags, word_flags, k_game_engine_social_options_flags> m_flags;
+	c_enum<long, word, 0, 2> m_team_changing;
 };
 static_assert(sizeof(c_game_engine_social_options) == 0x4);
 
 struct c_game_engine_map_override_options
 {
+
 	c_flags<e_game_engine_map_override_options_flags, dword_flags, k_game_engine_map_override_options_flags> m_flags;
-
 	c_player_traits m_base_player_traits;
-
 	word m_weapon_set_absolute_index;
 	word m_vehicle_set_absolute_index;
-
 	c_player_traits m_red_powerup_traits;
 	c_player_traits m_blue_powerup_traits;
 	c_player_traits m_yellow_powerup_traits;
-
-	// default: 5
-	// maximum: 120
-	byte m_red_powerup_traits_duration; // seconds
-
-	// default: 30
-	// maximum: 120
-	byte m_blue_powerup_traits_duration; // seconds
-
-	// default: 30
-	// maximum: 120
-	byte m_yellow_powerup_traits_duration; // seconds
+	c_enum<long, byte, 5, 120> m_red_powerup_duration_seconds;
+	c_enum<long, byte, 30, 120> m_blue_powerup_duration_seconds;
+	c_enum<long, byte, 30, 120> m_yellow_powerup_duration_seconds;
 
 	// gonna pack her bags and leave this house of pain
 	byte pad[1];
 };
 static_assert(sizeof(c_game_engine_map_override_options) == 0x7C);
+
