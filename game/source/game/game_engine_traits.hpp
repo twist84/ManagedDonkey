@@ -66,6 +66,26 @@ struct c_game_engine_miscellaneous_options
 {
 	void byteswap();
 
+	bool get_teams_enabled() const;
+	void set_teams_enabled(bool teams_enabled);
+
+	bool get_round_reset_players() const;
+	void set_round_reset_players(bool round_reset_players);
+
+	bool get_round_reset_map() const;
+	void set_round_reset_map(bool round_reset_map);
+
+	byte get_round_time_limit_minutes() const;
+	void set_round_time_limit_minutes(long round_time_limit_minutes);
+
+	long get_round_time_limit_seconds() const;
+	void set_round_time_limit_seconds(long round_time_limit_seconds);
+
+	byte get_round_limit() const;
+	void set_round_limit(long round_limit);
+
+	byte get_early_victory_win_count() const;
+	void set_early_victory_win_count(long early_victory_win_count);
 	c_flags<e_game_engine_miscellaneous_option_flags, byte_flags, k_game_engine_miscellaneous_option_flags> m_flags;
 	c_enum<long, byte, 8, 60> m_round_time_limit_minutes;
 	c_enum<long, byte, 1, 15> m_round_limit;
