@@ -21,10 +21,10 @@ enum e_game_engine_miscellaneous_option_flags
 
 enum e_game_engine_respawn_options_flags
 {
-	_game_engine_respawn_options_inherit_respawn_time = 0,
-	_game_engine_respawn_options_respawn_with_teammate,
-	_game_engine_respawn_options_respawn_at_location,
-	_game_engine_respawn_options_respawn_on_kills,
+	_game_engine_respawn_options_inherit_respawn_time_enabled = 0,
+	_game_engine_respawn_options_respawn_with_teammate_enabled,
+	_game_engine_respawn_options_respawn_at_location_enabled,
+	_game_engine_respawn_options_respawn_on_kills_enabled,
 
 	// "is_auto_respawn_countdown"
 	// "is_early_respawn_enabled"
