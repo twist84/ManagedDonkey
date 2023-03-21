@@ -40,6 +40,7 @@ struct c_game_engine_base_variant
 	virtual void custom_team_score_stats(long, long, long);
 
 	dword m_checksum;
+
 	char m_name[32];
 	s_saved_game_item_metadata m_metadata;
 	c_game_engine_miscellaneous_options m_miscellaneous_options;
@@ -50,6 +51,19 @@ struct c_game_engine_base_variant
 	short m_team_scoring_method;
 
 	void byteswap();
+
+	char const* get_name() const;
+	void set_name(char const* name);
+	c_game_engine_miscellaneous_options* get_miscellaneous_options_writeable();
+	c_game_engine_miscellaneous_options const* get_miscellaneous_options() const;
+	c_game_engine_respawn_options* get_respawn_options_writeable();
+	c_game_engine_respawn_options const* get_respawn_options() const;
+	c_game_engine_social_options* get_social_options_writeable();
+	c_game_engine_social_options const* get_social_options() const;
+	c_game_engine_map_override_options* get_map_override_options_writeable();
+	c_game_engine_map_override_options const* get_map_override_options() const;
+	short get_team_scoring_method() const;
+	void set_team_scoring_method(short team_scoring_method);
 };
 constexpr size_t k_game_engine_base_variant_size = sizeof(c_game_engine_base_variant);
 static_assert(k_game_engine_base_variant_size == 0x1D0);

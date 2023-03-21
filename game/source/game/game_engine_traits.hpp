@@ -64,6 +64,8 @@ enum e_game_engine_map_override_options_flags
 
 struct c_game_engine_miscellaneous_options
 {
+	void byteswap();
+
 	c_flags<e_game_engine_miscellaneous_option_flags, byte_flags, k_game_engine_miscellaneous_option_flags> m_flags;
 	c_enum<long, byte, 8, 60> m_round_time_limit_minutes;
 	c_enum<long, byte, 1, 15> m_round_limit;
@@ -73,6 +75,8 @@ static_assert(sizeof(c_game_engine_miscellaneous_options) == 0x4);
 
 struct c_game_engine_respawn_options
 {
+	void byteswap();
+
 	c_flags<e_game_engine_respawn_options_flags, byte_flags, k_game_engine_respawn_options_flags> m_flags;
 	c_enum<long, byte, 0, 50> m_lives_per_round;
 	c_enum<long, byte, 0, 100> m_team_lives_per_round;
@@ -92,6 +96,7 @@ static_assert(sizeof(c_game_engine_respawn_options) == 0x28);
 
 struct c_game_engine_social_options
 {
+	void byteswap();
 
 	c_flags<e_game_engine_social_options_flags, word_flags, k_game_engine_social_options_flags> m_flags;
 	c_enum<long, word, 0, 2> m_team_changing;
@@ -100,6 +105,7 @@ static_assert(sizeof(c_game_engine_social_options) == 0x4);
 
 struct c_game_engine_map_override_options
 {
+	void byteswap();
 
 	c_flags<e_game_engine_map_override_options_flags, dword_flags, k_game_engine_map_override_options_flags> m_flags;
 	c_player_traits m_base_player_traits;

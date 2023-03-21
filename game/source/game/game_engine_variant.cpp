@@ -31,18 +31,72 @@ const char* game_engine_variant_get_name(long game_engine_index)
 void c_game_engine_base_variant::byteswap()
 {
 	m_metadata.byteswap();
-	m_respawn_options.m_respawn_player_traits.byteswap();
-	bswap_word_inplace(m_social_options.m_flags);
-	bswap_word_inplace(m_social_options.m_team_changing);
-	bswap_dword_inplace(m_map_override_options.m_flags);
-	m_map_override_options.m_base_player_traits.byteswap();
-	bswap_word_inplace(m_map_override_options.m_weapon_set_absolute_index);
-	bswap_word_inplace(m_map_override_options.m_vehicle_set_absolute_index);
-	m_map_override_options.m_red_powerup_traits.byteswap();
-	m_map_override_options.m_blue_powerup_traits.byteswap();
-	m_map_override_options.m_yellow_powerup_traits.byteswap();
+	m_miscellaneous_options.byteswap();
+	m_respawn_options.byteswap();
+	m_social_options.byteswap();
+	m_map_override_options.byteswap();
 	bswap_word_inplace(m_flags);
 	bswap_word_inplace(m_team_scoring_method);
+}
+
+char const* c_game_engine_base_variant::get_name() const
+{
+	return m_name;
+}
+
+void c_game_engine_base_variant::set_name(char const* name)
+{
+	csstrnzcpy(m_name, name, 32);
+}
+
+c_game_engine_miscellaneous_options* c_game_engine_base_variant::get_miscellaneous_options_writeable()
+{
+	return &m_miscellaneous_options;
+}
+
+c_game_engine_miscellaneous_options const* c_game_engine_base_variant::get_miscellaneous_options() const
+{
+	return &m_miscellaneous_options;
+}
+
+c_game_engine_respawn_options* c_game_engine_base_variant::get_respawn_options_writeable()
+{
+	return &m_respawn_options;
+}
+
+c_game_engine_respawn_options const* c_game_engine_base_variant::get_respawn_options() const
+{
+	return &m_respawn_options;
+}
+
+c_game_engine_social_options* c_game_engine_base_variant::get_social_options_writeable()
+{
+	return &m_social_options;
+}
+
+c_game_engine_social_options const* c_game_engine_base_variant::get_social_options() const
+{
+	return &m_social_options;
+}
+
+c_game_engine_map_override_options* c_game_engine_base_variant::get_map_override_options_writeable()
+{
+	return &m_map_override_options;
+}
+
+c_game_engine_map_override_options const* c_game_engine_base_variant::get_map_override_options() const
+{
+	return &m_map_override_options;
+}
+
+short c_game_engine_base_variant::get_team_scoring_method() const
+{
+	return m_team_scoring_method;
+}
+
+void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_method)
+{
+	m_team_scoring_method = team_scoring_method;
 }
 
 c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index)
