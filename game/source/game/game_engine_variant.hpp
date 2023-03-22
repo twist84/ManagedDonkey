@@ -54,6 +54,8 @@ struct c_game_engine_base_variant
 
 	char const* get_name() const;
 	void set_name(char const* name);
+	char const* get_description();
+	void set_description(char const* description);
 	c_game_engine_miscellaneous_options* get_miscellaneous_options_writeable();
 	c_game_engine_miscellaneous_options const* get_miscellaneous_options() const;
 	c_game_engine_respawn_options* get_respawn_options_writeable();
@@ -62,6 +64,8 @@ struct c_game_engine_base_variant
 	c_game_engine_social_options const* get_social_options() const;
 	c_game_engine_map_override_options* get_map_override_options_writeable();
 	c_game_engine_map_override_options const* get_map_override_options() const;
+	bool get_built_in() const;
+	void set_built_in(bool built_in);
 	short get_team_scoring_method() const;
 	void set_team_scoring_method(short team_scoring_method);
 };

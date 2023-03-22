@@ -49,6 +49,16 @@ void c_game_engine_base_variant::set_name(char const* name)
 	csstrnzcpy(m_name, name, 32);
 }
 
+char const* c_game_engine_base_variant::get_description()
+{
+	return m_metadata.description;
+}
+
+void c_game_engine_base_variant::set_description(char const* description)
+{
+	csstrnzcpy(m_metadata.description, description, 128);
+}
+
 c_game_engine_miscellaneous_options* c_game_engine_base_variant::get_miscellaneous_options_writeable()
 {
 	return &m_miscellaneous_options;
@@ -87,6 +97,19 @@ c_game_engine_map_override_options* c_game_engine_base_variant::get_map_override
 c_game_engine_map_override_options const* c_game_engine_base_variant::get_map_override_options() const
 {
 	return &m_map_override_options;
+}
+
+bool c_game_engine_base_variant::get_built_in() const
+{
+	return TEST_BIT(m_flags, 0);
+}
+
+void c_game_engine_base_variant::set_built_in(bool built_in)
+{
+	if (built_in)
+		m_flags |= FLAG(0);
+	else
+		m_flags &= ~FLAG(0);
 }
 
 short c_game_engine_base_variant::get_team_scoring_method() const
