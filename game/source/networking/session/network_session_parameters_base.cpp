@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <string>
 
-char const* c_network_session_parameter_base::get_session_description()
+char const* c_network_session_parameter_base::get_session_description() const
 {
 	//if (m_session && m_session->get_session_id(nullptr))
 	//	return managed_session_get_id_string(m_session->managed_session_index());
@@ -117,18 +117,6 @@ void c_network_session_parameter_base::set_peer_no_longer_requires_update(long p
 	m_transmitted_peer_updates[peer_index] = true;
 }
 
-bool c_network_session_parameter_base::get_allowed() const
-{
-	return TEST_BIT(m_state_flags, 0);
-}
-
-bool c_network_session_parameter_base::set_allowed() const
-{
-	//return m_session->established() && m_session()->is_host();
-
-	return DECLFUNC(0x00451210, bool, __thiscall, c_network_session_parameter_base const*)(this);
-}
-
 bool c_network_session_parameter_base::change_request_allowed() const
 {
 	//if (m_session->established())
@@ -147,6 +135,16 @@ bool c_network_session_parameter_base::change_request_allowed() const
 	return DECLFUNC(0x00450C80, bool, __thiscall, c_network_session_parameter_base const*)(this);
 }
 
+bool c_network_session_parameter_base::get_allowed() const
+{
+	return TEST_BIT(m_state_flags, 0);
+}
+
+char const* c_network_session_parameter_base::get_change_request_denied_reason() const
+{
+	return DECLFUNC(0x00450D10, char const*, __thiscall, c_network_session_parameter_base const*)(this);
+}
+
 char const* c_network_session_parameter_base::get_set_denied_reason() const
 {
 	//if (set_allowed())
@@ -158,5 +156,13 @@ char const* c_network_session_parameter_base::get_set_denied_reason() const
 	//if (!m_session->is_host())
 	//	return "not host";
 
-	return DECLFUNC(0x00450C80, char const*, __thiscall, c_network_session_parameter_base const*)(this);
+	return DECLFUNC(0x00450DD0, char const*, __thiscall, c_network_session_parameter_base const*)(this);
 }
+
+bool c_network_session_parameter_base::set_allowed() const
+{
+	//return m_session->established() && m_session()->is_host();
+
+	return DECLFUNC(0x00451210, bool, __thiscall, c_network_session_parameter_base const*)(this);
+}
+

@@ -39,7 +39,7 @@ protected:
 
 	dword_flags m_state_flags;
 
-	char const* get_session_description();
+	char const* get_session_description() const;
 	void set_desires_change_request();
 	void reset_peer_state(long peer_index);
 	void notify_update_sent_to_peer(long peer_index);
@@ -56,10 +56,11 @@ private:
 	void set_peer_no_longer_requires_update(long peer_index);
 
 public:
-	bool get_allowed() const;
-	bool set_allowed() const;
 	bool change_request_allowed() const;
+	bool get_allowed() const;
+	char const* get_change_request_denied_reason() const;
 	char const* get_set_denied_reason() const;
+	bool set_allowed() const;
 };
 static_assert(sizeof(c_network_session_parameter_base) == 0x30);
 
