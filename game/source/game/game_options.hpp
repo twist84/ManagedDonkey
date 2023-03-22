@@ -48,8 +48,14 @@ public:
 	c_game_engine_assault_variant* get_assault_variant_writeable();
 	c_game_engine_infection_variant const* get_infection_variant() const;
 	c_game_engine_infection_variant* get_infection_variant_writeable();
+	bool get_integer_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const;
+	bool set_integer_game_engine_setting(e_game_variant_parameter parameter, long value);
+	bool get_string_id_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const;
+	bool set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value);
 
 protected:
+	bool get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const;
+	bool set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value);
 
 	c_enum<e_game_engine_type, long, _game_engine_base_variant, k_game_engine_type_count> m_game_engine_index;
 	union

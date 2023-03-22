@@ -149,4 +149,33 @@ c_game_engine_infection_variant* c_game_variant::get_infection_variant_writeable
 	return static_cast<c_game_engine_infection_variant*>(get_active_variant_writeable());
 }
 
+bool c_game_variant::get_integer_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const
+{
+	return get_game_engine_setting(parameter, _text_value_pair_parameter_type_integer, out_value);
+}
+
+bool c_game_variant::set_integer_game_engine_setting(e_game_variant_parameter parameter, long value)
+{
+	return set_game_engine_setting(parameter, _text_value_pair_parameter_type_integer, value);
+}
+
+bool c_game_variant::get_string_id_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const
+{
+	return get_game_engine_setting(parameter, _text_value_pair_parameter_type_string_id, out_value);
+}
+
+bool c_game_variant::set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value)
+{
+	return set_game_engine_setting(parameter, _text_value_pair_parameter_type_string_id, value);
+}
+
+bool c_game_variant::get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const
+{
+	return DECLFUNC(0x00574530, bool, __thiscall, c_game_variant const*, e_game_variant_parameter, e_text_value_pair_parameter_type, long*)(this, parameter, parameter_type, out_value);
+}
+
+bool c_game_variant::set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value)
+{
+	return DECLFUNC(0x0057AAB0, bool, __thiscall, c_game_variant*, e_game_variant_parameter, e_text_value_pair_parameter_type, long)(this, parameter, parameter_type, value);
+}
 
