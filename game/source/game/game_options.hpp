@@ -24,8 +24,34 @@ struct c_game_variant
 public:
 	c_game_variant();
 
-	c_enum<e_game_engine_type, long, _game_engine_base_variant, k_game_engine_type_count> m_game_engine_index;
+	e_game_engine_type get_game_engine_index() const;
+	void set_game_engine_index(e_game_engine_type game_engine_index);
+	c_game_engine_base_variant const* get_active_variant() const;
+	c_game_engine_base_variant* get_active_variant_writeable();
+	c_game_engine_ctf_variant const* get_ctf_variant() const;
+	c_game_engine_ctf_variant* get_ctf_variant_writeable();
+	c_game_engine_slayer_variant const* get_slayer_variant() const;
+	c_game_engine_slayer_variant* get_slayer_variant_writeable();
+	c_game_engine_oddball_variant const* get_oddball_variant() const;
+	c_game_engine_oddball_variant* get_oddball_variant_writeable();
+	c_game_engine_king_variant const* get_king_variant() const;
+	c_game_engine_king_variant* get_king_variant_writeable();
+	c_game_engine_sandbox_variant const* get_sandbox_variant() const;
+	c_game_engine_sandbox_variant* get_sandbox_variant_writeable();
+	c_game_engine_vip_variant const* get_vip_variant() const;
+	c_game_engine_vip_variant* get_vip_variant_writeable();
+	c_game_engine_juggernaut_variant const* get_juggernaut_variant() const;
+	c_game_engine_juggernaut_variant* get_juggernaut_variant_writeable();
+	c_game_engine_territories_variant const* get_territories_variant() const;
+	c_game_engine_territories_variant* get_territories_variant_writeable();
+	c_game_engine_assault_variant const* get_assault_variant() const;
+	c_game_engine_assault_variant* get_assault_variant_writeable();
+	c_game_engine_infection_variant const* get_infection_variant() const;
+	c_game_engine_infection_variant* get_infection_variant_writeable();
 
+protected:
+
+	c_enum<e_game_engine_type, long, _game_engine_base_variant, k_game_engine_type_count> m_game_engine_index;
 	union
 	{
 		c_game_engine_base_variant m_base_variant;
@@ -39,7 +65,7 @@ public:
 		c_game_engine_territories_variant m_territories_variant;
 		c_game_engine_assault_variant m_assault_variant;
 		c_game_engine_infection_variant m_infection_variant;
-		byte variant_data[0x260];
+		byte m_game_engine_variant[0x260];
 	};
 };
 static_assert(sizeof(c_game_variant) == 0x264);

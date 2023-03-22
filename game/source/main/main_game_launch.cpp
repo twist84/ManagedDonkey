@@ -70,8 +70,8 @@ void main_game_launch_set_multiplayer_splitscreen_count(long multiplayer_splitsc
 	{
 		g_launch_globals.options.game_mode = _game_mode_multiplayer;
 		g_launch_globals.player_count = multiplayer_splitscreen_count;
-		if (g_launch_globals.options.game_variant.m_game_engine_index == _game_engine_base_variant)
-			g_launch_globals.options.game_variant.m_game_engine_index = _game_engine_slayer_variant;
+		if (g_launch_globals.options.game_variant.get_game_engine_index() == _game_engine_base_variant)
+			g_launch_globals.options.game_variant.set_game_engine_index(_game_engine_slayer_variant);
 
 		//if (g_launch_globals.options.game_variant.m_game_engine_index == _game_engine_base_variant)
 		//    build_default_game_variant(&g_launch_globals.options.game_variant, _game_engine_slayer_variant);
@@ -94,7 +94,7 @@ void main_game_launch_set_multiplayer_engine(char const* multiplayer_engine)
 		game_engine_index = e_game_engine_type(i);
 	}
 
-	g_launch_globals.options.game_variant.m_game_engine_index = game_engine_index;
+	g_launch_globals.options.game_variant.set_game_engine_index(game_engine_index);
 }
 
 // void main_game_launch_set_multiplayer_variant(char const* multiplayer_variant)
