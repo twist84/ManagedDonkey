@@ -24,6 +24,9 @@ struct c_game_variant
 public:
 	c_game_variant();
 
+	void copy_from_and_validate(c_game_variant const* other);
+	void recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
+
 	e_game_engine_type get_game_engine_index() const;
 	void set_game_engine_index(e_game_engine_type game_engine_index);
 	c_game_engine_base_variant const* get_active_variant() const;
