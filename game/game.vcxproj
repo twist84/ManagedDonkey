@@ -362,6 +362,7 @@ POPD
     <ClCompile Include="source\networking\session\network_session.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters_base.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters_game.cpp" />
+    <ClCompile Include="source\networking\session\network_session_parameters_game_variant.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters_generic.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters_session.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameter_type_collection.cpp" />
