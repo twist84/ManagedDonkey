@@ -1580,6 +1580,15 @@ enum e_game_variant_parameter
 	k_game_variant_parameter_count,
 };
 
+enum e_text_value_pair_parameter_type
+{
+	_text_value_pair_parameter_type_integer = 0,
+	_text_value_pair_parameter_type_string_id,
+	_text_value_pair_parameter_type_real_range,
+
+	k_text_value_pair_parameter_type_count
+};
+
 
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
