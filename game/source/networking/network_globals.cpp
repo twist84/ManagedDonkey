@@ -140,3 +140,26 @@ void __cdecl network_test_set_advertisement_mode(char const* advertisement_mode_
 	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, advertisement_mode);
 }
 
+void __cdecl network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value)
+{
+	e_game_variant_parameter parameter = k_game_variant_parameter_none;
+
+	for (long i = _game_variant_parameter_game_misc_teams; i < k_game_variant_parameter_count; i++)
+	{
+		if (csstricmp(parameter_name, game_variant_parameter_get_name(i)) != 0)
+			continue;
+
+		parameter = e_game_variant_parameter(i);
+	}
+
+	c_game_variant* game_variant = new c_game_variant();
+	game_variant->copy_from_and_validate(network_life_cycle_session_get_game_variant());
+
+	if (*old_value)
+		game_variant->get_integer_game_engine_setting(parameter, old_value);
+
+	game_variant->set_integer_game_engine_setting(parameter, value);
+	user_interface_squad_set_game_variant(game_variant);
+	delete game_variant;
+}
+

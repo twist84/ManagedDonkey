@@ -1578,6 +1578,7 @@ enum e_game_variant_parameter
 	_game_variant_parameter_template_forced_change_colors,
 
 	k_game_variant_parameter_count,
+	k_game_variant_parameter_none = -1,
 };
 
 enum e_text_value_pair_parameter_type
@@ -1633,4 +1634,5 @@ extern bool __cdecl shell_get_system_identifier(char* system_identifier, long sy
 extern char const* network_session_mode_get_name(long session_mode);
 extern char const* ui_game_mode_get_name(long ui_game_mode);
 extern char const* gui_network_session_advertisement_mode_get_name(long advertisement_mode);
+extern char const* game_variant_parameter_get_name(long parameter);
 

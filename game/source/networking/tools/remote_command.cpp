@@ -382,6 +382,7 @@ COMMAND_CALLBACK_DECLARE(net_test_variant);
 COMMAND_CALLBACK_DECLARE(net_test_session_mode);
 COMMAND_CALLBACK_DECLARE(net_test_ui_game_mode);
 COMMAND_CALLBACK_DECLARE(net_test_advertisement_mode);
+COMMAND_CALLBACK_DECLARE(net_test_game_variant_parameter);
 
 COMMAND_CALLBACK_DECLARE(net_build_game_variant);
 COMMAND_CALLBACK_DECLARE(net_verify_game_variant);
@@ -408,6 +409,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_test_session_mode, 1, "<string>", "network test: sets the session mode to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_ui_game_mode, 1, "<string>", "network test: sets the ui game mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_advertisement_mode, 1, "<string>", "network test: sets the advertisement mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(net_test_game_variant_parameter, 2, "<string> <long>", "network test: sets a parameter of the current game variant\r\nNETWORK SAFE: No, for mainmenu only"),
 
 	COMMAND_CALLBACK_REGISTER(net_build_game_variant, 1, "<string>", "writes the current game variant to a file\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_verify_game_variant, 1, "<string>", "verifies the contents of a packed game variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -645,6 +647,20 @@ callback_result_t net_test_advertisement_mode_callback(void const* userdata, lon
 
 	char const* advertisement_mode_name = tokens.m_storage[1]->get_string();
 	network_test_set_advertisement_mode(advertisement_mode_name);
+
+	return result;
+}
+
+callback_result_t net_test_game_variant_parameter_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* parameter_name = tokens.m_storage[1]->get_string();
+	long value = atol(tokens.m_storage[2]->get_string());
+	long old_value = -1;
+	network_test_set_game_variant_parameter(parameter_name, value, &old_value);
+
+	result.print("game_variant_parameter:%s: '%d' -> '%d'", parameter_name, old_value, value);
 
 	return result;
 }
