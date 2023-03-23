@@ -12,38 +12,18 @@ struct c_game_engine_king_variant : c_game_engine_base_variant
 	// c_enum<e_king_team_scoring_settings, short, k_king_team_scoring_settings> m_team_scoring
 
 	c_flags<e_king_variant_flags, dword_flags, k_king_variant_flags> m_variant_flags;
-
-	// default: 100
-	// maximum: 1000
-	short m_score_to_win;
-
-	// halo online specific
-	// default: 90
-	// maximum: 1000
-	short m_score_unknown;
-
+	c_enum<long, short, 0, 1000> m_score_to_win;          // default: 100
+	c_enum<long, short, 0, 1000> m_score_unknown;         // default: 90, halo online specific
 	c_enum<e_king_moving_hill_settings, char, _king_moving_hill_settings_off, k_king_moving_hill_settings> m_moving_hill;
 	c_enum<e_king_moving_hill_order_settings, char, _king_moving_hill_order_settings_random, k_king_moving_hill_order_settings> m_moving_hill_order;
-
-	// default: 0
-	// maximum: 20
-	char m_uncontested_hill_bonus_points;
-
-	// default: 0
-	// maximum: 20
-	char m_points_per_kill;
-
-	// default: 0
-	// maximum: 20
-	char m_inside_hill_points;
-
-	// default: 0
-	// maximum: 20
-	char m_outside_hill_points;
-
-	c_player_traits m_inside_hill_traits_name;
+	c_enum<long, char, -10, 10> m_uncontested_hill_bonus; // default: 0
+	c_enum<long, char, -10, 10> m_kill_points;            // default: 0
+	c_enum<long, char, -10, 10> m_inside_hill_points;     // default: 0
+	c_enum<long, char, -10, 10> m_outside_hill_points;    // default: 0
+	c_player_traits m_inside_hill_traits;
 
 	byte m_pad1[6];
+
 	byte unused[0x60];
 
 	void byteswap();

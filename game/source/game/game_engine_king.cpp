@@ -11,7 +11,7 @@ void c_game_engine_king_variant::byteswap()
 	bswap_dword_inplace(m_variant_flags);
 	bswap_word_inplace(m_score_to_win);
 	bswap_word_inplace(m_score_unknown);
-	m_inside_hill_traits_name.byteswap();
+	m_inside_hill_traits.byteswap();
 
 	assert(array_is_zeroed(m_pad1));
 }
