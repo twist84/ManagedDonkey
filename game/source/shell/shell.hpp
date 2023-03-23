@@ -1610,6 +1610,22 @@ enum e_game_content_type
 	k_number_of_game_content_types
 };
 
+//e_network_interface_user_state
+// none
+// local user exists
+// local user is zombie
+// player not online enabled
+// user content not allowed
+// failed generic
+// in matchmaking
+// film in progress
+// campaign in progress
+// session full
+// alpha split screen
+// no profile sent to main menu
+// not signed in bring up guide
+// confirm the use of a temporary account
+// survival in progress
 
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
