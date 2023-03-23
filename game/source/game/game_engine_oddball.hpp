@@ -11,52 +11,20 @@ struct c_game_engine_oddball_variant : c_game_engine_base_variant
 	// c_enum<e_oddball_variant_team_scoring_settings, short, k_oddball_variant_team_scoring_settings> m_team_scoring
 
 	c_flags<e_oddball_variant_flags, dword_flags, k_oddball_variant_flags> m_variant_flags;
-
-	// default: 200
-	// maximum: 1001
-	short m_score_to_win;
-
-	// points per second when carrying the ball
-	// default: 180
-	// maximum: 1000
-	short m_carrying_points;
-
-	// halo online specific
-	// default: 1
-	// maximum: 20
-	short m_unknown_points;
-
-	// default: 0
-	// maximum: 20
-	char m_kill_points;
-
-	// number of points for a melee kill with the ball
-	// default: 0
-	// maximum: 20
-	char m_ball_kill_points;
-
-	// number of points for killing the ball carrier
-	// default: 0
-	// maximum: 20
-	char m_carrier_kill_points;
-
-	// default: 1
-	// maximum: 2
-	char m_ball_count;
-
-	// time until first ball spawn after round start, and also delay in respawning ball if it goes out of play
-	// default: 5
-	// maximum: 120
-	short m_ball_spawn_delay; // seconds
-
-	// time until ball respawns if it is inactive
-	// default: 30
-	// maximum: 120
-	short m_ball_inactive_respawn; // seconds
+	c_enum<long, short, 200, 1001> m_score_to_win;
+	c_enum<long, short, 180, 1000> m_carrying_points;     // points per second when carrying the ball
+	c_enum<long, short, 1, 20> m_unknown_points;          // halo online specific
+	c_enum<long, char, 0, 20> m_kill_points;
+	c_enum<long, char, 0, 20> m_ball_kill_points;         // number of points for a melee kill with the ball
+	c_enum<long, char, 0, 20> m_carrier_kill_points;      // number of points for killing the ball carrier
+	c_enum<long, char, 1, 2> m_ball_count;
+	c_enum<long, short, 5, 120> m_ball_spawn_delay;       // time until first ball spawn after round start, and also delay in respawning ball if it goes out of play
+	c_enum<long, short, 30, 120> m_ball_inactive_respawn; // time until ball respawns if it is inactive
 
 	c_player_traits m_carrier_traits;
 
 	byte m_pad1[2];
+
 	byte unused[0x60];
 
 	void byteswap();
