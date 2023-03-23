@@ -12,25 +12,15 @@ struct c_game_engine_ctf_variant : c_game_engine_base_variant
 	c_enum<e_ctf_home_flag_waypoint_settings, char, _ctf_home_flag_waypoint_settings_never, k_ctf_home_flag_waypoint_settings> m_home_flag_waypoint;
 	c_enum<e_ctf_game_type_settings, char, _ctf_game_type_settings_multi_flag, k_ctf_game_type_settings> m_game_type;
 	c_enum<e_ctf_respawn_settings, char, _ctf_respawn_settings_normal, k_ctf_respawn_settings> m_respawn;
-	c_enum<e_ctf_touch_return_settings, short, _ctf_touch_return_settings_off, k_ctf_touch_return_settings> m_touch_return_timeout;
+	c_enum<e_ctf_touch_return_settings, short, _ctf_touch_return_settings_off, k_ctf_touch_return_settings> m_touch_return_time;
 	c_enum<e_ctf_sudden_death_time, short, _ctf_sudden_death_time_infinite, k_ctf_sudden_death_times> m_sudden_death_time;
-
-	// default: 5
-	// maximum: 50
-	short m_score_to_win;
-
-	// halo online specific
-	// default: 3
-	// maximum: 50
-	short m_score_unknown;
-
-	// default: 30
-	// maximum: 300
-	short m_flag_reset_time; // seconds
-
+	c_enum<long, short, 5, 50> m_score_to_win;
+	c_enum<long, short, 3, 50> m_score_unknown; // halo online specific
+	c_enum<long, short, 30, 300> m_flag_reset_time;
 	c_player_traits m_carrier_traits;
 
 	byte m_pad1[6];
+
 	byte unused[0x60];
 
 	void byteswap();
