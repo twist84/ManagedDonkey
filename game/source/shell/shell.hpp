@@ -1589,6 +1589,27 @@ enum e_text_value_pair_parameter_type
 	k_text_value_pair_parameter_type_count
 };
 
+enum e_game_content_type
+{
+	_game_content_type_dlcmap = 0,
+	_game_content_type_usermap,
+	_game_content_type_personal,
+	_game_content_type_ctf,
+	_game_content_type_slayer,
+	_game_content_type_oddball,
+	_game_content_type_king,
+	_game_content_type_juggernaut,
+	_game_content_type_territories,
+	_game_content_type_assault,
+	_game_content_type_vip,
+	_game_content_type_infection,
+	_game_content_type_film,
+	_game_content_type_clip,
+	_game_content_type_screenshot,
+
+	k_number_of_game_content_types
+};
+
 
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
