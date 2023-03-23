@@ -9,13 +9,8 @@
 
 struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
 {
-	// default: 15
-	// maximum: 500
-	short m_score_to_win_round;
-
-	// default: 13
-	// maximum: 500
-	short m_score_unknown;
+	c_enum<long, short, 0, 500> m_score_to_win_round;         // default: 15
+	c_enum<long, short, 0, 500> m_score_unknown;              // default: 13, halo online specific
 
 	byte m_pad[2];
 
@@ -24,38 +19,17 @@ struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
 	c_flags<e_juggernaut_variant_flags, byte_flags, k_juggernaut_variant_flags> m_variant_flags;
 	c_enum<e_juggernaut_zone_movement_settings, char, _juggernaut_zone_movement_settings_off, k_juggernaut_zone_movement_settings> m_zone_movement;
 	c_enum<e_juggernaut_zone_order_settings, char, _juggernaut_zone_order_settings_random, k_juggernaut_zone_order_settings> m_zone_order;
-
-	// default: 0
-	// maximum: 20
-	char m_kill_points;
-
-	// default: 1
-	// maximum: 20
-	char m_juggeraut_kill_points;
-
-	// default: 1
-	// maximum: 20
-	char m_kill_as_juggernaut_points;
-
-	// default: 1
-	// maximum: 20
-	char m_destination_arrival_points;
-
-	// default: 1
-	// maximum: 20
-	char m_suicide_points;
-
-	// default: 1
-	// maximum: 20
-	char m_betrayal_points;
-
-	// default: 0
-	// maximum: 10
-	char m_juggernaut_delay;
-
+	c_enum<long, char, -10, 10> m_kill_points;                // default: 0
+	c_enum<long, char, -10, 10> m_juggeraut_kill_points;      // default: 1
+	c_enum<long, char, -10, 10> m_kill_as_juggernaut_points;  // default: 1
+	c_enum<long, char, -10, 10> m_destination_arrival_points; // default: 1
+	c_enum<long, char, -10, 10> m_suicide_points;             // default: 1
+	c_enum<long, char, -10, 10> m_betrayal_points;            // default: 1
+	c_enum<long, char, 0, 10> m_juggernaut_delay;             // default: 0
 	c_player_traits m_juggernaut_traits;
 
 	byte m_pad1[2];
+
 	byte unused[0x60];
 
 	void byteswap();
