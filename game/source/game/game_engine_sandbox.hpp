@@ -12,7 +12,7 @@ struct c_game_engine_sandbox_variant : c_game_engine_base_variant
 	c_flags<e_sandbox_variant_flags, byte_flags, k_sandbox_variant_flags> m_variant_flags;
 	c_enum<e_sandbox_editing_mode, char, _sandbox_flags_all_players, k_sandbox_editing_mode> m_edit_mode;
 	c_enum<e_sandbox_respawn_time, short, _sandbox_respawn_time_instant, k_sandbox_respawn_times> m_respawn_time;
-	c_player_traits m_all_player_traits;
+	c_player_traits m_player_traits;
 
 	byte unused[0x70];
 
