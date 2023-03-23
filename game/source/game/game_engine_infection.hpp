@@ -12,41 +12,20 @@ struct c_game_engine_infection_variant : c_game_engine_base_variant
 	c_enum<e_infection_safe_havens_settings, char, _infection_safe_havens_off, k_infection_safe_havens_settings> m_safe_havens;
 	c_enum<e_infection_next_zombie_settings, char, _infection_next_zombie_winner, k_infection_next_zombie_settings> m_next_zombie;
 	c_enum<e_infection_initial_zombie_count_settings, char, _infection_initial_zombie_count_25_percent, k_infection_initial_zombie_count_settings> m_initial_zombie_count;
-
-	// default: 30
-	// maximum: 120
-	short m_safe_haven_movement_time; // 0 is no movement
-
-	// default: 1
-	// maximum: 20
-	char m_zombie_kill_points;
-
-	// default: 0
-	// maximum: 20
-	char m_infection_points;
-
-	// default: 0
-	// maximum: 20
-	char m_safe_haven_arrival_points;
-
-	// default: -1
-	// maximum: 20
-	char m_suicide_points;
-
-	// default: -1
-	// maximum: 20
-	char m_betrayal_points;
-
-	// default: 0
-	// maximum: 20
-	char m_last_man_bonus_points;
-
+	c_enum<long, short, 0, 120> m_safe_haven_movement_time;  // default: 30
+	c_enum<long, char, -10, 10> m_zombie_kill_points;        // default: 1
+	c_enum<long, char, -10, 10> m_infection_points;          // default: 0
+	c_enum<long, char, -10, 10> m_safe_haven_arrival_points; // default: 0
+	c_enum<long, char, -10, 10> m_suicide_points;            // default: -1
+	c_enum<long, char, -10, 10> m_betrayal_points;           // default: -1
+	c_enum<long, char, -10, 10> m_last_man_bonus_points;     // default: 0
 	c_player_traits m_zombie_traits;
 	c_player_traits m_first_zombie_traits;
 	c_player_traits m_safe_haven_defender_traits;
 	c_player_traits m_last_human_traits;
 
 	byte m_pad1[4];
+
 	byte unused[0x10];
 
 	void byteswap();
