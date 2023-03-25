@@ -660,6 +660,9 @@
     <ClCompile Include="source\networking\session\network_session_parameters_game_variant.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1734,6 +1737,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\memory\data_encoding.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

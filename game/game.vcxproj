@@ -290,6 +290,7 @@ POPD
     <ClCompile Include="source\interface\gui_screens\main_menu\gui_screen_main_menu.cpp" />
     <ClCompile Include="source\interface\gui_screens\matchmaking\gui_screen_matchmaking_match_found.cpp" />
     <ClCompile Include="source\interface\gui_screens\matchmaking\gui_screen_matchmaking_searching.cpp" />
+    <ClCompile Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.cpp" />
     <ClCompile Include="source\interface\gui_screens\pregame_lobby\gui_screen_pregame_lobby.cpp" />
     <ClCompile Include="source\interface\gui_screens\scoreboard\gui_screen_scoreboard.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\gui_screen_start_menu.cpp" />
@@ -422,6 +423,7 @@ POPD
     <ClInclude Include="source\game\game_results.hpp" />
     <ClInclude Include="source\interface\c_gui_model_widget.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
+    <ClInclude Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.hpp" />
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />
     <ClInclude Include="source\memory\data_encoding.hpp" />
     <ClInclude Include="source\memory\data_packets.hpp" />
