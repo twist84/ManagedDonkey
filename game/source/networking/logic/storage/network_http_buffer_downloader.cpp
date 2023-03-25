@@ -55,7 +55,7 @@ e_download_status __cdecl c_http_buffer_downloader::get_download_status_from_int
     case _internal_status_cache_retrieving:
     case _internal_status_unknown2:
     case _internal_status_unknown3:
-        result = _http_download_status_unknown1;
+        result = _http_download_status_pending;
         break;
 
     case _internal_status_cache_submitting:

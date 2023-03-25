@@ -8,7 +8,7 @@
 enum e_download_status
 {
 	_http_download_status_none = 0,
-	_http_download_status_unknown1,
+	_http_download_status_pending,
 	_http_download_status_succeeded,
 	_http_download_status_failed,
 	_http_download_status_failed_file_not_found,
