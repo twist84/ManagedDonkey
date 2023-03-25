@@ -14,6 +14,8 @@
 // e_campaign_difficulty_level
 // e_player_model_choice
 
+const long k_popup_message_title_count = 1;
+
 struct c_player_profile_interface
 {
 	dword_flags m_flags;
@@ -54,7 +56,12 @@ struct c_player_profile_interface
 	bool service_tag_was_randomly_generated;
 	bool service_tag_failed_verification;
 
-	byte __dataB10[0x20];
+	byte __dataB10[0x18];
+
+	c_static_array<long, k_popup_message_title_count> popup_message_indices;  // default: 0
+	c_static_array<char, k_popup_message_title_count> popup_message_indices2; // default: 0
+	byte __padB2E[3];
+
 	byte __dataB30[0x80];
 
 	bool film_auto_save[3];
