@@ -46,8 +46,10 @@ struct c_network_observer;
 struct c_network_session_manager;
 struct c_network_session : c_network_channel_owner
 {
+	c_network_session_membership const* get_session_membership() const;
+	c_network_session_parameters const* get_session_parameters() const;
 	c_network_session_parameters* get_session_parameters();
-	bool established();
+	bool established() const;
 	bool is_leader();
 	e_network_session_mode session_mode() const;
 
