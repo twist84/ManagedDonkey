@@ -126,6 +126,26 @@ static_assert(sizeof(s_player_add_queue_entry) == 0x48);
 struct c_network_session;
 struct c_network_session_membership
 {
+	bool has_membership() const
+	{
+		return (m_shared_network_membership.update_number + 1) == 0;
+	}
+
+	long local_peer_index() const
+	{
+		return m_local_peer_index;
+	}
+
+	long host_peer_index() const
+	{
+		return m_shared_network_membership.host_peer_index;
+	}
+
+	bool is_peer_valid(long peer_index) const
+	{
+		return m_shared_network_membership.peer_valid_mask.test(peer_index);
+	}
+
 	c_network_session* m_session;
 	s_network_session_shared_membership m_shared_network_membership;
 	c_static_array<s_network_session_shared_membership, 17> m_transmitted_shared_network_membership;
