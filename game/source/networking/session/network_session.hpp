@@ -47,9 +47,14 @@ struct c_network_session_manager;
 struct c_network_session : c_network_channel_owner
 {
 	c_network_session_membership const* get_session_membership() const;
+	c_network_session_membership* get_session_membership_for_update();
+	c_network_session_membership const* get_session_membership_unsafe() const;
 	c_network_session_parameters const* get_session_parameters() const;
 	c_network_session_parameters* get_session_parameters();
+	long current_local_state() const;
+	bool disconnected() const;
 	bool established() const;
+	bool is_host() const;
 	bool is_leader();
 	e_network_session_mode session_mode() const;
 

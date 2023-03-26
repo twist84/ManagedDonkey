@@ -13,6 +13,28 @@ c_network_session_membership const* c_network_session::get_session_membership() 
     return &m_session_membership;
 }
 
+c_network_session_membership* c_network_session::get_session_membership_for_update()
+{
+    ASSERT(established());
+    ASSERT(is_host());
+    ASSERT(m_session_membership.has_membership());
+    ASSERT(m_session_membership.is_peer_valid(m_session_membership.local_peer_index()));
+    ASSERT(m_session_membership.is_peer_valid(m_session_membership.host_peer_index()));
+
+    return &m_session_membership;
+}
+
+c_network_session_membership const* c_network_session::get_session_membership_unsafe() const
+{
+    if (disconnected() || !m_session_membership.has_membership())
+        return nullptr;
+
+    ASSERT(m_session_membership.is_peer_valid(m_session_membership.local_peer_index()));
+    ASSERT(m_session_membership.is_peer_valid(m_session_membership.host_peer_index()));
+
+    return &m_session_membership;
+}
+
 c_network_session_parameters const* c_network_session::get_session_parameters() const
 {
     return &m_session_parameters;
@@ -25,9 +47,24 @@ c_network_session_parameters* c_network_session::get_session_parameters()
     return &m_session_parameters;
 }
 
+long c_network_session::current_local_state() const
+{
+    return m_local_state;
+}
+
+bool c_network_session::disconnected() const
+{
+    return current_local_state() == 0;
+}
+
 bool c_network_session::established() const
 {
-    return m_local_state > 3;
+    return current_local_state() >= 4;
+}
+
+bool c_network_session::is_host() const
+{
+    return current_local_state() == 6 || current_local_state() == 7;
 }
 
 bool c_network_session::is_leader()
