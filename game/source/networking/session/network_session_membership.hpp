@@ -87,10 +87,10 @@ struct s_network_session_shared_membership
 	byte __unknown16;
 	byte __unknown17;
 	long peer_count;
-	dword peer_valid_mask[1];
+	c_static_flags<17> peer_valid_mask;
 	c_static_array<s_network_session_peer, 17> peers;
 	long player_count;
-	dword player_valid_mask[1];
+	c_static_flags<16> player_valid_mask;
 	c_static_array<s_network_session_player, 16> players;
 	long player_addition_number;
 	long __unknown17524;

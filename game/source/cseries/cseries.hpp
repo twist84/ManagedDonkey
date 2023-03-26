@@ -104,6 +104,8 @@ typedef char utf8;
 
 #define SIZEOF_BITS(value) 8 * sizeof(value)
 
+const long CHAR_BITS = SIZEOF_BITS(char);
+const long SHORT_BITS = SIZEOF_BITS(short);
 const long LONG_BITS = SIZEOF_BITS(long);
 
 #define FLAG(bit) (1 << (bit))
@@ -244,10 +246,24 @@ protected:
 	t_storage_type m_storage;
 };
 
-template<size_t k_bit_count>
+template<size_t k_maximum_count, size_t k_storage_count = ((k_maximum_count - 1) >> 5) + 1>
 struct c_static_flags
 {
-	dword m_storage[(k_bit_count / 8) / sizeof(dword)];
+	bool test(long index)
+	{
+		ASSERT(VALID_INDEX(index, k_maximum_count));
+
+		return TEST_BIT(m_storage[index >> 5], (index & 31));
+	}
+
+	bool test(long index) const
+	{
+		ASSERT(VALID_INDEX(index, k_maximum_count));
+
+		return TEST_BIT(m_storage[index >> 5], (index & 31));
+	}
+
+	dword m_storage[k_storage_count];
 };
 
 template<typename t_type, typename t_storage_type, t_type k_minimum_value, t_type k_maximum_value_plus_one>
