@@ -113,6 +113,17 @@ const long LONG_BITS = SIZEOF_BITS(long);
 
 #define NONE -1
 
+constexpr long bit_count(long val)
+{
+	long result = 0;
+	while (val != 0)
+	{
+		val >>= 1;
+		result++;
+	}
+	return result;
+}
+
 constexpr bool pointer_is_aligned(void* pointer, long alignment_bits)
 {
 	return ((unsigned long)pointer & ((1 << alignment_bits) - 1)) == 0;
