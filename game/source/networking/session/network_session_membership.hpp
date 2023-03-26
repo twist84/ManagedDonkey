@@ -146,6 +146,12 @@ struct c_network_session_membership
 		return m_shared_network_membership.peer_valid_mask.test(peer_index);
 	}
 
+	void increment_update()
+	{
+		++m_shared_network_membership.update_number;
+		++m_player_configuration_version;
+	}
+
 	c_network_session* m_session;
 	s_network_session_shared_membership m_shared_network_membership;
 	c_static_array<s_network_session_shared_membership, 17> m_transmitted_shared_network_membership;
