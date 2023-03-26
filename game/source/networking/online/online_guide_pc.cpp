@@ -8,7 +8,6 @@
 #include "xbox/xbox.hpp"
 
 #include <windows.h>
-#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
@@ -193,10 +192,10 @@ const char* c_virtual_keyboard_task::get_context_string()
 
 dword __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controller_index, dword_flags character_flags, wchar_t const* default_text, wchar_t const* title_text, wchar_t const* description_text, wchar_t* result_text, dword maximum_character_count, void* platform_handle)
 {
-	assert(VALID_INDEX(controller_index, k_number_of_controllers));
-	assert(result_text != NULL);
-	assert(maximum_character_count > 0);
-	assert(platform_handle != NULL);
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	ASSERT(result_text != NULL);
+	ASSERT(maximum_character_count > 0);
+	ASSERT(platform_handle != NULL);
 
 	c_controller_interface* controller = controller_get(controller_index);
 	if (!controller->is_signed_in_to_machine())
@@ -286,7 +285,7 @@ dword __cdecl online_guide_show_friend_request_ui(e_controller_index controller_
 {
 	MessageBoxA(NULL, "Friend Request UI Placeholder", "networking:online:guide", MB_OK);
 
-	assert(VALID_INDEX(controller_index, k_number_of_controllers));
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	 
 	//dword result = 0x80004005;
 	//c_static_string<256> error_string;
@@ -306,7 +305,7 @@ dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
 {
 	MessageBoxA(NULL, "Friends UI Placeholder", "networking:online:guide", MB_OK);
 
-	assert(VALID_INDEX(controller_index, k_number_of_controllers));
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	
 	//dword result = 0x80004005;
 	//
@@ -325,7 +324,7 @@ dword __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_inde
 {
 	MessageBoxA(NULL, "Gamer Card UI Placeholder", "networking:online:guide", MB_OK);
 
-	assert(VALID_INDEX(controller_index, k_number_of_controllers));
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	
 	//dword result = 0x80004005;
 	//c_static_string<256> error_string;
@@ -345,8 +344,8 @@ dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 {
 	MessageBoxA(NULL, "Player Review UI Placeholder", "networking:online:guide", MB_OK);
 
-	assert(VALID_INDEX(controller_index, k_number_of_controllers));
-	assert(target_user_xuid != NULL);
+	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
+	ASSERT(target_user_xuid != NULL);
 	
 	//dword result = 0x80004005;
 	//c_static_string<256> error_string;
@@ -366,7 +365,7 @@ bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags)
 {
 	//MessageBoxA(NULL, "Signin UI Placeholder", "networking:online:guide", MB_OK);
 
-	assert(pane_count == 1 || pane_count == 2 || pane_count == 4);
+	ASSERT(pane_count == 1 || pane_count == 2 || pane_count == 4);
 	
 	//dword result = 0;
 	//dword signin_flags0 = (TEST_BIT(flags, 1) | TEST_BIT(flags, 2)) ? 2 : 0;

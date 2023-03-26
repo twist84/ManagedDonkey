@@ -2,14 +2,13 @@
 
 #include "memory/byte_swapping.hpp"
 
-#include <assert.h>
 
 void s_saved_game_item_metadata::byteswap()
 {
 	unique_id = _byteswap_uint64(unique_id);
 	for (long i = 0; i < NUMBEROF(name); i++) bswap_word_inplace(name[i]);
 	bswap_dword_inplace(file_type);
-	assert(array_is_zeroed(pad0));
+	ASSERT(array_is_zeroed(pad0));
 	bswap_qword_inplace(author_id);
 	bswap_qword_inplace(size_in_bytes);
 	bswap_qword_inplace(date);
@@ -18,7 +17,7 @@ void s_saved_game_item_metadata::byteswap()
 	bswap_dword_inplace(map_id);
 	bswap_dword_inplace(game_engine_type);
 	bswap_dword_inplace(campaign_difficulty);
-	assert(array_is_zeroed(pad));
+	ASSERT(array_is_zeroed(pad));
 	bswap_qword_inplace(game_id);
 }
 

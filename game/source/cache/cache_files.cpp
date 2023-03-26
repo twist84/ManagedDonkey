@@ -9,7 +9,6 @@
 #include "scenario/scenario_definitions.hpp"
 #include "tag_files/string_ids.hpp"
 
-#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
@@ -29,18 +28,18 @@ static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 
 char const* tag_get_name(long tag_name_index)
 {
-	assert(g_cache_file_globals.tags_loaded);
-	assert(tag_name_index >= 0 && tag_name_index < g_cache_file_globals.header.debug_tag_name_count);
+	ASSERT(g_cache_file_globals.tags_loaded);
+	ASSERT(tag_name_index >= 0 && tag_name_index < g_cache_file_globals.header.debug_tag_name_count);
 
 	long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
-	assert(tag_name_offset >= 0 && tag_name_offset < sizeof(g_cache_file_globals.debug_tag_names->buffer));
+	ASSERT(tag_name_offset >= 0 && tag_name_offset < sizeof(g_cache_file_globals.debug_tag_names->buffer));
 
 	return &g_cache_file_globals.debug_tag_names->buffer[tag_name_offset];
 }
 
 char const* tag_get_name_safe(long tag_name_index)
 {
-	assert(g_cache_file_globals.tags_loaded);
+	ASSERT(g_cache_file_globals.tags_loaded);
 
 	if (tag_name_index < g_cache_file_globals.header.debug_tag_name_count)
 	{
@@ -133,9 +132,9 @@ s_cache_file_header const* __cdecl cache_files_get_header()
 {
 	//return INVOKE(0x00501F90, cache_files_get_header);
 
-	assert(g_cache_file_globals.header.header_signature == k_cache_file_header_signature);
-	assert(g_cache_file_globals.header.version == k_cache_file_version);
-	assert(g_cache_file_globals.header.footer_signature == k_cache_file_footer_signature);
+	ASSERT(g_cache_file_globals.header.header_signature == k_cache_file_header_signature);
+	ASSERT(g_cache_file_globals.header.version == k_cache_file_version);
+	ASSERT(g_cache_file_globals.header.footer_signature == k_cache_file_footer_signature);
 
 	return &g_cache_file_globals.header;
 }
@@ -303,17 +302,17 @@ bool __cdecl cache_file_tags_load(dword tag_index)
 
 void __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* instance)
 {
-	assert(instance);
+	ASSERT(instance);
 
 	cache_address* data_fixups = reinterpret_cast<cache_address*>(instance->dependencies + instance->dependency_count);
 	for (short data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
 	{
 		cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
-		assert(data_fixup.persistent == true);
+		ASSERT(data_fixup.persistent == true);
 
 		data_fixup.offset += (dword)instance->base;
 		data_fixup.persistent = false;
-		assert(data_fixup.value == data_fixup.offset);
+		ASSERT(data_fixup.value == data_fixup.offset);
 	}
 }
 
@@ -329,7 +328,7 @@ void __cdecl cache_file_tags_fixup_all_instances()
 // __thiscall
 void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* instance, dword tag_index)
 {
-	assert(instance);
+	ASSERT(instance);
 
 	if (instance->dependency_count || instance->data_fixup_count || instance->resource_fixup_count)
 		return;

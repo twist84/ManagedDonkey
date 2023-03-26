@@ -1,6 +1,5 @@
 #include "networking/tools/http_stream.hpp"
 
-#include <assert.h>
 #include <string>
 
 c_http_stream::c_http_stream() :
@@ -45,8 +44,8 @@ long c_http_stream::get_position()
 
 void c_http_stream::set_url(char const* url)
 {
-	assert(url);
-	assert(strlen(url) < k_url_size);
+	ASSERT(url);
+	ASSERT(strlen(url) < k_url_size);
 
 	m_url.set(url);
 }
@@ -74,8 +73,8 @@ bool c_http_get_stream::verify_nescessary_state_is_set()
 
 bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 {
-	assert(buffer);
-	assert(bytes_read);
+	ASSERT(buffer);
+	ASSERT(bytes_read);
 
 	bool result = DECLFUNC(0x00432A10, bool, __thiscall, c_http_get_stream*, char*, long, long*)(this, buffer, buffer_length, bytes_read);
 
@@ -141,8 +140,8 @@ bool c_http_post_stream::verify_nescessary_state_is_set()
 
 bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read)
 {
-	assert(buffer);
-	assert(bytes_read);
+	ASSERT(buffer);
+	ASSERT(bytes_read);
 
 	return DECLFUNC(0x00432A10, bool, __thiscall, c_http_post_stream*, char*, long, long*)(this, buffer, buffer_length, bytes_read);
 }

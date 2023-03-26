@@ -4,7 +4,6 @@
 #include "main/global_preferences.hpp"
 
 #include <string.h>
-#include <assert.h>
 
 REFERENCE_DECLARE(0x022B7FAC, s_font_globals, g_font_globals);
 

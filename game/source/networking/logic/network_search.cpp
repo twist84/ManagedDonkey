@@ -4,7 +4,6 @@
 #include "networking/logic/network_broadcast_search.hpp"
 #include "networking/logic/network_recruiting_search.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE(0x0229AEA8, s_network_search_globals, g_network_search_globals);
 
@@ -14,7 +13,7 @@ void network_search_active(long controller_index, bool active)
 
 	if (active)
 	{
-		assert(g_network_search_globals.reference_count > 0);
+		ASSERT(g_network_search_globals.reference_count > 0);
 
 		network_search_begin(controller_index);
 	}
@@ -47,7 +46,7 @@ bool __cdecl network_search_begin(long controller_index)
 			result = network_recruiting_search_begin(controller_index, g_network_search_globals.squad_search_flags, g_network_search_globals.available_session_count, g_network_search_globals.available_sessions);
 			break;
 		case 2:
-			//assert(false);
+			//ASSERT(false);
 			break;
 		default:
 			throw("unreachable");
@@ -77,7 +76,7 @@ void __cdecl network_search_end()
 		network_recruiting_search_end();
 		break;
 	case 2:
-		//assert(false);
+		//ASSERT(false);
 		break;
 	default:
 		throw("unreachable");
@@ -125,7 +124,7 @@ bool __cdecl network_search_session_valid(s_available_session* session)
 {
 	//return INVOKE(0x004E1240, network_search_session_valid, session);
 
-	assert(session);
+	ASSERT(session);
 
 	return session->initialized && session->status_data.header.platform == 1;
 }
@@ -143,10 +142,10 @@ bool __cdecl network_search_start(long controller_index, long category, long max
 	}
 	else
 	{
-		assert(category == g_network_search_globals.search_category);
-		assert(maximum_sessions == g_network_search_globals.maximum_sessions);
-		assert(available_squad_search_flags == g_network_search_globals.squad_search_flags);
-		assert(session_allocator == g_network_search_globals.available_sessions_allocator);
+		ASSERT(category == g_network_search_globals.search_category);
+		ASSERT(maximum_sessions == g_network_search_globals.maximum_sessions);
+		ASSERT(available_squad_search_flags == g_network_search_globals.squad_search_flags);
+		ASSERT(session_allocator == g_network_search_globals.available_sessions_allocator);
 	}
 
 	if (!network_search_begin(controller_index))
@@ -161,7 +160,7 @@ void network_search_stop()
 {
 	//INVOKE(0x004E12B0, network_search_stop);
 
-	assert(g_network_search_globals.reference_count > 0);
+	ASSERT(g_network_search_globals.reference_count > 0);
 
 	if (--g_network_search_globals.reference_count <= 0)
 	{

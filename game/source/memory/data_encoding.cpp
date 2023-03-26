@@ -2,12 +2,11 @@
 
 #include "cseries/cseries.hpp"
 
-#include <assert.h>
 
 void __cdecl data_encode_new(data_encoding_state* state, void* buffer, long buffer_size)
 {
-    assert(buffer);
-    assert(buffer_size >= 0);
+    ASSERT(buffer);
+    ASSERT(buffer_size >= 0);
 
     csmemset(state, 0, sizeof(data_encoding_state));
     state->buffer = buffer;
@@ -16,7 +15,7 @@ void __cdecl data_encode_new(data_encoding_state* state, void* buffer, long buff
 
 unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* a2, short count, long code)
 {
-    assert(state && state->buffer && state->offset >= 0 && state->offset < state->buffer_size);
+    ASSERT(state && state->buffer && state->offset >= 0 && state->offset < state->buffer_size);
 
     long size = 0;
     if ((code + 8) <= 9)

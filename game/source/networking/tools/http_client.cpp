@@ -4,7 +4,6 @@
 #include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
 
-#include <assert.h>
 
 real g_http_client_test_failure_ratio = 0.0f;
 
@@ -34,7 +33,7 @@ bool c_http_client::do_work(
 	long* out_http_response_code
 )
 {
-	assert(upload_complete);
+	ASSERT(upload_complete);
 
 	bool result = false;
 
@@ -113,7 +112,7 @@ bool c_http_client::do_work(
 			c_console::write_line("networking:http_client: request failed to '%s'", stream_url);
 	}
 
-	// assert
+	// ASSERT
 	if (*upload_complete && result)
 		c_console::write_line("upload_complete should only be set on success.");
 
@@ -175,12 +174,12 @@ bool c_http_client::parse_http_response(
 	long* content_length
 )
 {
-	assert(buffer);
-	assert(out_completed_successfully);
-	assert(m_current_state == _upload_state_receiving_header);
-	assert(http_header_size);
-	assert(http_response_code);
-	assert(content_length);
+	ASSERT(buffer);
+	ASSERT(out_completed_successfully);
+	ASSERT(m_current_state == _upload_state_receiving_header);
+	ASSERT(http_header_size);
+	ASSERT(http_response_code);
+	ASSERT(content_length);
 
 	c_static_string<4096> http_response;
 	c_static_string<4096> contents;
@@ -238,8 +237,8 @@ bool c_http_client::receive_data(
 {
 	bool result = false;
 
-	assert(out_completed_successfully);
-	assert(m_current_state == _upload_state_receiving_header || m_current_state == _upload_state_receiving_content);
+	ASSERT(out_completed_successfully);
+	ASSERT(m_current_state == _upload_state_receiving_header || m_current_state == _upload_state_receiving_content);
 
 	short bytes_read = 0;
 	long input_buffer_size = 0;
@@ -247,7 +246,7 @@ bool c_http_client::receive_data(
 
 	if (out_response_content_buffer_count)
 	{
-		assert(*out_response_content_buffer_count > 0);
+		ASSERT(*out_response_content_buffer_count > 0);
 		input_buffer_size = *out_response_content_buffer_count;
 		*out_response_content_buffer_count = 0;
 	}
@@ -287,7 +286,7 @@ bool c_http_client::receive_data(
 
 	if (result)
 	{
-		assert(bytes_read >= 0);
+		ASSERT(bytes_read >= 0);
 
 		result = false;
 		if (m_current_state == _upload_state_receiving_header)
@@ -308,7 +307,7 @@ bool c_http_client::receive_data(
 					{
 						if (out_response_content_buffer && out_response_content_buffer_count)
 						{
-							assert(m_response_buffer_count >= http_header_size);
+							ASSERT(m_response_buffer_count >= http_header_size);
 
 							long bytes_of_content_ready = m_response_buffer_count - http_header_size;
 							for (long i = 0; i < bytes_of_content_ready; ++i)
@@ -357,8 +356,8 @@ bool c_http_client::receive_data(
 	}
 	if (result && m_current_state == _upload_state_receiving_content && out_response_content_buffer && out_response_content_buffer_count)
 	{
-		assert(input_buffer_size > 0);
-		assert(m_response_buffer_count >= 0);
+		ASSERT(input_buffer_size > 0);
+		ASSERT(m_response_buffer_count >= 0);
 
 		if (input_buffer_size > m_response_buffer_count)
 			input_buffer_size = m_response_buffer_count;
@@ -380,7 +379,7 @@ bool c_http_client::receive_data(
 
 bool c_http_client::send_data()
 {
-	assert(m_current_state == _upload_state_sending);
+	ASSERT(m_current_state == _upload_state_sending);
 
 	bool result = true;
 	long upstream_quota = -1;
@@ -407,7 +406,7 @@ bool c_http_client::send_data()
 		if (m_http_stream->read(buffer, buffer_length, &bytes_read))
 		{
 			bytes_written = 0;
-			assert(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
+			ASSERT(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
 
 			if (bytes_read)
 				bytes_written = transport_endpoint_write(m_endpoint_ptr, buffer, static_cast<short>(bytes_read));
@@ -468,12 +467,12 @@ void c_http_client::set_upstream_quota(long upstream_quota)
 
 bool c_http_client::start(c_http_stream* stream, long ip_address, word port, char const* url, bool endpoint_is_alpha)
 {
-	assert(stream);
-	assert(url);
-	assert(m_current_state == _upload_state_none);
-	assert(m_socket_count == 0);
-	assert(ip_address != 0);
-	assert(port != 0);
+	ASSERT(stream);
+	ASSERT(url);
+	ASSERT(m_current_state == _upload_state_none);
+	ASSERT(m_socket_count == 0);
+	ASSERT(ip_address != 0);
+	ASSERT(port != 0);
 
 	m_http_stream = stream;
 	m_address.address_length = sizeof(dword);
@@ -503,11 +502,11 @@ bool c_http_client::start(c_http_stream* stream, long ip_address, word port, cha
 
 bool c_http_client::start_connect()
 {
-	assert(m_current_state == _upload_state_none);
-	assert(m_address.address_length == sizeof(dword));
-	assert(m_address.ipv4_address != 0);
-	assert(m_address.port != 0);
-	assert(m_socket_count == 0);
+	ASSERT(m_current_state == _upload_state_none);
+	ASSERT(m_address.address_length == sizeof(dword));
+	ASSERT(m_address.ipv4_address != 0);
+	ASSERT(m_address.port != 0);
+	ASSERT(m_socket_count == 0);
 
 	if (transport_endpoint_async_connect(m_endpoint_ptr, &m_address))
 	{
@@ -532,7 +531,7 @@ bool c_http_client::stop()
 		if (!m_http_stream->reset())
 			result = false;
 
-		assert(m_socket_count == 1);
+		ASSERT(m_socket_count == 1);
 
 		transport_endpoint_disconnect(m_endpoint_ptr);
 		m_socket_count--;
@@ -544,7 +543,7 @@ bool c_http_client::stop()
 
 void c_http_client::transport_shutdown(void* client)
 {
-	assert(client);
+	ASSERT(client);
 
 	static_cast<c_http_client*>(client)->stop();
 }

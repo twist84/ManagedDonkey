@@ -3,7 +3,6 @@
 #include "main/main.hpp"
 #include "simulation/simulation_world.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
@@ -24,7 +23,7 @@ bool __cdecl simulation_starting_up()
 	bool result = false;
 	if (simulation_globals.initialized)
 	{
-		assert(simulation_globals.world);
+		ASSERT(simulation_globals.world);
 
 		if (!simulation_globals.aborted && simulation_globals.world->exists())
 			result = !simulation_globals.world->is_active();

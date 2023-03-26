@@ -43,7 +43,6 @@
 #include "xbox/xbox.hpp"
 #include "xbox/xnet.hpp"
 
-#include <assert.h>
 
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
@@ -146,7 +145,7 @@ void __cdecl main_loop_body_begin()
 			c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.name.get_string());
 		}
 
-		assert(g_cache_file_globals.loaded_resources->resource_loaded_count <=
+		ASSERT(g_cache_file_globals.loaded_resources->resource_loaded_count <=
 			g_cache_file_globals.resource_file_counts_mapping[0] +
 			g_cache_file_globals.resource_file_counts_mapping[1] + 
 			g_cache_file_globals.resource_file_counts_mapping[2] + 

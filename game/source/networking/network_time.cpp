@@ -4,7 +4,6 @@
 #include "networking/session/network_session_manager.hpp"
 #include "networking/transport/transport_security.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE(0x019E8D4C, s_network_time_globals, network_time_globals);
 
@@ -41,14 +40,14 @@ void __cdecl network_session_time_deregister_session_manager()
 {
     //INVOKE(0x0045F190, network_session_time_deregister_session_manager);
 
-    assert(network_time_globals.session_manager != NULL);
+    ASSERT(network_time_globals.session_manager != NULL);
 
     network_time_globals.session_manager = NULL;
 }
 
 bool __cdecl network_session_time_exists(s_transport_secure_identifier const* session_id)
 {
-    assert(session_id);
+    ASSERT(session_id);
 
     return INVOKE(0x0045F1A0, network_session_time_get_time, session_id);
 }
@@ -60,7 +59,7 @@ bool __cdecl network_session_time_get_id_and_time(long session_index, s_transpor
 
 dword __cdecl network_session_time_get_time(s_transport_secure_identifier const* session_id)
 {
-    assert(session_id);
+    ASSERT(session_id);
 
     return INVOKE(0x0045F230, network_session_time_get_time, session_id);
 }
@@ -69,7 +68,7 @@ void __cdecl network_session_time_register_session_manager(c_network_session_man
 {
     //INVOKE(0x0045F260, network_session_time_register_session_manager, session_manager);
 
-    assert(network_time_globals.session_manager == NULL);
+    ASSERT(network_time_globals.session_manager == NULL);
 
     network_time_globals.session_manager = session_manager;
 }

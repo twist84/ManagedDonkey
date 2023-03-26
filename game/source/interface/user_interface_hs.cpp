@@ -4,12 +4,11 @@
 #include "hs/hs_runtime.hpp"
 #include "scenario/scenario.hpp"
 
-#include <assert.h>
 
 long start_script(hs_script const* script, long index)
 {
-    assert(script);
-    assert(index != NONE);
+    ASSERT(script);
+    ASSERT(index != NONE);
 
     long thread_index = hs_runtime_script_begin(static_cast<short>(index), script->script_type, 0);
     if (thread_index == NONE)

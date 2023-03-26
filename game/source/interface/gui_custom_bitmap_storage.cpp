@@ -10,7 +10,6 @@
 #include "rasterizer/rasterizer_textures_xenon_formats.hpp"
 #include "xbox/xgraphics.hpp"
 
-#include <assert.h>
 #include <stdio.h>
 
 #include <d3d9.h>
@@ -29,8 +28,8 @@ REFERENCE_DECLARE(0x05270C14, c_gui_custom_bitmap_storage_manager, g_gui_custom_
 
 void __fastcall c_gui_custom_bitmap_storage_item::dispose(c_gui_custom_bitmap_storage_item* _this, void* unused)
 {
-	assert(!_this->m_bitmap_ready);
-	assert(!_this->m_hardware_format_bitmap.valid());
+	ASSERT(!_this->m_bitmap_ready);
+	ASSERT(!_this->m_hardware_format_bitmap.valid());
 
 	if (_this->m_bitmap_pixel_buffer)
 	{
@@ -64,7 +63,7 @@ void __fastcall c_gui_custom_bitmap_storage_item::initialize(c_gui_custom_bitmap
 			_this->m_height = height;
 			_this->m_bitmap_pixel_buffer_base = (char*)ALIGN((long)_this->m_bitmap_pixel_buffer, bitmap_pixel_buffer_alignment_bits);
 			_this->m_bitmap_pixel_buffer_length = allocate_bytes - (_this->m_bitmap_pixel_buffer_base - _this->m_bitmap_pixel_buffer);
-			assert(_this->m_bitmap_pixel_buffer_length <= allocate_bytes);
+			ASSERT(_this->m_bitmap_pixel_buffer_length <= allocate_bytes);
 
 			XGOffsetResourceAddress(_this->texture_header, _this->m_bitmap_pixel_buffer_base);
 			_this->m_allocated = true;
@@ -83,8 +82,8 @@ bool __fastcall c_gui_custom_bitmap_storage_item::sub_B20480(c_gui_custom_bitmap
 // buffer2_size: c_gui_custom_bitmap_storage_manager::m_buffer_size
 bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_bitmap_storage_item* _this, long storage_item_index, char const* buffer, long buffer_size, void* buffer2, long buffer2_size, long a6)
 {
-	assert(buffer);
-	assert(!_this->m_bitmap_ready);
+	ASSERT(buffer);
+	ASSERT(!_this->m_bitmap_ready);
 
 	bool result = false;
 
@@ -105,7 +104,7 @@ bool __fastcall c_gui_custom_bitmap_storage_item::load_from_buffer(c_gui_custom_
 					if (SUCCEEDED(load_surface_result))
 					{
 						dword bytes = XGSetTextureHeader(_this->m_bitmap.width, _this->m_bitmap.height, 1, 4, _this->m_use_compressed_format ? D3DFMT_DXT5 : D3DFMT_A8R8G8B8, 1, 0, -1, 0, _this->texture_header, 0, 0);
-						assert(bytes > 0);
+						ASSERT(bytes > 0);
 
 						XGOffsetResourceAddress(_this->texture_header, _this->m_bitmap_pixel_buffer_base);
 

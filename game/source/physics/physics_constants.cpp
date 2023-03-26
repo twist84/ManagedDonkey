@@ -6,7 +6,6 @@
 #include "game/game_time.hpp"
 #include "memory/thread_local.hpp"
 
-#include <assert.h>
 #include <math.h>
 
 	bool __cdecl character_ground_adhesion_forces_disabled()
@@ -14,7 +13,7 @@
 		//return INVOKE(0x006814B0, character_ground_adhesion_forces_disabled);
 
 		s_physics_constants* physics_constants = global_physics_constants_get();
-		assert((physics_constants->character_ground_adhesion_forces_enable_time - game_time_get()) < game_seconds_to_ticks_round(k_physics_character_ground_adhesion_force_maximum_disable_time) + 1);
+		ASSERT((physics_constants->character_ground_adhesion_forces_enable_time - game_time_get()) < game_seconds_to_ticks_round(k_physics_character_ground_adhesion_force_maximum_disable_time) + 1);
 
 		return (physics_constants->character_ground_adhesion_forces_enable_time - game_time_get()) > 0;
 	}

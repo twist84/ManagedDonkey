@@ -6,7 +6,6 @@
 #include "networking/transport/transport.hpp"
 #include "xbox/xnet.hpp"
 
-#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
@@ -32,9 +31,9 @@ bool __cdecl transport_secure_identifier_compare(s_transport_secure_identifier c
 
 bool __cdecl transport_secure_address_decode(s_transport_session_description const* secure_host_description, s_transport_secure_address const* secure_address, transport_address* usable_address)
 {
-	assert(secure_host_description);
-	assert(secure_address);
-	assert(usable_address);
+	ASSERT(secure_host_description);
+	ASSERT(secure_address);
+	ASSERT(usable_address);
 
 	//INVOKE(0x00430B60, transport_secure_address_decode, secure_host_description, secure_address, usable_address);
 

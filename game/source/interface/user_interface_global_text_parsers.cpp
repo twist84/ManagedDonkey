@@ -5,15 +5,14 @@
 #include "memory/module.hpp"
 #include "text/unicode.hpp"
 
-#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE(0x00AD86B0, parse_build_number);
 
 bool parse_build_number(void* this_ptr, wchar_t* buffer, long buffer_length)
 {
-    assert(buffer != NULL);
-    assert(buffer_length > 0);
+    ASSERT(buffer != NULL);
+    ASSERT(buffer_length > 0);
 
     static char const* build_name = version_get_build_name();
     static char const* build_string = version_get_build_string();

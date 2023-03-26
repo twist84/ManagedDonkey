@@ -2,7 +2,6 @@
 
 #include "memory/byte_swapping.hpp"
 
-#include <assert.h>
 
 void c_game_engine_vip_variant::byteswap()
 {
@@ -12,7 +11,7 @@ void c_game_engine_vip_variant::byteswap()
 	bswap_word_inplace(m_score_unknown);
 	bswap_word_inplace(m_variant_flags);
 
-	assert(array_is_zeroed(m_pad1));
+	ASSERT(array_is_zeroed(m_pad1));
 
 	bswap_word_inplace(m_influence_radius);
 	m_vip_team_traits.byteswap();

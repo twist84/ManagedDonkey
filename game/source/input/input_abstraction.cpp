@@ -5,7 +5,6 @@
 #include "input/input.hpp"
 #include "memory/module.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE(0x0244C9D0, s_input_abstraction_globals, input_abstraction_globals);
 
@@ -50,7 +49,7 @@ void __cdecl input_abstraction_dispose_from_old_map()
 
 short __cdecl input_abstraction_get_abstract_stick_pitch(long controller_index)
 {
-	assert(controller_index >= 0 && controller_index < k_number_of_controllers);
+	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
 	int16_point2d* abstract_sticks = input_abstraction_globals.input_states[controller_index].abstract_sticks;
 	short joystick_preset = input_abstraction_globals.preferences[controller_index].joystick_preset;
@@ -71,8 +70,8 @@ long __cdecl input_abstraction_get_controls_method()
 
 void __cdecl input_abstraction_get_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences)
 {
-	assert(controller_index >= 0 && controller_index < k_number_of_controllers);
-	assert(preferences);
+	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
+	ASSERT(preferences);
 
 	csmemcpy(preferences, &input_abstraction_globals.preferences[controller_index], sizeof(s_gamepad_input_preferences));
 }
@@ -103,8 +102,8 @@ void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferenc
 
 void __cdecl input_abstraction_get_input_state(long controller_index, s_game_input_state** input_state)
 {
-	assert(input_state);
-	assert(controller_index >= 0 && controller_index < k_number_of_controllers);
+	ASSERT(input_state);
+	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
 	*input_state = &input_abstraction_globals.input_states[controller_index];
 }
@@ -143,7 +142,7 @@ void __cdecl input_abstraction_initialize()
 
 void __cdecl input_abstraction_latch_all_buttons(long controller_index)
 {
-	assert(controller_index >= 0 && controller_index < k_number_of_controllers);
+	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
 	for (long button_index = 0; button_index < k_gamepad_button_count; button_index++)
 		input_abstraction_globals.input_states[controller_index].abstract_buttons[button_index].latch();
@@ -162,9 +161,9 @@ void __cdecl input_abstraction_reset_controller_detection_timer()
 
 void __cdecl input_abstraction_set_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences)
 {
-	assert(controller_index >= 0 && controller_index < k_number_of_controllers);
-	assert(preferences);
-	//assert(preferences->gamepad_buttons[_gamepad_button_start] != _controller_button_start || preferences->gamepad_buttons[_gamepad_button_back] != _controller_button_back);
+	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
+	ASSERT(preferences);
+	//ASSERT(preferences->gamepad_buttons[_gamepad_button_start] != _controller_button_start || preferences->gamepad_buttons[_gamepad_button_back] != _controller_button_back);
 
 	for (long button_index = 0; button_index < 16; button_index++)
 		input_abstraction_globals.input_states[controller_index].abstract_buttons[button_index].unlock();
@@ -212,7 +211,7 @@ bool c_abstract_button::locked()
 
 void c_abstract_button::lock()
 {
-	assert(access_valid());
+	ASSERT(access_valid());
 	m_locked = m_accessor;
 }
 

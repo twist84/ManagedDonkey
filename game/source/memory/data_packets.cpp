@@ -4,7 +4,6 @@
 #include "memory/data_encoding.hpp"
 #include "memory/data_packet_groups.hpp"
 
-#include <assert.h>
 
 void __cdecl data_packet_verify(data_packet_definition* packet_definition)
 {
@@ -18,9 +17,9 @@ void __cdecl _data_packet_encode(data_packet_definition* packet_definition, data
 
 unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definition, short version, void* a3, void* buffer, short* buffer_size, short maximum_buffer_size)
 {
-    assert(packet_definition);
-    assert(buffer && buffer_size);
-    assert(maximum_buffer_size >= 0);
+    ASSERT(packet_definition);
+    ASSERT(buffer && buffer_size);
+    ASSERT(maximum_buffer_size >= 0);
 
     data_packet_verify(packet_definition);
 

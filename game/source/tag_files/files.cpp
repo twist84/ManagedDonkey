@@ -2,15 +2,14 @@
 
 #include "cseries/console.hpp"
 
-#include <assert.h>
 #include <string.h>
 
 file_reference_info* file_reference_get_info(s_file_reference* info)
 {
-	assert(info);
-	assert(info->signature == FILE_REFERENCE_SIGNATURE);
-	//assert(VALID_BITS(info->flags, NUMBER_OF_REFERENCE_INFO_FLAGS));
-	assert(info->location >= NONE && info->location < NUMBER_OF_FILE_REFERENCE_LOCATIONS);
+	ASSERT(info);
+	ASSERT(info->signature == FILE_REFERENCE_SIGNATURE);
+	//ASSERT(VALID_BITS(info->flags, NUMBER_OF_REFERENCE_INFO_FLAGS));
+	ASSERT(info->location >= NONE && info->location < NUMBER_OF_FILE_REFERENCE_LOCATIONS);
 
 	return info;
 }
@@ -22,8 +21,8 @@ bool __cdecl file_create_parent_directories_if_not_present(struct s_file_referen
 
 s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, short location)
 {
-	assert(info);
-	assert(location >= NONE && location < NUMBER_OF_FILE_REFERENCE_LOCATIONS);
+	ASSERT(info);
+	ASSERT(location >= NONE && location < NUMBER_OF_FILE_REFERENCE_LOCATIONS);
 
 	memset(info, 0, sizeof(s_file_reference));
 	info->signature = FILE_REFERENCE_SIGNATURE;

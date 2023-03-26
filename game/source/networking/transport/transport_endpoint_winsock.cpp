@@ -5,7 +5,6 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_set_winsock.hpp"
 
-#include <assert.h>
 
 HOOK_DECLARE(0x0043F980, get_platform_socket_option);
 HOOK_DECLARE(0x0043FA30, transport_endpoint_accept);
@@ -61,9 +60,9 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
     //HOOK_INVOKE(result =, transport_endpoint_accept, listening_endpoint);
     //return result;
 
-    assert(listening_endpoint != NULL);
-    assert(listening_endpoint->socket != INVALID_SOCKET);
-    assert(TEST_BIT(listening_endpoint->flags, _transport_endpoint_listening_bit));
+    ASSERT(listening_endpoint != NULL);
+    ASSERT(listening_endpoint->socket != INVALID_SOCKET);
+    ASSERT(TEST_BIT(listening_endpoint->flags, _transport_endpoint_listening_bit));
 
     if (!transport_available())
         return nullptr;
@@ -99,8 +98,8 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, tran
     //HOOK_INVOKE(result =, transport_endpoint_async_connect, endpoint, address);
     //return result;
 
-    assert(endpoint != NULL);
-    assert(address != NULL);
+    ASSERT(endpoint != NULL);
+    ASSERT(address != NULL);
 
     if (!transport_available())
         return false;
@@ -154,8 +153,8 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
     //HOOK_INVOKE(result =, transport_endpoint_bind, endpoint, address);
     //return result;
 
-    assert(endpoint != NULL);
-    assert(address != NULL);
+    ASSERT(endpoint != NULL);
+    ASSERT(address != NULL);
 
     if (!transport_available())
         return false;
@@ -185,8 +184,8 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_
     //HOOK_INVOKE(result =, transport_endpoint_connect, endpoint, address);
     //return result;
 
-    assert(endpoint != NULL);
-    assert(address != NULL);
+    ASSERT(endpoint != NULL);
+    ASSERT(address != NULL);
 
     if (!transport_available())
         return false;
@@ -221,8 +220,8 @@ transport_endpoint* __cdecl transport_endpoint_create(e_transport_type type)
 
 bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, transport_address const* address)
 {
-    assert(endpoint);
-    assert(address);
+    ASSERT(endpoint);
+    ASSERT(address);
 
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_create_socket, endpoint, address);
@@ -231,14 +230,14 @@ bool __cdecl transport_endpoint_create_socket(transport_endpoint* endpoint, tran
 
 void __cdecl transport_endpoint_delete(transport_endpoint* endpoint)
 {
-    assert(endpoint);
+    ASSERT(endpoint);
 
     HOOK_INVOKE(, transport_endpoint_delete, endpoint);
 }
 
 void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 {
-    assert(endpoint != NULL);
+    ASSERT(endpoint != NULL);
 
     if (endpoint->socket != INVALID_SOCKET)
     {
@@ -269,7 +268,7 @@ void __cdecl transport_endpoint_disconnect(transport_endpoint* endpoint)
 
 long __cdecl transport_endpoint_get_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option)
 {
-    assert(endpoint != NULL);
+    ASSERT(endpoint != NULL);
 
     long result = 0;
     HOOK_INVOKE(result =, transport_endpoint_get_option_value, endpoint, option);
@@ -292,15 +291,15 @@ bool __cdecl transport_endpoint_get_transport_address(long socket_address_length
 
 e_transport_type __cdecl transport_endpoint_get_type(transport_endpoint* endpoint)
 {
-    assert(endpoint != NULL);
+    ASSERT(endpoint != NULL);
 
     return endpoint->type;
 }
 
 bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint)
 {
-    assert(endpoint != NULL);
-    assert(endpoint->socket != INVALID_SOCKET);
+    ASSERT(endpoint != NULL);
+    ASSERT(endpoint->socket != INVALID_SOCKET);
 
     if (!transport_available())
         return false;
@@ -319,9 +318,9 @@ bool __cdecl transport_endpoint_listen(transport_endpoint* endpoint)
 
 short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer, short length)
 {
-    assert(buffer != NULL);
-    assert(length > 0);
-    assert(endpoint->socket != INVALID_SOCKET);
+    ASSERT(buffer != NULL);
+    ASSERT(length > 0);
+    ASSERT(endpoint->socket != INVALID_SOCKET);
 
     short bytes_read = 0;
     if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
@@ -342,7 +341,7 @@ short __cdecl transport_endpoint_read(transport_endpoint* endpoint, void* buffer
         }
         else if (bytes_read)
         {
-            assert(bytes_read > 0);
+            ASSERT(bytes_read > 0);
         }
         else
         {
@@ -361,19 +360,19 @@ short __cdecl transport_endpoint_read_from(transport_endpoint* endpoint, void* b
     //HOOK_INVOKE(result =, transport_endpoint_read_from, endpoint, buffer, length, source);
     //return result;
 
-    assert(endpoint != NULL);
-    assert(buffer != NULL);
-    assert(length > 0);
-    assert(source != NULL);
-    assert(endpoint->socket != INVALID_SOCKET);
-    assert(endpoint->type != _transport_type_unix);
+    ASSERT(endpoint != NULL);
+    ASSERT(buffer != NULL);
+    ASSERT(length > 0);
+    ASSERT(source != NULL);
+    ASSERT(endpoint->socket != INVALID_SOCKET);
+    ASSERT(endpoint->type != _transport_type_unix);
 
     return INVOKE(0x004402F0, transport_endpoint_read_from, endpoint, buffer, length, source);
 }
 
 bool __cdecl transport_endpoint_readable(transport_endpoint* endpoint)
 {
-    assert(endpoint != NULL);
+    ASSERT(endpoint != NULL);
 
     //return INVOKE(0x00440390, transport_endpoint_readable, endpoint);
 
@@ -411,7 +410,7 @@ bool __cdecl transport_endpoint_reject(transport_endpoint* listening_endpoint)
 
 bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool blocking)
 {
-    assert(endpoint != NULL);
+    ASSERT(endpoint != NULL);
 
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_set_blocking, endpoint, blocking);
@@ -420,7 +419,7 @@ bool __cdecl transport_endpoint_set_blocking(transport_endpoint* endpoint, bool 
 
 bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e_transport_endpoint_option option, long value)
 {
-    assert(endpoint != NULL);
+    ASSERT(endpoint != NULL);
 
     bool result = false;
     HOOK_INVOKE(result =, transport_endpoint_set_option_value, endpoint, option, value);
@@ -429,8 +428,8 @@ bool __cdecl transport_endpoint_set_option_value(transport_endpoint* endpoint, e
 
 void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_type type)
 {
-    assert(endpoint);
-    assert((type == _transport_type_udp) || (type == _transport_type_vdp) || (type == _transport_type_tcp));
+    ASSERT(endpoint);
+    ASSERT((type == _transport_type_udp) || (type == _transport_type_vdp) || (type == _transport_type_tcp));
 
     endpoint->socket = INVALID_SOCKET;
     endpoint->flags = 0;
@@ -439,8 +438,8 @@ void __cdecl transport_endpoint_setup(transport_endpoint* endpoint, e_transport_
 
 bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, transport_address const* address)
 {
-    assert(endpoint != NULL);
-    assert(address != NULL);
+    ASSERT(endpoint != NULL);
+    ASSERT(address != NULL);
 
     bool result = transport_endpoint_connect(endpoint, address); // inline
     transport_endpoint_disconnect(endpoint);
@@ -451,10 +450,10 @@ bool __cdecl transport_endpoint_test(transport_endpoint* endpoint, transport_add
 
 short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const* buffer, short length)
 {
-    assert(endpoint != NULL);
-    assert(buffer != NULL);
-    assert(length > 0);
-    assert(endpoint->socket != INVALID_SOCKET);
+    ASSERT(endpoint != NULL);
+    ASSERT(buffer != NULL);
+    ASSERT(length > 0);
+    ASSERT(endpoint->socket != INVALID_SOCKET);
 
     short result = 0;
     if (transport_available() && TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit))
@@ -480,7 +479,7 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
         }
         else
         {
-            assert(bytes_written > 0);
+            ASSERT(bytes_written > 0);
             return bytes_written;
         }
     }
@@ -489,12 +488,12 @@ short __cdecl transport_endpoint_write(transport_endpoint* endpoint, void const*
 
 short __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void const* buffer, short length, transport_address const* destination)
 {
-    assert(endpoint != NULL);
-    assert(buffer != NULL);
-    assert(length > 0);
-    assert(destination != NULL);
-    assert(endpoint->socket != INVALID_SOCKET);
-    assert(endpoint->type != _transport_type_unix);
+    ASSERT(endpoint != NULL);
+    ASSERT(buffer != NULL);
+    ASSERT(length > 0);
+    ASSERT(destination != NULL);
+    ASSERT(endpoint->socket != INVALID_SOCKET);
+    ASSERT(endpoint->type != _transport_type_unix);
 
     short result = 0;
     HOOK_INVOKE(result =, transport_endpoint_write_to, endpoint, buffer, length, destination);
@@ -503,7 +502,7 @@ short __cdecl transport_endpoint_write_to(transport_endpoint* endpoint, void con
 
 bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint)
 {
-    assert(endpoint != NULL);
+    ASSERT(endpoint != NULL);
 
     //bool result = false;
     //HOOK_INVOKE(result =, transport_endpoint_writeable, endpoint);
@@ -528,7 +527,7 @@ bool __cdecl transport_endpoint_writeable(transport_endpoint* endpoint)
 
 bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transport_address* address)
 {
-    assert(address != NULL);
+    ASSERT(address != NULL);
 
     bool result = false;
     HOOK_INVOKE(result =, transport_get_endpoint_address, endpoint, address);
@@ -537,7 +536,7 @@ bool __cdecl transport_get_endpoint_address(transport_endpoint* endpoint, transp
 
 bool __cdecl transport_endpoint_connected(transport_endpoint* endpoint)
 {
-    assert(endpoint != NULL);
+    ASSERT(endpoint != NULL);
 
     return TEST_BIT(endpoint->flags, _transport_endpoint_connected_bit);
 }

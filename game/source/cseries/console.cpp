@@ -4,7 +4,6 @@
 #include "text/unicode.hpp"
 
 #include <windows.h>
-#include <assert.h>
 
 FILE* c_console::m_file;
 
@@ -179,7 +178,7 @@ void c_console::write_line(wchar_t const* format, va_list list)
 
 void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
 {
-    assert(message_buffer);
+    ASSERT(message_buffer);
 
     FormatMessageA(
         FORMAT_MESSAGE_MAX_WIDTH_MASK | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,

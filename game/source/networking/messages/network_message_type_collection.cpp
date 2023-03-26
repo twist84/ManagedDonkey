@@ -4,7 +4,6 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE(0x0224A498, c_network_message_type_collection*, g_network_message_types);
 
@@ -151,16 +150,16 @@ void __cdecl c_network_message_type_collection::register_message_type(
 	compare_t* compare_function,
 	dispose_t* dispose_function)
 {
-	assert(message_type >= 0 && message_type < k_network_message_type_count);
-	assert(message_type_name);
-	//assert(message_size > 0 && message_size <= k_network_message_maximum_size);
-	//assert(message_size_maximum > 0 && message_size_maximum <= k_network_message_maximum_size);
-	//assert(encode_function);
-	//assert(decode_function);
-	assert(message_size_maximum >= message_size);
+	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
+	ASSERT(message_type_name);
+	//ASSERT(message_size > 0 && message_size <= k_network_message_maximum_size);
+	//ASSERT(message_size_maximum > 0 && message_size_maximum <= k_network_message_maximum_size);
+	//ASSERT(encode_function);
+	//ASSERT(decode_function);
+	ASSERT(message_size_maximum >= message_size);
 
 	s_network_message_type& type = m_message_types[message_type];
-	assert(!type.initialized);
+	ASSERT(!type.initialized);
 
 	type.message_type_name = message_type_name;
 	type.flags = flags;

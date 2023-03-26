@@ -6,7 +6,6 @@
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 
-#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE(0x00462F00, network_blf_find_chunk);
@@ -198,7 +197,7 @@ bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool 
 
 bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool byte_swap, long type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)
 {
-	assert(out_chunk_size);
+	ASSERT(out_chunk_size);
 
 	bool result = false;
 

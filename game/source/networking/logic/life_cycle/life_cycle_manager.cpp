@@ -2,13 +2,12 @@
 
 #include "cseries/console.hpp"
 
-#include <assert.h>
 #include <string>
 
 void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data)
 {
-	assert(entry_data_size <= k_maximum_state_change_entry_data_size);
-	assert(state != m_current_state);
+	ASSERT(entry_data_size <= k_maximum_state_change_entry_data_size);
+	ASSERT(state != m_current_state);
 
 	m_pending_state_change = true;
 	m_pending_state = state;
@@ -17,7 +16,7 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 
 	if (m_entry_data_size > 0)
 	{
-		assert(entry_data != NULL);
+		ASSERT(entry_data != NULL);
 		memcpy(m_entry_data, entry_data, m_entry_data_size);
 	}
 }
@@ -34,15 +33,15 @@ void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 
 void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data)
 {
-	assert((entry_data_size == 0 && entry_data == NULL) || (entry_data_size > 0 && entry_data != NULL));
+	ASSERT((entry_data_size == 0 && entry_data == NULL) || (entry_data_size > 0 && entry_data != NULL));
 	if (m_current_state != state)
 	{
-		assert(state >= 0 && state < k_life_cycle_state_count);
+		ASSERT(state >= 0 && state < k_life_cycle_state_count);
 
 		c_life_cycle_state_handler* from_handler = m_handlers[get_current_state()];
 		c_life_cycle_state_handler* to_handler = m_handlers[state];
-		assert(from_handler != NULL);
-		assert(to_handler != NULL);
+		ASSERT(from_handler != NULL);
+		ASSERT(to_handler != NULL);
 
 		from_handler->exit(to_handler);
 		to_handler->enter(from_handler, entry_data_size, entry_data);
@@ -51,7 +50,7 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, lon
 
 e_life_cycle_state c_life_cycle_state_manager::get_current_state()
 {
-	assert(m_current_state >= _life_cycle_state_none && m_current_state < k_life_cycle_state_count);
+	ASSERT(m_current_state >= _life_cycle_state_none && m_current_state < k_life_cycle_state_count);
 	return m_current_state;
 }
 

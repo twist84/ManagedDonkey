@@ -5,7 +5,6 @@
 #include "cseries/cseries_windows.hpp"
 #include "memory/module.hpp"
 
-#include <assert.h>
 
 HOOK_DECLARE_CALL(0x0050286A, crc_checksum_buffer_adler32); // 0x0052CCC0
 //HOOK_DECLARE(0x0052CD20, crc_checksum_buffer);
@@ -182,7 +181,7 @@ dword __cdecl crc32(dword crc, const byte* buf, dword len)
 			crc_table[byte] = crc;
 		}
 
-		assert(crc_table[128] == 0xEDB88320);
+		ASSERT(crc_table[128] == 0xEDB88320);
 
 		crc_table_initialized = true;
 	}

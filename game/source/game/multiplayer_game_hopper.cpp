@@ -6,7 +6,6 @@
 #include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
 
-#include <assert.h>
 
 HOOK_DECLARE(0x00545710, multiplayer_game_hopper_check_required_files);
 HOOK_DECLARE(0x00549610, multiplayer_game_hopper_update);
@@ -138,8 +137,8 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 
 bool __cdecl create_configuration_file(const char* filename, const void* file_contents, int file_size)
 {
-    assert(file_size > 0);
-    assert(file_contents);
+    ASSERT(file_size > 0);
+    ASSERT(file_contents);
 
     s_file_reference info;
     file_reference_create_from_path(&info, filename, false);

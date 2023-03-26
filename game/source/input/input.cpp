@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "shell/shell.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE_STATIC_ARRAY(0x01650918, char const, k_key_code_count, key_to_virtual_table);
 REFERENCE_DECLARE_STATIC_ARRAY(0x01650980, short const, k_number_of_windows_input_virtual_codes, virtual_to_key_table);
@@ -26,7 +25,7 @@ bool __cdecl input_get_mouse(s_mouse_state* mouse, e_input_type input_type)
 
 bool __cdecl input_has_gamepad(short gamepad_index)
 {
-	assert(gamepad_index >= 0 && gamepad_index < k_number_of_controllers);
+	ASSERT(gamepad_index >= 0 && gamepad_index < k_number_of_controllers);
 
 	return INVOKE(0x00511A40, input_has_gamepad, gamepad_index);
 }

@@ -2,7 +2,6 @@
 
 #include "memory/module.hpp"
 
-#include <assert.h>
 
 //HOOK_DECLARE(0x005A8F40, overlapped_task_start_internal);
 HOOK_DECLARE_CALL(0x0074CA3C, overlapped_task_start_internal); // c_content_enumeration_overlapped_task::success
@@ -46,7 +45,7 @@ void __cdecl overlapped_render()
 
 bool __stdcall overlapped_task_start_internal(c_overlapped_task* task, const char* file, int line)
 {
-	assert(task);
+	ASSERT(task);
 	task->set_file(file);
 	task->set_line(line);
 

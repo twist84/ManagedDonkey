@@ -2,7 +2,6 @@
 
 #include "memory/byte_swapping.hpp"
 
-#include <assert.h>
 
 void c_game_engine_slayer_variant::byteswap()
 {
@@ -13,6 +12,6 @@ void c_game_engine_slayer_variant::byteswap()
 	bswap_word_inplace(m_kill_points);
 	m_leader_traits.byteswap();
 
-	assert(array_is_zeroed(m_pad1));
+	ASSERT(array_is_zeroed(m_pad1));
 }
 

@@ -6,7 +6,6 @@
 #include "networking/online/online_error.hpp"
 #include "networking/transport/transport_security.hpp"
 
-#include <assert.h>
 #include <string.h>
 #include <WinSock2.h>
 
@@ -101,7 +100,7 @@ void __cdecl transport_register_transition_functions(transport_startup_function_
 
 void __cdecl transport_reset()
 {
-	assert(transport_globals.initialized);
+	ASSERT(transport_globals.initialized);
 
 	for (long i = 0; i < transport_globals.transition_function_count; i++)
 	{

@@ -10,7 +10,6 @@
 #include "tag_files/string_ids.hpp"
 
 #include <windows.h>
-#include <assert.h>
 
 //HOOK_DECLARE(0x00A93410, user_interface_messaging_initialize);
 //HOOK_DECLARE(0x00A933B0, user_interface_messaging_dispose);
@@ -302,8 +301,8 @@ void c_message_globals::empty_queue()
 
 c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unknown)
 {
-	assert(&m_queue[0] <= node && node <= &m_queue[NUMBEROF(m_queue) - 1]);
-	assert(node->m_message != nullptr);
+	ASSERT(&m_queue[0] <= node && node <= &m_queue[NUMBEROF(m_queue) - 1]);
+	ASSERT(node->m_message != nullptr);
 
 	c_message* message = node->m_message;
 
@@ -337,8 +336,8 @@ bool c_message_globals::can_read()
 
 void c_message_globals::queue(c_message* message)
 {
-	assert(message != nullptr);
-	assert(can_write());
+	ASSERT(message != nullptr);
+	ASSERT(can_write());
 
 	if (m_prev_read)
 	{
@@ -354,7 +353,7 @@ bool c_message_globals::can_write()
 
 void c_message_globals::get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
-	assert(message_reference != nullptr);
+	ASSERT(message_reference != nullptr);
 
 	if (*message_reference)
 	{
@@ -461,7 +460,7 @@ void __cdecl user_interface_messaging_update()
 
 void __cdecl user_interface_messaging_post(c_message* message)
 {
-	assert(message != nullptr);
+	ASSERT(message != nullptr);
 
 	HOOK_INVOKE(, user_interface_messaging_post, message);
 	return;

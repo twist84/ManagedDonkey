@@ -2,7 +2,6 @@
 
 #include "memory/byte_swapping.hpp"
 
-#include <assert.h>
 
 void c_game_engine_territories_variant::byteswap()
 {

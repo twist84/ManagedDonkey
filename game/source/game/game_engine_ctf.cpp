@@ -2,7 +2,6 @@
 
 #include "memory/byte_swapping.hpp"
 
-#include <assert.h>
 
 void c_game_engine_ctf_variant::byteswap()
 {
@@ -15,6 +14,6 @@ void c_game_engine_ctf_variant::byteswap()
 	bswap_word_inplace(m_flag_reset_time);
 	m_carrier_traits.byteswap();
 
-	assert(array_is_zeroed(m_pad1));
+	ASSERT(array_is_zeroed(m_pad1));
 }
 

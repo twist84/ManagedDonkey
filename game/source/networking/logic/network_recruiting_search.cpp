@@ -4,7 +4,6 @@
 #include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE(0x0228E6E0, s_network_recruiting_search_globals, g_recruiting_search_globals);
 
@@ -17,9 +16,9 @@ bool __cdecl network_recruiting_search_begin(long controller_index,long squad_se
 {
 	return INVOKE(0x004DBE00, network_recruiting_search_begin, controller_index, squad_search_flags, maximum_session_count, session_storage);
 
-	//assert(g_recruiting_search_globals.initialized);
-	//assert(maximum_session_count > 0);
-	//assert(session_storage);
+	//ASSERT(g_recruiting_search_globals.initialized);
+	//ASSERT(maximum_session_count > 0);
+	//ASSERT(session_storage);
 }
 
 void __cdecl network_recruiting_search_dispose()
@@ -33,14 +32,14 @@ void __cdecl network_recruiting_search_end()
 {
 	INVOKE(0x004DBE90, network_recruiting_search_dispose);
 
-	//assert(g_recruiting_search_globals.initialized);
+	//ASSERT(g_recruiting_search_globals.initialized);
 }
 
 bool __cdecl network_recruiting_search_initialize()
 {
 	//return INVOKE(0x004DBEF0, network_recruiting_search_initialize);
 
-	assert(g_recruiting_search_globals.initialized);
+	ASSERT(g_recruiting_search_globals.initialized);
 
 	csmemset(&g_recruiting_search_globals, 0, sizeof(g_recruiting_search_globals));
 	g_recruiting_search_globals.initialized = true;
@@ -52,7 +51,7 @@ void __cdecl network_recruiting_search_update()
 {
 	INVOKE(0x004DBF10, network_recruiting_search_update);
 
-	assert(g_recruiting_search_globals.initialized);
+	ASSERT(g_recruiting_search_globals.initialized);
 
 	if (g_recruiting_search_globals.search_active)
 	{

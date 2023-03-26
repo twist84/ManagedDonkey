@@ -12,7 +12,6 @@
 #include "memory/module.hpp"
 #include "tag_files/files_windows.hpp"
 
-#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
@@ -25,8 +24,8 @@ bool game_in_startup_phase()
 	{
 		if (game_globals->game_in_progress)
 		{
-			assert(!game_globals->initializing);
-			assert(game_globals->map_active);
+			ASSERT(!game_globals->initializing);
+			ASSERT(game_globals->map_active);
 
 			return false;
 		}
@@ -64,14 +63,14 @@ bool __cdecl game_options_verify(game_options const* options, char* error_string
 void __cdecl assert_game_options_verify(game_options const* options)
 {
 	char error_string[512]{};
-	assert(game_options_verify(options, error_string, sizeof(error_string))); // ("game_options_verify failed: %s", error_string)
+	ASSERT(game_options_verify(options, error_string, sizeof(error_string))); // ("game_options_verify failed: %s", error_string)
 	//INVOKE(0x00530440, assert_game_options_verify, options);
 }
 
 game_options* game_options_get()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && (game_globals->initializing || game_globals->map_active));
+	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	return &game_globals->options;
 }
@@ -79,7 +78,7 @@ game_options* game_options_get()
 void game_options_print_game_id()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && (game_globals->initializing || game_globals->map_active));
+	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	c_console::write_line("%I64d", game_options_get()->game_instance);
 }
@@ -89,7 +88,7 @@ void game_options_print_game_id()
 void game_options_clear_game_playback()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && (game_globals->initializing || game_globals->map_active));
+	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	game_globals->options.game_playback = _game_playback_none;
 }
@@ -213,10 +212,10 @@ void game_simulation_set(e_game_simulation_type game_simulation)
 		"dist-server"
 	};
 
-	assert(game_simulation > _game_simulation_none && game_simulation < k_game_simulation_count);
+	ASSERT(game_simulation > _game_simulation_none && game_simulation < k_game_simulation_count);
 
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && (game_globals->initializing || game_globals->map_active));
+	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	game_globals->options.game_simulation = game_simulation;
 	c_console::write_line("game_simulation: %s", k_game_simulation_names[game_simulation]);
@@ -344,7 +343,7 @@ bool game_is_available(void)
 s_game_cluster_bit_vectors* game_get_cluster_pvs()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
+	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
 	return &game_globals->cluster_pvs;
 }
@@ -352,7 +351,7 @@ s_game_cluster_bit_vectors* game_get_cluster_pvs()
 s_game_cluster_bit_vectors* game_get_cluster_pvs_local()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
+	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
 	return &game_globals->cluster_pvs_local;
 }
@@ -360,7 +359,7 @@ s_game_cluster_bit_vectors* game_get_cluster_pvs_local()
 s_game_cluster_bit_vectors* game_get_cluster_activation()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
+	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
 	return &game_globals->cluster_activation;
 }
@@ -411,7 +410,7 @@ void game_pvs_scripted_clear()
 void game_lost(bool game_revert)
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active);
+	ASSERT(game_globals && game_globals->map_active);
 
 	game_globals->game_revert = game_revert;
 	if (game_revert)
@@ -439,7 +438,7 @@ void game_lost(bool game_revert)
 bool game_is_lost()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active);
+	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_lost;
 }
@@ -448,7 +447,7 @@ bool game_is_lost()
 bool game_is_lost_immediate()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active);
+	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_lost && !game_globals->game_lost_wait_time;
 }
@@ -456,7 +455,7 @@ bool game_is_lost_immediate()
 void game_finish()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active);
+	ASSERT(game_globals && game_globals->map_active);
 
 	if (!game_globals->game_finished)
 	{
@@ -478,7 +477,7 @@ void game_finish()
 void game_finish_immediate()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active);
+	ASSERT(game_globals && game_globals->map_active);
 
 	if (!game_globals->game_finished)
 	{
@@ -490,7 +489,7 @@ void game_finish_immediate()
 bool game_is_finished()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active);
+	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_finished;
 }
@@ -498,7 +497,7 @@ bool game_is_finished()
 bool game_is_finished_immediate()
 {
 	game_globals_storage* game_globals = game_globals_get();
-	assert(game_globals && game_globals->map_active);
+	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_finished && !game_globals->game_finished_wait_time;
 }
@@ -598,7 +597,7 @@ bool __cdecl game_launch_has_initial_script(char const* script_name)
 
 bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress)
 {
-	assert(options);
+	ASSERT(options);
 
 	//bool result = false;
 	//HOOK_INVOKE(result =, game_options_get_launch_settings, options, change_in_progress);

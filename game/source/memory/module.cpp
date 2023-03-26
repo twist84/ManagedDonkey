@@ -1,7 +1,6 @@
 #include "memory/module.hpp"
 
 #include <windows.h>
-#include <assert.h>
 #include <detours.h>
 
 static module_address global_module = { .pointer = GetModuleHandle(NULL) };
@@ -10,7 +9,7 @@ dword global_address_get(dword rva)
 {
 	if (!global_module.address)
 		global_module.pointer = GetModuleHandle(NULL);
-	assert(global_module.pointer);
+	ASSERT(global_module.pointer);
 
 	return global_module.address + rva;
 }

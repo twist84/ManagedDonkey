@@ -6,6 +6,11 @@
 #include <stdarg.h>
 #include <type_traits>
 
+#ifdef _DEBUG
+#define ASSERT(statement) if (!(statement)) throw #statement
+#else
+#define ASSERT(...)
+#endif // _DEBUG
 
 #define STARTSWITH(s1, s1_len, s2) (csmemcmp((s1), (s2), csstrnlen((s2), (s1_len))) == 0)
 
@@ -152,7 +157,7 @@ struct c_static_array
 
 	t_type& operator[](long index)
 	{
-		//assert(index >= 0 && index >= k_count);
+		ASSERT(VALID_INDEX(index, k_count));
 
 		return m_storage[index];
 	}
@@ -195,13 +200,15 @@ public:
 
 	bool test(t_type bit)
 	{
-		//assert(valid_bit(bit));
+		ASSERT(valid_bit(bit));
+
 		return TEST_BIT(m_storage, static_cast<t_storage_type>(bit));
 	}
 
 	bool test(t_type bit) const
 	{
-		//assert(valid_bit(bit));
+		ASSERT(valid_bit(bit));
+
 		return TEST_BIT(m_storage, static_cast<t_storage_type>(bit));
 	}
 
@@ -402,8 +409,8 @@ public:
 	{
 		dword current_length = length();
 
-		//assert(format);
-		//assert(current_length >= 0 && current_length < k_maximum_count);
+		ASSERT(format);
+		ASSERT(current_length >= 0 && current_length < k_maximum_count);
 
 		cvsnzprintf(m_string + current_length, k_maximum_count - current_length, format, list);
 
@@ -432,21 +439,21 @@ public:
 
 	bool equals(char const* _string) const
 	{
-		//assert(_string);
+		ASSERT(_string);
 
 		return csstrnlen(_string, k_maximum_count) == length() && csmemcmp(get_string(), _string, length()) == 0;
 	}
 
 	bool starts_with(char const* _string) const
 	{
-		//assert(_string);
+		ASSERT(_string);
 
 		return csmemcmp(_string, get_string(), length()) == 0;
 	}
 
 	long next_index_of(char const* _string, long index) const
 	{
-		//assert(_string);
+		ASSERT(_string);
 
 		long result = -1;
 
@@ -462,7 +469,7 @@ public:
 
 	long index_of(char const* _string) const
 	{
-		//assert(_string);
+		ASSERT(_string);
 
 		return next_index_of(_string, 0);
 	}

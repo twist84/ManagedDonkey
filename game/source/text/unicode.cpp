@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -11,7 +10,7 @@
 
 unsigned int ustrnlen(wchar_t const* string, long count)
 {
-	assert(string != NULL);
+	ASSERT(string != NULL);
 
 	return wcsnlen(string, count);
 }
@@ -31,9 +30,9 @@ wchar_t* ustrnzcat(wchar_t* dest, wchar_t const* src, long count)
 
 wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 {
-    assert(dest != NULL);
-    assert(src != NULL);
-    assert(count > 0);
+    ASSERT(dest != NULL);
+    ASSERT(src != NULL);
+    ASSERT(count > 0);
 
     wcsncpy_s(dest, (count - 1) * 2, src, count * 2);
     dest[count - 1] = 0;
@@ -101,8 +100,8 @@ int usnzprintf(wchar_t* string, long size, wchar_t const* format, ...)
 
 int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list)
 {
-    assert(string && format);
-    assert(size > 0);
+    ASSERT(string && format);
+    ASSERT(size > 0);
 
     long result = _vsnwprintf_s(string, size, size - 1, format, list);
     string[size - 1] = 0;

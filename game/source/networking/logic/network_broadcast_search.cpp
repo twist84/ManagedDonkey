@@ -7,7 +7,6 @@
 #include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE(0x0228E6B8, s_broadcast_search_globals, g_broadcast_search_globals);
 
@@ -22,7 +21,7 @@ bool __cdecl network_broadcast_search_active(qword* search_nonce)
 {
 	//return INVOKE(0x004D9C40, network_broadcast_search_active, search_nonce);
 
-	assert(g_broadcast_search_globals.initialized);
+	ASSERT(g_broadcast_search_globals.initialized);
 
 	if (g_broadcast_search_globals.search_active && search_nonce)
 		*search_nonce = g_broadcast_search_globals.search_nonce;
@@ -34,9 +33,9 @@ bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_
 {
 	//return INVOKE(0x004D9C70, network_broadcast_search_begin, controller_index, maximum_session_count, session_storage);
 
-	assert(g_broadcast_search_globals.initialized);
-	assert(maximum_session_count > 0);
-	assert(session_storage);
+	ASSERT(g_broadcast_search_globals.initialized);
+	ASSERT(maximum_session_count > 0);
+	ASSERT(session_storage);
 
 	if (!g_broadcast_search_globals.search_active)
 	{
@@ -78,7 +77,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 {
 	//INVOKE(0x004D9D30, network_broadcast_search_handle_reply, address, message);
 
-	assert(g_broadcast_search_globals.initialized);
+	ASSERT(g_broadcast_search_globals.initialized);
 
 	if (g_broadcast_search_globals.search_active)
 	{
@@ -95,7 +94,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 			{
 				if (transport_secure_address_compare(&session->status_data.host_address, &message->status_data.host_address))
 				{
-					assert(existing_session_index == NONE);
+					ASSERT(existing_session_index == NONE);
 					existing_session_index = i;
 					break;
 				}
@@ -166,7 +165,7 @@ void __cdecl network_broadcast_search_update()
 {
 	//INVOKE(0x004D9EC0, network_broadcast_search_update);
 
-	assert(g_broadcast_search_globals.initialized);
+	ASSERT(g_broadcast_search_globals.initialized);
 
 	if (g_broadcast_search_globals.search_active)
 	{

@@ -10,7 +10,7 @@
 #include "render/views/render_view.hpp"
 #include "simulation/simulation.hpp"
 
-#include <assert.h>
+
 
 bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
@@ -40,7 +40,7 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 		m_window_count = window_count;
 	}
 
-	assert(m_window_count <= MAXIMUM_PLAYER_WINDOWS);
+	ASSERT(m_window_count <= MAXIMUM_PLAYER_WINDOWS);
 
 	if (m_window_count <= 1)
 	{
@@ -86,7 +86,7 @@ bool c_player_render_camera_iterator::next()
 		if (m_user_index != -1)
 		{
 			m_current_observer_result = observer_get_camera(m_user_index);
-			assert(m_current_observer_result != NULL);
+			ASSERT(m_current_observer_result != NULL);
 		}
 	}
 

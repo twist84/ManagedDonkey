@@ -2,7 +2,6 @@
 
 #include "cseries/console.hpp"
 
-#include <assert.h>
 #include <string>
 
 char const* c_network_session_parameter_base::get_session_description() const
@@ -40,7 +39,7 @@ void c_network_session_parameter_base::notify_update_sent_to_peer(long peer_inde
 
 void c_network_session_parameter_base::set_update_required()
 {
-	assert(set_allowed());
+	ASSERT(set_allowed());
 
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] marking dirty", get_session_description(), m_type, m_name);
 	memset(m_transmitted_peer_updates, 0, sizeof(m_transmitted_peer_updates));
@@ -68,8 +67,8 @@ void c_network_session_parameter_base::notify_change_request_sent()
 
 bool c_network_session_parameter_base::handle_change_request(void const* change_request, long change_request_size)
 {
-	assert(change_request);
-	assert(change_request_size == get_change_request_size());
+	ASSERT(change_request);
+	ASSERT(change_request_size == get_change_request_size());
 
 	bool result = handle_change_request_payload(change_request);
 	if (result)
@@ -86,9 +85,9 @@ long c_network_session_parameter_base::get_change_request_size() const
 
 bool c_network_session_parameter_base::handle_update(s_network_session_parameter_update const* update, long update_size)
 {
-	assert(update);
-	assert(update->payload);
-	assert(update_size == get_update_size());
+	ASSERT(update);
+	ASSERT(update->payload);
+	ASSERT(update_size == get_update_size());
 
 	bool result = handle_update_payload(update);
 	if (result && parameter_data_ready_for_consumption())
@@ -111,7 +110,7 @@ void c_network_session_parameter_base::set_change_request_no_longer_desired()
 
 void c_network_session_parameter_base::set_peer_no_longer_requires_update(long peer_index)
 {
-	assert(!m_transmitted_peer_updates[peer_index]);
+	ASSERT(!m_transmitted_peer_updates[peer_index]);
 
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] peer %d no longer requires update", get_session_description(), m_type, m_name, peer_index);
 	m_transmitted_peer_updates[peer_index] = true;

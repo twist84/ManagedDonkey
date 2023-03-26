@@ -2,7 +2,6 @@
 
 #include "memory/byte_swapping.hpp"
 
-#include <assert.h>
 
 void c_game_engine_assault_variant::byteswap()
 {
@@ -25,6 +24,6 @@ void c_game_engine_assault_variant::byteswap()
 	m_carrier_traits.byteswap();
 	m_arming_traits.byteswap();
 
-	assert(array_is_zeroed(m_pad1));
+	ASSERT(array_is_zeroed(m_pad1));
 }
 

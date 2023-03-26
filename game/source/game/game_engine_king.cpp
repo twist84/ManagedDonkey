@@ -2,7 +2,6 @@
 
 #include "memory/byte_swapping.hpp"
 
-#include <assert.h>
 
 void c_game_engine_king_variant::byteswap()
 {
@@ -13,6 +12,6 @@ void c_game_engine_king_variant::byteswap()
 	bswap_word_inplace(m_score_unknown);
 	m_inside_hill_traits.byteswap();
 
-	assert(array_is_zeroed(m_pad1));
+	ASSERT(array_is_zeroed(m_pad1));
 }
 

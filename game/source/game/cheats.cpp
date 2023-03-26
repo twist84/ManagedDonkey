@@ -7,7 +7,6 @@
 #include "game/player_mapping.hpp"
 #include "objects/objects.hpp"
 
-#include <assert.h>
 
 void cheat_teleport_to_camera()
 {
@@ -16,7 +15,7 @@ void cheat_teleport_to_camera()
         return;
 
     s_observer_result const* result = observer_get_camera(output_user);
-    assert(result);
+    ASSERT(result);
 
     if (result->location.cluster_reference.bsp_index == 0xFF)
     {

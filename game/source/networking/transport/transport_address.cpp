@@ -4,7 +4,6 @@
 #include "memory/module.hpp"
 #include "networking/transport/transport_security.hpp"
 
-#include <assert.h>
 #include <string.h>
 
 HOOK_DECLARE(0x0043F660, transport_address_equivalent);
@@ -18,8 +17,8 @@ HOOK_DECLARE(0x0043F8F0, transport_get_listen_address);
 
 bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b)
 {
-	assert(a != NULL);
-	assert(b != NULL);
+	ASSERT(a != NULL);
+	ASSERT(b != NULL);
 
 	short address_length = a->address_length <= b->address_length ? a->address_length : b->address_length;
 	return a->address_length > 0 && a->address_length == b->address_length && memcmp(a, b, address_length) == 0 && a->port == b->port;
@@ -35,7 +34,7 @@ char const* __cdecl transport_address_get_string(transport_address const* addres
 
 void __cdecl transport_address_ipv4_build(transport_address* address, dword ip_address, word port)
 {
-	assert(address);
+	ASSERT(address);
 
 	address->address_length = sizeof(dword);
 	address->ipv4_address = ip_address;
@@ -44,23 +43,23 @@ void __cdecl transport_address_ipv4_build(transport_address* address, dword ip_a
 
 dword __cdecl transport_address_ipv4_extract(transport_address const* address)
 {
-	assert(address);
+	ASSERT(address);
 
 	return address->ipv4_address;
 }
 
 bool __cdecl transport_address_is_loopback(transport_address const* address)
 {
-	assert(address);
+	ASSERT(address);
 
 	return address->address_length == sizeof(dword) && address->ipv4_address == 0x7F000001;
 }
 
 char* __cdecl transport_address_to_string(transport_address const* address, s_transport_secure_address const* secure_address, char* _string, short maximum_string_length, bool include_port, bool include_extra)
 {
-	assert(address);
-	assert(_string);
-	assert(maximum_string_length > 0);
+	ASSERT(address);
+	ASSERT(_string);
+	ASSERT(maximum_string_length > 0);
 
 	char secure_address_string[256]{};
 	s_transport_secure_identifier secure_identifier_from_address;
@@ -164,7 +163,7 @@ bool __cdecl transport_address_valid(transport_address const* address)
 
 void __cdecl transport_get_broadcast_address(transport_address* address, word port)
 {
-	assert(address);
+	ASSERT(address);
 
 	address->address_length = sizeof(dword);
 	address->ipv4_address = 0xFFFFFFFF;
@@ -173,7 +172,7 @@ void __cdecl transport_get_broadcast_address(transport_address* address, word po
 
 void __cdecl transport_get_listen_address(transport_address* address, word port)
 {
-	assert(address);
+	ASSERT(address);
 
 	address->address_length = sizeof(dword);
 	address->ipv4_address = 0;
@@ -182,7 +181,7 @@ void __cdecl transport_get_listen_address(transport_address* address, word port)
 
 void __cdecl transport_get_loopback_address(transport_address* address, word port)
 {
-	assert(address);
+	ASSERT(address);
 
 	address->address_length = sizeof(dword);
 	address->ipv4_address = 0x7F000001;

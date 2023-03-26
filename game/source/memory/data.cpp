@@ -2,7 +2,6 @@
 
 #include "interface/user_interface_memory.hpp"
 
-#include <assert.h>
 
 long s_data_array::get_index(long index) const
 {
@@ -63,8 +62,8 @@ void __cdecl data_disconnect(s_data_array* data)
 {
 	INVOKE(0x0055ACA0, data_disconnect, data);
 
-	//assert(!TEST_BIT(data->flags, _data_array_disconnected_bit));
-	//assert(TEST_BIT(data->flags, _data_array_can_disconnect_bit));
+	//ASSERT(!TEST_BIT(data->flags, _data_array_disconnected_bit));
+	//ASSERT(TEST_BIT(data->flags, _data_array_can_disconnect_bit));
 	//
 	//data->flags.set(_data_array_disconnected_bit, true);
 	//data->data = nullptr;
@@ -77,7 +76,7 @@ void __cdecl data_dispose(s_data_array* data)
 	INVOKE(0x0055ACC0, data_dispose, data);
 
 	//c_allocation_base* allocation = data->allocator;
-	//assert(allocation != NULL);
+	//ASSERT(allocation != NULL);
 	//
 	//csmemset(data, 0, sizeof(s_data_array));
 	//

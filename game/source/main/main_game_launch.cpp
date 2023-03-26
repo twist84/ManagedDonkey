@@ -5,7 +5,6 @@
 #include "main/main_game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
-#include <assert.h>
 
 s_main_game_launch_globals g_launch_globals = { .player_count = 1, .options = *reinterpret_cast<game_options*>(0x023B6348) };
 
@@ -19,7 +18,7 @@ void main_game_launch_initialize()
 
 void main_game_launch_set_map_name(char const* map_name)
 {
-	assert(map_name);
+	ASSERT(map_name);
 	csstrnzcpy(g_launch_globals.options.scenario_path, map_name, 260);
 }
 

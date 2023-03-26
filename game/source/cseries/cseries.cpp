@@ -3,7 +3,6 @@
 #include "memory/byte_swapping.hpp"
 #include "tag_files/string_ids.hpp"
 
-#include <assert.h>
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -60,8 +59,8 @@ long csstricmp(char const* s1, char const* s2)
 
 char* csstrnzcpy(char* s1, char const* s2, dword size)
 {
-    assert(s1 && s2);
-    assert(size > 0 && size <= MAXIMUM_STRING_SIZE);
+    ASSERT(s1 && s2);
+    ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
 
     strncpy_s(s1, size, s2, size);
     s1[size - 1] = 0;
@@ -74,8 +73,8 @@ char* csstrnzcpy(char* s1, char const* s2, dword size)
 
 char* csstrnzcat(char* s1, char const* s2, dword size)
 {
-    assert(s1 && s2);
-    assert(size > 0 && size <= MAXIMUM_STRING_SIZE);
+    ASSERT(s1 && s2);
+    ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
 
     dword len = csstrnlen(s1, size);
     return csstrnzcpy(s1 + len, s2, size - len);
@@ -83,16 +82,16 @@ char* csstrnzcat(char* s1, char const* s2, dword size)
 
 dword csstrnlen(char const* s, dword size)
 {
-    assert(s);
-    assert(size > 0 && size <= MAXIMUM_STRING_SIZE);
+    ASSERT(s);
+    ASSERT(size > 0 && size <= MAXIMUM_STRING_SIZE);
 
     return strnlen(s, size);
 }
 
 char* csstrnupr(char* s, dword size)
 {
-    assert(s);
-    assert(size >= 0 && size <= MAXIMUM_STRING_SIZE);
+    ASSERT(s);
+    ASSERT(size >= 0 && size <= MAXIMUM_STRING_SIZE);
 
     for (dword i = 0; i < size; i++)
         s[i] = toupper(s[i]);
@@ -102,8 +101,8 @@ char* csstrnupr(char* s, dword size)
 
 char* csstrnlwr(char* s, dword size)
 {
-    assert(s);
-    assert(size >= 0 && size <= MAXIMUM_STRING_SIZE);
+    ASSERT(s);
+    ASSERT(size >= 0 && size <= MAXIMUM_STRING_SIZE);
 
     for (dword i = 0; i < size; i++)
         s[i] = tolower(s[i]);
@@ -120,9 +119,9 @@ char const* csstrstr(char const* s1, char const* s2)
 
 long cvsnzprintf(char* buffer, dword size, char const* format, va_list list)
 {
-    assert(buffer);
-    assert(format);
-    assert(size > 0);
+    ASSERT(buffer);
+    ASSERT(format);
+    ASSERT(size > 0);
 
     long result = vsnprintf(buffer, size - 1, format, list);
     buffer[size - 1] = 0;
@@ -148,7 +147,7 @@ char* csnzprintf(char* buffer, dword size, char const* format, ...)
 char* csnzappendf(char* buffer, dword size, char const* format, ...)
 {
     dword current_length = strlen(buffer);
-    assert(current_length >= 0 && current_length < size);
+    ASSERT(current_length >= 0 && current_length < size);
 
     va_list list;
     va_start(list, format);

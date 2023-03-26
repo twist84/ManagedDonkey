@@ -11,7 +11,6 @@
 #include "scenario/scenario_tags_fixup.hpp"
 #include "tag_files/tag_groups.hpp"
 
-#include <assert.h>
 
 HOOK_DECLARE(0x004EA5E0, scenario_load);
 
@@ -28,7 +27,7 @@ REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
 s_scenario* global_scenario_get()
 {
 	// halo 3
-	assert(global_scenario);
+	ASSERT(global_scenario);
 	return global_scenario;
 
 	// halo online
@@ -45,7 +44,7 @@ s_scenario* global_scenario_try_and_get()
 
 s_game_globals* scenario_get_game_globals()
 {
-	assert(global_game_globals);
+	ASSERT(global_game_globals);
 	return global_game_globals;
 }
 
@@ -62,7 +61,7 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 {
 	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
 
-	assert(scenario_path != 0);
+	ASSERT(scenario_path != 0);
 
 	s_scenario* scenario = global_scenario_get();
 	if (levels_map_id_is_fake(map_id))
@@ -119,7 +118,7 @@ if (scenario->zone_sets.count)\
 	for (long i = 0; i < scenario->zone_sets.count; i++)\
 	{\
 		auto zone_set = scenario->zone_sets.elements + i;\
-		assert(zone_set);\
+		ASSERT(zone_set);\
 		char const* name = zone_set->name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -134,7 +133,7 @@ if (scenario->lighting_zone_sets.count)\
 	for (long i = 0; i < scenario->lighting_zone_sets.count; i++)\
 	{\
 		auto lighting_zone_set = scenario->lighting_zone_sets.elements + i;\
-		assert(lighting_zone_set);\
+		ASSERT(lighting_zone_set);\
 		char const* name = lighting_zone_set->name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -149,7 +148,7 @@ if (scenario->campaign_players.count)\
 	for (long i = 0; i < scenario->campaign_players.count; i++)\
 	{\
 		auto campaign_player = scenario->campaign_players.elements + i;\
-		assert(campaign_player);\
+		ASSERT(campaign_player);\
 		char const* name = campaign_player->name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -164,7 +163,7 @@ if (scenario->object_names.count)\
 	for (long i = 0; i < scenario->object_names.count; i++)\
 	{\
 		auto object_name = scenario->object_names.elements + i;\
-		assert(object_name);\
+		ASSERT(object_name);\
 		char const* name = object_name->name;\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -179,7 +178,7 @@ if (scenario->map_variant_##NAME##_palette.count)\
 	for (long i = 0; i < scenario->map_variant_##NAME##_palette.count; i++)\
 	{\
 		auto palette = scenario->map_variant_##NAME##_palette.elements + i;\
-		assert(palette);\
+		ASSERT(palette);\
 		char const* display_name = palette->display_name.get_string();\
 		if (display_name && *display_name)\
 			c_console::write_line("        display name: %s", display_name);\
@@ -194,7 +193,7 @@ if (scenario->soft_ceilings.count)\
 	for (long i = 0; i < scenario->soft_ceilings.count; i++)\
 	{\
 		auto soft_ceiling = scenario->soft_ceilings.elements + i;\
-		assert(soft_ceiling);\
+		ASSERT(soft_ceiling);\
 		char const* name = soft_ceiling->name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -209,7 +208,7 @@ if (scenario->player_starting_profile.count)\
 	for (long i = 0; i < scenario->player_starting_profile.count; i++)\
 	{\
 		auto profile = scenario->player_starting_profile.elements + i;\
-		assert(profile);\
+		ASSERT(profile);\
 		char const* name = profile->name;\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -224,7 +223,7 @@ if (scenario->trigger_volumes.count)\
 	for (long i = 0; i < scenario->trigger_volumes.count; i++)\
 	{\
 		auto trigger_volume = scenario->trigger_volumes.elements + i;\
-		assert(trigger_volume);\
+		ASSERT(trigger_volume);\
 		char const* name = trigger_volume->name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -239,7 +238,7 @@ if (scenario->scripts.count)\
 	for (long i = 0; i < scenario->scripts.count; i++)\
 	{\
 		auto script = scenario->scripts.elements + i;\
-		assert(script);\
+		ASSERT(script);\
 		char const* script_name = script->name;\
 		if (script_name && *script_name)\
 			c_console::write_line("        name: %s", script_name);\
@@ -249,7 +248,7 @@ if (scenario->scripts.count)\
 			for (long i = 0; i < script->parameters.count; i++)\
 			{\
 				auto parameter = script->parameters.elements + i;\
-				assert(parameter);\
+				ASSERT(parameter);\
 				char const* parameter_name = parameter->name;\
 				if (parameter_name && *parameter_name)\
 					c_console::write_line("                name: %s", parameter_name);\
@@ -267,7 +266,7 @@ if (scenario->globals.count)\
 	for (long i = 0; i < scenario->globals.count; i++)\
 	{\
 		auto global = scenario->globals.elements + i;\
-		assert(global);\
+		ASSERT(global);\
 		char const* name = global->name;\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -299,7 +298,7 @@ if (universal_data->equipment.count)\
 	for (long i = 0; i < universal_data->equipment.count; i++)\
 	{\
 		auto equipment = universal_data->equipment.elements + i;\
-			assert(equipment);\
+			ASSERT(equipment);\
 		char const* name = equipment->name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name); \
@@ -314,7 +313,7 @@ if (universal_data->NAME##_selections.count)\
 	for (long i = 0; i < universal_data->NAME##_selections.count; i++)\
 	{\
 		auto selection = universal_data->NAME##_selections.elements + i;\
-		assert(selection);\
+		ASSERT(selection);\
 		char const* name = selection->name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -329,7 +328,7 @@ if (universal_data->NAME##_sets.count)\
 	for (long i = 0; i < universal_data->NAME##_sets.count; i++)\
 	{\
 		auto set = universal_data->NAME##_sets.elements + i;\
-		assert(set);\
+		ASSERT(set);\
 		char const* name = set->name.get_string();\
 		if (name && *name)\
 			c_console::write_line("        name: %s", name);\
@@ -339,7 +338,7 @@ if (universal_data->NAME##_sets.count)\
 			for (long i = 0; i < set->remap_table.count; i++)\
 			{\
 				auto remap_entry = set->remap_table.elements + i;\
-				assert(remap_entry);\
+				ASSERT(remap_entry);\
 				char const* placed_object_name = remap_entry->placed_object_name.get_string();\
 				char const* remapped_object_name = remap_entry->remapped_object_name.get_string();\
 				if (placed_object_name && *placed_object_name)\
@@ -360,7 +359,7 @@ if (universal_data->customized_##NAME##_characters.count)\
 	for (long i = 0; i < universal_data->customized_##NAME##_characters.count; i++)\
 	{\
 		auto customized_character = universal_data->customized_##NAME##_characters.elements + i;\
-		assert(customized_character);\
+		ASSERT(customized_character);\
 		char const* armor_region = customized_character->armor_region.get_string();\
 		if (armor_region && *armor_region)\
 			c_console::write_line("        armor region: %s", armor_region);\
@@ -373,7 +372,7 @@ if (universal_data->customized_##NAME##_characters.count)\
 			for (long i = 0; i < customized_character->customized_areas.count; i++)\
 			{\
 				auto customized_area = customized_character->customized_areas.elements + i;\
-				assert(customized_area);\
+				ASSERT(customized_area);\
 				char const* selection_name = customized_area->selection_name.get_string();\
 				if (selection_name && *selection_name)\
 					c_console::write_line("                selection name: %s", selection_name);\

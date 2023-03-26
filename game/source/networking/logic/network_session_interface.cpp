@@ -5,7 +5,6 @@
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
 
-#include <assert.h>
 
 REFERENCE_DECLARE(0x019A0328, s_network_session_interface_globals, session_interface_globals);
 
@@ -403,10 +402,10 @@ bool __cdecl network_squad_session_set_session_mode(e_network_session_mode sessi
 		c_network_session* in_squad_session = nullptr;
 		if (network_life_cycle_in_squad_session(&in_squad_session))
 		{
-			assert(in_squad_session);
+			ASSERT(in_squad_session);
 
 			success = in_squad_session->get_session_parameters()->m_parameters_internal.session_mode.request_change(session_mode);
-			assert(success);
+			ASSERT(success);
 		}
 	}
 

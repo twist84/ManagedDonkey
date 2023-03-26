@@ -3,7 +3,6 @@
 #include "config/version.hpp"
 #include "memory/module.hpp"
 
-#include <assert.h>
 #include <string.h>
 
 REFERENCE_DECLARE_ARRAY(0x01942C48, s_parse_text_entry, g_parse_text_table, 131);
@@ -12,7 +11,7 @@ HOOK_DECLARE(0x00ABC070, parse_build_number_string);
 
 void wchar_string_sanitize_for_game(wchar_t* string, long maximum_character_count)
 {
-	assert(string != NULL);
+	ASSERT(string != NULL);
 
 	wchar_t v1[3][2]
 	{

@@ -2,7 +2,6 @@
 
 #include "memory/byte_swapping.hpp"
 
-#include <assert.h>
 
 void c_game_engine_oddball_variant::byteswap()
 {
@@ -16,6 +15,6 @@ void c_game_engine_oddball_variant::byteswap()
 	bswap_word_inplace(m_ball_inactive_respawn_delay);
 	m_carrier_traits.byteswap();
 
-	assert(array_is_zeroed(m_pad1));
+	ASSERT(array_is_zeroed(m_pad1));
 }
 

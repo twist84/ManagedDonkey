@@ -55,7 +55,7 @@ struct c_simulation_world
 
 	bool is_active()
 	{
-		//assert(exists());
+		ASSERT(exists());
 
 		return m_world_state == _simulation_world_state_active;
 	}

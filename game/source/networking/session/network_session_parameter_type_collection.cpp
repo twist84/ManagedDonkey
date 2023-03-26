@@ -4,7 +4,6 @@
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
 
-#include <assert.h>
 
 void c_network_session_parameter_type_collection::register_session_parameter_type(
 	e_network_session_parameter_type session_parameter_type,
@@ -17,18 +16,18 @@ void c_network_session_parameter_type_collection::register_session_parameter_typ
 	long change_request_size
 )
 {
-	assert(session_parameter_name);
-	assert(update_encode);
-	assert(update_decode);
-	assert(update_size > 0);
-	assert(update_size <= k_network_session_parameters_update_payload_size);
-	assert(change_request_encode);
-	assert(change_request_decode);
-	assert(change_request_size > 0);
-	assert(change_request_size <= k_network_session_parameters_request_payload_size);
+	ASSERT(session_parameter_name);
+	ASSERT(update_encode);
+	ASSERT(update_decode);
+	ASSERT(update_size > 0);
+	ASSERT(update_size <= k_network_session_parameters_update_payload_size);
+	ASSERT(change_request_encode);
+	ASSERT(change_request_decode);
+	ASSERT(change_request_size > 0);
+	ASSERT(change_request_size <= k_network_session_parameters_request_payload_size);
 
 	s_network_session_parameter_type* parameter = &m_parameters[session_parameter_type];
-	assert(!parameter->initialized);
+	ASSERT(!parameter->initialized);
 
 	parameter->session_parameter_name = session_parameter_name;
 	parameter->update_encode = update_encode;

@@ -5,7 +5,6 @@
 #include "memory/thread_local.hpp"
 
 #include <windows.h>
-#include <assert.h>
 
 HOOK_DECLARE(0x00528B60, file_close);
 HOOK_DECLARE(0x00528C40, file_compare_last_modification_dates);
@@ -95,7 +94,7 @@ bool __cdecl file_create(s_file_reference* file_reference)
     //HOOK_INVOKE(result =, file_create, file_reference);
     //return result;
 
-    assert(file_reference);
+    ASSERT(file_reference);
 
     if (TEST_BIT(file_reference->flags, _file_reference_flag_is_file_name))
     {
@@ -157,7 +156,7 @@ bool __cdecl file_exists(s_file_reference const* file_reference)
     //HOOK_INVOKE(result =, file_exists, file_reference);
     //return result;
 
-    assert(file_reference);
+    ASSERT(file_reference);
 
     return GetFileAttributesA(file_reference->path.get_string()) != INVALID_FILE_ATTRIBUTES;
 }
@@ -168,8 +167,8 @@ bool file_get_size(s_file_reference* file_reference, dword* out_file_size)
     //HOOK_INVOKE(result =, file_get_size, file_reference, out_file_size);
     //return result;
 
-    assert(file_reference);
-    assert(out_file_size);
+    ASSERT(file_reference);
+    ASSERT(out_file_size);
 
     WIN32_FILE_ATTRIBUTE_DATA file_info{};
     if (GetFileAttributesExA(file_reference->path.get_string(), GetFileExInfoStandard, &file_info))
@@ -189,8 +188,8 @@ bool __cdecl file_open(s_file_reference* file_reference, dword open_flags, dword
     //HOOK_INVOKE(result =, file_open, file_reference, open_flags, error);
     //return result;
 
-    assert(file_reference);
-    assert(error);
+    ASSERT(file_reference);
+    ASSERT(error);
 
     bool result = false;
     dword desired_access = 0;
@@ -276,8 +275,8 @@ bool __cdecl file_read(s_file_reference* file_reference, dword size, bool print_
     //HOOK_INVOKE(result =, file_read, file_reference, size, print_error, buffer);
     //return result;
 
-    assert(file_reference);
-    assert(buffer);
+    ASSERT(file_reference);
+    ASSERT(buffer);
 
     unsigned long bytes_read = 0;
     bool result = false;
@@ -307,8 +306,8 @@ bool __cdecl file_read_from_position(s_file_reference* file_reference, dword off
     //HOOK_INVOKE(result =, file_read_from_position, file_reference, size, print_error, buffer);
     //return result;
 
-    assert(file_reference);
-    assert(buffer);
+    ASSERT(file_reference);
+    ASSERT(buffer);
 
     bool result = false;
     if (file_set_position(file_reference, offset, false))

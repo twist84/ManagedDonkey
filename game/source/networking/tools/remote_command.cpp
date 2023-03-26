@@ -21,7 +21,6 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
 
-#include <assert.h>
 
 s_remote_command_globals remote_command_globals;
 
@@ -112,7 +111,7 @@ void __cdecl remote_command_process()
 			}
 
 			// Assign the new connection endpoint as the receive endpoint
-			assert(remote_command_globals.receive_endpoint == nullptr);
+			ASSERT(remote_command_globals.receive_endpoint == nullptr);
 			remote_command_globals.receive_endpoint = endpoint;
 
 			// If the new endpoint is writeable, set it as the send endpoint too
@@ -198,8 +197,8 @@ void __cdecl remote_command_process()
 
 bool __cdecl remote_command_process_received_chunk(char const* buffer, long buffer_length)
 {
-	assert(buffer);
-	assert(buffer_length > 0);
+	ASSERT(buffer);
+	ASSERT(buffer_length > 0);
 
 	if (strcmp(buffer, "disconnect") == 0)
 	{
@@ -214,9 +213,9 @@ bool __cdecl remote_command_process_received_chunk(char const* buffer, long buff
 bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* encoded_command_buffer, long payload_size, void const* payload)
 {
 	// Ensure that the input is valid
-	assert((encoded_command_size > 0) && (encoded_command_size <= MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE));
-	assert(encoded_command_buffer);
-	assert(((payload_size == 0) && (payload == nullptr)) || ((payload_size > 0) && (payload_size <= MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE) && (payload != nullptr)));
+	ASSERT((encoded_command_size > 0) && (encoded_command_size <= MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE));
+	ASSERT(encoded_command_buffer);
+	ASSERT(((payload_size == 0) && (payload == nullptr)) || ((payload_size > 0) && (payload_size <= MAXIMUM_REMOTE_COMMAND_PAYLOAD_SIZE) && (payload != nullptr)));
 
 	// Check if the remote command is connected
 	if (!remote_command_connected())
@@ -238,7 +237,7 @@ bool __cdecl remote_command_send_encoded(long encoded_command_size, void const* 
 	}
 
 	// Write the encoded packet to the send endpoint and check for errors
-	assert(remote_command_globals.send_endpoint != nullptr);
+	ASSERT(remote_command_globals.send_endpoint != nullptr);
 	short bytes_written = transport_endpoint_write(remote_command_globals.send_endpoint, encode_packet, static_cast<short>(encode_packet_size));
 	if (bytes_written <= 0)
 	{
@@ -280,7 +279,7 @@ DATA_PACKET_GROUP_DEFINITION(remote_command_packets_group, NUMBER_OF_REMOTE_COMM
 
 bool __cdecl remote_command_send(long command_type, void const* a2, long payload_size, void const* payload)
 {
-	assert((command_type >= 0) && (command_type < NUMBER_OF_REMOTE_COMMANDS));
+	ASSERT((command_type >= 0) && (command_type < NUMBER_OF_REMOTE_COMMANDS));
 
 	if (remote_command_connected())
 	{
@@ -332,8 +331,8 @@ bool __cdecl remote_camera_update(long user_index, s_observer_result const* came
 #define COMMAND_CALLBACK_REGISTER(_name, _parameter_count, _parameters, ...) { #_name, _parameter_count, _name##_callback, _parameters, __VA_ARGS__ }
 
 #define COMMAND_CALLBACK_PARAMETER_CHECK                                      \
-assert(userdata != nullptr);                                                  \
-assert((token_count - 1) >= 0);                                               \
+ASSERT(userdata != nullptr);                                                  \
+ASSERT((token_count - 1) >= 0);                                               \
                                                                               \
 s_command const& command = *static_cast<s_command const*>(userdata);          \
 callback_result_t result = command.name;                                      \
@@ -507,7 +506,7 @@ void command_handler(char* buffer, long buffer_length)
 
 callback_result_t help_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
-	assert(token_count >= 1);
+	ASSERT(token_count >= 1);
 
 	static callback_result_t result;
 	if (result.empty())

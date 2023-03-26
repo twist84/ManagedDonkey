@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
 
-#include <assert.h>
 #include <combaseapi.h>
 
 REFERENCE_DECLARE_ARRAY(0x023901B8, s_xnet_entry, xnet_mapping, 51);
@@ -18,7 +17,7 @@ void __cdecl XNetCreateKey(s_transport_secure_identifier* out_secure_identifier)
 	s_transport_secure_identifier secure_identifier;
 	csmemset(&secure_identifier, 0, sizeof(s_transport_secure_identifier));
 
-	assert(SUCCEEDED(CoCreateGuid(reinterpret_cast<GUID*>(&secure_identifier))));
+	ASSERT(SUCCEEDED(CoCreateGuid(reinterpret_cast<GUID*>(&secure_identifier))));
 	*out_secure_identifier = secure_identifier;
 }
 

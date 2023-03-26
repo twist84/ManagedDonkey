@@ -2,12 +2,11 @@
 
 #include "cseries/cseries.hpp"
 
-#include <assert.h>
 #include <windows.h>
 
 void __cdecl synchronized_list_initialize(s_synchronized_list_header* header)
 {
-	assert(header);
+	ASSERT(header);
 
 	header->alignment = 0;
 }
@@ -31,17 +30,17 @@ s_synchronized_list_entry* __cdecl synchronized_list_entry_set(s_synchronized_li
 
 void __cdecl synchronized_list_push(s_synchronized_list_header* header, s_synchronized_list_entry* entry)
 {
-	assert(header);
-	assert(entry);
-	assert(pointer_is_aligned(entry, k_synchronized_list_alignment_bits));
+	ASSERT(header);
+	ASSERT(entry);
+	ASSERT(pointer_is_aligned(entry, k_synchronized_list_alignment_bits));
 
 	InterlockedPushEntrySList((PSLIST_HEADER)header, (PSLIST_ENTRY)entry);
 }
 
 void __cdecl synchronized_list_push_multiple(s_synchronized_list_header* header, long entry_count, s_synchronized_list_entry** entries)
 {
-	assert(header);
-	assert(entries);
+	ASSERT(header);
+	ASSERT(entries);
 
 	for (long i = 0; i < entry_count; i++)
 	{
