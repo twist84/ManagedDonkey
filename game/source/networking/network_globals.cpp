@@ -21,6 +21,51 @@ do                                                     \
     network_update();                                  \
 } while (_get_value() != _value);
 
+void __cdecl network_dispose()
+{
+	INVOKE(0x0049E050, network_dispose);
+}
+
+c_network_session_manager* __cdecl network_get_session_manager()
+{
+	return INVOKE(0x0049E1A0, network_get_session_manager);
+}
+
+void __cdecl network_initialize()
+{
+	INVOKE(0x0049E1B0, network_initialize);
+}
+
+bool __cdecl network_initialized()
+{
+	return INVOKE(0x0049E5A0, network_initialized);
+}
+
+void __cdecl network_receive()
+{
+	INVOKE(0x0049E600, network_receive);
+}
+
+void __cdecl network_send()
+{
+	INVOKE(0x0049E640, network_send);
+}
+
+void __cdecl network_set_online_environment(bool online_environment)
+{
+	INVOKE(0x0049E6C0, network_set_online_environment, online_environment);
+}
+
+void __cdecl network_shutdown_transport(void* userdata)
+{
+	INVOKE(0x0049E6E0, network_shutdown_transport, userdata);
+}
+
+void __cdecl network_startup_transport(void* userdata)
+{
+	INVOKE(0x0049E770, network_startup_transport, userdata);
+}
+
 void __cdecl network_update()
 {
 	INVOKE(0x0049E7B0, network_update);
