@@ -11,10 +11,10 @@ e_download_status __fastcall sub_AE74E0(c_http_blf_simple_downloader<s_motd_popu
 {
 	e_download_status status = _this->get_data(_this, nullptr, out_buffer, out_buffer_size);
 
-	if (out_buffer_size)
+	if (false && out_buffer_size)
 		*out_buffer_size = sizeof(s_motd_popup_data);
 
-	if (out_buffer)
+	if (false && out_buffer)
 	{
 		c_controller_interface* controller = controller_get(_controller_index0);
 		controller->m_player_profile.popup_message_indices;
