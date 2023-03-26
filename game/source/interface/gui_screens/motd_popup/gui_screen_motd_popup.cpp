@@ -4,8 +4,7 @@
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "memory/module.hpp"
 
-#ifdef _DEBUG
-#ifdef ISPROXY
+#ifdef ISEXPERIMENTAL
 
 e_download_status __fastcall sub_AE74E0(c_http_blf_simple_downloader<s_motd_popup_data>* _this, void* unused, char const** out_buffer, long* out_buffer_size)
 {
@@ -55,6 +54,5 @@ DATA_PATCH_DECLARE2(0x00B22CFD, motd_popup, 0x6, { 0xEB, 0x4A, 0x90, 0x90, 0x90,
 // prevents attempting to download the flavor_image bitmap
 DATA_PATCH_DECLARE2(0x00B13DA4, motd_popup, 0x4, { 0xE9, 0xFE, 0x00, 0x90 }); // c_motd_popup_screen_widget::update
 
-#endif // ISPROXY
-#endif // _DEBUG
+#endif // ISEXPERIMENTAL
 
