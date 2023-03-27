@@ -92,10 +92,10 @@ void s_blf_chunk_author::initialize()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
-	build_name.set(0);
+	build_name.set("");
 	build_identifier = 0;
-	build_string.set(0);
-	author_name.set(0);
+	build_string.set("");
+	author_name.set("");
 }
 
 s_blf_chunk_game_variant::s_blf_chunk_game_variant() :
