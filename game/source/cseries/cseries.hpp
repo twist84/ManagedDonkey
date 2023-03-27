@@ -347,6 +347,8 @@ template<long k_maximum_count>
 struct c_static_string
 {
 public:
+	static long const element_count = k_maximum_count;
+
 	c_static_string() :
 		m_string{}
 	{
