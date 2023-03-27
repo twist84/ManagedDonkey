@@ -314,3 +314,84 @@ extern bool __cdecl network_blf_verify_start_of_file(char const* buffer, long bu
 extern bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
 extern bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk);
 extern bool __cdecl network_blf_verify_end_of_file(char const* buffer, long buffer_count, bool byte_swap, char const* eof_chunk_buffer, e_blf_file_authentication_type authentication_type);
+
+template<typename t_blf_chunk_type>
+void find_blf_chunk(s_file_reference* file, char* const file_buffer, t_blf_chunk_type const** out_saved_film_header, bool* must_byte_swap)
+{
+	*out_saved_film_header = nullptr;
+	*must_byte_swap = false;
+
+	bool file_added = false;
+	dword error = 0;
+	dword file_size = 0;
+	long chunk_size = 0;
+	char const* chunk_buffer = nullptr;
+	bool eof_chunk = false;
+	t_blf_chunk_type const* saved_film_header = nullptr;
+	bool byte_swap = false;
+
+	if (!file_open(file, 1, &error))
+	{
+		//c_console::write_line("blf: failed to open file");
+		file_close(file);
+		goto function_end;
+	}
+
+	if (!file_get_size(file, &file_size))
+	{
+		//c_console::write_line("blf: failed to get file size of file");
+		goto function_finish;
+	}
+
+	if (!file_read(file, file_size, 0, file_buffer))
+	{
+		//c_console::write_line("blf: failed to read file");
+	}
+	else
+	{
+		if (!network_blf_verify_start_of_file(file_buffer, file_size, &byte_swap, &chunk_size))
+		{
+			//c_console::write_line("blf: failed to verify start of file");
+			goto function_finish;
+		}
+
+		if (!network_blf_find_chunk(file_buffer, file_size, byte_swap, t_blf_chunk_type::k_chunk_type, t_blf_chunk_type::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+		{
+			//c_console::write_line("blf: failed to find chunk");
+			goto function_finish;
+		}
+
+		if (chunk_buffer)
+		{
+			saved_film_header = reinterpret_cast<t_blf_chunk_type const*>(chunk_buffer - sizeof(s_blf_header));
+			if (chunk_buffer != (char const*)0xC &&
+				network_blf_find_chunk(file_buffer, file_size, byte_swap, s_blf_chunk_end_of_file::k_chunk_type, s_blf_chunk_end_of_file::k_version_major, &chunk_size, &chunk_buffer, nullptr, nullptr, &eof_chunk))
+			{
+				if (chunk_buffer && chunk_size == sizeof(s_blf_chunk_end_of_file) &&
+					network_blf_verify_end_of_file(file_buffer, file_size, byte_swap, chunk_buffer - sizeof(s_blf_header), _blf_file_authentication_type_none))
+				{
+					file_added = true;
+					goto function_finish;
+				}
+
+				//c_console::write_line("blf: failed to verify end of file chunk");
+			}
+		}
+	}
+
+function_finish:
+	if (file_added)
+	{
+		*out_saved_film_header = saved_film_header;
+		*must_byte_swap = byte_swap;
+		file_close(file);
+	}
+function_end:
+
+	if (!file_added)
+	{
+		// #TODO: file_reference_get_name
+		//c_console::write_line("blf: failed to add file '%s'", file->path);
+	}
+}
+
