@@ -73,39 +73,54 @@ bool c_http_get_stream::verify_necessary_state_is_set()
 
 bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 {
+	bool success = false;
+
 	ASSERT(buffer);
 	ASSERT(bytes_read);
 
-	bool result = DECLFUNC(0x00432A10, bool, __thiscall, c_http_get_stream*, char*, long, long*)(this, buffer, buffer_length, bytes_read);
+	//bool success = DECLFUNC(0x00432A10, bool, __thiscall, c_http_get_stream*, char*, long, long*)(this, buffer, buffer_length, bytes_read);
 
-	return result;
-	
-	result = false;
-	
-	char* buf = buffer;
-	long buf_len = buffer_length;
-	
-	if (verify_nescessary_state_is_set())
+	char* dest_buffer = buffer;
+	long dest_buffer_length = buffer_length;
+
+	if (verify_necessary_state_is_set())
 	{
 		if (!m_position)
 			build_headers();
-	
-		if (at_end())
+
+		success = true;
+
+		if (!at_end())
 		{
-			*bytes_read = buf - buffer;
-			result = true;
+			while (true)
+			{
+				if (at_end() || dest_buffer_length <= 0)
+					break;
+
+				long position = m_position;
+				if (position >= m_headers_length)
+				{
+					//ASSERT(some_func(), "c_http_stream::read: Read past the maximum length of the stream.");
+					success = false;
+					break;
+				}
+
+				if (dest_buffer_length > m_headers_length - position)
+					dest_buffer_length = m_headers_length - position;
+
+				memmove(dest_buffer, &m_headers.get_string()[position], dest_buffer_length);
+
+				dest_buffer += dest_buffer_length;
+				m_position += dest_buffer_length;
+				dest_buffer_length = buffer_length - (dest_buffer - buffer);
+
+			}
 		}
-	
-		while (true)
-		{
-			if (at_end() || buf_len <= 0)
-				break;
-		}
-	
-		*bytes_read = buf - buffer;
+
+		*bytes_read = dest_buffer - buffer;
 	}
-	
-	return result;
+
+	return success;
 }
 
 long c_http_get_stream::get_length()
