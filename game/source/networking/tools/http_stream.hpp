@@ -30,7 +30,7 @@ public:
 
 protected:
 	virtual void build_headers() = 0;
-	virtual bool verify_nescessary_state_is_set() = 0;
+	virtual bool verify_necessary_state_is_set() = 0;
 
 public:
 	virtual bool read(char* buffer, long buffer_length, long* bytes_read) = 0;
@@ -62,7 +62,7 @@ public:
 
 protected:
 	virtual void build_headers() override;
-	virtual bool verify_nescessary_state_is_set() override;
+	virtual bool verify_necessary_state_is_set() override;
 
 public:
 	virtual bool read(char* buffer, long buffer_length, long* bytes_read) override;
@@ -78,7 +78,7 @@ public:
 
 protected:
 	virtual void build_headers() override;
-	virtual bool verify_nescessary_state_is_set() override;
+	virtual bool verify_necessary_state_is_set() override;
 
 public:
 	virtual bool read(char* buffer, long buffer_length, long* bytes_read) override;

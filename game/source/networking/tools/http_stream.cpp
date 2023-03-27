@@ -66,7 +66,7 @@ void c_http_get_stream::build_headers()
 	m_headers_length = m_headers.length();
 }
 
-bool c_http_get_stream::verify_nescessary_state_is_set()
+bool c_http_get_stream::verify_necessary_state_is_set()
 {
 	return m_url.length() != 0;
 }
@@ -133,7 +133,7 @@ void c_http_post_stream::build_headers()
 	DECLFUNC(0x00432720, void, __thiscall, c_http_post_stream*)(this);
 }
 
-bool c_http_post_stream::verify_nescessary_state_is_set()
+bool c_http_post_stream::verify_necessary_state_is_set()
 {
 	return DECLFUNC(0x00433000, bool, __thiscall, c_http_post_stream*)(this);
 }
