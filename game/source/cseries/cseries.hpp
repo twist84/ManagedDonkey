@@ -7,7 +7,7 @@
 #include <type_traits>
 
 #ifdef _DEBUG
-#define ASSERT(statement) if (!(statement)) throw #statement
+#define ASSERT(statement, ...) if (!(statement)) throw #statement
 #else
 #define ASSERT(...)
 #endif // _DEBUG
