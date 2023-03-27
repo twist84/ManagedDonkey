@@ -194,6 +194,50 @@ public:
 };
 static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 
+struct s_blf_saved_film : s_blffile_saved_game_file, s_blf_chunk_author
+{
+#pragma pack(push, 4)
+	struct s_blf_chunk_saved_film_header
+	{
+	public:
+		static long const k_chunk_type = 'flmh';
+		static long const k_version_major = 10;
+		static long const k_version_minor = 2;
+
+		s_blf_chunk_saved_film_header();
+
+		s_blf_header header;
+
+		byte __dataC[0x10C];
+		game_options options;
+		byte __data[0xD8C];
+	};
+	static_assert(sizeof(s_blf_chunk_saved_film_header) == sizeof(s_blf_header) + 0x259E0);
+#pragma pack(pop)
+
+	struct s_blf_chunk_saved_film_data
+	{
+	public:
+		static long const k_chunk_type = 'flmd';
+		static long const k_version_major = 1;
+		static long const k_version_minor = 1;
+
+		s_blf_chunk_saved_film_data();
+
+		s_blf_header header;
+	};
+	static_assert(sizeof(s_blf_chunk_saved_film_data) == sizeof(s_blf_header));
+
+public:
+	s_blf_saved_film();
+
+	bool copy_to_and_validate(c_game_variant* game_variant, c_map_variant* map_variant, bool* is_valid) const;
+
+	s_blf_chunk_saved_film_header film_header;
+	s_blf_chunk_saved_film_data film_data;
+};
+static_assert(sizeof(s_blf_saved_film) == 0x25B80);
+
 struct s_blf_chunk_campaign
 {
 public:
