@@ -197,7 +197,53 @@ static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 struct s_blf_saved_film : s_blffile_saved_game_file, s_blf_chunk_author
 {
 #pragma pack(push, 4)
-	struct s_blf_chunk_saved_film_header
+	struct s_blf_chunk_saved_film_header_delta // 08172.07.03.08.2240.delta
+	{
+	public:
+		static long const k_chunk_type = 'flmh';
+		static long const k_version_major = 2;
+		static long const k_version_minor = 1;
+
+		s_blf_header header;
+		dword __unknownC; // alignment
+
+		// build_string.set(version_get_build_string());
+		c_static_string<32> build_string;
+
+		// network_get_build_identifiers(&executable_type, &executable_version, &compatible_version)
+		long executable_type;
+		long executable_version;
+		long compatible_version;
+
+		// map_language = get_map_language();
+		long map_language;
+
+		// map_minor_version = get_map_minor_version();
+		long map_minor_version;
+
+		// tracked = get_map_minor_version_is_tracked();
+		dword tracked;                 // bool
+
+		// valid_and_authoritative = game_options_valid() && game_is_authoritative();
+		dword valid_and_authoritative; // bool
+
+		dword __unknown4C; // padding
+
+		// sessionid.set(netdebug_get_sessionid());
+		c_static_string<128> sessionid;
+
+		// sizeof(game_options) == 0xD300
+		byte options[0xD300];
+
+		// start_ticks = system_seconds();
+		long start_ticks;
+
+		// length_in_ticks = 0;
+		long length_in_ticks;
+	};
+	static_assert(sizeof(s_blf_chunk_saved_film_header_delta) == sizeof(s_blf_header) + 0xD3CC);
+
+	struct s_blf_chunk_saved_film_header // same as delta but more
 	{
 	public:
 		static long const k_chunk_type = 'flmh';
