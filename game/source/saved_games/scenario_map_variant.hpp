@@ -212,6 +212,7 @@ struct c_map_variant
 public:
 	c_map_variant();
 	void __cdecl create_default(long map_id);
+	bool __cdecl read_from(c_map_variant const* source);
 	bool __cdecl validate();
 
 private:
