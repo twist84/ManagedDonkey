@@ -79,5 +79,6 @@ extern c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_v
 extern bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, long variant_index, c_game_variant* game_variant);
 extern void __cdecl game_engine_variant_describe_invalidity(c_game_variant const* game_variant);
 extern bool __cdecl game_engine_variant_is_valid(c_game_variant const* game_variant);
+extern bool game_engine_variant_validate(c_game_variant* game_variant);
 
 #pragma pack(pop)

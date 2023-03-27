@@ -142,3 +142,8 @@ bool __cdecl game_engine_variant_is_valid(c_game_variant const* game_variant)
 	return INVOKE(0x005728B0, game_engine_variant_is_valid, game_variant);
 }
 
+bool game_engine_variant_validate(c_game_variant* game_variant)
+{
+	return INVOKE(0x00572920, game_engine_variant_validate, game_variant);
+}
+
