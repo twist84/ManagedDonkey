@@ -36,6 +36,7 @@
 #include "networking/network_configuration.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/session/network_managed_session.hpp"
+#include "networking/tools/network_blf.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
@@ -172,7 +173,27 @@ void __cdecl main_loop_body_begin()
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
 	{
+#ifdef ISEXPERIMENTAL
+		s_file_reference file_reference;
+		file_reference_create_from_path(&file_reference, "C:\\Dev\\Blam\\Halo 3 (March 8 2007)\\saved_films\\riverwo_F9EB78A3.film", false);
+
+		static char file_buffer[0x200000]{};
+		s_blf_saved_film::s_blf_chunk_saved_film_header_delta const* saved_film_header = nullptr;
+		bool byte_swap = false;
+
+		find_blf_chunk(&file_reference, file_buffer, &saved_film_header, &byte_swap);
+
+		printf("");
+
+		//static s_blf_saved_film blf_saved_film;
+		//static c_game_variant game_variant;
+		//static c_map_variant map_variant;
+		//bool is_valid = false;
+		//if (!blf_saved_film.copy_to_and_validate(&game_variant, &map_variant, &is_valid) && is_valid)
+		//	c_console::write_line("ui: unable to load variants from saved film file, copy_to_and_validate() failed!");
+#else
 		shell_halt_with_message("FUCK");
+#endif // ISEXPERIMENTAL
 	}
 
 	if (input_key_frames_down(_key_code_keypad_subtract, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
