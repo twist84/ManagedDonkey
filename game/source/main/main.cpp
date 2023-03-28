@@ -35,6 +35,7 @@
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_configuration.hpp"
 #include "networking/network_memory.hpp"
+#include "networking/online/online_lsp.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "rasterizer/rasterizer.hpp"
@@ -123,6 +124,9 @@ void __cdecl main_loop_body_begin()
 		g_game_results_globals;
 		g_current_game_results;
 		game_state_globals;
+		g_server_descriptions;
+		g_additional_raw_servers;
+		g_online_lsp_manager;
 
 
 		//transport_address local_machine_address{};
