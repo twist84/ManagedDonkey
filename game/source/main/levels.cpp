@@ -101,26 +101,26 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 				return ++callback_data->enumeration_index == 2;
 			}
 
-			c_static_wchar_string<256> file_directory{};
-			c_static_wchar_string<256> file_extension{};
-			c_static_wchar_string<256> file_name_with_extension{};
+			wchar_t file_directory[256]{};
+			wchar_t file_extension[256]{};
+			wchar_t file_name_with_extension[256]{};
 
-			file_reference_get_name(&file, FLAG(_name_directory_bit), &file_directory, 256);
-			file_reference_get_name(&file, FLAG(_name_extension_bit), &file_extension, 256);
-			file_reference_get_name(&file, FLAG(_name_file_bit) | FLAG(_name_extension_bit), &file_name_with_extension, 256);
+			file_reference_get_name_wide(&file, FLAG(_name_directory_bit), file_directory, NUMBEROF(file_directory));
+			file_reference_get_name_wide(&file, FLAG(_name_extension_bit), file_extension, NUMBEROF(file_extension));
+			file_reference_get_name_wide(&file, FLAG(_name_file_bit) | FLAG(_name_extension_bit), file_name_with_extension, NUMBEROF(file_name_with_extension));
 
-			found_file_name.append_print("%ls", file_name_with_extension.get_string());
+			found_file_name.append_print("%ls", file_name_with_extension);
 
-			if (ustricmp(file_extension.get_string(), L"campaign"))
+			if (ustricmp(file_extension, L"campaign"))
 			{
-				if (!ustricmp(file_extension.get_string(), L"mapinfo"))
+				if (!ustricmp(file_extension, L"mapinfo"))
 				{
-					levels_process_level_configuration_file(&file, file_directory.get_string(), false);
+					levels_process_level_configuration_file(&file, file_directory, false);
 				}
 			}
 			else
 			{
-				levels_process_campaign_configuration_file(&file, file_directory.get_string(), false);
+				levels_process_campaign_configuration_file(&file, file_directory, false);
 			}
 		}
 	}

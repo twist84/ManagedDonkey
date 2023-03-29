@@ -41,7 +41,7 @@ void __cdecl c_gui_custom_bitmap_widget::clear()
 
 long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_data)
 {
-    c_static_wchar_string<256> name_buffer;
+    wchar_t name_buffer[256];
 
     bool v2 = false;
     bool v3 = false;
@@ -55,7 +55,7 @@ long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_da
         if (!v5)
         {
             constexpr long name_flags = FLAG(_name_directory_bit) | FLAG(_name_extension_bit) | FLAG(_name_file_bit);
-            wchar_t* name = file_reference_get_name(callback_data->async_load_file, name_flags, &name_buffer, 256);
+            wchar_t* name = file_reference_get_name_wide(callback_data->async_load_file, name_flags, name_buffer, NUMBEROF(name_buffer));
             
             callback_data->__unknown24 = DECLFUNC(0x005A5990, bool, __cdecl, wchar_t const*, long)(name, 1);// levels_dlc_open(name, 1);
 
