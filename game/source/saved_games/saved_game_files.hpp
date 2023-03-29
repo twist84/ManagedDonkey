@@ -2,13 +2,34 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_saved_game_file_type
+{
+	_saved_game_file_type_none = -1,
+	_saved_game_file_type_personal,
+	_saved_game_file_type_ctf,
+	_saved_game_file_type_slayer,
+	_saved_game_file_type_oddball,
+	_saved_game_file_type_king,
+	_saved_game_file_type_juggernaut,
+	_saved_game_file_type_territories,
+	_saved_game_file_type_assault,
+	_saved_game_file_type_infection,
+	_saved_game_file_type_vip,
+	_saved_game_file_type_usermap,
+	_saved_game_file_type_film,
+	_saved_game_file_type_clip,
+	_saved_game_file_type_screenshot,
+
+	k_saved_game_file_type_count
+};
+
 struct s_saved_game_item_metadata
 {
 	qword unique_id;
 	wchar_t name[16];
 	char description[128];
 	char author[16];
-	dword file_type;
+	c_enum<e_saved_game_file_type, long, _saved_game_file_type_none, k_saved_game_file_type_count> file_type;
 	bool author_is_xuid_online;
 	byte pad0[3];
 	qword author_id;

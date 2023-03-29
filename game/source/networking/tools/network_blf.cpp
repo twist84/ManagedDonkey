@@ -75,7 +75,7 @@ void s_blf_chunk_content_header::initialize()
 
 	metadata.name[0] = 0;
 	metadata.description[0] = 0;
-	metadata.file_type = -1;
+	metadata.file_type = _saved_game_file_type_none;
 	metadata.author[0] = 0;
 	metadata.date = 0;
 	metadata.length_seconds = 0;
