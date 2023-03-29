@@ -99,6 +99,11 @@ void show_location_messages()
 	}
 }
 
+bool __cdecl main_events_pending()
+{
+	return INVOKE(0x00505530, main_events_pending);
+}
+
 void __cdecl main_loop_body_begin()
 {
 	// right control for tests
@@ -302,6 +307,11 @@ bool game_is_multithreaded()
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
+}
+
+bool __cdecl render_thread_enabled()
+{
+	return INVOKE(0x00507550, render_thread_enabled);
 }
 
 void __cdecl unlock_resources_and_resume_render_thread(dword flags)

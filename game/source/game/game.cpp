@@ -9,15 +9,18 @@
 #include "game/game_state.hpp"
 #include "game/game_time.hpp"
 #include "interface/user_interface_hs.hpp"
+#include "main/main.hpp"
 #include "memory/module.hpp"
+#include "simulation/simulation.hpp"
 #include "tag_files/files_windows.hpp"
 
 #include <string.h>
 
+HOOK_DECLARE(0x005336F0, game_update);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 HOOK_DECLARE(0x006961C0, game_options_get_launch_settings);
 
-bool game_in_startup_phase()
+bool __cdecl game_in_startup_phase()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
@@ -35,7 +38,7 @@ bool game_in_startup_phase()
 	return false;
 }
 
-bool game_in_progress()
+bool __cdecl game_in_progress()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals && game_globals->game_in_progress)
@@ -44,11 +47,11 @@ bool game_in_progress()
 	return false;
 }
 
-// long game_create_lock_resources(e_game_create_mode)
-// void game_create_unlock_resources(e_game_create_mode, long&)
-// void game_start(enum e_game_create_mode)
+// long __cdecl game_create_lock_resources(e_game_create_mode)
+// void __cdecl game_create_unlock_resources(e_game_create_mode, long&)
+// void __cdecl game_start(enum e_game_create_mode)
 
-bool game_options_valid()
+bool __cdecl game_options_valid()
 {
 	game_globals_storage* game_globals = game_globals_get();
 
@@ -67,7 +70,7 @@ void __cdecl assert_game_options_verify(game_options const* options)
 	//INVOKE(0x00530440, assert_game_options_verify, options);
 }
 
-game_options* game_options_get()
+game_options* __cdecl game_options_get()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
@@ -75,7 +78,7 @@ game_options* game_options_get()
 	return &game_globals->options;
 }
 
-void game_options_print_game_id()
+void __cdecl game_options_print_game_id()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
@@ -83,9 +86,9 @@ void game_options_print_game_id()
 	c_console::write_line("%I64d", game_options_get()->game_instance);
 }
 
-// void game_options_setup_for_saved_film(e_game_playback_type playback_type)
+// void __cdecl game_options_setup_for_saved_film(e_game_playback_type playback_type)
 
-void game_options_clear_game_playback()
+void __cdecl game_options_clear_game_playback()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
@@ -93,14 +96,14 @@ void game_options_clear_game_playback()
 	game_globals->options.game_playback = _game_playback_none;
 }
 
-// void game_options_game_engine_fixup()
+// void __cdecl game_options_game_engine_fixup()
 
-e_campaign_difficulty_level game_difficulty_level_get()
+e_campaign_difficulty_level __cdecl game_difficulty_level_get()
 {
 	return game_options_get()->campaign_difficulty;
 }
 
-e_campaign_difficulty_level game_difficulty_level_get_ignore_easy()
+e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy()
 {
 	if (game_difficulty_level_get() == _campaign_difficulty_level_easy)
 		return _campaign_difficulty_level_normal;
@@ -108,29 +111,29 @@ e_campaign_difficulty_level game_difficulty_level_get_ignore_easy()
 	return game_difficulty_level_get();
 }
 
-e_game_mode game_mode_get()
+e_game_mode __cdecl game_mode_get()
 {
 	return game_options_get()->game_mode;
 }
 
-bool game_is_ui_shell()
+bool __cdecl game_is_ui_shell()
 {
 	return game_mode_get() == _game_mode_mainmenu;
 }
 
-bool game_is_multiplayer()
+bool __cdecl game_is_multiplayer()
 {
 	return game_mode_get() == _game_mode_multiplayer;
 }
 
-bool game_is_campaign()
+bool __cdecl game_is_campaign()
 {
 	return game_mode_get() == _game_mode_campaign;
 }
 
 static bool g_debug_survival_mode = false;
 
-bool game_is_survival()
+bool __cdecl game_is_survival()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals && (game_globals->initializing || game_globals->map_active))
@@ -139,12 +142,12 @@ bool game_is_survival()
 	return g_debug_survival_mode;
 }
 
-bool game_is_campaign_or_survival()
+bool __cdecl game_is_campaign_or_survival()
 {
 	return game_is_campaign() || game_is_survival();
 }
 
-void game_set_active_skulls(dword* active_primary_skulls, dword* active_secondary_skulls)
+void __cdecl game_set_active_skulls(dword* active_primary_skulls, dword* active_secondary_skulls)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
@@ -157,7 +160,7 @@ void game_set_active_skulls(dword* active_primary_skulls, dword* active_secondar
 	}
 }
 
-void game_set_difficulty(e_campaign_difficulty_level campaign_difficulty)
+void __cdecl game_set_difficulty(e_campaign_difficulty_level campaign_difficulty)
 {
 	if (game_in_progress() &&
 		game_is_campaign() &&
@@ -168,39 +171,39 @@ void game_set_difficulty(e_campaign_difficulty_level campaign_difficulty)
 	}
 }
 
-// bool game_is_cooperative()
-// long game_coop_player_count()
+// bool __cdecl game_is_cooperative()
+// long __cdecl game_coop_player_count()
 
-bool game_is_playtest()
+bool __cdecl game_is_playtest()
 {
 	return game_options_get()->playtest_mode;
 }
 
-bool game_had_an_update_tick_this_frame()
+bool __cdecl game_had_an_update_tick_this_frame()
 {
 	game_globals_storage* game_globals = game_globals_get();
 
 	return game_globals && game_globals->update_tick_this_frame;
 }
 
-e_game_simulation_type game_simulation_get()
+e_game_simulation_type __cdecl game_simulation_get()
 {
 	return game_options_get()->game_simulation;
 }
 
-bool game_is_playback()
+bool __cdecl game_is_playback()
 {
 	return game_playback_get();
 }
 
-e_game_playback_type game_playback_get()
+e_game_playback_type __cdecl game_playback_get()
 {
 	return game_options_get()->game_playback;
 }
 
-// void game_playback_set(e_game_playback_type playback_type)
+// void __cdecl game_playback_set(e_game_playback_type playback_type)
 
-void game_simulation_set(e_game_simulation_type game_simulation)
+void __cdecl game_simulation_set(e_game_simulation_type game_simulation)
 {
 	char const* k_game_simulation_names[k_game_simulation_count]
 	{
@@ -221,7 +224,7 @@ void game_simulation_set(e_game_simulation_type game_simulation)
 	c_console::write_line("game_simulation: %s", k_game_simulation_names[game_simulation]);
 }
 
-bool game_is_synchronous_networking()
+bool __cdecl game_is_synchronous_networking()
 {
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_synchronous_client &&
@@ -231,7 +234,7 @@ bool game_is_synchronous_networking()
 	return false;
 }
 
-bool game_is_networked()
+bool __cdecl game_is_networked()
 {
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_synchronous_client &&
@@ -241,9 +244,9 @@ bool game_is_networked()
 	return false;
 }
 
-// bool game_is_in_progress_on_live()
+// bool __cdecl game_is_in_progress_on_live()
 
-bool game_is_server()
+bool __cdecl game_is_server()
 {
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
 	if (game_simulation == _game_simulation_synchronous_server ||
@@ -253,17 +256,17 @@ bool game_is_server()
 	return false;
 }
 
-bool game_is_authoritative()
+bool __cdecl game_is_authoritative()
 {
 	return !game_is_predicted();
 }
 
-bool game_is_predicted()
+bool __cdecl game_is_predicted()
 {
 	return game_options_get()->game_simulation == _game_simulation_distributed_client;
 }
 
-bool game_is_distributed()
+bool __cdecl game_is_distributed()
 {
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
 	if (game_simulation >= _game_simulation_distributed_client &&
@@ -273,12 +276,12 @@ bool game_is_distributed()
 	return false;
 }
 
-long game_tick_rate_get()
+long __cdecl game_tick_rate_get()
 {
 	return game_options_get()->game_tick_rate;
 }
 
-bool game_skull_is_active_primary(e_campaign_skulls_primary primary_skull)
+bool __cdecl game_skull_is_active_primary(e_campaign_skulls_primary primary_skull)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
@@ -287,7 +290,7 @@ bool game_skull_is_active_primary(e_campaign_skulls_primary primary_skull)
 	return false;
 }
 
-bool game_skull_is_active_secondary(e_campaign_skulls_secondary secondary_skull)
+bool __cdecl game_skull_is_active_secondary(e_campaign_skulls_secondary secondary_skull)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
@@ -296,51 +299,51 @@ bool game_skull_is_active_secondary(e_campaign_skulls_secondary secondary_skull)
 	return false;
 }
 
-void game_skull_enable_primary(e_campaign_skulls_primary primary_skull, bool enable)
+void __cdecl game_skull_enable_primary(e_campaign_skulls_primary primary_skull, bool enable)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->active_primary_skulls.set(primary_skull, enable);
 }
 
-void game_skull_enable_secondary(e_campaign_skulls_secondary secondary_skull, bool enable)
+void __cdecl game_skull_enable_secondary(e_campaign_skulls_secondary secondary_skull, bool enable)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->active_secondary_skulls.set(secondary_skull, enable);
 }
 
-bool game_coop_allow_respawn()
+bool __cdecl game_coop_allow_respawn()
 {
 	game_globals_storage* game_globals = game_globals_get();
 
 	return game_globals && game_globals->options.game_mode == _game_mode_campaign && !game_skull_is_active_primary(_campaign_skull_iron);
 }
 
-// bool game_survival_allow_respawn(long)
+// bool __cdecl game_survival_allow_respawn(long)
 
-e_language game_get_master_language()
+e_language __cdecl game_get_master_language()
 {
 	return game_options_get()->language;
 }
 
-// bool game_is_language_neutral()
+// bool __cdecl game_is_language_neutral()
 
-void game_options_setup_default_players(long player_count, game_options* options)
+void __cdecl game_options_setup_default_players(long player_count, game_options* options)
 {
 	DECLFUNC(0x00532440, void, __cdecl, long, game_options*)(player_count, options);
 }
 
-// bool game_is_finished_waiting_for_level_advance()
+// bool __cdecl game_is_finished_waiting_for_level_advance()
 
-bool game_is_available(void)
+bool __cdecl game_is_available()
 {
 	game_globals_storage* game_globals = game_globals_get();
 
 	return game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask;
 }
 
-s_game_cluster_bit_vectors* game_get_cluster_pvs()
+s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
@@ -348,7 +351,7 @@ s_game_cluster_bit_vectors* game_get_cluster_pvs()
 	return &game_globals->cluster_pvs;
 }
 
-s_game_cluster_bit_vectors* game_get_cluster_pvs_local()
+s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs_local()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
@@ -356,7 +359,7 @@ s_game_cluster_bit_vectors* game_get_cluster_pvs_local()
 	return &game_globals->cluster_pvs_local;
 }
 
-s_game_cluster_bit_vectors* game_get_cluster_activation()
+s_game_cluster_bit_vectors* __cdecl game_get_cluster_activation()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
@@ -364,23 +367,23 @@ s_game_cluster_bit_vectors* game_get_cluster_activation()
 	return &game_globals->cluster_activation;
 }
 
-// bool game_test_cluster_activation(s_cluster_reference* cluster_reference)
+// bool __cdecl game_test_cluster_activation(s_cluster_reference* cluster_reference)
 
-void game_pvs_enable_scripted_camera_pvs()
+void __cdecl game_pvs_enable_scripted_camera_pvs()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted_camera_pvs = true;
 }
 
-void game_pvs_clear_scripted_camera_pvs()
+void __cdecl game_pvs_clear_scripted_camera_pvs()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted_camera_pvs = false;
 }
 
-void game_pvs_scripted_set_object(datum_index object_index)
+void __cdecl game_pvs_scripted_set_object(datum_index object_index)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (!game_globals)
@@ -394,20 +397,56 @@ void game_pvs_scripted_set_object(datum_index object_index)
 	game_globals->scripted = 0;
 }
 
-// void game_pvs_scripted_set_camera_point(short camera_point_index)
+// void __cdecl game_pvs_scripted_set_camera_point(short camera_point_index)
 
-void game_pvs_scripted_clear()
+void __cdecl game_pvs_scripted_clear()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted = 0;
 }
 
-// void game_update_pvs()
-// void game_won()
-// bool game_is_won()
+void __cdecl game_tick()
+{
+	INVOKE(0x00533120, game_tick);
+}
 
-void game_lost(bool game_revert)
+void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
+{
+	render_thread_enabled();
+
+	game_globals_storage* game_globals = game_globals_get();
+
+	// reach
+	if (game_options_get()->game_simulation == _game_simulation_synchronous_server && tick_count == 1)
+		game_globals->update_tick_this_frame = 1;
+	else
+		game_globals->update_tick_this_frame = 0;
+
+	long actual_ticks = 0;
+	if (tick_count > 0)
+	{
+		while (!main_events_pending() && !simulation_aborted())
+		{
+			game_tick();
+
+			// reach
+			game_globals->update_tick_this_frame = 0;
+
+			if (++actual_ticks >= tick_count)
+				return;
+		}
+	}
+
+	if (actual_ticks < tick_count)
+		game_time_discard(tick_count, actual_ticks, game_seconds_elapsed);
+}
+
+// void __cdecl game_update_pvs()
+// void __cdecl game_won()
+// bool __cdecl game_is_won()
+
+void __cdecl game_lost(bool game_revert)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
@@ -435,7 +474,7 @@ void game_lost(bool game_revert)
 	}
 }
 
-bool game_is_lost()
+bool __cdecl game_is_lost()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
@@ -444,7 +483,7 @@ bool game_is_lost()
 }
 
 // custom like `game_is_finished_immediate`
-bool game_is_lost_immediate()
+bool __cdecl game_is_lost_immediate()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
@@ -452,7 +491,7 @@ bool game_is_lost_immediate()
 	return game_globals->game_lost && !game_globals->game_lost_wait_time;
 }
 
-void game_finish()
+void __cdecl game_finish()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
@@ -474,7 +513,7 @@ void game_finish()
 	}
 }
 
-void game_finish_immediate()
+void __cdecl game_finish_immediate()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
@@ -486,7 +525,7 @@ void game_finish_immediate()
 	}
 }
 
-bool game_is_finished()
+bool __cdecl game_is_finished()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
@@ -494,7 +533,7 @@ bool game_is_finished()
 	return game_globals->game_finished;
 }
 
-bool game_is_finished_immediate()
+bool __cdecl game_is_finished_immediate()
 {
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
@@ -531,7 +570,7 @@ struct s_game_options_launch_settings
 //static_assert(sizeof(s_game_options_launch_settings) == 0x210);
 static_assert(sizeof(s_game_options_launch_settings) == 0x118);
 
-bool game_options_read_launch_settings_from_string(char const* buffer, s_game_options_launch_settings* out_launch_settings)
+bool __cdecl game_options_read_launch_settings_from_string(char const* buffer, s_game_options_launch_settings* out_launch_settings)
 {
 	s_game_options_launch_settings launch_settings{};
 
@@ -558,7 +597,7 @@ bool game_options_read_launch_settings_from_string(char const* buffer, s_game_op
 	return false;
 }
 
-bool game_launch_get_settings(s_game_options_launch_settings* out_launch_settings)
+bool __cdecl game_launch_get_settings(s_game_options_launch_settings* out_launch_settings)
 {
 	bool result = false;
 

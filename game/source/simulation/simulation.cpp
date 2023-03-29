@@ -16,6 +16,13 @@ c_wait_for_render_thread::~c_wait_for_render_thread()
 	unlock_resources_and_resume_render_thread(m_flags);
 }
 
+bool __cdecl simulation_aborted()
+{
+	//return INVOKE(0x00440DD0, simulation_aborted);
+
+	return simulation_globals.initialized && simulation_globals.aborted;
+}
+
 bool __cdecl simulation_starting_up()
 {
 	//return INVOKE(0x004420E0, simulation_starting_up);
