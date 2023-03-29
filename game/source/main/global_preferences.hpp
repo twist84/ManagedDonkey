@@ -15,26 +15,45 @@ struct s_gui_game_setup_storage
 {
 	struct s_campaign_settings
 	{
-		byte __data[0x198];
+		bool valid;
+
+		long campaign_id;
+		long map_id;
+		short insertion_point;
+		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> difficulty_level;
+		long metagame_scoring_option;
+		dword active_primary_skulls;
+		dword active_secondary_skulls;
+		s_campaign_armaments campaign_armaments;
+		s_campaign_game_progression campaign_progression;
+		s_hub_progression hub_progression;
 	};
 	static_assert(sizeof(s_campaign_settings) == 0x198);
 
 	// `s_survival_settings` is `s_campaign_settings`
 	struct s_survival_settings
 	{
-		byte __data[0x198];
+		bool valid;
+
+		long campaign_id;
+		long map_id;
+		short insertion_point;
+		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> difficulty_level;
+		long metagame_scoring_option;
+		dword active_primary_skulls;
+		dword active_secondary_skulls;
+		s_campaign_armaments campaign_armaments;
+		s_campaign_game_progression campaign_progression;
+		s_hub_progression hub_progression;
 	};
 	static_assert(sizeof(s_survival_settings) == sizeof(s_campaign_settings));
 
 	struct s_matchmaking_settings
 	{
-		byte __unknown0;
-		byte __unknown1;
-		byte __unknown2;
-		byte __unknown3;
-		bool __unknown4;
+		bool valid;
 
 		word hopper_identifier;
+		long : 32;
 	};
 	static_assert(sizeof(s_matchmaking_settings) == 0x8);
 
@@ -44,8 +63,10 @@ struct s_gui_game_setup_storage
 		{
 			c_game_variant variant;
 
-			byte __data264[0x10];
+			bool valid;
+			long : 32;
 
+			s_player_identifier player_identifier;
 			c_static_wchar_string<256> path;
 		};
 		static_assert(sizeof(s_game_variant_settings) == 0x474);
@@ -54,17 +75,15 @@ struct s_gui_game_setup_storage
 		{
 			c_map_variant variant;
 
-			byte __dataE090[0x10];
+			bool valid;
+			long : 32;
 
+			s_player_identifier player_identifier;
 			c_static_wchar_string<256> path;
 		};
 		static_assert(sizeof(s_map_variant_settings) == 0xE2A0);
 
-		byte __unknown0;
-		byte __unknown1;
-		byte __unknown2;
-		byte __unknown3;
-
+		bool valid;
 		s_game_variant_settings game_variant_settings;
 		s_map_variant_settings map_variant_settings;
 	};
@@ -72,11 +91,8 @@ struct s_gui_game_setup_storage
 
 	struct s_map_editor_settings
 	{
-		byte __unknown0;
-		byte __unknown1;
-		byte __unknown2;
-		byte __unknown3;
-		bool __unknown4;
+		bool valid;
+		long : 32;
 
 		s_multiplayer_settings::s_map_variant_settings map_variant_settings;
 	};
@@ -84,13 +100,9 @@ struct s_gui_game_setup_storage
 
 	struct s_theater_settings
 	{
-		byte __unknown0;
-		byte __unknown1;
-		byte __unknown2;
-		byte __unknown3;
-
-		bool __unknown4;
-		byte __data5[0xF];
+		bool valid;
+		long : 32;
+		s_player_identifier player_identifier;
 
 		s_saved_film_description film;
 		game_options options;
