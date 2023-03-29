@@ -3,8 +3,11 @@
 
 #include "cseries/cseries.hpp"
 #include "cseries/language.hpp"
+#include "game/game_options.hpp"
 #include "memory/secure_signature.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "networking/logic/network_session_interface.hpp"
+#include "saved_games/scenario_map_variant.hpp"
 #include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
@@ -25,25 +28,74 @@ struct s_gui_game_setup_storage
 
 	struct s_matchmaking_settings
 	{
-		byte __data[0x8];
+		byte __unknown0;
+		byte __unknown1;
+		byte __unknown2;
+		byte __unknown3;
+		bool __unknown4;
+
+		word hopper_identifier;
 	};
 	static_assert(sizeof(s_matchmaking_settings) == 0x8);
 
 	struct s_multiplayer_settings
 	{
-		byte __data[0xE718];
+		struct s_game_variant_settings
+		{
+			c_game_variant variant;
+
+			byte __data264[0x10];
+
+			c_static_wchar_string<256> path;
+		};
+		static_assert(sizeof(s_game_variant_settings) == 0x474);
+
+		struct s_map_variant_settings
+		{
+			c_map_variant variant;
+
+			byte __dataE090[0x10];
+
+			c_static_wchar_string<256> path;
+		};
+		static_assert(sizeof(s_map_variant_settings) == 0xE2A0);
+
+		byte __unknown0;
+		byte __unknown1;
+		byte __unknown2;
+		byte __unknown3;
+
+		s_game_variant_settings game_variant_settings;
+		s_map_variant_settings map_variant_settings;
 	};
 	static_assert(sizeof(s_multiplayer_settings) == 0xE718);
 
 	struct s_map_editor_settings
 	{
-		byte __data[0xE2A8];
+		byte __unknown0;
+		byte __unknown1;
+		byte __unknown2;
+		byte __unknown3;
+		bool __unknown4;
+
+		s_multiplayer_settings::s_map_variant_settings map_variant_settings;
 	};
 	static_assert(sizeof(s_map_editor_settings) == 0xE2A8);
 
 	struct s_theater_settings
 	{
-		byte __data[0x24E80];
+		byte __unknown0;
+		byte __unknown1;
+		byte __unknown2;
+		byte __unknown3;
+
+		bool __unknown4;
+		byte __data5[0xF];
+
+		s_saved_film_description film;
+		game_options options;
+
+		byte __data24E78[0x8];
 	};
 	static_assert(sizeof(s_theater_settings) == 0x24E80);
 

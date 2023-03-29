@@ -127,6 +127,7 @@ void __cdecl main_loop_body_begin()
 		g_server_descriptions;
 		g_additional_raw_servers;
 		g_online_lsp_manager;
+		g_global_preferences;
 
 
 		//transport_address local_machine_address{};
