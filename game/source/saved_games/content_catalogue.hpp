@@ -35,3 +35,4 @@ const size_t k_content_catalogue_globals_size = sizeof(s_content_catalogue_globa
 static_assert(sizeof(s_content_catalogue_globals) == 0xB88);
 
 extern s_content_catalogue_globals& g_content_catalogue_globals;
+
