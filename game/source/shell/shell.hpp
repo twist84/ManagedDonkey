@@ -18,7 +18,7 @@ enum e_desired_multiplayer_mode
 	_desired_multiplayer_mode_matchmaking,
 	_desired_multiplayer_mode_film,
 
-	k_desired_multiplayer_mode_count
+	k_number_of_desired_multiplayer_modes
 };
 
 enum e_session_game_mode
