@@ -4,6 +4,22 @@
 
 s_global_preferences_internals_type* g_global_preferences = reinterpret_cast<s_global_preferences_internals_type*>(0x022C0128);
 
+c_global_preferences_scope_lock::c_global_preferences_scope_lock() :
+	m_took_lock(0)
+{
+	DECLFUNC(0x00509F60, void, __thiscall, bool*)(&m_took_lock);
+
+	//m_took_lock = 0;
+	//lock_global_preferences(&m_took_lock);
+}
+
+c_global_preferences_scope_lock::~c_global_preferences_scope_lock()
+{
+	DECLFUNC(0x0050A150, void, __thiscall, bool*)(&m_took_lock);
+
+	//unlock_global_preferences(m_took_lock);
+}
+
 void __cdecl global_preferences_clear()
 {
 	INVOKE(0x0050A430, global_preferences_clear);

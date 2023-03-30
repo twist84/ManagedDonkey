@@ -11,6 +11,16 @@
 #include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
+class c_global_preferences_scope_lock
+{
+public:
+	c_global_preferences_scope_lock();
+	~c_global_preferences_scope_lock();
+
+protected:
+	bool m_took_lock;
+};
+
 struct s_gui_game_setup_storage
 {
 	struct s_campaign_settings
