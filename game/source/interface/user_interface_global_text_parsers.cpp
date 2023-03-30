@@ -27,7 +27,7 @@ bool parse_build_number(void* this_ptr, wchar_t* buffer, long buffer_length)
     {
         once = false;
 
-        global_preferences_set_watermark_hidden(true);
+        global_preferences_set_hide_watermark(true);
     }
 
     return true;
