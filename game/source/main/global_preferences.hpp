@@ -240,7 +240,7 @@ static_assert(sizeof(s_global_preferences) == 0x42000);
 
 struct s_global_preferences_internals_type
 {
-	bool initialized;
+	bool initialized; // locked?
 	bool dirty;
 	s_file_handle handle;
 	s_global_preferences preferences0;
@@ -271,6 +271,7 @@ enum e_subtitle_setting
 
 };
 
+extern bool __cdecl global_preferences_available();
 extern void __cdecl global_preferences_clear();
 extern void __cdecl global_preferences_create_default();
 extern void __cdecl global_preferences_dispose();

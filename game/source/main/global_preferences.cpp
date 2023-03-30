@@ -1,6 +1,7 @@
 #include "main/global_preferences.hpp"
 
 #include "cseries/console.hpp"
+#include "multithreading/threads.hpp"
 
 s_global_preferences_internals_type* g_global_preferences = reinterpret_cast<s_global_preferences_internals_type*>(0x022C0128);
 
@@ -18,6 +19,13 @@ c_global_preferences_scope_lock::~c_global_preferences_scope_lock()
 	DECLFUNC(0x0050A150, void, __thiscall, bool*)(&m_took_lock);
 
 	//unlock_global_preferences(m_took_lock);
+}
+
+bool __cdecl global_preferences_available()
+{
+	//return INVOKE(0x0050A420, global_preferences_available);
+
+	return !is_async_thread();
 }
 
 void __cdecl global_preferences_clear()
