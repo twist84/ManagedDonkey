@@ -271,6 +271,7 @@ enum e_subtitle_setting
 
 };
 
+extern s_global_preferences_internals_type* __cdecl global_preferences_get();
 extern bool __cdecl global_preferences_available();
 extern void __cdecl global_preferences_clear();
 extern void __cdecl global_preferences_create_default();
