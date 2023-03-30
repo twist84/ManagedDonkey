@@ -1611,6 +1611,19 @@ enum e_game_content_type
 	k_number_of_game_content_types
 };
 
+enum e_quality_setting
+{
+	_quality_setting_low = 0,
+	_quality_setting_medium,
+	_quality_setting_high,
+
+	k_quality_setting_count
+};
+
+enum e_subtitle_setting
+{
+};
+
 //e_network_interface_user_state
 // none
 // local user exists

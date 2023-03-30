@@ -140,12 +140,12 @@ struct s_global_preferences_data
 		long resolution_width;
 		long resolution_height;
 		long texture_resolution;
-		long shadow_quality;
-		long texture_filtering_quality;
-		long lighting_quality;
-		long effects_quality;
-		long details_quality;
-		long postprocessing_quality;
+		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> shadow_quality;
+		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> texture_filtering_quality;
+		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> lighting_quality;
+		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> effects_quality;
+		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> details_quality;
+		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> postprocessing_quality;
 		bool motion_blur;
 		bool vsync;
 		bool antialiasing;
@@ -207,13 +207,13 @@ struct s_global_preferences_data
 	c_enum<e_language, long, _language_invalid, k_language_count> last_font_language;
 	s_file_last_modification_date last_fonts_modification_date;
 	long build_number;
-	long betrayal_count;
+	real betrayal_count; // betrayal_penalty?
 	long eviction_count;
 	long last_main_menu_item;
 	long last_title_menu_item;
 	s_gui_game_setup_storage last_game_setup;
 	long xbox_live_private_privacy;
-	long __unknown41BC4;
+	long checksum;
 	long adapter;
 	bool fullscreen;
 	long __unknown41BD0;
@@ -256,20 +256,6 @@ struct s_global_preferences_internals_type
 static_assert(sizeof(s_global_preferences_internals_type) == 0x84030);
 
 extern s_global_preferences_internals_type* g_global_preferences;
-
-enum e_quality_setting
-{
-	_quality_setting_low = 0,
-	_quality_setting_medium,
-	_quality_setting_high,
-
-	k_quality_setting_count
-};
-
-enum e_subtitle_setting
-{
-
-};
 
 extern s_global_preferences_internals_type* __cdecl global_preferences_get();
 extern bool __cdecl global_preferences_available();
