@@ -503,13 +503,11 @@ void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 {
 	render_thread_enabled();
 
-	game_globals_storage* game_globals = game_globals_get();
-
 	// reach
 	if (game_options_get()->game_simulation == _game_simulation_synchronous_server && tick_count == 1)
-		game_globals->update_tick_this_frame = 1;
+		game_globals_get()->update_tick_this_frame = true;
 	else
-		game_globals->update_tick_this_frame = 0;
+		game_globals_get()->update_tick_this_frame = false;
 
 	long actual_ticks = 0;
 	if (tick_count > 0)
@@ -519,7 +517,7 @@ void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 			game_tick();
 
 			// reach
-			game_globals->update_tick_this_frame = 0;
+			game_globals_get()->update_tick_this_frame = false;
 
 			if (++actual_ticks >= tick_count)
 				return;
