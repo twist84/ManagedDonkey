@@ -1622,6 +1622,20 @@ enum e_quality_setting
 
 enum e_subtitle_setting
 {
+	_subtitle_setting_automatic = 0,
+	_subtitle_setting_enabled,
+	_subtitle_setting_disabled,
+
+	k_subtitle_setting_count
+};
+
+enum e_shell_application_type
+{
+	_shell_application_type_unknown0 = 0,
+	_shell_application_type_editor,
+	_shell_application_type_client,
+
+	//...
 };
 
 //e_network_interface_user_state
@@ -1641,7 +1655,11 @@ enum e_subtitle_setting
 // confirm the use of a temporary account
 // survival in progress
 
+extern bool __cdecl shell_application_is_paused();
+extern void __cdecl shell_application_pause(bool pause);
+extern e_shell_application_type __cdecl shell_application_type();
 extern void __cdecl shell_halt_with_message(char const* message);
+extern void __cdecl shell_screen_pause(bool pause);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
 
 extern char const* network_session_mode_get_name(long session_mode);

@@ -2,6 +2,7 @@
 
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "main/main_time.hpp"
 
 char const* k_network_session_mode_names[k_network_session_mode_count]
 {
@@ -706,9 +707,66 @@ char const* k_game_variant_parameter_names[k_game_variant_parameter_count]
 	"template_forced_change_colors",
 };
 
+REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);
+
+bool __cdecl shell_application_is_paused()
+{
+	//return INVOKE(0x0042E310, shell_application_is_paused);
+
+	return shell_application_paused;
+}
+
+void __cdecl shell_application_pause(bool pause)
+{
+	//INVOKE(0x0042E320, shell_application_pause, pause);
+
+	if (shell_application_is_paused() == pause)
+		return;
+
+	shell_application_paused = pause;
+	shell_screen_pause(pause);
+
+	if (!pause)
+		main_time_reset();
+}
+
+e_shell_application_type __cdecl shell_application_type()
+{
+	//return INVOKE(0x0042E350, shell_application_type);
+
+	return _shell_application_type_client;
+}
+
+//.text: ; 
+//.text:0042E360 ; bool __cdecl shell_build_number_is_compatible(long)
+//.text:0042E390 ; bool __cdecl shell_build_string_is_compatible(char const *)
+//.text:0042E410 ; void __cdecl shell_dispose()
+//.text:0042E470 ; char const* __cdecl shell_get_target()
+//.text:0042E480 ; char const* __cdecl version_get_target_variant()
+//.text:0042E4A0 ; void __cdecl shell_halt_on_pure_virtual_call()
+
 void __cdecl shell_halt_with_message(char const* message)
 {
     INVOKE(0x0042E4B0, shell_halt_with_message, message);
+}
+
+//.text:0042E540 ; bool __cdecl shell_initialize(bool)
+//.text:0042E5F0 ; bool __cdecl game_is_bot_client()
+//.text:0042E600 ; bool __cdecl game_is_dedicated_server()
+//.text:0042E610 ; bool __cdecl game_is_client()
+//.text:0042E620 ; bool __cdecl game_is_guerilla()
+//.text:0042E630 ; bool __cdecl game_is_halo3()
+//.text:0042E640 ; bool __cdecl game_is_sapien()
+//.text:0042E650 ; bool __cdecl game_is_tool()
+//.text:0042E660 ; e_shell_tool_type __cdecl shell_tool_type()
+//.text:0042E930 ; char* __cdecl shell_get_command_line(void)
+//.text:0042E940 ; void __cdecl shell_idle()
+//.text:0042EA00 ; void __cdecl shell_platform_dispose()
+//.text:0042EA10 ; bool __cdecl shell_platform_initialize()
+
+void __cdecl shell_screen_pause(bool pause)
+{
+	//INVOKE(0x0042EA70, shell_screen_pause, pause);
 }
 
 bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len)
