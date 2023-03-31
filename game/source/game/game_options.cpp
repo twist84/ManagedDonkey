@@ -13,6 +13,11 @@ void c_game_variant::copy_from_and_validate(c_game_variant const* other)
 	DECLFUNC(0x00573030, void, __thiscall, c_game_variant*, c_game_variant const*)(this, other);
 }
 
+void c_game_variant::copy_from_unsafe(class c_game_variant const* other)
+{
+	DECLFUNC(0x005730F0, void, __thiscall, c_game_variant*, c_game_variant const*)(this, other);
+}
+
 void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index)
 {
 	DECLFUNC(0x0057A570, void, __thiscall, c_game_variant*, e_game_engine_type)(this, game_engine_index);
