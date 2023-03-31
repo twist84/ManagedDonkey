@@ -139,7 +139,7 @@ struct s_global_preferences_data
 		long height;
 		long resolution_width;
 		long resolution_height;
-		long texture_resolution;
+		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> texture_resolution_quality;
 		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> shadow_quality;
 		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> texture_filtering_quality;
 		c_enum<e_quality_setting, long, _quality_setting_low, k_quality_setting_count> lighting_quality;
@@ -209,10 +209,10 @@ struct s_global_preferences_data
 	long build_number;
 	real betrayal_count; // betrayal_penalty?
 	long eviction_count;
-	long last_main_menu_item;
+	c_enum<e_gui_game_mode, long, _ui_game_mode_none, k_ui_game_mode_count> last_main_menu_item;
 	long last_title_menu_item;
 	s_gui_game_setup_storage last_game_setup;
-	long xbox_live_private_privacy;
+	c_enum<e_gui_network_session_advertisement_mode, long, _gui_network_session_advertisement_mode_invalid, k_gui_network_session_advertisement_mode_count> xbox_live_private_privacy_setting;
 	long checksum;
 	long adapter;
 	bool fullscreen;
@@ -221,7 +221,7 @@ struct s_global_preferences_data
 	long contrast;
 	s_video_settings video_settings;
 	bool hide_watermark;
-	long subtitle_setting;
+	c_enum<e_subtitle_setting, long, _subtitle_setting_automatic, k_subtitle_setting_count> subtitle_setting;
 	long content_item_unique_name_number_seed[14];
 	s_sound_settings sound_settings;
 	s_gameplay_settings gameplay_settings;
@@ -258,6 +258,8 @@ static_assert(sizeof(s_global_preferences_internals_type) == 0x84030);
 extern s_global_preferences_internals_type* g_global_preferences;
 
 extern s_global_preferences_internals_type* __cdecl global_preferences_get();
+extern void __cdecl global_preferences_dirty(bool dirty);
+extern bool __cdecl global_preferences_are_dirty();
 extern bool __cdecl global_preferences_available();
 extern void __cdecl global_preferences_clear();
 extern void __cdecl global_preferences_create_default();
@@ -336,7 +338,7 @@ extern void __cdecl global_preferences_set_eviction_count(long eviction_count);
 extern void __cdecl global_preferences_set_fullscreen(bool fullscreen);
 extern void __cdecl global_preferences_set_hide_watermark(bool hide_watermark);
 extern void __cdecl global_preferences_set_hud_shake(bool hud_shake);
-extern void __cdecl global_preferences_set_controls_settings_keyboard_preset(long controls_settings_keyboard_preset);
+extern void __cdecl global_preferences_set_keyboard_preset(long controls_settings_keyboard_preset);
 extern void __cdecl global_preferences_set_last_font_language(e_language last_font_language);
 extern void __cdecl global_preferences_set_last_fonts_modification_date(s_file_last_modification_date const* last_fonts_modification_date);
 extern void __cdecl global_preferences_set_last_game_setup(s_gui_game_setup_storage const* last_game_setup);
@@ -354,7 +356,7 @@ extern void __cdecl global_preferences_set_mouse_sensitivity_vehicle_vertical(lo
 extern void __cdecl global_preferences_set_mouse_sensitivity_vertical(long mouse_sensitivity_vertical);
 extern void __cdecl global_preferences_set_music_volume(long music_volume);
 extern void __cdecl global_preferences_set_postprocessing_quality(e_quality_setting postprocessing_quality);
-extern void __cdecl global_preferences_set_content_item_unique_name_number_seed(e_content_item_type type, long seed);
+extern void __cdecl global_preferences_set_content_item_unique_name_number_seed(long content_item_type, long seed);
 extern void __cdecl global_preferences_set_screen_resolution(long width, long height);
 extern void __cdecl global_preferences_set_sfx_volume(long sfx_volume);
 extern void __cdecl global_preferences_set_shadow_quality(e_quality_setting shadow_quality);
