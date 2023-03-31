@@ -174,7 +174,7 @@ s_gui_game_setup_storage* __cdecl global_preferences_get_last_game_setup()
 //bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode, e_campaign_id*, e_map_id*)
 bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mode, long* campaign_id, long* map_id)
 {
-	return INVOKE(0x0050B350, global_preferences_get_hud_shake);
+	return INVOKE(0x0050B5E0, global_preferences_get_last_game_setup_map, game_mode, campaign_id, map_id);
 }
 
 e_language __cdecl global_preferences_get_last_language()
