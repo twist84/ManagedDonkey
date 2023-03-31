@@ -30,11 +30,9 @@ struct c_game_engine_vip_variant : c_game_engine_base_variant
 	c_player_traits m_vip_influence_traits;
 	c_player_traits m_vip_traits;
 
-	byte unused[0x28];
-
 	void byteswap();
 };
-static_assert(sizeof(c_game_engine_vip_variant) == 0x260);
+static_assert(sizeof(c_game_engine_vip_variant) == 0x238);
 
 struct c_vip_engine : c_game_engine
 {

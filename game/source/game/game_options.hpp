@@ -19,6 +19,8 @@
 #include "saved_games/scenario_map_variant.hpp"
 #include "shell/shell.hpp"
 
+long const k_maximum_game_engine_variant_size = 0x260;
+
 struct c_game_variant
 {
 public:
@@ -74,7 +76,7 @@ protected:
 		c_game_engine_territories_variant m_territories_variant;
 		c_game_engine_assault_variant m_assault_variant;
 		c_game_engine_infection_variant m_infection_variant;
-		byte m_game_engine_variant[0x260];
+		byte m_variant_storage[k_maximum_game_engine_variant_size];
 	};
 };
 static_assert(sizeof(c_game_variant) == 0x264);

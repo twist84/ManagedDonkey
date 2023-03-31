@@ -15,11 +15,9 @@ struct c_game_engine_territories_variant : c_game_engine_base_variant
 	c_player_traits m_defender_traits;
 	c_player_traits m_attacker_traits;
 
-	byte unused[0x50];
-
 	void byteswap();
 };
-static_assert(sizeof(c_game_engine_territories_variant) == 0x260);
+static_assert(sizeof(c_game_engine_territories_variant) == 0x210);
 
 struct c_territories_engine : c_game_engine
 {

@@ -5,7 +5,7 @@
 c_game_variant::c_game_variant()
 {
 	m_game_engine_index = _game_engine_base_variant;
-	memset(m_game_engine_variant, 0, sizeof(m_game_engine_variant));
+	memset(m_variant_storage, 0, sizeof(m_variant_storage));
 }
 
 void c_game_variant::copy_from_and_validate(c_game_variant const* other)
@@ -30,12 +30,12 @@ void c_game_variant::set_game_engine_index(e_game_engine_type game_engine_index)
 
 c_game_engine_base_variant const* c_game_variant::get_active_variant() const
 {
-	return reinterpret_cast<c_game_engine_base_variant const*>(m_game_engine_variant);
+	return reinterpret_cast<c_game_engine_base_variant const*>(m_variant_storage);
 }
 
 c_game_engine_base_variant* c_game_variant::get_active_variant_writeable()
 {
-	return reinterpret_cast<c_game_engine_base_variant*>(m_game_engine_variant);
+	return reinterpret_cast<c_game_engine_base_variant*>(m_variant_storage);
 }
 
 c_game_engine_ctf_variant const* c_game_variant::get_ctf_variant() const

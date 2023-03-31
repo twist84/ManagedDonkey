@@ -30,11 +30,9 @@ struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
 
 	byte m_pad1[2];
 
-	byte unused[0x60];
-
 	void byteswap();
 };
-static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x260);
+static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x200);
 
 struct c_juggernaut_engine : c_game_engine
 {

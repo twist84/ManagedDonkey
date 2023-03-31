@@ -26,11 +26,9 @@ struct c_game_engine_infection_variant : c_game_engine_base_variant
 
 	byte m_pad1[4];
 
-	byte unused[0x10];
-
 	void byteswap();
 };
-static_assert(sizeof(c_game_engine_infection_variant) == 0x260);
+static_assert(sizeof(c_game_engine_infection_variant) == 0x250);
 
 struct c_infection_engine : c_game_engine
 {

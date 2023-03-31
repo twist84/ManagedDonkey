@@ -26,11 +26,9 @@ struct c_game_engine_assault_variant : c_game_engine_base_variant
 
 	byte m_pad1[4];
 
-	byte unused[0x38];
-
 	void byteswap();
 };
-static_assert(sizeof(c_game_engine_assault_variant) == 0x260);
+static_assert(sizeof(c_game_engine_assault_variant) == 0x228);
 
 struct c_assault_engine : c_ctf_engine
 {

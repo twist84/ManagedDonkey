@@ -14,11 +14,9 @@ struct c_game_engine_sandbox_variant : c_game_engine_base_variant
 	c_enum<e_sandbox_respawn_time, short, _sandbox_respawn_time_instant, k_sandbox_respawn_times> m_respawn_time;
 	c_player_traits m_player_traits;
 
-	byte unused[0x70];
-
 	void byteswap();
 };
-static_assert(sizeof(c_game_engine_sandbox_variant) == 0x260);
+static_assert(sizeof(c_game_engine_sandbox_variant) == 0x1F0);
 
 struct c_sandbox_engine : c_game_engine
 {
