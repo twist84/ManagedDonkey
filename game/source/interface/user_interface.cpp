@@ -8,6 +8,42 @@
 
 HOOK_DECLARE(0x00A84C00, user_interface_scoreboard_update);
 
+bool __cdecl get_alpha_custom_games_disabled()
+{
+    return INVOKE(0x00A84050, get_alpha_custom_games_disabled);
+}
+
+bool __cdecl get_alpha_eula_accepted()
+{
+    return INVOKE(0x00A840C0, get_alpha_eula_accepted);
+}
+
+bool __cdecl get_alpha_is_external_beta()
+{
+    return INVOKE(0x00A840E0, get_alpha_is_external_beta);
+}
+
+bool __cdecl get_alpha_is_internal_beta()
+{
+    return INVOKE(0x00A84120, get_alpha_is_internal_beta);
+}
+
+bool __cdecl get_alpha_is_locked_down()
+{
+    return INVOKE(0x00A84160, get_alpha_is_locked_down);
+}
+
+//e_alpha_configuration_ui_level __cdecl get_alpha_locked_down_state()
+long __cdecl get_alpha_locked_down_state()
+{
+    return INVOKE(0x00A84190, get_alpha_locked_down_state);
+}
+
+bool __cdecl get_is_alpha_version()
+{
+    return INVOKE(0x00A841E0, get_is_alpha_version);
+}
+
 void __cdecl user_interface_update_console_scoreboard()
 {
     c_gui_screen_scoreboard::update_scoreboard_alpha(k_any_controller);
