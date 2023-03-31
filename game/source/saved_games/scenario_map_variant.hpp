@@ -215,6 +215,9 @@ public:
 	bool __cdecl read_from(c_map_variant const* source);
 	bool __cdecl validate();
 
+	bool is_valid() const;
+	long get_map_id() const;
+
 private:
 	s_saved_game_item_metadata m_metadata;
 

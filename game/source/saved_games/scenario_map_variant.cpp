@@ -26,3 +26,14 @@ bool __cdecl c_map_variant::validate()
 	return DECLFUNC(0x00586D00, bool, __thiscall, c_map_variant*)(this);
 }
 
+bool c_map_variant::is_valid() const
+{
+	return DECLFUNC(0x005841D0, bool, __thiscall, c_map_variant const*)(this);
+}
+
+//e_map_id c_map_variant::get_map_id() const
+long c_map_variant::get_map_id() const
+{
+	return m_map_id;
+}
+

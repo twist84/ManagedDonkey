@@ -25,6 +25,11 @@ struct s_gui_game_setup_storage
 {
 	struct s_campaign_settings
 	{
+		bool is_valid() const
+		{
+			return valid;
+		}
+
 		bool valid;
 
 		long campaign_id;
@@ -43,6 +48,11 @@ struct s_gui_game_setup_storage
 	// `s_survival_settings` is `s_campaign_settings`
 	struct s_survival_settings
 	{
+		bool is_valid() const
+		{
+			return valid;
+		}
+
 		bool valid;
 
 		long campaign_id;
@@ -69,6 +79,11 @@ struct s_gui_game_setup_storage
 
 	struct s_multiplayer_settings
 	{
+		bool is_valid() const
+		{
+			return valid && map_variant_settings.variant.is_valid();
+		}
+
 		struct s_game_variant_settings
 		{
 			c_game_variant variant;
@@ -101,6 +116,11 @@ struct s_gui_game_setup_storage
 
 	struct s_map_editor_settings
 	{
+		bool is_valid() const
+		{
+			return valid && map_variant_settings.variant.is_valid();
+		}
+
 		bool valid;
 		long : 32;
 
@@ -110,6 +130,11 @@ struct s_gui_game_setup_storage
 
 	struct s_theater_settings
 	{
+		bool is_valid() const
+		{
+			return valid;
+		}
+
 		bool valid;
 		long : 32;
 		s_player_identifier player_identifier;
