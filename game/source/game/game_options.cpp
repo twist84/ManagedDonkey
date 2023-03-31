@@ -18,6 +18,55 @@ void c_game_variant::copy_from_unsafe(class c_game_variant const* other)
 	DECLFUNC(0x005730F0, void, __thiscall, c_game_variant*, c_game_variant const*)(this, other);
 }
 
+long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const
+{
+	//DECLFUNC(0x0057A2E0, void, __thiscall, c_game_variant const*, e_game_engine_type)(this, game_engine_index);
+
+	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
+		c_console::write_line("invalid game engine type #%ld requested variant size");
+
+	long size = 0;
+	switch (game_engine_index)
+	{
+	case _game_engine_base_variant:
+		size = sizeof(c_game_engine_base_variant);
+		break;
+	case _game_engine_ctf_variant:
+		size = sizeof(c_game_engine_ctf_variant);
+		break;
+	case _game_engine_slayer_variant:
+		size = sizeof(c_game_engine_slayer_variant);
+		break;
+	case _game_engine_oddball_variant:
+		size = sizeof(c_game_engine_oddball_variant);
+		break;
+	case _game_engine_king_variant:
+		size = sizeof(c_game_engine_king_variant);
+		break;
+	case _game_engine_sandbox_variant:
+		size = sizeof(c_game_engine_sandbox_variant);
+		break;
+	case _game_engine_vip_variant:
+		size = sizeof(c_game_engine_vip_variant);
+		break;
+	case _game_engine_juggernaut_variant:
+		size = sizeof(c_game_engine_juggernaut_variant);
+		break;
+	case _game_engine_territories_variant:
+		size = sizeof(c_game_engine_territories_variant);
+		break;
+	case _game_engine_assault_variant:
+		size = sizeof(c_game_engine_assault_variant);
+		break;
+	case _game_engine_infection_variant:
+		size = sizeof(c_game_engine_infection_variant);
+		break;
+	}
+	ASSERT(size <= k_maximum_game_engine_variant_size);
+
+	return size;
+}
+
 void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index)
 {
 	DECLFUNC(0x0057A570, void, __thiscall, c_game_variant*, e_game_engine_type)(this, game_engine_index);

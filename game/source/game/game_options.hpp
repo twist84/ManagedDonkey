@@ -28,6 +28,7 @@ public:
 
 	void copy_from_and_validate(c_game_variant const* other);
 	void copy_from_unsafe(class c_game_variant const* other);
+	long get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
 	void recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
 
 	e_game_engine_type get_game_engine_index() const;
