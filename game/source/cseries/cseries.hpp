@@ -115,6 +115,8 @@ const long LONG_BITS = SIZEOF_BITS(long);
 
 #define NONE -1
 
+long const k_vtable_pointer_size = sizeof(void*);
+
 constexpr long bit_count(long val)
 {
 	long result = 0;

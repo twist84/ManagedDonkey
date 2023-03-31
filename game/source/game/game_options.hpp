@@ -29,10 +29,11 @@ public:
 	void copy_from_and_validate(c_game_variant const* other);
 	void copy_from_unsafe(class c_game_variant const* other);
 	long get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
+	bool is_equal_to(c_game_variant const* other) const;
 	void recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
-
 	e_game_engine_type get_game_engine_index() const;
 	void set_game_engine_index(e_game_engine_type game_engine_index);
+
 	c_game_engine_base_variant const* get_active_variant() const;
 	c_game_engine_base_variant* get_active_variant_writeable();
 	c_game_engine_ctf_variant const* get_ctf_variant() const;

@@ -1,5 +1,7 @@
 #include "game/game_options.hpp"
 
+#include "cseries/console.hpp"
+
 #include <string.h>
 
 c_game_variant::c_game_variant()
@@ -65,6 +67,20 @@ long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type g
 	ASSERT(size <= k_maximum_game_engine_variant_size);
 
 	return size;
+}
+
+bool c_game_variant::is_equal_to(c_game_variant const* other) const
+{
+	return DECLFUNC(0x0057A4C0, bool, __thiscall, c_game_variant const*, c_game_variant const*)(this, other);
+
+	// #TODO
+	//ASSERT(other != NULL);
+	//
+	//if (get_game_engine_index() != other->get_game_engine_index())
+	//	return false;
+	//
+	//long structure_size = get_variant_size_for_game_engine_index(get_game_engine_index()) - 4;
+	//ASSERT(structure_size > k_vtable_pointer_size);
 }
 
 void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index)
