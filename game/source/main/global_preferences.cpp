@@ -304,44 +304,44 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 	switch (game_mode)
 	{
 	case _ui_game_mode_campaign:
-		if (global_preferences_get()->preferences0.data.last_game_setup.campaign_settings.is_valid())
+		if (global_preferences_get()->preferences0.data.last_game_setup.get_campaign()->is_valid())
 		{
-			*campaign_id = global_preferences_get()->preferences0.data.last_game_setup.campaign_settings.campaign_id;
-			*map_id = global_preferences_get()->preferences0.data.last_game_setup.campaign_settings.map_id;
+			*campaign_id = global_preferences_get()->preferences0.data.last_game_setup.get_campaign()->campaign_id;
+			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_campaign()->map_id;
 			return true;
 		}
 		break;
 	case _ui_game_mode_matchmaking:
 		break;
 	case _ui_game_mode_multiplayer:
-		if (global_preferences_get()->preferences0.data.last_game_setup.multiplayer_settings.is_valid())
+		if (global_preferences_get()->preferences0.data.last_game_setup.get_multiplayer()->is_valid())
 		{
 			*campaign_id = -1;
-			*map_id = global_preferences_get()->preferences0.data.last_game_setup.multiplayer_settings.map_variant_settings.variant.get_map_id();
+			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_multiplayer()->map_variant_settings.get_variant()->get_map_id();
 			return true;
 		}
 		break;
 	case _ui_game_mode_map_editor:
-		if (global_preferences_get()->preferences0.data.last_game_setup.map_editor_settings.is_valid())
+		if (global_preferences_get()->preferences0.data.last_game_setup.get_mapeditor()->is_valid())
 		{
 			*campaign_id = -1;
-			*map_id = global_preferences_get()->preferences0.data.last_game_setup.map_editor_settings.map_variant_settings.variant.get_map_id();
+			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_mapeditor()->map_variant_settings.get_variant()->get_map_id();
 			return true;
 		}
 		break;
 	case _ui_game_mode_theater:
-		if (global_preferences_get()->preferences0.data.last_game_setup.theater_settings.is_valid())
+		if (global_preferences_get()->preferences0.data.last_game_setup.get_theater()->is_valid())
 		{
-			*campaign_id = global_preferences_get()->preferences0.data.last_game_setup.theater_settings.film.campaign_id;
-			*map_id = global_preferences_get()->preferences0.data.last_game_setup.theater_settings.film.map_id;
+			*campaign_id = global_preferences_get()->preferences0.data.last_game_setup.get_theater()->film.campaign_id;
+			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_theater()->film.map_id;
 			return true;
 		}
 		break;
 	case _ui_game_mode_survival:
-		if (global_preferences_get()->preferences0.data.last_game_setup.survival_settings.is_valid())
+		if (global_preferences_get()->preferences0.data.last_game_setup.get_survival()->is_valid())
 		{
-			*campaign_id = global_preferences_get()->preferences0.data.last_game_setup.survival_settings.campaign_id;
-			*map_id = global_preferences_get()->preferences0.data.last_game_setup.survival_settings.map_id;
+			*campaign_id = global_preferences_get()->preferences0.data.last_game_setup.get_survival()->campaign_id;
+			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_survival()->map_id;
 			return true;
 		}
 		break;

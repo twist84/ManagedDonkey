@@ -23,13 +23,75 @@ protected:
 
 struct s_gui_game_setup_storage
 {
+	struct c_game_variant_settings
+	{
+	public:
+		bool is_valid() const
+		{
+			return game_engine_variant_is_valid(&m_variant);
+		}
+
+		c_game_variant const* get_variant() const
+		{
+			return &m_variant;
+		}
+
+		void set_variant(c_game_variant const& other)
+		{
+			if (!m_variant.is_equal_to(&other))
+				m_variant.copy_from_unsafe(&other);
+		}
+
+	protected:
+		c_game_variant m_variant;
+
+		bool m_valid;
+		long : 32;
+
+		s_player_identifier m_player_identifier;
+		c_static_wchar_string<256> m_path;
+	};
+	static_assert(sizeof(c_game_variant_settings) == 0x474);
+
+	struct c_map_variant_settings
+	{
+	public:
+		bool is_valid() const
+		{
+			return m_variant.is_valid();
+		}
+
+		c_map_variant const* get_variant() const
+		{
+			return &m_variant;
+		}
+
+		void set_variant(c_map_variant const& source)
+		{
+			//if (!m_variant.is_equal_to(&source))
+				m_variant.read_from(&source);
+		}
+
+	protected:
+		c_map_variant m_variant;
+
+		bool m_valid;
+		long : 32;
+
+		s_player_identifier m_player_identifier;
+		c_static_wchar_string<256> m_path;
+	};
+	static_assert(sizeof(c_map_variant_settings) == 0xE2A0);
+
 	struct s_campaign_settings
 	{
+	public:
 		bool is_valid() const
 		{
 			return valid;
 		}
 
+	//protected:
 		bool valid;
 
 		long campaign_id;
@@ -48,11 +110,13 @@ struct s_gui_game_setup_storage
 	// `s_survival_settings` is `s_campaign_settings`
 	struct s_survival_settings
 	{
+	public:
 		bool is_valid() const
 		{
 			return valid;
 		}
 
+	//protected:
 		bool valid;
 
 		long campaign_id;
@@ -79,62 +143,44 @@ struct s_gui_game_setup_storage
 
 	struct s_multiplayer_settings
 	{
+	public:
 		bool is_valid() const
 		{
-			return valid && map_variant_settings.variant.is_valid();
+			return valid && game_variant_settings.is_valid() && map_variant_settings.is_valid();
 		}
 
-		struct s_game_variant_settings
-		{
-			c_game_variant variant;
-
-			bool valid;
-			long : 32;
-
-			s_player_identifier player_identifier;
-			c_static_wchar_string<256> path;
-		};
-		static_assert(sizeof(s_game_variant_settings) == 0x474);
-
-		struct s_map_variant_settings
-		{
-			c_map_variant variant;
-
-			bool valid;
-			long : 32;
-
-			s_player_identifier player_identifier;
-			c_static_wchar_string<256> path;
-		};
-		static_assert(sizeof(s_map_variant_settings) == 0xE2A0);
-
+	//protected:
 		bool valid;
-		s_game_variant_settings game_variant_settings;
-		s_map_variant_settings map_variant_settings;
+		c_game_variant_settings game_variant_settings;
+		c_map_variant_settings map_variant_settings;
 	};
 	static_assert(sizeof(s_multiplayer_settings) == 0xE718);
 
 	struct s_map_editor_settings
 	{
+	public:
 		bool is_valid() const
 		{
-			return valid && map_variant_settings.variant.is_valid();
+			return valid && map_variant_settings.is_valid();
 		}
 
+	//protected:
 		bool valid;
 		long : 32;
 
-		s_multiplayer_settings::s_map_variant_settings map_variant_settings;
+		c_map_variant_settings map_variant_settings;
 	};
 	static_assert(sizeof(s_map_editor_settings) == 0xE2A8);
 
 	struct s_theater_settings
 	{
+	public:
 		bool is_valid() const
 		{
 			return valid;
 		}
 
+	//protected:
 		bool valid;
 		long : 32;
 		s_player_identifier player_identifier;
@@ -146,6 +192,39 @@ struct s_gui_game_setup_storage
 	};
 	static_assert(sizeof(s_theater_settings) == 0x24E80);
 
+public:
+	s_campaign_settings* get_campaign()
+	{
+		return &campaign_settings;
+	};
+
+	s_survival_settings* get_survival()
+	{
+		return &survival_settings;
+	};
+
+	s_matchmaking_settings* get_matchmaking()
+	{
+		return &matchmaking_settings;
+	};
+
+	s_multiplayer_settings* get_multiplayer()
+	{
+		return &multiplayer_settings;
+	};
+
+	s_map_editor_settings* get_mapeditor()
+	{
+		return &map_editor_settings;
+	};
+
+	s_theater_settings* get_theater()
+	{
+		return &theater_settings;
+	};
+
+
+protected:
 	s_campaign_settings campaign_settings;
 	s_survival_settings survival_settings;
 	s_matchmaking_settings matchmaking_settings;
