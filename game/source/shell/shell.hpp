@@ -170,6 +170,12 @@ enum e_window_index
 
 enum e_network_game_start_mode
 {
+	_network_game_start_mode_campaign = 0,
+	_network_game_start_mode_custom_game,
+	_network_game_start_mode_matchmaking,
+	_network_game_start_mode_film,
+
+	k_number_of_network_game_start_modes
 };
 
 enum e_network_join_queue_mode
