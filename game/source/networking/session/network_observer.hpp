@@ -54,7 +54,10 @@ struct c_network_observer
 		c_static_array<c_network_time_statistics, 3> time_statistics;
 		c_static_array<c_network_window_statistics, 2> window_statistics;
 
-		byte __dataFB0[0x28];
+		byte __dataFB0[0x14];
+
+		long bandwidth_event_counters[5];
+
 		dword __timeFD8;
 		byte __data[0xFC];
 	};
