@@ -96,7 +96,7 @@ struct game_options
 	long determinism_version;
 	long campaign_id;
 	long map_id;
-	char scenario_path[260];
+	c_static_string<260> scenario_path;
 	short initial_zone_set_index;
 	bool load_level_only;
 	bool dump_machine_index;

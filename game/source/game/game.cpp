@@ -640,21 +640,21 @@ struct s_game_options_launch_settings
 	char scenario_path[256];
 
 	e_campaign_difficulty_level campaign_difficulty;
+
 	e_game_mode game_mode;
-
-	// bit 1, delete after read
-	dword_flags launch_file_flags;
-
-	// added by us
 	e_game_engine_type game_engine_index;
+
+	long player_count;
+
 	short insertion_point;
 	short zone_set_index;
+	dword_flags launch_file_flags; // bit 1, delete after read
 
 	//char insertion_point_name[128]; // name speculation, never actually saw this used
 	//char zone_set_name[128];
 };
 //static_assert(sizeof(s_game_options_launch_settings) == 0x210);
-static_assert(sizeof(s_game_options_launch_settings) == 0x118);
+static_assert(sizeof(s_game_options_launch_settings) == 0x11C);
 
 bool __cdecl game_options_read_launch_settings_from_string(char const* buffer, s_game_options_launch_settings* out_launch_settings)
 {
@@ -664,15 +664,16 @@ bool __cdecl game_options_read_launch_settings_from_string(char const* buffer, s
 	//*launch_settings.insertion_point_name = 0;
 	//*launch_settings.zone_set_name = 0;
 
-	if (sscanf_s(buffer, "%d\n%s\n%d\n%d\n%d\n%d\n%hd\n%hd\n",
+	if (sscanf_s(buffer, "%d\n%s\n%d\n%d\n%d\n%d\n%hd\n%hd\n%d\n",
 		&launch_settings.build_number,
 		launch_settings.scenario_path, 256,
 		&launch_settings.campaign_difficulty,
 		&launch_settings.game_mode,
-		&launch_settings.launch_file_flags,
 		&launch_settings.game_engine_index,
+		&launch_settings.player_count,
 		&launch_settings.insertion_point,
-		&launch_settings.zone_set_index))
+		&launch_settings.zone_set_index,
+		&launch_settings.launch_file_flags))
 	{
 		//launch_settings.insertion_point_name[0] &= (strncmp(launch_settings.insertion_point_name, "-", 128) == 0) - 1;
 		//launch_settings.zone_set_name[0] &= (strncmp(launch_settings.zone_set_name, "-", 128); == 0) - 1;
@@ -732,12 +733,13 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	*launch_settings.scenario_path = 0;
 	//*launch_settings.insertion_point_name = 0;
 	//*launch_settings.zone_set_name = 0;
+	launch_settings.player_count = 1;
 
 	if (!game_launch_get_settings(&launch_settings))
 		return false;
 
 	game_options_new(options);
-	csstrnzcpy(options->scenario_path, launch_settings.scenario_path, sizeof(options->scenario_path));
+	options->scenario_path.set(launch_settings.scenario_path);
 	options->game_mode = launch_settings.game_mode;
 	options->record_saved_film = true;//saved_film_manager_should_record_film(options);
 	options->campaign_difficulty = launch_settings.campaign_difficulty;
@@ -746,7 +748,7 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 
 	options->campaign_insertion_point = launch_settings.insertion_point;
 	options->initial_zone_set_index = launch_settings.zone_set_index;
-	game_options_setup_default_players(1, options);
+	game_options_setup_default_players(launch_settings.player_count, options);
 
 	if (TEST_BIT(launch_settings.launch_file_flags, 1))
 	{

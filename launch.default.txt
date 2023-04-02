@@ -1,0 +1,58 @@
+106708
+levels\multi\riverworld\riverworld
+1
+1
+2
+1
+0
+0
+0
+
+; the lines above are important, modify them but do not remove them or make them empty
+; rename this file to launch.txt to enable usage
+
+launch.txt options
+
+#build_number
+	106708
+
+#scenario_path
+	levels\multi\guardian\guardian
+	maps\guardian
+
+#campaign_difficulty
+	0 - easy
+	1 - normal
+	2 - heroic
+	3 - legendary
+
+#game_mode
+	1 - campaign	setting this will internally override game_engine_index
+	2 - multiplayer
+	3 - mainmenu
+
+#game_engine_index
+	0  - base
+	1  - ctf
+	2  - slayer
+	3  - oddball
+	4  - king
+	5  - sandbox
+	6  - vip
+	7  - juggernaut
+	8  - territories
+	9  - assault
+	10 - infection
+
+#player_count
+	1 to 4
+
+#insertion_point
+	0
+
+#zone_set_index
+	0
+
+#launch_file_flags
+	2 - delete launch.txt
+

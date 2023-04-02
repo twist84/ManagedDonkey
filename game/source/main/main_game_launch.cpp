@@ -19,7 +19,7 @@ void main_game_launch_initialize()
 void main_game_launch_set_map_name(char const* map_name)
 {
 	ASSERT(map_name);
-	csstrnzcpy(g_launch_globals.options.scenario_path, map_name, 260);
+	g_launch_globals.options.scenario_path.set(map_name);
 }
 
 void main_game_launch_set_difficulty(e_campaign_difficulty_level difficulty)
