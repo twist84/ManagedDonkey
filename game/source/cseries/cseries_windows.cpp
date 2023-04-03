@@ -26,3 +26,14 @@ unsigned long system_milliseconds()
     return timeGetTime();
 }
 
+void system_abort()
+{
+    //main_halt_and_catch_fire();
+}
+
+// __trap()
+void system_exit()
+{
+    exit(1);
+}
+

@@ -669,6 +669,9 @@
     <ClCompile Include="source\multithreading\threads.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\cseries_windows_debug_pc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1749,6 +1752,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\multithreading\threads.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\cseries_windows_debug_pc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,8 @@
 #include "cseries/cseries.hpp"
 
 #include "memory/byte_swapping.hpp"
+#include "multithreading/threads.hpp"
+#include "shell/shell.hpp"
 #include "tag_files/string_ids.hpp"
 
 #include <ctype.h>
@@ -42,6 +44,31 @@ REFERENCE_DECLARE(0x0189CDCC, real_rgb_color const* const, global_real_rgb_aqua)
 REFERENCE_DECLARE(0x0189CDD0, real_rgb_color const* const, global_real_rgb_darkgreen);
 REFERENCE_DECLARE(0x0189CDD4, real_rgb_color const* const, global_real_rgb_salmon);
 REFERENCE_DECLARE(0x0189CDD8, real_rgb_color const* const, global_real_rgb_violet);
+
+bool g_catch_exceptions = true;
+
+void display_assert(char const* statement, char const* file, long line, bool is_assert)
+{
+    // incorrect behaviour but oh well
+    shell_halt_with_message(statement);
+}
+
+bool handle_assert_as_exception(char const* statement, char const* file, long line, bool is_exception)
+{
+    if ((!is_debugger_present() || g_catch_exceptions) && is_exception && !is_main_thread())
+    {
+        s_thread_assert_arguments arguments;
+        arguments.statement = statement;
+        arguments.file = file;
+        arguments.line = line;
+        arguments.is_exception = is_exception;
+        post_thread_assert_arguments(&arguments);
+
+        return true;
+    }
+    
+    return false;
+}
 
 int (__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size) = memcmp;
 void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size) = memcpy;
@@ -186,3 +213,4 @@ __int64 make_int64(__int64 a, __int64 b)
 {
     return ((a << 0) | (b << 32));
 }
+

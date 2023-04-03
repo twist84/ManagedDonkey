@@ -1,16 +1,12 @@
 #pragma once
 
+#include "cseries/cseries_windows.hpp"
+#include "cseries/cseries_windows_debug_pc.hpp"
 #include "cseries/integer_math.hpp"
 #include "cseries/real_math.hpp"
 
 #include <stdarg.h>
 #include <type_traits>
-
-#ifdef _DEBUG
-#define ASSERT(statement, ...) if (!(statement)) throw #statement
-#else
-#define ASSERT(...)
-#endif // _DEBUG
 
 #define STARTSWITH(s1, s1_len, s2) (csmemcmp((s1), (s2), csstrnlen((s2), (s1_len))) == 0)
 
@@ -145,6 +141,26 @@ array_is_zeroed(t_type(&data)[count])
 
 	return true;
 }
+
+#ifdef _DEBUG
+#define ASSERT_EXCEPTION(STATEMENT, IS_EXCEPTION, ...) \
+if (!(STATEMENT) || !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
+{                                                                                              \
+    display_assert(#STATEMENT, __FILE__, __LINE__, true);                                      \
+    if (!is_debugger_present() && g_catch_exceptions)                                          \
+        system_abort();                                                                        \
+    else                                                                                       \
+        system_exit();                                                                         \
+}
+#define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) throw #STATEMENT // ASSERT_EXCEPTION((STATEMENT), true, __VA_ARGS__)
+#else
+#define ASSERT_EXCEPTION(...)
+#define ASSERT(...)
+#endif // _DEBUG
+
+extern bool g_catch_exceptions;
+extern void display_assert(char const* statement, char const* file, long line, bool is_assert);
+extern bool handle_assert_as_exception(char const* statement, char const* file, long line, bool is_exception);
 
 extern int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size);
 extern void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size);

@@ -215,6 +215,7 @@ POPD
     <ClCompile Include="source\cseries\console.cpp" />
     <ClCompile Include="source\cseries\cseries_events.cpp" />
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
+    <ClCompile Include="source\cseries\cseries_windows_debug_pc.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
     <ClCompile Include="source\cseries\real_math.cpp" />
     <ClCompile Include="source\cseries\symbols_reader.cpp" />
@@ -419,6 +420,7 @@ POPD
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\cseries\cseries_events.hpp" />
+    <ClInclude Include="source\cseries\cseries_windows_debug_pc.hpp" />
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
