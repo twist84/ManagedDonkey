@@ -10,6 +10,7 @@
 #include "interface/user_interface.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "tag_files/files.hpp"
 
 REFERENCE_DECLARE_ARRAY(0x0189ECF0, char const*, k_game_engine_end_conditions, k_game_engine_end_condition_count);
 
@@ -85,5 +86,34 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 long __cdecl game_engine_get_pre_round_ticks()
 {
 	return game_seconds_integer_to_ticks(8);
+}
+
+void __cdecl game_engine_dump_variant_settings(char const* filename)
+{
+	if (game_is_multiplayer() && current_game_engine() && current_game_variant())
+	{
+		s_file_reference file;
+		if (file_reference_create_from_path(&file, filename, false))
+		{
+			if (!file_exists(&file))
+				file_create(&file);
+
+			dword error = 0;
+			if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
+			{
+				current_game_engine()->dump_settings(&file);
+				file_close(&file);
+			}
+			else
+			{
+				c_console::write_line("game_engine: failed to create file to write variant settings!");
+			}
+		}
+	}
+	else
+	{
+		c_console::write_line("game_engine: this game cannot export game engine variant settings!");
+		return;
+	}
 }
 
