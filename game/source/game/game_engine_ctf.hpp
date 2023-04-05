@@ -65,3 +65,5 @@ struct s_ctf_globals
 };
 static_assert(sizeof(s_ctf_globals) == 0x16D8);
 
+extern c_game_engine_ctf_variant*& ctf_variant;
+

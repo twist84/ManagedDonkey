@@ -2,6 +2,7 @@
 
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x050D96BC, c_game_engine_ctf_variant*, ctf_variant);
 
 void c_game_engine_ctf_variant::byteswap()
 {
