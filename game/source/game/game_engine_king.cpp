@@ -2,6 +2,7 @@
 
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x050D9F78, c_game_engine_king_variant*, king_variant);
 
 void c_game_engine_king_variant::byteswap()
 {

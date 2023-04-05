@@ -39,3 +39,5 @@ struct s_king_globals
 };
 static_assert(sizeof(s_king_globals) == 0x480);
 
+extern c_game_engine_king_variant*& king_variant;
+
