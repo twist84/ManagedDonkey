@@ -1,5 +1,8 @@
 #include "game/game_engine_traits.hpp"
 
+#include "cseries/console.hpp"
+#include "game/multiplayer_definitions.hpp"
+#include "main/main_game.hpp"
 #include "memory/byte_swapping.hpp"
 
 void c_game_engine_miscellaneous_options::byteswap()
@@ -221,15 +224,105 @@ c_player_traits* c_game_engine_respawn_options::get_respawn_player_traits_writea
 	return &m_respawn_player_traits;
 }
 
-//void c_game_engine_respawn_options::set_respawn_player_traits(c_player_traits const* respawn_player_traits, bool)
-//{
-//	m_respawn_player_traits = *respawn_player_traits;
-//}
+void c_game_engine_respawn_options::set_respawn_player_traits(c_player_traits const* traits, bool force)
+{
+	m_respawn_player_traits.set(traits, force);
+}
 
 void c_game_engine_social_options::byteswap()
 {
 	bswap_word_inplace(m_flags);
 	bswap_word_inplace(m_team_changing);
+}
+
+bool c_game_engine_social_options::get_observers_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_observers_enabled);
+}
+
+void c_game_engine_social_options::set_observers_enabled(bool observers_enabled)
+{
+	m_flags.set(_game_engine_social_options_observers_enabled, observers_enabled);
+}
+
+bool c_game_engine_social_options::get_team_changing_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_team_changing_enabled);
+}
+
+void c_game_engine_social_options::set_team_changing_enabled(bool team_changing_enabled)
+{
+	m_flags.set(_game_engine_social_options_team_changing_enabled, team_changing_enabled);
+}
+
+bool c_game_engine_social_options::get_team_changing_balancing_only_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_team_changing_balancing_only_enabled);
+}
+
+void c_game_engine_social_options::set_team_changing_balancing_only_enabled(bool team_changing_balancing_only_enabled)
+{
+	m_flags.set(_game_engine_social_options_team_changing_balancing_only_enabled, team_changing_balancing_only_enabled);
+}
+
+bool c_game_engine_social_options::get_friendly_fire_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_friendly_fire_enabled);
+}
+
+void c_game_engine_social_options::set_friendly_fire_enabled(bool friendly_fire_enabled)
+{
+	m_flags.set(_game_engine_social_options_friendly_fire_enabled, friendly_fire_enabled);
+}
+
+bool c_game_engine_social_options::get_betrayal_booting_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_betrayal_booting_enabled);
+}
+
+void c_game_engine_social_options::set_betrayal_booting_enabled(bool betrayal_booting_enabled)
+{
+	m_flags.set(_game_engine_social_options_betrayal_booting_enabled, betrayal_booting_enabled);
+}
+
+//bool c_game_engine_social_options::get_enemy_voice_enabled() const
+//{
+//	return m_flags.test(_game_engine_social_options_enemy_voice_enabled);
+//}
+//
+//void c_game_engine_social_options::set_enemy_voice_enabled(bool enemy_voice_enabled)
+//{
+//	m_flags.set(_game_engine_social_options_enemy_voice_enabled, enemy_voice_enabled);
+//}
+//
+//bool c_game_engine_social_options::get_open_channel_voice_enabled() const
+//{
+//	return m_flags.test(_game_engine_social_options_open_channel_voice_enabled);
+//}
+//
+//void c_game_engine_social_options::set_open_channel_voice_enabled(bool open_channel_voice_enabled)
+//{
+//	m_flags.set(_game_engine_social_options_open_channel_voice_enabled, open_channel_voice_enabled);
+//}
+//
+//bool c_game_engine_social_options::get_dead_player_voice_enabled() const
+//{
+//	return m_flags.test(_game_engine_social_options_dead_player_voice_enabled);
+//}
+//
+//void c_game_engine_social_options::set_dead_player_voice_enabled(bool dead_player_voice_enabled)
+//{
+//	m_flags.set(_game_engine_social_options_dead_player_voice_enabled, dead_player_voice_enabled);
+//}
+
+bool c_game_engine_social_options::get_spartans_vs_elites_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_spartans_vs_elites_enabled);
+}
+
+void c_game_engine_social_options::set_spartans_vs_elites_enabled(bool spartans_vs_elites_enabled)
+{
+	m_flags.set(_game_engine_social_options_spartans_vs_elites_enabled, spartans_vs_elites_enabled);
 }
 
 void c_game_engine_map_override_options::byteswap()
@@ -241,5 +334,173 @@ void c_game_engine_map_override_options::byteswap()
 	m_red_powerup_traits.byteswap();
 	m_blue_powerup_traits.byteswap();
 	m_yellow_powerup_traits.byteswap();
+}
+
+bool c_game_engine_map_override_options::get_grenades_on_map_enabled() const
+{
+	return m_flags.test(_game_engine_map_override_options_grenades_on_map_enabled);
+}
+
+void c_game_engine_map_override_options::set_grenades_on_map_enabled(bool grenades_on_map_enabled)
+{
+	m_flags.set(_game_engine_map_override_options_grenades_on_map_enabled, grenades_on_map_enabled);
+}
+
+bool c_game_engine_map_override_options::get_indestructible_vehicles_enabled() const
+{
+	return m_flags.test(_game_engine_map_override_options_indestructible_vehicles_enabled);
+}
+
+void c_game_engine_map_override_options::set_indestructible_vehicles_enabled(bool indestructible_vehicles_enabled)
+{
+	m_flags.set(_game_engine_map_override_options_indestructible_vehicles_enabled, indestructible_vehicles_enabled);
+}
+
+c_player_traits* c_game_engine_map_override_options::get_base_player_traits_writeable()
+{
+	return &m_base_player_traits;
+}
+
+c_player_traits const* c_game_engine_map_override_options::get_base_player_traits() const
+{
+	return &m_base_player_traits;
+}
+
+void c_game_engine_map_override_options::set_base_player_traits(c_player_traits const* traits, bool force)
+{
+	m_base_player_traits.set(traits, force);
+}
+
+short c_game_engine_map_override_options::get_weapon_set_absolute_index() const
+{
+	return m_weapon_set_absolute_index;
+}
+
+void c_game_engine_map_override_options::set_weapon_set_absolute_index(short weapon_set_absolute_index)
+{
+	if (weapon_set_absolute_index == short(0xFFFF) || weapon_set_absolute_index == short(0xFFFE) || !main_game_loaded_map() || multiplayer_universal_data_weapon_set_try_and_get(weapon_set_absolute_index))
+	{
+		m_weapon_set_absolute_index = weapon_set_absolute_index;
+	}
+	else
+	{
+		c_console::write_line("game_engine:map_option:weapon_set: invalid weapon set '%d'!", weapon_set_absolute_index);
+		m_weapon_set_absolute_index = short(0xFFFF);
+	}
+}
+
+short c_game_engine_map_override_options::get_vehicle_set_absolute_index() const
+{
+	return m_vehicle_set_absolute_index;
+}
+
+void c_game_engine_map_override_options::set_vehicle_set_absolute_index(short vehicle_set_absolute_index)
+{
+	if (vehicle_set_absolute_index == short(0xFFFF) || !main_game_loaded_map() || multiplayer_universal_data_vehicle_set_try_and_get(vehicle_set_absolute_index))
+	{
+		m_vehicle_set_absolute_index = vehicle_set_absolute_index;
+	}
+	else
+	{
+		c_console::write_line("game_engine:map_option:vehicle_set: invalid vehicle set '%d'!", vehicle_set_absolute_index);
+
+		//ms23: `m_weapon_set_absolute_index`
+		m_vehicle_set_absolute_index = short(0xFFFF);
+	}
+}
+
+long c_game_engine_map_override_options::get_weapon_set() const
+{
+	return multiplayer_universal_data_get_weapon_set_name_from_absolute_index(get_weapon_set_absolute_index());
+}
+
+void c_game_engine_map_override_options::set_weapon_set(long weapon_set)
+{
+	set_weapon_set_absolute_index(multiplayer_universal_data_get_weapon_set_absolute_index_from_string_id(weapon_set));
+}
+
+long c_game_engine_map_override_options::get_vehicle_set() const
+{
+	return multiplayer_universal_data_get_vehicle_set_name_from_absolute_index(get_vehicle_set_absolute_index());
+}
+
+void c_game_engine_map_override_options::set_vehicle_set(long vehicle_set)
+{
+	set_vehicle_set_absolute_index(multiplayer_universal_data_get_vehicle_set_absolute_index_from_string_id(vehicle_set));
+}
+
+c_player_traits* c_game_engine_map_override_options::get_red_powerup_traits_writeable()
+{
+	return &m_red_powerup_traits;
+}
+
+c_player_traits const* c_game_engine_map_override_options::get_red_powerup_traits() const
+{
+	return &m_red_powerup_traits;
+}
+
+void c_game_engine_map_override_options::set_red_powerup_traits(c_player_traits const* traits, bool force)
+{
+	m_red_powerup_traits.set(traits, force);
+}
+
+c_player_traits* c_game_engine_map_override_options::get_blue_powerup_traits_writeable()
+{
+	return &m_blue_powerup_traits;
+}
+
+c_player_traits const* c_game_engine_map_override_options::get_blue_powerup_traits() const
+{
+	return &m_blue_powerup_traits;
+}
+
+void c_game_engine_map_override_options::set_blue_powerup_traits(c_player_traits const* traits, bool force)
+{
+	m_blue_powerup_traits.set(traits, force);
+}
+
+c_player_traits* c_game_engine_map_override_options::get_yellow_powerup_traits_writeable()
+{
+	return &m_yellow_powerup_traits;
+}
+
+c_player_traits const* c_game_engine_map_override_options::get_yellow_powerup_traits() const
+{
+	return &m_yellow_powerup_traits;
+}
+
+void c_game_engine_map_override_options::set_yellow_powerup_traits(c_player_traits const* traits, bool force)
+{
+	m_yellow_powerup_traits.set(traits, force);
+}
+
+byte c_game_engine_map_override_options::get_red_powerup_duration_seconds() const
+{
+	return m_red_powerup_duration_seconds;
+}
+
+void c_game_engine_map_override_options::set_red_powerup_duration_seconds(byte red_powerup_duration_seconds)
+{
+	m_red_powerup_duration_seconds = red_powerup_duration_seconds;
+}
+
+byte c_game_engine_map_override_options::get_blue_powerup_duration_seconds() const
+{
+	return m_blue_powerup_duration_seconds;
+}
+
+void c_game_engine_map_override_options::set_blue_powerup_duration_seconds(byte blue_powerup_duration_seconds)
+{
+	m_blue_powerup_duration_seconds = blue_powerup_duration_seconds;
+}
+
+byte c_game_engine_map_override_options::get_yellow_powerup_duration_seconds() const
+{
+	return m_yellow_powerup_duration_seconds;
+}
+
+void c_game_engine_map_override_options::set_yellow_powerup_duration_seconds(byte yellow_powerup_duration_seconds)
+{
+	m_yellow_powerup_duration_seconds = yellow_powerup_duration_seconds;
 }
 

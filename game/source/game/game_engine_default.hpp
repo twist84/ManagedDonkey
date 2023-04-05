@@ -123,6 +123,11 @@ public:
 	virtual bool enable_tied_leader_messages() const;
 	virtual long get_message_chud_reference(s_multiplayer_runtime_globals_definition*) const;
 	virtual long get_message_chud_reference() const;
-	virtual void dump_settings(s_file_reference*) const;
+private:
+	virtual void dump_settings_(s_file_reference*) const;
+public:
 	virtual void emit_game_start_event(long) const;
+
+	void dump_player_trait_settings(char const* traits_name, c_player_traits const* traits, s_file_reference* file) const;
+	void dump_settings(s_file_reference* file) const;
 };

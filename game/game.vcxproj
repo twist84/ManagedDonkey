@@ -230,6 +230,7 @@ POPD
     <ClCompile Include="source\game\game_engine_assault.cpp" />
     <ClCompile Include="source\game\game_engine_candy_monitor.cpp" />
     <ClCompile Include="source\game\game_engine_ctf.cpp" />
+    <ClCompile Include="source\game\game_engine_default.cpp" />
     <ClCompile Include="source\game\game_engine_display.cpp" />
     <ClCompile Include="source\game\game_engine_infection.cpp" />
     <ClCompile Include="source\game\game_engine_juggernaut.cpp" />

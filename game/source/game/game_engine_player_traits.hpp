@@ -494,11 +494,40 @@ enum e_motion_tracker_range_setting
 
 struct c_player_trait_shield_vitality
 {
-	c_enum<e_damage_resistance_percentage_setting, char, _damage_resistance_percentage_setting_unchanged, k_damage_resistance_percentage_settings> m_damage_resistance;
-	c_enum<e_shield_recharge_rate_percentage_setting, char, _shield_recharge_rate_percentage_setting_unchanged, k_shield_recharge_rate_percentage_settings> m_shield_recharge_rate;
-	c_enum<e_vampirism_percentage_setting, char, _vampirism_percentage_setting_unchanged, k_vampirism_percentage_settings> m_shield_vampirism;
-	c_enum<e_headshot_immunity_setting, char, _headshot_immunity_setting_unchanged, k_headshot_immunity_settings> m_headshot_immunity;
-	c_enum<e_shield_multiplier_setting, char, _shield_multiplier_setting_unchanged, k_shield_multiplier_settings> m_shield_multiplier;
+public:
+	void set(c_player_trait_shield_vitality const* traits, bool force);
+
+	e_damage_resistance_percentage_setting get_damage_resistance_percentage_setting() const;
+	void set_damage_resistance_percentage_setting(e_damage_resistance_percentage_setting damage_resistance_percentage_setting, bool force);
+	real get_damage_resistance_percentage() const;
+	void set_damage_resistance_percentage(real damage_resistance_percentage, bool force);
+
+	e_shield_recharge_rate_percentage_setting get_shield_recharge_rate_percentage_setting() const;
+	void set_shield_recharge_rate_percentage_setting(e_shield_recharge_rate_percentage_setting shield_recharge_rate_percentage_setting, bool force);
+	real get_shield_recharge_rate_percentage() const;
+	void set_shield_recharge_rate_percentage(real shield_recharge_rate_percentage, bool force);
+
+	e_vampirism_percentage_setting get_vampirism_percentage_setting() const;
+	void set_vampirism_percentage_setting(e_vampirism_percentage_setting vampirism_percentage_setting, bool force);
+	real get_vampirism_percentage() const;
+	void set_vampirism_percentage(real vampirism_percentage, bool force);
+
+	e_headshot_immunity_setting get_headshot_immunity_setting() const;
+	void set_headshot_immunity_setting(e_headshot_immunity_setting headshot_immunity_setting, bool force);
+	bool get_headshot_immunity() const;
+	void set_headshot_immunity(bool headshot_immunity, bool force);
+
+	e_shield_multiplier_setting get_shield_multiplier_setting() const;
+	void set_shield_multiplier_setting(e_shield_multiplier_setting shield_multiplier_setting, bool force);
+	long get_shield_multiplier() const;
+	void set_shield_multiplier(long shield_multiplier, bool force);
+
+protected:
+	c_enum<e_damage_resistance_percentage_setting, char, _damage_resistance_percentage_setting_unchanged, k_damage_resistance_percentage_settings> m_damage_resistance_percentage_setting;
+	c_enum<e_shield_recharge_rate_percentage_setting, char, _shield_recharge_rate_percentage_setting_unchanged, k_shield_recharge_rate_percentage_settings> m_shield_recharge_rate_percentage_setting;
+	c_enum<e_vampirism_percentage_setting, char, _vampirism_percentage_setting_unchanged, k_vampirism_percentage_settings> m_vampirism_percentage_setting;
+	c_enum<e_headshot_immunity_setting, char, _headshot_immunity_setting_unchanged, k_headshot_immunity_settings> m_headshot_immunity_setting;
+	c_enum<e_shield_multiplier_setting, char, _shield_multiplier_setting_unchanged, k_shield_multiplier_settings> m_shield_multiplier_setting;
 
 	// elephant
 	byte pad[3];
@@ -548,13 +577,37 @@ static_assert(sizeof(c_player_trait_sensors) == 0x4);
 
 struct c_player_traits
 {
-	c_player_trait_shield_vitality m_shield_traits;
+public:
+	void byteswap();
+
+	void set(c_player_traits const* traits, bool force);
+
+	c_player_trait_shield_vitality* get_shield_vitality_traits_writeable();
+	c_player_trait_shield_vitality const* get_shield_vitality_traits() const;
+	void set_shield_vitality_traits(c_player_trait_shield_vitality const* traits, bool force);
+
+	c_player_trait_weapons* get_weapons_traits_writeable();
+	c_player_trait_weapons const* get_weapons_traits() const;
+	void set_weapons_traits(c_player_trait_weapons const* traits, bool force);
+
+	c_player_trait_movement* get_movement_traits_writeable();
+	c_player_trait_movement const* get_movement_traits() const;
+	void set_movement_traits(c_player_trait_movement const* traits, bool force);
+
+	c_player_trait_appearance* get_appearance_traits_writeable();
+	c_player_trait_appearance const* get_appearance_traits() const;
+	void set_appearance_traits(c_player_trait_appearance const* traits, bool force);
+
+	c_player_trait_sensors* get_sensor_traits_writeable();
+	c_player_trait_sensors const* get_sensor_traits() const;
+	void set_sensor_traits(c_player_trait_sensors const* traits, bool force);
+
+protected:
+	c_player_trait_shield_vitality m_shield_vitality_traits;
 	c_player_trait_weapons m_weapon_traits;
 	c_player_trait_movement m_movement_traits;
 	c_player_trait_appearance m_appearance_traits;
 	c_player_trait_sensors m_sensor_traits;
-
-	void byteswap();
 };
 static_assert(sizeof(c_player_traits) == 0x1C);
 

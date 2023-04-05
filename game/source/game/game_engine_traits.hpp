@@ -39,7 +39,7 @@ enum e_game_engine_social_options_flags
 {
 	_game_engine_social_options_observers_enabled = 0,
 	_game_engine_social_options_team_changing_enabled,
-	_game_engine_social_options_team_changing_balancing_only,
+	_game_engine_social_options_team_changing_balancing_only_enabled,
 	_game_engine_social_options_friendly_fire_enabled,
 	_game_engine_social_options_betrayal_booting_enabled,
 
@@ -56,8 +56,8 @@ enum e_game_engine_social_options_flags
 
 enum e_game_engine_map_override_options_flags
 {
-	_game_engine_map_override_options_grenades_on_map = 0,
-	_game_engine_map_override_options_indestructible_vehicles,
+	_game_engine_map_override_options_grenades_on_map_enabled = 0,
+	_game_engine_map_override_options_indestructible_vehicles_enabled,
 
 	k_game_engine_map_override_options_flags
 };
@@ -140,9 +140,9 @@ public:
 	byte get_respawn_player_traits_duration_seconds() const;
 	void set_respawn_player_traits_duration_seconds(long respawn_player_traits_duration_seconds);
 
-	c_player_traits const* get_respawn_player_traits() const;
 	c_player_traits* get_respawn_player_traits_writeable();
-	//void set_respawn_player_traits(c_player_traits const* respawn_player_traits, bool);
+	c_player_traits const* get_respawn_player_traits() const;
+	void set_respawn_player_traits(c_player_traits const* traits, bool force);
 
 protected:
 	c_flags<e_game_engine_respawn_options_flags, byte_flags, k_game_engine_respawn_options_flags> m_flags;
@@ -167,6 +167,33 @@ struct c_game_engine_social_options
 public:
 	void byteswap();
 
+	bool get_observers_enabled() const;
+	void set_observers_enabled(bool observers_enabled);
+
+	bool get_team_changing_enabled() const;
+	void set_team_changing_enabled(bool team_changing_enabled);
+
+	bool get_team_changing_balancing_only_enabled() const;
+	void set_team_changing_balancing_only_enabled(bool team_changing_balancing_only_enabled);
+
+	bool get_friendly_fire_enabled() const;
+	void set_friendly_fire_enabled(bool friendly_fire_enabled);
+
+	bool get_betrayal_booting_enabled() const;
+	void set_betrayal_booting_enabled(bool betrayal_booting_enabled);
+
+	//bool get_enemy_voice_enabled() const;
+	//void set_enemy_voice_enabled(bool enemy_voice_enabled);
+	
+	//bool get_open_channel_voice_enabled() const;
+	//void set_open_channel_voice_enabled(bool open_channel_voice_enabled);
+	
+	//bool get_dead_player_voice_enabled() const;
+	//void set_dead_player_voice_enabled(bool dead_player_voice_enabled);
+
+	bool get_spartans_vs_elites_enabled() const;
+	void set_spartans_vs_elites_enabled(bool spartans_vs_elites_enabled);
+
 protected:
 	c_flags<e_game_engine_social_options_flags, word_flags, k_game_engine_social_options_flags> m_flags;
 	c_enum<long, word, 0, 2> m_team_changing;
@@ -177,6 +204,49 @@ struct c_game_engine_map_override_options
 {
 public:
 	void byteswap();
+
+	bool get_grenades_on_map_enabled() const;
+	void set_grenades_on_map_enabled(bool grenades_on_map_enabled);
+
+	bool get_indestructible_vehicles_enabled() const;
+	void set_indestructible_vehicles_enabled(bool indestructible_vehicles_enabled);
+
+	c_player_traits* get_base_player_traits_writeable();
+	c_player_traits const* get_base_player_traits() const;
+	void set_base_player_traits(c_player_traits const* traits, bool force);
+
+	short get_weapon_set_absolute_index() const;
+	void set_weapon_set_absolute_index(short weapon_set_absolute_index);
+
+	short get_vehicle_set_absolute_index() const;
+	void set_vehicle_set_absolute_index(short vehicle_set_absolute_index);
+
+	long get_weapon_set() const;
+	void set_weapon_set(long weapon_set);
+	
+	long get_vehicle_set() const;
+	void set_vehicle_set(long vehicle_set);
+
+	c_player_traits* get_red_powerup_traits_writeable();
+	c_player_traits const* get_red_powerup_traits() const;
+	void set_red_powerup_traits(c_player_traits const* traits, bool force);
+
+	c_player_traits* get_blue_powerup_traits_writeable();
+	c_player_traits const* get_blue_powerup_traits() const;
+	void set_blue_powerup_traits(c_player_traits const* traits, bool force);
+
+	c_player_traits* get_yellow_powerup_traits_writeable();
+	c_player_traits const* get_yellow_powerup_traits() const;
+	void set_yellow_powerup_traits(c_player_traits const* traits, bool force);
+
+	byte get_red_powerup_duration_seconds() const;
+	void set_red_powerup_duration_seconds(byte red_powerup_duration_seconds);
+
+	byte get_blue_powerup_duration_seconds() const;
+	void set_blue_powerup_duration_seconds(byte blue_powerup_duration_seconds);
+
+	byte get_yellow_powerup_duration_seconds() const;
+	void set_yellow_powerup_duration_seconds(byte yellow_powerup_duration_seconds);
 
 protected:
 	c_flags<e_game_engine_map_override_options_flags, dword_flags, k_game_engine_map_override_options_flags> m_flags;
