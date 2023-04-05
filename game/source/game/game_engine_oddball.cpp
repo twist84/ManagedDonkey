@@ -2,6 +2,7 @@
 
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x050D9F74, c_game_engine_oddball_variant*, oddball_variant);
 
 void c_game_engine_oddball_variant::byteswap()
 {

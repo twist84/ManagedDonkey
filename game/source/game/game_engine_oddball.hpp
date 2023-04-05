@@ -45,3 +45,5 @@ struct s_oddball_globals
 };
 static_assert(sizeof(s_oddball_globals) == 0x90);
 
+extern c_game_engine_oddball_variant*& oddball_variant;
+
