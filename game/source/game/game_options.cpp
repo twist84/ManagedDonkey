@@ -85,7 +85,62 @@ bool c_game_variant::is_equal_to(c_game_variant const* other) const
 
 void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index)
 {
-	DECLFUNC(0x0057A570, void, __thiscall, c_game_variant*, e_game_engine_type)(this, game_engine_index);
+	//DECLFUNC(0x0057A570, void, __thiscall, c_game_variant*, e_game_engine_type)(this, game_engine_index);
+
+	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
+	{
+		c_console::write_line("invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
+		game_engine_index = _game_engine_base_variant;
+	}
+
+	c_game_engine_base_variant* active_variant = get_active_variant_writeable();
+	switch (game_engine_index)
+	{
+	case _game_engine_base_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x01659F38); // c_game_engine_base_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_ctf_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x0165A058); // c_game_engine_ctf_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_slayer_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x01659F68); // c_game_engine_slayer_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_oddball_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x01659F98); // c_game_engine_oddball_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_king_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x01659FC8); // c_game_engine_king_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_sandbox_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x0165A118); // c_game_engine_sandbox_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_vip_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x0165A0B8); // c_game_engine_vip_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_juggernaut_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x0165A0E8); // c_game_engine_juggernaut_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_territories_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x0165A028); // c_game_engine_territories_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_assault_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x0165A088); // c_game_engine_assault_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	case _game_engine_infection_variant:
+		*reinterpret_cast<void**>(active_variant) = reinterpret_cast<void*>(0x01659FF8); // c_game_engine_infection_variant::`vftable'
+		active_variant->m_flags;
+		break;
+	}
 }
 
 e_game_engine_type c_game_variant::get_game_engine_index() const
