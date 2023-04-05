@@ -113,7 +113,6 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 	else
 	{
 		c_console::write_line("game_engine: this game cannot export game engine variant settings!");
-		return;
 	}
 }
 
