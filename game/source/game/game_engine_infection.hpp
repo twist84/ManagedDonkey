@@ -47,3 +47,5 @@ struct s_infection_globals
 };
 static_assert(sizeof(s_infection_globals) == 0x550);
 
+extern c_game_engine_infection_variant*& infection_variant;
+

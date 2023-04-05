@@ -2,6 +2,7 @@
 
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x050D9F84, c_game_engine_infection_variant*, infection_variant);
 
 void c_game_engine_infection_variant::byteswap()
 {
