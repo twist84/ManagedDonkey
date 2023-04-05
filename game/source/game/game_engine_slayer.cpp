@@ -2,6 +2,7 @@
 
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x050D9F70, c_game_engine_slayer_variant*, slayer_variant);
 
 void c_game_engine_slayer_variant::byteswap()
 {
