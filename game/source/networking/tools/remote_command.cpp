@@ -5,6 +5,7 @@
 #include "cseries/cseries.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
+#include "game/game_engine.hpp"
 #include "game/game_time.hpp"
 #include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
