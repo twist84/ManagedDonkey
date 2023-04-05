@@ -2,6 +2,7 @@
 
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x050D9F88, c_game_engine_vip_variant*, vip_variant);
 
 void c_game_engine_vip_variant::byteswap()
 {

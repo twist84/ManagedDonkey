@@ -53,3 +53,5 @@ struct s_vip_globals
 };
 static_assert(sizeof(s_vip_globals) == 0x794);
 
+extern c_game_engine_vip_variant*& vip_variant;
+
