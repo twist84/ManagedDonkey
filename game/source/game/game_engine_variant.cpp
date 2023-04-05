@@ -49,7 +49,7 @@ void c_game_engine_base_variant::set_name(char const* name)
 	csstrnzcpy(m_name, name, 32);
 }
 
-char const* c_game_engine_base_variant::get_description()
+char const* c_game_engine_base_variant::get_description() const
 {
 	return m_metadata.description;
 }

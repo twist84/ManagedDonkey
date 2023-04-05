@@ -54,7 +54,7 @@ struct c_game_engine_base_variant
 
 	char const* get_name() const;
 	void set_name(char const* name);
-	char const* get_description();
+	char const* get_description() const;
 	void set_description(char const* description);
 	c_game_engine_miscellaneous_options* get_miscellaneous_options_writeable();
 	c_game_engine_miscellaneous_options const* get_miscellaneous_options() const;
