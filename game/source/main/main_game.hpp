@@ -66,7 +66,7 @@ extern void main_game_change(game_options const* options);
 //extern bool main_game_load_map(game_options const* options);
 //extern void main_game_unload_and_prepare_for_next_game(game_options const* options);
 //extern bool main_game_loaded_pregame();
-//extern bool main_game_loaded_map();
+extern bool main_game_loaded_map();
 //extern char const* main_game_loaded_map_name();
 //extern void main_game_load_panic();
 //extern void main_game_load_from_core_name(char const* core_name);

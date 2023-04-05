@@ -47,7 +47,12 @@ void main_game_change(game_options const* options)
 // bool main_game_load_map(game_options const* options);
 // void main_game_unload_and_prepare_for_next_game(game_options const* options);
 // bool main_game_loaded_pregame();
-// bool main_game_loaded_map();
+
+bool main_game_loaded_map()
+{
+	return main_game_globals.game_loaded_status == _game_loaded_status_map_loaded;
+}
+
 // char const* main_game_loaded_map_name();
 // void main_game_load_panic();
 // void main_game_load_from_core_name(char const* core_name);
