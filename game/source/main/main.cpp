@@ -41,6 +41,7 @@
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
+#include "screenshots/screenshots_uploader.hpp"
 #include "simulation/simulation.hpp"
 #include "xbox/xbox.hpp"
 #include "xbox/xnet.hpp"
@@ -133,6 +134,7 @@ void __cdecl main_loop_body_begin()
 		g_additional_raw_servers;
 		g_online_lsp_manager;
 		g_global_preferences;
+		g_screenshots_uploader;
 
 
 		//transport_address local_machine_address{};
