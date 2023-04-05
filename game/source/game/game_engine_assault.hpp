@@ -46,3 +46,5 @@ struct s_assault_globals
 };
 static_assert(sizeof(s_assault_globals) == 0x16C4);
 
+extern c_game_engine_assault_variant*& assault_variant;
+

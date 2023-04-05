@@ -2,6 +2,7 @@
 
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x0471AA14, c_game_engine_assault_variant*, assault_variant);
 
 void c_game_engine_assault_variant::byteswap()
 {
