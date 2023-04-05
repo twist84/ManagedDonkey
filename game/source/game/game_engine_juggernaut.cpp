@@ -2,6 +2,7 @@
 
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x050D9F7C, c_game_engine_juggernaut_variant*, juggernaut_variant);
 
 void c_game_engine_juggernaut_variant::byteswap()
 {

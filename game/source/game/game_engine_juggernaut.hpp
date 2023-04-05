@@ -49,3 +49,5 @@ struct s_juggernaut_globals
 };
 static_assert(sizeof(s_juggernaut_globals) == 0x50C);
 
+extern c_game_engine_juggernaut_variant*& juggernaut_variant;
+
