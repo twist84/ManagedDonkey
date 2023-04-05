@@ -41,3 +41,5 @@ struct s_territories_globals
 };
 static_assert(sizeof(s_territories_globals) == 0x43C);
 
+extern c_game_engine_territories_variant*& territories_variant;
+
