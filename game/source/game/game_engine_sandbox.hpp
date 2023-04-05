@@ -46,3 +46,5 @@ struct s_sandbox_globals
 };
 static_assert(sizeof(s_sandbox_globals) == 0x748);
 
+extern c_game_engine_sandbox_variant*& sandbox_variant;
+
