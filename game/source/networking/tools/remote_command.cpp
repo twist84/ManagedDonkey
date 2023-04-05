@@ -390,6 +390,8 @@ COMMAND_CALLBACK_DECLARE(net_load_and_use_game_variant);
 COMMAND_CALLBACK_DECLARE(net_build_map_variant);
 COMMAND_CALLBACK_DECLARE(net_verify_map_variant);
 
+COMMAND_CALLBACK_DECLARE(game_export_variant_settings);
+
 s_command const k_registered_commands[] =
 {
 	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints a description of the named function.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -416,6 +418,7 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(net_build_map_variant, 1, "<string>", "writes the current map variant to a file\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_verify_map_variant, 1, "<string>", "verifies the contents of a packed map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_export_variant_settings, 0, "", "export the current game engine variant settings to the specified text file\r\nNETWORK SAFE: No"),
 };
 
 //-----------------------------------------------------------------------------
@@ -710,6 +713,16 @@ callback_result_t net_verify_map_variant_callback(void const* userdata, long tok
 
 	char const* filename = tokens.m_storage[1]->get_string();
 	network_verify_packed_map_variant_file(filename);
+
+	return result;
+}
+
+callback_result_t game_export_variant_settings_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	game_engine_dump_variant_settings(filename);
 
 	return result;
 }
