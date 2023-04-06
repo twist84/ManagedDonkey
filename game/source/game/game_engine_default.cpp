@@ -20,12 +20,197 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 	file_printf(file, "shield multiplier= %dX\r\n", traits->get_shield_vitality_traits()->get_shield_multiplier());
 
 	// WEAPONS TRAITS
+	file_printf(file, "damage modifier= %g\r\n", traits->get_weapons_traits()->get_damage_modifier_percentage());
+	file_printf(file, "initial primary weapon absolute index= %d\r\n", traits->get_weapons_traits()->get_initial_primary_weapon_absolute_index());
+	file_printf(file, "initial secondary weapon absolute index= %d\r\n", traits->get_weapons_traits()->get_initial_secondary_weapon_absolute_index());
+	file_printf(file, "initial grenade count setting= %d\r\n", traits->get_weapons_traits()->get_initial_grenade_count());
+	file_printf(file, "recharging grenades= %s\r\n", traits->get_weapons_traits()->get_recharging_grenades() ? "ENABLED" : "DISABLED");
+	file_printf(file, "infinite ammo= %s\r\n", traits->get_weapons_traits()->get_infinite_ammo_setting() ? "ENABLED" : "DISABLED");
+	file_printf(file, "weapon pickup= %s\r\n", traits->get_weapons_traits()->get_weapon_pickup_allowed() ? "ENABLED" : "DISABLED");
 	
 	// MOVEMENT TRAITS
+	char const* vehicle_usage = "**INVALID SETTING**";
+	switch (traits->get_movement_traits()->get_vehicle_usage_setting())
+	{
+	case _vehicle_usage_setting_none:
+		vehicle_usage = "NONE";
+		break;
+	
+	case _vehicle_usage_setting_passenger_only:
+		vehicle_usage = "PASSENGER ONLY";
+		break;
+	
+	case _vehicle_usage_setting_full:
+		vehicle_usage = "FULL";
+		break;
+	}
+	
+	file_printf(file, "speed= %g\r\n", traits->get_movement_traits()->get_speed());
+	file_printf(file, "gravity= %g\r\n", traits->get_movement_traits()->get_gravity());
+	file_printf(file, "vehicle use= %s\r\n", vehicle_usage);
 	
 	// APPEARANCE TRAITS
+	char const* active_camo = "**INVALID SETTING**";
+	switch (traits->get_appearance_traits()->get_active_camo_setting())
+	{
+	case _active_camo_setting_unchanged:
+		active_camo = "UNCHANGED";
+		break;
+	case _active_camo_setting_off:
+		active_camo = "OFF";
+		break;
+	case _active_camo_setting_poor:
+		active_camo = "POOR";
+		break;
+	case _active_camo_setting_good:
+		active_camo = "GOOD";
+		break;
+	case _active_camo_setting_invisible:
+		active_camo = "INVISIBLE";
+		break;
+	}
+	
+	char const* waypoint = "**INVALID SETTING**";
+	switch (traits->get_appearance_traits()->get_waypoint_setting())
+	{
+	case _waypoint_setting_unchanged:
+		waypoint = "UNCHANGED";
+		break;
+	case _waypoint_setting_off:
+		waypoint = "OFF";
+		break;
+	case _waypoint_setting_allies:
+		waypoint = "ALLIES";
+		break;
+	case _waypoint_setting_all:
+		waypoint = "ALL";
+		break;
+	}
+	
+	char const* aura = "**INVALID SETTING**";
+	switch (traits->get_appearance_traits()->get_aura_setting())
+	{
+	case _aura_setting_unchanged:
+		aura = "UNCHANGED";
+		break;
+	case _aura_setting_off:
+		aura = "OFF";
+		break;
+	case _aura_setting_team_color:
+		aura = "TEAM COLOR";
+		break;
+	case _aura_setting_black:
+		aura = "BLACK";
+		break;
+	case _aura_setting_white:
+		aura = "WHITE";
+		break;
+	}
+	
+	char const* forced_change_color = "**INVALID SETTING**";
+	switch (traits->get_appearance_traits()->get_forced_change_color_setting())
+	{
+	case _forced_change_color_setting_unchanged:
+		forced_change_color = "UNCHANGED";
+		break;
+	case _forced_change_color_setting_off:
+		forced_change_color = "OFF";
+		break;
+	case _forced_change_color_setting_mp_team_red:
+		forced_change_color = "RED";
+		break;
+	case _forced_change_color_setting_mp_team_blue:
+		forced_change_color = "BLUE";
+		break;
+	case _forced_change_color_setting_mp_team_green:
+		forced_change_color = "GREEN";
+		break;
+	case _forced_change_color_setting_mp_team_yellow:
+		forced_change_color = "YELLOW";
+		break;
+	case _forced_change_color_setting_mp_team_purple:
+		forced_change_color = "PURPLE";
+		break;
+	case _forced_change_color_setting_mp_team_orange:
+		forced_change_color = "ORANGE";
+		break;
+	case _forced_change_color_setting_mp_team_brown:
+		forced_change_color = "BROWN";
+		break;
+	case _forced_change_color_setting_mp_team_grey:
+		forced_change_color = "GREY";
+		break;
+	case _forced_change_color_setting_extra1:
+		forced_change_color = "XTRA 1";
+		break;
+	case _forced_change_color_setting_extra2:
+		forced_change_color = "XTRA 2";
+		break;
+	case _forced_change_color_setting_extra3:
+		forced_change_color = "XTRA 3";
+		break;
+	case _forced_change_color_setting_extra4:
+		forced_change_color = "XTRA 4";
+		break;
+	}
+	
+	file_printf(file, "active camo= %s\r\n", active_camo);
+	file_printf(file, "waypoint= %s\r\n", waypoint);
+	file_printf(file, "aura= %s\r\n", aura);
+	file_printf(file, "forced change color= %s\r\n", forced_change_color);
 	
 	// SENSORS TRAITS
+	char const* motion_tracker = "**INVALID SETTING**";
+	switch (traits->get_sensor_traits()->get_motion_tracker_setting())
+	{
+	case _motion_tracker_setting_unchanged :
+		motion_tracker = "UNCHANGED";
+		break;
+	case _motion_tracker_setting_off:
+		motion_tracker = "OFF";
+		break;
+	case _motion_tracker_setting_moving_friendly_bipeds_moving_neutral_vehicles:
+		motion_tracker = "FRIENDLY ONLY";
+		break;
+	case _motion_tracker_setting_moving_bipeds_moving_vehicles:
+		motion_tracker = "NORMAL";
+		break;
+	case _motion_tracker_setting_all_bipeds_moving_vehicles:
+		motion_tracker = "ALWAYS";
+		break;
+	}
+	
+	char const* motion_tracker_range = "**INVALID SETTING**";
+	switch (traits->get_sensor_traits()->get_motion_tracker_range_setting())
+	{
+	case _motion_tracker_range_setting_unchanged :
+		motion_tracker_range = "UNCHANGED";
+		break;
+	case _motion_tracker_range_setting_10_meters:
+		motion_tracker_range = "10m";
+		break;
+	case _motion_tracker_range_setting_15_meters:
+		motion_tracker_range = "15m";
+		break;
+	case _motion_tracker_range_setting_25_meters:
+		motion_tracker_range = "25m";
+		break;
+	case _motion_tracker_range_setting_50_meters:
+		motion_tracker_range = "50m";
+		break;
+	case _motion_tracker_range_setting_75_meters:
+		motion_tracker_range = "75m";
+		break;
+	case _motion_tracker_range_setting_100_meters:
+		motion_tracker_range = "100m";
+		break;
+	case _motion_tracker_range_setting_150_meters:
+		motion_tracker_range = "150m";
+		break;
+	}
+	
+	file_printf(file, "motion tracker= %s\r\n", motion_tracker);
+	file_printf(file, "motion tracker range= %s\r\n", motion_tracker_range);
 
 	file_printf(file, "---------- end player traits\r\n");
 }
