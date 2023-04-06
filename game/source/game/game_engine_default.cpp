@@ -251,7 +251,8 @@ void c_game_engine::dump_settings(s_file_reference* file) const
 	// SOCIAL OPTIONS
 	char const* team_changing = active_variant->get_social_options()->get_team_changing_enabled() ? "ENABLED" : "DISABLED";
 
-	file_printf(file, "observers= %s\r\n", active_variant->get_social_options()->get_observers_enabled() ? "ENABLED" : "DISABLED");
+	//file_printf(file, "observers= %s\r\n", active_variant->get_social_options()->get_observers_enabled() ? "ENABLED" : "DISABLED");
+	file_printf(file, "observers= %s\r\n", "DISABLED");
 	file_printf(file, "team changing= %s\r\n", active_variant->get_social_options()->get_team_changing_balancing_only_enabled() ? "BALANCING ONLY" : team_changing);
 	file_printf(file, "friendly fire= %s\r\n", active_variant->get_social_options()->get_friendly_fire_enabled() ? "ENABLED" : "DISABLED");
 	file_printf(file, "betrayal booting= %s\r\n", active_variant->get_social_options()->get_betrayal_booting_enabled() ? "ENABLED" : "DISABLED");
