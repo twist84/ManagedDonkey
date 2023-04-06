@@ -663,6 +663,8 @@ void c_player_trait_weapons::set_weapon_pickup_allowed(bool weapon_pickup_allowe
 
 void c_player_trait_movement::set(c_player_trait_movement const* traits, bool force)
 {
+	ASSERT(traits != NULL);
+
 	set_speed_setting(traits->get_speed_setting(), force);
 	set_gravity_setting(traits->get_gravity_setting(), force);
 	set_vehicle_usage_setting(traits->get_vehicle_usage_setting(), force);
@@ -792,6 +794,8 @@ void c_player_trait_movement::set_vehicle_usage_setting(e_vehicle_usage_setting 
 
 void c_player_trait_appearance::set(c_player_trait_appearance const* traits, bool force)
 {
+	ASSERT(traits != NULL);
+
 	set_active_camo_setting(traits->get_active_camo_setting(), force);
 	set_waypoint_setting(traits->get_waypoint_setting(), force);
 	set_aura_setting(traits->get_aura_setting(), force);
@@ -886,6 +890,8 @@ void c_player_trait_sensors::byteswap()
 
 void c_player_trait_sensors::set(c_player_trait_sensors const* traits, bool force)
 {
+	ASSERT(traits != NULL);
+
 	set_motion_tracker_setting(traits->get_motion_tracker_setting(), force);
 	set_motion_tracker_range_setting(traits->get_motion_tracker_range_setting(), force);
 }
