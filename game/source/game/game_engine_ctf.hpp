@@ -60,7 +60,7 @@ struct s_ctf_globals
 	c_static_array<word, 9> __unknown1670;
 	c_static_array<dword, 9> __unknown1684;
 	c_static_array<byte, 9> __unknown16A8;
-	c_static_array<word, 9> __unknown16B4;
+	c_static_array<word, 9> __unknown16B2;
 	c_static_array<word, 9> __unknown16C4;
 };
 static_assert(sizeof(s_ctf_globals) == 0x16D8);
