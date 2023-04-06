@@ -62,6 +62,16 @@ c_game_variant const* __cdecl current_game_variant()
 	return nullptr;
 }
 
+short __cdecl game_engine_get_multiplayer_weapon_selection_absolute_index(long name)
+{
+	return INVOKE(0x005CE4A0, game_engine_get_multiplayer_weapon_selection_absolute_index, name);
+}
+
+long __cdecl game_engine_get_multiplayer_weapon_selection_name(short absolute_index)
+{
+	return INVOKE(0x005CE560, game_engine_get_multiplayer_weapon_selection_name, absolute_index);
+}
+
 long __cdecl game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(short absolute_weapons_selection_block_index, e_weapon_set weapon_set)
 {
 	return INVOKE(0x005CECD0, game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index, absolute_weapons_selection_block_index, weapon_set);
