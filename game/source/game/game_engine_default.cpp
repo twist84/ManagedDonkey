@@ -32,6 +32,9 @@ void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player
 	char const* vehicle_usage = "**INVALID SETTING**";
 	switch (traits->get_movement_traits()->get_vehicle_usage_setting())
 	{
+	case _vehicle_usage_setting_unchanged:
+		vehicle_usage = "UNCHANGED";
+		break;
 	case _vehicle_usage_setting_none:
 		vehicle_usage = "NONE";
 		break;
