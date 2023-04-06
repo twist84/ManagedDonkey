@@ -1635,6 +1635,174 @@ enum e_subtitle_setting
 	k_subtitle_setting_count
 };
 
+enum e_color_type
+{
+	_color_type_primary = 0,
+	_color_type_secondary,
+	_color_type_visor,
+	_color_type_lights,
+	_color_type_holo,
+
+	k_color_type_count
+};
+
+enum e_armor_type
+{
+	_armor_type_helmet = 0,
+	_armor_type_chest,
+	_armor_type_shoulders,
+	_armor_type_arms,
+	_armor_type_legs,
+
+	_armor_type_acc,
+	_armor_type_pelvis,
+
+	_armor_type_unknown7,
+	_armor_type_unknown8,
+	_armor_type_unknown9,
+
+	k_armor_type_count
+};
+
+enum e_grenade_type
+{
+	_grenade_type_frag = 0,
+	_grenade_type_plasma,
+	_grenade_type_claymore,
+	_grenade_type_firebomb,
+
+	k_grenade_type_count
+};
+
+// `0069C3D0`, gameplay_modifier_get_name
+// `0069C730`, gameplay_modifier_get_index
+enum e_gameplay_modifier
+{
+	_gameplay_modifier_safety_booster = 0,
+	_gameplay_modifier_explosives_damage,
+	_gameplay_modifier_explosives_aoe_size_boost,
+	_gameplay_modifier_grenade_scavenger,
+	_gameplay_modifier_stamina_restore_near_death,
+	_gameplay_modifier_cooldown_reset,
+	_gameplay_modifier_reflex_boost,
+	_gameplay_modifier_zoom_radar,
+	_gameplay_modifier_cooldown_boost,
+	_gameplay_modifier_enable_nemesis_mechanics,
+	_gameplay_modifier_silent_sprint,
+	_gameplay_modifier_vehicle_shield_regen_speed,
+	_gameplay_modifier_vehicle_shield_regen_delay,
+	_gameplay_modifier_scavenger_aura,
+	_gameplay_modifier_armor_to_vehicle,
+	_gameplay_modifier_armor_to_player_in_vehicle,
+	_gameplay_modifier_armor_to_player_in_vehicle_transferred,
+	_gameplay_modifier_sprint_speed,
+	_gameplay_modifier_sprint_stamina,
+	_gameplay_modifier_reload_speed,
+	_gameplay_modifier_weapon_switch_speed,
+	_gameplay_modifier_ammo_max,
+	_gameplay_modifier_melee_damage,
+	_gameplay_modifier_melee_resist,
+	_gameplay_modifier_revenge_shield_boost,
+	_gameplay_modifier_respawn_modifier,
+	_gameplay_modifier_grenades_max,
+	_gameplay_modifier_motion_sensor_range,
+	_gameplay_modifier_shield_regen_rate,
+	_gameplay_modifier_shield_regen_delay,
+	_gameplay_modifier_teflon_armor,
+	_gameplay_modifier_explosion_resist,
+	_gameplay_modifier_vehicle_ram_damage,
+	_gameplay_modifier_turret_damage,
+	_gameplay_modifier_machine_gun_rof_acceleration_time,
+	_gameplay_modifier_grenade_warning,
+	_gameplay_modifier_consumable_duration,
+	_gameplay_modifier_energy_increase_max,
+	_gameplay_modifier_energy_increase_count_on_spawn,
+	_gameplay_modifier_energy_regeneration_rate,
+	_gameplay_modifier_assault_rifle_rounds_per_second,
+	_gameplay_modifier_assault_rifle_damage,
+	_gameplay_modifier_assault_rifle_ammo_capacity,
+	_gameplay_modifier_assault_rifle_reload_speed,
+	_gameplay_modifier_battle_rifle_rounds_per_second,
+	_gameplay_modifier_battle_rifle_fire_recovery_time,
+	_gameplay_modifier_battle_rifle_damage,
+	_gameplay_modifier_battle_rifle_ammo_capacity,
+	_gameplay_modifier_battle_rifle_reload_speed,
+	_gameplay_modifier_shotgun_spread,
+	_gameplay_modifier_shotgun_damage,
+	_gameplay_modifier_shotgun_ammo_capacity,
+	_gameplay_modifier_shotgun_reload_speed,
+	_gameplay_modifier_sniper_rifle_zoom_protection,
+	_gameplay_modifier_sniper_rifle_damage,
+	_gameplay_modifier_sniper_rifle_ammo_capacity,
+	_gameplay_modifier_sniper_rifle_reload_speed,
+	_gameplay_modifier_dmr_zoom_protection,
+	_gameplay_modifier_dmr_damage,
+	_gameplay_modifier_dmr_ammo_capacity,
+	_gameplay_modifier_dmr_reload_speed,
+	_gameplay_modifier_magnum_rounds_per_second,
+	_gameplay_modifier_magnum_penetration,
+	_gameplay_modifier_magnum_accuracy,
+	_gameplay_modifier_magnum_damage,
+	_gameplay_modifier_magnum_ammo_capacity,
+	_gameplay_modifier_magnum_reload_speed,
+	_gameplay_modifier_plasma_pistol_charge_up_time,
+	_gameplay_modifier_plasma_pistol_damage,
+	_gameplay_modifier_plasma_pistol_ammo_capacity,
+	_gameplay_modifier_plasma_pistol_heat_per_round,
+	_gameplay_modifier_frag_grenade_aoe_size,
+	_gameplay_modifier_frag_grenade_damage,
+	_gameplay_modifier_frag_grenade_ammo_capacity,
+	_gameplay_modifier_plasma_grenade_aoe_size,
+	_gameplay_modifier_plasma_grenade_damage,
+	_gameplay_modifier_plasma_grenade_ammo_capacity,
+	_gameplay_modifier_mauler_damage,
+	_gameplay_modifier_spiker_damage,
+	_gameplay_modifier_brute_shot_damage,
+	_gameplay_modifier_plasma_rifle_heat_per_round,
+	_gameplay_modifier_detonate_on_player_cdt,
+	_gameplay_modifier_detonate_on_vehicle_cdt,
+	_gameplay_modifier_enemies_always_on_radar,
+	_gameplay_modifier_plant_plasma_on_death,
+	_gameplay_modifier_shield_regen_rate_near_killed_enemies,
+	_gameplay_modifier_shield_recharge_on_melee_kill,
+	_gameplay_modifier_frag_grenades_max,
+	_gameplay_modifier_plasma_grenades_max,
+	_gameplay_modifier_claymore_grenade_aoe_size,
+	_gameplay_modifier_smg_damage,
+	_gameplay_modifier_smg_reload_speed,
+	_gameplay_modifier_vehicle_autoflip,
+
+	k_gameplay_modifier_count
+};
+
+enum e_player_respawn_failure
+{
+	_player_respawn_failure_none = 0,
+	_player_respawn_failure_in_editor,
+	_player_respawn_failure_cinematic_playing,
+	_player_respawn_failure_scripting_says_it_isnt_safe,
+	_player_respawn_failure_waiting_on_respawn_timer,
+	_player_respawn_failure_friend_in_combat,
+	_player_respawn_failure_nearby_enemies_pursuing_friend,
+	_player_respawn_failure_friend_airborne_or_moving,
+	_player_respawn_failure_friend_in_vehicle,
+	_player_respawn_failure_everybody_is_dead,
+	_player_respawn_failure_waiting_for_checkpoint,
+	_player_respawn_failure_can_not_find_valid_location,
+
+	k_player_respawn_failure_count
+};
+
+enum e_multiplayer_powerup_flavor
+{
+	_multiplayer_powerup_flavor_none = -1,
+	_multiplayer_powerup_flavor_red,
+	_multiplayer_powerup_flavor_blue,
+	_multiplayer_powerup_flavor_yellow,
+
+	k_number_of_multiplayer_powerup_flavors
+};
+
 enum e_shell_application_type
 {
 	_shell_application_type_unknown0 = 0,
