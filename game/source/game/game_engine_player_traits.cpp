@@ -349,7 +349,7 @@ long c_player_trait_shield_vitality::get_shield_multiplier() const
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _shield_multiplier_setting_4x))
 		return k_shield_multiplier_values[setting - minimum_value];
 
-	return k_shield_recharge_rate_percentage_values[k_shield_multiplier_setting_default - minimum_value];
+	return k_shield_multiplier_values[k_shield_multiplier_setting_default - minimum_value];
 }
 
 void c_player_trait_shield_vitality::set_shield_multiplier(long shield_multiplier, bool force)
@@ -357,8 +357,8 @@ void c_player_trait_shield_vitality::set_shield_multiplier(long shield_multiplie
 	const long minimum_value = _shield_multiplier_setting_0x;
 	for (long setting = minimum_value; setting < k_shield_multiplier_settings; setting++)
 	{
-		real value = k_shield_multiplier_values[setting - minimum_value];
-		real distance = shield_multiplier - value;
+		long value = k_shield_multiplier_values[setting - minimum_value];
+		long distance = shield_multiplier - value;
 		if ((shield_multiplier - value) < 0.0f)
 			distance = -distance;
 
@@ -423,7 +423,7 @@ char c_player_trait_weapons::get_initial_grenade_count() const
 	if (IN_RANGE_INCLUSIVE(setting, minimum_value, _grenade_count_setting_two))
 		return k_grenade_count_values[setting - minimum_value];
 
-	return k_shield_recharge_rate_percentage_values[k_grenade_count_setting_default - minimum_value];
+	return k_grenade_count_values[k_grenade_count_setting_default - minimum_value];
 }
 
 void c_player_trait_weapons::set_initial_grenade_count(long initial_grenade_count, bool force)

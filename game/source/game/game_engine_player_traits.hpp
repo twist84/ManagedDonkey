@@ -179,7 +179,7 @@ enum e_grenade_count_setting
 	k_grenade_count_setting_default = _grenade_count_setting_two
 };
 
-constexpr long k_grenade_count_values[k_grenade_count_settings - _grenade_count_setting_none]
+constexpr char k_grenade_count_values[k_grenade_count_settings - _grenade_count_setting_none]
 {
 	0,
 	1,
