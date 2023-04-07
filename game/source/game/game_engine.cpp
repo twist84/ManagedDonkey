@@ -17,6 +17,11 @@ REFERENCE_DECLARE_ARRAY(0x0189ECF0, char const*, k_game_engine_end_conditions, k
 HOOK_DECLARE(0x00551780, game_engine_interface_update);
 //HOOK_DECLARE(0x005521D0, game_engine_get_pre_round_ticks);
 
+void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string)
+{
+	INVOKE(0x00550460, game_engine_get_multiplayer_string, id, out_multiplayer_string);
+}
+
 long __cdecl game_engine_get_player_place(long absolute_player_index)
 {
 	return INVOKE(0x005506F0, game_engine_get_player_place, absolute_player_index);

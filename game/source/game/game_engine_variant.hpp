@@ -5,6 +5,7 @@
 #include "game/game_engine_traits.hpp"
 #include "memory/bitstream.hpp"
 #include "saved_games/saved_game_files.hpp"
+#include "text/unicode.hpp"
 
 enum e_game_engine_type
 {
@@ -46,6 +47,9 @@ public:
 	}
 
 	void byteswap();
+
+	void get_game_engine_name(c_static_wchar_string<1024>* game_engine_name) const;
+	void get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const;
 
 	char const* get_name() const;
 	void set_name(char const* name);

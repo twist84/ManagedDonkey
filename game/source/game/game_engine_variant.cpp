@@ -2,6 +2,7 @@
 
 #include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "game/game_engine.hpp"
 #include "game/game_options.hpp"
 #include "memory/byte_swapping.hpp"
 
@@ -37,6 +38,16 @@ void c_game_engine_base_variant::byteswap()
 	m_map_override_options.byteswap();
 	bswap_word_inplace(m_flags);
 	bswap_word_inplace(m_team_scoring_method);
+}
+
+void c_game_engine_base_variant::get_game_engine_name(c_static_wchar_string<1024>* out_game_engine_name) const
+{
+	game_engine_get_multiplayer_string(get_game_engine_name_string_id(), out_game_engine_name);
+}
+
+void c_game_engine_base_variant::get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const
+{
+	game_engine_get_multiplayer_string(get_game_engine_default_description_string_id(), game_engine_description);
 }
 
 char const* c_game_engine_base_variant::get_name() const

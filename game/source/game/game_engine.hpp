@@ -10,6 +10,7 @@
 #include "game/game_engine_util.hpp"
 #include "game/game_statborg.hpp"
 #include "saved_games/scenario_map_variant.hpp"
+#include "text/unicode.hpp"
 
 enum e_game_engine_end_condition
 {
@@ -145,6 +146,7 @@ struct s_local_game_engine_globals
 };
 static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
 
+extern void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string);
 extern long __cdecl game_engine_get_player_place(long absolute_player_index);
 extern long __cdecl game_engine_get_player_score_for_display(long absolute_player_index, bool final_score);
 extern long __cdecl game_engine_get_team_place(long team);
