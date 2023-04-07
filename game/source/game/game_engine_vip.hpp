@@ -43,6 +43,8 @@ static_assert(sizeof(c_game_engine_vip_variant) == 0x238);
 
 struct c_vip_engine : c_game_engine
 {
+public:
+	void dump_settings(s_file_reference* file) const;
 };
 
 struct c_destination_zone : c_area

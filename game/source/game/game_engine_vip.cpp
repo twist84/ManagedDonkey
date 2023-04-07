@@ -20,3 +20,11 @@ void c_game_engine_vip_variant::byteswap()
 	m_vip_traits.byteswap();
 }
 
+void c_vip_engine::dump_settings(s_file_reference* file) const
+{
+	ASSERT(file != NULL);
+
+	c_game_engine::dump_settings(file);
+
+}
+

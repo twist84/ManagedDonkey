@@ -39,6 +39,8 @@ static_assert(sizeof(c_game_engine_assault_variant) == 0x228);
 
 struct c_assault_engine : c_ctf_engine
 {
+public:
+	void dump_settings(s_file_reference* file) const;
 };
 
 struct s_assault_globals

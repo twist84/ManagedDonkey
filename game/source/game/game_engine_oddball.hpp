@@ -38,6 +38,8 @@ static_assert(sizeof(c_game_engine_oddball_variant) == 0x200);
 
 struct c_oddball_engine : c_game_engine
 {
+public:
+	void dump_settings(s_file_reference* file) const;
 };
 
 struct s_oddball_globals

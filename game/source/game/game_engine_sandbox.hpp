@@ -27,6 +27,8 @@ static_assert(sizeof(c_game_engine_sandbox_variant) == 0x1F0);
 
 struct c_sandbox_engine : c_game_engine
 {
+public:
+	void dump_settings(s_file_reference* file) const;
 };
 
 struct s_sandbox_globals

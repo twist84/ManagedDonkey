@@ -18,3 +18,11 @@ void c_game_engine_ctf_variant::byteswap()
 	ASSERT(array_is_zeroed(m_pad1));
 }
 
+void c_ctf_engine::dump_settings(s_file_reference* file) const
+{
+	ASSERT(file != NULL);
+
+	c_game_engine::dump_settings(file);
+
+}
+

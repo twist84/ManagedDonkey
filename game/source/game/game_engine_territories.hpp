@@ -28,6 +28,8 @@ static_assert(sizeof(c_game_engine_territories_variant) == 0x210);
 
 struct c_territories_engine : c_game_engine
 {
+public:
+	void dump_settings(s_file_reference* file) const;
 };
 
 struct s_territory_data : c_area

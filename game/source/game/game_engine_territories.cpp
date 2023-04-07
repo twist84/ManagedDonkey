@@ -16,3 +16,11 @@ void c_game_engine_territories_variant::byteswap()
 	m_attacker_traits.byteswap();
 }
 
+void c_territories_engine::dump_settings(s_file_reference* file) const
+{
+	ASSERT(file != NULL);
+
+	c_game_engine::dump_settings(file);
+
+}
+

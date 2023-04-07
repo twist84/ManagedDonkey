@@ -49,6 +49,8 @@ public:
 	virtual void* function88(void*, ...);
 
 	virtual bool verify_state(void) const;
+
+	void dump_settings(s_file_reference* file) const;
 };
 
 struct s_ctf_shared_globals

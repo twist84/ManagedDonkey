@@ -39,6 +39,8 @@ static_assert(sizeof(c_game_engine_infection_variant) == 0x250);
 
 struct c_infection_engine : c_game_engine
 {
+public:
+	void dump_settings(s_file_reference* file) const;
 };
 
 struct s_infection_globals

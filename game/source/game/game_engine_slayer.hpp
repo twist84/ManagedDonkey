@@ -41,6 +41,8 @@ static_assert(sizeof(c_game_engine_slayer_variant) == 0x200);
 
 struct c_slayer_engine : c_game_engine
 {
+public:
+	void dump_settings(s_file_reference* file) const;
 };
 
 extern c_game_engine_slayer_variant*& slayer_variant;

@@ -37,6 +37,8 @@ static_assert(sizeof(c_game_engine_king_variant) == 0x200);
 
 struct c_king_engine : c_game_engine
 {
+public:
+	void dump_settings(s_file_reference* file) const;
 };
 
 struct s_king_globals

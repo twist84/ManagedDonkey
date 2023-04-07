@@ -19,3 +19,11 @@ void c_game_engine_oddball_variant::byteswap()
 	ASSERT(array_is_zeroed(m_pad1));
 }
 
+void c_oddball_engine::dump_settings(s_file_reference* file) const
+{
+	ASSERT(file != NULL);
+
+	c_game_engine::dump_settings(file);
+
+}
+

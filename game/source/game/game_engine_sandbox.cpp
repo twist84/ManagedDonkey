@@ -12,3 +12,11 @@ void c_game_engine_sandbox_variant::byteswap()
 	m_player_traits.byteswap();
 }
 
+void c_sandbox_engine::dump_settings(s_file_reference* file) const
+{
+	ASSERT(file != NULL);
+
+	c_game_engine::dump_settings(file);
+
+}
+
