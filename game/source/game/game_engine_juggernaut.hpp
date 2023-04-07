@@ -9,6 +9,15 @@
 
 struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
 {
+public:
+	c_game_engine_juggernaut_variant* constructor()
+	{
+		return DECLFUNC(0x00572B80, c_game_engine_juggernaut_variant*, __thiscall, c_game_engine_juggernaut_variant*)(this);
+	}
+
+	void byteswap();
+
+protected:
 	c_enum<long, short, 0, 500> m_score_to_win_round;         // default: 15
 	c_enum<long, short, 0, 500> m_score_unknown;              // default: 13, halo online specific
 
@@ -29,8 +38,6 @@ struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
 	c_player_traits m_juggernaut_traits;
 
 	byte m_pad1[2];
-
-	void byteswap();
 };
 static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x200);
 

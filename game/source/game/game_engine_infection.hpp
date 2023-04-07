@@ -8,6 +8,15 @@
 
 struct c_game_engine_infection_variant : c_game_engine_base_variant
 {
+public:
+	c_game_engine_infection_variant* constructor()
+	{
+		return DECLFUNC(0x00572B60, c_game_engine_infection_variant*, __thiscall, c_game_engine_infection_variant*)(this);
+	}
+
+	void byteswap();
+
+protected:
 	c_flags<e_infection_variant_flags, byte_flags, k_infection_variant_flags> m_variant_flags;
 	c_enum<e_infection_safe_havens_settings, char, _infection_safe_havens_off, k_infection_safe_havens_settings> m_safe_havens;
 	c_enum<e_infection_next_zombie_settings, char, _infection_next_zombie_winner, k_infection_next_zombie_settings> m_next_zombie;
@@ -25,8 +34,6 @@ struct c_game_engine_infection_variant : c_game_engine_base_variant
 	c_player_traits m_last_human_traits;
 
 	byte m_pad1[4];
-
-	void byteswap();
 };
 static_assert(sizeof(c_game_engine_infection_variant) == 0x250);
 

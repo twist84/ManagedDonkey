@@ -6,6 +6,15 @@
 
 struct c_game_engine_slayer_variant : c_game_engine_base_variant
 {
+public:
+	c_game_engine_slayer_variant* constructor()
+	{
+		return DECLFUNC(0x00572C20, c_game_engine_slayer_variant*, __thiscall, c_game_engine_slayer_variant*)(this);
+	}
+
+	void byteswap();
+
+protected:
 	// `c_game_engine_base_variant::m_team_scoring_method` override
 	// c_enum<e_slayer_team_scoring_settings, short, k_slayer_team_scoring_settings> m_team_scoring
 
@@ -27,8 +36,6 @@ struct c_game_engine_slayer_variant : c_game_engine_base_variant
 	c_player_traits m_leader_traits;
 
 	byte m_pad1[2];
-
-	void byteswap();
 };
 static_assert(sizeof(c_game_engine_slayer_variant) == 0x200);
 

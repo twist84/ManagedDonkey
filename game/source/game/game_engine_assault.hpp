@@ -7,6 +7,15 @@
 
 struct c_game_engine_assault_variant : c_game_engine_base_variant
 {
+public:
+	c_game_engine_assault_variant* constructor()
+	{
+		return DECLFUNC(0x00572B00, c_game_engine_assault_variant*, __thiscall, c_game_engine_assault_variant*)(this);
+	}
+
+	void byteswap();
+
+protected:
 	c_flags<e_assault_variant_flags, word_flags, k_assault_variant_flags> m_variant_flags;
 	c_enum<e_assault_respawn_settings, short, _assault_respawn_settings_disabled, k_assault_respawn_settings> m_respawn;
 	c_enum<e_assault_game_type_settings, short, _assault_game_type_settings_multi_bomb, k_assault_game_type_settings> m_game_type;
@@ -25,8 +34,6 @@ struct c_game_engine_assault_variant : c_game_engine_base_variant
 	c_player_traits m_arming_traits;
 
 	byte m_pad1[4];
-
-	void byteswap();
 };
 static_assert(sizeof(c_game_engine_assault_variant) == 0x228);
 

@@ -26,19 +26,52 @@ enum e_game_engine_type
 
 struct c_game_engine_base_variant
 {
-	virtual long get_game_engine_name_string_id();
-	virtual long get_game_engine_default_description_string_id();
+public:
+	virtual long get_game_engine_name_string_id() const;
+	virtual long get_game_engine_default_description_string_id() const;
 	virtual void initialize();
 	virtual void validate();
-	virtual void encode(c_bitstream* packet);
+	virtual void encode(c_bitstream* packet) const;
 	virtual void decode(c_bitstream* packet);
 	//virtual void byteswap(); // MCC
-	virtual bool can_add_to_recent_list();
-	virtual long get_score_to_win_round();
-	virtual long get_score_unknown();                                  // halo online specific
-	virtual bool can_be_cast_to(e_game_engine_type, void const**);
-	virtual void custom_team_score_stats(long, long, long);
+	virtual bool can_add_to_recent_list() const;
+	virtual long get_score_to_win_round() const;
+	virtual long get_score_unknown() const; // halo online specific
+	virtual bool can_be_cast_to(e_game_engine_type game_engine_index, void const**) const;
+	virtual void custom_team_score_stats(long team_index, long, long) const;
+	
+	c_game_engine_base_variant* constructor()
+	{
+		return DECLFUNC(0x00572B20, c_game_engine_base_variant*, __thiscall, c_game_engine_base_variant*)(this);
+	}
 
+	void byteswap();
+
+	char const* get_name() const;
+	void set_name(char const* name);
+
+	char const* get_description() const;
+	void set_description(char const* description);
+
+	c_game_engine_miscellaneous_options* get_miscellaneous_options_writeable();
+	c_game_engine_miscellaneous_options const* get_miscellaneous_options() const;
+
+	c_game_engine_respawn_options* get_respawn_options_writeable();
+	c_game_engine_respawn_options const* get_respawn_options() const;
+
+	c_game_engine_social_options* get_social_options_writeable();
+	c_game_engine_social_options const* get_social_options() const;
+
+	c_game_engine_map_override_options* get_map_override_options_writeable();
+	c_game_engine_map_override_options const* get_map_override_options() const;
+
+	bool get_built_in() const;
+	void set_built_in(bool built_in);
+
+	short get_team_scoring_method() const;
+	void set_team_scoring_method(short team_scoring_method);
+
+protected:
 	dword m_checksum;
 
 	char m_name[32];
@@ -49,25 +82,6 @@ struct c_game_engine_base_variant
 	c_game_engine_map_override_options m_map_override_options;
 	word_flags m_flags;
 	short m_team_scoring_method;
-
-	void byteswap();
-
-	char const* get_name() const;
-	void set_name(char const* name);
-	char const* get_description() const;
-	void set_description(char const* description);
-	c_game_engine_miscellaneous_options* get_miscellaneous_options_writeable();
-	c_game_engine_miscellaneous_options const* get_miscellaneous_options() const;
-	c_game_engine_respawn_options* get_respawn_options_writeable();
-	c_game_engine_respawn_options const* get_respawn_options() const;
-	c_game_engine_social_options* get_social_options_writeable();
-	c_game_engine_social_options const* get_social_options() const;
-	c_game_engine_map_override_options* get_map_override_options_writeable();
-	c_game_engine_map_override_options const* get_map_override_options() const;
-	bool get_built_in() const;
-	void set_built_in(bool built_in);
-	short get_team_scoring_method() const;
-	void set_team_scoring_method(short team_scoring_method);
 };
 constexpr size_t k_game_engine_base_variant_size = sizeof(c_game_engine_base_variant);
 static_assert(k_game_engine_base_variant_size == 0x1D0);

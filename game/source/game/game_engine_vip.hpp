@@ -8,6 +8,15 @@
 
 struct c_game_engine_vip_variant : c_game_engine_base_variant
 {
+public:
+	c_game_engine_vip_variant* constructor()
+	{
+		return DECLFUNC(0x00572C70, c_game_engine_vip_variant*, __thiscall, c_game_engine_vip_variant*)(this);
+	}
+
+	void byteswap();
+
+protected:
 	c_enum<long, short, 0, 500> m_score_to_win_round;         // default: 15
 	c_enum<long, short, 0, 500> m_score_unknown;              // default: 10, halo online specific
 	c_flags<e_vip_variant_flags, word_flags, k_vip_variant_flags> m_variant_flags;
@@ -29,8 +38,6 @@ struct c_game_engine_vip_variant : c_game_engine_base_variant
 	c_player_traits m_vip_team_traits;
 	c_player_traits m_vip_influence_traits;
 	c_player_traits m_vip_traits;
-
-	void byteswap();
 };
 static_assert(sizeof(c_game_engine_vip_variant) == 0x238);
 

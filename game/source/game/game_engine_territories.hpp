@@ -8,14 +8,21 @@
 
 struct c_game_engine_territories_variant : c_game_engine_base_variant
 {
+public:
+	c_game_engine_territories_variant* constructor()
+	{
+		return DECLFUNC(0x00572C50, c_game_engine_territories_variant*, __thiscall, c_game_engine_territories_variant*)(this);
+	}
+
+	void byteswap();
+
+protected:
 	c_flags<e_territories_variant_flags, word_flags, k_territories_variant_flags> m_variant_flags;
 	c_enum<e_territories_respawn_on_capture_settings, short, _territories_respawn_on_capture_settings_disabled, k_territories_respawn_on_capture_settings> m_respawn_on_capture;
 	c_enum<e_territories_capture_time_settings, short, _territories_capture_time_settings_instant, k_territories_capture_time_settings> m_capture_time;
 	c_enum<e_territories_sudden_death_settings, short, _territories_sudden_death_settings_indefinite, k_territories_sudden_death_settings> m_sudden_death_time;
 	c_player_traits m_defender_traits;
 	c_player_traits m_attacker_traits;
-
-	void byteswap();
 };
 static_assert(sizeof(c_game_engine_territories_variant) == 0x210);
 

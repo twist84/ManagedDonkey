@@ -8,11 +8,20 @@
 
 struct c_game_engine_ctf_variant : c_game_engine_base_variant
 {
+public:
+	c_game_engine_ctf_variant* constructor()
+	{
+		return DECLFUNC(0x00572B40, c_game_engine_ctf_variant*, __thiscall, c_game_engine_ctf_variant*)(this);
+	}
+
+	void byteswap();
+
+protected:
 	c_flags<e_ctf_variant_flags, char, k_ctf_variant_flags> m_variant_flags;
 	c_enum<e_ctf_home_flag_waypoint_settings, char, _ctf_home_flag_waypoint_settings_never, k_ctf_home_flag_waypoint_settings> m_home_flag_waypoint;
 	c_enum<e_ctf_game_type_settings, char, _ctf_game_type_settings_multi_flag, k_ctf_game_type_settings> m_game_type;
 	c_enum<e_ctf_respawn_settings, char, _ctf_respawn_settings_normal, k_ctf_respawn_settings> m_respawn;
-	c_enum<e_ctf_touch_return_settings, short, _ctf_touch_return_settings_off, k_ctf_touch_return_settings> m_touch_return_time;
+	c_enum<e_ctf_touch_return_settings, short, _ctf_touch_return_settings_off, k_ctf_touch_return_settings> m_touch_return_timeout;
 	c_enum<e_ctf_sudden_death_time, short, _ctf_sudden_death_time_infinite, k_ctf_sudden_death_times> m_sudden_death_time;
 	c_enum<long, short, 0, 50> m_score_to_win;     // default: 5
 	c_enum<long, short, 0, 50> m_score_unknown;    // default: 3, halo online specific
@@ -20,8 +29,6 @@ struct c_game_engine_ctf_variant : c_game_engine_base_variant
 	c_player_traits m_carrier_traits;
 
 	byte m_pad1[6];
-
-	void byteswap();
 };
 static_assert(sizeof(c_game_engine_ctf_variant) == 0x200);
 
