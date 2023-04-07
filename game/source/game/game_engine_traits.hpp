@@ -67,6 +67,9 @@ struct c_game_engine_miscellaneous_options
 public:
 	void byteswap();
 
+	void set(c_game_engine_miscellaneous_options const* options, bool force);
+	//void set(s_game_engine_miscellaneous_options_definition const* definition, bool force);
+
 	bool get_teams_enabled() const;
 	void set_teams_enabled(bool teams_enabled);
 
@@ -100,6 +103,9 @@ struct c_game_engine_respawn_options
 {
 public:
 	void byteswap();
+
+	void set(c_game_engine_respawn_options const* options, bool force);
+	//void set(s_game_engine_respawn_options_definition const* definition, bool force);
 
 	bool get_inherit_respawn_time_enabled() const;
 	void set_inherit_respawn_time_enabled(bool respawn_time_enabled);
@@ -167,6 +173,9 @@ struct c_game_engine_social_options
 public:
 	void byteswap();
 
+	void set(c_game_engine_social_options const* options, bool force);
+	//void set(s_game_engine_social_options_definition const* definition, bool force);
+
 	bool get_observers_enabled() const;
 	void set_observers_enabled(bool observers_enabled);
 
@@ -204,6 +213,9 @@ struct c_game_engine_map_override_options
 {
 public:
 	void byteswap();
+
+	void set(c_game_engine_map_override_options const* options, bool force);
+	//void set(s_game_engine_map_override_options_definition const* definition, bool force);
 
 	bool get_grenades_on_map_enabled() const;
 	void set_grenades_on_map_enabled(bool grenades_on_map_enabled);

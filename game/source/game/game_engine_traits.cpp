@@ -9,6 +9,22 @@ void c_game_engine_miscellaneous_options::byteswap()
 {
 }
 
+void c_game_engine_miscellaneous_options::set(c_game_engine_miscellaneous_options const* options, bool force)
+{
+	ASSERT(options != NULL);
+
+	set_teams_enabled(options->get_teams_enabled());
+	set_round_reset_players(options->get_round_reset_players());
+	set_round_reset_map(options->get_round_reset_map());
+	set_round_time_limit_minutes(options->get_round_time_limit_minutes());
+	set_round_limit(options->get_round_limit());
+	set_early_victory_win_count(options->get_early_victory_win_count());
+}
+
+//void c_game_engine_miscellaneous_options::set(s_game_engine_miscellaneous_options_definition const* definition, bool force)
+//{
+//}
+
 bool c_game_engine_miscellaneous_options::get_teams_enabled() const
 {
 	return m_flags.test(_game_engine_miscellaneous_option_teams_enabled);
@@ -83,6 +99,28 @@ void c_game_engine_respawn_options::byteswap()
 {
 	m_respawn_player_traits.byteswap();
 }
+
+void c_game_engine_respawn_options::set(c_game_engine_respawn_options const* options, bool force)
+{
+	ASSERT(options != NULL);
+
+	set_inherit_respawn_time_enabled(options->get_inherit_respawn_time_enabled());
+	set_respawn_with_teammate_enabled(options->get_respawn_with_teammate_enabled());
+	set_respawn_at_location_enabled(options->get_respawn_at_location_enabled());
+	set_respawn_on_kills_enabled(options->get_respawn_on_kills_enabled());
+	set_lives_per_round(options->get_lives_per_round());
+	set_team_lives_per_round(options->get_team_lives_per_round());
+	set_respawn_time_seconds(options->get_respawn_time_seconds());
+	set_suicide_penalty_seconds(options->get_suicide_penalty_seconds());
+	set_betrayal_penalty_seconds(options->get_betrayal_penalty_seconds());
+	set_respawn_growth_seconds(options->get_respawn_growth_seconds());
+	set_respawn_player_traits_duration_seconds(options->get_respawn_player_traits_duration_seconds());
+	set_respawn_player_traits(options->get_respawn_player_traits(), force);
+}
+
+//void c_game_engine_respawn_options::set(s_game_engine_respawn_options_definition const* definition, bool force)
+//{
+//}
 
 bool c_game_engine_respawn_options::get_inherit_respawn_time_enabled() const
 {
@@ -235,6 +273,24 @@ void c_game_engine_social_options::byteswap()
 	bswap_word_inplace(m_team_changing);
 }
 
+void c_game_engine_social_options::set(c_game_engine_social_options const* options, bool force)
+{
+	ASSERT(options != NULL);
+
+	set_observers_enabled(options->get_observers_enabled());
+	set_team_changing_enabled(options->get_team_changing_enabled());
+	set_team_changing_balancing_only_enabled(options->get_team_changing_balancing_only_enabled());
+	set_friendly_fire_enabled(options->get_friendly_fire_enabled());
+	set_betrayal_booting_enabled(options->get_betrayal_booting_enabled());
+	//set_enemy_voice_enabled(options->get_enemy_voice_enabled());
+	//set_open_channel_voice_enabled(options->get_open_channel_voice_enabled());
+	//set_dead_player_voice_enabled(options->get_dead_player_voice_enabled());
+}
+
+//void c_game_engine_social_options::set(s_game_engine_social_options_definition const* definition, bool force)
+//{
+//}
+
 bool c_game_engine_social_options::get_observers_enabled() const
 {
 	return m_flags.test(_game_engine_social_options_observers_enabled);
@@ -335,6 +391,29 @@ void c_game_engine_map_override_options::byteswap()
 	m_blue_powerup_traits.byteswap();
 	m_yellow_powerup_traits.byteswap();
 }
+
+void c_game_engine_map_override_options::set(c_game_engine_map_override_options const* options, bool force)
+{
+	ASSERT(options != NULL);
+
+	set_grenades_on_map_enabled(get_grenades_on_map_enabled());
+	set_indestructible_vehicles_enabled(get_indestructible_vehicles_enabled());
+	set_base_player_traits(get_base_player_traits(), force);
+	set_weapon_set_absolute_index(get_weapon_set_absolute_index());
+	set_vehicle_set_absolute_index(get_vehicle_set_absolute_index());
+	set_red_powerup_traits(get_red_powerup_traits(), force);
+	set_blue_powerup_traits(get_blue_powerup_traits(), force);
+	set_yellow_powerup_traits(get_yellow_powerup_traits(), force);
+	set_red_powerup_duration_seconds(get_red_powerup_duration_seconds());
+	set_blue_powerup_duration_seconds(get_blue_powerup_duration_seconds());
+	set_yellow_powerup_duration_seconds(get_yellow_powerup_duration_seconds());
+
+	csmemset(pad, 0, sizeof(pad));
+}
+
+//void c_game_engine_map_override_options::set(s_game_engine_map_override_options_definition const* definition, bool force)
+//{
+//}
 
 bool c_game_engine_map_override_options::get_grenades_on_map_enabled() const
 {
