@@ -45,7 +45,7 @@ typedef char long_string[256];
 static_assert(sizeof(long_string) == 0x100);
 
 // a 32-bit string identifier
-typedef unsigned long string_id;
+typedef long string_id;
 static_assert(sizeof(string_id) == 0x4);
 
 // 8-bit unsigned integer ranging from 0 to 255
