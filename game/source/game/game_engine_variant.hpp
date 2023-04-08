@@ -48,6 +48,9 @@ public:
 
 	void byteswap();
 
+	void set(c_game_engine_base_variant const* variant, bool force);
+	//void set(s_game_engine_base_variant_definition const* definition, bool force);
+
 	void get_game_engine_name(c_static_wchar_string<1024>* game_engine_name) const;
 	void get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const;
 

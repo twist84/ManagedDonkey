@@ -40,6 +40,23 @@ void c_game_engine_base_variant::byteswap()
 	bswap_word_inplace(m_team_scoring_method);
 }
 
+void c_game_engine_base_variant::set(c_game_engine_base_variant const* variant, bool force)
+{
+	ASSERT(variant != NULL);
+
+	set_name(variant->get_name());
+	set_description(variant->get_description());
+	m_miscellaneous_options.set(variant->get_miscellaneous_options(), force);
+	m_respawn_options.set(variant->get_respawn_options(), force);
+	m_social_options.set(variant->get_social_options(), force);
+	m_map_override_options.set(variant->get_map_override_options(), force);
+	set_team_scoring_method(variant->get_team_scoring_method());
+}
+
+//void c_game_engine_base_variant::set(s_game_engine_base_variant_definition const* definition, bool force)
+//{
+//}
+
 void c_game_engine_base_variant::get_game_engine_name(c_static_wchar_string<1024>* out_game_engine_name) const
 {
 	game_engine_get_multiplayer_string(get_game_engine_name_string_id(), out_game_engine_name);
