@@ -15,6 +15,35 @@ public:
 	}
 
 	void byteswap();
+	void set(c_game_engine_ctf_variant const* variant, bool force);
+
+	bool get_flag_at_home_to_score() const;
+	void set_flag_at_home_to_score(bool flag_at_home_to_score);
+
+	e_ctf_home_flag_waypoint_settings get_home_flag_waypoint() const;
+	void set_home_flag_waypoint(e_ctf_home_flag_waypoint_settings home_flag_waypoint);
+
+	e_ctf_game_type_settings get_game_type() const;
+	void set_game_type(e_ctf_game_type_settings game_type);
+
+	e_ctf_respawn_settings get_respawn() const;
+	void set_respawn(e_ctf_respawn_settings respawn);
+
+	short get_touch_return_timeout() const;
+	void set_touch_return_timeout(short touch_return_timeout);
+
+	short get_sudden_death_time() const;
+	void set_sudden_death_time(short sudden_death_time);
+
+	short get_score_to_win() const;
+	void set_score_to_win(short score_to_win);
+
+	short get_flag_reset_time() const;
+	void set_flag_reset_time(short flag_reset_time);
+
+	c_player_traits* get_carrier_traits_writeable();
+	c_player_traits const* get_carrier_traits() const;
+	void set_carrier_traits(c_player_traits const* traits, bool force);
 
 protected:
 	c_flags<e_ctf_variant_flags, char, k_ctf_variant_flags> m_variant_flags;
