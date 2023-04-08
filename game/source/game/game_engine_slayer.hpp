@@ -14,6 +14,59 @@ public:
 
 	void byteswap();
 
+	void set(c_game_engine_slayer_variant const* variant, bool force);
+	//void set(s_game_engine_slayer_variant_definition const* definition, bool force);
+
+	short get_score_to_win() const;
+	void set_score_to_win(short score_to_win);
+
+	char get_kill_points() const;
+	void set_kill_points(char kill_points);
+
+	char get_assist_points() const;
+	void set_assist_points(char assist_points);
+
+	char get_death_points() const;
+	void set_death_points(char death_points);
+
+	char get_suicide_points() const;
+	void set_suicide_points(char suicide_points);
+
+	char get_betrayal_points() const;
+	void set_betrayal_points(char betrayal_points);
+
+	char get_leader_killed_points() const;
+	void set_leader_killed_points(char leader_killed_points);
+
+	char get_elimination_points() const;
+	void set_elimination_points(char elimination_points);
+
+	char get_assassination_points() const;
+	void set_assassination_points(char assassination_points);
+
+	char get_headshot_points() const;
+	void set_headshot_points(char headshot_points);
+
+	char get_melee_points() const;
+	void set_melee_points(char melee_points);
+
+	char get_sticky_points() const;
+	void set_sticky_points(char sticky_points);
+
+	char get_splatter_points() const;
+	void set_splatter_points(char splatter_points);
+
+	char get_killing_spree_points() const;
+	void set_killing_spree_points(char killing_spree_points);
+
+	c_player_traits* get_leader_traits_writeable();
+	c_player_traits const* get_leader_traits() const;
+	void set_leader_traits(c_player_traits const* traits, bool force);
+
+	//c_player_traits* get_leader_team_traits_writeable();
+	//c_player_traits const* get_leader_team_traits() const;
+	//void set_leader_team_traits(c_player_traits const* traits, bool force);
+
 protected:
 	// `c_game_engine_base_variant::m_team_scoring_method` override
 	// c_enum<e_slayer_team_scoring_settings, short, k_slayer_team_scoring_settings> m_team_scoring
@@ -34,6 +87,7 @@ protected:
 	c_enum<long, char, -10, 10> m_splatter_points;      // default: 0
 	c_enum<long, char, -10, 10> m_killing_spree_points; // default: 0
 	c_player_traits m_leader_traits;
+	//c_player_traits m_leader_team_traits;
 
 	byte m_pad1[2];
 };
