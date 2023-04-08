@@ -32,7 +32,7 @@ void c_assault_engine::dump_settings(s_file_reference* file) const
 {
 	ASSERT(file != NULL);
 
-	c_game_engine::dump_settings(file);
+	c_ctf_engine::dump_settings(file);
 
 }
 
