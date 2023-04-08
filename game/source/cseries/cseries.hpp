@@ -19,7 +19,7 @@
 #define OFFSETOF(s,m) __builtin_offsetof(s,m)
 #define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
 #define IN_RANGE_INCLUSIVE(value, begin, end) (((value) >= (begin)) && ((value) <= (end)))
-#define VALID_INDEX(index, count) ((index) >= 0 && (index) < count)
+#define VALID_INDEX(index, count) ((index) >= 0 && (index) < (count))
 
 #define REFERENCE_DECLARE(address, type, name) type& name = *reinterpret_cast<type*>(address)
 #define REFERENCE_DECLARE_ARRAY(address, type, name, count) type(&name)[count] = *reinterpret_cast<type(*)[count]>(address)
