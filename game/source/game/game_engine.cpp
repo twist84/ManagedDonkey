@@ -106,7 +106,43 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 			dword error = 0;
 			if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
 			{
-				current_game_engine()->dump_settings(&file);
+				c_game_engine const* game_engine = current_game_engine();
+				switch (game_engine->get_type())
+				{
+					case _game_engine_base_variant:
+						game_engine->dump_settings(&file);
+						break;
+					case _game_engine_ctf_variant:
+						dynamic_cast<c_ctf_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_slayer_variant:
+						dynamic_cast<c_slayer_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_oddball_variant:
+						dynamic_cast<c_oddball_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_king_variant:
+						dynamic_cast<c_king_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_sandbox_variant:
+						dynamic_cast<c_sandbox_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_vip_variant:
+						dynamic_cast<c_vip_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_juggernaut_variant:
+						dynamic_cast<c_juggernaut_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_territories_variant:
+						dynamic_cast<c_territories_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_assault_variant:
+						dynamic_cast<c_assault_engine const*>(game_engine)->dump_settings(&file);
+						break;
+					case _game_engine_infection_variant:
+						dynamic_cast<c_infection_engine const*>(game_engine)->dump_settings(&file);
+						break;
+				}
 				file_close(&file);
 			}
 			else
