@@ -37,6 +37,8 @@ void c_game_engine_oddball_variant::set(c_game_engine_oddball_variant const* var
 	set_ball_spawn_delay(variant->get_ball_spawn_delay());
 	set_ball_inactive_respawn_delay(variant->get_ball_inactive_respawn_delay());
 	set_carrier_traits(variant->get_carrier_traits(), force);
+
+	zero_array(m_pad1);
 }
 
 //void c_game_engine_oddball_variant::set(s_game_engine_oddball_variant_definition const* definition, bool force)

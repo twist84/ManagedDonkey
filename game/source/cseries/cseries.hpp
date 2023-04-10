@@ -129,19 +129,6 @@ constexpr bool pointer_is_aligned(void* pointer, long alignment_bits)
 	return ((unsigned long)pointer & ((1 << alignment_bits) - 1)) == 0;
 }
 
-template<typename t_type, long count>
-typename std::enable_if<!std::is_floating_point<t_type>::value, bool>::type
-array_is_zeroed(t_type(&data)[count])
-{
-	for (long i = 0; i < count; i++)
-	{
-		if (data[i] != 0)
-			return false;
-	}
-
-	return true;
-}
-
 #ifdef _DEBUG
 #define ASSERT_EXCEPTION(STATEMENT, IS_EXCEPTION, ...) \
 if (!(STATEMENT) || !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
@@ -180,6 +167,25 @@ extern long cvsnzprintf(char* buffer, dword size, char const* format, va_list li
 extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
 extern char* csnzappendf(char* buffer, dword size, char const* format, ...);
 extern bool string_is_not_empty(char const* s);
+
+template<typename t_type, long count>
+typename std::enable_if<!std::is_floating_point<t_type>::value, bool>::type
+array_is_zeroed(t_type(&data)[count])
+{
+	for (long i = 0; i < count; i++)
+	{
+		if (data[i] != 0)
+			return false;
+	}
+
+	return true;
+}
+
+template<typename t_type, long count>
+void zero_array(t_type(&data)[count])
+{
+	csmemset(data, 0, sizeof(t_type) * count);
+}
 
 template<typename t_type, size_t k_count>
 struct c_static_array

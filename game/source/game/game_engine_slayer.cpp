@@ -23,6 +23,7 @@ void c_game_engine_slayer_variant::set(c_game_engine_slayer_variant const* varia
 	ASSERT(variant != NULL);
 
 	c_game_engine_base_variant::set(variant, force);
+
 	set_score_to_win(variant->get_score_to_win());
 	set_kill_points(variant->get_kill_points());
 	set_assist_points(variant->get_assist_points());
@@ -38,7 +39,6 @@ void c_game_engine_slayer_variant::set(c_game_engine_slayer_variant const* varia
 	set_splatter_points(variant->get_splatter_points());
 	set_killing_spree_points(variant->get_killing_spree_points());
 	set_leader_traits(get_leader_traits(), force);
-	//set_leader_team_traits(get_leader_team_traits(), force);
 }
 
 //void c_game_engine_slayer_variant::set(s_game_engine_slayer_variant_definition const* definition, bool force)
