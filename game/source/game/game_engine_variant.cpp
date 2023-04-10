@@ -129,15 +129,12 @@ c_game_engine_map_override_options const* c_game_engine_base_variant::get_map_ov
 
 bool c_game_engine_base_variant::get_built_in() const
 {
-	return TEST_BIT(m_flags, 0);
+	return m_flags.test(_base_variant_flags_built_in);
 }
 
 void c_game_engine_base_variant::set_built_in(bool built_in)
 {
-	if (built_in)
-		m_flags |= FLAG(0);
-	else
-		m_flags &= ~FLAG(0);
+	m_flags.set(_base_variant_flags_built_in, built_in);
 }
 
 short c_game_engine_base_variant::get_team_scoring_method() const

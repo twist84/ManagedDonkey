@@ -87,7 +87,7 @@ protected:
 	c_game_engine_respawn_options m_respawn_options;
 	c_game_engine_social_options m_social_options;
 	c_game_engine_map_override_options m_map_override_options;
-	word_flags m_flags;
+	c_flags<e_base_variant_flags, word, k_base_variant_flags> m_flags;
 	short m_team_scoring_method;
 };
 constexpr size_t k_game_engine_base_variant_size = sizeof(c_game_engine_base_variant);
