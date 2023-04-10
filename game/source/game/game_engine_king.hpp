@@ -17,9 +17,6 @@ public:
 	void byteswap();
 
 protected:
-	// `c_game_engine_base_variant::m_team_scoring` override
-	// c_enum<e_king_team_scoring_settings, short, k_king_team_scoring_settings> m_team_scoring
-
 	c_flags<e_king_variant_flags, dword_flags, k_king_variant_flags> m_variant_flags;
 	c_enum<long, short, 0, 1000> m_score_to_win;          // default: 100
 	c_enum<long, short, 0, 1000> m_score_unknown;         // default: 90, halo online specific

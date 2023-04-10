@@ -23,8 +23,6 @@ void c_game_engine_slayer_variant::set(c_game_engine_slayer_variant const* varia
 	ASSERT(variant != NULL);
 
 	c_game_engine_base_variant::set(variant, force);
-	set_team_scoring(variant->get_team_scoring());
-	set_base_variant_team_scoring();
 	set_score_to_win(variant->get_score_to_win());
 	set_kill_points(variant->get_kill_points());
 	set_assist_points(variant->get_assist_points());
@@ -328,21 +326,6 @@ void c_game_engine_slayer_variant::set_leader_traits(c_player_traits const* trai
 	m_leader_traits.set(traits, force);
 }
 
-//c_player_traits* get_leader_team_traits_writeable()
-//{
-//	return &m_leader_team_traits;
-//}
-//
-//c_player_traits const* get_leader_team_traits() const
-//{
-//	return &m_leader_team_traits;
-//}
-//
-//void set_leader_team_traits(c_player_traits const* traits, bool force)
-//{
-//	m_leader_team_traits.set(traits, force);
-//}
-
 void c_slayer_engine::dump_settings(s_file_reference* file) const
 {
 	ASSERT(file != NULL);
@@ -351,15 +334,6 @@ void c_slayer_engine::dump_settings(s_file_reference* file) const
 
 	file_printf(file, "---------- SLAYER variant settings\r\n");
 
-	if (slayer_variant->get_team_scoring())
-	{
-		file_printf(file, "team scoring= %s\r\n", slayer_variant->get_team_scoring() == 1, "MINIMUM", "MAXIMUM");
-	}
-	else
-	{
-		file_printf(file, "team scoring= %s\r\n", "SUM");
-	}
-	
 	file_printf(file, "score to win= %d\r\n", slayer_variant->get_score_to_win());
 	file_printf(file, "kill points= %d\r\n", slayer_variant->get_kill_points());
 	file_printf(file, "assist points= %d\r\n", slayer_variant->get_assist_points());
@@ -374,7 +348,6 @@ void c_slayer_engine::dump_settings(s_file_reference* file) const
 	file_printf(file, "splatter points= %d\r\n", slayer_variant->get_splatter_points());
 	file_printf(file, "killing spree points= %d\r\n", slayer_variant->get_killing_spree_points());
 	dump_player_trait_settings("leader", slayer_variant->get_leader_traits(), file);
-	//dump_player_trait_settings("leading team", slayer_variant->get_leader_team_traits(), file);
 
 	file_printf(file, "---------- END SLAYER variant settings\r\n");
 }

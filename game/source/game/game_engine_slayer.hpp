@@ -63,14 +63,7 @@ public:
 	c_player_traits const* get_leader_traits() const;
 	void set_leader_traits(c_player_traits const* traits, bool force);
 
-	//c_player_traits* get_leader_team_traits_writeable();
-	//c_player_traits const* get_leader_team_traits() const;
-	//void set_leader_team_traits(c_player_traits const* traits, bool force);
-
 protected:
-	// `c_game_engine_base_variant::m_team_scoring_method` override
-	// c_enum<e_slayer_team_scoring_settings, short, k_slayer_team_scoring_settings> m_team_scoring
-
 	c_enum<long, short, -1, 250> m_score_to_win;        // default: 25
 	c_enum<long, short, 0, 250> m_score_unknown;        // default: 20, halo online specific
 	c_enum<long, short, -10, 10> m_kill_points;         // default: 1
@@ -87,7 +80,6 @@ protected:
 	c_enum<long, char, -10, 10> m_splatter_points;      // default: 0
 	c_enum<long, char, -10, 10> m_killing_spree_points; // default: 0
 	c_player_traits m_leader_traits;
-	//c_player_traits m_leader_team_traits;
 
 	byte m_pad1[2];
 };
