@@ -15,10 +15,44 @@ public:
 
 	void byteswap();
 
-protected:
-	// `c_game_engine_base_variant::m_team_scoring` override
-	// c_enum<e_oddball_team_scoring_settings, short, k_oddball_team_scoring_settings> m_team_scoring
+	void set(c_game_engine_oddball_variant const* variant, bool force);
+	//void set(s_game_engine_oddball_variant_definition const* definition, bool force);
 
+	bool get_auto_ball_pickup() const;
+	void set_auto_ball_pickup(bool auto_ball_pickup);
+
+	bool get_ball_effect_enabled() const;
+	void set_ball_effect_enabled(bool ball_effect_enabled);
+
+	short get_score_to_win() const;
+	void set_score_to_win(short score_to_win);
+
+	char get_carrying_points() const;
+	void set_carrying_points(char carrying_points);
+
+	char get_kill_points() const;
+	void set_kill_points(char kill_points);
+
+	char get_ball_kill_points() const;
+	void set_ball_kill_points(char ball_kill_points);
+
+	char get_carrier_kill_points() const;
+	void set_carrier_kill_points(char carrier_kill_points);
+
+	char get_ball_count() const;
+	void set_ball_count(char ball_count);
+
+	short get_ball_spawn_delay() const;
+	void set_ball_spawn_delay(short ball_spawn_delay);
+
+	short get_ball_inactive_respawn_delay() const;
+	void set_ball_inactive_respawn_delay(short ball_inactive_respawn_delay);
+
+	c_player_traits* get_carrier_traits_writeable();
+	c_player_traits const* get_carrier_traits() const;
+	void set_carrier_traits(c_player_traits const* traits, bool force);
+
+protected:
 	c_flags<e_oddball_variant_flags, dword_flags, k_oddball_variant_flags> m_variant_flags;
 	c_enum<long, short, -1, 1000> m_score_to_win;              // default: 200
 	c_enum<long, short, 0, 1000> m_score_unknown;              // default: 180, halo online specific
