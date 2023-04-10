@@ -16,6 +16,38 @@ public:
 
 	void byteswap();
 
+	void set(c_game_engine_king_variant const* variant, bool force);
+	//void set(s_game_engine_king_variant_definition const* definition, bool force);
+
+	bool get_opaque_hill() const;
+	void set_opaque_hill(bool opaque_hill);
+
+	short get_score_to_win() const;
+	void set_score_to_win(short score_to_win);
+
+	e_king_moving_hill_settings get_moving_hill() const;
+	short get_hill_move_in_seconds() const;
+	void set_moving_hill(e_king_moving_hill_settings moving_hill);
+
+	e_king_moving_hill_order_settings get_moving_hill_order() const;
+	void set_moving_hill_order(e_king_moving_hill_order_settings moving_hill_order);
+
+	char get_uncontested_hill_bonus() const;
+	void set_uncontested_hill_bonus(char uncontested_hill_bonus);
+
+	char get_kill_points() const;
+	void set_kill_points(char kill_points);
+
+	char get_inside_hill_points() const;
+	void set_inside_hill_points(char inside_hill_points);
+
+	char get_outside_hill_points() const;
+	void set_outside_hill_points(char outside_hill_points);
+
+	c_player_traits* get_inside_hill_traits_writeable();
+	c_player_traits const* get_inside_hill_traits() const;
+	void set_inside_hill_traits(c_player_traits const* traits, bool force);
+
 protected:
 	c_flags<e_king_flags_settings, dword_flags, k_king_flags_settings> m_variant_flags;
 	c_enum<long, short, 0, 1000> m_score_to_win;          // default: 100
