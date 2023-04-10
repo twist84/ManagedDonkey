@@ -1,12 +1,12 @@
 #pragma once
 
-enum e_oddball_variant_team_scoring_settings
+enum e_oddball_team_scoring_settings
 {
-	_oddball_variant_team_scoring_settings_sum = 0,
-	_oddball_variant_team_scoring_settings_minimum,
-	_oddball_variant_team_scoring_settings_maximum,
+	_oddball_team_scoring_settings_sum = 0,
+	_oddball_team_scoring_settings_minimum,
+	_oddball_team_scoring_settings_maximum,
 
-	k_oddball_variant_team_scoring_settings
+	k_oddball_team_scoring_settings
 };
 
 enum e_oddball_variant_flags

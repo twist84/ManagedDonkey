@@ -37,6 +37,10 @@ void c_game_engine_ctf_variant::set(c_game_engine_ctf_variant const* variant, bo
 	set_carrier_traits(variant->get_carrier_traits(), force);
 }
 
+//void c_game_engine_ctf_variant::set(s_game_engine_ctf_variant_definition const* definition, bool force)
+//{
+//}
+
 bool c_game_engine_ctf_variant::get_flag_at_home_to_score() const
 {
 	return m_variant_flags.test(_ctf_variant_flags_flag_at_home_to_score_flag);

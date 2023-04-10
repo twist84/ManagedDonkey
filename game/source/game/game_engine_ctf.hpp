@@ -15,7 +15,9 @@ public:
 	}
 
 	void byteswap();
+
 	void set(c_game_engine_ctf_variant const* variant, bool force);
+	//void set(s_game_engine_ctf_variant_definition const* definition, bool force);
 
 	bool get_flag_at_home_to_score() const;
 	void set_flag_at_home_to_score(bool flag_at_home_to_score);

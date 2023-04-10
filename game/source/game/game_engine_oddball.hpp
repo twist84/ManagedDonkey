@@ -17,7 +17,7 @@ public:
 
 protected:
 	// `c_game_engine_base_variant::m_team_scoring` override
-	// c_enum<e_oddball_variant_team_scoring_settings, short, k_oddball_variant_team_scoring_settings> m_team_scoring
+	// c_enum<e_oddball_team_scoring_settings, short, k_oddball_team_scoring_settings> m_team_scoring
 
 	c_flags<e_oddball_variant_flags, dword_flags, k_oddball_variant_flags> m_variant_flags;
 	c_enum<long, short, -1, 1000> m_score_to_win;              // default: 200
