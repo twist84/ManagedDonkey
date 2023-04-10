@@ -17,7 +17,7 @@ public:
 	void byteswap();
 
 protected:
-	c_flags<e_king_variant_flags, dword_flags, k_king_variant_flags> m_variant_flags;
+	c_flags<e_king_flags_settings, dword_flags, k_king_flags_settings> m_variant_flags;
 	c_enum<long, short, 0, 1000> m_score_to_win;          // default: 100
 	c_enum<long, short, 0, 1000> m_score_unknown;         // default: 90, halo online specific
 	c_enum<e_king_moving_hill_settings, char, _king_moving_hill_settings_off, k_king_moving_hill_settings> m_moving_hill;

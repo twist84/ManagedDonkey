@@ -10,11 +10,11 @@ enum e_king_team_scoring_settings
 	k_king_team_scoring_settings
 };
 
-enum e_king_variant_flags
+enum e_king_flags_settings
 {
-	_king_variant_flags_opaque_hill = 0,
+	_king_flags_setting_opaque_hill = 0,
 
-	k_king_variant_flags
+	k_king_flags_settings
 };
 
 enum e_king_moving_hill_settings
@@ -31,6 +31,18 @@ enum e_king_moving_hill_settings
 
 	k_king_moving_hill_settings,
 	k_king_moving_hill_settings_default = _king_moving_hill_settings_30_seconds
+};
+
+constexpr short k_king_moving_hill_values[k_king_moving_hill_settings - _king_moving_hill_settings_10_seconds]
+{
+	10,
+	15,
+	30,
+	60,
+	120,
+	180,
+	240,
+	300
 };
 
 enum e_king_moving_hill_order_settings
