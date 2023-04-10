@@ -239,7 +239,7 @@ void c_oddball_engine::dump_settings(s_file_reference* file) const
 
 	c_game_engine::dump_settings(file);
 
-	file_printf(file, "---------- oddball variant settings\r\n");
+	file_printf(file, "---------- ODDBALL variant settings\r\n");
 
 	file_printf(file, "auto ball pickup= %s\r\n", oddball_variant->get_auto_ball_pickup() ? "ENABLED" : "DISABLED");
 	file_printf(file, "ball effect enabled= %s\r\n", oddball_variant->get_ball_effect_enabled() ? "ENABLED" : "DISABLED");
@@ -253,6 +253,6 @@ void c_oddball_engine::dump_settings(s_file_reference* file) const
 	file_printf(file, "ball inactive respawn delay= %d seconds\r\n", oddball_variant->get_ball_inactive_respawn_delay());
 	dump_player_trait_settings("carrier", oddball_variant->get_carrier_traits(), file);
 
-	file_printf(file, "---------- end oddball variant settings\r\n");
+	file_printf(file, "---------- END ODDBALL variant settings\r\n");
 }
 
