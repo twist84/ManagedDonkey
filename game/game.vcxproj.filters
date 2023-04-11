@@ -678,6 +678,9 @@
     <ClCompile Include="source\game\game_engine_default.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\terminal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1764,6 +1767,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\screenshots\screenshots_uploader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\terminal.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

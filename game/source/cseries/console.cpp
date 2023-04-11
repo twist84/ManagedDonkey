@@ -1,11 +1,15 @@
 #include "cseries/console.hpp"
 
 #include "cseries/cseries.hpp"
+#include "interface/terminal.hpp"
+#include "multithreading/threads.hpp"
 #include "text/unicode.hpp"
 
 #include <windows.h>
 
 FILE* c_console::m_file;
+
+bool console_dump_to_debug_display = false;
 
 void c_console::initialize(char const* window_title)
 {
@@ -190,3 +194,23 @@ void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
         NULL
     );
 }
+
+void console_printf(char const* format, ...)
+{
+    va_list list;
+    va_start(list, format);
+
+    c_console::write_line(format, list);
+    if (is_main_thread())
+    {
+        char buffer[256]{};
+        cvsnzprintf(buffer, 255, format, list);
+        terminal_printf(nullptr, "%s", buffer);
+
+        if (console_dump_to_debug_display)
+            display_debug_string(buffer);
+    }
+
+    va_end(list);
+}
+
