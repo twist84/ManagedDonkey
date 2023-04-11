@@ -5,6 +5,7 @@
 #include "memory/module.hpp"
 
 #include "networking/tools/remote_command.hpp"
+#include "game/cheats.hpp"
 
 void process_attach(HMODULE hModule)
 {
@@ -22,6 +23,7 @@ void process_attach(HMODULE hModule)
 	apply_all_hooks(false);
 
 	patch_remote_command();
+	patch_cheats();
 }
 
 void process_detach(HMODULE hModule)

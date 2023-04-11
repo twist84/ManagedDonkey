@@ -1,5 +1,8 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
+#include "input/input.hpp"
+
 struct cheat_globals
 {
 	//bool deathless_player;
@@ -11,12 +14,14 @@ struct cheat_globals
 	//bool reflexive_damage_effects;
 	//bool medusa;
 	//bool omnipotent;
-	//bool controller;
+	bool controller;
 	bool bottomless_clip;
 	//bool chevy;
 	//bool porcupine;
 	//byte active_camouflage_player_mapping[4];
 	//bool infinite_equipment_energy;
+
+	c_static_array<c_static_string<200>, k_controller_button_count> lines;
 };
 
 static cheat_globals cheat
@@ -30,11 +35,20 @@ static cheat_globals cheat
 	//.reflexive_damage_effects = true,
 	//.medusa = true,
 	//.omnipotent = true,
-	//.controller = true,
+	.controller = true,
 	.bottomless_clip = true
 	//.chevy = true,
 	//.porcupine = true,
 	//.infinite_equipment_energy = true
 };
 
-extern void cheat_teleport_to_camera();
+struct s_game_input_state;
+
+extern void patch_cheats();
+extern void __cdecl cheats_initialize();
+extern void __cdecl cheats_dispose();
+extern void __cdecl cheats_initialize_for_new_map();
+extern void __cdecl cheats_dispose_from_old_map();
+extern void __cdecl cheats_load();
+extern bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state const* input_state);
+extern void __cdecl cheat_teleport_to_camera();
