@@ -83,7 +83,8 @@ extern void __cdecl game_time_initialize_for_new_map(); // 0x00564F30
 extern bool __cdecl game_time_initialized(); // 0x00564FA0
 extern void __cdecl game_time_set(long time); // 0x00564FE0
 extern void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason); // 0x00565000
-extern void __cdecl game_time_set_rate_scale(real rate_scale0, real rate_scale1, real rate_scale2); // 0x00565060
-extern void __cdecl game_time_set_speed(real speed); // 0x00565110
+extern void __cdecl game_time_set_rate_scale(real speed0, real speed1, real speed2); // 0x00565060
+extern void __cdecl game_time_set_speed_(real speed); // 0x00565110
+extern void __cdecl game_time_set_speed(real speed); // 0x005651D0
 extern void __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* tick_count); // 0x00565250
 extern void __cdecl game_time_update_paused_flags(); // 0x00565510
