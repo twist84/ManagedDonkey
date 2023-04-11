@@ -7,13 +7,13 @@ enum e_sandbox_variant_flags
 	k_sandbox_variant_flags
 };
 
-enum e_sandbox_editing_mode
+enum e_sandbox_edit_mode_settings
 {
-	_sandbox_flags_all_players = 0,
-	_sandbox_flags_only_leader,
+	_sandbox_edit_mode_settings_all_players = 0,
+	_sandbox_edit_mode_settings_only_leader,
 
-	k_sandbox_editing_mode,
-	k_sandbox_editing_mode_default = _sandbox_flags_all_players
+	k_sandbox_edit_mode_settings,
+	k_sandbox_edit_mode_settings_default = _sandbox_edit_mode_settings_all_players
 };
 
 enum e_sandbox_respawn_time

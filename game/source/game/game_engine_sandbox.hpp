@@ -17,9 +17,24 @@ public:
 
 	void byteswap();
 
+	void set(c_game_engine_sandbox_variant const* variant, bool force);
+	//void set(s_game_engine_sandbox_variant_definition const* definition, bool force);
+
+	bool get_open_channel_voice() const;
+	void set_open_channel_voice(bool open_channel_voice);
+
+	e_sandbox_edit_mode_settings get_edit_mode() const;
+	void set_edit_mode(e_sandbox_edit_mode_settings edit_mode);
+
+	short get_respawn_time() const;
+	void set_respawn_time(short respawn_time);
+
+	c_player_traits const* get_player_traits() const;
+	void set_player_traits(c_player_traits const* traits, bool force);
+
 protected:
 	c_flags<e_sandbox_variant_flags, byte_flags, k_sandbox_variant_flags> m_variant_flags;
-	c_enum<e_sandbox_editing_mode, char, _sandbox_flags_all_players, k_sandbox_editing_mode> m_edit_mode;
+	c_enum<e_sandbox_edit_mode_settings, char, _sandbox_edit_mode_settings_all_players, k_sandbox_edit_mode_settings> m_edit_mode;
 	c_enum<e_sandbox_respawn_time, short, _sandbox_respawn_time_instant, k_sandbox_respawn_times> m_respawn_time;
 	c_player_traits m_player_traits;
 };
@@ -27,8 +42,6 @@ static_assert(sizeof(c_game_engine_sandbox_variant) == 0x1F0);
 
 struct c_sandbox_engine : c_game_engine
 {
-public:
-	void dump_settings(s_file_reference* file) const;
 };
 
 struct s_sandbox_globals
@@ -38,15 +51,15 @@ struct s_sandbox_globals
 	byte minimum_count;
 	bool placed_on_map;
 	word player_mode_flags;
-	dword held_objects[16];
-	real held_object_distances[16];
-	vector3d crosshair_points[16];
-	vector3d crosshair_intersect_normals[16];
-	vector3d crosshair_redirections[16];
-	dword crosshair_objects[16];
-	byte __unknown30C[16];
-	dword __unknown31C[64];
-	byte __data41C[768];
+	c_static_array<dword, 16> held_objects;
+	c_static_array<real, 16> held_object_distances;
+	c_static_array<vector3d, 16> crosshair_points;
+	c_static_array<vector3d, 16> crosshair_intersect_normals;
+	c_static_array<vector3d, 16> crosshair_redirections;
+	c_static_array<dword, 16> crosshair_objects;
+	c_static_array<byte, 16> __unknown30C;
+	c_static_array<dword, 64> __unknown31C;
+	byte __data41C[0x300];
 	dword __unknown71C;
 	byte __unknown720[8];
 	bool forge_legal_notice;
