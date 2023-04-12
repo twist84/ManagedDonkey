@@ -23,7 +23,7 @@ enum e_transport_endpoint_option
 	_transport_endpoint_option_linger,
 
 	// SO_BROADCAST
-	_transport_endpoint_option_broardcast,
+	_transport_endpoint_option_broadcast,
 
 	// SO_SNDBUF
 	_transport_endpoint_option_send_buffer_size,

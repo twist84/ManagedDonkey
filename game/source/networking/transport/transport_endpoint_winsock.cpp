@@ -38,7 +38,7 @@ long __cdecl get_platform_socket_option(e_transport_endpoint_option option)
         return SO_REUSEADDR;
     case _transport_endpoint_option_linger:
         return SO_LINGER;
-    case _transport_endpoint_option_broardcast:
+    case _transport_endpoint_option_broadcast:
         return SO_BROADCAST;
     case _transport_endpoint_option_send_buffer_size:
         return SO_SNDBUF;
