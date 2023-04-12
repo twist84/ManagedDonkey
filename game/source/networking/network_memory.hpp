@@ -79,5 +79,9 @@ struct s_network_base_memory_globals
 };
 static_assert(sizeof(s_network_base_memory_globals) == 0x7506C8);
 
+long const k_broadcast_port = 11774;
+
 extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;
+extern word& g_broadcast_port;
+

@@ -175,7 +175,7 @@ void __cdecl network_broadcast_search_update()
 			message.protocol_version = k_network_protocol_version;
 			message.nonce = g_broadcast_search_globals.search_nonce;
 	
-			g_broadcast_search_globals.message_gateway->send_message_broadcast(_network_message_broadcast_search, sizeof(message), &message, 11774);
+			g_broadcast_search_globals.message_gateway->send_message_broadcast(_network_message_broadcast_search, sizeof(message), &message, k_broadcast_port);
 	
 			g_broadcast_search_globals.search_time = network_time_get();
 		}
