@@ -7,6 +7,7 @@
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
 #include "main/levels.hpp"
+#include "networking/delivery/network_link.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 #include "tag_files/tag_groups.hpp"
@@ -60,7 +61,13 @@ void __cdecl network_set_online_environment(bool online_environment)
 
 void __cdecl network_shutdown_transport(void* userdata)
 {
-	INVOKE(0x0049E6E0, network_shutdown_transport, userdata);
+	//INVOKE(0x0049E6E0, network_shutdown_transport, userdata);
+
+	if (network_globals.initialized)
+	{
+		if (g_network_link)
+			g_network_link->create_endpoints();
+	}
 }
 
 void __cdecl network_startup_transport(void* userdata)
