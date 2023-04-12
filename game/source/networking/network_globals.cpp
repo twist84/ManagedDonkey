@@ -13,6 +13,8 @@
 
 #include <stdlib.h>
 
+REFERENCE_DECLARE(0x0224A4B4, s_network_globals, network_globals);
+
 #define UI_WAIT(_time, _set_value, _get_value, _value) \
 _set_value(_value);                                    \
 do                                                     \

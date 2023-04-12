@@ -1,5 +1,17 @@
 #pragma once
 
+struct s_network_globals
+{
+	bool initialized;
+	bool entered;
+
+	// halo 3: thread_id = system_get_current_thread_id()
+	// halo reach: thread_index = get_current_thread_index()
+	// halo online: unused
+	unsigned long thread_id;
+};
+extern s_network_globals& network_globals;
+
 struct c_network_session_manager;
 struct c_map_variant;
 struct c_game_variant;
