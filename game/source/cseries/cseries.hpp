@@ -325,6 +325,12 @@ public:
 	}
 
 	template<typename T>
+	bool operator<=(T value)
+	{
+		return m_storage <= static_cast<t_storage_type>(value);
+	}
+
+	template<typename T>
 	void operator= (T value)
 	{
 		m_storage = static_cast<t_storage_type>(value);
