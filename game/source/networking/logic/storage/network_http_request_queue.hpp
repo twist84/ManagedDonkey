@@ -22,12 +22,13 @@ struct c_network_http_request_description
 static_assert(sizeof(c_network_http_request_description) == 0x658);
 #pragma pack(pop)
 
+struct c_network_http_request_queue;
 struct c_network_http_request_item
 {
 	long m_request_cookie;
 	long m_request_state;
-	byte __data8[4];
-	c_network_http_request_description m_description;
+	c_network_http_request_queue* m_request_queue;
+	c_network_http_request_description m_request_description;
 	long m_client_usage_type;
 	long m_service_type;
 	char* m_fill_buffer;
