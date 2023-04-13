@@ -10,15 +10,15 @@ enum e_vip_variant_flags
 	k_vip_variant_flags_default
 };
 
-enum e_vip_selection_settings
+enum e_vip_vip_selection_settings
 {
-	_vip_selection_settings_random,
-	_vip_selection_settings_next_respawn,
-	_vip_selection_settings_next_kill,
-	_vip_selection_settings_unchanged,
+	_vip_vip_selection_settings_random,
+	_vip_vip_selection_settings_next_respawn,
+	_vip_vip_selection_settings_next_kill,
+	_vip_vip_selection_settings_unchanged,
 
-	k_vip_selection_settings,
-	k_vip_selection_settings_default = _vip_selection_settings_random
+	k_vip_vip_selection_settings,
+	k_vip_vip_selection_settings_default = _vip_vip_selection_settings_random
 };
 
 enum e_vip_zone_movement_settings
@@ -35,8 +35,22 @@ enum e_vip_zone_movement_settings
 	_vip_zone_movement_settings_on_arrival,
 	_vip_zone_movement_settings_on_switch,
 
-	k_vip_zone_movement_settings,
+	k_number_of_vip_zone_movement_settings,
 	k_vip_zone_movement_settings_default = _vip_zone_movement_settings_off
+};
+
+long const k_zone_movement_values[k_number_of_vip_zone_movement_settings]
+{
+	0,
+	10,
+	15,
+	30,
+	60,
+	120,
+	180,
+	240,
+	300,
+	0, 0
 };
 
 enum e_vip_zone_order_settings
@@ -47,3 +61,4 @@ enum e_vip_zone_order_settings
 	k_vip_zone_order_settings,
 	k_vip_zone_order_settings_default = _vip_zone_order_settings_sequence
 };
+

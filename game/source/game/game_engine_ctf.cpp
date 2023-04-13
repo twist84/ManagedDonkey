@@ -35,6 +35,7 @@ void c_game_engine_ctf_variant::set(c_game_engine_ctf_variant const* variant, bo
 	set_touch_return_timeout(variant->get_touch_return_timeout());
 	set_flag_at_home_to_score(variant->get_flag_at_home_to_score());
 	set_carrier_traits(variant->get_carrier_traits(), force);
+
 	zero_array(m_pad1);
 }
 
