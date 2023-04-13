@@ -46,7 +46,7 @@ struct c_network_http_request_queue
 	c_network_http_request_item m_request_items[32];
 	dword m_connection_token;
 	dword m_ip_address;
-	dword m_port;
+	word m_port;
 	c_http_client m_http_client;
 	c_http_get_stream m_http_get_stream;
 	c_http_post_stream m_http_post_stream;
