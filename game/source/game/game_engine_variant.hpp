@@ -17,7 +17,7 @@
          vip_variant: implemented
   juggernaut_variant: implemented
  territories_variant: implemented
-     assault_variant: not implemented
+     assault_variant: implemented
    infection_variant: not implemented
 */
 

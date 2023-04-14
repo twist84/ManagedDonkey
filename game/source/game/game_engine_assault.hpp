@@ -15,21 +15,60 @@ public:
 
 	void byteswap();
 
+	void set(c_game_engine_assault_variant const* variant, bool force);
+	//void set(s_game_engine_assault_variant_definition const* definition, bool force);
+
+	bool get_reset_bomb_on_disarm() const;
+	void set_reset_bomb_on_disarm(bool reset_bomb_on_disarm);
+
+	e_assault_respawn_settings get_respawn() const;
+	void set_respawn(e_assault_respawn_settings respawn);
+
+	e_assault_game_type_settings get_game_type() const;
+	void set_game_type(e_assault_game_type_settings game_type);
+
+	e_assault_enemy_bomb_waypoint_settings get_enemy_bomb_waypoint() const;
+	void set_enemy_bomb_waypoint(e_assault_enemy_bomb_waypoint_settings enemy_bomb_waypoint);
+
+	short get_score_to_win() const;
+	void set_score_to_win(short score_to_win);
+
+	short get_sudden_death_time() const;
+	void set_sudden_death_time(short sudden_death_time);
+
+	short get_bomb_reset_time() const;
+	void set_bomb_reset_time(short bomb_reset_time);
+
+	short get_bomb_arming_time() const;
+	void set_bomb_arming_time(short bomb_arming_time);
+
+	short get_bomb_disarming_time() const;
+	void set_bomb_disarming_time(short bomb_disarming_time);
+
+	short get_bomb_fuse_time() const;
+	void set_bomb_fuse_time(short bomb_fuse_time);
+
+	c_player_traits const* get_carrier_traits() const;
+	void set_carrier_traits(c_player_traits const* traits, bool force);
+
+	c_player_traits const* get_arming_traits() const;
+	void set_arming_traits(c_player_traits const* traits, bool force);
+
 protected:
 	c_flags<e_assault_variant_flags, word_flags, k_assault_variant_flags> m_variant_flags;
 	c_enum<e_assault_respawn_settings, short, _assault_respawn_settings_disabled, k_assault_respawn_settings> m_respawn;
 	c_enum<e_assault_game_type_settings, short, _assault_game_type_settings_multi_bomb, k_assault_game_type_settings> m_game_type;
 	c_enum<e_assault_enemy_bomb_waypoint_settings, short, _assault_enemy_bomb_waypoint_settings_never, k_assault_enemy_bomb_waypoint_settings> m_enemy_bomb_waypoint;
-	c_enum<long, short, 0, 50> m_score_to_win;         // default: 3
-	c_enum<long, short, 0, 50> m_score_unknown0;       // default: 2, halo online specific
-	c_enum<long, short, 0, 50> m_score_unknown1;       // default: 0, halo online specific
-	c_enum<long, short, 0, 50> m_score_unknown2;       // default: 0, halo online specific
-	c_enum<long, short, 0, 50> m_score_unknown3;       // default: 0, halo online specific
+	c_enum<long, short, 0, 50> m_score_to_win;        // default: 3
+	c_enum<long, short, 0, 50> m_score_unknown0;      // default: 2, halo online specific
+	c_enum<long, short, 0, 50> m_score_unknown1;      // default: 0, halo online specific
+	c_enum<long, short, 0, 50> m_score_unknown2;      // default: 0, halo online specific
+	c_enum<long, short, 0, 50> m_score_unknown3;      // default: 0, halo online specific
 	c_enum<e_assault_variant_sudden_death_time, short, _assault_variant_sudden_death_time_infinite, k_assault_variant_sudden_death_time> m_sudden_death_time;
-	c_enum<long, short, 30, 90> m_bomb_reset_time;     // default: 30, 0-60 in halo 3
-	c_enum<long, short, 30, 90> m_bomb_arming_time;    // default: 35, 0-60 in halo 3
-	c_enum<long, short, 30, 90> m_bomb_disarming_time; // default: 35, 0-60 in halo 3
-	c_enum<long, short, 30, 90> m_bomb_fuse_time;      // default: 35, 0-60 in halo 3
+	c_enum<long, short, 0, 90> m_bomb_reset_time;     // default: 30, 0-60 in halo 3
+	c_enum<long, short, 0, 90> m_bomb_arming_time;    // default: 35, 0-60 in halo 3
+	c_enum<long, short, 0, 90> m_bomb_disarming_time; // default: 35, 0-60 in halo 3
+	c_enum<long, short, 0, 90> m_bomb_fuse_time;      // default: 35, 0-60 in halo 3
 	c_player_traits m_carrier_traits;
 	c_player_traits m_arming_traits;
 
