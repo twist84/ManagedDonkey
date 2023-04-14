@@ -7,6 +7,20 @@
 #include "saved_games/saved_game_files.hpp"
 #include "text/unicode.hpp"
 
+/*
+        base_variant: implemented
+         ctf_variant: implemented
+      slayer_variant: implemented
+     oddball_variant: implemented
+        king_variant: implemented
+     sandbox_variant: implemented
+         vip_variant: implemented
+  juggernaut_variant: implemented
+ territories_variant: not implemented
+     assault_variant: not implemented
+   infection_variant: not implemented
+*/
+
 enum e_game_engine_type
 {
 	_game_engine_base_variant = 0,

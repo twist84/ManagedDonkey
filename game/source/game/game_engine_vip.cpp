@@ -281,7 +281,7 @@ long c_game_engine_vip_variant::get_zone_movement_time_in_seconds() const
 	//ASSERT(VALID_INDEX(m_zone_movement, k_number_of_vip_zone_movement_settings));
 	ASSERT(VALID_INDEX(get_zone_movement(), k_number_of_vip_zone_movement_settings));
 
-	return k_zone_movement_values[get_zone_movement()];
+	return k_vip_zone_movement_values[get_zone_movement()];
 }
 
 void c_game_engine_vip_variant::set_zone_movement(e_vip_zone_movement_settings zone_movement)

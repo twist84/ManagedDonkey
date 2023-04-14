@@ -44,8 +44,22 @@ enum e_juggernaut_zone_movement_settings
 	_juggernaut_zone_movement_settings_on_arrival,
 	_juggernaut_zone_movement_settings_on_switch,
 
-	k_juggernaut_zone_movement_settings,
+	k_number_of_juggernaut_zone_movement_settings,
 	k_juggernaut_zone_movement_settings_default = _juggernaut_zone_movement_settings_off
+};
+
+long const k_juggernaut_zone_movement_values[k_number_of_juggernaut_zone_movement_settings]
+{
+	0,
+	10,
+	15,
+	30,
+	60,
+	120,
+	180,
+	240,
+	300,
+	0, 0
 };
 
 enum e_juggernaut_zone_order_settings
@@ -54,5 +68,5 @@ enum e_juggernaut_zone_order_settings
 	_juggernaut_zone_order_settings_sequence,
 
 	k_juggernaut_zone_order_settings,
-	k_juggernaut_zone_order_settings_default = _juggernaut_zone_order_settings_random
+	k_juggernaut_zone_order_settings_default = _juggernaut_zone_order_settings_sequence
 };
