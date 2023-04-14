@@ -16,6 +16,33 @@ public:
 
 	void byteswap();
 
+	void set(c_game_engine_territories_variant const* variant, bool force);
+	//void set(s_game_engine_territories_variant_definition const* definition, bool force);
+
+	bool get_one_sided() const;
+	void set_one_sided(bool one_sided);
+
+	bool get_lock_after_first_capture() const;
+	void set_lock_after_first_capture(bool lock_after_first_capture);
+
+	e_territories_respawn_on_capture_settings get_respawn_on_capture() const;
+	void set_respawn_on_capture(e_territories_respawn_on_capture_settings respawn_on_capture);
+
+	short get_capture_time() const;
+	void set_capture_time(short capture_time);
+
+	short get_sudden_death_time() const;
+	bool get_sudden_death_enabled() const;
+	void set_sudden_death_time(short sudden_death_time);
+
+	c_player_traits* get_defender_traits_writeable();
+	c_player_traits const* get_defender_traits() const;
+	void set_defender_traits(c_player_traits const* traits, bool force);
+
+	c_player_traits* get_attacker_traits_writeable();
+	c_player_traits const* get_attacker_traits() const;
+	void set_attacker_traits(c_player_traits const* traits, bool force);
+
 protected:
 	c_flags<e_territories_variant_flags, word_flags, k_territories_variant_flags> m_variant_flags;
 	c_enum<e_territories_respawn_on_capture_settings, short, _territories_respawn_on_capture_settings_disabled, k_territories_respawn_on_capture_settings> m_respawn_on_capture;
