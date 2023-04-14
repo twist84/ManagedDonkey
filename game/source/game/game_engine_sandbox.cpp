@@ -7,7 +7,7 @@ REFERENCE_DECLARE(0x0240648C, c_game_engine_sandbox_variant*, sandbox_variant);
 
 void c_game_engine_sandbox_variant::byteswap()
 {
-	static_cast<c_game_engine_base_variant*>(this)->byteswap();
+	c_game_engine_base_variant::byteswap();
 
 	bswap_word_inplace(m_respawn_time);
 	m_player_traits.byteswap();

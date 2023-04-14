@@ -7,7 +7,7 @@ REFERENCE_DECLARE(0x050D9F7C, c_game_engine_juggernaut_variant*, juggernaut_vari
 
 void c_game_engine_juggernaut_variant::byteswap()
 {
-	static_cast<c_game_engine_base_variant*>(this)->byteswap();
+	c_game_engine_base_variant::byteswap();
 
 	bswap_word_inplace(m_score_to_win_round);
 	bswap_word_inplace(m_score_unknown);

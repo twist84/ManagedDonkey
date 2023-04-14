@@ -7,7 +7,7 @@ REFERENCE_DECLARE(0x050D9F78, c_game_engine_king_variant*, king_variant);
 
 void c_game_engine_king_variant::byteswap()
 {
-	static_cast<c_game_engine_base_variant*>(this)->byteswap();
+	c_game_engine_base_variant::byteswap();
 
 	bswap_dword_inplace(m_variant_flags);
 	bswap_word_inplace(m_score_to_win);

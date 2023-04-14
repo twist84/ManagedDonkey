@@ -6,7 +6,7 @@ REFERENCE_DECLARE(0x050D9F84, c_game_engine_infection_variant*, infection_varian
 
 void c_game_engine_infection_variant::byteswap()
 {
-	static_cast<c_game_engine_base_variant*>(this)->byteswap();
+	c_game_engine_base_variant::byteswap();
 
 	bswap_word_inplace(m_safe_haven_movement_time);
 	m_zombie_traits.byteswap();

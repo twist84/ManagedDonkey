@@ -8,7 +8,7 @@ REFERENCE_DECLARE(0x050D9F70, c_game_engine_slayer_variant*, slayer_variant);
 
 void c_game_engine_slayer_variant::byteswap()
 {
-	static_cast<c_game_engine_base_variant*>(this)->byteswap();
+	c_game_engine_base_variant::byteswap();
 
 	bswap_word_inplace(m_score_to_win);
 	bswap_word_inplace(m_score_unknown);

@@ -6,7 +6,7 @@ REFERENCE_DECLARE(0x0471AA14, c_game_engine_assault_variant*, assault_variant);
 
 void c_game_engine_assault_variant::byteswap()
 {
-	static_cast<c_game_engine_base_variant*>(this)->byteswap();
+	c_game_engine_base_variant::byteswap();
 
 	bswap_word_inplace(m_variant_flags);
 	bswap_word_inplace(m_respawn);

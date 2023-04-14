@@ -6,7 +6,7 @@ REFERENCE_DECLARE(0x050D9F80, c_game_engine_territories_variant*, territories_va
 
 void c_game_engine_territories_variant::byteswap()
 {
-	static_cast<c_game_engine_base_variant*>(this)->byteswap();
+	c_game_engine_base_variant::byteswap();
 
 	bswap_word_inplace(m_variant_flags);
 	bswap_word_inplace(m_respawn_on_capture);
