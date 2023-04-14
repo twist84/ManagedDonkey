@@ -259,8 +259,36 @@ void c_ctf_engine::dump_settings(s_file_reference* file) const
 		break;
 	}
 	
-	file_printf(file, "sudden death time (negative is infinite)= %d sec\r\n", ctf_variant->get_sudden_death_time());
-	file_printf(file, "touch return timeout (negative is off)= %d sec\r\n", ctf_variant->get_touch_return_timeout());
+	//file_printf(file, "sudden death time (negative is infinite)= %d sec\r\n", ctf_variant->get_sudden_death_time());
+	file_printf(file, "sudden death time= ");
+	switch (ctf_variant->get_sudden_death_time())
+	{
+	case _ctf_sudden_death_time_infinite:
+		file_printf(file, "INFINITE\r\n");
+		break;
+	case _ctf_sudden_death_time_off:
+		file_printf(file, "OFF\r\n");
+		break;
+	default:
+		file_printf(file, "%d SECONDS\r\n", ctf_variant->get_sudden_death_time());
+		break;
+	}
+
+	//file_printf(file, "touch return timeout (negative is off)= %d sec\r\n", ctf_variant->get_touch_return_timeout());
+	file_printf(file, "touch return timeout= ");
+	switch (ctf_variant->get_touch_return_timeout())
+	{
+	case _ctf_touch_return_settings_off:
+		file_printf(file, "OFF\r\n");
+		break;
+	case _ctf_touch_return_settings_instant:
+		file_printf(file, "INSTANT\r\n");
+		break;
+	default:
+		file_printf(file, "%d SECONDS\r\n", ctf_variant->get_touch_return_timeout());
+		break;
+	}
+
 	file_printf(file, "flag reset time= %d sec\r\n", ctf_variant->get_flag_reset_time());
 	file_printf(file, "flag %s be at home to score\r\n", ctf_variant->get_flag_at_home_to_score() ? "SHOULD" : "DOESN'T HAVE TO");
 	dump_player_trait_settings("flag carrier traits", ctf_variant->get_carrier_traits(), file);
