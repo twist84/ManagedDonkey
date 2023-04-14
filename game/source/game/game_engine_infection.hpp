@@ -16,6 +16,58 @@ public:
 
 	void byteswap();
 
+	void set(c_game_engine_infection_variant const* variant, bool force);
+	//void set(s_game_engine_infection_variant_definition const* definition, bool force);
+
+	bool get_respawn_on_haven_move() const;
+	void set_respawn_on_haven_move(bool respawn_on_haven_move);
+
+	e_infection_safe_havens_settings get_safe_havens() const;
+	void set_safe_havens(e_infection_safe_havens_settings safe_havens);
+
+	e_infection_next_zombie_settings get_next_zombie() const;
+	void set_next_zombie(e_infection_next_zombie_settings next_zombie);
+
+	e_infection_initial_zombie_count_settings get_initial_zombie_count() const;
+	void set_initial_zombie_count(e_infection_initial_zombie_count_settings initial_zombie_count);
+
+	short get_safe_haven_movement_time() const;
+	void set_safe_haven_movement_time(short safe_haven_movement_time);
+
+	char get_zombie_kill_points() const;
+	void set_zombie_kill_points(char zombie_kill_points);
+
+	char get_infection_points() const;
+	void set_infection_points(char infection_points);
+
+	char get_safe_haven_arrival_points() const;
+	void set_safe_haven_arrival_points(char safe_haven_arrival_points);
+
+	char get_suicide_points() const;
+	void set_suicide_points(char suicide_points);
+
+	char get_betrayal_points() const;
+	void set_betrayal_points(char betrayal_points);
+
+	char get_last_man_bonus_points() const;
+	void set_last_man_bonus_points(char last_man_bonus_points);
+
+	c_player_traits* get_zombie_traits_writeable();
+	c_player_traits const* get_zombie_traits() const;
+	void set_zombie_traits(c_player_traits const* traits, bool force);
+
+	c_player_traits* get_first_zombie_traits_writeable();
+	c_player_traits const* get_first_zombie_traits() const;
+	void set_first_zombie_traits(c_player_traits const* traits, bool force);
+
+	c_player_traits* get_safe_haven_defender_traits_writeable();
+	c_player_traits const* get_safe_haven_defender_traits() const;
+	void set_safe_haven_defender_traits(c_player_traits const* traits, bool force);
+
+	c_player_traits* get_last_human_traits_writeable();
+	c_player_traits const* get_last_human_traits() const;
+	void set_last_human_traits(c_player_traits const* traits, bool force);
+
 protected:
 	c_flags<e_infection_variant_flags, byte_flags, k_infection_variant_flags> m_variant_flags;
 	c_enum<e_infection_safe_havens_settings, char, _infection_safe_havens_off, k_infection_safe_havens_settings> m_safe_havens;

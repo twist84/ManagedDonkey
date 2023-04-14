@@ -49,5 +49,5 @@ enum e_infection_initial_zombie_count_settings
 	_infection_initial_zombie_count_15,
 
 	k_infection_initial_zombie_count_settings,
-	k_infection_initial_zombie_count_settings_default = _infection_initial_zombie_count_50_percent
+	k_infection_initial_zombie_count_settings_default = _infection_initial_zombie_count_1
 };
