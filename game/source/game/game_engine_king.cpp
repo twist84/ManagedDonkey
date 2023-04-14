@@ -127,7 +127,7 @@ void c_game_engine_king_variant::set_uncontested_hill_bonus(char uncontested_hil
 {
 	if (!VALID_INDEX(uncontested_hill_bonus + 10, 20))
 	{
-		c_console::write_line("game_engine:king: invalid uncontested_hill_bonus setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:king: invalid uncontested_hill_bonus setting '%d' outside range '[%d, %d]'!", uncontested_hill_bonus, -10, 10);
 
 		m_uncontested_hill_bonus = 0;
 	}
@@ -146,7 +146,7 @@ void c_game_engine_king_variant::set_kill_points(char kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:king: invalid kill_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:king: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
 
 		m_kill_points = 0;
 	}
@@ -165,7 +165,7 @@ void c_game_engine_king_variant::set_inside_hill_points(char inside_hill_points)
 {
 	if (!VALID_INDEX(inside_hill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:king: invalid inside_hill_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:king: invalid inside_hill_points setting '%d' outside range '[%d, %d]'!", inside_hill_points, -10, 10);
 
 		m_inside_hill_points = 0;
 	}
@@ -184,7 +184,7 @@ void c_game_engine_king_variant::set_outside_hill_points(char outside_hill_point
 {
 	if (!VALID_INDEX(outside_hill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:king: invalid outside_hill_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:king: invalid outside_hill_points setting '%d' outside range '[%d, %d]'!", outside_hill_points, -10, 10);
 
 		m_outside_hill_points = 0;
 	}

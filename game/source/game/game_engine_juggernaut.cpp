@@ -189,7 +189,7 @@ void c_game_engine_juggernaut_variant::set_kill_points(char kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:juggernaut: invalid kill_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:juggernaut: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
 
 		m_kill_points = 0;
 	}
@@ -208,7 +208,7 @@ void c_game_engine_juggernaut_variant::set_juggernaut_kill_points(char juggernau
 {
 	if (!VALID_INDEX(juggernaut_kill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:juggernaut: invalid juggernaut_kill_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:juggernaut: invalid juggernaut_kill_points setting '%d' outside range '[%d, %d]'!", juggernaut_kill_points, -10, 10);
 
 		m_juggernaut_kill_points = 1;
 	}
@@ -227,7 +227,7 @@ void c_game_engine_juggernaut_variant::set_kill_as_juggernaut_points(char kill_a
 {
 	if (!VALID_INDEX(kill_as_juggernaut_points + 10, 20))
 	{
-		c_console::write_line("game_engine:juggernaut: invalid kill_as_juggernaut_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:juggernaut: invalid kill_as_juggernaut_points setting '%d' outside range '[%d, %d]'!", kill_as_juggernaut_points, -10, 10);
 
 		m_kill_as_juggernaut_points = 1;
 	}
@@ -246,7 +246,7 @@ void c_game_engine_juggernaut_variant::set_destination_arrival_points(char desti
 {
 	if (!VALID_INDEX(destination_arrival_points + 10, 20))
 	{
-		c_console::write_line("game_engine:juggernaut: invalid destination_arrival_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:juggernaut: invalid destination_arrival_points setting '%d' outside range '[%d, %d]'!", destination_arrival_points, -10, 10);
 
 		m_destination_arrival_points = 1;
 	}
@@ -265,7 +265,7 @@ void c_game_engine_juggernaut_variant::set_suicide_points(char suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
-		c_console::write_line("game_engine:juggernaut: invalid suicide_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:juggernaut: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
 
 		m_suicide_points = 1;
 	}
@@ -284,7 +284,7 @@ void c_game_engine_juggernaut_variant::set_betrayal_points(char betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{
-		c_console::write_line("game_engine:juggernaut: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:juggernaut: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
 
 		m_betrayal_points = 1;
 	}

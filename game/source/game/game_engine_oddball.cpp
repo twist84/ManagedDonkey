@@ -74,7 +74,7 @@ void c_game_engine_oddball_variant::set_score_to_win(short score_to_win)
 {
 	if (!VALID_INDEX(score_to_win + 1, 1001))
 	{
-		c_console::write_line("game_engine:oddball: invalid score_to_win setting '%d' outside range '[%d, %d]'!", -1, 1000);
+		c_console::write_line("game_engine:oddball: invalid score_to_win setting '%d' outside range '[%d, %d]'!", score_to_win, -1, 1000);
 
 		m_score_to_win = 200;
 	}
@@ -93,7 +93,7 @@ void c_game_engine_oddball_variant::set_carrying_points(char carrying_points)
 {
 	if (!VALID_INDEX(carrying_points + 10, 20))
 	{
-		c_console::write_line("game_engine:oddball: invalid carrying_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:oddball: invalid carrying_points setting '%d' outside range '[%d, %d]'!", carrying_points, -10, 10);
 
 		m_carrying_points = 1;
 	}
@@ -112,7 +112,7 @@ void c_game_engine_oddball_variant::set_kill_points(char kill_points)
 {
 	if (!VALID_INDEX(kill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:oddball: invalid kill_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:oddball: invalid kill_points setting '%d' outside range '[%d, %d]'!", kill_points, -10, 10);
 
 		m_kill_points = 1;
 	}
@@ -131,7 +131,7 @@ void c_game_engine_oddball_variant::set_ball_kill_points(char ball_kill_points)
 {
 	if (!VALID_INDEX(ball_kill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:oddball: invalid ball_kill_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:oddball: invalid ball_kill_points setting '%d' outside range '[%d, %d]'!", ball_kill_points, -10, 10);
 
 		m_ball_kill_points = 0;
 	}
@@ -150,7 +150,7 @@ void c_game_engine_oddball_variant::set_carrier_kill_points(char carrier_kill_po
 {
 	if (!VALID_INDEX(carrier_kill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:oddball: invalid carrier_kill_points setting '%d' outside range '[%d, %d]'!", -10, 10);
+		c_console::write_line("game_engine:oddball: invalid carrier_kill_points setting '%d' outside range '[%d, %d]'!", carrier_kill_points, -10, 10);
 
 		m_carrier_kill_points = 0;
 	}
@@ -169,7 +169,7 @@ void c_game_engine_oddball_variant::set_ball_count(char ball_count)
 {
 	if (!VALID_INDEX(ball_count - 1, 2))
 	{
-		c_console::write_line("game_engine:oddball: invalid ball_count setting '%d' outside range '[%d, %d]'!", 1, 3);
+		c_console::write_line("game_engine:oddball: invalid ball_count setting '%d' outside range '[%d, %d]'!", ball_count, 1, 3);
 
 		m_ball_count = 1;
 	}
@@ -188,7 +188,7 @@ void c_game_engine_oddball_variant::set_ball_spawn_delay(short ball_spawn_delay)
 {
 	if (!VALID_INDEX(ball_spawn_delay, 120))
 	{
-		c_console::write_line("game_engine:oddball: invalid ball_spawn_delay setting '%d' outside range '[%d, %d]'!", 0, 120);
+		c_console::write_line("game_engine:oddball: invalid ball_spawn_delay setting '%d' outside range '[%d, %d]'!", ball_spawn_delay, 0, 120);
 
 		m_ball_spawn_delay = 5;
 	}
@@ -207,7 +207,7 @@ void c_game_engine_oddball_variant::set_ball_inactive_respawn_delay(short ball_i
 {
 	if (!VALID_INDEX(ball_inactive_respawn_delay, 120))
 	{
-		c_console::write_line("game_engine:oddball: invalid ball_inactive_respawn_delay setting '%d' outside range '[%d, %d]'!", 0, 120);
+		c_console::write_line("game_engine:oddball: invalid ball_inactive_respawn_delay setting '%d' outside range '[%d, %d]'!", ball_inactive_respawn_delay, 0, 120);
 
 		m_ball_inactive_respawn_delay = 5;
 	}

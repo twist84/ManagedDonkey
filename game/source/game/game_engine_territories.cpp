@@ -108,7 +108,7 @@ void c_game_engine_territories_variant::set_sudden_death_time(short sudden_death
 {
 	if (!VALID_INDEX(sudden_death_time + 1, k_territories_sudden_death_settings))
 	{
-		c_console::write_line("game_engine:territories: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", _territories_sudden_death_settings_indefinite, _territories_sudden_death_settings_5_minutes);
+		c_console::write_line("game_engine:territories: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", sudden_death_time, _territories_sudden_death_settings_indefinite, _territories_sudden_death_settings_5_minutes);
 
 		m_sudden_death_time = k_territories_sudden_death_settings_default;
 	}

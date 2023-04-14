@@ -129,7 +129,7 @@ void c_game_engine_ctf_variant::set_sudden_death_time(short sudden_death_time)
 {
 	if (!VALID_INDEX(sudden_death_time + 1, k_ctf_sudden_death_times))
 	{
-		c_console::write_line("game_engine:ctf: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", _ctf_sudden_death_time_infinite, _ctf_sudden_death_time_5_minute);
+		c_console::write_line("game_engine:ctf: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", sudden_death_time, _ctf_sudden_death_time_infinite, _ctf_sudden_death_time_5_minute);
 
 		m_sudden_death_time = k_ctf_sudden_death_times_default;
 	}
@@ -148,7 +148,7 @@ void c_game_engine_ctf_variant::set_score_to_win(short score_to_win)
 {
 	if (!VALID_INDEX(score_to_win, 50))
 	{
-		c_console::write_line("game_engine:ctf: invalid score_to_win setting '%d' outside range '[%d, %d]'!", 0, 50);
+		c_console::write_line("game_engine:ctf: invalid score_to_win setting '%d' outside range '[%d, %d]'!", score_to_win, 0, 50);
 
 		m_score_to_win = 5;
 	}
@@ -167,7 +167,7 @@ void c_game_engine_ctf_variant::set_flag_reset_time(short flag_reset_time)
 {
 	if (!VALID_INDEX(flag_reset_time, 300))
 	{
-		c_console::write_line("game_engine:ctf: invalid flag_reset_time setting '%d' outside range '[%d, %d]'!", 0, 300);
+		c_console::write_line("game_engine:ctf: invalid flag_reset_time setting '%d' outside range '[%d, %d]'!", flag_reset_time, 0, 300);
 
 		m_flag_reset_time = 30;
 	}
