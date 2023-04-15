@@ -78,6 +78,26 @@ struct c_restricted_memory
 };
 static_assert(sizeof(c_restricted_memory) == 0xC88);
 
+struct c_restricted_memory_callbacks
+{
+public:
+	virtual unsigned int filter_size_request(unsigned int size);
+	virtual long filter_base_offset(long);
+	virtual void handle_allocation(c_restricted_memory const* restricted_memory, char const* name, char const* type, long member_index, void* address, unsigned int size);
+	virtual void handle_release(c_restricted_memory const* restricted_memory, long member_index, void* address, unsigned int size);
+};
+
+struct c_gamestate_deterministic_allocation_callbacks : c_restricted_memory_callbacks
+{
+public:
+	virtual long filter_base_offset(long, long);
+};
+
+struct c_gamestate_nondeterministic_allocation_callbacks : c_restricted_memory_callbacks
+{
+public:
+};
+
 extern char const*(&g_restricted_region_names)[k_total_restricted_memory_regions];
 extern c_restricted_memory(&g_restricted_regions)[k_total_restricted_memory_regions];
 
