@@ -57,9 +57,9 @@ struct c_restricted_memory
 
 	c_interlocked_long m_mirror_read_in_progress;
 	c_interlocked_long m_mirror_write_in_progress;
-	s_mirror_slot m_mirrors[k_max_section_mirrors];
-	c_interlocked_long __unknown48;
-	c_interlocked_long __unknown4C;
+	c_static_array<s_mirror_slot, k_max_section_mirrors> m_mirrors;
+	c_interlocked_long m_mirror_index48;
+	c_interlocked_long m_mirror_index4C;
 	c_synchronized_long m_alias_allowed;
 	c_synchronized_long m_alias_count;
 	c_restricted_section* m_primary_section;
@@ -70,7 +70,7 @@ struct c_restricted_memory
 	long m_mirror_count;
 	dword m_mirror_section;
 	long m_registered_member_count;
-	s_registered_member m_registered_member[k_max_registered_members];
+	c_static_array<s_registered_member, k_max_registered_members> m_registered_member;
 	c_restricted_memory_callbacks* m_callbacks;
 	void* __unknownC7C;
 	void* __unknownC80;
