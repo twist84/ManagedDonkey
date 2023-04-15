@@ -3,6 +3,7 @@
 struct c_synchronized_long
 {
 public:
+	long increment();
 	long peek() const;
 	void operator=(long Value);
 
@@ -20,3 +21,4 @@ protected:
 	volatile long m_value;
 };
 static_assert(sizeof(c_interlocked_long) == 0x4);
+

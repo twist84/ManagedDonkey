@@ -2,6 +2,11 @@
 
 #include <windows.h>
 
+long c_synchronized_long::increment()
+{
+	return InterlockedIncrement(&m_value);
+}
+
 long c_synchronized_long::peek() const
 {
 	return m_value;
