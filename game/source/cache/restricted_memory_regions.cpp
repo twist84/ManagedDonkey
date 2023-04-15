@@ -18,9 +18,20 @@ void __cdecl restricted_region_add_mirror(long index, c_restricted_section* mirr
 	INVOKE(0x005A0080, restricted_region_add_mirror, index, mirror_section);
 }
 
-// 005A00A0; UNREFERENCED
-// 005A00E0; UNREFERENCED
-// 005A0100; UNREFERENCED
+bool __cdecl restricted_region_aliased_for_current_thread(long index)
+{
+	return INVOKE(0x005A00A0, restricted_region_aliased_for_current_thread, index);
+}
+
+void __cdecl restricted_region_begin_aliasing(long index)
+{
+	INVOKE(0x005A00E0, restricted_region_begin_aliasing, index);
+}
+
+void __cdecl restricted_region_clear_membership(long index)
+{
+	INVOKE(0x005A0100, restricted_region_clear_membership, index);
+}
 
 void __cdecl restricted_region_create(long index, c_restricted_section* primary_section, long critical_section_index, c_restricted_memory_callbacks* callbacks)
 {
@@ -32,8 +43,15 @@ void __cdecl restricted_region_destroy(long index)
 	INVOKE(0x005A0150, restricted_region_destroy, index);
 }
 
-// 005A0170; UNREFERENCED
-// 005A0190; UNREFERENCED
+void __cdecl restricted_region_end_aliasing(long index)
+{
+	INVOKE(0x005A0170, restricted_region_end_aliasing, index);
+}
+
+long __cdecl restricted_region_find_address(void* address)
+{
+	return INVOKE(0x005A0190, restricted_region_find_address, address);
+}
 
 void __cdecl restricted_region_free_member(long index, long member_index)
 {
@@ -60,8 +78,15 @@ char const* __cdecl restricted_region_get_name(long index)
 	return INVOKE(0x005A02A0, restricted_region_get_name, index);
 }
 
-// 005A02B0; UNREFERENCED
-// 005A02D0; UNREFERENCED
+unsigned int __cdecl restricted_region_get_sector_size(long index)
+{
+	return INVOKE(0x005A02B0, restricted_region_get_sector_size, index);
+}
+
+unsigned int __cdecl restricted_region_get_total_size(long index)
+{
+	return INVOKE(0x005A02D0, restricted_region_get_total_size, index);
+}
 
 void __cdecl restricted_region_handle_crash_of_current_thread()
 {
@@ -108,8 +133,15 @@ void __cdecl restricted_region_remove_alias(long index)
 	INVOKE(0x005A0490, restricted_region_remove_alias, index);
 }
 
-// 005A04D0; UNREFERENCED
-// 005A04F0; UNREFERENCED
+void __cdecl restricted_region_reset_mirrors(long index)
+{
+	INVOKE(0x005A04D0, restricted_region_reset_mirrors, index);
+}
+
+bool __cdecl restricted_region_try_and_lock_mirror(long index)
+{
+	return INVOKE(0x005A04F0, restricted_region_try_and_lock_mirror, index);
+}
 
 bool __cdecl restricted_region_try_and_lock_primary(long index)
 {
@@ -131,12 +163,18 @@ bool __cdecl restricted_region_valid(long index)
 	return INVOKE(0x005A05F0, restricted_region_valid, index);
 }
 
-// 005A0610; UNREFERENCED
+bool __cdecl restricted_region_validate_address(long index, void* address)
+{
+	return INVOKE(0x005A0610, restricted_region_validate_address, index, address);
+}
 
 bool __cdecl restricted_region_wait_for_available_mirror(long index, unsigned long a2)
 {
 	return INVOKE(0x005A0660, restricted_region_wait_for_available_mirror, index, a2);
 }
 
-// 005A0680; UNREFERENCED
+bool __cdecl restricted_region_wait_for_new_write_mirror(long index, unsigned long a2)
+{
+	return INVOKE(0x005A0680, restricted_region_wait_for_new_write_mirror, index, a2);
+}
 
