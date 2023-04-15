@@ -17,10 +17,12 @@ enum e_restricted_memory_region
 	k_total_restricted_memory_regions
 };
 
+enum e_memory_protection;
+
 struct c_restricted_section
 {
 	dword_flags m_internal_flags;
-	long __unknown4;
+	long m_protection; // e_memory_protection
 	long m_external_lock;
 	byte* m_address;
 	dword m_size;
