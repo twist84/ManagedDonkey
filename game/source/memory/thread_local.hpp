@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cache/restricted_memory.hpp"
 #include "camera/observer.hpp"
 #include "camera/camera.hpp"
 #include "camera/director.hpp"
@@ -1162,10 +1163,10 @@ struct s_thread_local_storage
 	c_smart_data_array<hs_thread_non_deterministic_data>* hs_thread_non_deterministic_data;
 
 	// from assert
-	void* g_restricted_address[5];
+	void* g_restricted_address[k_total_restricted_memory_regions];
 
 	// from assert
-	bool g_restricted_alias[5];
+	bool g_restricted_alias[k_total_restricted_memory_regions];
 
 	void* __unknown9C;
 
