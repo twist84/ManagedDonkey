@@ -8,9 +8,9 @@ void __cdecl restricted_region_add_alias(long index)
 	INVOKE(0x0059FFD0, restricted_region_add_alias, index);
 }
 
-long __cdecl restricted_region_add_member(long index, char const* name1, char const* name2, unsigned int allocation, long alignment_bits, void(__cdecl*tls_update_callback)(void*), void(__cdecl* tls_unknown_callback1)(void*), void(__cdecl* tls_unknown_callback2)(void*))
+long __cdecl restricted_region_add_member(long index, char const* name, char const* type, unsigned int allocation, long alignment_bits, void(__cdecl*tls_update_callback)(void*), void(__cdecl* tls_unknown_callback1)(void*), void(__cdecl* tls_unknown_callback2)(void*))
 {
-	return INVOKE(0x005A0010, restricted_region_add_member, index, name1, name2, allocation, alignment_bits, tls_update_callback, tls_unknown_callback1, tls_unknown_callback2);
+	return INVOKE(0x005A0010, restricted_region_add_member, index, name, type, allocation, alignment_bits, tls_update_callback, tls_unknown_callback1, tls_unknown_callback2);
 }
 
 void __cdecl restricted_region_add_mirror(long index, c_restricted_section* mirror_section)

@@ -4,7 +4,7 @@ struct c_restricted_section;
 struct c_restricted_memory_callbacks;
 
 extern void __cdecl restricted_region_add_alias(long index);
-extern long __cdecl restricted_region_add_member(long index, char const* name1, char const* name2, unsigned int allocation, long alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_unknown_callback1)(void*), void(__cdecl* tls_unknown_callback2)(void*));
+extern long __cdecl restricted_region_add_member(long index, char const* name, char const* type, unsigned int allocation, long alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_unknown_callback1)(void*), void(__cdecl* tls_unknown_callback2)(void*));
 extern void __cdecl restricted_region_add_mirror(long index, c_restricted_section* mirror_section);
 extern void __cdecl restricted_region_create(long index, c_restricted_section* primary_section, long critical_section_index, c_restricted_memory_callbacks* callbacks);
 extern void __cdecl restricted_region_destroy(long index);
