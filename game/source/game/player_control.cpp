@@ -6,11 +6,11 @@
 
 s_player_control_globals* __cdecl player_control_globals_get()
 {
-	s_thread_local_storage* tls = get_tls();
-	if (!tls || !tls->player_control_globals)
+	if (!get_tls())
 		return nullptr;
 
-	return tls->player_control_globals;
+	TLS_REFERENCE(player_control_globals);
+	return player_control_globals;
 }
 
 bool __cdecl player_control_get_machinima_camera_enabled()

@@ -31,11 +31,11 @@ void __cdecl disable_character_ground_adhesion_forces(real disable_time)
 
 s_physics_constants* __cdecl global_physics_constants_get()
 {
-	s_thread_local_storage* tls = get_tls();
-	if (!tls || !tls->g_physics_constants)
+	if (!get_tls())
 		return nullptr;
 
-	return tls->g_physics_constants;
+	TLS_REFERENCE(g_physics_constants);
+	return g_physics_constants;
 
 	//INVOKE(0x006815A0, global_physics_constants_get);
 }

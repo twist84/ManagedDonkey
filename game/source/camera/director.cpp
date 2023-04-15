@@ -58,9 +58,11 @@ e_director_mode director_mode_from_string(const char* str)
 
 s_director_globals* director_globals_get()
 {
-	s_thread_local_storage* tls = get_tls();
+	if (!get_tls())
+		return nullptr;
 
-	return (tls && tls->director_globals && tls->director_globals->directors[0][0]) ? tls->director_globals : nullptr;
+	TLS_REFERENCE(director_globals);
+	return (director_globals && director_globals->directors[0][0]) ? director_globals : nullptr;
 }
 
 e_director_perspective c_director::get_perspective()
@@ -196,9 +198,11 @@ bool director_get_camera_third_person(long user_index)
 
 bool director_in_scripted_camera()
 {
-	s_thread_local_storage* tls = get_tls();
+	if (!get_tls())
+		return false;
 
-	return (tls && tls->director_camera_scripted) ? *tls->director_camera_scripted : false;
+	TLS_REFERENCE(director_camera_scripted);
+	return director_camera_scripted ? *director_camera_scripted : false;
 }
 
 void director_toggle(long user_index, e_director_mode director_mode)

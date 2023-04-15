@@ -66,7 +66,7 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 			input_abstraction_get_input_state(controller_index, &input_state);
 			byte down_frames = input_state->abstract_buttons[_gamepad_button_back].down_frames();
 
-			s_local_game_engine_globals* local_game_engine_globals = get_tls()->local_game_engine_globals;
+			TLS_REFERENCE(local_game_engine_globals);
 			if (!current_game_engine() || game_engine_in_round())
 			{
 				local_game_engine_globals->__time0 = 0x7FFFFFFF;

@@ -6,11 +6,11 @@
 
 s_player_mapping_globals* player_mapping_globals_get()
 {
-	s_thread_local_storage* tls = get_tls();
-	if (!tls || !tls->player_control_globals)
+	if (!get_tls())
 		return nullptr;
 
-	return tls->player_mapping_globals;
+	TLS_REFERENCE(player_mapping_globals);
+	return player_mapping_globals;
 }
 
 long player_index_from_user_index(long user_index)

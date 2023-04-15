@@ -140,15 +140,16 @@ void __cdecl main_loop_body_begin()
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);
 
+		TLS_REFERENCE(player_data);
 		long player_count = 0;
 		{
-			c_player_in_game_iterator player_iterator(get_tls()->player_data);
+			c_player_in_game_iterator player_iterator(player_data);
 			while (player_iterator.next())
 				player_count++;
 		}
 
 		c_console::write_line("players: %i", player_count);
-		c_player_with_unit_iterator player_iterator(get_tls()->player_data);
+		c_player_with_unit_iterator player_iterator(player_data);
 		while (player_iterator.next())
 		{
 			long index = player_iterator.get_index();
@@ -167,7 +168,7 @@ void __cdecl main_loop_body_begin()
 
 		if (game_in_progress() && !game_is_ui_shell())
 		{
-			s_game_engine_globals* game_engine_globals = get_tls()->game_engine_globals;
+			TLS_REFERENCE(game_engine_globals);
 
 			long output_user_index = player_mapping_first_active_output_user();
 			long unit_index = player_mapping_get_unit_by_output_user(output_user_index);

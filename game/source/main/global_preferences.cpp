@@ -25,7 +25,8 @@ c_global_preferences_scope_lock::~c_global_preferences_scope_lock()
 
 s_global_preferences_internals_type* global_preferences_get()
 {
-	return get_tls()->g_global_preferences;
+	TLS_REFERENCE(g_global_preferences);
+	return g_global_preferences;
 }
 
 void __cdecl global_preferences_dirty(bool dirty)

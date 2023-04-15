@@ -6,11 +6,11 @@
 
 game_time_globals_definition* game_time_globals_get()
 {
-	s_thread_local_storage* tls = get_tls();
-	if (!tls || !tls->game_time_globals)
+	if (!get_tls())
 		return nullptr;
 
-	return tls->game_time_globals;
+	TLS_REFERENCE(game_time_globals);
+	return game_time_globals;
 }
 
 long __cdecl game_seconds_integer_to_ticks(long seconds)

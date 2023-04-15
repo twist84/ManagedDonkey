@@ -7,9 +7,11 @@
 
 game_globals_storage* game_globals_get()
 {
-	s_thread_local_storage* tls = get_tls();
+	if (!get_tls())
+		return nullptr;
 
-	return (tls && tls->game_globals) ? tls->game_globals : nullptr;
+	TLS_REFERENCE(game_globals);
+	return game_globals;
 }
 
 long get_map_minor_version()

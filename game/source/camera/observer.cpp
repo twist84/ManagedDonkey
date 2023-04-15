@@ -8,9 +8,11 @@ s_observer* observer_get(long user_index)
 {
 	ASSERT(user_index >= 0 && user_index < 4);
 
-	s_thread_local_storage* tls = get_tls();
+	if (!get_tls())
+		return nullptr;
 
-	return (tls && tls->g_observer_globals) ? &tls->g_observer_globals->observers[user_index] : nullptr;
+	TLS_REFERENCE(g_observer_globals);
+	return g_observer_globals ? &g_observer_globals->observers[user_index] : nullptr;
 }
 
 s_observer_result const* observer_get_camera(long output_user_index)
