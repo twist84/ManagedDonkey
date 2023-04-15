@@ -606,6 +606,26 @@ T rotate_left(T value, int count)
 #define __ROR4__(value, count) rotate_left(static_cast<dword>(value), -count)
 #define __ROR8__(value, count) rotate_left(static_cast<qword>(value), -count)
 
+unsigned int address_from_pointer(void const* pointer)
+{
+	return reinterpret_cast<unsigned int>(pointer);
+}
+
+void* pointer_from_address(unsigned int address)
+{
+	return reinterpret_cast<void*>(address);
+}
+
+unsigned int align_address(unsigned int address, long alignment_bits)
+{
+	return (address + (1 << alignment_bits) - 1) & ~((1 << alignment_bits) - 1);
+}
+
+void* align_pointer(void* pointer, long alignment_bits)
+{
+	return pointer_from_address(align_address(address_from_pointer(pointer), alignment_bits));
+}
+
 extern real_argb_color const* const& global_real_argb_white;
 extern real_argb_color const* const& global_real_argb_grey;
 extern real_argb_color const* const& global_real_argb_black;
