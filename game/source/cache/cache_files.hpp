@@ -196,26 +196,40 @@ static_assert(sizeof(s_cache_file_tags_header) == 0x20);
 const long k_tag_cache_maximum_files_count = 60000;
 const long k_tag_cache_maximum_size = 0x4B00000;
 
+template<long const k_max_file_count>
 struct s_cache_file_tag_name_collection
 {
-	c_static_array<dword, k_tag_cache_maximum_files_count> offsets;
-	c_static_array<char, k_tag_cache_maximum_files_count * 256> buffer;
-	c_static_array<const char*, k_tag_cache_maximum_files_count> storage;
+	c_static_array<dword, k_max_file_count> offsets;
+	c_static_array<char, k_max_file_count * 256> buffer;
+	c_static_array<char const*, k_max_file_count> storage;
 };
-static_assert(sizeof(s_cache_file_tag_name_collection) == 0xF1B300);
+static_assert(sizeof(s_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>) == 0xF1B300);
+
+enum e_cache_file_tag_resource_location_flags
+{
+	_cache_file_tag_resource_location_flags_valid_checksum = 0,
+	_cache_file_tag_resource_location_flags_resources,
+	_cache_file_tag_resource_location_flags_textures,
+	_cache_file_tag_resource_location_flags_textures_b,
+	_cache_file_tag_resource_location_flags_audio,
+	_cache_file_tag_resource_location_flags_video,
+	_cache_file_tag_resource_location_flags_unused,
+	_cache_file_tag_resource_location_flags_only_full_valid_checksum,
+
+	k_cache_file_tag_resource_location_flags_count
+};
 
 struct cache_file_resource_location
 {
 	short header_salt; // header_salt_at_runtime
-	byte_flags flags;
+	c_flags<e_cache_file_tag_resource_location_flags, byte, k_cache_file_tag_resource_location_flags_count> flags;
 	char codec;
-	short shared_file;
-	short shared_file_location_index;
+	dword shared_file; // resource section file offset index/resource section offset at runtime
 	dword file_size;
 	dword size;
 	dword checksum;
 	short resource_reference_count;
-	short streaming_sublocation_table;
+	short streaming_sublocation_table; // short_block_index
 	dword __unknown18;
 	dword __unknown1C;
 	dword __unknown20;
@@ -242,7 +256,7 @@ struct cache_file_resource_data
 	short resource_salt;
 	char resource_type_index;
 	byte control_alignment_bits;
-	tag_data __unknown14;
+	tag_data __unknown14; // points to the pagable/interop of the owner tag at runtime
 	dword root_fixup;
 	c_typed_tag_block<s_cache_file_resource_fixup_location> control_fixups;
 	c_typed_tag_block<s_cache_file_resource_interop_location> interop_locations;
@@ -259,7 +273,7 @@ static_assert(sizeof(cache_file_resource_instance) == 0x6C);
 
 struct s_cache_file_globals
 {
-	s_cache_file_tag_name_collection* debug_tag_names;
+	s_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>* debug_tag_names;
 
 	// padding?
 	dword __unknown4;
@@ -293,7 +307,7 @@ struct s_cache_file_globals
 	struct
 	{
 		dword resource_loaded_count;
-		c_static_array<cache_file_resource_instance*, k_tag_cache_maximum_files_count>& resource_instances;
+		cache_file_resource_instance*(&resource_instances)[k_tag_cache_maximum_files_count];
 
 		dword __unknown8;
 		dword resource_loaded_size;
