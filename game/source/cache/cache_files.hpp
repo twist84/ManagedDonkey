@@ -294,7 +294,7 @@ static_assert(sizeof(cache_file_resource_instance) == 0x6C);
 
 struct s_cache_file_tag_resource_data
 {
-	c_wrapped_array<cache_file_resource_instance> loaded_resources;
+	c_wrapped_array<cache_file_resource_instance*> loaded_resources;
 
 	dword __unknown8;
 	dword resource_loaded_size;

@@ -168,6 +168,18 @@ void __cdecl main_loop_body_begin()
 			g_cache_file_globals.resource_file_counts_mapping[3] + 
 			g_cache_file_globals.resource_file_counts_mapping[4]);
 
+		for (cache_file_resource_instance* resource_instance : g_cache_file_globals.resource_data->loaded_resources)
+		{
+			// are these ever non-zero?
+			if (resource_instance->file_location.__unknown18 || resource_instance->file_location.__unknown1C || resource_instance->file_location.__unknown20)
+				throw; // throw if they are!
+
+			char group_string[8]{};
+			tag_to_string(resource_instance->runtime_data.owner_tag.group_tag, group_string);
+
+			c_console::write_line("resources: ['%s', %08X], type: %d", group_string, resource_instance->runtime_data.owner_tag.index, resource_instance->runtime_data.resource_type_index);
+		}
+
 		if (game_in_progress() && !game_is_ui_shell())
 		{
 			TLS_REFERENCE(game_engine_globals);
