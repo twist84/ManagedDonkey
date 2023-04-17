@@ -168,11 +168,11 @@ extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
 extern char* csnzappendf(char* buffer, dword size, char const* format, ...);
 extern bool string_is_not_empty(char const* s);
 
-template<typename t_type, long count>
+template<typename t_type, long k_count>
 typename std::enable_if<!std::is_floating_point<t_type>::value, bool>::type
-array_is_zeroed(t_type(&data)[count])
+array_is_zeroed(t_type(&data)[k_count])
 {
-	for (long i = 0; i < count; i++)
+	for (long i = 0; i < k_count; i++)
 	{
 		if (data[i] != 0)
 			return false;
@@ -181,11 +181,35 @@ array_is_zeroed(t_type(&data)[count])
 	return true;
 }
 
-template<typename t_type, long count>
-void zero_array(t_type(&data)[count])
+template<typename t_type, long k_count>
+void zero_array(t_type(&data)[k_count])
 {
-	csmemset(data, 0, sizeof(t_type) * count);
+	csmemset(data, 0, sizeof(t_type) * k_count);
 }
+
+template<typename t_type>
+struct c_wrapped_array
+{
+public:
+	long count()
+	{
+		return m_count;
+	}
+
+	t_type* begin()
+	{
+		return m_elements;
+	}
+
+	t_type* end()
+	{
+		return m_elements + m_count;
+	}
+
+protected:
+	long m_count;
+	t_type* m_elements;
+};
 
 template<typename t_type, size_t k_count>
 struct c_static_array
