@@ -136,6 +136,8 @@ void __cdecl main_loop_body_begin()
 		g_global_preferences;
 		g_screenshots_uploader;
 
+		TLS_REFERENCE(g_objectives);
+		TLS_REFERENCE(ai_globals);
 
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);
@@ -159,7 +161,7 @@ void __cdecl main_loop_body_begin()
 			c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.name.get_string());
 		}
 
-		ASSERT(g_cache_file_globals.loaded_resources->resource_loaded_count <=
+		ASSERT(g_cache_file_globals.resource_data->loaded_resources.count() <=
 			g_cache_file_globals.resource_file_counts_mapping[0] +
 			g_cache_file_globals.resource_file_counts_mapping[1] + 
 			g_cache_file_globals.resource_file_counts_mapping[2] + 
@@ -186,7 +188,7 @@ void __cdecl main_loop_body_begin()
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
 	{
-#ifdef ISEXPERIMENTAL
+#ifndef ISEXPERIMENTAL
 		s_file_reference file_reference;
 		file_reference_create_from_path(&file_reference, "C:\\Dev\\Blam\\Halo 3 (March 8 2007)\\saved_films\\riverwo_F9EB78A3.film", false);
 
@@ -216,7 +218,7 @@ void __cdecl main_loop_body_begin()
 		input_abstraction_globals.controls_method = controls_method;
 	}
 
-	copy_input_states(true);
+	copy_input_states(false);
 	show_location_messages();
 	show_direct_connect_dialog();
 }

@@ -5,6 +5,7 @@
 #include "memory/secure_signature.hpp"
 #include "tag_files/files.hpp"
 #include "tag_files/tag_groups.hpp"
+#include "tag_files/tag_resource_internals.hpp"
 
 struct s_cache_file_section_file_bounds
 {
@@ -219,12 +220,24 @@ enum e_cache_file_tag_resource_location_flags
 	k_cache_file_tag_resource_location_flags_count
 };
 
-struct cache_file_resource_location
+struct s_cache_file_resource_file_location
 {
-	short header_salt; // header_salt_at_runtime
+	// runtime
+	short resource_handle_salt;
+
 	c_flags<e_cache_file_tag_resource_location_flags, byte, k_cache_file_tag_resource_location_flags_count> flags;
+
 	char codec;
-	dword shared_file; // resource section file offset index/resource section offset at runtime
+
+	union
+	{
+		// persistent file index, dependant on what location flag is active
+		short shared_file_location_index;
+
+		// runtime combined offset, at runtime all resource files are a combined buffer
+		dword file_offset;
+	};
+
 	dword file_size;
 	dword size;
 	dword checksum;
@@ -234,7 +247,7 @@ struct cache_file_resource_location
 	dword __unknown1C;
 	dword __unknown20;
 };
-static_assert(sizeof(cache_file_resource_location) == 0x24);
+static_assert(sizeof(s_cache_file_resource_file_location) == 0x24);
 
 struct s_cache_file_resource_fixup_location
 {
@@ -243,33 +256,53 @@ struct s_cache_file_resource_fixup_location
 };
 static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
-struct s_cache_file_resource_interop_location
+struct s_tag_resource_interop_location
 {
-	long encoded_interop_location;
+	c_tag_resource_fixup encoded_interop_location;
 	long interop_type_index; // long_block_index
 };
 static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
-struct cache_file_resource_data
+enum e_cache_file_resource_data_flags
+{
+	_cache_file_resource_data_flags_has_pageable_data = 0,
+	_cache_file_resource_data_flags_has_optional_data,
+
+	k_cache_file_resource_data_flags
+};
+
+struct s_cache_file_resource_runtime_data_new
 {
 	tag_reference owner_tag;
 	short resource_salt;
 	char resource_type_index;
-	byte control_alignment_bits;
-	tag_data __unknown14; // points to the pagable/interop of the owner tag at runtime
-	dword root_fixup;
+	char control_alignment_bits;
+	tag_data control_data;
+	c_tag_resource_fixup root_fixup;
 	c_typed_tag_block<s_cache_file_resource_fixup_location> control_fixups;
-	c_typed_tag_block<s_cache_file_resource_interop_location> interop_locations;
-	dword __unknown44;
+	c_typed_tag_block<s_tag_resource_interop_location> interop_locations;
+	c_flags<e_cache_file_resource_data_flags, dword, k_cache_file_resource_data_flags> flags;
 };
-static_assert(sizeof(cache_file_resource_data) == 0x48);
+static_assert(sizeof(s_cache_file_resource_runtime_data_new) == 0x48);
 
 struct cache_file_resource_instance
 {
-	cache_file_resource_location location;
-	cache_file_resource_data data;
+	s_cache_file_resource_file_location file_location;
+	s_cache_file_resource_runtime_data_new runtime_data;
 };
 static_assert(sizeof(cache_file_resource_instance) == 0x6C);
+
+struct s_cache_file_tag_resource_data
+{
+	c_wrapped_array<cache_file_resource_instance> loaded_resources;
+
+	dword __unknown8;
+	dword resource_loaded_size;
+	bool __unknown10;
+
+	byte __data14[0x168];
+};
+static_assert(sizeof(s_cache_file_tag_resource_data) == 0x17C);
 
 struct s_cache_file_globals
 {
@@ -304,21 +337,10 @@ struct s_cache_file_globals
 	// s_cache_file_tags_header* tags_header;
 	s_file_reference tags_header;
 
-	struct
-	{
-		dword resource_loaded_count;
-		cache_file_resource_instance*(&resource_instances)[k_tag_cache_maximum_files_count];
-
-		dword __unknown8;
-		dword resource_loaded_size;
-		dword __unknown10;
-
-		byte __data14[0x168];
-	}* loaded_resources;
-	static_assert(sizeof(*loaded_resources) == 0x17C);
+	s_cache_file_tag_resource_data* resource_data;
 
 	// resource_file_counts_mapping[resource_file_index] = resource_count;
-	c_static_array<dword, 5> resource_file_counts_mapping;
+	c_static_array<long, 5> resource_file_counts_mapping;
 
 	dword report_count;
 	s_cache_file_report* reports;
