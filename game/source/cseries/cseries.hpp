@@ -211,6 +211,22 @@ protected:
 	t_type* m_elements;
 };
 
+template<typename t_type>
+struct c_basic_buffer
+{
+public:
+	//void clear()
+	//void set_buffer(t_type*, dword)
+	//void set_buffer(t_type*, t_type*)
+	//long size()
+	//t_type* begin() const
+	//t_type* end() const
+
+//protected:
+	t_type* m_buffer;
+	dword m_size;
+};
+
 template<typename t_type, size_t k_count>
 struct c_static_array
 {
