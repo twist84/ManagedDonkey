@@ -142,6 +142,10 @@ void __cdecl main_loop_body_begin()
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);
 
+		c_lights_view::g_gel_bitmap_index;
+		c_lights_view::g_render_light_intensity;
+		c_lights_view::g_debug_clip_planes;
+
 		TLS_REFERENCE(player_data);
 		long player_count = 0;
 		{
@@ -174,9 +178,21 @@ void __cdecl main_loop_body_begin()
 			if (resource_instance->file_location.__unknown18 || resource_instance->file_location.__unknown1C || resource_instance->file_location.__unknown20)
 				throw; // throw if they are!
 
+			// can "flags" be "has optional data"
+			if (resource_instance->runtime_data.flags.test(_cache_file_resource_data_flags_has_optional_data))
+				throw; // throw if it can
+
 			char group_string[8]{};
 			tag_to_string(resource_instance->runtime_data.owner_tag.group_tag, group_string);
 
+			//0: scenario_structure_bsp
+			//1: bitmap
+			ASSERT(resource_instance->runtime_data.resource_type_index != 2);
+			//3: sound
+			//4: model_animation_graph
+			//5: render_model
+			//6: bink
+			//7: scenario_structure_bsp
 			c_console::write_line("resources: ['%s', %08X], type: %d", group_string, resource_instance->runtime_data.owner_tag.index, resource_instance->runtime_data.resource_type_index);
 		}
 
