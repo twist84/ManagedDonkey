@@ -4,8 +4,9 @@
 #include "cseries/console.hpp"
 #include "memory/module.hpp"
 
-#include "networking/tools/remote_command.hpp"
+#include "cache/cache_file_tag_resource_runtime.hpp"
 #include "game/cheats.hpp"
+#include "networking/tools/remote_command.hpp"
 
 void process_attach(HMODULE hModule)
 {
@@ -22,8 +23,9 @@ void process_attach(HMODULE hModule)
 	apply_all_patches(false);
 	apply_all_hooks(false);
 
-	patch_remote_command();
+	patch_lz_cache_file_decompressor();
 	patch_cheats();
+	patch_remote_command();
 }
 
 void process_detach(HMODULE hModule)

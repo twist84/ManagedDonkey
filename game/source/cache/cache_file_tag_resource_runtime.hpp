@@ -4,6 +4,8 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files_windows.hpp"
 
+extern void patch_lz_cache_file_decompressor();
+
 struct s_cache_file_shared_resource_usage
 {
 	byte __data[0x2328];
@@ -127,6 +129,10 @@ struct c_lz_cache_file_decompressor :
 static_assert(sizeof(c_lz_cache_file_decompressor) == sizeof(c_cache_file_decompressor) + 0x1C);
 
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
+
+extern bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1);
+extern bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1, c_basic_buffer<void>* a2);
+extern bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1);
 
 struct s_tag_resource;
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
