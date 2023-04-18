@@ -109,6 +109,11 @@ static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
 struct c_lights_view :
 	public c_world_view
 {
+public:
+	static long& g_gel_bitmap_index;
+	static real& g_render_light_intensity;
+	static dword& g_debug_clip_planes;
+
 protected:
 	byte __data298[0xD54];
 	byte __dataFEC[0x280];
