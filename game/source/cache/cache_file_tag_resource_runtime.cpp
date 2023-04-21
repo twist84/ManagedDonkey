@@ -18,13 +18,12 @@ void patch_lz_cache_file_decompressor()
 
 #ifdef _DEBUG
 
-long begin_ = 0;
-long decompress_buffer_ = 0;
-long finish_ = 0;
+long sizes[2] = { 0, 0 };
 bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1)
 {
-	c_console::write("c_lz_cache_file_decompressor::begin %d ", begin_++);
-	decompress_buffer_ = 0;
+	c_console::write("c_lz_cache_file_decompressor");
+	sizes[0] = 0;
+	sizes[1] = 0;
 
 	//return DECLFUNC(0x009E1430, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>)(_this, a1);
 
@@ -39,18 +38,21 @@ bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _
 	return true;
 }
 
-bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1, c_basic_buffer<void>* a2)
+bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> compressed_buffer, c_basic_buffer<void>* decompressed_buffer)
 {
-	c_console::write("I");
-	decompress_buffer_++;
+	bool result = DECLFUNC(0x009E14F0, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>, c_basic_buffer<void>*)(_this, compressed_buffer, decompressed_buffer);
 
-	return DECLFUNC(0x009E14F0, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>, c_basic_buffer<void>*)(_this, a1, a2);
+	sizes[0] += compressed_buffer.m_size;
+	sizes[1] += decompressed_buffer->m_size;
+
+	return result;
 }
 
 bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1)
 {
-	c_console::write_line("");
-	ASSERT(begin_ == ++finish_);
+	c_console::write_line("(0x%08X, 0x%08X)", sizes[0], sizes[1]);
+	sizes[0] = 0;
+	sizes[1] = 0;
 
 	return DECLFUNC(0x009E1640, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>*)(_this, a1);
 }
