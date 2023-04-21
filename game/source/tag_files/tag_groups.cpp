@@ -32,7 +32,7 @@ wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path)
 		return path;
 }
 
-void* tag_reference::get_definition()
+void* s_tag_reference::get_definition()
 {
 	return tag_get(group_tag, index);
 }

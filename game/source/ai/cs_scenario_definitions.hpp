@@ -34,7 +34,7 @@ enum e_point_set_flags
 struct cs_point_set
 {
 	string name;
-	tag_block points;
+	s_tag_block points;
 
 	// scenario_structure_bsp_reference
 	short bsp_index; // short_block_index

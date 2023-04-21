@@ -77,8 +77,8 @@ struct s_input_globals_definition
 {
 	long __unknown0;
 	long __unknown4;
-	tag_data __unknown8;
-	tag_data __unknown1C;
+	s_tag_data __unknown8;
+	s_tag_data __unknown1C;
 	long __unknown30;
 };
 static_assert(sizeof(s_input_globals_definition) == 0x34);

@@ -15,19 +15,19 @@ enum e_group_widget_definition_flags
 
 struct s_group_widget_definition : s_core_widget_definition
 {
-	tag_block list;
-	tag_block text_items;
-	tag_block bitmaps;
-	tag_block models;
+	s_tag_block list;
+	s_tag_block text_items;
+	s_tag_block bitmaps;
+	s_tag_block models;
 };
 static_assert(sizeof(s_group_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
 
 struct s_runtime_group_widget_definition : s_runtime_core_widget_definition
 {
-	tag_block list;
-	tag_block text_items;
-	tag_block bitmaps;
-	tag_block models;
+	s_tag_block list;
+	s_tag_block text_items;
+	s_tag_block bitmaps;
+	s_tag_block models;
 	long string_list_reference_index;
 };
 static_assert(sizeof(s_runtime_group_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x34);

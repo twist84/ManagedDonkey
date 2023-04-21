@@ -19,10 +19,10 @@ long __cdecl hs_runtime_script_begin(short script_index, short script_type, char
     if (!scenario)
         return NONE;
 
-    if (script_index < 0 || script_index >= scenario->scripts.count)
+    if (script_index < 0 || script_index >= scenario->scripts.count())
         return NONE;
 
-    hs_script& script = scenario->scripts.elements[script_index];
+    hs_script& script = scenario->scripts[script_index];
     if (script.script_type != script_type)
         return NONE;
 

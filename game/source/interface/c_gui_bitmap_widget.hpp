@@ -21,8 +21,8 @@ enum e_bitmap_widget_definition_flags
 
 struct s_bitmap_widget_definition : s_core_widget_definition
 {
-	tag_reference bitmap_tag;
-	tag_reference custom_pixel_shader;
+	s_tag_reference bitmap_tag;
+	s_tag_reference custom_pixel_shader;
 	short_enum bitmap_blend_method;
 	short initial_sprite_sequence;
 	short initial_sprite_frame;

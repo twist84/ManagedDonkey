@@ -83,8 +83,8 @@ s_multiplayer_universal_globals_definition* __cdecl scenario_multiplayer_globals
 
 s_multiplayer_universal_globals_definition* multiplayer_globals_try_and_get_universal_data(s_multiplayer_globals_definition* multiplayer_globals)
 {
-    if (multiplayer_globals && multiplayer_globals->universal.count > 0)
-        return &multiplayer_globals->universal.elements[0];
+    if (multiplayer_globals && multiplayer_globals->universal.count() > 0)
+        return multiplayer_globals->universal.begin();
 
     return nullptr;
 }

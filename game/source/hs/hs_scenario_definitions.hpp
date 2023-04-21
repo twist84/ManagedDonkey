@@ -7,7 +7,7 @@ struct hs_tag_reference
 {
 	c_typed_tag_reference<0xFFFFFFFF> reference;
 };
-static_assert(sizeof(hs_tag_reference) == sizeof(tag_reference));
+static_assert(sizeof(hs_tag_reference) == sizeof(s_tag_reference));
 
 enum e_hs_script_type
 {
@@ -182,7 +182,7 @@ struct hs_source_file
 {
 	c_typed_tag_block<hs_tag_reference> external_references;
 };
-static_assert(sizeof(hs_source_file) == sizeof(tag_block));
+static_assert(sizeof(hs_source_file) == sizeof(s_tag_block));
 
 struct s_hs_unit_seat_mapping
 {

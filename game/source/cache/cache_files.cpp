@@ -21,7 +21,7 @@ REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
 
 struct s_cache_file_global_tags_definition
 {
-	c_typed_tag_block<tag_reference> references;
+	c_typed_tag_block<s_tag_reference> references;
 	dword : 32;
 };
 static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);

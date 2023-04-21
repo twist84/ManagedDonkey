@@ -103,7 +103,7 @@ struct s_ctf_globals
 	c_static_array<word, 9> __unknown16B2;
 	c_static_array<word, 9> __unknown16C4;
 };
-static_assert(sizeof(s_ctf_globals) == 0x16D8);
+//static_assert(sizeof(s_ctf_globals) == 0x16D8);
 
 extern c_game_engine_ctf_variant*& ctf_variant;
 

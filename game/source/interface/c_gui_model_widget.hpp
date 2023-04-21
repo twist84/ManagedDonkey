@@ -17,7 +17,7 @@ struct s_model_widget_globals_definition
 	real tron_shader_intensity;
 	real fov; // degrees
 	real zoom_speed; // wu per tick
-	tag_block zoom_transition_fxn; // keyframe_transition_function_block
+	s_tag_block zoom_transition_fxn; // keyframe_transition_function_block
 	short_enum move_left_button;
 	short_enum move_right_button;
 	short_enum move_forward_button;
@@ -45,7 +45,7 @@ static_assert(sizeof(s_model_widget_camera_slice) == 0x14);
 
 struct s_model_widget_definition : s_core_widget_definition
 {
-	tag_block camera_settings;
+	s_tag_block camera_settings;
 	s_model_widget_globals_definition model_widget_globals;
 	c_typed_tag_block<s_model_widget_camera_slice> texture_camera_slices;
 };
@@ -83,12 +83,12 @@ struct s_runtime_model_widget_camera_settings
 	real initial_zoom; // [0,1]
 	real movement_speed;
 	real magnetism_constant;
-	tag_block movement_scale_fxn;
+	s_tag_block movement_scale_fxn;
 	euler_angles2d initial_rotation; // degrees
 	euler_angles2d minimum_rotation; // degrees
 	euler_angles2d maximum_rotation; // degrees
 	real rotation_speed; // degrees per tick
-	tag_reference model;
+	s_tag_reference model;
 	c_string_id variant;
 };
 static_assert(sizeof(s_runtime_model_widget_camera_settings) == 0xA0);

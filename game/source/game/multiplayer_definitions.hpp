@@ -72,8 +72,8 @@ static_assert(sizeof(s_multiplayer_customized_model_character) == 0x14);
 struct s_multiplayer_customized_model_selection
 {
 	c_string_id selection_name;
-	tag_reference third_person_armor_object;
-	tag_reference first_person_armor_object;
+	s_tag_reference third_person_armor_object;
+	s_tag_reference first_person_armor_object;
 
 	short __unknown24;
 	byte __pad26[2];
@@ -86,7 +86,7 @@ static_assert(sizeof(s_multiplayer_customized_model_selection) == 0x30);
 struct s_multiplayer_equipment
 {
 	c_string_id name;
-	tag_reference object;
+	s_tag_reference object;
 	short type;
 	byte __pad[2];
 };
@@ -201,26 +201,26 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<'snd!'> default_respawn_sound;
 	c_typed_tag_reference<'snd!'> modifier_respawn_sound;
 
-	tag_block sounds;
-	tag_block looping_sounds;
-	tag_block earn_wp_events;
-	tag_block general_events;
-	tag_block flavor_events;
-	tag_block slayer_events;
-	tag_block ctf_events;
-	tag_block oddball_events;
-	tag_block king_events;
-	tag_block vip_events;
-	tag_block juggernaut_events;
-	tag_block territories_events;
-	tag_block assault_events;
-	tag_block infection_events;
+	s_tag_block sounds;
+	s_tag_block looping_sounds;
+	s_tag_block earn_wp_events;
+	s_tag_block general_events;
+	s_tag_block flavor_events;
+	s_tag_block slayer_events;
+	s_tag_block ctf_events;
+	s_tag_block oddball_events;
+	s_tag_block king_events;
+	s_tag_block vip_events;
+	s_tag_block juggernaut_events;
+	s_tag_block territories_events;
+	s_tag_block assault_events;
+	s_tag_block infection_events;
 
 	long maximum_frag_count;
 	long maximum_plasma_count;
 
 	c_typed_tag_block<s_multiplayer_constants> multiplayer_constants;
-	tag_block state_responses;
+	s_tag_block state_responses;
 
 	c_typed_tag_reference<'bitm'> scoreboard_emblem_bitmap;
 	c_typed_tag_reference<'bitm'> scoreboard_dead_emblem_bitmap;
@@ -293,19 +293,19 @@ struct s_multiplayer_constants
 
 	// WEAPON INFLUENCERS
 	// These influencers are induced by weapons either weilded or carried in the player's backpack
-	tag_block weapon_influencers;
+	s_tag_block weapon_influencers;
 
 	// VEHICLE INFLUENCERS
 	// These influencers are induced by vehicles.
-	tag_block vehicle_influencers;
+	s_tag_block vehicle_influencers;
 
 	// PROJECTILE INFLUENCERS
 	// These influencers are induced by projectiles.
-	tag_block projectile_influencers;
+	s_tag_block projectile_influencers;
 
 	// EQUIPMENT INFLUENCERS
 	// These influencers are induced by equipment.
-	tag_block equipment_influencers;
+	s_tag_block equipment_influencers;
 
 	// KOTH HILL INFLUENCER
 	// This influencer is induced by the King of the Hill hill goal area.

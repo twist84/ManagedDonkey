@@ -24,7 +24,7 @@ struct mapping_function
 {
 	c_typed_tag_data<function_definition_data> data;
 };
-static_assert(sizeof(mapping_function) == sizeof(tag_data));
+static_assert(sizeof(mapping_function) == sizeof(s_tag_data));
 
 struct screen_effect_scalar_function
 {
@@ -98,7 +98,7 @@ struct s_single_screen_effect_definition
 	real vision_noise; // [0-1]
 
 	// applies this shader to the entire screen
-	tag_reference shader_effect;
+	s_tag_reference shader_effect;
 };
 static_assert(sizeof(s_single_screen_effect_definition) == 0x9C);
 

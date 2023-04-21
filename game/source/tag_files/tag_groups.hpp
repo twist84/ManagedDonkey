@@ -3,15 +3,15 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_group_definitions.hpp"
 
-struct tag_block
+struct s_tag_block
 {
 	long count;
 	byte(&elements)[];
 	long : 32; // byte* definition;
 };
-static_assert(sizeof(tag_block) == 0xC);
+static_assert(sizeof(s_tag_block) == 0xC);
 
-struct tag_reference
+struct s_tag_reference
 {
 	tag group_tag;
 	long : 32; // char const* name;
@@ -20,9 +20,9 @@ struct tag_reference
 
 	void* get_definition();
 };
-static_assert(sizeof(tag_reference) == 0x10);
+static_assert(sizeof(s_tag_reference) == 0x10);
 
-struct tag_data
+struct s_tag_data
 {
 	long size;
 	long : 32; //  flags;
@@ -30,22 +30,52 @@ struct tag_data
 	byte(&base)[];
 	long : 32; // byte* definition;
 };
-static_assert(sizeof(tag_data) == 0x14);
+static_assert(sizeof(s_tag_data) == 0x14);
 
 template<typename t_element_type, dword ...t_extra>
-//using c_typed_tag_block = tag_block;
+//using c_typed_tag_block = s_tag_block;
 struct c_typed_tag_block
 {
-	long count;
-	t_element_type* elements;
+public:
+	long count()
+	{
+		return m_count;
+	}
+
+	t_element_type* begin()
+	{
+		return m_elements;
+	}
+
+	t_element_type* end()
+	{
+		return m_elements + m_count;
+	}
+
+	t_element_type& operator[](long index)
+	{
+		ASSERT(VALID_INDEX(index, m_count));
+
+		return m_elements[index];
+	}
+
+	void clear()
+	{
+		csmemset(m_elements, 0, sizeof(m_elements) * m_count);
+		m_count = 0;
+	}
+
+//protected:
+	long m_count;
+	t_element_type* m_elements;
 	long : 32; // byte* definition;
 };
 
 template<tag ...k_group_tags>
-using c_typed_tag_reference = tag_reference;
+using c_typed_tag_reference = s_tag_reference;
 
 template<typename t_data_type, dword ...t_extra>
-//using c_typed_tag_data = tag_data;
+//using c_typed_tag_data = s_tag_data;
 struct c_typed_tag_data
 {
 	long size;

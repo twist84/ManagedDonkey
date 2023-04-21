@@ -595,9 +595,9 @@ struct bitmap_group
 	// overrides the format defined by usage
 	c_enum<e_bitmap_usage_format, short, _bitmap_usage_format_use_default_defined_by_usage, k_bitmap_usage_format_count> force_bitmap_format;
 
-	tag_block tight_bounds;
-	tag_block usage_override;
-	tag_block manual_sequences;
+	s_tag_block tight_bounds;
+	s_tag_block usage_override;
+	s_tag_block manual_sequences;
 
 	// IMPORT DATA
 	//
@@ -609,15 +609,15 @@ struct bitmap_group
 	//
 	// ***************************************************************************************************************************
 	//
-	tag_data source_data;
+	s_tag_data source_data;
 
-	tag_data processed_pixel_data;
-	tag_block sequences;
+	s_tag_data processed_pixel_data;
+	s_tag_block sequences;
 	c_typed_tag_block<bitmap_data> bitmaps;
-	tag_data xenon_processed_pixel_data;
+	s_tag_data xenon_processed_pixel_data;
 	c_typed_tag_block<bitmap_data> xenon_bitmaps;
-	tag_block hardware_textures;
-	tag_block interleaved_hardware_textures;
+	s_tag_block hardware_textures;
+	s_tag_block interleaved_hardware_textures;
 	long __unknownB4;
 };
 static_assert(sizeof(bitmap_group) == 0xB8);

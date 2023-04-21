@@ -178,20 +178,20 @@ struct s_game_globals
 	real __unknown5C4;
 	real __unknown5C8;
 	real __unknown5CC;
-	tag_data __unknown5D0; // tag function
+	s_tag_data __unknown5D0; // tag function
 	real __unknown5E8;
 	real __unknown5EC;
 	real __unknown5F0;
 	real __unknown5F4;
 	real __unknown5F8;
-	tag_block damage_reporting_types;
+	s_tag_block damage_reporting_types;
 	real __unknown604;
 
 	struct sound_block
 	{
-		tag_reference sound; // OBSOLETE
+		s_tag_reference sound; // OBSOLETE
 	};
-	static_assert(sizeof(sound_block) == sizeof(tag_reference));
+	static_assert(sizeof(sound_block) == sizeof(s_tag_reference));
 };
 static_assert(sizeof(s_game_globals) == 0x608);
 
@@ -201,13 +201,13 @@ struct s_game_globals_player_representation
 	char_enum model_choice;
 	char_enum _class;
 	byte __pad6[2];
-	tag_reference first_person_hands;
-	tag_reference first_person_body;
-	tag_reference first_person_unit;
+	s_tag_reference first_person_hands;
+	s_tag_reference first_person_body;
+	s_tag_reference first_person_unit;
 	c_string_id third_person_variant;
-	tag_reference binoculars_zoom_in_sounds;
-	tag_reference binoculars_zoom_out_sounds;
-	tag_reference voice;
+	s_tag_reference binoculars_zoom_in_sounds;
+	s_tag_reference binoculars_zoom_out_sounds;
+	s_tag_reference voice;
 };
 static_assert(sizeof(s_game_globals_player_representation) == 0x6C);
 

@@ -43,6 +43,7 @@
 #include "render/views/render_view.hpp"
 #include "screenshots/screenshots_uploader.hpp"
 #include "simulation/simulation.hpp"
+#include "visibility/visibility_collection.hpp"
 #include "xbox/xbox.hpp"
 #include "xbox/xnet.hpp"
 
@@ -145,6 +146,8 @@ void __cdecl main_loop_body_begin()
 		c_lights_view::g_gel_bitmap_index;
 		c_lights_view::g_render_light_intensity;
 		c_lights_view::g_debug_clip_planes;
+		c_visible_items::m_items;
+		c_visible_items::m_markers;
 
 		TLS_REFERENCE(player_data);
 		long player_count = 0;

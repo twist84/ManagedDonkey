@@ -273,11 +273,11 @@ enum e_cache_file_resource_data_flags
 
 struct s_cache_file_resource_runtime_data_new
 {
-	tag_reference owner_tag;
+	s_tag_reference owner_tag;
 	short resource_salt;
 	char resource_type_index;
 	char control_alignment_bits;
-	tag_data control_data;
+	s_tag_data control_data;
 	c_tag_resource_fixup root_fixup;
 	c_typed_tag_block<s_cache_file_resource_fixup_location> control_fixups;
 	c_typed_tag_block<s_tag_resource_interop_location> interop_locations;
@@ -294,7 +294,16 @@ static_assert(sizeof(cache_file_resource_instance) == 0x6C);
 
 struct s_cache_file_tag_resource_data
 {
-	c_wrapped_array<cache_file_resource_instance*> loaded_resources;
+	union
+	{
+		struct
+		{
+			long loaded_resource_count;
+			cache_file_resource_instance* (&loaded_resources)[k_tag_cache_maximum_files_count];
+		} s;
+
+		c_wrapped_array<cache_file_resource_instance*> loaded_resources;
+	};
 
 	dword __unknown8;
 	dword resource_loaded_size;

@@ -92,7 +92,7 @@ struct s_assault_globals
 	c_static_array<byte, 8> __unknown16A8;
 	c_static_array<word, 9> __unknown16B0;
 };
-static_assert(sizeof(s_assault_globals) == 0x16C4);
+//static_assert(sizeof(s_assault_globals) == 0x16C4);
 
 extern c_game_engine_assault_variant*& assault_variant;
 

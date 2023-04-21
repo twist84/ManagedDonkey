@@ -164,9 +164,9 @@ struct s_scenario
 	// These names will be used to match with names of player representations in globals.globals
 	c_typed_tag_block<scenario_campaign_player_representation_names_block> campaign_players;
 
-	tag_block __unknown78;
-	tag_block __unknown84;
-	tag_block __unknown90;
+	s_tag_block __unknown78;
+	s_tag_block __unknown84;
+	s_tag_block __unknown90;
 
 	c_typed_tag_data<editor_scenario_data_definition> editor_scenario_data;
 	c_typed_tag_block<editor_comment_definition> comments;
@@ -333,14 +333,14 @@ struct s_scenario
 
 	c_typed_tag_block<s_scenario_interpolator> interpolators;
 
-	tag_block shared_references;
-	tag_block screen_effect_references;
-	tag_block simulation_definition_table;
+	s_tag_block shared_references;
+	s_tag_block screen_effect_references;
+	s_tag_block simulation_definition_table;
 
 	c_typed_tag_reference<'cfxs'> camera_effects;
 	c_typed_tag_reference<'sefc'> global_screen_effect;
 
-	tag_reference unknown_screen_fx;
+	s_tag_reference unknown_screen_fx;
 
 	c_typed_tag_reference<'skya'> atmospheric;
 	c_typed_tag_reference<'chmt'> chocalate_mountain;

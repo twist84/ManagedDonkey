@@ -31,9 +31,9 @@ long user_interface_start_hs_script_by_name(char const* name)
 
     long script_index;
     hs_script const* script = nullptr;
-    for (script_index = 0; script_index < scenario->scripts.count; script_index++)
+    for (script_index = 0; script_index < scenario->scripts.count(); script_index++)
     {
-        script = scenario->scripts.elements + script_index;
+        script = &scenario->scripts[script_index];
         if (csstricmp(script->name, name) == 0)
             break;
     }

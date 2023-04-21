@@ -4,7 +4,20 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files_windows.hpp"
 
-extern void patch_lz_cache_file_decompressor();
+struct s_tag_resource
+{
+	dword resource_handle;
+	dword definition_address;
+};
+static_assert(sizeof(s_tag_resource) == 0x8);
+
+template<typename t_resource_type, dword ...t_extra>
+struct c_typed_tag_resource
+{
+	dword resource_handle;
+	dword definition_address;
+};
+static_assert(sizeof(s_tag_resource) == 0x8);
 
 struct s_cache_file_shared_resource_usage
 {
@@ -130,10 +143,10 @@ static_assert(sizeof(c_lz_cache_file_decompressor) == sizeof(c_cache_file_decomp
 
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
 
+extern void patch_lz_cache_file_decompressor();
+
 extern bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1);
 extern bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1, c_basic_buffer<void>* a2);
 extern bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1);
-
-struct s_tag_resource;
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
 

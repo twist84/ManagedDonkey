@@ -19,13 +19,13 @@ struct s_screen_widget_definition : s_core_widget_definition
 
 	c_string_id initial_button_key_name;
 
-	tag_block debug_datasources;
-	tag_block groups;
-	tag_block button_keys;
+	s_tag_block debug_datasources;
+	s_tag_block groups;
+	s_tag_block button_keys;
 
 	// Sound Overrides
 	// To override global sound effects for this particular screen, specify them here
-	tag_reference sound_overrides;
+	s_tag_reference sound_overrides;
 
 	// On Load Command Script
 	// To run a main menu scenario command script when this screen loads, specifiy script name here
@@ -41,9 +41,9 @@ struct s_runtime_screen_widget_definition : s_runtime_core_widget_definition
 {
 	long string_list_index;
 	c_string_id initial_button_key_name;
-	tag_block debug_datasources;
-	tag_block groups;
-	tag_block button_keys;
+	s_tag_block debug_datasources;
+	s_tag_block groups;
+	s_tag_block button_keys;
 	long sound_overrides_index;
 	string on_load_script_name;
 	short script_index;
