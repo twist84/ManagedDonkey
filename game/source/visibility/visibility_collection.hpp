@@ -1,42 +1,94 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "effects/effects.hpp"
 
 long const k_maximum_item_markers = 6;
 
+#pragma pack(push, 1)
 struct s_visible_object_hierarchy
 {
-	byte __data[0x10];
+	word_flags flags;
+	word __unknown2;
+	dword __unknown4;
+	word __unknown8;
+	dword __unknownA;
+	byte __data[0x2];
 };
 static_assert(sizeof(s_visible_object_hierarchy) == 0x10);
+#pragma pack(pop)
+
+struct c_dynamic_cubemap_sample
+{
+	word __unknown0;
+	word __unknown2;
+	word __unknown4;
+	word __unknown6;
+	word __unknown8;
+	word __unknownA;
+	real __unknownC;
+};
+static_assert(sizeof(c_dynamic_cubemap_sample) == 0x10);
+
+struct s_shader_extern_info
+{
+	dword __unknown0;
+	dword __unknown4;
+	dword __unknown8;
+	dword __unknownC;
+	vector3d negative_up;
+	s_geometry_sample lightprobe_sample;
+	c_dynamic_cubemap_sample cubemap_sample;
+	dword __unknown224;
+	byte __data228[0x34];
+};
+static_assert(sizeof(s_shader_extern_info) == 0x25C);
 
 struct s_visible_object_render_visibility
 {
-	byte __data[0x78];
+	dword __unknown0;
+	dword model_tag_index;
+	dword __unknown8;
+	byte __dataC[0x5C];
+	s_shader_extern_info* shader_extern_info;
+	dword __unknown6C;
+	dword __unknown70;
+	byte_flags flags;
 };
 static_assert(sizeof(s_visible_object_render_visibility) == 0x78);
 
 struct s_visible_instance_list
 {
-	byte __data[0xC];
+	char structure_bsp_index;
+	byte __data[0x9];
+	word __unknownA;
 };
 static_assert(sizeof(s_visible_instance_list) == 0xC);
 
 struct s_visible_instances
 {
 	word_flags flags;
-	char structure_bsp_index;
-	byte cluster_index;
-	byte __data4[0x2];
+	word structure_bsp_instanced_geometry_instances_index; // structure_bsp.instanced_geometry_instances[instanced_geometry_instances_index]
+	short structure_bsp_index; // global_structure_bsp_get(structure_bsp_index)
 	word region_cluster_bitvector_start_index;
-	byte __data8[0x4];
+	byte __data8[4];
 	dword* part_bitvector_space;
 };
 static_assert(sizeof(s_visible_instances) == 0x10);
 
 struct s_visible_clusters
 {
-	byte __data[0x10];
+	word_flags flags;
+	char structure_bsp_index;
+	char structure_bsp_cluster_index;
+	byte __data4[0x4];
+	union
+	{
+		word render_geometry_mesh_index;
+		word render_geometry_per_mesh_mopp_index;
+	};
+	byte __dataA[0x2];
+	dword* part_visibility_bitvector;
 };
 static_assert(sizeof(s_visible_clusters) == 0x10);
 
@@ -78,8 +130,9 @@ struct s_visible_items
 	word visible_subpart_bitvector_count;                           // address: 0x018E61A4, offset: 0x26ABC
 	word visiblity_region_cluster_bitvector_count;                  // address: 0x018E61A6, offset: 0x26ABE
 	c_static_flags<65536> visiblity_region_cluster_bitvector;       // address: 0x018E61A8, offset: 0x26AC0
+	word __unknown28AC0[2048];                                      // address: 0x018E81A8, offset: 0x28AC0
 };
-static_assert(sizeof(s_visible_items) == 0x28AC0);
+static_assert(sizeof(s_visible_items) == 0x29AC0);
 
 struct c_visible_items
 {
