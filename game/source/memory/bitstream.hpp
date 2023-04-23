@@ -62,6 +62,7 @@ public:
 	// functions as they appear in memory
 
 	void __cdecl write_integer(char const* name, dword value, long size_in_bits);
+	void __cdecl write_signed_integer(char const* name, long value, long size_in_bits);
 
 	void __cdecl append(c_bitstream const* stream);
 	void __cdecl begin_consistency_check();

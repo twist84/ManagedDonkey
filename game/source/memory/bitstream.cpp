@@ -28,6 +28,11 @@ void __cdecl c_bitstream::write_integer(char const* name, dword value, long size
 	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, dword, long)(this, value, size_in_bits);
 }
 
+void __cdecl c_bitstream::write_signed_integer(char const* name, long value, long size_in_bits)
+{
+	DECLFUNC(0x00444C50, void, __thiscall, c_bitstream*, long, long)(this, value, size_in_bits);
+}
+
 void __cdecl c_bitstream::append(c_bitstream const* stream)
 {
 	ASSERT(stream->m_state == _bitstream_state_write_finished);
