@@ -54,6 +54,9 @@ public:
 	virtual long get_score_unknown() const; // halo online specific
 	virtual bool can_be_cast_to(e_game_engine_type game_engine_index, void const**) const;
 	virtual void custom_team_score_stats(long team_index, long, long) const;
+
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
 	
 	c_game_engine_base_variant* constructor()
 	{

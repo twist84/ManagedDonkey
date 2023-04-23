@@ -26,6 +26,9 @@ struct c_game_variant
 public:
 	c_game_variant();
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	bool decode_from_mcc(c_bitstream* packet);
+
 	void copy_from_and_validate(c_game_variant const* other);
 	void copy_from_unsafe(class c_game_variant const* other);
 	long get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
