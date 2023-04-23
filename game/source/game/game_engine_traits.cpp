@@ -282,9 +282,9 @@ void c_game_engine_social_options::set(c_game_engine_social_options const* optio
 	set_team_changing_balancing_only_enabled(options->get_team_changing_balancing_only_enabled());
 	set_friendly_fire_enabled(options->get_friendly_fire_enabled());
 	set_betrayal_booting_enabled(options->get_betrayal_booting_enabled());
-	//set_enemy_voice_enabled(options->get_enemy_voice_enabled());
-	//set_open_channel_voice_enabled(options->get_open_channel_voice_enabled());
-	//set_dead_player_voice_enabled(options->get_dead_player_voice_enabled());
+	set_enemy_voice_enabled(options->get_enemy_voice_enabled());
+	set_open_channel_voice_enabled(options->get_open_channel_voice_enabled());
+	set_dead_player_voice_enabled(options->get_dead_player_voice_enabled());
 }
 
 //void c_game_engine_social_options::set(s_game_engine_social_options_definition const* definition, bool force)
@@ -341,35 +341,35 @@ void c_game_engine_social_options::set_betrayal_booting_enabled(bool betrayal_bo
 	m_flags.set(_game_engine_social_options_betrayal_booting_enabled, betrayal_booting_enabled);
 }
 
-//bool c_game_engine_social_options::get_enemy_voice_enabled() const
-//{
-//	return m_flags.test(_game_engine_social_options_enemy_voice_enabled);
-//}
-//
-//void c_game_engine_social_options::set_enemy_voice_enabled(bool enemy_voice_enabled)
-//{
-//	m_flags.set(_game_engine_social_options_enemy_voice_enabled, enemy_voice_enabled);
-//}
-//
-//bool c_game_engine_social_options::get_open_channel_voice_enabled() const
-//{
-//	return m_flags.test(_game_engine_social_options_open_channel_voice_enabled);
-//}
-//
-//void c_game_engine_social_options::set_open_channel_voice_enabled(bool open_channel_voice_enabled)
-//{
-//	m_flags.set(_game_engine_social_options_open_channel_voice_enabled, open_channel_voice_enabled);
-//}
-//
-//bool c_game_engine_social_options::get_dead_player_voice_enabled() const
-//{
-//	return m_flags.test(_game_engine_social_options_dead_player_voice_enabled);
-//}
-//
-//void c_game_engine_social_options::set_dead_player_voice_enabled(bool dead_player_voice_enabled)
-//{
-//	m_flags.set(_game_engine_social_options_dead_player_voice_enabled, dead_player_voice_enabled);
-//}
+bool c_game_engine_social_options::get_enemy_voice_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_enemy_voice_enabled);
+}
+
+void c_game_engine_social_options::set_enemy_voice_enabled(bool enemy_voice_enabled)
+{
+	m_flags.set(_game_engine_social_options_enemy_voice_enabled, enemy_voice_enabled);
+}
+
+bool c_game_engine_social_options::get_open_channel_voice_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_open_channel_voice_enabled);
+}
+
+void c_game_engine_social_options::set_open_channel_voice_enabled(bool open_channel_voice_enabled)
+{
+	m_flags.set(_game_engine_social_options_open_channel_voice_enabled, open_channel_voice_enabled);
+}
+
+bool c_game_engine_social_options::get_dead_player_voice_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_dead_player_voice_enabled);
+}
+
+void c_game_engine_social_options::set_dead_player_voice_enabled(bool dead_player_voice_enabled)
+{
+	m_flags.set(_game_engine_social_options_dead_player_voice_enabled, dead_player_voice_enabled);
+}
 
 bool c_game_engine_social_options::get_spartans_vs_elites_enabled() const
 {

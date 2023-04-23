@@ -51,6 +51,12 @@ enum e_game_engine_social_options_flags
 	// added in halo online
 	_game_engine_social_options_spartans_vs_elites_enabled,
 
+	// add back these even if the game doesn't use them
+	// these bits aren't checked so it should be fine?
+	_game_engine_social_options_enemy_voice_enabled,
+	_game_engine_social_options_open_channel_voice_enabled,
+	_game_engine_social_options_dead_player_voice_enabled,
+
 	k_game_engine_social_options_flags
 };
 
@@ -191,14 +197,14 @@ public:
 	bool get_betrayal_booting_enabled() const;
 	void set_betrayal_booting_enabled(bool betrayal_booting_enabled);
 
-	//bool get_enemy_voice_enabled() const;
-	//void set_enemy_voice_enabled(bool enemy_voice_enabled);
+	bool get_enemy_voice_enabled() const;
+	void set_enemy_voice_enabled(bool enemy_voice_enabled);
 	
-	//bool get_open_channel_voice_enabled() const;
-	//void set_open_channel_voice_enabled(bool open_channel_voice_enabled);
+	bool get_open_channel_voice_enabled() const;
+	void set_open_channel_voice_enabled(bool open_channel_voice_enabled);
 	
-	//bool get_dead_player_voice_enabled() const;
-	//void set_dead_player_voice_enabled(bool dead_player_voice_enabled);
+	bool get_dead_player_voice_enabled() const;
+	void set_dead_player_voice_enabled(bool dead_player_voice_enabled);
 
 	bool get_spartans_vs_elites_enabled() const;
 	void set_spartans_vs_elites_enabled(bool spartans_vs_elites_enabled);
