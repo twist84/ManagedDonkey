@@ -209,6 +209,8 @@ public:
 	bool get_spartans_vs_elites_enabled() const;
 	void set_spartans_vs_elites_enabled(bool spartans_vs_elites_enabled);
 
+	void set_team_changing_setting(long team_changing);
+
 protected:
 	c_flags<e_game_engine_social_options_flags, word_flags, k_game_engine_social_options_flags> m_flags;
 	c_enum<long, word, 0, 2> m_team_changing;

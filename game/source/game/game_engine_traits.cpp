@@ -381,6 +381,19 @@ void c_game_engine_social_options::set_spartans_vs_elites_enabled(bool spartans_
 	m_flags.set(_game_engine_social_options_spartans_vs_elites_enabled, spartans_vs_elites_enabled);
 }
 
+//void c_game_engine_social_options::set_team_changing_setting(e_team_changing_type team_changing)
+void c_game_engine_social_options::set_team_changing_setting(long team_changing)
+{
+	if (!VALID_INDEX(team_changing, 2))
+	{
+		c_console::write_line("game_engine:social_option:team_changing: invalid team changing setting '%d'!", team_changing);
+	}
+	else
+	{
+		m_team_changing = team_changing;
+	}
+}
+
 void c_game_engine_map_override_options::byteswap()
 {
 	bswap_dword_inplace(m_flags);
