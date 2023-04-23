@@ -3,7 +3,7 @@
 #include "memory/byte_swapping.hpp"
 
 
-void s_saved_game_item_metadata::byteswap()
+void s_content_item_metadata::byteswap()
 {
 	unique_id = _byteswap_uint64(unique_id);
 	for (long i = 0; i < NUMBEROF(name); i++) bswap_word_inplace(name[i]);

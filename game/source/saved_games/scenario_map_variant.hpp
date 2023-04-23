@@ -219,7 +219,7 @@ public:
 	long get_map_id() const;
 
 private:
-	s_saved_game_item_metadata m_metadata;
+	s_content_item_metadata m_metadata;
 
 	short m_map_variant_version;
 

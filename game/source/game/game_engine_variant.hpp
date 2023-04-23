@@ -96,7 +96,7 @@ protected:
 	dword m_checksum;
 
 	char m_name[32];
-	s_saved_game_item_metadata m_metadata;
+	s_content_item_metadata m_metadata;
 	c_game_engine_miscellaneous_options m_miscellaneous_options;
 	c_game_engine_respawn_options m_respawn_options;
 	c_game_engine_social_options m_social_options;

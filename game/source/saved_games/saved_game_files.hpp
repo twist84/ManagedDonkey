@@ -23,7 +23,7 @@ enum e_saved_game_file_type
 	k_saved_game_file_type_count
 };
 
-struct s_saved_game_item_metadata
+struct s_content_item_metadata
 {
 	qword unique_id;
 	wchar_t name[16];
@@ -47,5 +47,5 @@ struct s_saved_game_item_metadata
 
 	void byteswap();
 };
-static_assert(sizeof(s_saved_game_item_metadata) == 0xF8);
+static_assert(sizeof(s_content_item_metadata) == 0xF8);
 

@@ -125,7 +125,7 @@ public:
 	short build_number;
 	short map_minor_version;
 
-	s_saved_game_item_metadata metadata;
+	s_content_item_metadata metadata;
 };
 static_assert(sizeof(s_blf_chunk_content_header) == sizeof(s_blf_header) + 0xFC);
 
