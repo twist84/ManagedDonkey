@@ -23,6 +23,11 @@ t_type right_shift_fast(t_type value, long shift_bits)
 
 // ====================== halo 4 end ======================
 
+void __cdecl c_bitstream::write_integer(char const* name, dword value, long size_in_bits)
+{
+	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, dword, long)(this, value, size_in_bits);
+}
+
 void __cdecl c_bitstream::append(c_bitstream const* stream)
 {
 	ASSERT(stream->m_state == _bitstream_state_write_finished);
@@ -175,7 +180,7 @@ qword __cdecl c_bitstream::read_accumulator_from_memory(long a1)
 	return DECLFUNC(0x005583D0, bool, __thiscall, c_bitstream const*, long)(this, a1);
 }
 
-bool __cdecl c_bitstream::read_bool()
+bool __cdecl c_bitstream::read_bool(char const* name)
 {
 	ASSERT(reading());
 
@@ -189,7 +194,7 @@ void __cdecl c_bitstream::read_raw_data(void* data, long size_in_bits)
 	DECLFUNC(0x00558740, void, __thiscall, c_bitstream const*, void*, long)(this, data, size_in_bits);
 }
 
-dword __cdecl c_bitstream::read_integer(long size_in_bits)
+dword __cdecl c_bitstream::read_integer(char const* name, long size_in_bits)
 {
 	ASSERT(reading());
 	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
