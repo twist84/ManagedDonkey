@@ -76,6 +76,9 @@ public:
 	void set(c_game_engine_miscellaneous_options const* options, bool force);
 	//void set(s_game_engine_miscellaneous_options_definition const* definition, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	bool get_teams_enabled() const;
 	void set_teams_enabled(bool teams_enabled);
 
@@ -112,6 +115,9 @@ public:
 
 	void set(c_game_engine_respawn_options const* options, bool force);
 	//void set(s_game_engine_respawn_options_definition const* definition, bool force);
+
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
 
 	bool get_inherit_respawn_time_enabled() const;
 	void set_inherit_respawn_time_enabled(bool respawn_time_enabled);
@@ -182,6 +188,9 @@ public:
 	void set(c_game_engine_social_options const* options, bool force);
 	//void set(s_game_engine_social_options_definition const* definition, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	bool get_observers_enabled() const;
 	void set_observers_enabled(bool observers_enabled);
 
@@ -209,6 +218,7 @@ public:
 	bool get_spartans_vs_elites_enabled() const;
 	void set_spartans_vs_elites_enabled(bool spartans_vs_elites_enabled);
 
+	long get_team_changing_setting() const;
 	void set_team_changing_setting(long team_changing);
 
 protected:
@@ -224,6 +234,9 @@ public:
 
 	void set(c_game_engine_map_override_options const* options, bool force);
 	//void set(s_game_engine_map_override_options_definition const* definition, bool force);
+
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
 
 	bool get_grenades_on_map_enabled() const;
 	void set_grenades_on_map_enabled(bool grenades_on_map_enabled);
