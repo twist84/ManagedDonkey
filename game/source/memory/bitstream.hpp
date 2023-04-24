@@ -59,6 +59,12 @@ public:
 		reset(_bitstream_state_initial);
 	}
 
+	c_bitstream(byte* data, long data_length) :
+		m_data_size_alignment(1)
+	{
+		set_data(data, data_length);
+	}
+
 	// functions as they appear in memory
 
 	void __cdecl write_bool(char const* name, bool value);

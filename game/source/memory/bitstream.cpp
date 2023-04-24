@@ -40,14 +40,16 @@ void __cdecl c_bitstream::write_signed_integer(char const* name, long value, lon
 
 qword __cdecl c_bitstream::read_qword(char const* name, long size_in_bits)
 {
-	DECLFUNC(0x0046E940, qword, __thiscall, c_bitstream*, long)(this, size_in_bits);
+	return read_qword_internal(size_in_bits);
+
+	//return DECLFUNC(0x0046E940, qword, __thiscall, c_bitstream*, long)(this, size_in_bits);
 }
 
 void __cdecl c_bitstream::write_qword(char const* name, qword value, long size_in_bits)
 {
 	write_qword_internal(value, size_in_bits);
 
-	DECLFUNC(0x00470490, void, __thiscall, c_bitstream*, long, long)(this, value, size_in_bits);
+	//DECLFUNC(0x00470490, void, __thiscall, c_bitstream*, qword, long)(this, value, size_in_bits);
 }
 
 void __cdecl c_bitstream::append(c_bitstream const* stream)
