@@ -23,6 +23,11 @@ t_type right_shift_fast(t_type value, long shift_bits)
 
 // ====================== halo 4 end ======================
 
+void __cdecl c_bitstream::write_bool(char const* name, bool value)
+{
+	DECLFUNC(0x00444B30, void, __thiscall, c_bitstream*, bool)(this, value);
+}
+
 void __cdecl c_bitstream::write_integer(char const* name, dword value, long size_in_bits)
 {
 	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, dword, long)(this, value, size_in_bits);

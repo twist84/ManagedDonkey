@@ -61,6 +61,7 @@ public:
 
 	// functions as they appear in memory
 
+	void __cdecl write_bool(char const* name, bool value);
 	void __cdecl write_integer(char const* name, dword value, long size_in_bits);
 	void __cdecl write_signed_integer(char const* name, long value, long size_in_bits);
 
@@ -104,6 +105,12 @@ public:
 	void __cdecl read_string_utf8(char const* name, char* char_string, long max_string_size);
 	void __cdecl read_string_wchar(char const* name, wchar_t* _string, long max_string_size);
 	void __cdecl read_vector(char const* name, vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
+
+	template<typename t_enum, long size_in_bits>
+	t_enum __cdecl read_enum(char const* name)
+	{
+		return static_cast<t_enum>(read_integer(name, size_in_bits));
+	}
 
 private:
 	void __cdecl reset(long state);
