@@ -3,6 +3,8 @@
 
 #include "cseries/cseries.hpp"
 
+struct c_bitstream;
+
 enum e_damage_resistance_percentage_setting
 {
 	_damage_resistance_percentage_setting_unchanged = 0,
@@ -474,6 +476,9 @@ struct c_player_trait_shield_vitality
 public:
 	void set(c_player_trait_shield_vitality const* traits, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	e_damage_resistance_percentage_setting get_damage_resistance_percentage_setting() const;
 	void set_damage_resistance_percentage_setting(e_damage_resistance_percentage_setting damage_resistance_percentage_setting, bool force);
 	real get_damage_resistance_percentage() const;
@@ -517,6 +522,9 @@ struct c_player_trait_weapons
 public:
 	void byteswap();
 	void set(c_player_trait_weapons const* traits, bool force);
+
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
 
 	e_grenade_count_setting get_initial_grenade_count_setting() const;
 	void set_initial_grenade_count_setting(e_grenade_count_setting initial_grenade_count_setting, bool force);
@@ -569,6 +577,9 @@ struct c_player_trait_movement
 public:
 	void set(c_player_trait_movement const* traits, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	e_player_speed_setting get_speed_setting() const;
 	void set_speed_setting(e_player_speed_setting speed_setting, bool force);
 	real get_speed() const;
@@ -598,6 +609,9 @@ struct c_player_trait_appearance
 public:
 	void set(c_player_trait_appearance const* traits, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	e_active_camo_setting get_active_camo_setting() const;
 	void set_active_camo_setting(e_active_camo_setting active_camo_setting, bool force);
 
@@ -625,6 +639,9 @@ public:
 	void byteswap();
 	void set(c_player_trait_sensors const* traits, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	e_motion_tracker_setting get_motion_tracker_setting() const;
 	void set_motion_tracker_setting(e_motion_tracker_setting motion_tracker_setting, bool force);
 
@@ -644,6 +661,9 @@ public:
 	void byteswap();
 
 	void set(c_player_traits const* traits, bool force);
+
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
 
 	c_player_trait_shield_vitality* get_shield_vitality_traits_writeable();
 	c_player_trait_shield_vitality const* get_shield_vitality_traits() const;

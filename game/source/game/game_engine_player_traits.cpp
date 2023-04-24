@@ -52,6 +52,24 @@ void c_player_traits::set(c_player_traits const* traits, bool force)
 	}
 }
 
+void c_player_traits::encode_to_mcc(c_bitstream* packet) const
+{
+	get_shield_vitality_traits()->encode_to_mcc(packet);
+	get_weapons_traits()->encode_to_mcc(packet);
+	get_movement_traits()->encode_to_mcc(packet);
+	get_appearance_traits()->encode_to_mcc(packet);
+	get_sensor_traits()->encode_to_mcc(packet);
+}
+
+void c_player_traits::decode_from_mcc(c_bitstream* packet)
+{
+	get_shield_vitality_traits_writeable()->decode_from_mcc(packet);
+	get_weapons_traits_writeable()->decode_from_mcc(packet);
+	get_movement_traits_writeable()->decode_from_mcc(packet);
+	get_appearance_traits_writeable()->decode_from_mcc(packet);
+	get_sensor_traits_writeable()->decode_from_mcc(packet);
+}
+
 c_player_trait_shield_vitality* c_player_traits::get_shield_vitality_traits_writeable()
 {
 	return &m_shield_vitality_traits;
@@ -136,6 +154,28 @@ void c_player_trait_shield_vitality::set(c_player_trait_shield_vitality const* t
 	set_vampirism_percentage_setting(traits->get_vampirism_percentage_setting(), force);
 	set_shield_multiplier_setting(traits->get_shield_multiplier_setting(), force);
 	set_headshot_immunity_setting(traits->get_headshot_immunity_setting(), force);
+}
+
+void c_player_trait_shield_vitality::encode_to_mcc(c_bitstream* packet) const
+{
+	ASSERT(packet != NULL);
+
+	packet->write_integer("player-trait-damage-resistance", get_damage_resistance_percentage_setting(), 4);
+	packet->write_integer("player-trait-shield-recharge-rate", get_shield_recharge_rate_percentage_setting(), 4);
+	packet->write_integer("player-trait-vampirism", get_vampirism_percentage_setting(), 3);
+	packet->write_integer("player-traits-headshot-immunity", get_headshot_immunity_setting(), 2);
+	packet->write_integer("player-trait-shield-multiplier", get_shield_multiplier_setting(), 3);
+}
+
+void c_player_trait_shield_vitality::decode_from_mcc(c_bitstream* packet)
+{
+	ASSERT(packet != NULL);
+
+	set_damage_resistance_percentage_setting(packet->read_enum<e_damage_resistance_percentage_setting, 4>("player-trait-damage-resistance"), true);
+	set_shield_recharge_rate_percentage_setting(packet->read_enum<e_shield_recharge_rate_percentage_setting, 4>("player-trait-shield-recharge-rate"), true);
+	set_vampirism_percentage_setting(packet->read_enum<e_vampirism_percentage_setting, 3>("player-trait-vampirism"), true);
+	set_headshot_immunity_setting(packet->read_enum<e_headshot_immunity_setting, 2>("player-traits-headshot-immunity"), true);
+	set_shield_multiplier_setting(packet->read_enum<e_shield_multiplier_setting, 3>("player-trait-shield-multiplier"), true);
 }
 
 e_damage_resistance_percentage_setting c_player_trait_shield_vitality::get_damage_resistance_percentage_setting() const
@@ -393,6 +433,34 @@ void c_player_trait_weapons::set(c_player_trait_weapons const* traits, bool forc
 	set_recharging_grenades_setting(traits->get_recharging_grenades_setting(), force);
 	set_infinite_ammo_setting(traits->get_infinite_ammo_setting(), force);
 	set_weapon_pickup_allowed_setting(traits->get_weapon_pickup_setting(), force);
+}
+
+void c_player_trait_weapons::encode_to_mcc(c_bitstream* packet) const
+{
+	ASSERT(packet != NULL);
+
+	packet->write_integer("player-trait-damage-modifier", get_initial_grenade_count_setting(), 4);
+	packet->write_signed_integer("player-trait-initial-primary-weapon", char(0xFF) /*get_initial_primary_weapon_absolute_index()*/, 8);
+	packet->write_signed_integer("player-trait-initial-secondary-weapon", char(0xFF) /*get_initial_secondary_weapon_absolute_index()*/, 8);
+	packet->write_integer("player-trait-initial-grenade-count", get_damage_modifier_percentage_setting(), 2);
+	packet->write_integer("player-traits-infinite-ammo-setting", get_recharging_grenades_setting(), 2);
+	packet->write_integer("player-traits-recharging-grenades", get_infinite_ammo_setting(), 2);
+	packet->write_integer("player-traits-weapon-pickup-allowed", get_weapon_pickup_setting(), 2);
+}
+
+void c_player_trait_weapons::decode_from_mcc(c_bitstream* packet)
+{
+	ASSERT(packet != NULL);
+
+	set_damage_modifier_percentage_setting(packet->read_enum<e_damage_modifier_percentage_setting, 4>("player-trait-damage-modifier"), true);
+
+	packet->read_integer("player-trait-initial-primary-weapon", 8);   set_initial_primary_weapon_absolute_index(char(0xFF) /*static_cast<char>(packet->read_signed_integer("player-trait-initial-primary-weapon", 8))*/, true);
+	packet->read_integer("player-trait-initial-secondary-weapon", 8); set_initial_secondary_weapon_absolute_index(char(0xFF) /*static_cast<char>(packet->read_signed_integer("player-trait-initial-secondary-weapon", 8))*/, true);
+
+	set_initial_grenade_count_setting(packet->read_enum<e_grenade_count_setting, 2>("player-trait-initial-grenade-count"), true);
+	set_infinite_ammo_setting(packet->read_enum<e_infinite_ammo_setting, 2>("player-traits-infinite-ammo-setting"), true);
+	set_recharging_grenades_setting(packet->read_enum<e_recharging_grenades_setting, 2>("player-traits-recharging-grenades"), true);
+	set_weapon_pickup_allowed_setting(packet->read_enum<e_weapon_pickup_setting, 2>("player-traits-weapon-pickup-allowed"), true);
 }
 
 e_grenade_count_setting c_player_trait_weapons::get_initial_grenade_count_setting() const
@@ -670,6 +738,24 @@ void c_player_trait_movement::set(c_player_trait_movement const* traits, bool fo
 	set_vehicle_usage_setting(traits->get_vehicle_usage_setting(), force);
 }
 
+void c_player_trait_movement::encode_to_mcc(c_bitstream* packet) const
+{
+	ASSERT(packet != NULL);
+
+	packet->write_integer("player-traits-movement-speed", get_speed_setting(), 2);
+	packet->write_integer("player-traits-movement-gravity", get_gravity_setting(), 3);
+	packet->write_integer("player-traits-movement-vehicle-usage", get_vehicle_usage_setting(), 2);
+}
+
+void c_player_trait_movement::decode_from_mcc(c_bitstream* packet)
+{
+	ASSERT(packet != NULL);
+
+	set_speed_setting(packet->read_enum<e_player_speed_setting, 2>("player-traits-movement-speed"), true);
+	set_gravity_setting(packet->read_enum<e_player_gravity_setting, 3>("player-traits-movement-gravity"), true);
+	set_vehicle_usage_setting(packet->read_enum<e_vehicle_usage_setting, 2>("player-traits-movement-vehicle-usage"), true);
+}
+
 e_player_speed_setting c_player_trait_movement::get_speed_setting() const
 {
 	return m_speed_setting;
@@ -802,6 +888,26 @@ void c_player_trait_appearance::set(c_player_trait_appearance const* traits, boo
 	set_forced_change_color_setting(traits->get_forced_change_color_setting(), force);
 }
 
+void c_player_trait_appearance::encode_to_mcc(c_bitstream* packet) const
+{
+	ASSERT(packet != NULL);
+
+	packet->write_integer("player-traits-appearance-active-camo", get_active_camo_setting(), 3);
+	packet->write_integer("player-traits-appearance-waypoint", get_waypoint_setting(), 2);
+	packet->write_integer("player-traits-appearance-aura", get_aura_setting(), 3);
+	packet->write_integer("player-traits-appearance-forced-change-color", get_forced_change_color_setting(), 4);
+}
+
+void c_player_trait_appearance::decode_from_mcc(c_bitstream* packet)
+{
+	ASSERT(packet != NULL);
+
+	set_active_camo_setting(packet->read_enum<e_active_camo_setting, 3>("player-traits-appearance-active-camo"), true);
+	set_waypoint_setting(packet->read_enum<e_waypoint_setting, 2>("player-traits-appearance-waypoint"), true);
+	set_aura_setting(packet->read_enum<e_aura_setting, 3>("player-traits-appearance-aura"), true);
+	set_forced_change_color_setting(packet->read_enum<e_forced_change_color_setting, 4>("player-traits-appearance-forced-change-color"), true);
+}
+
 e_active_camo_setting c_player_trait_appearance::get_active_camo_setting() const
 {
 	return m_active_camo_setting;
@@ -894,6 +1000,22 @@ void c_player_trait_sensors::set(c_player_trait_sensors const* traits, bool forc
 
 	set_motion_tracker_setting(traits->get_motion_tracker_setting(), force);
 	set_motion_tracker_range_setting(traits->get_motion_tracker_range_setting(), force);
+}
+
+void c_player_trait_sensors::encode_to_mcc(c_bitstream* packet) const
+{
+	ASSERT(packet != NULL);
+
+	packet->write_integer("player-traits-sensors-motion-tracker", get_motion_tracker_setting(), 3);
+	packet->write_integer("player-traits-sensors-motion-tracker-range", get_motion_tracker_range_setting(), 3);
+}
+
+void c_player_trait_sensors::decode_from_mcc(c_bitstream* packet)
+{
+	ASSERT(packet != NULL);
+
+	set_motion_tracker_setting(packet->read_enum<e_motion_tracker_setting, 3>("player-traits-sensors-motion-tracker"), true);
+	set_motion_tracker_range_setting(packet->read_enum<e_motion_tracker_range_setting, 3>("player-traits-sensors-motion-tracker-range"), true);
 }
 
 e_motion_tracker_setting c_player_trait_sensors::get_motion_tracker_setting() const
