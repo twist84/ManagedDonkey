@@ -207,7 +207,7 @@ static_assert(sizeof(s_game_set) == 0x3C04);
 
 extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);
 extern long __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, long buffer_size, c_game_variant const* game_variant);
-extern bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, long buffer_size, c_game_variant* game_variant);
+extern bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, long bytes_read, c_game_variant* game_variant);
 extern void __cdecl multiplayer_game_hopper_update();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuration(word hopper_identifier);

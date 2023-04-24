@@ -5,6 +5,7 @@
 #include "game/game.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/tools/network_blf.hpp"
 
 
 HOOK_DECLARE(0x00545710, multiplayer_game_hopper_check_required_files);
@@ -81,10 +82,86 @@ long __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, long buffer_
 //.text:00548EC0 ; sub_548EC0
 //.text:00548ED0 ; bool __cdecl multiplayer_game_hopper_unpack_game_set(void const*, long, s_game_set*);
 
-//.text:00549050 ; bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const*, long, c_game_variant*);
-bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, long buffer_size, c_game_variant* game_variant)
+bool packed_game_variant_is_mcc(void const* buffer_, long bytes_read)
 {
-    return INVOKE(0x00549050, multiplayer_game_hopper_unpack_game_variant, buffer, buffer_size, game_variant);
+    byte const* buffer = static_cast<byte const*>(buffer_);
+    void const* buffer_end = buffer + bytes_read;
+
+    s_blf_header const* chunk_header = reinterpret_cast<s_blf_header const*>(buffer);
+    while (chunk_header->chunk_type != 'msf_')
+    {
+        buffer += _byteswap_ulong(chunk_header->chunk_size);
+        chunk_header = reinterpret_cast<s_blf_header const*>(buffer);
+
+        if (buffer >= buffer_end)
+            return false;
+    }
+
+    return chunk_header->chunk_type == 'msf_';
+}
+
+//.text:00549050 ; bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const*, long, c_game_variant*);
+bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, long bytes_read, c_game_variant* game_variant)
+{
+    if (packed_game_variant_is_mcc(buffer, bytes_read))
+    {
+        void const* buffer_end = static_cast<byte const*>(buffer) + bytes_read;
+
+        s_blf_header const* chunk_header = static_cast<s_blf_header const*>(buffer);
+        csmemset(game_variant, 0, sizeof(c_game_variant));
+
+        ASSERT(0x9D == sizeof(s_blf_chunk_start_of_file) + sizeof(s_blf_chunk_author) + sizeof(s_blf_header) + sizeof(s_blf_chunk_end_of_file));
+        ASSERT(bytes_read > sizeof(s_blf_chunk_start_of_file) + sizeof(s_blf_chunk_author) + sizeof(s_blf_header) + sizeof(s_blf_chunk_end_of_file));
+
+        while (buffer < buffer_end && chunk_header->chunk_type != 'ravg')
+        {
+            buffer = static_cast<byte const*>(buffer) + _byteswap_ulong(chunk_header->chunk_size);
+            chunk_header = static_cast<s_blf_header const*>(buffer);
+        }
+
+        if (buffer >= buffer_end)
+            return false;
+
+        long chunk_size = _byteswap_ulong(chunk_header->chunk_size) - sizeof(s_blf_header);
+        byte* chunk_data = const_cast<byte*>(static_cast<byte const*>(buffer) + sizeof(s_blf_header));
+
+        c_bitstream packet(chunk_data, chunk_size);
+        packet.begin_reading();
+        bool decode_succeeded = game_variant->decode_from_mcc(&packet);
+        packet.finish_reading();
+
+        bool result = decode_succeeded;
+        if (decode_succeeded)
+        {
+            buffer = static_cast<byte const*>(buffer) + _byteswap_ulong(chunk_header->chunk_size);
+            chunk_header = static_cast<s_blf_header const*>(buffer);
+
+            if (buffer >= buffer_end)
+            {
+                return false;
+            }
+            else
+            {
+                // is end of file
+                while (chunk_header->chunk_type != 'foe_')
+                {
+                    buffer = static_cast<byte const*>(buffer) + _byteswap_ulong(chunk_header->chunk_size);
+                    chunk_header = static_cast<s_blf_header const*>(buffer);
+
+                    if (buffer >= buffer_end)
+                        return false;
+                }
+
+                result = false;
+                if (buffer < buffer_end)
+                    return true;
+            }
+        }
+
+        return result;
+    }
+
+    return INVOKE(0x00549050, multiplayer_game_hopper_unpack_game_variant, buffer, bytes_read, game_variant);
 }
 
 //.text:005491D0 ; bool __cdecl multiplayer_game_hopper_unpack_hopper_description(void const*, long, s_game_hopper_description_table*);
