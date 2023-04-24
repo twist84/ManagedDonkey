@@ -64,6 +64,8 @@ public:
 	void __cdecl write_bool(char const* name, bool value);
 	void __cdecl write_integer(char const* name, dword value, long size_in_bits);
 	void __cdecl write_signed_integer(char const* name, long value, long size_in_bits);
+	qword __cdecl read_qword(char const* name, long size_in_bits);
+	void __cdecl write_qword(char const* name, qword value, long size_in_bits);
 
 	void __cdecl append(c_bitstream const* stream);
 	void __cdecl begin_consistency_check();
@@ -124,6 +126,7 @@ public:
 	void __cdecl write_identifier(char const* identifier);
 	void __cdecl write_point3d(char const* name, int32_point3d const* point, long axis_encoding_size_in_bits);
 	void __cdecl write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
+	void __cdecl write_qword_internal(qword value, long size_in_bits);
 	void __cdecl write_secure_address(char const* name, s_transport_secure_address const* address);
 	void __cdecl write_string(char const* name, char const* _string, long max_string_size);
 	void __cdecl write_string_utf8(char const* name, utf8 const* _string, long max_string_size);

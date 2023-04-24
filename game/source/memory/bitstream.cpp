@@ -38,6 +38,18 @@ void __cdecl c_bitstream::write_signed_integer(char const* name, long value, lon
 	DECLFUNC(0x00444C50, void, __thiscall, c_bitstream*, long, long)(this, value, size_in_bits);
 }
 
+qword __cdecl c_bitstream::read_qword(char const* name, long size_in_bits)
+{
+	DECLFUNC(0x0046E940, qword, __thiscall, c_bitstream*, long)(this, size_in_bits);
+}
+
+void __cdecl c_bitstream::write_qword(char const* name, qword value, long size_in_bits)
+{
+	write_qword_internal(value, size_in_bits);
+
+	DECLFUNC(0x00470490, void, __thiscall, c_bitstream*, long, long)(this, value, size_in_bits);
+}
+
 void __cdecl c_bitstream::append(c_bitstream const* stream)
 {
 	ASSERT(stream->m_state == _bitstream_state_write_finished);
@@ -337,6 +349,13 @@ void __cdecl c_bitstream::write_quantized_real(char const* name, real* value, re
 	ASSERT(writing());
 
 	DECLFUNC(0x0055A2B0, void, __thiscall, c_bitstream const*, char const*, real*, real, real, long, bool, bool)(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, exact_endpoints);
+}
+
+void __cdecl c_bitstream::write_qword_internal(qword value, long size_in_bits)
+{
+	ASSERT(writing());
+
+	DECLFUNC(0x0055A3A0, void, __thiscall, c_bitstream*, qword, long)(this, value, size_in_bits);
 }
 
 void __cdecl c_bitstream::write_secure_address(char const* name, s_transport_secure_address const* address)
