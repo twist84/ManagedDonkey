@@ -31,58 +31,29 @@ const char* game_engine_variant_get_name(long game_engine_index)
 
 void c_game_engine_base_variant::encode_to_mcc(c_bitstream* packet) const
 {
+	m_metadata.encode_to_mcc(packet);
+
+	packet->write_bool("variant-built-in", get_built_in());
+
+	get_miscellaneous_options()->encode_to_mcc(packet);
+	get_respawn_options()->encode_to_mcc(packet);
+	get_social_options()->encode_to_mcc(packet);
+	get_map_override_options()->encode_to_mcc(packet);
+
+	packet->write_integer("team-scoring-method", get_team_scoring_method(), 3);
 }
 
 void c_game_engine_base_variant::decode_from_mcc(c_bitstream* packet)
 {
 	initialize();
-	//content_item_metadata_decode_from_mcc(m_metadata, packet);
+	m_metadata.decode_from_mcc(packet);
 
 	set_built_in(packet->read_bool("variant-built-in"));
 
-	// MISCELLANEOUS OPTIONS
-	get_miscellaneous_options_writeable()->set_teams_enabled(packet->read_bool("miscellaneous-options-teams"));
-	get_miscellaneous_options_writeable()->set_round_reset_players(packet->read_bool("miscellaneous-options-round-reset-players"));
-	get_miscellaneous_options_writeable()->set_round_reset_map(packet->read_bool("miscellaneous-options-round-reset-map"));
-	get_miscellaneous_options_writeable()->set_round_time_limit_minutes(packet->read_integer("miscellaneous-options-round-time-limit-minutes", 8));
-	get_miscellaneous_options_writeable()->set_round_limit(packet->read_integer("miscellaneous-options-round-limit", 4));
-	get_miscellaneous_options_writeable()->set_early_victory_win_count(packet->read_integer("miscellaneous-options-early-victory-win-count", 4));
-
-	// RESPAWN OPTIONS
-	get_respawn_options_writeable()->set_inherit_respawn_time_enabled(packet->read_bool("respawn-options-inherit-respawn-time"));
-	get_respawn_options_writeable()->set_respawn_with_teammate_enabled(packet->read_bool("respawn-options-respawn-with-teammate"));
-	get_respawn_options_writeable()->set_respawn_at_location_enabled(packet->read_bool("respawn-options-respawn-at-location"));
-	get_respawn_options_writeable()->set_respawn_on_kills_enabled(packet->read_bool("respawn-options-respawn-on-kills"));
-	get_respawn_options_writeable()->set_lives_per_round(packet->read_integer("respawn-options-lives-per-round", 6));
-	get_respawn_options_writeable()->set_team_lives_per_round(packet->read_integer("respawn-options-team-lives-per-round", 7));
-	get_respawn_options_writeable()->set_respawn_time_seconds(packet->read_integer("respawn-options-respawn-time", 8));
-	get_respawn_options_writeable()->set_suicide_penalty_seconds(packet->read_integer("respawn-options-suicide-time", 8));
-	get_respawn_options_writeable()->set_betrayal_penalty_seconds(packet->read_integer("respawn-options-betrayal-time", 8));
-	get_respawn_options_writeable()->set_respawn_growth_seconds(packet->read_integer("respawn-options-respawn-growth-time", 4));
-	get_respawn_options_writeable()->set_respawn_player_traits_duration_seconds(packet->read_integer("respawn-options-player-traits-duration", 6));
-	//get_respawn_options_writeable()->get_respawn_player_traits_writeable()->decode_from_mcc(packet);
-
-	// SOCIAL OPTIONS
-	get_social_options_writeable()->set_observers_enabled(packet->read_bool("social-options-observers"));
-	get_social_options_writeable()->set_team_changing_setting(packet->read_integer("social-options-team-changing", 2));
-	get_social_options_writeable()->set_friendly_fire_enabled(packet->read_bool("social-options-friendly-fire"));
-	get_social_options_writeable()->set_betrayal_booting_enabled(packet->read_bool("social-options-betrayal-booting"));
-	get_social_options_writeable()->set_enemy_voice_enabled(packet->read_bool("social-options-enemy-voice"));
-	get_social_options_writeable()->set_open_channel_voice_enabled(packet->read_bool("social-options-open-channel-voice"));
-	get_social_options_writeable()->set_dead_player_voice_enabled(packet->read_bool("social-options-dead-player-voice"));
-
-	// MAP-OVERRIDE OPTIONS
-	get_map_override_options_writeable()->set_grenades_on_map_enabled(packet->read_bool("map-override-grenades-on-map"));
-	get_map_override_options_writeable()->set_indestructible_vehicles_enabled(packet->read_bool("map-override-indestructible-vehicles"));
-	//get_map_override_options_writeable()->get_base_player_traits_writeable().decode_from_mcc(packet);
-	get_map_override_options_writeable()->set_weapon_set_absolute_index(short(0xFFFF) /*packet->read_signed_integer("map-override-weapon-set", 8)*/);
-	get_map_override_options_writeable()->set_vehicle_set_absolute_index(short(0xFFFF) /*packet->read_signed_integer("map-override-vehicle-set", 8)*/);
-	//get_map_override_options_writeable()->get_red_powerup_traits_writeable().decode_from_mcc(packet);
-	//get_map_override_options_writeable()->get_blue_powerup_traits_writeable().decode_from_mcc(packet);
-	//get_map_override_options_writeable()->get_yellow_powerup_traits_writeable().decode_from_mcc(packet);
-	get_map_override_options_writeable()->set_red_powerup_duration_seconds(static_cast<byte>(packet->read_integer("map-override-red-powerup-duration", 7)));
-	get_map_override_options_writeable()->set_blue_powerup_duration_seconds(static_cast<byte>(packet->read_integer("map-override-blue-powerup-duration", 7)));
-	get_map_override_options_writeable()->set_yellow_powerup_duration_seconds(static_cast<byte>(packet->read_integer("map-override-yellow-powerup-duration", 7)));
+	get_miscellaneous_options_writeable()->decode_from_mcc(packet);
+	get_respawn_options_writeable()->decode_from_mcc(packet);
+	get_social_options_writeable()->decode_from_mcc(packet);
+	get_map_override_options_writeable()->decode_from_mcc(packet);
 
 	set_team_scoring_method(static_cast<short>(packet->read_integer("team-scoring-method", 3)));
 }

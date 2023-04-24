@@ -15,99 +15,95 @@ void c_game_variant::encode_to_mcc(c_bitstream* packet) const
 	ASSERT(packet);
 
 	packet->write_integer("variant-game-engine-index", get_game_engine_index(), 4);
-	//if (m_game_engine_index)
-	//{
-	//	switch (get_game_engine_index())
-	//	{
-	//	case _game_engine_base_variant:
-	//		m_base_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_ctf_variant:
-	//		m_ctf_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_slayer_variant:
-	//		m_slayer_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_oddball_variant:
-	//		m_oddball_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_king_variant:
-	//		m_king_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_sandbox_variant:
-	//		m_sandbox_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_vip_variant:
-	//		m_vip_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_juggernaut_variant:
-	//		m_juggernaut_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_territories_variant:
-	//		m_territories_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_assault_variant:
-	//		m_assault_variant.encode_to_mcc(packet);
-	//		break;
-	//	case _game_engine_infection_variant:
-	//		m_infection_variant.encode_to_mcc(packet);
-	//		break;
-	//	}
-	//}
+	if (m_game_engine_index)
+	{
+		switch (get_game_engine_index())
+		{
+		case _game_engine_base_variant:
+			m_base_variant.encode_to_mcc(packet);
+			break;
+		//case _game_engine_ctf_variant:
+		//	m_ctf_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_slayer_variant:
+		//	m_slayer_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_oddball_variant:
+		//	m_oddball_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_king_variant:
+		//	m_king_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_sandbox_variant:
+		//	m_sandbox_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_vip_variant:
+		//	m_vip_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_juggernaut_variant:
+		//	m_juggernaut_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_territories_variant:
+		//	m_territories_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_assault_variant:
+		//	m_assault_variant.encode_to_mcc(packet);
+		//	break;
+		//case _game_engine_infection_variant:
+		//	m_infection_variant.encode_to_mcc(packet);
+		//	break;
+		}
+	}
 }
 
 bool c_game_variant::decode_from_mcc(c_bitstream* packet)
 {
 	ASSERT(packet);
 
-	e_game_engine_type game_engine_index = static_cast<e_game_engine_type>(packet->read_integer("variant-game-engine-index", 4));
-	set_game_engine_index(game_engine_index);
+	set_game_engine_index(packet->read_enum<e_game_engine_type, 4>("variant-game-engine-index"));
 
-	if (m_game_engine_index != _game_engine_base_variant)
+	//if (m_game_engine_index == _game_engine_base_variant)
+	//	return false;
+
+	m_base_variant.set_built_in(false);
+	switch (get_game_engine_index())
 	{
-		m_base_variant.set_built_in(false);
-
-		switch (get_game_engine_index())
-		{
-		case _game_engine_base_variant:
-			m_base_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_ctf_variant:
-			m_ctf_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_slayer_variant:
-			m_slayer_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_oddball_variant:
-			m_oddball_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_king_variant:
-			m_king_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_sandbox_variant:
-			m_sandbox_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_vip_variant:
-			m_vip_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_juggernaut_variant:
-			m_juggernaut_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_territories_variant:
-			m_territories_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_assault_variant:
-			m_assault_variant.decode_from_mcc(packet);
-			break;
-		case _game_engine_infection_variant:
-			m_infection_variant.decode_from_mcc(packet);
-			break;
-		}
-
-		return true;
+	case _game_engine_base_variant:
+		m_base_variant.decode_from_mcc(packet);
+		break;
+	//case _game_engine_ctf_variant:
+	//	m_ctf_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_slayer_variant:
+	//	m_slayer_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_oddball_variant:
+	//	m_oddball_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_king_variant:
+	//	m_king_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_sandbox_variant:
+	//	m_sandbox_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_vip_variant:
+	//	m_vip_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_juggernaut_variant:
+	//	m_juggernaut_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_territories_variant:
+	//	m_territories_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_assault_variant:
+	//	m_assault_variant.decode_from_mcc(packet);
+	//	break;
+	//case _game_engine_infection_variant:
+	//	m_infection_variant.decode_from_mcc(packet);
+	//	break;
 	}
 
-	return false;
+	return true;
 }
 
 void c_game_variant::copy_from_and_validate(c_game_variant const* other)
