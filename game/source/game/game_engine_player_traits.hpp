@@ -557,7 +557,7 @@ public:
 	void set_infinite_ammo(bool infinite_ammo, bool force);
 
 	e_weapon_pickup_setting get_weapon_pickup_setting() const;
-	void set_weapon_pickup_allowed_setting(e_weapon_pickup_setting weapon_pickup_allowed_setting, bool force);
+	void set_weapon_pickup_allowed_setting(e_weapon_pickup_setting weapon_pickup_setting, bool force);
 	bool get_weapon_pickup_allowed() const;
 	void set_weapon_pickup_allowed(bool weapon_pickup_allowed, bool force);
 

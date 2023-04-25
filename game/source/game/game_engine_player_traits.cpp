@@ -742,18 +742,18 @@ e_weapon_pickup_setting c_player_trait_weapons::get_weapon_pickup_setting() cons
 	return m_weapon_pickup_setting;
 }
 
-void c_player_trait_weapons::set_weapon_pickup_allowed_setting(e_weapon_pickup_setting weapon_pickup_allowed_setting, bool force)
+void c_player_trait_weapons::set_weapon_pickup_allowed_setting(e_weapon_pickup_setting weapon_pickup_setting, bool force)
 {
-	if (!VALID_INDEX(weapon_pickup_allowed_setting, k_weapon_pickup_settings))
+	if (!VALID_INDEX(weapon_pickup_setting, k_weapon_pickup_settings))
 	{
-		c_console::write_line("game_engine:player_trait:weapons: invalid weapon pickup setting '%d'", weapon_pickup_allowed_setting);
+		c_console::write_line("game_engine:player_trait:weapons: invalid weapon pickup setting '%d'", weapon_pickup_setting);
 
 		if (force)
 			m_weapon_pickup_setting = _weapon_pickup_setting_unchanged;
 	}
-	else if (weapon_pickup_allowed_setting || force)
+	else if (weapon_pickup_setting || force)
 	{
-		m_weapon_pickup_setting = weapon_pickup_allowed_setting;
+		m_weapon_pickup_setting = weapon_pickup_setting;
 	}
 }
 
@@ -1092,7 +1092,7 @@ void c_player_trait_sensors::set_motion_tracker_setting(e_motion_tracker_setting
 		c_console::write_line("game_engine:player_trait:sensors: invalid motion_tracker setting '%ld'", motion_tracker_setting);
 
 		if (force)
-			m_motion_tracker_setting = _forced_change_color_setting_unchanged;
+			m_motion_tracker_setting = _motion_tracker_setting_unchanged;
 	}
 	else if (motion_tracker_setting || force)
 	{
@@ -1107,12 +1107,12 @@ e_motion_tracker_range_setting c_player_trait_sensors::get_motion_tracker_range_
 
 void c_player_trait_sensors::set_motion_tracker_range_setting(e_motion_tracker_range_setting motion_tracker_range_setting, bool force)
 {
-	if (!VALID_INDEX(motion_tracker_range_setting, k_motion_tracker_settings))
+	if (!VALID_INDEX(motion_tracker_range_setting, k_motion_tracker_range_settings))
 	{
 		c_console::write_line("game_engine:player_trait:sensors: invalid motion_tracker_range setting '%ld'", motion_tracker_range_setting);
 
 		if (force)
-			m_motion_tracker_range_setting = _forced_change_color_setting_unchanged;
+			m_motion_tracker_range_setting = _motion_tracker_range_setting_unchanged;
 	}
 	else if (motion_tracker_range_setting || force)
 	{
