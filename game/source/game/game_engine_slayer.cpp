@@ -49,12 +49,72 @@ void c_game_engine_slayer_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	short score_to_win = get_score_to_win();
+	char kill_points = get_kill_points();
+	char assist_points = get_assist_points();
+	char death_points = get_death_points();
+	char suicide_points = get_suicide_points();
+	char betrayal_points = get_betrayal_points();
+	char leader_killed_points = get_leader_killed_points();
+	char elimination_points = get_elimination_points();
+	char assassination_points = get_assassination_points();
+	char headshot_points = get_headshot_points();
+	char melee_points = get_melee_points();
+	char sticky_points = get_sticky_points();
+	char splatter_points = get_splatter_points();
+	char killing_spree_points = get_killing_spree_points();
+
+	packet->write_signed_integer("slayer-score-to-win", score_to_win, 10);
+	packet->write_signed_integer("slayer-kill-points", kill_points, 5);
+	packet->write_signed_integer("slayer-assist-points", assist_points, 5);
+	packet->write_signed_integer("slayer-death-points", death_points, 5);
+	packet->write_signed_integer("slayer-suicide-points", suicide_points, 5);
+	packet->write_signed_integer("slayer-betrayal-points", betrayal_points, 5);
+	packet->write_signed_integer("slayer-leader-killed-points", leader_killed_points, 5);
+	packet->write_signed_integer("slayer-elimination-points", elimination_points, 5);
+	packet->write_signed_integer("slayer-assassination-points", assassination_points, 5);
+	packet->write_signed_integer("slayer-headshot-points", headshot_points, 5);
+	packet->write_signed_integer("slayer-melee-points", melee_points, 5);
+	packet->write_signed_integer("slayer-sticky-points", sticky_points, 5);
+	packet->write_signed_integer("slayer-splatter-points", splatter_points, 5);
+	packet->write_signed_integer("slayer-killing-spree-points", killing_spree_points, 5);
+	get_leader_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_slayer_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	short score_to_win = static_cast<short>(packet->read_signed_integer("slayer-score-to-win", 10));
+	char kill_points = static_cast<char>(packet->read_signed_integer("slayer-kill-points", 5));
+	char assist_points = static_cast<char>(packet->read_signed_integer("slayer-assist-points", 5));
+	char death_points = static_cast<char>(packet->read_signed_integer("slayer-death-points", 5));
+	char suicide_points = static_cast<char>(packet->read_signed_integer("slayer-suicide-points", 5));
+	char betrayal_points = static_cast<char>(packet->read_signed_integer("slayer-betrayal-points", 5));
+	char leader_killed_points = static_cast<char>(packet->read_signed_integer("slayer-leader-killed-points", 5));
+	char elimination_points = static_cast<char>(packet->read_signed_integer("slayer-elimination-points", 5));
+	char assassination_points = static_cast<char>(packet->read_signed_integer("slayer-assassination-points", 5));
+	char headshot_points = static_cast<char>(packet->read_signed_integer("slayer-headshot-points", 5));
+	char melee_points = static_cast<char>(packet->read_signed_integer("slayer-melee-points", 5));
+	char sticky_points = static_cast<char>(packet->read_signed_integer("slayer-sticky-points", 5));
+	char splatter_points = static_cast<char>(packet->read_signed_integer("slayer-splatter-points", 5));
+	char killing_spree_points = static_cast<char>(packet->read_signed_integer("slayer-killing-spree-points", 5));
+	get_leader_traits_writeable()->decode_from_mcc(packet);
+
+	set_score_to_win(score_to_win);
+	set_kill_points(kill_points);
+	set_assist_points(assist_points);
+	set_death_points(death_points);
+	set_suicide_points(suicide_points);
+	set_betrayal_points(betrayal_points);
+	set_leader_killed_points(leader_killed_points);
+	set_elimination_points(elimination_points);
+	set_assassination_points(assassination_points);
+	set_headshot_points(headshot_points);
+	set_melee_points(melee_points);
+	set_sticky_points(sticky_points);
+	set_splatter_points(splatter_points);
+	set_killing_spree_points(killing_spree_points);
 }
 
 short c_game_engine_slayer_variant::get_score_to_win() const
