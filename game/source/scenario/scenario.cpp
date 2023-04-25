@@ -95,7 +95,7 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 			scenario_tags_load_finished();
 			hf2p_scenario_tags_load_finished();
 
-			on_scenario_loaded();
+			//on_scenario_loaded();
 			return true;
 		}
 		else
