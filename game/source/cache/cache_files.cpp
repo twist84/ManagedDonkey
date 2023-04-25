@@ -268,7 +268,7 @@ void add_missing_weapon_selections(cache_file_tag_instance* instance, bool load_
 	if (instance == nullptr || !instance->is_group('mulg'))
 		return;
 
-	// Add back misssing weapon selections
+	// Add back missing weapon selections
 	if (load_tag)
 	{
 		cache_file_tags_load(0x00001500); // spike_rifle
@@ -295,7 +295,6 @@ void add_missing_weapon_selections(cache_file_tag_instance* instance, bool load_
 			if (weapon_selection.weapon_tag.index != 0xFFFFFFFF)
 				continue;
 
-			// Add back misssing weapon selections
 			switch (weapon_selection.name.get_value())
 			{
 			case STRING_ID(global, spike_rifle):
