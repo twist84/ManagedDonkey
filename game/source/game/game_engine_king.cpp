@@ -44,12 +44,48 @@ void c_game_engine_king_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	bool opaque_hill = get_opaque_hill();
+	short score_to_win = get_score_to_win();
+	e_king_moving_hill_settings moving_hill = get_moving_hill();
+	e_king_moving_hill_order_settings moving_hill_order = get_moving_hill_order();
+	char inside_hill_points = get_inside_hill_points();
+	char outside_hill_points = get_outside_hill_points();
+	char uncontested_hill_bonus = get_uncontested_hill_bonus();
+	char kill_points = get_kill_points();
+
+	packet->write_bool("king-opaque-hill", opaque_hill);
+	packet->write_integer("king-score-to-win", score_to_win, 10);
+	packet->write_integer("king-moving-hill", moving_hill, 4);
+	packet->write_integer("king-moving-hill-order", moving_hill_order, 2);
+	packet->write_signed_integer("king_inside_hill_points", inside_hill_points, 5);
+	packet->write_signed_integer("king_outside_hill_points", outside_hill_points, 5);
+	packet->write_signed_integer("king_uncontested_hill_bonus", uncontested_hill_bonus, 5);
+	packet->write_signed_integer("king_kill_points", kill_points, 5);
+	get_inside_hill_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_king_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	bool opaque_hill = packet->read_bool("king-opaque-hill");
+	short score_to_win = static_cast<short>(packet->read_integer("king-score-to-win", 10));
+	e_king_moving_hill_settings moving_hill = packet->read_enum<e_king_moving_hill_settings, 4>("king-moving-hill");
+	e_king_moving_hill_order_settings moving_hill_order = packet->read_enum<e_king_moving_hill_order_settings, 2>("king-moving-hill-order");
+	char inside_hill_points = static_cast<char>(packet->read_signed_integer("king_inside_hill_points", 5));
+	char outside_hill_points = static_cast<char>(packet->read_signed_integer("king_outside_hill_points", 5));
+	char uncontested_hill_bonus = static_cast<char>(packet->read_signed_integer("king_uncontested_hill_bonus", 5));
+	char kill_points = static_cast<char>(packet->read_signed_integer("king_kill_points", 5));
+	get_inside_hill_traits_writeable()->decode_from_mcc(packet);
+
+	set_opaque_hill(opaque_hill);
+	set_score_to_win(score_to_win);
+	set_moving_hill(moving_hill);
+	set_moving_hill_order(moving_hill_order);
+	set_inside_hill_points(inside_hill_points);
+	set_outside_hill_points(outside_hill_points);
+	set_uncontested_hill_bonus(uncontested_hill_bonus);
+	set_kill_points(kill_points);
 }
 
 bool c_game_engine_king_variant::get_opaque_hill() const
