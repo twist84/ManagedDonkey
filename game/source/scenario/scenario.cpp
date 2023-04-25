@@ -289,7 +289,9 @@ if (universal_data->NAME##_selections.count())\
 	{\
 		char const* name = selection.name.get_string();\
 		if (name && *name)\
-			c_console::write_line("        name: %s", name);\
+		{\
+			c_console::write_line("        name: %s, 0x%08X", name, selection.NAME##_tag.index);\
+		}\
 	}\
 	c_console::write_line("");\
 }
