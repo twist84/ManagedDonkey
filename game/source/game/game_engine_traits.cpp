@@ -572,10 +572,6 @@ void c_game_engine_map_override_options::encode_to_mcc(c_bitstream* packet) cons
 	byte blue_powerup_duration_seconds = get_blue_powerup_duration_seconds();
 	byte yellow_powerup_duration_seconds = get_yellow_powerup_duration_seconds();
 
-	// override
-	weapon_set_absolute_index = short(0xFFFF);
-	vehicle_set_absolute_index = short(0xFFFF);
-
 	packet->write_bool("map-override-grenades-on-map", grenades_on_map_enabled);
 	packet->write_bool("map-override-indestructible-vehicles", indestructible_vehicles_enabled);
 	get_base_player_traits()->encode_to_mcc(packet);
@@ -602,10 +598,6 @@ void c_game_engine_map_override_options::decode_from_mcc(c_bitstream* packet)
 	byte red_powerup_duration_seconds = static_cast<byte>(packet->read_integer("map-override-red-powerup-duration", 7));
 	byte blue_powerup_duration_seconds = static_cast<byte>(packet->read_integer("map-override-blue-powerup-duration", 7));
 	byte yellow_powerup_duration_seconds = static_cast<byte>(packet->read_integer("map-override-yellow-powerup-duration", 7));
-
-	// override
-	weapon_set_absolute_index = short(0xFFFF);
-	vehicle_set_absolute_index = short(0xFFFF);
 
 	set_grenades_on_map_enabled(grenades_on_map_enabled);
 	set_indestructible_vehicles_enabled(indestructible_vehicles_enabled);

@@ -459,10 +459,6 @@ void c_player_trait_weapons::encode_to_mcc(c_bitstream* packet) const
 	e_recharging_grenades_setting recharging_grenades_setting = get_recharging_grenades_setting();
 	e_weapon_pickup_setting weapon_pickup_setting = get_weapon_pickup_setting();
 
-	// override
-	initial_primary_weapon_absolute_index = char(0xFF);
-	initial_secondary_weapon_absolute_index = char(0xFF);
-
 	packet->write_integer("player-trait-damage-modifier", initial_grenade_count_setting, 4);
 	packet->write_signed_integer("player-trait-initial-primary-weapon", initial_primary_weapon_absolute_index, 8);
 	packet->write_signed_integer("player-trait-initial-secondary-weapon", initial_secondary_weapon_absolute_index, 8);
@@ -483,10 +479,6 @@ void c_player_trait_weapons::decode_from_mcc(c_bitstream* packet)
 	e_infinite_ammo_setting infinite_ammo_setting = packet->read_enum<e_infinite_ammo_setting, 2>("player-traits-infinite-ammo-setting");
 	e_recharging_grenades_setting recharging_grenades_setting = packet->read_enum<e_recharging_grenades_setting, 2>("player-traits-recharging-grenades");
 	e_weapon_pickup_setting weapon_pickup_setting = packet->read_enum<e_weapon_pickup_setting, 2>("player-traits-weapon-pickup-allowed");
-
-	// override
-	initial_primary_weapon_absolute_index = char(0xFF);
-	initial_secondary_weapon_absolute_index = char(0xFF);
 
 	// override enabled including firebombs
 	if (recharging_grenades_setting == 3)

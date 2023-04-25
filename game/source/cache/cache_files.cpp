@@ -4,6 +4,7 @@
 #include "cache/security_functions.hpp"
 #include "cseries/console.hpp"
 #include "cseries/cseries_windows.hpp"
+#include "game/multiplayer_definitions.hpp"
 #include "memory/crc.hpp"
 #include "memory/module.hpp"
 #include "scenario/scenario_definitions.hpp"
@@ -262,6 +263,94 @@ long __cdecl tag_iterator_next(tag_iterator* iterator)
 	return INVOKE(0x00503400, tag_iterator_next, iterator);
 }
 
+void add_missing_weapon_selections(cache_file_tag_instance* instance, bool load_tag)
+{
+	if (instance == nullptr || !instance->is_group('mulg'))
+		return;
+
+	// Add back misssing weapon selections
+	if (load_tag)
+	{
+		cache_file_tags_load(0x00001500); // spike_rifle
+		cache_file_tags_load(0x0000159E); // sword
+		cache_file_tags_load(0x000014F8); // needler
+		cache_file_tags_load(0x000015B3); // rocket_launcher
+		cache_file_tags_load(0x00001A45); // shotgun
+		cache_file_tags_load(0x000015B1); // sniper_rifle
+		cache_file_tags_load(0x000014FF); // brute_shot
+		cache_file_tags_load(0x00001509); // beam_rifle
+		cache_file_tags_load(0x000015B2); // spartan_laser
+		cache_file_tags_load(0x0000150C); // gravity_hammer
+		cache_file_tags_load(0x00001A55); // flame_thrower
+		cache_file_tags_load(0x00001A54); // missile_launcher
+	}
+	else
+	{
+		s_multiplayer_globals_definition* multiplayer_globals = reinterpret_cast<s_multiplayer_globals_definition*>(instance->base + instance->offset);
+		if (multiplayer_globals == nullptr || multiplayer_globals->universal.count() <= 0 || multiplayer_globals->universal[0].weapon_selections.count() <= 0)
+			return;
+
+		for (s_multiplayer_weapon_selection& weapon_selection : multiplayer_globals->universal[0].weapon_selections)
+		{
+			if (weapon_selection.weapon_tag.index != 0xFFFFFFFF)
+				continue;
+
+			// Add back misssing weapon selections
+			switch (weapon_selection.name.get_value())
+			{
+			case STRING_ID(global, spike_rifle):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x00001500;
+				break;
+			case STRING_ID(global, sword):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x0000159E;
+				break;
+			case STRING_ID(global, needler):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x000014F8;
+				break;
+			case STRING_ID(global, rocket_launcher):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x000015B3;
+				break;
+			case STRING_ID(global, shotgun):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x00001A45;
+				break;
+			case STRING_ID(global, sniper_rifle):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x000015B1;
+				break;
+			case STRING_ID(global, brute_shot):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x000014FF;
+				break;
+			case STRING_ID(global, beam_rifle):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x00001509;
+				break;
+			case STRING_ID(global, spartan_laser):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x000015B2;
+				break;
+			case STRING_ID(global, gravity_hammer):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x0000150C;
+				break;
+			case STRING_ID(global, flame_thrower):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x00001A55;
+				break;
+			case STRING_ID(global, missile_launcher):
+				weapon_selection.weapon_tag.group_tag = 'weap';
+				weapon_selection.weapon_tag.index = 0x00001A54;
+				break;
+			}
+		}
+	}
+}
+
 bool __cdecl cache_file_tags_load(dword tag_index)
 {
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
@@ -289,6 +378,9 @@ bool __cdecl cache_file_tags_load(dword tag_index)
 
 	if (instance->dependency_count <= 0)
 		return true;
+
+	if (instance->is_group('mulg'))
+		add_missing_weapon_selections(instance, true);
 	
 	short dependency_index = 0;
 	while (cache_file_tags_load(instance->dependencies[dependency_index]))
@@ -314,6 +406,9 @@ void __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 		data_fixup.persistent = false;
 		ASSERT(data_fixup.value == data_fixup.offset);
 	}
+
+	if (instance->is_group('mulg'))
+		add_missing_weapon_selections(instance, false);
 }
 
 void __cdecl cache_file_tags_fixup_all_instances()
