@@ -40,12 +40,34 @@ void c_game_engine_territories_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	bool one_sided = get_one_sided();
+	bool lock_after_first_capture = get_lock_after_first_capture();
+	e_territories_respawn_on_capture_settings respawn_on_capture = get_respawn_on_capture();
+	short capture_time = get_capture_time();
+
+	packet->write_bool("territories-one-sided", one_sided);
+	packet->write_bool("territories-lock-after-first-capture", lock_after_first_capture);
+	packet->write_integer("territories-respawn-on-capture", respawn_on_capture, 2);
+	packet->write_integer("territories-capture-time", capture_time, 7);
+	get_defender_traits()->encode_to_mcc(packet);
+	get_attacker_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_territories_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	bool one_sided = packet->read_bool("territories-one-sided");
+	bool lock_after_first_capture = packet->read_bool("territories-lock-after-first-capture");
+	e_territories_respawn_on_capture_settings respawn_on_capture = packet->read_enum<e_territories_respawn_on_capture_settings, 2>("territories-respawn-on-capture");
+	short capture_time = static_cast<short>(packet->read_integer("territories-capture-time", 7));
+	get_defender_traits_writeable()->decode_from_mcc(packet);
+	get_attacker_traits_writeable()->decode_from_mcc(packet);
+
+	set_one_sided(one_sided);
+	set_lock_after_first_capture(lock_after_first_capture);
+	set_respawn_on_capture(respawn_on_capture);
+	set_capture_time(capture_time);
 }
 
 bool c_game_engine_territories_variant::get_one_sided() const
