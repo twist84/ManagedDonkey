@@ -48,6 +48,18 @@ void c_game_engine_infection_variant::set(c_game_engine_infection_variant const*
 //{
 //}
 
+void c_game_engine_infection_variant::encode_to_mcc(c_bitstream* packet) const
+{
+	c_game_engine_base_variant::encode_to_mcc(packet);
+
+}
+
+void c_game_engine_infection_variant::decode_from_mcc(c_bitstream* packet)
+{
+	c_game_engine_base_variant::decode_from_mcc(packet);
+
+}
+
 bool c_game_engine_infection_variant::get_respawn_on_haven_move() const
 {
 	return m_variant_flags.test(_infection_variant_flags_respawn_on_haven_move);

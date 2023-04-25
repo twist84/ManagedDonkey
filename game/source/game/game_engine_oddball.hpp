@@ -18,6 +18,9 @@ public:
 	void set(c_game_engine_oddball_variant const* variant, bool force);
 	//void set(s_game_engine_oddball_variant_definition const* definition, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	bool get_auto_ball_pickup() const;
 	void set_auto_ball_pickup(bool auto_ball_pickup);
 

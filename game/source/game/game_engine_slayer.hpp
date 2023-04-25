@@ -17,6 +17,9 @@ public:
 	void set(c_game_engine_slayer_variant const* variant, bool force);
 	//void set(s_game_engine_slayer_variant_definition const* definition, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	short get_score_to_win() const;
 	void set_score_to_win(short score_to_win);
 

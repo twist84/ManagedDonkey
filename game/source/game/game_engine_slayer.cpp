@@ -45,6 +45,18 @@ void c_game_engine_slayer_variant::set(c_game_engine_slayer_variant const* varia
 //{
 //}
 
+void c_game_engine_slayer_variant::encode_to_mcc(c_bitstream* packet) const
+{
+	c_game_engine_base_variant::encode_to_mcc(packet);
+
+}
+
+void c_game_engine_slayer_variant::decode_from_mcc(c_bitstream* packet)
+{
+	c_game_engine_base_variant::decode_from_mcc(packet);
+
+}
+
 short c_game_engine_slayer_variant::get_score_to_win() const
 {
 	return m_score_to_win;

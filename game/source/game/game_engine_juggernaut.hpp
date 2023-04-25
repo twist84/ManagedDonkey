@@ -20,6 +20,9 @@ public:
 	void set(c_game_engine_juggernaut_variant const* variant, bool force);
 	//void set(s_game_engine_juggernaut_variant_definition const* definition, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	bool get_allied_against_juggernaut() const;
 	void set_allied_against_juggernaut(bool allied_against_juggernaut);
 

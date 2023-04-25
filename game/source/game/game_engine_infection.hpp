@@ -19,6 +19,9 @@ public:
 	void set(c_game_engine_infection_variant const* variant, bool force);
 	//void set(s_game_engine_infection_variant_definition const* definition, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	bool get_respawn_on_haven_move() const;
 	void set_respawn_on_haven_move(bool respawn_on_haven_move);
 

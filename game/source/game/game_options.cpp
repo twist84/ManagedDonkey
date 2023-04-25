@@ -22,36 +22,36 @@ void c_game_variant::encode_to_mcc(c_bitstream* packet) const
 		case _game_engine_base_variant:
 			m_base_variant.encode_to_mcc(packet);
 			break;
-		//case _game_engine_ctf_variant:
-		//	m_ctf_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_slayer_variant:
-		//	m_slayer_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_oddball_variant:
-		//	m_oddball_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_king_variant:
-		//	m_king_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_sandbox_variant:
-		//	m_sandbox_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_vip_variant:
-		//	m_vip_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_juggernaut_variant:
-		//	m_juggernaut_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_territories_variant:
-		//	m_territories_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_assault_variant:
-		//	m_assault_variant.encode_to_mcc(packet);
-		//	break;
-		//case _game_engine_infection_variant:
-		//	m_infection_variant.encode_to_mcc(packet);
-		//	break;
+		case _game_engine_ctf_variant:
+			m_ctf_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_slayer_variant:
+			m_slayer_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_oddball_variant:
+			m_oddball_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_king_variant:
+			m_king_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_sandbox_variant:
+			m_sandbox_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_vip_variant:
+			m_vip_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_juggernaut_variant:
+			m_juggernaut_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_territories_variant:
+			m_territories_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_assault_variant:
+			m_assault_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_infection_variant:
+			m_infection_variant.encode_to_mcc(packet);
+			break;
 		}
 	}
 }
@@ -72,36 +72,36 @@ bool c_game_variant::decode_from_mcc(c_bitstream* packet)
 	case _game_engine_base_variant:
 		m_base_variant.decode_from_mcc(packet);
 		break;
-	//case _game_engine_ctf_variant:
-	//	m_ctf_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_slayer_variant:
-	//	m_slayer_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_oddball_variant:
-	//	m_oddball_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_king_variant:
-	//	m_king_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_sandbox_variant:
-	//	m_sandbox_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_vip_variant:
-	//	m_vip_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_juggernaut_variant:
-	//	m_juggernaut_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_territories_variant:
-	//	m_territories_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_assault_variant:
-	//	m_assault_variant.decode_from_mcc(packet);
-	//	break;
-	//case _game_engine_infection_variant:
-	//	m_infection_variant.decode_from_mcc(packet);
-	//	break;
+	case _game_engine_ctf_variant:
+		m_ctf_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_slayer_variant:
+		m_slayer_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_oddball_variant:
+		m_oddball_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_king_variant:
+		m_king_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_sandbox_variant:
+		m_sandbox_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_vip_variant:
+		m_vip_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_juggernaut_variant:
+		m_juggernaut_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_territories_variant:
+		m_territories_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_assault_variant:
+		m_assault_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_infection_variant:
+		m_infection_variant.decode_from_mcc(packet);
+		break;
 	}
 
 	return true;

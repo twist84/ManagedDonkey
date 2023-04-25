@@ -18,6 +18,9 @@ public:
 	void set(c_game_engine_assault_variant const* variant, bool force);
 	//void set(s_game_engine_assault_variant_definition const* definition, bool force);
 
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
 	bool get_reset_bomb_on_disarm() const;
 	void set_reset_bomb_on_disarm(bool reset_bomb_on_disarm);
 

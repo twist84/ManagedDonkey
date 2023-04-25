@@ -36,6 +36,18 @@ void c_game_engine_territories_variant::set(c_game_engine_territories_variant co
 //{
 //}
 
+void c_game_engine_territories_variant::encode_to_mcc(c_bitstream* packet) const
+{
+	c_game_engine_base_variant::encode_to_mcc(packet);
+
+}
+
+void c_game_engine_territories_variant::decode_from_mcc(c_bitstream* packet)
+{
+	c_game_engine_base_variant::decode_from_mcc(packet);
+
+}
+
 bool c_game_engine_territories_variant::get_one_sided() const
 {
 	return m_variant_flags.test(_territories_variant_flags_one_sided);
