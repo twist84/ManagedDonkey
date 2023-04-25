@@ -51,9 +51,11 @@ public:
 	short get_bomb_fuse_time() const;
 	void set_bomb_fuse_time(short bomb_fuse_time);
 
+	c_player_traits* get_carrier_traits_writeable();
 	c_player_traits const* get_carrier_traits() const;
 	void set_carrier_traits(c_player_traits const* traits, bool force);
 
+	c_player_traits* get_arming_traits_writeable();
 	c_player_traits const* get_arming_traits() const;
 	void set_arming_traits(c_player_traits const* traits, bool force);
 

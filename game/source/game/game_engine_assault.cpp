@@ -60,12 +60,42 @@ void c_game_engine_assault_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	bool reset_bomb_on_disarm = get_reset_bomb_on_disarm();
+	short sudden_death_time = get_sudden_death_time();
+	short bomb_arming_time = get_bomb_arming_time();
+	short bomb_disarming_time = get_bomb_disarming_time();
+	short bomb_fuse_time = get_bomb_fuse_time();
+	short bomb_reset_time = get_bomb_reset_time();
+
+	packet->write_bool("assault-reset-bomb-on-disarm", reset_bomb_on_disarm);
+	packet->write_integer("assault-bomb-arming-time", sudden_death_time, 9);
+	packet->write_integer("assault-bomb-arming-time", bomb_arming_time, 5);
+	packet->write_integer("assault-bomb-disarming-time", bomb_disarming_time, 5);
+	packet->write_integer("assault-bomb-fuse-time", bomb_fuse_time, 5);
+	packet->write_integer("assault-bomb-reset-time", bomb_reset_time, 6);
+	get_carrier_traits()->encode_to_mcc(packet);
+	get_arming_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_assault_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	bool reset_bomb_on_disarm = packet->read_bool("assault-reset-bomb-on-disarm");
+	short sudden_death_time = static_cast<short>(packet->read_integer("assault-bomb-arming-time", 9));
+	short bomb_arming_time = static_cast<short>(packet->read_integer("assault-bomb-arming-time", 5));
+	short bomb_disarming_time = static_cast<short>(packet->read_integer("assault-bomb-disarming-time", 5));
+	short bomb_fuse_time = static_cast<short>(packet->read_integer("assault-bomb-fuse-time", 5));
+	short bomb_reset_time = static_cast<short>(packet->read_integer("assault-bomb-reset-time", 6));
+	get_carrier_traits_writeable()->decode_from_mcc(packet);
+	get_arming_traits_writeable()->decode_from_mcc(packet);
+
+	set_reset_bomb_on_disarm(reset_bomb_on_disarm);
+	set_sudden_death_time(sudden_death_time);
+	set_bomb_arming_time(bomb_arming_time);
+	set_bomb_disarming_time(bomb_disarming_time);
+	set_bomb_fuse_time(bomb_fuse_time);
+	set_bomb_reset_time(bomb_reset_time);
 }
 
 bool c_game_engine_assault_variant::get_reset_bomb_on_disarm() const
@@ -249,6 +279,11 @@ void c_game_engine_assault_variant::set_bomb_fuse_time(short bomb_fuse_time)
 	}
 }
 
+c_player_traits* c_game_engine_assault_variant::get_carrier_traits_writeable()
+{
+	return &m_carrier_traits;
+}
+
 c_player_traits const* c_game_engine_assault_variant::get_carrier_traits() const
 {
 	return &m_carrier_traits;
@@ -257,6 +292,11 @@ c_player_traits const* c_game_engine_assault_variant::get_carrier_traits() const
 void c_game_engine_assault_variant::set_carrier_traits(c_player_traits const* traits, bool force)
 {
 	m_carrier_traits.set(traits, force);
+}
+
+c_player_traits* c_game_engine_assault_variant::get_arming_traits_writeable()
+{
+	return &m_arming_traits;
 }
 
 c_player_traits const* c_game_engine_assault_variant::get_arming_traits() const
