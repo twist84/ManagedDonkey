@@ -52,12 +52,66 @@ void c_game_engine_infection_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	bool respawn_on_haven_move = get_respawn_on_haven_move();
+	e_infection_safe_havens_settings safe_havens = get_safe_havens();
+	e_infection_next_zombie_settings next_zombie = get_next_zombie();
+	e_infection_initial_zombie_count_settings initial_zombie_count = get_initial_zombie_count();
+	short safe_haven_movement_time = get_safe_haven_movement_time();
+	char zombie_kill_points = get_zombie_kill_points();
+	char infection_points = get_infection_points();
+	char safe_haven_arrival_points = get_safe_haven_arrival_points();
+	char suicide_points = get_suicide_points();
+	char betrayal_points = get_betrayal_points();
+	char last_man_bonus_points = get_last_man_bonus_points();
+
+	packet->write_bool("infection-respawn-on-haven-move", respawn_on_haven_move);
+	packet->write_integer("infection-safe-havens", safe_havens, 2);
+	packet->write_integer("infection-next-zombie", next_zombie, 2);
+	packet->write_integer("infection-initial-zombie-count", initial_zombie_count, 5);
+	packet->write_integer("infection-safe-haven-movement-time", safe_haven_movement_time, 7);
+	packet->write_signed_integer("infection-zombie-kill-points", zombie_kill_points, 5);
+	packet->write_signed_integer("infection-infection-points", infection_points, 5);
+	packet->write_signed_integer("infection-safe-haven-arrival-points", safe_haven_arrival_points, 5);
+	packet->write_signed_integer("infection-suicide-points", suicide_points, 5);
+	packet->write_signed_integer("infection-betrayal-points", betrayal_points, 5);
+	packet->write_signed_integer("infection-last-man-bonus-points", last_man_bonus_points, 5);
+	get_zombie_traits()->encode_to_mcc(packet);
+	get_first_zombie_traits()->encode_to_mcc(packet);
+	get_safe_haven_defender_traits()->encode_to_mcc(packet);
+	get_last_human_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_infection_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	bool respawn_on_haven_move = packet->read_bool("infection-respawn-on-haven-move");
+	e_infection_safe_havens_settings safe_havens = packet->read_enum<e_infection_safe_havens_settings, 2>("infection-safe-havens");
+	e_infection_next_zombie_settings next_zombie = packet->read_enum<e_infection_next_zombie_settings, 2>("infection-next-zombie");
+	e_infection_initial_zombie_count_settings initial_zombie_count = packet->read_enum<e_infection_initial_zombie_count_settings, 5>("infection-initial-zombie-count");
+	short safe_haven_movement_time = static_cast<short>(packet->read_integer("infection-safe-haven-movement-time", 7));
+	char zombie_kill_points = static_cast<char>(packet->read_signed_integer("infection-zombie-kill-points", 5));
+	char infection_points = static_cast<char>(packet->read_signed_integer("infection-infection-points", 5));
+	char safe_haven_arrival_points = static_cast<char>(packet->read_signed_integer("infection-safe-haven-arrival-points", 5));
+	char suicide_points = static_cast<char>(packet->read_signed_integer("infection-suicide-points", 5));
+	char betrayal_points = static_cast<char>(packet->read_signed_integer("infection-betrayal-points", 5));
+	char last_man_bonus_points = static_cast<char>(packet->read_signed_integer("infection-last-man-bonus-points", 5));
+	get_zombie_traits()->encode_to_mcc(packet);
+	get_first_zombie_traits()->encode_to_mcc(packet);
+	get_safe_haven_defender_traits()->encode_to_mcc(packet);
+	get_last_human_traits()->encode_to_mcc(packet);
+
+	set_respawn_on_haven_move(respawn_on_haven_move);
+	set_safe_havens(safe_havens);
+	set_next_zombie(next_zombie);
+	set_initial_zombie_count(initial_zombie_count);
+	set_safe_haven_movement_time(safe_haven_movement_time);
+	set_zombie_kill_points(zombie_kill_points);
+	set_infection_points(infection_points);
+	set_safe_haven_arrival_points(safe_haven_arrival_points);
+	set_suicide_points(suicide_points);
+	set_betrayal_points(betrayal_points);
+	set_last_man_bonus_points(last_man_bonus_points);
 }
 
 bool c_game_engine_infection_variant::get_respawn_on_haven_move() const
