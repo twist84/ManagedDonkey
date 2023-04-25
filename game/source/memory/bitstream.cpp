@@ -23,6 +23,25 @@ t_type right_shift_fast(t_type value, long shift_bits)
 
 // ====================== halo 4 end ======================
 
+long __cdecl c_bitstream::read_signed_integer(char const* name, long size_in_bits)
+{
+	long range = 1 << (size_in_bits - 1);
+
+	ASSERT(reading());
+	ASSERT(size_in_bits > 0 && size_in_bits <= LONG_BITS);
+
+	long value = read_integer(name, size_in_bits);
+
+	if (size_in_bits < 32 && (value & (1 << (size_in_bits - 1))) != 0)
+		value |= ~((1 << size_in_bits) - 1);
+
+	ASSERT(value >= -range && value < range);
+
+	return value;
+
+	//return DECLFUNC(0x004439A0, long, __thiscall, c_bitstream*, long)(this, size_in_bits);
+}
+
 void __cdecl c_bitstream::write_bool(char const* name, bool value)
 {
 	DECLFUNC(0x00444B30, void, __thiscall, c_bitstream*, bool)(this, value);

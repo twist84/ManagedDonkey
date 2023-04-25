@@ -67,6 +67,7 @@ public:
 
 	// functions as they appear in memory
 
+	long __cdecl read_signed_integer(char const* name, long size_in_bits);
 	void __cdecl write_bool(char const* name, bool value);
 	void __cdecl write_integer(char const* name, dword value, long size_in_bits);
 	void __cdecl write_signed_integer(char const* name, long value, long size_in_bits);
