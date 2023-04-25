@@ -89,7 +89,7 @@ protected:
 	c_enum<long, char, -10, 10> m_destination_arrival_points; // default: 1
 	c_enum<long, char, -10, 10> m_suicide_points;             // default: 1
 	c_enum<long, char, -10, 10> m_betrayal_points;            // default: 1
-	c_enum<long, char, 0, 10> m_juggernaut_delay;             // default: 0
+	c_enum<long, byte, 0, 10> m_juggernaut_delay;             // default: 0
 	c_player_traits m_juggernaut_traits;
 
 	byte m_pad1[2];

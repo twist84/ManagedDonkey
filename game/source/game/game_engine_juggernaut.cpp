@@ -56,12 +56,76 @@ void c_game_engine_juggernaut_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	bool allied_against_juggernaut = get_allied_against_juggernaut();
+	bool respawn_on_lone_juggernaut = get_respawn_on_lone_juggernaut();
+	bool destination_zones_enabled = get_destination_zones_enabled();
+	short score_to_win_round = static_cast<short>(get_score_to_win_round());
+	e_juggernaut_initial_juggernaut_settings initial_juggernaut = get_initial_juggernaut();
+	e_juggernaut_next_juggernaut_settings next_juggernaut = get_next_juggernaut();
+	e_juggernaut_zone_movement_settings zone_movement = get_zone_movement();
+	e_juggernaut_zone_order_settings zone_order = get_zone_order();
+	char kill_points = get_kill_points();
+	char juggernaut_kill_points = get_juggernaut_kill_points();
+	char kill_as_juggernaut_points = get_kill_as_juggernaut_points();
+	char destination_arrival_points = get_destination_arrival_points();
+	char suicide_points = get_suicide_points();
+	char betrayal_points = get_betrayal_points();
+	byte juggernaut_delay = get_juggernaut_delay();
+
+	packet->write_bool("juggernaut-allied-against-juggernaut", allied_against_juggernaut);
+	packet->write_bool("juggernaut-respawn-on-lone-juggernaut", respawn_on_lone_juggernaut);
+	packet->write_bool("juggernaut-destination-zones-enabled", destination_zones_enabled);
+	packet->write_integer("juggernaut-score-to-win-round", score_to_win_round, 9);
+	packet->write_integer("juggernaut-initial-juggernaut", initial_juggernaut, 2);
+	packet->write_integer("juggernaut-next-juggernaut", next_juggernaut, 2);
+	packet->write_integer("juggernaut-zone-movement", zone_movement, 4);
+	packet->write_integer("juggernaut-zone-order", zone_order, 1);
+	packet->write_signed_integer("juggernaut-kill-points", kill_points, 5);
+	packet->write_signed_integer("juggernaut-juggernaut-kill-points", juggernaut_kill_points, 5);
+	packet->write_signed_integer("juggernaut-kill-as-juggernaut-points", kill_as_juggernaut_points, 5);
+	packet->write_signed_integer("juggernaut-destination-arrival-points", destination_arrival_points, 5);
+	packet->write_signed_integer("juggernaut-suicide-points", suicide_points, 5);
+	packet->write_signed_integer("juggernaut-betrayal-points", betrayal_points, 5);
+	packet->write_integer("juggernaut-juggernaut-delay", juggernaut_delay, 4);
+	get_juggernaut_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_juggernaut_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	bool allied_against_juggernaut = packet->read_bool("juggernaut-allied-against-juggernaut");
+	bool respawn_on_lone_juggernaut = packet->read_bool("juggernaut-respawn-on-lone-juggernaut");
+	bool destination_zones_enabled = packet->read_bool("juggernaut-destination-zones-enabled");
+	short score_to_win_round = static_cast<short>(packet->read_integer("juggernaut-score-to-win-round", 9));
+	e_juggernaut_initial_juggernaut_settings initial_juggernaut = packet->read_enum<e_juggernaut_initial_juggernaut_settings, 2>("juggernaut-initial-juggernaut");
+	e_juggernaut_next_juggernaut_settings next_juggernaut = packet->read_enum<e_juggernaut_next_juggernaut_settings, 2>("juggernaut-next-juggernaut");
+	e_juggernaut_zone_movement_settings zone_movement = packet->read_enum<e_juggernaut_zone_movement_settings, 4>("juggernaut-zone-movement");
+	e_juggernaut_zone_order_settings zone_order = packet->read_enum<e_juggernaut_zone_order_settings, 1>("juggernaut-zone-order");
+	char kill_points = static_cast<char>(packet->read_signed_integer("juggernaut-kill-points", 5));
+	char juggernaut_kill_points = static_cast<char>(packet->read_signed_integer("juggernaut-juggernaut-kill-points", 5));
+	char kill_as_juggernaut_points = static_cast<char>(packet->read_signed_integer("juggernaut-kill-as-juggernaut-points", 5));
+	char destination_arrival_points = static_cast<char>(packet->read_signed_integer("juggernaut-destination-arrival-points", 5));
+	char suicide_points = static_cast<char>(packet->read_signed_integer("juggernaut-suicide-points", 5));
+	char betrayal_points = static_cast<char>(packet->read_signed_integer("juggernaut-betrayal-points", 5));
+	byte juggernaut_delay = static_cast<byte>(packet->read_integer("juggernaut-juggernaut-delay", 4));
+	get_juggernaut_traits_writeable()->decode_from_mcc(packet);
+
+	set_allied_against_juggernaut(allied_against_juggernaut);
+	set_respawn_on_lone_juggernaut(respawn_on_lone_juggernaut);
+	set_destination_zones_enabled(destination_zones_enabled);
+	set_score_to_win_round(score_to_win_round);
+	set_initial_juggernaut(initial_juggernaut);
+	set_next_juggernaut(next_juggernaut);
+	set_zone_movement(zone_movement);
+	set_zone_order(zone_order);
+	set_kill_points(kill_points);
+	set_juggernaut_kill_points(juggernaut_kill_points);
+	set_kill_as_juggernaut_points(kill_as_juggernaut_points);
+	set_destination_arrival_points(destination_arrival_points);
+	set_suicide_points(suicide_points);
+	set_betrayal_points(betrayal_points);
+	set_juggernaut_delay(juggernaut_delay);
 }
 
 bool c_game_engine_juggernaut_variant::get_allied_against_juggernaut() const
