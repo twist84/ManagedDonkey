@@ -392,7 +392,15 @@ extern bool __cdecl scenario_tags_load(char const* scenario_path);
 extern void __cdecl scenario_tags_load_finished();
 extern void __cdecl scenario_tags_unload();
 
-struct tag_iterator;
+struct tag_iterator
+{
+	dword __unknown0;
+	dword __unknown4;
+	long datum_index;
+	long absolute_tag_index;
+	tag group_tag;
+};
+static_assert(sizeof(tag_iterator) == 0x14);
 
 extern void __cdecl tag_files_close();
 extern void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag);
