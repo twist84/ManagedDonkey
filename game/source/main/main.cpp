@@ -109,7 +109,7 @@ bool __cdecl main_events_pending()
 void __cdecl main_loop_body_begin()
 {
 	// right control for tests
-	if (input_key_frames_down(_key_code_right_control, _input_type_ui))
+	if (input_key_frames_down(_key_code_right_control, _input_type_ui) == 1)
 	{
 		hs_function_table;
 		hs_external_globals;
