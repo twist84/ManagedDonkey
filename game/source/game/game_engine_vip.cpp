@@ -60,12 +60,84 @@ void c_game_engine_vip_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	bool single_vip = get_single_vip();
+	bool destination_zones_enabled = get_destination_zones_enabled();
+	bool should_end_round_on_vip_death = get_should_end_round_on_vip_death();
+	long score_to_win_round = get_score_to_win_round();
+	char kill_points = get_kill_points();
+	char takedown_points = get_takedown_points();
+	char kill_as_vip_points = get_kill_as_vip_points();
+	char vip_death_points = get_vip_death_points();
+	char destination_arrival_points = get_destination_arrival_points();
+	char suicide_points = get_suicide_points();
+	char vip_suicide_points = get_vip_suicide_points();
+	char betrayal_points = get_betrayal_points();
+	e_vip_vip_selection_settings vip_selection = get_vip_selection();
+	e_vip_zone_movement_settings zone_movement = get_zone_movement();
+	e_vip_zone_order_settings zone_order = get_zone_order();
+	short influence_radius = get_influence_radius();
+
+	packet->write_bool("vip-single-vip", single_vip);
+	packet->write_bool("vip-destination-zones-enabled", destination_zones_enabled);
+	packet->write_bool("vip-end-round-on-vip-death", should_end_round_on_vip_death);
+	packet->write_integer("vip-score-to-win-round", score_to_win_round, 10);
+	packet->write_signed_integer("vip-kill-points", kill_points, 5);
+	packet->write_signed_integer("vip-takedown-points", takedown_points, 5);
+	packet->write_signed_integer("vip-kill-as-vip-points", kill_as_vip_points, 5);
+	packet->write_signed_integer("vip-vip-death-points", vip_death_points, 5);
+	packet->write_signed_integer("vip-destination-arrival-points", destination_arrival_points, 5);
+	packet->write_signed_integer("vip-suicide-points", suicide_points, 5);
+	packet->write_signed_integer("vip-vip-suicide-points", vip_suicide_points, 5);
+	packet->write_signed_integer("vip-betrayal-points", betrayal_points, 5);
+	packet->write_integer("vip-vip-selection", vip_selection, 2);
+	packet->write_integer("vip-zone-movement", zone_movement, 4);
+	packet->write_integer("vip-zone-order", zone_order, 1);
+	packet->write_integer("vip-influence-radius", influence_radius, 6);
+	get_vip_team_traits()->encode_to_mcc(packet);
+	get_vip_influence_traits()->encode_to_mcc(packet);
+	get_vip_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_vip_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	bool single_vip = packet->read_bool("vip-single-vip");
+	bool destination_zones_enabled = packet->read_bool("vip-destination-zones-enabled");
+	bool should_end_round_on_vip_death = packet->read_bool("vip-end-round-on-vip-death");
+	short score_to_win_round = static_cast<short>(packet->read_integer("vip-score-to-win-round", 10));
+	char kill_points = static_cast<char>(packet->read_signed_integer("vip-kill-points", 5));
+	char takedown_points = static_cast<char>(packet->read_signed_integer("vip-takedown-points", 5));
+	char kill_as_vip_points = static_cast<char>(packet->read_signed_integer("vip-kill-as-vip-points", 5));
+	char vip_death_points = static_cast<char>(packet->read_signed_integer("vip-vip-death-points", 5));
+	char destination_arrival_points = static_cast<char>(packet->read_signed_integer("vip-destination-arrival-points", 5));
+	char suicide_points = static_cast<char>(packet->read_signed_integer("vip-suicide-points", 5));
+	char vip_suicide_points = static_cast<char>(packet->read_signed_integer("vip-vip-suicide-points", 5));
+	char betrayal_points = static_cast<char>(packet->read_signed_integer("vip-betrayal-points", 5));
+	e_vip_vip_selection_settings vip_selection = packet->read_enum<e_vip_vip_selection_settings, 2>("vip-vip-selection");
+	e_vip_zone_movement_settings zone_movement = packet->read_enum<e_vip_zone_movement_settings, 4>("vip-zone-movement");
+	e_vip_zone_order_settings zone_order = packet->read_enum<e_vip_zone_order_settings, 1>("vip-zone-order");
+	short influence_radius = static_cast<short>(packet->read_integer("vip-influence-radius", 6));
+	get_vip_team_traits_writeable()->decode_from_mcc(packet);
+	get_vip_influence_traits_writeable()->decode_from_mcc(packet);
+	get_vip_traits_writeable()->decode_from_mcc(packet);
+
+	set_single_vip(single_vip);
+	set_destination_zones_enabled(destination_zones_enabled);
+	set_end_round_on_vip_death(should_end_round_on_vip_death);
+	set_score_to_win_round(score_to_win_round);
+	set_kill_points(kill_points);
+	set_takedown_points(takedown_points);
+	set_kill_as_vip_points(kill_as_vip_points);
+	set_vip_death_points(vip_death_points);
+	set_destination_arrival_points(destination_arrival_points);
+	set_suicide_points(suicide_points);
+	set_vip_suicide_points(vip_suicide_points);
+	set_betrayal_points(betrayal_points);
+	set_vip_selection(vip_selection);
+	set_zone_movement(zone_movement);
+	set_zone_order(zone_order);
+	set_influence_radius(influence_radius);
 }
 
 bool c_game_engine_vip_variant::get_single_vip() const
