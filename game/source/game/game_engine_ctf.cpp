@@ -47,12 +47,48 @@ void c_game_engine_ctf_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	bool flag_at_home_to_score = get_flag_at_home_to_score();
+	e_ctf_home_flag_waypoint_settings home_flag_waypoint = get_home_flag_waypoint();
+	e_ctf_game_type_settings game_type = get_game_type();
+	e_ctf_respawn_settings respawn = get_respawn();
+	short score_to_win = get_score_to_win();
+	short sudden_death_time = get_sudden_death_time();
+	short flag_reset_time = get_flag_reset_time();
+	short touch_return_timeout = get_touch_return_timeout();
+
+	packet->write_bool("ctf-flag-at-home-to-score", flag_at_home_to_score);
+	packet->write_integer("ctf-home-flag-waypoint", home_flag_waypoint, 2);
+	packet->write_integer("ctf-game-type", game_type, 2);
+	packet->write_integer("ctf-respawn", respawn, 2);
+	packet->write_integer("ctf-score-to-win", score_to_win, 6);
+	packet->write_signed_integer("ctf-sudden-death-time", sudden_death_time, 9);
+	packet->write_integer("ctf-flag-reset-time", flag_reset_time, 9);
+	packet->write_signed_integer("ctf-touch-return-time", touch_return_timeout, 6);
+	get_carrier_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_ctf_variant::decode_from_mcc(c_bitstream* packet)
 {
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	bool flag_at_home_to_score = packet->read_bool("ctf-flag-at-home-to-score");
+	e_ctf_home_flag_waypoint_settings home_flag_waypoint = packet->read_enum<e_ctf_home_flag_waypoint_settings, 2>("ctf-home-flag-waypoint");
+	e_ctf_game_type_settings game_type = packet->read_enum<e_ctf_game_type_settings, 2>("ctf-game-type");
+	e_ctf_respawn_settings respawn = packet->read_enum<e_ctf_respawn_settings, 2>("ctf-respawn");
+	short score_to_win = static_cast<short>(packet->read_integer("ctf-score-to-win", 6));
+	short sudden_death_time = static_cast<short>(packet->read_signed_integer("ctf-sudden-death-time", 9));
+	short flag_reset_time = static_cast<short>(packet->read_integer("ctf-flag-reset-time", 9));
+	short touch_return_timeout = static_cast<short>(packet->read_signed_integer("ctf-touch-return-time", 6));
+	get_carrier_traits_writeable()->decode_from_mcc(packet);
+
+	set_flag_at_home_to_score(flag_at_home_to_score);
+	set_home_flag_waypoint(home_flag_waypoint);
+	set_game_type(game_type);
+	set_respawn(respawn);
+	set_score_to_win(score_to_win);
+	set_sudden_death_time(sudden_death_time);
+	set_flag_reset_time(flag_reset_time);
+	set_touch_return_timeout(touch_return_timeout);
 }
 
 bool c_game_engine_ctf_variant::get_flag_at_home_to_score() const
