@@ -33,14 +33,18 @@ void c_game_engine_base_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	m_metadata.encode_to_mcc(packet);
 
-	packet->write_bool("variant-built-in", get_built_in());
+	bool built_in = get_built_in();
+
+	packet->write_bool("variant-built-in", built_in);
 
 	get_miscellaneous_options()->encode_to_mcc(packet);
 	get_respawn_options()->encode_to_mcc(packet);
 	get_social_options()->encode_to_mcc(packet);
 	get_map_override_options()->encode_to_mcc(packet);
 
-	packet->write_integer("team-scoring-method", get_team_scoring_method(), 3);
+	short team_scoring_method = get_team_scoring_method();
+
+	packet->write_integer("team-scoring-method", team_scoring_method, 3);
 }
 
 void c_game_engine_base_variant::decode_from_mcc(c_bitstream* packet)
@@ -48,14 +52,18 @@ void c_game_engine_base_variant::decode_from_mcc(c_bitstream* packet)
 	initialize();
 	m_metadata.decode_from_mcc(packet);
 
-	set_built_in(packet->read_bool("variant-built-in"));
+	bool built_in = packet->read_bool("variant-built-in");
 
 	get_miscellaneous_options_writeable()->decode_from_mcc(packet);
 	get_respawn_options_writeable()->decode_from_mcc(packet);
 	get_social_options_writeable()->decode_from_mcc(packet);
 	get_map_override_options_writeable()->decode_from_mcc(packet);
 
-	set_team_scoring_method(static_cast<short>(packet->read_integer("team-scoring-method", 3)));
+	short team_scoring_method = static_cast<short>(packet->read_integer("team-scoring-method", 3));
+
+	set_built_in(built_in);
+
+	set_team_scoring_method(team_scoring_method);
 }
 
 void c_game_engine_base_variant::byteswap()

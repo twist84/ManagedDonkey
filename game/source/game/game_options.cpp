@@ -60,13 +60,14 @@ bool c_game_variant::decode_from_mcc(c_bitstream* packet)
 {
 	ASSERT(packet);
 
-	set_game_engine_index(packet->read_enum<e_game_engine_type, 4>("variant-game-engine-index"));
+	e_game_engine_type game_engine_index = packet->read_enum<e_game_engine_type, 4>("variant-game-engine-index");
+	set_game_engine_index(game_engine_index);
 
 	//if (m_game_engine_index == _game_engine_base_variant)
 	//	return false;
 
 	m_base_variant.set_built_in(false);
-	switch (get_game_engine_index())
+	switch (game_engine_index)
 	{
 	case _game_engine_base_variant:
 		m_base_variant.decode_from_mcc(packet);

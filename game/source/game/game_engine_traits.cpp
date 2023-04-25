@@ -27,6 +27,13 @@ void c_game_engine_miscellaneous_options::set(c_game_engine_miscellaneous_option
 
 void c_game_engine_miscellaneous_options::encode_to_mcc(c_bitstream* packet) const
 {
+	bool teams_enabled = get_teams_enabled();
+	bool round_reset_players = get_round_reset_players();
+	bool round_reset_map = get_round_reset_map();
+	long round_time_limit_minutes = get_round_time_limit_minutes();
+	long round_limit = get_round_limit();
+	long early_victory_win_count = get_early_victory_win_count();
+
 	packet->write_bool("miscellaneous-options-teams", get_teams_enabled());
 	packet->write_bool("miscellaneous-options-round-reset-players", get_round_reset_players());
 	packet->write_bool("miscellaneous-options-round-reset-map", get_round_reset_map());
@@ -37,12 +44,19 @@ void c_game_engine_miscellaneous_options::encode_to_mcc(c_bitstream* packet) con
 
 void c_game_engine_miscellaneous_options::decode_from_mcc(c_bitstream* packet)
 {
-	set_teams_enabled(packet->read_bool("miscellaneous-options-teams"));
-	set_round_reset_players(packet->read_bool("miscellaneous-options-round-reset-players"));
-	set_round_reset_map(packet->read_bool("miscellaneous-options-round-reset-map"));
-	set_round_time_limit_minutes(packet->read_integer("miscellaneous-options-round-time-limit-minutes", 8));
-	set_round_limit(packet->read_integer("miscellaneous-options-round-limit", 4));
-	set_early_victory_win_count(packet->read_integer("miscellaneous-options-early-victory-win-count", 4));
+	bool teams_enabled = packet->read_bool("miscellaneous-options-teams");
+	bool round_reset_players = packet->read_bool("miscellaneous-options-round-reset-players");
+	bool round_reset_map = packet->read_bool("miscellaneous-options-round-reset-map");
+	long round_time_limit_minutes = static_cast<long>(packet->read_integer("miscellaneous-options-round-time-limit-minutes", 8));
+	long round_limit = static_cast<long>(packet->read_integer("miscellaneous-options-round-limit", 4));
+	long early_victory_win_count = static_cast<long>(packet->read_integer("miscellaneous-options-early-victory-win-count", 4));
+
+	set_teams_enabled(teams_enabled);
+	set_round_reset_players(round_reset_players);
+	set_round_reset_map(round_reset_map);
+	set_round_time_limit_minutes(round_time_limit_minutes);
+	set_round_limit(round_limit);
+	set_early_victory_win_count(early_victory_win_count);
 }
 
 bool c_game_engine_miscellaneous_options::get_teams_enabled() const
@@ -144,34 +158,58 @@ void c_game_engine_respawn_options::set(c_game_engine_respawn_options const* opt
 
 void c_game_engine_respawn_options::encode_to_mcc(c_bitstream* packet) const
 {
-	packet->write_bool("respawn-options-inherit-respawn-time", get_inherit_respawn_time_enabled());
-	packet->write_bool("respawn-options-respawn-with-teammate", get_respawn_with_teammate_enabled());
-	packet->write_bool("respawn-options-respawn-at-location", get_respawn_at_location_enabled());
-	packet->write_bool("respawn-options-respawn-on-kills",get_respawn_on_kills_enabled());
-	packet->write_integer("respawn-options-lives-per-round", get_lives_per_round(), 6);
-	packet->write_integer("respawn-options-team-lives-per-round", get_team_lives_per_round(), 7);
-	packet->write_integer("respawn-options-respawn-time", get_respawn_time_seconds(), 8);
-	packet->write_integer("respawn-options-suicide-time", get_suicide_penalty_seconds(), 8);
-	packet->write_integer("respawn-options-betrayal-time", get_betrayal_penalty_seconds(), 8);
-	packet->write_integer("respawn-options-respawn-growth-time", get_respawn_growth_seconds(), 4);
-	packet->write_integer("respawn-options-player-traits-duration", get_respawn_player_traits_duration_seconds(), 6);
+	bool inherit_respawn_time_enabled = get_inherit_respawn_time_enabled();
+	bool respawn_with_teammate_enabled = get_respawn_with_teammate_enabled();
+	bool respawn_at_location_enabled = get_respawn_at_location_enabled();
+	bool respawn_on_kills_enabled = get_respawn_on_kills_enabled();
+	byte lives_per_round = get_lives_per_round();
+	byte team_lives_per_round = get_team_lives_per_round();
+	byte respawn_time_seconds = get_respawn_time_seconds();
+	byte suicide_penalty_seconds = get_suicide_penalty_seconds();
+	byte betrayal_penalty_seconds = get_betrayal_penalty_seconds();
+	byte respawn_growth_seconds = get_respawn_growth_seconds();
+	byte respawn_player_traits_duration_seconds = get_respawn_player_traits_duration_seconds();
+
+	packet->write_bool("respawn-options-inherit-respawn-time", inherit_respawn_time_enabled);
+	packet->write_bool("respawn-options-respawn-with-teammate", respawn_with_teammate_enabled);
+	packet->write_bool("respawn-options-respawn-at-location", respawn_at_location_enabled);
+	packet->write_bool("respawn-options-respawn-on-kills", respawn_on_kills_enabled);
+	packet->write_integer("respawn-options-lives-per-round", lives_per_round, 6);
+	packet->write_integer("respawn-options-team-lives-per-round", team_lives_per_round, 7);
+	packet->write_integer("respawn-options-respawn-time", respawn_time_seconds, 8);
+	packet->write_integer("respawn-options-suicide-time", suicide_penalty_seconds, 8);
+	packet->write_integer("respawn-options-betrayal-time", betrayal_penalty_seconds, 8);
+	packet->write_integer("respawn-options-respawn-growth-time", respawn_growth_seconds, 4);
+	packet->write_integer("respawn-options-player-traits-duration", respawn_player_traits_duration_seconds, 6);
 	get_respawn_player_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_respawn_options::decode_from_mcc(c_bitstream* packet)
 {
-	set_inherit_respawn_time_enabled(packet->read_bool("respawn-options-inherit-respawn-time"));
-	set_respawn_with_teammate_enabled(packet->read_bool("respawn-options-respawn-with-teammate"));
-	set_respawn_at_location_enabled(packet->read_bool("respawn-options-respawn-at-location"));
-	set_respawn_on_kills_enabled(packet->read_bool("respawn-options-respawn-on-kills"));
-	set_lives_per_round(packet->read_integer("respawn-options-lives-per-round", 6));
-	set_team_lives_per_round(packet->read_integer("respawn-options-team-lives-per-round", 7));
-	set_respawn_time_seconds(packet->read_integer("respawn-options-respawn-time", 8));
-	set_suicide_penalty_seconds(packet->read_integer("respawn-options-suicide-time", 8));
-	set_betrayal_penalty_seconds(packet->read_integer("respawn-options-betrayal-time", 8));
-	set_respawn_growth_seconds(packet->read_integer("respawn-options-respawn-growth-time", 4));
-	set_respawn_player_traits_duration_seconds(packet->read_integer("respawn-options-player-traits-duration", 6));
+	bool inherit_respawn_time_enabled = packet->read_bool("respawn-options-inherit-respawn-time");
+	bool respawn_with_teammate_enabled = packet->read_bool("respawn-options-respawn-with-teammate");
+	bool respawn_at_location_enabled = packet->read_bool("respawn-options-respawn-at-location");
+	bool respawn_on_kills_enabled = packet->read_bool("respawn-options-respawn-on-kills");
+	byte lives_per_round = static_cast<byte>(packet->read_integer("respawn-options-lives-per-round", 6));
+	byte team_lives_per_round = static_cast<byte>(packet->read_integer("respawn-options-team-lives-per-round", 7));
+	byte respawn_time_seconds = static_cast<byte>(packet->read_integer("respawn-options-respawn-time", 8));
+	byte suicide_penalty_seconds = static_cast<byte>(packet->read_integer("respawn-options-suicide-time", 8));
+	byte betrayal_penalty_seconds = static_cast<byte>(packet->read_integer("respawn-options-betrayal-time", 8));
+	byte respawn_growth_seconds = static_cast<byte>(packet->read_integer("respawn-options-respawn-growth-time", 4));
+	byte respawn_player_traits_duration_seconds = static_cast<byte>(packet->read_integer("respawn-options-player-traits-duration", 6));
 	get_respawn_player_traits_writeable()->decode_from_mcc(packet);
+
+	set_inherit_respawn_time_enabled(inherit_respawn_time_enabled);
+	set_respawn_with_teammate_enabled(respawn_with_teammate_enabled);
+	set_respawn_at_location_enabled(respawn_at_location_enabled);
+	set_respawn_on_kills_enabled(respawn_on_kills_enabled);
+	set_lives_per_round(lives_per_round);
+	set_team_lives_per_round(team_lives_per_round);
+	set_respawn_time_seconds(respawn_time_seconds);
+	set_suicide_penalty_seconds(suicide_penalty_seconds);
+	set_betrayal_penalty_seconds(betrayal_penalty_seconds);
+	set_respawn_growth_seconds(respawn_growth_seconds);
+	set_respawn_player_traits_duration_seconds(respawn_player_traits_duration_seconds);
 }
 
 bool c_game_engine_respawn_options::get_inherit_respawn_time_enabled() const
@@ -345,24 +383,40 @@ void c_game_engine_social_options::set(c_game_engine_social_options const* optio
 
 void c_game_engine_social_options::encode_to_mcc(c_bitstream* packet) const
 {
-	packet->write_bool("social-options-observers", get_observers_enabled());
-	packet->write_integer("social-options-team-changing", get_team_changing_setting(), 2);
-	packet->write_bool("social-options-friendly-fire", get_friendly_fire_enabled());
-	packet->write_bool("social-options-betrayal-booting", get_betrayal_booting_enabled());
-	packet->write_bool("social-options-enemy-voice", get_enemy_voice_enabled());
-	packet->write_bool("social-options-open-channel-voice", get_open_channel_voice_enabled());
-	packet->write_bool("social-options-dead-player-voice", get_dead_player_voice_enabled());
+	bool observers_enabled = get_observers_enabled();
+	long team_changing_setting = get_team_changing_setting();
+	bool friendly_fire_enabled = get_friendly_fire_enabled();
+	bool betrayal_booting_enabled = get_betrayal_booting_enabled();
+	bool enemy_voice_enabled = get_enemy_voice_enabled();
+	bool open_channel_voice_enabled = get_open_channel_voice_enabled();
+	bool dead_player_voice_enabled = get_dead_player_voice_enabled();
+
+	packet->write_bool("social-options-observers", observers_enabled);
+	packet->write_integer("social-options-team-changing", team_changing_setting, 2);
+	packet->write_bool("social-options-friendly-fire", friendly_fire_enabled);
+	packet->write_bool("social-options-betrayal-booting", betrayal_booting_enabled);
+	packet->write_bool("social-options-enemy-voice", enemy_voice_enabled);
+	packet->write_bool("social-options-open-channel-voice", open_channel_voice_enabled);
+	packet->write_bool("social-options-dead-player-voice", dead_player_voice_enabled);
 }
 
 void c_game_engine_social_options::decode_from_mcc(c_bitstream* packet)
 {
-	set_observers_enabled(packet->read_bool("social-options-observers"));
-	set_team_changing_setting(packet->read_integer("social-options-team-changing", 2));
-	set_friendly_fire_enabled(packet->read_bool("social-options-friendly-fire"));
-	set_betrayal_booting_enabled(packet->read_bool("social-options-betrayal-booting"));
-	set_enemy_voice_enabled(packet->read_bool("social-options-enemy-voice"));
-	set_open_channel_voice_enabled(packet->read_bool("social-options-open-channel-voice"));
-	set_dead_player_voice_enabled(packet->read_bool("social-options-dead-player-voice"));
+	bool observers_enabled = packet->read_bool("social-options-observers");
+	long team_changing_setting = packet->read_integer("social-options-team-changing", 2);
+	bool friendly_fire_enabled = packet->read_bool("social-options-friendly-fire");
+	bool betrayal_booting_enabled = packet->read_bool("social-options-betrayal-booting");
+	bool enemy_voice_enabled = packet->read_bool("social-options-enemy-voice");
+	bool open_channel_voice_enabled = packet->read_bool("social-options-open-channel-voice");
+	bool dead_player_voice_enabled = packet->read_bool("social-options-dead-player-voice");
+
+	set_observers_enabled(observers_enabled);
+	set_team_changing_setting(team_changing_setting);
+	set_friendly_fire_enabled(friendly_fire_enabled);
+	set_betrayal_booting_enabled(betrayal_booting_enabled);
+	set_enemy_voice_enabled(enemy_voice_enabled);
+	set_open_channel_voice_enabled(open_channel_voice_enabled);
+	set_dead_player_voice_enabled(dead_player_voice_enabled);
 }
 
 bool c_game_engine_social_options::get_observers_enabled() const
@@ -510,32 +564,56 @@ void c_game_engine_map_override_options::set(c_game_engine_map_override_options 
 
 void c_game_engine_map_override_options::encode_to_mcc(c_bitstream* packet) const
 {
-	packet->write_bool("map-override-grenades-on-map", get_grenades_on_map_enabled());
-	packet->write_bool("map-override-indestructible-vehicles", get_indestructible_vehicles_enabled());
+	bool grenades_on_map_enabled = get_grenades_on_map_enabled();
+	bool indestructible_vehicles_enabled = get_indestructible_vehicles_enabled();
+	short weapon_set_absolute_index = get_weapon_set_absolute_index();
+	short vehicle_set_absolute_index = get_vehicle_set_absolute_index();
+	byte red_powerup_duration_seconds = get_red_powerup_duration_seconds();
+	byte blue_powerup_duration_seconds = get_blue_powerup_duration_seconds();
+	byte yellow_powerup_duration_seconds = get_yellow_powerup_duration_seconds();
+
+	// override
+	weapon_set_absolute_index = short(0xFFFF);
+	vehicle_set_absolute_index = short(0xFFFF);
+
+	packet->write_bool("map-override-grenades-on-map", grenades_on_map_enabled);
+	packet->write_bool("map-override-indestructible-vehicles", indestructible_vehicles_enabled);
 	get_base_player_traits()->encode_to_mcc(packet);
-	packet->write_signed_integer("map-override-weapon-set", short(0xFFFF) /*get_weapon_set_absolute_index()*/, 8);
-	packet->write_signed_integer("map-override-vehicle-set", short(0xFFFF) /*get_vehicle_set_absolute_index()*/, 8);
+	packet->write_signed_integer("map-override-weapon-set",  weapon_set_absolute_index, 8);
+	packet->write_signed_integer("map-override-vehicle-set", vehicle_set_absolute_index, 8);
 	get_red_powerup_traits()->encode_to_mcc(packet);
 	get_blue_powerup_traits()->encode_to_mcc(packet);
 	get_yellow_powerup_traits()->encode_to_mcc(packet);
-	packet->write_integer("map-override-red-powerup-duration", get_red_powerup_duration_seconds(), 7);
-	packet->write_integer("map-override-blue-powerup-duration", get_blue_powerup_duration_seconds(), 7);
-	packet->write_integer("map-override-yellow-powerup-duration", get_yellow_powerup_duration_seconds(), 7);
+	packet->write_integer("map-override-red-powerup-duration", red_powerup_duration_seconds, 7);
+	packet->write_integer("map-override-blue-powerup-duration", blue_powerup_duration_seconds, 7);
+	packet->write_integer("map-override-yellow-powerup-duration", yellow_powerup_duration_seconds, 7);
 }
 
 void c_game_engine_map_override_options::decode_from_mcc(c_bitstream* packet)
 {
-	set_grenades_on_map_enabled(packet->read_bool("map-override-grenades-on-map"));
-	set_indestructible_vehicles_enabled(packet->read_bool("map-override-indestructible-vehicles"));
+	bool grenades_on_map_enabled = packet->read_bool("map-override-grenades-on-map");
+	bool indestructible_vehicles_enabled = packet->read_bool("map-override-indestructible-vehicles");
 	get_base_player_traits_writeable()->decode_from_mcc(packet);
-	set_weapon_set_absolute_index(short(0xFFFF) /*packet->read_signed_integer("map-override-weapon-set", 8)*/);
-	set_vehicle_set_absolute_index(short(0xFFFF) /*packet->read_signed_integer("map-override-vehicle-set", 8)*/);
+	short weapon_set_absolute_index = static_cast<short>(packet->read_signed_integer("map-override-weapon-set", 8));
+	short vehicle_set_absolute_index = static_cast<short>(packet->read_signed_integer("map-override-vehicle-set", 8));
 	get_red_powerup_traits_writeable()->decode_from_mcc(packet);
 	get_blue_powerup_traits_writeable()->decode_from_mcc(packet);
 	get_yellow_powerup_traits_writeable()->decode_from_mcc(packet);
-	set_red_powerup_duration_seconds(static_cast<byte>(packet->read_integer("map-override-red-powerup-duration", 7)));
-	set_blue_powerup_duration_seconds(static_cast<byte>(packet->read_integer("map-override-blue-powerup-duration", 7)));
-	set_yellow_powerup_duration_seconds(static_cast<byte>(packet->read_integer("map-override-yellow-powerup-duration", 7)));
+	byte red_powerup_duration_seconds = static_cast<byte>(packet->read_integer("map-override-red-powerup-duration", 7));
+	byte blue_powerup_duration_seconds = static_cast<byte>(packet->read_integer("map-override-blue-powerup-duration", 7));
+	byte yellow_powerup_duration_seconds = static_cast<byte>(packet->read_integer("map-override-yellow-powerup-duration", 7));
+
+	// override
+	weapon_set_absolute_index = short(0xFFFF);
+	vehicle_set_absolute_index = short(0xFFFF);
+
+	set_grenades_on_map_enabled(grenades_on_map_enabled);
+	set_indestructible_vehicles_enabled(indestructible_vehicles_enabled);
+	set_weapon_set_absolute_index(weapon_set_absolute_index);
+	set_vehicle_set_absolute_index(vehicle_set_absolute_index);
+	set_red_powerup_duration_seconds(red_powerup_duration_seconds);
+	set_blue_powerup_duration_seconds(blue_powerup_duration_seconds);
+	set_yellow_powerup_duration_seconds(yellow_powerup_duration_seconds);
 }
 
 bool c_game_engine_map_override_options::get_grenades_on_map_enabled() const

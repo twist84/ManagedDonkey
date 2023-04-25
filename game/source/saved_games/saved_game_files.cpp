@@ -50,10 +50,14 @@ void s_content_item_metadata::encode_to_mcc(c_bitstream* packet) const
 
 void s_content_item_metadata::decode_from_mcc(c_bitstream* packet)
 {
+	long const k_name_size = NUMBEROF(name);
+	long const k_description_size = NUMBEROF(description);
+	long const k_author_size = NUMBEROF(author);
+
 	unique_id = packet->read_qword("unique-id", 64);
-	packet->read_string_wchar("name", name, NUMBEROF(name));
-	packet->read_string_utf8("description", description, NUMBEROF(description));
-	packet->read_string("author", author, NUMBEROF(author));
+	packet->read_string_wchar("name", name, k_name_size);
+	packet->read_string_utf8("description", description, k_description_size);
+	packet->read_string("author", author, k_author_size);
 	file_type = static_cast<e_saved_game_file_type>(packet->read_integer("file-type", 5) - 1);
 	author_is_xuid_online = packet->read_bool("author-is-xuid-online");
 	author_id = packet->read_qword("author-xuid", 64);
@@ -64,8 +68,7 @@ void s_content_item_metadata::decode_from_mcc(c_bitstream* packet)
 	map_id = packet->read_integer("map-id", 32);
 	game_engine_type = packet->read_integer("game-engine-type", 4);
 	campaign_difficulty = packet->read_integer("campaign-difficulty" + 1, 3);
-	packet->read_integer("hopper-id", 16);
+	word hopper_id = packet->read_integer("hopper-id", 16);
 	game_id = packet->read_qword("game-id", 64);
 }
-
 
