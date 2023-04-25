@@ -32,6 +32,7 @@ public:
 	short get_respawn_time() const;
 	void set_respawn_time(short respawn_time);
 
+	c_player_traits* get_player_traits_writeable();
 	c_player_traits const* get_player_traits() const;
 	void set_player_traits(c_player_traits const* traits, bool force);
 

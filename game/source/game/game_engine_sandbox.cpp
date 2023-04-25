@@ -33,12 +33,30 @@ void c_game_engine_sandbox_variant::encode_to_mcc(c_bitstream* packet) const
 {
 	c_game_engine_base_variant::encode_to_mcc(packet);
 
+	bool open_channel_voice = get_open_channel_voice();
+	e_sandbox_edit_mode_settings edit_mode = get_edit_mode();
+	short respawn_time = get_respawn_time();
+
+	packet->write_bool("sandbox-open-channel-voice", open_channel_voice);
+	packet->write_integer("sandbox-edit-mode", edit_mode, 2);
+	packet->write_integer("sandbox-respawn-time", respawn_time, 6);
+	get_player_traits()->encode_to_mcc(packet);
 }
 
 void c_game_engine_sandbox_variant::decode_from_mcc(c_bitstream* packet)
 {
+	get_miscellaneous_options_writeable()->set_round_limit(1);
+	get_miscellaneous_options_writeable()->set_round_time_limit_minutes(0);
+
 	c_game_engine_base_variant::decode_from_mcc(packet);
 
+	bool open_channel_voice = packet->read_bool("sandbox-open-channel-voice");
+	e_sandbox_edit_mode_settings edit_mode = packet->read_enum<e_sandbox_edit_mode_settings, 2>("sandbox-edit-mode");
+	short respawn_time = static_cast<short>(packet->read_integer("sandbox-respawn-time", 6));
+	get_player_traits_writeable()->decode_from_mcc(packet);
+
+	set_edit_mode(edit_mode);
+	set_respawn_time(respawn_time);
 }
 
 bool c_game_engine_sandbox_variant::get_open_channel_voice() const
@@ -87,6 +105,11 @@ void c_game_engine_sandbox_variant::set_respawn_time(short respawn_time)
 	{
 		m_respawn_time = respawn_time;
 	}
+}
+
+c_player_traits* c_game_engine_sandbox_variant::get_player_traits_writeable()
+{
+	return &m_player_traits;
 }
 
 c_player_traits const* c_game_engine_sandbox_variant::get_player_traits() const
