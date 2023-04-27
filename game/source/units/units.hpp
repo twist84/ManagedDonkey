@@ -36,10 +36,16 @@ struct unit_control_data
 };
 static_assert(sizeof(unit_control_data) == 0x80);
 
+struct unit_datum;
+
 extern void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index);
 extern bool __cdecl unit_add_grenade_to_inventory(long unit_index, long object_index);
 extern short __cdecl unit_add_grenade_type_to_inventory(long unit_index, short grenade_type, short grenade_count);
 extern void __cdecl unit_add_starting_profile_equipment(long unit_index, short profile_index, bool clear_player, bool create_new);
 extern bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, long weapon_addition_method);
 extern bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index);
+
+extern bool __cdecl units_debug_can_select_unit(long unit_index);
+extern long __cdecl units_debug_get_next_unit(long unit_index);
+extern void __cdecl debug_rotate_all_units();
 

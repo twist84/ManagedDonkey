@@ -266,6 +266,11 @@ void __cdecl main_loop_body_end()
 			event_manager_button_pressed(_controller_index0, _gamepad_button_right_bumper);
 	}
 
+	if (input_key_frames_down(_key_code_right_parenthesis, _input_type_game) == 1)
+	{
+		debug_rotate_all_units();
+	}
+
 	// home cluster keys
 	if (input_key_frames_down(_key_code_insert, _input_type_ui) == 1)
 	{

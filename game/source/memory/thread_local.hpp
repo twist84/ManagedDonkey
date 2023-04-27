@@ -1592,8 +1592,7 @@ struct s_thread_local_storage
 	//  name: "object"
 	// count: 2048
 	//  size: 0x18
-	//c_smart_data_array<Blam::Objects::ObjectHeader>* object_header_data;
-	void* object_header_data;
+	c_smart_data_array<object_header_datum>* object_header_data;
 
 	// name: "object globals"
 	// size: 0x6608

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "memory/data.hpp"
 #include "objects/multiplayer_game_objects.hpp"
 #include "scenario/scenario_object_definitions.hpp"
 
@@ -37,6 +38,23 @@ enum e_object_source
 	k_object_source_count
 };
 
+struct object_datum : s_datum_header
+{
+	byte __data[0x176];
+};
+static_assert(sizeof(object_datum) == 0x178);
+
+struct object_header_datum : s_datum_header
+{
+	byte_flags flags;
+	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
+	short __unknown2;
+	short data_size;
+	long __unknown8;
+	object_datum* datum;
+};
+static_assert(sizeof(object_header_datum) == 0x10);
+
 struct c_object_identifier
 {
 	long unique_id; // 'obj#'
@@ -48,6 +66,46 @@ struct c_object_identifier
 	c_enum<e_object_source, char, _object_source_structure, k_object_source_count> m_source;
 };
 static_assert(sizeof(c_object_identifier) == 0x8);
+
+struct c_object_iterator_base
+{
+public:
+	long __cdecl get_index();
+
+protected:
+	void __cdecl object_iterator_begin_internal(dword_flags type_flags, dword header_mask, dword match_flags, long object_index);
+	bool __cdecl object_iterator_next_internal();
+	bool __cdecl object_iterator_next_with_match_flags_internal();
+	object_datum* __cdecl get_datum_internal();
+
+private:
+	object_datum* m_datum;
+	c_flags<e_object_type, dword_flags, k_object_type_count> m_type_flags;
+	dword m_header_mask;
+	dword m_match_flags;
+	long m_object_index;
+	long m_index;
+	dword m_signature; // 0x86868686 is initialized
+};
+
+template<typename t_object_type>
+struct c_object_iterator : c_object_iterator_base
+{
+	void __cdecl begin(dword type_flags, byte match_flags)
+	{
+		object_iterator_begin_internal(type_flags, match_flags, 0, NONE);
+	}
+
+	bool __cdecl next()
+	{
+		return object_iterator_next_internal();
+	}
+
+	t_object_type* __cdecl get_datum()
+	{
+		return static_cast<t_object_type*>(get_datum_internal());
+	}
+};
 
 struct object_placement_data
 {
