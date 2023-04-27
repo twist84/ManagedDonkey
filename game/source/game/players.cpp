@@ -9,14 +9,19 @@
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 
-long __cdecl players_first_active_user()
+void __cdecl player_set_unit_index(long player_index, long unit_index)
 {
-	return INVOKE(0x00589A30, players_first_active_user);
+	INVOKE(0x0053CA80, player_set_unit_index, player_index, unit_index);
 }
 
 bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position)
 {
 	return INVOKE(0x0053F550, player_teleport, player_index, object_index, position);
+}
+
+long __cdecl players_first_active_user()
+{
+	return INVOKE(0x00589A30, players_first_active_user);
 }
 
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)

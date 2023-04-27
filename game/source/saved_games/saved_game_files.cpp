@@ -68,7 +68,7 @@ void s_content_item_metadata::decode_from_mcc(c_bitstream* packet)
 	map_id = packet->read_integer("map-id", 32);
 	game_engine_type = packet->read_integer("game-engine-type", 4);
 	campaign_difficulty = packet->read_integer("campaign-difficulty" + 1, 3);
-	word hopper_id = packet->read_integer("hopper-id", 16);
+	word hopper_id = static_cast<word>(packet->read_integer("hopper-id", 16));
 	game_id = packet->read_qword("game-id", 64);
 }
 
