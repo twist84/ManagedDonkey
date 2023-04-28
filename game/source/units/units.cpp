@@ -38,19 +38,18 @@ bool units_debug_can_select_unit(long unit_index)
 {
 	// #TODO implement
 	return true;
-	dword_flags object_type_flags = FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant);
 
 	TLS_REFERENCE(object_header_data);
 	object_header_datum* header = (object_header_datum*)datum_try_and_get(object_header_data, unit_index);
 	void* object = nullptr;
-	if (header && TEST_BIT(object_type_flags, header->object_type.get()))
+	if (header && TEST_BIT(UNIT_DATUM_MASK, header->object_type.get()))
 		object = header->datum;
 
 	if (!object)
 		return false;
 
-	//void* object = object_get_and_verify_type(unit_index, FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant));
-	//void* object = object_try_and_get_and_verify_type(unit_index, FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant));
+	//void* object = object_get_and_verify_type(unit_index, UNIT_DATUM_MASK);
+	//void* object = object_try_and_get_and_verify_type(unit_index, UNIT_DATUM_MASK);
 
 	//unit_datum* unit = static_cast<unit_datum*>(object);
 	byte* unit = static_cast<byte*>(object);
