@@ -38,12 +38,105 @@ bool units_debug_can_select_unit(long unit_index)
 {
 	// #TODO implement
 	return true;
+	dword_flags object_type_flags = FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant);
+
+	TLS_REFERENCE(object_header_data);
+	object_header_datum* header = (object_header_datum*)datum_try_and_get(object_header_data, unit_index);
+	void* object = nullptr;
+	if (header && TEST_BIT(object_type_flags, header->object_type.get()))
+		object = header->datum;
+
+	if (!object)
+		return false;
+
+	//void* object = object_get_and_verify_type(unit_index, FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant));
+	//void* object = object_try_and_get_and_verify_type(unit_index, FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant));
+
+	//unit_datum* unit = static_cast<unit_datum*>(object);
+	byte* unit = static_cast<byte*>(object);
+
+	REFERENCE_DECLARE(unit + 0x198, long, some_index);
+	REFERENCE_DECLARE(unit + 0x120, word_flags, damage_flags);
+	REFERENCE_DECLARE(unit + 0x4, dword_flags, data_flags);
+
+	if (some_index != NONE || TEST_BIT(damage_flags, 2) || TEST_BIT(data_flags, 26))
+		return false;
+
+	return true;
+}
+
+// #TODO: find a home
+vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, vector3d* out_vector)
+{
+	out_vector->n[0] = b->n[0] - a->n[0];
+	out_vector->n[1] = b->n[1] - a->n[1];
+	out_vector->n[2] = b->n[2] - a->n[2];
+
+	return out_vector;
+}
+
+// #TODO: find a home
+real magnitude_squared3d(vector3d const* vector)
+{
+	return real(vector->n[0] * vector->n[0]) + real(vector->n[1] * vector->n[1]) + real(vector->n[2] * vector->n[2]);
+}
+
+// #TODO: find a home
+real distance_squared3d(real_point3d const* a, real_point3d const* b)
+{
+	vector3d temp{};
+	return magnitude_squared3d(vector_from_points3d(a, b, &temp));
+}
+
+// #TODO: find a home
+real square_root(real value)
+{
+	return sqrtf(value); // sqrt
+}
+
+// #TODO: find a home
+real distance3d(real_point3d const* a, real_point3d const* b)
+{
+	return square_root(distance_squared3d(a, b));
+}
+
+long __cdecl units_debug_get_closest_unit(long unit_index)
+{
+	long closest_unit_index = NONE;
+	real closest_distance = 3.4028235e38f;
+
+	c_object_iterator<unit_datum> unit_iterator;
+	unit_iterator.begin(UNIT_DATUM_MASK, 0);
+	while (unit_iterator.next())
+	{
+		if (unit_iterator.get_index() != unit_index)
+		{
+			if (units_debug_can_select_unit(unit_iterator.get_index()))
+			{
+				real distance = 0.0f;
+				if (unit_index != NONE)
+				{
+					real_point3d unit_origin{};
+					object_get_origin(unit_index, &unit_origin);
+					real_point3d closest_unit_origin{};
+					object_get_origin(unit_iterator.get_index(), &closest_unit_origin);
+					distance = distance3d(&unit_origin, &closest_unit_origin);
+				}
+
+				if (distance < closest_distance)
+				{
+					closest_unit_index = unit_iterator.get_index();
+					closest_distance = distance;
+				}
+			}
+		}
+	}
+
+	return closest_unit_index;
 }
 
 long units_debug_get_next_unit(long unit_index)
 {
-	dword_flags object_type_flags = FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant);
-
 	long next_unit_index = NONE;
 
 	if (unit_index != NONE)
@@ -53,7 +146,7 @@ long units_debug_get_next_unit(long unit_index)
 		if (fui)
 		{
 			fui = false;
-			unit_iterator.begin(object_type_flags, 0);
+			unit_iterator.begin(UNIT_DATUM_MASK, 0);
 		}
 		do
 		{
@@ -75,7 +168,7 @@ long units_debug_get_next_unit(long unit_index)
 	if (next_unit_index == NONE)
 	{
 		c_object_iterator<unit_datum> unit_iterator{};
-		unit_iterator.begin(object_type_flags, 0);
+		unit_iterator.begin(UNIT_DATUM_MASK, 0);
 
 		while (unit_iterator.next())
 		{
@@ -90,24 +183,52 @@ long units_debug_get_next_unit(long unit_index)
 	return next_unit_index;
 }
 
-void __cdecl debug_rotate_all_units()
+void __cdecl debug_rotate_units_callback(bool enable)
 {
-	if (game_in_progress() && !game_is_ui_shell())
-	{
-		TLS_REFERENCE(player_data);
+	if (!enable)
+		return;
 
-		long active_user = players_first_active_user();
-		if (active_user != NONE)
+	if (!game_in_progress() || game_is_ui_shell())
+		return;
+
+	TLS_REFERENCE(player_data);
+
+	long active_user = players_first_active_user();
+	if (active_user != NONE)
+	{
+		long player_index = player_index_from_user_index(active_user);
+		player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
+		long unit_index = player->unit_index;
+		if (unit_index != NONE)
 		{
-			long player_index = player_index_from_user_index(active_user);
-			player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
-			long unit_index = player->unit_index;
-			if (unit_index != NONE)
-			{
-				long next_unit = units_debug_get_next_unit(unit_index);
-				if (next_unit != NONE)
-					player_set_unit_index(player_index, next_unit);
-			}
+			long next_unit = units_debug_get_closest_unit(unit_index);
+			if (next_unit != NONE)
+				player_set_unit_index(player_index, next_unit);
+		}
+	}
+}
+
+void __cdecl debug_rotate_all_units_callback(bool enable)
+{
+	if (!enable)
+		return;
+
+	if (!game_in_progress() || game_is_ui_shell())
+		return;
+
+	TLS_REFERENCE(player_data);
+
+	long active_user = players_first_active_user();
+	if (active_user != NONE)
+	{
+		long player_index = player_index_from_user_index(active_user);
+		player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
+		long unit_index = player->unit_index;
+		if (unit_index != NONE)
+		{
+			long next_unit = units_debug_get_next_unit(unit_index);
+			if (next_unit != NONE)
+				player_set_unit_index(player_index, next_unit);
 		}
 	}
 }

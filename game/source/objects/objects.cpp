@@ -4,6 +4,21 @@
 #include "memory/thread_local.hpp"
 #include "physics/havok.hpp"
 
+void __cdecl object_delete(long object_index)
+{
+	INVOKE(0x00B2CD10, object_delete, object_index);
+}
+
+real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin)
+{
+	return INVOKE(0x00B2E5A0, object_get_origin, object_index, origin);
+}
+
+long __cdecl object_get_ultimate_parent(long object_index)
+{
+	return INVOKE(0x00B2EAB0, object_get_ultimate_parent, object_index);
+}
+
 long c_object_iterator_base::get_index()
 {
 	return m_index;
@@ -27,16 +42,6 @@ bool __cdecl c_object_iterator_base::object_iterator_next_with_match_flags_inter
 object_datum* __cdecl c_object_iterator_base::get_datum_internal()
 {
 	return m_datum;
-}
-
-void __cdecl object_delete(long object_index)
-{
-	INVOKE(0x00B2CD10, object_delete, object_index);
-}
-
-long __cdecl object_get_ultimate_parent(long object_index)
-{
-	return INVOKE(0x00B2EAB0, object_get_ultimate_parent, object_index);
 }
 
 long __cdecl object_new(object_placement_data* placement_data)

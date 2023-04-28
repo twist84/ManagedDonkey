@@ -26,6 +26,8 @@ enum e_object_type
 	k_object_type_count
 };
 
+#define UNIT_DATUM_MASK FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant)
+
 enum e_object_source
 {
 	_object_source_structure = 0,
@@ -141,6 +143,7 @@ struct object_placement_data
 static_assert(sizeof(object_placement_data) == 0x18C);
 
 extern void __cdecl object_delete(long object_index);
+extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
 extern long __cdecl object_get_ultimate_parent(long object_index);
 extern long __cdecl object_new(object_placement_data* placement_data);
 extern void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, struct s_damage_owner const* damage_owner);

@@ -690,6 +690,9 @@
     <ClCompile Include="source\physics\havok_utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\main\debug_keys.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1794,6 +1797,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\havok_mopp_code_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\main\debug_keys.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

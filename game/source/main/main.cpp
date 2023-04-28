@@ -23,6 +23,7 @@
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_text.hpp"
+#include "main/debug_keys.hpp"
 #include "main/global_preferences.hpp"
 #include "main/loading.hpp"
 #include "main/main_game_launch.hpp"
@@ -256,6 +257,8 @@ void __cdecl main_loop_body_begin()
 
 void __cdecl main_loop_body_end()
 {
+	debug_keys_update();
+
 	// change teams buttons
 	if (game_is_ui_shell())
 	{
@@ -264,11 +267,6 @@ void __cdecl main_loop_body_end()
 
 		if (input_key_frames_down(_key_code_left_parenthesis, _input_type_ui) == 1)
 			event_manager_button_pressed(_controller_index0, _gamepad_button_right_bumper);
-	}
-
-	if (input_key_frames_down(_key_code_right_parenthesis, _input_type_game) == 1)
-	{
-		debug_rotate_all_units();
 	}
 
 	// home cluster keys

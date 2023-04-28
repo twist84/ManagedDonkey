@@ -46,6 +46,8 @@ extern bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_in
 extern bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index);
 
 extern bool __cdecl units_debug_can_select_unit(long unit_index);
+extern long __cdecl units_debug_get_closest_unit(long unit_index);
 extern long __cdecl units_debug_get_next_unit(long unit_index);
-extern void __cdecl debug_rotate_all_units();
+extern void __cdecl debug_rotate_units_callback(bool enable);
+extern void __cdecl debug_rotate_all_units_callback(bool enable);
 
