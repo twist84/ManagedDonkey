@@ -243,6 +243,16 @@ struct c_static_array
 	{
 		csmemset(m_storage, 0, sizeof(m_storage));
 	}
+
+	t_type* begin()
+	{
+		return m_storage;
+	}
+
+	t_type* end()
+	{
+		return &m_storage[k_count];
+	}
 };
 
 template<typename t_type, typename t_storage_type, size_t k_count>

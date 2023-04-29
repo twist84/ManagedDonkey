@@ -8,12 +8,12 @@ struct debug_key
 	const char* name;
 	//c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
 	short key_code;
-	short modifier; // NUMBEROF(modifier_down) == 6
+	short modifier;
 	void(__cdecl* callback)(bool);
 	bool allow_out_of_game;
 	bool allow_in_editor;
 	bool toggle_variable;
-	bool* key_down;
+	bool* variable;
 };
 static_assert(sizeof(debug_key) == 0x14);
 
@@ -26,7 +26,7 @@ struct s_debug_button
 	bool allow_out_of_game;
 	bool allow_in_editor;
 	bool toggle_variable;
-	bool* button_down;
+	bool* variable;
 };
 static_assert(sizeof(s_debug_button) == 0x14);
 
@@ -38,4 +38,7 @@ extern s_debug_button g_debug_button_list[];
 extern void __cdecl debug_keys_initialize();
 extern void __cdecl debug_keys_dispose();
 extern void __cdecl debug_keys_update();
+
+extern void __cdecl debug_key_rotate_units(bool enable);
+extern void __cdecl debug_key_rotate_all_units(bool enable);
 

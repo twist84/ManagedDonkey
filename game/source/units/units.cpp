@@ -1,6 +1,5 @@
 #include "units/units.hpp"
 
-#include "game/game.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
 
@@ -180,55 +179,5 @@ long units_debug_get_next_unit(long unit_index)
 	}
 
 	return next_unit_index;
-}
-
-void __cdecl debug_rotate_units_callback(bool enable)
-{
-	if (!enable)
-		return;
-
-	if (!game_in_progress() || game_is_ui_shell())
-		return;
-
-	TLS_REFERENCE(player_data);
-
-	long active_user = players_first_active_user();
-	if (active_user != NONE)
-	{
-		long player_index = player_index_from_user_index(active_user);
-		player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
-		long unit_index = player->unit_index;
-		if (unit_index != NONE)
-		{
-			long next_unit = units_debug_get_closest_unit(unit_index);
-			if (next_unit != NONE)
-				player_set_unit_index(player_index, next_unit);
-		}
-	}
-}
-
-void __cdecl debug_rotate_all_units_callback(bool enable)
-{
-	if (!enable)
-		return;
-
-	if (!game_in_progress() || game_is_ui_shell())
-		return;
-
-	TLS_REFERENCE(player_data);
-
-	long active_user = players_first_active_user();
-	if (active_user != NONE)
-	{
-		long player_index = player_index_from_user_index(active_user);
-		player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
-		long unit_index = player->unit_index;
-		if (unit_index != NONE)
-		{
-			long next_unit = units_debug_get_next_unit(unit_index);
-			if (next_unit != NONE)
-				player_set_unit_index(player_index, next_unit);
-		}
-	}
 }
 
