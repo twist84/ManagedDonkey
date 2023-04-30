@@ -5,7 +5,7 @@
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "dialogs/show_direct_connect.hpp"
 #include "game/game.hpp"

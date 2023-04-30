@@ -1,7 +1,7 @@
 #include "interface/first_person_weapons.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 
 void __cdecl first_person_weapon_perspective_changed(long user_index)
 {

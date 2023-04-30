@@ -1,8 +1,8 @@
 #include "scenario/scenario.hpp"
 
 #include "cache/cache_files.hpp"
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "hf2p/hf2p.hpp"

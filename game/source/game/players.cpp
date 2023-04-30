@@ -1,6 +1,6 @@
 #include "players.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "memory/module.hpp"

@@ -1,6 +1,6 @@
 #include "objects/objects.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/thread_local.hpp"
 #include "physics/havok.hpp"
 

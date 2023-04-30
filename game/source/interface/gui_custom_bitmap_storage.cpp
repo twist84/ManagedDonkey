@@ -1,7 +1,7 @@
 #include "interface/gui_custom_bitmap_storage.hpp"
 
 #include "bitmaps/bitmaps.hpp"
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
 #include "networking/online/online_error.hpp"

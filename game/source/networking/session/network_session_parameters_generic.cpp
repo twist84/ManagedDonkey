@@ -1,6 +1,6 @@
 #include "networking/session/network_session_parameters_generic.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 
 template<typename t_type>
 inline t_type* c_generic_network_session_parameter<t_type>::get() const

@@ -1,6 +1,6 @@
 #include "game/game_engine_infection.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D9F84, c_game_engine_infection_variant*, infection_variant);

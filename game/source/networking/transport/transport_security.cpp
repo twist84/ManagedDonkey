@@ -1,6 +1,6 @@
 #include "networking/transport/transport_security.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
 #include "networking/transport/transport.hpp"

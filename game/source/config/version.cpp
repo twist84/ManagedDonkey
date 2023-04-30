@@ -1,7 +1,7 @@
 #include "config/version.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE(0x0042E480, version_get_target_variant);

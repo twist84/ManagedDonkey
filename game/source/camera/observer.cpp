@@ -1,8 +1,7 @@
 #include "camera/observer.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/thread_local.hpp"
-
 
 s_observer* observer_get(long user_index)
 {

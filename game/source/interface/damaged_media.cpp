@@ -1,7 +1,7 @@
 #include "interface/damaged_media.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 #include <windows.h>

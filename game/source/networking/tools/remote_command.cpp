@@ -1,8 +1,8 @@
 #include "networking/tools/remote_command.hpp"
 
 #include "camera/observer.hpp"
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
 #include "game/game_engine.hpp"

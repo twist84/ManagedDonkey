@@ -1,6 +1,6 @@
 #include "networking/network_utilities.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"

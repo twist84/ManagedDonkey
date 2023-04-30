@@ -1,6 +1,6 @@
 #include "cache/cache_file_tag_resource_runtime.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);

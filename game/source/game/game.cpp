@@ -1,8 +1,8 @@
 #include "game/game.hpp"
 
 #include "config/version.hpp"
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "game/game_engine_variant.hpp"
 #include "game/game_globals.hpp"
 #include "game/game_options.hpp"

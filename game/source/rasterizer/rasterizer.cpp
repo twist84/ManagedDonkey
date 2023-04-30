@@ -1,7 +1,7 @@
 #include "rasterizer/rasterizer.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 void(__cdecl* rasterizer_get_display_pixel_bounds)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;

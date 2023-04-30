@@ -1,8 +1,8 @@
 #include "game/cheats.hpp"
 
 #include "camera/observer.hpp"
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "game/game.hpp"
 #include "game/player_mapping.hpp"
 #include "input/input_abstraction.hpp"

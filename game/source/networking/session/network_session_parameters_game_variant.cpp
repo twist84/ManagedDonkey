@@ -1,6 +1,6 @@
 #include "network_session_parameters_game_variant.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 
 c_game_variant const* c_network_session_parameter_game_variant::get() const
 {

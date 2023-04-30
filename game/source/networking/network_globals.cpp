@@ -1,7 +1,7 @@
 #include "networking/network_globals.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "game/game_options.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_networking.hpp"

@@ -1,7 +1,7 @@
 #include "networking/tools/network_blf.hpp"
 
 #include "config/version.hpp"
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "game/game_globals.hpp"
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"

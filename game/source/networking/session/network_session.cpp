@@ -1,7 +1,6 @@
 #include "networking/session/network_session.hpp"
 
-#include "cseries/console.hpp"
-
+#include "cseries/cseries_console.hpp"
 
 c_network_session_membership const* c_network_session::get_session_membership() const
 {

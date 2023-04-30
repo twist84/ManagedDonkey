@@ -1,7 +1,7 @@
 #include "effects/contrails.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE_CLASS(0x00757370, c_contrail, render_callback);

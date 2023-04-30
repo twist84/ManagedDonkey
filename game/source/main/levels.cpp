@@ -1,8 +1,8 @@
 #include "main/levels.hpp"
 
 #include "cache/cache_files.hpp"
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "tag_files/files_windows.hpp"

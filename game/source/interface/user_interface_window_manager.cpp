@@ -1,7 +1,7 @@
 #include "interface/user_interface_window_manager.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x05260F34, c_window_manager, g_window_manager);

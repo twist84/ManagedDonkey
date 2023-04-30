@@ -1,7 +1,7 @@
 #include "main/main_game.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "game/game.hpp"
 #include "networking/logic/network_life_cycle.hpp"

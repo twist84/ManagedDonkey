@@ -1,6 +1,6 @@
 #include "game/player_mapping.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/thread_local.hpp"
 
 

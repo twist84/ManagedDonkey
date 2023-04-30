@@ -1,9 +1,8 @@
 #include "networking/session/network_session_parameter_type_collection.hpp"
 #include "networking/session/network_session_parameters_base.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
-
+#include "cseries/cseries_console.hpp"
 
 void c_network_session_parameter_type_collection::register_session_parameter_type(
 	e_network_session_parameter_type session_parameter_type,

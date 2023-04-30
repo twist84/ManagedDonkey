@@ -1,6 +1,6 @@
 #include "networking/delivery/network_link.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/transport/transport.hpp"

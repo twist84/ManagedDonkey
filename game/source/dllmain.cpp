@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 #include "cache/cache_file_tag_resource_runtime.hpp"

@@ -1,7 +1,7 @@
 #include "networking/online/online_guide_pc.hpp"
 
 #include "cseries/async_xoverlapped_memory.hpp"
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/user_interface_text.hpp"
 #include "memory/module.hpp"

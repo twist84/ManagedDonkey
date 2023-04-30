@@ -1,6 +1,6 @@
 #include "game/game_options.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 
 #include <string.h>
 

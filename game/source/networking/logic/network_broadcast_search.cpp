@@ -1,6 +1,6 @@
 #include "networking/logic/network_broadcast_search.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "networking/delivery/network_link.hpp"
 #include "networking/messages/network_messages_session_protocol.hpp"

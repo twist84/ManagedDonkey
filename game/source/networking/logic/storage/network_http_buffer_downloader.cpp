@@ -1,6 +1,6 @@
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE_CLASS(0x00463A90, c_http_buffer_downloader, get_data);

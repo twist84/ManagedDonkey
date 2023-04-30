@@ -1,6 +1,6 @@
 #include "networking/logic/network_session_interface.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"

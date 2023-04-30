@@ -1,7 +1,7 @@
 #include "shell/shell.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 #include "main/main_time.hpp"
 
 char const* k_network_session_mode_names[k_network_session_mode_count]

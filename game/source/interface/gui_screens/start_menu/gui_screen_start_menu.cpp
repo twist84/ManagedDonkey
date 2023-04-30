@@ -1,6 +1,6 @@
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "cutscene/cinematics.hpp"
 #include "game/players.hpp"
 #include "interface/c_controller.hpp"

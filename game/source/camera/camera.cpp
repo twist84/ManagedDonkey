@@ -1,6 +1,6 @@
 #include "camera/camera.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 
 char const* k_camera_mode_names[k_number_of_camera_modes]
 {

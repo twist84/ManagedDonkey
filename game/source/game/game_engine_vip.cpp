@@ -1,6 +1,6 @@
 #include "game/game_engine_vip.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D9F88, c_game_engine_vip_variant*, vip_variant);

@@ -1,7 +1,7 @@
 #include "networking/logic/network_life_cycle.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 
 REFERENCE_DECLARE(0x019AB7F0, s_network_life_cycle_globals, life_cycle_globals);
 

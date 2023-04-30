@@ -210,7 +210,7 @@
     <ClCompile Include="source\effects\contrails.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\cseries\console.cpp">
+    <ClCompile Include="source\cseries\cseries_console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\saved_games\content_catalogue.cpp">
@@ -1154,7 +1154,7 @@
     <ClInclude Include="source\effects\contrails.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\cseries\console.hpp">
+    <ClInclude Include="source\cseries\cseries_console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\saved_games\content_catalogue.hpp">

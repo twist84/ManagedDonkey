@@ -1,6 +1,6 @@
 #include "networking/session/network_session_parameters_base.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 
 #include <string>
 

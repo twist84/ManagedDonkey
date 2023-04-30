@@ -2,7 +2,7 @@
 
 #include "cache/cache_file_builder_security.hpp"
 #include "cache/security_functions.hpp"
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "memory/crc.hpp"

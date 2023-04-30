@@ -1,7 +1,7 @@
 #include "memory/crc.hpp"
 
 #include "cache/cache_files.hpp"
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "memory/module.hpp"
 

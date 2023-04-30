@@ -1,7 +1,7 @@
 #include "game/game_globals.hpp"
 
 #include "cache/cache_files.hpp"
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
 

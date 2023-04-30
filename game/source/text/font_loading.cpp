@@ -1,6 +1,6 @@
 #include "text/font_loading.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "main/global_preferences.hpp"
 
 #include <string.h>

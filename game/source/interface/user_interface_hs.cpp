@@ -1,6 +1,6 @@
 #include "interface/user_interface_hs.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "hs/hs_runtime.hpp"
 #include "scenario/scenario.hpp"
 

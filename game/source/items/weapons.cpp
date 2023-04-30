@@ -1,6 +1,6 @@
 #include "items/weapons.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "game/cheats.hpp"
 #include "memory/module.hpp"
 

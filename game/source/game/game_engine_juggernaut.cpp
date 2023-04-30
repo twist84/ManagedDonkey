@@ -1,6 +1,6 @@
 #include "game/game_engine_juggernaut.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D9F7C, c_game_engine_juggernaut_variant*, juggernaut_variant);

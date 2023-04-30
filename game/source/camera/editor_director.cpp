@@ -1,6 +1,6 @@
 #include "camera/editor_director.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 
 void __cdecl c_editor_director::bump_speed()
 {

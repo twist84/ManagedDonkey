@@ -1,4 +1,4 @@
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 
 #include "cseries/cseries.hpp"
 #include "interface/terminal.hpp"

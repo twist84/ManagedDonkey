@@ -1,7 +1,7 @@
 #include "physics/havok.hpp"
 
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 
 void __cdecl havok_can_modify_state_allow()
 {

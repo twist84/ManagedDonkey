@@ -1,6 +1,6 @@
 #include "cache/security_functions.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE(0x00508F80, security_rsa_compute_and_verify_signature);

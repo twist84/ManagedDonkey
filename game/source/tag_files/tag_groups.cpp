@@ -1,8 +1,8 @@
 #include "tag_files/tag_groups.hpp"
 
 #include "cache/cache_files.hpp"
-#include "cseries/console.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_console.hpp"
 
 #include <string.h>
 

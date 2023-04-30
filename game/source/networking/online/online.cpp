@@ -1,6 +1,6 @@
 #include "networking/online/online.hpp"
 
-#include "cseries/console.hpp"
+#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "text/unicode.hpp"
 
