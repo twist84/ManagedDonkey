@@ -693,6 +693,9 @@
     <ClCompile Include="source\main\debug_keys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\main\console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1800,6 +1803,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\main\debug_keys.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\main\console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

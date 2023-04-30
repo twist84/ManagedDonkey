@@ -38,6 +38,11 @@ bool __cdecl game_in_startup_phase()
 	return false;
 }
 
+void __cdecl game_initialize()
+{
+	INVOKE(0x00531530, game_initialize);
+}
+
 bool __cdecl game_in_progress()
 {
 	game_globals_storage* game_globals = game_globals_get();
@@ -109,6 +114,11 @@ e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy()
 		return _campaign_difficulty_level_normal;
 
 	return game_difficulty_level_get();
+}
+
+void __cdecl game_dispose()
+{
+	INVOKE(0x00530CD0, game_dispose);
 }
 
 e_game_mode __cdecl game_mode_get()

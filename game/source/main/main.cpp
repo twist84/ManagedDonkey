@@ -23,6 +23,7 @@
 #include "interface/user_interface_controller.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_text.hpp"
+#include "main/console.hpp"
 #include "main/debug_keys.hpp"
 #include "main/global_preferences.hpp"
 #include "main/loading.hpp"
@@ -47,7 +48,6 @@
 #include "visibility/visibility_collection.hpp"
 #include "xbox/xbox.hpp"
 #include "xbox/xnet.hpp"
-
 
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
@@ -106,6 +106,13 @@ bool __cdecl main_events_pending()
 {
 	return INVOKE(0x00505530, main_events_pending);
 }
+
+void __cdecl game_dispose_hook_for_console_dispose()
+{
+	game_dispose();
+	console_dispose();
+}
+HOOK_DECLARE_CALL(0x00505BF5, game_dispose_hook_for_console_dispose);
 
 void __cdecl main_loop_body_begin()
 {
@@ -371,8 +378,37 @@ void __cdecl unlock_resources_and_resume_render_thread(dword flags)
 	//}
 }
 
+void __cdecl main_loop_enter()
+{
+	INVOKE(0x00506200, main_loop_enter);
+}
+
+void __cdecl game_initialize_hook_for_console_initialize()
+{
+	console_initialize();
+	game_initialize();
+}
+HOOK_DECLARE_CALL(0x00506219, game_initialize_hook_for_console_initialize);
+
+void __cdecl main_loop_exit()
+{
+	INVOKE(0x00506360, main_loop_exit);
+}
+
+void __cdecl main_loop_pregame()
+{
+	INVOKE(0x005063A0, main_loop_pregame);
+}
+
+void __cdecl main_loop_pregame_disable(bool disable)
+{
+	INVOKE(0x00506430, main_loop_pregame_disable, disable);
+}
+
 void __cdecl main_loop_pregame_show_progress_screen()
 {
+	//INVOKE(0x00506460, main_loop_pregame_show_progress_screen);
+
 	static c_static_wchar_string<12288> status_message;
 	long main_pregame_frame = main_loading_get_loading_status(&status_message);
 	if (!main_pregame_frame)

@@ -1,5 +1,7 @@
 #include "main/main_time.hpp"
 
+REFERENCE_DECLARE(0x022B47FC, bool, display_framerate);
+
 void __cdecl main_time_reset()
 {
 	INVOKE(0x00508110, main_time_reset);
