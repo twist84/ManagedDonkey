@@ -722,7 +722,7 @@ bool __cdecl debug_key_update(long key_index, debug_key* key, bool* modifier_dow
 }
 
 // name assumption
-bool __cdecl debug_key_exexute(char const* name, bool key_down)
+bool __cdecl debug_key_execute(char const* name, bool key_down)
 {
 	long v4 = 2; // debug_key not found
 
