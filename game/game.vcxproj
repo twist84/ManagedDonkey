@@ -217,7 +217,6 @@ POPD
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\cseries_windows_debug_pc.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
-    <ClCompile Include="source\cseries\real_math.cpp" />
     <ClCompile Include="source\cseries\symbols_reader.cpp" />
     <ClCompile Include="source\cutscene\cinematics.cpp" />
     <ClCompile Include="source\dialogs\show_direct_connect.cpp" />
@@ -328,6 +327,7 @@ POPD
     <ClCompile Include="source\main\main_render.cpp" />
     <ClCompile Include="source\main\main_time.cpp" />
     <ClCompile Include="source\math\color_math.cpp" />
+    <ClCompile Include="source\math\real_math.cpp" />
     <ClCompile Include="source\memory\bitstream.cpp" />
     <ClCompile Include="source\memory\crc.cpp" />
     <ClCompile Include="source\memory\data.cpp" />
@@ -441,6 +441,7 @@ POPD
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />
     <ClInclude Include="source\main\console.hpp" />
     <ClInclude Include="source\main\debug_keys.hpp" />
+    <ClInclude Include="source\math\real_math.hpp" />
     <ClInclude Include="source\memory\data_encoding.hpp" />
     <ClInclude Include="source\memory\data_packets.hpp" />
     <ClInclude Include="source\memory\data_packet_groups.hpp" />
@@ -589,8 +590,7 @@ POPD
     <ClInclude Include="source\camera\saved_film_director.hpp" />
     <ClInclude Include="source\camera\static_camera.hpp" />
     <ClInclude Include="source\cseries\cseries.hpp" />
-    <ClInclude Include="source\cseries\integer_math.hpp" />
-    <ClInclude Include="source\cseries\real_math.hpp" />
+    <ClInclude Include="source\math\integer_math.hpp" />
     <ClInclude Include="source\game\game.hpp" />
     <ClInclude Include="source\game\game_engine_assault.hpp" />
     <ClInclude Include="source\game\game_engine_assault_traits.hpp" />

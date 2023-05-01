@@ -492,9 +492,6 @@
     <ClCompile Include="source\interface\closed_caption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\cseries\real_math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\camera\camera_globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -696,6 +693,9 @@
     <ClCompile Include="source\main\console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\math\real_math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -743,10 +743,7 @@
     <ClInclude Include="source\cseries\cseries.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\cseries\integer_math.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\cseries\real_math.hpp">
+    <ClInclude Include="source\math\integer_math.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\game_engine_assault.hpp">
@@ -1806,6 +1803,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\main\console.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\real_math.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

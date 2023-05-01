@@ -2,8 +2,8 @@
 
 #include "cseries/cseries_windows.hpp"
 #include "cseries/cseries_windows_debug_pc.hpp"
-#include "cseries/integer_math.hpp"
-#include "cseries/real_math.hpp"
+#include "math/integer_math.hpp"
+#include "math/real_math.hpp"
 
 #include <stdarg.h>
 #include <type_traits>

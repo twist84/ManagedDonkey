@@ -221,5 +221,9 @@ union real_rectangle3d
 };
 static_assert(sizeof(real_rectangle3d) == 0x18);
 
-extern euler_angles2d* euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward);
+extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);
+extern vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d* up);
+extern euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward);
+extern vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d* out);
+extern real __cdecl dot_product3d(vector3d const* a, vector3d const* b);
 
