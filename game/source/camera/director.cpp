@@ -13,6 +13,7 @@
 #include "game/players.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 
 #include <string.h>
@@ -281,5 +282,154 @@ void __cdecl director_render()
 			rasterizer_draw_string.draw(&font_cache, rasterizer_string.get_string());
 		}
 	}
+}
+
+void __cdecl director_set_flying_camera_direct(long user_index, real_point3d const* position, vector3d const* forward, vector3d const* up)
+{
+	if (user_index == NONE)
+		return;
+
+	TLS_REFERENCE(director_globals);
+	ASSERT(VALID_INDEX(user_index, 4));
+
+	c_director* director = director_get(user_index);
+	director->set_camera_mode_internal(_camera_mode_flying, 0.0f, false);
+
+	c_flying_camera* flying_camera = director->get_camera<c_flying_camera>();
+	flying_camera->set_position(position);
+	flying_camera->set_forward(forward);
+
+	vector3d up_from_forward{};
+	generate_up_vector3d(forward, &up_from_forward);
+	real roll = angle_between_vectors3d(up, &up_from_forward);
+	vector3d product3d;
+	cross_product3d(up, &up_from_forward, &product3d);
+	if (dot_product3d(&product3d, forward) > 0.0f)
+		roll = -roll;
+
+	flying_camera->set_roll(roll);
+}
+
+char const* const k_camera_save_filename = "camera";
+
+void __cdecl director_save_camera_named(char const* name)
+{
+	if (!global_scenario_try_and_get())
+		return;
+
+	TLS_REFERENCE(players_globals);
+	if (!players_globals)
+		return;
+
+	// #TODO: get root
+	char const* root = "";
+
+	// #TODO: get scenario_name
+	char const* scenario_name = "";// scenario_get_name();
+
+	c_static_string<256> filename;
+	//filename.print("%s%s_%s.txt", root, name, scenario_name);
+	filename.print("%s%s_%04X.txt", root, name, global_scenario_index);
+
+	FILE* file;
+	fopen_s(&file, filename.get_string(), "w");
+	if (file)
+	{
+		s_observer_result const* camera = nullptr;
+		for (long i = 0; i < 4; i++)
+		{
+			camera = observer_try_and_get_camera(i++);
+			if (camera)
+				break;
+		}
+
+		if (camera)
+		{
+			fprintf(file, "%f %f %f\n", camera->focus_point.x, camera->focus_point.y, camera->focus_point.z);
+			fprintf(file, "%f %f %f\n", camera->forward.i, camera->forward.j, camera->forward.k);
+			fprintf(file, "%f %f %f\n", camera->up.i, camera->up.j, camera->up.k);
+			fprintf(file, "%f\n", camera->horizontal_field_of_view);
+			console_printf("%s written successfully", filename.get_string());
+		}
+
+		fclose(file);
+	}
+}
+
+void __cdecl director_load_camera_named(char const* name)
+{
+	if (!global_scenario_try_and_get())
+	{
+		console_printf("no scenario loaded");
+		return;
+	}
+
+	TLS_REFERENCE(players_globals);
+	if (!players_globals)
+		return;
+
+	// #TODO: get root
+	char const* root = "";
+
+	// #TODO: get scenario_name
+	char const* scenario_name = "";// scenario_get_name();
+
+	c_static_string<256> filename;
+	//filename.print("%s%s_%s.txt", root, name, scenario_name);
+	filename.print("%s%s_%04X.txt", root, name, global_scenario_index);
+
+	s_file_reference info;
+	file_reference_create_from_path(&info, filename.get_string(), false);
+	if (!file_exists(&info))
+	{
+		c_console::write_line("saved camera '%s' doesn't exist", filename.get_string());
+		return;
+	}
+
+	FILE* file;
+	fopen_s(&file, filename.get_string(), "r");
+	if (!file)
+	{
+		c_console::write_line("saved camera '%s' couldn't be opened", filename.get_string());
+		return;
+	}
+
+	real_point3d position{};
+	vector3d forward{};
+	vector3d up{};
+	real field_of_view;
+
+	fscanf_s(file, "%f %f %f\n", &position.x, &position.y, &position.z);
+	fscanf_s(file, "%f %f %f\n", &forward.i, &forward.j, &forward.k);
+	fscanf_s(file, "%f %f %f\n", &up.i, &up.j, &up.k);
+	fscanf_s(file, "%f\n", &field_of_view);
+
+	fclose(file);
+
+	// #TODO: actually validate `position`, `forward`, `up` and `field_of_view`
+	if (false)
+	{
+		c_console::write_line("saved camera '%s' isn't valid", filename.get_string());
+		return;
+	}
+
+	long active_user = players_first_active_user();
+	if (active_user == NONE)
+	{
+		c_console::write_line("no active user to set saved camera '%s'", filename.get_string());
+		return;
+	}
+
+	director_set_flying_camera_direct(active_user, &position, &forward, &up);
+}
+
+void __cdecl director_save_camera()
+{
+	director_save_camera_named(k_camera_save_filename);
+}
+
+void __cdecl director_load_camera()
+{
+	director_load_camera_named(k_camera_save_filename);
 }
 

@@ -130,3 +130,10 @@ extern void director_toggle_perspective(long user_index, e_director_perspective 
 extern void director_toggle_camera(long user_index, e_camera_mode camera_mode);
 extern void __cdecl director_render();
 
+extern void __cdecl director_set_flying_camera_direct(long user_index, real_point3d const* position, vector3d const* forward, vector3d const* up);
+extern char const* const k_camera_save_filename;
+extern void __cdecl director_save_camera_named(char const* name);
+extern void __cdecl director_load_camera_named(char const* name);
+extern void __cdecl director_save_camera();
+extern void __cdecl director_load_camera();
+

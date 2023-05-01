@@ -1,11 +1,23 @@
 #include "main/debug_keys.hpp"
 
+#include "camera/director.hpp"
 #include "cseries/cseries_console.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
+#include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/thread_local.hpp"
 #include "units/units.hpp"
+
+// Modifier Table
+// 
+// Index, Shift,  Control, Windows
+// 0,     No,     No,      No
+// 1,     Yes,    No,      No
+// 2,     No,     Yes,     No
+// 3,     Ignore, No,      Yes
+// 4,     Yes,    Yes,     Yes
+// 5,     No,     Yes,     Yes
 
 debug_key global_debug_key_list[]
 {
@@ -611,7 +623,8 @@ debug_key global_debug_key_list[]
 	}
 };
 
-long* global_debug_key_down;
+c_static_flags<ALIGN(NUMBEROF(global_debug_key_list), 4), NUMBEROF(global_debug_key_list)> global_debug_key_down; // 16 bit aligned
+//long global_debug_key_down[((NUMBEROF(global_debug_key_list) - 1) >> 5) + 1]{};
 dword_flags g_debug_button_down_flags;
 
 s_debug_button g_debug_button_list[]
@@ -648,24 +661,25 @@ void __cdecl debug_keys_initialize()
 		key++;
 	}
 
-	if (!global_debug_key_down)
-	{
-		long key_down_size = 4 * ((key_down_count + 31) >> 5);
-		global_debug_key_down = (long*)malloc(key_down_size /*, __FILE__, __LINE__ */);
-		ASSERT(global_debug_key_down);
-		csmemset(global_debug_key_down, 0, key_down_size);
-	}
+	//if (!global_debug_key_down)
+	//{
+	//	long key_down_size = 4 * ((key_down_count + 31) >> 5);
+	//	global_debug_key_down = (long*)malloc(key_down_size /*, __FILE__, __LINE__ */);
+	//	ASSERT(global_debug_key_down);
+	//	csmemset(global_debug_key_down, 0, key_down_size);
+	//}
 
+	global_debug_key_down.clear();
 	g_debug_button_down_flags = 0;
 }
 
 void __cdecl debug_keys_dispose()
 {
-	if (global_debug_key_down)
-	{
-		free(global_debug_key_down);
-		global_debug_key_down = nullptr;
-	}
+	//if (global_debug_key_down)
+	//{
+	//	free(global_debug_key_down);
+	//	global_debug_key_down = nullptr;
+	//}
 }
 
 bool __cdecl debug_key_update(long key_index, debug_key* key, bool* modifier_down, long force_key_down)
@@ -685,15 +699,12 @@ bool __cdecl debug_key_update(long key_index, debug_key* key, bool* modifier_dow
 				*key->variable = key_down;
 		}
 
-		long key_mask = 1 << (key_index & 31);
-		long* key_flags = &global_debug_key_down[key_index >> 5];
-
-		if ((*key_flags & key_mask) != 0)
+		if (global_debug_key_down.test(key_index))
 		{
 			if (!key_down)
 			{
 				result = true;
-				*key_flags &= ~key_mask;
+				global_debug_key_down.set(key_index, false);
 
 				if (key->toggle_variable)
 				{
@@ -711,7 +722,7 @@ bool __cdecl debug_key_update(long key_index, debug_key* key, bool* modifier_dow
 		else if (key_down)
 		{
 			result = true;
-			*key_flags |= key_mask;
+			global_debug_key_down.set(key_index, true);
 
 			if (key->callback)
 				key->callback(true);
@@ -731,21 +742,19 @@ bool __cdecl debug_key_execute(char const* name, bool key_down)
 
 	debug_key* key = global_debug_key_list;
 	char const* key_name = key->name;
-	long key_index = 0;
 
 	if (key_name)
 	{
-		while (csstricmp(name, key_name))
+		long key_index = NONE;
+		for (; csstricmp(name, key_name); key++, key_index++)
 		{
-			key_name = key[1].name;
-			key++;
-			key_index++;
+			key_name = (key + 1)->name;
 			if (!key_name)
 				break;
 		}
 
 		if (key_name)
-			v4 = !debug_key_update(key_index, key++, modifier_down, (key_down ^ 1) + 1);
+			v4 = !debug_key_update(key_index, key, modifier_down, (key_down ^ 1) + 1);
 	}
 
 	switch (v4)
@@ -773,18 +782,18 @@ bool __cdecl debug_key_execute(char const* name, bool key_down)
 void __cdecl debug_keys_update()
 {
 	bool shift_down = input_key_frames_down(_key_code_shift, _input_type_game);
-	bool shift_control = input_key_frames_down(_key_code_control, _input_type_game) != 0;
-	bool windows_control = input_key_frames_down(_key_code_windows, _input_type_game) != 0;
+	bool control_down = input_key_frames_down(_key_code_control, _input_type_game) != 0;
+	bool windows_down = input_key_frames_down(_key_code_windows, _input_type_game) != 0;
 
 	//random_seed_allow_use();
 	bool modifier_down[6]{};
 
-	modifier_down[0] = !shift_down && !shift_control && !windows_control;
-	modifier_down[1] = shift_down && !shift_control && !windows_control;
-	modifier_down[2] = !shift_down && shift_control && !windows_control;
-	modifier_down[3] = !shift_control && windows_control;
-	modifier_down[4] = shift_down && shift_control && windows_control;
-	modifier_down[5] = !shift_down && shift_control && windows_control;
+	modifier_down[0] = !shift_down && !control_down && !windows_down;
+	modifier_down[1] = shift_down && !control_down && !windows_down;
+	modifier_down[2] = !shift_down && control_down && !windows_down;
+	modifier_down[3] = !control_down && windows_down;
+	modifier_down[4] = shift_down && control_down && windows_down;
+	modifier_down[5] = !shift_down && control_down && windows_down;
 
 	debug_key* key = global_debug_key_list;
 	if (key->name)
@@ -808,74 +817,71 @@ void __cdecl debug_keys_update()
 	//random_seed_disallow_use();
 }
 
-void __cdecl debug_key_select_this_actor(bool enable)
+void __cdecl debug_key_select_this_actor(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_select_prev_encounter(bool enable)
+void __cdecl debug_key_select_prev_encounter(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_select_next_encounter(bool enable)
+void __cdecl debug_key_select_next_encounter(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_select_next_actor(bool enable)
+void __cdecl debug_key_select_next_actor(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_select_prev_actor(bool enable)
+void __cdecl debug_key_select_prev_actor(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_render_spray(bool enable)
+void __cdecl debug_key_render_spray(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_erase_all_actors(bool enable)
+void __cdecl debug_key_erase_all_actors(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_rotate_units(bool enable)
+void __cdecl debug_key_rotate_units(bool enabled)
 {
-	if (enable)
+	if (enabled && game_in_progress() && !game_is_ui_shell())
 	{
-		if (!game_in_progress() || game_is_ui_shell())
-			return;
-
-		TLS_REFERENCE(player_data);
-
 		long active_user = players_first_active_user();
 		if (active_user != NONE)
 		{
+			TLS_REFERENCE(player_data);
+
 			long player_index = player_index_from_user_index(active_user);
 			player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
 			long unit_index = player->unit_index;
@@ -889,18 +895,15 @@ void __cdecl debug_key_rotate_units(bool enable)
 	}
 }
 
-void __cdecl debug_key_rotate_all_units(bool enable)
+void __cdecl debug_key_rotate_all_units(bool enabled)
 {
-	if (enable)
+	if (enabled && game_in_progress() && !game_is_ui_shell())
 	{
-		if (!game_in_progress() || game_is_ui_shell())
-			return;
-
-		TLS_REFERENCE(player_data);
-
 		long active_user = players_first_active_user();
 		if (active_user != NONE)
 		{
+			TLS_REFERENCE(player_data);
+
 			long player_index = player_index_from_user_index(active_user);
 			player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
 			long unit_index = player->unit_index;
@@ -914,256 +917,250 @@ void __cdecl debug_key_rotate_all_units(bool enable)
 	}
 }
 
-void __cdecl debug_key_ninja_rope(bool enable)
+void __cdecl debug_key_ninja_rope(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_play_animation(bool enable)
+void __cdecl debug_key_play_animation(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_summary(bool enable)
+void __cdecl debug_key_profile_summary(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_summary_off(bool enable)
+void __cdecl debug_key_profile_summary_off(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_off(bool enable)
+void __cdecl debug_key_profile_off(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_next_thread(bool enable)
+void __cdecl debug_key_profile_next_thread(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_prev_thread(bool enable)
+void __cdecl debug_key_profile_prev_thread(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_next_attribute(bool enable)
+void __cdecl debug_key_profile_next_attribute(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_prev_attribute(bool enable)
+void __cdecl debug_key_profile_prev_attribute(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_next_sort(bool enable)
+void __cdecl debug_key_profile_next_sort(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_prev_sort(bool enable)
+void __cdecl debug_key_profile_prev_sort(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_next_display(bool enable)
+void __cdecl debug_key_profile_next_display(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_profile_dump_frame(bool enable)
+void __cdecl debug_key_profile_dump_frame(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_player_input_toggle(bool enable)
+void __cdecl debug_player_input_toggle(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_toggle_weapons(bool enable)
+void __cdecl debug_key_toggle_weapons(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_exit_game(bool enable)
+void __cdecl debug_key_exit_game(bool enabled)
 {
-	if (enable)
+	if (enabled)
+		main_exit_game();
+}
+
+void __cdecl debug_key_mouse_focus(bool enabled)
+{
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_mouse_focus(bool enable)
+void __cdecl debug_key_clear_screen(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_clear_screen(bool enable)
+void __cdecl debug_key_save_camera(bool enabled)
 {
-	if (enable)
+	if (enabled)
+		director_save_camera();
+}
+
+void __cdecl debug_key_load_camera(bool enabled)
+{
+	if (enabled)
+		director_load_camera();
+}
+
+void __cdecl debug_key_teleport_to_camera(bool enabled)
+{
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_save_camera(bool enable)
+void __cdecl debug_key_toggle_pause(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_load_camera(bool enable)
+void __cdecl debug_key_print_screen(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_teleport_to_camera(bool enable)
+void __cdecl debug_key_increment_game_speed_minor(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_toggle_pause(bool enable)
+void __cdecl debug_key_decrement_game_speed_minor(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_print_screen(bool enable)
+void __cdecl debug_key_increment_game_speed_major(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_increment_game_speed_minor(bool enable)
+void __cdecl debug_key_decrement_game_speed_major(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_decrement_game_speed_minor(bool enable)
+void __cdecl debug_dump_assert_log(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_increment_game_speed_major(bool enable)
+void __cdecl debug_time_stats_display(bool enabled)
 {
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_decrement_game_speed_major(bool enable)
+void __cdecl debug_time_stats_pause(bool enabled)
 {
-	if (enable)
+	if (enabled)
+	{
+		c_console::write_line(__FUNCTION__);
+	}
+}
+void __cdecl debug_button_drop_flag_at_camera(bool enabled)
+{
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
 }
 
-void __cdecl debug_dump_assert_log(bool enable)
+void __cdecl debug_button_drop_flag_as_projectile(bool enabled)
 {
-	if (enable)
-	{
-		c_console::write_line(__FUNCTION__);
-	}
-}
-
-void __cdecl debug_time_stats_display(bool enable)
-{
-	if (enable)
-	{
-		c_console::write_line(__FUNCTION__);
-	}
-}
-
-void __cdecl debug_time_stats_pause(bool enable)
-{
-	if (enable)
-	{
-		c_console::write_line(__FUNCTION__);
-	}
-}
-void __cdecl debug_button_drop_flag_at_camera(bool enable)
-{
-	if (enable)
-	{
-		c_console::write_line(__FUNCTION__);
-	}
-}
-
-void __cdecl debug_button_drop_flag_as_projectile(bool enable)
-{
-	if (enable)
+	if (enabled)
 	{
 		c_console::write_line(__FUNCTION__);
 	}
