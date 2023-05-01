@@ -327,14 +327,27 @@ struct c_static_flags
 	{
 		ASSERT(VALID_INDEX(index, k_maximum_count));
 
-		return TEST_BIT(m_storage[index >> 5], (index & 31));
+		return (m_storage[index >> 5] & 1 << (index & 31)) != 0;
 	}
 
 	bool test(long index) const
 	{
 		ASSERT(VALID_INDEX(index, k_maximum_count));
 
-		return TEST_BIT(m_storage[index >> 5], (index & 31));
+		return (m_storage[index >> 5] & 1 << (index & 31)) != 0;
+	}
+
+	void clear()
+	{
+		csmemset(m_storage, 0, sizeof(m_storage));
+	}
+
+	void set(long index, bool enable)
+	{
+		if (enable)
+			m_storage[index >> 5] |= (1 << (index & 31));
+		else
+			m_storage[index >> 5] &= ~(1 << (index & 31));
 	}
 
 	dword m_storage[k_storage_count];
