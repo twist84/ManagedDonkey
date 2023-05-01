@@ -31,3 +31,33 @@ real __cdecl dot_product3d(vector3d const* a, vector3d const* b)
 	return ((a->n[0] * b->n[0]) + (a->n[1] * b->n[1])) + (a->n[2] * b->n[2]);
 }
 
+vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, vector3d* out)
+{
+	out->n[0] = b->n[0] - a->n[0];
+	out->n[1] = b->n[1] - a->n[1];
+	out->n[2] = b->n[2] - a->n[2];
+
+	return out;
+}
+
+real __cdecl magnitude_squared3d(vector3d const* a)
+{
+	return real(a->n[0] * a->n[0]) + real(a->n[1] * a->n[1]) + real(a->n[2] * a->n[2]);
+}
+
+real __cdecl distance_squared3d(real_point3d const* a, real_point3d const* b)
+{
+	vector3d temp{};
+	return magnitude_squared3d(vector_from_points3d(a, b, &temp));
+}
+
+real __cdecl distance3d(real_point3d const* a, real_point3d const* b)
+{
+	return square_root(distance_squared3d(a, b));
+}
+
+real __cdecl square_root(real value)
+{
+	return sqrtf(value); // sqrt
+}
+

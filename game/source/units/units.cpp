@@ -63,41 +63,6 @@ bool units_debug_can_select_unit(long unit_index)
 	return true;
 }
 
-// #TODO: find a home
-vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, vector3d* out_vector)
-{
-	out_vector->n[0] = b->n[0] - a->n[0];
-	out_vector->n[1] = b->n[1] - a->n[1];
-	out_vector->n[2] = b->n[2] - a->n[2];
-
-	return out_vector;
-}
-
-// #TODO: find a home
-real magnitude_squared3d(vector3d const* vector)
-{
-	return real(vector->n[0] * vector->n[0]) + real(vector->n[1] * vector->n[1]) + real(vector->n[2] * vector->n[2]);
-}
-
-// #TODO: find a home
-real distance_squared3d(real_point3d const* a, real_point3d const* b)
-{
-	vector3d temp{};
-	return magnitude_squared3d(vector_from_points3d(a, b, &temp));
-}
-
-// #TODO: find a home
-real square_root(real value)
-{
-	return sqrtf(value); // sqrt
-}
-
-// #TODO: find a home
-real distance3d(real_point3d const* a, real_point3d const* b)
-{
-	return square_root(distance_squared3d(a, b));
-}
-
 long __cdecl units_debug_get_closest_unit(long unit_index)
 {
 	long closest_unit_index = NONE;

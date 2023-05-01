@@ -226,4 +226,9 @@ extern vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d*
 extern euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward);
 extern vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d* out);
 extern real __cdecl dot_product3d(vector3d const* a, vector3d const* b);
+extern vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, vector3d* out);
+extern real __cdecl magnitude_squared3d(vector3d const* a);
+extern real __cdecl distance_squared3d(real_point3d const* a, real_point3d const* b);
+extern real __cdecl distance3d(real_point3d const* a, real_point3d const* b);
+extern real __cdecl square_root(real value);
 
