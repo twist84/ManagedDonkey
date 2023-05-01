@@ -107,6 +107,14 @@ bool __cdecl main_events_pending()
 	return INVOKE(0x00505530, main_events_pending);
 }
 
+void __cdecl main_exit_game()
+{
+	//INVOKE(0x005056D0, main_exit_game);
+
+	static REFERENCE_DECLARE(0x022B473C, bool, main_game_exit);
+	main_game_exit = true;
+}
+
 void __cdecl game_dispose_hook_for_console_dispose()
 {
 	game_dispose();

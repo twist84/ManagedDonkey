@@ -4,6 +4,7 @@
 
 extern void __cdecl main_loop_body_main_part();
 extern bool __cdecl main_events_pending();
+extern void __cdecl main_exit_game();
 extern void __cdecl main_loop_body_begin();
 extern void __cdecl main_loop_body_end();
 extern dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
