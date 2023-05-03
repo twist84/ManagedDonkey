@@ -11,6 +11,7 @@
 #include "interface/interface_constants.hpp"
 #include "game/game.hpp"
 #include "game/players.hpp"
+#include "main/main_game.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
@@ -310,6 +311,11 @@ void __cdecl director_set_flying_camera_direct(long user_index, real_point3d con
 	flying_camera->set_roll(roll);
 }
 
+char const* scenario_get_name()
+{
+	return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
+}
+
 char const* const k_camera_save_filename = "camera";
 
 void __cdecl director_save_camera_named(char const* name)
@@ -321,15 +327,10 @@ void __cdecl director_save_camera_named(char const* name)
 	if (!players_globals)
 		return;
 
-	// #TODO: get root
-	char const* root = "";
-
-	// #TODO: get scenario_name
-	char const* scenario_name = "";// scenario_get_name();
-
 	c_static_string<256> filename;
-	//filename.print("%s%s_%s.txt", root, name, scenario_name);
-	filename.print("%s%s_%04X.txt", root, name, global_scenario_index);
+	char const* root = "";
+	char const* scenario_name = scenario_get_name();
+	filename.print("%s%s_%s.txt", root, name, scenario_name);
 
 	FILE* file;
 	fopen_s(&file, filename.get_string(), "w");
@@ -368,15 +369,10 @@ void __cdecl director_load_camera_named(char const* name)
 	if (!players_globals)
 		return;
 
-	// #TODO: get root
-	char const* root = "";
-
-	// #TODO: get scenario_name
-	char const* scenario_name = "";// scenario_get_name();
-
 	c_static_string<256> filename;
-	//filename.print("%s%s_%s.txt", root, name, scenario_name);
-	filename.print("%s%s_%04X.txt", root, name, global_scenario_index);
+	char const* root = "";
+	char const* scenario_name = scenario_get_name();
+	filename.print("%s%s_%s.txt", root, name, scenario_name);
 
 	s_file_reference info;
 	file_reference_create_from_path(&info, filename.get_string(), false);
