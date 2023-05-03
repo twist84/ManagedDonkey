@@ -41,14 +41,14 @@ bool units_debug_can_select_unit(long unit_index)
 	TLS_REFERENCE(object_header_data);
 	object_header_datum* header = (object_header_datum*)datum_try_and_get(object_header_data, unit_index);
 	void* object = nullptr;
-	if (header && TEST_BIT(UNIT_DATUM_MASK, header->object_type.get()))
+	if (header && TEST_BIT(UNIT_OBJECTS_MASK, header->object_type.get()))
 		object = header->datum;
 
 	if (!object)
 		return false;
 
-	//void* object = object_get_and_verify_type(unit_index, UNIT_DATUM_MASK);
-	//void* object = object_try_and_get_and_verify_type(unit_index, UNIT_DATUM_MASK);
+	//void* object = object_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK);
+	//void* object = object_try_and_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK);
 
 	//unit_datum* unit = static_cast<unit_datum*>(object);
 	byte* unit = static_cast<byte*>(object);
@@ -69,7 +69,7 @@ long __cdecl units_debug_get_closest_unit(long unit_index)
 	real closest_distance = 3.4028235e38f;
 
 	c_object_iterator<unit_datum> unit_iterator;
-	unit_iterator.begin(UNIT_DATUM_MASK, 0);
+	unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
 	while (unit_iterator.next())
 	{
 		if (unit_iterator.get_index() != unit_index)

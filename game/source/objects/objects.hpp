@@ -26,7 +26,8 @@ enum e_object_type
 	k_object_type_count
 };
 
-#define UNIT_DATUM_MASK FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant)
+#define UNIT_OBJECTS_MASK (FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant))
+static_assert(UNIT_OBJECTS_MASK == 0b0010000000000011);
 
 enum e_object_source
 {
