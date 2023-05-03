@@ -4,6 +4,11 @@
 #include "memory/thread_local.hpp"
 #include "physics/havok.hpp"
 
+e_object_type __cdecl object_get_type(long object_index)
+{
+	return INVOKE(0x0046DC70, object_get_type, object_index);
+}
+
 void __cdecl object_delete(long object_index)
 {
 	INVOKE(0x00B2CD10, object_delete, object_index);
@@ -42,6 +47,11 @@ bool __cdecl c_object_iterator_base::object_iterator_next_with_match_flags_inter
 object_datum* __cdecl c_object_iterator_base::get_datum_internal()
 {
 	return m_datum;
+}
+
+bool __cdecl object_load_scenario_placement_matrices(long object_index)
+{
+	return INVOKE(0x00B2F890, object_load_scenario_placement_matrices, object_index);
 }
 
 long __cdecl object_new(object_placement_data* placement_data)
@@ -203,12 +213,12 @@ void __cdecl object_set_position_direct(long object_index, real_point3d const* d
 
 void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool at_rest)
 {
-	INVOKE(0x00B33600, object_set_position_in_editor, object_index, desired_position, desired_forward, desired_up, location, at_rest);
+	//INVOKE(0x00B33600, object_set_position_in_editor, object_index, desired_position, desired_forward, desired_up, location, at_rest);
 	
-	//object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, true);
-	//object_load_scenario_placement_matrices(object_index);
-	//if (at_rest && ((1 << object_get_type(object_index)) & EDITOR_PLACEABLE_OBJECTS_MASK) != 0)
-	//	object_set_at_rest(object_index, false);
+	object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, true);
+	object_load_scenario_placement_matrices(object_index);
+	if (at_rest && TEST_BIT(EDITOR_PLACEABLE_OBJECTS_MASK, object_get_type(object_index)))
+		object_set_at_rest(object_index, false);
 }
 
 void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location)

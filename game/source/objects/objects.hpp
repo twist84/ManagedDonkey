@@ -154,6 +154,8 @@ static_assert(sizeof(object_placement_data) == 0x18C);
 
 struct s_damage_owner;
 
+extern e_object_type __cdecl object_get_type(long object_index);
+extern bool __cdecl object_load_scenario_placement_matrices(long object_index);
 extern void __cdecl object_delete(long object_index);
 extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
 extern long __cdecl object_get_ultimate_parent(long object_index);
