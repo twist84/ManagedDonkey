@@ -182,6 +182,7 @@ extern void __cdecl object_set_custom_animations_prevent_lipsync_head_movement(b
 extern void __cdecl object_set_hidden(long object_index, bool hidden);
 extern void __cdecl object_set_in_limbo(long object_index, bool deactivate);
 extern void __cdecl object_set_object_index_for_name_index(short name_index, long object_index);
+extern bool __cdecl object_set_position_internal(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected);
 extern void __cdecl object_set_position(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location);
 extern void __cdecl object_set_position_direct(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool in_editor);
 extern void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool at_rest);

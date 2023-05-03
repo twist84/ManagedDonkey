@@ -228,6 +228,11 @@ void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point
 	object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, true);
 }
 
+bool __cdecl object_set_position_internal(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected)
+{
+	return INVOKE(0x00B33690, object_set_position_internal, object_index, desired_position, desired_forward, desired_up, location, compute_node_matrices, set_havok_object_position, in_editor, disconnected);
+}
+
 void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type)
 {
 	return INVOKE(0x00B34490, object_try_and_get_and_verify_type, object_index, object_type);
@@ -235,7 +240,7 @@ void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object
 
 void __cdecl object_debug_teleport(long object_index, real_point3d const* position)
 {
-	void* object = object_try_and_get_and_verify_type(object_index, -1);
+	void* object = object_try_and_get_and_verify_type(object_index, 0xFFFFFFFF);
 	if (object)
 	{
 		dword_flags flags = reinterpret_cast<dword_flags*>(object)[1];
@@ -243,7 +248,7 @@ void __cdecl object_debug_teleport(long object_index, real_point3d const* positi
 		havok_can_modify_state_allow();
 		if (TEST_BIT(flags, 7))
 			object_set_in_limbo(object_index, false);
-		object_set_position(object_index, position, nullptr, nullptr, nullptr);
+		object_set_position_internal(object_index, position, nullptr, nullptr, nullptr, false, true, false, true);
 		havok_can_modify_state_disallow();
 	}
 	else
