@@ -29,6 +29,15 @@ enum e_object_type
 #define UNIT_OBJECTS_MASK (FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant))
 static_assert(UNIT_OBJECTS_MASK == 0b0010000000000011);
 
+#define ITEM_OBJECTS_MASK (FLAG(_object_type_weapon) | FLAG(_object_type_equipment))
+static_assert(ITEM_OBJECTS_MASK == 0b0000000000001100);
+
+#define DEVICE_OBJECTS_MASK (FLAG(_object_type_arg_device) | FLAG(_object_type_terminal) | FLAG(_object_type_machine) | FLAG(_object_type_control))
+static_assert(DEVICE_OBJECTS_MASK == 0b0000001100110000);
+
+#define EDITOR_PLACEABLE_OBJECTS_MASK (FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_weapon) | FLAG(_object_type_equipment) | FLAG(_object_type_arg_device) | FLAG(_object_type_terminal) | FLAG(_object_type_scenery) | FLAG(_object_type_machine) | FLAG(_object_type_crate) | FLAG(_object_type_creature) | FLAG(_object_type_giant))
+static_assert(EDITOR_PLACEABLE_OBJECTS_MASK == 0b0011100110111111);
+
 enum e_object_source
 {
 	_object_source_structure = 0,
@@ -143,14 +152,38 @@ struct object_placement_data
 };
 static_assert(sizeof(object_placement_data) == 0x18C);
 
+struct s_damage_owner;
+
 extern void __cdecl object_delete(long object_index);
 extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
 extern long __cdecl object_get_ultimate_parent(long object_index);
 extern long __cdecl object_new(object_placement_data* placement_data);
-extern void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, struct s_damage_owner const* damage_owner);
+extern void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, s_damage_owner const* damage_owner);
+extern void __cdecl object_placement_data_set_location(object_placement_data* data, struct s_location const* location);
+extern void __cdecl object_postprocess_node_matrices(long object_index);
+extern void __cdecl object_pre_delete_recursive(long object_index, bool a2);
+extern bool __cdecl object_predict(long object_index, bool low);
+extern bool __cdecl object_predict_all(long object_index);
+extern bool __cdecl object_predict_low(long object_index);
+extern void __cdecl object_prepare_axis_vectors(long object_index, vector3d* forward, vector3d* up);
+extern void __cdecl object_reconnect_to_map(long object_index, bool a2, s_location const* location);
+extern void __cdecl object_reconnect_to_physics(long object_index);
+extern void __cdecl object_register_scenario_object(long object_index);
+extern void __cdecl object_reinitialize_from_placement(long object_index, object_placement_data* data, bool at_rest);
+extern void __cdecl object_reset(long object_index);
+extern void __cdecl object_reset_interpolation(long object_index);
+extern void __cdecl object_set_always_active(long object_index, bool always_active);
+extern void __cdecl object_set_at_rest(long object_index, bool at_rest);
 extern bool __cdecl object_set_base_change_color_by_index(long object_index, long color_index, real_rgb_color const* color);
+extern void __cdecl object_set_custom_animations_hold_on_last_frame(bool custom_animations_hold_on_last_frame);
+extern void __cdecl object_set_custom_animations_prevent_lipsync_head_movement(bool custom_animations_prevent_lipsync_head_movement);
+extern void __cdecl object_set_hidden(long object_index, bool hidden);
 extern void __cdecl object_set_in_limbo(long object_index, bool deactivate);
-extern void __cdecl object_set_position(long object_index, real_point3d const* position, vector3d const* up, vector3d const* forward, s_location const* location);
+extern void __cdecl object_set_object_index_for_name_index(short name_index, long object_index);
+extern void __cdecl object_set_position(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location);
+extern void __cdecl object_set_position_direct(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool in_editor);
+extern void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool at_rest);
+extern void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location);
 extern void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type);
 extern void __cdecl object_debug_teleport(long object_index, real_point3d const* position);
 
