@@ -62,17 +62,17 @@ struct object_header_datum : s_datum_header
 	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
 	short __unknown2;
 	short data_size;
-	long __unknown8;
+	long datum_handle;
 	object_datum* datum;
 };
 static_assert(sizeof(object_header_datum) == 0x10);
 
 struct c_object_identifier
 {
-	long unique_id; // 'obj#'
+	long m_unique_id; // 'obj#'
 
 	// scenario_structure_bsp_reference
-	short origin_bsp_index;
+	short m_origin_bsp_index;
 
 	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> m_type;
 	c_enum<e_object_source, char, _object_source_structure, k_object_source_count> m_source;
