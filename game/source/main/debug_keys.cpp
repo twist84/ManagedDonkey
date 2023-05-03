@@ -3,6 +3,7 @@
 #include "camera/director.hpp"
 #include "cseries/cseries_console.hpp"
 #include "editor/editor_stubs.hpp"
+#include "game/cheats.hpp"
 #include "game/game.hpp"
 #include "main/main.hpp"
 #include "main/main_time.hpp"
@@ -1074,9 +1075,7 @@ void __cdecl debug_key_load_camera(bool enabled)
 void __cdecl debug_key_teleport_to_camera(bool enabled)
 {
 	if (enabled)
-	{
-		c_console::write_line(__FUNCTION__);
-	}
+		cheat_teleport_to_camera();
 }
 
 void __cdecl debug_key_toggle_pause(bool enabled)

@@ -91,24 +91,58 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 	return false;
 }
 
+bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_point3d* position)
+{
+	long output_user = player_mapping_first_active_output_user();
+	if (output_user == NONE)
+		return false;
+
+	s_observer_result const* result = observer_get_camera(output_user);
+	ASSERT(result);
+
+	if (result->location.cluster_reference.bsp_index == 0xFF)
+	{
+		c_console::write_line("Camera is outside BSP... cannot initiate teleportation...");
+		return false;
+	}
+
+	*unit_index = object_get_ultimate_parent(player_mapping_get_unit_by_output_user(output_user));
+	*position = result->focus_point;
+
+	return true;
+}
+
 void __cdecl cheat_teleport_to_camera()
 {
-    long output_user = player_mapping_first_active_output_user();
-    if (output_user == -1)
-        return;
+	long unit_index = NONE;
+	real_point3d position{};
+	if (cheat_get_teleport_to_camera_information(&unit_index, &position))
+	{
+		if (game_is_authoritative())
+		{
+			//simulation_action_unit_debug_teleport(unit_index, &position);
+			if (game_is_authoritative() && !game_is_playback())
+			{
+				if (game_is_distributed())
+				{
+					if (unit_index == NONE)
+					{
+						c_console::write_line("networking:simulation:event: attempting to generate a debug teleport event for NONE target unit");
+					}
+					else
+					{
+						//simulation_event_generate_for_simulation_queue
+					}
+				}
+				else
+				{
+					object_debug_teleport(unit_index, &position);
+				}
+			}
 
-    s_observer_result const* result = observer_get_camera(output_user);
-    ASSERT(result);
+			return;
+		}
 
-    if (result->location.cluster_reference.bsp_index == 0xFF)
-    {
-        c_console::write_line("Camera is outside BSP... cannot initiate teleportation...");
-        return;
-    }
-
-    long unit_index = player_mapping_get_unit_by_output_user(output_user);
-    long parent_object = object_get_ultimate_parent(unit_index);
-    real_point3d position = result->focus_point;
-
-    object_debug_teleport(parent_object, &position);
+		//simulation_request_unit_debug_teleport(unit_index, &position);
+	}
 }

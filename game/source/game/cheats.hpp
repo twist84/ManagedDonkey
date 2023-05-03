@@ -51,4 +51,5 @@ extern void __cdecl cheats_initialize_for_new_map();
 extern void __cdecl cheats_dispose_from_old_map();
 extern void __cdecl cheats_load();
 extern bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state const* input_state);
+extern bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_point3d* position);
 extern void __cdecl cheat_teleport_to_camera();
