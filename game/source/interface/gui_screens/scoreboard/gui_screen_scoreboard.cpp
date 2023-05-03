@@ -269,7 +269,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 				long network_player_index = user_interface_squad_get_player_index(&player->player_identifier);
 				if (player->configuration.host.team_index != -1)
 				{
-					bool dead = !TEST_BIT(player->player_flags, 3) && player->unit_index == -1 && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
+					bool dead = !TEST_BIT(player->flags, 3) && player->unit_index == -1 && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
 
 					if (include_score)
 					{
@@ -323,7 +323,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					{
 						long base_color = player->configuration.host.armor.loadouts[player->active_armor_loadout].colors[0].value;
 						long player_index = player_iterator.index;
-						bool left = TEST_BIT(player->player_flags, 1);
+						bool left = TEST_BIT(player->flags, 1);
 						team_round_score = 0;
 
 						c_gui_scoreboard_data::add_player_internal(
