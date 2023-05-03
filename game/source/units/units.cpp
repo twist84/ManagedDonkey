@@ -36,7 +36,7 @@ bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_defin
 bool units_debug_can_select_unit(long unit_index)
 {
 	// #TODO implement
-	return true;
+	//return true;
 
 	TLS_REFERENCE(object_header_data);
 	object_header_datum* header = (object_header_datum*)datum_try_and_get(object_header_data, unit_index);
@@ -100,49 +100,46 @@ long __cdecl units_debug_get_closest_unit(long unit_index)
 
 long units_debug_get_next_unit(long unit_index)
 {
+	c_object_iterator<unit_datum> unit_iterator;
+
 	long next_unit_index = NONE;
 
 	if (unit_index != NONE)
 	{
-		static c_object_iterator<unit_datum> unit_iterator;
-		static bool fui = true;
-		if (fui)
+		unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
+		if (unit_iterator.next())
 		{
-			fui = false;
-			unit_iterator.begin(UNIT_DATUM_MASK, 0);
+			while (unit_iterator.get_index() != unit_index && unit_iterator.next());
 		}
-		do
+		if (unit_iterator.next())
 		{
-			if (unit_iterator.next())
-				break;
-
-		} while (unit_iterator.get_index() != unit_index);
-
-		while (unit_iterator.next())
-		{
-			if (/*unit_iterator.get_index() != unit_index &&*/ units_debug_can_select_unit(unit_iterator.get_index()))
+			while (true)
 			{
-				next_unit_index = unit_iterator.get_index();
-				break;
+				if (units_debug_can_select_unit(unit_iterator.get_index()))
+					break;
+
+				if (!unit_iterator.next())
+					goto LABEL_12;
 			}
+
+			next_unit_index = unit_iterator.get_index();
+			if (unit_iterator.get_index() != -1)
+				return next_unit_index;
 		}
 	}
+LABEL_12:
+	unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
+	if (!unit_iterator.next())
+		return next_unit_index;
 
-	if (next_unit_index == NONE)
+	while (true)
 	{
-		c_object_iterator<unit_datum> unit_iterator{};
-		unit_iterator.begin(UNIT_DATUM_MASK, 0);
+		if (units_debug_can_select_unit(unit_iterator.get_index()))
+			break;
 
-		while (unit_iterator.next())
-		{
-			if (units_debug_can_select_unit(unit_iterator.get_index()))
-			{
-				next_unit_index = unit_iterator.get_index();
-				break;
-			}
-		}
+		if (!unit_iterator.next())
+			return next_unit_index;
 	}
-
-	return next_unit_index;
+	return unit_iterator.get_index();
 }
 
