@@ -117,8 +117,8 @@ struct s_player_configuration_from_client
 	c_static_wchar_string<16> desired_name;
 	byte user_selected_team_index;
 	byte vote_selection_index;
-	byte active_armor_loadout;
-	byte active_weapon_loadout;
+	byte armor_loadout_index;
+	byte weapon_loadout_index;
 	bool player_is_griefer;
 	dword_flags cheat_flags;
 	dword_flags ban_flags;
@@ -179,9 +179,17 @@ static_assert(sizeof(game_player_options) == 0x1640);
 
 struct s_tracking_object
 {
-	byte __data[0xC];
+	byte __data[0x4];
+	long object_index;
+	long __time8;
 };
 static_assert(sizeof(s_tracking_object) == 0xC);
+
+struct s_simulation_biped_melee_damage_event_data
+{
+	byte __data[0x3C]; // TODO: map this out
+};
+static_assert(sizeof(s_simulation_biped_melee_damage_event_data) == 0x3C);
 
 struct s_damage_reporting_info
 {
@@ -210,74 +218,164 @@ struct player_datum : s_datum_header
 	short machine_index;
 	short machine_input_user_index;
 	long machine_controller_index;
+
 	s_cluster_reference cluster_reference;
 	datum_index unit_index;
 	datum_index dead_unit_index;
 	datum_index failed_teleport_unit_index;
 	dword __unknown3C;
+
+	// updated in `players_update_after_game`
+	// if `player->__unknown40 == 0` do something with equipment
 	word __unknown40;
+
 	word __unknown42;
 	word __unknown44;
 	word __unknown46;
 	byte outside_of_world_timer;
 	byte next_spawn_control_context;
-	long active_armor_loadout;
-	long active_weapon_loadout;
+
+	long armor_loadout_index;
+	long weapon_loadout_index;
+
+	// updated in `players_update_after_game`
 	byte melee_recovery_ticks;
 	byte melee_soft_recovery_ticks;
 	byte grenade_suppression_timer;
+
 	bool sprinting;
 	bool crouching;
 	bool shooting_left;
 	bool shooting_right; // #TODO: confirmed this by checking it in ED??
 	byte __unknown5B;
 	word magnification_level; // zoom
-	bool __unknown5E;
-	bool __unknown5F;
-	word __unknown60;
-	word __unknown62;
+
+	// ------------- momentum -------------
+
+	// these set and updated in `player_submit_actions`
+
+	bool __unknown5E; // something todo with `shooting`
+	bool __unknown5F; // something todo with `magnification_level`
+	word __unknown60; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown98), something todo with `shooting`
+	word __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
+
+	// ------------- momentum -------------
+
 	vector3d position;
+
 	s_player_configuration configuration;
 	s_player_configuration desired_configuration;
+
+	// timers
 	long single_player_respawn_timer;
 	bool early_respawn_requested;
 	bool respawn_in_progress;
 	bool respawn_forced; // instant respawn when true
 	byte __unknown2CB7;
-	long respawn_time;
+	long respawn_timer;
 	long respawn_timer_countdown;
-	long penalty_time;
-	long __unknown2CC4;
+	long respawn_penalty;
+	long telefrag_timer;
 	long dead_timer;
 	long __unknown2CCC;
 	long __unknown2CD0;
 	long __unknown2CD4;
 	long grenade_recharge_timer;
+
 	long aim_assist_object_index;
 	long aim_assist_timestamp;
+
+	// ------------- momentum -------------
+
+	// set in `player_submit_actions`
 	short momentum_timer;
-	short momentum_decay_timer;
-	short momentum_falloff_timer;
-	byte __data2CEA[2];
+
+	short momemtum_unknown2CE6;
+
+	// set in `player_submit_actions`
+	short momentum_decay_timer; // set from tags, `game_globals:player_control:cooldown_time`
+
+	// set in `player_submit_actions`, `sub_53C570`
+	short momentum_falloff_timer; // set from tags, `momentum_falloff_timer - (game_globals:player_control:stamina_deplete_restore_time * s_equipment:adrenaline:sprint_restore)`
+
+	bool momemtum_suppressed;
+
+	// ------------- momentum -------------
+
+	// updated in `players_update_after_game`
 	short vehicle_ban_timer;
+
 	c_aim_target_object cached_target;
 	long cached_target_untargeted_ticks;
 	c_static_array<s_tracking_object, 8> tracking_objects;
+
 	short recently_spawned_timer;
 	bool recently_spawned_timer_is_initial_spawn;
 	byte respawn_failure_reason;
-	byte __data2D64[0x3C];
+
+	// ------ multiplayer_player_info -----?
+
+	// set in `sub_537D10`, struct?
+	long tank_mode_time2D64; // = game_time_get();
+	real tank_mode_duration; // set from tags, `equipment:tank_mode:duration`
+	real tank_mode_unknown2D6C; // set from tags, `equipment:tank_mode:__unknown10 / 100.0f`
+	real tank_mode_damage_absorption_scale; // set from tags, `equipment:tank_mode:damage_absorption_scale / 100.0f`
+
+	// set and used in `sub_540730`
+	real tank_mode_unknown2D74;
+	real tank_mode_unknown2D78;
+
+	// set in `sub_537C90`, struct?
+	long reactive_armor_time2D7C; // = game_time_get();
+	real reactive_armor_duration; // set from tags, `equipment:reactive_armor:duration`
+	real reactive_armor_damage_reflection_scale; // set from tags, `equipment:reactive_armor:damage_reflection_scale / 100.0f`
+	real reactive_armor_unknown2D88; // set from tags, `equipment:reactive_armor:__unknown8 / 100.0f`
+
+	// used in `players_update_after_game`
+	long stamina_restore_near_death_timer; // gameplay_modifier
+
+	byte __data2D90[0x10];
+
 	short __unknown2DA0;
 	short lives_per_round;
 	byte __data2DA4[0x8];
+
+	// ------ multiplayer_player_info -----?
+
 	c_player_traits player_traits;
+
+	// ------ multiplayer_player_info -----?
+
 	c_static_array<dword, k_number_of_multiplayer_powerup_flavors> powerup_pickup_time;
-	byte __data2DD4[0x74];
+	long __unknown2DD4;
+	bool map_editor_rotating;
+	real_point2d map_editor_throttle;
+	euler_angles2d map_editor_rotation;
+
+	byte __data2DEC[0x3E];
+
+	// set in `player_died`, struct?
+	// `respawn_weapon_definition_indices`?
+	// `respawn_equipment_definition_index`?
+	// `respawn_grenades_additional`?
+	// `desired_respawn_transform_valid`?
+	// *(qword*)__data2E2A = 0i64;
+	// *(qword*)&__data2E2A[0x8] = 0i64;
+	// *(dword*)&__data2E2A[0x10] = 0;
+	// *(dword*)&__data2E2A[0x16] = -1;
+	// *(dword*)&__data2E2A[0x1A] = 0;
+	byte __data2E2A[0x1E];
+
+	// ------ multiplayer_player_info -----?
+
 	long weak_assassination_unit_index;
 	bool is_assassination_victim;
 	real_point3d assassination_authoritative_position;
 	vector3d assassination_authoritative_forward;
-	byte __data2E68[0x3C];
+
+	// used by `apply_networked_melee_damage`, `simulation_request_unit_assassinate`, `simulation_request_unit_melee_damage_with_prebuilt_event_data`
+	s_simulation_biped_melee_damage_event_data melee_damage_event_data; // c_opaque_data<s_simulation_biped_melee_damage_event_data, sizeof(s_simulation_biped_melee_damage_event_data), 4/*alignment_bits*/>
+
 	c_static_array<s_player_shot_info, 8> shot_info;
 	short spawn_count;
 	byte __pad2F06[2];
@@ -301,8 +399,8 @@ static_assert(0x0044 == OFFSETOF(player_datum, __unknown44));
 static_assert(0x0046 == OFFSETOF(player_datum, __unknown46));
 static_assert(0x0048 == OFFSETOF(player_datum, outside_of_world_timer));
 static_assert(0x0049 == OFFSETOF(player_datum, next_spawn_control_context));
-static_assert(0x004C == OFFSETOF(player_datum, active_armor_loadout));
-static_assert(0x0050 == OFFSETOF(player_datum, active_weapon_loadout));
+static_assert(0x004C == OFFSETOF(player_datum, armor_loadout_index));
+static_assert(0x0050 == OFFSETOF(player_datum, weapon_loadout_index));
 static_assert(0x0054 == OFFSETOF(player_datum, melee_recovery_ticks));
 static_assert(0x0055 == OFFSETOF(player_datum, melee_soft_recovery_ticks));
 static_assert(0x0056 == OFFSETOF(player_datum, grenade_suppression_timer));
@@ -324,10 +422,10 @@ static_assert(0x2CB4 == OFFSETOF(player_datum, early_respawn_requested));
 static_assert(0x2CB5 == OFFSETOF(player_datum, respawn_in_progress));
 static_assert(0x2CB6 == OFFSETOF(player_datum, respawn_forced));
 static_assert(0x2CB7 == OFFSETOF(player_datum, __unknown2CB7));
-static_assert(0x2CB8 == OFFSETOF(player_datum, respawn_time));
+static_assert(0x2CB8 == OFFSETOF(player_datum, respawn_timer));
 static_assert(0x2CBC == OFFSETOF(player_datum, respawn_timer_countdown));
-static_assert(0x2CC0 == OFFSETOF(player_datum, penalty_time));
-static_assert(0x2CC4 == OFFSETOF(player_datum, __unknown2CC4));
+static_assert(0x2CC0 == OFFSETOF(player_datum, respawn_penalty));
+static_assert(0x2CC4 == OFFSETOF(player_datum, telefrag_timer));
 static_assert(0x2CC8 == OFFSETOF(player_datum, dead_timer));
 static_assert(0x2CCC == OFFSETOF(player_datum, __unknown2CCC));
 static_assert(0x2CD0 == OFFSETOF(player_datum, __unknown2CD0));
@@ -336,28 +434,44 @@ static_assert(0x2CD8 == OFFSETOF(player_datum, grenade_recharge_timer));
 static_assert(0x2CDC == OFFSETOF(player_datum, aim_assist_object_index));
 static_assert(0x2CE0 == OFFSETOF(player_datum, aim_assist_timestamp));
 static_assert(0x2CE4 == OFFSETOF(player_datum, momentum_timer));
-static_assert(0x2CE6 == OFFSETOF(player_datum, momentum_decay_timer));
-static_assert(0x2CE8 == OFFSETOF(player_datum, momentum_falloff_timer));
-static_assert(0x2CEA == OFFSETOF(player_datum, __data2CEA));
-static_assert(0x2CEC == OFFSETOF(player_datum, vehicle_ban_timer));
+static_assert(0x2CE6 == OFFSETOF(player_datum, momemtum_unknown2CE6));
+static_assert(0x2CE8 == OFFSETOF(player_datum, momentum_decay_timer));
+static_assert(0x2CEA == OFFSETOF(player_datum, momentum_falloff_timer));
+static_assert(0x2CEC == OFFSETOF(player_datum, momemtum_suppressed));
+static_assert(0x2CEE == OFFSETOF(player_datum, vehicle_ban_timer));
 static_assert(0x2CF0 == OFFSETOF(player_datum, cached_target));
 static_assert(0x2CFC == OFFSETOF(player_datum, cached_target_untargeted_ticks));
 static_assert(0x2D00 == OFFSETOF(player_datum, tracking_objects));
 static_assert(0x2D60 == OFFSETOF(player_datum, recently_spawned_timer));
 static_assert(0x2D62 == OFFSETOF(player_datum, recently_spawned_timer_is_initial_spawn));
 static_assert(0x2D63 == OFFSETOF(player_datum, respawn_failure_reason));
-static_assert(0x2D64 == OFFSETOF(player_datum, __data2D64));
+static_assert(0x2D64 == OFFSETOF(player_datum, tank_mode_time2D64));
+static_assert(0x2D68 == OFFSETOF(player_datum, tank_mode_duration));
+static_assert(0x2D6C == OFFSETOF(player_datum, tank_mode_unknown2D6C));
+static_assert(0x2D70 == OFFSETOF(player_datum, tank_mode_damage_absorption_scale));
+static_assert(0x2D74 == OFFSETOF(player_datum, tank_mode_unknown2D74));
+static_assert(0x2D78 == OFFSETOF(player_datum, tank_mode_unknown2D78));
+static_assert(0x2D7C == OFFSETOF(player_datum, reactive_armor_time2D7C));
+static_assert(0x2D80 == OFFSETOF(player_datum, reactive_armor_duration));
+static_assert(0x2D84 == OFFSETOF(player_datum, reactive_armor_damage_reflection_scale));
+static_assert(0x2D88 == OFFSETOF(player_datum, reactive_armor_unknown2D88));
+static_assert(0x2D8C == OFFSETOF(player_datum, stamina_restore_near_death_timer));
+static_assert(0x2D90 == OFFSETOF(player_datum, __data2D90));
 static_assert(0x2DA0 == OFFSETOF(player_datum, __unknown2DA0));
 static_assert(0x2DA2 == OFFSETOF(player_datum, lives_per_round));
 static_assert(0x2DA4 == OFFSETOF(player_datum, __data2DA4));
 static_assert(0x2DAC == OFFSETOF(player_datum, player_traits));
 static_assert(0x2DC8 == OFFSETOF(player_datum, powerup_pickup_time));
-static_assert(0x2DD4 == OFFSETOF(player_datum, __data2DD4));
+static_assert(0x2DD4 == OFFSETOF(player_datum, __unknown2DD4));
+static_assert(0x2DD8 == OFFSETOF(player_datum, map_editor_rotating));
+static_assert(0x2DDC == OFFSETOF(player_datum, map_editor_throttle));
+static_assert(0x2DE4 == OFFSETOF(player_datum, map_editor_rotation));
+static_assert(0x2DEC == OFFSETOF(player_datum, __data2DEC));
 static_assert(0x2E48 == OFFSETOF(player_datum, weak_assassination_unit_index));
 static_assert(0x2E4C == OFFSETOF(player_datum, is_assassination_victim));
 static_assert(0x2E50 == OFFSETOF(player_datum, assassination_authoritative_position));
 static_assert(0x2E5C == OFFSETOF(player_datum, assassination_authoritative_forward));
-static_assert(0x2E68 == OFFSETOF(player_datum, __data2E68));
+static_assert(0x2E68 == OFFSETOF(player_datum, melee_damage_event_data));
 static_assert(0x2EA4 == OFFSETOF(player_datum, shot_info));
 static_assert(0x2F04 == OFFSETOF(player_datum, spawn_count));
 static_assert(0x2F06 == OFFSETOF(player_datum, __pad2F06));

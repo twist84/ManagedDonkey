@@ -295,7 +295,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 						if (user_interface_session_is_local_player(network_player_index))
 							controller_index = user_interface_session_get_controller_index(network_player_index);
 
-						long base_color = player->configuration.host.armor.loadouts[player->active_armor_loadout].colors[0].value;
+						long base_color = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
 						long voice_for_player = 0;
 
 						add_player_internal(
@@ -321,7 +321,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					}
 					else
 					{
-						long base_color = player->configuration.host.armor.loadouts[player->active_armor_loadout].colors[0].value;
+						long base_color = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
 						long player_index = player_iterator.index;
 						bool left = TEST_BIT(player->flags, 1);
 						team_round_score = 0;

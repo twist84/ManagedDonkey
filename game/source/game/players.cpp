@@ -26,7 +26,7 @@ long __cdecl players_first_active_user()
 
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
 {
-	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor.loadouts[player->active_armor_loadout];
+	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor.loadouts[player->armor_loadout_index];
 
 	if (!loadout.armor_is_set)
 	{
@@ -57,7 +57,7 @@ s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(playe
 // #TODO: hook `game_engine_add_starting_equipment` and reimplement the original functionality
 s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player)
 {
-	s_s3d_player_weapon_configuration_loadout& loadout = player->configuration.host.weapon.loadouts[player->active_weapon_loadout];
+	s_s3d_player_weapon_configuration_loadout& loadout = player->configuration.host.weapon.loadouts[player->weapon_loadout_index];
 
 	// allow player traits override
 	// #TODO: pull these from tags
