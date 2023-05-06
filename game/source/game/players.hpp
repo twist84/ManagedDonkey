@@ -225,20 +225,25 @@ struct player_datum : s_datum_header
 	datum_index failed_teleport_unit_index;
 	dword __unknown3C;
 
-	// updated in `players_update_after_game`
-	// if `player->__unknown40 == 0` do something with equipment
-	word __unknown40;
+	// ---------- cooldown_reset ----------
 
+	// these are used in `players_update_after_game`, `player_spawn`, `sub_53C860`, struct?
+	// if `player->__unknown40 == 0` do something with equipment
+	// gameplay_modifier: `cooldown_reset` related
+	word __unknown40;
 	word __unknown42;
 	word __unknown44;
-	word __unknown46;
+
+	// ---------- cooldown_reset ----------
+
+	word __unknown46; // <----------------- part of `cooldown_reset`?
 	byte outside_of_world_timer;
 	byte next_spawn_control_context;
 
 	long armor_loadout_index;
 	long weapon_loadout_index;
 
-	// updated in `players_update_after_game`
+	// used in `players_update_after_game`
 	byte melee_recovery_ticks;
 	byte melee_soft_recovery_ticks;
 	byte grenade_suppression_timer;
@@ -252,7 +257,7 @@ struct player_datum : s_datum_header
 
 	// ------------- momentum -------------
 
-	// these set and updated in `player_submit_actions`
+	// these are used in `player_submit_actions`, struct?
 
 	bool __unknown5E; // something todo with `shooting`
 	bool __unknown5F; // something todo with `magnification_level`
@@ -287,7 +292,7 @@ struct player_datum : s_datum_header
 
 	// ------------- momentum -------------
 
-	// set in `player_submit_actions`
+	// set in `player_submit_actions`, struct?
 	short momentum_timer;
 
 	short momemtum_unknown2CE6;
@@ -302,7 +307,7 @@ struct player_datum : s_datum_header
 
 	// ------------- momentum -------------
 
-	// updated in `players_update_after_game`
+	// used in `players_update_after_game`
 	short vehicle_ban_timer;
 
 	c_aim_target_object cached_target;
@@ -315,30 +320,44 @@ struct player_datum : s_datum_header
 
 	// ------ multiplayer_player_info -----?
 
-	// set in `sub_537D10`, struct?
+	// ------------ tank_mode -------------
+
+	// used in `sub_537D10`, struct?
 	long tank_mode_time2D64; // = game_time_get();
 	real tank_mode_duration; // set from tags, `equipment:tank_mode:duration`
 	real tank_mode_unknown2D6C; // set from tags, `equipment:tank_mode:__unknown10 / 100.0f`
 	real tank_mode_damage_absorption_scale; // set from tags, `equipment:tank_mode:damage_absorption_scale / 100.0f`
 
-	// set and used in `sub_540730`
+	// used in `sub_540730`
 	real tank_mode_unknown2D74;
 	real tank_mode_unknown2D78;
 
-	// set in `sub_537C90`, struct?
+	// ------------ tank_mode -------------
+
+	// ---------- reactive_armor ----------
+
+	// used in `sub_537C90`, struct?
 	long reactive_armor_time2D7C; // = game_time_get();
 	real reactive_armor_duration; // set from tags, `equipment:reactive_armor:duration`
 	real reactive_armor_damage_reflection_scale; // set from tags, `equipment:reactive_armor:damage_reflection_scale / 100.0f`
 	real reactive_armor_unknown2D88; // set from tags, `equipment:reactive_armor:__unknown8 / 100.0f`
 
-	// used in `players_update_after_game`
-	long stamina_restore_near_death_timer; // gameplay_modifier
+	// ---------- reactive_armor ----------
 
-	byte __data2D90[0x10];
+	// used in `players_update_after_game`
+	long stamina_restore_near_death_timer; // gameplay_modifier: `stamina_restore_near_death`
+
+	// used in `sub_536FD0`
+	bool grenade_scavenger_modifier_used; // gameplay_modifier: `grenade_scavenger`
+
+	byte __data2D91[0xF];
 
 	short __unknown2DA0;
 	short lives_per_round;
-	byte __data2DA4[0x8];
+	byte __data2DA4[0x4];
+
+	// used in `game_engine_player_killed`, `game_engine_add_starting_equipment`
+	dword last_killed_round_time; // = `game_engine_round_time_get`
 
 	// ------ multiplayer_player_info -----?
 
@@ -352,9 +371,35 @@ struct player_datum : s_datum_header
 	real_point2d map_editor_throttle;
 	euler_angles2d map_editor_rotation;
 
-	byte __data2DEC[0x3E];
+	byte __data2DEC[0x8];
 
-	// set in `player_died`, struct?
+	// -------- nemesis_mechanics ---------
+
+	// used in `game_engine_player_killed`, struct?
+	union // gameplay_modifier: `enable_nemesis_mechanics`
+	{
+		// if `++counts == multiplayer_globals:runtime:multiplayer_constants:__unknown1DC` award medal
+
+		c_static_array<short, 16 /* player_index */> nemesis_mechanics_nemesis_counts; // killing_player, nemesis medal
+		c_static_array<short, 16 /* player_index */> nemesis_mechanics_avenger_counts; // dead_player, avenger medal
+	};
+
+	// -------- nemesis_mechanics ---------
+
+	// ------- revenge_shield_boost -------
+
+	// used in `game_engine_add_starting_equipment`, struct?
+	// gameplay_modifier: `revenge_shield_boost` values
+	bool revenge_shield_boost_unknown2E14;
+	short revenge_shield_boost_unknown2E16; // `object->__unknown100 *= (revenge_shield_boost_modifier_value * player->revenge_shield_boost_unknown2E16) + 1.0f`
+	long revenge_shield_boost_unknown2E18;
+	long revenge_shield_boost_player_index; // == `player_index`
+
+	// ------- revenge_shield_boost -------
+
+	byte __data2E20[0xA];
+
+	// used in `player_died`, struct?
 	// `respawn_weapon_definition_indices`?
 	// `respawn_equipment_definition_index`?
 	// `respawn_grenades_additional`?
@@ -456,7 +501,8 @@ static_assert(0x2D80 == OFFSETOF(player_datum, reactive_armor_duration));
 static_assert(0x2D84 == OFFSETOF(player_datum, reactive_armor_damage_reflection_scale));
 static_assert(0x2D88 == OFFSETOF(player_datum, reactive_armor_unknown2D88));
 static_assert(0x2D8C == OFFSETOF(player_datum, stamina_restore_near_death_timer));
-static_assert(0x2D90 == OFFSETOF(player_datum, __data2D90));
+static_assert(0x2D90 == OFFSETOF(player_datum, grenade_scavenger_modifier_used));
+static_assert(0x2D91 == OFFSETOF(player_datum, __data2D91));
 static_assert(0x2DA0 == OFFSETOF(player_datum, __unknown2DA0));
 static_assert(0x2DA2 == OFFSETOF(player_datum, lives_per_round));
 static_assert(0x2DA4 == OFFSETOF(player_datum, __data2DA4));
@@ -467,6 +513,14 @@ static_assert(0x2DD8 == OFFSETOF(player_datum, map_editor_rotating));
 static_assert(0x2DDC == OFFSETOF(player_datum, map_editor_throttle));
 static_assert(0x2DE4 == OFFSETOF(player_datum, map_editor_rotation));
 static_assert(0x2DEC == OFFSETOF(player_datum, __data2DEC));
+static_assert(0x2DF4 == OFFSETOF(player_datum, nemesis_mechanics_nemesis_counts));
+static_assert(0x2DF4 == OFFSETOF(player_datum, nemesis_mechanics_avenger_counts));
+static_assert(0x2E14 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E14));
+static_assert(0x2E16 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E16));
+static_assert(0x2E18 == OFFSETOF(player_datum, revenge_shield_boost_unknown2E18));
+static_assert(0x2E1C == OFFSETOF(player_datum, revenge_shield_boost_player_index));
+static_assert(0x2E20 == OFFSETOF(player_datum, __data2E20));
+static_assert(0x2E2A == OFFSETOF(player_datum, __data2E2A));
 static_assert(0x2E48 == OFFSETOF(player_datum, weak_assassination_unit_index));
 static_assert(0x2E4C == OFFSETOF(player_datum, is_assassination_victim));
 static_assert(0x2E50 == OFFSETOF(player_datum, assassination_authoritative_position));
