@@ -499,9 +499,7 @@ struct s_players_global_data
 	byte __pad131[0x3];
 
 	long local_machine_index;
-
-	// set to `false` when `zone_set_switch_flags` is memset
-	bool __unknown138;
+	bool scripted_dont_allow_respawning;
 
 	byte __data139;
 
