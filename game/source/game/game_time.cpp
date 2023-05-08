@@ -118,15 +118,14 @@ void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason)
 	INVOKE(0x00565000, game_time_set_paused, enable, reason);
 }
 
-void __cdecl game_time_set_rate_scale(real speed0, real speed1, real speed2)
+void __cdecl game_time_set_rate_scale(real rate_scale0, real rate_scale1, real rate_scale2)
 {
-	INVOKE(0x00565060, game_time_set_rate_scale, speed0, speed1, speed2);
+	INVOKE(0x00565060, game_time_set_rate_scale, rate_scale0, rate_scale1, rate_scale2);
 }
 
-// called in game_time_set_rate_scale
-void __cdecl game_time_set_speed_(real speed)
+void __cdecl game_time_set_rate_scale_direct(real rate_scale)
 {
-	INVOKE(0x00565110, game_time_set_speed_, speed);
+	INVOKE(0x00565110, game_time_set_rate_scale_direct, rate_scale);
 }
 
 void __cdecl game_time_set_speed(real speed)
