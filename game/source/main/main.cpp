@@ -172,16 +172,6 @@ void __cdecl main_loop_body_begin()
 			while (player_iterator.next())
 			{
 				player_count++;
-
-				long index = player_iterator.get_index();
-				short absolute_index = player_iterator.get_absolute_index();
-				player_datum* player = player_iterator.get_datum();
-
-				// respawns go brrr
-				if (!player->respawn_forced)
-					player->respawn_forced = true;
-
-				c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.name.get_string());
 			}
 		}
 

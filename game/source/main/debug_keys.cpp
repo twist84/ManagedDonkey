@@ -12,7 +12,7 @@
 
 // Modifier Table
 // 
-// Index, Shift,  Control, Windows
+// Index, Shift,  Control, Alt
 // 0,     No,     No,      No
 // 1,     Yes,    No,      No
 // 2,     No,     Yes,     No
@@ -22,6 +22,28 @@
 
 debug_key global_debug_key_list[]
 {
+	{
+		.name = "Force Respawn",
+		.key_code = _key_code_8,
+		.modifier = 4,
+		.callback = [](bool enabled) -> void
+		{
+			if (enabled)
+			{
+				TLS_REFERENCE(player_data);
+				c_player_in_game_iterator player_iterator(player_data);
+				while (player_iterator.next())
+				{
+					player_datum* player = player_iterator.get_datum();
+					player->respawn_forced = !player->respawn_forced;
+				}
+			}
+		},
+		.allow_out_of_game = false,
+		.allow_in_editor = true,
+		.toggle_variable = false,
+		.variable = nullptr
+	},
 	{
 		.name = "Select This Actor",
 		.key_code = _key_code_f1,
@@ -784,17 +806,17 @@ void __cdecl debug_keys_update()
 {
 	bool shift_down = input_key_frames_down(_key_code_shift, _input_type_game);
 	bool control_down = input_key_frames_down(_key_code_control, _input_type_game) != 0;
-	bool windows_down = input_key_frames_down(_key_code_windows, _input_type_game) != 0;
+	bool alt_down = input_key_frames_down(_key_code_alt, _input_type_game) != 0;
 
 	//random_seed_allow_use();
 	bool modifier_down[6]{};
 
-	modifier_down[0] = !shift_down && !control_down && !windows_down;
-	modifier_down[1] = shift_down && !control_down && !windows_down;
-	modifier_down[2] = !shift_down && control_down && !windows_down;
-	modifier_down[3] = !control_down && windows_down;
-	modifier_down[4] = shift_down && control_down && windows_down;
-	modifier_down[5] = !shift_down && control_down && windows_down;
+	modifier_down[0] = !shift_down   && !control_down && !alt_down;
+	modifier_down[1] = shift_down    && !control_down && !alt_down;
+	modifier_down[2] = !shift_down   && control_down  && !alt_down;
+	modifier_down[3] = !control_down && alt_down;
+	modifier_down[4] = shift_down    && control_down  && alt_down;
+	modifier_down[5] = !shift_down   && control_down  && alt_down;
 
 	debug_key* key = global_debug_key_list;
 	if (key->name)
