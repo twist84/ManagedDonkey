@@ -67,16 +67,17 @@ s_multiplayer_runtime_globals_definition* __cdecl scenario_multiplayer_globals_t
 s_multiplayer_universal_globals_definition* __cdecl scenario_multiplayer_globals_try_and_get_universal_data()
 {
     s_game_globals* game_globals = scenario_try_and_get_game_globals();
-
-    s_multiplayer_globals_definition* multiplayer_globals = nullptr;
     if (game_globals)
-        multiplayer_globals = static_cast<s_multiplayer_globals_definition*>(tag_get('mulg', game_globals->multiplayer_globals.index));
+    {
+        s_multiplayer_globals_definition* multiplayer_globals = game_globals->multiplayer_globals.cast_to<s_multiplayer_globals_definition>();
 
-    s_multiplayer_universal_globals_definition* universal_globals = nullptr;
-    if (multiplayer_globals)
-        universal_globals = multiplayer_globals_try_and_get_universal_data(multiplayer_globals);
+        if (multiplayer_globals)
+        {
+            s_multiplayer_universal_globals_definition* universal_globals = multiplayer_globals_try_and_get_universal_data(multiplayer_globals);
 
-    return universal_globals;
+            return universal_globals;
+        }
+    }
 
     return INVOKE(0x0069D340, scenario_multiplayer_globals_try_and_get_universal_data);
 }

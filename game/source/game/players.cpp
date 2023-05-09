@@ -35,7 +35,7 @@ void __cdecl player_suppress_action(long player_index, long player_suppress_acti
 		{
 			if (global_game_globals->input_globals.index != NONE)
 			{
-				s_input_globals_definition* input_globals = (s_input_globals_definition*)tag_get('inpg', global_game_globals->input_globals.index);
+				s_input_globals_definition* input_globals = global_game_globals->input_globals.cast_to<s_input_globals_definition>();
 
 				player->flags |= FLAG(4);
 				player->__unknown2CD4 = game_seconds_to_ticks_round(input_globals->__unknown30 / 1000.0f);

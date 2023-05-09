@@ -135,9 +135,15 @@ union cache_file_tag_instance
 		return group_tag == group_tags[0] || group_tag == group_tags[1] || group_tag == group_tags[2];
 	}
 
-	byte* get()
+	void* get()
 	{
 		return base + offset;
+	}
+
+	template<typename t_type>
+	t_type* cast_to()
+	{
+		return static_cast<t_type*>(get());
 	}
 };
 static_assert(sizeof(cache_file_tag_instance) == 0x24);
