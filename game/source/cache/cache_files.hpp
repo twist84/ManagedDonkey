@@ -418,3 +418,13 @@ extern void* __cdecl tag_get(tag group_tag, long tag_index);
 extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, dword tag_index);
 extern void cache_file_tags_load_single_tag_file_test(char const* file_name);
 
+enum e_instance_modification_stage
+{
+	_instance_modification_stage_tag_load = 0,
+	_instance_modification_stage_tag_fixup,
+
+	k_instance_modification_stages
+};
+
+extern void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage);
+
