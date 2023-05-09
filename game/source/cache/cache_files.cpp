@@ -4,6 +4,7 @@
 #include "cache/security_functions.hpp"
 #include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
+#include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "memory/crc.hpp"
 #include "memory/module.hpp"
@@ -380,7 +381,15 @@ bool __cdecl cache_file_tags_load(dword tag_index)
 
 	if (instance->is_group('mulg'))
 		add_missing_weapon_selections(instance, true);
-	
+
+#ifdef ISEXPERIMENTAL
+	if (instance->is_group('matg'))
+	{
+		s_game_globals* game_globals = reinterpret_cast<s_game_globals*>(instance->base + instance->offset);
+		game_globals->input_globals.index = 0xFFFFFFFF;
+	}
+#endif // ISEXPERIMENTAL
+
 	short dependency_index = 0;
 	while (cache_file_tags_load(instance->dependencies[dependency_index]))
 	{
@@ -408,6 +417,14 @@ void __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 
 	if (instance->is_group('mulg'))
 		add_missing_weapon_selections(instance, false);
+
+#ifdef ISEXPERIMENTAL
+	if (instance->is_group('matg'))
+	{
+		s_game_globals* game_globals = reinterpret_cast<s_game_globals*>(instance->base + instance->offset);
+		ASSERT(game_globals->input_globals.index == 0xFFFFFFFF);
+	}
+#endif // ISEXPERIMENTAL
 }
 
 void __cdecl cache_file_tags_fixup_all_instances()

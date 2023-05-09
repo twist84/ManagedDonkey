@@ -1,17 +1,66 @@
 #include "players.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "game/multiplayer_definitions.hpp"
+#include "input/input_abstraction.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
+HOOK_DECLARE(0x0053F220, player_suppress_action);
 
 void __cdecl player_set_unit_index(long player_index, long unit_index)
 {
 	INVOKE(0x0053CA80, player_set_unit_index, player_index, unit_index);
+}
+
+//void __cdecl player_suppress_action(long, enum e_player_suppress_action_type_enum)
+void __cdecl player_suppress_action(long player_index, long player_suppress_action_type)
+{
+	//INVOKE(0x0053F220, player_suppress_action, player_index, player_suppress_action_type);
+
+	TLS_REFERENCE(player_data);
+	player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
+
+	long input_user = player_mapping_get_input_user(player_index);
+	switch (player_suppress_action_type)
+	{
+	case 0:
+	{
+		if (!TEST_BIT(player->flags, 4))
+		{
+			if (global_game_globals->input_globals.index != NONE)
+			{
+				s_input_globals_definition* input_globals = (s_input_globals_definition*)tag_get('inpg', global_game_globals->input_globals.index);
+
+				player->flags |= FLAG(4);
+				player->__unknown2CD4 = game_seconds_to_ticks_round(input_globals->__unknown30 / 1000.0f);
+				break;
+			}
+
+			player->__unknown2CD4 = 0;
+		}
+
+		player->flags |= FLAG(4);
+	}
+	break;
+	case 1:
+	{
+		player->flags |= FLAG(5);
+		if (input_user != NONE)
+			player_control_suppress_rotate_weapons(input_user);
+	}
+	break;
+	case 2:
+	{
+		player->flags |= FLAG(6);
+	}
+	break;
+	}
 }
 
 bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position)

@@ -657,6 +657,7 @@ struct c_player_with_unit_iterator :
 };
 
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
+extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
 extern long __cdecl players_first_active_user();
 extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
