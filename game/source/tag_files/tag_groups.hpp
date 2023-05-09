@@ -19,6 +19,12 @@ struct s_tag_reference
 	long index;
 
 	void* get_definition();
+
+	template<typename t_type>
+	t_type* cast_to()
+	{
+		return static_cast<t_type*>(get_definition());
+	}
 };
 static_assert(sizeof(s_tag_reference) == 0x10);
 
