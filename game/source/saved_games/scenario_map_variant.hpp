@@ -4,6 +4,8 @@
 #include "objects/objects.hpp"
 #include "saved_games/saved_game_files.hpp"
 
+long const k_number_of_map_variant_simulation_entities = 31;
+
 enum e_game_engine_symmetric_placement
 {
 	_game_engine_symmetric_placement_ignore = 0,
@@ -245,7 +247,7 @@ private:
 	c_static_array<s_variant_object_datum, 640> m_variant_objects;
 	c_static_array<short, k_object_type_count> m_object_type_start_index;
 	c_static_array<s_variant_quota, 256> m_quotas;
-
-	byte unused[0x140];
+	c_static_array<long, k_number_of_map_variant_simulation_entities> chunk_simulation_object_glue_indices;
+	byte unused[0xC4];
 };
 static_assert(sizeof(c_map_variant) == 0xE090);
