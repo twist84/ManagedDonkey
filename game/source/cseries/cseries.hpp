@@ -259,6 +259,18 @@ template<typename t_type, typename t_storage_type, size_t k_count>
 struct c_flags
 {
 public:
+	c_flags() :
+		m_storage()
+	{
+
+	}
+
+	c_flags(t_storage_type raw_bits) :
+		m_storage(raw_bits)
+	{
+
+	}
+
 	void set_raw_bits(t_storage_type raw_bits)
 	{
 		m_storage = raw_bits;
