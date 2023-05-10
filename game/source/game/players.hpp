@@ -187,16 +187,19 @@ static_assert(sizeof(s_tracking_object) == 0xC);
 
 struct multiplayer_player_info
 {
-	dword __unknown0;
-	word __unknown4;
-	byte __data6[2];
-	byte __unknown8;
-	byte __unknown9;
-	byte __unknownA;
-	byte __unknownB;
-	word __unknownC;
-	word lives_per_round;
-	dword __unknown10;
+	long target_player_index;
+	short __unknown4;
+	char __unknown6;
+	char __unknown7;
+	char __unknown8;
+	char __unknown9;
+	char __unknownA;
+	char __unknownB;
+	short __unknownC;
+	word lives;
+
+	// used in `game_engine_respond_to_betrayal`, `game_engine_player_is_dead_and_betrayed_by_griefer`
+	long betrayal_player_index;
 
 	// used in `game_engine_player_killed`, `game_engine_add_starting_equipment`
 	dword last_killed_round_time; // = `game_engine_round_time_get`
@@ -264,7 +267,7 @@ static_assert(sizeof(s_player_shot_info) == 0xC);
 #pragma pack(push, 4)
 struct player_datum : s_datum_header
 {
-	short team;
+	short __unknown2;
 	dword_flags flags;
 	s_player_identifier player_identifier;
 	long left_game_time;
@@ -277,20 +280,20 @@ struct player_datum : s_datum_header
 	datum_index unit_index;
 	datum_index dead_unit_index;
 	datum_index failed_teleport_unit_index;
-	dword __unknown3C;
+	dword_flags latched_control_flags;
 
 	// ---------- cooldown_reset ----------
 
 	// these are used in `players_update_after_game`, `player_spawn`, `sub_53C860`, struct?
-	// if `player->__unknown40 == 0` do something with equipment
+	// if `player->cooldown_reset_unknown40 == 0` do something with equipment
 	// gameplay_modifier: `cooldown_reset` related
-	word __unknown40;
-	word __unknown42;
-	word __unknown44;
+	word cooldown_reset_unknown40;
+	word cooldown_reset_unknown42;
+	word cooldown_reset_unknown44;
 
 	// ---------- cooldown_reset ----------
 
-	word __unknown46; // <----------------- part of `cooldown_reset`?
+	word_flags latched_action_flags;
 	byte outside_of_world_timer;
 	byte next_spawn_control_context;
 
@@ -433,7 +436,7 @@ struct player_datum : s_datum_header
 	short spawn_count;
 	byte __pad2F06[2];
 };
-static_assert(0x0002 == OFFSETOF(player_datum, team));
+static_assert(0x0002 == OFFSETOF(player_datum, __unknown2));
 static_assert(0x0004 == OFFSETOF(player_datum, flags));
 static_assert(0x0008 == OFFSETOF(player_datum, player_identifier));
 static_assert(0x0010 == OFFSETOF(player_datum, left_game_time));
@@ -445,11 +448,11 @@ static_assert(0x002C == OFFSETOF(player_datum, cluster_reference));
 static_assert(0x0030 == OFFSETOF(player_datum, unit_index));
 static_assert(0x0034 == OFFSETOF(player_datum, dead_unit_index));
 static_assert(0x0038 == OFFSETOF(player_datum, failed_teleport_unit_index));
-static_assert(0x003C == OFFSETOF(player_datum, __unknown3C));
-static_assert(0x0040 == OFFSETOF(player_datum, __unknown40));
-static_assert(0x0042 == OFFSETOF(player_datum, __unknown42));
-static_assert(0x0044 == OFFSETOF(player_datum, __unknown44));
-static_assert(0x0046 == OFFSETOF(player_datum, __unknown46));
+static_assert(0x003C == OFFSETOF(player_datum, latched_control_flags));
+static_assert(0x0040 == OFFSETOF(player_datum, cooldown_reset_unknown40));
+static_assert(0x0042 == OFFSETOF(player_datum, cooldown_reset_unknown42));
+static_assert(0x0044 == OFFSETOF(player_datum, cooldown_reset_unknown44));
+static_assert(0x0046 == OFFSETOF(player_datum, latched_action_flags));
 static_assert(0x0048 == OFFSETOF(player_datum, outside_of_world_timer));
 static_assert(0x0049 == OFFSETOF(player_datum, next_spawn_control_context));
 static_assert(0x004C == OFFSETOF(player_datum, armor_loadout_index));
@@ -511,16 +514,17 @@ static_assert(0x2D88 == OFFSETOF(player_datum, reactive_armor_unknown2D88));
 static_assert(0x2D8C == OFFSETOF(player_datum, stamina_restore_near_death_timer));
 static_assert(0x2D90 == OFFSETOF(player_datum, grenade_scavenger_modifier_used));
 static_assert(0x2D91 == OFFSETOF(player_datum, __data2D91));
-static_assert(0x2D94 == OFFSETOF(player_datum, multiplayer.__unknown0));
+static_assert(0x2D94 == OFFSETOF(player_datum, multiplayer.target_player_index));
 static_assert(0x2D98 == OFFSETOF(player_datum, multiplayer.__unknown4));
-static_assert(0x2D9A == OFFSETOF(player_datum, multiplayer.__data6));
+static_assert(0x2D9A == OFFSETOF(player_datum, multiplayer.__unknown6));
+static_assert(0x2D9B == OFFSETOF(player_datum, multiplayer.__unknown7));
 static_assert(0x2D9C == OFFSETOF(player_datum, multiplayer.__unknown8));
 static_assert(0x2D9D == OFFSETOF(player_datum, multiplayer.__unknown9));
 static_assert(0x2D9E == OFFSETOF(player_datum, multiplayer.__unknownA));
 static_assert(0x2D9F == OFFSETOF(player_datum, multiplayer.__unknownB));
 static_assert(0x2DA0 == OFFSETOF(player_datum, multiplayer.__unknownC));
-static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.lives_per_round));
-static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.__unknown10));
+static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.lives));
+static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.betrayal_player_index));
 static_assert(0x2DAC == OFFSETOF(player_datum, multiplayer.player_traits));
 static_assert(0x2DC8 == OFFSETOF(player_datum, multiplayer.powerup_pickup_time));
 static_assert(0x2DD4 == OFFSETOF(player_datum, multiplayer.__unknown40));
@@ -537,6 +541,7 @@ static_assert(0x2E1C == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_
 static_assert(0x2E20 == OFFSETOF(player_datum, multiplayer.__unknown8C));
 static_assert(0x2E24 == OFFSETOF(player_datum, multiplayer.__unknown90));
 static_assert(0x2E25 == OFFSETOF(player_datum, multiplayer.__data91));
+static_assert(0x2E28 == OFFSETOF(player_datum, __data2E28));
 static_assert(0x2E2A == OFFSETOF(player_datum, __data2E2A));
 static_assert(0x2E48 == OFFSETOF(player_datum, weak_assassination_unit_index));
 static_assert(0x2E4C == OFFSETOF(player_datum, is_assassination_victim));
