@@ -699,6 +699,9 @@
     <ClCompile Include="source\simulation\game_interface\simulation_game_action.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\game_engine_spawning.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1812,6 +1815,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\simulation\game_interface\simulation_game_action.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\game_engine_spawning.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

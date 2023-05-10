@@ -238,6 +238,7 @@ POPD
     <ClCompile Include="source\game\game_engine_player_traits.cpp" />
     <ClCompile Include="source\game\game_engine_sandbox.cpp" />
     <ClCompile Include="source\game\game_engine_slayer.cpp" />
+    <ClCompile Include="source\game\game_engine_spawning.cpp" />
     <ClCompile Include="source\game\game_engine_team.cpp" />
     <ClCompile Include="source\game\game_engine_territories.cpp" />
     <ClCompile Include="source\game\game_engine_traits.cpp" />
@@ -433,6 +434,7 @@ POPD
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
+    <ClInclude Include="source\game\game_engine_spawning.hpp" />
     <ClInclude Include="source\game\game_results.hpp" />
     <ClInclude Include="source\geometry\geometry_definitions.hpp" />
     <ClInclude Include="source\interface\c_gui_model_widget.hpp" />
