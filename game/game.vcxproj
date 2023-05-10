@@ -411,6 +411,7 @@ POPD
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
     <ClCompile Include="source\screenshots\screenshots_uploader.cpp" />
     <ClCompile Include="source\shell\shell.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_action.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
     <ClCompile Include="source\tag_files\files.cpp" />
@@ -765,6 +766,7 @@ POPD
     <ClInclude Include="source\shell\game_interface\simulation_game_events.hpp" />
     <ClInclude Include="source\shell\shell.hpp" />
     <ClInclude Include="source\scenario\scenario_object_definitions.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_action.hpp" />
     <ClInclude Include="source\simulation\simulation.hpp" />
     <ClInclude Include="source\simulation\simulation_actors.hpp" />
     <ClInclude Include="source\simulation\simulation_debug_globals.hpp" />
