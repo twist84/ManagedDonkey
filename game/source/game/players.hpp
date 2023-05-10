@@ -196,7 +196,7 @@ struct multiplayer_player_info
 	char __unknownA;
 	char __unknownB;
 	short __unknownC;
-	word lives;
+	short lives;
 
 	// used in `game_engine_respond_to_betrayal`, `game_engine_player_is_dead_and_betrayed_by_griefer`
 	long betrayal_player_index;
@@ -207,7 +207,10 @@ struct multiplayer_player_info
 	c_player_traits player_traits;
 
 	c_static_array<dword, k_number_of_multiplayer_powerup_flavors> powerup_pickup_time;
-	long __unknown40;
+
+	// used in `game_engine_spawn_influencers_add_ally_bias`
+	long dead_camera_target_player_index;
+
 	bool map_editor_rotating;
 	real_point2d map_editor_throttle;
 	euler_angles2d map_editor_rotation;
@@ -527,7 +530,7 @@ static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.lives));
 static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.betrayal_player_index));
 static_assert(0x2DAC == OFFSETOF(player_datum, multiplayer.player_traits));
 static_assert(0x2DC8 == OFFSETOF(player_datum, multiplayer.powerup_pickup_time));
-static_assert(0x2DD4 == OFFSETOF(player_datum, multiplayer.__unknown40));
+static_assert(0x2DD4 == OFFSETOF(player_datum, multiplayer.dead_camera_target_player_index));
 static_assert(0x2DD8 == OFFSETOF(player_datum, multiplayer.map_editor_rotating));
 static_assert(0x2DDC == OFFSETOF(player_datum, multiplayer.map_editor_throttle));
 static_assert(0x2DE4 == OFFSETOF(player_datum, multiplayer.map_editor_rotation));
