@@ -81,7 +81,7 @@ struct s_game_engine_globals
 	word_flags active_teams;
 	word game_simulation;
 	c_static_array<short, 9> team_designator_to_team_index;
-	c_static_array<byte, 8> team_lives_per_round;
+	c_static_array<char, 8> team_lives_per_round;
 	short __unknown2A;
 	dword gamestate_index;
 	dword statborg_gamestate_index;
