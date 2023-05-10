@@ -90,8 +90,8 @@ struct s_game_engine_globals
 	c_map_variant map_variant;
 	c_enum<e_game_engine_state, short, _game_engine_state_game_over, k_game_engine_state_count> current_state;
 	short round_index;
-	dword round_timer;
-	byte round_condition_flags;
+	long round_timer;
+	c_flags<long, byte, 8> round_condition_flags;
 	s_game_engine_score_list score_list;
 
 	union
