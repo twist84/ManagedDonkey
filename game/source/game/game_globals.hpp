@@ -9,6 +9,7 @@
 #include "game/game_options.hpp"
 #include "game/game_progression.hpp"
 #include "game/materials_definitions.hpp"
+#include "math/function_definitions.hpp"
 #include "render/render_visibility_collection.hpp"
 #include "sound/sound_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
@@ -176,9 +177,9 @@ struct s_game_globals
 	c_typed_tag_reference<'inpg'> input_globals;
 	real __unknown5C0;
 	real __unknown5C4;
-	real __unknown5C8;
-	real __unknown5CC;
-	s_tag_data __unknown5D0; // tag function
+	real biped_speed_reference;
+	real vehicle_speed_reference;
+	c_function_definition speed_to_maximum_camo;
 	real __unknown5E8;
 	real __unknown5EC;
 	real __unknown5F0;

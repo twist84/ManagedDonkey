@@ -444,6 +444,7 @@ POPD
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />
     <ClInclude Include="source\main\console.hpp" />
     <ClInclude Include="source\main\debug_keys.hpp" />
+    <ClInclude Include="source\math\function_definitions.hpp" />
     <ClInclude Include="source\math\real_math.hpp" />
     <ClInclude Include="source\memory\data_encoding.hpp" />
     <ClInclude Include="source\memory\data_packets.hpp" />
