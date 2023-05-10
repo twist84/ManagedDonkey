@@ -26,19 +26,7 @@ debug_key global_debug_key_list[]
 		.name = "Force Respawn",
 		.key_code = _key_code_8,
 		.modifier = 4,
-		.callback = [](bool enabled) -> void
-		{
-			if (enabled)
-			{
-				TLS_REFERENCE(player_data);
-				c_player_in_game_iterator player_iterator(player_data);
-				while (player_iterator.next())
-				{
-					player_datum* player = player_iterator.get_datum();
-					player->respawn_forced = !player->respawn_forced;
-				}
-			}
-		},
+		.callback = debug_key_force_respawn,
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = false,
@@ -1171,6 +1159,21 @@ void __cdecl debug_time_stats_pause(bool enabled)
 		c_console::write_line(__FUNCTION__);
 	}
 }
+
+void __cdecl debug_key_force_respawn(bool enabled)
+{
+	if (enabled)
+	{
+		TLS_REFERENCE(player_data);
+		c_player_in_game_iterator player_iterator(player_data);
+		while (player_iterator.next())
+		{
+			player_datum* player = player_iterator.get_datum();
+			player->respawn_forced = !player->respawn_forced;
+		}
+	}
+}
+
 void __cdecl debug_button_drop_flag_at_camera(bool enabled)
 {
 	if (enabled)

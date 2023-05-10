@@ -78,6 +78,7 @@ extern void __cdecl debug_key_decrement_game_speed_major(bool enabled);
 extern void __cdecl debug_dump_assert_log(bool enabled);
 extern void __cdecl debug_time_stats_display(bool enabled);
 extern void __cdecl debug_time_stats_pause(bool enabled);
+extern void __cdecl debug_key_force_respawn(bool enabled);
 
 extern void __cdecl debug_button_drop_flag_at_camera(bool enabled);
 extern void __cdecl debug_button_drop_flag_as_projectile(bool enabled);
