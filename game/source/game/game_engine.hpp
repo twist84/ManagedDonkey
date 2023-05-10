@@ -153,6 +153,11 @@ extern long __cdecl game_engine_get_team_place(long team);
 extern long __cdecl game_engine_get_team_score_for_display(long team, bool final_score);
 extern bool __cdecl game_engine_in_round();
 extern void __cdecl game_engine_interface_update(float world_seconds_elapsed);
+extern bool __cdecl game_engine_player_is_playing(long player_index);
+extern void __cdecl game_engine_player_set_spawn_timer(long player_index, long spawn_time);
 extern long __cdecl game_engine_get_pre_round_ticks();
+extern long __cdecl game_engine_get_post_round_ticks();
+extern long __cdecl game_engine_round_time_get();
+extern void __cdecl game_engine_update_round_conditions();
 extern void __cdecl game_engine_dump_variant_settings(char const* filename);
 
