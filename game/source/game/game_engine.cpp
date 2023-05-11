@@ -154,7 +154,6 @@ void __cdecl game_engine_update_round_conditions()
 	TLS_REFERENCE(game_engine_globals);
 
 	long round_time = game_engine_round_time_get();
-	short& unknownF9A8 = game_engine_globals->__unknownF9A8;
 
 	c_flags<long, byte, 8> round_condition_flags(round_time < 5);
 

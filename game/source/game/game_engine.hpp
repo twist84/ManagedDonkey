@@ -117,14 +117,14 @@ struct s_game_engine_globals
 	real __unknownF996[4];
 	byte __dataF9A8[2];
 	short __unknownF9A8;
-	long __unknownF9AC;
+	long shot_id;
 	c_static_array<s_dead_player_info, 64> spawn_influencers;
 	c_game_statborg statborg;
 	long __unknown102D4;
 	c_static_array<s_player_waypoint_data, 16> player_waypoints;
 	byte __data10498[0x104];
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
-	dword __unknown13D9C;
+	dword round_end_ticks;
 	c_enum<e_game_engine_state, long, _game_engine_state_game_over, k_game_engine_state_count> desired_state;
 	bool game_finished;
 	dword __unknown13DA8;
