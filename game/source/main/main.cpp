@@ -285,6 +285,14 @@ void __cdecl main_loop_body_end()
 		if (input_key_frames_down(_key_code_left_parenthesis, _input_type_ui) == 1)
 			event_manager_button_pressed(_controller_index0, _gamepad_button_right_bumper);
 	}
+	else
+	{
+		if (input_key_frames_down(_key_code_right_parenthesis, _input_type_game) == 1)
+			event_manager_button_pressed(_controller_index0, _gamepad_button_left_bumper);
+
+		if (input_key_frames_down(_key_code_left_parenthesis, _input_type_game) == 1)
+			event_manager_button_pressed(_controller_index0, _gamepad_button_right_bumper);
+	}
 
 	// home cluster keys
 	if (input_key_frames_down(_key_code_insert, _input_type_ui) == 1)

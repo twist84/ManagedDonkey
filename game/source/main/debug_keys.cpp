@@ -105,7 +105,7 @@ debug_key global_debug_key_list[]
 	{
 		.name = "Rotate Units",
 		.key_code = _key_code_backslash,
-		.modifier = 0,
+		.modifier = 2,
 		.callback = debug_key_rotate_units,
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
@@ -115,7 +115,7 @@ debug_key global_debug_key_list[]
 	{
 		.name = "Rotate All Units",
 		.key_code = _key_code_right_parenthesis,
-		.modifier = 0,
+		.modifier = 2,
 		.callback = debug_key_rotate_all_units,
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
