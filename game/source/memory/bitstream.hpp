@@ -82,7 +82,7 @@ public:
 	void __cdecl discard_remaining_data();
 
 private:
-	void __cdecl encode_qword_to_memory(qword a1, long a2);
+	void __cdecl encode_qword_to_memory(qword value, long size_in_bits);
 
 public:
 	bool __cdecl overflowed() const;

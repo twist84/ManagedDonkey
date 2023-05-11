@@ -14,9 +14,27 @@ t_type left_shift_fast(t_type value, long shift_bits)
 }
 
 template<typename t_type>
+t_type left_shift_safe(t_type value, long shift_bits)
+{
+	if (shift_bits >= SIZEOF_BITS(t_type))
+		return t_type(0);
+
+	return t_type(value << shift_bits);
+}
+
+template<typename t_type>
 t_type right_shift_fast(t_type value, long shift_bits)
 {
 	ASSERT(shift_bits < SIZEOF_BITS(t_type));
+
+	return t_type(value >> shift_bits);
+}
+
+template<typename t_type>
+t_type right_shift_safe(t_type value, long shift_bits)
+{
+	if (shift_bits < SIZEOF_BITS(t_type))
+		return t_type(0);
 
 	return t_type(value >> shift_bits);
 }
@@ -127,9 +145,9 @@ void __cdecl c_bitstream::discard_remaining_data()
 	//DECLFUNC(0x00557F60, void, __thiscall, c_bitstream const*)(this);
 }
 
-void __cdecl __cdecl c_bitstream::encode_qword_to_memory(qword a1, long a2)
+void __cdecl __cdecl c_bitstream::encode_qword_to_memory(qword value, long size_in_bits)
 {
-	DECLFUNC(0x00557F80, void, __cdecl, c_bitstream const*, qword, long)(this, a1, a2);
+	DECLFUNC(0x00557F80, void, __cdecl, c_bitstream const*, qword, long)(this, value, size_in_bits);
 }
 
 bool __cdecl c_bitstream::overflowed() const
