@@ -10,6 +10,13 @@ struct s_dead_player_info
 };
 static_assert(sizeof(s_dead_player_info) == 0x14);
 
+struct s_netgame_goal_influencer
+{
+	long type;
+	long object_index;
+};
+static_assert(sizeof(s_netgame_goal_influencer) == 0x8);
+
 struct s_netgame_goal_spawn_influence
 {
 	real full_weight_radius; // wu
