@@ -6,6 +6,7 @@
 #include "ai/ai_scenario_definitions.hpp"
 #include "ai/cs_scenario_definitions.hpp"
 #include "editor/editor_scenario_definitions.hpp"
+#include "game/game_engine_spawn_influencer.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "scenario/scenario_cubemap_definitions.hpp"
 #include "scenario/scenario_decorator_definitions.hpp"
@@ -85,15 +86,11 @@ struct recorded_animation_definition;
 struct s_ai_reference_frame_definition;
 struct s_campaign_metagame_scenario;
 struct s_cinematic_reference;
-struct s_equipment_spawn_influence;
 struct s_flock_instance;
 struct s_flock_palette_entry;
 struct s_game_audibility;
 struct s_game_globals_player_representation;
-struct s_netgame_goal_spawn_influence;
 struct s_objective;
-struct s_player_spawn_influence;
-struct s_projectile_spawn_influence;
 struct s_scenario_acoustics_palette_entry;
 struct s_scenario_acoustics_volume;
 struct s_scenario_airprobe_info;
@@ -115,8 +112,6 @@ struct s_scenario_zone_set_switch_trigger_volume;
 struct s_soft_surfaces_definition;
 struct s_squad_definition;
 struct s_squad_patrol_definition;
-struct s_vehicle_spawn_influence;
-struct s_weapon_spawn_influence;
 struct scenario_campaign_player_representation_names_block;
 struct scenario_cutscene_camera_point;
 struct scenario_cutscene_flag;
@@ -658,26 +653,6 @@ struct s_trigger_volume_triangle
 	real bounds_z[2];
 };
 static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
-
-struct s_player_spawn_influence
-{
-	real override_full_weight_radius; // wu
-	real override_fall_off_radius; // wu
-	real override_upper_height; // wu
-	real override_lower_height; // wu
-	real override_weight;
-};
-static_assert(sizeof(s_player_spawn_influence) == 0x14);
-
-struct s_netgame_goal_spawn_influence
-{
-	real override_full_weight_radius; // wu
-	real override_fall_off_radius; // wu
-	real override_upper_cylinder_height; // wu
-	real override_lower_cylinder_height; // wu
-	real override_weight;
-};
-static_assert(sizeof(s_netgame_goal_spawn_influence) == 0x14);
 
 struct s_background_bitmap_reference_definition
 {

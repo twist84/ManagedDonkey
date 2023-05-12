@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/game_engine_spawn_influencer.hpp"
 #include "tag_files/tag_groups.hpp"
 
 struct s_multiplayer_universal_globals_definition;
@@ -253,123 +254,71 @@ struct s_multiplayer_constants
 
 	// ENEMY FORBID
 	// This is a tight cylinder around the player with a strong negative weight. It serves to protect players from spawning close to an enemy, or having and enemy spawn close to them.
-	real ef_full_weight_radius; // wu
-	real ef_fall_off_radius; // wu
-	real ef_upper_height; // wu
-	real ef_lower_height; // wu
-	real ef_weight;
+	s_player_spawn_influence enemy_forbid_influencer;
 
 	// ENEMY BIAS
 	// This is a larger cylinder, with a size set specifically for the size of the map. It has a weak negative weight which falls to zero towards the outer radius. It serves to bias players away from spawning near enemies, or in enemy held areas.
-	real eb_full_weight_radius; // wu
-	real eb_fall_off_radius; // wu
-	real eb_upper_height; // wu
-	real eb_lower_height; // wu
-	real eb_weight;
+	s_player_spawn_influence enemy_bias_influencer;
 
 	// ALLY BIAS
 	// This is a larger cylinder, with a size set specifically for the size of the map. It has a weak positive weight which falls to zero towards the outer radius. It serves to bias players towards spawning with allies, or in areas which are controlled by friendly players.
-	real ab_full_weight_radius; // wu
-	real ab_fall_off_radius; // wu
-	real ab_upper_height; // wu
-	real ab_lower_height; // wu
-	real ab_weight;
+	s_player_spawn_influence ally_bias_influencer;
 
 	// SELECTED ALLY BIAS", "Same as ALLY BIAS, but used when the ally is selected in the dead-camera.
-	real sab_full_weight_radius; // wu
-	real sab_fall_off_radius; // wu
-	real sab_upper_height; // wu
-	real sab_lower_height; // wu
-	real sab_weight;
+	s_player_spawn_influence selected_ally_bias_influencer;
 
 	// DEAD TEAMMATE BIAS
 	// Dead teammate influences are cylinders centered upon the body of a dead teammate (or the player's own dead body).
-	real dt_full_weight_radius; // wu
-	real dt_fall_off_radius; // wu
-	real dt_upper_height; // wu
-	real dt_lower_height; // wu
-	real dt_weight;
+	s_player_spawn_influence dead_teammate_influencer;
 	real dead_teammate_influence_duration; // seconds
 
 	// WEAPON INFLUENCERS
 	// These influencers are induced by weapons either weilded or carried in the player's backpack
-	s_tag_block weapon_influencers;
+	c_typed_tag_block<s_weapon_spawn_influence> weapon_influencers;
 
 	// VEHICLE INFLUENCERS
 	// These influencers are induced by vehicles.
-	s_tag_block vehicle_influencers;
+	c_typed_tag_block<s_vehicle_spawn_influence> vehicle_influencers;
 
 	// PROJECTILE INFLUENCERS
 	// These influencers are induced by projectiles.
-	s_tag_block projectile_influencers;
+	c_typed_tag_block<s_projectile_spawn_influence> projectile_influencers;
 
 	// EQUIPMENT INFLUENCERS
 	// These influencers are induced by equipment.
-	s_tag_block equipment_influencers;
+	c_typed_tag_block<s_equipment_spawn_influence> equipment_influencers;
 
 	// KOTH HILL INFLUENCER
 	// This influencer is induced by the King of the Hill hill goal area.
-	real koth_full_weight_radius; // wu
-	real koth_falloff_radius; // wu
-	real koth_upper_cylinder_height; // wu
-	real koth_lower_cylinder_height; // wu
-	real koth_weight;
+	s_netgame_goal_spawn_influence koth_hill_influencer;
 
 	// ODDBALL INFLUENCER
 	// This influencer is induced by the oddball.
-	real ob_full_weight_radius; // wu
-	real ob_falloff_radius; // wu
-	real ob_upper_cylinder_height; // wu
-	real ob_lower_cylinder_height; // wu
-	real ob_weight;
+	s_netgame_goal_spawn_influence oddball_influencer;
 
 	// CTF FLAG AWAY INFLUENCER
 	// This influencer is induced by the CTF flag stand when the flag is away.
-	real ctf_full_weight_radius; // wu
-	real ctf_falloff_radius; // wu
-	real ctf_upper_cylinder_height; // wu
-	real ctf_lower_cylinder_height; // wu
-	real ctf_weight;
+	s_netgame_goal_spawn_influence ctf_flag_away_influencer;
 
 	// TERRITORY ALLY INFLUENCER
 	// This influencer is induced by territories controlled by teammates.
-	real tera_full_weight_radius; // wu
-	real tera_falloff_radius; // wu
-	real tera_upper_cylinder_height; // wu
-	real tera_lower_cylinder_height; // wu
-	real tera_weight;
+	s_netgame_goal_spawn_influence territories_ally_influencer;
 
 	// TERRITORY ENEMY INFLUENCER
 	// This influencer is induced by territories controlled by an enemy.
-	real tere_full_weight_radius; // wu
-	real tere_falloff_radius; // wu
-	real tere_upper_cylinder_height; // wu
-	real tere_lower_cylinder_height; // wu
-	real tere_weight;
+	s_netgame_goal_spawn_influence territories_enemy_influencer;
 
 	// INFECTION SAFE ZONE HUMAN INFLUENCER
 	// This influencer is induced by an infection safe zone upon humans.
-	real infh_full_weight_radius; // wu
-	real infh_falloff_radius; // wu
-	real infh_upper_cylinder_height; // wu
-	real infh_lower_cylinder_height; // wu
-	real infh_weight;
+	s_netgame_goal_spawn_influence infection_safe_zone_human_influencer;
 
 	// INFECTION SAFE ZONE ZOMBIE INFLUENCER
 	// This influencer is induced by an infection safe zone upon zombies.
-	real infz_full_weight_radius; // wu
-	real infz_falloff_radius; // wu
-	real infz_upper_cylinder_height; // wu
-	real infz_lower_cylinder_height; // wu
-	real infz_weight;
+	s_netgame_goal_spawn_influence infection_safe_zone_zombie_influencer;
 
 	// VIP INFLUENCER
 	// This influencer is induced by a VIP upon his teammates.
-	real vip_full_weight_radius; // wu
-	real vip_falloff_radius; // wu
-	real vip_upper_cylinder_height; // wu
-	real vip_lower_cylinder_height; // wu
-	real vip_weight;
+	s_netgame_goal_spawn_influence vip_influencer;
 
 	// MORE MP CONSTANTS
 	// More old Halo2 stuff follows...
