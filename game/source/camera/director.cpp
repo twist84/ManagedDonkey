@@ -314,7 +314,11 @@ void __cdecl director_set_flying_camera_direct(long user_index, real_point3d con
 
 char const* scenario_get_name()
 {
-	return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
+	if (global_scenario_index == NONE)
+		return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
+
+	char const* path = tag_get_name(global_scenario_index);
+	return tag_name_strip_path(path);
 }
 
 char const* const k_camera_save_filename = "camera";

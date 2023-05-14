@@ -7,6 +7,16 @@
 #include "tag_files/tag_groups.hpp"
 #include "tag_files/tag_resource_internals.hpp"
 
+enum e_cache_file_section
+{
+	_cache_file_section_debug = 0,
+	_cache_file_section_resource,
+	_cache_file_section_tag,
+	_cache_file_section_localization,
+
+	k_number_of_cache_file_sections
+};
+
 struct s_cache_file_section_file_bounds
 {
 	long offset;
@@ -70,8 +80,8 @@ union s_cache_file_header
 
 		s_network_http_request_hash hash;
 		s_rsa_signature rsa_signature;
-		c_static_array<long, 4> section_offsets;
-		c_static_array<s_cache_file_section_file_bounds, 4> original_section_bounds;
+		c_static_array<long, k_number_of_cache_file_sections> section_offsets;
+		c_static_array<s_cache_file_section_file_bounds, k_number_of_cache_file_sections> original_section_bounds;
 		s_cache_file_shared_resource_usage shared_resource_usage;
 		long insertion_point_resource_usage_count; // `has_insertion_points`
 		c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_resource_usage;
@@ -204,13 +214,13 @@ const long k_tag_cache_maximum_files_count = 60000;
 const long k_tag_cache_maximum_size = 0x4B00000;
 
 template<long const k_max_file_count>
-struct s_cache_file_tag_name_collection
+struct c_cache_file_tag_name_collection
 {
-	c_static_array<dword, k_max_file_count> offsets;
-	c_static_array<char, k_max_file_count * 256> buffer;
-	c_static_array<char const*, k_max_file_count> storage;
+	dword offsets[k_max_file_count];
+	char buffer[k_max_file_count * 256];
+	char const* storage[k_max_file_count];
 };
-static_assert(sizeof(s_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>) == 0xF1B300);
+static_assert(sizeof(c_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>) == 0xF1B300);
 
 enum e_cache_file_tag_resource_location_flags
 {
@@ -321,7 +331,7 @@ static_assert(sizeof(s_cache_file_tag_resource_data) == 0x17C);
 
 struct s_cache_file_globals
 {
-	s_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>* debug_tag_names;
+	c_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>* debug_tag_names;
 
 	// padding?
 	dword __unknown4;

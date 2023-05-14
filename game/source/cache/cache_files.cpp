@@ -28,26 +28,98 @@ struct s_cache_file_global_tags_definition
 };
 static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 
+void __cdecl cache_file_debug_tag_names_load()
+{
+	//INVOKE(0x00502970, cache_file_debug_tag_names_load);
+
+	// header
+	decltype(g_cache_file_globals.header.debug_tag_name_count)& debug_tag_name_count = g_cache_file_globals.header.debug_tag_name_count;
+	decltype(g_cache_file_globals.header.debug_tag_name_buffer)& debug_tag_name_buffer = g_cache_file_globals.header.debug_tag_name_buffer;
+	decltype(g_cache_file_globals.header.debug_tag_name_buffer_length)& debug_tag_name_buffer_length = g_cache_file_globals.header.debug_tag_name_buffer_length;
+	decltype(g_cache_file_globals.header.debug_tag_name_offsets)& debug_tag_name_offsets = g_cache_file_globals.header.debug_tag_name_offsets;
+
+	// debug_tag_names
+	decltype(g_cache_file_globals.debug_tag_names->offsets)& offsets = g_cache_file_globals.debug_tag_names->offsets;
+	constexpr dword offsets_size = sizeof(g_cache_file_globals.debug_tag_names->offsets);
+	decltype(g_cache_file_globals.debug_tag_names->buffer)& buffer = g_cache_file_globals.debug_tag_names->buffer;
+	constexpr dword buffer_size = sizeof(g_cache_file_globals.debug_tag_names->buffer);
+	decltype(g_cache_file_globals.debug_tag_names->storage)& storage = g_cache_file_globals.debug_tag_names->storage;
+	constexpr dword storage_size = sizeof(g_cache_file_globals.debug_tag_names->storage);
+
+	//if ((g_cache_file_globals.header.shared_file_flags & 0x3F) == 0) // `shared_file_flags` is 0x3E
+	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 0))
+	if (g_cache_file_globals.header.debug_tag_name_count)
+	{
+		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_buffer, ALIGN(debug_tag_name_buffer_length, 4), buffer)) // 16 byte aligned
+			return;
+
+		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_offsets, ALIGN(debug_tag_name_count * sizeof(dword), 4), offsets)) // 16 byte aligned
+			return;
+	}
+	else
+	{
+		s_file_reference tag_list_file;
+		file_reference_create_from_path(&tag_list_file, "maps\\tag_list.csv", false);
+		if (!file_exists(&tag_list_file))
+			return;
+
+		dword tag_list_size = 0;
+		file_get_size(&tag_list_file, &tag_list_size);
+		if (!file_read_into_buffer(&tag_list_file, buffer, buffer_size))
+			return;
+
+		char* line_end = 0;
+		debug_tag_name_count = 0;
+		for (char* position = strchr(buffer, ','); position; position = strchr(line_end + 1, ','))
+		{
+			char* line = position + 1;
+			offsets[debug_tag_name_count] = line - (char*)offsets - offsets_size;
+			line_end = strchr(line, '\n');
+			if (!line_end)
+				break;
+
+			*line_end = '\0';
+			++debug_tag_name_count;
+			if ((line_end + 1 - (char*)offsets - offsets_size) >= tag_list_size)
+				break;
+		}
+	}
+
+	csmemset(storage, 0, storage_size);
+
+	for (long tag_names_index = 0; tag_names_index < NUMBEROF(offsets); ++tag_names_index)
+	{
+		if (offsets[tag_names_index] < buffer_size)
+		{
+			storage[tag_names_index] = &buffer[offsets[tag_names_index]];
+		}
+	}
+}
+
 char const* tag_get_name(long tag_name_index)
 {
 	ASSERT(g_cache_file_globals.tags_loaded);
-	ASSERT(tag_name_index >= 0 && tag_name_index < g_cache_file_globals.header.debug_tag_name_count);
+	ASSERT(VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count));
 
-	long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
-	ASSERT(tag_name_offset >= 0 && tag_name_offset < sizeof(g_cache_file_globals.debug_tag_names->buffer));
+	return g_cache_file_globals.debug_tag_names->storage[tag_name_index];
 
-	return &g_cache_file_globals.debug_tag_names->buffer[tag_name_offset];
+	//long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
+	//ASSERT(VALID_INDEX(tag_name_offset, sizeof(g_cache_file_globals.debug_tag_names->buffer)));
+	//
+	//return &g_cache_file_globals.debug_tag_names->buffer[tag_name_offset];
 }
 
 char const* tag_get_name_safe(long tag_name_index)
 {
 	ASSERT(g_cache_file_globals.tags_loaded);
 
-	if (tag_name_index < g_cache_file_globals.header.debug_tag_name_count)
+	if (VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count))
 	{
-		long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
-		if (tag_name_offset >= 0 && tag_name_offset < sizeof(g_cache_file_globals.debug_tag_names->buffer))
-			return &g_cache_file_globals.debug_tag_names->buffer[tag_name_offset];
+		return g_cache_file_globals.debug_tag_names->storage[tag_name_index];
+
+		//long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
+		//if (VALID_INDEX(tag_name_offset, sizeof(g_cache_file_globals.debug_tag_names->buffer)))
+		//	return &g_cache_file_globals.debug_tag_names->buffer[tag_name_offset];
 	}
 
 	return nullptr;
@@ -266,6 +338,14 @@ long __cdecl tag_iterator_next(tag_iterator* iterator)
 
 bool __cdecl cache_file_tags_load(dword tag_index)
 {
+	// #TODO: reimplement `scenario_tags_load`
+	static bool load_tag_names = true;
+	if (load_tag_names)
+	{
+		cache_file_debug_tag_names_load();
+		load_tag_names = false;
+	}
+
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 	dword& absolute_index = g_cache_file_globals.tag_loaded_count;
 	dword tag_cache_offset = g_cache_file_globals.tag_cache_offsets[tag_index];
