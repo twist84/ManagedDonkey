@@ -1,5 +1,6 @@
 #include "camera/director.hpp"
 
+#include "cache/cache_files.hpp"
 #include "camera/camera_globals.hpp"
 #include "camera/debug_director.hpp"
 #include "camera/editor_director.hpp"

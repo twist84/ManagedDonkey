@@ -49,11 +49,12 @@
 #include "xbox/xbox.hpp"
 #include "xbox/xnet.hpp"
 
+REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
+REFERENCE_DECLARE(0x022B473C, bool, g_main_game_exit);
+
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
-
-REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
 
 void copy_input_states(bool enabled)
 {
@@ -111,8 +112,7 @@ void __cdecl main_exit_game()
 {
 	//INVOKE(0x005056D0, main_exit_game);
 
-	static REFERENCE_DECLARE(0x022B473C, bool, main_game_exit);
-	main_game_exit = true;
+	g_main_game_exit = true;
 }
 
 void __cdecl game_dispose_hook_for_console_dispose()

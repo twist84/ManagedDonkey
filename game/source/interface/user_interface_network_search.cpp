@@ -4,9 +4,9 @@
 #include "memory/module.hpp"
 #include "networking/logic/network_search.hpp"
 
-HOOK_DECLARE(0x00AD4380, user_interface_available_squads_initialize);
-
 REFERENCE_DECLARE(0x05270A90, bool, g_available_squads_ready);
+
+HOOK_DECLARE(0x00AD4380, user_interface_available_squads_initialize);
 
 bool __cdecl user_interface_available_squads_initialize(long controller_index, dword_flags available_squad_search_flags, char category)
 {

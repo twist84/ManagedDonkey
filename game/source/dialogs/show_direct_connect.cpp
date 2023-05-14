@@ -4,6 +4,7 @@
 #include "input/input.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "memory/module.hpp"
+#include "networking/network_memory.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/tools/network_debug_dump.hpp"
 #include "networking/transport/transport_security.hpp"
@@ -48,8 +49,7 @@ void show_direct_connect_dialog()
 
 			session_id.print(L"%hs", _session_id);
 
-			REFERENCE_DECLARE(0x01860454, word, game_port);
-			port.print(L"%hd", game_port);
+			port.print(L"%hd", g_broadcast_port);
 		}
 
 		XShowConnectUI(insecure_ip.get_string(), port.get_string(), session_id.get_string(), secure_ip.get_string(), result_ip_text, result_port_text, result_id_text, result_address_text, get_donkey_module(), &dialog_succeeded);

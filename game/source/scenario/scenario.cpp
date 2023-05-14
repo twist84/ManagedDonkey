@@ -12,8 +12,6 @@
 #include "tag_files/tag_groups.hpp"
 
 
-HOOK_DECLARE(0x004EA5E0, scenario_load);
-
 REFERENCE_DECLARE(0x0189CCF8, long, global_scenario_index);
 REFERENCE_DECLARE(0x0189CCFC, long, global_scenario_game_globals_index);
 REFERENCE_DECLARE(0x022AAEB4, s_scenario*, global_scenario);
@@ -23,6 +21,8 @@ REFERENCE_DECLARE(0x022AAEC0, dword, g_touched_structure_bsp_mask);
 REFERENCE_DECLARE(0x022AAEC4, dword, g_active_designer_zone_mask);
 REFERENCE_DECLARE(0x022AAEC8, dword, g_active_cinematic_zone_mask);
 REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
+
+HOOK_DECLARE(0x004EA5E0, scenario_load);
 
 s_scenario* global_scenario_get()
 {

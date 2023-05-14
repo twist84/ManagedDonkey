@@ -10,8 +10,6 @@
 #include "memory/module.hpp"
 #include "scenario/scenario.hpp"
 
-HOOK_DECLARE(0x0052F180, main_load_map);
-
 REFERENCE_DECLARE(0x02390D00, bool, disable_progress_screen);
 REFERENCE_DECLARE(0x02390D04, char const*, loading_globals_scenario_path);
 REFERENCE_DECLARE(0x02390D08, long, loading_globals_insertion_point);
@@ -25,6 +23,8 @@ REFERENCE_DECLARE(0x02390D39, bool, loading_globals_progress_start);
 
 REFERENCE_DECLARE(0x0471AA58, long, loaded_resource_bytes);
 REFERENCE_DECLARE(0x0471AA5C, long, total_resource_bytes);
+
+HOOK_DECLARE(0x0052F180, main_load_map);
 
 void __cdecl loading_basic_progress_complete()
 {

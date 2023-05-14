@@ -11,6 +11,8 @@
 
 #include <windows.h>
 
+REFERENCE_DECLARE(0x052600D0, c_message_globals, g_message_globals);
+
 //HOOK_DECLARE(0x00A93410, user_interface_messaging_initialize);
 //HOOK_DECLARE(0x00A933B0, user_interface_messaging_dispose);
 //HOOK_DECLARE(0x00A93420, user_interface_messaging_initialize_for_new_map);
@@ -22,8 +24,6 @@ HOOK_DECLARE(0x00A93450, user_interface_messaging_post);
 
 // #TODO: find this
 //HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty);
-
-REFERENCE_DECLARE(0x052600D0, c_message_globals, g_message_globals);
 
 //c_message::c_message(e_ui_message_type type, long screen_name, e_controller_index controller, e_window_index window) :
 //	m_type(type),

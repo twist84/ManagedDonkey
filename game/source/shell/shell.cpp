@@ -4,6 +4,8 @@
 #include "cseries/cseries_console.hpp"
 #include "main/main_time.hpp"
 
+REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);
+
 char const* k_network_session_mode_names[k_network_session_mode_count]
 {
 	"none",
@@ -706,8 +708,6 @@ char const* k_game_variant_parameter_names[k_game_variant_parameter_count]
 	"template_visual",
 	"template_forced_change_colors",
 };
-
-REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);
 
 bool __cdecl shell_application_is_paused()
 {

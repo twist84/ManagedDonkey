@@ -7,6 +7,8 @@
 
 #include <windows.h>
 
+REFERENCE_DECLARE(0x0189DEE4, dword, g_game_language);
+
 char const* k_language_names[k_language_count]
 {
     "english",
@@ -54,8 +56,6 @@ char const* k_language_iso_639_1_names[k_language_count]
     "pt-PT",
     "ru-RU"
 };
-
-REFERENCE_DECLARE(0x0189DEE4, dword, g_game_language);
 
 e_language get_e_language_from_windows_language(LANGID id)
 {

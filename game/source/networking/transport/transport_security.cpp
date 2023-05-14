@@ -8,13 +8,13 @@
 
 #include <string.h>
 
+REFERENCE_DECLARE(0x0199FAB0, s_transport_security_globals, transport_security_globals);
+
 HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
 HOOK_DECLARE(0x00430DF0, transport_secure_address_retrieve);
 HOOK_DECLARE(0x00430ED0, transport_secure_identifier_get_string);
 HOOK_DECLARE(0x00430F30, transport_secure_identifier_retrieve);
 HOOK_DECLARE(0x00431100, transport_secure_nonce_get_string);
-
-REFERENCE_DECLARE(0x0199FAB0, s_transport_security_globals, transport_security_globals);
 
 //00430AF0 ; void __cdecl transport_secure_address_build_from_identifier(s_transport_unique_identifier const*, s_transport_secure_address*)
 

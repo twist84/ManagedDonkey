@@ -13,14 +13,14 @@
 
 #include <stdlib.h>
 
-HOOK_DECLARE(0x006006F0, hf2p_game_initialize);
-HOOK_DECLARE(0x00600790, hf2p_game_dispose);
-HOOK_DECLARE(0x00600850, hf2p_game_update);
-
 REFERENCE_DECLARE(0x018B59D4, bool, g_hf2p_first_run);
 REFERENCE_DECLARE(0x04FE67A0, dword, mainmenu_spartan_unit_index);
 REFERENCE_DECLARE(0x04FE67A4, dword, mainmenu_elite_unit_index);
 REFERENCE_DECLARE(0x052697B1, bool, g_hf2p_use_keyboard_hints);
+
+HOOK_DECLARE(0x006006F0, hf2p_game_initialize);
+HOOK_DECLARE(0x00600790, hf2p_game_dispose);
+HOOK_DECLARE(0x00600850, hf2p_game_update);
 
 void __cdecl game_statistics_reset()
 {

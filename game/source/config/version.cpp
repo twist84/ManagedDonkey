@@ -4,6 +4,8 @@
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
+REFERENCE_DECLARE(0x0189CFD0, bool, k_tracked_build);
+
 HOOK_DECLARE(0x0042E480, version_get_target_variant);
 HOOK_DECLARE(0x0042E490, version_get_full_string);
 HOOK_DECLARE(0x005013E0, version_get_project_name);
@@ -19,8 +21,6 @@ byte const k_build_date[] = __DATE__;
 byte const k_build_time[] = __TIME__;
 DATA_PATCH_DECLARE(0x016704A8, build_date, k_build_date);
 DATA_PATCH_DECLARE(0x016704B4, build_time, k_build_time);
-
-REFERENCE_DECLARE(0x0189CFD0, bool, k_tracked_build);
 
 char const* __cdecl version_get_target_variant()
 {

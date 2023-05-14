@@ -2,9 +2,6 @@
 
 #include "memory/module.hpp"
 
-HOOK_DECLARE(0x00570560, game_results_statistics_decode);
-HOOK_DECLARE(0x00570600, game_results_statistics_encode);
-
 REFERENCE_DECLARE_ARRAY(0x0189FB10, s_integer_statistic_definition, g_game_results_achievement_statistic_definitions, k_achievement_count);
 REFERENCE_DECLARE_ARRAY(0x0189FE00, s_integer_statistic_definition, g_game_results_statistic_definitions, k_game_results_statistic_count);
 REFERENCE_DECLARE_ARRAY(0x018A0130, s_integer_statistic_definition, g_game_results_damage_statistic_definitions, k_game_results_damage_statistic_count);
@@ -12,6 +9,9 @@ REFERENCE_DECLARE_ARRAY(0x018A0180, s_integer_statistic_definition, g_game_resul
 REFERENCE_DECLARE_ARRAY(0x018A01A0, s_integer_statistic_definition, g_game_results_medal_statistic_definitions, k_game_results_medal_count);
 REFERENCE_DECLARE(0x023DAE98, s_game_results_globals, g_game_results_globals);
 REFERENCE_DECLARE(0x023DAEA8, c_game_results, g_current_game_results);
+
+HOOK_DECLARE(0x00570560, game_results_statistics_decode);
+HOOK_DECLARE(0x00570600, game_results_statistics_encode);
 
 long __cdecl game_results_statistic_get_current(long player_absolute_index, long team_index, e_game_results_statistic statistic)
 {

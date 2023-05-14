@@ -6,6 +6,9 @@
 
 #include <winsock.h>
 
+REFERENCE_DECLARE(0x019AB728, s_online_user, g_online_user);
+REFERENCE_DECLARE(0x02179468, bool, g_online_is_connected_to_live);
+
 HOOK_DECLARE(0x004429C0, online_dispose);
 //HOOK_DECLARE(0x004429D0, online_dump_machine_info);
 //HOOK_DECLARE(0x004429F0, online_get_maximum_compatible_nat_type);
@@ -28,9 +31,6 @@ HOOK_DECLARE(0x00442AA0, online_user_get_name);
 //HOOK_DECLARE(0x00442BB0, online_set_is_connected_to_live);
 HOOK_DECLARE(0x00442BC0, online_user_set_name);
 HOOK_DECLARE(0x00442BF0, online_update);
-
-REFERENCE_DECLARE(0x019AB728, s_online_user, g_online_user);
-REFERENCE_DECLARE(0x02179468, bool, g_online_is_connected_to_live);
 
 static s_online_user g_controller_users[4] =
 {

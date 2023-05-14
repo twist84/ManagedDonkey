@@ -7,13 +7,13 @@
 #include "tag_files/string_ids.hpp"
 
 
+REFERENCE_DECLARE(0x01944204, c_gui_location_manager, g_location_manager);
+
 HOOK_DECLARE_CLASS(0x00ADF6E0, c_gui_location_manager, change_location);
 HOOK_DECLARE_CLASS(0x00ADF870, c_gui_location_manager, get_current_ui_location);
 HOOK_DECLARE(0x00ADF9D0, location_manager_get);
 HOOK_DECLARE(0x00ADF9E0, location_manager_start);
 HOOK_DECLARE(0x00ADF9F0, location_manager_stop);
-
-REFERENCE_DECLARE(0x01944204, c_gui_location_manager, g_location_manager);
 
 // 00ADF680
 c_gui_location_manager::c_gui_location_manager() :
