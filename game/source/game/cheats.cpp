@@ -6,6 +6,7 @@
 #include "game/game.hpp"
 #include "game/player_mapping.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/terminal.hpp"
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
 
@@ -102,7 +103,7 @@ bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_poi
 
 	if (result->location.cluster_reference.bsp_index == 0xFF)
 	{
-		c_console::write_line("Camera is outside BSP... cannot initiate teleportation...");
+		terminal_printf(global_real_argb_orange, "Camera is outside BSP... cannot initiate teleportation...");
 		return false;
 	}
 

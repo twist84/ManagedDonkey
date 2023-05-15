@@ -5,6 +5,7 @@
 #include "editor/editor_stubs.hpp"
 #include "game/cheats.hpp"
 #include "game/game.hpp"
+#include "interface/terminal.hpp"
 #include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/thread_local.hpp"
@@ -1065,9 +1066,7 @@ void __cdecl debug_key_mouse_focus(bool enabled)
 void __cdecl debug_key_clear_screen(bool enabled)
 {
 	if (enabled)
-	{
-		c_console::write_line(__FUNCTION__);
-	}
+		terminal_clear();
 }
 
 void __cdecl debug_key_save_camera(bool enabled)

@@ -1,5 +1,8 @@
 #include "render/views/render_view.hpp"
 
+#include "interface/terminal.hpp"
+#include "memory/module.hpp"
+
 REFERENCE_DECLARE(0x01913430, long, c_view::g_view_stack_top);
 REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
 
@@ -15,6 +18,8 @@ REFERENCE_DECLARE(0x01913470, real, c_first_person_view::m_z_far_scale);
 
 REFERENCE_DECLARE_ARRAY(0x018BABE8, real, pregame_frame_scales, 9);
 REFERENCE_DECLARE_ARRAY(0x0165DA08, s_render_fullscreen_text_context_colors, pregame_frame_colors, 9);
+
+HOOK_DECLARE(0x00A29220, render_debug_frame_render);
 
 //real pregame_frame_scales[9] =
 //{
@@ -177,5 +182,18 @@ void __cdecl c_fullscreen_view::setup_camera(s_observer_result const* result)
 void __cdecl c_fullscreen_view::render_blank_frame(real_rgb_color const* color)
 {
     DECLFUNC(0x00A291E0, void, __cdecl, real_rgb_color const*)(color);
+}
+
+void __cdecl render_debug_frame_render()
+{
+    //INVOKE(0x00A29220, render_debug_frame_render);
+
+    if (DECLFUNC(0x0042E5D0, bool, __cdecl)())
+        return;
+
+    terminal_draw();
+
+    // main_time_frame_rate_display
+    DECLFUNC(0x00507B40, void, __cdecl)();
 }
 

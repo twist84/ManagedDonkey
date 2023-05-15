@@ -241,3 +241,5 @@ struct s_render_fullscreen_text_context_colors
 extern real(&pregame_frame_scales)[9];
 extern s_render_fullscreen_text_context_colors(&pregame_frame_colors)[9];
 
+extern void __cdecl render_debug_frame_render();
+
