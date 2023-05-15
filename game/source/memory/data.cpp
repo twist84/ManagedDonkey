@@ -208,3 +208,11 @@ void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index)
 	return INVOKE(0x0055B740, datum_try_and_get_unsafe, data, index);
 }
 
+bool __cdecl data_is_full(s_data_array const* data)
+{
+	ASSERT(data);
+	ASSERT(data->valid);
+
+	return data->maximum_count == data->first_unallocated;
+}
+
