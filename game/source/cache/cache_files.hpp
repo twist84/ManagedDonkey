@@ -76,7 +76,9 @@ union s_cache_file_header
 		long debug_tag_name_offsets;
 		s_cache_file_section_file_bounds reports;
 
-		byte __data2E4[0x3C];
+		byte __data2E4[0x4];
+		char author[32];
+		byte __data308[0x18];
 
 		s_network_http_request_hash hash;
 		s_rsa_signature rsa_signature;
@@ -339,36 +341,41 @@ struct s_cache_file_globals
 	bool tags_loaded;
 
 	// physical_memory_malloc_fixed(sizeof(long) * header.tag_count)
-	c_static_array<dword, k_tag_cache_maximum_files_count>& tag_cache_offsets;
+	//c_static_array<long, k_tag_cache_maximum_files_count>& tag_cache_offsets;
+	long* tag_cache_offsets;
 
 	// tag_instances[absolute_index] = tag_cache_base_address[total_tags_size]
-	c_static_array<cache_file_tag_instance*, k_tag_cache_maximum_files_count>& tag_instances;
+	//c_static_array<cache_file_tag_instance*, k_tag_cache_maximum_files_count>& tag_instances;
+	//c_static_array<cache_file_tag_instance*, k_tag_cache_maximum_files_count>& tag_instances;
+	cache_file_tag_instance** tag_instances;
 
 	// tag_index_absolute_mapping[tag_index] = absolute_index;
-	c_static_array<dword, k_tag_cache_maximum_files_count>& tag_index_absolute_mapping;
+	//c_static_array<long, k_tag_cache_maximum_files_count>& tag_index_absolute_mapping;
+	long* tag_index_absolute_mapping;
 
 	// absolute_index_tag_mapping[absolute_index] = tag_index;
-	c_static_array<dword, k_tag_cache_maximum_files_count>& absolute_index_tag_mapping;
+	//c_static_array<long, k_tag_cache_maximum_files_count>& absolute_index_tag_mapping;
+	long* absolute_index_tag_mapping;
 
-	dword tag_loaded_count;
-	dword tag_total_count;
+	long tag_loaded_count;
+	long tag_total_count;
 
-	byte(&tag_cache_base_address)[k_tag_cache_maximum_size];
+	//byte(&tag_cache_base_address)[k_tag_cache_maximum_size];
+	byte* tag_cache_base_address;
 	dword tag_loaded_size;
 	dword tag_cache_size; // k_tag_cache_maximum_size
 
 	s_cache_file_header header;
 
-	// s_cache_file_tags_header* tags_header;
-	s_file_reference tags_header;
+	// void* tags_section;
+	s_file_reference tags_section;
 
 	s_cache_file_tag_resource_data* resource_data;
 
 	// resource_file_counts_mapping[resource_file_index] = resource_count;
 	c_static_array<long, 5> resource_file_counts_mapping;
 
-	dword report_count;
-	s_cache_file_report* reports;
+	s_cache_file_reports reports;
 
 	c_static_array<const char*, 5> resource_files;
 	const char* map_directory;
@@ -404,6 +411,8 @@ extern long __cdecl cache_files_get_total_tags_size();
 extern char const* __cdecl cache_files_map_directory();
 extern bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header);
 extern dword __cdecl compute_realtime_checksum(char* a1, int a2);
+extern bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer);
+extern void __cdecl cache_file_tags_unload();
 extern bool __cdecl scenario_tags_load(char const* scenario_path);
 extern void __cdecl scenario_tags_load_finished();
 extern void __cdecl scenario_tags_unload();
@@ -422,10 +431,13 @@ extern void __cdecl tag_files_close();
 extern void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag);
 extern long __cdecl tag_iterator_next(tag_iterator* iterator);
 
-extern bool __cdecl cache_file_tags_load(dword tag_index);
+extern bool __cdecl cache_file_tags_load_recursive(long tag_index);
 extern void __cdecl cache_file_tags_fixup_all_instances();
 extern void* __cdecl tag_get(tag group_tag, long tag_index);
-extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, dword tag_index);
+extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, long tag_index);
+extern void __cdecl cache_file_close();
+extern bool __cdecl cache_file_open(char const* scenario_path, void* header);
+extern long __cdecl cache_file_round_up_read_size(long size);
 extern void cache_file_tags_load_single_tag_file_test(char const* file_name);
 
 enum e_instance_modification_stage

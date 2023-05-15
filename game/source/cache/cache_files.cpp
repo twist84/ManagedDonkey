@@ -6,9 +6,14 @@
 #include "cseries/cseries_windows.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
+#include "main/global_preferences.hpp"
+#include "main/loading.hpp"
+#include "main/main.hpp"
 #include "memory/crc.hpp"
 #include "memory/module.hpp"
+#include "scenario/scenario.hpp"
 #include "scenario/scenario_definitions.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "tag_files/string_ids.hpp"
 
 #include <string.h>
@@ -16,7 +21,7 @@
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
 
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
-HOOK_DECLARE(0x00502780, cache_file_tags_load);
+HOOK_DECLARE(0x00502780, cache_file_tags_load_recursive);
 HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
 HOOK_DECLARE(0x00503370, tag_get);
 HOOK_DECLARE(0x00503470, sub_503470);
@@ -27,74 +32,6 @@ struct s_cache_file_global_tags_definition
 	dword : 32;
 };
 static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
-
-void __cdecl cache_file_debug_tag_names_load()
-{
-	//INVOKE(0x00502970, cache_file_debug_tag_names_load);
-
-	// header
-	decltype(g_cache_file_globals.header.debug_tag_name_count)& debug_tag_name_count = g_cache_file_globals.header.debug_tag_name_count;
-	decltype(g_cache_file_globals.header.debug_tag_name_buffer)& debug_tag_name_buffer = g_cache_file_globals.header.debug_tag_name_buffer;
-	decltype(g_cache_file_globals.header.debug_tag_name_buffer_length)& debug_tag_name_buffer_length = g_cache_file_globals.header.debug_tag_name_buffer_length;
-	decltype(g_cache_file_globals.header.debug_tag_name_offsets)& debug_tag_name_offsets = g_cache_file_globals.header.debug_tag_name_offsets;
-
-	// debug_tag_names
-	decltype(g_cache_file_globals.debug_tag_names->offsets)& offsets = g_cache_file_globals.debug_tag_names->offsets;
-	constexpr dword offsets_size = sizeof(g_cache_file_globals.debug_tag_names->offsets);
-	decltype(g_cache_file_globals.debug_tag_names->buffer)& buffer = g_cache_file_globals.debug_tag_names->buffer;
-	constexpr dword buffer_size = sizeof(g_cache_file_globals.debug_tag_names->buffer);
-	decltype(g_cache_file_globals.debug_tag_names->storage)& storage = g_cache_file_globals.debug_tag_names->storage;
-	constexpr dword storage_size = sizeof(g_cache_file_globals.debug_tag_names->storage);
-
-	//if ((g_cache_file_globals.header.shared_file_flags & 0x3F) == 0) // `shared_file_flags` is 0x3E
-	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 0))
-	if (g_cache_file_globals.header.debug_tag_name_count)
-	{
-		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_buffer, ALIGN(debug_tag_name_buffer_length, 4), buffer)) // 16 byte aligned
-			return;
-
-		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_offsets, ALIGN(debug_tag_name_count * sizeof(dword), 4), offsets)) // 16 byte aligned
-			return;
-	}
-	else
-	{
-		s_file_reference tag_list_file;
-		file_reference_create_from_path(&tag_list_file, "maps\\tag_list.csv", false);
-		if (!file_exists(&tag_list_file))
-			return;
-
-		dword tag_list_size = 0;
-		file_get_size(&tag_list_file, &tag_list_size);
-		if (!file_read_into_buffer(&tag_list_file, buffer, buffer_size))
-			return;
-
-		char* line_end = 0;
-		debug_tag_name_count = 0;
-		for (char* position = strchr(buffer, ','); position; position = strchr(line_end + 1, ','))
-		{
-			char* line = position + 1;
-			offsets[debug_tag_name_count] = line - (char*)offsets - offsets_size;
-			line_end = strchr(line, '\n');
-			if (!line_end)
-				break;
-
-			*line_end = '\0';
-			++debug_tag_name_count;
-			if ((line_end + 1 - (char*)offsets - offsets_size) >= tag_list_size)
-				break;
-		}
-	}
-
-	csmemset(storage, 0, storage_size);
-
-	for (long tag_names_index = 0; tag_names_index < NUMBEROF(offsets); ++tag_names_index)
-	{
-		if (offsets[tag_names_index] < buffer_size)
-		{
-			storage[tag_names_index] = &buffer[offsets[tag_names_index]];
-		}
-	}
-}
 
 char const* tag_get_name(long tag_name_index)
 {
@@ -287,15 +224,352 @@ dword __cdecl compute_realtime_checksum(char* a1, int a2)
 	return INVOKE(0x00502300, compute_realtime_checksum, a1, a2);
 }
 
+void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file_header* header)
+{
+	DECLFUNC(0x00502500, void, __thiscall, s_cache_file_reports*, s_cache_file_header*)(reports, header);
+}
+
+void __cdecl sub_502550(c_wrapped_array<long>* resource_offsets)
+{
+	INVOKE(0x00502550, sub_502550, resource_offsets);
+}
+
+bool __cdecl cache_file_tags_load_recursive(long tag_index)
+{
+	//return INVOKE(0x00502780, cache_file_tags_load_recursive, tag_index);
+
+	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
+	long& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
+	long tag_cache_offset = g_cache_file_globals.tag_cache_offsets[tag_index];
+
+	if (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != NONE)
+		return true;
+
+	if (!cache_file_tags_section_read(tag_cache_offset, cache_file_round_up_read_size(8), instance))
+		return false;
+
+	g_cache_file_globals.tag_loaded_size += instance->total_size;
+	g_cache_file_globals.tag_instances[tag_loaded_count] = instance;
+	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = tag_loaded_count;
+	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
+
+	if (!cache_file_tags_section_read(tag_cache_offset, instance->total_size, g_cache_file_globals.tag_instances[tag_loaded_count]->base))
+		return false;
+
+	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
+		return false;
+
+	tag_loaded_count++;
+
+	tag_instance_modification_apply(instance, _instance_modification_stage_tag_load);
+
+	if (instance->dependency_count <= 0)
+		return true;
+
+	short dependency_index = 0;
+	while (cache_file_tags_load_recursive(instance->dependencies[dependency_index]))
+	{
+		if (++dependency_index >= instance->dependency_count)
+			return true;
+	}
+
+	return false;
+}
+
+void __cdecl cache_file_load_tags_section()
+{
+	INVOKE(0x005028C0, cache_file_load_tags_section);
+}
+
+void __cdecl cache_file_close_tags_section()
+{
+	INVOKE(0x00502900, cache_file_close_tags_section);
+}
+
+bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* instance)
+{
+	ASSERT(instance);
+
+	cache_address* data_fixups = reinterpret_cast<cache_address*>(instance->dependencies + instance->dependency_count);
+	for (short data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
+	{
+		cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
+		ASSERT(data_fixup.persistent == true);
+
+		data_fixup.offset += (dword)instance->base;
+		data_fixup.persistent = false;
+		ASSERT(data_fixup.value == data_fixup.offset);
+	}
+
+	tag_instance_modification_apply(instance, _instance_modification_stage_tag_fixup);
+
+	return true;
+}
+
+bool __cdecl cache_file_debug_tag_names_load()
+{
+	//return INVOKE(0x00502970, cache_file_debug_tag_names_load);
+
+	// header
+	decltype(g_cache_file_globals.header.debug_tag_name_count)& debug_tag_name_count = g_cache_file_globals.header.debug_tag_name_count;
+	decltype(g_cache_file_globals.header.debug_tag_name_buffer)& debug_tag_name_buffer = g_cache_file_globals.header.debug_tag_name_buffer;
+	decltype(g_cache_file_globals.header.debug_tag_name_buffer_length)& debug_tag_name_buffer_length = g_cache_file_globals.header.debug_tag_name_buffer_length;
+	decltype(g_cache_file_globals.header.debug_tag_name_offsets)& debug_tag_name_offsets = g_cache_file_globals.header.debug_tag_name_offsets;
+
+	// debug_tag_names
+	decltype(g_cache_file_globals.debug_tag_names->offsets)& offsets = g_cache_file_globals.debug_tag_names->offsets;
+	constexpr dword offsets_size = sizeof(g_cache_file_globals.debug_tag_names->offsets);
+	decltype(g_cache_file_globals.debug_tag_names->buffer)& buffer = g_cache_file_globals.debug_tag_names->buffer;
+	constexpr dword buffer_size = sizeof(g_cache_file_globals.debug_tag_names->buffer);
+	decltype(g_cache_file_globals.debug_tag_names->storage)& storage = g_cache_file_globals.debug_tag_names->storage;
+	constexpr dword storage_size = sizeof(g_cache_file_globals.debug_tag_names->storage);
+
+	//if ((g_cache_file_globals.header.shared_file_flags & 0x3F) == 0) // `shared_file_flags` is 0x3E
+	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 0))
+	if (g_cache_file_globals.header.debug_tag_name_count)
+	{
+		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_buffer, cache_file_round_up_read_size(debug_tag_name_buffer_length), buffer))
+			return false;
+
+		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_offsets, cache_file_round_up_read_size(debug_tag_name_count * sizeof(long)), offsets))
+			return false;
+	}
+	else
+	{
+		s_file_reference tag_list_file;
+		file_reference_create_from_path(&tag_list_file, "maps\\tag_list.csv", false);
+		if (!file_exists(&tag_list_file))
+			return false;
+
+		dword tag_list_size = 0;
+		file_get_size(&tag_list_file, &tag_list_size);
+		if (!file_read_into_buffer(&tag_list_file, buffer, buffer_size))
+			return false;
+
+		char* line_end = 0;
+		debug_tag_name_count = 0;
+		for (char* position = strchr(buffer, ','); position; position = strchr(line_end + 1, ','))
+		{
+			char* line = position + 1;
+			offsets[debug_tag_name_count] = line - (char*)offsets - offsets_size;
+			line_end = strchr(line, '\n');
+			if (!line_end)
+				break;
+
+			*line_end = '\0';
+			++debug_tag_name_count;
+			if ((line_end + 1 - (char*)offsets - offsets_size) >= tag_list_size)
+				break;
+		}
+	}
+
+	csmemset(storage, 0, storage_size);
+
+	for (long tag_names_index = 0; tag_names_index < NUMBEROF(offsets); ++tag_names_index)
+	{
+		if (offsets[tag_names_index] < buffer_size)
+		{
+			storage[tag_names_index] = &buffer[offsets[tag_names_index]];
+		}
+	}
+
+	return true;
+}
+
+void* __cdecl _physical_memory_malloc_fixed(long memory_stage, char const* name, long size, dword_flags flags)
+{
+	return INVOKE(0x0051D180, _physical_memory_malloc_fixed, memory_stage, name, size, flags);
+}
+
+bool __cdecl cache_file_tags_load_allocate()
+{
+	//return INVOKE(0x00502B40, cache_file_tags_load_allocate);
+
+	bool result = true;
+	long tag_offsets_size = 0;
+
+	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
+	if (g_cache_file_globals.header.tag_count)
+	{
+		tag_offsets_size = sizeof(long) * g_cache_file_globals.header.tag_count;
+		g_cache_file_globals.tag_total_count = g_cache_file_globals.header.tag_count;
+		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(5, nullptr, cache_file_round_up_read_size(tag_offsets_size), 0);
+
+		result = cache_file_blocking_read(_cache_file_section_tag, g_cache_file_globals.header.tag_cache_offsets, cache_file_round_up_read_size(tag_offsets_size), g_cache_file_globals.tag_cache_offsets);
+	}
+	else
+	{
+		s_cache_file_tags_header tags_header{};
+		if (!file_read(&g_cache_file_globals.tags_section, sizeof(s_cache_file_tags_header), 0, &tags_header))
+			return false;
+
+		tag_offsets_size = sizeof(long) * tags_header.tag_count;
+		g_cache_file_globals.tag_total_count = tags_header.tag_count;
+		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(5, nullptr, 4 * tags_header.tag_count, 0);
+		long* tag_offsets = (long*)_physical_memory_malloc_fixed(5, nullptr, tag_offsets_size, 0);
+
+		if (!cache_file_tags_section_read(tags_header.tag_cache_offsets, tag_offsets_size, tag_offsets))
+			return false;
+
+		long tag_offset = 0;
+		for (long tag_index = 0; tag_index < tags_header.tag_count; g_cache_file_globals.tag_cache_offsets[tag_index - 1] = tag_offset)
+			tag_offset = tag_offsets[tag_index++];
+
+		//debug_free_aligned(tag_offsets); // nullsub
+	}
+
+	g_cache_file_globals.tag_index_absolute_mapping = (long*)_physical_memory_malloc_fixed(5, nullptr, tag_offsets_size, 0);
+	g_cache_file_globals.absolute_index_tag_mapping = (long*)_physical_memory_malloc_fixed(5, nullptr, tag_offsets_size, 0);
+	memset(g_cache_file_globals.tag_index_absolute_mapping, NONE, tag_offsets_size);
+	memset(g_cache_file_globals.absolute_index_tag_mapping, NONE, tag_offsets_size);
+
+	return result;
+}
+
+bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
+{
+	return INVOKE(0x00502C90, cache_file_tags_section_read, offset, size, buffer);
+
+	if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
+		return cache_file_blocking_read(_cache_file_section_tag, offset, size, buffer);
+
+	bool result = file_set_position(&g_cache_file_globals.tags_section, offset, 0);
+	if (result)
+		return file_read(&g_cache_file_globals.tags_section, size, 0, buffer);
+
+	return result;
+}
+
+void __cdecl cache_file_tags_unload()
+{
+	INVOKE(0x00502CE0, cache_file_tags_unload);
+}
+
 bool __cdecl scenario_tags_load(char const* scenario_path)
 {
-	return INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
+	//return INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
+
+	long tag_index = NONE;
+	bool success = false;
+
+	c_console::write_line("cache: scenario load tags, name=%s", scenario_path);
+
+	void* working_memory = nullptr;
+	long working_memory_size = 0;
+	security_get_working_memory(0, &working_memory, &working_memory_size);
+	if (working_memory_size >= 0x38C8 && working_memory)
+		csmemset(working_memory, 0, 0x38C8);
+
+	if (cache_file_open(scenario_path, &g_cache_file_globals.header) && cache_file_header_verify_and_version(&g_cache_file_globals.header, scenario_path, 0))
+	{
+		c_console::write_line("map created by", "%s", g_cache_file_globals.header.author);
+
+		s_cache_file_header header_copy{};
+		csmemcpy(&header_copy, &g_cache_file_globals.header, sizeof(s_cache_file_header));
+		loading_basic_progress_phase_begin(1, 1);
+		cache_file_load_tags_section();
+		cache_file_load_reports(&g_cache_file_globals.reports, &g_cache_file_globals.header);
+		cache_file_tags_load_allocate();
+
+		dword total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;
+		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc_fixed(5, 0, total_instance_size, 0);
+		csmemset(g_cache_file_globals.tag_instances, 0, total_instance_size);
+
+		g_cache_file_globals.tag_loaded_count = 0;
+		g_cache_file_globals.tag_cache_size = 0x4B00000;
+		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(5, "tag cache", g_cache_file_globals.tag_cache_size, 0);
+		g_cache_file_globals.tag_loaded_size = 0;
+
+		success = g_cache_file_globals.tag_cache_base_address != nullptr;
+		if (!success)
+		{
+			c_console::write_line("failed to allocate the physical memory for the tags");
+		}
+
+		bool cache_file_global_tags_loaded = cache_file_tags_load_recursive(0);
+		success = cache_file_tags_load_recursive(g_cache_file_globals.header.scenario_index) && cache_file_global_tags_loaded;
+		cache_file_close_tags_section();
+		loading_basic_progress_phase_end();
+
+		if (!success)
+		{
+			global_preferences_invalidate_maps();
+			c_console::write_line("failed to read the tag data section");
+		}
+
+		// #TODO: security stuff
+		//	calculate hash
+		//	calculate hash signature
+		//	compare hash signatures
+
+		if (success)
+		{
+			//success = string_id_load_strings(&g_cache_file_globals.header);
+			if (!success)
+			{
+				c_console::write_line("networking:failed to load the string ids [%s]", scenario_path);
+			}
+		}
+
+		if (success)
+			success = cache_file_debug_tag_names_load();
+
+		if (success)
+		{
+			//security_globals->valid_content_signature = true;
+
+			cache_file_tags_fixup_all_instances();
+			//tag_index = cache_file_get_global_tag_index('scnr');
+			tag_index = g_cache_file_globals.header.scenario_index;
+			g_cache_file_globals.tags_loaded = true;
+		}
+	}
+
+	if (!success)
+	{
+		c_console::write_line("failed to load tags for cache file");
+		cache_file_tags_unload();
+		cache_file_close();
+		ASSERT(tag_index == NONE);
+	}
+
+	global_scenario_index = tag_index;
+	if (tag_index != NONE)
+	{
+		global_scenario_game_globals_index = cache_file_get_global_tag_index('matg');
+		global_scenario = (s_scenario*)tag_get('scnr', global_scenario_index);
+		global_game_globals = (s_game_globals*)tag_get('matg', global_scenario_game_globals_index);
+
+		c_rasterizer_globals* rasterizer_globals = global_game_globals->rasterizer_globals_ref.cast_to<c_rasterizer_globals>();
+		if (rasterizer_globals)
+		{
+			c_rasterizer::g_max_vs_gprs = rasterizer_globals->get_max_vs_gprs();
+			c_rasterizer::g_max_ps_gprs = rasterizer_globals->get_max_ps_gprs();
+		}
+
+		success = true;
+	}
+
+	c_console::write_line("cache: scenario load tags, success=%d", success);
+
+	return success;
 }
 
 void __cdecl scenario_tags_load_finished()
 {
 	// nullsub
 	INVOKE(0x00503190, scenario_tags_load_finished);
+}
+
+void __cdecl cache_file_tags_fixup_all_instances()
+{
+	//INVOKE(0x005031A0, cache_file_tags_fixup_all_instances);
+
+	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
+	{
+		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
+		cache_file_tags_single_tag_instance_fixup(instance);
+	}
 }
 
 void __cdecl scenario_tags_unload()
@@ -316,7 +590,7 @@ void __cdecl tag_files_open()
 void* __cdecl tag_get(tag group_tag, long tag_index)
 {
 	long tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
-	if (tag_absolute_index == -1)
+	if (tag_absolute_index == NONE)
 		return nullptr;
 
 	void* data = g_cache_file_globals.tag_instances[tag_absolute_index]->base + g_cache_file_globals.tag_instances[tag_absolute_index]->offset;
@@ -336,83 +610,8 @@ long __cdecl tag_iterator_next(tag_iterator* iterator)
 	return INVOKE(0x00503400, tag_iterator_next, iterator);
 }
 
-bool __cdecl cache_file_tags_load(dword tag_index)
-{
-	// #TODO: reimplement `scenario_tags_load`
-	static bool load_tag_names = true;
-	if (load_tag_names)
-	{
-		cache_file_debug_tag_names_load();
-		load_tag_names = false;
-	}
-
-	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
-	dword& absolute_index = g_cache_file_globals.tag_loaded_count;
-	dword tag_cache_offset = g_cache_file_globals.tag_cache_offsets[tag_index];
-
-	if (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != NONE)
-		return true;
-
-	if (!file_read_from_position(&g_cache_file_globals.tags_header, tag_cache_offset, sizeof(cache_file_tag_instance), false, instance))
-		return false;
-
-	g_cache_file_globals.tag_loaded_size += instance->total_size;
-	g_cache_file_globals.tag_instances[absolute_index] = instance;
-	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = absolute_index;
-	g_cache_file_globals.absolute_index_tag_mapping[absolute_index] = tag_index;
-
-	if (!file_read_from_position(&g_cache_file_globals.tags_header, tag_cache_offset, instance->total_size, false, instance))
-		return false;
-
-	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
-		return false;
-
-	g_cache_file_globals.tag_loaded_count++;
-
-	tag_instance_modification_apply(instance, _instance_modification_stage_tag_load);
-
-	if (instance->dependency_count <= 0)
-		return true;
-
-	short dependency_index = 0;
-	while (cache_file_tags_load(instance->dependencies[dependency_index]))
-	{
-		if (++dependency_index >= instance->dependency_count)
-			return true;
-	}
-
-	return false;
-}
-
-void __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* instance)
-{
-	ASSERT(instance);
-
-	cache_address* data_fixups = reinterpret_cast<cache_address*>(instance->dependencies + instance->dependency_count);
-	for (short data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
-	{
-		cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
-		ASSERT(data_fixup.persistent == true);
-
-		data_fixup.offset += (dword)instance->base;
-		data_fixup.persistent = false;
-		ASSERT(data_fixup.value == data_fixup.offset);
-	}
-
-	tag_instance_modification_apply(instance, _instance_modification_stage_tag_fixup);
-}
-
-void __cdecl cache_file_tags_fixup_all_instances()
-{
-	for (dword i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
-	{
-		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
-		cache_file_tags_single_tag_instance_fixup(instance);
-	}
-}
-
 // __thiscall
-void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* instance, dword tag_index)
+void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* instance, long tag_index)
 {
 	ASSERT(instance);
 
@@ -425,40 +624,60 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	c_console::write_line(tag_instance_byte_string);
 }
 
+void __cdecl cache_file_close()
+{
+	INVOKE(0x005A9730, cache_file_close);
+}
+
+bool __cdecl cache_file_open(char const* scenario_path, void* header)
+{
+	return INVOKE(0x005AA7C0, cache_file_open, scenario_path, header);
+}
+
+long __cdecl cache_file_round_up_read_size(long size)
+{
+	//return INVOKE(0x005AA8D0, cache_file_round_up_read_size, size);
+
+	if ((size & MASK(4)) == 0)
+		return size;
+
+	return (size | MASK(4)) + 1;
+}
+
 bool cache_file_tags_single_tag_file_load(s_file_reference* file, cache_file_tag_instance** out_instance)
 {
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
-	dword& absolute_index = g_cache_file_globals.tag_loaded_count;
-	dword tag_cache_offset = 0;
+	long& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
+	long tag_cache_offset = 0;
 
 	if (out_instance)
 		*out_instance = instance;
 
-	dword tag_index = 0;
+	long tag_index = 0;
 	while (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != -1)
 		tag_index++;
 
-	if (!file_read_from_position(&g_cache_file_globals.tags_header, tag_cache_offset, sizeof(cache_file_tag_instance), false, instance))
+	if (!file_read_from_position(&g_cache_file_globals.tags_section, tag_cache_offset, sizeof(cache_file_tag_instance), false, instance))
 		return false;
 
 	g_cache_file_globals.tag_loaded_size += instance->total_size;
-	g_cache_file_globals.tag_instances[absolute_index] = instance;
-	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = absolute_index;
-	g_cache_file_globals.absolute_index_tag_mapping[absolute_index] = tag_index;
+	g_cache_file_globals.tag_instances[tag_loaded_count] = instance;
+	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = tag_loaded_count;
+	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
 
-	if (!file_read_from_position(&g_cache_file_globals.tags_header, tag_cache_offset, instance->total_size, false, instance))
+	if (!file_read_from_position(&g_cache_file_globals.tags_section, tag_cache_offset, instance->total_size, false, instance))
 		return false;
 
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
 		return false;
 
-	g_cache_file_globals.tag_loaded_count++;
+	tag_loaded_count++;
 
 	if (instance->dependency_count <= 0)
 		return true;
 
 	short dependency_index = 0;
-	while (cache_file_tags_load(instance->dependencies[dependency_index]))
+	while (cache_file_tags_load_recursive(instance->dependencies[dependency_index]))
 	{
 		if (++dependency_index >= instance->dependency_count)
 			return true;
@@ -520,18 +739,18 @@ void apply_multiplayer_globals_modification(cache_file_tag_instance* instance, e
 	{
 	case _instance_modification_stage_tag_load:
 	{
-		cache_file_tags_load(0x00001500); // spike_rifle
-		cache_file_tags_load(0x0000159E); // sword
-		cache_file_tags_load(0x000014F8); // needler
-		cache_file_tags_load(0x000015B3); // rocket_launcher
-		cache_file_tags_load(0x00001A45); // shotgun
-		cache_file_tags_load(0x000015B1); // sniper_rifle
-		cache_file_tags_load(0x000014FF); // brute_shot
-		cache_file_tags_load(0x00001509); // beam_rifle
-		cache_file_tags_load(0x000015B2); // spartan_laser
-		cache_file_tags_load(0x0000150C); // gravity_hammer
-		cache_file_tags_load(0x00001A55); // flame_thrower
-		cache_file_tags_load(0x00001A54); // missile_launcher
+		cache_file_tags_load_recursive(0x00001500); // spike_rifle
+		cache_file_tags_load_recursive(0x0000159E); // sword
+		cache_file_tags_load_recursive(0x000014F8); // needler
+		cache_file_tags_load_recursive(0x000015B3); // rocket_launcher
+		cache_file_tags_load_recursive(0x00001A45); // shotgun
+		cache_file_tags_load_recursive(0x000015B1); // sniper_rifle
+		cache_file_tags_load_recursive(0x000014FF); // brute_shot
+		cache_file_tags_load_recursive(0x00001509); // beam_rifle
+		cache_file_tags_load_recursive(0x000015B2); // spartan_laser
+		cache_file_tags_load_recursive(0x0000150C); // gravity_hammer
+		cache_file_tags_load_recursive(0x00001A55); // flame_thrower
+		cache_file_tags_load_recursive(0x00001A54); // missile_launcher
 	}
 	break;
 	case _instance_modification_stage_tag_fixup:
