@@ -112,10 +112,16 @@ public:
 	void __cdecl set_color(real_argb_color const* color);
 	void __cdecl set_shadow_color(real_argb_color const* shadow_color);
 	void __cdecl set_style(long style);
+	void __cdecl set_tab_stops(short const* tab_stops, short count);
+	void __cdecl set_wrap_horizontally(bool wrap_horizontally);
+	void __cdecl text_bounds_draw_character(real a1, real a2, real a3, real a4);
 	void __cdecl set_scale(real scale);
 	void __cdecl set_font(long font_id);
 	void __cdecl set_justification(long justification);
 	bool __cdecl draw_more(c_font_cache_base* font_cache, char const* s);
+	//draw_partial
+	//get_cursor
+	short __cdecl get_line_height() const;
 
 protected:
 	c_flags<e_text_flags, dword, k_text_flag_count> m_flags;

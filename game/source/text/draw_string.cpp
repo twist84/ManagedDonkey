@@ -22,6 +22,37 @@ void __cdecl c_draw_string::set_style(long style)
 	m_style = style;
 }
 
+void __cdecl c_draw_string::set_tab_stops(short const* tab_stops, short count)
+{
+	ASSERT((tab_stops != NULL && count >= 0) || (tab_stops == NULL && count == 0));
+
+	if (tab_stops)
+	{
+		short tab_stop_count = count;
+		if (count > NUMBEROF(m_tab_stops))
+			tab_stop_count = NUMBEROF(m_tab_stops);
+
+		m_tab_stop_count = tab_stop_count;
+		if (tab_stop_count > 0)
+			csmemcpy(m_tab_stops, tab_stops, sizeof(*m_tab_stops) * tab_stop_count);
+	}
+	else
+	{
+		m_tab_stop_count = 0;
+	}
+}
+
+void __cdecl c_draw_string::set_wrap_horizontally(bool wrap_horizontally)
+{
+	m_flags.set(_text_flag_wrap_horizontally_bit, wrap_horizontally);
+}
+
+void __cdecl c_draw_string::text_bounds_draw_character(real a1, real a2, real a3, real a4)
+{
+	DECLFUNC(0x00659340, void, __thiscall, c_draw_string*, real, real, real, real)(this, a1, a2, a3, a4);
+}
+
+
 void __cdecl c_draw_string::set_scale(real scale)
 {
 	m_scale = scale;
@@ -31,6 +62,7 @@ void __cdecl c_draw_string::set_font(long font_id)
 {
 	if (font_id < 0)
 		font_id = 0;
+
 	if (font_id > 10)
 		font_id = 10;
 
@@ -46,6 +78,11 @@ void __cdecl c_draw_string::set_justification(long justification)
 bool __cdecl c_draw_string::draw_more(c_font_cache_base* font_cache, char const* s)
 {
 	return DECLFUNC(0x00657DD0, bool, __thiscall, c_draw_string*, c_font_cache_base*, char const*)(this, font_cache, s);
+}
+
+short __cdecl c_draw_string::get_line_height() const
+{
+	return DECLFUNC(0x00658440, short, __thiscall, c_draw_string const*)(this);
 }
 
 c_font_cache_base::c_font_cache_base() :
