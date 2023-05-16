@@ -254,6 +254,7 @@ POPD
     <ClCompile Include="source\hs\hs.cpp" />
     <ClCompile Include="source\hs\hs_function.cpp" />
     <ClCompile Include="source\hs\hs_globals_external.cpp" />
+    <ClCompile Include="source\hs\hs_library_external.cpp" />
     <ClCompile Include="source\hs\hs_runtime.cpp" />
     <ClCompile Include="source\input\controllers.cpp" />
     <ClCompile Include="source\input\input.cpp" />
@@ -437,6 +438,7 @@ POPD
     <ClInclude Include="source\game\game_engine_spawning.hpp" />
     <ClInclude Include="source\game\game_results.hpp" />
     <ClInclude Include="source\geometry\geometry_definitions.hpp" />
+    <ClInclude Include="source\hs\hs_library_external.hpp" />
     <ClInclude Include="source\interface\c_gui_model_widget.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
     <ClInclude Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.hpp" />
