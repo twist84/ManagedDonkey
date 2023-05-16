@@ -3,6 +3,7 @@
 #include "cseries/cseries_console.hpp"
 #include "input/input.hpp"
 #include "interface/interface_constants.hpp"
+#include "main/console.hpp"
 #include "memory/module.hpp"
 #include "text/draw_string.hpp"
 
@@ -40,6 +41,28 @@ struct c_critical_section_scope
 	volatile long m_critical_section_id;
 	volatile bool m_critical_section_entered;
 };
+
+void __cdecl terminal_printf(real_argb_color const* color, char const* format, ...)
+{
+	ASSERT(format != NULL);
+
+	va_list list;
+	va_start(list, format);
+
+	if (terminal_globals.initialized && !terminal_globals.suppress_output)
+	{
+		real_argb_color message_color = { 1.0f, 0.69999999f, 0.69999999f, 0.69999999f };
+		if (color)
+			message_color = *color;
+
+		char message[255]{};
+		cvsnzprintf(message, 255, format, list);
+		terminal_new_line(message, &message_color, csstrstr(message, "|t") != 0);
+		c_console::write_line(message); //telnet_console_print(message);
+	}
+
+	va_end(list);
+}
 
 void __cdecl terminal_initialize()
 {
@@ -91,7 +114,11 @@ void terminal_handle_key(s_key_state* key)
 {
 	ASSERT(terminal_globals.input_state);
 
-	// #TODO: map out `terminal_gets_state`
+	if (terminal_globals.input_state->key_count < 32)
+		terminal_globals.input_state->keys[terminal_globals.input_state->key_count++] = *key;
+
+	if (terminal_globals.input_state->edit.text)
+		edit_text_handle_key(&terminal_globals.input_state->edit, key);
 
 	terminal_globals.should_draw = true;
 	terminal_globals.draw_time = 0.0;
@@ -99,14 +126,16 @@ void terminal_handle_key(s_key_state* key)
 
 bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 {
-	// #TODO: map out `terminal_gets_state`
-	//if (terminal_gets_active())
+	if (terminal_gets_active())
 	{
-		//s_key_state key;
-		//while (input_get_key(&key, _input_type_game))
-		//	terminal_handle_key(&key);
+		// #TODO: controller stuff
 
-		//input_suppress();
+		s_key_state key{};
+		while (input_get_key(&key, _input_type_game))
+			terminal_handle_key(&key);
+
+		// input_suppress();
+		input_globals.suppressed = true;
 
 		terminal_globals.draw_time += shell_seconds_elapsed;
 		if (terminal_globals.draw_time > 1.0f)
@@ -115,10 +144,26 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 			terminal_globals.draw_time = 0.0f;
 		}
 
+		short v7 = static_cast<short>(terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.selection_index6);
+		short scroll_amount = terminal_globals.input_state->scroll_amount;
+		if (v7 > scroll_amount + 59)
+			scroll_amount -= 59;
+
+		if (v7 < scroll_amount + 20)
+		{
+			short v9 = 0;
+			if (v7 - 20 >= 0)
+				v9 = v7 - 20;
+			scroll_amount = v9;
+		}
+
+		ASSERT(scroll_amount >= 0);
+		terminal_globals.input_state->scroll_amount = scroll_amount;
+
 		return true;
 	}
 
-	//return false;
+	return false;
 }
 
 void __cdecl terminal_update_output(real shell_seconds_elapsed)
@@ -141,11 +186,6 @@ void __cdecl terminal_update_output(real shell_seconds_elapsed)
 	}
 }
 
-bool __cdecl debugging_system_has_focus()
-{
-	return false; // console_is_active() || debug_menu_get_active();
-}
-
 bool __cdecl terminal_update(real shell_seconds_elapsed)
 {
 	bool result = false;
@@ -154,13 +194,12 @@ bool __cdecl terminal_update(real shell_seconds_elapsed)
 		c_critical_section_scope critical_section_scope(3);
 
 		result = terminal_update_input(shell_seconds_elapsed);
-		if (!debugging_system_has_focus())
+		if (!console_is_active())
 			terminal_update_output(shell_seconds_elapsed);
 	}
 
 	return result;
 }
-HOOK_DECLARE_CALL(0x00505CCD, terminal_update);
 
 void __cdecl terminal_remove_line(long line_index)
 {
@@ -226,87 +265,6 @@ long __cdecl terminal_new_line(char const* message, real_argb_color const* messa
 	return new_line_index;
 }
 
-void __cdecl terminal_printf(real_argb_color const* color, char const* format, ...)
-{
-	ASSERT(format != NULL);
-
-	va_list list;
-	va_start(list, format);
-
-	if (terminal_globals.initialized && !terminal_globals.suppress_output)
-	{
-		real_argb_color message_color = { 1.0f, 0.69999999f, 0.69999999f, 0.69999999f };
-		if (color)
-			message_color = *color;
-
-		char message[255]{};
-		cvsnzprintf(message, 255, format, list);
-		terminal_new_line(message, &message_color, csstrstr(message, "|t") != 0);
-		c_console::write_line(message); //telnet_console_print(message);
-	}
-
-	va_end(list);
-}
-
-void __cdecl terminal_draw()
-{
-	if (!terminal_globals.initialized)
-		return;
-
-	c_font_cache_mt_safe font_cache;
-	c_rasterizer_draw_string rasterizer_draw_string;
-	short line_height = rasterizer_draw_string.get_line_height();
-
-	short_rectangle2d pixel_bounds[4]{};
-	interface_get_current_display_settings(&pixel_bounds[0], &pixel_bounds[1], &pixel_bounds[2], &pixel_bounds[3]);
-	short_rectangle2d* pixel_bounds_ = &pixel_bounds[3];
-
-	if (terminal_gets_active())
-	{
-		// #TODO: map out `terminal_gets_state`
-	}
-
-	if (g_terminal_render_enable)
-	{
-		real_argb_color shadow_color = *global_real_argb_black;
-		short y0 = pixel_bounds_->y1 - line_height;
-
-		long line_count = NONE;
-		for (long line_index = terminal_globals.line_count; line_index != NONE && y0 - line_height > 0; line_index = line_count)
-		{
-			if (y0 - line_height <= 0)
-				break;
-
-			terminal_output_datum* line = (terminal_output_datum*)datum_try_and_get(terminal_globals.output_data, line_index);
-			line_count = line->line_count;
-
-			real alpha_scale = fmaxf(4.0f - line->shadow_color_alpha_scale, 0.0f);
-			if (alpha_scale >= 1.0f)
-				alpha_scale = 1.0f;
-
-			line->message_color.alpha *= alpha_scale;
-			shadow_color.alpha = line->message_color.alpha;
-
-			short_rectangle2d bounds{};
-			bounds.x0 = pixel_bounds_->x0;
-			bounds.x1 = pixel_bounds_->x1;
-			bounds.y1 = y0;
-			y0 -= line_height;
-			bounds.y0 = y0;
-
-			if (line->tab_stop)
-				rasterizer_draw_string.set_tab_stops(k_tab_stops, NUMBEROF(k_tab_stops));
-
-			rasterizer_draw_string.set_color(&line->message_color);
-			rasterizer_draw_string.set_shadow_color(&shadow_color);
-			rasterizer_draw_string.set_bounds(&bounds);
-			rasterizer_draw_string.draw(&font_cache, line->message.get_string());
-
-			rasterizer_draw_string.set_tab_stops(k_tab_stops, 0);
-		}
-	}
-}
-
 void __cdecl terminal_output_to_console(bool output_to_console)
 {
 	terminal_globals.output_to_console = output_to_console;
@@ -320,5 +278,122 @@ void __cdecl terminal_suppress_output(bool suppress_output)
 bool __cdecl terminal_gets_active()
 {
 	return terminal_globals.input_state != nullptr;
+}
+
+bool __cdecl terminal_gets_begin(terminal_gets_state* state)
+{
+	c_critical_section_scope critical_section_scope(3);
+
+	ASSERT(state);
+
+	if (!terminal_gets_active())
+	{
+		terminal_globals.input_state = state;
+		state->edit.text = state->input_text.get_string();
+		terminal_globals.input_state->edit.text_length = 255;
+		terminal_globals.input_state->scroll_amount = 0;
+		edit_text_new(&terminal_globals.input_state->edit);
+		state->key_count = 0;
+
+		return true;
+	}
+
+	return false;
+}
+
+void __cdecl terminal_gets_end(terminal_gets_state* state)
+{
+	c_critical_section_scope critical_section_scope(3);
+
+	if (state == terminal_globals.input_state)
+		terminal_globals.input_state = nullptr;
+}
+
+void __cdecl terminal_draw()
+{
+	if (terminal_globals.initialized)
+	{
+		c_font_cache_mt_safe font_cache;
+		c_rasterizer_draw_string rasterizer_draw_string;
+		short line_height = rasterizer_draw_string.get_line_height();
+
+		short_rectangle2d pixel_bounds[4]{};
+		interface_get_current_display_settings(&pixel_bounds[0], &pixel_bounds[1], &pixel_bounds[2], &pixel_bounds[3]);
+		short_rectangle2d* pixel_bounds_ = &pixel_bounds[3];
+
+		if (terminal_gets_active())
+		{
+			c_static_string<288> buffer;
+			buffer.set(terminal_globals.input_state->prompt_text.get_string());
+			buffer.append(terminal_globals.input_state->input_text.get_string());
+
+			// #TODO: proper bounds
+			short y0 = pixel_bounds_->y1 - line_height;
+			short_rectangle2d bounds{};
+			bounds.x0 = pixel_bounds_->x0;
+			bounds.x1 = pixel_bounds_->x1;
+			bounds.y1 = y0;
+			y0 -= line_height;
+			bounds.y0 = y0;
+
+			//if (terminal_globals.should_draw)
+			//	buffer.set_character(terminal_globals.input_state->edit.selection_index6 + terminal_globals.input_state->prompt_text.length(), '_');
+
+			long buffer_length = buffer.length();
+			// #TODO: scroll ammount
+
+			short scroll_amount = 0;
+			if (terminal_globals.input_state->scroll_amount > 0)
+				scroll_amount = terminal_globals.input_state->scroll_amount;
+
+			long buffer_index = buffer_length;
+			if (scroll_amount < buffer_length)
+				buffer_index = scroll_amount;
+
+			rasterizer_draw_string.set_color(&terminal_globals.input_state->prompt_color);
+			rasterizer_draw_string.set_bounds(&bounds);
+			rasterizer_draw_string.draw(&font_cache, buffer.get_string() + buffer_index);
+		}
+
+		if (g_terminal_render_enable)
+		{
+			real_argb_color shadow_color = *global_real_argb_black;
+			short y0 = pixel_bounds_->y1 - line_height;
+
+			long line_count = NONE;
+			for (long line_index = terminal_globals.line_count; line_index != NONE && y0 - line_height > 0; line_index = line_count)
+			{
+				if (y0 - line_height <= 0)
+					break;
+
+				terminal_output_datum* line = (terminal_output_datum*)datum_try_and_get(terminal_globals.output_data, line_index);
+				line_count = line->line_count;
+
+				real alpha_scale = fmaxf(4.0f - line->shadow_color_alpha_scale, 0.0f);
+				if (alpha_scale >= 1.0f)
+					alpha_scale = 1.0f;
+
+				line->message_color.alpha *= alpha_scale;
+				shadow_color.alpha = line->message_color.alpha;
+
+				short_rectangle2d bounds{};
+				bounds.x0 = pixel_bounds_->x0;
+				bounds.x1 = pixel_bounds_->x1;
+				bounds.y1 = y0;
+				y0 -= line_height;
+				bounds.y0 = y0;
+
+				if (line->tab_stop)
+					rasterizer_draw_string.set_tab_stops(k_tab_stops, NUMBEROF(k_tab_stops));
+
+				rasterizer_draw_string.set_color(&line->message_color);
+				rasterizer_draw_string.set_shadow_color(&shadow_color);
+				rasterizer_draw_string.set_bounds(&bounds);
+				rasterizer_draw_string.draw(&font_cache, line->message.get_string());
+
+				rasterizer_draw_string.set_tab_stops(k_tab_stops, 0);
+			}
+		}
+	}
 }
 

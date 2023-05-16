@@ -1,6 +1,6 @@
 #include "camera/editor_director.hpp"
 
-#include "cseries/cseries_console.hpp"
+#include "main/console.hpp"
 
 void __cdecl c_editor_director::bump_speed()
 {
@@ -40,4 +40,5 @@ void __cdecl c_editor_director::set_position_and_roll(real_point3d const* positi
 void __cdecl c_editor_director::set_scripted(bool scripted)
 {
 	DECLFUNC(0x00728410, void, __thiscall, c_editor_director const*, bool)(this, scripted);
+	console_printf("%s scripted camera mode", scripted ? "entering" : "exiting");
 }

@@ -7,6 +7,7 @@
 #include "game/player_mapping.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/terminal.hpp"
+#include "main/console.hpp"
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
 

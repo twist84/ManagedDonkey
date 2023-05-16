@@ -12,6 +12,7 @@
 #include "interface/interface_constants.hpp"
 #include "game/game.hpp"
 #include "game/players.hpp"
+#include "main/console.hpp"
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"

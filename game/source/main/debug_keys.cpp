@@ -6,6 +6,7 @@
 #include "game/cheats.hpp"
 #include "game/game.hpp"
 #include "interface/terminal.hpp"
+#include "main/console.hpp"
 #include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/thread_local.hpp"
@@ -722,7 +723,7 @@ bool __cdecl debug_key_update(long key_index, debug_key* key, bool* modifier_dow
 				{
 					if (key->variable)
 					{
-						c_console::write_line("%s = %s", key->name, *key->variable ? "OFF" : "ON");
+						console_printf("%s = %s", key->name, *key->variable ? "OFF" : "ON");
 						*key->variable = !*key->variable;
 					}
 				}
@@ -833,7 +834,7 @@ void __cdecl debug_key_select_this_actor(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -841,7 +842,7 @@ void __cdecl debug_key_select_prev_encounter(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -849,7 +850,7 @@ void __cdecl debug_key_select_next_encounter(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -857,7 +858,7 @@ void __cdecl debug_key_select_next_actor(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -865,7 +866,7 @@ void __cdecl debug_key_select_prev_actor(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -873,7 +874,7 @@ void __cdecl debug_key_render_spray(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -881,7 +882,7 @@ void __cdecl debug_key_erase_all_actors(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -933,7 +934,7 @@ void __cdecl debug_key_ninja_rope(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -941,7 +942,7 @@ void __cdecl debug_key_play_animation(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -949,7 +950,7 @@ void __cdecl debug_key_profile_summary(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -957,7 +958,7 @@ void __cdecl debug_key_profile_summary_off(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -965,7 +966,7 @@ void __cdecl debug_key_profile_off(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -973,7 +974,7 @@ void __cdecl debug_key_profile_next_thread(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -981,7 +982,7 @@ void __cdecl debug_key_profile_prev_thread(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -989,7 +990,7 @@ void __cdecl debug_key_profile_next_attribute(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -997,7 +998,7 @@ void __cdecl debug_key_profile_prev_attribute(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1005,7 +1006,7 @@ void __cdecl debug_key_profile_next_sort(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1013,7 +1014,7 @@ void __cdecl debug_key_profile_prev_sort(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1021,7 +1022,7 @@ void __cdecl debug_key_profile_next_display(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1029,7 +1030,7 @@ void __cdecl debug_key_profile_dump_frame(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1037,7 +1038,7 @@ void __cdecl debug_player_input_toggle(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1045,7 +1046,7 @@ void __cdecl debug_key_toggle_weapons(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1059,7 +1060,7 @@ void __cdecl debug_key_mouse_focus(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1091,7 +1092,7 @@ void __cdecl debug_key_toggle_pause(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1099,7 +1100,7 @@ void __cdecl debug_key_print_screen(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1107,7 +1108,7 @@ void __cdecl debug_key_increment_game_speed_minor(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1115,7 +1116,7 @@ void __cdecl debug_key_decrement_game_speed_minor(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1123,7 +1124,7 @@ void __cdecl debug_key_increment_game_speed_major(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1131,7 +1132,7 @@ void __cdecl debug_key_decrement_game_speed_major(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1139,7 +1140,7 @@ void __cdecl debug_dump_assert_log(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1147,7 +1148,7 @@ void __cdecl debug_time_stats_display(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1155,7 +1156,7 @@ void __cdecl debug_time_stats_pause(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1177,7 +1178,7 @@ void __cdecl debug_button_drop_flag_at_camera(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 
@@ -1185,7 +1186,7 @@ void __cdecl debug_button_drop_flag_as_projectile(bool enabled)
 {
 	if (enabled)
 	{
-		c_console::write_line(__FUNCTION__);
+		console_warning(__FUNCTION__);
 	}
 }
 

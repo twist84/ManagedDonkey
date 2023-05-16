@@ -23,5 +23,4 @@ protected:
 };
 
 extern void get_error_message(unsigned long message_id, char(&message_buffer)[2048]);
-extern void console_printf(char const* format, ...);
 

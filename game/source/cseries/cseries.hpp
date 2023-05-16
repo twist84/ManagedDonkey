@@ -20,6 +20,7 @@
 #define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
 #define IN_RANGE_INCLUSIVE(value, begin, end) (((value) >= (begin)) && ((value) <= (end)))
 #define VALID_INDEX(index, count) ((index) >= 0 && (index) < (count))
+#define VALID_COUNT(index, count) ((index) >= 0 && (index) < (count))
 
 #define REFERENCE_DECLARE(address, type, name) type& name = *reinterpret_cast<type*>(address)
 #define REFERENCE_DECLARE_ARRAY(address, type, name, count) type(&name)[count] = *reinterpret_cast<type(*)[count]>(address)
@@ -465,6 +466,27 @@ public:
 	{
 		clear();
 		set(s);
+	}
+
+	void set_character(long index, char character)
+	{
+		ASSERT(VALID_INDEX(index, k_maximum_count - 1));
+
+		long initial_length = length();
+		ASSERT(VALID_COUNT(index, initial_length));
+
+		if (index >= initial_length)
+		{
+			if (index == initial_length && index < k_maximum_count - 1)
+			{
+				m_string[index] = character;
+				m_string[index + 1] = '\0';
+			}
+		}
+		else
+		{
+			m_string[index] = character;
+		}
 	}
 
 	void set(char const* s)

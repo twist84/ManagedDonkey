@@ -272,10 +272,15 @@ void __cdecl main_loop_body_begin()
 	show_direct_connect_dialog();
 }
 
+void __cdecl main_loop_body_mid(real shell_seconds_elapsed)
+{
+	terminal_update(shell_seconds_elapsed);
+	console_update(shell_seconds_elapsed);
+}
+HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
+
 void __cdecl main_loop_body_end()
 {
-	debug_keys_update();
-
 	// change teams buttons
 	if (game_is_ui_shell())
 	{

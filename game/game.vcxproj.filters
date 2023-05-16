@@ -705,6 +705,9 @@
     <ClCompile Include="source\hs\hs_library_external.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\dialogs\edit_text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1827,6 +1830,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\hs\hs_library_external.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\dialogs\edit_text.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
