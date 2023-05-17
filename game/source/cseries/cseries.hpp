@@ -228,16 +228,22 @@ public:
 	dword m_size;
 };
 
-template<typename t_type, size_t k_count>
+template<typename t_type, long k_count>
 struct c_static_array
 {
 	t_type m_storage[k_count];
 
 	t_type& operator[](long index)
 	{
-		ASSERT(VALID_INDEX(index, k_count));
+		ASSERT(valid(index));
 
 		return m_storage[index];
+	}
+
+	void set_all(t_type const& value)
+	{
+		for (long i = 0; i < k_count; i++)
+			m_storage[i] = value;
 	}
 
 	void clear()
@@ -253,6 +259,21 @@ struct c_static_array
 	t_type* end()
 	{
 		return &m_storage[k_count];
+	}
+
+	t_type* get_elements()
+	{
+		return m_storage;
+	}
+
+	long count()
+	{
+		return k_count;
+	}
+
+	bool valid(long index) const
+	{
+		return VALID_INDEX(index, k_count);
 	}
 };
 
