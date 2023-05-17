@@ -1,11 +1,36 @@
 #include "xbox/xbox.hpp"
 
 #include "cseries/cseries.hpp"
+#include "main/main.hpp"
 #include "resource.h"
 
 #include <windows.h>
 
 REFERENCE_DECLARE(0x0199C014, HWND, g_game_window_handle);
+
+bool __cdecl get_clipboard_as_text(char* buf, long len)
+{
+	if (!IsClipboardFormatAvailable(1) || !OpenClipboard(g_game_window_handle))
+		return false;
+
+	bool result = false;
+
+	HANDLE clipboard_data = GetClipboardData(1u);
+	if (clipboard_data)
+	{
+		const char* clipboard_text = (const char*)GlobalLock(clipboard_data);
+		if (clipboard_text)
+		{
+			result = true;
+			csstrnzcpy(buf, clipboard_text, len);
+			GlobalUnlock(clipboard_data);
+		}
+	}
+
+	CloseClipboard();
+
+	return result;
+}
 
 struct XShowKeyboardUI_struct
 {
