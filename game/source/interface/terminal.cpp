@@ -144,7 +144,7 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 			terminal_globals.draw_time = 0.0f;
 		}
 
-		short v7 = static_cast<short>(terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.selection_index6);
+		short v7 = static_cast<short>(terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index);
 		short scroll_amount = terminal_globals.input_state->scroll_amount;
 		if (v7 > scroll_amount + 59)
 			scroll_amount -= 59;
@@ -289,7 +289,7 @@ bool __cdecl terminal_gets_begin(terminal_gets_state* state)
 	if (!terminal_gets_active())
 	{
 		terminal_globals.input_state = state;
-		state->edit.text = state->input_text.get_string();
+		state->edit.text = state->input_text;
 		terminal_globals.input_state->edit.text_length = 255;
 		terminal_globals.input_state->scroll_amount = 0;
 		edit_text_new(&terminal_globals.input_state->edit);
@@ -314,45 +314,40 @@ void __cdecl terminal_draw()
 	if (terminal_globals.initialized)
 	{
 		c_font_cache_mt_safe font_cache;
-		c_rasterizer_draw_string rasterizer_draw_string;
-		short line_height = rasterizer_draw_string.get_line_height();
+		c_rasterizer_draw_string draw_string;
+		short line_height = draw_string.get_line_height();
 
 		short_rectangle2d pixel_bounds[4]{};
 		interface_get_current_display_settings(&pixel_bounds[0], &pixel_bounds[1], &pixel_bounds[2], &pixel_bounds[3]);
 		short_rectangle2d* pixel_bounds_ = &pixel_bounds[3];
 
+		short_rectangle2d bounds{};
 		if (terminal_gets_active())
 		{
 			c_static_string<288> buffer;
 			buffer.set(terminal_globals.input_state->prompt_text.get_string());
-			buffer.append(terminal_globals.input_state->input_text.get_string());
+			buffer.append(terminal_globals.input_state->input_text);
 
-			// #TODO: proper bounds
-			short y0 = pixel_bounds_->y1 - line_height;
-			short_rectangle2d bounds{};
 			bounds.x0 = pixel_bounds_->x0;
 			bounds.x1 = pixel_bounds_->x1;
-			bounds.y1 = y0;
-			y0 -= line_height;
-			bounds.y0 = y0;
+			bounds.y0 = pixel_bounds_->y1 - line_height;
+			bounds.y1 = pixel_bounds_->y1;
 
 			//if (terminal_globals.should_draw)
-			//	buffer.set_character(terminal_globals.input_state->edit.selection_index6 + terminal_globals.input_state->prompt_text.length(), '_');
-
-			long buffer_length = buffer.length();
-			// #TODO: scroll ammount
+			//	buffer.set_character(terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index, '_');
 
 			short scroll_amount = 0;
 			if (terminal_globals.input_state->scroll_amount > 0)
 				scroll_amount = terminal_globals.input_state->scroll_amount;
 
+			long buffer_length = buffer.length();
 			long buffer_index = buffer_length;
 			if (scroll_amount < buffer_length)
 				buffer_index = scroll_amount;
 
-			rasterizer_draw_string.set_color(&terminal_globals.input_state->prompt_color);
-			rasterizer_draw_string.set_bounds(&bounds);
-			rasterizer_draw_string.draw(&font_cache, buffer.get_string() + buffer_index);
+			draw_string.set_color(&terminal_globals.input_state->prompt_color);
+			draw_string.set_bounds(&bounds);
+			draw_string.draw(&font_cache, buffer.get_string() + buffer_index);
 		}
 
 		if (g_terminal_render_enable)
@@ -376,7 +371,6 @@ void __cdecl terminal_draw()
 				line->message_color.alpha *= alpha_scale;
 				shadow_color.alpha = line->message_color.alpha;
 
-				short_rectangle2d bounds{};
 				bounds.x0 = pixel_bounds_->x0;
 				bounds.x1 = pixel_bounds_->x1;
 				bounds.y1 = y0;
@@ -384,14 +378,14 @@ void __cdecl terminal_draw()
 				bounds.y0 = y0;
 
 				if (line->tab_stop)
-					rasterizer_draw_string.set_tab_stops(k_tab_stops, NUMBEROF(k_tab_stops));
+					draw_string.set_tab_stops(k_tab_stops, NUMBEROF(k_tab_stops));
 
-				rasterizer_draw_string.set_color(&line->message_color);
-				rasterizer_draw_string.set_shadow_color(&shadow_color);
-				rasterizer_draw_string.set_bounds(&bounds);
-				rasterizer_draw_string.draw(&font_cache, line->message.get_string());
+				draw_string.set_color(&line->message_color);
+				draw_string.set_shadow_color(&shadow_color);
+				draw_string.set_bounds(&bounds);
+				draw_string.draw(&font_cache, line->message.get_string());
 
-				rasterizer_draw_string.set_tab_stops(k_tab_stops, 0);
+				draw_string.set_tab_stops(k_tab_stops, 0);
 			}
 		}
 	}

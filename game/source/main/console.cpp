@@ -3,7 +3,11 @@
 #include "cseries/cseries_console.hpp"
 #include "interface/terminal.hpp"
 #include "main/debug_keys.hpp"
+#include "main/main.hpp"
+#include "memory/thread_local.hpp"
 #include "multithreading/threads.hpp"
+#include "networking/tools/remote_command.hpp"
+#include "xbox/xbox.hpp"
 
 #include <string.h>
 
@@ -57,7 +61,7 @@ void __cdecl console_initialize()
 		console_globals.status_render = false;
 		console_globals.input_state.prompt_color = { 1.0f, 1.0f, 0.30000001f, 1.0f };
 		console_globals.input_state.prompt_text.set("donkey( ");
-		console_globals.input_state.input_text.clear();
+		console_globals.input_state.input_text[0] = '\0';
 		console_globals.input_state.__unknown11F4 = 0;
 		console_globals.input_state.command_count = -1;
 		console_globals.input_state.__unknown11F8 = -1;
@@ -88,14 +92,14 @@ bool __cdecl console_is_active()
 
 bool __cdecl console_is_empty()
 {
-	return console_globals.is_active && console_globals.input_state.input_text.is_empty();
+	return console_globals.is_active && !console_globals.input_state.input_text[0];
 }
 
 void __cdecl console_open()
 {
 	if (!console_is_active())
 	{
-		console_globals.input_state.input_text.clear();
+		console_globals.input_state.input_text[0] = '\0';
 		console_globals.is_active = terminal_gets_begin(&console_globals.input_state);
 	}
 }
@@ -117,12 +121,12 @@ void __cdecl console_clear()
 
 char const* __cdecl console_get_token()
 {
-	char const* input_text = strrchr(console_globals.input_state.input_text.get_string(), ' ') + 1;
-	char const* v1 = strrchr(console_globals.input_state.input_text.get_string(), '(') + 1;
-	char const* result = strrchr(console_globals.input_state.input_text.get_string(), '"') + 1;
+	char const* input_text = strrchr(console_globals.input_state.input_text, ' ') + 1;
+	char const* v1 = strrchr(console_globals.input_state.input_text, '(') + 1;
+	char const* result = strrchr(console_globals.input_state.input_text, '"') + 1;
 
-	if (console_globals.input_state.input_text.get_string() > input_text)
-		input_text = console_globals.input_state.input_text.get_string();
+	if (console_globals.input_state.input_text > input_text)
+		input_text = console_globals.input_state.input_text;
 
 	if (input_text > v1)
 		v1 = input_text;
@@ -142,12 +146,19 @@ void __cdecl console_complete()
 	if (console_token_buffer.is_empty())
 	{
 		console_token_buffer.set(console_get_token());
-		console_token_buffer.set_length(console_globals.input_state.edit.selection_index6);
+		console_token_buffer.set_length(console_globals.input_state.edit.cursor_selection_index);
 		suggestion_current_index = -1;
 
 		something = true;
 	}
 }
+
+#define k_maximum_number_of_tokens 100
+#define k_token_length 256
+
+using _token_t = c_static_string<k_token_length>;
+using token_t = _token_t*;
+using tokens_t = c_static_array<token_t, k_maximum_number_of_tokens>;
 
 bool __cdecl console_process_command(char const* command, bool a2)
 {
@@ -167,8 +178,29 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 	console_globals.input_state.__unknown11F8 = -1;
 
-	bool result = true;//hs_compile_and_evaluate(_event_level_message, "console_command", command, a2);
+	bool result = false;//hs_compile_and_evaluate(_event_level_message, "console_command", command, a2);
 	c_console::write_line("console_command: ");
+
+	tokens_t tokens{};
+	long token_count = 0;
+	command_tokenize(command, tokens, &token_count);
+	if (token_count > 0)
+	{
+		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
+		{
+			if (tokens[0]->equals(k_registered_commands[i].name))
+			{
+				long succeeded = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens).index_of(": succeeded");
+				result = succeeded != -1 || tokens[0]->equals("help");
+
+				if (result)
+					console_printf("command '%s' succeeded", tokens[0]);
+			}
+		}
+
+		if (!result)
+			console_warning("command '%s' not found", tokens[0]);
+	}
 
 	return result;
 }
@@ -178,133 +210,75 @@ void __cdecl console_update(real shell_seconds_elapsed)
 	if (!console_is_active())
 	{
 		s_key_state key{};
-		if (input_peek_key(&key, _input_type_game))
+		if (input_peek_key(&key, _input_type_ui))
 		{
-			if (!key.was_key_down && !key.modifier && key.key_code == _key_code_backquote)
+			if (!key.was_key_down && !key.modifier && key.key_code == _key_code_backquote && key.key_type == _key_type_up)
 			{
-				input_get_key(&key, _input_type_game);
+				input_get_key(&key, _input_type_ui);
 				console_open();
 			}
 		}
-
-		debug_keys_update();
-
-		if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
-			console_globals.__time4 -= shell_seconds_elapsed;
 		else
-			console_globals.__time4 = 0.0f;
-
-		return;
-	}
-
-	if (console_globals.input_state.key_count <= 0)
-	{
-		if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
-			console_globals.__time4 -= shell_seconds_elapsed;
-		else
-			console_globals.__time4 = 0.0f;
-
-		return;
-	}
-
-	bool console_closed = false;
-
-	short key_index = 0;
-	while (!console_closed)
-	{
-		s_key_state* key = &console_globals.input_state.keys[key_index];
-		ASSERT(key->key_code != NONE);
-
-		e_key_code key_code = key->key_code;
-		switch (key_code)
 		{
-		case _key_code_backquote:
-		{
-			console_close();
-			console_closed = true;
+			debug_keys_update();
 		}
-		break;
-		case _key_code_tab:
+	}
+	else
+	{
+		input_globals.suppressed = true;
+
+		for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
 		{
-			console_complete();
-		}
-		break;
-		case _key_code_enter:
-		case _key_code_keypad_enter:
-			if (!console_globals.input_state.input_text.is_empty())
-			{
-				console_process_command(console_globals.input_state.input_text.get_string(), true);
-				console_globals.input_state.input_text.clear();
-				edit_text_selection_reset(&console_globals.input_state.edit);
-			}
-			else
+			s_key_state* key = &console_globals.input_state.keys[key_index];
+			ASSERT(key->key_code != NONE);
+
+			if (key->key_type == _key_type_up && key->key_code == _key_code_backquote)
 			{
 				console_close();
-				console_closed = true;
+				break;
 			}
-			break;
-		case _key_code_x:
-		case _key_code_c:
-		case _key_code_v:
-		{
-			if (!console_globals.input_state.keys[key_index].modifier.test(_key_modifier_flag_control_key_bit))
+			else if (key->modifier.test(_key_modifier_flag_control_key_bit) && key->key_type == _key_type_up && key->key_code == _key_code_v)
 			{
-				suggestion_current_index = 0;
-				console_token_buffer.clear();
+				char buffer[256]{};
+				get_clipboard_as_text(buffer, NUMBEROF(buffer));
+				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), buffer);
+				break;
 			}
-		}
-		break;
-		case _key_code_up:
-			console_globals.input_state.__unknown11F8 += 2;
-		case _key_code_down:
-		{
-			short v4 = console_globals.input_state.__unknown11F8 - 1;
-			console_globals.input_state.__unknown11F8 = v4;
-
-			if (v4 <= 0)
-				console_globals.input_state.__unknown11F8 = 0;
-
-			if (v4 <= 0)
-				v4 = 0;
-
-			short v5;
-			if (v4 <= console_globals.input_state.__unknown11F4 - 1)
+			else if (key->key_type == _key_type_up && (key->key_code == _key_code_enter || key->key_code == _key_code_keypad_enter))
 			{
-				v5 = v4;
+				if (console_globals.input_state.input_text[0])
+				{
+					if (console_process_command(console_globals.input_state.input_text, true))
+					{
+						console_globals.input_state.input_text[0] = '\0';
+						edit_text_selection_reset(&console_globals.input_state.edit);
+						console_close();
+					}
+				}
+				break;
 			}
-			else
+			else if (key->key_type == _key_type_char)
 			{
-				v5 = console_globals.input_state.__unknown11F4 - 1;
-				console_globals.input_state.__unknown11F8 = console_globals.input_state.__unknown11F4 - 1;
+				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), key->character);
 			}
 
-			if (v5 != -1)
+			// #TODO: 
+			if (csstrnlen(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text)) > 50)
 			{
-				console_globals.input_state.input_text.set(console_globals.input_state.commands[(console_globals.input_state.command_count - v5 + 16) % 16].get_string());
-				edit_text_selection_reset(&console_globals.input_state.edit);
+				console_globals.input_state.input_text[0] = '\0';
+				console_close();
+				console_warning("console: too many characters '50'");
 			}
-		}
-		break;
-		default:
-		{
-			suggestion_current_index = 0;
-			console_token_buffer.clear();
-		}
-		break;
+
 		}
 	}
 
-	if (++key_index >= console_globals.input_state.key_count)
-	{
-		if (console_closed)
-			return;
+	TLS_REFERENCE(players_globals);
+	players_globals->mostly_inhibit = input_globals.suppressed;
 
-		if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
-			console_globals.__time4 -= shell_seconds_elapsed;
-		else
-			console_globals.__time4 = 0.0f;
-
-		return;
-	}
+	if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
+		console_globals.__time4 -= shell_seconds_elapsed;
+	else
+		console_globals.__time4 = 0.0f;
 }
 
