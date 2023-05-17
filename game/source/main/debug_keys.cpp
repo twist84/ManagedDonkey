@@ -12,6 +12,8 @@
 #include "memory/thread_local.hpp"
 #include "units/units.hpp"
 
+bool force_respawn = false;
+
 // Modifier Table
 // 
 // Index, Shift,  Control, Alt
@@ -31,8 +33,8 @@ debug_key global_debug_key_list[]
 		.callback = debug_key_force_respawn,
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
-		.toggle_variable = false,
-		.variable = nullptr
+		.toggle_variable = true,
+		.variable = &force_respawn
 	},
 	{
 		.name = "Select This Actor",
