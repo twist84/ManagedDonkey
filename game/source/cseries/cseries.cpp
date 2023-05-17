@@ -191,6 +191,11 @@ bool string_is_not_empty(char const* s)
     return s && *s;
 }
 
+void string_terminate_at_first_delimiter(char* s, char const* delimiter)
+{
+    s[strcspn(s, delimiter)] = 0;
+}
+
 char* tag_to_string(tag _tag, char* buffer)
 {
     *(tag*)buffer = _byteswap_ulong(_tag);

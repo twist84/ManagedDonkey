@@ -737,6 +737,11 @@ e_shell_application_type __cdecl shell_application_type()
 	return _shell_application_type_client;
 }
 
+e_shell_tool_type __cdecl shell_tool_type()
+{
+	return _shell_tool_type_none;
+}
+
 //.text: ; 
 //.text:0042E360 ; bool __cdecl shell_build_number_is_compatible(long)
 //.text:0042E390 ; bool __cdecl shell_build_string_is_compatible(char const *)

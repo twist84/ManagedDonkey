@@ -4,12 +4,15 @@
 #include "interface/terminal.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/threads.hpp"
 #include "networking/tools/remote_command.hpp"
 #include "xbox/xbox.hpp"
 
 #include <string.h>
+
+HOOK_DECLARE(0x00605E10, console_execute_initial_commands);
 
 s_console_globals console_globals;
 
@@ -218,7 +221,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 	}
 	else
 	{
-		input_globals.suppressed = true;
+		game_time_set_paused(true, _game_time_pause_reason_debug);
 
 		for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
 		{
@@ -228,6 +231,8 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			if (key->key_type == _key_type_down && key->key_code == _key_code_backquote)
 			{
 				console_close();
+				game_time_set_paused(false, _game_time_pause_reason_debug);
+
 				break;
 			}
 			else if (key->modifier.test(_key_modifier_flag_control_key_bit) && key->key_type == _key_type_up && key->key_code == _key_code_v)
@@ -241,14 +246,41 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			{
 				if (console_globals.input_state.input_text[0])
 				{
-					if (console_process_command(console_globals.input_state.input_text, true))
-					{
-						console_globals.input_state.input_text[0] = '\0';
-						edit_text_selection_reset(&console_globals.input_state.edit);
-						console_close();
-					}
+					console_process_command(console_globals.input_state.input_text, true);
+					console_globals.input_state.input_text[0] = '\0';
+					edit_text_selection_reset(&console_globals.input_state.edit);
 				}
 				break;
+			}
+			else if (key->key_type == _key_type_up && (key->key_code == _key_code_up || key->key_code == _key_code_down))
+			{
+				if (key->key_code == _key_code_up)
+					console_globals.input_state.__unknown11F8 += 2;
+
+				short v4 = console_globals.input_state.__unknown11F8 - 1;
+				console_globals.input_state.__unknown11F8 = v4;
+
+				if (v4 <= 0)
+					console_globals.input_state.__unknown11F8 = 0;
+
+				if (v4 <= 0)
+					v4 = 0;
+
+				if (v4 > console_globals.input_state.__unknown11F4 - 1)
+				{
+					v4 = console_globals.input_state.__unknown11F4 - 1;
+					console_globals.input_state.__unknown11F8 = console_globals.input_state.__unknown11F4 - 1;
+				}
+
+				if (v4 != -1)
+				{
+					decltype(console_globals.input_state.input_text)& input_text = console_globals.input_state.input_text;
+					decltype(console_globals.input_state.previous_inputs)& previous_inputs = console_globals.input_state.previous_inputs;
+					decltype(console_globals.input_state.previous_inputs_count)& previous_inputs_count = console_globals.input_state.previous_inputs_count;
+
+					csstrnzcpy(input_text, previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)].get_string(), NUMBEROF(input_text));
+					edit_text_selection_reset(&console_globals.input_state.edit);
+				}
 			}
 			else if (key->vk_code != 0xFFFF && key->key_type == _key_type_char)
 			{
@@ -266,12 +298,59 @@ void __cdecl console_update(real shell_seconds_elapsed)
 		}
 	}
 
-	TLS_REFERENCE(players_globals);
-	players_globals->mostly_inhibit = input_globals.suppressed;
-
 	if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
 		console_globals.__time4 -= shell_seconds_elapsed;
 	else
 		console_globals.__time4 = 0.0f;
+}
+
+char const* console_get_init_file_name(e_shell_application_type shell_application_type)
+{
+	switch (shell_application_type)
+	{
+	case _shell_application_type_editor:
+		return "editor_init.txt";
+	default:
+		switch (shell_tool_type())
+		{
+		case _shell_tool_type_guerilla:
+			return "guerilla_init.txt";
+		case _shell_tool_type_tool:
+			return "tool_init.txt";
+		}
+		return "init.txt";
+	}
+
+	return "";
+}
+
+FILE* console_open_init()
+{
+	FILE* file = nullptr;
+	fopen_s(&file, console_get_init_file_name(shell_application_type()), "r");
+	return file;
+}
+
+void console_execute_commands_from_file(FILE* file)
+{
+	if (file)
+	{
+		char buffer[200]{};
+		while (fgets(buffer, NUMBEROF(buffer), file))
+		{
+			string_terminate_at_first_delimiter(buffer, "\r\n");
+			console_process_command(buffer, false);
+		}
+	}
+}
+
+void __cdecl console_execute_initial_commands()
+{
+	FILE* file = console_open_init();
+	if (file)
+	{
+		console_execute_commands_from_file(file);
+		fclose(file);
+	}
 }
 

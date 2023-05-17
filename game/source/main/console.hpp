@@ -26,4 +26,5 @@ extern void __cdecl console_open();
 extern void __cdecl console_close();
 extern void __cdecl console_clear();
 extern void __cdecl console_update(real shell_seconds_elapsed);
+extern void __cdecl console_execute_initial_commands();
 

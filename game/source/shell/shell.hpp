@@ -1805,11 +1805,22 @@ enum e_multiplayer_powerup_flavor
 
 enum e_shell_application_type
 {
-	_shell_application_type_unknown0 = 0,
+	_shell_application_type_none = 0,
 	_shell_application_type_editor,
 	_shell_application_type_client,
+};
 
-	//...
+enum e_shell_tool_type
+{
+	_shell_tool_type_none = 0,
+	_shell_tool_type_guerilla,
+	_shell_tool_type_tool,
+};
+
+enum e_init_file_type
+{
+	_init_file_type_editor = 0,
+	_init_file_type_bonobo,
 };
 
 //e_network_interface_user_state
@@ -1832,6 +1843,7 @@ enum e_shell_application_type
 extern bool __cdecl shell_application_is_paused();
 extern void __cdecl shell_application_pause(bool pause);
 extern e_shell_application_type __cdecl shell_application_type();
+extern e_shell_tool_type __cdecl shell_tool_type();
 extern void __cdecl shell_halt_with_message(char const* message);
 extern void __cdecl shell_screen_pause(bool pause);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);

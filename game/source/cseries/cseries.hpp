@@ -168,6 +168,7 @@ extern long cvsnzprintf(char* buffer, dword size, char const* format, va_list li
 extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
 extern char* csnzappendf(char* buffer, dword size, char const* format, ...);
 extern bool string_is_not_empty(char const* s);
+extern void string_terminate_at_first_delimiter(char* s, char const* delimiter);
 
 template<typename t_type, long k_count>
 typename std::enable_if<!std::is_floating_point<t_type>::value, bool>::type

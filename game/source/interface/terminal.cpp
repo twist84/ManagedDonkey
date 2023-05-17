@@ -144,14 +144,14 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 			terminal_globals.draw_time = 0.0f;
 		}
 
-		short v7 = static_cast<short>(terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index);
-		short scroll_amount = terminal_globals.input_state->scroll_amount;
+		long v7 = terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index;
+		long scroll_amount = terminal_globals.input_state->scroll_amount;
 		if (v7 > scroll_amount + 59)
 			scroll_amount -= 59;
 
 		if (v7 < scroll_amount + 20)
 		{
-			short v9 = 0;
+			long v9 = 0;
 			if (v7 - 20 >= 0)
 				v9 = v7 - 20;
 			scroll_amount = v9;
@@ -341,7 +341,7 @@ void __cdecl terminal_draw()
 
 			draw_string.set_color(&terminal_globals.input_state->prompt_color);
 			draw_string.set_bounds(&bounds);
-			draw_string.draw(&font_cache, buffer.get_offset(int_pin(terminal_globals.input_state->scroll_amount, 0, buffer.length())));
+			draw_string.draw(&font_cache, buffer.get_offset(int_pin(terminal_globals.input_state->scroll_amount, 0l, buffer.length())));
 		}
 
 		if (g_terminal_render_enable)

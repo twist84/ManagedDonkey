@@ -25,8 +25,7 @@ struct terminal_gets_state
 	real_argb_color prompt_color;
 	c_static_string<32> prompt_text;
 	char input_text[256];
-	short scroll_amount;
-	short : 16;
+	long scroll_amount;
 	edit_text edit;
 	c_static_string<255> previous_inputs[16];
 	short __unknown11F4;
