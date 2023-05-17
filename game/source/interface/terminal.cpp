@@ -316,7 +316,6 @@ void __cdecl terminal_draw()
 		c_font_cache_mt_safe font_cache;
 		c_rasterizer_draw_string draw_string;
 
-		draw_string.set_font(2);
 		short line_height = draw_string.get_line_height();
 
 		short_rectangle2d pixel_bounds[4]{};
