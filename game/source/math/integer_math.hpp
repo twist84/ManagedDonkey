@@ -128,7 +128,7 @@ t_type int_ceiling(t_type const& val0, t_other_type const& val1)
 template<typename t_type, typename t_other_type>
 t_type int_floor(t_type const& val0, t_other_type const& val1)
 {
-	return int_max(val0, static_cast<t_other_type>(val1));
+	return int_max(val0, static_cast<t_type>(val1));
 }
 
 template<typename t_type, typename t_other_type0, typename t_other_type1>
