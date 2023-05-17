@@ -76,7 +76,7 @@ void __cdecl edit_text_handle_key(edit_text* edit, s_key_state const* key)
 	edit_text_fix_selection(edit);
 
 	e_key_code key_code = key->key_code;
-	if (key->key_type == _key_type_up && key_code == _key_code_backspace)
+	if (key->key_type == _key_type_down && key_code == _key_code_backspace)
 	{
 		edit->text[edit->cursor_selection_index - 1] = '\0';
 	}

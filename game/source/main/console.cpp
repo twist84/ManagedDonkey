@@ -63,7 +63,7 @@ void __cdecl console_initialize()
 		console_globals.input_state.prompt_text.set("donkey( ");
 		console_globals.input_state.input_text[0] = '\0';
 		console_globals.input_state.__unknown11F4 = 0;
-		console_globals.input_state.command_count = -1;
+		console_globals.input_state.previous_inputs_count = -1;
 		console_globals.input_state.__unknown11F8 = -1;
 
 		debug_keys_initialize();
@@ -153,13 +153,6 @@ void __cdecl console_complete()
 	}
 }
 
-#define k_maximum_number_of_tokens 100
-#define k_token_length 256
-
-using _token_t = c_static_string<k_token_length>;
-using token_t = _token_t*;
-using tokens_t = c_static_array<token_t, k_maximum_number_of_tokens>;
-
 bool __cdecl console_process_command(char const* command, bool a2)
 {
 	if (strlen(command) >= 255)
@@ -167,12 +160,12 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 	c_console::write_line("console_command: %s", command);
 
-	short command_index = (console_globals.input_state.command_count + 1) % 16;
-	console_globals.input_state.command_count = command_index;
-	console_globals.input_state.commands[command_index].set(command);
+	short command_index = (console_globals.input_state.previous_inputs_count + 1) % NUMBEROF(console_globals.input_state.previous_inputs);
+	console_globals.input_state.previous_inputs_count = command_index;
+	console_globals.input_state.previous_inputs[command_index].set(command);
 
-	short v5 = 16;
-	if (console_globals.input_state.__unknown11F4 <= 15)
+	short v5 = NUMBEROF(console_globals.input_state.previous_inputs);
+	if (console_globals.input_state.__unknown11F4 + 1 <= NUMBEROF(console_globals.input_state.previous_inputs))
 		v5 = console_globals.input_state.__unknown11F4 + 1;
 	console_globals.input_state.__unknown11F4 = v5;
 
@@ -210,11 +203,11 @@ void __cdecl console_update(real shell_seconds_elapsed)
 	if (!console_is_active())
 	{
 		s_key_state key{};
-		if (input_peek_key(&key, _input_type_ui))
+		if (input_peek_key(&key, _input_type_game))
 		{
-			if (!key.was_key_down && !key.modifier && key.key_code == _key_code_backquote && key.key_type == _key_type_up)
+			if (!key.was_key_down && !key.modifier && key.key_code == _key_code_backquote && key.key_type == _key_type_down)
 			{
-				input_get_key(&key, _input_type_ui);
+				input_get_key(&key, _input_type_game);
 				console_open();
 			}
 		}
@@ -232,7 +225,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			s_key_state* key = &console_globals.input_state.keys[key_index];
 			ASSERT(key->key_code != NONE);
 
-			if (key->key_type == _key_type_up && key->key_code == _key_code_backquote)
+			if (key->key_type == _key_type_down && key->key_code == _key_code_backquote)
 			{
 				console_close();
 				break;
@@ -257,7 +250,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 				}
 				break;
 			}
-			else if (key->key_type == _key_type_char)
+			else if (key->vk_code != 0xFFFF && key->key_type == _key_type_char)
 			{
 				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), key->character);
 			}

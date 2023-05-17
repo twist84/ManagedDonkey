@@ -56,7 +56,7 @@ void __cdecl terminal_printf(real_argb_color const* color, char const* format, .
 			message_color = *color;
 
 		char message[255]{};
-		cvsnzprintf(message, 255, format, list);
+		cvsnzprintf(message, NUMBEROF(message), format, list);
 		terminal_new_line(message, &message_color, csstrstr(message, "|t") != 0);
 		c_console::write_line(message); //telnet_console_print(message);
 	}
@@ -290,7 +290,7 @@ bool __cdecl terminal_gets_begin(terminal_gets_state* state)
 	{
 		terminal_globals.input_state = state;
 		state->edit.text = state->input_text;
-		terminal_globals.input_state->edit.text_length = 255;
+		terminal_globals.input_state->edit.text_length = NUMBEROF(state->input_text) - 1;
 		terminal_globals.input_state->scroll_amount = 0;
 		edit_text_new(&terminal_globals.input_state->edit);
 		state->key_count = 0;
@@ -315,6 +315,8 @@ void __cdecl terminal_draw()
 	{
 		c_font_cache_mt_safe font_cache;
 		c_rasterizer_draw_string draw_string;
+
+		draw_string.set_font(2);
 		short line_height = draw_string.get_line_height();
 
 		short_rectangle2d pixel_bounds[4]{};
@@ -333,32 +335,24 @@ void __cdecl terminal_draw()
 			bounds.y0 = pixel_bounds_->y1 - line_height;
 			bounds.y1 = pixel_bounds_->y1;
 
+			// cursor blink
 			//if (terminal_globals.should_draw)
 			//	buffer.set_character(terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index, '_');
 
-			short scroll_amount = 0;
-			if (terminal_globals.input_state->scroll_amount > 0)
-				scroll_amount = terminal_globals.input_state->scroll_amount;
-
-			long buffer_length = buffer.length();
-			long buffer_index = buffer_length;
-			if (scroll_amount < buffer_length)
-				buffer_index = scroll_amount;
-
 			draw_string.set_color(&terminal_globals.input_state->prompt_color);
 			draw_string.set_bounds(&bounds);
-			draw_string.draw(&font_cache, buffer.get_string() + buffer_index);
+			draw_string.draw(&font_cache, buffer.get_offset(int_pin(terminal_globals.input_state->scroll_amount, 0, buffer.length())));
 		}
 
 		if (g_terminal_render_enable)
 		{
 			real_argb_color shadow_color = *global_real_argb_black;
-			short y0 = pixel_bounds_->y1 - line_height;
+			short line_offset = pixel_bounds_->y1 - line_height;
 
 			long line_count = NONE;
-			for (long line_index = terminal_globals.line_count; line_index != NONE && y0 - line_height > 0; line_index = line_count)
+			for (long line_index = terminal_globals.line_count; line_index != NONE && line_offset - line_height > 0; line_index = line_count)
 			{
-				if (y0 - line_height <= 0)
+				if (line_offset - line_height <= 0)
 					break;
 
 				terminal_output_datum* line = (terminal_output_datum*)datum_try_and_get(terminal_globals.output_data, line_index);
@@ -373,9 +367,9 @@ void __cdecl terminal_draw()
 
 				bounds.x0 = pixel_bounds_->x0;
 				bounds.x1 = pixel_bounds_->x1;
-				bounds.y1 = y0;
-				y0 -= line_height;
-				bounds.y0 = y0;
+				bounds.y1 = line_offset;
+				line_offset -= line_height;
+				bounds.y0 = line_offset;
 
 				if (line->tab_stop)
 					draw_string.set_tab_stops(k_tab_stops, NUMBEROF(k_tab_stops));

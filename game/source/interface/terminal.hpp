@@ -28,9 +28,9 @@ struct terminal_gets_state
 	short scroll_amount;
 	short : 16;
 	edit_text edit;
-	c_static_array<c_static_string<255>, 16> commands;
+	c_static_string<255> previous_inputs[16];
 	short __unknown11F4;
-	short command_count;
+	short previous_inputs_count;
 	short __unknown11F8;
 };
 //static_assert(sizeof(terminal_gets_state) == 0x11FC);
