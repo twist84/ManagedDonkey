@@ -617,6 +617,14 @@ public:
 		return m_string;
 	}
 
+	char const* get_offset(long offset) const
+	{
+		if (VALID_INDEX(offset, length()))
+			return &m_string[offset];
+
+		return "";
+	}
+
 	long length() const
 	{
 		return csstrnlen(m_string, k_maximum_count);
