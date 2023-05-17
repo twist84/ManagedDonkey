@@ -13,7 +13,32 @@ void __cdecl edit_text_new(edit_text* edit)
 
 void __cdecl edit_text_fix_selection(edit_text* edit)
 {
-	// #TODO: implement
+	short text_len = static_cast<short>(strlen(edit->text));
+
+	if (edit->selection_index6 <= 0)
+		edit->selection_index6 = 0;
+
+	short text_len11 = text_len;
+	if (edit->selection_index6 < text_len)
+		text_len11 = edit->selection_index6;
+
+	word selection_index8 = edit->selection_index8;
+	bool v8 = edit->selection_index8 <= 0xFFFF;
+	edit->selection_index6 = text_len;
+
+	short v5 = -1;
+	if (!v8)
+		v5 = selection_index8;
+	if (v5 < text_len)
+	{
+		text_len = -1;
+		if (selection_index8 > -1)
+			text_len = selection_index8;
+	}
+
+	edit->selection_index8 = text_len;
+	if (text_len11 == text_len)
+		edit->selection_index8 = -1;
 }
 
 void __cdecl edit_text_selection_reset(edit_text* edit)
