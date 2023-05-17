@@ -128,7 +128,7 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 {
 	if (terminal_gets_active())
 	{
-		// #TODO: controller stuff
+		terminal_globals.input_state->key_count = 0;
 
 		s_key_state key{};
 		while (input_get_key(&key, _input_type_game))
