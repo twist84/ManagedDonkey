@@ -339,12 +339,18 @@ bool __cdecl cache_file_debug_tag_names_load()
 		s_file_reference tag_list_file;
 		file_reference_create_from_path(&tag_list_file, "maps\\tag_list.csv", false);
 		if (!file_exists(&tag_list_file))
+		{
+			c_console::write_line("cache: load tag names, 'maps\\tag_list.csv' file doesn't exist");
 			return false;
+		}
 
 		dword tag_list_size = 0;
 		file_get_size(&tag_list_file, &tag_list_size);
 		if (!file_read_into_buffer(&tag_list_file, buffer, buffer_size))
+		{
+			c_console::write_line("cache: load tag names, 'maps\\tag_list.csv' file read failed");
 			return false;
+		}
 
 		char* line_end = 0;
 		debug_tag_name_count = 0;
@@ -550,7 +556,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		success = true;
 	}
 
-	c_console::write_line("cache: scenario load tags, success=%d", success);
+	c_console::write_line("cache: scenario load tags, success=%s", success ? "true" : "false");
 
 	return success;
 }
