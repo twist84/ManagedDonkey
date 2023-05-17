@@ -350,7 +350,11 @@ struct s_key_state
 
 	// virtual-key code
 	// LOWORD(wParam);
-	word vk_code;
+	union
+	{
+		word vk_code;
+		char character[2];
+	};
 
 	// uMsg == WM_KEYDOWN
 	// uMsg == WM_SYSKEYDOWN
