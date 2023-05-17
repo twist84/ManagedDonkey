@@ -76,7 +76,7 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 	{
 		for (long controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count; controller_button++)
 		{
-			if (controller_button != banned_button && !cheat.lines[controller_button].empty() && input_state->abstract_buttons[controller_button].down_frames() == 1)
+			if (controller_button != banned_button && !cheat.lines[controller_button].is_empty() && input_state->abstract_buttons[controller_button].down_frames() == 1)
 			{
 				console_printf(cheat.lines[controller_button].get_string());
 

@@ -489,6 +489,14 @@ public:
 		}
 	}
 
+	void set_length(long length)
+	{
+		if (VALID_COUNT(length, k_maximum_count - 1))
+		{
+			m_string[length] = '\0';
+		}
+	}
+
 	void set(char const* s)
 	{
 		csstrnzcpy(m_string, s, k_maximum_count);
@@ -578,7 +586,7 @@ public:
 		csmemset(m_string, 0, sizeof(m_string));
 	}
 
-	bool empty()
+	bool is_empty()
 	{
 		return m_string[0] == '\0';
 	}

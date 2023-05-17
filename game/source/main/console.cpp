@@ -88,7 +88,7 @@ bool __cdecl console_is_active()
 
 bool __cdecl console_is_empty()
 {
-	return console_globals.is_active && console_globals.input_state.input_text.empty();
+	return console_globals.is_active && console_globals.input_state.input_text.is_empty();
 }
 
 void __cdecl console_open()
@@ -133,18 +133,16 @@ char const* __cdecl console_get_token()
 	return result;
 }
 
-char console_token_buffer[256]{};
+c_static_string<256> console_token_buffer;
 long suggestion_current_index;
 
 void __cdecl console_complete()
 {
 	bool something = false;
-	if (!console_token_buffer[0])
+	if (console_token_buffer.is_empty())
 	{
-		csstrnzcpy(console_token_buffer, console_get_token(), NUMBEROF(console_token_buffer));
-		if (console_globals.input_state.edit.selection_index6 <= 254)
-			console_token_buffer[console_globals.input_state.edit.selection_index6] = 0;
-
+		console_token_buffer.set(console_get_token());
+		console_token_buffer.set_length(console_globals.input_state.edit.selection_index6);
 		suggestion_current_index = -1;
 
 		something = true;
@@ -233,7 +231,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 		break;
 		case _key_code_enter:
 		case _key_code_keypad_enter:
-			if (!console_globals.input_state.input_text.empty())
+			if (!console_globals.input_state.input_text.is_empty())
 			{
 				console_process_command(console_globals.input_state.input_text.get_string(), true);
 				console_globals.input_state.input_text.clear();
@@ -252,7 +250,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			if (!console_globals.input_state.keys[key_index].modifier.test(_key_modifier_flag_control_key_bit))
 			{
 				suggestion_current_index = 0;
-				console_token_buffer[0] = 0;
+				console_token_buffer.clear();
 			}
 		}
 		break;
@@ -290,7 +288,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 		default:
 		{
 			suggestion_current_index = 0;
-			console_token_buffer[0] = 0;
+			console_token_buffer.clear();
 		}
 		break;
 		}

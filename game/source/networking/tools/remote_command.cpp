@@ -513,7 +513,7 @@ callback_result_t help_callback(void const* userdata, long token_count, tokens_t
 	ASSERT(token_count >= 1);
 
 	static callback_result_t result;
-	if (result.empty())
+	if (result.is_empty())
 	{
 		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
 		{
