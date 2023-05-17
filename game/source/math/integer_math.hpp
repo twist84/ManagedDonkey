@@ -100,3 +100,41 @@ union argb_color
 };
 static_assert(sizeof(argb_color) == 0x4);
 
+
+template<typename t_type>
+t_type int_min(t_type const& val0, t_type const& val1)
+{
+	if (val0 <= val1)
+		return val0;
+
+	return val1;
+}
+
+template<typename t_type>
+t_type int_max(t_type const& val0, t_type const& val1)
+{
+	if (val0 <= val1)
+		return val1;
+
+	return val0;
+}
+
+template<typename t_type, typename t_other_type>
+t_type int_ceiling(t_type const& val0, t_other_type const& val1)
+{
+	return int_min(val0, static_cast<t_type>(val1));
+}
+
+template<typename t_type, typename t_other_type>
+t_type int_floor(t_type const& val0, t_other_type const& val1)
+{
+	return int_max(val0, static_cast<t_other_type>(val1));
+}
+
+template<typename t_type, typename t_other_type0, typename t_other_type1>
+t_type int_pin(t_type const& val0, t_other_type0 const& val1, t_other_type1 const& val2)
+{
+	return int_ceiling(int_floor(val0, val1), val2);
+}
+
+
