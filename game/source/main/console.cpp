@@ -221,6 +221,25 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	return result;
 }
 
+// for some ungodly reason the max input text length before crashing is 51
+dword const k_maximum_input_text_length = 51;
+
+void input_text_check_length()
+{
+	dword input_text_length = csstrnlen(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text));
+
+	//if (input_text_length)
+	//	console_printf("input_text size=%d", input_text_length);
+
+	if (VALID_COUNT(input_text_length, k_maximum_input_text_length))
+		return;
+
+	console_warning("console: invalid input_text_length '%d' outside range '[0, %d)'!", input_text_length, k_maximum_input_text_length);
+
+	console_globals.input_state.input_text[0] = '\0';
+	edit_text_selection_reset(&console_globals.input_state.edit);
+}
+
 void __cdecl console_update(real shell_seconds_elapsed)
 {
 	if (!console_is_active())
@@ -242,6 +261,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 	else
 	{
 		game_time_set_paused(true, _game_time_pause_reason_debug);
+		input_globals.suppressed = true;
 
 		for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
 		{
@@ -252,7 +272,6 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			{
 				console_close();
 				game_time_set_paused(false, _game_time_pause_reason_debug);
-
 				break;
 			}
 			else if (key->modifier.test(_key_modifier_flag_control_key_bit) && key->key_type == _key_type_up && key->key_code == _key_code_v)
@@ -306,16 +325,9 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			{
 				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), key->character);
 			}
-
-			// #TODO: 
-			if (csstrnlen(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text)) > 50)
-			{
-				console_globals.input_state.input_text[0] = '\0';
-				console_close();
-				console_warning("console: too many characters '50'");
-			}
-
 		}
+
+		input_text_check_length();
 	}
 
 	if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
