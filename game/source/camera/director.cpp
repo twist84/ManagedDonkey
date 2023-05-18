@@ -384,7 +384,7 @@ void __cdecl director_load_camera_named(char const* name)
 	file_reference_create_from_path(&info, filename.get_string(), false);
 	if (!file_exists(&info))
 	{
-		c_console::write_line("saved camera '%s' doesn't exist", filename.get_string());
+		console_printf("'%s' doesn't exist", filename.get_string());
 		return;
 	}
 

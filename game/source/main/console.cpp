@@ -38,6 +38,26 @@ void __cdecl console_printf(char const* format, ...)
 	va_end(list);
 }
 
+void __cdecl console_printf_color(real_argb_color const* color, char const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	c_console::write_line(format, list);
+	if (is_main_thread())
+	{
+		c_static_string<255> message;
+		message.vprint(format, list);
+		terminal_printf(color, "%s", message.get_string());
+		c_console::write_line(message.get_string());
+
+		if (console_dump_to_debug_display)
+			display_debug_string(message.get_string());
+	}
+
+	va_end(list);
+}
+
 void __cdecl console_warning(char const* format, ...)
 {
 	va_list list;

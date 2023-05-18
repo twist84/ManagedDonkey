@@ -17,6 +17,7 @@ extern s_console_globals console_globals;
 extern bool console_dump_to_debug_display;
 
 extern void __cdecl console_printf(char const* format, ...);
+extern void __cdecl console_printf_color(real_argb_color const* color, char const* format, ...);
 extern void __cdecl console_warning(char const* format, ...);
 extern void __cdecl console_initialize();
 extern void __cdecl console_dispose();

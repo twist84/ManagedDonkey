@@ -6,6 +6,7 @@
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "interface/user_interface_session.hpp"
+#include "main/console.hpp"
 #include "main/levels.hpp"
 #include "networking/delivery/network_link.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -84,7 +85,7 @@ void __cdecl network_test_set_map_name(char const* scenario_path)
 {
 	if (network_squad_session_set_map(-1, -2, scenario_path))
 	{
-		c_console::write_line("set %s successfully", scenario_path);
+		console_printf("set %s successfully", scenario_path);
 
 		static c_static_wchar_string<256> map_path;
 		static c_map_variant map_variant;

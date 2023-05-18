@@ -402,10 +402,10 @@ struct gamepad_state
 	c_static_array<byte, 14> buttons_down_frames;
 	c_static_array<word, 14> buttons_down_msec;
 
-	word thumb_left_x;
-	word thumb_left_y;
-	word thumb_right_x;
-	word thumb_right_y;
+	short thumb_left_x;
+	short thumb_left_y;
+	short thumb_right_x;
+	short thumb_right_y;
 
 	dword __unknown38;
 };
