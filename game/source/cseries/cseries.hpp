@@ -494,21 +494,26 @@ public:
 	{
 		ASSERT(VALID_INDEX(index, k_maximum_count - 1));
 
-		long initial_length = length();
-		ASSERT(VALID_COUNT(index, initial_length));
+		//long initial_length = length();
+		//ASSERT(VALID_COUNT(index, initial_length));
+		//
+		//if (index >= initial_length)
+		//{
+		//	if (index == initial_length && index < k_maximum_count - 1)
+		//	{
+		//		m_string[index] = character;
+		//		m_string[index + 1] = '\0';
+		//	}
+		//}
+		//else
+		//{
+		//	m_string[index] = character;
+		//}
 
-		if (index >= initial_length)
-		{
-			if (index == initial_length && index < k_maximum_count - 1)
-			{
-				m_string[index] = character;
-				m_string[index + 1] = '\0';
-			}
-		}
-		else
-		{
-			m_string[index] = character;
-		}
+		if (!m_string[index])
+			m_string[index + 1] = '\0';
+
+		m_string[index] = character;
 	}
 
 	void set_length(long length)

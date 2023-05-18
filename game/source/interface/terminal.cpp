@@ -335,8 +335,8 @@ void __cdecl terminal_draw()
 			bounds.y1 = pixel_bounds_->y1;
 
 			// cursor blink
-			//if (terminal_globals.should_draw)
-			//	buffer.set_character(terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index, '_');
+			if (terminal_globals.should_draw)
+				buffer.set_character(terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index, '_');
 
 			draw_string.set_color(&terminal_globals.input_state->prompt_color);
 			draw_string.set_bounds(&bounds);
