@@ -895,7 +895,7 @@ void __cdecl debug_key_rotate_units(bool enabled)
 		long active_user = players_first_active_user();
 		if (active_user != NONE)
 		{
-			TLS_REFERENCE(player_data);
+			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 			long player_index = player_index_from_user_index(active_user);
 			player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
@@ -917,7 +917,7 @@ void __cdecl debug_key_rotate_all_units(bool enabled)
 		long active_user = players_first_active_user();
 		if (active_user != NONE)
 		{
-			TLS_REFERENCE(player_data);
+			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 			long player_index = player_index_from_user_index(active_user);
 			player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
@@ -1166,7 +1166,7 @@ void __cdecl debug_key_force_respawn(bool enabled)
 {
 	if (enabled)
 	{
-		TLS_REFERENCE(player_data);
+		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 		c_player_in_game_iterator player_iterator(player_data);
 		while (player_iterator.next())
 		{

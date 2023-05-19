@@ -23,7 +23,7 @@ bool __cdecl game_engine_should_spawn_player(long player_index)
 	if (!game_engine_in_round())
 		return false;
 
-	TLS_REFERENCE(player_data);
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 	player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
 

@@ -10,7 +10,7 @@ s_observer* observer_get(long user_index)
 	if (!get_tls())
 		return nullptr;
 
-	TLS_REFERENCE(g_observer_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
 	return g_observer_globals ? &g_observer_globals->observers[user_index] : nullptr;
 }
 

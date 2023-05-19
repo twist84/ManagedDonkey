@@ -153,8 +153,8 @@ void __cdecl main_loop_body_begin()
 		g_global_preferences;
 		g_screenshots_uploader;
 
-		TLS_REFERENCE(g_objectives);
-		TLS_REFERENCE(ai_globals);
+		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
+		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 
 		//transport_address local_machine_address{};
 		//get_local_machine_address(&local_machine_address);
@@ -165,7 +165,7 @@ void __cdecl main_loop_body_begin()
 		c_visible_items::m_items;
 		c_visible_items::m_markers;
 
-		TLS_REFERENCE(player_data);
+		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 		long player_count = 0;
 		{
 			c_player_in_game_iterator player_iterator(player_data);
@@ -219,7 +219,7 @@ void __cdecl main_loop_body_begin()
 
 		if (game_in_progress() && !game_is_ui_shell())
 		{
-			TLS_REFERENCE(game_engine_globals);
+			TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 
 			long output_user_index = player_mapping_first_active_output_user();
 			long unit_index = player_mapping_get_unit_by_output_user(output_user_index);

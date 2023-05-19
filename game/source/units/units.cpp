@@ -38,7 +38,7 @@ bool units_debug_can_select_unit(long unit_index)
 	// #TODO implement
 	//return true;
 
-	TLS_REFERENCE(object_header_data);
+	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
 	object_header_datum* header = (object_header_datum*)datum_try_and_get(object_header_data, unit_index);
 	void* object = nullptr;
 	if (header && TEST_BIT(UNIT_OBJECTS_MASK, header->object_type.get()))

@@ -65,7 +65,7 @@ s_director_globals* director_globals_get()
 	if (!get_tls())
 		return nullptr;
 
-	TLS_REFERENCE(director_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(director_globals);
 	return (director_globals && director_globals->directors[0][0]) ? director_globals : nullptr;
 }
 
@@ -205,7 +205,7 @@ bool director_in_scripted_camera()
 	if (!get_tls())
 		return false;
 
-	TLS_REFERENCE(director_camera_scripted);
+	TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
 	return director_camera_scripted ? *director_camera_scripted : false;
 }
 
@@ -292,7 +292,7 @@ void __cdecl director_set_flying_camera_direct(long user_index, real_point3d con
 	if (user_index == NONE)
 		return;
 
-	TLS_REFERENCE(director_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(director_globals);
 	ASSERT(VALID_INDEX(user_index, 4));
 
 	c_director* director = director_get(user_index);
@@ -329,7 +329,7 @@ void __cdecl director_save_camera_named(char const* name)
 	if (!global_scenario_try_and_get())
 		return;
 
-	TLS_REFERENCE(players_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(players_globals);
 	if (!players_globals)
 		return;
 
@@ -371,7 +371,7 @@ void __cdecl director_load_camera_named(char const* name)
 		return;
 	}
 
-	TLS_REFERENCE(players_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(players_globals);
 	if (!players_globals)
 		return;
 

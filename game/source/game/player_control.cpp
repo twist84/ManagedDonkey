@@ -9,7 +9,7 @@ s_player_control_globals* __cdecl player_control_globals_get()
 	if (!get_tls())
 		return nullptr;
 
-	TLS_REFERENCE(player_control_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 	return player_control_globals;
 }
 

@@ -259,7 +259,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 	}
 	else
 	{
-		TLS_REFERENCE(player_data);
+		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 		s_data_iterator player_iterator(player_data);
 		player_datum* player = (player_datum*)data_iterator_next(&player_iterator);
 		if (player)

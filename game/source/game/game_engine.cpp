@@ -71,7 +71,7 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 			input_abstraction_get_input_state(controller_index, &input_state);
 			byte down_frames = input_state->abstract_buttons[_gamepad_button_back].down_frames();
 
-			TLS_REFERENCE(local_game_engine_globals);
+			TLS_DATA_GET_VALUE_REFERENCE(local_game_engine_globals);
 			if (!current_game_engine() || game_engine_in_round())
 			{
 				local_game_engine_globals->__time0 = 0x7FFFFFFF;
@@ -136,7 +136,7 @@ long __cdecl game_engine_round_time_get()
 {
 	//INVOKE(0x005523D0, game_engine_round_time_get);
 
-	TLS_REFERENCE(game_engine_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 
 	if ((game_time_get() - game_engine_globals->round_timer) >= 0)
 		return game_time_get() - game_engine_globals->round_timer;
@@ -151,7 +151,7 @@ void __cdecl game_engine_update_round_conditions()
 	if (!game_is_authoritative())
 		return;
 
-	TLS_REFERENCE(game_engine_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 
 	long round_time = game_engine_round_time_get();
 
@@ -170,7 +170,7 @@ void __cdecl game_engine_update_round_conditions()
 
 	if (game_engine_globals->round_condition_flags.test(3) && !round_condition_flags.test(3))
 	{
-		TLS_REFERENCE(player_data);
+		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 		c_player_in_game_iterator player_iterator(player_data);
 		while (player_iterator.next())

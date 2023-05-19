@@ -10,7 +10,7 @@ game_globals_storage* game_globals_get()
 	if (!get_tls())
 		return nullptr;
 
-	TLS_REFERENCE(game_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 	return game_globals;
 }
 

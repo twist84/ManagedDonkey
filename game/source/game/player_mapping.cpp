@@ -9,7 +9,7 @@ s_player_mapping_globals* player_mapping_globals_get()
 	if (!get_tls())
 		return nullptr;
 
-	TLS_REFERENCE(player_mapping_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
 	return player_mapping_globals;
 }
 

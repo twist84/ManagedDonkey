@@ -1748,6 +1748,6 @@ struct s_thread_local_storage
 };
 static_assert(sizeof(s_thread_local_storage) == 0x584);
 
-#define TLS_REFERENCE(NAME) decltype(get_tls()->NAME)& NAME = get_tls()->NAME
+#define TLS_DATA_GET_VALUE_REFERENCE(NAME) decltype(get_tls()->NAME)& NAME = get_tls()->NAME
 
 extern s_thread_local_storage* get_tls();

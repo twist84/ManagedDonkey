@@ -9,7 +9,7 @@ game_time_globals_definition* game_time_globals_get()
 	if (!get_tls())
 		return nullptr;
 
-	TLS_REFERENCE(game_time_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	return game_time_globals;
 }
 

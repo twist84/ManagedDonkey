@@ -23,7 +23,7 @@ void __cdecl player_suppress_action(long player_index, long player_suppress_acti
 {
 	//INVOKE(0x0053F220, player_suppress_action, player_index, player_suppress_action_type);
 
-	TLS_REFERENCE(player_data);
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 	player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
 
 	long input_user = player_mapping_get_input_user(player_index);
