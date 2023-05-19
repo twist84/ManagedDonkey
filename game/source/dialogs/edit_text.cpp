@@ -62,7 +62,7 @@ byte __cdecl edit_text_get_selection_indices(edit_text* edit, short* out_selecti
 		return 0;
 
 	*out_selection_index0 = (edit->selection_index8 <= edit->cursor_selection_index) ? edit->selection_index8 : edit->cursor_selection_index;
-	*out_selection_index0 = (edit->selection_index8 <= edit->cursor_selection_index) ? edit->cursor_selection_index : edit->selection_index8;
+	*out_selection_index1 = (edit->selection_index8 <= edit->cursor_selection_index) ? edit->cursor_selection_index : edit->selection_index8;
 
 	return 1;
 }

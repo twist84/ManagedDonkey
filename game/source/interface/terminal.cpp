@@ -313,8 +313,8 @@ void __cdecl terminal_draw()
 {
 	if (terminal_globals.initialized)
 	{
-		c_font_cache_mt_safe font_cache;
 		c_rasterizer_draw_string draw_string;
+		c_font_cache_mt_safe font_cache;
 
 		short line_height = draw_string.get_line_height();
 

@@ -320,10 +320,12 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					csstrnzcpy(input_text, previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)].get_string(), NUMBEROF(input_text));
 					edit_text_selection_reset(&console_globals.input_state.edit);
 				}
+				break;
 			}
 			else if (key->vk_code != 0xFFFF && key->key_type == _key_type_char)
 			{
 				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), key->character);
+				break;
 			}
 		}
 
