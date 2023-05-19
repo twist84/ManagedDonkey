@@ -11,9 +11,10 @@
 #include "main/main.hpp"
 #include "memory/crc.hpp"
 #include "memory/module.hpp"
+#include "physics/character_physics_definitions.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_definitions.hpp"
-#include "rasterizer/rasterizer.hpp"
 #include "tag_files/string_ids.hpp"
 
 #include <string.h>
@@ -528,6 +529,8 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 			//tag_index = cache_file_get_global_tag_index('scnr');
 			tag_index = g_cache_file_globals.header.scenario_index;
 			g_cache_file_globals.tags_loaded = true;
+
+			tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
 		}
 	}
 
@@ -710,7 +713,8 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 	file_close(&file);
 }
 
-void apply_globals_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+// #TODO: create some sort of tag modification manager
+void apply_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
 
@@ -731,7 +735,7 @@ void apply_globals_modification(cache_file_tag_instance* instance, e_instance_mo
 }
 
 // #TODO: create some sort of tag modification manager
-void apply_multiplayer_globals_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
 
@@ -796,7 +800,45 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	if (instance == nullptr)
 		return;
 
-	apply_globals_modification(instance, stage);
-	apply_multiplayer_globals_modification(instance, stage);
+	apply_globals_instance_modification(instance, stage);
+	apply_multiplayer_globals_instance_modification(instance, stage);
+}
+
+// #TODO: create some sort of tag modification manager
+void apply_biped_group_modification(e_instance_modification_stage stage)
+{
+	if (stage != _instance_modification_stage_after_scenario_tags_loaded)
+		return;
+
+	tag_iterator iterator{};
+	tag_iterator_new(&iterator, 'bipd');
+	for (long tag_index = tag_iterator_next(&iterator); tag_index != -1; tag_index = tag_iterator_next(&iterator))
+	{
+		char const* tag_name = tag_get_name_safe(tag_index);
+		if (tag_name && csstricmp(tag_name, "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief") == 0)
+		{
+			if (byte* biped = static_cast<byte*>(tag_get(iterator.group_tag, tag_index)))
+			{
+				s_character_physics_definition& physics = *reinterpret_cast<s_character_physics_definition*>(biped + 0x4D0);
+
+				// "edge drop" fix
+				physics.ground_physics.scale_ground_adhesion_velocity = 0.5f; // 30/60
+
+				// void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
+				// {
+				//   if (biped->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
+				//     physics_input->m_ground_adhesion_velocity_scale = biped->physics.ground_physics.scale_ground_adhesion_velocity;
+				// }
+			}
+
+			return;
+		}
+	}
+}
+
+// #TODO: create some sort of tag modification manager
+void tag_group_modification_apply(e_instance_modification_stage stage)
+{
+	apply_biped_group_modification(stage);
 }
 

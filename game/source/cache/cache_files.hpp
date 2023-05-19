@@ -444,9 +444,11 @@ enum e_instance_modification_stage
 {
 	_instance_modification_stage_tag_load = 0,
 	_instance_modification_stage_tag_fixup,
+	_instance_modification_stage_after_scenario_tags_loaded,
 
 	k_instance_modification_stages
 };
 
 extern void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage);
+extern void tag_group_modification_apply(e_instance_modification_stage stage);
 
