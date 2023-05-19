@@ -63,7 +63,13 @@ static_assert(sizeof(s_player_control_state) == 0x70);
 struct s_player_control
 {
 	s_player_control_state state;
-	byte __data70[0x74];
+	byte __data70[0x68];
+	byte __unknownD8;
+	bool alert_carry;
+	byte __unknownDA;
+	byte __unknownDB;
+	real __unknownDC;
+	long __unknownE0;
 	bool gaze_locked;
 	real_point3d __positionE8;
 	angle gaze_fov; // degrees

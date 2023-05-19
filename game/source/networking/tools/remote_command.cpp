@@ -15,6 +15,7 @@
 #include "memory/data_packets.hpp"
 #include "memory/data_packet_groups.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_globals.hpp"
@@ -623,6 +624,25 @@ callback_result_t game_export_variant_settings_callback(void const* userdata, lo
 
 	char const* filename = tokens.m_storage[1]->get_string();
 	game_engine_dump_variant_settings(filename);
+
+	return result;
+}
+
+callback_result_t alert_carry_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long user_index = atol(tokens.m_storage[1]->get_string());
+	if (!VALID_INDEX(user_index, 4))
+	{
+		result = "Invalid parameter. ";
+		result.append_print_line("%s %s", command.name, command.parameter_types);
+		result.append(command.extra_info);
+		return result;
+	}
+
+	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
+	player_control_globals->controls[user_index].alert_carry = !player_control_globals->controls[user_index].alert_carry;
 
 	return result;
 }

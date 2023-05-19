@@ -114,6 +114,7 @@ COMMAND_CALLBACK_DECLARE(net_load_and_use_game_variant);
 COMMAND_CALLBACK_DECLARE(net_build_map_variant);
 COMMAND_CALLBACK_DECLARE(net_verify_map_variant);
 COMMAND_CALLBACK_DECLARE(game_export_variant_settings);
+COMMAND_CALLBACK_DECLARE(alert_carry);
 
 //-----------------------------------------------------------------------------
 
@@ -169,6 +170,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_build_map_variant, 1, "<string>", "writes the current map variant to a file\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_verify_map_variant, 1, "<string>", "verifies the contents of a packed map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_export_variant_settings, 1, "<string>", "export the current game engine variant settings to the specified text file\r\nNETWORK SAFE: No"),
+	COMMAND_CALLBACK_REGISTER(alert_carry, 1, "<long>", "<user_index> raise/lower player weapon toggle\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

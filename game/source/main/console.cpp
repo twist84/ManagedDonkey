@@ -202,19 +202,27 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	command_tokenize(command, tokens, &token_count);
 	if (token_count > 0)
 	{
+		bool command_found = false;
 		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
 		{
 			if (tokens[0]->equals(k_registered_commands[i].name))
 			{
-				long succeeded = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens).index_of(": succeeded");
+				command_found = true;
+
+				callback_result_t callback_result = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens);
+				long succeeded = callback_result.index_of(": succeeded");
 				result = succeeded != -1 || tokens[0]->equals("help");
 
 				if (result)
 					console_printf("command '%s' succeeded", tokens[0]);
+				else
+					console_warning("command '%s' failed: %s", tokens[0], callback_result.get_string());
+
+				break;
 			}
 		}
 
-		if (!result)
+		if (!command_found)
 			console_warning("command '%s' not found", tokens[0]);
 	}
 

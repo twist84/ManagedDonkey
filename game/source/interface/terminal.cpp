@@ -313,6 +313,7 @@ void __cdecl terminal_draw()
 {
 	if (terminal_globals.initialized)
 	{
+		//c_critical_section_scope critical_section_scope(3);
 		c_rasterizer_draw_string draw_string;
 		c_font_cache_mt_safe font_cache;
 
