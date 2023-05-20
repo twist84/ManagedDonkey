@@ -659,3 +659,15 @@ callback_result_t online_set_is_connected_to_live_callback(void const* userdata,
 	return result;
 }
 
+callback_result_t online_user_set_name_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* name = tokens.m_storage[1]->get_string();
+	c_static_wchar_string<16> name_wide;
+	name_wide.print(L"%hs", name);
+	online_user_set_name(name_wide.get_string());
+
+	return result;
+}
+

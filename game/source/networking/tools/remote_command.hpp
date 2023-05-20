@@ -116,6 +116,7 @@ COMMAND_CALLBACK_DECLARE(net_verify_map_variant);
 COMMAND_CALLBACK_DECLARE(game_export_variant_settings);
 COMMAND_CALLBACK_DECLARE(alert_carry);
 COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
+COMMAND_CALLBACK_DECLARE(online_user_set_name);
 
 //-----------------------------------------------------------------------------
 
@@ -174,7 +175,8 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(alert_carry, 1, "<long>", "<user_index> raise/lower player weapon toggle\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
-	COMMAND_CALLBACK_REGISTER(online_set_is_connected_to_live, 1, "<bool>", "\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(online_set_is_connected_to_live, 1, "<bool>", "sets connected to live\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(online_user_set_name, 1, "<string>", "sets the name of the first user\r\nNETWORK SAFE: Yes"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);
