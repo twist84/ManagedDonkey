@@ -20,6 +20,7 @@
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_globals.hpp"
 #include "networking/network_time.hpp"
+#include "networking/online/online.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
 
@@ -643,6 +644,17 @@ callback_result_t alert_carry_callback(void const* userdata, long token_count, t
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
 	player_control_globals->controls[user_index].alert_carry = !player_control_globals->controls[user_index].alert_carry;
+
+	return result;
+}
+
+callback_result_t online_set_is_connected_to_live_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	bool is_connected_to_live = !!atol(tokens.m_storage[1]->get_string());
+
+	online_set_is_connected_to_live(is_connected_to_live);
 
 	return result;
 }
