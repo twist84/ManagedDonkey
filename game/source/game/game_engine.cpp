@@ -20,6 +20,11 @@ HOOK_DECLARE(0x00551780, game_engine_interface_update);
 HOOK_DECLARE(0x005521D0, game_engine_get_pre_round_ticks);
 HOOK_DECLARE(0x00553660, game_engine_update_round_conditions);
 
+void __cdecl game_engine_end_round_with_winner(long team, bool a1, e_game_engine_end_condition condition)
+{
+	INVOKE(0x0054E390, game_engine_end_round_with_winner, team, a1, condition);
+}
+
 void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string)
 {
 	INVOKE(0x00550460, game_engine_get_multiplayer_string, id, out_multiplayer_string);

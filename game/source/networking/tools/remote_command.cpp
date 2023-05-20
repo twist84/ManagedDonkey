@@ -6,6 +6,7 @@
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
 #include "game/game_engine.hpp"
+#include "game/game_engine_scripting.hpp"
 #include "game/game_time.hpp"
 #include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
@@ -667,6 +668,16 @@ callback_result_t online_user_set_name_callback(void const* userdata, long token
 	c_static_wchar_string<16> name_wide;
 	name_wide.print(L"%hs", name);
 	online_user_set_name(name_wide.get_string());
+
+	return result;
+}
+
+callback_result_t mp_game_won_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	short team = static_cast<short>(atol(tokens.m_storage[1]->get_string()));
+	game_engine_game_won(team);
 
 	return result;
 }

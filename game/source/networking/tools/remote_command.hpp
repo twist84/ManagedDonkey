@@ -117,6 +117,7 @@ COMMAND_CALLBACK_DECLARE(game_export_variant_settings);
 COMMAND_CALLBACK_DECLARE(alert_carry);
 COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
 COMMAND_CALLBACK_DECLARE(online_user_set_name);
+COMMAND_CALLBACK_DECLARE(mp_game_won);
 
 //-----------------------------------------------------------------------------
 
@@ -177,6 +178,8 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(online_set_is_connected_to_live, 1, "<bool>", "sets connected to live\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(online_user_set_name, 1, "<string>", "sets the name of the first user\r\nNETWORK SAFE: Yes"),
+
+	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<mp_team>", "given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

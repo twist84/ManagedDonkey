@@ -238,6 +238,7 @@ POPD
     <ClCompile Include="source\game\game_engine_oddball.cpp" />
     <ClCompile Include="source\game\game_engine_player_traits.cpp" />
     <ClCompile Include="source\game\game_engine_sandbox.cpp" />
+    <ClCompile Include="source\game\game_engine_scripting.cpp" />
     <ClCompile Include="source\game\game_engine_slayer.cpp" />
     <ClCompile Include="source\game\game_engine_spawning.cpp" />
     <ClCompile Include="source\game\game_engine_team.cpp" />
@@ -437,6 +438,7 @@ POPD
     <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
+    <ClInclude Include="source\game\game_engine_scripting.hpp" />
     <ClInclude Include="source\game\game_engine_spawning.hpp" />
     <ClInclude Include="source\game\game_results.hpp" />
     <ClInclude Include="source\geometry\geometry_definitions.hpp" />
