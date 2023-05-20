@@ -144,17 +144,16 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 			terminal_globals.draw_time = 0.0f;
 		}
 
-		long v7 = terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index;
+		long cursor_position = terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index;
 		long scroll_amount = terminal_globals.input_state->scroll_amount;
-		if (v7 > scroll_amount + 59)
-			scroll_amount -= 59;
+		if (cursor_position > scroll_amount + 59)
+			scroll_amount = cursor_position - 59;
 
-		if (v7 < scroll_amount + 20)
+		if (cursor_position < scroll_amount + 20)
 		{
-			long v9 = 0;
-			if (v7 - 20 >= 0)
-				v9 = v7 - 20;
-			scroll_amount = v9;
+			scroll_amount = 0;
+			if (cursor_position - 20 >= 0)
+				scroll_amount = cursor_position - 20;
 		}
 
 		ASSERT(scroll_amount >= 0);
