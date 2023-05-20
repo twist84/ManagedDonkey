@@ -210,6 +210,9 @@ bool __cdecl console_process_command(char const* command, bool a2)
 				command_found = true;
 
 				callback_result_t callback_result = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens);
+
+				c_console::write(callback_result.get_string());
+
 				long succeeded = callback_result.index_of(": succeeded");
 				result = succeeded != -1 || tokens[0]->equals("help");
 

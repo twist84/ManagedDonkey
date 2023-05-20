@@ -146,14 +146,15 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 
 		long cursor_position = terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index;
 		long scroll_amount = terminal_globals.input_state->scroll_amount;
+
 		if (cursor_position > scroll_amount + 59)
 			scroll_amount = cursor_position - 59;
 
 		if (cursor_position < scroll_amount + 20)
 		{
-			scroll_amount = 0;
-			if (cursor_position - 20 >= 0)
-				scroll_amount = cursor_position - 20;
+			scroll_amount = cursor_position - 20;
+			if (cursor_position - 20 < 0)
+				scroll_amount = 0;
 		}
 
 		ASSERT(scroll_amount >= 0);
