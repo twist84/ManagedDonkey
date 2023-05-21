@@ -212,3 +212,9 @@ struct s_game_globals_player_representation
 };
 static_assert(sizeof(s_game_globals_player_representation) == 0x6C);
 
+template<tag group_tag>
+struct s_game_globals_tag_reference : s_tag_reference
+{
+
+};
+

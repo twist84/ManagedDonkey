@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_console.hpp"
 #include "editor/editor_stubs.hpp"
+#include "game/cheats.hpp"
 #include "game/game.hpp"
 #include "game/game_engine.hpp"
 #include "game/game_engine_scripting.hpp"
@@ -678,6 +679,33 @@ callback_result_t mp_game_won_callback(void const* userdata, long token_count, t
 
 	short team = static_cast<short>(atol(tokens.m_storage[1]->get_string()));
 	game_engine_game_won(team);
+
+	return result;
+}
+
+callback_result_t cheat_all_powerups_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	cheat_all_powerups();
+
+	return result;
+}
+
+callback_result_t cheat_all_vehicles_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	cheat_all_vehicles();
+
+	return result;
+}
+
+callback_result_t cheat_all_weapons_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	cheat_all_weapons();
 
 	return result;
 }

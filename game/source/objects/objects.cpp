@@ -14,6 +14,11 @@ void __cdecl object_delete(long object_index)
 	INVOKE(0x00B2CD10, object_delete, object_index);
 }
 
+void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up)
+{
+	INVOKE(0x00B2E490, object_get_orientation, object_index, forward, up);
+}
+
 real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin)
 {
 	return INVOKE(0x00B2E5A0, object_get_origin, object_index, origin);

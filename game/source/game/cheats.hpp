@@ -43,6 +43,7 @@ static cheat_globals cheat
 };
 
 struct s_game_input_state;
+struct s_tag_reference;
 
 extern void patch_cheats();
 extern void __cdecl cheats_initialize();
@@ -53,3 +54,9 @@ extern void __cdecl cheats_load();
 extern bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state const* input_state);
 extern bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_point3d* position);
 extern void __cdecl cheat_teleport_to_camera();
+
+extern long __cdecl cheat_player_index();
+extern void __cdecl cheat_objects(s_tag_reference* references, short reference_count);
+extern void __cdecl cheat_all_powerups();
+extern void __cdecl cheat_all_vehicles();
+extern void __cdecl cheat_all_weapons();

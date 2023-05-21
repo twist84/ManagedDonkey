@@ -812,7 +812,7 @@ void apply_biped_group_modification(e_instance_modification_stage stage)
 
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, 'bipd');
-	for (long tag_index = tag_iterator_next(&iterator); tag_index != -1; tag_index = tag_iterator_next(&iterator))
+	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		char const* tag_name = tag_get_name_safe(tag_index);
 		if (tag_name && csstricmp(tag_name, "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief") == 0)

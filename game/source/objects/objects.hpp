@@ -157,6 +157,7 @@ struct s_damage_owner;
 extern e_object_type __cdecl object_get_type(long object_index);
 extern bool __cdecl object_load_scenario_placement_matrices(long object_index);
 extern void __cdecl object_delete(long object_index);
+extern void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up);
 extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
 extern long __cdecl object_get_ultimate_parent(long object_index);
 extern long __cdecl object_new(object_placement_data* placement_data);

@@ -1,5 +1,6 @@
 #include "game/cheats.hpp"
 
+#include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_console.hpp"
@@ -9,7 +10,10 @@
 #include "interface/terminal.hpp"
 #include "main/console.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
+#include "scenario/scenario.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
 
 #include <string.h>
 
@@ -148,3 +152,145 @@ void __cdecl cheat_teleport_to_camera()
 		//simulation_request_unit_debug_teleport(unit_index, &position);
 	}
 }
+long __cdecl cheat_player_index()
+{
+	//REFERENCE_DECLARE(0x04FE67A0, long, mainmenu_spartan_unit_index);
+	//return mainmenu_spartan_unit_index;
+
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+
+	long index = NONE;
+	c_player_with_unit_iterator player_iterator(player_data);
+	while (player_iterator.next())
+	{
+		if (player_iterator.get_datum()->unit_index == NONE)
+			continue;
+
+		index = player_iterator.get_index();
+		break;
+	}
+
+	return index;
+}
+
+void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
+{
+	long player_index = cheat_player_index();
+	if (player_index == NONE)
+		return;
+
+	real radius = 0.0f;
+	for (short reference_index = 0; reference_index < reference_count; reference_index++)
+	{
+		s_tag_reference& reference = references[reference_index];
+		if (reference.index == NONE)
+			continue;
+
+		byte* object = (byte*)tag_get('obje', reference.index);
+
+		real bounding_radius = *reinterpret_cast<real*>(object + 4) + 1.5f;
+		if (radius <= bounding_radius)
+			radius = bounding_radius;
+	}
+
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
+	if (!player)
+		return;
+
+	for (short reference_index = 0; reference_index < reference_count; reference_index++)
+	{
+		s_tag_reference& reference = references[reference_index];
+		if (reference.index == NONE)
+			continue;
+
+		real_point3d origin{};
+		vector3d forward{};
+		vector3d up{};
+
+		object_get_origin(player->unit_index, &origin);
+		object_get_orientation(player->unit_index, &forward, &up);
+
+		object_placement_data data{};
+		data.multiplayer_object_properties.game_engine_flags = 0;
+		data.multiplayer_object_properties.spawn_flags = 0;
+
+		real v15 = atan2f(forward.i, forward.j) + (real(TWO_PI + reference_index) / reference_count);
+		object_placement_data_new(&data, reference.index, NONE, nullptr);
+
+		data.position.x = origin.x + (cosf(v15) * radius);
+		data.forward = forward;
+		data.up = up;
+		data.position.y = origin.y + (sinf(v15) * radius);
+		data.position.z = origin.z + 0.8f;
+
+		// something in `object_new` is busted, this is very similar to what `object_debug_teleport` had
+		// for now until we figure out what's causing the underlying issue we just won't call `object_new`
+		long object_index = NONE; // object_new(&data);
+		if (object_index != NONE)
+			simulation_action_object_create(object_index);
+	}
+}
+
+void __cdecl cheat_all_powerups()
+{
+	s_game_globals* game_globals = scenario_get_game_globals();
+	if (game_globals->cheat_powerups.count())
+	{
+		cheat_objects(game_globals->cheat_powerups.begin(), (short)game_globals->cheat_powerups.count());
+	}
+	else
+	{
+		cheat_objects(nullptr, 0);
+	}
+}
+
+void __cdecl cheat_all_vehicles()
+{
+	short reference_count = 0;
+	s_tag_reference references[16];
+
+	tag_iterator iterator{};
+	tag_iterator_new(&iterator, 'vehi');
+	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	{
+		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
+			break;
+
+		if (!tag_get('vehi', tag_index))
+		s_tag_block& powered_seats = *reinterpret_cast<s_tag_block*>(vehicle + 0x358);
+		if (powered_seats.count > 0)
+		{
+			char const* name = tag_get_name(tag_index);
+			references[reference_count].group_tag = 'vehi';
+			references[reference_count].index = tag_index;
+
+			reference_count++;
+		}
+	}
+
+	cheat_objects(references, reference_count);
+}
+
+void __cdecl cheat_all_weapons()
+{
+	short reference_count = 0;
+	s_tag_reference references[64 /* 32 */];
+
+	tag_iterator iterator{};
+	tag_iterator_new(&iterator, 'weap');
+	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	{
+		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
+			break;
+
+		if (!tag_get('weap', tag_index))
+		references[reference_count].group_tag = 'weap';
+		references[reference_count].index = tag_index;
+
+		reference_count++;
+	}
+
+	cheat_objects(references, reference_count);
+}
+
