@@ -23,6 +23,11 @@ bool __cdecl simulation_aborted()
 	return simulation_globals.initialized && simulation_globals.aborted;
 }
 
+bool __cdecl simulation_in_progress()
+{
+	return INVOKE(0x00441970, simulation_in_progress);
+}
+
 bool __cdecl simulation_starting_up()
 {
 	//return INVOKE(0x004420E0, simulation_starting_up);

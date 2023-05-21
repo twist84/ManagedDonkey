@@ -253,3 +253,9 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 	}
 }
 
+//void __cdecl post_game_engine_globals_message(enum e_game_engine_globals_message_type, char, short)
+void __cdecl post_game_engine_globals_message(long message_type, char a2, short a3)
+{
+	INVOKE(0x00554780, post_game_engine_globals_message, message_type, a2, a3);
+}
+

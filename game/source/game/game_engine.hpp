@@ -114,9 +114,10 @@ struct s_game_engine_globals
 	word timer;
 	word __unknownF992;
 	dword game_variant_round_time_limit_ticks_per_second;
-	real __unknownF996[4];
-	byte __dataF9A8[2];
-	short __unknownF9A8;
+	real user_fade_to_black_amounts[4];
+	byte_flags user_fade_to_black_flags;
+	byte __dataF9A9;
+	short __unknownF9AA;
 	long shot_id;
 	c_static_array<s_dead_player_info, 64> spawn_influencers;
 	c_game_statborg statborg;
@@ -161,4 +162,5 @@ extern long __cdecl game_engine_get_post_round_ticks();
 extern long __cdecl game_engine_round_time_get();
 extern void __cdecl game_engine_update_round_conditions();
 extern void __cdecl game_engine_dump_variant_settings(char const* filename);
+extern void __cdecl post_game_engine_globals_message(long message_type, char a2, short a3);
 
