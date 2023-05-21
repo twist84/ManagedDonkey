@@ -15,13 +15,15 @@ struct render_camera
 	real horizontal_field_of_view;
 	short_rectangle2d window_pixel_bounds;
 	short_rectangle2d window_title_safe_pixel_bounds;
-	long __unknown40;
+	__int16 __unknown40;
+	__int16 __unknown42;
 	short_rectangle2d render_pixel_bounds;
 	short_rectangle2d render_title_safe_pixel_bounds;
 	short_rectangle2d display_pixel_bounds;
 	real z_near;
 	real z_far;
-	byte __data64[0x24];
+	plane3d __plane64;
+	byte __data74[0x14];
 };
 static_assert(sizeof(render_camera) == 0x88);
 
