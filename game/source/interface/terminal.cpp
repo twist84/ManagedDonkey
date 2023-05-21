@@ -5,6 +5,7 @@
 #include "interface/interface_constants.hpp"
 #include "main/console.hpp"
 #include "memory/module.hpp"
+#include "multithreading/synchronization.hpp"
 #include "text/draw_string.hpp"
 
 s_terminal_globals terminal_globals = { .initialized = false };
@@ -15,32 +16,6 @@ real const k_output_total_seconds = 4.0f + 1.0f;
 short const k_tab_stops[]{ 160, 320, 470, 620, 770 };
 
 REFERENCE_DECLARE(0x0189CDE0, c_allocation_base*, g_normal_allocation);
-
-// #TODO: find a home
-struct c_critical_section_scope
-{
-	c_critical_section_scope(long critical_section_id) :
-		m_critical_section_id(),
-		m_critical_section_entered()
-	{
-		DECLFUNC(0x0052C4A0, void, __cdecl, long)(critical_section_id);
-	}
-
-	c_critical_section_scope(long critical_section_id, long time_step, bool* out_lock_acquired) :
-		m_critical_section_id(),
-		m_critical_section_entered()
-	{
-		DECLFUNC(0x0052BEE0, void, __thiscall, c_critical_section_scope*, long, long, bool*)(this, critical_section_id, time_step, out_lock_acquired);
-	}
-
-	~c_critical_section_scope()
-	{
-		DECLFUNC(0x0052C4E0, void, __cdecl, long)(m_critical_section_id);
-	}
-
-	volatile long m_critical_section_id;
-	volatile bool m_critical_section_entered;
-};
 
 void __cdecl terminal_printf(real_argb_color const* color, char const* format, ...)
 {

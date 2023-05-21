@@ -711,6 +711,9 @@
     <ClCompile Include="source\game\game_engine_scripting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\multithreading\synchronization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1842,6 +1845,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\game_engine_scripting.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\multithreading\synchronization.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
