@@ -331,6 +331,7 @@ POPD
     <ClCompile Include="source\main\main_render.cpp" />
     <ClCompile Include="source\main\main_time.cpp" />
     <ClCompile Include="source\math\color_math.cpp" />
+    <ClCompile Include="source\math\integer_math.cpp" />
     <ClCompile Include="source\math\real_math.cpp" />
     <ClCompile Include="source\memory\bitstream.cpp" />
     <ClCompile Include="source\memory\crc.cpp" />

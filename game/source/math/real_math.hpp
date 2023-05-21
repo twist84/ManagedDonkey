@@ -108,9 +108,7 @@ union real_argb_color
 	struct
 	{
 		real alpha;
-		real red;
-		real green;
-		real blue;
+		real_rgb_color color;
 	};
 	real n[4];
 };
@@ -133,9 +131,7 @@ union real_ahsv_color
 	struct
 	{
 		real alpha;
-		real hue;
-		real saturation;
-		real value;
+		real_rgb_color color;
 	};
 	real n[4];
 };

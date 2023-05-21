@@ -100,6 +100,7 @@ union argb_color
 };
 static_assert(sizeof(argb_color) == 0x4);
 
+extern short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short y0, short x0, short y1, short x1);
 
 template<typename t_type>
 t_type int_min(t_type const& val0, t_type const& val1)

@@ -31,17 +31,13 @@ void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context co
 	real_argb_color color = *global_real_argb_white;
 	if (context->color)
 	{
-		color.red = context->color->red;
-		color.green = context->color->green;
-		color.blue = context->color->blue;
+		color.color = *context->color;
 	}
 	
 	if (context->shadow_color)
 	{
 		real_argb_color shadow_color;
-		shadow_color.red = context->shadow_color->red;
-		shadow_color.green = context->shadow_color->green;
-		shadow_color.blue = context->shadow_color->blue;
+		shadow_color.color = *context->shadow_color;
 		shadow_color.alpha = 1.0f;
 	
 		draw_string->set_shadow_color(&shadow_color);
