@@ -257,7 +257,7 @@ void __cdecl cheat_all_vehicles()
 		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		if (!tag_get('vehi', tag_index))
+		byte* vehicle = (byte*)tag_get('vehi', tag_index);
 		s_tag_block& powered_seats = *reinterpret_cast<s_tag_block*>(vehicle + 0x358);
 		if (powered_seats.count > 0)
 		{
@@ -284,7 +284,7 @@ void __cdecl cheat_all_weapons()
 		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		if (!tag_get('weap', tag_index))
+		char const* name = tag_get_name(tag_index);
 		references[reference_count].group_tag = 'weap';
 		references[reference_count].index = tag_index;
 

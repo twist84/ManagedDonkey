@@ -181,6 +181,9 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	if (strlen(command) >= 255)
 		return false;
 
+	if (!command[0] || command[0] == ';')
+		return false;
+
 	c_console::write_line("console_command: %s", command);
 
 	short command_index = (console_globals.input_state.previous_inputs_count + 1) % NUMBEROF(console_globals.input_state.previous_inputs);
