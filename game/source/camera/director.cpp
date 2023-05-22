@@ -95,28 +95,28 @@ bool c_director::set_camera_mode_internal(e_camera_mode camera_mode, real transi
 		switch (camera_mode)
 		{
 		case _camera_mode_following:
-			get_camera<c_following_camera>()->ctor(dead_or_alive_unit_from_user(m_user_index));
+			get_camera<c_following_camera>()->constructor(dead_or_alive_unit_from_user(m_user_index));
 			break;
 		case _camera_mode_orbiting:
-			get_camera<c_orbiting_camera>()->ctor(dead_or_alive_unit_from_user(m_user_index));
+			get_camera<c_orbiting_camera>()->constructor(dead_or_alive_unit_from_user(m_user_index));
 			break;
 		case _camera_mode_flying:
-			get_camera<c_flying_camera>()->ctor(m_user_index);
+			get_camera<c_flying_camera>()->constructor(m_user_index);
 			break;
 		case _camera_mode_first_person:
-			get_camera<c_first_person_camera>()->ctor(dead_or_alive_unit_from_user(m_user_index));
+			get_camera<c_first_person_camera>()->constructor(dead_or_alive_unit_from_user(m_user_index));
 			break;
 		case _camera_mode_dead:
-			get_camera<c_dead_camera>()->ctor(m_user_index);
+			get_camera<c_dead_camera>()->constructor(m_user_index);
 			break;
 		case _camera_mode_static:
-			get_camera<c_static_camera>()->ctor(m_user_index);
+			get_camera<c_static_camera>()->constructor(m_user_index);
 			break;
 		case _camera_mode_scripted:
-			get_camera<c_scripted_camera>()->ctor();
+			get_camera<c_scripted_camera>()->constructor();
 			break;
 		case _camera_mode_authored:
-			get_camera<c_authored_camera>()->ctor(m_user_index);
+			get_camera<c_authored_camera>()->constructor(m_user_index);
 			break;
 		}
 		m_transition_time = transition_time;
@@ -176,19 +176,19 @@ void director_set_mode(long user_index, e_director_mode director_mode)
 	switch (director_mode)
 	{
 	case _director_mode_game:
-		director_get<c_game_director>(user_index)->ctor(user_index);
+		director_get<c_game_director>(user_index)->constructor(user_index);
 		break;
 	case _director_mode_saved_film:
-		director_get<c_saved_film_director>(user_index)->ctor(user_index);
+		director_get<c_saved_film_director>(user_index)->constructor(user_index);
 		break;
 	case _director_mode_observer:
-		director_get<c_observer_director>(user_index)->ctor(user_index);
+		director_get<c_observer_director>(user_index)->constructor(user_index);
 		break;
 	case _director_mode_debug:
-		director_get<c_debug_director>(user_index)->ctor(user_index);
+		director_get<c_debug_director>(user_index)->constructor(user_index);
 		break;
 	case _director_mode_editor:
-		director_get<c_editor_director>(user_index)->ctor(user_index);
+		director_get<c_editor_director>(user_index)->constructor(user_index);
 		break;
 	}
 

@@ -14,7 +14,7 @@ struct c_observer_director : public c_director
 
 	byte pad[0x2];
 
-	void ctor(long user_index)
+	void constructor(long user_index)
 	{
 		DECLFUNC(0x00726430, void, __thiscall, c_director*, long)(this, user_index);
 	}

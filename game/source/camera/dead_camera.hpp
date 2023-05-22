@@ -17,7 +17,7 @@ struct c_dead_camera : public c_camera
 	byte pad[0x2];
 	byte unused[0x10];
 
-	void ctor(long user_index)
+	void constructor(long user_index)
 	{
 		DECLFUNC(0x00729E60, void, __thiscall, c_camera*, long)(this, user_index);
 	}

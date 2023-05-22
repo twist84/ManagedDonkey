@@ -10,7 +10,7 @@ struct c_saved_film_director : public c_observer_director
 	byte pad[0x2];
 	byte unused[0x4];
 
-	void ctor(long user_index)
+	void constructor(long user_index)
 	{
 		DECLFUNC(0x007276C0, void, __thiscall, c_director*, long)(this, user_index);
 	}

@@ -2,9 +2,6 @@
 
 #include "camera/director.hpp"
 
-// 018ECEC4
-// k_debug_camera_modes
-
 struct c_debug_director : public c_director
 {
 	//  camera mode cycle  - F12
@@ -15,12 +12,12 @@ struct c_debug_director : public c_director
 	long m_camera_mode_index;
 
 	// k_debug_camera_modes[m_camera_mode_index] == _camera_mode_flying
-	// = !biped_control_mode && editor_input_inhibited()
+	// = !m_biped_control_mode && editor_input_inhibited()
 	bool m_collision_disabled;
 
 	// 0: _camera_mode_flying
 	// 1: _camera_mode_static
-	bool biped_control_mode;
+	bool m_biped_control_mode;
 
 	byte pad[2];
 	byte unused[0xC];

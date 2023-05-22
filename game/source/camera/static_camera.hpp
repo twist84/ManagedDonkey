@@ -13,7 +13,7 @@ struct c_static_camera : public c_camera
 
 	byte unused[0x18];
 
-	void ctor(long user_index)
+	void constructor(long user_index)
 	{
 		DECLFUNC(0x0072F170, void, __thiscall, c_camera*, long)(this, user_index);
 	}
@@ -24,7 +24,7 @@ struct c_scripted_camera : public c_camera
 {
 	byte unused[0x3C];
 
-	void ctor()
+	void constructor()
 	{
 		DECLFUNC(0x0072BEB0, void, __thiscall, c_camera*)(this);
 	}

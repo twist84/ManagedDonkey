@@ -18,7 +18,7 @@ struct c_following_camera : public c_camera
 
 	byte unused[0x18];
 
-	void ctor(long unit_index)
+	void constructor(long unit_index)
 	{
 		DECLFUNC(0x00728630, void, __thiscall, c_camera*, long)(this, unit_index);
 	}
