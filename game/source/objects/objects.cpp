@@ -245,8 +245,7 @@ void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object
 
 void __cdecl object_debug_teleport(long object_index, real_point3d const* position)
 {
-	void* object = object_try_and_get_and_verify_type(object_index, 0xFFFFFFFF);
-	if (object)
+	if (void* object = object_try_and_get_and_verify_type(object_index, 0xFFFFFFFF))
 	{
 		dword_flags flags = reinterpret_cast<dword_flags*>(object)[1];
 
