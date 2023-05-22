@@ -4,6 +4,9 @@
 
 struct c_debug_director : public c_director
 {
+	static void __fastcall _changed_camera(c_debug_director* _this, void* unused);
+	static void __fastcall _update(c_debug_director* _this, void* unused, real a1);
+
 	//  camera mode cycle  - F12
 	// control mode toggle - middle-mouse click
 
@@ -22,9 +25,7 @@ struct c_debug_director : public c_director
 	byte pad[2];
 	byte unused[0xC];
 
-	void ctor(long user_index)
-	{
-		DECLFUNC(0x007260D0, void, __thiscall, c_director*, long)(this, user_index);
-	}
+	void constructor(long user_index);
+	void changed_camera();
 };
 static_assert(sizeof(c_debug_director) == 0x160);
