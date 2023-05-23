@@ -13,6 +13,7 @@
 #include "game/player_mapping.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "main/console.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/data_packets.hpp"
 #include "memory/data_packet_groups.hpp"
@@ -21,10 +22,14 @@
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_globals.hpp"
+#include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
 #include "networking/online/online.hpp"
+#include "networking/session/network_managed_session.hpp"
+#include "networking/tools/network_debug_dump.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
+#include "xbox/xnet.hpp"
 
 
 s_remote_command_globals remote_command_globals;
@@ -706,6 +711,33 @@ callback_result_t cheat_all_weapons_callback(void const* userdata, long token_co
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	cheat_all_weapons();
+
+	return result;
+}
+
+callback_result_t connect_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* ip_port = tokens.m_storage[1]->get_string();
+	char const* secure_identifier = tokens.m_storage[2]->get_string();
+	char const* secure_address = tokens.m_storage[3]->get_string();
+
+	transport_address address{};
+	s_transport_session_description description{};
+
+	transport_address_from_string(ip_port, address);
+	transport_secure_identifier_from_string(secure_identifier, description.id);
+	transport_secure_address_from_string(secure_address, description.address);
+
+	g_broadcast_port;
+
+	XNetAddEntry(&address, &description.address, &description.id);
+	sub_69D600();
+	user_interface_join_remote_session(false, _network_session_class_system_link, &description.id, &description.address, &description.key);
+
+	console_close();
+	game_time_set_paused(false, _game_time_pause_reason_debug);
 
 	return result;
 }
