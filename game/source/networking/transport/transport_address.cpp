@@ -190,13 +190,27 @@ void __cdecl transport_get_loopback_address(transport_address* address, word por
 
 void transport_address_from_string(wchar_t const* str, transport_address& address)
 {
-	word ip_addr[4]{};
-	if (swscanf_s(str, L"%hd.%hd.%hd.%hd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
+	byte ip_addr[4]{};
+	if (swscanf_s(str, L"%hhd.%hhd.%hhd.%hhd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
 	{
-		address.ina.bytes[3] = static_cast<byte>(ip_addr[3]);
-		address.ina.bytes[2] = static_cast<byte>(ip_addr[2]);
-		address.ina.bytes[1] = static_cast<byte>(ip_addr[1]);
-		address.ina.bytes[0] = static_cast<byte>(ip_addr[0]);
+		address.ina.bytes[0] = ip_addr[0];
+		address.ina.bytes[1] = ip_addr[1];
+		address.ina.bytes[2] = ip_addr[2];
+		address.ina.bytes[3] = ip_addr[3];
+
+		address.address_length = sizeof(address.ina);
+	}
+}
+
+void transport_address_from_string(char const* str, transport_address& address)
+{
+	byte ip_addr[4]{};
+	if (sscanf_s(str, "%hhd.%hhd.%hhd.%hhd:%hd", &ip_addr[3], &ip_addr[2], &ip_addr[1], &ip_addr[0], &address.port))
+	{
+		address.ina.bytes[0] = ip_addr[0];
+		address.ina.bytes[1] = ip_addr[1];
+		address.ina.bytes[2] = ip_addr[2];
+		address.ina.bytes[3] = ip_addr[3];
 
 		address.address_length = sizeof(address.ina);
 	}

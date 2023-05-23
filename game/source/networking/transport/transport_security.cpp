@@ -265,9 +265,41 @@ void transport_secure_identifier_from_string(wchar_t const* str, s_transport_sec
 		&secure_identifier.part8[7]);
 }
 
+void transport_secure_identifier_from_string(char const* str, s_transport_secure_identifier& secure_identifier)
+{
+	sscanf_s(str, "%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
+		&secure_identifier.part0,
+		&secure_identifier.part4[0],
+		&secure_identifier.part4[1],
+		&secure_identifier.part8[0],
+		&secure_identifier.part8[1],
+		&secure_identifier.part8[2],
+		&secure_identifier.part8[3],
+		&secure_identifier.part8[4],
+		&secure_identifier.part8[5],
+		&secure_identifier.part8[6],
+		&secure_identifier.part8[7]);
+}
+
 void transport_secure_address_from_string(wchar_t const* str, s_transport_secure_address& secure_address)
 {
 	swscanf_s(str, L"%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
+		&secure_address.part0,
+		&secure_address.part4[0],
+		&secure_address.part4[1],
+		&secure_address.part8[0],
+		&secure_address.part8[1],
+		&secure_address.part8[2],
+		&secure_address.part8[3],
+		&secure_address.part8[4],
+		&secure_address.part8[5],
+		&secure_address.part8[6],
+		&secure_address.part8[7]);
+}
+
+void transport_secure_address_from_string(char const* str, s_transport_secure_address& secure_address)
+{
+	sscanf_s(str, "%08x-%04hx-%04hx-%02hhx%02hhx-%02hhx%02hhx%02hhx%02hhx%02hhx%02hhx",
 		&secure_address.part0,
 		&secure_address.part4[0],
 		&secure_address.part4[1],

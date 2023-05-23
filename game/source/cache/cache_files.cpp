@@ -435,7 +435,7 @@ bool __cdecl cache_file_tags_load_allocate()
 
 bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 {
-	return INVOKE(0x00502C90, cache_file_tags_section_read, offset, size, buffer);
+	//return INVOKE(0x00502C90, cache_file_tags_section_read, offset, size, buffer);
 
 	if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
 		return cache_file_blocking_read(_cache_file_section_tag, offset, size, buffer);

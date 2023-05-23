@@ -87,5 +87,7 @@ extern void __cdecl transport_security_startup();
 extern void __cdecl transport_unique_identifier_resolve();
 
 extern void transport_secure_identifier_from_string(wchar_t const* str, s_transport_secure_identifier& secure_identifier);
+extern void transport_secure_identifier_from_string(char const* str, s_transport_secure_identifier& secure_identifier);
 extern void transport_secure_address_from_string(wchar_t const* str, s_transport_secure_address& secure_address);
+extern void transport_secure_address_from_string(char const* str, s_transport_secure_address& secure_address);
 

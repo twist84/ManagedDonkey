@@ -41,6 +41,7 @@ long __cdecl XNetFindEntry(transport_address const* address, s_transport_secure_
 			return entry_index;
 
 		result = entry_index;
+		break;
 	}
 
 	return result;
