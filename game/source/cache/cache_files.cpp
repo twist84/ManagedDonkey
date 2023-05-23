@@ -407,7 +407,7 @@ bool __cdecl cache_file_tags_load_allocate()
 	else
 	{
 		s_cache_file_tags_header tags_header{};
-		if (!file_read(&g_cache_file_globals.tags_section, sizeof(s_cache_file_tags_header), 0, &tags_header))
+		if (!file_read(&g_cache_file_globals.tags_section, sizeof(s_cache_file_tags_header), false, &tags_header))
 			return false;
 
 		tag_offsets_size = sizeof(long) * tags_header.tag_count;
@@ -442,7 +442,7 @@ bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 
 	bool result = file_set_position(&g_cache_file_globals.tags_section, offset, 0);
 	if (result)
-		return file_read(&g_cache_file_globals.tags_section, size, 0, buffer);
+		return file_read(&g_cache_file_globals.tags_section, size, false, buffer);
 
 	return result;
 }
