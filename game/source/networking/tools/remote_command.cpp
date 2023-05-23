@@ -509,6 +509,34 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 	network_test_set_ui_game_mode(ui_game_mode_name);
 	network_test_set_advertisement_mode(advertisement_mode_name);
 
+	{
+		c_static_wchar_string<512> invite_string;
+		{
+			c_static_string<16> _insecure_ip;
+			c_static_string<128> _secure_ip;
+			get_system_ip_addresses(&_insecure_ip, &_secure_ip);
+
+			char const* _session_id = managed_session_get_id_string(1);
+
+			invite_string.print(L"connect %hs:%hd %hs %hs", _insecure_ip.get_string(), g_broadcast_port, _secure_ip.get_string(), _session_id);
+		}
+
+		s_file_reference invite_file{};
+		if (file_reference_create_from_path(&invite_file, "invite.txt", false))
+		{
+			if (file_exists(&invite_file))
+				file_delete(&invite_file);
+
+			file_create(&invite_file);
+
+			dword error = 0;
+			if (file_open(&invite_file, FLAG(_file_open_flag_desired_access_write), &error))
+				file_printf(&invite_file, "%ls", invite_string.get_string());
+
+			file_close(&invite_file);
+		}
+	}
+
 	return result;
 }
 
