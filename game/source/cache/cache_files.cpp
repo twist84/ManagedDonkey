@@ -454,7 +454,10 @@ void __cdecl cache_file_tags_unload()
 
 bool __cdecl scenario_tags_load(char const* scenario_path)
 {
-	//return INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
+	bool result = INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
+	ASSERT(cache_file_debug_tag_names_load());
+	tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
+	return result;
 
 	long tag_index = NONE;
 	bool success = false;
