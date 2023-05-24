@@ -11,6 +11,7 @@
 #include "game/game_time.hpp"
 #include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
+#include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "main/console.hpp"
@@ -19,6 +20,7 @@
 #include "memory/data_packet_groups.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "networking/logic/network_broadcast_search.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_globals.hpp"
@@ -510,15 +512,14 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 	network_test_set_advertisement_mode(advertisement_mode_name);
 
 	{
-		c_static_wchar_string<512> invite_string;
+		c_static_string<512> invite_string;
 		{
-			c_static_string<16> _insecure_ip;
-			c_static_string<128> _secure_ip;
-			get_system_ip_addresses(&_insecure_ip, &_secure_ip);
+			transport_address insecure{};
+			transport_secure_address_get_insecure(&insecure);
 
-			char const* _session_id = managed_session_get_id_string(1);
-
-			invite_string.print(L"connect %hs:%hd %hs %hs", _insecure_ip.get_string(), g_broadcast_port, _secure_ip.get_string(), _session_id);
+			static char ip_port[256]{};
+			transport_address_to_string(&insecure, nullptr, ip_port, 256, true, false);
+			invite_string.print("add_session %s", ip_port);
 		}
 
 		s_file_reference invite_file{};
@@ -531,7 +532,7 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 
 			dword error = 0;
 			if (file_open(&invite_file, FLAG(_file_open_flag_desired_access_write), &error))
-				file_printf(&invite_file, "%ls", invite_string.get_string());
+				file_printf(&invite_file, "%s", invite_string.get_string());
 
 			file_close(&invite_file);
 		}
@@ -743,26 +744,18 @@ callback_result_t cheat_all_weapons_callback(void const* userdata, long token_co
 	return result;
 }
 
-callback_result_t connect_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t add_session_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	char const* ip_port = tokens.m_storage[1]->get_string();
-	char const* secure_identifier = tokens.m_storage[2]->get_string();
-	char const* secure_address = tokens.m_storage[3]->get_string();
 
-	transport_address address{};
-	s_transport_session_description description{};
-
+	static transport_address address{};
+	csmemset(&address, 0, sizeof(address));
 	transport_address_from_string(ip_port, address);
-	transport_secure_identifier_from_string(secure_identifier, description.id);
-	transport_secure_address_from_string(secure_address, description.address);
 
-	g_broadcast_port;
-
-	XNetAddEntry(&address, &description.address, &description.id);
-	sub_69D600();
-	user_interface_join_remote_session(false, _network_session_class_system_link, &description.id, &description.address, &description.key);
+	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void { *outgoing_address = address; };
+	load_game_browser(k_any_controller, 0, _browser_type_system_link_games);
 
 	console_close();
 	game_time_set_paused(false, _game_time_pause_reason_debug);

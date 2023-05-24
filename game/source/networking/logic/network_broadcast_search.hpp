@@ -57,6 +57,8 @@ extern s_broadcast_search_globals& g_broadcast_search_globals;
 
 struct transport_address;
 
+extern void(__cdecl* network_broadcast_search_update_callback)(transport_address* outgoing_address);
+
 extern bool __cdecl network_broadcast_search_active(qword* search_nonce);
 extern bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_session_count, s_available_session* session_storage);
 extern void __cdecl network_broadcast_search_dispose();

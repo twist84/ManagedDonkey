@@ -18,6 +18,8 @@ HOOK_DECLARE(0x004D9D30, network_broadcast_search_handle_reply);
 HOOK_DECLARE(0x004D9EA0, network_broadcast_search_initialize);
 HOOK_DECLARE(0x004D9EC0, network_broadcast_search_update);
 
+void(__cdecl* network_broadcast_search_update_callback)(transport_address* outgoing_address) = nullptr;
+
 bool __cdecl network_broadcast_search_active(qword* search_nonce)
 {
 	//return INVOKE(0x004D9C40, network_broadcast_search_active, search_nonce);
@@ -176,6 +178,13 @@ void __cdecl network_broadcast_search_update()
 			message.protocol_version = k_network_protocol_version;
 			message.nonce = g_broadcast_search_globals.search_nonce;
 	
+			if (network_broadcast_search_update_callback)
+			{
+				transport_address outgoing_address{};
+				network_broadcast_search_update_callback(&outgoing_address);
+				if (transport_address_valid(&outgoing_address))
+					g_broadcast_search_globals.message_gateway->send_message_directed(&outgoing_address, _network_message_broadcast_search, sizeof(message), &message);
+			}
 	
 			for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
 				g_broadcast_search_globals.message_gateway->send_message_broadcast(_network_message_broadcast_search, sizeof(message), &message, broadcast_port);
