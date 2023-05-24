@@ -25,6 +25,7 @@ enum e_network_message_type;
 struct c_network_message_gateway : c_network_out_of_band_consumer
 {
 	bool __cdecl send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port);
+	bool __cdecl send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data);
 
 	bool m_initialized;
 	c_network_link* m_link;
@@ -79,7 +80,8 @@ struct s_network_base_memory_globals
 };
 static_assert(sizeof(s_network_base_memory_globals) == 0x7506C8);
 
-long const k_broadcast_port = 11774;
+word const k_broadcast_port = 11774;
+word const k_broadcast_port_alt_ammount = 1000; // needs a better name
 
 extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;

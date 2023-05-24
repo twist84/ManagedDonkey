@@ -16,6 +16,7 @@ HOOK_DECLARE(0x004D9CF0, network_broadcast_search_dispose);
 HOOK_DECLARE(0x004D9D20, network_broadcast_search_end);
 HOOK_DECLARE(0x004D9D30, network_broadcast_search_handle_reply);
 HOOK_DECLARE(0x004D9EA0, network_broadcast_search_initialize);
+HOOK_DECLARE(0x004D9EC0, network_broadcast_search_update);
 
 bool __cdecl network_broadcast_search_active(qword* search_nonce)
 {
@@ -175,8 +176,10 @@ void __cdecl network_broadcast_search_update()
 			message.protocol_version = k_network_protocol_version;
 			message.nonce = g_broadcast_search_globals.search_nonce;
 	
-			g_broadcast_search_globals.message_gateway->send_message_broadcast(_network_message_broadcast_search, sizeof(message), &message, k_broadcast_port);
 	
+			for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
+				g_broadcast_search_globals.message_gateway->send_message_broadcast(_network_message_broadcast_search, sizeof(message), &message, broadcast_port);
+
 			g_broadcast_search_globals.search_time = network_time_get();
 		}
 	
