@@ -439,6 +439,45 @@ callback_result_t help_callback(void const* userdata, long token_count, tokens_t
 	return result;
 }
 
+callback_result_t script_doc_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	s_file_reference help_file{};
+	if (!file_reference_create_from_path(&help_file, "hs_doc.txt", false)) // should this actually be named `hs_doc.txt` if it isn't actually for the halo scriping system?
+		return result;
+
+	if (file_exists(&help_file))
+		file_delete(&help_file);
+
+	file_create(&help_file);
+
+	dword error = 0;
+	if (file_open(&help_file, FLAG(_file_open_flag_desired_access_write), &error))
+	{
+		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
+		{
+			s_command const& command = k_registered_commands[i];
+
+			callback_result_t out("(");
+			out.append_print("%s", command.name);
+			if (command.parameter_types && *command.parameter_types != '\0')
+				out.append_print(" %s", command.parameter_types);
+			out.append_print_line(")");
+			out.append_line();
+
+			out.append_print_line("%s", command.extra_info && *command.extra_info != '\0' ? command.extra_info : "");
+			out.append_line();
+			out.append_line();
+
+			file_printf(&help_file, out.get_string());
+		}
+	}
+	file_close(&help_file);
+
+	return result;
+}
+
 callback_result_t breakpoint_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -537,6 +576,25 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 			file_close(&invite_file);
 		}
 	}
+
+	return result;
+}
+
+callback_result_t net_session_add_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* ip_port = tokens.m_storage[1]->get_string();
+
+	static transport_address address{};
+	csmemset(&address, 0, sizeof(address));
+	transport_address_from_string(ip_port, address);
+
+	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void { *outgoing_address = address; };
+	load_game_browser(k_any_controller, 0, _browser_type_system_link_games);
+
+	console_close();
+	game_time_set_paused(false, _game_time_pause_reason_debug);
 
 	return result;
 }
@@ -740,25 +798,6 @@ callback_result_t cheat_all_weapons_callback(void const* userdata, long token_co
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	cheat_all_weapons();
-
-	return result;
-}
-
-callback_result_t add_session_callback(void const* userdata, long token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	char const* ip_port = tokens.m_storage[1]->get_string();
-
-	static transport_address address{};
-	csmemset(&address, 0, sizeof(address));
-	transport_address_from_string(ip_port, address);
-
-	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void { *outgoing_address = address; };
-	load_game_browser(k_any_controller, 0, _browser_type_system_link_games);
-
-	console_close();
-	game_time_set_paused(false, _game_time_pause_reason_debug);
 
 	return result;
 }

@@ -95,6 +95,7 @@ struct s_command
 //-----------------------------------------------------------------------------
 
 COMMAND_CALLBACK_DECLARE(help);
+COMMAND_CALLBACK_DECLARE(script_doc);
 COMMAND_CALLBACK_DECLARE(breakpoint);
 COMMAND_CALLBACK_DECLARE(close_game);
 COMMAND_CALLBACK_DECLARE(script_start);
@@ -102,6 +103,7 @@ COMMAND_CALLBACK_DECLARE(game_splitscreen);
 COMMAND_CALLBACK_DECLARE(game_coop_players);
 COMMAND_CALLBACK_DECLARE(game_start);
 COMMAND_CALLBACK_DECLARE(net_session_create);
+COMMAND_CALLBACK_DECLARE(net_session_add);
 COMMAND_CALLBACK_DECLARE(net_test_map_name);
 COMMAND_CALLBACK_DECLARE(net_test_variant);
 COMMAND_CALLBACK_DECLARE(net_test_session_mode);
@@ -121,7 +123,6 @@ COMMAND_CALLBACK_DECLARE(mp_game_won);
 COMMAND_CALLBACK_DECLARE(cheat_all_powerups);
 COMMAND_CALLBACK_DECLARE(cheat_all_vehicles);
 COMMAND_CALLBACK_DECLARE(cheat_all_weapons);
-COMMAND_CALLBACK_DECLARE(add_session);
 
 //-----------------------------------------------------------------------------
 
@@ -153,6 +154,7 @@ if ((token_count - 1) != command.parameter_count)                             \
 s_command const k_registered_commands[] =
 {
 	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints a description of the named function.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(script_doc, 0, "", "saves a file called hs_doc.txt with parameters for all script commands.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(breakpoint, 1, "<string>", "If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(close_game, 0, "", "closes the game.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
@@ -162,6 +164,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for mainmenu only"),
 
 	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(net_session_add, 1, "<string>", "<ip:port> adds a session from the given ip:port to the local games browser \r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_test_map_name, 1, "<string>", "network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_variant, 1, "<string>", "network test: sets the game variant to play\r\nNETWORK SAFE: Yes"),
@@ -185,11 +188,9 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<mp_team>", "given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
 
-	COMMAND_CALLBACK_REGISTER(cheat_all_powerups, 0, "drops all powerups near player\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_all_vehicles, 0, "drops all vehicles on player\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "drops all weapons near player\r\nNETWORK SAFE: Yes"),
-
-	COMMAND_CALLBACK_REGISTER(add_session, 1, "<ip:port> adds a session from the given ip:port to the local games browser \r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(cheat_all_powerups, 0, "", "drops all powerups near player\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(cheat_all_vehicles, 0, "", "drops all vehicles on player\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "", "drops all weapons near player\r\nNETWORK SAFE: Yes"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);
