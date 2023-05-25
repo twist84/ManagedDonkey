@@ -25,8 +25,12 @@ enum e_network_message_type;
 struct c_network_message_gateway : c_network_out_of_band_consumer
 {
 public:
+	static bool __fastcall _receive_out_of_band_packet(c_network_message_gateway* _this, void* unused, transport_address const* incoming_address, c_bitstream* packet);
+
 	bool __cdecl send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port);
 	bool __cdecl send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data);
+
+	bool __cdecl receive_out_of_band_packet_(transport_address const* incoming_address, c_bitstream* packet);
 
 private:
 	static bool __cdecl read_packet_header(c_bitstream* packet);

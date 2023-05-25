@@ -52,6 +52,11 @@
 REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
 REFERENCE_DECLARE(0x022B473C, bool, g_main_game_exit);
 
+// a static byte array used in `c_network_channel::receive_packet`
+// passed to `c_network_message_queue::retrieve_message`
+// passed to `c_network_message_handler::handle_channel_message`
+REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
+
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
@@ -152,6 +157,7 @@ void __cdecl main_loop_body_begin()
 		g_online_lsp_manager;
 		g_global_preferences;
 		g_screenshots_uploader;
+		message_storage;
 
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
