@@ -18,6 +18,7 @@ enum e_network_packet_mode
 };
 
 struct c_network_out_of_band_consumer;
+struct c_network_channel;
 struct c_network_link
 {
 	struct s_link_packet
@@ -37,6 +38,7 @@ struct c_network_link
 	bool __cdecl create_endpoint(e_transport_type type, word port, bool a3, transport_endpoint** out_endpoint);
 	bool __cdecl decode_packet(long data_buffer_size, byte const* data_buffer, s_link_packet* packet) const;
 	void __cdecl destroy_endpoints();
+	c_network_channel* __cdecl get_associated_channel(transport_address const* address) const;
 	static bool __cdecl physical_link_available();
 
 	bool __cdecl create_endpoints();

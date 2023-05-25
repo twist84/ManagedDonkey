@@ -80,6 +80,11 @@ void __cdecl c_network_link::destroy_endpoints()
 	}
 }
 
+c_network_channel* __cdecl c_network_link::get_associated_channel(transport_address const* address) const
+{
+	return DECLFUNC(0x0043BA40, c_network_channel*, __cdecl, transport_address const*)(address);
+}
+
 bool __cdecl c_network_link::physical_link_available()
 {
 	//INVOKE(0x0043BBB0, c_network_link::physical_link_available);

@@ -236,6 +236,32 @@ enum e_transport_platform
 	k_transport_platform_count
 };
 
+enum e_network_connect_closed_reason
+{
+	_network_connect_closed_reason_none = 0,
+	_network_connect_closed_reason_link_destroyed,
+	_network_connect_closed_reason_link_refused_listen,
+	_network_connect_closed_reason_channel_deleted,
+	_network_connect_closed_reason_connect_timeout,
+	_network_connect_closed_reason_connect_refused,
+	_network_connect_closed_reason_connect_reinitiate,
+	_network_connect_closed_reason_establish_timeout,
+	_network_connect_closed_reason_address_change,
+	_network_connect_closed_reason_destination_unreachable,
+	_network_connect_closed_reason_remote_closure,
+	_network_connect_closed_reason_connection_overflow,
+	_network_connect_closed_reason_message_overflow,
+	_network_connect_closed_reason_security_lost,
+	_network_connect_closed_reason_observer_released,
+	_network_connect_closed_reason_observer_refused,
+	_network_connect_closed_reason_observer_timeout,
+	_network_connect_closed_reason_observer_reset,
+	_network_connect_closed_reason_observer_reset_security,
+	_network_connect_closed_reason_test,
+
+	k_network_connect_closed_reason_count
+};
+
 enum e_network_join_refuse_reason
 {
 	_network_join_refuse_reason_none = 0,
@@ -273,6 +299,25 @@ enum e_network_join_refuse_reason
 	_network_join_refuse_reason_executable_type_mismatch,
 
 	k_network_join_refuse_reason_count,
+};
+
+enum e_network_session_boot_reason
+{
+	_network_session_boot_reason_player_booted_player,
+	_network_session_boot_reason_unknown1,
+	_network_session_boot_reason_failed_to_load_map,
+	_network_session_boot_reason_write_stats_grief_time,
+	_network_session_boot_reason_unknown4,
+	_network_session_boot_reason_unknown5,
+	_network_session_boot_reason_recreating_session,
+	_network_session_boot_reason_join_aborted,
+	_network_session_boot_reason_simulation_aborted,
+	_network_session_boot_reason_unknown9,
+	_network_session_boot_reason_unknown10,
+	_network_session_boot_reason_unknown11,
+	_network_session_boot_reason_unknown12,
+
+	k_network_session_boot_reason_count
 };
 
 enum e_life_cycle_join_result
