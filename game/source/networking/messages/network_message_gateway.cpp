@@ -9,8 +9,13 @@ bool __cdecl c_network_message_gateway::send_message_broadcast(e_network_message
 	return send_message_directed(&outgoing_address, message_type, data_size, data);
 }
 
-bool c_network_message_gateway::send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data)
+bool __cdecl c_network_message_gateway::send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data)
 {
 	return DECLFUNC(0x004840C0, bool, __thiscall, c_network_message_gateway*, transport_address const*, e_network_message_type, long, void const*)(this, outgoing_address, message_type, data_size, data);
+}
+
+bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
+{
+	return INVOKE(0x00483E20, c_network_message_gateway::read_packet_header, packet);
 }
 
