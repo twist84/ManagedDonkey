@@ -1,8 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "networking/transport/transport_qos.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/messages/network_messages_out_of_band.hpp"
+#include "networking/transport/transport_qos.hpp"
 
 struct c_live_service_qos_manager
 {

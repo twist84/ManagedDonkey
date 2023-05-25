@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/messages/network_messages_out_of_band.hpp"
 
 struct s_available_session
 {

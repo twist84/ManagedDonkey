@@ -9,72 +9,6 @@
 #include "text/unicode.hpp"
 
 #pragma pack(push, 1)
-struct s_network_session_status_data
-{
-	struct s_header
-	{
-		short protocol;
-		short platform;
-		long executable_type;
-		long executable_version;
-		long compatible_version;
-	};
-	static_assert(sizeof(s_header) == 0x10);
-
-	s_header header;
-	c_enum<e_network_session_mode, long, _network_session_mode_none, k_network_session_mode_count> session_mode;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	c_enum<e_network_session_class, long, _network_session_class_offline, k_network_session_class_count> session_class;
-	c_enum<e_network_session_type, long, _network_session_type_none, k_network_session_type_count> session_type;
-	long privacy_mode;
-	c_static_wchar_string<32> session_name;
-	c_enum<e_life_cycle_state, short, _life_cycle_state_none, k_life_cycle_state_count> life_cycle_state;
-	s_transport_secure_identifier session_id;
-	s_transport_secure_address host_address;
-	s_transport_secure_key key;
-	short public_slots;
-	short private_slots;
-	short public_players;
-	short private_players;
-	c_enum<e_session_game_mode, short, _session_game_mode_none, k_session_game_mode_count> game_mode;
-	short game_state;
-	c_enum<e_network_game_type, short, _network_game_type_none, k_network_game_type_count> network_game_type;
-	short connection_quality;
-	c_static_string<16> playlist_name;
-	byte : 8;
-	byte : 8;
-	long game_engine_type;
-	c_static_wchar_string<16> game_engine_variant_name;
-	long campaign_id;
-	long campaign_difficulty_level;
-	long map_id;
-	short insertion_point;
-	c_static_wchar_string<16> map_variant_name;
-	c_static_wchar_string<16> saved_film_name;
-	bool game_has_teams;
-	byte : 8;
-	short maximum_team_count;
-	short score_to_win_round;
-	short best_player_score;
-	short player_count;
-	long __unknown134;
-	c_static_array<s_network_session_status_data_player, 16> players;
-	long player_encoded_count;
-	long game_timer_type;
-	long game_timer_seconds;
-	dword team_mask;
-	c_static_array<long, 8> team_scores;
-	s_matchmaking_gather_party_properties gather_party_properties;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-};
-static_assert(sizeof(s_network_session_status_data) == 0x164C0);
-
 struct s_network_session_interface_user
 {
 	long state;
@@ -165,6 +99,7 @@ struct s_saved_film_description;
 struct c_game_variant;
 struct c_map_variant;
 struct s_network_ui_state;
+struct s_network_session_status_data;
 
 
 extern long __cdecl network_squad_session_get_countdown_timer();

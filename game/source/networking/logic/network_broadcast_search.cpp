@@ -3,10 +3,10 @@
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "networking/delivery/network_link.hpp"
+#include "networking/messages/network_messages_out_of_band.hpp"
 #include "networking/messages/network_messages_session_protocol.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
-
 
 REFERENCE_DECLARE(0x0228E6B8, s_broadcast_search_globals, g_broadcast_search_globals);
 

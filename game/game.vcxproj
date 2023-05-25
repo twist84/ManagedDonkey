@@ -467,6 +467,14 @@ POPD
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />
     <ClInclude Include="source\networking\logic\logic_session_tracker.hpp" />
     <ClInclude Include="source\networking\logic\network_bandwidth.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_connect.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_out_of_band.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_session_membership.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_session_parameters.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_simulation.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_simulation_distributed.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_simulation_synchronous.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_test.hpp" />
     <ClInclude Include="source\networking\messages\network_message_queue.hpp" />
     <ClInclude Include="source\networking\network_configuration.hpp" />
     <ClInclude Include="source\networking\network_globals.hpp" />

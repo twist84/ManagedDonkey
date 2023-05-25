@@ -3,22 +3,6 @@
 #include "cseries/cseries.hpp"
 
 #include "networking/logic/network_search.hpp"
-#include "networking/messages/network_message_type_collection.hpp"
-
-struct s_network_message_broadcast_search
-{
-	word protocol_version;
-	qword nonce;
-};
-static_assert(sizeof(s_network_message_broadcast_search) == 0x10);
-
-struct s_network_message_broadcast_reply
-{
-	word protocol_version;
-	qword search_nonce;
-	s_network_session_status_data status_data;
-};
-static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);
 
 struct c_network_link;
 struct c_network_message_gateway;
@@ -56,6 +40,7 @@ static_assert(sizeof(s_broadcast_search_globals) == 0x28);
 extern s_broadcast_search_globals& g_broadcast_search_globals;
 
 struct transport_address;
+struct s_network_message_broadcast_reply;
 
 extern void(__cdecl* network_broadcast_search_update_callback)(transport_address* outgoing_address);
 
