@@ -106,6 +106,7 @@ public:
 	bool __cdecl read_bool(char const* name);
 	void __cdecl read_raw_data(void* data, long size_in_bits);
 	dword __cdecl read_integer(char const* name, long size_in_bits);
+	void __cdecl read_identifier(char const* identifier);
 	void __cdecl read_point3d(char const* name, int32_point3d* point, long axis_encoding_size_in_bits);
 	real __cdecl read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	qword __cdecl read_qword_internal(long size_in_bits);

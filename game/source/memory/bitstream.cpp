@@ -266,6 +266,13 @@ dword __cdecl c_bitstream::read_integer(char const* name, long size_in_bits)
 	return DECLFUNC(0x005589A0, dword, __thiscall, c_bitstream const*, long)(this, size_in_bits);
 }
 
+void __cdecl c_bitstream::read_identifier(char const* identifier)
+{
+	ASSERT(reading());
+
+	//return DECLFUNC(0x00558B90, void, __thiscall, c_bitstream const*, char const*)(this, identifier);
+}
+
 void __cdecl c_bitstream::read_point3d(char const* name, int32_point3d* point, long axis_encoding_size_in_bits)
 {
 	ASSERT(reading());
