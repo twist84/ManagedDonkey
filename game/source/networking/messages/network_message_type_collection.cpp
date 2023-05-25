@@ -28,7 +28,7 @@ bool __fastcall c_network_message_type_collection::_decode_message_header(c_netw
 {
 	bool result = _this->decode_message_header(packet, message_type, message_storage_size);
 
-	HOOK_INVOKE_CLASS(result =, c_network_message_type_collection, _decode_message_header, bool(__thiscall*)(c_network_message_type_collection*, c_bitstream*, e_network_message_type*, long*), _this, packet, message_type, message_storage_size);
+	//HOOK_INVOKE_CLASS(result =, c_network_message_type_collection, _decode_message_header, bool(__thiscall*)(c_network_message_type_collection*, c_bitstream*, e_network_message_type*, long*), _this, packet, message_type, message_storage_size);
 	return result;
 }
 
@@ -116,6 +116,27 @@ bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* pack
 
 bool c_network_message_type_collection::decode_message_header(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size) const
 {
+	//return DECLFUNC(0x0047FFE0, bool, __thiscall, c_network_message_type_collection const*, c_bitstream*, e_network_message_type*, long*)(this, packet, message_type, message_storage_size);
+
+	ASSERT(packet);
+	ASSERT(message_type);
+	ASSERT(message_storage_size);
+
+	*message_type = packet->read_enum<e_network_message_type, 8>("type");
+	*message_storage_size = packet->read_integer("size", 18);
+	if (!packet->error_occurred())
+	{
+		s_network_message_type const* type_definition = &m_message_types[*message_type];
+		if (type_definition->initialized)
+		{
+			if (*message_storage_size >= type_definition->message_size && *message_storage_size <= type_definition->message_size_maximum)
+			{
+				packet->read_identifier(type_definition->message_type_name);
+				return !packet->error_occurred();
+			}
+		}
+	}
+
 	return false;
 }
 
