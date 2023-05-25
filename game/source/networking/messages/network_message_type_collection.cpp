@@ -183,7 +183,10 @@ void c_network_message_type_collection::encode_message_header(c_bitstream* packe
 
 char const* c_network_message_type_collection::get_message_type_name(e_network_message_type message_type) const
 {
-	return nullptr;
+	if (m_message_types[message_type].initialized)
+		return m_message_types[message_type].message_type_name;
+
+	return "<unknown>";
 }
 
 void __cdecl c_network_message_type_collection::register_message_type(
