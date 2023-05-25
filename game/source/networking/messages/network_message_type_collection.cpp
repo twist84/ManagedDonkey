@@ -19,7 +19,7 @@ bool __fastcall c_network_message_type_collection::_decode_message(c_network_mes
 {
 	bool result = _this->decode_message(packet, message_type, message_storage_size, message_storage);
 
-	HOOK_INVOKE_CLASS(result =, c_network_message_type_collection, _decode_message, bool(__thiscall*)(c_network_message_type_collection*, c_bitstream*, e_network_message_type*, long*, void*), _this, packet, message_type, message_storage_size, message_storage);
+	//HOOK_INVOKE_CLASS(result =, c_network_message_type_collection, _decode_message, bool(__thiscall*)(c_network_message_type_collection*, c_bitstream*, e_network_message_type*, long*, void*), _this, packet, message_type, message_storage_size, message_storage);
 	return result;
 }
 
@@ -111,6 +111,32 @@ void __cdecl c_network_message_type_collection::clear_message_types()
 
 bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage) const
 {
+	//return DECLFUNC(0x0047FF70, bool, __thiscall, c_network_message_type_collection const*, c_bitstream*, e_network_message_type*, long*, void*)(this, packet, message_type, message_storage_size, message_storage);
+
+	ASSERT(packet);
+	ASSERT(message_type);
+	ASSERT(message_storage_size);
+	ASSERT(message_storage);
+
+	if (decode_message_header(packet, message_type, message_storage_size))
+	{
+		s_network_message_type const* type_definition = &m_message_types[*message_type];
+
+		ASSERT(*message_type >= 0 && *message_type < k_network_message_type_count);
+		ASSERT(type_definition->initialized);
+		//ASSERT(*message_storage_size >= 0 && *message_storage_size <= k_network_message_maximum_size);
+		ASSERT(*message_storage_size >= type_definition->message_size);
+		ASSERT(*message_storage_size <= type_definition->message_size_maximum);
+
+		csmemset(message_storage, 0, *message_storage_size);
+
+		if (TEST_BIT(type_definition->flags, 1))
+			return true;
+
+		ASSERT(type_definition->decode_function);
+		return type_definition->decode_function(packet, *message_storage_size, message_storage);
+	}
+
 	return false;
 }
 
