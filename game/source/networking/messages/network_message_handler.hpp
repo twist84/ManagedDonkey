@@ -12,7 +12,7 @@ enum e_network_message_type;
 struct c_network_message_handler
 {
 public:
-	void __cdecl handle_out_of_band_message(transport_address const* incoming_address, e_network_message_type message_typ, long message_storage_size, void const* message_storage);
+	void __cdecl handle_out_of_band_message(transport_address const* incoming_address, e_network_message_type message_type, long message_storage_size, void const* message_storage);
 
 protected:
 	bool m_initialized;
