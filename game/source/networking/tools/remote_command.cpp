@@ -598,7 +598,11 @@ callback_result_t net_session_add_callback(void const* userdata, long token_coun
 	csmemset(&address, 0, sizeof(address));
 	transport_address_from_string(ip_port, address);
 
-	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void { *outgoing_address = address; };
+	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void
+	{
+		*outgoing_address = address;
+		network_broadcast_search_update_callback = nullptr;
+	};
 	load_game_browser(k_any_controller, 0, _browser_type_system_link_games);
 
 	console_close();

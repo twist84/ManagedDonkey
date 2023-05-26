@@ -71,7 +71,15 @@ void __cdecl transport_secure_address_extract_identifier(s_transport_secure_addr
 	memcpy(unique_identifier, secure_address, sizeof(s_transport_unique_identifier));
 }
 
-//00430BA0 ; bool __cdecl transport_secure_address_get(s_transport_secure_address*)
+bool __cdecl transport_secure_address_get(s_transport_secure_address* secure_address)
+{
+	//INVOKE(0x00430BA0, transport_secure_address_get, secure_address);
+
+	if (secure_address)
+		*secure_address = transport_security_globals.secure_address;
+
+	return transport_security_globals.address_resolved;
+}
 
 bool __cdecl transport_secure_address_get_insecure(transport_address* address)
 {
@@ -190,7 +198,15 @@ bool __cdecl transport_secure_identifier_retrieve(transport_address const* usabl
 
 //00430F60 ; bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform)
 //00430FD0 ; bool __cdecl transport_secure_key_register(s_transport_session_description*, e_transport_platform)
-//00430FF0 ; bool __cdecl transport_secure_nonce_compare(qword, qword)
+
+bool __cdecl transport_secure_nonce_compare(qword nonce1, qword nonce2)
+{
+	//return INVOKE(0x00430FF0, transport_secure_nonce_compare, nonce1, nonce2);
+
+	//ASSERT(nonce1 && nonce2);
+
+	return nonce1 == nonce2;
+}
 
 qword __cdecl transport_secure_nonce_generate()
 {

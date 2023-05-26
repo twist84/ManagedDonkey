@@ -59,7 +59,7 @@ extern bool __cdecl transport_secure_address_compare(s_transport_secure_address 
 extern bool __cdecl transport_secure_identifier_compare(s_transport_secure_identifier const* a, s_transport_secure_identifier const* b);
 extern bool __cdecl transport_secure_address_decode(s_transport_session_description const* secure_host_description, s_transport_secure_address const* secure_address, transport_address* usable_address);
 extern void __cdecl transport_secure_address_extract_identifier(s_transport_secure_address const* secure_address, s_transport_unique_identifier* unique_identifier);
-//extern bool __cdecl transport_secure_address_get(s_transport_secure_address*);
+extern bool __cdecl transport_secure_address_get(s_transport_secure_address*);
 extern bool __cdecl transport_secure_address_get_insecure(transport_address* address);
 //extern bool __cdecl transport_secure_address_get_secure_machine_id(s_transport_secure_address const*, qword*);
 //extern s_transport_secure_address const* __cdecl transport_secure_address_get_safe();
@@ -75,7 +75,7 @@ extern char* __cdecl transport_secure_identifier_get_string(s_transport_secure_i
 extern bool __cdecl transport_secure_identifier_retrieve(transport_address const* usable_address, long transport_platform, s_transport_secure_identifier* secure_identifier, s_transport_secure_address* secure_address);
 //extern bool __cdecl transport_secure_key_create(s_transport_session_description*, e_transport_platform);
 //extern bool __cdecl transport_secure_key_register(s_transport_session_description*, e_transport_platform);
-//extern bool __cdecl transport_secure_nonce_compare(qword, qword);
+extern bool __cdecl transport_secure_nonce_compare(qword nonce1, qword nonce2);
 extern qword __cdecl transport_secure_nonce_generate();
 extern char const* __cdecl transport_secure_nonce_get_string(qword nonce);
 //extern void __cdecl transport_secure_random(long, byte*);

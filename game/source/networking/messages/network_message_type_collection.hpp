@@ -3,7 +3,6 @@
 #include "memory/bitstream.hpp"
 
 #define k_network_message_maximum_size 0x40000
-#define k_custom_network_message_count 1
 
 enum e_network_message_type
 {
@@ -50,8 +49,11 @@ enum e_network_message_type
 	k_old_network_message_type_count,
 
 	_custom_network_message_text_chat = k_old_network_message_type_count,
+	_custom_network_message_directed_search,
 
-	k_network_message_type_count
+	k_network_message_type_count,
+
+	k_custom_network_message_count = (k_network_message_type_count - k_old_network_message_type_count)
 };
 
 struct c_network_message_type_collection

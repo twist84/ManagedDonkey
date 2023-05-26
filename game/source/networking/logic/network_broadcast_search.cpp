@@ -174,7 +174,7 @@ void __cdecl network_broadcast_search_update()
 	{
 		if (network_time_since(g_broadcast_search_globals.search_time) > 2000)
 		{
-			s_network_message_broadcast_search message;
+			s_network_message_directed_search message;
 			message.protocol_version = k_network_protocol_version;
 			message.nonce = g_broadcast_search_globals.search_nonce;
 	
@@ -183,7 +183,7 @@ void __cdecl network_broadcast_search_update()
 				transport_address outgoing_address{};
 				network_broadcast_search_update_callback(&outgoing_address);
 				if (transport_address_valid(&outgoing_address))
-					g_broadcast_search_globals.message_gateway->send_message_directed(&outgoing_address, _network_message_broadcast_search, sizeof(message), &message);
+					g_broadcast_search_globals.message_gateway->send_message_directed(&outgoing_address, _custom_network_message_directed_search, sizeof(message), &message);
 			}
 	
 			for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)

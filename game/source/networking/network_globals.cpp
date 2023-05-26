@@ -345,7 +345,7 @@ void __cdecl network_test_text_chat_directed(transport_address const* address, c
 		text_chat.destination_player_count = 16;
 		text_chat.text.print(L"%hs", text);
 
-		g_network_message_gateway->send_message_broadcast(_custom_network_message_text_chat, sizeof(s_network_message_text_chat), &text_chat, k_broadcast_port);
+		g_network_message_gateway->send_message_directed(address, _custom_network_message_text_chat, sizeof(s_network_message_text_chat), &text_chat);
 	}
 	else
 	{

@@ -31,6 +31,11 @@ struct s_network_message_broadcast_search
 };
 static_assert(sizeof(s_network_message_broadcast_search) == 0x10);
 
+struct s_network_message_directed_search : s_network_message_broadcast_search
+{
+};
+static_assert(sizeof(s_network_message_directed_search) == sizeof(s_network_message_broadcast_search));
+
 #pragma pack(push, 1)
 struct s_network_session_status_data
 {
@@ -106,4 +111,21 @@ struct s_network_message_broadcast_reply
 	s_network_session_status_data status_data;
 };
 static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);
+
+struct c_bitstream;
+
+class c_network_message_broadcast_search
+{
+public:
+	static void encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_directed_search
+{
+public:
+	static void encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
 

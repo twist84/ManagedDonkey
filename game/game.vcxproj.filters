@@ -732,6 +732,9 @@
     <ClCompile Include="source\networking\messages\network_messages_text_chat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\messages\network_messages_out_of_band.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
