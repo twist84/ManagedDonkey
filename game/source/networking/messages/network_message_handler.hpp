@@ -55,28 +55,28 @@ enum e_network_message_type;
 struct c_network_message_handler
 {
 public:
-	void __cdecl handle_out_of_band_message(transport_address const* incoming_address, e_network_message_type message_type, long message_storage_size, void const* message_storage);
+	void __cdecl handle_out_of_band_message(transport_address const* address, e_network_message_type message_type, long message_storage_size, void const* message_storage);
 	//void __cdecl handle_channel_message(c_network_channel* channel, e_network_message_type message_type, long, void const* message);
 
-	void __cdecl handle_ping(transport_address const* incoming_address, s_network_message_ping const* message);
-	void __cdecl handle_pong(transport_address const* incoming_address, s_network_message_pong const* message);
-	void __cdecl handle_broadcast_search(transport_address const* incoming_address, s_network_message_broadcast_search const* message);
-	void __cdecl handle_broadcast_reply(transport_address const* incoming_address, s_network_message_broadcast_reply const* message);
-	void __cdecl handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* message);
+	void __cdecl handle_ping(transport_address const* address, s_network_message_ping const* message);
+	void __cdecl handle_pong(transport_address const* address, s_network_message_pong const* message);
+	void __cdecl handle_broadcast_search(transport_address const* address, s_network_message_broadcast_search const* message);
+	void __cdecl handle_broadcast_reply(transport_address const* address, s_network_message_broadcast_reply const* message);
+	void __cdecl handle_connect_request(transport_address const* address, s_network_message_connect_request const* message);
 	void __cdecl handle_connect_refuse(c_network_channel* channel, s_network_message_connect_refuse const* message);
 	void __cdecl handle_connect_establish(c_network_channel* channel, s_network_message_connect_establish const* message);
 	void __cdecl handle_connect_closed(c_network_channel* channel, s_network_message_connect_closed const* message);
-	void __cdecl handle_join_request(transport_address const* incoming_address, s_network_message_join_request const* message);
-	void __cdecl handle_peer_connect(transport_address const* incoming_address, s_network_message_peer_connect const* message);
-	void __cdecl handle_join_abort(transport_address const* incoming_address, s_network_message_join_abort const* message);
-	void __cdecl handle_join_refuse(transport_address const* incoming_address, s_network_message_join_refuse const* message);
-	void __cdecl handle_leave_session(transport_address const* incoming_address, s_network_message_leave_session const* message);
-	void __cdecl handle_leave_acknowledge(transport_address const* incoming_address, s_network_message_leave_acknowledge const* message);
-	void __cdecl handle_session_disband(transport_address const* incoming_address, s_network_message_session_disband const* message);
-	void __cdecl handle_session_boot(transport_address const* incoming_address, s_network_message_session_boot const* message);
+	void __cdecl handle_join_request(transport_address const* address, s_network_message_join_request const* message);
+	void __cdecl handle_peer_connect(transport_address const* address, s_network_message_peer_connect const* message);
+	void __cdecl handle_join_abort(transport_address const* address, s_network_message_join_abort const* message);
+	void __cdecl handle_join_refuse(transport_address const* address, s_network_message_join_refuse const* message);
+	void __cdecl handle_leave_session(transport_address const* address, s_network_message_leave_session const* message);
+	void __cdecl handle_leave_acknowledge(transport_address const* address, s_network_message_leave_acknowledge const* message);
+	void __cdecl handle_session_disband(transport_address const* address, s_network_message_session_disband const* message);
+	void __cdecl handle_session_boot(transport_address const* address, s_network_message_session_boot const* message);
 	void __cdecl handle_host_decline(c_network_channel* channel, s_network_message_host_decline const* message);
 	void __cdecl handle_peer_establish(c_network_channel* channel, s_network_message_peer_establish const* message);
-	void __cdecl handle_time_synchronize(transport_address const* incoming_address, s_network_message_time_synchronize const* message);
+	void __cdecl handle_time_synchronize(transport_address const* address, s_network_message_time_synchronize const* message);
 	void __cdecl handle_membership_update(c_network_channel* channel, s_network_message_membership_update const* message);
 	void __cdecl handle_peer_properties(c_network_channel* channel, s_network_message_peer_properties const* message);
 	void __cdecl handle_delegate_leadership(c_network_channel* channel, s_network_message_delegate_leadership const* message);
@@ -96,7 +96,7 @@ public:
 	void __cdecl handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long a3, void const* a4);
 	void __cdecl handle_distributed_game_results(c_network_channel* channel, s_network_message_distributed_game_results const* message);
 
-protected:
+//protected:
 	bool m_initialized;
 	c_network_link* m_link;
 	c_network_message_type_collection* m_message_types;

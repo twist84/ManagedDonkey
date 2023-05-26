@@ -51,6 +51,7 @@ struct c_network_session : c_network_channel_owner
 	c_network_session_membership const* get_session_membership_unsafe() const;
 	c_network_session_parameters const* get_session_parameters() const;
 	c_network_session_parameters* get_session_parameters();
+	bool join_abort(transport_address const* incoming_address, qword join_nonce);
 	long current_local_state() const;
 	bool disconnected() const;
 	bool established() const;

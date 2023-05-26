@@ -46,6 +46,11 @@ c_network_session_parameters* c_network_session::get_session_parameters()
     return &m_session_parameters;
 }
 
+bool c_network_session::join_abort(transport_address const* incoming_address, qword join_nonce)
+{
+    return DECLFUNC(0x0045CC80, bool, __thiscall, c_network_session*, transport_address const*, qword)(this, incoming_address, join_nonce);
+}
+
 long c_network_session::current_local_state() const
 {
     return m_local_state;

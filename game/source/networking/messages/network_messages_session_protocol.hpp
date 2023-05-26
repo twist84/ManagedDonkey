@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/network_join.hpp"
 #include "networking/transport/transport_security.hpp"
+#include "shell/shell.hpp"
 
 #define k_network_protocol_version 9
 
@@ -88,4 +89,6 @@ struct s_network_message_time_synchronize
 	dword synchronization_stage;
 };
 static_assert(sizeof(s_network_message_time_synchronize) == 0x24);
+
+extern char const* network_message_join_refuse_get_reason_string(long reason);
 
