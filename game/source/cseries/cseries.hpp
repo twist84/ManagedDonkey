@@ -392,6 +392,20 @@ template<typename t_type, typename t_storage_type, t_type k_minimum_value, t_typ
 struct c_enum
 {
 public:
+	c_enum()
+	{
+	}
+
+	c_enum(t_type value) :
+		m_storage(static_cast<t_storage_type>(value))
+	{
+	}
+
+	c_enum(t_storage_type value) :
+		m_storage(value)
+	{
+	}
+
 	template<typename T>
 	bool operator==(T value) const
 	{
