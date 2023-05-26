@@ -77,6 +77,9 @@ long __cdecl exceptions_update()
 
 			file_close(&file);
 		}
+
+		if (ExceptionPointers->ExceptionRecord->ExceptionFlags == EXCEPTION_NONCONTINUABLE)
+			return 0;
 	}
 
 	long result = 0;
