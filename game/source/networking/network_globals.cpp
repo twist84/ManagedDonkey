@@ -10,11 +10,23 @@
 #include "main/levels.hpp"
 #include "networking/delivery/network_link.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/messages/network_messages_out_of_band.hpp"
+#include "networking/network_time.hpp"
+#include "networking/network_memory.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 #include "tag_files/tag_groups.hpp"
 
 #include <stdlib.h>
 
+REFERENCE_DECLARE(0x0224A490, c_network_session_parameter_type_collection*, g_network_parameter_types);
+REFERENCE_DECLARE(0x0224A494, c_network_link*, g_network_link);
+REFERENCE_DECLARE(0x0224A498, c_network_message_type_collection*, g_network_message_types);
+REFERENCE_DECLARE(0x0224A49C, c_network_message_gateway*, g_network_message_gateway);
+REFERENCE_DECLARE(0x0224A4A0, c_network_message_handler*, g_network_message_handler);
+REFERENCE_DECLARE(0x0224A4A4, c_network_observer*, g_network_observer);
+REFERENCE_DECLARE(0x0224A4A8, c_network_session*, g_network_sessions);
+REFERENCE_DECLARE(0x0224A4AC, c_network_session_parameter_type_collection*, g_network_session_parameter_types);
+REFERENCE_DECLARE(0x0224A4B0, c_network_session_manager*, g_network_session_manager);
 REFERENCE_DECLARE(0x0224A4B4, s_network_globals, network_globals);
 
 #define UI_WAIT(_time, _set_value, _get_value, _value) \
@@ -216,5 +228,27 @@ void __cdecl network_test_set_game_variant_parameter(char const* parameter_name,
 	game_variant->set_integer_game_engine_setting(parameter, value);
 	user_interface_squad_set_game_variant(game_variant);
 	delete game_variant;
+}
+
+void __cdecl network_test_ping()
+{
+	static word id = 0;
+	if (network_initialized())
+	{
+		s_network_message_ping ping =
+		{
+			.id = id++,
+			.timestamp = network_time_get(),
+			.request_qos = 0
+		};
+
+		c_console::write_line("networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
+		for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
+			g_network_message_gateway->send_message_broadcast(_network_message_ping, sizeof(s_network_message_ping), &ping, broadcast_port);
+	}
+	else
+	{
+		c_console::write_line("networking:test: networking is not initialized");
+	}
 }
 

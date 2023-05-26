@@ -53,5 +53,3 @@ struct c_network_link
 };
 static_assert(sizeof(c_network_link) == 0x378);
 
-extern c_network_link*& g_network_link;
-

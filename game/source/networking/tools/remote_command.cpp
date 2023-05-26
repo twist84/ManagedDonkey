@@ -599,6 +599,15 @@ callback_result_t net_session_add_callback(void const* userdata, long token_coun
 	return result;
 }
 
+callback_result_t net_test_ping_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	network_test_ping();
+
+	return result;
+}
+
 callback_result_t net_test_map_name_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

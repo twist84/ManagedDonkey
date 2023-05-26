@@ -88,7 +88,7 @@ struct s_network_base_memory_globals
 };
 static_assert(sizeof(s_network_base_memory_globals) == 0x7506C8);
 
-word const k_broadcast_port = 11774;
+word const k_broadcast_port = 11774; // port 1001 outside of Halo Online
 word const k_broadcast_port_alt_ammount = 1000; // needs a better name
 
 extern s_network_shared_memory_globals& network_shared_memory_globals;

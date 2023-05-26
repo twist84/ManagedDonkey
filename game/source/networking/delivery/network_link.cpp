@@ -6,8 +6,6 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_address.hpp"
 
-REFERENCE_DECLARE(0x0224A494, c_network_link*, g_network_link);
-
 bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_broadcast_option, transport_endpoint** out_endpoint)
 {
 	return DECLFUNC(0x0043B6F0, bool, __cdecl, e_transport_type, word, bool, transport_endpoint**)(type, port, set_broadcast_option, out_endpoint);

@@ -4,8 +4,6 @@
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
-REFERENCE_DECLARE(0x0224A498, c_network_message_type_collection*, g_network_message_types);
-
 HOOK_DECLARE_CLASS(0x0047FF50, c_network_message_type_collection, _clear_message_types);
 HOOK_DECLARE_CLASS(0x0047FF70, c_network_message_type_collection, _decode_message);
 HOOK_DECLARE_CLASS(0x0047FFE0, c_network_message_type_collection, _decode_message_header);

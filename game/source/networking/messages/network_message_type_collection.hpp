@@ -119,5 +119,3 @@ protected:
 };
 static_assert(sizeof(c_network_message_type_collection) == 0x57C);
 
-extern c_network_message_type_collection*& g_network_message_types;
-
