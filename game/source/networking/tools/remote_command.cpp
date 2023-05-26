@@ -585,6 +585,13 @@ callback_result_t net_session_add_callback(void const* userdata, long token_coun
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	char const* ip_port = tokens.m_storage[1]->get_string();
+	if (tokens.m_storage[1]->index_of(":") == -1)
+	{
+		result = "Invalid usage. ";
+		result.append_print_line("%s %s", command.name, command.parameter_types);
+		result.append(command.extra_info);
+		return result;
+	}
 
 	static transport_address address{};
 	csmemset(&address, 0, sizeof(address));
@@ -604,6 +611,28 @@ callback_result_t net_test_ping_callback(void const* userdata, long token_count,
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	network_test_ping();
+
+	return result;
+}
+
+callback_result_t net_test_ping_directed_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* ip_port = tokens.m_storage[1]->get_string();
+	if (tokens.m_storage[1]->index_of(":") == -1)
+	{
+		result = "Invalid usage. ";
+		result.append_print_line("%s %s", command.name, command.parameter_types);
+		result.append(command.extra_info);
+		return result;
+	}
+
+	static transport_address address{};
+	csmemset(&address, 0, sizeof(address));
+	transport_address_from_string(ip_port, address);
+
+	network_test_ping_directed(&address);
 
 	return result;
 }

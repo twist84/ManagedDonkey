@@ -252,3 +252,24 @@ void __cdecl network_test_ping()
 	}
 }
 
+void __cdecl network_test_ping_directed(transport_address const* address)
+{
+	static word id = 0;
+	if (network_initialized())
+	{
+		s_network_message_ping ping =
+		{
+			.id = id++,
+			.timestamp = network_time_get(),
+			.request_qos = 0
+		};
+
+		c_console::write_line("networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
+		g_network_message_gateway->send_message_directed(address, _network_message_ping, sizeof(s_network_message_ping), &ping);
+	}
+	else
+	{
+		c_console::write_line("networking:test: networking is not initialized");
+	}
+}
+

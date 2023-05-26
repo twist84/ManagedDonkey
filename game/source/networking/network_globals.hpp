@@ -25,6 +25,7 @@ extern struct s_network_globals& network_globals;
 struct c_network_session_manager;
 struct c_map_variant;
 struct c_game_variant;
+struct transport_address;
 enum e_game_engine_type;
 
 extern void __cdecl network_dispose();
@@ -45,4 +46,5 @@ extern void __cdecl network_test_set_ui_game_mode(char const* ui_game_mode_name)
 extern void __cdecl network_test_set_advertisement_mode(char const* advertisement_mode_name);
 extern void __cdecl network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value);
 extern void __cdecl network_test_ping();
+extern void __cdecl network_test_ping_directed(transport_address const* address);
 
