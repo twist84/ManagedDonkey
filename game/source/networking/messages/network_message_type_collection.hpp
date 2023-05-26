@@ -2,6 +2,8 @@
 
 #include "memory/bitstream.hpp"
 
+#define k_network_message_maximum_size 0x40000
+
 enum e_network_message_type
 {
 	_network_message_ping = 0,
@@ -76,7 +78,7 @@ public:
 	static void __fastcall _dispose_message(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type, long message_storage_size, void* message_storage);
 	static void __fastcall _encode_message(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage);
 	static void __fastcall _encode_message_header(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type message_type, long message_storage_size);
-	//static char const* __fastcall _get_message_type_name(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type);
+	static char const* __fastcall _get_message_type_name(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type);
 
 	static void __fastcall _register_message_type(
 		c_network_message_type_collection* _this,

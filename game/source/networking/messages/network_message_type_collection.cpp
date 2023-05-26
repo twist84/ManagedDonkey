@@ -4,65 +4,52 @@
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
-
 REFERENCE_DECLARE(0x0224A498, c_network_message_type_collection*, g_network_message_types);
 
 HOOK_DECLARE_CLASS(0x0047FF50, c_network_message_type_collection, _clear_message_types);
+HOOK_DECLARE_CLASS(0x0047FF70, c_network_message_type_collection, _decode_message);
+HOOK_DECLARE_CLASS(0x0047FFE0, c_network_message_type_collection, _decode_message_header);
+HOOK_DECLARE_CLASS(0x00480070, c_network_message_type_collection, _dispose_message);
+HOOK_DECLARE_CLASS(0x00480090, c_network_message_type_collection, _encode_message);
+HOOK_DECLARE_CLASS(0x004800D0, c_network_message_type_collection, _encode_message_header);
+HOOK_DECLARE_CLASS(0x00480180, c_network_message_type_collection, _get_message_type_name);
+HOOK_DECLARE_CLASS(0x004801B0, c_network_message_type_collection, _register_message_type);
+
 void __fastcall c_network_message_type_collection::_clear_message_types(c_network_message_type_collection* _this, void* unused)
 {
 	_this->clear_message_types();
-	//HOOK_INVOKE_CLASS(, c_network_message_type_collection, _clear_message_types, void(__thiscall*)(c_network_message_type_collection*), _this);
 }
 
-HOOK_DECLARE_CLASS(0x0047FF70, c_network_message_type_collection, _decode_message);
 bool __fastcall c_network_message_type_collection::_decode_message(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage)
 {
-	bool result = _this->decode_message(packet, message_type, message_storage_size, message_storage);
-
-	//HOOK_INVOKE_CLASS(result =, c_network_message_type_collection, _decode_message, bool(__thiscall*)(c_network_message_type_collection*, c_bitstream*, e_network_message_type*, long*, void*), _this, packet, message_type, message_storage_size, message_storage);
-	return result;
+	return _this->decode_message(packet, message_type, message_storage_size, message_storage);
 }
 
-HOOK_DECLARE_CLASS(0x0047FFE0, c_network_message_type_collection, _decode_message_header);
 bool __fastcall c_network_message_type_collection::_decode_message_header(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size)
 {
-	bool result = _this->decode_message_header(packet, message_type, message_storage_size);
-
-	//HOOK_INVOKE_CLASS(result =, c_network_message_type_collection, _decode_message_header, bool(__thiscall*)(c_network_message_type_collection*, c_bitstream*, e_network_message_type*, long*), _this, packet, message_type, message_storage_size);
-	return result;
+	return _this->decode_message_header(packet, message_type, message_storage_size);
 }
 
-HOOK_DECLARE_CLASS(0x00480070, c_network_message_type_collection, _dispose_message);
 void __fastcall c_network_message_type_collection::_dispose_message(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type, long message_storage_size, void* message_storage)
 {
 	_this->dispose_message(message_type, message_storage_size, message_storage);
-	HOOK_INVOKE_CLASS(, c_network_message_type_collection, _dispose_message, void(__thiscall*)(c_network_message_type_collection*, e_network_message_type, long, void*), _this, message_type, message_storage_size, message_storage);
 }
 
-HOOK_DECLARE_CLASS(0x00480090, c_network_message_type_collection, _encode_message);
 void __fastcall c_network_message_type_collection::_encode_message(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage)
 {
 	_this->encode_message(packet, message_type, message_storage_size, message_storage);
-	HOOK_INVOKE_CLASS(, c_network_message_type_collection, _encode_message, void(__thiscall*)(c_network_message_type_collection*, c_bitstream*, e_network_message_type, long, void*), _this, packet, message_type, message_storage_size, message_storage);
 }
 
-HOOK_DECLARE_CLASS(0x004800D0, c_network_message_type_collection, _encode_message_header);
 void __fastcall c_network_message_type_collection::_encode_message_header(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type message_type, long message_storage_size)
 {
 	_this->encode_message_header(packet, message_type, message_storage_size);
-	HOOK_INVOKE_CLASS(, c_network_message_type_collection, _encode_message_header, void(__thiscall*)(c_network_message_type_collection*, c_bitstream*, e_network_message_type, long), _this, packet, message_type, message_storage_size);
 }
 
-//HOOK_DECLARE_CLASS(0x00480180, c_network_message_type_collection, _get_message_type_name);
-//char const* __fastcall _get_message_type_name(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type)
-//{
-//	char const* result = _this->get_message_type_name(message_type);
-//
-//	HOOK_INVOKE_CLASS(result =, c_network_message_type_collection, _get_message_type_name, char const*(__thiscall*)(c_network_message_type_collection*, e_network_message_type), _this, message_type);
-//	return result;
-//}
+char const* __fastcall c_network_message_type_collection::_get_message_type_name(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type)
+{
+	return _this->get_message_type_name(message_type);
+}
 
-HOOK_DECLARE_CLASS(0x004801B0, c_network_message_type_collection, _register_message_type);
 void __fastcall c_network_message_type_collection::_register_message_type(
 	c_network_message_type_collection* _this,
 	void* unused,
@@ -88,20 +75,6 @@ void __fastcall c_network_message_type_collection::_register_message_type(
 		compare_function,
 		dispose_function
 	);
-	
-	//HOOK_INVOKE_CLASS(, c_network_message_type_collection, _register_message_type, 
-	//	void(__thiscall*)(c_network_message_type_collection*, e_network_message_type, char const*, long, long, long, encode_t*, decode_t*, compare_t*, dispose_t*),
-	//	_this,
-	//	message_type,
-	//	message_type_name,
-	//	flags,
-	//	message_size,
-	//	message_size_maximum,
-	//	encode_function,
-	//	decode_function,
-	//	compare_function,
-	//	dispose_function
-	//);
 }
 
 void __cdecl c_network_message_type_collection::clear_message_types()
@@ -111,8 +84,6 @@ void __cdecl c_network_message_type_collection::clear_message_types()
 
 bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage) const
 {
-	//return DECLFUNC(0x0047FF70, bool, __thiscall, c_network_message_type_collection const*, c_bitstream*, e_network_message_type*, long*, void*)(this, packet, message_type, message_storage_size, message_storage);
-
 	ASSERT(packet);
 	ASSERT(message_type);
 	ASSERT(message_storage_size);
@@ -124,7 +95,7 @@ bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* pack
 
 		ASSERT(*message_type >= 0 && *message_type < k_network_message_type_count);
 		ASSERT(type_definition->initialized);
-		//ASSERT(*message_storage_size >= 0 && *message_storage_size <= k_network_message_maximum_size);
+		ASSERT(*message_storage_size >= 0 && *message_storage_size <= k_network_message_maximum_size);
 		ASSERT(*message_storage_size >= type_definition->message_size);
 		ASSERT(*message_storage_size <= type_definition->message_size_maximum);
 
@@ -142,15 +113,13 @@ bool __cdecl c_network_message_type_collection::decode_message(c_bitstream* pack
 
 bool c_network_message_type_collection::decode_message_header(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size) const
 {
-	//return DECLFUNC(0x0047FFE0, bool, __thiscall, c_network_message_type_collection const*, c_bitstream*, e_network_message_type*, long*)(this, packet, message_type, message_storage_size);
-
 	ASSERT(packet);
 	ASSERT(message_type);
 	ASSERT(message_storage_size);
 
 	*message_type = packet->read_enum<e_network_message_type, 8>("type");
 	*message_storage_size = packet->read_integer("size", 18);
-	if (!packet->error_occurred())
+	if (!packet->error_occurred() && *message_type >= 0 && *message_type < k_network_message_type_count)
 	{
 		s_network_message_type const* type_definition = &m_message_types[*message_type];
 		if (type_definition->initialized)
@@ -168,22 +137,50 @@ bool c_network_message_type_collection::decode_message_header(c_bitstream* packe
 
 void __cdecl c_network_message_type_collection::dispose_message(e_network_message_type message_type, long message_storage_size, void* message_storage) const
 {
+	s_network_message_type const* type_definition = &m_message_types[message_type];
 
+	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
+	ASSERT(message_storage_size);
+	ASSERT(message_storage);
+
+	if (type_definition->dispose_function)
+		type_definition->dispose_function(message_storage_size, message_storage);
 }
 
 void __cdecl c_network_message_type_collection::encode_message(c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void const* message_storage) const
 {
+	s_network_message_type const* type_definition = &m_message_types[message_type];
 
+	ASSERT(packet);
+	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
+	ASSERT(type_definition->initialized);
+	ASSERT(message_storage_size >= type_definition->message_size);
+	ASSERT(message_storage_size <= type_definition->message_size_maximum);
+
+	encode_message_header(packet, message_type, message_storage_size);
+
+	if (TEST_BIT(type_definition->flags, 1))
+		return;
+
+	ASSERT(type_definition->encode_function);
+	return type_definition->encode_function(packet, message_storage_size, message_storage);
 }
 
 void c_network_message_type_collection::encode_message_header(c_bitstream* packet, e_network_message_type message_type, long message_storage_size) const
 {
+	s_network_message_type const* type_definition = &m_message_types[message_type];
 
+	ASSERT(packet);
+	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
+
+	packet->write_integer("type", message_type, 8);
+	packet->write_integer("size", message_storage_size, 18);
+	packet->write_identifier(type_definition->message_type_name);
 }
 
 char const* c_network_message_type_collection::get_message_type_name(e_network_message_type message_type) const
 {
-	if (m_message_types[message_type].initialized)
+	if (message_type >= 0 && message_type < k_network_message_type_count && m_message_types[message_type].initialized)
 		return m_message_types[message_type].message_type_name;
 
 	return "<unknown>";
@@ -202,47 +199,30 @@ void __cdecl c_network_message_type_collection::register_message_type(
 {
 	ASSERT(message_type >= 0 && message_type < k_network_message_type_count);
 	ASSERT(message_type_name);
-	//ASSERT(message_size > 0 && message_size <= k_network_message_maximum_size);
-	//ASSERT(message_size_maximum > 0 && message_size_maximum <= k_network_message_maximum_size);
-	//ASSERT(encode_function);
-	//ASSERT(decode_function);
-	ASSERT(message_size_maximum >= message_size);
+	if (!TEST_BIT(flags, 1))
+	{
+		ASSERT(message_size > 0 && message_size <= k_network_message_maximum_size);
+		ASSERT(message_size_maximum > 0 && message_size_maximum <= k_network_message_maximum_size);
+		ASSERT(encode_function);
+		ASSERT(decode_function);
+	}
 
-	s_network_message_type& type = m_message_types[message_type];
-	ASSERT(!type.initialized);
+	if (TEST_BIT(flags, 0))
+		ASSERT(message_size_maximum > message_size);
+	//else
+	//	ASSERT(message_size_maximum == message_size); // "synchronous-gamestate", 0x10 == 0x40000, -_-
 
-	type.message_type_name = message_type_name;
-	type.flags = flags;
-	type.message_size = message_size;
-	type.message_size_maximum = message_size_maximum;
-	type.encode_function = encode_function;
-	type.decode_function = decode_function;
-	type.compare_function = compare_function;
-	type.dispose_function = dispose_function;
-	type.initialized = true;
+	s_network_message_type* type = &m_message_types[message_type];
+	ASSERT(!type->initialized);
 
-	//DECLFUNC(0x004801B0,
-	//	void, __thiscall, c_network_message_type_collection const*,
-	//	e_network_message_type,
-	//	char const*,
-	//	long,
-	//	long,
-	//	long,
-	//	encode_t*,
-	//	decode_t*,
-	//	compare_t*,
-	//	dispose_t*
-	//)(
-	//	this,
-	//	message_type,
-	//	message_type_name,
-	//	flags,
-	//	message_size,
-	//	message_size_maximum,
-	//	encode_function,
-	//	decode_function,
-	//	compare_function,
-	//	dispose_function
-	//);
+	type->message_type_name = message_type_name;
+	type->flags = flags;
+	type->message_size = message_size;
+	type->message_size_maximum = message_size_maximum;
+	type->encode_function = encode_function;
+	type->decode_function = decode_function;
+	type->compare_function = compare_function;
+	type->dispose_function = dispose_function;
+	type->initialized = true;
 }
 

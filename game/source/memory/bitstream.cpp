@@ -62,17 +62,17 @@ long __cdecl c_bitstream::read_signed_integer(char const* name, long size_in_bit
 
 void __cdecl c_bitstream::write_bool(char const* name, bool value)
 {
-	DECLFUNC(0x00444B30, void, __thiscall, c_bitstream*, bool)(this, value);
+	DECLFUNC(0x00444B30, void, __thiscall, c_bitstream*, char const*, bool)(this, name, value);
 }
 
 void __cdecl c_bitstream::write_integer(char const* name, dword value, long size_in_bits)
 {
-	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, dword, long)(this, value, size_in_bits);
+	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, char const*, dword, long)(this, name, value, size_in_bits);
 }
 
 void __cdecl c_bitstream::write_signed_integer(char const* name, long value, long size_in_bits)
 {
-	DECLFUNC(0x00444C50, void, __thiscall, c_bitstream*, long, long)(this, value, size_in_bits);
+	DECLFUNC(0x00444C50, void, __thiscall, c_bitstream*, char const*, long, long)(this, name, value, size_in_bits);
 }
 
 qword __cdecl c_bitstream::read_qword(char const* name, long size_in_bits)
@@ -382,12 +382,12 @@ void __cdecl c_bitstream::write_identifier(char const* identifier)
 {
 	ASSERT(writing());
 
-	DECLFUNC(0x0055A100, void, __thiscall, c_bitstream const*, char const*)(this, identifier);
+	//DECLFUNC(0x0055A100, void, __thiscall, c_bitstream const*, char const*)(this, identifier);
 }
 
 void __cdecl c_bitstream::write_point3d(char const* name, int32_point3d const* point, long axis_encoding_size_in_bits)
 {
-	DECLFUNC(0x0055A1E0, void, __thiscall, c_bitstream const*, int32_point3d const*, long)(this, point, axis_encoding_size_in_bits);
+	DECLFUNC(0x0055A1E0, void, __thiscall, c_bitstream const*, char const*, int32_point3d const*, long)(this, name, point, axis_encoding_size_in_bits);
 }
 
 void __cdecl c_bitstream::write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints)
