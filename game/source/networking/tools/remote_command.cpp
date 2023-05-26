@@ -23,6 +23,7 @@
 #include "networking/logic/network_broadcast_search.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/messages/network_messages_text_chat.hpp"
 #include "networking/network_globals.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
@@ -633,6 +634,40 @@ callback_result_t net_test_ping_directed_callback(void const* userdata, long tok
 	transport_address_from_string(ip_port, address);
 
 	network_test_ping_directed(&address);
+
+	return result;
+}
+
+callback_result_t net_test_text_chat_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* text = tokens.m_storage[1]->get_string();
+
+	network_test_text_chat(text);
+
+	return result;
+}
+
+callback_result_t net_test_text_chat_directed_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* ip_port = tokens.m_storage[1]->get_string();
+	char const* text = tokens.m_storage[2]->get_string();
+	if (tokens.m_storage[1]->index_of(":") == -1)
+	{
+		result = "Invalid usage. ";
+		result.append_print_line("%s %s", command.name, command.parameter_types);
+		result.append(command.extra_info);
+		return result;
+	}
+
+	static transport_address address{};
+	csmemset(&address, 0, sizeof(address));
+	transport_address_from_string(ip_port, address);
+
+	network_test_text_chat_directed(&address, text);
 
 	return result;
 }

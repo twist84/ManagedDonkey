@@ -9,6 +9,7 @@
 #include "networking/messages/network_messages_session_parameters.hpp"
 #include "networking/messages/network_messages_simulation.hpp"
 #include "networking/messages/network_messages_simulation_synchronous.hpp"
+#include "networking/messages/network_messages_text_chat.hpp"
 #include "networking/messages/network_messages_test.hpp"
 #include "networking/messages/network_messages_simulation_distributed.hpp"
 #include "networking/network_memory.hpp"
@@ -178,6 +179,14 @@ void __cdecl c_network_message_handler::handle_out_of_band_message(transport_add
 	//	return;
 	//}
 	//break;
+	case _custom_network_message_text_chat: // this belongs in `c_network_message_handler::handle_channel_message`
+	{
+		RECEIVED_LOG;
+		ASSERT(message_storage_size == sizeof(s_network_message_text_chat));
+		handle_text_chat(address, converter.message_text_chat);
+		return;
+	}
+	break;
 	//default:
 	//{
 	//	c_console::write_line("networking:messages:handler: %d/%s from '%s' cannot be handled out-of-band, discarding",
@@ -414,4 +423,18 @@ void __cdecl c_network_message_handler::handle_synchronous_gamestate(c_network_c
 void __cdecl c_network_message_handler::handle_distributed_game_results(c_network_channel* channel, s_network_message_distributed_game_results const* message)
 {
 	DECLFUNC(0x0049CE40, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_distributed_game_results const*)(this, channel, message);
+}
+
+void __cdecl c_network_message_handler::handle_text_chat(transport_address const* address, s_network_message_text_chat const* message)
+{
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session)
+	{
+		c_console::write_line("networking:messages:text chat: received text chat message for valid session");
+		//session->handle_text_chat(message);
+	}
+	else
+	{
+		c_console::write_line("networking:messages:text chat: received text chat message for invalid session");
+	}
 }

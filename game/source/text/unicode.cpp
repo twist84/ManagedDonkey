@@ -34,8 +34,12 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
     ASSERT(src != NULL);
     ASSERT(count > 0);
 
+    size_t len = wcslen(src);
+
     wcsncpy_s(dest, (count - 1) * 2, src, count * 2);
     dest[count - 1] = 0;
+
+    memset(dest + len, 0, ((count - 1) - len) * 2);
 
     return dest;
 }

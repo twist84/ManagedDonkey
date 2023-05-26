@@ -629,7 +629,7 @@ public:
 
 	bool is_empty()
 	{
-		return m_string[0] == '\0';
+		return !m_string[0];
 	}
 
 	char const* get_string() const

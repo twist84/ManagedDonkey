@@ -362,6 +362,7 @@ POPD
     <ClCompile Include="source\networking\logic\storage\network_http_buffer_downloader.cpp" />
     <ClCompile Include="source\networking\logic\storage\network_http_request_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_messages_session_protocol.cpp" />
+    <ClCompile Include="source\networking\messages\network_messages_text_chat.cpp" />
     <ClCompile Include="source\networking\messages\network_message_gateway.cpp" />
     <ClCompile Include="source\networking\messages\network_message_handler.cpp" />
     <ClCompile Include="source\networking\messages\network_message_type_collection.cpp" />
@@ -476,6 +477,7 @@ POPD
     <ClInclude Include="source\networking\messages\network_messages_simulation_distributed.hpp" />
     <ClInclude Include="source\networking\messages\network_messages_simulation_synchronous.hpp" />
     <ClInclude Include="source\networking\messages\network_messages_test.hpp" />
+    <ClInclude Include="source\networking\messages\network_messages_text_chat.hpp" />
     <ClInclude Include="source\networking\messages\network_message_queue.hpp" />
     <ClInclude Include="source\networking\network_configuration.hpp" />
     <ClInclude Include="source\networking\network_globals.hpp" />

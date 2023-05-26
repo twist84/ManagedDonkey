@@ -41,6 +41,13 @@ t_type right_shift_safe(t_type value, long shift_bits)
 
 // ====================== halo 4 end ======================
 
+void c_bitstream::read_raw_data(char const* name, void* value, long size_in_bits)
+{
+	//read_bits_internal(value, size_in_bits);
+
+	DECLFUNC(0x00443980, void, __thiscall, c_bitstream*, char const*, void*, long)(this, name, value, size_in_bits);
+}
+
 long __cdecl c_bitstream::read_signed_integer(char const* name, long size_in_bits)
 {
 	long range = 1 << (size_in_bits - 1);
@@ -68,6 +75,12 @@ void __cdecl c_bitstream::write_bool(char const* name, bool value)
 void __cdecl c_bitstream::write_integer(char const* name, dword value, long size_in_bits)
 {
 	DECLFUNC(0x00444BE0, void, __thiscall, c_bitstream*, char const*, dword, long)(this, name, value, size_in_bits);
+}
+
+void __cdecl c_bitstream::write_raw_data(char const* name, void const* value, long size_in_bits)
+{
+	//write_bits_internal(value, size_in_bits);
+	DECLFUNC(0x00444C30, void, __thiscall, c_bitstream*, char const*, void const*, long)(this, name, value, size_in_bits);
 }
 
 void __cdecl c_bitstream::write_signed_integer(char const* name, long value, long size_in_bits)
@@ -248,7 +261,7 @@ bool __cdecl c_bitstream::read_bool(char const* name)
 	return DECLFUNC(0x00558570, bool, __thiscall, c_bitstream const*)(this);
 }
 
-void __cdecl c_bitstream::read_raw_data(void* data, long size_in_bits)
+void __cdecl c_bitstream::read_bits_internal(void* data, long size_in_bits)
 {
 	ASSERT(reading());
 
@@ -306,6 +319,8 @@ void __cdecl c_bitstream::read_secure_address(char const* name, s_transport_secu
 {
 	ASSERT(reading());
 	ASSERT(address);
+
+	//read_bits_internal(address, 128);
 
 	DECLFUNC(0x00559360, void, __thiscall, c_bitstream const*, char const*, s_transport_secure_address*)(this, name, address);
 }
@@ -408,6 +423,8 @@ void __cdecl c_bitstream::write_secure_address(char const* name, s_transport_sec
 {
 	ASSERT(writing());
 	ASSERT(address);
+
+	//write_bits_internal(address, 128);
 
 	DECLFUNC(0x0055A410, void, __thiscall, c_bitstream const*, char const*, s_transport_secure_address const*)(this, name, address);
 }

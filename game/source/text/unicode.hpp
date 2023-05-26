@@ -120,6 +120,29 @@ public:
 		*m_string = 0;
 	}
 
+	bool is_empty()
+	{
+		return !m_string[0];
+	}
+
+	wchar_t const* get_string() const
+	{
+		return m_string;
+	}
+
+	char const* get_offset(long offset) const
+	{
+		if (VALID_INDEX(offset, length()))
+			return &m_string[offset];
+
+		return "";
+	}
+
+	long length() const
+	{
+		return ustrnlen(m_string, k_buffer_size);
+	}
+
 	void append(wchar_t const* s)
 	{
 		ustrnzcat(m_string, s, k_buffer_size);
@@ -165,16 +188,6 @@ public:
 		uvsnzprintf(m_string + current_length, k_buffer_size - current_length, format, list);
 
 		return m_string;
-	}
-
-	wchar_t const* get_string() const
-	{
-		return m_string;
-	}
-
-	long length() const
-	{
-		return ustrnlen(m_string, k_buffer_size);
 	}
 
 protected:

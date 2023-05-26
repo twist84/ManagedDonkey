@@ -106,6 +106,8 @@ COMMAND_CALLBACK_DECLARE(net_session_create);
 COMMAND_CALLBACK_DECLARE(net_session_add);
 COMMAND_CALLBACK_DECLARE(net_test_ping);
 COMMAND_CALLBACK_DECLARE(net_test_ping_directed);
+COMMAND_CALLBACK_DECLARE(net_test_text_chat);
+COMMAND_CALLBACK_DECLARE(net_test_text_chat_directed);
 COMMAND_CALLBACK_DECLARE(net_test_map_name);
 COMMAND_CALLBACK_DECLARE(net_test_variant);
 COMMAND_CALLBACK_DECLARE(net_test_session_mode);
@@ -169,7 +171,9 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_session_add, 1, "<string>", "<ip:port> adds a session from the given ip:port to the local games browser \r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_test_ping, 0, "", "network test: sends a ping\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(net_test_ping_directed, 1, "<string>", "<ip:port> network test: sends a ping\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_ping_directed, 1, "<string>", "<ip:port> network test: sends a ping to a specific address\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_text_chat, 1, "<string>", "<message> network test: sends a message\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_text_chat_directed, 2, "<string> <string>", "<ip:port> <message> network test: sends a message to a specific address\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(net_test_map_name, 1, "<string>", "network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_variant, 1, "<string>", "network test: sets the game variant to play\r\nNETWORK SAFE: Yes"),

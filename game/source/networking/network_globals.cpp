@@ -8,11 +8,14 @@
 #include "interface/user_interface_session.hpp"
 #include "main/console.hpp"
 #include "main/levels.hpp"
+#include "memory/module.hpp"
 #include "networking/delivery/network_link.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
+#include "networking/messages/network_messages_text_chat.hpp"
 #include "networking/network_time.hpp"
 #include "networking/network_memory.hpp"
+#include "networking/session/network_session.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 #include "tag_files/tag_groups.hpp"
 
@@ -28,6 +31,8 @@ REFERENCE_DECLARE(0x0224A4A8, c_network_session*, g_network_sessions);
 REFERENCE_DECLARE(0x0224A4AC, c_network_session_parameter_type_collection*, g_network_session_parameter_types);
 REFERENCE_DECLARE(0x0224A4B0, c_network_session_manager*, g_network_session_manager);
 REFERENCE_DECLARE(0x0224A4B4, s_network_globals, network_globals);
+
+c_network_message_type_collection custom_message_types_override = {};
 
 #define UI_WAIT(_time, _set_value, _get_value, _value) \
 _set_value(_value);                                    \
@@ -51,6 +56,42 @@ void __cdecl network_initialize()
 {
 	INVOKE(0x0049E1B0, network_initialize);
 }
+
+bool __cdecl network_memory_base_initialize(
+	c_network_link** link,
+	c_network_message_type_collection** message_types,
+	c_network_message_gateway** message_gateway,
+	c_network_message_handler** message_handler,
+	c_network_observer** observer,
+	c_network_session** sessions,
+	c_network_session_manager** session_manager,
+	c_network_session_parameter_type_collection** session_parameter_types)
+{
+	ASSERT(link);
+	ASSERT(message_types);
+	ASSERT(message_gateway);
+	ASSERT(message_handler);
+	ASSERT(observer);
+	ASSERT(sessions);
+	ASSERT(session_parameter_types);
+
+	bool result = INVOKE(0x004623F0, network_memory_base_initialize, link, message_types, message_gateway, message_handler, observer, sessions, session_manager, session_parameter_types);
+
+	*message_types = &custom_message_types_override;
+
+	return result;
+}
+HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
+
+void __cdecl network_message_types_register_test(c_network_message_type_collection* message_collection)
+{
+	ASSERT(message_collection);
+
+	network_message_types_register_text_chat(message_collection);
+
+	INVOKE(0x004E1000, network_message_types_register_test, message_collection);
+}
+HOOK_DECLARE_CALL(0x0049E289, network_message_types_register_test);
 
 bool __cdecl network_initialized()
 {
@@ -271,5 +312,45 @@ void __cdecl network_test_ping_directed(transport_address const* address)
 	{
 		c_console::write_line("networking:test: networking is not initialized");
 	}
+}
+
+void __cdecl network_test_text_chat(char const* text)
+{
+	if (network_initialized())
+	{
+		static s_network_message_text_chat text_chat{};
+		memset(&text_chat, 0, sizeof(s_network_message_text_chat));
+
+		text_chat.destination_player_count = 16;
+		text_chat.text.print(L"%hs", text);
+
+		for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
+			g_network_message_gateway->send_message_broadcast(_custom_network_message_text_chat, sizeof(s_network_message_text_chat), &text_chat, broadcast_port);
+	}
+	else
+	{
+		c_console::write_line("networking:test: networking is not initialized");
+	}
+
+}
+
+void __cdecl network_test_text_chat_directed(transport_address const* address, char const* text)
+{
+	if (network_initialized())
+	{
+		static s_network_message_text_chat text_chat{};
+		memset(&text_chat, 0xFF, sizeof(s_network_message_text_chat));
+		memset(text_chat.text_buffer, 0, sizeof(text_chat.text_buffer));
+
+		text_chat.destination_player_count = 16;
+		text_chat.text.print(L"%hs", text);
+
+		g_network_message_gateway->send_message_broadcast(_custom_network_message_text_chat, sizeof(s_network_message_text_chat), &text_chat, k_broadcast_port);
+	}
+	else
+	{
+		c_console::write_line("networking:test: networking is not initialized");
+	}
+
 }
 

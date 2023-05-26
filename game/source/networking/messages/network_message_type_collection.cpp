@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
+#include "networking/messages/network_messages_text_chat.hpp"
 
 HOOK_DECLARE_CLASS(0x0047FF50, c_network_message_type_collection, _clear_message_types);
 HOOK_DECLARE_CLASS(0x0047FF70, c_network_message_type_collection, _decode_message);
@@ -223,4 +224,18 @@ void __cdecl c_network_message_type_collection::register_message_type(
 	type->dispose_function = dispose_function;
 	type->initialized = true;
 }
+
+// hook `network_message_types_register_test` to call `network_message_types_register_text_chat`
+// network_initialize
+//g_network_message_types->clear_message_types();
+//network_message_types_register_out_of_band(g_network_message_types);
+//network_message_types_register_connect(g_network_message_types);
+//network_message_types_register_session_protocol(g_network_message_types);
+//network_message_types_register_session_membership(g_network_message_types);
+//network_message_types_register_session_parameters(g_network_message_types);
+//network_message_types_register_simulation(g_network_message_types);
+//network_message_types_register_simulation_synchronous(g_network_message_types);
+//network_message_types_register_simulation_distributed(g_network_message_types);
+//network_message_types_register_test(g_network_message_types);
+//network_message_types_register_text_chat(g_network_message_types);
 

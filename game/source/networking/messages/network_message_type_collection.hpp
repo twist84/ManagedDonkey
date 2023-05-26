@@ -3,6 +3,7 @@
 #include "memory/bitstream.hpp"
 
 #define k_network_message_maximum_size 0x40000
+#define k_custom_network_message_count 1
 
 enum e_network_message_type
 {
@@ -46,13 +47,17 @@ enum e_network_message_type
 	_network_message_synchronous_client_ready,
 	_network_message_test,
 
+	k_old_network_message_type_count,
+
+	_custom_network_message_text_chat = k_old_network_message_type_count,
+
 	k_network_message_type_count
 };
 
 struct c_network_message_type_collection
 {
-	using encode_t = void __cdecl(c_bitstream*, long, void const*);
-	using decode_t = bool __cdecl(c_bitstream*, long, void*);
+	using encode_t = void __cdecl(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	using decode_t = bool __cdecl(c_bitstream* packet, long message_storage_size, void* message_storage);
 	using compare_t = bool __cdecl(long, void*, void*);
 	using dispose_t = void __cdecl(long, void*);
 
@@ -117,5 +122,6 @@ public:
 protected:
 	s_network_message_type m_message_types[k_network_message_type_count];
 };
-static_assert(sizeof(c_network_message_type_collection) == 0x57C);
+static_assert(sizeof(c_network_message_type_collection) == 0x57C
+	+ (sizeof(c_network_message_type_collection::s_network_message_type) * k_custom_network_message_count));
 

@@ -42,6 +42,8 @@ union network_message_converter_t
 	struct s_network_message_synchronous_acknowledge const* message_synchronous_acknowledge;
 	struct s_network_message_synchronous_gamestate const* message_synchronous_gamestate;
 	struct s_network_message_distributed_game_results const* message_distributed_game_results;
+	struct s_network_message_test const* message_test;
+	struct s_network_message_text_chat const* message_text_chat;
 };
 
 struct c_network_channel;
@@ -95,6 +97,7 @@ public:
 	void __cdecl handle_synchronous_acknowledge(c_network_channel* channel, dword a2, s_network_message_synchronous_acknowledge const* message);
 	void __cdecl handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long a3, void const* a4);
 	void __cdecl handle_distributed_game_results(c_network_channel* channel, s_network_message_distributed_game_results const* message);
+	void __cdecl handle_text_chat(transport_address const* address, s_network_message_text_chat const* message);
 
 //protected:
 	bool m_initialized;

@@ -729,6 +729,9 @@
     <ClCompile Include="source\networking\messages\network_messages_session_protocol.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\messages\network_messages_text_chat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1890,6 +1893,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\messages\network_messages_test.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\messages\network_messages_text_chat.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
