@@ -48,4 +48,5 @@ extern void __cdecl transport_get_loopback_address(transport_address* address, w
 
 extern void transport_address_from_string(wchar_t const* str, transport_address& address);
 extern void transport_address_from_string(char const* str, transport_address& address);
+extern void transport_address_from_host(char const* hostname, transport_address& address);
 

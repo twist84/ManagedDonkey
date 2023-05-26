@@ -581,27 +581,43 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 	return result;
 }
 
+// *this is fine*
+template<long k_maximum_count>
+bool split_host_string_into_parts(c_static_string<k_maximum_count>* str, c_static_string<k_maximum_count>(&parts)[2])
+{
+	parts[0] = str->get_string();
+
+	long index = str->index_of(":");
+	if (index == -1)
+		return false;
+
+	parts[1] = parts[0].get_offset(index + 1);
+	parts[0].set_length(index);
+
+	return true;
+}
+
 callback_result_t net_session_add_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* ip_port = tokens.m_storage[1]->get_string();
-	if (tokens.m_storage[1]->index_of(":") == -1)
-	{
-		result = "Invalid usage. ";
-		result.append_print_line("%s %s", command.name, command.parameter_types);
-		result.append(command.extra_info);
-		return result;
-	}
+	token_t const& str = tokens.m_storage[1];
+	c_static_string<256> parts[2];
+	if (!split_host_string_into_parts(str, parts))
+		parts[1].set("11774");
+
+	char const* host = parts[0].get_string();
+	char const* port = parts[1].get_string();
 
 	static transport_address address{};
 	csmemset(&address, 0, sizeof(address));
-	transport_address_from_string(ip_port, address);
+	transport_address_from_host(host, address);
+	address.port = static_cast<word>(atol(port));
 
 	network_broadcast_search_update_callback = [](transport_address* outgoing_address) -> void
 	{
 		*outgoing_address = address;
-		network_broadcast_search_update_callback = nullptr;
+		//network_broadcast_search_update_callback = nullptr;
 	};
 	load_game_browser(k_any_controller, 0, _browser_type_system_link_games);
 

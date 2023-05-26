@@ -38,6 +38,7 @@ struct s_broadcast_search_globals
 static_assert(sizeof(s_broadcast_search_globals) == 0x28);
 
 extern s_broadcast_search_globals& g_broadcast_search_globals;
+long const k_network_broadcast_search_interval = 2000;
 
 struct transport_address;
 struct s_network_message_broadcast_reply;

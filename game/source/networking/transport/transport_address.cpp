@@ -216,3 +216,26 @@ void transport_address_from_string(char const* str, transport_address& address)
 	}
 }
 
+struct s_transport_address_list
+{
+	transport_address addresses[8];
+	union
+	{
+		char hostname[256];
+		c_static_string<256> host;
+	};
+};
+
+bool __cdecl sub_43B460(s_transport_address_list* list)
+{
+	return INVOKE(0x0043B460, sub_43B460, list);
+}
+
+void transport_address_from_host(char const* hostname, transport_address& address)
+{
+	s_transport_address_list list{};
+	list.host.set(hostname);
+	if (sub_43B460(&list))
+		address = list.addresses[0];
+}
+
