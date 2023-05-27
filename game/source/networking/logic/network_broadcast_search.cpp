@@ -187,7 +187,12 @@ void __cdecl network_broadcast_search_update()
 			}
 
 			for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
+			{
+				if (broadcast_port == g_broadcast_port)
+					continue;
+
 				g_broadcast_search_globals.message_gateway->send_message_broadcast(_network_message_broadcast_search, sizeof(message), &message, broadcast_port);
+			}
 
 			g_broadcast_search_globals.search_time = network_time_get();
 		}

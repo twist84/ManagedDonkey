@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 
 #include "networking/delivery/network_link.hpp"
+#include "networking/messages/network_message_gateway.hpp"
 #include "networking/messages/network_message_handler.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
 #include "networking/session/network_observer.hpp"
@@ -13,39 +14,6 @@
 #include "simulation/simulation_type_collection.hpp"
 #include "simulation/simulation_watcher.hpp"
 #include "simulation/simulation_world.hpp"
-
-struct c_network_out_of_band_consumer
-{
-public:
-	virtual bool __cdecl receive_out_of_band_packet(transport_address const* address, c_bitstream* packet);
-};
-static_assert(sizeof(c_network_out_of_band_consumer) == 0x4);
-
-enum e_network_message_type;
-struct c_network_message_gateway : c_network_out_of_band_consumer
-{
-public:
-	static bool __fastcall _receive_out_of_band_packet(c_network_message_gateway* _this, void* unused, transport_address const* incoming_address, c_bitstream* packet);
-
-	bool __cdecl send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port);
-	bool __cdecl send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data);
-
-	bool __cdecl receive_out_of_band_packet_(transport_address const* incoming_address, c_bitstream* packet);
-
-private:
-	static bool __cdecl read_packet_header(c_bitstream* packet);
-
-protected:
-	bool m_initialized;
-	c_network_link* m_link;
-	c_network_message_type_collection* m_message_types;
-	c_network_message_handler* m_message_handler;
-	bool m_outgoing_packet_pending;
-	byte m_outgoing_packet_storage[0x5BE + 1];
-	transport_address m_outgoing_packet_address;
-	c_bitstream m_outgoing_packet;
-};
-static_assert(sizeof(c_network_message_gateway) == 0x688);
 
 struct s_data_array;
 struct c_rockall_heap;

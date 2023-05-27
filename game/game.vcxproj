@@ -479,7 +479,9 @@ POPD
     <ClInclude Include="source\networking\messages\network_messages_simulation_synchronous.hpp" />
     <ClInclude Include="source\networking\messages\network_messages_test.hpp" />
     <ClInclude Include="source\networking\messages\network_messages_text_chat.hpp" />
+    <ClInclude Include="source\networking\messages\network_message_gateway.hpp" />
     <ClInclude Include="source\networking\messages\network_message_queue.hpp" />
+    <ClInclude Include="source\networking\messages\network_out_of_band_consumer.hpp" />
     <ClInclude Include="source\networking\network_configuration.hpp" />
     <ClInclude Include="source\networking\network_globals.hpp" />
     <ClInclude Include="resource\resource.h" />
