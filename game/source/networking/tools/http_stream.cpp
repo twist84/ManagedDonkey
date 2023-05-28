@@ -19,7 +19,7 @@ bool c_http_stream::reset()
 
 void c_http_stream::add_header(char const* key, char const* value)
 {
-	m_extra_headers.append_print("%s: \"%s\"\r\n", key, value);
+	m_extra_headers.append_print("%s: %s\r\n", key, value);
 }
 
 void c_http_stream::clear_headers()
@@ -78,8 +78,8 @@ bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 	ASSERT(buffer);
 	ASSERT(bytes_read);
 
-	char* buf = buffer;
-	long len = buffer_length;
+	char* dest_buffer = buffer;
+	long dest_buffer_length = buffer_length;
 	bool success = false;
 
 	if (verify_necessary_state_is_set())
@@ -93,7 +93,7 @@ bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 		{
 			while (true)
 			{
-				if (at_end() || len <= 0)
+				if (at_end() || dest_buffer_length <= 0)
 					break;
 
 				long position = m_position;
@@ -104,19 +104,19 @@ bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 					break;
 				}
 
-				if (len > m_headers_length - position)
-					len = m_headers_length - position;
+				if (dest_buffer_length > m_headers_length - position)
+					dest_buffer_length = m_headers_length - position;
 
-				memmove(buf, &m_headers.get_string()[position], len);
+				memmove(dest_buffer, &m_headers.get_string()[position], dest_buffer_length);
 
-				buf += len;
-				m_position += len;
-				len = buffer_length - (buf - buffer);
+				dest_buffer += dest_buffer_length;
+				m_position += dest_buffer_length;
+				dest_buffer_length = buffer_length - (dest_buffer - buffer);
 
 			}
 		}
 
-		*bytes_read = buf - buffer;
+		*bytes_read = dest_buffer - buffer;
 	}
 
 	return success;
