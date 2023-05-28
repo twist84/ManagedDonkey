@@ -242,7 +242,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 		s_key_state key{};
 		if (input_peek_key(&key, _input_type_game))
 		{
-			if (!key.was_key_down && !key.modifier && key.key_code == _key_code_backquote && key.key_type == _key_type_down)
+			if (!key.was_key_down && !key.modifier && key.key_type == _key_type_down && (key.key_code == _key_code_backquote || key.key_code == _key_code_f1))
 			{
 				input_get_key(&key, _input_type_game);
 				console_open();
@@ -263,7 +263,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			s_key_state* key = &console_globals.input_state.keys[key_index];
 			ASSERT(key->key_code != NONE);
 
-			if (key->key_type == _key_type_down && key->key_code == _key_code_backquote)
+			if (key->key_type == _key_type_down && (key->key_code == _key_code_backquote || key->key_code == _key_code_f1))
 			{
 				console_close();
 				game_time_set_paused(false, _game_time_pause_reason_debug);
