@@ -236,53 +236,44 @@ void __cdecl c_network_message_handler::handle_broadcast_search(transport_addres
 {
 	//DECLFUNC(0x0049C310, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_broadcast_search const*)(this, address, message);
 
-	if (message->protocol_version == k_network_protocol_version)
-	{
-		c_network_session* in_system_link_advertisable_session = nullptr;
-		bool error_occurred = false;
-
-		qword search_nonce;
-		if (!network_broadcast_search_active(&search_nonce) || !transport_secure_nonce_compare(message->nonce, search_nonce))
-		{
-			if (network_life_cycle_in_system_link_advertisable_session(&in_system_link_advertisable_session))
-			{
-				s_network_session_status_data game_status{};
-				if (network_squad_session_build_status(&game_status))
-				{
-					s_transport_secure_address secure_local_address{};
-					if (transport_secure_address_get(&secure_local_address))
-					{
-						//s_network_message_broadcast_reply broadcast_reply{};
-						//csmemset(&broadcast_reply, 0, sizeof(s_network_message_broadcast_reply));
-						//broadcast_reply.protocol_version = k_network_protocol_version,
-						//broadcast_reply.search_nonce = message->nonce,
-						//csmemcpy(&broadcast_reply.status_data, &game_status, sizeof(s_network_session_status_data));
-
-						s_network_message_broadcast_reply broadcast_reply =
-						{
-							.protocol_version = k_network_protocol_version,
-							.search_nonce = message->nonce,
-							.status_data = game_status
-						};
-
-						m_message_gateway->send_message_broadcast(_network_message_broadcast_reply, sizeof(s_network_message_broadcast_reply), &broadcast_reply, address->port);
-					}
-					else
-					{
-						c_console::write_line("networking:messages:broadcast-search: unable to reply, cannot get a secure local address to return");
-					}
-				}
-				else
-				{
-					c_console::write_line("networking:messages:broadcast-search: unable to reply, cannot build local game status");
-				}
-			}
-		}
-	}
-	else
+	if (message->protocol_version != k_network_protocol_version)
 	{
 		c_console::write_line("networking:messages:broadcast-search: received message with incorrect protocol version [%d!=%d]", message->protocol_version, k_network_protocol_version);
+		return;
 	}
+
+	qword search_nonce;
+	if (network_broadcast_search_active(&search_nonce) && transport_secure_nonce_compare(message->nonce, search_nonce))
+		return;
+
+	c_network_session* in_system_link_advertisable_session = nullptr;
+	if (!network_life_cycle_in_system_link_advertisable_session(&in_system_link_advertisable_session))
+		return;
+
+	s_network_session_status_data game_status{};
+	if (!network_squad_session_build_status(&game_status))
+	{
+		c_console::write_line("networking:messages:broadcast-search: unable to reply, cannot build local game status");
+		return;
+	}
+
+	s_transport_secure_address secure_local_address{};
+	if (!transport_secure_address_get(&secure_local_address))
+	{
+		c_console::write_line("networking:messages:broadcast-search: unable to reply, cannot get a secure local address to return");
+		return;
+	}
+
+	game_status.update_host_player_identifier(&transport_security_globals.address);
+
+	s_network_message_broadcast_reply broadcast_reply =
+	{
+		.protocol_version = k_network_protocol_version,
+		.search_nonce = message->nonce,
+		.status_data = game_status
+	};
+
+	m_message_gateway->send_message_broadcast(_network_message_broadcast_reply, sizeof(s_network_message_broadcast_reply), &broadcast_reply, address->port);
 }
 
 void __cdecl c_network_message_handler::handle_broadcast_reply(transport_address const* address, s_network_message_broadcast_reply const* message)
@@ -514,24 +505,27 @@ void __cdecl c_network_message_handler::handle_text_chat(transport_address const
 void __cdecl c_network_message_handler::handle_directed_search(transport_address const* address, s_network_message_directed_search const* message)
 {
 	s_network_session_status_data game_status{};
-	if (network_squad_session_build_status(&game_status))
-	{
-		dword ipv4_address = get_external_ip();
-		if (ipv4_address != NONE && game_status.players[0].identifier.ip_addr != ipv4_address)
-			game_status.players[0].identifier.ip_addr = ipv4_address;
-
-		s_network_message_broadcast_reply broadcast_reply =
-		{
-			.protocol_version = k_network_protocol_version,
-			.search_nonce = message->nonce,
-			.status_data = game_status
-		};
-
-		m_message_gateway->send_message_directed(address, _network_message_broadcast_reply, sizeof(s_network_message_broadcast_reply), &broadcast_reply);
-	}
-	else
+	if (!network_squad_session_build_status(&game_status))
 	{
 		c_console::write_line("networking:messages:directed-search: unable to reply, cannot build local game status");
+		return;
 	}
+
+	transport_address _address =
+	{
+		.ipv4_address = get_external_ip(),
+		.port = game_status.players[0].identifier.port,
+		.address_length = sizeof(dword),
+	};
+	game_status.update_host_player_identifier(&_address);
+
+	s_network_message_broadcast_reply broadcast_reply =
+	{
+		.protocol_version = k_network_protocol_version,
+		.search_nonce = message->nonce,
+		.status_data = game_status
+	};
+
+	m_message_gateway->send_message_directed(address, _network_message_broadcast_reply, sizeof(s_network_message_broadcast_reply), &broadcast_reply);
 }
 
