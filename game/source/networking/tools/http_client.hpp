@@ -76,8 +76,8 @@ protected:
 	long m_bytes_remaining;
 	long m_socket_count;
 	bool m_started;
-	qword __time1048;
-	qword __time1050;
+	qword m_start_time;
+	qword m_previous_time;
 	long m_upstream_quota;
 	e_upload_state m_current_state;
 };

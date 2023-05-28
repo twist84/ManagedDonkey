@@ -18,8 +18,8 @@ c_http_client::c_http_client() :
 	m_bytes_remaining(),
 	m_socket_count(),
 	m_started(),
-	__time1048(0),
-	__time1050(0),
+	m_start_time(0),
+	m_previous_time(0),
 	m_upstream_quota(-1),
 	m_current_state()
 {
@@ -40,8 +40,8 @@ bool c_http_client::do_work(
 	*upload_complete = false;
 	bool is_connected = false;
 
-	__time1050 = __time1048;
-	__time1048 = __rdtsc();
+	m_previous_time = m_start_time;
+	m_start_time = __rdtsc();
 
 	switch (m_current_state)
 	{
@@ -182,11 +182,11 @@ bool c_http_client::parse_http_response(
 	ASSERT(content_length);
 
 	c_static_string<4096> http_response;
-	c_static_string<4096> contents;
-
 	http_response.set_bounded(buffer, buffer_length);
 
-	bool result = true;
+	*out_completed_successfully = 0;
+	*http_header_size = -1;
+	*content_length = -1;
 
 	if (http_response.length() > 9)
 	{
@@ -195,37 +195,37 @@ bool c_http_client::parse_http_response(
 
 		*http_response_code = atoi(http_response.get_string() + 9);
 
-		for (long index = http_response.index_of("\r\n") + 2;;)
+		long next_index = 0;
+		for (long index = http_response.index_of("\r\n") + 2;; index = next_index + 2)
 		{
 			if (index >= http_response.length())
 				break;
 
-			long next_index = http_response.next_index_of("\r\n", index);
+			next_index = http_response.next_index_of("\r\n", index);
 			if (index == next_index)
 			{
 				*http_header_size = next_index + 2;
 				break;
 			}
 
+			c_static_string<4096> contents;
 			if (http_response.substring(index, next_index - index, contents))
 			{
-				if (contents.starts_with("Content-Length: "))
+				if (contents.starts_with("Content-Length: ") || contents.starts_with("content-length: "))
 					*content_length = atoi(contents.get_string() + strlen("Content-Length: "));
 			}
+		}
 
-			if (*http_header_size > 0)
-			{
-				if (*content_length < 0)
-					result = false;
-				else
-					*out_completed_successfully = true;
-			}
-
-			index = next_index + 2;
+		if (*http_header_size > 0)
+		{
+			if (*content_length < 0)
+				return false;
+			else
+				*out_completed_successfully = true;
 		}
 	}
 
-	return result;
+	return true;
 }
 
 bool c_http_client::receive_data(
@@ -242,7 +242,7 @@ bool c_http_client::receive_data(
 
 	short bytes_read = 0;
 	long input_buffer_size = 0;
-	*out_completed_successfully = 0;
+	*out_completed_successfully = false;
 
 	if (out_response_content_buffer_count)
 	{
@@ -381,31 +381,29 @@ bool c_http_client::send_data()
 {
 	ASSERT(m_current_state == _upload_state_sending);
 
-	bool result = true;
+	char buffer[4096]{};
+	long buffer_length = 4096;
+
 	long upstream_quota = -1;
-	word bytes_written = 0;
-
 	if (m_upstream_quota != -1)
-		upstream_quota = static_cast<long>((m_upstream_quota * (__time1048 - __time1050)) / 1000);
+		upstream_quota = static_cast<long>((m_upstream_quota * (m_start_time - m_previous_time)) / 1000);
 
+	bool result = true;
 	while (result && (upstream_quota == -1 || upstream_quota > 0))
 	{
 		long position = m_http_stream->get_position();
 		long bytes_read = 0;
 
 		result = false;
-		if (transport_endpoint_writeable(m_endpoint_ptr))
+		if (!transport_endpoint_writeable(m_endpoint_ptr))
 		{
 			result = true;
 			break;
 		}
 
-		char buffer[4096]{};
-		long buffer_length = 4096;
-
 		if (m_http_stream->read(buffer, buffer_length, &bytes_read))
 		{
-			bytes_written = 0;
+			word bytes_written = 0;
 			ASSERT(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
 
 			if (bytes_read)
@@ -415,10 +413,11 @@ bool c_http_client::send_data()
 
 			if (bytes_written <= 0)
 			{
-				if (bytes_written == -2)
+				if (bytes_written == 0xFFFE)
 				{
 					m_http_stream->set_position(position);
 					result = true;
+					break;
 				}
 
 				if (bytes_written)
