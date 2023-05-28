@@ -77,7 +77,7 @@ public:
 	void __cdecl write_qword(char const* name, qword value, long size_in_bits);
 
 	void __cdecl append(c_bitstream const* stream);
-	void __cdecl begin_consistency_check();
+	bool __cdecl begin_consistency_check();
 	void __cdecl begin_reading();
 	void __cdecl begin_writing(long data_size_alignment);
 	void __cdecl data_is_untrusted(bool is_untrusted);
@@ -98,6 +98,7 @@ public:
 	void __cdecl finish_writing(long* out_bits_remaining);
 
 	long __cdecl get_current_stream_bit_position();
+	long __cdecl get_space_used_in_bits();
 	byte const* __cdecl get_data(long* data_length) const;
 	void __cdecl pop_position(bool pop);
 

@@ -114,9 +114,10 @@ void __cdecl c_bitstream::append(c_bitstream const* stream)
 	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream const*, c_bitstream const*)(this, stream);
 }
 
-void __cdecl c_bitstream::begin_consistency_check()
+bool __cdecl c_bitstream::begin_consistency_check()
 {
 	reset(_bitstream_state_read_only_for_consistency);
+	return true;
 
 	//DECLFUNC(0x00557490, void, __thiscall, c_bitstream const*)(this);
 }
@@ -228,6 +229,11 @@ long __cdecl c_bitstream::get_current_stream_bit_position()
 	return m_bitstream_data.current_stream_bit_position;
 
 	//DECLFUNC(0x00558240, void, __thiscall, c_bitstream const*)(this);
+}
+
+long __cdecl c_bitstream::get_space_used_in_bits()
+{
+	return m_bitstream_data.window_bits_used + m_bitstream_data.current_stream_bit_position;
 }
 
 byte const* __cdecl c_bitstream::get_data(long* data_length) const
