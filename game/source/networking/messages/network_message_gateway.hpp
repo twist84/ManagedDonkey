@@ -20,7 +20,8 @@ public:
 	bool __cdecl send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port);
 	bool __cdecl send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data);
 
-	bool __cdecl receive_out_of_band_packet_(transport_address const* incoming_address, c_bitstream* packet);
+	bool __cdecl receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet);
+	void __cdecl send_all_pending_messages();
 
 private:
 	void __cdecl write_packet_header();

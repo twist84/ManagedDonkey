@@ -25,7 +25,7 @@ bool __cdecl c_network_message_gateway::_read_packet_header(c_bitstream* packet)
 
 bool __fastcall c_network_message_gateway::_receive_out_of_band_packet(c_network_message_gateway* _this, void* unused, transport_address const* incoming_address, c_bitstream* packet)
 {
-	return _this->receive_out_of_band_packet_(incoming_address, packet);
+	return _this->receive_out_of_band_packet(incoming_address, packet);
 }
 
 void __fastcall c_network_message_gateway::_write_packet_header(c_network_message_gateway* _this, void* unused)
@@ -56,7 +56,7 @@ bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
 	return !invalid_header && !packet->error_occurred();
 }
 
-bool __cdecl c_network_message_gateway::receive_out_of_band_packet_(transport_address const* incoming_address, c_bitstream* packet)
+bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet)
 {
 	//return DECLFUNC(0x00483E80, bool, __thiscall, c_network_message_gateway*, transport_address const*, c_bitstream*)(this, incoming_address, packet);
 
@@ -141,6 +141,57 @@ bool __cdecl c_network_message_gateway::receive_out_of_band_packet_(transport_ad
 	packet->data_is_untrusted(false);
 
 	return result;
+}
+
+void __cdecl c_network_message_gateway::send_all_pending_messages()
+{
+	//DECLFUNC(0x00483F50, bool, __thiscall, c_network_message_gateway*)(this);
+
+	ASSERT(m_initialized);
+
+	if (m_outgoing_packet_pending)
+	{
+		bool result = true;
+
+		ASSERT(m_outgoing_packet.writing());
+		ASSERT(!m_outgoing_packet.would_overflow(1));
+
+		m_outgoing_packet.write_bool("has_message", false);
+		m_outgoing_packet.finish_writing(nullptr);
+
+		if (m_outgoing_packet.begin_consistency_check())
+		{
+			result = read_packet_header(&m_outgoing_packet);
+			if (!result)
+				c_console::write_line("networking:messages:gateway:send_all_pending_messages: an outgoing message header is corrupt!");
+
+			e_network_message_type message_type;
+			long message_storage_size = 0;
+			byte message_storage[0x40000];
+
+			while (m_outgoing_packet.read_bool("has_message"))
+			{
+				result = m_message_types->decode_message(&m_outgoing_packet, &message_type, &message_storage_size, message_storage);
+				if (!result)
+				{
+					c_console::write_line("networking:messages:gateway:send_all_pending_messages: an outgoing message payload is corrupt!");
+					break;
+				}
+
+				m_message_types->dispose_message(message_type, message_storage_size, message_storage);
+			}
+
+			m_outgoing_packet.finish_reading();
+		}
+
+		if (result)
+			m_link->send_out_of_band(&m_outgoing_packet, &m_outgoing_packet_address, nullptr);
+
+		m_outgoing_packet_pending = false;
+	}
+
+	ASSERT(!m_outgoing_packet_pending);
+	ASSERT(!m_outgoing_packet.reading() && !m_outgoing_packet.writing());
 }
 
 bool __cdecl c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port)
