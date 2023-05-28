@@ -2,6 +2,7 @@
 
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
+#include "networking/delivery/network_link.hpp"
 #include "networking/messages/network_message_handler.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
 #include "networking/messages/network_messages_session_protocol.hpp"
@@ -205,7 +206,76 @@ bool __cdecl c_network_message_gateway::send_message_broadcast(e_network_message
 
 bool __cdecl c_network_message_gateway::send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data)
 {
-	return DECLFUNC(0x004840C0, bool, __thiscall, c_network_message_gateway*, transport_address const*, e_network_message_type, long, void const*)(this, outgoing_address, message_type, data_size, data);
+	//return DECLFUNC(0x004840C0, bool, __thiscall, c_network_message_gateway*, transport_address const*, e_network_message_type, long, void const*)(this, outgoing_address, message_type, data_size, data);
+
+	ASSERT(outgoing_address);
+	ASSERT(transport_address_valid(outgoing_address));
+
+	if (m_outgoing_packet_pending && !transport_address_equivalent(&m_outgoing_packet_address, outgoing_address))
+		send_all_pending_messages();
+
+	long encoded_bits = 0;
+	while (true)
+	{
+		bool v12 = false;
+		if (!m_outgoing_packet_pending)
+		{
+			long packet_size = sizeof(m_outgoing_packet_storage);
+			if (!m_link->adjust_packet_size(true, 0, &packet_size))
+			{
+				c_console::write_line("networking:messages:gateway:send_message: unable to get packet size to send [tried %d bytes]", packet_size);
+				break;
+			}
+
+			ASSERT(!m_outgoing_packet.reading() && !m_outgoing_packet.writing());
+			ASSERT(packet_size <= sizeof(m_outgoing_packet_storage));
+
+			m_outgoing_packet.set_data(m_outgoing_packet_storage, packet_size);
+			m_outgoing_packet.begin_writing(1);
+
+			m_outgoing_packet_address = *outgoing_address;
+			m_outgoing_packet_pending = true;
+
+			v12 = true;
+
+			write_packet_header();
+		}
+
+		ASSERT(m_outgoing_packet_pending);
+		ASSERT(m_outgoing_packet.writing());
+		ASSERT(!m_outgoing_packet.would_overflow(1));
+
+		m_outgoing_packet.push_position();
+		m_outgoing_packet.write_bool("has_message", true);
+
+		long space_used_in_bits = m_outgoing_packet.get_space_used_in_bits();
+		m_message_types->encode_message(&m_outgoing_packet, message_type, data_size, data);
+		encoded_bits = m_outgoing_packet.get_space_used_in_bits() - space_used_in_bits;
+
+		if (m_outgoing_packet.would_overflow(1))
+		{
+			if (v12)
+			{
+				m_outgoing_packet.pop_position(1);
+				break;
+			}
+
+			m_outgoing_packet.pop_position(1);
+			send_all_pending_messages();
+		}
+		else
+		{
+			m_outgoing_packet.pop_position(0);
+			return true;
+		}
+	}
+
+	c_console::write_line("networking:messages:gateway:send_message: message type '%s' size raw-bytes/enc-bits %d/%d doesn't fit in a packet and cannot be sent out-of-band",
+		m_message_types->get_message_type_name(message_type),
+		data_size,
+		encoded_bits);
+
+	return false;
 }
 
 void __cdecl c_network_message_gateway::write_packet_header()
