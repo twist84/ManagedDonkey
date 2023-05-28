@@ -7,7 +7,6 @@
 #include "camera/director.hpp"
 #include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
-#include "dialogs/show_direct_connect.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_candy_monitor.hpp"
 #include "game/game_results.hpp"
@@ -46,8 +45,6 @@
 #include "screenshots/screenshots_uploader.hpp"
 #include "simulation/simulation.hpp"
 #include "visibility/visibility_collection.hpp"
-#include "xbox/xbox.hpp"
-#include "xbox/xnet.hpp"
 
 REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
 REFERENCE_DECLARE(0x022B473C, bool, g_main_game_exit);
@@ -275,7 +272,6 @@ void __cdecl main_loop_body_begin()
 
 	copy_input_states(false);
 	show_location_messages();
-	show_direct_connect_dialog();
 }
 
 void __cdecl main_loop_body_mid(real shell_seconds_elapsed)

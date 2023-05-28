@@ -564,9 +564,6 @@
     <ClCompile Include="source\networking\network_globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\dialogs\show_direct_connect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\cseries\cseries_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1707,9 +1704,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\network_globals.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\dialogs\show_direct_connect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\aim_assist.hpp">

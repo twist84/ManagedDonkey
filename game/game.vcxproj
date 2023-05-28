@@ -221,7 +221,6 @@ POPD
     <ClCompile Include="source\cseries\symbols_reader.cpp" />
     <ClCompile Include="source\cutscene\cinematics.cpp" />
     <ClCompile Include="source\dialogs\edit_text.cpp" />
-    <ClCompile Include="source\dialogs\show_direct_connect.cpp" />
     <ClCompile Include="source\editor\editor_stubs.cpp" />
     <ClCompile Include="source\effects\contrails.cpp" />
     <ClCompile Include="source\effects\screen_effect.cpp" />
@@ -443,7 +442,6 @@ POPD
     <ClInclude Include="source\cseries\cseries_events.hpp" />
     <ClInclude Include="source\cseries\cseries_windows_debug_pc.hpp" />
     <ClInclude Include="source\dialogs\edit_text.hpp" />
-    <ClInclude Include="source\dialogs\show_direct_connect.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
     <ClInclude Include="source\game\game_engine_scripting.hpp" />

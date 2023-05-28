@@ -5,12 +5,6 @@
 #define IDD_TEXT_BOX_DIALOG             101
 #define ID_TEXT_BOX_TEXT                1001
 
-#define IDD_CONNECT_DIALOG              102
-#define ID_IP_TEXT                      1002
-#define ID_PORT_TEXT                    1003
-#define ID_SESSION_ID_TEXT              1004
-#define ID_SESSION_ADDRESS_TEXT         1005
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
