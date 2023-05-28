@@ -21,8 +21,8 @@ HOOK_DECLARE(0x004429C0, online_dispose);
 HOOK_DECLARE(0x00442A70, online_initialize);
 //HOOK_DECLARE(0x00442A90, online_is_connected_to_live);
 HOOK_DECLARE(0x00442AA0, online_user_get_name);
-//HOOK_DECLARE(0x00442AE0, online_user_get_xuid);
 HOOK_DECLARE(0x00442AB0, online_user_get_player_identifier);
+HOOK_DECLARE(0x00442AE0, online_user_get_xuid);
 //HOOK_DECLARE(0x00442B00, sub_442B00);
 //HOOK_DECLARE(0x00442B20, sub_442B20);
 //HOOK_DECLARE(0x00442B40, online_has_signed_in_user);
@@ -162,7 +162,23 @@ qword __cdecl online_user_get_player_identifier(long controller_index)
 
 qword __cdecl online_user_get_xuid(long controller_index)
 {
-	return g_controller_users[controller_index].player_xuid;
+	//return g_controller_users[controller_index].player_xuid;
+
+	//qword xuid = 0;
+	//if (XUserGetXUID(controller_index, &xuid))
+	//	xuid = 0;
+	//return xuid;
+
+	static union
+	{
+		qword value = 0;
+		byte bytes[8];
+	};
+
+	if (!value)
+		transport_secure_random(sizeof(bytes), bytes);
+
+	return value;
 }
 
 bool __cdecl sub_442B00(long controller_index)
