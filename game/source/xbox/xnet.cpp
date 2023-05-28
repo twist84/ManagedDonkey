@@ -127,8 +127,8 @@ void __cdecl XNetRemoveEntry(transport_address const* address)
 
 dword get_external_ip()
 {
-	static dword ipv4_address = 0;
-	if (!ipv4_address)
+	static dword ipv4_address = NONE;
+	if (ipv4_address == NONE)
 	{
 		char const* host = "ifconfig.me";
 
