@@ -35,6 +35,8 @@ struct c_network_link
 	};
 	static_assert(sizeof(s_link_packet) == 0x7E4);
 
+	bool __cdecl adjust_packet_size(bool game_data, long voice_data_length, long* game_data_length) const;
+	void __cdecl attach_out_of_band(c_network_out_of_band_consumer* out_of_band);
 	bool __cdecl create_endpoint(e_transport_type type, word port, bool a3, transport_endpoint** out_endpoint);
 	bool __cdecl decode_packet(long data_buffer_size, byte const* data_buffer, s_link_packet* packet) const;
 	void __cdecl destroy_endpoints();
