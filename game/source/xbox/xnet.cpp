@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
+#include "networking/tools/http_client.hpp"
 
 #include <combaseapi.h>
 
@@ -126,45 +127,51 @@ void __cdecl XNetRemoveEntry(transport_address const* address)
 
 dword get_external_ip()
 {
-	char const* hostname = "api.ipify.org";
-	c_static_string<256> get_http;
-	get_http.print("GET / HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", hostname);
-
-	SOCKET s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	struct hostent* host = gethostbyname(hostname);
-
-	SOCKADDR_IN SockAddr{};
-	SockAddr.sin_port = htons(80);
-	SockAddr.sin_family = AF_INET;
-	SockAddr.sin_addr.s_addr = *((unsigned long*)host->h_addr);
-
-	if (connect(s, (SOCKADDR*)(&SockAddr), sizeof(SockAddr)) != 0)
-		return NONE;
-
-	send(s, get_http.get_string(), get_http.length(), 0);
-
-	c_static_string<256> get_response;
-
-	int nDataLength = 0;
-	char buffer[256]{};
-	while ((nDataLength = recv(s, buffer, 256, 0)) > 0)
+	static dword ipv4_address = 0;
+	if (!ipv4_address)
 	{
-		int i = 0;
-		while (buffer[i] >= ' ' || buffer[i] == '\n' || buffer[i] == '\r')
+		char const* host = "ifconfig.me";
+
+		transport_address address{};
+		transport_address_from_host(host, address);
+
+		c_http_client http_client;
+		c_http_get_stream get_stream;
+		get_stream.add_header("Host", host);
+		get_stream.add_header("Connection", "close");
+		get_stream.add_header("User-Agent", "DonkeyClient");
+
+		if (http_client.start(&get_stream, address.ipv4_address, 80, "/ip", false))
 		{
-			get_response.append_print("%c", buffer[i]);
-			i += 1;
+			bool completed_successfully = false;
+			char response_content_buffer[4096]{};
+			long http_response_code = 0;
+
+			long seconds = 1800;
+			dword v7 = 1000 * seconds + system_milliseconds();
+			while (system_milliseconds() < v7)
+			{
+				long response_content_buffer_count = NUMBEROF(response_content_buffer);
+				if (!http_client.do_work(&completed_successfully, response_content_buffer, &response_content_buffer_count, &http_response_code))
+				{
+					http_client.stop();
+					break;
+				}
+
+				Sleep(0);
+
+				if (completed_successfully)
+					break;
+			}
+
+			address = {};
+			if (completed_successfully)
+				transport_address_from_host(response_content_buffer, address);
 		}
+
+		ipv4_address = address.ipv4_address;
 	}
 
-	closesocket(s);
-
-	long offset = get_response.index_of("\r\n\r\n");
-	if (offset == -1)
-		return NONE;
-
-	transport_address _address;
-	transport_address_from_host(get_response.get_offset(offset + 4), _address);
-	return _address.ipv4_address;
+	return ipv4_address;
 }
 
