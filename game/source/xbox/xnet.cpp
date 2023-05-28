@@ -124,3 +124,47 @@ void __cdecl XNetRemoveEntry(transport_address const* address)
 	entry.initialized = false;
 }
 
+dword get_external_ip()
+{
+	char const* hostname = "api.ipify.org";
+	c_static_string<256> get_http;
+	get_http.print("GET / HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", hostname);
+
+	SOCKET s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	struct hostent* host = gethostbyname(hostname);
+
+	SOCKADDR_IN SockAddr{};
+	SockAddr.sin_port = htons(80);
+	SockAddr.sin_family = AF_INET;
+	SockAddr.sin_addr.s_addr = *((unsigned long*)host->h_addr);
+
+	if (connect(s, (SOCKADDR*)(&SockAddr), sizeof(SockAddr)) != 0)
+		return NONE;
+
+	send(s, get_http.get_string(), get_http.length(), 0);
+
+	c_static_string<256> get_response;
+
+	int nDataLength = 0;
+	char buffer[256]{};
+	while ((nDataLength = recv(s, buffer, 256, 0)) > 0)
+	{
+		int i = 0;
+		while (buffer[i] >= ' ' || buffer[i] == '\n' || buffer[i] == '\r')
+		{
+			get_response.append_print("%c", buffer[i]);
+			i += 1;
+		}
+	}
+
+	closesocket(s);
+
+	long offset = get_response.index_of("\r\n\r\n");
+	if (offset == -1)
+		return NONE;
+
+	transport_address _address;
+	transport_address_from_host(get_response.get_offset(offset + 4), _address);
+	return _address.ipv4_address;
+}
+

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "networking/transport/transport_security.hpp"
 
 struct s_xnet_entry
@@ -24,4 +25,6 @@ extern bool __cdecl XNetXnAddrToInAddr(s_transport_secure_address const* secure_
 extern bool __cdecl _XNetInAddrToXnAddr(transport_address const* address, s_transport_secure_address* out_secure_address);
 extern bool __cdecl XNetInAddrToXnAddr(transport_address const* address, s_transport_secure_address* out_secure_address, s_transport_secure_identifier* out_secure_identifier);
 extern void __cdecl XNetRemoveEntry(transport_address const* address);
+
+extern dword get_external_ip();
 
