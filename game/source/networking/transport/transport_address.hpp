@@ -2,8 +2,13 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_player_identifier;
 struct transport_address
 {
+	transport_address();
+	transport_address(dword _ipv4_address, word _port, short _address_length);
+	transport_address(s_player_identifier const* player_identifier);
+
 	union
 	{
 		dword ipv4_address;

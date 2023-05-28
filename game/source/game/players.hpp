@@ -13,10 +13,15 @@ struct s_machine_identifier
 };
 static_assert(sizeof(s_machine_identifier) == 0x10);
 
+struct transport_address;
 struct s_player_identifier
 {
+	s_player_identifier();
+	s_player_identifier(dword _ipv4_address, word _port, word_flags _flags);
+	s_player_identifier(transport_address const* address);
+
 	// make_int64(ip, port)
-	dword ip_addr;
+	dword ipv4_address;
 	word port;
 
 	// online_xuid_is_guest_account

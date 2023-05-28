@@ -103,9 +103,7 @@ struct s_network_session_status_data
 
 	void update_host_player_identifier(transport_address const* address)
 	{
-		players[0].identifier.ip_addr = address->ipv4_address;
-		players[0].identifier.port = address->port;
-		players[0].identifier.flags = address->address_length;
+		players[0].identifier = address;
 	}
 };
 static_assert(sizeof(s_network_session_status_data) == 0x164C0);

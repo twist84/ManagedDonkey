@@ -1,6 +1,7 @@
 #include "networking/transport/transport_address.hpp"
 
 #include "cseries/cseries_console.hpp"
+#include "game/players.hpp"
 #include "memory/module.hpp"
 #include "networking/transport/transport_security.hpp"
 
@@ -14,6 +15,27 @@ HOOK_DECLARE(0x0043F750, transport_address_to_string);
 HOOK_DECLARE(0x0043F860, transport_address_valid);
 HOOK_DECLARE(0x0043F8D0, transport_get_broadcast_address);
 HOOK_DECLARE(0x0043F8F0, transport_get_listen_address);
+
+transport_address::transport_address() :
+	ipv4_address(0),
+	port(0),
+	address_length(0)
+{
+}
+
+transport_address::transport_address(dword _ipv4_address, word _port, short _address_length) :
+	ipv4_address(_ipv4_address),
+	port(_port),
+	address_length(_address_length)
+{
+}
+
+transport_address::transport_address(s_player_identifier const* player_identifier) :
+	ipv4_address(player_identifier->ipv4_address),
+	port(player_identifier->port),
+	address_length(sizeof(dword))
+{
+}
 
 bool __cdecl transport_address_equivalent(transport_address const* a, transport_address const* b)
 {

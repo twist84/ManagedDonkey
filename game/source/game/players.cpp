@@ -13,6 +13,27 @@ HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
 
+s_player_identifier::s_player_identifier() :
+	ipv4_address(0),
+	port(0),
+	flags(0)
+{
+}
+
+s_player_identifier::s_player_identifier(dword _ipv4_address, word _port, word_flags _flags) :
+	ipv4_address(_ipv4_address),
+	port(_port),
+	flags(_flags)
+{
+}
+
+s_player_identifier::s_player_identifier(transport_address const* address) :
+	ipv4_address(address->ipv4_address),
+	port(address->port),
+	flags(address->address_length)
+{
+}
+
 void __cdecl player_set_unit_index(long player_index, long unit_index)
 {
 	INVOKE(0x0053CA80, player_set_unit_index, player_index, unit_index);

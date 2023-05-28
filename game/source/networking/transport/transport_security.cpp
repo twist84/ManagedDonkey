@@ -50,11 +50,7 @@ bool __cdecl transport_secure_address_decode(s_transport_session_description con
 			if (transport_secure_address_compare(secure_address, &session->status_data.host_address) &&
 				transport_secure_identifier_compare(&secure_host_description->id, &session->status_data.session_id))
 			{
-				s_player_identifier& player_identifier = session->status_data.players[0].identifier;
-
-				usable_address->ipv4_address = player_identifier.ip_addr;
-				usable_address->port = player_identifier.port;
-				usable_address->address_length = sizeof(dword);
+				*usable_address = &session->status_data.players[0].identifier;
 
 				return true;
 			}
@@ -126,7 +122,7 @@ bool __cdecl transport_secure_address_retrieve(transport_address const* usable_a
 
 			if (session && session->initialized)
 			{
-				if (session->status_data.players[0].identifier.ip_addr == usable_address->ipv4_address)
+				if (session->status_data.players[0].identifier.ipv4_address == usable_address->ipv4_address)
 				{
 					*secure_address = session->status_data.host_address;
 
@@ -179,7 +175,7 @@ bool __cdecl transport_secure_identifier_retrieve(transport_address const* usabl
 			{
 				s_player_identifier& player_identifier = session->status_data.players[0].identifier;
 
-				if (player_identifier.ip_addr == usable_address->ipv4_address &&
+				if (player_identifier.ipv4_address == usable_address->ipv4_address &&
 					player_identifier.port == usable_address->port)
 				{
 					*secure_identifier = session->status_data.session_id;

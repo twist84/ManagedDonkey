@@ -511,12 +511,8 @@ void __cdecl c_network_message_handler::handle_directed_search(transport_address
 		return;
 	}
 
-	transport_address _address =
-	{
-		.ipv4_address = get_external_ip(),
-		.port = game_status.players[0].identifier.port,
-		.address_length = sizeof(dword),
-	};
+	transport_address _address{};
+	transport_address_ipv4_build(&_address, get_external_ip(), g_broadcast_port);
 	game_status.update_host_player_identifier(&_address);
 
 	s_network_message_broadcast_reply broadcast_reply =
