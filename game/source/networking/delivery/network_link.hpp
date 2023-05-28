@@ -19,6 +19,7 @@ enum e_network_packet_mode
 
 struct c_network_out_of_band_consumer;
 struct c_network_channel;
+struct c_bitstream;
 struct c_network_link
 {
 	struct s_link_packet
@@ -42,6 +43,7 @@ struct c_network_link
 	void __cdecl destroy_endpoints();
 	c_network_channel* __cdecl get_associated_channel(transport_address const* address) const;
 	static bool __cdecl physical_link_available();
+	void __cdecl send_out_of_band(c_bitstream const* game_data, transport_address const* address, long* out_size_on_wire);
 
 	bool __cdecl create_endpoints();
 

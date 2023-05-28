@@ -1,6 +1,7 @@
 #include "networking/delivery/network_link.hpp"
 
 #include "cseries/cseries_console.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/module.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/transport/transport.hpp"
@@ -138,3 +139,10 @@ bool __cdecl c_network_link::physical_link_available()
 	return transport_available();
 }
 
+void __cdecl c_network_link::send_out_of_band(c_bitstream const* game_data, transport_address const* address, long* out_size_on_wire)
+{
+	ASSERT(game_data);
+	ASSERT(address);
+
+	DECLFUNC(0x0043C250, void, __thiscall, c_network_link*, c_bitstream const*, transport_address const*, long*)(this, game_data, address, out_size_on_wire);
+}
