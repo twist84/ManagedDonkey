@@ -230,7 +230,29 @@ char const* __cdecl transport_secure_nonce_get_string(qword nonce)
 	return transport_secure_nonce_string.get_string();
 }
 
-//00431130 ; void __cdecl transport_secure_random(long, byte*)
+void __cdecl transport_secure_random(long random_length, byte* random_data)
+{
+	long const k_meg = 0x100000;
+
+	ASSERT(random_data);
+	ASSERT(random_length > 0 && random_length < k_meg);
+
+	bool used_xnet_random = false;
+	if (transport_security_globals.initialized)
+	{
+		//random_length = XNetRandom(random_data, random_length);
+		//used_xnet_random = true;
+	}
+	
+	if (!used_xnet_random)
+	{
+		INVOKE(0x00431130, transport_secure_random, random_length, random_data);
+
+		//long random_seed = generate_random_seed(random_length);
+		//for (long i = 0; i < random_length; ++i)
+		//	random_data[i] = _random_range(random_seed, 0, __FILE__, __LINE__, 0, 256);
+	}
+}
 
 void __cdecl transport_security_initialize()
 {
