@@ -17,6 +17,7 @@
 #include "networking/network_time.hpp"
 #include "networking/session/network_session_manager.hpp"
 #include "networking/session/network_session.hpp"
+#include "xbox/xnet.hpp"
 
 void __cdecl c_network_message_handler::handle_out_of_band_message(transport_address const* address, e_network_message_type message_type, long message_storage_size, void const* message_storage)
 {
@@ -515,6 +516,10 @@ void __cdecl c_network_message_handler::handle_directed_search(transport_address
 	s_network_session_status_data game_status{};
 	if (network_squad_session_build_status(&game_status))
 	{
+		dword ipv4_address = get_external_ip();
+		if (ipv4_address != NONE && game_status.players[0].identifier.ip_addr != ipv4_address)
+			game_status.players[0].identifier.ip_addr = ipv4_address;
+
 		s_network_message_broadcast_reply broadcast_reply =
 		{
 			.protocol_version = k_network_protocol_version,

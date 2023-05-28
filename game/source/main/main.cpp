@@ -361,7 +361,7 @@ void __cdecl main_loop_body_end()
 
 	if (input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
 	{
-		browser_type = (browser_type + 1) % k_browser_type_count;
+		//browser_type = (browser_type + 1) % k_browser_type_count;
 
 		c_console::write_line("setting browser type: %s", browser_type_names[browser_type]);
 	}
