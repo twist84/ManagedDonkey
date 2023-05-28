@@ -661,7 +661,7 @@ public:
 	{
 		ASSERT(_string);
 
-		return csmemcmp(_string, get_string(), length()) == 0;
+		return csmemcmp(_string, get_string(), csstrnlen(_string, k_maximum_count)) == 0;
 	}
 
 	long next_index_of(char const* _string, long index) const
@@ -702,7 +702,7 @@ public:
 		if (index < 0 || _length <= 0 || index + _length > length())
 			return false;
 
-		s.set_bounded(get_string() + index, _length);
+		s.set_bounded(get_offset(index), _length);
 
 		return true;
 	}
