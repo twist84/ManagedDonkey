@@ -247,6 +247,14 @@ byte const* __cdecl c_bitstream::get_data(long* data_length) const
 	return m_data;
 }
 
+void __cdecl c_bitstream::push_position()
+{
+	ASSERT(reading() || writing());
+	ASSERT(m_position_stack_depth < k_bitstream_maximum_position_stack_size);
+
+	m_position_stack[m_position_stack_depth++] = m_bitstream_data;
+}
+
 void __cdecl c_bitstream::pop_position(bool pop)
 {
 	ASSERT(reading() || writing());

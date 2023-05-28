@@ -15,6 +15,8 @@ enum e_bitstream_state
 	k_bitstream_state_count
 };
 
+long const k_bitstream_maximum_position_stack_size = 4;
+
 struct c_bitstream
 {
 	struct s_bitstream_data
@@ -45,7 +47,7 @@ protected:
 	// why is this between `m_position_stack_depth` and `m_position_stack`, is `m_position_stack_depth` actually a qword?
 	dword __unknown34;
 
-	byte m_position_stack[4][0x18];
+	s_bitstream_data m_position_stack[k_bitstream_maximum_position_stack_size];
 
 	dword __unknown98;
 	dword __unknown9C;
@@ -100,6 +102,7 @@ public:
 	long __cdecl get_current_stream_bit_position();
 	long __cdecl get_space_used_in_bits();
 	byte const* __cdecl get_data(long* data_length) const;
+	void __cdecl push_position();
 	void __cdecl pop_position(bool pop);
 
 private:
