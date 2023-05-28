@@ -188,7 +188,7 @@ bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read
 	ASSERT(buffer);
 	ASSERT(bytes_read);
 
-	return DECLFUNC(0x00432A10, bool, __thiscall, c_http_post_stream*, char*, long, long*)(this, buffer, buffer_length, bytes_read);
+	return DECLFUNC(0x00432AD0, bool, __thiscall, c_http_post_stream*, char*, long, long*)(this, buffer, buffer_length, bytes_read);
 }
 
 long c_http_post_stream::get_length()
