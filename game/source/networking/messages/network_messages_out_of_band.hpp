@@ -119,18 +119,41 @@ static_assert(sizeof(s_network_message_broadcast_reply) == 0x164D0);
 
 struct c_bitstream;
 
+class c_network_message_ping
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_pong
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
 class c_network_message_broadcast_search
 {
 public:
-	static void encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
 };
 
 class c_network_message_directed_search
 {
 public:
-	static void encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
-	static bool decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
 };
 
+class c_network_message_broadcast_reply
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+struct c_network_message_type_collection;
+extern void __cdecl network_message_types_register_out_of_band(c_network_message_type_collection* message_collection);
 
