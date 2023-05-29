@@ -895,3 +895,58 @@ callback_result_t cheat_all_weapons_callback(void const* userdata, long token_co
 	return result;
 }
 
+callback_result_t load_preferences_from_file_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* preferences_filename = tokens.m_storage[1]->get_string();
+
+	FILE* preferences_file = nullptr;
+	if (fopen_s(&preferences_file, preferences_filename, "r") == 0 && preferences_file)
+	{
+		char buffer[200]{};
+		while (fgets(buffer, NUMBEROF(buffer), preferences_file))
+		{
+			string_terminate_at_first_delimiter(buffer, "\r\n");
+			char name[128]{};
+			char value[32]{};
+
+			sscanf_s(buffer, "%[^:]: %s", name, sizeof(name), value, sizeof(value));
+			if (*name && *value)
+			{
+				// special case
+				if (csstricmp(name, "screen_resolution") == 0)
+				{
+					char width[8]{};
+					char height[8]{};
+					sscanf_s(value, "%[^x]x%s", width, sizeof(width), height, sizeof(height));
+
+					global_preference_set(name, atol(width), atol(height));
+				}
+				else
+				{
+					if (csstricmp(value, "true") == 0)
+						global_preference_set(name, true);
+					else if (csstricmp(value, "false") == 0)
+						global_preference_set(name, false);
+					else if (csstrstr(value, "."))
+						global_preference_set(name, atof(value));
+					else
+						global_preference_set(name, atol(value));
+				}
+			}
+		}
+
+		fclose(preferences_file);
+	}
+	else
+	{
+		result = "Invalid filename. Does the file exist? ";
+		result.append_print_line("%s %s", command.name, command.parameter_types);
+		result.append(command.extra_info);
+		return result;
+	}
+
+	return result;
+}
+

@@ -127,6 +127,7 @@ COMMAND_CALLBACK_DECLARE(mp_game_won);
 COMMAND_CALLBACK_DECLARE(cheat_all_powerups);
 COMMAND_CALLBACK_DECLARE(cheat_all_vehicles);
 COMMAND_CALLBACK_DECLARE(cheat_all_weapons);
+COMMAND_CALLBACK_DECLARE(load_preferences_from_file);
 
 //-----------------------------------------------------------------------------
 
@@ -157,7 +158,7 @@ if ((token_count - 1) != command.parameter_count)                             \
 
 s_command const k_registered_commands[] =
 {
-	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints a description of the named function.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints this output.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(script_doc, 0, "", "saves a file called hs_doc.txt with parameters for all script commands.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(breakpoint, 1, "<string>", "If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(close_game, 0, "", "closes the game.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -195,11 +196,13 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(online_set_is_connected_to_live, 1, "<bool>", "sets connected to live\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(online_user_set_name, 1, "<string>", "sets the name of the first user\r\nNETWORK SAFE: Yes"),
 
-	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<mp_team>", "given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<long>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(cheat_all_powerups, 0, "", "drops all powerups near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_all_vehicles, 0, "", "drops all vehicles on player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "", "drops all weapons near player\r\nNETWORK SAFE: Yes"),
+
+	COMMAND_CALLBACK_REGISTER(load_preferences_from_file, 1, "<string>", "<preferences filename> loads preferences from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

@@ -359,8 +359,6 @@ struct s_global_preferences_internals_type
 };
 static_assert(sizeof(s_global_preferences_internals_type) == 0x84030);
 
-extern s_global_preferences_internals_type* g_global_preferences;
-
 extern s_global_preferences_internals_type* __cdecl global_preferences_get();
 extern void __cdecl global_preferences_dirty(bool dirty);
 extern bool __cdecl global_preferences_are_dirty();
@@ -382,6 +380,7 @@ extern void __cdecl global_preferences_control_settings_create_default(s_global_
 extern void __cdecl global_preferences_sound_settings_create_default(s_global_preferences_data::s_sound_settings* sound_settings);
 extern e_quality_setting __cdecl global_preferences_get_details_quality();
 extern long __cdecl global_preferences_get_brightness();
+extern long __cdecl global_preferences_get_contrast();
 extern bool __cdecl global_preferences_get_display_hints();
 extern e_quality_setting __cdecl global_preferences_get_effects_quality();
 extern long __cdecl global_preferences_get_eviction_count();
@@ -442,7 +441,7 @@ extern void __cdecl global_preferences_set_eviction_count(long eviction_count);
 extern void __cdecl global_preferences_set_fullscreen(bool fullscreen);
 extern void __cdecl global_preferences_set_hide_watermark(bool hide_watermark);
 extern void __cdecl global_preferences_set_hud_shake(bool hud_shake);
-extern void __cdecl global_preferences_set_keyboard_preset(long controls_settings_keyboard_preset);
+extern void __cdecl global_preferences_set_keyboard_preset(long keyboard_preset);
 extern void __cdecl global_preferences_set_last_font_language(e_language last_font_language);
 extern void __cdecl global_preferences_set_last_fonts_modification_date(s_file_last_modification_date const* last_fonts_modification_date);
 extern void __cdecl global_preferences_set_last_game_setup(s_gui_game_setup_storage const* last_game_setup);
@@ -479,4 +478,99 @@ extern void __cdecl global_preferences_set_xbox_live_private_privacy_setting(e_g
 extern bool __cdecl global_preferences_get_hide_watermark();
 extern void __cdecl global_preferences_update();
 extern void __cdecl global_preferences_write();
+
+enum e_global_preference
+{
+	_global_preference_antialiasing = 0,
+	//_global_preference_unknown41BD0,
+	//_global_preference_betrayal_count,
+	//_global_preference_build_number,
+	_global_preference_camera_fov,
+	_global_preference_controls_method,
+	_global_preference_details_quality,
+	_global_preference_brightness,
+	_global_preference_contrast,
+	_global_preference_display_hints,
+	_global_preference_effects_quality,
+	//_global_preference_eviction_count,
+	_global_preference_fullscreen,
+	_global_preference_hide_watermark,
+	_global_preference_hud_shake,
+	_global_preference_keyboard_preset,
+	//_global_preference_last_font_language,
+	//_global_preference_last_fonts_modification_date,
+	//_global_preference_last_game_setup,
+	//_global_preference_last_language,
+	//_global_preference_last_main_menu_item,
+	_global_preference_lighting_quality,
+	_global_preference_master_volume,
+	_global_preference_motion_blur,
+	_global_preference_mouse_acceleration,
+	_global_preference_mouse_filter,
+	_global_preference_mouse_inversion,
+	_global_preference_mouse_sensitivity_horizontal,
+	_global_preference_mouse_sensitivity_vehicle_horizontal,
+	_global_preference_mouse_sensitivity_vehicle_vertical,
+	_global_preference_mouse_sensitivity_vertical,
+	_global_preference_music_volume,
+	_global_preference_postprocessing_quality,
+	//_global_preference_content_item_unique_name_number_seed,
+	_global_preference_screen_resolution,
+	_global_preference_sfx_volume,
+	_global_preference_shadow_quality,
+	_global_preference_subtitle_setting,
+	//_global_preference_team_color,
+	_global_preference_texture_filtering_quality,
+	_global_preference_texture_resolution_quality,
+	_global_preference_toggle_crouch,
+	//_global_preference_adapter,
+	//_global_preference_unknown41BDC,
+	//_global_preference_voice_chat_control,
+	//_global_preference_voice_chat_volume,
+	//_global_preference_voice_volume,
+	_global_preference_vsync,
+	//_global_preference_xbox_live_private_privacy_setting,
+
+	k_global_preference_count
+};
+
+short const k_maximum_global_preference_parameters = 2;
+enum e_global_preference_type
+{
+	_global_preference_type_bool = 0,
+	_global_preference_type_real,
+	_global_preference_type_long,
+	_global_preference_type_quality_setting,
+	_global_preference_type_language,
+	_global_preference_type_subtitle_setting,
+	//_global_preference_type_advertisement_mode,
+
+	k_global_preference_type_count
+};
+
+struct s_global_preference
+{
+	char const* name;
+	char const* description;
+	void* get;
+	void* set;
+	e_global_preference preference;
+	long parameter_count;
+	e_global_preference_type parameter_types[k_maximum_global_preference_parameters];
+};
+
+extern s_global_preferences_internals_type* g_global_preferences;
+
+extern char const* const k_global_preference_names[k_global_preference_count];
+extern s_global_preference const* k_global_preferences[k_global_preference_count];
+
+extern char const* global_preference_get_name(e_global_preference preference);
+extern e_global_preference global_preference_from_string(const char* str);
+extern bool global_preference_set_impl(char const* name, short parameter_count, ...);
+
+template<typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>
+bool global_preference_set(char const* name, parameters_t... parameters)
+{
+	return global_preference_set_impl(name, k_parameter_count, parameters...);
+}
 

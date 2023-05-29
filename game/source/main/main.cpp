@@ -304,21 +304,7 @@ void __cdecl main_loop_body_end()
 	// home cluster keys
 	if (input_key_frames_down(_key_code_insert, _input_type_ui) == 1)
 	{
-		global_preferences_set_shadow_quality(_quality_setting_high);
-		global_preferences_set_texture_resolution_quality(_quality_setting_high);
-		global_preferences_set_texture_filtering_quality(_quality_setting_high);
-		global_preferences_set_lighting_quality(_quality_setting_high);
-		global_preferences_set_effects_quality(_quality_setting_high);
-		global_preferences_set_details_quality(_quality_setting_high);
-		global_preferences_set_postprocessing_quality(_quality_setting_high);
-		global_preferences_set_vsync(true);
-		global_preferences_set_motion_blur(false);
-		global_preferences_set_antialiasing(true);
-		global_preferences_set_brightness(50);
-		global_preferences_set_contrast(50);
-
-		global_preferences_set_fullscreen(true);
-		sub_79BA30(1920, 1080);
+		console_process_command("load_preferences_from_file preferences.txt", true);
 	}
 	if (input_key_frames_down(_key_code_delete, _input_type_ui) == 1)
 	{
