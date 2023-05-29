@@ -779,6 +779,78 @@ bool __cdecl shell_get_system_identifier(char* system_identifier, long system_id
     return INVOKE(0x0051CE40, shell_get_system_identifier, system_identifier, system_identifier_len);
 }
 
+char const* quality_setting_get_name(e_quality_setting quality_setting)
+{
+	if (quality_setting < _quality_setting_low || quality_setting >= k_quality_setting_count)
+		return "<invalid 'quality_setting'>";
+
+	char const* names[k_quality_setting_count]
+	{
+		"low",
+		"medium",
+		"high",
+	};
+
+	return names[quality_setting];
+}
+
+e_quality_setting quality_setting_from_string(char const* str)
+{
+	char const* names[k_quality_setting_count]
+	{
+		"low",
+		"medium",
+		"high",
+	};
+
+	e_quality_setting quality_setting = e_quality_setting(-1);
+	for (long i = _quality_setting_low; i < k_quality_setting_count; i++)
+	{
+		if (csstricmp(str, names[i]) != 0)
+			continue;
+
+		quality_setting = e_quality_setting(i);
+	}
+
+	return quality_setting;
+}
+
+char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
+{
+	if (subtitle_setting < _subtitle_setting_automatic || subtitle_setting >= k_subtitle_setting_count)
+		return "<invalid 'subtitle_setting'>";
+
+	char const* names[k_subtitle_setting_count]
+	{
+		"automatic",
+		"enabled",
+		"disabled",
+	};
+
+	return names[subtitle_setting];
+}
+
+e_subtitle_setting subtitle_setting_from_string(char const* str)
+{
+	char const* names[k_subtitle_setting_count]
+	{
+		"automatic",
+		"enabled",
+		"disabled",
+	};
+
+	e_subtitle_setting subtitle_setting = e_subtitle_setting(-1);
+	for (long i = _subtitle_setting_automatic; i < k_subtitle_setting_count; i++)
+	{
+		if (csstricmp(str, names[i]) != 0)
+			continue;
+
+		subtitle_setting = e_subtitle_setting(i);
+	}
+
+	return subtitle_setting;
+}
+
 char const* network_session_mode_get_name(long session_mode)
 {
 	if (session_mode < _network_session_mode_none || session_mode >= k_network_session_mode_count)

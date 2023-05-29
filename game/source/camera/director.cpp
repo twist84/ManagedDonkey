@@ -19,8 +19,6 @@
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 
-#include <string.h>
-
 HOOK_DECLARE(0x00591F80, director_render);
 
 long __cdecl dead_or_alive_unit_from_user(long user_index)
@@ -51,7 +49,7 @@ e_director_mode director_mode_from_string(const char* str)
 	e_director_mode director_mode = e_director_mode(-1);
 	for (long i = _camera_mode_following; i < k_number_of_director_modes; i++)
 	{
-		if (strcmp(str, k_director_mode_names[i]) != 0)
+		if (csstricmp(str, k_director_mode_names[i]) != 0)
 			continue;
 
 		director_mode = e_director_mode(i);

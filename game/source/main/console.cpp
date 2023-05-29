@@ -176,65 +176,6 @@ void __cdecl console_complete()
 	}
 }
 
-bool __cdecl console_process_command(char const* command, bool a2)
-{
-	if (strlen(command) >= 255)
-		return false;
-
-	if (!command[0] || command[0] == ';')
-		return false;
-
-	c_console::write_line("console_command: %s", command);
-
-	short command_index = (console_globals.input_state.previous_inputs_count + 1) % NUMBEROF(console_globals.input_state.previous_inputs);
-	console_globals.input_state.previous_inputs_count = command_index;
-	console_globals.input_state.previous_inputs[command_index].set(command);
-
-	short v5 = NUMBEROF(console_globals.input_state.previous_inputs);
-	if (console_globals.input_state.__unknown11F4 + 1 <= NUMBEROF(console_globals.input_state.previous_inputs))
-		v5 = console_globals.input_state.__unknown11F4 + 1;
-	console_globals.input_state.__unknown11F4 = v5;
-
-	console_globals.input_state.__unknown11F8 = -1;
-
-	bool result = false;//hs_compile_and_evaluate(_event_level_message, "console_command", command, a2);
-	c_console::write_line("console_command: ");
-
-	tokens_t tokens{};
-	long token_count = 0;
-	command_tokenize(command, tokens, &token_count);
-	if (token_count > 0)
-	{
-		bool command_found = false;
-		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
-		{
-			if (tokens[0]->equals(k_registered_commands[i].name))
-			{
-				command_found = true;
-
-				callback_result_t callback_result = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens);
-
-				c_console::write(callback_result.get_string());
-
-				long succeeded = callback_result.index_of(": succeeded");
-				result = succeeded != -1 || tokens[0]->equals("help");
-
-				if (result)
-					console_printf("command '%s' succeeded", tokens[0]);
-				else
-					console_warning("command '%s' failed: %s", tokens[0], callback_result.get_string());
-
-				break;
-			}
-		}
-
-		if (!command_found)
-			console_warning("command '%s' not found", tokens[0]);
-	}
-
-	return result;
-}
-
 void __cdecl console_update(real shell_seconds_elapsed)
 {
 	if (!console_is_active())
@@ -379,5 +320,64 @@ void __cdecl console_execute_initial_commands()
 		console_execute_commands_from_file(file);
 		fclose(file);
 	}
+}
+
+bool __cdecl console_process_command(char const* command, bool a2)
+{
+	if (strlen(command) >= 255)
+		return false;
+
+	if (!command[0] || command[0] == ';')
+		return false;
+
+	c_console::write_line("console_command: %s", command);
+
+	short command_index = (console_globals.input_state.previous_inputs_count + 1) % NUMBEROF(console_globals.input_state.previous_inputs);
+	console_globals.input_state.previous_inputs_count = command_index;
+	console_globals.input_state.previous_inputs[command_index].set(command);
+
+	short v5 = NUMBEROF(console_globals.input_state.previous_inputs);
+	if (console_globals.input_state.__unknown11F4 + 1 <= NUMBEROF(console_globals.input_state.previous_inputs))
+		v5 = console_globals.input_state.__unknown11F4 + 1;
+	console_globals.input_state.__unknown11F4 = v5;
+
+	console_globals.input_state.__unknown11F8 = -1;
+
+	bool result = false;//hs_compile_and_evaluate(_event_level_message, "console_command", command, a2);
+	c_console::write_line("console_command: ");
+
+	tokens_t tokens{};
+	long token_count = 0;
+	command_tokenize(command, tokens, &token_count);
+	if (token_count > 0)
+	{
+		bool command_found = false;
+		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
+		{
+			if (tokens[0]->equals(k_registered_commands[i].name))
+			{
+				command_found = true;
+
+				callback_result_t callback_result = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens);
+
+				c_console::write(callback_result.get_string());
+
+				long succeeded = callback_result.index_of(": succeeded");
+				result = succeeded != -1 || tokens[0]->equals("help");
+
+				if (result)
+					console_printf("command '%s' succeeded", tokens[0]);
+				else
+					console_warning("command '%s' failed: %s", tokens[0], callback_result.get_string());
+
+				break;
+			}
+		}
+
+		if (!command_found)
+			console_warning("command '%s' not found", tokens[0]);
+	}
+
+	return result;
 }
 

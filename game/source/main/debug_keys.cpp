@@ -1164,7 +1164,7 @@ void __cdecl debug_time_stats_pause(bool enabled)
 
 void __cdecl debug_key_force_respawn(bool enabled)
 {
-	if (enabled)
+	if (enabled || force_respawn)
 	{
 		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 		c_player_in_game_iterator player_iterator(player_data);
