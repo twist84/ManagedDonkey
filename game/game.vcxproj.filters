@@ -732,6 +732,9 @@
     <ClCompile Include="source\networking\messages\network_messages_out_of_band.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\network_game_definitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1899,6 +1902,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\messages\network_out_of_band_consumer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\network_game_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
