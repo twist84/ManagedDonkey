@@ -14,20 +14,20 @@ void c_network_message_text_chat::encode(c_bitstream* packet, long message_stora
 	packet->write_raw_data("session-id", &message->session_id, 128);
 
 	packet->write_integer("routed-players", message->routed_players, 32);
-	packet->write_integer("metadata", message->metadata, 8);
+	packet->write_integer("metadata", message->payload.metadata, 8);
 
-	packet->write_bool("source-is-server", message->source_is_server);
-	if (!message->source_is_server)
-		packet->write_secure_address("source-player", &message->source_player);
+	packet->write_bool("source-is-server", message->payload.source_is_server);
+	if (!message->payload.source_is_server)
+		packet->write_secure_address("source-player", &message->payload.source_player);
 
-	packet->write_integer("destination-player-count", message->destination_player_count, 8);
-	for (long i = 0; i < message->destination_player_count; i++)
+	packet->write_integer("destination-player-count", message->payload.destination_player_count, 8);
+	for (long i = 0; i < message->payload.destination_player_count; i++)
 	{
-		s_transport_secure_address const* destination_player = &message->destination_players[i];
+		s_transport_secure_address const* destination_player = &message->payload.destination_players[i];
 		packet->write_secure_address("destination-player", destination_player);
 	}
 
-	packet->write_string_wchar("text", message->text_buffer, NUMBEROF(message->text_buffer));
+	packet->write_string_wchar("text", message->payload.text_buffer, NUMBEROF(message->payload.text_buffer));
 }
 
 bool c_network_message_text_chat::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
@@ -39,26 +39,26 @@ bool c_network_message_text_chat::decode(c_bitstream* packet, long message_stora
 	packet->read_raw_data("session-id", &message->session_id, 128);
 
 	message->routed_players = packet->read_integer("routed-players", 32);
-	message->metadata = packet->read_integer("metadata", 8);
+	message->payload.metadata = packet->read_integer("metadata", 8);
 
-	message->source_is_server = packet->read_bool("source-is-server");
-	if (!message->source_is_server)
-		packet->read_secure_address("source-player", &message->source_player);
+	message->payload.source_is_server = packet->read_bool("source-is-server");
+	if (!message->payload.source_is_server)
+		packet->read_secure_address("source-player", &message->payload.source_player);
 
-	message->destination_player_count = packet->read_integer("destination-player-count", 8);
-	if (!VALID_COUNT(message->destination_player_count, 16))
+	message->payload.destination_player_count = packet->read_integer("destination-player-count", 8);
+	if (!VALID_COUNT(message->payload.destination_player_count, 16))
 		return false;
 
-	for (long i = 0; i < message->destination_player_count; i++)
+	for (long i = 0; i < message->payload.destination_player_count; i++)
 	{
-		s_transport_secure_address* destination_player = &message->destination_players[i];
+		s_transport_secure_address* destination_player = &message->payload.destination_players[i];
 		packet->read_secure_address("destination-player", destination_player);
 	}
 
-	packet->read_string_wchar("text", message->text_buffer, NUMBEROF(message->text_buffer));
+	packet->read_string_wchar("text", message->payload.text_buffer, NUMBEROF(message->payload.text_buffer));
 
-	if (!message->text.is_empty())
-		console_printf_color(global_real_argb_grey, "%s: %ls", "TEST", message->text_buffer);
+	if (!message->payload.text.is_empty())
+		console_printf_color(global_real_argb_grey, "%s: %ls", "TEST", message->payload.text_buffer);
 
 	return !packet->error_occurred();
 }

@@ -232,12 +232,17 @@ public:
 template<typename t_type, long k_count>
 struct c_static_array
 {
-	t_type m_storage[k_count];
+	t_type const& operator[](long index) const
+	{
+		ASSERT(valid(index));
+
+		return m_storage[index];
+	}
 
 	t_type& operator[](long index)
 	{
 		ASSERT(valid(index));
-
+	
 		return m_storage[index];
 	}
 
@@ -276,6 +281,8 @@ struct c_static_array
 	{
 		return VALID_INDEX(index, k_count);
 	}
+
+	t_type m_storage[k_count];
 };
 
 template<typename t_type, typename t_storage_type, size_t k_count>

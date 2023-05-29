@@ -321,8 +321,8 @@ void __cdecl network_test_text_chat(char const* text)
 		static s_network_message_text_chat text_chat{};
 		memset(&text_chat, 0, sizeof(s_network_message_text_chat));
 
-		text_chat.destination_player_count = 16;
-		text_chat.text.print(L"%hs", text);
+		text_chat.payload.destination_player_count = 16;
+		text_chat.payload.text.print(L"%hs", text);
 
 		for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
 			g_network_message_gateway->send_message_broadcast(_custom_network_message_text_chat, sizeof(s_network_message_text_chat), &text_chat, broadcast_port);
@@ -340,10 +340,10 @@ void __cdecl network_test_text_chat_directed(transport_address const* address, c
 	{
 		static s_network_message_text_chat text_chat{};
 		memset(&text_chat, 0xFF, sizeof(s_network_message_text_chat));
-		memset(text_chat.text_buffer, 0, sizeof(text_chat.text_buffer));
+		memset(text_chat.payload.text_buffer, 0, sizeof(text_chat.payload.text_buffer));
 
-		text_chat.destination_player_count = 16;
-		text_chat.text.print(L"%hs", text);
+		text_chat.payload.destination_player_count = 16;
+		text_chat.payload.text.print(L"%hs", text);
 
 		g_network_message_gateway->send_message_directed(address, _custom_network_message_text_chat, sizeof(s_network_message_text_chat), &text_chat);
 	}

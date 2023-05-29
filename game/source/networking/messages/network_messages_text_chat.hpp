@@ -3,16 +3,15 @@
 #include "networking/transport/transport_security.hpp"
 #include "text/unicode.hpp"
 
-struct s_network_message_text_chat
+struct s_network_message_text_chat_payload
 {
-	s_transport_secure_identifier session_id;
-	long routed_players;
+	// _text_chat_metadata_broadcast = 1
 	long metadata;
 
 	bool source_is_server;
 	s_transport_secure_address source_player;
 
-	s_transport_secure_address destination_players[16];
+	c_static_array<s_transport_secure_address, 16> destination_players;
 	long destination_player_count;
 
 	union
@@ -20,6 +19,14 @@ struct s_network_message_text_chat
 		wchar_t text_buffer[122];
 		c_static_wchar_string<122> text;
 	};
+};
+static_assert(sizeof(s_network_message_text_chat_payload) == 0x210 /* 0x188 */);
+
+struct s_network_message_text_chat
+{
+	s_transport_secure_identifier session_id;
+	long routed_players;
+	s_network_message_text_chat_payload payload;
 };
 static_assert(sizeof(s_network_message_text_chat) == 0x224 /* 0x194 */);
 
