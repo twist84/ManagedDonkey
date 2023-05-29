@@ -4,9 +4,10 @@
 #include "cseries/cseries_console.hpp"
 #include "game/game.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/online/online.hpp"
 #include "networking/tools/network_blf.hpp"
-
 
 HOOK_DECLARE(0x00545710, multiplayer_game_hopper_check_required_files);
 HOOK_DECLARE(0x00549610, multiplayer_game_hopper_update);
@@ -354,16 +355,21 @@ void __cdecl network_verify_packed_game_variant_file(char const* filename)
 
 void __cdecl network_build_map_variant(char const* filename)
 {
-    byte* buffer = new byte[0xE090]{};
+    byte* buffer = new byte[sizeof(s_blffile_map_variant)]{};
     c_static_string<256> filepath;
 
     c_map_variant const* map_variant = &game_options_get()->map_variant;
-    long file_size = multiplayer_game_hopper_pack_map_variant(buffer, 0xE090, map_variant);
+    {
+        TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals); // use runtime map variant
+        map_variant = &game_engine_globals->map_variant;
+    }
+
+    long file_size = multiplayer_game_hopper_pack_map_variant(buffer, sizeof(s_blffile_map_variant), map_variant);
 
     // 4:  halo3_cache_debug
     // 12: halo3_tag_test
     // 19: hf2p_game_client_cache_release, using `k_cache_file_version` + 1
-    filepath.print("map_variants\\%s_%03u.bin", filename, 19);
+    filepath.print("map_variants\\%s_%03u.mvar", filename, 19);
     if (!create_configuration_file(filepath.get_string(), buffer, file_size))
     {
         c_console::write_line("failed!");
@@ -396,10 +402,10 @@ void __cdecl network_verify_or_load_and_use_packed_map_variant_file(char const* 
         return;
     }
 
-    byte buffer[0x400]{};
-    csmemset(buffer, 0, sizeof(buffer));
+    byte* buffer = new byte[sizeof(s_blffile_map_variant)]{};
+    csmemset(buffer, 0, sizeof(s_blffile_map_variant));
 
-    if (size > sizeof(buffer))
+    if (size > sizeof(s_blffile_map_variant))
     {
         c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
         file_close(&info);
@@ -443,6 +449,8 @@ void __cdecl network_verify_or_load_and_use_packed_map_variant_file(char const* 
     }
 
     delete map_variant;
+    delete[] buffer;
+
     file_close(&info);
 }
 

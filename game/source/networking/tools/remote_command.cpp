@@ -806,6 +806,16 @@ callback_result_t net_verify_map_variant_callback(void const* userdata, long tok
 	return result;
 }
 
+callback_result_t net_load_and_use_map_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	network_load_and_use_packed_map_variant_file(filename);
+
+	return result;
+}
+
 callback_result_t game_export_variant_settings_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
