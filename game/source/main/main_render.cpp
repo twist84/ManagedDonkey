@@ -5,12 +5,12 @@
 #include "cutscene/cinematics.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/terminal.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
 #include "render/render.hpp"
 #include "render/views/render_view.hpp"
 #include "simulation/simulation.hpp"
-
-
+#include "interface/terminal.hpp"
 
 bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
@@ -168,6 +168,9 @@ void __cdecl main_render_pregame(long pregame_frame_type, char const* text)
 		render_fullscreen_text(&context, simple_font);
 		overlapped_render();
 		controllers_render();
+
+		// this isn't actually supposed to be here
+		terminal_draw();
 
 		if (pregame_frame_type == 1)
 		{
