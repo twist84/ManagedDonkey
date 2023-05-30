@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_console.hpp"
 #include "game/game.hpp"
+#include "main/levels.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -249,7 +250,7 @@ bool __cdecl create_configuration_file(const char* filename, const void* file_co
     return result;
 }
 
-void __cdecl network_verify_or_load_and_use_packed_game_variant_file(char const* filename, bool load_and_use)
+void __cdecl network_packed_game_variant_file_juju(char const* filename, bool load_and_use)
 {
     s_file_reference info;
     if (!file_reference_create_from_path(&info, filename, 0))
@@ -311,12 +312,20 @@ void __cdecl network_verify_or_load_and_use_packed_game_variant_file(char const*
 
     c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
 
-    if (load_and_use)
+    if (!load_and_use)
     {
-        if (!network_squad_session_set_game_variant(game_variant))
-        {
-            c_console::write_line("networking:configuration: failed to set session game variant traits, probably not in a session");
-        }
+        file_close(&info);
+        delete game_variant;
+        return;
+    }
+
+    if (!network_squad_session_set_game_variant(game_variant))
+    {
+        c_console::write_line("networking:configuration: failed to set session game variant traits, probably not in a session");
+
+        file_close(&info);
+        delete game_variant;
+        return;
     }
 
     delete game_variant;
@@ -345,12 +354,12 @@ void __cdecl network_build_game_variant(char const* filename)
 
 void __cdecl network_load_and_use_packed_game_variant_file(char const* filename)
 {
-    network_verify_or_load_and_use_packed_game_variant_file(filename, true);
+    network_packed_game_variant_file_juju(filename, true);
 }
 
 void __cdecl network_verify_packed_game_variant_file(char const* filename)
 {
-    network_verify_or_load_and_use_packed_game_variant_file(filename, false);
+    network_packed_game_variant_file_juju(filename, false);
 }
 
 void __cdecl network_build_map_variant(char const* filename)
@@ -378,7 +387,7 @@ void __cdecl network_build_map_variant(char const* filename)
     delete[] buffer;
 }
 
-void __cdecl network_verify_or_load_and_use_packed_map_variant_file(char const* filename, bool load_and_use)
+void __cdecl network_packed_map_variant_file_juju(char const* filename, bool load_and_use)
 {
     s_file_reference info;
     if (!file_reference_create_from_path(&info, filename, 0))
@@ -425,6 +434,7 @@ void __cdecl network_verify_or_load_and_use_packed_map_variant_file(char const* 
         c_console::write_line("networking:configuration: failed to unpack map variant in file '%s'", filename);
 
         delete map_variant;
+        delete[] buffer;
         file_close(&info);
         return;
     }
@@ -434,33 +444,65 @@ void __cdecl network_verify_or_load_and_use_packed_map_variant_file(char const* 
         c_console::write_line("networking:configuration: map variant in file '%s' is invalid", filename);
 
         delete map_variant;
+        delete[] buffer;
         file_close(&info);
         return;
     }
 
     c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
 
-    if (load_and_use)
+    if (!load_and_use)
     {
-        if (!network_squad_session_set_map_variant(map_variant))
-        {
-            c_console::write_line("networking:configuration: failed to set session map variant traits, probably not in a session");
-        }
+        delete map_variant;
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    char scenario_path[256]{};
+    levels_get_path(NONE, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
+    if (!scenario_path[0])
+    {
+        c_console::write_line("attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
+
+        delete map_variant;
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    if (!network_squad_session_set_map(NONE, map_variant->get_map_id(), scenario_path))
+    {
+        c_console::write_line("networking:configuration: failed to set session map, probably not in a session");
+
+        delete map_variant;
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    if (!network_squad_session_set_map_variant(map_variant))
+    {
+        c_console::write_line("networking:configuration: failed to set session map variant traits, probably not in a session");
+
+        delete map_variant;
+        delete[] buffer;
+        file_close(&info);
+        return;
     }
 
     delete map_variant;
     delete[] buffer;
-
     file_close(&info);
 }
 
 void __cdecl network_load_and_use_packed_map_variant_file(char const* filename)
 {
-    network_verify_or_load_and_use_packed_map_variant_file(filename, true);
+    network_packed_map_variant_file_juju(filename, true);
 }
 
 void __cdecl network_verify_packed_map_variant_file(char const* filename)
 {
-    network_verify_or_load_and_use_packed_map_variant_file(filename, false);
+    network_packed_map_variant_file_juju(filename, false);
 }
 
