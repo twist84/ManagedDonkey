@@ -147,6 +147,12 @@ long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_n
 	return INVOKE(0x0054BE10, levels_get_multiplayer_map_by_display_name, display_name);
 }
 
+//char* __cdecl levels_get_path(e_campaign_id campaign_id, e_map_id map_id, char* path, long maximum_characters)
+char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long maximum_characters)
+{
+	return INVOKE(0x0054C040, levels_get_path, campaign_id, map_id, path, maximum_characters);
+}
+
 //bool __cdecl levels_map_id_is_fake(e_map_id map_id)
 bool __cdecl levels_map_id_is_fake(long map_id)
 {
@@ -181,6 +187,12 @@ void __cdecl levels_process_level_configuration_file(s_file_reference* file, wch
 	levels_find_scenario_chunk(file, file_buffer, &level, &byte_swap);
 	if (level)
 		levels_add_level(level, byte_swap, maps_path, is_dlc);
+}
+
+//bool __cdecl levels_try_and_get_multiplayer_map(e_map_id map_id, s_level_datum* level)
+bool __cdecl levels_try_and_get_multiplayer_map(long map_id, s_level_datum* level)
+{
+	return INVOKE(0x0054CB00, levels_try_and_get_multiplayer_map, map_id, level);
 }
 
 void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap)
