@@ -25,6 +25,7 @@ static_assert(sizeof(s_main_time_globals) == 0x40);
 
 extern bool& display_framerate;
 
+extern void __cdecl main_time_frame_rate_display();
 extern void __cdecl main_time_reset();
 extern void __cdecl main_time_throttle(qword a1);
 extern real __cdecl main_time_update();

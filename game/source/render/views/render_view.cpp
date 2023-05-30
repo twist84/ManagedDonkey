@@ -1,6 +1,7 @@
 #include "render/views/render_view.hpp"
 
 #include "interface/terminal.hpp"
+#include "main/main_time.hpp"
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x01913430, long, c_view::g_view_stack_top);
@@ -192,8 +193,6 @@ void __cdecl render_debug_frame_render()
         return;
 
     terminal_draw();
-
-    // main_time_frame_rate_display
-    DECLFUNC(0x00507B40, void, __cdecl)();
+    main_time_frame_rate_display();
 }
 
