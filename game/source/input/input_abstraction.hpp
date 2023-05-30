@@ -5,6 +5,17 @@
 #include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 
+struct s_keyboard_input_preferences
+{
+	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_gamepad_button_count_keyboard> keys_primary;
+	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_gamepad_button_count_keyboard> keys_alternative;
+	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_primary;
+	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_alternative;
+
+	short joystick_preset;
+};
+static_assert(sizeof(s_keyboard_input_preferences) == 0x17C);
+
 struct s_gamepad_input_preferences
 {
 	real look_sensitivity_x;
@@ -13,12 +24,8 @@ struct s_gamepad_input_preferences
 	c_static_array<c_enum<e_controller_button, char, _controller_button_left_trigger, k_controller_button_count>, k_gamepad_button_count> gamepad_buttons;
 	c_static_array<bool, k_gamepad_button_count> gamepad_buttons_held;
 
-	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_gamepad_button_count_keyboard> keys_primary;
-	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_gamepad_button_count_keyboard> keys_secondary;
-	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_primary;
-	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_secondary;
+	s_keyboard_input_preferences keyboard_preferences;
 
-	short joystick_preset;
 	bool controller_look_inverted;
 	bool controller_flight_stick_aircraft_controls;
 	short camera_panning;
@@ -109,7 +116,7 @@ extern void __cdecl input_abstraction_get_controller_preferences(long controller
 extern void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferences* preferences);
 extern void input_abstraction_get_input_state(long controller_index, s_game_input_state** input_state);
 extern void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, euler_angles2d* angular_velocity);
-extern void __cdecl sub_60C040(int keyboard_preset, s_gamepad_input_preferences* preferences);
+extern void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* preferences);
 extern void __cdecl input_abstraction_initialize();
 //extern void __cdecl input_abstraction_initialize_for_new_map();
 //extern void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);

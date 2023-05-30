@@ -135,14 +135,14 @@ long __cdecl global_preferences_get_controls_method()
 	return global_preferences_get()->preferences0.data.controls_settings.controls_method;
 }
 
-s_global_preferences_data::s_control_settings::s_bindings* __cdecl global_preferences_get_bindings(s_global_preferences_data::s_control_settings::s_bindings* bindings)
+s_keyboard_input_preferences* __cdecl global_preferences_get_keyboard_preferences(s_keyboard_input_preferences* preferences)
 {
-	return INVOKE(0x0050AB40, global_preferences_get_bindings, bindings);
+	return INVOKE(0x0050AB40, global_preferences_get_keyboard_preferences, preferences);
 }
 
-void __cdecl global_preferences_bindings_create_default(s_global_preferences_data::s_control_settings::s_bindings* bindings)
+void __cdecl global_preferences_keyboard_preferences_create_default(s_keyboard_input_preferences* preferences)
 {
-	INVOKE(0x0050AC10, global_preferences_get_bindings, bindings);
+	INVOKE(0x0050AC10, global_preferences_keyboard_preferences_create_default, preferences);
 }
 
 void __cdecl global_preferences_gameplay_settings_create_default(s_global_preferences_data::s_gameplay_settings* gameplay_settings)
@@ -837,6 +837,11 @@ void __cdecl global_preferences_set_controls_method(long controls_method)
 	c_global_preferences_scope_lock scope_lock;
 	global_preferences_get()->preferences0.data.controls_settings.controls_method = controls_method;
 	global_preferences_dirty(true);
+}
+
+void __cdecl global_preferences_set_keyboard_preferences(s_keyboard_input_preferences* keyboard_preferences)
+{
+	INVOKE(0x0050D040, global_preferences_set_keyboard_preferences, keyboard_preferences);
 }
 
 void __cdecl global_preferences_set_details_quality(e_quality_setting details_quality)
@@ -1542,6 +1547,9 @@ void value_handler(s_global_preference const& global_preference, value_converter
 		case _global_preference_type_subtitle_setting:
 			value.type_subtitle_setting = va_arg(parameters, e_subtitle_setting);
 			break;
+		case _global_preference_type_advertisement_mode:
+			value.type_advertisement_mode = va_arg(parameters, e_gui_network_session_advertisement_mode);
+			break;
 		}
 	}
 }
@@ -1588,6 +1596,9 @@ void function_handler(s_global_preference const& global_preference, value_conver
 			break;
 		case _global_preference_type_subtitle_setting:
 			function.type_subtitle_setting(values[0].type_subtitle_setting);
+			break;
+		case _global_preference_type_advertisement_mode:
+			function.type_advertisement_mode(values[0].type_advertisement_mode);
 			break;
 		}
 	}

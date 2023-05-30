@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/language.hpp"
 #include "game/game_options.hpp"
+#include "input/input_abstraction.hpp"
 #include "memory/secure_signature.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -279,20 +280,6 @@ struct s_global_preferences_data
 
 	struct s_control_settings
 	{
-		struct s_bindings
-		{
-			// e_key_code
-			c_static_array<short, 63> keys_primary;
-			c_static_array<short, 63> keys_secondary;
-
-			// e_mouse_button
-			c_static_array<char, 63> mouse_buttons_primary;
-			c_static_array<char, 63> mouse_buttons_secondary;
-
-			short joystick_layout;
-		};
-		static_assert(sizeof(s_bindings) == 0x17C);
-
 		long controls_method;
 		long mouse_sensitivity_vertical;
 		long mouse_sensitivity_horizontal;
@@ -302,7 +289,7 @@ struct s_global_preferences_data
 		bool mouse_filter;
 		bool mouse_inversion;
 		long keyboard_preset;
-		s_bindings bindings;
+		s_keyboard_input_preferences keyboard_preferences;
 	};
 	static_assert(sizeof(s_control_settings) == 0x19C);
 
@@ -373,8 +360,8 @@ extern real __cdecl global_preferences_get_betrayal_count();
 extern long __cdecl global_preferences_get_build_number();
 extern real __cdecl global_preferences_get_camera_fov();
 extern long __cdecl global_preferences_get_controls_method();
-extern s_global_preferences_data::s_control_settings::s_bindings* __cdecl global_preferences_get_bindings(s_global_preferences_data::s_control_settings::s_bindings* bindings);
-extern void __cdecl global_preferences_bindings_create_default(s_global_preferences_data::s_control_settings::s_bindings* bindings);
+extern s_keyboard_input_preferences* __cdecl global_preferences_get_keyboard_preferences(s_keyboard_input_preferences* preferences);
+extern void __cdecl global_preferences_bindings_create_default(s_keyboard_input_preferences* preferences);
 extern void __cdecl global_preferences_gameplay_settings_create_default(s_global_preferences_data::s_gameplay_settings* gameplay_settings);
 extern void __cdecl global_preferences_control_settings_create_default(s_global_preferences_data::s_control_settings* control_settings);
 extern void __cdecl global_preferences_sound_settings_create_default(s_global_preferences_data::s_sound_settings* sound_settings);
@@ -432,6 +419,7 @@ extern void __cdecl global_preferences_set_betrayal_count(real betrayal_count);
 extern void __cdecl global_preferences_set_build_number(long build_number);
 extern void __cdecl global_preferences_set_camera_fov(real camera_fov);
 extern void __cdecl global_preferences_set_controls_method(long controls_method);
+extern void __cdecl global_preferences_set_keyboard_preferences(s_keyboard_input_preferences* keyboard_preferences);
 extern void __cdecl global_preferences_set_details_quality(e_quality_setting details_quality);
 extern void __cdecl global_preferences_set_brightness(long brightness);
 extern void __cdecl global_preferences_set_contrast(long contrast);
@@ -543,7 +531,7 @@ enum e_global_preference_type
 	_global_preference_type_quality_setting,
 	_global_preference_type_language,
 	_global_preference_type_subtitle_setting,
-	//_global_preference_type_advertisement_mode,
+	_global_preference_type_advertisement_mode,
 
 	k_global_preference_type_count
 };

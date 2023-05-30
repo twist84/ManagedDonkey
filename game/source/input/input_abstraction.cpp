@@ -52,7 +52,7 @@ short __cdecl input_abstraction_get_abstract_stick_pitch(long controller_index)
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
 	int16_point2d* abstract_sticks = input_abstraction_globals.input_states[controller_index].abstract_sticks;
-	short joystick_preset = input_abstraction_globals.preferences[controller_index].joystick_preset;
+	short joystick_preset = input_abstraction_globals.preferences[controller_index].keyboard_preferences.joystick_preset;
 
 	return abstract_sticks[(joystick_preset == 1 || joystick_preset == 3) ? 0 : 1].y;
 }
@@ -114,7 +114,7 @@ void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_
 	angular_velocity->pitch = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_y * DEG);
 }
 
-//void __cdecl sub_60C040(int keyboard_preset, s_gamepad_input_preferences* preferences)
+//void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* preferences)
 //{
 //	HOOK_INVOKE(, sub_60C040, keyboard_preset, preferences);
 //}
