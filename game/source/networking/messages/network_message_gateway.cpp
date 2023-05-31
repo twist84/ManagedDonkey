@@ -34,6 +34,49 @@ void __fastcall c_network_message_gateway::_write_packet_header(c_network_messag
 	_this->write_packet_header();
 }
 
+void __cdecl c_network_message_gateway::attach_handler(c_network_message_handler* message_handler)
+{
+	m_message_handler = message_handler;
+}
+
+void __cdecl c_network_message_gateway::destroy_gateway()
+{
+	if (m_initialized)
+	{
+		if (m_link)
+		{
+			m_link->attach_out_of_band(nullptr);
+			m_link = nullptr;
+		}
+
+		m_message_handler = nullptr;
+		m_message_types = nullptr;
+		m_initialized = false;
+
+		//c_console::write_line("MP/NET/MESSAGE,CTRL: c_network_message_gateway::destroy_gateway: Message gateway destoyed");
+	}
+}
+
+bool __cdecl c_network_message_gateway::initialize_gateway(c_network_link* link, c_network_message_type_collection const* message_types)
+{
+	ASSERT(link);
+	ASSERT(message_types);
+
+	m_link = link;
+	link->attach_out_of_band(this);
+
+	m_message_types = message_types;
+	message_types->check_message_types();
+
+	m_message_handler = nullptr;
+	m_outgoing_packet_pending = false;
+	m_initialized = true;
+
+	//c_console::write_line("MP/NET/MESSAGE,CTRL: c_network_message_gateway::initialize_gateway: Message gateway inited");
+
+	return true;
+}
+
 bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
 {
 	//return INVOKE(0x00483E20, c_network_message_gateway::read_packet_header, packet);
@@ -68,7 +111,7 @@ bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_add
 
 	e_network_message_type message_type;
 	long message_storage_size = 0;
-	byte message_storage[0x40000];
+	byte message_storage[0x40000]{};
 
 	packet->data_is_untrusted(true);
 	packet->begin_reading();
@@ -168,7 +211,7 @@ void __cdecl c_network_message_gateway::send_all_pending_messages()
 
 			e_network_message_type message_type;
 			long message_storage_size = 0;
-			byte message_storage[0x40000];
+			byte message_storage[0x40000]{};
 
 			while (m_outgoing_packet.read_bool("has_message"))
 			{
@@ -276,6 +319,14 @@ bool __cdecl c_network_message_gateway::send_message_directed(transport_address 
 		encoded_bits);
 
 	return false;
+}
+
+void __cdecl c_network_message_gateway::send_pending_messages_to_address(transport_address const* address)
+{
+	ASSERT(m_initialized);
+
+	if (m_outgoing_packet_pending && transport_address_equivalent(&m_outgoing_packet_address, address))
+		send_all_pending_messages();
 }
 
 void __cdecl c_network_message_gateway::write_packet_header()

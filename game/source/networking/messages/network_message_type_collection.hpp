@@ -101,6 +101,7 @@ public:
 		dispose_t* dispose_function
 	);
 
+	void __cdecl check_message_types() const;
 	void __cdecl clear_message_types();
 	bool __cdecl decode_message(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage) const;
 	bool __cdecl decode_message_header(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size) const;
