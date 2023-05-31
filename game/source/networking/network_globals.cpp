@@ -83,7 +83,7 @@ bool __cdecl network_memory_base_initialize(
 }
 HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
 
-void __cdecl network_message_types_register_test(c_network_message_type_collection* message_collection)
+void __cdecl _network_message_types_register_test(c_network_message_type_collection* message_collection)
 {
 	ASSERT(message_collection);
 
@@ -91,7 +91,7 @@ void __cdecl network_message_types_register_test(c_network_message_type_collecti
 
 	INVOKE(0x004E1000, network_message_types_register_test, message_collection);
 }
-HOOK_DECLARE_CALL(0x0049E289, network_message_types_register_test);
+HOOK_DECLARE_CALL(0x0049E289, _network_message_types_register_test);
 
 bool __cdecl network_initialized()
 {

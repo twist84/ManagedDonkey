@@ -360,8 +360,15 @@ POPD
     <ClCompile Include="source\networking\logic\network_session_interface.cpp" />
     <ClCompile Include="source\networking\logic\storage\network_http_buffer_downloader.cpp" />
     <ClCompile Include="source\networking\logic\storage\network_http_request_queue.cpp" />
+    <ClCompile Include="source\networking\messages\network_messages_connect.cpp" />
     <ClCompile Include="source\networking\messages\network_messages_out_of_band.cpp" />
+    <ClCompile Include="source\networking\messages\network_messages_session_membership.cpp" />
+    <ClCompile Include="source\networking\messages\network_messages_session_parameters.cpp" />
     <ClCompile Include="source\networking\messages\network_messages_session_protocol.cpp" />
+    <ClCompile Include="source\networking\messages\network_messages_simulation.cpp" />
+    <ClCompile Include="source\networking\messages\network_messages_simulation_distributed.cpp" />
+    <ClCompile Include="source\networking\messages\network_messages_simulation_synchronous.cpp" />
+    <ClCompile Include="source\networking\messages\network_messages_test.cpp" />
     <ClCompile Include="source\networking\messages\network_messages_text_chat.cpp" />
     <ClCompile Include="source\networking\messages\network_message_gateway.cpp" />
     <ClCompile Include="source\networking\messages\network_message_handler.cpp" />

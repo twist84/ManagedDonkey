@@ -48,8 +48,47 @@ struct s_network_message_synchronous_gamestate
 };
 static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);
 
-//struct s_network_message_synchronous_client_ready
-//{
-//};
-//static_assert(sizeof(s_network_message_synchronous_client_ready) == 0x0);
+struct c_bitstream;
+
+class c_network_message_synchronous_update
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static bool __cdecl compare(long, void*, void*);
+	static void __cdecl dispose(long, void*);
+};
+
+class c_network_message_synchronous_playback_control
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_synchronous_actions
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+	static bool __cdecl compare(long, void*, void*);
+	static void __cdecl dispose(long, void*);
+};
+
+class c_network_message_synchronous_acknowledge
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_synchronous_gamestate
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+struct c_network_message_type_collection;
+extern void __cdecl network_message_types_register_simulation_synchronous(c_network_message_type_collection* message_collection);
 

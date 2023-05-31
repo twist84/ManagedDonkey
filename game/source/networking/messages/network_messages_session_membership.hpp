@@ -185,3 +185,64 @@ struct s_network_message_player_properties
 };
 static_assert(sizeof(s_network_message_player_properties) == 0x4C);
 
+struct c_bitstream;
+
+class c_network_message_membership_update
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_peer_properties
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_delegate_leadership
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_boot_machine
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_player_add
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_player_refuse
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_player_remove
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+class c_network_message_player_properties
+{
+public:
+	static void __cdecl encode(c_bitstream* packet, long message_storage_size, void const* message_storage);
+	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
+};
+
+struct c_network_message_type_collection;
+extern void __cdecl network_message_types_register_session_membership(c_network_message_type_collection* message_collection);
+
