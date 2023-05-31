@@ -1,6 +1,7 @@
 #include "interface/user_interface_session.hpp"
 
 #include "cseries/cseries_console.hpp"
+#include "main/console.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
 
@@ -97,8 +98,16 @@ long __cdecl user_interface_squad_get_player_index(s_player_identifier const* pl
 
 bool __cdecl user_interface_squad_delegate_leadership(long player_index)
 {
-    return INVOKE(0x00A82900, user_interface_squad_delegate_leadership, player_index);
+    //return INVOKE(0x00A82900, user_interface_squad_delegate_leadership, player_index);
+
+    console_printf_color(global_real_argb_red, "unimplemented: user_interface_squad_delegate_leadership");
+
+    // skip doing any sort leadership delegating, it will just make no one the leader
+    // thus making it impossible to do anything with the current lobby
+    // #TODO: fix any underlying issues causing the above behaviour
+    return false;
 }
+HOOK_DECLARE_CALL(0x00B0A120, user_interface_squad_delegate_leadership);
 
 //.text:00A82960 ; bool __cdecl user_interface_squad_end_game()
 //.text:00A82980 ; bool __cdecl user_interface_squad_exists()
