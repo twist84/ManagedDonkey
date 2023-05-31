@@ -290,7 +290,7 @@ struct c_flags
 {
 public:
 	c_flags() :
-		m_storage()
+		m_storage(0)
 	{
 
 	}
@@ -339,6 +339,11 @@ public:
 		ASSERT(valid_bit(bit));
 
 		return TEST_BIT(m_storage, static_cast<t_storage_type>(bit));
+	}
+
+	bool operator==(c_flags<t_type, t_storage_type, k_count>& value)
+	{
+		return m_storage == value.m_storage;
 	}
 
 	bool operator==(t_type value)
@@ -399,7 +404,8 @@ template<typename t_type, typename t_storage_type, t_type k_minimum_value, t_typ
 struct c_enum
 {
 public:
-	c_enum()
+	c_enum() :
+		m_storage(k_minimum_value)
 	{
 	}
 
