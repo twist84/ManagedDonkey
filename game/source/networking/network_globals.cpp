@@ -12,6 +12,7 @@
 #include "networking/delivery/network_link.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
+#include "networking/messages/network_messages_test.hpp"
 #include "networking/messages/network_messages_text_chat.hpp"
 #include "networking/network_time.hpp"
 #include "networking/network_memory.hpp"
@@ -88,8 +89,7 @@ void __cdecl _network_message_types_register_test(c_network_message_type_collect
 	ASSERT(message_collection);
 
 	network_message_types_register_text_chat(message_collection);
-
-	INVOKE(0x004E1000, network_message_types_register_test, message_collection);
+	network_message_types_register_test(message_collection);
 }
 HOOK_DECLARE_CALL(0x0049E289, _network_message_types_register_test);
 
