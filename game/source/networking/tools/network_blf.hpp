@@ -5,6 +5,7 @@
 #include "memory/secure_signature.hpp"
 #include "saved_games/saved_game_files.hpp"
 
+#pragma pack(push, 1)
 struct s_blf_header
 {
 public:
@@ -16,6 +17,7 @@ public:
 	short minor_version;
 };
 static_assert(sizeof(s_blf_header) == 0xC);
+#pragma pack(pop)
 
 struct s_blf_chunk_start_of_file
 {
@@ -159,9 +161,8 @@ public:
 	s_blf_chunk_map_variant();
 
 	s_blf_header header;
-
+	short : 16;
 	c_map_variant map_variant;
-	byte pad[4];
 };
 static_assert(sizeof(s_blf_chunk_map_variant) == sizeof(s_blf_header) + 0xE094);
 
@@ -191,6 +192,8 @@ struct s_blffile_map_variant : s_blffile_saved_game_file
 {
 public:
 	s_blffile_map_variant();
+
+	bool copy_to_and_validate(c_map_variant* map_variant, bool* is_valid) const;
 
 	s_blf_chunk_map_variant map_variant_chunk;
 	s_blf_chunk_end_of_file end_of_file_chunk;

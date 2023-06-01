@@ -190,7 +190,11 @@ bool __cdecl user_interface_squad_set_map_variant(c_map_variant const* map_varia
     return INVOKE(0x00A83AB0, user_interface_squad_set_map_variant, map_variant);
 }
 
-//.text:00A83AF0 ; bool __cdecl user_interface_squad_set_multiplayer_map_internal(c_map_variant const* map_variant, bool needs_verification)
+bool __cdecl user_interface_squad_set_multiplayer_map_internal(c_map_variant const* map_variant, bool needs_verification)
+{
+    return INVOKE(0x00A83AF0, user_interface_squad_set_multiplayer_map_internal, map_variant, needs_verification);
+}
+
 //.text:00A83C90 ; bool __cdecl user_interface_squad_set_saved_film_game_options(long playback_length_in_ticks, int playback_start_ticks, game_options *options)
 //.text:00A83CC0 ; bool __cdecl user_interface_squad_set_simulation_protocol(e_network_game_simulation_protocol simulation_protocol)
 //.text:00A83CD0 ; char __cdecl user_interface_squad_set_start_mode(e_network_game_start_mode start_mode)

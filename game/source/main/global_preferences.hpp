@@ -67,10 +67,10 @@ struct s_gui_game_setup_storage
 			return &m_variant;
 		}
 
-		void set_variant(c_map_variant const& source)
+		void set_variant(c_map_variant& source)
 		{
 			//if (!m_variant.is_equal_to(&source))
-				m_variant.read_from(&source);
+				source.read_from(&m_variant);
 		}
 
 	protected:

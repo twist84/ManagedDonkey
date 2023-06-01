@@ -240,18 +240,46 @@ void __cdecl main_loop_body_begin()
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
 	{
-#ifndef ISEXPERIMENTAL
-		s_file_reference file_reference;
-		file_reference_create_from_path(&file_reference, "C:\\Dev\\Blam\\Halo 3 (March 8 2007)\\saved_films\\riverwo_F9EB78A3.film", false);
+#ifdef ISEXPERIMENTAL
+		s_file_reference file;
+		file_reference_create_from_path(&file, "ed\\maps\\Fatty Fat Kid (Personality).bin", false);
 
-		static char file_buffer[0x200000]{};
-		s_blf_saved_film::s_blf_chunk_saved_film_header_delta const* saved_film_header = nullptr;
-		bool byte_swap = false;
+		dword error = 0;
+		if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_read), &error)/* && error == 0*/)
+		{
+			s_blffile_map_variant map_variant_file{};
+			if (file_read(&file, sizeof(s_blffile_map_variant), false, &map_variant_file))
+			{
+				c_map_variant& map_variant = map_variant_file.map_variant_chunk.map_variant;
+				if (user_interface_squad_set_multiplayer_map_internal(&map_variant, false))
+				{
+					s_gui_game_setup_storage game_setup{};
+					s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();
+					csmemcpy(&game_setup, last_game_setup, sizeof(s_gui_game_setup_storage));
 
-		find_blf_chunk(&file_reference, file_buffer, &saved_film_header, &byte_swap);
+					c_map_variant const* map_variant = game_setup.get_multiplayer()->map_variant_settings.get_variant();
+					map_variant_file.map_variant_chunk.map_variant.read_from(map_variant);
+
+					global_preferences_set_last_game_setup(&game_setup);
+				}
+			}
+
+			file_close(&file);
+		}
 
 		printf("");
 
+		//s_file_reference file_reference;
+		//file_reference_create_from_path(&file_reference, "C:\\Dev\\Blam\\Halo 3 (March 8 2007)\\saved_films\\riverwo_F9EB78A3.film", false);
+		//
+		//static char file_buffer[0x200000]{};
+		//s_blf_saved_film::s_blf_chunk_saved_film_header_delta const* saved_film_header = nullptr;
+		//bool byte_swap = false;
+		//
+		//find_blf_chunk(&file_reference, file_buffer, &saved_film_header, &byte_swap);
+		//
+		//printf("");
+		//
 		//static s_blf_saved_film blf_saved_film;
 		//static c_game_variant game_variant;
 		//static c_map_variant map_variant;
@@ -259,7 +287,7 @@ void __cdecl main_loop_body_begin()
 		//if (!blf_saved_film.copy_to_and_validate(&game_variant, &map_variant, &is_valid) && is_valid)
 		//	c_console::write_line("ui: unable to load variants from saved film file, copy_to_and_validate() failed!");
 #else
-		shell_halt_with_message("FUCK");
+		//shell_halt_with_message("FUCK");
 #endif // ISEXPERIMENTAL
 	}
 

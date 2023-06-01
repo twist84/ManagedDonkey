@@ -108,8 +108,6 @@ s_blf_chunk_map_variant::s_blf_chunk_map_variant() :
 	map_variant()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
-
-	memset(pad, 0, sizeof(pad));
 }
 
 s_blffile_saved_game_file::s_blffile_saved_game_file() :
@@ -132,6 +130,65 @@ s_blffile_map_variant::s_blffile_map_variant() :
 	end_of_file_chunk()
 {
 	memset(pad, 0, sizeof(pad));
+}
+
+bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, bool* is_valid) const
+{
+	//return DECLFUNC(0x00573250, bool, __thiscall, s_blffile_map_variant const*, c_map_variant*, bool*)(this, map_variant, is_valid);
+
+	bool byte_swap = false;
+	long chunk_size = 0;
+	if (!network_blf_verify_start_of_file((char*)this, sizeof(s_blf_chunk_map_variant), &byte_swap, &chunk_size))
+		return false;
+
+	char const* next_chunk = (char*)this + chunk_size;
+
+	bool eof_chunk = false;
+	char const* chunk = nullptr;
+	if (network_blf_read_for_known_chunk(
+		(char const*)this + chunk_size,
+		sizeof(s_blf_chunk_map_variant) - (chunk - (char const*)this),
+		byte_swap,
+		s_blf_chunk_map_variant::k_chunk_type,
+		s_blf_chunk_map_variant::k_version_major,
+		&chunk_size,
+		&chunk,
+		nullptr,
+		nullptr,
+		&eof_chunk))
+	{
+		while (!eof_chunk)
+		{
+			if (!byte_swap && chunk)
+			{
+				s_blf_chunk_map_variant* map_variant_chunk = (s_blf_chunk_map_variant*)chunk;
+				map_variant_chunk->map_variant.read_from(map_variant);
+
+				if (is_valid)
+					*is_valid = true;
+
+				return true;
+			}
+
+			next_chunk += chunk_size;
+			if (!network_blf_read_for_known_chunk(
+				next_chunk,
+				(char const*)this - chunk + sizeof(s_blf_chunk_map_variant),
+				byte_swap,
+				s_blf_chunk_map_variant::k_chunk_type,
+				s_blf_chunk_map_variant::k_version_major,
+				&chunk_size,
+				&chunk,
+				nullptr,
+				nullptr,
+				&eof_chunk))
+			{
+				return false;
+			}
+		}
+	}
+
+	return false;
 }
 
 s_blf_saved_film::s_blf_chunk_saved_film_header::s_blf_chunk_saved_film_header() :
