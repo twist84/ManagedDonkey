@@ -25,7 +25,8 @@ dword __cdecl crc_checksum_buffer_adler32(dword adler, byte* buffer, dword buffe
 
 		char group_string[8]{};
 		tag_to_string(instance->group_tags[0], group_string);
-		display_debug_string("tags: tag instance checksum mismatch calcutaled/expected %08u/%08u, ['%s', 0x%04X]", checksum, instance->checksum, group_string, 0 /* tag index or tag section offset */);
+		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[g_cache_file_globals.tag_loaded_count];
+		display_debug_string("tags: tag instance checksum mismatch calcutaled/expected %08X/%08X, ['%s', 0x%04X]", checksum, instance->checksum, group_string, tag_index);
 
 		instance->checksum = checksum;
 	}

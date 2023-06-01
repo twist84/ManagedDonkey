@@ -295,8 +295,13 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 	for (short data_fixup_index = 0; data_fixup_index < instance->data_fixup_count; data_fixup_index++)
 	{
 		cache_address& data_fixup = *reinterpret_cast<cache_address*>(instance->base + data_fixups[data_fixup_index].offset);
-		ASSERT(data_fixup.persistent == true);
+		if (!data_fixup.value) // 0.4.11.2 tags messed up `tag0a55.gui_datasource_definition` data fixups
+			continue;
 
+		if (!data_fixup.persistent) // 0.4.11.2 tags messed up `levels\multi\s3d_avalanche\s3d_avalanche.scenario` data fixups
+			continue;
+
+		ASSERT(data_fixup.persistent == true);
 		data_fixup.offset += (dword)instance->base;
 		data_fixup.persistent = false;
 		ASSERT(data_fixup.value == data_fixup.offset);
@@ -579,6 +584,8 @@ void __cdecl cache_file_tags_fixup_all_instances()
 
 	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
 	{
+		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
+
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 		cache_file_tags_single_tag_instance_fixup(instance);
 	}
