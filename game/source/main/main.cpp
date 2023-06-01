@@ -242,8 +242,8 @@ void __cdecl main_loop_body_begin()
 	{
 #ifdef ISEXPERIMENTAL
 		console_process_command("net_session_create multiplayer system_link", true);
-		console_process_command("net_load_and_use_game_variant mcc\\hopper_game_variants\\10_min_slayer_br_010.bin", true);
 		console_process_command("net_load_and_use_map_variant \"ed\\0.4.11.2\\maps\\Highlander - Air Ball.bin\"", true);
+		console_process_command("net_load_and_use_game_variant \"ed\\0.4.11.2\\variants\\Highlander - Air Ball.bin\"", true);
 		console_process_command("net_test_session_mode setup", true);
 
 		printf("");

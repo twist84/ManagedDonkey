@@ -215,6 +215,8 @@ extern bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long pl
 extern e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_identifier, bool is_matchmaking, bool check_hopper, c_network_session_membership const* session_membership, word* out_player_error_mask);
 
 extern void __cdecl network_build_game_variant(char const* filename);
+extern void __cdecl network_load_and_use_game_variant_file(char const* filename);
+extern void __cdecl network_verify_game_variant_file(char const* filename);
 extern void __cdecl network_load_and_use_packed_game_variant_file(char const* filename);
 extern void __cdecl network_verify_packed_game_variant_file(char const* filename);
 

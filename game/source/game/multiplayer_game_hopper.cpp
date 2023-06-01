@@ -250,6 +250,122 @@ bool __cdecl create_configuration_file(const char* filename, const void* file_co
     return result;
 }
 
+void __cdecl network_build_game_variant(char const* filename)
+{
+    byte* buffer = new byte[0x600]{};
+    c_static_string<256> filepath;
+
+    c_game_variant const* game_variant = &game_options_get()->game_variant;
+    long file_size = multiplayer_game_hopper_pack_game_variant(buffer, 0x600, game_variant);
+
+    // 5:  halo3_cache_debug
+    // 10: halo3_tag_test
+    // 18: hf2p_game_client_cache_release, using `k_cache_file_version`
+    filepath.print("game_variants\\%s_%03u.bin", filename, 18);
+    if (!create_configuration_file(filepath.get_string(), buffer, file_size))
+    {
+        c_console::write_line("failed!");
+    }
+
+    delete[] buffer;
+}
+
+void __cdecl network_build_map_variant(char const* filename)
+{
+    byte* buffer = new byte[sizeof(s_blffile_map_variant)]{};
+    c_static_string<256> filepath;
+
+    c_map_variant const* map_variant = &game_options_get()->map_variant;
+    {
+        TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals); // use runtime map variant
+        map_variant = &game_engine_globals->map_variant;
+    }
+
+    long file_size = multiplayer_game_hopper_pack_map_variant(buffer, sizeof(s_blffile_map_variant), map_variant);
+
+    // 4:  halo3_cache_debug
+    // 12: halo3_tag_test
+    // 19: hf2p_game_client_cache_release, using `k_cache_file_version` + 1
+    filepath.print("map_variants\\%s_%03u.mvar", filename, 19);
+    if (!create_configuration_file(filepath.get_string(), buffer, file_size))
+    {
+        c_console::write_line("failed!");
+    }
+
+    delete[] buffer;
+}
+
+void __cdecl network_game_variant_file_juju(char const* filename, bool load_and_use)
+{
+    s_file_reference info;
+    if (!file_reference_create_from_path(&info, filename, 0))
+    {
+        c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
+        return;
+    }
+
+    dword error = 0;
+    if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
+    {
+        c_console::write_line("networking:configuration: failed to open file '%s'", filename);
+        return;
+    }
+
+    dword size = 0;
+    if (!file_get_size(&info, &size))
+    {
+        c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    byte buffer[0x1000]{};
+    csmemset(buffer, 0, sizeof(buffer));
+
+    if (size > sizeof(buffer))
+    {
+        c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
+        file_close(&info);
+        return;
+    }
+
+    if (!file_read(&info, size, false, buffer))
+    {
+        c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    s_blffile_game_variant* game_variant_file = reinterpret_cast<s_blffile_game_variant*>(buffer);
+    c_game_variant* game_variant = &game_variant_file->game_variant_chunk.game_variant;
+
+    if (!game_engine_variant_is_valid(game_variant))
+    {
+        c_console::write_line("networking:configuration: game variant in file '%s' is invalid", filename);
+
+        file_close(&info);
+        return;
+    }
+
+    c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+
+    if (!load_and_use)
+    {
+        file_close(&info);
+        return;
+    }
+
+    if (!network_squad_session_set_game_variant(game_variant))
+    {
+        c_console::write_line("networking:configuration: failed to set session game variant traits, probably not in a session");
+
+        file_close(&info);
+        return;
+    }
+
+    file_close(&info);
+}
+
 void __cdecl network_packed_game_variant_file_juju(char const* filename, bool load_and_use)
 {
     s_file_reference info;
@@ -332,59 +448,99 @@ void __cdecl network_packed_game_variant_file_juju(char const* filename, bool lo
     file_close(&info);
 }
 
-void __cdecl network_build_game_variant(char const* filename)
+void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_use)
 {
-    byte* buffer = new byte[0x600]{};
-    c_static_string<256> filepath;
-
-    c_game_variant const* game_variant = &game_options_get()->game_variant;
-    long file_size = multiplayer_game_hopper_pack_game_variant(buffer, 0x600, game_variant);
-
-    // 5:  halo3_cache_debug
-    // 10: halo3_tag_test
-    // 18: hf2p_game_client_cache_release, using `k_cache_file_version`
-    filepath.print("game_variants\\%s_%03u.bin", filename, 18);
-    if (!create_configuration_file(filepath.get_string(), buffer, file_size))
+    s_file_reference info;
+    if (!file_reference_create_from_path(&info, filename, 0))
     {
-        c_console::write_line("failed!");
+        c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
+        return;
+    }
+
+    dword error = 0;
+    if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
+    {
+        c_console::write_line("networking:configuration: failed to open file '%s'", filename);
+        return;
+    }
+
+    dword size = 0;
+    if (!file_get_size(&info, &size))
+    {
+        c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    byte* buffer = new byte[0xF000]{};
+    csmemset(buffer, 0, 0xF000);
+
+    if (size > 0xF000)
+    {
+        c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, 0xF000);
+        file_close(&info);
+        return;
+    }
+
+    if (!file_read(&info, size, false, buffer))
+    {
+        c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    s_blffile_map_variant* map_variant_file = reinterpret_cast<s_blffile_map_variant*>(buffer);
+    c_map_variant* map_variant = &map_variant_file->map_variant_chunk.map_variant;
+
+    if (!map_variant->validate())
+    {
+        c_console::write_line("networking:configuration: map variant in file '%s' is invalid", filename);
+
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+
+    if (!load_and_use)
+    {
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    char scenario_path[256]{};
+    levels_get_path(NONE, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
+    if (!scenario_path[0])
+    {
+        c_console::write_line("attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
+
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    if (!network_squad_session_set_map(NONE, map_variant->get_map_id(), scenario_path))
+    {
+        c_console::write_line("networking:configuration: failed to set session map, probably not in a session");
+
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    if (!network_squad_session_set_map_variant(map_variant))
+    {
+        c_console::write_line("networking:configuration: failed to set session map variant traits, probably not in a session");
+
+        delete[] buffer;
+        file_close(&info);
+        return;
     }
 
     delete[] buffer;
-}
-
-void __cdecl network_load_and_use_packed_game_variant_file(char const* filename)
-{
-    network_packed_game_variant_file_juju(filename, true);
-}
-
-void __cdecl network_verify_packed_game_variant_file(char const* filename)
-{
-    network_packed_game_variant_file_juju(filename, false);
-}
-
-void __cdecl network_build_map_variant(char const* filename)
-{
-    byte* buffer = new byte[sizeof(s_blffile_map_variant)]{};
-    c_static_string<256> filepath;
-
-    c_map_variant const* map_variant = &game_options_get()->map_variant;
-    {
-        TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals); // use runtime map variant
-        map_variant = &game_engine_globals->map_variant;
-    }
-
-    long file_size = multiplayer_game_hopper_pack_map_variant(buffer, sizeof(s_blffile_map_variant), map_variant);
-
-    // 4:  halo3_cache_debug
-    // 12: halo3_tag_test
-    // 19: hf2p_game_client_cache_release, using `k_cache_file_version` + 1
-    filepath.print("map_variants\\%s_%03u.mvar", filename, 19);
-    if (!create_configuration_file(filepath.get_string(), buffer, file_size))
-    {
-        c_console::write_line("failed!");
-    }
-
-    delete[] buffer;
+    file_close(&info);
 }
 
 void __cdecl network_packed_map_variant_file_juju(char const* filename, bool load_and_use)
@@ -496,109 +652,29 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
     file_close(&info);
 }
 
-void __cdecl network_load_and_use_packed_map_variant_file(char const* filename)
+void __cdecl network_verify_game_variant_file(char const* filename)
 {
-    network_packed_map_variant_file_juju(filename, true);
+    network_game_variant_file_juju(filename, false);
 }
 
-void __cdecl network_verify_packed_map_variant_file(char const* filename)
+void __cdecl network_load_and_use_game_variant_file(char const* filename)
 {
-    network_packed_map_variant_file_juju(filename, false);
+    network_game_variant_file_juju(filename, true);
 }
 
-void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_use)
+void __cdecl network_verify_packed_game_variant_file(char const* filename)
 {
-    s_file_reference info;
-    if (!file_reference_create_from_path(&info, filename, 0))
-    {
-        c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
-        return;
-    }
+    network_packed_game_variant_file_juju(filename, false);
+}
 
-    dword error = 0;
-    if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
-    {
-        c_console::write_line("networking:configuration: failed to open file '%s'", filename);
-        return;
-    }
+void __cdecl network_load_and_use_packed_game_variant_file(char const* filename)
+{
+    network_packed_game_variant_file_juju(filename, true);
+}
 
-    dword size = 0;
-    if (!file_get_size(&info, &size))
-    {
-        c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
-        file_close(&info);
-        return;
-    }
-
-    byte* buffer = new byte[0xF000]{};
-    csmemset(buffer, 0, 0xF000);
-
-    if (size > 0xF000)
-    {
-        c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, 0xF000);
-        file_close(&info);
-        return;
-    }
-
-    if (!file_read(&info, size, false, buffer))
-    {
-        c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
-        file_close(&info);
-        return;
-    }
-
-    s_blffile_map_variant* map_variant_file = reinterpret_cast<s_blffile_map_variant*>(buffer);
-    c_map_variant* map_variant = &map_variant_file->map_variant_chunk.map_variant;
-
-    if (!map_variant->validate())
-    {
-        c_console::write_line("networking:configuration: map variant in file '%s' is invalid", filename);
-
-        delete[] buffer;
-        file_close(&info);
-        return;
-    }
-
-    c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
-
-    if (!load_and_use)
-    {
-        delete[] buffer;
-        file_close(&info);
-        return;
-    }
-
-    char scenario_path[256]{};
-    levels_get_path(NONE, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
-    if (!scenario_path[0])
-    {
-        c_console::write_line("attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
-
-        delete[] buffer;
-        file_close(&info);
-        return;
-    }
-
-    if (!network_squad_session_set_map(NONE, map_variant->get_map_id(), scenario_path))
-    {
-        c_console::write_line("networking:configuration: failed to set session map, probably not in a session");
-
-        delete[] buffer;
-        file_close(&info);
-        return;
-    }
-
-    if (!network_squad_session_set_map_variant(map_variant))
-    {
-        c_console::write_line("networking:configuration: failed to set session map variant traits, probably not in a session");
-
-        delete[] buffer;
-        file_close(&info);
-        return;
-    }
-
-    delete[] buffer;
-    file_close(&info);
+void __cdecl network_verify_map_variant_file(char const* filename)
+{
+    network_map_variant_file_juju(filename, false);
 }
 
 void __cdecl network_load_and_use_map_variant_file(char const* filename)
@@ -606,8 +682,13 @@ void __cdecl network_load_and_use_map_variant_file(char const* filename)
     network_map_variant_file_juju(filename, true);
 }
 
-void __cdecl network_verify_map_variant_file(char const* filename)
+void __cdecl network_verify_packed_map_variant_file(char const* filename)
 {
-    network_map_variant_file_juju(filename, false);
+    network_packed_map_variant_file_juju(filename, false);
+}
+
+void __cdecl network_load_and_use_packed_map_variant_file(char const* filename)
+{
+    network_packed_map_variant_file_juju(filename, true);
 }
 

@@ -771,12 +771,32 @@ callback_result_t net_verify_game_variant_callback(void const* userdata, long to
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	char const* filename = tokens.m_storage[1]->get_string();
-	network_verify_packed_game_variant_file(filename);
+	network_verify_game_variant_file(filename);
 
 	return result;
 }
 
 callback_result_t net_load_and_use_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	network_load_and_use_game_variant_file(filename);
+
+	return result;
+}
+
+callback_result_t net_verify_packed_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* filename = tokens.m_storage[1]->get_string();
+	network_verify_packed_game_variant_file(filename);
+
+	return result;
+}
+
+callback_result_t net_load_and_use_packed_game_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 

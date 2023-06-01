@@ -117,6 +117,8 @@ COMMAND_CALLBACK_DECLARE(net_test_game_variant_parameter);
 COMMAND_CALLBACK_DECLARE(net_build_game_variant);
 COMMAND_CALLBACK_DECLARE(net_verify_game_variant);
 COMMAND_CALLBACK_DECLARE(net_load_and_use_game_variant);
+COMMAND_CALLBACK_DECLARE(net_verify_packed_game_variant);
+COMMAND_CALLBACK_DECLARE(net_load_and_use_packed_game_variant);
 COMMAND_CALLBACK_DECLARE(net_build_map_variant);
 COMMAND_CALLBACK_DECLARE(net_verify_map_variant);
 COMMAND_CALLBACK_DECLARE(net_load_and_use_map_variant);
@@ -187,8 +189,12 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_test_game_variant_parameter, 2, "<string> <long>", "network test: sets a parameter of the current game variant\r\nNETWORK SAFE: No, for mainmenu only"),
 
 	COMMAND_CALLBACK_REGISTER(net_build_game_variant, 1, "<string>", "writes the current game variant to a file\r\nNETWORK SAFE: Yes"),
-	COMMAND_CALLBACK_REGISTER(net_verify_game_variant, 1, "<string>", "verifies the contents of a packed game variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(net_load_and_use_game_variant, 1, "<string>", "loads the contents of a packed game variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(net_verify_game_variant, 1, "<string>", "verifies the contents of a game variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(net_load_and_use_game_variant, 1, "<string>", "loads the contents of a game variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(net_verify_packed_game_variant, 1, "<string>", "verifies the contents of a packed game variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(net_load_and_use_packed_game_variant, 1, "<string>", "loads the contents of a packed game variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_build_map_variant, 1, "<string>", "writes the current map variant to a file\r\nNETWORK SAFE: Yes"),
 
