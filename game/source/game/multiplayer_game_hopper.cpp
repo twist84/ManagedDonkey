@@ -416,7 +416,7 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
     if (size > sizeof(s_blffile_map_variant))
     {
-        c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(buffer));
+        c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, sizeof(s_blffile_map_variant));
         file_close(&info);
         return;
     }
@@ -504,5 +504,110 @@ void __cdecl network_load_and_use_packed_map_variant_file(char const* filename)
 void __cdecl network_verify_packed_map_variant_file(char const* filename)
 {
     network_packed_map_variant_file_juju(filename, false);
+}
+
+void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_use)
+{
+    s_file_reference info;
+    if (!file_reference_create_from_path(&info, filename, 0))
+    {
+        c_console::write_line("networking:configuration: failed to create file reference for file '%s'", filename);
+        return;
+    }
+
+    dword error = 0;
+    if (!file_open(&info, FLAG(_file_open_flag_desired_access_read), &error))
+    {
+        c_console::write_line("networking:configuration: failed to open file '%s'", filename);
+        return;
+    }
+
+    dword size = 0;
+    if (!file_get_size(&info, &size))
+    {
+        c_console::write_line("networking:configuration: failed to determine file size for file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    byte* buffer = new byte[0xF000]{};
+    csmemset(buffer, 0, 0xF000);
+
+    if (size > 0xF000)
+    {
+        c_console::write_line("networking:configuration: invalid file size for '%s' (%ld bytes/%ld max)", filename, size, 0xF000);
+        file_close(&info);
+        return;
+    }
+
+    if (!file_read(&info, size, false, buffer))
+    {
+        c_console::write_line("networking:configuration: failed to read from file '%s'", filename);
+        file_close(&info);
+        return;
+    }
+
+    s_blffile_map_variant* map_variant_file = reinterpret_cast<s_blffile_map_variant*>(buffer);
+    c_map_variant* map_variant = &map_variant_file->map_variant_chunk.map_variant;
+
+    if (!map_variant->validate())
+    {
+        c_console::write_line("networking:configuration: map variant in file '%s' is invalid", filename);
+
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
+
+    if (!load_and_use)
+    {
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    char scenario_path[256]{};
+    levels_get_path(NONE, map_variant->get_map_id(), scenario_path, sizeof(scenario_path));
+    if (!scenario_path[0])
+    {
+        c_console::write_line("attempting to set multiplayer map [map %d] that has bad scenario path", map_variant->get_map_id());
+
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    if (!network_squad_session_set_map(NONE, map_variant->get_map_id(), scenario_path))
+    {
+        c_console::write_line("networking:configuration: failed to set session map, probably not in a session");
+
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    if (!network_squad_session_set_map_variant(map_variant))
+    {
+        c_console::write_line("networking:configuration: failed to set session map variant traits, probably not in a session");
+
+        delete[] buffer;
+        file_close(&info);
+        return;
+    }
+
+    delete[] buffer;
+    file_close(&info);
+}
+
+void __cdecl network_load_and_use_map_variant_file(char const* filename)
+{
+    network_map_variant_file_juju(filename, true);
+}
+
+void __cdecl network_verify_map_variant_file(char const* filename)
+{
+    network_map_variant_file_juju(filename, false);
 }
 

@@ -241,32 +241,10 @@ void __cdecl main_loop_body_begin()
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
 	{
 #ifdef ISEXPERIMENTAL
-		s_file_reference file;
-		file_reference_create_from_path(&file, "ed\\0.4.11.2\\maps\\Highlander - Air Ball.bin", false);
-
-		dword error = 0;
-		if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_read), &error)/* && error == 0*/)
-		{
-			s_blffile_map_variant map_variant_file{};
-			if (file_read(&file, sizeof(s_blffile_map_variant), false, &map_variant_file))
-			{
-				c_map_variant& map_variant = map_variant_file.map_variant_chunk.map_variant;
-				//if (user_interface_squad_set_multiplayer_map_internal(&map_variant, false))
-				if (user_interface_squad_set_map_variant(&map_variant))
-				{
-					s_gui_game_setup_storage game_setup{};
-					s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();
-					csmemcpy(&game_setup, last_game_setup, sizeof(s_gui_game_setup_storage));
-
-					c_map_variant const* map_variant = game_setup.get_multiplayer()->map_variant_settings.get_variant();
-					map_variant_file.map_variant_chunk.map_variant.read_from(map_variant);
-
-					global_preferences_set_last_game_setup(&game_setup);
-				}
-			}
-
-			file_close(&file);
-		}
+		console_process_command("net_session_create multiplayer system_link", true);
+		console_process_command("net_load_and_use_game_variant mcc\\hopper_game_variants\\10_min_slayer_br_010.bin", true);
+		console_process_command("net_load_and_use_map_variant \"ed\\0.4.11.2\\maps\\Highlander - Air Ball.bin\"", true);
+		console_process_command("net_test_session_mode setup", true);
 
 		printf("");
 

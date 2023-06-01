@@ -120,6 +120,8 @@ COMMAND_CALLBACK_DECLARE(net_load_and_use_game_variant);
 COMMAND_CALLBACK_DECLARE(net_build_map_variant);
 COMMAND_CALLBACK_DECLARE(net_verify_map_variant);
 COMMAND_CALLBACK_DECLARE(net_load_and_use_map_variant);
+COMMAND_CALLBACK_DECLARE(net_verify_packed_map_variant);
+COMMAND_CALLBACK_DECLARE(net_load_and_use_packed_map_variant);
 COMMAND_CALLBACK_DECLARE(game_export_variant_settings);
 COMMAND_CALLBACK_DECLARE(alert_carry);
 COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
@@ -189,8 +191,12 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_load_and_use_game_variant, 1, "<string>", "loads the contents of a packed game variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_build_map_variant, 1, "<string>", "writes the current map variant to a file\r\nNETWORK SAFE: Yes"),
+
 	COMMAND_CALLBACK_REGISTER(net_verify_map_variant, 1, "<string>", "verifies the contents of a packed map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(net_load_and_use_map_variant, 1, "<string>", "loads the contents of a packed map variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(net_verify_packed_map_variant, 1, "<string>", "verifies the contents of a packed map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(net_load_and_use_packed_map_variant, 1, "<string>", "loads the contents of a packed map variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(game_export_variant_settings, 1, "<string>", "export the current game engine variant settings to the specified text file\r\nNETWORK SAFE: No"),
 
