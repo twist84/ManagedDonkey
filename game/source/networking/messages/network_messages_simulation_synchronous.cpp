@@ -1,6 +1,9 @@
 #include "networking/messages/network_messages_simulation_synchronous.hpp"
 
+#include "memory/module.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
+
+HOOK_DECLARE(0x004E0D70, network_message_types_register_simulation_synchronous);
 
 bool __cdecl c_network_message_synchronous_actions::compare(long a1, void* a2, void* a3)
 {

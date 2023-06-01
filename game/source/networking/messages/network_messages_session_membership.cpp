@@ -1,6 +1,9 @@
 #include "networking/messages/network_messages_session_membership.hpp"
 
+#include "memory/module.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
+
+HOOK_DECLARE(0x004DFE60, network_message_types_register_session_membership);
 
 bool __cdecl c_network_message_boot_machine::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
 {

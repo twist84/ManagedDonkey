@@ -1,6 +1,9 @@
 #include "networking/messages/network_messages_test.hpp"
 
+#include "memory/module.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
+
+//HOOK_DECLARE(0x004E1000, network_message_types_register_test);
 
 bool __cdecl c_network_message_test::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
 {

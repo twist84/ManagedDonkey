@@ -1,6 +1,9 @@
 #include "networking/messages/network_messages_simulation.hpp"
 
+#include "memory/module.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
+
+HOOK_DECLARE(0x004E0410, network_message_types_register_simulation);
 
 bool __cdecl c_network_message_player_acknowledge::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
 {

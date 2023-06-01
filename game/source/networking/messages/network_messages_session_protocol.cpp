@@ -1,6 +1,9 @@
 #include "networking/messages/network_messages_session_protocol.hpp"
 
+#include "memory/module.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
+
+HOOK_DECLARE(0x004DD5D0, network_message_types_register_session_protocol);
 
 char const* k_join_refuse_reason_strings[k_network_join_refuse_reason_count]
 {

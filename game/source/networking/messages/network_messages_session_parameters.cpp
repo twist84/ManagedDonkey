@@ -1,6 +1,9 @@
 #include "networking/messages/network_messages_session_parameters.hpp"
 
+#include "memory/module.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
+
+HOOK_DECLARE(0x004E0030, network_message_types_register_session_parameters);
 
 bool __cdecl c_network_message_parameters_request::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
 {

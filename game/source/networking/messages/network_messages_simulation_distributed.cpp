@@ -1,6 +1,9 @@
 #include "networking/messages/network_messages_simulation_distributed.hpp"
 
+#include "memory/module.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
+
+HOOK_DECLARE(0x004E0EF0, network_message_types_register_simulation_distributed);
 
 bool __cdecl c_network_message_distributed_game_results::decode(c_bitstream* packet, long message_storage_size, void* message_storage)
 {
