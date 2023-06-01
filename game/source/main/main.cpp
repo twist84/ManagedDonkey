@@ -242,7 +242,7 @@ void __cdecl main_loop_body_begin()
 	{
 #ifdef ISEXPERIMENTAL
 		s_file_reference file;
-		file_reference_create_from_path(&file, "ed\\maps\\Fatty Fat Kid (Personality).bin", false);
+		file_reference_create_from_path(&file, "ed\\0.4.11.2\\maps\\Highlander - Air Ball.bin", false);
 
 		dword error = 0;
 		if (file_exists(&file) && file_open(&file, FLAG(_file_open_flag_desired_access_read), &error)/* && error == 0*/)
@@ -251,7 +251,8 @@ void __cdecl main_loop_body_begin()
 			if (file_read(&file, sizeof(s_blffile_map_variant), false, &map_variant_file))
 			{
 				c_map_variant& map_variant = map_variant_file.map_variant_chunk.map_variant;
-				if (user_interface_squad_set_multiplayer_map_internal(&map_variant, false))
+				//if (user_interface_squad_set_multiplayer_map_internal(&map_variant, false))
+				if (user_interface_squad_set_map_variant(&map_variant))
 				{
 					s_gui_game_setup_storage game_setup{};
 					s_gui_game_setup_storage* last_game_setup = global_preferences_get_last_game_setup();
