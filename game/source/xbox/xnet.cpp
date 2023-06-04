@@ -50,7 +50,7 @@ long __cdecl XNetFindEntry(transport_address const* address, s_transport_secure_
 
 // transport security
 // used in `0x00430CD0` called from `c_network_session::join_accept`
-void __cdecl XNetAddEntry(transport_address const* address, s_transport_secure_address const* secure_address, s_transport_secure_identifier* secure_identifier)
+void __cdecl XNetAddEntry(transport_address const* address, s_transport_secure_address const* secure_address, s_transport_secure_identifier const* secure_identifier)
 {
 	//INVOKE(0x0052D7B0, XNetAddEntry, address, secure_address, secure_identifier);
 
