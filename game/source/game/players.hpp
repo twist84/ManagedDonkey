@@ -57,10 +57,21 @@ struct s_emblem_info
 	dword __unknown0_checksums[2];
 };
 
+enum e_bungienet_user
+{
+	_bungienet_user_seventh_column = 0,
+	_bungienet_user_bungie_pro,
+	_bungienet_user_bungie,
+	_bungienet_user_default,
+
+	k_bungienet_user_count,
+};
+
 struct s_player_appearance
 {
 	byte_flags flags;
 	byte player_model_choice;
+
 	s_emblem_info emblem_info;
 	c_static_wchar_string<5> service_tag;
 };
@@ -99,8 +110,8 @@ struct s_s3d_player_weapon_configuration_loadout
 	c_enum<e_grenade_type, char, _grenade_type_frag, k_grenade_type_count> grenade_index;
 	c_static_array<char, 4> consumables;
 
-	// padding?
-	byte __unknown7;
+	// using this byte for our implementation
+	c_flags<e_bungienet_user, byte, k_bungienet_user_count> bungienet_user;
 };
 static_assert(sizeof(s_s3d_player_weapon_configuration_loadout) == 0x8);
 

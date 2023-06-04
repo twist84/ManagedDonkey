@@ -87,6 +87,12 @@ void c_network_session_membership::set_player_properties(long player_index, long
 		update_increment = true;
 	}
 
+	if (player->configuration.host.weapon.loadouts[0].bungienet_user != player_data->host_partial.bungienet_user)
+	{
+		player->configuration.host.weapon.loadouts[0].bungienet_user = player_data->host_partial.bungienet_user;
+		update_increment = true;
+	}
+
 	if (csmemcmp(&player->configuration.host.armor.loadouts[0].colors, &player_data->host_partial.colors, sizeof(c_static_array<rgb_color, k_color_type_count>)))
 	{
 		player->configuration.host.armor.loadouts[0].colors = player_data->host_partial.colors;

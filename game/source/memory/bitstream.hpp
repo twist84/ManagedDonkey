@@ -145,6 +145,13 @@ public:
 	void __cdecl write_string(char const* name, char const* _string, long max_string_size);
 	void __cdecl write_string_utf8(char const* name, utf8 const* _string, long max_string_size);
 	void __cdecl write_string_wchar(char const* name, wchar_t const* _string, long max_string_size);
+
+	template<typename t_enum, long size_in_bits>
+	void __cdecl write_enum(char const* name, t_enum value)
+	{
+		write_integer(name, value, size_in_bits);
+	}
+
 };
 static_assert(sizeof(c_bitstream) == 0xA0);
 

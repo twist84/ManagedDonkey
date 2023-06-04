@@ -16,17 +16,15 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
 {
     bool result = false;
     HOOK_INVOKE_CLASS(result =, c_gui_roster_data, _get_integer_value, bool(__thiscall*)(c_gui_roster_data*, long, long, long*), _this, player_row_index, name, integer_value);
-    
+
+    s_player_configuration* player_data = user_interface_session_get_player_data(_this->m_players[player_row_index].player_index);
     switch (name)
     {
 	case STRING_ID(gui, base_color):
 	case STRING_ID(gui, base_color_hilite):
     {
-        s_player_configuration* player_data = user_interface_session_get_player_data(_this->m_players[player_row_index].player_index);
         if (player_data)
-        {
             *integer_value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
-        }
 
         if (!result)
             return true;
@@ -92,7 +90,11 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
 	case STRING_ID(gui, bungienet_user):
     {
         // Look At Me. I'm The Bungie Now.
-        *integer_value |= FLAG(player_row_index % 4);
+        *integer_value |= FLAG(_bungienet_user_seventh_column);
+
+        if (player_data)
+            *integer_value = player_data->host.weapon.loadouts[0].bungienet_user;
+
         if (!result)
             return true;
     }

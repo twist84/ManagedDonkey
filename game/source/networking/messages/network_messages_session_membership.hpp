@@ -179,6 +179,7 @@ static_assert(sizeof(s_network_message_player_remove) == 0x10);
 struct s_player_configuration_from_host_patial
 {
 	c_static_wchar_string<5> service_tag;
+	c_flags<e_bungienet_user, byte, k_bungienet_user_count> bungienet_user;
 	c_static_array<rgb_color, k_color_type_count> colors;
 	c_static_array<byte, k_armor_type_count> armors;
 };
