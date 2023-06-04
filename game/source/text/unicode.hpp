@@ -110,6 +110,12 @@ public:
 		clear();
 	}
 
+	c_static_wchar_string(wchar_t const* s) :
+		c_static_wchar_string()
+	{
+		set(s);
+	}
+
 	void set(wchar_t const* s)
 	{
 		ustrnzcpy(m_string, s, k_buffer_size);
