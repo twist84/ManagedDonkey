@@ -42,8 +42,20 @@ static s_online_user g_controller_users[4] =
 	{.initialized = true, .player_xuid = 3, .player_name = L"user3" },
 };
 
-long g_nat_type_override = _online_nat_type_none;
+long g_nat_type_override = _online_nat_type_open;
 char g_hostname[264];
+
+constexpr bool xuid_is_guest(qword xuid)
+{
+	qword guest_bits = xuid >> 48;
+	return (guest_bits & 15) == 9 && (guest_bits & 192) != 0;
+}
+
+constexpr void xuid_make_online(qword& xuid)
+{
+	if (xuid_is_guest(xuid))
+		xuid &= ~0b11001001000000000000000000000000000000000000000000000000;
+}
 
 void __cdecl online_dispose()
 {
@@ -176,7 +188,10 @@ qword __cdecl online_user_get_xuid(long controller_index)
 	};
 
 	if (!value)
+	{
 		transport_secure_random(sizeof(bytes), bytes);
+		xuid_make_online(value);
+	}
 
 	return value;
 }

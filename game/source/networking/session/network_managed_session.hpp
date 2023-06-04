@@ -4,11 +4,31 @@
 #include "cseries/cseries.hpp"
 #include "networking/transport/transport_security.hpp"
 
+struct s_online_session;
 struct c_managed_session_overlapped_task : c_overlapped_task
 {
 	dword context;
-	byte __data14[0xEC];
+
+	s_online_session* m_transitory_online_session_state;
+	s_online_session* m_desired_online_session_state;
+	s_online_session* m_actual_online_session_state;
+	long m_managed_session_index;
+
+	void(__cdecl* m_callback)(long, bool, dword);
+	bool m_callback_value0;
+	dword m_callback_value1;
+
+	byte __unknown30;
+	byte __unknown31;
+	bool m_is_host;
+	byte __unknown33;
+	s_transport_session_description* m_host_migration_description;
+
+	long m_xuid_count;
+	c_static_array<qword, 16> m_xuids;
+	c_static_array<dword_flags, 16> m_xuid_flags;
 };
+static_assert(sizeof(c_managed_session_overlapped_task) == 0x100);
 
 struct s_online_session_player
 {
@@ -57,7 +77,7 @@ struct s_online_managed_session
 
 	bool live_check;
 	bool ip_check;
-	bool conflicking_session_check;
+	bool conflicting_session_check;
 	bool __unknown117;
 
 	s_online_session desired_online_session_state;
