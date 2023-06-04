@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/players.hpp"
 #include "networking/session/network_session_membership.hpp"
 #include "text/unicode.hpp"
 
@@ -175,15 +176,30 @@ struct s_network_message_player_remove
 };
 static_assert(sizeof(s_network_message_player_remove) == 0x10);
 
+struct s_player_configuration_from_host_patial
+{
+	c_static_wchar_string<5> service_tag;
+	c_static_array<rgb_color, k_color_type_count> colors;
+	c_static_array<byte, k_armor_type_count> armors;
+};
+static_assert(sizeof(s_player_configuration_from_host_patial) == 0x2C);
+
+struct s_player_configuration_for_player_properties
+{
+	s_player_configuration_from_client client;
+	s_player_configuration_from_host_patial host_partial;
+};
+static_assert(sizeof(s_player_configuration_for_player_properties) == 0x5C);
+
 struct s_network_message_player_properties
 {
 	s_transport_secure_identifier session_id;
 	long player_update_number;
 	long controller_index;
-	s_player_configuration_from_client player_from_client;
+	s_player_configuration_for_player_properties player_data;
 	long player_voice;
 };
-static_assert(sizeof(s_network_message_player_properties) == 0x4C);
+static_assert(sizeof(s_network_message_player_properties) == 0x4C + sizeof(s_player_configuration_from_host_patial));
 
 struct c_bitstream;
 

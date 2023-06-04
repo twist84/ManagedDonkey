@@ -115,6 +115,18 @@ struct s_channel_configuration;
 struct c_network_message_type_collection;
 struct c_network_channel
 {
+	char const* get_short_name() const
+	{
+		//return m_channel_name;
+		return "";
+	}
+
+	char const* get_name() const
+	{
+		//return m_channel_description;
+		return "";
+	}
+
 	c_network_link* m_link;
 	c_network_observer* m_observer;
 	c_network_message_gateway* m_message_gateway;
@@ -133,10 +145,14 @@ struct c_network_channel
 	dword m_channel_state;
 	long m_channel_closure_reason;
 	transport_address m_local_address;
+	//char m_channel_name[16];
+	//char m_channel_description[256];
 	transport_address m_remote_address;
 
 	byte __dataA2C[0x18];
 
+	// 0: packets_sent
+	// 5: packets_received
 	dword m_activity_times[6];
 
 	byte __dataA70[4];

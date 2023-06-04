@@ -112,5 +112,7 @@ static_assert(sizeof(s_online_session_manager_globals) == 0x3048);
 
 extern s_online_session_manager_globals& online_session_manager_globals;
 
+struct s_transport_secure_identifier;
+extern bool __cdecl managed_session_get_id(long index, s_transport_secure_identifier* session_id);
 extern char const* __cdecl managed_session_get_id_string(long managed_session_index);
 

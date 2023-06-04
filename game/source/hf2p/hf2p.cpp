@@ -92,7 +92,7 @@ void __cdecl hf2p_game_update()
 			{
 				char const* name = "base";
 
-				// #TODO: pull these from a config file
+				// #TODO: pull these from a config file, SoonTM!
 				loadout.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", name));
 				loadout.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", name));
 				loadout.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", name));

@@ -1,6 +1,7 @@
 #include "networking/messages/network_message_handler.hpp"
 
 #include "cseries/cseries_console.hpp"
+#include "memory/module.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
@@ -612,8 +613,32 @@ void __cdecl c_network_message_handler::handle_player_remove(c_network_channel* 
 
 void __cdecl c_network_message_handler::handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message)
 {
-	DECLFUNC(0x0049D860, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_properties const*)(this, channel, message);
+	//DECLFUNC(0x0049D860, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_properties const*)(this, channel, message);
+
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->is_host())
+	{
+		if (!session->handle_player_properties(channel, message))
+		{
+			c_console::write_line("networking:messages:player-properties: session failed to handle player-properties (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:player-properties: channel '%s' ignoring player-properties (%s) (not host)",
+			channel->get_name(),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
+
+// #TODO: this is super temporary and will be removed when `c_network_message_handler::handle_channel_message` gets implemented
+void __fastcall network_message_handler_handle_player_properties(c_network_message_handler* _this, void* unused, c_network_channel* channel, s_network_message_player_properties const* message)
+{
+	_this->handle_player_properties(channel, message);
+}
+HOOK_DECLARE_CALL(0x0049C7E2, network_message_handler_handle_player_properties);
 
 void __cdecl c_network_message_handler::handle_parameters_update(c_network_channel* channel, s_network_message_parameters_update const* message)
 {

@@ -8,6 +8,8 @@
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
+long const k_network_maximum_machines_per_session = 17;
+
 struct s_network_session_peer_connectivity
 {
 	word_flags peer_connectivity_mask;
@@ -87,8 +89,8 @@ struct s_network_session_shared_membership
 	byte __unknown16;
 	byte __unknown17;
 	long peer_count;
-	c_static_flags<17> peer_valid_mask;
-	c_static_array<s_network_session_peer, 17> peers;
+	c_static_flags<k_network_maximum_machines_per_session> peer_valid_mask;
+	c_static_array<s_network_session_peer, k_network_maximum_machines_per_session> peers;
 	long player_count;
 	c_static_flags<16> player_valid_mask;
 	c_static_array<s_network_session_player, 16> players;
@@ -146,23 +148,43 @@ struct c_network_session_membership
 		return m_shared_network_membership.peer_valid_mask.test(peer_index);
 	}
 
+	bool is_player_valid(long player_index) const
+	{
+		return m_shared_network_membership.player_valid_mask.test(player_index);
+	}
+
 	void increment_update()
 	{
 		++m_shared_network_membership.update_number;
 		++m_player_configuration_version;
 	}
 
+	s_network_session_player* get_player(long player_index)
+	{
+		ASSERT(is_player_valid(player_index));
+
+		return &m_shared_network_membership.players[player_index];
+	}
+
+	long get_player_index_from_peer(long peer_index);
+	long get_first_peer() const;
+	long get_next_peer(long peer_index) const;
+	long get_observer_channel_index(long peer_index) const;
+	long get_peer_from_observer_channel(long observer_channel_index) const;
+
+	void set_player_properties(long player_index, long player_update_number, long controller_index, void const* player_from_client, long player_voice);
+
 	c_network_session* m_session;
 	s_network_session_shared_membership m_shared_network_membership;
-	c_static_array<s_network_session_shared_membership, 17> m_transmitted_shared_network_membership;
-	c_static_array<dword, 17> m_transmitted_shared_network_membership_checksums;
+	c_static_array<s_network_session_shared_membership, k_network_maximum_machines_per_session> m_transmitted_shared_network_membership;
+	c_static_array<dword, k_network_maximum_machines_per_session> m_transmitted_shared_network_membership_checksums;
 	bool __unknown1A3D1C;
 	bool __unknown1A3D1D;
 	bool __unknown1A3D1E;
 	bool __unknown1A3D1F;
 	long m_local_peer_index;
 	long m_player_configuration_version;
-	s_network_session_peer_channel m_local_peers[17];
+	s_network_session_peer_channel m_local_peers[k_network_maximum_machines_per_session];
 	s_player_add_queue_entry m_player_add_queue[4];
 	long m_player_add_queue_current_index;
 	long m_player_add_queue_count;

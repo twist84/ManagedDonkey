@@ -44,6 +44,8 @@ static_assert(sizeof(c_network_channel_owner) == 0x4);
 struct c_network_message_gateway;
 struct c_network_observer;
 struct c_network_session_manager;
+struct c_network_channel;
+struct s_network_message_player_properties;
 struct c_network_session : c_network_channel_owner
 {
 	c_network_session_membership const* get_session_membership() const;
@@ -58,6 +60,10 @@ struct c_network_session : c_network_channel_owner
 	bool is_host() const;
 	bool is_leader();
 	e_network_session_mode session_mode() const;
+
+	s_network_session_player* get_player(long player_index);
+	bool __cdecl handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message);
+	bool __cdecl peer_request_player_desired_properties_update(long player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, dword player_voice);
 
 	c_network_message_gateway* m_message_gateway;
 	c_network_observer* m_observer;

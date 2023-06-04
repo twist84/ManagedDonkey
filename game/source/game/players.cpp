@@ -98,28 +98,6 @@ s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(playe
 {
 	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor.loadouts[player->armor_loadout_index];
 
-	if (!loadout.armor_is_set)
-	{
-		// #TODO: pull these from a config file
-		loadout.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", "tankmode_human"));
-		loadout.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", "tankmode_human"));
-		loadout.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", "tankmode_human"));
-		loadout.armors[_armor_type_arms] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("arms", "tankmode_human"));
-		loadout.armors[_armor_type_legs] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("legs", "tankmode_human"));
-		loadout.armors[_armor_type_acc] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("acc", "bullet_shield"));
-		loadout.armors[_armor_type_pelvis] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("pelvis", "tankmode_human"));
-
-		for (long color_index = 0; color_index < k_color_type_count; color_index++)
-		{
-			rgb_color& color = loadout.colors[color_index];
-			color.red = byte(~127);
-			color.green = byte(~0);
-			color.blue = byte(~127);
-		}
-
-		loadout.armor_is_set = true;
-	}
-
 	return &loadout;
 }
 
@@ -165,7 +143,7 @@ s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(pla
 	// "bubbleshield_tutorial"
 	// "consumable_vision_tutorial"
 
-	// #TODO: pull these from a config file
+	// #TODO: pull these from a config file, SoonTM?
 	loadout.consumables[0] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("adrenaline"));
 	loadout.consumables[1] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("reactive_armor"));
 	loadout.consumables[2] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("armor_lock"));

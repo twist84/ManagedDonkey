@@ -5,6 +5,9 @@
 #include "networking/logic/network_bandwidth.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "networking/transport/transport_qos.hpp"
+#include "networking/network_statistics.hpp"
+
+long const k_network_maximum_observers = 34;
 
 struct c_network_session;
 struct s_channel_observer_owner
@@ -19,6 +22,7 @@ struct c_network_message_gateway;
 struct c_network_message_handler;
 struct c_network_message_type_collection;
 struct s_observer_configuration;
+enum e_network_message_type;
 struct c_network_observer
 {
 	struct s_channel_observer : c_network_channel
@@ -63,6 +67,10 @@ struct c_network_observer
 	};
 	static_assert(sizeof(s_channel_observer) == 0x10D8);
 
+	s_channel_observer const* find_observer_by_channel(c_network_channel const* channel) const;
+	long observer_channel_find_by_network_channel(long owner_type, c_network_channel* channel) const;
+	void observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data);
+
 	c_network_link* m_link;
 	c_network_message_gateway* m_message_gateway;
 	c_network_message_handler* m_message_handler;
@@ -70,7 +78,7 @@ struct c_network_observer
 	s_observer_configuration* m_configuration;
 	s_channel_observer_owner m_owners[4];
 	byte __data34[4];
-	s_channel_observer m_channel_observers[34];
+	s_channel_observer m_channel_observers[k_network_maximum_observers];
 	bool m_quality_statistics_are_set;
 	int __unknown23CEC;
 	s_network_quality_statistics m_quality_statistics;

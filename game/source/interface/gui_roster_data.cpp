@@ -28,9 +28,6 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
             *integer_value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
         }
 
-        // #TODO: update the session player with correct data, for now we grey
-        *integer_value = 0xFF7F7F7F;
-
         if (!result)
             return true;
     }
