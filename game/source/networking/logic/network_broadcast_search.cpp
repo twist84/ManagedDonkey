@@ -7,6 +7,7 @@
 #include "networking/messages/network_messages_session_protocol.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
+#include "xbox/xnet.hpp"
 
 REFERENCE_DECLARE(0x0228E6B8, s_broadcast_search_globals, g_broadcast_search_globals);
 
@@ -151,6 +152,18 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 			session->has_time = true;
 		}
 	}
+
+	bool add_session = false;
+	for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
+	{
+		s_available_session const session = g_broadcast_search_globals.available_sessions[i];
+
+		if (session.initialized && transport_secure_identifier_compare(&session.status_data.session_id, &message->status_data.session_id))
+			add_session = true;
+	}
+
+	if (add_session)
+		XNetAddEntry(address, &message->status_data.host_address, &message->status_data.session_id);
 }
 
 bool __cdecl network_broadcast_search_initialize(c_network_link* link, c_network_message_gateway* message_gateway)

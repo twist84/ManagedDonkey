@@ -41,22 +41,6 @@ bool __cdecl transport_secure_address_decode(s_transport_session_description con
 	//HOOK_INVOKE(result =, transport_secure_address_decode, secure_host_description, secure_address, usable_address);
 	//return result;
 
-	for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
-	{
-		s_available_session* session = g_broadcast_search_globals.available_sessions + i;
-
-		if (session && session->initialized)
-		{
-			if (transport_secure_address_compare(secure_address, &session->status_data.host_address) &&
-				transport_secure_identifier_compare(&secure_host_description->id, &session->status_data.session_id))
-			{
-				*usable_address = &session->status_data.players[0].identifier;
-
-				return true;
-			}
-		}
-	}
-
 	return XNetXnAddrToInAddr(secure_address, &secure_host_description->id, usable_address);
 }
 
@@ -115,24 +99,7 @@ bool __cdecl transport_secure_address_retrieve(transport_address const* usable_a
 	//return result;
 
 	if (usable_address->address_length == sizeof(dword) && usable_address->ipv4_address && platform)
-	{
-		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
-		{
-			s_available_session* session = g_broadcast_search_globals.available_sessions + i;
-
-			if (session && session->initialized)
-			{
-				if (session->status_data.players[0].identifier.ipv4_address == usable_address->ipv4_address)
-				{
-					*secure_address = session->status_data.host_address;
-
-					return true;
-				}
-			}
-		}
-
 		return _XNetInAddrToXnAddr(usable_address, secure_address);
-	}
 
 	return false;
 }
@@ -166,28 +133,7 @@ bool __cdecl transport_secure_identifier_retrieve(transport_address const* usabl
 	//return result;
 
 	if (usable_address->address_length == sizeof(dword) && usable_address->ipv4_address && platform)
-	{
-		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
-		{
-			s_available_session* session = g_broadcast_search_globals.available_sessions + i;
-
-			if (session && session->initialized)
-			{
-				s_player_identifier& player_identifier = session->status_data.players[0].identifier;
-
-				if (player_identifier.ipv4_address == usable_address->ipv4_address &&
-					player_identifier.port == usable_address->port)
-				{
-					*secure_identifier = session->status_data.session_id;
-					*secure_address = session->status_data.host_address;
-
-					return true;
-				}
-			}
-		}
-
 		return XNetInAddrToXnAddr(usable_address, secure_address, secure_identifier);
-	}
 
 	return false;
 }
