@@ -173,8 +173,17 @@ e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode()
 //.text:00A83620 ; bool __cdecl user_interface_squad_set_campaign_insertion_point(short campaign_insertion_point)
 //.text:00A83630 ; bool __cdecl user_interface_squad_set_map(e_campaign_id campaign_id, e_map_id map_id)
 //.text:00A83680 ; bool __cdecl user_interface_squad_set_campaign_metagame_scoring(e_campaign_metagame_scoring campaign_metagame_scoring)
-//.text:00A836F0 ; bool __cdecl user_interface_squad_set_film(struct s_saved_film_description const* film)
-//.text:00A83720 ; bool __cdecl user_interface_squad_set_film_internal(s_saved_film_description const* film, bool live)
+
+bool __cdecl user_interface_squad_set_film(s_saved_film_description const* film)
+{
+    return INVOKE(0x00A836F0, user_interface_squad_set_film, film);
+}
+
+bool __cdecl user_interface_squad_set_film_internal(s_saved_film_description const* film, bool needs_verification)
+{
+    return INVOKE(0x00A83720, user_interface_squad_set_film_internal, film, needs_verification);
+}
+
 //.text:00A83870 ; bool __cdecl user_interface_squad_set_game_setup_changing(bool game_setup_changing)
 
 bool __cdecl user_interface_squad_set_game_variant(c_game_variant const* game_variant)
