@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cseries/cseries.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 #include "tag_files/tag_groups.hpp"
@@ -616,7 +617,7 @@ struct bitmap_group
 	c_typed_tag_block<bitmap_data> bitmaps;
 	s_tag_data xenon_processed_pixel_data;
 	c_typed_tag_block<bitmap_data> xenon_bitmaps;
-	s_tag_block hardware_textures;
+	c_typed_tag_block<struct s_tag_resource> hardware_textures;
 	s_tag_block interleaved_hardware_textures;
 	long __unknownB4;
 };

@@ -1934,6 +1934,9 @@
     <ClInclude Include="source\networking\network_game_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\bitmaps\dds_file.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">

@@ -12,12 +12,14 @@ struct s_tag_resource
 static_assert(sizeof(s_tag_resource) == 0x8);
 
 template<typename t_resource_type, dword ...t_extra>
-struct c_typed_tag_resource
+struct c_typed_tag_resource : s_tag_resource
 {
-	dword resource_handle;
-	dword definition_address;
+	t_resource_type* get()
+	{
+		return reinterpret_cast<t_resource_type*>(resource_handle);
+	}
 };
-static_assert(sizeof(s_tag_resource) == 0x8);
+static_assert(sizeof(s_tag_resource) == sizeof(s_tag_resource));
 
 struct s_cache_file_shared_resource_usage
 {
@@ -148,5 +150,18 @@ extern void patch_lz_cache_file_decompressor();
 extern bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1);
 extern bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1, c_basic_buffer<void>* a2);
 extern bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1);
-extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
+//extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
+
+struct s_bitmap_resource_info
+{
+	long tag_index;
+	byte const starting_data[16];
+	char const* filename;
+};
+
+s_bitmap_resource_info const bitmap_resources[]
+{
+	{ 0x000009EC, { 0xFF, 0x00, 0x49, 0x92, 0x24, 0x49, 0x92, 0x24, 0xFF, 0xFF, 0x00, 0x00, 0x55, 0x15, 0x50, 0x00 }, "data\\bitmaps\\000009EC.dds" }
+};
+
 

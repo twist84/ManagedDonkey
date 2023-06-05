@@ -449,6 +449,7 @@ POPD
     <ClCompile Include="source\xbox\xnet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\bitmaps\dds_file.hpp" />
     <ClInclude Include="source\cseries\cseries_events.hpp" />
     <ClInclude Include="source\cseries\cseries_windows_debug_pc.hpp" />
     <ClInclude Include="source\dialogs\edit_text.hpp" />

@@ -1,5 +1,6 @@
 #include "cache/cache_file_tag_resource_runtime.hpp"
 
+#include "bitmaps/dds_file.hpp"
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
@@ -7,24 +8,13 @@ REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 
 void patch_lz_cache_file_decompressor()
 {
-#ifdef _DEBUG
-
 	patch_pointer({ .address = 0x01690134 }, lz_cache_file_decompressor_begin);
 	patch_pointer({ .address = 0x01690138 }, lz_cache_file_decompressor_decompress_buffer);
 	patch_pointer({ .address = 0x0169013C }, lz_cache_file_decompressor_finish);
-
-#endif // _DEBUG
 }
 
-#ifdef _DEBUG
-
-//long sizes[2] = { 0, 0 };
 bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1)
 {
-	//c_console::write("c_lz_cache_file_decompressor");
-	//sizes[0] = 0;
-	//sizes[1] = 0;
-
 	//return DECLFUNC(0x009E1430, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>)(_this, a1);
 
 	_this->__buffer4.m_size = a1.m_size;
@@ -40,24 +30,36 @@ bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _
 
 bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> compressed_buffer, c_basic_buffer<void>* decompressed_buffer)
 {
-	bool result = DECLFUNC(0x009E14F0, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>, c_basic_buffer<void>*)(_this, compressed_buffer, decompressed_buffer);
-
-	//sizes[0] += compressed_buffer.m_size;
-	//sizes[1] += decompressed_buffer->m_size;
-
-	return result;
+	return DECLFUNC(0x009E14F0, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>, c_basic_buffer<void>*)(_this, compressed_buffer, decompressed_buffer);
 }
 
 bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1)
 {
-	//c_console::write_line("(0x%08X, 0x%08X)", sizes[0], sizes[1]);
-	//sizes[0] = 0;
-	//sizes[1] = 0;
+#ifndef ISEXPERIMENTAL
+	for (long i = 0; i < NUMBEROF(bitmap_resources); i++)
+	{
+		s_bitmap_resource_info const& bitmap_resource = bitmap_resources[i];
+
+		if (csmemcmp(_this->__buffer4.m_buffer, bitmap_resource.starting_data, sizeof(bitmap_resource.starting_data)) == 0)
+		{
+			c_dds_file _dds_file(bitmap_resource.filename);
+			s_dds_file* dds_file = _dds_file.get();
+			if (!dds_file)
+				continue;
+
+			byte* buffer4 = static_cast<byte*>(_this->__buffer4.m_buffer);
+			byte* bufferC = static_cast<byte*>(_this->__bufferC.m_buffer);
+
+			_this->__buffer4.m_size = dds_file->header.linear_size;
+			bufferC = buffer4 + _this->__buffer4.m_size;
+
+			csmemcpy(buffer4, dds_file->data, _this->__buffer4.m_size);
+		}
+	}
+#endif // ISEXPERIMENTAL
 
 	return DECLFUNC(0x009E1640, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>*)(_this, a1);
 }
-
-#endif // _DEBUG
 
 //HOOK_DECLARE(0x00563E10, tag_resource_get);
 //

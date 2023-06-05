@@ -45,15 +45,17 @@ struct s_runtime_bitmap_widget_definition : s_runtime_core_widget_definition
 };
 static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 
+struct bitmap_data;
 struct c_gui_bitmap_widget : public c_gui_widget
 {
 public:
 	void __cdecl set_sprite_frame(long sprite_frame);
 	void __cdecl set_sprite_sequence(long sprite_sequence);
+	bitmap_data* __cdecl get_current_bitmap();// const;
 
 protected:
 	long __unknownDC;
-	long __unknownE0;
+	long m_bitmap_tag_reference_index;
 	long m_sprite_frame;
 	long m_sprite_sequence;
 	s_runtime_bitmap_widget_definition m_core_definition;

@@ -19,6 +19,10 @@
 
 #include <string.h>
 
+#include "bitmaps/bitmap_group_tag_definition.hpp"
+#include "bitmaps/dds_file.hpp"
+#include "cache/cache_file_tag_resource_runtime.hpp"
+
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
 
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
@@ -578,6 +582,7 @@ void __cdecl scenario_tags_load_finished()
 	INVOKE(0x00503190, scenario_tags_load_finished);
 }
 
+void bitmap_resource_fixup(long tag_index, cache_file_tag_instance* instance);
 void __cdecl cache_file_tags_fixup_all_instances()
 {
 	//INVOKE(0x005031A0, cache_file_tags_fixup_all_instances);
@@ -588,6 +593,8 @@ void __cdecl cache_file_tags_fixup_all_instances()
 
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 		cache_file_tags_single_tag_instance_fixup(instance);
+
+		bitmap_resource_fixup(tag_index, instance);
 	}
 }
 
@@ -850,5 +857,72 @@ void apply_biped_group_modification(e_instance_modification_stage stage)
 void tag_group_modification_apply(e_instance_modification_stage stage)
 {
 	apply_biped_group_modification(stage);
+}
+
+struct s_render_texture_format
+{
+	short width;
+	short height;
+	char depth;
+	char total_mipmap_count;
+	char bitmap_type;
+	char is_high_res_bitmap;
+	long xenon_d3d_format;
+	char bm_format;
+	char bm_curve;
+	short bm_flags;
+};
+static_assert(sizeof(s_render_texture_format) == 0x10);
+
+struct s_render_texture_descriptor
+{
+	s_tag_data base_pixel_data;
+	s_tag_data high_res_pixel_data;
+	s_render_texture_format texture;
+};
+static_assert(sizeof(s_render_texture_descriptor) == 0x38);
+
+void bitmap_resource_fixup(long tag_index, cache_file_tag_instance* instance)
+{
+	if (!instance->is_group('bitm'))
+		return;
+
+#ifndef ISEXPERIMENTAL
+	for (long i = 0; i < NUMBEROF(bitmap_resources); i++)
+	{
+		s_bitmap_resource_info const& bitmap_resource = bitmap_resources[i];
+
+		if (tag_index == bitmap_resource.tag_index)
+		{
+			c_dds_file _dds_file(bitmap_resource.filename);
+			s_dds_file* dds_file = _dds_file.get();
+			if (!dds_file)
+				continue;
+
+			bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
+			if (bitmap_instance->bitmaps.count())
+			{
+				bitmap_data& bitmap = bitmap_instance->bitmaps[0];
+
+				bitmap.width = static_cast<short>(dds_file->header.width);
+				bitmap.height = static_cast<short>(dds_file->header.height);
+				bitmap.pixels_size = dds_file->header.linear_size;
+
+				if (bitmap_instance->hardware_textures.count())
+				{
+					cache_file_resource_instance* resource_instance = static_cast<c_typed_tag_resource<cache_file_resource_instance>*>(&bitmap_instance->hardware_textures[0])->get();
+					resource_instance->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
+					resource_instance->file_location.size = bitmap.pixels_size;
+					resource_instance->file_location.checksum = 0;
+
+					s_render_texture_descriptor* texture_descriptor = reinterpret_cast<s_render_texture_descriptor*>(resource_instance->runtime_data.control_data.base);
+					texture_descriptor->base_pixel_data.size = bitmap.pixels_size;
+					texture_descriptor->texture.width = bitmap.width;
+					texture_descriptor->texture.height = bitmap.height;
+				}
+			}
+		}
+	}
+#endif // ISEXPERIMENTAL
 }
 

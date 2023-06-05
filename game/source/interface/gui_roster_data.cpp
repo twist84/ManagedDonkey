@@ -80,8 +80,8 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
     break;
 	case STRING_ID(gui, skill_level):
     {
-        *integer_value = (player_row_index % 4) + 2;
-        //*integer_value = 50;
+        *integer_value = (player_row_index % 4) + 1;
+        *integer_value = 50;
 
         if (!result)
             return true;
