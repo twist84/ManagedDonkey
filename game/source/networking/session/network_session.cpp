@@ -2,6 +2,7 @@
 
 #include "cseries/cseries_console.hpp"
 #include "interface/c_controller.hpp"
+#include "hf2p/hf2p.hpp"
 #include "memory/module.hpp"
 #include "networking/delivery/network_channel.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
@@ -144,54 +145,21 @@ bool __cdecl c_network_session::handle_player_properties(c_network_channel* chan
 	return false;
 }
 
-// #TODO: pull these from a config file, SoonTM!
 void update_player_data(s_player_configuration_for_player_properties* player_data)
 {
+	// #TODO: save `c_player_profile_interface` from a config file
 	player_data->host_partial.service_tag = controller_get(_controller_index0)->m_player_profile.desired_service_tag;
 
+	// #TODO: pull this from a config file
 #ifdef _DEBUG
-	player_data->host_partial.bungienet_user.set(_bungienet_user_bungie_pro, true);
-
-	rgb_color color{};
-	color.red = byte(~0);
-	color.green = byte(~127);
-	color.blue = byte(~127);
-
-	player_data->host_partial.colors[_color_type_primary] = color;
-	player_data->host_partial.colors[_color_type_secondary] = color;
-	player_data->host_partial.colors[_color_type_visor] = color;
-	player_data->host_partial.colors[_color_type_lights] = color;
-	player_data->host_partial.colors[_color_type_holo] = color;
-
-	player_data->host_partial.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_arms] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("arms", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_legs] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("legs", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_acc] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("acc", "bullet_shield"));
-	player_data->host_partial.armors[_armor_type_pelvis] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("pelvis", "tankmode_human"));
-#else
 	player_data->host_partial.bungienet_user.set(_bungienet_user_bungie, true);
-
-	rgb_color color{};
-	color.red = byte(~127);
-	color.green = byte(~0);
-	color.blue = byte(~127);
-
-	player_data->host_partial.colors[_color_type_primary] = color;
-	player_data->host_partial.colors[_color_type_secondary] = color;
-	player_data->host_partial.colors[_color_type_visor] = color;
-	player_data->host_partial.colors[_color_type_lights] = color;
-	player_data->host_partial.colors[_color_type_holo] = color;
-
-	player_data->host_partial.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_arms] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("arms", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_legs] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("legs", "tankmode_human"));
-	player_data->host_partial.armors[_armor_type_acc] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("acc", "bullet_shield"));
-	player_data->host_partial.armors[_armor_type_pelvis] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("pelvis", "tankmode_human"));
+#else
+	player_data->host_partial.bungienet_user.set(_bungienet_user_seventh_column, true);
 #endif // _DEBUG
+
+	s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout();
+	player_data->host_partial.colors = armor_loadout.colors;
+	player_data->host_partial.armors = armor_loadout.armors;
 }
 
 bool c_network_session::peer_request_player_desired_properties_update(long player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, dword player_voice)

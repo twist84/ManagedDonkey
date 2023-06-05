@@ -133,6 +133,7 @@ COMMAND_CALLBACK_DECLARE(cheat_all_powerups);
 COMMAND_CALLBACK_DECLARE(cheat_all_vehicles);
 COMMAND_CALLBACK_DECLARE(cheat_all_weapons);
 COMMAND_CALLBACK_DECLARE(load_preferences_from_file);
+COMMAND_CALLBACK_DECLARE(load_customization_from_file);
 
 //-----------------------------------------------------------------------------
 
@@ -218,6 +219,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "", "drops all weapons near player\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(load_preferences_from_file, 1, "<string>", "<preferences filename> loads preferences from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(load_customization_from_file, 1, "<string>", "<customization filename> loads customization from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

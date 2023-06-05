@@ -232,6 +232,11 @@ public:
 template<typename t_type, long k_count>
 struct c_static_array
 {
+	c_static_array()
+	{
+		clear();
+	}
+
 	t_type const& operator[](long index) const
 	{
 		ASSERT(valid(index));

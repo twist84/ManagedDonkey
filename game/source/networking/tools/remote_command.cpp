@@ -11,6 +11,7 @@
 #include "game/game_time.hpp"
 #include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
+#include "hf2p/hf2p.hpp"
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
@@ -33,7 +34,6 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
 #include "xbox/xnet.hpp"
-
 
 s_remote_command_globals remote_command_globals;
 
@@ -991,6 +991,142 @@ callback_result_t load_preferences_from_file_callback(void const* userdata, long
 	}
 	else
 	{
+		result = "Invalid filename. Does the file exist? ";
+		result.append_print_line("%s %s", command.name, command.parameter_types);
+		result.append(command.extra_info);
+		return result;
+	}
+
+	return result;
+}
+
+callback_result_t load_customization_from_file_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& armor_regions = get_armor_regions();
+
+	char const* customization_filename = tokens.m_storage[1]->get_string();
+
+	FILE* customization_file = nullptr;
+	if (fopen_s(&customization_file, customization_filename, "r") == 0 && customization_file)
+	{
+		s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout(true);
+
+		char buffer[200]{};
+		while (fgets(buffer, NUMBEROF(buffer), customization_file))
+		{
+			string_terminate_at_first_delimiter(buffer, "\r\n");
+			char name[128]{};
+			char value[32]{};
+
+			sscanf_s(buffer, "%[^:]: %s", name, sizeof(name), value, sizeof(value));
+			if (*name && *value)
+			{
+				for (long armor_region_index = 0; armor_region_index < armor_loadout.armors.count(); armor_region_index++)
+				{
+					char const* armor_region = nullptr;
+					switch (armor_region_index)
+					{
+					case _armor_type_helmet:
+						armor_region = "helmet";
+						break;
+					case _armor_type_chest:
+						armor_region = "chest";
+						break;
+					case _armor_type_shoulders:
+						armor_region = "shoulders";
+						break;
+					case _armor_type_arms:
+						armor_region = "arms";
+						break;
+					case _armor_type_legs:
+						armor_region = "legs";
+						break;
+					case _armor_type_acc:
+						armor_region = "acc";
+						break;
+					case _armor_type_pelvis:
+						armor_region = "pelvis";
+						break;
+					}
+
+					if (armor_region && csstricmp(armor_region, name) == 0)
+					{
+						armor_loadout.armors[armor_region_index] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(name, value));
+					}
+				}
+			}
+		}
+
+		fclose(customization_file);
+	}
+	else
+	{
+		FILE* customization_info_file = nullptr;
+		if (fopen_s(&customization_info_file, "customization_info.txt", "w") == 0 && customization_info_file)
+		{
+			fprintf_s(customization_info_file, "This file serves as a reference to what a customization file contains\n\n");
+
+			fprintf_s(customization_info_file, "Example usage:\n");
+			fprintf_s(customization_info_file, "<armor_region_name>: <armor_name>\n\n");
+
+			fprintf_s(customization_info_file, "helmet: base\n");
+			fprintf_s(customization_info_file, "chest: base\n");
+			fprintf_s(customization_info_file, "shoulders: base\n");
+			fprintf_s(customization_info_file, "arms: base\n");
+			fprintf_s(customization_info_file, "legs: base\n");
+			fprintf_s(customization_info_file, "acc: flashlight\n");
+			fprintf_s(customization_info_file, "pelvis: base\n\n");
+
+			for (long armor_region_index = 0; armor_region_index < k_armor_type_count; armor_region_index++)
+			{
+				c_static_array<c_static_string<64>, 100>& armor_types = armor_regions[armor_region_index];
+
+				char const* armor_region = nullptr;
+				switch (armor_region_index)
+				{
+				case _armor_type_helmet:
+					armor_region = "helmet";
+					break;
+				case _armor_type_chest:
+					armor_region = "chest";
+					break;
+				case _armor_type_shoulders:
+					armor_region = "shoulders";
+					break;
+				case _armor_type_arms:
+					armor_region = "arms";
+					break;
+				case _armor_type_legs:
+					armor_region = "legs";
+					break;
+				case _armor_type_acc:
+					armor_region = "acc";
+					break;
+				case _armor_type_pelvis:
+					armor_region = "pelvis";
+					break;
+				}
+
+				if (armor_region)
+				{
+					fprintf_s(customization_info_file, "%s:\n", armor_region);
+					for (long armor_type_index = 0; armor_type_index < armor_types.count(); armor_type_index++)
+					{
+						char const* value = armor_types[armor_type_index].get_string();
+						if (*value)
+						{
+							fprintf_s(customization_info_file, "\t%s\n", value);
+						}
+					}
+					fprintf_s(customization_info_file, "\n");
+				}
+			}
+
+			fclose(customization_info_file);
+		}
+
 		result = "Invalid filename. Does the file exist? ";
 		result.append_print_line("%s %s", command.name, command.parameter_types);
 		result.append(command.extra_info);

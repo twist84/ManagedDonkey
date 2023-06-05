@@ -1,10 +1,12 @@
 #include "hf2p/hf2p.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "fmod/fmod.hpp"
 #include "game/game_engine_util.hpp"
+#include "game/multiplayer_definitions.hpp"
 #include "game/players.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
@@ -86,21 +88,10 @@ void __cdecl hf2p_game_update()
 	{
 		{
 			// only allow one instance of this
-			static s_s3d_player_armor_configuration_loadout loadout{};
+			s_s3d_player_armor_configuration_loadout& loadout = get_armor_loadout();
 
 			if (!loadout.armor_is_set)
 			{
-				char const* name = "base";
-
-				// #TODO: pull these from a config file, SoonTM!
-				loadout.armors[_armor_type_helmet] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("helmet", name));
-				loadout.armors[_armor_type_chest] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("chest", name));
-				loadout.armors[_armor_type_shoulders] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("shoulders", name));
-				loadout.armors[_armor_type_arms] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("arms", name));
-				loadout.armors[_armor_type_legs] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("legs", name));
-				loadout.armors[_armor_type_acc] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("acc", "bullet_shield"));
-				loadout.armors[_armor_type_pelvis] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index("pelvis", name));
-
 				for (long color_index = 0; color_index < k_color_type_count; color_index++)
 					loadout.colors[color_index].value = ~((system_milliseconds() * rand()) % 0xFFFFFF);
 
@@ -126,5 +117,126 @@ void __cdecl hf2p_game_update()
 	}
 
 	printf("");
+}
+
+s_s3d_player_armor_configuration_loadout& get_armor_loadout(bool update_mainmenu_unit)
+{
+	static s_s3d_player_armor_configuration_loadout loadout{};
+
+	if (update_mainmenu_unit)
+		loadout.armor_is_set = false;
+
+	return loadout;
+}
+
+c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& get_armor_regions(e_player_model_choice player_model_choice)
+{
+	static c_static_array<c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>, k_player_model_choice_count> armor_regions;
+
+	if (g_cache_file_globals.tags_loaded)
+	{
+		s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data();
+
+		for (s_multiplayer_customized_model_character& customized_spartan_character : universal_data->customized_spartan_characters)
+		{
+			char const* armor_region = customized_spartan_character.armor_region.get_string();
+
+			bool ignore_requirements = false;
+			c_static_array<c_static_string<64>, 100>* armor_type = nullptr;
+			if (csstricmp(armor_region, "helmet") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_helmet];
+			}
+			else if (csstricmp(armor_region, "chest") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_chest];
+			}
+			else if (csstricmp(armor_region, "shoulders") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_shoulders];
+			}
+			else if (csstricmp(armor_region, "arms") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_arms];
+			}
+			else if (csstricmp(armor_region, "legs") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_legs];
+			}
+			else if (csstricmp(armor_region, "acc") == 0)
+			{
+				ignore_requirements = true;
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_acc];
+			}
+			else if (csstricmp(armor_region, "pelvis") == 0)
+			{
+				ignore_requirements = true;
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_pelvis];
+			}
+
+			for (long i = 0; i < customized_spartan_character.customized_areas.count(); i++)
+			{
+				s_multiplayer_customized_model_selection& customized_area = customized_spartan_character.customized_areas[i];
+
+				// you can only see the arms in first person
+				if (ignore_requirements || customized_area.third_person_armor_object.index != NONE /*&& customized_area.first_person_armor_object.index != NONE*/)
+					(*armor_type)[i] = customized_area.selection_name.get_string();
+			}
+		}
+
+		for (s_multiplayer_customized_model_character& customized_elite_character : universal_data->customized_elite_characters)
+		{
+			char const* armor_region = customized_elite_character.armor_region.get_string();
+
+			c_static_array<c_static_string<64>, 100>* armor_type = nullptr;
+			if (csstricmp(armor_region, "helmet") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_helmet];
+			}
+			else if (csstricmp(armor_region, "chest") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_chest];
+			}
+			else if (csstricmp(armor_region, "shoulders") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_shoulders];
+			}
+			else if (csstricmp(armor_region, "arms") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_arms];
+			}
+			else if (csstricmp(armor_region, "legs") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_legs];
+			}
+			else if (csstricmp(armor_region, "acc") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_acc];
+			}
+			else if (csstricmp(armor_region, "pelvis") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_elite][_armor_type_pelvis];
+			}
+			else if (csstricmp(armor_region, "upper_body") == 0) // there's an upper body armor type??
+			{
+				continue;
+			}
+			else
+			{
+				continue;
+			}
+
+			for (long i = 0; i < customized_elite_character.customized_areas.count(); i++)
+			{
+				s_multiplayer_customized_model_selection& customized_area = customized_elite_character.customized_areas[i];
+
+				// you can only see the arms in first person
+				if (customized_area.third_person_armor_object.index != NONE /*&& customized_area.first_person_armor_object.index != NONE*/)
+					(*armor_type)[i] = customized_area.selection_name.get_string();
+			}
+		}
+	}
+
+	return armor_regions[player_model_choice];
 }
 

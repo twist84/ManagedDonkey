@@ -1,5 +1,6 @@
 #include "networking/session/network_session_membership.hpp"
-#include <networking/messages/network_messages_session_membership.hpp>
+
+#include "networking/messages/network_messages_session_membership.hpp"
 
 long c_network_session_membership::get_player_index_from_peer(long peer_index)
 {

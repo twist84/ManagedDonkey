@@ -157,7 +157,7 @@ bool customized_area_selection_from_name(s_multiplayer_customized_model_selectio
 {
 	char const* selection_name_str = selection.selection_name.get_string();
 
-	if (selection.third_person_armor_object.index != 0xFFFFFFFF /*&& selection.first_person_armor_object.index != 0xFFFFFFFF*/)
+	if (selection.third_person_armor_object.index != NONE /*&& selection.first_person_armor_object.index != NONE*/)
 	{
 		if (selection_name_str && csstricmp(selection_name, selection_name_str) == 0)
 			return true;
