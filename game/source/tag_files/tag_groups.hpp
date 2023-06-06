@@ -82,13 +82,12 @@ using c_typed_tag_reference = s_tag_reference;
 
 template<typename t_data_type, dword ...t_extra>
 //using c_typed_tag_data = s_tag_data;
-struct c_typed_tag_data
+struct c_typed_tag_data : s_tag_data
 {
-	long size;
-	long : 32; // dword_flags flags;
-	long : 32; // long stream_position;
-	t_data_type* base;
-	long : 32; // byte* definition;
+	t_data_type* get()
+	{
+		return reinterpret_cast<t_data_type*>(base);
+	}
 };
 
 extern void __cdecl tag_load_missing_tags_report();

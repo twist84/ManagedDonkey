@@ -36,13 +36,16 @@ bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_dec
 bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1)
 {
 #ifndef ISEXPERIMENTAL
-	for (long i = 0; i < NUMBEROF(bitmap_resources); i++)
+	for (long i = 0; i < NUMBEROF(k_resource_replacements); i++)
 	{
-		s_bitmap_resource_info const& bitmap_resource = bitmap_resources[i];
+		s_replacement_resource_info const& resource = k_resource_replacements[i];
 
-		if (csmemcmp(_this->__buffer4.m_buffer, bitmap_resource.starting_data, sizeof(bitmap_resource.starting_data)) == 0)
+		if (csmemcmp(_this->__buffer4.m_buffer, resource.starting_data, sizeof(resource.starting_data)))
+			continue;
+
+		if (resource.group_tag == 'bitm')
 		{
-			c_dds_file _dds_file(bitmap_resource.filename);
+			c_dds_file _dds_file(resource.filename);
 			s_dds_file* dds_file = _dds_file.get();
 			if (!dds_file)
 				continue;

@@ -267,6 +267,35 @@ struct s_cache_file_resource_file_location
 };
 static_assert(sizeof(s_cache_file_resource_file_location) == 0x24);
 
+struct s_render_texture_format
+{
+	short width;
+	short height;
+	char depth;
+	char total_mipmap_count;
+	char bitmap_type;
+	char is_high_res_bitmap;
+	long xenon_d3d_format;
+	char bm_format;
+	char bm_curve;
+	short bm_flags;
+};
+static_assert(sizeof(s_render_texture_format) == 0x10);
+
+struct s_render_texture_descriptor
+{
+	s_tag_data base_pixel_data;
+	s_tag_data high_res_pixel_data;
+	s_render_texture_format texture;
+};
+static_assert(sizeof(s_render_texture_descriptor) == 0x38);
+
+// #TODO: add other control data structures
+union control_data_t
+{
+	s_render_texture_descriptor render_texture;
+};
+
 struct s_cache_file_resource_fixup_location
 {
 	long encoded_fixup_location;
@@ -295,7 +324,7 @@ struct s_cache_file_resource_runtime_data_new
 	short resource_salt;
 	char resource_type_index;
 	char control_alignment_bits;
-	s_tag_data control_data;
+	c_typed_tag_data<control_data_t> control_data;
 	c_tag_resource_fixup root_fixup;
 	c_typed_tag_block<s_cache_file_resource_fixup_location> control_fixups;
 	c_typed_tag_block<s_tag_resource_interop_location> interop_locations;

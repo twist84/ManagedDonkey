@@ -152,16 +152,51 @@ extern bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_f
 extern bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1);
 //extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
 
-struct s_bitmap_resource_info
+// eventually replace this
+struct s_replacement_resource_info
 {
+	tag group_tag;
 	long tag_index;
 	byte const starting_data[16];
 	char const* filename;
 };
 
-s_bitmap_resource_info const bitmap_resources[]
+// eventually replace this
+s_replacement_resource_info const k_resource_replacements[]
 {
-	{ 0x000009EC, { 0xFF, 0x00, 0x49, 0x92, 0x24, 0x49, 0x92, 0x24, 0xFF, 0xFF, 0x00, 0x00, 0x55, 0x15, 0x50, 0x00 }, "data\\bitmaps\\000009EC.dds" }
+	{ 'bitm', 0x000009EC, { 0xFF, 0x00, 0x49, 0x92, 0x24, 0x49, 0x92, 0x24, 0xFF, 0xFF, 0x00, 0x00, 0x55, 0x15, 0x50, 0x00 }, "data\\bitmaps\\000009EC.dds" }
 };
 
+// a replacement for the current system would be something like
+// having a specific directory that is iterated through with
+// find_files looking for a `*.bitmap_resource` etc,
+// and populating the array with the found file data
+//
+// the file data would contain the following header,
+// each resource type would inherit the header
+//
+// the following may change
+// when loading the data you would load the file header first
+// once you've checked the data against an existing tag/resource
+// you then load the resource itself
+
+struct s_resource_file_header
+{
+	// tag info
+	tag group_tag;
+	long tag_index;
+
+	// resource data size and offset from file begin
+	dword size;
+	dword offset;
+
+	// resource comparison data
+	byte starting_data[16];
+};
+static_assert(sizeof(s_resource_file_header) == 0x20);
+
+//struct s_bitmap_resource_file : s_resource_file_header
+//{
+//	s_dds_file dds_file;
+//};
 
