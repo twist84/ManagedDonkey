@@ -143,6 +143,25 @@ struct c_lz_cache_file_decompressor :
 };
 static_assert(sizeof(c_lz_cache_file_decompressor) == sizeof(c_cache_file_decompressor) + 0x1C);
 
+enum e_indirect_cache_file_read_result
+{
+	_indirect_cache_file_read_result_success = 0,
+	_indirect_cache_file_read_result_location_invalid,
+	_indirect_cache_file_read_result_io_failure,
+	_indirect_cache_file_read_result_decompression_failure,
+	_indirect_cache_file_read_result_invalid_checksum,
+	_indirect_cache_file_read_result_failure_unknown,
+
+	k_indirect_cache_file_read_result_count
+};
+
+struct s_indirect_cache_file_read_request
+{
+	c_basic_buffer<void> buffer;
+	byte __data[0x20];
+};
+static_assert(sizeof(s_indirect_cache_file_read_request) == 0x28);
+
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
 
 extern void patch_lz_cache_file_decompressor();

@@ -290,6 +290,13 @@ struct c_static_array
 	t_type m_storage[k_count];
 };
 
+template<typename t_type, long k_count>
+struct c_static_sized_dynamic_array :
+	public c_static_array<t_type, k_count>
+{
+	long m_count;
+};
+
 template<typename t_type, typename t_storage_type, size_t k_count>
 struct c_flags
 {

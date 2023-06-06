@@ -828,6 +828,7 @@ POPD
     <ClInclude Include="source\tag_files\string_ids.hpp" />
     <ClInclude Include="source\tag_files\tag_groups.hpp" />
     <ClInclude Include="source\tag_files\tag_group_definitions.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_paging.hpp" />
     <ClInclude Include="source\tag_files\tag_resource_internals.hpp" />
     <ClInclude Include="source\text\draw_string.hpp" />
     <ClInclude Include="source\text\font_loading.hpp" />
