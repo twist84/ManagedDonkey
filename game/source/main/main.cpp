@@ -155,6 +155,7 @@ void __cdecl main_loop_body_begin()
 		g_global_preferences;
 		g_screenshots_uploader;
 		message_storage;
+		c_cache_file_tag_resource_runtime_manager& resource_runtime_manager = g_resource_runtime_manager.m_live_object[0];
 
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);

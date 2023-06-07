@@ -6,6 +6,9 @@
 
 REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 
+using resource_runtime_manager_typed_allocation_data_no_destruct_t = c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>;
+REFERENCE_DECLARE(0x023916C0, resource_runtime_manager_typed_allocation_data_no_destruct_t, g_resource_runtime_manager);
+
 void patch_lz_cache_file_decompressor()
 {
 	patch_pointer({ .address = 0x01690134 }, lz_cache_file_decompressor_begin);

@@ -1,7 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "scenario/scenario.hpp"
 #include "tag_files/files_windows.hpp"
 
 struct s_tag_resource
@@ -158,11 +160,366 @@ enum e_indirect_cache_file_read_result
 struct s_indirect_cache_file_read_request
 {
 	c_basic_buffer<void> buffer;
-	byte __data[0x20];
+	qword __unknown8;
+	dword __unknown10;
+	dword processed_compressed_size;
+	dword __unknown18;
+	long codec_index;
+	bool __unknown20;
+	dword checksum;
 };
 static_assert(sizeof(s_indirect_cache_file_read_request) == 0x28);
 
+#pragma region resource runtime manager
+
+template<typename t_type, long k_count>
+struct c_typed_allocation_data_no_destruct
+{
+	byte __data[8];
+	t_type(&m_live_object)[k_count];
+};
+static_assert(sizeof(c_typed_allocation_data_no_destruct<long, 1>) == 0xC);
+
+struct c_tag_resource_runtime_active_set;
+struct c_tag_resource_cache_file_prefetch_set;
+struct c_tag_resource_page_range_allocator;
+struct c_tag_resource_cache_file_reader;
+struct c_indirect_cache_file_location_atlas;
+struct c_physical_memory_contiguous_region_listener;
+struct c_tag_resource_prediction_atom_generator;
+struct c_cache_file_resource_stoler;
+struct s_cache_file_tag_resource_data;
+
+struct s_cache_file_resource_prefetch_map_state
+{
+	long insertion_point_index;
+	c_static_string<256> scenario_path;
+	bool __unknown104;
+};
+static_assert(sizeof(s_cache_file_resource_prefetch_map_state) == 0x108);
+
+struct c_cache_file_combined_tag_resource_datum_handler
+{
+	void* __vftable;
+	s_cache_file_tag_resource_data* m_resource_data;
+	dword __unknown8;
+	c_basic_buffer<void>* m_interop_buffer;
+	bool __unknown10;
+	dword __unknown14;
+};
+static_assert(sizeof(c_cache_file_combined_tag_resource_datum_handler) == 0x18);
+
+struct c_tag_resource_cache_new;
+struct c_tag_resource_page_table_io_listener
+{
+	c_tag_resource_cache_new* m_resource_cache_new;
+};
+static_assert(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
+
+struct s_lruv_cache;
+struct c_tag_resource_page_table
+{
+	struct c_tag_resource_lruv_cache
+	{
+		dword_flags* __unknown0;
+		long __unknown4;
+		s_lruv_cache* m_lruv_cache;
+	};
+	static_assert(sizeof(c_tag_resource_lruv_cache) == 0xC);
+
+	s_data_array* __unknown0;
+	c_tag_resource_lruv_cache __lruv_cache4;
+	const char* __unknown10;
+	const char* __unknown14;
+	s_data_array* m_pending_resource_requests;
+	c_tag_resource_lruv_cache __lruv_cache1C;
+	byte __data[0x3C];
+};
+static_assert(sizeof(c_tag_resource_page_table) == 0x64);
+
+struct c_tag_resource_cache_controller
+{
+	byte __data0[0x8];
+	s_data_array* __data_array;
+	byte __dataC[0x54];
+};
+static_assert(sizeof(c_tag_resource_cache_controller) == 0x60);
+
+struct c_tag_resource_address_cache
+{
+	byte __data[0x44];
+};
+static_assert(sizeof(c_tag_resource_address_cache) == 0x44);
+
+struct s_tag_resource_access_datum
+{
+	dword resource_handle;
+	void* resource_data;
+};
+static_assert(sizeof(s_tag_resource_access_datum) == 0x8);
+
+template<typename t_type>
+struct c_reference_count
+{
+	t_type m_reference_count;
+};
+static_assert(sizeof(c_reference_count<long>) == 0x4);
+
+struct c_read_write_lock
+{
+	dword m_critical_section_id;
+	long m_semaphore_id;
+	long m_max_signal_count;
+};
+static_assert(sizeof(c_read_write_lock) == 0xC);
+
+struct c_tag_resource_cache_file_access_cache
+{
+	c_wrapped_array<void> __unknown0;
+	c_wrapped_array<s_tag_resource_access_datum> m_cached_access_datums;
+	c_wrapped_array<dword> m_cached_resource_handles;
+	c_wrapped_array<void> __unknown18;
+
+	c_allocation_base* m_allocator;
+	byte __data24[0x14];
+};
+static_assert(sizeof(c_tag_resource_cache_file_access_cache) == 0x38);
+
+struct c_tag_resource_cache_thread_lock_lock_freeish
+{
+	byte __data0[0xC0];
+	byte __dataC0[0x20];
+	c_static_array<c_tag_resource_cache_file_access_cache, 3> m_access_cache_storage;
+	c_reference_count<long> m_reference_count;
+	c_read_write_lock m_read_write_lock;
+	byte __data198[0x8];
+	bool m_blocking_update;
+	byte __data1A1[0x1F];
+	bool __unknown1C0;
+	bool __unknown1C1;
+	bool __unknown1C2;
+	bool m_thread_access_state_locked;
+	bool __unknown1C4;
+	bool __unknown1C5;
+	bool __unknown1C6;
+	bool __unknown1C7;
+	bool __unknown1C8;
+	bool __unknown1C9;
+	bool __unknown1CA;
+	bool __unknown1CB;
+	bool __unknown1CC;
+	dword __unknown1D0;
+	byte __data1CC[0x6C];
+};
+static_assert(sizeof(c_tag_resource_cache_thread_lock_lock_freeish) == 0x240);
+
+struct c_tag_resource_cache_new
+{
+	byte __data0[0x4];
+	c_tag_resource_page_table_io_listener m_io_listener;
+	c_tag_resource_page_table m_page_table;
+	c_tag_resource_cache_controller m_cache_controller;
+	c_tag_resource_address_cache m_address_cache;
+
+	// c_tag_resource_inverse_page_table
+	byte __data110[0x30];
+
+	c_tag_resource_cache_thread_lock_lock_freeish m_thread_access_lock;
+};
+static_assert(sizeof(c_tag_resource_cache_new) == 0x380);
+
+struct c_tag_resource_thread_access
+{
+	long m_per_thread_acquired_access_cache[10];
+	c_tag_resource_cache_file_access_cache* m_per_thread_access_cache[10];
+	long m_per_thread_acquired_access_cache_index;
+	long* m_current_per_thread_acquired_access_cache;
+	long m_per_thread_access_cache_index;
+	c_tag_resource_cache_file_access_cache** m_current_per_thread_access_cache;
+	c_read_write_lock m_read_write_lock;
+	c_tag_resource_cache_thread_lock_lock_freeish* m_resource_thread_access_lock;
+	byte __data[0x10];
+};
+static_assert(sizeof(c_tag_resource_thread_access) == 0x80);
+
+struct c_thread_safeish_tag_resource_cache
+{
+	c_tag_resource_cache_new resource_cache_new;
+	c_tag_resource_thread_access resource_thread_access;
+};
+static_assert(sizeof(c_thread_safeish_tag_resource_cache) == 0x400);
+
+struct c_cache_file_tag_resource_runtime_control_allocation :
+	c_allocation_base
+{
+	dword __unkown4;
+	dword __unkown8;
+	dword __unkownC;
+	dword __unkown10;
+};
+static_assert(sizeof(c_cache_file_tag_resource_runtime_control_allocation) == 0x14);
+
+struct s_shared_resource_file_datum :
+	s_datum_header
+{
+	word_flags flags;
+	s_file_handle async_file_handle;
+	s_file_handle overlapped_handle;
+	s_indirect_file indirect_file;
+	s_cache_file_shared_resource_usage* shared_resource_usage;
+	dword resource_section_offset;
+	long map_file_index;
+};
+static_assert(sizeof(s_shared_resource_file_datum) == 0x1C);
+
+struct c_cache_file_resource_rollover_table
+{
+	struct s_rollover_entry_estimated
+	{
+		byte __data[0x10];
+	};
+	static_assert(sizeof(s_rollover_entry_estimated) == 0x10);
+
+	c_static_sized_dynamic_array<s_rollover_entry_estimated, 16384> m_estimated_rollover_entries;
+	c_basic_buffer<void> m_entry_bounds;
+	long m_next_moved_entry_index;
+};
+static_assert(sizeof(c_cache_file_resource_rollover_table) == 0x40010);
+
+struct c_indirect_cache_file_decompressor_service
+{
+	virtual c_cache_file_decompressor* begin_decompression(qword, long, c_basic_buffer<void>);
+	virtual void dispose_decompressor(qword, long, c_cache_file_decompressor*);
+};
+static_assert(sizeof(c_indirect_cache_file_decompressor_service) == 0x4);
+
+struct c_cache_file_decompressor_service;
+struct c_cache_file_tag_resource_codec_service :
+	c_indirect_cache_file_decompressor_service
+{
+	long m_decompressor_service_count;
+	c_static_sized_dynamic_array<c_cache_file_decompressor_service*, 127> m_actual_runtime_decompressors;
+	c_cache_file_streamed_sublocation_decompressor m_streamed_sublocation_decompressor;
+	byte __data224[0x10];
+	c_cache_file_uncompressed_decompressor* m_uncompressed_cache_file_decompressor;
+	c_basic_buffer<void> m_decompression_buffer;
+	bool m_decompression_buffer_locked;
+};
+static_assert(sizeof(c_cache_file_tag_resource_codec_service) == 0x244);
+
+enum e_map_memory_configuration;
+struct s_optional_cache_user_memory_configuration;
+enum e_optional_cache_user;
+enum e_optional_cache_user_priority;
+struct c_optional_cache_user_callback;
+struct c_optional_cache_backend
+{
+private:
+	virtual void initialize(e_map_memory_configuration memory_configuration, c_static_array<s_optional_cache_user_memory_configuration, 6> const*);
+	virtual void dispose();
+	virtual void* try_to_allocate(e_optional_cache_user, e_optional_cache_user_priority, long, c_optional_cache_user_callback*);
+	virtual void deallocate(e_optional_cache_user, long, void*);
+
+	bool m_active;
+	dword __unknown8;
+};
+static_assert(sizeof(c_optional_cache_backend) == 0xC);
+
+struct c_tag_resource_cache_stoler
+{
+	struct s_stolen_memory_user
+	{
+		byte __data[0x14];
+	};
+	static_assert(sizeof(s_stolen_memory_user) == 0x14);
+
+	long m_age;
+	c_static_array<c_tag_resource_cache_stoler::s_stolen_memory_user, 6> m_stolen_blocks;
+};
+static_assert(sizeof(c_tag_resource_cache_stoler) == 0x7C);
+
+struct c_cache_file_tag_resource_runtime_manager
+{
+	void* __vftable;
+
+	c_tag_resource_runtime_active_set* m_runtime_active_set;
+	c_tag_resource_cache_file_prefetch_set* m_cache_file_prefetch_set;
+	c_tag_resource_page_range_allocator* m_page_range_allocator;
+	c_tag_resource_cache_file_reader* m_cache_file_reader;
+	c_indirect_cache_file_location_atlas* m_location_atlas;
+	c_physical_memory_contiguous_region_listener* m_region_listener;
+	c_tag_resource_prediction_atom_generator* m_atom_generator;
+	c_cache_file_resource_stoler* m_resource_stoler;
+	s_cache_file_tag_resource_data* m_resource_data;
+
+	s_scenario_game_state m_scenario_game_state;
+
+	// #TODO: name these
+	long __unknown48;
+	long __unknown4C;
+
+	c_static_array<s_cache_file_resource_prefetch_map_state, 2> m_prefetch_map_states50;
+
+	// #TODO: name these
+	bool __unknown260;
+	bool __unknown261;
+	bool __unknown262;
+	bool __unknown263;
+
+	// #TODO: map this
+	byte __data264[0x2A074];
+
+	c_wrapped_array<void> m_resource_runtime_data;
+	c_basic_buffer<void> m_resource_interop_data_buffer;
+	c_cache_file_combined_tag_resource_datum_handler m_combined_tag_resource_datum_handler;
+
+	// #TODO: map this
+	byte __data2A300[0x40];
+
+	c_thread_safeish_tag_resource_cache m_tag_resource_cache;
+	c_cache_file_tag_resource_runtime_control_allocation m_tag_resource_cache_allocation;
+
+	// #TODO: name this
+	c_basic_buffer<void> __buffer2A754;
+
+	c_static_array<long, 7> m_shared_file_handle_indices;
+	long m_shared_file_handle_index;
+	c_smart_data_array<s_shared_resource_file_datum>* m_shared_file_handles;
+
+	// #TODO: name this
+	c_basic_buffer<void> __buffer2A780;
+
+	c_static_array<s_cache_file_resource_prefetch_map_state, 2> m_prefetch_map_states2A788;
+	c_cache_file_resource_rollover_table m_rollover_table;
+	c_cache_file_tag_resource_codec_service m_resource_codec_service;
+
+	// #TODO: map this
+	byte __data6ABE8[0x28];
+
+	c_optional_cache_backend m_cache_backend;
+	c_tag_resource_cache_stoler m_cache_stoler;
+
+	// #TODO: name this
+	dword __unknown6AC9C;
+
+	// #TODO: give this a better name, m_resource_stoler_ptr = &m_resource_stoler
+	c_cache_file_resource_stoler** m_resource_stoler_ptr;
+
+	c_enum<e_scenario_type, long, _scenario_type_solo, k_scenario_type_count> m_scenario_type;
+	bool m_running_off_dvd;
+
+	// #TODO: name this
+	bool __unknown6ACA9;
+
+	// #TODO: map this
+	byte __data6ACAA[0x16];
+};
+static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
+
+#pragma endregion
+
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
+extern c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>& g_resource_runtime_manager;
 
 extern void patch_lz_cache_file_decompressor();
 
