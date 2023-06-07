@@ -175,7 +175,7 @@ static_assert(sizeof(s_indirect_cache_file_read_request) == 0x28);
 template<typename t_type, long k_count>
 struct c_typed_allocation_data_no_destruct
 {
-	byte __data[8];
+	c_basic_buffer<void> m_scratch_buffer;
 	t_type(&m_live_object)[k_count];
 };
 static_assert(sizeof(c_typed_allocation_data_no_destruct<long, 1>) == 0xC);
@@ -229,11 +229,21 @@ struct c_tag_resource_page_table
 
 	s_data_array* __unknown0;
 	c_tag_resource_lruv_cache __lruv_cache4;
-	const char* __unknown10;
-	const char* __unknown14;
+	char const* __unknown10;
+	char const* __unknown14;
 	s_data_array* m_pending_resource_requests;
 	c_tag_resource_lruv_cache __lruv_cache1C;
-	byte __data[0x3C];
+
+	byte __data28[0x4];
+
+	c_tag_resource_cache_file_reader* m_cache_file_reader;
+	void* __unknown30;
+
+	byte __data34[0x14];
+
+	s_data_iterator __unknown0_iterator;
+
+	byte __data[0x10];
 };
 static_assert(sizeof(c_tag_resource_page_table) == 0x64);
 
@@ -250,6 +260,26 @@ struct c_tag_resource_address_cache
 	byte __data[0x44];
 };
 static_assert(sizeof(c_tag_resource_address_cache) == 0x44);
+
+struct c_tag_resource_inverse_page_table
+{
+	struct s_page_resource_reference_range : s_datum_header
+	{
+		word __unknown2;
+		word __unknown4;
+		word __unknown6;
+	};
+	static_assert(sizeof(s_page_resource_reference_range) == 0x8);
+
+	c_allocation_base* m_allocator;
+	void* m_allocation;
+	dword __unknown8;
+	dword __unknownC;
+	c_smart_data_array<s_page_resource_reference_range>* m_page_entries;
+	byte_flags flags;
+	word __unknown16;
+};
+static_assert(sizeof(c_tag_resource_inverse_page_table) == 0x18);
 
 struct s_tag_resource_access_datum
 {
@@ -315,14 +345,21 @@ static_assert(sizeof(c_tag_resource_cache_thread_lock_lock_freeish) == 0x240);
 
 struct c_tag_resource_cache_new
 {
-	byte __data0[0x4];
+	void* __unknown0;
+
 	c_tag_resource_page_table_io_listener m_io_listener;
 	c_tag_resource_page_table m_page_table;
 	c_tag_resource_cache_controller m_cache_controller;
 	c_tag_resource_address_cache m_address_cache;
+	c_tag_resource_inverse_page_table m_inverse_page_table;
 
-	// c_tag_resource_inverse_page_table
-	byte __data110[0x30];
+	// vtable?
+	void* __unknown128;
+
+	c_tag_resource_runtime_active_set* m_runtime_active_set;
+	c_tag_resource_cache_file_prefetch_set* m_cache_file_prefetch_set;
+
+	byte __data134[0xC];
 
 	c_tag_resource_cache_thread_lock_lock_freeish m_thread_access_lock;
 };
