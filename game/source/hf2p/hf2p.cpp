@@ -8,6 +8,7 @@
 #include "game/game_engine_util.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "game/players.hpp"
+#include "main/console.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
@@ -86,20 +87,18 @@ void __cdecl hf2p_game_update()
 
 	if (mainmenu_unit_index != 0xFFFFFFFF)
 	{
+		static bool first_run = true;
+		if (first_run && g_cache_file_globals.tags_loaded)
+		{
+			first_run = false;
+
+			console_process_command("load_customization_from_file customization.txt", true);
+		}
+
 		{
 			// only allow one instance of this
 			s_s3d_player_armor_configuration_loadout& loadout = get_armor_loadout();
 
-			if (!loadout.armor_is_set)
-			{
-				for (long color_index = 0; color_index < k_color_type_count; color_index++)
-					loadout.colors[color_index].value = ~((system_milliseconds() * rand()) % 0xFFFFFF);
-
-				//for (long armor_index = 0; armor_index < _armor_type_pelvis + 1; armor_index++)
-				//	loadout.armors[armor_index] = (system_milliseconds() * rand()) % 70;
-
-				loadout.armor_is_set = true;
-			}
 			DECLFUNC(0x005A4430, void, __cdecl, s_s3d_player_armor_configuration_loadout*, dword)(&loadout, mainmenu_unit_index);
 
 			for (long color_index = 0; color_index < k_color_type_count; color_index++)
@@ -119,12 +118,26 @@ void __cdecl hf2p_game_update()
 	printf("");
 }
 
-s_s3d_player_armor_configuration_loadout& get_armor_loadout(bool update_mainmenu_unit)
+s_s3d_player_armor_configuration_loadout& get_armor_loadout()
 {
 	static s_s3d_player_armor_configuration_loadout loadout{};
 
-	if (update_mainmenu_unit)
-		loadout.armor_is_set = false;
+	return loadout;
+}
+
+s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
+{
+	static s_s3d_player_weapon_configuration_loadout loadout;
+
+	// #TODO: pull this from tags
+	//loadout.grenade_index = _grenade_type_firebomb;
+
+	// #TODO: pull this from a config file
+#ifdef _DEBUG
+	loadout.bungienet_user.set(_bungienet_user_bungie, true);
+#else
+	loadout.bungienet_user.set(_bungienet_user_seventh_column, true);
+#endif // _DEBUG
 
 	return loadout;
 }

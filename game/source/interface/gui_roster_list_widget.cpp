@@ -314,6 +314,7 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 			long player_row_type = c_gui_roster_data::_player_row_type_player;
 			long party_bar_length = 0;
 			long base_color = 0;
+			long base_color_hilite = 0;
 
 			if (base_color_bitmap_widget
 				&& base_color_hilite_bitmap_widget
@@ -326,6 +327,7 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 				data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type);
 				data->get_integer_value(element_handle, STRING_ID(gui, party_bar_length), &party_bar_length);
 				data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color);
+				data->get_integer_value(element_handle, STRING_ID(gui, base_color_hilite), &base_color_hilite);
 
 				ASSERT((session_player_index == NONE) || VALID_INDEX(session_player_index, NUMBEROF(m_temporary_team)));
 
@@ -369,8 +371,12 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 				}
 				else
 				{
+					// set alpha
+					base_color |= (200 << 24);
+					base_color_hilite |= (150 << 24);
+
 					tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<dword>(base_color) });
-					tint_widget_to_change_argb_color(base_color_hilite_bitmap_widget, { .value = static_cast<dword>(base_color) });
+					tint_widget_to_change_argb_color(base_color_hilite_bitmap_widget, { .value = static_cast<dword>(base_color_hilite) });
 				}
 				tint_widget_to_change_color(party_bar_player_bitmap_widget, color_list_index, is_team_game);
 				tint_widget_to_change_color(name_text_widget, color_list_index, is_team_game);

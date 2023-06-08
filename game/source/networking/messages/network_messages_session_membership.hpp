@@ -182,15 +182,16 @@ struct s_player_configuration_from_host_patial
 	c_flags<e_bungienet_user, byte, k_bungienet_user_count> bungienet_user;
 	c_static_array<rgb_color, k_color_type_count> colors;
 	c_static_array<byte, k_armor_type_count> armors;
+	c_static_array<char, 4> consumables;
 };
-static_assert(sizeof(s_player_configuration_from_host_patial) == 0x2C);
+static_assert(sizeof(s_player_configuration_from_host_patial) == 0x30);
 
 struct s_player_configuration_for_player_properties
 {
 	s_player_configuration_from_client client;
 	s_player_configuration_from_host_patial host_partial;
 };
-static_assert(sizeof(s_player_configuration_for_player_properties) == 0x5C);
+static_assert(sizeof(s_player_configuration_for_player_properties) == 0x60);
 
 struct s_network_message_player_properties
 {

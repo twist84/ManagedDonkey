@@ -112,43 +112,6 @@ s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(pla
 	loadout.primary_weapon_index = 0xFF;
 	loadout.secondary_weapon_index = 0xFF;
 
-	// #TODO: pull this from tags
-	loadout.grenade_index = _grenade_type_firebomb;
-
-	// "empty"
-	// "jammer"
-	// "powerdrain"
-	// "invisibility"
-	// "invisibility_vehicle"
-	// "bubbleshield"
-	// "superflare"
-	// "regenerator"
-	// "tripmine"
-	// "auto_turret"
-	// "deployable_cover"
-	// "forced_reload"
-	// "concussive_blast"
-	// "tank_mode"
-	// "mag_pulse"
-	// "hologram"
-	// "reactive_armor"
-	// "bomb_run"
-	// "armor_lock"
-	// "adrenaline"
-	// "lightning_strike"
-	// "scrambler"
-	// "weapon_jammer"
-	// "ammo_pack"
-	// "consumable_vision"
-	// "bubbleshield_tutorial"
-	// "consumable_vision_tutorial"
-
-	// #TODO: pull these from a config file, SoonTM?
-	loadout.consumables[0] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("adrenaline"));
-	loadout.consumables[1] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("reactive_armor"));
-	loadout.consumables[2] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("armor_lock"));
-	loadout.consumables[3] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index("tank_mode"));
-
 	return &loadout;
 }
 
@@ -219,6 +182,9 @@ long multiplayer_universal_data_get_absolute_equipment_block_index(char const* n
 // find a better name?
 long multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(char const* region_or_biped_name, char const* selection_name)
 {
+	if (!g_cache_file_globals.tags_loaded)
+		return 0;
+
 	s_multiplayer_universal_globals_definition* universal_data = scenario_multiplayer_globals_try_and_get_universal_data();
 	if (!universal_data)
 		return 0;

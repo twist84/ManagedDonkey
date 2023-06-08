@@ -148,18 +148,15 @@ bool __cdecl c_network_session::handle_player_properties(c_network_channel* chan
 void update_player_data(s_player_configuration_for_player_properties* player_data)
 {
 	// #TODO: save `c_player_profile_interface` from a config file
-	player_data->host_partial.service_tag = controller_get(_controller_index0)->m_player_profile.desired_service_tag;
-
-	// #TODO: pull this from a config file
-#ifdef _DEBUG
-	player_data->host_partial.bungienet_user.set(_bungienet_user_bungie, true);
-#else
-	player_data->host_partial.bungienet_user.set(_bungienet_user_seventh_column, true);
-#endif // _DEBUG
-
+	c_player_profile_interface& player_profile = controller_get(_controller_index0)->m_player_profile;
 	s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout();
+	s_s3d_player_weapon_configuration_loadout& weapon_loadout = get_weapon_loadout();
+
+	player_data->host_partial.service_tag = player_profile.desired_service_tag;
+	player_data->host_partial.bungienet_user = weapon_loadout.bungienet_user;
 	player_data->host_partial.colors = armor_loadout.colors;
 	player_data->host_partial.armors = armor_loadout.armors;
+	player_data->host_partial.consumables = weapon_loadout.consumables;
 }
 
 bool c_network_session::peer_request_player_desired_properties_update(long player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, dword player_voice)
@@ -169,7 +166,6 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 
 	if (!established())
 		return false;
-
 
 	s_player_configuration_for_player_properties player_data = { .client = *player_data_from_client };
 	update_player_data(&player_data);

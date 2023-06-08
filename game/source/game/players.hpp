@@ -56,6 +56,7 @@ struct s_emblem_info
 	// https://burtleburtle.net/bob/c/lookup3.c
 	dword __unknown0_checksums[2];
 };
+static_assert(sizeof(s_emblem_info) == 0x650);
 
 enum e_bungienet_user
 {
@@ -84,9 +85,7 @@ struct s_s3d_player_armor_configuration_loadout
 	// array of 10 based on the decode function for this struct
 	c_static_array<byte, k_armor_type_count> armors;
 	byte : 8;
-
-	// using this byte for our implementation
-	bool armor_is_set;
+	byte : 8;
 };
 static_assert(sizeof(s_s3d_player_armor_configuration_loadout) == 0x20);
 
@@ -583,8 +582,9 @@ struct s_players_global_data
 
 	bool __unknown6;
 	bool __unknown7;
+	bool __unknown8;
 
-	byte __data8[4];
+	byte __data9[3];
 
 	dword machine_valid_mask;
 	c_static_array<s_machine_identifier, 17> machine_identifiers;

@@ -103,12 +103,15 @@ void __fastcall c_gui_screen_scoreboard::_update_render_state(c_gui_screen_score
 				{
 					long color_list_index = base_color;
 					if (has_teams)
+					{
 						color_list_index = team_color;
-
-					if (has_teams)
 						tint_widget_to_change_color(base_color_bitmap_widget, color_list_index, has_teams);
+					}
 					else
+					{
+						base_color |= (255 << 24);
 						tint_widget_to_change_argb_color(base_color_bitmap_widget, { .value = static_cast<dword>(base_color) });
+					}
 
 					tint_widget_to_change_color((c_gui_widget*)name_text_widget, color_list_index, has_teams);
 					tint_widget_to_change_color((c_gui_widget*)team_bar_text_widget, color_list_index, has_teams);

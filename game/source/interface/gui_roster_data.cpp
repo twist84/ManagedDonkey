@@ -24,7 +24,7 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
 	case STRING_ID(gui, base_color_hilite):
     {
         if (player_data)
-            *integer_value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[0].value;
+            *integer_value = player_data->host.armor.loadouts[player_data->host.armor.loadout_index].colors[_color_type_primary].value;
 
         if (!result)
             return true;
@@ -72,7 +72,10 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
 	case STRING_ID(gui, experience):
     {
         *integer_value = (player_row_index % 4) + 1;
-        //*integer_value = 42;
+
+        // #TODO: pull this from an api?
+        if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
+            *integer_value = 42;
 
         if (!result)
             return true;
@@ -81,7 +84,10 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
 	case STRING_ID(gui, skill_level):
     {
         *integer_value = (player_row_index % 4) + 1;
-        *integer_value = 50;
+
+        // #TODO: pull this from an api?
+        if (player_data && player_data->host.weapon.loadouts[0].bungienet_user.test(_bungienet_user_bungie))
+            *integer_value = 50;
 
         if (!result)
             return true;
@@ -90,7 +96,7 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
 	case STRING_ID(gui, bungienet_user):
     {
         // Look At Me. I'm The Bungie Now.
-        *integer_value |= FLAG(_bungienet_user_seventh_column);
+        *integer_value |= FLAG(_bungienet_user_default);
 
         if (player_data)
             *integer_value = player_data->host.weapon.loadouts[0].bungienet_user;

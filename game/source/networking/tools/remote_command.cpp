@@ -1011,49 +1011,98 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 	FILE* customization_file = nullptr;
 	if (fopen_s(&customization_file, customization_filename, "r") == 0 && customization_file)
 	{
-		s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout(true);
+		s_s3d_player_armor_configuration_loadout& armor_loadout = get_armor_loadout();
+		s_s3d_player_weapon_configuration_loadout& weapon_loadout = get_weapon_loadout();
 
 		char buffer[200]{};
 		while (fgets(buffer, NUMBEROF(buffer), customization_file))
 		{
 			string_terminate_at_first_delimiter(buffer, "\r\n");
-			char name[128]{};
-			char value[32]{};
 
-			sscanf_s(buffer, "%[^:]: %s", name, sizeof(name), value, sizeof(value));
-			if (*name && *value)
+			// consumables
 			{
-				for (long armor_region_index = 0; armor_region_index < armor_loadout.armors.count(); armor_region_index++)
+				long consumable_index = NONE;
+				char consumable_name[32]{};
+				if (sscanf_s(buffer, "consumables[%d]: %s", &consumable_index, consumable_name, sizeof(consumable_name)) && (consumable_index != NONE && *consumable_name))
 				{
-					char const* armor_region = nullptr;
-					switch (armor_region_index)
+					weapon_loadout.consumables[consumable_index] = static_cast<char>(multiplayer_universal_data_get_absolute_equipment_block_index(consumable_name));
+					continue;
+				}
+			}
+
+			// colors
+			{
+				char color_type_name[128]{};
+				dword rgb_value = NONE;
+				if (sscanf_s(buffer, "colors[%[^]]]: #%08X", color_type_name, sizeof(color_type_name), &rgb_value) && (*color_type_name && rgb_value != NONE))
+				{
+					long index = NONE;
+					if (csstricmp(color_type_name, "primary") == 0)
 					{
-					case _armor_type_helmet:
-						armor_region = "helmet";
-						break;
-					case _armor_type_chest:
-						armor_region = "chest";
-						break;
-					case _armor_type_shoulders:
-						armor_region = "shoulders";
-						break;
-					case _armor_type_arms:
-						armor_region = "arms";
-						break;
-					case _armor_type_legs:
-						armor_region = "legs";
-						break;
-					case _armor_type_acc:
-						armor_region = "acc";
-						break;
-					case _armor_type_pelvis:
-						armor_region = "pelvis";
-						break;
+						index = _color_type_primary;
+					}
+					else if (csstricmp(color_type_name, "secondary") == 0)
+					{
+						index = _color_type_secondary;
+					}
+					else if (csstricmp(color_type_name, "visor") == 0)
+					{
+						index = _color_type_visor;
+					}
+					else if (csstricmp(color_type_name, "lights") == 0)
+					{
+						index = _color_type_lights;
+					}
+					else if (csstricmp(color_type_name, "holo") == 0)
+					{
+						index = _color_type_holo;
 					}
 
-					if (armor_region && csstricmp(armor_region, name) == 0)
+					if (VALID_INDEX(index, k_color_type_count))
+						armor_loadout.colors[index].value = rgb_value;
+
+					continue;
+				}
+			}
+
+			// armors
+			{
+				char armor_region_name[128]{};
+				char armor_name[32]{};
+				if (sscanf_s(buffer, "armors[%[^]]]: %s", armor_region_name, sizeof(armor_region_name), armor_name, sizeof(armor_name)) && (*armor_region_name && *armor_name))
+				{
+					for (long armor_region_index = 0; armor_region_index < armor_loadout.armors.count(); armor_region_index++)
 					{
-						armor_loadout.armors[armor_region_index] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(name, value));
+						char const* armor_region = nullptr;
+						switch (armor_region_index)
+						{
+						case _armor_type_helmet:
+							armor_region = "helmet";
+							break;
+						case _armor_type_chest:
+							armor_region = "chest";
+							break;
+						case _armor_type_shoulders:
+							armor_region = "shoulders";
+							break;
+						case _armor_type_arms:
+							armor_region = "arms";
+							break;
+						case _armor_type_legs:
+							armor_region = "legs";
+							break;
+						case _armor_type_acc:
+							armor_region = "acc";
+							break;
+						case _armor_type_pelvis:
+							armor_region = "pelvis";
+							break;
+						}
+
+						if (armor_region && csstricmp(armor_region, armor_region_name) == 0)
+						{
+							armor_loadout.armors[armor_region_index] = static_cast<byte>(multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(armor_region, armor_name));
+						}
 					}
 				}
 			}
@@ -1068,16 +1117,58 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 		{
 			fprintf_s(customization_info_file, "This file serves as a reference to what a customization file contains\n\n");
 
-			fprintf_s(customization_info_file, "Example usage:\n");
-			fprintf_s(customization_info_file, "<armor_region_name>: <armor_name>\n\n");
+			fprintf_s(customization_info_file, "Example usage:\n\n");
 
-			fprintf_s(customization_info_file, "helmet: base\n");
-			fprintf_s(customization_info_file, "chest: base\n");
-			fprintf_s(customization_info_file, "shoulders: base\n");
-			fprintf_s(customization_info_file, "arms: base\n");
-			fprintf_s(customization_info_file, "legs: base\n");
-			fprintf_s(customization_info_file, "acc: flashlight\n");
-			fprintf_s(customization_info_file, "pelvis: base\n\n");
+			fprintf_s(customization_info_file, "consumables[<consumable_index(0 - 3)>]: <consumable_name>\n");
+			fprintf_s(customization_info_file, "consumables[0]: empty\n");
+			fprintf_s(customization_info_file, "consumables[1]: empty\n");
+			fprintf_s(customization_info_file, "consumables[2]: empty\n");
+			fprintf_s(customization_info_file, "consumables[3]: empty\n\n");
+
+			fprintf_s(customization_info_file, "colors[<color_type_name>]: #RGB\n");
+			fprintf_s(customization_info_file, "colors[primary]: #FF0000\n");
+			fprintf_s(customization_info_file, "colors[secondary]: #0000FF\n");
+			fprintf_s(customization_info_file, "colors[visor]: #0000FF\n");
+			fprintf_s(customization_info_file, "colors[lights]: #00F00F\n");
+			fprintf_s(customization_info_file, "colors[holo]: #0F0F00\n\n");
+
+			fprintf_s(customization_info_file, "armor[<armor_region_name>]: <armor_name>\n");
+			fprintf_s(customization_info_file, "armor[helmet]: base\n");
+			fprintf_s(customization_info_file, "armor[chest]: base\n");
+			fprintf_s(customization_info_file, "armor[shoulders]: base\n");
+			fprintf_s(customization_info_file, "armor[arms]: base\n");
+			fprintf_s(customization_info_file, "armor[legs]: base\n");
+			fprintf_s(customization_info_file, "armor[acc]: flashlight\n");
+			fprintf_s(customization_info_file, "armor[pelvis]: base\n\n");
+
+			fprintf_s(customization_info_file, "consumable:\n");
+			fprintf_s(customization_info_file, "\tempty\n");
+			fprintf_s(customization_info_file, "\tjammer\n");
+			fprintf_s(customization_info_file, "\tpowerdrain\n");
+			fprintf_s(customization_info_file, "\tinvisibility\n");
+			fprintf_s(customization_info_file, "\tinvisibility_vehicle\n");
+			fprintf_s(customization_info_file, "\tbubbleshield\n");
+			fprintf_s(customization_info_file, "\tsuperflare\n");
+			fprintf_s(customization_info_file, "\tregenerator\n");
+			fprintf_s(customization_info_file, "\ttripmine\n");
+			fprintf_s(customization_info_file, "\tauto_turret\n");
+			fprintf_s(customization_info_file, "\tdeployable_cover\n");
+			fprintf_s(customization_info_file, "\tforced_reload\n");
+			fprintf_s(customization_info_file, "\tconcussive_blast\n");
+			fprintf_s(customization_info_file, "\ttank_mode\n");
+			fprintf_s(customization_info_file, "\tmag_pulse\n");
+			fprintf_s(customization_info_file, "\thologram\n");
+			fprintf_s(customization_info_file, "\treactive_armor\n");
+			fprintf_s(customization_info_file, "\tbomb_run\n");
+			fprintf_s(customization_info_file, "\tarmor_lock\n");
+			fprintf_s(customization_info_file, "\tadrenaline\n");
+			fprintf_s(customization_info_file, "\tlightning_strike\n");
+			fprintf_s(customization_info_file, "\tscrambler\n");
+			fprintf_s(customization_info_file, "\tweapon_jammer\n");
+			fprintf_s(customization_info_file, "\tammo_pack\n");
+			fprintf_s(customization_info_file, "\tconsumable_vision\n");
+			fprintf_s(customization_info_file, "\tbubbleshield_tutorial\n");
+			fprintf_s(customization_info_file, "\tconsumable_vision_tutorial\n\n");
 
 			for (long armor_region_index = 0; armor_region_index < k_armor_type_count; armor_region_index++)
 			{

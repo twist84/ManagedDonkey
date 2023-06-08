@@ -106,6 +106,12 @@ void c_network_session_membership::set_player_properties(long player_index, long
 		update_increment = true;
 	}
 
+	if (csmemcmp(&player->configuration.host.weapon.loadouts[0].consumables, &player_data->host_partial.consumables, sizeof(c_static_array<char, 4>)))
+	{
+		player->configuration.host.weapon.loadouts[0].consumables = player_data->host_partial.consumables;
+		update_increment = true;
+	}
+
 	if (player->voice_settings != player_voice)
 	{
 		player->voice_settings = player_voice;

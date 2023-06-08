@@ -247,8 +247,6 @@ void __cdecl main_loop_body_begin()
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
 	{
-		console_process_command("load_customization_from_file customization.txt", true);
-
 #ifdef ISEXPERIMENTAL
 		console_process_command("net_session_create multiplayer system_link", true);
 		console_process_command("net_load_and_use_map_variant \"ed\\0.4.11.2\\maps\\Highlander - Air Ball.bin\"", true);
