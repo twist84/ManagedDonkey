@@ -175,10 +175,11 @@ static_assert(sizeof(s_indirect_cache_file_read_request) == 0x28);
 template<typename t_type, long k_count>
 struct c_typed_allocation_data_no_destruct
 {
-	c_basic_buffer<void> m_scratch_buffer;
-	t_type(&m_live_object)[k_count];
+	c_basic_buffer<void> m_opaque_storage;
+	t_type* m_live_object;
+	c_allocation_base* m_allocator;
 };
-static_assert(sizeof(c_typed_allocation_data_no_destruct<long, 1>) == 0xC);
+static_assert(sizeof(c_typed_allocation_data_no_destruct<long, 1>) == 0x10);
 
 struct c_tag_resource_runtime_active_set;
 struct c_tag_resource_cache_file_prefetch_set;
@@ -187,8 +188,20 @@ struct c_tag_resource_cache_file_reader;
 struct c_indirect_cache_file_location_atlas;
 struct c_physical_memory_contiguous_region_listener;
 struct c_tag_resource_prediction_atom_generator;
-struct c_cache_file_resource_stoler;
+
+struct c_cache_file_resource_stoler
+{
+	// map this
+	void* __vftable;
+};
+static_assert(sizeof(c_cache_file_resource_stoler) == 0x4);
+
 struct s_cache_file_tag_resource_data;
+
+struct s_cache_file_resource_runtime_active_game_state : s_scenario_game_state
+{
+};
+static_assert(sizeof(s_cache_file_resource_runtime_active_game_state) == sizeof(s_scenario_game_state));
 
 struct s_cache_file_resource_prefetch_map_state
 {
@@ -197,6 +210,67 @@ struct s_cache_file_resource_prefetch_map_state
 	bool __unknown104;
 };
 static_assert(sizeof(s_cache_file_resource_prefetch_map_state) == 0x108);
+
+struct s_cache_file_resource_runtime_prefetching_state
+{
+	c_basic_buffer<void> __buffer0;
+	s_cache_file_resource_prefetch_map_state __state4;
+	s_cache_file_resource_prefetch_map_state __state110;
+};
+static_assert(sizeof(s_cache_file_resource_runtime_prefetching_state) == 0x218);
+
+struct c_tag_resource_cache_prediction_table
+{
+	c_wrapped_array<void> __unknown0;
+	c_wrapped_array<void> __unknown8;
+	c_wrapped_array<void> __unknown10;
+	c_wrapped_array<void> __unknown18;
+};
+static_assert(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
+
+struct c_tag_resource_cache_precompiled_predictor
+{
+	// c_simple_hash_table<long,8192,?,?,?>
+	long __unknown0;
+	byte __data4[0x20000];
+	short __unknown20004[8192];
+	short __unknown24004[8192];
+
+	c_tag_resource_cache_prediction_table m_prediction_table;
+};
+static_assert(sizeof(c_tag_resource_cache_precompiled_predictor) == 0x28024);
+
+struct c_tag_index_hash_table
+{
+	// c_simple_hash_table<long,8192,?,?,?>
+	long __unknown0;
+	byte __data4[0x20000];
+	short __unknown20004[8192];
+	short __unknown24004[8192];
+};
+static_assert(sizeof(c_tag_index_hash_table) == 0x28004);
+
+struct c_tag_resource_cache_dynamic_predictor
+{
+	c_tag_resource_cache_precompiled_predictor m_precompiled_predictor;
+	c_tag_index_hash_table m_index_hash_table;
+	dword __unknown50028;
+
+	byte __data5002C[4];
+
+	c_static_sized_dynamic_array<byte, 65536> __unknown50030;
+	c_static_sized_dynamic_array<byte, 507904> __unknown60034;
+	c_static_sized_dynamic_array<byte, 253952> __unknownDC038;
+	c_static_sized_dynamic_array<byte, 65536> __unknown11A03C;
+
+	dword __unknown12A040;
+	bool __unknown12A044;
+	bool __unknown12A045;
+	bool __unknown12A046;
+	bool __unknown12A047;
+	dword m_idle_time;
+};
+static_assert(sizeof(c_tag_resource_cache_dynamic_predictor) == 0x12A04C);
 
 struct c_cache_file_combined_tag_resource_datum_handler
 {
@@ -305,7 +379,9 @@ static_assert(sizeof(c_read_write_lock) == 0xC);
 
 struct c_tag_resource_cache_file_access_cache
 {
-	c_wrapped_array<void> __unknown0;
+	// __unknown0[interop->descriptor]
+	c_wrapped_array<qword> __unknown0;
+
 	c_wrapped_array<s_tag_resource_access_datum> m_cached_access_datums;
 	c_wrapped_array<dword> m_cached_resource_handles;
 	c_wrapped_array<void> __unknown18;
@@ -389,12 +465,17 @@ static_assert(sizeof(c_thread_safeish_tag_resource_cache) == 0x400);
 struct c_cache_file_tag_resource_runtime_control_allocation :
 	c_allocation_base
 {
-	dword __unkown4;
-	dword __unkown8;
-	dword __unkownC;
-	dword __unkown10;
+	c_basic_buffer<void> m_available_region;
+	c_basic_buffer<void> m_allocated_region;
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_control_allocation) == 0x14);
+
+struct c_cache_file_tag_resource_runtime_in_level_memory_manager
+{
+	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocator;
+	c_basic_buffer<void> m_cache_file_resource_allocation_region;
+};
+static_assert(sizeof(c_cache_file_tag_resource_runtime_in_level_memory_manager) == 0x1C);
 
 struct s_shared_resource_file_datum :
 	s_datum_header
@@ -475,6 +556,15 @@ struct c_tag_resource_cache_stoler
 };
 static_assert(sizeof(c_tag_resource_cache_stoler) == 0x7C);
 
+struct c_cache_file_resource_optional_cache_backend :
+	public c_optional_cache_backend
+{
+	c_tag_resource_cache_stoler m_cache_stoler;
+	c_static_flags<32> m_flags;
+	c_cache_file_resource_stoler* m_resource_stoler;
+};
+static_assert(sizeof(c_cache_file_resource_optional_cache_backend) == 0x90);
+
 struct c_cache_file_tag_resource_runtime_manager
 {
 	void* __vftable;
@@ -486,16 +576,10 @@ struct c_cache_file_tag_resource_runtime_manager
 	c_indirect_cache_file_location_atlas* m_location_atlas;
 	c_physical_memory_contiguous_region_listener* m_region_listener;
 	c_tag_resource_prediction_atom_generator* m_atom_generator;
-	c_cache_file_resource_stoler* m_resource_stoler;
+	c_cache_file_resource_stoler m_resource_stoler;
 	s_cache_file_tag_resource_data* m_resource_data;
-
-	s_scenario_game_state m_scenario_game_state;
-
-	// #TODO: name these
-	long __unknown48;
-	long __unknown4C;
-
-	c_static_array<s_cache_file_resource_prefetch_map_state, 2> m_prefetch_map_states50;
+	s_cache_file_resource_runtime_active_game_state m_active_game_state;
+	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
 
 	// #TODO: name these
 	bool __unknown260;
@@ -503,8 +587,11 @@ struct c_cache_file_tag_resource_runtime_manager
 	bool __unknown262;
 	bool __unknown263;
 
+	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_predictor;
+	c_tag_resource_cache_precompiled_predictor m_precompiled_predictor;
+
 	// #TODO: map this
-	byte __data264[0x2A074];
+	byte __data28298[0x2040];
 
 	c_wrapped_array<void> m_resource_runtime_data;
 	c_basic_buffer<void> m_resource_interop_data_buffer;
@@ -514,11 +601,10 @@ struct c_cache_file_tag_resource_runtime_manager
 	byte __data2A300[0x40];
 
 	c_thread_safeish_tag_resource_cache m_tag_resource_cache;
-	c_cache_file_tag_resource_runtime_control_allocation m_tag_resource_cache_allocation;
 
-	// #TODO: name this
-	c_basic_buffer<void> __buffer2A754;
+	c_cache_file_tag_resource_runtime_in_level_memory_manager m_in_level_memory_manager;
 
+	// does `m_in_level_memory_manager` contain the following members?
 	c_static_array<long, 7> m_shared_file_handle_indices;
 	long m_shared_file_handle_index;
 	c_smart_data_array<s_shared_resource_file_datum>* m_shared_file_handles;
@@ -531,16 +617,9 @@ struct c_cache_file_tag_resource_runtime_manager
 	c_cache_file_tag_resource_codec_service m_resource_codec_service;
 
 	// #TODO: map this
-	byte __data6ABE8[0x28];
+	byte __data6ABEC[0x28];
 
-	c_optional_cache_backend m_cache_backend;
-	c_tag_resource_cache_stoler m_cache_stoler;
-
-	// #TODO: name this
-	dword __unknown6AC9C;
-
-	// #TODO: give this a better name, m_resource_stoler_ptr = &m_resource_stoler
-	c_cache_file_resource_stoler** m_resource_stoler_ptr;
+	c_cache_file_resource_optional_cache_backend m_optional_cache_backend;
 
 	c_enum<e_scenario_type, long, _scenario_type_solo, k_scenario_type_count> m_scenario_type;
 	bool m_running_off_dvd;
@@ -552,6 +631,10 @@ struct c_cache_file_tag_resource_runtime_manager
 	byte __data6ACAA[0x16];
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
+static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data28298) == 0x28298);
+static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data2A300) == 0x2A300);
+static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data6ABEC) == 0x6ABEC);
+static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data6ACAA) == 0x6ACAA);
 
 #pragma endregion
 

@@ -44,6 +44,7 @@
 #include "render/views/render_view.hpp"
 #include "screenshots/screenshots_uploader.hpp"
 #include "simulation/simulation.hpp"
+#include "text/font_loading.hpp"
 #include "visibility/visibility_collection.hpp"
 
 REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
@@ -155,7 +156,12 @@ void __cdecl main_loop_body_begin()
 		g_global_preferences;
 		g_screenshots_uploader;
 		message_storage;
-		g_resource_runtime_manager;
+		g_font_globals;
+		g_font_package_cache;
+
+		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.m_live_object;
+		c_tag_resource_cache_dynamic_predictor* dynamic_predictor = resource_runtime_manager->m_dynamic_predictor.m_live_object;
+		c_cache_file_tag_resource_runtime_in_level_memory_manager& in_level_memory_manager = resource_runtime_manager->m_in_level_memory_manager;
 
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
@@ -192,9 +198,9 @@ void __cdecl main_loop_body_begin()
 
 		ASSERT(g_cache_file_globals.resource_data->loaded_resources.count() <=
 			g_cache_file_globals.resource_file_counts_mapping[0] +
-			g_cache_file_globals.resource_file_counts_mapping[1] + 
-			g_cache_file_globals.resource_file_counts_mapping[2] + 
-			g_cache_file_globals.resource_file_counts_mapping[3] + 
+			g_cache_file_globals.resource_file_counts_mapping[1] +
+			g_cache_file_globals.resource_file_counts_mapping[2] +
+			g_cache_file_globals.resource_file_counts_mapping[3] +
 			g_cache_file_globals.resource_file_counts_mapping[4]);
 
 		for (cache_file_resource_instance* resource_instance : g_cache_file_globals.resource_data->loaded_resources)
