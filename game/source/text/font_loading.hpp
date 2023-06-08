@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/language.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "shell/shell.hpp"
 #include "tag_files/files.hpp"
@@ -13,7 +14,7 @@ enum e_font_index
 #pragma pack(push, 1)
 struct s_font_loading_state
 {
-	char filename[32];
+	c_static_string<32> filename;
 
 	long font_index;
 
@@ -42,12 +43,14 @@ static_assert(sizeof(s_font_package_entry) == 0x8);
 struct s_font_package_file_header
 {
 	// 0xC0000003
+	// 0xC0000004 in mcc
 	dword version;
 
 	// 16
+	// 64 in mcc
 	long font_count;
 
-	struct
+	struct s_font // is this the actual name
 	{
 		long offset;
 
@@ -56,16 +59,21 @@ struct s_font_package_file_header
 
 		word __unknown8;
 		word __unknownA;
-	} fonts[16];
+	};
+	static_assert(sizeof(s_font) == 0xC);
 
-	long font_index_mapping[16];
+	c_static_array<s_font, 16> fonts;
+	//c_static_array<s_font, 64> fonts; // mcc
+
+	c_static_array<long, 16> font_index_mapping;
+	//c_static_array<long, 64> font_index_mapping; // mcc
 
 	long package_file_font_offset;
 	long package_file_font_size;
 
 	s_font_package_entry first_package_entry;
 };
-static_assert(sizeof(s_font_package_file_header) == 0x118);
+static_assert(sizeof(s_font_package_file_header) == 0x118); // 0x418 in mcc
 
 struct s_font_character
 {
@@ -87,14 +95,16 @@ struct s_font_character
 	// 64
 	word __unknownA;
 };
-static_assert(sizeof(s_font_character) == 0xC);
+static_assert(sizeof(s_font_character) == 0xC); // 0x10 in mcc
+//static_assert(sizeof(s_font_character) == 0x10); // mcc
 
 struct s_font_header
 {
 	// 0xF0000005
+	// 0xF0000006 in mcc
 	dword version;
 
-	string name;
+	c_static_string<32> name;
 
 	word __unknown24;
 	word __unknown26;
@@ -115,20 +125,25 @@ struct s_font_header
 	long character_data_size_bytes;
 
 	dword __unknown148;
+	//qword __unknown148; // mcc
+
 	dword __unknown14C;
 	dword __unknown150;
 	dword __unknown154;
 	dword __unknown158;
 };
 static_assert(sizeof(s_font_header) == 0x15C);
+//static_assert(sizeof(s_font_header) == 0x168); // in mcc
 
 struct s_font_package_file
 {
 	s_font_package_file_header header;
 	s_font_header font_headers[16];
+	//s_font_header font_headers[64]; // mcc
 	byte __data16D8[0x6928];
 };
 static_assert(sizeof(s_font_package_file) == 0x8000);
+//static_assert(sizeof(s_font_package_file) == 0xC000); // mcc
 
 struct s_font_globals
 {
@@ -136,18 +151,52 @@ struct s_font_globals
 	bool load_font_from_hard_drive;
 	bool emergency_mode;
 	bool permanently_unavailable;
-	dword language;
+	c_enum<e_language, long, _language_invalid, k_language_count> language;
 	long reload_retry_count;
 
-	dword __unknownC;
+	long __unknownC;
+
+	//// mcc
+	//long __unknown10;
+	//long __unknown14;
 
 	s_font_loading_state loading_state;
 	s_font_package_file_header* font_package_header;
 	s_font_package_file font_package;
 };
 static_assert(sizeof(s_font_globals) == 0x815C);
+//static_assert(sizeof(s_font_globals) == 0xC170); // mcc
+
+struct s_font_package_cache_entry
+{
+	long load_package_index;
+	long __unknown4;
+	long __unknown8;
+	long __unknownC;
+	long async_task;
+	c_synchronized_long __unknown14;
+	c_synchronized_long __unknown18;
+	long status;
+
+	s_font_package_file font_package_file;
+};
+static_assert(sizeof(s_font_package_cache_entry) == 0x8020);
+//static_assert(sizeof(s_font_package_cache_entry) == 0xC020); // mcc
+
+struct s_font_package_cache
+{
+	c_synchronized_long initialized;
+	long __unknown4;
+
+	c_static_array<s_font_package_cache_entry, 8> entries;
+
+	//long __unknown60108; // mcc
+};
+static_assert(sizeof(s_font_package_cache) == 0x40108);
+//static_assert(sizeof(s_font_package_cache) == 0xC0110); // mcc
 
 extern s_font_globals& g_font_globals;
+extern s_font_package_cache& g_font_package_cache;
 
 extern char const* const& k_hard_drive_font_directory;
 extern char const* const& k_dvd_font_directory;

@@ -6,6 +6,7 @@
 #include <string.h>
 
 REFERENCE_DECLARE(0x022B7FAC, s_font_globals, g_font_globals);
+REFERENCE_DECLARE(0x02457BB8, s_font_package_cache, g_font_package_cache);
 
 REFERENCE_DECLARE(0x0189D358, char const* const, k_hard_drive_font_directory);
 REFERENCE_DECLARE(0x0189D35C, char const* const, k_dvd_font_directory);
@@ -37,7 +38,7 @@ char const* __cdecl font_get_debug_name(long font_index)
 		dword header_offset = g_font_globals.font_package_header->fonts[font_index].offset;
 		s_font_header* header = reinterpret_cast<s_font_header*>((char*)g_font_globals.font_package_header + header_offset);
 		if (header)
-			return header->name;
+			return header->name.get_string();
 	}
 
 	return nullptr;
