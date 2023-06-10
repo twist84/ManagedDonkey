@@ -477,21 +477,6 @@ struct c_cache_file_tag_resource_runtime_control_allocation :
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_control_allocation) == 0x14);
 
-struct c_cache_file_tag_resource_runtime_in_level_memory_manager
-{
-	c_basic_buffer<void> m_resource_storage_range;
-	c_basic_buffer<void> __unknown8;
-	c_basic_buffer<void> m_actual_resource_storage_range;
-	c_basic_buffer<void> m_stoler_range;
-	bool m_actual_storage_range_read_locked;
-	c_basic_buffer<void> m_writeable_range;
-	byte __data2C[0xC];
-	c_thread_safeish_tag_resource_cache m_tag_resource_cache;
-	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocator;
-	c_basic_buffer<void> m_cache_file_resource_allocation_region;
-};
-static_assert(sizeof(c_cache_file_tag_resource_runtime_in_level_memory_manager) == 0x454);
-
 struct s_shared_resource_file_datum :
 	s_datum_header
 {
@@ -504,6 +489,35 @@ struct s_shared_resource_file_datum :
 	long map_file_index;
 };
 static_assert(sizeof(s_shared_resource_file_datum) == 0x1C);
+
+struct c_cache_file_tag_resource_runtime_in_level_memory_manager
+{
+	c_basic_buffer<void> m_resource_storage_range;
+
+	// #TODO: name this
+	c_basic_buffer<void> __unknown8;
+
+	c_basic_buffer<void> m_actual_resource_storage_range;
+	c_basic_buffer<void> m_stoler_range;
+	bool m_actual_storage_range_read_locked;
+	c_basic_buffer<void> m_writeable_range;
+
+	// #TODO: map this
+	byte __data2C[0xC];
+
+	c_thread_safeish_tag_resource_cache m_tag_resource_cache;
+	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocator;
+	c_basic_buffer<void> m_cache_file_resource_allocation_region;
+
+	c_static_array<long, 7> m_shared_file_handle_indices;
+	long m_shared_file_handle_index;
+	c_smart_data_array<s_shared_resource_file_datum>* m_shared_file_handles;
+
+	// #TODO: name this
+	c_basic_buffer<void> __buffer478;
+
+};
+static_assert(sizeof(c_cache_file_tag_resource_runtime_in_level_memory_manager) == 0x480);
 
 struct c_cache_file_resource_rollover_table
 {
@@ -639,15 +653,6 @@ struct c_cache_file_tag_resource_runtime_manager
 	c_cache_file_combined_tag_resource_datum_handler m_combined_tag_resource_datum_handler;
 	c_cache_file_tag_resource_location_handler m_resource_location_handler;
 	c_cache_file_tag_resource_runtime_in_level_memory_manager m_in_level_memory_manager;
-
-	// does `m_in_level_memory_manager` contain the following members?
-	c_static_array<long, 7> m_shared_file_handle_indices;
-	long m_shared_file_handle_index;
-	c_smart_data_array<s_shared_resource_file_datum>* m_shared_file_handles;
-
-	// #TODO: name this
-	c_basic_buffer<void> __buffer2A780;
-
 	c_static_array<s_cache_file_resource_prefetch_map_state, 2> m_prefetch_map_states2A788;
 	c_cache_file_resource_rollover_table m_rollover_table;
 	c_cache_file_tag_resource_codec_service m_resource_codec_service;
