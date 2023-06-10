@@ -262,8 +262,8 @@ struct s_tag_resource_prediction_molecule
 {
 	word predicted_atom_count;
 	word first_predicted_atom_index;
-	word prediction_quantum_count;
-	word first_prediction_quantum_index;
+	word predicted_resource_count;
+	word first_predicted_resource_index;
 };
 static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
 
