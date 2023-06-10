@@ -4,6 +4,7 @@
 #include "interface/user_interface_memory.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "scenario/scenario.hpp"
+#include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
 struct s_tag_resource
@@ -331,6 +332,20 @@ struct c_tag_resource_cache_dynamic_predictor
 	dword m_idle_time;
 };
 static_assert(sizeof(c_tag_resource_cache_dynamic_predictor) == 0x12A04C);
+
+struct s_tag_persistent_identifier
+{
+	dword parts[4];
+};
+static_assert(sizeof(s_tag_persistent_identifier) == 0x10);
+
+struct s_cache_file_tag_resource_vtable
+{
+	s_tag_persistent_identifier type_identifier;
+	long(__cdecl* register_resource)(long tag_index, long);
+	void(__cdecl* unregister_resource)(long tag_index, long);
+};
+static_assert(sizeof(s_cache_file_tag_resource_vtable) == 0x18);
 
 struct c_cache_file_combined_tag_resource_datum_handler
 {
@@ -698,17 +713,18 @@ struct c_cache_file_tag_resource_runtime_manager
 
 	// #TODO: name these
 	bool __unknown260;
-	bool __unknown261;
-	bool __unknown262;
-	bool __unknown263;
+	bool m_zone_state_flags28298_bool261;
+	bool m_zone_state_flags29298_bool262;
+	bool m_zone_state_bool263;
 
 	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_predictor;
 	c_tag_resource_cache_precompiled_predictor m_precompiled_predictor;
 
-	// #TODO: map these
-	byte __data28298[8192];
-	byte __data2A298[64];
+	// #TODO: name these
+	c_static_flags<32768> m_zone_state_flags28298;
+	c_static_flags<32768> m_zone_state_flags29298;
 
+	c_static_array<s_cache_file_tag_resource_vtable const*, 16> m_tag_resource_vtables;
 	c_wrapped_array<void> m_resource_runtime_data;
 	c_basic_buffer<void> m_resource_interop_data_buffer;
 	c_cache_file_combined_tag_resource_datum_handler m_combined_tag_resource_datum_handler;
@@ -719,7 +735,7 @@ struct c_cache_file_tag_resource_runtime_manager
 	c_cache_file_tag_resource_codec_service m_resource_codec_service;
 	c_cache_file_resource_optional_cache_backend m_optional_cache_backend;
 
-	c_enum<e_scenario_type, long, _scenario_type_solo, k_scenario_type_count> m_scenario_type;
+	c_enum<e_game_mode, long, _game_mode_none, k_game_mode_count> m_game_mode;
 	bool m_running_off_dvd;
 
 	// #TODO: name this
@@ -729,8 +745,6 @@ struct c_cache_file_tag_resource_runtime_manager
 	byte __data6ACAA[0x16];
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
-static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data28298) == 0x28298);
-static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data6ACAA) == 0x6ACAA);
 
 #pragma endregion
 
