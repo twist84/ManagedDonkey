@@ -219,40 +219,6 @@ struct s_cache_file_resource_runtime_prefetching_state
 };
 static_assert(sizeof(s_cache_file_resource_runtime_prefetching_state) == 0x218);
 
-struct c_tag_resource_cache_prediction_table
-{
-	c_wrapped_array<void> __unknown0;
-	c_wrapped_array<void> __unknown8;
-	c_wrapped_array<void> __unknown10;
-	c_wrapped_array<void> __unknown18;
-};
-static_assert(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
-
-struct c_tag_resource_cache_precompiled_predictor
-{
-	// c_simple_hash_table<long, 8192, 3307, 3, 337>
-	// c_static_hash_table<c_static_hash_table_data<long, 8192>, 3307, 3, 337>
-	struct
-	{
-		long m_total_count;
-
-		struct
-		{
-			long __unknown0;
-			long __unknown4;
-			long __unknown8;
-			long __unknownC;
-		} __unknown4[8192];
-
-		short __unknown20004[8192];
-		short __unknown24004[8192];
-
-	} m_molecule_index_table;
-
-	c_tag_resource_cache_prediction_table m_prediction_table;
-};
-static_assert(sizeof(c_tag_resource_cache_precompiled_predictor) == 0x28024);
-
 struct c_tag_index_hash_table
 {
 	// c_simple_hash_table<long, 8192, 3307, 3, 337>
@@ -300,6 +266,40 @@ struct s_tag_resource_prediction_molecule
 	word first_prediction_quantum_index;
 };
 static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
+
+struct c_tag_resource_cache_prediction_table
+{
+	c_wrapped_array<s_tag_resource_prediction_quantum> m_prediction_quanta;
+	c_wrapped_array<s_tag_resource_prediction_atom> m_prediction_atoms;
+	c_wrapped_array<s_tag_resource_prediction_molecule_key> m_prediction_molecule_atoms;
+	c_wrapped_array<s_tag_resource_prediction_molecule> m_prediction_molecules;
+};
+static_assert(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
+
+struct c_tag_resource_cache_precompiled_predictor
+{
+	// c_simple_hash_table<long, 8192, 3307, 3, 337>
+	// c_static_hash_table<c_static_hash_table_data<long, 8192>, 3307, 3, 337>
+	struct
+	{
+		long m_total_count;
+
+		struct
+		{
+			long __unknown0;
+			long __unknown4;
+			long __unknown8;
+			long __unknownC;
+		} __unknown4[8192];
+
+		short __unknown20004[8192];
+		short __unknown24004[8192];
+
+	} m_molecule_index_table;
+
+	c_tag_resource_cache_prediction_table m_prediction_table;
+};
+static_assert(sizeof(c_tag_resource_cache_precompiled_predictor) == 0x28024);
 
 struct c_tag_resource_cache_dynamic_predictor
 {
