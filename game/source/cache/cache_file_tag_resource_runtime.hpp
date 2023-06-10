@@ -230,11 +230,24 @@ static_assert(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
 
 struct c_tag_resource_cache_precompiled_predictor
 {
-	// c_simple_hash_table<long,8192,?,?,?>
-	long __unknown0;
-	byte __data4[0x20000];
-	short __unknown20004[8192];
-	short __unknown24004[8192];
+	// c_simple_hash_table<long, 8192, 3307, 3, 337>
+	// c_static_hash_table<c_static_hash_table_data<long, 8192>, 3307, 3, 337>
+	struct
+	{
+		long m_total_count;
+
+		struct
+		{
+			long __unknown0;
+			long __unknown4;
+			long __unknown8;
+			long __unknownC;
+		} __unknown4[8192];
+
+		short __unknown20004[8192];
+		short __unknown24004[8192];
+
+	} m_molecule_index_table;
 
 	c_tag_resource_cache_prediction_table m_prediction_table;
 };
@@ -242,32 +255,77 @@ static_assert(sizeof(c_tag_resource_cache_precompiled_predictor) == 0x28024);
 
 struct c_tag_index_hash_table
 {
-	// c_simple_hash_table<long,8192,?,?,?>
-	long __unknown0;
-	byte __data4[0x20000];
+	// c_simple_hash_table<long, 8192, 3307, 3, 337>
+	// c_static_hash_table<c_static_hash_table_data<long, 8192>, 3307, 3, 337>
+	long m_total_count;
+
+	struct
+	{
+		long __unknown0;
+		long __unknown4;
+		long __unknown8;
+		long __unknownC;
+	} __unknown4[8192];
+
 	short __unknown20004[8192];
 	short __unknown24004[8192];
 };
 static_assert(sizeof(c_tag_index_hash_table) == 0x28004);
 
+struct s_tag_resource_prediction_quantum
+{
+	dword internal_resource_handle;
+};
+static_assert(sizeof(s_tag_resource_prediction_quantum) == 0x4);
+
+struct s_tag_resource_prediction_atom
+{
+	word identifier;
+	word predicted_resource_count;
+	dword first_prediction_index;
+};
+static_assert(sizeof(s_tag_resource_prediction_atom) == 0x8);
+
+struct s_tag_resource_prediction_molecule_key
+{
+	dword prediction_atom_handle;
+};
+static_assert(sizeof(s_tag_resource_prediction_quantum) == 0x4);
+
+struct s_tag_resource_prediction_molecule
+{
+	word predicted_atom_count;
+	word first_predicted_atom_index;
+	word prediction_quantum_count;
+	word first_prediction_quantum_index;
+};
+static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
+
 struct c_tag_resource_cache_dynamic_predictor
 {
 	c_tag_resource_cache_precompiled_predictor m_precompiled_predictor;
 	c_tag_index_hash_table m_index_hash_table;
-	dword __unknown50028;
 
-	byte __data5002C[4];
+	// struct?
+	void* __unknown50028; // vftable
+	word __unknown5002C;
+	word __unknown5002E;
 
-	c_static_sized_dynamic_array<byte, 65536> __unknown50030;
-	c_static_sized_dynamic_array<byte, 507904> __unknown60034;
-	c_static_sized_dynamic_array<byte, 253952> __unknownDC038;
-	c_static_sized_dynamic_array<byte, 65536> __unknown11A03C;
+	c_static_sized_dynamic_array<s_tag_resource_prediction_quantum, 16384> m_prediction_quanta;
+	c_static_sized_dynamic_array<s_tag_resource_prediction_atom, 63488> m_prediction_atoms;
+	c_static_sized_dynamic_array<s_tag_resource_prediction_molecule_key, 63488> m_prediction_molecule_atoms;
+	c_static_sized_dynamic_array<s_tag_resource_prediction_molecule, 8192> m_prediction_molecules;
 
-	dword __unknown12A040;
-	bool __unknown12A044;
-	bool __unknown12A045;
-	bool __unknown12A046;
-	bool __unknown12A047;
+	bool m_prediction_quanta_bool0;
+	bool m_prediction_atoms_bool0;
+	bool m_prediction_molecule_atoms_bool0;
+	bool m_prediction_molecules_bool0;
+
+	bool m_prediction_quanta_bool1;
+	bool m_prediction_atoms_bool1;
+	bool m_prediction_molecule_atoms_bool1;
+	bool m_prediction_molecules_bool1;
+
 	dword m_idle_time;
 };
 static_assert(sizeof(c_tag_resource_cache_dynamic_predictor) == 0x12A04C);
@@ -645,8 +703,9 @@ struct c_cache_file_tag_resource_runtime_manager
 	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_predictor;
 	c_tag_resource_cache_precompiled_predictor m_precompiled_predictor;
 
-	// #TODO: map this
-	byte __data28298[0x2040];
+	// #TODO: map these
+	byte __data28298[8192];
+	byte __data2A298[64];
 
 	c_wrapped_array<void> m_resource_runtime_data;
 	c_basic_buffer<void> m_resource_interop_data_buffer;
