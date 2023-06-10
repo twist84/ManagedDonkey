@@ -252,12 +252,6 @@ struct s_tag_resource_prediction_atom
 };
 static_assert(sizeof(s_tag_resource_prediction_atom) == 0x8);
 
-struct s_tag_resource_prediction_molecule_key
-{
-	dword prediction_atom_handle;
-};
-static_assert(sizeof(s_tag_resource_prediction_quantum) == 0x4);
-
 struct s_tag_resource_prediction_molecule
 {
 	word predicted_atom_count;
@@ -269,10 +263,10 @@ static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
 
 struct c_tag_resource_cache_prediction_table
 {
-	c_wrapped_array<s_tag_resource_prediction_quantum> m_prediction_quanta;
-	c_wrapped_array<s_tag_resource_prediction_atom> m_prediction_atoms;
-	c_wrapped_array<s_tag_resource_prediction_molecule_key> m_prediction_molecule_atoms;
-	c_wrapped_array<s_tag_resource_prediction_molecule> m_prediction_molecules;
+	c_wrapped_array<s_tag_resource_prediction_quantum const> m_prediction_quanta;
+	c_wrapped_array<s_tag_resource_prediction_atom const> m_prediction_atoms;
+	c_wrapped_array<long const> m_prediction_molecule_atoms;
+	c_wrapped_array<s_tag_resource_prediction_molecule const> m_prediction_molecules;
 };
 static_assert(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
 
@@ -313,7 +307,7 @@ struct c_tag_resource_cache_dynamic_predictor
 
 	c_static_sized_dynamic_array<s_tag_resource_prediction_quantum, 16384> m_prediction_quanta;
 	c_static_sized_dynamic_array<s_tag_resource_prediction_atom, 63488> m_prediction_atoms;
-	c_static_sized_dynamic_array<s_tag_resource_prediction_molecule_key, 63488> m_prediction_molecule_atoms;
+	c_static_sized_dynamic_array<long, 63488> m_prediction_molecule_atoms;
 	c_static_sized_dynamic_array<s_tag_resource_prediction_molecule, 8192> m_prediction_molecules;
 
 	bool m_prediction_quanta_bool0;
