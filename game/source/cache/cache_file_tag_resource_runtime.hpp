@@ -261,6 +261,14 @@ struct s_tag_resource_prediction_molecule
 };
 static_assert(sizeof(s_tag_resource_prediction_molecule) == 0x8);
 
+struct s_tag_resource_prediction_molecule_key
+{
+	long index_a;
+	long index_b;
+	long index_c;
+};
+static_assert(sizeof(s_tag_resource_prediction_molecule_key) == 0xC);
+
 struct c_tag_resource_cache_prediction_table
 {
 	c_wrapped_array<s_tag_resource_prediction_quantum const> m_prediction_quanta;

@@ -339,6 +339,35 @@ struct cache_file_resource_instance
 };
 static_assert(sizeof(cache_file_resource_instance) == 0x6C);
 
+struct s_tag_resource_prediction_quantum;
+struct s_tag_resource_prediction_atom;
+struct s_tag_resource_prediction_molecule;
+struct s_tag_resource_prediction_molecule_key;
+
+struct s_tag_resource_cache_prediction_table
+{
+	c_typed_tag_block<s_tag_resource_prediction_quantum> prediction_quanta;
+	c_typed_tag_block<s_tag_resource_prediction_atom> prediction_atoms;
+	c_typed_tag_block<long> prediction_molecule_atoms;
+	c_typed_tag_block<s_tag_resource_prediction_molecule> prediction_molecules;
+	c_typed_tag_block<s_tag_resource_prediction_molecule_key> prediction_molecule_keys;
+};
+static_assert(sizeof(s_tag_resource_cache_prediction_table) == 0x3C);
+
+struct s_cache_file_resource_gestalt
+{
+	byte __data0[0x124];
+
+	s_tag_resource_cache_prediction_table prediction_table;
+
+	// Mat is in a really bad mood
+	long campaign_id;
+
+	// Next time we don't put things that the game depends on outside of tool, guerilla, or sapien
+	long map_id;
+};
+static_assert(sizeof(s_cache_file_resource_gestalt) == 0x168);
+
 struct s_cache_file_tag_resource_data
 {
 	union
@@ -356,7 +385,7 @@ struct s_cache_file_tag_resource_data
 	dword resource_loaded_size;
 	bool __unknown10;
 
-	byte __data14[0x168];
+	s_cache_file_resource_gestalt resource_gestalt;
 };
 static_assert(sizeof(s_cache_file_tag_resource_data) == 0x17C);
 
