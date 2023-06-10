@@ -283,6 +283,13 @@ struct c_cache_file_combined_tag_resource_datum_handler
 };
 static_assert(sizeof(c_cache_file_combined_tag_resource_datum_handler) == 0x18);
 
+struct c_cache_file_tag_resource_location_handler
+{
+	void* __vftable;
+	byte __data4[0x4];
+};
+static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);
+
 struct c_tag_resource_cache_new;
 struct c_tag_resource_page_table_io_listener
 {
@@ -472,10 +479,18 @@ static_assert(sizeof(c_cache_file_tag_resource_runtime_control_allocation) == 0x
 
 struct c_cache_file_tag_resource_runtime_in_level_memory_manager
 {
+	c_basic_buffer<void> m_resource_storage_range;
+	c_basic_buffer<void> __unknown8;
+	c_basic_buffer<void> m_actual_resource_storage_range;
+	c_basic_buffer<void> m_stoler_range;
+	bool m_actual_storage_range_read_locked;
+	c_basic_buffer<void> m_writeable_range;
+	byte __data2C[0xC];
+	c_thread_safeish_tag_resource_cache m_tag_resource_cache;
 	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocator;
 	c_basic_buffer<void> m_cache_file_resource_allocation_region;
 };
-static_assert(sizeof(c_cache_file_tag_resource_runtime_in_level_memory_manager) == 0x1C);
+static_assert(sizeof(c_cache_file_tag_resource_runtime_in_level_memory_manager) == 0x454);
 
 struct s_shared_resource_file_datum :
 	s_datum_header
@@ -511,6 +526,31 @@ struct c_indirect_cache_file_decompressor_service
 };
 static_assert(sizeof(c_indirect_cache_file_decompressor_service) == 0x4);
 
+struct c_asynchronous_io_marker
+{
+	//LPOVERLAPPED
+	void* m_overlapped;
+
+	byte __data[0x10];
+	dword m_unaligned_io_size;
+	c_synchronized_long m_io_status;
+};
+static_assert(sizeof(c_asynchronous_io_marker) == 0x1C);
+
+struct c_cache_file_async_decompression_task
+{
+	dword __unknown0;
+	bool __unknown4;
+	c_synchronized_long __unknown8;
+	c_synchronized_long __unknownC;
+	c_asynchronous_io_marker* m_async_request_done;
+	bool __unknown14;
+	long m_codec_index;
+	c_cache_file_decompressor* m_decompressor;
+	c_basic_buffer<void> m_decompression_buffer;
+};
+static_assert(sizeof(c_cache_file_async_decompression_task) == 0x28);
+
 struct c_cache_file_decompressor_service;
 struct c_cache_file_tag_resource_codec_service :
 	c_indirect_cache_file_decompressor_service
@@ -522,8 +562,9 @@ struct c_cache_file_tag_resource_codec_service :
 	c_cache_file_uncompressed_decompressor* m_uncompressed_cache_file_decompressor;
 	c_basic_buffer<void> m_decompression_buffer;
 	bool m_decompression_buffer_locked;
+	c_cache_file_async_decompression_task m_async_decompression_task;
 };
-static_assert(sizeof(c_cache_file_tag_resource_codec_service) == 0x244);
+static_assert(sizeof(c_cache_file_tag_resource_codec_service) == 0x26C);
 
 enum e_map_memory_configuration;
 struct s_optional_cache_user_memory_configuration;
@@ -596,12 +637,7 @@ struct c_cache_file_tag_resource_runtime_manager
 	c_wrapped_array<void> m_resource_runtime_data;
 	c_basic_buffer<void> m_resource_interop_data_buffer;
 	c_cache_file_combined_tag_resource_datum_handler m_combined_tag_resource_datum_handler;
-
-	// #TODO: map this
-	byte __data2A300[0x40];
-
-	c_thread_safeish_tag_resource_cache m_tag_resource_cache;
-
+	c_cache_file_tag_resource_location_handler m_resource_location_handler;
 	c_cache_file_tag_resource_runtime_in_level_memory_manager m_in_level_memory_manager;
 
 	// does `m_in_level_memory_manager` contain the following members?
@@ -615,10 +651,6 @@ struct c_cache_file_tag_resource_runtime_manager
 	c_static_array<s_cache_file_resource_prefetch_map_state, 2> m_prefetch_map_states2A788;
 	c_cache_file_resource_rollover_table m_rollover_table;
 	c_cache_file_tag_resource_codec_service m_resource_codec_service;
-
-	// #TODO: map this
-	byte __data6ABEC[0x28];
-
 	c_cache_file_resource_optional_cache_backend m_optional_cache_backend;
 
 	c_enum<e_scenario_type, long, _scenario_type_solo, k_scenario_type_count> m_scenario_type;
@@ -632,8 +664,6 @@ struct c_cache_file_tag_resource_runtime_manager
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
 static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data28298) == 0x28298);
-static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data2A300) == 0x2A300);
-static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data6ABEC) == 0x6ABEC);
 static_assert(offsetof(c_cache_file_tag_resource_runtime_manager, __data6ACAA) == 0x6ACAA);
 
 #pragma endregion
