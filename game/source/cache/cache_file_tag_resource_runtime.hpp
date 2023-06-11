@@ -173,14 +173,14 @@ static_assert(sizeof(s_indirect_cache_file_read_request) == 0x28);
 
 #pragma region resource runtime manager
 
-template<typename t_type, long k_count>
+template<typename t_type, long k_depth>
 struct c_typed_allocation_data_no_destruct
 {
 	c_basic_buffer<void> m_opaque_storage;
 	t_type* m_live_object;
 	c_allocation_base* m_allocator;
 };
-static_assert(sizeof(c_typed_allocation_data_no_destruct<long, 1>) == 0x10);
+static_assert(sizeof(c_typed_allocation_data_no_destruct<long, 0>) == 0x10);
 
 struct s_cache_file_tag_resource_data;
 
@@ -191,7 +191,7 @@ static_assert(sizeof(s_cache_file_resource_runtime_active_game_state) == sizeof(
 
 struct s_cache_file_resource_prefetch_map_state
 {
-	long insertion_point_index;
+	long campaign_id;
 	c_static_string<256> scenario_path;
 	bool __unknown104;
 };
@@ -784,19 +784,17 @@ struct c_cache_file_tag_resource_runtime_manager :
 	s_cache_file_resource_runtime_active_game_state m_active_game_state;
 	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
 
-	// #TODO: name these
+	// #TODO: name this
 	bool __unknown260;
-	bool m_zone_state_flags28298_bool261;
-	bool m_zone_state_flags29298_bool262;
-	bool m_zone_state_bool263;
+
+	bool m_resources_required;
+	bool m_resources_pending;
+	bool m_resources_loading;
 
 	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_predictor;
 	c_tag_resource_cache_precompiled_predictor m_precompiled_predictor;
-
-	// #TODO: name these
-	c_static_flags<32768> m_zone_state_flags28298;
-	c_static_flags<32768> m_zone_state_flags29298;
-
+	c_static_flags<32768> m_required_resources;
+	c_static_flags<32768> m_pending_resources;
 	c_static_array<s_cache_file_tag_resource_vtable const*, 16> m_tag_resource_vtables;
 	c_wrapped_array<void> m_resource_runtime_data;
 	c_basic_buffer<void> m_resource_interop_data_buffer;
