@@ -159,10 +159,6 @@ void __cdecl main_loop_body_begin()
 		g_font_globals;
 		g_font_package_cache;
 
-		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.m_live_object;
-		c_tag_resource_cache_dynamic_predictor* dynamic_predictor = resource_runtime_manager->m_dynamic_predictor.m_live_object;
-		c_cache_file_tag_resource_runtime_in_level_memory_manager& in_level_memory_manager = resource_runtime_manager->m_in_level_memory_manager;
-
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 
@@ -196,35 +192,38 @@ void __cdecl main_loop_body_begin()
 			c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.name.get_string());
 		}
 
-		ASSERT(g_cache_file_globals.resource_data->loaded_resources.count() <=
+		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.m_live_object;
+		s_cache_file_resource_gestalt* resource_gestalt = resource_runtime_manager->m_resource_gestalt;
+
+		ASSERT(resource_gestalt->resources.count() <=
 			g_cache_file_globals.resource_file_counts_mapping[0] +
 			g_cache_file_globals.resource_file_counts_mapping[1] +
 			g_cache_file_globals.resource_file_counts_mapping[2] +
 			g_cache_file_globals.resource_file_counts_mapping[3] +
 			g_cache_file_globals.resource_file_counts_mapping[4]);
 
-		for (cache_file_resource_instance* resource_instance : g_cache_file_globals.resource_data->loaded_resources)
+		for (s_cache_file_tag_resource_data* resource_data : resource_gestalt->resources)
 		{
 			// are these ever non-zero?
-			if (resource_instance->file_location.__unknown18 || resource_instance->file_location.__unknown1C || resource_instance->file_location.__unknown20)
+			if (resource_data->file_location.__unknown18 || resource_data->file_location.__unknown1C || resource_data->file_location.__unknown20)
 				throw; // throw if they are!
 
 			// can "flags" be "has optional data"
-			if (resource_instance->runtime_data.flags.test(_cache_file_resource_data_flags_has_optional_data))
+			if (resource_data->runtime_data.flags.test(_cache_file_resource_data_flags_has_optional_data))
 				throw; // throw if it can
 
 			char group_string[8]{};
-			tag_to_string(resource_instance->runtime_data.owner_tag.group_tag, group_string);
+			tag_to_string(resource_data->runtime_data.owner_tag.group_tag, group_string);
 
 			//0: scenario_structure_bsp
 			//1: bitmap
-			ASSERT(resource_instance->runtime_data.resource_type_index != 2);
+			ASSERT(resource_data->runtime_data.resource_type_index != 2);
 			//3: sound
 			//4: model_animation_graph
 			//5: render_model
 			//6: bink
 			//7: scenario_structure_bsp
-			c_console::write_line("resources: ['%s', %08X], type: %d", group_string, resource_instance->runtime_data.owner_tag.index, resource_instance->runtime_data.resource_type_index);
+			c_console::write_line("resources: ['%s', %08X], type: %d", group_string, resource_data->runtime_data.owner_tag.index, resource_data->runtime_data.resource_type_index);
 		}
 
 		if (game_in_progress() && !game_is_ui_shell())

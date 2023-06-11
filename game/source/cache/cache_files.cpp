@@ -889,16 +889,16 @@ void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 			if (bitmap_instance->hardware_textures.count() < 1)
 				continue;
 
-			cache_file_resource_instance* resource_instance = bitmap_instance->hardware_textures[0].get();
-			resource_instance->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
-			resource_instance->file_location.size = bitmap.pixels_size;
-			resource_instance->file_location.checksum = 0;
-			resource_instance->file_location.codec;
+			s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();
+			resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
+			resource_data->file_location.size = bitmap.pixels_size;
+			resource_data->file_location.checksum = 0;
+			resource_data->file_location.codec;
 
-			if (!resource_instance->runtime_data.control_data.base)
+			if (!resource_data->runtime_data.control_data.base)
 				continue;
 
-			s_render_texture_descriptor& texture_descriptor = resource_instance->runtime_data.control_data.get()->render_texture;
+			s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
 			texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
 			texture_descriptor.texture.width = bitmap.width;
 			texture_descriptor.texture.height = bitmap.height;

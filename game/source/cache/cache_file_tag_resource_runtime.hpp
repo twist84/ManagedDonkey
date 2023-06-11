@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cache/cache_file_builder_tag_resource_manager.hpp"
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "multithreading/synchronized_value.hpp"
@@ -335,7 +336,7 @@ static_assert(sizeof(s_cache_file_tag_resource_vtable) == 0x18);
 struct c_cache_file_combined_tag_resource_datum_handler
 {
 	void* __vftable;
-	s_cache_file_tag_resource_data* m_resource_data;
+	s_cache_file_resource_gestalt* m_resource_gestalt;
 	dword __unknown8;
 	c_basic_buffer<void>* m_interop_buffer;
 	bool __unknown10;
@@ -780,7 +781,7 @@ struct c_cache_file_tag_resource_runtime_manager :
 	public c_tag_resource_prediction_atom_generator,
 	public c_cache_file_resource_stoler
 {
-	s_cache_file_tag_resource_data* m_resource_data;
+	s_cache_file_resource_gestalt* m_resource_gestalt;
 	s_cache_file_resource_runtime_active_game_state m_active_game_state;
 	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
 

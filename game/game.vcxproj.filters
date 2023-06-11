@@ -1940,6 +1940,9 @@
     <ClInclude Include="source\tag_files\tag_resource_cache_paging.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\cache\cache_file_builder_tag_resource_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">

@@ -617,7 +617,7 @@ struct bitmap_group
 	c_typed_tag_block<bitmap_data> bitmaps;
 	s_tag_data xenon_processed_pixel_data;
 	c_typed_tag_block<bitmap_data> xenon_bitmaps;
-	c_typed_tag_block<c_typed_tag_resource<struct cache_file_resource_instance>> hardware_textures;
+	c_typed_tag_block<c_typed_tag_resource<struct s_cache_file_tag_resource_data>> hardware_textures;
 	s_tag_block interleaved_hardware_textures;
 	long __unknownB4;
 };
