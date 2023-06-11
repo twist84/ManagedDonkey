@@ -327,8 +327,8 @@ static_assert(sizeof(s_tag_persistent_identifier) == 0x10);
 struct s_cache_file_tag_resource_vtable
 {
 	s_tag_persistent_identifier type_identifier;
-	long(__cdecl* register_resource)(long tag_index, long);
-	void(__cdecl* unregister_resource)(long tag_index, long);
+	long(__cdecl* register_resource)(long resource_owner, void*);
+	void(__cdecl* unregister_resource)(long resource_owner, void*);
 };
 static_assert(sizeof(s_cache_file_tag_resource_vtable) == 0x18);
 
@@ -688,8 +688,8 @@ struct s_tag_resource_definition;
 struct c_tag_resource_runtime_listener
 {
 public:
-	virtual bool __cdecl register_resource(long, long, s_tag_resource_definition const*);
-	virtual void __cdecl unregister_resource(long, long, s_tag_resource_definition const*);
+	virtual bool __cdecl register_resource(long tag_index, long tag_resource_type_index, void* data);
+	virtual void __cdecl unregister_resource(long tag_index, long tag_resource_type_index, void* data);
 };
 static_assert(sizeof(c_tag_resource_runtime_listener) == 0x4);
 
@@ -697,9 +697,9 @@ struct c_tag_resource_runtime_active_set
 {
 public:
 	virtual bool __cdecl any_resources_active() const;
-	virtual bool __cdecl is_resource_required(long, long) const;
-	virtual bool __cdecl is_resource_deferred(long, long) const;
-	virtual bool __cdecl is_resource_pending(long, long) const;
+	virtual bool __cdecl is_resource_required(long resource_handle, long resource_owner) const;
+	virtual bool __cdecl is_resource_deferred(long resource_handle, long resource_owner) const;
+	virtual bool __cdecl is_resource_pending(long resource_handle, long resource_owner) const;
 };
 static_assert(sizeof(c_tag_resource_runtime_active_set) == 0x4);
 
@@ -707,20 +707,20 @@ struct s_tag_resource_location_handle_struct;
 struct c_tag_resource_cache_file_prefetch_set
 {
 public:
-	virtual bool __cdecl should_prefetch_location(s_tag_resource_location_handle_struct*)const;
+	virtual bool __cdecl should_prefetch_location(s_tag_resource_location_handle_struct* location_handle)const;
 };
 static_assert(sizeof(c_tag_resource_cache_file_prefetch_set) == 0x4);
 
 struct c_tag_resource_page_range_allocator
 {
 public:
-	virtual bool __cdecl try_to_grab_restore_range(c_basic_buffer<void>, c_basic_buffer<void>*);
-	virtual bool __cdecl try_to_resize_contiguous_range(c_basic_buffer<void>*, dword, dword, dword);
-	virtual void __cdecl shrink_for_buyback(c_basic_buffer<void>*, dword);
-	virtual void __cdecl reclaim_stolen_memory(c_basic_buffer<void>*);
-	virtual void __cdecl release_allocation(c_basic_buffer<void>*);
-	virtual void __cdecl make_range_writeable(c_basic_buffer<void>);
-	virtual void __cdecl make_range_read_only(c_basic_buffer<void>);
+	virtual bool __cdecl try_to_grab_restore_range(c_basic_buffer<void> desired_range, c_basic_buffer<void>* in_out_range);
+	virtual bool __cdecl try_to_resize_contiguous_range(c_basic_buffer<void>* in_out_range, dword, dword, dword);
+	virtual void __cdecl shrink_for_buyback(c_basic_buffer<void>* in_out_range, dword new_size);
+	virtual void __cdecl reclaim_stolen_memory(c_basic_buffer<void>* in_out_range);
+	virtual void __cdecl release_allocation(c_basic_buffer<void>* in_out_range);
+	virtual void __cdecl make_range_writeable(c_basic_buffer<void> range);
+	virtual void __cdecl make_range_read_only(c_basic_buffer<void> range);
 };
 static_assert(sizeof(c_tag_resource_page_range_allocator) == 0x4);
 
@@ -730,8 +730,8 @@ struct c_tag_resource_cache_file_reader
 public:
 	virtual void __cdecl update_io_state();
 	virtual void __cdecl spinning_for_blocking_io();
-	virtual bool __cdecl request_data(c_indirect_cache_file_bulk_read_iterator*);
-	virtual bool __cdecl request_data_async(s_indirect_cache_file_read_request const*, c_synchronized_long*, c_asynchronous_io_marker*);
+	virtual bool __cdecl request_data(c_indirect_cache_file_bulk_read_iterator* bulk_read_iterator);
+	virtual bool __cdecl request_data_async(s_indirect_cache_file_read_request const* read_request, c_synchronized_long* out_size, c_asynchronous_io_marker* out_async_request_done);
 };
 static_assert(sizeof(c_tag_resource_cache_file_reader) == 0x4);
 
@@ -739,7 +739,7 @@ struct s_indirect_cache_file_location;
 struct c_indirect_cache_file_location_atlas
 {
 public:
-	virtual bool get_location(qword, s_indirect_cache_file_location*);
+	virtual bool get_location(qword, s_indirect_cache_file_location* out_location);
 };
 static_assert(sizeof(c_indirect_cache_file_location_atlas) == 0x4);
 
@@ -756,16 +756,16 @@ struct c_tag_resource_prediction_atom_collector;
 struct c_tag_resource_prediction_atom_generator
 {
 public:
-	virtual bool collect_tag_resources(long, long, c_tag_resource_prediction_atom_collector*);
+	virtual bool collect_tag_resources(long tag_index, long prediction_atom_handle, c_tag_resource_prediction_atom_collector* atom_collector);
 };
 static_assert(sizeof(c_tag_resource_prediction_atom_generator) == 0x4);
 
 struct c_cache_file_resource_stoler
 {
 public:
-	virtual void* try_to_steal_memory(dword);
-	virtual void* steal_memory_shouldnt_fail(dword);
-	virtual void return_memory(void*, dword);
+	virtual void* try_to_steal_memory(dword size);
+	virtual void* steal_memory_shouldnt_fail(dword size);
+	virtual void return_memory(void* stolen_memory, dword size);
 };
 static_assert(sizeof(c_cache_file_resource_stoler) == 0x4);
 
