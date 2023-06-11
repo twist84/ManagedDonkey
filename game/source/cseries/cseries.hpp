@@ -193,7 +193,7 @@ template<typename t_type>
 struct c_wrapped_array
 {
 public:
-	long count()
+	long count() const
 	{
 		return m_count;
 	}
@@ -208,9 +208,21 @@ public:
 		return m_elements + m_count;
 	}
 
+	bool valid_index(long index)
+	{
+		return VALID_INDEX(index, count());
+	}
+
+	t_type* operator[](long index)
+	{
+		ASSERT(valid_index(index));
+
+		return m_elements[index];
+	}
+
 protected:
 	long m_count;
-	t_type* m_elements;
+	t_type** m_elements;
 };
 
 template<typename t_type>

@@ -9,6 +9,8 @@ REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 using resource_runtime_manager_typed_allocation_data_no_destruct_t = c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>;
 REFERENCE_DECLARE(0x023916C0, resource_runtime_manager_typed_allocation_data_no_destruct_t, g_resource_runtime_manager);
 
+HOOK_DECLARE(0x00563E10, tag_resource_get);
+
 void patch_lz_cache_file_decompressor()
 {
 	patch_pointer({ .address = 0x01690134 }, lz_cache_file_decompressor_begin);
@@ -67,14 +69,10 @@ bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* 
 	return DECLFUNC(0x009E1640, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>*)(_this, a1);
 }
 
-//HOOK_DECLARE(0x00563E10, tag_resource_get);
-//
-//void* __cdecl tag_resource_get(s_tag_resource const* resource)
-//{
-//    FUNCTION_BEGIN(false);
-//
-//    void* result = nullptr;
-//    HOOK_INVOKE(result =, tag_resource_get, resource);
-//    return result;
-//}
+void* __cdecl tag_resource_get(s_tag_resource const* resource)
+{
+	ASSERT(resource);
+
+	return g_resource_runtime_manager.get()->get_cached_resource_data(resource->resource_handle);
+}
 

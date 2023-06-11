@@ -4,13 +4,14 @@
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "rasterizer/rasterizer_main.hpp"
 #include "scenario/scenario.hpp"
 #include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
 struct s_tag_resource
 {
-	dword resource_handle;
+	long resource_handle;
 	dword definition_address;
 };
 static_assert(sizeof(s_tag_resource) == 0x8);
@@ -177,6 +178,15 @@ static_assert(sizeof(s_indirect_cache_file_read_request) == 0x28);
 template<typename t_type, long k_depth>
 struct c_typed_allocation_data_no_destruct
 {
+public:
+	t_type* get()
+	{
+		ASSERT(m_live_object);
+
+		return m_live_object;
+	}
+
+//protected:
 	c_basic_buffer<void> m_opaque_storage;
 	t_type* m_live_object;
 	c_allocation_base* m_allocator;
@@ -339,15 +349,15 @@ struct c_cache_file_combined_tag_resource_datum_handler
 	s_cache_file_resource_gestalt* m_resource_gestalt;
 	dword __unknown8;
 	c_basic_buffer<void>* m_interop_buffer;
-	bool __unknown10;
-	dword __unknown14;
+	bool m_running_off_dvd;
+	c_basic_buffer<void>* __unknown14;
 };
 static_assert(sizeof(c_cache_file_combined_tag_resource_datum_handler) == 0x18);
 
 struct c_cache_file_tag_resource_location_handler
 {
 	void* __vftable;
-	byte __data4[0x4];
+	c_basic_buffer<void>* __unknown4;
 };
 static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);
 
@@ -426,7 +436,7 @@ static_assert(sizeof(c_tag_resource_inverse_page_table) == 0x18);
 
 struct s_tag_resource_access_datum
 {
-	dword resource_handle;
+	long resource_handle;
 	void* resource_data;
 };
 static_assert(sizeof(s_tag_resource_access_datum) == 0x8);
@@ -448,7 +458,30 @@ static_assert(sizeof(c_read_write_lock) == 0xC);
 
 struct c_tag_resource_cache_file_access_cache
 {
-	// __unknown0[interop->descriptor]
+public:
+	bool __cdecl cached_resource_available(long resource_handle)
+	{
+		if (resource_handle == NONE)
+			return false;
+
+		s_tag_resource_access_datum* cached_resource = m_cached_access_datums[resource_handle];
+		//ASSERT(cached_resource->resource_handle == resource_handle || cached_resource->resource_handle == NONE);
+
+		return cached_resource->resource_handle != NONE && cached_resource->resource_data;
+	}
+
+	void* __cdecl get_cached_resource_data(long resource_handle)
+	{
+		ASSERT(resource_handle != NONE);
+
+		s_tag_resource_access_datum* cached_resource = m_cached_access_datums[DATUM_INDEX_TO_ABSOLUTE_INDEX(resource_handle)];
+		//ASSERT(cached_resource->resource_handle == resource_handle);
+		//ASSERT(cached_resource->resource_data);
+
+		return cached_resource;
+	}
+
+	// m_handles[interop->descriptor]
 	c_wrapped_array<qword> __unknown0;
 
 	c_wrapped_array<s_tag_resource_access_datum> m_cached_access_datums;
@@ -514,6 +547,31 @@ static_assert(sizeof(c_tag_resource_cache_new) == 0x380);
 
 struct c_tag_resource_thread_access
 {
+public:
+	bool __cdecl resource_available(long resource_handle)
+	{
+		c_tag_resource_cache_file_access_cache* access_cache = get_current_thread_access_cache();
+		return access_cache && access_cache->cached_resource_available(resource_handle);
+	}
+
+	void* __cdecl get_resource_data(long resource_handle)
+	{
+		c_tag_resource_cache_file_access_cache* resource_access_cache = get_current_thread_access_cache();
+		ASSERT(resource_access_cache);
+
+		return resource_access_cache->get_cached_resource_data(resource_handle);
+	}
+
+//private:
+	c_tag_resource_cache_file_access_cache* __cdecl get_current_thread_access_cache()
+	{
+		long thread_index = get_current_thread_index();
+		ASSERT(m_per_thread_acquired_access_cache[thread_index]);
+
+		return m_per_thread_access_cache[thread_index];
+	}
+
+protected:
 	long m_per_thread_acquired_access_cache[10];
 	c_tag_resource_cache_file_access_cache* m_per_thread_access_cache[10];
 	long m_per_thread_acquired_access_cache_index;
@@ -528,8 +586,28 @@ static_assert(sizeof(c_tag_resource_thread_access) == 0x80);
 
 struct c_thread_safeish_tag_resource_cache
 {
-	c_tag_resource_cache_new resource_cache_new;
-	c_tag_resource_thread_access resource_thread_access;
+public:
+	void* __cdecl get_resource_data(long resource_handle)
+	{
+		if (!m_resource_thread_access.resource_available(resource_handle))
+			report_unavailable_resource(resource_handle);
+
+		return get_thread_access()->get_resource_data(resource_handle);
+	}
+
+//private:
+	void __cdecl report_unavailable_resource(long resource_handle)
+	{
+	}
+
+	c_tag_resource_thread_access* __cdecl get_thread_access()
+	{
+		return &m_resource_thread_access;
+	}
+
+protected:
+	c_tag_resource_cache_new m_resource_cache_new;
+	c_tag_resource_thread_access m_resource_thread_access;
 };
 static_assert(sizeof(c_thread_safeish_tag_resource_cache) == 0x400);
 
@@ -781,6 +859,11 @@ struct c_cache_file_tag_resource_runtime_manager :
 	public c_tag_resource_prediction_atom_generator,
 	public c_cache_file_resource_stoler
 {
+	void* get_cached_resource_data(long resource_handle)
+	{
+		return m_in_level_memory_manager.m_tag_resource_cache.get_resource_data(resource_handle);
+	}
+
 	s_cache_file_resource_gestalt* m_resource_gestalt;
 	s_cache_file_resource_runtime_active_game_state m_active_game_state;
 	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
@@ -828,7 +911,7 @@ extern void patch_lz_cache_file_decompressor();
 extern bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1);
 extern bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1, c_basic_buffer<void>* a2);
 extern bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1);
-//extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
+extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
 
 // eventually replace this
 struct s_replacement_resource_info

@@ -762,6 +762,9 @@
     <ClCompile Include="source\networking\session\network_observer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\rasterizer\rasterizer_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1941,6 +1944,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cache\cache_file_builder_tag_resource_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rasterizer\rasterizer_main.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
