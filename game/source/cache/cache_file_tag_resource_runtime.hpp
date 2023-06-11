@@ -182,21 +182,6 @@ struct c_typed_allocation_data_no_destruct
 };
 static_assert(sizeof(c_typed_allocation_data_no_destruct<long, 1>) == 0x10);
 
-struct c_tag_resource_runtime_active_set;
-struct c_tag_resource_cache_file_prefetch_set;
-struct c_tag_resource_page_range_allocator;
-struct c_tag_resource_cache_file_reader;
-struct c_indirect_cache_file_location_atlas;
-struct c_physical_memory_contiguous_region_listener;
-struct c_tag_resource_prediction_atom_generator;
-
-struct c_cache_file_resource_stoler
-{
-	// map this
-	void* __vftable;
-};
-static_assert(sizeof(c_cache_file_resource_stoler) == 0x4);
-
 struct s_cache_file_tag_resource_data;
 
 struct s_cache_file_resource_runtime_active_game_state : s_scenario_game_state
@@ -373,6 +358,7 @@ struct c_tag_resource_page_table_io_listener
 static_assert(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
 
 struct s_lruv_cache;
+struct c_tag_resource_cache_file_reader;
 struct c_tag_resource_page_table
 {
 	struct c_tag_resource_lruv_cache
@@ -501,6 +487,8 @@ struct c_tag_resource_cache_thread_lock_lock_freeish
 };
 static_assert(sizeof(c_tag_resource_cache_thread_lock_lock_freeish) == 0x240);
 
+struct c_tag_resource_runtime_active_set;
+struct c_tag_resource_cache_file_prefetch_set;
 struct c_tag_resource_cache_new
 {
 	void* __unknown0;
@@ -686,6 +674,7 @@ struct c_tag_resource_cache_stoler
 };
 static_assert(sizeof(c_tag_resource_cache_stoler) == 0x7C);
 
+struct c_cache_file_resource_stoler;
 struct c_cache_file_resource_optional_cache_backend :
 	public c_optional_cache_backend
 {
@@ -695,18 +684,102 @@ struct c_cache_file_resource_optional_cache_backend :
 };
 static_assert(sizeof(c_cache_file_resource_optional_cache_backend) == 0x90);
 
-struct c_cache_file_tag_resource_runtime_manager
+struct s_tag_resource_definition;
+struct c_tag_resource_runtime_listener
 {
-	void* __vftable;
+public:
+	virtual bool __cdecl register_resource(long, long, s_tag_resource_definition const*);
+	virtual void __cdecl unregister_resource(long, long, s_tag_resource_definition const*);
+};
+static_assert(sizeof(c_tag_resource_runtime_listener) == 0x4);
 
-	c_tag_resource_runtime_active_set* m_runtime_active_set;
-	c_tag_resource_cache_file_prefetch_set* m_cache_file_prefetch_set;
-	c_tag_resource_page_range_allocator* m_page_range_allocator;
-	c_tag_resource_cache_file_reader* m_cache_file_reader;
-	c_indirect_cache_file_location_atlas* m_location_atlas;
-	c_physical_memory_contiguous_region_listener* m_region_listener;
-	c_tag_resource_prediction_atom_generator* m_atom_generator;
-	c_cache_file_resource_stoler m_resource_stoler;
+struct c_tag_resource_runtime_active_set
+{
+public:
+	virtual bool __cdecl any_resources_active() const;
+	virtual bool __cdecl is_resource_required(long, long) const;
+	virtual bool __cdecl is_resource_deferred(long, long) const;
+	virtual bool __cdecl is_resource_pending(long, long) const;
+};
+static_assert(sizeof(c_tag_resource_runtime_active_set) == 0x4);
+
+struct s_tag_resource_location_handle_struct;
+struct c_tag_resource_cache_file_prefetch_set
+{
+public:
+	virtual bool __cdecl should_prefetch_location(s_tag_resource_location_handle_struct*)const;
+};
+static_assert(sizeof(c_tag_resource_cache_file_prefetch_set) == 0x4);
+
+struct c_tag_resource_page_range_allocator
+{
+public:
+	virtual bool __cdecl try_to_grab_restore_range(c_basic_buffer<void>, c_basic_buffer<void>*);
+	virtual bool __cdecl try_to_resize_contiguous_range(c_basic_buffer<void>*, dword, dword, dword);
+	virtual void __cdecl shrink_for_buyback(c_basic_buffer<void>*, dword);
+	virtual void __cdecl reclaim_stolen_memory(c_basic_buffer<void>*);
+	virtual void __cdecl release_allocation(c_basic_buffer<void>*);
+	virtual void __cdecl make_range_writeable(c_basic_buffer<void>);
+	virtual void __cdecl make_range_read_only(c_basic_buffer<void>);
+};
+static_assert(sizeof(c_tag_resource_page_range_allocator) == 0x4);
+
+struct c_indirect_cache_file_bulk_read_iterator;
+struct c_tag_resource_cache_file_reader
+{
+public:
+	virtual void __cdecl update_io_state();
+	virtual void __cdecl spinning_for_blocking_io();
+	virtual bool __cdecl request_data(c_indirect_cache_file_bulk_read_iterator*);
+	virtual bool __cdecl request_data_async(s_indirect_cache_file_read_request const*, c_synchronized_long*, c_asynchronous_io_marker*);
+};
+static_assert(sizeof(c_tag_resource_cache_file_reader) == 0x4);
+
+struct s_indirect_cache_file_location;
+struct c_indirect_cache_file_location_atlas
+{
+public:
+	virtual bool get_location(qword, s_indirect_cache_file_location*);
+};
+static_assert(sizeof(c_indirect_cache_file_location_atlas) == 0x4);
+
+struct c_physical_memory_contiguous_region_listener
+{
+public:
+	virtual void initialize_resize_buffer(c_basic_buffer<void>);
+	virtual void resize_no_fail(c_basic_buffer<void>, c_basic_buffer<void>);
+	virtual void dispose_resize_buffer(c_basic_buffer<void>);
+};
+static_assert(sizeof(c_physical_memory_contiguous_region_listener) == 0x4);
+
+struct c_tag_resource_prediction_atom_collector;
+struct c_tag_resource_prediction_atom_generator
+{
+public:
+	virtual bool collect_tag_resources(long, long, c_tag_resource_prediction_atom_collector*);
+};
+static_assert(sizeof(c_tag_resource_prediction_atom_generator) == 0x4);
+
+struct c_cache_file_resource_stoler
+{
+public:
+	virtual void* try_to_steal_memory(dword);
+	virtual void* steal_memory_shouldnt_fail(dword);
+	virtual void return_memory(void*, dword);
+};
+static_assert(sizeof(c_cache_file_resource_stoler) == 0x4);
+
+struct c_cache_file_tag_resource_runtime_manager :
+	public c_tag_resource_runtime_listener,
+	public c_tag_resource_runtime_active_set,
+	public c_tag_resource_cache_file_prefetch_set,
+	public c_tag_resource_page_range_allocator,
+	public c_tag_resource_cache_file_reader,
+	public c_indirect_cache_file_location_atlas,
+	public c_physical_memory_contiguous_region_listener,
+	public c_tag_resource_prediction_atom_generator,
+	public c_cache_file_resource_stoler
+{
 	s_cache_file_tag_resource_data* m_resource_data;
 	s_cache_file_resource_runtime_active_game_state m_active_game_state;
 	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
