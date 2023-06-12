@@ -192,8 +192,11 @@ void __cdecl main_loop_body_begin()
 			c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.name.get_string());
 		}
 
-		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.m_live_object;
+		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.get();
 		s_cache_file_resource_gestalt* resource_gestalt = resource_runtime_manager->m_resource_gestalt;
+		c_cache_file_tag_resource_runtime_in_level_memory_manager& in_level_memory_manager = resource_runtime_manager->m_in_level_memory_manager;
+		c_cache_file_resource_header_location_table& resource_header_location_table = in_level_memory_manager.m_resource_header_location_table;
+		c_cache_file_resource_uber_location_table& uber_location_table = resource_header_location_table.m_uber_location_table;
 
 		ASSERT(resource_gestalt->resources.count() <=
 			g_cache_file_globals.resource_file_counts_mapping[0] +
