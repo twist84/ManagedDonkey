@@ -1,6 +1,9 @@
 #include "cache/cache_files.hpp"
 
+#include "bitmaps/bitmap_group_tag_definition.hpp"
+#include "bitmaps/dds_file.hpp"
 #include "cache/cache_file_builder_security.hpp"
+#include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/security_functions.hpp"
 #include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
@@ -18,10 +21,6 @@
 #include "tag_files/string_ids.hpp"
 
 #include <string.h>
-
-#include "bitmaps/bitmap_group_tag_definition.hpp"
-#include "bitmaps/dds_file.hpp"
-#include "cache/cache_file_tag_resource_runtime.hpp"
 
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
 
@@ -461,11 +460,15 @@ void __cdecl cache_file_tags_unload()
 	INVOKE(0x00502CE0, cache_file_tags_unload);
 }
 
+void load_external_resources();
 bool __cdecl scenario_tags_load(char const* scenario_path)
 {
 	bool result = INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
 	ASSERT(cache_file_debug_tag_names_load());
 	tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
+
+	load_external_resources();
+
 	return result;
 
 	long tag_index = NONE;
@@ -582,7 +585,6 @@ void __cdecl scenario_tags_load_finished()
 	INVOKE(0x00503190, scenario_tags_load_finished);
 }
 
-void resource_fixup(long tag_index, cache_file_tag_instance* instance);
 void __cdecl cache_file_tags_fixup_all_instances()
 {
 	//INVOKE(0x005031A0, cache_file_tags_fixup_all_instances);
@@ -593,8 +595,6 @@ void __cdecl cache_file_tags_fixup_all_instances()
 
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 		cache_file_tags_single_tag_instance_fixup(instance);
-
-		resource_fixup(tag_index, instance);
 	}
 }
 
@@ -862,17 +862,17 @@ void tag_group_modification_apply(e_instance_modification_stage stage)
 void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 {
 #ifndef ISEXPERIMENTAL
-	for (long i = 0; i < NUMBEROF(k_resource_replacements); i++)
-	{
-		s_replacement_resource_info const& resource = k_resource_replacements[i];
 
-		if (instance->is_group(resource.group_tag))
+	for (long i = 0; i < g_resource_file_headers.count(); i++)
+	{
+		s_resource_file_header const* file_header = g_resource_file_headers[i];
+
+		if (instance->is_group(file_header->group_tag))
 		{
-			if (tag_index != resource.tag_index)
+			if (tag_index != file_header->tag_index)
 				continue;
 
-			c_dds_file _dds_file(resource.filename);
-			s_dds_file* dds_file = _dds_file.get();
+			s_dds_file const* dds_file = reinterpret_cast<s_dds_file const*>(file_header + 1);
 			if (!dds_file)
 				continue;
 
@@ -893,13 +893,13 @@ void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 			resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
 
 			// set the compressed file size to the tag index to the resource we are replacing
-			resource_data->file_location.file_size = resource.tag_index;
+			resource_data->file_location.file_size = file_header->tag_index;
 
 			resource_data->file_location.size = bitmap.pixels_size;
 			resource_data->file_location.checksum = 0;
 
 			// use our custom decompressor index into `m_actual_runtime_decompressors` for bitmap resource replacement
-			resource_data->file_location.codec = 1;
+			resource_data->file_location.codec = _cache_file_compression_codec_bitmap_resource_file;
 
 			if (!resource_data->runtime_data.control_data.base)
 				continue;
@@ -910,6 +910,79 @@ void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 			texture_descriptor.texture.height = bitmap.height;
 		}
 	}
+#endif // ISEXPERIMENTAL
+}
+
+// #TODO: suppoer more resource types
+void load_external_resources()
+{
+#ifndef ISEXPERIMENTAL
+	s_file_reference search_directory{};
+	file_reference_create_from_path(&search_directory, "data\\bitmaps", true);
+
+	s_find_file_data find_file_data{};
+	find_files_start_with_search_spec(&find_file_data, FLAG(2), &search_directory, "*.bitmap_resource");
+
+	s_file_reference found_file{};
+	while (find_files_next(&find_file_data, &found_file, nullptr))
+	{
+		dword error = 0;
+		if (!file_open(&found_file, FLAG(_file_open_flag_desired_access_read), &error))
+			continue;
+
+		dword file_size = 0;
+		if (!file_get_size(&found_file, &file_size))
+			file_close(&found_file);
+
+		if (file_size <= sizeof(s_resource_file_header))
+			file_close(&found_file);
+
+		void* buffer = new byte[file_size]{};
+		ASSERT(buffer != nullptr);
+
+		if (!file_read(&found_file, file_size, false, buffer))
+		{
+			delete[] buffer;
+			file_close(&found_file);
+		}
+
+		s_resource_file_header* file_header = static_cast<s_resource_file_header*>(buffer);
+		if (file_header->size != file_size)
+		{
+			delete[] buffer;
+			file_close(&found_file);
+		}
+
+		bool add_new_resource = true;
+		for (long i = 0; i < g_resource_file_headers.count(); i++)
+		{
+			s_resource_file_header const* mew_file_header = g_resource_file_headers[i];
+			if (csmemcmp(mew_file_header, file_header, sizeof(s_resource_file_header)) == 0)
+				add_new_resource = false;
+		}
+
+		if (add_new_resource)
+		{
+			g_resource_file_headers[g_resource_file_headers.new_element_index()] = file_header;
+		}
+		else
+		{
+			delete[] buffer;
+		}
+
+		file_close(&found_file);
+	}
+
+	find_files_end(&find_file_data);
+
+	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
+	{
+		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
+		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
+
+		resource_fixup(tag_index, instance);
+	}
+
 #endif // ISEXPERIMENTAL
 }
 

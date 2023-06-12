@@ -9,9 +9,11 @@ REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 using resource_runtime_manager_typed_allocation_data_no_destruct_t = c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>;
 REFERENCE_DECLARE(0x023916C0, resource_runtime_manager_typed_allocation_data_no_destruct_t, g_resource_runtime_manager);
 
+c_static_sized_dynamic_array<s_resource_file_header const*, 1024> g_resource_file_headers;
+
 HOOK_DECLARE(0x00563E10, tag_resource_get);
 
-#ifdef ISEXPERIMENTAL
+#ifndef ISEXPERIMENTAL
 
 struct c_custom_cache_file_decompressor :
 	public c_cache_file_decompressor
@@ -34,18 +36,17 @@ struct c_custom_cache_file_decompressor :
 
 	virtual bool decompress_buffer(c_basic_buffer<void> in_buffer, c_basic_buffer<void>* out_buffer) override
 	{
-		for (long i = 0; i < NUMBEROF(k_resource_replacements); i++)
+		for (long i = 0; i < g_resource_file_headers.count(); i++)
 		{
-			s_replacement_resource_info const& resource = k_resource_replacements[i];
+			s_resource_file_header const* file_header = g_resource_file_headers[i];
 
 			// check buffer size is the same as compressed file size we set as the tag index
-			if (static_cast<dword>(resource.tag_index) != in_buffer.m_size)
+			if (static_cast<dword>(file_header->tag_index) != in_buffer.m_size)
 				continue;
 
-			if (resource.group_tag == 'bitm')
+			if (file_header->group_tag == 'bitm')
 			{
-				c_dds_file _dds_file(resource.filename);
-				s_dds_file* dds_file = _dds_file.get();
+				s_dds_file const* dds_file = reinterpret_cast<s_dds_file const*>(file_header + 1);
 				if (!dds_file)
 					continue;
 
@@ -92,10 +93,13 @@ void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_ta
 {
 	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);
 
-	if (NUMBEROF(k_resource_replacements))
+	if (g_resource_file_headers.count() > 0)
 	{
-		_this->m_actual_runtime_decompressors[_this->m_actual_runtime_decompressors.new_element_index()] = &g_custom_cache_file_decompressor_service;
-		ASSERT(_this->m_actual_runtime_decompressors[1] == &g_custom_cache_file_decompressor_service);
+		long new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
+		ASSERT(new_element_index == _cache_file_compression_codec_bitmap_resource_file);
+
+		_this->m_actual_runtime_decompressors[new_element_index] = &g_custom_cache_file_decompressor_service;
+		ASSERT(_this->m_actual_runtime_decompressors[_cache_file_compression_codec_bitmap_resource_file] == &g_custom_cache_file_decompressor_service);
 	}
 }
 HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);

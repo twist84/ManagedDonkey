@@ -18,14 +18,24 @@ enum e_cache_file_tag_resource_location_flags
 	k_cache_file_tag_resource_location_flags_count
 };
 
+enum e_cache_file_compression_codec
+{
+	_cache_file_compression_codec_none = NONE,
+	_cache_file_compression_codec_lz,
+
+	// custom compression codecs
+	_cache_file_compression_codec_bitmap_resource_file,
+
+	k_cache_file_compression_codec_count
+};
+
 struct s_cache_file_resource_file_location
 {
 	// runtime
 	short resource_handle_salt;
 
 	c_flags<e_cache_file_tag_resource_location_flags, byte, k_cache_file_tag_resource_location_flags_count> flags;
-
-	char codec;
+	c_enum<e_cache_file_compression_codec, char, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec;
 
 	union
 	{

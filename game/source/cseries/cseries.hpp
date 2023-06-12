@@ -306,6 +306,11 @@ template<typename t_type, long k_count>
 struct c_static_sized_dynamic_array
 {
 public:
+	long count()
+	{
+		return m_count;
+	}
+
 	long new_element_index()
 	{
 		long new_index = m_count;
@@ -319,6 +324,12 @@ public:
 	bool valid_index(long index) const
 	{
 		return VALID_INDEX(index, m_count);
+	}
+
+	void clear()
+	{
+		csmemset(m_storage, 0, sizeof(m_storage));
+		m_count = 0;
 	}
 
 	t_type& operator[](long index)
