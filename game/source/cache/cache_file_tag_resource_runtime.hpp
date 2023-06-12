@@ -1083,14 +1083,13 @@ struct s_replacement_resource_info
 {
 	tag group_tag;
 	long tag_index;
-	byte const starting_data[16];
 	char const* filename;
 };
 
 // eventually replace this
 s_replacement_resource_info const k_resource_replacements[]
 {
-	{ 'bitm', 0x000009EC, { 0xFF, 0x00, 0x49, 0x92, 0x24, 0x49, 0x92, 0x24, 0xFF, 0xFF, 0x00, 0x00, 0x55, 0x15, 0x50, 0x00 }, "data\\bitmaps\\000009EC.dds" }
+	{ 'bitm', 0x000009EC, "data\\bitmaps\\000009EC.dds" }
 };
 
 // a replacement for the current system would be something like

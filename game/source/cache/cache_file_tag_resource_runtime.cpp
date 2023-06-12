@@ -11,6 +11,8 @@ REFERENCE_DECLARE(0x023916C0, resource_runtime_manager_typed_allocation_data_no_
 
 HOOK_DECLARE(0x00563E10, tag_resource_get);
 
+#ifdef ISEXPERIMENTAL
+
 struct c_custom_cache_file_decompressor :
 	public c_cache_file_decompressor
 {
@@ -32,7 +34,6 @@ struct c_custom_cache_file_decompressor :
 
 	virtual bool decompress_buffer(c_basic_buffer<void> in_buffer, c_basic_buffer<void>* out_buffer) override
 	{
-#ifndef ISEXPERIMENTAL
 		for (long i = 0; i < NUMBEROF(k_resource_replacements); i++)
 		{
 			s_replacement_resource_info const& resource = k_resource_replacements[i];
@@ -52,7 +53,6 @@ struct c_custom_cache_file_decompressor :
 				csmemcpy(m_holding_buffer.m_buffer, dds_file->data, m_holding_buffer.m_size);
 			}
 		}
-#endif // ISEXPERIMENTAL
 
 		return true;
 	}
@@ -92,10 +92,15 @@ void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_ta
 {
 	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);
 
-	_this->m_actual_runtime_decompressors[_this->m_actual_runtime_decompressors.new_element_index()] = &g_custom_cache_file_decompressor_service;
-	ASSERT(_this->m_actual_runtime_decompressors[1] == &g_custom_cache_file_decompressor_service);
+	if (NUMBEROF(k_resource_replacements))
+	{
+		_this->m_actual_runtime_decompressors[_this->m_actual_runtime_decompressors.new_element_index()] = &g_custom_cache_file_decompressor_service;
+		ASSERT(_this->m_actual_runtime_decompressors[1] == &g_custom_cache_file_decompressor_service);
+	}
 }
 HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);
+
+#endif // ISEXPERIMENTAL
 
 void* __cdecl tag_resource_get(s_tag_resource const* resource)
 {
