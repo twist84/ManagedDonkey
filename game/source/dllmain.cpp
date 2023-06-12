@@ -23,7 +23,6 @@ void process_attach(HMODULE hModule)
 	apply_all_patches(false);
 	apply_all_hooks(false);
 
-	patch_lz_cache_file_decompressor();
 	patch_cheats();
 	patch_remote_command();
 }

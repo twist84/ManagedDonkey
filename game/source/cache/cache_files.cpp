@@ -891,9 +891,15 @@ void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 
 			s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();
 			resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
+
+			// set the compressed file size to the tag index to the resource we are replacing
+			resource_data->file_location.file_size = resource.tag_index;
+
 			resource_data->file_location.size = bitmap.pixels_size;
 			resource_data->file_location.checksum = 0;
-			resource_data->file_location.codec;
+
+			// use our custom decompressor index into `m_actual_runtime_decompressors` for bitmap resource replacement
+			resource_data->file_location.codec = 1;
 
 			if (!resource_data->runtime_data.control_data.base)
 				continue;

@@ -64,15 +64,28 @@ static_assert(sizeof(c_asynchronous_io_arena) == 0x1B8);
 struct c_cache_file_decompressor
 {
 public:
-	virtual bool begin(c_basic_buffer<void> a1);
-	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2);
-	virtual bool finish(c_basic_buffer<void>* a1);
+	virtual bool begin(c_basic_buffer<void> a1) = 0;
+	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2) = 0;
+	virtual bool finish(c_basic_buffer<void>* a1) = 0;
 };
 static_assert(sizeof(c_cache_file_decompressor) == 0x4);
 
 struct c_cache_file_uncompressed_decompressor :
 	public c_cache_file_decompressor
 {
+	virtual bool begin(c_basic_buffer<void> a1)
+	{
+		throw;
+	}
+	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2)
+	{
+		throw;
+	}
+	virtual bool finish(c_basic_buffer<void>* a1)
+	{
+		throw;
+	}
+
 	long __size;
 	c_basic_buffer<void> __buffer;
 };
@@ -81,6 +94,19 @@ static_assert(sizeof(c_cache_file_uncompressed_decompressor) == sizeof(c_cache_f
 struct c_cache_file_streamed_sublocation_decompressor :
 	public c_cache_file_decompressor
 {
+	virtual bool begin(c_basic_buffer<void> a1)
+	{
+		throw;
+	}
+	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2)
+	{
+		throw;
+	}
+	virtual bool finish(c_basic_buffer<void>* a1)
+	{
+		throw;
+	}
+
 	struct // s_cache_file_resource_streaming_sublocation_table?
 	{
 		long __unknown0;
@@ -115,6 +141,19 @@ static_assert(sizeof(s_simple_read_file_ex_overlapped_result) == 0x10);
 struct c_cache_file_copy_fake_decompressor :
 	public c_cache_file_decompressor
 {
+	virtual bool begin(c_basic_buffer<void> a1)
+	{
+		throw;
+	}
+	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2)
+	{
+		throw;
+	}
+	virtual bool finish(c_basic_buffer<void>* a1)
+	{
+		throw;
+	}
+
 	s_file_handle m_file_handle;
 	c_synchronized_long m_file_offset;
 	c_synchronized_long m_done;
@@ -132,6 +171,19 @@ static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file
 struct c_xor_cache_file_decompressor :
 	public c_cache_file_decompressor
 {
+	virtual bool begin(c_basic_buffer<void> a1)
+	{
+		throw;
+	}
+	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2)
+	{
+		throw;
+	}
+	virtual bool finish(c_basic_buffer<void>* a1)
+	{
+		throw;
+	}
+
 	c_basic_buffer<void> __buffer0;
 	c_basic_buffer<void> __buffer8;
 	byte __unknownC; // xor value, *i++ ^= __unknownC
@@ -141,6 +193,19 @@ static_assert(sizeof(c_xor_cache_file_decompressor) == sizeof(c_cache_file_decom
 struct c_lz_cache_file_decompressor :
 	public c_cache_file_decompressor
 {
+	virtual bool begin(c_basic_buffer<void> a1)
+	{
+		throw;
+	}
+	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2)
+	{
+		throw;
+	}
+	virtual bool finish(c_basic_buffer<void>* a1)
+	{
+		throw;
+	}
+
 	c_basic_buffer<void> __buffer4;
 	c_basic_buffer<void> __bufferC;
 	bool __unknown14;
@@ -186,7 +251,7 @@ public:
 		return m_live_object;
 	}
 
-//protected:
+protected:
 	c_basic_buffer<void> m_opaque_storage;
 	t_type* m_live_object;
 	c_allocation_base* m_allocator;
@@ -210,8 +275,9 @@ static_assert(sizeof(s_cache_file_resource_prefetch_map_state) == 0x108);
 
 struct s_cache_file_resource_runtime_prefetching_state
 {
-	c_basic_buffer<void> __buffer0;
-	s_cache_file_resource_prefetch_map_state __state4;
+	long __datum_handle0;
+	long __datum_handle4;
+	s_cache_file_resource_prefetch_map_state __state8;
 	s_cache_file_resource_prefetch_map_state __state110;
 };
 static_assert(sizeof(s_cache_file_resource_runtime_prefetching_state) == 0x218);
@@ -342,24 +408,6 @@ struct s_cache_file_tag_resource_vtable
 	void(__cdecl* unregister_resource)(long resource_owner, void*);
 };
 static_assert(sizeof(s_cache_file_tag_resource_vtable) == 0x18);
-
-struct c_cache_file_combined_tag_resource_datum_handler
-{
-	void* __vftable;
-	s_cache_file_resource_gestalt* m_resource_gestalt;
-	dword __unknown8;
-	c_basic_buffer<void>* m_interop_buffer;
-	bool m_running_off_dvd;
-	c_basic_buffer<void>* __unknown14;
-};
-static_assert(sizeof(c_cache_file_combined_tag_resource_datum_handler) == 0x18);
-
-struct c_cache_file_tag_resource_location_handler
-{
-	void* __vftable;
-	c_basic_buffer<void>* __unknown4;
-};
-static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);
 
 struct c_tag_resource_cache_new;
 struct c_tag_resource_page_table_io_listener
@@ -619,18 +667,50 @@ struct c_cache_file_tag_resource_runtime_control_allocation :
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_control_allocation) == 0x14);
 
-struct s_shared_resource_file_datum :
-	s_datum_header
+struct c_cache_file_resource_uber_location_table
 {
-	word_flags flags;
-	s_file_handle async_file_handle;
-	s_file_handle overlapped_handle;
-	s_indirect_file indirect_file;
-	s_cache_file_shared_resource_usage* shared_resource_usage;
-	dword resource_section_offset;
-	long map_file_index;
+	c_wrapped_array<s_cache_file_tag_resource_data>* m_locations;
+	long __unknown4;
 };
-static_assert(sizeof(s_shared_resource_file_datum) == 0x1C);
+
+struct c_cache_file_combined_tag_resource_datum_handler
+{
+	void* __vftable;
+	s_cache_file_resource_gestalt* m_resource_gestalt;
+	dword __unknown8;
+	c_basic_buffer<void>* m_interop_buffer;
+	bool m_running_off_dvd;
+	c_cache_file_resource_uber_location_table* m_uber_location_table;
+};
+static_assert(sizeof(c_cache_file_combined_tag_resource_datum_handler) == 0x18);
+
+struct c_cache_file_tag_resource_location_handler
+{
+	void* __vftable;
+	c_cache_file_resource_uber_location_table* m_uber_location_table;
+};
+static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);
+
+struct c_cache_file_resource_header_location_table
+{
+	struct s_header_file_location :
+		s_datum_header
+	{
+		word_flags flags;
+		s_file_handle async_file_handle;
+		s_file_handle overlapped_handle;
+		s_indirect_file indirect_file;
+		s_cache_file_shared_resource_usage* shared_resource_usage;
+		dword resource_section_offset;
+		long map_file_index;
+	};
+	static_assert(sizeof(s_header_file_location) == 0x1C);
+
+	c_static_array<long, 7> m_header_file_location_handles;
+	long m_header_file_location_handle_index;
+	c_smart_data_array<s_header_file_location>* m_header_file_locations;
+	c_cache_file_resource_uber_location_table m_uber_location_table;
+};
 
 struct c_cache_file_tag_resource_runtime_in_level_memory_manager
 {
@@ -650,14 +730,7 @@ struct c_cache_file_tag_resource_runtime_in_level_memory_manager
 	c_thread_safeish_tag_resource_cache m_tag_resource_cache;
 	c_cache_file_tag_resource_runtime_control_allocation m_cache_file_resource_allocator;
 	c_basic_buffer<void> m_cache_file_resource_allocation_region;
-
-	c_static_array<long, 7> m_shared_file_handle_indices;
-	long m_shared_file_handle_index;
-	c_smart_data_array<s_shared_resource_file_datum>* m_shared_file_handles;
-
-	// #TODO: name this
-	c_basic_buffer<void> __buffer478;
-
+	c_cache_file_resource_header_location_table m_resource_header_location_table;
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_in_level_memory_manager) == 0x480);
 
@@ -665,7 +738,9 @@ struct c_cache_file_resource_rollover_table
 {
 	struct s_rollover_entry_estimated
 	{
-		byte __data[0x10];
+		long file_size;
+		long size;
+		c_basic_buffer<void> range;
 	};
 	static_assert(sizeof(s_rollover_entry_estimated) == 0x10);
 
@@ -677,8 +752,8 @@ static_assert(sizeof(c_cache_file_resource_rollover_table) == 0x40010);
 
 struct c_indirect_cache_file_decompressor_service
 {
-	virtual c_cache_file_decompressor* begin_decompression(qword, long, c_basic_buffer<void>);
-	virtual void dispose_decompressor(qword, long, c_cache_file_decompressor*);
+	virtual c_cache_file_decompressor* begin_decompression(qword, long, c_basic_buffer<void>) = 0;
+	virtual void dispose_decompressor(qword, long, c_cache_file_decompressor*) = 0;
 };
 static_assert(sizeof(c_indirect_cache_file_decompressor_service) == 0x4);
 
@@ -707,13 +782,103 @@ struct c_cache_file_async_decompression_task
 };
 static_assert(sizeof(c_cache_file_async_decompression_task) == 0x28);
 
-struct c_cache_file_decompressor_service;
+struct c_cache_file_decompressor_service
+{
+public:
+	virtual bool decompressor_available() = 0;
+	virtual c_cache_file_decompressor* create_decompressor() = 0;
+	virtual c_cache_file_decompressor* begin_decompression(c_basic_buffer<void> buffer) = 0;
+	virtual void dispose_decompressor(c_cache_file_decompressor* decompressor) = 0;
+};
+static_assert(sizeof(c_cache_file_decompressor_service) == 0x4);
+
+template<typename t_type, long k_type_size, long k_alignment_bits>
+struct c_typed_opaque_data
+{
+	t_type* get()
+	{
+		return reinterpret_cast<t_type*>(((dword)this + k_alignment_bits) & ~k_alignment_bits);
+	}
+
+	byte m_storage[k_type_size];
+};
+
+template<typename decompressor_class_t>
+struct c_single_instance_cache_file_decompressor_service :
+	public c_cache_file_decompressor_service
+{
+	virtual bool decompressor_available()
+	{
+		return m_decompressor == nullptr;
+	}
+
+	virtual c_cache_file_decompressor* create_decompressor()
+	{
+		initialize_decompressor(&m_decompressor_instance);
+		return m_decompressor;
+	}
+
+	virtual c_cache_file_decompressor* begin_decompression(c_basic_buffer<void> buffer)
+	{
+		initialize_decompressor(&m_decompressor_instance);
+		m_decompressor->begin(buffer);
+		return m_decompressor;
+	}
+
+	virtual void dispose_decompressor(c_cache_file_decompressor* decompressor)
+	{
+		//ASSERT(m_decompressor_instance.alive());
+		ASSERT(m_decompressor_instance.get() == decompressor);
+		m_decompressor = nullptr;
+		//ASSERT(!m_decompressor_instance.alive());
+	}
+
+	virtual void initialize_decompressor(c_typed_opaque_data<decompressor_class_t, sizeof(decompressor_class_t), 3>* decompressor_instance) = 0;
+
+	byte __data[4];
+	c_typed_opaque_data<decompressor_class_t, sizeof(decompressor_class_t), 3> m_decompressor_instance;
+	c_cache_file_decompressor* m_decompressor;
+};
+
+struct c_xor_cache_file_decompressor_service : c_single_instance_cache_file_decompressor_service<c_xor_cache_file_decompressor>
+{
+};
+static_assert(sizeof(c_xor_cache_file_decompressor_service) == 0x24);
+
+struct c_lz_cache_file_decompressor_service : c_single_instance_cache_file_decompressor_service<c_lz_cache_file_decompressor>
+{
+};
+static_assert(sizeof(c_lz_cache_file_decompressor_service) == 0x2C);
+
+struct c_cache_file_decompressor_registry
+{
+	virtual c_cache_file_decompressor_service* find_decompressor_service(s_tag_persistent_identifier* identifier);
+};
+static_assert(sizeof(c_cache_file_decompressor_registry) == 0x4);
+
+struct c_cache_file_runtime_decompressor_registry : c_cache_file_decompressor_registry
+{
+};
+static_assert(sizeof(c_cache_file_runtime_decompressor_registry) == sizeof(c_cache_file_decompressor_registry));
+
 struct c_cache_file_tag_resource_codec_service :
 	c_indirect_cache_file_decompressor_service
 {
-	long m_decompressor_service_count;
+	virtual c_cache_file_decompressor* begin_decompression(qword, long, c_basic_buffer<void>)
+	{
+		throw;
+	}
+	virtual void dispose_decompressor(qword, long, c_cache_file_decompressor*)
+	{
+		throw;
+	}
+
+	c_cache_file_resource_uber_location_table* m_uber_location_table;
 	c_static_sized_dynamic_array<c_cache_file_decompressor_service*, 127> m_actual_runtime_decompressors;
+
+	//c_typed_opaque_data<c_cache_file_streamed_sublocation_decompressor, sizeof(c_cache_file_streamed_sublocation_decompressor), 4>
 	c_cache_file_streamed_sublocation_decompressor m_streamed_sublocation_decompressor;
+
 	byte __data224[0x10];
 	c_cache_file_uncompressed_decompressor* m_uncompressed_cache_file_decompressor;
 	c_basic_buffer<void> m_decompression_buffer;

@@ -220,7 +220,7 @@ public:
 		return m_elements[index];
 	}
 
-protected:
+//protected:
 	long m_count;
 	t_type** m_elements;
 };
@@ -303,9 +303,33 @@ struct c_static_array
 };
 
 template<typename t_type, long k_count>
-struct c_static_sized_dynamic_array :
-	public c_static_array<t_type, k_count>
+struct c_static_sized_dynamic_array
 {
+public:
+	long new_element_index()
+	{
+		long new_index = m_count;
+		ASSERT(m_storage.valid(new_index));
+
+		m_count++;
+
+		return new_index;
+	}
+
+	bool valid_index(long index) const
+	{
+		return VALID_INDEX(index, m_count);
+	}
+
+	t_type& operator[](long index)
+	{
+		ASSERT(valid_index(index));
+
+		return m_storage[index];
+	}
+
+protected:
+	c_static_array<t_type, k_count> m_storage;
 	long m_count;
 };
 

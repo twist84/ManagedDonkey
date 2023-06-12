@@ -11,63 +11,91 @@ REFERENCE_DECLARE(0x023916C0, resource_runtime_manager_typed_allocation_data_no_
 
 HOOK_DECLARE(0x00563E10, tag_resource_get);
 
-void patch_lz_cache_file_decompressor()
+struct c_custom_cache_file_decompressor :
+	public c_cache_file_decompressor
 {
-	patch_pointer({ .address = 0x01690134 }, lz_cache_file_decompressor_begin);
-	patch_pointer({ .address = 0x01690138 }, lz_cache_file_decompressor_decompress_buffer);
-	patch_pointer({ .address = 0x0169013C }, lz_cache_file_decompressor_finish);
-}
-
-bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1)
-{
-	//return DECLFUNC(0x009E1430, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>)(_this, a1);
-
-	_this->__buffer4.m_size = a1.m_size;
-	_this->__bufferC.m_size = a1.m_size;
-
-	_this->__unknown14 = true;
-
-	_this->__buffer4.m_buffer = a1.m_buffer;
-	_this->__bufferC.m_buffer = a1.m_buffer;
-
-	return true;
-}
-
-bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> compressed_buffer, c_basic_buffer<void>* decompressed_buffer)
-{
-	return DECLFUNC(0x009E14F0, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>, c_basic_buffer<void>*)(_this, compressed_buffer, decompressed_buffer);
-}
-
-bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1)
-{
-#ifndef ISEXPERIMENTAL
-	for (long i = 0; i < NUMBEROF(k_resource_replacements); i++)
+	c_custom_cache_file_decompressor() :
+		m_holding_buffer()
 	{
-		s_replacement_resource_info const& resource = k_resource_replacements[i];
+	}
 
-		if (csmemcmp(_this->__buffer4.m_buffer, resource.starting_data, sizeof(resource.starting_data)))
-			continue;
+	~c_custom_cache_file_decompressor()
+	{
+	}
 
-		if (resource.group_tag == 'bitm')
+	virtual bool begin(c_basic_buffer<void> a1) override
+	{
+		m_holding_buffer = a1;
+
+		return true;
+	}
+
+	virtual bool decompress_buffer(c_basic_buffer<void> in_buffer, c_basic_buffer<void>* out_buffer) override
+	{
+#ifndef ISEXPERIMENTAL
+		for (long i = 0; i < NUMBEROF(k_resource_replacements); i++)
 		{
-			c_dds_file _dds_file(resource.filename);
-			s_dds_file* dds_file = _dds_file.get();
-			if (!dds_file)
+			s_replacement_resource_info const& resource = k_resource_replacements[i];
+
+			// check buffer size is the same as compressed file size we set as the tag index
+			if (static_cast<dword>(resource.tag_index) != in_buffer.m_size)
 				continue;
 
-			byte* buffer4 = static_cast<byte*>(_this->__buffer4.m_buffer);
-			byte* bufferC = static_cast<byte*>(_this->__bufferC.m_buffer);
+			if (resource.group_tag == 'bitm')
+			{
+				c_dds_file _dds_file(resource.filename);
+				s_dds_file* dds_file = _dds_file.get();
+				if (!dds_file)
+					continue;
 
-			_this->__buffer4.m_size = dds_file->header.linear_size;
-			bufferC = buffer4 + _this->__buffer4.m_size;
-
-			csmemcpy(buffer4, dds_file->data, _this->__buffer4.m_size);
+				ASSERT(m_holding_buffer.m_size == dds_file->header.linear_size);
+				csmemcpy(m_holding_buffer.m_buffer, dds_file->data, m_holding_buffer.m_size);
+			}
 		}
-	}
 #endif // ISEXPERIMENTAL
 
-	return DECLFUNC(0x009E1640, bool, __thiscall, c_lz_cache_file_decompressor*, c_basic_buffer<void>*)(_this, a1);
+		return true;
+	}
+
+	virtual bool finish(c_basic_buffer<void>* a1) override
+	{
+		*a1 = m_holding_buffer;
+
+		return true;
+	}
+
+	c_basic_buffer<void> m_holding_buffer;
+};
+
+struct c_custom_cache_file_decompressor_service :
+	public c_single_instance_cache_file_decompressor_service<c_custom_cache_file_decompressor>
+{
+	virtual void initialize_decompressor(c_typed_opaque_data<c_custom_cache_file_decompressor, sizeof(c_custom_cache_file_decompressor), 3>* decompressor_storage)
+	{
+		c_custom_cache_file_decompressor* decompressor = decompressor_storage->get();
+		if (decompressor)
+		{
+			csmemcpy(decompressor, new c_custom_cache_file_decompressor(), sizeof(c_custom_cache_file_decompressor));
+			*reinterpret_cast<c_cache_file_decompressor**>(decompressor_storage + 1) = decompressor;
+		}
+		else
+		{
+			*reinterpret_cast<c_cache_file_decompressor**>(decompressor_storage + 1) = 0;
+		}
+	}
+};
+static_assert(sizeof(c_custom_cache_file_decompressor_service) == 0x18);
+
+static c_custom_cache_file_decompressor_service g_custom_cache_file_decompressor_service = {};
+
+void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_tag_resource_codec_service* _this, void* unused, c_allocation_base* allocator, c_cache_file_runtime_decompressor_registry* decompressor_registry, c_cache_file_resource_uber_location_table* uber_location_table)
+{
+	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);
+
+	_this->m_actual_runtime_decompressors[_this->m_actual_runtime_decompressors.new_element_index()] = &g_custom_cache_file_decompressor_service;
+	ASSERT(_this->m_actual_runtime_decompressors[1] == &g_custom_cache_file_decompressor_service);
 }
+HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);
 
 void* __cdecl tag_resource_get(s_tag_resource const* resource)
 {
@@ -75,4 +103,5 @@ void* __cdecl tag_resource_get(s_tag_resource const* resource)
 
 	return g_resource_runtime_manager.get()->get_cached_resource_data(resource->resource_handle);
 }
+
 
