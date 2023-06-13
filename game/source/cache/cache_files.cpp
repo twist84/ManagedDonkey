@@ -876,21 +876,23 @@ void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header cons
 
 	s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
 
+	// update the width and height to that of the dds file
 	bitmap.width = static_cast<short>(dds_file->header.width);
 	bitmap.height = static_cast<short>(dds_file->header.height);
 
+	// update the pixels offset and size base on the linear size and resource index
 	bitmap.pixels_offset = (dds_file->header.linear_size * file_header->resource_index);
 	bitmap.pixels_size = dds_file->header.linear_size;
 
+	// disable any checksums
 	resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
-
-	// set the compressed file size to the tag index to the resource we are replacing
-	resource_data->file_location.file_size = file_header->tag_index;
-
-	resource_data->file_location.size = file_header->resource_index + 1;
 	resource_data->file_location.checksum = 0;
 
-	// use our custom decompressor index into `m_actual_runtime_decompressors` for bitmap resource replacement
+	// set the sizes to tag index and resource index plus one
+	resource_data->file_location.file_size = file_header->tag_index;
+	resource_data->file_location.size = file_header->resource_index + 1;
+
+	// set the codec index to that of our custom decompressor
 	resource_data->file_location.codec_index = _cache_file_compression_codec_bitmap_texture_interop_resource;
 
 	texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
