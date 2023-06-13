@@ -131,4 +131,5 @@ extern void __cdecl find_files_start(s_find_file_data* data, dword_flags flags, 
 extern void __cdecl find_files_start_with_search_spec(s_find_file_data* data, dword_flags flags, s_file_reference const* file, char const* search_spec);
 extern void __cdecl get_current_file_time(s_file_last_modification_date* date);
 extern void __cdecl invalidate_file_handle(s_file_handle* handle);
+extern void find_files_recursive(s_file_reference* directory, dword open_flags, bool(*file_handler)(s_file_reference*));
 

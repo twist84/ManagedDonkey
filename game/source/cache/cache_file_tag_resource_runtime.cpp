@@ -50,7 +50,7 @@ struct c_custom_cache_file_decompressor :
 				if (!dds_file)
 					continue;
 
-				ASSERT(m_holding_buffer.m_size == dds_file->header.linear_size);
+				ASSERT(m_holding_buffer.m_size == (dds_file->header.pitch * file_header->resource_count));
 				csmemcpy(m_holding_buffer.m_buffer, dds_file->data, m_holding_buffer.m_size);
 			}
 		}
@@ -93,13 +93,13 @@ void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_ta
 {
 	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);
 
-	if (g_resource_file_headers.count() > 0)
+	if (g_resource_file_headers.count())
 	{
 		long new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
-		ASSERT(new_element_index == _cache_file_compression_codec_bitmap_resource_file);
+		ASSERT(new_element_index == _cache_file_compression_codec_bitmap_texture_interop_resource);
 
 		_this->m_actual_runtime_decompressors[new_element_index] = &g_custom_cache_file_decompressor_service;
-		ASSERT(_this->m_actual_runtime_decompressors[_cache_file_compression_codec_bitmap_resource_file] == &g_custom_cache_file_decompressor_service);
+		ASSERT(_this->m_actual_runtime_decompressors[_cache_file_compression_codec_bitmap_texture_interop_resource] == &g_custom_cache_file_decompressor_service);
 	}
 }
 HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);

@@ -203,6 +203,7 @@ POPD
     <ClCompile Include="source\cache\cache_files.cpp" />
     <ClCompile Include="source\cache\cache_files_windows.cpp" />
     <ClCompile Include="source\cache\cache_file_builder_security.cpp" />
+    <ClCompile Include="source\cache\cache_file_builder_tag_resource_manager.cpp" />
     <ClCompile Include="source\cache\cache_file_tag_resource_runtime.cpp" />
     <ClCompile Include="source\cache\restricted_memory.cpp" />
     <ClCompile Include="source\cache\restricted_memory_regions.cpp" />

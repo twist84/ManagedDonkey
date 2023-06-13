@@ -24,7 +24,7 @@ enum e_cache_file_compression_codec
 	_cache_file_compression_codec_lz,
 
 	// custom compression codecs
-	_cache_file_compression_codec_bitmap_resource_file,
+	_cache_file_compression_codec_bitmap_texture_interop_resource,
 
 	k_cache_file_compression_codec_count
 };
@@ -100,6 +100,22 @@ struct s_tag_resource_interop_location
 };
 static_assert(sizeof(s_cache_file_resource_fixup_location) == 0x8);
 
+enum e_cache_file_resource_type
+{
+	_cache_file_resource_type_structure_bsp_cache_file_tag_resources = 0,
+	_cache_file_resource_type_bitmap_texture_interop_resource,
+	_cache_file_resource_type_bitmap_texture_interleaved_interop_resource,
+	_cache_file_resource_type_sound_resource_definition,
+	_cache_file_resource_type_model_animation_tag_resource,
+	_cache_file_resource_type_render_geometry_api_resource_definition,
+	_cache_file_resource_type_bink_resource,
+	_cache_file_resource_type_structure_bsp_tag_resources,
+
+	k_cache_file_resource_type_count
+};
+
+extern char const* const k_cache_file_resource_type_names[k_cache_file_resource_type_count];
+
 enum e_cache_file_resource_data_flags
 {
 	_cache_file_resource_data_flags_has_pageable_data = 0,
@@ -112,7 +128,7 @@ struct s_cache_file_resource_runtime_data_new
 {
 	s_tag_reference owner_tag;
 	short resource_salt;
-	char resource_type_index;
+	c_enum<e_cache_file_resource_type, char, _cache_file_resource_type_structure_bsp_cache_file_tag_resources, k_cache_file_resource_type_count> resource_type;
 	char control_alignment_bits;
 	c_typed_tag_data<control_data_t> control_data;
 	c_tag_resource_fixup root_fixup;
@@ -195,4 +211,6 @@ struct s_cache_file_resource_gestalt
 	long map_id;
 };
 static_assert(sizeof(s_cache_file_resource_gestalt) == 0x17C);
+
+extern char const* cache_file_resource_type_get_name(long resource_type);
 

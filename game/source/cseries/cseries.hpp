@@ -736,6 +736,22 @@ public:
 		return csmemcmp(_string, get_string(), csstrnlen(_string, k_maximum_count)) == 0;
 	}
 
+	bool ends_with(char const* _string) const
+	{
+		ASSERT(_string);
+
+		long _length = length();
+		long suffix_length = csstrnlen(_string, k_maximum_count);
+
+		if (suffix_length > _length)
+			return false;
+
+		char const* suffix = get_string() + (_length - suffix_length);
+
+		bool result = csmemcmp(suffix, _string, suffix_length) == 0;
+		return result;
+	}
+
 	long next_index_of(char const* _string, long index) const
 	{
 		ASSERT(_string);

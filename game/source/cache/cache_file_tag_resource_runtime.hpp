@@ -1086,8 +1086,8 @@ struct s_resource_file_header
 	long tag_index;
 
 	// resource data size and offset from file begin
-	dword size;
-	dword offset;
+	dword file_size;
+	dword resource_count;
 };
 static_assert(sizeof(s_resource_file_header) == 0x10);
 

@@ -877,109 +877,108 @@ void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 				continue;
 
 			bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
-			if (bitmap_instance->bitmaps.count() < 1)
-				continue;
+			ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
 
-			bitmap_data& bitmap = bitmap_instance->bitmaps[0];
+			for (long i = 0; i < bitmap_instance->bitmaps.count(); i++)
+			{
+				bitmap_data& bitmap = bitmap_instance->bitmaps[i];
+				s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[i].get();
 
-			bitmap.width = static_cast<short>(dds_file->header.width);
-			bitmap.height = static_cast<short>(dds_file->header.height);
-			bitmap.pixels_size = dds_file->header.linear_size;
+				if (!resource_data->runtime_data.control_data.base)
+					goto end;
 
-			if (bitmap_instance->hardware_textures.count() < 1)
-				continue;
+				s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
 
-			s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();
-			resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
+				bitmap.width = static_cast<short>(dds_file->header.width);
+				bitmap.height = static_cast<short>(dds_file->header.height);
 
-			// set the compressed file size to the tag index to the resource we are replacing
-			resource_data->file_location.file_size = file_header->tag_index;
+				bitmap.pixels_offset = (dds_file->header.pitch * i);
+				bitmap.pixels_size = dds_file->header.pitch;
 
-			resource_data->file_location.size = bitmap.pixels_size;
-			resource_data->file_location.checksum = 0;
+				resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
 
-			// use our custom decompressor index into `m_actual_runtime_decompressors` for bitmap resource replacement
-			resource_data->file_location.codec = _cache_file_compression_codec_bitmap_resource_file;
+				// set the compressed file size to the tag index to the resource we are replacing
+				resource_data->file_location.file_size = file_header->tag_index;
 
-			if (!resource_data->runtime_data.control_data.base)
-				continue;
+				resource_data->file_location.size = dds_file->header.pitch * bitmap_instance->bitmaps.count();
+				resource_data->file_location.checksum = 0;
 
-			s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
-			texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
-			texture_descriptor.texture.width = bitmap.width;
-			texture_descriptor.texture.height = bitmap.height;
+				// use our custom decompressor index into `m_actual_runtime_decompressors` for bitmap resource replacement
+				resource_data->file_location.codec = _cache_file_compression_codec_bitmap_texture_interop_resource;
+
+				texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
+				texture_descriptor.texture.width = bitmap.width;
+				texture_descriptor.texture.height = bitmap.height;
+			}
+		end:;
 		}
 	}
 #endif // ISEXPERIMENTAL
 }
 
-// #TODO: suppoer more resource types
+bool load_external_resource(s_file_reference* file)
+{
+	long valid_extension = 0;
+	for (long i = 0; i < k_cache_file_resource_type_count; i++)
+		valid_extension += file->path.ends_with(cache_file_resource_type_get_name(i));
+
+	if (valid_extension <= 0)
+		return false;
+
+	dword file_size = 0;
+	if (!file_get_size(file, &file_size))
+		return false;
+
+	if (file_size <= sizeof(s_resource_file_header))
+		return false;
+
+	void* buffer = new byte[file_size]{};
+	ASSERT(buffer != nullptr);
+
+	if (!file_read(file, file_size, false, buffer))
+	{
+		delete[] buffer;
+		return false;
+	}
+
+	s_resource_file_header* file_header = static_cast<s_resource_file_header*>(buffer);
+	if (file_header->file_size != file_size)
+	{
+		delete[] buffer;
+		return false;
+	}
+
+	bool add_new_resource = true;
+	for (long i = 0; i < g_resource_file_headers.count(); i++)
+	{
+		s_resource_file_header const* mew_file_header = g_resource_file_headers[i];
+		if (csmemcmp(mew_file_header, file_header, sizeof(s_resource_file_header)) == 0)
+			add_new_resource = false;
+	}
+
+	if (!add_new_resource)
+	{
+		delete[] buffer;
+		return false;
+	}
+
+	g_resource_file_headers[g_resource_file_headers.new_element_index()] = file_header;
+
+	return true;
+}
+
 void load_external_resources()
 {
 #ifndef ISEXPERIMENTAL
 	s_file_reference search_directory{};
-	file_reference_create_from_path(&search_directory, "data\\bitmaps", true);
-
-	s_find_file_data find_file_data{};
-	find_files_start_with_search_spec(&find_file_data, FLAG(2), &search_directory, "*.bitmap_resource");
-
-	s_file_reference found_file{};
-	while (find_files_next(&find_file_data, &found_file, nullptr))
-	{
-		dword error = 0;
-		if (!file_open(&found_file, FLAG(_file_open_flag_desired_access_read), &error))
-			continue;
-
-		dword file_size = 0;
-		if (!file_get_size(&found_file, &file_size))
-			file_close(&found_file);
-
-		if (file_size <= sizeof(s_resource_file_header))
-			file_close(&found_file);
-
-		void* buffer = new byte[file_size]{};
-		ASSERT(buffer != nullptr);
-
-		if (!file_read(&found_file, file_size, false, buffer))
-		{
-			delete[] buffer;
-			file_close(&found_file);
-		}
-
-		s_resource_file_header* file_header = static_cast<s_resource_file_header*>(buffer);
-		if (file_header->size != file_size)
-		{
-			delete[] buffer;
-			file_close(&found_file);
-		}
-
-		bool add_new_resource = true;
-		for (long i = 0; i < g_resource_file_headers.count(); i++)
-		{
-			s_resource_file_header const* mew_file_header = g_resource_file_headers[i];
-			if (csmemcmp(mew_file_header, file_header, sizeof(s_resource_file_header)) == 0)
-				add_new_resource = false;
-		}
-
-		if (add_new_resource)
-		{
-			g_resource_file_headers[g_resource_file_headers.new_element_index()] = file_header;
-		}
-		else
-		{
-			delete[] buffer;
-		}
-
-		file_close(&found_file);
-	}
-
-	find_files_end(&find_file_data);
+	file_reference_create_from_path(&search_directory, "data\\", true);
+	find_files_recursive(&search_directory, FLAG(_file_open_flag_desired_access_read), load_external_resource);
 
 	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
 	{
 		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
-
+	
 		resource_fixup(tag_index, instance);
 	}
 

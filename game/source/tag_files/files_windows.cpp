@@ -562,3 +562,33 @@ void __cdecl invalidate_file_handle(s_file_handle* handle)
     handle->handle = INVALID_HANDLE_VALUE;
 }
 
+void find_files_recursive(s_file_reference* directory, dword open_flags, bool(*file_handler)(s_file_reference*))
+{
+    s_find_file_data find_file_data{};
+    find_files_start(&find_file_data, FLAG(1) | FLAG(2), directory);
+
+    s_file_reference found_file{};
+    while (find_files_next(&find_file_data, &found_file, nullptr))
+    {
+        if (found_file.path.equals(".") || found_file.path.equals(".."))
+            continue;
+
+        if (find_file_data.active_find_file_state.find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+        {
+            find_files_recursive(&found_file, open_flags, file_handler);
+        }
+        else
+        {
+            dword error = 0;
+            if (!file_open(&found_file, open_flags, &error))
+                continue;
+
+            file_handler(&found_file);
+
+            file_close(&found_file);
+        }
+    }
+
+    find_files_end(&find_file_data);
+}
+

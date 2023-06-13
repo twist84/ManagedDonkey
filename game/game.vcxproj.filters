@@ -765,6 +765,9 @@
     <ClCompile Include="source\rasterizer\rasterizer_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cache\cache_file_builder_tag_resource_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
