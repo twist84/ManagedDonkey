@@ -25,6 +25,9 @@ struct s_tag_reference
 	{
 		return static_cast<t_type*>(get_definition());
 	}
+
+	char const* get_name();
+	char const* get_group_name();
 };
 static_assert(sizeof(s_tag_reference) == 0x10);
 

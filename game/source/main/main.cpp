@@ -189,7 +189,10 @@ void __cdecl main_loop_body_begin()
 			short absolute_index = player_iterator.get_absolute_index();
 			player_datum* player = player_iterator.get_datum();
 
-			c_console::write_line(L"    0x%08X, #%hi, %s", index, absolute_index, player->configuration.host.name.get_string());
+			c_console::write_line(L"    0x%08X, #%hi, %s",
+				index,
+				absolute_index,
+				player->configuration.host.name.get_string());
 		}
 
 		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.get();
@@ -218,15 +221,69 @@ void __cdecl main_loop_body_begin()
 			char group_string[8]{};
 			tag_to_string(resource_data->runtime_data.owner_tag.group_tag, group_string);
 
-			//0: scenario_structure_bsp
-			//1: bitmap
-			ASSERT(resource_data->runtime_data.resource_type_index != 2);
-			//3: sound
-			//4: model_animation_graph
-			//5: render_model
-			//6: bink
-			//7: scenario_structure_bsp
-			c_console::write_line("resources: ['%s', %08X], type: %d", group_string, resource_data->runtime_data.owner_tag.index, resource_data->runtime_data.resource_type_index);
+			switch (resource_data->runtime_data.resource_type.get())
+			{
+			case _cache_file_resource_type_structure_bsp_cache_file_tag_resources:
+			{
+				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'sbsp'); // scenario_structure_bsp
+			}
+			break;
+			case _cache_file_resource_type_bitmap_texture_interop_resource:
+			{
+				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'bitm'); // bitmap
+			}
+			break;
+			case _cache_file_resource_type_bitmap_texture_interleaved_interop_resource:
+			{
+				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'bitm'); // bitmap
+			}
+			break;
+			case _cache_file_resource_type_sound_resource_definition:
+			{
+				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'snd!'); // sound
+			}
+			break;
+			case _cache_file_resource_type_model_animation_tag_resource:
+			{
+				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'jmad'); // model_animation_graph
+			}
+			break;
+			case _cache_file_resource_type_render_geometry_api_resource_definition:
+			{
+				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'mode' // render_model
+					|| resource_data->runtime_data.owner_tag.group_tag == 'pmdf' // particle_model
+					|| resource_data->runtime_data.owner_tag.group_tag == 'sbsp' // scenario_structure_bsp
+					|| resource_data->runtime_data.owner_tag.group_tag == 'Lbsp' // scenario_lightmap_bsp_data
+				);
+			}
+			break;
+			case _cache_file_resource_type_bink_resource:
+			{
+				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'bink'); // bink
+			}
+			break;
+			case _cache_file_resource_type_structure_bsp_tag_resources:
+			{
+				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'sbsp'); // scenario_structure_bsp
+			}
+			break;
+			};
+
+			c_console::write("resources: ['%s', %08X]",
+				group_string,
+				resource_data->runtime_data.owner_tag.index);
+
+			c_console::write(", file_location: { file_offset: 0x%08X, file_size: 0x%08X, size: 0x%08X }",
+				resource_data->file_location.file_offset,
+				resource_data->file_location.file_size,
+				resource_data->file_location.size);
+
+			c_console::write(", runtime_data: { resource_type: '%s', name: '%s.%s' }",
+				k_cache_file_resource_type_names[resource_data->runtime_data.resource_type.get()],
+				resource_data->runtime_data.owner_tag.get_name(),
+				resource_data->runtime_data.owner_tag.get_group_name());
+
+			c_console::write_line("");
 		}
 
 		if (game_in_progress() && !game_is_ui_shell())

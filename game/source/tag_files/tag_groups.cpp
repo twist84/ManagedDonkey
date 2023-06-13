@@ -36,3 +36,17 @@ void* s_tag_reference::get_definition()
 {
 	return tag_get(group_tag, index);
 }
+
+char const* s_tag_reference::get_name()
+{
+	if (index < g_cache_file_globals.header.debug_tag_name_count)
+		return tag_get_name_safe(index);
+
+	return "<unknown>";
+}
+
+char const* s_tag_reference::get_group_name()
+{
+	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->group_name.get_string();
+}
+
