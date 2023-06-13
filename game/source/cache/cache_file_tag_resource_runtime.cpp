@@ -44,13 +44,16 @@ struct c_custom_cache_file_decompressor :
 			if (static_cast<dword>(file_header->tag_index) != in_buffer.m_size)
 				continue;
 
+			if (static_cast<dword>(file_header->resource_index) != m_holding_buffer.m_size - 1)
+				continue;
+
 			if (file_header->group_tag == 'bitm')
 			{
 				s_dds_file const* dds_file = reinterpret_cast<s_dds_file const*>(file_header + 1);
 				if (!dds_file)
 					continue;
 
-				ASSERT(m_holding_buffer.m_size == (dds_file->header.pitch * file_header->resource_count));
+				m_holding_buffer.m_size = dds_file->header.linear_size;
 				csmemcpy(m_holding_buffer.m_buffer, dds_file->data, m_holding_buffer.m_size);
 			}
 		}
@@ -71,7 +74,7 @@ struct c_custom_cache_file_decompressor :
 struct c_custom_cache_file_decompressor_service :
 	public c_single_instance_cache_file_decompressor_service<c_custom_cache_file_decompressor>
 {
-	virtual void initialize_decompressor(c_typed_opaque_data<c_custom_cache_file_decompressor, sizeof(c_custom_cache_file_decompressor), 3>* decompressor_storage)
+	virtual void initialize_decompressor(c_typed_opaque_data<c_custom_cache_file_decompressor>* decompressor_storage)
 	{
 		c_custom_cache_file_decompressor* decompressor = decompressor_storage->get();
 		if (decompressor)

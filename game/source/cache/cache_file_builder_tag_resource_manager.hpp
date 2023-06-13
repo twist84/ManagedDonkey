@@ -35,7 +35,7 @@ struct s_cache_file_resource_file_location
 	short resource_handle_salt;
 
 	c_flags<e_cache_file_tag_resource_location_flags, byte, k_cache_file_tag_resource_location_flags_count> flags;
-	c_enum<e_cache_file_compression_codec, char, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec;
+	c_enum<e_cache_file_compression_codec, char, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec_index;
 
 	union
 	{

@@ -86,7 +86,7 @@ struct c_cache_file_uncompressed_decompressor :
 		throw;
 	}
 
-	long __size;
+	long m_bytes_processed;
 	c_basic_buffer<void> __buffer;
 };
 static_assert(sizeof(c_cache_file_uncompressed_decompressor) == sizeof(c_cache_file_decompressor) + 0xC);
@@ -613,6 +613,7 @@ public:
 //private:
 	c_tag_resource_cache_file_access_cache* __cdecl get_current_thread_access_cache()
 	{
+		// I don't want to synchronize access to resources except for the main and render threads!
 		long thread_index = get_current_thread_index();
 		ASSERT(m_per_thread_acquired_access_cache[thread_index]);
 
@@ -792,15 +793,16 @@ public:
 };
 static_assert(sizeof(c_cache_file_decompressor_service) == 0x4);
 
-template<typename t_type, long k_type_size, long k_alignment_bits>
+template<typename t_type, long k_type_size = sizeof(t_type), long k_alignment_mask = __alignof(t_type) - 1>
 struct c_typed_opaque_data
 {
 	t_type* get()
 	{
-		return reinterpret_cast<t_type*>(((dword)this + k_alignment_bits) & ~k_alignment_bits);
+		ASSERT(((dword)m_opaque_data & k_alignment_mask) == 0);
+		return reinterpret_cast<t_type*>(((dword)m_opaque_data + k_alignment_mask) & ~k_alignment_mask);
 	}
 
-	byte m_storage[k_type_size];
+	byte m_opaque_data[k_type_size];
 };
 
 template<typename decompressor_class_t>
@@ -833,10 +835,10 @@ struct c_single_instance_cache_file_decompressor_service :
 		//ASSERT(!m_decompressor_instance.alive());
 	}
 
-	virtual void initialize_decompressor(c_typed_opaque_data<decompressor_class_t, sizeof(decompressor_class_t), 3>* decompressor_instance) = 0;
+	virtual void initialize_decompressor(c_typed_opaque_data<decompressor_class_t>* decompressor_instance) = 0;
 
 	byte __data[4];
-	c_typed_opaque_data<decompressor_class_t, sizeof(decompressor_class_t), 3> m_decompressor_instance;
+	c_typed_opaque_data<decompressor_class_t> m_decompressor_instance;
 	c_cache_file_decompressor* m_decompressor;
 };
 
@@ -876,8 +878,7 @@ struct c_cache_file_tag_resource_codec_service :
 	c_cache_file_resource_uber_location_table* m_uber_location_table;
 	c_static_sized_dynamic_array<c_cache_file_decompressor_service*, 127> m_actual_runtime_decompressors;
 
-	//c_typed_opaque_data<c_cache_file_streamed_sublocation_decompressor, sizeof(c_cache_file_streamed_sublocation_decompressor), 4>
-	c_cache_file_streamed_sublocation_decompressor m_streamed_sublocation_decompressor;
+	c_typed_opaque_data<c_cache_file_streamed_sublocation_decompressor> m_streamed_sublocation_decompressor;
 
 	byte __data224[0x10];
 	c_cache_file_uncompressed_decompressor* m_uncompressed_cache_file_decompressor;
@@ -1087,7 +1088,7 @@ struct s_resource_file_header
 
 	// resource data size and offset from file begin
 	dword file_size;
-	dword resource_count;
+	long resource_index;
 };
 static_assert(sizeof(s_resource_file_header) == 0x10);
 

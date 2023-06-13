@@ -231,6 +231,22 @@ void __cdecl main_loop_body_begin()
 			case _cache_file_resource_type_bitmap_texture_interop_resource:
 			{
 				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'bitm'); // bitmap
+
+				c_console::write_line("resources: ['%s', %08X]",
+					group_string,
+					resource_data->runtime_data.owner_tag.index);
+
+				//c_console::write(", file_location: { file_offset: 0x%08X, file_size: 0x%08X, size: 0x%08X }",
+				//	resource_data->file_location.file_offset,
+				//	resource_data->file_location.file_size,
+				//	resource_data->file_location.size);
+				//
+				//c_console::write(", runtime_data: { resource_type: '%s', name: '%s.%s' }",
+				//	k_cache_file_resource_type_names[resource_data->runtime_data.resource_type.get()],
+				//	resource_data->runtime_data.owner_tag.get_name(),
+				//	resource_data->runtime_data.owner_tag.get_group_name());
+				//
+				//c_console::write_line("");
 			}
 			break;
 			case _cache_file_resource_type_bitmap_texture_interleaved_interop_resource:
@@ -268,22 +284,6 @@ void __cdecl main_loop_body_begin()
 			}
 			break;
 			};
-
-			c_console::write("resources: ['%s', %08X]",
-				group_string,
-				resource_data->runtime_data.owner_tag.index);
-
-			c_console::write(", file_location: { file_offset: 0x%08X, file_size: 0x%08X, size: 0x%08X }",
-				resource_data->file_location.file_offset,
-				resource_data->file_location.file_size,
-				resource_data->file_location.size);
-
-			c_console::write(", runtime_data: { resource_type: '%s', name: '%s.%s' }",
-				k_cache_file_resource_type_names[resource_data->runtime_data.resource_type.get()],
-				resource_data->runtime_data.owner_tag.get_name(),
-				resource_data->runtime_data.owner_tag.get_group_name());
-
-			c_console::write_line("");
 		}
 
 		if (game_in_progress() && !game_is_ui_shell())

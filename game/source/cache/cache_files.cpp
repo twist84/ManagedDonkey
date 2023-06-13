@@ -335,7 +335,7 @@ bool __cdecl cache_file_debug_tag_names_load()
 
 	//if ((g_cache_file_globals.header.shared_file_flags & 0x3F) == 0) // `shared_file_flags` is 0x3E
 	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 0))
-	if (g_cache_file_globals.header.debug_tag_name_count)
+	if (debug_tag_name_count)
 	{
 		if (!cache_file_blocking_read(_cache_file_section_debug, debug_tag_name_buffer, cache_file_round_up_read_size(debug_tag_name_buffer_length), buffer))
 			return false;
@@ -859,6 +859,45 @@ void tag_group_modification_apply(e_instance_modification_stage stage)
 	apply_biped_group_modification(stage);
 }
 
+void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header const* file_header)
+{
+	s_dds_file const* dds_file = reinterpret_cast<s_dds_file const*>(file_header + 1);
+	if (!dds_file)
+		return;
+
+	bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
+	ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
+
+	bitmap_data& bitmap = bitmap_instance->bitmaps[file_header->resource_index];
+	s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[file_header->resource_index].get();
+
+	if (!resource_data->runtime_data.control_data.base)
+		return;
+
+	s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
+
+	bitmap.width = static_cast<short>(dds_file->header.width);
+	bitmap.height = static_cast<short>(dds_file->header.height);
+
+	bitmap.pixels_offset = (dds_file->header.linear_size * file_header->resource_index);
+	bitmap.pixels_size = dds_file->header.linear_size;
+
+	resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
+
+	// set the compressed file size to the tag index to the resource we are replacing
+	resource_data->file_location.file_size = file_header->tag_index;
+
+	resource_data->file_location.size = file_header->resource_index + 1;
+	resource_data->file_location.checksum = 0;
+
+	// use our custom decompressor index into `m_actual_runtime_decompressors` for bitmap resource replacement
+	resource_data->file_location.codec_index = _cache_file_compression_codec_bitmap_texture_interop_resource;
+
+	texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
+	texture_descriptor.texture.width = bitmap.width;
+	texture_descriptor.texture.height = bitmap.height;
+}
+
 void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 {
 #ifndef ISEXPERIMENTAL
@@ -872,45 +911,7 @@ void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 			if (tag_index != file_header->tag_index)
 				continue;
 
-			s_dds_file const* dds_file = reinterpret_cast<s_dds_file const*>(file_header + 1);
-			if (!dds_file)
-				continue;
-
-			bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
-			ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
-
-			for (long i = 0; i < bitmap_instance->bitmaps.count(); i++)
-			{
-				bitmap_data& bitmap = bitmap_instance->bitmaps[i];
-				s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[i].get();
-
-				if (!resource_data->runtime_data.control_data.base)
-					goto end;
-
-				s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
-
-				bitmap.width = static_cast<short>(dds_file->header.width);
-				bitmap.height = static_cast<short>(dds_file->header.height);
-
-				bitmap.pixels_offset = (dds_file->header.pitch * i);
-				bitmap.pixels_size = dds_file->header.pitch;
-
-				resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
-
-				// set the compressed file size to the tag index to the resource we are replacing
-				resource_data->file_location.file_size = file_header->tag_index;
-
-				resource_data->file_location.size = dds_file->header.pitch * bitmap_instance->bitmaps.count();
-				resource_data->file_location.checksum = 0;
-
-				// use our custom decompressor index into `m_actual_runtime_decompressors` for bitmap resource replacement
-				resource_data->file_location.codec = _cache_file_compression_codec_bitmap_texture_interop_resource;
-
-				texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
-				texture_descriptor.texture.width = bitmap.width;
-				texture_descriptor.texture.height = bitmap.height;
-			}
-		end:;
+			bitmap_fixup(instance, file_header);
 		}
 	}
 #endif // ISEXPERIMENTAL
@@ -951,8 +952,7 @@ bool load_external_resource(s_file_reference* file)
 	bool add_new_resource = true;
 	for (long i = 0; i < g_resource_file_headers.count(); i++)
 	{
-		s_resource_file_header const* mew_file_header = g_resource_file_headers[i];
-		if (csmemcmp(mew_file_header, file_header, sizeof(s_resource_file_header)) == 0)
+		if (csmemcmp(g_resource_file_headers[i], file_header, sizeof(s_resource_file_header)) == 0)
 			add_new_resource = false;
 	}
 
@@ -978,7 +978,7 @@ void load_external_resources()
 	{
 		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
-	
+
 		resource_fixup(tag_index, instance);
 	}
 
