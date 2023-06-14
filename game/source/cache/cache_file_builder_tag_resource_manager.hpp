@@ -24,7 +24,8 @@ enum e_cache_file_compression_codec
 	_cache_file_compression_codec_lz,
 
 	// custom compression codecs
-	_cache_file_compression_codec_bitmap_texture_interop_resource,
+	_cache_file_compression_codec_runtime_resource,
+	_cache_file_compression_codec_runtime_tag_resource,
 
 	k_cache_file_compression_codec_count
 };

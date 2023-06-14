@@ -139,9 +139,9 @@ void __cdecl c_gui_widget::set_animated_state_baseline(s_animation_transform* a1
 	__vftable->set_animated_state_baseline(this, a1);
 };
 
-void __cdecl c_gui_widget::assemble_render_data(s_gui_widget_render_data* a1, rectangle2d const* a2, e_controller_index controller_index, long a4, bool a5, bool a6, bool a7)
+void __cdecl c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
 {
-	__vftable->assemble_render_data(this, a1, a2, controller_index, a4, a5, a6, a7);
+	__vftable->assemble_render_data(this, render_data, window_bounds, controller_index, projected_bounds, offset, scale_about_local_point, rotate_about_local_point);
 }
 
 bool __cdecl c_gui_widget::handle_widget_back_out()

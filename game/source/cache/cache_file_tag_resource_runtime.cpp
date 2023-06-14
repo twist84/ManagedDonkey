@@ -1,6 +1,7 @@
 #include "cache/cache_file_tag_resource_runtime.hpp"
 
 #include "bitmaps/dds_file.hpp"
+#include "cache/cache_files.hpp"
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
@@ -15,15 +16,15 @@ HOOK_DECLARE(0x00563E10, tag_resource_get);
 
 #ifndef ISEXPERIMENTAL
 
-struct c_custom_cache_file_decompressor :
+struct c_runtime_resource_cache_file_decompressor :
 	public c_cache_file_decompressor
 {
-	c_custom_cache_file_decompressor() :
+	c_runtime_resource_cache_file_decompressor() :
 		m_holding_buffer()
 	{
 	}
 
-	~c_custom_cache_file_decompressor()
+	~c_runtime_resource_cache_file_decompressor()
 	{
 	}
 
@@ -71,38 +72,102 @@ struct c_custom_cache_file_decompressor :
 	c_basic_buffer<void> m_holding_buffer;
 };
 
-struct c_custom_cache_file_decompressor_service :
-	public c_single_instance_cache_file_decompressor_service<c_custom_cache_file_decompressor>
+struct c_runtime_resource_cache_file_decompressor_service :
+	public c_single_instance_cache_file_decompressor_service<c_runtime_resource_cache_file_decompressor>
 {
-	virtual void initialize_decompressor(c_typed_opaque_data<c_custom_cache_file_decompressor>* decompressor_storage)
+	virtual void initialize_decompressor(c_typed_opaque_data<c_runtime_resource_cache_file_decompressor>* decompressor_storage)
 	{
-		c_custom_cache_file_decompressor* decompressor = decompressor_storage->get();
+		c_runtime_resource_cache_file_decompressor* decompressor = decompressor_storage->get();
 		if (decompressor)
 		{
-			csmemcpy(decompressor, new c_custom_cache_file_decompressor(), sizeof(c_custom_cache_file_decompressor));
-			*reinterpret_cast<c_cache_file_decompressor**>(decompressor_storage + 1) = decompressor;
+			csmemcpy(decompressor, new c_runtime_resource_cache_file_decompressor(), sizeof(c_runtime_resource_cache_file_decompressor));
+			*reinterpret_cast<c_runtime_resource_cache_file_decompressor**>(decompressor_storage + 1) = decompressor;
 		}
 		else
 		{
-			*reinterpret_cast<c_cache_file_decompressor**>(decompressor_storage + 1) = 0;
+			*reinterpret_cast<c_runtime_resource_cache_file_decompressor**>(decompressor_storage + 1) = 0;
 		}
 	}
 };
-static_assert(sizeof(c_custom_cache_file_decompressor_service) == 0x18);
+static_assert(sizeof(c_runtime_resource_cache_file_decompressor_service) == 0x18);
 
-static c_custom_cache_file_decompressor_service g_custom_cache_file_decompressor_service = {};
+struct c_runtime_tag_resource_cache_file_decompressor :
+	public c_cache_file_decompressor
+{
+	c_runtime_tag_resource_cache_file_decompressor() :
+		m_holding_buffer()
+	{
+	}
+
+	~c_runtime_tag_resource_cache_file_decompressor()
+	{
+	}
+
+	virtual bool begin(c_basic_buffer<void> a1) override
+	{
+		m_holding_buffer = a1;
+
+		return true;
+	}
+
+	virtual bool decompress_buffer(c_basic_buffer<void> in_buffer, c_basic_buffer<void>* out_buffer) override
+	{
+		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[in_buffer.m_size]];
+		csmemcpy(m_holding_buffer.m_buffer, instance->base + instance->total_size, m_holding_buffer.m_size);
+
+		return true;
+	}
+
+	virtual bool finish(c_basic_buffer<void>* a1) override
+	{
+		*a1 = m_holding_buffer;
+
+		return true;
+	}
+
+	c_basic_buffer<void> m_holding_buffer;
+};
+
+struct c_runtime_tag_resource_cache_file_decompressor_service :
+	public c_single_instance_cache_file_decompressor_service<c_runtime_tag_resource_cache_file_decompressor>
+{
+	virtual void initialize_decompressor(c_typed_opaque_data<c_runtime_tag_resource_cache_file_decompressor>* decompressor_storage)
+	{
+		c_runtime_tag_resource_cache_file_decompressor* decompressor = decompressor_storage->get();
+		if (decompressor)
+		{
+			csmemcpy(decompressor, new c_runtime_tag_resource_cache_file_decompressor(), sizeof(c_runtime_tag_resource_cache_file_decompressor));
+			*reinterpret_cast<c_runtime_tag_resource_cache_file_decompressor**>(decompressor_storage + 1) = decompressor;
+		}
+		else
+		{
+			*reinterpret_cast<c_runtime_tag_resource_cache_file_decompressor**>(decompressor_storage + 1) = 0;
+		}
+	}
+};
+static_assert(sizeof(c_runtime_tag_resource_cache_file_decompressor_service) == 0x18);
+
+static c_runtime_resource_cache_file_decompressor_service g_runtime_resource_cache_file_decompressor_service = {};
+static c_runtime_tag_resource_cache_file_decompressor_service g_runtime_tag_resource_cache_file_decompressor_service = {};
 
 void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_tag_resource_codec_service* _this, void* unused, c_allocation_base* allocator, c_cache_file_runtime_decompressor_registry* decompressor_registry, c_cache_file_resource_uber_location_table* uber_location_table)
 {
 	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);
 
-	if (g_resource_file_headers.count())
 	{
 		long new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
-		ASSERT(new_element_index == _cache_file_compression_codec_bitmap_texture_interop_resource);
+		ASSERT(new_element_index == _cache_file_compression_codec_runtime_resource);
 
-		_this->m_actual_runtime_decompressors[new_element_index] = &g_custom_cache_file_decompressor_service;
-		ASSERT(_this->m_actual_runtime_decompressors[_cache_file_compression_codec_bitmap_texture_interop_resource] == &g_custom_cache_file_decompressor_service);
+		_this->m_actual_runtime_decompressors[new_element_index] = &g_runtime_resource_cache_file_decompressor_service;
+		ASSERT(_this->m_actual_runtime_decompressors[_cache_file_compression_codec_runtime_resource] == &g_runtime_resource_cache_file_decompressor_service);
+	}
+
+	{
+		long new_element_index = _this->m_actual_runtime_decompressors.new_element_index();
+		ASSERT(new_element_index == _cache_file_compression_codec_runtime_tag_resource);
+
+		_this->m_actual_runtime_decompressors[new_element_index] = &g_runtime_tag_resource_cache_file_decompressor_service;
+		ASSERT(_this->m_actual_runtime_decompressors[_cache_file_compression_codec_runtime_tag_resource] == &g_runtime_tag_resource_cache_file_decompressor_service);
 	}
 }
 HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);

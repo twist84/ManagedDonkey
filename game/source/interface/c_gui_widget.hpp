@@ -214,7 +214,7 @@ public:
 	void __cdecl update(dword a1);
 	void __cdecl update_render_state(dword a1);
 	void __cdecl set_animated_state_baseline(s_animation_transform* a1);
-	void __cdecl assemble_render_data(s_gui_widget_render_data* a1, rectangle2d const* a2, e_controller_index controller_index, long a4, bool a5, bool a6, bool a7);
+	void __cdecl assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
 	bool __cdecl handle_widget_back_out();
 	bool __cdecl handle_tab(c_controller_input_message const* input_message);
 	bool __cdecl get_string_by_string_id(string_id name, c_static_wchar_string<1024>* out_string);
@@ -232,7 +232,7 @@ public:
 
 	static void __fastcall get_unprojected_bounds(c_gui_widget* _this, void* unused, gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5);
 
-protected:
+//protected:
 	long __unknown4;
 	c_enum<e_gui_widget_type, long, _gui_widget_type_text_widget, k_gui_widget_type_count> m_type;
 

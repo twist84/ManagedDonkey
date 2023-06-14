@@ -47,12 +47,12 @@ void exception_print_recursive(PEXCEPTION_RECORD ExceptionRecord, s_file_referen
 	if (!ExceptionRecord)
 		return;
 
-	file_printf(&file, "ExceptionAddress: 0x%08X\n", ExceptionRecord->ExceptionAddress);
-	file_printf(&file, "   ExceptionCode: 0x%08X\n", ExceptionRecord->ExceptionCode);
-	file_printf(&file, "  ExceptionFlags: 0x%08X, %s\n", ExceptionRecord->ExceptionFlags, GetExceptionFlagsString(ExceptionRecord->ExceptionFlags));
+	file_printf(&file, "ExceptionAddress: 0x%08X\n", (dword)ExceptionRecord->ExceptionAddress);
+	file_printf(&file, "   ExceptionCode: 0x%08X\n", (dword)ExceptionRecord->ExceptionCode);
+	file_printf(&file, "  ExceptionFlags: 0x%08X, %s\n", (dword)ExceptionRecord->ExceptionFlags, GetExceptionFlagsString(ExceptionRecord->ExceptionFlags));
 
 	for (DWORD i = 0; i < ExceptionRecord->NumberParameters; i++)
-		file_printf(&file, "\tExceptionInformation[%i]: 0x%08X\n", i, ExceptionRecord->ExceptionInformation[i]);
+		file_printf(&file, "\tExceptionInformation[%i]: 0x%08X\n", i, (dword)ExceptionRecord->ExceptionInformation[i]);
 
 	file_printf(&file, "\n");
 

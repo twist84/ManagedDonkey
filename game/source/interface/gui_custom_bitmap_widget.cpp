@@ -4,10 +4,16 @@
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "networking/tools/network_blf.hpp"
+#include "tag_files/string_ids.hpp"
 
 HOOK_DECLARE_CLASS(0x00AC3900, c_gui_custom_bitmap_widget, get_map_filename);
 HOOK_DECLARE_CLASS(0x00AC3DE0, c_gui_custom_bitmap_widget, set_map_image);
 HOOK_DECLARE(0x00AC3B80, map_image_load_callback);
+
+void patch_gui_custom_bitmap_widget()
+{
+    patch_pointer({ .address = 0x0169D334 + (sizeof(void*) * 29) }, gui_custom_bitmap_widget_assemble_render_data);
+}
 
 bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, long map_id, c_static_string<256>* out_filename)
 {
@@ -32,6 +38,28 @@ void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compresse
     m_path.set(file_path);
     m_use_compressed_format = use_compressed_format;
     __unknown268 = 0;
+}
+
+void __fastcall gui_custom_bitmap_widget_assemble_render_data(c_gui_custom_bitmap_widget* _this, void* unused, byte* render_data, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
+{
+    if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = static_cast<s_runtime_bitmap_widget_definition*>(_this->get_core_definition()))
+    {
+        if (bitmap_widget_definition->name.get_value() == STRING_ID(gui, map_image))
+        {
+            // set the current bitmap widget to visible,
+            // by default the engine only sets the child bitmap widget to visible
+            _this->set_visible(true);
+
+            char const* path = _this->m_path.get_string();
+
+            // set the bitmap reference to out runtime added one for testing
+            // #TODO: set this based on the tag name
+            bitmap_widget_definition->bitmap_tag_reference_index = 0x00004441;
+        }
+    }
+
+    DECLFUNC(0x00B167B0, void, __thiscall, c_gui_custom_bitmap_widget*, void*, e_controller_index, long, bool, bool, bool)
+        (_this, render_data, controller_index, projected_bounds, offset, scale_about_local_point, rotate_about_local_point);
 }
 
 void __cdecl c_gui_custom_bitmap_widget::clear()

@@ -367,11 +367,11 @@ bool __cdecl cache_file_debug_tag_names_load()
 		{
 			char* line = position + 1;
 			offsets[debug_tag_name_count] = line - (char*)offsets - offsets_size;
-			line_end = strchr(line, '\n');
-			if (!line_end)
-				break;
 
-			*line_end = '\0';
+			line_end = strchr(line, '\n');
+			if (line_end)
+				*line_end = '\0';
+
 			++debug_tag_name_count;
 			if ((line_end + 1 - (char*)offsets - offsets_size) >= tag_list_size)
 				break;
@@ -670,7 +670,7 @@ long __cdecl cache_file_round_up_read_size(long size)
 	return (size | MASK(4)) + 1;
 }
 
-bool cache_file_tags_single_tag_file_load(s_file_reference* file, cache_file_tag_instance** out_instance)
+bool cache_file_tags_single_tag_file_load(s_file_reference* file, long *out_tag_index, cache_file_tag_instance** out_instance)
 {
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 	long& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
@@ -679,19 +679,23 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, cache_file_tag
 	if (out_instance)
 		*out_instance = instance;
 
-	long tag_index = 0;
-	while (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != -1)
-		tag_index++;
-
-	if (!file_read_from_position(&g_cache_file_globals.tags_section, tag_cache_offset, sizeof(cache_file_tag_instance), false, instance))
+	if (!file_read_from_position(file, tag_cache_offset, sizeof(cache_file_tag_instance), false, instance))
 		return false;
 
-	g_cache_file_globals.tag_loaded_size += instance->total_size;
+	dword file_size = 0;
+	file_get_size(file, &file_size);
+
+	long tag_index = g_cache_file_globals.tag_total_count++;
+
+	g_cache_file_globals.tag_loaded_size += file_size;
 	g_cache_file_globals.tag_instances[tag_loaded_count] = instance;
 	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = tag_loaded_count;
 	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
 
-	if (!file_read_from_position(&g_cache_file_globals.tags_section, tag_cache_offset, instance->total_size, false, instance))
+	if (*out_tag_index)
+		*out_tag_index = tag_index;
+
+	if (!file_read_from_position(file, tag_cache_offset, file_size, false, instance))
 		return false;
 
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
@@ -720,12 +724,46 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 	s_file_reference file;
 	dword error = 0;
 
-	file_reference_create_from_path(&file, file_name, false);
+	file_reference_create_from_path(&file, "tags\\", false);
+	file.path.append(file_name);
 	if (file_open(&file, FLAG(_file_open_flag_desired_access_read), &error)/* && error == 0*/)
 	{
+		long tag_index = NONE;
 		cache_file_tag_instance* instance = nullptr;
-		if (cache_file_tags_single_tag_file_load(&file, &instance) && instance)
+		if (cache_file_tags_single_tag_file_load(&file, &tag_index, &instance) && tag_index != NONE && instance)
+		{
 			cache_file_tags_single_tag_instance_fixup(instance);
+
+			dword file_size = 0;
+			file_get_size(&file, &file_size);
+
+			if (instance->is_group('bitm'))
+			{
+				bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
+				ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
+
+				bitmap_data& bitmap = bitmap_instance->bitmaps[0];
+				s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();
+
+				if (!resource_data->runtime_data.control_data.base)
+					return;
+
+				s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
+
+				// disable any checksums
+				resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
+				resource_data->file_location.checksum = 0;
+
+				// set the sizes to tag index and resource index plus one
+				resource_data->file_location.file_size = tag_index;
+				resource_data->file_location.size = file_size - instance->total_size;
+
+				// set the codec index to that of our custom decompressor
+				resource_data->file_location.codec_index = _cache_file_compression_codec_runtime_tag_resource;
+
+				texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
+			}
+		}
 	}
 	file_close(&file);
 }
@@ -893,7 +931,7 @@ void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header cons
 	resource_data->file_location.size = file_header->resource_index + 1;
 
 	// set the codec index to that of our custom decompressor
-	resource_data->file_location.codec_index = _cache_file_compression_codec_bitmap_texture_interop_resource;
+	resource_data->file_location.codec_index = _cache_file_compression_codec_runtime_resource;
 
 	texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
 	texture_descriptor.texture.width = bitmap.width;
@@ -971,6 +1009,9 @@ bool load_external_resource(s_file_reference* file)
 
 void load_external_resources()
 {
+	// Add map images at runtime, tag indices start at 0x00004441
+	cache_file_tags_load_single_tag_file_test("map_images\\c_005.bitmap");
+
 #ifndef ISEXPERIMENTAL
 	s_file_reference search_directory{};
 	file_reference_create_from_path(&search_directory, "data\\", true);
