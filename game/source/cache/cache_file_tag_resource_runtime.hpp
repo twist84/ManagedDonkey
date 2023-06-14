@@ -1072,13 +1072,7 @@ static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
 extern c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>& g_resource_runtime_manager;
 
-extern void patch_lz_cache_file_decompressor();
-
-extern bool __fastcall lz_cache_file_decompressor_begin(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1);
-extern bool __fastcall lz_cache_file_decompressor_decompress_buffer(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void> a1, c_basic_buffer<void>* a2);
-extern bool __fastcall lz_cache_file_decompressor_finish(c_lz_cache_file_decompressor* _this, void* unused, c_basic_buffer<void>* a1);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
-
 
 struct s_resource_file_header
 {

@@ -181,4 +181,3 @@ void* __cdecl tag_resource_get(s_tag_resource const* resource)
 	return g_resource_runtime_manager.get()->get_cached_resource_data(resource->resource_handle);
 }
 
-

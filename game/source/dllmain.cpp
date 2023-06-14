@@ -4,7 +4,6 @@
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
-#include "cache/cache_file_tag_resource_runtime.hpp"
 #include "game/cheats.hpp"
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "networking/tools/remote_command.hpp"
@@ -25,7 +24,6 @@ void process_attach(HMODULE hModule)
 	apply_all_hooks(false);
 
 	patch_gui_custom_bitmap_widget();
-	patch_lz_cache_file_decompressor();
 	patch_cheats();
 	patch_remote_command();
 }
