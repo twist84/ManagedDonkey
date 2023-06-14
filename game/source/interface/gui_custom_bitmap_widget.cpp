@@ -1,5 +1,6 @@
 #include "interface/gui_custom_bitmap_widget.hpp"
 
+#include "cache/cache_files.hpp"
 #include "interface/gui_custom_bitmap_storage.hpp"
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
@@ -46,16 +47,30 @@ void __fastcall gui_custom_bitmap_widget_assemble_render_data(c_gui_custom_bitma
     {
         if (bitmap_widget_definition->name.get_value() == STRING_ID(gui, map_image))
         {
-            // set the current bitmap widget to visible,
-            // by default the engine only sets the child bitmap widget to visible
-            _this->set_visible(true);
+            bitmap_widget_definition->bitmap_tag_reference_index = NONE;
 
-            char const* path = _this->m_path.get_string();
+            // the base cache has over 17K tags so only check the last 256 tags
+            for (long i = g_cache_file_globals.tag_loaded_count - 1; i >= g_cache_file_globals.tag_loaded_count - 256; i--)
+            {
+                long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
 
-            // set the bitmap reference to out runtime added one for testing
-            // #TODO: set this based on the tag name
-            bitmap_widget_definition->bitmap_tag_reference_index = 0x00004441;
+                cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
+                if (!instance)
+                    continue;
+
+                // skip non-runtime added tags
+                if (tag_get_name_safe(tag_index))
+                    continue;
+
+                if (!_this->m_path.equals(reinterpret_cast<char const*>(instance->base + instance->total_size)))
+                    continue;
+
+                bitmap_widget_definition->bitmap_tag_reference_index = tag_index;
+                break;
+            }
         }
+
+        _this->set_visible(true);
     }
 
     DECLFUNC(0x00B167B0, void, __thiscall, c_gui_custom_bitmap_widget*, void*, e_controller_index, long, bool, bool, bool)

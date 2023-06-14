@@ -113,7 +113,7 @@ struct c_runtime_tag_resource_cache_file_decompressor :
 	virtual bool decompress_buffer(c_basic_buffer<void> in_buffer, c_basic_buffer<void>* out_buffer) override
 	{
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[in_buffer.m_size]];
-		csmemcpy(m_holding_buffer.m_buffer, instance->base + instance->total_size, m_holding_buffer.m_size);
+		csmemcpy(m_holding_buffer.m_buffer, instance->base + instance->total_size + 256, m_holding_buffer.m_size);
 
 		return true;
 	}

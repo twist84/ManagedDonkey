@@ -460,14 +460,14 @@ void __cdecl cache_file_tags_unload()
 	INVOKE(0x00502CE0, cache_file_tags_unload);
 }
 
-void load_external_resources();
+void load_external_files();
 bool __cdecl scenario_tags_load(char const* scenario_path)
 {
 	bool result = INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
 	ASSERT(cache_file_debug_tag_names_load());
 	tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
 
-	load_external_resources();
+	load_external_files();
 
 	return result;
 
@@ -674,28 +674,25 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, long *out_tag_
 {
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 	long& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
-	long tag_cache_offset = 0;
 
 	if (out_instance)
 		*out_instance = instance;
 
-	if (!file_read_from_position(file, tag_cache_offset, sizeof(cache_file_tag_instance), false, instance))
+	if (!file_read_from_position(file, 0, sizeof(cache_file_tag_instance), false, instance))
 		return false;
 
 	dword file_size = 0;
 	file_get_size(file, &file_size);
 
-	long tag_index = g_cache_file_globals.tag_total_count++;
-
 	g_cache_file_globals.tag_loaded_size += file_size;
 	g_cache_file_globals.tag_instances[tag_loaded_count] = instance;
-	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = tag_loaded_count;
-	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
+	g_cache_file_globals.tag_index_absolute_mapping[g_cache_file_globals.tag_total_count] = tag_loaded_count;
+	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = g_cache_file_globals.tag_total_count;
 
 	if (*out_tag_index)
-		*out_tag_index = tag_index;
+		*out_tag_index = g_cache_file_globals.tag_total_count++;
 
-	if (!file_read_from_position(file, tag_cache_offset, file_size, false, instance))
+	if (!file_read_from_position(file, 0, file_size, false, instance))
 		return false;
 
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
@@ -760,6 +757,9 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 
 				// set the codec index to that of our custom decompressor
 				resource_data->file_location.codec_index = _cache_file_compression_codec_runtime_tag_resource;
+
+				// update the owner tag index
+				resource_data->runtime_data.owner_tag.index = tag_index;
 
 				texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
 			}
@@ -1007,10 +1007,13 @@ bool load_external_resource(s_file_reference* file)
 	return true;
 }
 
-void load_external_resources()
+void load_external_files()
 {
 	// Add map images at runtime, tag indices start at 0x00004441
-	cache_file_tags_load_single_tag_file_test("map_images\\c_005.bitmap");
+	cache_file_tags_load_single_tag_file_test("maps\\images\\c_005.bitmap");
+	cache_file_tags_load_single_tag_file_test("maps\\images\\c_005_sm.bitmap");
+	cache_file_tags_load_single_tag_file_test("maps\\images\\m_guardian.bitmap");
+	cache_file_tags_load_single_tag_file_test("maps\\images\\m_guardian_sm.bitmap");
 
 #ifndef ISEXPERIMENTAL
 	s_file_reference search_directory{};
