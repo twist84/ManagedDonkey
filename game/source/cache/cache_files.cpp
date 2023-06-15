@@ -1072,10 +1072,10 @@ void load_external_files()
 
 	s_file_reference search_directory{};
 
-	// Add map images at runtime, tag indices start at 0x00004441
+	// Add tags at runtime starting at 0x00004441
 	file_reference_create_from_path(&search_directory, "tags\\", true);
 	find_files_recursive(&search_directory, FLAG(_file_open_flag_desired_access_read), load_external_tag);
-	
+
 	file_reference_create_from_path(&search_directory, "data\\", true);
 	find_files_recursive(&search_directory, FLAG(_file_open_flag_desired_access_read), load_external_resource);
 

@@ -111,11 +111,9 @@
     <PostBuildEvent>
       <Command>
 PUSHD $(OutDir)
-ECHO pdbgen: generating pdb from idb
-pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
-ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
+IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
-      </Command>
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugProxy|Win32'">
@@ -138,11 +136,9 @@ POPD
     <PostBuildEvent>
       <Command>
 PUSHD $(OutDir)
-ECHO pdbgen: generating pdb from idb
-pdbgen.exe generate -l eldorado.exe eldorado.exe.json hf2p_game_client_cache_release.pdb
-ECHO pdbgen from https://github.com/Mixaill/FakePDB/releases/tag/v0.2
+IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
-      </Command>
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -168,7 +164,10 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
-      </Command>
+PUSHD $(OutDir)
+IF EXIST generate_pdb.bat CALL generate_pdb.bat
+POPD
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseProxy|Win32'">
@@ -194,7 +193,10 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
-      </Command>
+PUSHD $(OutDir)
+IF EXIST generate_pdb.bat CALL generate_pdb.bat
+POPD
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
