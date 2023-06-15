@@ -49,17 +49,13 @@ void __fastcall gui_custom_bitmap_widget_assemble_render_data(c_gui_custom_bitma
         {
             bitmap_widget_definition->bitmap_tag_reference_index = NONE;
 
-            // the base cache has over 17K tags so only check the last 256 tags
+            // the base cache has over 17K tags so only check the last 256 tags, this is bad but acceptable for now
             for (long i = g_cache_file_globals.tag_loaded_count - 1; i >= g_cache_file_globals.tag_loaded_count - 256; i--)
             {
                 long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
 
                 cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
                 if (!instance)
-                    continue;
-
-                // skip non-runtime added tags
-                if (tag_get_name_safe(tag_index))
                     continue;
 
                 if (!_this->m_path.equals(reinterpret_cast<char const*>(instance->base + instance->total_size)))

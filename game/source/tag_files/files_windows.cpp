@@ -168,9 +168,9 @@ void __cdecl file_error(char const* file_function, s_file_reference* reference_a
     {
         char system_message[1024]{};
         if (info1)
-            csnzprintf(system_message, sizeof(system_message), "%s('%s', '%s')", file_function, info0->path, info1->path);
+            csnzprintf(system_message, sizeof(system_message), "%s('%s', '%s')", file_function, info0->path.get_string(), info1->path.get_string());
         else
-            csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path);
+            csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path.get_string());
 
         char error_message[2048]{};
         get_error_message(error_message_id, error_message);

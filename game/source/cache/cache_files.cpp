@@ -751,7 +751,7 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 				resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
 				resource_data->file_location.checksum = 0;
 
-				// set the sizes to tag index and resource index plus one
+				// set the sizes to tag index and resource offset
 				resource_data->file_location.file_size = tag_index;
 				resource_data->file_location.size = file_size - instance->total_size;
 
@@ -897,6 +897,10 @@ void tag_group_modification_apply(e_instance_modification_stage stage)
 	apply_biped_group_modification(stage);
 }
 
+#define ISEXPERIMENTAL
+
+#ifdef ISEXPERIMENTAL
+
 void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header const* file_header)
 {
 	s_dds_file const* dds_file = reinterpret_cast<s_dds_file const*>(file_header + 1);
@@ -938,10 +942,65 @@ void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header cons
 	texture_descriptor.texture.height = bitmap.height;
 }
 
-void resource_fixup(long tag_index, cache_file_tag_instance* instance)
+void external_tag_fixup(s_file_reference* file, long tag_index, cache_file_tag_instance* instance)
 {
-#ifndef ISEXPERIMENTAL
+	dword file_size = 0;
+	file_get_size(file, &file_size);
 
+	if (instance->is_group('bitm'))
+	{
+		bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
+		ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
+
+		bitmap_data& bitmap = bitmap_instance->bitmaps[0];
+		s_cache_file_tag_resource_data* resource_data = bitmap_instance->hardware_textures[0].get();
+
+		if (!resource_data->runtime_data.control_data.base)
+			return;
+
+		s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
+
+		// disable any checksums
+		resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
+		resource_data->file_location.checksum = 0;
+
+		// set the sizes to tag index and resource offset
+		resource_data->file_location.file_size = tag_index;
+		resource_data->file_location.size = file_size - instance->total_size;
+
+		// set the codec index to that of our custom decompressor
+		resource_data->file_location.codec_index = _cache_file_compression_codec_runtime_tag_resource;
+
+		// update the owner tag index
+		resource_data->runtime_data.owner_tag.index = tag_index;
+
+		texture_descriptor.base_pixel_data.size = bitmap.pixels_size;
+	}
+}
+
+bool load_external_tag(s_file_reference* file)
+{
+	if (!file->path.ends_with("bitmap"))
+		return false;
+
+	long tag_index = NONE;
+	cache_file_tag_instance* instance = nullptr;
+	if (!cache_file_tags_single_tag_file_load(file, &tag_index, &instance))
+		return false;
+
+	if (tag_index == NONE || !instance)
+		return false;
+
+	if (!cache_file_tags_single_tag_instance_fixup(instance))
+		return false;
+
+	external_tag_fixup(file, tag_index, instance);
+
+	return true;
+}
+
+void external_resource_fixup(long tag_index, cache_file_tag_instance* instance)
+{
 	for (long i = 0; i < g_resource_file_headers.count(); i++)
 	{
 		s_resource_file_header const* file_header = g_resource_file_headers[i];
@@ -954,7 +1013,6 @@ void resource_fixup(long tag_index, cache_file_tag_instance* instance)
 			bitmap_fixup(instance, file_header);
 		}
 	}
-#endif // ISEXPERIMENTAL
 }
 
 bool load_external_resource(s_file_reference* file)
@@ -1006,17 +1064,18 @@ bool load_external_resource(s_file_reference* file)
 
 	return true;
 }
+#endif // ISEXPERIMENTAL
 
 void load_external_files()
 {
-	// Add map images at runtime, tag indices start at 0x00004441
-	cache_file_tags_load_single_tag_file_test("maps\\images\\c_005.bitmap");
-	cache_file_tags_load_single_tag_file_test("maps\\images\\c_005_sm.bitmap");
-	cache_file_tags_load_single_tag_file_test("maps\\images\\m_guardian.bitmap");
-	cache_file_tags_load_single_tag_file_test("maps\\images\\m_guardian_sm.bitmap");
+#ifdef ISEXPERIMENTAL
 
-#ifndef ISEXPERIMENTAL
 	s_file_reference search_directory{};
+
+	// Add map images at runtime, tag indices start at 0x00004441
+	file_reference_create_from_path(&search_directory, "tags\\", true);
+	find_files_recursive(&search_directory, FLAG(_file_open_flag_desired_access_read), load_external_tag);
+	
 	file_reference_create_from_path(&search_directory, "data\\", true);
 	find_files_recursive(&search_directory, FLAG(_file_open_flag_desired_access_read), load_external_resource);
 
@@ -1025,7 +1084,7 @@ void load_external_files()
 		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
 		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 
-		resource_fixup(tag_index, instance);
+		external_resource_fixup(tag_index, instance);
 	}
 
 #endif // ISEXPERIMENTAL

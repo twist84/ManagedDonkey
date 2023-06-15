@@ -14,7 +14,9 @@ c_static_sized_dynamic_array<s_resource_file_header const*, 1024> g_resource_fil
 
 HOOK_DECLARE(0x00563E10, tag_resource_get);
 
-#ifndef ISEXPERIMENTAL
+#define ISEXPERIMENTAL
+
+#ifdef ISEXPERIMENTAL
 
 struct c_runtime_resource_cache_file_decompressor :
 	public c_cache_file_decompressor
