@@ -513,6 +513,9 @@ public:
 			return false;
 
 		s_tag_resource_access_datum* cached_resource = m_cached_access_datums[resource_handle];
+		if (!cached_resource)
+			return false;
+
 		//ASSERT(cached_resource->resource_handle == resource_handle || cached_resource->resource_handle == NONE);
 
 		return cached_resource->resource_handle != NONE && cached_resource->resource_data;

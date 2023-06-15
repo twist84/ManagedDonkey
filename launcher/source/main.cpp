@@ -33,13 +33,15 @@ int main(int argc, char* argv[])
     if (DetourCreateProcessWithDllA(ApplicationPath, NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
         return 5;
 
+#ifndef DEDICATED_SERVER
 #ifdef _DEBUG
     WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
+#endif // _DEBUG
 #else
     // leave enough time for `remote_command_initialize` to be called
     Sleep(1000);
-    printf("Launcher: Creating process `%s`\n", "remote.exe");
-    CreateProcessA("remote.exe", NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo);
+    printf("Launcher: Creating process `%s`\n", "remote_console.exe");
+    CreateProcessA("remote_console.exe", NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo);
 #endif // _DEBUG
 
     return 0;

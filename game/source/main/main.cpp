@@ -59,6 +59,52 @@ HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 
+#ifdef DEDICATED_SERVER
+
+byte const nop[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+DATA_PATCH_DECLARE(0x004370F9, dedicated_server_patch, nop);	// unskip peer request player add status
+
+byte const jump[] = { 0xEB };
+//DATA_PATCH_DECLARE(0x0045B596, dedicated_server_patch, jump);	// skip can accept player join request
+DATA_PATCH_DECLARE(0x0045A8BB, dedicated_server_patch, jump);
+DATA_PATCH_DECLARE(0x0052D62E, dedicated_server_patch, jump);
+DATA_PATCH_DECLARE(0x0052D67A, dedicated_server_patch, jump);
+
+byte const return0[] = { 0x32, 0xC0, 0xC3 };
+byte const return1[] = { 0xB0, 0x01, 0xC3 };
+DATA_PATCH_DECLARE(0x0042E5D0, sub_42E5D0, return1); // disable render resources
+DATA_PATCH_DECLARE(0x0042E5E0, sub_42E5E0, return1); // disable audio resources
+DATA_PATCH_DECLARE(0x0042E600, game_is_dedicated_server, return1);
+DATA_PATCH_DECLARE(0x0042E610, game_is_client, return0);
+
+byte const bool_true[] = { 0x1 };
+DATA_PATCH_DECLARE(0x0244F970, byte_244F970, bool_true); // enable dedicated mode
+DATA_PATCH_DECLARE(0x0244F971, byte_244F971, bool_true); // disable audio
+
+byte const _return[] = { 0xC3 };
+DATA_PATCH_DECLARE(0x00504F80, dedicated_server_patch, _return); // audio_thread_loop
+DATA_PATCH_DECLARE(0x005075A0, dedicated_server_patch, _return); // render_thread_loop
+DATA_PATCH_DECLARE(0x0050C830, dedicated_server_patch, _return); // global_preferences_init
+DATA_PATCH_DECLARE(0x00512690, dedicated_server_patch, _return); // input_update
+DATA_PATCH_DECLARE(0x00551780, dedicated_server_patch, _return); // game_engine_interface_update
+DATA_PATCH_DECLARE(0x005926C0, dedicated_server_patch, _return); // director_update
+DATA_PATCH_DECLARE(0x005D4990, dedicated_server_patch, _return); // player_control_update
+DATA_PATCH_DECLARE(0x0060D880, dedicated_server_patch, _return); // input_abstraction_update
+DATA_PATCH_DECLARE(0x00613A60, dedicated_server_patch, _return); // observer_update
+DATA_PATCH_DECLARE(0x00615BA0, dedicated_server_patch, _return); // rumble_update
+DATA_PATCH_DECLARE(0x006173A0, dedicated_server_patch, _return); // bink_playback_update
+DATA_PATCH_DECLARE(0x00619770, dedicated_server_patch, _return); // fileshare ui
+DATA_PATCH_DECLARE(0x00619C00, dedicated_server_patch, _return); // spartan rank/milestone ui
+DATA_PATCH_DECLARE(0x0064E190, dedicated_server_patch, _return); // fmod_initialize
+DATA_PATCH_DECLARE(0x00A223F0, dedicated_server_patch, _return); // c_rasterizer::initialize_window
+DATA_PATCH_DECLARE(0x00A7FE50, dedicated_server_patch, _return); // user_interface_networking_update
+DATA_PATCH_DECLARE(0x00A8AAE0, dedicated_server_patch, _return); // chud_update
+DATA_PATCH_DECLARE(0x00A9EDF0, dedicated_server_patch, _return); // first_person_weapons_update_camera_estimates
+DATA_PATCH_DECLARE(0x00B26710, dedicated_server_patch, _return); // saber_update
+
+#endif // DEDICATED_MODE
+
+
 void copy_input_states(bool enabled)
 {
 	if (enabled)
