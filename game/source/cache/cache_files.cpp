@@ -699,6 +699,7 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, long *out_tag_
 		return false;
 
 	tag_loaded_count++;
+	g_cache_file_globals.tag_total_count++;
 
 	if (instance->dependency_count <= 0)
 		return true;
@@ -978,9 +979,48 @@ void external_tag_fixup(s_file_reference* file, long tag_index, cache_file_tag_i
 	}
 }
 
+bool check_for_specific_scenario(s_file_reference* file)
+{
+	char directory[256]{};
+	file_reference_get_name(file, FLAG(_name_directory_bit), directory, sizeof(directory));
+	csstrnzcat(directory, "\\specific_scenario.txt", sizeof(directory));
+
+	s_file_reference specific_scenario_file{};
+	file_reference_create_from_path(&specific_scenario_file, directory, false);
+	if (!file_exists(&specific_scenario_file))
+		return false;
+
+	dword error = 0;
+	if (!file_open(&specific_scenario_file, FLAG(_file_open_flag_desired_access_read), &error))
+		return false;
+
+	dword file_size = 0;
+	if (!file_get_size(&specific_scenario_file, &file_size))
+	{
+		file_close(&specific_scenario_file);
+		return false;
+	}
+
+	char* const file_buffer = new char[file_size + 1]{};
+
+	if (!file_read(&specific_scenario_file, file_size, false, file_buffer))
+	{
+		file_close(&specific_scenario_file);
+		return false;
+	}
+	file_close(&specific_scenario_file);
+
+	char const* scenario_name = tag_name_strip_path(file_buffer);
+
+	return csstricmp(g_cache_file_globals.header.name, scenario_name) != 0;
+}
+
 bool load_external_tag(s_file_reference* file)
 {
 	if (!file->path.ends_with("bitmap"))
+		return false;
+
+	if (check_for_specific_scenario(file))
 		return false;
 
 	long tag_index = NONE;
