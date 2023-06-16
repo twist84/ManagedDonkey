@@ -1,5 +1,6 @@
 #include "main/main.hpp"
 
+#include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files.hpp"
 #include "cache/restricted_memory.hpp"
@@ -254,6 +255,7 @@ void __cdecl main_loop_body_begin()
 			g_cache_file_globals.resource_file_counts_mapping[3] +
 			g_cache_file_globals.resource_file_counts_mapping[4]);
 
+		long lock = tag_resources_lock_game();
 		for (s_cache_file_tag_resource_data* resource_data : resource_gestalt->resources)
 		{
 			// are these ever non-zero?
@@ -281,6 +283,23 @@ void __cdecl main_loop_body_begin()
 				c_console::write_line("resources: ['%s', %08X]",
 					group_string,
 					resource_data->runtime_data.owner_tag.index);
+
+				if (bitmap_group* bitmap_instance = resource_data->runtime_data.owner_tag.cast_to<bitmap_group>())
+				{
+					if (bitmap_instance->flags.test(_bitmap_group_flag_using_tag_interopand_tag_resource_bit))
+					{
+						if (tag_resource_available(&bitmap_instance->hardware_textures[0]))
+						{
+							s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
+
+							printf("");
+						}
+
+						printf("");
+					}
+
+					printf("");
+				}
 
 				//c_console::write(", file_location: { file_offset: 0x%08X, file_size: 0x%08X, size: 0x%08X }",
 				//	resource_data->file_location.file_offset,
@@ -331,6 +350,7 @@ void __cdecl main_loop_body_begin()
 			break;
 			};
 		}
+		tag_resources_unlock_game(lock);
 
 		if (game_in_progress() && !game_is_ui_shell())
 		{
