@@ -774,12 +774,12 @@ static_assert(sizeof(c_asynchronous_io_marker) == 0x1C);
 
 struct c_cache_file_async_decompression_task
 {
-	dword __unknown0;
+	dword m_async_task_id;
 	bool __unknown4;
-	c_synchronized_long __unknown8;
-	c_synchronized_long __unknownC;
+	c_synchronized_long m_completion_flag;
+	c_synchronized_long m_abort_signal;
 	c_asynchronous_io_marker* m_async_request_done;
-	bool __unknown14;
+	bool m_decompression_success;
 	long m_codec_index;
 	c_cache_file_decompressor* m_decompressor;
 	c_basic_buffer<void> m_decompression_buffer;
@@ -1075,7 +1075,10 @@ static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
 extern c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>& g_resource_runtime_manager;
 
+extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
+extern long __cdecl tag_resources_lock_game();
+extern void __cdecl tag_resources_unlock_game(long& lock);
 
 struct s_resource_file_header
 {

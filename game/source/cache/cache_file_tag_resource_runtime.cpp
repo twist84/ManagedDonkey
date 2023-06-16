@@ -176,10 +176,27 @@ HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);
 
 #endif // ISEXPERIMENTAL
 
+bool __cdecl tag_resource_available(s_tag_resource const* resource)
+{
+	return INVOKE(0x00563DC0, tag_resource_get, resource);
+}
+
 void* __cdecl tag_resource_get(s_tag_resource const* resource)
 {
+	//return INVOKE(0x00563E10, tag_resource_get, resource);
+
 	ASSERT(resource);
 
 	return g_resource_runtime_manager.get()->get_cached_resource_data(resource->resource_handle);
+}
+
+long __cdecl tag_resources_lock_game()
+{
+	return INVOKE(0x00563F80, tag_resources_lock_game);
+}
+
+void __cdecl tag_resources_unlock_game(long& lock)
+{
+	return INVOKE(0x005640B0, tag_resources_unlock_game, lock);
 }
 
