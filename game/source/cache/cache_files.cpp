@@ -315,8 +315,6 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 	return true;
 }
 
-// #TODO: add support for missing tag names
-// TagTool doesn't support null tags thus not adding them to the tag list
 bool __cdecl cache_file_debug_tag_names_load()
 {
 	//return INVOKE(0x00502970, cache_file_debug_tag_names_load);
@@ -363,27 +361,35 @@ bool __cdecl cache_file_debug_tag_names_load()
 			return false;
 		}
 
+
+		char* line = buffer;
 		char* line_end = 0;
 		debug_tag_name_count = 0;
 		for (char* position = strchr(buffer, ','); position; position = strchr(line_end + 1, ','))
 		{
-			char* line = position + 1;
-			offsets[debug_tag_name_count] = line - (char*)offsets - offsets_size;
-
-			line_end = strchr(line, '\n');
-			if (line_end)
+			char* comma_pos = position + 1;
+			if (line_end = strchr(comma_pos, '\n'))
 				*line_end = '\0';
 
-			line_end = strchr(line, '\r');
-			if (line_end)
+			if (char* cr = strchr(comma_pos, '\r'))
 			{
 				*line_end = '\0';
 				line_end++;
 			}
 
-			++debug_tag_name_count;
+			long debug_tag_name_index = NONE;
+			if (sscanf_s(line, "0x%X,", &debug_tag_name_index))
+			{
+				while (debug_tag_name_count < debug_tag_name_index)
+					debug_tag_name_count++;
+			}
+
+			offsets[debug_tag_name_count++] = comma_pos - (char*)offsets - offsets_size;
+
 			if ((line_end + 1 - (char*)offsets - offsets_size) >= tag_list_size)
 				break;
+
+			line = line_end + 1;
 		}
 	}
 
@@ -391,10 +397,11 @@ bool __cdecl cache_file_debug_tag_names_load()
 
 	for (long tag_names_index = 0; tag_names_index < NUMBEROF(offsets); ++tag_names_index)
 	{
-		if (offsets[tag_names_index] < buffer_size)
-		{
+		if (offsets[tag_names_index] >= buffer_size)
+			break;
+
+		if (offsets[tag_names_index] != 0)
 			storage[tag_names_index] = &buffer[offsets[tag_names_index]];
-		}
 	}
 
 	return true;

@@ -39,8 +39,11 @@ void* s_tag_reference::get_definition()
 
 char const* s_tag_reference::get_name()
 {
-	if (index < g_cache_file_globals.header.debug_tag_name_count)
-		return tag_get_name_safe(index);
+	if (!VALID_INDEX(index, g_cache_file_globals.header.debug_tag_name_count))
+		return "<unknown>";
+
+	if (char const* name = tag_get_name_safe(index))
+		return name;
 
 	return "<unknown>";
 }

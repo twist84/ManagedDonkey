@@ -316,8 +316,10 @@ char const* scenario_get_name()
 	if (global_scenario_index == NONE)
 		return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
 
-	char const* path = tag_get_name(global_scenario_index);
-	return tag_name_strip_path(path);
+	if (char const* name = tag_get_name(global_scenario_index))
+		return tag_name_strip_path(name);
+
+	return tag_name_strip_path(main_game_globals.game_loaded_scenario_path);
 }
 
 char const* const k_camera_save_filename = "camera";
