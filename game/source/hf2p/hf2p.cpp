@@ -142,7 +142,7 @@ s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 	return loadout;
 }
 
-c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& get_armor_regions(e_player_model_choice player_model_choice)
+c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& get_armor_regions(e_player_model_choice player_model_choice, bool* cache_file_has_halo3_armors)
 {
 	static c_static_array<c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>, k_player_model_choice_count> armor_regions;
 
@@ -185,6 +185,24 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 			{
 				ignore_requirements = true;
 				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_pelvis];
+			}
+			else if (csstricmp(armor_region, "rightshoulder") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_shoulders];
+
+				if (cache_file_has_halo3_armors)
+					*cache_file_has_halo3_armors = true;
+			}
+			else if (csstricmp(armor_region, "leftshoulder") == 0)
+			{
+				armor_type = &armor_regions[_player_model_choice_spartan][_armor_type_arms];
+
+				if (cache_file_has_halo3_armors)
+					*cache_file_has_halo3_armors = true;
+			}
+			else
+			{
+				continue;
 			}
 
 			for (long i = 0; i < customized_spartan_character.customized_areas.count(); i++)

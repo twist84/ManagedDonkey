@@ -1004,7 +1004,8 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& armor_regions = get_armor_regions();
+	bool cache_file_has_halo3_armors = false;
+	c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& armor_regions = get_armor_regions(_player_model_choice_spartan, &cache_file_has_halo3_armors);
 
 	char const* customization_filename = tokens.m_storage[1]->get_string();
 
@@ -1053,7 +1054,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 					{
 						index = _color_type_lights;
 					}
-					else if (csstricmp(color_type_name, "holo") == 0)
+					else if (csstricmp(color_type_name, "holo") == 0 && !cache_file_has_halo3_armors)
 					{
 						index = _color_type_holo;
 					}
@@ -1071,7 +1072,8 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 				char armor_name[32]{};
 				if (sscanf_s(buffer, "armors[%[^]]]: %s", armor_region_name, sizeof(armor_region_name), armor_name, sizeof(armor_name)) && (*armor_region_name && *armor_name))
 				{
-					for (long armor_region_index = 0; armor_region_index < armor_loadout.armors.count(); armor_region_index++)
+					long armor_region_count = cache_file_has_halo3_armors ? _armor_type_arms + 1 : armor_loadout.armors.count();
+					for (long armor_region_index = 0; armor_region_index < armor_region_count; armor_region_index++)
 					{
 						char const* armor_region = nullptr;
 						switch (armor_region_index)
@@ -1083,10 +1085,10 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 							armor_region = "chest";
 							break;
 						case _armor_type_shoulders:
-							armor_region = "shoulders";
+							armor_region = cache_file_has_halo3_armors ? "rightshoulder" : "shoulders";
 							break;
 						case _armor_type_arms:
-							armor_region = "arms";
+							armor_region = cache_file_has_halo3_armors ? "leftshoulder" : "arms";
 							break;
 						case _armor_type_legs:
 							armor_region = "legs";
@@ -1119,58 +1121,78 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 
 			fprintf_s(customization_info_file, "Example usage:\n\n");
 
-			fprintf_s(customization_info_file, "consumables[<consumable_index(0 - 3)>]: <consumable_name>\n");
-			fprintf_s(customization_info_file, "consumables[0]: empty\n");
-			fprintf_s(customization_info_file, "consumables[1]: empty\n");
-			fprintf_s(customization_info_file, "consumables[2]: empty\n");
-			fprintf_s(customization_info_file, "consumables[3]: empty\n\n");
+			if (cache_file_has_halo3_armors)
+			{
+				fprintf_s(customization_info_file, "consumables[<consumable_index(0 - 3)>]: <consumable_name>\n");
+				fprintf_s(customization_info_file, "consumables[0]: empty\n");
+				fprintf_s(customization_info_file, "consumables[1]: empty\n");
+				fprintf_s(customization_info_file, "consumables[2]: empty\n");
+				fprintf_s(customization_info_file, "consumables[3]: empty\n\n");
+			}
 
 			fprintf_s(customization_info_file, "colors[<color_type_name>]: #RGB\n");
 			fprintf_s(customization_info_file, "colors[primary]: #FF0000\n");
 			fprintf_s(customization_info_file, "colors[secondary]: #0000FF\n");
 			fprintf_s(customization_info_file, "colors[visor]: #0000FF\n");
 			fprintf_s(customization_info_file, "colors[lights]: #00F00F\n");
-			fprintf_s(customization_info_file, "colors[holo]: #0F0F00\n\n");
 
-			fprintf_s(customization_info_file, "armor[<armor_region_name>]: <armor_name>\n");
-			fprintf_s(customization_info_file, "armor[helmet]: base\n");
-			fprintf_s(customization_info_file, "armor[chest]: base\n");
-			fprintf_s(customization_info_file, "armor[shoulders]: base\n");
-			fprintf_s(customization_info_file, "armor[arms]: base\n");
-			fprintf_s(customization_info_file, "armor[legs]: base\n");
-			fprintf_s(customization_info_file, "armor[acc]: flashlight\n");
-			fprintf_s(customization_info_file, "armor[pelvis]: base\n\n");
+			if (!cache_file_has_halo3_armors)
+				fprintf_s(customization_info_file, "colors[holo]: #0F0F00\n\n");
 
-			fprintf_s(customization_info_file, "consumable:\n");
-			fprintf_s(customization_info_file, "\tempty\n");
-			fprintf_s(customization_info_file, "\tjammer\n");
-			fprintf_s(customization_info_file, "\tpowerdrain\n");
-			fprintf_s(customization_info_file, "\tinvisibility\n");
-			fprintf_s(customization_info_file, "\tinvisibility_vehicle\n");
-			fprintf_s(customization_info_file, "\tbubbleshield\n");
-			fprintf_s(customization_info_file, "\tsuperflare\n");
-			fprintf_s(customization_info_file, "\tregenerator\n");
-			fprintf_s(customization_info_file, "\ttripmine\n");
-			fprintf_s(customization_info_file, "\tauto_turret\n");
-			fprintf_s(customization_info_file, "\tdeployable_cover\n");
-			fprintf_s(customization_info_file, "\tforced_reload\n");
-			fprintf_s(customization_info_file, "\tconcussive_blast\n");
-			fprintf_s(customization_info_file, "\ttank_mode\n");
-			fprintf_s(customization_info_file, "\tmag_pulse\n");
-			fprintf_s(customization_info_file, "\thologram\n");
-			fprintf_s(customization_info_file, "\treactive_armor\n");
-			fprintf_s(customization_info_file, "\tbomb_run\n");
-			fprintf_s(customization_info_file, "\tarmor_lock\n");
-			fprintf_s(customization_info_file, "\tadrenaline\n");
-			fprintf_s(customization_info_file, "\tlightning_strike\n");
-			fprintf_s(customization_info_file, "\tscrambler\n");
-			fprintf_s(customization_info_file, "\tweapon_jammer\n");
-			fprintf_s(customization_info_file, "\tammo_pack\n");
-			fprintf_s(customization_info_file, "\tconsumable_vision\n");
-			fprintf_s(customization_info_file, "\tbubbleshield_tutorial\n");
-			fprintf_s(customization_info_file, "\tconsumable_vision_tutorial\n\n");
+			if (cache_file_has_halo3_armors)
+			{
+				fprintf_s(customization_info_file, "armors[<armor_region_name>]: <armor_name>\n");
+				fprintf_s(customization_info_file, "armors[helmet]: base\n");
+				fprintf_s(customization_info_file, "armors[chest]: base\n");
+				fprintf_s(customization_info_file, "armors[rightshoulder]: base\n");
+				fprintf_s(customization_info_file, "armors[leftshoulder]: base\n");
+			}
+			else
+			{
+				fprintf_s(customization_info_file, "armors[<armor_region_name>]: <armor_name>\n");
+				fprintf_s(customization_info_file, "armors[helmet]: base\n");
+				fprintf_s(customization_info_file, "armors[chest]: base\n");
+				fprintf_s(customization_info_file, "armors[shoulders]: base\n");
+				fprintf_s(customization_info_file, "armors[arms]: base\n");
+				fprintf_s(customization_info_file, "armors[legs]: base\n");
+				fprintf_s(customization_info_file, "armors[acc]: flashlight\n");
+				fprintf_s(customization_info_file, "armors[pelvis]: base\n\n");
+			}
 
-			for (long armor_region_index = 0; armor_region_index < k_armor_type_count; armor_region_index++)
+			if (!cache_file_has_halo3_armors)
+			{
+				fprintf_s(customization_info_file, "consumable:\n");
+				fprintf_s(customization_info_file, "\tempty\n");
+				fprintf_s(customization_info_file, "\tjammer\n");
+				fprintf_s(customization_info_file, "\tpowerdrain\n");
+				fprintf_s(customization_info_file, "\tinvisibility\n");
+				fprintf_s(customization_info_file, "\tinvisibility_vehicle\n");
+				fprintf_s(customization_info_file, "\tbubbleshield\n");
+				fprintf_s(customization_info_file, "\tsuperflare\n");
+				fprintf_s(customization_info_file, "\tregenerator\n");
+				fprintf_s(customization_info_file, "\ttripmine\n");
+				fprintf_s(customization_info_file, "\tauto_turret\n");
+				fprintf_s(customization_info_file, "\tdeployable_cover\n");
+				fprintf_s(customization_info_file, "\tforced_reload\n");
+				fprintf_s(customization_info_file, "\tconcussive_blast\n");
+				fprintf_s(customization_info_file, "\ttank_mode\n");
+				fprintf_s(customization_info_file, "\tmag_pulse\n");
+				fprintf_s(customization_info_file, "\thologram\n");
+				fprintf_s(customization_info_file, "\treactive_armor\n");
+				fprintf_s(customization_info_file, "\tbomb_run\n");
+				fprintf_s(customization_info_file, "\tarmor_lock\n");
+				fprintf_s(customization_info_file, "\tadrenaline\n");
+				fprintf_s(customization_info_file, "\tlightning_strike\n");
+				fprintf_s(customization_info_file, "\tscrambler\n");
+				fprintf_s(customization_info_file, "\tweapon_jammer\n");
+				fprintf_s(customization_info_file, "\tammo_pack\n");
+				fprintf_s(customization_info_file, "\tconsumable_vision\n");
+				fprintf_s(customization_info_file, "\tbubbleshield_tutorial\n");
+				fprintf_s(customization_info_file, "\tconsumable_vision_tutorial\n\n");
+			}
+
+			long armor_region_count = cache_file_has_halo3_armors ? _armor_type_arms + 1 : k_armor_type_count;
+			for (long armor_region_index = 0; armor_region_index < armor_region_count; armor_region_index++)
 			{
 				c_static_array<c_static_string<64>, 100>& armor_types = armor_regions[armor_region_index];
 
@@ -1184,10 +1206,10 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 					armor_region = "chest";
 					break;
 				case _armor_type_shoulders:
-					armor_region = "shoulders";
+					armor_region = cache_file_has_halo3_armors ? "rightshoulder" : "shoulders";
 					break;
 				case _armor_type_arms:
-					armor_region = "arms";
+					armor_region = cache_file_has_halo3_armors ? "leftshoulder" : "arms";
 					break;
 				case _armor_type_legs:
 					armor_region = "legs";

@@ -16,5 +16,5 @@ struct s_s3d_player_armor_configuration_loadout;
 struct s_s3d_player_weapon_configuration_loadout;
 extern s_s3d_player_armor_configuration_loadout& get_armor_loadout();
 extern s_s3d_player_weapon_configuration_loadout& get_weapon_loadout();
-extern c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& get_armor_regions(e_player_model_choice player_model_choice = _player_model_choice_spartan);
+extern c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& get_armor_regions(e_player_model_choice player_model_choice = _player_model_choice_spartan, bool* cache_file_has_halo3_armors = nullptr);
 

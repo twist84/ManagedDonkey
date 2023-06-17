@@ -233,9 +233,9 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 	DECLFUNC(0x00502500, void, __thiscall, s_cache_file_reports*, s_cache_file_header*)(reports, header);
 }
 
-void __cdecl sub_502550(c_wrapped_array<long>* resource_offsets)
+void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long>* resource_offsets)
 {
-	INVOKE(0x00502550, sub_502550, resource_offsets);
+	INVOKE(0x00502550, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk, resource_offsets);
 }
 
 bool __cdecl cache_file_tags_load_recursive(long tag_index)
@@ -315,6 +315,8 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 	return true;
 }
 
+// #TODO: add support for missing tag names
+// TagTool doesn't support null tags thus not adding them to the tag list
 bool __cdecl cache_file_debug_tag_names_load()
 {
 	//return INVOKE(0x00502970, cache_file_debug_tag_names_load);
@@ -371,6 +373,13 @@ bool __cdecl cache_file_debug_tag_names_load()
 			line_end = strchr(line, '\n');
 			if (line_end)
 				*line_end = '\0';
+
+			line_end = strchr(line, '\r');
+			if (line_end)
+			{
+				*line_end = '\0';
+				line_end++;
+			}
 
 			++debug_tag_name_count;
 			if ((line_end + 1 - (char*)offsets - offsets_size) >= tag_list_size)
@@ -796,6 +805,10 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	ASSERT(instance != nullptr);
 
 	if (!instance->is_group('mulg'))
+		return;
+
+	// if the very first offset is 0x38 there is a very high likelihood that this is an ElDewrito tag set
+	if (g_cache_file_globals.tag_cache_offsets[0] == 0x38)
 		return;
 
 	s_multiplayer_globals_definition* multiplayer_globals = instance->cast_to<s_multiplayer_globals_definition>();
