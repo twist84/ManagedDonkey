@@ -17,12 +17,15 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
-[Dd]ebugProxy/
-[Rr]eleaseProxy/
+
+# commented out since all build files live under the bin directory
+#[Dd]ebug/
+#[Dd]ebugPublic/
+#[Rr]elease/
+#[Rr]eleases/
+#[Dd]ebugProxy/
+#[Rr]eleaseProxy/
+
 x64/
 x86/
 [Aa][Rr][Mm]/
