@@ -1940,9 +1940,6 @@
     <ClInclude Include="source\networking\network_game_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\bitmaps\dds_file.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\tag_files\tag_resource_cache_paging.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

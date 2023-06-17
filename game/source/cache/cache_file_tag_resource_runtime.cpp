@@ -1,9 +1,10 @@
 #include "cache/cache_file_tag_resource_runtime.hpp"
 
-#include "bitmaps/dds_file.hpp"
 #include "cache/cache_files.hpp"
 #include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
+
+#include <DDS.h>
 
 REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 
@@ -52,12 +53,12 @@ struct c_runtime_resource_cache_file_decompressor :
 
 			if (file_header->group_tag == 'bitm')
 			{
-				s_dds_file const* dds_file = reinterpret_cast<s_dds_file const*>(file_header + 1);
+				DirectX::DDS_FILE_HEADER const* dds_file = reinterpret_cast<DirectX::DDS_FILE_HEADER const*>(file_header + 1);
 				if (!dds_file)
 					continue;
 
-				m_holding_buffer.m_size = dds_file->header.linear_size;
-				csmemcpy(m_holding_buffer.m_buffer, dds_file->data, m_holding_buffer.m_size);
+				m_holding_buffer.m_size = dds_file->header.pitchOrLinearSize;
+				csmemcpy(m_holding_buffer.m_buffer, dds_file + 1, m_holding_buffer.m_size);
 			}
 		}
 

@@ -1,7 +1,6 @@
 #include "cache/cache_files.hpp"
 
 #include "bitmaps/bitmap_group_tag_definition.hpp"
-#include "bitmaps/dds_file.hpp"
 #include "cache/cache_file_builder_security.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/security_functions.hpp"
@@ -20,6 +19,7 @@
 #include "scenario/scenario_definitions.hpp"
 #include "tag_files/string_ids.hpp"
 
+#include <DDS.h>
 #include <string.h>
 
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
@@ -904,7 +904,7 @@ void tag_group_modification_apply(e_instance_modification_stage stage)
 
 void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header const* file_header)
 {
-	s_dds_file const* dds_file = reinterpret_cast<s_dds_file const*>(file_header + 1);
+	DirectX::DDS_FILE_HEADER const* dds_file = reinterpret_cast<DirectX::DDS_FILE_HEADER const*>(file_header + 1);
 	if (!dds_file)
 		return;
 
@@ -924,8 +924,8 @@ void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header cons
 	bitmap.height = static_cast<short>(dds_file->header.height);
 
 	// update the pixels offset and size base on the linear size and resource index
-	bitmap.pixels_offset = (dds_file->header.linear_size * file_header->resource_index);
-	bitmap.pixels_size = dds_file->header.linear_size;
+	bitmap.pixels_offset = (dds_file->header.pitchOrLinearSize * file_header->resource_index);
+	bitmap.pixels_size = dds_file->header.pitchOrLinearSize;
 
 	// disable any checksums
 	resource_data->file_location.flags.set(_cache_file_tag_resource_location_flags_valid_checksum, false);
