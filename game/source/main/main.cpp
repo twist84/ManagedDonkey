@@ -3,6 +3,7 @@
 #include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files.hpp"
+#include "cache/cache_files_windows.hpp"
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
@@ -205,6 +206,9 @@ void __cdecl main_loop_body_begin()
 		message_storage;
 		g_font_globals;
 		g_font_package_cache;
+		g_copy_decompressor;
+		cache_file_table_of_contents;
+		cache_file_copy_globals;
 
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);

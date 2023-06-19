@@ -22,7 +22,7 @@ static_assert(sizeof(s_cached_map_file) == 0x33A0);
 
 struct s_failed_map
 {
-	char path[256];
+	c_static_string<256> path;
 	dword time;
 	long index;
 };
@@ -32,11 +32,10 @@ struct s_cache_file_table_of_contents
 {
 	c_static_array<s_cached_map_file, k_cached_map_files_count> map_files;
 	long open_map_file_index;
+	long locked_map_file_index;
 
-	// s_map_file_table
-	long map_file_index_start;
-	long map_file_index_end;
-	long map_file_size;
+	long __unknown30668; // best_map_file_index
+	long load_action; // e_cache_file_load_action
 
 	// it seems the cache file system still tries to load the shared and campaign map files
 	// failed_maps[0].path == "maps\shared.map"
@@ -45,26 +44,98 @@ struct s_cache_file_table_of_contents
 };
 static_assert(sizeof(s_cache_file_table_of_contents) == 0x30EB0);
 
+enum e_cache_copy_state
+{
+	_cache_copy_state_idle = 0,
+	_cache_copy_state_mount_dlc,
+	_cache_copy_state_create_source_file,
+	_cache_copy_state_verify_create_source_file,
+	_cache_copy_state_read_dvd_header,
+	_cache_copy_state_verify_read_dvd_header,
+	_cache_copy_state_get_dvd_file_size,
+	_cache_copy_state_verify_get_dvd_file_size,
+	_cache_copy_state_find_free_map_and_clear_header,
+	_cache_copy_state_verify_find_free_map_and_clear_header,
+	_cache_copy_state_flush_cleared_header,
+	_cache_copy_state_start_copying_map_data,
+	_cache_copy_state_copy_map_data,
+	_cache_copy_state_verify_copy_map_data,
+	_cache_copy_state_prepare_copy_thread,
+	_cache_copy_state_kick_off_copy_thread,
+	_cache_copy_state_finish_copy_from_thread,
+	_cache_copy_state_flush_after_copy,
+	_cache_copy_state_write_header,
+	_cache_copy_state_verify_write_header,
+	_cache_copy_state_mark_file_as_loaded,
+	_cache_copy_state_halt,
+	_cache_copy_state_close_source_file,
+	_cache_copy_state_finish,
+
+	k_number_of_cache_copy_states
+};
+
 struct s_cache_file_copy_globals
 {
 	s_cache_file_header header;
 
-	byte __data3390[0x20];
+	c_synchronized_long copy_size;
+	dword copy_time;
 
-	long copy_state;
+	// some size
+	dword __unknown3398;
 
+	dword total_copy_bytes_transferred;
+
+	bool async_write_position_succeed;
+	bool async_validify_file_succeed;
+
+	dword source_file_size;
+
+	long copy_task_id;
+
+	c_enum<e_cache_copy_state, long, _cache_copy_state_idle, k_number_of_cache_copy_states> valid_copy_state;
+	c_enum<e_cache_copy_state, long, _cache_copy_state_idle, k_number_of_cache_copy_states> copy_state;
+
+	// 0: _cache_copy_state_idle
+	// 1: _cache_copy_state_mark_file_as_loaded
+	// 2: _cache_copy_state_halt
+	// 3: also _cache_copy_state_halt?
 	long __unknown33B4;
 
 	c_synchronized_long copy_task_is_done;
 
-	byte __data33BC[0x224];
+	long map_file_index;
+	s_file_handle source_file_handle;
 
-	long_string map_name;
-	int pending_load_action;
+	// cache_files_copy_pause
+	// cache_files_copy_resume
+	c_reference_count<long> reference_count;
 
-	byte __data36E4[4];
+	c_synchronized_long copy_task_abort_signal;
+	bool copy_task_decompression_success;
+
+	c_basic_buffer<void> buffer;
+
+	bool copy_paused;
+
+	c_static_string<256> source_file;
+
+	byte __pad34D9[3];
+
+	struct
+	{
+		c_static_string<256> map_name;
+		long action; // e_cache_file_load_action
+
+		c_static_string<256> pending_map_name;
+		long pending_action; // e_cache_file_load_action
+	} current_action;
+
+	dword checksum;
 };
 static_assert(sizeof(s_cache_file_copy_globals) == 0x36E8);
 
+extern c_cache_file_copy_fake_decompressor& g_copy_decompressor;
 extern s_cache_file_table_of_contents& cache_file_table_of_contents;
 extern s_cache_file_copy_globals& cache_file_copy_globals;
+

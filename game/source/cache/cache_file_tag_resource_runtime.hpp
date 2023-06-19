@@ -161,12 +161,9 @@ struct c_cache_file_copy_fake_decompressor :
 	bool __unknown14;
 	s_simple_read_file_ex_overlapped_result m_overlapped_result;
 	byte m_overlapped[0x14]; // OVERLAPPED
-	void* m_buffer;
-
-	// are these bytes actually here?
-	byte __data[0x8];
+	c_basic_buffer<void> m_buffer;
 };
-static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file_decompressor) + 0x44);
+static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file_decompressor) + 0x40);
 
 struct c_xor_cache_file_decompressor :
 	public c_cache_file_decompressor
