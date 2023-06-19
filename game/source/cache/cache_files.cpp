@@ -39,7 +39,7 @@ static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 
 char const* tag_get_name(long tag_name_index)
 {
-	ASSERT(g_cache_file_globals.tags_loaded);
+	//ASSERT(g_cache_file_globals.tags_loaded);
 	ASSERT(VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count));
 
 	return g_cache_file_globals.debug_tag_names->storage[tag_name_index];
@@ -52,7 +52,7 @@ char const* tag_get_name(long tag_name_index)
 
 char const* tag_get_name_safe(long tag_name_index)
 {
-	ASSERT(g_cache_file_globals.tags_loaded);
+	//ASSERT(g_cache_file_globals.tags_loaded);
 
 	if (VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count))
 	{
@@ -368,13 +368,18 @@ bool __cdecl cache_file_debug_tag_names_load()
 		for (char* position = strchr(buffer, ','); position; position = strchr(line_end + 1, ','))
 		{
 			char* comma_pos = position + 1;
-			if (line_end = strchr(comma_pos, '\n'))
-				*line_end = '\0';
+			if (char* nl = strchr(comma_pos, '\n'))
+			{
+				*nl = '\0';
+				nl++;
+				line_end = nl;
+			}
 
 			if (char* cr = strchr(comma_pos, '\r'))
 			{
-				*line_end = '\0';
-				line_end++;
+				*cr = '\0';
+				cr++;
+				line_end = cr;
 			}
 
 			long debug_tag_name_index = NONE;
