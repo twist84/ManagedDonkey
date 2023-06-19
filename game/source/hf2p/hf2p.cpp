@@ -21,9 +21,17 @@ REFERENCE_DECLARE(0x04FE67A0, dword, mainmenu_spartan_unit_index);
 REFERENCE_DECLARE(0x04FE67A4, dword, mainmenu_elite_unit_index);
 REFERENCE_DECLARE(0x052697B1, bool, g_hf2p_use_keyboard_hints);
 
+HOOK_DECLARE(0x00600600, hf2p_handle_deleted_object);
+HOOK_DECLARE(0x00600620, hf2p_initialize_for_new_map);
+HOOK_DECLARE(0x00600630, hf2p_initialize);
 HOOK_DECLARE(0x006006F0, hf2p_game_initialize);
+HOOK_DECLARE(0x00600750, hf2p_scenario_tags_load_finished);
+HOOK_DECLARE(0x00600770, hf2p_scenario_load);
 HOOK_DECLARE(0x00600790, hf2p_game_dispose);
+HOOK_DECLARE(0x00600830, hf2p_dispose_from_old_map);
 HOOK_DECLARE(0x00600850, hf2p_game_update);
+HOOK_DECLARE(0x006008F0, hf2p_idle);
+HOOK_DECLARE(0x00600900, hf2p_render);
 
 void __cdecl game_statistics_reset()
 {
@@ -31,6 +39,14 @@ void __cdecl game_statistics_reset()
 }
 
 void* hp2p_ui_proxy = reinterpret_cast<void*>(0x0244ED28);
+
+void __cdecl hf2p_handle_deleted_object(long object_index)
+{
+}
+
+void __cdecl hf2p_initialize_for_new_map()
+{
+}
 
 void __cdecl hf2p_initialize()
 {
@@ -64,9 +80,10 @@ void __cdecl hf2p_scenario_tags_load_finished()
 	}
 }
 
+// crashes in `hf2p_game_client_cache_release.exe!sub_A28EC0` if not called
 void __cdecl hf2p_scenario_load()
 {
-	INVOKE(0x00600770, hf2p_scenario_load);
+	HOOK_INVOKE(, hf2p_scenario_load);
 }
 
 void __cdecl hf2p_game_dispose()
@@ -74,6 +91,10 @@ void __cdecl hf2p_game_dispose()
 	//HOOK_INVOKE(, hf2p_game_dispose);
 	//
 	//fmod_terminate();
+}
+
+void __cdecl hf2p_dispose_from_old_map()
+{
 }
 
 dword& mainmenu_unit_index = mainmenu_spartan_unit_index;
@@ -85,7 +106,7 @@ void __cdecl hf2p_game_update()
 	// update `mainmenu_unit_index`
 	DECLFUNC(0x007B7940, void, __cdecl)();
 
-	if (mainmenu_unit_index != 0xFFFFFFFF)
+	if (mainmenu_unit_index != NONE)
 	{
 		static bool first_run = true;
 		if (first_run && g_cache_file_globals.tags_loaded)
@@ -116,6 +137,14 @@ void __cdecl hf2p_game_update()
 	}
 
 	printf("");
+}
+
+void __cdecl hf2p_idle()
+{
+}
+
+void __cdecl hf2p_render()
+{
 }
 
 s_s3d_player_armor_configuration_loadout& get_armor_loadout()

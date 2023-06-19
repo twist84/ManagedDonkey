@@ -84,7 +84,6 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	//HOOK_INVOKE(result =, scenario_load, campaign_id, map_id, scenario_path);
 	//return result;
 
-	// saber function, crashes in `hf2p_game_client_cache_release.exe!sub_A28EC0` if not called
 	hf2p_scenario_load();
 
 	if (scenario_tags_load(scenario_path))
