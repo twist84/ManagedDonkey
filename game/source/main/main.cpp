@@ -14,6 +14,7 @@
 #include "game/game_results.hpp"
 #include "game/game_state.hpp"
 #include "game/player_control.hpp"
+#include "hf2p/hf2p.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
 #include "input/input.hpp"
@@ -209,6 +210,7 @@ void __cdecl main_loop_body_begin()
 		g_copy_decompressor;
 		cache_file_table_of_contents;
 		cache_file_copy_globals;
+		g_service_client;
 
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
