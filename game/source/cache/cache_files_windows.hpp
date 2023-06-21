@@ -1,7 +1,9 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
+#include "cache/cache_file_bulk_reader.hpp"
+#include "cache/cache_file_codec_work.hpp"
 #include "cache/cache_files.hpp"
+#include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files_windows.hpp"
 
@@ -135,7 +137,35 @@ struct s_cache_file_copy_globals
 };
 static_assert(sizeof(s_cache_file_copy_globals) == 0x36E8);
 
+struct c_cache_file_copy_fake_decompressor :
+	public c_cache_file_decompressor
+{
+	virtual bool begin(c_basic_buffer<void> a1)
+	{
+		throw;
+	}
+	virtual bool decompress_buffer(c_basic_buffer<void> a1, c_basic_buffer<void>* a2)
+	{
+		throw;
+	}
+	virtual bool finish(c_basic_buffer<void>* a1)
+	{
+		throw;
+	}
+
+	s_file_handle m_file_handle;
+	c_synchronized_long m_file_offset;
+	c_synchronized_long m_done;
+	dword m_checksum;
+	bool __unknown14;
+	s_simple_read_file_ex_overlapped_result m_overlapped_result;
+	byte m_overlapped[0x14]; // OVERLAPPED
+	c_basic_buffer<void> m_buffer;
+};
+static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file_decompressor) + 0x40);
+
 extern c_cache_file_copy_fake_decompressor& g_copy_decompressor;
 extern s_cache_file_table_of_contents& cache_file_table_of_contents;
 extern s_cache_file_copy_globals& cache_file_copy_globals;
+extern c_asynchronous_io_arena& g_cache_file_io_arena;
 

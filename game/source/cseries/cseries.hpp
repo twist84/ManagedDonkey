@@ -344,6 +344,25 @@ protected:
 	long m_count;
 };
 
+template<typename t_type, long k_type_size = sizeof(t_type), long k_alignment_mask = __alignof(t_type) - 1>
+struct c_typed_opaque_data
+{
+	t_type* get()
+	{
+		ASSERT(((dword)m_opaque_data & k_alignment_mask) == 0);
+		return reinterpret_cast<t_type*>(((dword)m_opaque_data + k_alignment_mask) & ~k_alignment_mask);
+	}
+
+	byte m_opaque_data[k_type_size];
+};
+
+template<typename t_type>
+struct c_reference_count
+{
+	t_type m_reference_count;
+};
+static_assert(sizeof(c_reference_count<long>) == 0x4);
+
 template<typename t_type, typename t_storage_type, size_t k_count>
 struct c_flags
 {

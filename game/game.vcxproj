@@ -485,6 +485,7 @@ POPD
     <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\string_ids.cpp" />
     <ClCompile Include="source\tag_files\tag_groups.cpp" />
+    <ClCompile Include="source\tag_files\tag_resource_threading.cpp" />
     <ClCompile Include="source\text\draw_string.cpp" />
     <ClCompile Include="source\text\font_loading.cpp" />
     <ClCompile Include="source\text\unicode.cpp" />
@@ -497,6 +498,16 @@ POPD
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\cache\cache_file_builder_tag_resource_manager.hpp" />
+    <ClInclude Include="source\cache\cache_file_bulk_reader.hpp" />
+    <ClInclude Include="source\cache\cache_file_codec_work.hpp" />
+    <ClInclude Include="source\cache\cache_file_lz_codec.hpp" />
+    <ClInclude Include="source\cache\cache_file_runtime_codecs.hpp" />
+    <ClInclude Include="source\cache\cache_file_tag_resource_datum_handler.hpp" />
+    <ClInclude Include="source\cache\cache_file_tag_resource_location_table.hpp" />
+    <ClInclude Include="source\cache\cache_file_tag_resource_vtable_list.hpp" />
+    <ClInclude Include="source\cache\cache_file_uncompressed_codec.hpp" />
+    <ClInclude Include="source\cache\cache_file_xor_codec.hpp" />
+    <ClInclude Include="source\cache\optional_cache.hpp" />
     <ClInclude Include="source\cseries\cseries_events.hpp" />
     <ClInclude Include="source\cseries\cseries_windows_debug_pc.hpp" />
     <ClInclude Include="source\dialogs\edit_text.hpp" />
@@ -519,6 +530,7 @@ POPD
     <ClInclude Include="source\memory\data_encoding.hpp" />
     <ClInclude Include="source\memory\data_packets.hpp" />
     <ClInclude Include="source\memory\data_packet_groups.hpp" />
+    <ClInclude Include="source\memory\read_write_lock.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
     <ClInclude Include="source\multithreading\synchronization.hpp" />
@@ -876,8 +888,17 @@ POPD
     <ClInclude Include="source\tag_files\string_ids.hpp" />
     <ClInclude Include="source\tag_files\tag_groups.hpp" />
     <ClInclude Include="source\tag_files\tag_group_definitions.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_access_cache.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_address_cache.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_control.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_external_access.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_inverse_page_table.hpp" />
     <ClInclude Include="source\tag_files\tag_resource_cache_paging.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_predictor.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_stoler.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_cache_thread_lock.hpp" />
     <ClInclude Include="source\tag_files\tag_resource_internals.hpp" />
+    <ClInclude Include="source\tag_files\tag_resource_threading.hpp" />
     <ClInclude Include="source\text\draw_string.hpp" />
     <ClInclude Include="source\text\font_loading.hpp" />
     <ClInclude Include="source\text\text_group.hpp" />

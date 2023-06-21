@@ -446,9 +446,7 @@ struct player_datum : s_datum_header
 	bool is_assassination_victim;
 	real_point3d assassination_authoritative_position;
 	vector3d assassination_authoritative_forward;
-
-	// used by `apply_networked_melee_damage`, `simulation_request_unit_assassinate`, `simulation_request_unit_melee_damage_with_prebuilt_event_data`
-	s_simulation_biped_melee_damage_event_data melee_damage_event_data; // c_opaque_data<s_simulation_biped_melee_damage_event_data, sizeof(s_simulation_biped_melee_damage_event_data), 4/*alignment_bits*/>
+	c_typed_opaque_data<s_simulation_biped_melee_damage_event_data> melee_damage_event_data;
 
 	c_static_array<s_player_shot_info, 8> shot_info;
 	short spawn_count;
