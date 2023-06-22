@@ -107,6 +107,18 @@ struct c_network_channel_simulation_gatekeeper : c_network_channel_client
 };
 static_assert(sizeof(c_network_channel_simulation_gatekeeper) == sizeof(c_network_channel_client));
 
+enum e_network_channel_state
+{
+	_network_channel_state_none = 0,
+	_network_channel_state_empty,
+	_network_channel_state_closed,
+	_network_channel_state_connecting,
+	_network_channel_state_established,
+	_network_channel_state_connected,
+
+	k_network_channel_state_count
+};
+
 struct c_network_link;
 struct c_network_observer;
 struct c_network_message_gateway;
@@ -127,6 +139,29 @@ struct c_network_channel
 		return "";
 	}
 
+	e_network_channel_state __cdecl get_state() const
+	{
+		return m_channel_state;
+	}
+
+	bool __cdecl connected() const
+	{
+		return get_state() == _network_channel_state_connected;
+	}
+
+	bool __cdecl get_remote_address(transport_address* address) const
+	{
+		ASSERT(address);
+
+		if (get_state() == _network_channel_state_none && get_state() != _network_channel_state_empty)
+		{
+			*address = m_remote_address;
+			return true;
+		}
+
+		return false;
+	}
+
 	c_network_link* m_link;
 	c_network_observer* m_observer;
 	c_network_message_gateway* m_message_gateway;
@@ -142,7 +177,7 @@ struct c_network_channel
 	dword_flags m_flags;
 	dword m_local_channel_identifier;
 	dword m_remote_channel_identifier;
-	dword m_channel_state;
+	c_enum<e_network_channel_state, long, _network_channel_state_none, k_network_channel_state_count> m_channel_state;
 	long m_channel_closure_reason;
 	transport_address m_local_address;
 	//char m_channel_name[16];

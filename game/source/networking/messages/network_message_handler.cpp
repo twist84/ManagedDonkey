@@ -20,6 +20,12 @@
 #include "networking/session/network_session.hpp"
 #include "xbox/xnet.hpp"
 
+void __fastcall network_message_handler_handle_channel_message(c_network_message_handler* _this, void* unused, c_network_channel* channel, e_network_message_type message_type, long message_storage_size, void const* message_storage)
+{
+	_this->handle_channel_message(channel, message_type, message_storage_size, message_storage);
+}
+HOOK_DECLARE_CALL(0x004607F4, network_message_handler_handle_channel_message);
+
 void __cdecl c_network_message_handler::handle_out_of_band_message(transport_address const* address, e_network_message_type message_type, long message_storage_size, void const* message_storage)
 {
 	ASSERT(m_initialized);
@@ -153,12 +159,6 @@ void __cdecl c_network_message_handler::handle_out_of_band_message(transport_add
 		handle_time_synchronize(address, converter.message_time_synchronize);
 	}
 	break;
-	case _custom_network_message_text_chat: // this belongs in `c_network_message_handler::handle_channel_message`
-	{
-		ASSERT(message_storage_size == sizeof(s_network_message_text_chat));
-		handle_text_chat(address, converter.message_text_chat);
-	}
-	break;
 	default:
 	{
 		c_console::write_line("networking:messages:handler: %d/%s from '%s' cannot be handled out-of-band, discarding",
@@ -170,6 +170,459 @@ void __cdecl c_network_message_handler::handle_out_of_band_message(transport_add
 	}
 
 	//DECLFUNC(0x0049D2C0, void, __thiscall, c_network_message_handler*, transport_address const*, e_network_message_type, long, void const*)(this, address, message_type, message_storage_size, message_storage);
+}
+
+void __cdecl c_network_message_handler::handle_channel_message(c_network_channel* channel, e_network_message_type message_type, long message_storage_size, void const* message_storage)
+{
+	ASSERT(m_initialized);
+
+	network_message_converter_t converter = { .message_storage = message_storage };
+
+	switch (message_type)
+	{
+	case _network_message_connect_establish:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_connect_establish));
+		handle_connect_establish(channel, converter.message_connect_establish);
+	}
+	break;
+	case _network_message_leave_session:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_leave_session));
+
+		transport_address remote_address{};
+		if (channel->connected() && channel->get_remote_address(&remote_address))
+		{
+			handle_leave_session(&remote_address, converter.message_leave_session);
+		}
+		else
+		{
+			c_console::write_line("networking:messages:handler: %d/%s received over CLOSED channel '%s'",
+				_network_message_leave_session,
+				m_message_types->get_message_type_name(_network_message_leave_session),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_session_disband:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_session_disband));
+
+		transport_address remote_address{};
+		if (channel->connected() && channel->get_remote_address(&remote_address))
+		{
+			handle_session_disband(&remote_address, converter.message_session_disband);
+		}
+		else
+		{
+			c_console::write_line("networking:messages:handler: %d/%s received over CLOSED channel '%s'",
+				_network_message_session_disband,
+				m_message_types->get_message_type_name(_network_message_session_disband),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_session_boot:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_session_boot));
+
+		transport_address remote_address{};
+		if (channel->connected() && channel->get_remote_address(&remote_address))
+		{
+			handle_session_boot(&remote_address, converter.message_session_boot);
+		}
+		else
+		{
+			c_console::write_line("networking:messages:handler: %d/%s received over CLOSED channel '%s'",
+				_network_message_session_boot,
+				m_message_types->get_message_type_name(_network_message_session_boot),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_host_decline:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_host_decline));
+
+		if (channel->connected())
+		{
+			handle_host_decline(channel, converter.message_host_decline);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_host_decline,
+				m_message_types->get_message_type_name(_network_message_host_decline),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_peer_establish:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_peer_establish));
+
+		if (channel->connected())
+		{
+			handle_peer_establish(channel, converter.message_peer_establish);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_peer_establish,
+				m_message_types->get_message_type_name(_network_message_peer_establish),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_membership_update:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_membership_update));
+
+		if (channel->connected())
+		{
+			handle_membership_update(channel, converter.message_membership_update);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_membership_update,
+				m_message_types->get_message_type_name(_network_message_membership_update),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_peer_properties:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_peer_properties));
+
+		if (channel->connected())
+		{
+			handle_peer_properties(channel, converter.message_peer_properties);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_peer_properties,
+				m_message_types->get_message_type_name(_network_message_peer_properties),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_delegate_leadership:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_delegate_leadership));
+
+		if (channel->connected())
+		{
+			handle_delegate_leadership(channel, converter.message_delegate_leadership);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_delegate_leadership,
+				m_message_types->get_message_type_name(_network_message_delegate_leadership),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_boot_machine:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_boot_machine));
+
+		if (channel->connected())
+		{
+			handle_boot_machine(channel, converter.message_boot_machine);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_boot_machine,
+				m_message_types->get_message_type_name(_network_message_boot_machine),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_player_add:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_player_add));
+
+		if (channel->connected())
+		{
+			handle_player_add(channel, converter.message_player_add);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_player_add,
+				m_message_types->get_message_type_name(_network_message_player_add),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_player_refuse:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_player_refuse));
+
+		if (channel->connected())
+		{
+			handle_player_refuse(channel, converter.message_player_refuse);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_player_refuse,
+				m_message_types->get_message_type_name(_network_message_player_refuse),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_player_remove:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_player_remove));
+
+		if (channel->connected())
+		{
+			handle_player_remove(channel, converter.message_player_remove);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_player_remove,
+				m_message_types->get_message_type_name(_network_message_player_remove),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_player_properties:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_player_properties));
+
+		if (channel->connected())
+		{
+			handle_player_properties(channel, converter.message_player_properties);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_player_properties,
+				m_message_types->get_message_type_name(_network_message_player_properties),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_parameters_update:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_parameters_update));
+
+		if (channel->connected())
+		{
+			handle_parameters_update(channel, converter.message_parameters_update);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_parameters_update,
+				m_message_types->get_message_type_name(_network_message_parameters_update),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_parameters_request:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_parameters_request));
+
+		if (channel->connected())
+		{
+			handle_parameters_request(channel, converter.message_parameters_request);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_parameters_request,
+				m_message_types->get_message_type_name(_network_message_parameters_request),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_view_establishment:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_view_establishment));
+
+		if (channel->connected())
+		{
+			handle_view_establishment(channel, converter.message_view_establishment);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_view_establishment,
+				m_message_types->get_message_type_name(_network_message_view_establishment),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_player_acknowledge:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_player_acknowledge));
+
+		if (channel->connected())
+		{
+			handle_player_acknowledge(channel, converter.message_player_acknowledge);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_player_acknowledge,
+				m_message_types->get_message_type_name(_network_message_player_acknowledge),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_synchronous_update:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_synchronous_update));
+
+		if (channel->connected())
+		{
+			handle_synchronous_update(channel, converter.message_synchronous_update);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_synchronous_update,
+				m_message_types->get_message_type_name(_network_message_synchronous_update),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_synchronous_playback_control:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_synchronous_playback_control));
+
+		if (channel->connected())
+		{
+			handle_synchronous_playback_control(channel, converter.message_synchronous_playback_control);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_synchronous_playback_control,
+				m_message_types->get_message_type_name(_network_message_synchronous_playback_control),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_synchronous_actions:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_synchronous_actions));
+
+		if (channel->connected())
+		{
+			handle_synchronous_actions(channel, converter.message_synchronous_actions);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_synchronous_actions,
+				m_message_types->get_message_type_name(_network_message_synchronous_actions),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_synchronous_acknowledge:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_synchronous_acknowledge));
+
+		if (channel->connected())
+		{
+			handle_synchronous_acknowledge(channel, converter.message_synchronous_acknowledge);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_synchronous_acknowledge,
+				m_message_types->get_message_type_name(_network_message_synchronous_acknowledge),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_synchronous_gamestate:
+	{
+		ASSERT(message_storage_size >= sizeof(s_network_message_synchronous_gamestate));
+
+		if (channel->connected())
+		{
+			handle_synchronous_gamestate(channel, converter.message_synchronous_gamestate, message_storage_size - sizeof(s_network_message_synchronous_gamestate), (byte*)converter.message_synchronous_gamestate + sizeof(s_network_message_synchronous_gamestate));
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_distributed_game_results,
+				m_message_types->get_message_type_name(_network_message_distributed_game_results),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_distributed_game_results:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_distributed_game_results));
+
+		if (channel->connected())
+		{
+			handle_distributed_game_results(channel, converter.message_distributed_game_results);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_distributed_game_results,
+				m_message_types->get_message_type_name(_network_message_distributed_game_results),
+				channel->get_name());
+		}
+	}
+	break;
+	case _network_message_synchronous_client_ready:
+	{
+		handle_synchronous_client_ready(channel);
+	}
+	break;
+	case _custom_network_message_text_chat:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_text_chat));
+
+		if (channel->connected())
+		{
+			handle_text_chat(channel, converter.message_text_chat);
+		}
+	}
+	break;
+	case _network_message_test:
+	{
+		ASSERT(message_storage_size == sizeof(s_network_message_test));
+
+		if (channel->connected())
+		{
+			handle_test(channel, converter.message_test);
+		}
+		else
+		{
+			c_console::write_line("networking:message:handler: %d/%s received over a non-connected channel '%s', discarding",
+				_network_message_distributed_game_results,
+				m_message_types->get_message_type_name(_network_message_distributed_game_results),
+				channel->get_name());
+		}
+	}
+	break;
+	default:
+	{
+		c_console::write_line("networking:messages:handler: type %d/%s not allowed over channel '%s', discarding",
+			message_type,
+			m_message_types->get_message_type_name(message_type),
+			channel->get_name());
+	}
+	break;
+	}
+
+	//DECLFUNC(0x0049C470, void, __thiscall, c_network_message_handler*, c_network_channel*, e_network_message_type, long, void const*)(this, channel, message_type, message_storage_size, message_storage);
 }
 
 void __cdecl c_network_message_handler::handle_ping(transport_address const* address, s_network_message_ping const* message)
@@ -633,13 +1086,6 @@ void __cdecl c_network_message_handler::handle_player_properties(c_network_chann
 	}
 }
 
-// #TODO: this is super temporary and will be removed when `c_network_message_handler::handle_channel_message` gets implemented
-void __fastcall network_message_handler_handle_player_properties(c_network_message_handler* _this, void* unused, c_network_channel* channel, s_network_message_player_properties const* message)
-{
-	_this->handle_player_properties(channel, message);
-}
-HOOK_DECLARE_CALL(0x0049C7E2, network_message_handler_handle_player_properties);
-
 void __cdecl c_network_message_handler::handle_parameters_update(c_network_channel* channel, s_network_message_parameters_update const* message)
 {
 	DECLFUNC(0x0049D550, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_parameters_update const*)(this, channel, message);
@@ -650,9 +1096,9 @@ void __cdecl c_network_message_handler::handle_parameters_request(c_network_chan
 	DECLFUNC(0x0049D4E0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_parameters_request const*)(this, channel, message);
 }
 
-void __cdecl c_network_message_handler::handle_view_establishment(c_network_channel* channel, dword a2, s_network_message_view_establishment const* message)
+void __cdecl c_network_message_handler::handle_view_establishment(c_network_channel* channel, s_network_message_view_establishment const* message)
 {
-	DECLFUNC(0x0049DEC0, void, __cdecl, c_network_channel*, dword, s_network_message_view_establishment const*)(channel, a2, message);
+	DECLFUNC(0x0049DEC0, void, __cdecl, c_network_channel*, s_network_message_view_establishment const*)(channel, message);
 }
 
 void __cdecl c_network_message_handler::handle_player_acknowledge(c_network_channel* channel, s_network_message_player_acknowledge const* message)
@@ -665,9 +1111,9 @@ void __cdecl c_network_message_handler::handle_synchronous_update(c_network_chan
 	DECLFUNC(0x0049DDA0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_synchronous_update const*)(this, channel, message);
 }
 
-void __cdecl c_network_message_handler::handle_synchronous_playback_control(c_network_channel* channel, dword a2, s_network_message_synchronous_playback_control const* message)
+void __cdecl c_network_message_handler::handle_synchronous_playback_control(c_network_channel* channel, s_network_message_synchronous_playback_control const* message)
 {
-	DECLFUNC(0x0049DD10, void, __cdecl, c_network_channel*, dword, s_network_message_synchronous_playback_control const*)(channel, a2, message);
+	DECLFUNC(0x0049DD10, void, __cdecl, c_network_channel*, s_network_message_synchronous_playback_control const*)(channel, message);
 }
 
 void __cdecl c_network_message_handler::handle_synchronous_actions(c_network_channel* channel, s_network_message_synchronous_actions const* message)
@@ -675,14 +1121,14 @@ void __cdecl c_network_message_handler::handle_synchronous_actions(c_network_cha
 	DECLFUNC(0x0049DB80, void, __cdecl, c_network_channel*, s_network_message_synchronous_actions const*)(channel, message);
 }
 
-void __cdecl c_network_message_handler::handle_synchronous_acknowledge(c_network_channel* channel, dword a2, s_network_message_synchronous_acknowledge const* message)
+void __cdecl c_network_message_handler::handle_synchronous_acknowledge(c_network_channel* channel, s_network_message_synchronous_acknowledge const* message)
 {
-	DECLFUNC(0x0049DB00, void, __cdecl, c_network_channel*, dword, s_network_message_synchronous_acknowledge const*)(channel, a2, message);
+	DECLFUNC(0x0049DB00, void, __cdecl, c_network_channel*, s_network_message_synchronous_acknowledge const*)(channel, message);
 }
 
-void __cdecl c_network_message_handler::handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long a3, void const* a4)
+void __cdecl c_network_message_handler::handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long additional_data_size, void const* additional_data)
 {
-	DECLFUNC(0x0049DC70, void, __cdecl, c_network_channel*, s_network_message_synchronous_gamestate const*, long, void const*)(channel, message, a3, a4);
+	DECLFUNC(0x0049DC70, void, __cdecl, c_network_channel*, s_network_message_synchronous_gamestate const*, long, void const*)(channel, message, additional_data_size, additional_data);
 }
 
 void __cdecl c_network_message_handler::handle_distributed_game_results(c_network_channel* channel, s_network_message_distributed_game_results const* message)
@@ -690,7 +1136,12 @@ void __cdecl c_network_message_handler::handle_distributed_game_results(c_networ
 	DECLFUNC(0x0049CE40, void, __cdecl, c_network_channel*, s_network_message_distributed_game_results const*)(channel, message);
 }
 
-void __cdecl c_network_message_handler::handle_text_chat(transport_address const* address, s_network_message_text_chat const* message)
+void __cdecl c_network_message_handler::handle_synchronous_client_ready(c_network_channel* channel)
+{
+	DECLFUNC(0x0049DC10, void, __cdecl, c_network_channel*)(channel);
+}
+
+void __cdecl c_network_message_handler::handle_text_chat(c_network_channel* channel, s_network_message_text_chat const* message)
 {
 	c_network_session* session = m_session_manager->get_session(&message->session_id);
 	if (session)
@@ -702,5 +1153,10 @@ void __cdecl c_network_message_handler::handle_text_chat(transport_address const
 	{
 		c_console::write_line("networking:messages:text chat: received text chat message for invalid session");
 	}
+}
+
+void __cdecl c_network_message_handler::handle_test(c_network_channel* channel, s_network_message_test const* message)
+{
+	//network_test_messages_handle_message(channel, message->in_sequence, message->id);
 }
 
