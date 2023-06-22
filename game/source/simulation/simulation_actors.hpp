@@ -14,3 +14,4 @@ struct c_simulation_actor
 	unit_control_data m_actor_control;
 };
 static_assert(sizeof(c_simulation_actor) == 0x94);
+

@@ -37,3 +37,4 @@ void __cdecl security_get_working_memory(long region, void** out_working_memory,
 {
 	INVOKE(0x00508DB0, security_get_working_memory, region, out_working_memory, out_working_memory_size);
 }
+

@@ -56,7 +56,7 @@ static_assert(sizeof(s_game_statborg_player) == 0x34);
 struct s_game_statborg_team
 {
 	c_static_array<word, 12> statistics;
-	bool __unknown18;
+	bool finalised;
 };
 static_assert(sizeof(s_game_statborg_team) == 0x1A);
 
@@ -68,7 +68,7 @@ struct c_game_statborg
 	c_static_array<s_game_statborg_team, 8>  team;
 	bool stats_paused;
 	c_static_flags<64> update_mask;
-	bool __unknown420;
+	bool finalized;
 };
 static_assert(sizeof(c_game_statborg) == 0x424);
 

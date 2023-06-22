@@ -165,9 +165,6 @@
     <ClCompile Include="source\game\game_engine_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\cseries\symbols_reader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\tag_files\files.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1185,9 +1182,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\game_engine_util.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\cseries\symbols_reader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\config\version.hpp">

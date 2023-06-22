@@ -203,6 +203,7 @@ extern char const* const& k_dvd_font_directory;
 extern char const* const& k_font_package_base_name;
 extern char const* const& k_font_package_suffix;
 
+enum e_language;
 
 extern void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state);
 extern void __cdecl fonts_close_internal(s_font_loading_state* loading_state);
@@ -226,4 +227,5 @@ extern void __cdecl fonts_close();
 extern void __cdecl fonts_copy_to_hard_drive();
 extern void __cdecl font_invalidate_cached_fonts();
 extern void __cdecl fonts_select_language();
-extern void __cdecl get_font_master_filename(dword language, char* buffer, long buffer_size);
+extern void __cdecl get_font_master_filename(e_language language, char* buffer, long buffer_size);
+

@@ -158,3 +158,4 @@ struct c_simulation_type_collection
 	long m_event_type_count;
 	c_static_array<c_simulation_event_definition*, k_simulation_event_type_maximum_count> m_event_definitions;
 };
+

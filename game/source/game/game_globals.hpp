@@ -142,7 +142,7 @@ struct s_game_globals
 	c_typed_tag_block<cinematics_globals_block> cinematics_globals;
 	c_typed_tag_block<s_campaign_metagame_globals> campaign_metagame_globals;
 
-	c_language_pack language_packs[k_language_count];
+	c_static_array<c_language_pack, k_language_count> language_packs;
 
 	// Rasterizer globals
 	c_typed_tag_reference<'rasg'> rasterizer_globals_ref;

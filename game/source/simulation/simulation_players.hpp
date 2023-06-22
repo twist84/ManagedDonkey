@@ -20,3 +20,4 @@ struct c_simulation_player
 	player_action m_action;
 };
 static_assert(sizeof(c_simulation_player) == 0xB0);
+

@@ -124,7 +124,7 @@ void __cdecl font_initialize()
 {
 	INVOKE(0x005093D0, font_initialize);
 
-	//memset(&g_font_globals, 0, sizeof(g_font_globals));
+	//csmemset(&g_font_globals, 0, sizeof(g_font_globals));
 	//g_font_globals.language = _language_invalid;
 	//fonts_select_language();
 	//fonts_copy_to_hard_drive();
@@ -135,7 +135,7 @@ void __cdecl font_initialize()
 	//font_load(&g_font_globals.loading_state, _font_index_none, font_package_filename, false);
 	//font_package_cache_new();
 	//font_cache_new();
-	//g_font_globals.initialized = 1;
+	//g_font_globals.initialized = true;
 }
 
 void __cdecl font_initialize_emergency()
@@ -207,7 +207,7 @@ void __cdecl fonts_select_language()
 {
 	//INVOKE(0x00509AC0, fonts_select_language);
 
-	dword current_language = get_current_language();
+	e_language current_language = get_current_language();
 	if (current_language)
 	{
 		char fonts_package_filename[256]{};
@@ -224,7 +224,7 @@ void __cdecl fonts_select_language()
 	g_font_globals.language = current_language;
 }
 
-void __cdecl get_font_master_filename(dword language, char* buffer, long buffer_size)
+void __cdecl get_font_master_filename(e_language language, char* buffer, long buffer_size)
 {
 	INVOKE(0x00509BB0, get_font_master_filename, language, buffer, buffer_size);
 
@@ -238,5 +238,7 @@ void __cdecl get_font_master_filename(dword language, char* buffer, long buffer_
 	//		csnzappendf(buffer, buffer_size, suffix);
 	//	}
 	//}
-	//return csnzappendf(buffer, buffer_size, k_font_package_suffix);
+	//
+	//csnzappendf(buffer, buffer_size, k_font_package_suffix);
 }
+

@@ -264,7 +264,6 @@ POPD
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\cseries_windows_debug_pc.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
-    <ClCompile Include="source\cseries\symbols_reader.cpp" />
     <ClCompile Include="source\cutscene\cinematics.cpp" />
     <ClCompile Include="source\dialogs\edit_text.cpp" />
     <ClCompile Include="source\editor\editor_stubs.cpp" />
@@ -668,7 +667,6 @@ POPD
     <ClInclude Include="source\cache\security_functions.hpp" />
     <ClInclude Include="source\config\version.hpp" />
     <ClInclude Include="source\cseries\cseries_windows.hpp" />
-    <ClInclude Include="source\cseries\symbols_reader.hpp" />
     <ClInclude Include="source\effects\effects.hpp" />
     <ClInclude Include="source\game\game_engine_default.hpp" />
     <ClInclude Include="source\game\game_engine_util.hpp" />

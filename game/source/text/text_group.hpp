@@ -22,3 +22,4 @@ struct c_language_pack
 	bool data_loaded;
 };
 static_assert(sizeof(c_language_pack) == 0x44);
+
