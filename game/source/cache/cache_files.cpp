@@ -350,7 +350,7 @@ bool __cdecl cache_file_debug_tag_names_load()
 		if (!file_exists(&tag_list_file))
 		{
 			c_console::write_line("cache: load tag names, 'maps\\tag_list.csv' file doesn't exist");
-			return false;
+			return true;
 		}
 
 		dword tag_list_size = 0;
