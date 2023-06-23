@@ -799,29 +799,29 @@ void __cdecl c_network_message_handler::handle_connect_establish(c_network_chann
 
 void __cdecl c_network_message_handler::handle_connect_closed(c_network_channel* channel, s_network_message_connect_closed const* message)
 {
-	DECLFUNC(0x0049CBA0, void, __cdecl, c_network_channel*, s_network_message_connect_closed const*)(channel, message);
+	//DECLFUNC(0x0049CBA0, void, __cdecl, c_network_channel*, s_network_message_connect_closed const*)(channel, message);
 
-	//if (channel->closed())
-	//{
-	//	c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (already closed)",
-	//		channel->get_name());
-	//	return;
-	//}
-	//else if (channel->get_identifier() == message->remote_identifier)
-	//{
-	//	c_console::write_line("networking:channel:connect: '%s' remotely closed (reason #%d: '%s')",
-	//		channel->get_name(),
-	//		message->reason,
-	//		channel->get_closure_reason_string());
-	//	channel->close(_network_connect_closed_reason_remote_closure);
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (closed identifier %d != identifier %d)",
-	//		channel->get_name(),
-	//		message->remote_identifier,
-	//		channel->get_identifier());
-	//}
+	if (channel->closed())
+	{
+		c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (already closed)",
+			channel->get_name());
+	}
+	else if (channel->get_identifier() == message->remote_identifier)
+	{
+		c_console::write_line("networking:channel:connect: '%s' remotely closed (reason #%d: '%s')",
+			channel->get_name(),
+			message->reason,
+			channel->get_closure_reason_string(message->reason));
+
+		channel->close(_network_channel_reason_remote_closure);
+	}
+	else
+	{
+		c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (closed identifier %d != identifier %d)",
+			channel->get_name(),
+			message->remote_identifier,
+			channel->get_identifier());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_join_request(transport_address const* address, s_network_message_join_request const* message)
