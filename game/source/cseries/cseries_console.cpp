@@ -5,11 +5,19 @@
 
 #include <windows.h>
 
+#ifdef _DEBUG
+#define CONSOLE_ENABLED
+#endif // _DEBUG
+#ifdef DEDICATED_SERVER
+#define CONSOLE_ENABLED
+#endif // DEDICATED_SERVER
+
+
 FILE* c_console::m_file;
 
 void c_console::initialize(char const* window_title)
 {
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     AllocConsole();
     AttachConsole(GetCurrentProcessId());
     SetConsoleTitleA(window_title);
@@ -22,7 +30,7 @@ void c_console::initialize(char const* window_title)
 
 void c_console::dispose()
 {
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     fclose(m_file);
 
     FreeConsole();
@@ -41,7 +49,7 @@ void c_console::write(char const* format, ...)
 
     char const* str = s.get_string();
 
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     printf(str);
 #else
     OutputDebugStringA(str);
@@ -61,7 +69,7 @@ void c_console::write_line(char const* format, ...)
 
     char const* str = s.get_string();
 
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     printf(str);
 #else
     OutputDebugStringA(str);
@@ -82,7 +90,7 @@ void c_console::write(wchar_t const* format, ...)
 
     wchar_t const* str = s.get_string();
 
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     wprintf(str);
 #else
     OutputDebugStringW(str);
@@ -102,7 +110,7 @@ void c_console::write_line(wchar_t const* format, ...)
 
     wchar_t const* str = s.get_string();
 
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     wprintf(str);
 #else
     OutputDebugStringW(str);
@@ -118,7 +126,7 @@ void c_console::write(char const* format, va_list list)
 
     char const* str = s.get_string();
 
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     printf(str);
 #else
     OutputDebugStringA(str);
@@ -135,7 +143,7 @@ void c_console::write_line(char const* format, va_list list)
 
     char const* str = s.get_string();
 
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     printf(str);
 #else
     OutputDebugStringA(str);
@@ -151,7 +159,7 @@ void c_console::write(wchar_t const* format, va_list list)
 
     wchar_t const* str = s.get_string();
 
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     wprintf(str);
 #else
     OutputDebugStringW(str);
@@ -168,7 +176,7 @@ void c_console::write_line(wchar_t const* format, va_list list)
 
     wchar_t const* str = s.get_string();
 
-#ifdef _DEBUG
+#ifdef CONSOLE_ENABLED
     wprintf(str);
 #else
     OutputDebugStringW(str);

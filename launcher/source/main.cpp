@@ -1,5 +1,12 @@
 #include "main.hpp"
 
+#ifdef _DEBUG
+#define REMOTE_CONSOLE_ENABLED
+#endif // _DEBUG
+#ifdef DEDICATED_SERVER
+#define REMOTE_CONSOLE_ENABLED
+#endif // DEDICATED_SERVER
+
 int main(int argc, char* argv[])
 {
     if (argc < 3)
@@ -33,10 +40,8 @@ int main(int argc, char* argv[])
     if (DetourCreateProcessWithDllA(ApplicationPath, NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
         return 5;
 
-#ifndef DEDICATED_SERVER
-#ifdef _DEBUG
+#ifndef REMOTE_CONSOLE_ENABLED
     WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
-#endif // _DEBUG
 #else
     // leave enough time for `remote_command_initialize` to be called
     Sleep(1000);
