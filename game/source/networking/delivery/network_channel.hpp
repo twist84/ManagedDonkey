@@ -4,8 +4,8 @@
 #include "memory/bitstream.hpp"
 #include "networking/delivery/network_connection.hpp"
 #include "networking/messages/network_message_queue.hpp"
+#include "shell/shell.hpp"
 
-enum e_network_channel_closure_reason;
 enum e_network_read_result;
 struct c_network_channel_client
 {
@@ -21,8 +21,8 @@ public:
 
 	bool m_allocated;
 	bool read_simulation_data_expected;
-	byte __unknownA;
-	byte __unknownB;
+	bool m_first_fragment_reserved;
+	bool __unknown7;
 };
 static_assert(sizeof(c_network_channel_client) == 0x8);
 
@@ -73,10 +73,12 @@ struct c_network_message_queue : c_network_channel_client
 	c_network_message_type_collection* m_message_types;
 
 	c_sliding_window m_outgoing_window;
-	c_static_array<s_incoming_outgoing_record*, 2> m_outgoing_fragments;
+	s_incoming_fragment_record* m_outgoing_fragment_list_head;
+	s_incoming_fragment_record* m_outgoing_fragment_list_tail;
 
 	c_sliding_window m_incoming_window;
-	c_static_array<s_incoming_fragment_record*, 2> m_incoming_fragments;
+	s_incoming_fragment_record* m_incoming_fragment_list_head;
+	s_incoming_fragment_record* m_incoming_fragment_list_tail;
 
 	long m_outgoing_payload_bytes;
 	long m_incoming_payload_bytes;
@@ -90,9 +92,20 @@ static_assert(sizeof(s_network_channel_client_info) == 0x8);
 
 struct c_network_channel_simulation_interface
 {
+public:
+	void __cdecl notify_closed() const
+	{
+		ASSERT(m_initialized);
+		ASSERT(m_simulation_context != NULL);
+		ASSERT(m_simulation_closure_callback != NULL);
+
+		m_simulation_closure_callback(m_simulation_context);
+	}
+
+protected:
 	bool m_initialized;
 	void* m_simulation_context;
-	void(__cdecl* m_closure_callback)(void*);
+	void(__cdecl* m_simulation_closure_callback)(void*);
 	long m_client_count;
 	s_network_channel_client_info m_clients[4];
 	bool m_authority;
@@ -127,41 +140,27 @@ struct s_channel_configuration;
 struct c_network_message_type_collection;
 struct c_network_channel
 {
-	char const* get_short_name() const
-	{
-		//return m_channel_name;
-		return "";
-	}
+public:
+	static long const k_network_channel_name_size;
 
-	char const* get_name() const
-	{
-		//return m_channel_description;
-		return "";
-	}
+	char const* get_short_name() const;
+	char const* get_name() const;
+	static char const* __cdecl get_closure_reason_string(e_network_channel_closure_reason reason);
+	static char const* __cdecl get_state_string(e_network_channel_state state);
+	dword __cdecl get_remote_identifier() const;
+	dword __cdecl get_identifier() const;
+	bool __cdecl get_remote_address(transport_address* address) const;
+	c_network_message_queue const* __cdecl network_message_queue_get() const;
+	c_network_connection const* __cdecl network_connection_get() const;
+	bool __cdecl allocated() const;
+	e_network_channel_state __cdecl get_state() const;
+	bool __cdecl closed() const;
+	bool __cdecl established() const;
+	bool __cdecl connected() const;
+	void __cdecl close(e_network_channel_closure_reason reason);
+	void __cdecl open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier);
 
-	e_network_channel_state __cdecl get_state() const
-	{
-		return m_channel_state;
-	}
-
-	bool __cdecl connected() const
-	{
-		return get_state() == _network_channel_state_connected;
-	}
-
-	bool __cdecl get_remote_address(transport_address* address) const
-	{
-		ASSERT(address);
-
-		if (get_state() == _network_channel_state_none && get_state() != _network_channel_state_empty)
-		{
-			*address = m_remote_address;
-			return true;
-		}
-
-		return false;
-	}
-
+protected:
 	c_network_link* m_link;
 	c_network_observer* m_observer;
 	c_network_message_gateway* m_message_gateway;
@@ -178,13 +177,17 @@ struct c_network_channel
 	dword m_local_channel_identifier;
 	dword m_remote_channel_identifier;
 	c_enum<e_network_channel_state, long, _network_channel_state_none, k_network_channel_state_count> m_channel_state;
-	long m_channel_closure_reason;
+	c_enum<e_network_channel_closure_reason, long, _network_channel_reason_none, k_network_channel_reason_count> m_channel_closure_reason;
 	transport_address m_local_address;
 	//char m_channel_name[16];
 	//char m_channel_description[256];
 	transport_address m_remote_address;
 
-	byte __dataA2C[0x18];
+	bool m_send_connect_packets;
+	int m_connect_identifier;
+	int m_connect_timestamp;
+	int m_connect_unknown;
+	byte __dataA50[0x8];
 
 	// 0: packets_sent
 	// 5: packets_received

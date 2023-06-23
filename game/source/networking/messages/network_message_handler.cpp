@@ -758,40 +758,43 @@ void __cdecl c_network_message_handler::handle_connect_refuse(c_network_channel*
 
 void __cdecl c_network_message_handler::handle_connect_establish(c_network_channel* channel, s_network_message_connect_establish const* message)
 {
-	DECLFUNC(0x0049CC10, void, __cdecl, c_network_channel*, s_network_message_connect_establish const*)(channel, message);
+	//DECLFUNC(0x0049CC10, void, __cdecl, c_network_channel*, s_network_message_connect_establish const*)(channel, message);
 
-	//if (channel->closed())
-	//{
-	//	c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (currently closed)", channel->get_name(), message->remote_identifier);
-	//}
-	//else if (channel->get_identifier() == message->remote_identifier)
-	//{
-	//	if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
-	//	{
-	//		c_console::write_line("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
-	//			channel->get_name(),
-	//			message->remote_identifier,
-	//			channel->get_remote_identifier());
-	//
-	//		transport_address remote_address{};
-	//		channel->get_remote_address(&remote_address);
-	//		channel->close(_network_connect_closed_reason_connect_reinitiate);
-	//		channel->open(&remote_address, false);
-	//	}
-	//
-	//	c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
-	//		channel->get_name(),
-	//		message->remote_identifier,
-	//		channel->get_identifier());
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
-	//		channel->get_name(),
-	//		message->remote_identifier,
-	//		message->identifier,
-	//		channel->get_identifier());
-	//}
+	if (channel->closed())
+	{
+		c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (currently closed)",
+			channel->get_name(),
+			message->remote_identifier);
+	}
+	else if (channel->get_identifier() == message->remote_identifier)
+	{
+		if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
+		{
+			c_console::write_line("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
+				channel->get_name(),
+				message->remote_identifier,
+				channel->get_remote_identifier());
+	
+			transport_address remote_address{};
+			channel->get_remote_address(&remote_address);
+	
+			channel->close(_network_channel_reason_connect_reinitiate);
+			channel->open(&remote_address, false, channel->network_message_queue_get()->__unknown7 ? NONE : channel->get_identifier());
+		}
+	
+		c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
+			channel->get_name(),
+			message->remote_identifier,
+			channel->get_identifier());
+	}
+	else
+	{
+		c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
+			channel->get_name(),
+			message->remote_identifier,
+			message->identifier,
+			channel->get_identifier());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_connect_closed(c_network_channel* channel, s_network_message_connect_closed const* message)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "networking/delivery/network_channel.hpp"
+#include "shell/shell.hpp"
 
 enum e_network_read_result;
 struct c_bitstream;
@@ -21,9 +22,9 @@ private:
 	virtual void __cdecl notify_packet_retired(long, bool, bool);
 };
 
-enum e_network_channel_closure_reason;
 struct c_replication_telemetry_provider;
-struct c_replication_scheduler : c_network_channel_client
+struct c_replication_scheduler :
+	public c_network_channel_client
 {
 public:
 	virtual char const* __cdecl get_client_name() const;

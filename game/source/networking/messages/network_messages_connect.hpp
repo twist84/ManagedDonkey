@@ -28,7 +28,7 @@ struct s_network_message_connect_closed
 {
 	dword remote_identifier;
 	dword identifier;
-	c_enum<e_network_connect_closed_reason, long, _network_connect_closed_reason_none, k_network_connect_closed_reason_count> reason;
+	c_enum<e_network_channel_closure_reason, long, _network_channel_reason_none, k_network_channel_reason_count> reason;
 };
 static_assert(sizeof(s_network_message_connect_closed) == 0xC);
 
