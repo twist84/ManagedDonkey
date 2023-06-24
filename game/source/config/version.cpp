@@ -1,7 +1,6 @@
 #include "config/version.hpp"
 
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x0189CFD0, bool, k_tracked_build);

@@ -13,10 +13,13 @@
 #endif // DEDICATED_SERVER
 
 
-FILE* c_console::m_file;
+FILE* c_console::m_file = NULL;
+bool c_console::m_initialized = false;
 
 void c_console::initialize(char const* window_title)
 {
+    m_initialized = true;
+
 #ifdef CONSOLE_ENABLED
     AllocConsole();
     AttachConsole(GetCurrentProcessId());
@@ -31,7 +34,10 @@ void c_console::initialize(char const* window_title)
 void c_console::dispose()
 {
 #ifdef CONSOLE_ENABLED
-    fclose(m_file);
+    m_initialized = false;
+
+    if (m_file)
+        fclose(m_file);
 
     FreeConsole();
     PostMessageW(GetConsoleWindow(), WM_CLOSE, 0, 0);
@@ -40,6 +46,9 @@ void c_console::dispose()
 
 void c_console::write(char const* format, ...)
 {
+    if (!m_initialized)
+        return;
+
     c_static_string<4096> s;
 
     va_list list;
@@ -59,6 +68,9 @@ void c_console::write(char const* format, ...)
 
 void c_console::write_line(char const* format, ...)
 {
+    if (!m_initialized)
+        return;
+
     c_static_string<4096> s;
 
     va_list list;
@@ -79,6 +91,9 @@ void c_console::write_line(char const* format, ...)
 
 void c_console::write(wchar_t const* format, ...)
 {
+    if (!m_initialized)
+        return;
+
     c_static_wchar_string<4096> s;
 
     va_list list;
@@ -100,6 +115,9 @@ void c_console::write(wchar_t const* format, ...)
 
 void c_console::write_line(wchar_t const* format, ...)
 {
+    if (!m_initialized)
+        return;
+
     c_static_wchar_string<4096> s;
 
     va_list list;
@@ -120,6 +138,9 @@ void c_console::write_line(wchar_t const* format, ...)
 
 void c_console::write(char const* format, va_list list)
 {
+    if (!m_initialized)
+        return;
+
     c_static_string<4096> s;
 
     s.vprint(format, list);
@@ -136,6 +157,9 @@ void c_console::write(char const* format, va_list list)
 
 void c_console::write_line(char const* format, va_list list)
 {
+    if (!m_initialized)
+        return;
+
     c_static_string<4096> s;
 
     s.vprint(format, list);
@@ -153,6 +177,9 @@ void c_console::write_line(char const* format, va_list list)
 
 void c_console::write(wchar_t const* format, va_list list)
 {
+    if (!m_initialized)
+        return;
+
     c_static_wchar_string<4096> s;
 
     s.vprint(format, list);
@@ -169,6 +196,9 @@ void c_console::write(wchar_t const* format, va_list list)
 
 void c_console::write_line(wchar_t const* format, va_list list)
 {
+    if (!m_initialized)
+        return;
+
     c_static_wchar_string<4096> s;
 
     s.vprint(format, list);

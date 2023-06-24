@@ -1,15 +1,14 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-#include "memory/data.hpp"
-
 #include "ai/ai_globals.hpp"
+#include "cseries/cseries.hpp"
 #include "cutscene/cinematics_definitions.hpp"
 #include "game/campaign_metagame_definitions.hpp"
 #include "game/game_options.hpp"
 #include "game/game_progression.hpp"
 #include "game/materials_definitions.hpp"
 #include "math/function_definitions.hpp"
+#include "memory/data.hpp"
 #include "render/render_visibility_collection.hpp"
 #include "sound/sound_definitions.hpp"
 #include "tag_files/tag_groups.hpp"

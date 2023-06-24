@@ -1,7 +1,6 @@
 #include "rasterizer/rasterizer.hpp"
 
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);

@@ -3,8 +3,11 @@
 #include "memory/module.hpp"
 #include "tag_files/files.hpp"
 #include "tag_files/files_windows.hpp"
+#include "tag_files/tag_groups.hpp"
 
-#include <Windows.h>
+#include <windows.h>
+#include <dbghelp.h>
+#include <Psapi.h>
 
 REFERENCE_DECLARE(0x0238E880, PEXCEPTION_POINTERS, ExceptionPointers);
 
@@ -86,6 +89,73 @@ long __cdecl exceptions_update()
 	HOOK_INVOKE(result =, exceptions_update);
 
 	return result;
+}
+
+void debug_stack_print(void(*console_write_line)(wchar_t const* format, ...), bool include_offset)
+{
+	c_static_wchar_string<4096> trace;
+	trace.append_line(L"Stack Trace:");
+
+	LPVOID stack_frames[128];
+	WORD frame_count = CaptureStackBackTrace(1, NUMBEROF(stack_frames), stack_frames, NULL);
+
+	SYMBOL_INFOW* symbol = (SYMBOL_INFOW*)malloc(sizeof(SYMBOL_INFOW) + 256 * sizeof(wchar_t));
+	if (!symbol)
+		return;
+
+	symbol->MaxNameLen = 255;
+	symbol->SizeOfStruct = sizeof(SYMBOL_INFOW);
+
+	HANDLE process = GetCurrentProcess();
+	SymInitialize(process, NULL, TRUE);
+
+	for (WORD i = 0; i < frame_count; i++)
+	{
+		trace.append_print(L"[%d]\t", i);
+
+		DWORD64 displacement;
+		SymFromAddrW(process, (DWORD64)(stack_frames[i]), &displacement, symbol);
+
+		HMODULE module_handles[128]{};
+		DWORD cbNeeded = 0;
+		if (!EnumProcessModules(process, module_handles, sizeof(module_handles), &cbNeeded))
+			continue;
+
+		for (dword module_index = 0; module_index < (cbNeeded / sizeof(HMODULE)); module_index++)
+		{
+			MODULEINFO module_info{};
+			wchar_t module_filename[MAX_PATH]{};
+
+			if (!module_handles[module_index])
+				goto module_loop_end;
+
+			if (!GetModuleInformation(process, module_handles[module_index], &module_info, sizeof(module_info)))
+				goto module_loop_end;
+
+			if (!IN_RANGE_INCLUSIVE(symbol->Address, (ULONG64)module_info.lpBaseOfDll, (ULONG64)module_info.lpBaseOfDll + module_info.SizeOfImage))
+				goto module_loop_end;
+
+			if (!GetModuleFileNameEx(process, module_handles[module_index], module_filename, sizeof(module_filename) / sizeof(wchar_t)))
+				goto module_loop_end;
+
+			trace.append_print(L"%s!", tag_name_strip_path(module_filename));
+
+		module_loop_end:;
+		}
+
+		trace.append_print(L"%s", symbol->Name);
+		if (include_offset)
+		{
+			trace.append_print(L"+0x%X", displacement - 5 /* take off size of call instruction */);
+		}
+		trace.append_line();
+	}
+
+	SymCleanup(process);
+	free(symbol);
+
+	if (console_write_line)
+		console_write_line(trace.get_string());
 }
 
 

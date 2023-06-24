@@ -1,6 +1,5 @@
 #include "game/game_engine_sandbox.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x0240648C, c_game_engine_sandbox_variant*, sandbox_variant);

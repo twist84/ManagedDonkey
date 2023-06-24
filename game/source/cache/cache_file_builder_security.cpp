@@ -1,7 +1,6 @@
 #include "cache/cache_file_builder_security.hpp"
 
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 
 void __cdecl cache_file_builder_security_clean_header(s_cache_file_header* out_header)
 {

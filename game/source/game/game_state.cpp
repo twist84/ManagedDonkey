@@ -1,8 +1,5 @@
 #include "game/game_state.hpp"
 
-#include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
-
 REFERENCE_DECLARE(0x02344148, s_game_state_globals, game_state_globals);
 
 void __cdecl game_state_prepare_for_revert()

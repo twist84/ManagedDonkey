@@ -1,7 +1,5 @@
 #include "game/game_engine_variant.hpp"
 
-#include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 #include "game/game_engine.hpp"
 #include "game/game_options.hpp"
 #include "memory/byte_swapping.hpp"

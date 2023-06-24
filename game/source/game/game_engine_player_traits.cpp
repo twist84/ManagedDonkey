@@ -1,6 +1,5 @@
 #include "game/game_engine_player_traits.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "game/game_engine_util.hpp"
 #include "memory/byte_swapping.hpp"
 

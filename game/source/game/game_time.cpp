@@ -1,7 +1,5 @@
 #include "game/game_time.hpp"
 
-#include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 #include "memory/thread_local.hpp"
 
 game_time_globals_definition* game_time_globals_get()

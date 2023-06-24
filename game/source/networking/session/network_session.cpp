@@ -1,6 +1,5 @@
 #include "networking/session/network_session.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "interface/c_controller.hpp"
 #include "hf2p/hf2p.hpp"
 #include "memory/module.hpp"

@@ -2,8 +2,6 @@
 
 #include "bink/bink_playback.hpp"
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
-#include "cseries/cseries_windows.hpp"
 #include "game/game.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "main/main_game.hpp"

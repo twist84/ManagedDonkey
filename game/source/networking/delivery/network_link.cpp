@@ -1,6 +1,5 @@
 #include "networking/delivery/network_link.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "memory/bitstream.hpp"
 #include "memory/module.hpp"
 #include "networking/network_memory.hpp"

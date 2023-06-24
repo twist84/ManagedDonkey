@@ -1,6 +1,5 @@
 #include "interface/user_interface_session.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "main/console.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"

@@ -1,6 +1,5 @@
 #include "editor/editor_stubs.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE(0x0042DF80, editor_change_pvs);

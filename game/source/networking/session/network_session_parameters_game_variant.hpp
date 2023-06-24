@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "game/game_options.hpp"
 #include "networking/session/network_session_parameters_chunked.hpp"
 

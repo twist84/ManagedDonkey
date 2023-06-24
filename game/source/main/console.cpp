@@ -1,6 +1,5 @@
 #include "main/console.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "interface/terminal.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"

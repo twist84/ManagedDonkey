@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "networking/network_statistics.hpp"
 #include "networking/transport/transport_address.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"

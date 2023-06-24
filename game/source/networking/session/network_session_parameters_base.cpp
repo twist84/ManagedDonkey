@@ -1,7 +1,5 @@
 #include "networking/session/network_session_parameters_base.hpp"
 
-#include "cseries/cseries_console.hpp"
-
 #include <string>
 
 char const* c_network_session_parameter_base::get_session_description() const

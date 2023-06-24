@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 #include "cseries/cseries.hpp"
 #include "cseries/language.hpp"

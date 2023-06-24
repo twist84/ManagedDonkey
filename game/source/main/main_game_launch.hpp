@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "game/game_options.hpp"
 
 struct s_main_game_launch_globals

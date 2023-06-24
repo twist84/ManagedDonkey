@@ -1,6 +1,5 @@
 #include "networking/tools/http_client.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
 

@@ -7,7 +7,6 @@
 #include "camera/game_director.hpp"
 #include "camera/observer_director.hpp"
 #include "camera/saved_film_director.hpp"
-#include "cseries/cseries_console.hpp"
 #include "interface/first_person_weapons.hpp"
 #include "interface/interface_constants.hpp"
 #include "game/game.hpp"

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_ctf.hpp"
 #include "game/game_engine_slayer.hpp"

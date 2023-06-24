@@ -1,6 +1,6 @@
 #include "game/game_engine_scripting.hpp"
 
-#include "cseries/cseries_console.hpp"
+#include "cseries/cseries.hpp"
 #include "game/game.hpp"
 #include "game/game_engine.hpp"
 #include "game/game_engine_team.hpp"

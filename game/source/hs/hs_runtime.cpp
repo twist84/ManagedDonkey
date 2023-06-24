@@ -1,7 +1,6 @@
 #include "hs/hs_runtime.hpp"
 
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 #include "scenario/scenario.hpp"
 
 //bool hs_evaluate(long, long, hs_destination_pointer, long*)

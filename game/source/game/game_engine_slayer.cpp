@@ -1,7 +1,6 @@
 #include "game/game_engine_slayer.hpp"
 
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D9F70, c_game_engine_slayer_variant*, slayer_variant);

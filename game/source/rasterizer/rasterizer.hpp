@@ -28,7 +28,6 @@ struct c_rasterizer
 	enum e_surface;
 	enum e_sampler_address_mode;
 	enum e_sampler_filter_mode;
-	enum e_separate_alpha_blend_mode;
 	enum e_z_buffer_mode;
 
 	static void __cdecl begin(short_rectangle2d, short_rectangle2d);

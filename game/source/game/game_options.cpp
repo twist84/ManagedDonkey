@@ -1,7 +1,5 @@
 #include "game/game_options.hpp"
 
-#include "cseries/cseries_console.hpp"
-
 #include <string.h>
 
 c_game_variant::c_game_variant()

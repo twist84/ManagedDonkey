@@ -1,7 +1,5 @@
 #include "memory/bitstream.hpp"
 
-#include "cseries/cseries_console.hpp"
-
 
 // ===================== halo 4 begin =====================
 

@@ -1,7 +1,6 @@
 #include "shell/shell.hpp"
 
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 #include "main/main_time.hpp"
 
 REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);

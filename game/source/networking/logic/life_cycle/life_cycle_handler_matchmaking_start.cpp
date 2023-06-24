@@ -1,6 +1,5 @@
 #include "life_cycle_handler_matchmaking_start.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE_CLASS(0x00493980, c_life_cycle_state_handler_matchmaking_start, determine_matchmaking_find_match_role);

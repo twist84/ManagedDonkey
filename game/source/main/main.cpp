@@ -7,8 +7,6 @@
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
-#include "cseries/cseries_console.hpp"
-#include "cseries/cseries_windows.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_candy_monitor.hpp"
 #include "game/game_results.hpp"

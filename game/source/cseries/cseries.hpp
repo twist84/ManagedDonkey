@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "cseries/cseries_windows_debug_pc.hpp"
 #include "math/integer_math.hpp"
@@ -140,10 +141,10 @@ if (!(STATEMENT) || !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, 
     else                                                                                       \
         system_exit();                                                                         \
 }
-#define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) throw #STATEMENT // ASSERT_EXCEPTION((STATEMENT), true, __VA_ARGS__)
+#define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) { debug_stack_print(c_console::write_line, true); throw #STATEMENT; } // ASSERT_EXCEPTION((STATEMENT), true, __VA_ARGS__)
 #else
 #define ASSERT_EXCEPTION(...)
-#define ASSERT(...)
+#define ASSERT(...) (void)(__VA_ARGS__)
 #endif // _DEBUG
 
 extern bool g_catch_exceptions;

@@ -1,6 +1,5 @@
 #include "main/global_preferences.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "interface/user_interface.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/threads.hpp"

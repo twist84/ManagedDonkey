@@ -1,7 +1,5 @@
 #include "life_cycle_manager.hpp"
 
-#include "cseries/cseries_console.hpp"
-
 #include <string>
 
 void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data)

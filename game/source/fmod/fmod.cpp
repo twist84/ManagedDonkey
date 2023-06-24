@@ -1,7 +1,6 @@
 #include "fmod/fmod.hpp"
 
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 
 void __cdecl fmod_initialize()
 {

@@ -19,6 +19,7 @@ public:
     static void write_line(wchar_t const* format, va_list list);
 
 protected:
+    static bool m_initialized;
     static FILE* m_file;
 };
 

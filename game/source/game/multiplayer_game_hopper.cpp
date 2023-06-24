@@ -1,7 +1,5 @@
 #include "game/multiplayer_game_hopper.hpp"
 
-#include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 #include "game/game.hpp"
 #include "main/levels.hpp"
 #include "memory/module.hpp"

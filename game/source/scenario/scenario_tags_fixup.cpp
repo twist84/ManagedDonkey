@@ -1,7 +1,6 @@
 #include "scenario/scenario_tags_fixup.hpp"
 
 #include "cseries/cseries.hpp"
-#include "cseries/cseries_console.hpp"
 
 void __cdecl scenario_tags_fixup()
 {

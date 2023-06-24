@@ -1,7 +1,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include "cseries/cseries_console.hpp"
+#include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
 #include "game/cheats.hpp"

@@ -1,7 +1,5 @@
 #include "tag_files/files.hpp"
 
-#include "cseries/cseries_console.hpp"
-
 #include <string.h>
 
 file_reference_info* file_reference_get_info(s_file_reference* info)

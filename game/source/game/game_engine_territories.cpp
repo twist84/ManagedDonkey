@@ -1,6 +1,5 @@
 #include "game/game_engine_territories.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D9F80, c_game_engine_territories_variant*, territories_variant);

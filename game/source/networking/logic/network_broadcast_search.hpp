@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-
 #include "networking/logic/network_search.hpp"
 
 struct c_network_link;

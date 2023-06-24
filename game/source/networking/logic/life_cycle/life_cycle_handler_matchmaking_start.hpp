@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 
 struct c_life_cycle_state_handler_matchmaking_start : c_life_cycle_state_handler

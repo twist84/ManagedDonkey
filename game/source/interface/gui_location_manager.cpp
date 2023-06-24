@@ -1,6 +1,5 @@
 #include "interface/gui_location_manager.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"

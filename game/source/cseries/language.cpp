@@ -1,6 +1,5 @@
 #include "cseries/language.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "main/main_game.hpp"
 #include "text/font_loading.hpp"

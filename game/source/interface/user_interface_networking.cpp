@@ -1,6 +1,5 @@
 #include "interface/user_interface_networking.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_session.hpp"
 #include "networking/logic/network_life_cycle.hpp"

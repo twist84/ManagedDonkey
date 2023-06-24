@@ -1,7 +1,5 @@
 #include "interface/terminal.hpp"
 
-#include "cseries/cseries_console.hpp"
-#include "input/input.hpp"
 #include "interface/interface_constants.hpp"
 #include "main/console.hpp"
 #include "memory/module.hpp"

@@ -154,12 +154,32 @@ public:
 		ustrnzcat(m_string, s, k_buffer_size);
 	}
 
+	void append_line(wchar_t const* s = nullptr)
+	{
+		if (s != nullptr)
+			ustrnzcat(m_string, s, k_buffer_size);
+		ustrnzcat(m_string, L"\r\n", k_buffer_size);
+	}
+
 	wchar_t const* print(wchar_t const* format, ...)
 	{
 		va_list list;
 		va_start(list, format);
 
 		uvsnzprintf(m_string, k_buffer_size, format, list);
+
+		va_end(list);
+
+		return m_string;
+	}
+
+	wchar_t const* print_line(wchar_t const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		uvsnzprintf(m_string, k_buffer_size, format, list);
+		append_line();
 
 		va_end(list);
 
@@ -182,6 +202,18 @@ public:
 			
 		va_end(list);
 		return m_string;
+	}
+	
+	wchar_t const* append_print_line(wchar_t const* format, ...)
+	{
+		va_list list;
+		va_start(list, format);
+
+		wchar_t const* result = append_vprint(format, list);
+		append_line();
+
+		va_end(list);
+		return result;
 	}
 
 	wchar_t const* append_vprint(wchar_t const* format, va_list list)

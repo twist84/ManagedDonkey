@@ -1,8 +1,6 @@
 #include "game/player_mapping.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "memory/thread_local.hpp"
-
 
 s_player_mapping_globals* player_mapping_globals_get()
 {

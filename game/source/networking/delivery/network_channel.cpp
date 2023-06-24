@@ -1,6 +1,5 @@
 #include "networking/delivery/network_channel.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "networking/messages/network_message_gateway.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
 #include "networking/messages/network_messages_connect.hpp"

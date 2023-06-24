@@ -1,6 +1,5 @@
 #include "tag_files/files_windows.hpp"
 
-#include "cseries/cseries_console.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 
