@@ -78,7 +78,7 @@ struct c_network_observer;
 struct c_simulation_view
 {
 	byte __data0[0x4];
-	c_enum<e_simulation_view_type, long, k_simulation_view_type_count> m_view_type;
+	c_enum<e_simulation_view_type, long, _simulation_view_type_none, k_simulation_view_type_count> m_view_type;
 	long m_view_datum_index;
 	c_simulation_distributed_view* m_distributed_view;
 	c_simulation_world* m_world;
@@ -101,13 +101,13 @@ struct c_simulation_view
 	bool m_simulation_active;
 	dword_flags m_acknowledged_player_mask;
 
-	// synchronous catchup data
-
 	// if (m_view_type == _simulation_view_type_synchronous_to_remote_client)
-	//     __unknown8C = -1;
-	//     __unknown90 = -1;
-	dword __unknown8C;
-	dword __unknown90;
+	//     m_action_number = -1;
+	//     m_update_number = -1;
+	long m_action_number;
+	long m_update_number;
+
+	// synchronous catchup data
 
 	dword m_synchronous_catchup_attempt_count;
 	dword m_synchronous_catchup_update_number;
