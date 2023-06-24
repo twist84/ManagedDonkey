@@ -66,17 +66,17 @@ long c_network_session::current_local_state() const
 
 bool c_network_session::disconnected() const
 {
-	return current_local_state() == 0;
+	return current_local_state() == _network_session_state_none;
 }
 
 bool c_network_session::established() const
 {
-	return current_local_state() >= 4;
+	return current_local_state() >= _network_session_state_peer_established;
 }
 
 bool c_network_session::is_host() const
 {
-	return current_local_state() == 6 || current_local_state() == 7;
+	return current_local_state() == _network_session_state_host_established || current_local_state() == _network_session_state_host_disband;
 }
 
 bool c_network_session::is_leader()
