@@ -759,70 +759,70 @@ void __cdecl c_network_message_handler::handle_connect_refuse(c_network_channel*
 
 void __cdecl c_network_message_handler::handle_connect_establish(c_network_channel* channel, s_network_message_connect_establish const* message)
 {
-	//DECLFUNC(0x0049CC10, void, __cdecl, c_network_channel*, s_network_message_connect_establish const*)(channel, message);
+	DECLFUNC(0x0049CC10, void, __cdecl, c_network_channel*, s_network_message_connect_establish const*)(channel, message);
 
-	if (channel->closed())
-	{
-		c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (currently closed)",
-			channel->get_name(),
-			message->remote_identifier);
-	}
-	else if (channel->get_identifier() == message->remote_identifier)
-	{
-		if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
-		{
-			c_console::write_line("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
-				channel->get_name(),
-				message->remote_identifier,
-				channel->get_remote_identifier());
-
-			transport_address remote_address{};
-			channel->get_remote_address(&remote_address);
-
-			channel->close(_network_channel_reason_connect_reinitiate);
-			channel->open(&remote_address, false, channel->network_message_queue_get()->__unknown7 ? NONE : channel->get_identifier());
-		}
-
-		c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
-			channel->get_name(),
-			message->remote_identifier,
-			channel->get_identifier());
-	}
-	else
-	{
-		c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
-			channel->get_name(),
-			message->remote_identifier,
-			message->identifier,
-			channel->get_identifier());
-	}
+	//if (channel->closed())
+	//{
+	//	c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (currently closed)",
+	//		channel->get_name(),
+	//		message->remote_identifier);
+	//}
+	//else if (channel->get_identifier() == message->remote_identifier)
+	//{
+	//	if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
+	//	{
+	//		c_console::write_line("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
+	//			channel->get_name(),
+	//			message->remote_identifier,
+	//			channel->get_remote_identifier());
+	//
+	//		transport_address remote_address{};
+	//		channel->get_remote_address(&remote_address);
+	//
+	//		channel->close(_network_channel_reason_connect_reinitiate);
+	//		channel->open(&remote_address, false, channel->network_message_queue_get()->__unknown7 ? NONE : channel->get_identifier());
+	//	}
+	//
+	//	c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
+	//		channel->get_name(),
+	//		message->remote_identifier,
+	//		channel->get_identifier());
+	//}
+	//else
+	//{
+	//	c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
+	//		channel->get_name(),
+	//		message->remote_identifier,
+	//		message->identifier,
+	//		channel->get_identifier());
+	//}
 }
 
 void __cdecl c_network_message_handler::handle_connect_closed(c_network_channel* channel, s_network_message_connect_closed const* message)
 {
-	//DECLFUNC(0x0049CBA0, void, __cdecl, c_network_channel*, s_network_message_connect_closed const*)(channel, message);
+	DECLFUNC(0x0049CBA0, void, __cdecl, c_network_channel*, s_network_message_connect_closed const*)(channel, message);
 
-	if (channel->closed())
-	{
-		c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (already closed)",
-			channel->get_name());
-	}
-	else if (channel->get_identifier() == message->remote_identifier)
-	{
-		c_console::write_line("networking:channel:connect: '%s' remotely closed (reason #%d: '%s')",
-			channel->get_name(),
-			message->reason,
-			channel->get_closure_reason_string(message->reason));
-
-		channel->close(_network_channel_reason_remote_closure);
-	}
-	else
-	{
-		c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (closed identifier %d != identifier %d)",
-			channel->get_name(),
-			message->remote_identifier,
-			channel->get_identifier());
-	}
+	//if (channel->closed())
+	//{
+	//	c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (already closed)",
+	//		channel->get_name());
+	//}
+	//else if (channel->get_identifier() == message->remote_identifier)
+	//{
+	//	c_console::write_line("networking:channel:connect: '%s' remotely closed (reason #%d: '%s')",
+	//		channel->get_name(),
+	//		message->reason,
+	//		channel->get_closure_reason_string(message->reason));
+	//
+	//	channel->close(_network_channel_reason_remote_closure);
+	//}
+	//else
+	//{
+	//	c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (closed identifier %d != identifier %d)",
+	//		channel->get_name(),
+	//		message->remote_identifier,
+	//		channel->get_identifier());
+	//}
 }
 
 void __cdecl c_network_message_handler::handle_join_request(transport_address const* address, s_network_message_join_request const* message)
@@ -874,39 +874,39 @@ void __cdecl c_network_message_handler::handle_peer_connect(transport_address co
 
 void __cdecl c_network_message_handler::handle_join_abort(transport_address const* address, s_network_message_join_abort const* message)
 {
-	//DECLFUNC(0x0049CF00, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_abort const*)(this, address, message);
+	DECLFUNC(0x0049CF00, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_abort const*)(this, address, message);
 
-	c_network_session* session = m_session_manager->get_session(&message->session_id);
-	if (session && session->established() && session->is_host())
-	{
-		e_network_join_refuse_reason reason = _network_join_refuse_reason_none;
-		if (session->join_abort(address, message->join_nonce))
-		{
-			reason = _network_join_refuse_reason_aborted;
-		}
-		else
-		{
-			c_console::write_line("networking:messages:join-abort: ignoring unknown abort from '%s'",
-				transport_address_get_string(address));
-			reason = _network_join_refuse_reason_abort_ignored;
-		}
-
-		c_console::write_line("networking:messages:join-abort: received abort, sending join-refusal (%s) to '%s'",
-			network_message_join_refuse_get_reason_string(reason),
-			transport_address_get_string(address));
-
-		s_network_message_join_refuse join_refuse =
-		{
-			.session_id = message->session_id,
-			.reason = reason
-		};
-		m_message_gateway->send_message_directed(address, _network_message_join_refuse, sizeof(s_network_message_join_refuse), &join_refuse);
-	}
-	else
-	{
-		c_console::write_line("networking:messages:join-abort: no session, ignoring join abort from '%s'",
-			transport_address_get_string(address));
-	}
+	//c_network_session* session = m_session_manager->get_session(&message->session_id);
+	//if (session && session->established() && session->is_host())
+	//{
+	//	e_network_join_refuse_reason reason = _network_join_refuse_reason_none;
+	//	if (session->join_abort(address, message->join_nonce))
+	//	{
+	//		reason = _network_join_refuse_reason_aborted;
+	//	}
+	//	else
+	//	{
+	//		c_console::write_line("networking:messages:join-abort: ignoring unknown abort from '%s'",
+	//			transport_address_get_string(address));
+	//		reason = _network_join_refuse_reason_abort_ignored;
+	//	}
+	//
+	//	c_console::write_line("networking:messages:join-abort: received abort, sending join-refusal (%s) to '%s'",
+	//		network_message_join_refuse_get_reason_string(reason),
+	//		transport_address_get_string(address));
+	//
+	//	s_network_message_join_refuse join_refuse =
+	//	{
+	//		.session_id = message->session_id,
+	//		.reason = reason
+	//	};
+	//	m_message_gateway->send_message_directed(address, _network_message_join_refuse, sizeof(s_network_message_join_refuse), &join_refuse);
+	//}
+	//else
+	//{
+	//	c_console::write_line("networking:messages:join-abort: no session, ignoring join abort from '%s'",
+	//		transport_address_get_string(address));
+	//}
 }
 
 void __cdecl c_network_message_handler::handle_join_refuse(transport_address const* address, s_network_message_join_refuse const* message)
