@@ -103,15 +103,15 @@ void debug_stack_print(void(*console_write_line)(wchar_t const* format, ...), bo
 	if (!symbol)
 		return;
 
-	symbol->MaxNameLen = 255;
-	symbol->SizeOfStruct = sizeof(SYMBOL_INFOW);
-
 	HANDLE process = GetCurrentProcess();
 	SymInitialize(process, NULL, TRUE);
 
 	for (WORD i = 0; i < frame_count; i++)
 	{
-		trace.append_print(L"[%d]\t", i);
+		csmemset(symbol, 0, sizeof(SYMBOL_INFOW) + 256 * sizeof(wchar_t));
+
+		symbol->MaxNameLen = 255;
+		symbol->SizeOfStruct = sizeof(SYMBOL_INFOW);
 
 		DWORD64 displacement;
 		SymFromAddrW(process, (DWORD64)(stack_frames[i]), &displacement, symbol);
@@ -120,6 +120,8 @@ void debug_stack_print(void(*console_write_line)(wchar_t const* format, ...), bo
 		DWORD cbNeeded = 0;
 		if (!EnumProcessModules(process, module_handles, sizeof(module_handles), &cbNeeded))
 			continue;
+
+		trace.append_print(L"[%d]\t", i);
 
 		for (dword module_index = 0; module_index < (cbNeeded / sizeof(HMODULE)); module_index++)
 		{
@@ -132,7 +134,7 @@ void debug_stack_print(void(*console_write_line)(wchar_t const* format, ...), bo
 			if (!GetModuleInformation(process, module_handles[module_index], &module_info, sizeof(module_info)))
 				goto module_loop_end;
 
-			if (!IN_RANGE_INCLUSIVE(symbol->Address, (ULONG64)module_info.lpBaseOfDll, (ULONG64)module_info.lpBaseOfDll + module_info.SizeOfImage))
+			if (!IN_RANGE_INCLUSIVE((ULONG64)stack_frames[i], (ULONG64)module_info.lpBaseOfDll, (ULONG64)module_info.lpBaseOfDll + module_info.SizeOfImage))
 				goto module_loop_end;
 
 			if (!GetModuleFileNameEx(process, module_handles[module_index], module_filename, sizeof(module_filename) / sizeof(wchar_t)))
@@ -143,11 +145,18 @@ void debug_stack_print(void(*console_write_line)(wchar_t const* format, ...), bo
 		module_loop_end:;
 		}
 
-		trace.append_print(L"%s", symbol->Name);
-		if (include_offset)
+		if (*symbol->Name)
 		{
-			trace.append_print(L"+0x%X", displacement - 5 /* take off size of call instruction */);
+			trace.append_print(L"%s", symbol->Name);
+			if (include_offset && displacement > 5)
+				trace.append_print(L"+0x%X", displacement - 5 /* take off size of call instruction */);
 		}
+		else
+		{
+			if (include_offset)
+				trace.append_print(L"%08X()", (DWORD64)(stack_frames[i]));
+		}
+
 		trace.append_line();
 	}
 
