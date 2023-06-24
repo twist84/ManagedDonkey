@@ -103,7 +103,7 @@ DATA_PATCH_DECLARE(0x00A8AAE0, dedicated_server_patch, _return); // chud_update
 DATA_PATCH_DECLARE(0x00A9EDF0, dedicated_server_patch, _return); // first_person_weapons_update_camera_estimates
 DATA_PATCH_DECLARE(0x00B26710, dedicated_server_patch, _return); // saber_update
 
-#endif // DEDICATED_MODE
+#endif // DEDICATED_SERVER
 
 
 void copy_input_states(bool enabled)
