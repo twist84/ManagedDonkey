@@ -766,34 +766,36 @@ void __cdecl c_network_message_handler::handle_connect_establish(c_network_chann
 	//		channel->get_name(),
 	//		message->remote_identifier);
 	//}
-	//else if (channel->get_identifier() == message->remote_identifier)
+	//else 
 	//{
-	//	if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
+	//	if (channel->get_identifier() == message->remote_identifier)
 	//	{
-	//		c_console::write_line("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
+	//		if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
+	//		{
+	//			c_console::write_line("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
+	//				channel->get_name(),
+	//				message->remote_identifier,
+	//				channel->get_remote_identifier());
+	//
+	//			transport_address remote_address{};
+	//			channel->get_remote_address(&remote_address);
+	//			channel->close(_network_channel_reason_connect_reinitiate);
+	//			channel->open(&remote_address, false, channel->network_message_queue_get()->__unknown7 ? NONE : channel->get_identifier());
+	//		}
+	//
+	//		c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
 	//			channel->get_name(),
 	//			message->remote_identifier,
-	//			channel->get_remote_identifier());
-	//
-	//		transport_address remote_address{};
-	//		channel->get_remote_address(&remote_address);
-	//
-	//		channel->close(_network_channel_reason_connect_reinitiate);
-	//		channel->open(&remote_address, false, channel->network_message_queue_get()->__unknown7 ? NONE : channel->get_identifier());
+	//			channel->get_identifier());
 	//	}
-	//
-	//	c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
-	//		channel->get_name(),
-	//		message->remote_identifier,
-	//		channel->get_identifier());
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
-	//		channel->get_name(),
-	//		message->remote_identifier,
-	//		message->identifier,
-	//		channel->get_identifier());
+	//	else
+	//	{
+	//		c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
+	//			channel->get_name(),
+	//			message->remote_identifier,
+	//			message->identifier,
+	//			channel->get_identifier());
+	//	}
 	//}
 }
 
@@ -828,21 +830,23 @@ void __cdecl c_network_message_handler::handle_join_request(transport_address co
 {
 	DECLFUNC(0x0049D0C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_request const*)(this, address, message);
 
-	//if (message->protocol != k_network_protocol_version)
+	//if (message->protocol == k_network_protocol_version)
+	//{
+	//	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+	//	{
+	//		if (session->is_host() && !session->handle_join_request(address, message))
+	//		{
+	//			c_console::write_line("networking:messages:join-request: can't handle join-request for '%s' from '%s'",
+	//				transport_secure_identifier_get_string(&message->session_id),
+	//				transport_address_get_string(address));
+	//		}
+	//	}
+	//}
+	//else
 	//{
 	//	c_console::write_line("networking:messages:join-request: received message with incorrect protocol version [%d!=%d]",
 	//		message->protocol,
 	//		k_network_protocol_version);
-	//}
-	//else
-	//{
-	//	c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//	if (session && session->is_host() && !session->handle_join_request(address, message))
-	//	{
-	//		c_console::write_line("networking:messages:join-request: can't handle join-request for '%s' from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			transport_address_get_string(address));
-	//	}
 	//}
 }
 
@@ -850,24 +854,23 @@ void __cdecl c_network_message_handler::handle_peer_connect(transport_address co
 {
 	DECLFUNC(0x0049D5C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_peer_connect const*)(this, address, message);
 
-	//if (message->protocol != k_network_protocol_version)
+	//if (message->protocol == k_network_protocol_version)
 	//{
-	//	c_console::write_line("networking:messages:peer-connect: received message with incorrect protocol version [%d!=%d]",
-	//		message->protocol,
-	//		k_network_protocol_version);
-	//}
-	//else
-	//{
-	//	c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//	if (!session)
+	//	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+	//	{
+	//		session->handle_peer_connect(address, message);
+	//	}
+	//	else
 	//	{
 	//		c_console::write_line("networking:messages:peer-connect: no session, ignoring peer connect from '%s'",
 	//			transport_address_get_string(address));
 	//	}
-	//	else
-	//	{
-	//		session->handle_peer_connect(address, message);
-	//	}
+	//}
+	//else
+	//{
+	//	c_console::write_line("networking:messages:peer-connect: received message with incorrect protocol version [%d!=%d]",
+	//		message->protocol,
+	//		k_network_protocol_version);
 	//}
 }
 
@@ -947,8 +950,7 @@ void __cdecl c_network_message_handler::handle_leave_session(transport_address c
 {
 	DECLFUNC(0x0049D1C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_leave_session const*)(this, address, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session)
+	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
 	//{
 	//	if (session->is_host())
 	//	{
@@ -976,10 +978,10 @@ void __cdecl c_network_message_handler::handle_leave_acknowledge(transport_addre
 {
 	DECLFUNC(0x0049D150, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_leave_acknowledge const*)(this, address, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->leaving_session())
+	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
 	//{
-	//	session->handle_leave_acknowledgement(address);
+	//	if (session->leaving_session())
+	//		session->handle_leave_acknowledgement(address);
 	//}
 	//else
 	//{
@@ -1534,7 +1536,7 @@ void __cdecl c_network_message_handler::handle_text_chat(c_network_channel* chan
 	if (session)
 	{
 		c_console::write_line("networking:messages:text chat: received text chat message for valid session");
-		//session->handle_text_chat(message);
+		//session->handle_text_chat(channel, message);
 	}
 	else
 	{
