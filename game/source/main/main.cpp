@@ -245,133 +245,6 @@ void __cdecl main_loop_body_begin()
 				absolute_index,
 				player->configuration.host.name.get_string());
 		}
-
-		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.get();
-		s_cache_file_resource_gestalt* resource_gestalt = resource_runtime_manager->m_resource_gestalt;
-		c_cache_file_tag_resource_runtime_in_level_memory_manager& in_level_memory_manager = resource_runtime_manager->m_in_level_memory_manager;
-		c_cache_file_resource_header_location_table& resource_header_location_table = in_level_memory_manager.m_resource_header_location_table;
-		c_cache_file_resource_uber_location_table& uber_location_table = resource_header_location_table.m_uber_location_table;
-
-		ASSERT(resource_gestalt->resources.count() <=
-			g_cache_file_globals.resource_file_counts_mapping[0] +
-			g_cache_file_globals.resource_file_counts_mapping[1] +
-			g_cache_file_globals.resource_file_counts_mapping[2] +
-			g_cache_file_globals.resource_file_counts_mapping[3] +
-			g_cache_file_globals.resource_file_counts_mapping[4]);
-
-		long lock = tag_resources_lock_game();
-		for (s_cache_file_tag_resource_data* resource_data : resource_gestalt->resources)
-		{
-			// are these ever non-zero?
-			if (resource_data->file_location.__unknown18 || resource_data->file_location.__unknown1C || resource_data->file_location.__unknown20)
-				throw; // throw if they are!
-
-			// can "flags" be "has optional data"
-			if (resource_data->runtime_data.flags.test(_cache_file_resource_data_flags_has_optional_data))
-				throw; // throw if it can
-
-			char group_string[8]{};
-			tag_to_string(resource_data->runtime_data.owner_tag.group_tag, group_string);
-
-			switch (resource_data->runtime_data.resource_type.get())
-			{
-			case _cache_file_resource_type_structure_bsp_cache_file_tag_resources:
-			{
-				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'sbsp'); // scenario_structure_bsp
-			}
-			break;
-			case _cache_file_resource_type_bitmap_texture_interop_resource:
-			{
-				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'bitm'); // bitmap
-
-				c_console::write_line("resources: ['%s', %08X]",
-					group_string,
-					resource_data->runtime_data.owner_tag.index);
-
-				if (bitmap_group* bitmap_instance = resource_data->runtime_data.owner_tag.cast_to<bitmap_group>())
-				{
-					if (bitmap_instance->flags.test(_bitmap_group_flag_using_tag_interopand_tag_resource_bit))
-					{
-						if (tag_resource_available(&bitmap_instance->hardware_textures[0]))
-						{
-							s_render_texture_descriptor& texture_descriptor = resource_data->runtime_data.control_data.get()->render_texture;
-
-							printf("");
-						}
-
-						printf("");
-					}
-
-					printf("");
-				}
-
-				//c_console::write(", file_location: { file_offset: 0x%08X, file_size: 0x%08X, size: 0x%08X }",
-				//	resource_data->file_location.file_offset,
-				//	resource_data->file_location.file_size,
-				//	resource_data->file_location.size);
-				//
-				//c_console::write(", runtime_data: { resource_type: '%s', name: '%s.%s' }",
-				//	k_cache_file_resource_type_names[resource_data->runtime_data.resource_type.get()],
-				//	resource_data->runtime_data.owner_tag.get_name(),
-				//	resource_data->runtime_data.owner_tag.get_group_name());
-				//
-				//c_console::write_line("");
-			}
-			break;
-			case _cache_file_resource_type_bitmap_texture_interleaved_interop_resource:
-			{
-				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'bitm'); // bitmap
-			}
-			break;
-			case _cache_file_resource_type_sound_resource_definition:
-			{
-				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'snd!'); // sound
-			}
-			break;
-			case _cache_file_resource_type_model_animation_tag_resource:
-			{
-				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'jmad'); // model_animation_graph
-			}
-			break;
-			case _cache_file_resource_type_render_geometry_api_resource_definition:
-			{
-				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'mode' // render_model
-					|| resource_data->runtime_data.owner_tag.group_tag == 'pmdf' // particle_model
-					|| resource_data->runtime_data.owner_tag.group_tag == 'sbsp' // scenario_structure_bsp
-					|| resource_data->runtime_data.owner_tag.group_tag == 'Lbsp' // scenario_lightmap_bsp_data
-				);
-			}
-			break;
-			case _cache_file_resource_type_bink_resource:
-			{
-				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'bink'); // bink
-			}
-			break;
-			case _cache_file_resource_type_structure_bsp_tag_resources:
-			{
-				ASSERT(resource_data->runtime_data.owner_tag.group_tag == 'sbsp'); // scenario_structure_bsp
-			}
-			break;
-			};
-		}
-		tag_resources_unlock_game(lock);
-
-		if (game_in_progress() && !game_is_ui_shell())
-		{
-			TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-
-			long output_user_index = player_mapping_first_active_output_user();
-			long unit_index = player_mapping_get_unit_by_output_user(output_user_index);
-			if (unit_index != 0xFFFFFFFF)
-			{
-				unit_add_grenade_type_to_inventory(unit_index, _grenade_type_frag, 8);
-				unit_add_grenade_type_to_inventory(unit_index, _grenade_type_plasma, 8);
-				unit_add_grenade_type_to_inventory(unit_index, _grenade_type_claymore, 8);
-				unit_add_grenade_type_to_inventory(unit_index, _grenade_type_firebomb, 8);
-			}
-
-			printf("");
-		}
 	}
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
@@ -476,26 +349,12 @@ void __cdecl main_loop_body_end()
 		player_control_toggle_machinima_camera_use_old_controls();
 	}
 
-	static long browser_type = _browser_type_system_link_games;
-	static char const* browser_type_names[k_browser_type_count]
-	{
-		"system link games",
-		"friends games",
-		"xbox live games"
-	};
-
 	if (input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
 	{
-		//browser_type = (browser_type + 1) % k_browser_type_count;
-
-		c_console::write_line("setting browser type: %s", browser_type_names[browser_type]);
 	}
-
 	if (input_key_frames_down(_key_code_keypad_decimal, _input_type_ui) == 1)
 	{
-		load_game_browser(_controller_index0, 0, (e_browser_type)browser_type);
-
-		c_console::write_line("browser type: %s", browser_type_names[browser_type]);
+		load_game_browser(_controller_index0, 0, _browser_type_system_link_games);
 	}
 }
 
