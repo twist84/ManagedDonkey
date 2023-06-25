@@ -279,15 +279,58 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 	return false;
 }
 
+// to mitigate a lot of file read operations we load all of `tags.dat` into this buffer
+// I don't like having this as a global but for right now its fine
+static void* tags_section = nullptr;
+
 void __cdecl cache_file_load_tags_section()
 {
-	INVOKE(0x005028C0, cache_file_load_tags_section);
+	//INVOKE(0x005028C0, cache_file_load_tags_section);
+
+	if (TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
+	{
+		file_reference_create_from_path(&g_cache_file_globals.tags_section, "maps\\tags.dat", false);
+
+		dword error = 0;
+		if (file_open(&g_cache_file_globals.tags_section, FLAG(_file_open_flag_desired_access_read), &error))
+		{
+			dword file_size = 0;
+			file_get_size(&g_cache_file_globals.tags_section, &file_size);
+
+			if (tags_section)
+				free(tags_section);
+
+			if (tags_section = malloc(file_size))
+			{
+				csmemset(tags_section, 0, file_size);
+				file_read(&g_cache_file_globals.tags_section, file_size, false, tags_section);
+			}
+		}
+	}
 }
+HOOK_DECLARE_CALL(0x00502E87, cache_file_load_tags_section);
 
 void __cdecl cache_file_close_tags_section()
 {
-	INVOKE(0x00502900, cache_file_close_tags_section);
+	//INVOKE(0x00502900, cache_file_close_tags_section);
+
+	if (TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
+	{
+		file_close(&g_cache_file_globals.tags_section);
+
+		if (tags_section)
+			free(tags_section);
+	}
 }
+//HOOK_DECLARE(0x00502900, cache_file_close_tags_section);
+
+bool __cdecl tags_section_file_close(s_file_reference* reference)
+{
+	cache_file_close_tags_section();
+
+	return true;
+}
+HOOK_DECLARE_CALL(0x00502F2E, tags_section_file_close);
 
 bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* instance)
 {
@@ -435,8 +478,15 @@ bool __cdecl cache_file_tags_load_allocate()
 	else
 	{
 		s_cache_file_tags_header tags_header{};
-		if (!file_read(&g_cache_file_globals.tags_section, sizeof(s_cache_file_tags_header), false, &tags_header))
-			return false;
+		if (tags_section)
+		{
+			tags_header = *static_cast<s_cache_file_tags_header*>(tags_section);
+		}
+		else
+		{
+			if (!file_read(&g_cache_file_globals.tags_section, sizeof(s_cache_file_tags_header), false, &tags_header))
+				return false;
+		}
 
 		tag_offsets_size = sizeof(long) * tags_header.tag_count;
 		g_cache_file_globals.tag_total_count = tags_header.tag_count;
@@ -460,19 +510,28 @@ bool __cdecl cache_file_tags_load_allocate()
 
 	return result;
 }
+HOOK_DECLARE_CALL(0x00502E9B, cache_file_tags_load_allocate);
 
 bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 {
 	//return INVOKE(0x00502C90, cache_file_tags_section_read, offset, size, buffer);
 
-	if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
-		return cache_file_blocking_read(_cache_file_section_tag, offset, size, buffer);
+	if (TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
+	{
+		if (tags_section)
+		{
+			csmemcpy(buffer, static_cast<byte*>(tags_section) + offset, size);
+			return true;
+		}
 
-	bool result = file_set_position(&g_cache_file_globals.tags_section, offset, 0);
-	if (result)
-		return file_read(&g_cache_file_globals.tags_section, size, false, buffer);
+		bool result = file_set_position(&g_cache_file_globals.tags_section, offset, 0);
+		if (result)
+			return file_read(&g_cache_file_globals.tags_section, size, false, buffer);
+		
+		return result;
+	}
 
-	return result;
+	return cache_file_blocking_read(_cache_file_section_tag, offset, size, buffer);
 }
 
 void __cdecl cache_file_tags_unload()
