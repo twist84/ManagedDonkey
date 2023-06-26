@@ -89,7 +89,11 @@ struct c_simulation_view
 	long m_observer_channel_index;
 	long m_view_death_reason;
 
+	// enum
+	// 0: _simulation_view_establishment_mode_none
+	// 4: _simulation_view_establishment_mode_joining
 	long m_view_establishment_mode;
+
 	dword m_view_establishment_identifier;
 
 	long m_valid_view_establishment_mode;
@@ -114,7 +118,13 @@ struct c_simulation_view
 	dword m_synchronous_catchup_finish_time;
 	dword m_synchronous_catchup_unknownA0;
 	dword m_synchronous_catchup_progress;
-	dword m_synchronous_catchup_unknownA8;
+
+	// enum
+	// 0: _synchronous_catchup_not_in_progress
+	// 
+	// synchronous_catchup_send_data
+	// 1 -> 3 -> 4 -> 5
+	long m_synchronous_catchup_stage;
 
 	// s_network_message_synchronous_gamestate?
 	byte __dataAC[0x10];
