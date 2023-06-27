@@ -86,29 +86,29 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>C:\Games\Halo Online\Halo Online (1.106708 2015-03-20)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetName>game</TargetName>
-    <IntDir>$(SolutionDir)bin\$(TargetName)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\int\$(Configuration)\$(TargetName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugProxy|Win32'">
-    <OutDir>C:\Games\Halo Online\Halo Online (1.106708 2015-03-20)\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetName>D3DX9_43</TargetName>
-    <IntDir>$(SolutionDir)bin\$(TargetName)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\int\$(Configuration)\$(TargetName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>C:\Games\Halo Online\ManagedDonkeyTest\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetName>game</TargetName>
-    <IntDir>$(SolutionDir)bin\$(TargetName)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\int\$(Configuration)\$(TargetName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">
-    <OutDir>C:\Games\Halo Online\ManagedDonkeyTest\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetName>dedicated_server</TargetName>
-    <IntDir>$(SolutionDir)bin\$(TargetName)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\int\$(Configuration)\$(TargetName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseProxy|Win32'">
-    <OutDir>C:\Games\Halo Online\ManagedDonkeyTest\</OutDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <TargetName>D3DX9_43</TargetName>
-    <IntDir>$(SolutionDir)bin\$(TargetName)\$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDir)bin\int\$(Configuration)\$(TargetName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -129,7 +129,7 @@
     </Link>
     <PostBuildEvent>
       <Command>
-PUSHD $(OutDir)
+PUSHD $(LocalDebuggerWorkingDirectory)
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
@@ -154,7 +154,7 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
-PUSHD $(OutDir)
+PUSHD $(LocalDebuggerWorkingDirectory)
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
@@ -183,7 +183,7 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
-PUSHD $(OutDir)
+PUSHD $(LocalDebuggerWorkingDirectory)
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
@@ -212,7 +212,7 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
-PUSHD $(OutDir)
+PUSHD $(LocalDebuggerWorkingDirectory)
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
@@ -241,7 +241,7 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
-PUSHD $(OutDir)
+PUSHD $(LocalDebuggerWorkingDirectory)
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
