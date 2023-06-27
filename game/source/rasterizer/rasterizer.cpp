@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
+#include "tag_files/files.hpp"
 
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
 REFERENCE_DECLARE(0x050DADF8, c_rasterizer::e_separate_alpha_blend_mode, c_rasterizer::g_current_separate_alpha_blend_mode);
@@ -293,5 +294,337 @@ void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool a1, bo
 void __cdecl c_rasterizer::draw_indexed_primitive(c_rasterizer_index_buffer const* a1, long a2, long a3, long a4, long a5)
 {
 	INVOKE(0x00A28270, draw_indexed_primitive, a1, a2, a3, a4, a5);
+}
+
+HBITMAP create_bitmap_handle(HWND window_handle)
+{
+	if (!window_handle)
+	{
+		c_console::write_line("invalid parameter: window handle cannot be NULL");
+
+		return NULL;
+	}
+
+	HDC window_device_context = GetWindowDC(window_handle);
+	if (!window_device_context)
+	{
+		c_console::write_line("could not get the window device context");
+
+		return NULL;
+	}
+
+	RECT window_rect{};
+	if (!GetWindowRect(window_handle, &window_rect))
+	{
+		c_console::write_line("could not get the window rectangle");
+
+		ReleaseDC(window_handle, window_device_context);
+		return NULL;
+	}
+
+	int width = window_rect.bottom - window_rect.top;
+	int height = window_rect.right - window_rect.left;
+
+	if (height <= 0 || width <= 0)
+	{
+		c_console::write_line("invalid window width or height");
+
+		ReleaseDC(window_handle, window_device_context);
+		return NULL;
+	}
+
+	HBITMAP bitmap_handle = CreateCompatibleBitmap(window_device_context, height, width);
+
+	ReleaseDC(window_handle, window_device_context);
+	return bitmap_handle;
+}
+
+bool write_window_to_bitmap(HWND window_handle, HBITMAP bitmap_handle)
+{
+	if (!window_handle)
+	{
+		c_console::write_line("invalid parameter, window handle cannot be NULL");
+
+		return false;
+	}
+
+	if (!bitmap_handle)
+	{
+		c_console::write_line("invalid parameter, handle to bitmap cannot be NULL");
+
+		return false;
+	}
+
+	HDC window_device_context = GetWindowDC(window_handle);
+	if (!window_device_context)
+	{
+		c_console::write_line("could not get window device context for the window");
+
+		return false;
+	}
+
+	HDC memory_device_context = CreateCompatibleDC(window_device_context);
+	if (!memory_device_context)
+	{
+		c_console::write_line("could not create memory device context from window device context");
+
+		ReleaseDC(window_handle, window_device_context);
+		return false;
+	}
+
+	RECT window_rect{};
+	if (!GetWindowRect(window_handle, &window_rect))
+	{
+		c_console::write_line("could not get the window rectangle");
+
+		DeleteDC(memory_device_context);
+		ReleaseDC(window_handle, window_device_context);
+		return false;
+	}
+
+	int width = window_rect.bottom - window_rect.top;
+	int height = window_rect.right - window_rect.left;
+
+	if (height <= 0 || width <= 0)
+	{
+		c_console::write_line("invalid window width or height");
+
+		DeleteDC(memory_device_context);
+		ReleaseDC(window_handle, window_device_context);
+		return false;
+	}
+
+	SelectObject(memory_device_context, bitmap_handle);
+
+	bool result = BitBlt(memory_device_context, 0, 0, height, width, window_device_context, 0, 0, SRCCOPY);
+
+	DeleteDC(memory_device_context);
+	ReleaseDC(window_handle, window_device_context);
+	return result;
+}
+
+bool create_bitmap_info_header(HWND window_handle, HBITMAP bitmap_handle, LPBITMAPINFOHEADER out_bitmap_info_header)
+{
+	if (!window_handle)
+	{
+		c_console::write_line("invalid parameter, window handle cannot be NULL");
+
+		return false;
+	}
+
+	if (!bitmap_handle)
+	{
+		c_console::write_line("invalid parameter, window bitmap handle cannot be NULL");
+
+		return false;
+	}
+
+	if (!out_bitmap_info_header)
+	{
+		c_console::write_line("invalid out parameter, out_bitmap_info_header cannot be NULL");
+
+		return false;
+	}
+
+	BITMAP bitmap{};
+	if (!GetObjectA(bitmap_handle, sizeof(BITMAP), &bitmap))
+	{
+		c_console::write_line("could not get the bitmap object from the bitmap handle");
+
+		return false;
+	}
+
+	word bit_depth = bitmap.bmPlanes * bitmap.bmBitsPixel;
+
+	// 24 bits per pixel
+	// check if `bit_depth` is not a multiple of 8
+	if (((bit_depth - 24) & ~0x8) != 0)
+	{
+		c_console::write_line("invalid bit depth used");
+
+		return false;
+	}
+
+	csmemset(out_bitmap_info_header, 0, sizeof(BITMAPINFOHEADER));
+	out_bitmap_info_header->biPlanes = bitmap.bmPlanes;
+	out_bitmap_info_header->biBitCount = bitmap.bmBitsPixel;
+	out_bitmap_info_header->biWidth = bitmap.bmWidth;
+	out_bitmap_info_header->biSize = sizeof(BITMAPINFOHEADER);
+	out_bitmap_info_header->biHeight = bitmap.bmHeight;
+	out_bitmap_info_header->biCompression = BI_RGB;
+	out_bitmap_info_header->biSizeImage = bitmap.bmWidth * bitmap.bmHeight * bit_depth / 8;
+
+	return true;
+}
+
+bool get_device_context_for_window(HWND window_handle, const char* file_name, HBITMAP bitmap_handle, HDC window_device_context)
+{
+	if (!window_handle)
+	{
+		c_console::write_line("invalid parameter, window handle cannot be NULL");
+
+		return false;
+	}
+
+	if (!file_name)
+	{
+		c_console::write_line("invalid parameter, file_name cannot be NULL");
+
+		return false;
+	}
+
+	if (!bitmap_handle)
+	{
+		c_console::write_line("invalid parameter, window bitmap handle cannot be NULL");
+
+		return false;
+	}
+
+	if (!window_device_context)
+	{
+		c_console::write_line("invalid parameter, window device context cannot be NULL");
+
+		return false;
+	}
+
+	BITMAPINFO bitmap_info{};
+	if (!create_bitmap_info_header(window_handle, bitmap_handle, &bitmap_info.bmiHeader))
+	{
+		c_console::write_line("could not create the bitmap info header");
+
+		return false;
+	}
+
+	void* bitmap_memory = malloc(bitmap_info.bmiHeader.biSizeImage);
+	if (!bitmap_memory)
+	{
+		c_console::write_line("could not allocate memory for the bitmap");
+
+		return false;
+	}
+
+	csmemset(bitmap_memory, 0, bitmap_info.bmiHeader.biSizeImage);
+
+	if (!GetDIBits(window_device_context, bitmap_handle, 0, bitmap_info.bmiHeader.biHeight, bitmap_memory, &bitmap_info, 0))
+	{
+		c_console::write_line("could not get the color array");
+
+		free(bitmap_memory);
+		return false;
+	}
+
+	s_file_reference info{};
+	file_reference_create_from_path(&info, file_name, false);
+	if (!file_create(&info))
+	{
+		c_console::write_line("could not create bitmap file");
+
+		free(bitmap_memory);
+		return false;
+	}
+
+	dword error = 0;
+	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
+	{
+		c_console::write_line("could not open bitmap file");
+
+		free(bitmap_memory);
+		return false;
+	}
+
+	BITMAPFILEHEADER bitmap_file_header =
+	{
+		.bfType = 0x4D42,
+		.bfSize = bitmap_info.bmiHeader.biSize + bitmap_info.bmiHeader.biSizeImage + sizeof(BITMAPFILEHEADER),
+		.bfOffBits = bitmap_info.bmiHeader.biSize + sizeof(BITMAPFILEHEADER)
+	};
+
+	file_write(&info, sizeof(BITMAPFILEHEADER), &bitmap_file_header);
+	file_write(&info, sizeof(BITMAPINFO), &bitmap_info);
+	file_write(&info, bitmap_info.bmiHeader.biSizeImage, bitmap_memory);
+	file_close(&info);
+
+	return true;
+}
+
+bool rasterizer_dump_display_to_bmp(char const* file_name)
+{
+	if (!file_name)
+	{
+		c_console::write_line("invalid parameter, file_name cannot be NULL");
+
+		return false;
+	}
+
+	s_file_reference info{};
+	file_reference_create_from_path(&info, file_name, false);
+	if (file_exists(&info))
+		file_delete(&info);
+
+	REFERENCE_DECLARE(0x0199C014, HWND, window_handle);
+	if (!window_handle)
+		return false;
+
+	//HWND window_handle = FindWindowA(NULL, NULL);
+	//if (!window_handle)
+	//	return false;
+	//
+	//CHAR window_text[1024]{};
+	//DWORD current_process_id = GetCurrentProcessId();
+	//
+	//if (window_handle)
+	//{
+	//	while (true)
+	//	{
+	//		if (!GetParent(window_handle))
+	//		{
+	//			DWORD window_thread_process_id = 0;
+	//			GetWindowThreadProcessId(window_handle, &window_thread_process_id);
+	//			if (current_process_id == window_thread_process_id)
+	//			{
+	//				GetWindowTextA(window_handle, window_text, 1024);
+	//				if (!strcmp(window_text, "Halo IDE"))
+	//					break;
+	//
+	//				if (!strncmp(window_text, "Guerilla", strlen("Guerilla")))
+	//					break;
+	//			}
+	//		}
+	//
+	//		window_handle = GetWindow(window_handle, GW_HWNDNEXT);
+	//		if (!window_handle)
+	//			return false;
+	//	}
+	//}
+
+	HBITMAP bitmap_handle = create_bitmap_handle(window_handle);
+	if (!bitmap_handle)
+	{
+		c_console::write_line("could not create a bitmap handle for the window");
+
+		return false;
+	}
+
+	if (!write_window_to_bitmap(window_handle, bitmap_handle))
+	{
+		c_console::write_line("could not write window to bitmap");
+
+		DeleteObject(bitmap_handle);
+		return false;
+	}
+
+	HDC window_device_context = GetWindowDC(window_handle);
+	if (!window_device_context)
+	{
+		c_console::write_line("could not get the device context for the window");
+
+		return false;
+	}
+
+	bool result = get_device_context_for_window(window_handle, file_name, bitmap_handle, window_device_context);
+
+	ReleaseDC(window_handle, window_device_context);
+	DeleteObject(bitmap_handle);
+	return result;
 }
 

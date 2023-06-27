@@ -4,6 +4,7 @@
 #include "tag_files/files.hpp"
 #include "tag_files/files_windows.hpp"
 #include "tag_files/tag_groups.hpp"
+#include "rasterizer/rasterizer.hpp"
 
 #include <windows.h>
 #include <dbghelp.h>
@@ -66,8 +67,14 @@ long __cdecl exceptions_update()
 {
 	if (ExceptionPointers)
 	{
+		s_file_reference crash_report_directory{};
+		file_reference_create_from_path(&crash_report_directory, "crash_report", true);
+		file_create_parent_directories_if_not_present(&crash_report_directory);
+
+		rasterizer_dump_display_to_bmp("crash_report\\crash_screenshot.bmp");
+
 		s_file_reference file;
-		if (file_reference_create_from_path(&file, "exception.txt", false))
+		if (file_reference_create_from_path(&file, "crash_report\\exception.txt", false))
 		{
 			if (!file_exists(&file))
 				file_create(&file);

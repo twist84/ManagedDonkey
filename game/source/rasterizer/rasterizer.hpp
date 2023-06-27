@@ -300,3 +300,5 @@ struct s_texture_references_block
 };
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 
+extern bool rasterizer_dump_display_to_bmp(char const* file_name);
+
