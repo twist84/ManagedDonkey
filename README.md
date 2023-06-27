@@ -1,4 +1,5 @@
 [![wakatime](https://wakatime.com/badge/github/theTwist84/ManagedDonkey.svg)](https://wakatime.com/badge/github/theTwist84/ManagedDonkey)
+[![Build status](https://ci.appveyor.com/api/projects/status/ha46jv9ytnxwlfr4/branch/main?svg=true)](https://ci.appveyor.com/project/theTwist84/ManagedDonkey/branch/main)
 
 ## What is this?
 This is Donkey, a project I started back in August 2022 after years of reverse engineering the Halo engine and learning C++ while I went.
