@@ -54,7 +54,7 @@ struct s_find_file_data
 			dword dwReserved1;
 			wchar_t  cFileName[260];
 			wchar_t  cAlternateFileName[14];
-#ifdef _MAC
+#if defined(_MAC)
 			dword dwFileType;
 			dword dwCreatorType;
 			word  wFinderFlags;

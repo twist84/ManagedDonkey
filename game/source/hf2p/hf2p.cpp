@@ -160,7 +160,7 @@ s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 	//loadout.grenade_index = _grenade_type_firebomb;
 
 	// #TODO: pull this from a config file
-#ifdef _DEBUG
+#if defined(_DEBUG)
 	loadout.bungienet_user.set(_bungienet_user_bungie, true);
 #else
 	loadout.bungienet_user.set(_bungienet_user_seventh_column, true);

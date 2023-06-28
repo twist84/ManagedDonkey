@@ -60,7 +60,7 @@ HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 
-#ifdef DEDICATED_SERVER
+#if defined(DEDICATED_SERVER)
 
 byte const nop[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
 DATA_PATCH_DECLARE(0x004370F9, dedicated_server_patch, nop);	// unskip peer request player add status
@@ -249,7 +249,7 @@ void __cdecl main_loop_body_begin()
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)
 	{
-#ifdef ISEXPERIMENTAL
+#if defined(ISEXPERIMENTAL)
 		console_process_command("net_session_create multiplayer system_link", true);
 		console_process_command("net_load_and_use_map_variant \"ed\\0.4.11.2\\maps\\Highlander - Air Ball.bin\"", true);
 		console_process_command("net_load_and_use_game_variant \"ed\\0.4.11.2\\variants\\Highlander - Air Ball.bin\"", true);

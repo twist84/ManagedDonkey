@@ -4,7 +4,7 @@
 #include "networking/logic/storage/network_http_buffer_downloader.hpp"
 #include "memory/module.hpp"
 
-#ifdef ISEXPERIMENTAL
+#if defined(ISEXPERIMENTAL)
 
 e_download_status __fastcall sub_AE74E0(c_http_blf_simple_downloader<s_motd_popup_data>* _this, void* unused, char const** out_buffer, long* out_buffer_size)
 {

@@ -14,7 +14,7 @@ void process_attach(HMODULE hModule)
 	DisableThreadLibraryCalls(hModule);
 	SetProcessDPIAware();
 
-#ifdef ISPROXY
+#if defined(ISPROXY)
 	LoadLibraryW(L"D3DX9_43_orig.dll");
 #endif // ISPROXY
 
@@ -55,7 +55,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 	return TRUE;
 }
 
-#ifndef ISPROXY
+#if !defined(ISPROXY)
 // needed for `DetourCreateProcessWithDllA`
 extern "C" __declspec(dllexport) void null_export(void)
 {

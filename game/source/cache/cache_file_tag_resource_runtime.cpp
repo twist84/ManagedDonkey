@@ -14,7 +14,7 @@ HOOK_DECLARE(0x00563E10, tag_resource_get);
 
 #define ISEXPERIMENTAL
 
-#ifdef ISEXPERIMENTAL
+#if defined(ISEXPERIMENTAL)
 
 struct c_runtime_resource_cache_file_decompressor :
 	public c_cache_file_decompressor

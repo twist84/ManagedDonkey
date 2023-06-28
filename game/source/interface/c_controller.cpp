@@ -4,7 +4,7 @@
 
 REFERENCE_DECLARE(0x0524EC48, s_controller_globals, g_controller_globals);
 
-#ifdef _DEBUG
+#if defined(_DEBUG)
 
 // simulate added controllers
 c_controller_interface* __cdecl controller_get_hook(e_controller_index controller_index)

@@ -160,7 +160,7 @@ long __cdecl main_loading_get_gui_game_mode()
 //enum e_main_pregame_frame __cdecl main_loading_get_loading_status(class c_static_wchar_string<12288> *)
 long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_status)
 {
-#ifdef _DEBUG
+#if defined(_DEBUG)
 	loading_globals_spinner_enabled = true;
 #endif // _DEBUG
 

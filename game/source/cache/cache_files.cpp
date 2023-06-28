@@ -983,7 +983,7 @@ void tag_group_modification_apply(e_instance_modification_stage stage)
 
 #define ISEXPERIMENTAL
 
-#ifdef ISEXPERIMENTAL
+#if defined(ISEXPERIMENTAL)
 
 void bitmap_fixup(cache_file_tag_instance* instance, s_resource_file_header const* file_header)
 {
@@ -1191,7 +1191,7 @@ bool load_external_resource(s_file_reference* file)
 
 void load_external_files()
 {
-#ifdef ISEXPERIMENTAL
+#if defined(ISEXPERIMENTAL)
 
 	s_file_reference search_directory{};
 

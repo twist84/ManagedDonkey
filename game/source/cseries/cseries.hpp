@@ -131,7 +131,7 @@ constexpr bool pointer_is_aligned(void* pointer, long alignment_bits)
 	return ((unsigned long)pointer & ((1 << alignment_bits) - 1)) == 0;
 }
 
-#ifdef _DEBUG
+#if defined(_DEBUG)
 #define ASSERT_EXCEPTION(STATEMENT, IS_EXCEPTION, ...) \
 if (!(STATEMENT) || !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
 {                                                                                              \
