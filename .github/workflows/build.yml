@@ -1,0 +1,37 @@
+name: build
+
+on: [ push, pull_request ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-win:
+    env:
+      SOLUTION_FILE_PATH: .
+      PLATFORM: x86
+
+    strategy:
+      matrix:
+        BUILD_CONFIGURATION: [ Debug, DebugProxy, Release, ReleaseProxy, ReleaseDedicated ]
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Initialize Submodules 
+      uses: snickerbockers/submodules-init@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Build
+      working-directory: ${{ env.GITHUB_WORKSPACE }}
+      run: msbuild /m /verbosity:minimal /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ env.PLATFORM }} ${{ matrix.SOLUTION_FILE_PATH }}
+
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.BUILD_CONFIGURATION }}
+        path: ./bin/${{ matrix.BUILD_CONFIGURATION }}/
