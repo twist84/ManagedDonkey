@@ -129,7 +129,10 @@
     </Link>
     <PostBuildEvent>
       <Command>
+IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
+
 PUSHD $(LocalDebuggerWorkingDirectory)
+COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
@@ -154,7 +157,10 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
+IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
+
 PUSHD $(LocalDebuggerWorkingDirectory)
+COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
@@ -183,7 +189,10 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
+IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
+
 PUSHD $(LocalDebuggerWorkingDirectory)
+COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
@@ -212,7 +221,10 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
+IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
+
 PUSHD $(LocalDebuggerWorkingDirectory)
+COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
@@ -241,7 +253,10 @@ POPD
     </Link>
     <PostBuildEvent>
       <Command>
+IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
+
 PUSHD $(LocalDebuggerWorkingDirectory)
+COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>

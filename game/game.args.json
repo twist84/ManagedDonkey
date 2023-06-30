@@ -1,0 +1,10 @@
+{
+  "FileVersion": 2,
+  "Id": "fb59080f-57e1-4857-9a57-333f885779bb",
+  "Items": [
+    {
+      "Id": "0529fe8f-b816-49e5-b156-8f98c56ec22f",
+      "Command": "eldorado.exe $(TargetFileName)"
+    }
+  ]
+}

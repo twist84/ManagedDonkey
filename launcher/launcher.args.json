@@ -1,0 +1,14 @@
+{
+  "FileVersion": 2,
+  "Id": "f16090b0-3456-4a56-9542-4243eb165cd2",
+  "Items": [
+    {
+      "Id": "befab16a-e08e-4e9a-aa1f-82a1d92faf9b",
+      "Command": "eldorado.exe game.dll"
+    },
+    {
+      "Id": "8cd32b7a-d32e-4d33-90f0-be85eafe3e08",
+      "Command": "eldorado.exe dedicated_server.dll"
+    }
+  ]
+}
