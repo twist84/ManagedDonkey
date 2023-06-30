@@ -298,7 +298,10 @@ void __cdecl cache_file_load_tags_section()
 			file_get_size(&g_cache_file_globals.tags_section, &file_size);
 
 			if (tags_section)
+			{
 				free(tags_section);
+				tags_section = nullptr;
+			}
 
 			if (tags_section = malloc(file_size))
 			{
@@ -319,7 +322,10 @@ void __cdecl cache_file_close_tags_section()
 		file_close(&g_cache_file_globals.tags_section);
 
 		if (tags_section)
+		{
 			free(tags_section);
+			tags_section = nullptr;
+		}
 	}
 }
 //HOOK_DECLARE(0x00502900, cache_file_close_tags_section);
