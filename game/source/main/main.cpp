@@ -118,37 +118,46 @@ void copy_input_states(bool enabled)
 
 struct s_location_message
 {
-	real_point3d position;
+	long map_id;
 	real radius;
+	real_point3d position;
 	wchar_t const* message;
 };
 
 static s_location_message location_messages[] =
 {
-	// valhalla
-	{ { 80.8f, -72.4f, 6.7f }, 2.0f, L"a player took the lake base center man cannon" }
+	{ .map_id = 340, .radius = 2.0f, .position = { 80.8f, -72.4f, 6.7f }, .message = L"a player took the lake base center man cannon" }
 };
 
 void show_location_messages()
 {
 	static real last_message_time = game_time_get_safe_in_seconds();
 
-	long location_message_index = -1;
+	if (!game_in_progress())
+		return;
+
+	long map_id = game_options_get()->map_id;
+
+	s_location_message* found_location_message = nullptr;
 	for (long i = 0; i < NUMBEROF(location_messages); i++)
 	{
-		if (!game_engine_player_is_nearby(&location_messages[i].position, location_messages[i].radius))
+		s_location_message& location_message = location_messages[i];
+		if (location_message.map_id != map_id)
 			continue;
 
-		location_message_index = i;
+		if (!game_engine_player_is_nearby(&location_message.position, location_message.radius))
+			continue;
+
+		found_location_message = &location_message;
 		break;
 	}
 
-	if (location_message_index == -1)
+	if (found_location_message == nullptr)
 		return;
 
 	if ((last_message_time + 1.0f) < game_time_get_safe_in_seconds())
 	{
-		chud_messaging_post(player_mapping_first_active_output_user(), location_messages[location_message_index].message, _chud_message_context_self);
+		chud_messaging_post(player_mapping_first_active_output_user(), found_location_message->message, _chud_message_context_self);
 		last_message_time = game_time_get_safe_in_seconds();
 	}
 }
