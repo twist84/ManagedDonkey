@@ -78,23 +78,9 @@ struct c_cache_file_streamed_sublocation_decompressor :
 		throw;
 	}
 
-	struct // s_cache_file_resource_streaming_sublocation_table?
-	{
-		long __unknown0;
-		long __unknown4;
-
-		struct
-		{
-			long __unknown0;
-			long __unknown4;
-		}*__unknown8;
-		static_assert(sizeof(*__unknown8) == 0x8);
-
-	}*__unknown4;
-	static_assert(sizeof(*__unknown4) == 0xC);
-
+	s_cache_file_resource_streaming_sublocation_table* m_streaming_sublocation_table;
 	c_basic_buffer<void> __buffer8;
-	char* __unknown10;
+	byte* __unknown10;
 	c_basic_buffer<void> __buffer14;
 };
 static_assert(sizeof(c_cache_file_streamed_sublocation_decompressor) == sizeof(c_cache_file_decompressor) + 0x18);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cache/cache_file_tag_resource_location_table.hpp"
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 #include "tag_files/tag_resource_internals.hpp"
@@ -50,11 +51,7 @@ struct s_cache_file_resource_file_location
 	dword file_size;
 	dword size;
 	dword checksum;
-	short resource_reference_count;
-	short streaming_sublocation_table; // short_block_index
-	dword __unknown18;
-	dword __unknown1C;
-	dword __unknown20;
+	s_cache_file_resource_streaming_sublocation_table streaming_sublocation_table;
 };
 static_assert(sizeof(s_cache_file_resource_file_location) == 0x24);
 
