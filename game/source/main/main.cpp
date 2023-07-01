@@ -32,6 +32,8 @@
 #include "memory/data.hpp"
 #include "memory/thread_local.hpp"
 #include "memory/module.hpp"
+#include "multithreading/synchronization.hpp"
+#include "multithreading/threads.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
 #include "networking/logic/network_join.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -48,6 +50,7 @@
 #include "text/font_loading.hpp"
 #include "visibility/visibility_collection.hpp"
 
+REFERENCE_DECLARE(0x0189D044, bool, g_force_upload_even_if_untracked);
 REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
 REFERENCE_DECLARE(0x022B473C, bool, g_main_game_exit);
 
@@ -172,6 +175,59 @@ void __cdecl main_exit_game()
 	//INVOKE(0x005056D0, main_exit_game);
 
 	g_main_game_exit = true;
+}
+
+void __cdecl main_halt_and_catch_fire()
+{
+	INVOKE(0x00505710, main_halt_and_catch_fire);
+
+	//REFERENCE_DECLARE(0x022B47B4, long, main_globals_main_loop_pregame_entered);
+	//REFERENCE_DECLARE(0x022B47F0, bool, byte_22B47F0);
+	//REFERENCE_DECLARE(0x022B47F1, bool, byte_22B47F1);
+	//
+	//if (is_main_thread())
+	//	main_globals_main_loop_pregame_entered++;
+	//
+	//if (byte_22B47F0)
+	//{
+	//	if (!byte_22B47F1)
+	//	{
+	//		byte_22B47F1 = true;
+	//
+	//		c_console::write_line("crash: recursion lock triggered!");
+	//
+	//		exit(-1);
+	//	}
+	//
+	//	c_console::write_line("crash: ### CATASTROPHIC ERROR: halt_and_catch_fire: recursion lock triggered while exiting! (Someone probably smashed memory all to bits)");
+	//
+	//	abort();
+	//}
+	//
+	//if (is_main_thread())
+	//	main_globals_main_loop_pregame_entered++;
+	//
+	//release_locks_safe_for_crash_release();
+	//byte_22B47F0 = true;
+	//c_console::write_line("lifecycle: CRASH");
+	//main_status("system_milliseconds", "time %d", system_milliseconds());
+	//main_status_dump(nullptr);
+	//font_initialize_emergency();
+	//online_process_debug_output_queue();
+	//transport_initialize();
+	//input_clear_all_rumblers();
+	//progress_set_default_callbacks(nullptr);
+	//c_online_lsp_manager::get()->go_into_crash_mode();
+	//network_webstats_force_reset();
+	//user_interface_networking_set_ui_upload_quota(NONE);
+	//
+	//char Dst[256]{};
+	//game_state_debug_server_file_uploading_enabled(Dst);
+	//
+	//byte_22B47F0 = false;
+	//
+	//if (is_main_thread())
+	//	main_globals_main_loop_pregame_entered--;
 }
 
 void __cdecl game_dispose_hook_for_console_dispose()
@@ -482,5 +538,47 @@ void __cdecl main_loop_status_message(wchar_t const* status_message)
 	main_render_status_message(status_message);
 	main_time_throttle(0);
 	c_rasterizer::end_frame();
+}
+
+//main_status
+
+struct s_file_reference;
+void __cdecl main_status_dump(s_file_reference* file)
+{
+	INVOKE(0x00507100, main_status_dump, file);
+}
+
+void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context)
+{
+	//INVOKE(0x0066D180, main_write_stack_to_crash_info_status_file, crash_info, context);
+
+	s_file_reference crash_info_output_file{};
+	file_reference_create_from_path(&crash_info_output_file, "crash_report\\crash_info.txt", false);
+	file_create_parent_directories_if_not_present(&crash_info_output_file);
+
+	if (file_exists(&crash_info_output_file))
+		file_delete(&crash_info_output_file);
+
+	dword error = 0;
+	if (file_create(&crash_info_output_file) && file_open(&crash_info_output_file, FLAG(_file_open_flag_desired_access_write), &error))
+	{
+		char const* _string = "stack:\r\n";
+		file_write(&crash_info_output_file, strlen(_string), _string);
+
+		//if (context)
+		//	stack_walk_with_context(&crash_info_output_file, 1, (CONTEXT*)context);
+		//else
+		//	stack_walk_to_file(&crash_info_output_file, 3);
+
+		stack_walk(&crash_info_output_file, context ? 1 : 3, (CONTEXT*)context);
+
+		if (crash_info)
+			file_write(&crash_info_output_file, strlen(crash_info), crash_info);
+
+		main_status("system_milliseconds", "time %d", system_milliseconds());
+		main_status_dump(&crash_info_output_file);
+
+		file_close(&crash_info_output_file);
+	}
 }
 

@@ -3,6 +3,7 @@
 #include "cseries/cseries_console.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "cseries/cseries_windows_debug_pc.hpp"
+#include "cseries/stack_walk_windows.hpp"
 #include "math/integer_math.hpp"
 #include "math/real_math.hpp"
 
@@ -141,13 +142,14 @@ if (!(STATEMENT) || !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, 
     else                                                                                       \
         system_exit();                                                                         \
 }
-#define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) { debug_stack_print(c_console::write_line, true); throw #STATEMENT; } // ASSERT_EXCEPTION((STATEMENT), true, __VA_ARGS__)
+#define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) ASSERT_EXCEPTION(STATEMENT, true, __VA_ARGS__)
 #else
 #define ASSERT_EXCEPTION(...)
 #define ASSERT(...) (void)(__VA_ARGS__)
 #endif // _DEBUG
 
-extern bool g_catch_exceptions;
+extern bool& g_catch_exceptions;
+
 extern void display_assert(char const* statement, char const* file, long line, bool is_assert);
 extern bool handle_assert_as_exception(char const* statement, char const* file, long line, bool is_exception);
 
@@ -813,6 +815,11 @@ public:
 		s.set_bounded(get_offset(index), _length);
 
 		return true;
+	}
+
+	operator char const* ()
+	{
+		return m_string;
 	}
 
 protected:

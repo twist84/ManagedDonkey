@@ -771,6 +771,9 @@
     <ClCompile Include="source\networking\delivery\network_channel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\stack_walk_windows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2010,6 +2013,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\session\network_session_state.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\stack_walk_windows.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

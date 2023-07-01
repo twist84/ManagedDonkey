@@ -14,3 +14,5 @@ protected:
 	c_synchronized_long m_critical_section_entered;
 };
 
+extern void __cdecl release_locks_safe_for_crash_release();
+

@@ -21,3 +21,8 @@ c_critical_section_scope::~c_critical_section_scope()
 	DECLFUNC(0x0052C4E0, void, __cdecl, c_synchronized_long)(m_critical_section_id);
 }
 
+void __cdecl release_locks_safe_for_crash_release()
+{
+	INVOKE(0x0052C9C0, release_locks_safe_for_crash_release);
+}
+

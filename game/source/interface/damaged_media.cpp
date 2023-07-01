@@ -16,7 +16,7 @@ void damaged_media_exception()
 {
     //HOOK_INVOKE(, damaged_media_exception);
 
-    if (!IsDebuggerPresent())
+    if (!is_debugger_present())
         throw fatal_error_message;
 
     DebugBreak();

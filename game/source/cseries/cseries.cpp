@@ -1,8 +1,12 @@
 #define _CRT_SECURE_NO_WARNINGS // strncpy
 
+#include "config/version.hpp"
 #include "cseries/cseries.hpp"
-
+#include "editor/editor_stubs.hpp"
+#include "interface/damaged_media.hpp"
+#include "main/main.hpp"
 #include "memory/byte_swapping.hpp"
+#include "multithreading/synchronized_value.hpp"
 #include "multithreading/threads.hpp"
 #include "shell/shell.hpp"
 #include "tag_files/string_ids.hpp"
@@ -11,6 +15,9 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
+
+REFERENCE_DECLARE(0x0189CD4C, bool, g_catch_exceptions);
 
 REFERENCE_DECLARE(0x0189CD54, real_argb_color const* const, global_real_argb_white);
 REFERENCE_DECLARE(0x0189CD58, real_argb_color const* const, global_real_argb_grey);
@@ -47,12 +54,77 @@ REFERENCE_DECLARE(0x0189CDD0, real_rgb_color const* const, global_real_rgb_darkg
 REFERENCE_DECLARE(0x0189CDD4, real_rgb_color const* const, global_real_rgb_salmon);
 REFERENCE_DECLARE(0x0189CDD8, real_rgb_color const* const, global_real_rgb_violet);
 
-bool g_catch_exceptions = true;
+//bool set_catch_exceptions = []() -> bool
+//{
+//	g_catch_exceptions = false;
+//
+//	return true;
+//}();
+
+static c_interlocked_long g_entry_gate;
 
 void display_assert(char const* statement, char const* file, long line, bool is_assert)
 {
-	// incorrect behaviour but oh well
-	shell_halt_with_message(statement);
+	for (long i = g_entry_gate.set_if_equal(0, 1); i == 1; g_entry_gate.set_if_equal(0, 1))
+		switch_to_thread();
+
+	c_static_string<1156> crash_info;
+
+	if (is_assert && !is_debugger_present())
+	{
+		//stack_walk(1);
+		editor_save_progress();
+	}
+
+	if (is_debugger_present())
+	{
+		c_console::write_line("%s(%d): %s: %s",
+			file,
+			line,
+			is_assert ? "ASSERT" : "WARNING",
+			statement ? statement : "");
+		crash_info.print("halt:\r\n%s(%d): %s: %s\r\n",
+			file,
+			line,
+			is_assert ? "ASSERT" : "WARNING",
+			statement ? statement : "");
+	}
+	else
+	{
+		c_console::write_line("%s",
+			version_get_full_string());
+		crash_info.print("version:\r\n%s\r\n",
+			version_get_full_string());
+
+		c_console::write_line("%s at %s,#%d",
+			is_assert ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
+			file,
+			line);
+		crash_info.append_print("halt:\r\n%s at %s,#%d\r\n",
+			is_assert ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
+			file,
+			line);
+
+		if (statement)
+		{
+			c_console::write_line("  %s", statement);
+			crash_info.append_print("halt information:\r\n  %s\r\n", statement);
+		}
+	}
+
+	main_write_stack_to_crash_info_status_file(crash_info, nullptr);
+
+	if (is_assert)
+	{
+		//call_fatal_error_callbacks();
+
+		if (k_tracked_build)
+			RaiseException('stk', 0, 0, nullptr);
+
+		main_halt_and_catch_fire();
+	}
+
+	g_entry_gate.set(0);
 }
 
 bool handle_assert_as_exception(char const* statement, char const* file, long line, bool is_exception)

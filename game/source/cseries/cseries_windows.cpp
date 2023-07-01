@@ -1,6 +1,7 @@
 #include "cseries/cseries_windows.hpp"
 
 #include "cseries/cseries.hpp"
+#include "main/main.hpp"
 
 #include <windows.h>
 
@@ -28,7 +29,7 @@ unsigned long system_milliseconds()
 
 void system_abort()
 {
-    //main_halt_and_catch_fire();
+    main_halt_and_catch_fire();
 }
 
 // __trap()
