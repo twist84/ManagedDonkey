@@ -217,7 +217,7 @@ long __cdecl exceptions_update()
 	c_console::write_line("crash: ");
 
 	dword exception_address = g_exception_information.exception_address;
-	char const* symbol_name = ""; //symbol_name_from_address(g_exception_information.exception_address, 0, 0);
+	char const* symbol_name = symbol_name_from_address(g_exception_information.exception_address, nullptr);
 
 	c_console::write_line("crash: ");
 

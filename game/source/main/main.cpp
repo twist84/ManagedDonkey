@@ -565,12 +565,10 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 		char const* _string = "stack:\r\n";
 		file_write(&crash_info_output_file, strlen(_string), _string);
 
-		//if (context)
-		//	stack_walk_with_context(&crash_info_output_file, 1, (CONTEXT*)context);
-		//else
-		//	stack_walk_to_file(&crash_info_output_file, 3);
-
-		stack_walk(&crash_info_output_file, context ? 1 : 3, (CONTEXT*)context);
+		if (context)
+			stack_walk_with_context(&crash_info_output_file, 1, static_cast<CONTEXT*>(context));
+		else
+			stack_walk_to_file(&crash_info_output_file, 3);
 
 		if (crash_info)
 			file_write(&crash_info_output_file, strlen(crash_info), crash_info);

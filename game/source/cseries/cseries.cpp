@@ -72,7 +72,7 @@ void display_assert(char const* statement, char const* file, long line, bool is_
 
 	if (is_assert && !is_debugger_present())
 	{
-		//stack_walk(1);
+		stack_walk(1);
 		editor_save_progress();
 	}
 
