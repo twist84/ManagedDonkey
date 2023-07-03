@@ -8,6 +8,8 @@
 #include "tag_files/tag_groups.hpp"
 #include "tag_files/tag_resource_internals.hpp"
 
+extern s_tag_reference g_last_tag_accessed;
+
 enum e_cache_file_section
 {
 	_cache_file_section_debug = 0,

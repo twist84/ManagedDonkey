@@ -296,6 +296,9 @@ void __cdecl main_loop_body_begin()
 #else
 		//shell_halt_with_message("FUCK");
 #endif // ISEXPERIMENTAL
+
+		// test assert for triggering crash
+		ASSERT(false);
 	}
 
 	if (input_key_frames_down(_key_code_keypad_subtract, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
@@ -529,6 +532,35 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 
 		main_status("system_milliseconds", "time %d", system_milliseconds());
 		main_status_dump(&crash_info_output_file);
+
+		// dump last accessed tag and resource owner
+		c_static_string<1024> last_accessed;
+		char tag_group[8]{};
+		REFERENCE_DECLARE(0x0190E460, long, last_resource_owner);
+
+		tag_to_string(g_last_tag_accessed.group_tag, tag_group);
+		last_accessed.print_line("last tag accessed:\r\n    ['%s', %04X] '%s.%s'",
+			tag_group,
+			g_last_tag_accessed.index,
+			g_last_tag_accessed.get_name(),
+			g_last_tag_accessed.get_group_name());
+		file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
+
+		for (s_cache_file_tag_resource_data* resource : g_cache_file_globals.resource_gestalt->resources)
+		{
+			if (resource->runtime_data.owner_tag.index != last_resource_owner)
+				continue;
+
+			tag_to_string(resource->runtime_data.owner_tag.group_tag, tag_group);
+			last_accessed.print_line("last resource owner accessed:\r\n    ['%s', %04X] '%s.%s'",
+				tag_group,
+				resource->runtime_data.owner_tag.index,
+				resource->runtime_data.owner_tag.get_name(),
+				resource->runtime_data.owner_tag.get_group_name());
+
+			break;
+		}
+		file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
 
 		file_close(&crash_info_output_file);
 	}

@@ -29,6 +29,8 @@ HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
 HOOK_DECLARE(0x00503370, tag_get);
 HOOK_DECLARE(0x00503470, sub_503470);
 
+s_tag_reference g_last_tag_accessed = { .group_tag = 0xFFFFFFFF, .index = NONE };
+
 struct s_cache_file_global_tags_definition
 {
 	c_typed_tag_block<s_tag_reference> references;
@@ -711,6 +713,8 @@ void __cdecl tag_files_open()
 
 void* __cdecl tag_get(tag group_tag, long tag_index)
 {
+	g_last_tag_accessed = { .group_tag = group_tag, .index = tag_index };
+
 	long tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
 	if (tag_absolute_index == NONE)
 		return nullptr;
