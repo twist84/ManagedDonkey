@@ -295,6 +295,7 @@ extern s_cache_file_security_globals* __cdecl cache_file_get_security_globals();
 extern void const* __cdecl cache_file_globals_get_tag_cache_base_address();
 extern bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
 extern bool __cdecl cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally);
+extern void __cdecl cache_file_invalidate_signature();
 extern real __cdecl cache_file_map_progress_estimated_megabytes_remaining(long scenario_type, char const* scenario_path);
 extern long __cdecl cache_file_map_progress_estimated_miliseconds_remaining(long scenario_type, char const* scenario_path);
 extern real __cdecl cache_file_map_progress_helper(long scenario_type, char const* scenario_path, long progress_type);

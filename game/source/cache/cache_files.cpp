@@ -119,6 +119,11 @@ bool __cdecl cache_file_header_verify_and_version(s_cache_file_header const* hea
 	return INVOKE(0x00501AD0, cache_file_header_verify_and_version, header, scenario_path, fail_fatally);
 }
 
+void __cdecl cache_file_invalidate_signature()
+{
+	INVOKE(0x00501B20, cache_file_invalidate_signature);
+}
+
 //float cache_file_map_progress_estimated_megabytes_remaining(enum e_scenario_type,char const *)
 real __cdecl cache_file_map_progress_estimated_megabytes_remaining(long scenario_type, char const* scenario_path)
 {
@@ -685,7 +690,13 @@ void __cdecl cache_file_tags_fixup_all_instances()
 
 void __cdecl scenario_tags_unload()
 {
-	INVOKE(0x00503200, scenario_tags_unload);
+	//INVOKE(0x00503200, scenario_tags_unload);
+
+	cache_file_close();
+	cache_file_invalidate_signature();
+	g_cache_file_globals.tags_loaded = 0;
+	cache_file_tags_unload();
+	memset(&g_cache_file_globals.header, 0, sizeof(g_cache_file_globals.header));
 }
 
 void __cdecl tag_files_close()
