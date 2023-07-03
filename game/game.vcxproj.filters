@@ -774,6 +774,9 @@
     <ClCompile Include="source\cseries\stack_walk_windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\bink\bink_texture_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2016,6 +2019,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cseries\stack_walk_windows.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bink\bink_texture_view.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

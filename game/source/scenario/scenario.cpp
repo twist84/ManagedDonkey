@@ -83,8 +83,6 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	//HOOK_INVOKE(result =, scenario_load, campaign_id, map_id, scenario_path);
 	//return result;
 
-	hf2p_scenario_load();
-
 	if (scenario_tags_load(scenario_path))
 	{
 		if (scenario_tags_match(campaign_id, map_id, scenario_path))

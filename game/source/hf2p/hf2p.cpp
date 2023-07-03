@@ -78,10 +78,9 @@ void __cdecl hf2p_scenario_tags_load_finished()
 	}
 }
 
-// crashes in `hf2p_game_client_cache_release.exe!sub_A28EC0` if not called
 void __cdecl hf2p_scenario_load()
 {
-	HOOK_INVOKE(, hf2p_scenario_load);
+	//HOOK_INVOKE(, hf2p_scenario_load);
 }
 
 void __cdecl hf2p_game_dispose()
