@@ -539,7 +539,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 		REFERENCE_DECLARE(0x0190E460, long, last_resource_owner);
 
 		tag_to_string(g_last_tag_accessed.group_tag, tag_group);
-		last_accessed.print_line("last tag accessed:\r\n    ['%s', %04X] '%s.%s'",
+		last_accessed.print_line("last accessed tag:\r\n    ['%s', %04X] '%s.%s'",
 			tag_group,
 			g_last_tag_accessed.index,
 			g_last_tag_accessed.get_name(),
@@ -552,7 +552,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 				continue;
 
 			tag_to_string(resource->runtime_data.owner_tag.group_tag, tag_group);
-			last_accessed.print_line("last resource owner accessed:\r\n    ['%s', %04X] '%s.%s'",
+			last_accessed.print_line("last accessed resource owner:\r\n    ['%s', %04X] '%s.%s'",
 				tag_group,
 				resource->runtime_data.owner_tag.index,
 				resource->runtime_data.owner_tag.get_name(),
