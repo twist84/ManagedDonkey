@@ -4,6 +4,7 @@
 #include "cache/cache_file_builder_security.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/security_functions.hpp"
+#include "config/version.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
@@ -108,12 +109,84 @@ s_cache_file_security_globals* __cdecl cache_file_get_security_globals()
 
 void const* __cdecl cache_file_globals_get_tag_cache_base_address()
 {
-	return INVOKE(0x00501930, cache_file_globals_get_tag_cache_base_address);
+	//return INVOKE(0x00501930, cache_file_globals_get_tag_cache_base_address);
+
+	if (!g_cache_file_globals.tags_loaded)
+		return nullptr;
+
+	return g_cache_file_globals.tag_cache_base_address;
 }
 
 bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally)
 {
 	return INVOKE(0x00501950, cache_file_header_verify, header, scenario_path, fail_fatally);
+
+	//c_static_string<256> error;
+	//s_file_last_modification_date file_time{};
+	//
+	//get_current_file_time(&file_time);
+	//
+	//bool error_occurred = false;
+	//if (header->version != k_cache_file_version)
+	//{
+	//	error.print("is an old version (%d, should be %d)",
+	//		header->version,
+	//		k_cache_file_version);
+	//	error_occurred = true;
+	//}
+	//
+	//if (header->header_signature != k_cache_file_header_signature)
+	//{
+	//	error.print("does not have a valid header signature (is %08x, should be %08x)",
+	//		header->header_signature,
+	//		k_cache_file_header_signature);
+	//	error_occurred = true;
+	//}
+	//
+	//if (header->footer_signature != k_cache_file_footer_signature)
+	//{
+	//	error.print("does not have a valid footer signature (is %08x, should be %08x)",
+	//		header->footer_signature,
+	//		k_cache_file_footer_signature);
+	//	error_occurred = true;
+	//}
+	//
+	//if (header->size < 0 || header->size > 0x7FFFFFFF /*cache_file_get_absolute_maximum_size()*/)
+	//{
+	//	error.print("had a size out of range for any cache file (%d, should be within [0, %d])",
+	//		header->size,
+	//		0x7FFFFFFF /*cache_file_get_absolute_maximum_size()*/);
+	//	error_occurred = true;
+	//}
+	//
+	//if (header->scenario_type < 0 || header->scenario_type >= 5)
+	//{
+	//	error.print(
+	//		"had an invalid scenario type (%d, should be within [0, %d))",
+	//		header->scenario_type,
+	//		5);
+	//	error_occurred = true;
+	//}
+	//
+	//if (strlen(header->name) >= sizeof(header->name))
+	//{
+	//	error.print("had a corrupt name");
+	//	error_occurred = true;
+	//}
+	//
+	//if (!cache_files_verify_header_rsa_signature(const_cast<s_cache_file_header*>(header)))
+	//{
+	//	error.print("failed actual validation");
+	//	error_occurred = true;
+	//}
+	//
+	//if (error_occurred)
+	//	c_console::write_line("the cache file '%s' won't load: %s", scenario_path, error.get_string());
+	//
+	//if (fail_fatally && error_occurred)
+	//	ASSERT_EXCEPTION("cache_file_header_verify() fatally failed, see error output!", true);
+	//
+	//return !error_occurred;
 }
 
 bool __cdecl cache_file_header_verify_and_version(s_cache_file_header const* header, char const* scenario_path, bool fail_fatally)
@@ -574,7 +647,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 	if (working_memory_size >= 0x38C8 && working_memory)
 		csmemset(working_memory, 0, 0x38C8);
 
-	if (cache_file_open(scenario_path, &g_cache_file_globals.header) && cache_file_header_verify_and_version(&g_cache_file_globals.header, scenario_path, 0))
+	if (cache_file_open(scenario_path, &g_cache_file_globals.header) && cache_file_header_verify_and_version(&g_cache_file_globals.header, scenario_path, false))
 	{
 		c_console::write_line("map created by", "%s", g_cache_file_globals.header.author);
 
