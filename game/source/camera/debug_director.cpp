@@ -14,40 +14,40 @@ e_camera_mode k_debug_camera_modes[] = { _camera_mode_flying, _camera_mode_follo
 
 void c_debug_director::constructor(long user_index)
 {
-    changed_camera();
-    DECLFUNC(0x007260D0, void, __thiscall, c_director*, long)(this, user_index);
+	changed_camera();
+	DECLFUNC(0x007260D0, void, __thiscall, c_director*, long)(this, user_index);
 }
 
 void __fastcall c_debug_director::_update(c_debug_director* _this, void* unused, real a1)
 {
-    static bool biped_control_mode = _this->m_biped_control_mode;
+	static bool biped_control_mode = _this->m_biped_control_mode;
 
-    HOOK_INVOKE_CLASS(, c_debug_director, _update, void(__thiscall*)(c_debug_director*, real), _this, a1);
+	HOOK_INVOKE_CLASS(, c_debug_director, _update, void(__thiscall*)(c_debug_director*, real), _this, a1);
 
-    if (_this->m_biped_control_mode != biped_control_mode)
-    {
-        biped_control_mode = _this->m_biped_control_mode;
-        console_printf(_this->m_biped_control_mode ? "Biped control mode" : "Flying camera control mode");
-    }
+	if (_this->m_biped_control_mode != biped_control_mode)
+	{
+		biped_control_mode = _this->m_biped_control_mode;
+		console_printf(_this->m_biped_control_mode ? "Biped control mode" : "Flying camera control mode");
+	}
 }
 
 void __fastcall c_debug_director::_changed_camera(c_debug_director* _this, void* unused)
 {
-    _this->changed_camera();
+	_this->changed_camera();
 }
 
 void c_debug_director::changed_camera()
 {
-    set_camera_mode(k_debug_camera_modes[m_camera_mode_index], 0.0f);
-    console_printf("%s camera", global_camera_mode_names[k_debug_camera_modes[m_camera_mode_index]]);
-    c_camera* camera = get_camera();
-    if (camera->get_type() == _camera_mode_flying)
-    {
-        m_collision_disabled = true;
-        get_camera<c_flying_camera>()->set_collision(false);
-    }
-    else
-    {
-        m_collision_disabled = false;
-    }
+	set_camera_mode(k_debug_camera_modes[m_camera_mode_index], 0.0f);
+	console_printf("%s camera", global_camera_mode_names[k_debug_camera_modes[m_camera_mode_index]]);
+	c_camera* camera = get_camera();
+	if (camera->get_type() == _camera_mode_flying)
+	{
+		m_collision_disabled = true;
+		get_camera<c_flying_camera>()->set_collision(false);
+	}
+	else
+	{
+		m_collision_disabled = false;
+	}
 }

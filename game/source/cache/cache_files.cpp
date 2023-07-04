@@ -1057,11 +1057,11 @@ void apply_biped_group_modification(e_instance_modification_stage stage)
 				// "edge drop" fix
 				physics.ground_physics.scale_ground_adhesion_velocity = 0.5f; // 30/60
 
-				// void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
-				// {
-				//   if (biped->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
-				//     physics_input->m_ground_adhesion_velocity_scale = biped->physics.ground_physics.scale_ground_adhesion_velocity;
-				// }
+				//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
+				//{
+				//	if (biped->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
+				//		physics_input->m_ground_adhesion_velocity_scale = biped->physics.ground_physics.scale_ground_adhesion_velocity;
+				//}
 			}
 
 			return;

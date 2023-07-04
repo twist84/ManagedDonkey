@@ -119,7 +119,7 @@ void display_assert(char const* statement, char const* file, long line, bool is_
 		//call_fatal_error_callbacks();
 
 		if (k_tracked_build)
-			RaiseException('stk', 0, 0, nullptr);
+			RaiseException('stk', 0, 0, NULL);
 
 		main_halt_and_catch_fire();
 	}
@@ -129,19 +129,18 @@ void display_assert(char const* statement, char const* file, long line, bool is_
 
 bool handle_assert_as_exception(char const* statement, char const* file, long line, bool is_exception)
 {
-	if ((!is_debugger_present() || g_catch_exceptions) && is_exception && !is_main_thread())
-	{
-		s_thread_assert_arguments arguments;
-		arguments.statement = statement;
-		arguments.file = file;
-		arguments.line = line;
-		arguments.is_exception = is_exception;
-		post_thread_assert_arguments(&arguments);
+	if (is_debugger_present() && !g_catch_exceptions || !is_exception || is_main_thread())
+		return false;
 
-		return true;
-	}
+	s_thread_assert_arguments arguments;
+	arguments.statement = statement;
+	arguments.file = file;
+	arguments.line = line;
+	arguments.is_exception = is_exception;
+	post_thread_assert_arguments(&arguments);
+	RaiseException('stk', 0, 0, NULL);
 
-	return false;
+	return true;
 }
 
 int(__cdecl* csmemcmp)(void const* _Buf1, void const* _Buf2, size_t _Size) = memcmp;

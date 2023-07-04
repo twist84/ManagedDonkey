@@ -15,6 +15,7 @@ static_assert(sizeof(c_synchronized_long) == 0x4);
 struct c_interlocked_long
 {
 public:
+	long peek() const;
 	long set(long Value);
 	long set_if_equal(long ExChange, long Comperand);
 

@@ -49,6 +49,9 @@ char const* s_tag_reference::get_name()
 
 char const* s_tag_reference::get_group_name()
 {
+	if (!g_cache_file_globals.tag_instances || !g_cache_file_globals.tag_index_absolute_mapping)
+		return "<unknown>";
+
 	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->group_name.get_string();
 }
 

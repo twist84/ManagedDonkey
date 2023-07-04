@@ -57,17 +57,17 @@ REFERENCE_DECLARE(0x02247448, s_online_session_manager_globals, online_session_m
 
 bool __cdecl managed_session_get_id(long index, s_transport_secure_identifier* session_id)
 {
-    return INVOKE(0x00482040, managed_session_get_id, index, session_id);
+	return INVOKE(0x00482040, managed_session_get_id, index, session_id);
 }
 
 char const* __cdecl managed_session_get_id_string(long index)
 {
-    //INVOKE(0x004820A0, managed_session_get_id_string, index);
+	//INVOKE(0x004820A0, managed_session_get_id_string, index);
 
-    if (index == -1)
-        return "00:00:00:00:00:00:00:00";
-    else
-        return transport_secure_identifier_get_string(&online_session_manager_globals.managed_sessions[index].actual_online_session_state.description.id);
+	if (index == -1)
+		return "00:00:00:00:00:00:00:00";
+	else
+		return transport_secure_identifier_get_string(&online_session_manager_globals.managed_sessions[index].actual_online_session_state.description.id);
 }
 
 //.text:004820D0 ; void __cdecl managed_session_get_new_host_information(long, s_transport_session_description*, e_transport_platform*);

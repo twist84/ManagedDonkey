@@ -23,8 +23,8 @@ long player_index_from_user_index(long user_index)
 	//datum_index input_user_index = player_mapping_globals->input_user_player_mapping[user_index];
 	//if (input_user_index != -1)
 	//{
-	//    ASSERT(input_user_index < 16);
-	//    ASSERT(player_mapping_globals->player_input_user_mapping[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index)] == user_index);
+	//	ASSERT(input_user_index < 16);
+	//	ASSERT(player_mapping_globals->player_input_user_mapping[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index)] == user_index);
 	//}
 	//return input_user_index;
 }

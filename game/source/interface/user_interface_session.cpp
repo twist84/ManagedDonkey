@@ -12,7 +12,7 @@ HOOK_DECLARE(0x00A82AE0, user_interface_squad_get_countdown_timer);
 
 bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_session_advertisement_mode advertisement_mode)
 {
-    return INVOKE(0x00A7F950, user_interface_squad_set_session_advertisement, advertisement_mode);
+	return INVOKE(0x00A7F950, user_interface_squad_set_session_advertisement, advertisement_mode);
 }
 
 //.text:00A7FEC0 ; bool __cdecl user_interface_reset_networking_to_pregame()
@@ -29,7 +29,7 @@ bool __cdecl user_interface_squad_set_session_advertisement(e_gui_network_sessio
 
 e_session_game_start_status __cdecl user_interface_get_session_game_start_status(e_session_game_start_error* error, dword* player_error_mask)
 {
-    return INVOKE(0x00A809F0, user_interface_get_session_game_start_status, error, player_error_mask);
+	return INVOKE(0x00A809F0, user_interface_get_session_game_start_status, error, player_error_mask);
 }
 
 //.text:00A80AA0 ; bool __cdecl user_interface_get_session_precaching_progress(word* map_load_progress, e_session_game_start_status* game_start_status)
@@ -54,7 +54,7 @@ e_session_game_start_status __cdecl user_interface_get_session_game_start_status
 
 e_controller_index user_interface_session_get_controller_index(long player_index)
 {
-    return INVOKE(0x00A81620, user_interface_session_get_controller_index, player_index);
+	return INVOKE(0x00A81620, user_interface_session_get_controller_index, player_index);
 }
 
 //.text:00A817B0 ; bool __cdecl user_interface_session_get_map(e_campaign_id* campaign_id, e_map_id* map_id)
@@ -62,7 +62,7 @@ e_controller_index user_interface_session_get_controller_index(long player_index
 
 s_player_configuration* __cdecl user_interface_session_get_player_data(long player_index)
 {
-    return INVOKE(0x00A818D0, user_interface_session_get_player_data, player_index);
+	return INVOKE(0x00A818D0, user_interface_session_get_player_data, player_index);
 }
 
 //.text:00A81950 ; s_player_identifier const* __cdecl user_interface_squad_get_player_identifier(long player_index)
@@ -70,12 +70,12 @@ s_player_configuration* __cdecl user_interface_session_get_player_data(long play
 
 bool __cdecl user_interface_session_is_local_player(long player_index)
 {
-    return INVOKE(0x00A81DF0, user_interface_session_is_local_player, player_index);
+	return INVOKE(0x00A81DF0, user_interface_session_is_local_player, player_index);
 }
 
 bool __cdecl user_interface_squad_is_player_valid(long player_index)
 {
-    return INVOKE(0x00A81E80, user_interface_squad_is_player_valid, player_index);
+	return INVOKE(0x00A81E80, user_interface_squad_is_player_valid, player_index);
 }
 
 //.text:00A81F10 ; bool __cdecl user_interface_session_is_verifying_strings()
@@ -85,7 +85,7 @@ bool __cdecl user_interface_squad_is_player_valid(long player_index)
 
 long __cdecl user_interface_squad_get_player_index(s_player_identifier const* player_identifier)
 {
-    return INVOKE(0x00A82040, user_interface_squad_get_player_index, player_identifier);
+	return INVOKE(0x00A82040, user_interface_squad_get_player_index, player_identifier);
 }
 
 //.text:00A820E0 ; qword __cdecl user_interface_session_player_get_player_xuid(s_player_identifier const* player_identifier)
@@ -97,14 +97,14 @@ long __cdecl user_interface_squad_get_player_index(s_player_identifier const* pl
 
 bool __cdecl user_interface_squad_delegate_leadership(long player_index)
 {
-    //return INVOKE(0x00A82900, user_interface_squad_delegate_leadership, player_index);
+	//return INVOKE(0x00A82900, user_interface_squad_delegate_leadership, player_index);
 
-    console_printf_color(global_real_argb_red, "unimplemented: user_interface_squad_delegate_leadership");
+	console_printf_color(global_real_argb_red, "unimplemented: user_interface_squad_delegate_leadership");
 
-    // skip doing any sort leadership delegating, it will just make no one the leader
-    // thus making it impossible to do anything with the current lobby
-    // #TODO: fix any underlying issues causing the above behaviour
-    return false;
+	// skip doing any sort leadership delegating, it will just make no one the leader
+	// thus making it impossible to do anything with the current lobby
+	// #TODO: fix any underlying issues causing the above behaviour
+	return false;
 }
 HOOK_DECLARE_CALL(0x00B0A120, user_interface_squad_delegate_leadership);
 
@@ -116,21 +116,21 @@ HOOK_DECLARE_CALL(0x00B0A120, user_interface_squad_delegate_leadership);
 
 long __cdecl user_interface_squad_get_countdown_delaying_player()
 {
-    //return INVOKE(0x00A82AD0, user_interface_squad_get_countdown_delaying_player);
+	//return INVOKE(0x00A82AD0, user_interface_squad_get_countdown_delaying_player);
 
-    //return network_squad_session_get_countdown_delayed_culprit();
+	//return network_squad_session_get_countdown_delayed_culprit();
 
-    return -1;
+	return -1;
 }
 
 long __cdecl user_interface_squad_get_countdown_timer()
 {
-    //return INVOKE(0x00A82AE0, user_interface_squad_get_countdown_timer);
+	//return INVOKE(0x00A82AE0, user_interface_squad_get_countdown_timer);
 
-    if (user_interface_get_session_game_start_status(0, 0) == _session_game_start_status_countdown)
-        return network_squad_session_get_countdown_timer();
+	if (user_interface_get_session_game_start_status(0, 0) == _session_game_start_status_countdown)
+		return network_squad_session_get_countdown_timer();
 
-    return -1;
+	return -1;
 }
 
 //.text:00A82AF0 ; bool __cdecl user_interface_squad_get_game_setup_changing()
@@ -152,9 +152,9 @@ long __cdecl user_interface_squad_get_countdown_timer()
 
 e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode()
 {
-    //return INVOKE(0x00A83180, user_interface_squad_get_ui_game_mode);
+	//return INVOKE(0x00A83180, user_interface_squad_get_ui_game_mode);
 
-    return network_life_cycle_squad_session_get_ui_game_mode();
+	return network_life_cycle_squad_session_get_ui_game_mode();
 }
 
 //.text:00A83240 ; bool __cdecl user_interface_squad_in_matchmaking()
@@ -175,19 +175,19 @@ e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode()
 
 bool __cdecl user_interface_squad_set_film(s_saved_film_description const* film)
 {
-    return INVOKE(0x00A836F0, user_interface_squad_set_film, film);
+	return INVOKE(0x00A836F0, user_interface_squad_set_film, film);
 }
 
 bool __cdecl user_interface_squad_set_film_internal(s_saved_film_description const* film, bool needs_verification)
 {
-    return INVOKE(0x00A83720, user_interface_squad_set_film_internal, film, needs_verification);
+	return INVOKE(0x00A83720, user_interface_squad_set_film_internal, film, needs_verification);
 }
 
 //.text:00A83870 ; bool __cdecl user_interface_squad_set_game_setup_changing(bool game_setup_changing)
 
 bool __cdecl user_interface_squad_set_game_variant(c_game_variant const* game_variant)
 {
-    return INVOKE(0x00A838B0, user_interface_squad_set_game_variant, game_variant);
+	return INVOKE(0x00A838B0, user_interface_squad_set_game_variant, game_variant);
 }
 
 //.text:00A838F0 ; bool __cdecl user_interface_squad_set_game_variant_internal(c_game_variant const* game_variant, bool needs_verification)
@@ -195,12 +195,12 @@ bool __cdecl user_interface_squad_set_game_variant(c_game_variant const* game_va
 
 bool __cdecl user_interface_squad_set_map_variant(c_map_variant const* map_variant)
 {
-    return INVOKE(0x00A83AB0, user_interface_squad_set_map_variant, map_variant);
+	return INVOKE(0x00A83AB0, user_interface_squad_set_map_variant, map_variant);
 }
 
 bool __cdecl user_interface_squad_set_multiplayer_map_internal(c_map_variant const* map_variant, bool needs_verification)
 {
-    return INVOKE(0x00A83AF0, user_interface_squad_set_multiplayer_map_internal, map_variant, needs_verification);
+	return INVOKE(0x00A83AF0, user_interface_squad_set_multiplayer_map_internal, map_variant, needs_verification);
 }
 
 //.text:00A83C90 ; bool __cdecl user_interface_squad_set_saved_film_game_options(long playback_length_in_ticks, int playback_start_ticks, game_options *options)

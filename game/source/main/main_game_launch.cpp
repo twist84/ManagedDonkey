@@ -72,7 +72,7 @@ void main_game_launch_set_multiplayer_splitscreen_count(long multiplayer_splitsc
 			g_launch_globals.options.game_variant.set_game_engine_index(_game_engine_slayer_variant);
 
 		//if (g_launch_globals.options.game_variant.m_game_engine_index == _game_engine_base_variant)
-		//    build_default_game_variant(&g_launch_globals.options.game_variant, _game_engine_slayer_variant);
+		//	build_default_game_variant(&g_launch_globals.options.game_variant, _game_engine_slayer_variant);
 	}
 	else
 	{

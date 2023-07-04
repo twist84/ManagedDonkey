@@ -3,12 +3,12 @@
 #define DATA_PACKET_GROUP_DEFINITION(_name, _packet_type_count, _packet_class_count, _maximum_decoded_packet_size, _maximum_encoded_packet_size, _packets) \
 data_packet_group_definition _name =                             \
 {                                                                \
-    .name = #_name,                                              \
-    .packet_type_count = _packet_type_count,                     \
-    .packet_class_count = _packet_class_count,                   \
-    .maximum_decoded_packet_size = _maximum_decoded_packet_size, \
-    .maximum_encoded_packet_size = _maximum_encoded_packet_size, \
-    .packets = _packets                                          \
+	.name = #_name,                                              \
+	.packet_type_count = _packet_type_count,                     \
+	.packet_class_count = _packet_class_count,                   \
+	.maximum_decoded_packet_size = _maximum_decoded_packet_size, \
+	.maximum_encoded_packet_size = _maximum_encoded_packet_size, \
+	.packets = _packets                                          \
 }
 
 struct data_packet;

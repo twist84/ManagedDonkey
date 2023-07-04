@@ -741,7 +741,6 @@ e_shell_tool_type __cdecl shell_tool_type()
 	return _shell_tool_type_none;
 }
 
-//.text: ; 
 //.text:0042E360 ; bool __cdecl shell_build_number_is_compatible(long)
 //.text:0042E390 ; bool __cdecl shell_build_string_is_compatible(char const *)
 //.text:0042E410 ; void __cdecl shell_dispose()
@@ -751,7 +750,7 @@ e_shell_tool_type __cdecl shell_tool_type()
 
 void __cdecl shell_halt_with_message(char const* message)
 {
-    INVOKE(0x0042E4B0, shell_halt_with_message, message);
+	INVOKE(0x0042E4B0, shell_halt_with_message, message);
 }
 
 //.text:0042E540 ; bool __cdecl shell_initialize(bool)
@@ -775,7 +774,7 @@ void __cdecl shell_screen_pause(bool pause)
 
 bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len)
 {
-    return INVOKE(0x0051CE40, shell_get_system_identifier, system_identifier, system_identifier_len);
+	return INVOKE(0x0051CE40, shell_get_system_identifier, system_identifier, system_identifier_len);
 }
 
 char const* quality_setting_get_name(e_quality_setting quality_setting)

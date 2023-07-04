@@ -119,11 +119,11 @@ struct c_gui_model_widget : public c_gui_widget
 
 	byte __data1C30[0xC];
 
-	// name = get_model()->name;
-	// if (name == STRING_ID(global, masterchief) || name == STRING_ID(global, dervish) || m_texture_camera_unit_available)
-	//     __rotation1C44 *= get_model()->rotation_speed;
-	// else
-	//     __rotation1C3C *= get_model()->rotation_speed;
+	//name = get_model()->name;
+	//if (name == STRING_ID(global, masterchief) || name == STRING_ID(global, dervish) || m_texture_camera_unit_available)
+	//	__rotation1C44 *= get_model()->rotation_speed;
+	//else
+	//	__rotation1C3C *= get_model()->rotation_speed;
 	euler_angles2d __rotation1C3C;
 	euler_angles2d __rotation1C44;
 

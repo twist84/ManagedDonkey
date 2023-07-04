@@ -5,10 +5,10 @@
 
 struct s_xnet_entry
 {
-    bool initialized;
-    transport_address address;
-    s_transport_secure_address secure_address;
-    s_transport_secure_identifier secure_identifier;
+	bool initialized;
+	transport_address address;
+	s_transport_secure_address secure_address;
+	s_transport_secure_identifier secure_identifier;
 };
 static_assert(sizeof(s_xnet_entry) == 0x38);
 

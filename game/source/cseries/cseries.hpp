@@ -134,9 +134,9 @@ constexpr bool pointer_is_aligned(void* pointer, long alignment_bits)
 
 #if defined(_DEBUG)
 #define ASSERT_EXCEPTION(STATEMENT, IS_EXCEPTION, ...) \
-if (!(STATEMENT) || !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
+if (!(STATEMENT) && !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
 {                                                                                              \
-    display_assert(#STATEMENT, __FILE__, __LINE__, true);                                      \
+    display_assert(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION);                              \
     if (!is_debugger_present() && g_catch_exceptions)                                          \
         system_abort();                                                                        \
     else                                                                                       \

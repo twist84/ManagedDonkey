@@ -298,7 +298,7 @@ void __cdecl main_loop_body_begin()
 #endif // ISEXPERIMENTAL
 
 		// test assert for triggering crash
-		ASSERT(false);
+		main_crash("fast");
 	}
 
 	if (input_key_frames_down(_key_code_keypad_subtract, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
@@ -538,31 +538,155 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 		char tag_group[8]{};
 		REFERENCE_DECLARE(0x0190E460, long, last_resource_owner);
 
-		tag_to_string(g_last_tag_accessed.group_tag, tag_group);
-		last_accessed.print_line("last accessed tag:\r\n    ['%s', %04X] '%s.%s'",
-			tag_group,
-			g_last_tag_accessed.index,
-			g_last_tag_accessed.get_name(),
-			g_last_tag_accessed.get_group_name());
-		file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
-
-		for (s_cache_file_tag_resource_data* resource : g_cache_file_globals.resource_gestalt->resources)
+		if (g_last_tag_accessed.index != NONE)
 		{
-			if (resource->runtime_data.owner_tag.index != last_resource_owner)
-				continue;
-
-			tag_to_string(resource->runtime_data.owner_tag.group_tag, tag_group);
-			last_accessed.print_line("last accessed resource owner:\r\n    ['%s', %04X] '%s.%s'",
+			tag_to_string(g_last_tag_accessed.group_tag, tag_group);
+			last_accessed.print_line("last accessed tag:\r\n    ['%s', %04X] '%s.%s'",
 				tag_group,
-				resource->runtime_data.owner_tag.index,
-				resource->runtime_data.owner_tag.get_name(),
-				resource->runtime_data.owner_tag.get_group_name());
-
-			break;
+				g_last_tag_accessed.index,
+				g_last_tag_accessed.get_name(),
+				g_last_tag_accessed.get_group_name());
+			file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
 		}
-		file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
+
+		if (last_resource_owner != NONE)
+		{
+			for (s_cache_file_tag_resource_data* resource : g_cache_file_globals.resource_gestalt->resources)
+			{
+				if (resource->runtime_data.owner_tag.index != last_resource_owner)
+					continue;
+
+				tag_to_string(resource->runtime_data.owner_tag.group_tag, tag_group);
+				last_accessed.print_line("last accessed resource owner:\r\n    ['%s', %04X] '%s.%s'",
+					tag_group,
+					resource->runtime_data.owner_tag.index,
+					resource->runtime_data.owner_tag.get_name(),
+					resource->runtime_data.owner_tag.get_group_name());
+
+				break;
+			}
+			file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
+		}
 
 		file_close(&crash_info_output_file);
+	}
+}
+
+void __cdecl main_crash_just_upload_dammit()
+{
+	g_catch_exceptions = true;
+	g_set_never_a_debugger_present = true;
+	g_force_upload_even_if_untracked = true;
+	//g_suppress_keyboard_for_minidump = true;
+	//g_suppress_upload_debug = false;
+	//game_state_set_test_options("default");
+}
+
+#define NULL_BELONGS_TO_CHUCKY *(char const**)NULL = "chucky was here!  NULL belongs to me!!!!!"
+
+void __cdecl main_crash(char const* type)
+{
+	stack_walk(0);
+
+	ASSERT(csstricmp(type, "assert"), "asserting on command");
+
+	if (!csstricmp(type, "now"))
+	{
+		NULL_BELONGS_TO_CHUCKY;
+		return;
+	}
+
+	if (!csstricmp(type, "fast"))
+	{
+		main_crash_just_upload_dammit();
+		//g_fake_minidump_creation = true;
+		NULL_BELONGS_TO_CHUCKY;
+		return;
+	}
+
+	if (!csstricmp(type, "gpu") || !csstricmp(type, "halt"))
+	{
+		main_halt_and_catch_fire();
+		return;
+	}
+
+	if (!csstricmp(type, "async"))
+	{
+		//c_synchronized_long ill_never_be_done{};
+		//async_queue_simple_callback(main_crash_async, 0, 0, 6, &ill_never_be_done);
+		return;
+	}
+
+	if (!csstricmp(type, "screen"))
+	{
+		rasterizer_dump_display_to_bmp("crash_report\\crash_screen.bmp");
+		return;
+	}
+
+	if (!csstricmp(type, "crash_profiler_thread"))
+	{
+		signal_thread_to_crash(k_thread_profiler);
+		return;
+	}
+
+	if (!csstricmp(type, "assert_profiler_thread"))
+	{
+		signal_thread_to_assert(k_thread_profiler);
+		return;
+	}
+
+	if (!csstricmp(type, "crash_async_io_thread"))
+	{
+		signal_thread_to_crash(k_thread_async_io);
+		return;
+	}
+
+	if (!csstricmp(type, "assert_async_io_thread"))
+	{
+		signal_thread_to_assert(k_thread_async_io);
+		return;
+	}
+
+	if (!csstricmp(type, "crash_render_thread"))
+	{
+		signal_thread_to_crash(k_thread_render);
+		return;
+	}
+
+	if (!csstricmp(type, "assert_render_thread"))
+	{
+		signal_thread_to_assert(k_thread_render);
+		return;
+	}
+
+	if (!csstricmp(type, "crash_netdebug_thread"))
+	{
+		signal_thread_to_crash(k_thread_net_debug);
+		return;
+	}
+
+	if (!csstricmp(type, "assert_netdebug_thread"))
+	{
+		signal_thread_to_assert(k_thread_net_debug);
+		return;
+	}
+
+	if (!csstricmp(type, "crash_event_logs_thread"))
+	{
+		signal_thread_to_crash(k_thread_event_logs);
+		return;
+	}
+
+	if (!csstricmp(type, "assert_event_logs_thread"))
+	{
+		signal_thread_to_assert(k_thread_event_logs);
+		return;
+	}
+
+	if (!csstricmp(type, "quit"))
+	{
+		main_exit_game();
+		return;
 	}
 }
 

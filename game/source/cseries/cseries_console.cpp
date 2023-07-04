@@ -14,214 +14,214 @@ bool c_console::m_initialized = false;
 
 void c_console::initialize(char const* window_title)
 {
-    m_initialized = true;
+	m_initialized = true;
 
 #if defined(CONSOLE_ENABLED)
-    AllocConsole();
-    AttachConsole(GetCurrentProcessId());
-    SetConsoleTitleA(window_title);
+	AllocConsole();
+	AttachConsole(GetCurrentProcessId());
+	SetConsoleTitleA(window_title);
 
-    freopen_s(&m_file, "CONIN$", "r", stdin);
-    freopen_s(&m_file, "CONOUT$", "w", stderr);
-    freopen_s(&m_file, "CONOUT$", "w", stdout);
+	freopen_s(&m_file, "CONIN$", "r", stdin);
+	freopen_s(&m_file, "CONOUT$", "w", stderr);
+	freopen_s(&m_file, "CONOUT$", "w", stdout);
 #endif // _DEBUG
 }
 
 void c_console::dispose()
 {
 #if defined(CONSOLE_ENABLED)
-    m_initialized = false;
+	m_initialized = false;
 
-    if (m_file)
-        fclose(m_file);
+	if (m_file)
+		fclose(m_file);
 
-    FreeConsole();
-    PostMessageW(GetConsoleWindow(), WM_CLOSE, 0, 0);
+	FreeConsole();
+	PostMessageW(GetConsoleWindow(), WM_CLOSE, 0, 0);
 #endif // _DEBUG
 }
 
 void c_console::write(char const* format, ...)
 {
-    if (!m_initialized)
-        return;
+	if (!m_initialized)
+		return;
 
-    c_static_string<4096> s;
+	c_static_string<4096> s;
 
-    va_list list;
-    va_start(list, format);
-    s.vprint(format, list);
-    va_end(list);
+	va_list list;
+	va_start(list, format);
+	s.vprint(format, list);
+	va_end(list);
 
-    char const* str = s.get_string();
+	char const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
-    printf(str);
+	printf(str);
 #else
-    OutputDebugStringA(str);
+	OutputDebugStringA(str);
 #endif // _DEBUG
 
 }
 
 void c_console::write_line(char const* format, ...)
 {
-    if (!m_initialized)
-        return;
+	if (!m_initialized)
+		return;
 
-    c_static_string<4096> s;
+	c_static_string<4096> s;
 
-    va_list list;
-    va_start(list, format);
-    s.vprint(format, list);
-    s.append("\n");
-    va_end(list);
+	va_list list;
+	va_start(list, format);
+	s.vprint(format, list);
+	s.append("\n");
+	va_end(list);
 
-    char const* str = s.get_string();
+	char const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
-    printf(str);
+	printf(str);
 #else
-    OutputDebugStringA(str);
+	OutputDebugStringA(str);
 #endif // _DEBUG
 
 }
 
 void c_console::write(wchar_t const* format, ...)
 {
-    if (!m_initialized)
-        return;
+	if (!m_initialized)
+		return;
 
-    c_static_wchar_string<4096> s;
+	c_static_wchar_string<4096> s;
 
-    va_list list;
-    va_start(list, format);
+	va_list list;
+	va_start(list, format);
 
-    s.vprint(format, list);
+	s.vprint(format, list);
 
-    va_end(list);
+	va_end(list);
 
-    wchar_t const* str = s.get_string();
+	wchar_t const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
-    wprintf(str);
+	wprintf(str);
 #else
-    OutputDebugStringW(str);
+	OutputDebugStringW(str);
 #endif // _DEBUG
 
 }
 
 void c_console::write_line(wchar_t const* format, ...)
 {
-    if (!m_initialized)
-        return;
+	if (!m_initialized)
+		return;
 
-    c_static_wchar_string<4096> s;
+	c_static_wchar_string<4096> s;
 
-    va_list list;
-    va_start(list, format);
-    s.vprint(format, list);
-    s.append(L"\n");
-    va_end(list);
+	va_list list;
+	va_start(list, format);
+	s.vprint(format, list);
+	s.append(L"\n");
+	va_end(list);
 
-    wchar_t const* str = s.get_string();
+	wchar_t const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
-    wprintf(str);
+	wprintf(str);
 #else
-    OutputDebugStringW(str);
+	OutputDebugStringW(str);
 #endif // _DEBUG
 
 }
 
 void c_console::write(char const* format, va_list list)
 {
-    if (!m_initialized)
-        return;
+	if (!m_initialized)
+		return;
 
-    c_static_string<4096> s;
+	c_static_string<4096> s;
 
-    s.vprint(format, list);
+	s.vprint(format, list);
 
-    char const* str = s.get_string();
+	char const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
-    printf(str);
+	printf(str);
 #else
-    OutputDebugStringA(str);
+	OutputDebugStringA(str);
 #endif // _DEBUG
 
 }
 
 void c_console::write_line(char const* format, va_list list)
 {
-    if (!m_initialized)
-        return;
+	if (!m_initialized)
+		return;
 
-    c_static_string<4096> s;
+	c_static_string<4096> s;
 
-    s.vprint(format, list);
-    s.append("\n");
+	s.vprint(format, list);
+	s.append("\n");
 
-    char const* str = s.get_string();
+	char const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
-    printf(str);
+	printf(str);
 #else
-    OutputDebugStringA(str);
+	OutputDebugStringA(str);
 #endif // _DEBUG
 
 }
 
 void c_console::write(wchar_t const* format, va_list list)
 {
-    if (!m_initialized)
-        return;
+	if (!m_initialized)
+		return;
 
-    c_static_wchar_string<4096> s;
+	c_static_wchar_string<4096> s;
 
-    s.vprint(format, list);
+	s.vprint(format, list);
 
-    wchar_t const* str = s.get_string();
+	wchar_t const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
-    wprintf(str);
+	wprintf(str);
 #else
-    OutputDebugStringW(str);
+	OutputDebugStringW(str);
 #endif // _DEBUG
 
 }
 
 void c_console::write_line(wchar_t const* format, va_list list)
 {
-    if (!m_initialized)
-        return;
+	if (!m_initialized)
+		return;
 
-    c_static_wchar_string<4096> s;
+	c_static_wchar_string<4096> s;
 
-    s.vprint(format, list);
-    s.append(L"\n");
+	s.vprint(format, list);
+	s.append(L"\n");
 
-    wchar_t const* str = s.get_string();
+	wchar_t const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
-    wprintf(str);
+	wprintf(str);
 #else
-    OutputDebugStringW(str);
+	OutputDebugStringW(str);
 #endif // _DEBUG
 
 }
 
 void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
 {
-    ASSERT(message_buffer);
+	ASSERT(message_buffer);
 
-    FormatMessageA(
-        FORMAT_MESSAGE_MAX_WIDTH_MASK | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        message_id,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        message_buffer,
-        2048,
-        NULL
-    );
+	FormatMessageA(
+		FORMAT_MESSAGE_MAX_WIDTH_MASK | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL,
+		message_id,
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		message_buffer,
+		2048,
+		NULL
+	);
 }
 

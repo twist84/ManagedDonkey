@@ -20,7 +20,7 @@ c_gui_data* c_gui_screen_widget::get_data(long name, long* datasource_index)
 	if (datasource_index)
 		*datasource_index = index;
 
-    return m_datasource[index];
+	return m_datasource[index];
 }
 
 e_window_index c_gui_screen_widget::get_render_window()

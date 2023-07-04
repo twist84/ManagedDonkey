@@ -22,7 +22,7 @@ unsigned int ustrnlen(wchar_t const* string, long count)
 wchar_t* ustrnzcat(wchar_t* dest, wchar_t const* src, long count)
 {
 	wcsncat_s(dest, count - 1, src, count);
-    return dest;
+	return dest;
 }
 
 //int ustrncmp(wchar_t const *,wchar_t const *,long)
@@ -30,18 +30,18 @@ wchar_t* ustrnzcat(wchar_t* dest, wchar_t const* src, long count)
 
 wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 {
-    ASSERT(dest != NULL);
-    ASSERT(src != NULL);
-    ASSERT(count > 0);
+	ASSERT(dest != NULL);
+	ASSERT(src != NULL);
+	ASSERT(count > 0);
 
-    size_t len = wcslen(src);
+	size_t len = wcslen(src);
 
-    wcsncpy_s(dest, (count - 1) * 2, src, count * 2);
-    dest[count - 1] = 0;
+	wcsncpy_s(dest, (count - 1) * 2, src, count * 2);
+	dest[count - 1] = 0;
 
-    memset(dest + len, 0, ((count - 1) - len) * 2);
+	memset(dest + len, 0, ((count - 1) - len) * 2);
 
-    return dest;
+	return dest;
 }
 
 //wchar_t const * ustrpbrk(wchar_t const *,wchar_t const *)
@@ -55,12 +55,12 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 
 int ustricmp(wchar_t const* a1, wchar_t const* a2)
 {
-    return INVOKE(0x00401370, ustricmp, a1, a2);
+	return INVOKE(0x00401370, ustricmp, a1, a2);
 }
 
 void ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, long* out_dest_len)
 {
-    return INVOKE(0x004EC600, ascii_string_to_wchar_string, src, dest, src_len, out_dest_len);
+	return INVOKE(0x004EC600, ascii_string_to_wchar_string, src, dest, src_len, out_dest_len);
 }
 
 //int ustrnicmp(wchar_t const *,wchar_t const *,long)
@@ -90,13 +90,13 @@ void ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, 
 
 int usnzprintf(wchar_t* string, long size, wchar_t const* format, ...)
 {
-    va_list list;
-    va_start(list, format);
+	va_list list;
+	va_start(list, format);
 
-    int result = uvsnzprintf(string, size, format, list);
+	int result = uvsnzprintf(string, size, format, list);
 
-    va_end(list);
-    return result;
+	va_end(list);
+	return result;
 }
 
 //int uvfprintf(struct _iobuf *,wchar_t const *,char *)
@@ -104,13 +104,13 @@ int usnzprintf(wchar_t* string, long size, wchar_t const* format, ...)
 
 int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list)
 {
-    ASSERT(string && format);
-    ASSERT(size > 0);
+	ASSERT(string && format);
+	ASSERT(size > 0);
 
-    long result = _vsnwprintf_s(string, size, size - 1, format, list);
-    string[size - 1] = 0;
+	long result = _vsnwprintf_s(string, size, size - 1, format, list);
+	string[size - 1] = 0;
 
-    return result;
+	return result;
 }
 
 //struct _iobuf * ufdopen(int,wchar_t const *)
@@ -129,7 +129,7 @@ int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list)
 
 void wchar_string_to_ascii_string(wchar_t const* source, char* destination, long source_length, long* destination_length)
 {
-    INVOKE(0x004EDD60, wchar_string_to_ascii_string, source, destination, source_length, destination_length);
+	INVOKE(0x004EDD60, wchar_string_to_ascii_string, source, destination, source_length, destination_length);
 }
 
 //struct utf32 ascii_string_to_utf32_characters(char const *,struct s_escape_table const *,char const * *,long *,struct utf32 *,long,long *)

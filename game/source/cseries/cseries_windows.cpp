@@ -7,34 +7,34 @@
 
 void display_debug_string(const char* format, ...)
 {
-    va_list list;
-    va_start(list, format);
+	va_list list;
+	va_start(list, format);
 
-    if (IsDebuggerPresent())
-    {
-        c_static_string<4096> output = {};
-        output.append_vprint(format, list);
-        output.append("\n");
+	if (IsDebuggerPresent())
+	{
+		c_static_string<4096> output = {};
+		output.append_vprint(format, list);
+		output.append("\n");
 
-        OutputDebugStringA(output.get_string());
-    }
+		OutputDebugStringA(output.get_string());
+	}
 
-    va_end(list);
+	va_end(list);
 }
 
 unsigned long system_milliseconds()
 {
-    return timeGetTime();
+	return timeGetTime();
 }
 
 void system_abort()
 {
-    main_halt_and_catch_fire();
+	main_halt_and_catch_fire();
 }
 
 // __trap()
 void system_exit()
 {
-    exit(1);
+	exit(1);
 }
 

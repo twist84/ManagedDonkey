@@ -14,12 +14,12 @@ long __cdecl network_squad_session_get_countdown_timer()
 	if (network_life_cycle_in_squad_session(&active_squad_session) && active_squad_session->established())
 	{
 		c_network_session_parameters* parameters = active_squad_session->get_session_parameters();
-		c_network_session_parameter_countdown_timer* countdown_timer = 
+		c_network_session_parameter_countdown_timer* countdown_timer =
 			static_cast<c_network_session_parameter_countdown_timer*>(parameters->m_parameter_interfaces[_network_session_parameter_type_countdown_timer]);
 		return countdown_timer->get_countdown_timer();
 	}
 
-    return -1;
+	return -1;
 }
 
 bool __cdecl network_life_cycle_in_matchmaking()
@@ -58,7 +58,7 @@ c_game_variant const* __cdecl network_life_cycle_session_get_game_variant()
 	return INVOKE(0x004352B0, network_life_cycle_session_get_game_variant);
 }
 
-bool __cdecl network_life_cycle_session_get_map(long* campaign_id, long *map_id)
+bool __cdecl network_life_cycle_session_get_map(long* campaign_id, long* map_id)
 {
 	return INVOKE(0x004354D0, network_life_cycle_session_get_map, campaign_id, map_id);
 }

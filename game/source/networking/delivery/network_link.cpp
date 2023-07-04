@@ -61,8 +61,8 @@ bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_
 	//transport_endpoint* endpoint = transport_endpoint_create(type);
 	//if (!endpoint)
 	//{
-	//    c_console::write_line("networking:link: create_endpoint[%d] - unable to create endpoint!", type);
-	//    return false;
+	//	c_console::write_line("networking:link: create_endpoint[%d] - unable to create endpoint!", type);
+	//	return false;
 	//}
 	//
 	//transport_address address;
@@ -70,9 +70,9 @@ bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_
 	//
 	//if (!transport_endpoint_bind(endpoint, &address) || !transport_endpoint_set_blocking(endpoint, false) || (set_broadcast_option && !transport_endpoint_set_option_value(endpoint, _transport_endpoint_option_broadcast, true)))
 	//{
-	//    c_console::write_line("networking:link: create_endpoint(%d) - unable to setup endpoint!", type);
-	//    transport_endpoint_delete(endpoint);
-	//    return false;
+	//	c_console::write_line("networking:link: create_endpoint(%d) - unable to setup endpoint!", type);
+	//	transport_endpoint_delete(endpoint);
+	//	return false;
 	//}
 	//
 	//*out_endpoint = endpoint;

@@ -14,18 +14,18 @@ char const fatal_error_message[] = "There once was a man from Bungie...... Nothi
 
 void damaged_media_exception()
 {
-    //HOOK_INVOKE(, damaged_media_exception);
+	//HOOK_INVOKE(, damaged_media_exception);
 
-    if (!is_debugger_present())
-        throw fatal_error_message;
+	if (!is_debugger_present())
+		throw fatal_error_message;
 
-    DebugBreak();
+	DebugBreak();
 }
 
 void __cdecl damaged_media_update()
 {
-    //HOOK_INVOKE(, damaged_media_update);
+	//HOOK_INVOKE(, damaged_media_update);
 
-    if (g_show_damaged_media)
-        damaged_media_exception();
+	if (g_show_damaged_media)
+		damaged_media_exception();
 }

@@ -34,7 +34,7 @@ bool __fastcall c_start_menu_screen_widget::handle_controller_input_message(void
 
 bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_controller_input_message* input_message)
 {
-    bool result = false;
+	bool result = false;
 
 	if (input_message->get_event_type() == _event_type_controller_component && input_message->get_component() == _controller_component_button_start)
 	{
@@ -63,7 +63,7 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_cont
 		}
 	}
 
-    return result;
+	return result;
 }
 
 bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier* player_identifier, qword* player_xuid, s_service_record_identity* identity, s_start_menu_breadcrumb* breadcrumbs, long breadcrumb_count)

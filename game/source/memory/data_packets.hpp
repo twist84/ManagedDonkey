@@ -3,16 +3,16 @@
 #define DATA_PACKET_DEFINITION(_name, _size, _version, ...) \
 data_packet_definition _name = \
 {                              \
-    .name = #_name,            \
-    .size = _size,             \
-    .version = _version,       \
-    .fields = { __VA_ARGS__ }  \
+	.name = #_name,            \
+	.size = _size,             \
+	.version = _version,       \
+	.fields = { __VA_ARGS__ }  \
 }
 
 #define DATA_PACKET(_packet_class, _definition) \
 {                                  \
-    .packet_class = _packet_class, \
-    .definition = &_definition     \
+	.packet_class = _packet_class, \
+	.definition = &_definition     \
 }
 
 struct data_packet_field
