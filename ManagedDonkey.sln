@@ -18,42 +18,28 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
-		DebugProxy|x86 = DebugProxy|x86
 		Release|x86 = Release|x86
 		ReleaseDedicated|x86 = ReleaseDedicated|x86
-		ReleaseProxy|x86 = ReleaseProxy|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FB59080F-57E1-4857-9A57-333F885779BB}.Debug|x86.ActiveCfg = Debug|Win32
 		{FB59080F-57E1-4857-9A57-333F885779BB}.Debug|x86.Build.0 = Debug|Win32
-		{FB59080F-57E1-4857-9A57-333F885779BB}.DebugProxy|x86.ActiveCfg = DebugProxy|Win32
-		{FB59080F-57E1-4857-9A57-333F885779BB}.DebugProxy|x86.Build.0 = DebugProxy|Win32
 		{FB59080F-57E1-4857-9A57-333F885779BB}.Release|x86.ActiveCfg = Release|Win32
 		{FB59080F-57E1-4857-9A57-333F885779BB}.Release|x86.Build.0 = Release|Win32
 		{FB59080F-57E1-4857-9A57-333F885779BB}.ReleaseDedicated|x86.ActiveCfg = ReleaseDedicated|Win32
 		{FB59080F-57E1-4857-9A57-333F885779BB}.ReleaseDedicated|x86.Build.0 = ReleaseDedicated|Win32
-		{FB59080F-57E1-4857-9A57-333F885779BB}.ReleaseProxy|x86.ActiveCfg = ReleaseProxy|Win32
-		{FB59080F-57E1-4857-9A57-333F885779BB}.ReleaseProxy|x86.Build.0 = ReleaseProxy|Win32
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.Debug|x86.ActiveCfg = Debug|Win32
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.Debug|x86.Build.0 = Debug|Win32
-		{F16090B0-3456-4A56-9542-4243EB165CD2}.DebugProxy|x86.ActiveCfg = DebugProxy|Win32
-		{F16090B0-3456-4A56-9542-4243EB165CD2}.DebugProxy|x86.Build.0 = DebugProxy|Win32
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.Release|x86.ActiveCfg = Release|Win32
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.Release|x86.Build.0 = Release|Win32
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.ReleaseDedicated|x86.ActiveCfg = ReleaseDedicated|Win32
 		{F16090B0-3456-4A56-9542-4243EB165CD2}.ReleaseDedicated|x86.Build.0 = ReleaseDedicated|Win32
-		{F16090B0-3456-4A56-9542-4243EB165CD2}.ReleaseProxy|x86.ActiveCfg = ReleaseProxy|Win32
-		{F16090B0-3456-4A56-9542-4243EB165CD2}.ReleaseProxy|x86.Build.0 = ReleaseProxy|Win32
 		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.Debug|x86.ActiveCfg = Debug|Win32
 		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.Debug|x86.Build.0 = Debug|Win32
-		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.DebugProxy|x86.ActiveCfg = DebugProxy|Win32
-		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.DebugProxy|x86.Build.0 = DebugProxy|Win32
 		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.Release|x86.ActiveCfg = Release|Win32
 		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.Release|x86.Build.0 = Release|Win32
 		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.ReleaseDedicated|x86.ActiveCfg = ReleaseDedicated|Win32
 		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.ReleaseDedicated|x86.Build.0 = ReleaseDedicated|Win32
-		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.ReleaseProxy|x86.ActiveCfg = ReleaseProxy|Win32
-		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}.ReleaseProxy|x86.Build.0 = ReleaseProxy|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

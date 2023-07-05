@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        BUILD_CONFIGURATION: [ Debug, DebugProxy, Release, ReleaseProxy, ReleaseDedicated ]
+        BUILD_CONFIGURATION: [ Debug, Release, ReleaseDedicated ]
 
     runs-on: windows-latest
 
