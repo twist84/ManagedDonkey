@@ -28,7 +28,19 @@ HOOK_DECLARE_CALL(0x00B0DA48, overlapped_task_start_internal); // c_gui_screen_g
 
 c_overlapped_task* c_overlapped_task::constructor(char const* file, long line)
 {
-	return DECLFUNC(0x005A8C80, c_overlapped_task*, __thiscall, c_overlapped_task const*, char const*, long)(this, file, line);
+	//DECLFUNC(0x005A8C80, c_overlapped_task*, __thiscall, c_overlapped_task const*, char const*, long)(this, file, line);
+
+	REFERENCE_DECLARE(this, dword, vftable);
+	vftable = 0x0165B220;
+	
+	set_file(file);
+	set_line(line);
+
+	//set_task_state_internal();
+	m_task_flags = 0;
+	m_task_state = _overlapped_task_state_none;
+
+	return this;
 }
 
 bool c_overlapped_task::busy() const

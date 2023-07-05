@@ -37,3 +37,4 @@ extern s_game_globals* scenario_try_and_get_game_globals();
 extern bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path);
 extern void __cdecl scenario_invalidate();
 extern bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path);
+extern bool __cdecl scenario_switch_zone_set(long zoneset_index);

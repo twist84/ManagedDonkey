@@ -5,25 +5,33 @@
 #include "networking/online/online_service_record.hpp"
 #include "shell/shell.hpp"
 
-struct c_virtual_keyboard_task : public c_overlapped_task
+struct c_virtual_keyboard_task :
+	public c_overlapped_task
 {
-	static c_virtual_keyboard_task* __fastcall constructor(
-		c_virtual_keyboard_task* _this,
+public:
+	c_virtual_keyboard_task* __cdecl constructor(
 		const char* file,
 		long line,
 		e_controller_index controller_index,
 		const wchar_t* default_text,
 		const wchar_t* title_text,
 		const wchar_t* description_text,
-		dword maximum_input_characters
+		dword maximum_input_characters,
+		dword_flags character_flags,
+		bool cancelled
 	);
 
-	static void __fastcall set_controller_index(c_virtual_keyboard_task* _this, e_controller_index controller_index);
-	static void __fastcall set_default_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* default_text);
-	static void __fastcall set_description_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* description_text);
-	static void __fastcall set_title_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* title_text);
-	static void __fastcall set_maximum_input_characters(c_virtual_keyboard_task* _this, dword maximum_input_characters);
-	static void __fastcall set_character_flags(c_virtual_keyboard_task* _this, dword_flags character_flags);
+	static void __fastcall _set_default_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* default_text);
+	static void __fastcall _set_description_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* description_text);
+	static void __fastcall _set_title_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* title_text);
+
+	void __cdecl set_controller_index(e_controller_index controller_index);
+	void __cdecl set_default_text(wchar_t const* default_text);
+	void __cdecl set_description_text(wchar_t const* description_text);
+	void __cdecl set_title_text(wchar_t const* title_text);
+	void __cdecl set_maximum_input_characters(dword maximum_input_characters);
+	void __cdecl set_character_flags(dword_flags character_flags);
+	void __cdecl set_sanitize_result(bool sanitize_result);
 
 	static c_virtual_keyboard_task* __cdecl get_instance(
 		char const* file,
@@ -33,7 +41,8 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 		wchar_t const* title_text,
 		wchar_t const* description_text,
 		dword maximum_input_characters,
-		dword_flags character_flags
+		dword_flags character_flags,
+		bool sanitize_result
 	);
 
 	virtual void* destructor(dword a1) override;
@@ -45,6 +54,7 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 
 	static c_virtual_keyboard_task* m_instance;
 
+protected:
 	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
 	dword_flags m_character_flags;
 	wchar_t m_result_text[256];
@@ -52,7 +62,7 @@ struct c_virtual_keyboard_task : public c_overlapped_task
 	wchar_t m_title_text[64];
 	wchar_t m_description_text[256];
 	long m_maximum_input_characters;
-	bool __unknown69C;
+	bool m_sanitize_result;
 };
 static_assert(sizeof(c_virtual_keyboard_task) == 0x6A0);
 

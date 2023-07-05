@@ -4,11 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "game", "game\game.vcxproj", "{FB59080F-57E1-4857-9A57-333F885779BB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F16090B0-3456-4A56-9542-4243EB165CD2} = {F16090B0-3456-4A56-9542-4243EB165CD2}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "launcher", "launcher\launcher.vcxproj", "{F16090B0-3456-4A56-9542-4243EB165CD2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C} = {DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}
-		{FB59080F-57E1-4857-9A57-333F885779BB} = {FB59080F-57E1-4857-9A57-333F885779BB}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "remote_console", "remote\remote.vcxproj", "{DE8D5B1A-BE3F-4C81-A7F4-50B9DDFE3A6C}"

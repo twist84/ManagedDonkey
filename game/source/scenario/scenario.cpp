@@ -107,6 +107,11 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	return false;
 }
 
+bool __cdecl scenario_switch_zone_set(long zoneset_index)
+{
+	return INVOKE(0x004EB620, scenario_switch_zone_set, zoneset_index);
+}
+
 #define SCENARIO_PRINT_ZONE_SETS()\
 if (scenario->zone_sets.count())\
 {\

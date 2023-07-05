@@ -1,6 +1,7 @@
 #include "editor/editor_stubs.hpp"
 
 #include "memory/module.hpp"
+#include "scenario/scenario.hpp"
 
 HOOK_DECLARE(0x0042DF80, editor_change_pvs);
 HOOK_DECLARE(0x0042DF90, editor_dispose);
@@ -21,90 +22,69 @@ HOOK_DECLARE(0x0042E130, game_in_editor);
 
 void __cdecl editor_change_pvs(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, bool a3)
 {
-	HOOK_INVOKE(, editor_change_pvs, a1, a2, a3);
 }
 
 void __cdecl editor_dispose()
 {
-	HOOK_INVOKE(, editor_dispose);
 }
 
 void __cdecl editor_dispose_from_old_map()
 {
-	HOOK_INVOKE(, editor_dispose_from_old_map);
 }
 
 void __cdecl editor_dispose_from_old_structure_bsp(dword a1)
 {
-	HOOK_INVOKE(, editor_dispose_from_old_structure_bsp, a1);
 }
 
 void __cdecl editor_initialize()
 {
-	HOOK_INVOKE(, editor_initialize);
 }
 
 void __cdecl editor_initialize_for_new_map()
 {
-	HOOK_INVOKE(, editor_initialize_for_new_map);
 }
 
 void __cdecl editor_initialize_for_new_structure_bsp(dword a1)
 {
-	HOOK_INVOKE(, editor_initialize_for_new_structure_bsp, a1);
 }
 
 bool __cdecl editor_input_inhibited()
 {
-	bool result = false;
-	HOOK_INVOKE(result =, editor_input_inhibited);
-	return result;
+	return true;
 }
 
-void __cdecl editor_orphan_object(e_object_type a1, long a2)
+void __cdecl editor_orphan_object(e_object_type type, long a2)
 {
-	HOOK_INVOKE(, editor_orphan_object, a1, a2);
 }
 
-void __cdecl editor_register_new_object(e_object_type a1, long a2, long a3)
+void __cdecl editor_register_new_object(e_object_type type, long a2, long a3)
 {
-	HOOK_INVOKE(, editor_register_new_object, a1, a2, a3);
 }
 
 void __cdecl editor_save_progress()
 {
-	HOOK_INVOKE(, editor_save_progress);
 }
 
 bool __cdecl editor_should_render_object(long object_index)
 {
-	bool result = false;
-	HOOK_INVOKE(result =, editor_should_render_object, object_index);
-	return result;
+	return true;
 }
 
 bool __cdecl editor_should_render_transparent_geometry()
 {
-	bool result = false;
-	HOOK_INVOKE(result =, editor_should_render_transparent_geometry);
-	return result;
+	return false;
 }
 
-bool __cdecl editor_switch_zone_set(long a1)
+bool __cdecl editor_switch_zone_set(long zoneset_index)
 {
-	bool result = false;
-	HOOK_INVOKE(result =, editor_switch_zone_set, a1);
-	return result;
+	return scenario_switch_zone_set(zoneset_index);
 }
 
 void __cdecl editor_update()
 {
-	HOOK_INVOKE(, editor_update);
 }
 
 bool __cdecl game_in_editor()
 {
-	bool result = false;
-	HOOK_INVOKE(result =, game_in_editor);
-	return result;
+	return false;
 }
