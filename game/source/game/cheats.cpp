@@ -223,9 +223,10 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		data.position.y = origin.y + (sinf(v15) * radius);
 		data.position.z = origin.z + 0.8f;
 
-		// something in `object_new` is busted, this is very similar to what `object_debug_teleport` had
-		// for now until we figure out what's causing the underlying issue we just won't call `object_new`
-		long object_index = NONE; // object_new(&data);
+		long lock = tag_resources_lock_game();
+		long object_index = object_new(&data);
+		tag_resources_unlock_game(lock);
+
 		if (object_index != NONE)
 			simulation_action_object_create(object_index);
 	}
