@@ -214,14 +214,16 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		data.multiplayer_object_properties.game_engine_flags = 0;
 		data.multiplayer_object_properties.spawn_flags = 0;
 
-		real v15 = atan2f(forward.i, forward.j) + (real(TWO_PI + reference_index) / reference_count);
+		real v15 = atan2f(forward.i, forward.j) + (real(TWO_PI * reference_index) / reference_count);
 		object_placement_data_new(&data, reference.index, NONE, nullptr);
 
-		data.position.x = origin.x + (cosf(v15) * radius);
+		data.position = origin;
 		data.forward = forward;
 		data.up = up;
-		data.position.y = origin.y + (sinf(v15) * radius);
-		data.position.z = origin.z + 0.8f;
+
+		data.position.x += (cosf(v15) * radius);
+		data.position.y += (sinf(v15) * radius);
+		data.position.z += 0.8f;
 
 		long lock = tag_resources_lock_game();
 		long object_index = object_new(&data);
@@ -263,9 +265,7 @@ void __cdecl cheat_all_vehicles()
 		{
 			char const* name = tag_get_name(tag_index);
 			references[reference_count].group_tag = 'vehi';
-			references[reference_count].index = tag_index;
-
-			reference_count++;
+			references[reference_count++].index = tag_index;
 		}
 	}
 
@@ -286,9 +286,7 @@ void __cdecl cheat_all_weapons()
 
 		char const* name = tag_get_name(tag_index);
 		references[reference_count].group_tag = 'weap';
-		references[reference_count].index = tag_index;
-
-		reference_count++;
+		references[reference_count++].index = tag_index;
 	}
 
 	cheat_objects(references, reference_count);
