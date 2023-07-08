@@ -117,7 +117,7 @@ long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_da
 	break;
 	case 1: // read file info memory
 	{
-		if (!v5 && file_read(callback_data->async_load_file, callback_data->async_load_file_size, FLAG(_file_open_flag_desired_access_read), callback_data->async_load_buffer))
+		if (!v5 && file_read(callback_data->async_load_file, callback_data->async_load_file_size, true, callback_data->async_load_buffer))
 		{
 			file_close(callback_data->async_load_file);
 
