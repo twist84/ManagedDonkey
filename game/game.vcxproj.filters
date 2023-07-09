@@ -2027,6 +2027,9 @@
     <ClInclude Include="source\objects\damage_owner.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\objects\object_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">

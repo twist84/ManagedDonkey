@@ -753,6 +753,7 @@ POPD
     <ClInclude Include="source\objects\damage_owner.hpp" />
     <ClInclude Include="source\objects\multiplayer_game_objects.hpp" />
     <ClInclude Include="source\objects\objects.hpp" />
+    <ClInclude Include="source\objects\object_definitions.hpp" />
     <ClInclude Include="source\physics\character_physics_definitions.hpp" />
     <ClInclude Include="source\physics\havok.hpp" />
     <ClInclude Include="source\physics\havok_mopp_code_definitions.hpp" />
