@@ -60,3 +60,4 @@ extern void __cdecl cheat_objects(s_tag_reference* references, short reference_c
 extern void __cdecl cheat_all_powerups();
 extern void __cdecl cheat_all_vehicles();
 extern void __cdecl cheat_all_weapons();
+

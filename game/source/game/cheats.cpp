@@ -153,9 +153,6 @@ void __cdecl cheat_teleport_to_camera()
 }
 long __cdecl cheat_player_index()
 {
-	//REFERENCE_DECLARE(0x04FE67A0, long, mainmenu_spartan_unit_index);
-	//return mainmenu_spartan_unit_index;
-
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 	long index = NONE;
@@ -250,7 +247,7 @@ void __cdecl cheat_all_powerups()
 void __cdecl cheat_all_vehicles()
 {
 	short reference_count = 0;
-	s_tag_reference references[16];
+	s_tag_reference references[16]{};
 
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, 'vehi');
@@ -264,7 +261,7 @@ void __cdecl cheat_all_vehicles()
 		if (powered_seats.count > 0)
 		{
 			char const* name = tag_get_name(tag_index);
-			references[reference_count].group_tag = 'vehi';
+			references[reference_count].group_tag = iterator.group_tag;
 			references[reference_count++].index = tag_index;
 		}
 	}
@@ -275,7 +272,7 @@ void __cdecl cheat_all_vehicles()
 void __cdecl cheat_all_weapons()
 {
 	short reference_count = 0;
-	s_tag_reference references[128 /* 32 */];
+	s_tag_reference references[128 /* 32 */]{};
 
 	tag_iterator iterator{};
 	tag_iterator_new(&iterator, 'weap');
@@ -285,7 +282,7 @@ void __cdecl cheat_all_weapons()
 			break;
 
 		char const* name = tag_get_name(tag_index);
-		references[reference_count].group_tag = 'weap';
+		references[reference_count].group_tag = iterator.group_tag;
 		references[reference_count++].index = tag_index;
 	}
 
