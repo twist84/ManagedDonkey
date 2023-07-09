@@ -913,11 +913,27 @@ struct breakable_surface_set_broken_event_datum : s_datum_header
 };
 static_assert(sizeof(breakable_surface_set_broken_event_datum) == 0x464);
 
-struct hs_thread_deterministic_data : s_datum_header
+struct hs_stack_frame
 {
-	byte __data[0x522];
+	word stack_offset;
+	int return_value;
+	int tracking_index;
+	char thread_type;
+	byte_flags flags;
+	byte __data[0x6];
 };
-static_assert(sizeof(hs_thread_deterministic_data) == 0x524);
+static_assert(sizeof(hs_stack_frame) == 0x14);
+
+struct hs_thread : s_datum_header
+{
+	short script_index;
+	short previous_script_index;
+	long delay_until_time;
+	long sleep_time;
+	hs_stack_frame stack_pointer;
+	byte stack_data[0x500];
+};
+static_assert(sizeof(hs_thread) == 0x524);
 
 struct hs_global_data : s_datum_header
 {
@@ -939,12 +955,6 @@ struct hs_thread_tracking_data : s_datum_header
 	dword __unknown8;
 };
 static_assert(sizeof(hs_thread_tracking_data) == 0xC);
-
-struct hs_thread_non_deterministic_data : s_datum_header
-{
-	byte __data[0x522];
-};
-static_assert(sizeof(hs_thread_non_deterministic_data) == 0x524);
 
 struct effect_datum : s_datum_header
 {
@@ -1155,12 +1165,12 @@ struct s_thread_local_storage
 	// size: 0x1
 	bool* director_camera_scripted;
 
-	c_smart_data_array<hs_thread_deterministic_data>* hs_thread_deterministic_data;
+	c_smart_data_array<hs_thread>* hs_thread_deterministic_data;
 	hs_runtime* hs_runtime;
 	c_smart_data_array<hs_global_data>* hs_global_data;
 	c_smart_data_array<hs_distributed_global_data>* hs_distributed_global_data;
 	c_smart_data_array<hs_thread_tracking_data>* hs_thread_tracking_data;
-	c_smart_data_array<hs_thread_non_deterministic_data>* hs_thread_non_deterministic_data;
+	c_smart_data_array<hs_thread>* hs_thread_non_deterministic_data;
 
 	// from assert
 	void* g_restricted_address[k_total_restricted_memory_regions];
