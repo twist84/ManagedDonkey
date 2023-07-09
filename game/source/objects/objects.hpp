@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
+#include "objects/damage_owner.hpp"
 #include "objects/multiplayer_game_objects.hpp"
 #include "scenario/scenario_object_definitions.hpp"
 
@@ -119,6 +120,13 @@ struct c_object_iterator : c_object_iterator_base
 	}
 };
 
+struct s_model_customization_region_permutation
+{
+	long region_name;
+	long permutation_name;
+};
+static_assert(sizeof(s_model_customization_region_permutation) == 0x8);
+
 struct object_placement_data
 {
 	long definition_index;
@@ -140,19 +148,29 @@ struct object_placement_data
 	long player_index;
 	long object_index;
 	long team_index;
+	s_damage_owner damage_owner;
 
-	byte __data68[0xC];
-
-	dword_flags change_color_flags;
+	dword_flags active_change_colors;
 	c_static_array<real_rgb_color, 5> change_colors;
 
-	byte __dataB4[0xA4];
+	long model_customization_override_count;
+	c_static_array<s_model_customization_region_permutation, 16> model_customization_overrides;
+	dword_flags model_customization_flags;
 
-	s_scenario_multiplayer_object_properties multiplayer_object_properties;
+	short destroyed_constraints;
+	short loosened_constraints;
+
+	byte __data140[8];
+
+	s_location location;
+
+	long parent_object_index;      // object_index_from_name_index(scenario_object->object_data.parent_id.parent_object)
+	c_string_id parent_marker;     // scenario_object->object_data.parent_id.parent_marker
+	c_string_id connection_marker; // scenario_object->object_data.parent_id.connection_marker
+
+	s_scenario_multiplayer_object_properties multiplayer_properties;
 };
 static_assert(sizeof(object_placement_data) == 0x18C);
-
-struct s_damage_owner;
 
 extern e_object_type __cdecl object_get_type(long object_index);
 extern bool __cdecl object_load_scenario_placement_matrices(long object_index);

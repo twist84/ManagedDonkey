@@ -208,8 +208,8 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		object_get_orientation(player->unit_index, &forward, &up);
 
 		object_placement_data data{};
-		data.multiplayer_object_properties.game_engine_flags = 0;
-		data.multiplayer_object_properties.spawn_flags = 0;
+		data.multiplayer_properties.game_engine_flags = 0;
+		data.multiplayer_properties.spawn_flags = 0;
 
 		real angle_offset = atan2f(forward.i, forward.j) + (real(TWO_PI * reference_index) / reference_count);
 		object_placement_data_new(&data, reference.index, NONE, nullptr);

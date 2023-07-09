@@ -750,6 +750,7 @@ POPD
     <ClInclude Include="source\networking\transport\transport_endpoint_winsock.hpp" />
     <ClInclude Include="source\networking\transport\transport_qos.hpp" />
     <ClInclude Include="source\networking\transport\transport_security.hpp" />
+    <ClInclude Include="source\objects\damage_owner.hpp" />
     <ClInclude Include="source\objects\multiplayer_game_objects.hpp" />
     <ClInclude Include="source\objects\objects.hpp" />
     <ClInclude Include="source\physics\character_physics_definitions.hpp" />
