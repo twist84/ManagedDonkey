@@ -797,7 +797,10 @@ void* __cdecl tag_get(tag group_tag, long tag_index)
 	return data;
 }
 
-// 005033A0 //dword tag_get_group_tag(long)
+dword __cdecl tag_get_group_tag(long tag_index)
+{
+	return INVOKE(0x005033A0, tag_get_group_tag, tag_index);
+}
 
 void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag)
 {

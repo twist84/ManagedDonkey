@@ -8,8 +8,10 @@
 #include "input/input_abstraction.hpp"
 #include "interface/terminal.hpp"
 #include "main/console.hpp"
+#include "main/main.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "objects/object_definitions.hpp"
 #include "objects/objects.hpp"
 #include "scenario/scenario.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
@@ -182,9 +184,9 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		if (reference.index == NONE)
 			continue;
 
-		byte* object = (byte*)tag_get('obje', reference.index);
+		_object_definition* object = static_cast<_object_definition*>(tag_get('obje', reference.index));
 
-		real bounding_radius = *reinterpret_cast<real*>(object + 4) + 1.5f;
+		real bounding_radius = object->bounding_radius + 1.5f;
 		if (radius <= bounding_radius)
 			radius = bounding_radius;
 	}
@@ -287,5 +289,249 @@ void __cdecl cheat_all_weapons()
 	}
 
 	cheat_objects(references, reference_count);
+}
+
+bool __cdecl cheat_drop_object(dword group_tag, char const* tag_name, dword expected_group_tag, long tag_index, long variant_name, long shader, real_point3d const* position, vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
+{
+	char const* tag_group_name = "unknown";
+
+	char tag_group[8]{};
+	tag_to_string(group_tag, tag_group);
+	tag_group_name = tag_group; // tag_group_get(group_tag)
+
+	if (game_is_predicted())
+		return false;
+
+	if (tag_index == NONE)
+	{
+		if (expected_group_tag == 'obje')
+			c_console::write_line("cheats: couldn't load object '%s.%s' to drop it", tag_name, tag_group_name);
+
+		return false;
+	}
+
+	object_placement_data data{};
+	data.multiplayer_properties.game_engine_flags = 0;
+	data.multiplayer_properties.spawn_flags = 0;
+
+	_object_definition* object = static_cast<_object_definition*>(tag_get('obje', tag_index));
+	object_placement_data_new(&data, tag_index, NONE, nullptr);
+	real bounding_radius = object->bounding_radius + 1.0f;
+
+	if (variant_name != NONE)
+		data.model_variant_index = variant_name;
+
+	data.position = *position;
+	data.position.x += bounding_radius * forward->i;
+	data.position.y += bounding_radius * forward->j;
+	data.position.z += bounding_radius * forward->k;
+
+	if (permutations && permutation_count > 0)
+	{
+		for (long i = 0; i < permutation_count; i++)
+		{
+			data.model_customization_overrides[i] = permutations[i];
+			data.model_customization_override_count++;
+		}
+	}
+
+	long object_index = object_new(&data);
+	if (object_index == NONE)
+	{
+		c_console::write_line("cheats: couldn't place '%s.%s'", tag_name, tag_group_name);
+		return false;
+	}
+
+	//object_force_inside_bsp(object_index, position, NONE);
+	//if (shader != NONE)
+	//	object_override_set_shader(object_index, shader);
+
+	//if (!object->runtime_object_type && object_get_and_verify_type(object_index, 1)->item.__data17C[0xE6] == NONE)
+	//{
+	//	tag_iterator iterator{};
+	//	tag_iterator_new(&iterator, 'weap');
+	//	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	//	{
+	//		object_placement_data weapon_data{};
+	//		weapon_data.multiplayer_properties.game_engine_flags = 0;
+	//		weapon_data.multiplayer_properties.spawn_flags = 0;
+	//		long weapon_object_index = object_new(&weapon_data);
+	//		if (weapon_object_index != NONE)
+	//		{
+	//			if (unit_add_weapon_to_inventory(object_index, weapon_object_index, 1))
+	//				break;
+	//
+	//			object_delete(weapon_object_index);
+	//		}
+	//	}
+	//}
+
+	simulation_action_object_create(object_index);
+	console_printf("placed '%s.%s'", tag_name, tag_group_name);
+
+	return true;
+}
+
+void __cdecl cheat_drop_tag_safe_hs(long tag_index)
+{
+	main_cheat_drop_tag(tag_index, NONE, nullptr, 0);
+}
+
+long __cdecl tag_loaded(dword group_tag, char const* tag_name)
+{
+	if (g_cache_file_globals.tags_loaded)
+	{
+		for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
+		{
+			cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
+
+			if (!instance->is_group(group_tag))
+				continue;
+
+			long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
+			char const* name = tag_get_name(tag_index);
+			if (csstricmp(tag_name, name) == 0)
+				return tag_index;
+		}
+	}
+
+	return NONE;
+}
+
+long __cdecl cheat_get_tag_definition(dword group_tag, char const* tag_name)
+{
+	return tag_loaded(group_tag, tag_name);
+}
+
+long __cdecl cheat_drop_tag(dword group_tag, char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+{
+	long variant_id = NONE;
+
+	char const* tag_group_name = "unknown";// tag_group_get_name(group_tag);
+
+	long tag_index = cheat_get_tag_definition(group_tag, tag_name);
+
+	//if (variant_name)
+	//	variant_id = string_id_retrieve(variant_name);
+
+	if (tag_index == NONE)
+	{
+		c_console::write_line("cheats: couldn't load tag '%s.%s' to place", tag_name, tag_group_name);
+	}
+	else
+	{
+		main_cheat_drop_tag(tag_index, variant_id, permutations, permutation_count);
+	}
+
+	return tag_index;
+}
+
+void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+{
+	char name_buffer[256]{};
+	csstrnzcpy(name_buffer, tag_name, 256);
+
+	if (char* position = strrchr(name_buffer, '.'))
+	{
+		char const* tag_group_name = position + 1;
+		*position = 0;
+
+		//dword group_tag = cheat_get_droppable_tag_types(tag_group_name);
+		//if (group_tag != NONE)
+		//{
+		//	cheat_drop_tag(group_tag, name_buffer, variant_name, permutations, permutation_count);
+		//	return;
+		//}
+		//
+		//if (strlen(tag_group_name))
+		//{
+		//	c_console::write_line("cheats: unknown tag group '%s'", tag_group_name);
+		//}
+	}
+
+	dword droppable_tag_types[32] = { 'vehi', 'bipd', 'crea', 'weap', 'bloc', 'eqip', 'mach', 'ctrl', 'proj', 'term', 'ssce', 'scen', 'efsc', 'effe' };
+	long droppable_tag_type_index = 0;
+	while (cheat_drop_tag(droppable_tag_types[droppable_tag_type_index], name_buffer, variant_name, permutations, permutation_count) == NONE)
+	{
+		if (++droppable_tag_type_index >= 14)
+		{
+			c_console::write_line("cheats: could not find any tags named '%s' to drop", name_buffer);
+			return;
+		}
+	}
+}
+
+void __cdecl cheat_drop_tag_name(char const* tag_name)
+{
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, nullptr, nullptr, 0);
+}
+
+void __cdecl cheat_drop_tag_name_with_variant_hs(char const* tag_name, char const* variant_name)
+{
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, nullptr, 0);
+}
+
+void __cdecl cheat_drop_tag_name_with_permutation_hs(char const* tag_name, char const* permutation_name)
+{
+	//s_model_customization_region_permutation permutations[16]{};
+	//long permutation_count = cheat_get_region_and_permutation_array_from_string(permutation_name, permutations, NUMBEROF(permutations));
+	//cheat_drop_tag_name_with_variant_and_permutations(tag_name, nullptr, permutations, permutation_count);
+}
+
+void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+{
+	if (tag_index == NONE)
+		return;
+
+	long active_user = players_first_active_user();
+	if (active_user == NONE)
+		return;
+
+	s_observer_result const* result = observer_try_and_get_camera(active_user);
+
+	dword group_tag_ = tag_get_group_tag(tag_index);
+	dword group_tag = group_tag_;
+	switch (group_tag)
+	{
+	case 'mach':
+	case 'ctrl':
+	case 'bipd':
+	case 'bloc':
+	case 'crea':
+	case 'efsc':
+	case 'eqip':
+	case 'gint':
+	case 'term':
+	case 'proj':
+	case 'scen':
+	case 'ssce':
+	case 'vehi':
+	case 'weap':
+		group_tag = 'obje';
+		break;
+	}
+
+	//random_seed_allow_use();
+
+	if (result)
+	{
+		if (group_tag == 'effe')
+		{
+			//cheat_drop_effect(group_tag, tag_get_name(tag_index), tag_index, &result->focus_point, &result->forward);
+		}
+		else if (group_tag == 'obje')
+		{
+			cheat_drop_object(group_tag_, tag_get_name(tag_index), 'obje', tag_index, variant_name, NONE, &result->focus_point, &result->forward, permutations, permutation_count);
+		}
+		else
+		{
+			char tag_group[8]{};
+			tag_to_string(group_tag_, tag_group);
+
+			c_console::write_line("cheats: don't know how to place tags of type '%s'", tag_group/*tag_group_get_name(group_tag)*/);
+		}
+	}
+
+	//random_seed_disallow_use();
 }
 

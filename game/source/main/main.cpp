@@ -7,6 +7,7 @@
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
+#include "game/cheats.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_candy_monitor.hpp"
 #include "game/game_results.hpp"
@@ -297,7 +298,6 @@ void __cdecl main_loop_body_begin()
 		//shell_halt_with_message("FUCK");
 #endif // ISEXPERIMENTAL
 
-		// test assert for triggering crash
 		main_crash("fast");
 	}
 
@@ -312,10 +312,23 @@ void __cdecl main_loop_body_begin()
 	show_location_messages();
 }
 
+bool cheat_drop_has_tag = false;
+long cheat_drop_tag_index = 0;
+long cheat_drop_variant_name = 0;
+s_model_customization_region_permutation cheat_drop_permutations[16]{};
+long cheat_drop_permutation_count = 0;
+
 void __cdecl main_loop_body_mid(real shell_seconds_elapsed)
 {
+	long lock = tag_resources_lock_game();
+
+	if (cheat_drop_has_tag)
+		main_cheat_drop_tag_private();
+
 	terminal_update(shell_seconds_elapsed);
 	console_update(shell_seconds_elapsed);
+
+	tag_resources_unlock_game(lock);
 }
 HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
 
@@ -688,5 +701,41 @@ void __cdecl main_crash(char const* type)
 		main_exit_game();
 		return;
 	}
+}
+
+void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+{
+	if (tag_index == NONE)
+		return;
+
+	cheat_drop_tag_index = tag_index;
+	cheat_drop_variant_name = variant_name;
+	cheat_drop_has_tag = true;
+	cheat_drop_permutation_count = 0;
+
+	if (permutations)
+	{
+		for (long i = 0; i < permutation_count; i++)
+		{
+			cheat_drop_permutations[i].region_name = permutations[i].region_name;
+			cheat_drop_permutations[i].permutation_name = permutations[i].permutation_name;
+			cheat_drop_permutation_count++;
+		}
+	}
+}
+
+void __cdecl main_cheat_drop_tag_private()
+{
+	cheat_drop_has_tag = false;
+
+	cheat_drop_tag_in_main_event_loop(
+		cheat_drop_tag_index,
+		cheat_drop_variant_name,
+		cheat_drop_permutations,
+		cheat_drop_permutation_count);
+
+	cheat_drop_tag_index = NONE;
+	cheat_drop_variant_name = NONE;
+	cheat_drop_permutation_count = 0;
 }
 

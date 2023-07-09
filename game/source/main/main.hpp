@@ -27,7 +27,10 @@ bool main_status(char const* status_type, char const* format, parameters_t... pa
 }
 
 struct s_file_reference;
+struct s_model_customization_region_permutation;
 extern void __cdecl main_status_dump(s_file_reference* file);
 extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context);
 extern void __cdecl main_crash(char const* type);
+extern void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count);
+extern void __cdecl main_cheat_drop_tag_private();
 

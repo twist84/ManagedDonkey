@@ -917,33 +917,6 @@ callback_result_t mp_game_won_callback(void const* userdata, long token_count, t
 	return result;
 }
 
-callback_result_t cheat_all_powerups_callback(void const* userdata, long token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	cheat_all_powerups();
-
-	return result;
-}
-
-callback_result_t cheat_all_vehicles_callback(void const* userdata, long token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	cheat_all_vehicles();
-
-	return result;
-}
-
-callback_result_t cheat_all_weapons_callback(void const* userdata, long token_count, tokens_t const tokens)
-{
-	COMMAND_CALLBACK_PARAMETER_CHECK;
-
-	cheat_all_weapons();
-
-	return result;
-}
-
 callback_result_t load_preferences_from_file_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -1244,6 +1217,43 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 		result.append(command.extra_info);
 		return result;
 	}
+
+	return result;
+}
+
+callback_result_t cheat_all_powerups_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	cheat_all_powerups();
+
+	return result;
+}
+
+callback_result_t cheat_all_vehicles_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	cheat_all_vehicles();
+
+	return result;
+}
+
+callback_result_t cheat_all_weapons_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	cheat_all_weapons();
+
+	return result;
+}
+
+callback_result_t drop_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* tag_name = tokens.m_storage[1]->get_string();
+	cheat_drop_tag_name(tag_name);
 
 	return result;
 }
