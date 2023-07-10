@@ -1258,3 +1258,25 @@ callback_result_t drop_callback(void const* userdata, long token_count, tokens_t
 	return result;
 }
 
+callback_result_t drop_variant_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* tag_name = tokens.m_storage[1]->get_string();
+	char const* variant_name = tokens.m_storage[2]->get_string();
+	cheat_drop_tag_name_with_variant_hs(tag_name, variant_name);
+
+	return result;
+}
+
+callback_result_t drop_permutation_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* tag_name = tokens.m_storage[1]->get_string();
+	char const* permutation = tokens.m_storage[2]->get_string();
+	cheat_drop_tag_name_with_permutation_hs(tag_name, permutation);
+
+	return result;
+}
+

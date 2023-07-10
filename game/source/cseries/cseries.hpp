@@ -739,6 +739,11 @@ public:
 		return "";
 	}
 
+	char* get_buffer()
+	{
+		return m_string;
+	}
+
 	long length() const
 	{
 		return csstrnlen(m_string, k_maximum_count);

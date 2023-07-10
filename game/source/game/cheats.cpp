@@ -15,6 +15,7 @@
 #include "objects/objects.hpp"
 #include "scenario/scenario.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
+#include "tag_files/string_ids.hpp"
 
 #include <string.h>
 
@@ -291,13 +292,11 @@ void __cdecl cheat_all_weapons()
 	cheat_objects(references, reference_count);
 }
 
-bool __cdecl cheat_drop_object(dword group_tag, char const* tag_name, dword expected_group_tag, long tag_index, long variant_name, long shader, real_point3d const* position, vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
+bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected_group_tag, long tag_index, long variant_name, long shader, real_point3d const* position, vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
 {
 	char const* tag_group_name = "unknown";
 
-	char tag_group[8]{};
-	tag_to_string(group_tag, tag_group);
-	tag_group_name = tag_group; // tag_group_get(group_tag)
+	tag_group_name = tag_group_get_name(group_tag);
 
 	if (game_is_predicted())
 		return false;
@@ -377,42 +376,21 @@ void __cdecl cheat_drop_tag_safe_hs(long tag_index)
 	main_cheat_drop_tag(tag_index, NONE, nullptr, 0);
 }
 
-long __cdecl tag_loaded(dword group_tag, char const* tag_name)
-{
-	if (g_cache_file_globals.tags_loaded)
-	{
-		for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
-		{
-			cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
-
-			if (!instance->is_group(group_tag))
-				continue;
-
-			long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
-			char const* name = tag_get_name(tag_index);
-			if (csstricmp(tag_name, name) == 0)
-				return tag_index;
-		}
-	}
-
-	return NONE;
-}
-
-long __cdecl cheat_get_tag_definition(dword group_tag, char const* tag_name)
+long __cdecl cheat_get_tag_definition(tag group_tag, char const* tag_name)
 {
 	return tag_loaded(group_tag, tag_name);
 }
 
-long __cdecl cheat_drop_tag(dword group_tag, char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
+long __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
 {
 	long variant_id = NONE;
 
-	char const* tag_group_name = "unknown";// tag_group_get_name(group_tag);
+	char const* tag_group_name = tag_group_get_name(group_tag);
 
 	long tag_index = cheat_get_tag_definition(group_tag, tag_name);
 
-	//if (variant_name)
-	//	variant_id = string_id_retrieve(variant_name);
+	if (variant_name)
+		variant_id = string_id_retrieve(variant_name);
 
 	if (tag_index == NONE)
 	{
@@ -426,6 +404,13 @@ long __cdecl cheat_drop_tag(dword group_tag, char const* tag_name, char const* v
 	return tag_index;
 }
 
+void cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, long* out_droppable_tag_type_count)
+{
+	tag droppable_tag_types[] = { 'vehi', 'bipd', 'crea', 'weap', 'bloc', 'eqip', 'mach', 'ctrl', 'proj', 'term', 'ssce', 'scen', 'efsc', 'effe' };
+	csmemcpy(out_droppable_tag_types, droppable_tag_types, sizeof(droppable_tag_types));
+	*out_droppable_tag_type_count = NUMBEROF(droppable_tag_types);
+}
+
 void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
 {
 	char name_buffer[256]{};
@@ -433,23 +418,26 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 
 	if (char* position = strrchr(name_buffer, '.'))
 	{
-		char const* tag_group_name = position + 1;
+		char const* group_name = position + 1;
 		*position = 0;
 
-		//dword group_tag = cheat_get_droppable_tag_types(tag_group_name);
-		//if (group_tag != NONE)
-		//{
-		//	cheat_drop_tag(group_tag, name_buffer, variant_name, permutations, permutation_count);
-		//	return;
-		//}
-		//
-		//if (strlen(tag_group_name))
-		//{
-		//	c_console::write_line("cheats: unknown tag group '%s'", tag_group_name);
-		//}
+		tag group_tag = group_name_to_group_tag(group_name);
+		if (group_tag != NONE)
+		{
+			cheat_drop_tag(group_tag, name_buffer, variant_name, permutations, permutation_count);
+			return;
+		}
+		
+		if (strlen(group_name))
+		{
+			c_console::write_line("cheats: unknown tag group '%s'", group_name);
+		}
 	}
 
-	dword droppable_tag_types[32] = { 'vehi', 'bipd', 'crea', 'weap', 'bloc', 'eqip', 'mach', 'ctrl', 'proj', 'term', 'ssce', 'scen', 'efsc', 'effe' };
+	tag droppable_tag_types[32]{};
+	long droppable_tag_type_count = 0;
+	cheat_get_droppable_tag_types(droppable_tag_types, &droppable_tag_type_count);
+
 	long droppable_tag_type_index = 0;
 	while (cheat_drop_tag(droppable_tag_types[droppable_tag_type_index], name_buffer, variant_name, permutations, permutation_count) == NONE)
 	{
@@ -459,6 +447,49 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 			return;
 		}
 	}
+}
+
+long __cdecl cheat_get_region_and_permutation_array_from_string(char const* permutation_info, s_model_customization_region_permutation* permutations, long maximum_permutations)
+{
+	c_static_string<1022> permutations_string = permutation_info;
+	c_static_string<1022> name_string;
+
+	long permutation_string_index = 0;
+	long permutation_string_next_index = 0;
+	long permutation_string_length = permutations_string.length();
+
+	long permutation_index = 0;
+	while (permutation_string_next_index < permutation_string_length && permutation_index < maximum_permutations)
+	{
+		permutation_string_next_index = permutations_string.next_index_of("=", permutation_string_index);
+		if (permutation_string_next_index == -1)
+		{
+			c_console::write_line("error dropping permutation: string '%s' is in an unexpected format!", permutation_info);
+			break;
+		}
+
+		permutations_string.substring(permutation_string_index, permutation_string_next_index - permutation_string_index, name_string);
+		long region_name = string_id_retrieve(name_string.get_string());
+
+		permutation_string_index = permutation_string_next_index + 1;
+		permutation_string_next_index = permutations_string.next_index_of(",", permutation_string_next_index + 1);
+
+		long index = permutation_string_next_index;
+		if (permutation_string_next_index != -1)
+			index = permutation_string_length;
+
+		permutations_string.substring(permutation_string_index, index - permutation_string_index, name_string);
+		long permutation_name = string_id_retrieve(name_string.get_string());
+		permutation_string_index = permutation_string_next_index + 1;
+
+		if (region_name != -1 && permutation_name != -1)
+		{
+			permutations[permutation_index].region_name = region_name;
+			permutations[permutation_index++].permutation_name = permutation_name;
+		}
+	}
+
+	return permutation_index;
 }
 
 void __cdecl cheat_drop_tag_name(char const* tag_name)
@@ -471,11 +502,11 @@ void __cdecl cheat_drop_tag_name_with_variant_hs(char const* tag_name, char cons
 	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, nullptr, 0);
 }
 
-void __cdecl cheat_drop_tag_name_with_permutation_hs(char const* tag_name, char const* permutation_name)
+void __cdecl cheat_drop_tag_name_with_permutation_hs(char const* tag_name, char const* permutation_info)
 {
-	//s_model_customization_region_permutation permutations[16]{};
-	//long permutation_count = cheat_get_region_and_permutation_array_from_string(permutation_name, permutations, NUMBEROF(permutations));
-	//cheat_drop_tag_name_with_variant_and_permutations(tag_name, nullptr, permutations, permutation_count);
+	s_model_customization_region_permutation permutations[16]{};
+	long permutation_count = cheat_get_region_and_permutation_array_from_string(permutation_info, permutations, NUMBEROF(permutations));
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, nullptr, permutations, permutation_count);
 }
 
 void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
@@ -489,8 +520,8 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 
 	s_observer_result const* result = observer_try_and_get_camera(active_user);
 
-	dword group_tag_ = tag_get_group_tag(tag_index);
-	dword group_tag = group_tag_;
+	tag group_tag_ = tag_get_group_tag(tag_index);
+	tag group_tag = group_tag_;
 	switch (group_tag)
 	{
 	case 'mach':
@@ -525,10 +556,7 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 		}
 		else
 		{
-			char tag_group[8]{};
-			tag_to_string(group_tag_, tag_group);
-
-			c_console::write_line("cheats: don't know how to place tags of type '%s'", tag_group/*tag_group_get_name(group_tag)*/);
+			c_console::write_line("cheats: don't know how to place tags of type '%s'", tag_group_get_name(group_tag_));
 		}
 	}
 

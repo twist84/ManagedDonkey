@@ -63,6 +63,8 @@ extern void __cdecl cheat_all_vehicles();
 extern void __cdecl cheat_all_weapons();
 
 extern void __cdecl cheat_drop_tag_name(char const* tag_name);
+extern void __cdecl cheat_drop_tag_name_with_variant_hs(char const* tag_name, char const* variant_name);
+extern void __cdecl cheat_drop_tag_name_with_permutation_hs(char const* tag_name, char const* permutation_info);
 extern void __cdecl cheat_drop_tag_safe_hs(long tag_index);
 extern void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count);
 

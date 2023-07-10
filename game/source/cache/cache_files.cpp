@@ -31,6 +31,284 @@ HOOK_DECLARE(0x00503370, tag_get);
 HOOK_DECLARE(0x00503470, sub_503470);
 
 s_tag_reference g_last_tag_accessed = { .group_tag = 0xFFFFFFFF, .index = NONE };
+s_cache_file_tag_group const global_tag_groups[] =
+{
+	{ .group_tags = { 'achi'  }, .name = STRING_ID(global, achievements) },
+	{ .group_tags = { 'adlg'  }, .name = STRING_ID(global, ai_dialogue_globals) },
+	{ .group_tags = { 'aigl'  }, .name = STRING_ID(global, ai_globals) },
+	{ .group_tags = { 'mdlg'  }, .name = STRING_ID(global, ai_mission_dialogue) },
+	{ .group_tags = { 'ant!'  }, .name = STRING_ID(global, antenna) },
+	{ .group_tags = { 'sefc'  }, .name = STRING_ID(global, area_screen_effect) },
+	{ .group_tags = { 'arms'  }, .name = STRING_ID(global, armor_sounds) },
+	{ .group_tags = { 'beam'  }, .name = STRING_ID(global, beam_system) },
+	{ .group_tags = { 'bink'  }, .name = STRING_ID(global, bink) },
+	{ .group_tags = { 'bipd'  }, .name = STRING_ID(global, biped) },
+	{ .group_tags = { 'bitm'  }, .name = STRING_ID(global, bitmap) },
+	{ .group_tags = { 'bsdt'  }, .name = STRING_ID(global, breakable_surface) },
+	{ .group_tags = { 'cfgt'  }, .name = STRING_ID(global, cache_file_global_tags) },
+	{ .group_tags = { 'zone'  }, .name = STRING_ID(global, cache_file_resource_gestalt) },
+	{ .group_tags = { '$#! '  }, .name = STRING_ID(global, cache_file_sound) },
+	{ .group_tags = { 'cfxs'  }, .name = STRING_ID(global, camera_fx_settings) },
+	{ .group_tags = { 'trak'  }, .name = STRING_ID(global, camera_track) },
+	{ .group_tags = { 'cmoe'  }, .name = STRING_ID(global, camo) },
+	{ .group_tags = { 'whip'  }, .name = STRING_ID(global, cellular_automata2d) },
+	{ .group_tags = { 'devo'  }, .name = STRING_ID(global, cellular_automata) },
+	{ .group_tags = { 'char'  }, .name = STRING_ID(global, character) },
+	{ .group_tags = { 'chmt'  }, .name = STRING_ID(global, chocolate_mountain_new) },
+	{ .group_tags = { 'chad'  }, .name = STRING_ID(global, chud_animation_definition) },
+	{ .group_tags = { 'chdt'  }, .name = STRING_ID(global, chud_definition) },
+	{ .group_tags = { 'chgd'  }, .name = STRING_ID(global, chud_globals_definition) },
+	{ .group_tags = { 'cprl'  }, .name = STRING_ID(global, chud_widget_parallax_data) },
+	{ .group_tags = { 'cisc'  }, .name = STRING_ID(global, cinematic_scene) },
+	{ .group_tags = { 'cine'  }, .name = STRING_ID(global, cinematic) },
+	{ .group_tags = { 'clwd'  }, .name = STRING_ID(global, cloth) },
+	{ .group_tags = { 'cddf'  }, .name = STRING_ID(global, collision_damage) },
+	{ .group_tags = { 'coll'  }, .name = STRING_ID(global, collision_model) },
+	{ .group_tags = { 'colo'  }, .name = STRING_ID(global, color_table) },
+	{ .group_tags = { 'cntl'  }, .name = STRING_ID(global, contrail_system) },
+	{ .group_tags = { 'crte'  }, .name = STRING_ID(global, cortana_effect_definition) },
+	{ .group_tags = { 'bloc'  }, .name = STRING_ID(global, crate) },
+	{ .group_tags = { 'crea'  }, .name = STRING_ID(global, creature) },
+	{ .group_tags = { 'jpt!'  }, .name = STRING_ID(global, damage_effect) },
+	{ .group_tags = { 'drdf'  }, .name = STRING_ID(global, damage_response_definition) },
+	{ .group_tags = { 'decs'  }, .name = STRING_ID(global, decal_system) },
+	{ .group_tags = { 'dctr'  }, .name = STRING_ID(global, decorator_set) },
+	{ .group_tags = { 'dobc'  }, .name = STRING_ID(global, detail_object_collection) },
+	{ .group_tags = { 'argd'  }, .name = STRING_ID(global, device_arg_device) },
+	{ .group_tags = { 'ctrl'  }, .name = STRING_ID(global, device_control) },
+	{ .group_tags = { 'mach'  }, .name = STRING_ID(global, device_machine) },
+	{ .group_tags = { 'devi'  }, .name = STRING_ID(global, device) },
+	{ .group_tags = { 'term'  }, .name = STRING_ID(global, device_terminal) },
+	{ .group_tags = { 'udlg'  }, .name = STRING_ID(global, dialogue) },
+	{ .group_tags = { 'effg'  }, .name = STRING_ID(global, effect_globals) },
+	{ .group_tags = { 'efsc'  }, .name = STRING_ID(global, effect_scenery) },
+	{ .group_tags = { 'effe'  }, .name = STRING_ID(global, effect) },
+	{ .group_tags = { 'eqip'  }, .name = STRING_ID(global, equipment) },
+	{ .group_tags = { 'flck'  }, .name = STRING_ID(global, flock) },
+	{ .group_tags = { 'fldy'  }, .name = STRING_ID(global, fluid_dynamics) },
+	{ .group_tags = { 'form'  }, .name = STRING_ID(global, formation) },
+	{ .group_tags = { 'frag'  }, .name = STRING_ID(global, fragment) },
+	{ .group_tags = { 'wezr'  }, .name = STRING_ID(global, game_engine_settings_definition) },
+	{ .group_tags = { 'gpdt'  }, .name = STRING_ID(global, game_progression) },
+	{ .group_tags = { 'gfxt'  }, .name = STRING_ID(global, gfx_textures_list) },
+	{ .group_tags = { 'gint'  }, .name = STRING_ID(global, giant) },
+	{ .group_tags = { 'matg'  }, .name = STRING_ID(global, globals) },
+	{ .group_tags = { 'glps'  }, .name = STRING_ID(global, global_pixel_shader) },
+	{ .group_tags = { 'glvs'  }, .name = STRING_ID(global, global_vertex_shader) },
+	{ .group_tags = { 'bmp3'  }, .name = STRING_ID(global, gui_bitmap_widget_definition) },
+	{ .group_tags = { 'bkey'  }, .name = STRING_ID(global, gui_button_key_definition) },
+	{ .group_tags = { 'dsrc'  }, .name = STRING_ID(global, gui_datasource_definition) },
+	{ .group_tags = { 'grup'  }, .name = STRING_ID(global, gui_group_widget_definition) },
+	{ .group_tags = { 'lst3'  }, .name = STRING_ID(global, gui_list_widget_definition) },
+	{ .group_tags = { 'mdl3'  }, .name = STRING_ID(global, gui_model_widget_definition) },
+	{ .group_tags = { 'scn3'  }, .name = STRING_ID(global, gui_screen_widget_definition) },
+	{ .group_tags = { 'skn3'  }, .name = STRING_ID(global, gui_skin_definition) },
+	{ .group_tags = { 'txt3'  }, .name = STRING_ID(global, gui_text_widget_definition) },
+	{ .group_tags = { 'wacd'  }, .name = STRING_ID(global, gui_widget_animation_collection_definition) },
+	{ .group_tags = { 'wgan'  }, .name = STRING_ID(global, gui_widget_animation_definition) },
+	{ .group_tags = { 'wclr'  }, .name = STRING_ID(global, gui_widget_color_animation_definition) },
+	{ .group_tags = { 'wfon'  }, .name = STRING_ID(global, gui_widget_font_animation_definition) },
+	{ .group_tags = { 'wpos'  }, .name = STRING_ID(global, gui_widget_position_animation_definition) },
+	{ .group_tags = { 'wrot'  }, .name = STRING_ID(global, gui_widget_rotation_animation_definition) },
+	{ .group_tags = { 'wscl'  }, .name = STRING_ID(global, gui_widget_scale_animation_definition) },
+	{ .group_tags = { 'wspr'  }, .name = STRING_ID(global, gui_widget_sprite_animation_definition) },
+	{ .group_tags = { 'wtuv'  }, .name = STRING_ID(global, gui_widget_texture_coordinate_animation_definition) },
+	{ .group_tags = { 'hlsl'  }, .name = STRING_ID(global, hlsl_include) },
+	{ .group_tags = { 'inpg'  }, .name = STRING_ID(global, input_globals) },
+	{ .group_tags = { 'itmc'  }, .name = STRING_ID(global, item_collection) },
+	{ .group_tags = { 'item'  }, .name = STRING_ID(global, item) },
+	{ .group_tags = { 'lswd'  }, .name = STRING_ID(global, leaf_system) },
+	{ .group_tags = { 'lens'  }, .name = STRING_ID(global, lens_flare) },
+	{ .group_tags = { 'ligh'  }, .name = STRING_ID(global, light) },
+	{ .group_tags = { 'ltvl'  }, .name = STRING_ID(global, light_volume_system) },
+	{ .group_tags = { 'foot'  }, .name = STRING_ID(global, material_effects) },
+	{ .group_tags = { 'metr'  }, .name = STRING_ID(global, meter) },
+	{ .group_tags = { 'jmad'  }, .name = STRING_ID(global, model_animation_graph) },
+	{ .group_tags = { 'hlmt'  }, .name = STRING_ID(global, model) },
+	{ .group_tags = { 'mffn'  }, .name = STRING_ID(global, muffin) },
+	{ .group_tags = { 'unic'  }, .name = STRING_ID(global, multilingual_unicode_string_list) },
+	{ .group_tags = { 'mulg'  }, .name = STRING_ID(global, multiplayer_globals) },
+	{ .group_tags = { 'mply'  }, .name = STRING_ID(global, multiplayer_scenario_description) },
+	{ .group_tags = { 'goof'  }, .name = STRING_ID(global, multiplayer_variant_settings_interface_definition) },
+	{ .group_tags = { 'nclt'  }, .name = STRING_ID(global, new_cinematic_lighting) },
+	{ .group_tags = { 'obje'  }, .name = STRING_ID(global, object) },
+	{ .group_tags = { 'pecp'  }, .name = STRING_ID(global, particle_emitter_custom_points) },
+	{ .group_tags = { 'pmdf'  }, .name = STRING_ID(global, particle_model) },
+	{ .group_tags = { 'pmov'  }, .name = STRING_ID(global, particle_physics) },
+	{ .group_tags = { 'prt3'  }, .name = STRING_ID(global, particle) },
+	{ .group_tags = { 'fpch'  }, .name = STRING_ID(global, patchy_fog) },
+	{ .group_tags = { 'perf'  }, .name = STRING_ID(global, performance_throttles) },
+	{ .group_tags = { 'phmo'  }, .name = STRING_ID(global, physics_model) },
+	{ .group_tags = { 'pixl'  }, .name = STRING_ID(global, pixel_shader) },
+	{ .group_tags = { 'fog '  }, .name = STRING_ID(global, planar_fog) },
+	{ .group_tags = { 'pdm!'  }, .name = STRING_ID(global, podium_settings) },
+	{ .group_tags = { 'pphy'  }, .name = STRING_ID(global, point_physics) },
+	{ .group_tags = { 'proj'  }, .name = STRING_ID(global, projectile) },
+	{ .group_tags = { 'draw'  }, .name = STRING_ID(global, rasterizer_cache_file_globals) },
+	{ .group_tags = { 'rasg'  }, .name = STRING_ID(global, rasterizer_globals) },
+	{ .group_tags = { 'rmdf'  }, .name = STRING_ID(global, render_method_definition) },
+	{ .group_tags = { 'rmop'  }, .name = STRING_ID(global, render_method_option) },
+	{ .group_tags = { 'rm  '  }, .name = STRING_ID(global, render_method) },
+	{ .group_tags = { 'rmt2'  }, .name = STRING_ID(global, render_method_template) },
+	{ .group_tags = { 'mode'  }, .name = STRING_ID(global, render_model) },
+	{ .group_tags = { 'rwrd'  }, .name = STRING_ID(global, render_water_ripple) },
+	{ .group_tags = { 'jmrq'  }, .name = STRING_ID(global, sandbox_text_value_pair_definition) },
+	{ .group_tags = { 'ai**'  }, .name = STRING_ID(global, scenario_ai_resource) },
+	{ .group_tags = { '*ipd'  }, .name = STRING_ID(global, scenario_bipeds_resource) },
+	{ .group_tags = { 'cin*'  }, .name = STRING_ID(global, scenario_cinematics_resource) },
+	{ .group_tags = { 'clu*'  }, .name = STRING_ID(global, scenario_cluster_data_resource) },
+	{ .group_tags = { '/**/'  }, .name = STRING_ID(global, scenario_comments_resource) },
+	{ .group_tags = { '*rea'  }, .name = STRING_ID(global, scenario_creature_resource) },
+	{ .group_tags = { 'cub*'  }, .name = STRING_ID(global, scenario_cubemap_resource) },
+	{ .group_tags = { 'dec*'  }, .name = STRING_ID(global, scenario_decals_resource) },
+	{ .group_tags = { 'dc*s'  }, .name = STRING_ID(global, scenario_decorators_resource) },
+	{ .group_tags = { 'dgr*'  }, .name = STRING_ID(global, scenario_devices_resource) },
+	{ .group_tags = { '*fsc'  }, .name = STRING_ID(global, scenario_effect_scenery_resource) },
+	{ .group_tags = { '*qip'  }, .name = STRING_ID(global, scenario_equipment_resource) },
+	{ .group_tags = { 'sFdT'  }, .name = STRING_ID(global, scenario_faux_data) },
+	{ .group_tags = { 'hsc*'  }, .name = STRING_ID(global, scenario_hs_source_file) },
+	{ .group_tags = { 'Lbsp'  }, .name = STRING_ID(global, scenario_lightmap_bsp_data) },
+	{ .group_tags = { 'sLdT'  }, .name = STRING_ID(global, scenario_lightmap) },
+	{ .group_tags = { '*igh'  }, .name = STRING_ID(global, scenario_lights_resource) },
+	{ .group_tags = { 'spda'  }, .name = STRING_ID(global, scenario_pda) },
+	{ .group_tags = { '*cen'  }, .name = STRING_ID(global, scenario_scenery_resource) },
+	{ .group_tags = { 'sky*'  }, .name = STRING_ID(global, scenario_sky_references_resource) },
+	{ .group_tags = { '*sce'  }, .name = STRING_ID(global, scenario_sound_scenery_resource) },
+	{ .group_tags = { 'sbsp'  }, .name = STRING_ID(global, scenario_structure_bsp) },
+	{ .group_tags = { 'stli'  }, .name = STRING_ID(global, scenario_structure_lighting_info) },
+	{ .group_tags = { 'sslt'  }, .name = STRING_ID(global, scenario_structure_lighting_resource) },
+	{ .group_tags = { 'scnr'  }, .name = STRING_ID(global, scenario) },
+	{ .group_tags = { 'trg*'  }, .name = STRING_ID(global, scenario_trigger_volumes_resource) },
+	{ .group_tags = { '*ehi'  }, .name = STRING_ID(global, scenario_vehicles_resource) },
+	{ .group_tags = { '*eap'  }, .name = STRING_ID(global, scenario_weapons_resource) },
+	{ .group_tags = { 'scen'  }, .name = STRING_ID(global, scenery) },
+	{ .group_tags = { 'egor'  }, .name = STRING_ID(global, screen_effect) },
+	{ .group_tags = { 'rmb '  }, .name = STRING_ID(global, shader_beam) },
+	{ .group_tags = { 'rmbk'  }, .name = STRING_ID(global, shader_black) },
+	{ .group_tags = { 'rmc\0' }, .name = STRING_ID(global, shader_contrail) },
+	{ .group_tags = { 'rmct'  }, .name = STRING_ID(global, shader_cortana) },
+	{ .group_tags = { 'rmcs'  }, .name = STRING_ID(global, shader_custom) },
+	{ .group_tags = { 'rmd '  }, .name = STRING_ID(global, shader_decal) },
+	{ .group_tags = { 'rmfl'  }, .name = STRING_ID(global, shader_foliage) },
+	{ .group_tags = { 'rmhg'  }, .name = STRING_ID(global, shader_halogram) },
+	{ .group_tags = { 'rmlv'  }, .name = STRING_ID(global, shader_light_volume) },
+	{ .group_tags = { 'rmp\0' }, .name = STRING_ID(global, shader_particle) },
+	{ .group_tags = { 'rmss'  }, .name = STRING_ID(global, shader_screen) },
+	{ .group_tags = { 'rmsk'  }, .name = STRING_ID(global, shader_skin) },
+	{ .group_tags = { 'rmsh'  }, .name = STRING_ID(global, shader) },
+	{ .group_tags = { 'rmtr'  }, .name = STRING_ID(global, shader_terrain) },
+	{ .group_tags = { 'rmw '  }, .name = STRING_ID(global, shader_water) },
+	{ .group_tags = { 'rmzo'  }, .name = STRING_ID(global, shader_zonly) },
+	{ .group_tags = { 'shit'  }, .name = STRING_ID(global, shield_impact) },
+	{ .group_tags = { 'skya'  }, .name = STRING_ID(global, sky_atm_parameters) },
+	{ .group_tags = { 'ugh!'  }, .name = STRING_ID(global, sound_cache_file_gestalt) },
+	{ .group_tags = { 'sncl'  }, .name = STRING_ID(global, sound_classes) },
+	{ .group_tags = { 'spk!'  }, .name = STRING_ID(global, sound_dialogue_constants) },
+	{ .group_tags = { 'sfx+'  }, .name = STRING_ID(global, sound_effect_collection) },
+	{ .group_tags = { '<fx>'  }, .name = STRING_ID(global, sound_effect_template) },
+	{ .group_tags = { 'snde'  }, .name = STRING_ID(global, sound_environment) },
+	{ .group_tags = { 'sgp!'  }, .name = STRING_ID(global, sound_global_propagation) },
+	{ .group_tags = { 'lsnd'  }, .name = STRING_ID(global, sound_looping) },
+	{ .group_tags = { 'snmx'  }, .name = STRING_ID(global, sound_mix) },
+	{ .group_tags = { 'ssce'  }, .name = STRING_ID(global, sound_scenery) },
+	{ .group_tags = { 'snd!'  }, .name = STRING_ID(global, sound) },
+	{ .group_tags = { 'sus!'  }, .name = STRING_ID(global, sound_ui_sounds) },
+	{ .group_tags = { 'sqtm'  }, .name = STRING_ID(global, squad_template) },
+	{ .group_tags = { 'BooM'  }, .name = STRING_ID(global, stereo_system) },
+	{ .group_tags = { 'sddt'  }, .name = STRING_ID(global, structure_design) },
+	{ .group_tags = { 'stse'  }, .name = STRING_ID(global, structure_seams) },
+	{ .group_tags = { 'styl'  }, .name = STRING_ID(global, style) },
+	{ .group_tags = { 'smdt'  }, .name = STRING_ID(global, survival_mode_globals) },
+	{ .group_tags = { 'uttt'  }, .name = STRING_ID(global, tag_template_unit_test) },
+	{ .group_tags = { 'ttag'  }, .name = STRING_ID(global, test_tag) },
+	{ .group_tags = { 'trdf'  }, .name = STRING_ID(global, texture_render_list) },
+	{ .group_tags = { 'sily'  }, .name = STRING_ID(global, text_value_pair_definition) },
+	{ .group_tags = { 'unit'  }, .name = STRING_ID(global, unit) },
+	{ .group_tags = { 'fwtg'  }, .name = STRING_ID(global, user_interface_fourth_wall_timing_definition) },
+	{ .group_tags = { 'wgtz'  }, .name = STRING_ID(global, user_interface_globals_definition) },
+	{ .group_tags = { 'wigl'  }, .name = STRING_ID(global, user_interface_shared_globals_definition) },
+	{ .group_tags = { 'uise'  }, .name = STRING_ID(global, user_interface_sounds_definition) },
+	{ .group_tags = { 'vehc'  }, .name = STRING_ID(global, vehicle_collection) },
+	{ .group_tags = { 'vehi'  }, .name = STRING_ID(global, vehicle) },
+	{ .group_tags = { 'vtsh'  }, .name = STRING_ID(global, vertex_shader) },
+	{ .group_tags = { 'vfsl'  }, .name = STRING_ID(global, vfiles_list) },
+	{ .group_tags = { 'vmdx'  }, .name = STRING_ID(global, vision_mode) },
+	{ .group_tags = { 'weap'  }, .name = STRING_ID(global, weapon) },
+	{ .group_tags = { 'wind'  }, .name = STRING_ID(global, wind) },
+};
+long const global_tag_group_count = NUMBEROF(global_tag_groups);
+
+struct s_cache_file_tag_group_bsearch
+{
+	static long __cdecl compare(tag group_tag, s_cache_file_tag_group const* group)
+	{
+		return group_tag - group->group_tags[0];
+	}
+
+	static long __cdecl search(tag group_tag, s_cache_file_tag_group const* group, long count)
+	{
+		long result = -1;
+		s_cache_file_tag_group const* current_group = group;
+
+		while (count)
+		{
+			s_cache_file_tag_group const* next_group = &current_group[count >> 1];
+			long compare_result = compare(group_tag, next_group);
+
+			if (!compare_result)
+			{
+				result = next_group - group;
+				break;
+			}
+
+			if (compare_result > 0)
+			{
+				current_group = next_group + 1;
+				--count;
+			}
+
+			count >>= 1;
+		}
+
+		return result;
+	}
+};
+
+char const* tag_group_get_name(tag group_tag)
+{
+	s_cache_file_tag_group const* group = nullptr;
+	long index = s_cache_file_tag_group_bsearch::search(group_tag, global_tag_groups, global_tag_group_count);
+	if (index != -1)
+		group = &global_tag_groups[index];
+
+	if (group)
+		return group->name.get_string();
+
+	return "";
+}
+
+long __cdecl tag_loaded(tag group_tag, char const* tag_name)
+{
+	if (g_cache_file_globals.tags_loaded)
+	{
+		//ASSERT(global_tag_instances);
+
+		for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
+		{
+			cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
+
+			if (!instance->is_group(group_tag))
+				continue;
+
+			long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
+			char const* name = tag_get_name(tag_index);
+			if (csstricmp(tag_name, name) == 0)
+				return tag_index;
+		}
+	}
+
+	return NONE;
+}
 
 struct s_cache_file_global_tags_definition
 {
@@ -820,7 +1098,7 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	if (instance->dependency_count || instance->data_fixup_count || instance->resource_fixup_count)
 		return;
 
-	c_console::write_line("0x%08X.%s", tag_index, instance->group_name.get_string());
+	c_console::write_line("0x%08X.%s", tag_index, instance->tag_group.name.get_string());
 	static char tag_instance_byte_string[sizeof(cache_file_tag_instance) * 3]{};
 	type_as_byte_string(instance, tag_instance_byte_string);
 	c_console::write_line(tag_instance_byte_string);
@@ -985,18 +1263,22 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	{
 	case _instance_modification_stage_tag_load:
 	{
-		cache_file_tags_load_recursive(0x00001500); // spike_rifle
-		cache_file_tags_load_recursive(0x0000159E); // sword
-		cache_file_tags_load_recursive(0x000014F8); // needler
-		cache_file_tags_load_recursive(0x000015B3); // rocket_launcher
-		cache_file_tags_load_recursive(0x00001A45); // shotgun
-		cache_file_tags_load_recursive(0x000015B1); // sniper_rifle
-		cache_file_tags_load_recursive(0x000014FF); // brute_shot
-		cache_file_tags_load_recursive(0x00001509); // beam_rifle
-		cache_file_tags_load_recursive(0x000015B2); // spartan_laser
-		cache_file_tags_load_recursive(0x0000150C); // gravity_hammer
-		cache_file_tags_load_recursive(0x00001A55); // flame_thrower
-		cache_file_tags_load_recursive(0x00001A54); // missile_launcher
+		cache_file_tags_load_recursive(0x00001500); // objects\weapons\rifle\spike_rifle\spike_rifle
+		cache_file_tags_load_recursive(0x0000159E); // objects\weapons\melee\energy_blade\energy_blade
+		cache_file_tags_load_recursive(0x000014F8); // objects\weapons\pistol\needler\needler
+		cache_file_tags_load_recursive(0x000015B3); // objects\weapons\support_high\rocket_launcher\rocket_launcher
+		cache_file_tags_load_recursive(0x00001A45); // objects\weapons\rifle\shotgun\shotgun
+		cache_file_tags_load_recursive(0x000015B1); // objects\weapons\rifle\sniper_rifle\sniper_rifle
+		cache_file_tags_load_recursive(0x000014FF); // objects\weapons\support_low\brute_shot\brute_shot
+		cache_file_tags_load_recursive(0x00001509); // objects\weapons\rifle\beam_rifle\beam_rifle
+		cache_file_tags_load_recursive(0x000015B2); // objects\weapons\support_high\spartan_laser\spartan_laser
+		cache_file_tags_load_recursive(0x0000150C); // objects\weapons\melee\gravity_hammer\gravity_hammer
+		cache_file_tags_load_recursive(0x00001A55); // objects\weapons\turret\flamethrower\flamethrower
+		cache_file_tags_load_recursive(0x00001A54); // objects\weapons\turret\missile_pod\missile_pod
+
+		// load odst and marine bipeds for drop variant and permutation commands
+		cache_file_tags_load_recursive(0x000027D6); // objects\characters\odst\odst
+		cache_file_tags_load_recursive(0x000027D7); // objects\characters\marine\marine
 	}
 	break;
 	case _instance_modification_stage_tag_fixup:

@@ -8,8 +8,6 @@
 #include "tag_files/tag_groups.hpp"
 #include "tag_files/tag_resource_internals.hpp"
 
-extern s_tag_reference g_last_tag_accessed;
-
 enum e_cache_file_section
 {
 	_cache_file_section_debug = 0,
@@ -116,6 +114,16 @@ union cache_address
 };
 static_assert(sizeof(cache_address) == 0x4);
 
+struct s_cache_file_tag_group
+{
+	tag group_tags[3];
+	c_string_id name;
+};
+static_assert(sizeof(s_cache_file_tag_group) == 0x10);
+
+extern s_cache_file_tag_group const global_tag_groups[];
+extern long const global_tag_group_count;
+
 union cache_file_tag_instance
 {
 #pragma warning(push)
@@ -135,8 +143,7 @@ union cache_file_tag_instance
 		// offset from `base`
 		dword offset;
 
-		tag group_tags[3];
-		c_string_id group_name;
+		s_cache_file_tag_group tag_group;
 
 #pragma warning(push)
 #pragma warning(disable : 4200)
@@ -147,7 +154,7 @@ union cache_file_tag_instance
 
 	bool is_group(tag group_tag)
 	{
-		return group_tag == group_tags[0] || group_tag == group_tags[1] || group_tag == group_tags[2];
+		return group_tag == tag_group.group_tags[0] || group_tag == tag_group.group_tags[1] || group_tag == tag_group.group_tags[2];
 	}
 
 	void* get()
@@ -278,7 +285,11 @@ struct s_cache_file_globals
 };
 static_assert(sizeof(s_cache_file_globals) == 0x3508);
 
+extern s_tag_reference g_last_tag_accessed;
 extern s_cache_file_globals& g_cache_file_globals;
+
+long __cdecl tag_loaded(tag group_tag, char const* tag_name);
+char const* __cdecl tag_group_get_name(tag group_tag);
 
 extern long __cdecl cache_file_get_global_tag_index(tag group_tag);
 extern s_cache_file_header const* cache_files_get_header();

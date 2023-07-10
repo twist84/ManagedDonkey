@@ -120,7 +120,7 @@ struct c_object_iterator : c_object_iterator_base
 	}
 };
 
-struct s_model_customization_region_permutation
+struct s_model_customization_region_permutation // s_model_customization_region
 {
 	long region_name;
 	long permutation_name;
@@ -133,41 +133,35 @@ struct object_placement_data
 	c_object_identifier object_identifier;
 	long model_variant_index;
 	long scenario_datum_index;
-
 	byte bsp_placement_policy;
-	byte __pad15[3];
-
 	dword_flags flags;
 	real_point3d position;
 	vector3d forward;
 	vector3d up;
 	vector3d linear_velocity;
-	vector3d angular_velocity;
+	vector3d translational_velocity;
 	real scale;
-
 	long player_index;
 	long object_index;
 	long team_index;
 	s_damage_owner damage_owner;
-
 	dword_flags active_change_colors;
 	c_static_array<real_rgb_color, 5> change_colors;
-
 	long model_customization_override_count;
 	c_static_array<s_model_customization_region_permutation, 16> model_customization_overrides;
 	dword_flags model_customization_flags;
-
 	short destroyed_constraints;
 	short loosened_constraints;
 
-	byte __data140[8];
+	short __unknown140;
+	byte __data142[2];
 
+	bool location_set;
 	s_location location;
-
+	bool multiplayer_cinematic_object;
 	long parent_object_index;      // object_index_from_name_index(scenario_object->object_data.parent_id.parent_object)
 	c_string_id parent_marker;     // scenario_object->object_data.parent_id.parent_marker
 	c_string_id connection_marker; // scenario_object->object_data.parent_id.connection_marker
-
 	s_scenario_multiplayer_object_properties multiplayer_properties;
 };
 static_assert(sizeof(object_placement_data) == 0x18C);

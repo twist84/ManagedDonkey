@@ -96,4 +96,5 @@ struct c_typed_tag_data : s_tag_data
 extern void __cdecl tag_load_missing_tags_report();
 extern char const* __cdecl tag_name_strip_path(char const* path);
 extern wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path);
+extern tag group_name_to_group_tag(char const* group_name);
 

@@ -31,6 +31,19 @@ wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path)
 		return path;
 }
 
+tag group_name_to_group_tag(char const* group_name)
+{
+	// string_id_retrieve
+	for (long i = 0; i < global_tag_group_count; i++)
+	{
+		s_cache_file_tag_group const* group = &global_tag_groups[i];
+		if (csstricmp(group_name, group->name.get_string()) == 0)
+			return group->group_tags[0];
+	}
+
+	return NONE;
+}
+
 void* s_tag_reference::get_definition()
 {
 	return tag_get(group_tag, index);
@@ -52,6 +65,6 @@ char const* s_tag_reference::get_group_name()
 	if (!g_cache_file_globals.tag_instances || !g_cache_file_globals.tag_index_absolute_mapping)
 		return "<unknown>";
 
-	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->group_name.get_string();
+	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->tag_group.name.get_string();
 }
 

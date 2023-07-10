@@ -17,6 +17,8 @@
 #include "string_ids/string_ids.gpu_strings.inl"
 #include "string_ids/string_ids.defined_in_tags.inl"
 
+#include <string>
+
 constexpr dword k_string_namespace_count_mapping[k_string_namespace_count] =
 {
 	k_gui_string_id_count,
@@ -145,9 +147,141 @@ char const* string_id_get_string_const(long string_id)
 	return string;
 }
 
+bool ascii_isupper(char char_)
+{
+	return char_ >= 'A' && char_ <= 'Z';
+}
+
+void ascii_strnlwr(char* string_, long count)
+{
+	ASSERT(string_ != NULL || count == 0);
+	ASSERT(count >= 0 && count < 0x100000 /*k_maximum_string_size*/);
+
+	for (long i = 0; i < count && string_[i]; i++)
+	{
+		if (ascii_isupper(string_[i]))
+			string_[i] += ' ';
+	}
+}
+
+void string_replace_character(char* buffer, char find, char replace)
+{
+	while (true)
+	{
+		char* found = strchr(buffer, find);
+		if (!found)
+			break;
+		*found = replace;
+		buffer = found + 1;
+	}
+}
+
+void string_id_convert_static_string(c_static_string<128>* static_string)
+{
+	ascii_strnlwr(static_string->get_buffer(), 128);
+	string_replace_character(static_string->get_buffer(), ' ', '_');
+	string_replace_character(static_string->get_buffer(), '-', '_');
+}
+
 long string_id_retrieve(char const* string)
 {
-	// #TODO: implement this
+	c_static_string<128> string_buffer = string;
+	string_id_convert_static_string(&string_buffer);
+
+	//if (!g_string_id_globals.find(string_buffer.get_string(), &result))
+	//	ASSERT(result == _string_id_invalid);
+
+	for (long string_index = 0; string_index < k_global_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_global_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_global << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
+	for (long string_index = 0; string_index < NUMBEROF(g_strings_defined_in_tags); string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), g_strings_defined_in_tags[string_index]) == 0)
+		{
+			long result = (_string_namespace_global << STRING_NAMESPACE_BITS) + k_global_string_id_count + string_index;
+			return result;
+		}
+	}
+
+
+	for (long string_index = 0; string_index < k_gui_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_gui_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_gui << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
+	for (long string_index = 0; string_index < k_gui_alert_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_gui_alert_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_gui_alert << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
+	for (long string_index = 0; string_index < k_gui_dialog_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_gui_dialog_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_gui_dialog << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
+	for (long string_index = 0; string_index < k_game_engine_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_game_engine_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_game_engine << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
+	for (long string_index = 0; string_index < k_game_start_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_game_start_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_game_start << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
+	for (long string_index = 0; string_index < k_online_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_online_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_online << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
+	for (long string_index = 0; string_index < k_saved_game_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_saved_game_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_saved_game << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
+	for (long string_index = 0; string_index < k_gpu_string_id_count; string_index++)
+	{
+		if (csstricmp(string_buffer.get_string(), k_gpu_string_id_strings[string_index]) == 0)
+		{
+			long result = (_string_namespace_gpu << STRING_NAMESPACE_BITS) + string_index;
+			return result;
+		}
+	}
+
 	return _string_id_invalid;
 }
 
