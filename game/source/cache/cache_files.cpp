@@ -1263,6 +1263,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	{
 	case _instance_modification_stage_tag_load:
 	{
+		// load weapons
 		cache_file_tags_load_recursive(0x00001500); // objects\weapons\rifle\spike_rifle\spike_rifle
 		cache_file_tags_load_recursive(0x0000159E); // objects\weapons\melee\energy_blade\energy_blade
 		cache_file_tags_load_recursive(0x000014F8); // objects\weapons\pistol\needler\needler
@@ -1276,9 +1277,12 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 		cache_file_tags_load_recursive(0x00001A55); // objects\weapons\turret\flamethrower\flamethrower
 		cache_file_tags_load_recursive(0x00001A54); // objects\weapons\turret\missile_pod\missile_pod
 
-		// load odst and marine bipeds for drop variant and permutation commands
+		// load bipeds
 		cache_file_tags_load_recursive(0x000027D6); // objects\characters\odst\odst
 		cache_file_tags_load_recursive(0x000027D7); // objects\characters\marine\marine
+
+		// load vehicles
+		cache_file_tags_load_recursive(0x00001599); // objects\vehicles\warthog\warthog_snow
 	}
 	break;
 	case _instance_modification_stage_tag_fixup:
