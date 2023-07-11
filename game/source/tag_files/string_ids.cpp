@@ -204,7 +204,7 @@ long string_id_retrieve(char const* string)
 	{
 		if (csstricmp(string_buffer.get_string(), g_strings_defined_in_tags[string_index]) == 0)
 		{
-			long result = (_string_namespace_global << STRING_NAMESPACE_BITS) + k_global_string_id_count + string_index;
+			long result = (_string_namespace_global << STRING_NAMESPACE_BITS) + g_strings_defined_in_tags_starting_index + string_index;
 			return result;
 		}
 	}
