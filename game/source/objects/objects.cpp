@@ -3,6 +3,34 @@
 #include "memory/thread_local.hpp"
 #include "physics/havok.hpp"
 
+#include <intrin.h>
+
+object_header_datum const* __cdecl object_header_get(long object_index)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
+	return (object_header_datum*)datum_try_and_get(object_header_data, object_index);
+}
+
+void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask)
+{
+	//ASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
+
+	byte* object = (byte*)object_header_get(object_index)->datum;
+	REFERENCE_DECLARE(object + 0x94, c_object_identifier, object_identifier);
+
+	if (!_bittest((long*)&object_type_mask, object_identifier.m_type.get()))
+	{
+		c_static_string<256> string_builder;
+		string_builder.print_line("got an object type we didn't expect (expected one of 0x%08x but got #%d).",
+			object_type_mask,
+			object_identifier.m_type.get());
+
+		ASSERT(!_bittest((long*)&object_type_mask, object_identifier.m_type.get()), string_builder.get_string());
+	}
+
+	return object;
+}
+
 e_object_type __cdecl object_get_type(long object_index)
 {
 	return INVOKE(0x0046DC70, object_get_type, object_index);
@@ -237,9 +265,9 @@ bool __cdecl object_set_position_internal(long object_index, real_point3d const*
 	return INVOKE(0x00B33690, object_set_position_internal, object_index, desired_position, desired_forward, desired_up, location, compute_node_matrices, set_havok_object_position, in_editor, disconnected);
 }
 
-void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type)
+void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type_mask)
 {
-	return INVOKE(0x00B34490, object_try_and_get_and_verify_type, object_index, object_type);
+	return INVOKE(0x00B34490, object_try_and_get_and_verify_type, object_index, object_type_mask);
 }
 
 void __cdecl object_debug_teleport(long object_index, real_point3d const* position)

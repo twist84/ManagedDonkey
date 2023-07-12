@@ -27,16 +27,61 @@ enum e_object_type
 	k_object_type_count
 };
 
-#define UNIT_OBJECTS_MASK (FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_giant))
+#define BIPED_OBJECT_MASK (FLAG(_object_type_biped))
+static_assert(BIPED_OBJECT_MASK == 0b0000000000000001);
+
+#define VEHICLE_OBJECT_MASK (FLAG(_object_type_vehicle))
+static_assert(VEHICLE_OBJECT_MASK == 0b0000000000000010);
+
+#define WEAPON_OBJECT_MASK (FLAG(_object_type_weapon))
+static_assert(WEAPON_OBJECT_MASK == 0b0000000000000100);
+
+#define EQUIPMENT_OBJECT_MASK (FLAG(_object_type_equipment))
+static_assert(EQUIPMENT_OBJECT_MASK == 0b0000000000001000);
+
+#define ARG_DEVICE_OBJECT_MASK (FLAG(_object_type_arg_device))
+static_assert(ARG_DEVICE_OBJECT_MASK == 0b0000000000010000);
+
+#define TERMINAL_OBJECT_MASK (FLAG(_object_type_terminal))
+static_assert(TERMINAL_OBJECT_MASK == 0b0000000000100000);
+
+#define PROJECTILE_OBJECT_MASK (FLAG(_object_type_projectile))
+static_assert(PROJECTILE_OBJECT_MASK == 0b0000000001000000);
+
+#define SCENERY_OBJECT_MASK (FLAG(_object_type_scenery))
+static_assert(SCENERY_OBJECT_MASK == 0b0000000010000000);
+
+#define MACHINE_OBJECT_MASK (FLAG(_object_type_machine))
+static_assert(MACHINE_OBJECT_MASK == 0b0000000100000000);
+
+#define CONTROL_OBJECT_MASK (FLAG(_object_type_control))
+static_assert(CONTROL_OBJECT_MASK == 0b0000001000000000);
+
+#define SOUND_SCENERY_OBJECT_MASK (FLAG(_object_type_sound_scenery))
+static_assert(SOUND_SCENERY_OBJECT_MASK == 0b0000010000000000);
+
+#define CRATE_OBJECT_MASK (FLAG(_object_type_crate))
+static_assert(CRATE_OBJECT_MASK == 0b0000100000000000);
+
+#define CREATURE_OBJECT_MASK (FLAG(_object_type_creature))
+static_assert(CREATURE_OBJECT_MASK == 0b0001000000000000);
+
+#define GIANT_OBJECT_MASK (FLAG(_object_type_giant))
+static_assert(GIANT_OBJECT_MASK == 0b0010000000000000);
+
+#define EFFECT_SCENERY_OBJECT_MASK (FLAG(_object_type_effect_scenery))
+static_assert(EFFECT_SCENERY_OBJECT_MASK == 0b0100000000000000);
+
+#define UNIT_OBJECTS_MASK (BIPED_OBJECT_MASK | VEHICLE_OBJECT_MASK | GIANT_OBJECT_MASK)
 static_assert(UNIT_OBJECTS_MASK == 0b0010000000000011);
 
-#define ITEM_OBJECTS_MASK (FLAG(_object_type_weapon) | FLAG(_object_type_equipment))
+#define ITEM_OBJECTS_MASK (WEAPON_OBJECT_MASK | EQUIPMENT_OBJECT_MASK)
 static_assert(ITEM_OBJECTS_MASK == 0b0000000000001100);
 
-#define DEVICE_OBJECTS_MASK (FLAG(_object_type_arg_device) | FLAG(_object_type_terminal) | FLAG(_object_type_machine) | FLAG(_object_type_control))
+#define DEVICE_OBJECTS_MASK (ARG_DEVICE_OBJECT_MASK | TERMINAL_OBJECT_MASK | MACHINE_OBJECT_MASK | CONTROL_OBJECT_MASK)
 static_assert(DEVICE_OBJECTS_MASK == 0b0000001100110000);
 
-#define EDITOR_PLACEABLE_OBJECTS_MASK (FLAG(_object_type_biped) | FLAG(_object_type_vehicle) | FLAG(_object_type_weapon) | FLAG(_object_type_equipment) | FLAG(_object_type_arg_device) | FLAG(_object_type_terminal) | FLAG(_object_type_scenery) | FLAG(_object_type_machine) | FLAG(_object_type_crate) | FLAG(_object_type_creature) | FLAG(_object_type_giant))
+#define EDITOR_PLACEABLE_OBJECTS_MASK (BIPED_OBJECT_MASK | VEHICLE_OBJECT_MASK |  WEAPON_OBJECT_MASK | EQUIPMENT_OBJECT_MASK | ARG_DEVICE_OBJECT_MASK | TERMINAL_OBJECT_MASK | SCENERY_OBJECT_MASK | MACHINE_OBJECT_MASK | CRATE_OBJECT_MASK | CREATURE_OBJECT_MASK | GIANT_OBJECT_MASK)
 static_assert(EDITOR_PLACEABLE_OBJECTS_MASK == 0b0011100110111111);
 
 enum e_object_source
@@ -166,6 +211,9 @@ struct object_placement_data
 };
 static_assert(sizeof(object_placement_data) == 0x18C);
 
+
+extern object_header_datum const* __cdecl object_header_get(long object_index);
+extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
 extern e_object_type __cdecl object_get_type(long object_index);
 extern bool __cdecl object_load_scenario_placement_matrices(long object_index);
 extern void __cdecl object_delete(long object_index);
@@ -200,6 +248,6 @@ extern void __cdecl object_set_position(long object_index, real_point3d const* d
 extern void __cdecl object_set_position_direct(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool in_editor);
 extern void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool at_rest);
 extern void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location);
-extern void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type);
+extern void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type_mask);
 extern void __cdecl object_debug_teleport(long object_index, real_point3d const* position);
 

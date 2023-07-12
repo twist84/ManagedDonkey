@@ -10,7 +10,7 @@ struct cheat_globals
 	//bool valhalla;
 	//bool jetpack;
 	bool infinite_ammo;
-	//bool bump_possession;
+	bool bump_possession;
 	//bool super_jump;
 	//bool reflexive_damage_effects;
 	//bool medusa;
@@ -31,7 +31,7 @@ static cheat_globals cheat
 	//.valhalla = true,
 	//.jetpack = true,
 	.infinite_ammo = true,
-	//.bump_possession = true,
+	.bump_possession = true,
 	//.super_jump = true,
 	//.reflexive_damage_effects = true,
 	//.medusa = true,
