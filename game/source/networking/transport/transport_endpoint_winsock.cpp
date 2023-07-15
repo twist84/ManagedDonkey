@@ -8,7 +8,7 @@
 HOOK_DECLARE(0x0043F980, get_platform_socket_option);
 HOOK_DECLARE(0x0043FA30, transport_endpoint_accept);
 HOOK_DECLARE(0x0043FAC0, transport_endpoint_async_connect);
-HOOK_DECLARE(0x0043FB60, transport_endpoint_async_is_connected);
+//HOOK_DECLARE(0x0043FB60, transport_endpoint_async_is_connected);
 HOOK_DECLARE(0x0043FCE0, transport_endpoint_bind);
 HOOK_DECLARE(0x0043FD70, transport_endpoint_connect);
 HOOK_DECLARE(0x0043FDF0, transport_endpoint_create);
@@ -141,9 +141,11 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, tran
 
 bool __cdecl transport_endpoint_async_is_connected(transport_endpoint* endpoint, bool* is_connected)
 {
-    bool result = false;
-    HOOK_INVOKE(result =, transport_endpoint_async_is_connected, endpoint, is_connected);
-    return result;
+    //bool result = false;
+    //HOOK_INVOKE(result =, transport_endpoint_async_is_connected, endpoint, is_connected);
+    //return result;
+
+    return INVOKE(0x0043FB60, transport_endpoint_async_is_connected, endpoint, is_connected);
 }
 
 bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_address* address)
