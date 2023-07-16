@@ -366,13 +366,17 @@ long __cdecl cache_file_get_global_tag_index(tag group_tag)
 {
 	return INVOKE(0x005017E0, cache_file_get_global_tag_index, group_tag);
 
-	//s_cache_file_global_tags_definition* global_tags = tag_get<s_cache_file_global_tags_definition>('cfgt', 0);
+	//s_cache_file_global_tags_definition* global_tags = static_cast<s_cache_file_global_tags_definition*>(tag_get('cfgt', 0));
 	//if (!global_tags)
-	//	return -1;
-	//for (long i = 0; i < global_tags->references.count; i++)
-	//	if (group_tag == global_tags->references.address[i].group_tag)
-	//		return global_tags->references.address[i].index;
-	//return -1;
+	//	return NONE;
+	//
+	//for (s_tag_reference& tag_reference : global_tags->references)
+	//{
+	//	if (group_tag == tag_reference.group_tag)
+	//		return tag_reference.index;
+	//}
+	//
+	//return NONE;
 }
 
 void __cdecl cache_file_get_path(char const* mapname, char* buffer, long buffer_size)
@@ -647,7 +651,8 @@ void __cdecl cache_file_load_tags_section()
 
 	if (TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
 	{
-		file_reference_create_from_path(&g_cache_file_globals.tags_section, "maps\\tags.dat", false);
+		if (g_cache_file_globals.tags_section.path.is_empty())
+			file_reference_create_from_path(&g_cache_file_globals.tags_section, "maps\\tags.dat", false);
 
 		dword error = 0;
 		if (file_open(&g_cache_file_globals.tags_section, FLAG(_file_open_flag_desired_access_read), &error))
@@ -906,13 +911,13 @@ void __cdecl cache_file_tags_unload()
 void load_external_files();
 bool __cdecl scenario_tags_load(char const* scenario_path)
 {
-	bool result = INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
-	ASSERT(cache_file_debug_tag_names_load());
-	tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
-
-	load_external_files();
-
-	return result;
+	//bool result = INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
+	//ASSERT(cache_file_debug_tag_names_load());
+	//tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
+	//
+	//load_external_files();
+	//
+	//return result;
 
 	long tag_index = NONE;
 	bool success = false;
@@ -932,7 +937,22 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		s_cache_file_header header_copy{};
 		csmemcpy(&header_copy, &g_cache_file_globals.header, sizeof(s_cache_file_header));
 		loading_basic_progress_phase_begin(1, 1);
+
+		if (c_static_string<260> tags_filepath = {})
+		{
+			// `scenario_path` usually consists of map file without the `.map` extension
+			tags_filepath.print("%s.dat", scenario_path);
+
+			s_file_reference tags_file{};
+			file_reference_create_from_path(&tags_file, tags_filepath, false);
+
+			g_cache_file_globals.tags_section = {};
+			if (file_exists(&tags_file))
+				g_cache_file_globals.tags_section = tags_file;
+		}
+
 		cache_file_load_tags_section();
+
 		cache_file_load_reports(&g_cache_file_globals.reports, &g_cache_file_globals.header);
 		cache_file_tags_load_allocate();
 
@@ -951,8 +971,16 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 			c_console::write_line("failed to allocate the physical memory for the tags");
 		}
 
-		bool cache_file_global_tags_loaded = cache_file_tags_load_recursive(0);
-		success = cache_file_tags_load_recursive(g_cache_file_globals.header.scenario_index) && cache_file_global_tags_loaded;
+		if (bool cache_file_global_tags_loaded = cache_file_tags_load_recursive(0))
+		{
+			success = true;
+			cache_file_tags_single_tag_instance_fixup(g_cache_file_globals.tag_instances[0]);
+
+			// if no global snenario reference was found in cache file global tags we fallback to the cache file header
+			if (cache_file_get_global_tag_index('scnr') == NONE)
+				success = cache_file_tags_load_recursive(g_cache_file_globals.header.scenario_index);
+		}
+
 		cache_file_close_tags_section();
 		loading_basic_progress_phase_end();
 
@@ -984,11 +1012,18 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 			//security_globals->valid_content_signature = true;
 
 			cache_file_tags_fixup_all_instances();
-			//tag_index = cache_file_get_global_tag_index('scnr');
-			tag_index = g_cache_file_globals.header.scenario_index;
+
+			tag_index = cache_file_get_global_tag_index('scnr');
+
+			// if no global snenario reference was found in cache file global tags we fallback to the cache file header
+			if (tag_index == NONE)
+				tag_index = g_cache_file_globals.header.scenario_index;
+
 			g_cache_file_globals.tags_loaded = true;
 
 			tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
+
+			load_external_files();
 		}
 	}
 
