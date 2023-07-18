@@ -43,6 +43,7 @@
 #include "networking/online/online_lsp.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/tools/network_blf.hpp"
+#include "networking/tools/remote_command.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
@@ -61,6 +62,7 @@ REFERENCE_DECLARE(0x022B473C, bool, g_main_game_exit);
 REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
 
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
+HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 
@@ -84,7 +86,12 @@ struct s_location_message
 
 static s_location_message location_messages[] =
 {
-	{ .map_id = 340, .radius = 2.0f, .position = { 80.8f, -72.4f, 6.7f }, .message = L"a player took the lake base center man cannon" }
+	{
+		.map_id = 340,
+		.radius = 2.0f,
+		.position = { 80.8f, -72.4f, 6.7f },
+		.message = L"a player took the lake base center man cannon"
+	}
 };
 
 void show_location_messages()
@@ -318,19 +325,27 @@ long cheat_drop_variant_name = 0;
 s_model_customization_region_permutation cheat_drop_permutations[16]{};
 long cheat_drop_permutation_count = 0;
 
+// we hook `main_time_frame_rate_debug` for access to `shell_seconds_elapsed`
 void __cdecl main_loop_body_mid(real shell_seconds_elapsed)
 {
 	long lock = tag_resources_lock_game();
 
 	if (cheat_drop_has_tag)
 		main_cheat_drop_tag_private();
-
-	terminal_update(shell_seconds_elapsed);
-	console_update(shell_seconds_elapsed);
-
+	
+	real elapsed_game_dt = shell_seconds_elapsed;
+	if (main_time_halted())
+		elapsed_game_dt = 0.0f;
+	
+	terminal_update(elapsed_game_dt);
+	console_update(elapsed_game_dt);
+	//xbox_connection_update();
+	remote_command_process();
+	//debug_menu_update();
+	//cinematic_debug_camera_control_update();
+	
 	tag_resources_unlock_game(lock);
 }
-HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
 
 void __cdecl main_loop_body_end()
 {
@@ -393,37 +408,9 @@ void __cdecl main_loop_body_end()
 	}
 }
 
-bool game_is_multithreaded()
-{
-	return INVOKE(0x0042E2C0, game_is_multithreaded);
-}
-
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
-}
-
-bool __cdecl render_thread_enabled()
-{
-	return INVOKE(0x00507550, render_thread_enabled);
-}
-
-void __cdecl unlock_resources_and_resume_render_thread(dword flags)
-{
-	INVOKE(0x00507940, unlock_resources_and_resume_render_thread, flags);
-
-	//if (game_is_multithreaded())
-	//{
-	//	if (TEST_BIT(flags, 0))
-	//	{
-	//		c_rasterizer::rasterizer_device_release_thread();
-	//		restricted_region_unlock_primary(4);
-	//		restricted_region_unlock_primary(2);
-	//	}
-	//
-	//	if (TEST_BIT(flags, 1) && game_is_multithreaded())
-	//		g_render_thread_enabled.set_if_equal(true, false);
-	//}
 }
 
 void __cdecl main_loop_enter()
@@ -498,6 +485,11 @@ void __cdecl main_loop_pregame_show_progress_screen()
 	}
 }
 
+void __cdecl main_loop_process_global_state_changes()
+{
+	INVOKE(0x005065B0, main_loop_process_global_state_changes);
+}
+
 void __cdecl main_loop_status_message(wchar_t const* status_message)
 {
 	//INVOKE(0x00506900, main_loop_status_message, status_message);
@@ -516,6 +508,34 @@ struct s_file_reference;
 void __cdecl main_status_dump(s_file_reference* file)
 {
 	INVOKE(0x00507100, main_status_dump, file);
+}
+
+bool __cdecl main_time_halted()
+{
+	return INVOKE(0x00507370, main_time_halted);
+}
+
+bool __cdecl render_thread_enabled()
+{
+	return INVOKE(0x00507550, render_thread_enabled);
+}
+
+void __cdecl unlock_resources_and_resume_render_thread(dword flags)
+{
+	INVOKE(0x00507940, unlock_resources_and_resume_render_thread, flags);
+
+	//if (game_is_multithreaded())
+	//{
+	//	if (TEST_BIT(flags, 0))
+	//	{
+	//		c_rasterizer::rasterizer_device_release_thread();
+	//		restricted_region_unlock_primary(4);
+	//		restricted_region_unlock_primary(2);
+	//	}
+	//
+	//	if (TEST_BIT(flags, 1) && game_is_multithreaded())
+	//		g_render_thread_enabled.set_if_equal(true, false);
+	//}
 }
 
 void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context)

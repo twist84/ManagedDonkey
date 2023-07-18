@@ -232,9 +232,9 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 	return 0;
 }
 
-void __cdecl main_loading_idle_with_blocking_load(bool blocking_load)
+void __cdecl main_loading_idle_with_blocking_load()
 {
-	INVOKE(0x0052FA00, main_loading_idle_with_blocking_load, blocking_load);
+	INVOKE(0x0052FA00, main_loading_idle_with_blocking_load);
 }
 
 void __cdecl main_loading_initialize()

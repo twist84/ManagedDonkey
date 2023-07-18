@@ -4,15 +4,12 @@
 
 extern bool& g_force_upload_even_if_untracked;
 
-extern void __cdecl main_loop_body_main_part();
 extern bool __cdecl main_events_pending();
 extern void __cdecl main_exit_game();
 extern void __cdecl main_halt_and_catch_fire();
 extern void __cdecl main_loop_body_begin();
+extern void __cdecl main_loop_body_mid(real shell_seconds_elapsed);
 extern void __cdecl main_loop_body_end();
-extern dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
-extern bool __cdecl render_thread_enabled();
-extern void __cdecl unlock_resources_and_resume_render_thread(dword flags);
 extern void __cdecl main_loop_enter();
 extern void __cdecl main_loop_exit();
 extern void __cdecl main_loop_pregame();
@@ -29,6 +26,10 @@ bool main_status(char const* status_type, char const* format, parameters_t... pa
 struct s_file_reference;
 struct s_model_customization_region_permutation;
 extern void __cdecl main_status_dump(s_file_reference* file);
+extern dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
+extern bool __cdecl main_time_halted();
+extern bool __cdecl render_thread_enabled();
+extern void __cdecl unlock_resources_and_resume_render_thread(dword flags);
 extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context);
 extern void __cdecl main_crash(char const* type);
 extern void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count);

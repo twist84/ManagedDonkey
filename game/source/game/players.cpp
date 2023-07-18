@@ -34,11 +34,7 @@ s_player_identifier::s_player_identifier(transport_address const* address) :
 
 void __cdecl player_set_unit_index(long player_index, long unit_index)
 {
-	long lock = tag_resources_lock_game();
-
 	INVOKE(0x0053CA80, player_set_unit_index, player_index, unit_index);
-
-	tag_resources_unlock_game(lock);
 }
 
 //void __cdecl player_suppress_action(long, enum e_player_suppress_action_type_enum)

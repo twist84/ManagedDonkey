@@ -233,6 +233,11 @@ void __cdecl game_simulation_set(e_game_simulation_type game_simulation)
 	c_console::write_line("game_simulation: %s", k_game_simulation_names[game_simulation]);
 }
 
+bool __cdecl game_is_multithreaded()
+{
+	return INVOKE(0x0042E2C0, game_is_multithreaded);
+}
+
 bool __cdecl game_is_synchronous_networking()
 {
 	e_game_simulation_type game_simulation = game_options_get()->game_simulation;
@@ -268,6 +273,11 @@ bool __cdecl game_is_server()
 bool __cdecl game_is_authoritative()
 {
 	return !game_is_predicted();
+}
+
+bool __cdecl game_is_authoritative_playback()
+{
+	return INVOKE(0x005319F0, game_is_authoritative_playback);
 }
 
 bool __cdecl game_is_predicted()

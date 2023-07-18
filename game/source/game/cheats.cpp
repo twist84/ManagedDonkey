@@ -225,9 +225,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		data.position.y += (sinf(angle_offset) * radius);
 		data.position.z += 0.8f;
 
-		long lock = tag_resources_lock_game();
 		long object_index = object_new(&data);
-		tag_resources_unlock_game(lock);
 
 		if (object_index != NONE)
 			simulation_action_object_create(object_index);

@@ -44,7 +44,7 @@ extern void __cdecl main_loading_enable_spinner(bool enable_spinner);
 extern bool __cdecl main_loading_get_action(struct s_main_loading_action* out_loading_action);
 extern long __cdecl main_loading_get_gui_game_mode();
 extern long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* status_message);
-extern void __cdecl main_loading_idle_with_blocking_load(bool blocking_load);
+extern void __cdecl main_loading_idle_with_blocking_load();
 extern void __cdecl main_loading_initialize();
 extern bool __cdecl main_loading_is_idle();
 extern void __cdecl main_loading_progress_done(char const* scenario_path, void* a2);
