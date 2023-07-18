@@ -106,7 +106,6 @@ void __cdecl remote_command_disconnect()
 
 void command_handler(char* buffer, long buffer_length);
 
-HOOK_DECLARE_CALL(0x00505CD5, remote_command_process);
 void __cdecl remote_command_process()
 {
 	// Check if there's a pending incoming connection request
