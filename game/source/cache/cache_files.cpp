@@ -22,12 +22,14 @@
 #include <DDS.h>
 #include <string.h>
 
+void*(__cdecl* tag_get_hook)(tag group_tag, long tag_index) = tag_get;
+
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
 
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
 HOOK_DECLARE(0x00502780, cache_file_tags_load_recursive);
 HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
-HOOK_DECLARE(0x00503370, tag_get);
+HOOK_DECLARE(0x00503370, tag_get_hook);
 HOOK_DECLARE(0x00503470, sub_503470);
 
 s_tag_reference g_last_tag_accessed = { .group_tag = 0xFFFFFFFF, .index = NONE };
@@ -1110,6 +1112,20 @@ void* __cdecl tag_get(tag group_tag, long tag_index)
 	return data;
 }
 
+void* __cdecl tag_get(tag group_tag, char const* tag_name)
+{
+	tag_iterator iterator{};
+	tag_iterator_new(&iterator, group_tag);
+	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	{
+		char const* _tag_name = tag_get_name_safe(tag_index);
+		if (_tag_name && csstricmp(_tag_name, tag_name) == 0)
+			return tag_get(group_tag, tag_index);
+	}
+
+	return nullptr;
+}
+
 dword __cdecl tag_get_group_tag(long tag_index)
 {
 	return INVOKE(0x005033A0, tag_get_group_tag, tag_index);
@@ -1367,29 +1383,20 @@ void apply_biped_group_modification(e_instance_modification_stage stage)
 	if (stage != _instance_modification_stage_after_scenario_tags_loaded)
 		return;
 
-	tag_iterator iterator{};
-	tag_iterator_new(&iterator, 'bipd');
-	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	if (byte* biped = static_cast<byte*>(tag_get('bipd', "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief")))
 	{
-		char const* tag_name = tag_get_name_safe(tag_index);
-		if (tag_name && csstricmp(tag_name, "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief") == 0)
-		{
-			if (byte* biped = static_cast<byte*>(tag_get(iterator.group_tag, tag_index)))
-			{
-				s_character_physics_definition& physics = *reinterpret_cast<s_character_physics_definition*>(biped + 0x4D0);
+		s_character_physics_definition& physics = *reinterpret_cast<s_character_physics_definition*>(biped + 0x4D0);
 
-				// "edge drop" fix
-				physics.ground_physics.scale_ground_adhesion_velocity = 0.5f; // 30/60
+		// "edge drop" fix
+		physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
 
-				//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
-				//{
-				//	if (biped->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
-				//		physics_input->m_ground_adhesion_velocity_scale = biped->physics.ground_physics.scale_ground_adhesion_velocity;
-				//}
-			}
+		//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
+		//{
+		//	if (biped->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
+		//		physics_input->m_ground_adhesion_velocity_scale = biped->physics.ground_physics.scale_ground_adhesion_velocity;
+		//}
 
-			return;
-		}
+		return;
 	}
 }
 
