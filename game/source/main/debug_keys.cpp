@@ -9,6 +9,7 @@
 #include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/thread_local.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "units/units.hpp"
 
 bool force_respawn = false;
@@ -22,6 +23,9 @@ bool force_respawn = false;
 // 3,     Ignore, No,      Yes
 // 4,     Yes,    Yes,     Yes
 // 5,     No,     Yes,     Yes
+
+// ai debug
+bool breakpoint = false;
 
 debug_key global_debug_key_list[]
 {
@@ -135,16 +139,16 @@ debug_key global_debug_key_list[]
 		.toggle_variable = false,
 		.variable = nullptr
 	},
-	//{
-	//	.name = "Breakpoint",
-	//	.key_code = _key_code_b,
-	//	.modifier = 0,
-	//	.callback = nullptr,
-	//	.allow_out_of_game = false,
-	//	.allow_in_editor = true,
-	//	.toggle_variable = false,
-	//	.variable = nullptr // #TODO `bool breakpoint`
-	//},
+	{
+		.name = "Breakpoint",
+		.key_code = _key_code_b,
+		.modifier = 0,
+		.callback = nullptr,
+		.allow_out_of_game = false,
+		.allow_in_editor = true,
+		.toggle_variable = false,
+		.variable = &breakpoint
+	},
 	{
 		.name = "Play Animation",
 		.key_code = _key_code_k,
@@ -833,58 +837,73 @@ void __cdecl debug_keys_update()
 
 void __cdecl debug_key_select_this_actor(bool enabled)
 {
-	if (enabled)
+	if (enabled && game_in_progress())
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
 void __cdecl debug_key_select_prev_encounter(bool enabled)
 {
-	if (enabled)
+	if (enabled && game_in_progress())
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
 void __cdecl debug_key_select_next_encounter(bool enabled)
 {
-	if (enabled)
+	if (enabled && game_in_progress())
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
 void __cdecl debug_key_select_next_actor(bool enabled)
 {
-	if (enabled)
+	if (enabled && game_in_progress())
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
 void __cdecl debug_key_select_prev_actor(bool enabled)
 {
-	if (enabled)
+	if (enabled && game_in_progress())
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
 void __cdecl debug_key_render_spray(bool enabled)
 {
-	if (enabled)
+	if (enabled && game_in_progress())
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
+}
+
+bool ai_print_scripting = false;
+
+void __cdecl ai_scripting_erase_all()
+{
+	if (ai_print_scripting)
+	{
+		//c_console::write_line("ai: %s: ai_erase_all", hs_runtime_get_executing_thread_name());
+	}
+
+	//ai_erase(NONE, false);
+	//
+	//squad_iterator iterator = {};
+	//squad_iterator_new(&iterator);
+	//while (squad_iterator_next(&iterator))
+	//	ai_script_erase_squad_vehicles(iterator.datum_index);
 }
 
 void __cdecl debug_key_erase_all_actors(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+	if (enabled && game_in_progress())
+		ai_scripting_erase_all();
 }
 
 void __cdecl debug_key_rotate_units(bool enabled)
@@ -931,124 +950,137 @@ void __cdecl debug_key_rotate_all_units(bool enabled)
 	}
 }
 
+long const k_number_of_input_users = 4;
+
+long __cdecl player_mapping_get_unit_by_input_user(long user_index)
+{
+	if (user_index == NONE)
+		return NONE;
+
+	ASSERT(VALID_INDEX(user_index, k_number_of_input_users));
+
+	TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
+
+	return player_mapping_globals->input_user_unit_mapping[user_index];
+}
+
+void __cdecl unit_debug_ninja_rope(long unit_index)
+{
+	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK));
+
+	REFERENCE_DECLARE(unit + 0, vector3d, unit_aiming_vector);
+
+	vector3d aiming_vector = unit_aiming_vector;
+	aiming_vector.i *= 25.0f;
+	aiming_vector.j *= 25.0f;
+	aiming_vector.k *= 25.0f;
+
+	//real_point3d camera_position = {};
+	//unit_get_camera_position(unit_index, &camera_position, 0);
+	//if (collision_test_vector(0b0001000000000001, &camera_position, &aiming_vector, object_get_ultimate_parent(unit_index), -1, a6) && v13 > 0.94999999f)
+	//{
+	//	real_point3d position = {};
+	//	position.z += 0.25f;
+	//	object_set_position(object_get_ultimate_parent(unit_index), &position, nullptr, nullptr, nullptr);
+	//}
+}
+
 void __cdecl debug_key_ninja_rope(bool enabled)
 {
-	if (enabled)
+	if (enabled && game_in_progress())
 	{
-		console_warning(__FUNCTION__);
+		long active_user = players_first_active_user();
+		if (active_user != NONE)
+		{
+			long unit_index = player_mapping_get_unit_by_input_user(active_user);
+			if (unit_index != NONE)
+				unit_debug_ninja_rope(unit_index);
+		}
+
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
 void __cdecl debug_key_play_animation(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+}
+
+bool profile_summary_enabled = false;
+void __cdecl profile_summary_cycle()
+{
+
 }
 
 void __cdecl debug_key_profile_summary(bool enabled)
 {
 	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+		profile_summary_cycle();
 }
 
 void __cdecl debug_key_profile_summary_off(bool enabled)
 {
 	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+		profile_summary_enabled = false;
 }
 
 void __cdecl debug_key_profile_off(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_profile_next_thread(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_profile_prev_thread(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_profile_next_attribute(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_profile_prev_attribute(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_profile_next_sort(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_profile_prev_sort(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_profile_next_display(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
 }
 
 void __cdecl debug_key_profile_dump_frame(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+}
+
+bool debug_player_input;
+void __cdecl player_control_debug_render_toggle()
+{
+	debug_player_input = !debug_player_input;
 }
 
 void __cdecl debug_player_input_toggle(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+	if (enabled && game_in_progress())
+		player_control_debug_render_toggle();
+}
+
+bool debug_weapons;
+void __cdecl weapons_debug_render_toggle()
+{
+	debug_weapons = !debug_weapons;
 }
 
 void __cdecl debug_key_toggle_weapons(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+	if (enabled && game_in_progress() && !game_in_editor())
+		weapons_debug_render_toggle();
 }
 
 void __cdecl debug_key_exit_game(bool enabled)
@@ -1061,7 +1093,7 @@ void __cdecl debug_key_mouse_focus(bool enabled)
 {
 	if (enabled)
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
@@ -1093,7 +1125,7 @@ void __cdecl debug_key_toggle_pause(bool enabled)
 {
 	if (enabled)
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
@@ -1101,47 +1133,101 @@ void __cdecl debug_key_print_screen(bool enabled)
 {
 	if (enabled)
 	{
-		console_warning(__FUNCTION__);
+		c_static_string<128> screenshot_path;
+		c_static_string<128> screenshot_filepath;
+
+		long index = 0;
+		while (true)
+		{
+			screenshot_path.clear();
+			screenshot_filepath.clear();
+
+			char const* root = "screenshots\\";
+			screenshot_path.print("%sscreenshot_%d", root, index);
+			screenshot_filepath.print("%s.bmp", screenshot_path.get_string());
+
+			s_file_reference screenshot_file;
+			file_reference_create_from_path(&screenshot_file, screenshot_filepath.get_string(), false);
+			file_create_parent_directories_if_not_present(&screenshot_file);
+			if (!file_exists(&screenshot_file))
+				break;
+
+			if (++index >= 100)
+				return;
+		}
+
+		rasterizer_dump_display_to_bmp(screenshot_filepath.get_string());
+		console_printf("screenshot taken '%s'", screenshot_path.get_string());
 	}
+}
+
+// #TODO: move this
+real debug_game_speed = 1.0f;
+void __cdecl debug_key_adjust_game_speed_internal(real increment)
+{
+	real v2 = fabsf(increment);
+	real v3 = debug_game_speed;
+	real v4 = (debug_game_speed + increment) / v2;
+
+	real v5 = 1.0f;
+	if (v4 < 0.0f)
+		v5 = -1.0f;
+
+	real v6 = ((v5 * 0.5f) + v4) * v2;
+	if (fmaxf(v6, 0.0f) >= 5.0f)
+	{
+		v6 = 5.0f;
+	}
+	else if (v6 <= 0.0f)
+	{
+		v3 = debug_game_speed;
+		if (debug_game_speed > game_tick_length())
+		{
+			real v8 = game_tick_length();
+			v3 = debug_game_speed;
+			v6 = v8;
+		}
+	}
+
+	if (v3 == 0.0f)
+		v6 = fminf(game_tick_length(), v6);
+
+	if (debug_game_speed == game_tick_length() && increment > 0.0f)
+		v6 = increment;
+
+	debug_game_speed = v6;
+	console_printf("game speed %.1f", v6);
 }
 
 void __cdecl debug_key_increment_game_speed_minor(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+	if (enabled && debug_game_speed < 5.0f)
+		debug_key_adjust_game_speed_internal(0.1f);
 }
 
 void __cdecl debug_key_decrement_game_speed_minor(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+	if (enabled && debug_game_speed > 0.0f)
+		debug_key_adjust_game_speed_internal(-0.1f);
 }
 
 void __cdecl debug_key_increment_game_speed_major(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+	if (enabled && debug_game_speed < 5.0f)
+		debug_key_adjust_game_speed_internal(0.5f);
 }
 
 void __cdecl debug_key_decrement_game_speed_major(bool enabled)
 {
-	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+	if (enabled && debug_game_speed > 0.0f)
+		debug_key_adjust_game_speed_internal(-0.5f);
 }
 
 void __cdecl debug_dump_assert_log(bool enabled)
 {
 	if (enabled)
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
@@ -1149,7 +1235,7 @@ void __cdecl debug_time_stats_display(bool enabled)
 {
 	if (enabled)
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
@@ -1157,20 +1243,53 @@ void __cdecl debug_time_stats_pause(bool enabled)
 {
 	if (enabled)
 	{
-		console_warning(__FUNCTION__);
+		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
 void __cdecl debug_key_force_respawn(bool enabled)
 {
-	if (enabled || force_respawn)
+	if (enabled)
 	{
 		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 		c_player_in_game_iterator player_iterator(player_data);
 		while (player_iterator.next())
 		{
 			player_datum* player = player_iterator.get_datum();
-			player->respawn_forced = !player->respawn_forced;
+			player->respawn_forced = force_respawn;
+		}
+	}
+}
+
+bool enable_controller_flag_drop = false;
+void __cdecl editor_flag_new_at_camera()
+{
+	if (enable_controller_flag_drop)
+	{
+		long active_user = players_first_active_user();
+		if (active_user != NONE)
+		{
+			s_observer_result const* result = observer_get_camera(active_user);
+			//editor_flag_new_internal(controller_flag_drop_name, controller_flag_drop_comment, &result->focus_point);
+		}
+	}
+}
+
+bool __cdecl user_get_look_at_point(long index, real_point3d* result_point)
+{
+	return false;
+}
+
+void __cdecl editor_flag_new_at_look_at_point()
+{
+	if (enable_controller_flag_drop)
+	{
+		long active_user = players_first_active_user();
+		real_point3d result_point = {};
+		if (user_get_look_at_point(active_user, &result_point))
+		{
+			s_observer_result const* result = observer_get_camera(active_user);
+			//editor_flag_new_internal(controller_flag_drop_name, controller_flag_drop_comment, &result_point);
 		}
 	}
 }
@@ -1178,16 +1297,12 @@ void __cdecl debug_key_force_respawn(bool enabled)
 void __cdecl debug_button_drop_flag_at_camera(bool enabled)
 {
 	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+		editor_flag_new_at_camera();
 }
 
 void __cdecl debug_button_drop_flag_as_projectile(bool enabled)
 {
 	if (enabled)
-	{
-		console_warning(__FUNCTION__);
-	}
+		editor_flag_new_at_look_at_point();
 }
 
