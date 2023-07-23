@@ -227,4 +227,5 @@ extern real __cdecl magnitude_squared3d(vector3d const* a);
 extern real __cdecl distance_squared3d(real_point3d const* a, real_point3d const* b);
 extern real __cdecl distance3d(real_point3d const* a, real_point3d const* b);
 extern real __cdecl square_root(real value);
+extern vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d* out_vector);
 

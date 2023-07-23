@@ -786,6 +786,9 @@
     <ClCompile Include="source\cutscene\recorded_animations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\physics\collisions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2046,6 +2049,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cutscene\recorded_animations.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\collisions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\materials.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

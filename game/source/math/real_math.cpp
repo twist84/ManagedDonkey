@@ -61,3 +61,12 @@ real __cdecl square_root(real value)
 	return sqrtf(value); // sqrt
 }
 
+vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d* out_vector)
+{
+	out_vector->i = scale * in_vector->i;
+	out_vector->j = scale * in_vector->j;
+	out_vector->k = scale * in_vector->k;
+
+	return out_vector;
+}
+

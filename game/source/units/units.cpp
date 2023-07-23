@@ -28,6 +28,11 @@ bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, lo
 	return INVOKE(0x00B393D0, unit_add_weapon_to_inventory, unit_index, object_index, weapon_addition_method);
 }
 
+void __cdecl unit_get_camera_position(long unit_index, real_point3d* position)
+{
+	INVOKE(0x00B439D0, unit_get_camera_position, unit_index, position);
+}
+
 bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index)
 {
 	return INVOKE(0x00B450F0, unit_has_weapon_definition_index, unit_index, weapon_definition_index);

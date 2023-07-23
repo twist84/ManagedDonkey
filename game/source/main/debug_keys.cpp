@@ -9,6 +9,7 @@
 #include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/thread_local.hpp"
+#include "physics/collisions.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "units/units.hpp"
 
@@ -950,39 +951,27 @@ void __cdecl debug_key_rotate_all_units(bool enabled)
 	}
 }
 
-long const k_number_of_input_users = 4;
-
-long __cdecl player_mapping_get_unit_by_input_user(long user_index)
-{
-	if (user_index == NONE)
-		return NONE;
-
-	ASSERT(VALID_INDEX(user_index, k_number_of_input_users));
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
-
-	return player_mapping_globals->input_user_unit_mapping[user_index];
-}
-
+// #TODO: more testing required
 void __cdecl unit_debug_ninja_rope(long unit_index)
 {
 	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK));
+	REFERENCE_DECLARE(unit + 0x1BB, vector3d, unit_aiming_vector);
 
-	REFERENCE_DECLARE(unit + 0, vector3d, unit_aiming_vector);
-
-	vector3d aiming_vector = unit_aiming_vector;
-	aiming_vector.i *= 25.0f;
-	aiming_vector.j *= 25.0f;
-	aiming_vector.k *= 25.0f;
-
-	//real_point3d camera_position = {};
-	//unit_get_camera_position(unit_index, &camera_position, 0);
-	//if (collision_test_vector(0b0001000000000001, &camera_position, &aiming_vector, object_get_ultimate_parent(unit_index), -1, a6) && v13 > 0.94999999f)
-	//{
-	//	real_point3d position = {};
-	//	position.z += 0.25f;
-	//	object_set_position(object_get_ultimate_parent(unit_index), &position, nullptr, nullptr, nullptr);
-	//}
+	s_collision_test_flags flags = {}; // 0x1001
+	real_point3d camera_position = {};
+	vector3d aiming_vector = {};
+	collision_result collision = collision_result();
+	
+	flags.set(_collision_test_structure_bit, true);
+	flags.set(12, true);
+	unit_get_camera_position(unit_index, &camera_position);
+	scale_vector3d(&unit_aiming_vector, 25.0f, &aiming_vector);
+	long parent_index = object_get_ultimate_parent(unit_index);
+	if (collision_test_vector(flags, &camera_position, &aiming_vector, parent_index, NONE, &collision) && collision.__vector24.k > 0.94999999f)
+	{
+		collision.position.z += 0.25f;
+		object_debug_teleport(parent_index, &collision.position);
+	}
 }
 
 void __cdecl debug_key_ninja_rope(bool enabled)
@@ -996,8 +985,6 @@ void __cdecl debug_key_ninja_rope(bool enabled)
 			if (unit_index != NONE)
 				unit_debug_ninja_rope(unit_index);
 		}
-
-		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
