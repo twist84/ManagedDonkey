@@ -190,8 +190,12 @@ struct s_game_globals
 	struct sound_block
 	{
 		s_tag_reference sound; // OBSOLETE
+
+		void update_reference_names();
 	};
 	static_assert(sizeof(sound_block) == sizeof(s_tag_reference));
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_game_globals) == 0x608);
 
@@ -208,6 +212,8 @@ struct s_game_globals_player_representation
 	s_tag_reference binoculars_zoom_in_sounds;
 	s_tag_reference binoculars_zoom_out_sounds;
 	s_tag_reference voice;
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_game_globals_player_representation) == 0x6C);
 

@@ -9,6 +9,8 @@ struct s_multiplayer_globals_definition
 {
 	c_typed_tag_block<s_multiplayer_universal_globals_definition> universal;
 	c_typed_tag_block<s_multiplayer_runtime_globals_definition> runtime;
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_multiplayer_globals_definition) == 0x18);
 
@@ -58,6 +60,8 @@ struct s_multiplayer_universal_globals_definition
 	// Game Engine Settings Halo3
 	// This tag is only placeholder, until the Excel/XML setup system is up and running
 	c_typed_tag_reference<'wezr'> halo3_game_engine_settings;
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_multiplayer_universal_globals_definition) == 0xD8);
 
@@ -244,6 +248,8 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<'lsnd'> menu_music_b;
 	c_typed_tag_reference<'lsnd'> menu_music_c;
 	c_typed_tag_reference<'lsnd'> menu_music_d;
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_multiplayer_runtime_globals_definition) == 0x2A8);
 

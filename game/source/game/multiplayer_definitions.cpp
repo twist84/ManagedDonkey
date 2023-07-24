@@ -90,3 +90,53 @@ s_multiplayer_universal_globals_definition* multiplayer_globals_try_and_get_univ
 	return nullptr;
 }
 
+void s_multiplayer_globals_definition::update_reference_names()
+{
+	UPDATE_REFERENCE_NAMES(universal);
+	UPDATE_REFERENCE_NAMES(runtime);
+}
+
+void s_multiplayer_universal_globals_definition::update_reference_names()
+{
+	random_player_names.get_name();
+	team_names.get_name();
+	multiplayer_text.get_name();
+	sandbox_text.get_name();
+	sandbox_object_properties_values.get_name();
+	halo3_game_engine_settings.get_name();
+}
+
+void s_multiplayer_runtime_globals_definition::update_reference_names()
+{
+	editor_biped.get_name();
+	editor_helper.get_name();
+	flag.get_name();
+	ball.get_name();
+	assault_bomb.get_name();
+	vip_influence_area.get_name();
+	in_game_text.get_name();
+	__reference70_projectile.get_name();
+	__reference80_effect.get_name();
+	__reference90_effect.get_name();
+	default_respawn_sound.get_name();
+	modifier_respawn_sound.get_name();
+	scoreboard_emblem_bitmap.get_name();
+	scoreboard_dead_emblem_bitmap.get_name();
+	hill_shader.get_name();
+	unused_intro_message.get_name();
+	ctf_intro_message.get_name();
+	slayer_intro_message.get_name();
+	oddball_intro_message.get_name();
+	king_intro_message.get_name();
+	sandbox_intro_message.get_name();
+	vip_intro_message.get_name();
+	juggernaut_intro_message.get_name();
+	territories_intro_message.get_name();
+	assault_intro_message.get_name();
+	infection_intro_message.get_name();
+	menu_music_a.get_name();
+	menu_music_b.get_name();
+	menu_music_c.get_name();
+	menu_music_d.get_name();
+}
+

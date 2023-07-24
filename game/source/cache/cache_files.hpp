@@ -114,16 +114,6 @@ union cache_address
 };
 static_assert(sizeof(cache_address) == 0x4);
 
-struct s_cache_file_tag_group
-{
-	tag group_tags[3];
-	c_string_id name;
-};
-static_assert(sizeof(s_cache_file_tag_group) == 0x10);
-
-extern s_cache_file_tag_group const global_tag_groups[];
-extern long const global_tag_group_count;
-
 union cache_file_tag_instance
 {
 #pragma warning(push)
