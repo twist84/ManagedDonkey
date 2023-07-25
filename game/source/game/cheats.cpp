@@ -193,7 +193,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 	}
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	player_datum* player = (player_datum*)datum_try_and_get(player_data, player_index);
+	player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
 	if (!player)
 		return;
 
@@ -257,7 +257,7 @@ void __cdecl cheat_all_vehicles()
 		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		byte* vehicle = (byte*)tag_get(iterator.group_tag, tag_index);
+		byte* vehicle = static_cast<byte*>(tag_get(iterator.group_tag, tag_index));
 		s_tag_block& powered_seats = *reinterpret_cast<s_tag_block*>(vehicle + 0x358);
 		if (powered_seats.count > 0)
 		{

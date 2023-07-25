@@ -8,7 +8,7 @@
 object_header_datum const* __cdecl object_header_get(long object_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
-	return (object_header_datum*)datum_try_and_get(object_header_data, object_index);
+	return static_cast<object_header_datum*>(datum_try_and_get(object_header_data, object_index));
 }
 
 void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask)

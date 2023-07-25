@@ -30,7 +30,7 @@ s_scenario* global_scenario_get()
 	return global_scenario;
 
 	// halo online
-	//return tag_get<s_scenario>(SCENARIO_TAG, global_scenario_index);
+	//return static_cast<s_scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
 }
 
 s_scenario* global_scenario_try_and_get()

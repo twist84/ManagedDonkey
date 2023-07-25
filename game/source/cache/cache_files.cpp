@@ -162,7 +162,7 @@ long __cdecl cache_file_get_global_tag_index(tag group_tag)
 {
 	return INVOKE(0x005017E0, cache_file_get_global_tag_index, group_tag);
 
-	//s_cache_file_global_tags_definition* global_tags = static_cast<s_cache_file_global_tags_definition*>(tag_get('cfgt', 0));
+	//s_cache_file_global_tags_definition* global_tags = static_cast<s_cache_file_global_tags_definition*>(tag_get(CACHE_FILE_GLOBAL_TAGS_TAG, 0));
 	//if (!global_tags)
 	//	return NONE;
 	//
@@ -843,8 +843,8 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 	if (tag_index != NONE)
 	{
 		global_scenario_game_globals_index = cache_file_get_global_tag_index(GLOBALS_TAG);
-		global_scenario = (s_scenario*)tag_get(SCENARIO_TAG, global_scenario_index);
-		global_game_globals = (s_game_globals*)tag_get(GLOBALS_TAG, global_scenario_game_globals_index);
+		global_scenario = static_cast<s_scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
+		global_game_globals = static_cast<s_game_globals*>(tag_get(GLOBALS_TAG, global_scenario_game_globals_index));
 
 		c_rasterizer_globals* rasterizer_globals = global_game_globals->rasterizer_globals_ref.cast_to<c_rasterizer_globals>();
 		if (rasterizer_globals)

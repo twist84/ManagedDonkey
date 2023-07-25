@@ -559,6 +559,11 @@ public:
 		return static_cast<t_type>(m_storage);
 	}
 
+	t_type const get() const
+	{
+		return static_cast<t_type>(m_storage);
+	}
+
 protected:
 	t_storage_type m_storage;
 };
