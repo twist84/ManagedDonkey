@@ -138,11 +138,11 @@ protected:
 
 	// default shader vertex shader
 	//	Renderer uses this shader when a vertex shader is invalid
-	c_typed_tag_reference<'vtsh'> default_vertex_shader;
+	c_typed_tag_reference<VERTEX_SHADER_TAG> default_vertex_shader;
 
 	// default pixel shader
 	//	Renderer uses this shader when a pixel shader is invalid
-	c_typed_tag_reference<'pixl'> default_pixel_shader;
+	c_typed_tag_reference<PIXEL_SHADER_TAG> default_pixel_shader;
 
 	// debug override shader
 	//	When this shader is set, it overrides all shaders coming from geometry.
@@ -265,10 +265,10 @@ protected:
 	dword m_max_vs_gprs;
 	dword m_max_ps_gprs;
 
-	c_typed_tag_reference<'bitm'> active_camo_distortion_texture;
-	c_typed_tag_reference<'perf'> default_performance_throttles;
-	c_typed_tag_reference<'shit'> shield_impact_settings;
-	c_typed_tag_reference<'vmdx'> vision_mode_settings;
+	c_typed_tag_reference<BITMAP_TAG> active_camo_distortion_texture;
+	c_typed_tag_reference<PERFORMANCE_THROTTLES_TAG> default_performance_throttles;
+	c_typed_tag_reference<SHIELD_IMPACT_TAG> shield_impact_settings;
+	c_typed_tag_reference<VISION_MODE_TAG> vision_mode_settings;
 
 	// Motion blur parameters
 	//	max blur:............  max amount to blur, as a percentage of the screen
@@ -290,13 +290,13 @@ protected:
 struct s_global_bitmaps
 {
 	dword_flags options;
-	c_typed_tag_reference<'bitm'> default_bitmaps;
+	c_typed_tag_reference<BITMAP_TAG> default_bitmaps;
 };
 static_assert(sizeof(s_global_bitmaps) == 0x14);
 
 struct s_texture_references_block
 {
-	c_typed_tag_reference<'bitm'> reference;
+	c_typed_tag_reference<BITMAP_TAG> reference;
 };
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 

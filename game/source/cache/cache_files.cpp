@@ -784,7 +784,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 			cache_file_tags_single_tag_instance_fixup(g_cache_file_globals.tag_instances[0]);
 
 			// if no global snenario reference was found in cache file global tags we fallback to the cache file header
-			if (cache_file_get_global_tag_index('scnr') == NONE)
+			if (cache_file_get_global_tag_index(SCENARIO_TAG) == NONE)
 				success = cache_file_tags_load_recursive(g_cache_file_globals.header.scenario_index);
 		}
 
@@ -817,7 +817,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 			cache_file_tags_fixup_all_instances();
 
-			tag_index = cache_file_get_global_tag_index('scnr');
+			tag_index = cache_file_get_global_tag_index(SCENARIO_TAG);
 
 			// if no global snenario reference was found in cache file global tags we fallback to the cache file header
 			if (tag_index == NONE)
@@ -842,9 +842,9 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 	global_scenario_index = tag_index;
 	if (tag_index != NONE)
 	{
-		global_scenario_game_globals_index = cache_file_get_global_tag_index('matg');
-		global_scenario = (s_scenario*)tag_get('scnr', global_scenario_index);
-		global_game_globals = (s_game_globals*)tag_get('matg', global_scenario_game_globals_index);
+		global_scenario_game_globals_index = cache_file_get_global_tag_index(GLOBALS_TAG);
+		global_scenario = (s_scenario*)tag_get(SCENARIO_TAG, global_scenario_index);
+		global_game_globals = (s_game_globals*)tag_get(GLOBALS_TAG, global_scenario_game_globals_index);
 
 		c_rasterizer_globals* rasterizer_globals = global_game_globals->rasterizer_globals_ref.cast_to<c_rasterizer_globals>();
 		if (rasterizer_globals)
@@ -1042,7 +1042,7 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 			dword file_size = 0;
 			file_get_size(&file, &file_size);
 
-			if (instance->is_group('bitm'))
+			if (instance->is_group(BITMAP_TAG))
 			{
 				bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
 				ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
@@ -1081,7 +1081,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group('matg'))
+	if (!instance->is_group(GLOBALS_TAG))
 		return;
 
 	s_game_globals* game_globals = instance->cast_to<s_game_globals>();
@@ -1105,7 +1105,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group('mulg'))
+	if (!instance->is_group(MULTIPLAYER_GLOBALS_TAG))
 		return;
 
 	// if the very first offset is 0x38 there is a very high likelihood that this is an ElDewrito tag set
@@ -1153,18 +1153,18 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 
 			switch (weapon_selection.name.get_value())
 			{
-			case STRING_ID(global, spike_rifle):      weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x00001500 }; break;
-			case STRING_ID(global, sword):            weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x0000159E }; break;
-			case STRING_ID(global, needler):          weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x000014F8 }; break;
-			case STRING_ID(global, rocket_launcher):  weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x000015B3 }; break;
-			case STRING_ID(global, shotgun):          weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x00001A45 }; break;
-			case STRING_ID(global, sniper_rifle):     weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x000015B1 }; break;
-			case STRING_ID(global, brute_shot):       weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x000014FF }; break;
-			case STRING_ID(global, beam_rifle):       weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x00001509 }; break;
-			case STRING_ID(global, spartan_laser):    weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x000015B2 }; break;
-			case STRING_ID(global, gravity_hammer):   weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x0000150C }; break;
-			case STRING_ID(global, flame_thrower):    weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x00001A55 }; break;
-			case STRING_ID(global, missile_launcher): weapon_selection.weapon_tag = { .group_tag = 'weap', .index = 0x00001A54 }; break;
+			case STRING_ID(global, spike_rifle):      weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001500 }; break;
+			case STRING_ID(global, sword):            weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000159E }; break;
+			case STRING_ID(global, needler):          weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000014F8 }; break;
+			case STRING_ID(global, rocket_launcher):  weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B3 }; break;
+			case STRING_ID(global, shotgun):          weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A45 }; break;
+			case STRING_ID(global, sniper_rifle):     weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B1 }; break;
+			case STRING_ID(global, brute_shot):       weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000014FF }; break;
+			case STRING_ID(global, beam_rifle):       weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001509 }; break;
+			case STRING_ID(global, spartan_laser):    weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B2 }; break;
+			case STRING_ID(global, gravity_hammer):   weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000150C }; break;
+			case STRING_ID(global, flame_thrower):    weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A55 }; break;
+			case STRING_ID(global, missile_launcher): weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A54 }; break;
 			}
 		}
 
@@ -1190,7 +1190,7 @@ void apply_biped_group_modification(e_instance_modification_stage stage)
 	if (stage != _instance_modification_stage_after_scenario_tags_loaded)
 		return;
 
-	if (byte* biped = static_cast<byte*>(tag_get('bipd', "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief")))
+	if (byte* biped = static_cast<byte*>(tag_get(BIPED_TAG, "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief")))
 	{
 		s_character_physics_definition& physics = *reinterpret_cast<s_character_physics_definition*>(biped + 0x4D0);
 
@@ -1263,7 +1263,7 @@ void external_tag_fixup(s_file_reference* file, long tag_index, cache_file_tag_i
 	dword file_size = 0;
 	file_get_size(file, &file_size);
 
-	if (instance->is_group('bitm'))
+	if (instance->is_group(BITMAP_TAG))
 	{
 		bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
 		ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());

@@ -213,6 +213,7 @@ POPD
     <ClCompile Include="source\game\game_engine_scripting.cpp" />
     <ClCompile Include="source\game\game_engine_slayer.cpp" />
     <ClCompile Include="source\game\game_engine_spawning.cpp" />
+    <ClCompile Include="source\game\game_engine_spawn_influencer.cpp" />
     <ClCompile Include="source\game\game_engine_team.cpp" />
     <ClCompile Include="source\game\game_engine_territories.cpp" />
     <ClCompile Include="source\game\game_engine_traits.cpp" />
@@ -409,6 +410,7 @@ POPD
     <ClCompile Include="source\simulation\game_interface\simulation_game_action.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
+    <ClCompile Include="source\sound\sound_definitions.cpp" />
     <ClCompile Include="source\tag_files\files.cpp" />
     <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\string_ids.cpp" />

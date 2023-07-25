@@ -104,6 +104,45 @@ void s_multiplayer_universal_globals_definition::update_reference_names()
 	sandbox_text.get_name();
 	sandbox_object_properties_values.get_name();
 	halo3_game_engine_settings.get_name();
+
+	UPDATE_REFERENCE_NAMES(customized_spartan_characters);
+	UPDATE_REFERENCE_NAMES(customized_elite_characters);
+	UPDATE_REFERENCE_NAMES(equipment);
+	UPDATE_REFERENCE_NAMES(weapon_selections);
+	UPDATE_REFERENCE_NAMES(vehicle_selections);
+	UPDATE_REFERENCE_NAMES(grenade_selections);
+	UPDATE_REFERENCE_NAMES(podium_animations);
+}
+
+void s_multiplayer_customized_model_character::update_reference_names()
+{
+	UPDATE_REFERENCE_NAMES(customized_areas);
+}
+
+void s_multiplayer_customized_model_selection::update_reference_names()
+{
+	third_person_armor_object.get_name();
+	first_person_armor_object.get_name();
+}
+
+void s_multiplayer_equipment::update_reference_names()
+{
+	object.get_name();
+}
+
+void s_multiplayer_weapon_selection::update_reference_names()
+{
+	weapon_tag.get_name();
+}
+
+void s_multiplayer_vehicle_selection::update_reference_names()
+{
+	vehicle_tag.get_name();
+}
+
+void s_multiplayer_grenade_selection::update_reference_names()
+{
+	grenade_tag.get_name();
 }
 
 void s_multiplayer_runtime_globals_definition::update_reference_names()
@@ -138,5 +177,35 @@ void s_multiplayer_runtime_globals_definition::update_reference_names()
 	menu_music_b.get_name();
 	menu_music_c.get_name();
 	menu_music_d.get_name();
+
+	UPDATE_REFERENCE_NAMES(multiplayer_constants);
+}
+
+void s_multiplayer_podium_animation::update_reference_names()
+{
+	animation_tag.get_name();
+
+	UPDATE_REFERENCE_NAMES(move_animations);
+}
+
+void s_multiplayer_podium_move_animation::update_reference_names()
+{
+	primary_weapon.get_name();
+	secondary_weapon.get_name();
+}
+
+void s_multiplayer_constants::update_reference_names()
+{
+	hill_bitmap.get_name();
+	bomb_explode_effect.get_name();
+	bomb_explode_secondary_effect.get_name();
+	bomb_explode_dmg_effect.get_name();
+	bomb_defuse_effect.get_name();
+	sandbox_effect.get_name();
+
+	UPDATE_REFERENCE_NAMES(weapon_influencers);
+	UPDATE_REFERENCE_NAMES(vehicle_influencers);
+	UPDATE_REFERENCE_NAMES(projectile_influencers);
+	UPDATE_REFERENCE_NAMES(equipment_influencers);
 }
 

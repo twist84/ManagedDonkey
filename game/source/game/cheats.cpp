@@ -185,7 +185,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		if (reference.index == NONE)
 			continue;
 
-		_object_definition* object = static_cast<_object_definition*>(tag_get('obje', reference.index));
+		_object_definition* object = static_cast<_object_definition*>(tag_get(OBJECT_TAG, reference.index));
 
 		real bounding_radius = object->bounding_radius + 1.5f;
 		if (radius <= bounding_radius)
@@ -251,13 +251,13 @@ void __cdecl cheat_all_vehicles()
 	s_tag_reference references[16]{};
 
 	tag_iterator iterator{};
-	tag_iterator_new(&iterator, 'vehi');
+	tag_iterator_new(&iterator, VEHICLE_TAG);
 	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		byte* vehicle = (byte*)tag_get('vehi', tag_index);
+		byte* vehicle = (byte*)tag_get(iterator.group_tag, tag_index);
 		s_tag_block& powered_seats = *reinterpret_cast<s_tag_block*>(vehicle + 0x358);
 		if (powered_seats.count > 0)
 		{
@@ -276,7 +276,7 @@ void __cdecl cheat_all_weapons()
 	s_tag_reference references[128 /* 32 */]{};
 
 	tag_iterator iterator{};
-	tag_iterator_new(&iterator, 'weap');
+	tag_iterator_new(&iterator, WEAPON_TAG);
 	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
 		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
@@ -301,7 +301,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 
 	if (tag_index == NONE)
 	{
-		if (expected_group_tag == 'obje')
+		if (expected_group_tag == OBJECT_TAG)
 			c_console::write_line("cheats: couldn't load object '%s.%s' to drop it", tag_name, tag_group_name);
 
 		return false;
@@ -311,7 +311,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	data.multiplayer_properties.game_engine_flags = 0;
 	data.multiplayer_properties.spawn_flags = 0;
 
-	_object_definition* object = static_cast<_object_definition*>(tag_get('obje', tag_index));
+	_object_definition* object = static_cast<_object_definition*>(tag_get(OBJECT_TAG, tag_index));
 	object_placement_data_new(&data, tag_index, NONE, nullptr);
 	real bounding_radius = object->bounding_radius + 1.0f;
 
@@ -346,7 +346,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	//if (!object->runtime_object_type && object_get_and_verify_type(object_index, 1)->item.__data17C[0xE6] == NONE)
 	//{
 	//	tag_iterator iterator{};
-	//	tag_iterator_new(&iterator, 'weap');
+	//	tag_iterator_new(&iterator, WEAPON_TAG);
 	//	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	//	{
 	//		object_placement_data weapon_data{};
@@ -404,7 +404,7 @@ long __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* var
 
 void cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, long* out_droppable_tag_type_count)
 {
-	tag droppable_tag_types[] = { 'vehi', 'bipd', 'crea', 'weap', 'bloc', 'eqip', 'mach', 'ctrl', 'proj', 'term', 'ssce', 'scen', 'efsc', 'effe' };
+	tag droppable_tag_types[] = { VEHICLE_TAG, BIPED_TAG, CREATURE_TAG, WEAPON_TAG, CRATE_TAG, EQUIPMENT_TAG, DEVICE_MACHINE_TAG, DEVICE_CONTROL_TAG, PROJECTILE_TAG, DEVICE_TERMINAL_TAG, SOUND_SCENERY_TAG, SCENERY_TAG, EFFECT_SCENERY_TAG, EFFECT_TAG };
 	csmemcpy(out_droppable_tag_types, droppable_tag_types, sizeof(droppable_tag_types));
 	*out_droppable_tag_type_count = NUMBEROF(droppable_tag_types);
 }
@@ -522,21 +522,21 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 	tag group_tag = group_tag_;
 	switch (group_tag)
 	{
-	case 'mach':
-	case 'ctrl':
-	case 'bipd':
-	case 'bloc':
-	case 'crea':
-	case 'efsc':
-	case 'eqip':
-	case 'gint':
-	case 'term':
-	case 'proj':
-	case 'scen':
-	case 'ssce':
-	case 'vehi':
-	case 'weap':
-		group_tag = 'obje';
+	case DEVICE_MACHINE_TAG:
+	case DEVICE_CONTROL_TAG:
+	case BIPED_TAG:
+	case CRATE_TAG:
+	case CREATURE_TAG:
+	case EFFECT_SCENERY_TAG:
+	case EQUIPMENT_TAG:
+	case GIANT_TAG:
+	case DEVICE_TERMINAL_TAG:
+	case PROJECTILE_TAG:
+	case SCENERY_TAG:
+	case SOUND_SCENERY_TAG:
+	case VEHICLE_TAG:
+	case WEAPON_TAG:
+		group_tag = OBJECT_TAG;
 		break;
 	}
 
@@ -544,13 +544,13 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 
 	if (result)
 	{
-		if (group_tag == 'effe')
+		if (group_tag == EFFECT_TAG)
 		{
 			//cheat_drop_effect(group_tag, tag_get_name(tag_index), tag_index, &result->focus_point, &result->forward);
 		}
-		else if (group_tag == 'obje')
+		else if (group_tag == OBJECT_TAG)
 		{
-			cheat_drop_object(group_tag_, tag_get_name(tag_index), 'obje', tag_index, variant_name, NONE, &result->focus_point, &result->forward, permutations, permutation_count);
+			cheat_drop_object(group_tag_, tag_get_name(tag_index), OBJECT_TAG, tag_index, variant_name, NONE, &result->focus_point, &result->forward, permutations, permutation_count);
 		}
 		else
 		{

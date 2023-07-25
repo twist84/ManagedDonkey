@@ -147,7 +147,7 @@ struct s_scenario
 	real sandbox_budget;
 
 	c_typed_tag_block<scenario_structure_bsp_reference> structure_bsps;
-	c_typed_tag_reference<'stse'> structure_seams;
+	c_typed_tag_reference<STRUCTURE_SEAMS_TAG> structure_seams;
 	c_typed_tag_block<s_scenario_sky_reference> sky_references;
 	c_typed_tag_block<s_scenario_zone_set_pvs> zone_set_pvs;
 	c_typed_tag_block<s_game_audibility> zone_set_audibility;
@@ -168,53 +168,53 @@ struct s_scenario
 	c_typed_tag_block<scenario_object_name, 'sort'> object_names;
 
 	c_typed_tag_block<scenario_scenery_block> scenery;
-	c_typed_tag_block<scenario_object_palette_entry<'scen'>, 'sort'> scenery_palette;
+	c_typed_tag_block<scenario_object_palette_entry<SCENERY_TAG>, 'sort'> scenery_palette;
 
 	c_typed_tag_block<scenario_biped_block> bipeds;
-	c_typed_tag_block<scenario_object_palette_entry<'bipd'>, 'sort'> biped_palette;
+	c_typed_tag_block<scenario_object_palette_entry<BIPED_TAG>, 'sort'> biped_palette;
 
 	c_typed_tag_block<scenario_vehicle_block> vehicles;
-	c_typed_tag_block<scenario_object_palette_entry<'vehi'>, 'sort'> vehicle_palette;
+	c_typed_tag_block<scenario_object_palette_entry<VEHICLE_TAG>, 'sort'> vehicle_palette;
 
 	c_typed_tag_block<scenario_equipment_block> equipment;
-	c_typed_tag_block<scenario_object_palette_entry<'eqip'>, 'sort'> equipment_palette;
+	c_typed_tag_block<scenario_object_palette_entry<EQUIPMENT_TAG>, 'sort'> equipment_palette;
 
 	c_typed_tag_block<scenario_weapon_block> weapons;
-	c_typed_tag_block<scenario_object_palette_entry<'weap'>, 'sort'> weapon_palette;
+	c_typed_tag_block<scenario_object_palette_entry<WEAPON_TAG>, 'sort'> weapon_palette;
 
 	c_typed_tag_block<device_group_block> device_groups;
 
 	c_typed_tag_block<scenario_machine_block> machines;
-	c_typed_tag_block<scenario_object_palette_entry<'mach'>, 'sort'> machine_palette;
+	c_typed_tag_block<scenario_object_palette_entry<DEVICE_MACHINE_TAG>, 'sort'> machine_palette;
 
 	c_typed_tag_block<s_scenario_terminal> terminals;
-	c_typed_tag_block<scenario_object_palette_entry<'term'>, 'sort'> terminal_palette;
+	c_typed_tag_block<scenario_object_palette_entry<DEVICE_TERMINAL_TAG>, 'sort'> terminal_palette;
 
 	c_typed_tag_block<s_scenario_arg_device> arg_devices;
-	c_typed_tag_block<scenario_object_palette_entry<'argd'>, 'sort'> arg_device_palette;
+	c_typed_tag_block<scenario_object_palette_entry<DEVICE_ARG_DEVICE_TAG>, 'sort'> arg_device_palette;
 
 	c_typed_tag_block<scenario_control_block> controls;
-	c_typed_tag_block<scenario_object_palette_entry<'ctrl'>, 'sort'> control_palette;
+	c_typed_tag_block<scenario_object_palette_entry<DEVICE_CONTROL_TAG>, 'sort'> control_palette;
 
 	c_typed_tag_block<scenario_sound_scenery_block> sound_scenery;
-	c_typed_tag_block<scenario_object_palette_entry<'ssce'>, 'sort'> sound_scenery_palette;
+	c_typed_tag_block<scenario_object_palette_entry<SOUND_SCENERY_TAG>, 'sort'> sound_scenery_palette;
 
 	c_typed_tag_block<scenario_giant_block> giants;
-	c_typed_tag_block<scenario_object_palette_entry<'gint'>, 'sort'> giant_palette;
+	c_typed_tag_block<scenario_object_palette_entry<GIANT_TAG>, 'sort'> giant_palette;
 
 	c_typed_tag_block<scenario_effect_scenery_block> effect_scenery;
-	c_typed_tag_block<scenario_object_palette_entry<'efsc'>, 'sort'> effect_scenery_palette;
+	c_typed_tag_block<scenario_object_palette_entry<EFFECT_SCENERY_TAG>, 'sort'> effect_scenery_palette;
 
 	c_typed_tag_block<scenario_light_block> light_volumes;
-	c_typed_tag_block<scenario_object_palette_entry<'ligh'>, 'sort'> light_volume_palette;
+	c_typed_tag_block<scenario_object_palette_entry<LIGHT_TAG>, 'sort'> light_volume_palette;
 
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'vehi'>, 'sort'> map_variant_vehicle_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'weap'>, 'sort'> map_variant_weapon_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'eqip'>, 'sort'> map_variant_equipment_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'scen'>, 'sort'> map_variant_scenery_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'obje', 'vehi', 'scen', 'argd'>, 'sort'> map_variant_teleporters_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'obje', 'vehi', 'scen', 'argd'>, 'sort'> map_variant_goals_palette;
-	c_typed_tag_block<scenario_object_palette_entry_with_string_id<'obje', 'vehi', 'scen', 'argd'>, 'sort'> map_variant_spawners_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<VEHICLE_TAG>, 'sort'> map_variant_vehicle_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<WEAPON_TAG>, 'sort'> map_variant_weapon_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<EQUIPMENT_TAG>, 'sort'> map_variant_equipment_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<SCENERY_TAG>, 'sort'> map_variant_scenery_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<OBJECT_TAG, VEHICLE_TAG, SCENERY_TAG, DEVICE_ARG_DEVICE_TAG>, 'sort'> map_variant_teleporters_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<OBJECT_TAG, VEHICLE_TAG, SCENERY_TAG, DEVICE_ARG_DEVICE_TAG>, 'sort'> map_variant_goals_palette;
+	c_typed_tag_block<scenario_object_palette_entry_with_string_id<OBJECT_TAG, VEHICLE_TAG, SCENERY_TAG, DEVICE_ARG_DEVICE_TAG>, 'sort'> map_variant_spawners_palette;
 
 	c_typed_tag_block<s_scenario_soft_ceiling> soft_ceilings;
 	c_typed_tag_block<scenario_starting_profile> player_starting_profile;
@@ -273,8 +273,8 @@ struct s_scenario
 	c_typed_tag_block<scenario_cutscene_flag> cutscene_flags;
 	c_typed_tag_block<scenario_cutscene_camera_point> cutscene_camera_points;
 	c_typed_tag_block<s_scenario_cutscene_title> cutscene_titles;
-	c_typed_tag_reference<'unic'> custom_object_names;
-	c_typed_tag_reference<'unic'> chapter_title_text;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> custom_object_names;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> chapter_title_text;
 
 	c_typed_tag_block<scenario_resources_definition> scenario_resources;
 	c_typed_tag_block<s_hs_unit_seat_mapping> hs_unit_seats;
@@ -305,26 +305,26 @@ struct s_scenario
 	} object_salts[32];
 
 	c_typed_tag_block<s_scenario_spawn_data> spawn_data;
-	c_typed_tag_reference<'sfx+'> sound_effect_collection;
+	c_typed_tag_reference<SOUND_EFFECT_COLLECTION_TAG> sound_effect_collection;
 
 	c_typed_tag_block<s_scenario_crate> crates;
-	c_typed_tag_block<scenario_object_palette_entry<'bloc'>, 'sort'> crate_palette;
+	c_typed_tag_block<scenario_object_palette_entry<CRATE_TAG>, 'sort'> crate_palette;
 
 	c_typed_tag_block<s_flock_palette_entry, 'sort'> flock_palette;
 	c_typed_tag_block<s_flock_instance> flocks;
 
-	c_typed_tag_reference<'unic'> subtitles;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> subtitles;
 
 	c_typed_tag_block<s_scenario_creature> creatures;
-	c_typed_tag_block<scenario_object_palette_entry<'crea'>, 'sort'> creature_palette;
+	c_typed_tag_block<scenario_object_palette_entry<CREATURE_TAG>, 'sort'> creature_palette;
 
 	c_typed_tag_block<s_scenario_editor_folder> editor_folders;
-	c_typed_tag_reference<'unic'> game_engine_strings;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> game_engine_strings;
 
 	byte QVUC[8]; // pad
 
 	c_typed_tag_block<ai_scenario_mission_dialogue> mission_dialogue;
-	c_typed_tag_reference<'unic'> objectives;
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> objectives;
 
 	c_typed_tag_block<s_scenario_interpolator> interpolators;
 
@@ -332,15 +332,15 @@ struct s_scenario
 	s_tag_block screen_effect_references;
 	s_tag_block simulation_definition_table;
 
-	c_typed_tag_reference<'cfxs'> camera_effects;
-	c_typed_tag_reference<'sefc'> global_screen_effect;
+	c_typed_tag_reference<CAMERA_FX_SETTINGS_TAG> camera_effects;
+	c_typed_tag_reference<AREA_SCREEN_EFFECT_TAG> global_screen_effect;
 
 	s_tag_reference unknown_screen_fx;
 
-	c_typed_tag_reference<'skya'> atmospheric;
-	c_typed_tag_reference<'chmt'> chocalate_mountain;
-	c_typed_tag_reference<'sLdT'> new_lightmaps;
-	c_typed_tag_reference<'perf'> performance_throttles;
+	c_typed_tag_reference<SKY_ATM_PARAMETERS_TAG> atmospheric;
+	c_typed_tag_reference<CHOCOLATE_MOUNTAIN_NEW_TAG> chocalate_mountain;
+	c_typed_tag_reference<SCENARIO_LIGHTMAP_TAG> new_lightmaps;
+	c_typed_tag_reference<PERFORMANCE_THROTTLES_TAG> performance_throttles;
 
 	c_typed_tag_block<s_ai_reference_frame_definition> reference_frames;
 	c_typed_tag_block<s_objective> ai_objectives;
@@ -357,8 +357,8 @@ struct s_scenario
 	c_typed_tag_block<s_scenario_airprobe_info> airprobes;
 	c_typed_tag_block<s_scenario_budget_reference> budget_references;
 
-	c_typed_tag_reference<'effe'> tchou_shader_effect;
-	c_typed_tag_reference<'vmdx'> vision_mode_override;
+	c_typed_tag_reference<EFFECT_TAG> tchou_shader_effect;
+	c_typed_tag_reference<VISION_MODE_TAG> vision_mode_override;
 	c_typed_tag_block<s_background_bitmap_reference_definition> background_bitmap_references;
 };
 static_assert(sizeof(s_scenario) == 0x824);
@@ -403,9 +403,9 @@ enum e_scenario_structure_bsp_reference_flags
 
 struct scenario_structure_bsp_reference
 {
-	c_typed_tag_reference<'sbsp'> structure_bsp;
-	c_typed_tag_reference<'sddt'> structure_design;
-	c_typed_tag_reference<'stli'> structure_lighting_info;
+	c_typed_tag_reference<SCENARIO_STRUCTURE_BSP_TAG> structure_bsp;
+	c_typed_tag_reference<STRUCTURE_DESIGN_TAG> structure_design;
+	c_typed_tag_reference<SCENARIO_STRUCTURE_LIGHTING_INFO_TAG> structure_lighting_info;
 
 	// Size Class
 	// Tells lightmapper desired res for structure bitmaps.
@@ -429,8 +429,8 @@ struct scenario_structure_bsp_reference
 	// <start, pixel size where we no longer render. code default 30
 	short default_instance_fade_end_pixels;
 
-	c_typed_tag_reference<'bitm'> cubemap_bitmap_group_reference;
-	c_typed_tag_reference<'wind'> wind;
+	c_typed_tag_reference<BITMAP_TAG> cubemap_bitmap_group_reference;
+	c_typed_tag_reference<WIND_TAG> wind;
 
 	// Clones
 	// Describes which other bsps are physical 'clones' of this bsp
@@ -443,7 +443,7 @@ static_assert(sizeof(scenario_structure_bsp_reference) == 0x6C);
 
 struct s_scenario_sky_reference
 {
-	c_typed_tag_reference<'scen'> sky;
+	c_typed_tag_reference<SCENERY_TAG> sky;
 
 	// scenario_object_name
 	short name;                // short_block_index
@@ -538,7 +538,7 @@ static_assert(sizeof(s_scenario_soft_ceiling) == 0xC);
 
 struct scenario_starting_profile_weapon
 {
-	c_typed_tag_reference<'weap'> weapon;
+	c_typed_tag_reference<WEAPON_TAG> weapon;
 	short rounds_loaded;
 	short rounds_total;
 };
@@ -656,6 +656,6 @@ static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
 
 struct s_background_bitmap_reference_definition
 {
-	c_typed_tag_reference<'bitm'> background_bitmap_group_reference;
+	c_typed_tag_reference<BITMAP_TAG> background_bitmap_group_reference;
 };
 

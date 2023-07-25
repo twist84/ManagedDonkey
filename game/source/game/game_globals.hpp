@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ai/ai_globals.hpp"
+#include "camera/camera_globals.hpp"
 #include "cseries/cseries.hpp"
 #include "cutscene/cinematics_definitions.hpp"
 #include "game/campaign_metagame_definitions.hpp"
@@ -85,12 +86,12 @@ extern game_globals_storage* game_globals_get();
 
 extern long get_map_minor_version();
 
+struct s_game_globals_havok_cleanup_resources;
 struct s_damage_globals_definition;
 struct s_game_globals_camera;
 struct s_game_globals_difficulty_information;
 struct s_game_globals_falling_damage;
 struct s_game_globals_grenade;
-struct s_game_globals_havok_cleanup_resources;
 struct s_game_globals_interface_tag_references;
 struct s_game_globals_player_control;
 struct s_game_globals_player_information;
@@ -112,7 +113,7 @@ struct s_game_globals
 	// AI globals
 	// I have moved the ai globals out of this tag, and into its own tag which is referenced here.
 	c_typed_tag_block<s_ai_globals_data, 'slap'> DEPRECATED; // ai globals;
-	c_typed_tag_reference<'aigl'> ai_globals_ref;
+	c_typed_tag_reference<AI_GLOBALS_TAG> ai_globals_ref;
 
 	c_typed_tag_block<s_damage_globals_definition> damage_table;
 	c_typed_tag_block<g_null_block> empty;
@@ -125,8 +126,8 @@ struct s_game_globals
 	c_typed_tag_block<s_game_globals_interface_tag_references> interface_tags;
 
 	// @weapon list (update _weapon_list enum in game_globals.h)
-	c_typed_tag_block<s_game_globals_tag_reference<'weap'>> cheat_weapons;
-	c_typed_tag_block<s_game_globals_tag_reference<'eqip'>> cheat_powerups;
+	c_typed_tag_block<s_game_globals_tag_reference<WEAPON_TAG>> cheat_weapons;
+	c_typed_tag_block<s_game_globals_tag_reference<EQUIPMENT_TAG>> cheat_powerups;
 
 	c_typed_tag_block<s_game_globals_player_information> player_information;
 	c_typed_tag_block<s_game_globals_player_representation> player_representation;
@@ -136,28 +137,28 @@ struct s_game_globals
 	c_typed_tag_block<s_game_globals_shield_boost> shield_boost;
 	c_typed_tag_block<s_global_material_definition, 'sort'> materials;
 
-	c_typed_tag_reference<'mulg'> multiplayer_globals;
-	c_typed_tag_reference<'smdt'> survival_mode_globals;
+	c_typed_tag_reference<MULTIPLAYER_GLOBALS_TAG> multiplayer_globals;
+	c_typed_tag_reference<SURVIVAL_MODE_GLOBALS_TAG> survival_mode_globals;
 	c_typed_tag_block<cinematics_globals_block> cinematics_globals;
 	c_typed_tag_block<s_campaign_metagame_globals> campaign_metagame_globals;
 
 	c_static_array<c_language_pack, k_language_count> language_packs;
 
 	// Rasterizer globals
-	c_typed_tag_reference<'rasg'> rasterizer_globals_ref;
+	c_typed_tag_reference<RASTERIZER_GLOBALS_TAG> rasterizer_globals_ref;
 
 	// Default camera fx settings
-	c_typed_tag_reference<'cfxs'> default_camera_fx_settings;
+	c_typed_tag_reference<CAMERA_FX_SETTINGS_TAG> default_camera_fx_settings;
 
 	// halo online
-	c_typed_tag_reference<'pdm!'> podium_definition;
+	c_typed_tag_reference<PODIUM_SETTINGS_TAG> podium_definition;
 
 	// Default wind settings
-	c_typed_tag_reference<'wind'> default_wind_settings;
+	c_typed_tag_reference<WIND_TAG> default_wind_settings;
 
 	// Default collision damage
-	c_typed_tag_reference<'jpt!'> collision_damage_effect;
-	c_typed_tag_reference<'cddf'> collision_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG> collision_damage_effect;
+	c_typed_tag_reference<COLLISION_DAMAGE_TAG> collision_damage;
 
 	// global water material
 	// the default value for what material type water is
@@ -167,13 +168,13 @@ struct s_game_globals
 	// pad
 	byte pad_water_material[2];
 
-	c_typed_tag_reference<'effg'> effect_globals;
-	c_typed_tag_reference<'gpdt'> game_progression;
-	c_typed_tag_reference<'achi'> game_achievements;
+	c_typed_tag_reference<EFFECT_GLOBALS_TAG> effect_globals;
+	c_typed_tag_reference<GAME_PROGRESSION_TAG> game_progression;
+	c_typed_tag_reference<ACHIEVEMENTS_TAG> game_achievements;
 
 	// halo online
 
-	c_typed_tag_reference<'inpg'> input_globals;
+	c_typed_tag_reference<INPUT_GLOBALS_TAG> input_globals;
 	real __unknown5C0;
 	real __unknown5C4;
 	real biped_speed_reference;
@@ -199,6 +200,146 @@ struct s_game_globals
 };
 static_assert(sizeof(s_game_globals) == 0x608);
 
+struct s_game_globals_havok_cleanup_resources
+{
+	c_typed_tag_reference<EFFECT_TAG> object_cleanup_effect;
+
+	void update_reference_names();
+};
+static_assert(sizeof(s_game_globals_havok_cleanup_resources) == 0x10);
+
+struct s_game_globals_camera
+{
+	c_typed_tag_reference<CAMERA_TRACK_TAG> default_unit_camera_track;
+
+	// CAMERA UNIVERSALS
+
+	real field_of_view; // degrees
+	real yaw_scale;
+	real pitch_scale;
+	real forward_scale;
+	real side_scale;
+	real up_scale;
+
+
+	// DEAD CAMERA
+
+	// time it takes for the camera to move from the initial distance to the final distance
+	real transition_time; // seconds
+
+	// time it takes for the camera to move to its final position during a falling death
+	real falling_death_transition_time; // seconds
+
+	// on the first frame after death, this is how far out of the body the camera will be
+	real initial_distance; // wu
+
+	// how far from the body the camera will settle
+	real final_distance; // wu
+
+	// how far above the body the camera focuses on
+	real dead_cam_z_offset; // wu
+
+	// the highest angle the camera can raise to(prevents it from flipping over the vertical axis)
+	real dead_cam_maximum_elevation; // radians
+
+	// delay in tracking the killer
+	real dead_cam_movement_delay; // seconds
+
+	// how long the death camera lasts before switching to orbiting camera
+	real time; // seconds
+
+	// minimum velocity to switch to fell to death behavior(when biped is not actually falling to death)
+	real dead_camera_minimum_falling_velocity;
+
+
+	// FLYING CAMERA
+
+	// the scaling factor for the left stick when the left trigger is fully depressed
+	real maximum_boost_speed;
+
+	// seconds. while pegging boost, time to reach maximum speed
+	real time_to_maximum_boost;
+
+	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> boost_function;
+	byte hoist[2];
+
+	// field of view when zoomed
+	real zoomed_field_of_view; // degrees
+
+	// scaling factor for look speed when zoomed
+	real zoomed_look_speed;
+
+	// radius of sphere for collision
+	real bounding_sphere_radius; // wu
+
+	// how quickly the camera responds to the user's input
+	real flying_cam_movement_delay; // seconds
+
+	// how long it takes to zoom in or out
+	real zoom_transition_time; // seconds
+
+	real vertical_movement_time_to;
+	c_enum<e_global_transition_function, short, _global_transition_function_linear, k_global_transition_function_count> vertical_movement_function;
+	byte moist[2];
+
+	// how long it takes in survival mode before switching to flying camera
+	real survival_switch_time; // seconds
+
+
+	// ORBITING CAMERA
+
+	real minimum_distance; // wu
+	real maximum_distance; // wu
+
+	// how quickly the camera responds to the user's input
+	real orbit_cam_movement_delay; // seconds
+
+	// how far above the object's root node to position the camera's focus point
+	real orbit_cam_z_offset; // wu
+
+	// lowest angle the camera can be moved to
+	real orbit_cam_minimum_elevation; // radians
+
+	// highest angle the camera can be moved to
+	real orbit_cam_maximum_elevation; // radians
+
+
+	// SAVED FILMS
+
+	// how fast the film plays when the trigger is fully depressed
+	real max_playback_speed;
+
+	// how long it takes for the screen to fade out when rewinding
+	real fade_out_time; // seconds
+
+	// see above
+	real fade_in_time; // seconds
+
+
+	// IN GAME
+
+	// how long it takes the camera to move from first to third person when entering a vehicle
+	real enter_vehicle_transition_time; // seconds
+
+	// see above
+	real exit_vehicle_transition_time; // seconds
+
+	void update_reference_names();
+};
+
+struct s_game_globals_grenade
+{
+	short maximum_count;
+	byte GQGKOFEHN[2]; // padding
+	c_typed_tag_reference<EFFECT_TAG> throwing_effect;
+	byte TF[16]; // padding
+	c_typed_tag_reference<EQUIPMENT_TAG> equipment;
+	c_typed_tag_reference<PROJECTILE_TAG> projectile;
+
+	void update_reference_names();
+};
+static_assert(sizeof(s_game_globals_grenade) == 0x44);
+
 struct s_game_globals_player_representation
 {
 	c_string_id name;
@@ -220,6 +361,6 @@ static_assert(sizeof(s_game_globals_player_representation) == 0x6C);
 template<tag group_tag>
 struct s_game_globals_tag_reference : s_tag_reference
 {
-
+	void update_reference_names();
 };
 

@@ -24,9 +24,6 @@ long get_map_minor_version()
 void s_game_globals::update_reference_names()
 {
 	ai_globals_ref.get_name();
-	UPDATE_REFERENCE_NAMES(sounds);
-	UPDATE_REFERENCE_NAMES(player_representation);
-	UPDATE_REFERENCE_NAMES(player_representation_debug);
 	multiplayer_globals.get_name();
 	survival_mode_globals.get_name();
 	rasterizer_globals_ref.get_name();
@@ -39,11 +36,38 @@ void s_game_globals::update_reference_names()
 	game_progression.get_name();
 	game_achievements.get_name();
 	input_globals.get_name();
+
+	UPDATE_REFERENCE_NAMES(havok_cleanup_resources);
+	UPDATE_REFERENCE_NAMES(sound_globals);
+	UPDATE_REFERENCE_NAMES(sounds);
+	UPDATE_REFERENCE_NAMES(camera);
+	UPDATE_REFERENCE_NAMES(grenades);
+	UPDATE_REFERENCE_NAMES(cheat_weapons);
+	UPDATE_REFERENCE_NAMES(cheat_powerups);
+	UPDATE_REFERENCE_NAMES(player_representation);
+	UPDATE_REFERENCE_NAMES(player_representation_debug);
+}
+
+void s_game_globals_havok_cleanup_resources::update_reference_names()
+{
+	object_cleanup_effect.get_name();
 }
 
 void s_game_globals::sound_block::update_reference_names()
 {
 	sound.get_name();
+}
+
+void s_game_globals_camera::update_reference_names()
+{
+	default_unit_camera_track.get_name();
+}
+
+void s_game_globals_grenade::update_reference_names()
+{
+	throwing_effect.get_name();
+	equipment.get_name();
+	projectile.get_name();
 }
 
 void s_game_globals_player_representation::update_reference_names()
@@ -56,3 +80,8 @@ void s_game_globals_player_representation::update_reference_names()
 	voice.get_name();
 }
 
+template<tag group_tag>
+void s_game_globals_tag_reference<group_tag>::update_reference_names()
+{
+	get_name();
+}

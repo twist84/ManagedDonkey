@@ -48,7 +48,7 @@ struct c_runtime_resource_cache_file_decompressor :
 			if (static_cast<dword>(file_header->resource_index) != m_holding_buffer.m_size - 1)
 				continue;
 
-			if (file_header->group_tag == 'bitm')
+			if (file_header->group_tag == BITMAP_TAG)
 			{
 				DirectX::DDS_FILE_HEADER const* dds_file = reinterpret_cast<DirectX::DDS_FILE_HEADER const*>(file_header + 1);
 				if (!dds_file)

@@ -52,7 +52,7 @@ struct s_core_widget_definition
 	// bounds 480i & bounds 4x3 (640x480)
 	short_rectangle2d ui_bounds[2];
 
-	c_typed_tag_reference<'wacd'> animation_collection;
+	c_typed_tag_reference<GUI_WIDGET_ANIMATION_COLLECTION_DEFINITION_TAG> animation_collection;
 };
 static_assert(sizeof(s_core_widget_definition) == 0x2C);
 
