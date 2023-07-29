@@ -350,6 +350,48 @@ struct s_game_globals_camera
 	void update_reference_names();
 };
 
+struct s_look_function_block
+{
+	real scale;
+};
+static_assert(sizeof(s_look_function_block) == sizeof(real));
+
+struct s_game_globals_player_control
+{
+	real_fraction magnetism_friction;
+	real_fraction magnetism_adhesion;
+	real_fraction inconsequential_target_scale;
+
+	// crosshair
+	real_point2d crosshair_location;
+
+	// sprinting
+	real seconds_to_start;
+	real seconds_to_full_speed;
+	real decay_rate;
+	real full_speed_multiplier;
+	real pegged_magnitude;
+	real pegged_angular_threshold;
+	real stamina_deplete_restore_time;
+	real cooldown_time;
+
+	// looking
+	real look_default_pitch_rate;
+	real look_default_yaw_rate;
+	real_fraction look_peg_threshold;
+	real look_yaw_acceleration_time;
+	real look_yaw_acceleration_scale;
+	real look_pitch_acceleration_time;
+	real look_pitch_acceleration_scale;
+	real look_autolevelling_scale;
+	char TMIDI[8]; // pad
+	real gravity_scale;
+	char VM[2]; // pad
+	short minimum_autolevelling_ticks;
+	c_typed_tag_block<s_look_function_block> look_function;
+};
+static_assert(sizeof(s_game_globals_player_control) == 0x70);
+
 struct s_game_globals_grenade
 {
 	short maximum_count;
