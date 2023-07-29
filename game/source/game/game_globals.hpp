@@ -86,8 +86,8 @@ extern game_globals_storage* game_globals_get();
 
 extern long get_map_minor_version();
 
-struct s_game_globals_havok_cleanup_resources;
 struct s_damage_globals_definition;
+struct s_game_globals_havok_cleanup_resources;
 struct s_game_globals_camera;
 struct s_game_globals_difficulty_information;
 struct s_game_globals_falling_damage;
@@ -97,12 +97,12 @@ struct s_game_globals_player_control;
 struct s_game_globals_player_information;
 struct s_game_globals_player_representation;
 struct s_game_globals_shield_boost;
-struct s_campaign_metagame_globals_block;
 template<tag group_tag>
 struct s_game_globals_tag_reference;
 struct s_game_globals
 {
 	struct sound_block;
+	struct damage_reporting_type_block;
 
 	// pad
 	byte YJLTWDSL[0xAC];
@@ -141,7 +141,7 @@ struct s_game_globals
 	c_typed_tag_reference<MULTIPLAYER_GLOBALS_TAG> multiplayer_globals;
 	c_typed_tag_reference<SURVIVAL_MODE_GLOBALS_TAG> survival_mode_globals;
 	c_typed_tag_block<cinematics_globals_block> cinematics_globals;
-	c_typed_tag_block<s_campaign_metagame_globals_block> campaign_metagame_globals;
+	c_typed_tag_block<s_campaign_metagame_globals> campaign_metagame_globals;
 
 	c_static_array<c_language_pack, k_language_count> language_packs;
 
@@ -186,7 +186,7 @@ struct s_game_globals
 	real __unknown5F0;
 	real __unknown5F4;
 	real __unknown5F8;
-	s_tag_block damage_reporting_types;
+	c_typed_tag_block<damage_reporting_type_block> damage_reporting_types;
 	real __unknown604;
 
 	struct sound_block
@@ -197,17 +197,17 @@ struct s_game_globals
 	};
 	static_assert(sizeof(sound_block) == sizeof(s_tag_reference));
 
+	struct damage_reporting_type_block
+	{
+		short index;
+		short version;
+		string name;
+	};
+	static_assert(sizeof(damage_reporting_type_block) == 0x24);
+
 	void update_reference_names();
 };
 static_assert(sizeof(s_game_globals) == 0x608);
-
-struct s_game_globals_havok_cleanup_resources
-{
-	c_typed_tag_reference<EFFECT_TAG> object_cleanup_effect;
-
-	void update_reference_names();
-};
-static_assert(sizeof(s_game_globals_havok_cleanup_resources) == 0x10);
 
 struct s_damage_group_definition;
 struct s_damage_globals_definition
@@ -230,6 +230,14 @@ struct s_armor_modifier_definition
 	real damage_multiplier;
 };
 static_assert(sizeof(s_armor_modifier_definition) == 0x8);
+
+struct s_game_globals_havok_cleanup_resources
+{
+	c_typed_tag_reference<EFFECT_TAG> object_cleanup_effect;
+
+	void update_reference_names();
+};
+static_assert(sizeof(s_game_globals_havok_cleanup_resources) == 0x10);
 
 struct s_game_globals_camera
 {
@@ -358,36 +366,42 @@ static_assert(sizeof(s_look_function_block) == sizeof(real));
 
 struct s_game_globals_player_control
 {
-	real_fraction magnetism_friction;
-	real_fraction magnetism_adhesion;
-	real_fraction inconsequential_target_scale;
+	real_fraction magnetism_friction;           // how much the crosshair slows over enemies
+	real_fraction magnetism_adhesion;           // how much the crosshair sticks to enemies
+	real_fraction inconsequential_target_scale; // scales magnetism level for inconsequential targets like infection forms
 
 	// crosshair
-	real_point2d crosshair_location;
+	real_point2d crosshair_location; // -1..1, 0 is middle of the screen
 
 	// sprinting
-	real seconds_to_start;
-	real seconds_to_full_speed;
-	real decay_rate;
-	real full_speed_multiplier;
-	real pegged_magnitude;
-	real pegged_angular_threshold;
-	real stamina_deplete_restore_time;
-	real cooldown_time;
+	real seconds_to_start;             // how long you must be pegged before you start sprinting
+	real seconds_to_full_speed;        // how long you must sprint before you reach top speed
+	real decay_rate;                   // how fast being unpegged decays the timer (seconds per second)
+	real full_speed_multiplier;        // how much faster we actually go when at full sprint
+	real pegged_magnitude;             // how far the stick needs to be pressed before being considered pegged
+	real pegged_angular_threshold;     // how far off straight up (in degrees) we consider pegged
+	real stamina_deplete_restore_time; // time to restore stamina from empty or deplete from full (seconds)
+	real cooldown_time;                // time between sprint end and next available use (seconds)
 
 	// looking
-	real look_default_pitch_rate;
-	real look_default_yaw_rate;
-	real_fraction look_peg_threshold;
-	real look_yaw_acceleration_time;
-	real look_yaw_acceleration_scale;
-	real look_pitch_acceleration_time;
-	real look_pitch_acceleration_scale;
-	real look_autolevelling_scale;
+	real look_default_pitch_rate; // degrees
+	real look_default_yaw_rate;   // degrees
+
+	real_fraction look_peg_threshold; // magnitude of yaw for pegged acceleration to kick in
+
+	// time for a pegged look to reach maximum effect
+	real look_yaw_acceleration_time; // seconds
+	real look_yaw_acceleration_scale; // maximum effect of a pegged look (scales last value in the look function below)
+
+	// time for a pegged look to reach maximum effect
+	real look_pitch_acceleration_time; // seconds
+	real look_pitch_acceleration_scale; // maximum effect of a pegged look (scales last value in the look function below)
+
+	real look_autolevelling_scale;      // 1 is fast, 0 is none, >1 will probably be really fast
 	char TMIDI[8]; // pad
 	real gravity_scale;
 	char VM[2]; // pad
-	short minimum_autolevelling_ticks;
+	short minimum_autolevelling_ticks; // amount of time player needs to move and not look up or down for autolevelling to kick in
 	c_typed_tag_block<s_look_function_block> look_function;
 };
 static_assert(sizeof(s_game_globals_player_control) == 0x70);
@@ -453,6 +467,23 @@ struct s_game_globals_difficulty_information
 };
 static_assert(sizeof(s_game_globals_difficulty_information) == 0x284);
 
+struct s_game_globals_falling_damage
+{
+	real_bounds harmful_falling_distance; // world units
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG> falling_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG> jumping_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG> soft_landing_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG> hard_landing_damage;
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG> hs_damage;
+	real maximum_falling_distance; // world units
+	c_typed_tag_reference<DAMAGE_EFFECT_TAG> distance_damage;
+	real runtime_maximum_falling_velocity;
+	real_bounds runtime_damage_velocity_bounds;
+
+	void update_reference_names();
+};
+static_assert(sizeof(s_game_globals_falling_damage) == 0x78);
+
 struct s_game_globals_grenade
 {
 	short maximum_count;
@@ -505,25 +536,41 @@ static_assert(sizeof(s_game_globals_interface_tag_references) == 0x12C);
 
 struct s_game_globals_player_information
 {
-	real walking_speed;
-	real run_forward;
-	real run_backward;
-	real run_sideways;
-	real run_acceleration;
-	real sneak_forward;
-	real sneak_backward;
-	real sneak_sideways;
-	real sneak_acceleration;
-	real airborne_acceleration;
+	// world units per second
+	real walking_speed;         // world units per second
+	real run_forward;           // world units per second
+	real run_backward;          // world units per second
+	real run_sideways;          // world units per second
+	real run_acceleration;      // world units per second squared
+	real sneak_forward;         // world units per second
+	real sneak_backward;        // world units per second
+	real sneak_sideways;        // world units per second
+	real sneak_acceleration;    // world units per second
+	real airborne_acceleration; // world units per second
+
 	real_point3d grenade_origin;
-	real stun_movement_penalty;
-	real stun_turning_penalty;
-	real stun_jumping_penalty;
-	real minimum_stun_time;
-	real maximum_stun_time;
-	real_bounds first_person_idle_time;
-	real_fraction first_person_skip_fraction;
-	real melee_inhibit_time;
+
+	// 1.0 prevents moving while stunned
+	real stun_movement_penalty; // [0,1]
+
+	// 1.0 prevents moving while stunned
+	real stun_turning_penalty; // [0,1]
+
+	// 1.0 prevents moving while stunned
+	real stun_jumping_penalty; // [0,1]
+
+	// all stunning damage will last for at least this long
+	real minimum_stun_time; // seconds
+
+	// no stunning damage will last for longer than this
+	real maximum_stun_time; // seconds
+
+	real_bounds first_person_idle_time; // seconds
+	real_fraction first_person_skip_fraction; // [0,1]
+
+	// time to prevent player from melee attacking after being hit by damage that supports this (singleplayer only)
+	real melee_inhibit_time; // seconds
+
 	c_typed_tag_reference<SOUND_TAG> coop_countdown_sound;
 	c_typed_tag_reference<SOUND_TAG> coop_respawn_sound;
 	c_typed_tag_reference<EFFECT_TAG> coop_respawn_effect;
@@ -556,6 +603,17 @@ struct s_game_globals_player_representation
 	void update_reference_names();
 };
 static_assert(sizeof(s_game_globals_player_representation) == 0x6C);
+
+struct s_game_globals_shield_boost
+{
+	// shield boosting
+	// 
+	// This feature was implemented for the engineer character in atlas. Shield dynamics overrides for when shields are being 'boosted' by an external source
+	real shield_boost_decay;         // amount of shield-boost to decay per second
+	real shield_boost_recharge_time; // time to recharge full shields when getting boosted
+	real shield_boost_stun_time;     // stun time when getting boosted
+};
+static_assert(sizeof(s_game_globals_shield_boost) == 0xC);
 
 template<tag group_tag>
 struct s_game_globals_tag_reference : s_tag_reference

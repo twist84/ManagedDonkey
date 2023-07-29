@@ -104,11 +104,11 @@ struct visibility_active_portals
 };
 static_assert(sizeof(visibility_active_portals) == 0x800);
 
-struct s_campaign_metagame_globals
+struct s_campaign_metagame_runtime_globals
 {
 	byte __data[0x1A158];
 };
-static_assert(sizeof(s_campaign_metagame_globals) == 0x1A158);
+static_assert(sizeof(s_campaign_metagame_runtime_globals) == 0x1A158);
 
 struct s_observer_gamestate_globals
 {
@@ -1250,7 +1250,7 @@ struct s_thread_local_storage
 
 	// name: "campaign meta-game globals"
 	// size: 0x1A158
-	s_campaign_metagame_globals* g_campaign_metagame_globals;
+	s_campaign_metagame_runtime_globals* g_campaign_metagame_globals;
 
 	// name: "observer gamestate globals"
 	// size: 0xC

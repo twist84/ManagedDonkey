@@ -49,6 +49,9 @@ void s_game_globals::update_reference_names()
 	UPDATE_REFERENCE_NAMES(player_information);
 	UPDATE_REFERENCE_NAMES(player_representation);
 	UPDATE_REFERENCE_NAMES(player_representation_debug);
+	UPDATE_REFERENCE_NAMES(falling_damage);
+	UPDATE_REFERENCE_NAMES(materials);
+	UPDATE_REFERENCE_NAMES(cinematics_globals);
 }
 
 void s_game_globals_havok_cleanup_resources::update_reference_names()
@@ -64,6 +67,16 @@ void s_game_globals::sound_block::update_reference_names()
 void s_game_globals_camera::update_reference_names()
 {
 	default_unit_camera_track.get_name();
+}
+
+void s_game_globals_falling_damage::update_reference_names()
+{
+	falling_damage.get_name();
+	jumping_damage.get_name();
+	soft_landing_damage.get_name();
+	hard_landing_damage.get_name();
+	hs_damage.get_name();
+	distance_damage.get_name();
 }
 
 void s_game_globals_grenade::update_reference_names()
