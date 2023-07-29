@@ -28,8 +28,8 @@ struct s_bitmap_widget_definition : s_core_widget_definition
 	short initial_sprite_frame;
 	byte : 8;
 	byte : 8;
-	string_id value_override_list;
-	string_id value_identifier;
+	c_string_id value_override_list;
+	c_string_id value_identifier;
 };
 static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
 
@@ -40,8 +40,8 @@ struct s_runtime_bitmap_widget_definition : s_runtime_core_widget_definition
 	long bitmap_blend_method;
 	short initial_sprite_sequence;
 	short initial_sprite_frame;
-	string_id value_override_list;
-	string_id value_identifier;
+	c_string_id value_override_list;
+	c_string_id value_identifier;
 };
 static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 

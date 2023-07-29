@@ -16,7 +16,7 @@ struct _object_definition
 	dword_flags runtime_flags;
 	real dynamic_light_sphere_radius;
 	real_point3d dynamic_light_sphere_offset;
-	string_id default_model_variant;
+	c_string_id default_model_variant;
 	s_tag_reference model;
 	s_tag_reference crate_object;
 	s_tag_reference collision_damage;

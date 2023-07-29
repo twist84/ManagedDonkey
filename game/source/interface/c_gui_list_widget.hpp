@@ -16,7 +16,7 @@ enum e_list_widget_definition_flags
 
 struct s_list_widget_definition : s_core_widget_definition
 {
-	string_id datasource_name;
+	c_string_id datasource_name;
 	s_tag_reference skin;
 	long rows;
 	s_tag_block items;
@@ -27,7 +27,7 @@ static_assert(sizeof(s_list_widget_definition) == sizeof(s_core_widget_definitio
 
 struct s_runtime_list_widget_definition : s_runtime_core_widget_definition
 {
-	string_id datasource_name;
+	c_string_id datasource_name;
 	long skin_index;
 	long rows;
 	s_tag_block items;
@@ -46,7 +46,7 @@ public:
 protected:
 	long __unknownDC;
 	s_runtime_list_widget_definition m_core_definition;
-	string_id m_datasource_name;
+	c_string_id m_datasource_name;
 	c_gui_widget* m_prev_indicator;
 	c_gui_widget* m_next_indicator;
 	long m_focused_item_index;
