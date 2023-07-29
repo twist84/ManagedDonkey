@@ -167,6 +167,7 @@ POPD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\ai\ai.cpp" />
+    <ClCompile Include="source\ai\ai_globals.cpp" />
     <ClCompile Include="source\bink\bink_playback.cpp" />
     <ClCompile Include="source\bink\bink_texture_view.cpp" />
     <ClCompile Include="source\bitmaps\bitmaps.cpp" />

@@ -112,7 +112,7 @@ struct s_game_globals
 
 	// AI globals
 	// I have moved the ai globals out of this tag, and into its own tag which is referenced here.
-	c_typed_tag_block<s_ai_globals_data, 'slap'> DEPRECATED; // ai globals;
+	c_typed_tag_block<s_ai_globals_definition, 'slap'> ai_globals; // DEPRECATED
 	c_typed_tag_reference<AI_GLOBALS_TAG> ai_globals_ref;
 
 	c_typed_tag_block<s_damage_globals_definition> damage_table;

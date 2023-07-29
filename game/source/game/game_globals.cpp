@@ -39,6 +39,7 @@ void s_game_globals::update_reference_names()
 
 	UPDATE_REFERENCE_NAMES(havok_cleanup_resources);
 	UPDATE_REFERENCE_NAMES(sound_globals);
+	UPDATE_REFERENCE_NAMES(ai_globals);
 	UPDATE_REFERENCE_NAMES(sounds);
 	UPDATE_REFERENCE_NAMES(camera);
 	UPDATE_REFERENCE_NAMES(grenades);
@@ -85,3 +86,4 @@ void s_game_globals_tag_reference<group_tag>::update_reference_names()
 {
 	get_name();
 }
+
