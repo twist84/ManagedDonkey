@@ -340,6 +340,42 @@ struct s_game_globals_grenade
 };
 static_assert(sizeof(s_game_globals_grenade) == 0x44);
 
+struct s_game_globals_player_information
+{
+	real walking_speed;
+	real run_forward;
+	real run_backward;
+	real run_sideways;
+	real run_acceleration;
+	real sneak_forward;
+	real sneak_backward;
+	real sneak_sideways;
+	real sneak_acceleration;
+	real airborne_acceleration;
+	real_point3d grenade_origin;
+	real stun_movement_penalty;
+	real stun_turning_penalty;
+	real stun_jumping_penalty;
+	real minimum_stun_time;
+	real maximum_stun_time;
+	real_bounds first_person_idle_time;
+	real_fraction first_person_skip_fraction;
+	real melee_inhibit_time;
+	c_typed_tag_reference<SOUND_TAG> coop_countdown_sound;
+	c_typed_tag_reference<SOUND_TAG> coop_respawn_sound;
+	c_typed_tag_reference<EFFECT_TAG> coop_respawn_effect;
+	long binoculars_zoom_count;
+	real_bounds binoculars_zoom_range;
+	real __unknown94;
+	real __unknown98;
+	c_typed_tag_reference<SOUND_TAG> flashlight_on;
+	c_typed_tag_reference<SOUND_TAG> flashlight_off;
+	c_typed_tag_reference<DAMAGE_RESPONSE_DEFINITION_TAG> default_damage_response;
+
+	void update_reference_names();
+};
+static_assert(sizeof(s_game_globals_player_information) == 0xCC);
+
 struct s_game_globals_player_representation
 {
 	c_string_id name;

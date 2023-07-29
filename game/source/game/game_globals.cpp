@@ -45,6 +45,7 @@ void s_game_globals::update_reference_names()
 	UPDATE_REFERENCE_NAMES(grenades);
 	UPDATE_REFERENCE_NAMES(cheat_weapons);
 	UPDATE_REFERENCE_NAMES(cheat_powerups);
+	UPDATE_REFERENCE_NAMES(player_information);
 	UPDATE_REFERENCE_NAMES(player_representation);
 	UPDATE_REFERENCE_NAMES(player_representation_debug);
 }
@@ -69,6 +70,16 @@ void s_game_globals_grenade::update_reference_names()
 	throwing_effect.get_name();
 	equipment.get_name();
 	projectile.get_name();
+}
+
+void s_game_globals_player_information::update_reference_names()
+{
+	coop_countdown_sound.get_name();
+	coop_respawn_sound.get_name();
+	coop_respawn_effect.get_name();
+	flashlight_on.get_name();
+	flashlight_off.get_name();
+	default_damage_response.get_name();
 }
 
 void s_game_globals_player_representation::update_reference_names()
