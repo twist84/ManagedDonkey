@@ -97,6 +97,7 @@ struct s_game_globals_player_control;
 struct s_game_globals_player_information;
 struct s_game_globals_player_representation;
 struct s_game_globals_shield_boost;
+struct s_campaign_metagame_globals_block;
 template<tag group_tag>
 struct s_game_globals_tag_reference;
 struct s_game_globals
@@ -140,7 +141,7 @@ struct s_game_globals
 	c_typed_tag_reference<MULTIPLAYER_GLOBALS_TAG> multiplayer_globals;
 	c_typed_tag_reference<SURVIVAL_MODE_GLOBALS_TAG> survival_mode_globals;
 	c_typed_tag_block<cinematics_globals_block> cinematics_globals;
-	c_typed_tag_block<s_campaign_metagame_globals> campaign_metagame_globals;
+	c_typed_tag_block<s_campaign_metagame_globals_block> campaign_metagame_globals;
 
 	c_static_array<c_language_pack, k_language_count> language_packs;
 
@@ -207,6 +208,28 @@ struct s_game_globals_havok_cleanup_resources
 	void update_reference_names();
 };
 static_assert(sizeof(s_game_globals_havok_cleanup_resources) == 0x10);
+
+struct s_damage_group_definition;
+struct s_damage_globals_definition
+{
+	c_typed_tag_block<s_damage_group_definition> damage_groups;
+};
+static_assert(sizeof(s_damage_globals_definition) == 0xC);
+
+struct s_armor_modifier_definition;
+struct s_damage_group_definition
+{
+	c_string_id name;
+	c_typed_tag_block<s_armor_modifier_definition> armor_modifiers;
+};
+static_assert(sizeof(s_damage_group_definition) == 0x10);
+
+struct s_armor_modifier_definition
+{
+	c_string_id name;
+	real damage_multiplier;
+};
+static_assert(sizeof(s_armor_modifier_definition) == 0x8);
 
 struct s_game_globals_camera
 {
