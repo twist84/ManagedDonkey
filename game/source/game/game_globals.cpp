@@ -43,6 +43,7 @@ void s_game_globals::update_reference_names()
 	UPDATE_REFERENCE_NAMES(sounds);
 	UPDATE_REFERENCE_NAMES(camera);
 	UPDATE_REFERENCE_NAMES(grenades);
+	UPDATE_REFERENCE_NAMES(interface_tags);
 	UPDATE_REFERENCE_NAMES(cheat_weapons);
 	UPDATE_REFERENCE_NAMES(cheat_powerups);
 	UPDATE_REFERENCE_NAMES(player_information);
@@ -70,6 +71,35 @@ void s_game_globals_grenade::update_reference_names()
 	throwing_effect.get_name();
 	equipment.get_name();
 	projectile.get_name();
+}
+
+void s_game_globals_interface_tag_references::update_reference_names()
+{
+	obsolete1.get_name();
+	obsolete2.get_name();
+	screen_color_table.get_name();
+	hud_color_table.get_name();
+	editor_color_table.get_name();
+	dialog_color_table.get_name();
+	motion_sensor_sweep_bitmap.get_name();
+	motion_sensor_sweep_bitmap_mask.get_name();
+	multiplayer_hud_bitmap.get_name();
+	unused.get_name();
+	motion_sensor_blip_bitmap.get_name();
+	interface_goo_map1.get_name();
+	interface_goo_map2.get_name();
+	interface_goo_map3.get_name();
+	mainmenu_ui_globals.get_name();
+	singleplayer_ui_globals.get_name();
+	multiplayer_ui_globals.get_name();
+	chud_globals.get_name();
+
+	UPDATE_REFERENCE_NAMES(gfx_ui_strings);
+}
+
+void s_game_globals_interface_tag_references::gfx_ui_string_block::update_reference_names()
+{
+	strings.get_name();
 }
 
 void s_game_globals_player_information::update_reference_names()

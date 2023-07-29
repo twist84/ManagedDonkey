@@ -466,6 +466,43 @@ struct s_game_globals_grenade
 };
 static_assert(sizeof(s_game_globals_grenade) == 0x44);
 
+struct s_game_globals_interface_tag_references
+{
+	struct gfx_ui_string_block;
+
+	c_typed_tag_reference<BITMAP_TAG> obsolete1; // spinner bitmap
+	c_typed_tag_reference<BITMAP_TAG> obsolete2;
+	c_typed_tag_reference<COLOR_TABLE_TAG> screen_color_table;
+	c_typed_tag_reference<COLOR_TABLE_TAG> hud_color_table;
+	c_typed_tag_reference<COLOR_TABLE_TAG> editor_color_table;
+	c_typed_tag_reference<COLOR_TABLE_TAG> dialog_color_table;
+	c_typed_tag_reference<BITMAP_TAG> motion_sensor_sweep_bitmap;
+	c_typed_tag_reference<BITMAP_TAG> motion_sensor_sweep_bitmap_mask;
+	c_typed_tag_reference<BITMAP_TAG> multiplayer_hud_bitmap;
+	s_tag_reference unused;
+	c_typed_tag_reference<BITMAP_TAG> motion_sensor_blip_bitmap;
+	c_typed_tag_reference<BITMAP_TAG> interface_goo_map1;
+	c_typed_tag_reference<BITMAP_TAG> interface_goo_map2;
+	c_typed_tag_reference<BITMAP_TAG> interface_goo_map3;
+	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG> mainmenu_ui_globals;
+	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG> singleplayer_ui_globals;
+	c_typed_tag_reference<USER_INTERFACE_GLOBALS_DEFINITION_TAG> multiplayer_ui_globals;
+	c_typed_tag_reference<CHUD_GLOBALS_DEFINITION_TAG> chud_globals;
+	c_typed_tag_block<gfx_ui_string_block> gfx_ui_strings;
+
+	struct gfx_ui_string_block
+	{
+		c_static_string<32> name;
+		c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> strings;
+
+		void update_reference_names();
+	};
+	static_assert(sizeof(gfx_ui_string_block) == 0x30);
+
+	void update_reference_names();
+};
+static_assert(sizeof(s_game_globals_interface_tag_references) == 0x12C);
+
 struct s_game_globals_player_information
 {
 	real walking_speed;
