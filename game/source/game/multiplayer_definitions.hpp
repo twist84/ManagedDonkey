@@ -1,6 +1,8 @@
 #pragma once
 
 #include "game/game_engine_spawn_influencer.hpp"
+#include "game/game_engine_event_definitions.hpp"
+#include "sound/sound_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 
 struct s_multiplayer_universal_globals_definition;
@@ -203,6 +205,9 @@ struct s_multiplayer_podium_move_animation
 static_assert(sizeof(s_multiplayer_podium_move_animation) == 0x50);
 
 struct s_multiplayer_constants;
+struct s_game_engine_status_response;
+template<tag group_tag>
+struct s_multiplayer_globals_tag_reference;
 struct s_multiplayer_runtime_globals_definition
 {
 	c_typed_tag_reference<BIPED_TAG> editor_biped;
@@ -222,26 +227,27 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<SOUND_TAG> default_respawn_sound;
 	c_typed_tag_reference<SOUND_TAG> modifier_respawn_sound;
 
-	s_tag_block sounds;
-	s_tag_block looping_sounds;
-	s_tag_block earn_wp_events;
-	s_tag_block general_events;
-	s_tag_block flavor_events;
-	s_tag_block slayer_events;
-	s_tag_block ctf_events;
-	s_tag_block oddball_events;
-	s_tag_block king_events;
-	s_tag_block vip_events;
-	s_tag_block juggernaut_events;
-	s_tag_block territories_events;
-	s_tag_block assault_events;
-	s_tag_block infection_events;
+	c_typed_tag_block<s_multiplayer_globals_tag_reference<SOUND_TAG>> sounds;
+	c_typed_tag_block<s_multiplayer_globals_tag_reference<SOUND_LOOPING_TAG>> looping_sounds;
+
+	c_typed_tag_block<s_multiplayer_event_response_definition> earn_wp_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> general_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> flavor_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> slayer_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> ctf_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> oddball_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> king_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> vip_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> juggernaut_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> territories_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> assault_events;
+	c_typed_tag_block<s_multiplayer_event_response_definition> infection_events;
 
 	long maximum_frag_count;
 	long maximum_plasma_count;
 
 	c_typed_tag_block<s_multiplayer_constants> multiplayer_constants;
-	s_tag_block state_responses;
+	c_typed_tag_block<s_game_engine_status_response> state_responses;
 
 	c_typed_tag_reference<BITMAP_TAG> scoreboard_emblem_bitmap;
 	c_typed_tag_reference<BITMAP_TAG> scoreboard_dead_emblem_bitmap;
@@ -393,6 +399,69 @@ struct s_multiplayer_constants
 	void update_reference_names();
 };
 static_assert(sizeof(s_multiplayer_constants) == 0x220);
+
+enum e_game_engine_status_flags
+{
+	_game_engine_status_flags_unused_bit = 0,
+
+	k_game_engine_status_flag_count
+};
+
+enum e_game_engine_status
+{
+	_game_engine_status_waiting_for_space_to_clear = 0,
+	_game_engine_status_observing,
+	_game_engine_status_respawning_soon,
+	_game_engine_status_sitting_out,
+	_game_engine_status_out_of_lives,
+	_game_engine_status_playing_winning,
+	_game_engine_status_playing_tied,
+	_game_engine_status_playing_losing,
+	_game_engine_status_game_over_won,
+	_game_engine_status_game_over_tied,
+	_game_engine_status_game_over_lost,
+	_game_engine_status_game_over_you_lost_but_game_tied,
+	_game_engine_status_you_have_flag,
+	_game_engine_status_enemy_has_flag,
+	_game_engine_status_flag_not_home,
+	_game_engine_status_carrying_oddball,
+	_game_engine_status_you_are_juggy,
+	_game_engine_status_you_control_hill,
+	_game_engine_status_switching_sides_soon,
+	_game_engine_status_player_recently_started,
+	_game_engine_status_you_have_bomb,
+	_game_engine_status_flag_contested,
+	_game_engine_status_bomb_contested,
+	_game_engine_status_limited_lives_left_multiple,
+	_game_engine_status_limited_lives_left_single,
+	_game_engine_status_limited_lives_left_final,
+	_game_engine_status_playing_winning_unlimited,
+	_game_engine_status_playing_tied_unlimited,
+	_game_engine_status_playing_losing_unlimited,
+
+	k_game_engine_status_count
+};
+
+struct s_game_engine_status_response
+{
+	c_flags<e_game_engine_status_flags, short, k_game_engine_status_flag_count> flags;
+	byte FAW[0x2]; // pad
+	c_enum<e_game_engine_status, short, _game_engine_status_waiting_for_space_to_clear, k_game_engine_status_count> state;
+	byte BNYFIDDGX[0x2]; // pad
+	c_string_id ffa_message;
+	c_string_id team_message;
+	s_tag_reference unused;
+	byte GTL[0x4]; // pad
+
+	void update_reference_names();
+};
+static_assert(sizeof(s_game_engine_status_response) == 0x24);
+
+template<tag group_tag>
+struct s_multiplayer_globals_tag_reference : s_tag_reference
+{
+	void update_reference_names();
+};
 
 extern long __cdecl multiplayer_universal_data_get_random_weapon_definition_index();
 extern long __cdecl multiplayer_universal_data_get_remapped_vehicle_definition_index(long vehicle_tag_index, s_multiplayer_vehicle_set const* vehicle_set);

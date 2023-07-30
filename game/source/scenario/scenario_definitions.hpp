@@ -321,7 +321,7 @@ struct s_scenario
 	c_typed_tag_block<s_scenario_editor_folder> editor_folders;
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> game_engine_strings;
 
-	byte QVUC[8]; // pad
+	byte QVUC[0x8]; // pad
 
 	c_typed_tag_block<ai_scenario_mission_dialogue> mission_dialogue;
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> objectives;

@@ -178,7 +178,22 @@ void s_multiplayer_runtime_globals_definition::update_reference_names()
 	menu_music_c.get_name();
 	menu_music_d.get_name();
 
+	UPDATE_REFERENCE_NAMES(sounds);
+	UPDATE_REFERENCE_NAMES(looping_sounds);
+	UPDATE_REFERENCE_NAMES(earn_wp_events);
+	UPDATE_REFERENCE_NAMES(general_events);
+	UPDATE_REFERENCE_NAMES(flavor_events);
+	UPDATE_REFERENCE_NAMES(slayer_events);
+	UPDATE_REFERENCE_NAMES(ctf_events);
+	UPDATE_REFERENCE_NAMES(oddball_events);
+	UPDATE_REFERENCE_NAMES(king_events);
+	UPDATE_REFERENCE_NAMES(vip_events);
+	UPDATE_REFERENCE_NAMES(juggernaut_events);
+	UPDATE_REFERENCE_NAMES(territories_events);
+	UPDATE_REFERENCE_NAMES(assault_events);
+	UPDATE_REFERENCE_NAMES(infection_events);
 	UPDATE_REFERENCE_NAMES(multiplayer_constants);
+	UPDATE_REFERENCE_NAMES(state_responses);
 }
 
 void s_multiplayer_podium_animation::update_reference_names()
@@ -207,5 +222,16 @@ void s_multiplayer_constants::update_reference_names()
 	UPDATE_REFERENCE_NAMES(vehicle_influencers);
 	UPDATE_REFERENCE_NAMES(projectile_influencers);
 	UPDATE_REFERENCE_NAMES(equipment_influencers);
+}
+
+void s_game_engine_status_response::update_reference_names()
+{
+	unused.get_name();
+}
+
+template<tag group_tag>
+void s_multiplayer_globals_tag_reference<group_tag>::update_reference_names()
+{
+	get_name();
 }
 

@@ -206,6 +206,7 @@ POPD
     <ClCompile Include="source\game\game_engine_ctf.cpp" />
     <ClCompile Include="source\game\game_engine_default.cpp" />
     <ClCompile Include="source\game\game_engine_display.cpp" />
+    <ClCompile Include="source\game\game_engine_event_definitions.cpp" />
     <ClCompile Include="source\game\game_engine_infection.cpp" />
     <ClCompile Include="source\game\game_engine_juggernaut.cpp" />
     <ClCompile Include="source\game\game_engine_king.cpp" />
@@ -451,6 +452,7 @@ POPD
     <ClInclude Include="source\dialogs\edit_text.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
+    <ClInclude Include="source\game\game_engine_event_definitions.hpp" />
     <ClInclude Include="source\game\game_engine_scripting.hpp" />
     <ClInclude Include="source\game\game_engine_spawning.hpp" />
     <ClInclude Include="source\game\game_results.hpp" />

@@ -59,11 +59,6 @@ void s_game_globals_havok_cleanup_resources::update_reference_names()
 	object_cleanup_effect.get_name();
 }
 
-void s_game_globals::sound_block::update_reference_names()
-{
-	sound.get_name();
-}
-
 void s_game_globals_camera::update_reference_names()
 {
 	default_unit_camera_track.get_name();

@@ -8,7 +8,7 @@ struct scenario_object_palette_entry
 {
 	c_typed_tag_reference<t_group_tags> name;
 
-	byte GYFQQPUM[32]; // pad
+	byte GYFQQPUM[0x20]; // pad
 };
 static_assert(sizeof(scenario_object_palette_entry<'test'>) == 0x30);
 
@@ -20,7 +20,7 @@ struct scenario_object_palette_entry_with_string_id
 	long maximum_allowed;
 	real price_per_instance;
 
-	byte GYFQQPUM[20]; // pad
+	byte GYFQQPUM[0x14]; // pad
 };
 static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x30);
 

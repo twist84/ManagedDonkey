@@ -123,7 +123,7 @@ struct s_global_material_definition
 	c_typed_tag_block<s_global_material_underwater_proxy> underwater_proxies_block;
 	c_string_id footsteps_in_rain_material_name; // When it's raining, use this as the footstep material
 	short runtime_rain_material_index;
-	byte asdf[2]; // pad
+	byte ASDF[0x2]; // pad
 
 	void update_reference_names();
 };

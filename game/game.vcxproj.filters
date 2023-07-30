@@ -804,6 +804,9 @@
     <ClCompile Include="source\cutscene\cinematics_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\game_engine_event_definitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2070,6 +2073,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\materials.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\game_engine_event_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

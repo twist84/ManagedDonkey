@@ -101,7 +101,6 @@ template<tag group_tag>
 struct s_game_globals_tag_reference;
 struct s_game_globals
 {
-	struct sound_block;
 	struct damage_reporting_type_block;
 
 	// pad
@@ -118,7 +117,7 @@ struct s_game_globals
 
 	c_typed_tag_block<s_damage_globals_definition> damage_table;
 	c_typed_tag_block<g_null_block> empty;
-	c_typed_tag_block<sound_block> sounds;
+	c_typed_tag_block<s_game_globals_tag_reference<SOUND_TAG>> sounds;
 	c_typed_tag_block<s_game_globals_camera> camera;
 	c_typed_tag_block<s_game_globals_player_control> player_control;
 	c_typed_tag_block<s_game_globals_difficulty_information> difficulty;
@@ -188,14 +187,6 @@ struct s_game_globals
 	real __unknown5F8;
 	c_typed_tag_block<damage_reporting_type_block> damage_reporting_types;
 	real __unknown604;
-
-	struct sound_block
-	{
-		s_tag_reference sound; // OBSOLETE
-
-		void update_reference_names();
-	};
-	static_assert(sizeof(sound_block) == sizeof(s_tag_reference));
 
 	struct damage_reporting_type_block
 	{
@@ -398,9 +389,9 @@ struct s_game_globals_player_control
 	real look_pitch_acceleration_scale; // maximum effect of a pegged look (scales last value in the look function below)
 
 	real look_autolevelling_scale;      // 1 is fast, 0 is none, >1 will probably be really fast
-	char TMIDI[8]; // pad
+	byte TMIDI[0x8]; // pad
 	real gravity_scale;
-	char VM[2]; // pad
+	byte VM[0x2]; // pad
 	short minimum_autolevelling_ticks; // amount of time player needs to move and not look up or down for autolevelling to kick in
 	c_typed_tag_block<s_look_function_block> look_function;
 };
@@ -487,9 +478,9 @@ static_assert(sizeof(s_game_globals_falling_damage) == 0x78);
 struct s_game_globals_grenade
 {
 	short maximum_count;
-	byte GQGKOFEHN[2]; // padding
+	byte GQGKOFEHN[0x2]; // pad
 	c_typed_tag_reference<EFFECT_TAG> throwing_effect;
-	byte TF[16]; // padding
+	byte TF[0x10]; // pad
 	c_typed_tag_reference<EQUIPMENT_TAG> equipment;
 	c_typed_tag_reference<PROJECTILE_TAG> projectile;
 
