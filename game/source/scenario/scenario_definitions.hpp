@@ -360,6 +360,8 @@ struct s_scenario
 	c_typed_tag_reference<EFFECT_TAG> tchou_shader_effect;
 	c_typed_tag_reference<VISION_MODE_TAG> vision_mode_override;
 	c_typed_tag_block<s_background_bitmap_reference_definition> background_bitmap_references;
+	
+	void update_reference_names();
 };
 static_assert(sizeof(s_scenario) == 0x824);
 
@@ -438,6 +440,8 @@ struct scenario_structure_bsp_reference
 	// Each clone gets a separate copy of decorators that are in both.
 	// Non-cloned bsps cannot split decorators this way - the decorator will be given to the lowest numbered bsp
 	dword_flags clone_bsp_flags; // long_block_flags
+	
+	void update_reference_names();
 };
 static_assert(sizeof(scenario_structure_bsp_reference) == 0x6C);
 
@@ -450,6 +454,8 @@ struct s_scenario_sky_reference
 
 	// scenario_structure_bsp_reference_block
 	word_flags active_on_bsps; // word_block_flags
+	
+	void update_reference_names();
 };
 static_assert(sizeof(s_scenario_sky_reference) == 0x14);
 
@@ -568,6 +574,8 @@ struct scenario_starting_profile
 
 	// pad
 	byte AHDVHJE[2];
+
+	void update_reference_names();
 };
 static_assert(sizeof(scenario_starting_profile) == 0x60);
 
@@ -657,5 +665,7 @@ static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
 struct s_background_bitmap_reference_definition
 {
 	c_typed_tag_reference<BITMAP_TAG> background_bitmap_group_reference;
+
+	void update_reference_names();
 };
 

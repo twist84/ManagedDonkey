@@ -6,6 +6,8 @@
 struct hs_tag_reference
 {
 	c_typed_tag_reference<0xFFFFFFFF> reference;
+
+	void update_reference_names();
 };
 static_assert(sizeof(hs_tag_reference) == sizeof(s_tag_reference));
 

@@ -235,6 +235,7 @@ POPD
     <ClCompile Include="source\hs\hs_globals_external.cpp" />
     <ClCompile Include="source\hs\hs_library_external.cpp" />
     <ClCompile Include="source\hs\hs_runtime.cpp" />
+    <ClCompile Include="source\hs\hs_scenario_definitions.cpp" />
     <ClCompile Include="source\input\controllers.cpp" />
     <ClCompile Include="source\input\input.cpp" />
     <ClCompile Include="source\input\input_abstraction.cpp" />
@@ -408,6 +409,7 @@ POPD
     <ClCompile Include="source\saved_games\saved_game_files.cpp" />
     <ClCompile Include="source\saved_games\scenario_map_variant.cpp" />
     <ClCompile Include="source\scenario\scenario.cpp" />
+    <ClCompile Include="source\scenario\scenario_definitions.cpp" />
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
     <ClCompile Include="source\screenshots\screenshots_uploader.cpp" />
     <ClCompile Include="source\shell\shell.cpp" />

@@ -807,6 +807,12 @@
     <ClCompile Include="source\game\game_engine_event_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\scenario\scenario_definitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\hs\hs_scenario_definitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

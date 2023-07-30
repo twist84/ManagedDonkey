@@ -9,6 +9,11 @@ struct scenario_object_palette_entry
 	c_typed_tag_reference<t_group_tags> name;
 
 	byte GYFQQPUM[0x20]; // pad
+
+	void update_reference_names()
+	{
+		name.get_name();
+	}
 };
 static_assert(sizeof(scenario_object_palette_entry<'test'>) == 0x30);
 
@@ -21,6 +26,11 @@ struct scenario_object_palette_entry_with_string_id
 	real price_per_instance;
 
 	byte GYFQQPUM[0x14]; // pad
+
+	void update_reference_names()
+	{
+		name.get_name();
+	}
 };
 static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x30);
 
@@ -110,3 +120,4 @@ struct scenario_scenery_block;
 struct scenario_sound_scenery_block;
 struct scenario_vehicle_block;
 struct scenario_weapon_block;
+

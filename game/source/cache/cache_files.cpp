@@ -1108,9 +1108,8 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	if (!instance->is_group(MULTIPLAYER_GLOBALS_TAG))
 		return;
 
-	// if the very first offset is 0x38 there is a very high likelihood that this is an ElDewrito tag set
-	if (g_cache_file_globals.tag_cache_offsets[0] == 0x38)
-		return;
+	// if the very first offset is not 0x20 there is a very high likelihood that this is an ElDewrito tag set
+	bool is_base_cache = g_cache_file_globals.tag_cache_offsets[0] == 0x20;
 
 	s_multiplayer_globals_definition* multiplayer_globals = instance->cast_to<s_multiplayer_globals_definition>();
 
@@ -1119,56 +1118,87 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	{
 	case _instance_modification_stage_tag_load:
 	{
-		// load weapons
-		cache_file_tags_load_recursive(0x00001500); // objects\weapons\rifle\spike_rifle\spike_rifle
-		cache_file_tags_load_recursive(0x0000159E); // objects\weapons\melee\energy_blade\energy_blade
-		cache_file_tags_load_recursive(0x000014F8); // objects\weapons\pistol\needler\needler
-		cache_file_tags_load_recursive(0x000015B3); // objects\weapons\support_high\rocket_launcher\rocket_launcher
-		cache_file_tags_load_recursive(0x00001A45); // objects\weapons\rifle\shotgun\shotgun
-		cache_file_tags_load_recursive(0x000015B1); // objects\weapons\rifle\sniper_rifle\sniper_rifle
-		cache_file_tags_load_recursive(0x000014FF); // objects\weapons\support_low\brute_shot\brute_shot
-		cache_file_tags_load_recursive(0x00001509); // objects\weapons\rifle\beam_rifle\beam_rifle
-		cache_file_tags_load_recursive(0x000015B2); // objects\weapons\support_high\spartan_laser\spartan_laser
-		cache_file_tags_load_recursive(0x0000150C); // objects\weapons\melee\gravity_hammer\gravity_hammer
-		cache_file_tags_load_recursive(0x00001A55); // objects\weapons\turret\flamethrower\flamethrower
-		cache_file_tags_load_recursive(0x00001A54); // objects\weapons\turret\missile_pod\missile_pod
+		if (is_base_cache)
+		{
+			// load weapons
+			cache_file_tags_load_recursive(0x00001500); // objects\weapons\rifle\spike_rifle\spike_rifle
+			cache_file_tags_load_recursive(0x0000159E); // objects\weapons\melee\energy_blade\energy_blade
+			cache_file_tags_load_recursive(0x000014F8); // objects\weapons\pistol\needler\needler
+			cache_file_tags_load_recursive(0x000015B3); // objects\weapons\support_high\rocket_launcher\rocket_launcher
+			cache_file_tags_load_recursive(0x00001A45); // objects\weapons\rifle\shotgun\shotgun
+			cache_file_tags_load_recursive(0x000015B1); // objects\weapons\rifle\sniper_rifle\sniper_rifle
+			cache_file_tags_load_recursive(0x000014FF); // objects\weapons\support_low\brute_shot\brute_shot
+			cache_file_tags_load_recursive(0x00001509); // objects\weapons\rifle\beam_rifle\beam_rifle
+			cache_file_tags_load_recursive(0x000015B2); // objects\weapons\support_high\spartan_laser\spartan_laser
+			cache_file_tags_load_recursive(0x0000150C); // objects\weapons\melee\gravity_hammer\gravity_hammer
+			cache_file_tags_load_recursive(0x00001A55); // objects\weapons\turret\flamethrower\flamethrower
+			cache_file_tags_load_recursive(0x00001A54); // objects\weapons\turret\missile_pod\missile_pod
 
-		// load bipeds
-		cache_file_tags_load_recursive(0x000027D6); // objects\characters\odst\odst
-		cache_file_tags_load_recursive(0x000027D7); // objects\characters\marine\marine
+			// load bipeds
+			cache_file_tags_load_recursive(0x000027D6); // objects\characters\odst\odst
+			cache_file_tags_load_recursive(0x000027D7); // objects\characters\marine\marine
 
-		// load vehicles
-		cache_file_tags_load_recursive(0x00001599); // objects\vehicles\warthog\warthog_snow
+			// load vehicles
+			cache_file_tags_load_recursive(0x00001599); // objects\vehicles\warthog\warthog_snow
+		}
+
 	}
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		if (multiplayer_globals == nullptr || multiplayer_globals->universal.count() <= 0 || multiplayer_globals->universal[0].weapon_selections.count() <= 0)
-			return;
-
-		for (s_multiplayer_weapon_selection& weapon_selection : multiplayer_globals->universal[0].weapon_selections)
+		if (is_base_cache)
 		{
-			if (weapon_selection.weapon_tag.index != NONE)
-				continue;
+			if (multiplayer_globals == nullptr || multiplayer_globals->universal.count() <= 0 || multiplayer_globals->universal[0].weapon_selections.count() <= 0)
+				return;
 
-			switch (weapon_selection.name.get_value())
+			for (s_multiplayer_weapon_selection& weapon_selection : multiplayer_globals->universal[0].weapon_selections)
 			{
-			case STRING_ID(global, spike_rifle):      weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001500 }; break;
-			case STRING_ID(global, sword):            weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000159E }; break;
-			case STRING_ID(global, needler):          weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000014F8 }; break;
-			case STRING_ID(global, rocket_launcher):  weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B3 }; break;
-			case STRING_ID(global, shotgun):          weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A45 }; break;
-			case STRING_ID(global, sniper_rifle):     weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B1 }; break;
-			case STRING_ID(global, brute_shot):       weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000014FF }; break;
-			case STRING_ID(global, beam_rifle):       weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001509 }; break;
-			case STRING_ID(global, spartan_laser):    weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B2 }; break;
-			case STRING_ID(global, gravity_hammer):   weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000150C }; break;
-			case STRING_ID(global, flame_thrower):    weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A55 }; break;
-			case STRING_ID(global, missile_launcher): weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A54 }; break;
+				if (weapon_selection.weapon_tag.index != NONE)
+					continue;
+
+				switch (weapon_selection.name.get_value())
+				{
+				case STRING_ID(global, spike_rifle):      weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001500 }; break;
+				case STRING_ID(global, sword):            weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000159E }; break;
+				case STRING_ID(global, needler):          weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000014F8 }; break;
+				case STRING_ID(global, rocket_launcher):  weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B3 }; break;
+				case STRING_ID(global, shotgun):          weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A45 }; break;
+				case STRING_ID(global, sniper_rifle):     weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B1 }; break;
+				case STRING_ID(global, brute_shot):       weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000014FF }; break;
+				case STRING_ID(global, beam_rifle):       weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001509 }; break;
+				case STRING_ID(global, spartan_laser):    weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B2 }; break;
+				case STRING_ID(global, gravity_hammer):   weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000150C }; break;
+				case STRING_ID(global, flame_thrower):    weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A55 }; break;
+				case STRING_ID(global, missile_launcher): weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A54 }; break;
+				}
 			}
 		}
 
 		multiplayer_globals->update_reference_names();
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
+void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (!instance->is_group(SCENARIO_TAG))
+		return;
+
+	s_scenario* scenario = instance->cast_to<s_scenario>();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		scenario->update_reference_names();
 	}
 	break;
 	}
@@ -1182,6 +1212,7 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 
 	apply_globals_instance_modification(instance, stage);
 	apply_multiplayer_globals_instance_modification(instance, stage);
+	apply_scenario_instance_modification(instance, stage);
 }
 
 // #TODO: create some sort of tag modification manager
