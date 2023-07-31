@@ -6,11 +6,11 @@
 
 enum e_group_widget_definition_flags
 {
-	_group_widget_definition_flag_not_loaded_upon_initialization_bit = k_core_widget_definition_flag_count,
+	_group_widget_definition_flag_not_loaded_upon_initialization_bit = k_core_widget_definition_flags,
 	_group_widget_definition_flag_bit4,
 	_group_widget_definition_flag_bit5,
 
-	k_group_widget_definition_flag_count
+	k_group_widget_definition_flags
 };
 
 struct s_group_widget_definition : s_core_widget_definition

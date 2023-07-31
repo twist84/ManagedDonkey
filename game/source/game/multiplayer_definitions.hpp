@@ -406,7 +406,7 @@ enum e_game_engine_status_flags
 {
 	_game_engine_status_flags_unused_bit = 0,
 
-	k_game_engine_status_flag_count
+	k_game_engine_status_flags
 };
 
 enum e_game_engine_status
@@ -446,7 +446,7 @@ enum e_game_engine_status
 
 struct s_game_engine_status_response
 {
-	c_flags<e_game_engine_status_flags, short, k_game_engine_status_flag_count> flags;
+	c_flags<e_game_engine_status_flags, short, k_game_engine_status_flags> flags;
 	byte FAW[0x2]; // pad
 	c_enum<e_game_engine_status, short, _game_engine_status_waiting_for_space_to_clear, k_game_engine_status_count> state;
 	byte BNYFIDDGX[0x2]; // pad

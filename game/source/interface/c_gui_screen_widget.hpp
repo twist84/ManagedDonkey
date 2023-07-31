@@ -6,10 +6,10 @@
 
 enum e_screen_widget_definition_flags
 {
-	_screen_widget_definition_flag_b_back_shouldnt_dispose_screen_bit = k_core_widget_definition_flag_count,
+	_screen_widget_definition_flag_b_back_shouldnt_dispose_screen_bit = k_core_widget_definition_flags,
 	_screen_widget_definition_flag_overlays_other_screens_bit,
 
-	k_screen_widget_definition_flag_count
+	k_screen_widget_definition_flags
 };
 
 struct s_screen_widget_definition : s_core_widget_definition

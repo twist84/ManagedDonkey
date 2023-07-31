@@ -11,7 +11,7 @@ enum e_core_widget_definition_flags
 	_core_widget_definition_flag_override_template_flags_bit,
 	_core_widget_definition_flag_enable_animation_debugging_bit,
 
-	k_core_widget_definition_flag_count
+	k_core_widget_definition_flags
 };
 
 enum e_widget_positioning

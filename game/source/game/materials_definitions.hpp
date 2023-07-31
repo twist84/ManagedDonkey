@@ -9,7 +9,7 @@ enum e_global_material_flags
 	_global_material_biomass_bit,
 	_global_material_rad_xfer_interior_bit,
 
-	k_global_material_flags_count
+	k_global_material_flags
 };
 
 struct s_material_physics_drag_properties
@@ -62,7 +62,7 @@ enum e_materials_sweeteners_inheritance_flags
 	_materials_sweeteners_inheritance_water_ripple_medium_bit,
 	_materials_sweeteners_inheritance_water_ripple_large_bit,
 
-	k_materials_sweeteners_inheritance_flags_count
+	k_materials_sweeteners_inheritance_flags
 };
 
 struct s_global_material_sweeteners_definition
@@ -89,7 +89,7 @@ struct s_global_material_sweeteners_definition
 	// 
 	// when a sweetener inheritance flag is set the sound\effect is not inherited from the parent material.  If you leave the sweetener blank and set the flag than no effect\sound will play
 
-	c_flags<e_materials_sweeteners_inheritance_flags, dword, k_materials_sweeteners_inheritance_flags_count> sweetener_inheritance_flags;
+	c_flags<e_materials_sweeteners_inheritance_flags, dword, k_materials_sweeteners_inheritance_flags> sweetener_inheritance_flags;
 
 	void update_reference_names();
 };
@@ -113,7 +113,7 @@ struct s_global_material_definition
 	c_string_id name;
 	c_string_id parent_name;
 	short runtime_material_index;
-	c_flags<e_global_material_flags, word, k_global_material_flags_count> flags;
+	c_flags<e_global_material_flags, word, k_global_material_flags> flags;
 	c_string_id general_armor;
 	c_string_id specific_armor;
 	s_material_physics_properties_definition physics_properties;

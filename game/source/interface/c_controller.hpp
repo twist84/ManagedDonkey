@@ -33,7 +33,7 @@ public:
 		_controller_state_flag_allow_presence,
 		_controller_state_flag_allow_presence_friends_only,
 
-		k_controller_state_flag_count
+		k_controller_state_flags
 	};
 
 	bool is_attached();
@@ -43,7 +43,7 @@ public:
 	void get_player_identifier(s_player_identifier* out_player_identifier);
 	qword get_player_xuid();
 
-	c_flags<e_controller_state_flags, short, k_controller_state_flag_count> m_state_flags;
+	c_flags<e_controller_state_flags, short, k_controller_state_flags> m_state_flags;
 	short m_user_index;
 	dword __unknown4;
 	c_player_profile_interface m_player_profile;

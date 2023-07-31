@@ -78,16 +78,6 @@ enum e_teleporter_channel
 	k_teleporter_channel_count
 };
 
-enum e_multiplayer_object_boundary_shape
-{
-	_multiplayer_object_boundary_shape_unused = 0,
-	_multiplayer_object_boundary_shape_sphere,
-	_multiplayer_object_boundary_shape_cylinder,
-	_multiplayer_object_boundary_shape_box,
-
-	k_multiplayer_object_boundary_shape_count
-};
-
 struct s_variant_multiplayer_object_properties_definition
 {
 public:
@@ -149,7 +139,7 @@ enum e_variant_object_placement_flags
 	_map_variant_scenario_object_bit = 3,
 	_map_variant_scenario_object_removed = 5,
 
-	k_variant_object_placement_flag_count
+	k_variant_object_placement_flags
 };
 
 struct s_variant_object_datum
@@ -169,7 +159,7 @@ public:
 	}
 
 protected:
-	c_flags<e_variant_object_placement_flags, word, k_variant_object_placement_flag_count> flags;
+	c_flags<e_variant_object_placement_flags, word, k_variant_object_placement_flags> flags;
 	short : 16;
 
 	long object_index;

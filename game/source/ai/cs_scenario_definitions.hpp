@@ -28,7 +28,7 @@ enum e_point_set_flags
 	_point_set_flag_giant_set_bit,
 	_point_set_flag_invalid_sector_refs_bit,
 
-	k_point_set_flag_count
+	k_point_set_flags
 };
 
 struct cs_point_set
@@ -42,7 +42,7 @@ struct cs_point_set
 	// ai_reference_frame
 	short manual_reference_frame; // short_block_index
 
-	c_flags<e_point_set_flags, dword, k_point_set_flag_count> flags;
+	c_flags<e_point_set_flags, dword, k_point_set_flags> flags;
 
 	// s_scenario_editor_folder
 	short editor_folder; // short_block_index

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "objects/multiplayer_game_objects.hpp"
 #include "tag_files/tag_groups.hpp"
 
 template<tag ...t_group_tags>
@@ -46,28 +47,12 @@ struct s_scenario_multiplayer_scenario_object_parent
 };
 static_assert(sizeof(s_scenario_multiplayer_scenario_object_parent) == 0xC);
 
-enum e_global_game_engine_type_flags
-{
-	_global_game_engine_type_flag_ctf_bit = 0,
-	_global_game_engine_type_flag_slayer_bit,
-	_global_game_engine_type_flag_oddball_bit,
-	_global_game_engine_type_flag_king_bit,
-	_global_game_engine_type_flag_juggernaut_bit,
-	_global_game_engine_type_flag_territories_bit,
-	_global_game_engine_type_flag_assault_bit,
-	_global_game_engine_type_flag_vip_bit,
-	_global_game_engine_type_flag_infection_bit,
-	_global_game_engine_type_flag_target_training_bit,
-
-	k_global_game_engine_type_flag_count,
-};
-
 enum e_multiplayer_object_placement_spawn_flags
 {
 	_multiplayer_object_placement_spawn_flag_unique_spawn_bit = 0,
 	_multiplayer_object_placement_spawn_flag_not_initially_placed_bit,
 
-	k_multiplayer_object_placement_spawn_flag_count
+	k_multiplayer_object_placement_spawn_flags
 };
 
 struct s_scenario_multiplayer_object_properties
@@ -76,13 +61,13 @@ struct s_scenario_multiplayer_object_properties
 	// object data for multiplayer game use
 
 	long_enum game_engine_symmetric_placement;
-	c_flags<e_global_game_engine_type_flags, word_flags, k_global_game_engine_type_flag_count> game_engine_flags;
+	c_flags<e_global_game_engine_type_flags, word_flags, k_global_game_engine_type_flags> game_engine_flags;
 	short_enum owner_team;
 	char spawn_order; // -1 for random
 	char quota_minimum;
 	char quota_maximum; // <=0 for unlimited
 
-	c_flags<e_multiplayer_object_placement_spawn_flags, byte_flags, k_multiplayer_object_placement_spawn_flag_count> spawn_flags;
+	c_flags<e_multiplayer_object_placement_spawn_flags, byte_flags, k_multiplayer_object_placement_spawn_flags> spawn_flags;
 	short spawn_time; // seconds
 	short abandonment_time; // seconds
 

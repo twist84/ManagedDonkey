@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
+#include "tag_files/tag_groups.hpp"
 
 struct s_campaign_metagame_style_type;
 struct s_campaign_metagame_difficulty;
@@ -75,6 +77,75 @@ struct s_campaign_metagame_skull_data
 	real difficulty_multiplier;
 };
 static_assert(sizeof(s_campaign_metagame_skull_data) == sizeof(real));
+
+enum e_campaign_metagame_bucket_flags
+{
+	_campaign_metagame_bucket_only_counts_with_riders_bit,
+
+	k_campaign_metagame_bucket_flags
+};
+
+enum e_campaign_metagame_bucket_type
+{
+	_campaign_metagame_bucket_type_brute = 0,
+	_campaign_metagame_bucket_type_grunt,
+	_campaign_metagame_bucket_type_jackel,
+	_campaign_metagame_bucket_type_marine,
+	_campaign_metagame_bucket_type_bugger,
+	_campaign_metagame_bucket_type_hunter,
+	_campaign_metagame_bucket_type_flood_infection,
+	_campaign_metagame_bucket_type_flood_carrier,
+	_campaign_metagame_bucket_type_flood_combat,
+	_campaign_metagame_bucket_type_flood_pure,
+	_campaign_metagame_bucket_type_sentinel,
+	_campaign_metagame_bucket_type_elite,
+	_campaign_metagame_bucket_type_turret,
+	_campaign_metagame_bucket_type_mongoose,
+	_campaign_metagame_bucket_type_warthog,
+	_campaign_metagame_bucket_type_scorpion,
+	_campaign_metagame_bucket_type_hornet,
+	_campaign_metagame_bucket_type_pelican,
+	_campaign_metagame_bucket_type_shade,
+	_campaign_metagame_bucket_type_watchtower,
+	_campaign_metagame_bucket_type_ghost,
+	_campaign_metagame_bucket_type_chopper,
+	_campaign_metagame_bucket_type_mauler,
+	_campaign_metagame_bucket_type_wraith,
+	_campaign_metagame_bucket_type_banshee,
+	_campaign_metagame_bucket_type_phantom,
+	_campaign_metagame_bucket_type_scarab,
+	_campaign_metagame_bucket_type_guntower,
+	_campaign_metagame_bucket_type_engineer,
+	_campaign_metagame_bucket_type_engineer_recharge_station,
+
+	k_campaign_metagame_bucket_type_count
+};
+
+enum e_campaign_metagame_bucket_class
+{
+	_campaign_metagame_bucket_class_infantry = 0,
+	_campaign_metagame_bucket_class_leader,
+	_campaign_metagame_bucket_class_hero,
+	_campaign_metagame_bucket_class_specialist,
+	_campaign_metagame_bucket_class_light_vehicle,
+	_campaign_metagame_bucket_class_heavy_vehicle,
+	_campaign_metagame_bucket_class_giant_vehicle,
+	_campaign_metagame_bucket_class_standard_vehicle,
+
+	k_campaign_metagame_bucket_class_count
+};
+
+struct s_campaign_metagame_bucket
+{
+	c_flags<e_campaign_metagame_bucket_flags, byte, k_campaign_metagame_bucket_flags> flags;
+	c_enum<e_campaign_metagame_bucket_type, char, _campaign_metagame_bucket_type_brute, k_campaign_metagame_bucket_type_count> type;
+	c_enum<e_campaign_metagame_bucket_class, char, _campaign_metagame_bucket_class_infantry, k_campaign_metagame_bucket_class_count> _class;
+	byte pad0[0x1]; // pad
+
+	short point_count;
+	char pad1[0x2]; // pad
+};
+static_assert(sizeof(s_campaign_metagame_bucket) == 0x8);
 
 struct s_campaign_metagame_scenario;
 

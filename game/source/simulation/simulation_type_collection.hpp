@@ -96,7 +96,7 @@ public:
 	virtual char const* __cdecl entity_type_name();
 	virtual long __cdecl state_data_size();
 	virtual long __cdecl creation_data_size();
-	virtual long __cdecl update_flag_count();
+	virtual long __cdecl update_flags();
 	virtual dword __cdecl initial_update_mask();
 	virtual bool __cdecl entity_replication_required_for_view_activation(s_simulation_entity const*);
 	virtual bool __cdecl entity_type_is_gameworld_object();

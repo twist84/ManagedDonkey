@@ -6,7 +6,7 @@
 
 enum e_text_widget_definition_flags
 {
-	_text_widget_definition_flag_left_justify_bit = k_core_widget_definition_flag_count,
+	_text_widget_definition_flag_left_justify_bit = k_core_widget_definition_flags,
 	_text_widget_definition_flag_right_justify_bit,
 	_text_widget_definition_flag_scrollable_bit,
 	_text_widget_definition_flag_uppercase_bit,
@@ -23,7 +23,7 @@ enum e_text_widget_definition_flags
 	_text_widget_definition_flag_allow_list_item_to_override_animation_skin_bit,
 	_text_widget_definition_flag_do_not_wrap_text_bit,
 
-	k_text_widget_definition_flag_count
+	k_text_widget_definition_flags
 };
 
 struct s_text_widget_definition : s_core_widget_definition

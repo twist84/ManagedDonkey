@@ -5,7 +5,7 @@
 
 enum e_bitmap_widget_definition_flags
 {
-	_bitmap_widget_definition_flag_scale_to_fit_bounds_bit = k_core_widget_definition_flag_count,
+	_bitmap_widget_definition_flag_scale_to_fit_bounds_bit = k_core_widget_definition_flags,
 	_bitmap_widget_definition_flag_render_as_screen_blur_bit,
 	_bitmap_widget_definition_flag_render_as_player_emblem_bit,
 	_bitmap_widget_definition_flag_sprite_from_exported_integer_bit,
@@ -16,7 +16,7 @@ enum e_bitmap_widget_definition_flags
 	_bitmap_widget_definition_flag_scale0_5_bit,
 	_bitmap_widget_definition_flag_stretch_bit,
 
-	k_bitmap_widget_definition_flag_count
+	k_bitmap_widget_definition_flags
 };
 
 struct s_bitmap_widget_definition : s_core_widget_definition

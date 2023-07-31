@@ -1711,9 +1711,9 @@ enum e_armor_type
 
 enum e_grenade_type
 {
-	_grenade_type_frag = 0,
-	_grenade_type_plasma,
-	_grenade_type_claymore,
+	_grenade_type_human_fragmentation = 0,
+	_grenade_type_covenant_plasma,
+	_grenade_type_brute_claymore,
 	_grenade_type_firebomb,
 
 	k_grenade_type_count

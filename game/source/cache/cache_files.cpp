@@ -13,11 +13,13 @@
 #include "main/main.hpp"
 #include "memory/crc.hpp"
 #include "memory/module.hpp"
-#include "physics/character_physics_definitions.hpp"
+#include "objects/object_definitions.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_definitions.hpp"
 #include "tag_files/string_ids.hpp"
+#include "units/biped_definitions.hpp"
+#include "units/unit_definition.hpp"
 
 #include <DDS.h>
 #include <string.h>
@@ -36,6 +38,7 @@ s_tag_reference g_last_tag_accessed = { .group_tag = 0xFFFFFFFF, .index = NONE }
 
 struct s_cache_file_tag_group_bsearch
 {
+public:
 	static long __cdecl compare(tag group_tag, s_cache_file_tag_group const* group)
 	{
 		return group_tag - group->group_tags[0];
@@ -43,6 +46,8 @@ struct s_cache_file_tag_group_bsearch
 
 	static long __cdecl search(tag group_tag, s_cache_file_tag_group const* group, long count)
 	{
+		ASSERT(m_sorted);
+
 		long result = -1;
 		s_cache_file_tag_group const* current_group = group;
 
@@ -68,7 +73,28 @@ struct s_cache_file_tag_group_bsearch
 
 		return result;
 	}
+
+private:
+	static int __cdecl sort_func(void const* a, void const* b)
+	{
+		s_cache_file_tag_group const* group_a = static_cast<s_cache_file_tag_group const*>(a);
+		s_cache_file_tag_group const* group_b = static_cast<s_cache_file_tag_group const*>(b);
+
+		return group_a->group_tags[0] - group_b->group_tags[0];
+	}
+
+	static bool __cdecl sort()
+	{
+		qsort(global_tag_groups, global_tag_group_count, sizeof(s_cache_file_tag_group), sort_func);
+
+		return true;
+	}
+
+protected:
+	static bool m_sorted;
 };
+
+bool s_cache_file_tag_group_bsearch::m_sorted = s_cache_file_tag_group_bsearch::sort();
 
 char const* tag_group_get_name(tag group_tag)
 {
@@ -140,6 +166,18 @@ char const* tag_get_name_safe(long tag_name_index)
 	}
 
 	return nullptr;
+}
+
+long tag_name_get_index(char const* name)
+{
+	for (long tag_index = 0; tag_index < g_cache_file_globals.header.debug_tag_name_count; tag_index++)
+	{
+		char const* result = g_cache_file_globals.debug_tag_names->storage[tag_index];
+		if (csstricmp(name, result) == 0)
+			return tag_index;
+	}
+
+	return NONE;
 }
 
 //bool cache_file_blocking_read(enum e_cache_file_section,long,long,void *)
@@ -229,11 +267,11 @@ bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char co
 	//	error_occurred = true;
 	//}
 	//
-	//if (header->size < 0 || header->size > 0x7FFFFFFF /*cache_file_get_absolute_maximum_size()*/)
+	//if (header->size < 0 || header->size > INT32_MAX /*cache_file_get_absolute_maximum_size()*/)
 	//{
 	//	error.print("had a size out of range for any cache file (%d, should be within [0, %d])",
 	//		header->size,
-	//		0x7FFFFFFF /*cache_file_get_absolute_maximum_size()*/);
+	//		INT32_MAX /*cache_file_get_absolute_maximum_size()*/);
 	//	error_occurred = true;
 	//}
 	//
@@ -1233,6 +1271,78 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 }
 
 // #TODO: create some sort of tag modification manager
+void apply_object_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (!instance->is_group(OBJECT_TAG))
+		return;
+
+	_object_definition* object = instance->cast_to<_object_definition>();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		object->update_reference_names();
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
+void apply_unit_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (!instance->is_group(UNIT_TAG))
+		return;
+
+	_unit_definition* unit = instance->cast_to<_unit_definition>();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		unit->update_reference_names();
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
+void apply_biped_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (!instance->is_group(BIPED_TAG))
+		return;
+
+	_biped_definition* biped = instance->cast_to<_biped_definition>();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		biped->update_reference_names();
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
 void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	if (instance == nullptr)
@@ -1242,6 +1352,10 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	apply_multiplayer_globals_instance_modification(instance, stage);
 	apply_rasterizer_globals_instance_modification(instance, stage);
 	apply_scenario_instance_modification(instance, stage);
+
+	apply_object_instance_modification(instance, stage);
+	apply_unit_instance_modification(instance, stage);
+	apply_biped_instance_modification(instance, stage);
 }
 
 // #TODO: create some sort of tag modification manager
@@ -1250,12 +1364,10 @@ void apply_biped_group_modification(e_instance_modification_stage stage)
 	if (stage != _instance_modification_stage_after_scenario_tags_loaded)
 		return;
 
-	if (byte* biped = static_cast<byte*>(tag_get(BIPED_TAG, "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief")))
+	if (_biped_definition* biped = static_cast<_biped_definition*>(tag_get(BIPED_TAG, "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief")))
 	{
-		s_character_physics_definition& physics = *reinterpret_cast<s_character_physics_definition*>(biped + 0x4D0);
-
 		// "edge drop" fix
-		physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
+		biped->physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
 
 		//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
 		//{

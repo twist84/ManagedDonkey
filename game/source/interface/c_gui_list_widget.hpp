@@ -5,13 +5,13 @@
 
 enum e_list_widget_definition_flags
 {
-	_list_widget_definition_flag_submenu_list_bit = k_core_widget_definition_flag_count,
+	_list_widget_definition_flag_submenu_list_bit = k_core_widget_definition_flags,
 	_list_widget_definition_flag_horizontal_list_bit,
 	_list_widget_definition_flag_list_wraps_bit,
 	_list_widget_definition_flag_selection_visible_without_focus_bit,
 	_list_widget_definition_flag_non_interactive_bit,
 
-	k_list_widget_definition_flag_count
+	k_list_widget_definition_flags
 };
 
 struct s_list_widget_definition : s_core_widget_definition

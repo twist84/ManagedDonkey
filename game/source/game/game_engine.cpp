@@ -81,9 +81,9 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 			TLS_DATA_GET_VALUE_REFERENCE(local_game_engine_globals);
 			if (!current_game_engine() || game_engine_in_round())
 			{
-				local_game_engine_globals->__time0 = 0x7FFFFFFF;
+				local_game_engine_globals->__time0 = INT32_MAX;
 			}
-			else if (local_game_engine_globals->__time0 == 0x7FFFFFFF)
+			else if (local_game_engine_globals->__time0 == INT32_MAX)
 			{
 				local_game_engine_globals->__time0 = game_time_get() + game_seconds_integer_to_ticks(1);
 			}

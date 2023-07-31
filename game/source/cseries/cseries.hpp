@@ -846,7 +846,12 @@ public:
 
 	char const* get_string();
 	char const* get_string() const;
-	long get_value() { return m_value; }
+	long get_value() const { return m_value; }
+
+	operator long() const
+	{
+		return m_value;
+	}
 
 protected:
 	string_id m_value;

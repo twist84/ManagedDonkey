@@ -26,12 +26,12 @@ enum e_network_ui_state_flags
 {
 	_network_ui_state_flag_game_setup_changing_bit = 0,
 
-	k_network_ui_state_flag_count
+	k_network_ui_state_flags
 };
 
 struct s_network_ui_state
 {
-	c_flags<e_network_ui_state_flags, word, k_network_ui_state_flag_count> flags;
+	c_flags<e_network_ui_state_flags, word, k_network_ui_state_flags> flags;
 };
 static_assert(sizeof(s_network_ui_state) == 0x2);
 

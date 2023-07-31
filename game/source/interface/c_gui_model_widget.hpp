@@ -6,9 +6,9 @@
 
 enum e_model_widget_definition_flags
 {
-	_model_widget_definition_flag_allow_list_item_to_override_animation_skin_bit = k_core_widget_definition_flag_count,
+	_model_widget_definition_flag_allow_list_item_to_override_animation_skin_bit = k_core_widget_definition_flags,
 
-	k_model_widget_definition_flag_count,
+	k_model_widget_definition_flags,
 };
 
 struct s_model_widget_globals_definition

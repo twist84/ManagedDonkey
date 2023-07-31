@@ -31,7 +31,7 @@ enum e_bitmap_more_flags
 	// DO NOT CHANGE
 	_bitmap_more_flag_xbox360_use_on_demand_only_bit,
 
-	k_bitmap_more_flag_count
+	k_bitmap_more_flags
 };
 
 enum e_bitmap_type
@@ -183,7 +183,7 @@ enum e_bitmap_flags
 
 	_bitmap_flag_bit3,
 
-	k_bitmap_flag_count
+	k_bitmap_flags
 };
 
 // constructors in `rasterizer_textures_xenon_header` and `font_cache`
@@ -200,7 +200,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	char depth;
 
-	c_flags<e_bitmap_more_flags, byte, k_bitmap_more_flag_count> more_flags;
+	c_flags<e_bitmap_more_flags, byte, k_bitmap_more_flags> more_flags;
 
 	// DO NOT CHANGE
 	c_enum<e_bitmap_type, short, _bitmap_type_2d, k_bitmap_type_count> type;
@@ -208,7 +208,7 @@ struct bitmap_data
 	// DO NOT CHANGE
 	c_enum<e_bitmap_format, short, _bitmap_format_a8, k_bitmap_format_count> format;
 
-	c_flags<e_bitmap_flags, word, k_bitmap_flag_count> flags;
+	c_flags<e_bitmap_flags, word, k_bitmap_flags> flags;
 
 	// the 'center' of the bitmap - i.e. for particles
 	int16_point2d registration_point;
@@ -386,7 +386,7 @@ enum e_bitmap_group_flags
 	// unchecked, tight bounds are generated from the color channel
 	_bitmap_group_flag_tight_bounds_from_alpha_channel_bit,
 
-	k_bitmap_group_flag_count
+	k_bitmap_group_flags
 };
 
 enum e_bitmap_curve_override
@@ -574,7 +574,7 @@ struct bitmap_group
 	// choose how you are using this bitmap
 	c_enum<e_bitmap_usage_global, long, _bitmap_usage_global_diffuse_map, k_bitmap_usage_global_count> usage;
 
-	c_flags<e_bitmap_group_flags, word, k_bitmap_group_flag_count> flags;
+	c_flags<e_bitmap_group_flags, word, k_bitmap_group_flags> flags;
 
 	// number of pixels between adjacent sprites (0 uses default, negative numbers set no spacing)
 	short sprite_spacing;

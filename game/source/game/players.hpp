@@ -106,7 +106,7 @@ struct s_s3d_player_weapon_configuration_loadout
 {
 	byte primary_weapon_index;
 	byte secondary_weapon_index;
-	c_enum<e_grenade_type, char, _grenade_type_frag, k_grenade_type_count> grenade_index;
+	c_enum<e_grenade_type, char, _grenade_type_human_fragmentation, k_grenade_type_count> grenade_index;
 	c_static_array<char, 4> consumables;
 
 	// using this byte for our implementation

@@ -150,7 +150,7 @@ enum hs_source_file_flags
 	_source_file_flag_generated_at_runtime = 0,
 	_source_file_flag_ai_fragments,
 
-	hs_source_file_flag_count
+	hs_source_file_flags
 };
 
 struct hs_string_data_definition

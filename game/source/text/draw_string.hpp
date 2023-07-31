@@ -58,7 +58,7 @@ struct c_draw_string
 		_text_flag_precache_required_bit,
 		_text_flag_draw_more_bit,
 
-		k_text_flag_count
+		k_text_flags
 	};
 
 	struct s_parse_string_state
@@ -124,7 +124,7 @@ public:
 	short __cdecl get_line_height() const;
 
 protected:
-	c_flags<e_text_flags, dword, k_text_flag_count> m_flags;
+	c_flags<e_text_flags, dword, k_text_flags> m_flags;
 
 	// e_font_id
 	long m_font_id;

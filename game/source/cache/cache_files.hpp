@@ -286,6 +286,7 @@ extern s_cache_file_header const* cache_files_get_header();
 
 extern char const* tag_get_name(long tag_name_index);
 extern char const* tag_get_name_safe(long tag_name_index);
+extern long tag_name_get_index(char const* name);
 
 struct s_cache_file_security_globals;
 

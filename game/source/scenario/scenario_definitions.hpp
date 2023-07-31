@@ -72,7 +72,7 @@ enum e_scenario_flags
 	// TagTool has this here, making its index the same as H2EK
 	_scenario_characters_use_previous_mission_weapons_bit,
 
-	k_scenario_flag_count
+	k_scenario_flags
 };
 
 struct ai_scenario_mission_dialogue;
@@ -140,7 +140,7 @@ struct s_scenario
 
 	c_enum<e_scenario_type, char, _scenario_type_solo, k_scenario_type_count> type;
 	c_enum<e_scenario_campaign_type, char, _scenario_campaign_type_unknown, k_scenario_campaign_type_count> campaign_type;
-	c_flags<e_scenario_flags, word, k_scenario_flag_count> flags;
+	c_flags<e_scenario_flags, word, k_scenario_flags> flags;
 
 	long campaign_id;
 	long map_id;
@@ -402,7 +402,7 @@ enum e_scenario_structure_bsp_reference_flags
 	// check_this_on_shared_BSPs
 	_scenario_structure_bsp_reference_flag_not_a_normally_playable_space_in_an_mp_map_bit,
 
-	k_scenario_structure_bsp_reference_flag_count
+	k_scenario_structure_bsp_reference_flags
 };
 
 struct scenario_structure_bsp_reference
@@ -422,7 +422,7 @@ struct scenario_structure_bsp_reference
 	// this is the most that we can sink a soft surface link snow in the structure_bsp via vertex painting.
 	real structure_vertex_sink;
 
-	c_flags<e_scenario_structure_bsp_reference_flags, word, k_scenario_structure_bsp_reference_flag_count> flags;
+	c_flags<e_scenario_structure_bsp_reference_flags, word, k_scenario_structure_bsp_reference_flags> flags;
 
 	// s_scenario_sky_reference
 	short default_sky; // short_block_index
@@ -467,14 +467,14 @@ enum e_scenario_zone_set_flags
 	_scenario_zone_set_debug_purposes_only_bit,
 	_scenario_zone_set_interal_zone_set_bit,
 
-	k_scenario_zone_set_flag_count
+	k_scenario_zone_set_flags
 };
 
 struct s_scenario_zone_set
 {
 	c_string_id name;
 	long pvs_index;                       // long_block_index
-	c_flags<e_scenario_zone_set_flags, dword, k_scenario_zone_set_flag_count> flags;
+	c_flags<e_scenario_zone_set_flags, dword, k_scenario_zone_set_flags> flags;
 	dword_flags bsp_zone_flags;           // long_block_flags
 
 	// designer_zone_flags
@@ -520,7 +520,7 @@ enum e_scenario_soft_ceiling_flags
 	_scenario_soft_ceiling_flag_ignore_camera_bit,
 	_scenario_soft_ceiling_flag_ignore_huge_vehicles_bit,
 
-	k_scenario_soft_ceiling_flag_count
+	k_scenario_soft_ceiling_flags
 };
 
 enum e_soft_ceiling_type
@@ -534,8 +534,8 @@ enum e_soft_ceiling_type
 
 struct s_scenario_soft_ceiling
 {
-	c_flags<e_scenario_soft_ceiling_flags, word, k_scenario_soft_ceiling_flag_count> flags;
-	c_flags<e_scenario_soft_ceiling_flags, word, k_scenario_soft_ceiling_flag_count> runtime_flags;
+	c_flags<e_scenario_soft_ceiling_flags, word, k_scenario_soft_ceiling_flags> flags;
+	c_flags<e_scenario_soft_ceiling_flags, word, k_scenario_soft_ceiling_flags> runtime_flags;
 	c_string_id name;
 	c_enum<e_soft_ceiling_type, short, _soft_ceiling_type_acceleration, k_soft_ceiling_type_count> type;
 
@@ -585,7 +585,7 @@ enum e_scenario_player_flags
 {
 	_scenario_player_flag_survival_mode_bit = 0,
 
-	k_scenario_player_flag_count
+	k_scenario_player_flags
 };
 
 struct scenario_player
@@ -594,7 +594,7 @@ struct scenario_player
 	angle facing; // degrees
 	angle pitch; // degrees
 	short insertion_point_index;
-	c_flags<e_scenario_player_flags, word, k_scenario_player_flag_count> flags;
+	c_flags<e_scenario_player_flags, word, k_scenario_player_flags> flags;
 
 	// s_scenario_editor_folder
 	short editor_folder; // short_block_index

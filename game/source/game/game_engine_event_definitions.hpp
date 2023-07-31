@@ -8,7 +8,7 @@ enum e_game_engine_event_flags
 	_game_engine_event_quantity_message_bit = 0,
 	_game_engine_event_suppress_text_bit,
 
-	k_game_engine_event_flag_count
+	k_game_engine_event_flags
 };
 
 enum e_game_engine_event_audience
@@ -58,7 +58,7 @@ enum e_game_engine_sound_response_flags
 {
 	_game_engine_sound_response_announcer_sound_bit,
 
-	k_game_engine_sound_response_flag_count
+	k_game_engine_sound_response_flags
 };
 
 struct s_sound_response_extra_sounds_definition
@@ -86,7 +86,7 @@ static_assert(sizeof(s_sound_response_extra_sounds_definition) == 0xB0);
 
 struct s_multiplayer_event_sound_response_definition
 {
-	c_flags<e_game_engine_sound_response_flags, short, k_game_engine_sound_response_flag_count> sound_flags;
+	c_flags<e_game_engine_sound_response_flags, short, k_game_engine_sound_response_flags> sound_flags;
 	byte AGQD[0x2]; // pad
 	c_typed_tag_reference<SOUND_TAG> english_sound;
 	s_sound_response_extra_sounds_definition extra_sounds;
@@ -98,7 +98,7 @@ static_assert(sizeof(s_multiplayer_event_sound_response_definition) == 0xC8);
 
 struct s_multiplayer_event_response_definition
 {
-	c_flags<e_game_engine_event_flags, short, k_game_engine_event_flag_count> flags;
+	c_flags<e_game_engine_event_flags, short, k_game_engine_event_flags> flags;
 	short runtime_event_type;
 	c_string_id event_id;
 	c_enum<e_game_engine_event_audience, short, _game_engine_event_audience_cause_player, k_game_engine_event_audience_count> audience;
@@ -120,7 +120,7 @@ struct s_multiplayer_event_response_definition
 	real sound_delay_announcer_only;
 
 	// inlined `s_multiplayer_event_sound_response_definition`
-	c_flags<e_game_engine_sound_response_flags, short, k_game_engine_sound_response_flag_count> sound_flags;
+	c_flags<e_game_engine_sound_response_flags, short, k_game_engine_sound_response_flags> sound_flags;
 	byte PDHM[0x2]; // pad
 	c_typed_tag_reference<SOUND_TAG> sound;
 	s_sound_response_extra_sounds_definition extra_sounds;

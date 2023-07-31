@@ -384,7 +384,9 @@ POPD
     <ClCompile Include="source\networking\transport\transport_endpoint_set_winsock.cpp" />
     <ClCompile Include="source\networking\transport\transport_endpoint_winsock.cpp" />
     <ClCompile Include="source\networking\transport\transport_security.cpp" />
+    <ClCompile Include="source\objects\multiplayer_game_objects.cpp" />
     <ClCompile Include="source\objects\objects.cpp" />
+    <ClCompile Include="source\objects\object_definitions.cpp" />
     <ClCompile Include="source\physics\collisions.cpp" />
     <ClCompile Include="source\physics\havok.cpp" />
     <ClCompile Include="source\physics\havok_utilities.cpp" />
@@ -426,7 +428,9 @@ POPD
     <ClCompile Include="source\text\font_loading.cpp" />
     <ClCompile Include="source\text\unicode.cpp" />
     <ClCompile Include="source\units\bipeds.cpp" />
+    <ClCompile Include="source\units\biped_definitions.cpp" />
     <ClCompile Include="source\units\units.cpp" />
+    <ClCompile Include="source\units\unit_definition.cpp" />
     <ClCompile Include="source\visibility\visibility_collection.cpp" />
     <ClCompile Include="source\visibility\visibility_render_objects.cpp" />
     <ClCompile Include="source\xbox\xbox.cpp" />
@@ -772,6 +776,7 @@ POPD
     <ClInclude Include="source\objects\object_definitions.hpp" />
     <ClInclude Include="source\physics\character_physics_definitions.hpp" />
     <ClInclude Include="source\physics\collisions.hpp" />
+    <ClInclude Include="source\physics\collision_model_definitions.hpp" />
     <ClInclude Include="source\physics\havok.hpp" />
     <ClInclude Include="source\physics\havok_mopp_code_definitions.hpp" />
     <ClInclude Include="source\physics\havok_utilities.hpp" />
@@ -851,7 +856,9 @@ POPD
     <ClInclude Include="source\text\unicode.hpp" />
     <ClInclude Include="source\text\xml_parser.hpp" />
     <ClInclude Include="source\units\bipeds.hpp" />
+    <ClInclude Include="source\units\biped_definitions.hpp" />
     <ClInclude Include="source\units\units.hpp" />
+    <ClInclude Include="source\units\unit_definition.hpp" />
     <ClInclude Include="source\visibility\visibility_collection.hpp" />
     <ClInclude Include="source\visibility\visibility_render_objects.hpp" />
     <ClInclude Include="source\xbox\xbox.hpp" />

@@ -1,5 +1,38 @@
 #pragma once
 
+union int16_bounds
+{
+	struct
+	{
+		short lower;
+		short upper;
+	};
+	short n[2];
+};
+static_assert(sizeof(int16_bounds) == 0x4);
+
+union int32_bounds
+{
+	struct
+	{
+		long lower;
+		long upper;
+	};
+	long n[2];
+};
+static_assert(sizeof(int32_bounds) == 0x8);
+
+union int64_bounds
+{
+	struct
+	{
+		long long lower;
+		long long upper;
+	};
+	long long n[2];
+};
+static_assert(sizeof(int64_bounds) == 0x10);
+
 union int16_point2d
 {
 	struct

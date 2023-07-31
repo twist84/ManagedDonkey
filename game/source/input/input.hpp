@@ -151,7 +151,7 @@ enum e_key_modifier_flags
 	// GetKeyState(VK_MENU)
 	_key_modifier_flag_alt_key_bit,
 
-	k_key_modifier_flag_count
+	k_key_modifier_flags
 };
 
 enum e_key_type
@@ -334,7 +334,7 @@ static_assert(sizeof(key_state) == 0x4);
 
 struct key_stroke
 {
-	c_flags<e_key_modifier_flags, byte, k_key_modifier_flag_count> modifier;
+	c_flags<e_key_modifier_flags, byte, k_key_modifier_flags> modifier;
 	c_enum<e_key_type, char, _key_type_down, k_key_type_count> key_type;
 	c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
 	bool was_key_down;
@@ -344,7 +344,7 @@ static_assert(sizeof(key_stroke) == 0x6);
 // key_stroke
 struct s_key_state
 {
-	c_flags<e_key_modifier_flags, byte, k_key_modifier_flag_count> modifier;
+	c_flags<e_key_modifier_flags, byte, k_key_modifier_flags> modifier;
 	c_enum<e_key_type, long, _key_type_down, k_key_type_count> key_type;
 	c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
 

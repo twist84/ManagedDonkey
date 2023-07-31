@@ -16,7 +16,7 @@ enum e_cache_file_tag_resource_location_flags
 	_cache_file_tag_resource_location_flags_unused,
 	_cache_file_tag_resource_location_flags_only_full_valid_checksum,
 
-	k_cache_file_tag_resource_location_flags_count
+	k_cache_file_tag_resource_location_flags
 };
 
 enum e_cache_file_compression_codec
@@ -36,7 +36,7 @@ struct s_cache_file_resource_file_location
 	// runtime
 	short resource_handle_salt;
 
-	c_flags<e_cache_file_tag_resource_location_flags, byte, k_cache_file_tag_resource_location_flags_count> flags;
+	c_flags<e_cache_file_tag_resource_location_flags, byte, k_cache_file_tag_resource_location_flags> flags;
 	c_enum<e_cache_file_compression_codec, char, _cache_file_compression_codec_none, k_cache_file_compression_codec_count> codec_index;
 
 	union
