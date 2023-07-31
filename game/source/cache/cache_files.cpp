@@ -1089,14 +1089,17 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 	switch (stage)
 	{
 	case _instance_modification_stage_tag_load:
+	{
 		game_globals->input_globals.index = NONE;
-		break;
+	}
+	break;
 	case _instance_modification_stage_tag_fixup:
+	{
 		ASSERT(game_globals->input_globals.index == NONE);
 
 		game_globals->update_reference_names();
-
-		break;
+	}
+	break;
 	}
 }
 
@@ -1181,6 +1184,31 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 }
 
 // #TODO: create some sort of tag modification manager
+void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (!instance->is_group(RASTERIZER_GLOBALS_TAG))
+		return;
+
+	c_rasterizer_globals* rasterizer_globals = instance->cast_to<c_rasterizer_globals>();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		rasterizer_globals->update_reference_names();
+
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
 void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1212,6 +1240,7 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 
 	apply_globals_instance_modification(instance, stage);
 	apply_multiplayer_globals_instance_modification(instance, stage);
+	apply_rasterizer_globals_instance_modification(instance, stage);
 	apply_scenario_instance_modification(instance, stage);
 }
 

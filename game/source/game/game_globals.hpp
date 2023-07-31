@@ -101,6 +101,8 @@ template<tag group_tag>
 struct s_game_globals_tag_reference;
 struct s_game_globals
 {
+	static tag const k_group_tag = GLOBALS_TAG;
+
 	struct damage_reporting_type_block;
 
 	// pad

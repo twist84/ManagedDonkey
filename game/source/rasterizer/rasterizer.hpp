@@ -94,6 +94,8 @@ struct s_texture_references_block;
 struct c_rasterizer_globals
 {
 public:
+	static tag const k_group_tag = RASTERIZER_GLOBALS_TAG;
+
 	dword __cdecl get_max_vs_gprs() const
 	{
 		return m_max_vs_gprs;
@@ -104,11 +106,15 @@ public:
 		return m_max_ps_gprs;
 	}
 
+	void update_reference_names();
+
 protected:
 	struct s_explicit_shader
 	{
 		s_tag_reference explicit_vertex_shader;
 		s_tag_reference explicit_pixel_shader;
+
+		void update_reference_names();
 	};
 	static_assert(sizeof(s_explicit_shader) == 0x20);
 
@@ -291,12 +297,16 @@ struct s_global_bitmaps
 {
 	dword_flags options;
 	c_typed_tag_reference<BITMAP_TAG> default_bitmaps;
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_global_bitmaps) == 0x14);
 
 struct s_texture_references_block
 {
 	c_typed_tag_reference<BITMAP_TAG> reference;
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 

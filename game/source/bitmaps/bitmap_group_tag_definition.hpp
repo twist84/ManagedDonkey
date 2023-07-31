@@ -569,6 +569,8 @@ enum e_bitmap_usage_format
 
 struct bitmap_group
 {
+	static tag const k_group_tag = BITMAP_TAG;
+
 	// choose how you are using this bitmap
 	c_enum<e_bitmap_usage_global, long, _bitmap_usage_global_diffuse_map, k_bitmap_usage_global_count> usage;
 

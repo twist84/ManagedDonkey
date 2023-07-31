@@ -9,6 +9,8 @@ struct s_multiplayer_universal_globals_definition;
 struct s_multiplayer_runtime_globals_definition;
 struct s_multiplayer_globals_definition
 {
+	static tag const k_group_tag = MULTIPLAYER_GLOBALS_TAG;
+
 	c_typed_tag_block<s_multiplayer_universal_globals_definition> universal;
 	c_typed_tag_block<s_multiplayer_runtime_globals_definition> runtime;
 

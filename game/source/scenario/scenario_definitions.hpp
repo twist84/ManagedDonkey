@@ -136,6 +136,8 @@ struct zone_definition;
 struct s_background_bitmap_reference_definition;
 struct s_scenario
 {
+	static tag const k_group_tag = SCENARIO_TAG;
+
 	c_enum<e_scenario_type, char, _scenario_type_solo, k_scenario_type_count> type;
 	c_enum<e_scenario_campaign_type, char, _scenario_campaign_type_unknown, k_scenario_campaign_type_count> campaign_type;
 	c_flags<e_scenario_flags, word, k_scenario_flag_count> flags;
