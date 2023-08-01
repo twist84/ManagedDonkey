@@ -353,7 +353,7 @@ static s_cache_file_tag_group global_tag_groups[] =
 		.name = STRING_ID(global, bink)
 	},
 	{
-		.group_tags = { BIPED_TAG },
+		.group_tags = { BIPED_TAG, UNIT_TAG, OBJECT_TAG },
 		.name = STRING_ID(global, biped)
 	},
 	{
@@ -649,7 +649,7 @@ static s_cache_file_tag_group global_tag_groups[] =
 		.name = STRING_ID(global, item_collection)
 	},
 	{
-		.group_tags = { ITEM_TAG },
+		.group_tags = { ITEM_TAG, OBJECT_TAG },
 		.name = STRING_ID(global, item)
 	},
 	{
@@ -1077,7 +1077,7 @@ static s_cache_file_tag_group global_tag_groups[] =
 		.name = STRING_ID(global, text_value_pair_definition)
 	},
 	{
-		.group_tags = { UNIT_TAG },
+		.group_tags = { UNIT_TAG, OBJECT_TAG },
 		.name = STRING_ID(global, unit)
 	},
 	{
@@ -1101,7 +1101,7 @@ static s_cache_file_tag_group global_tag_groups[] =
 		.name = STRING_ID(global, vehicle_collection)
 	},
 	{
-		.group_tags = { VEHICLE_TAG },
+		.group_tags = { VEHICLE_TAG, UNIT_TAG, OBJECT_TAG },
 		.name = STRING_ID(global, vehicle)
 	},
 	{
@@ -1117,7 +1117,7 @@ static s_cache_file_tag_group global_tag_groups[] =
 		.name = STRING_ID(global, vision_mode)
 	},
 	{
-		.group_tags = { WEAPON_TAG },
+		.group_tags = { WEAPON_TAG, ITEM_TAG, OBJECT_TAG },
 		.name = STRING_ID(global, weapon)
 	},
 	{
