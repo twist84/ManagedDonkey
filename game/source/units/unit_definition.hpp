@@ -118,41 +118,41 @@ struct s_unit_lipsync_scales
 };
 static_assert(sizeof(s_unit_lipsync_scales) == 0x8);
 
-enum e_unit_flags
+enum e_unit_definition_flags
 {
-	_unit_flag_circular_aiming_bit = 0,
-	_unit_flag_destroyed_after_dying_bit,
-	_unit_flag_half_speed_interpolation_bit,
-	_unit_flag_fires_from_camera_bit,
-	_unit_flag_entrance_inside_bounding_sphere_bit,
-	_unit_flag_doesnt_show_readied_weapon_bit,
-	_unit_flag_causes_passenger_dialogue_bit,
-	_unit_flag_resists_pings_bit,
-	_unit_flag_melee_attack_is_fatal_bit,
-	_unit_flag_dont_reface_during_pings_bit,
-	_unit_flag_has_no_aiming_bit,
-	_unit_flag_simple_creature_bit,
-	_unit_flag_impact_melee_attaches_to_unit_bit,
-	_unit_flag_impact_melee_dies_on_shields_bit,
-	_unit_flag_cannot_open_doors_automatically_bit,
-	_unit_flag_melee_attackers_cannot_attach_bit,
-	_unit_flag_not_instantly_killed_by_melee_bit,
-	_unit_flag_flashlight_power_doesnt_transfer_to_weapon_bit,
-	_unit_flag_runs_around_flaming_bit,
-	_unit_flag_top_level_for_aoe_damage_bit,
-	_unit_flag_special_cinematic_unit_bit,
-	_unit_flag_ignored_by_autoaiming_bit,
-	_unit_flag_shields_fry_infection_forms_bit,
-	_unit_flag_use_velocity_as_acceleration_bit,
-	_unit_flag_unused1_bit,
-	_unit_flag_acts_as_gunner_for_parent_bit,
-	_unit_flag_controlled_by_parent_gunner_bit,
-	_unit_flag_parents_primary_weapon_bit,
-	_unit_flag_unit_has_boost_bit,
-	_unit_flag_allow_aim_while_opening_or_closing_bit,
-	_unit_flag_use_aim_still_xx_for_airborne_bit,
+	_unit_definition_flag_circular_aiming_bit = 0,
+	_unit_definition_flag_destroyed_after_dying_bit,
+	_unit_definition_flag_half_speed_interpolation_bit,
+	_unit_definition_flag_fires_from_camera_bit,
+	_unit_definition_flag_entrance_inside_bounding_sphere_bit,
+	_unit_definition_flag_doesnt_show_readied_weapon_bit,
+	_unit_definition_flag_causes_passenger_dialogue_bit,
+	_unit_definition_flag_resists_pings_bit,
+	_unit_definition_flag_melee_attack_is_fatal_bit,
+	_unit_definition_flag_dont_reface_during_pings_bit,
+	_unit_definition_flag_has_no_aiming_bit,
+	_unit_definition_flag_simple_creature_bit,
+	_unit_definition_flag_impact_melee_attaches_to_unit_bit,
+	_unit_definition_flag_impact_melee_dies_on_shields_bit,
+	_unit_definition_flag_cannot_open_doors_automatically_bit,
+	_unit_definition_flag_melee_attackers_cannot_attach_bit,
+	_unit_definition_flag_not_instantly_killed_by_melee_bit,
+	_unit_definition_flag_flashlight_power_doesnt_transfer_to_weapon_bit,
+	_unit_definition_flag_runs_around_flaming_bit,
+	_unit_definition_flag_top_level_for_aoe_damage_bit,
+	_unit_definition_flag_special_cinematic_unit_bit,
+	_unit_definition_flag_ignored_by_autoaiming_bit,
+	_unit_definition_flag_shields_fry_infection_forms_bit,
+	_unit_definition_flag_use_velocity_as_acceleration_bit,
+	_unit_definition_flag_unused1_bit,
+	_unit_definition_flag_acts_as_gunner_for_parent_bit,
+	_unit_definition_flag_controlled_by_parent_gunner_bit,
+	_unit_definition_flag_parents_primary_weapon_bit,
+	_unit_definition_flag_unit_has_boost_bit,
+	_unit_definition_flag_allow_aim_while_opening_or_closing_bit,
+	_unit_definition_flag_use_aim_still_xx_for_airborne_bit,
 
-	k_unit_flags
+	k_unit_definition_flags
 };
 
 enum e_unit_default_teams
@@ -222,7 +222,7 @@ struct _unit_definition
 
 	// $$$ UNIT $$$
 
-	c_flags<e_unit_flags, dword_flags, k_unit_flags> flags;
+	c_flags<e_unit_definition_flags, dword_flags, k_unit_definition_flags> flags;
 	c_enum<e_unit_default_teams, short, _unit_default_teams_default, k_unit_default_teams_count> default_team;
 	c_enum<e_ai_sound_volume, short, _ai_sound_volume_silent, k_ai_sound_volume_count> constant_sound_volume;
 	c_typed_tag_reference<BIPED_TAG, VEHICLE_TAG> hologram_unit_reference;

@@ -8,6 +8,7 @@
 #include "cseries/cseries.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
+#include "items/item_definitions.hpp"
 #include "main/global_preferences.hpp"
 #include "main/loading.hpp"
 #include "main/main.hpp"
@@ -20,6 +21,7 @@
 #include "tag_files/string_ids.hpp"
 #include "units/biped_definitions.hpp"
 #include "units/unit_definition.hpp"
+#include "units/vehicle_definitions.hpp"
 
 #include <DDS.h>
 #include <string.h>
@@ -1240,7 +1242,6 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 	case _instance_modification_stage_tag_fixup:
 	{
 		rasterizer_globals->update_reference_names();
-
 	}
 	break;
 	}
@@ -1343,6 +1344,54 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 }
 
 // #TODO: create some sort of tag modification manager
+void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (!instance->is_group(VEHICLE_TAG))
+		return;
+
+	_vehicle_definition* vehicle = instance->cast_to<_vehicle_definition>();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		vehicle->update_reference_names();
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
+void apply_item_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (!instance->is_group(ITEM_TAG))
+		return;
+
+	_item_definition* item = instance->cast_to<_item_definition>();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		item->update_reference_names();
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
 void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	if (instance == nullptr)
@@ -1356,6 +1405,8 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	apply_object_instance_modification(instance, stage);
 	apply_unit_instance_modification(instance, stage);
 	apply_biped_instance_modification(instance, stage);
+	apply_vehicle_instance_modification(instance, stage);
+	apply_item_instance_modification(instance, stage);
 }
 
 // #TODO: create some sort of tag modification manager

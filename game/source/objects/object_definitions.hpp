@@ -144,7 +144,7 @@ static_assert(sizeof(_object_definition) == 0x120);
 struct s_object_early_mover_obb_definition
 {
 	c_string_id node_name;
-	real_rectangle3d world_bounds;
+	real_rectangle3d bounds;
 	euler_angles3d angles;
 };
 static_assert(sizeof(s_object_early_mover_obb_definition) == 0x28);

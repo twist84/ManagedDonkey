@@ -297,6 +297,7 @@ POPD
     <ClCompile Include="source\interface\user_interface_utilities.cpp" />
     <ClCompile Include="source\interface\user_interface_window_manager.cpp" />
     <ClCompile Include="source\items\equipment_definitions.cpp" />
+    <ClCompile Include="source\items\item_definitions.cpp" />
     <ClCompile Include="source\items\weapons.cpp" />
     <ClCompile Include="source\main\console.cpp" />
     <ClCompile Include="source\main\debug_keys.cpp" />
@@ -431,6 +432,7 @@ POPD
     <ClCompile Include="source\units\biped_definitions.cpp" />
     <ClCompile Include="source\units\units.cpp" />
     <ClCompile Include="source\units\unit_definition.cpp" />
+    <ClCompile Include="source\units\vehicle_definitions.cpp" />
     <ClCompile Include="source\visibility\visibility_collection.cpp" />
     <ClCompile Include="source\visibility\visibility_render_objects.cpp" />
     <ClCompile Include="source\xbox\xbox.cpp" />
@@ -470,6 +472,7 @@ POPD
     <ClInclude Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.hpp" />
     <ClInclude Include="source\interface\terminal.hpp" />
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />
+    <ClInclude Include="source\items\item_definitions.hpp" />
     <ClInclude Include="source\main\console.hpp" />
     <ClInclude Include="source\main\debug_keys.hpp" />
     <ClInclude Include="source\math\function_definitions.hpp" />
@@ -780,7 +783,9 @@ POPD
     <ClInclude Include="source\physics\havok.hpp" />
     <ClInclude Include="source\physics\havok_mopp_code_definitions.hpp" />
     <ClInclude Include="source\physics\havok_utilities.hpp" />
+    <ClInclude Include="source\physics\havok_vehicle_physics_definitions.hpp" />
     <ClInclude Include="source\physics\physics_constants.hpp" />
+    <ClInclude Include="source\physics\physics_model_definitions.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_d3d_allocations.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_globals.hpp" />
@@ -859,6 +864,7 @@ POPD
     <ClInclude Include="source\units\biped_definitions.hpp" />
     <ClInclude Include="source\units\units.hpp" />
     <ClInclude Include="source\units\unit_definition.hpp" />
+    <ClInclude Include="source\units\vehicle_definitions.hpp" />
     <ClInclude Include="source\visibility\visibility_collection.hpp" />
     <ClInclude Include="source\visibility\visibility_render_objects.hpp" />
     <ClInclude Include="source\xbox\xbox.hpp" />
