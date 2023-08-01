@@ -121,7 +121,7 @@ long __cdecl tag_loaded(tag group_tag, char const* tag_name)
 		{
 			cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
 
-			if (!instance->is_group(group_tag))
+			if (instance->tag_group != group_tag)
 				continue;
 
 			long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
@@ -1082,7 +1082,7 @@ void cache_file_tags_load_single_tag_file_test(char const* file_name)
 			dword file_size = 0;
 			file_get_size(&file, &file_size);
 
-			if (instance->is_group(BITMAP_TAG))
+			if (instance->tag_group == BITMAP_TAG)
 			{
 				bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
 				ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
@@ -1121,7 +1121,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(GLOBALS_TAG))
+	if (instance->tag_group != GLOBALS_TAG)
 		return;
 
 	s_game_globals* game_globals = instance->cast_to<s_game_globals>();
@@ -1138,6 +1138,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 		ASSERT(game_globals->input_globals.index == NONE);
 
 		game_globals->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1148,7 +1149,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(MULTIPLAYER_GLOBALS_TAG))
+	if (instance->tag_group != MULTIPLAYER_GLOBALS_TAG)
 		return;
 
 	// if the very first offset is not 0x20 there is a very high likelihood that this is an ElDewrito tag set
@@ -1218,6 +1219,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 		}
 
 		multiplayer_globals->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1228,7 +1230,7 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(RASTERIZER_GLOBALS_TAG))
+	if (instance->tag_group != RASTERIZER_GLOBALS_TAG)
 		return;
 
 	c_rasterizer_globals* rasterizer_globals = instance->cast_to<c_rasterizer_globals>();
@@ -1242,6 +1244,7 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 	case _instance_modification_stage_tag_fixup:
 	{
 		rasterizer_globals->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1252,7 +1255,7 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(SCENARIO_TAG))
+	if (instance->tag_group != SCENARIO_TAG)
 		return;
 
 	s_scenario* scenario = instance->cast_to<s_scenario>();
@@ -1266,6 +1269,7 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 	case _instance_modification_stage_tag_fixup:
 	{
 		scenario->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1276,7 +1280,7 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(OBJECT_TAG))
+	if (instance->tag_group != OBJECT_TAG)
 		return;
 
 	_object_definition* object = instance->cast_to<_object_definition>();
@@ -1290,6 +1294,7 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 	case _instance_modification_stage_tag_fixup:
 	{
 		object->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1300,7 +1305,7 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(UNIT_TAG))
+	if (instance->tag_group != UNIT_TAG)
 		return;
 
 	_unit_definition* unit = instance->cast_to<_unit_definition>();
@@ -1314,6 +1319,7 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 	case _instance_modification_stage_tag_fixup:
 	{
 		unit->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1324,7 +1330,7 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(BIPED_TAG))
+	if (instance->tag_group != BIPED_TAG)
 		return;
 
 	_biped_definition* biped = instance->cast_to<_biped_definition>();
@@ -1338,6 +1344,7 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 	case _instance_modification_stage_tag_fixup:
 	{
 		biped->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1348,7 +1355,7 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(VEHICLE_TAG))
+	if (instance->tag_group != VEHICLE_TAG)
 		return;
 
 	_vehicle_definition* vehicle = instance->cast_to<_vehicle_definition>();
@@ -1362,6 +1369,7 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 	case _instance_modification_stage_tag_fixup:
 	{
 		vehicle->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1372,7 +1380,7 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 {
 	ASSERT(instance != nullptr);
 
-	if (!instance->is_group(ITEM_TAG))
+	if (instance->tag_group != ITEM_TAG)
 		return;
 
 	_item_definition* item = instance->cast_to<_item_definition>();
@@ -1386,6 +1394,7 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 	case _instance_modification_stage_tag_fixup:
 	{
 		item->update_reference_names();
+		printf("");
 	}
 	break;
 	}
@@ -1486,7 +1495,7 @@ void external_tag_fixup(s_file_reference* file, long tag_index, cache_file_tag_i
 	dword file_size = 0;
 	file_get_size(file, &file_size);
 
-	if (instance->is_group(BITMAP_TAG))
+	if (instance->tag_group == BITMAP_TAG)
 	{
 		bitmap_group* bitmap_instance = instance->cast_to<bitmap_group>();
 		ASSERT(bitmap_instance->bitmaps.count() == bitmap_instance->hardware_textures.count());
@@ -1583,7 +1592,7 @@ void external_resource_fixup(long tag_index, cache_file_tag_instance* instance)
 	{
 		s_resource_file_header const* file_header = g_resource_file_headers[i];
 
-		if (instance->is_group(file_header->group_tag))
+		if (instance->tag_group == file_header->group_tag)
 		{
 			if (tag_index != file_header->tag_index)
 				continue;

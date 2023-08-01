@@ -305,6 +305,21 @@ struct s_cache_file_tag_group
 {
 	tag group_tags[3];
 	c_string_id name;
+
+	bool is_group(tag group_tag)
+	{
+		return group_tag == group_tags[0] || group_tag == group_tags[1] || group_tag == group_tags[2];
+	}
+
+	bool operator==(tag group_tag)
+	{
+		return is_group(group_tag);
+	}
+
+	bool operator!=(tag group_tag)
+	{
+		return !is_group(group_tag);
+	}
 };
 static_assert(sizeof(s_cache_file_tag_group) == 0x10);
 

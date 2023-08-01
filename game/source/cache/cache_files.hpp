@@ -142,11 +142,6 @@ union cache_file_tag_instance
 
 	};
 
-	bool is_group(tag group_tag)
-	{
-		return group_tag == tag_group.group_tags[0] || group_tag == tag_group.group_tags[1] || group_tag == tag_group.group_tags[2];
-	}
-
 	void* get()
 	{
 		return base + offset;
