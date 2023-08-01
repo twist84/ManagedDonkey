@@ -249,13 +249,13 @@ enum e_object_attachment_flags
 
 enum e_global_object_change_color
 {
-	_global_object_change_color_none,
+	_global_object_change_color_none = 0,
 	_global_object_change_color_primary,
 	_global_object_change_color_secondary,
 	_global_object_change_color_tertiary,
 	_global_object_change_color_quaternary,
 
-	k_global_object_change_color_count [[maybe_unused]]
+	k_global_object_change_color_count
 };
 
 struct object_attachment_definition
