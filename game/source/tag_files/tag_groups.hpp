@@ -221,10 +221,10 @@ static_assert(sizeof(s_tag_block) == 0xC);
 
 struct s_tag_reference
 {
-	tag group_tag;
+	tag group_tag = tag(NONE);
 	char const* name;
 	long name_length;
-	long index;
+	long index = NONE;
 
 	void* get_definition();
 
