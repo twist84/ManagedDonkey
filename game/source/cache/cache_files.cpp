@@ -464,9 +464,9 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = tag_loaded_count;
 	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
 
-	REFERENCE_DECLARE(instance->base + instance->total_size, char const*, tag_name);
+	REFERENCE_DECLARE(instance->base + instance->total_size, c_static_string<256>, tag_name);
 	tag_name = tag_get_name(tag_index);
-	g_cache_file_globals.tag_loaded_size += cache_file_round_up_read_size(sizeof(char const*));
+	g_cache_file_globals.tag_loaded_size += cache_file_round_up_read_size(sizeof(tag_name));
 
 	if (!cache_file_tags_section_read(tag_cache_offset, instance->total_size, g_cache_file_globals.tag_instances[tag_loaded_count]->base))
 		return false;
@@ -1055,6 +1055,11 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, long *out_tag_
 
 	if (!file_read_from_position(file, 0, file_size, false, instance))
 		return false;
+
+	REFERENCE_DECLARE(instance->base + instance->total_size, c_static_string<256>, tag_name);
+	long index = tag_name.index_of(".");
+	if (index >= 0)
+		tag_name.get_buffer()[index] = '\0';
 
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
 		return false;

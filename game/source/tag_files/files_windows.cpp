@@ -547,7 +547,7 @@ void __cdecl find_files_start_with_search_spec(s_find_file_data* data, dword_fla
 	data->depth = 0;
 	data->location = file->location;
 
-	data->path.append_print(L"%hs", file->path);
+	data->path.append_print(L"%hs", file->path.get_string());
 	data->search_spec.append_print(L"%hs", search_spec);
 }
 

@@ -27,7 +27,7 @@ void __cdecl console_printf(char const* format, ...)
 	{
 		c_static_string<255> message;
 		message.vprint(format, list);
-		terminal_printf(nullptr, "%s", message);
+		terminal_printf(nullptr, "%s", message.get_string());
 		c_console::write_line(message);
 
 		if (console_dump_to_debug_display)
@@ -365,9 +365,9 @@ bool __cdecl console_process_command(char const* command, bool a2)
 				result = succeeded != -1 || tokens[0]->equals("help");
 
 				if (result)
-					console_printf("command '%s' succeeded", tokens[0]);
+					console_printf("command '%s' succeeded", tokens[0]->get_string());
 				else
-					console_warning("command '%s' failed: %s", tokens[0], callback_result);
+					console_warning("command '%s' failed: %s", tokens[0]->get_string(), callback_result);
 
 				break;
 			}

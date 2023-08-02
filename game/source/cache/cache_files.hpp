@@ -144,7 +144,7 @@ union cache_file_tag_instance
 
 	char const* get_name()
 	{
-		REFERENCE_DECLARE(base + total_size, char const*, tag_name);
+		REFERENCE_DECLARE(base + total_size, c_static_string<256>, tag_name);
 		return tag_name;
 	}
 

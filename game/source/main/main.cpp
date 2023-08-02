@@ -467,10 +467,10 @@ void __cdecl main_loop_pregame_show_progress_screen()
 		}
 		else
 		{
-			static char status_message_ascii[12288];
-			status_message_ascii[0] = 0;
+			static c_static_string<12288> status_message_ascii;
+			status_message_ascii.clear();
+			status_message_ascii.print("%ls", status_message.get_string());
 
-			wchar_string_to_ascii_string(status_message, status_message_ascii, 12288, nullptr);
 			main_render_pregame(main_pregame_frame, status_message_ascii);
 
 			if (main_pregame_frame == 2)
