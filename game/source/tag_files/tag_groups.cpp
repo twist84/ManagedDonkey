@@ -92,10 +92,9 @@ void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* na
 		c_console::write_line("tags:dependencies:unlink: removing reference to '%s.%s'", reference->get_name(), reference->get_group_name());
 
 	reference->group_tag = group_tag;
-	reference->name_length = strlen(name);
-	reference->name = name;
-	reference->index = tag_name_get_index(name);
+	reference->index = tag_name_get_index(group_tag, name);
 
-	c_console::write_line("tags:dependencies:link: setting reference to '%s.%s'", reference->get_name(), reference->get_group_name());
+	if (reference->index != NONE)
+		c_console::write_line("tags:dependencies:link: setting reference to '%s.%s'", reference->get_name(), reference->get_group_name());
 }
 

@@ -1216,18 +1216,42 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 
 				switch (weapon_selection.name)
 				{
-				case STRING_ID(global, spike_rifle):      weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001500 }; break;
-				case STRING_ID(global, sword):            weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000159E }; break;
-				case STRING_ID(global, needler):          weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000014F8 }; break;
-				case STRING_ID(global, rocket_launcher):  weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B3 }; break;
-				case STRING_ID(global, shotgun):          weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A45 }; break;
-				case STRING_ID(global, sniper_rifle):     weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B1 }; break;
-				case STRING_ID(global, brute_shot):       weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000014FF }; break;
-				case STRING_ID(global, beam_rifle):       weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001509 }; break;
-				case STRING_ID(global, spartan_laser):    weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x000015B2 }; break;
-				case STRING_ID(global, gravity_hammer):   weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000150C }; break;
-				case STRING_ID(global, flame_thrower):    weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A55 }; break;
-				case STRING_ID(global, missile_launcher): weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001A54 }; break;
+				case STRING_ID(global, spike_rifle):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\spike_rifle\\spike_rifle");
+					break;
+				case STRING_ID(global, sword):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\melee\\energy_blade\\energy_blade");
+					break;
+				case STRING_ID(global, needler):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\pistol\\needler\\needler");
+					break;
+				case STRING_ID(global, rocket_launcher):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\support_high\\rocket_launcher\\rocket_launcher");
+					break;
+				case STRING_ID(global, shotgun):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\shotgun\\shotgun");
+					break;
+				case STRING_ID(global, sniper_rifle):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\sniper_rifle\\sniper_rifle");
+					break;
+				case STRING_ID(global, brute_shot):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\support_low\\brute_shot\\brute_shot");
+					break;
+				case STRING_ID(global, beam_rifle):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\beam_rifle\\beam_rifle");
+					break;
+				case STRING_ID(global, spartan_laser):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\support_high\\spartan_laser\\spartan_laser");
+					break;
+				case STRING_ID(global, gravity_hammer):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\melee\\gravity_hammer\\gravity_hammer");
+					break;
+				case STRING_ID(global, flame_thrower):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\turret\\flamethrower\\flamethrower");
+					break;
+				case STRING_ID(global, missile_launcher):
+					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\turret\\missile_pod\\missile_pod");
+					break;
 				}
 			}
 		}

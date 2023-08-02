@@ -186,6 +186,8 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 			continue;
 
 		_object_definition* object = static_cast<_object_definition*>(tag_get(OBJECT_TAG, reference.index));
+		if (!object)
+			continue;
 
 		real bounding_radius = object->bounding_radius + 1.5f;
 		if (radius <= bounding_radius)
@@ -260,11 +262,7 @@ void __cdecl cheat_all_vehicles()
 		byte* vehicle = static_cast<byte*>(tag_get(iterator.group_tag, tag_index));
 		s_tag_block& powered_seats = *reinterpret_cast<s_tag_block*>(vehicle + 0x358);
 		if (powered_seats.count > 0)
-		{
-			char const* name = tag_get_name(tag_index);
-			references[reference_count].group_tag = iterator.group_tag;
-			references[reference_count++].index = tag_index;
-		}
+			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
 	}
 
 	cheat_objects(references, reference_count);
@@ -282,9 +280,7 @@ void __cdecl cheat_all_weapons()
 		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		char const* name = tag_get_name(tag_index);
-		references[reference_count].group_tag = iterator.group_tag;
-		references[reference_count++].index = tag_index;
+		tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
 	}
 
 	cheat_objects(references, reference_count);
