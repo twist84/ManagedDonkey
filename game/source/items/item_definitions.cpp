@@ -2,16 +2,16 @@
 
 void _item_definition::update_reference_names()
 {
-	collision_sound.get_name();
-	detonation_damage_effect.get_name();
-	detonating_effect.get_name();
-	detonation_effect.get_name();
+	UPDATE_REFERENCE_NAME(collision_sound);
+	UPDATE_REFERENCE_NAME(detonation_damage_effect);
+	UPDATE_REFERENCE_NAME(detonating_effect);
+	UPDATE_REFERENCE_NAME(detonation_effect);
 
-	UPDATE_REFERENCE_NAMES(predicted_bitmaps);
+	UPDATE_BLOCK_REFERENCE_NAMES(predicted_bitmaps);
 }
 
 void s_predicted_bitmaps::update_reference_names()
 {
-	bitmap.get_name();
+	UPDATE_REFERENCE_NAME(bitmap);
 }
 

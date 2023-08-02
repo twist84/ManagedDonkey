@@ -2,11 +2,11 @@
 
 void s_sound_globals_definition::update_reference_names()
 {
-	sound_classes.get_name();
-	sound_effects.get_name();
-	sound_mix.get_name();
-	sound_combat_dialogue_constants.get_name();
-	sound_propagation.get_name();
-	gfx_ui_sounds.get_name();
+	UPDATE_REFERENCE_NAME(sound_classes);
+	UPDATE_REFERENCE_NAME(sound_effects);
+	UPDATE_REFERENCE_NAME(sound_mix);
+	UPDATE_REFERENCE_NAME(sound_combat_dialogue_constants);
+	UPDATE_REFERENCE_NAME(sound_propagation);
+	UPDATE_REFERENCE_NAME(gfx_ui_sounds);
 }
 

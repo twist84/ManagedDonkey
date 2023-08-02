@@ -2,6 +2,6 @@
 
 void hs_tag_reference::update_reference_names()
 {
-	reference.get_name();
+	UPDATE_REFERENCE_NAME(reference);
 }
 

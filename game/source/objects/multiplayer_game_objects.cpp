@@ -2,14 +2,14 @@
 
 void s_multiplayer_object_properties_definition::update_reference_names()
 {
-	spawned_object.get_name();
-	boundary_standard_shader.get_name();
-	boundary_opaque_shader.get_name();
-	sphere_standard_shader.get_name();
-	sphere_opaque_shader.get_name();
-	cylinder_standard_shader.get_name();
-	cylinder_opaque_shader.get_name();
-	box_standard_shader.get_name();
-	box_opaque_shader.get_name();
+	UPDATE_REFERENCE_NAME(spawned_object);
+	UPDATE_REFERENCE_NAME(boundary_standard_shader);
+	UPDATE_REFERENCE_NAME(boundary_opaque_shader);
+	UPDATE_REFERENCE_NAME(sphere_standard_shader);
+	UPDATE_REFERENCE_NAME(sphere_opaque_shader);
+	UPDATE_REFERENCE_NAME(cylinder_standard_shader);
+	UPDATE_REFERENCE_NAME(cylinder_opaque_shader);
+	UPDATE_REFERENCE_NAME(box_standard_shader);
+	UPDATE_REFERENCE_NAME(box_opaque_shader);
 }
 

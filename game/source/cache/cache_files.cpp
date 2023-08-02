@@ -1156,7 +1156,8 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 	{
 		ASSERT(game_globals->input_globals.index == NONE);
 
-		game_globals->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(game_globals);
 		printf("");
 	}
 	break;
@@ -1261,7 +1262,8 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 			}
 		}
 
-		multiplayer_globals->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(multiplayer_globals);
 		printf("");
 	}
 	break;
@@ -1286,7 +1288,8 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		rasterizer_globals->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(rasterizer_globals);
 		printf("");
 	}
 	break;
@@ -1311,7 +1314,8 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		scenario->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(scenario);
 		printf("");
 	}
 	break;
@@ -1336,7 +1340,8 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		object->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(object);
 		printf("");
 	}
 	break;
@@ -1361,7 +1366,8 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		unit->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(unit);
 		printf("");
 	}
 	break;
@@ -1386,7 +1392,8 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		biped->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(biped);
 		printf("");
 	}
 	break;
@@ -1411,7 +1418,8 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		vehicle->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(vehicle);
 		printf("");
 	}
 	break;
@@ -1436,7 +1444,8 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		item->update_reference_names();
+		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(item);
 		printf("");
 	}
 	break;

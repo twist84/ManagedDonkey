@@ -4,6 +4,8 @@
 
 #include <string.h>
 
+bool const print_reference_updates = false;
+
 void __cdecl tag_load_missing_tags_report()
 {
 	// nullsub

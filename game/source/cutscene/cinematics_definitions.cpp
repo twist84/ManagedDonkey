@@ -2,6 +2,6 @@
 
 void cinematics_globals_block::update_reference_names()
 {
-	cinematic_anchor_reference.get_name();
+	UPDATE_REFERENCE_NAME(cinematic_anchor_reference);
 }
 

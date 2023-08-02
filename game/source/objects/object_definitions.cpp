@@ -2,29 +2,31 @@
 
 void _object_definition::update_reference_names()
 {
-	model.get_name();
-	crate_object.get_name();
-	collision_damage.get_name();
-	creation_effect.get_name();
-	material_effects.get_name();
-	armor_sounds.get_name();
-	melee_sound.get_name();
+	UPDATE_REFERENCE_NAME(model);
+	UPDATE_REFERENCE_NAME(crate_object);
+	UPDATE_REFERENCE_NAME(collision_damage);
+	UPDATE_REFERENCE_NAME(creation_effect);
+	UPDATE_REFERENCE_NAME(material_effects);
+	UPDATE_REFERENCE_NAME(armor_sounds);
+	UPDATE_REFERENCE_NAME(melee_sound);
 
-	UPDATE_REFERENCE_NAMES(attachments);
-	UPDATE_REFERENCE_NAMES(widgets);
-	UPDATE_REFERENCE_NAMES(multiplayer_object);
-	UPDATE_REFERENCE_NAMES(health_packs);
+	UPDATE_BLOCK_REFERENCE_NAMES(attachments);
+	UPDATE_BLOCK_REFERENCE_NAMES(widgets);
+	UPDATE_BLOCK_REFERENCE_NAMES(multiplayer_object);
+	UPDATE_BLOCK_REFERENCE_NAMES(health_packs);
 }
 
 void object_attachment_definition::update_reference_names()
 {
+	UPDATE_REFERENCE_NAME(type);
 }
 
 void object_definition_widget::update_reference_names()
 {
+	UPDATE_REFERENCE_NAME(type);
 }
 
 void s_object_health_pack_definition::update_reference_names()
 {
-	health_pack_equipment.get_name();
+	UPDATE_REFERENCE_NAME(health_pack_equipment);
 }

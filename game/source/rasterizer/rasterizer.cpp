@@ -630,32 +630,32 @@ bool rasterizer_dump_display_to_bmp(char const* file_name)
 
 void c_rasterizer_globals::update_reference_names()
 {
-	default_vertex_shader.get_name();
-	default_pixel_shader.get_name();
-	active_camo_distortion_texture.get_name();
-	default_performance_throttles.get_name();
-	shield_impact_settings.get_name();
-	vision_mode_settings.get_name();
+	UPDATE_REFERENCE_NAME(default_vertex_shader);
+	UPDATE_REFERENCE_NAME(default_pixel_shader);
+	UPDATE_REFERENCE_NAME(active_camo_distortion_texture);
+	UPDATE_REFERENCE_NAME(default_performance_throttles);
+	UPDATE_REFERENCE_NAME(shield_impact_settings);
+	UPDATE_REFERENCE_NAME(vision_mode_settings);
 
-	UPDATE_REFERENCE_NAMES(default_bitmaps);
-	UPDATE_REFERENCE_NAMES(material_textures);
-	UPDATE_REFERENCE_NAMES(explicit_shaders);
-	UPDATE_REFERENCE_NAMES(atmosphere_lookup_tables);
+	UPDATE_BLOCK_REFERENCE_NAMES(default_bitmaps);
+	UPDATE_BLOCK_REFERENCE_NAMES(material_textures);
+	UPDATE_BLOCK_REFERENCE_NAMES(explicit_shaders);
+	UPDATE_BLOCK_REFERENCE_NAMES(atmosphere_lookup_tables);
 }
 
 void c_rasterizer_globals::s_explicit_shader::update_reference_names()
 {
-	explicit_vertex_shader.get_name();
-	explicit_pixel_shader.get_name();
+	UPDATE_REFERENCE_NAME(explicit_vertex_shader);
+	UPDATE_REFERENCE_NAME(explicit_pixel_shader);
 }
 
 void s_global_bitmaps::update_reference_names()
 {
-	default_bitmaps.get_name();
+	UPDATE_REFERENCE_NAME(default_bitmaps);
 }
 
 void s_texture_references_block::update_reference_names()
 {
-	reference.get_name();
+	UPDATE_REFERENCE_NAME(reference);
 }
 

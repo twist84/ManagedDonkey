@@ -13,7 +13,7 @@ struct scenario_object_palette_entry
 
 	void update_reference_names()
 	{
-		name.get_name();
+		UPDATE_REFERENCE_NAME(name);
 	}
 };
 static_assert(sizeof(scenario_object_palette_entry<'test'>) == 0x30);
@@ -30,7 +30,7 @@ struct scenario_object_palette_entry_with_string_id
 
 	void update_reference_names()
 	{
-		name.get_name();
+		UPDATE_REFERENCE_NAME(name);
 	}
 };
 static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x30);

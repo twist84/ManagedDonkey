@@ -2,21 +2,21 @@
 
 void s_weapon_spawn_influence::update_reference_names()
 {
-	weapon.get_name();
+	UPDATE_REFERENCE_NAME(weapon);
 }
 
 void s_vehicle_spawn_influence::update_reference_names()
 {
-	vehicle.get_name();
+	UPDATE_REFERENCE_NAME(vehicle);
 }
 
 void s_projectile_spawn_influence::update_reference_names()
 {
-	projectile.get_name();
+	UPDATE_REFERENCE_NAME(projectile);
 }
 
 void s_equipment_spawn_influence::update_reference_names()
 {
-	equipment.get_name();
+	UPDATE_REFERENCE_NAME(equipment);
 }
 
