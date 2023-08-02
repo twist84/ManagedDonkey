@@ -828,7 +828,7 @@ public:
 		return true;
 	}
 
-	operator char const* ()
+	operator char const* () const
 	{
 		return m_string;
 	}
