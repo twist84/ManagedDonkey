@@ -170,11 +170,21 @@ char const* tag_get_name_safe(long tag_name_index)
 	return nullptr;
 }
 
-long tag_name_get_index(char const* name)
+long tag_name_get_index(tag group_tag, char const* name)
 {
 	for (long tag_index = 0; tag_index < g_cache_file_globals.header.debug_tag_name_count; tag_index++)
 	{
 		char const* result = g_cache_file_globals.debug_tag_names->storage[tag_index];
+		if (!result)
+			continue;
+
+		long tag_absolute_index = g_cache_file_globals.tag_index_absolute_mapping[tag_index];
+		if (tag_absolute_index == NONE)
+			continue;
+
+		if (g_cache_file_globals.tag_instances[tag_absolute_index]->tag_group != group_tag)
+			continue;
+
 		if (csstricmp(name, result) == 0)
 			return tag_index;
 	}
