@@ -111,6 +111,7 @@ const long LONG_BITS = SIZEOF_BITS(long);
 #define MASK(bit) ((1 << (bit)) - 1)
 #define TEST_BIT(flags, bit) (((flags) & (1 << (bit))) != 0)
 #define ALIGN(value, bit) (((value) & ~((1 << (bit)) - 1)) + (1 << (bit)))
+#define ALIGN_UP(value, bit) ((((value) & ((1 << (bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
 
 #define NONE -1
 
@@ -851,6 +852,11 @@ public:
 	operator long() const
 	{
 		return m_value;
+	}
+
+	operator char const*() const
+	{
+		return get_string();
 	}
 
 protected:
