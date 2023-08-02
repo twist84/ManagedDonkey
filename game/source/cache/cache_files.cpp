@@ -454,6 +454,10 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = tag_loaded_count;
 	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
 
+	REFERENCE_DECLARE(instance->base + instance->total_size, char const*, tag_name);
+	tag_name = tag_get_name(tag_index);
+	g_cache_file_globals.tag_loaded_size += cache_file_round_up_read_size(sizeof(char const*));
+
 	if (!cache_file_tags_section_read(tag_cache_offset, instance->total_size, g_cache_file_globals.tag_instances[tag_loaded_count]->base))
 		return false;
 

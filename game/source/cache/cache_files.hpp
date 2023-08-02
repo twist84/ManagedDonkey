@@ -142,6 +142,12 @@ union cache_file_tag_instance
 
 	};
 
+	char const* get_name()
+	{
+		REFERENCE_DECLARE(base + total_size, char const*, tag_name);
+		return tag_name;
+	}
+
 	void* get()
 	{
 		return base + offset;
