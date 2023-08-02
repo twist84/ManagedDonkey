@@ -270,7 +270,7 @@ void __cdecl main_loop_body_begin()
 			c_console::write_line(L"    0x%08X, #%hi, %s",
 				index,
 				absolute_index,
-				player->configuration.host.name.get_string());
+				player->configuration.host.name);
 		}
 	}
 
@@ -448,7 +448,7 @@ void __cdecl main_loop_pregame_show_progress_screen()
 	long main_pregame_frame = main_loading_get_loading_status(&status_message);
 	if (!main_pregame_frame)
 	{
-		//editor_show_pregame_progress(main_pregame_frame, status_message.get_string());
+		//editor_show_pregame_progress(main_pregame_frame, status_message);
 		return;
 	}
 
@@ -463,14 +463,14 @@ void __cdecl main_loop_pregame_show_progress_screen()
 		}
 		else if (main_pregame_frame == 3)
 		{
-			main_render_status_message(status_message.get_string());
+			main_render_status_message(status_message);
 		}
 		else
 		{
 			static char status_message_ascii[12288];
 			status_message_ascii[0] = 0;
 
-			wchar_string_to_ascii_string(status_message.get_string(), status_message_ascii, 12288, nullptr);
+			wchar_string_to_ascii_string(status_message, status_message_ascii, 12288, nullptr);
 			main_render_pregame(main_pregame_frame, status_message_ascii);
 
 			if (main_pregame_frame == 2)
@@ -579,7 +579,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 				g_last_tag_accessed.index,
 				g_last_tag_accessed.get_name(),
 				g_last_tag_accessed.get_group_name());
-			file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
+			file_write(&crash_info_output_file, last_accessed.length(), last_accessed);
 		}
 
 		if (last_resource_owner != NONE)
@@ -598,7 +598,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 
 				break;
 			}
-			file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
+			file_write(&crash_info_output_file, last_accessed.length(), last_accessed);
 		}
 
 		file_close(&crash_info_output_file);

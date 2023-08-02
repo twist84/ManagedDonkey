@@ -106,7 +106,7 @@ char const* tag_group_get_name(tag group_tag)
 		group = &global_tag_groups[index];
 
 	if (group)
-		return group->name.get_string();
+		return group->name;
 
 	return "";
 }
@@ -299,7 +299,7 @@ bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char co
 	//}
 	//
 	//if (error_occurred)
-	//	c_console::write_line("the cache file '%s' won't load: %s", scenario_path, error.get_string());
+	//	c_console::write_line("the cache file '%s' won't load: %s", scenario_path, error);
 	//
 	//if (fail_fatally && error_occurred)
 	//	ASSERT_EXCEPTION("cache_file_header_verify() fatally failed, see error output!", true);
@@ -991,7 +991,7 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	if (instance->dependency_count || instance->data_fixup_count || instance->resource_fixup_count)
 		return;
 
-	c_console::write_line("0x%08X.%s", tag_index, instance->tag_group.name.get_string());
+	c_console::write_line("0x%08X.%s", tag_index, instance->tag_group.name);
 	static char tag_instance_byte_string[sizeof(cache_file_tag_instance) * 3]{};
 	type_as_byte_string(instance, tag_instance_byte_string);
 	c_console::write_line(tag_instance_byte_string);
@@ -1200,7 +1200,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 				if (weapon_selection.weapon_tag.index != NONE)
 					continue;
 
-				switch (weapon_selection.name.get_value())
+				switch (weapon_selection.name)
 				{
 				case STRING_ID(global, spike_rifle):      weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x00001500 }; break;
 				case STRING_ID(global, sword):            weapon_selection.weapon_tag = { .group_tag = WEAPON_TAG, .index = 0x0000159E }; break;

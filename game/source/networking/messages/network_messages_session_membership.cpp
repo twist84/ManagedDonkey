@@ -111,7 +111,7 @@ void __cdecl c_network_message_player_properties::encode(c_bitstream* packet, lo
 	player_configuration_client_encode(packet, &message->player_data.client, 0);
 
 	{
-		packet->write_string_wchar("service-tag", message->player_data.host_partial.service_tag.get_string(), 5);
+		packet->write_string_wchar("service-tag", message->player_data.host_partial.service_tag, 5);
 
 		packet->write_integer("bungienet-user-flags", message->player_data.host_partial.bungienet_user, 8);
 

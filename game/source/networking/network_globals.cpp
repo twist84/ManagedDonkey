@@ -247,7 +247,7 @@ void __cdecl network_test_set_map_name(char const* scenario_path)
 		static c_map_variant map_variant;
 
 		map_path.print(L"%hs", tag_name_strip_path(scenario_path));
-		long multiplayer_map = levels_get_multiplayer_map_by_display_name(map_path.get_string());
+		long multiplayer_map = levels_get_multiplayer_map_by_display_name(map_path);
 		map_variant.create_default(multiplayer_map);
 
 		network_test_set_map_variant(&map_variant);

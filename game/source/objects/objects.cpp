@@ -25,7 +25,7 @@ void* __cdecl object_get_and_verify_type(long object_index, dword object_type_ma
 			object_type_mask,
 			object_identifier.m_type.get());
 
-		ASSERT(!_bittest((long*)&object_type_mask, object_identifier.m_type.get()), string_builder.get_string());
+		ASSERT(!_bittest((long*)&object_type_mask, object_identifier.m_type.get()), string_builder);
 	}
 
 	return object;

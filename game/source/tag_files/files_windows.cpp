@@ -122,14 +122,14 @@ bool __cdecl file_create(s_file_reference* reference)
 
 	if (TEST_BIT(reference->flags, _file_reference_flag_is_file_name))
 	{
-		HANDLE handle = CreateFileA(reference->path.get_string(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		HANDLE handle = CreateFileA(reference->path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (handle && handle != INVALID_HANDLE_VALUE)
 		{
 			CloseHandle(handle);
 			return true;
 		}
 	}
-	else if (CreateDirectoryA(reference->path.get_string(), NULL))
+	else if (CreateDirectoryA(reference->path, NULL))
 		return true;
 
 	return false;
@@ -167,9 +167,9 @@ void __cdecl file_error(char const* file_function, s_file_reference* reference_a
 	{
 		char system_message[1024]{};
 		if (info1)
-			csnzprintf(system_message, sizeof(system_message), "%s('%s', '%s')", file_function, info0->path.get_string(), info1->path.get_string());
+			csnzprintf(system_message, sizeof(system_message), "%s('%s', '%s')", file_function, info0->path, info1->path);
 		else
-			csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path.get_string());
+			csnzprintf(system_message, sizeof(system_message), "%s('%s')", file_function, info0->path);
 
 		char error_message[2048]{};
 		get_error_message(error_message_id, error_message);
@@ -191,7 +191,7 @@ bool __cdecl file_exists(s_file_reference const* reference)
 
 	ASSERT(reference);
 
-	return GetFileAttributesA(reference->path.get_string()) != INVALID_FILE_ATTRIBUTES;
+	return GetFileAttributesA(reference->path) != INVALID_FILE_ATTRIBUTES;
 }
 
 bool __cdecl file_get_creation_date(s_file_reference const* reference, struct s_file_last_modification_date* date)
@@ -224,7 +224,7 @@ bool __cdecl file_get_size(s_file_reference* reference, dword* out_file_size)
 	ASSERT(out_file_size);
 
 	WIN32_FILE_ATTRIBUTE_DATA file_info{};
-	if (GetFileAttributesExA(reference->path.get_string(), GetFileExInfoStandard, &file_info))
+	if (GetFileAttributesExA(reference->path, GetFileExInfoStandard, &file_info))
 	{
 		*out_file_size = file_info.nFileSizeLow;
 		return true;
@@ -302,7 +302,7 @@ bool __cdecl file_open(s_file_reference* reference, dword open_flags, dword* err
 	if (TEST_BIT(open_flags, _file_open_flag_flags_and_attributes_sequecial_scan))
 		flags_and_attributes = FILE_FLAG_SEQUENTIAL_SCAN;
 
-	HANDLE handle = CreateFileA(reference->path.get_string(), desired_access, share_mode, NULL, OPEN_EXISTING, flags_and_attributes, NULL);
+	HANDLE handle = CreateFileA(reference->path, desired_access, share_mode, NULL, OPEN_EXISTING, flags_and_attributes, NULL);
 	if (!handle || handle == INVALID_HANDLE_VALUE)
 	{
 		switch (GetLastError())
@@ -547,7 +547,7 @@ void __cdecl find_files_start_with_search_spec(s_find_file_data* data, dword_fla
 	data->depth = 0;
 	data->location = file->location;
 
-	data->path.append_print(L"%hs", file->path.get_string());
+	data->path.append_print(L"%hs", file->path);
 	data->search_spec.append_print(L"%hs", search_spec);
 }
 

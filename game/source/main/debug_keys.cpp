@@ -1131,10 +1131,10 @@ void __cdecl debug_key_print_screen(bool enabled)
 
 			char const* root = "screenshots\\";
 			screenshot_path.print("%sscreenshot_%d", root, index);
-			screenshot_filepath.print("%s.bmp", screenshot_path.get_string());
+			screenshot_filepath.print("%s.bmp", screenshot_path);
 
 			s_file_reference screenshot_file;
-			file_reference_create_from_path(&screenshot_file, screenshot_filepath.get_string(), false);
+			file_reference_create_from_path(&screenshot_file, screenshot_filepath, false);
 			file_create_parent_directories_if_not_present(&screenshot_file);
 			if (!file_exists(&screenshot_file))
 				break;
@@ -1143,8 +1143,8 @@ void __cdecl debug_key_print_screen(bool enabled)
 				return;
 		}
 
-		rasterizer_dump_display_to_bmp(screenshot_filepath.get_string());
-		console_printf("screenshot taken '%s'", screenshot_path.get_string());
+		rasterizer_dump_display_to_bmp(screenshot_filepath);
+		console_printf("screenshot taken '%s'", screenshot_path);
 	}
 }
 

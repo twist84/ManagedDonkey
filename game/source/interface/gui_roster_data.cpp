@@ -174,11 +174,11 @@ bool __fastcall c_gui_roster_data::_get_text_value(c_gui_roster_data* _this, voi
 				{
 					if (!text_value->length())
 					{
-						text_value->print(L"%s - %s", L"SPARTAN", player_data->host.appearance.service_tag.get_string());
+						text_value->print(L"%s - %s", L"SPARTAN", player_data->host.appearance.service_tag);
 					}
 					else
 					{
-						text_value->append(player_data->host.appearance.service_tag.get_string());
+						text_value->append(player_data->host.appearance.service_tag);
 					}
 				}
 			}

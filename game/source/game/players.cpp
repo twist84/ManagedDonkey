@@ -116,7 +116,7 @@ s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(pla
 // find a better name?
 bool customized_area_selection_from_name(s_multiplayer_customized_model_selection& selection, char const* selection_name)
 {
-	char const* selection_name_str = selection.selection_name.get_string();
+	char const* selection_name_str = selection.selection_name;
 
 	if (selection.third_person_armor_object.index != NONE /*&& selection.first_person_armor_object.index != NONE*/)
 	{
@@ -130,8 +130,8 @@ bool customized_area_selection_from_name(s_multiplayer_customized_model_selectio
 // find a better name?
 long customized_spartan_character_from_name(s_multiplayer_customized_model_character& character, char const* region_or_biped_name, char const* selection_name)
 {
-	char const* armor_region = character.armor_region.get_string();
-	char const* biped_region = character.biped_region.get_string();
+	char const* armor_region = character.armor_region;
+	char const* biped_region = character.biped_region;
 
 	if (armor_region && csstricmp(region_or_biped_name, armor_region) == 0)
 	{
@@ -166,7 +166,7 @@ long multiplayer_universal_data_get_absolute_equipment_block_index(char const* n
 	for (long equipment_absolute_index = 0; equipment_absolute_index < universal_data->equipment.count(); equipment_absolute_index++)
 	{
 		s_multiplayer_equipment& equipment = universal_data->equipment[equipment_absolute_index];
-		char const* equipment_name = equipment.name.get_string();
+		char const* equipment_name = equipment.name;
 		if (equipment_name && csstricmp(name, equipment_name) == 0)
 		{
 			result = equipment_absolute_index;
@@ -211,7 +211,7 @@ short multiplayer_universal_data_get_absolute_weapons_selection_block_index(char
 		{
 			s_multiplayer_weapon_selection& weapon_selection = universal_data->weapon_selections[weapon_selection_index];
 
-			char const* name = weapon_selection.name.get_string();
+			char const* name = weapon_selection.name;
 			if (name && csstricmp(selection_name, name) == 0)
 				return weapon_selection_index;
 		}

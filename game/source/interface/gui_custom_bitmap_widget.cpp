@@ -29,7 +29,7 @@ void __fastcall c_gui_custom_bitmap_widget::set_map_image(c_gui_custom_bitmap_wi
 	map_image_path.clear();
 
 	if (get_map_filename(image_type, map_id, &map_image_path))
-		_this->load_from_file_async(use_compressed_format, map_image_path.get_string());
+		_this->load_from_file_async(use_compressed_format, map_image_path);
 	else
 		_this->clear();
 }
@@ -45,7 +45,7 @@ void __fastcall gui_custom_bitmap_widget_assemble_render_data(c_gui_custom_bitma
 {
 	if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = static_cast<s_runtime_bitmap_widget_definition*>(_this->get_core_definition()))
 	{
-		if (bitmap_widget_definition->name.get_value() == STRING_ID(gui, map_image))
+		if (bitmap_widget_definition->name == STRING_ID(gui, map_image))
 		{
 			bitmap_widget_definition->bitmap_tag_reference_index = NONE;
 

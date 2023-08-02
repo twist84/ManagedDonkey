@@ -279,7 +279,7 @@ void __cdecl director_render()
 			rasterizer_draw_string.set_justification(0);
 			rasterizer_draw_string.set_bounds(&bounds);
 			rasterizer_draw_string.set_color(global_real_argb_white);
-			rasterizer_draw_string.draw(&font_cache, rasterizer_string.get_string());
+			rasterizer_draw_string.draw(&font_cache, rasterizer_string);
 		}
 	}
 }
@@ -338,7 +338,7 @@ void __cdecl director_save_camera_named(char const* name)
 	filename.print("%s%s_%s.txt", root, name, scenario_name);
 
 	FILE* file;
-	fopen_s(&file, filename.get_string(), "w");
+	fopen_s(&file, filename, "w");
 	if (file)
 	{
 		s_observer_result const* camera = nullptr;
@@ -355,7 +355,7 @@ void __cdecl director_save_camera_named(char const* name)
 			fprintf(file, "%f %f %f\n", camera->forward.i, camera->forward.j, camera->forward.k);
 			fprintf(file, "%f %f %f\n", camera->up.i, camera->up.j, camera->up.k);
 			fprintf(file, "%f\n", camera->horizontal_field_of_view);
-			console_printf("%s written successfully", filename.get_string());
+			console_printf("%s written successfully", filename);
 		}
 
 		fclose(file);
@@ -380,18 +380,18 @@ void __cdecl director_load_camera_named(char const* name)
 	filename.print("%s%s_%s.txt", root, name, scenario_name);
 
 	s_file_reference info;
-	file_reference_create_from_path(&info, filename.get_string(), false);
+	file_reference_create_from_path(&info, filename, false);
 	if (!file_exists(&info))
 	{
-		console_printf("'%s' doesn't exist", filename.get_string());
+		console_printf("'%s' doesn't exist", filename);
 		return;
 	}
 
 	FILE* file;
-	fopen_s(&file, filename.get_string(), "r");
+	fopen_s(&file, filename, "r");
 	if (!file)
 	{
-		c_console::write_line("saved camera '%s' couldn't be opened", filename.get_string());
+		c_console::write_line("saved camera '%s' couldn't be opened", filename);
 		return;
 	}
 
@@ -410,14 +410,14 @@ void __cdecl director_load_camera_named(char const* name)
 	// #TODO: actually validate `position`, `forward`, `up` and `field_of_view`
 	if (false)
 	{
-		c_console::write_line("saved camera '%s' isn't valid", filename.get_string());
+		c_console::write_line("saved camera '%s' isn't valid", filename);
 		return;
 	}
 
 	long active_user = players_first_active_user();
 	if (active_user == NONE)
 	{
-		c_console::write_line("no active user to set saved camera '%s'", filename.get_string());
+		c_console::write_line("no active user to set saved camera '%s'", filename);
 		return;
 	}
 

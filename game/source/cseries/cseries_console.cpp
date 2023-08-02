@@ -45,14 +45,12 @@ void c_console::write(char const* format, ...)
 	if (!m_initialized)
 		return;
 
-	c_static_string<4096> s;
+	c_static_string<4096> str;
 
 	va_list list;
 	va_start(list, format);
-	s.vprint(format, list);
+	str.vprint(format, list);
 	va_end(list);
-
-	char const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
 	printf(str);
@@ -67,15 +65,13 @@ void c_console::write_line(char const* format, ...)
 	if (!m_initialized)
 		return;
 
-	c_static_string<4096> s;
+	c_static_string<4096> str;
 
 	va_list list;
 	va_start(list, format);
-	s.vprint(format, list);
-	s.append("\n");
+	str.vprint(format, list);
+	str.append("\n");
 	va_end(list);
-
-	char const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
 	printf(str);
@@ -90,16 +86,14 @@ void c_console::write(wchar_t const* format, ...)
 	if (!m_initialized)
 		return;
 
-	c_static_wchar_string<4096> s;
+	c_static_wchar_string<4096> str;
 
 	va_list list;
 	va_start(list, format);
 
-	s.vprint(format, list);
+	str.vprint(format, list);
 
 	va_end(list);
-
-	wchar_t const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
 	wprintf(str);
@@ -114,15 +108,13 @@ void c_console::write_line(wchar_t const* format, ...)
 	if (!m_initialized)
 		return;
 
-	c_static_wchar_string<4096> s;
+	c_static_wchar_string<4096> str;
 
 	va_list list;
 	va_start(list, format);
-	s.vprint(format, list);
-	s.append(L"\n");
+	str.vprint(format, list);
+	str.append(L"\n");
 	va_end(list);
-
-	wchar_t const* str = s.get_string();
 
 #if defined(CONSOLE_ENABLED)
 	wprintf(str);
@@ -137,11 +129,9 @@ void c_console::write(char const* format, va_list list)
 	if (!m_initialized)
 		return;
 
-	c_static_string<4096> s;
+	c_static_string<4096> str;
 
-	s.vprint(format, list);
-
-	char const* str = s.get_string();
+	str.vprint(format, list);
 
 #if defined(CONSOLE_ENABLED)
 	printf(str);
@@ -156,12 +146,10 @@ void c_console::write_line(char const* format, va_list list)
 	if (!m_initialized)
 		return;
 
-	c_static_string<4096> s;
+	c_static_string<4096> str;
 
-	s.vprint(format, list);
-	s.append("\n");
-
-	char const* str = s.get_string();
+	str.vprint(format, list);
+	str.append("\n");
 
 #if defined(CONSOLE_ENABLED)
 	printf(str);
@@ -176,11 +164,9 @@ void c_console::write(wchar_t const* format, va_list list)
 	if (!m_initialized)
 		return;
 
-	c_static_wchar_string<4096> s;
+	c_static_wchar_string<4096> str;
 
-	s.vprint(format, list);
-
-	wchar_t const* str = s.get_string();
+	str.vprint(format, list);
 
 #if defined(CONSOLE_ENABLED)
 	wprintf(str);
@@ -195,12 +181,10 @@ void c_console::write_line(wchar_t const* format, va_list list)
 	if (!m_initialized)
 		return;
 
-	c_static_wchar_string<4096> s;
+	c_static_wchar_string<4096> str;
 
-	s.vprint(format, list);
-	s.append(L"\n");
-
-	wchar_t const* str = s.get_string();
+	str.vprint(format, list);
+	str.append(L"\n");
 
 #if defined(CONSOLE_ENABLED)
 	wprintf(str);

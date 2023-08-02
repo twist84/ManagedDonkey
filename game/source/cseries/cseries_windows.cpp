@@ -16,7 +16,7 @@ void display_debug_string(const char* format, ...)
 		output.append_vprint(format, list);
 		output.append("\n");
 
-		OutputDebugStringA(output.get_string());
+		OutputDebugStringA(output);
 	}
 
 	va_end(list);

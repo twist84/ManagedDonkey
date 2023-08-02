@@ -192,7 +192,7 @@ bool c_http_client::parse_http_response(
 		if (!http_response.starts_with("HTTP/1.0 ") && !http_response.starts_with("HTTP/1.1 "))
 			return false;
 
-		*http_response_code = atoi(http_response.get_string() + 9);
+		*http_response_code = atoi(http_response + 9);
 
 		long next_index = 0;
 		for (long index = http_response.index_of("\r\n") + 2;; index = next_index + 2)
@@ -211,7 +211,7 @@ bool c_http_client::parse_http_response(
 			if (http_response.substring(index, next_index - index, contents))
 			{
 				if (contents.starts_with("Content-Length: ") || contents.starts_with("content-length: "))
-					*content_length = atoi(contents.get_string() + strlen("Content-Length: "));
+					*content_length = atoi(contents + strlen("Content-Length: "));
 			}
 		}
 
@@ -263,13 +263,13 @@ bool c_http_client::receive_data(
 			else if (bytes_read)
 			{
 				c_console::write_line("networking:http_client: transport_endpoint_read() failed to %s with error code %d.",
-					m_ip_address_string.get_string(),
+					m_ip_address_string,
 					bytes_read);
 			}
 			else
 			{
 				c_console::write_line("networking:http_client: transport_endpoint_read() because %s closed the socket.",
-					m_ip_address_string.get_string());
+					m_ip_address_string);
 			}
 		}
 		else
@@ -328,7 +328,7 @@ bool c_http_client::receive_data(
 					{
 						c_console::write_line("networking:http_client: Received an unexpected '%d' response from %s.",
 							http_response_code,
-							m_ip_address_string.get_string());
+							m_ip_address_string);
 					}
 				}
 				else
@@ -343,7 +343,7 @@ bool c_http_client::receive_data(
 			else
 			{
 				c_console::write("networking:http_client: The response header from '%s' is too big to fit in the buffer.",
-					m_ip_address_string.get_string());
+					m_ip_address_string);
 				c_console::write_line("  This is probably a misconfiguration on the server.");
 			}
 		}
@@ -451,7 +451,7 @@ bool c_http_client::send_data()
 		}
 		else
 		{
-			c_console::write_line("networking:http_client: m_upload_stream::read failed from %s", m_ip_address_string.get_string());
+			c_console::write_line("networking:http_client: m_upload_stream::read failed from %s", m_ip_address_string);
 		}
 	}
 
@@ -515,7 +515,7 @@ bool c_http_client::start_connect()
 	}
 
 	transport_endpoint_disconnect(m_endpoint_ptr);
-	c_console::write_line("networking:http_client: transport_endpoint_async_connect() failed to %s.", m_ip_address_string.get_string());
+	c_console::write_line("networking:http_client: transport_endpoint_async_connect() failed to %s.", m_ip_address_string);
 
 	return false;
 }

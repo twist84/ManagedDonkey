@@ -36,7 +36,7 @@ tag group_name_to_group_tag(char const* group_name)
 	for (long i = 0; i < global_tag_group_count; i++)
 	{
 		s_cache_file_tag_group const* group = &global_tag_groups[i];
-		if (csstricmp(group_name, group->name.get_string()) == 0)
+		if (csstricmp(group_name, group->name) == 0)
 			return group->group_tags[0];
 	}
 
@@ -77,7 +77,7 @@ char const* s_tag_reference::get_group_name()
 	if (!g_cache_file_globals.tag_instances || !g_cache_file_globals.tag_index_absolute_mapping)
 		return "<unknown>";
 
-	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->tag_group.name.get_string();
+	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->tag_group.name;
 }
 
 static_assert(INT32_MAX == 0x7FFFFFFF);

@@ -125,17 +125,17 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 
 				list_item_widget->set_enabled(player_row_type0);
 
-				player_found_text_widget->set_text(player_found.get_string());
+				player_found_text_widget->set_text(player_found);
 				player_found_bitmap_widget->set_visible(player_row_type1);
 				player_found_text_widget->set_visible(player_row_type1);
 
-				looking_for_player_text_widget->set_text(looking_for_player.get_string());
+				looking_for_player_text_widget->set_text(looking_for_player);
 				looking_for_player_bitmap_widget->set_visible(player_row_type2);
 				looking_for_player2_bitmap_widget->set_visible(player_row_type2);
 				looking_for_player3_bitmap_widget->set_visible(player_row_type2);
 				looking_for_player_text_widget->set_visible(player_row_type2);
 
-				press_a_to_join_text_widget->set_text(press_a_to_join.get_string());
+				press_a_to_join_text_widget->set_text(press_a_to_join);
 				press_a_to_join_bitmap_widget->set_visible(player_row_type3);
 				press_a_to_join_text_widget->set_visible(player_row_type3);
 
@@ -159,8 +159,8 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				player_emblem_hilite_bitmap_widget->set_visible(player_row_type0);
 
 				service_tag_text_widget->set_visible(player_row_type0);
-				service_tag_text_widget->set_text(service_tag.get_string());
-				//DECLFUNC(0x00AA63A0, void, __cdecl, c_gui_widget*, bool, wchar_t const*)(list_item_widget, player_row_type0, service_tag.get_string());
+				service_tag_text_widget->set_text(service_tag);
+				//DECLFUNC(0x00AA63A0, void, __cdecl, c_gui_widget*, bool, wchar_t const*)(list_item_widget, player_row_type0, service_tag);
 
 				skill_level_bitmap_widget->set_visible(skill_level != -1);
 				skill_level_hilite_bitmap_widget->set_visible(skill_level != -1);
@@ -262,7 +262,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 
 						UTF32_STRING(left_bumper);
 						UTF32_STRING(right_bumper);
-						name.append_print(L"%ls %s %ls", left_bumper, team_name.get_string(), right_bumper);
+						name.append_print(L"%ls %s %ls", left_bumper, team_name, right_bumper);
 
 						team_change_active = true;
 					}
@@ -277,8 +277,8 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				if (!team_change_active)
 					roster_data->get_text_value(element_handle, STRING_ID(global, player_name), &name);
 
-				name_text_widget->set_text(name.get_string());
-				name_hilite_text_widget->set_text(name.get_string());
+				name_text_widget->set_text(name);
+				name_hilite_text_widget->set_text(name);
 			}
 		}
 	}
