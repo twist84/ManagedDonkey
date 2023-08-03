@@ -766,7 +766,6 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 {
 	//bool result = INVOKE(0x00502DC0, scenario_tags_load, scenario_path);
 	//ASSERT(cache_file_debug_tag_names_load());
-	//tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
 	//
 	//load_external_files();
 	//
@@ -879,8 +878,6 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 			g_cache_file_globals.tags_loaded = true;
 
-			tag_group_modification_apply(_instance_modification_stage_after_scenario_tags_loaded);
-
 			load_external_files();
 		}
 	}
@@ -919,6 +916,14 @@ void __cdecl scenario_tags_load_finished()
 {
 	// nullsub
 	INVOKE(0x00503190, scenario_tags_load_finished);
+
+	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
+	{
+		long tag_index = g_cache_file_globals.absolute_index_tag_mapping[i];
+
+		cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[i];
+		tag_instance_modification_apply(instance, _instance_modification_stage_after_scenario_tags_loaded);
+	}
 }
 
 void __cdecl cache_file_tags_fixup_all_instances()
@@ -1056,11 +1061,6 @@ bool cache_file_tags_single_tag_file_load(s_file_reference* file, long *out_tag_
 	if (!file_read_from_position(file, 0, file_size, false, instance))
 		return false;
 
-	REFERENCE_DECLARE(instance->base + instance->total_size, c_static_string<256>, tag_name);
-	long index = tag_name.index_of(".");
-	if (index >= 0)
-		tag_name.get_buffer()[index] = '\0';
-
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
 		return false;
 
@@ -1144,6 +1144,8 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 		return;
 
 	s_game_globals* game_globals = instance->cast_to<s_game_globals>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	switch (stage)
 	{
@@ -1156,9 +1158,13 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 	{
 		ASSERT(game_globals->input_globals.index == NONE);
 
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(game_globals);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
 	}
 	break;
 	}
@@ -1176,6 +1182,8 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 	bool is_base_cache = g_cache_file_globals.tag_cache_offsets[0] == 0x20;
 
 	s_multiplayer_globals_definition* multiplayer_globals = instance->cast_to<s_multiplayer_globals_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	// Add back missing weapon selections
 	switch (stage)
@@ -1262,9 +1270,13 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 			}
 		}
 
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(multiplayer_globals);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
 	}
 	break;
 	}
@@ -1279,6 +1291,8 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 		return;
 
 	c_rasterizer_globals* rasterizer_globals = instance->cast_to<c_rasterizer_globals>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	switch (stage)
 	{
@@ -1288,9 +1302,13 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(rasterizer_globals);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
 	}
 	break;
 	}
@@ -1305,6 +1323,8 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 		return;
 
 	s_scenario* scenario = instance->cast_to<s_scenario>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	switch (stage)
 	{
@@ -1314,9 +1334,13 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(scenario);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
 	}
 	break;
 	}
@@ -1331,6 +1355,8 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 		return;
 
 	_object_definition* object = instance->cast_to<_object_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	switch (stage)
 	{
@@ -1340,9 +1366,13 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(object);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
 	}
 	break;
 	}
@@ -1357,6 +1387,8 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 		return;
 
 	_unit_definition* unit = instance->cast_to<_unit_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	switch (stage)
 	{
@@ -1366,9 +1398,13 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(unit);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
 	}
 	break;
 	}
@@ -1383,6 +1419,8 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 		return;
 
 	_biped_definition* biped = instance->cast_to<_biped_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	switch (stage)
 	{
@@ -1392,9 +1430,24 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(biped);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
+		if (csstricmp(tag_name, "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief") == 0)
+		{
+			// "edge drop" fix
+			biped->physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
+
+			//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
+			//{
+			//	if (biped->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
+			//		physics_input->m_ground_adhesion_velocity_scale = biped->physics.ground_physics.scale_ground_adhesion_velocity;
+			//}
+		}
 	}
 	break;
 	}
@@ -1409,6 +1462,8 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 		return;
 
 	_vehicle_definition* vehicle = instance->cast_to<_vehicle_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	switch (stage)
 	{
@@ -1418,9 +1473,13 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(vehicle);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
 	}
 	break;
 	}
@@ -1435,6 +1494,8 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 		return;
 
 	_item_definition* item = instance->cast_to<_item_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name;
 
 	switch (stage)
 	{
@@ -1444,9 +1505,13 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 	break;
 	case _instance_modification_stage_tag_fixup:
 	{
-		if (print_reference_updates) c_console::write_line("%s.%s", instance->get_name(), instance->tag_group.name.get_string());
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(item);
 		printf("");
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
 	}
 	break;
 	}
@@ -1458,43 +1523,20 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	if (instance == nullptr)
 		return;
 
-	apply_globals_instance_modification(instance, stage);
-	apply_multiplayer_globals_instance_modification(instance, stage);
-	apply_rasterizer_globals_instance_modification(instance, stage);
-	apply_scenario_instance_modification(instance, stage);
+#define APPLY_INSTANCE_MODIFICATION(GROUP_NAME) apply_##GROUP_NAME##_instance_modification(instance, stage)
 
-	apply_object_instance_modification(instance, stage);
-	apply_unit_instance_modification(instance, stage);
-	apply_biped_instance_modification(instance, stage);
-	apply_vehicle_instance_modification(instance, stage);
-	apply_item_instance_modification(instance, stage);
-}
+	APPLY_INSTANCE_MODIFICATION(globals);
+	APPLY_INSTANCE_MODIFICATION(multiplayer_globals);
+	APPLY_INSTANCE_MODIFICATION(rasterizer_globals);
+	APPLY_INSTANCE_MODIFICATION(scenario);
 
-// #TODO: create some sort of tag modification manager
-void apply_biped_group_modification(e_instance_modification_stage stage)
-{
-	if (stage != _instance_modification_stage_after_scenario_tags_loaded)
-		return;
+	APPLY_INSTANCE_MODIFICATION(object);
+	APPLY_INSTANCE_MODIFICATION(unit);
+	APPLY_INSTANCE_MODIFICATION(biped);
+	APPLY_INSTANCE_MODIFICATION(vehicle);
+	APPLY_INSTANCE_MODIFICATION(item);
 
-	if (_biped_definition* biped = static_cast<_biped_definition*>(tag_get(BIPED_TAG, "objects\\characters\\masterchief\\mp_masterchief\\mp_masterchief")))
-	{
-		// "edge drop" fix
-		biped->physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
-
-		//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
-		//{
-		//	if (biped->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
-		//		physics_input->m_ground_adhesion_velocity_scale = biped->physics.ground_physics.scale_ground_adhesion_velocity;
-		//}
-
-		return;
-	}
-}
-
-// #TODO: create some sort of tag modification manager
-void tag_group_modification_apply(e_instance_modification_stage stage)
-{
-	apply_biped_group_modification(stage);
+#undef APPLY_INSTANCE_MODIFICATION
 }
 
 #define ISEXPERIMENTAL

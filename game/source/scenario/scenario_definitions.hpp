@@ -14,6 +14,7 @@
 #include "scenario/scenario_object_definitions.hpp"
 #include "scenario/scenario_resource_definitions.hpp"
 #include "scenario/scenario_zone_debugger_definitions.hpp"
+#include "units/units.hpp"
 
 enum e_scenario_type
 {
@@ -563,7 +564,7 @@ struct scenario_starting_profile
 	real_fraction starting_shield_damage;
 
 	// multiplayer_globals->universal[0]->weapon_selections
-	scenario_starting_profile_weapon starting_weapons[2];
+	scenario_starting_profile_weapon starting_weapons[k_weapon_set_count];
 
 	// multiplayer_globals->universal[0]->equipment
 	short starting_equipment[4]; // short_block_index

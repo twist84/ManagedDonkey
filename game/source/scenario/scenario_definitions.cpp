@@ -11,6 +11,7 @@ void s_scenario::update_reference_names()
 	UPDATE_REFERENCE_NAME(objectives);
 	UPDATE_REFERENCE_NAME(camera_effects);
 	UPDATE_REFERENCE_NAME(global_screen_effect);
+	UPDATE_REFERENCE_NAME(unknown_screen_fx);
 	UPDATE_REFERENCE_NAME(atmospheric);
 	UPDATE_REFERENCE_NAME(chocalate_mountain);
 	UPDATE_REFERENCE_NAME(new_lightmaps);
@@ -67,8 +68,8 @@ void s_scenario_sky_reference::update_reference_names()
 
 void scenario_starting_profile::update_reference_names()
 {
-	for (long i = 0; i < NUMBEROF(starting_weapons); i++)
-		UPDATE_REFERENCE_NAME(starting_weapons[i].weapon);
+	UPDATE_REFERENCE_NAME(starting_weapons[_weapon_set_primary].weapon);
+	UPDATE_REFERENCE_NAME(starting_weapons[_weapon_set_secondary].weapon);
 }
 
 void s_background_bitmap_reference_definition::update_reference_names()

@@ -352,5 +352,4 @@ enum e_instance_modification_stage
 };
 
 extern void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instance_modification_stage stage);
-extern void tag_group_modification_apply(e_instance_modification_stage stage);
 
