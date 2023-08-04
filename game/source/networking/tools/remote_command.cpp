@@ -570,7 +570,7 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 
 			dword error = 0;
 			if (file_open(&invite_file, FLAG(_file_open_flag_desired_access_write), &error))
-				file_printf(&invite_file, "%s", invite_string);
+				file_printf(&invite_file, "%s", invite_string.get_string());
 
 			file_close(&invite_file);
 		}
