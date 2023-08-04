@@ -272,6 +272,9 @@ void __cdecl main_loop_body_begin()
 				absolute_index,
 				player->configuration.host.name);
 		}
+
+		TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
+		game_engine_globals->map_variant.print();
 	}
 
 	if (input_key_frames_down(_key_code_keypad_add, _input_type_ui) == 1)

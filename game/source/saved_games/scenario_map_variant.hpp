@@ -6,6 +6,8 @@
 
 long const k_number_of_map_variant_simulation_entities = 31;
 
+struct c_map_variant;
+
 enum e_game_engine_symmetric_placement
 {
 	_game_engine_symmetric_placement_ignore = 0,
@@ -103,6 +105,8 @@ public:
 		boundary_negative_height = 0.0f;
 	}
 
+	void print(long const tab_count);
+
 protected:
 	c_flags<e_game_engine_symmetric_placement, word, k_game_engine_symmetric_placement_count> symmetry_placement_flags;
 	c_flags<e_scenario_game_engine, byte, k_scenario_game_engine_count> game_engine_flags;
@@ -147,9 +151,9 @@ struct s_variant_object_datum
 public:
 	s_variant_object_datum() :
 		flags(),
-		object_index(-1),
+		object_datum_index(-1),
 		editor_object_index(-1),
-		object_definition_index(-1),
+		variant_quota_index(-1),
 		position(),
 		forward(),
 		up(),
@@ -158,13 +162,15 @@ public:
 	{
 	}
 
-protected:
+	void print(c_map_variant* map_variant, long const tab_count);
+
+//protected:
 	c_flags<e_variant_object_placement_flags, word, k_variant_object_placement_flags> flags;
 	short : 16;
 
-	long object_index;
+	long object_datum_index;
 	long editor_object_index;
-	long object_definition_index;
+	long variant_quota_index;
 
 	// axis
 	real_point3d position;
@@ -189,7 +195,9 @@ public:
 	{
 	}
 
-protected:
+	void print(long const tab_count);
+
+//protected:
 	long object_definition_index;
 	byte minimum_count;
 	byte maximum_count;
@@ -210,6 +218,8 @@ public:
 	void __cdecl set_name(wchar_t const* name);
 	bool __cdecl validate();
 	long __cdecl get_map_id() const;
+
+	void print();
 
 //protected:
 	s_content_item_metadata m_metadata;
@@ -238,7 +248,7 @@ public:
 	c_static_array<s_variant_object_datum, 640> m_variant_objects;
 	c_static_array<short, k_object_type_count> m_object_type_start_index;
 	c_static_array<s_variant_quota, 256> m_quotas;
-	c_static_array<long, k_number_of_map_variant_simulation_entities> chunk_simulation_object_glue_indices;
+	c_static_array<long, k_number_of_map_variant_simulation_entities> m_chunk_simulation_object_glue_indices;
 	byte unused[0xC4];
 };
 static_assert(sizeof(c_map_variant) == 0xE090);
