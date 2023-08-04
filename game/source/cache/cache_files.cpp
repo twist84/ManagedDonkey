@@ -761,6 +761,8 @@ void __cdecl cache_file_tags_unload()
 	INVOKE(0x00502CE0, cache_file_tags_unload);
 }
 
+long g_tag_total_count_pre_external_files = 0;
+
 void load_external_files();
 bool __cdecl scenario_tags_load(char const* scenario_path)
 {
@@ -878,6 +880,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 			g_cache_file_globals.tags_loaded = true;
 
+			g_tag_total_count_pre_external_files = g_cache_file_globals.tag_total_count;
 			load_external_files();
 		}
 	}
@@ -1212,8 +1215,15 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 
 			// load vehicles
 			cache_file_tags_load_recursive(0x00001599); // objects\vehicles\warthog\warthog_snow
-		}
 
+			if (c_map_variant const* map_variant = network_squad_session_get_map_variant()) for (s_variant_quota const& quota : map_variant->m_quotas)
+			{
+				if (quota.object_definition_index == NONE)
+					continue;
+
+				cache_file_tags_load_recursive(quota.object_definition_index);
+			}
+		}
 	}
 	break;
 	case _instance_modification_stage_tag_fixup:

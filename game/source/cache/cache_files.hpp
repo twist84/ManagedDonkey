@@ -276,6 +276,8 @@ struct s_cache_file_globals
 };
 static_assert(sizeof(s_cache_file_globals) == 0x3508);
 
+extern long g_tag_total_count_pre_external_files;
+
 extern s_tag_reference g_last_tag_accessed;
 extern s_cache_file_globals& g_cache_file_globals;
 

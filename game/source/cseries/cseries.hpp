@@ -288,6 +288,16 @@ struct c_static_array
 		return &m_storage[k_count];
 	}
 
+	t_type const* begin() const
+	{
+		return m_storage;
+	}
+
+	t_type const* end() const
+	{
+		return &m_storage[k_count];
+	}
+
 	t_type* get_elements()
 	{
 		return m_storage;

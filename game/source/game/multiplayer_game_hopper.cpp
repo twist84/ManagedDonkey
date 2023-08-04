@@ -1,5 +1,6 @@
 #include "game/multiplayer_game_hopper.hpp"
 
+#include "cache/cache_files.hpp"
 #include "game/game.hpp"
 #include "main/levels.hpp"
 #include "memory/module.hpp"
@@ -501,6 +502,8 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 
 	c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
 
+	//map_variant->print();
+
 	if (!load_and_use)
 	{
 		delete[] buffer;
@@ -527,6 +530,38 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 		file_close(&info);
 		return;
 	}
+
+	short removed_variant_objects = 0;
+	short removed_placeable_object_quotas = 0;
+
+	for (s_variant_object_datum& object : map_variant->m_variant_objects)
+	{
+		if (object.variant_quota_index == NONE)
+			continue;
+
+		s_variant_quota& quota = map_variant->m_quotas[object.variant_quota_index];
+
+		long object_definition_index = quota.object_definition_index;
+		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
+			continue;
+
+		removed_variant_objects++;
+		object = s_variant_object_datum();
+		ASSERT(object.variant_quota_index);
+	}
+
+	for (s_variant_quota& quota : map_variant->m_quotas)
+	{
+		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
+			continue;
+
+		removed_placeable_object_quotas++;
+		quota = s_variant_quota();
+		ASSERT(quota.object_definition_index == NONE);
+	}
+
+	//map_variant->m_number_of_variant_objects -= removed_variant_objects;
+	//map_variant->m_number_of_placeable_object_quotas -= removed_placeable_object_quotas;
 
 	if (!network_squad_session_set_map_variant(map_variant))
 	{
@@ -605,6 +640,8 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 
 	c_console::write_line("networking:configuration: CONGRATULATIONS! variant file '%s' is valid", filename);
 
+	//map_variant->print();
+
 	if (!load_and_use)
 	{
 		delete map_variant;
@@ -634,6 +671,38 @@ void __cdecl network_packed_map_variant_file_juju(char const* filename, bool loa
 		file_close(&info);
 		return;
 	}
+
+	short removed_variant_objects = 0;
+	short removed_placeable_object_quotas = 0;
+
+	for (s_variant_object_datum& object : map_variant->m_variant_objects)
+	{
+		if (object.variant_quota_index == NONE)
+			continue;
+
+		s_variant_quota& quota = map_variant->m_quotas[object.variant_quota_index];
+
+		long object_definition_index = quota.object_definition_index;
+		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
+			continue;
+
+		removed_variant_objects++;
+		object = s_variant_object_datum();
+		ASSERT(object.variant_quota_index);
+	}
+
+	for (s_variant_quota& quota : map_variant->m_quotas)
+	{
+		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
+			continue;
+
+		removed_placeable_object_quotas++;
+		quota = s_variant_quota();
+		ASSERT(quota.object_definition_index == NONE);
+	}
+
+	//map_variant->m_number_of_variant_objects -= removed_variant_objects;
+	//map_variant->m_number_of_placeable_object_quotas -= removed_placeable_object_quotas;
 
 	if (!network_squad_session_set_map_variant(map_variant))
 	{
