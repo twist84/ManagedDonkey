@@ -44,6 +44,8 @@
 #include "networking/session/network_managed_session.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "networking/tools/remote_command.hpp"
+#include "physics/havok_component.hpp"
+#include "physics/havok_entity_iterator.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/views/render_view.hpp"
@@ -236,6 +238,32 @@ void __cdecl main_loop_body_begin()
 		cache_file_table_of_contents;
 		cache_file_copy_globals;
 		g_service_client;
+		g_havok_component_data;
+
+		c_data_iterator<c_havok_component> havok_component_iterator(g_havok_component_data);
+		while (havok_component_iterator.next())
+		{
+			if (c_havok_component* havok_component = havok_component_iterator.get_datum())
+			{
+				c_console::write_line("havok_component[%d]->m_rigid_body:", havok_component_iterator.get_absolute_index());
+
+				c_console::write_line("\t__point1C  = { .x = %.2f, .y = %.2f, .z = %.2f };",
+					havok_component->m_rigid_body.__point1C.x,
+					havok_component->m_rigid_body.__point1C.y,
+					havok_component->m_rigid_body.__point1C.z
+				);
+				c_console::write_line("\t__vector28 = { .i = %.2f, .j = %.2f, .k = %.2f };",
+					havok_component->m_rigid_body.__vector28.i,
+					havok_component->m_rigid_body.__vector28.j,
+					havok_component->m_rigid_body.__vector28.k
+				);
+				c_console::write_line("\t__vector34 = { .i = %.2f, .j = %.2f, .k = %.2f };",
+					havok_component->m_rigid_body.__vector34.i,
+					havok_component->m_rigid_body.__vector34.j,
+					havok_component->m_rigid_body.__vector34.k
+				);
+			}
+		}
 
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
