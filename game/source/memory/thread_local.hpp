@@ -253,17 +253,18 @@ struct s_impact_globals
 };
 static_assert(sizeof(s_impact_globals) == 0x8C);
 
-struct impacts
+struct c_impact : s_datum_header
 {
-	byte __unknown0[0xB4];
+	byte __unknown2[0xB2];
 };
-static_assert(sizeof(impacts) == 0xB4);
+static_assert(sizeof(c_impact) == 0xB4);
 
-struct impact_arrays
+struct impact_array_datum : s_datum_header
 {
-	byte __unknown0[0x88];
+	short impact_indexes_count;
+	long impact_indexes[33];
 };
-static_assert(sizeof(impact_arrays) == 0x88);
+static_assert(sizeof(impact_array_datum) == 0x88);
 
 struct object_list_header
 {
@@ -1508,12 +1509,12 @@ struct s_thread_local_storage
 	//  name: "impacts"
 	// count: 32
 	//  size: 0xB4
-	impacts* impacts;
+	c_smart_data_array<c_impact>* g_impact_data;
 
 	//  name: "impact arrarys"
 	// count: 32
 	//  size: 0x88
-	impact_arrays* impact_arrays;
+	c_smart_data_array<impact_array_datum>* g_impact_array_data;
 
 	//  name: "object list header"
 	// count: 48
