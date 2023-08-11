@@ -246,22 +246,25 @@ void __cdecl main_loop_body_begin()
 			if (c_havok_component* havok_component = havok_component_iterator.get_datum())
 			{
 				c_console::write_line("havok_component[%d]->m_rigid_body:", havok_component_iterator.get_absolute_index());
+				
+				c_console::write_line("    m_pre_simulation_position         = { .x = %.2f, .y = %.2f, .z = %.2f };",
+					havok_component->m_rigid_body.m_pre_simulation_position.x,
+					havok_component->m_rigid_body.m_pre_simulation_position.y,
+					havok_component->m_rigid_body.m_pre_simulation_position.z
+				);
+				c_console::write_line("    m_pre_simulation_linear_velocity  = { .i = %.2f, .j = %.2f, .k = %.2f };",
+					havok_component->m_rigid_body.m_pre_simulation_linear_velocity.i,
+					havok_component->m_rigid_body.m_pre_simulation_linear_velocity.j,
+					havok_component->m_rigid_body.m_pre_simulation_linear_velocity.k
+				);
+				c_console::write_line("    m_pre_simulation_angular_velocity = { .i = %.2f, .j = %.2f, .k = %.2f };",
+					havok_component->m_rigid_body.m_pre_simulation_angular_velocity.i,
+					havok_component->m_rigid_body.m_pre_simulation_angular_velocity.j,
+					havok_component->m_rigid_body.m_pre_simulation_angular_velocity.k
+				);
 
-				c_console::write_line("\t__point1C  = { .x = %.2f, .y = %.2f, .z = %.2f };",
-					havok_component->m_rigid_body.__point1C.x,
-					havok_component->m_rigid_body.__point1C.y,
-					havok_component->m_rigid_body.__point1C.z
-				);
-				c_console::write_line("\t__vector28 = { .i = %.2f, .j = %.2f, .k = %.2f };",
-					havok_component->m_rigid_body.__vector28.i,
-					havok_component->m_rigid_body.__vector28.j,
-					havok_component->m_rigid_body.__vector28.k
-				);
-				c_console::write_line("\t__vector34 = { .i = %.2f, .j = %.2f, .k = %.2f };",
-					havok_component->m_rigid_body.__vector34.i,
-					havok_component->m_rigid_body.__vector34.j,
-					havok_component->m_rigid_body.__vector34.k
-				);
+				if (!TEST_BIT(havok_component->m_flags, 3))
+					havok_component->m_flags |= FLAG(3);
 			}
 		}
 
