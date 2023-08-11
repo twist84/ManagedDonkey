@@ -151,9 +151,9 @@ struct s_variant_object_datum
 public:
 	s_variant_object_datum() :
 		flags(),
-		object_datum_index(-1),
-		editor_object_index(-1),
-		variant_quota_index(-1),
+		object_datum_index(NONE),
+		editor_object_index(NONE),
+		variant_quota_index(NONE),
 		position(),
 		forward(),
 		up(),
@@ -186,7 +186,7 @@ struct s_variant_quota
 {
 public:
 	s_variant_quota() :
-		object_definition_index(-1),
+		object_definition_index(NONE),
 		minimum_count(0),
 		maximum_count(0),
 		placed_on_map(0),
