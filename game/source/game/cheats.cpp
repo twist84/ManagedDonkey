@@ -216,15 +216,15 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		data.multiplayer_properties.game_engine_flags = 0;
 		data.multiplayer_properties.spawn_flags = 0;
 
-		real angle_offset = atan2f(forward.i, forward.j) + (real(TWO_PI * reference_index) / reference_count);
+		real angle_scaling_factor = atan2f(forward.i, forward.j) + (real(TWO_PI * reference_index) / reference_count);
 		object_placement_data_new(&data, reference.index, NONE, nullptr);
 
 		data.position = origin;
 		data.forward = forward;
 		data.up = up;
 
-		data.position.x += (cosf(angle_offset) * radius);
-		data.position.y += (sinf(angle_offset) * radius);
+		data.position.x += (cosf(angle_scaling_factor) * radius);
+		data.position.y += (sinf(angle_scaling_factor) * radius);
 		data.position.z += 0.8f;
 
 		long object_index = object_new(&data);

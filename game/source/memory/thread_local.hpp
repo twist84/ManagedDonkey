@@ -580,77 +580,70 @@ struct s_rasterizer_implicit_object
 };
 static_assert(sizeof(s_rasterizer_implicit_object) == 0x5C);
 
-struct rasterizer_vertex_rigid
+struct s_implicit_vertex
 {
-	real __unknown0[3];
-	real __unknownC[2];
-	real __unknown14[3];
-	real __unknown20[2];
+	real_point3d position;
+	real_point2d texcoord;
 };
-static_assert(sizeof(rasterizer_vertex_rigid) == 0x28);
+static_assert(sizeof(s_implicit_vertex) == 0x14);
+
+struct rasterizer_vertex_implicit
+{
+	s_implicit_vertex bottom;
+	s_implicit_vertex top;
+};
+static_assert(sizeof(rasterizer_vertex_implicit) == 0x28);
 
 struct s_rasterizer_implicit_geometry_globals
 {
 	long implicit_object_count;
 	s_rasterizer_implicit_object implicit_objects[64];
-	rasterizer_vertex_rigid rigid_vertex_data[64];
+	rasterizer_vertex_implicit implicit_vertex_data[64];
 };
 static_assert(sizeof(s_rasterizer_implicit_geometry_globals) == 0x2104);
 
-//void sub_A74410() // MS23, `initialize_circle_strip`
+//void initialize_circle_strip()
 //{
 //	TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_implicit_geometry_globals);
 //
-//	for (long i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->rigid_vertex_data); i++)
+//	for (long i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->implicit_vertex_data); i++)
 //	{
-//		rasterizer_vertex_rigid* rigid_vertex = &g_rasterizer_implicit_geometry_globals->rigid_vertex_data[i];
+//		rasterizer_vertex_implicit* vertex_data = &g_rasterizer_implicit_geometry_globals->implicit_vertex_data[i];
 //
-//		real i_63f = i * 63.0f;
-//		real i_63f_sin_two_pi = sinf(i_63f * TWO_PI);
-//		real i_63f_cos_two_pi = cosf(i_63f * TWO_PI);
+//		real angle_scaling_factor = i * 63.0f;
+//		real circle_x_shift = sinf(angle_scaling_factor * TWO_PI);
+//		real circle_y_shift = cosf(angle_scaling_factor * TWO_PI);
 //
-//		rigid_vertex->__unknown0[0] = i_63f_sin_two_pi;
-//		rigid_vertex->__unknown0[1] = i_63f_cos_two_pi;
-//		rigid_vertex->__unknown0[2] = 0.0f;
+// 
+//		// MS23
 //
-//		*(qword*)rigid_vertex->__unknownC = LODWORD(i_63f);
+//		vertex_data->bottom.position.x = circle_x_shift;
+//		vertex_data->bottom.position.y = circle_y_shift;
+//		vertex_data->bottom.position.z = 0.0f;
+//		vertex_data->bottom.texcoord.x = angle_scaling_factor;
+//		vertex_data->bottom.texcoord.y = 0.0f;
 //
-//		rigid_vertex->__unknown14[0] = i_63f_sin_two_pi;
-//		rigid_vertex->__unknown14[1] = i_63f_cos_two_pi;
-//		rigid_vertex->__unknown14[2] = 1.0f;
+//		vertex_data->top.position.x = circle_x_shift;
+//		vertex_data->top.position.y = circle_y_shift;
+//		vertex_data->top.position.z = 1.0f;
+//		vertex_data->top.texcoord.x = angle_scaling_factor;
+//		vertex_data->top.texcoord.y = 1.0f;
 //
-//		rigid_vertex->__unknown20[0] = i_63f;
-//		rigid_vertex->__unknown20[1] = 1.0f;
-//	}
-//}
-//
-//void sub_1408E3300() // H3EK, `initialize_circle_strip`
-//{
-//	TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_implicit_geometry_globals);
-//
-//	for (long i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->rigid_vertex_data); i++)
-//	{
-//		rasterizer_vertex_rigid* rigid_vertex = &g_rasterizer_implicit_geometry_globals->rigid_vertex_data[i];
-//
-//		real i_63f = i / 63.0f;
-//		real i_63f_sin_two_pi = sinf(i_63f * TWO_PI);
-//		real i_63f_cos_two_pi = cosf(i_63f * TWO_PI);
-//
+// 
+//		// H3EK
 //		for (long j = 0; j < 2; j += 2)
 //		{
-//			rigid_vertex->__unknown0[0] = i_63f_sin_two_pi;
-//			rigid_vertex->__unknown0[1] = i_63f_cos_two_pi;
-//			rigid_vertex->__unknown0[2] = j ? 1.0f : 0.0f;
+//			vertex_data->bottom.position.x = circle_x_shift;
+//			vertex_data->bottom.position.y = circle_y_shift;
+//			vertex_data->bottom.position.z = j ? 1.0f : 0.0f;
+//			vertex_data->bottom.texcoord.x = angle_scaling_factor;
+//			vertex_data->bottom.texcoord.y = j ? 1.0f : 0.0f;
 //
-//			rigid_vertex->__unknownC[0] = i_63f;
-//			rigid_vertex->__unknownC[1] = j ? 1.0f : 0.0f;
-//
-//			rigid_vertex->__unknown14[0] = i_63f_sin_two_pi;
-//			rigid_vertex->__unknown14[1] = i_63f_cos_two_pi;
-//			rigid_vertex->__unknown14[2] = j == -1 ? 0.0f : 1.0f;
-//
-//			rigid_vertex->__unknown20[0] = i_63f;
-//			rigid_vertex->__unknown20[1] = j == -1 ? 0.0f : 1.0f;
+//			vertex_data->top.position.x = circle_x_shift;
+//			vertex_data->top.position.y = circle_y_shift;
+//			vertex_data->top.position.z = j == -1 ? 0.0f : 1.0f;
+//			vertex_data->top.texcoord.x = angle_scaling_factor;
+//			vertex_data->top.texcoord.y = j == -1 ? 0.0f : 1.0f;
 //		}
 //	}
 //}
