@@ -541,6 +541,29 @@ enum e_implicit_transparent_type
 	k_implicit_transparent_type_count
 };
 
+struct s_rasterizer_implicit_cylinder_object
+{
+	real width;
+};
+static_assert(sizeof(s_rasterizer_implicit_cylinder_object) == sizeof(real));
+
+struct s_rasterizer_implicit_sphere_object
+{
+	real width;
+	real absolute_positive_height;
+	real absolute_negative_height;
+};
+static_assert(sizeof(s_rasterizer_implicit_sphere_object) == sizeof(real) * 3);
+
+struct s_rasterizer_implicit_box_object
+{
+	real width;
+	real length;
+	real absolute_positive_height;
+	real absolute_negative_height;
+};
+static_assert(sizeof(s_rasterizer_implicit_box_object) == sizeof(real) * 4);
+
 struct s_rasterizer_implicit_object
 {
 	c_enum<e_implicit_transparent_type, long, _implicit_transparent_type_cylinder, k_implicit_transparent_type_count> transparent_type;
@@ -548,10 +571,12 @@ struct s_rasterizer_implicit_object
 	real_argb_color color;
 	real_matrix4x3 transform;
 
-	real __unknown4C;
-	real __unknown50;
-	real __unknown54;
-	real __unknown58;
+	union
+	{
+		s_rasterizer_implicit_cylinder_object cylinder;
+		s_rasterizer_implicit_sphere_object sphere;
+		s_rasterizer_implicit_box_object box;
+	};
 };
 static_assert(sizeof(s_rasterizer_implicit_object) == 0x5C);
 
