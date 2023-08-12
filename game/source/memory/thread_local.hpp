@@ -266,19 +266,21 @@ struct impact_array_datum : s_datum_header
 };
 static_assert(sizeof(impact_array_datum) == 0x88);
 
-struct object_list_header
+struct object_list_header_datum : s_datum_header
 {
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
+	short __unknown2;
+	short reference_count;
+	short count;
+	long reference_index;
 };
-static_assert(sizeof(object_list_header) == 0xC);
+static_assert(sizeof(object_list_header_datum) == 0xC);
 
-struct list_object
+struct object_list_datum : s_datum_header
 {
-	byte __data[0x8C];
+	long object_index;
+	long reference_index;
 };
-static_assert(sizeof(list_object) == 0x8C);
+static_assert(sizeof(object_list_datum) == 0xC);
 
 struct scripted_camera_globals
 {
@@ -401,11 +403,11 @@ struct render_hud_globals
 };
 static_assert(sizeof(render_hud_globals) == 0x480);
 
-struct water_interaction_ripples
+struct s_interaction_event
 {
 	byte __data[0x1400];
 };
-static_assert(sizeof(water_interaction_ripples) == 0x1400);
+static_assert(sizeof(s_interaction_event) == 0x1400);
 
 struct render_texture_globals
 {
@@ -459,11 +461,11 @@ struct depth_of_field_globals
 };
 static_assert(sizeof(depth_of_field_globals) == 0x40);
 
-struct cached_object_render_states
+struct cached_object_render_state_datum : s_datum_header
 {
-	byte __data[0x4D8];
+	byte __data[0x4D6];
 };
-static_assert(sizeof(cached_object_render_states) == 0x4D8);
+static_assert(sizeof(cached_object_render_state_datum) == 0x4D8);
 
 struct particle_emitter_gpu_row
 {
@@ -529,6 +531,104 @@ struct light_volume_gpu_row
 	dword __unknown8;
 };
 static_assert(sizeof(light_volume_gpu_row) == 0xC);
+
+enum e_implicit_transparent_type
+{
+	_implicit_transparent_type_cylinder = 0,
+	_implicit_transparent_type_sphere,
+	_implicit_transparent_type_box,
+
+	k_implicit_transparent_type_count
+};
+
+struct s_rasterizer_implicit_object
+{
+	c_enum<e_implicit_transparent_type, long, _implicit_transparent_type_cylinder, k_implicit_transparent_type_count> transparent_type;
+	long render_method_index;
+	real_argb_color color;
+	real_matrix4x3 transform;
+
+	real __unknown4C;
+	real __unknown50;
+	real __unknown54;
+	real __unknown58;
+};
+static_assert(sizeof(s_rasterizer_implicit_object) == 0x5C);
+
+struct rasterizer_vertex_rigid
+{
+	real __unknown0[3];
+	real __unknownC[2];
+	real __unknown14[3];
+	real __unknown20[2];
+};
+static_assert(sizeof(rasterizer_vertex_rigid) == 0x28);
+
+struct s_rasterizer_implicit_geometry_globals
+{
+	long implicit_object_count;
+	s_rasterizer_implicit_object implicit_objects[64];
+	rasterizer_vertex_rigid rigid_vertex_data[64];
+};
+static_assert(sizeof(s_rasterizer_implicit_geometry_globals) == 0x2104);
+
+//void sub_A74410() // MS23, `initialize_circle_strip`
+//{
+//	TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_implicit_geometry_globals);
+//
+//	for (long i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->rigid_vertex_data); i++)
+//	{
+//		rasterizer_vertex_rigid* rigid_vertex = &g_rasterizer_implicit_geometry_globals->rigid_vertex_data[i];
+//
+//		real i_63f = i * 63.0f;
+//		real i_63f_sin_two_pi = sinf(i_63f * TWO_PI);
+//		real i_63f_cos_two_pi = cosf(i_63f * TWO_PI);
+//
+//		rigid_vertex->__unknown0[0] = i_63f_sin_two_pi;
+//		rigid_vertex->__unknown0[1] = i_63f_cos_two_pi;
+//		rigid_vertex->__unknown0[2] = 0.0f;
+//
+//		*(qword*)rigid_vertex->__unknownC = LODWORD(i_63f);
+//
+//		rigid_vertex->__unknown14[0] = i_63f_sin_two_pi;
+//		rigid_vertex->__unknown14[1] = i_63f_cos_two_pi;
+//		rigid_vertex->__unknown14[2] = 1.0f;
+//
+//		rigid_vertex->__unknown20[0] = i_63f;
+//		rigid_vertex->__unknown20[1] = 1.0f;
+//	}
+//}
+//
+//void sub_1408E3300() // H3EK, `initialize_circle_strip`
+//{
+//	TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_implicit_geometry_globals);
+//
+//	for (long i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->rigid_vertex_data); i++)
+//	{
+//		rasterizer_vertex_rigid* rigid_vertex = &g_rasterizer_implicit_geometry_globals->rigid_vertex_data[i];
+//
+//		real i_63f = i / 63.0f;
+//		real i_63f_sin_two_pi = sinf(i_63f * TWO_PI);
+//		real i_63f_cos_two_pi = cosf(i_63f * TWO_PI);
+//
+//		for (long j = 0; j < 2; j += 2)
+//		{
+//			rigid_vertex->__unknown0[0] = i_63f_sin_two_pi;
+//			rigid_vertex->__unknown0[1] = i_63f_cos_two_pi;
+//			rigid_vertex->__unknown0[2] = j ? 1.0f : 0.0f;
+//
+//			rigid_vertex->__unknownC[0] = i_63f;
+//			rigid_vertex->__unknownC[1] = j ? 1.0f : 0.0f;
+//
+//			rigid_vertex->__unknown14[0] = i_63f_sin_two_pi;
+//			rigid_vertex->__unknown14[1] = i_63f_cos_two_pi;
+//			rigid_vertex->__unknown14[2] = j == -1 ? 0.0f : 1.0f;
+//
+//			rigid_vertex->__unknown20[0] = i_63f;
+//			rigid_vertex->__unknown20[1] = j == -1 ? 0.0f : 1.0f;
+//		}
+//	}
+//}
 
 struct s_render_object_globals
 {
@@ -1519,12 +1619,12 @@ struct s_thread_local_storage
 	//  name: "object list header"
 	// count: 48
 	//  size: 0xC
-	object_list_header* object_list_header;
+	c_smart_data_array<object_list_header_datum>* object_list_header_data;
 
 	//  name: "list object"
 	// count: 128
 	//  size: 0xC
-	list_object* list_object;
+	c_smart_data_array<object_list_datum>* object_list_data;
 
 	// name: "scripted camera globals"
 	// size: 0xF0
@@ -1555,11 +1655,11 @@ struct s_thread_local_storage
 	void* __unknown3C4;
 	scripted_exposure_globals* scripted_exposure_globals;
 	render_hud_globals* render_hud_globals;
-	water_interaction_ripples* water_interaction_ripples;
+	s_interaction_event* g_water_interaction_events;
 	render_texture_globals* render_texture_globals;
 	render_game_globals* render_game_globals;
 	depth_of_field_globals* depth_of_field_globals;
-	cached_object_render_states* cached_object_render_states;
+	c_smart_data_array<cached_object_render_state_datum>* cached_object_render_states;
 	particle_emitter_gpu_row* particle_emitter_gpu_row;
 	particle_emitter_gpu_1* particle_emitter_gpu_1;
 	void* particle_emitter_gpu_2;
@@ -1572,7 +1672,7 @@ struct s_thread_local_storage
 	light_volume_gpu* light_volume_gpu;
 	light_volume_gpu_row* light_volume_gpu_row;
 	void* particle_emitter_gpu_5;
-	void* rasterizer_implicit_geometry_data;
+	s_rasterizer_implicit_geometry_globals* g_rasterizer_implicit_geometry_globals;
 	s_render_object_globals* render_object_globals;
 	shield_render_cache_message* shield_render_cache_message;
 	chud_persistent_user_data* chud_persistent_user_data;
@@ -1762,3 +1862,4 @@ static_assert(sizeof(s_thread_local_storage) == 0x584);
 #define TLS_DATA_GET_VALUE_REFERENCE(NAME) decltype(get_tls()->NAME)& NAME = get_tls()->NAME
 
 extern s_thread_local_storage* get_tls();
+
