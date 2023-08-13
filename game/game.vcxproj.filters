@@ -837,6 +837,9 @@
     <ClCompile Include="source\physics\havok_entity_iterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\views\split_screen_config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2133,6 +2136,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\havok_entity_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\views\split_screen_config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

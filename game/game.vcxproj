@@ -406,6 +406,7 @@ POPD
     <ClCompile Include="source\render\render_cameras.cpp" />
     <ClCompile Include="source\render\render_objects_static_lighting.cpp" />
     <ClCompile Include="source\render\views\render_view.cpp" />
+    <ClCompile Include="source\render\views\split_screen_config.cpp" />
     <ClCompile Include="source\render_methods\render_method_submit.cpp" />
     <ClCompile Include="source\saved_games\content_catalogue.cpp" />
     <ClCompile Include="source\saved_games\content_catalogue_tasks.cpp" />
@@ -804,6 +805,7 @@ POPD
     <ClInclude Include="source\render\render_patchy_fog.hpp" />
     <ClInclude Include="source\render\render_visibility_collection.hpp" />
     <ClInclude Include="source\render\views\render_view.hpp" />
+    <ClInclude Include="source\render\views\split_screen_config.hpp" />
     <ClInclude Include="source\render_methods\render_method_submit.hpp" />
     <ClInclude Include="source\replication\replication_encoding.hpp" />
     <ClInclude Include="source\saved_games\content_catalogue.hpp" />
