@@ -124,7 +124,7 @@ struct c_havok_component : s_datum_header
 	hkArray<c_rigid_body> m_havok_rigid_bodies;
 	c_rigid_body m_rigid_body;
 	hkArray<c_constraint> m_constraints;
-	hkArray<c_havok_component::s_body_in_phantom>* m_bodies_in_phantom;
+	hkArray<s_body_in_phantom>* m_bodies_in_phantom;
 	hkWorldObject* m_simple_shape_phantom;
 	hkWorldObject* m_aabb_phantom;
 };

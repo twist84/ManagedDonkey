@@ -6,10 +6,10 @@
 #define DEG PI / 180
 
 typedef float real;
-static_assert(sizeof(real) == 0x4);
+static_assert(sizeof(real) == sizeof(float));
 
 typedef float real_fraction;
-static_assert(sizeof(real_fraction) == 0x4);
+static_assert(sizeof(real_fraction) == sizeof(real));
 
 union real_bounds
 {
@@ -20,7 +20,7 @@ union real_bounds
 	};
 	real n[2];
 };
-static_assert(sizeof(real_bounds) == 0x8);
+static_assert(sizeof(real_bounds) == sizeof(real) * 2);
 
 union real_point2d
 {
@@ -31,7 +31,7 @@ union real_point2d
 	};
 	real n[2];
 };
-static_assert(sizeof(real_point2d) == 0x8);
+static_assert(sizeof(real_point2d) == sizeof(real) * 2);
 
 union real_point3d
 {
@@ -43,7 +43,7 @@ union real_point3d
 	};
 	real n[3];
 };
-static_assert(sizeof(real_point3d) == 0xC);
+static_assert(sizeof(real_point3d) == sizeof(real) * 3);
 
 union vector2d
 {
@@ -54,7 +54,7 @@ union vector2d
 	};
 	real n[2];
 };
-static_assert(sizeof(vector2d) == 0x8);
+static_assert(sizeof(vector2d) == sizeof(real) * 2);
 
 union vector3d
 {
@@ -66,7 +66,7 @@ union vector3d
 	};
 	real n[3];
 };
-static_assert(sizeof(vector3d) == 0xC);
+static_assert(sizeof(vector3d) == sizeof(real) * 3);
 
 struct real32_quaternion
 {
@@ -75,7 +75,7 @@ struct real32_quaternion
 	real k;
 	real w;
 };
-static_assert(sizeof(real32_quaternion) == 0x10);
+static_assert(sizeof(real32_quaternion) == sizeof(real) * 4);
 
 struct plane2d
 {
@@ -101,7 +101,7 @@ union real_rgb_color
 	};
 	real n[3];
 };
-static_assert(sizeof(real_rgb_color) == 0xC);
+static_assert(sizeof(real_rgb_color) == sizeof(real) * 3);
 
 union real_argb_color
 {
@@ -112,7 +112,7 @@ union real_argb_color
 	};
 	real n[4];
 };
-static_assert(sizeof(real_argb_color) == 0x10);
+static_assert(sizeof(real_argb_color) == sizeof(real) * 4);
 
 union real_hsv_color
 {
@@ -124,7 +124,7 @@ union real_hsv_color
 	};
 	real n[3];
 };
-static_assert(sizeof(real_hsv_color) == 0xC);
+static_assert(sizeof(real_hsv_color) == sizeof(real) * 3);
 
 union real_ahsv_color
 {
@@ -135,10 +135,10 @@ union real_ahsv_color
 	};
 	real n[4];
 };
-static_assert(sizeof(real_ahsv_color) == 0x10);
+static_assert(sizeof(real_ahsv_color) == sizeof(real) * 4);
 
 typedef float angle;
-static_assert(sizeof(angle) == 0x4);
+static_assert(sizeof(angle) == sizeof(float));
 
 union angle_bounds
 {
@@ -149,7 +149,7 @@ union angle_bounds
 	};
 	angle n[2];
 };
-static_assert(sizeof(angle_bounds) == 0x8);
+static_assert(sizeof(angle_bounds) == sizeof(angle) * 2);
 
 union euler_angles2d
 {
@@ -160,7 +160,7 @@ union euler_angles2d
 	};
 	angle n[2];
 };
-static_assert(sizeof(euler_angles2d) == 0x8);
+static_assert(sizeof(euler_angles2d) == sizeof(angle) * 2);
 
 union euler_angles3d
 {
@@ -172,7 +172,7 @@ union euler_angles3d
 	};
 	angle n[3];
 };
-static_assert(sizeof(euler_angles3d) == 0xC);
+static_assert(sizeof(euler_angles3d) == sizeof(angle) * 3);
 
 struct matrix3x3
 {
@@ -180,14 +180,12 @@ struct matrix3x3
 	vector3d left;
 	vector3d up;
 };
-static_assert(sizeof(matrix3x3) == 0x24);
+static_assert(sizeof(matrix3x3) == sizeof(vector3d) * 3);
 
 struct real_matrix4x3
 {
 	real scale;
-	vector3d forward;
-	vector3d left;
-	vector3d up;
+	matrix3x3 matrix;
 	vector3d center;
 };
 static_assert(sizeof(real_matrix4x3) == 0x34);
@@ -203,7 +201,7 @@ union real_rectangle2d
 	};
 	real n[4];
 };
-static_assert(sizeof(real_rectangle2d) == 0x10);
+static_assert(sizeof(real_rectangle2d) == sizeof(real) * 4);
 
 union real_rectangle3d
 {
@@ -215,7 +213,7 @@ union real_rectangle3d
 	};
 	real_bounds n[3];
 };
-static_assert(sizeof(real_rectangle3d) == 0x18);
+static_assert(sizeof(real_rectangle3d) == sizeof(real_bounds) * 3);
 
 extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);
 extern vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d* up);

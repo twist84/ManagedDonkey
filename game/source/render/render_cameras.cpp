@@ -24,7 +24,7 @@ void __cdecl render_camera_build_viewport_frustum_bounds(render_camera const* ca
 
 real __cdecl render_projection_sphere_diameter_in_pixels(render_projection const* projection, real_point3d const* point, real scale)
 {
-	real v0 = fabsf(((((projection->world_to_view.left.k * point->y) + (projection->world_to_view.forward.k * point->x)) + (projection->world_to_view.up.k * point->z)) + projection->world_to_view.center.k));
+	real v0 = fabsf(((((projection->world_to_view.matrix.left.k * point->y) + (projection->world_to_view.matrix.forward.k * point->x)) + (projection->world_to_view.matrix.up.k * point->z)) + projection->world_to_view.center.k));
 
 	if (v0 <= 0.1f)
 		v0 = 0.1f;
