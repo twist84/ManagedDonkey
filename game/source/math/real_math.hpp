@@ -186,7 +186,7 @@ struct real_matrix4x3
 {
 	real scale;
 	matrix3x3 matrix;
-	vector3d center;
+	real_point3d center;
 };
 static_assert(sizeof(real_matrix4x3) == 0x34);
 
@@ -215,6 +215,15 @@ union real_rectangle3d
 };
 static_assert(sizeof(real_rectangle3d) == sizeof(real_bounds) * 3);
 
+struct real_quaternion
+{
+	real i;
+	real j;
+	real k;
+	real w;
+};
+static_assert(sizeof(real_quaternion) == sizeof(real) * 4);
+
 extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);
 extern vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d* up);
 extern euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward);
@@ -226,4 +235,5 @@ extern real __cdecl distance_squared3d(real_point3d const* a, real_point3d const
 extern real __cdecl distance3d(real_point3d const* a, real_point3d const* b);
 extern real __cdecl square_root(real value);
 extern vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d* out_vector);
+extern real_point3d* __cdecl set_real_point3d(real_point3d* point, real x, real y, real z);
 

@@ -70,3 +70,12 @@ vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d
 	return out_vector;
 }
 
+real_point3d* __cdecl set_real_point3d(real_point3d* point, real x, real y, real z)
+{
+	point->x = x;
+	point->y = y;
+	point->z = z;
+
+	return point;
+}
+

@@ -3,6 +3,7 @@
 #include "interface/terminal.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
+#include "hs/hs_runtime.hpp"
 
 REFERENCE_DECLARE(0x01913430, long, c_view::g_view_stack_top);
 REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
@@ -194,5 +195,6 @@ void __cdecl render_debug_frame_render()
 
 	terminal_draw();
 	main_time_frame_rate_display();
+	render_debug_trigger_volumes();
 }
 

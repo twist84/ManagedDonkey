@@ -1,0 +1,67 @@
+#pragma once
+
+#include "cseries/cseries.hpp"
+#include "tag_files/tag_groups.hpp"
+
+struct s_real_sector_point;
+struct s_trigger_volume_triangle;
+struct scenario_trigger_volume
+{
+	c_string_id name;
+
+	// scenario_object_name
+	short object_name; // short_block_index
+
+	short runtime_node_index;
+	c_string_id node_name;
+
+	short type;
+
+	// pad
+	byte padding[2];
+
+	vector3d forward;
+	vector3d up;
+	real_point3d position;
+	real_point3d extents;
+
+	// this is only valid for sector type trigger volumes
+	real z_sink;
+
+	c_typed_tag_block<s_real_sector_point> sector_points;
+	c_typed_tag_block<s_trigger_volume_triangle> runtime_triangles;
+
+	real runtime_sector_bounds_x[2];
+	real runtime_sector_bounds_y[2];
+	real runtime_sector_bounds_z[2];
+
+	real C;
+
+	// s_scenario_kill_trigger_volume
+	short kill_trigger_volume; // short_block_index
+
+	// s_scenario_editor_folder
+	short editor_folder; // short_block_index
+};
+static_assert(sizeof(scenario_trigger_volume) == 0x7C);
+
+struct s_real_sector_point
+{
+	real_point3d position;
+	euler_angles2d normal;
+};
+static_assert(sizeof(s_real_sector_point) == 0x14);
+
+struct s_trigger_volume_triangle
+{
+	plane3d lower_plane;
+	plane3d upper_plane;
+	real_point2d vertex[3];
+	real bounds_x[2];
+	real bounds_y[2];
+	real bounds_z[2];
+};
+static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
+
+extern bool __cdecl trigger_volume_get_matrix(scenario_trigger_volume const* volume, real_matrix4x3* matrix);
+

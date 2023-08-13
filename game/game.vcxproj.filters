@@ -837,7 +837,22 @@
     <ClCompile Include="source\physics\havok_entity_iterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\rasterizer\rasterizer_dx9_dynamic_geometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\render\render_debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\render\views\split_screen_config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\math\matrix_math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\render\render_lights.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenario\scenario_trigger_volumes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2138,7 +2153,19 @@
     <ClInclude Include="source\physics\havok_entity_iterator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\render\render_debug.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="source\render\views\split_screen_config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\matrix_math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_lights.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scenario\scenario_trigger_volumes.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

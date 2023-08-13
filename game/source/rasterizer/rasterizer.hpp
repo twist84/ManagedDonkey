@@ -18,6 +18,19 @@ struct c_rasterizer_pixel_shader;
 struct c_rasterizer_vertex_shader;
 struct c_rasterizer_index_buffer;
 
+struct rasterizer_vertex_debug
+{
+	real_point3d point0;
+	dword color0;
+
+	real_point3d point1;
+	dword color1;
+
+	real_point3d point2;
+	dword color2;
+};
+static_assert(sizeof(rasterizer_vertex_debug) == 0x30);
+
 struct c_rasterizer
 {
 	enum e_separate_alpha_blend_mode;
@@ -79,6 +92,9 @@ struct c_rasterizer
 	static void __cdecl setup_targets_simple();
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool, bool);
 	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const*, long, long, long, long);
+
+	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
+	void static draw_debug_polygon(rasterizer_vertex_debug const* vertex_debug, long primitive_count, long primitive_type);
 
 	static IDirect3DDevice9Ex*& g_device;
 	static e_separate_alpha_blend_mode& g_current_separate_alpha_blend_mode;

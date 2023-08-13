@@ -7,23 +7,30 @@ struct render_camera
 	real_point3d position;
 	vector3d forward;
 	vector3d up;
-	byte __unknown24;
-	byte __unknown25;
-	byte __unknown26;
-	byte __unknown27;
+
+	// mirrored cameras do not work
+	bool is_mirrored;
+
 	real vertical_field_of_view;
 	real horizontal_field_of_view;
+
+	// H3EK has 8 bytes of something here, structure size increased to 0x90
+
 	short_rectangle2d window_pixel_bounds;
 	short_rectangle2d window_title_safe_pixel_bounds;
-	__int16 __unknown40;
-	__int16 __unknown42;
+	short __unknown40;
+	short __unknown42;
 	short_rectangle2d render_pixel_bounds;
 	short_rectangle2d render_title_safe_pixel_bounds;
 	short_rectangle2d display_pixel_bounds;
 	real z_near;
 	real z_far;
 	plane3d __plane64;
-	byte __data74[0x14];
+
+	// used in `render_camera_build_viewport_frustum_bounds`
+	// these values are paired together
+	bool __unknown74;
+	real_rectangle2d __unknown78;
 };
 static_assert(sizeof(render_camera) == 0x88);
 

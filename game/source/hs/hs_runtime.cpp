@@ -1,7 +1,12 @@
 #include "hs/hs_runtime.hpp"
 
 #include "cseries/cseries.hpp"
+#include "math/matrix_math.hpp"
+#include "render/render_debug.hpp"
+#include "render/render_lights.hpp"
 #include "scenario/scenario.hpp"
+
+bool debug_trigger_volumes = false;
 
 //bool hs_evaluate(long, long, hs_destination_pointer, long*)
 bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast)
@@ -36,4 +41,67 @@ long __cdecl hs_runtime_script_begin(short script_index, short script_type, char
 long __cdecl hs_thread_new(char thread_index, long script_index, bool deterministic)
 {
 	return INVOKE(0x00598E70, hs_thread_new, thread_index, script_index, deterministic);
+}
+
+void __cdecl render_debug_trigger_volumes()
+{
+	if (!debug_trigger_volumes)
+		return;
+
+	long trigger_volume_index = 0;
+	for (scenario_trigger_volume& trigger_volume : global_scenario_get()->trigger_volumes)
+	{
+		real_matrix4x3 matrix{};
+		if (trigger_volume_get_matrix(&trigger_volume, &matrix))
+		{
+			vector3d extents = *(vector3d*)&trigger_volume.extents;
+			vector3d extents_transformed{};
+			matrix4x3_transform_vector(&matrix, &extents, &extents_transformed);
+
+			for (long i = 0; i < 6; i++)
+			{
+				real_point3d points[4]{};
+				vector3d v23{};
+				vector3d v24{};
+
+				short v21 = short(i / 2);
+				if (i % 2)
+				{
+					point_from_line3d(&matrix.center, &extents_transformed, 1.0f, points);
+					v23.n[(v21 + 1) % 3] = -extents.n[(v21 + 1) % 3];
+					v24.n[(v21 + 2) % 3] = -extents.n[(v21 + 2) % 3];
+				}
+				else
+				{
+					points[0] = matrix.center;
+					v23.n[(v21 + 1) % 3] = extents.n[(v21 + 1) % 3];
+					v24.n[(v21 + 2) % 3] = extents.n[(v21 + 2) % 3];
+				}
+
+				matrix4x3_transform_vector(&matrix, &v23, &v23);
+				matrix4x3_transform_vector(&matrix, &v24, &v24);
+				point_from_line3d(points, &v23, 1.0f, &points[1]);
+				point_from_line3d(&points[1], &v24, 1.0f, &points[2]);
+				point_from_line3d(&points[2], &v23, -1.0f, &points[3]);
+
+				// #TODO: find all the places `hs_debug_data` should be used and add it back
+				//if ((hs_debug_data[trigger_volume_index >> 5] & (1 << (trigger_volume_index & 0x1F))) != 0) // this is a static flags
+				//{
+				//	render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_blue);
+				//}
+				//else
+				{
+					real_argb_color polygon_color = *global_real_argb_blue;
+					polygon_color.alpha = 0.15000001f;
+					render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_red);
+					render_debug_polygon(points, NUMBEROF(points), &polygon_color);
+				}
+			}
+		}
+
+		// #TODO: render the trigger volume name
+
+		trigger_volume_index++;
+	}
+
 }

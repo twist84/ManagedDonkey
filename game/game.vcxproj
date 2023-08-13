@@ -311,6 +311,7 @@ POPD
     <ClCompile Include="source\main\main_time.cpp" />
     <ClCompile Include="source\math\color_math.cpp" />
     <ClCompile Include="source\math\integer_math.cpp" />
+    <ClCompile Include="source\math\matrix_math.cpp" />
     <ClCompile Include="source\math\real_math.cpp" />
     <ClCompile Include="source\memory\bitstream.cpp" />
     <ClCompile Include="source\memory\crc.cpp" />
@@ -396,6 +397,7 @@ POPD
     <ClCompile Include="source\physics\physics_constants.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_d3d_allocations.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_dx9_dynamic_geometry.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_globals.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_global_shaders.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_main.cpp" />
@@ -404,6 +406,8 @@ POPD
     <ClCompile Include="source\rasterizer\rasterizer_textures_xenon_formats.cpp" />
     <ClCompile Include="source\render\render.cpp" />
     <ClCompile Include="source\render\render_cameras.cpp" />
+    <ClCompile Include="source\render\render_debug.cpp" />
+    <ClCompile Include="source\render\render_lights.cpp" />
     <ClCompile Include="source\render\render_objects_static_lighting.cpp" />
     <ClCompile Include="source\render\views\render_view.cpp" />
     <ClCompile Include="source\render\views\split_screen_config.cpp" />
@@ -417,6 +421,7 @@ POPD
     <ClCompile Include="source\scenario\scenario.cpp" />
     <ClCompile Include="source\scenario\scenario_definitions.cpp" />
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
+    <ClCompile Include="source\scenario\scenario_trigger_volumes.cpp" />
     <ClCompile Include="source\screenshots\screenshots_uploader.cpp" />
     <ClCompile Include="source\shell\shell.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_action.cpp" />
@@ -479,6 +484,7 @@ POPD
     <ClInclude Include="source\main\console.hpp" />
     <ClInclude Include="source\main\debug_keys.hpp" />
     <ClInclude Include="source\math\function_definitions.hpp" />
+    <ClInclude Include="source\math\matrix_math.hpp" />
     <ClInclude Include="source\math\real_math.hpp" />
     <ClInclude Include="source\memory\data_encoding.hpp" />
     <ClInclude Include="source\memory\data_packets.hpp" />
@@ -801,6 +807,8 @@ POPD
     <ClInclude Include="source\rasterizer\rasterizer_textures_xenon_formats.hpp" />
     <ClInclude Include="source\render\render.hpp" />
     <ClInclude Include="source\render\render_cameras.hpp" />
+    <ClInclude Include="source\render\render_debug.hpp" />
+    <ClInclude Include="source\render\render_lights.hpp" />
     <ClInclude Include="source\render\render_objects_static_lighting.hpp" />
     <ClInclude Include="source\render\render_patchy_fog.hpp" />
     <ClInclude Include="source\render\render_visibility_collection.hpp" />
@@ -823,6 +831,7 @@ POPD
     <ClInclude Include="source\scenario\scenario_interpolators.hpp" />
     <ClInclude Include="source\scenario\scenario_resource_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />
+    <ClInclude Include="source\scenario\scenario_trigger_volumes.hpp" />
     <ClInclude Include="source\scenario\scenario_zone_debugger_definitions.hpp" />
     <ClInclude Include="source\screenshots\screenshots_uploader.hpp" />
     <ClInclude Include="source\shell\game_interface\simulation_game_events.hpp" />
