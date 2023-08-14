@@ -11,6 +11,21 @@ static_assert(sizeof(real) == sizeof(float));
 typedef float real_fraction;
 static_assert(sizeof(real_fraction) == sizeof(real));
 
+enum
+{
+	_x = 0,
+	_y,
+	_z,
+	_w,
+
+	k_2d_count = 2,
+	k_3d_count = 3,
+	k_4d_count = 4,
+
+	k_faces_per_cube_count = 6,
+	k_vertices_per_cube_count = 8,
+};
+
 union real_bounds
 {
 	struct
@@ -29,9 +44,9 @@ union real_point2d
 		real x;
 		real y;
 	};
-	real n[2];
+	real n[k_2d_count];
 };
-static_assert(sizeof(real_point2d) == sizeof(real) * 2);
+static_assert(sizeof(real_point2d) == sizeof(real) * k_2d_count);
 
 union real_point3d
 {
@@ -41,9 +56,22 @@ union real_point3d
 		real y;
 		real z;
 	};
-	real n[3];
+	real n[k_3d_count];
 };
-static_assert(sizeof(real_point3d) == sizeof(real) * 3);
+static_assert(sizeof(real_point3d) == sizeof(real) * k_3d_count);
+
+union real_point4d
+{
+	struct
+	{
+		real x;
+		real y;
+		real z;
+		real w;
+	};
+	real n[k_4d_count];
+};
+static_assert(sizeof(real_point4d) == sizeof(real) * k_4d_count);
 
 union vector2d
 {
@@ -52,9 +80,9 @@ union vector2d
 		real i;
 		real j;
 	};
-	real n[2];
+	real n[k_2d_count];
 };
-static_assert(sizeof(vector2d) == sizeof(real) * 2);
+static_assert(sizeof(vector2d) == sizeof(real) * k_2d_count);
 
 union vector3d
 {
@@ -64,9 +92,22 @@ union vector3d
 		real j;
 		real k;
 	};
-	real n[3];
+	real n[k_3d_count];
 };
-static_assert(sizeof(vector3d) == sizeof(real) * 3);
+static_assert(sizeof(vector3d) == sizeof(real) * k_3d_count);
+
+union vector4d
+{
+	struct
+	{
+		real i;
+		real j;
+		real k;
+		real w;
+	};
+	real n[k_4d_count];
+};
+static_assert(sizeof(vector4d) == sizeof(real) * k_4d_count);
 
 struct real32_quaternion
 {
@@ -158,9 +199,9 @@ union euler_angles2d
 		angle yaw;
 		angle pitch;
 	};
-	angle n[2];
+	angle n[k_2d_count];
 };
-static_assert(sizeof(euler_angles2d) == sizeof(angle) * 2);
+static_assert(sizeof(euler_angles2d) == sizeof(angle) * k_2d_count);
 
 union euler_angles3d
 {
@@ -170,9 +211,9 @@ union euler_angles3d
 		angle pitch;
 		angle roll;
 	};
-	angle n[3];
+	angle n[k_3d_count];
 };
-static_assert(sizeof(euler_angles3d) == sizeof(angle) * 3);
+static_assert(sizeof(euler_angles3d) == sizeof(angle) * k_3d_count);
 
 struct matrix3x3
 {
@@ -194,14 +235,12 @@ union real_rectangle2d
 {
 	struct
 	{
-		real top;
-		real left;
-		real bottom;
-		real right;
+		real_bounds x;
+		real_bounds y;
 	};
-	real n[4];
+	real_bounds n[k_2d_count];
 };
-static_assert(sizeof(real_rectangle2d) == sizeof(real) * 4);
+static_assert(sizeof(real_rectangle2d) == sizeof(real_bounds) * k_2d_count);
 
 union real_rectangle3d
 {
@@ -211,9 +250,9 @@ union real_rectangle3d
 		real_bounds y;
 		real_bounds z;
 	};
-	real_bounds n[3];
+	real_bounds n[k_3d_count];
 };
-static_assert(sizeof(real_rectangle3d) == sizeof(real_bounds) * 3);
+static_assert(sizeof(real_rectangle3d) == sizeof(real_bounds) * k_3d_count);
 
 struct real_quaternion
 {

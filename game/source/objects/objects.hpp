@@ -211,12 +211,21 @@ struct object_placement_data
 };
 static_assert(sizeof(object_placement_data) == 0x18C);
 
+struct object_marker
+{
+	word __unknown0;
+	real_matrix4x3 identity;
+	real_matrix4x3 node_matrix;
+	real __unknown6C;
+};
+static_assert(sizeof(object_marker) == 0x70);
 
 extern object_header_datum const* __cdecl object_header_get(long object_index);
 extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
 extern e_object_type __cdecl object_get_type(long object_index);
 extern bool __cdecl object_load_scenario_placement_matrices(long object_index);
 extern void __cdecl object_delete(long object_index);
+extern short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count);
 extern void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up);
 extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
 extern long __cdecl object_get_ultimate_parent(long object_index);

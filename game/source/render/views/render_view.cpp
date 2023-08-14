@@ -1,9 +1,12 @@
 #include "render/views/render_view.hpp"
 
 #include "interface/terminal.hpp"
+#include "hs/hs_runtime.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
-#include "hs/hs_runtime.hpp"
+#include "objects/objects.hpp"
+#include "render/render_debug.hpp"
+#include "units/units.hpp"
 
 REFERENCE_DECLARE(0x01913430, long, c_view::g_view_stack_top);
 REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
@@ -196,5 +199,18 @@ void __cdecl render_debug_frame_render()
 	terminal_draw();
 	main_time_frame_rate_display();
 	render_debug_trigger_volumes();
+
+	// location_messages
+	//real_point3d point = { 81.6f, -72.4f, 7.2f };
+	//render_debug_point(true, &point, 2.0f, global_real_argb_magenta);
+
+	// the object type render functions don't get called in release, call them here
+	c_object_iterator<unit_datum> unit_iterator;
+	unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
+	while (unit_iterator.next())
+	{
+		if (unit_iterator.get_index() != NONE)
+			unit_render_debug(unit_iterator.get_index());
+	}
 }
 

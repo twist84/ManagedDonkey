@@ -1,7 +1,20 @@
 #include "units/units.hpp"
 
+#include "cache/cache_files.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
+#include "units/unit_definition.hpp"
+#include "render/render_debug.hpp"
+
+HOOK_DECLARE(0x00B47080, unit_render_debug);
+
+bool debug_objects_unit_vectors = false;
+bool debug_objects_unit_seats = true;
+bool debug_objects_unit_mouth_apeture = false;
+bool debug_objects_unit_firing = false;
+bool debug_objects_unit_acceleration = false;
+bool debug_objects_unit_camera = true;
 
 void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index)
 {
@@ -36,6 +49,60 @@ void __cdecl unit_get_camera_position(long unit_index, real_point3d* position)
 bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index)
 {
 	return INVOKE(0x00B450F0, unit_has_weapon_definition_index, unit_index, weapon_definition_index);
+}
+
+void __cdecl unit_render_debug(long unit_index)
+{
+	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK));
+	REFERENCE_DECLARE(unit, long, object_definition_index);
+
+	_unit_definition* unit_definition = static_cast<_unit_definition*>(tag_get(UNIT_TAG, object_definition_index));
+
+
+	if (debug_objects_unit_vectors)
+	{
+
+	}
+
+	if (debug_objects_unit_seats)
+	{
+		for (unit_seat& seat : unit_definition->seats_block)
+		{
+			object_marker markers[6]{};
+			short marker_count = object_get_markers_by_string_id(unit_index, seat.entry_markers_name, markers, NUMBEROF(markers));
+			for (short marker_index = 0; marker_index < marker_count; marker_index++)
+			{
+				object_marker* marker = &markers[marker_index];
+
+				//render_debug_string_at_point(&marker->node_matrix.center, string_id_get_string_const(seat.label), global_real_argb_red);
+				render_debug_vector(true, &marker->node_matrix.center, &marker->node_matrix.matrix.forward, seat.entry_radius, global_real_argb_red);
+				//render_debug_sphere(true, &marker->node_matrix.center, seat.entry_radius, global_real_argb_red);
+				//render_debug_cone_outline(true, &marker->node_matrix.center, &marker->node_matrix.matrix.forward, seat.entry_radius, seat.entry_marker_cone_angle, global_real_argb_red);
+			}
+		}
+	}
+
+	if (debug_objects_unit_mouth_apeture)
+	{
+
+	}
+
+	if (debug_objects_unit_firing)
+	{
+
+	}
+
+	if (debug_objects_unit_acceleration)
+	{
+
+	}
+
+	if (debug_objects_unit_camera)
+	{
+		real_point3d unit_camera_position{};
+		unit_get_camera_position(unit_index, &unit_camera_position);
+		render_debug_point(true, &unit_camera_position, 0.2f, global_real_argb_cyan);
+	}
 }
 
 bool units_debug_can_select_unit(long unit_index)

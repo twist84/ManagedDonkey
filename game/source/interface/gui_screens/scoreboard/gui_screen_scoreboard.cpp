@@ -139,9 +139,9 @@ void __fastcall c_gui_screen_scoreboard::_update_render_state(c_gui_screen_score
 				list_item_widget->get_current_bounds(&current_bounds);
 
 				if (list_item_widget->get_element_handle() == -1)
-					y19 = (long)current_bounds.bottom;
+					y19 = (long)current_bounds.y.lower;
 				else
-					v18 = (long)current_bounds.bottom;
+					v18 = (long)current_bounds.y.lower;
 
 				if (y19 != v18)
 					_this->translate_widget_recursive(button_key_child_list_widget, 0, v18 - y19);

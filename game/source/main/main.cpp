@@ -91,7 +91,7 @@ static s_location_message location_messages[] =
 	{
 		.map_id = 340,
 		.radius = 2.0f,
-		.position = { 80.8f, -72.4f, 6.7f },
+		.position = { 81.6f, -72.4f, 7.2f },
 		.message = L"a player took the lake base center man cannon"
 	}
 };

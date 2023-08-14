@@ -41,6 +41,11 @@ void __cdecl object_delete(long object_index)
 	INVOKE(0x00B2CD10, object_delete, object_index);
 }
 
+short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count)
+{
+	return INVOKE(0x00B2E3C0, object_get_markers_by_string_id, object_index, marker_name, markers, maximum_marker_count);
+}
+
 void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up)
 {
 	INVOKE(0x00B2E490, object_get_orientation, object_index, forward, up);

@@ -16,7 +16,19 @@ enum e_entry_point;
 
 struct c_rasterizer_pixel_shader;
 struct c_rasterizer_vertex_shader;
-struct c_rasterizer_index_buffer;
+struct c_rasterizer_index_buffer
+{
+	enum e_primitive_type
+	{
+		_primitive_type_point_list = 1,
+		_primitive_type_line_list = 2,
+		_primitive_type_list_strip = 3,
+		_primitive_type_triangle_list = 4,
+		_primitive_type_triangle_strip = 5,
+		_primitive_type_triangle_fan = 6,
+		_primitive_type_force_dword = 0x7FFFFFFF,
+	};
+};
 
 struct rasterizer_vertex_debug
 {
@@ -93,8 +105,13 @@ struct c_rasterizer
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool, bool);
 	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const*, long, long, long, long);
 
+	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
-	void static draw_debug_polygon(rasterizer_vertex_debug const* vertex_debug, long primitive_count, long primitive_type);
+	// sub_A458B0;
+	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
+	static void __cdecl draw_debug_linestrip2d(point2d const* points, long point_count, dword color);
+	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
+	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* vertex_debug, long primitive_count, c_rasterizer_index_buffer::e_primitive_type type);
 
 	static IDirect3DDevice9Ex*& g_device;
 	static e_separate_alpha_blend_mode& g_current_separate_alpha_blend_mode;
