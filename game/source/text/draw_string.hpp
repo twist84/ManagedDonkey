@@ -188,15 +188,26 @@ static_assert(sizeof(c_hardware_draw_string) == sizeof(c_draw_string) + 0x14);
 struct c_simple_font_draw_string :
 	c_draw_string
 {
+	struct s_character_group_render_data
+	{
+		s_character_group_render_data();
+		bool __cdecl is_full();
+		void __cdecl reset();
+
+	protected:
+		long __unknown0;
+		long __unknown4;
+		long __unknown8;
+
+		long count;
+		char characters[256];
+	};
+
 public:
 	c_simple_font_draw_string();
 
 protected:
-	long __unknown100;
-	long __unknown104;
-	long __unknown108;
-	long string_length;
-	c_static_string<256> m_string;
+	s_character_group_render_data m_character_cache;
 };
 static_assert(sizeof(c_simple_font_draw_string) == sizeof(c_draw_string) + 0x110);
 
@@ -223,7 +234,7 @@ protected:
 	real m_sine_rotation;
 	real m_cosine_rotation;
 	bool __unknown114;
-	s_glyph_group_render_data render_data;
+	s_glyph_group_render_data m_render_data;
 };
 static_assert(sizeof(c_rasterizer_draw_string) == sizeof(c_draw_string) + 0x728);
 

@@ -150,14 +150,29 @@ c_hardware_draw_string::c_hardware_draw_string() :
 
 c_simple_font_draw_string::c_simple_font_draw_string() :
 	c_draw_string(),
-	__unknown100(),
-	__unknown104(),
-	__unknown108(),
-	string_length(),
-	m_string()
+	m_character_cache()
 {
 	__vftable = reinterpret_cast<decltype(__vftable)>(0x01697104);
 	DECLFUNC(0x00A76540, void, __thiscall, c_simple_font_draw_string*)(this);
+}
+
+c_simple_font_draw_string::s_character_group_render_data::s_character_group_render_data()
+{
+	reset();
+	csmemset(characters, 0, sizeof(characters));
+}
+
+bool __cdecl c_simple_font_draw_string::s_character_group_render_data::is_full()
+{
+	return count == 255;
+}
+
+void __cdecl c_simple_font_draw_string::s_character_group_render_data::reset()
+{
+	__unknown0 = 0;
+	__unknown4 = 0;
+	__unknown8 = 0;
+	count = 0;
 }
 
 c_rasterizer_draw_string::c_rasterizer_draw_string() :
@@ -167,7 +182,7 @@ c_rasterizer_draw_string::c_rasterizer_draw_string() :
 	m_sine_rotation(),
 	m_cosine_rotation(),
 	__unknown114(),
-	render_data()
+	m_render_data()
 {
 	__vftable = reinterpret_cast<decltype(__vftable)>(0x01692AF0);
 	DECLFUNC(0x00A25F00, void, __thiscall, c_rasterizer_draw_string*)(this);

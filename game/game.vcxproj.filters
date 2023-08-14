@@ -855,6 +855,9 @@
     <ClCompile Include="source\scenario\scenario_trigger_volumes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render_visibility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2166,6 +2169,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\scenario\scenario_trigger_volumes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_visibility.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -14,6 +14,12 @@ extern void __cdecl render_debug_vector(bool a1, real_point3d const* point, vect
 extern void __cdecl render_debug_triangle(bool a1, real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color);
 extern void __cdecl render_debug_triangle_outline(bool a1, real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color);
 extern void __cdecl render_debug_quadrilateral(bool a1, real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_point3d const* point3, real_argb_color const* color);
+extern real __cdecl build_height_matrix(real_point3d const* base, vector3d const* height, real_matrix4x3* out_matrix);
+extern void __cdecl render_debug_build_circle_points(real radius, real_point2d* points, long total_point_count);
+extern void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d const* height, real radius, real_point3d* points0, real_point3d* points1, real_point3d* points2, real_point3d* points3, real_point3d* points4, real_point3d* points5);
+extern void __cdecl render_debug_sphere(bool a1, real_point3d const* center, real radius, real_argb_color const* color);
+extern void __cdecl render_debug_cylinder(bool a1, real_point3d const* base, vector3d const* height, real radius, real_argb_color const* color);
+extern void __cdecl render_debug_pill(bool a1, real_point3d const* base, vector3d const* height, real radius, real_argb_color const* color);
 extern void __cdecl render_debug_polygon(real_point3d const* points, short total_point_count, real_argb_color const* color);
 extern void __cdecl render_debug_polygon_edges(real_point3d const* points, short total_point_count, real_argb_color const* color);
 extern void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_point_count, real_argb_color const* color);

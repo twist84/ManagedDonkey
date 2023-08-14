@@ -169,6 +169,11 @@ struct c_player_view :
 	static c_player_view*& x_current_player_view;
 	static c_player_view(&x_global_player_views)[4];
 
+	static c_player_view* __cdecl get_global_player_view()
+	{
+		return x_current_player_view;
+	}
+
 protected:
 	// c_camera_fx_values?
 	byte __data298[0x20];

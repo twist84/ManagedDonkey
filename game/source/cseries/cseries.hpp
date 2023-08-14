@@ -5,6 +5,7 @@
 #include "cseries/cseries_windows_debug_pc.hpp"
 #include "cseries/stack_walk_windows.hpp"
 #include "math/integer_math.hpp"
+#include "math/matrix_math.hpp"
 #include "math/real_math.hpp"
 
 #include <stdarg.h>

@@ -5,8 +5,18 @@
 #include "game/cheats.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "render/render_debug.hpp"
 
 HOOK_DECLARE(0x00B6B8F0, biped_bumped_object);
+HOOK_DECLARE(0x00B70DF0, biped_render_debug);
+
+bool debug_objects_physics_control_node = false;
+bool debug_objects_biped_autoaim_pills = true;
+bool debug_objects_ground_plane = false;
+bool debug_objects_movement_mode = false;
+bool debug_biped_throttle = false;
+bool debug_objects_unit_pathfinding_surface = false;
+bool debug_objects_pendulum = false;
 
 void __cdecl biped_bumped_object(long object_index, long bump_object_index, vector3d const* linear_velocity)
 {
@@ -83,6 +93,57 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 				biped_bump_ticks = 0;
 			}
 		}
+	}
+}
+
+void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector3d* height, real* radius)
+{
+	INVOKE(0x00B6E0A0, biped_get_autoaim_pill, biped_index, base, height, radius);
+}
+
+void __cdecl biped_render_debug(long biped_index)
+{
+	if (debug_objects_physics_control_node)
+	{
+
+	}
+
+	if (debug_objects_biped_autoaim_pills)
+	{
+		real_point3d base{};
+		vector3d height{};
+		real radius = 0.0f;
+
+		biped_get_autoaim_pill(biped_index, &base, &height, &radius);
+		if (magnitude_squared3d(&height) <= 0.0f)
+			render_debug_sphere(true, &base, radius, global_real_argb_red);
+		else
+			render_debug_pill(true, &base, &height, radius, global_real_argb_red);
+	}
+
+	if (debug_objects_ground_plane)
+	{
+
+	}
+
+	if (debug_objects_movement_mode)
+	{
+
+	}
+
+	if (debug_biped_throttle)
+	{
+
+	}
+
+	if (debug_objects_unit_pathfinding_surface)
+	{
+
+	}
+
+	if (debug_objects_pendulum)
+	{
+
 	}
 }
 

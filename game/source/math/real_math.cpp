@@ -61,6 +61,60 @@ real __cdecl square_root(real value)
 	return sqrtf(value); // sqrt
 }
 
+real __cdecl magnitude3d(vector3d const* vector)
+{
+	return square_root(magnitude_squared3d(vector));
+}
+
+vector3d* __cdecl perpendicular3d(vector3d const* vector, vector3d* out_vector)
+{
+	real i = fabsf(vector->i);
+	real j = fabsf(vector->j);
+	real k = fabsf(vector->k);
+	if (i > j || i > k)
+	{
+		if (j > k)
+		{
+			out_vector->i = vector->j;
+			out_vector->j = -vector->i;
+			out_vector->k = 0.0f;
+		}
+		else
+		{
+			out_vector->i = -vector->k;
+			out_vector->j = 0.0f;
+			out_vector->k = vector->i;
+		}
+	}
+	else
+	{
+		out_vector->i = 0.0f;
+		out_vector->j = vector->k;
+		out_vector->k = -vector->j;
+	}
+
+	return out_vector;
+}
+
+real __cdecl normalize3d(vector3d* vector)
+{
+	real result = magnitude3d(vector);
+	if (fabsf(result - 0.0f) < 0.000099999997f)
+		result = 0.0f;
+	else
+		scale_vector3d(vector, 1.0f / result, vector);
+
+	return result;
+}
+
+vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vector2d* out_vector)
+{
+	out_vector->i = (a2 * vector->i) + (a3 * vector->i);
+	out_vector->j = (a3 * vector->j) + (a2 * vector->j);
+
+	return out_vector;
+}
+
 vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d* out_vector)
 {
 	out_vector->i = scale * in_vector->i;
@@ -68,6 +122,14 @@ vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d
 	out_vector->k = scale * in_vector->k;
 
 	return out_vector;
+}
+
+real_point2d* __cdecl set_real_point2d(real_point2d* point, real x, real y)
+{
+	point->x = x;
+	point->y = y;
+
+	return point;
 }
 
 real_point3d* __cdecl set_real_point3d(real_point3d* point, real x, real y, real z)

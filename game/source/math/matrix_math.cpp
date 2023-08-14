@@ -39,6 +39,19 @@ vector3d* __cdecl matrix4x3_transform_vector(real_matrix4x3 const* matrix, vecto
 	return out_vector;
 }
 
+real_point3d* __cdecl matrix4x3_transform_point(real_matrix4x3 const* matrix, real_point3d const* in_point, real_point3d* out_point)
+{
+	real forward = in_point->n[0] * matrix->scale;
+	real left = in_point->n[1] * matrix->scale;
+	real up = in_point->n[2] * matrix->scale;
+
+	out_point->n[0] = (((matrix->matrix.left.n[0] * left) + (matrix->matrix.forward.n[0] * forward)) + (matrix->matrix.up.n[0] * up)) + matrix->center.n[0];
+	out_point->n[1] = (((matrix->matrix.left.n[1] * left) + (matrix->matrix.forward.n[1] * forward)) + (matrix->matrix.up.n[1] * up)) + matrix->center.n[1];
+	out_point->n[2] = (((matrix->matrix.left.n[2] * left) + (matrix->matrix.forward.n[2] * forward)) + (matrix->matrix.up.n[2] * up)) + matrix->center.n[2];
+
+	return out_point;
+}
+
 void __cdecl matrix4x3_multiply(real_matrix4x3 const* in_matrix0, real_matrix4x3 const* in_matrix1, real_matrix4x3* out_matrix)
 {
 	if (in_matrix0 == out_matrix)

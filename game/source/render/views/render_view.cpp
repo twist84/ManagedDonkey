@@ -6,6 +6,7 @@
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
+#include "units/bipeds.hpp"
 #include "units/units.hpp"
 
 REFERENCE_DECLARE(0x01913430, long, c_view::g_view_stack_top);
@@ -211,6 +212,14 @@ void __cdecl render_debug_frame_render()
 	{
 		if (unit_iterator.get_index() != NONE)
 			unit_render_debug(unit_iterator.get_index());
+	}
+
+	c_object_iterator<unit_datum> biped_iterator;
+	biped_iterator.begin(BIPED_OBJECT_MASK, 0);
+	while (biped_iterator.next())
+	{
+		if (biped_iterator.get_index() != NONE)
+			biped_render_debug(biped_iterator.get_index());
 	}
 }
 

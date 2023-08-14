@@ -1,7 +1,6 @@
 #include "hs/hs_runtime.hpp"
 
 #include "cseries/cseries.hpp"
-#include "math/matrix_math.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_lights.hpp"
 #include "scenario/scenario.hpp"

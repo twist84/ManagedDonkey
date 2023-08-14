@@ -409,6 +409,7 @@ POPD
     <ClCompile Include="source\render\render_debug.cpp" />
     <ClCompile Include="source\render\render_lights.cpp" />
     <ClCompile Include="source\render\render_objects_static_lighting.cpp" />
+    <ClCompile Include="source\render\render_visibility.cpp" />
     <ClCompile Include="source\render\views\render_view.cpp" />
     <ClCompile Include="source\render\views\split_screen_config.cpp" />
     <ClCompile Include="source\render_methods\render_method_submit.cpp" />
@@ -811,6 +812,7 @@ POPD
     <ClInclude Include="source\render\render_lights.hpp" />
     <ClInclude Include="source\render\render_objects_static_lighting.hpp" />
     <ClInclude Include="source\render\render_patchy_fog.hpp" />
+    <ClInclude Include="source\render\render_visibility.hpp" />
     <ClInclude Include="source\render\render_visibility_collection.hpp" />
     <ClInclude Include="source\render\views\render_view.hpp" />
     <ClInclude Include="source\render\views\split_screen_config.hpp" />

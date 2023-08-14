@@ -219,7 +219,11 @@ long const k_tag_file_name_length = 256;
 struct s_tag_block
 {
 	long count;
-	byte(&elements)[];
+	union
+	{
+		void* address;
+		byte* base;
+	};
 	long : 32; // byte* definition;
 };
 static_assert(sizeof(s_tag_block) == 0xC);
@@ -249,7 +253,11 @@ struct s_tag_data
 	long size;
 	long : 32; //  flags;
 	long : 32; // long stream_position;
-	byte(&base)[];
+	union
+	{
+		void* address;
+		byte* base;
+	};
 	long : 32; // byte* definition;
 };
 static_assert(sizeof(s_tag_data) == 0x14);
@@ -328,6 +336,8 @@ struct s_cache_file_tag_group
 };
 static_assert(sizeof(s_cache_file_tag_group) == 0x10);
 
+extern void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, long index, long size);
+extern void* __cdecl tag_data_get_pointer(s_tag_data const* data, long offset, long size);
 extern void __cdecl tag_load_missing_tags_report();
 extern char const* __cdecl tag_name_strip_path(char const* path);
 extern wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path);

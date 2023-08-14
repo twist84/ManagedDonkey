@@ -6,6 +6,28 @@
 
 bool const print_reference_updates = false;
 
+void* __cdecl tag_block_get_element_with_size(s_tag_block const* block, long index, long size)
+{
+	//INVOKE(0x0055AA00, tag_block_get_element_with_size, block, index, size);
+
+	ASSERT(block);
+	ASSERT(block->count >= 0);
+	ASSERT(VALID_INDEX(index, block->count));
+	ASSERT(block->address);
+
+	return block->base + index * size;
+}
+
+void* __cdecl tag_data_get_pointer(s_tag_data const* data, long offset, long size)
+{
+	//INVOKE(0x0055AA60, tag_data_get_pointer, data, offset, size);
+
+	ASSERT(size >= 0);
+	ASSERT(offset >= 0 && offset + size <= data->size);
+
+	return data->base + offset;
+}
+
 void __cdecl tag_load_missing_tags_report()
 {
 	// nullsub
