@@ -204,6 +204,7 @@ void __cdecl render_debug_frame_render()
 	// location_messages
 	//real_point3d point = { 81.6f, -72.4f, 7.2f };
 	//render_debug_point(true, &point, 2.0f, global_real_argb_magenta);
+	//render_debug_string_at_point(&point, "test location", global_real_argb_magenta);
 
 	// the object type render functions don't get called in release, call them here
 	c_object_iterator<unit_datum> unit_iterator;

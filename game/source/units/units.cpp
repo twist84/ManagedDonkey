@@ -10,11 +10,11 @@
 HOOK_DECLARE(0x00B47080, unit_render_debug);
 
 bool debug_objects_unit_vectors = false;
-bool debug_objects_unit_seats = true;
+bool debug_objects_unit_seats = false;
 bool debug_objects_unit_mouth_apeture = false;
 bool debug_objects_unit_firing = false;
 bool debug_objects_unit_acceleration = false;
-bool debug_objects_unit_camera = true;
+bool debug_objects_unit_camera = false;
 
 void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index)
 {
@@ -74,7 +74,7 @@ void __cdecl unit_render_debug(long unit_index)
 			{
 				object_marker* marker = &markers[marker_index];
 
-				//render_debug_string_at_point(&marker->node_matrix.center, string_id_get_string_const(seat.label), global_real_argb_red);
+				render_debug_string_at_point(&marker->node_matrix.center, string_id_get_string_const(seat.label), global_real_argb_red);
 				render_debug_vector(true, &marker->node_matrix.center, &marker->node_matrix.matrix.forward, seat.entry_radius, global_real_argb_red);
 				render_debug_sphere(true, &marker->node_matrix.center, seat.entry_radius, global_real_argb_red);
 				//render_debug_cone_outline(true, &marker->node_matrix.center, &marker->node_matrix.matrix.forward, seat.entry_radius, seat.entry_marker_cone_angle, global_real_argb_red);

@@ -47,3 +47,13 @@ void __cdecl interface_get_current_window_settings(short_rectangle2d* fullscreen
 	INVOKE(0x00A9FAF0, interface_get_current_window_settings, fullscreen_render_pixel_bounds, fullscreen_render_title_safe_pixel_bounds, display_pixel_bounds, display_title_safe_pixel_bounds);
 }
 
+void __cdecl interface_scale_rectangle2d_for_xenon_scaler(short_rectangle2d* rectangle, vector2d const* vector)
+{
+	//INVOKE(0x00A9FE30, interface_scale_rectangle2d_for_xenon_scaler, rectangle, vector);
+
+	rectangle->y0 = static_cast<short>(rectangle->y0 * vector->i);
+	rectangle->y1 = static_cast<short>(rectangle->y1 * vector->i);
+	rectangle->x0 = static_cast<short>(rectangle->x0 * vector->j);
+	rectangle->x1 = static_cast<short>(rectangle->x1 * vector->j);
+}
+

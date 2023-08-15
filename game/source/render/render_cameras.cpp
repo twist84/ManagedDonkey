@@ -22,6 +22,21 @@ void __cdecl render_camera_build_viewport_frustum_bounds(render_camera const* ca
 	INVOKE(0x00A64A50, render_camera_build_viewport_frustum_bounds, camera, frustum_bounds);
 }
 
+bool __cdecl render_camera_view_to_screen(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point3d const* world_point, real_point2d* screen_point)
+{
+	return INVOKE(0x00A65650, render_camera_view_to_screen, camera, projection, window_display_bounds, world_point, screen_point);
+}
+
+bool __cdecl render_camera_world_to_screen(render_camera const* camera, render_projection const* projection, real_point3d const* world_point, real_point2d* screen_point)
+{
+	return INVOKE(0x00A65BE0, render_camera_world_to_screen, camera, projection, world_point, screen_point);
+}
+
+bool __cdecl render_camera_world_to_window(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point3d const* world_point, real_point2d* screen_point)
+{
+	return INVOKE(0x00A65C10, render_camera_world_to_window, camera, projection, window_display_bounds, world_point, screen_point);
+}
+
 real __cdecl render_projection_sphere_diameter_in_pixels(render_projection const* projection, real_point3d const* point, real scale)
 {
 	real v0 = fabsf(((((projection->world_to_view.matrix.left.k * point->y) + (projection->world_to_view.matrix.forward.k * point->x)) + (projection->world_to_view.matrix.up.k * point->z)) + projection->world_to_view.center.z));

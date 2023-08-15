@@ -141,3 +141,40 @@ real_point3d* __cdecl set_real_point3d(real_point3d* point, real x, real y, real
 	return point;
 }
 
+real_point2d* __cdecl point_from_line2d(real_point2d const* point, vector2d const* vector, real scale, real_point2d* out_point)
+{
+	*out_point = *point;
+	out_point->x *= (vector->i * scale);
+	out_point->y *= (vector->j * scale);
+
+	return out_point;
+};
+
+vector2d* __cdecl vector_from_points2d(real_point2d const* point0, real_point2d const* point1, vector2d* out_vector)
+{
+	out_vector->i = point1->x - point0->x;
+	out_vector->j = point1->y - point0->y;
+
+	return out_vector;
+};
+
+short const global_projection3d_mappings[18] = { _z, _y, _x, _y, _z, _x, _x, _z, _y, _z, _x, _y, _y, _x, _z, _x, _y, _z };
+short const global_projection3d_inverse_mappings[18] = { _z, _y, _x, _z, _x, _y, _x, _z, _y,	_y, _z, _x, _y, _x, _z, _x, _y, _z };
+
+real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* plane, short projection, bool a4, real_point3d* out_point)
+{
+	short v5 = global_projection3d_mappings[2 * projection + 3 * a4];
+	short v6 = global_projection3d_mappings[2 * projection + 1 + 3 * a4];
+
+	real v7 = 0.0f;
+	if (fabsf((plane->normal.n[projection] - 0.0f)) >= 0.000099999997f)
+		v7 = ((plane->distance - (plane->normal.n[v5] * point->n[0])) - (plane->normal.n[v6] * point->n[1])) / plane->normal.n[projection];
+
+	ASSERT(projection >= _x && projection <= _z);
+	out_point->n[v5] = point->n[0];
+	out_point->n[v6] = point->n[1];
+	out_point->n[projection] = v7;
+
+	return out_point;
+}
+

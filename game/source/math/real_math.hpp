@@ -280,4 +280,6 @@ extern vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a
 extern vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d* out_vector);
 extern real_point2d* __cdecl set_real_point2d(real_point2d* point, real x, real y);
 extern real_point3d* __cdecl set_real_point3d(real_point3d* point, real x, real y, real z);
-
+extern real_point2d* __cdecl point_from_line2d(real_point2d const* point, vector2d const* vector, real scale, real_point2d* out_point);
+extern vector2d* __cdecl vector_from_points2d(real_point2d const* point0, real_point2d const* point1, vector2d* out_vector);
+extern real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* plane, short projection, bool a4, real_point3d* out_point);
