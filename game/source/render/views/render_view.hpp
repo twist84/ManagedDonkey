@@ -178,6 +178,20 @@ struct c_player_view :
 		return x_current_player_view;
 	}
 
+	static c_player_view* __cdecl get_global_player_view(long view_index)
+	{
+		return &x_global_player_views[view_index];
+	}
+
+	static void __cdecl set_global_player_view(c_player_view* view)
+	{
+		// asserts
+
+		x_current_player_view = view;
+	}
+
+	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
+
 protected:
 	// c_camera_fx_values?
 	byte __data298[0x20];
