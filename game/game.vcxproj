@@ -312,6 +312,7 @@ POPD
     <ClCompile Include="source\math\color_math.cpp" />
     <ClCompile Include="source\math\integer_math.cpp" />
     <ClCompile Include="source\math\matrix_math.cpp" />
+    <ClCompile Include="source\math\random_math.cpp" />
     <ClCompile Include="source\math\real_math.cpp" />
     <ClCompile Include="source\memory\bitstream.cpp" />
     <ClCompile Include="source\memory\crc.cpp" />
@@ -487,6 +488,7 @@ POPD
     <ClInclude Include="source\main\debug_keys.hpp" />
     <ClInclude Include="source\math\function_definitions.hpp" />
     <ClInclude Include="source\math\matrix_math.hpp" />
+    <ClInclude Include="source\math\random_math.hpp" />
     <ClInclude Include="source\math\real_math.hpp" />
     <ClInclude Include="source\memory\data_encoding.hpp" />
     <ClInclude Include="source\memory\data_packets.hpp" />

@@ -8,8 +8,8 @@ extern void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d c
 extern void __cdecl rasterizer_debug_line2d(real_point2d const* p0, real_point2d const* p1, real_argb_color const* color0, real_argb_color const* color1);
 extern void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color);
 
-//render_debug_random_color
-//render_debug_unique_color
+real_argb_color const* __cdecl render_debug_random_color(real_argb_color* color);
+real_argb_color const* __cdecl render_debug_unique_color(long index, real_argb_color* color);
 //render_debug_spray
 extern void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, real scale, real_argb_color const* color, real a8);
 extern void __cdecl render_debug_line2d(real_point2d const* point0, real_point2d const* point1, real_argb_color const* color);
@@ -27,10 +27,10 @@ extern void __cdecl render_debug_line_non_occluded(bool draw_immediately, real_p
 extern void __cdecl render_debug_vector(bool draw_immediately, real_point3d const* point, vector3d const* vector, real scale, real_argb_color const* color);
 extern void __cdecl render_debug_tick(bool draw_immediately, real_point3d const* point, vector3d const* vector, real scale, real_argb_color const* color);
 extern void __cdecl render_debug_line_offset(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_argb_color const* color, real scale);
-//render_debug_vectors
-//render_debug_quaternion
-//render_debug_matrix
-extern void __cdecl render_debug_matrix3x3(bool draw_immediately, matrix3x3 const* matrix, real_point3d const* point, real scale);
+extern void __cdecl render_debug_vectors(bool draw_immediately, real_point3d const* point, vector3d const* forward, vector3d const* up, real radius);
+extern void __cdecl render_debug_quaternion(bool draw_immediately, real_point3d const* point, real_quaternion const* quaternion, real radius);
+extern void __cdecl render_debug_matrix(bool draw_immediately, real_matrix4x3 const* matrix, real radius);
+extern void __cdecl render_debug_matrix3x3(bool draw_immediately, matrix3x3 const* matrix, real_point3d const* point, real radius);
 extern void __cdecl render_debug_triangle(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color);
 extern void __cdecl render_debug_triangle_outline(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color);
 extern void __cdecl render_debug_quadrilateral(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_point3d const* point3, real_argb_color const* color);
@@ -60,4 +60,6 @@ extern void __cdecl render_debug_polygon_fan(real_point3d const* points, short t
 extern real __cdecl build_height_matrix(real_point3d const* base, vector3d const* height, real_matrix4x3* out_matrix);
 extern void __cdecl render_debug_build_circle_points(real radius, real_point2d* points, long total_point_count);
 extern void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d const* height, real radius, real_point3d* points0, real_point3d* points1, real_point3d* points2, real_point3d* points3, real_point3d* points4, real_point3d* points5);
+
+extern word __cdecl _random(dword* seed, char const* string, char const* file, dword line);
 

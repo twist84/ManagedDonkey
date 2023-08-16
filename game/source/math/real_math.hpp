@@ -271,6 +271,7 @@ extern vector3d const* const& global_up3d;
 extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);
 extern vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d* up);
 extern euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward);
+extern void __cdecl matrix4x3_from_point_and_quaternion(real_matrix4x3* matrix, real_point3d const* point, real_quaternion const* quaternion);
 extern vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d* out);
 extern real __cdecl dot_product3d(vector3d const* a, vector3d const* b);
 extern vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, vector3d* out);

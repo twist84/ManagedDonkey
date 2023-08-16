@@ -21,6 +21,11 @@ euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vec
 	return INVOKE(0x004F13E0, euler_angles2d_from_vector3d, facing, forward);
 }
 
+void __cdecl matrix4x3_from_point_and_quaternion(real_matrix4x3* matrix, real_point3d const* point, real_quaternion const* quaternion)
+{
+	INVOKE(0x005B1F30, matrix4x3_from_point_and_quaternion, matrix, point, quaternion);
+}
+
 vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d* out)
 {
 	out->n[0] = real(a->n[1] * b->n[2]) - real(a->n[2] * b->n[1]);
@@ -266,5 +271,4 @@ long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximu
 
 	return k_edges_per_cube_count;
 }
-
 

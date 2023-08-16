@@ -3,6 +3,7 @@
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
 #include "math/color_math.hpp"
+#include "math/random_math.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/views/render_view.hpp"
 #include "render/render_cameras.hpp"
@@ -70,8 +71,49 @@ void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d 
 	c_rasterizer::draw_debug_polygon(vertex_debug, NUMBEROF(vertex_debug), c_rasterizer_index_buffer::_primitive_type_triangle_strip); // D3DPT_TRIANGLESTRIP
 }
 
-//render_debug_random_color
-//render_debug_unique_color
+word __cdecl _random(dword* seed, char const* string, char const* file, dword line)
+{
+	//random_seed_debug(seed, "random", string, file, line);
+	*seed = 0x19660D * *seed + 0x3C6EF35F;
+
+	return HIWORD(*seed);
+}
+
+real_argb_color const* __cdecl render_debug_random_color(real_argb_color* color)
+{
+	return render_debug_unique_color(_random(get_local_random_seed_address(), 0, __FILE__, __LINE__), color);
+}
+
+real_argb_color const* __cdecl render_debug_unique_color(long index, real_argb_color* color)
+{
+	ASSERT(color);
+
+	static real_argb_color unique_colors[]
+	{
+		{ 1.0, { 1.0, 0.0, 1.0 } },
+		{ 1.0, { 0.0, 1.0, 1.0 } },
+		{ 1.0, { 1.0, 0.5, 0.0 } },
+		{ 1.0, { 0.0, 1.0, 0.5 } },
+		{ 1.0, { 0.5, 0.0, 1.0 } },
+		{ 1.0, { 1.0, 0.0, 0.5 } },
+		{ 1.0, { 0.5, 1.0, 0.0 } },
+		{ 1.0, { 0.0, 0.5, 1.0 } },
+		{ 1.0, { 0.5, 0.0, 0.0 } },
+		{ 1.0, { 0.0, 0.5, 0.0 } },
+		{ 1.0, { 0.0, 0.0, 0.5 } },
+		{ 1.0, { 1.0, 1.0, 0.5 } },
+		{ 1.0, { 1.0, 0.5, 1.0 } },
+		{ 1.0, { 0.5, 1.0, 1.0 } },
+		{ 1.0, { 0.5, 0.5, 0.0 } },
+		{ 1.0, { 0.0, 0.5, 0.5 } },
+		{ 1.0, { 0.5, 0.0, 0.5 } },
+	};
+
+	*color = unique_colors[abs(index) % NUMBEROF(unique_colors)];
+
+	return color;
+}
+
 //render_debug_spray
 
 void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, real scale, real_argb_color const* color, real a8)
@@ -376,15 +418,32 @@ void __cdecl render_debug_line_offset(bool draw_immediately, real_point3d const*
 	render_debug_line(draw_immediately, &p0, &p1, color);
 }
 
-//render_debug_vectors
-//render_debug_quaternion
-//render_debug_matrix
-
-void __cdecl render_debug_matrix3x3(bool draw_immediately, matrix3x3 const* matrix, real_point3d const* point, real scale)
+void __cdecl render_debug_vectors(bool draw_immediately, real_point3d const* point, vector3d const* forward, vector3d const* up, real radius)
 {
-	render_debug_vector(draw_immediately, point, &matrix->forward, scale, global_real_argb_red);
-	render_debug_vector(draw_immediately, point, &matrix->left, scale, global_real_argb_green);
-	render_debug_vector(draw_immediately, point, &matrix->up, scale, global_real_argb_blue);
+	real_matrix4x3 matrix{};
+	matrix4x3_from_point_and_vectors(&matrix, point, forward, up);
+	render_debug_matrix(draw_immediately, &matrix, radius);
+}
+
+void __cdecl render_debug_quaternion(bool draw_immediately, real_point3d const* point, real_quaternion const* quaternion, real radius)
+{
+	real_matrix4x3 matrix{};
+	matrix4x3_from_point_and_quaternion(&matrix, point, quaternion);
+	render_debug_matrix(draw_immediately, &matrix, radius);
+}
+
+void __cdecl render_debug_matrix(bool draw_immediately, real_matrix4x3 const* matrix, real radius)
+{
+	render_debug_vector(draw_immediately, &matrix->center, &matrix->matrix.forward, radius * matrix->scale, global_real_argb_red);
+	render_debug_vector(draw_immediately, &matrix->center, &matrix->matrix.left, radius * matrix->scale, global_real_argb_green);
+	render_debug_vector(draw_immediately, &matrix->center, &matrix->matrix.up, radius * matrix->scale, global_real_argb_blue);
+}
+
+void __cdecl render_debug_matrix3x3(bool draw_immediately, matrix3x3 const* matrix, real_point3d const* point, real radius)
+{
+	render_debug_vector(draw_immediately, point, &matrix->forward, radius, global_real_argb_red);
+	render_debug_vector(draw_immediately, point, &matrix->left, radius, global_real_argb_green);
+	render_debug_vector(draw_immediately, point, &matrix->up, radius, global_real_argb_blue);
 }
 
 void __cdecl render_debug_triangle(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color)
