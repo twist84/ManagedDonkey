@@ -784,9 +784,18 @@ struct s_object_broadphase
 };
 static_assert(sizeof(s_object_broadphase) == 0x32450);
 
+struct s_object_early_mover
+{
+	byte __data[0x130];
+};
+static_assert(sizeof(s_object_early_mover) == 0x130);
+
 struct s_object_early_movers_globals
 {
-	byte __data[0x2688];
+	s_object_early_mover early_movers[32];
+	long object_indices[32];
+	long object_index_count;
+	bool map_initialized;
 };
 static_assert(sizeof(s_object_early_movers_globals) == 0x2688);
 
