@@ -57,7 +57,9 @@ void __cdecl render_debug_trigger_volumes()
 			vector3d extents_transformed{};
 			matrix4x3_transform_vector(&matrix, &extents, &extents_transformed);
 
-			//render_debug_string_at_point(&matrix.center, trigger_volume.name.get_string(), global_real_argb_green);
+			//real_point3d center{};
+			//if (trigger_volume_get_center(&trigger_volume, &center))
+			//	render_debug_string_at_point(&center, trigger_volume.name.get_string(), global_real_argb_green);
 
 			for (long i = 0; i < 6; i++)
 			{

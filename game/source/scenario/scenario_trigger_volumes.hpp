@@ -31,10 +31,9 @@ struct scenario_trigger_volume
 	c_typed_tag_block<s_real_sector_point> sector_points;
 	c_typed_tag_block<s_trigger_volume_triangle> runtime_triangles;
 
-	real runtime_sector_bounds_x[2];
-	real runtime_sector_bounds_y[2];
-	real runtime_sector_bounds_z[2];
+	real_rectangle3d runtime_sector_bounds;
 
+	// radius
 	real C;
 
 	// s_scenario_kill_trigger_volume
@@ -63,5 +62,7 @@ struct s_trigger_volume_triangle
 };
 static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
 
+extern bool __cdecl trigger_volume_get_center(scenario_trigger_volume const* volume, union real_point3d* center);
 extern bool __cdecl trigger_volume_get_matrix(scenario_trigger_volume const* volume, real_matrix4x3* matrix);
+extern real __cdecl trigger_volume_get_radius(scenario_trigger_volume const* volume);
 

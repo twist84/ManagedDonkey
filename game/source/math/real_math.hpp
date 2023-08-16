@@ -24,6 +24,7 @@ enum
 
 	k_faces_per_cube_count = 6,
 	k_vertices_per_cube_count = 8,
+	k_edges_per_cube_count = 12,
 };
 
 union real_bounds
@@ -263,6 +264,9 @@ struct real_quaternion
 };
 static_assert(sizeof(real_quaternion) == sizeof(real) * 4);
 
+extern real_point3d const* const& global_origin3d;
+extern vector3d const* const& global_forward3d;
+
 extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);
 extern vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d* up);
 extern euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward);
@@ -283,3 +287,7 @@ extern real_point3d* __cdecl set_real_point3d(real_point3d* point, real x, real 
 extern real_point2d* __cdecl point_from_line2d(real_point2d const* point, vector2d const* vector, real scale, real_point2d* out_point);
 extern vector2d* __cdecl vector_from_points2d(real_point2d const* point0, real_point2d const* point1, vector2d* out_vector);
 extern real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* plane, short projection, bool a4, real_point3d* out_point);
+extern long __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, long maximum_vertex_count, real_point3d* const vertices);
+extern long __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, long maximum_face_count, real_point3d(* const faces)[4]);
+extern long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximum_edge_count, real_point3d(* const edges)[2]);
+

@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+REFERENCE_DECLARE(0x0189CF00, real_point3d const* const, global_origin3d);
+REFERENCE_DECLARE(0x0189CF04, vector3d const* const, global_forward3d);
+
 real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b)
 {
 	return INVOKE(0x004EEC40, angle_between_vectors3d, a, b);
@@ -177,4 +180,90 @@ real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* 
 
 	return out_point;
 }
+
+long __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, long maximum_vertex_count, real_point3d* const vertices)
+{
+	ASSERT(bounds);
+	ASSERT(maximum_vertex_count >= k_vertices_per_cube_count);
+	ASSERT(vertices);
+
+	for (long i = 0; i < maximum_vertex_count; i++)
+	{
+		vertices[i].x = bounds->x.upper;
+		vertices[i].y = bounds->y.lower;
+		vertices[i].z = bounds->z.lower;
+	}
+
+	return k_vertices_per_cube_count;
+}
+
+long __cdecl rectangle3d_build_faces(real_rectangle3d const* bounds, long maximum_face_count, real_point3d(* const faces)[4])
+{
+	ASSERT(bounds);
+	ASSERT(maximum_face_count >= k_faces_per_cube_count);
+	ASSERT(faces);
+
+	long face_vertex_indices[k_faces_per_cube_count][4]
+	{
+		{ 0, 2, 3, 1 },
+		{ 0, 1, 5, 4 },
+		{ 1, 3, 7, 5 },
+		{ 2, 6, 7, 3 },
+		{ 0, 4, 6, 2 },
+		{ 4, 5, 7, 6 },
+	};
+
+	real_point3d vertices[k_vertices_per_cube_count]{};
+	rectangle3d_build_vertices(bounds, k_vertices_per_cube_count, vertices);
+
+	for (long face_index = 0; face_index < k_faces_per_cube_count; face_index++)
+	{
+		for (long vertex_index = 0; vertex_index < k_vertices_per_cube_count; vertex_index++)
+		{
+			ASSERT((face_vertex_indices[face_index][vertex_index] >= 0) && (face_vertex_indices[face_index][vertex_index] < k_vertices_per_cube_count));
+
+			*faces[face_vertex_indices[face_index][vertex_index]] = vertices[face_vertex_indices[face_index][vertex_index]];
+		}
+	}
+
+	return k_faces_per_cube_count;
+}
+
+long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximum_edge_count, real_point3d(* const edges)[2])
+{
+	ASSERT(bounds);
+	ASSERT(maximum_edge_count >= k_edges_per_cube_count);
+	ASSERT(edges);
+
+	long line_vertex_indices[k_edges_per_cube_count][2]
+	{
+		{ 0, 2 },
+		{ 2, 3 },
+		{ 3, 1 },
+		{ 1, 0 },
+		{ 0, 4 },
+		{ 1, 5 },
+		{ 2, 6 },
+		{ 3, 7 },
+		{ 4, 5 },
+		{ 5, 7 },
+		{ 7, 6 },
+		{ 6, 4 },
+	};
+
+	real_point3d vertices[k_vertices_per_cube_count]{};
+	rectangle3d_build_vertices(bounds, k_vertices_per_cube_count, vertices);
+
+	for (long edge_index = 0; edge_index < k_edges_per_cube_count; edge_index++)
+	{
+		ASSERT((line_vertex_indices[edge_index][0] >= 0) && (line_vertex_indices[edge_index][0] < k_vertices_per_cube_count));
+		ASSERT((line_vertex_indices[edge_index][1] >= 0) && (line_vertex_indices[edge_index][1] < k_vertices_per_cube_count));
+
+		*edges[0] = vertices[line_vertex_indices[edge_index][0]];
+		*edges[1] = vertices[line_vertex_indices[edge_index][1]];
+	}
+
+	return k_edges_per_cube_count;
+}
+
 
