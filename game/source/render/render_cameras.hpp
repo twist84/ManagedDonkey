@@ -11,10 +11,12 @@ struct render_camera
 	// mirrored cameras do not work
 	bool is_mirrored;
 
+	// here <<< H3EK has 8 bytes of something here, structure size increased to 0x90
+
 	real vertical_field_of_view;
 	real horizontal_field_of_view;
 
-	// H3EK has 8 bytes of something here, structure size increased to 0x90
+	// or here <<< H3EK has 8 bytes of something here, structure size increased to 0x90
 
 	short_rectangle2d window_pixel_bounds;
 	short_rectangle2d window_title_safe_pixel_bounds;

@@ -266,6 +266,7 @@ static_assert(sizeof(real_quaternion) == sizeof(real) * 4);
 
 extern real_point3d const* const& global_origin3d;
 extern vector3d const* const& global_forward3d;
+extern vector3d const* const& global_up3d;
 
 extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);
 extern vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d* up);

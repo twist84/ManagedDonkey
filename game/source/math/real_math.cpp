@@ -4,6 +4,7 @@
 
 REFERENCE_DECLARE(0x0189CF00, real_point3d const* const, global_origin3d);
 REFERENCE_DECLARE(0x0189CF04, vector3d const* const, global_forward3d);
+REFERENCE_DECLARE(0x0189CF28, vector3d const* const, global_up3d);
 
 real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b)
 {

@@ -287,8 +287,65 @@ void __cdecl render_debug_line2d_shaded(real_point2d const* point0, real_point2d
 	}
 }
 
-//render_debug_line_unclipped
-//render_debug_line_non_occluded
+void __cdecl render_debug_line_unclipped(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_argb_color const* color)
+{
+	ASSERT(point0);
+	ASSERT(point1);
+
+	real_matrix4x3 camera{};
+	c_player_view::get_player_render_camera_orientation(&camera);
+
+	real_point3d p0 = *point0;
+	real_point3d p1 = *point1;
+
+	vector3d vector0{};
+	vector3d vector1{};
+	vector_from_points3d(&camera.center, &p0, &vector0);
+	vector_from_points3d(&camera.center, &p1, &vector1);
+
+	real clip_distance = magnitude3d(&vector0);
+	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
+		clip_distance = magnitude3d(&vector1);
+
+	real z_far = c_player_view::get_global_player_view(0)->get_rasterizer_camera()->z_far;
+	if (clip_distance > (0.5f * z_far))
+	{
+		real distance = (0.5f * z_far) / clip_distance;
+		point_from_line3d(&camera.center, &vector0, distance, &p0);
+		point_from_line3d(&camera.center, &vector1, distance, &p1);
+	}
+	render_debug_line(draw_immediately, &p0, &p1, color);
+}
+
+void __cdecl render_debug_line_non_occluded(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_argb_color const* color)
+{
+	ASSERT(point0);
+	ASSERT(point1);
+
+	real_matrix4x3 camera{};
+	c_player_view::get_player_render_camera_orientation(&camera);
+
+	real_point3d p0 = *point0;
+	real_point3d p1 = *point1;
+
+	vector3d vector0{};
+	vector3d vector1{};
+	vector_from_points3d(&camera.center, &p0, &vector0);
+	vector_from_points3d(&camera.center, &p1, &vector1);
+
+	real clip_distance = magnitude3d(&vector0);
+	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
+		clip_distance = magnitude3d(&vector1);
+
+	real z_near = c_player_view::get_global_player_view(0)->get_rasterizer_camera()->z_near;
+	if (clip_distance > (0.5f * z_near))
+	{
+		real distance = (0.5f * z_near) / clip_distance;
+		point_from_line3d(&camera.center, &vector0, distance, &p0);
+		point_from_line3d(&camera.center, &vector1, distance, &p1);
+	}
+	render_debug_line(draw_immediately, &p0, &p1, color);
+}
 
 void __cdecl render_debug_vector(bool draw_immediately, real_point3d const* point, vector3d const* vector, real scale, real_argb_color const* color)
 {
@@ -301,12 +358,34 @@ void __cdecl render_debug_vector(bool draw_immediately, real_point3d const* poin
 	render_debug_line(draw_immediately, point, &point1, color);
 }
 
-//render_debug_tick
-//render_debug_line_offset
+void __cdecl render_debug_tick(bool draw_immediately, real_point3d const* point, vector3d const* vector, real scale, real_argb_color const* color)
+{
+	real_point3d point0{};
+	real_point3d point1{};
+	point_from_line3d(point, vector, scale, &point0);
+	point_from_line3d(point, vector, scale, &point1);
+	render_debug_line(draw_immediately, &point0, &point1, color);
+}
+
+void __cdecl render_debug_line_offset(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_argb_color const* color, real scale)
+{
+	real_point3d p0{};
+	real_point3d p1{};
+	point_from_line3d(point0, global_up3d, scale, &p0);
+	point_from_line3d(point1, global_up3d, scale, &p1);
+	render_debug_line(draw_immediately, &p0, &p1, color);
+}
+
 //render_debug_vectors
 //render_debug_quaternion
 //render_debug_matrix
-//render_debug_matrix3x3
+
+void __cdecl render_debug_matrix3x3(bool draw_immediately, matrix3x3 const* matrix, real_point3d const* point, real scale)
+{
+	render_debug_vector(draw_immediately, point, &matrix->forward, scale, global_real_argb_red);
+	render_debug_vector(draw_immediately, point, &matrix->left, scale, global_real_argb_green);
+	render_debug_vector(draw_immediately, point, &matrix->up, scale, global_real_argb_blue);
+}
 
 void __cdecl render_debug_triangle(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color)
 {
@@ -476,7 +555,7 @@ void __cdecl render_debug_box2d_outline(bool draw_immediately, real_rectangle2d 
 		set_real_point3d(&points[2], bounds->x.upper, bounds->y.upper, -1.0);
 		set_real_point3d(&points[3], bounds->x.lower, bounds->y.upper, -1.0);
 
-		render_projection const* projection = c_player_view::get_global_player_view()->get_rasterizer_projection();
+		render_projection const* projection = c_player_view::get_global_player_view(0)->get_rasterizer_projection();
 		matrix4x3_transform_point(&projection->view_to_world, points, points);
 		matrix4x3_transform_point(&projection->view_to_world, &points[1], &points[1]);
 		matrix4x3_transform_point(&projection->view_to_world, &points[2], &points[2]);
@@ -665,8 +744,8 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 	ASSERT(string);
 	ASSERT(color);
 
-	render_camera const* camera = c_player_view::x_global_player_views[0].get_rasterizer_camera();
-	render_projection const* projection = c_player_view::x_global_player_views[0].get_rasterizer_projection();
+	render_camera const* camera = c_player_view::get_global_player_view(0)->get_rasterizer_camera();
+	render_projection const* projection = c_player_view::get_global_player_view(0)->get_rasterizer_projection();
 
 	vector2d aspect_ratio_scale{};
 	vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
