@@ -426,7 +426,7 @@ void __cdecl render_debug_sphere(bool draw_immediately, real_point3d const* cent
 		{
 			real_point2d circle_points[17]{};
 			render_debug_build_circle_points(radius, circle_points, NUMBEROF(circle_points));
-			for (long i = 0; i < 16; i++)
+			for (long i = 0; i < NUMBEROF(circle_points) - 1; i++)
 			{
 				real_point2d* circle_point0 = &circle_points[i];
 				real_point2d* circle_point1 = &circle_points[i + 1];
