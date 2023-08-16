@@ -18,12 +18,12 @@ real_argb_color* __cdecl interface_get_rgb_color(short interface_reference_index
 	return INVOKE(0x00AAE4D0, interface_get_rgb_color, interface_reference_index, color_block_index, color_out);
 }
 
-void __cdecl interface_set_bitmap_text_draw_mode(c_draw_string* draw_string, long font_id, long text_style, long text_justification, dword a5, short interface_tag_index, short a7)
+void __cdecl interface_set_bitmap_text_draw_mode(c_draw_string* draw_string, long font_id, long text_style, long text_justification, dword a5, short interface_tag_index, short color_block_index)
 {
-	//INVOKE(0x00AAE630, interface_set_bitmap_text_draw_mode, draw_string, font_id, text_style, text_justification, a5, interface_tag_index, a7);
+	//INVOKE(0x00AAE630, interface_set_bitmap_text_draw_mode, draw_string, font_id, text_style, text_justification, a5, interface_tag_index, color_block_index);
 
 	real_argb_color color{};
-	interface_get_real_argb_color(interface_tag_index, a7, &color);
+	interface_get_real_argb_color(interface_tag_index, color_block_index, &color);
 
 	real_argb_color shadow_color{};
 	shadow_color.color = *global_real_rgb_black;
