@@ -74,7 +74,7 @@ void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d 
 //render_debug_unique_color
 //render_debug_spray
 
-void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, real a6, real_argb_color const* color, real a8)
+void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, real scale, real_argb_color const* color, real a8)
 {
 	ASSERT(plane);
 	ASSERT(point);
@@ -86,7 +86,7 @@ void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, s
 
 	q.n[projection_axis] += a4 ? a8 : -a8;
 
-	render_debug_point(draw_immediately, &q, a6, color);
+	render_debug_point(draw_immediately, &q, scale, color);
 }
 
 void __cdecl render_debug_line2d(real_point2d const* point0, real_point2d const* point1, real_argb_color const* color)
@@ -105,10 +105,112 @@ void __cdecl render_debug_line2d(real_point2d const* point0, real_point2d const*
 	}
 }
 
-//render_debug_vector2d
-//render_debug_circle
-//render_debug_circle
-//render_debug_polygon_regular
+void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real a8)
+{
+	ASSERT(plane);
+	ASSERT(p0);
+	ASSERT(p1);
+	ASSERT(color);
+
+	real_point3d point0{};
+	real_point3d point1{};
+
+	project_point2d(p0, plane, projection_axis, a4, &point0);
+	project_point2d(p1, plane, projection_axis, a4, &point1);
+
+	point0.n[projection_axis] += a4 ? a8 : -a8;
+	point1.n[projection_axis] += a4 ? a8 : -a8;
+
+	render_debug_line(draw_immediately, &point0, &point1, color);
+}
+
+void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, vector2d const* vector, real scale, real_argb_color const* color, real a9)
+{
+	ASSERT(plane);
+	ASSERT(point);
+	ASSERT(vector);
+	ASSERT(color);
+
+	real_point2d point1{};
+	point_from_line2d(point, vector, scale, &point1);
+	render_debug_line2d(draw_immediately, plane, projection_axis, a4, point, &point1, color, a9);
+}
+
+void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* center, real radius, real_argb_color const* color, real a8)
+{
+	ASSERT(plane);
+	ASSERT(center);
+	ASSERT(color);
+
+	if (draw_immediately || render_debug_draw_immediately(color))
+	{
+		real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
+		render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
+		for (long i = 0; i < CIRCLE_DIVISIONS; i++)
+		{
+			real_point2d* circle_point0 = &circle_points[i];
+			real_point2d* circle_point1 = &circle_points[i + 1];
+
+			real_point2d point0{};
+			real_point2d point1{};
+
+			set_real_point2d(&point0, (center->x + circle_point0->x), (center->y + circle_point0->y));
+			set_real_point2d(&point1, (center->x + circle_point1->x), (center->y + circle_point1->y));
+			render_debug_line2d(draw_immediately, plane, projection_axis, a4, &point0, &point1, color, a8);
+		}
+	}
+	else
+	{
+		render_debug_add_cache_entry(0, plane, projection_axis, a4, center, radius, color);
+	}
+}
+
+void __cdecl render_debug_circle(bool draw_immediately, real_point3d const* center, vector3d const* normal, real radius, real_argb_color const* color)
+{
+	render_debug_polygon_regular(draw_immediately, center, CIRCLE_DIVISIONS, normal, radius, color);
+}
+
+void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d const* center, long point_count, vector3d const* normal, real radius, real_argb_color const* color)
+{
+	ASSERT(center != NULL);
+	ASSERT(normal != NULL);
+	ASSERT(point_count <= CIRCLE_DIVISIONS);
+
+	real_matrix4x3 matrix{};
+	matrix.matrix.forward = *normal;
+	generate_up_vector3d(&matrix.matrix.forward, &matrix.matrix.up);
+	cross_product3d(&matrix.matrix.up, &matrix.matrix.forward, &matrix.matrix.left);
+	matrix.center = *global_origin3d;
+	matrix.scale = 1.0f;
+
+	// asserts
+
+	real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
+	render_debug_build_circle_points(radius, circle_points, point_count + 1);
+
+	for (long i = 0; i < point_count; i++)
+	{
+		real_point3d point0{};
+		real_point3d point1{};
+
+		set_real_point3d(&point0, 0.0f, circle_points[i].x, circle_points[i].y);
+		set_real_point3d(&point1, 0.0f, circle_points[i + 1].x, circle_points[i + 1].y);
+
+		matrix4x3_transform_point(&matrix, &point0, &point0);
+		matrix4x3_transform_point(&matrix, &point1, &point1);
+
+		point0.x += center->x;
+		point0.y += center->y;
+		point0.z += center->z;
+
+		point1.x += center->x;
+		point1.y += center->y;
+		point1.z += center->z;
+
+		render_debug_line(draw_immediately, &point0, &point1, color);
+	}
+
+}
 
 void __cdecl render_debug_point(bool draw_immediately, real_point3d const* point, real scale, real_argb_color const* color)
 {
@@ -256,9 +358,9 @@ void __cdecl render_debug_sphere(bool draw_immediately, real_point3d const* cent
 	{
 		if (render_sphere_visible(center, radius))
 		{
-			real_point2d circle_points[17]{};
-			render_debug_build_circle_points(radius, circle_points, NUMBEROF(circle_points));
-			for (long i = 0; i < NUMBEROF(circle_points) - 1; i++)
+			real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
+			render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
+			for (long i = 0; i < CIRCLE_DIVISIONS; i++)
 			{
 				real_point2d* circle_point0 = &circle_points[i];
 				real_point2d* circle_point1 = &circle_points[i + 1];
@@ -294,18 +396,18 @@ void __cdecl render_debug_cylinder(bool draw_immediately, real_point3d const* ba
 
 	if (draw_immediately || render_debug_draw_immediately(color))
 	{
-		real_point3d points0[17]{};
-		real_point3d points1[17]{};
+		real_point3d points0[CIRCLE_DIVISIONS + 1]{};
+		real_point3d points1[CIRCLE_DIVISIONS + 1]{};
 
 		render_debug_build_pill_points(base, height, radius, points0, points1, nullptr, nullptr, nullptr, nullptr);
 
-		for (long i = 0; i < 16; i++)
+		for (long i = 0; i < CIRCLE_DIVISIONS; i++)
 		{
 			render_debug_line(draw_immediately, &points0[i], &points0[i + 1], color);
 			render_debug_line(draw_immediately, &points1[i], &points1[i + 1], color);
 		}
 
-		for (long i = 0; i < 16; i += 4)
+		for (long i = 0; i < CIRCLE_DIVISIONS; i += 4)
 			render_debug_line(draw_immediately, &points0[i], &points1[i], color);
 
 		for (long i = 0; i < 8; i += 4)
@@ -328,8 +430,8 @@ void __cdecl render_debug_pill(bool draw_immediately, real_point3d const* base, 
 
 	if (draw_immediately || render_debug_draw_immediately(color))
 	{
-		real_point3d points0[17]{};
-		real_point3d points1[17]{};
+		real_point3d points0[CIRCLE_DIVISIONS + 1]{};
+		real_point3d points1[CIRCLE_DIVISIONS + 1]{};
 		real_point3d points2[9]{};
 		real_point3d points3[9]{};
 		real_point3d points4[9]{};
@@ -337,13 +439,13 @@ void __cdecl render_debug_pill(bool draw_immediately, real_point3d const* base, 
 
 		render_debug_build_pill_points(base, height, radius, points0, points1, points2, points3, points4, points5);
 
-		for (long i = 0; i < 16; ++i)
+		for (long i = 0; i < CIRCLE_DIVISIONS; ++i)
 		{
 			render_debug_line(draw_immediately, &points0[i], &points0[i + 1], color);
 			render_debug_line(draw_immediately, &points1[i], &points1[i + 1], color);
 		}
 
-		for (long i = 0; i < 16; i += 4)
+		for (long i = 0; i < CIRCLE_DIVISIONS; i += 4)
 			render_debug_line(draw_immediately, &points0[i], &points1[i], color);
 
 		for (long i = 0; i < 8; i++)
@@ -663,7 +765,7 @@ void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_po
 
 real __cdecl build_height_matrix(real_point3d const* base, vector3d const* height, real_matrix4x3* out_matrix)
 {
-	out_matrix->scale = 1.0;
+	out_matrix->scale = 1.0f;
 	out_matrix->matrix.up = *height;
 	perpendicular3d(&out_matrix->matrix.up, &out_matrix->matrix.left);
 	real result = normalize3d(&out_matrix->matrix.up);
@@ -694,12 +796,12 @@ void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d c
 	real_matrix4x3 height_matrix{};
 	real normalized_up = build_height_matrix(base, height, &height_matrix);
 
-	real_point2d circle_points[17]{};
-	render_debug_build_circle_points(radius, circle_points, NUMBEROF(circle_points));
+	real_point2d circle_points[CIRCLE_DIVISIONS + 1]{};
+	render_debug_build_circle_points(radius, circle_points, CIRCLE_DIVISIONS + 1);
 
 	if (points0 && points1)
 	{
-		for (long i = 0; i < NUMBEROF(circle_points); i++)
+		for (long i = 0; i < CIRCLE_DIVISIONS; i++)
 		{
 			real_point2d* circle_point = &circle_points[i];
 

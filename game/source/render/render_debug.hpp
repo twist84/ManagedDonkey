@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+#define CIRCLE_DIVISIONS 16
+
 extern void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p1, real_argb_color const* color0, real_argb_color const* color1);
 extern void __cdecl rasterizer_debug_line2d(real_point2d const* p0, real_point2d const* p1, real_argb_color const* color0, real_argb_color const* color1);
 extern void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color);
@@ -9,12 +11,13 @@ extern void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_p
 //render_debug_random_color
 //render_debug_unique_color
 //render_debug_spray
-extern void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, real a6, real_argb_color const* color, real a8);
+extern void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, real scale, real_argb_color const* color, real a8);
 extern void __cdecl render_debug_line2d(real_point2d const* point0, real_point2d const* point1, real_argb_color const* color);
-//render_debug_vector2d
-//render_debug_circle
-//render_debug_circle
-//render_debug_polygon_regular
+extern void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real a8);
+extern void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, vector2d const* vector, real scale, real_argb_color const* color, real a9);
+extern void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* center, real radius, real_argb_color const* color, real a8);
+extern void __cdecl render_debug_circle(bool draw_immediately, real_point3d const* center, vector3d const* normal, real radius, real_argb_color const* color);
+extern void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d const* center, long point_count, vector3d const* normal, real radius, real_argb_color const* color);
 extern void __cdecl render_debug_point(bool draw_immediately, real_point3d const* point, real scale, real_argb_color const* color);
 extern void __cdecl render_debug_line(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_argb_color const* color);
 extern void __cdecl render_debug_line_shaded(bool draw_immediately, real_point3d const* point0, real_point3d const* point1, real_argb_color const* color0, real_argb_color const* color1);
