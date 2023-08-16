@@ -194,7 +194,7 @@ struct s_game_globals
 	{
 		short index;
 		short version;
-		string name;
+		c_static_string<32> name;
 	};
 	static_assert(sizeof(damage_reporting_type_block) == 0x24);
 

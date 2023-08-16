@@ -508,7 +508,7 @@ static_assert(sizeof(scenario_campaign_player_representation_names_block) == 0x4
 
 struct scenario_object_name
 {
-	string name;
+	c_static_string<32> name;
 	short object_type; // short_block_index_custom_search
 	short scenario_datum_index; // short_block_index_custom_search
 };
@@ -555,7 +555,7 @@ static_assert(sizeof(scenario_starting_profile_weapon) == 0x14);
 
 struct scenario_starting_profile
 {
-	string name;
+	c_static_string<32> name;
 
 	// [0,1]
 	real_fraction starting_health_damage;

@@ -115,7 +115,7 @@ enum e_hs_type
 
 struct hs_script_parameter
 {
-	string name;
+	c_static_string<32> name;
 	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> return_type;
 
 	// pad
@@ -125,7 +125,7 @@ static_assert(sizeof(hs_script_parameter) == 0x24);
 
 struct hs_global_internal
 {
-	string name;
+	c_static_string<32> name;
 	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
 
 	// pad
@@ -137,7 +137,7 @@ static_assert(sizeof(hs_global_internal) == 0x28);
 
 struct hs_script
 {
-	string name;
+	c_static_string<32> name;
 	c_enum<e_hs_script_type, short, _hs_script_startup, k_hs_script_type_count> script_type;
 	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> return_type;
 	long root_expression_index;

@@ -32,7 +32,7 @@ enum e_data_array_flags
 
 struct s_data_array
 {
-	string name;
+	c_static_string<32> name;
 	long maximum_count;
 	long size;
 	byte alignment_bits;
@@ -133,7 +133,7 @@ static_assert(sizeof(data_address) == 0x4);
 template <typename t_datum_type>
 struct c_typed_data_array
 {
-	string name;
+	c_static_string<32> name;
 	long maximum_count;
 	long size;
 	byte alignment_bits;

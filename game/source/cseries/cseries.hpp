@@ -41,8 +41,8 @@ enum : tag
 };
 
 // 32-character ascii string
-typedef char string[32];
-static_assert(sizeof(string) == 0x20);
+//typedef char string[32];
+//static_assert(sizeof(string) == 0x20);
 
 // 256-character ascii string
 typedef char long_string[256];
@@ -160,6 +160,7 @@ extern void* (__cdecl* csmemcpy)(void* _Dst, void const* _Src, size_t _Size);
 extern void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size);
 
 extern long csstricmp(char const* s1, char const* s2);
+extern long csstrcmp(char const* s1, char const* s2);
 //extern long csstrnicmp(char const* s1, char const* s2, dword size);
 //extern char* csstristr(char const* s1, char const* s2);
 extern char* csstrnzcpy(char* s1, char const* s2, dword size);

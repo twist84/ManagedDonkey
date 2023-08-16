@@ -11,15 +11,145 @@
 #include "render/render_visibility.hpp"
 #include "text/draw_string.hpp"
 
-struct s_render_debug_globals
+#define MAXIMUM_CACHE_STRING_LENGTH 4096
+
+struct s_render_debug_cache_entry
 {
-	bool use_simple_font;
+	short type;
+	short layer;
+	real __unknown4;
+
+	union
+	{
+		struct // type 0
+		{
+			plane3d plane;
+			short projection_axis;
+			bool a4;
+			real_point2d center;
+			real radius;
+			real_argb_color color;
+		} circle;
+
+		struct // type 1
+		{
+			real_point3d point;
+			real scale;
+			real_argb_color color;
+		} point;
+
+		struct // type 2
+		{
+			real_point3d point0;
+			real_point3d point1;
+			real_argb_color color0;
+			real_argb_color color1;
+		} line;
+
+		struct // type 3
+		{
+			real_point2d point0;
+			real_point2d point1;
+			real_argb_color color0;
+			real_argb_color color1;
+		} line2d;
+
+		struct // type 4
+		{
+			real_point3d center;
+			real radius;
+			real_argb_color color;
+		} sphere;
+
+		struct // type 5
+		{
+			real_point3d base;
+			vector3d height;
+			real radius;
+			real_argb_color color;
+		} cylinder;
+
+		struct // type 6
+		{
+			real_point3d base;
+			vector3d height;
+			real radius;
+			real_argb_color color;
+		} pill;
+
+		struct // type 7, 8
+		{
+			real_rectangle3d bounds;
+			real_argb_color color;
+		} box;
+
+		struct // type 9
+		{
+			real_point3d point0;
+			real_point3d point1;
+			real_point3d point2;
+			real_argb_color color;
+		} triangle;
+
+		struct // type 10
+		{
+			long string_offset;
+			short tab_stops[16];
+			short tab_stop_count;
+		} string;
+		
+		struct // type 11
+		{
+			long string_offset;
+			real_point3d point;
+			real_argb_color color;
+			real scale;
+		} string_at_point;
+
+		struct // type 12
+		{
+			real_rectangle2d bounds;
+			real_argb_color color;
+		} box2d_outline;
+
+		byte type_storage[0x38];
+	};
 };
 
-static s_render_debug_globals* g_render_debug_globals = new s_render_debug_globals
+struct s_render_debug_globals
+{
+	bool active;
+	bool drawing_cached_geometry;
+	bool use_simple_font;
+
+	real __unknown4;
+
+	long group_ids[2];
+	long group_level;
+
+	short cache_count;
+	short cache_count2;
+
+	bool inside_game_tick;
+	char __data19[3];
+
+	s_render_debug_cache_entry cache_entries[8192];
+
+	short cache_string_length;
+	short __unknown8001E;
+
+	char cache_string[MAXIMUM_CACHE_STRING_LENGTH];
+};
+static_assert(sizeof(s_render_debug_globals) == 0x81020);
+
+static s_render_debug_globals render_debug_globals
 {
 	.use_simple_font = false
 };
+
+thread_local s_render_debug_globals* g_render_debug_globals = &render_debug_globals;
+
+long type_list[] = { 0, 0, 0, 3, 0, 0, 0, 1, 0, 1, 2, 2, 0 };
 
 void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p1, real_argb_color const* color0, real_argb_color const* color1)
 {
@@ -71,12 +201,51 @@ void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d 
 	c_rasterizer::draw_debug_polygon(vertex_debug, NUMBEROF(vertex_debug), c_rasterizer_index_buffer::_primitive_type_triangle_strip); // D3DPT_TRIANGLESTRIP
 }
 
-word __cdecl _random(dword* seed, char const* string, char const* file, dword line)
+long __cdecl render_debug_add_cache_string(char const* string)
 {
-	//random_seed_debug(seed, "random", string, file, line);
-	*seed = 0x19660D * *seed + 0x3C6EF35F;
+	ASSERT(g_render_debug_globals);
 
-	return HIWORD(*seed);
+	long string_offset = 0;
+	long result = -1;
+
+	if (g_render_debug_globals->cache_string_length > 0)
+	{
+		while (csstrcmp(string, &g_render_debug_globals->cache_string[string_offset]))
+		{
+			if (++string_offset >= g_render_debug_globals->cache_string_length)
+				break;
+
+			result = string_offset;
+			if (string_offset != -1)
+				return string_offset;
+		}
+	}
+
+	short cache_string_length = g_render_debug_globals->cache_string_length;
+	if (cache_string_length >= 4095)
+	{
+		static bool render_debug_cache_string_overflow = false;
+		if (!render_debug_cache_string_overflow)
+		{
+			c_console::write_line("render debug cache string overflow");
+			render_debug_cache_string_overflow = true;
+		}
+	}
+	else
+	{
+		result = cache_string_length;
+		csstrnzcpy(&g_render_debug_globals->cache_string[cache_string_length], string, 4096 - cache_string_length);
+		short v7 = (short)strlen(string);
+		// length assert
+
+		g_render_debug_globals->cache_string_length += v7 + 1;
+		short v9 = g_render_debug_globals->cache_string_length;
+		if (v9 > 4095)
+			v9 = 4095;
+		g_render_debug_globals->cache_string_length = v9;
+	}
+
+	return result;
 }
 
 real_argb_color const* __cdecl render_debug_random_color(real_argb_color* color)
@@ -777,7 +946,7 @@ void __cdecl render_debug_string_at_point(real_point3d const* point, char const*
 void __cdecl render_debug_string_immediate(bool draw_immediately, short const* tab_stops, short tab_stop_count, char const* string)
 {
 	ASSERT(string);
-	//ASSERT(g_render_debug_globals);
+	ASSERT(g_render_debug_globals);
 
 	if (draw_immediately || g_render_debug_globals->use_simple_font)
 	{
@@ -872,7 +1041,181 @@ bool __cdecl render_debug_draw_immediately(real_argb_color const* color)
 
 void __cdecl render_debug_add_cache_entry(short type, ...)
 {
+	ASSERT(g_render_debug_globals);
 
+	if (g_render_debug_globals->cache_count < NUMBEROF(g_render_debug_globals->cache_entries))
+	{
+		s_render_debug_cache_entry* entry = &g_render_debug_globals->cache_entries[g_render_debug_globals->cache_count++];
+
+		real alpha = 1.0f;
+
+		va_list list;
+		va_start(list, type);
+
+		switch (type)
+		{
+		case 0:
+		{
+			entry->circle.plane = va_arg(list, decltype(entry->circle.plane));
+			entry->circle.projection_axis = va_arg(list, decltype(entry->circle.projection_axis));
+			entry->circle.a4 = va_arg(list, decltype(entry->circle.a4));
+			entry->circle.center = va_arg(list, decltype(entry->circle.center));
+			entry->circle.radius = va_arg(list, decltype(entry->circle.radius));
+			entry->circle.color = va_arg(list, decltype(entry->circle.color));
+			alpha = entry->circle.color.alpha;
+
+			real_point3d centroid{};
+			project_point2d(&entry->circle.center, &entry->circle.plane, entry->circle.projection_axis, entry->circle.a4, &centroid);
+			ASSERT(VALID_INDEX(entry->circle.projection_axis, NUMBEROF(centroid.n)));
+		}
+		break;
+		case 1:
+		{
+			entry->point.point = va_arg(list, decltype(entry->point.point));
+			entry->point.scale = va_arg(list, decltype(entry->point.scale));
+			entry->point.color = va_arg(list, decltype(entry->point.color));
+			alpha = entry->point.color.alpha;
+		}
+		break;
+		case 2:
+		{
+			
+			entry->line.point0 = va_arg(list, decltype(entry->line.point0));
+			entry->line.point1 = va_arg(list, decltype(entry->line.point1));
+			entry->line.color0 = va_arg(list, decltype(entry->line.color0));
+			entry->line.color1 = va_arg(list, decltype(entry->line.color1));
+			alpha = fminf(entry->line.color1.alpha, entry->line.color0.alpha);
+		}
+		break;
+		case 3:
+		{
+			entry->line2d.point0 = va_arg(list, decltype(entry->line2d.point0));
+			entry->line2d.point1 = va_arg(list, decltype(entry->line2d.point1));
+			entry->line2d.color0 = va_arg(list, decltype(entry->line2d.color0));
+			entry->line2d.color1 = va_arg(list, decltype(entry->line2d.color1));
+			alpha = fminf(entry->line.color1.alpha, entry->line.color0.alpha);
+		}
+		break;
+		case 4:
+		{
+			entry->sphere.center = va_arg(list, decltype(entry->sphere.center));
+			entry->sphere.radius = va_arg(list, decltype(entry->sphere.radius));
+			entry->sphere.color = va_arg(list, decltype(entry->sphere.color));
+			alpha = entry->sphere.color.alpha;
+		}
+		break;
+		case 5:
+		{
+			entry->cylinder.base = va_arg(list, decltype(entry->cylinder.base));
+			entry->cylinder.height = va_arg(list, decltype(entry->cylinder.height));
+			entry->cylinder.radius = va_arg(list, decltype(entry->cylinder.radius));
+			entry->cylinder.color = va_arg(list, decltype(entry->cylinder.color));
+			alpha = entry->sphere.color.alpha;
+		}
+		break;
+		case 6:
+		{
+			entry->pill.base = va_arg(list, decltype(entry->pill.base));
+			entry->pill.height = va_arg(list, decltype(entry->pill.height));
+			entry->pill.radius = va_arg(list, decltype(entry->pill.radius));
+			entry->pill.color = va_arg(list, decltype(entry->pill.color));
+			alpha = entry->pill.color.alpha;
+		}
+		break;
+		case 7:
+		case 8:
+		{
+			entry->box.bounds = va_arg(list, decltype(entry->box.bounds));
+			entry->box.color = va_arg(list, decltype(entry->box.color));
+			alpha = entry->box.color.alpha;
+		}
+		break;
+		case 9:
+		{
+			entry->triangle.point0 = va_arg(list, decltype(entry->triangle.point0));
+			entry->triangle.point1 = va_arg(list, decltype(entry->triangle.point1));
+			entry->triangle.point2 = va_arg(list, decltype(entry->triangle.point2));
+			entry->triangle.color = va_arg(list, decltype(entry->triangle.color));
+			alpha = entry->triangle.color.alpha;
+		}
+		break;
+		case 10:
+		{
+			const char* string = va_arg(list, decltype(string));
+			long string_offset = render_debug_add_cache_string(string);
+			if (string_offset == -1)
+				break;
+
+			entry->string.string_offset = string_offset;
+			entry->string.tab_stop_count = 0;
+
+			//LABEL_46
+			entry->type = type;
+			entry->layer = 0;
+			entry->__unknown4 = 0.0f;
+			if (g_render_debug_globals->group_level > 0)
+				entry->__unknown4 = g_render_debug_globals->__unknown4;
+			return;
+		}
+		break;
+		case 11:
+		{
+			const char* string = va_arg(list, decltype(string));
+			long string_offset = render_debug_add_cache_string(string);
+			if (string_offset == -1)
+				break;
+
+			entry->string_at_point.string_offset = string_offset;
+			entry->string_at_point.point = va_arg(list, decltype(entry->string_at_point.point));
+			entry->string_at_point.color = va_arg(list, decltype(entry->string_at_point.color));
+			entry->string_at_point.scale = va_arg(list, decltype(entry->string_at_point.scale));
+			alpha = entry->string_at_point.color.alpha;
+
+		}
+		break;
+		case 12:
+		{
+			entry->box2d_outline.bounds = va_arg(list, decltype(entry->box2d_outline.bounds));
+			entry->box2d_outline.color = va_arg(list, decltype(entry->box2d_outline.color));
+			alpha = entry->box2d_outline.color.alpha;
+
+			//LABEL_46
+			entry->type = type;
+			entry->layer = 0;
+			entry->__unknown4 = 0.0f;
+			if (g_render_debug_globals->group_level > 0)
+				entry->__unknown4 = g_render_debug_globals->__unknown4;
+			return;
+		}
+		break;
+		default:
+		{
+			entry->type = type;
+			entry->layer = 0;
+			entry->__unknown4 = 0.0f;
+			if (g_render_debug_globals->group_level > 0)
+				entry->__unknown4 = g_render_debug_globals->__unknown4;
+			return;
+		}
+		break;
+		}
+
+		entry->type = type;
+
+		if (alpha > 0.0f)
+			entry->layer = alpha < 1.0f ? 1 : 0;
+
+		g_render_debug_globals->cache_count--;
+
+		entry->__unknown4 = g_render_debug_globals->group_level > 0 ? g_render_debug_globals->__unknown4 : 0.0f;
+	}
+
+	static bool render_debug_cache_overflow = false;
+	if (!render_debug_cache_overflow)
+	{
+		c_console::write_line("render debug cache overflow.");
+		render_debug_cache_overflow = true;
+	}
 }
 
 void __cdecl render_debug_cache_draw(bool a1)
@@ -969,5 +1312,13 @@ void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d c
 			matrix4x3_transform_point(&height_matrix, &points5[i], &points5[i]);
 		}
 	}
+}
+
+word __cdecl _random(dword* seed, char const* string, char const* file, dword line)
+{
+	//random_seed_debug(seed, "random", string, file, line);
+	*seed = 0x19660D * *seed + 0x3C6EF35F;
+
+	return HIWORD(*seed);
 }
 

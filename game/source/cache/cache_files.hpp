@@ -49,7 +49,7 @@ union s_cache_file_header
 		dword __unknown18;
 
 		long_string source_file;
-		string build;
+		c_static_string<32> build;
 		short scenario_type;
 		short scenario_load_type;
 		bool __unknown140;
@@ -67,7 +67,7 @@ union s_cache_file_header
 		dword_flags shared_file_flags; // bool uses_shared_map[shared_file_count];
 		s_file_last_modification_date creation_time;
 		s_file_last_modification_date shared_file_times[6];
-		string name;
+		c_static_string<32> name;
 		dword game_language;
 		long_string relative_path;
 		long minor_version;

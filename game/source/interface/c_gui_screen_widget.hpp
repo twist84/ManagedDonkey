@@ -45,7 +45,7 @@ struct s_runtime_screen_widget_definition : s_runtime_core_widget_definition
 	s_tag_block groups;
 	s_tag_block button_keys;
 	long sound_overrides_index;
-	string on_load_script_name;
+	c_static_string<32> on_load_script_name;
 	short script_index;
 	byte scary[2];
 };

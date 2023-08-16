@@ -183,7 +183,7 @@ static_assert(sizeof(s_multiplayer_podium_animation) == 0x30);
 
 struct s_multiplayer_podium_stance_animation
 {
-	string name;
+	c_static_string<32> name;
 	c_string_id base_animation;
 	c_string_id loop_animation;
 	c_string_id unarmed_transition;
@@ -194,7 +194,7 @@ static_assert(sizeof(s_multiplayer_podium_stance_animation) == 0x34);
 
 struct s_multiplayer_podium_move_animation
 {
-	string name;
+	c_static_string<32> name;
 	c_string_id in_animation;
 	c_string_id loop_animation;
 	c_string_id out_transition;
