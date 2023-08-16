@@ -28,4 +28,5 @@ extern void __cdecl render_debug_pill(bool a1, real_point3d const* base, vector3
 extern void __cdecl render_debug_polygon(real_point3d const* points, short total_point_count, real_argb_color const* color);
 extern void __cdecl render_debug_polygon_edges(real_point3d const* points, short total_point_count, real_argb_color const* color);
 extern void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_point_count, real_argb_color const* color);
+extern void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const* point, vector3d const* direction, real radius, real cone_angle, real_argb_color const* color);
 

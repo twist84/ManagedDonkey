@@ -17,7 +17,7 @@ struct s_render_debug_globals
 
 static s_render_debug_globals* g_render_debug_globals = new s_render_debug_globals
 {
-	.use_simple_font = true
+	.use_simple_font = false
 };
 
 void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p1, real_argb_color const* color0, real_argb_color const* color1)
@@ -601,6 +601,45 @@ void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_po
 			render_debug_line(true, &points[i], &points[i + 1], &color_);
 			render_debug_line(true, points, &points[i + 1], &color_);
 		}
+	}
+}
+
+void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const* point, vector3d const* direction, real radius, real cone_angle, real_argb_color const* color)
+{
+	vector3d normalized_cone_direction = *direction;
+	normalize3d(&normalized_cone_direction);
+
+	real cone_vertex_offset = sinf(cone_angle) * radius;
+	real cone_base_offset = cosf(cone_angle) * radius;
+
+	real_point3d vertex_on_cone{};
+	point_from_line3d(point, &normalized_cone_direction, cone_base_offset, &vertex_on_cone);
+
+	vector3d perpendicular_to_cone_direction{};
+	perpendicular3d(&normalized_cone_direction, &perpendicular_to_cone_direction);
+	normalize3d(&perpendicular_to_cone_direction);
+
+	vector3d perpendicular_cross_product{};
+	cross_product3d(&perpendicular_to_cone_direction, &normalized_cone_direction, &perpendicular_cross_product);
+	normalize3d(&perpendicular_cross_product);
+
+	real_point3d cone_outline_points[10]{};
+	for (long i = 0; i < NUMBEROF(cone_outline_points); i++)
+	{
+		real angle = real(TWO_PI * i) / NUMBEROF(cone_outline_points);
+
+		real_point3d* outline_point = &cone_outline_points[i];
+		point_from_line3d(&vertex_on_cone, &perpendicular_to_cone_direction, (cone_vertex_offset * sinf(angle)), outline_point);
+
+		real_point3d* cross_product_point = &cone_outline_points[i];
+		point_from_line3d(&cone_outline_points[i], &perpendicular_cross_product, (cone_vertex_offset * cosf(angle)), cross_product_point);
+	}
+
+	for (long i = 0; i < NUMBEROF(cone_outline_points); i++)
+	{
+		long next_point_index = (i + 1) % NUMBEROF(cone_outline_points);
+		render_debug_line(draw_immediately, &cone_outline_points[i], &cone_outline_points[next_point_index], color);
+		render_debug_line(draw_immediately, &cone_outline_points[i], point, color);
 	}
 }
 
