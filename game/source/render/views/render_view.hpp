@@ -71,12 +71,16 @@ struct c_ui_view :
 public:
 	c_ui_view() :
 		c_view(),
-		__data294()
+		__unknown298(),
+		m_render_target()
 	{
 		__vftable = reinterpret_cast<decltype(__vftable)>(0x0165DBAC);
 	}
 
-	byte __data294[0x8];
+	// if true bypass if statement in `c_gui_widget::render`
+	bool __unknown298;
+
+	long m_render_target;
 };
 static_assert(sizeof(c_ui_view) == sizeof(c_view) + 0x8);
 
