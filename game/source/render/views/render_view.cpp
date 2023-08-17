@@ -4,6 +4,7 @@
 #include "hs/hs_runtime.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
+#include "objects/object_early_movers.hpp"
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
 #include "units/bipeds.hpp"
@@ -200,6 +201,7 @@ void __cdecl render_debug_frame_render()
 	terminal_draw();
 	main_time_frame_rate_display();
 	render_debug_trigger_volumes();
+	object_early_mover_render_debug();
 
 	// location_messages
 	//real_point3d point = { 81.6f, -72.4f, 7.2f };

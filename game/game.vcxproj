@@ -390,6 +390,7 @@ POPD
     <ClCompile Include="source\objects\multiplayer_game_objects.cpp" />
     <ClCompile Include="source\objects\objects.cpp" />
     <ClCompile Include="source\objects\object_definitions.cpp" />
+    <ClCompile Include="source\objects\object_early_movers.cpp" />
     <ClCompile Include="source\physics\collisions.cpp" />
     <ClCompile Include="source\physics\havok.cpp" />
     <ClCompile Include="source\physics\havok_component.cpp" />
@@ -790,6 +791,7 @@ POPD
     <ClInclude Include="source\objects\multiplayer_game_objects.hpp" />
     <ClInclude Include="source\objects\objects.hpp" />
     <ClInclude Include="source\objects\object_definitions.hpp" />
+    <ClInclude Include="source\objects\object_early_movers.hpp" />
     <ClInclude Include="source\physics\character_physics_definitions.hpp" />
     <ClInclude Include="source\physics\collisions.hpp" />
     <ClInclude Include="source\physics\collision_model_definitions.hpp" />
