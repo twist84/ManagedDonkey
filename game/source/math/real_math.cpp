@@ -193,12 +193,30 @@ long __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, long max
 	ASSERT(maximum_vertex_count >= k_vertices_per_cube_count);
 	ASSERT(vertices);
 
-	for (long i = 0; i < maximum_vertex_count; i++)
-	{
-		vertices[i].x = bounds->x.upper;
-		vertices[i].y = bounds->y.lower;
-		vertices[i].z = bounds->z.lower;
-	}
+	vertices[0].x = bounds->x.lower;
+	vertices[0].y = bounds->y.lower;
+	vertices[0].z = bounds->z.lower;
+	vertices[1].x = bounds->x.upper;
+	vertices[1].y = bounds->y.lower;
+	vertices[1].z = bounds->z.lower;
+	vertices[2].x = bounds->x.lower;
+	vertices[2].y = bounds->y.upper;
+	vertices[2].z = bounds->z.lower;
+	vertices[3].x = bounds->x.upper;
+	vertices[3].y = bounds->y.upper;
+	vertices[3].z = bounds->z.lower;
+	vertices[4].x = bounds->x.lower;
+	vertices[4].y = bounds->y.lower;
+	vertices[4].z = bounds->z.upper;
+	vertices[5].x = bounds->x.upper;
+	vertices[5].y = bounds->y.lower;
+	vertices[5].z = bounds->z.upper;
+	vertices[6].x = bounds->x.lower;
+	vertices[6].y = bounds->y.upper;
+	vertices[6].z = bounds->z.upper;
+	vertices[7].x = bounds->x.upper;
+	vertices[7].y = bounds->y.upper;
+	vertices[7].z = bounds->z.upper;
 
 	return k_vertices_per_cube_count;
 }
@@ -265,8 +283,8 @@ long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximu
 		ASSERT((line_vertex_indices[edge_index][0] >= 0) && (line_vertex_indices[edge_index][0] < k_vertices_per_cube_count));
 		ASSERT((line_vertex_indices[edge_index][1] >= 0) && (line_vertex_indices[edge_index][1] < k_vertices_per_cube_count));
 
-		*edges[0] = vertices[line_vertex_indices[edge_index][0]];
-		*edges[1] = vertices[line_vertex_indices[edge_index][1]];
+		edges[edge_index][0] = vertices[line_vertex_indices[edge_index][0]];
+		edges[edge_index][1] = vertices[line_vertex_indices[edge_index][1]];
 	}
 
 	return k_edges_per_cube_count;
