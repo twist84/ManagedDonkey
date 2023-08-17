@@ -57,10 +57,6 @@ void __cdecl render_debug_trigger_volumes()
 			vector3d extents_transformed{};
 			matrix4x3_transform_vector(&matrix, &extents, &extents_transformed);
 
-			//real_point3d center{};
-			//if (trigger_volume_get_center(&trigger_volume, &center))
-			//	render_debug_string_at_point(&center, trigger_volume.name.get_string(), global_real_argb_green);
-
 			for (long i = 0; i < 6; i++)
 			{
 				real_point3d points[4]{};
@@ -100,9 +96,31 @@ void __cdecl render_debug_trigger_volumes()
 					render_debug_polygon(points, NUMBEROF(points), &polygon_color);
 				}
 			}
-		}
 
-		// #TODO: render the trigger volume name
+			real_point3d name_point{};
+			point_from_line3d(&matrix.center, &extents_transformed, 0.5f, &name_point);
+
+			//render_camera const* rasterizer_camera = c_player_view::get_global_player_view(0)->get_rasterizer_camera();
+			//
+			//vector3d name_vector{};
+			//vector_from_points3d(&rasterizer_camera->position, &name_point, &name_vector);
+			//scale_vector3d(&name_vector, 0.94999999f, &name_vector);
+			//
+			//s_collision_test_flags flags = { 0x2D051855 };
+			//collision_result collision;
+			//if (!collision_test_vector(flags, &rasterizer_camera->position, &name_vector, NONE, NONE, &collision))
+			{
+				// #TODO: find all the places `hs_debug_data` should be used and add it back
+				//if ((hs_debug_data[volume_index >> 5] & (1 << (volume_index & 0x1F))) != 0)
+				//{
+				//	render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), global_real_argb_yellow);
+				//}
+				//else
+				{
+					render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), global_real_argb_white);
+				}
+			}
+		}
 
 		trigger_volume_index++;
 	}
