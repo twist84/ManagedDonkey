@@ -8,8 +8,8 @@
 #include "main/levels.hpp"
 #include "memory/module.hpp"
 #include "scenario/scenario_tags_fixup.hpp"
+#include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
-
 
 REFERENCE_DECLARE(0x0189CCF8, long, global_scenario_index);
 REFERENCE_DECLARE(0x0189CCFC, long, global_scenario_game_globals_index);
@@ -55,18 +55,24 @@ s_game_globals* scenario_try_and_get_game_globals()
 	return nullptr;
 }
 
-//bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
-bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
+long __cdecl global_structure_bsp_first_active_index_get()
 {
-	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
+	return INVOKE(0x004E96A0, global_structure_bsp_first_active_index_get);
+}
 
-	ASSERT(scenario_path != 0);
+structure_bsp* __cdecl global_structure_bsp_get(long structure_bsp_index)
+{
+	return INVOKE(0x004E96D0, global_structure_bsp_get, structure_bsp_index);
+}
 
-	s_scenario* scenario = global_scenario_get();
-	if (levels_map_id_is_fake(map_id))
-		return true;
+bool __cdecl global_structure_bsp_is_active(long structure_bsp_index)
+{
+	return INVOKE(0x004E9700, global_structure_bsp_is_active, structure_bsp_index);
+}
 
-	return (scenario->campaign_id == campaign_id || campaign_id == -1) && (scenario->map_id == map_id || map_id == -1);
+long __cdecl global_structure_bsp_next_active_index_get(long structure_bsp_index)
+{
+	return INVOKE(0x004E9730, global_structure_bsp_next_active_index_get, structure_bsp_index);
 }
 
 void __cdecl scenario_invalidate()
@@ -110,6 +116,20 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 bool __cdecl scenario_switch_zone_set(long zoneset_index)
 {
 	return INVOKE(0x004EB620, scenario_switch_zone_set, zoneset_index);
+}
+
+//bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
+bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
+{
+	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
+
+	ASSERT(scenario_path != 0);
+
+	s_scenario* scenario = global_scenario_get();
+	if (levels_map_id_is_fake(map_id))
+		return true;
+
+	return (scenario->campaign_id == campaign_id || campaign_id == -1) && (scenario->map_id == map_id || map_id == -1);
 }
 
 #define SCENARIO_PRINT_ZONE_SETS()\

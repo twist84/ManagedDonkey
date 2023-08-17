@@ -34,7 +34,13 @@ extern s_scenario* global_scenario_try_and_get();
 extern s_game_globals* scenario_get_game_globals();
 extern s_game_globals* scenario_try_and_get_game_globals();
 
-extern bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path);
+struct structure_bsp;
+extern long __cdecl global_structure_bsp_first_active_index_get();
+extern structure_bsp* __cdecl global_structure_bsp_get(long structure_bsp_index);
+extern bool __cdecl global_structure_bsp_is_active(long structure_bsp_index);
+extern long __cdecl global_structure_bsp_next_active_index_get(long structure_bsp_index);
 extern void __cdecl scenario_invalidate();
 extern bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path);
 extern bool __cdecl scenario_switch_zone_set(long zoneset_index);
+extern bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path);
+

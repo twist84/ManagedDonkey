@@ -81,5 +81,8 @@ extern e_language __cdecl game_get_master_language();
 //extern bool __cdecl game_is_language_neutral();
 extern void __cdecl game_options_setup_default_players(long player_count, game_options* options);
 extern void __cdecl game_options_new(game_options* options);
+extern dword __cdecl game_get_active_structure_bsp_mask();
 extern bool __cdecl game_launch_has_initial_script(char const* script_name);
 extern bool __cdecl game_options_get_launch_settings(game_options*, bool change_in_progress);
+extern void __cdecl game_pvs_debug_render();
+

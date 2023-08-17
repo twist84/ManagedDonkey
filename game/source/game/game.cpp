@@ -10,7 +10,10 @@
 #include "interface/user_interface_hs.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
+#include "render/render_debug.hpp"
+#include "render/render_visibility.hpp"
 #include "simulation/simulation.hpp"
+#include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/files_windows.hpp"
 
 #include <string.h>
@@ -651,6 +654,11 @@ void __cdecl game_options_new(game_options* options)
 	INVOKE(0x005323A0, game_options_new, options);
 }
 
+dword __cdecl game_get_active_structure_bsp_mask()
+{
+	return game_globals_get()->active_structure_bsp_mask;
+}
+
 struct s_game_options_launch_settings
 {
 	// 106708
@@ -778,3 +786,84 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 
 	return true;
 }
+
+c_static_array<c_static_array<long, 256>, 16> g_cluster_activation_reason;
+
+real_argb_color const* const k_activation_colors[6]
+{
+	nullptr,
+	global_real_argb_orange,
+	global_real_argb_green,
+	global_real_argb_pink,
+	global_real_argb_purple,
+	global_real_argb_yellow
+};
+long k_activation_color_override_index = 1;
+
+void __cdecl game_pvs_debug_render()
+{
+	if (game_in_progress() && game_get_active_structure_bsp_mask())
+	{
+		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+			structure_bsp_index != -1;
+			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+		{
+			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
+			for (long cluster_index = 0; cluster_index < bsp->clusters.count(); cluster_index++)
+			{
+				real_argb_color const* activation_color = nullptr;
+				if (debug_pvs_activation)
+				{
+					ASSERT(g_cluster_activation_reason[structure_bsp_index][cluster_index] >= 0 && g_cluster_activation_reason[structure_bsp_index][cluster_index] < NUMBEROF(k_activation_colors));
+					if (k_activation_colors[g_cluster_activation_reason[structure_bsp_index][cluster_index]])
+						activation_color = k_activation_colors[g_cluster_activation_reason[structure_bsp_index][cluster_index]];
+
+					if (!activation_color && VALID_INDEX(k_activation_color_override_index, NUMBEROF(k_activation_colors)))
+						activation_color = k_activation_colors[k_activation_color_override_index];
+				}
+
+				if (activation_color)
+				{
+					real_rectangle3d* bounds = &bsp->clusters[cluster_index].bounds;
+					render_debug_box_outline(true, bounds, activation_color);
+
+					real_point3d point0{};
+					real_point3d point1{};
+
+					point0.x = bounds->x.lower;
+					point0.y = bounds->y.lower;
+					point0.z = bounds->z.lower;
+					point1.x = bounds->x.upper;
+					point1.y = bounds->y.upper;
+					point1.z = bounds->z.upper;
+					render_debug_line(true, &point0, &point1, activation_color);
+
+					point0.x = bounds->x.upper;
+					point0.y = bounds->y.lower;
+					point0.z = bounds->z.lower;
+					point1.x = bounds->x.lower;
+					point1.y = bounds->y.upper;
+					point1.z = bounds->z.upper;
+					render_debug_line(true, &point0, &point1, activation_color);
+
+					point0.x = bounds->x.lower;
+					point0.y = bounds->y.upper;
+					point0.z = bounds->z.lower;
+					point1.x = bounds->x.upper;
+					point1.y = bounds->y.lower;
+					point1.z = bounds->z.upper;
+					render_debug_line(true, &point0, &point1, activation_color);
+
+					point0.x = bounds->x.upper;
+					point0.y = bounds->y.upper;
+					point0.z = bounds->z.lower;
+					point1.x = bounds->x.lower;
+					point1.y = bounds->y.lower;
+					point1.z = bounds->z.upper;
+					render_debug_line(true, &point0, &point1, activation_color);
+				}
+			}
+		}
+	}
+}
+

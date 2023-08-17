@@ -2192,6 +2192,9 @@
     <ClInclude Include="source\objects\object_early_movers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\physics\collision_instanced_geometry_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">

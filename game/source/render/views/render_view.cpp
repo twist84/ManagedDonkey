@@ -1,6 +1,7 @@
 #include "render/views/render_view.hpp"
 
 #include "interface/terminal.hpp"
+#include "game/game.hpp"
 #include "hs/hs_runtime.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
@@ -202,6 +203,7 @@ void __cdecl render_debug_frame_render()
 	main_time_frame_rate_display();
 	render_debug_trigger_volumes();
 	object_early_mover_render_debug();
+	game_pvs_debug_render();
 
 	// location_messages
 	//real_point3d point = { 81.6f, -72.4f, 7.2f };
