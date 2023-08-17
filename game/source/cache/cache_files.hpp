@@ -78,7 +78,7 @@ union s_cache_file_header
 		s_cache_file_section_file_bounds reports;
 
 		byte __data2E4[0x4];
-		char author[32];
+		c_static_string<32> author;
 		byte __data308[0x18];
 
 		s_network_http_request_hash hash;

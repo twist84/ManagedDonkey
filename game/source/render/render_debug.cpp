@@ -1279,15 +1279,14 @@ void __cdecl render_debug_build_circle_points(real radius, real_point2d* points,
 {
 	ASSERT(total_point_count > 0);
 
-	real v8 = real(TWO_PI / total_point_count - 1);
-	real v7 = sinf(v8);
-	real v10 = cosf(v8);
+	real angle = real(TWO_PI / total_point_count - 1);
+	real sin_angle = sinf(angle);
+	real cos_angle = cosf(angle);
 	set_real_point2d(points, radius, 0.0f);
 	for (long i = 0; i + 1 < total_point_count; i++)
-		rotate_vector2d((vector2d*)&points[i], v7, v10, (vector2d*)&points[i + 1]);
+		rotate_vector2d((vector2d*)&points[i], sin_angle, cos_angle, (vector2d*)&points[i + 1]);
 
-	real_point2d v6 = *points;
-	points[total_point_count - 1] = v6;
+	points[total_point_count - 1] = *points;
 }
 
 void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d const* height, real radius, real_point3d* points0, real_point3d* points1, real_point3d* points2, real_point3d* points3, real_point3d* points4, real_point3d* points5)
