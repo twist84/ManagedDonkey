@@ -40,6 +40,7 @@ extern void __cdecl render_debug_pill(bool draw_immediately, real_point3d const*
 extern void __cdecl render_debug_box2d_outline(bool draw_immediately, real_rectangle2d const* bounds, real_argb_color const* color);
 extern void __cdecl render_debug_box(bool draw_immediately, real_rectangle3d const* bounds, real_argb_color const* color);
 extern void __cdecl render_debug_box_oriented(bool draw_immediately, real_rectangle3d const* bounds, real_matrix4x3 const* matrix, real_argb_color const* color);
+extern void __cdecl render_debug_box_outline(bool draw_immediately, real_rectangle3d const* bounds, real_argb_color const* color);
 extern void __cdecl render_debug_box_outline_oriented(bool draw_immediately, real_rectangle3d const* bounds, real_matrix4x3 const* matrix, real_argb_color const* color);
 extern void __cdecl render_debug_polygon(real_point3d const* points, short total_point_count, real_argb_color const* color);
 extern void __cdecl render_debug_polygon_edges(real_point3d const* points, short total_point_count, real_argb_color const* color);

@@ -825,6 +825,24 @@ void __cdecl render_debug_box_oriented(bool draw_immediately, real_rectangle3d c
 		render_debug_quadrilateral(draw_immediately, faces[i], &faces[i][1], &faces[i][2], &faces[i][3], color);
 }
 
+void __cdecl render_debug_box_outline(bool draw_immediately, real_rectangle3d const* bounds, real_argb_color const* color)
+{
+	ASSERT(bounds);
+	ASSERT(color);
+
+	if (draw_immediately || render_debug_draw_immediately(color))
+	{
+		real_point3d edges[k_edges_per_cube_count][2]{};
+		rectangle3d_build_edges(bounds, k_edges_per_cube_count, edges);
+		for (long i = 0; i < k_edges_per_cube_count; i++)
+			render_debug_line(true, edges[i], &edges[i][1], color);
+	}
+	else
+	{
+		render_debug_add_cache_entry(8, bounds, color);
+	}
+}
+
 void __cdecl render_debug_box_outline_oriented(bool draw_immediately, real_rectangle3d const* bounds, real_matrix4x3 const* matrix, real_argb_color const* color)
 {
 	ASSERT(bounds);
