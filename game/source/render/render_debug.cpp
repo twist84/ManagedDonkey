@@ -739,10 +739,10 @@ void __cdecl render_debug_pill(bool draw_immediately, real_point3d const* base, 
 	{
 		real_point3d points0[CIRCLE_DIVISIONS + 1]{};
 		real_point3d points1[CIRCLE_DIVISIONS + 1]{};
-		real_point3d points2[9]{};
-		real_point3d points3[9]{};
-		real_point3d points4[9]{};
-		real_point3d points5[9]{};
+		real_point3d points2[(CIRCLE_DIVISIONS / 2) + 1]{};
+		real_point3d points3[(CIRCLE_DIVISIONS / 2) + 1]{};
+		real_point3d points4[(CIRCLE_DIVISIONS / 2) + 1]{};
+		real_point3d points5[(CIRCLE_DIVISIONS / 2) + 1]{};
 
 		render_debug_build_pill_points(base, height, radius, points0, points1, points2, points3, points4, points5);
 
@@ -755,7 +755,7 @@ void __cdecl render_debug_pill(bool draw_immediately, real_point3d const* base, 
 		for (long i = 0; i < CIRCLE_DIVISIONS; i += 4)
 			render_debug_line(draw_immediately, &points0[i], &points1[i], color);
 
-		for (long i = 0; i < 8; i++)
+		for (long i = 0; i < CIRCLE_DIVISIONS / 2; i++)
 		{
 			render_debug_line(draw_immediately, &points2[i], &points2[i + 1], color);
 			render_debug_line(draw_immediately, &points3[i], &points3[i + 1], color);
@@ -1282,7 +1282,7 @@ void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d c
 
 	if (points0 && points1)
 	{
-		for (long i = 0; i < CIRCLE_DIVISIONS; i++)
+		for (long i = 0; i < CIRCLE_DIVISIONS + 1; i++)
 		{
 			real_point2d* circle_point = &circle_points[i];
 
@@ -1296,7 +1296,7 @@ void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d c
 
 	if (points2 && points3 && points4 && points5)
 	{
-		for (long i = 0; i < 9; i++)
+		for (long i = 0; i < (CIRCLE_DIVISIONS / 2) + 1; i++)
 		{
 			real_point2d* circle_point1 = &circle_points[i];
 			real_point2d* circle_point0 = &circle_points[i + 8];

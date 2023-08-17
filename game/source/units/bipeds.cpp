@@ -96,9 +96,9 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 	}
 }
 
-void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector3d* height, real* radius)
+void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector3d* height, real* autoaim_width)
 {
-	INVOKE(0x00B6E0A0, biped_get_autoaim_pill, biped_index, base, height, radius);
+	INVOKE(0x00B6E0A0, biped_get_autoaim_pill, biped_index, base, height, autoaim_width);
 }
 
 void __cdecl biped_render_debug(long biped_index)
@@ -112,13 +112,13 @@ void __cdecl biped_render_debug(long biped_index)
 	{
 		real_point3d base{};
 		vector3d height{};
-		real radius = 0.0f;
+		real autoaim_width = 0.0f;
 
-		biped_get_autoaim_pill(biped_index, &base, &height, &radius);
+		biped_get_autoaim_pill(biped_index, &base, &height, &autoaim_width);
 		if (magnitude_squared3d(&height) <= 0.0f)
-			render_debug_sphere(true, &base, radius, global_real_argb_red);
+			render_debug_sphere(true, &base, autoaim_width, global_real_argb_red);
 		else
-			render_debug_pill(true, &base, &height, radius, global_real_argb_red);
+			render_debug_pill(true, &base, &height, autoaim_width, global_real_argb_red);
 	}
 
 	if (debug_objects_ground_plane)
