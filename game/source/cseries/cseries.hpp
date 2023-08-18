@@ -250,34 +250,10 @@ public:
 template<typename t_type, long k_count>
 struct c_static_array
 {
+public:
 	c_static_array()
 	{
 		clear();
-	}
-
-	t_type const& operator[](long index) const
-	{
-		ASSERT(valid(index));
-
-		return m_storage[index];
-	}
-
-	t_type& operator[](long index)
-	{
-		ASSERT(valid(index));
-	
-		return m_storage[index];
-	}
-
-	void set_all(t_type const& value)
-	{
-		for (long i = 0; i < k_count; i++)
-			m_storage[i] = value;
-	}
-
-	void clear()
-	{
-		csmemset(m_storage, 0, sizeof(m_storage));
 	}
 
 	t_type* begin()
@@ -300,14 +276,19 @@ struct c_static_array
 		return &m_storage[k_count];
 	}
 
+	void clear()
+	{
+		csmemset(m_storage, 0, sizeof(m_storage));
+	}
+
+	long get_count() const
+	{
+		return k_count;
+	}
+
 	t_type* get_elements()
 	{
 		return m_storage;
-	}
-
-	long count()
-	{
-		return k_count;
 	}
 
 	bool valid(long index) const
@@ -315,6 +296,32 @@ struct c_static_array
 		return VALID_INDEX(index, k_count);
 	}
 
+	void set_all(t_type const& value)
+	{
+		for (long i = 0; i < k_count; i++)
+			m_storage[i] = value;
+	}
+
+	long get_total_element_size() const
+	{
+		return sizeof(t_type) * k_count;
+	}
+
+	t_type const& operator[](long index) const
+	{
+		ASSERT(valid(index));
+
+		return m_storage[index];
+	}
+
+	t_type& operator[](long index)
+	{
+		ASSERT(valid(index));
+
+		return m_storage[index];
+	}
+
+protected:
 	t_type m_storage[k_count];
 };
 
@@ -322,9 +329,51 @@ template<typename t_type, long k_count>
 struct c_static_sized_dynamic_array
 {
 public:
-	long count()
+	c_static_sized_dynamic_array() :
+		m_storage(),
+		m_count(0)
+	{
+	}
+
+	t_type* begin()
+	{
+		return m_storage.begin();
+	}
+
+	t_type* end()
+	{
+		return begin() + m_count;
+	}
+
+	t_type const* begin() const
+	{
+		return m_storage.begin();
+	}
+
+	t_type const* end() const
+	{
+		return begin() + m_count;
+	}
+
+	void clear()
+	{
+		csmemset(m_storage, 0, sizeof(m_storage));
+		m_count = 0;
+	}
+
+	long count() const
 	{
 		return m_count;
+	}
+
+	bool full() const
+	{
+		return m_count == m_storage.get_count();
+	}
+
+	bool valid_index(long index) const
+	{
+		return VALID_INDEX(index, m_count);
 	}
 
 	long new_element_index()
@@ -335,17 +384,6 @@ public:
 		m_count++;
 
 		return new_index;
-	}
-
-	bool valid_index(long index) const
-	{
-		return VALID_INDEX(index, m_count);
-	}
-
-	void clear()
-	{
-		csmemset(m_storage, 0, sizeof(m_storage));
-		m_count = 0;
 	}
 
 	t_type& operator[](long index)

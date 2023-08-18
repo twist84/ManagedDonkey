@@ -257,7 +257,7 @@ s_blf_chunk_campaign::s_blf_chunk_campaign()
 	campaign_id = -1;
 	memset(names, 0, sizeof(names));
 	memset(descriptions, 0, sizeof(descriptions));
-	memset(map_ids.m_storage, 0, sizeof(map_ids));
+	map_ids.clear();
 }
 
 s_blf_chunk_scenario::s_blf_chunk_scenario()

@@ -156,7 +156,7 @@ void c_map_variant::print()
 	PRINT_TABS; c_console::write_line("m_built_in: %s", m_built_in ? "true" : "false");
 	PRINT_TABS; c_console::write_line("m_map_variant_checksum: 0x%08X", m_map_variant_checksum);
 
-	for (long i = 0; i < m_variant_objects.count(); i++)
+	for (long i = 0; i < m_variant_objects.get_count(); i++)
 	{
 		PRINT_TABS; c_console::write_line("m_variant_objects[%d]:", i);
 		PRINT_TABS; c_console::write_line("{");
@@ -164,7 +164,7 @@ void c_map_variant::print()
 		PRINT_TABS; c_console::write_line("}");
 	}
 
-	for (long i = 0; i < m_object_type_start_index.count(); i++)
+	for (long i = 0; i < m_object_type_start_index.get_count(); i++)
 	{
 		PRINT_TABS; c_console::write_line("m_object_type_start_index[%d]: %d", i, m_object_type_start_index[i]);
 	}
@@ -177,7 +177,7 @@ void c_map_variant::print()
 	//	PRINT_TABS; c_console::write_line("}");
 	//}
 
-	for (long i = 0; i < m_chunk_simulation_object_glue_indices.count(); i++)
+	for (long i = 0; i < m_chunk_simulation_object_glue_indices.get_count(); i++)
 	{
 		PRINT_TABS; c_console::write_line("m_chunk_simulation_object_glue_indices[%d]: 0x%08X", i, m_chunk_simulation_object_glue_indices[i]);
 	}

@@ -415,7 +415,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 	}
 
 	int(__cdecl * scoreboard_sort_proc)(void const*, void const*) = reinterpret_cast<decltype(scoreboard_sort_proc)>(a1 ? 0x00AB3A00 : 0x00AB38A0);
-	qsort(m_player_rows.m_storage, m_player_row_count, sizeof(s_player_row), scoreboard_sort_proc);
+	qsort(m_player_rows.get_elements(), m_player_row_count, sizeof(s_player_row), scoreboard_sort_proc);
 }
 
 void __fastcall gui_scoreboard_data_update(c_gui_scoreboard_data* _this)

@@ -481,7 +481,7 @@ callback_result_t breakpoint_callback(void const* userdata, long token_count, to
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* message = tokens.m_storage[1]->get_string();
+	char const* message = tokens[1]->get_string();
 	c_console::write_line(message);
 
 	if (!IsDebuggerPresent())
@@ -501,7 +501,7 @@ callback_result_t script_start_callback(void const* userdata, long token_count, 
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name = tokens.m_storage[1]->get_string();
+	char const* name = tokens[1]->get_string();
 	user_interface_start_hs_script_by_name(name);
 
 	return result;
@@ -511,7 +511,7 @@ callback_result_t game_splitscreen_callback(void const* userdata, long token_cou
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	long multiplayer_splitscreen_count = atol(tokens.m_storage[1]->get_string());
+	long multiplayer_splitscreen_count = atol(tokens[1]->get_string());
 	main_game_launch_set_multiplayer_splitscreen_count(multiplayer_splitscreen_count);
 
 	return result;
@@ -521,7 +521,7 @@ callback_result_t game_coop_players_callback(void const* userdata, long token_co
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	long coop_player_count = atol(tokens.m_storage[1]->get_string());
+	long coop_player_count = atol(tokens[1]->get_string());
 	main_game_launch_set_coop_player_count(coop_player_count);
 
 	return result;
@@ -531,7 +531,7 @@ callback_result_t game_start_callback(void const* userdata, long token_count, to
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* map_name = tokens.m_storage[1]->get_string();
+	char const* map_name = tokens[1]->get_string();
 	main_game_launch(map_name);
 
 	return result;
@@ -543,8 +543,8 @@ callback_result_t net_session_create_callback(void const* userdata, long token_c
 
 	//network_test_create_session();
 
-	char const* ui_game_mode_name = tokens.m_storage[1]->get_string();
-	char const* advertisement_mode_name = tokens.m_storage[2]->get_string();
+	char const* ui_game_mode_name = tokens[1]->get_string();
+	char const* advertisement_mode_name = tokens[2]->get_string();
 
 	network_test_set_ui_game_mode(ui_game_mode_name);
 	network_test_set_advertisement_mode(advertisement_mode_name);
@@ -599,7 +599,7 @@ callback_result_t net_session_add_callback(void const* userdata, long token_coun
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	token_t const& str = tokens.m_storage[1];
+	token_t const& str = tokens[1];
 	c_static_string<256> parts[2];
 	if (!split_host_string_into_parts(str, parts))
 		parts[1].set("11774");
@@ -638,8 +638,8 @@ callback_result_t net_test_ping_directed_callback(void const* userdata, long tok
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* ip_port = tokens.m_storage[1]->get_string();
-	if (tokens.m_storage[1]->index_of(":") == -1)
+	char const* ip_port = tokens[1]->get_string();
+	if (tokens[1]->index_of(":") == -1)
 	{
 		result = "Invalid usage. ";
 		result.append_print_line("%s %s", command.name, command.parameter_types);
@@ -660,7 +660,7 @@ callback_result_t net_test_text_chat_callback(void const* userdata, long token_c
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* text = tokens.m_storage[1]->get_string();
+	char const* text = tokens[1]->get_string();
 
 	network_test_text_chat(text);
 
@@ -671,9 +671,9 @@ callback_result_t net_test_text_chat_directed_callback(void const* userdata, lon
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* ip_port = tokens.m_storage[1]->get_string();
-	char const* text = tokens.m_storage[2]->get_string();
-	if (tokens.m_storage[1]->index_of(":") == -1)
+	char const* ip_port = tokens[1]->get_string();
+	char const* text = tokens[2]->get_string();
+	if (tokens[1]->index_of(":") == -1)
 	{
 		result = "Invalid usage. ";
 		result.append_print_line("%s %s", command.name, command.parameter_types);
@@ -694,7 +694,7 @@ callback_result_t net_test_map_name_callback(void const* userdata, long token_co
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* scenario_path = tokens.m_storage[1]->get_string();
+	char const* scenario_path = tokens[1]->get_string();
 	network_test_set_map_name(scenario_path);
 
 	return result;
@@ -704,7 +704,7 @@ callback_result_t net_test_variant_callback(void const* userdata, long token_cou
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* game_engine_name = tokens.m_storage[1]->get_string();
+	char const* game_engine_name = tokens[1]->get_string();
 	network_test_set_game_variant(game_engine_name);
 
 	return result;
@@ -714,7 +714,7 @@ callback_result_t net_test_session_mode_callback(void const* userdata, long toke
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* session_mode_name = tokens.m_storage[1]->get_string();
+	char const* session_mode_name = tokens[1]->get_string();
 	network_test_set_session_mode(session_mode_name);
 
 	return result;
@@ -724,7 +724,7 @@ callback_result_t net_test_ui_game_mode_callback(void const* userdata, long toke
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* ui_game_mode_name = tokens.m_storage[1]->get_string();
+	char const* ui_game_mode_name = tokens[1]->get_string();
 	network_test_set_ui_game_mode(ui_game_mode_name);
 
 	return result;
@@ -734,7 +734,7 @@ callback_result_t net_test_advertisement_mode_callback(void const* userdata, lon
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* advertisement_mode_name = tokens.m_storage[1]->get_string();
+	char const* advertisement_mode_name = tokens[1]->get_string();
 	network_test_set_advertisement_mode(advertisement_mode_name);
 
 	return result;
@@ -744,8 +744,8 @@ callback_result_t net_test_game_variant_parameter_callback(void const* userdata,
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* parameter_name = tokens.m_storage[1]->get_string();
-	long value = atol(tokens.m_storage[2]->get_string());
+	char const* parameter_name = tokens[1]->get_string();
+	long value = atol(tokens[2]->get_string());
 	long old_value = -1;
 	network_test_set_game_variant_parameter(parameter_name, value, &old_value);
 
@@ -758,7 +758,7 @@ callback_result_t net_build_game_variant_callback(void const* userdata, long tok
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_build_game_variant(filename);
 
 	return result;
@@ -768,7 +768,7 @@ callback_result_t net_verify_game_variant_callback(void const* userdata, long to
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_verify_game_variant_file(filename);
 
 	return result;
@@ -778,7 +778,7 @@ callback_result_t net_load_and_use_game_variant_callback(void const* userdata, l
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_load_and_use_game_variant_file(filename);
 
 	return result;
@@ -788,7 +788,7 @@ callback_result_t net_verify_packed_game_variant_callback(void const* userdata, 
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_verify_packed_game_variant_file(filename);
 
 	return result;
@@ -798,7 +798,7 @@ callback_result_t net_load_and_use_packed_game_variant_callback(void const* user
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_load_and_use_packed_game_variant_file(filename);
 
 	return result;
@@ -808,7 +808,7 @@ callback_result_t net_build_map_variant_callback(void const* userdata, long toke
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_build_map_variant(filename);
 
 	return result;
@@ -818,7 +818,7 @@ callback_result_t net_verify_map_variant_callback(void const* userdata, long tok
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_verify_map_variant_file(filename);
 
 	return result;
@@ -828,7 +828,7 @@ callback_result_t net_load_and_use_map_variant_callback(void const* userdata, lo
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_load_and_use_map_variant_file(filename);
 
 	return result;
@@ -838,7 +838,7 @@ callback_result_t net_verify_packed_map_variant_callback(void const* userdata, l
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_verify_packed_map_variant_file(filename);
 
 	return result;
@@ -848,7 +848,7 @@ callback_result_t net_load_and_use_packed_map_variant_callback(void const* userd
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	network_load_and_use_packed_map_variant_file(filename);
 
 	return result;
@@ -858,7 +858,7 @@ callback_result_t game_export_variant_settings_callback(void const* userdata, lo
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* filename = tokens.m_storage[1]->get_string();
+	char const* filename = tokens[1]->get_string();
 	game_engine_dump_variant_settings(filename);
 
 	return result;
@@ -868,7 +868,7 @@ callback_result_t alert_carry_callback(void const* userdata, long token_count, t
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	long user_index = atol(tokens.m_storage[1]->get_string());
+	long user_index = atol(tokens[1]->get_string());
 	if (!VALID_INDEX(user_index, 4))
 	{
 		result = "Invalid parameter. ";
@@ -887,7 +887,7 @@ callback_result_t online_set_is_connected_to_live_callback(void const* userdata,
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	bool is_connected_to_live = !!atol(tokens.m_storage[1]->get_string());
+	bool is_connected_to_live = !!atol(tokens[1]->get_string());
 
 	online_set_is_connected_to_live(is_connected_to_live);
 
@@ -898,7 +898,7 @@ callback_result_t online_user_set_name_callback(void const* userdata, long token
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* name = tokens.m_storage[1]->get_string();
+	char const* name = tokens[1]->get_string();
 	c_static_wchar_string<16> name_wide;
 	name_wide.print(L"%hs", name);
 	online_user_set_name(name_wide);
@@ -910,7 +910,7 @@ callback_result_t mp_game_won_callback(void const* userdata, long token_count, t
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	short team = static_cast<short>(atol(tokens.m_storage[1]->get_string()));
+	short team = static_cast<short>(atol(tokens[1]->get_string()));
 	game_engine_game_won(team);
 
 	return result;
@@ -920,7 +920,7 @@ callback_result_t load_preferences_from_file_callback(void const* userdata, long
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* preferences_filename = tokens.m_storage[1]->get_string();
+	char const* preferences_filename = tokens[1]->get_string();
 
 	FILE* preferences_file = nullptr;
 	if (fopen_s(&preferences_file, preferences_filename, "r") == 0 && preferences_file)
@@ -978,7 +978,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 	bool cache_file_has_halo3_armors = false;
 	c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& armor_regions = get_armor_regions(_player_model_choice_spartan, &cache_file_has_halo3_armors);
 
-	char const* customization_filename = tokens.m_storage[1]->get_string();
+	char const* customization_filename = tokens[1]->get_string();
 
 	FILE* customization_file = nullptr;
 	if (fopen_s(&customization_file, customization_filename, "r") == 0 && customization_file)
@@ -1043,7 +1043,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 				char armor_name[32]{};
 				if (sscanf_s(buffer, "armors[%[^]]]: %s", armor_region_name, sizeof(armor_region_name), armor_name, sizeof(armor_name)) && (*armor_region_name && *armor_name))
 				{
-					long armor_region_count = cache_file_has_halo3_armors ? _armor_type_arms + 1 : armor_loadout.armors.count();
+					long armor_region_count = cache_file_has_halo3_armors ? _armor_type_arms + 1 : armor_loadout.armors.get_count();
 					for (long armor_region_index = 0; armor_region_index < armor_region_count; armor_region_index++)
 					{
 						char const* armor_region = nullptr;
@@ -1196,7 +1196,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 				if (armor_region)
 				{
 					fprintf_s(customization_info_file, "%s:\n", armor_region);
-					for (long armor_type_index = 0; armor_type_index < armor_types.count(); armor_type_index++)
+					for (long armor_type_index = 0; armor_type_index < armor_types.get_count(); armor_type_index++)
 					{
 						char const* value = armor_types[armor_type_index];
 						if (*value)
@@ -1251,7 +1251,7 @@ callback_result_t drop_callback(void const* userdata, long token_count, tokens_t
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* tag_name = tokens.m_storage[1]->get_string();
+	char const* tag_name = tokens[1]->get_string();
 	cheat_drop_tag_name(tag_name);
 
 	return result;
@@ -1261,8 +1261,8 @@ callback_result_t drop_variant_callback(void const* userdata, long token_count, 
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* tag_name = tokens.m_storage[1]->get_string();
-	char const* variant_name = tokens.m_storage[2]->get_string();
+	char const* tag_name = tokens[1]->get_string();
+	char const* variant_name = tokens[2]->get_string();
 	cheat_drop_tag_name_with_variant_hs(tag_name, variant_name);
 
 	return result;
@@ -1272,8 +1272,8 @@ callback_result_t drop_permutation_callback(void const* userdata, long token_cou
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	char const* tag_name = tokens.m_storage[1]->get_string();
-	char const* permutation = tokens.m_storage[2]->get_string();
+	char const* tag_name = tokens[1]->get_string();
+	char const* permutation = tokens[2]->get_string();
 	cheat_drop_tag_name_with_permutation_hs(tag_name, permutation);
 
 	return result;
