@@ -6,6 +6,12 @@ REFERENCE_DECLARE(0x0189CF00, real_point3d const* const, global_origin3d);
 REFERENCE_DECLARE(0x0189CF04, vector3d const* const, global_forward3d);
 REFERENCE_DECLARE(0x0189CF28, vector3d const* const, global_up3d);
 
+// networking/network_configuration.cpp
+real __cdecl interpolate_linear(real start_value, real end_value, real interpolation_factor)
+{
+	return start_value + ((end_value - start_value) * interpolation_factor);
+}
+
 real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b)
 {
 	return INVOKE(0x004EEC40, angle_between_vectors3d, a, b);

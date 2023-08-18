@@ -1,5 +1,6 @@
 #include "render/views/render_view.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "interface/terminal.hpp"
 #include "game/game.hpp"
 #include "hs/hs_runtime.hpp"
@@ -204,6 +205,7 @@ void __cdecl render_debug_frame_render()
 	render_debug_trigger_volumes();
 	object_early_mover_render_debug();
 	game_pvs_debug_render();
+	events_debug_render();
 
 	// location_messages
 	//real_point3d point = { 81.6f, -72.4f, 7.2f };
@@ -211,20 +213,20 @@ void __cdecl render_debug_frame_render()
 	//render_debug_string_at_point(&point, "test location", global_real_argb_magenta);
 
 	// the object type render functions don't get called in release, call them here
-	c_object_iterator<unit_datum> unit_iterator;
-	unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
-	while (unit_iterator.next())
-	{
-		if (unit_iterator.get_index() != NONE)
-			unit_render_debug(unit_iterator.get_index());
-	}
-
-	c_object_iterator<unit_datum> biped_iterator;
-	biped_iterator.begin(BIPED_OBJECT_MASK, 0);
-	while (biped_iterator.next())
-	{
-		if (biped_iterator.get_index() != NONE)
-			biped_render_debug(biped_iterator.get_index());
-	}
+	//c_object_iterator<unit_datum> unit_iterator;
+	//unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
+	//while (unit_iterator.next())
+	//{
+	//	if (unit_iterator.get_index() != NONE)
+	//		unit_render_debug(unit_iterator.get_index());
+	//}
+	//
+	//c_object_iterator<unit_datum> biped_iterator;
+	//biped_iterator.begin(BIPED_OBJECT_MASK, 0);
+	//while (biped_iterator.next())
+	//{
+	//	if (biped_iterator.get_index() != NONE)
+	//		biped_render_debug(biped_iterator.get_index());
+	//}
 }
 

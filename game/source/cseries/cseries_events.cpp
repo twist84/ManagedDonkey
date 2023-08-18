@@ -1,14 +1,78 @@
 #include "cseries/cseries_events.hpp"
 
+#include "interface/interface.hpp"
+#include "interface/interface_constants.hpp"
 #include "memory/module.hpp"
+#include "text/draw_string.hpp"
 
 #include <string.h>
 
+bool g_events_initialized = false;
+bool g_events_debug_render_enable = false;
+
+c_static_array<s_spamming_event, 64> g_spamming_events = {};
+
 HOOK_DECLARE(0x000D858D0, network_debug_print);
+
+void __cdecl events_debug_render()
+{
+	if (!g_events_debug_render_enable)
+		return;
+
+	c_rasterizer_draw_string draw_string;
+	c_font_cache_mt_safe font_cache;
+
+	short_rectangle2d display_title_safe_pixel_bounds{};
+	interface_get_current_display_settings(nullptr, nullptr, nullptr, &display_title_safe_pixel_bounds);
+
+	short_rectangle2d bounds{};
+	bounds.x0 = display_title_safe_pixel_bounds.x0;
+	bounds.y0 = display_title_safe_pixel_bounds.y0 + 70;
+	bounds.x1 = INT16_MAX;
+	bounds.y1 = INT16_MAX;
+
+	real_argb_color color{};
+	color.alpha = global_real_argb_red->alpha;
+
+	real interpolation_factor = (system_milliseconds() % 1000) / 1000.0f;
+	interpolate_linear(global_real_argb_red->color.red, global_real_argb_white->color.red, interpolation_factor);
+	interpolate_linear(global_real_argb_red->color.green, global_real_argb_white->color.green, interpolation_factor);
+	interpolate_linear(global_real_argb_red->color.blue, global_real_argb_white->color.blue, interpolation_factor);
+
+	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+	draw_string.set_color(&color);
+	draw_string.set_tab_stops(nullptr, 0);
+	draw_string.set_bounds(&bounds);
+
+	bool first_event = true;
+	for (long i = 0; g_spamming_events.get_count(); i++)
+	{
+		s_spamming_event& spamming_event = g_spamming_events[i];
+
+		if (spamming_event.valid)
+		{
+			if ((system_milliseconds() - spamming_event.hit_time) > 3000)
+				csmemset(&spamming_event, 0, sizeof(s_spamming_event));
+		}
+
+		if (spamming_event.valid && spamming_event.hit_count >= 2)
+		{
+			if (first_event)
+			{
+				draw_string.draw(&font_cache, spamming_event.text);
+				first_event = false;
+			}
+			else
+			{
+				draw_string.draw_more(&font_cache, spamming_event.text);
+			}
+		}
+	}
+}
 
 // used inplace of `c_event::generate`
 // net::REMOTE_BINLOGGER
-void network_debug_print(const char* format, ...)
+void __cdecl network_debug_print(const char* format, ...)
 {
 	long format_address = (long)format;
 
