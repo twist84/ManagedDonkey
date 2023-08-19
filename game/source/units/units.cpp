@@ -10,7 +10,7 @@
 HOOK_DECLARE(0x00B47080, unit_render_debug);
 
 bool debug_objects_unit_vectors = false;
-bool debug_objects_unit_seats = true;
+bool debug_objects_unit_seats = false;
 bool debug_objects_unit_mouth_apeture = false;
 bool debug_objects_unit_firing = false;
 bool debug_objects_unit_acceleration = false;

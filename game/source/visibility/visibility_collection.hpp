@@ -51,7 +51,7 @@ struct s_visible_object_render_visibility
 	dword __unknown8;
 	byte __dataC[0x5C];
 	s_shader_extern_info* shader_extern_info;
-	dword __unknown6C;
+	long object_index;
 	dword __unknown70;
 	byte_flags flags;
 };
@@ -97,7 +97,11 @@ struct c_simple_list
 {
 	//c_simple_list()
 
-	//long get_count()
+	long get_count()
+	{
+		return m_count;
+	}
+
 	//void set_count(word)
 
 	//bool valid(long)
@@ -107,8 +111,23 @@ struct c_simple_list
 
 	//t_type& operator[](long)
 
-	//t_type* list_iterator_next(long*)
-	//t_type* list_iterator_new(long*, long)
+	t_type* list_iterator_next(long* a1)
+	{
+		if (*a1 >= m_count - 1)
+		{
+			*a1 = NONE;
+			return nullptr;
+		}
+
+		return m_elements[++*a1];
+	}
+
+	t_type* list_iterator_new(long* a1, long a2)
+	{
+		*a1 = a2 - 1;
+
+		return list_iterator_next(a1);
+	}
 
 	word m_maximum_count = k_maximum_count;
 	word m_count;
@@ -149,8 +168,14 @@ struct c_visible_items
 		word sky_starting_index;
 	};
 
+	static word __cdecl get_root_objects_starting_index()
+	{
+		return m_marker_indices[m_marker_count].root_objects_starting_index;
+	}
+
 //private:
+	static long& m_marker_count;
 	static s_visible_items& m_items;
-	static s_marker_indices(&m_markers)[k_maximum_item_markers];
+	static s_marker_indices(&m_marker_indices)[k_maximum_item_markers];
 };
 

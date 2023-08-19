@@ -278,7 +278,7 @@ void __cdecl main_loop_body_begin()
 		c_lights_view::g_render_light_intensity;
 		c_lights_view::g_debug_clip_planes;
 		c_visible_items::m_items;
-		c_visible_items::m_markers;
+		c_visible_items::m_marker_indices;
 
 		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 		long player_count = 0;
