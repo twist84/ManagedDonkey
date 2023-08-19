@@ -220,12 +220,42 @@ struct object_marker
 };
 static_assert(sizeof(object_marker) == 0x70);
 
+extern bool debug_objects;
+extern bool debug_objects_early_movers;
+extern bool debug_objects_indices;
+extern bool debug_objects_programmer;
+extern bool debug_objects_garbage;
+extern bool debug_objects_names;
+extern bool debug_objects_full_names;
+extern bool debug_objects_active_nodes;
+extern bool debug_objects_animation_times;
+extern bool debug_objects_functions;
+extern bool debug_objects_position_velocity;
+extern bool debug_objects_origin;
+extern bool debug_objects_root_node;
+extern bool debug_objects_bounding_spheres;
+extern bool debug_objects_attached_bounding_spheres;
+extern bool debug_objects_dynamic_render_bounding_spheres;
+extern bool debug_objects_model_targets;
+extern bool debug_objects_collision_models;
+extern bool debug_objects_profile_times;
+extern bool debug_objects_water_physics;
+extern bool debug_objects_physics_models;
+extern bool debug_objects_contact_points;
+extern bool debug_objects_constraints;
+extern bool debug_objects_vehicle_physics;
+extern bool debug_objects_mass;
+extern bool debug_objects_pathfinding;
+extern bool debug_objects_node_bounds;
+extern bool debug_objects_animation;
+
 extern object_header_datum const* __cdecl object_header_get(long object_index);
 extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
 extern e_object_type __cdecl object_get_type(long object_index);
 extern bool __cdecl object_load_scenario_placement_matrices(long object_index);
 extern void __cdecl object_delete(long object_index);
 extern short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count);
+extern real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short node_index);
 extern void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up);
 extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
 extern long __cdecl object_get_ultimate_parent(long object_index);
@@ -242,6 +272,7 @@ extern void __cdecl object_reconnect_to_map(long object_index, bool a2, s_locati
 extern void __cdecl object_reconnect_to_physics(long object_index);
 extern void __cdecl object_register_scenario_object(long object_index);
 extern void __cdecl object_reinitialize_from_placement(long object_index, object_placement_data* data, bool at_rest);
+extern void __cdecl object_render_debug(long object_index);
 extern void __cdecl object_reset(long object_index);
 extern void __cdecl object_reset_interpolation(long object_index);
 extern void __cdecl object_set_always_active(long object_index, bool always_active);
@@ -259,4 +290,5 @@ extern void __cdecl object_set_position_in_editor(long object_index, real_point3
 extern void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location);
 extern void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type_mask);
 extern void __cdecl object_debug_teleport(long object_index, real_point3d const* position);
+extern void __cdecl object_render_debug_internal(long object_index);
 

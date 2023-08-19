@@ -7,6 +7,7 @@
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "objects/object_early_movers.hpp"
+#include "objects/object_types.hpp"
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_debug_structure.hpp"
@@ -203,32 +204,20 @@ void __cdecl render_debug_frame_render()
 
 	terminal_draw();
 	main_time_frame_rate_display();
-	render_debug_trigger_volumes();
-	render_debug_structure();
-	object_early_mover_render_debug();
-	game_pvs_debug_render();
-	events_debug_render();
 
-	// location_messages
-	//real_point3d point = { 81.6f, -72.4f, 7.2f };
-	//render_debug_point(true, &point, 2.0f, global_real_argb_magenta);
-	//render_debug_string_at_point(&point, "test location", global_real_argb_magenta);
+	if (game_in_progress())
+	{
+		render_debug_objects();
+		render_debug_trigger_volumes();
+		render_debug_structure();
+		object_early_mover_render_debug();
+		game_pvs_debug_render();
+		events_debug_render();
 
-	// the object type render functions don't get called in release, call them here
-	//c_object_iterator<unit_datum> unit_iterator;
-	//unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
-	//while (unit_iterator.next())
-	//{
-	//	if (unit_iterator.get_index() != NONE)
-	//		unit_render_debug(unit_iterator.get_index());
-	//}
-	//
-	//c_object_iterator<unit_datum> biped_iterator;
-	//biped_iterator.begin(BIPED_OBJECT_MASK, 0);
-	//while (biped_iterator.next())
-	//{
-	//	if (biped_iterator.get_index() != NONE)
-	//		biped_render_debug(biped_iterator.get_index());
-	//}
+		// location_messages
+		//real_point3d point = { 81.6f, -72.4f, 7.2f };
+		//render_debug_point(true, &point, 2.0f, global_real_argb_magenta);
+		//render_debug_string_at_point(&point, "test location", global_real_argb_magenta);
+	}
 }
 

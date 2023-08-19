@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "objects/objects.hpp"
 
 struct c_mover_definition_data;
 struct object_placement_data;
@@ -69,4 +70,12 @@ struct object_type_definition
 	// wtf is this?
 	long __unknownF0;
 };
-static_assert(sizeof(object_type_definition) == 0xF4); 
+static_assert(sizeof(object_type_definition) == 0xF4);
+
+extern object_type_definition* (&object_type_definitions)[k_object_type_count];
+
+extern void __cdecl render_debug_objects();
+extern void __cdecl object_type_render_debug(long object_index);
+extern bool __cdecl should_render_debug_object(long object_index);
+extern object_type_definition* __cdecl object_type_definition_get(e_object_type object_type);
+

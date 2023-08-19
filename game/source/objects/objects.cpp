@@ -1,9 +1,44 @@
 #include "objects/objects.hpp"
 
+#include "cache/cache_files.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "object_definitions.hpp"
 #include "physics/havok.hpp"
+#include "render/render_debug.hpp"
 
 #include <intrin.h>
+
+HOOK_DECLARE(0x00B32130, object_render_debug);
+
+bool debug_objects = true;
+bool debug_objects_early_movers = false;
+bool debug_objects_indices = false;
+bool debug_objects_programmer = false;
+bool debug_objects_garbage = false;
+bool debug_objects_names = false;
+bool debug_objects_full_names = false;
+bool debug_objects_active_nodes = false;
+bool debug_objects_animation_times = false;
+bool debug_objects_functions = false;
+bool debug_objects_position_velocity = false;
+bool debug_objects_origin = false;
+bool debug_objects_root_node = false;
+bool debug_objects_bounding_spheres = true;
+bool debug_objects_attached_bounding_spheres = false;
+bool debug_objects_dynamic_render_bounding_spheres = false;
+bool debug_objects_model_targets = false;
+bool debug_objects_collision_models = false;
+bool debug_objects_profile_times = false;
+bool debug_objects_water_physics = false;
+bool debug_objects_physics_models = false;
+bool debug_objects_contact_points = false;
+bool debug_objects_constraints = false;
+bool debug_objects_vehicle_physics = false;
+bool debug_objects_mass = false;
+bool debug_objects_pathfinding = false;
+bool debug_objects_node_bounds = false;
+bool debug_objects_animation = false;
 
 object_header_datum const* __cdecl object_header_get(long object_index)
 {
@@ -44,6 +79,11 @@ void __cdecl object_delete(long object_index)
 short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count)
 {
 	return INVOKE(0x00B2E3C0, object_get_markers_by_string_id, object_index, marker_name, markers, maximum_marker_count);
+}
+
+real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short node_index)
+{
+	return INVOKE(0x00B2E450, object_get_node_matrix, object_index, node_index);
 }
 
 void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up)
@@ -164,7 +204,12 @@ void __cdecl object_reinitialize_from_placement(long object_index, object_placem
 
 //.text:00B320A0
 //.text:00B32100
-//.text:00B32130
+
+void __cdecl object_render_debug(long object_index)
+{
+	object_render_debug_internal(object_index);
+}
+
 //.text:00B32140
 
 void __cdecl object_reset(long object_index)
@@ -290,6 +335,212 @@ void __cdecl object_debug_teleport(long object_index, real_point3d const* positi
 	else
 	{
 		c_console::write_line("Failed to get a valid object in %s.", __FUNCTION__);
+	}
+}
+
+void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_string<256>* name)
+{
+	byte* object = static_cast<byte*>(object_get_and_verify_type(object_index, NONE));
+
+	if (!object)
+	{
+		name->print("Unknown");
+		return;
+	}
+
+	REFERENCE_DECLARE(object, long, object_definition_index);
+	REFERENCE_DECLARE(object + 0x9C, short, name_index);
+	REFERENCE_DECLARE(object + 0xBA, char, model_variant_index);
+
+	name->clear();
+	if (name_index != NONE)
+	{
+		s_scenario* scenario = global_scenario_get();
+		scenario_object_name& object_name = scenario->object_names[name_index];
+
+		name->append_print("%s|n", object_name.name.get_string());
+	}
+
+	tag group_tag = tag_get_group_tag(object_definition_index);
+	char const* group_tag_name = tag_group_get_name(group_tag);
+	char const* tag_name = tag_get_name(object_definition_index);
+
+	if (!full_name)
+		tag_name = tag_name_strip_path(tag_get_name(object_definition_index));
+
+	name->append_print("%s.%s|n", tag_name, group_tag_name);
+
+	if (model_variant_index == NONE)
+	{
+		name->append("[default]|n");
+	}
+	else
+	{
+		_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object_definition_index));
+
+		struct s_model_definition* model_definition = nullptr;
+		if (object_definition->model.index != NONE)
+			model_definition = object_definition->model.cast_to<s_model_definition>();
+
+		//if (model_definition && model_variant_index < 128 && model_variant_index < model_definition)
+		//{
+		//
+		//}
+		//else
+		//{
+		//	name->append_print("[invalid! %d]|n", model_variant_index);
+		//}
+	}
+}
+
+void __cdecl object_render_debug_internal(long object_index)
+{
+	object_header_datum const* object_header = object_header_get(object_index);
+	byte* object = static_cast<byte*>(object_get_and_verify_type(object_index, NONE));
+
+	REFERENCE_DECLARE(object, long, object_definition_index);
+	_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object_definition_index));
+
+	c_static_string<4096> string;
+
+	if (debug_objects_indices)
+		string.append_print("%d (%#x)|n", object_index, object_index);
+
+	if (debug_objects_programmer)
+	{
+		REFERENCE_DECLARE(object + 4, dword_flags, object_flags);
+
+		string.append_print("header flags: %04x|n", object_header->flags);
+		string.append_print("datum flags: %08x|n", object_flags);
+	}
+
+	if (debug_objects_garbage)
+	{
+
+	}
+
+	if (debug_objects_names)
+	{
+		c_static_string<256> name;
+		object_get_debug_name(object_index, debug_objects_full_names, &name);
+		string.append_print("%s", name.get_string());
+	}
+
+	if (debug_objects_active_nodes)
+	{
+		//debug_objects_animation_times
+	}
+
+	if (debug_objects_functions)
+	{
+
+	}
+
+	if (debug_objects_position_velocity)
+	{
+
+	}
+
+	if (debug_objects_origin)
+	{
+
+	}
+
+	if (debug_objects_root_node)
+	{
+
+	}
+
+	if (debug_objects_bounding_spheres)
+	{
+		long parent_object_index = object_get_ultimate_parent(object_index);
+		object_header_datum const* parent_object_header = object_header_get(parent_object_index);
+		byte* parent_object = static_cast<byte*>(object_get_and_verify_type(parent_object_index, NONE));
+
+		REFERENCE_DECLARE(object + 0x20, real_point3d, bounding_sphere_center);
+		REFERENCE_DECLARE(object + 0x2C, real, bounding_sphere_radius);
+
+		render_debug_sphere(true, &bounding_sphere_center, bounding_sphere_radius > 0.0f ? bounding_sphere_radius : 0.25f, global_real_argb_blue);
+
+		if (debug_objects_attached_bounding_spheres)
+		{
+			REFERENCE_DECLARE(object + 0x30, real_point3d, attached_bounds_center);
+			REFERENCE_DECLARE(object + 0x3C, real, attached_bounds_radius);
+
+			render_debug_point(true, &attached_bounds_center, 0.1f, global_real_argb_blue);
+			render_debug_sphere(true, &attached_bounds_center, attached_bounds_radius, global_real_argb_blue);
+		}
+	}
+
+	if (debug_objects_dynamic_render_bounding_spheres)
+	{
+
+	}
+
+	struct s_model_definition* model_definition = nullptr;
+	if (object_definition->model.index != NONE)
+		model_definition = object_definition->model.cast_to<s_model_definition>();
+
+	if (debug_objects_model_targets && model_definition)
+	{
+
+	}
+
+	//collision_model_instance instance{};
+	//if (debug_objects_collision_models && collision_model_instance_new(&instance, object_index))
+	//{
+	//
+	//}
+
+	if (debug_objects_early_movers && object_definition->flags.test(_object_definition_flag_early_mover_bit))
+	{
+		char const* early_mover_string = "early mover";
+		if (object_definition->flags.test(_object_definition_flag_early_mover_localized_physics_bit))
+			early_mover_string = "early mover + localized physics";
+
+		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
+		render_debug_string_at_point(&root_node_matrix->center, early_mover_string, global_real_argb_darkgreen);
+	}
+
+	//real object_cpu_times[2];
+	//if (debug_objects_profile_times && object_profile_query_object_instance_cpu_times(object_index, &object_cpu_times))
+	//{
+	//
+	//}
+
+	REFERENCE_DECLARE(object + 0xA0, long, havok_component_index);
+	if (havok_component_index == NONE)
+	{
+
+	}
+	else
+	{
+		//debug_objects_water_physics
+		//debug_objects_physics_models
+		//debug_objects_contact_points
+		//debug_objects_constraints
+		//debug_objects_vehicle_physics
+		//debug_objects_mass
+	}
+
+	if (debug_objects_pathfinding)
+	{
+
+	}
+
+	if (!string.is_empty())
+	{
+		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
+		render_debug_string_at_point(&root_node_matrix->center, string.get_string(), global_real_argb_green);
+	}
+
+	if (debug_objects_node_bounds)
+	{
+
+	}
+	if (debug_objects_animation)
+	{
+
 	}
 }
 

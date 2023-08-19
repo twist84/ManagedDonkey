@@ -1,10 +1,8 @@
 #include "objects/object_early_movers.hpp"
 
 #include "memory/thread_local.hpp"
+#include "objects/objects.hpp"
 #include "render/render_debug.hpp"
-
-bool debug_objects = true;
-bool debug_objects_early_movers = true;
 
 bool __cdecl object_early_mover_get_obb(long object_index_array_index, s_object_early_mover_obb* obb)
 {
