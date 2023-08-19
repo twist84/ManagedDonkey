@@ -409,6 +409,7 @@ POPD
     <ClCompile Include="source\render\render.cpp" />
     <ClCompile Include="source\render\render_cameras.cpp" />
     <ClCompile Include="source\render\render_debug.cpp" />
+    <ClCompile Include="source\render\render_debug_structure.cpp" />
     <ClCompile Include="source\render\render_lights.cpp" />
     <ClCompile Include="source\render\render_objects_static_lighting.cpp" />
     <ClCompile Include="source\render\render_visibility.cpp" />
@@ -424,6 +425,7 @@ POPD
     <ClCompile Include="source\saved_games\scenario_map_variant.cpp" />
     <ClCompile Include="source\scenario\scenario.cpp" />
     <ClCompile Include="source\scenario\scenario_definitions.cpp" />
+    <ClCompile Include="source\scenario\scenario_soft_ceilings.cpp" />
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
     <ClCompile Include="source\scenario\scenario_trigger_volumes.cpp" />
     <ClCompile Include="source\screenshots\screenshots_uploader.cpp" />
@@ -815,6 +817,7 @@ POPD
     <ClInclude Include="source\render\render.hpp" />
     <ClInclude Include="source\render\render_cameras.hpp" />
     <ClInclude Include="source\render\render_debug.hpp" />
+    <ClInclude Include="source\render\render_debug_structure.hpp" />
     <ClInclude Include="source\render\render_lights.hpp" />
     <ClInclude Include="source\render\render_objects_static_lighting.hpp" />
     <ClInclude Include="source\render\render_patchy_fog.hpp" />
@@ -839,6 +842,7 @@ POPD
     <ClInclude Include="source\scenario\scenario_designer_zones_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_interpolators.hpp" />
     <ClInclude Include="source\scenario\scenario_resource_definitions.hpp" />
+    <ClInclude Include="source\scenario\scenario_soft_ceilings.hpp" />
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />
     <ClInclude Include="source\scenario\scenario_trigger_volumes.hpp" />
     <ClInclude Include="source\scenario\scenario_zone_debugger_definitions.hpp" />

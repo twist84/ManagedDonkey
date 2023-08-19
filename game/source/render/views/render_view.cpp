@@ -9,6 +9,7 @@
 #include "objects/object_early_movers.hpp"
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
+#include "render/render_debug_structure.hpp"
 #include "units/bipeds.hpp"
 #include "units/units.hpp"
 
@@ -203,6 +204,7 @@ void __cdecl render_debug_frame_render()
 	terminal_draw();
 	main_time_frame_rate_display();
 	render_debug_trigger_volumes();
+	render_debug_structure();
 	object_early_mover_render_debug();
 	game_pvs_debug_render();
 	events_debug_render();

@@ -867,6 +867,12 @@
     <ClCompile Include="source\objects\object_early_movers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render_debug_structure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenario\scenario_soft_ceilings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2193,6 +2199,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\collision_instanced_geometry_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_debug_structure.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scenario\scenario_soft_ceilings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

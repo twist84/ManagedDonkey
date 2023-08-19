@@ -193,6 +193,11 @@ real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* 
 	return out_point;
 }
 
+real __cdecl plane3d_distance_to_point(plane3d const* plane, real_point3d const* point)
+{
+	return ((((point->x * plane->normal.i) + (point->y * plane->normal.j)) + (point->z * plane->normal.k)) - plane->distance);
+}
+
 long __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, long maximum_vertex_count, real_point3d* const vertices)
 {
 	ASSERT(bounds);

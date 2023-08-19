@@ -75,6 +75,11 @@ long __cdecl global_structure_bsp_next_active_index_get(long structure_bsp_index
 	return INVOKE(0x004E9730, global_structure_bsp_next_active_index_get, structure_bsp_index);
 }
 
+s_structure_design* global_structure_design_get(long structure_bsp_index)
+{
+	return INVOKE(0x004E97D0, global_structure_design_get, structure_bsp_index);
+}
+
 void __cdecl scenario_invalidate()
 {
 	return INVOKE(0x004EA3E0, scenario_invalidate);
