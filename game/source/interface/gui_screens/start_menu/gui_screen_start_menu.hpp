@@ -2,13 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-template<typename t_type, long k_maximum_count>
-struct c_static_stack
-{
-	long m_count;
-	t_type stack[k_maximum_count];
-};
-
 struct s_start_menu_breadcrumb
 {
 	long __unknown0;

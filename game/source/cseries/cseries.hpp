@@ -398,6 +398,113 @@ protected:
 	long m_count;
 };
 
+template<typename t_type, long k_count>
+struct c_static_stack
+{
+public:
+	c_static_stack() :
+		m_count(0)
+	{
+	}
+
+	t_type* get(long index)
+	{
+		ASSERT(valid(index));
+
+		return &m_elements[index];
+	}
+
+	t_type* get_top()
+	{
+		return get(top());
+	}
+
+	t_type* get_elements()
+	{
+		return m_elements;
+	}
+
+	long push()
+	{
+		ASSERT(!full());
+
+		return m_count++;
+	}
+
+	void pop()
+	{
+		ASSERT(!empty());
+
+		return m_count--;
+	}
+
+	void push_back(t_type const& cache)
+	{
+		*get(push()) = cache;
+	}
+
+	void clear()
+	{
+		m_count = 0;
+	}
+
+	long count() const
+	{
+		return m_count;
+	}
+
+	void resize(long count)
+	{
+		m_count = count;
+
+		ASSERT(valid());
+	}
+
+	bool empty() const
+	{
+		ASSERT(valid());
+
+		return m_count == 0;
+	}
+
+	bool full() const
+	{
+		ASSERT(valid());
+
+		return m_count == k_count;
+	}
+
+	long top() const
+	{
+		ASSERT(!empty());
+
+		return m_count - 1;
+	}
+
+	bool valid(long index) const
+	{
+		ASSERT(valid());
+
+		return VALID_INDEX(index, m_count);
+	}
+
+	bool valid() const
+	{
+		return VALID_COUNT(m_count, k_count);
+	}
+
+	t_type& operator[](long index)
+	{
+		ASSERT(valid(index));
+
+		return m_elements[index];
+	}
+
+protected:
+	long m_count;
+	t_type m_elements[k_count];
+};
+
 template<typename t_type, long k_type_size = sizeof(t_type), long k_alignment_mask = __alignof(t_type) - 1>
 struct c_typed_opaque_data
 {
