@@ -1279,7 +1279,7 @@ void __cdecl render_debug_build_circle_points(real radius, real_point2d* points,
 {
 	ASSERT(total_point_count > 0);
 
-	real angle = real(TWO_PI / total_point_count - 1);
+	real angle = real(TWO_PI / (total_point_count - 1));
 	real sin_angle = sinf(angle);
 	real cos_angle = cosf(angle);
 	set_real_point2d(points, radius, 0.0f);
