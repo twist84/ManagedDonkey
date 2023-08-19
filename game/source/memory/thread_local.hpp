@@ -151,10 +151,7 @@ static_assert(sizeof(s_atmosphere_fog_globals) == 0x14);
 
 struct s_scenario_soft_ceilings_globals
 {
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
+	c_static_flags<128> flags;
 };
 static_assert(sizeof(s_scenario_soft_ceilings_globals) == 0x10);
 

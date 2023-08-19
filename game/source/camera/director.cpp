@@ -355,7 +355,7 @@ void __cdecl director_save_camera_named(char const* name)
 			fprintf(file, "%f %f %f\n", camera->forward.i, camera->forward.j, camera->forward.k);
 			fprintf(file, "%f %f %f\n", camera->up.i, camera->up.j, camera->up.k);
 			fprintf(file, "%f\n", camera->horizontal_field_of_view);
-			console_printf("%s written successfully", filename);
+			console_printf("%s written successfully", filename.get_string());
 		}
 
 		fclose(file);
