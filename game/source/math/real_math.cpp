@@ -124,8 +124,8 @@ real __cdecl normalize3d(vector3d* vector)
 
 vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vector2d* out_vector)
 {
-	out_vector->i = (a2 * vector->i) + (a3 * vector->i);
-	out_vector->j = (a3 * vector->j) + (a2 * vector->j);
+	out_vector->i = (a3 * vector->i) - (a2 * vector->j);
+	out_vector->j = (a2 * vector->i) + (a3 * vector->j);
 
 	return out_vector;
 }
