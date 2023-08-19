@@ -92,6 +92,11 @@ long __cdecl players_first_active_user()
 	return INVOKE(0x00589A30, players_first_active_user);
 }
 
+long __cdecl player_index_from_unit_index(long unit_index)
+{
+	return INVOKE(0x0053B1D0, player_index_from_unit_index, unit_index);
+}
+
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
 {
 	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor.loadouts[player->armor_loadout_index];
