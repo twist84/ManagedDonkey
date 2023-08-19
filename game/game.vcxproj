@@ -794,6 +794,7 @@ POPD
     <ClInclude Include="source\objects\objects.hpp" />
     <ClInclude Include="source\objects\object_definitions.hpp" />
     <ClInclude Include="source\objects\object_early_movers.hpp" />
+    <ClInclude Include="source\objects\object_types.hpp" />
     <ClInclude Include="source\physics\character_physics_definitions.hpp" />
     <ClInclude Include="source\physics\collisions.hpp" />
     <ClInclude Include="source\physics\collision_instanced_geometry_definitions.hpp" />
