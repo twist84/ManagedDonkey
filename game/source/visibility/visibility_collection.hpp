@@ -79,8 +79,7 @@ static_assert(sizeof(s_visible_instances) == 0x10);
 struct s_visible_clusters
 {
 	word_flags flags;
-	char structure_bsp_index;
-	char structure_bsp_cluster_index;
+	s_cluster_reference cluster_reference;
 	byte __data4[0x4];
 	union
 	{
@@ -171,6 +170,36 @@ struct c_visible_items
 	static word __cdecl get_root_objects_starting_index()
 	{
 		return m_marker_indices[m_marker_count].root_objects_starting_index;
+	}
+
+	static word __cdecl get_objects_starting_index()
+	{
+		return m_marker_indices[m_marker_count].objects_starting_index;
+	}
+
+	static word __cdecl get_instance_list_starting_index()
+	{
+		return m_marker_indices[m_marker_count].instance_list_starting_index;
+	}
+
+	static word __cdecl get_instances_starting_index()
+	{
+		return m_marker_indices[m_marker_count].instances_starting_index;
+	}
+
+	static word __cdecl get_cluster_starting_index()
+	{
+		return m_marker_indices[m_marker_count].cluster_starting_index;
+	}
+
+	static word __cdecl get_light_starting_index()
+	{
+		return m_marker_indices[m_marker_count].light_starting_index;
+	}
+
+	static word __cdecl get_sky_starting_index()
+	{
+		return m_marker_indices[m_marker_count].sky_starting_index;
 	}
 
 //private:
