@@ -876,6 +876,9 @@
     <ClCompile Include="source\objects\object_types.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\units\vehicles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2214,6 +2217,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\models\model_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\units\vehicles.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

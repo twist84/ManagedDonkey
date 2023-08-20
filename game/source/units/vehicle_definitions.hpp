@@ -25,6 +25,22 @@ enum e_vehicle_definition_flags
 	k_vehicle_definition_flags
 };
 
+enum e_vehicle_type
+{
+	_vehicle_type_human_tank = 0,
+	_vehicle_type_human_jeep,
+	_vehicle_type_human_plane,
+	_vehicle_type_alien_scout,
+	_vehicle_type_alien_fighter,
+	_vehicle_type_turret,
+	_vehicle_type_mantis,
+	_vehicle_type_vtol,
+	_vehicle_type_chopper,
+	_vehicle_type_guardian,
+
+	k_vehicle_type_count
+};
+
 struct s_vehicle_human_tank_definition;
 struct s_vehicle_human_jeep_definition;
 struct s_vehicle_human_plane_definition;
@@ -37,6 +53,8 @@ struct s_vehicle_chopper_definition;
 struct s_vehicle_guardian_definition;
 struct s_vehicle_physics_types
 {
+	//c_static_array<s_tag_block, k_vehicle_type_count> type;
+
 	c_typed_tag_block<s_vehicle_human_tank_definition> type_human_tank;
 	c_typed_tag_block<s_vehicle_human_jeep_definition> type_human_jeep;
 	c_typed_tag_block<s_vehicle_human_plane_definition> type_human_plane;
