@@ -879,6 +879,12 @@
     <ClCompile Include="source\units\vehicles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\units\vehicle_engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\units\vehicle_type_component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2220,6 +2226,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\units\vehicles.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\units\vehicle_type_component.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\units\vehicle_engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

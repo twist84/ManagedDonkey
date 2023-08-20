@@ -4,44 +4,14 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
-#include "units/vehicle_definitions.hpp"
-#include <render/render_debug.hpp>
+#include "render/render_debug.hpp"
+#include "units/vehicle_type_component.hpp"
 
 HOOK_DECLARE(0x00B76AB0, vehicle_render_debug);
 
 e_vehicle_type __cdecl vehicle_get_type(long vehicle_index)
 {
 	return INVOKE(0x00B75EE0, vehicle_get_type, vehicle_index);
-}
-
-struct s_vehicle_engine
-{
-	real __unknown0;
-	real __unknown4;
-	real __unknown8;
-	char current_gear;
-};
-
-struct c_vehicle_type_component :
-	public s_vehicle_engine
-{
-	s_vehicle_engine* const get_engine(long vehicle_index)
-	{
-		switch (vehicle_get_type(vehicle_index))
-		{
-		case _vehicle_type_human_tank:
-		case _vehicle_type_human_jeep:
-		case _vehicle_type_chopper:
-			return this;
-		}
-
-		return nullptr;
-	}
-};
-
-real __cdecl vehicle_engine_get_rpm_function_scale(s_vehicle_engine const* engine)
-{
-	return INVOKE(0x00BEC8E0, vehicle_engine_get_rpm_function_scale, engine);
 }
 
 void __cdecl vehicle_render_debug(long vehicle_index)
