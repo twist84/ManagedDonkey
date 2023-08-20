@@ -11,7 +11,7 @@ HOOK_DECLARE(0x00B6B8F0, biped_bumped_object);
 HOOK_DECLARE(0x00B70DF0, biped_render_debug);
 
 bool debug_objects_physics_control_node = false;
-bool debug_objects_biped_autoaim_pills = true;
+bool debug_objects_biped_autoaim_pills = false;
 bool debug_objects_ground_plane = false;
 bool debug_objects_movement_mode = false;
 bool debug_biped_throttle = false;
@@ -101,11 +101,27 @@ void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector
 	INVOKE(0x00B6E0A0, biped_get_autoaim_pill, biped_index, base, height, autoaim_width);
 }
 
+void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, vector3d* velocity)
+{
+	INVOKE(0x00B6E9C0, biped_get_sentinel_animation_node_position_and_velocity, biped_index, position, velocity);
+}
+
 void __cdecl biped_render_debug(long biped_index)
 {
 	if (debug_objects_physics_control_node)
 	{
+		real_point3d position{};
+		vector3d velocity{};
+		biped_get_sentinel_animation_node_position_and_velocity(biped_index, &position, &velocity);
 
+		real_point3d point1 = position;
+		real tick_length = game_tick_length();
+		point1.x += (tick_length * velocity.i);
+		point1.y += (tick_length * velocity.j);
+		point1.z += (tick_length * velocity.k);
+
+		render_debug_sphere(true, &position, 0.1f, global_real_argb_red);
+		render_debug_line(true, &position, &point1, global_real_argb_white);
 	}
 
 	if (debug_objects_biped_autoaim_pills)

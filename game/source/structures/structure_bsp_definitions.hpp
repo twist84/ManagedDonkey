@@ -31,6 +31,8 @@ static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
 struct structure_cluster;
 struct structure_bsp
 {
+	static tag const k_group_tag = SCENARIO_STRUCTURE_BSP_TAG;
+
 	long import_info_checksum;
 	long import_version;
 	c_string_id visible_name;

@@ -68,6 +68,8 @@ struct s_model_material;
 struct s_model_target;
 struct s_model_definition
 {
+	static tag const k_group_tag = MODEL_TAG;
+
 	c_typed_tag_reference<RENDER_MODEL_TAG> render_model;
 	c_typed_tag_reference<COLLISION_MODEL_TAG> collision_model;
 	c_typed_tag_reference<MODEL_ANIMATION_GRAPH_TAG> animation;
