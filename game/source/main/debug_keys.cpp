@@ -1131,7 +1131,7 @@ void __cdecl debug_key_print_screen(bool enabled)
 
 			char const* root = "screenshots\\";
 			screenshot_path.print("%sscreenshot_%d", root, index);
-			screenshot_filepath.print("%s.bmp", screenshot_path);
+			screenshot_filepath.print("%s.bmp", screenshot_path.get_string());
 
 			s_file_reference screenshot_file;
 			file_reference_create_from_path(&screenshot_file, screenshot_filepath, false);
