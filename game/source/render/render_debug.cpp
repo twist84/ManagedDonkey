@@ -956,7 +956,7 @@ void __cdecl render_debug_string_at_point(real_point3d const* point, char const*
 	ASSERT(string);
 	ASSERT(color);
 
-	render_debug_string_at_point_immediate(point, string, color, 0.0f);
+	render_debug_string_at_point_immediate(point, string, color, 0.6f);
 
 	//render_debug_add_cache_entry(11, string, point, color, 0.0f);
 }
@@ -1005,7 +1005,7 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 	if (render_camera_world_to_window(camera, projection, &window_display_bounds, point, &screen_point))
 	{
 		real text_scale = aspect_ratio_scale.i;
-		if (scale > 0.0099999998f)
+		if (scale > 0.01f)
 		{
 			real v9 = point->y - camera->position.y;
 			real v10 = point->z - camera->position.z;
@@ -1022,10 +1022,11 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 		{
 			c_simple_font_draw_string draw_string;
 			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
-			if (scale > 0.0099999998f)
-				draw_string.set_scale(text_scale);
+			if (scale > 0.01f)
+				draw_string.set_scale(scale);
 			draw_string.draw(nullptr, string);
 		}
 		else
@@ -1034,10 +1035,11 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 			c_font_cache_mt_safe font_cache;
 
 			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
-			if (scale > 0.0099999998f)
-				draw_string.set_scale(text_scale);
+			if (scale > 0.01f)
+				draw_string.set_scale(scale);
 			draw_string.draw(&font_cache, string);
 		}
 	}
