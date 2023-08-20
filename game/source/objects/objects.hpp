@@ -4,6 +4,7 @@
 #include "memory/data.hpp"
 #include "objects/damage_owner.hpp"
 #include "objects/multiplayer_game_objects.hpp"
+#include "objects/object_definitions.hpp"
 #include "scenario/scenario_object_definitions.hpp"
 
 enum e_object_type
@@ -220,6 +221,16 @@ struct object_marker
 };
 static_assert(sizeof(object_marker) == 0x70);
 
+struct s_object_cluster_payload
+{
+	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
+	byte_flags object_visibility_cull_flags;
+	byte_flags object_collision_cull_flags;
+	real_point3d bounding_sphere_center;
+	real bounding_sphere_radius;
+};
+static_assert(sizeof(s_object_cluster_payload) == 0x14);
+
 extern bool debug_objects;
 extern bool debug_objects_early_movers;
 extern bool debug_objects_indices;
@@ -252,13 +263,23 @@ extern bool debug_objects_animation;
 extern object_header_datum const* __cdecl object_header_get(long object_index);
 extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
 extern e_object_type __cdecl object_get_type(long object_index);
+extern long __cdecl cluster_get_first_collideable_object(long* datum_index, s_cluster_reference cluster_reference);
+extern long __cdecl cluster_get_first_collideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload);
+extern long __cdecl cluster_get_first_noncollideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload);
+extern long __cdecl cluster_get_next_collideable_object(long* datum_index);
+extern long __cdecl cluster_get_next_collideable_object_and_payload(long* datum_index, s_object_cluster_payload const** payload);
+extern long __cdecl cluster_get_next_noncollideable_object_and_payload(long* datum_index, s_object_cluster_payload const** payload);
 extern bool __cdecl object_load_scenario_placement_matrices(long object_index);
 extern void __cdecl object_delete(long object_index);
+extern bool __cdecl object_function_get_function_value(long object_index, s_object_function_definition const* function, long object_definition_index, real* out_function_magnitude, bool* deterministic);
+extern bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude);
 extern short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count);
 extern real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short node_index);
 extern void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up);
 extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
 extern long __cdecl object_get_ultimate_parent(long object_index);
+extern void __cdecl object_get_velocities(long object_index, vector3d* linear_velocity, vector3d* angular_velocity);
+extern real_matrix4x3* __cdecl object_get_world_matrix(long object_index, real_matrix4x3* matrix);
 extern long __cdecl object_new(object_placement_data* placement_data);
 extern void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, s_damage_owner const* damage_owner);
 extern void __cdecl object_placement_data_set_location(object_placement_data* data, struct s_location const* location);

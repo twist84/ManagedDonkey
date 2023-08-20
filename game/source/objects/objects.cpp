@@ -3,7 +3,6 @@
 #include "cache/cache_files.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
-#include "object_definitions.hpp"
 #include "physics/havok.hpp"
 #include "render/render_debug.hpp"
 
@@ -13,6 +12,7 @@ HOOK_DECLARE(0x00B32130, object_render_debug);
 
 bool debug_objects = true;
 bool debug_objects_early_movers = false;
+bool debug_objects_sound_spheres = false;
 bool debug_objects_indices = false;
 bool debug_objects_programmer = false;
 bool debug_objects_garbage = false;
@@ -24,7 +24,7 @@ bool debug_objects_functions = false;
 bool debug_objects_position_velocity = false;
 bool debug_objects_origin = false;
 bool debug_objects_root_node = false;
-bool debug_objects_bounding_spheres = true;
+bool debug_objects_bounding_spheres = false;
 bool debug_objects_attached_bounding_spheres = false;
 bool debug_objects_dynamic_render_bounding_spheres = false;
 bool debug_objects_model_targets = false;
@@ -71,9 +71,49 @@ e_object_type __cdecl object_get_type(long object_index)
 	return INVOKE(0x0046DC70, object_get_type, object_index);
 }
 
+long __cdecl cluster_get_first_collideable_object(long* datum_index, s_cluster_reference cluster_reference)
+{
+	return INVOKE(0x00B27EB0, cluster_get_first_collideable_object, datum_index, cluster_reference);
+}
+
+long __cdecl cluster_get_first_collideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload)
+{
+	return INVOKE(0x00B27EE0, cluster_get_first_collideable_object_and_payload, datum_index, cluster_reference, payload);
+}
+
+long __cdecl cluster_get_first_noncollideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload)
+{
+	return INVOKE(0x00B27F40, cluster_get_first_noncollideable_object_and_payload, datum_index, cluster_reference, payload);
+}
+
+long __cdecl cluster_get_next_collideable_object(long* datum_index)
+{
+	return INVOKE(0x00B27F70, cluster_get_next_collideable_object, datum_index);
+}
+
+long __cdecl cluster_get_next_collideable_object_and_payload(long* datum_index, s_object_cluster_payload const** payload)
+{
+	return INVOKE(0x00B27FA0, cluster_get_next_collideable_object_and_payload, datum_index, payload);
+}
+
+long __cdecl cluster_get_next_noncollideable_object_and_payload(long* datum_index, s_object_cluster_payload const** payload)
+{
+	return INVOKE(0x00B28000, cluster_get_next_noncollideable_object_and_payload, datum_index, payload);
+}
+
 void __cdecl object_delete(long object_index)
 {
 	INVOKE(0x00B2CD10, object_delete, object_index);
+}
+
+bool __cdecl object_function_get_function_value(long object_index, s_object_function_definition const* function, long object_definition_index, real* out_function_magnitude, bool* deterministic)
+{
+	return INVOKE(0x00B2DA20, object_function_get_function_value, object_index, function, object_definition_index, out_function_magnitude, deterministic);
+}
+
+bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude)
+{
+	return INVOKE(0x00B2E030, object_get_function_value, object_index, function_name, object_definition_index, out_function_magnitude);
 }
 
 short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count)
@@ -99,6 +139,16 @@ real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin)
 long __cdecl object_get_ultimate_parent(long object_index)
 {
 	return INVOKE(0x00B2EAB0, object_get_ultimate_parent, object_index);
+}
+
+void __cdecl object_get_velocities(long object_index, vector3d* linear_velocity, vector3d* angular_velocity)
+{
+	INVOKE(0x00B2EB30, object_get_velocities, object_index, linear_velocity, angular_velocity);
+}
+
+real_matrix4x3* __cdecl object_get_world_matrix(long object_index, real_matrix4x3* matrix)
+{
+	return INVOKE(0x00B2EC60, object_get_world_matrix, object_index, matrix);
 }
 
 long c_object_iterator_base::get_index()
@@ -207,6 +257,9 @@ void __cdecl object_reinitialize_from_placement(long object_index, object_placem
 
 void __cdecl object_render_debug(long object_index)
 {
+	if (TEST_BIT(SOUND_SCENERY_OBJECT_MASK, object_get_type(object_index)) && !debug_objects_sound_spheres)
+		return;
+
 	object_render_debug_internal(object_index);
 }
 
@@ -416,7 +469,24 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	if (debug_objects_garbage)
 	{
+		REFERENCE_DECLARE(object + 0x127, byte_flags, recycling_flags);
+		REFERENCE_DECLARE(object + 0x12C, long, recycling_time);
 
+		if (TEST_BIT(recycling_flags, 0))
+		{
+			string.append("never-garbage|n");
+		}
+		else if (TEST_BIT(recycling_flags, 1))
+		{
+			if (game_time_get() >= recycling_time)
+			{
+				string.append("garbage|n");
+			}
+			else
+			{
+				string.append_print("garbage in %d|n", recycling_time - game_time_get());
+			}
+		}
 	}
 
 	if (debug_objects_names)
@@ -433,22 +503,53 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	if (debug_objects_functions)
 	{
+		for (s_object_function_definition& function : object_definition->functions)
+		{
+			real function_magnitude = 0.0f;
+			bool deterministic = false;
 
+			bool import_function_value = object_get_function_value(object_index, function.import_name, object_definition_index, &function_magnitude);
+			string.append_print("%s: %s %.2f->", function.import_name.get_string(), import_function_value ? "ON" : "OFF", function_magnitude);
+
+			bool export_function_value = object_function_get_function_value(object_index, &function, object_definition_index, &function_magnitude, &deterministic);
+			string.append_print("%s: %s %.2f|n", function.export_name.get_string(), export_function_value ? "ON" : "OFF", function_magnitude);
+		}
 	}
 
 	if (debug_objects_position_velocity)
 	{
+		REFERENCE_DECLARE(object + 0x2C, real, bounding_sphere_radius);
 
+		real_matrix4x3 matrix{};
+		vector3d linear_velocity{};
+
+		object_get_world_matrix(object_index, &matrix);
+		object_get_velocities(object_index, &linear_velocity, nullptr);
+
+		render_debug_matrix(true, &matrix, bounding_sphere_radius);
+		render_debug_vector(true, &matrix.center, &linear_velocity,1.0f, global_real_argb_yellow);
 	}
 
 	if (debug_objects_origin)
 	{
+		real a1 = 0.1f;
+		real a2 = 0.4f;
+		real seconds = game_ticks_to_seconds(game_time_get());
+		real angle = (seconds * TWO_PI) / 3.0f;
+		real cos_angle = cosf(angle);
+		real radius = (((cos_angle + 1.0f) * a2) * 0.5f) + a1;
 
+		real_point3d origin{};
+		object_get_origin(object_index, &origin);
+		render_debug_sphere(true, &origin, radius, global_real_argb_purple);
 	}
 
 	if (debug_objects_root_node)
 	{
+		REFERENCE_DECLARE(object + 0x2C, real, bounding_sphere_radius);
 
+		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
+		render_debug_matrix(true, root_node_matrix, bounding_sphere_radius);
 	}
 
 	if (debug_objects_bounding_spheres)
