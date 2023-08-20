@@ -46,6 +46,11 @@ void __cdecl unit_get_camera_position(long unit_index, real_point3d* position)
 	INVOKE(0x00B439D0, unit_get_camera_position, unit_index, position);
 }
 
+void __cdecl unit_get_head_position(long unit_index, real_point3d* position)
+{
+	INVOKE(0x00B441B0, unit_get_head_position, unit_index, position);
+}
+
 bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index)
 {
 	return INVOKE(0x00B450F0, unit_has_weapon_definition_index, unit_index, weapon_definition_index);
@@ -84,7 +89,15 @@ void __cdecl unit_render_debug(long unit_index)
 
 	if (debug_objects_unit_mouth_apeture)
 	{
+		REFERENCE_DECLARE(unit + 0x2C0, real, mouth_aperture);
 
+		real_point3d head_position{};
+		c_static_string<512> mouth_apeture_string;
+
+		unit_get_head_position(unit_index, &head_position);
+		mouth_apeture_string.print("%.2f", mouth_aperture);
+
+		render_debug_string_at_point(&head_position, mouth_apeture_string.get_string(), global_real_argb_orange);
 	}
 
 	if (debug_objects_unit_firing)
