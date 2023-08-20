@@ -10,25 +10,20 @@ long debug_objects_type_mask = 0;
 
 bool debug_objects_player_only = false;
 
+void __cdecl render_invisible_objects_iterate(void(*function)(long))
+{
+    ASSERT(function);
+    ASSERT(c_visible_items::get_cluster_starting_index() == 0);
+
+    INVOKE(0x00A7BC50, render_invisible_objects_iterate, function);
+}
+
 long __cdecl render_visible_objects_iterate(void(*function)(long))
 {
     ASSERT(function);
     ASSERT(c_visible_items::get_root_objects_starting_index() == 0);
 
-    for (long root_object_index = 0;
-        root_object_index < c_visible_items::m_items.root_objects.get_count();
-        root_object_index++)
-    {
-        function(c_visible_items::m_items.objects.m_elements[root_object_index].object_index);
-    }
-
-    return c_visible_items::m_items.root_objects.get_count();
-}
-
-void __cdecl render_invisible_objects_iterate(void(*function)(long))
-{
-    ASSERT(function);
-
+    return INVOKE(0x00A7C130, render_visible_objects_iterate, function);
 }
 
 void __cdecl render_debug_objects()
