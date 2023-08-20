@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "models/model_definitions.hpp"
 #include "physics/havok.hpp"
 #include "render/render_debug.hpp"
 
@@ -431,7 +432,7 @@ void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_s
 	{
 		_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object_definition_index));
 
-		struct s_model_definition* model_definition = nullptr;
+		s_model_definition* model_definition = nullptr;
 		if (object_definition->model.index != NONE)
 			model_definition = object_definition->model.cast_to<s_model_definition>();
 
@@ -534,8 +535,8 @@ void __cdecl object_render_debug_internal(long object_index)
 	{
 		real a1 = 0.1f;
 		real a2 = 0.4f;
-		real seconds = game_ticks_to_seconds(game_time_get());
-		real angle = (seconds * TWO_PI) / 3.0f;
+		real seconds = game_ticks_to_seconds(real(game_time_get()));
+		real angle = real(seconds * TWO_PI) / 3.0f;
 		real cos_angle = cosf(angle);
 		real radius = (((cos_angle + 1.0f) * a2) * 0.5f) + a1;
 
@@ -578,13 +579,37 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	}
 
-	struct s_model_definition* model_definition = nullptr;
+	s_model_definition* model_definition = nullptr;
 	if (object_definition->model.index != NONE)
 		model_definition = object_definition->model.cast_to<s_model_definition>();
 
 	if (debug_objects_model_targets && model_definition)
 	{
+		for (s_model_target& target : model_definition->targets)
+		{
+			object_marker markers[2]{};
+			short marker_count = object_get_markers_by_string_id(object_index, target.marker_name, markers, NUMBEROF(markers));
+			switch (marker_count)
+			{
+			case 1:
+			{
+				render_debug_vector(true, &markers[0].node_matrix.center, &markers[0].node_matrix.matrix.forward, target.size, global_real_argb_darkgreen);
 
+				if (target.cone_angle <= 3.1414928f)
+					render_debug_cone_outline(true, &markers[0].node_matrix.center, &markers[0].node_matrix.matrix.forward, target.size, target.cone_angle, global_real_argb_darkgreen);
+				else
+					render_debug_sphere(true, &markers[0].node_matrix.center, target.size, global_real_argb_darkgreen);
+			}
+			break;
+			case 2:
+			{
+				vector3d height{};
+				vector_from_points3d(&markers[0].node_matrix.center, &markers[1].node_matrix.center, &height);
+				render_debug_pill(true, &markers[0].node_matrix.center, &height, target.size, global_real_argb_darkgreen);
+			}
+			break;
+			}
+		}
 	}
 
 	//collision_model_instance instance{};
@@ -639,6 +664,7 @@ void __cdecl object_render_debug_internal(long object_index)
 	{
 
 	}
+
 	if (debug_objects_animation)
 	{
 

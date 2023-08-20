@@ -500,6 +500,7 @@ POPD
     <ClInclude Include="source\memory\read_write_lock.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
+    <ClInclude Include="source\models\model_definitions.hpp" />
     <ClInclude Include="source\multithreading\synchronization.hpp" />
     <ClInclude Include="source\multithreading\threads.hpp" />
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />
