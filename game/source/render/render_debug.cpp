@@ -1305,7 +1305,156 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 
 void __cdecl render_debug_cache_draw(bool a1)
 {
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
 
+	short cache_start_index = 0;
+	if (!a1)
+		cache_start_index = render_debug_globals->cache_start_index;
+
+	if (render_debug_globals->cache_count - cache_start_index > 0)
+	{
+		short cache_layer = 0;
+		long type = 0;
+		long v8 = 0;
+
+		ASSERT(!render_debug_globals->drawing_cached_geometry);
+
+		render_debug_globals->drawing_cached_geometry = true;
+
+		long alpha_blend_modes[2] = { 0, 3 };
+		for (short cache_index = cache_start_index; cache_index < render_debug_globals->cache_count; cache_index++)
+		{
+			s_render_debug_cache_entry& entry = render_debug_globals->cache_entries[cache_index];
+			if (VALID_INDEX(entry.layer, NUMBEROF(alpha_blend_modes))) // `NUMBEROF(render_debug_globals->group_ids)` ?
+			{
+				c_rasterizer::set_alpha_blend_mode(static_cast<c_rasterizer::e_alpha_blend_mode>(alpha_blend_modes[entry.layer]));
+			}
+			else
+			{
+				generate_warning("render:debug: unknown debug render cache layer %d!!!", cache_layer);
+			}
+
+			if (type_list[entry.type] != type)
+			{
+				type = type_list[entry.type];
+				v8 = 0;
+			}
+			v8++;
+
+			switch (type)
+			{
+			case 0:
+			{
+				render_debug_circle(true,
+					&entry.circle.plane,
+					entry.circle.projection_axis,
+					entry.circle.a4,
+					&entry.circle.center,
+					entry.circle.radius,
+					&entry.circle.color,
+					entry.circle.a8);
+			}
+			break;
+			case 1:
+			{
+				render_debug_point(true,
+					&entry.point.point,
+					entry.point.scale,
+					&entry.point.color);
+			}
+			break;
+			case 2:
+			{
+				render_debug_line_shaded(true,
+					&entry.line.point0,
+					&entry.line.point1,
+					&entry.line.color0,
+					&entry.line.color1);
+			}
+			break;
+			case 3:
+			{
+				render_debug_line2d_shaded(
+					&entry.line2d.point0,
+					&entry.line2d.point1,
+					&entry.line2d.color0,
+					&entry.line2d.color1);
+			}
+			break;
+			case 4:
+			{
+				render_debug_sphere(true,
+					&entry.sphere.center,
+					entry.sphere.radius,
+					&entry.sphere.color);
+			}
+			break;
+			case 5:
+			{
+				entry.cylinder.base;
+				entry.cylinder.height;
+				entry.cylinder.radius;
+				entry.cylinder.color;
+			}
+			break;
+			case 6:
+			{
+				entry.pill.base;
+				entry.pill.height;
+				entry.pill.radius;
+				entry.pill.color;
+			}
+			break;
+			case 7:
+			{
+				entry.box.bounds;
+				entry.box.color;
+			}
+			break;
+			case 8:
+			{
+				entry.box.bounds;
+				entry.box.color;
+			}
+			break;
+			case 9:
+			{
+				entry.triangle.point0;
+				entry.triangle.point1;
+				entry.triangle.point2;
+				entry.triangle.color;
+			}
+			break;
+			case 10:
+			{
+				entry.string.string_offset;
+				entry.string.tab_stops;
+				entry.string.tab_stop_count;
+			}
+			break;
+			case 11:
+			{
+				entry.string_at_point.string_offset;
+				entry.string_at_point.point;
+				entry.string_at_point.color;
+				entry.string_at_point.scale;
+			
+			}
+			break;
+			case 12:
+			{
+				entry.box2d_outline.bounds;
+				entry.box2d_outline.color;
+			}
+			break;
+			}
+		}
+
+		render_debug_globals->drawing_cached_geometry = false;
+	}
+
+	render_debug_globals->cache_count = render_debug_globals->cache_start_index;
+	render_debug_globals->cache_string_length = render_debug_globals->__unknown8001E;
 }
 
 // `sound/game_sound_spatialization.cpp`
