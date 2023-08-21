@@ -1331,7 +1331,7 @@ void __cdecl render_debug_cache_draw(bool a1)
 			}
 			else
 			{
-				generate_warning("render:debug: unknown debug render cache layer %d!!!", cache_layer);
+				c_console::write_line("render:debug: unknown debug render cache layer %d!!!", cache_layer);
 			}
 
 			if (type_list[entry.type] != type)
