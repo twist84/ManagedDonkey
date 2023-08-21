@@ -1,5 +1,6 @@
 #include "render/render_debug.hpp"
 
+#include "cache/restricted_memory_regions.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "hs/hs_runtime.hpp"
@@ -35,6 +36,7 @@ struct s_render_debug_cache_entry
 			real_point2d center;
 			real radius;
 			real_argb_color color;
+			real a8;
 		} circle;
 
 		struct // type 1
@@ -1103,16 +1105,22 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 
 bool __cdecl render_debug_draw_immediately(real_argb_color const* color)
 {
+	if (!restricted_region_locked_for_current_thread(2 /* render thread */) || !c_rasterizer::rasterizer_thread_owns_device())
+		return false;
+
+	ASSERT(g_render_debug_globals);
+	if (!g_render_debug_globals->active)
+		return false;
+
 	if (color)
 	{
-		return color->alpha >= 1.0f;
-	}
-	else
-	{
-		return true;
+		ASSERT(g_render_debug_globals);
+
+		if (!g_render_debug_globals->drawing_cached_geometry)
+			return color->alpha >= 1.0f;
 	}
 
-	return false;
+	return true;
 }
 
 void __cdecl render_debug_add_cache_entry(short type, ...)
@@ -1138,6 +1146,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 			entry->circle.center = va_arg(list, decltype(entry->circle.center));
 			entry->circle.radius = va_arg(list, decltype(entry->circle.radius));
 			entry->circle.color = va_arg(list, decltype(entry->circle.color));
+			entry->circle.a8 = va_arg(list, decltype(entry->circle.a8));
 			alpha = entry->circle.color.alpha;
 
 			real_point3d centroid{};
