@@ -22,4 +22,5 @@ extern void __cdecl render_fullscreen_text(s_render_fullscreen_text_context cons
 extern void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context const* context, c_draw_string* draw_string, c_font_cache_base* font_cache);
 extern void __cdecl render_prepare_for_window(long player_window_index, long output_user_index);
 extern void __cdecl render_setup_window(render_camera* camera, render_projection* projection);
+extern void __cdecl render_window_reset(long user_index);
 

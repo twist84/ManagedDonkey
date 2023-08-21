@@ -6,11 +6,14 @@
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/terminal.hpp"
+#include "memory/module.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
 #include "render/render.hpp"
 #include "render/views/render_view.hpp"
 #include "simulation/simulation.hpp"
 #include "interface/terminal.hpp"
+
+HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 
 bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
@@ -222,5 +225,47 @@ void __cdecl main_render_status_message(wchar_t const* loading_status)
 void __cdecl main_render_update_loading_screen()
 {
 	INVOKE(0x00604C70, main_render_update_loading_screen);
+}
+
+// I don't like this at all but for the moment
+// I don't perticularly want to reimplement `main_render_game` as its quite large
+__declspec(naked) void main_render_view_inline_hook()
+{
+	__asm
+	{
+		// main_render_view(player_view, player_view->get_player_view_user_index())
+		push dword ptr[esi + 0x26A4]
+		push esi
+		call main_render_view
+
+		// jump out after the inlined `main_render_view`
+		mov  ecx, 0x0060474B
+		jmp  ecx
+	}
+}
+HOOK_DECLARE(0x006046EB, main_render_view_inline_hook);
+
+void __cdecl main_render_view(c_player_view* player_view, long player_index)
+{
+	//INVOKE(0x00604D70, main_render_view, player_view, player_index);
+
+	c_player_view::set_global_player_view(player_view);
+	c_view::begin(player_view);
+	render_window_reset(player_view->get_player_view_user_index());
+	player_view->create_frame_textures(player_index);
+
+	// don't need this, because `bink_texture_view_update` is this and its bad
+	//c_bink_texture_view::update(player_index);
+
+	render_prepare_for_window(player_index, player_view->get_player_view_user_index());
+	player_view->compute_visibility();
+	player_view->render_submit_visibility();
+	player_view->render();
+
+	// all this logic just to call little ol' me
+	render_debug_window_render(player_view->get_player_view_user_index());
+
+	c_view::end();
+	c_player_view::set_global_player_view(0);
 }
 

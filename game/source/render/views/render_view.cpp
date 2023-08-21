@@ -1,18 +1,9 @@
 #include "render/views/render_view.hpp"
 
-#include "cseries/cseries_events.hpp"
 #include "interface/terminal.hpp"
-#include "game/game.hpp"
-#include "hs/hs_runtime.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
-#include "objects/object_early_movers.hpp"
-#include "objects/object_types.hpp"
-#include "objects/objects.hpp"
 #include "render/render_debug.hpp"
-#include "render/render_debug_structure.hpp"
-#include "units/bipeds.hpp"
-#include "units/units.hpp"
 
 REFERENCE_DECLARE(0x01913430, long, c_view::g_view_stack_top);
 REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
@@ -202,22 +193,19 @@ void __cdecl render_debug_frame_render()
 	if (DECLFUNC(0x0042E5D0, bool, __cdecl)())
 		return;
 
+	render_debug_begin(false);
 	terminal_draw();
 	main_time_frame_rate_display();
+	render_debug_end(false);
+}
 
-	if (game_in_progress())
-	{
-		render_debug_objects();
-		render_debug_trigger_volumes();
-		render_debug_structure();
-		object_early_mover_render_debug();
-		game_pvs_debug_render();
-		events_debug_render();
+void __cdecl render_debug_window_render(long user_index)
+{
+	// asserts
 
-		// location_messages
-		//real_point3d point = { 81.6f, -72.4f, 7.2f };
-		//render_debug_point(true, &point, 2.0f, global_real_argb_magenta);
-		//render_debug_string_at_point(&point, "test location", global_real_argb_magenta);
-	}
+	render_debug_begin(true);
+	render_debug_structure_draw();
+	render_debug_clients(user_index);
+	render_debug_end(true);
 }
 

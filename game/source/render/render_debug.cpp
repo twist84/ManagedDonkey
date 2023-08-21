@@ -1,12 +1,18 @@
 #include "render/render_debug.hpp"
 
+#include "cseries/cseries_events.hpp"
+#include "game/game.hpp"
+#include "hs/hs_runtime.hpp"
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
 #include "math/color_math.hpp"
 #include "math/random_math.hpp"
+#include "objects/object_early_movers.hpp"
+#include "objects/object_types.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/views/render_view.hpp"
 #include "render/render_cameras.hpp"
+#include "render/render_debug_structure.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_visibility.hpp"
 #include "text/draw_string.hpp"
@@ -151,6 +157,13 @@ thread_local s_render_debug_globals* g_render_debug_globals = &render_debug_glob
 
 long type_list[] = { 0, 0, 0, 3, 0, 0, 0, 1, 0, 1, 2, 2, 0 };
 
+s_render_debug_globals* __cdecl get_render_debug_globals()
+{
+	ASSERT(g_render_debug_globals);
+
+	return g_render_debug_globals;
+}
+
 void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p1, real_argb_color const* color0, real_argb_color const* color1)
 {
 	ASSERT(p0 && p1 && color0);
@@ -199,6 +212,49 @@ void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d 
 	vertex_debug[0].color2 = _color;
 
 	c_rasterizer::draw_debug_polygon(vertex_debug, NUMBEROF(vertex_debug), c_rasterizer_index_buffer::_primitive_type_triangle_strip); // D3DPT_TRIANGLESTRIP
+}
+
+void __cdecl render_debug_begin(bool a1)
+{
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
+	ASSERT(!render_debug_globals->active);
+	
+	render_debug_globals->active = true;
+
+	//c_rasterizer::set_z_buffer_mode(6);
+	//c_rasterizer::set_sampler_filter_mode(0, 0);
+	//c_rasterizer::set_cull_mode(2);
+	//c_rasterizer::set_color_write_enable(0, 7);
+	//c_rasterizer::set_alpha_blend_mode(0);
+}
+
+void __cdecl render_debug_end(bool a1)
+{
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
+	ASSERT(render_debug_globals->active);
+	
+	//sub_8244E390();
+	//sub_8244E5D0(a1);
+
+	render_debug_globals->active = false;
+}
+
+void __cdecl render_debug_clients(long user_index)
+{
+	if (game_in_progress())
+	{
+		render_debug_objects();
+		render_debug_trigger_volumes();
+		render_debug_structure();
+		object_early_mover_render_debug();
+		game_pvs_debug_render();
+		events_debug_render();
+
+		// location_messages
+		//real_point3d point = { 81.6f, -72.4f, 7.2f };
+		//render_debug_point(true, &point, 2.0f, global_real_argb_magenta);
+		//render_debug_string_at_point(&point, "test location", global_real_argb_magenta);
+	}
 }
 
 long __cdecl render_debug_add_cache_string(char const* string)
@@ -518,7 +574,7 @@ void __cdecl render_debug_line_unclipped(bool draw_immediately, real_point3d con
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
 		clip_distance = magnitude3d(&vector1);
 
-	real z_far = c_player_view::get_global_player_view(0)->get_rasterizer_camera()->z_far;
+	real z_far = c_player_view::get_global_player_view()->get_rasterizer_camera()->z_far;
 	if (clip_distance > (0.5f * z_far))
 	{
 		real distance = (0.5f * z_far) / clip_distance;
@@ -548,7 +604,7 @@ void __cdecl render_debug_line_non_occluded(bool draw_immediately, real_point3d 
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
 		clip_distance = magnitude3d(&vector1);
 
-	real z_near = c_player_view::get_global_player_view(0)->get_rasterizer_camera()->z_near;
+	real z_near = c_player_view::get_global_player_view()->get_rasterizer_camera()->z_near;
 	if (clip_distance > (0.5f * z_near))
 	{
 		real distance = (0.5f * z_near) / clip_distance;
@@ -783,7 +839,7 @@ void __cdecl render_debug_box2d_outline(bool draw_immediately, real_rectangle2d 
 		set_real_point3d(&points[2], bounds->x.upper, bounds->y.upper, -1.0);
 		set_real_point3d(&points[3], bounds->x.lower, bounds->y.upper, -1.0);
 
-		render_projection const* projection = c_player_view::get_global_player_view(0)->get_rasterizer_projection();
+		render_projection const* projection = c_player_view::get_global_player_view()->get_rasterizer_projection();
 		matrix4x3_transform_point(&projection->view_to_world, points, points);
 		matrix4x3_transform_point(&projection->view_to_world, &points[1], &points[1]);
 		matrix4x3_transform_point(&projection->view_to_world, &points[2], &points[2]);
@@ -990,8 +1046,8 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 	ASSERT(string);
 	ASSERT(color);
 
-	render_camera const* camera = c_player_view::get_global_player_view(0)->get_rasterizer_camera();
-	render_projection const* projection = c_player_view::get_global_player_view(0)->get_rasterizer_projection();
+	render_camera const* camera = c_player_view::get_global_player_view()->get_rasterizer_camera();
+	render_projection const* projection = c_player_view::get_global_player_view()->get_rasterizer_projection();
 
 	vector2d aspect_ratio_scale{};
 	vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();

@@ -190,7 +190,13 @@ struct c_player_view :
 		x_current_player_view = view;
 	}
 
+	long __cdecl get_player_view_user_index()
+	{
+		return m_player_view_user_index;
+	}
+
 	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
+	void __cdecl create_frame_textures(long player_index);
 
 protected:
 	// c_camera_fx_values?
@@ -216,15 +222,16 @@ protected:
 	short_rectangle2d __rectangle2690;
 
 	long m_player_index;
-	long m_window_count;
-	long m_window_arrangement;
-	long m_window_index;
+	long m_player_view_count;
+	long m_player_view_arrangement;
+	long m_player_view_user_index;
 	long m_output_user_index;
 	long m_splitscreen_res;
 
 	long __unknown26B0;
 
 	// __unknown26B4 = player_window_index == iterator.m_window_count - 1
+	// last_splitcreen_player?
 	bool __unknown26B4;
 };
 static_assert(sizeof(c_player_view) == sizeof(c_world_view) + 0x2420);
@@ -265,4 +272,5 @@ extern real(&pregame_frame_scales)[9];
 extern s_render_fullscreen_text_context_colors(&pregame_frame_colors)[9];
 
 extern void __cdecl render_debug_frame_render();
+extern void __cdecl render_debug_window_render(long user_index);
 

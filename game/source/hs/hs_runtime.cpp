@@ -100,7 +100,7 @@ void __cdecl render_debug_trigger_volumes()
 			real_point3d name_point{};
 			point_from_line3d(&matrix.center, &extents_transformed, 0.5f, &name_point);
 
-			//render_camera const* rasterizer_camera = c_player_view::get_global_player_view(0)->get_rasterizer_camera();
+			//render_camera const* rasterizer_camera = c_player_view::get_global_player_view()->get_rasterizer_camera();
 			//
 			//vector3d name_vector{};
 			//vector_from_points3d(&rasterizer_camera->position, &name_point, &name_vector);

@@ -18,3 +18,8 @@ void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3*
 	camera->scale = 1.0f;
 }
 
+void __cdecl c_player_view::create_frame_textures(long player_index)
+{
+	DECLFUNC(0x00A38D70, void, __thiscall, c_player_view*, long)(this, player_index);
+}
+

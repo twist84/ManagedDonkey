@@ -9,12 +9,17 @@ bool debug_structure_slip_surfaces = false;
 
 void __cdecl render_debug_structure()
 {
-	render_camera const* rasterizer_camera = c_player_view::get_global_player_view(0)->get_rasterizer_camera();
+	render_camera const* rasterizer_camera = c_player_view::get_global_player_view()->get_rasterizer_camera();
 
     scenario_soft_ceilings_render_debug(
 		&rasterizer_camera->position,
 		debug_structure_soft_ceilings,
 		debug_structure_soft_kill,
 		debug_structure_slip_surfaces);
+}
+
+void __cdecl render_debug_structure_draw()
+{
+	// #TODO: implement this?
 }
 

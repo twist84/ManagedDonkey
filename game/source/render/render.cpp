@@ -64,3 +64,8 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	INVOKE(0x00A2A080, render_setup_window, camera, projection);
 }
 
+void __cdecl render_window_reset(long user_index)
+{
+	INVOKE(0x00A2A2E0, render_window_reset, user_index);
+}
+
