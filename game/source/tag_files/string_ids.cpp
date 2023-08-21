@@ -147,23 +147,6 @@ char const* string_id_get_string_const(long string_id)
 	return string;
 }
 
-bool ascii_isupper(char char_)
-{
-	return char_ >= 'A' && char_ <= 'Z';
-}
-
-void ascii_strnlwr(char* string_, long count)
-{
-	ASSERT(string_ != NULL || count == 0);
-	ASSERT(count >= 0 && count < 0x100000 /*k_maximum_string_size*/);
-
-	for (long i = 0; i < count && string_[i]; i++)
-	{
-		if (ascii_isupper(string_[i]))
-			string_[i] += ' ';
-	}
-}
-
 void string_replace_character(char* buffer, char find, char replace)
 {
 	while (true)

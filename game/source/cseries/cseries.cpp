@@ -271,6 +271,23 @@ void string_terminate_at_first_delimiter(char* s, char const* delimiter)
 	s[strcspn(s, delimiter)] = 0;
 }
 
+bool ascii_isupper(char char_)
+{
+	return char_ >= 'A' && char_ <= 'Z';
+}
+
+void ascii_strnlwr(char* string, long count)
+{
+	ASSERT(string != NULL || count == 0);
+	ASSERT(count >= 0 && count < MAXIMUM_STRING_SIZE);
+
+	for (long i = 0; i < count && string[i]; i++)
+	{
+		if (ascii_isupper(string[i]))
+			string[i] += ' ';
+	}
+}
+
 char* tag_to_string(tag _tag, char* buffer)
 {
 	*(tag*)buffer = _byteswap_ulong(_tag);

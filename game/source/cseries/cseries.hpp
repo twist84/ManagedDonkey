@@ -176,6 +176,9 @@ extern char* csnzappendf(char* buffer, dword size, char const* format, ...);
 extern bool string_is_not_empty(char const* s);
 extern void string_terminate_at_first_delimiter(char* s, char const* delimiter);
 
+extern bool ascii_isupper(char char_);
+extern void ascii_strnlwr(char* string, long count);
+
 template<typename t_type, long k_count>
 typename std::enable_if<!std::is_floating_point<t_type>::value, bool>::type
 array_is_zeroed(t_type(&data)[k_count])
