@@ -26,6 +26,8 @@ struct c_rasterizer_index_buffer
 		_primitive_type_triangle_list = 4,
 		_primitive_type_triangle_strip = 5,
 		_primitive_type_triangle_fan = 6,
+		//_primitive_type_quad = 8,
+		//_primitive_type_quad_list = 13,
 		_primitive_type_force_dword = 0x7FFFFFFF,
 	};
 };
