@@ -321,6 +321,7 @@ POPD
     <ClCompile Include="source\memory\data_packets.cpp" />
     <ClCompile Include="source\memory\data_packet_groups.cpp" />
     <ClCompile Include="source\memory\module.cpp" />
+    <ClCompile Include="source\memory\read_write_lock.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
     <ClCompile Include="source\motor\actions.cpp" />
     <ClCompile Include="source\multithreading\primitives\synchronized_list_windows.cpp" />
