@@ -193,7 +193,7 @@ void __cdecl render_debug_frame_render()
 	if (DECLFUNC(0x0042E5D0, bool, __cdecl)())
 		return;
 
-	render_debug_begin(false);
+	render_debug_begin();
 	terminal_draw();
 	main_time_frame_rate_display();
 	render_debug_end(false);
@@ -203,7 +203,7 @@ void __cdecl render_debug_window_render(long user_index)
 {
 	// asserts
 
-	render_debug_begin(true);
+	render_debug_begin();
 	render_debug_structure_draw();
 	render_debug_clients(user_index);
 	render_debug_end(true);

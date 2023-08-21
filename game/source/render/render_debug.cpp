@@ -134,7 +134,7 @@ struct s_render_debug_globals
 	long group_level;
 
 	short cache_count;
-	short cache_count2;
+	short cache_start_index;
 
 	bool inside_game_tick;
 	char __data19[3];
@@ -214,7 +214,7 @@ void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d 
 	c_rasterizer::draw_debug_polygon(vertex_debug, NUMBEROF(vertex_debug), c_rasterizer_index_buffer::_primitive_type_triangle_strip); // D3DPT_TRIANGLESTRIP
 }
 
-void __cdecl render_debug_begin(bool a1)
+void __cdecl render_debug_begin()
 {
 	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
 	ASSERT(!render_debug_globals->active);
@@ -235,7 +235,7 @@ void __cdecl render_debug_end(bool a1)
 	
 	//sub_8244E390();
 	//sub_8244E5D0(a1);
-
+	render_debug_cache_draw(a1);
 	render_debug_globals->active = false;
 }
 
