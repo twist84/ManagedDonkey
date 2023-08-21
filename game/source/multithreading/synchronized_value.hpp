@@ -15,9 +15,24 @@ static_assert(sizeof(c_synchronized_long) == 0x4);
 struct c_interlocked_long
 {
 public:
+	c_interlocked_long() :
+		m_value(0)
+	{
+	}
+
+	c_interlocked_long(long value) :
+		m_value(value)
+	{
+	}
+
 	long peek() const;
 	long set(long Value);
 	long set_if_equal(long ExChange, long Comperand);
+
+	operator long() const
+	{
+		return peek();
+	}
 
 protected:
 	volatile long m_value;
