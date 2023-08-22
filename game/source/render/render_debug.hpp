@@ -8,8 +8,8 @@ extern void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d c
 extern void __cdecl rasterizer_debug_line2d(real_point2d const* p0, real_point2d const* p1, real_argb_color const* color0, real_argb_color const* color1);
 extern void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color);
 
-extern void __cdecl render_debug_begin();
-extern void __cdecl render_debug_end(bool a1);
+extern void __cdecl render_debug_begin(bool a1, bool a2, bool a3);
+extern void __cdecl render_debug_end(bool a1, bool a2, bool a3);
 extern void __cdecl render_debug_structure_draw();
 extern void __cdecl render_debug_clients(long user_index);
 
@@ -59,7 +59,7 @@ extern void __cdecl render_debug_string_at_point_immediate(real_point3d const* p
 
 extern bool __cdecl render_debug_draw_immediately(real_argb_color const* color);
 extern void __cdecl render_debug_add_cache_entry(short type, ...);
-extern void __cdecl render_debug_cache_draw(bool a1);
+extern void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3);
 
 extern void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_point_count, real_argb_color const* color);
 
