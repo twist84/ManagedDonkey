@@ -3,16 +3,336 @@
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
 #include "memory/module.hpp"
+#include "multithreading/threads.hpp"
+#include "rasterizer/rasterizer_main.hpp"
+#include "shell/shell.hpp"
 #include "text/draw_string.hpp"
 
 #include <string.h>
-
-bool g_events_initialized = false;
-bool g_events_debug_render_enable = false;
-
-c_static_array<s_spamming_event, 64> g_spamming_events = {};
+#include <ctype.h>
+#include <wtypes.h>
 
 HOOK_DECLARE(0x000D858D0, network_debug_print);
+
+thread_local bool g_generating_event = false;
+
+s_event_globals event_globals{};
+bool g_events_initialized = false;
+
+c_read_write_lock g_event_read_write_lock;
+
+char const* const k_event_level_names[k_event_level_count + 1]
+{
+	"verbose",
+	"status",
+	"message",
+	"warning",
+	"error",
+	"critical",
+	"none"
+};
+
+char const* const k_event_level_severity_strings[k_event_level_count]
+{
+	"verbose",
+	"status ",
+	"message",
+	"WARNING",
+	"-ERROR-",
+	"-FATAL-"
+};
+
+bool g_events_debug_render_enable = true;
+char const* const k_primary_event_log_filename = "debug.txt";
+char const* const k_primary_full_event_log_filename = "debug_full.txt";
+
+void build_networking_buffer_for_log(char*, long)
+{
+
+}
+
+s_event const g_log_events[]
+{
+	{
+		"lifecycle:",
+		_event_level_none,
+		{ 1.0f, 1.0f, 1.0f },
+		_event_level_message,
+		NULL,
+		NULL,
+		_event_level_message
+	},
+	{
+		"crash:",
+		_event_level_message,
+		{ 1.0f, 0.1f, 0.1f },
+		_event_level_message,
+		NULL,
+		NULL,
+		_event_level_message
+	},
+	{
+		"animation:",
+		_event_level_none,
+		{ 1.0f, 1.0f, 0.0f },
+		_event_level_none,
+		"animation_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"ai:",
+		_event_level_none,
+		{ 1.0f, 0.63f, 0.48f },
+		_event_level_none,
+		"ai_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"shaders:",
+		_event_level_none,
+		{ 0.0f, 0.0f, 1.0f },
+		_event_level_none,
+		"shaders_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"geometry:",
+		_event_level_none,
+		{ 0.0f, 0.0f, 0.8f },
+		_event_level_none,
+		"geometry_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"environment:",
+		_event_level_none,
+		{ 0.0f, 0.0f, 0.6f },
+		_event_level_none,
+		"environment_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"objects:",
+		_event_level_none,
+		{ 0.4f, 0.1f, 0.4f },
+		_event_level_none,
+		"objects_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"networking:",
+		_event_level_none,
+		{ 1.0f, 0.4f, 0.7f },
+		_event_level_message,
+		"networking_debug.txt",
+		build_networking_buffer_for_log,
+		_event_level_message
+	},
+	{
+		"networking:leaderboards:",
+		_event_level_none,
+		{ 1.0f, 0.4f, 0.7f },
+		_event_level_message,
+		"leaderboard_debug.txt",
+		NULL,
+		_event_level_message
+	},
+	{
+		"networking:spawning:",
+		_event_level_none,
+		{ 1.0f, 0.4f, 0.7f },
+		_event_level_message,
+		"networking_debug.txt",
+		build_networking_buffer_for_log,
+		_event_level_none
+	},
+	{
+		"networking:camera:",
+		_event_level_none,
+		{ 1.0f, 0.4f, 0.7f },
+		_event_level_message,
+		"networking_debug.txt",
+		build_networking_buffer_for_log,
+		_event_level_none
+	},
+	{
+		"datamine:",
+		_event_level_warning,
+		{ 1.0f, 0.4f, 0.7f },
+		_event_level_message,
+		"networking_debug.txt",
+		build_networking_buffer_for_log,
+		_event_level_message
+	},
+	{
+		"tags:",
+		_event_level_error,
+		{ 1.0f, 0.0f, 1.0f },
+		_event_level_warning,
+		"tag_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"ui:",
+		_event_level_none,
+		{ 1.0f, 0.5f, 0.0f },
+		_event_level_none,
+		"ui_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"ui:window_manager:",
+		_event_level_none,
+		{ 1.0f, 0.5f, 0.0f },
+		_event_level_message,
+		"ui_debug.txt",
+		NULL,
+		_event_level_message
+	},
+	{
+		"ui:memory_peak:",
+		_event_level_none,
+		{ 1.0f, 0.5f, 0.0f },
+		_event_level_message,
+		"ui_debug.txt",
+		NULL,
+		_event_level_message
+	},
+	{
+		"sound:",
+		_event_level_none,
+		{ 0.7f, 0.7f, 0.7f },
+		_event_level_warning,
+		"sound_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"multiplayer:",
+		_event_level_none,
+		{ 0.8f, 0.1f, 0.6f },
+		_event_level_none,
+		"multiplayer_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"effects:",
+		_event_level_none,
+		{ 0.0f, 0.0f, 0.8f },
+		_event_level_none,
+		"effects_debug.txt",
+		NULL,
+		_event_level_error
+	},
+	{
+		"animation_audio_content:",
+		_event_level_none,
+		{ 0.7f, 0.7f, 0.5f },
+		_event_level_none,
+		"animation_audio_content_debug_4tx_",
+		NULL,
+		_event_level_none
+	},
+	{
+		"environment_materials:",
+		_event_level_none,
+		{ 0.0f, 0.0f, 0.6f },
+		_event_level_none,
+		"environment_materials_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"object_materials:",
+		_event_level_none,
+		{ 0.4f, 0.1f, 0.4f },
+		_event_level_none,
+		"object_materials_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"design:",
+		_event_level_none,
+		{ 1.0f, 0.63f, 0.48f },
+		_event_level_none,
+		"design_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"localization:",
+		_event_level_none,
+		{ 0.0f, 0.0f, 0.0f },
+		_event_level_none,
+		"localization_debug.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"hs:",
+		_event_level_warning,
+		{ 0.5f, 0.8f, 0.3f },
+		_event_level_message,
+		"hs_log.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"tags:xsync:",
+		_event_level_none,
+		{ 1.0f, 1.0f, 0.0f },
+		_event_level_message,
+		NULL,
+		NULL,
+		_event_level_none
+	},
+	{
+		"tags:cache_builder:",
+		_event_level_none,
+		{ 1.0f, 0.4f, 0.7f },
+		_event_level_message,
+		NULL,
+		NULL,
+		_event_level_none
+	},
+	{
+		"system:",
+		_event_level_warning,
+		{ 1.0f, 1.0f, 1.0f },
+		_event_level_message,
+		"system_log.txt",
+		NULL,
+		_event_level_none
+	},
+	{
+		"cache:",
+		_event_level_none,
+		{ 1.0f, 0.4f, 0.7f },
+		_event_level_message,
+		NULL,
+		NULL,
+		_event_level_none
+	},
+	{
+		"debugger:",
+		_event_level_none,
+		{ 1.0f, 1.0f, 1.0f },
+		_event_level_message,
+		NULL,
+		NULL,
+		_event_level_none
+	},
+};
 
 void __cdecl events_debug_render()
 {
@@ -45,29 +365,493 @@ void __cdecl events_debug_render()
 	draw_string.set_bounds(&bounds);
 
 	bool first_event = true;
-	for (long i = 0; g_spamming_events.get_count(); i++)
+	for (long i = 0; i < event_globals.spamming_events.get_count(); i++)
 	{
-		s_spamming_event& spamming_event = g_spamming_events[i];
+		s_spamming_event* spamming_event = &event_globals.spamming_events[i];
 
-		if (spamming_event.valid)
+		if (spamming_event->valid)
 		{
-			if ((system_milliseconds() - spamming_event.hit_time) > 3000)
+			if ((system_milliseconds() - spamming_event->hit_time) > 3000)
 				csmemset(&spamming_event, 0, sizeof(s_spamming_event));
 		}
 
-		if (spamming_event.valid && spamming_event.hit_count >= 2)
+		if (spamming_event->valid && spamming_event->hit_count >= 2)
 		{
 			if (first_event)
 			{
-				draw_string.draw(&font_cache, spamming_event.text);
+				draw_string.draw(&font_cache, spamming_event->text);
 				first_event = false;
 			}
 			else
 			{
-				draw_string.draw_more(&font_cache, spamming_event.text);
+				draw_string.draw_more(&font_cache, spamming_event->text);
 			}
 		}
 	}
+}
+
+bool __cdecl event_level_query(e_event_level event_level)
+{
+	return event_level >= event_globals.query_level;
+}
+
+bool __cdecl event_thread_query()
+{
+	return _bittest(&event_globals.thread_query_flags, get_current_thread_index());
+}
+
+long parse_network_event(const char* event_name, long category_substring_count, long maximum_characters, char(*category_names)[8][64])
+{
+	char const* category_substring = event_name;
+	long category_index = 0;
+	long category_count = 0;
+	bool succeeded = false;
+	bool failed = false;
+	do
+	{
+		char const* category_name = category_substring;
+		long category_name_length = 0;
+		bool category_found = false;
+		do
+		{
+			char temp = *category_substring;
+			if (category_name_length < maximum_characters)
+			{
+				if (isalnum(temp) || temp == '-' || temp == '_')
+				{
+					category_substring++;
+					category_name_length++;
+				}
+				else
+				{
+					category_found = true;
+					if (temp == ':')
+					{
+						category_substring++;
+						category_count++;
+					}
+				}
+			}
+			else
+			{
+				c_console::write_line("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, maximum_characters);
+				//GENERATE_ERROR("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, maximum_characters);
+
+				failed = true;
+			}
+		} while (!category_found && !failed);
+
+		if (category_found)
+		{
+			if (category_name_length)
+			{
+				if (category_index < category_substring_count)
+				{
+					csstrnzcpy((*category_names)[category_index], category_name, maximum_characters);
+					(*category_names)[category_index][category_name_length] = 0;
+					ascii_strnlwr((*category_names)[category_index++], category_name_length);
+				}
+				else
+				{
+					c_console::write_line("network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, category_substring_count);
+					//GENERATE_ERROR("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, maximum_characters);
+
+					failed = true;
+				}
+			}
+			else
+			{
+				succeeded = true;
+			}
+		}
+	} while (!succeeded && !failed);
+
+	if (failed)
+		c_console::write_line("failed to parse network event '%s'", event_name);
+
+	if (category_index > category_count)
+		category_index = category_count;
+
+	return category_index;
+}
+
+s_event_category* get_writeable_category(long category_index)
+{
+	return &event_globals.categories[category_index];
+}
+
+long event_find_category_recursive(long category_index, bool a2, long category_count, char(*category_names)[8][64])
+{
+	ASSERT(category_count > 0);
+	ASSERT(csstrnlen((*category_names)[0], NUMBEROF((*category_names)[0])) > 0);
+
+	char const* category_name = (*category_names)[0];
+
+	s_event_category* category = get_writeable_category(category_index);
+	long next_category_index = NONE;
+
+	s_event_category* temp_category = nullptr;
+	for (long i = category->__unknown17C; i != NONE; i = temp_category->__unknown180)
+	{
+		temp_category = get_writeable_category(i);
+
+		if (temp_category->name.equals(category_name))
+		{
+			next_category_index = i;
+			break;
+		}
+	}
+
+	if (next_category_index == NONE && a2)
+	{
+		next_category_index = NONE;
+		if (event_globals.category_count < event_globals.categories.get_count())
+			next_category_index = event_globals.category_count++;
+
+		if (next_category_index == NONE)
+		{
+			c_console::write_line("event_find_category_recursive: ran out of categories creating '%s'", (*category_names)[0]);
+			//GENERATE_ERROR("event_find_category_recursive: ran out of categories creating '%s'", category_names);
+		}
+		else
+		{
+			s_event_category* next_category = get_writeable_category(next_category_index);
+			category->name.set(category_name);
+			category->log_file.set(category->log_file);
+			next_category->display_level = category->display_level;
+			next_category->color = category->color;
+			next_category->log_level = category->log_level;
+			next_category->remote_log_level = category->remote_log_level;
+			next_category->debugger_break_level = category->debugger_break_level;
+			next_category->halt_level = category->halt_level;
+			next_category->__unknown0 = category->__unknown0 + 1;
+			next_category->parent_index = category_index;
+			next_category->__unknown17C = NONE;
+			next_category->__unknown180 = category->__unknown17C;
+			next_category->event_log_index = category->event_log_index;
+			next_category->build_buffer_for_log_proc = category->build_buffer_for_log_proc;
+			next_category->__unknown174 = category->__unknown174;
+			category->__unknown17C = next_category_index;
+		}
+	}
+
+	if (next_category_index != NONE && category_count > 1)
+		next_category_index = event_find_category_recursive(next_category_index, a2, category_count - 1, category_names + 1);
+
+	return next_category_index;
+}
+
+long event_find_category(bool write, long a2, char(*category_names)[8][64])
+{
+	if (a2 <= 0)
+		return 0;
+
+	g_event_read_write_lock.read_lock();
+	long category_index = event_find_category_recursive(0, 0, a2, category_names);
+	g_event_read_write_lock.read_unlock();
+	if (category_index == NONE && write)
+	{
+		g_event_read_write_lock.write_lock();
+		category_index = event_find_category_recursive(0, 1u, a2, category_names);
+		g_event_read_write_lock.write_unlock();
+	}
+
+	return category_index;
+}
+
+long event_generate_internal(char const* event_name, bool write)
+{
+	ASSERT(event_name);
+
+	char category_names[8][64]{};
+
+	long v6 = parse_network_event(event_name, 8, 64, &category_names);
+	return event_find_category(write, v6, &category_names);
+}
+
+void event_initialize_categories()
+{
+	ASSERT(event_globals.category_count == 0);
+
+	s_event_category* category = get_writeable_category(0);
+	category->name.set("");
+	category->log_file.set("");
+	category->display_level = _event_level_none;
+	category->log_level = _event_level_none;
+	category->remote_log_level = _event_level_none;
+	category->debugger_break_level = _event_level_none;
+	category->halt_level = _event_level_none;
+	category->__unknown0 = 0;
+	category->parent_index = NONE;
+	category->__unknown17C = NONE;
+	category->__unknown180 = NONE;
+	category->color = global_real_argb_white->color;
+	category->event_log_index = NONE;
+	category->build_buffer_for_log_proc = nullptr;
+	category->__unknown174 = 0;
+	event_globals.category_count++;
+
+	for (long i = 0; i < NUMBEROF(g_log_events); i++)
+	{
+		s_event const* log_event = &g_log_events[i];
+		long category_index = event_generate_internal(log_event->name, true);
+		s_event_category* next_category = get_writeable_category(category_index);
+		next_category->display_level = log_event->display_level;
+		next_category->color = log_event->color;
+		if (log_event->log_file)
+		{
+			next_category->log_file.set(log_event->log_file);
+			next_category->event_log_index = NONE;// event_log_new(event_->log_file, FLAG(3), true);
+		}
+		next_category->log_level = log_event->log_level;
+		next_category->remote_log_level = log_event->remote_log_level;
+		next_category->debugger_break_level = _event_level_none;
+		next_category->halt_level = _event_level_none;
+		next_category->build_buffer_for_log_proc = log_event->build_buffer_for_log_proc;
+	}
+}
+
+bool events_try_to_initialize()
+{
+	static bool run_once = false;
+	if (!run_once && is_main_thread() /*&& synchronization_objects_initialized()*/)
+	{
+		g_event_read_write_lock.setup(6, 1);
+		run_once = true;
+
+		event_globals.enabled = true;
+		event_globals.suppression_disabled = false;
+		event_globals.spam_suppression_enabled = shell_application_type() == _shell_application_type_client;
+		event_globals.__unknown81B62 = shell_application_type() != _shell_application_type_none;
+		event_globals.display_level = _event_level_warning;
+		event_globals.log_level = _event_level_warning;
+		event_globals.remote_log_level = _event_level_warning;
+		event_globals.query_level = _event_level_none;
+		event_globals.__unknown10 = NONE;
+
+		event_globals.event_listener_count = 0;
+		event_globals.event_listeners.set_all(nullptr);
+
+		csmemset(event_globals.spamming_events.get_elements(), 0, event_globals.spamming_events.get_total_element_size());
+
+		event_globals.thread_query_flags = 0xFFFFFBF7;
+		event_globals.event_log_flags_bit3_enabled = false;
+		event_globals.__unknown81B65 = false;
+
+		// clear function
+		event_globals.error_message_length = 0;
+		event_globals.error_message_buffer[0] = 0;
+
+		// event_logs_initialize();
+		// function
+
+		event_globals.category_count = 0;
+
+		event_initialize_categories();
+
+		g_events_initialized = true;
+	}
+
+	return g_events_initialized;
+}
+
+void __cdecl events_initialize()
+{
+	events_try_to_initialize();
+
+}
+
+void __cdecl runtime_state_shell_initialize()
+{
+	// errors_initialize
+	{
+		//stack_walk_initialize();
+	}
+
+	// events_initialize
+	{
+		events_try_to_initialize();
+		ASSERT(g_events_initialized);
+		//GENERATE_MESSAGE("lifecycle: events initalize");
+	}
+
+	INVOKE(0x00509F30, runtime_state_shell_initialize);
+}
+//HOOK_DECLARE_CALL(0x0042E55D, runtime_state_shell_initialize);
+
+long __cdecl event_interlocked_compare_exchange(c_interlocked_long& value, long ExChange, long Comperand)
+{
+	return value.set_if_equal(ExChange, Comperand);
+}
+
+c_event::c_event(e_event_level event_level, long category_index, dword_flags event_flags) :
+	m_event_level(event_level),
+	m_category_index(category_index),
+	m_event_flags(event_flags)
+{
+}
+
+bool c_event::query()
+{
+	return event_thread_query() && event_level_query(m_event_level);
+}
+
+dword_flags sub_82894860(e_event_level event_level, long category_index, dword_flags event_flags)
+{
+	// ...
+
+	return 0;
+}
+
+struct s_hit_result
+{
+	dword hit_time;
+	long hit_count;
+};
+
+void sub_82895ED0(char const* event_text, s_hit_result* result_out)
+{
+	ASSERT(event_text);
+	ASSERT(result_out);
+
+	long event_index = NONE;
+	bool event_exists = false;
+
+	for (long i = 0; i < event_globals.spamming_events.get_count(); i++)
+	{
+		s_spamming_event* spamming_event = &event_globals.spamming_events[event_index];
+		if (spamming_event->valid)
+		{
+			if (csmemcmp(spamming_event->text, event_text, sizeof(spamming_event->text)) == 0)
+			{
+				result_out->hit_time = spamming_event->hit_time;
+				result_out->hit_count = spamming_event->hit_count++;
+				event_exists = true;
+			}
+		}
+		else if (event_index == NONE)
+		{
+			event_index = i;
+		}
+	}
+
+	if (!event_exists && event_index != NONE)
+	{
+		s_spamming_event* spamming_event = &event_globals.spamming_events[event_index];
+		ASSERT(!spamming_event->valid);
+
+		spamming_event->valid = true;
+		spamming_event->hit_time = system_milliseconds();
+		spamming_event->hit_count = 1;
+		csstrnzcpy(spamming_event->text, event_text, sizeof(spamming_event->text));
+	}
+}
+
+dword_flags sub_82894C80(dword_flags flags, e_event_level event_level, long category_index, const char* event_text)
+{
+	if (/*unk_841DD279 &&*/ event_level != _event_level_critical && TEST_BIT(flags, 0))
+	{
+		s_event_category* category = get_writeable_category(category_index);
+
+		dword time = system_milliseconds();
+		if (time > category->__time58 + 10000)
+			category->__unknown5C = 0;
+
+		category->__unknown5C++;
+		category->__time58 = time;
+
+		if (category->__unknown5C >= 5)
+		{
+			s_hit_result result{};
+			sub_82895ED0(event_text, &result);
+			if (result.hit_count > 1)
+				flags = 0;
+		}
+	}
+	return flags;
+}
+
+void sub_82894060(e_event_level event_level, long category_index, dword_flags event_flags, char const* format, va_list list)
+{
+	ASSERT(g_events_initialized);
+
+	dword_flags flags = 0;
+	c_static_string<2048> event_text;
+
+	//c_font_cache font_cache{};
+	g_event_read_write_lock.read_lock();
+	flags = sub_82894860(event_level, category_index, event_flags);
+	g_event_read_write_lock.read_unlock();
+
+	if (flags)
+	{
+		event_text.vprint(format, list);
+		g_event_read_write_lock.write_lock();
+
+		s_event_category* category = get_writeable_category(category_index);
+		flags = sub_82894C80(flags, event_level, category_index, event_text);
+
+		if (TEST_BIT(flags, 0))
+		{
+
+		}
+
+		if (TEST_BIT(flags, 1))
+		{
+
+		}
+
+		if (TEST_BIT(flags, 2))
+		{
+
+		}
+
+		if (TEST_BIT(flags, 3))
+		{
+
+		}
+
+		if (TEST_BIT(flags, 4))
+		{
+
+		}
+
+		c_console::write_line(event_text.get_string());
+
+		//for (long event_listener_index = 0; event_globals.event_listeners.get_count(); event_listener_index++)
+		//{
+		//	if (TEST_BIT(category->__unknown174, event_listener_index))
+		//	{
+		//		ASSERT(event_globals.event_listeners[event_listener_index]);
+		//		struct c_event_listener* event_listener = event_globals.event_listeners[event_listener_index];
+		//		event_listener->log(event_level, event_string.get_string());
+		//	}
+		//}
+
+		g_event_read_write_lock.write_unlock();
+	}
+}
+
+long c_event::generate(char const* event_name, ...)
+{
+	va_list list;
+	va_start(list, event_name);
+
+	if (!g_generating_event && events_try_to_initialize() && event_globals.enabled)
+	{
+		g_generating_event = true;
+
+		if (m_category_index == NONE)
+			m_category_index = event_generate_internal(event_name, true);
+
+		sub_82894060(m_event_level, m_category_index, m_event_flags, event_name, list);
+
+		g_generating_event = false;
+	}
+
+	va_end(list);
+
+	return m_category_index;
 }
 
 // used inplace of `c_event::generate`
