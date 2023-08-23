@@ -2,6 +2,7 @@
 
 #include "bink/bink_playback.hpp"
 #include "cseries/async_xoverlapped.hpp"
+#include "cseries/cseries_events.hpp"
 #include "cutscene/cinematics.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
@@ -13,7 +14,7 @@
 #include "simulation/simulation.hpp"
 #include "interface/terminal.hpp"
 
-HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
+//HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 
 bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
@@ -165,6 +166,7 @@ void __cdecl main_render_pregame(long pregame_frame_type, char const* text)
 		bool simple_font = true;
 		if (pregame_frame_type == 1 || (pregame_frame_type - 4) <= 1)
 		{
+			//context.text = events_get();
 			simple_font = false;
 		}
 
@@ -243,7 +245,7 @@ __declspec(naked) void main_render_view_inline_hook()
 		jmp  ecx
 	}
 }
-HOOK_DECLARE(0x006046EB, main_render_view_inline_hook);
+//HOOK_DECLARE(0x006046EB, main_render_view_inline_hook);
 
 void __cdecl main_render_view(c_player_view* player_view, long player_index)
 {

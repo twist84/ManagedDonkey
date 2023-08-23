@@ -46,7 +46,7 @@ struct s_event
 	real_rgb_color color;
 	e_event_level log_level;
 	const char* log_file;
-	void* build_buffer_for_log_proc;
+	void(__cdecl* build_buffer_for_log_proc)(char*, long);
 	e_event_level remote_log_level;
 };
 static_assert(sizeof(s_event) == 0x24);
@@ -62,7 +62,7 @@ struct s_event_category
 	long __unknown5C;
 	e_event_level log_level;
 	c_static_string<256> log_file;
-	void* build_buffer_for_log_proc;
+	void(__cdecl* build_buffer_for_log_proc)(char*, long);
 	e_event_level remote_log_level;
 	e_event_level debugger_break_level;
 	e_event_level halt_level;
@@ -84,9 +84,9 @@ struct s_event_globals
 	c_static_array<s_event_category, 1024> categories;
 	long category_count;
 
-	long __unknown61018;
-	long __unknown6101C;
-	long __unknown61020;
+	long __unknown61018_time;
+	e_event_level __unknown6101C_level;
+	long __unknown61020_time;
 
 	short error_message_length;
 	char error_message_buffer[2048];
@@ -141,15 +141,16 @@ extern char const* const k_primary_full_event_log_filename;
 extern bool g_events_debug_render_enable;
 
 extern void __cdecl events_debug_render();
+extern char const* __cdecl events_get();
 extern long __cdecl event_interlocked_compare_exchange(c_interlocked_long& value, long ExChange, long Comperand);
 extern void __cdecl network_debug_print(const char* format, ...);
 
 // I don't like this :(
 template<typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>
-void generate_warning(char const* event_name, parameters_t... parameters)
+void generate_event(e_event_level event_level, char const* event_name, parameters_t... parameters)
 {
 	c_interlocked_long event_category = NONE;
-	c_event _event(_event_level_warning, event_category, 0);
+	c_event _event(event_level, event_category, 0);
 	if (_event.query())
 	{
 		long category_index = _event.generate(event_name, parameters...);
