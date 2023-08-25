@@ -19,6 +19,6 @@ struct hs_function_definition
 };
 static_assert(sizeof(hs_function_definition) == 0x10);
 
-long const hs_function_table_count = 1675;
+long const hs_function_table_count = 1697;
 extern hs_function_definition* (&hs_function_table)[hs_function_table_count];
 
