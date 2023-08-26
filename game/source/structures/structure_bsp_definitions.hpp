@@ -20,6 +20,7 @@ enum e_structure_bsp_flags
 
 struct structure_cluster;
 struct structure_marker;
+struct structure_instanced_geometry_instance;
 struct structure_bsp
 {
 	static tag const k_group_tag = SCENARIO_STRUCTURE_BSP_TAG;
@@ -62,7 +63,7 @@ struct structure_bsp
 	s_tag_block leaf_map_leaves;
 	s_tag_block leaf_map_connections;
 	s_tag_block errors;
-	s_tag_block instanced_geometry_instances;
+	c_typed_tag_block<structure_instanced_geometry_instance> instanced_geometry_instances;
 	s_tag_block decorator_sets;
 	s_render_geometry decorator_instance_buffer;
 	s_tag_block acoustics_sound_clusters;
@@ -128,4 +129,32 @@ struct structure_marker
 	real_point3d position;
 };
 static_assert(sizeof(structure_marker) == 0x3C);
+
+struct structure_instanced_geometry_instance
+{
+	real scale;
+	vector3d forward;
+	vector3d left;
+	vector3d up;
+	real_point3d position;
+	short instance_definition;
+	word_flags flags;
+	short lightmap_texcoord_block_index;
+	byte BJOLSRJV[2];
+	short runtime_subcluster_render_first_bitvector_index;
+	short runtime_magic_render_number;
+	real_point3d world_bounding_sphere_center;
+	real world_bounding_sphere_radius;
+	dword checksum;
+	string_id name;
+	short pathfinding_policy;
+	short lightmapping_policy;
+	real lightmap_resolution_scale;
+	s_tag_block bsp_physics;
+	short fade_pixels_start;
+	short fade_pixels_end;
+	short cubemap0_bitmap_index;
+	short cubemap1_bitmap_index;
+};
+static_assert(sizeof(structure_instanced_geometry_instance) == 0x74);
 
