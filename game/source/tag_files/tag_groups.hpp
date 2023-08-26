@@ -267,7 +267,7 @@ template<typename t_element_type, dword ...t_extra>
 struct c_typed_tag_block
 {
 public:
-	long count()
+	long count() const
 	{
 		return m_count;
 	}
@@ -277,12 +277,29 @@ public:
 		return m_elements;
 	}
 
+	t_element_type const* begin() const
+	{
+		return m_elements;
+	}
+
 	t_element_type* end()
 	{
 		return m_elements + m_count;
 	}
 
+	t_element_type const* end() const
+	{
+		return m_elements + m_count;
+	}
+
 	t_element_type& operator[](long index)
+	{
+		ASSERT(VALID_INDEX(index, m_count));
+
+		return m_elements[index];
+	}
+
+	t_element_type& operator[](long index) const
 	{
 		ASSERT(VALID_INDEX(index, m_count));
 
