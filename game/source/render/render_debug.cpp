@@ -1635,3 +1635,124 @@ word __cdecl _random(dword* seed, char const* string, char const* file, dword li
 	return HIWORD(*seed);
 }
 
+c_render_debug_line_drawer::c_render_debug_line_drawer()
+{
+	short_rectangle2d fullscreen_render_pixel_bounds{};
+	c_rasterizer::get_fullscreen_render_pixel_bounds(&fullscreen_render_pixel_bounds);
+
+	vertex_scale_x = 1.0f / (fullscreen_render_pixel_bounds.x1 - fullscreen_render_pixel_bounds.x0);
+	vertex_scale_y = 1.0f / (fullscreen_render_pixel_bounds.y1 - fullscreen_render_pixel_bounds.y0);
+	vertex_count = 0;
+	type = 0;
+	set_color(global_real_argb_white);
+}
+
+c_render_debug_line_drawer::~c_render_debug_line_drawer()
+{
+	flush();
+}
+
+void c_render_debug_line_drawer::flush()
+{
+	if (render_debug_draw_immediately(&real_color))
+	{
+		if (vertex_count > 0)
+		{
+			switch (type)
+			{
+			case 1:
+				c_rasterizer::draw_debug_line_list2d_explicit(vertices, vertex_count / 2);
+				break;
+			case 2:
+				c_rasterizer::draw_debug_line_list_explicit(vertices, vertex_count / 2);
+				break;
+			}
+		}
+	}
+	else
+	{
+		//generate_event(_event_level_error, "can't use debug_line_drawer w/o immediate debug drawing");
+		c_console::write_line("can't use debug_line_drawer w/o immediate debug drawing");
+	}
+
+	vertex_count = 0;
+}
+
+void c_render_debug_line_drawer::set_color(real_argb_color const* color_)
+{
+	color_degamma(&color_->color, reinterpret_cast<real_linear_rgb_color*>(&real_color.color));
+	real_color.alpha = color_->alpha;
+	color.value = real_argb_color_to_pixel32(&real_color);
+}
+
+void c_render_debug_line_drawer::add_line_2d(real_point2d const* p0, real_point2d const* p1)
+{
+	if (type != 1 || vertex_count + 2 >= 512)
+	{
+		flush();
+		type = 1;
+	}
+
+	rasterizer_vertex_debug* vertex = vertices + vertex_count;
+	vertex_count += 2;
+
+	vertex[0].point.x = ((p0->x * vertex_scale_x) * 2.0f) - 1.0f;
+	vertex[0].point.y = -(((p0->y * vertex_scale_y) * 2.0f) - 1.0f);
+	vertex[0].point.z = 0.0f;
+	vertex[0].color = color;
+
+	vertex[1].point.x = ((p1->x * vertex_scale_x) * 2.0f) - 1.0f;
+	vertex[1].point.y = -(((p1->y * vertex_scale_y) * 2.0f) - 1.0f);
+	vertex[1].point.z = 0.0f;
+	vertex[1].color = color;
+}
+
+void c_render_debug_line_drawer::add_line_3d(real_point3d const* p0, real_point3d const* p1)
+{
+	if (type != 2 || vertex_count + 2 >= 512)
+	{
+		flush();
+		type = 2;
+	}
+
+	rasterizer_vertex_debug* vertex = vertices + vertex_count;
+	vertex_count += 2;
+
+	vertex[0].point = *p0;
+	vertex[0].color = color;
+
+	vertex[1].point = *p1;
+	vertex[1].color = color;
+}
+
+void c_render_debug_line_drawer::add_line_3d_unclipped(real_point3d const* p0, real_point3d const* p1)
+{
+	ASSERT(p0);
+	ASSERT(p1);
+
+	real_matrix4x3 camera{};
+	c_player_view::get_player_render_camera_orientation(&camera);
+
+	real_point3d point0 = *p0;
+	real_point3d point1 = *p1;
+
+	vector3d vector0{};
+	vector3d vector1{};
+	vector_from_points3d(&camera.center, &point0, &vector0);
+	vector_from_points3d(&camera.center, &point1, &vector1);
+
+	real clip_distance = magnitude3d(&vector0);
+	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
+		clip_distance = magnitude3d(&vector1);
+
+	real z_far = c_player_view::get_global_player_view()->get_rasterizer_camera()->z_far;
+	if (clip_distance > (0.5f * z_far))
+	{
+		real distance = (0.5f * z_far) / clip_distance;
+		point_from_line3d(&camera.center, &vector0, distance, &point0);
+		point_from_line3d(&camera.center, &vector1, distance, &point1);
+	}
+
+	add_line_3d(&point0, &point1);
+}
+

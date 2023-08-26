@@ -1,8 +1,37 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "rasterizer/rasterizer.hpp"
 
 #define CIRCLE_DIVISIONS 16
+
+struct c_render_debug_line_drawer
+{
+private:
+	static long const k_internal_queue_size = 512;
+
+public:
+	c_render_debug_line_drawer();
+	~c_render_debug_line_drawer();
+
+	void flush();
+
+	void set_color(real_argb_color const* color);
+
+	void add_line_2d(real_point2d const* p0, real_point2d const* p1);
+	void add_line_3d(real_point3d const* p0, real_point3d const* p1);
+	void add_line_3d_unclipped(real_point3d const* p0, real_point3d const* p1);
+
+protected:
+	long type;
+	real_argb_color real_color;
+	argb_color color;
+	rasterizer_vertex_debug vertices[k_internal_queue_size];
+	long vertex_count;
+	real vertex_scale_x;
+	real vertex_scale_y;
+};
+static_assert(sizeof(c_render_debug_line_drawer) == 0x2024);
 
 extern void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p1, real_argb_color const* color0, real_argb_color const* color1);
 extern void __cdecl rasterizer_debug_line2d(real_point2d const* p0, real_point2d const* p1, real_argb_color const* color0, real_argb_color const* color1);
