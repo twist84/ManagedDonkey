@@ -888,6 +888,9 @@
     <ClCompile Include="source\memory\read_write_lock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render_structure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2235,6 +2238,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\units\vehicle_engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_structure.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

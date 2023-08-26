@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "geometry/geometry_definitions.hpp"
 #include "physics/collision_instanced_geometry_definitions.hpp"
+#include "render/render_structure.hpp"
 #include "structures/structure_physics_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 
@@ -16,17 +17,6 @@ enum e_structure_bsp_flags
 
 	k_structure_bsp_flags
 };
-
-struct c_structure_bsp_resource_interface
-{
-	s_tag_block raw_resources;
-	byte tag_resources[8];
-	byte cache_file_resources[8];
-	//s_tag_resource tag_resources;
-	//s_tag_resource cache_file_resources;
-	long use_resource_items;
-};
-static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
 
 struct structure_cluster;
 struct structure_marker;
