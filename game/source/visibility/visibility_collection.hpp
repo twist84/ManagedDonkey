@@ -108,7 +108,10 @@ struct c_simple_list
 	//long add()
 	//void clear()
 
-	//t_type& operator[](long)
+	t_type& operator[](long index)
+	{
+		return m_elements[index];
+	}
 
 	t_type* list_iterator_next(long* a1)
 	{
