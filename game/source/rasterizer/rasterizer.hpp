@@ -34,16 +34,10 @@ struct c_rasterizer_index_buffer
 
 struct rasterizer_vertex_debug
 {
-	real_point3d point0;
-	dword color0;
-
-	real_point3d point1;
-	dword color1;
-
-	real_point3d point2;
-	dword color2;
+	real_point3d point;
+	argb_color color;
 };
-static_assert(sizeof(rasterizer_vertex_debug) == 0x30);
+static_assert(sizeof(rasterizer_vertex_debug) == 0x10);
 
 struct c_rasterizer
 {

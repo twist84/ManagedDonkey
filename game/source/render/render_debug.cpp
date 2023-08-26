@@ -222,17 +222,17 @@ void __cdecl rasterizer_debug_line2d(real_point2d const* p0, real_point2d const*
 
 void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d const* point1, real_point3d const* point2, real_argb_color const* color)
 {
-	rasterizer_vertex_debug vertex_debug[1]{};
-	vertex_debug[0].point0 = *point0;
-	vertex_debug[0].point1 = *point1;
-	vertex_debug[0].point2 = *point2;
+	rasterizer_vertex_debug vertex_debug[3]{};
+	vertex_debug[0].point = *point0;
+	vertex_debug[1].point = *point1;
+	vertex_debug[2].point = *point2;
 
 	dword _color = real_argb_color_to_pixel32(color);
-	vertex_debug[0].color0 = _color;
-	vertex_debug[0].color1 = _color;
-	vertex_debug[0].color2 = _color;
+	vertex_debug[0].color.value = _color;
+	vertex_debug[1].color.value = _color;
+	vertex_debug[2].color.value = _color;
 
-	c_rasterizer::draw_debug_polygon(vertex_debug, NUMBEROF(vertex_debug), c_rasterizer_index_buffer::_primitive_type_triangle_strip); // D3DPT_TRIANGLESTRIP
+	c_rasterizer::draw_debug_polygon(vertex_debug, 1, c_rasterizer_index_buffer::_primitive_type_triangle_strip); // D3DPT_TRIANGLESTRIP
 }
 
 int __cdecl render_debug_cache_entry_sort_proc(void const* a, void const* b)
