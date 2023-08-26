@@ -93,6 +93,11 @@ void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_p
 	display_pixel_bounds->y1 = height;
 }
 
+void __cdecl c_rasterizer::get_fullscreen_render_pixel_bounds(short_rectangle2d* resolution)
+{
+	INVOKE(0x00A1FB80, get_fullscreen_render_pixel_bounds, resolution);
+}
+
 void __cdecl c_rasterizer::initialize()
 {
 	INVOKE(0x00A1FD20, initialize);

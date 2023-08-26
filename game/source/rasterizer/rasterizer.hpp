@@ -59,6 +59,7 @@ struct c_rasterizer
 	static void __cdecl dispose_from_old_structure_bsp();
 	static real __cdecl get_aspect_ratio();
 	static void __cdecl get_display_pixel_bounds(short_rectangle2d* display_pixel_bounds);
+	static void __cdecl get_fullscreen_render_pixel_bounds(short_rectangle2d* resolution);
 	static void __cdecl initialize();
 	static bool __cdecl initialize_after_device_creation_or_reset();
 	static void __cdecl initialize_for_new_map();
