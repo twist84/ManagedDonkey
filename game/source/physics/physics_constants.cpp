@@ -55,7 +55,7 @@ void __cdecl global_physics_velocity_frame_set(real i, real j, real k)
 
 real __cdecl global_slip_surface_maximum_k_get()
 {
-	return game_is_multiplayer() ? 1.0f : global_physics_constants_get()->lip_surface_maximum_k;
+	return game_is_multiplayer() ? 1.0f : global_physics_constants_get()->slip_surface_maximum_k;
 
 	//INVOKE(0x00681620, global_slip_surface_maximum_k_get);
 }
@@ -96,7 +96,7 @@ void __cdecl physics_constants_reset()
 	physics_constants->air_density = 0.0011f;
 	physics_constants->character_ground_adhesion_forces_enable_time = 0;
 	physics_constants->velocity_frame = { 0.0f, 0.0f, 0.0f }; // global_zero_vector3d
-	physics_constants->lip_surface_maximum_k = static_cast<real>(cos(0.61086524f));
+	physics_constants->slip_surface_maximum_k = static_cast<real>(cos(0.61086524f));
 
 	//INVOKE(0x006817F0, physics_constants_reset);
 }

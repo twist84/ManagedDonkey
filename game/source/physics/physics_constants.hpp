@@ -12,7 +12,7 @@ struct s_physics_constants
 	real air_density;
 	vector3d velocity_frame;
 	long character_ground_adhesion_forces_enable_time;
-	real lip_surface_maximum_k;
+	real slip_surface_maximum_k;
 };
 static_assert(sizeof(s_physics_constants) == 0x20);
 
