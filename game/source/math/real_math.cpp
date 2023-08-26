@@ -5,6 +5,7 @@
 REFERENCE_DECLARE(0x0189CF00, real_point3d const* const, global_origin3d);
 REFERENCE_DECLARE(0x0189CF04, vector3d const* const, global_forward3d);
 REFERENCE_DECLARE(0x0189CF28, vector3d const* const, global_up3d);
+REFERENCE_DECLARE(0x0189CF5C, real_rectangle3d const* const, global_null_rectangle3d);
 
 // networking/network_configuration.cpp
 real __cdecl interpolate_linear(real start_value, real end_value, real interpolation_factor)
