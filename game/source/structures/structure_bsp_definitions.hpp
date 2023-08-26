@@ -29,6 +29,7 @@ struct c_structure_bsp_resource_interface
 static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
 
 struct structure_cluster;
+struct structure_marker;
 struct structure_bsp
 {
 	static tag const k_group_tag = SCENARIO_STRUCTURE_BSP_TAG;
@@ -61,7 +62,7 @@ struct structure_bsp
 	s_tag_block background_sound_palette;
 	s_tag_block sound_environment_palette;
 	s_tag_data sound_pas_data;
-	s_tag_block markers;
+	c_typed_tag_block<structure_marker> markers;
 	s_tag_block marker_light_palette;
 	s_tag_block marker_light_palette_index;
 	s_tag_block runtime_decals;
@@ -129,4 +130,12 @@ struct structure_cluster
 	s_tag_block cluster_cubemaps;
 };
 static_assert(sizeof(structure_cluster) == 0xDC);
+
+struct structure_marker
+{
+	c_static_string<32> name;
+	real_quaternion rotation;
+	real_point3d position;
+};
+static_assert(sizeof(structure_marker) == 0x3C);
 
