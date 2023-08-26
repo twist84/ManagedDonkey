@@ -805,7 +805,7 @@ void __cdecl game_pvs_debug_render()
 	if (game_in_progress() && game_get_active_structure_bsp_mask())
 	{
 		for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
-			structure_bsp_index != -1;
+			structure_bsp_index != NONE;
 			structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
 		{
 			structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);

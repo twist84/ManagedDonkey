@@ -393,7 +393,10 @@ POPD
     <ClCompile Include="source\objects\object_definitions.cpp" />
     <ClCompile Include="source\objects\object_early_movers.cpp" />
     <ClCompile Include="source\objects\object_types.cpp" />
+    <ClCompile Include="source\physics\bsp3d.cpp" />
     <ClCompile Include="source\physics\collisions.cpp" />
+    <ClCompile Include="source\physics\collision_bsp_references.cpp" />
+    <ClCompile Include="source\physics\collision_references.cpp" />
     <ClCompile Include="source\physics\havok.cpp" />
     <ClCompile Include="source\physics\havok_component.cpp" />
     <ClCompile Include="source\physics\havok_entity_iterator.cpp" />
@@ -802,10 +805,13 @@ POPD
     <ClInclude Include="source\objects\object_definitions.hpp" />
     <ClInclude Include="source\objects\object_early_movers.hpp" />
     <ClInclude Include="source\objects\object_types.hpp" />
+    <ClInclude Include="source\physics\bsp3d.hpp" />
     <ClInclude Include="source\physics\character_physics_definitions.hpp" />
     <ClInclude Include="source\physics\collisions.hpp" />
+    <ClInclude Include="source\physics\collision_bsp_references.hpp" />
     <ClInclude Include="source\physics\collision_instanced_geometry_definitions.hpp" />
     <ClInclude Include="source\physics\collision_model_definitions.hpp" />
+    <ClInclude Include="source\physics\collision_references.hpp" />
     <ClInclude Include="source\physics\havok.hpp" />
     <ClInclude Include="source\physics\havok_component.hpp" />
     <ClInclude Include="source\physics\havok_entity_iterator.hpp" />
