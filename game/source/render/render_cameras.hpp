@@ -36,24 +36,58 @@ struct render_camera
 };
 static_assert(sizeof(render_camera) == 0x88);
 
+struct s_oriented_bounding_box
+{
+	real matrix[4][4];
+};
+static_assert(sizeof(s_oriented_bounding_box) == sizeof(real) * 4 * 4);
+
 struct render_projection
 {
 	real_matrix4x3 world_to_view;
 	real_matrix4x3 view_to_world;
 	real_rectangle2d projection_bounds;
-	real projection_matrix[4][4];
-	real __unknownB8;
-	real __unknownBC;
+	s_oriented_bounding_box projection_matrix;
+	vector2d __unknownB8;
 };
 static_assert(sizeof(render_projection) == 0xC0);
 
+struct render_view_parameters
+{
+	real __unknown0;
+	real __unknown4;
+	real __unknown8;
+	real __unknownC;
+	real __unknown10;
+	real __unknown14;
+	real __unknown18;
+	real __unknown1C;
+	real __unknown20;
+	real __unknown24;
+	real __unknown28;
+	real __unknown2C;
+	real_rectangle2d projection_bounds;
+};
+static_assert(sizeof(render_view_parameters) == 0x40);
+
 struct s_observer_result;
+struct render_mirror;
 extern void __cdecl render_camera_build(render_camera* camera, s_observer_result const* result);
+extern bool __cdecl render_camera_build_clipped_frustum_bounds(render_camera const* camera, real_rectangle2d const* clip, real_rectangle2d* frustum_bounds);
+extern void __cdecl render_camera_build_orthogonal_projection(s_oriented_bounding_box const* camera, short_rectangle2d const* window_display_bounds, struct render_projection* projection, bool a4);
 extern void __cdecl render_camera_build_projection(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_projection* projection, real a4);
+extern void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real a4);
 extern void __cdecl render_camera_build_viewport_frustum_bounds(render_camera const* camera, real_rectangle2d* frustum_bounds);
+extern void __cdecl render_camera_mirror(render_camera const* camera, render_mirror const* mirror, render_camera* result);
+extern bool __cdecl render_camera_project_vector_to_screen(vector3d const* world_vector, real_point3d const* world_point, real_matrix4x3 const* matrix, vector2d const* a4, bool use_perspective, bool a6, vector2d* result);
+extern void __cdecl render_camera_screen_to_view(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point2d const* screen_point, vector3d* view_vector);
+extern void __cdecl render_camera_screen_to_world(render_camera const* camera, render_projection const* projection, real_point2d const* screen_point, real_point3d* world_point, vector3d* world_vector);
 extern bool __cdecl render_camera_view_to_screen(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point3d const* world_point, real_point2d* screen_point);
+extern void __cdecl render_camera_world_sphere_to_screen_extents(render_camera const* camera, render_projection const* projection, real_point3d const* world_center, real a4, real_rectangle2d* screen_extents);
 extern bool __cdecl render_camera_world_to_screen(render_camera const* camera, render_projection const* projection, real_point3d const* world_point, real_point2d* screen_point);
 extern bool __cdecl render_camera_world_to_window(render_camera const* camera, render_projection const* projection, short_rectangle2d const* window_display_bounds, real_point3d const* world_point, real_point2d* screen_point);
 extern real __cdecl render_projection_sphere_diameter_in_pixels(render_projection const* projection, real_point3d const* point, real scale);
+extern void __cdecl render_view_compute_all_bounds(long player_index, long player_count, render_camera* camera);
 extern void __cdecl render_view_compute_fullscreen_bounds(render_camera* camera);
+extern void __cdecl render_view_compute_window_bounds(long player_index, long player_count, short_rectangle2d* bounds, short_rectangle2d* safe_bounds);
 
