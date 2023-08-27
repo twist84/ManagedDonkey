@@ -162,7 +162,7 @@ real __cdecl render_projection_sphere_diameter_in_pixels(render_projection const
 
 	real v1 = projection->__unknownB8.j;
 	if (cinematic_in_progress() && !rasterizer_get_is_widescreen())
-		v1 *= 1.333f;
+		v1 *= real(4 / 3);
 
 	return real(((scale * 10.0f /* default: 2.0f */) * v1) / v0);
 }
