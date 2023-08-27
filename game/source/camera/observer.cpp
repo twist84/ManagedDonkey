@@ -2,6 +2,8 @@
 
 #include "memory/thread_local.hpp"
 
+bool g_debug_observer_render = false;
+
 s_observer* observer_get(long user_index)
 {
 	ASSERT(user_index >= 0 && user_index < 4);
@@ -19,6 +21,12 @@ s_observer_result const* observer_get_camera(long output_user_index)
 	ASSERT(observer);
 
 	return &observer->result;
+}
+
+//e_director_mode __cdecl choose_appropriate_director(long output_user_index)
+long __cdecl choose_appropriate_director(long output_user_index)
+{
+	return INVOKE(0x005916B0, choose_appropriate_director, output_user_index);
 }
 
 s_observer_result const* __cdecl observer_try_and_get_camera(long output_user_index)

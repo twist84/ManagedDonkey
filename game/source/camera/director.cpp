@@ -434,3 +434,22 @@ void __cdecl director_load_camera()
 	director_load_camera_named(k_camera_save_filename);
 }
 
+void __cdecl director_debug_camera(bool render)
+{
+	long active_output_user = player_mapping_first_active_output_user();
+	if (VALID_INDEX(active_output_user, 4))
+	{
+		if (render)
+		{
+			director_set_mode(active_output_user, _director_mode_debug);
+		}
+		else
+		{
+			e_director_mode appropriate_director = static_cast<e_director_mode>(choose_appropriate_director(active_output_user));
+			director_set_mode(active_output_user, appropriate_director);
+		}
+	}
+
+	g_debug_observer_render = render;
+}
+

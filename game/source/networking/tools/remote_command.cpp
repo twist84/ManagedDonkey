@@ -1279,3 +1279,14 @@ callback_result_t drop_permutation_callback(void const* userdata, long token_cou
 	return result;
 }
 
+callback_result_t director_debug_camera_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	bool render = !!atol(tokens[1]->get_string());
+
+	director_debug_camera(render);
+
+	return result;
+}
+
