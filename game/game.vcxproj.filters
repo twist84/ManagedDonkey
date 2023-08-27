@@ -903,6 +903,9 @@
     <ClCompile Include="source\render\render_error_report.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\physics\physics_models.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2265,6 +2268,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\render_error_report.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\physics_models.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -402,6 +402,7 @@ POPD
     <ClCompile Include="source\physics\havok_entity_iterator.cpp" />
     <ClCompile Include="source\physics\havok_utilities.cpp" />
     <ClCompile Include="source\physics\physics_constants.cpp" />
+    <ClCompile Include="source\physics\physics_models.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_d3d_allocations.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_dx9_dynamic_geometry.cpp" />
@@ -820,6 +821,7 @@ POPD
     <ClInclude Include="source\physics\havok_utilities.hpp" />
     <ClInclude Include="source\physics\havok_vehicle_physics_definitions.hpp" />
     <ClInclude Include="source\physics\physics_constants.hpp" />
+    <ClInclude Include="source\physics\physics_models.hpp" />
     <ClInclude Include="source\physics\physics_model_definitions.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_d3d_allocations.hpp" />
