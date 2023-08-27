@@ -1163,7 +1163,6 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(game_globals);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1282,7 +1281,6 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(multiplayer_globals);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1314,7 +1312,6 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(rasterizer_globals);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1346,7 +1343,6 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(scenario);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1378,7 +1374,6 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(object);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1410,7 +1405,6 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(unit);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1442,7 +1436,6 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(biped);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1485,7 +1478,6 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(vehicle);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1517,7 +1509,6 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
 		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(item);
-		printf("");
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:

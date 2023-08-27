@@ -177,8 +177,6 @@ void __cdecl hf2p_game_update()
 		long primary_weapon_index = game_engine_weapon_item_definition_index_from_absolute_weapons_selection_block_index(/* random */ short(0xFFFD), _weapon_set_primary);
 		game_engine_add_starting_weapon_to_player(mainmenu_unit_index, primary_weapon_index, 1);
 	}
-
-	printf("");
 }
 
 void __cdecl hf2p_idle()

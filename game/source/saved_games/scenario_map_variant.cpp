@@ -87,8 +87,6 @@ void s_variant_object_datum::print(c_map_variant* map_variant, long const tab_co
 		PRINT_TABS; c_console::write_line("{");
 		map_variant->m_quotas[variant_quota_index].print(tab_count + 1);
 		PRINT_TABS; c_console::write_line("}");
-
-		printf("");
 	}
 	PRINT_TABS; c_console::write_line("position: { .i = %.2f, .j = %.2f, .k = %.2f }", position.x, position.y, position.z);
 	PRINT_TABS; c_console::write_line("forward: { .i = %.2f, .j = %.2f, .k = %.2f }", forward.i, forward.j, forward.k);
@@ -117,8 +115,6 @@ void s_variant_quota::print(long const tab_count)
 	{
 		char const* tag_name = tag_get_name_safe(object_definition_index);
 		c_console::write(", tag_name = '%s'", tag_name);
-
-		printf("");
 	}
 	c_console::write_line(" }");
 

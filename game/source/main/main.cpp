@@ -316,8 +316,6 @@ void __cdecl main_loop_body_begin()
 		console_process_command("net_load_and_use_game_variant \"ed\\0.4.11.2\\variants\\Highlander - Air Ball.bin\"", true);
 		console_process_command("net_test_session_mode setup", true);
 
-		printf("");
-
 		//s_file_reference file_reference;
 		//file_reference_create_from_path(&file_reference, "C:\\Dev\\Blam\\Halo 3 (March 8 2007)\\saved_films\\riverwo_F9EB78A3.film", false);
 		//
@@ -326,8 +324,6 @@ void __cdecl main_loop_body_begin()
 		//bool byte_swap = false;
 		//
 		//find_blf_chunk(&file_reference, file_buffer, &saved_film_header, &byte_swap);
-		//
-		//printf("");
 		//
 		//static s_blf_saved_film blf_saved_film;
 		//static c_game_variant game_variant;

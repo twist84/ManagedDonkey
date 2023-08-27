@@ -424,8 +424,6 @@ void on_scenario_loaded()
 	UNIVERSAL_DATA_PRINT_SELECTIONS(grenade);
 	UNIVERSAL_DATA_PRINT_SETS(weapon);
 	UNIVERSAL_DATA_PRINT_SETS(vehicle);
-
-	printf("");
 }
 
 #undef UNIVERSAL_DATA_PRINT_CUSTOMIZED_CHARACTERS

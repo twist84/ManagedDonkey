@@ -99,8 +99,6 @@ void __cdecl render_debug_structure()
 			//	s_visible_instances& instance = c_visible_items::m_items.instances[i];
 			//}
 		}
-
-		printf("");
 	}
 }
 
