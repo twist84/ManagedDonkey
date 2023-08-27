@@ -60,34 +60,36 @@ void __cdecl render_debug_structure()
 				c_collision_vertex_reference start_vertex_reference(bsp_reference, edge_reference.get_vertex_index(0));
 				c_collision_vertex_reference end_vertex_reference(bsp_reference, edge_reference.get_vertex_index(1));
 
-				bool surface_flag_slip_bit_enabled = false;
-				bool v104 = true;
+				bool surface_reference_has_slip_bit_enabled = false;
+				bool slip_surface_does_not_exceed_maximum_k = true;
 
-				for (long i = 0; i < 2; i++)
+				for (long i = 0; i < NUMBEROF(collision_edge::surface_indices); i++)
 				{
 					if (edge_reference.get_surface_index(i) != NONE)
 					{
 						c_collision_surface_reference surface_reference(bsp_reference, edge_reference.get_surface_index(i));
 						if (TEST_BIT(surface_reference.get_flags(), _surface_flag_slip_bit))
 						{
-							surface_flag_slip_bit_enabled = true;
+							surface_reference_has_slip_bit_enabled = true;
 
 							plane3d plane{};
 							surface_reference.get_plane(&plane);
 							if (plane.normal.k > global_slip_surface_maximum_k_get() - 0.001f)
-								v104 = true;
+								slip_surface_does_not_exceed_maximum_k = false;
 						}
 					}
 
 				}
 
-				if (surface_flag_slip_bit_enabled)
+				if (surface_reference_has_slip_bit_enabled)
 				{
 					real_point3d* end_vertex_position = end_vertex_reference.get_position();
 					real_point3d* start_vertex_position = start_vertex_reference.get_position();
 
-					c_render_debug_line_drawer& debug_line_drawer = v104 ? debug_line_drawer_green : debug_line_drawer_red;
-					debug_line_drawer.add_line_3d_unclipped(end_vertex_position, start_vertex_position);
+					if (slip_surface_does_not_exceed_maximum_k)
+						debug_line_drawer_green.add_line_3d_unclipped(end_vertex_position, start_vertex_position);
+					else
+						debug_line_drawer_red.add_line_3d_unclipped(end_vertex_position, start_vertex_position);
 				}
 			}
 
