@@ -72,6 +72,10 @@ struct object_type_definition
 };
 static_assert(sizeof(object_type_definition) == 0xF4);
 
+extern long debug_object_index;
+extern long debug_objects_type_mask;
+extern bool debug_objects_player_only;
+
 extern object_type_definition* (&object_type_definitions)[k_object_type_count];
 
 extern void __cdecl render_debug_objects();

@@ -1,12 +1,18 @@
 #include "main/console.hpp"
 
 #include "interface/terminal.hpp"
+#include "hs/hs_runtime.hpp"
+#include "hs/hs_scenario_definitions.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/threads.hpp"
 #include "networking/tools/remote_command.hpp"
+#include "objects/object_types.hpp"
+#include "render/render_debug_structure.hpp"
+#include "render/render_visibility.hpp"
+#include "units/bipeds.hpp"
 #include "xbox/xbox.hpp"
 
 #include <string.h>
@@ -22,16 +28,15 @@ void __cdecl console_printf(char const* format, ...)
 	va_list list;
 	va_start(list, format);
 
-	c_console::write_line(format, list);
 	if (is_main_thread())
 	{
 		c_static_string<255> message;
 		message.vprint(format, list);
-		terminal_printf(nullptr, "%s", message.get_string());
-		c_console::write_line(message);
+		char const* message_string = message.get_string();
+		terminal_printf(nullptr, message_string);
 
 		if (console_dump_to_debug_display)
-			display_debug_string(message);
+			display_debug_string(message_string);
 	}
 
 	va_end(list);
@@ -321,6 +326,8 @@ void __cdecl console_execute_initial_commands()
 	}
 }
 
+COMMAND_CALLBACK_DECLARE(console_global_try_parse);
+
 bool __cdecl console_process_command(char const* command, bool a2)
 {
 	if (strlen(command) >= 255)
@@ -343,7 +350,6 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	console_globals.input_state.__unknown11F8 = -1;
 
 	bool result = false;//hs_compile_and_evaluate(_event_level_message, "console_command", command, a2);
-	c_console::write_line("console_command: ");
 
 	tokens_t tokens{};
 	long token_count = 0;
@@ -369,12 +375,174 @@ bool __cdecl console_process_command(char const* command, bool a2)
 				else
 					console_warning("command '%s' failed: %s", tokens[0]->get_string(), callback_result);
 
-				break;
+				return result;
 			}
 		}
 
-		if (!command_found)
-			console_warning("command '%s' not found", tokens[0]);
+
+		callback_result_t callback_result = console_global_try_parse_callback(nullptr, token_count, tokens);
+		if (callback_result.equals("success"))
+			return true;
+
+		if (!command_found || callback_result.equals("not found"))
+			console_warning("command '%s' not found", tokens[0]->get_string());
+	}
+
+	return result;
+}
+
+struct s_console_global
+{
+	char const* name;
+
+	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
+	union
+	{
+		bool* boolean_value;
+		real* real_value;
+		short* short_value;
+		long* long_value;
+
+		void* pointer;
+	};
+};
+static_assert(sizeof(s_console_global) == 0xC);
+
+#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  { #_name, _hs_type_boolean, &_name }
+#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  { #_name, _hs_type_real, &_name }
+#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) { #_name, _hs_type_short, &_name }
+#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  { #_name, _hs_type_long, &_name }
+
+s_console_global const k_console_globals[] =
+{
+	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_trigger_volumes),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_pvs_activation),
+
+	//CONSOLE_GLOBAL_DECLARE_LONG(debug_object_index),
+	//CONSOLE_GLOBAL_DECLARE_LONG(debug_objects_type_mask),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_player_only),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_markers),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_soft_ceilings),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_soft_kill),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_slip_surfaces),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_early_movers),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_sound_spheres),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_indices),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_programmer),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_garbage),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_names),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_full_names),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_active_nodes),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_animation_times),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_functions),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_position_velocity),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_origin),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_root_node),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_bounding_spheres),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_attached_bounding_spheres),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_dynamic_render_bounding_spheres),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_model_targets),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_collision_models),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_profile_times),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_water_physics),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_physics_models),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_contact_points),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_constraints),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_vehicle_physics),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_mass),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_pathfinding),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_node_bounds),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_animation),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_physics_control_node),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_biped_autoaim_pills),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_ground_plane),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_movement_mode),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_biped_throttle),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_pathfinding_surface),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_pendulum),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_vectors),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_seats),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_mouth_apeture),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_firing),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_acceleration),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_camera),
+};
+
+callback_result_t console_global_try_parse_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	ASSERT(token_count >= 1);
+
+	static callback_result_t result = "not found";
+
+	long console_global_index = NONE;
+	for (long i = 0; i < NUMBEROF(k_console_globals); i++)
+	{
+		if (!tokens[0]->equals(k_console_globals[i].name))
+			continue;
+
+		console_global_index = i;
+	}
+
+	s_console_global const& console_global = k_console_globals[console_global_index];
+
+
+	if (!console_global.pointer)
+		return result;
+
+	e_hs_type type = console_global.type;
+	switch (type)
+	{
+	case _hs_type_boolean:
+	{
+		if (token_count == 2)
+		{
+			if (long value = token_try_parse_bool(tokens[1]))
+				*console_global.boolean_value = !!(value - 1);
+		}
+
+		terminal_printf(global_real_argb_white, *console_global.boolean_value ? "true" : "false");
+
+		result = "success";
+	}
+	break;
+	case _hs_type_real:
+	{
+		if (token_count == 2)
+			*console_global.real_value = static_cast<real>(atof(tokens[1]->get_string()));
+
+		terminal_printf(global_real_argb_white, "%.6f", *console_global.real_value);
+
+		result = "success";
+	}
+	break;
+	case _hs_type_short:
+	{
+		if (token_count == 2)
+			*console_global.short_value = static_cast<short>(atol(tokens[1]->get_string()));
+
+		terminal_printf(global_real_argb_white, "%hd", *console_global.short_value);
+
+		result = "success";
+	}
+	break;
+	case _hs_type_long:
+	{
+		if (token_count == 2)
+			*console_global.long_value = atol(tokens[1]->get_string());
+
+		terminal_printf(global_real_argb_white, "%d", *console_global.long_value);
+
+		result = "success";
+	}
+	break;
 	}
 
 	return result;

@@ -233,6 +233,7 @@ static_assert(sizeof(s_object_cluster_payload) == 0x14);
 
 extern bool debug_objects;
 extern bool debug_objects_early_movers;
+extern bool debug_objects_sound_spheres;
 extern bool debug_objects_indices;
 extern bool debug_objects_programmer;
 extern bool debug_objects_garbage;

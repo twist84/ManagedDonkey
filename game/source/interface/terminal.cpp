@@ -19,22 +19,24 @@ void __cdecl terminal_printf(real_argb_color const* color, char const* format, .
 {
 	ASSERT(format != NULL);
 
+	char message[256]{};
+
 	va_list list;
 	va_start(list, format);
+	cvsnzprintf(message, sizeof(message), format, list);
+	va_end(list);
 
 	if (terminal_globals.initialized && !terminal_globals.suppress_output)
 	{
-		real_argb_color message_color = { 1.0f, 0.69999999f, 0.69999999f, 0.69999999f };
+		real_argb_color message_color = { 1.0f, 0.7f, 0.7f, 0.7f };
 		if (color)
 			message_color = *color;
 
-		char message[255]{};
-		cvsnzprintf(message, NUMBEROF(message), format, list);
 		terminal_new_line(message, &message_color, csstrstr(message, "|t") != 0);
-		c_console::write_line(message); //telnet_console_print(message);
+		//telnet_console_print(message);
 	}
 
-	va_end(list);
+	c_console::write_line(message);
 }
 
 void __cdecl terminal_initialize()

@@ -415,6 +415,25 @@ void command_handler(char* buffer, long buffer_length)
 	command_execute(token_count, tokens, NUMBEROF(k_registered_commands), k_registered_commands);
 }
 
+long token_try_parse_bool(token_t const& token)
+{
+	char const* value = token->get_string();
+	if (IN_RANGE_INCLUSIVE(*value, '0', '1'))
+	{
+		return !!atol(value) + 1;
+	}
+	else if (token->equals("true"))
+	{
+		return 2;
+	}
+	else if (token->equals("false"))
+	{
+		return 1;
+	}
+
+	return 0;
+}
+
 //-----------------------------------------------------------------------------
 
 callback_result_t help_callback(void const* userdata, long token_count, tokens_t const tokens)
@@ -887,9 +906,9 @@ callback_result_t online_set_is_connected_to_live_callback(void const* userdata,
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	bool is_connected_to_live = !!atol(tokens[1]->get_string());
-
-	online_set_is_connected_to_live(is_connected_to_live);
+	long value = token_try_parse_bool(tokens[1]);
+	if (value != NONE)
+		online_set_is_connected_to_live(static_cast<bool>(value));
 
 	return result;
 }
@@ -1283,9 +1302,9 @@ callback_result_t director_debug_camera_callback(void const* userdata, long toke
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	bool render = !!atol(tokens[1]->get_string());
-
-	director_debug_camera(render);
+	long value = token_try_parse_bool(tokens[1]);
+	if (value != NONE)
+		director_debug_camera(static_cast<bool>(value));
 
 	return result;
 }

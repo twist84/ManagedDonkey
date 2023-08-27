@@ -141,31 +141,6 @@ COMMAND_CALLBACK_DECLARE(director_debug_camera);
 
 //-----------------------------------------------------------------------------
 
-// #TODO: move this somewhere else?
-
-#define k_maximum_number_of_tokens 100
-#define k_token_length 256
-
-#define COMMAND_CALLBACK_DECLARE(_name) callback_result_t _name##_callback(void const* userdata, long token_count, tokens_t const tokens)
-#define COMMAND_CALLBACK_REGISTER(_name, _parameter_count, _parameters, ...) { #_name, _parameter_count, _name##_callback, _parameters, __VA_ARGS__ }
-
-#define COMMAND_CALLBACK_PARAMETER_CHECK                                      \
-ASSERT(userdata != nullptr);                                                  \
-ASSERT((token_count - 1) >= 0);                                               \
-                                                                              \
-s_command const& command = *static_cast<s_command const*>(userdata);          \
-callback_result_t result = command.name;                                      \
-result.append_line(": succeeded");                                            \
-if ((token_count - 1) != command.parameter_count)                             \
-{                                                                             \
-    result = "Invalid usage. ";                                               \
-    result.append_print_line("%s %s", command.name, command.parameter_types); \
-    result.append(command.extra_info);                                        \
-    return result;                                                            \
-}
-
-//-----------------------------------------------------------------------------
-
 s_command const k_registered_commands[] =
 {
 	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints this output.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -233,6 +208,7 @@ s_command const k_registered_commands[] =
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);
+extern long token_try_parse_bool(token_t const& token);
 
 extern s_remote_command_globals remote_command_globals;
 
