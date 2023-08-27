@@ -1,6 +1,7 @@
 #include "render/render_debug.hpp"
 
 #include "cache/restricted_memory_regions.hpp"
+#include "camera/observer.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "hs/hs_runtime.hpp"
@@ -311,6 +312,7 @@ void __cdecl render_debug_clients(long user_index)
 		render_debug_structure();
 		object_early_mover_render_debug();
 		game_pvs_debug_render();
+		debug_render_observer();
 		render_report_render_debug(user_index, true);
 		events_debug_render();
 
