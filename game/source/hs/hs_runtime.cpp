@@ -91,7 +91,7 @@ void __cdecl render_debug_trigger_volumes()
 				//else
 				{
 					real_argb_color polygon_color = *global_real_argb_blue;
-					polygon_color.alpha = 0.15000001f;
+					polygon_color.alpha = 0.15f;
 					render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_red);
 					render_debug_polygon(points, NUMBEROF(points), &polygon_color);
 				}
@@ -104,7 +104,7 @@ void __cdecl render_debug_trigger_volumes()
 			//
 			//vector3d name_vector{};
 			//vector_from_points3d(&rasterizer_camera->position, &name_point, &name_vector);
-			//scale_vector3d(&name_vector, 0.94999999f, &name_vector);
+			//scale_vector3d(&name_vector, 0.95f, &name_vector);
 			//
 			//s_collision_test_flags flags = { 0x2D051855 };
 			//collision_result collision;

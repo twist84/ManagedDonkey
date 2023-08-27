@@ -107,7 +107,7 @@ void __cdecl scenario_soft_ceilings_render_debug(real_point3d const* point, bool
 						render_debug_triangle_outline(true, &triangle.vertex0, &triangle.vertex1, &triangle.vertex2, global_real_argb_cyan);
 
 						real_argb_color soft_kill_color = *global_real_argb_yellow;
-						soft_kill_color.alpha = 0.15000001f;
+						soft_kill_color.alpha = 0.15f;
 						render_debug_triangle(true, &triangle.vertex0, &triangle.vertex1, &triangle.vertex2, &soft_kill_color);
 					}
 					break;
@@ -119,7 +119,7 @@ void __cdecl scenario_soft_ceilings_render_debug(real_point3d const* point, bool
 						render_debug_triangle_outline(true, &triangle.vertex0, &triangle.vertex1, &triangle.vertex2, global_real_argb_black);
 
 						real_argb_color slip_surfaces_color = *global_real_argb_red;
-						slip_surfaces_color.alpha = 0.15000001f;
+						slip_surfaces_color.alpha = 0.15f;
 						render_debug_triangle(true, &triangle.vertex0, &triangle.vertex1, &triangle.vertex2, &slip_surfaces_color);
 					}
 					break;
@@ -142,7 +142,7 @@ void __cdecl scenario_soft_ceilings_render_debug(real_point3d const* point, bool
 								soft_ceilings_color = *global_real_argb_blue;
 						}
 
-						soft_ceilings_color.alpha = 0.15000001f;
+						soft_ceilings_color.alpha = 0.15f;
 						render_debug_triangle_outline(true, &triangle.vertex0, &triangle.vertex1, &triangle.vertex2, &soft_ceilings_color);
 						render_debug_triangle(true, &triangle.vertex0, &triangle.vertex1, &triangle.vertex2, &soft_ceilings_color);
 					}
