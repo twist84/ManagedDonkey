@@ -14,6 +14,7 @@
 #include "render/views/render_view.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_debug_structure.hpp"
+#include "render/render_error_report.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_visibility.hpp"
 #include "text/draw_string.hpp"
@@ -310,6 +311,7 @@ void __cdecl render_debug_clients(long user_index)
 		render_debug_structure();
 		object_early_mover_render_debug();
 		game_pvs_debug_render();
+		render_report_render_debug(user_index, true);
 		events_debug_render();
 
 		// location_messages

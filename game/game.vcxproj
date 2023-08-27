@@ -415,6 +415,7 @@ POPD
     <ClCompile Include="source\render\render_cameras.cpp" />
     <ClCompile Include="source\render\render_debug.cpp" />
     <ClCompile Include="source\render\render_debug_structure.cpp" />
+    <ClCompile Include="source\render\render_error_report.cpp" />
     <ClCompile Include="source\render\render_lights.cpp" />
     <ClCompile Include="source\render\render_objects_static_lighting.cpp" />
     <ClCompile Include="source\render\render_structure.cpp" />
@@ -832,6 +833,7 @@ POPD
     <ClInclude Include="source\render\render_cameras.hpp" />
     <ClInclude Include="source\render\render_debug.hpp" />
     <ClInclude Include="source\render\render_debug_structure.hpp" />
+    <ClInclude Include="source\render\render_error_report.hpp" />
     <ClInclude Include="source\render\render_lights.hpp" />
     <ClInclude Include="source\render\render_objects_static_lighting.hpp" />
     <ClInclude Include="source\render\render_patchy_fog.hpp" />
