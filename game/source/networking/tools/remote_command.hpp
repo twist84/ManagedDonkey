@@ -56,8 +56,8 @@ static_assert(sizeof(s_remote_command_globals) == 0x104B4);
 #define k_maximum_number_of_tokens 100
 #define k_token_length 256
 
-#define COMMAND_CALLBACK_DECLARE(_name) callback_result_t _name##_callback(void const* userdata, long token_count, tokens_t const tokens)
-#define COMMAND_CALLBACK_REGISTER(_name, _parameter_count, _parameters, ...) { #_name, _parameter_count, _name##_callback, _parameters, __VA_ARGS__ }
+#define COMMAND_CALLBACK_DECLARE(_command) callback_result_t _command##_callback(void const* userdata, long token_count, tokens_t const tokens)
+#define COMMAND_CALLBACK_REGISTER(_command, _parameter_count, _parameters, ...) { #_command, _command##_callback, _parameter_count, _parameters, __VA_ARGS__ }
 
 #define COMMAND_CALLBACK_PARAMETER_CHECK                                      \
 ASSERT(userdata != nullptr);                                                  \
@@ -81,13 +81,13 @@ using token_t = _token_t*;
 using tokens_t = c_static_array<token_t, k_maximum_number_of_tokens>;
 
 using callback_result_t = c_static_string<4096>;
-using callback_t = callback_result_t(void const* userdata, long, tokens_t const);
+using callback_t = callback_result_t(void const*, long, tokens_t const);
 
 struct s_command
 {
 	char const* name;
-	long parameter_count;
 	callback_t* callback;
+	long parameter_count;
 	char const* parameter_types;
 	char const* extra_info;
 };

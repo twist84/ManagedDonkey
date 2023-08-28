@@ -76,6 +76,12 @@ void __cdecl remote_command_initialize()
 
 void __cdecl remote_command_dispose()
 {
+	remote_command_disconnect();
+	if (remote_command_globals.listen_endpoint)
+	{
+		transport_endpoint_delete(remote_command_globals.listen_endpoint);
+		remote_command_globals.listen_endpoint = 0;
+	}
 }
 
 bool __cdecl remote_command_connected()

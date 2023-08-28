@@ -21,4 +21,5 @@ static_assert(sizeof(hs_function_definition) == 0x10);
 
 long const hs_function_table_count = 1697;
 extern hs_function_definition* (&hs_function_table)[hs_function_table_count];
+extern char const* const hs_function_table_names[hs_function_table_count];
 

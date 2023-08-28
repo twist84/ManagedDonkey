@@ -3,6 +3,12 @@
 #include "memory/data.hpp"
 #include "tag_files/tag_groups.hpp"
 
+#define HS_TYPE_IS_TAG_REFERENCE(_hs_type) ((_hs_type) >= _hs_type_effect && (_hs_type) <= _hs_type_bink_definition)
+#define HS_TYPE_IS_ENUM(_hs_type) ((_hs_type) >= _hs_type_game_difficulty && (_hs_type) <= _hs_type_secondary_skull)
+#define HS_TYPE_IS_OBJECT(_hs_type) ((_hs_type) >= _hs_type_object && (_hs_type) <= _hs_type_effect_scenery)
+#define HS_TYPE_IS_OBJECT_NAME(_hs_type) ((_hs_type) >= _hs_type_object_name && (_hs_type) <= _hs_type_effect_scenery_name)
+#define HS_TYPE_IS_BUDGET_REFERENCE(_hs_type) ((_hs_type) >= _hs_type_animation_budget_reference && (_hs_type) <= _hs_type_sound_budget_reference)
+
 struct hs_tag_reference
 {
 	c_typed_tag_reference<0xFFFFFFFF> reference;
@@ -30,10 +36,11 @@ enum e_hs_type
 	_hs_type_function_name,
 	_hs_type_passthrough,
 	_hs_type_void,
+
 	_hs_type_boolean,
 	_hs_type_real,
-	_hs_type_short,
-	_hs_type_long,
+	_hs_type_short_integer,
+	_hs_type_long_integer,
 	_hs_type_string,
 	_hs_type_script,
 	_hs_type_string_id,
@@ -58,6 +65,8 @@ enum e_hs_type
 	_hs_type_style,
 	_hs_type_object_list,
 	_hs_type_folder,
+
+	// tag reference
 	_hs_type_sound,
 	_hs_type_effect,
 	_hs_type_damage,
@@ -73,8 +82,11 @@ enum e_hs_type
 	_hs_type_cinematic_definition,
 	_hs_type_cinematic_scene_definition,
 	_hs_type_bink_definition,
+
 	_hs_type_any_tag,
 	_hs_type_any_tag_not_resolving,
+
+	// enum
 	_hs_type_game_difficulty,
 	_hs_type_team,
 	_hs_type_mp_team,
@@ -91,6 +103,8 @@ enum e_hs_type
 	_hs_type_character_physics,
 	_hs_type_primary_skull,
 	_hs_type_secondary_skull,
+
+	// object
 	_hs_type_object,
 	_hs_type_unit,
 	_hs_type_vehicle,
@@ -98,6 +112,8 @@ enum e_hs_type
 	_hs_type_device,
 	_hs_type_scenery,
 	_hs_type_effect_scenery,
+
+	// object name
 	_hs_type_object_name,
 	_hs_type_unit_name,
 	_hs_type_vehicle_name,
@@ -105,7 +121,10 @@ enum e_hs_type
 	_hs_type_device_name,
 	_hs_type_scenery_name,
 	_hs_type_effect_scenery_name,
+
 	_hs_type_cinematic_lightprobe,
+
+	// budget reference
 	_hs_type_animation_budget_reference,
 	_hs_type_looping_sound_budget_reference,
 	_hs_type_sound_budget_reference,

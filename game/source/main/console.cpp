@@ -86,7 +86,7 @@ void __cdecl console_initialize()
 		terminal_initialize();
 
 		console_globals.status_render = false;
-		console_globals.input_state.prompt_color = { 1.0f, 1.0f, 0.30000001f, 1.0f };
+		console_globals.input_state.prompt_color = { 1.0f, 1.0f, 0.3f, 1.0f };
 		console_globals.input_state.prompt_text.set("donkey( ");
 		console_globals.input_state.input_text[0] = '\0';
 		console_globals.input_state.__unknown11F4 = 0;
@@ -408,10 +408,10 @@ struct s_console_global
 };
 static_assert(sizeof(s_console_global) == 0xC);
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  { #_name, _hs_type_boolean, &_name }
-#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  { #_name, _hs_type_real, &_name }
-#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) { #_name, _hs_type_short, &_name }
-#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  { #_name, _hs_type_long, &_name }
+#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  { #_name, _hs_type_boolean,       &_name }
+#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  { #_name, _hs_type_real,          &_name }
+#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) { #_name, _hs_type_short_integer, &_name }
+#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  { #_name, _hs_type_long_integer,  &_name }
 
 s_console_global const k_console_globals[] =
 {
@@ -523,7 +523,7 @@ callback_result_t console_global_try_parse_callback(void const* userdata, long t
 		result = "success";
 	}
 	break;
-	case _hs_type_short:
+	case _hs_type_short_integer:
 	{
 		if (token_count == 2)
 			*console_global.short_value = static_cast<short>(atol(tokens[1]->get_string()));
@@ -533,7 +533,7 @@ callback_result_t console_global_try_parse_callback(void const* userdata, long t
 		result = "success";
 	}
 	break;
-	case _hs_type_long:
+	case _hs_type_long_integer:
 	{
 		if (token_count == 2)
 			*console_global.long_value = atol(tokens[1]->get_string());
