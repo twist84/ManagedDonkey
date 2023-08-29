@@ -23,6 +23,11 @@ bool __cdecl input_get_mouse(s_mouse_state* mouse, e_input_type input_type)
 	return INVOKE(0x00511990, input_get_mouse, mouse, input_type);
 }
 
+mouse_state* __cdecl input_get_mouse_state(e_input_type input_type)
+{
+	return INVOKE(0x005119F0, input_get_mouse_state, input_type);
+}
+
 bool __cdecl input_has_gamepad(short gamepad_index)
 {
 	ASSERT(gamepad_index >= 0 && gamepad_index < k_number_of_controllers);

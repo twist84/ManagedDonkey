@@ -466,6 +466,7 @@ static_assert(sizeof(s_input_globals) == 0xC70);
 
 extern bool __cdecl input_get_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_get_mouse(s_mouse_state* mouse, e_input_type input_type);
+extern mouse_state* __cdecl input_get_mouse_state(e_input_type input_type);
 extern bool __cdecl input_has_gamepad(short gamepad_index);
 extern byte __cdecl input_key_frames_down(e_key_code key_code, e_input_type input_type);
 extern word __cdecl input_key_msec_down(e_key_code key_code, e_input_type input_type);
