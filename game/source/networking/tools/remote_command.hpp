@@ -97,6 +97,7 @@ struct s_command
 COMMAND_CALLBACK_DECLARE(help);
 COMMAND_CALLBACK_DECLARE(script_doc);
 COMMAND_CALLBACK_DECLARE(breakpoint);
+COMMAND_CALLBACK_DECLARE(set);
 COMMAND_CALLBACK_DECLARE(close_game);
 COMMAND_CALLBACK_DECLARE(script_start);
 COMMAND_CALLBACK_DECLARE(game_splitscreen);
@@ -146,6 +147,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(help, 0, "", "prints this output.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(script_doc, 0, "", "saves a file called hs_doc.txt with parameters for all script commands.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(breakpoint, 1, "<string>", "If breakpoints are enabled, pause execution when this statement is hit (displaying the given message).\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(set, 0, "", "set the value of a global variable.\r\nNETWORK SAFE: Yes (depending on result)"),
 	COMMAND_CALLBACK_REGISTER(close_game, 0, "", "closes the game.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(script_start, 1, "<string>", "debug script launching: starts a scenario script by name.\r\nNETWORK SAFE: No, for mainmenu only"),

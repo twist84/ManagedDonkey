@@ -201,7 +201,6 @@ void __cdecl console_update(real shell_seconds_elapsed)
 	else
 	{
 		game_time_set_paused(true, _game_time_pause_reason_debug);
-		input_globals.suppressed = true;
 
 		for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
 		{
@@ -326,8 +325,6 @@ void __cdecl console_execute_initial_commands()
 	}
 }
 
-COMMAND_CALLBACK_DECLARE(console_global_try_parse);
-
 bool __cdecl console_process_command(char const* command, bool a2)
 {
 	if (strlen(command) >= 255)
@@ -380,7 +377,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 		}
 
 
-		callback_result_t callback_result = console_global_try_parse_callback(nullptr, token_count, tokens);
+		callback_result_t callback_result = set_callback(nullptr, token_count, tokens);
 		if (callback_result.equals("success"))
 			return true;
 
@@ -412,6 +409,11 @@ static_assert(sizeof(s_console_global) == 0xC);
 #define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  { #_name, _hs_type_real,          &_name }
 #define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) { #_name, _hs_type_short_integer, &_name }
 #define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  { #_name, _hs_type_long_integer,  &_name }
+
+#define CONSOLE_GLOBAL_DECLARE_BOOL2(_name, _variable_name, ...)  { #_name, _hs_type_boolean,       &_variable_name }
+#define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  { #_name, _hs_type_real,          &_variable_name }
+#define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) { #_name, _hs_type_short_integer, &_variable_name }
+#define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  { #_name, _hs_type_long_integer,  &_variable_name }
 
 s_console_global const k_console_globals[] =
 {
@@ -475,15 +477,79 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_acceleration),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_camera),
 };
+long const k_console_global_count = NUMBEROF(k_console_globals);
 
-callback_result_t console_global_try_parse_callback(void const* userdata, long token_count, tokens_t const tokens)
+bool string_to_boolean(char const* string, bool* value)
+{
+	if (!string)
+		return true;
+
+	if (!value)
+		return false;
+
+	bool const input = *value;
+	if (IN_RANGE_INCLUSIVE(*string, '0', '1'))
+	{
+		*value = !!atol(string);
+	}
+	else if (csstricmp(string, "true") == 0)
+	{
+		*value = true;
+	}
+	else if (csstricmp(string, "false") == 0)
+	{
+		*value = false;
+	}
+	return input != *value;
+}
+
+bool string_to_real(char const* string, real* value)
+{
+	if (!string)
+		return true;
+
+	if (!value)
+		return false;
+
+	real const input = *value;
+	*value = static_cast<real>(atof(string));
+	return input != *value;
+}
+
+bool string_to_short_integer(char const* string, short* value)
+{
+	if (!string)
+		return true;
+
+	if (!value)
+		return false;
+
+	short const input = *value;
+	*value = static_cast<short>(atol(string));
+	return input != *value;
+}
+
+bool string_to_long_integer(char const* string, long* value)
+{
+	if (!string)
+		return true;
+
+	if (!value)
+		return false;
+
+	long const input = *value;
+	*value = atol(string);
+	return input != *value;
+}
+
+callback_result_t set_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	ASSERT(token_count >= 1);
 
 	static callback_result_t result = "not found";
 
 	long console_global_index = NONE;
-	for (long i = 0; i < NUMBEROF(k_console_globals); i++)
+	for (long i = 0; i < k_console_global_count; i++)
 	{
 		if (!tokens[0]->equals(k_console_globals[i].name))
 			continue;
@@ -491,56 +557,43 @@ callback_result_t console_global_try_parse_callback(void const* userdata, long t
 		console_global_index = i;
 	}
 
-	s_console_global const& console_global = k_console_globals[console_global_index];
+	if (!VALID_INDEX(console_global_index, k_console_global_count))
+		return result;
 
+	s_console_global const& console_global = k_console_globals[console_global_index];
 
 	if (!console_global.pointer)
 		return result;
+
+	char const* value_string = nullptr;
+	if (token_count >= 2)
+		value_string = tokens[1]->get_string();
 
 	e_hs_type type = console_global.type;
 	switch (type)
 	{
 	case _hs_type_boolean:
 	{
-		if (token_count == 2)
-		{
-			if (long value = token_try_parse_bool(tokens[1]))
-				*console_global.boolean_value = !!(value - 1);
-		}
-
+		result = string_to_boolean(value_string, console_global.boolean_value) ? "success" : "failure";
 		terminal_printf(global_real_argb_white, *console_global.boolean_value ? "true" : "false");
-
-		result = "success";
 	}
 	break;
 	case _hs_type_real:
 	{
-		if (token_count == 2)
-			*console_global.real_value = static_cast<real>(atof(tokens[1]->get_string()));
-
+		result = string_to_real(value_string, console_global.real_value) ? "success" : "failure";
 		terminal_printf(global_real_argb_white, "%.6f", *console_global.real_value);
-
-		result = "success";
 	}
 	break;
 	case _hs_type_short_integer:
 	{
-		if (token_count == 2)
-			*console_global.short_value = static_cast<short>(atol(tokens[1]->get_string()));
-
+		result = string_to_short_integer(value_string, console_global.short_value) ? "success" : "failure";
 		terminal_printf(global_real_argb_white, "%hd", *console_global.short_value);
-
-		result = "success";
 	}
 	break;
 	case _hs_type_long_integer:
 	{
-		if (token_count == 2)
-			*console_global.long_value = atol(tokens[1]->get_string());
-
+		result = string_to_long_integer(value_string, console_global.long_value) ? "success" : "failure";
 		terminal_printf(global_real_argb_white, "%d", *console_global.long_value);
-
-		result = "success";
 	}
 	break;
 	}
