@@ -72,7 +72,7 @@ void __cdecl console_warning(char const* format, ...)
 	{
 		c_static_string<255> message;
 		message.vprint(format, list);
-		terminal_printf(global_real_argb_red, "%s", message);
+		terminal_printf(global_real_argb_red, "%s", message.get_string());
 	}
 
 	va_end(list);
@@ -353,6 +353,8 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	command_tokenize(command, tokens, &token_count);
 	if (token_count > 0)
 	{
+		char const* command_name = tokens[0]->get_string();
+
 		bool command_found = false;
 		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
 		{
@@ -368,9 +370,9 @@ bool __cdecl console_process_command(char const* command, bool a2)
 				result = succeeded != -1 || tokens[0]->equals("help");
 
 				if (result)
-					console_printf("command '%s' succeeded", tokens[0]->get_string());
+					console_printf("command '%s' succeeded", command_name);
 				else
-					console_warning("command '%s' failed: %s", tokens[0]->get_string(), callback_result);
+					console_warning("command '%s' failed: %s", command_name, callback_result);
 
 				return result;
 			}
@@ -381,8 +383,11 @@ bool __cdecl console_process_command(char const* command, bool a2)
 		if (callback_result.equals("success"))
 			return true;
 
+		if (callback_result.equals("failure"))
+			return false;
+
 		if (!command_found || callback_result.equals("not found"))
-			console_warning("command '%s' not found", tokens[0]->get_string());
+			console_warning("command '%s' not found", command_name);
 	}
 
 	return result;
@@ -555,6 +560,7 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 			continue;
 
 		console_global_index = i;
+		break;
 	}
 
 	if (!VALID_INDEX(console_global_index, k_console_global_count))
