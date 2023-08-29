@@ -377,15 +377,15 @@ static_assert(sizeof(s_mouse_state) == 0x14);
 
 struct mouse_state
 {
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
+	long __unknown0;
+	long __unknown4;
+	long __unknown8;
 	c_static_array<byte, k_mouse_button_count> frames_down;
 	c_static_array<word, k_mouse_button_count> msec_down;
 	byte_flags flags;
-	dword x;
-	dword y;
-	dword wheel_delta;
+	long x;
+	long y;
+	long wheel_delta;
 };
 static_assert(sizeof(mouse_state) == 0x2C);
 
