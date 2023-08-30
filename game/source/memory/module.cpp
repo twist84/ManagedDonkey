@@ -79,8 +79,8 @@ c_hook::c_hook(dword address, module_address const function, bool remove_base) :
 	m_addr({ .address = global_address_get(remove_base ? function.address - 0x00400000 : function.address) }),
 	m_orig({ .address = global_address_get(remove_base ? address - 0x00400000 : address) })
 {
-	if (g_detour_hook_count < k_maximum_individual_modification_count)
-		detour_hooks[g_detour_hook_count++] = this;
+	ASSERT(VALID_COUNT(g_detour_hook_count,  k_maximum_individual_modification_count));
+	detour_hooks[g_detour_hook_count++] = this;
 }
 
 bool c_hook::apply(bool revert)
@@ -107,8 +107,8 @@ c_hook_call::c_hook_call(dword address, module_address const function, bool remo
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
 	m_call({ .opcode = 0xE8, .offset = (function.address - m_addr.address - sizeof(call_instruction)) })
 {
-	if (g_call_hook_count < k_maximum_individual_modification_count)
-		call_hooks[g_call_hook_count++] = this;
+	ASSERT(VALID_COUNT(g_call_hook_count, k_maximum_individual_modification_count));
+	call_hooks[g_call_hook_count++] = this;
 }
 
 bool c_hook_call::apply(bool revert)
@@ -134,8 +134,8 @@ c_data_patch::c_data_patch(dword address, long patch_size, byte const(&patch)[],
 	m_bytes(patch),
 	m_bytes_original(new byte[m_byte_count]{})
 {
-	if (g_data_patch_count < k_maximum_individual_modification_count)
-		data_patches[g_data_patch_count++] = this;
+	ASSERT(VALID_COUNT(g_data_patch_count, k_maximum_individual_modification_count));
+	data_patches[g_data_patch_count++] = this;
 }
 
 bool c_data_patch::apply(bool revert)
@@ -163,8 +163,8 @@ c_data_patch_array::c_data_patch_array(dword const(&_addresses)[k_address_count]
 	bytes(patch),
 	bytes_original(new byte* [k_patch_size] {})
 {
-	if (g_data_patch_array_count < k_maximum_individual_modification_count)
-		data_patch_arrays[g_data_patch_array_count++] = this;
+	ASSERT(VALID_COUNT(g_data_patch_array_count, k_maximum_individual_modification_count));
+	data_patch_arrays[g_data_patch_array_count++] = this;
 }
 
 template<long k_patch_size>
@@ -175,8 +175,8 @@ c_data_patch_array::c_data_patch_array(dword address, byte const(&patch)[k_patch
 	bytes(patch),
 	bytes_original(new byte* [k_patch_size] {})
 {
-	if (g_data_patch_array_count < k_maximum_individual_modification_count)
-		data_patch_arrays[g_data_patch_array_count++] = this;
+	ASSERT(VALID_COUNT(g_data_patch_array_count, k_maximum_individual_modification_count));
+	data_patch_arrays[g_data_patch_array_count++] = this;
 }
 
 c_data_patch_array::~c_data_patch_array()
