@@ -76,7 +76,7 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 				{
 					if (TEST_BIT(UNIT_OBJECTS_MASK, bump_object_object_identifier.m_type.get()) &&
 						cheat.bump_possession &&
-						bump_object_player_index == -1)
+						bump_object_player_index == NONE)
 					{
 						player_set_unit_index(biped_player_index, bump_object_index);
 

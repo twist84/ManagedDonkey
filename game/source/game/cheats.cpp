@@ -19,6 +19,8 @@
 
 #include <string.h>
 
+cheat_globals cheat = {};
+
 void patch_cheats()
 {
 	patch_pointer({ .address = 0x01656700 }, cheats_initialize);

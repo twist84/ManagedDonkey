@@ -1,5 +1,6 @@
 #include "main/console.hpp"
 
+#include "game/cheats.hpp"
 #include "interface/terminal.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_scenario_definitions.hpp"
@@ -422,6 +423,21 @@ static_assert(sizeof(s_console_global) == 0xC);
 
 s_console_global const k_console_globals[] =
 {
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_deathless_player, cheat.deathless_player),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_valhalla, cheat.valhalla),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_jetpack, cheat.jetpack),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_infinite_ammo, cheat.infinite_ammo),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_bottomless_clip, cheat.bottomless_clip),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_bump_possession, cheat.bump_possession),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_super_jump, cheat.super_jump),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_reflexive_damage_effects, cheat.reflexive_damage_effects),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_medusa, cheat.medusa),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_omnipotent, cheat.omnipotent),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_controller, cheat.controller),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_chevy, cheat.chevy),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_porcupine, cheat.porcupine),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_infinite_equipment_energy, cheat.infinite_equipment_energy),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_trigger_volumes),
