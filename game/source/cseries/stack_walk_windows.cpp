@@ -124,7 +124,7 @@ void stack_walk_print(s_file_reference* file, _CONTEXT* context, long levels_dum
 		{
 			c_static_string<1024> stack_string;
 			stack_string.print("%08lX %s\r\n", routine_address - 5 /* take off size of call instruction */, symbol_name);
-			file_write(file, stack_string.length(), stack_string);
+			file_write(file, stack_string.length(), stack_string.get_string());
 		}
 		else
 		{

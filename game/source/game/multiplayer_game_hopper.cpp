@@ -261,7 +261,7 @@ void __cdecl network_build_game_variant(char const* filename)
 	// 10: halo3_tag_test
 	// 18: hf2p_game_client_cache_release, using `k_cache_file_version`
 	filepath.print("game_variants\\%s_%03u.bin", filename, 18);
-	if (!create_configuration_file(filepath, buffer, file_size))
+	if (!create_configuration_file(filepath.get_string(), buffer, file_size))
 	{
 		c_console::write_line("failed!");
 	}
@@ -286,7 +286,7 @@ void __cdecl network_build_map_variant(char const* filename)
 	// 12: halo3_tag_test
 	// 19: hf2p_game_client_cache_release, using `k_cache_file_version` + 1
 	filepath.print("map_variants\\%s_%03u.mvar", filename, 19);
-	if (!create_configuration_file(filepath, buffer, file_size))
+	if (!create_configuration_file(filepath.get_string(), buffer, file_size))
 	{
 		c_console::write_line("failed!");
 	}

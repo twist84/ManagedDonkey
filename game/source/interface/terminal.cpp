@@ -302,7 +302,7 @@ void __cdecl terminal_draw()
 		if (terminal_gets_active())
 		{
 			c_static_string<288> buffer;
-			buffer.set(terminal_globals.input_state->prompt_text);
+			buffer.set(terminal_globals.input_state->prompt_text.get_string());
 			buffer.append(terminal_globals.input_state->input_text);
 
 			bounds.x0 = pixel_bounds_->x0;
@@ -352,7 +352,7 @@ void __cdecl terminal_draw()
 				draw_string.set_color(&line->message_color);
 				draw_string.set_shadow_color(&shadow_color);
 				draw_string.set_bounds(&bounds);
-				draw_string.draw(&font_cache, line->message);
+				draw_string.draw(&font_cache, line->message.get_string());
 
 				draw_string.set_tab_stops(k_tab_stops, 0);
 			}

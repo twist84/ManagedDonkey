@@ -124,7 +124,7 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 	{
 		found_file_name.append_print("%sinfo", cache_files_map_directory());
 
-		file_reference_create_from_path(&found_file, found_file_name, true);
+		file_reference_create_from_path(&found_file, found_file_name.get_string(), true);
 
 		find_files_start(callback_data->find_file_data, 0, &found_file);
 
@@ -377,7 +377,7 @@ function_end:
 	if (!file_added)
 	{
 		// #TODO: file_reference_get_name
-		c_console::write_line("levels: failed to add level file '%s'", file->path);
+		c_console::write_line("levels: failed to add level file '%s'", file->path.get_string());
 	}
 }
 

@@ -53,9 +53,9 @@ void c_console::write(char const* format, ...)
 	va_end(list);
 
 #if defined(CONSOLE_ENABLED)
-	printf(str);
+	printf(str.get_string());
 #else
-	OutputDebugStringA(str);
+	OutputDebugStringA(str.get_string());
 #endif // _DEBUG
 
 }
@@ -74,9 +74,9 @@ void c_console::write_line(char const* format, ...)
 	va_end(list);
 
 #if defined(CONSOLE_ENABLED)
-	printf(str);
+	printf(str.get_string());
 #else
-	OutputDebugStringA(str);
+	OutputDebugStringA(str.get_string());
 #endif // _DEBUG
 
 }
@@ -96,9 +96,9 @@ void c_console::write(wchar_t const* format, ...)
 	va_end(list);
 
 #if defined(CONSOLE_ENABLED)
-	wprintf(str);
+	wprintf(str.get_string());
 #else
-	OutputDebugStringW(str);
+	OutputDebugStringW(str.get_string());
 #endif // _DEBUG
 
 }
@@ -117,9 +117,9 @@ void c_console::write_line(wchar_t const* format, ...)
 	va_end(list);
 
 #if defined(CONSOLE_ENABLED)
-	wprintf(str);
+	wprintf(str.get_string());
 #else
-	OutputDebugStringW(str);
+	OutputDebugStringW(str.get_string());
 #endif // _DEBUG
 
 }
@@ -134,9 +134,9 @@ void c_console::write(char const* format, va_list list)
 	str.vprint(format, list);
 
 #if defined(CONSOLE_ENABLED)
-	printf(str);
+	printf(str.get_string());
 #else
-	OutputDebugStringA(str);
+	OutputDebugStringA(str.get_string());
 #endif // _DEBUG
 
 }
@@ -152,9 +152,9 @@ void c_console::write_line(char const* format, va_list list)
 	str.append("\n");
 
 #if defined(CONSOLE_ENABLED)
-	printf(str);
+	printf(str.get_string());
 #else
-	OutputDebugStringA(str);
+	OutputDebugStringA(str.get_string());
 #endif // _DEBUG
 
 }
@@ -169,9 +169,9 @@ void c_console::write(wchar_t const* format, va_list list)
 	str.vprint(format, list);
 
 #if defined(CONSOLE_ENABLED)
-	wprintf(str);
+	wprintf(str.get_string());
 #else
-	OutputDebugStringW(str);
+	OutputDebugStringW(str.get_string());
 #endif // _DEBUG
 
 }
@@ -187,9 +187,9 @@ void c_console::write_line(wchar_t const* format, va_list list)
 	str.append(L"\n");
 
 #if defined(CONSOLE_ENABLED)
-	wprintf(str);
+	wprintf(str.get_string());
 #else
-	OutputDebugStringW(str);
+	OutputDebugStringW(str.get_string());
 #endif // _DEBUG
 
 }

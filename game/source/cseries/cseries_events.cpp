@@ -522,7 +522,7 @@ long event_find_category_recursive(long category_index, bool create_category, lo
 		{
 			s_event_category* next_category = get_writeable_category(next_category_index);
 			category->name.set(category_name);
-			category->log_file.set(category->log_file);
+			category->log_file.set(category->log_file.get_string());
 			next_category->display_level = category->display_level;
 			next_category->color = category->color;
 			next_category->log_level = category->log_level;

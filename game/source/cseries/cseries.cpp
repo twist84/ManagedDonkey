@@ -112,7 +112,7 @@ void display_assert(char const* statement, char const* file, long line, bool is_
 		}
 	}
 
-	main_write_stack_to_crash_info_status_file(crash_info, nullptr);
+	main_write_stack_to_crash_info_status_file(crash_info.get_string(), nullptr);
 
 	if (is_assert)
 	{

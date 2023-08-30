@@ -106,7 +106,7 @@ char const* tag_group_get_name(tag group_tag)
 		group = &global_tag_groups[index];
 
 	if (group)
-		return group->name;
+		return group->name.get_string();
 
 	return "";
 }
@@ -309,7 +309,7 @@ bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char co
 	//}
 	//
 	//if (error_occurred)
-	//	c_console::write_line("the cache file '%s' won't load: %s", scenario_path, error);
+	//	c_console::write_line("the cache file '%s' won't load: %s", scenario_path, error.get_string());
 	//
 	//if (fail_fatally && error_occurred)
 	//	ASSERT_EXCEPTION("cache_file_header_verify() fatally failed, see error output!", true);
@@ -792,13 +792,14 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		csmemcpy(&header_copy, &g_cache_file_globals.header, sizeof(s_cache_file_header));
 		loading_basic_progress_phase_begin(1, 1);
 
-		if (c_static_string<260> tags_filepath = {})
 		{
+			c_static_string<260> tags_filepath = {};
+
 			// `scenario_path` usually consists of map file without the `.map` extension
 			tags_filepath.print("%s.dat", scenario_path);
 
 			s_file_reference tags_file{};
-			file_reference_create_from_path(&tags_file, tags_filepath, false);
+			file_reference_create_from_path(&tags_file, tags_filepath.get_string(), false);
 
 			g_cache_file_globals.tags_section = {};
 			if (file_exists(&tags_file))
@@ -1013,7 +1014,7 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	if (instance->dependency_count || instance->data_fixup_count || instance->resource_fixup_count)
 		return;
 
-	c_console::write_line("0x%08X.%s", tag_index, instance->tag_group.name);
+	c_console::write_line("0x%08X.%s", tag_index, instance->tag_group.name.get_string());
 	static char tag_instance_byte_string[sizeof(cache_file_tag_instance) * 3]{};
 	type_as_byte_string(instance, tag_instance_byte_string);
 	c_console::write_line(tag_instance_byte_string);
@@ -1148,7 +1149,7 @@ void apply_globals_instance_modification(cache_file_tag_instance* instance, e_in
 
 	s_game_globals* game_globals = instance->cast_to<s_game_globals>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1185,7 +1186,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 
 	s_multiplayer_globals_definition* multiplayer_globals = instance->cast_to<s_multiplayer_globals_definition>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	// Add back missing weapon selections
 	switch (stage)
@@ -1237,7 +1238,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 				if (weapon_selection.weapon_tag.index != NONE)
 					continue;
 
-				switch (weapon_selection.name)
+				switch (weapon_selection.name.get_value())
 				{
 				case STRING_ID(global, spike_rifle):
 					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\spike_rifle\\spike_rifle");
@@ -1300,7 +1301,7 @@ void apply_rasterizer_globals_instance_modification(cache_file_tag_instance* ins
 
 	c_rasterizer_globals* rasterizer_globals = instance->cast_to<c_rasterizer_globals>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1331,7 +1332,7 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 
 	s_scenario* scenario = instance->cast_to<s_scenario>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1362,7 +1363,7 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 
 	_object_definition* object = instance->cast_to<_object_definition>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1393,7 +1394,7 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 
 	_unit_definition* unit = instance->cast_to<_unit_definition>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1424,7 +1425,7 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 
 	_biped_definition* biped = instance->cast_to<_biped_definition>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1466,7 +1467,7 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 
 	_vehicle_definition* vehicle = instance->cast_to<_vehicle_definition>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1497,7 +1498,7 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 
 	_item_definition* item = instance->cast_to<_item_definition>();
 	char const* tag_name = instance->get_name();
-	char const* group_tag_name = instance->tag_group.name;
+	char const* group_tag_name = instance->tag_group.name.get_string();
 
 	switch (stage)
 	{
@@ -1654,7 +1655,7 @@ bool check_for_specific_scenario(s_file_reference* file)
 
 	char const* scenario_name = tag_name_strip_path(file_buffer);
 
-	return csstricmp(g_cache_file_globals.header.name, scenario_name) != 0;
+	return csstricmp(g_cache_file_globals.header.name.get_string(), scenario_name) != 0;
 }
 
 bool load_external_tag(s_file_reference* file)

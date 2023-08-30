@@ -168,7 +168,7 @@ char const* __cdecl transport_secure_nonce_get_string(qword nonce)
 
 	static c_static_string<64> transport_secure_nonce_string;
 	transport_secure_nonce_string.print("%02X%02X%02X%02X-%02X%02X%02X%02X", bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0]);
-	return transport_secure_nonce_string;
+	return transport_secure_nonce_string.get_string();
 }
 
 void __cdecl transport_secure_random(long random_length, byte* random_data)

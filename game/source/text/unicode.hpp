@@ -228,11 +228,6 @@ public:
 		return m_string;
 	}
 
-	operator wchar_t const* () const
-	{
-		return get_string();
-	}
-
 protected:
 	wchar_t m_string[k_buffer_size];
 };

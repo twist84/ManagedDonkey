@@ -53,10 +53,10 @@ void __cdecl console_printf_color(real_argb_color const* color, char const* form
 		c_static_string<255> message;
 		message.vprint(format, list);
 		terminal_printf(color, "%s", message);
-		c_console::write_line(message);
+		c_console::write_line(message.get_string());
 
 		if (console_dump_to_debug_display)
-			display_debug_string(message);
+			display_debug_string(message.get_string());
 	}
 
 	va_end(list);
@@ -256,7 +256,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					decltype(console_globals.input_state.previous_inputs)& previous_inputs = console_globals.input_state.previous_inputs;
 					decltype(console_globals.input_state.previous_inputs_count)& previous_inputs_count = console_globals.input_state.previous_inputs_count;
 
-					csstrnzcpy(input_text, previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)], NUMBEROF(input_text));
+					csstrnzcpy(input_text, previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)].get_string(), NUMBEROF(input_text));
 					edit_text_selection_reset(&console_globals.input_state.edit);
 				}
 				break;
@@ -364,7 +364,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 				callback_result_t callback_result = k_registered_commands[i].callback(&k_registered_commands[i], token_count, tokens);
 
-				c_console::write(callback_result);
+				c_console::write(callback_result.get_string());
 
 				long succeeded = callback_result.index_of(": succeeded");
 				result = succeeded != -1 || tokens[0]->equals("help");
@@ -372,7 +372,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 				if (result)
 					console_printf("command '%s' succeeded", command_name);
 				else
-					console_warning("command '%s' failed: %s", command_name, callback_result);
+					console_warning("command '%s' failed: %s", command_name, callback_result.get_string());
 
 				return result;
 			}

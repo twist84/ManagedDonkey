@@ -32,7 +32,7 @@ bool __cdecl scenario_soft_ceilings_should_render_soft_ceiling(string_id name, b
 	bool result = false;
 	for (s_scenario_soft_ceiling& soft_ceiling : scenario->soft_ceilings)
 	{
-		if (soft_ceiling.name != name)
+		if (soft_ceiling.name.get_value() != name)
 			continue;
 
 		if (biped && !soft_ceiling.flags.test(_scenario_soft_ceiling_flag_ignore_bipeds_bit))
@@ -135,7 +135,7 @@ void __cdecl scenario_soft_ceilings_render_debug(real_point3d const* point, bool
 						if (distance_to_point >= 0.0f)
 							soft_ceilings_color = *global_real_argb_cyan;
 
-						if (scenario_soft_ceiling_is_active(soft_ceiling.name))
+						if (scenario_soft_ceiling_is_active(soft_ceiling.name.get_value()))
 						{
 							soft_ceilings_color = *global_real_argb_red;
 							if (distance_to_point >= 0.0f)

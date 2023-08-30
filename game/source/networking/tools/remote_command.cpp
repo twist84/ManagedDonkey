@@ -401,7 +401,7 @@ void command_execute(long token_count, tokens_t& tokens, long command_count, s_c
 		{
 			output = commands[i].callback(&commands[i], token_count, tokens);
 			output.append_line();
-			transport_endpoint_write(remote_command_globals.send_endpoint, output, static_cast<short>(output.length()));
+			transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), static_cast<short>(output.length()));
 			return;
 		}
 	}
@@ -410,7 +410,7 @@ void command_execute(long token_count, tokens_t& tokens, long command_count, s_c
 	output.append_line("For a list of command use 'help'");
 	output.append_line();
 	//output = help_callback(nullptr, 1, {});
-	transport_endpoint_write(remote_command_globals.send_endpoint, output, static_cast<short>(output.length()));
+	transport_endpoint_write(remote_command_globals.send_endpoint, output.get_string(), static_cast<short>(output.length()));
 }
 
 void command_handler(char* buffer, long buffer_length)
@@ -494,7 +494,7 @@ callback_result_t script_doc_callback(void const* userdata, long token_count, to
 			out.append_line();
 			out.append_line();
 
-			file_printf(&help_file, out);
+			file_printf(&help_file, out.get_string());
 		}
 	}
 	file_close(&help_file);
@@ -629,8 +629,8 @@ callback_result_t net_session_add_callback(void const* userdata, long token_coun
 	if (!split_host_string_into_parts(str, parts))
 		parts[1].set("11774");
 
-	char const* host = parts[0];
-	char const* port = parts[1];
+	char const* host = parts[0].get_string();
+	char const* port = parts[1].get_string();
 
 	static transport_address address{};
 	csmemset(&address, 0, sizeof(address));
@@ -926,7 +926,7 @@ callback_result_t online_user_set_name_callback(void const* userdata, long token
 	char const* name = tokens[1]->get_string();
 	c_static_wchar_string<16> name_wide;
 	name_wide.print(L"%hs", name);
-	online_user_set_name(name_wide);
+	online_user_set_name(name_wide.get_string());
 
 	return result;
 }
@@ -1223,7 +1223,7 @@ callback_result_t load_customization_from_file_callback(void const* userdata, lo
 					fprintf_s(customization_info_file, "%s:\n", armor_region);
 					for (long armor_type_index = 0; armor_type_index < armor_types.get_count(); armor_type_index++)
 					{
-						char const* value = armor_types[armor_type_index];
+						char const* value = armor_types[armor_type_index].get_string();
 						if (*value)
 						{
 							fprintf_s(customization_info_file, "\t%s\n", value);

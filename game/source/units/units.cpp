@@ -74,12 +74,12 @@ void __cdecl unit_render_debug(long unit_index)
 		for (unit_seat& seat : unit_definition->seats_block)
 		{
 			object_marker markers[4]{};
-			short marker_count = object_get_markers_by_string_id(unit_index, seat.entry_markers_name, markers, NUMBEROF(markers));
+			short marker_count = object_get_markers_by_string_id(unit_index, seat.entry_markers_name.get_value(), markers, NUMBEROF(markers));
 			for (short marker_index = 0; marker_index < marker_count; marker_index++)
 			{
 				object_marker* marker = &markers[marker_index];
 
-				render_debug_string_at_point(&marker->node_matrix.center, string_id_get_string_const(seat.label), global_real_argb_red);
+				render_debug_string_at_point(&marker->node_matrix.center, string_id_get_string_const(seat.label.get_value()), global_real_argb_red);
 				render_debug_vector(true, &marker->node_matrix.center, &marker->node_matrix.matrix.forward, seat.entry_radius, global_real_argb_red);
 				render_debug_sphere(true, &marker->node_matrix.center, seat.entry_radius, global_real_argb_red);
 				render_debug_cone_outline(true, &marker->node_matrix.center, &marker->node_matrix.matrix.forward, seat.entry_radius, seat.entry_marker_cone_angle, global_real_argb_red);

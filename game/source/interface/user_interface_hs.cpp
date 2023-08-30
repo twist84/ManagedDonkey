@@ -13,11 +13,11 @@ long start_script(hs_script const* script, long index)
 	long thread_index = hs_runtime_script_begin(static_cast<short>(index), script->script_type, 0);
 	if (thread_index == NONE)
 	{
-		c_console::write_line("ui:hs: failed to start script %s", script->name);
+		c_console::write_line("ui:hs: failed to start script %s", script->name.get_string());
 	}
 	else
 	{
-		c_console::write_line("ui:hs: started script %s (thread 0x%08X)", script->name, thread_index);
+		c_console::write_line("ui:hs: started script %s (thread 0x%08X)", script->name.get_string(), thread_index);
 	}
 
 	return thread_index;
@@ -34,7 +34,7 @@ long user_interface_start_hs_script_by_name(char const* name)
 	for (script_index = 0; script_index < scenario->scripts.count(); script_index++)
 	{
 		script = &scenario->scripts[script_index];
-		if (csstricmp(script->name, name) == 0)
+		if (csstricmp(script->name.get_string(), name) == 0)
 			break;
 	}
 

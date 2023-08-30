@@ -37,7 +37,7 @@ char const* __cdecl font_get_debug_name(long font_index)
 		dword header_offset = g_font_globals.font_package_header->fonts[font_index].offset;
 		s_font_header* header = reinterpret_cast<s_font_header*>((char*)g_font_globals.font_package_header + header_offset);
 		if (header)
-			return header->name;
+			return header->name.get_string();
 	}
 
 	return nullptr;

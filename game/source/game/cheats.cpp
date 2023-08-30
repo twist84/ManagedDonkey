@@ -84,10 +84,10 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 		{
 			if (controller_button != banned_button && !cheat.lines[controller_button].is_empty() && input_state->abstract_buttons[controller_button].down_frames() == 1)
 			{
-				console_printf(cheat.lines[controller_button]);
+				console_printf(cheat.lines[controller_button].get_string());
 
 				// #TODO: add and implement `hs_compile_and_evaluate`
-				//hs_compile_and_evaluate(_event_level_message, "cheats", cheat.lines[controller_button], true);
+				//hs_compile_and_evaluate(_event_level_message, "cheats", cheat.lines[controller_button].get_string(), true);
 				if (cheat.lines[controller_button].equals("(set cheat_controller (not cheat_controller))"))
 					cheat.controller = !cheat.controller;
 			}
@@ -463,7 +463,7 @@ long __cdecl cheat_get_region_and_permutation_array_from_string(char const* perm
 		}
 
 		permutations_string.substring(permutation_string_index, permutation_string_next_index - permutation_string_index, name_string);
-		long region_name = string_id_retrieve(name_string);
+		long region_name = string_id_retrieve(name_string.get_string());
 
 		permutation_string_index = permutation_string_next_index + 1;
 		permutation_string_next_index = permutations_string.next_index_of(",", permutation_string_next_index + 1);
@@ -473,7 +473,7 @@ long __cdecl cheat_get_region_and_permutation_array_from_string(char const* perm
 			index = permutation_string_length;
 
 		permutations_string.substring(permutation_string_index, index - permutation_string_index, name_string);
-		long permutation_name = string_id_retrieve(name_string);
+		long permutation_name = string_id_retrieve(name_string.get_string());
 		permutation_string_index = permutation_string_next_index + 1;
 
 		if (region_name != -1 && permutation_name != -1)

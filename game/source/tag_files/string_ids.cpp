@@ -176,7 +176,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_global_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_global_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_global_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_global << STRING_NAMESPACE_BITS) + string_index;
 			return result;
@@ -185,7 +185,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < NUMBEROF(g_strings_defined_in_tags); string_index++)
 	{
-		if (csstricmp(string_buffer, g_strings_defined_in_tags[string_index]) == 0)
+		if (string_buffer.equals(g_strings_defined_in_tags[string_index]))
 		{
 			long result = (_string_namespace_global << STRING_NAMESPACE_BITS) + g_strings_defined_in_tags_starting_index + string_index;
 			return result;
@@ -195,7 +195,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_gui_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_gui_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_gui_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_gui << STRING_NAMESPACE_BITS) + string_index;
 			return result;
@@ -204,7 +204,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_gui_alert_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_gui_alert_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_gui_alert_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_gui_alert << STRING_NAMESPACE_BITS) + string_index;
 			return result;
@@ -213,7 +213,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_gui_dialog_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_gui_dialog_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_gui_dialog_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_gui_dialog << STRING_NAMESPACE_BITS) + string_index;
 			return result;
@@ -222,7 +222,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_game_engine_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_game_engine_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_game_engine_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_game_engine << STRING_NAMESPACE_BITS) + string_index;
 			return result;
@@ -231,7 +231,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_game_start_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_game_start_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_game_start_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_game_start << STRING_NAMESPACE_BITS) + string_index;
 			return result;
@@ -240,7 +240,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_online_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_online_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_online_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_online << STRING_NAMESPACE_BITS) + string_index;
 			return result;
@@ -249,7 +249,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_saved_game_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_saved_game_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_saved_game_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_saved_game << STRING_NAMESPACE_BITS) + string_index;
 			return result;
@@ -258,7 +258,7 @@ long string_id_retrieve(char const* string)
 
 	for (long string_index = 0; string_index < k_gpu_string_id_count; string_index++)
 	{
-		if (csstricmp(string_buffer, k_gpu_string_id_strings[string_index]) == 0)
+		if (string_buffer.equals(k_gpu_string_id_strings[string_index]))
 		{
 			long result = (_string_namespace_gpu << STRING_NAMESPACE_BITS) + string_index;
 			return result;

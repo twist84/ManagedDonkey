@@ -988,11 +988,6 @@ public:
 		return true;
 	}
 
-	operator char const* () const
-	{
-		return m_string;
-	}
-
 protected:
 	char m_string[k_maximum_count];
 };
@@ -1008,16 +1003,6 @@ public:
 	char const* get_string();
 	char const* get_string() const;
 	long get_value() const { return m_value; }
-
-	operator long() const
-	{
-		return m_value;
-	}
-
-	operator char const*() const
-	{
-		return get_string();
-	}
 
 protected:
 	string_id m_value;

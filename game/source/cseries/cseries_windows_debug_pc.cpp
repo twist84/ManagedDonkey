@@ -292,7 +292,7 @@ long __cdecl exceptions_update()
 		}
 	}
 
-	main_write_stack_to_crash_info_status_file(crash_info, &g_exception_information.context_record);
+	main_write_stack_to_crash_info_status_file(crash_info.get_string(), &g_exception_information.context_record);
 	editor_save_progress();
 	//call_fatal_error_callbacks();
 	if (version_is_tracked_build() || g_force_upload_even_if_untracked)

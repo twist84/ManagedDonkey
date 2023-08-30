@@ -221,7 +221,7 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 
 		for (s_multiplayer_customized_model_character& customized_spartan_character : universal_data->customized_spartan_characters)
 		{
-			char const* armor_region = customized_spartan_character.armor_region;
+			char const* armor_region = customized_spartan_character.armor_region.get_string();
 
 			bool ignore_requirements = false;
 			c_static_array<c_static_string<64>, 100>* armor_type = nullptr;
@@ -286,7 +286,7 @@ c_static_array<c_static_array<c_static_string<64>, 100>, k_armor_type_count>& ge
 
 		for (s_multiplayer_customized_model_character& customized_elite_character : universal_data->customized_elite_characters)
 		{
-			char const* armor_region = customized_elite_character.armor_region;
+			char const* armor_region = customized_elite_character.armor_region.get_string();
 
 			c_static_array<c_static_string<64>, 100>* armor_type = nullptr;
 			if (csstricmp(armor_region, "helmet") == 0)

@@ -17,6 +17,6 @@ char const* winsock_error_to_string(int error)
         return result;
 
     winsock_error_string.print("<unknown winsock error %d>", error);
-    return winsock_error_string;
+    return winsock_error_string.get_string();
 }
 

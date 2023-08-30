@@ -177,7 +177,7 @@ bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_add
 		c_console::write_line("networking:messages:gateway:anomaly: foreign packet (%d bytes %s%s) from '%s'",
 			data_length,
 			data_length <= 8 ? "" : "beginning ",
-			data_string,
+			data_string.get_string(),
 			address_string);
 	}
 

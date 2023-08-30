@@ -61,7 +61,7 @@ void* __cdecl object_get_and_verify_type(long object_index, dword object_type_ma
 			object_type_mask,
 			object_identifier.m_type.get());
 
-		ASSERT(!_bittest((long*)&object_type_mask, object_identifier.m_type.get()), string_builder);
+		ASSERT(!_bittest((long*)&object_type_mask, object_identifier.m_type.get()), string_builder.get_string());
 	}
 
 	return object;
@@ -509,7 +509,7 @@ void __cdecl object_render_debug_internal(long object_index)
 			real function_magnitude = 0.0f;
 			bool deterministic = false;
 
-			bool import_function_value = object_get_function_value(object_index, function.import_name, object_definition_index, &function_magnitude);
+			bool import_function_value = object_get_function_value(object_index, function.import_name.get_value(), object_definition_index, &function_magnitude);
 			string.append_print("%s: %s %.2f->", function.import_name.get_string(), import_function_value ? "ON" : "OFF", function_magnitude);
 
 			bool export_function_value = object_function_get_function_value(object_index, &function, object_definition_index, &function_magnitude, &deterministic);
@@ -588,7 +588,7 @@ void __cdecl object_render_debug_internal(long object_index)
 		for (s_model_target& target : model_definition->targets)
 		{
 			object_marker markers[2]{};
-			short marker_count = object_get_markers_by_string_id(object_index, target.marker_name, markers, NUMBEROF(markers));
+			short marker_count = object_get_markers_by_string_id(object_index, target.marker_name.get_value(), markers, NUMBEROF(markers));
 			switch (marker_count)
 			{
 			case 1:
