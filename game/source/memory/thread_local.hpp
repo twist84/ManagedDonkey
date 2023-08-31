@@ -15,10 +15,18 @@
 #include "interface/user_interface_objectives.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
+#include "memory/data.hpp"
 #include "physics/physics_constants.hpp"
 #include "scenario/scenario_interpolators.hpp"
 
-//struct simulation_gamestate_entity_datum : s_datum_header
+struct simulation_gamestate_entity_datum : s_datum_header
+{
+	word __unknown2;
+	dword __unknown4;
+	dword __unknown8;
+	dword __unknownC;
+};
+static_assert(sizeof(simulation_gamestate_entity_datum) == 0x10);
 
 struct s_breakable_surface_globals
 {
@@ -26,9 +34,33 @@ struct s_breakable_surface_globals
 };
 static_assert(sizeof(s_breakable_surface_globals) == 0x3CE18);
 
-//struct breakable_surface_set_broken_event_datum : s_datum_header
+struct breakable_surface_set_broken_event_datum : s_datum_header
+{
+	byte __data[0x462];
+};
+static_assert(sizeof(breakable_surface_set_broken_event_datum) == 0x464);
 
-//struct hs_thread_deterministic_data : s_datum_header
+struct hs_stack_frame
+{
+	word stack_offset;
+	int return_value;
+	int tracking_index;
+	char thread_type;
+	byte_flags flags;
+	byte __data[0x6];
+};
+static_assert(sizeof(hs_stack_frame) == 0x14);
+
+struct hs_thread : s_datum_header
+{
+	short script_index;
+	short previous_script_index;
+	long delay_until_time;
+	long sleep_time;
+	hs_stack_frame stack_pointer;
+	byte stack_data[0x500];
+};
+static_assert(sizeof(hs_thread) == 0x524);
 
 struct hs_runtime
 {
@@ -37,19 +69,44 @@ struct hs_runtime
 };
 static_assert(sizeof(hs_runtime) == 0x8);
 
-//struct hs_global_data : s_datum_header
+struct hs_global_data : s_datum_header
+{
+	word __unknown2;
+	dword __unknown4;
+};
+static_assert(sizeof(hs_global_data) == 0x8);
 
-//struct hs_distributed_global_data : s_datum_header
+struct hs_distributed_global_data : s_datum_header
+{
+	byte __data[0x2A];
+};
+static_assert(sizeof(hs_distributed_global_data) == 0x2C);
 
-//struct hs_thread_tracking_data : s_datum_header
+struct hs_thread_tracking_data : s_datum_header
+{
+	word __unknown2;
+	dword __unknown4;
+	dword __unknown8;
+};
+static_assert(sizeof(hs_thread_tracking_data) == 0xC);
 
-//struct hs_thread_non_deterministic_data : s_datum_header
+struct effect_datum : s_datum_header
+{
+	byte __data[0x9E];
+};
+static_assert(sizeof(effect_datum) == 0xA0);
 
-//struct effect_datum : s_datum_header
+struct effect_event_datum : s_datum_header
+{
+	byte __data[0x12];
+};
+static_assert(sizeof(effect_event_datum) == 0x14);
 
-//struct effect_event_datum : s_datum_header
-
-//struct effect_location_datum : s_datum_header
+struct effect_location_datum : s_datum_header
+{
+	byte __data[0x3E];
+};
+static_assert(sizeof(effect_location_datum) == 0x40);
 
 struct s_effect_counts
 {
@@ -57,7 +114,11 @@ struct s_effect_counts
 };
 static_assert(sizeof(s_effect_counts) == 0x18);
 
-//struct effect_geometry_sample_datum : s_datum_header
+struct effect_geometry_sample_datum : s_datum_header
+{
+	byte __data[0x26];
+};
+static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 
 struct effect_messaging_queue
 {
@@ -78,7 +139,11 @@ struct s_player_control_globals_deterministic
 };
 static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
 
-//struct game_looping_sound_datum : s_datum_header
+struct game_looping_sound_datum : s_datum_header
+{
+	byte __data[0x1E];
+};
+static_assert(sizeof(game_looping_sound_datum) == 0x20);
 
 struct s_game_sound_globals
 {
@@ -182,6 +247,15 @@ struct s_game_sound_player_effects_globals
 };
 static_assert(sizeof(s_game_sound_player_effects_globals) == 0x28);
 
+struct s_havok_proxy_datum : s_datum_header
+{
+	struct hkRigidBody* rigid_body;
+	real_matrix4x3 matrix;
+	long object_index;
+	dword __time40;
+};
+static_assert(sizeof(s_havok_proxy_datum) == 0x44);
+
 struct cinematic_new_globals
 {
 	byte __data[0x3C];
@@ -211,7 +285,11 @@ struct cinematic_light_globals
 };
 static_assert(sizeof(cinematic_light_globals) == 0xB2C8);
 
-//struct recorded_animation_datum : s_datum_header
+struct recorded_animation_datum : s_datum_header
+{
+	byte __data[0xA2];
+};
+static_assert(sizeof(recorded_animation_datum) == 0xA4);
 
 struct s_game_save_globals
 {
@@ -219,7 +297,19 @@ struct s_game_save_globals
 };
 static_assert(sizeof(s_game_save_globals) == 0x18);
 
-//struct s_rasterizer_screen_effect : s_datum_header
+struct screen_effect_datum : s_datum_header
+{
+	word field_2;
+	dword tag_index;
+	real seconds_active;
+	vector3d position;
+	dword object_index;
+	dword field_1c;
+	vector3d field_20;
+	vector3d field_2c;
+	dword field_38;
+};
+static_assert(sizeof(screen_effect_datum) == 0x3C);
 
 struct s_player_effect_globals
 {
@@ -245,7 +335,30 @@ struct s_game_sound_deterministic_globals
 };
 static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
 
-//struct s_decal_system_datum : s_datum_header
+struct c_decal_system : s_datum_header
+{
+	long tag_index;
+	long __unknown8;
+	long __unknownC;
+	long __unknown10;
+	long __unknown14;
+	long __unknown18;
+	long __unknown1C;
+	long __unknown20;
+	long __unknown24;
+	long __unknown28;
+	long __unknown2C;
+	long __unknown30;
+	long __unknown34;
+	long __unknown38;
+	long __unknown3C;
+	long __unknown40;
+	long __unknown44;
+	long __unknown48;
+	long __unknown4C;
+	byte __unknown50[0x308];
+};
+static_assert(sizeof(c_decal_system) == 0x358);
 
 struct s_decal_counts
 {
@@ -306,73 +419,98 @@ struct scripted_camera_globals
 };
 static_assert(sizeof(scripted_camera_globals) == 0xF0);
 
-//struct s_particle_system_datum : s_datum_header
-
-struct contrail_system
+struct c_particle_system : s_datum_header
 {
-	byte __data[0x4C];
+	short particle_tag_index;
+	long __unknown4;
+	long __unknown8;
+	long __unknownC;
+	long __unknown10;
+	long __unknown14;
+	long __unknown18;
+	long __unknown1C;
+	long __unknown20;
+	long __unknown24;
+	long __unknown28;
+	long __unknown2C;
+	long __unknown30;
+	long __unknown34;
+	long __unknown38;
+	long __unknown3C;
+	long __unknown40;
+	long __unknown44;
+	long __unknown48;
+	long __unknown4C;
+	long __unknown50;
+	long __unknown54;
 };
-static_assert(sizeof(contrail_system) == 0x4C);
+static_assert(sizeof(c_particle_system) == 0x58);
 
-struct contrail
+struct c_contrail_system : s_datum_header
 {
-	byte __data[0x4C];
+	byte __data[0x4A];
 };
-static_assert(sizeof(contrail) == 0x4C);
+static_assert(sizeof(c_contrail_system) == 0x4C);
 
-struct contrail_location
+struct c_contrail : s_datum_header
 {
-	byte __data[0x60];
+	byte __data[0x4A];
 };
-static_assert(sizeof(contrail_location) == 0x60);
+static_assert(sizeof(c_contrail) == 0x4C);
 
-struct contrail_profile
+struct c_contrail_location : s_datum_header
 {
-	byte __data[0x4C];
+	byte __data[0x5E];
 };
-static_assert(sizeof(contrail_profile) == 0x4C);
+static_assert(sizeof(c_contrail_location) == 0x60);
 
-struct particle_location
+struct c_contrail_profile : s_datum_header
 {
-	byte __data[0x60];
+	byte __data[0x4A];
 };
-static_assert(sizeof(particle_location) == 0x60);
+static_assert(sizeof(c_contrail_profile) == 0x4C);
 
-struct light_volume_location
+struct c_particle_location : s_datum_header
 {
-	byte __data[0x2C];
+	byte __data[0x5E];
 };
-static_assert(sizeof(light_volume_location) == 0x2C);
+static_assert(sizeof(c_particle_location) == 0x60);
 
-struct light_volume
+struct c_light_volume_location : s_datum_header
 {
-	byte __data[0x34];
+	byte __data[0x2A];
 };
-static_assert(sizeof(light_volume) == 0x34);
+static_assert(sizeof(c_light_volume_location) == 0x2C);
 
-struct light_volume_system
+struct c_light_volume : s_datum_header
 {
-	byte __data[0x2C];
+	byte __data[0x32];
 };
-static_assert(sizeof(light_volume_system) == 0x2C);
+static_assert(sizeof(c_light_volume) == 0x34);
 
-struct beam_system
+struct c_light_volume_system : s_datum_header
 {
-	byte __data[0x34];
+	byte __data[0x2A];
 };
-static_assert(sizeof(beam_system) == 0x34);
+static_assert(sizeof(c_light_volume_system) == 0x2C);
 
-struct beam
+struct c_beam_system : s_datum_header
 {
-	byte __data[0x2C];
+	byte __data[0x32];
 };
-static_assert(sizeof(beam) == 0x2C);
+static_assert(sizeof(c_beam_system) == 0x34);
 
-struct beam_location
+struct c_beam : s_datum_header
 {
-	byte __data[0x30];
+	byte __data[0x2A];
 };
-static_assert(sizeof(beam_location) == 0x30);
+static_assert(sizeof(c_beam) == 0x2C);
+
+struct c_beam_location : s_datum_header
+{
+	byte __data[0x2E];
+};
+static_assert(sizeof(c_beam_location) == 0x30);
 
 struct hue_saturation_control
 {
@@ -384,17 +522,17 @@ struct hue_saturation_control
 };
 static_assert(sizeof(hue_saturation_control) == 0x14);
 
-struct ragdolls
+struct s_ragdoll_datum : s_datum_header
 {
-	byte __data[0x130];
+	byte __data[0x12E];
 };
-static_assert(sizeof(ragdolls) == 0x130);
+static_assert(sizeof(s_ragdoll_datum) == 0x130);
 
-struct particle_emitter
+struct c_particle_emitter : s_datum_header
 {
-	byte __data[0x90];
+	byte __data[0x8E];
 };
-static_assert(sizeof(particle_emitter) == 0x90);
+static_assert(sizeof(c_particle_emitter) == 0x90);
 
 struct rasterizer_game_states
 {
@@ -457,7 +595,7 @@ struct render_game_globals
 };
 static_assert(sizeof(render_game_globals) == 0xD80);
 
-struct depth_of_field_globals
+struct s_depth_of_field
 {
 	bool enable;
 	byte __unknown1[0x3];
@@ -477,7 +615,7 @@ struct depth_of_field_globals
 	real __unknown38;
 	real __unknown3C;
 };
-static_assert(sizeof(depth_of_field_globals) == 0x40);
+static_assert(sizeof(s_depth_of_field) == 0x40);
 
 struct cached_object_render_state_datum : s_datum_header
 {
@@ -485,70 +623,64 @@ struct cached_object_render_state_datum : s_datum_header
 };
 static_assert(sizeof(cached_object_render_state_datum) == 0x4D8);
 
-struct particle_emitter_gpu_row
+struct c_particle_emitter_gpu : s_datum_header
 {
-	byte __data[0x18];
-};
-static_assert(sizeof(particle_emitter_gpu_row) == 0x18);
+	struct s_row : s_datum_header
+	{
+		byte __data[0x12];
+	};
+	static_assert(sizeof(s_row) == 0x14);
 
-struct particle_emitter_gpu_1
-{
-	byte __data[0x14];
+	byte __data[0x16];
 };
-static_assert(sizeof(particle_emitter_gpu_1) == 0x14);
+static_assert(sizeof(c_particle_emitter_gpu) == 0x18);
 
-struct beam_gpu
+struct c_beam_gpu : s_datum_header
 {
-	dword __unknown0;
+	struct s_row : s_datum_header
+	{
+		dword __unknown4;
+		dword __unknown8;
+	};
+	static_assert(sizeof(s_row) == 0xC);
+
 	dword __unknown4;
 	dword __unknown8;
 	dword __unknownC;
 };
-static_assert(sizeof(beam_gpu) == 0x10);
+static_assert(sizeof(c_beam_gpu) == 0x10);
 
-struct beam_gpu_row
+struct c_contrail_gpu : s_datum_header
 {
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
-};
-static_assert(sizeof(beam_gpu_row) == 0xC);
+	struct s_row : s_datum_header
+	{
+		dword __unknown4;
+		dword __unknown8;
+		dword __unknownC;
+	};
+	static_assert(sizeof(s_row) == 0x10);
 
-struct contrail_gpu_row
-{
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-};
-static_assert(sizeof(contrail_gpu_row) == 0x10);
-
-struct contrail_gpu
-{
-	dword __unknown0;
 	dword __unknown4;
 	dword __unknown8;
 	dword __unknownC;
 	dword __unknown10;
 };
-static_assert(sizeof(contrail_gpu) == 0x14);
+static_assert(sizeof(c_contrail_gpu) == 0x14);
 
-struct light_volume_gpu
+struct c_light_volume_gpu : s_datum_header
 {
-	dword __unknown0;
+	struct s_row : s_datum_header
+	{
+		dword __unknown4;
+		dword __unknown8;
+	};
+	static_assert(sizeof(s_row) == 0xC);
+
 	dword __unknown4;
 	dword __unknown8;
 	dword __unknownC;
 };
-static_assert(sizeof(light_volume_gpu) == 0x10);
-
-struct light_volume_gpu_row
-{
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
-};
-static_assert(sizeof(light_volume_gpu_row) == 0xC);
+static_assert(sizeof(c_light_volume_gpu) == 0x10);
 
 enum e_implicit_transparent_type
 {
@@ -672,9 +804,9 @@ struct s_render_object_globals
 };
 static_assert(sizeof(s_render_object_globals) == 0x3C040);
 
-struct shield_render_cache_message
+struct shield_render_cache_message : s_datum_header
 {
-	byte __data[0x14];
+	byte __data[0x12];
 };
 static_assert(sizeof(shield_render_cache_message) == 0x14);
 
@@ -716,7 +848,11 @@ struct chud_persistent_global_data
 };
 static_assert(sizeof(chud_persistent_global_data) == 0xFA40);
 
-// struct chud_widget_datum : s_datum_header
+struct chud_widget_datum : s_datum_header
+{
+	byte __data[0x16];
+};
+static_assert(sizeof(chud_widget_datum) == 0x18);
 
 struct s_first_person_orientations
 {
@@ -861,37 +997,41 @@ struct s_recycling_volumes
 };
 static_assert(sizeof(s_recycling_volumes) == 0x148);
 
-//struct recycling_group_datum : s_datum_header
-
-struct muffin
+struct recycling_group_datum : s_datum_header
 {
-	byte __data[0x1890];
+	byte __data[0x12];
 };
-static_assert(sizeof(muffin) == 0x1890);
+static_assert(sizeof(recycling_group_datum) == 0x14);
 
-struct leaf_system
+struct muffin_datum : s_datum_header
 {
-	byte __data[0x94C];
+	byte __data[0x188E];
 };
-static_assert(sizeof(leaf_system) == 0x94C);
+static_assert(sizeof(muffin_datum) == 0x1890);
 
-struct antenna
+struct c_leaf_system : s_datum_header
 {
-	byte __data[0x64];
+	byte __data[0x94A];
 };
-static_assert(sizeof(antenna) == 0x64);
+static_assert(sizeof(c_leaf_system) == 0x94C);
 
-struct cloth
+struct antenna_datum : s_datum_header
 {
-	byte __data[0x1704];
+	byte __data[0x62];
 };
-static_assert(sizeof(cloth) == 0x1704);
+static_assert(sizeof(antenna_datum) == 0x64);
 
-struct actor
+struct cloth_datum : s_datum_header
 {
-	byte __data[0xA98];
+	byte __data[0x1702];
 };
-static_assert(sizeof(actor) == 0xA98);
+static_assert(sizeof(cloth_datum) == 0x1704);
+
+struct actor_datum : s_datum_header
+{
+	byte __data[0xA96];
+};
+static_assert(sizeof(actor_datum) == 0xA98);
 
 struct actor_firing_position
 {
@@ -905,7 +1045,7 @@ struct ai_reference_frame
 };
 static_assert(sizeof(ai_reference_frame) == 0x4B0);
 
-struct ai_globals
+struct ai_globals_type
 {
 	byte enable;
 	byte __unknown1;
@@ -914,7 +1054,7 @@ struct ai_globals
 	byte fast_and_dumb;
 	byte __unknown5[1666];
 };
-static_assert(sizeof(ai_globals) == 0x688);
+static_assert(sizeof(ai_globals_type) == 0x688);
 
 struct ai_player_state
 {
@@ -922,9 +1062,9 @@ struct ai_player_state
 };
 static_assert(sizeof(ai_player_state) == 0xB0);
 
-struct vocalization_records
+struct vocalization_records : s_datum_header
 {
-	byte __data[0x5C];
+	byte __data[0x5A];
 };
 static_assert(sizeof(vocalization_records) == 0x5C);
 
@@ -934,282 +1074,114 @@ struct vocalization_timers
 };
 static_assert(sizeof(vocalization_timers) == 0xFB8);
 
-struct command_scripts
+struct command_script_datum : s_datum_header
 {
-	byte __data[0x188];
+	byte __data[0x186];
 };
-static_assert(sizeof(command_scripts) == 0x188);
+static_assert(sizeof(command_script_datum) == 0x188);
 
-struct objectives
+struct s_objective : s_datum_header
 {
-	dword __unknown0;
 	dword __unknown4;
 	dword __unknown8;
 };
-static_assert(sizeof(objectives) == 0xC);
+static_assert(sizeof(s_objective) == 0xC);
 
-struct task_records
+struct s_task_record
 {
 	byte __data[0x61A80];
 };
-static_assert(sizeof(task_records) == 0x61A80);
+static_assert(sizeof(s_task_record) == 0x61A80);
 
-struct squad
+struct squad_datum : s_datum_header
 {
-	byte __data[0xEC];
+	byte __data[0xEA];
 };
-static_assert(sizeof(squad) == 0xEC);
+static_assert(sizeof(squad_datum) == 0xEC);
 
-struct squad_group
+struct squad_group_datum : s_datum_header
 {
-	byte __data[0x24];
+	byte __data[0x22];
 };
-static_assert(sizeof(squad_group) == 0x24);
+static_assert(sizeof(squad_group_datum) == 0x24);
 
-struct swarm
+struct swarm_datum : s_datum_header
 {
-	byte __data[0x34];
+	byte __data[0x32];
 };
-static_assert(sizeof(swarm) == 0x34);
+static_assert(sizeof(swarm_datum) == 0x34);
 
-struct swarm_spawner
+struct s_swarm_spawner
 {
 	byte __data[0x258];
 };
-static_assert(sizeof(swarm_spawner) == 0x258);
+static_assert(sizeof(s_swarm_spawner) == 0x258);
 
-struct spawner_globals
+struct s_spawner_globals
 {
 	short __unknown0;
 };
-static_assert(sizeof(spawner_globals) == 0x2);
+static_assert(sizeof(s_spawner_globals) == 0x2);
 
-struct dynamic_firing_points
+struct dynamic_firing_set_datum : s_datum_header
 {
-	byte __data[0x584];
+	byte __data[0x582];
 };
-static_assert(sizeof(dynamic_firing_points) == 0x584);
+static_assert(sizeof(dynamic_firing_set_datum) == 0x584);
 
-struct propref
+struct prop_ref_datum : s_datum_header
 {
-	byte __data[0x3C];
+	byte __data[0x3A];
 };
-static_assert(sizeof(propref) == 0x3C);
+static_assert(sizeof(prop_ref_datum) == 0x3C);
 
-struct prop
+struct prop_datum : s_datum_header
 {
-	byte __data[0xC4];
+	byte __data[0xC2];
 };
-static_assert(sizeof(prop) == 0xC4);
+static_assert(sizeof(prop_datum) == 0xC4);
 
-struct tracking
+struct tracking_datum : s_datum_header
 {
-	byte __data[0x100];
+	byte __data[0xFE];
 };
-static_assert(sizeof(tracking) == 0x100);
+static_assert(sizeof(tracking_datum) == 0x100);
 
-struct joint_state
+struct joint_state_datum : s_datum_header
 {
-	byte __data[0xCC];
+	byte __data[0xCA];
 };
-static_assert(sizeof(joint_state) == 0xCC);
+static_assert(sizeof(joint_state_datum) == 0xCC);
 
-struct clump
+struct clump_datum : s_datum_header
 {
-	byte __data[0x108];
+	byte __data[0x106];
 };
-static_assert(sizeof(clump) == 0x108);
+static_assert(sizeof(clump_datum) == 0x108);
 
-struct squad_patrol
+struct squad_patrol_datum : s_datum_header
 {
-	byte __data[0x6C4];
+	byte __data[0x6C2];
 };
-static_assert(sizeof(squad_patrol) == 0x6C4);
+static_assert(sizeof(squad_patrol_datum) == 0x6C4);
 
-struct flocks
+struct flock_datum : s_datum_header
 {
-	byte __data[0x4C];
+	byte __data[0x4A];
 };
-static_assert(sizeof(flocks) == 0x4C);
+static_assert(sizeof(flock_datum) == 0x4C);
 
-struct formations
+struct formation_datum : s_datum_header
 {
-	byte __data[0x294];
+	byte __data[0x292];
 };
-static_assert(sizeof(formations) == 0x294);
+static_assert(sizeof(formation_datum) == 0x294);
 
-struct vision_mode
+struct s_vision_mode_state
 {
 	byte __data[0xF0];
 };
-static_assert(sizeof(vision_mode) == 0xF0);
-
-struct simulation_gamestate_entity_datum : s_datum_header
-{
-	word __unknown2;
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-};
-static_assert(sizeof(simulation_gamestate_entity_datum) == 0x10);
-
-struct breakable_surface_set_broken_event_datum : s_datum_header
-{
-	byte __data[0x462];
-};
-static_assert(sizeof(breakable_surface_set_broken_event_datum) == 0x464);
-
-struct hs_stack_frame
-{
-	word stack_offset;
-	int return_value;
-	int tracking_index;
-	char thread_type;
-	byte_flags flags;
-	byte __data[0x6];
-};
-static_assert(sizeof(hs_stack_frame) == 0x14);
-
-struct hs_thread : s_datum_header
-{
-	short script_index;
-	short previous_script_index;
-	long delay_until_time;
-	long sleep_time;
-	hs_stack_frame stack_pointer;
-	byte stack_data[0x500];
-};
-static_assert(sizeof(hs_thread) == 0x524);
-
-struct hs_global_data : s_datum_header
-{
-	word __unknown2;
-	dword __unknown4;
-};
-static_assert(sizeof(hs_global_data) == 0x8);
-
-struct hs_distributed_global_data : s_datum_header
-{
-	byte __data[0x2A];
-};
-static_assert(sizeof(hs_distributed_global_data) == 0x2C);
-
-struct hs_thread_tracking_data : s_datum_header
-{
-	word __unknown2;
-	dword __unknown4;
-	dword __unknown8;
-};
-static_assert(sizeof(hs_thread_tracking_data) == 0xC);
-
-struct effect_datum : s_datum_header
-{
-	byte __data[0x9E];
-};
-static_assert(sizeof(effect_datum) == 0xA0);
-
-struct effect_event_datum : s_datum_header
-{
-	byte __data[0x12];
-};
-static_assert(sizeof(effect_event_datum) == 0x14);
-
-struct effect_location_datum : s_datum_header
-{
-	byte __data[0x3E];
-};
-static_assert(sizeof(effect_location_datum) == 0x40);
-
-struct effect_geometry_sample_datum : s_datum_header
-{
-	byte __data[0x26];
-};
-static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
-
-struct game_looping_sound_datum : s_datum_header
-{
-	byte __data[0x1E];
-};
-static_assert(sizeof(game_looping_sound_datum) == 0x20);
-
-struct recorded_animation_datum : s_datum_header
-{
-	byte __data[0xA2];
-};
-static_assert(sizeof(recorded_animation_datum) == 0xA4);
-
-struct screen_effect_datum : s_datum_header
-{
-	word field_2;
-	dword tag_index;
-	real seconds_active;
-	vector3d position;
-	dword object_index;
-	dword field_1c;
-	vector3d field_20;
-	vector3d field_2c;
-	dword field_38;
-};
-static_assert(sizeof(screen_effect_datum) == 0x3C);
-
-struct s_decal_system_datum : s_datum_header
-{
-	short : 16;
-	long tag_index;
-	long __unknown8;
-	long __unknownC;
-	long __unknown10;
-	long __unknown14;
-	long __unknown18;
-	long __unknown1C;
-	long __unknown20;
-	long __unknown24;
-	long __unknown28;
-	long __unknown2C;
-	long __unknown30;
-	long __unknown34;
-	long __unknown38;
-	long __unknown3C;
-	long __unknown40;
-	long __unknown44;
-	long __unknown48;
-	long __unknown4C;
-	byte __unknown50[0x308];
-};
-static_assert(sizeof(s_decal_system_datum) == 0x358);
-
-struct s_particle_system_datum : s_datum_header
-{
-	short particle_tag_index;
-	long __unknown4;
-	long __unknown8;
-	long __unknownC;
-	long __unknown10;
-	long __unknown14;
-	long __unknown18;
-	long __unknown1C;
-	long __unknown20;
-	long __unknown24;
-	long __unknown28;
-	long __unknown2C;
-	long __unknown30;
-	long __unknown34;
-	long __unknown38;
-	long __unknown3C;
-	long __unknown40;
-	long __unknown44;
-	long __unknown48;
-	long __unknown4C;
-	long __unknown50;
-	long __unknown54;
-};
-static_assert(sizeof(s_particle_system_datum) == 0x58);
-
-struct chud_widget_datum : s_datum_header
-{
-	byte __data[0x16];
-};
-static_assert(sizeof(chud_widget_datum) == 0x18);
+static_assert(sizeof(s_vision_mode_state) == 0xF0);
 
 struct cluster_partition
 {
@@ -1217,12 +1189,6 @@ struct cluster_partition
 	void* data_reference;
 	void* cluster_first_data_references;
 };
-
-struct recycling_group_datum : s_datum_header
-{
-	byte __data[0x12];
-};
-static_assert(sizeof(recycling_group_datum) == 0x14);
 
 struct s_thread_local_storage
 {
@@ -1311,11 +1277,33 @@ struct s_thread_local_storage
 	// size: 0x1
 	bool* director_camera_scripted;
 
+	//  name: "det hs thread"
+	// count: 320
+	//  size: 0x524
 	c_smart_data_array<hs_thread>* hs_thread_deterministic_data;
+
+	// name: "hs runtime globals"
+	// size: 0x8
 	hs_runtime* hs_runtime;
+
+	//  name: "hs globals"
+	// count: 3072
+	//  size: 0x8
 	c_smart_data_array<hs_global_data>* hs_global_data;
+
+	//  name: "hs dist. globals"
+	// count: 512
+	//  size: 0x2C
 	c_smart_data_array<hs_distributed_global_data>* hs_distributed_global_data;
+
+	//  name: "tracking hs thread"
+	// count: 320
+	//  size: 0xC
 	c_smart_data_array<hs_thread_tracking_data>* hs_thread_tracking_data;
+
+	//  name: "non-det hs thread"
+	// count: 4
+	//  size: 0x524
 	c_smart_data_array<hs_thread>* hs_thread_non_deterministic_data;
 
 	// from assert
@@ -1441,7 +1429,7 @@ struct s_thread_local_storage
 	//  name: "havok proxies"
 	// count: 16
 	//  size: 0x44
-	void* g_havok_proxy_data; // s_data_array
+	c_smart_data_array<s_havok_proxy_datum>* g_havok_proxy_data;
 
 	void* __unknown114;
 	void* __unknown118;
@@ -1632,7 +1620,7 @@ struct s_thread_local_storage
 	//  name: "decal_system"
 	// count: 856
 	//  size: 0x54
-	c_smart_data_array<s_decal_system_datum>* decal_system;
+	c_smart_data_array<c_decal_system>* decal_system;
 
 	// name: "decal counts"
 	// size: 0x20
@@ -1675,67 +1663,223 @@ struct s_thread_local_storage
 	// size: 0xF0
 	scripted_camera_globals* scripted_camera_globals;
 
+	//  name: "particles"
+	// count: 512
+	//  size: 0x7C
 	data_array_base* particles;
-	c_smart_data_array<s_particle_system_datum>* particle_system;
 
-	contrail_system* contrail_system;
-	contrail* contrail;
-	contrail_location* contrail_location;
-	contrail_profile* contrail_profile;
-	particle_location* particle_location;
-	light_volume_system* light_volume_system;
-	light_volume_location* light_volume_location;
-	light_volume* light_volume;
-	beam_system* beam_system;
-	beam* beam;
-	beam_location* beam_location;
+	//  name: "particle_system"
+	// count: 320
+	//  size: 0x58
+	c_smart_data_array<c_particle_system>* particle_system;
+
+	//  name: "contrail_system"
+	// count: 160
+	//  size: 0x30
+	c_smart_data_array<c_contrail_system>* contrail_system;
+
+	//  name: "contrail"
+	// count: 160
+	//  size: 0x4C
+	c_smart_data_array<c_contrail>* contrail;
+
+	//  name: "contrail"
+	// count: 160
+	//  size: 0x60
+	c_smart_data_array<c_contrail_location>* contrail_location;
+
+	//  name: "contrail_profile"
+	// count: 1
+	//  size: 0x60
+	c_smart_data_array<c_contrail_profile>* contrail_profile;
+
+	//  name: "particle_location"
+	// count: 576
+	//  size: 0x60
+	c_smart_data_array<c_particle_location>* particle_location;
+
+	//  name: "light_volume_system"
+	// count: 160
+	//  size: 0x2C
+	c_smart_data_array<c_light_volume_system>* light_volume_system;
+
+	//  name: "light_volume"
+	// count: 160
+	//  size: 0x2C
+	c_smart_data_array<c_light_volume_location>* light_volume_location;
+
+	//  name: "light_volume"
+	// count: 160
+	//  size: 0x34
+	c_smart_data_array<c_light_volume>* light_volume;
+
+	//  name: "beam_system"
+	// count: 160
+	//  size: 0x2C
+	c_smart_data_array<c_beam_system>* beam_system;
+
+	//  name: "beam_system"
+	// count: 160
+	//  size: 0x34
+	c_smart_data_array<c_beam>* beam;
+
+	//  name: "beam_system"
+	// count: 160
+	//  size: 0x30
+	c_smart_data_array<c_beam_location>* beam_location;
 
 	// from assert
 	bool g_havok_memory_allocator_locked;
 
-	ragdolls* ragdolls;
-	particle_emitter* particle_emitter;
+	//  name: "ragdolls"
+	// count: 5
+	//  size: 0x130
+	c_smart_data_array<s_ragdoll_datum>* g_ragdoll_data;
+
+	//  name: "particle_emitter"
+	// count: 1088
+	//  size: 0x90
+	c_smart_data_array<c_particle_emitter>* particle_emitter;
+
+	// name: "rasterizer game states"
+	// size: 0x208
 	rasterizer_game_states* rasterizer_game_states;
+
+	// name: "hue saturation control"
+	// size: 0x14
 	hue_saturation_control* hue_saturation_control;
+
 	void* __unknown3C4;
+
+	// name: "scripted exposure globals"
+	// size: 0x34
 	scripted_exposure_globals* scripted_exposure_globals;
+
+	// name: "render hud globals"
+	// size: 0x480
 	render_hud_globals* render_hud_globals;
+
+	// name: "interaction ripples"
+	// size: 0x1400
 	s_interaction_event* g_water_interaction_events;
+
+	// name: "render texture globals"
+	// size: 0x6C
 	render_texture_globals* render_texture_globals;
+
+	// name: "render game globals"
+	// size: 0xD80
 	render_game_globals* render_game_globals;
-	depth_of_field_globals* depth_of_field_globals;
+
+	// name: "DOF globals"
+	// size: 0x40
+	s_depth_of_field* depth_of_field_game_globals;
+
+	//  name: "cached object render states"
+	// count: 384
+	//  size: 0x4D8
 	c_smart_data_array<cached_object_render_state_datum>* cached_object_render_states;
-	particle_emitter_gpu_row* particle_emitter_gpu_row;
-	particle_emitter_gpu_1* particle_emitter_gpu_1;
-	void* particle_emitter_gpu_2;
-	beam_gpu* beam_gpu;
-	beam_gpu_row* beam_gpu_row;
-	void* particle_emitter_gpu_3;
-	contrail_gpu_row* contrail_gpu_row;
-	contrail_gpu* contrail_gpu;
-	void* particle_emitter_gpu_4;
-	light_volume_gpu* light_volume_gpu;
-	light_volume_gpu_row* light_volume_gpu_row;
-	void* particle_emitter_gpu_5;
+
+	//  name: "c_particle_emitter_gpu"
+	// count: 1088
+	//  size: 0x18
+	// c_particle_emitter_gpu::x_data_array
+	c_smart_data_array<c_particle_emitter_gpu>* g_particle_emitter_gpu_data_array;
+
+	//  name: "c_particle_emitter_gpu::s_row"
+	// count: 448
+	//  size: 0x14
+	// c_particle_emitter_gpu::s_row::x_data_array
+	c_smart_data_array<c_particle_emitter_gpu::s_row>* g_particle_emitter_gpu_row_data_array;
+
+	// name: "c_particle_emitter_gpu", "x_gamestate_storage"
+	// size: (16 * 448 * rasterizer_vertex_get_stride_from_declaration(c_rasterizer_vertex_buffer::get_usage_from_declaration(16)) + 0x7F) & ~0x7F
+	// c_particle_emitter_gpu::x_gamestate_storage
+	void* g_particle_emitter_gpu_gamestate_storage;
+
+	//  name: "c_beam_gpu"
+	// count: 160
+	//  size: 0x10
+	// c_beam_gpu::x_data_array
+	c_smart_data_array<c_beam_gpu>* g_beam_gpu_data_array;
+
+	//  name: "c_beam_gpu::s_row"
+	// count: 160
+	//  size: 0x14
+	// c_beam_gpu::s_row::x_data_array
+	c_smart_data_array<c_beam_gpu::s_row>* g_beam_gpu_row_data_array;
+
+	// name: "c_particle_emitter_gpu", "x_gamestate_storage"
+	// size: (16 * 160 * rasterizer_vertex_get_stride_from_declaration(c_rasterizer_vertex_buffer::get_usage_from_declaration(29)) + 0x7F) & ~0x7F
+	// c_beam_gpu::x_gamestate_storage
+	void* g_beam_gpu_gamestate_storage;
+
+	//  name: "c_beam_gpu::s_row"
+	// count: 160
+	//  size: 0x14
+	// c_contrail_gpu::s_row::x_data_array;
+	c_smart_data_array<c_contrail_gpu::s_row>* g_contrail_gpu_row_data_array;
+
+	//  name: "c_contrail_gpu"
+	// count: 160
+	//  size: 0x10
+	// c_contrail_gpu::x_data_array;
+	c_smart_data_array<c_contrail_gpu>* g_contrail_gpu_data_array;
+
+	// name: "c_particle_emitter_gpu", "x_gamestate_storage"
+	// size: (16 * 160 * rasterizer_vertex_get_stride_from_declaration(c_rasterizer_vertex_buffer::get_usage_from_declaration(29)) + 0x7F) & ~0x7F
+	// c_contrail_gpu::x_gamestate_storage;
+	void* g_contrail_gpu_gamestate_storage;
+
+	// c_light_volume_gpu::x_data_array;
+	// count: 160
+	//  size: 0x10
+	c_smart_data_array<c_light_volume_gpu>* g_light_volume_gpu_data_array;
+
+	// c_light_volume_gpu::s_row::x_data_array;
+	// count: 160
+	//  size: 0xC
+	c_smart_data_array<c_light_volume_gpu::s_row>* g_light_volume_gpu_row_data_array;
+
+	// name: "c_particle_emitter_gpu", "x_gamestate_storage"
+	// size: (16 * 160 * rasterizer_vertex_get_stride_from_declaration(c_rasterizer_vertex_buffer::get_usage_from_declaration(19)) + 0x7F) & ~0x7F
+	// c_light_volume_gpu::x_gamestate_storage;
+	void* g_light_volume_gpu_gamestate_storage;
+
+	// "rasterizer", "implicit geometry data"
+	// size: 0x2104
 	s_rasterizer_implicit_geometry_globals* g_rasterizer_implicit_geometry_globals;
+
+	// "render object", "globals"
+	// size: 0x3C040
 	s_render_object_globals* render_object_globals;
-	shield_render_cache_message* shield_render_cache_message;
+
+	// "shield_render_cache_message"
+	// count: 8
+	//  size: 0x14
+	c_smart_data_array<shield_render_cache_message>* shield_render_cache_message;
+
+	// "chud", "persistent user data"
+	// size: 0xFA40
 	chud_persistent_user_data* chud_persistent_user_data;
+
+	// "chud", "persistent user data"
+	// size: 0x470
 	chud_persistent_global_data* chud_persistent_global_data;
 
-	// name: "chud widgets[0]"
-	// name: "chud widgets[1]"
-	// name: "chud widgets[2]"
-	// name: "chud widgets[3]"
-	c_static_array<c_smart_data_array<chud_widget_datum>*, 4> chud_widgets;
+	// name: "chud widgets"
+	// count: 128
+	//  size: 0x18
+	// c_chud_manager::x_user_widget_data
+	c_smart_data_array<chud_widget_datum>* g_chud_manager_user_widget_data[4];
 
 	// name: "fp orientations"
 	// size: 0x12C00
-	s_first_person_orientations* first_person_orientations;
+	s_first_person_orientations* first_person_weapon_orientations;
 
 	// name: "fp weapons"
 	// size: 0x14000
-	first_person_weapon* first_person_weapon;
+	first_person_weapon* first_person_weapons;
 
 	// name: "chud", "cortana effect"
 	// size: 0x10
@@ -1842,13 +1986,25 @@ struct s_thread_local_storage
 	//  size: 0x14
 	c_smart_data_array<recycling_group_datum>* recycling_groups;
 
-	muffin* muffin_data;
+	//  name: "muffin"
+	// count: 10
+	//  size: 0x1890
+	c_smart_data_array<muffin_datum>* muffin_data;
 
-	leaf_system* leaf_system_data;
+	//  name: "leaf system"
+	// count: 32
+	//  size: 0x94C
+	c_smart_data_array<c_leaf_system>* leaf_system_data;
 
-	antenna* antenna_data;
+	//  name: "antenna_datum"
+	// count: 12
+	//  size: 0x64
+	c_smart_data_array<antenna_datum>* antenna_data;
 
-	cloth* cloth_data;
+	//  name: "cloth"
+	// count: 8
+	//  size: 0x1704
+	c_smart_data_array<cloth_datum>* cloth_data;
 
 	void* __unknown4CC;
 	void* __unknown4D0;
@@ -1871,34 +2027,121 @@ struct s_thread_local_storage
 	void* __unknown514;
 	void* __unknown518;
 
-	actor* actor;
+	//  name: "actor"
+	// count: 256
+	//  size: 0xA98
+	c_smart_data_array<actor_datum>* actor;
+
+	// "actor firing-position owners"
+	// hash table
 	actor_firing_position* actor_firing_position;
+
+	// name: "ai_reference_frame"
+	// size: 0x4B0
 	ai_reference_frame* ai_reference_frame;
-	ai_globals* ai_globals;
-	ai_player_state* ai_player_state;
-	vocalization_records* vocalization_records;
+
+	// "ai globals"
+	// size: 0x688
+	ai_globals_type* ai_globals;
+
+	// "ai player state globals"
+	// size: 0xB0
+	ai_player_state* g_ai_players;
+
+	//  name: "vocalization records"
+	// count: 15
+	//  size: 0x5C
+	c_smart_data_array<vocalization_records>* vocalization_record_data;
+
+	// "vocalization timers"
+	// size: 0xFB8
 	vocalization_timers* vocalization_timers;
-	command_scripts* command_scripts;
-	objectives* objectives;
-	task_records* task_records;
-	squad* squad;
-	squad_group* squad_group;
-	swarm* swarm;
-	swarm_spawner* swarm_spawner;
-	spawner_globals* spawner_globals;
-	dynamic_firing_points* dynamic_firing_points;
-	propref* propref;
-	prop* prop;
-	tracking* tracking;
-	joint_state* joint_state;
-	clump* clump;
-	squad_patrol* squad_patrol;
-	flocks* flocks;
-	formations* formations;
+
+	//  name: "command scripts"
+	// count: 40
+	//  size: 0x188
+	c_smart_data_array<command_script_datum>* command_script_data;
+
+	//  name: "objectives"
+	// count: 125
+	//  size: 0xC
+	c_smart_data_array<s_objective>* objectives_data;
+
+	// "task records"
+	// size: 0x61A80
+	s_task_record* task_data;
+
+	//  name: "squad"
+	// count: 512
+	//  size: 0xEC
+	c_smart_data_array<squad_datum>* squad_data;
+
+	//  name: "squad group"
+	// count: 130
+	//  size: 0x24
+	c_smart_data_array<squad_group_datum>* squad_group_data;
+
+	// "swarm"
+	// count: 32
+	//  size: 0x34
+	c_smart_data_array<swarm_datum>* swarm_data;
+
+	// "swarm_spawner"
+	// size: 0x258
+	s_swarm_spawner* g_swarm_spawners;
+
+	// "spawner_globals"
+	// size: 0x2
+	s_spawner_globals* spawner_globals;
+
+	// "dynamic firing points"
+	// count: 15
+	//  size: 0x584
+	c_smart_data_array<dynamic_firing_set_datum>* dynamic_firing_set_data;
+
+	// "prop_ref"
+	// count: 1024
+	//  size: 0x3C
+	c_smart_data_array<prop_ref_datum>* prop_ref_data;
+
+	// "prop"
+	// count: 256
+	//  size: 0xC4
+	c_smart_data_array<prop_datum>* prop_data;
+
+	// "tracking"
+	// count: 100
+	//  size: 0x100
+	c_smart_data_array<tracking_datum>* tracking_data;
+
+	// "joint state"
+	// count: 20
+	//  size: 0xCC
+	c_smart_data_array<joint_state_datum>* g_joint_data;
+
+	// "clump"
+	// count: 20
+	//  size: 0x108
+	c_smart_data_array<clump_datum>* clump_data;
+
+	// "squad_patrol"
+	// count: 16
+	//  size: 0x6C4
+	c_smart_data_array<squad_patrol_datum>* squad_patrol_data;
+
+	// "flocks"
+	// count: 10
+	//  size: 0x4C
+	c_smart_data_array<flock_datum>* flocks_data;
+
+	// "formations"
+	// count: 16
+	//  size: 0x294
+	c_smart_data_array<formation_datum>* formation_data;
 
 	// name: "vision mode globals"
 	// size: 0xF0
-	vision_mode* vision_mode;
+	s_vision_mode_state* g_vision_mode_state;
 
 	void* __unknown580;
 };
