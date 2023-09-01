@@ -90,7 +90,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)third_party\DIA\lib\x32\;$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dbghelp.lib;diaguids.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
+    <PostBuildEvent>
       <Command>
 IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
 
@@ -99,7 +99,7 @@ COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
-    </PreBuildEvent>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -122,7 +122,7 @@ POPD
       <AdditionalLibraryDirectories>$(SolutionDir)third_party\DIA\lib\x32\;$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dbghelp.lib;diaguids.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
+    <PostBuildEvent>
       <Command>
 IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
 
@@ -131,7 +131,7 @@ COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
-    </PreBuildEvent>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">
     <ClCompile>
@@ -154,7 +154,7 @@ POPD
       <AdditionalLibraryDirectories>$(SolutionDir)third_party\DIA\lib\x32\;$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dbghelp.lib;diaguids.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
+    <PostBuildEvent>
       <Command>
 IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
 
@@ -163,7 +163,7 @@ COPY /Y $(TargetDir)* .\
 IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
-    </PreBuildEvent>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\ai\ai.cpp" />
