@@ -54,6 +54,10 @@ REFERENCE_DECLARE(0x0189CDD0, real_rgb_color const* const, global_real_rgb_darkg
 REFERENCE_DECLARE(0x0189CDD4, real_rgb_color const* const, global_real_rgb_salmon);
 REFERENCE_DECLARE(0x0189CDD8, real_rgb_color const* const, global_real_rgb_violet);
 
+REFERENCE_DECLARE(0x0189CDDC, c_system_allocation*, g_system_allocation);
+REFERENCE_DECLARE(0x0189CDE0, c_normal_allocation*, g_normal_allocation);
+REFERENCE_DECLARE(0x0189CDE4, c_no_allocation*, g_no_allocation);
+
 //bool set_catch_exceptions = []() -> bool
 //{
 //	g_catch_exceptions = false;
@@ -309,6 +313,16 @@ char const* c_string_id::get_string() const
 __int64 make_int64(__int64 a, __int64 b)
 {
 	return ((a << 0) | (b << 32));
+}
+
+void* offset_pointer(void* pointer, long offset)
+{
+	return pointer_from_address(address_from_pointer(pointer) + offset);
+}
+
+void const* offset_pointer(void const* pointer, long offset)
+{
+	return pointer_from_address(address_from_pointer(pointer) + offset);
 }
 
 unsigned int address_from_pointer(void const* pointer)

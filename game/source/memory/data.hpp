@@ -2,8 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-struct c_allocation_base;
-
 // 32-bit data array index handle
 typedef unsigned long datum_index;
 static_assert(sizeof(datum_index) == 0x4);

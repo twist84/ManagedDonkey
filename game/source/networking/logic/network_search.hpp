@@ -22,7 +22,6 @@ struct s_available_session
 };
 static_assert(sizeof(s_available_session) == 0x164F8);
 
-struct c_allocation_base;
 struct s_network_search_globals
 {
 	long search_category;

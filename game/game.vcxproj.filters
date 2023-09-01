@@ -906,6 +906,9 @@
     <ClCompile Include="source\physics\physics_models.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\memory\hashtable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2271,6 +2274,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\physics_models.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\memory\hashtable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

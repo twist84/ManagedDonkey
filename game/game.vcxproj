@@ -320,6 +320,7 @@ POPD
     <ClCompile Include="source\memory\data_encoding.cpp" />
     <ClCompile Include="source\memory\data_packets.cpp" />
     <ClCompile Include="source\memory\data_packet_groups.cpp" />
+    <ClCompile Include="source\memory\hashtable.cpp" />
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\read_write_lock.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
@@ -507,6 +508,7 @@ POPD
     <ClInclude Include="source\memory\data_encoding.hpp" />
     <ClInclude Include="source\memory\data_packets.hpp" />
     <ClInclude Include="source\memory\data_packet_groups.hpp" />
+    <ClInclude Include="source\memory\hashtable.hpp" />
     <ClInclude Include="source\memory\read_write_lock.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />

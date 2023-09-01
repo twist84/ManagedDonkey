@@ -1,6 +1,5 @@
 #include "memory/thread_local.hpp"
 
-#include "interface/user_interface_memory.hpp"
 #include "memory/module.hpp"
 
 #include <windows.h>

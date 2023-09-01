@@ -7,7 +7,6 @@
 #include "cache/cache_file_tag_resource_vtable_list.hpp"
 #include "cache/optional_cache.hpp"
 #include "cseries/cseries.hpp"
-#include "interface/user_interface_memory.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "scenario/scenario.hpp"
 #include "shell/shell.hpp"

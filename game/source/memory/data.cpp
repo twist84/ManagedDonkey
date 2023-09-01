@@ -1,8 +1,5 @@
 #include "memory/data.hpp"
 
-#include "interface/user_interface_memory.hpp"
-
-
 long s_data_array::get_index(long index) const
 {
 	if ((index < 0) || (index >= first_unallocated))

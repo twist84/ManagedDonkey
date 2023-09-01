@@ -1,6 +1,5 @@
 #include "networking/logic/network_search.hpp"
 
-#include "interface/user_interface_memory.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
 #include "networking/logic/network_recruiting_search.hpp"
 

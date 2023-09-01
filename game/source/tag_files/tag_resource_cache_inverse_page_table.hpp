@@ -3,7 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_allocation_base;
 struct c_tag_resource_inverse_page_table
 {
 	struct s_page_resource_reference_range : s_datum_header

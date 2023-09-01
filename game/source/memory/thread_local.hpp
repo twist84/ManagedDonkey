@@ -16,6 +16,7 @@
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
 #include "memory/data.hpp"
+#include "memory/hashtable.hpp"
 #include "physics/physics_constants.hpp"
 #include "scenario/scenario_interpolators.hpp"
 
@@ -183,12 +184,6 @@ struct s_structure_seam_globals
 	dword_flags connected_bsps_mask;
 };
 static_assert(sizeof(s_structure_seam_globals) == 0x14614);
-
-struct visibility_active_portals
-{
-	byte __data[0x800];
-};
-static_assert(sizeof(visibility_active_portals) == 0x800);
 
 struct s_campaign_metagame_runtime_globals
 {
@@ -366,11 +361,11 @@ struct s_decal_counts
 };
 static_assert(sizeof(s_decal_counts) == 0x20);
 
-struct decal
+struct c_decal : s_datum_header
 {
-	byte __data[0x130];
+	byte __data[0x12E];
 };
-static_assert(sizeof(decal) == 0x130);
+static_assert(sizeof(c_decal) == 0x130);
 
 struct s_decal_message_queue
 {
@@ -917,14 +912,13 @@ struct s_object_placement_globals
 };
 static_assert(sizeof(s_object_placement_globals) == 0x320);
 
-struct device_groups
+struct device_group_datum : s_datum_header
 {
-	dword __unknown0;
 	dword __unknown4;
 	dword __unknown8;
 	dword __unknownC;
 };
-static_assert(sizeof(device_groups) == 0x10);
+static_assert(sizeof(device_group_datum) == 0x10);
 
 struct object_scripting
 {
@@ -965,11 +959,11 @@ struct object_activation_regions
 };
 static_assert(sizeof(object_activation_regions) == 0x28);
 
-struct lights
+struct light_datum : s_datum_header
 {
-	byte __data[0xE4];
+	byte __data[0xE2];
 };
-static_assert(sizeof(lights) == 0xE4);
+static_assert(sizeof(light_datum) == 0xE4);
 
 struct lights_game_globals_definition
 {
@@ -983,13 +977,12 @@ struct s_nondeterministic_light_data
 };
 static_assert(sizeof(s_nondeterministic_light_data) == 0x2580);
 
-struct widget
+struct widget_datum : s_datum_header
 {
-	dword __unknown0;
 	dword __unknown4;
 	dword __unknown8;
 };
-static_assert(sizeof(widget) == 0xC);
+static_assert(sizeof(widget_datum) == 0xC);
 
 struct s_recycling_volumes
 {
@@ -1047,12 +1040,20 @@ static_assert(sizeof(ai_reference_frame) == 0x4B0);
 
 struct ai_globals_type
 {
-	byte enable;
+	bool enable;
 	byte __unknown1;
-	short flags;
+	byte_flags flags;
+	byte __unknown3;
 	byte __unknown4;
-	byte fast_and_dumb;
-	byte __unknown5[1666];
+	bool fast_and_dumb;
+	byte __data6[22];
+	real unknown1C;
+	bool dialogue_enabled;
+	byte __data21[31];
+	word __unknown40;
+	word __unknown42;
+	byte __unknown44[0x380];
+	byte __data3C4[0x2C4];
 };
 static_assert(sizeof(ai_globals_type) == 0x688);
 
@@ -1200,19 +1201,24 @@ struct s_thread_local_storage
 	//  size: 0x10
 	c_smart_data_array<simulation_gamestate_entity_datum>* simulation_gamestate_entity_data;
 
-	// name: "gamestate timing samples", "global"
+	// name: "gamestate timing samples"
+	// type: "global"
 	// size: 0x14
 	s_game_tick_time_samples* g_main_gamestate_timing_data;
 
-	// name: "render timing samples", "global"
+	// name: "render timing samples"
+	// type: "global"
 	// size: 0x14
 	s_game_tick_time_samples* g_main_render_timing_data;
 
-	// name: "main_timing", "globals"
+	// name: "main_timing"
+	// type: "globals"
 	// size: 0x40
 	s_main_time_globals* g_main_time_globals;
 
 	// size: 0x84030
+	// This is interacted with in the same manner as `g_font_cache_globals`,
+	// using `c_global_preferences_scope_lock`
 	s_global_preferences_internals_type* g_global_preferences;
 
 	void* __unknown1C;
@@ -1225,7 +1231,8 @@ struct s_thread_local_storage
 	void* __unknown2C;
 	void* __unknown30;
 
-	// name: "random math", "globals"
+	// name: "random math"
+	// type: "globals"
 	// size: 0x4
 	dword* g_deterministic_random_seed_ptr;
 
@@ -1242,6 +1249,7 @@ struct s_thread_local_storage
 	c_smart_data_array<player_datum>* player_data;
 
 	// name: "players globals"
+	// size: 0x234
 	s_players_global_data* players_globals;
 
 	// name: "game engine globals"
@@ -1380,7 +1388,8 @@ struct s_thread_local_storage
 
 	// name: "visibility active portals"
 	// size: 0x800
-	visibility_active_portals* visibility_active_portals;
+	c_static_array<c_static_flags<1024>, 16>* g_active_portal_bitvectors;
+	static_assert(sizeof(*g_active_portal_bitvectors) == 0x800);
 
 	// name: "campaign meta-game globals"
 	// size: 0x1A158
@@ -1404,6 +1413,9 @@ struct s_thread_local_storage
 
 	void* __unknownF4;
 
+	// The size marked as 0x14 in our research database
+	// This is interacted with in the same manner as `g_global_preferences`,
+	// using `c_font_cache_scope_lock`
 	struct s_font_cache_globals* g_font_cache_globals;
 
 	// name: "sound classes"
@@ -1605,7 +1617,8 @@ struct s_thread_local_storage
 	// size: 0x7E0
 	s_survival_mode_globals* g_survival_mode_globals;
 
-	// name: "player training globals", "globals"
+	// name: "player training globals"
+	// type: "globals"
 	// size: 0x8E8
 	s_player_training_globals* player_training_globals;
 
@@ -1629,7 +1642,7 @@ struct s_thread_local_storage
 	//  name: "decal"
 	// count: 856
 	//  size: 0x130
-	decal* decal_data;
+	c_smart_data_array<c_decal>* decal_data;
 
 	// name: "decal messaging queue"
 	// size: 0x824
@@ -1792,7 +1805,8 @@ struct s_thread_local_storage
 	// c_particle_emitter_gpu::s_row::x_data_array
 	c_smart_data_array<c_particle_emitter_gpu::s_row>* g_particle_emitter_gpu_row_data_array;
 
-	// name: "c_particle_emitter_gpu", "x_gamestate_storage"
+	// name: "c_particle_emitter_gpu"
+	// type: "x_gamestate_storage"
 	// size: (16 * 448 * rasterizer_vertex_get_stride_from_declaration(c_rasterizer_vertex_buffer::get_usage_from_declaration(16)) + 0x7F) & ~0x7F
 	// c_particle_emitter_gpu::x_gamestate_storage
 	void* g_particle_emitter_gpu_gamestate_storage;
@@ -1809,7 +1823,8 @@ struct s_thread_local_storage
 	// c_beam_gpu::s_row::x_data_array
 	c_smart_data_array<c_beam_gpu::s_row>* g_beam_gpu_row_data_array;
 
-	// name: "c_particle_emitter_gpu", "x_gamestate_storage"
+	// name: "c_particle_emitter_gpu"
+	// type: "x_gamestate_storage"
 	// size: (16 * 160 * rasterizer_vertex_get_stride_from_declaration(c_rasterizer_vertex_buffer::get_usage_from_declaration(29)) + 0x7F) & ~0x7F
 	// c_beam_gpu::x_gamestate_storage
 	void* g_beam_gpu_gamestate_storage;
@@ -1826,7 +1841,8 @@ struct s_thread_local_storage
 	// c_contrail_gpu::x_data_array;
 	c_smart_data_array<c_contrail_gpu>* g_contrail_gpu_data_array;
 
-	// name: "c_particle_emitter_gpu", "x_gamestate_storage"
+	// name: "c_particle_emitter_gpu"
+	// type: "x_gamestate_storage"
 	// size: (16 * 160 * rasterizer_vertex_get_stride_from_declaration(c_rasterizer_vertex_buffer::get_usage_from_declaration(29)) + 0x7F) & ~0x7F
 	// c_contrail_gpu::x_gamestate_storage;
 	void* g_contrail_gpu_gamestate_storage;
@@ -1841,29 +1857,34 @@ struct s_thread_local_storage
 	//  size: 0xC
 	c_smart_data_array<c_light_volume_gpu::s_row>* g_light_volume_gpu_row_data_array;
 
-	// name: "c_particle_emitter_gpu", "x_gamestate_storage"
+	// name: "c_particle_emitter_gpu"
+	// type: "x_gamestate_storage"
 	// size: (16 * 160 * rasterizer_vertex_get_stride_from_declaration(c_rasterizer_vertex_buffer::get_usage_from_declaration(19)) + 0x7F) & ~0x7F
 	// c_light_volume_gpu::x_gamestate_storage;
 	void* g_light_volume_gpu_gamestate_storage;
 
-	// "rasterizer", "implicit geometry data"
+	// name: "rasterizer"
+	// type: "implicit geometry data"
 	// size: 0x2104
 	s_rasterizer_implicit_geometry_globals* g_rasterizer_implicit_geometry_globals;
 
-	// "render object", "globals"
+	// name: "render object"
+	// type: "globals"
 	// size: 0x3C040
 	s_render_object_globals* render_object_globals;
 
-	// "shield_render_cache_message"
+	// name: "shield_render_cache_message"
 	// count: 8
 	//  size: 0x14
 	c_smart_data_array<shield_render_cache_message>* shield_render_cache_message;
 
-	// "chud", "persistent user data"
+	// name: "chud"
+	// type: "persistent user data"
 	// size: 0xFA40
 	chud_persistent_user_data* chud_persistent_user_data;
 
-	// "chud", "persistent user data"
+	// name: "chud"
+	// type: "persistent user data"
 	// size: 0x470
 	chud_persistent_global_data* chud_persistent_global_data;
 
@@ -1881,7 +1902,8 @@ struct s_thread_local_storage
 	// size: 0x14000
 	first_person_weapon* first_person_weapons;
 
-	// name: "chud", "cortana effect"
+	// name: "chud"
+	// type: "cortana effect"
 	// size: 0x10
 	s_cortana_globals* g_cortana_globals;
 
@@ -1920,7 +1942,8 @@ struct s_thread_local_storage
 	// size: 0x14
 	cluster_partition noncollideable_object_cluster_partition;
 
-	// name: "OBJ: Render Data", "Render"
+	// name: "OBJ: Render Data"
+	// type: "Render"
 	// size: 0x2000
 	object_render_data* object_render_data;
 
@@ -1935,13 +1958,14 @@ struct s_thread_local_storage
 	//  name: "device groups"
 	// count: 1024
 	//  size: 0x10
-	device_groups* device_groups_data;
+	c_smart_data_array<device_group_datum>* device_groups_data;
 
 	// name: "object scripting"
 	// size: 0x304
 	object_scripting* object_scripting;
 
-	// name: "object_broadphase", "global"
+	// name: "object_broadphase"
+	// type: "global"
 	// size: 0x32450
 	s_object_broadphase* g_object_broadphase;
 
@@ -1956,12 +1980,13 @@ struct s_thread_local_storage
 	//  name: "object activation regions"
 	// count: 128
 	//  size: 0x28
-	object_activation_regions* g_object_activation_regions_data;
+	c_static_flags<256>* g_trigger_activations;
+	//object_activation_regions* g_object_activation_regions_data;
 
 	//  name: "lights"
 	// count: 400
 	//  size: 0xE4
-	lights* lights;
+	c_smart_data_array<light_datum>* light_data;
 
 	// name: "lights globals"
 	// size: 0x40
@@ -1971,11 +1996,15 @@ struct s_thread_local_storage
 	// size: 0xC
 	cluster_partition light_cluster_partition;
 
-	// name: "nondet_light_data", "render lights"
+	// name: "nondet_light_data"
+	// type: "render lights"
 	// size: 0x2580
 	s_nondeterministic_light_data* g_nondeterministic_light_data;
 
-	widget* widget_data;
+	//  name: "widget"
+	// count: 64
+	//  size: 0xC
+	c_smart_data_array<widget_datum>* widget_data;
 
 	// name: "recycling_volumes"
 	// size: 0x148
@@ -2006,9 +2035,18 @@ struct s_thread_local_storage
 	//  size: 0x1704
 	c_smart_data_array<cloth_datum>* cloth_data;
 
-	void* __unknown4CC;
+
+	// perhaps some or all of the following tls members are part saber memory allocation code,
+	// and perhaps and fmod related memory allocations are using a saber provided memory allocator?
+
+	// unknown saber/fmod memory allocation related
+	long __unknown4CC;
+
 	void* __unknown4D0;
+
+	// saber strings? memory allocation related, a structure with a `char*` as the first struct member?
 	void* __unknown4D4;
+
 	void* __unknown4D8;
 	void* __unknown4DC;
 	void* __unknown4E0;
@@ -2018,7 +2056,10 @@ struct s_thread_local_storage
 	void* __unknown4F0;
 	void* __unknown4F4;
 	void* __unknown4F8;
-	void* __unknown4FC;
+
+	// unknown saber/fmod memory allocation related
+	long __unknown4FC;
+
 	void* __unknown500;
 	void* __unknown504;
 	void* __unknown508;
@@ -2027,24 +2068,27 @@ struct s_thread_local_storage
 	void* __unknown514;
 	void* __unknown518;
 
+
 	//  name: "actor"
 	// count: 256
 	//  size: 0xA98
-	c_smart_data_array<actor_datum>* actor;
+	c_smart_data_array<actor_datum>* actor_data;
 
-	// "actor firing-position owners"
-	// hash table
-	actor_firing_position* actor_firing_position;
+	//             name:  "actor firing-position owners"
+	//   user_data_size: 4
+	//     bucket_count: 0x400
+	// maximum_elements: 0x100
+	s_hash_table* g_actor_firing_position_hash;
 
 	// name: "ai_reference_frame"
 	// size: 0x4B0
 	ai_reference_frame* ai_reference_frame;
 
-	// "ai globals"
+	// name: "ai globals"
 	// size: 0x688
 	ai_globals_type* ai_globals;
 
-	// "ai player state globals"
+	// name: "ai player state globals"
 	// size: 0xB0
 	ai_player_state* g_ai_players;
 
@@ -2053,7 +2097,7 @@ struct s_thread_local_storage
 	//  size: 0x5C
 	c_smart_data_array<vocalization_records>* vocalization_record_data;
 
-	// "vocalization timers"
+	// name: "vocalization timers"
 	// size: 0xFB8
 	vocalization_timers* vocalization_timers;
 
@@ -2067,7 +2111,7 @@ struct s_thread_local_storage
 	//  size: 0xC
 	c_smart_data_array<s_objective>* objectives_data;
 
-	// "task records"
+	// name: "task records"
 	// size: 0x61A80
 	s_task_record* task_data;
 
@@ -2081,60 +2125,60 @@ struct s_thread_local_storage
 	//  size: 0x24
 	c_smart_data_array<squad_group_datum>* squad_group_data;
 
-	// "swarm"
+	// name: "swarm"
 	// count: 32
 	//  size: 0x34
 	c_smart_data_array<swarm_datum>* swarm_data;
 
-	// "swarm_spawner"
+	// name: "swarm_spawner"
 	// size: 0x258
 	s_swarm_spawner* g_swarm_spawners;
 
-	// "spawner_globals"
+	// name: "spawner_globals"
 	// size: 0x2
 	s_spawner_globals* spawner_globals;
 
-	// "dynamic firing points"
+	//  name: "dynamic firing points"
 	// count: 15
 	//  size: 0x584
 	c_smart_data_array<dynamic_firing_set_datum>* dynamic_firing_set_data;
 
-	// "prop_ref"
+	//  name: "prop_ref"
 	// count: 1024
 	//  size: 0x3C
 	c_smart_data_array<prop_ref_datum>* prop_ref_data;
 
-	// "prop"
+	//  name: "prop"
 	// count: 256
 	//  size: 0xC4
 	c_smart_data_array<prop_datum>* prop_data;
 
-	// "tracking"
+	//  name: "tracking"
 	// count: 100
 	//  size: 0x100
 	c_smart_data_array<tracking_datum>* tracking_data;
 
-	// "joint state"
+	//  name: "joint state"
 	// count: 20
 	//  size: 0xCC
 	c_smart_data_array<joint_state_datum>* g_joint_data;
 
-	// "clump"
+	//  name: "clump"
 	// count: 20
 	//  size: 0x108
 	c_smart_data_array<clump_datum>* clump_data;
 
-	// "squad_patrol"
+	//  name: "squad_patrol"
 	// count: 16
 	//  size: 0x6C4
 	c_smart_data_array<squad_patrol_datum>* squad_patrol_data;
 
-	// "flocks"
+	//  name: "flocks"
 	// count: 10
 	//  size: 0x4C
 	c_smart_data_array<flock_datum>* flocks_data;
 
-	// "formations"
+	//  name: "formations"
 	// count: 16
 	//  size: 0x294
 	c_smart_data_array<formation_datum>* formation_data;

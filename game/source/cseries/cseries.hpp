@@ -116,6 +116,31 @@ const long LONG_BITS = SIZEOF_BITS(long);
 
 #define NONE -1
 
+struct c_allocation_base
+{
+public:
+	virtual void* allocate(dword size, char const* name);
+	virtual void deallocate(void* buffer);
+};
+
+struct c_system_allocation :
+	public c_allocation_base
+{
+public:
+};
+
+struct c_normal_allocation :
+	public c_allocation_base
+{
+public:
+};
+
+struct c_no_allocation :
+	public c_allocation_base
+{
+public:
+};
+
 long const k_vtable_pointer_size = sizeof(void*);
 
 constexpr long bit_count(long val)
@@ -1044,6 +1069,8 @@ T rotate_left(T value, int count)
 #define __ROR4__(value, count) rotate_left(static_cast<dword>(value), -count)
 #define __ROR8__(value, count) rotate_left(static_cast<qword>(value), -count)
 
+extern void* offset_pointer(void* pointer, long offset);
+extern void const* offset_pointer(void const* pointer, long offset);
 extern unsigned int address_from_pointer(void const* pointer);
 extern void* pointer_from_address(unsigned int address);
 extern unsigned int align_address(unsigned int address, long alignment_bits);
@@ -1083,4 +1110,8 @@ extern real_rgb_color const* const& global_real_rgb_aqua;
 extern real_rgb_color const* const& global_real_rgb_darkgreen;
 extern real_rgb_color const* const& global_real_rgb_salmon;
 extern real_rgb_color const* const& global_real_rgb_violet;
+
+extern c_system_allocation*& g_system_allocation;
+extern c_normal_allocation*& g_normal_allocation;
+extern c_no_allocation*& g_no_allocation;
 

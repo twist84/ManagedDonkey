@@ -9,7 +9,6 @@ struct s_tag_resource_access_datum
 };
 static_assert(sizeof(s_tag_resource_access_datum) == 0x8);
 
-struct c_allocation_base;
 struct c_tag_resource_cache_file_access_cache
 {
 public:

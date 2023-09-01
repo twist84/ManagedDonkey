@@ -13,8 +13,6 @@ bool g_terminal_render_enable = true;
 real const k_output_total_seconds = 4.0f + 1.0f;
 short const k_tab_stops[] = { 160, 320, 470, 620, 770 };
 
-REFERENCE_DECLARE(0x0189CDE0, c_allocation_base*, g_normal_allocation);
-
 void __cdecl terminal_printf(real_argb_color const* color, char const* format, ...)
 {
 	ASSERT(format != NULL);
