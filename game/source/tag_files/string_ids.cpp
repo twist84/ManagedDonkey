@@ -1,6 +1,7 @@
 #include "tag_files/string_ids.hpp"
 
 #include "cseries/cseries.hpp"
+#include "memory/hashtable.hpp"
 #include "tag_files/files.hpp"
 
 // max string characters 128, string_id_retrieve
@@ -266,6 +267,107 @@ long __cdecl string_id_retrieve(char const* string)
 
 	return _string_id_invalid;
 }
+
+//dword __cdecl long_hash_table_hash_function(void const* id)
+//{
+//	c_hash hash;
+//	return hash.add_data_range(static_cast<byte const*>(id), sizeof(long));
+//}
+//
+//bool __cdecl nonheap_compare_function(void const* a, void const* b)
+//{
+//	return a == b;
+//}
+
+//char* __cdecl string_id_get_string(long string_id, char* string, long string_size)
+//{
+//	long storage_index = NONE;
+//	g_string_id_globals.string_id_mappings.find(reinterpret_cast<long const*>(string_id), &storage_index);
+//	*string = 0;
+//	if (storage_index != NONE)
+//	{
+//		ASSERT(storage_index >= 0 && storage_index < k_maximum_string_id_storage);
+//		csstrnzcpy(string, &g_string_id_globals.ascii_storage[storage_index], string_size);
+//	}
+//
+//	return string;
+//}
+
+//char const* string_id_get_string_const(long string_id)
+//{
+//	long storage_index = NONE;
+//	g_string_id_globals.string_id_mappings.find(reinterpret_cast<long const*>(string_id), &storage_index);
+//	char const* string = nullptr;
+//	if (storage_index != NONE)
+//	{
+//		ASSERT(storage_index >= 0 && storage_index < k_maximum_string_id_storage);
+//		string = &g_string_id_globals.ascii_storage[storage_index];
+//	}
+//
+//	return string;
+//}
+
+//long string_id_retrieve(char const* string)
+//{
+//	c_static_string<128> string_buffer = string;
+//	string_id_convert_static_string(&string_buffer);
+//
+//	long result = _string_id_invalid;
+//	if (g_string_id_globals.string_ids.find(string_buffer.get_string(), &result))
+//		ASSERT(result == _string_id_invalid);
+//
+//	return result;
+//}
+
+//void __cdecl initialize_hash_tables()
+//{
+//	if (!g_string_id_globals.string_ids.created())
+//	{
+//		g_string_id_globals.string_ids.create(
+//			"string id globals",
+//			0x12000,
+//			0x9000,
+//			string_hash_table_hash_function,
+//			string_hash_table_compare_function,
+//			g_normal_allocation);
+//	}
+//	else
+//	{
+//		g_string_id_globals.string_ids.reset();
+//	}
+//
+//	if (!g_string_id_globals.string_id_mappings.created())
+//	{
+//		g_string_id_globals.string_id_mappings.create(
+//			"string id mapping globals",
+//			0x12000,
+//			0x9000,
+//			long_hash_table_hash_function,
+//			nonheap_compare_function,
+//			g_normal_allocation);
+//	}
+//
+//	g_string_id_globals.string_id_count = g_strings_defined_in_tags_starting_index;
+//}
+
+//long __cdecl sub_82A8F1A8(char const* string, long string_id_index, long string_id_mapping_index)
+//{
+//	if (IN_RANGE_INCLUSIVE(string_id_index, k_constant_string_id_table_entries, g_strings_defined_in_tags_starting_index - 1))
+//		return NONE;
+//
+//	long id = NONE;
+//	if (string_id_index >= k_constant_string_id_table_entries)
+//		id = g_string_id_globals.string_id_count++;
+//	else
+//		id = g_constant_string_id_table[string_id_index].id;
+//
+//	ASSERT(g_string_id_globals.string_ids.add(string, &id));
+//	ASSERT(g_string_id_globals.string_id_mappings.add(reinterpret_cast<long const*>(id), &string_id_mapping_index));
+//
+//	return id;
+//}
+
+s_string_id_globals g_string_id_globals{};
 
 s_string_id const g_constant_string_id_table[]
 {

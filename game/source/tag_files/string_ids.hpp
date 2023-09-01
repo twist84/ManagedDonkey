@@ -1,5 +1,7 @@
 #pragma once
 
+#include "memory/hashtable.hpp"
+
 // halo 3, odst and halo online use a 16 bit namespace
 // halo reach uses a 17 bit namespace
 #define STRING_NAMESPACE_BITS 16
@@ -4109,11 +4111,28 @@ static_assert(0x018 == k_saved_game_string_id_count);
 static_assert(0x00D == k_gpu_string_id_count);
 static_assert(0x073 == k_input_string_id_count);
 
+long const k_maximum_string_id_storage = 0xAA000;
+struct s_string_id_globals
+{
+	char* ascii_storage;
+	long ascii_storage_index;
+
+	char const** ascii_strings;
+	long ascii_string_index;
+
+	c_hash_table<char, long> string_ids;
+	c_hash_table<long, long> string_id_mappings;
+	long string_id_count;
+};
+static_assert(sizeof(s_string_id_globals) == 0x1C);
+
 struct s_string_id
 {
 	long id;
 	const char* string;
 };
+
+extern s_string_id_globals g_string_id_globals;
 
 extern s_string_id const g_constant_string_id_table[];
 

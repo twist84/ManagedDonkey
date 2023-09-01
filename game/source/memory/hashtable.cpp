@@ -147,6 +147,15 @@ void __cdecl hash_table_set_functions(s_hash_table* table, hash_table_hash_funct
 
 void __cdecl hash_table_verify(s_hash_table* table)
 {
+	//ASSERT(table);
+	//ASSERT(table->bucket_count > 0);
+	//ASSERT(table->maximum_elements > 0);
+	//ASSERT(table->user_data_size > 0);
+	//ASSERT(table->hash_function);
+	//ASSERT(table->compare_function);
+	//ASSERT(table->allocation);
+	//ASSERT(table->base_address == static_cast<const void*>(table));
+
 	//for (long bucket_index = 0; bucket_index < table->bucket_count; bucket_index++)
 	//{
 	//	for (s_hash_table_bucket* current_bucket = reinterpret_cast<s_hash_table_bucket*>(table) + bucket_index; current_bucket; current_bucket = current_bucket->next)
