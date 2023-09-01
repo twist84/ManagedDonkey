@@ -7,6 +7,8 @@
 #define STRING_ID(NAMESPACE, STRING) (_string_namespace_##NAMESPACE << STRING_NAMESPACE_BITS) + _##NAMESPACE##_string_id_##STRING
 #define STRING_NAMESPACE_FROM_STRING_ID(ID) (ID >> STRING_NAMESPACE_BITS)
 #define STRING_INDEX_FROM_STRING_ID(ID) (ID & ((1 << STRING_NAMESPACE_BITS) - 1))
+#define DEFINE_CONSTANT_STRING_ID(NAMESPACE, STRING) { STRING_ID(NAMESPACE, STRING), k_##NAMESPACE##_string_id_strings[STRING_INDEX_FROM_STRING_ID(STRING_ID(NAMESPACE, STRING))] }
+#define DEFINE_CONSTANT_STRING_ID2(STRING_ID, STRING) { STRING_ID, #STRING }
 
 enum e_string_namespace
 {
@@ -4107,8 +4109,29 @@ static_assert(0x018 == k_saved_game_string_id_count);
 static_assert(0x00D == k_gpu_string_id_count);
 static_assert(0x073 == k_input_string_id_count);
 
-extern char const* string_id_get_string_const(long string_id);
-extern long string_id_retrieve(char const* string);
+struct s_string_id
+{
+	long id;
+	const char* string;
+};
 
-extern void string_id_initialize();
+extern s_string_id const g_constant_string_id_table[];
+
+long const k_constant_string_id_table_entries = k_global_string_id_count
++ k_gui_string_id_count
++ k_gui_alert_string_id_count
++ k_gui_dialog_string_id_count
++ k_game_engine_string_id_count
++ k_game_start_string_id_count
++ k_online_string_id_count
++ k_saved_game_string_id_count
++ k_gpu_string_id_count;
+
+// there are 447 string id indices set to NONE in `string_ids.dat`
+long const k_constant_string_id_table_entries_missing = 447;
+
+//extern char* __cdecl string_id_get_string(long string_id, char* string, long string_size);
+extern char const* __cdecl string_id_get_string_const(long string_id);
+extern long __cdecl string_id_retrieve(char const* string);
+//void __cdecl initialize_hash_tables()
 
