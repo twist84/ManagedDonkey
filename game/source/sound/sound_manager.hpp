@@ -48,9 +48,8 @@ struct s_sound_manager_globals
 	byte __unknown9F;
 	bool __unknownA0;
 
+	dword system_time;
 	dword render_time;
-
-	long __unknownA8;
 
 	c_static_array<s_sound_listener, 4> listeners;
 
@@ -61,7 +60,13 @@ struct s_sound_manager_globals
 
 	byte __data268[56];
 
-	byte __unknown2A0_ducker[16];
+	struct
+	{
+		long active_ducker;
+		real active_ducker_time;
+		long last_ducker;
+		real inactive_time;
+	} ducker;
 
 	short channel_count;
 	short __unknown2B2;
@@ -69,6 +74,8 @@ struct s_sound_manager_globals
 };
 static_assert(sizeof(s_sound_manager_globals) == 0x2B8);
 
+extern bool debug_sound_class_totals;
+extern bool debug_duckers;
 extern bool debug_sound_listeners;
 extern bool debug_sound;
 extern bool debug_sound_manager_channels;

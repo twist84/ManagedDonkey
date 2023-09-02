@@ -6,6 +6,7 @@
 #include "memory/module.hpp"
 #include "render/render_debug.hpp"
 #include "simulation/simulation.hpp"
+#include "sound/sound_classes.hpp"
 
 struct s_cache_file_sound_permutation;
 struct sound_channel_datum
@@ -145,6 +146,8 @@ REFERENCE_DECLARE(0x02497D30, c_smart_data_array<s_sound_effect_datum>, g_sound_
 //  size: 0x1C
 REFERENCE_DECLARE(0x02497D3C, c_smart_data_array<c_sound_playback_controller>, g_sound_playback_controller_data);
 
+bool debug_sound_class_totals = false;
+bool debug_duckers = false;
 bool debug_sound_listeners = false;
 bool debug_sound = false;
 bool debug_sound_manager_channels = false;
@@ -342,12 +345,47 @@ void __cdecl sound_render_debug(long sound_index)
 
 void __cdecl sound_debug_render()
 {
-	if (!simulation_in_progress())
-		return;
-
 	c_static_string<8192> debug_string;
 
 	//platform_sound_debug_render();
+
+	if (debug_sound_class_totals)
+	{
+		//long v5 = NONE;
+		//for (long i = 0; i < k_sound_class_count; i++)
+		//{
+		//	if (!strchr(sound_class_names[i], '!'))
+		//	{
+		//		long v7 = ++v5 / 2;
+		//		if (TEST_BIT(v5, 0))
+		//		{
+		//			//status_line_appendf(sound_class_totals_status_lines[v7], "% 40s: % 2d", sound_class_names[i], sound_class_totals[i]);
+		//		}
+		//		else
+		//		{
+		//			//status_line_appendf(sound_class_totals_status_lines[v7], "% 40s: % 2d", sound_class_names[i], sound_class_totals[i]);
+		//		}
+		//	}
+		//}
+	}
+
+	if (debug_duckers)
+	{
+		if (g_sound_manager_globals->ducker.active_ducker != NONE && g_sound_manager_globals->ducker.active_ducker_time >= 5.0f)
+		{
+			debug_string.append_print("ducker inactive for %1.2f seconds|n",
+				g_sound_manager_globals->ducker.inactive_time);
+		}
+		else
+		{
+			debug_string.append_print("active ducker: %d time: %1.2f last ducker: %d inactive time: %1.2f|n",
+				g_sound_manager_globals->ducker.active_ducker,
+				g_sound_manager_globals->ducker.active_ducker_time,
+				g_sound_manager_globals->ducker.last_ducker,
+				g_sound_manager_globals->ducker.inactive_time);
+		}
+		debug_string.append("|n");
+	}
 
 	if (debug_sound_listeners)
 	{
