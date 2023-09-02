@@ -62,6 +62,16 @@ struct s_player_waypoint_data
 };
 static_assert(sizeof(s_player_waypoint_data) == 0x1C);
 
+struct s_simulation_player_netdebug_data
+{
+	byte __data0[0x8];
+	short rtt_msec;
+	short packet_rate;
+	short bandwidth_bps;
+	short packet_loss;
+};
+static_assert(sizeof(s_simulation_player_netdebug_data) == 0x10);
+
 struct s_multiplayer_weapon_tracker
 {
 	dword weapon_index;
@@ -121,9 +131,15 @@ struct s_game_engine_globals
 	long shot_id;
 	c_static_array<s_dead_player_info, 64> spawn_influencers;
 	c_game_statborg statborg;
+
+	// are these related?
 	long __unknown102D4;
 	c_static_array<s_player_waypoint_data, 16> player_waypoints;
-	byte __data10498[0x104];
+
+	// are these related?
+	long __unknown10498;
+	c_static_array<s_simulation_player_netdebug_data, 16> player_netdebugs;
+
 	c_multiplayer_candy_monitor_manager candy_monitor_manager;
 	dword round_end_ticks;
 	c_enum<e_game_engine_state, long, _game_engine_state_game_over, k_game_engine_state_count> desired_state;
