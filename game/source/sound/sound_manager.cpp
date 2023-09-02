@@ -33,6 +33,15 @@ struct sound_channel_datum
 };
 static_assert(sizeof(sound_channel_datum) == 0x38);
 
+struct s_sound_location
+{
+	real_point3d position;
+	real_quaternion orientation;
+	vector3d vector;
+	s_location location;
+};
+static_assert(sizeof(s_sound_location) == 0x2C);
+
 struct s_sound_source
 {
 	word_flags flags;
@@ -40,17 +49,13 @@ struct s_sound_source
 	char spatialization_mode;
 	real scale;
 	byte __dataC[0x4];
-	real_point3d position;
-	real_quaternion orientation;
-	byte __data28[0xC];
-	short end_cluster_index;
-	char __data36[0x2];
+	s_sound_location location;
 	real __unknown38;
 	real minimum_distance;
 	real maximum_distance;
 	short inner_cone_angle_step;
 	short outer_cone_angle_step;
-	byte __data48[0x4];
+	int __unknown48;
 	long playback_controller_index;
 };
 static_assert(sizeof(s_sound_source) == 0x50);
@@ -66,8 +71,9 @@ struct sound_datum : s_datum_header
 	byte __data7[0x7];
 
 	long definition_index;
+	void* tracker_callback_data;
 
-	byte __data14[0x8];
+	byte __data18[0x4];
 
 	s_sound_source source;
 
@@ -78,7 +84,10 @@ struct sound_datum : s_datum_header
 	byte __unknown72;
 	byte __unknown73;
 
-	byte __data74[48];
+	byte __data74[0x24];
+	long sound_tracker_index;
+	long __unknown9C;
+	byte __dataA0[0x4];
 
 	real __unknownA4;
 
@@ -100,9 +109,19 @@ struct sound_datum : s_datum_header
 };
 static_assert(sizeof(sound_datum) == 0xC8);
 
+struct s_xbox_sound_datum : s_datum_header
+{
+	byte __data0[0xA];
+};
+static_assert(sizeof(s_xbox_sound_datum) == 0xC);
+
 struct looping_sound_datum : s_datum_header
 {
-	byte __data0[0x126];
+	byte __data2[0x12];
+
+	s_sound_source source;
+
+	byte __data[0xC4];
 };
 static_assert(sizeof(looping_sound_datum) == 0x128);
 
@@ -118,6 +137,25 @@ struct c_sound_playback_controller : s_datum_header
 };
 static_assert(sizeof(c_sound_playback_controller) == 0x1C);
 
+struct sound_tracker
+{
+	bool(__cdecl* callback)(void*, long, long*, s_sound_source*);
+
+	byte __data[0x2C];
+};
+static_assert(sizeof(sound_tracker) == 0x30);
+
+struct sound_tracker_datum : s_datum_header
+{
+	byte_flags flags;
+	byte flip_flop;
+
+	byte __data4[0xC];
+
+	sound_tracker tracker_data;
+};
+static_assert(sizeof(sound_tracker_datum) == 0x40);
+
 REFERENCE_DECLARE(0x0238E858, s_sound_manager_globals*, g_sound_manager_globals);
 
 //  name: "sound sources"
@@ -126,25 +164,44 @@ REFERENCE_DECLARE(0x0238E858, s_sound_manager_globals*, g_sound_manager_globals)
 REFERENCE_DECLARE(0x0238E860, c_smart_data_array<sound_datum>, g_sound_data);
 
 REFERENCE_DECLARE(0x0238E864, bool, debug_sound_always_update_in_idle);
-REFERENCE_DECLARE(0x0238E86E, bool, byte_238E86E); // unreferenced script globals
-REFERENCE_DECLARE(0x0238E86F, bool, byte_238E86F); // unreferenced script globals
+REFERENCE_DECLARE(0x0238E86E, bool, bool_238E86E); // unreferenced script globals
+REFERENCE_DECLARE(0x0238E86F, bool, bool_238E86F); // unreferenced script globals
 REFERENCE_DECLARE(0x0238E871, bool, debug_sound_force_first_person_listener);
 REFERENCE_DECLARE(0x0238E874, long, g_sound_manager_reference_count);
+
+//  name: "xbox sound"
+// count: 8192
+//  size: 0xC
+REFERENCE_DECLARE(0x02497CF8, c_smart_data_array<s_xbox_sound_datum>*, g_xbox_sounds);
+
+REFERENCE_DECLARE(0x02497CFC, bool, bool_2497CFC);
 
 //  name: "looping sounds"
 // count: 128
 //  size: 0x128
 REFERENCE_DECLARE(0x02497D20, c_smart_data_array<looping_sound_datum>, g_looping_sound_data);
 
+REFERENCE_DECLARE(0x02497D26, bool, enable_pc_sound); // unreferenced script globals
+
 //  name: "sounds effects"
 // count: 16
 //  size: 0x64
 REFERENCE_DECLARE(0x02497D30, c_smart_data_array<s_sound_effect_datum>, g_sound_effect_data);
 
+REFERENCE_DECLARE(0x02497D38, c_sound_playback_controller*, g_default_playback_controller);
+
 //  name: "sound playback controllers"
 // count: 64
 //  size: 0x1C
 REFERENCE_DECLARE(0x02497D3C, c_smart_data_array<c_sound_playback_controller>, g_sound_playback_controller_data);
+
+//  name: "  sound tracker data"
+// count: 384
+//  size: 0x40
+REFERENCE_DECLARE(0x02497D4C, c_smart_data_array<sound_tracker_datum>, g_sound_tracker_data);
+
+REFERENCE_DECLARE(0x02497D51, bool, g_sound_tracker_inside_update);
+REFERENCE_DECLARE(0x02497D51, byte, g_sound_tracker_flip_flop);
 
 bool debug_sound_class_totals = false;
 bool debug_duckers = false;
@@ -226,6 +283,10 @@ void __cdecl sound_render_debug(long sound_index)
 	if (!sound)
 		return;
 
+	sound_tracker_datum* sound_tracker = reinterpret_cast<sound_tracker_datum*>(g_sound_tracker_data.m_data->data);
+	if (!sound_tracker)
+		return;
+
 	if (!TEST_BIT(sound->unknown_flags, 1))
 		return;
 
@@ -265,11 +326,11 @@ void __cdecl sound_render_debug(long sound_index)
 		hardware_voice_index,
 		sound_definition_map_pitch(sound_definition, sound->__unknownA4, sound->source.scale),
 		sound->source.scale,
-		sound->source.position.x,
-		sound->source.position.y,
-		sound->source.position.z);
+		sound->source.location.position.x,
+		sound->source.location.position.y,
+		sound->source.location.position.z);
 
-	render_debug_string_at_point(&sound->source.position, debug_string.get_string(), global_real_argb_white);
+	render_debug_string_at_point(&sound->source.location.position, debug_string.get_string(), global_real_argb_white);
 
 	real minimum_distance = sound_definition_get_minimum_distance(sound->definition_index);
 	if (TEST_BIT(sound->source.flags, 2))
@@ -283,37 +344,37 @@ void __cdecl sound_render_debug(long sound_index)
 	angle inner_cone_angle = sound_source_get_inner_cone_angle(&sound->source, sound->definition_index);
 
 	real_point3d cone_point{};
-	quaternion_transform_point(&sound->source.orientation, (real_point3d*)global_forward3d, &cone_point);
+	quaternion_transform_point(&sound->source.location.orientation, (real_point3d*)global_forward3d, &cone_point);
 
 	real_point3d volume_type_point{};
 	switch (sound->source.volume_type)
 	{
 	case 0:
-		render_debug_sphere(/*false*/true, &sound->source.position, minimum_distance, global_real_argb_green);
-		render_debug_sphere(/*false*/true, &sound->source.position, maximum_distance, global_real_argb_darkgreen);
+		render_debug_sphere(/*false*/true, &sound->source.location.position, minimum_distance, global_real_argb_green);
+		render_debug_sphere(/*false*/true, &sound->source.location.position, maximum_distance, global_real_argb_darkgreen);
 		break;
 	case 1:
-		quaternion_transform_point(&sound->source.orientation, (real_point3d*)global_up3d, &volume_type_point);
+		quaternion_transform_point(&sound->source.location.orientation, (real_point3d*)global_up3d, &volume_type_point);
 		volume_type_point.x *= sound->source.__unknown38;
 		volume_type_point.y *= sound->source.__unknown38;
 		volume_type_point.z *= sound->source.__unknown38;
-		render_debug_cylinder(/*false*/true, &sound->source.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
-		render_debug_cylinder(/*false*/true, &sound->source.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
+		render_debug_cylinder(/*false*/true, &sound->source.location.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
+		render_debug_cylinder(/*false*/true, &sound->source.location.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
 		break;
 	case 2:
-		quaternion_transform_point(&sound->source.orientation, (real_point3d*)global_up3d, &volume_type_point);
+		quaternion_transform_point(&sound->source.location.orientation, (real_point3d*)global_up3d, &volume_type_point);
 		volume_type_point.x *= sound->source.__unknown38;
 		volume_type_point.y *= sound->source.__unknown38;
 		volume_type_point.z *= sound->source.__unknown38;
-		render_debug_pill(/*false*/true, &sound->source.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
-		render_debug_pill(/*false*/true, &sound->source.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
+		render_debug_pill(/*false*/true, &sound->source.location.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
+		render_debug_pill(/*false*/true, &sound->source.location.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
 		break;
 	}
 
 	if (inner_cone_angle > 0.0f && inner_cone_angle < real(PI) || outer_cone_angle > 0.0f && outer_cone_angle < real(PI))
 	{
-		render_debug_cone_outline(/*false*/true, &sound->source.position, (vector3d*)&cone_point, maximum_distance, inner_cone_angle, global_real_argb_orange);
-		render_debug_cone_outline(/*false*/true, &sound->source.position, (vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);
+		render_debug_cone_outline(/*false*/true, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, inner_cone_angle, global_real_argb_orange);
+		render_debug_cone_outline(/*false*/true, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);
 	}
 
 	if (sound->listener_index == NONE || TEST_BIT(sound->source.flags, 7) || !TEST_BIT(sound->source.flags, 0))
@@ -334,7 +395,7 @@ void __cdecl sound_render_debug(long sound_index)
 			sound_source_get_world_position(&sound->source, sound->listener_index, &volume_type_point);
 			break;
 		case 2:
-			matrix4x3_transform_point(&listener->matrix, &sound->source.position, &volume_type_point);
+			matrix4x3_transform_point(&listener->matrix, &sound->source.location.position, &volume_type_point);
 			break;
 		}
 
