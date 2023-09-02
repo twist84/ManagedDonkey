@@ -240,8 +240,10 @@ void __cdecl main_loop_body_begin()
 		g_service_client;
 		g_havok_component_data;
 
-		c_data_iterator<c_havok_component> havok_component_iterator(g_havok_component_data);
-		while (havok_component_iterator.next())
+		s_thread_local_storage* tls = get_tls();
+
+		c_data_iterator<c_havok_component> havok_component_iterator = g_havok_component_data.begin();
+		do
 		{
 			if (c_havok_component* havok_component = havok_component_iterator.get_datum())
 			{
@@ -266,7 +268,7 @@ void __cdecl main_loop_body_begin()
 				if (!TEST_BIT(havok_component->m_flags, 3))
 					havok_component->m_flags |= FLAG(3);
 			}
-		}
+		} while (havok_component_iterator.next());
 
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
@@ -283,16 +285,16 @@ void __cdecl main_loop_body_begin()
 		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 		long player_count = 0;
 		{
-			c_player_in_game_iterator player_iterator(player_data);
-			while (player_iterator.next())
+			c_player_in_game_iterator player_iterator = player_data.begin();
+			do
 			{
 				player_count++;
-			}
+			} while (player_iterator.next());
 		}
 
 		c_console::write_line("players: %i", player_count);
-		c_player_with_unit_iterator player_iterator(player_data);
-		while (player_iterator.next())
+		c_player_with_unit_iterator player_iterator = player_data.begin();
+		do
 		{
 			long index = player_iterator.get_index();
 			short absolute_index = player_iterator.get_absolute_index();
@@ -302,7 +304,7 @@ void __cdecl main_loop_body_begin()
 				index,
 				absolute_index,
 				player->configuration.host.name.get_string());
-		}
+		} while (player_iterator.next());
 
 		TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 		game_engine_globals->map_variant.print();

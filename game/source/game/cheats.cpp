@@ -161,15 +161,15 @@ long __cdecl cheat_player_index()
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
 	long index = NONE;
-	c_player_with_unit_iterator player_iterator(player_data);
-	while (player_iterator.next())
+	c_player_with_unit_iterator player_iterator = player_data.begin();
+	do
 	{
 		if (player_iterator.get_datum()->unit_index == NONE)
 			continue;
 
 		index = player_iterator.get_index();
 		break;
-	}
+	} while (player_iterator.next());
 
 	return index;
 }
@@ -197,7 +197,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 	}
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	player_datum* player = static_cast<player_datum*>(datum_try_and_get(player_data, player_index));
+	player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
 	if (!player)
 		return;
 

@@ -1199,7 +1199,7 @@ struct s_thread_local_storage
 	//  name: "sim. gamestate entities"
 	// count: 2048
 	//  size: 0x10
-	c_smart_data_array<simulation_gamestate_entity_datum>* simulation_gamestate_entity_data;
+	c_smart_data_array<simulation_gamestate_entity_datum> simulation_gamestate_entity_data;
 
 	// name: "gamestate timing samples"
 	// type: "global"
@@ -1246,7 +1246,7 @@ struct s_thread_local_storage
 	// name: "players"
 	// count: 16
 	//  size: 0x2F08
-	c_smart_data_array<player_datum>* player_data;
+	c_smart_data_array<player_datum> player_data;
 
 	// name: "players globals"
 	// size: 0x234
@@ -1271,7 +1271,7 @@ struct s_thread_local_storage
 	//  name: "breakable surface set broken events"
 	// count: 64
 	//  size: 0x464
-	c_smart_data_array<breakable_surface_set_broken_event_datum>* g_breakable_surface_set_broken_event_data;
+	c_smart_data_array<breakable_surface_set_broken_event_datum> g_breakable_surface_set_broken_event_data;
 
 	// name: "player mapping globals"
 	// size: 0xE8
@@ -1288,7 +1288,7 @@ struct s_thread_local_storage
 	//  name: "det hs thread"
 	// count: 320
 	//  size: 0x524
-	c_smart_data_array<hs_thread>* hs_thread_deterministic_data;
+	c_smart_data_array<hs_thread> hs_thread_deterministic_data;
 
 	// name: "hs runtime globals"
 	// size: 0x8
@@ -1297,22 +1297,22 @@ struct s_thread_local_storage
 	//  name: "hs globals"
 	// count: 3072
 	//  size: 0x8
-	c_smart_data_array<hs_global_data>* hs_global_data;
+	c_smart_data_array<hs_global_data> hs_global_data;
 
 	//  name: "hs dist. globals"
 	// count: 512
 	//  size: 0x2C
-	c_smart_data_array<hs_distributed_global_data>* hs_distributed_global_data;
+	c_smart_data_array<hs_distributed_global_data> hs_distributed_global_data;
 
 	//  name: "tracking hs thread"
 	// count: 320
 	//  size: 0xC
-	c_smart_data_array<hs_thread_tracking_data>* hs_thread_tracking_data;
+	c_smart_data_array<hs_thread_tracking_data> hs_thread_tracking_data;
 
 	//  name: "non-det hs thread"
 	// count: 4
 	//  size: 0x524
-	c_smart_data_array<hs_thread>* hs_thread_non_deterministic_data;
+	c_smart_data_array<hs_thread> hs_thread_non_deterministic_data;
 
 	// from assert
 	void* g_restricted_address[k_total_restricted_memory_regions];
@@ -1325,17 +1325,17 @@ struct s_thread_local_storage
 	//  name: "effect"
 	// count: 640
 	//  size: 0xA0
-	c_smart_data_array<effect_datum>* effect_data;
+	c_smart_data_array<effect_datum> effect_data;
 
 	//  name: "effect event"
 	// count: 640
 	//  size: 0x14
-	c_smart_data_array<effect_event_datum>* event_data;
+	c_smart_data_array<effect_event_datum> event_data;
 
 	//  name: "effect location"
 	// count: 1152
 	//  size: 0x40
-	c_smart_data_array<effect_location_datum>* effect_location_data;
+	c_smart_data_array<effect_location_datum> effect_location_data;
 
 	// name: "effect counts"
 	// size: 0x18
@@ -1344,7 +1344,7 @@ struct s_thread_local_storage
 	//  name: "effect geometry sample"
 	// count: 128
 	//  size: 0x28
-	c_smart_data_array<effect_geometry_sample_datum>* effect_geometry_sample_data;
+	c_smart_data_array<effect_geometry_sample_datum> effect_geometry_sample_data;
 
 	// name: "effect messaging queue"
 	// size: 0x17084
@@ -1372,7 +1372,7 @@ struct s_thread_local_storage
 	//  name: "object looping sounds"
 	// count: 1024
 	//  size: 0x20
-	c_smart_data_array<game_looping_sound_datum>* game_looping_sound_data;
+	c_smart_data_array<game_looping_sound_datum> game_looping_sound_data;
 
 	// name: "game sound globals"
 	// size: 0x154
@@ -1441,7 +1441,7 @@ struct s_thread_local_storage
 	//  name: "havok proxies"
 	// count: 16
 	//  size: 0x44
-	c_smart_data_array<s_havok_proxy_datum>* g_havok_proxy_data;
+	c_smart_data_array<s_havok_proxy_datum> g_havok_proxy_data;
 
 	void* __unknown114;
 	void* __unknown118;
@@ -1594,7 +1594,7 @@ struct s_thread_local_storage
 	//  name: "recorded animations"
 	// count: 1
 	//  size: 0xA4
-	c_smart_data_array<recorded_animation_datum>* animation_threads;
+	c_smart_data_array<recorded_animation_datum> animation_threads;
 
 	// name: "game save globals"
 	// size: 0x18
@@ -1603,7 +1603,7 @@ struct s_thread_local_storage
 	//  name: "screen_effect"
 	// count: 64
 	//  size: 0x3C
-	c_smart_data_array<screen_effect_datum>* screen_effect_data;
+	c_smart_data_array<screen_effect_datum> screen_effect_data;
 
 	// name: "player effects"
 	// size: 0x3A0
@@ -1633,7 +1633,7 @@ struct s_thread_local_storage
 	//  name: "decal_system"
 	// count: 856
 	//  size: 0x54
-	c_smart_data_array<c_decal_system>* decal_system;
+	c_smart_data_array<c_decal_system> decal_system;
 
 	// name: "decal counts"
 	// size: 0x20
@@ -1642,7 +1642,7 @@ struct s_thread_local_storage
 	//  name: "decal"
 	// count: 856
 	//  size: 0x130
-	c_smart_data_array<c_decal>* decal_data;
+	c_smart_data_array<c_decal> decal_data;
 
 	// name: "decal messaging queue"
 	// size: 0x824
@@ -1655,22 +1655,22 @@ struct s_thread_local_storage
 	//  name: "impacts"
 	// count: 32
 	//  size: 0xB4
-	c_smart_data_array<c_impact>* g_impact_data;
+	c_smart_data_array<c_impact> g_impact_data;
 
 	//  name: "impact arrarys"
 	// count: 32
 	//  size: 0x88
-	c_smart_data_array<impact_array_datum>* g_impact_array_data;
+	c_smart_data_array<impact_array_datum> g_impact_array_data;
 
 	//  name: "object list header"
 	// count: 48
 	//  size: 0xC
-	c_smart_data_array<object_list_header_datum>* object_list_header_data;
+	c_smart_data_array<object_list_header_datum> object_list_header_data;
 
 	//  name: "list object"
 	// count: 128
 	//  size: 0xC
-	c_smart_data_array<object_list_datum>* object_list_data;
+	c_smart_data_array<object_list_datum> object_list_data;
 
 	// name: "scripted camera globals"
 	// size: 0xF0
@@ -1684,62 +1684,62 @@ struct s_thread_local_storage
 	//  name: "particle_system"
 	// count: 320
 	//  size: 0x58
-	c_smart_data_array<c_particle_system>* particle_system;
+	c_smart_data_array<c_particle_system> particle_system;
 
 	//  name: "contrail_system"
 	// count: 160
 	//  size: 0x30
-	c_smart_data_array<c_contrail_system>* contrail_system;
+	c_smart_data_array<c_contrail_system> contrail_system;
 
 	//  name: "contrail"
 	// count: 160
 	//  size: 0x4C
-	c_smart_data_array<c_contrail>* contrail;
+	c_smart_data_array<c_contrail> contrail;
 
 	//  name: "contrail"
 	// count: 160
 	//  size: 0x60
-	c_smart_data_array<c_contrail_location>* contrail_location;
+	c_smart_data_array<c_contrail_location> contrail_location;
 
 	//  name: "contrail_profile"
 	// count: 1
 	//  size: 0x60
-	c_smart_data_array<c_contrail_profile>* contrail_profile;
+	c_smart_data_array<c_contrail_profile> contrail_profile;
 
 	//  name: "particle_location"
 	// count: 576
 	//  size: 0x60
-	c_smart_data_array<c_particle_location>* particle_location;
+	c_smart_data_array<c_particle_location> particle_location;
 
 	//  name: "light_volume_system"
 	// count: 160
 	//  size: 0x2C
-	c_smart_data_array<c_light_volume_system>* light_volume_system;
+	c_smart_data_array<c_light_volume_system> light_volume_system;
 
 	//  name: "light_volume"
 	// count: 160
 	//  size: 0x2C
-	c_smart_data_array<c_light_volume_location>* light_volume_location;
+	c_smart_data_array<c_light_volume_location> light_volume_location;
 
 	//  name: "light_volume"
 	// count: 160
 	//  size: 0x34
-	c_smart_data_array<c_light_volume>* light_volume;
+	c_smart_data_array<c_light_volume> light_volume;
 
 	//  name: "beam_system"
 	// count: 160
 	//  size: 0x2C
-	c_smart_data_array<c_beam_system>* beam_system;
+	c_smart_data_array<c_beam_system> beam_system;
 
 	//  name: "beam_system"
 	// count: 160
 	//  size: 0x34
-	c_smart_data_array<c_beam>* beam;
+	c_smart_data_array<c_beam> beam;
 
 	//  name: "beam_system"
 	// count: 160
 	//  size: 0x30
-	c_smart_data_array<c_beam_location>* beam_location;
+	c_smart_data_array<c_beam_location> beam_location;
 
 	// from assert
 	bool g_havok_memory_allocator_locked;
@@ -1747,12 +1747,12 @@ struct s_thread_local_storage
 	//  name: "ragdolls"
 	// count: 5
 	//  size: 0x130
-	c_smart_data_array<s_ragdoll_datum>* g_ragdoll_data;
+	c_smart_data_array<s_ragdoll_datum> g_ragdoll_data;
 
 	//  name: "particle_emitter"
 	// count: 1088
 	//  size: 0x90
-	c_smart_data_array<c_particle_emitter>* particle_emitter;
+	c_smart_data_array<c_particle_emitter> particle_emitter;
 
 	// name: "rasterizer game states"
 	// size: 0x208
@@ -1791,19 +1791,19 @@ struct s_thread_local_storage
 	//  name: "cached object render states"
 	// count: 384
 	//  size: 0x4D8
-	c_smart_data_array<cached_object_render_state_datum>* cached_object_render_states;
+	c_smart_data_array<cached_object_render_state_datum> cached_object_render_states;
 
 	//  name: "c_particle_emitter_gpu"
 	// count: 1088
 	//  size: 0x18
 	// c_particle_emitter_gpu::x_data_array
-	c_smart_data_array<c_particle_emitter_gpu>* g_particle_emitter_gpu_data_array;
+	c_smart_data_array<c_particle_emitter_gpu> g_particle_emitter_gpu_data_array;
 
 	//  name: "c_particle_emitter_gpu::s_row"
 	// count: 448
 	//  size: 0x14
 	// c_particle_emitter_gpu::s_row::x_data_array
-	c_smart_data_array<c_particle_emitter_gpu::s_row>* g_particle_emitter_gpu_row_data_array;
+	c_smart_data_array<c_particle_emitter_gpu::s_row> g_particle_emitter_gpu_row_data_array;
 
 	// name: "c_particle_emitter_gpu"
 	// type: "x_gamestate_storage"
@@ -1815,13 +1815,13 @@ struct s_thread_local_storage
 	// count: 160
 	//  size: 0x10
 	// c_beam_gpu::x_data_array
-	c_smart_data_array<c_beam_gpu>* g_beam_gpu_data_array;
+	c_smart_data_array<c_beam_gpu> g_beam_gpu_data_array;
 
 	//  name: "c_beam_gpu::s_row"
 	// count: 160
 	//  size: 0x14
 	// c_beam_gpu::s_row::x_data_array
-	c_smart_data_array<c_beam_gpu::s_row>* g_beam_gpu_row_data_array;
+	c_smart_data_array<c_beam_gpu::s_row> g_beam_gpu_row_data_array;
 
 	// name: "c_particle_emitter_gpu"
 	// type: "x_gamestate_storage"
@@ -1833,13 +1833,13 @@ struct s_thread_local_storage
 	// count: 160
 	//  size: 0x14
 	// c_contrail_gpu::s_row::x_data_array;
-	c_smart_data_array<c_contrail_gpu::s_row>* g_contrail_gpu_row_data_array;
+	c_smart_data_array<c_contrail_gpu::s_row> g_contrail_gpu_row_data_array;
 
 	//  name: "c_contrail_gpu"
 	// count: 160
 	//  size: 0x10
 	// c_contrail_gpu::x_data_array;
-	c_smart_data_array<c_contrail_gpu>* g_contrail_gpu_data_array;
+	c_smart_data_array<c_contrail_gpu> g_contrail_gpu_data_array;
 
 	// name: "c_particle_emitter_gpu"
 	// type: "x_gamestate_storage"
@@ -1850,12 +1850,12 @@ struct s_thread_local_storage
 	// c_light_volume_gpu::x_data_array;
 	// count: 160
 	//  size: 0x10
-	c_smart_data_array<c_light_volume_gpu>* g_light_volume_gpu_data_array;
+	c_smart_data_array<c_light_volume_gpu> g_light_volume_gpu_data_array;
 
 	// c_light_volume_gpu::s_row::x_data_array;
 	// count: 160
 	//  size: 0xC
-	c_smart_data_array<c_light_volume_gpu::s_row>* g_light_volume_gpu_row_data_array;
+	c_smart_data_array<c_light_volume_gpu::s_row> g_light_volume_gpu_row_data_array;
 
 	// name: "c_particle_emitter_gpu"
 	// type: "x_gamestate_storage"
@@ -1876,7 +1876,7 @@ struct s_thread_local_storage
 	// name: "shield_render_cache_message"
 	// count: 8
 	//  size: 0x14
-	c_smart_data_array<shield_render_cache_message>* shield_render_cache_message;
+	c_smart_data_array<shield_render_cache_message> shield_render_cache_message;
 
 	// name: "chud"
 	// type: "persistent user data"
@@ -1892,7 +1892,7 @@ struct s_thread_local_storage
 	// count: 128
 	//  size: 0x18
 	// c_chud_manager::x_user_widget_data
-	c_smart_data_array<chud_widget_datum>* g_chud_manager_user_widget_data[4];
+	c_smart_data_array<chud_widget_datum> g_chud_manager_user_widget_data[4];
 
 	// name: "fp orientations"
 	// size: 0x12C00
@@ -1914,7 +1914,7 @@ struct s_thread_local_storage
 	//  name: "object"
 	// count: 2048
 	//  size: 0x18
-	c_smart_data_array<object_header_datum>* object_header_data;
+	c_smart_data_array<object_header_datum> object_header_data;
 
 	// name: "object globals"
 	// size: 0x6608
@@ -1958,7 +1958,7 @@ struct s_thread_local_storage
 	//  name: "device groups"
 	// count: 1024
 	//  size: 0x10
-	c_smart_data_array<device_group_datum>* device_groups_data;
+	c_smart_data_array<device_group_datum> device_groups_data;
 
 	// name: "object scripting"
 	// size: 0x304
@@ -1986,7 +1986,7 @@ struct s_thread_local_storage
 	//  name: "lights"
 	// count: 400
 	//  size: 0xE4
-	c_smart_data_array<light_datum>* light_data;
+	c_smart_data_array<light_datum> light_data;
 
 	// name: "lights globals"
 	// size: 0x40
@@ -2004,7 +2004,7 @@ struct s_thread_local_storage
 	//  name: "widget"
 	// count: 64
 	//  size: 0xC
-	c_smart_data_array<widget_datum>* widget_data;
+	c_smart_data_array<widget_datum> widget_data;
 
 	// name: "recycling_volumes"
 	// size: 0x148
@@ -2013,27 +2013,27 @@ struct s_thread_local_storage
 	//  name: "recycling_group"
 	// count: 128
 	//  size: 0x14
-	c_smart_data_array<recycling_group_datum>* recycling_groups;
+	c_smart_data_array<recycling_group_datum> recycling_groups;
 
 	//  name: "muffin"
 	// count: 10
 	//  size: 0x1890
-	c_smart_data_array<muffin_datum>* muffin_data;
+	c_smart_data_array<muffin_datum> muffin_data;
 
 	//  name: "leaf system"
 	// count: 32
 	//  size: 0x94C
-	c_smart_data_array<c_leaf_system>* leaf_system_data;
+	c_smart_data_array<c_leaf_system> leaf_system_data;
 
 	//  name: "antenna_datum"
 	// count: 12
 	//  size: 0x64
-	c_smart_data_array<antenna_datum>* antenna_data;
+	c_smart_data_array<antenna_datum> antenna_data;
 
 	//  name: "cloth"
 	// count: 8
 	//  size: 0x1704
-	c_smart_data_array<cloth_datum>* cloth_data;
+	c_smart_data_array<cloth_datum> cloth_data;
 
 
 	// perhaps some or all of the following tls members are part saber memory allocation code,
@@ -2072,7 +2072,7 @@ struct s_thread_local_storage
 	//  name: "actor"
 	// count: 256
 	//  size: 0xA98
-	c_smart_data_array<actor_datum>* actor_data;
+	c_smart_data_array<actor_datum> actor_data;
 
 	//             name:  "actor firing-position owners"
 	//   user_data_size: 4
@@ -2095,7 +2095,7 @@ struct s_thread_local_storage
 	//  name: "vocalization records"
 	// count: 15
 	//  size: 0x5C
-	c_smart_data_array<vocalization_records>* vocalization_record_data;
+	c_smart_data_array<vocalization_records> vocalization_record_data;
 
 	// name: "vocalization timers"
 	// size: 0xFB8
@@ -2104,12 +2104,12 @@ struct s_thread_local_storage
 	//  name: "command scripts"
 	// count: 40
 	//  size: 0x188
-	c_smart_data_array<command_script_datum>* command_script_data;
+	c_smart_data_array<command_script_datum> command_script_data;
 
 	//  name: "objectives"
 	// count: 125
 	//  size: 0xC
-	c_smart_data_array<s_objective>* objectives_data;
+	c_smart_data_array<s_objective> objectives_data;
 
 	// name: "task records"
 	// size: 0x61A80
@@ -2118,17 +2118,17 @@ struct s_thread_local_storage
 	//  name: "squad"
 	// count: 512
 	//  size: 0xEC
-	c_smart_data_array<squad_datum>* squad_data;
+	c_smart_data_array<squad_datum> squad_data;
 
 	//  name: "squad group"
 	// count: 130
 	//  size: 0x24
-	c_smart_data_array<squad_group_datum>* squad_group_data;
+	c_smart_data_array<squad_group_datum> squad_group_data;
 
 	// name: "swarm"
 	// count: 32
 	//  size: 0x34
-	c_smart_data_array<swarm_datum>* swarm_data;
+	c_smart_data_array<swarm_datum> swarm_data;
 
 	// name: "swarm_spawner"
 	// size: 0x258
@@ -2141,47 +2141,47 @@ struct s_thread_local_storage
 	//  name: "dynamic firing points"
 	// count: 15
 	//  size: 0x584
-	c_smart_data_array<dynamic_firing_set_datum>* dynamic_firing_set_data;
+	c_smart_data_array<dynamic_firing_set_datum> dynamic_firing_set_data;
 
 	//  name: "prop_ref"
 	// count: 1024
 	//  size: 0x3C
-	c_smart_data_array<prop_ref_datum>* prop_ref_data;
+	c_smart_data_array<prop_ref_datum> prop_ref_data;
 
 	//  name: "prop"
 	// count: 256
 	//  size: 0xC4
-	c_smart_data_array<prop_datum>* prop_data;
+	c_smart_data_array<prop_datum> prop_data;
 
 	//  name: "tracking"
 	// count: 100
 	//  size: 0x100
-	c_smart_data_array<tracking_datum>* tracking_data;
+	c_smart_data_array<tracking_datum> tracking_data;
 
 	//  name: "joint state"
 	// count: 20
 	//  size: 0xCC
-	c_smart_data_array<joint_state_datum>* g_joint_data;
+	c_smart_data_array<joint_state_datum> g_joint_data;
 
 	//  name: "clump"
 	// count: 20
 	//  size: 0x108
-	c_smart_data_array<clump_datum>* clump_data;
+	c_smart_data_array<clump_datum> clump_data;
 
 	//  name: "squad_patrol"
 	// count: 16
 	//  size: 0x6C4
-	c_smart_data_array<squad_patrol_datum>* squad_patrol_data;
+	c_smart_data_array<squad_patrol_datum> squad_patrol_data;
 
 	//  name: "flocks"
 	// count: 10
 	//  size: 0x4C
-	c_smart_data_array<flock_datum>* flocks_data;
+	c_smart_data_array<flock_datum> flocks_data;
 
 	//  name: "formations"
 	// count: 16
 	//  size: 0x294
-	c_smart_data_array<formation_datum>* formation_data;
+	c_smart_data_array<formation_datum> formation_data;
 
 	// name: "vision mode globals"
 	// size: 0xF0

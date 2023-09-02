@@ -17,7 +17,7 @@ struct c_tag_resource_inverse_page_table
 	void* m_allocation;
 	dword __unknown8;
 	dword __unknownC;
-	c_smart_data_array<s_page_resource_reference_range>* m_page_entries;
+	c_smart_data_array<s_page_resource_reference_range> m_page_entries;
 	byte_flags flags;
 	word __unknown16;
 };

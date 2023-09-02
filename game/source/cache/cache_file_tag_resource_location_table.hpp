@@ -45,7 +45,7 @@ struct c_cache_file_resource_header_location_table
 
 	c_static_array<long, 7> m_header_file_location_handles;
 	long m_header_file_location_handle_index;
-	c_smart_data_array<s_header_file_location>* m_header_file_locations;
+	c_smart_data_array<s_header_file_location> m_header_file_locations;
 	c_cache_file_resource_uber_location_table m_uber_location_table;
 };
 static_assert(sizeof(c_cache_file_resource_header_location_table) == 0x2C);

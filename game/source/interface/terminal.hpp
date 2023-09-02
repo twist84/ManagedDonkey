@@ -40,7 +40,7 @@ struct s_terminal_globals
 	bool initialized;
 	bool output_to_console;
 	bool suppress_output;
-	c_smart_data_array<terminal_output_datum>* output_data;
+	c_smart_data_array<terminal_output_datum> output_data;
 	long line_count;
 	long line_index;
 	terminal_gets_state* input_state;

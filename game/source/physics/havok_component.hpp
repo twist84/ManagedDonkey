@@ -130,5 +130,5 @@ struct c_havok_component : s_datum_header
 };
 static_assert(sizeof(c_havok_component) == 0x80);
 
-extern c_smart_data_array<c_havok_component>*& g_havok_component_data;
+extern c_smart_data_array<c_havok_component>& g_havok_component_data;
 

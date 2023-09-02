@@ -70,27 +70,49 @@ struct c_data_iterator;
 
 // #TODO: decide if this should be `c_smart_data_array` or `c_wrapped_data_array`
 template <typename t_datum_type>
-struct c_smart_data_array : public s_data_array
+struct c_smart_data_array
 {
 	static_assert(__is_base_of(s_datum_header, t_datum_type));
 
-	t_datum_type& operator[](datum_index index) const { return *(t_datum_type*)get_datum(index); }
+	t_datum_type& operator[](datum_index index) const
+	{
+		return *(t_datum_type*)m_data->get_datum(index);
+	}
+
+	void operator=(s_data_array* rhs)
+	{
+		ASSERT(!rhs || sizeof(t_datum_type) == rhs->size);
+
+		m_data = rhs;
+	}
+
+	s_data_array* operator*()
+	{
+		return m_data;
+	}
+
+	s_data_array* operator->() const
+	{
+		return m_data;
+	}
 
 	c_data_iterator<t_datum_type> begin()
 	{
-		c_data_iterator<t_datum_type> result(this);
+		c_data_iterator<t_datum_type> result(m_data);
 		result.next();
 		return result;
 	}
 
 	c_data_iterator<t_datum_type> end()
 	{
-		c_data_iterator<t_datum_type> result(this);
-		result.absolute_index = maximum_count;
+		c_data_iterator<t_datum_type> result(m_data);
+		result.absolute_index = m_data.maximum_count;
 		return result;
 	}
+
+	s_data_array* m_data;
 };
-static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array));
+static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array*));
 
 typedef c_smart_data_array<s_datum_header> data_array_base;
 

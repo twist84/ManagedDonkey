@@ -651,6 +651,11 @@ static_assert(sizeof(s_players_global_data) == 0x234);
 struct c_player_in_game_iterator :
 	public c_data_iterator<player_datum>
 {
+	c_player_in_game_iterator(c_data_iterator<player_datum> iterator) :
+		c_data_iterator<player_datum>(iterator)
+	{
+	}
+
 	bool next()
 	{
 		for (m_datum = (player_datum*)data_iterator_next(&m_iterator);
@@ -666,6 +671,11 @@ struct c_player_in_game_iterator :
 struct c_player_with_unit_iterator :
 	public c_data_iterator<player_datum>
 {
+	c_player_with_unit_iterator(c_data_iterator<player_datum> iterator) :
+		c_data_iterator<player_datum>(iterator)
+	{
+	}
+
 	bool next()
 	{
 		for (m_datum = (player_datum*)data_iterator_next(&m_iterator);

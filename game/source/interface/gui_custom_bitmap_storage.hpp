@@ -69,7 +69,7 @@ struct c_gui_custom_bitmap_storage_manager
 	static c_gui_custom_bitmap_storage_manager* __cdecl get();
 	bool __cdecl load_bitmap_from_buffer(long storage_item_index, char const* buffer, long buffer_size, long a5);
 
-	c_smart_data_array<s_bitmap_storage_handle_datum>* m_bitmap_storage_items;
+	c_smart_data_array<s_bitmap_storage_handle_datum> m_bitmap_storage_items;
 	void* m_buffer;
 	long m_buffer_size;
 };
