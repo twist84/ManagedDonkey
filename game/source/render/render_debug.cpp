@@ -18,6 +18,7 @@
 #include "render/render_error_report.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_visibility.hpp"
+#include "sound/sound_manager.hpp"
 #include "text/draw_string.hpp"
 
 #define MAXIMUM_CACHE_STRING_LENGTH 4096
@@ -307,6 +308,9 @@ void __cdecl render_debug_clients(long user_index)
 {
 	if (game_in_progress())
 	{
+		// this does not belong here
+		sound_debug_render();
+
 		render_debug_objects();
 		render_debug_trigger_volumes();
 		render_debug_structure();
@@ -1067,7 +1071,7 @@ void __cdecl render_debug_string(char const* string)
 {
 	ASSERT(string);
 
-	render_debug_string_immediate(true, nullptr, 0, string);
+	render_debug_string_immediate(false, nullptr, 0, string);
 	//render_debug_add_cache_entry(_render_debug_type_string, string);
 }
 

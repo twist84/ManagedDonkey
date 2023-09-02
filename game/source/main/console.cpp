@@ -13,6 +13,7 @@
 #include "objects/object_types.hpp"
 #include "render/render_debug_structure.hpp"
 #include "render/render_visibility.hpp"
+#include "sound/sound_manager.hpp"
 #include "units/bipeds.hpp"
 #include "xbox/xbox.hpp"
 
@@ -497,6 +498,11 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_firing),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_acceleration),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_camera),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_listeners),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_manager_channels),
+
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 

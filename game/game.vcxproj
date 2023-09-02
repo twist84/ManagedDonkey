@@ -443,6 +443,7 @@ POPD
     <ClCompile Include="source\simulation\simulation.cpp" />
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
     <ClCompile Include="source\sound\sound_definitions.cpp" />
+    <ClCompile Include="source\sound\sound_manager.cpp" />
     <ClCompile Include="source\tag_files\files.cpp" />
     <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\string_ids.cpp" />
@@ -886,6 +887,7 @@ POPD
     <ClInclude Include="source\sound\game_audibility.hpp" />
     <ClInclude Include="source\sound\sound_acoustics_definitions.hpp" />
     <ClInclude Include="source\sound\sound_definitions.hpp" />
+    <ClInclude Include="source\sound\sound_manager.hpp" />
     <ClInclude Include="source\structures\structure_bsp_definitions.hpp" />
     <ClInclude Include="source\structures\structure_physics_definitions.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
