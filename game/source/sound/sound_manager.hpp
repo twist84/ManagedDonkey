@@ -2,6 +2,13 @@
 
 #include "cseries/cseries.hpp"
 
+#define MAXIMUM_SOUND_SOURCES 196
+#define NUMBER_OF_SOUND_SAMPLE_RATES 3
+
+tag const k_sound_listener_header_signature = 'lshd';
+tag const k_sound_listener_footer_signature = 'lsft';
+long const k_number_of_sound_manager_listeners = 4;
+
 struct s_sound_listener
 {
 	tag header_signature;
@@ -28,22 +35,27 @@ struct s_sound_manager_reverb
 };
 static_assert(sizeof(s_sound_manager_reverb) == 0x1C);
 
+struct s_platform_sound_status
+{
+	byte __data0[0x60];
+};
+static_assert(sizeof(s_platform_sound_status) == 0x60);
+
 struct s_sound_manager_globals
 {
-	byte __data0[0x44];
+	s_platform_sound_status sound_status;
 
-	dword_flags __unknown44_sources[7]; // c_static_flags<224>
-	dword_flags used_sources[7]; // c_static_flags<224>
-	dword_flags available_sources[7]; // c_static_flags<224>
+	c_static_flags<MAXIMUM_SOUND_SOURCES> used_sources;
+	c_static_flags<MAXIMUM_SOUND_SOURCES> available_sources;
 
-	bool __unknown98;
+	bool fully_initialized;
 	bool __unknown99;
 	bool __unknown9A;
 
 	byte pause_state;
+	bool idling;
+	bool recursion_lock;
 
-	bool __unknown9C;
-	bool __unknown9D;
 	byte __unknown9E;
 	byte __unknown9F;
 	bool __unknownA0;
@@ -51,14 +63,14 @@ struct s_sound_manager_globals
 	dword system_time;
 	dword render_time;
 
-	c_static_array<s_sound_listener, 4> listeners;
+	c_static_array<s_sound_listener, k_number_of_sound_manager_listeners> listeners;
 
-	byte __data1EC[64];
-	byte __data22C[4];
+	byte __data1EC[0x40];
+	byte __data22C[0x4];
 
 	c_static_array<s_sound_manager_reverb, 2> manager_reverbs;
 
-	byte __data268[56];
+	byte __data268[0x38];
 
 	struct
 	{

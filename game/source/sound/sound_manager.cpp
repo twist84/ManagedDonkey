@@ -8,30 +8,16 @@
 #include "simulation/simulation.hpp"
 #include "sound/sound_classes.hpp"
 
-struct s_cache_file_sound_permutation;
-struct sound_channel_datum
+#define MAXIMUM_SOUND_SOURCES 196
+
+#define NUMBER_OF_SOUND_SAMPLE_RATES 3
+
+long const sound_sample_rate_samples_per_second[NUMBER_OF_SOUND_SAMPLE_RATES]
 {
-	long sound_index;
-	long __unknown4;
-	long channel_debugger_index;
-	long __unknownC;
-	char sound_channel_type; // c_enum<e_sound_channel_type, char>
-	char __unknown9;
-	byte __unknownA_sound_playback; // c_flags<e_sound_playback_bit, byte>
-	byte __unknownB_sound_playback; // c_flags<e_sound_playback_bit, byte>
-	word hardware_source_index;
-	word hardware_voice_index;
-	real __unknown18;
-	real __unknown1C;
-	byte __data20[4];
-	long playing_chunk_definition_index;
-	long queued_chunk_definition_index;
-	short playing_chunk_index;
-	short queued_chunk_index;
-	s_cache_file_sound_permutation* playing_chunk_permutation;
-	s_cache_file_sound_permutation* queued_chunk_permutation;
+	22050,
+	44100,
+	32000
 };
-static_assert(sizeof(sound_channel_datum) == 0x38);
 
 struct s_sound_location
 {
@@ -55,27 +41,74 @@ struct s_sound_source
 	real maximum_distance;
 	short inner_cone_angle_step;
 	short outer_cone_angle_step;
-	int __unknown48;
-	long playback_controller_index;
+	long __unknown48;
 };
-static_assert(sizeof(s_sound_source) == 0x50);
+static_assert(sizeof(s_sound_source) == 0x4C);
+
+struct s_sound_tracker
+{
+	bool(__cdecl* callback)(void*, long, long*, s_sound_source*);
+
+	byte __data[0x2C];
+};
+static_assert(sizeof(s_sound_tracker) == 0x30);
+
+struct s_cache_file_sound_permutation;
+struct sound_channel_datum
+{
+	long sound_index;
+	long __unknown4;
+	long debug_entry_index;
+	long __unknownC;
+	char type_index; // c_enum<e_sound_channel_type, char>
+	byte_flags flags;
+	byte __unknownA_sound_playback; // c_flags<e_sound_playback_bit, byte>
+	byte __unknownB_sound_playback; // c_flags<e_sound_playback_bit, byte>
+	short hardware_source_index;
+	short hardware_voice_index;
+
+	// initial_sample_offset = sound_sample_rate_samples_per_second[sound->get_sample_rate()] * __unknown18
+	real __unknown18;
+
+	long __unknown1C;
+
+	byte __data20[0x4];
+
+	long playing_chunk_definition_index;
+	long queued_chunk_definition_index;
+	short playing_chunk_index;
+	short queued_chunk_index;
+	s_cache_file_sound_permutation* playing_chunk_permutation;
+	s_cache_file_sound_permutation* queued_chunk_permutation;
+};
+static_assert(sizeof(sound_channel_datum) == 0x38);
+
+struct s_sound_tracker_datum : s_datum_header
+{
+	byte_flags flags;
+	byte flip_flop;
+	long definition_index;
+	void* tracker_callback_data;
+	s_sound_tracker tracker_data;
+
+	byte __data3C[0x4];
+};
+static_assert(sizeof(s_sound_tracker_datum) == 0x40);
 
 struct sound_datum : s_datum_header
 {
 	char software_reference_count;
 	char hardware_reference_count;
 
-	word_flags unknown_flags;
-	byte_flags playback_flags;
+	dword_flags flags;
 
-	byte __data7[0x7];
+	byte __data8[0x8];
 
 	long definition_index;
 	void* tracker_callback_data;
-
-	byte __data18[0x4];
-
+	s_sound_tracker* tracker;
 	s_sound_source source;
+	long playback_controller_index;
 
 	byte __data6C[4];
 
@@ -85,27 +118,33 @@ struct sound_datum : s_datum_header
 	byte __unknown73;
 
 	byte __data74[0x24];
+
 	long sound_tracker_index;
 	long __unknown9C;
-	byte __dataA0[0x4];
+	real pitch_modifier;
 
 	real __unknownA4;
 
 	real maybe_pitch_scale;
 	char pitch_range_index;
+
 	char permutation_index;
 	short permutation_chunk_index;
-	char listener_index;
 
+	char listener_index;
 	byte __unknownB1;
 	byte __unknownB2;
-	byte __dataB3[0x4];
+	byte __unknownB3;
 
-	short playing_channel_index;
+	long playback_controller_index_;
+
+	short playing_channel_index; // index into `channel_get` and `g_sound_channels`
 	char sound_fade_mode;
+	char event_stop_reason;
 
 	real __unknownBC;
-	byte __dataC0[0x8];
+	long __unknownC0;
+	long __unknownC4;
 };
 static_assert(sizeof(sound_datum) == 0xC8);
 
@@ -115,48 +154,71 @@ struct s_xbox_sound_datum : s_datum_header
 };
 static_assert(sizeof(s_xbox_sound_datum) == 0xC);
 
+struct looping_sound_track_datum
+{
+	long sound_index;
+	byte __data4[0x8];
+	char current_playback_state;
+	char queued_playback_state;
+	char playing_sound_count;
+	byte __dataF[0x5];
+	c_static_array<real, 4> gains;
+};
+static_assert(sizeof(looping_sound_track_datum) == 0x24);
+
 struct looping_sound_datum : s_datum_header
 {
-	byte __data2[0x12];
+	byte __data2[0x6];
+
+	long definition_index;
+	long sound_identifier;
+
+	byte __data10[0x4];
 
 	s_sound_source source;
+	byte_flags flags;
+	char component_sound_count;
+	long playback_controller_index;
 
-	byte __data[0xC4];
+	byte __data68[0x30];
+
+	c_static_array<looping_sound_track_datum, 4> tracks;
 };
 static_assert(sizeof(looping_sound_datum) == 0x128);
 
 struct s_sound_effect_datum : s_datum_header
 {
-	byte __data0[0x62];
+	byte __data2[0x1];
+
+	char source_type;
+	word_flags flags;
+	long playback_controller_index;
+	long tracker_index;
+	s_sound_source source;
+
+	byte __dataC[0x8];
 };
 static_assert(sizeof(s_sound_effect_datum) == 0x64);
 
 struct c_sound_playback_controller : s_datum_header
 {
-	byte __data0[0x1A];
+	// reference ^= (reference ^ (reference + 1)) & 0x3F
+	byte reference;
+
+	char m_ready_count;
+	long identifier;
+	dword random_seed;
+
+	byte __dataC[0x10];
 };
 static_assert(sizeof(c_sound_playback_controller) == 0x1C);
 
-struct sound_tracker
-{
-	bool(__cdecl* callback)(void*, long, long*, s_sound_source*);
-
-	byte __data[0x2C];
-};
-static_assert(sizeof(sound_tracker) == 0x30);
-
-struct sound_tracker_datum : s_datum_header
-{
-	byte_flags flags;
-	byte flip_flop;
-
-	byte __data4[0xC];
-
-	sound_tracker tracker_data;
-};
-static_assert(sizeof(sound_tracker_datum) == 0x40);
-
 REFERENCE_DECLARE(0x0238E858, s_sound_manager_globals*, g_sound_manager_globals);
+
+//  name: ""
+// count: 196
+//  size: 0x38
+REFERENCE_DECLARE(0x0238E85C, sound_channel_datum*, g_sound_channels);
 
 //  name: "sound sources"
 // count: 384
@@ -198,7 +260,7 @@ REFERENCE_DECLARE(0x02497D3C, c_smart_data_array<c_sound_playback_controller>, g
 //  name: "  sound tracker data"
 // count: 384
 //  size: 0x40
-REFERENCE_DECLARE(0x02497D4C, c_smart_data_array<sound_tracker_datum>, g_sound_tracker_data);
+REFERENCE_DECLARE(0x02497D4C, c_smart_data_array<s_sound_tracker_datum>, g_sound_tracker_data);
 
 REFERENCE_DECLARE(0x02497D51, bool, g_sound_tracker_inside_update);
 REFERENCE_DECLARE(0x02497D51, byte, g_sound_tracker_flip_flop);
@@ -274,7 +336,7 @@ char const* path_add_parent_directory(char const* original_path, char const* str
 	return i;
 }
 
-void __cdecl sound_render_debug(long sound_index)
+void __cdecl render_debug_sound(long sound_index)
 {
 	if (!debug_sound)
 		return;
@@ -283,11 +345,7 @@ void __cdecl sound_render_debug(long sound_index)
 	if (!sound)
 		return;
 
-	sound_tracker_datum* sound_tracker = reinterpret_cast<sound_tracker_datum*>(g_sound_tracker_data.m_data->data);
-	if (!sound_tracker)
-		return;
-
-	if (!TEST_BIT(sound->unknown_flags, 1))
+	if (!TEST_BIT(sound->flags, 1))
 		return;
 
 	sound_channel_datum* channel = nullptr;
@@ -404,6 +462,22 @@ void __cdecl sound_render_debug(long sound_index)
 	}
 }
 
+char const* const k_sound_playback_strings[5][2]
+{
+	{ "S_1", "Sound_Mono   " },
+	{ "S_2", "Sound_Stereo " },
+	{ "S_4", "Sound_quad   " },
+	{ "S_6", "Sound_5_dot_1" },
+	{ "S_C", "Sound_Codec  " },
+};
+
+char const* __cdecl sound_playback_to_string(long sound_playback, bool full_string)
+{
+	ASSERT(VALID_INDEX(sound_playback, 5));
+
+	return k_sound_playback_strings[sound_playback][full_string];
+}
+
 void __cdecl sound_debug_render()
 {
 	c_static_string<8192> debug_string;
@@ -417,14 +491,13 @@ void __cdecl sound_debug_render()
 		//{
 		//	if (!strchr(sound_class_names[i], '!'))
 		//	{
-		//		long v7 = ++v5 / 2;
-		//		if (TEST_BIT(v5, 0))
+		//		if (TEST_BIT(++v5, 0))
 		//		{
-		//			//status_line_appendf(sound_class_totals_status_lines[v7], "% 40s: % 2d", sound_class_names[i], sound_class_totals[i]);
+		//			status_line_appendf(sound_class_totals_status_lines[v5 / 2], "% 40s: % 2d", sound_class_names[i], sound_class_totals[i]);
 		//		}
 		//		else
 		//		{
-		//			//status_line_appendf(sound_class_totals_status_lines[v7], "% 40s: % 2d", sound_class_names[i], sound_class_totals[i]);
+		//			status_line_appendf(sound_class_totals_status_lines[v5 / 2], "% 40s: % 2d", sound_class_names[i], sound_class_totals[i]);
 		//		}
 		//	}
 		//}
@@ -450,7 +523,7 @@ void __cdecl sound_debug_render()
 
 	if (debug_sound_listeners)
 	{
-		for (long i = 0; i < 4; i++)
+		for (long i = 0; i < k_number_of_sound_manager_listeners; i++)
 		{
 			s_sound_listener const* listener = sound_manager_get_listener(i);
 			if (listener->valid)
@@ -463,7 +536,7 @@ void __cdecl sound_debug_render()
 		c_data_iterator<sound_datum> sound_iterator = g_sound_data.begin();
 		do
 		{
-			sound_render_debug(sound_iterator.get_index());
+			render_debug_sound(sound_iterator.get_index());
 		} while (sound_iterator.next());
 
 		long sound_datums = NONE;
@@ -495,68 +568,32 @@ void __cdecl sound_debug_render()
 			playback_controllers,
 			sound_effects,
 			voices);
+
 		debug_string.append("|n");
 	}
 
 	if (debug_sound_manager_channels)
 	{
-		long v30[5]{};
-		long v31[5]{};
+		long valid_channels[5]{};
+		long total_channels[5]{};
 
 		for (short channel_index = 0; channel_index < g_sound_manager_globals->channel_count; channel_index++)
 		{
 			sound_channel_datum* channel = channel_get(channel_index);
 			if (channel->sound_index != NONE)
-				v30[channel->__unknownA_sound_playback]++;
+				valid_channels[channel->__unknownA_sound_playback]++;
 
-			v31[channel->__unknownA_sound_playback]++;
+			total_channels[channel->__unknownA_sound_playback]++;
 		}
 
-		for (long i = 0; i < NUMBEROF(v30); i++)
+		for (long i = 0; i < NUMBEROF(valid_channels); i++)
 		{
-			bool long_string = true;
-			char const* sound_playback = "";
-			switch (i)
-			{
-			case 0:
-			{
-				sound_playback = "S_1";
-				if (long_string)
-					sound_playback = "Sound_Mono   ";
-			}
-			break;
-			case 1:
-			{
-				sound_playback = "S_2";
-				if (long_string)
-					sound_playback = "Sound_Stereo ";
-			}
-			break;
-			case 2:
-			{
-				sound_playback = "S_4";
-				if (long_string)
-					sound_playback = "Sound_quad   ";
-			}
-			break;
-			case 3:
-			{
-				sound_playback = "S_6";
-				if (long_string)
-					sound_playback = "Sound_5_dot_1";
-			}
-			break;
-			case 4:
-			{
-				sound_playback = "S_C";
-				if (long_string)
-					sound_playback = "Sound_Codec  ";
-			}
-			break;
-			}
-
-			debug_string.append_print("Channels %s: %4d / %4d |n", sound_playback, v30[i], v31[i]);
+			debug_string.append_print("Channels %s: %4d / %4d |n",
+				sound_playback_to_string(i, true),
+				valid_channels[i],
+				total_channels[i]);
 		}
+
 		debug_string.append("|n");
 	}
 
@@ -572,49 +609,13 @@ void __cdecl sound_debug_render()
 			if (!sound)
 				continue;
 
-			bool long_string = false;
-			char const* sound_playback = "";
-			switch (channel->__unknownA_sound_playback)
-			{
-			case 0:
-			{
-				sound_playback = "S_1";
-				if (long_string)
-					sound_playback = "Sound_Mono   ";
-			}
-			break;
-			case 1:
-			{
-				sound_playback = "S_2";
-				if (long_string)
-					sound_playback = "Sound_Stereo ";
-			}
-			break;
-			case 2:
-			{
-				sound_playback = "S_4";
-				if (long_string)
-					sound_playback = "Sound_quad   ";
-			}
-			break;
-			case 3:
-			{
-				sound_playback = "S_6";
-				if (long_string)
-					sound_playback = "Sound_5_dot_1";
-			}
-			break;
-			case 4:
-			{
-				sound_playback = "S_C";
-				if (long_string)
-					sound_playback = "Sound_Codec  ";
-			}
-			break;
-			}
-
-			debug_string.append_print("c%3d: %s: %7.2f %s|n", channel_index, sound_playback, channel->__unknown1C, tag_name_strip_path(tag_get_name(sound->definition_index)));
+			debug_string.append_print("c%3d: %s: %7.2f %s|n",
+				channel_index,
+				sound_playback_to_string(channel->__unknownA_sound_playback, true),
+				channel->__unknown1C,
+				tag_name_strip_path(tag_get_name(sound->definition_index)));
 		}
+
 		debug_string.append("|n");
 	}
 
