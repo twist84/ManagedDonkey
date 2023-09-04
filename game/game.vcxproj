@@ -401,6 +401,7 @@ POPD
     <ClCompile Include="source\physics\havok.cpp" />
     <ClCompile Include="source\physics\havok_component.cpp" />
     <ClCompile Include="source\physics\havok_entity_iterator.cpp" />
+    <ClCompile Include="source\physics\havok_halo_external.cpp" />
     <ClCompile Include="source\physics\havok_utilities.cpp" />
     <ClCompile Include="source\physics\physics_constants.cpp" />
     <ClCompile Include="source\physics\physics_models.cpp" />
@@ -821,6 +822,7 @@ POPD
     <ClInclude Include="source\physics\havok.hpp" />
     <ClInclude Include="source\physics\havok_component.hpp" />
     <ClInclude Include="source\physics\havok_entity_iterator.hpp" />
+    <ClInclude Include="source\physics\havok_halo_external.hpp" />
     <ClInclude Include="source\physics\havok_mopp_code_definitions.hpp" />
     <ClInclude Include="source\physics\havok_utilities.hpp" />
     <ClInclude Include="source\physics\havok_vehicle_physics_definitions.hpp" />

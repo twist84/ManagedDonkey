@@ -915,6 +915,9 @@
     <ClCompile Include="source\sound\sound_classes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\physics\havok_halo_external.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2289,6 +2292,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\sound\sound_classes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\havok_halo_external.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
