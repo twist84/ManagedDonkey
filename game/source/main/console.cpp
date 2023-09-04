@@ -11,6 +11,7 @@
 #include "multithreading/threads.hpp"
 #include "networking/tools/remote_command.hpp"
 #include "objects/object_types.hpp"
+#include "physics/havok.hpp"
 #include "render/render_debug_structure.hpp"
 #include "render/render_visibility.hpp"
 #include "sound/sound_manager.hpp"
@@ -413,15 +414,15 @@ struct s_console_global
 };
 static_assert(sizeof(s_console_global) == 0xC);
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  { #_name, _hs_type_boolean,       &_name }
-#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  { #_name, _hs_type_real,          &_name }
-#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) { #_name, _hs_type_short_integer, &_name }
-#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  { #_name, _hs_type_long_integer,  &_name }
+#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  { .name = #_name, .type = _hs_type_boolean,       .boolean_value = &_name }
+#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  { .name = #_name, .type = _hs_type_real,          .real_value = &_name }
+#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) { .name = #_name, .type = _hs_type_short_integer, .short_value = &_name }
+#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  { .name = #_name, .type = _hs_type_long_integer,  .long_value = &_name }
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL2(_name, _variable_name, ...)  { #_name, _hs_type_boolean,       &_variable_name }
-#define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  { #_name, _hs_type_real,          &_variable_name }
-#define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) { #_name, _hs_type_short_integer, &_variable_name }
-#define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  { #_name, _hs_type_long_integer,  &_variable_name }
+#define CONSOLE_GLOBAL_DECLARE_BOOL2(_name, _variable_name, ...)  { .name = #_name, .type = _hs_type_boolean,       .boolean_value = &_variable_name }
+#define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  { .name = #_name, .type = _hs_type_real,          .real_value = &_variable_name }
+#define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) { .name = #_name, .type = _hs_type_short_integer, .short_value = &_variable_name }
+#define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  { .name = #_name, .type = _hs_type_long_integer,  .long_value = &_variable_name }
 
 s_console_global const k_console_globals[] =
 {
@@ -506,6 +507,8 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_listeners),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_manager_channels),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_memory_always_system, g_havok_memory_always_system),
 
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
