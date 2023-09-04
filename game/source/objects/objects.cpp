@@ -8,6 +8,7 @@
 #include "render/render_debug.hpp"
 
 #include <intrin.h>
+#include <math.h>
 
 HOOK_DECLARE(0x00B32130, object_render_debug);
 
