@@ -44,11 +44,20 @@ static_assert(sizeof(breakable_surface_set_broken_event_datum) == 0x464);
 struct hs_stack_frame
 {
 	word stack_offset;
-	int return_value;
-	int tracking_index;
-	char thread_type;
-	byte_flags flags;
-	byte __data[0x6];
+	long return_value;
+	long tracking_index;
+
+	// 0: _hs_thread_type_script
+	// 1: [global initialize]
+	// 2: [console command]
+	// 3: script?
+	// 4: script?
+	char type;
+
+	byte_flags __flagsD;
+	byte_flags __flagsE;
+	byte __unknownF;
+	dword __unknown10;
 };
 static_assert(sizeof(hs_stack_frame) == 0x14);
 
@@ -56,7 +65,7 @@ struct hs_thread : s_datum_header
 {
 	short script_index;
 	short previous_script_index;
-	long delay_until_time;
+	long sleep_until;
 	long sleep_time;
 	hs_stack_frame stack_pointer;
 	byte stack_data[0x500];
