@@ -72,12 +72,15 @@ struct hs_thread : s_datum_header
 };
 static_assert(sizeof(hs_thread) == 0x524);
 
-struct hs_runtime
+struct s_hs_runtime_globals
 {
-	dword __unknown0;
-	dword __unknown4;
+	bool initialized;
+	bool require_gc;
+	bool require_object_list_gc;
+	bool globals_initializing;
+	long executing_thread_index;
 };
-static_assert(sizeof(hs_runtime) == 0x8);
+static_assert(sizeof(s_hs_runtime_globals) == 0x8);
 
 struct hs_global_data : s_datum_header
 {
@@ -1301,7 +1304,7 @@ struct s_thread_local_storage
 
 	// name: "hs runtime globals"
 	// size: 0x8
-	hs_runtime* hs_runtime;
+	s_hs_runtime_globals* hs_runtime_globals;
 
 	//  name: "hs globals"
 	// count: 3072
