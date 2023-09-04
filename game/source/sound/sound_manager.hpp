@@ -50,7 +50,7 @@ struct s_sound_manager_globals
 
 	bool fully_initialized;
 	bool __unknown99;
-	bool __unknown9A;
+	bool game_active;
 
 	byte pause_state;
 	bool idling;
@@ -58,7 +58,7 @@ struct s_sound_manager_globals
 
 	byte __unknown9E;
 	byte __unknown9F;
-	bool __unknownA0;
+	byte __unknownA0;
 
 	dword system_time;
 	dword render_time;
@@ -70,7 +70,22 @@ struct s_sound_manager_globals
 
 	c_static_array<s_sound_manager_reverb, 2> manager_reverbs;
 
-	byte __data268[0x38];
+	long __unknown268;
+
+	real delta_time;
+
+	long __unknown27C;
+	real __unknown270;
+	real __unknown274;
+	real __unknown278;
+	long __unknown28C;
+	real __unknown280;
+	real __unknown284;
+	long __unknown288;
+	long __unknown29C;
+	real __unknown290;
+	real __unknown294;
+	real __unknown298;
 
 	struct
 	{
@@ -87,6 +102,7 @@ struct s_sound_manager_globals
 static_assert(sizeof(s_sound_manager_globals) == 0x2B8);
 
 extern bool debug_sound_class_totals;
+extern bool debug_sound_timing;
 extern bool debug_duckers;
 extern bool debug_sound_listeners;
 extern bool debug_sound;

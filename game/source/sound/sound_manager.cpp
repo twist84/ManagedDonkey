@@ -105,7 +105,7 @@ struct sound_datum : s_datum_header
 	byte __data8[0x8];
 
 	long definition_index;
-	void* tracker_callback_data;
+	long looping_sound_index;
 	s_sound_tracker* tracker;
 	s_sound_source source;
 	long playback_controller_index;
@@ -266,6 +266,7 @@ REFERENCE_DECLARE(0x02497D51, bool, g_sound_tracker_inside_update);
 REFERENCE_DECLARE(0x02497D51, byte, g_sound_tracker_flip_flop);
 
 bool debug_sound_class_totals = false;
+bool debug_sound_timing = false;
 bool debug_duckers = false;
 bool debug_sound_listeners = false;
 bool debug_sound = false;
@@ -503,6 +504,16 @@ void __cdecl sound_debug_render()
 		//}
 	}
 
+	if (debug_sound_timing)
+	{
+		debug_string.append_print("Sound system_time: %6.4f render_time: %6.4f delta_time: %1.4f|n",
+			g_sound_manager_globals->system_time / 1000.0f,
+			g_sound_manager_globals->render_time / 1000.0f,
+			g_sound_manager_globals->delta_time);
+
+		debug_string.append("|n");
+	}
+
 	if (debug_duckers)
 	{
 		if (g_sound_manager_globals->ducker.active_ducker != NONE && g_sound_manager_globals->ducker.active_ducker_time >= 5.0f)
@@ -609,11 +620,14 @@ void __cdecl sound_debug_render()
 			if (!sound)
 				continue;
 
+			char const* sound_playback_name = sound_playback_to_string(channel->__unknownA_sound_playback, true);
+			char const* sound_name = tag_name_strip_path(tag_get_name(sound->definition_index));
+
 			debug_string.append_print("c%3d: %s: %7.2f %s|n",
 				channel_index,
-				sound_playback_to_string(channel->__unknownA_sound_playback, true),
-				channel->__unknown1C,
-				tag_name_strip_path(tag_get_name(sound->definition_index)));
+				sound_playback_name,
+				channel->__unknown18,
+				sound_name);
 		}
 
 		debug_string.append("|n");

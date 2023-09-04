@@ -501,6 +501,7 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_unit_camera),
 
 	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_class_totals),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_timing),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_duckers),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound_listeners),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_sound),
