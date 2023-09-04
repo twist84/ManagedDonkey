@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
+REFERENCE_DECLARE(0x018A2324, s_havok_constants, g_havok_constants);
 REFERENCE_DECLARE(0x04B1DA80, bool, g_havok_memory_always_system);
 
 void __cdecl havok_can_modify_state_allow()
