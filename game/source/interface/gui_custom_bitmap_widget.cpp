@@ -152,8 +152,8 @@ long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_da
 					char const* buffer = reinterpret_cast<char const*>(chunk + 8);
 
 					// hack
-					if (_byteswap_ulong(buffer_size) == chunk_size - 8)
-						buffer_size = _byteswap_ulong(buffer_size);
+					if (bswap_dword(buffer_size) == chunk_size - 8)
+						buffer_size = bswap_dword(buffer_size);
 
 					if (buffer_size == chunk_size - 8)
 					{

@@ -5,6 +5,8 @@
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
 
+#include <math.h>
+
 HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
 
 void __cdecl render_camera_build(render_camera* camera, s_observer_result const* result)

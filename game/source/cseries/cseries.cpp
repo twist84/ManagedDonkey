@@ -136,11 +136,14 @@ bool handle_assert_as_exception(char const* statement, char const* file, long li
 	if (is_debugger_present() && !g_catch_exceptions || !is_exception || is_main_thread())
 		return false;
 
-	s_thread_assert_arguments arguments;
-	arguments.statement = statement;
-	arguments.file = file;
-	arguments.line = line;
-	arguments.is_exception = is_exception;
+	s_thread_assert_arguments arguments
+	{
+		.statement = statement,
+		.file = file,
+		.line = line,
+		.is_exception = is_exception,
+	};
+
 	post_thread_assert_arguments(&arguments);
 	RaiseException('stk', 0, 0, NULL);
 
@@ -294,7 +297,7 @@ void ascii_strnlwr(char* string, long count)
 
 char* tag_to_string(tag _tag, char* buffer)
 {
-	*(tag*)buffer = _byteswap_ulong(_tag);
+	*(tag*)buffer = bswap_dword(_tag);
 	buffer[4] = 0;
 
 	return buffer;

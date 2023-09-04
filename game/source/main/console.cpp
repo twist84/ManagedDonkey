@@ -17,6 +17,7 @@
 #include "units/bipeds.hpp"
 #include "xbox/xbox.hpp"
 
+#include <stdlib.h>
 #include <string.h>
 
 HOOK_DECLARE(0x00605E10, console_execute_initial_commands);

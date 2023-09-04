@@ -21,6 +21,8 @@
 #include "sound/sound_manager.hpp"
 #include "text/draw_string.hpp"
 
+#include <math.h>
+
 #define MAXIMUM_CACHE_STRING_LENGTH 4096
 
 enum e_render_debug_type

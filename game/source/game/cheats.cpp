@@ -17,6 +17,7 @@
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/string_ids.hpp"
 
+#include <math.h>
 #include <string.h>
 
 cheat_globals cheat = {};

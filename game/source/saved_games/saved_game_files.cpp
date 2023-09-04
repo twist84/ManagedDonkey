@@ -5,7 +5,7 @@
 
 void s_content_item_metadata::byteswap()
 {
-	unique_id = _byteswap_uint64(unique_id);
+	bswap_qword_inplace(unique_id);
 	for (long i = 0; i < NUMBEROF(name); i++) bswap_word_inplace(name[i]);
 	bswap_dword_inplace(file_type);
 	ASSERT(array_is_zeroed(pad0));

@@ -14,10 +14,10 @@ HOOK_DECLARE(0x00463540, network_blf_verify_start_of_file);
 
 void s_blf_header::setup(long _chunk_type, long _chunk_size, long _major_version, long _minor_version)
 {
-	chunk_type = _byteswap_ulong(_chunk_type);
-	chunk_size = _byteswap_ulong(_chunk_size);
-	major_version = _byteswap_ushort(static_cast<short>(_major_version));
-	minor_version = _byteswap_ushort(static_cast<short>(_minor_version));
+	chunk_type = bswap_dword(_chunk_type);
+	chunk_size = bswap_dword(_chunk_size);
+	major_version = bswap_word(static_cast<short>(_major_version));
+	minor_version = bswap_word(static_cast<short>(_minor_version));
 }
 
 s_blf_chunk_start_of_file::s_blf_chunk_start_of_file()
@@ -29,7 +29,7 @@ void s_blf_chunk_start_of_file::initialize()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
-	byte_order_mark = _byteswap_ushort(0xFFFE);
+	byte_order_mark = bswap_word(0xFFFE);
 	name.clear();
 	memset(pad, 0, sizeof(pad));
 }
@@ -341,10 +341,10 @@ bool __cdecl network_blf_read_for_known_chunk(char const* buffer, long buffer_co
 
 		if (byte_swap)
 		{
-			chunk_type = _byteswap_ulong(chunk_type);
-			chunk_size = _byteswap_ulong(chunk_size);
-			chunk_major_version = _byteswap_ushort(chunk_major_version);
-			chunk_minor_version = _byteswap_ushort(chunk_minor_version);
+			bswap_dword_inplace(chunk_type);
+			bswap_dword_inplace(chunk_size);
+			bswap_word_inplace(chunk_major_version);
+			bswap_word_inplace(chunk_minor_version);
 		}
 
 		if (chunk_size >= sizeof(s_blf_header) && chunk_size <= buffer_count && chunk_major_version >= 0 && chunk_minor_version >= 0)
@@ -418,12 +418,12 @@ bool __cdecl network_blf_verify_start_of_file(char const* buffer, long buffer_co
 		if (out_byte_swap)
 			*out_byte_swap = false;
 
-		if (sof_chunk->byte_order_mark == _byteswap_ushort(0xFFFE))
+		if (sof_chunk->byte_order_mark == bswap_word(0xFFFE))
 		{
-			chunk_type = _byteswap_ulong(chunk_type);
-			chunk_size = _byteswap_ulong(chunk_size);
-			chunk_major_version = _byteswap_ushort(chunk_major_version);
-			chunk_minor_version = _byteswap_ushort(chunk_minor_version);
+			bswap_dword_inplace(chunk_type);
+			bswap_dword_inplace(chunk_size);
+			bswap_word_inplace(chunk_major_version);
+			bswap_word_inplace(chunk_minor_version);
 
 			if (out_byte_swap)
 				*out_byte_swap = true;

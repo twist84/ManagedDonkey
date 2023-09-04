@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "game/game.hpp"
 #include "main/levels.hpp"
+#include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -91,7 +92,7 @@ bool packed_game_variant_is_mcc(void const* buffer_, long bytes_read)
 	s_blf_header const* chunk_header = reinterpret_cast<s_blf_header const*>(buffer);
 	while (chunk_header->chunk_type != 'msf_')
 	{
-		buffer += _byteswap_ulong(chunk_header->chunk_size);
+		buffer += bswap_dword(chunk_header->chunk_size);
 		chunk_header = reinterpret_cast<s_blf_header const*>(buffer);
 
 		if (buffer >= buffer_end)
@@ -116,14 +117,14 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, lon
 
 		while (buffer < buffer_end && chunk_header->chunk_type != 'ravg')
 		{
-			buffer = static_cast<byte const*>(buffer) + _byteswap_ulong(chunk_header->chunk_size);
+			buffer = static_cast<byte const*>(buffer) + bswap_dword(chunk_header->chunk_size);
 			chunk_header = static_cast<s_blf_header const*>(buffer);
 		}
 
 		if (buffer >= buffer_end)
 			return false;
 
-		long chunk_size = _byteswap_ulong(chunk_header->chunk_size) - sizeof(s_blf_header);
+		long chunk_size = bswap_dword(chunk_header->chunk_size) - sizeof(s_blf_header);
 		byte* chunk_data = const_cast<byte*>(static_cast<byte const*>(buffer) + sizeof(s_blf_header));
 
 		c_bitstream packet(chunk_data, chunk_size);
@@ -134,7 +135,7 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, lon
 		bool result = decode_succeeded;
 		if (decode_succeeded)
 		{
-			buffer = static_cast<byte const*>(buffer) + _byteswap_ulong(chunk_header->chunk_size);
+			buffer = static_cast<byte const*>(buffer) + bswap_dword(chunk_header->chunk_size);
 			chunk_header = static_cast<s_blf_header const*>(buffer);
 
 			if (buffer >= buffer_end)
@@ -146,7 +147,7 @@ bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, lon
 				// is end of file
 				while (chunk_header->chunk_type != 'foe_')
 				{
-					buffer = static_cast<byte const*>(buffer) + _byteswap_ulong(chunk_header->chunk_size);
+					buffer = static_cast<byte const*>(buffer) + bswap_dword(chunk_header->chunk_size);
 					chunk_header = static_cast<s_blf_header const*>(buffer);
 
 					if (buffer >= buffer_end)
@@ -545,9 +546,9 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 		if (quota.object_definition_index < g_tag_total_count_pre_external_files)
 			continue;
 
-		removed_variant_objects++;
-		object = s_variant_object_datum();
-		ASSERT(object.variant_quota_index);
+		//removed_variant_objects++;
+		//object = s_variant_object_datum();
+		//ASSERT(object.variant_quota_index == NONE);
 	}
 
 	for (s_variant_quota& quota : map_variant->m_quotas)
@@ -556,8 +557,11 @@ void __cdecl network_map_variant_file_juju(char const* filename, bool load_and_u
 			continue;
 
 		removed_placeable_object_quotas++;
-		quota = s_variant_quota();
-		ASSERT(quota.object_definition_index == NONE);
+		//quota = s_variant_quota();
+		//ASSERT(quota.object_definition_index == NONE);
+
+		quota.object_definition_index = NONE;
+		//quota.object_definition_index = 0x00004221;
 	}
 
 	//map_variant->m_number_of_variant_objects -= removed_variant_objects;
