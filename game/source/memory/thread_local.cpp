@@ -106,6 +106,18 @@ REFERENCE_DECLARE(0x01914810, t_restricted_allocation_manager, g_render_texture_
 REFERENCE_DECLARE(0x01914938, t_restricted_allocation_manager, g_render_game_globals_allocator);
 REFERENCE_DECLARE(0x019149F0, t_restricted_allocation_manager, g_depth_of_field_game_globals_allocator);
 REFERENCE_DECLARE(0x01914AF8, t_restricted_allocation_manager, g_cached_object_render_states_allocator);
+REFERENCE_DECLARE(0x01916178, t_restricted_allocation_manager, g_particle_emitter_gpu_x_data_array_manager);        // c_particle_emitter_gpu::x_data_array_manager
+REFERENCE_DECLARE(0x01916184, t_restricted_allocation_manager, g_particle_emitter_gpu_s_row_x_data_array_manager);  // c_particle_emitter_gpu::s_row::x_data_array_manager
+REFERENCE_DECLARE(0x019161B8, t_restricted_allocation_manager, g_particle_emitter_gpu_x_gamestate_storage_manager); // c_particle_emitter_gpu::x_gamestate_storage_manager
+REFERENCE_DECLARE(0x01916738, t_restricted_allocation_manager, g_beam_gpu_x_data_array_manager);                    // c_beam_gpu::x_data_array_manager
+REFERENCE_DECLARE(0x01916744, t_restricted_allocation_manager, g_beam_gpu_s_row_x_data_array_manager);              // c_beam_gpu::s_row::x_data_array_manager
+REFERENCE_DECLARE(0x01916778, t_restricted_allocation_manager, g_beam_gpu_x_gamestate_storage_manager);             // c_beam_gpu::x_gamestate_storage_manager
+REFERENCE_DECLARE(0x01917350, t_restricted_allocation_manager, g_contrail_gpu_x_data_array_manager);                // c_contrail_gpu::x_data_array_manager
+REFERENCE_DECLARE(0x0191735C, t_restricted_allocation_manager, g_contrail_gpu_s_row_x_data_array_manager);          // c_contrail_gpu::s_row::x_data_array_manager
+REFERENCE_DECLARE(0x01917390, t_restricted_allocation_manager, g_contrail_gpu_x_gamestate_storage_manager);         // c_contrail_gpu::x_gamestate_storage_manager
+REFERENCE_DECLARE(0x01917790, t_restricted_allocation_manager, g_light_volume_gpu_x_data_array_manager);            // c_light_volume_gpu::x_data_array_manager
+REFERENCE_DECLARE(0x0191779C, t_restricted_allocation_manager, g_light_volume_gpu_s_row_x_data_array_manager);      // c_light_volume_gpu::s_row::x_data_array_manager
+REFERENCE_DECLARE(0x019177D0, t_restricted_allocation_manager, g_light_volume_gpu_x_gamestate_storage_manager);     // c_light_volume_gpu::x_gamestate_storage_manager
 REFERENCE_DECLARE(0x0191BDFC, t_restricted_allocation_manager, g_rasterizer_implicit_geometry_data_allocator);
 REFERENCE_DECLARE(0x0191C0FC, t_restricted_allocation_manager, g_render_object_globals_allocator);
 REFERENCE_DECLARE(0x0191CA2C, t_restricted_allocation_manager, g_shield_render_cache_data_allocator);
@@ -195,3 +207,4 @@ s_thread_local_storage* get_tls()
 	void** tls_ptr = reinterpret_cast<void**>(__readfsdword(0x2C));
 	return reinterpret_cast<s_thread_local_storage*>(tls_ptr[tls_index]);
 }
+
