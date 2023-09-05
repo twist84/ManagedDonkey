@@ -14,7 +14,7 @@
 #include "simulation/simulation.hpp"
 #include "interface/terminal.hpp"
 
-//HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
+HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 
 bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
@@ -235,17 +235,20 @@ __declspec(naked) void main_render_view_inline_hook()
 {
 	__asm
 	{
-		// main_render_view(player_view, player_view->get_player_view_user_index())
-		push dword ptr[esi + 0x26A4]
-		push esi
-		call main_render_view
+        // main_render_view(player_view, player_view->get_player_view_user_index())
+        push dword ptr[esi + 0x26A4]
+        push esi
+        call main_render_view
 
-		// jump out after the inlined `main_render_view`
-		mov  ecx, 0x0060474B
-		jmp  ecx
+        // jump out after the inlined `main_render_view`
+		// we push the return address to the stack for the jump,
+		// the stack will be cleaned up outside of this hook
+		// this is **very** non-standard and bad, *Wait, That's Illegal*
+        push 0x00604747
+        jmp dword ptr[esp]
 	}
 }
-//HOOK_DECLARE(0x006046EB, main_render_view_inline_hook);
+HOOK_DECLARE(0x006046EB, main_render_view_inline_hook);
 
 void __cdecl main_render_view(c_player_view* player_view, long player_index)
 {

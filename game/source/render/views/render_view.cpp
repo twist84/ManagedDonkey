@@ -193,8 +193,6 @@ void __cdecl render_debug_frame_render()
 	if (DECLFUNC(0x0042E5D0, bool, __cdecl)())
 		return;
 
-	render_debug_window_render(0);
-
 	//render_debug_begin(true, true, true);
 	terminal_draw();
 	main_time_frame_rate_display();
@@ -203,18 +201,11 @@ void __cdecl render_debug_frame_render()
 
 void __cdecl render_debug_window_render(long user_index)
 {
-	bool has_no_global_player_view = c_player_view::get_global_player_view() == nullptr;
-	if (has_no_global_player_view)
-		c_player_view::set_global_player_view(&c_player_view::x_global_player_views[0]);
-
 	// asserts
 
 	render_debug_begin(false, false, false);
 	render_debug_structure_draw();
 	render_debug_clients(user_index);
 	render_debug_end(true, false, false);
-
-	if (has_no_global_player_view)
-		c_player_view::set_global_player_view(nullptr);
 }
 
