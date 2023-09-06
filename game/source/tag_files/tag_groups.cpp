@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 
+#include <stdlib.h>
 #include <string.h>
 
 bool const print_reference_updates = false;

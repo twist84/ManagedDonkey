@@ -7,6 +7,8 @@
 #include "render/render_debug.hpp"
 #include "units/vehicle_type_component.hpp"
 
+#include <math.h>
+
 HOOK_DECLARE(0x00B76AB0, vehicle_render_debug);
 
 e_vehicle_type __cdecl vehicle_get_type(long vehicle_index)

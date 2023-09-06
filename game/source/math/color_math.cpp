@@ -1,5 +1,7 @@
 #include "math/color_math.hpp"
 
+#include <math.h>
+
 real_argb_color* __cdecl pixel32_to_real_argb_color(argb_color color, real_argb_color* real_color)
 {
 	return INVOKE(0x005211C0, pixel32_to_real_argb_color, color, real_color);

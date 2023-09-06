@@ -18,3 +18,4 @@ void __cdecl c_contrail::render() const
 {
 	DECLFUNC(0x007572B0, void, __thiscall, c_contrail const*)(this);
 }
+

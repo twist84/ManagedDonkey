@@ -596,6 +596,11 @@ public:
 		}
 	}
 
+	void clear()
+	{
+		m_storage = 0;
+	}
+
 	bool valid_bit(t_type bit)
 	{
 		return VALID_INDEX(0, k_count);

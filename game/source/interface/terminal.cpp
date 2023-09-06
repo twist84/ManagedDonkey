@@ -6,6 +6,8 @@
 #include "multithreading/synchronization.hpp"
 #include "text/draw_string.hpp"
 
+#include <math.h>
+
 s_terminal_globals terminal_globals = { .initialized = false };
 
 bool g_terminal_render_enable = true;
