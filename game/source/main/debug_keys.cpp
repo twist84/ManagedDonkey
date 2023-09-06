@@ -13,6 +13,8 @@
 #include "rasterizer/rasterizer.hpp"
 #include "units/units.hpp"
 
+#include <math.h>
+
 bool force_respawn = false;
 
 // Modifier Table

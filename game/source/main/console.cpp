@@ -1,6 +1,7 @@
 #include "main/console.hpp"
 
 #include "game/cheats.hpp"
+#include "effects/contrails.hpp"
 #include "interface/terminal.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_scenario_definitions.hpp"
@@ -533,6 +534,8 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_cleanup_inactive_agents, g_havok_constants.cleanup_inactive_agents),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_memory_always_system, g_havok_memory_always_system),
+	
+	CONSOLE_GLOBAL_DECLARE_BOOL(contrail_render_enable),
 
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);

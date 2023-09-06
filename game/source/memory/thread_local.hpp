@@ -11,6 +11,8 @@
 #include "game/players.hpp"
 #include "game/game_time.hpp"
 #include "game/survival_mode.hpp"
+#include "gpu_particle/contrail_gpu.hpp"
+#include "effects/contrails.hpp"
 #include "effects/effects.hpp"
 #include "interface/user_interface_objectives.hpp"
 #include "main/global_preferences.hpp"
@@ -453,30 +455,6 @@ struct c_particle_system : s_datum_header
 };
 static_assert(sizeof(c_particle_system) == 0x58);
 
-struct c_contrail_system : s_datum_header
-{
-	byte __data[0x4A];
-};
-static_assert(sizeof(c_contrail_system) == 0x4C);
-
-struct c_contrail : s_datum_header
-{
-	byte __data[0x4A];
-};
-static_assert(sizeof(c_contrail) == 0x4C);
-
-struct c_contrail_location : s_datum_header
-{
-	byte __data[0x5E];
-};
-static_assert(sizeof(c_contrail_location) == 0x60);
-
-struct c_contrail_profile : s_datum_header
-{
-	byte __data[0x4A];
-};
-static_assert(sizeof(c_contrail_profile) == 0x4C);
-
 struct c_particle_location : s_datum_header
 {
 	byte __data[0x5E];
@@ -656,23 +634,6 @@ struct c_beam_gpu : s_datum_header
 	dword __unknownC;
 };
 static_assert(sizeof(c_beam_gpu) == 0x10);
-
-struct c_contrail_gpu : s_datum_header
-{
-	struct s_row : s_datum_header
-	{
-		dword __unknown4;
-		dword __unknown8;
-		dword __unknownC;
-	};
-	static_assert(sizeof(s_row) == 0x10);
-
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-	dword __unknown10;
-};
-static_assert(sizeof(c_contrail_gpu) == 0x14);
 
 struct c_light_volume_gpu : s_datum_header
 {

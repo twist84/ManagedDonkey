@@ -1,11 +1,20 @@
 #include "effects/contrails.hpp"
 
-#include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
 HOOK_DECLARE_CLASS(0x00757370, c_contrail, render_callback);
 
+bool contrail_render_enable = false;
+
 void __cdecl c_contrail::render_callback(void const* a1, long a2)
 {
-	//HOOK_INVOKE_CLASS(, c_contrail, render_callback, decltype(render_callback)*, a1, a2);
+	c_contrail const* contrail = static_cast<c_contrail const*>(a1);
+
+	if (contrail_render_enable)
+		contrail->render();
+}
+
+void __cdecl c_contrail::render() const
+{
+	DECLFUNC(0x007572B0, void, __thiscall, c_contrail const*)(this);
 }

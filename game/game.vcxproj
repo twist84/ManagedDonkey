@@ -487,6 +487,7 @@ POPD
     <ClInclude Include="source\cseries\stack_walk_windows.hpp" />
     <ClInclude Include="source\cutscene\recorded_animations.hpp" />
     <ClInclude Include="source\dialogs\edit_text.hpp" />
+    <ClInclude Include="source\effects\contrail_states.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
     <ClInclude Include="source\game\game_engine_event_definitions.hpp" />
@@ -495,6 +496,10 @@ POPD
     <ClInclude Include="source\game\game_results.hpp" />
     <ClInclude Include="source\game\materials.hpp" />
     <ClInclude Include="source\geometry\geometry_definitions.hpp" />
+    <ClInclude Include="source\gpu_particle\beam_gpu.hpp" />
+    <ClInclude Include="source\gpu_particle\contrail_gpu.hpp" />
+    <ClInclude Include="source\gpu_particle\light_volume_gpu.hpp" />
+    <ClInclude Include="source\gpu_particle\particle_block.hpp" />
     <ClInclude Include="source\hs\hs_library_external.hpp" />
     <ClInclude Include="source\interface\c_gui_model_widget.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />

@@ -2297,6 +2297,21 @@
     <ClInclude Include="source\physics\havok_halo_external.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\effects\contrail_states.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gpu_particle\contrail_gpu.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gpu_particle\particle_block.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gpu_particle\beam_gpu.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gpu_particle\light_volume_gpu.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
