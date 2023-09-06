@@ -11,7 +11,10 @@
 #include "game/players.hpp"
 #include "game/game_time.hpp"
 #include "game/survival_mode.hpp"
+#include "gpu_particle/beam_gpu.hpp"
 #include "gpu_particle/contrail_gpu.hpp"
+#include "gpu_particle/light_volume_gpu.hpp"
+#include "gpu_particle/particle_block.hpp"
 #include "effects/contrails.hpp"
 #include "effects/effects.hpp"
 #include "interface/user_interface_objectives.hpp"
@@ -607,48 +610,6 @@ struct cached_object_render_state_datum : s_datum_header
 	byte __data[0x4D6];
 };
 static_assert(sizeof(cached_object_render_state_datum) == 0x4D8);
-
-struct c_particle_emitter_gpu : s_datum_header
-{
-	struct s_row : s_datum_header
-	{
-		byte __data[0x12];
-	};
-	static_assert(sizeof(s_row) == 0x14);
-
-	byte __data[0x16];
-};
-static_assert(sizeof(c_particle_emitter_gpu) == 0x18);
-
-struct c_beam_gpu : s_datum_header
-{
-	struct s_row : s_datum_header
-	{
-		dword __unknown4;
-		dword __unknown8;
-	};
-	static_assert(sizeof(s_row) == 0xC);
-
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-};
-static_assert(sizeof(c_beam_gpu) == 0x10);
-
-struct c_light_volume_gpu : s_datum_header
-{
-	struct s_row : s_datum_header
-	{
-		dword __unknown4;
-		dword __unknown8;
-	};
-	static_assert(sizeof(s_row) == 0xC);
-
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-};
-static_assert(sizeof(c_light_volume_gpu) == 0x10);
 
 enum e_implicit_transparent_type
 {
