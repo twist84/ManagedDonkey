@@ -25,7 +25,10 @@ struct c_contrail_system : s_datum_header
 	long m_first_location_index;
 	c_flags<e_flags, word, k_flags> m_flags;
 	byte m_camera_mode;
-	byte __unknown1F;
+
+	// effect_get_first_person
+	char __unknown1F;
+
 	real m_lifespan;
 	real m_effect_scale_a;
 	real m_effect_scale_b;

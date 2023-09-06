@@ -3,6 +3,7 @@
 #include "cache/restricted_memory.hpp"
 #include "camera/observer.hpp"
 #include "camera/camera.hpp"
+#include "camera/camera_scripting.hpp"
 #include "camera/director.hpp"
 #include "game/game_engine.hpp"
 #include "game/game_globals.hpp"
@@ -15,14 +16,22 @@
 #include "gpu_particle/contrail_gpu.hpp"
 #include "gpu_particle/light_volume_gpu.hpp"
 #include "gpu_particle/particle_block.hpp"
+#include "effects/beams.hpp"
 #include "effects/contrails.hpp"
+#include "effects/decals.hpp"
 #include "effects/effects.hpp"
+#include "effects/light_volumes.hpp"
+#include "effects/particle.hpp"
+#include "effects/particle_emitter.hpp"
+#include "effects/particle_location.hpp"
+#include "effects/particle_system.hpp"
 #include "interface/user_interface_objectives.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
 #include "memory/data.hpp"
 #include "memory/hashtable.hpp"
 #include "physics/physics_constants.hpp"
+#include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "scenario/scenario_interpolators.hpp"
 
 struct simulation_gamestate_entity_datum : s_datum_header
@@ -347,49 +356,6 @@ struct s_game_sound_deterministic_globals
 };
 static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
 
-struct c_decal_system : s_datum_header
-{
-	long tag_index;
-	long __unknown8;
-	long __unknownC;
-	long __unknown10;
-	long __unknown14;
-	long __unknown18;
-	long __unknown1C;
-	long __unknown20;
-	long __unknown24;
-	long __unknown28;
-	long __unknown2C;
-	long __unknown30;
-	long __unknown34;
-	long __unknown38;
-	long __unknown3C;
-	long __unknown40;
-	long __unknown44;
-	long __unknown48;
-	long __unknown4C;
-	byte __unknown50[0x308];
-};
-static_assert(sizeof(c_decal_system) == 0x358);
-
-struct s_decal_counts
-{
-	byte __data[0x20];
-};
-static_assert(sizeof(s_decal_counts) == 0x20);
-
-struct c_decal : s_datum_header
-{
-	byte __data[0x12E];
-};
-static_assert(sizeof(c_decal) == 0x130);
-
-struct s_decal_message_queue
-{
-	byte __data[0x824];
-};
-static_assert(sizeof(s_decal_message_queue) == 0x824);
-
 struct s_impact_globals
 {
 	byte __unknown0[0x8C];
@@ -425,102 +391,11 @@ struct object_list_datum : s_datum_header
 };
 static_assert(sizeof(object_list_datum) == 0xC);
 
-struct scripted_camera_globals
-{
-	byte __unknown0[0xF0];
-};
-static_assert(sizeof(scripted_camera_globals) == 0xF0);
-
-struct c_particle_system : s_datum_header
-{
-	short particle_tag_index;
-	long __unknown4;
-	long __unknown8;
-	long __unknownC;
-	long __unknown10;
-	long __unknown14;
-	long __unknown18;
-	long __unknown1C;
-	long __unknown20;
-	long __unknown24;
-	long __unknown28;
-	long __unknown2C;
-	long __unknown30;
-	long __unknown34;
-	long __unknown38;
-	long __unknown3C;
-	long __unknown40;
-	long __unknown44;
-	long __unknown48;
-	long __unknown4C;
-	long __unknown50;
-	long __unknown54;
-};
-static_assert(sizeof(c_particle_system) == 0x58);
-
-struct c_particle_location : s_datum_header
-{
-	byte __data[0x5E];
-};
-static_assert(sizeof(c_particle_location) == 0x60);
-
-struct c_light_volume_location : s_datum_header
-{
-	byte __data[0x2A];
-};
-static_assert(sizeof(c_light_volume_location) == 0x2C);
-
-struct c_light_volume : s_datum_header
-{
-	byte __data[0x32];
-};
-static_assert(sizeof(c_light_volume) == 0x34);
-
-struct c_light_volume_system : s_datum_header
-{
-	byte __data[0x2A];
-};
-static_assert(sizeof(c_light_volume_system) == 0x2C);
-
-struct c_beam_system : s_datum_header
-{
-	byte __data[0x32];
-};
-static_assert(sizeof(c_beam_system) == 0x34);
-
-struct c_beam : s_datum_header
-{
-	byte __data[0x2A];
-};
-static_assert(sizeof(c_beam) == 0x2C);
-
-struct c_beam_location : s_datum_header
-{
-	byte __data[0x2E];
-};
-static_assert(sizeof(c_beam_location) == 0x30);
-
-struct hue_saturation_control
-{
-	dword graphics_override;
-	real saturation;
-	real color;
-	real __unknownC;
-	real __unknown10;
-};
-static_assert(sizeof(hue_saturation_control) == 0x14);
-
 struct s_ragdoll_datum : s_datum_header
 {
 	byte __data[0x12E];
 };
 static_assert(sizeof(s_ragdoll_datum) == 0x130);
-
-struct c_particle_emitter : s_datum_header
-{
-	byte __data[0x8E];
-};
-static_assert(sizeof(c_particle_emitter) == 0x90);
 
 struct rasterizer_game_states
 {
@@ -1567,7 +1442,8 @@ struct s_thread_local_storage
 	//  name: "decal_system"
 	// count: 856
 	//  size: 0x54
-	c_smart_data_array<c_decal_system> decal_system;
+	// c_decal_system::x_data_array
+	c_smart_data_array<c_decal_system> g_decal_system_data_array;
 
 	// name: "decal counts"
 	// size: 0x20
@@ -1576,11 +1452,12 @@ struct s_thread_local_storage
 	//  name: "decal"
 	// count: 856
 	//  size: 0x130
-	c_smart_data_array<c_decal> decal_data;
+	// c_decal::x_data_array
+	c_smart_data_array<c_decal> g_decal_data_array;
 
 	// name: "decal messaging queue"
 	// size: 0x824
-	s_decal_message_queue* g_decal_message_queue;
+	c_decal_message_queue* g_decal_message_queue;
 
 	// name: "impact globals"
 	// size: 0x8C
@@ -1608,72 +1485,85 @@ struct s_thread_local_storage
 
 	// name: "scripted camera globals"
 	// size: 0xF0
-	scripted_camera_globals* scripted_camera_globals;
+	s_scripted_camera_globals* g_scripted_camera_globals;
 
 	//  name: "particles"
 	// count: 512
 	//  size: 0x7C
-	data_array_base* particles;
+	// c_particle::x_data_array
+	c_smart_data_array<c_particle>* g_particle_data_array;
 
 	//  name: "particle_system"
 	// count: 320
 	//  size: 0x58
-	c_smart_data_array<c_particle_system> particle_system;
+	// c_particle_system::x_data_array
+	c_smart_data_array<c_particle_system> g_particle_system_data_array;
 
 	//  name: "contrail_system"
 	// count: 160
 	//  size: 0x30
-	c_smart_data_array<c_contrail_system> contrail_system;
+	// c_contrail_system::x_data_array
+	c_smart_data_array<c_contrail_system> g_contrail_system_data_array;
 
 	//  name: "contrail"
 	// count: 160
 	//  size: 0x4C
-	c_smart_data_array<c_contrail> contrail;
+	// c_contrail::x_data_array
+	c_smart_data_array<c_contrail> g_contrail_data_array;
 
 	//  name: "contrail"
 	// count: 160
 	//  size: 0x60
-	c_smart_data_array<c_contrail_location> contrail_location;
+	// c_contrail_location::x_data_array
+	c_smart_data_array<c_contrail_location> g_contrail_location_data_array;
 
 	//  name: "contrail_profile"
 	// count: 1
 	//  size: 0x60
-	c_smart_data_array<c_contrail_profile> contrail_profile;
+	// c_contrail_profile::x_data_array
+	c_smart_data_array<c_contrail_profile> g_contrail_profile_data_array;
 
 	//  name: "particle_location"
 	// count: 576
 	//  size: 0x60
-	c_smart_data_array<c_particle_location> particle_location;
+	// c_particle_location::x_data_array
+	c_smart_data_array<c_particle_location> g_particle_location_data_array;
 
 	//  name: "light_volume_system"
 	// count: 160
 	//  size: 0x2C
-	c_smart_data_array<c_light_volume_system> light_volume_system;
+	// c_light_volume_system::x_data_array
+	c_smart_data_array<c_light_volume_system> g_light_volume_system_data_array;
 
 	//  name: "light_volume"
 	// count: 160
 	//  size: 0x2C
-	c_smart_data_array<c_light_volume_location> light_volume_location;
+	// c_light_volume_location::x_data_array
+	c_smart_data_array<c_light_volume_location> g_light_volume_location_data_array;
 
 	//  name: "light_volume"
 	// count: 160
 	//  size: 0x34
-	c_smart_data_array<c_light_volume> light_volume;
+	// c_light_volume::x_data_array
+	c_smart_data_array<c_light_volume> g_light_volume_data_array;
 
 	//  name: "beam_system"
 	// count: 160
 	//  size: 0x2C
-	c_smart_data_array<c_beam_system> beam_system;
+	// c_beam_system::x_data_array
+	c_smart_data_array<c_beam_system> g_beam_system_data_array;
 
-	//  name: "beam_system"
+	//  name: "beam"
 	// count: 160
 	//  size: 0x34
-	c_smart_data_array<c_beam> beam;
+	// c_beam::x_data_array
+	c_smart_data_array<c_beam> g_beam_data_array;
 
-	//  name: "beam_system"
+	//  name: "beam"
 	// count: 160
 	//  size: 0x30
-	c_smart_data_array<c_beam_location> beam_location;
+	// c_beam_location::x_data_array
+	c_smart_data_array<c_beam_location> g_beam_location_data_array;
 
 	// from assert
 	bool g_havok_memory_allocator_locked;
@@ -1686,7 +1576,8 @@ struct s_thread_local_storage
 	//  name: "particle_emitter"
 	// count: 1088
 	//  size: 0x90
-	c_smart_data_array<c_particle_emitter> particle_emitter;
+	// c_particle_emitter::x_data_array
+	c_smart_data_array<c_particle_emitter> g_particle_emitter_data_array;
 
 	// name: "rasterizer game states"
 	// size: 0x208
@@ -1694,7 +1585,8 @@ struct s_thread_local_storage
 
 	// name: "hue saturation control"
 	// size: 0x14
-	hue_saturation_control* hue_saturation_control;
+	// c_hue_saturation_control::x_in_gamestate
+	c_hue_saturation_control* hue_saturation_control;
 
 	void* __unknown3C4;
 
@@ -1805,7 +1697,7 @@ struct s_thread_local_storage
 	// name: "render object"
 	// type: "globals"
 	// size: 0x3C040
-	s_render_object_globals* render_object_globals;
+	s_render_object_globals* g_render_object_globals_internal;
 
 	// name: "shield_render_cache_message"
 	// count: 8
