@@ -13,6 +13,14 @@
 #include "effects/vision_mode.hpp"
 #include "memory/data.hpp"
 
+struct s_effect_vector
+{
+	real_point3d point;
+	vector3d forward;
+	c_string_id name;
+};
+static_assert(sizeof(s_effect_vector) == 0x1C);
+
 struct effect_datum : s_datum_header
 {
 	byte __data[0x9E];
