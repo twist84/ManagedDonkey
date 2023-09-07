@@ -220,9 +220,10 @@ struct s_multiplayer_runtime_globals_definition
 	c_typed_tag_reference<CRATE_TAG> vip_influence_area;
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> in_game_text;
 
-	c_typed_tag_reference<PROJECTILE_TAG> __reference70_projectile;
-	c_typed_tag_reference<EFFECT_TAG> __reference80_effect;
-	c_typed_tag_reference<EFFECT_TAG> __reference90_effect;
+	// gameplay modifier tags
+	c_typed_tag_reference<PROJECTILE_TAG> plant_plasma_on_death_projectile;
+	c_typed_tag_reference<EFFECT_TAG> vehicle_autoflip_effect;
+	c_typed_tag_reference<EFFECT_TAG> safety_booster_effect;
 
 	// `player_spawn`
 	// long sound_index = player_has_gameplay_modifier(_gameplay_modifier_respawn_modifier) ? runtime_data->modifier_respawn_sound.index : runtime_data->default_respawn_sound.index

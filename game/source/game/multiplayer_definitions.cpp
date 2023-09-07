@@ -154,9 +154,9 @@ void s_multiplayer_runtime_globals_definition::update_reference_names()
 	UPDATE_REFERENCE_NAME(assault_bomb);
 	UPDATE_REFERENCE_NAME(vip_influence_area);
 	UPDATE_REFERENCE_NAME(in_game_text);
-	UPDATE_REFERENCE_NAME(__reference70_projectile);
-	UPDATE_REFERENCE_NAME(__reference80_effect);
-	UPDATE_REFERENCE_NAME(__reference90_effect);
+	UPDATE_REFERENCE_NAME(plant_plasma_on_death_projectile);
+	UPDATE_REFERENCE_NAME(vehicle_autoflip_effect);
+	UPDATE_REFERENCE_NAME(safety_booster_effect);
 	UPDATE_REFERENCE_NAME(default_respawn_sound);
 	UPDATE_REFERENCE_NAME(modifier_respawn_sound);
 	UPDATE_REFERENCE_NAME(scoreboard_emblem_bitmap);
