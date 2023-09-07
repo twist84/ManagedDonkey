@@ -11,6 +11,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/threads.hpp"
+#include "networking/logic/life_cycle/life_cycle_handler_pre_game.hpp"
 #include "networking/messages/network_message_gateway.hpp"
 #include "networking/tools/remote_command.hpp"
 #include "objects/object_types.hpp"
@@ -432,6 +433,7 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(display_framerate),
 	CONSOLE_GLOBAL_DECLARE_BOOL(display_frame_deltas),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL(net_skip_countdown),
 	CONSOLE_GLOBAL_DECLARE_BOOL(net_experimental),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_deathless_player, cheat.deathless_player),

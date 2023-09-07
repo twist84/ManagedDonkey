@@ -918,6 +918,9 @@
     <ClCompile Include="source\physics\havok_halo_external.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_pre_game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
