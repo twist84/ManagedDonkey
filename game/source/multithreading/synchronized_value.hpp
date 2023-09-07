@@ -12,6 +12,18 @@ protected:
 };
 static_assert(sizeof(c_synchronized_long) == 0x4);
 
+struct c_synchronized_int64
+{
+public:
+	__int64 increment();
+	__int64 peek() const;
+	void operator=(__int64 Value);
+
+protected:
+	volatile __int64 m_value;
+};
+static_assert(sizeof(c_synchronized_int64) == 0x8);
+
 struct c_interlocked_long
 {
 public:

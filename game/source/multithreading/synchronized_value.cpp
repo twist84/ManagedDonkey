@@ -17,6 +17,21 @@ void c_synchronized_long::operator=(long Value)
 	InterlockedExchange(&m_value, Value);
 }
 
+__int64 c_synchronized_int64::increment()
+{
+	return InterlockedIncrement64(&m_value);
+}
+
+__int64 c_synchronized_int64::peek() const
+{
+	return m_value;
+}
+
+void c_synchronized_int64::operator=(__int64 Value)
+{
+	InterlockedExchange64(&m_value, Value);
+}
+
 long c_interlocked_long::peek() const
 {
 	return m_value;
