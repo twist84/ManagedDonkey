@@ -2,7 +2,21 @@
 
 #include "cseries/cseries.hpp"
 #include "math/function_definitions.hpp"
+#include "memory/data.hpp"
 #include "tag_files/tag_groups.hpp"
+
+struct s_screen_effect_datum : s_datum_header
+{
+	long tag_index;
+	real seconds_active;
+	vector3d position;
+	dword object_index;
+	dword __unknown1C;
+	vector3d __unknown20;
+	vector3d __unknown2C;
+	dword __unknown38;
+};
+static_assert(sizeof(s_screen_effect_datum) == 0x3C);
 
 struct screen_effect_scalar_function
 {

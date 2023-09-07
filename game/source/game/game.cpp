@@ -2,11 +2,6 @@
 
 #include "config/version.hpp"
 #include "cseries/cseries.hpp"
-#include "game/game_engine_variant.hpp"
-#include "game/game_globals.hpp"
-#include "game/game_options.hpp"
-#include "game/game_state.hpp"
-#include "game/game_time.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"

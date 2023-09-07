@@ -3,8 +3,15 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 #include "objects/damage_owner.hpp"
+#include "objects/lights.hpp"
 #include "objects/multiplayer_game_objects.hpp"
+#include "objects/object_activation_regions.hpp"
 #include "objects/object_definitions.hpp"
+#include "objects/object_broadphase.hpp"
+#include "objects/object_early_movers.hpp"
+#include "objects/object_recycling.hpp"
+#include "objects/object_scheduler.hpp"
+#include "objects/object_scripting.hpp"
 #include "scenario/scenario_object_definitions.hpp"
 
 enum e_object_type

@@ -1,6 +1,53 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "effects/beams.hpp"
+#include "effects/contrails.hpp"
+#include "effects/decals.hpp"
+#include "effects/light_volumes.hpp"
+#include "effects/particle.hpp"
+#include "effects/particle_emitter.hpp"
+#include "effects/particle_location.hpp"
+#include "effects/particle_system.hpp"
+#include "effects/screen_effect.hpp"
+#include "effects/vision_mode.hpp"
+#include "memory/data.hpp"
+
+struct effect_datum : s_datum_header
+{
+	byte __data[0x9E];
+};
+static_assert(sizeof(effect_datum) == 0xA0);
+
+struct effect_event_datum : s_datum_header
+{
+	byte __data[0x12];
+};
+static_assert(sizeof(effect_event_datum) == 0x14);
+
+struct effect_location_datum : s_datum_header
+{
+	byte __data[0x3E];
+};
+static_assert(sizeof(effect_location_datum) == 0x40);
+
+struct s_effect_counts
+{
+	byte __data[0x18];
+};
+static_assert(sizeof(s_effect_counts) == 0x18);
+
+struct effect_geometry_sample_datum : s_datum_header
+{
+	byte __data[0x26];
+};
+static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
+
+struct effect_messaging_queue
+{
+	byte __data[0x17084];
+};
+static_assert(sizeof(effect_messaging_queue) == 0x17084);
 
 struct s_geometry_sample
 {

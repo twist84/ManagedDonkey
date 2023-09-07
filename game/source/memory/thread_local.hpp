@@ -1,59 +1,31 @@
 #pragma once
 
+#include "ai/ai.hpp"
 #include "cache/restricted_memory.hpp"
 #include "camera/observer.hpp"
 #include "camera/camera.hpp"
 #include "camera/camera_scripting.hpp"
 #include "camera/director.hpp"
-#include "game/game_engine.hpp"
-#include "game/game_globals.hpp"
-#include "game/player_control.hpp"
-#include "game/player_mapping.hpp"
-#include "game/players.hpp"
-#include "game/game_time.hpp"
-#include "game/survival_mode.hpp"
+#include "devices/devices.hpp"
+#include "game/game.hpp"
 #include "gpu_particle/beam_gpu.hpp"
 #include "gpu_particle/contrail_gpu.hpp"
 #include "gpu_particle/light_volume_gpu.hpp"
 #include "gpu_particle/particle_block.hpp"
-#include "effects/beams.hpp"
-#include "effects/contrails.hpp"
-#include "effects/decals.hpp"
 #include "effects/effects.hpp"
-#include "effects/light_volumes.hpp"
-#include "effects/particle.hpp"
-#include "effects/particle_emitter.hpp"
-#include "effects/particle_location.hpp"
-#include "effects/particle_system.hpp"
 #include "interface/user_interface_objectives.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
 #include "memory/data.hpp"
 #include "memory/hashtable.hpp"
+#include "objects/objects.hpp"
+#include "objects/widgets/widgets.hpp"
+#include "physics/breakable_surfaces.hpp"
 #include "physics/physics_constants.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "scenario/scenario_interpolators.hpp"
-
-struct simulation_gamestate_entity_datum : s_datum_header
-{
-	word __unknown2;
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-};
-static_assert(sizeof(simulation_gamestate_entity_datum) == 0x10);
-
-struct s_breakable_surface_globals
-{
-	byte __data[0x3CE18];
-};
-static_assert(sizeof(s_breakable_surface_globals) == 0x3CE18);
-
-struct breakable_surface_set_broken_event_datum : s_datum_header
-{
-	byte __data[0x462];
-};
-static_assert(sizeof(breakable_surface_set_broken_event_datum) == 0x464);
+#include "simulation/simulation_gamestate_entities.hpp"
+#include "structures/cluster_partitions.hpp"
 
 struct hs_stack_frame
 {
@@ -116,42 +88,6 @@ struct hs_thread_tracking_data : s_datum_header
 	dword __unknown8;
 };
 static_assert(sizeof(hs_thread_tracking_data) == 0xC);
-
-struct effect_datum : s_datum_header
-{
-	byte __data[0x9E];
-};
-static_assert(sizeof(effect_datum) == 0xA0);
-
-struct effect_event_datum : s_datum_header
-{
-	byte __data[0x12];
-};
-static_assert(sizeof(effect_event_datum) == 0x14);
-
-struct effect_location_datum : s_datum_header
-{
-	byte __data[0x3E];
-};
-static_assert(sizeof(effect_location_datum) == 0x40);
-
-struct s_effect_counts
-{
-	byte __data[0x18];
-};
-static_assert(sizeof(s_effect_counts) == 0x18);
-
-struct effect_geometry_sample_datum : s_datum_header
-{
-	byte __data[0x26];
-};
-static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
-
-struct effect_messaging_queue
-{
-	byte __data[0x17084];
-};
-static_assert(sizeof(effect_messaging_queue) == 0x17084);
 
 struct s_havok_gamestate
 {
@@ -317,20 +253,6 @@ struct s_game_save_globals
 	byte __data[0x18];
 };
 static_assert(sizeof(s_game_save_globals) == 0x18);
-
-struct screen_effect_datum : s_datum_header
-{
-	word field_2;
-	dword tag_index;
-	real seconds_active;
-	vector3d position;
-	dword object_index;
-	dword field_1c;
-	vector3d field_20;
-	vector3d field_2c;
-	dword field_38;
-};
-static_assert(sizeof(screen_effect_datum) == 0x3C);
 
 struct s_player_effect_globals
 {
@@ -721,284 +643,11 @@ struct s_object_placement_globals
 };
 static_assert(sizeof(s_object_placement_globals) == 0x320);
 
-struct device_group_datum : s_datum_header
-{
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-};
-static_assert(sizeof(device_group_datum) == 0x10);
-
-struct object_scripting
-{
-	byte __data[0x304];
-};
-static_assert(sizeof(object_scripting) == 0x304);
-
-struct s_object_broadphase
-{
-	byte __data[0x32450];
-};
-static_assert(sizeof(s_object_broadphase) == 0x32450);
-
-struct s_object_early_mover
-{
-	byte __data[0x130];
-};
-static_assert(sizeof(s_object_early_mover) == 0x130);
-
-struct s_object_early_movers_globals
-{
-	s_object_early_mover early_movers[32];
-	long object_indices[32];
-	long object_index_count;
-	bool map_initialized;
-};
-static_assert(sizeof(s_object_early_movers_globals) == 0x2688);
-
-struct s_object_scehdule_globals
-{
-	byte __data[0x27C];
-};
-static_assert(sizeof(s_object_scehdule_globals) == 0x27C);
-
-struct object_activation_regions
-{
-	byte __data[0x28];
-};
-static_assert(sizeof(object_activation_regions) == 0x28);
-
-struct light_datum : s_datum_header
-{
-	byte __data[0xE2];
-};
-static_assert(sizeof(light_datum) == 0xE4);
-
-struct lights_game_globals_definition
-{
-	byte __data[0x40];
-};
-static_assert(sizeof(lights_game_globals_definition) == 0x40);
-
-struct s_nondeterministic_light_data
-{
-	byte __data[0x2580];
-};
-static_assert(sizeof(s_nondeterministic_light_data) == 0x2580);
-
-struct widget_datum : s_datum_header
-{
-	dword __unknown4;
-	dword __unknown8;
-};
-static_assert(sizeof(widget_datum) == 0xC);
-
-struct s_recycling_volumes
-{
-	byte __data[0x148];
-};
-static_assert(sizeof(s_recycling_volumes) == 0x148);
-
-struct recycling_group_datum : s_datum_header
-{
-	byte __data[0x12];
-};
-static_assert(sizeof(recycling_group_datum) == 0x14);
-
-struct muffin_datum : s_datum_header
-{
-	byte __data[0x188E];
-};
-static_assert(sizeof(muffin_datum) == 0x1890);
-
-struct c_leaf_system : s_datum_header
-{
-	byte __data[0x94A];
-};
-static_assert(sizeof(c_leaf_system) == 0x94C);
-
-struct antenna_datum : s_datum_header
-{
-	byte __data[0x62];
-};
-static_assert(sizeof(antenna_datum) == 0x64);
-
-struct cloth_datum : s_datum_header
-{
-	byte __data[0x1702];
-};
-static_assert(sizeof(cloth_datum) == 0x1704);
-
-struct actor_datum : s_datum_header
-{
-	byte __data[0xA96];
-};
-static_assert(sizeof(actor_datum) == 0xA98);
-
-struct actor_firing_position
-{
-	byte __data[0x400];
-};
-static_assert(sizeof(actor_firing_position) == 0x400);
-
-struct ai_reference_frame
-{
-	byte __data[0x4B0];
-};
-static_assert(sizeof(ai_reference_frame) == 0x4B0);
-
-struct ai_globals_type
-{
-	bool enable;
-	byte __unknown1;
-	byte_flags flags;
-	byte __unknown3;
-	byte __unknown4;
-	bool fast_and_dumb;
-	byte __data6[22];
-	real unknown1C;
-	bool dialogue_enabled;
-	byte __data21[31];
-	word __unknown40;
-	word __unknown42;
-	byte __unknown44[0x380];
-	byte __data3C4[0x2C4];
-};
-static_assert(sizeof(ai_globals_type) == 0x688);
-
-struct ai_player_state
-{
-	byte __data[0xB0];
-};
-static_assert(sizeof(ai_player_state) == 0xB0);
-
-struct vocalization_records : s_datum_header
-{
-	byte __data[0x5A];
-};
-static_assert(sizeof(vocalization_records) == 0x5C);
-
-struct vocalization_timers
-{
-	byte __data[0xFB8];
-};
-static_assert(sizeof(vocalization_timers) == 0xFB8);
-
 struct command_script_datum : s_datum_header
 {
 	byte __data[0x186];
 };
 static_assert(sizeof(command_script_datum) == 0x188);
-
-struct s_objective : s_datum_header
-{
-	dword __unknown4;
-	dword __unknown8;
-};
-static_assert(sizeof(s_objective) == 0xC);
-
-struct s_task_record
-{
-	byte __data[0x61A80];
-};
-static_assert(sizeof(s_task_record) == 0x61A80);
-
-struct squad_datum : s_datum_header
-{
-	byte __data[0xEA];
-};
-static_assert(sizeof(squad_datum) == 0xEC);
-
-struct squad_group_datum : s_datum_header
-{
-	byte __data[0x22];
-};
-static_assert(sizeof(squad_group_datum) == 0x24);
-
-struct swarm_datum : s_datum_header
-{
-	byte __data[0x32];
-};
-static_assert(sizeof(swarm_datum) == 0x34);
-
-struct s_swarm_spawner
-{
-	byte __data[0x258];
-};
-static_assert(sizeof(s_swarm_spawner) == 0x258);
-
-struct s_spawner_globals
-{
-	short __unknown0;
-};
-static_assert(sizeof(s_spawner_globals) == 0x2);
-
-struct dynamic_firing_set_datum : s_datum_header
-{
-	byte __data[0x582];
-};
-static_assert(sizeof(dynamic_firing_set_datum) == 0x584);
-
-struct prop_ref_datum : s_datum_header
-{
-	byte __data[0x3A];
-};
-static_assert(sizeof(prop_ref_datum) == 0x3C);
-
-struct prop_datum : s_datum_header
-{
-	byte __data[0xC2];
-};
-static_assert(sizeof(prop_datum) == 0xC4);
-
-struct tracking_datum : s_datum_header
-{
-	byte __data[0xFE];
-};
-static_assert(sizeof(tracking_datum) == 0x100);
-
-struct joint_state_datum : s_datum_header
-{
-	byte __data[0xCA];
-};
-static_assert(sizeof(joint_state_datum) == 0xCC);
-
-struct clump_datum : s_datum_header
-{
-	byte __data[0x106];
-};
-static_assert(sizeof(clump_datum) == 0x108);
-
-struct squad_patrol_datum : s_datum_header
-{
-	byte __data[0x6C2];
-};
-static_assert(sizeof(squad_patrol_datum) == 0x6C4);
-
-struct flock_datum : s_datum_header
-{
-	byte __data[0x4A];
-};
-static_assert(sizeof(flock_datum) == 0x4C);
-
-struct formation_datum : s_datum_header
-{
-	byte __data[0x292];
-};
-static_assert(sizeof(formation_datum) == 0x294);
-
-struct s_vision_mode_state
-{
-	byte __data[0xF0];
-};
-static_assert(sizeof(s_vision_mode_state) == 0xF0);
-
-struct cluster_partition
-{
-	void* first_data;
-	void* data_reference;
-	void* cluster_first_data_references;
-};
 
 struct s_thread_local_storage
 {
@@ -1008,7 +657,7 @@ struct s_thread_local_storage
 	//  name: "sim. gamestate entities"
 	// count: 2048
 	//  size: 0x10
-	c_smart_data_array<simulation_gamestate_entity_datum> simulation_gamestate_entity_data;
+	c_smart_data_array<s_simulation_gamestate_entity> simulation_gamestate_entity_data;
 
 	// name: "gamestate timing samples"
 	// type: "global"
@@ -1080,7 +729,7 @@ struct s_thread_local_storage
 	//  name: "breakable surface set broken events"
 	// count: 64
 	//  size: 0x464
-	c_smart_data_array<breakable_surface_set_broken_event_datum> g_breakable_surface_set_broken_event_data;
+	c_smart_data_array<s_breakable_surface_set_broken_event> g_breakable_surface_set_broken_event_data;
 
 	// name: "player mapping globals"
 	// size: 0xE8
@@ -1252,137 +901,8 @@ struct s_thread_local_storage
 	//  size: 0x44
 	c_smart_data_array<s_havok_proxy_datum> g_havok_proxy_data;
 
-	void* __unknown114;
-	void* __unknown118;
-	void* __unknown11C;
-	void* __unknown120;
-	void* __unknown124;
-	void* __unknown128;
-	void* __unknown12C;
-	void* __unknown130;
-	void* __unknown134;
-	void* __unknown138;
-	void* __unknown13C;
-	void* __unknown140;
-	void* __unknown144;
-	void* __unknown148;
-	void* __unknown14C;
-	void* __unknown150;
-	void* __unknown154;
-	void* __unknown158;
-	void* __unknown15C;
-	void* __unknown160;
-	void* __unknown164;
-	void* __unknown168;
-	void* __unknown16C;
-	void* __unknown170;
-	void* __unknown174;
-	void* __unknown178;
-	void* __unknown17C;
-	void* __unknown180;
-	void* __unknown184;
-	void* __unknown188;
-	void* __unknown18C;
-	void* __unknown190;
-	void* __unknown194;
-	void* __unknown198;
-	void* __unknown19C;
-	void* __unknown1A0;
-	void* __unknown1A4;
-	void* __unknown1A8;
-	void* __unknown1AC;
-	void* __unknown1B0;
-	void* __unknown1B4;
-	void* __unknown1B8;
-	void* __unknown1BC;
-	void* __unknown1C0;
-	void* __unknown1C4;
-	void* __unknown1C8;
-	void* __unknown1CC;
-	void* __unknown1D0;
-	void* __unknown1D4;
-	void* __unknown1D8;
-	void* __unknown1Dc;
-	void* __unknown1E0;
-	void* __unknown1E4;
-	void* __unknown1E8;
-	void* __unknown1EC;
-	void* __unknown1F0;
-	void* __unknown1F4;
-	void* __unknown1F8;
-	void* __unknown1FC;
-	void* __unknown200;
-	void* __unknown204;
-	void* __unknown208;
-	void* __unknown20C;
-	void* __unknown210;
-	void* __unknown214;
-	void* __unknown218;
-	void* __unknown21C;
-	void* __unknown220;
-	void* __unknown224;
-	void* __unknown228;
-	void* __unknown22C;
-	void* __unknown230;
-	void* __unknown234;
-	void* __unknown238;
-	void* __unknown23C;
-	void* __unknown240;
-	void* __unknown244;
-	void* __unknown248;
-	void* __unknown24C;
-	void* __unknown250;
-	void* __unknown254;
-	void* __unknown258;
-	void* __unknown25C;
-	void* __unknown260;
-	void* __unknown264;
-	void* __unknown268;
-	void* __unknown26C;
-	void* __unknown270;
-	void* __unknown274;
-	void* __unknown278;
-	void* __unknown27C;
-	void* __unknown280;
-	void* __unknown284;
-	void* __unknown288;
-	void* __unknown28C;
-	void* __unknown290;
-	void* __unknown294;
-	void* __unknown298;
-	void* __unknown29C;
-	void* __unknown2A0;
-	void* __unknown2A4;
-	void* __unknown2A8;
-	void* __unknown2AC;
-	void* __unknown2B0;
-	void* __unknown2B4;
-	void* __unknown2B8;
-	void* __unknown2BC;
-	void* __unknown2C0;
-	void* __unknown2C4;
-	void* __unknown2C8;
-	void* __unknown2CC;
-	void* __unknown2D0;
-	void* __unknown2D4;
-	void* __unknown2D8;
-	void* __unknown2DC;
-	void* __unknown2E0;
-	void* __unknown2E4;
-	void* __unknown2E8;
-	void* __unknown2EC;
-	void* __unknown2F0;
-	void* __unknown2F4;
-	void* __unknown2F8;
-	void* __unknown2FC;
-	void* __unknown300;
-	void* __unknown304;
-	void* __unknown308;
-	void* __unknown30C;
-	void* __unknown310;
-	void* __unknown314;
-	void* __unknown318;
-	void* __unknown31C;
+	// there are potentially other locals in here
+	void* __unknown114[131];
 
 	// name: "cinematic new globals"
 	// size: 0x2808
@@ -1412,7 +932,7 @@ struct s_thread_local_storage
 	//  name: "screen_effect"
 	// count: 64
 	//  size: 0x3C
-	c_smart_data_array<screen_effect_datum> screen_effect_data;
+	c_smart_data_array<s_screen_effect_datum> screen_effect_data;
 
 	// name: "player effects"
 	// size: 0x3A0
@@ -1788,7 +1308,7 @@ struct s_thread_local_storage
 
 	// name: "object scripting"
 	// size: 0x304
-	object_scripting* object_scripting;
+	s_object_scripting_state* g_object_scripting_state;
 
 	// name: "object_broadphase"
 	// type: "global"
@@ -1806,8 +1326,7 @@ struct s_thread_local_storage
 	//  name: "object activation regions"
 	// count: 128
 	//  size: 0x28
-	c_static_flags<256>* g_trigger_activations;
-	//object_activation_regions* g_object_activation_regions_data;
+	c_smart_data_array<s_object_activation_region> g_object_activation_regions_data;
 
 	//  name: "lights"
 	// count: 400
@@ -1839,7 +1358,7 @@ struct s_thread_local_storage
 	//  name: "recycling_group"
 	// count: 128
 	//  size: 0x14
-	c_smart_data_array<recycling_group_datum> recycling_groups;
+	c_smart_data_array<s_recycling_group> recycling_groups;
 
 	//  name: "muffin"
 	// count: 10
@@ -1908,7 +1427,7 @@ struct s_thread_local_storage
 
 	// name: "ai_reference_frame"
 	// size: 0x4B0
-	ai_reference_frame* ai_reference_frame;
+	ai_reference_frame* g_ai_reference_frame_data;
 
 	// name: "ai globals"
 	// size: 0x688
@@ -1939,7 +1458,7 @@ struct s_thread_local_storage
 
 	// name: "task records"
 	// size: 0x61A80
-	s_task_record* task_data;
+	s_task_record* tasks_data;
 
 	//  name: "squad"
 	// count: 512

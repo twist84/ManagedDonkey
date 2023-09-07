@@ -469,7 +469,17 @@ POPD
     <ClCompile Include="source\xbox\xnet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\ai\actors.hpp" />
+    <ClInclude Include="source\ai\actor_dynamic_firing_position.hpp" />
     <ClInclude Include="source\ai\ai.hpp" />
+    <ClInclude Include="source\ai\ai_player.hpp" />
+    <ClInclude Include="source\ai\clump.hpp" />
+    <ClInclude Include="source\ai\ai_dialogue.hpp" />
+    <ClInclude Include="source\ai\formations.hpp" />
+    <ClInclude Include="source\ai\joint_behavior.hpp" />
+    <ClInclude Include="source\ai\props.hpp" />
+    <ClInclude Include="source\ai\squads.hpp" />
+    <ClInclude Include="source\ai\swarms.hpp" />
     <ClInclude Include="source\bink\bink_texture_view.hpp" />
     <ClInclude Include="source\cache\cache_file_builder_tag_resource_manager.hpp" />
     <ClInclude Include="source\cache\cache_file_bulk_reader.hpp" />
@@ -487,6 +497,7 @@ POPD
     <ClInclude Include="source\cseries\cseries_windows_debug_pc.hpp" />
     <ClInclude Include="source\cseries\stack_walk_windows.hpp" />
     <ClInclude Include="source\cutscene\recorded_animations.hpp" />
+    <ClInclude Include="source\devices\devices.hpp" />
     <ClInclude Include="source\dialogs\edit_text.hpp" />
     <ClInclude Include="source\effects\beams.hpp" />
     <ClInclude Include="source\effects\contrail_states.hpp" />
@@ -496,6 +507,7 @@ POPD
     <ClInclude Include="source\effects\particle_emitter.hpp" />
     <ClInclude Include="source\effects\particle_location.hpp" />
     <ClInclude Include="source\effects\particle_system.hpp" />
+    <ClInclude Include="source\effects\vision_mode.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
     <ClInclude Include="source\game\game_engine_event_definitions.hpp" />
@@ -820,11 +832,23 @@ POPD
     <ClInclude Include="source\networking\transport\transport_qos.hpp" />
     <ClInclude Include="source\networking\transport\transport_security.hpp" />
     <ClInclude Include="source\objects\damage_owner.hpp" />
+    <ClInclude Include="source\objects\lights.hpp" />
     <ClInclude Include="source\objects\multiplayer_game_objects.hpp" />
     <ClInclude Include="source\objects\objects.hpp" />
+    <ClInclude Include="source\objects\object_activation_regions.hpp" />
+    <ClInclude Include="source\objects\object_broadphase.hpp" />
     <ClInclude Include="source\objects\object_definitions.hpp" />
     <ClInclude Include="source\objects\object_early_movers.hpp" />
+    <ClInclude Include="source\objects\object_recycling.hpp" />
+    <ClInclude Include="source\objects\object_scheduler.hpp" />
+    <ClInclude Include="source\objects\object_scripting.hpp" />
     <ClInclude Include="source\objects\object_types.hpp" />
+    <ClInclude Include="source\objects\widgets\antenna.hpp" />
+    <ClInclude Include="source\objects\widgets\cloth.hpp" />
+    <ClInclude Include="source\objects\widgets\leaf_system.hpp" />
+    <ClInclude Include="source\objects\widgets\muffins.hpp" />
+    <ClInclude Include="source\objects\widgets\widgets.hpp" />
+    <ClInclude Include="source\physics\breakable_surfaces.hpp" />
     <ClInclude Include="source\physics\bsp3d.hpp" />
     <ClInclude Include="source\physics\character_physics_definitions.hpp" />
     <ClInclude Include="source\physics\collisions.hpp" />
@@ -895,6 +919,7 @@ POPD
     <ClInclude Include="source\simulation\simulation_debug_globals.hpp" />
     <ClInclude Include="source\simulation\simulation_entity_database.hpp" />
     <ClInclude Include="source\simulation\simulation_event_handler.hpp" />
+    <ClInclude Include="source\simulation\simulation_gamestate_entities.hpp" />
     <ClInclude Include="source\simulation\simulation_players.hpp" />
     <ClInclude Include="source\simulation\simulation_queue.hpp" />
     <ClInclude Include="source\simulation\simulation_type_collection.hpp" />
@@ -906,6 +931,7 @@ POPD
     <ClInclude Include="source\sound\sound_classes.hpp" />
     <ClInclude Include="source\sound\sound_definitions.hpp" />
     <ClInclude Include="source\sound\sound_manager.hpp" />
+    <ClInclude Include="source\structures\cluster_partitions.hpp" />
     <ClInclude Include="source\structures\structure_bsp_definitions.hpp" />
     <ClInclude Include="source\structures\structure_physics_definitions.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
