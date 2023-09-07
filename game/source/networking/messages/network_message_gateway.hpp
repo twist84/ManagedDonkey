@@ -46,3 +46,7 @@ protected:
 };
 static_assert(sizeof(c_network_message_gateway) == 0x688);
 
+extern char const k_network_message_packet_header[];
+extern char const k_network_message_experimental_packet_header[];
+extern bool net_experimental;
+

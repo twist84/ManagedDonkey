@@ -6,17 +6,13 @@
 #include "networking/messages/network_message_type_collection.hpp"
 #include "networking/messages/network_messages_session_protocol.hpp"
 
-extern char const k_network_message_packet_header[];
-extern char const k_network_message_experimental_packet_header[];
-extern bool const k_use_experimental_packet_header;
-
 HOOK_DECLARE_CLASS(0x00483E20, c_network_message_gateway, _read_packet_header);
 HOOK_DECLARE_CLASS(0x00483E80, c_network_message_gateway, _receive_out_of_band_packet);
 HOOK_DECLARE_CLASS(0x004842D0, c_network_message_gateway, _write_packet_header);
 
 char const k_network_message_packet_header[] = "blam";
 char const k_network_message_experimental_packet_header[] = "bexp";
-bool const k_use_experimental_packet_header = false;
+bool net_experimental = false;
 
 bool __cdecl c_network_message_gateway::_read_packet_header(c_bitstream* packet)
 {
@@ -83,7 +79,7 @@ bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
 	ASSERT(packet);
 
 	char const* header_chars = k_network_message_packet_header;
-	if (k_use_experimental_packet_header)
+	if (net_experimental)
 		header_chars = k_network_message_experimental_packet_header;
 
 	bool invalid_header = false;
@@ -335,7 +331,7 @@ void __cdecl c_network_message_gateway::write_packet_header()
 	ASSERT(m_outgoing_packet_pending);
 
 	char const* header_chars = k_network_message_packet_header;
-	if (k_use_experimental_packet_header)
+	if (net_experimental)
 		header_chars = k_network_message_experimental_packet_header;
 
 	for (long i = 0; i < header_chars[i]; i++)
