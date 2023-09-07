@@ -43,11 +43,12 @@ struct effect_geometry_sample_datum : s_datum_header
 };
 static_assert(sizeof(effect_geometry_sample_datum) == 0x28);
 
-struct effect_messaging_queue
+struct s_effect_message
 {
-	byte __data[0x17084];
+	long m_type;
+	byte __data[0x58];
 };
-static_assert(sizeof(effect_messaging_queue) == 0x17084);
+static_assert(sizeof(s_effect_message) == 0x5C);
 
 struct s_geometry_sample
 {

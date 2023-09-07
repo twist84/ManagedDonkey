@@ -2,6 +2,13 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_havok_gamestate
+{
+	dword __unknown0;
+	dword __unknown4;
+};
+static_assert(sizeof(s_havok_gamestate) == 0x8);
+
 struct s_havok_constants
 {
 	real collision_tolerance;

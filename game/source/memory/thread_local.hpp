@@ -18,9 +18,12 @@
 #include "main/main_time.hpp"
 #include "memory/data.hpp"
 #include "memory/hashtable.hpp"
+#include "multithreading/message_queue.hpp"
 #include "objects/objects.hpp"
 #include "objects/widgets/widgets.hpp"
 #include "physics/breakable_surfaces.hpp"
+#include "physics/havok.hpp"
+#include "physics/impacts.hpp"
 #include "physics/physics_constants.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "scenario/scenario_interpolators.hpp"
@@ -88,13 +91,6 @@ struct hs_thread_tracking_data : s_datum_header
 	dword __unknown8;
 };
 static_assert(sizeof(hs_thread_tracking_data) == 0xC);
-
-struct s_havok_gamestate
-{
-	dword __unknown0;
-	dword __unknown4;
-};
-static_assert(sizeof(s_havok_gamestate) == 0x8);
 
 struct s_player_control_globals_deterministic
 {
@@ -277,25 +273,6 @@ struct s_game_sound_deterministic_globals
 	byte __data[0x1300];
 };
 static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
-
-struct s_impact_globals
-{
-	byte __unknown0[0x8C];
-};
-static_assert(sizeof(s_impact_globals) == 0x8C);
-
-struct c_impact : s_datum_header
-{
-	byte __unknown2[0xB2];
-};
-static_assert(sizeof(c_impact) == 0xB4);
-
-struct impact_array_datum : s_datum_header
-{
-	short impact_indexes_count;
-	long impact_indexes[33];
-};
-static_assert(sizeof(impact_array_datum) == 0x88);
 
 struct object_list_header_datum : s_datum_header
 {
@@ -613,35 +590,13 @@ struct objects_memory_pool
 };
 static_assert(sizeof(objects_memory_pool) == 0x44);
 
-struct object_messaging_queue
+struct s_object_render_thread_message
 {
-	byte __data[0x4104];
+	long object_index;
+	short __unknown4;
+	short __unknown6;
 };
-static_assert(sizeof(object_messaging_queue) == 0x4104);
-
-struct damage_globals
-{
-	byte __data[0x810];
-};
-static_assert(sizeof(damage_globals) == 0x810);
-
-struct object_render_data
-{
-	byte __data[0x2000];
-};
-static_assert(sizeof(object_render_data) == 0x2000);
-
-struct s_damage_globals
-{
-	byte __data[0x810];
-};
-static_assert(sizeof(s_damage_globals) == 0x810);
-
-struct s_object_placement_globals
-{
-	byte __data[0x320];
-};
-static_assert(sizeof(s_object_placement_globals) == 0x320);
+static_assert(sizeof(s_object_render_thread_message) == 0x8);
 
 struct command_script_datum : s_datum_header
 {
@@ -806,7 +761,8 @@ struct s_thread_local_storage
 
 	// name: "effect messaging queue"
 	// size: 0x17084
-	effect_messaging_queue* g_effect_message_queue;
+	t_message_queue<s_effect_message, 1024>* g_effect_message_queue;
+	static_assert(sizeof(*g_effect_message_queue) == 0x17084);
 
 	// name: "effect lightprobes"
 	// size: 0xFE00, sizeof(s_effect_lightprobe) * 128
@@ -1277,8 +1233,8 @@ struct s_thread_local_storage
 
 	// name: "object messaging queue"
 	// size: 0x4104
-	// s_object_render_thread_message (*g_object_message_queue)[2048];
-	object_messaging_queue* g_object_message_queue;
+	t_message_queue<s_object_render_thread_message, 2048>* g_object_message_queue;
+	static_assert(sizeof(*g_object_message_queue) == 0x4104);
 
 	// name: "collideable object"
 	// size: 0x14
@@ -1291,7 +1247,7 @@ struct s_thread_local_storage
 	// name: "OBJ: Render Data"
 	// type: "Render"
 	// size: 0x2000
-	object_render_data* object_render_data;
+	s_object_render_data* g_object_render_data;
 
 	// name: "damage globals"
 	// size: 0x810

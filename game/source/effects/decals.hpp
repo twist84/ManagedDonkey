@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
+#include "multithreading/message_queue.hpp"
 
 struct c_decal_system : s_datum_header
 {
@@ -40,9 +41,14 @@ struct c_decal : s_datum_header
 };
 static_assert(sizeof(c_decal) == 0x130);
 
+union c_decal_message_union
+{
+	byte __data[0x8];
+};
+
 struct c_decal_message_queue
 {
-	byte __data[0x824];
+	t_message_queue<c_decal_message_union, 256> m_queue;
 };
 static_assert(sizeof(c_decal_message_queue) == 0x824);
 

@@ -2417,6 +2417,18 @@
     <ClInclude Include="source\objects\object_activation_regions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\physics\impacts.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\objects\damage_new.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\objects\object_placement.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\multithreading\message_queue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">

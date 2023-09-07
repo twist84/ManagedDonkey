@@ -39,3 +39,9 @@ protected:
 };
 static_assert(sizeof(c_interlocked_long) == 0x4);
 
+template<long k_count>
+struct c_synchronized_array
+{
+	c_synchronized_long m_storage[k_count];
+};
+

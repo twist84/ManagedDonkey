@@ -541,6 +541,7 @@ POPD
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
     <ClInclude Include="source\models\model_definitions.hpp" />
+    <ClInclude Include="source\multithreading\message_queue.hpp" />
     <ClInclude Include="source\multithreading\synchronization.hpp" />
     <ClInclude Include="source\multithreading\threads.hpp" />
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />
@@ -831,6 +832,7 @@ POPD
     <ClInclude Include="source\networking\transport\transport_endpoint_winsock.hpp" />
     <ClInclude Include="source\networking\transport\transport_qos.hpp" />
     <ClInclude Include="source\networking\transport\transport_security.hpp" />
+    <ClInclude Include="source\objects\damage_new.hpp" />
     <ClInclude Include="source\objects\damage_owner.hpp" />
     <ClInclude Include="source\objects\lights.hpp" />
     <ClInclude Include="source\objects\multiplayer_game_objects.hpp" />
@@ -839,6 +841,7 @@ POPD
     <ClInclude Include="source\objects\object_broadphase.hpp" />
     <ClInclude Include="source\objects\object_definitions.hpp" />
     <ClInclude Include="source\objects\object_early_movers.hpp" />
+    <ClInclude Include="source\objects\object_placement.hpp" />
     <ClInclude Include="source\objects\object_recycling.hpp" />
     <ClInclude Include="source\objects\object_scheduler.hpp" />
     <ClInclude Include="source\objects\object_scripting.hpp" />
@@ -863,6 +866,7 @@ POPD
     <ClInclude Include="source\physics\havok_mopp_code_definitions.hpp" />
     <ClInclude Include="source\physics\havok_utilities.hpp" />
     <ClInclude Include="source\physics\havok_vehicle_physics_definitions.hpp" />
+    <ClInclude Include="source\physics\impacts.hpp" />
     <ClInclude Include="source\physics\physics_constants.hpp" />
     <ClInclude Include="source\physics\physics_models.hpp" />
     <ClInclude Include="source\physics\physics_model_definitions.hpp" />

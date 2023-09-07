@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
+#include "objects/damage_new.hpp"
 #include "objects/damage_owner.hpp"
 #include "objects/lights.hpp"
 #include "objects/multiplayer_game_objects.hpp"
@@ -9,6 +10,7 @@
 #include "objects/object_definitions.hpp"
 #include "objects/object_broadphase.hpp"
 #include "objects/object_early_movers.hpp"
+#include "objects/object_placement.hpp"
 #include "objects/object_recycling.hpp"
 #include "objects/object_scheduler.hpp"
 #include "objects/object_scripting.hpp"
@@ -237,6 +239,12 @@ struct s_object_cluster_payload
 	real bounding_sphere_radius;
 };
 static_assert(sizeof(s_object_cluster_payload) == 0x14);
+
+struct s_object_render_data
+{
+	byte __data[0x2000];
+};
+static_assert(sizeof(s_object_render_data) == 0x2000);
 
 extern bool debug_objects;
 extern bool debug_objects_early_movers;
