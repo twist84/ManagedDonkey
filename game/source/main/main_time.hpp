@@ -24,6 +24,7 @@ struct s_main_time_globals
 static_assert(sizeof(s_main_time_globals) == 0x40);
 
 extern bool& display_framerate;
+extern bool display_frame_deltas;
 
 extern void __cdecl main_time_frame_rate_display();
 extern void __cdecl main_time_reset();

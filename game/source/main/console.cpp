@@ -7,6 +7,7 @@
 #include "hs/hs_scenario_definitions.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
+#include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/threads.hpp"
@@ -427,6 +428,9 @@ static_assert(sizeof(s_console_global) == 0xC);
 
 s_console_global const k_console_globals[] =
 {
+	CONSOLE_GLOBAL_DECLARE_BOOL(display_framerate),
+	CONSOLE_GLOBAL_DECLARE_BOOL(display_frame_deltas),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_deathless_player, cheat.deathless_player),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_valhalla, cheat.valhalla),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_jetpack, cheat.jetpack),
