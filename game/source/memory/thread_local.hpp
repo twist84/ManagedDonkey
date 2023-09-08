@@ -1390,7 +1390,7 @@ struct s_thread_local_storage
 	ai_globals_type* ai_globals;
 
 	// name: "ai player state globals"
-	// size: 0xB0
+	// size: 0xB0, 4 * sizeof(ai_player_state)
 	ai_player_state* g_ai_players;
 
 	//  name: "vocalization records"
