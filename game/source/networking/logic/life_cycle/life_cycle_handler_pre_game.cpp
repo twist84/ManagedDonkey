@@ -5,7 +5,7 @@
 bool net_skip_countdown = false;
 
 // #TODO: rewrite `c_life_cycle_state_handler_pre_game::host_update_countdown` 
-__declspec(naked) void net_skip_countdown_inline_hook()
+__declspec(naked) void net_skip_countdown_inline()
 {
 	// original instructrions
 	// loc_48F66A:
@@ -37,5 +37,5 @@ __declspec(naked) void net_skip_countdown_inline_hook()
 		jmp     ecx
 	}
 }
-HOOK_DECLARE(0x0048F66A, net_skip_countdown_inline_hook);
+HOOK_DECLARE(0x0048F66A, net_skip_countdown_inline);
 

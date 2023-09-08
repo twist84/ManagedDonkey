@@ -4,7 +4,6 @@
 
 struct c_debug_director : public c_director
 {
-	static void __fastcall _changed_camera(c_debug_director* _this, void* unused);
 	static void __fastcall _update(c_debug_director* _this, void* unused, real a1);
 
 	//  camera mode cycle  - F12

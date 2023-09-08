@@ -7,7 +7,7 @@
 struct c_storage_device;
 struct c_storage_device_selector_overlapped_task : public c_overlapped_task
 {
-	static dword __fastcall start_(c_storage_device_selector_overlapped_task* _this, void* unused, void* xenon_task_handle);
+	static dword __fastcall _start(c_storage_device_selector_overlapped_task* _this, void* unused, void* xenon_task_handle);
 
 	c_storage_device* m_storage_device;
 	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;

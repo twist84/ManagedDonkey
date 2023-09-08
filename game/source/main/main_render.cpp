@@ -231,7 +231,7 @@ void __cdecl main_render_update_loading_screen()
 
 // I don't like this at all but for the moment
 // I don't perticularly want to reimplement `main_render_game` as its quite large
-__declspec(naked) void main_render_view_inline_hook()
+__declspec(naked) void main_render_view_inline()
 {
 	__asm
 	{
@@ -248,7 +248,7 @@ __declspec(naked) void main_render_view_inline_hook()
         jmp dword ptr[esp]
 	}
 }
-HOOK_DECLARE(0x006046EB, main_render_view_inline_hook);
+HOOK_DECLARE(0x006046EB, main_render_view_inline);
 
 void __cdecl main_render_view(c_player_view* player_view, long player_index)
 {

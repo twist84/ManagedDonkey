@@ -3,7 +3,6 @@
 #include "main/console.hpp"
 #include "memory/module.hpp"
 
-HOOK_DECLARE_CLASS(0x00726170, c_debug_director, _changed_camera);
 HOOK_DECLARE_CLASS(0x007262F0, c_debug_director, _update);
 
 byte const cycle_camera_key_code_bytes[] = { _key_code_backspace };
@@ -31,10 +30,14 @@ void __fastcall c_debug_director::_update(c_debug_director* _this, void* unused,
 	}
 }
 
-void __fastcall c_debug_director::_changed_camera(c_debug_director* _this, void* unused)
+__declspec(naked) void debug_director_changed_camera_inline()
 {
-	_this->changed_camera();
+	__asm push ecx
+	__asm call c_debug_director::changed_camera
+	__asm pop ecx
+	__asm retn
 }
+HOOK_DECLARE(0x00726170, debug_director_changed_camera_inline);
 
 void c_debug_director::changed_camera()
 {

@@ -5,7 +5,7 @@
 
 #include <winerror.h>
 
-HOOK_DECLARE_CLASS(0x0074D690, c_storage_device_selector_overlapped_task, start_);
+HOOK_DECLARE_CLASS(0x0074D690, c_storage_device_selector_overlapped_task, _start);
 
 dword online_guide_show_device_selector_ui(e_controller_index controller_index, dword bytes_requested, dword* device_id, void* xenon_task_handle)
 {
@@ -19,7 +19,7 @@ dword online_guide_show_device_selector_ui(e_controller_index controller_index, 
 	return 0x80004005;
 }
 
-dword __fastcall c_storage_device_selector_overlapped_task::start_(c_storage_device_selector_overlapped_task* _this, void* unused, void* xenon_task_handle)
+dword __fastcall c_storage_device_selector_overlapped_task::_start(c_storage_device_selector_overlapped_task* _this, void* unused, void* xenon_task_handle)
 {
 	ASSERT(VALID_INDEX(_this->m_controller_index, k_number_of_controllers));
 	ASSERT(_this->m_storage_device != NULL);
