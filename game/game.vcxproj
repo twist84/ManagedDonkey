@@ -835,6 +835,7 @@ POPD
     <ClInclude Include="source\networking\transport\transport_security.hpp" />
     <ClInclude Include="source\objects\damage_new.hpp" />
     <ClInclude Include="source\objects\damage_owner.hpp" />
+    <ClInclude Include="source\objects\damage_reporting.hpp" />
     <ClInclude Include="source\objects\lights.hpp" />
     <ClInclude Include="source\objects\multiplayer_game_objects.hpp" />
     <ClInclude Include="source\objects\objects.hpp" />
@@ -919,6 +920,17 @@ POPD
     <ClInclude Include="source\shell\shell.hpp" />
     <ClInclude Include="source\scenario\scenario_object_definitions.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_action.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_breakable_surfaces.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_damage.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_device_machines.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_effects.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_engine_globals.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_engine_player.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_hs.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_projectiles.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_units.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_vehicles.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_weapons.hpp" />
     <ClInclude Include="source\simulation\simulation.hpp" />
     <ClInclude Include="source\simulation\simulation_actors.hpp" />
     <ClInclude Include="source\simulation\simulation_debug_globals.hpp" />

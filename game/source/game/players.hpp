@@ -4,6 +4,7 @@
 #include "game/aim_assist.hpp"
 #include "game/game_engine_player_traits.hpp"
 #include "memory/data.hpp"
+#include "objects/damage_reporting.hpp"
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
@@ -260,19 +261,11 @@ struct multiplayer_player_info
 };
 static_assert(sizeof(multiplayer_player_info) == 0x94);
 
-struct s_simulation_biped_melee_damage_event_data
+struct s_simulation_unit_melee_damage_event_data;
+struct _simulation_unit_melee_damage_event_data
 {
-	byte __data[0x3C]; // TODO: map this out
+	byte __data[0x3C];
 };
-static_assert(sizeof(s_simulation_biped_melee_damage_event_data) == 0x3C);
-
-struct s_damage_reporting_info
-{
-	word type;
-	byte modifier;
-	byte_flags recyling_flags;
-};
-static_assert(sizeof(s_damage_reporting_info) == 0x4);
 
 struct s_player_shot_info
 {
@@ -446,12 +439,13 @@ struct player_datum : s_datum_header
 	bool is_assassination_victim;
 	real_point3d assassination_authoritative_position;
 	vector3d assassination_authoritative_forward;
-	c_typed_opaque_data<s_simulation_biped_melee_damage_event_data> melee_damage_event_data;
+	c_typed_opaque_data<struct s_simulation_unit_melee_damage_event_data, sizeof(_simulation_unit_melee_damage_event_data), __alignof(_simulation_unit_melee_damage_event_data) - 1> melee_damage_event_data;
 
 	c_static_array<s_player_shot_info, 8> shot_info;
 	short spawn_count;
 	byte __pad2F06[2];
 };
+
 static_assert(0x0002 == OFFSETOF(player_datum, __unknown2));
 static_assert(0x0004 == OFFSETOF(player_datum, flags));
 static_assert(0x0008 == OFFSETOF(player_datum, player_identifier));
