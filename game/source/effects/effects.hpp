@@ -16,7 +16,7 @@
 struct s_effect_vector
 {
 	real_point3d point;
-	vector3d forward;
+	vector3d direction;
 	c_string_id name;
 };
 static_assert(sizeof(s_effect_vector) == 0x1C);
