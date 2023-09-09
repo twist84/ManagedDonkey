@@ -182,7 +182,8 @@ long tag_name_get_index(tag group_tag, char const* name)
 		if (tag_absolute_index == NONE)
 			continue;
 
-		if (g_cache_file_globals.tag_instances[tag_absolute_index]->tag_group != group_tag)
+		cache_file_tag_instance* tag_instance = g_cache_file_globals.tag_instances[tag_absolute_index];
+		if (!tag_instance || tag_instance->tag_group != group_tag)
 			continue;
 
 		if (csstricmp(name, result) == 0)
@@ -625,6 +626,13 @@ bool __cdecl cache_file_debug_tag_names_load()
 			return false;
 		}
 
+		// edge case if the file does not end with a newline
+		char* tag_list_end = buffer + tag_list_size;
+		if (*(tag_list_end - 1) != '\n' || *(tag_list_end - 1) != '\r')
+		{
+			*(tag_list_end + 0) = '\r';
+			*(tag_list_end + 1) = '\n';
+		}
 
 		char* line = buffer;
 		char* line_end = 0;
@@ -1244,6 +1252,7 @@ void apply_multiplayer_globals_instance_modification(cache_file_tag_instance* in
 					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\rifle\\spike_rifle\\spike_rifle");
 					break;
 				case STRING_ID(global, sword):
+				case STRING_ID(global, energy_blade):
 					tag_reference_set(&weapon_selection.weapon_tag, WEAPON_TAG, "objects\\weapons\\melee\\energy_blade\\energy_blade");
 					break;
 				case STRING_ID(global, needler):
