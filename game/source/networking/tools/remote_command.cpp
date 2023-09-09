@@ -976,7 +976,7 @@ callback_result_t load_preferences_from_file_callback(void const* userdata, long
 					else if (csstricmp(value, "false") == 0)
 						global_preference_set(name, false);
 					else if (csstrstr(value, "."))
-						global_preference_set(name, atof(value));
+						global_preference_set(name, real(atof(value)));
 					else
 						global_preference_set(name, atol(value));
 				}
