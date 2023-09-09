@@ -1,5 +1,6 @@
 #include "main/console.hpp"
 
+#include "camera/camera_globals.hpp"
 #include "game/cheats.hpp"
 #include "effects/contrails.hpp"
 #include "interface/terminal.hpp"
@@ -431,6 +432,17 @@ static_assert(sizeof(s_console_global) == 0xC);
 
 s_console_global const k_console_globals[] =
 {
+	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
+
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_fov, g_camera_globals.field_of_view),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_yaw_scale, g_camera_globals.yaw_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_pitch_scale, g_camera_globals.pitch_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_forward_scale, g_camera_globals.forward_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_side_scale, g_camera_globals.side_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_up_scale, g_camera_globals.up_scale),
+	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_maximum_boost_speed, g_camera_globals.maximum_boost_speed),
+	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_movement_delay, g_camera_globals.flying_cam_movement_delay),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL(display_framerate),
 	CONSOLE_GLOBAL_DECLARE_BOOL(display_frame_deltas),
 
