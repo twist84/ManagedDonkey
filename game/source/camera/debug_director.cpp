@@ -54,3 +54,8 @@ void c_debug_director::changed_camera()
 		m_collision_disabled = false;
 	}
 }
+
+bool c_debug_director::finished_cycle()
+{
+	return m_camera_mode_index == 1;
+}

@@ -26,5 +26,6 @@ struct c_debug_director : public c_director
 
 	void constructor(long user_index);
 	void changed_camera();
+	bool finished_cycle();
 };
 static_assert(sizeof(c_debug_director) == 0x160);
