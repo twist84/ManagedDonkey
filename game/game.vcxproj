@@ -939,6 +939,7 @@ POPD
     <ClInclude Include="source\simulation\simulation_gamestate_entities.hpp" />
     <ClInclude Include="source\simulation\simulation_players.hpp" />
     <ClInclude Include="source\simulation\simulation_queue.hpp" />
+    <ClInclude Include="source\simulation\simulation_queue_entities.hpp" />
     <ClInclude Include="source\simulation\simulation_queue_events.hpp" />
     <ClInclude Include="source\simulation\simulation_type_collection.hpp" />
     <ClInclude Include="source\simulation\simulation_view.hpp" />
