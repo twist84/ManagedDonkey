@@ -18,6 +18,7 @@
 #include "physics/havok.hpp"
 #include "render/render_debug_structure.hpp"
 #include "render/render_visibility.hpp"
+#include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
 #include "units/bipeds.hpp"
 #include "xbox/xbox.hpp"
@@ -435,6 +436,9 @@ s_console_global const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(net_skip_countdown),
 	CONSOLE_GLOBAL_DECLARE_BOOL(net_experimental),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL2(net_show_latency_and_framerate_metrics_on_chud, g_network_interface_show_latency_and_framerate_metrics_on_chud),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(net_fake_latency_and_framerate_metrics_on_chud, g_network_interface_fake_latency_and_framerate_metrics_on_chud),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_deathless_player, cheat.deathless_player),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_valhalla, cheat.valhalla),
