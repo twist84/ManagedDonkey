@@ -12,6 +12,14 @@ s_player_control_globals* __cdecl player_control_globals_get()
 	return player_control_globals;
 }
 
+bool __cdecl player_control_get_machinima_camera_debug()
+{
+	if (player_control_get_machinima_camera_enabled())
+		return player_control_globals_get()->machinima_camera_debug;
+
+	return false;
+}
+
 bool __cdecl player_control_get_machinima_camera_enabled()
 {
 	if (game_in_progress() && !game_is_ui_shell())
@@ -20,18 +28,15 @@ bool __cdecl player_control_get_machinima_camera_enabled()
 	return false;
 }
 
+bool g_flying_camera_use_old_controls = true;
+
 bool __cdecl player_control_get_machinima_camera_use_old_controls()
 {
+	if (g_flying_camera_use_old_controls && director_get(0)->get_type() == _director_mode_debug)
+		return true;
+
 	if (player_control_get_machinima_camera_enabled())
 		return player_control_globals_get()->machinima_camera_use_old_controls;
-
-	return false;
-}
-
-bool __cdecl player_control_get_machinima_camera_debug()
-{
-	if (player_control_get_machinima_camera_enabled())
-		return player_control_globals_get()->machinima_camera_debug;
 
 	return false;
 }
