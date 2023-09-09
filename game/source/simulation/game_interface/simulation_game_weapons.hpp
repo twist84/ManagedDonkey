@@ -15,7 +15,7 @@ static_assert(sizeof(s_simulation_weapon_effect_event_data) == 0x10);
 
 struct s_simulation_weapon_empty_click_event_data
 {
-	word unit_inventory_index;
+	long unit_inventory_index;
 	long weapon_definition_index;
 };
 static_assert(sizeof(s_simulation_weapon_empty_click_event_data) == 0x8);
@@ -59,11 +59,8 @@ static_assert(sizeof(s_simulation_weapon_fire_event_data) == 0x354);
 
 struct s_simulation_unit_equipment_use_event_data
 {
-	// one of these is `equipment_definition_index`
-	// and the other is potentially `equipment_slot_index`
-	// probably also in that order
-	long __unknown0;
-	long __unknown4;
+	long player_index;
+	long consumable_index;
 };
 static_assert(sizeof(s_simulation_unit_equipment_use_event_data) == 0x8);
 

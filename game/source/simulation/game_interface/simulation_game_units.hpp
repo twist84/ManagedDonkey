@@ -45,9 +45,9 @@ static_assert(sizeof(s_simulation_unit_melee_damage_event_data) == 0x3C);
 struct s_simulation_unit_assassinate_event_data
 {
 	c_string_id sync_action_name;
-	real_point3d position;
-	vector3d forward;
-	vector3d up;
+	real_point3d sync_action_origin;
+	vector3d sync_action_forward;
+	vector3d sync_action_up;
 	s_simulation_unit_melee_damage_event_data melee_damage;
 };
 static_assert(sizeof(s_simulation_unit_assassinate_event_data) == 0x64);
