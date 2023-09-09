@@ -23,9 +23,10 @@ struct s_simulation_projectile_detonate_event_data
 	long material_index;
 	s_location location;
 	vector3d hit_normal;
+	long absolute_player_index;
 
 	// padding?
-	byte __data[0x8];
+	byte __data[0x4];
 };
 static_assert(sizeof(s_simulation_projectile_detonate_event_data) == 0x40);
 

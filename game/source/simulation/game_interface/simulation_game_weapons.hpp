@@ -8,6 +8,8 @@
 
 struct s_simulation_weapon_effect_event_data
 {
+	// 0: bomb explode
+	// 0: bomb defuse
 	long weapon_effect_type;
 	real_point3d position;
 };

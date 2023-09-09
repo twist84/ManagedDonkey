@@ -5,14 +5,15 @@
 
 struct s_player_taunt_request_event_data
 {
-	long __unknown0;
+	short absolute_player_index;
+	short __unknown2;
 };
 static_assert(sizeof(s_player_taunt_request_event_data) == 0x4);
 
 struct s_player_respawn_target_request_event_data
 {
-	short __unknown0;
-	short __unknown2;
+	short player_index;
+	short absolute_player_index;
 };
 static_assert(sizeof(s_player_respawn_target_request_event_data) == 0x4);
 
