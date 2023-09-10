@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include <saved_games/scenario_map_variant.hpp>
+#include "saved_games/scenario_map_variant.hpp"
 
 struct s_player_taunt_request_event_data
 {

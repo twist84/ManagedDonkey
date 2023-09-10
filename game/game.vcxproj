@@ -538,6 +538,7 @@ POPD
     <ClInclude Include="source\memory\data_packets.hpp" />
     <ClInclude Include="source\memory\data_packet_groups.hpp" />
     <ClInclude Include="source\memory\hashtable.hpp" />
+    <ClInclude Include="source\memory\member_to_static.hpp" />
     <ClInclude Include="source\memory\read_write_lock.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
