@@ -7,8 +7,8 @@
 #include "networking/messages/network_messages_session_protocol.hpp"
 
 HOOK_DECLARE_CLASS(0x00483E20, c_network_message_gateway, _read_packet_header);
-HOOK_DECLARE_CLASS(0x00483E80, c_network_message_gateway, _receive_out_of_band_packet);
-HOOK_DECLARE_CLASS(0x004842D0, c_network_message_gateway, _write_packet_header);
+HOOK_DECLARE_CLASS_MEMBER(0x00483E80, c_network_message_gateway, _receive_out_of_band_packet);
+HOOK_DECLARE_CLASS_MEMBER(0x004842D0, c_network_message_gateway, _write_packet_header);
 
 char const k_network_message_packet_header[] = "blam";
 char const k_network_message_experimental_packet_header[] = "bexp";
@@ -19,14 +19,14 @@ bool __cdecl c_network_message_gateway::_read_packet_header(c_bitstream* packet)
 	return read_packet_header(packet);
 }
 
-bool __fastcall c_network_message_gateway::_receive_out_of_band_packet(c_network_message_gateway* _this, void* unused, transport_address const* incoming_address, c_bitstream* packet)
+bool __thiscall c_network_message_gateway::_receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet)
 {
-	return _this->receive_out_of_band_packet(incoming_address, packet);
+	return receive_out_of_band_packet(incoming_address, packet);
 }
 
-void __fastcall c_network_message_gateway::_write_packet_header(c_network_message_gateway* _this, void* unused)
+void __thiscall c_network_message_gateway::_write_packet_header()
 {
-	_this->write_packet_header();
+	write_packet_header();
 }
 
 void __cdecl c_network_message_gateway::attach_handler(c_network_message_handler* message_handler)

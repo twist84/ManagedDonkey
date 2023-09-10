@@ -6,7 +6,7 @@
 struct c_life_cycle_state_handler_matchmaking_start : c_life_cycle_state_handler
 {
 	// e_life_cycle_matchmaking_find_match_role
-	static long __fastcall determine_matchmaking_find_match_role(c_life_cycle_state_handler_matchmaking_start* _this, void* unused, bool a2);
+	long __thiscall determine_matchmaking_find_match_role(bool a1);
 
 	byte_flags m_flags;
 	long m_find_match_role;

@@ -20,7 +20,7 @@ enum e_client_state
 
 struct c_online_lsp_manager
 {
-	static long __fastcall acquire_server(c_online_lsp_manager* _this, void* unused, long service_type, long* connection_token_out, long* ip_address, unsigned short* port, char const* service_description);
+	long __thiscall _acquire_server(long service_type, long* connection_token_out, long* ip_address, unsigned short* port, char const* service_description);
 
 	struct s_server_data
 	{

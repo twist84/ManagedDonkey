@@ -230,7 +230,7 @@ public:
 	c_gui_text_widget* __cdecl get_child_text_widget(string_id name);
 	c_gui_widget* __cdecl get_first_child_widget_by_type(e_gui_widget_type widget_type);
 
-	static void __fastcall get_unprojected_bounds(c_gui_widget* _this, void* unused, gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5);
+	void __thiscall get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5);
 
 //protected:
 	long __unknown4;

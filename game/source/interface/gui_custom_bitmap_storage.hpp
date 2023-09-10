@@ -20,13 +20,13 @@ static_assert(sizeof(D3DBaseTexture) == 0x34);
 
 struct c_gui_custom_bitmap_storage_item
 {
-	static void __fastcall dispose(c_gui_custom_bitmap_storage_item* _this, void* unused);
-	static void __fastcall initialize(c_gui_custom_bitmap_storage_item* _this, void* unused, long width, long height, bool use_compressed_format);
-	static bool __fastcall sub_B20480(c_gui_custom_bitmap_storage_item* _this, void* unused, long a1, long a2, long a3, long a4, long a5);
-	static bool __fastcall load_from_buffer(c_gui_custom_bitmap_storage_item* _this, long storage_item_index, char const* buffer, long buffer_size, void* buffer2, long buffer2_size, long a6);
-	static bool __fastcall sub_B204B0(c_gui_custom_bitmap_storage_item* _this, void* unused, long a1, long a2, long a3, long a4, long a5, long a6);
-	static void __fastcall sub_B204D0(c_gui_custom_bitmap_storage_item* _this, void* unused);
-	static void __fastcall unload_rendered_bitmap(c_gui_custom_bitmap_storage_item* _this, void* unused);
+	void __thiscall dispose();
+	void __thiscall initialize(long width, long height, bool use_compressed_format);
+	bool __thiscall sub_B20480(long a1, long a2, long a3, long a4, long a5);
+	bool __thiscall load_from_buffer(char const* buffer, long buffer_size, void* buffer2, long buffer2_size, long a6);
+	bool __thiscall sub_B204B0(long a1, long a2, long a3, long a4, long a5, long a6);
+	void __thiscall sub_B204D0();
+	void __thiscall unload_rendered_bitmap();
 
 	long m_width;
 	long m_height;

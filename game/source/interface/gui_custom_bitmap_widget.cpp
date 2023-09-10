@@ -8,12 +8,12 @@
 #include "tag_files/string_ids.hpp"
 
 HOOK_DECLARE_CLASS(0x00AC3900, c_gui_custom_bitmap_widget, get_map_filename);
-HOOK_DECLARE_CLASS(0x00AC3DE0, c_gui_custom_bitmap_widget, set_map_image);
+HOOK_DECLARE_CLASS_MEMBER(0x00AC3DE0, c_gui_custom_bitmap_widget, _set_map_image);
 HOOK_DECLARE(0x00AC3B80, map_image_load_callback);
 
 void patch_gui_custom_bitmap_widget()
 {
-	patch_pointer({ .address = 0x0169D334 + (sizeof(void*) * 29) }, gui_custom_bitmap_widget_assemble_render_data);
+	patch_pointer({ .address = 0x0169D334 + (sizeof(void*) * 29) }, member_to_static_function(&c_gui_custom_bitmap_widget::_assemble_render_data));
 }
 
 bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_type type, long map_id, c_static_string<256>* out_filename)
@@ -23,15 +23,15 @@ bool __cdecl c_gui_custom_bitmap_widget::get_map_filename(e_custom_map_image_typ
 	return result;
 }
 
-void __fastcall c_gui_custom_bitmap_widget::set_map_image(c_gui_custom_bitmap_widget* _this, void* unused, e_custom_map_image_type image_type, long map_id, bool use_compressed_format)
+void __thiscall c_gui_custom_bitmap_widget::_set_map_image(e_custom_map_image_type image_type, long map_id, bool use_compressed_format)
 {
 	static c_static_string<256> map_image_path;
 	map_image_path.clear();
 
 	if (get_map_filename(image_type, map_id, &map_image_path))
-		_this->load_from_file_async(use_compressed_format, map_image_path.get_string());
+		load_from_file_async(use_compressed_format, map_image_path.get_string());
 	else
-		_this->clear();
+		clear();
 }
 
 void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compressed_format, char const* file_path)
@@ -41,9 +41,9 @@ void __cdecl c_gui_custom_bitmap_widget::load_from_file_async(bool use_compresse
 	__unknown268 = 0;
 }
 
-void __fastcall gui_custom_bitmap_widget_assemble_render_data(c_gui_custom_bitmap_widget* _this, void* unused, byte* render_data, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
+void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_data, short_rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
 {
-	if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = static_cast<s_runtime_bitmap_widget_definition*>(_this->get_core_definition()))
+	if (s_runtime_bitmap_widget_definition* bitmap_widget_definition = static_cast<s_runtime_bitmap_widget_definition*>(get_core_definition()))
 	{
 		if (bitmap_widget_definition->name.get_value() == STRING_ID(gui, map_image))
 		{
@@ -58,7 +58,7 @@ void __fastcall gui_custom_bitmap_widget_assemble_render_data(c_gui_custom_bitma
 				if (!instance)
 					continue;
 
-				if (!_this->m_path.equals(reinterpret_cast<char const*>(instance->base + instance->total_size)))
+				if (!m_path.equals(reinterpret_cast<char const*>(instance->base + instance->total_size)))
 					continue;
 
 				bitmap_widget_definition->bitmap_tag_reference_index = tag_index;
@@ -66,11 +66,11 @@ void __fastcall gui_custom_bitmap_widget_assemble_render_data(c_gui_custom_bitma
 			}
 		}
 
-		_this->set_visible(true);
+		set_visible(true);
 	}
 
-	DECLFUNC(0x00B167B0, void, __thiscall, c_gui_custom_bitmap_widget*, void*, e_controller_index, long, bool, bool, bool)
-		(_this, render_data, controller_index, projected_bounds, offset, scale_about_local_point, rotate_about_local_point);
+	DECLFUNC(0x00B167B0, void, __thiscall, c_gui_custom_bitmap_widget*, void*, short_rectangle2d*, e_controller_index, bool, bool, bool)
+		(this, render_data, projected_bounds, controller_index, offset, scale_about_local_point, rotate_about_local_point);
 }
 
 void __cdecl c_gui_custom_bitmap_widget::clear()

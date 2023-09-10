@@ -14,8 +14,8 @@ struct c_network_message_gateway :
 {
 public:
 	static bool __cdecl _read_packet_header(c_bitstream* packet);
-	static bool __fastcall _receive_out_of_band_packet(c_network_message_gateway* _this, void* unused, transport_address const* incoming_address, c_bitstream* packet);
-	static void __fastcall _write_packet_header(c_network_message_gateway* _this, void* unused);
+	bool __thiscall _receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet);
+	void __thiscall _write_packet_header();
 
 	void __cdecl attach_handler(c_network_message_handler* message_handler);
 	void __cdecl destroy_gateway();

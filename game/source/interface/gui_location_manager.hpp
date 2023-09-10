@@ -9,16 +9,16 @@ public:
 	c_gui_location_manager();
 
 private:
-	static bool __fastcall can_change_location(c_gui_location_manager* _this);
-	static long __fastcall get_pregame_lobby_name(c_gui_location_manager* _this, long gui_game_mode);
+	bool __cdecl can_change_location();
+	long __cdecl get_pregame_lobby_name(long gui_game_mode);
 
 public:
-	static void __fastcall set_running(c_gui_location_manager* _this, bool running);
-	static void __fastcall update(c_gui_location_manager* _this);
-	static void __fastcall change_location(c_gui_location_manager* _this, long gui_location, long screen_name);
-	static long __fastcall get_current_ui_location(c_gui_location_manager* _this);
-	static c_gui_screen_widget* __fastcall get_location_screen(c_gui_location_manager* _this);
-	static long __fastcall get_location_screen_name(c_gui_location_manager* _this, long gui_location);
+	void __cdecl set_running(bool running);
+	void __cdecl update();
+	void __thiscall change_location(long screen_name);
+	long __thiscall get_current_ui_location();
+	c_gui_screen_widget* __cdecl get_location_screen();
+	long __cdecl get_location_screen_name(long gui_location);
 
 //protected:
 	bool m_running;

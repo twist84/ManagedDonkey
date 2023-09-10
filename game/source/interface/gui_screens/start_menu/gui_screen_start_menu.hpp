@@ -16,7 +16,7 @@ struct s_service_record_identity;
 
 struct c_start_menu_screen_widget
 {
-	static bool __fastcall handle_controller_input_message(void* _this, void* unused, c_controller_input_message* input_message);
+	bool __thiscall handle_controller_input_message(c_controller_input_message* input_message);
 	static bool __cdecl handle_global_start_button_press(c_controller_input_message* input_message);
 	static bool __cdecl load_start_menu(e_controller_index controller_index, s_player_identifier* player_identifier, qword* player_xuid, s_service_record_identity* identity, s_start_menu_breadcrumb* breadcrumbs, long breadcrumb_count);
 };

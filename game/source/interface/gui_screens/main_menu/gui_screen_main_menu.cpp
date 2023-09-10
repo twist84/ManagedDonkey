@@ -7,9 +7,9 @@
 #include "interface/user_interface_messages.hpp"
 #include "memory/module.hpp"
 
-HOOK_DECLARE_CLASS(0x00AE7660, c_main_menu_screen_widget, handle_controller_input_message);
+HOOK_DECLARE_CLASS_MEMBER(0x00AE7660, c_main_menu_screen_widget, handle_controller_input_message);
 
-bool __fastcall c_main_menu_screen_widget::handle_controller_input_message(void* _this, void* unused, c_controller_input_message* input_message)
+bool __thiscall c_main_menu_screen_widget::handle_controller_input_message(c_controller_input_message* input_message)
 {
 	if (input_message->get_event_type() == _event_type_controller_component && input_message->get_component() == _controller_component_button_start)
 	{
@@ -24,6 +24,7 @@ bool __fastcall c_main_menu_screen_widget::handle_controller_input_message(void*
 	}
 
 	bool result = false;
-	HOOK_INVOKE_CLASS(result =, c_main_menu_screen_widget, handle_controller_input_message, bool(__thiscall*)(void*, c_controller_input_message*), _this, input_message);
+	HOOK_INVOKE_CLASS_MEMBER(result =, c_main_menu_screen_widget, handle_controller_input_message, input_message);
 	return result;
 }
+

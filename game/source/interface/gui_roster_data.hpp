@@ -47,8 +47,8 @@ struct c_gui_roster_data : c_gui_ordered_data
 	static_assert(sizeof(s_player_row) == 0x1678);
 
 public:
-	static bool __fastcall _get_integer_value(c_gui_roster_data* _this, void* unused, long player_row_index, long name, long* integer_value);
-	static bool __fastcall _get_text_value(c_gui_roster_data* _this, void* unused, long player_row_index, long name, c_static_wchar_string<1024>* text_value);
+	bool __thiscall _get_integer_value(long player_row_index, long name, long* integer_value);
+	bool __thiscall _get_text_value(long player_row_index, long name, c_static_wchar_string<1024>* text_value);
 
 protected:
 	long __unknown10C;

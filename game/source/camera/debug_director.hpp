@@ -4,7 +4,7 @@
 
 struct c_debug_director : public c_director
 {
-	static void __fastcall _update(c_debug_director* _this, void* unused, real a1);
+	void __thiscall _update(real a1);
 
 	//  camera mode cycle  - F12
 	// control mode toggle - middle-mouse click
@@ -29,3 +29,4 @@ struct c_debug_director : public c_director
 	bool finished_cycle();
 };
 static_assert(sizeof(c_debug_director) == 0x160);
+

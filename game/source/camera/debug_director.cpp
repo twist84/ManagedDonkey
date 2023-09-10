@@ -3,7 +3,8 @@
 #include "main/console.hpp"
 #include "memory/module.hpp"
 
-HOOK_DECLARE_CLASS(0x007262F0, c_debug_director, _update);
+HOOK_DECLARE_CLASS_MEMBER(0x00726170, c_debug_director, changed_camera);
+HOOK_DECLARE_CLASS_MEMBER(0x007262F0, c_debug_director, _update);
 
 byte const cycle_camera_key_code_bytes[] = { _key_code_backspace };
 DATA_PATCH_DECLARE(0x007262F6 + 1, cycle_camera_key_code, cycle_camera_key_code_bytes);
@@ -16,28 +17,6 @@ void c_debug_director::constructor(long user_index)
 	changed_camera();
 	DECLFUNC(0x007260D0, void, __thiscall, c_director*, long)(this, user_index);
 }
-
-void __fastcall c_debug_director::_update(c_debug_director* _this, void* unused, real a1)
-{
-	static bool biped_control_mode = _this->m_biped_control_mode;
-
-	HOOK_INVOKE_CLASS(, c_debug_director, _update, void(__thiscall*)(c_debug_director*, real), _this, a1);
-
-	if (_this->m_biped_control_mode != biped_control_mode)
-	{
-		biped_control_mode = _this->m_biped_control_mode;
-		console_printf(_this->m_biped_control_mode ? "Biped control mode" : "Flying camera control mode");
-	}
-}
-
-__declspec(naked) void debug_director_changed_camera_inline()
-{
-	__asm push ecx
-	__asm call c_debug_director::changed_camera
-	__asm pop ecx
-	__asm retn
-}
-HOOK_DECLARE(0x00726170, debug_director_changed_camera_inline);
 
 void c_debug_director::changed_camera()
 {
@@ -55,7 +34,22 @@ void c_debug_director::changed_camera()
 	}
 }
 
+void __thiscall c_debug_director::_update(real a1)
+{
+	static bool biped_control_mode = false;
+	biped_control_mode = m_biped_control_mode;
+
+	HOOK_INVOKE_CLASS_MEMBER(, c_debug_director, _update, a1);
+
+	if (m_biped_control_mode != biped_control_mode)
+	{
+		biped_control_mode = m_biped_control_mode;
+		console_printf(m_biped_control_mode ? "Biped control mode" : "Flying camera control mode");
+	}
+}
+
 bool c_debug_director::finished_cycle()
 {
 	return m_camera_mode_index == 1;
 }
+

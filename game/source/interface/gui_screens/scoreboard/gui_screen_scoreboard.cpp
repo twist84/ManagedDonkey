@@ -23,7 +23,7 @@ REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboar
 // for some reason unknown to me these hooks are being zeroed out
 // meaning `HOOK_INVOKE` and `HOOK_INVOKE_CLASS` can't be used, so they're mostly reimplement now
 HOOK_DECLARE(0x00AB3DA0, gui_scoreboard_data_update);
-HOOK_DECLARE_CLASS(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
 
 void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, long a2, long a3)
 {
@@ -60,15 +60,15 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
 }
 
-void __fastcall c_gui_screen_scoreboard::_update_render_state(c_gui_screen_scoreboard* _this, void* unused, dword a2)
+void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
 {
 	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, dword), _this, a2);
 
-	c_gui_list_widget* child_list_widget = _this->get_child_list_widget(STRING_ID(gui, scoreboard));
-	c_gui_data* data = _this->get_data(STRING_ID(gui, scoreboard), 0);
+	c_gui_list_widget* child_list_widget = get_child_list_widget(STRING_ID(gui, scoreboard));
+	c_gui_data* data = get_data(STRING_ID(gui, scoreboard), 0);
 
 	//c_gui_widget::update_render_state
-	DECLFUNC(0x00ABB1A0, void, __thiscall, c_gui_widget*, dword)(_this, a2);
+	DECLFUNC(0x00ABB1A0, void, __thiscall, c_gui_widget*, dword)(this, a1);
 
 	if (child_list_widget)
 	{
@@ -126,7 +126,7 @@ void __fastcall c_gui_screen_scoreboard::_update_render_state(c_gui_screen_score
 			}
 		}
 
-		c_gui_widget* button_key_child_list_widget = _this->get_first_child_widget_by_type(_gui_widget_type_button_key_widget);
+		c_gui_widget* button_key_child_list_widget = get_first_child_widget_by_type(_gui_widget_type_button_key_widget);
 		if (button_key_child_list_widget)
 		{
 			long v18 = 0;
@@ -138,14 +138,14 @@ void __fastcall c_gui_screen_scoreboard::_update_render_state(c_gui_screen_score
 				real_rectangle2d current_bounds{};
 				list_item_widget->get_current_bounds(&current_bounds);
 
-				if (list_item_widget->get_element_handle() == -1)
+				if (list_item_widget->get_element_handle() != -1)
 					y19 = (long)current_bounds.y.lower;
-				else
-					v18 = (long)current_bounds.y.lower;
 
-				if (y19 != v18)
-					_this->translate_widget_recursive(button_key_child_list_widget, 0, v18 - y19);
+				v18 = (long)current_bounds.y.lower;
 			}
+
+			if (y19 != v18)
+				translate_widget_recursive(button_key_child_list_widget, 0, y19 - v18);
 		}
 	}
 }

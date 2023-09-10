@@ -5,7 +5,7 @@
 
 #include <winerror.h>
 
-HOOK_DECLARE_CLASS(0x0074D690, c_storage_device_selector_overlapped_task, _start);
+HOOK_DECLARE_CLASS_MEMBER(0x0074D690, c_storage_device_selector_overlapped_task, _start);
 
 dword online_guide_show_device_selector_ui(e_controller_index controller_index, dword bytes_requested, dword* device_id, void* xenon_task_handle)
 {
@@ -19,15 +19,15 @@ dword online_guide_show_device_selector_ui(e_controller_index controller_index, 
 	return 0x80004005;
 }
 
-dword __fastcall c_storage_device_selector_overlapped_task::_start(c_storage_device_selector_overlapped_task* _this, void* unused, void* xenon_task_handle)
+dword __thiscall c_storage_device_selector_overlapped_task::_start(void* xenon_task_handle)
 {
-	ASSERT(VALID_INDEX(_this->m_controller_index, k_number_of_controllers));
-	ASSERT(_this->m_storage_device != NULL);
-	ASSERT(_this->m_device_id != NULL);
+	ASSERT(VALID_INDEX(m_controller_index, k_number_of_controllers));
+	ASSERT(m_storage_device != NULL);
+	ASSERT(m_device_id != NULL);
 
-	_this->m_storage_device->set_device_selection_cancelled(false);
+	m_storage_device->set_device_selection_cancelled(false);
 
-	return online_guide_show_device_selector_ui(_this->m_controller_index, _this->m_bytes_requested, _this->m_device_id, xenon_task_handle);
+	return online_guide_show_device_selector_ui(m_controller_index, m_bytes_requested, m_device_id, xenon_task_handle);
 }
 
 void c_storage_device::set_device_selection_cancelled(bool device_selection_cancelled)

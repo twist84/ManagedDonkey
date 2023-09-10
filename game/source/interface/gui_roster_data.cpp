@@ -6,17 +6,17 @@
 #include "memory/module.hpp"
 #include "tag_files/string_ids.hpp"
 
-HOOK_DECLARE_CLASS(0x00B24CA0, c_gui_roster_data, _get_integer_value);
-HOOK_DECLARE_CLASS(0x00B24FE0, c_gui_roster_data, _get_text_value);
+HOOK_DECLARE_CLASS_MEMBER(0x00B24CA0, c_gui_roster_data, _get_integer_value);
+HOOK_DECLARE_CLASS_MEMBER(0x00B24FE0, c_gui_roster_data, _get_text_value);
 
 // #TODO: reimplement `c_gui_active_roster_data::update`
 
-bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, void* unused, long player_row_index, long name, long* integer_value)
+bool __thiscall c_gui_roster_data::_get_integer_value(long player_row_index, long name, long* integer_value)
 {
 	bool result = false;
-	HOOK_INVOKE_CLASS(result =, c_gui_roster_data, _get_integer_value, bool(__thiscall*)(c_gui_roster_data*, long, long, long*), _this, player_row_index, name, integer_value);
+	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_integer_value, player_row_index, name, integer_value);
 
-	s_player_configuration* player_data = user_interface_session_get_player_data(_this->m_players[player_row_index].player_index);
+	s_player_configuration* player_data = user_interface_session_get_player_data(m_players[player_row_index].player_index);
 	switch (name)
 	{
 	case STRING_ID(gui, base_color):
@@ -109,10 +109,10 @@ bool __fastcall c_gui_roster_data::_get_integer_value(c_gui_roster_data* _this, 
 	return result;
 }
 
-bool __fastcall c_gui_roster_data::_get_text_value(c_gui_roster_data* _this, void* unused, long player_row_index, long name, c_static_wchar_string<1024>* text_value)
+bool __thiscall c_gui_roster_data::_get_text_value(long player_row_index, long name, c_static_wchar_string<1024>* text_value)
 {
 	bool result = false;
-	HOOK_INVOKE_CLASS(result =, c_gui_roster_data, _get_text_value, bool(__thiscall*)(c_gui_roster_data*, long, long, c_static_wchar_string<1024>*), _this, player_row_index, name, text_value);
+	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_roster_data, _get_text_value, player_row_index, name, text_value);
 
 	switch (name)
 	{
@@ -151,12 +151,12 @@ bool __fastcall c_gui_roster_data::_get_text_value(c_gui_roster_data* _this, voi
 	break;
 	case STRING_ID(gui, service_tag):
 	{
-		if (!_this->m_players[player_row_index].player_data.host.appearance.service_tag.length())
+		if (!m_players[player_row_index].player_data.host.appearance.service_tag.length())
 		{
-			long player_index = _this->m_players[player_row_index].player_index;
+			long player_index = m_players[player_row_index].player_index;
 			if (user_interface_session_is_local_player(player_index))
 			{
-				c_controller_interface* controller = controller_get(_this->m_players[player_row_index].controller_index);
+				c_controller_interface* controller = controller_get(m_players[player_row_index].controller_index);
 
 				if (!text_value->length())
 				{

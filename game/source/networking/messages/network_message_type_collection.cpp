@@ -4,53 +4,51 @@
 #include "memory/module.hpp"
 #include "networking/messages/network_messages_text_chat.hpp"
 
-HOOK_DECLARE_CLASS(0x0047FF50, c_network_message_type_collection, _clear_message_types);
-HOOK_DECLARE_CLASS(0x0047FF70, c_network_message_type_collection, _decode_message);
-HOOK_DECLARE_CLASS(0x0047FFE0, c_network_message_type_collection, _decode_message_header);
-HOOK_DECLARE_CLASS(0x00480070, c_network_message_type_collection, _dispose_message);
-HOOK_DECLARE_CLASS(0x00480090, c_network_message_type_collection, _encode_message);
-HOOK_DECLARE_CLASS(0x004800D0, c_network_message_type_collection, _encode_message_header);
-HOOK_DECLARE_CLASS(0x00480180, c_network_message_type_collection, _get_message_type_name);
-HOOK_DECLARE_CLASS(0x004801B0, c_network_message_type_collection, _register_message_type);
+HOOK_DECLARE_CLASS_MEMBER(0x0047FF50, c_network_message_type_collection, _clear_message_types);
+HOOK_DECLARE_CLASS_MEMBER(0x0047FF70, c_network_message_type_collection, _decode_message);
+HOOK_DECLARE_CLASS_MEMBER(0x0047FFE0, c_network_message_type_collection, _decode_message_header);
+HOOK_DECLARE_CLASS_MEMBER(0x00480070, c_network_message_type_collection, _dispose_message);
+HOOK_DECLARE_CLASS_MEMBER(0x00480090, c_network_message_type_collection, _encode_message);
+HOOK_DECLARE_CLASS_MEMBER(0x004800D0, c_network_message_type_collection, _encode_message_header);
+HOOK_DECLARE_CLASS_MEMBER(0x00480180, c_network_message_type_collection, _get_message_type_name);
+HOOK_DECLARE_CLASS_MEMBER(0x004801B0, c_network_message_type_collection, _register_message_type);
 
-void __fastcall c_network_message_type_collection::_clear_message_types(c_network_message_type_collection* _this, void* unused)
+void __thiscall c_network_message_type_collection::_clear_message_types()
 {
-	_this->clear_message_types();
+	clear_message_types();
 }
 
-bool __fastcall c_network_message_type_collection::_decode_message(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage)
+bool __thiscall c_network_message_type_collection::_decode_message(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage)
 {
-	return _this->decode_message(packet, message_type, message_storage_size, message_storage);
+	return decode_message(packet, message_type, message_storage_size, message_storage);
 }
 
-bool __fastcall c_network_message_type_collection::_decode_message_header(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size)
+bool __thiscall c_network_message_type_collection::_decode_message_header(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size)
 {
-	return _this->decode_message_header(packet, message_type, message_storage_size);
+	return decode_message_header(packet, message_type, message_storage_size);
 }
 
-void __fastcall c_network_message_type_collection::_dispose_message(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type, long message_storage_size, void* message_storage)
+void __thiscall c_network_message_type_collection::_dispose_message(e_network_message_type message_type, long message_storage_size, void* message_storage)
 {
-	_this->dispose_message(message_type, message_storage_size, message_storage);
+	dispose_message(message_type, message_storage_size, message_storage);
 }
 
-void __fastcall c_network_message_type_collection::_encode_message(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage)
+void __thiscall c_network_message_type_collection::_encode_message(c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage)
 {
-	_this->encode_message(packet, message_type, message_storage_size, message_storage);
+	encode_message(packet, message_type, message_storage_size, message_storage);
 }
 
-void __fastcall c_network_message_type_collection::_encode_message_header(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type message_type, long message_storage_size)
+void __thiscall c_network_message_type_collection::_encode_message_header(c_bitstream* packet, e_network_message_type message_type, long message_storage_size)
 {
-	_this->encode_message_header(packet, message_type, message_storage_size);
+	encode_message_header(packet, message_type, message_storage_size);
 }
 
-char const* __fastcall c_network_message_type_collection::_get_message_type_name(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type)
+char const* __thiscall c_network_message_type_collection::_get_message_type_name(e_network_message_type message_type)
 {
-	return _this->get_message_type_name(message_type);
+	return get_message_type_name(message_type);
 }
 
-void __fastcall c_network_message_type_collection::_register_message_type(
-	c_network_message_type_collection* _this,
-	void* unused,
+void __thiscall c_network_message_type_collection::_register_message_type(
 	e_network_message_type message_type,
 	char const* message_type_name,
 	long flags,
@@ -62,7 +60,7 @@ void __fastcall c_network_message_type_collection::_register_message_type(
 	dispose_t* dispose_function
 )
 {
-	_this->register_message_type(
+	register_message_type(
 		message_type,
 		message_type_name,
 		flags,

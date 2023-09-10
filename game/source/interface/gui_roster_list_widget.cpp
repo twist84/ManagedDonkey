@@ -11,22 +11,21 @@
 #include "memory/module.hpp"
 #include "tag_files/string_ids.hpp"
 
+HOOK_DECLARE_CLASS_MEMBER(0x00B25C60, c_gui_roster_list_widget, update);
+HOOK_DECLARE_CLASS_MEMBER(0x00B26100, c_gui_roster_list_widget, update_render_state);
 
-HOOK_DECLARE_CLASS(0x00B25C60, c_gui_roster_list_widget, update);
-HOOK_DECLARE_CLASS(0x00B26100, c_gui_roster_list_widget, update_render_state);
-
-void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this, void* unused, dword a2)
+void __thiscall c_gui_roster_list_widget::update(dword a1)
 {
-	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update, void(__thiscall*)(c_gui_roster_list_widget*, dword), _this, a2);
+	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update, void(__thiscall*)(c_gui_roster_list_widget*, dword), _this, a1);
 
 	long selectable_item_cap_count = 0;
 
-	c_gui_roster_data* roster_data = static_cast<c_gui_roster_data*>(_this->get_data());
+	c_gui_roster_data* roster_data = static_cast<c_gui_roster_data*>(get_data());
 	if (roster_data)
 	{
-		_this->update_team_mode();
+		update_team_mode();
 
-		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(_this->get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
+		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
 			list_item_widget;
 			list_item_widget = list_item_widget->get_next_list_item_widget(true))
 		{
@@ -118,7 +117,7 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				bool show_experience = matchmaking > 0;
 				bool show_rank_tray = experience != -1;
 
-				bool is_team_game = _this->m_is_team_game;
+				bool is_team_game = m_is_team_game;
 
 				if (player_row_type0)
 					selectable_item_cap_count++;
@@ -256,9 +255,9 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 				bool team_change_active = false;
 				if (is_team_game)
 				{
-					if (session_player_index != -1 && _this->m_temporary_team[session_player_index].temporary_team_change_active)
+					if (session_player_index != -1 && m_temporary_team[session_player_index].temporary_team_change_active)
 					{
-						game_engine_get_team_name(_this->m_temporary_team[session_player_index].temporary_team_index, &team_name);
+						game_engine_get_team_name(m_temporary_team[session_player_index].temporary_team_index, &team_name);
 
 						UTF32_STRING(left_bumper);
 						UTF32_STRING(right_bumper);
@@ -283,21 +282,21 @@ void __fastcall c_gui_roster_list_widget::update(c_gui_roster_list_widget* _this
 		}
 	}
 
-	_this->set_selectable_item_cap_count(selectable_item_cap_count);
-	DECLFUNC(0x00B16650, void, __thiscall, c_gui_list_widget*, dword)(_this, a2);
+	set_selectable_item_cap_count(selectable_item_cap_count);
+	DECLFUNC(0x00B16650, void, __thiscall, c_gui_list_widget*, dword)(this, a1);
 }
 
-void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_widget* _this, void* unused, dword a2)
+void __thiscall c_gui_roster_list_widget::update_render_state(dword a1)
 {
-	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update_render_state, void(__thiscall*)(c_gui_roster_list_widget*, dword), _this, a2);
+	//HOOK_INVOKE_CLASS(, c_gui_roster_list_widget, update_render_state, void(__thiscall*)(c_gui_roster_list_widget*, dword), _this, a1);
 
 	//c_gui_list_widget::update_render_state
-	DECLFUNC(0x00B16650, void, __thiscall, c_gui_list_widget*, dword)(_this, a2);
+	DECLFUNC(0x00B16650, void, __thiscall, c_gui_list_widget*, dword)(this, a1);
 
-	c_gui_data* data = _this->get_data();
+	c_gui_data* data = get_data();
 	if (data)
 	{
-		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(_this->get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
+		for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
 			list_item_widget;
 			list_item_widget = list_item_widget->get_next_list_item_widget(true))
 		{
@@ -332,13 +331,13 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 
 				bool player_row_type0 = player_row_type == c_gui_roster_data::_player_row_type_player;
 
-				bool show_party_bar = player_row_type0 && _this->m_show_party_bar && party_bar_length > 0;
+				bool show_party_bar = player_row_type0 && m_show_party_bar && party_bar_length > 0;
 
 				base_color_bitmap_widget->set_visible(player_row_type0);
 				base_color_hilite_bitmap_widget->set_visible(player_row_type0);
 				party_bar_player_bitmap_widget->set_visible(show_party_bar);
 
-				bool is_team_game = _this->m_is_team_game;
+				bool is_team_game = m_is_team_game;
 
 				long team_index = -1;
 				long color_list_index = base_color;
@@ -346,8 +345,8 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 				{
 					if (session_player_index == -1
 						// swap this for `get_current_team_change_team_index`?
-						|| !_this->m_temporary_team[session_player_index].temporary_team_change_active
-						&& _this->m_temporary_team->lying_begin_time < a2)
+						|| !m_temporary_team[session_player_index].temporary_team_change_active
+						&& m_temporary_team->lying_begin_time < a1)
 					{
 						long team = -1;
 						if (data)
@@ -357,7 +356,7 @@ void __fastcall c_gui_roster_list_widget::update_render_state(c_gui_roster_list_
 					}
 					else
 					{
-						team_index = _this->m_temporary_team[session_player_index].temporary_team_index;
+						team_index = m_temporary_team[session_player_index].temporary_team_index;
 					}
 
 					color_list_index = team_index;

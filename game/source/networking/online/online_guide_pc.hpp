@@ -21,9 +21,9 @@ public:
 		bool cancelled
 	);
 
-	static void __fastcall _set_default_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* default_text);
-	static void __fastcall _set_description_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* description_text);
-	static void __fastcall _set_title_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* title_text);
+	void __thiscall _set_default_text(wchar_t const* default_text);
+	void __thiscall _set_description_text(wchar_t const* description_text);
+	void __thiscall _set_title_text(wchar_t const* title_text);
 
 	void __cdecl set_controller_index(e_controller_index controller_index);
 	void __cdecl set_default_text(wchar_t const* default_text);
@@ -49,7 +49,7 @@ public:
 	virtual const char* get_context_string() override;
 	virtual dword start(void* platform_handle) override;
 
-	static dword __fastcall _start(c_virtual_keyboard_task* _this, void* unused, void* platform_handle);
+	dword __thiscall _start(void* platform_handle);
 	static void __fastcall _success(c_virtual_keyboard_task* _this, dword a1);
 
 	static c_virtual_keyboard_task* m_instance;

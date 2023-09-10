@@ -11,10 +11,10 @@
 
 //HOOK_DECLARE_CLASS(0x004E16A0, c_virtual_keyboard_task, constructor);
 HOOK_DECLARE_CLASS(0x004E1840, c_virtual_keyboard_task, get_instance);
-HOOK_DECLARE_CLASS(0x004E19A0, c_virtual_keyboard_task, _set_default_text);
-HOOK_DECLARE_CLASS(0x004E19B0, c_virtual_keyboard_task, _set_description_text);
-HOOK_DECLARE_CLASS(0x004E19D0, c_virtual_keyboard_task, _set_title_text);
-HOOK_DECLARE_CLASS(0x004E1A00, c_virtual_keyboard_task, _start);
+HOOK_DECLARE_CLASS_MEMBER(0x004E19A0, c_virtual_keyboard_task, _set_default_text);
+HOOK_DECLARE_CLASS_MEMBER(0x004E19B0, c_virtual_keyboard_task, _set_description_text);
+HOOK_DECLARE_CLASS_MEMBER(0x004E19D0, c_virtual_keyboard_task, _set_title_text);
+HOOK_DECLARE_CLASS_MEMBER(0x004E1A00, c_virtual_keyboard_task, _start);
 HOOK_DECLARE_CLASS(0x004E1A20, c_virtual_keyboard_task, _success);
 
 HOOK_DECLARE(0x004E1860, online_guide_delay_toasts);
@@ -79,19 +79,19 @@ void c_overlapped_task::set_line(long line)
 	m_line = line;
 }
 
-void __fastcall c_virtual_keyboard_task::_set_default_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* default_text)
+void __thiscall c_virtual_keyboard_task::_set_default_text(wchar_t const* default_text)
 {
-	_this->set_default_text(default_text);
+	set_default_text(default_text);
 }
 
-void __fastcall c_virtual_keyboard_task::_set_description_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* description_text)
+void __thiscall c_virtual_keyboard_task::_set_description_text(wchar_t const* description_text)
 {
-	_this->set_description_text(description_text);
+	set_description_text(description_text);
 }
 
-void __fastcall c_virtual_keyboard_task::_set_title_text(c_virtual_keyboard_task* _this, void* unused, wchar_t const* title_text)
+void __thiscall c_virtual_keyboard_task::_set_title_text(wchar_t const* title_text)
 {
-	_this->set_title_text(title_text);
+	set_title_text(title_text);
 }
 
 void __cdecl c_virtual_keyboard_task::set_controller_index(e_controller_index controller_index)
@@ -226,16 +226,16 @@ dword c_virtual_keyboard_task::start(void* platform_handle)
 	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, m_maximum_input_characters, platform_handle);
 }
 
-dword __fastcall c_virtual_keyboard_task::_start(c_virtual_keyboard_task* _this, void* unused, void* platform_handle)
+dword __thiscall c_virtual_keyboard_task::_start(void* platform_handle)
 {
-	c_controller_interface* controller = controller_get(_this->m_controller_index);
+	c_controller_interface* controller = controller_get(m_controller_index);
 	if (!controller->is_signed_in_to_machine())
 		return 0x80004005;
 
-	if (_this->m_maximum_input_characters > 256)
-		return online_guide_show_virtual_keyboard_ui(_this->m_controller_index, _this->m_character_flags, _this->m_default_text, _this->m_title_text, _this->m_description_text, _this->m_result_text, 256, platform_handle);
+	if (m_maximum_input_characters > 256)
+		return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, 256, platform_handle);
 
-	return online_guide_show_virtual_keyboard_ui(_this->m_controller_index, _this->m_character_flags, _this->m_default_text, _this->m_title_text, _this->m_description_text, _this->m_result_text, _this->m_maximum_input_characters, platform_handle);
+	return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, m_maximum_input_characters, platform_handle);
 }
 
 void __fastcall c_virtual_keyboard_task::_success(c_virtual_keyboard_task* _this, dword a1)

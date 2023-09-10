@@ -22,8 +22,8 @@ public:
 	};
 
 	static bool __cdecl get_map_filename(e_custom_map_image_type type, long map_id, c_static_string<256>* out_filename);
-	static void __fastcall set_map_image(c_gui_custom_bitmap_widget* _this, void* unused, e_custom_map_image_type image_type, long map_id, bool use_compressed_format);
-	static void __fastcall _assemble_render_data(c_gui_custom_bitmap_widget* _this, void* unused, byte* render_data, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
+	void __thiscall _set_map_image(e_custom_map_image_type image_type, long map_id, bool use_compressed_format);
+	void __thiscall _assemble_render_data(byte* render_data, short_rectangle2d* projected_bounds, e_controller_index controller_index, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
 	void __cdecl load_from_file_async(bool use_compressed_format, char const* file_path);
 	void __cdecl clear();
 
@@ -72,5 +72,4 @@ static_assert(sizeof(s_map_image_load_callback_data) == 0x28);
 
 extern void patch_gui_custom_bitmap_widget();
 extern long __cdecl map_image_load_callback(s_map_image_load_callback_data* callback_data);
-extern void __fastcall gui_custom_bitmap_widget_assemble_render_data(c_gui_custom_bitmap_widget* _this, void* unused, byte* render_data, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
 

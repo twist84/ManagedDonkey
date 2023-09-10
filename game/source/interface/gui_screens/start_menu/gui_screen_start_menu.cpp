@@ -8,27 +8,27 @@
 #include "networking/online/online_service_record.hpp"
 #include "simulation/simulation.hpp"
 
-HOOK_DECLARE_CLASS(0x00AE05B0, c_start_menu_screen_widget, handle_controller_input_message);
+HOOK_DECLARE_CLASS_MEMBER(0x00AE05B0, c_start_menu_screen_widget, handle_controller_input_message);
 HOOK_DECLARE_CLASS(0x00AE0720, c_start_menu_screen_widget, handle_global_start_button_press);
 
-bool __fastcall c_start_menu_screen_widget::handle_controller_input_message(void* _this, void* unused, c_controller_input_message* input_message)
+bool __thiscall c_start_menu_screen_widget::handle_controller_input_message(c_controller_input_message* input_message)
 {
 	if (input_message->get_event_type() == _event_type_controller_component)
 	{
 		if (input_message->get_component() == _controller_component_button_b || input_message->get_component() == _controller_component_button_start)
 		{
 			// c_static_stack<s_start_menu_breadcrumb, 8>::count != 0
-			if (reinterpret_cast<long>(static_cast<byte*>(_this) + 0x215C) != 1)
+			if (reinterpret_cast<long>(reinterpret_cast<byte*>(this) + 0x215C) != 1)
 			{
 				// back_out_current_pane
-				DECLFUNC(0x00AE01D0, void, __thiscall, void*)(_this);
+				DECLFUNC(0x00AE01D0, void, __thiscall, void*)(this);
 				return true;
 			}
 		}
 	}
 
 	bool result = false;
-	HOOK_INVOKE_CLASS(result =, c_start_menu_screen_widget, handle_controller_input_message, bool(__thiscall*)(void*, c_controller_input_message*), _this, input_message);
+	HOOK_INVOKE_CLASS_MEMBER(result =, c_start_menu_screen_widget, handle_controller_input_message, input_message);
 	return result;
 }
 

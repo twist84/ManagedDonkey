@@ -4,6 +4,8 @@
 #include "interface/user_interface_data.hpp"
 #include "memory/module.hpp"
 
+HOOK_DECLARE_CLASS_MEMBER(0x00AB97C0, c_gui_widget, get_unprojected_bounds);
+
 long __cdecl c_gui_widget::get_ambient_state()
 {
 	return __vftable->get_ambient_state(this);
@@ -209,10 +211,9 @@ c_gui_widget* __cdecl c_gui_widget::get_first_child_widget_by_type(e_gui_widget_
 	return DECLFUNC(0x00AB8F80, c_gui_widget*, __thiscall, c_gui_widget*, e_gui_widget_type)(this, widget_type);
 }
 
-HOOK_DECLARE_CLASS(0x00AB97C0, c_gui_widget, get_unprojected_bounds);
-void __fastcall c_gui_widget::get_unprojected_bounds(c_gui_widget* _this, void* unused, gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5)
+void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5)
 {
-	HOOK_INVOKE_CLASS(, c_gui_widget, get_unprojected_bounds, void(__thiscall*)(c_gui_widget*, gui_real_rectangle2d*, bool, bool, bool), _this, unprojected_bounds, a3, a4, a5);
+	HOOK_INVOKE_CLASS_MEMBER(, c_gui_widget, get_unprojected_bounds, unprojected_bounds, a3, a4, a5);
 
 	// this is more or less what Halo 3 MCC is doing
 

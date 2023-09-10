@@ -79,17 +79,15 @@ struct c_network_message_type_collection
 	static_assert(sizeof(s_network_message_type) == 0x24);
 
 public:
-	static void __fastcall _clear_message_types(c_network_message_type_collection* _this, void* unused);
-	static bool __fastcall _decode_message(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage);
-	static bool __fastcall _decode_message_header(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size);
-	static void __fastcall _dispose_message(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type, long message_storage_size, void* message_storage);
-	static void __fastcall _encode_message(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage);
-	static void __fastcall _encode_message_header(c_network_message_type_collection* _this, void* unused, c_bitstream* packet, e_network_message_type message_type, long message_storage_size);
-	static char const* __fastcall _get_message_type_name(c_network_message_type_collection* _this, void* unused, e_network_message_type message_type);
+	void __thiscall _clear_message_types();
+	bool __thiscall _decode_message(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size, void* message_storage);
+	bool __thiscall _decode_message_header(c_bitstream* packet, e_network_message_type* message_type, long* message_storage_size);
+	void __thiscall _dispose_message(e_network_message_type message_type, long message_storage_size, void* message_storage);
+	void __thiscall _encode_message(c_bitstream* packet, e_network_message_type message_type, long message_storage_size, void* message_storage);
+	void __thiscall _encode_message_header(c_bitstream* packet, e_network_message_type message_type, long message_storage_size);
+	char const* __thiscall _get_message_type_name(e_network_message_type message_type);
 
-	static void __fastcall _register_message_type(
-		c_network_message_type_collection* _this,
-		void* unused,
+	void __thiscall _register_message_type(
 		e_network_message_type message_type,
 		char const* message_type_name,
 		long flags,
