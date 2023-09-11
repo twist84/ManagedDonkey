@@ -41,6 +41,6 @@ bool c_network_session_parameter_game_variant::request_change(c_game_variant con
 
 bool c_network_session_parameter_game_variant::set(c_game_variant const* game_variant)
 {
-	return DECLFUNC(0x00456220, bool, __thiscall, c_network_session_parameter_game_variant*, c_game_variant const*)(this, game_variant);
+	return INVOKE_CLASS_MEMBER(0x00456220, c_network_session_parameter_game_variant::set, game_variant);
 }
 

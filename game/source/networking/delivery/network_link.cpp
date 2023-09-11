@@ -112,7 +112,7 @@ bool __cdecl c_network_link::create_endpoints()
 
 bool c_network_link::decode_packet(long data_buffer_size, byte const* data_buffer, s_link_packet* packet) const
 {
-	return DECLFUNC(0x0043B820, bool, __thiscall, c_network_link const*, long, byte const*, s_link_packet*)(this, data_buffer_size, data_buffer, packet);
+	return INVOKE_CLASS_MEMBER(0x0043B820, c_network_link::decode_packet, data_buffer_size, data_buffer, packet);
 }
 
 void __cdecl c_network_link::destroy_endpoints()
@@ -143,5 +143,5 @@ void __cdecl c_network_link::send_out_of_band(c_bitstream const* game_data, tran
 	ASSERT(game_data);
 	ASSERT(address);
 
-	DECLFUNC(0x0043C250, void, __thiscall, c_network_link*, c_bitstream const*, transport_address const*, long*)(this, game_data, address, out_size_on_wire);
+	INVOKE_CLASS_MEMBER(0x0043C250, c_network_link::send_out_of_band, game_data, address, out_size_on_wire);
 }

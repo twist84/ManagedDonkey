@@ -746,19 +746,19 @@ void __cdecl c_network_message_handler::handle_broadcast_reply(transport_address
 
 void __cdecl c_network_message_handler::handle_connect_request(transport_address const* address, s_network_message_connect_request const* message)
 {
-	DECLFUNC(0x0049CDC0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_connect_request const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049CDC0, c_network_message_handler::handle_connect_request, address, message);
 
 	//m_observer->handle_connect_request(address, message);
 }
 
 void __cdecl c_network_message_handler::handle_connect_refuse(c_network_channel* channel, s_network_message_connect_refuse const* message)
 {
-	DECLFUNC(0x0049CD10, void, __cdecl, c_network_channel*, s_network_message_connect_refuse const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049CD10, c_network_message_handler::handle_connect_refuse, channel, message);
 }
 
 void __cdecl c_network_message_handler::handle_connect_establish(c_network_channel* channel, s_network_message_connect_establish const* message)
 {
-	DECLFUNC(0x0049CC10, void, __cdecl, c_network_channel*, s_network_message_connect_establish const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049CC10, c_network_message_handler::handle_connect_establish, channel, message);
 
 	//if (channel->closed())
 	//{
@@ -801,7 +801,7 @@ void __cdecl c_network_message_handler::handle_connect_establish(c_network_chann
 
 void __cdecl c_network_message_handler::handle_connect_closed(c_network_channel* channel, s_network_message_connect_closed const* message)
 {
-	DECLFUNC(0x0049CBA0, void, __cdecl, c_network_channel*, s_network_message_connect_closed const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049CBA0, c_network_message_handler::handle_connect_closed, channel, message);
 
 	//if (channel->closed())
 	//{
@@ -828,7 +828,7 @@ void __cdecl c_network_message_handler::handle_connect_closed(c_network_channel*
 
 void __cdecl c_network_message_handler::handle_join_request(transport_address const* address, s_network_message_join_request const* message)
 {
-	DECLFUNC(0x0049D0C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_request const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049D0C0, c_network_message_handler::handle_join_request, address, message);
 
 	//if (message->protocol == k_network_protocol_version)
 	//{
@@ -852,7 +852,7 @@ void __cdecl c_network_message_handler::handle_join_request(transport_address co
 
 void __cdecl c_network_message_handler::handle_peer_connect(transport_address const* address, s_network_message_peer_connect const* message)
 {
-	DECLFUNC(0x0049D5C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_peer_connect const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049D5C0, c_network_message_handler::handle_peer_connect, address, message);
 
 	//if (message->protocol == k_network_protocol_version)
 	//{
@@ -876,7 +876,7 @@ void __cdecl c_network_message_handler::handle_peer_connect(transport_address co
 
 void __cdecl c_network_message_handler::handle_join_abort(transport_address const* address, s_network_message_join_abort const* message)
 {
-	DECLFUNC(0x0049CF00, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_abort const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049CF00, c_network_message_handler::handle_join_abort, address, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->established() && session->is_host())
@@ -913,7 +913,7 @@ void __cdecl c_network_message_handler::handle_join_abort(transport_address cons
 
 void __cdecl c_network_message_handler::handle_join_refuse(transport_address const* address, s_network_message_join_refuse const* message)
 {
-	DECLFUNC(0x0049CFF0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_refuse const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049CFF0, c_network_message_handler::handle_join_refuse, address, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->waiting_for_host_connection(address))
@@ -948,7 +948,7 @@ void __cdecl c_network_message_handler::handle_join_refuse(transport_address con
 
 void __cdecl c_network_message_handler::handle_leave_session(transport_address const* address, s_network_message_leave_session const* message)
 {
-	DECLFUNC(0x0049D1C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_leave_session const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049D1C0, c_network_message_handler::handle_leave_session, address, message);
 
 	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
 	//{
@@ -976,7 +976,7 @@ void __cdecl c_network_message_handler::handle_leave_session(transport_address c
 
 void __cdecl c_network_message_handler::handle_leave_acknowledge(transport_address const* address, s_network_message_leave_acknowledge const* message)
 {
-	DECLFUNC(0x0049D150, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_leave_acknowledge const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049D150, c_network_message_handler::handle_leave_acknowledge, address, message);
 
 	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
 	//{
@@ -994,7 +994,7 @@ void __cdecl c_network_message_handler::handle_leave_acknowledge(transport_addre
 
 void __cdecl c_network_message_handler::handle_session_disband(transport_address const* address, s_network_message_session_disband const* message)
 {
-	DECLFUNC(0x0049DA80, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_session_disband const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049DA80, c_network_message_handler::handle_session_disband, address, message);
 
 	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
 	//{
@@ -1015,7 +1015,7 @@ void __cdecl c_network_message_handler::handle_session_disband(transport_address
 
 void __cdecl c_network_message_handler::handle_session_boot(transport_address const* address, s_network_message_session_boot const* message)
 {
-	DECLFUNC(0x0049DA00, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_session_boot const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049DA00, c_network_message_handler::handle_session_boot, address, message);
 
 	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
 	//{
@@ -1036,7 +1036,7 @@ void __cdecl c_network_message_handler::handle_session_boot(transport_address co
 
 void __cdecl c_network_message_handler::handle_host_decline(c_network_channel* channel, s_network_message_host_decline const* message)
 {
-	DECLFUNC(0x0049CEA0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_host_decline const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049CEA0, c_network_message_handler::handle_host_decline, channel, message);
 
 	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
 	//{
@@ -1056,7 +1056,7 @@ void __cdecl c_network_message_handler::handle_host_decline(c_network_channel* c
 
 void __cdecl c_network_message_handler::handle_peer_establish(c_network_channel* channel, s_network_message_peer_establish const* message)
 {
-	DECLFUNC(0x0049D620, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_peer_establish const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D620, c_network_message_handler::handle_peer_establish, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (!session || !session->handle_peer_establish(channel, message))
@@ -1076,7 +1076,7 @@ void __cdecl c_network_message_handler::handle_peer_establish(c_network_channel*
 
 void __cdecl c_network_message_handler::handle_time_synchronize(transport_address const* address, s_network_message_time_synchronize const* message)
 {
-	DECLFUNC(0x0049DE40, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_time_synchronize const*)(this, address, message);
+	INVOKE_CLASS_MEMBER(0x0049DE40, c_network_message_handler::handle_time_synchronize, address, message);
 
 	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
 	//{
@@ -1099,7 +1099,7 @@ void __cdecl c_network_message_handler::handle_time_synchronize(transport_addres
 
 void __cdecl c_network_message_handler::handle_membership_update(c_network_channel* channel, s_network_message_membership_update const* message)
 {
-	DECLFUNC(0x0049D250, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_membership_update const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D250, c_network_message_handler::handle_membership_update, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->channel_is_authoritative(channel))
@@ -1121,7 +1121,7 @@ void __cdecl c_network_message_handler::handle_membership_update(c_network_chann
 
 void __cdecl c_network_message_handler::handle_peer_properties(c_network_channel* channel, s_network_message_peer_properties const* message)
 {
-	DECLFUNC(0x0049D6B0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_peer_properties const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D6B0, c_network_message_handler::handle_peer_properties, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->is_host())
@@ -1143,7 +1143,7 @@ void __cdecl c_network_message_handler::handle_peer_properties(c_network_channel
 
 void __cdecl c_network_message_handler::handle_delegate_leadership(c_network_channel* channel, s_network_message_delegate_leadership const* message)
 {
-	DECLFUNC(0x0049CDD0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_delegate_leadership const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049CDD0, c_network_message_handler::handle_delegate_leadership, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->is_host())
@@ -1165,7 +1165,7 @@ void __cdecl c_network_message_handler::handle_delegate_leadership(c_network_cha
 
 void __cdecl c_network_message_handler::handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message)
 {
-	DECLFUNC(0x0049C240, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_boot_machine const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049C240, c_network_message_handler::handle_boot_machine, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->is_host())
@@ -1187,7 +1187,7 @@ void __cdecl c_network_message_handler::handle_boot_machine(c_network_channel* c
 
 void __cdecl c_network_message_handler::handle_player_add(c_network_channel* channel, s_network_message_player_add const* message)
 {
-	DECLFUNC(0x0049D7F0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_add const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D7F0, c_network_message_handler::handle_player_add, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->is_host())
@@ -1209,7 +1209,7 @@ void __cdecl c_network_message_handler::handle_player_add(c_network_channel* cha
 
 void __cdecl c_network_message_handler::handle_player_refuse(c_network_channel* channel, s_network_message_player_refuse const* message)
 {
-	DECLFUNC(0x0049D8D0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_refuse const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D8D0, c_network_message_handler::handle_player_refuse, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->channel_is_authoritative())
@@ -1231,7 +1231,7 @@ void __cdecl c_network_message_handler::handle_player_refuse(c_network_channel* 
 
 void __cdecl c_network_message_handler::handle_player_remove(c_network_channel* channel, s_network_message_player_remove const* message)
 {
-	DECLFUNC(0x0049D940, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_remove const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D940, c_network_message_handler::handle_player_remove, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->is_host())
@@ -1275,7 +1275,7 @@ void __cdecl c_network_message_handler::handle_player_properties(c_network_chann
 
 void __cdecl c_network_message_handler::handle_parameters_update(c_network_channel* channel, s_network_message_parameters_update const* message)
 {
-	DECLFUNC(0x0049D550, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_parameters_update const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D550, c_network_message_handler::handle_parameters_update, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->handle_parameters_update())
@@ -1296,7 +1296,7 @@ void __cdecl c_network_message_handler::handle_parameters_update(c_network_chann
 
 void __cdecl c_network_message_handler::handle_parameters_request(c_network_channel* channel, s_network_message_parameters_request const* message)
 {
-	DECLFUNC(0x0049D4E0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_parameters_request const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D4E0, c_network_message_handler::handle_parameters_request, channel, message);
 
 	//c_network_session* session = m_session_manager->get_session(&message->session_id);
 	//if (session && session->is_host())
@@ -1317,12 +1317,12 @@ void __cdecl c_network_message_handler::handle_parameters_request(c_network_chan
 
 void __cdecl c_network_message_handler::handle_view_establishment(c_network_channel* channel, s_network_message_view_establishment const* message)
 {
-	DECLFUNC(0x0049DEC0, void, __cdecl, c_network_channel*, s_network_message_view_establishment const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049DEC0, c_network_message_handler::handle_view_establishment, channel, message);
 }
 
 void __cdecl c_network_message_handler::handle_player_acknowledge(c_network_channel* channel, s_network_message_player_acknowledge const* message)
 {
-	DECLFUNC(0x0049D780, void, __cdecl, c_network_channel*, s_network_message_player_acknowledge const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049D780, c_network_message_handler::handle_player_acknowledge, channel, message);
 
 	//c_simulation_view* view = simulation_get_remote_view_by_channel(channel);
 	//if (view && view->is_client_view())
@@ -1346,7 +1346,7 @@ void __cdecl c_network_message_handler::handle_player_acknowledge(c_network_chan
 
 void __cdecl c_network_message_handler::handle_synchronous_update(c_network_channel* channel, s_network_message_synchronous_update const* message)
 {
-	DECLFUNC(0x0049DDA0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_synchronous_update const*)(this, channel, message);
+	INVOKE_CLASS_MEMBER(0x0049DDA0, c_network_message_handler::handle_synchronous_update, channel, message);
 
 	//if (c_simulation_view* view = simulation_get_remote_view_by_channel(channel))
 	//{
@@ -1379,12 +1379,12 @@ void __cdecl c_network_message_handler::handle_synchronous_update(c_network_chan
 
 void __cdecl c_network_message_handler::handle_synchronous_playback_control(c_network_channel* channel, s_network_message_synchronous_playback_control const* message)
 {
-	DECLFUNC(0x0049DD10, void, __cdecl, c_network_channel*, s_network_message_synchronous_playback_control const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049DD10, c_network_message_handler::handle_synchronous_playback_control, channel, message);
 }
 
 void __cdecl c_network_message_handler::handle_synchronous_actions(c_network_channel* channel, s_network_message_synchronous_actions const* message)
 {
-	DECLFUNC(0x0049DB80, void, __cdecl, c_network_channel*, s_network_message_synchronous_actions const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049DB80, c_network_message_handler::handle_synchronous_actions, channel, message);
 
 	//if (c_simulation_view* view = simulation_get_remote_view_by_channel(channel))
 	//{
@@ -1417,7 +1417,7 @@ void __cdecl c_network_message_handler::handle_synchronous_actions(c_network_cha
 
 void __cdecl c_network_message_handler::handle_synchronous_acknowledge(c_network_channel* channel, s_network_message_synchronous_acknowledge const* message)
 {
-	DECLFUNC(0x0049DB00, void, __cdecl, c_network_channel*, s_network_message_synchronous_acknowledge const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049DB00, c_network_message_handler::handle_synchronous_acknowledge, channel, message);
 
 	//if (c_simulation_view* view = simulation_get_remote_view_by_channel(channel))
 	//{
@@ -1450,7 +1450,7 @@ void __cdecl c_network_message_handler::handle_synchronous_acknowledge(c_network
 
 void __cdecl c_network_message_handler::handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long additional_data_size, void const* additional_data)
 {
-	DECLFUNC(0x0049DC70, void, __cdecl, c_network_channel*, s_network_message_synchronous_gamestate const*, long, void const*)(channel, message, additional_data_size, additional_data);
+	INVOKE_CLASS_MEMBER(0x0049DC70, c_network_message_handler::handle_synchronous_gamestate, channel, message, additional_data_size, additional_data);
 
 	//if (additional_data_size == message->chunk_size)
 	//{
@@ -1492,7 +1492,7 @@ void __cdecl c_network_message_handler::handle_synchronous_gamestate(c_network_c
 
 void __cdecl c_network_message_handler::handle_distributed_game_results(c_network_channel* channel, s_network_message_distributed_game_results const* message)
 {
-	DECLFUNC(0x0049CE40, void, __cdecl, c_network_channel*, s_network_message_distributed_game_results const*)(channel, message);
+	INVOKE_CLASS_MEMBER(0x0049CE40, c_network_message_handler::handle_distributed_game_results, channel, message);
 
 	//c_simulation_view* view = simulation_get_remote_view_by_channel(channel);
 	//if (view && view->view_type() == _simulation_view_type_distributed_to_remote_authority)
@@ -1512,7 +1512,7 @@ void __cdecl c_network_message_handler::handle_distributed_game_results(c_networ
 
 void __cdecl c_network_message_handler::handle_synchronous_client_ready(c_network_channel* channel)
 {
-	DECLFUNC(0x0049DC10, void, __cdecl, c_network_channel*)(channel);
+	INVOKE_CLASS_MEMBER(0x0049DC10, c_network_message_handler::handle_synchronous_client_ready, channel);
 
 	//c_simulation_view* view = simulation_get_remote_view_by_channel(channel);
 	//if (view && view->view_type() == _simulation_view_type_synchronous_to_remote_client)

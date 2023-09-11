@@ -441,14 +441,14 @@ void __cdecl c_bitstream::write_secure_address(char const* name, s_transport_sec
 	DECLFUNC(0x0055A410, void, __thiscall, c_bitstream const*, char const*, s_transport_secure_address const*)(this, name, address);
 }
 
-void __cdecl c_bitstream::write_string(char const* name, char const* _string, long max_string_size)
+void __cdecl c_bitstream::write_string(char const* name, char const* string, long max_string_size)
 {
 	ASSERT(writing());
-	ASSERT(_string);
+	ASSERT(string);
 	ASSERT(max_string_size > 0);
-	//ASSERT(strnlen(_string, max_string_size) < max_string_size);
+	ASSERT((long)csstrnlen(string, (dword)max_string_size) < max_string_size);
 
-	DECLFUNC(0x0055A430, void, __thiscall, c_bitstream const*, char const*, char const*, long)(this, name, _string, max_string_size);
+	DECLFUNC(0x0055A430, void, __thiscall, c_bitstream const*, char const*, char const*, long)(this, name, string, max_string_size);
 }
 
 void __cdecl c_bitstream::write_string_utf8(char const* name, utf8 const* char_string, long max_string_size)
@@ -456,17 +456,17 @@ void __cdecl c_bitstream::write_string_utf8(char const* name, utf8 const* char_s
 	ASSERT(writing());
 	ASSERT(char_string);
 	ASSERT(max_string_size > 0);
-	//ASSERT(strnlen(char_string, max_string_size) < max_string_size);
+	ASSERT((long)csstrnlen(char_string, (dword)max_string_size) < max_string_size);
 
 	DECLFUNC(0x0055A650, void, __thiscall, c_bitstream const*, char const*, utf8 const*, long)(this, name, char_string, max_string_size);
 }
 
-void __cdecl c_bitstream::write_string_wchar(char const* name, wchar_t const* _string, long max_string_size)
+void __cdecl c_bitstream::write_string_wchar(char const* name, wchar_t const* string, long max_string_size)
 {
 	ASSERT(writing());
-	ASSERT(_string);
+	ASSERT(string);
 	ASSERT(max_string_size > 0);
 
-	DECLFUNC(0x0055A6D0, void, __thiscall, c_bitstream const*, char const*, wchar_t const*, long)(this, name, _string, max_string_size);
+	DECLFUNC(0x0055A6D0, void, __thiscall, c_bitstream const*, char const*, wchar_t const*, long)(this, name, string, max_string_size);
 }
 

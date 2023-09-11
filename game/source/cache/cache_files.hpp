@@ -166,7 +166,7 @@ struct s_file_reference_persist
 	tag signture;
 	word_flags flags;
 	short location;
-	char path[108];
+	c_static_string<108> path;
 	dword handle;
 	long position;
 };
@@ -174,7 +174,7 @@ static_assert(sizeof(s_file_reference_persist) == 0x7C);
 
 struct s_cache_file_report
 {
-	char __unknown0[32];
+	c_static_string<32> __string0;
 	dword hash[5];
 	s_file_reference_persist file_reference;
 	dword __unknownB0[20];
@@ -188,6 +188,8 @@ static_assert(sizeof(s_cache_file_report) == 0x114);
 
 struct s_cache_file_reports
 {
+	void __thiscall load(s_cache_file_header* header);
+
 	long count;
 	s_cache_file_report* elements;
 };

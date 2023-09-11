@@ -180,7 +180,7 @@ void c_http_post_stream::build_headers()
 
 bool c_http_post_stream::verify_necessary_state_is_set()
 {
-	return DECLFUNC(0x00433000, bool, __thiscall, c_http_post_stream*)(this);
+	return INVOKE_CLASS_MEMBER(0x00433000, c_http_post_stream::verify_necessary_state_is_set);
 }
 
 bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read)
@@ -188,7 +188,7 @@ bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read
 	ASSERT(buffer);
 	ASSERT(bytes_read);
 
-	return DECLFUNC(0x00432AD0, bool, __thiscall, c_http_post_stream*, char*, long, long*)(this, buffer, buffer_length, bytes_read);
+	return INVOKE_CLASS_MEMBER(0x00432AD0, c_http_post_stream::read, buffer, buffer_length, bytes_read);
 }
 
 long c_http_post_stream::get_length()

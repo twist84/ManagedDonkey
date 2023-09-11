@@ -4,7 +4,7 @@
 
 s_structure_bsp_resources* c_structure_bsp_resource_interface::get_resources() const
 {
-    return DECLFUNC(0x004E9550, s_structure_bsp_resources*, __thiscall, c_structure_bsp_resource_interface const*)(this);
+	return INVOKE_CLASS_MEMBER(0x004E9550, c_structure_bsp_resource_interface::get_resources);
 
 	//if (use_resource_items)
 	//{

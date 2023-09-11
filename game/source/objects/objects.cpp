@@ -160,17 +160,17 @@ long c_object_iterator_base::get_index()
 
 void __cdecl c_object_iterator_base::object_iterator_begin_internal(dword_flags type_flags, dword header_mask, dword match_flags, long object_index)
 {
-	DECLFUNC(0x00B2F4B0, void, __thiscall, c_object_iterator_base*, dword_flags, dword, dword, long)(this, type_flags, header_mask, match_flags, object_index);
+	INVOKE_CLASS_MEMBER(0x00B2F4B0, c_object_iterator_base::object_iterator_begin_internal, type_flags, header_mask, match_flags, object_index);
 }
 
 bool __cdecl c_object_iterator_base::object_iterator_next_internal()
 {
-	return DECLFUNC(0x00B2F500, bool, __thiscall, c_object_iterator_base*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B2F500, c_object_iterator_base::object_iterator_next_internal);
 }
 
 bool __cdecl c_object_iterator_base::object_iterator_next_with_match_flags_internal()
 {
-	return DECLFUNC(0x00B2F5A0, bool, __thiscall, c_object_iterator_base*)(this);
+	return INVOKE_CLASS_MEMBER(0x00B2F5A0, c_object_iterator_base::object_iterator_next_with_match_flags_internal);
 }
 
 object_datum* __cdecl c_object_iterator_base::get_datum_internal()
