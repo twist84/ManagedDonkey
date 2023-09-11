@@ -28,7 +28,7 @@ HOOK_DECLARE_CALL(0x004607F4, network_message_handler_handle_channel_message);
 
 void __cdecl c_network_message_handler::handle_out_of_band_message(transport_address const* address, e_network_message_type message_type, long message_storage_size, void const* message_storage)
 {
-	//INVOKE_CLASS_MEMBER(0x0049D2C0, c_network_message_handler::handle_out_of_band_message, address, message_type, message_storage_size, message_storage);
+	//DECLFUNC(0x0049D2C0, void, __thiscall, c_network_message_handler*, transport_address const*, e_network_message_type, long, void const*)(this, address, message_type, message_storage_size, message_storage);
 
 	ASSERT(m_initialized);
 
@@ -174,7 +174,7 @@ void __cdecl c_network_message_handler::handle_out_of_band_message(transport_add
 
 void __cdecl c_network_message_handler::handle_channel_message(c_network_channel* channel, e_network_message_type message_type, long message_storage_size, void const* message_storage)
 {
-	//INVOKE_CLASS_MEMBER(0x0049C470, c_network_message_handler::handle_channel_message, channel, message_type, message_storage_size, message_storage);
+	//DECLFUNC(0x0049C470, void, __thiscall, c_network_message_handler*, c_network_channel*, e_network_message_type, long, void const*)(this, channel, message_type, message_storage_size, message_storage);
 
 	ASSERT(m_initialized);
 
@@ -627,7 +627,7 @@ void __cdecl c_network_message_handler::handle_channel_message(c_network_channel
 
 void __cdecl c_network_message_handler::handle_ping(transport_address const* address, s_network_message_ping const* message)
 {
-	//INVOKE_CLASS_MEMBER(0x0049D720, c_network_message_handler::handle_ping, address, message);
+	//DECLFUNC(0x0049D720, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_ping const*)(this, address, message);
 
 	c_console::write_line("networking:test:ping: ping #%d received from '%s' at local %dms",
 		message->id,
@@ -645,7 +645,7 @@ void __cdecl c_network_message_handler::handle_ping(transport_address const* add
 
 void __cdecl c_network_message_handler::handle_pong(transport_address const* address, s_network_message_pong const* message)
 {
-	//INVOKE_CLASS_MEMBER(0x0049D9B0, c_network_message_handler::handle_pong, address, message);
+	//DECLFUNC(0x0049D9B0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_pong const*)(this, address, message);
 
 	c_console::write_line("networking:test:ping: ping #%d returned from '%s' at local %dms (latency %dms)",
 		message->id,
@@ -656,7 +656,7 @@ void __cdecl c_network_message_handler::handle_pong(transport_address const* add
 
 void __cdecl c_network_message_handler::handle_broadcast_search(transport_address const* address, s_network_message_broadcast_search const* message)
 {
-	//INVOKE_CLASS_MEMBER(0x0049C310, c_network_message_handler::handle_broadcast_search, address, message);
+	//DECLFUNC(0x0049C310, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_broadcast_search const*)(this, address, message);
 
 	if (message->protocol_version != k_network_protocol_version)
 	{
@@ -725,7 +725,7 @@ void __cdecl c_network_message_handler::handle_directed_search(transport_address
 
 void __cdecl c_network_message_handler::handle_broadcast_reply(transport_address const* address, s_network_message_broadcast_reply const* message)
 {
-	//INVOKE_CLASS_MEMBER(0x0049C2B0, c_network_message_handler::handle_broadcast_reply, address, message);
+	//DECLFUNC(0x0049C2B0, void, __cdecl, transport_address const*, s_network_message_broadcast_reply const*)(address, message);
 
 	if (message->protocol_version == k_network_protocol_version)
 	{
@@ -1253,7 +1253,7 @@ void __cdecl c_network_message_handler::handle_player_remove(c_network_channel* 
 
 void __cdecl c_network_message_handler::handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message)
 {
-	//INVOKE_CLASS_MEMBER(0x0049D860, c_network_message_handler::handle_player_properties, channel, message);
+	//DECLFUNC(0x0049D860, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_properties const*)(this, channel, message);
 
 	c_network_session* session = m_session_manager->get_session(&message->session_id);
 	if (session && session->is_host())

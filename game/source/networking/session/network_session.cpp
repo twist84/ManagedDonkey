@@ -48,7 +48,7 @@ c_network_session_parameters const* c_network_session::get_session_parameters() 
 
 c_network_session_parameters* c_network_session::get_session_parameters()
 {
-	//return INVOKE_CLASS_MEMBER(0x0045C2A0, c_network_session::get_session_parameters);
+	//return DECLFUNC(0x0045C2A0, c_network_session_parameters*, __thiscall, c_network_session*)(this);
 
 	return &m_session_parameters;
 }
@@ -97,7 +97,7 @@ e_network_session_mode c_network_session::session_mode() const
 
 bool __cdecl c_network_session::handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message)
 {
-	//return INVOKE_CLASS_MEMBER(0x004DAEC0, c_network_session::handle_player_properties, channel, message);
+	//return DECLFUNC(0x004DAEC0, bool, __thiscall, c_network_session*, c_network_channel*, s_network_message_player_properties const*)(this, channel, message);
 
 	if (established() && is_host())
 	{

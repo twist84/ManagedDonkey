@@ -16,6 +16,6 @@ void __cdecl c_contrail::render_callback(void const* a1, long a2)
 
 void __cdecl c_contrail::render() const
 {
-	INVOKE_CLASS_MEMBER(0x007572B0, c_contrail::render);
+	DECLFUNC(0x007572B0, void, __thiscall, c_contrail const*)(this);
 }
 

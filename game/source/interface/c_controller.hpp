@@ -36,12 +36,12 @@ public:
 		k_controller_state_flags
 	};
 
-	bool __cdecl is_attached();
-	bool __cdecl in_use();
-	bool __cdecl is_signed_in_to_machine();
-	short __cdecl get_user_index();
-	void __cdecl get_player_identifier(s_player_identifier* out_player_identifier);
-	qword __cdecl get_player_xuid();
+	bool is_attached();
+	bool in_use();
+	bool is_signed_in_to_machine();
+	short get_user_index();
+	void get_player_identifier(s_player_identifier* out_player_identifier);
+	qword get_player_xuid();
 
 	c_flags<e_controller_state_flags, short, k_controller_state_flags> m_state_flags;
 	short m_user_index;

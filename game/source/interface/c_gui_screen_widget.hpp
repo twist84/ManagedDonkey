@@ -77,8 +77,8 @@ struct c_game_tag_parser;
 struct c_gui_screen_widget : public c_gui_widget
 {
 public:
-	c_gui_data* __cdecl get_data(long name, long* datasource_index);
-	e_window_index __cdecl get_render_window();
+	c_gui_data* get_data(long name, long* datasource_index);
+	e_window_index get_render_window();
 
 protected:
 	void add_datasource(c_gui_data* datasource);

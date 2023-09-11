@@ -34,11 +34,11 @@ real __cdecl c_editor_director::get_speed()
 
 void __cdecl c_editor_director::set_position_and_roll(real_point3d const* position, euler_angles2d const* facing)
 {
-	INVOKE_CLASS_MEMBER(0x00728320, c_editor_director::set_position_and_roll, position, facing);
+	DECLFUNC(0x00728320, void, __thiscall, c_editor_director const*, real_point3d const*, euler_angles2d const*)(this, position, facing);
 }
 
 void __cdecl c_editor_director::set_scripted(bool scripted)
 {
-	INVOKE_CLASS_MEMBER(0x00728410, c_editor_director::set_scripted, scripted);
+	DECLFUNC(0x00728410, void, __thiscall, c_editor_director const*, bool)(this, scripted);
 	console_printf("%s scripted camera mode", scripted ? "entering" : "exiting");
 }
