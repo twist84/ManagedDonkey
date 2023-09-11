@@ -56,7 +56,7 @@ void __cdecl c_network_link::attach_out_of_band(c_network_out_of_band_consumer* 
 
 bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_broadcast_option, transport_endpoint** out_endpoint)
 {
-	return DECLFUNC(0x0043B6F0, bool, __cdecl, e_transport_type, word, bool, transport_endpoint**)(type, port, set_broadcast_option, out_endpoint);
+	return INVOKE_CLASS_MEMBER(0x0043B6F0, c_network_link::create_endpoint, type, port, set_broadcast_option, out_endpoint);
 
 	//transport_endpoint* endpoint = transport_endpoint_create(type);
 	//if (!endpoint)
@@ -81,7 +81,7 @@ bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_
 
 bool __cdecl c_network_link::create_endpoints()
 {
-	//return DECLFUNC(0x0043B7C0, bool, __thiscall, c_network_link*)(this);
+	//return INVOKE_CLASS_MEMBER(0x0043B7C0, c_network_link::create_endpoints);
 
 	bool result = false;
 
@@ -117,7 +117,7 @@ bool c_network_link::decode_packet(long data_buffer_size, byte const* data_buffe
 
 void __cdecl c_network_link::destroy_endpoints()
 {
-	//DECLFUNC(0x0043B940, void, __thiscall, c_network_link*)(this);
+	//INVOKE_CLASS_MEMBER(0x0043B940, c_network_link::destroy_endpoints);
 
 	if (m_endpoint)
 	{

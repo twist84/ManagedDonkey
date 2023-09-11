@@ -36,33 +36,33 @@ void __cdecl controllers_render()
 	INVOKE(0x00A7D180, controllers_render);
 }
 
-bool c_controller_interface::is_attached()
+bool __cdecl c_controller_interface::is_attached()
 {
 	return m_state_flags.test(_controller_state_flag_attached);
 }
 
-bool c_controller_interface::in_use()
+bool __cdecl c_controller_interface::in_use()
 {
 	return is_signed_in_to_machine() || m_state_flags.test(_controller_state_flag_unsigned_in_user);
 }
 
-bool c_controller_interface::is_signed_in_to_machine()
+bool __cdecl c_controller_interface::is_signed_in_to_machine()
 {
-	return DECLFUNC(0x00A7D8A0, bool, __thiscall, c_controller_interface*)(this);
+	return INVOKE_CLASS_MEMBER(0x00A7D8A0, c_controller_interface::is_signed_in_to_machine);
 }
 
-short c_controller_interface::get_user_index()
+short __cdecl c_controller_interface::get_user_index()
 {
 	return m_user_index;
 }
 
-void c_controller_interface::get_player_identifier(s_player_identifier* out_player_identifier)
+void __cdecl c_controller_interface::get_player_identifier(s_player_identifier* out_player_identifier)
 {
-	DECLFUNC(0x00A7D500, void, __thiscall, c_controller_interface*, s_player_identifier*)(this, out_player_identifier);
+	INVOKE_CLASS_MEMBER(0x00A7D500, c_controller_interface::get_player_identifier, out_player_identifier);
 }
 
-qword c_controller_interface::get_player_xuid()
+qword __cdecl c_controller_interface::get_player_xuid()
 {
-	return DECLFUNC(0x00A7D540, qword, __thiscall, c_controller_interface*)(this);
+	return INVOKE_CLASS_MEMBER(0x00A7D540, c_controller_interface::get_player_xuid);
 }
 

@@ -73,7 +73,7 @@ bool c_http_get_stream::verify_necessary_state_is_set()
 
 bool c_http_get_stream::read(char* buffer, long buffer_length, long* bytes_read)
 {
-	//bool success = DECLFUNC(0x00432A10, bool, __thiscall, c_http_get_stream*, char*, long, long*)(this, buffer, buffer_length, bytes_read);
+	//return INVOKE_CLASS_MEMBER(0x00432A10, c_http_get_stream::read, buffer, buffer_length, bytes_read);
 
 	ASSERT(buffer);
 	ASSERT(bytes_read);
@@ -144,7 +144,7 @@ c_http_post_stream::c_http_post_stream() :
 
 void c_http_post_stream::build_headers()
 {
-	//DECLFUNC(0x00432720, void, __thiscall, c_http_post_stream*)(this);
+	//INVOKE_CLASS_MEMBER(0x00432720, c_http_post_stream::build_headers);
 
 	if (m_post_source.__unknown138)
 	{
@@ -193,7 +193,7 @@ bool c_http_post_stream::read(char* buffer, long buffer_length, long* bytes_read
 
 long c_http_post_stream::get_length()
 {
-	//return DECLFUNC(0x004328F0, long, __thiscall, c_http_post_stream*)(this);
+	//return INVOKE_CLASS_MEMBER(0x004328F0, c_http_post_stream::get_length);
 
 	return m_extra_headers_length
 		+ __stringC48_length
@@ -203,7 +203,7 @@ long c_http_post_stream::get_length()
 
 bool c_http_post_stream::at_end()
 {
-	//return DECLFUNC(0x004326B0, bool, __thiscall, c_http_post_stream*)(this);
+	//return INVOKE_CLASS_MEMBER(0x004326B0, c_http_post_stream::at_end);
 
 	return m_position == get_length();
 }

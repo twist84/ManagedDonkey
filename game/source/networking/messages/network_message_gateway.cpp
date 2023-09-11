@@ -97,7 +97,7 @@ bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
 
 bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet)
 {
-	//return DECLFUNC(0x00483E80, bool, __thiscall, c_network_message_gateway*, transport_address const*, c_bitstream*)(this, incoming_address, packet);
+	//return INVOKE_CLASS_MEMBER(0x00483E80, c_network_message_gateway::receive_out_of_band_packet, incoming_address, packet);
 
 	bool result = true;
 
@@ -184,7 +184,7 @@ bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_add
 
 void __cdecl c_network_message_gateway::send_all_pending_messages()
 {
-	//DECLFUNC(0x00483F50, bool, __thiscall, c_network_message_gateway*)(this);
+	//INVOKE_CLASS_MEMBER(0x00483F50, c_network_message_gateway::send_all_pending_messages);
 
 	ASSERT(m_initialized);
 
@@ -235,7 +235,7 @@ void __cdecl c_network_message_gateway::send_all_pending_messages()
 
 bool __cdecl c_network_message_gateway::send_message_broadcast(e_network_message_type message_type, long data_size, void const* data, word port)
 {
-	//return DECLFUNC(0x00484080, bool, __thiscall, c_network_message_gateway*, e_network_message_type, long, void const*, word)(this, message_type, data_size, data, port);
+	//return INVOKE_CLASS_MEMBER(0x00484080, c_network_message_gateway::send_message_broadcast, message_type, data_size, data, port);
 
 	transport_address outgoing_address{};
 	transport_get_broadcast_address(&outgoing_address, port);
@@ -244,7 +244,7 @@ bool __cdecl c_network_message_gateway::send_message_broadcast(e_network_message
 
 bool __cdecl c_network_message_gateway::send_message_directed(transport_address const* outgoing_address, e_network_message_type message_type, long data_size, void const* data)
 {
-	//return DECLFUNC(0x004840C0, bool, __thiscall, c_network_message_gateway*, transport_address const*, e_network_message_type, long, void const*)(this, outgoing_address, message_type, data_size, data);
+	//return INVOKE_CLASS_MEMBER(0x004840C0, c_network_message_gateway::send_message_directed, outgoing_address, message_type, data_size, data);
 
 	ASSERT(outgoing_address);
 	ASSERT(transport_address_valid(outgoing_address));
@@ -326,7 +326,7 @@ void __cdecl c_network_message_gateway::send_pending_messages_to_address(transpo
 
 void __cdecl c_network_message_gateway::write_packet_header()
 {
-	//DECLFUNC(0x004842D0, void, __thiscall, c_network_message_gateway*)(this);
+	//INVOKE_CLASS_MEMBER(0x004842D0, c_network_message_gateway::write_packet_header);
 
 	ASSERT(m_outgoing_packet_pending);
 

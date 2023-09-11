@@ -22,6 +22,7 @@
 
 // give the full function name including class
 #define INVOKE_CLASS_MEMBER(ADDR, NAME, ...) (this->*static_to_member_t<decltype(&NAME)>{ .address = ADDR }.function)(__VA_ARGS__)
+#define INVOKE_CLASS_MEMBER2(PTR, NAME, ...) (this->*static_to_member_t<decltype(&NAME)>{ .pointer = PTR }.function)(__VA_ARGS__)
 
 
 #define OFFSETOF(s,m) __builtin_offsetof(s,m)

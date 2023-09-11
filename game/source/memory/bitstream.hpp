@@ -117,9 +117,9 @@ public:
 	real __cdecl read_quantized_real(char const* name, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	qword __cdecl read_qword_internal(long size_in_bits);
 	void __cdecl read_secure_address(char const* name, s_transport_secure_address* address);
-	void __cdecl read_string(char const* name, char* _string, long max_string_size);
+	void __cdecl read_string(char const* name, char* string, long max_string_size);
 	void __cdecl read_string_utf8(char const* name, char* char_string, long max_string_size);
-	void __cdecl read_string_wchar(char const* name, wchar_t* _string, long max_string_size);
+	void __cdecl read_string_wchar(char const* name, wchar_t* string, long max_string_size);
 	void __cdecl read_vector(char const* name, vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
 
 	template<typename t_enum, long size_in_bits>

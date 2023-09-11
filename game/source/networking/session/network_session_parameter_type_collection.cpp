@@ -36,18 +36,7 @@ void c_network_session_parameter_type_collection::register_session_parameter_typ
 	parameter->change_request_size = change_request_size;
 	parameter->initialized = true;
 
-	//DECLFUNC(0x004D27A0,
-	//	void, __thiscall, c_network_session_parameter_type_collection const*,
-	//	e_network_session_parameter_type,
-	//	char const*,
-	//	encode_t*,
-	//	decode_t*,
-	//	long,
-	//	encode_t*,
-	//	decode_t*,
-	//	long
-	//)(
-	//	this,
+	//INVOKE_CLASS_MEMBER(0x004D27A0, c_network_session_parameter_type_collection::register_session_parameter_type,
 	//	session_parameter_type,
 	//	session_parameter_name,
 	//	update_encode,

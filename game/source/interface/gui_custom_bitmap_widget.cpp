@@ -69,8 +69,7 @@ void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_d
 		set_visible(true);
 	}
 
-	DECLFUNC(0x00B167B0, void, __thiscall, c_gui_custom_bitmap_widget*, void*, short_rectangle2d*, e_controller_index, bool, bool, bool)
-		(this, render_data, projected_bounds, controller_index, offset, scale_about_local_point, rotate_about_local_point);
+	return INVOKE_CLASS_MEMBER(0x00B167B0, c_gui_custom_bitmap_widget::_assemble_render_data, render_data, projected_bounds, controller_index, offset, scale_about_local_point, rotate_about_local_point);
 }
 
 void __cdecl c_gui_custom_bitmap_widget::clear()

@@ -133,7 +133,7 @@ s_blffile_map_variant::s_blffile_map_variant() :
 
 bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, bool* is_valid) const
 {
-	//return DECLFUNC(0x00573250, bool, __thiscall, s_blffile_map_variant const*, c_map_variant*, bool*)(this, map_variant, is_valid);
+	//return INVOKE_CLASS_MEMBER(0x00573250, s_blffile_map_variant::copy_to_and_validate, map_variant, is_valid);
 
 	bool byte_swap = false;
 	long chunk_size = 0;

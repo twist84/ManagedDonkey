@@ -163,12 +163,12 @@ bool __cdecl c_gui_widget::get_string_by_string_id(string_id name, c_static_wcha
 
 c_gui_list_item_widget* __cdecl c_gui_widget::get_next_list_item_widget(bool a1)
 {
-	return DECLFUNC(0x00AB9230, c_gui_list_item_widget*, __thiscall, c_gui_widget*, bool)(this, a1);
+	return INVOKE_CLASS_MEMBER(0x00AB9230, c_gui_widget::get_next_list_item_widget, a1);
 }
 
 void __cdecl c_gui_widget::set_visible(bool is_visible)
 {
-	DECLFUNC(0x00ABA7E0, c_gui_widget*, __thiscall, c_gui_widget*, bool)(this, is_visible);
+	INVOKE_CLASS_MEMBER(0x00ABA7E0, c_gui_widget::set_visible, is_visible);
 }
 
 c_gui_bitmap_widget* __cdecl c_gui_widget::get_child_bitmap_widget(string_id name)
@@ -203,12 +203,12 @@ c_gui_text_widget* __cdecl c_gui_widget::get_child_text_widget(string_id name)
 
 c_gui_widget* __cdecl c_gui_widget::get_child_widget(e_gui_widget_type widget_type, string_id name)
 {
-	return DECLFUNC(0x00AB8B00, c_gui_widget*, __thiscall, c_gui_widget*, e_gui_widget_type, string_id)(this, widget_type, name);
+	return INVOKE_CLASS_MEMBER(0x00AB8B00, c_gui_widget::get_child_widget, widget_type, name);
 }
 
 c_gui_widget* __cdecl c_gui_widget::get_first_child_widget_by_type(e_gui_widget_type widget_type)
 {
-	return DECLFUNC(0x00AB8F80, c_gui_widget*, __thiscall, c_gui_widget*, e_gui_widget_type)(this, widget_type);
+	return INVOKE_CLASS_MEMBER(0x00AB8F80, c_gui_widget::get_first_child_widget_by_type, widget_type);
 }
 
 void __thiscall c_gui_widget::get_unprojected_bounds(gui_real_rectangle2d* unprojected_bounds, bool a3, bool a4, bool a5)

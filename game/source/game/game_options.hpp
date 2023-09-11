@@ -29,13 +29,13 @@ public:
 	void encode_to_mcc(c_bitstream* packet) const;
 	bool decode_from_mcc(c_bitstream* packet);
 
-	void copy_from_and_validate(c_game_variant const* other);
-	void copy_from_unsafe(class c_game_variant const* other);
-	long get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
-	bool is_equal_to(c_game_variant const* other) const;
-	void recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
+	void __cdecl copy_from_and_validate(c_game_variant const* other);
+	void __cdecl copy_from_unsafe(c_game_variant const* other);
+	long __cdecl get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
+	bool __cdecl is_equal_to(c_game_variant const* other) const;
+	void __cdecl recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
 	e_game_engine_type get_game_engine_index() const;
-	void set_game_engine_index(e_game_engine_type game_engine_index);
+	void __cdecl set_game_engine_index(e_game_engine_type game_engine_index);
 
 	c_game_engine_base_variant const* get_active_variant() const;
 	c_game_engine_base_variant* get_active_variant_writeable();
@@ -65,8 +65,8 @@ public:
 	bool set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value);
 
 protected:
-	bool get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const;
-	bool set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value);
+	bool __cdecl get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const;
+	bool __cdecl set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value);
 
 	c_enum<e_game_engine_type, long, _game_engine_base_variant, k_game_engine_type_count> m_game_engine_index;
 	union
