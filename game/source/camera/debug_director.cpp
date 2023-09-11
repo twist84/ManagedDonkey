@@ -15,7 +15,7 @@ e_camera_mode k_debug_camera_modes[] = { _camera_mode_flying, _camera_mode_follo
 void c_debug_director::constructor(long user_index)
 {
 	changed_camera();
-	INVOKE_CLASS_MEMBER(0x007260D0, c_debug_director::constructor, user_index);
+	DECLFUNC(0x007260D0, void, __thiscall, c_director*, long)(this, user_index);
 }
 
 void c_debug_director::changed_camera()

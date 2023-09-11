@@ -4,12 +4,12 @@
 
 void c_network_session_manager::deregister_session(c_network_session* session)
 {
-	INVOKE_CLASS_MEMBER(0x0045F0A0, c_network_session_manager::deregister_session, session);
+	DECLFUNC(0x0045F0A0, void, __thiscall, c_network_session_manager*, c_network_session*)(this, session);
 }
 
 void c_network_session_manager::destroy_session_manager()
 {
-	INVOKE_CLASS_MEMBER(0x0045F0C0, c_network_session_manager::destroy_session_manager);
+	DECLFUNC(0x0045F0C0, void, __thiscall, c_network_session_manager*)(this);
 }
 
 c_network_session* c_network_session_manager::get_session(long index)
@@ -24,16 +24,16 @@ c_network_session* c_network_session_manager::get_session(s_transport_secure_ide
 
 c_network_session* c_network_session_manager::get_session_from_managed_session_index(long index)
 {
-	return INVOKE_CLASS_MEMBER(0x0045F120, c_network_session_manager::get_session_from_managed_session_index, index);
+	return DECLFUNC(0x0045F120, c_network_session*, __thiscall, c_network_session_manager*, long)(this, index);
 }
 
 bool c_network_session_manager::initialize_session_manager()
 {
-	return INVOKE_CLASS_MEMBER(0x0045F160, c_network_session_manager::initialize_session_manager);
+	return DECLFUNC(0x0045F160, bool, __thiscall, c_network_session_manager*)(this);
 }
 
 void c_network_session_manager::register_session(c_network_session* session)
 {
-	INVOKE_CLASS_MEMBER(0x0045F180, c_network_session_manager::register_session, session);
+	DECLFUNC(0x0045F180, void, __thiscall, c_network_session_manager*)(this);
 }
 

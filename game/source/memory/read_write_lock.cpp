@@ -16,27 +16,27 @@ c_read_write_lock::~c_read_write_lock()
 
 void __cdecl c_read_write_lock::read_lock()
 {
-	INVOKE_CLASS_MEMBER(0x006EF4D0, c_read_write_lock::read_lock);
+	DECLFUNC(0x006EF4D0, void, __thiscall, c_read_write_lock*)(this);
 }
 
 void __cdecl c_read_write_lock::read_unlock()
 {
-	INVOKE_CLASS_MEMBER(0x006EF4E0, c_read_write_lock::read_unlock);
+	DECLFUNC(0x006EF4E0, void, __thiscall, c_read_write_lock*)(this);
 }
 
 
 void __cdecl c_read_write_lock::setup(long critcal_section_index, long semaphore_index)
 {
-	INVOKE_CLASS_MEMBER(0x006EF4F0, c_read_write_lock::setup, critcal_section_index, semaphore_index);
+	DECLFUNC(0x006EF4F0, void, __thiscall, c_read_write_lock*, long, long)(this, critcal_section_index, semaphore_index);
 }
 
 void __cdecl c_read_write_lock::write_lock()
 {
-	INVOKE_CLASS_MEMBER(0x006EF530, c_read_write_lock::write_lock);
+	DECLFUNC(0x006EF530, void, __thiscall, c_read_write_lock*)(this);
 }
 
 void __cdecl c_read_write_lock::write_unlock()
 {
-	INVOKE_CLASS_MEMBER(0x006EF570, c_read_write_lock::write_unlock);
+	DECLFUNC(0x006EF570, void, __thiscall, c_read_write_lock*)(this);
 }
 

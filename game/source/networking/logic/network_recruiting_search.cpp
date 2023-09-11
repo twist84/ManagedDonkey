@@ -9,7 +9,7 @@ REFERENCE_DECLARE(0x0228E6E0, s_network_recruiting_search_globals, g_recruiting_
 
 void __cdecl c_recruiting_seeker::update()
 {
-	INVOKE_CLASS_MEMBER(0x004E6E20, c_recruiting_seeker::update);
+	DECLFUNC(0x004E6E20, void, __thiscall, c_recruiting_seeker*)(this);
 }
 
 bool __cdecl network_recruiting_search_begin(long controller_index,long squad_search_flags,long maximum_session_count, s_available_session* session_storage)

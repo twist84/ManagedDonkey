@@ -436,9 +436,9 @@ dword __cdecl compute_realtime_checksum(char* a1, int a2)
 	return INVOKE(0x00502300, compute_realtime_checksum, a1, a2);
 }
 
-void __thiscall s_cache_file_reports::load(s_cache_file_header* header)
+void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file_header* header)
 {
-	INVOKE_CLASS_MEMBER(0x00502500, s_cache_file_reports::load, header);
+	DECLFUNC(0x00502500, void, __thiscall, s_cache_file_reports*, s_cache_file_header*)(reports, header);
 }
 
 void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long>* resource_offsets)
@@ -816,7 +816,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 		cache_file_load_tags_section();
 
-		g_cache_file_globals.reports.load(&g_cache_file_globals.header);
+		cache_file_load_reports(&g_cache_file_globals.reports, &g_cache_file_globals.header);
 		cache_file_tags_load_allocate();
 
 		dword total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;

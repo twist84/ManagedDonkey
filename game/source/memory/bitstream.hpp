@@ -142,9 +142,9 @@ public:
 	void __cdecl write_quantized_real(char const* name, real* value, real min_value, real max_value, long size_in_bits, bool exact_midpoint, bool exact_endpoints);
 	void __cdecl write_qword_internal(qword value, long size_in_bits);
 	void __cdecl write_secure_address(char const* name, s_transport_secure_address const* address);
-	void __cdecl write_string(char const* name, char const* string, long max_string_size);
-	void __cdecl write_string_utf8(char const* name, utf8 const* char_string, long max_string_size);
-	void __cdecl write_string_wchar(char const* name, wchar_t const* string, long max_string_size);
+	void __cdecl write_string(char const* name, char const* _string, long max_string_size);
+	void __cdecl write_string_utf8(char const* name, utf8 const* _string, long max_string_size);
+	void __cdecl write_string_wchar(char const* name, wchar_t const* _string, long max_string_size);
 
 	template<typename t_enum, long size_in_bits>
 	void __cdecl write_enum(char const* name, t_enum value)

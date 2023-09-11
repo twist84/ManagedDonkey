@@ -129,7 +129,7 @@ bool c_network_session_parameter_base::change_request_allowed() const
 	//}
 	//return false;
 
-	return INVOKE_CLASS_MEMBER(0x00450C80, c_network_session_parameter_base::change_request_allowed);
+	return DECLFUNC(0x00450C80, bool, __thiscall, c_network_session_parameter_base const*)(this);
 }
 
 bool c_network_session_parameter_base::get_allowed() const
@@ -139,7 +139,7 @@ bool c_network_session_parameter_base::get_allowed() const
 
 char const* c_network_session_parameter_base::get_change_request_denied_reason() const
 {
-	return INVOKE_CLASS_MEMBER(0x00450D10, c_network_session_parameter_base::get_change_request_denied_reason);
+	return DECLFUNC(0x00450D10, char const*, __thiscall, c_network_session_parameter_base const*)(this);
 }
 
 char const* c_network_session_parameter_base::get_set_denied_reason() const
@@ -153,13 +153,13 @@ char const* c_network_session_parameter_base::get_set_denied_reason() const
 	//if (!m_session->is_host())
 	//	return "not host";
 
-	return INVOKE_CLASS_MEMBER(0x00450DD0, c_network_session_parameter_base::get_set_denied_reason);
+	return DECLFUNC(0x00450DD0, char const*, __thiscall, c_network_session_parameter_base const*)(this);
 }
 
 bool c_network_session_parameter_base::set_allowed() const
 {
 	//return m_session->established() && m_session()->is_host();
 
-	return INVOKE_CLASS_MEMBER(0x00451210, c_network_session_parameter_base::set_allowed);
+	return DECLFUNC(0x00451210, bool, __thiscall, c_network_session_parameter_base const*)(this);
 }
 

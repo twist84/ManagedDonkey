@@ -24,6 +24,6 @@ long c_network_observer::observer_channel_find_by_network_channel(long owner_typ
 
 void c_network_observer::observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data)
 {
-    INVOKE_CLASS_MEMBER(0x004474F0, c_network_observer::observer_channel_send_message, owner_type, observer_index, a3, message_type, data_size, data);
+    DECLFUNC(0x004474F0, void, __thiscall, c_network_observer*, long, long, bool, e_network_message_type, long, void const*)(this, owner_type, observer_index, a3, message_type, data_size, data);
 }
 

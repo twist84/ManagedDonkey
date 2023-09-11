@@ -183,7 +183,7 @@ void __cdecl c_network_channel::close(e_network_channel_closure_reason closure_r
 
 void __cdecl c_network_channel::open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier)
 {
-	INVOKE_CLASS_MEMBER(0x004603B0, c_network_channel::open, remote_address, send_connect_packets, channel_identifier);
+	DECLFUNC(0x004603B0, void, __thiscall, c_network_channel*, transport_address const*, bool, long)(this, remote_address, send_connect_packets, channel_identifier);
 
 	//ASSERT(remote_address && transport_address_valid(remote_address));
 	//ASSERT(allocated());

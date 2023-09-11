@@ -4,7 +4,7 @@
 
 void __cdecl c_draw_string::set_bounds(short_rectangle2d const* bounds)
 {
-	INVOKE_CLASS_MEMBER(0x00658D20, c_draw_string::set_bounds, bounds);
+	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, short_rectangle2d const*)(this, bounds);
 }
 
 void __cdecl c_draw_string::set_color(real_argb_color const* color)
@@ -49,8 +49,9 @@ void __cdecl c_draw_string::set_wrap_horizontally(bool wrap_horizontally)
 
 void __cdecl c_draw_string::text_bounds_draw_character(real a1, real a2, real a3, real a4)
 {
-	INVOKE_CLASS_MEMBER(0x00659340, c_draw_string::text_bounds_draw_character, a1, a2, a3, a4);
+	DECLFUNC(0x00659340, void, __thiscall, c_draw_string*, real, real, real, real)(this, a1, a2, a3, a4);
 }
+
 
 void __cdecl c_draw_string::set_scale(real scale)
 {
@@ -76,12 +77,12 @@ void __cdecl c_draw_string::set_justification(long justification)
 
 bool __cdecl c_draw_string::draw_more(c_font_cache_base* font_cache, char const* s)
 {
-	return INVOKE_CLASS_MEMBER(0x00657DD0, c_draw_string::draw_more, font_cache, s);
+	return DECLFUNC(0x00657DD0, bool, __thiscall, c_draw_string*, c_font_cache_base*, char const*)(this, font_cache, s);
 }
 
 short __cdecl c_draw_string::get_line_height() const
 {
-	return INVOKE_CLASS_MEMBER(0x00658440, c_draw_string::get_line_height);
+	return DECLFUNC(0x00658440, short, __thiscall, c_draw_string const*)(this);
 }
 
 c_font_cache_base::c_font_cache_base() :
@@ -94,7 +95,6 @@ c_font_cache_mt_safe::c_font_cache_mt_safe() :
 	m_locked()
 {
 	__vftable = reinterpret_cast<decltype(__vftable)>(0x0165FCCC);
-
 	DECLFUNC(0x00659650, void, __thiscall, c_font_cache_mt_safe*)(this);
 }
 
