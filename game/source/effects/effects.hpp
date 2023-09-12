@@ -60,16 +60,22 @@ static_assert(sizeof(s_effect_message) == 0x5C);
 
 struct s_geometry_sample
 {
-	real_point3d __unknown0;
-	byte __dataC[0x90];
-	byte __data9C[0x90];
-	byte __data12C[0x90];
+	real_point3d __point0;
+
+	real lightprobe_r[16];
+	byte __data4C[0x50];
+
+	real lightprobe_g[16];
+	byte __dataDC[0x50];
+
+	real lightprobe_b[16];
+	byte __data16C[0x50];
+
 	vector3d __vector1BC;
 	vector3d up;
 	vector3d __vector1D4;
 	real_rgb_color color;
-	float __unknown1EC;
-	byte __data1F0[8];
+	vector3d __vector1EC;
 };
 static_assert(sizeof(s_geometry_sample) == 0x1F8);
 
