@@ -6,13 +6,14 @@
 
 struct c_dynamic_cubemap_sample
 {
-	word __unknown0;
-	word __unknown2;
-	word __unknown4;
-	word __unknown6;
-	word __unknown8;
-	word __unknownA;
-	real __unknownC;
+	struct
+	{
+		s_cluster_reference cluster_reference;
+		short cluster_cubemap_index;
+		short cubemap_bitmap_index;
+	} __unknown0[2];
+
+	real m_cubemap_sample;
 };
 static_assert(sizeof(c_dynamic_cubemap_sample) == 0x10);
 
@@ -42,7 +43,7 @@ struct cached_object_render_state_datum : s_datum_header
 {
 	byte __unknown2;
 	byte __unknown3;
-	byte __data4[0x4];
+	bool __unknown4;
 	long object_index;
 	long __unknownC;
 	dword frame_index;
