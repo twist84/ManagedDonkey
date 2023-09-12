@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "effects/effects.hpp"
 
 long const k_maximum_item_markers = 6;
 
@@ -18,32 +17,7 @@ struct s_visible_object_hierarchy
 static_assert(sizeof(s_visible_object_hierarchy) == 0x10);
 #pragma pack(pop)
 
-struct c_dynamic_cubemap_sample
-{
-	word __unknown0;
-	word __unknown2;
-	word __unknown4;
-	word __unknown6;
-	word __unknown8;
-	word __unknownA;
-	real __unknownC;
-};
-static_assert(sizeof(c_dynamic_cubemap_sample) == 0x10);
-
-struct s_shader_extern_info
-{
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-	vector3d negative_up;
-	s_geometry_sample lightprobe_sample;
-	c_dynamic_cubemap_sample cubemap_sample;
-	dword __unknown224;
-	byte __data228[0x34];
-};
-static_assert(sizeof(s_shader_extern_info) == 0x25C);
-
+struct s_shader_extern_info;
 struct s_visible_object_render_visibility
 {
 	dword __unknown0;

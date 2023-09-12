@@ -26,6 +26,7 @@
 #include "physics/impacts.hpp"
 #include "physics/physics_constants.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
+#include "render/render_objects_static_lighting.hpp"
 #include "scenario/scenario_interpolators.hpp"
 #include "simulation/simulation_gamestate_entities.hpp"
 #include "structures/cluster_partitions.hpp"
@@ -71,12 +72,12 @@ struct s_hs_runtime_globals
 };
 static_assert(sizeof(s_hs_runtime_globals) == 0x8);
 
-struct hs_global_data : s_datum_header
+struct hs_global_datum : s_datum_header
 {
 	word __unknown2;
 	dword __unknown4;
 };
-static_assert(sizeof(hs_global_data) == 0x8);
+static_assert(sizeof(hs_global_datum) == 0x8);
 
 struct hs_distributed_global_data : s_datum_header
 {
@@ -378,12 +379,6 @@ struct s_depth_of_field
 	real __unknown3C;
 };
 static_assert(sizeof(s_depth_of_field) == 0x40);
-
-struct cached_object_render_state_datum : s_datum_header
-{
-	byte __data[0x4D6];
-};
-static_assert(sizeof(cached_object_render_state_datum) == 0x4D8);
 
 enum e_implicit_transparent_type
 {
@@ -710,7 +705,7 @@ struct s_thread_local_storage
 	//  name: "hs globals"
 	// count: 3072
 	//  size: 0x8
-	c_smart_data_array<hs_global_data> hs_global_data;
+	c_smart_data_array<hs_global_datum> hs_global_data;
 
 	//  name: "hs dist. globals"
 	// count: 512
