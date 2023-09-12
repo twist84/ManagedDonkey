@@ -48,6 +48,7 @@
 #include "physics/havok_entity_iterator.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/render_objects_static_lighting.hpp"
+#include "render/render_structure.hpp"
 #include "render/views/render_view.hpp"
 #include "screenshots/screenshots_uploader.hpp"
 #include "simulation/simulation.hpp"
@@ -244,6 +245,7 @@ void __cdecl main_loop_body_begin()
 		c_lights_view::g_debug_clip_planes;
 		c_visible_items::m_items;
 		c_visible_items::m_marker_indices;
+		g_render_structure_globals;
 
 		s_thread_local_storage* tls = get_tls();
 

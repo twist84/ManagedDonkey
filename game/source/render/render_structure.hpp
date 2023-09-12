@@ -223,3 +223,64 @@ struct large_collision_vertex
 };
 static_assert(sizeof(large_collision_vertex) == 0x14);
 
+struct s_render_cluster_part
+{
+	dword_flags flags;
+	s_cluster_reference cluster_reference;
+	word mesh_index;
+	word part_index;
+};
+static_assert(sizeof(s_render_cluster_part) == 0xC);
+
+struct render_instance_mesh
+{
+	dword_flags flags;
+	short structure_bsp_index;
+	word lightmap_instance_index;
+	word __unknown8;
+	word part_index;
+	byte __unknownC;
+};
+static_assert(sizeof(render_instance_mesh) == 0x10);
+
+struct scenario_lightmap_bsp_data_definition;
+struct s_render_geometry;
+struct render_structure_globals
+{
+	struct
+	{
+		dword_flags flags;
+		c_static_array<long, 16> lightmap_bsp_type;
+		c_static_array<scenario_lightmap_bsp_data_definition*, 16> lightmap_bsp_data;
+		c_static_array<s_render_geometry*, 16> render_geometry;
+	} cached;
+
+	c_static_sized_dynamic_array<s_render_cluster_part, 2048> render_cluster_parts;
+	c_static_sized_dynamic_array<render_instance_mesh, 3072> render_instance_meshes;
+
+	long marker_index;
+
+	struct
+	{
+		long __unknown0[1];
+
+		// __unknown4[0] == render_cluster_parts.m_count
+		long __unknown4[5];
+	} render_cluster_part_markers;
+
+	struct
+	{
+		long __unknown0[1];
+
+		// __unknown4[0] == render_instance_meshes.m_count
+		long __unknown4[5];
+	} render_instance_mesh_markers;
+
+	long scenario_sbsp_index;
+	long lightmap_cluster_reference;
+	long lightmap_instance_index;
+};
+static_assert(sizeof(render_structure_globals) == 0x1210C);
+
+extern render_structure_globals& g_render_structure_globals;
+
