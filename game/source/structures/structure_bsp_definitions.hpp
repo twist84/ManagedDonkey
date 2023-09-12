@@ -92,6 +92,14 @@ enum e_structure_cluster_flags
 	k_structure_cluster_flags
 };
 
+struct s_structure_cluster_cubemap_info
+{
+	real_point3d cubemap_position;
+	short scenario_cubemap_index;
+	short cubemap_bitmap_index;
+};
+static_assert(sizeof(s_structure_cluster_cubemap_info) == 0x10);
+
 struct structure_cluster
 {
 	real_rectangle3d bounds;
@@ -118,7 +126,7 @@ struct structure_cluster
 	s_tag_block decorator_groups;
 	s_tag_block pvs_bound_object_identifiers;
 	s_tag_block pvs_bound_object_references;
-	s_tag_block cluster_cubemaps;
+	c_typed_tag_block<s_structure_cluster_cubemap_info> cluster_cubemaps;
 };
 static_assert(sizeof(structure_cluster) == 0xDC);
 
