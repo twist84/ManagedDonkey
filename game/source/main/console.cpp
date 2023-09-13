@@ -17,7 +17,8 @@
 #include "networking/tools/remote_command.hpp"
 #include "objects/object_types.hpp"
 #include "physics/havok.hpp"
-#include "render/render_debug_structure.hpp"
+#include "physics/water_physics.hpp"
+#include "render/old_render_debug.hpp"
 #include "render/render_visibility.hpp"
 #include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
@@ -478,9 +479,26 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_player_only),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_markers),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_surface_references),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_soft_ceilings),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_soft_kill),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_slip_surfaces),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_cluster_skies),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_invisible),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_automatic),
+	//CONSOLE_GLOBAL_DECLARE_LONG(debug_plane_index),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_unique_colors),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_complexity),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_seam_edges),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry_bounding_spheres),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry_names),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry_vertex_counts),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_instanced_geometry_collision_geometry),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_zone_set_critical_portals),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_water),
+	CONSOLE_GLOBAL_DECLARE_BOOL(water_physics_debug),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_early_movers),

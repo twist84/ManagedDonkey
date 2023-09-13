@@ -406,6 +406,7 @@ POPD
     <ClCompile Include="source\physics\havok_utilities.cpp" />
     <ClCompile Include="source\physics\physics_constants.cpp" />
     <ClCompile Include="source\physics\physics_models.cpp" />
+    <ClCompile Include="source\physics\water_physics.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_d3d_allocations.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_dx9_dynamic_geometry.cpp" />
@@ -415,6 +416,7 @@ POPD
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_text.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_textures_xenon_formats.cpp" />
+    <ClCompile Include="source\render\old_render_debug.cpp" />
     <ClCompile Include="source\render\render.cpp" />
     <ClCompile Include="source\render\render_cameras.cpp" />
     <ClCompile Include="source\render\render_debug.cpp" />
@@ -873,6 +875,7 @@ POPD
     <ClInclude Include="source\physics\physics_constants.hpp" />
     <ClInclude Include="source\physics\physics_models.hpp" />
     <ClInclude Include="source\physics\physics_model_definitions.hpp" />
+    <ClInclude Include="source\physics\water_physics.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_d3d_allocations.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_globals.hpp" />
@@ -882,6 +885,7 @@ POPD
     <ClInclude Include="source\rasterizer\rasterizer_performance_throttles.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_text.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_textures_xenon_formats.hpp" />
+    <ClInclude Include="source\render\old_render_debug.hpp" />
     <ClInclude Include="source\render\render.hpp" />
     <ClInclude Include="source\render\render_cameras.hpp" />
     <ClInclude Include="source\render\render_debug.hpp" />

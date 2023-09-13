@@ -97,4 +97,5 @@ extern void __cdecl render_debug_build_circle_points(real radius, real_point2d* 
 extern void __cdecl render_debug_build_pill_points(real_point3d const* base, vector3d const* height, real radius, real_point3d* points0, real_point3d* points1, real_point3d* points2, real_point3d* points3, real_point3d* points4, real_point3d* points5);
 
 extern word __cdecl _random(dword* seed, char const* string, char const* file, dword line);
+extern real_point3d* __cdecl rectangle3d_center(real_rectangle3d const* rect, real_point3d* center);
 

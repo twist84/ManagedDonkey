@@ -1645,6 +1645,15 @@ word __cdecl _random(dword* seed, char const* string, char const* file, dword li
 	return HIWORD(*seed);
 }
 
+real_point3d* __cdecl rectangle3d_center(real_rectangle3d const* rect, real_point3d* center)
+{
+	center->x = 0.5f * (rect->x.lower + rect->x.upper);
+	center->y = 0.5f * (rect->y.lower + rect->y.upper);
+	center->z = 0.5f * (rect->z.lower + rect->z.upper);
+
+	return center;
+}
+
 c_render_debug_line_drawer::c_render_debug_line_drawer()
 {
 	short_rectangle2d fullscreen_render_pixel_bounds{};

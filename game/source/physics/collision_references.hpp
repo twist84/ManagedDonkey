@@ -44,6 +44,7 @@ public:
 	c_collision_surface_reference(c_collision_bsp_reference bsp_reference, long index);
 	byte_flags get_flags() const;
 	plane3d const* get_plane(plane3d* plane) const;
+	long get_plane_index() const;
 
 protected:
 	long m_surface_index;

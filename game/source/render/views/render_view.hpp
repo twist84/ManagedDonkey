@@ -104,7 +104,8 @@ static_assert(sizeof(c_fullscreen_view) == sizeof(c_view));
 struct c_world_view :
 	public c_view
 {
-protected:
+public:
+//protected:
 	s_location m_location;
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);

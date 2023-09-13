@@ -921,6 +921,12 @@
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_pre_game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\old_render_debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\physics\water_physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2475,6 +2481,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\memory\member_to_static.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\old_render_debug.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\water_physics.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

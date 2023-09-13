@@ -316,3 +316,77 @@ real_rectangle3d* __cdecl set_real_rectangle3d(real_rectangle3d* rect, real x_lo
 	return rect;
 }
 
+real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* enclosed_rect, real_point3d const* point)
+{
+	//return INVOKE(0x004FBD80, real_rectangle3d_enclose_point, enclosed_rect, point);
+
+	if (enclosed_rect->x.lower > point->x)
+		enclosed_rect->x.lower = point->x;
+
+	if (enclosed_rect->x.upper < point->x)
+		enclosed_rect->x.upper = point->x;
+
+	if (enclosed_rect->y.lower > point->y)
+		enclosed_rect->y.lower = point->y;
+
+	if (enclosed_rect->y.upper < point->y)
+		enclosed_rect->y.upper = point->y;
+
+	if (enclosed_rect->z.lower > point->z)
+		enclosed_rect->z.lower = point->z;
+
+	if (enclosed_rect->z.upper < point->z)
+		enclosed_rect->z.upper = point->z;
+
+	return enclosed_rect;
+}
+
+real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* enclosed_rect, long point_count, real_point3d const* points)
+{
+	//return INVOKE(0x004FBE40, real_rectangle3d_enclose_points, enclosed_rect, rect);
+
+	//ASSERT(valid_polygon3d(point_count, points));
+
+	for (long i = 0; i < point_count; i++)
+		real_rectangle3d_enclose_point(enclosed_rect, &points[i]);
+
+	return enclosed_rect;
+}
+
+real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* enclosed_rect, real_rectangle3d const* rect)
+{
+	//return INVOKE(0x004FBF30, real_rectangle3d_enclose_rectangle, enclosed_rect, rect);
+
+	real x_lower = enclosed_rect->x.lower;
+	if (x_lower > rect->x.lower)
+		x_lower = rect->x.lower;
+	enclosed_rect->x.lower = x_lower;
+
+	real x_upper = rect->x.upper;
+	if (enclosed_rect->x.upper > x_upper)
+		x_upper = enclosed_rect->x.upper;
+	enclosed_rect->x.upper = x_upper;
+
+	real y_lower = rect->y.lower;
+	if (enclosed_rect->y.lower <= y_lower)
+		y_lower = enclosed_rect->y.lower;
+	enclosed_rect->y.lower = y_lower;
+
+	real y_upper = rect->y.upper;
+	if (enclosed_rect->y.upper > y_upper)
+		y_upper = enclosed_rect->y.upper;
+	enclosed_rect->y.upper = y_upper;
+
+	real z_lower = rect->z.lower;
+	if (enclosed_rect->z.lower <= z_lower)
+		z_lower = enclosed_rect->z.lower;
+	enclosed_rect->z.lower = z_lower;
+
+	real z_upper = rect->z.upper;
+	if (enclosed_rect->z.upper > z_upper)
+		z_upper = enclosed_rect->z.upper;
+	enclosed_rect->z.upper = z_upper;
+
+	return enclosed_rect;
+}
+
