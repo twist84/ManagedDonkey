@@ -28,13 +28,8 @@ bool __cdecl player_control_get_machinima_camera_enabled()
 	return false;
 }
 
-bool g_flying_camera_use_old_controls = true;
-
 bool __cdecl player_control_get_machinima_camera_use_old_controls()
 {
-	if (g_flying_camera_use_old_controls && director_get(0)->get_type() == _director_mode_debug)
-		return true;
-
 	if (player_control_get_machinima_camera_enabled())
 		return player_control_globals_get()->machinima_camera_use_old_controls;
 
