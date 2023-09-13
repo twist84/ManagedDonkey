@@ -21,6 +21,7 @@
 #include "render/old_render_debug.hpp"
 #include "render/render_visibility.hpp"
 #include "render/render_water.hpp"
+#include "render/views/render_player_view.hpp"
 #include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
 #include "units/bipeds.hpp"
@@ -470,6 +471,11 @@ s_console_global const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_infinite_equipment_energy, cheat.infinite_equipment_energy),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
+
+	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_r),
+	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_g),
+	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_b),
+	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_depth_render),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_trigger_volumes),
 

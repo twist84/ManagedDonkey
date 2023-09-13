@@ -2,6 +2,11 @@
 
 #include "render/views/render_view.hpp"
 
+REFERENCE_DECLARE(0x019147BC, real, render_debug_depth_render_scale_r);
+REFERENCE_DECLARE(0x019147C0, real, render_debug_depth_render_scale_g);
+REFERENCE_DECLARE(0x019147C4, real, render_debug_depth_render_scale_b);
+REFERENCE_DECLARE(0x050FB3FC, long, render_debug_depth_render);
+
 void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3* camera)
 {
 	//INVOKE(0x00A39640, get_player_render_camera_orientation, camera);
