@@ -20,6 +20,7 @@
 #include "physics/water_physics.hpp"
 #include "render/old_render_debug.hpp"
 #include "render/render_visibility.hpp"
+#include "render/render_water.hpp"
 #include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
 #include "units/bipeds.hpp"
@@ -477,6 +478,11 @@ s_console_global const k_console_globals[] =
 	//CONSOLE_GLOBAL_DECLARE_LONG(debug_object_index),
 	//CONSOLE_GLOBAL_DECLARE_LONG(debug_objects_type_mask),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_player_only),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water, render_water_enabled),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_tessellated, render_water_tessellation_enabled),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_interaction, render_water_interaction_enabled),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_wireframe, render_water_wireframe_enabled),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_markers),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_surface_references),

@@ -426,6 +426,7 @@ POPD
     <ClCompile Include="source\render\render_objects_static_lighting.cpp" />
     <ClCompile Include="source\render\render_structure.cpp" />
     <ClCompile Include="source\render\render_visibility.cpp" />
+    <ClCompile Include="source\render\render_water.cpp" />
     <ClCompile Include="source\render\views\render_player_view.cpp" />
     <ClCompile Include="source\render\views\render_view.cpp" />
     <ClCompile Include="source\render\views\split_screen_config.cpp" />
@@ -897,6 +898,7 @@ POPD
     <ClInclude Include="source\render\render_structure.hpp" />
     <ClInclude Include="source\render\render_visibility.hpp" />
     <ClInclude Include="source\render\render_visibility_collection.hpp" />
+    <ClInclude Include="source\render\render_water.hpp" />
     <ClInclude Include="source\render\views\render_player_view.hpp" />
     <ClInclude Include="source\render\views\render_view.hpp" />
     <ClInclude Include="source\render\views\split_screen_config.hpp" />
