@@ -22,6 +22,7 @@ REFERENCE_DECLARE_ARRAY(0x018BABE8, real, pregame_frame_scales, 9);
 REFERENCE_DECLARE_ARRAY(0x0165DA08, s_render_fullscreen_text_context_colors, pregame_frame_colors, 9);
 
 HOOK_DECLARE(0x00A29220, render_debug_frame_render);
+HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
 
 //real pregame_frame_scales[9] =
 //{
@@ -202,6 +203,10 @@ void __cdecl render_debug_frame_render()
 void __cdecl render_debug_window_render(long user_index)
 {
 	// asserts
+
+	INVOKE(0x00A29230, render_debug_window_render, user_index);
+	//c_rasterizer::restore_last_viewport();
+	//c_rasterizer::set_depth_stencil_surface(4);
 
 	render_debug_begin(false, false, false);
 	render_debug_structure_draw();

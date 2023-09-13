@@ -14,7 +14,7 @@
 #include "simulation/simulation.hpp"
 #include "interface/terminal.hpp"
 
-HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
+//HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 
 bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
@@ -248,7 +248,7 @@ __declspec(naked) void main_render_view_inline()
         jmp dword ptr[esp]
 	}
 }
-HOOK_DECLARE(0x006046EB, main_render_view_inline);
+//HOOK_DECLARE(0x006046EB, main_render_view_inline);
 
 void __cdecl main_render_view(c_player_view* player_view, long player_index)
 {
