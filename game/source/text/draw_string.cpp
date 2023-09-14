@@ -198,3 +198,8 @@ c_chud_draw_string::c_chud_draw_string() :
 	DECLFUNC(0x00A95570, void, __thiscall, c_chud_draw_string*)(this);
 }
 
+real __cdecl draw_string_get_glyph_scaling_for_display_settings()
+{
+	return INVOKE(0x006582E0, draw_string_get_glyph_scaling_for_display_settings);
+}
+

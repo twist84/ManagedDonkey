@@ -8,11 +8,6 @@ REFERENCE_DECLARE(0x022B47FC, bool, display_framerate);
 
 bool display_frame_deltas = false;
 
-real __cdecl draw_string_get_glyph_scaling_for_display_settings()
-{
-	return INVOKE(0x006582E0, draw_string_get_glyph_scaling_for_display_settings);
-}
-
 void rasterizer_render_debug_frame_deltas()
 {
 	c_rasterizer_draw_string draw_string;

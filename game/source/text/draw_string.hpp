@@ -252,3 +252,5 @@ protected:
 };
 static_assert(sizeof(c_chud_draw_string) == sizeof(c_draw_string) + 0x18);
 
+extern real __cdecl draw_string_get_glyph_scaling_for_display_settings();
+
