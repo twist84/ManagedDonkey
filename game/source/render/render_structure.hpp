@@ -260,21 +260,8 @@ struct render_structure_globals
 
 	long marker_index;
 
-	struct
-	{
-		long __unknown0[1];
-
-		// __unknown4[0] == render_cluster_parts.m_count
-		long __unknown4[5];
-	} render_cluster_part_markers;
-
-	struct
-	{
-		long __unknown0[1];
-
-		// __unknown4[0] == render_instance_meshes.m_count
-		long __unknown4[5];
-	} render_instance_mesh_markers;
+	long render_cluster_part_markers[6];
+	long render_instance_mesh_markers[6];
 
 	long scenario_sbsp_index;
 	long lightmap_cluster_reference;
