@@ -945,6 +945,9 @@
     <ClCompile Include="source\interface\debug_menu\debug_menu_parse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\debug_menu\debug_menu_item_numbered.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2526,6 +2529,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\debug_menu\debug_menu_scroll.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\debug_menu\debug_menu_item_numbered.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\debug_menu\debug_menu_parse.hpp">
