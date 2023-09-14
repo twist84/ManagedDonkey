@@ -36,6 +36,12 @@ extern void debug_menu_set_active_menu(c_debug_menu* menu, bool active);
 extern void debug_menu_set_caption(short caption_index, char const* caption);
 extern char const* debug_menu_get_caption(short caption_index);
 extern long debug_menu_get_time();
+extern float debug_menu_get_item_margin();
+extern float debug_menu_get_item_width();
+extern float debug_menu_get_item_height();
+extern float debug_menu_get_title_height();
+extern float debug_menu_get_item_indent_x();
+extern float debug_menu_get_item_indent_y();
 extern void* debug_menu_malloc(long size);
 extern void debug_menu_parse(c_debug_menu* root_menu, char const* file_name);
 

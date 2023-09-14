@@ -157,6 +157,36 @@ gamepad_state const& debug_menu_get_last_gamepad_state()
 	return g_debug_menu_globals.last_gamepad_state;
 }
 
+float debug_menu_get_item_margin()
+{
+	return draw_string_get_glyph_scaling_for_display_settings() * 10.0f;
+}
+
+float debug_menu_get_item_width()
+{
+	return draw_string_get_glyph_scaling_for_display_settings() * 650.0f;
+}
+
+float debug_menu_get_item_height()
+{
+	return draw_string_get_glyph_scaling_for_display_settings() * 20.0f;
+}
+
+float debug_menu_get_title_height()
+{
+	return draw_string_get_glyph_scaling_for_display_settings() * 20.0f;
+}
+
+float debug_menu_get_item_indent_x()
+{
+	return draw_string_get_glyph_scaling_for_display_settings() * 40.0f;
+}
+
+float debug_menu_get_item_indent_y()
+{
+	return draw_string_get_glyph_scaling_for_display_settings() * 2.0f;
+}
+
 c_debug_menu* debug_menu_get_active_menu()
 {
 	return g_debug_menu_globals.active_menu;

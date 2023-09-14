@@ -65,6 +65,10 @@ public:
 	bool get_enabled();
 	void set_enabled(bool enable);
 
+	short get_title_height();
+	short get_item_indent();
+	short get_item_height();
+
 protected:
 	short m_num_items;
 	short m_selection;

@@ -474,3 +474,18 @@ void c_debug_menu::set_enabled(bool enable)
 	m_enabled = enable;
 }
 
+short c_debug_menu::get_title_height()
+{
+	return static_cast<short>(debug_menu_get_title_height());
+}
+
+short c_debug_menu::get_item_indent()
+{
+	return static_cast<short>(debug_menu_get_item_indent_x());
+}
+
+short c_debug_menu::get_item_height()
+{
+	return static_cast<short>(debug_menu_get_item_height());
+}
+
