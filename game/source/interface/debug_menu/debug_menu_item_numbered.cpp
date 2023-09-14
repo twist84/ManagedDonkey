@@ -67,3 +67,26 @@ short c_debug_menu_item_numbered::get_indent()
 	return 45;
 }
 
+void c_debug_menu_item_type::render(c_font_cache_base* font_cache, int16_point2d const& point)
+{
+}
+
+void c_debug_menu_item_type::to_string(char* buffer, long buffer_size)
+{
+}
+
+void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, int16_point2d const& point)
+{
+}
+
+c_debug_menu_item_type::c_debug_menu_item_type(c_debug_menu* menu, const char* name, bool readonly) :
+	c_debug_menu_item_numbered(menu, name, NULL),
+	m_readonly(readonly)
+{
+}
+
+bool c_debug_menu_item_type::get_readonly()
+{
+	return m_readonly;
+}
+
