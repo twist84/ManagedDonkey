@@ -393,19 +393,13 @@ static_assert(sizeof(mouse_state) == 0x2C);
 struct gamepad_state
 {
 	c_static_array<byte, 2> trigger_down_amount;
-
-	// max_trigger_down_amount
-	byte __unknown2[2];
-
+	c_static_array<byte, 2> max_trigger_down_amount;
 	c_static_array<byte, 2> trigger_down_frames;
-
 	c_static_array<byte, 14> buttons_down_frames;
 	c_static_array<word, 14> buttons_down_msec;
 
-	short thumb_left_x;
-	short thumb_left_y;
-	short thumb_right_x;
-	short thumb_right_y;
+	int16_point2d thumb_left;
+	int16_point2d thumb_right;
 
 	dword __unknown38;
 };
