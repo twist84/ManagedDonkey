@@ -894,6 +894,7 @@ POPD
     <ClInclude Include="source\render\render_debug_structure.hpp" />
     <ClInclude Include="source\render\render_error_report.hpp" />
     <ClInclude Include="source\render\render_lights.hpp" />
+    <ClInclude Include="source\render\render_objects.hpp" />
     <ClInclude Include="source\render\render_objects_static_lighting.hpp" />
     <ClInclude Include="source\render\render_patchy_fog.hpp" />
     <ClInclude Include="source\render\render_structure.hpp" />

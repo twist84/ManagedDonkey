@@ -26,6 +26,7 @@
 #include "physics/impacts.hpp"
 #include "physics/physics_constants.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
+#include "render/render_objects.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "scenario/scenario_interpolators.hpp"
 #include "simulation/simulation_gamestate_entities.hpp"
@@ -495,28 +496,6 @@ static_assert(sizeof(s_rasterizer_implicit_geometry_globals) == 0x2104);
 //		}
 //	}
 //}
-
-struct s_object_render_context
-{
-	byte __data0[0x10];
-};
-static_assert(sizeof(s_object_render_context) == 0x10);
-
-struct s_context_mesh_part
-{
-	byte __data0[0x1C];
-};
-static_assert(sizeof(s_context_mesh_part) == 0x1C);
-
-struct s_render_object_globals
-{
-	c_static_array<s_object_render_context, 1024> render_contexts;
-	long __unknown4000;
-
-	c_static_array<s_context_mesh_part, 8192> mesh_parts;
-	byte __data[0x3C];
-};
-static_assert(sizeof(s_render_object_globals) == 0x3C040);
 
 struct shield_render_cache_message : s_datum_header
 {
