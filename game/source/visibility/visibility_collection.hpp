@@ -21,10 +21,10 @@ struct s_shader_extern_info;
 struct s_visible_object_render_visibility
 {
 	dword __unknown0;
-	dword model_tag_index;
-	dword __unknown8;
+	long model_definition_index;
+	dword skinning_memory_designator;
 	byte __dataC[0x5C];
-	s_shader_extern_info* shader_extern_info;
+	s_shader_extern_info* render_info;
 	long object_index;
 	dword __unknown70;
 	byte_flags flags;
