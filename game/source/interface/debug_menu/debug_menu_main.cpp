@@ -6,8 +6,17 @@
 #include "interface/debug_menu/debug_menu.hpp"
 #include "main/main.hpp"
 #include "math/color_math.hpp"
+#include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "text/draw_string.hpp"
+
+void patch_debug_menu()
+{
+	patch_pointer({ .address = 0x01656850 }, debug_menu_initialize);
+	patch_pointer({ .address = 0x01656854 }, debug_menu_dispose);
+	patch_pointer({ .address = 0x01656858 }, debug_menu_initialize_for_new_map);
+	patch_pointer({ .address = 0x0165685C }, debug_menu_dispose_from_old_map);
+}
 
 struct s_debug_menu_globals
 {

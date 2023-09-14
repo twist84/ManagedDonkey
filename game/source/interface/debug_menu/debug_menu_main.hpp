@@ -16,6 +16,8 @@ extern real_argb_color const* const debug_real_argb_tv_green;
 
 extern bool debug_menu_enabled;
 
+extern void patch_debug_menu();
+
 extern void debug_menu_draw_rect(short, short, short, short, float, real_argb_color const*);
 extern bool debug_menu_get_active();
 extern void debug_menu_initialize();

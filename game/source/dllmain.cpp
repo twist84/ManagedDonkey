@@ -5,6 +5,7 @@
 #include "memory/module.hpp"
 
 #include "game/cheats.hpp"
+#include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "networking/tools/remote_command.hpp"
 
@@ -19,8 +20,9 @@ void process_attach(HMODULE hModule)
 	apply_all_patches(false);
 	apply_all_hooks(false);
 
-	patch_gui_custom_bitmap_widget();
 	patch_cheats();
+	patch_debug_menu();
+	patch_gui_custom_bitmap_widget();
 	patch_remote_command();
 }
 
