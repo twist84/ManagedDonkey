@@ -546,6 +546,7 @@ POPD
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
     <ClInclude Include="source\models\model_definitions.hpp" />
+    <ClInclude Include="source\models\model_skinning.hpp" />
     <ClInclude Include="source\multithreading\message_queue.hpp" />
     <ClInclude Include="source\multithreading\synchronization.hpp" />
     <ClInclude Include="source\multithreading\threads.hpp" />
