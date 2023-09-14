@@ -405,17 +405,17 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	return result;
 }
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  { .name = #_name, .type = _hs_type_boolean,       .boolean_value = &_name }
-#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  { .name = #_name, .type = _hs_type_real,          .real_value = &_name }
-#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) { .name = #_name, .type = _hs_type_short_integer, .short_value = &_name }
-#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  { .name = #_name, .type = _hs_type_long_integer,  .long_value = &_name }
+#define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_boolean,       .boolean_value = &_name })
+#define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .real_value = &_name })
+#define CONSOLE_GLOBAL_DECLARE_SHORT(_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .short_value = &_name })
+#define CONSOLE_GLOBAL_DECLARE_LONG(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .long_value = &_name })
 
-#define CONSOLE_GLOBAL_DECLARE_BOOL2(_name, _variable_name, ...)  { .name = #_name, .type = _hs_type_boolean,       .boolean_value = &_variable_name }
-#define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  { .name = #_name, .type = _hs_type_real,          .real_value = &_variable_name }
-#define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) { .name = #_name, .type = _hs_type_short_integer, .short_value = &_variable_name }
-#define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  { .name = #_name, .type = _hs_type_long_integer,  .long_value = &_variable_name }
+#define CONSOLE_GLOBAL_DECLARE_BOOL2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_boolean,       .boolean_value = &_variable_name })
+#define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .real_value = &_variable_name })
+#define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .short_value = &_variable_name })
+#define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .long_value = &_variable_name })
 
-s_console_global const k_console_globals[] =
+s_console_global const* const k_console_globals[] =
 {
 	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
 
@@ -649,7 +649,7 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	long console_global_index = NONE;
 	for (long i = 0; i < k_console_global_count; i++)
 	{
-		if (!tokens[0]->equals(k_console_globals[i].name))
+		if (!tokens[0]->equals(k_console_globals[i]->name))
 			continue;
 
 		console_global_index = i;
@@ -659,40 +659,40 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	if (!VALID_INDEX(console_global_index, k_console_global_count))
 		return result;
 
-	s_console_global const& console_global = k_console_globals[console_global_index];
+	s_console_global const* console_global = k_console_globals[console_global_index];
 
-	if (!console_global.pointer)
+	if (!console_global->pointer)
 		return result;
 
 	char const* value_string = nullptr;
 	if (token_count >= 2)
 		value_string = tokens[1]->get_string();
 
-	e_hs_type type = console_global.type;
+	e_hs_type type = console_global->type;
 	switch (type)
 	{
 	case _hs_type_boolean:
 	{
-		result = string_to_boolean(value_string, console_global.boolean_value) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, *console_global.boolean_value ? "true" : "false");
+		result = string_to_boolean(value_string, console_global->boolean_value) ? "success" : "failure";
+		terminal_printf(global_real_argb_white, *console_global->boolean_value ? "true" : "false");
 	}
 	break;
 	case _hs_type_real:
 	{
-		result = string_to_real(value_string, console_global.real_value) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%.6f", *console_global.real_value);
+		result = string_to_real(value_string, console_global->real_value) ? "success" : "failure";
+		terminal_printf(global_real_argb_white, "%.6f", *console_global->real_value);
 	}
 	break;
 	case _hs_type_short_integer:
 	{
-		result = string_to_short_integer(value_string, console_global.short_value) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%hd", *console_global.short_value);
+		result = string_to_short_integer(value_string, console_global->short_value) ? "success" : "failure";
+		terminal_printf(global_real_argb_white, "%hd", *console_global->short_value);
 	}
 	break;
 	case _hs_type_long_integer:
 	{
-		result = string_to_long_integer(value_string, console_global.long_value) ? "success" : "failure";
-		terminal_printf(global_real_argb_white, "%d", *console_global.long_value);
+		result = string_to_long_integer(value_string, console_global->long_value) ? "success" : "failure";
+		terminal_printf(global_real_argb_white, "%d", *console_global->long_value);
 	}
 	break;
 	}
