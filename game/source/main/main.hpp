@@ -16,6 +16,7 @@ extern void __cdecl main_loop_pregame();
 extern void __cdecl main_loop_pregame_disable(bool disable);
 extern void __cdecl main_loop_pregame_show_progress_screen();
 extern void __cdecl main_loop_status_message(wchar_t const* status_message);
+extern void main_set_single_thread_request_flag(long single_threaded_request_flags, bool set);
 
 template<typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>
 bool main_status(char const* status_type, char const* format, parameters_t... parameters)

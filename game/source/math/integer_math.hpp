@@ -134,6 +134,7 @@ union argb_color
 static_assert(sizeof(argb_color) == 0x4);
 
 extern short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short y0, short x0, short y1, short x1);
+extern int16_point2d* set_point2d(int16_point2d* point, short x, short y);
 
 template<typename t_type>
 t_type int_min(t_type const& val0, t_type const& val1)
@@ -170,5 +171,4 @@ t_type int_pin(t_type const& val0, t_other_type0 const& val1, t_other_type1 cons
 {
 	return int_ceiling(int_floor(val0, val1), val2);
 }
-
 

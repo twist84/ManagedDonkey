@@ -535,6 +535,11 @@ void __cdecl main_loop_status_message(wchar_t const* status_message)
 	c_rasterizer::end_frame();
 }
 
+void main_set_single_thread_request_flag(long single_threaded_request_flags, bool set)
+{
+	INVOKE(0x00506EB0, main_set_single_thread_request_flag, single_threaded_request_flags, set);
+}
+
 //main_status
 
 struct s_file_reference;

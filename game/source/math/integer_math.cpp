@@ -10,3 +10,11 @@ short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short x0, short x1, 
 	return rect;
 }
 
+int16_point2d* set_point2d(int16_point2d* point, short x, short y)
+{
+	point->x = x;
+	point->y = y;
+
+	return point;
+}
+

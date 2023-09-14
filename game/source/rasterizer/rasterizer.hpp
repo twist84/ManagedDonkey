@@ -108,7 +108,7 @@ struct c_rasterizer
 	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	// sub_A458B0;
 	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
-	static void __cdecl draw_debug_linestrip2d(point2d const* points, long point_count, dword color);
+	static void __cdecl draw_debug_linestrip2d(int16_point2d const* points, long point_count, dword color);
 	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
 	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* vertex_debug, long primitive_count, c_rasterizer_index_buffer::e_primitive_type type);
 
@@ -341,6 +341,8 @@ struct s_texture_references_block
 	void update_reference_names();
 };
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
+
+extern void __cdecl rasterizer_quad_screenspace(int16_point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5);
 
 extern bool rasterizer_dump_display_to_bmp(char const* file_name);
 
