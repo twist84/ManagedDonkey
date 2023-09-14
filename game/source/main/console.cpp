@@ -5,7 +5,6 @@
 #include "effects/contrails.hpp"
 #include "interface/terminal.hpp"
 #include "hs/hs_runtime.hpp"
-#include "hs/hs_scenario_definitions.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
 #include "main/main_time.hpp"
@@ -405,23 +404,6 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 	return result;
 }
-
-struct s_console_global
-{
-	char const* name;
-
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
-	union
-	{
-		bool* boolean_value;
-		real* real_value;
-		short* short_value;
-		long* long_value;
-
-		void* pointer;
-	};
-};
-static_assert(sizeof(s_console_global) == 0xC);
 
 #define CONSOLE_GLOBAL_DECLARE_BOOL(_name, ...)  { .name = #_name, .type = _hs_type_boolean,       .boolean_value = &_name }
 #define CONSOLE_GLOBAL_DECLARE_REAL(_name, ...)  { .name = #_name, .type = _hs_type_real,          .real_value = &_name }

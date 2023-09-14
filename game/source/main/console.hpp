@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/terminal.hpp"
+#include "hs/hs_scenario_definitions.hpp"
 
 struct s_console_globals
 {
@@ -12,7 +13,27 @@ struct s_console_globals
 };
 //static_assert(sizeof(s_console_globals) == 0x1204);
 
+struct s_console_global
+{
+	char const* name;
+
+	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
+	union
+	{
+		bool* boolean_value;
+		real* real_value;
+		short* short_value;
+		long* long_value;
+
+		void* pointer;
+	};
+};
+static_assert(sizeof(s_console_global) == 0xC);
+
 extern s_console_globals console_globals;
+
+extern s_console_global const k_console_globals[];
+extern long const k_console_global_count;
 
 extern bool console_dump_to_debug_display;
 
