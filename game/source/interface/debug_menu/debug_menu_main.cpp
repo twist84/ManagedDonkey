@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "input/input.hpp"
 #include "interface/debug_menu/debug_menu.hpp"
+#include "interface/debug_menu/debug_menu_scroll.hpp"
 #include "interface/debug_menu/debug_menu_parse.hpp"
 #include "main/main.hpp"
 #include "math/color_math.hpp"
@@ -18,6 +19,21 @@ void patch_debug_menu()
 	patch_pointer({ .address = 0x01656858 }, debug_menu_initialize_for_new_map);
 	patch_pointer({ .address = 0x0165685C }, debug_menu_dispose_from_old_map);
 }
+
+class c_main_menu :
+	public c_debug_menu_scroll
+{
+public:
+	c_main_menu() :
+		c_debug_menu_scroll(NULL, 26, "Main")
+	{
+	}
+
+	void* operator new(unsigned int size)
+	{
+		return debug_menu_malloc(size);
+	}
+};
 
 struct s_debug_menu_globals
 {
@@ -73,19 +89,12 @@ void debug_menu_dispose()
 {
 }
 
-class c_main_menu
-{
-	byte __data[0x12C];
-};
-
 void debug_menu_initialize_for_new_map()
 {
 	g_debug_menu_globals.render = false;
 	g_debug_menu_globals.root_menu = NULL;
 	g_debug_menu_globals.active_menu = NULL;
-
-	//c_main_menu* main_menu = static_cast<c_main_menu*>(debug_menu_malloc(sizeof(c_main_menu)));
-	//g_debug_menu_globals.root_menu = main_menu;
+	g_debug_menu_globals.root_menu = new c_main_menu();
 
 	csmemset(&g_debug_menu_globals.last_gamepad_state, 0, sizeof(g_debug_menu_globals.last_gamepad_state));
 	csmemset(&g_debug_menu_globals.current_gamepad_state, 0, sizeof(g_debug_menu_globals.current_gamepad_state));
