@@ -252,6 +252,7 @@ POPD
     <ClCompile Include="source\interface\debug_menu\debug_menu.cpp" />
     <ClCompile Include="source\interface\debug_menu\debug_menu_item.cpp" />
     <ClCompile Include="source\interface\debug_menu\debug_menu_main.cpp" />
+    <ClCompile Include="source\interface\debug_menu\debug_menu_parse.cpp" />
     <ClCompile Include="source\interface\first_person_weapons.cpp" />
     <ClCompile Include="source\camera\camera.cpp" />
     <ClCompile Include="source\camera\director.cpp" />
@@ -532,6 +533,7 @@ POPD
     <ClInclude Include="source\interface\debug_menu\debug_menu.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_item.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_main.hpp" />
+    <ClInclude Include="source\interface\debug_menu\debug_menu_parse.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
     <ClInclude Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.hpp" />
     <ClInclude Include="source\interface\terminal.hpp" />

@@ -4,6 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "input/input.hpp"
 #include "interface/debug_menu/debug_menu.hpp"
+#include "interface/debug_menu/debug_menu_parse.hpp"
 #include "main/main.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
@@ -90,7 +91,7 @@ void debug_menu_initialize_for_new_map()
 	csmemset(&g_debug_menu_globals.current_gamepad_state, 0, sizeof(g_debug_menu_globals.current_gamepad_state));
 
 	debug_menu_parse(debug_menu_get_root(), "debug_menu_init.txt");
-	debug_menu_parse(debug_menu_get_root(), "debug_menu_user_init.txt.txt");
+	debug_menu_parse(debug_menu_get_root(), "debug_menu_user_init.txt");
 }
 
 void debug_menu_dispose_from_old_map()
@@ -247,22 +248,5 @@ void* debug_menu_malloc(long size)
 	void* result = g_debug_menu_stack.get(g_debug_menu_stack.count() - size_in_count);
 
 	return result;
-}
-
-void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
-{
-	ASSERT(file_name != NULL);
-	ASSERT(root_menu != NULL);
-
-	FILE* menu_file;
-	if (fopen_s(&menu_file, file_name, "rt") == 0 && menu_file)
-	{
-		char error_buffer[1024]{};
-
-		long line_count = 1;
-		int c = fgetc(menu_file);
-		//debug_menu_build_recursive(menu_file, &c, root_menu, &line_count, error_buffer, sizeof(error_buffer));
-		fclose(menu_file);
-	}
 }
 
