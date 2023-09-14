@@ -35,3 +35,14 @@ protected:
 	bool m_readonly;
 };
 
+template<typename t_type>
+class c_debug_menu_value_hs_global_external
+{
+public:
+	c_debug_menu_value_hs_global_external(char const* hs_global_name);
+	t_type get();
+
+protected:
+	short m_hs_global_external_index;
+};
+
