@@ -43,5 +43,5 @@ extern float debug_menu_get_title_height();
 extern float debug_menu_get_item_indent_x();
 extern float debug_menu_get_item_indent_y();
 extern void* debug_menu_malloc(long size);
-extern void debug_menu_parse(c_debug_menu* root_menu, char const* file_name);
+extern void xor_buffers(void* destination, void const* source, long buffer_size);
 

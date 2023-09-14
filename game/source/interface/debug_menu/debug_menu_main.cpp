@@ -2,6 +2,7 @@
 
 #include "cache/restricted_memory_regions.hpp"
 #include "cseries/cseries.hpp"
+#include "input/controllers.hpp"
 #include "input/input.hpp"
 #include "interface/debug_menu/debug_menu.hpp"
 #include "interface/debug_menu/debug_menu_scroll.hpp"
@@ -10,6 +11,7 @@
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "shell/shell.hpp"
 #include "text/draw_string.hpp"
 
 void patch_debug_menu()
@@ -115,6 +117,16 @@ void debug_menu_dispose_from_old_map()
 
 void debug_menu_update()
 {
+	// debug_menu_update_current_gamepad_state
+	csmemset(&g_debug_menu_globals.current_gamepad_state, 0, sizeof(g_debug_menu_globals.current_gamepad_state));
+	for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
+	{
+		//if (player_index_from_controller_index(controller_index) != k_no_controller)
+		//{
+		//	if (gamepad_state const* state = input_get_gamepad_state(controller_index))
+		//		xor_buffers(&g_debug_menu_globals.current_gamepad_state, state, sizeof(gamepad_state));
+		//}
+	}
 }
 
 void debug_menu_open()
@@ -257,5 +269,11 @@ void* debug_menu_malloc(long size)
 	void* result = g_debug_menu_stack.get(g_debug_menu_stack.count() - size_in_count);
 
 	return result;
+}
+
+void xor_buffers(void* destination, void const* source, long buffer_size)
+{
+	for (long i = 0; i < buffer_size; i++)
+		((byte*)destination)[i] ^= ((byte const*)source)[i];
 }
 
