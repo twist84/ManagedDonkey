@@ -373,7 +373,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 				break;
 			}
 
-			if (VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+			if (!VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
 			{
 				error = "VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length)";
 				break;
@@ -400,7 +400,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 			}
 			else
 			{
-				if (VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+				if (!VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
 				{
 					error = "VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length)";
 					break;
