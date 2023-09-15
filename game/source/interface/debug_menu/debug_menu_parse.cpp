@@ -71,7 +71,7 @@ using parse_stack_t = c_static_stack<e_parse_state, k_parse_state_count>;
 
 long debug_menu_memory_available()
 {
-	return 4 * (64000 - g_debug_menu_stack.count());
+	return 4 * (262144 - g_debug_menu_stack.count());
 }
 
 void debug_menu_look_ahead_read_token(FILE* menu_file, long c, char* token_buffer, long token_buffer_count)
@@ -335,7 +335,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 		long advance_distance = 0;
 		long v15 = 0;
 
-		if (debug_menu_memory_available() < 7168)
+		if (debug_menu_memory_available() < 10240)
 		{
 			error = "out of memory, please make your debug menu smaller";
 			break;
