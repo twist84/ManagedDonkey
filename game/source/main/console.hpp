@@ -44,7 +44,7 @@ extern void __cdecl console_initialize();
 extern void __cdecl console_dispose();
 extern bool __cdecl console_is_active();
 extern bool __cdecl console_is_empty();
-extern void __cdecl console_open();
+extern void __cdecl console_open(bool debug_menu);
 extern void __cdecl console_close();
 extern void __cdecl console_clear();
 extern void __cdecl console_update(real shell_seconds_elapsed);

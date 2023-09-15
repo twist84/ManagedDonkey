@@ -14,7 +14,7 @@ c_debug_menu_scroll::~c_debug_menu_scroll()
 
 void c_debug_menu_scroll::update()
 {
-	c_debug_menu::update();
+	//c_debug_menu::update();
 
 	if (get_selection() + 1 >= get_first() + get_num_visible())
 	{
@@ -45,12 +45,12 @@ void c_debug_menu_scroll::update()
 
 void c_debug_menu_scroll::render(c_font_cache_base* font_cache, int16_point2d* point)
 {
-	//render_background(font_cache, point);
-	//render_title(font_cache, point);
-	//render_caption(font_cache, point);
-	//render_global_caption(font_cache, point);
-	//if (get_num_visible() > 0)
-	//	render_items(font_cache, point, get_first() /* start_index */, get_first() + get_num_visible() - 1 /* end_index */);
+	render_background(font_cache, point);
+	render_title(font_cache, point);
+	render_caption(font_cache, point);
+	render_global_caption(font_cache, point);
+	if (get_num_visible() > 0)
+		render_items(font_cache, point, get_first() /* start_index */, get_first() + get_num_visible() - 1 /* end_index */);
 
 	c_rasterizer_draw_string draw_string{};
 

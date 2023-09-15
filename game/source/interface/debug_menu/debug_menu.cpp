@@ -5,9 +5,10 @@
 #include "input/input_abstraction.hpp"
 #include "interface/debug_menu/debug_menu_item.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
+#include "interface/interface_constants.hpp"
+#include "text/draw_string.hpp"
 
 #include <string.h>
-
 
 c_debug_menu::~c_debug_menu()
 {
@@ -166,11 +167,11 @@ void c_debug_menu::update()
 
 void c_debug_menu::render(c_font_cache_base* font_cache, int16_point2d* point)
 {
-	//render_background(font_cache, point);
-	//render_title(font_cache, point);
-	//render_caption(font_cache, point);
-	//render_global_caption(font_cache, point);
-	//render_items(font_cache, point, 0 /* start_index */, get_num_items() - 1 /* end_index */);
+	render_background(font_cache, point);
+	render_title(font_cache, point);
+	render_caption(font_cache, point);
+	render_global_caption(font_cache, point);
+	render_items(font_cache, point, 0 /* start_index */, get_num_items() - 1 /* end_index */);
 }
 
 void c_debug_menu::game_render()
@@ -328,6 +329,52 @@ short c_debug_menu::get_max_active_captions()
 	}
 
 	return max_active_captions;
+}
+
+void c_debug_menu::render_background(c_font_cache_base* font_cache, int16_point2d* point)
+{
+	real unused = get_enabled() ? 0.7f : 0.1f;
+	real item_margin = get_value_width() ? debug_menu_get_item_margin() : 0.0f;
+
+	short a1 = short((((point->x - debug_menu_get_item_margin()) - get_num_items_to_render()) - item_margin) - 60.0);
+	short a2 = point->y;
+	short a3 = short((point->x + debug_menu_get_item_width()) + debug_menu_get_item_margin());
+	short a4 = short((point->y + get_title_height()) + (get_value_width() + get_max_active_captions()) * get_item_height());
+
+	debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_tv_blue);
+}
+
+void c_debug_menu::render_title(c_font_cache_base* font_cache, int16_point2d* point)
+{
+	real unused = get_enabled() ? 0.7f : 0.1f;
+	c_rasterizer_draw_string draw_string{};
+
+	short_rectangle2d bounds{};
+	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+
+	short a1 = point->x;
+	short a2 = short(point->y + debug_menu_get_item_indent_y());
+	short a3 = short(point->x + debug_menu_get_item_width());
+	short a4 = short((point->y + get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+
+	debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_grey);
+
+	set_rectangle2d(&bounds, point->x, point->y, short(point->x + debug_menu_get_item_width()), bounds.y1);
+	draw_string.set_bounds(&bounds);
+	draw_string.set_color(debug_real_argb_tv_magenta);
+	draw_string.draw(font_cache, m_name);
+}
+
+void c_debug_menu::render_caption(c_font_cache_base* font_cache, int16_point2d* point)
+{
+}
+
+void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, int16_point2d* point)
+{
+}
+
+void c_debug_menu::render_items(c_font_cache_base* font_cache, int16_point2d* point, short start_index, short end_index)
+{
 }
 
 void c_debug_menu::try_left()

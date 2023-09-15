@@ -134,11 +134,6 @@ void debug_menu_update_current_gamepad_state()
 	csmemset(&g_debug_menu_globals.current_gamepad_state.max_trigger_down_amount, 0, 2);
 }
 
-bool debugging_system_has_focus()
-{
-	return console_is_active() || debug_menu_get_active();
-}
-
 bool g_debug_menu_rebuild_request = false;
 
 void debug_menu_update()
@@ -152,17 +147,20 @@ void debug_menu_update()
 	}
 	else
 	{
-		bool v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
-			|| state.buttons_down_frames[5] == 1 && state.buttons_down_frames[4]
-			|| state.buttons_down_frames[5] && state.buttons_down_frames[4] == 1;
-
+		bool v2 = false;
 		if (console_is_active())
 		{
 			v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
 				|| state.buttons_down_frames[5] == 1;
 		}
+		else
+		{
+			v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
+				|| state.buttons_down_frames[5] == 1 && state.buttons_down_frames[4]
+				|| state.buttons_down_frames[5] && state.buttons_down_frames[4] == 1;
+		}
 
-		if (!debugging_system_has_focus() && !debug_menu_enabled)
+		if (!console_is_active() && !debug_menu_enabled)
 			v2 = false;
 
 		if (console_is_active())

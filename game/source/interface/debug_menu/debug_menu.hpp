@@ -37,6 +37,12 @@ protected:
 	short get_menu_rate();
 	short get_max_active_captions();
 
+	void render_background(c_font_cache_base* font_cache, int16_point2d* point);
+	void render_title(c_font_cache_base* font_cache, int16_point2d* point);
+	void render_caption(c_font_cache_base* font_cache, int16_point2d* point);
+	void render_global_caption(c_font_cache_base* font_cache, int16_point2d* point);
+	void render_items(c_font_cache_base* font_cache, int16_point2d* point, short start_index, short end_index);
+
 private:
 	void try_left();
 	void try_right();

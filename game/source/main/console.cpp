@@ -5,6 +5,7 @@
 #include "effects/contrails.hpp"
 #include "interface/terminal.hpp"
 #include "hs/hs_runtime.hpp"
+#include "interface/debug_menu/debug_menu_main.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
 #include "main/main_time.hpp"
@@ -126,7 +127,7 @@ void __cdecl console_dispose()
 
 bool __cdecl console_is_active()
 {
-	return console_globals.is_active;
+	return console_globals.is_active || debug_menu_get_active();
 }
 
 bool __cdecl console_is_empty()
@@ -134,12 +135,19 @@ bool __cdecl console_is_empty()
 	return console_globals.is_active && !console_globals.input_state.input_text[0];
 }
 
-void __cdecl console_open()
+void __cdecl console_open(bool debug_menu)
 {
 	if (!console_is_active())
 	{
-		console_globals.input_state.input_text[0] = '\0';
-		console_globals.is_active = terminal_gets_begin(&console_globals.input_state);
+		if (debug_menu)
+		{
+			debug_menu_open();
+		}
+		else
+		{
+			console_globals.input_state.input_text[0] = '\0';
+			console_globals.is_active = terminal_gets_begin(&console_globals.input_state);
+		}
 	}
 }
 
@@ -150,6 +158,10 @@ void __cdecl console_close()
 		terminal_gets_end(&console_globals.input_state);
 		console_globals.__time4 = 0.1f;
 		console_globals.is_active = false;
+	}
+	else
+	{
+		debug_menu_close();
 	}
 }
 
@@ -194,7 +206,7 @@ void __cdecl console_complete()
 
 void __cdecl console_update(real shell_seconds_elapsed)
 {
-	if (!console_is_active())
+	if (!console_is_active() || debug_menu_get_active())
 	{
 		s_key_state key{};
 		if (input_peek_key(&key, _input_type_game))
@@ -202,7 +214,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			if (!key.was_key_down && !key.modifier && key.key_type == _key_type_down && (key.key_code == _key_code_backquote || key.key_code == _key_code_f1))
 			{
 				input_get_key(&key, _input_type_game);
-				console_open();
+				console_open(false);
 			}
 		}
 		else

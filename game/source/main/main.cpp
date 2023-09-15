@@ -19,6 +19,7 @@
 #include "input/input.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/chud/chud_messaging.hpp"
+#include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_controller.hpp"
@@ -374,7 +375,7 @@ void __cdecl main_loop_body_mid(real shell_seconds_elapsed)
 	console_update(elapsed_game_dt);
 	//xbox_connection_update();
 	remote_command_process();
-	//debug_menu_update();
+	debug_menu_update();
 	//cinematic_debug_camera_control_update();
 	
 	tag_resources_unlock_game(lock);
@@ -412,12 +413,12 @@ void __cdecl main_loop_body_end()
 		if (game_is_ui_shell())
 			user_interface_start_hs_script_by_name((elite_hanger = !elite_hanger) ? "elitehangar" : "humanhangar");
 	}
-	if (input_key_frames_down(_key_code_home, _input_type_ui) == 1)
-	{
-		//main_game_launch_set_multiplayer_splitscreen_count(2);
-		main_game_launch_set_coop_player_count(2);
-		main_game_launch("maps\\riverworld");
-	}
+	//if (input_key_frames_down(_key_code_home, _input_type_ui) == 1)
+	//{
+	//	//main_game_launch_set_multiplayer_splitscreen_count(2);
+	//	main_game_launch_set_coop_player_count(2);
+	//	main_game_launch("maps\\riverworld");
+	//}
 	if (input_key_frames_down(_key_code_end, _input_type_ui) == 1)
 	{
 		director_toggle(main_game_launch_get_last_player(), _director_mode_debug);

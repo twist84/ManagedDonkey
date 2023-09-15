@@ -1,5 +1,6 @@
 #include "render/views/render_view.hpp"
 
+#include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
@@ -197,6 +198,7 @@ void __cdecl render_debug_frame_render()
 	//render_debug_begin(true, true, true);
 	terminal_draw();
 	main_time_frame_rate_display();
+	render_debug_debug_menu();
 	//render_debug_end(false, false, false);
 }
 
