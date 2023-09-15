@@ -23,6 +23,7 @@ struct c_debug_menu_item_type :
 	public c_debug_menu_item_numbered
 {
 public:
+	virtual ~c_debug_menu_item_type();
 	virtual void render(c_font_cache_base* font_cache, int16_point2d const& point) override;
 	virtual void to_string(char* buffer, long buffer_size);
 	virtual void render_value(c_font_cache_base* font_cache, int16_point2d const& point);
@@ -52,6 +53,7 @@ class c_debug_menu_item_type_bool :
 	public c_debug_menu_item_type
 {
 public:
+	virtual ~c_debug_menu_item_type_bool();
 	virtual void notify_left() override;
 	virtual void notify_right() override;
 
@@ -69,6 +71,7 @@ class c_debug_menu_item_type_real :
 	public c_debug_menu_item_type
 {
 public:
+	virtual ~c_debug_menu_item_type_real();
 	virtual void notify_left() override;
 	virtual void notify_right() override;
 
@@ -89,6 +92,7 @@ class c_debug_menu_item_type_short :
 	public c_debug_menu_item_type
 {
 public:
+	virtual ~c_debug_menu_item_type_short();
 	virtual void notify_left() override;
 	virtual void notify_right() override;
 
@@ -109,6 +113,7 @@ class c_debug_menu_item_type_long :
 	public c_debug_menu_item_type
 {
 public:
+	virtual ~c_debug_menu_item_type_long();
 	virtual void notify_left() override;
 	virtual void notify_right() override;
 

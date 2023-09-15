@@ -6,7 +6,6 @@
 
 c_debug_menu_item_numbered::~c_debug_menu_item_numbered()
 {
-	c_debug_menu_item::~c_debug_menu_item();
 }
 
 void c_debug_menu_item_numbered::render(c_font_cache_base* font_cache, int16_point2d const& point)
@@ -65,6 +64,10 @@ void c_debug_menu_item_numbered::render_number(c_font_cache_base* font_cache, in
 short c_debug_menu_item_numbered::get_indent()
 {
 	return 45;
+}
+
+c_debug_menu_item_type::~c_debug_menu_item_type()
+{
 }
 
 void c_debug_menu_item_type::render(c_font_cache_base* font_cache, int16_point2d const& point)
@@ -138,6 +141,10 @@ inline void c_debug_menu_value_hs_global_external<t_type>::set(t_type value)
 	}
 }
 
+c_debug_menu_item_type_bool::~c_debug_menu_item_type_bool()
+{
+}
+
 void c_debug_menu_item_type_bool::notify_left()
 {
 	c_debug_menu_item::notify_left();
@@ -168,6 +175,10 @@ void c_debug_menu_item_type_bool::to_string(char* buffer, long buffer_size)
 c_debug_menu_item_type_bool::c_debug_menu_item_type_bool(c_debug_menu* menu, char const* name, bool readonly, char const* hs_global_name) :
 	c_debug_menu_item_type(menu, name, readonly),
 	m_value(hs_global_name)
+{
+}
+
+c_debug_menu_item_type_real::~c_debug_menu_item_type_real()
 {
 }
 
@@ -213,6 +224,10 @@ c_debug_menu_item_type_real::c_debug_menu_item_type_real(c_debug_menu* menu, cha
 {
 }
 
+c_debug_menu_item_type_short::~c_debug_menu_item_type_short()
+{
+}
+
 void c_debug_menu_item_type_short::notify_left()
 {
 	c_debug_menu_item::notify_left();
@@ -252,6 +267,10 @@ c_debug_menu_item_type_short::c_debug_menu_item_type_short(c_debug_menu* menu, c
 	m_min_value(min_value),
 	m_max_value(max_value),
 	m_inc_value(inc_value)
+{
+}
+
+c_debug_menu_item_type_long::~c_debug_menu_item_type_long()
 {
 }
 
