@@ -477,7 +477,7 @@ public:
 	{
 		ASSERT(!empty());
 
-		return m_count--;
+		m_count--;
 	}
 
 	void push_back(t_type const& cache)
