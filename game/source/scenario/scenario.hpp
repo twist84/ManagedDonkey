@@ -43,5 +43,6 @@ extern s_structure_design* global_structure_design_get(long structure_bsp_index)
 extern void __cdecl scenario_invalidate();
 extern bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path);
 extern bool __cdecl scenario_switch_zone_set(long zoneset_index);
+extern char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* structure_bsp_string, dword structure_bsp_string_size);
 extern bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path);
 

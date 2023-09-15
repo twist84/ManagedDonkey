@@ -123,6 +123,51 @@ bool __cdecl scenario_switch_zone_set(long zoneset_index)
 	return INVOKE(0x004EB620, scenario_switch_zone_set, zoneset_index);
 }
 
+char const* scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
+{
+	scenario_structure_bsp_reference& structure_bsp_reference = static_cast<s_scenario*>(tag_get('scnr', scenario_index))->structure_bsps[structure_bsp_index];
+
+	char const* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
+	if (structure_bsp_name)
+	{
+		for (char const* i = csstrstr(structure_bsp_name, "\\"); i; i = csstrstr(i + 1, "\\"))
+			structure_bsp_name = i + 1;
+	}
+	return structure_bsp_name;
+}
+
+long global_scenario_index_get()
+{
+	return global_scenario_index;
+}
+
+char const* scenario_get_structure_bsp_name(long structure_bsp_index)
+{
+	return scenario_tag_get_structure_bsp_name(global_scenario_index_get(), structure_bsp_index);
+}
+
+char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* structure_bsp_string, dword structure_bsp_string_size)
+{
+	csnzprintf(structure_bsp_string, structure_bsp_string_size, "");
+
+	bool first_structure_bsp = true;
+	for (long i = 0; i < global_scenario_get()->structure_bsps.count(); i++)
+	{
+		if (!TEST_BIT(mask, i))
+			continue;
+
+		if (char const* structure_bsp_name = scenario_get_structure_bsp_name(i))
+		{
+			if (!first_structure_bsp)
+				csstrnzcat(structure_bsp_string, ", ", structure_bsp_string_size);
+			csstrnzcat(structure_bsp_string, structure_bsp_name, structure_bsp_string_size);
+			first_structure_bsp = false;
+		}
+	}
+
+	return structure_bsp_string;
+}
+
 //bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
 {
