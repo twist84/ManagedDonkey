@@ -445,7 +445,8 @@ struct c_static_stack
 {
 public:
 	c_static_stack() :
-		m_count(0)
+		m_count(0),
+		m_elements()
 	{
 	}
 
