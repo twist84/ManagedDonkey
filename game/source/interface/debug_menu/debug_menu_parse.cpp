@@ -76,7 +76,17 @@ long debug_menu_memory_available()
 
 void debug_menu_look_ahead_read_token(FILE* menu_file, long c, char* token_buffer, long token_buffer_count)
 {
-	// #TODO: implement this
+	long menu_file_size = ftell(menu_file);
+	*token_buffer = char(c);
+	long characters_read = fread(token_buffer + 1, sizeof(char), token_buffer_count - 1, menu_file);
+	fseek(menu_file, menu_file_size, 0);
+	ASSERT(IN_RANGE_INCLUSIVE(characters_read, 0, token_buffer_count - 1));
+
+	long token_buffer_index = characters_read + 1;
+	if (characters_read + 1 > token_buffer_count - 1)
+		token_buffer_index = token_buffer_count - 1;
+
+	token_buffer[token_buffer_index] = 0;
 }
 
 bool string_in_string_case_insensitive(char const* source, char const* find)
