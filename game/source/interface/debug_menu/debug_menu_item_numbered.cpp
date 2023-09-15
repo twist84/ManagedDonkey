@@ -1,12 +1,12 @@
 #include "interface/debug_menu/debug_menu_item_numbered.hpp"
 
-#include "cseries/cseries.hpp"
 #include "interface/interface_constants.hpp"
 #include "main/console.hpp"
 #include "text/draw_string.hpp"
 
 c_debug_menu_item_numbered::~c_debug_menu_item_numbered()
 {
+	c_debug_menu_item::~c_debug_menu_item();
 }
 
 void c_debug_menu_item_numbered::render(c_font_cache_base* font_cache, int16_point2d const& point)
@@ -73,6 +73,7 @@ void c_debug_menu_item_type::render(c_font_cache_base* font_cache, int16_point2d
 
 void c_debug_menu_item_type::to_string(char* buffer, long buffer_size)
 {
+	csstrnzcpy(buffer, "overload toString", buffer_size);
 }
 
 void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, int16_point2d const& point)
@@ -126,3 +127,172 @@ inline t_type c_debug_menu_value_hs_global_external<t_type>::get()
 	return *reinterpret_cast<t_type*>(bytes);
 }
 
+template<typename t_type>
+inline void c_debug_menu_value_hs_global_external<t_type>::set(t_type value)
+{
+	if (m_hs_global_external_index != NONE)
+	{
+		ASSERT(k_console_globals[m_hs_global_external_index]->pointer != NULL);
+
+		*static_cast<t_type*>(k_console_globals[m_hs_global_external_index]->pointer) = value;
+	}
+}
+
+void c_debug_menu_item_type_bool::notify_left()
+{
+	c_debug_menu_item::notify_left();
+
+	if (!get_readonly())
+	{
+		bool value = m_value.get();
+		m_value.set(!value);
+	}
+}
+
+void c_debug_menu_item_type_bool::notify_right()
+{
+	c_debug_menu_item::notify_right();
+
+	if (!get_readonly())
+	{
+		bool value = m_value.get();
+		m_value.set(!value);
+	}
+}
+
+void c_debug_menu_item_type_bool::to_string(char* buffer, long buffer_size)
+{
+	csnzprintf(buffer, buffer_size, "%s", m_value.get() ? "True" : "False");
+}
+
+c_debug_menu_item_type_bool::c_debug_menu_item_type_bool(c_debug_menu* menu, char const* name, bool readonly, char const* hs_global_name) :
+	c_debug_menu_item_type(menu, name, readonly),
+	m_value(hs_global_name)
+{
+}
+
+void c_debug_menu_item_type_real::notify_left()
+{
+	c_debug_menu_item::notify_left();
+
+	if (!get_readonly())
+	{
+		real value = m_value.get();
+
+		// #TODO: logic
+
+		m_value.set(value);
+	}
+}
+
+void c_debug_menu_item_type_real::notify_right()
+{
+	c_debug_menu_item::notify_right();
+
+	if (!get_readonly())
+	{
+		real value = m_value.get();
+
+		// #TODO: logic
+
+		m_value.set(value);
+	}
+}
+
+void c_debug_menu_item_type_real::to_string(char* buffer, long buffer_size)
+{
+	csnzprintf(buffer, buffer_size, "%f", m_value.get());
+}
+
+c_debug_menu_item_type_real::c_debug_menu_item_type_real(c_debug_menu* menu, char const* name, bool readonly, char const* hs_global_name, real min_value, real max_value, real inc_value) :
+	c_debug_menu_item_type(menu, name, readonly),
+	m_value(hs_global_name),
+	m_min_value(min_value),
+	m_max_value(max_value),
+	m_inc_value(inc_value)
+{
+}
+
+void c_debug_menu_item_type_short::notify_left()
+{
+	c_debug_menu_item::notify_left();
+
+	if (!get_readonly())
+	{
+		short value = m_value.get();
+
+		// #TODO: logic
+
+		m_value.set(value);
+	}
+}
+
+void c_debug_menu_item_type_short::notify_right()
+{
+	c_debug_menu_item::notify_right();
+
+	if (!get_readonly())
+	{
+		short value = m_value.get();
+
+		// #TODO: logic
+
+		m_value.set(value);
+	}
+}
+
+void c_debug_menu_item_type_short::to_string(char* buffer, long buffer_size)
+{
+	csnzprintf(buffer, buffer_size, "%d", m_value.get());
+}
+
+c_debug_menu_item_type_short::c_debug_menu_item_type_short(c_debug_menu* menu, char const* name, bool readonly, char const* hs_global_name, short min_value, short max_value, short inc_value) :
+	c_debug_menu_item_type(menu, name, readonly),
+	m_value(hs_global_name),
+	m_min_value(min_value),
+	m_max_value(max_value),
+	m_inc_value(inc_value)
+{
+}
+
+void c_debug_menu_item_type_long::notify_left()
+{
+	c_debug_menu_item::notify_left();
+
+	if (!get_readonly())
+	{
+		long value = m_value.get();
+
+		// #TODO: logic
+
+		m_value.set(value);
+	}
+}
+
+void c_debug_menu_item_type_long::notify_right()
+{
+	c_debug_menu_item::notify_right();
+
+	if (!get_readonly())
+	{
+		long value = m_value.get();
+
+		// #TODO: logic
+
+		m_value.set(value);
+	}
+}
+
+void c_debug_menu_item_type_long::to_string(char* buffer, long buffer_size)
+{
+	csnzprintf(buffer, buffer_size, "%d", m_value.get());
+}
+
+c_debug_menu_item_type_long::c_debug_menu_item_type_long(c_debug_menu* menu, char const* name, bool readonly, char const* hs_global_name, long min_value, long max_value, long inc_value) :
+	c_debug_menu_item_type(menu, name, readonly),
+	m_value(hs_global_name),
+	m_min_value(min_value),
+	m_max_value(max_value),
+	m_inc_value(inc_value)
+{
+}
