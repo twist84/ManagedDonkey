@@ -6,7 +6,7 @@ class c_debug_menu_scroll :
 	public c_debug_menu
 {
 public:
-	virtual ~c_debug_menu_scroll() override;
+	virtual ~c_debug_menu_scroll();
 	virtual void update() override;
 	virtual void render(c_font_cache_base* font_cache, int16_point2d* point) override;
 	virtual void open() override;
@@ -28,5 +28,27 @@ private:
 protected:
 	short m_num_visible;
 	short m_first;
+};
+
+class c_debug_menu_zone_sets :
+	public c_debug_menu_scroll
+{
+public:
+	virtual ~c_debug_menu_zone_sets();
+	virtual void notify_selected(short selected_value) override;
+	virtual void open() override;
+
+protected:
+	virtual void notify_up() override;
+	virtual void notify_down() override;
+
+public:
+	c_debug_menu_zone_sets(c_debug_menu* parent, short num_visible, char const* name);
+
+private:
+	void update_caption();
+
+protected:
+	char m_some_string[128];
 };
 
