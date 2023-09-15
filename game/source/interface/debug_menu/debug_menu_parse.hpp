@@ -40,6 +40,16 @@ enum e_token
 
 extern char const* const g_token_names[k_token_count];
 
+enum e_property_owner
+{
+	_property_owner_none = 0,
+	_property_owner_item,
+	_property_owner_menu,
+	_property_owner_zone_set_menu,
+
+	k_property_owner_count
+};
+
 struct s_parser_state
 {
 	void reset();
@@ -67,10 +77,7 @@ struct s_parser_state
 	// 8: inc,      m_inc = true
 	short m_xml_attribute;
 
-	// 1: item
-	// 2: menu
-	// 3: zone_set_menu
-	long m_xml_element;
+	e_property_owner m_property_owner;
 
 	char m_string_buffer[2048];
 	short m_string_buffer_index;

@@ -5,6 +5,7 @@
 #include "interface/debug_menu/debug_menu_item_hs_command.hpp"
 #include "interface/debug_menu/debug_menu_item_numbered.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
+#include "interface/debug_menu/debug_menu_scroll.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "main/console.hpp"
 
@@ -25,7 +26,7 @@ void s_parser_state::reset()
 	m_inc = 0;
 	m_item_type = 0;
 	m_xml_attribute = 0;
-	m_xml_element = 0;
+	m_property_owner = _property_owner_none;
 }
 
 char const* const g_token_names[k_token_count]
@@ -270,8 +271,38 @@ char const* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, long e
 	return NULL;
 }
 
-c_debug_menu* debug_menu_build_menu(long xml_element, c_debug_menu* item_menu)
+c_debug_menu* debug_menu_build_menu(e_property_owner property_owner, c_debug_menu* menu)
 {
+	char const* name = g_parser_state.m_name ? g_parser_state.m_name_buffer : "untitled menu";
+	char const* caption = g_parser_state.m_caption ? g_parser_state.m_caption_buffer : "";
+	c_debug_menu* child = NULL;
+
+	for (long i = 0; i < s_parser_state::k_string_length; i++)
+	{
+		if (g_parser_state.m_name_buffer[i] == '\t')
+			g_parser_state.m_name_buffer[i] = ',';
+	}
+
+	switch (property_owner)
+	{
+	case _property_owner_menu:
+	{
+		child = new c_debug_menu_scroll(menu, 26, name);
+	}
+	break;
+	case _property_owner_zone_set_menu:
+	{
+		child = new c_debug_menu_zone_sets(menu, 26, name);
+	}
+	break;
+	default:
+		ASSERT2(unreachable);
+		break;
+	}
+
+	child->set_caption(caption);
+	menu->add_item(new c_debug_menu_item_numbered(menu, name, child));
+
 	// #TODO: implement this
 	return NULL;
 }
@@ -583,32 +614,37 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 				error = "*parse_stack.get_top() == _parse_state_reading_tag";
 				break;
 			}
+
 			parse_stack.pop();
-			if (g_parser_state.m_xml_element < 2 || g_parser_state.m_xml_element > 11)
+
+			long const xml_element = (2 - 2);
+
+
+			char build_property_error[1024]{};
+			if (g_parser_state.m_property_owner == _property_owner_item)
 			{
-				char build_item_error[1024]{};
-				if (debug_menu_build_item(menu, build_item_error, sizeof(build_item_error)))
+				if (debug_menu_build_item(menu, build_property_error, sizeof(build_property_error)))
 				{
-					error = build_item_error;
+					error = build_property_error;
 					break;
 				}
-				else
+			}
+			else
+			{
+				csstrnzcpy(build_property_error, "", sizeof(build_property_error));
+				c_debug_menu* built_menu = debug_menu_build_menu(g_parser_state.m_property_owner, menu);
+				if (!built_menu)
 				{
-					csstrnzcpy(build_item_error, "", sizeof(build_item_error));
-					c_debug_menu* built_menu = debug_menu_build_menu(g_parser_state.m_xml_element, menu);
-					if (!built_menu)
-					{
-						error = build_item_error;
-						break;
-					}
+					error = build_property_error;
+					break;
+				}
 
-					v15 = 2;
-					char_ref = fgetc(menu_file);
-					if (char const* v18 = debug_menu_build_recursive(menu_file, char_ref, built_menu, line_count, error_buffer, error_buffer_size))
-					{
-						result = v18;
-						break;
-					}
+				v15 = 2;
+				char_ref = fgetc(menu_file);
+				if (char const* recursive_build_error = debug_menu_build_recursive(menu_file, char_ref, built_menu, line_count, error_buffer, error_buffer_size))
+				{
+					result = recursive_build_error;
+					break;
 				}
 			}
 
