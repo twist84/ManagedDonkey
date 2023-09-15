@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
+
 #define DEBUG_MENU_NUM_GLOBAL_CAPTIONS 8
 
 union real_argb_color;
@@ -15,10 +17,11 @@ extern real_argb_color const* const debug_real_argb_tv_orange;
 extern real_argb_color const* const debug_real_argb_tv_green;
 
 extern bool debug_menu_enabled;
+extern c_static_stack<long, 64000> g_debug_menu_stack;
 
 extern void patch_debug_menu();
 
-extern void debug_menu_draw_rect(short, short, short, short, float, real_argb_color const*);
+extern void debug_menu_draw_rect(short, short, short, short, real, real_argb_color const* color);
 extern bool debug_menu_get_active();
 extern void debug_menu_initialize();
 extern void debug_menu_dispose();
@@ -36,12 +39,12 @@ extern void debug_menu_set_active_menu(c_debug_menu* menu, bool active);
 extern void debug_menu_set_caption(short caption_index, char const* caption);
 extern char const* debug_menu_get_caption(short caption_index);
 extern long debug_menu_get_time();
-extern float debug_menu_get_item_margin();
-extern float debug_menu_get_item_width();
-extern float debug_menu_get_item_height();
-extern float debug_menu_get_title_height();
-extern float debug_menu_get_item_indent_x();
-extern float debug_menu_get_item_indent_y();
+extern real debug_menu_get_item_margin();
+extern real debug_menu_get_item_width();
+extern real debug_menu_get_item_height();
+extern real debug_menu_get_title_height();
+extern real debug_menu_get_item_indent_x();
+extern real debug_menu_get_item_indent_y();
 extern void* debug_menu_malloc(long size);
 extern void xor_buffers(void* destination, void const* source, long buffer_size);
 

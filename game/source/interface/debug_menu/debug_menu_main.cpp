@@ -7,6 +7,7 @@
 #include "interface/debug_menu/debug_menu.hpp"
 #include "interface/debug_menu/debug_menu_scroll.hpp"
 #include "interface/debug_menu/debug_menu_parse.hpp"
+#include "main/console.hpp"
 #include "main/main.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
@@ -61,7 +62,7 @@ bool debug_menu_enabled = true;
 s_debug_menu_globals g_debug_menu_globals = {};
 c_static_stack<long, 64000> g_debug_menu_stack;
 
-void debug_menu_draw_rect(short a1, short a2, short a3, short a4, float a5, real_argb_color const* color)
+void debug_menu_draw_rect(short a1, short a2, short a3, short a4, real a5, real_argb_color const* color)
 {
 	int16_point2d points[4]{};
 
@@ -96,6 +97,7 @@ void debug_menu_initialize_for_new_map()
 	g_debug_menu_globals.render = false;
 	g_debug_menu_globals.root_menu = NULL;
 	g_debug_menu_globals.active_menu = NULL;
+
 	g_debug_menu_globals.root_menu = new c_main_menu();
 
 	csmemset(&g_debug_menu_globals.last_gamepad_state, 0, sizeof(g_debug_menu_globals.last_gamepad_state));
@@ -115,9 +117,8 @@ void debug_menu_dispose_from_old_map()
 	g_debug_menu_globals.active_menu = NULL;
 }
 
-void debug_menu_update()
+void debug_menu_update_current_gamepad_state()
 {
-	// debug_menu_update_current_gamepad_state
 	csmemset(&g_debug_menu_globals.current_gamepad_state, 0, sizeof(g_debug_menu_globals.current_gamepad_state));
 	for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
@@ -127,6 +128,72 @@ void debug_menu_update()
 		//		xor_buffers(&g_debug_menu_globals.current_gamepad_state, state, sizeof(gamepad_state));
 		//}
 	}
+
+	csmemset(&g_debug_menu_globals.current_gamepad_state.thumb_left, 0, 8);
+	csmemset(&g_debug_menu_globals.current_gamepad_state.trigger_down_amount, 0, 2);
+	csmemset(&g_debug_menu_globals.current_gamepad_state.max_trigger_down_amount, 0, 2);
+}
+
+bool debugging_system_has_focus()
+{
+	return console_is_active() || debug_menu_get_active();
+}
+
+bool g_debug_menu_rebuild_request = false;
+
+void debug_menu_update()
+{
+	debug_menu_update_current_gamepad_state();
+
+	gamepad_state const& state = debug_menu_get_gamepad_state();
+	if (state.buttons_down_frames[6])
+	{
+		g_debug_menu_globals.render = false;
+	}
+	else
+	{
+		bool v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
+			|| state.buttons_down_frames[5] == 1 && state.buttons_down_frames[4]
+			|| state.buttons_down_frames[5] && state.buttons_down_frames[4] == 1;
+
+		if (console_is_active())
+		{
+			v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
+				|| state.buttons_down_frames[5] == 1;
+		}
+
+		if (!debugging_system_has_focus() && !debug_menu_enabled)
+			v2 = false;
+
+		if (console_is_active())
+		{
+			if (v2)
+				debug_menu_close();
+		}
+		else if (v2)
+		{
+			debug_menu_open();
+		}
+
+		if (debug_menu_get_active())
+		{
+			if (g_debug_menu_rebuild_request)
+			{
+				debug_menu_close();
+				debug_menu_dispose_from_old_map();
+				debug_menu_initialize_for_new_map();
+				debug_menu_open();
+
+				g_debug_menu_rebuild_request = false;
+			}
+
+			debug_menu_get_active_menu()->update();
+		}
+
+		g_debug_menu_globals.render = true;
+	}
+
+	g_debug_menu_globals.last_gamepad_state = g_debug_menu_globals.current_gamepad_state;
 }
 
 void debug_menu_open()
@@ -179,32 +246,32 @@ gamepad_state const& debug_menu_get_last_gamepad_state()
 	return g_debug_menu_globals.last_gamepad_state;
 }
 
-float debug_menu_get_item_margin()
+real debug_menu_get_item_margin()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 10.0f;
 }
 
-float debug_menu_get_item_width()
+real debug_menu_get_item_width()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 650.0f;
 }
 
-float debug_menu_get_item_height()
+real debug_menu_get_item_height()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 20.0f;
 }
 
-float debug_menu_get_title_height()
+real debug_menu_get_title_height()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 20.0f;
 }
 
-float debug_menu_get_item_indent_x()
+real debug_menu_get_item_indent_x()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 40.0f;
 }
 
-float debug_menu_get_item_indent_y()
+real debug_menu_get_item_indent_y()
 {
 	return draw_string_get_glyph_scaling_for_display_settings() * 2.0f;
 }
