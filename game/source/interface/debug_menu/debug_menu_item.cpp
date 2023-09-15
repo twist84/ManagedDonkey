@@ -155,3 +155,8 @@ bool c_debug_menu_item::get_is_selection()
 	return get_index() == get_menu()->get_selection();
 }
 
+void* c_debug_menu_item::operator new(unsigned int size)
+{
+	return debug_menu_malloc(size);
+}
+
