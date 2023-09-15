@@ -1,5 +1,6 @@
 #include "interface/debug_menu/debug_menu_parse.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "interface/debug_menu/debug_menu.hpp"
 #include "interface/debug_menu/debug_menu_item.hpp"
 #include "interface/debug_menu/debug_menu_item_hs_command.hpp"
@@ -317,9 +318,9 @@ c_debug_menu* debug_menu_build_menu(e_property_owner property_owner, c_debug_men
 	return NULL;
 }
 
-void debug_menu_display_error(char const* error_text, bool log_as_warning)
+void debug_menu_display_error(char const* error_text, bool error)
 {
-	// #TODO: implement this
+	generate_event(error == false ? _event_level_warning : _event_level_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR");
 }
 
 char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_menu* menu, long* line_count, char* error_buffer, long error_buffer_size)
