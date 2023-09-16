@@ -340,16 +340,17 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 	ASSERT(line_count != NULL);
 	ASSERT(error_buffer != NULL);
 
-	long c;
+	long advance_distance = 0;
+	long v15 = 0;
 	while (char_ref && char_ref != NONE && !error_text)
 	{
-		long advance_distance = 0;
-		long v15 = 0;
+		advance_distance = 0;
+		v15 = 0;
 
 		if (debug_menu_memory_available() < 10240)
 		{
 			error = "out of memory, please make your debug menu smaller";
-			break;
+			goto ERROR_CODE;
 		}
 
 		if (*parse_stack.get_top() == _parse_state_reading_number)
@@ -371,93 +372,95 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 		}
 
 		if (*parse_stack.get_top() == _parse_state_reading_number)
-			goto LABEL_124;
-
+			goto LABEL_73;
 
 		if (*parse_stack.get_top() == _parse_state_reading_escape_sequence)
 		{
 			parse_stack.pop();
-
-			if (*parse_stack.get_top() != _parse_state_reading_string)
+			if (*parse_stack.get_top() == _parse_state_reading_string)
 			{
-				error = "*parse_stack.get_top()==_parse_state_reading_string";
-				break;
-			}
+				if (VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+				{
+					g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index++] = char(char_ref);
 
-			if (!VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
-			{
+					v15 = 1;
+					advance_distance = 1;
+					goto LABEL_73;
+				}
+
 				error = "VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length)";
-				break;
+				goto ERROR_CODE;
 			}
 
-			g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index++] = char(char_ref);
-
-			v15 = 1;
-			advance_distance = 1;
-			goto LABEL_124;
+			error = "*parse_stack.get_top()==_parse_state_reading_string";
+			goto ERROR_CODE;
 		}
 
 		if (*parse_stack.get_top() == _parse_state_reading_string && char_ref != '"')
 		{
 			if (char_ref == '\\')
 			{
-				if (*parse_stack.get_top() != _parse_state_reading_string)
+				if (*parse_stack.get_top() == _parse_state_reading_string)
 				{
-					error = "can not use escape sequences outside of string declaration";
-					break;
+					parse_stack.push_back(_parse_state_reading_escape_sequence);
 				}
 
-				parse_stack.push_back(_parse_state_reading_escape_sequence);
+				error = "can not use escape sequences outside of string declaration";
+				goto ERROR_CODE;
 			}
 			else
 			{
-				if (!VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+				if (VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+				{
+
+				}
+				else
 				{
 					error = "VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length)";
-					break;
+					goto ERROR_CODE;
 				}
 			}
 
 			v15 = 1;
 			advance_distance = 1;
-			goto LABEL_124;
+			goto LABEL_73;
 		}
 
 		if (char_ref >= '0' && char_ref <= '9')
 		{
-			if (*parse_stack.get_top() != _parse_state_reading_property_found_eqauls)
+			if (*parse_stack.get_top() == _parse_state_reading_property_found_eqauls)
 			{
-				error = "losse number not assigned to property";
-				break;
+				parse_stack.push_back(_parse_state_reading_number);
+				g_parser_state.m_number_buffer_index = 0;
+				g_parser_state.m_number_buffer[0] = char(char_ref);
+				g_parser_state.m_number_buffer_index = 1;
+
+				v15 = 1;
+				advance_distance = 1;
+				goto LABEL_73;
 			}
 
-			parse_stack.push_back(_parse_state_reading_number);
-			g_parser_state.m_number_buffer_index = 0;
-			g_parser_state.m_number_buffer[0] = char(char_ref);
-			g_parser_state.m_number_buffer_index = 1;
-
-			v15 = 1;
-			advance_distance = 1;
-			goto LABEL_124;
+			error = "losse number not assigned to property";
+			goto ERROR_CODE;
 		}
 
-		c = char_ref;
-		if (c <= '/')
+		// switch (char_ref)
+		if (char_ref <= '/')
 		{
-			if (c == '/')
+			if (char_ref == '/')
 			{
 				v15 = 1;
 				advance_distance = 1;
 				if (*parse_stack.get_top() == _parse_state_reading_tag)
 				{
 					error = "unexpected symbol back slash";
-					break;
+					goto ERROR_CODE;
 				}
 				parse_stack.push_back(_parse_state_reading_forward_slash);
 			}
-			else if (c > ' ')
+			else if (char_ref > ' ')
 			{
-				if (c == '"')
+				if (char_ref == '"')
 				{
 					e_parse_state v35 = *parse_stack.get_top();
 					if (v35 == _parse_state_reading_property_found_eqauls)
@@ -472,7 +475,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 						if (v35 != _parse_state_reading_string)
 						{
 							error = "unexpected symbol \"";
-							break;
+							goto ERROR_CODE;
 						}
 
 						v15 = 1;
@@ -480,12 +483,12 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 						debug_menu_store_string_property(&parse_stack);
 					}
 				}
-				else if (c > ',')
+				else if (char_ref > ',')
 				{
 					if (*parse_stack.get_top() != _parse_state_reading_property_found_eqauls)
 					{
 						error = "losse number not assigned to property";
-						break;
+						goto ERROR_CODE;
 					}
 					parse_stack.push_back(_parse_state_reading_number);
 					g_parser_state.m_number_buffer_index = 0;
@@ -495,27 +498,27 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 					advance_distance = 1;
 				}
 			}
-			else if (c == ' ' || c == '\xCD' || c == '\t')
+			else if (char_ref == ' ' || char_ref == '\xCD' || char_ref == '\t')
 			{
 				v15 = 1;
 				advance_distance = 1;
 			}
 
-			goto LABEL_124;
+			goto LABEL_73;
 		}
 
-		if (c > '>')
+		if (char_ref > '>')
 		{
-			if (c == '\\')
+			if (char_ref == '\\')
 			{
 				error = "can not use escape sequences outside of string declaration";
-				break;
+				goto ERROR_CODE;
 			}
 
-		LABEL_124:
+		LABEL_73:
 			if (!v15)
 			{
-				long v19 = 0;
+				long token = 0;
 				long maximum_token_name_length = 0;
 				for (long i = 0; i < NUMBEROF(g_token_names); i++)
 				{
@@ -533,7 +536,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 				{
 					if (string_in_string_case_insensitive(token_buffer, g_token_names[i]))
 					{
-						v19 = i;
+						token = i;
 
 						advance_distance = strlen(g_token_names[i]);
 						v15 = 1;
@@ -541,43 +544,246 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 					}
 				}
 
-				// #TODO: implement this
-				//switch (v19)
-				//{
-				//case 0:
-				//	break;
-				//}
-			}
-
-			long v44 = v15;
-			long v45 = v15;
-			if (v15)
-			{
-				if (v45 == 1)
+				switch (token)
 				{
-					ASSERT(advance_distance != 0);
-					while (advance_distance > 0)
+				case _token_min:
+				{
+					g_parser_state.m_xml_attribute = 6;
+					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
 					{
-						char_ref = fgetc(menu_file);
-						advance_distance--;
+						parse_stack.push_back(_parse_state_reading_property);
+						goto LABEL_431;
 					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+					goto ERROR_CODE;
 				}
-				else if (v45 > 2)
+				break;
+				case _token_max:
 				{
+					g_parser_state.m_xml_attribute = 7;
+					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_property);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_inc:
+				{
+					g_parser_state.m_xml_attribute = 8;
+					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_property);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_menu:
+				{
+					if (*parse_stack.get_top() == _parse_state_reading_forward_slash)
+					{
+						goto LABEL_431;
+					}
+
+					g_parser_state.m_property_owner = _property_owner_menu;
+
+					if (*parse_stack.get_top() == _parse_state_reading_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_open_tag);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_zone_set_menu:
+				{
+					if (*parse_stack.get_top() == _parse_state_reading_forward_slash)
+					{
+						goto LABEL_431;
+					}
+
+					g_parser_state.m_property_owner = _property_owner_zone_set_menu;
+
+					if (*parse_stack.get_top() == _parse_state_reading_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_open_tag);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_item:
+				{
+					g_parser_state.m_property_owner = _property_owner_item;
+
+					if (*parse_stack.get_top() == _parse_state_reading_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_open_tag);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_caption:
+				{
+					g_parser_state.m_xml_attribute = 3;
+					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_property);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_name:
+				{
+					g_parser_state.m_xml_attribute = 4;
+					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_property);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_variable:
+				{
+					g_parser_state.m_xml_attribute = 5;
+					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_property);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_color:
+				{
+					g_parser_state.m_xml_attribute = 2;
+					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_property);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_type:
+				{
+					g_parser_state.m_xml_attribute = 1;
+					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
+					{
+						parse_stack.push_back(_parse_state_reading_property);
+						goto LABEL_431;
+					}
+
+					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+					goto ERROR_CODE;
+				}
+				break;
+				case _token_global:
+				case _token_command:
+				{
+					if (*parse_stack.get_top() != _parse_state_reading_property_found_eqauls)
+					{
+						error = "unexpected token \"global\"";
+						goto ERROR_CODE;
+					}
+
+					g_parser_state.m_item_type = 1;
+					g_parser_state.m_item_type_value = 0;
+
+					if (token == _token_global)
+						g_parser_state.m_item_type_value = 1;
+					else if (token == _token_command)
+						g_parser_state.m_item_type_value = 2;
+
+					if (*parse_stack.get_top() != _parse_state_reading_property_found_eqauls)
+					{
+						error = "*parse_stack.get_top() == _parse_state_reading_property_found_eqauls";
+						goto ERROR_CODE;
+					}
+
+					parse_stack.pop();
+					if (*parse_stack.get_top() != _parse_state_reading_property)
+					{
+						error = "*parse_stack.get_top() == _parse_state_reading_property";
+						goto ERROR_CODE;
+					}
+
+					parse_stack.pop();
+					if (*parse_stack.get_top() != _parse_state_reading_open_tag)
+					{
+						error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
+						goto ERROR_CODE;
+					}
+				LABEL_431:
+					if (v15)
+						goto LABEL_432;
+
+					error = "unexpected token";
+				}
+				break;
+				case _token_crlf:
+				case _token_lfcr:
+				case _token_carriage_return:
+				case _token_line_feed:
+					++*line_count;
+					goto LABEL_431;
+				default:
+					goto LABEL_431;
+				}
+				goto ERROR_CODE;
+			}
+		LABEL_432:
+
+			long v110 = v15 - 1;
+			if (v110)
+			{
+				if (v110 != 1)
 					ASSERT2(unreachable);
+			}
+			else if (advance_distance)
+			{
+				ASSERT(advance_distance != 0);
+				while (advance_distance > 0)
+				{
+					char_ref = fgetc(menu_file);
+					advance_distance--;
 				}
 			}
 			else
 			{
-				error = "unexpected token";
+				ASSERT(advance_distance != 0);
 			}
 
-			break;
+			continue;
 		}
 
-		if (c != '>')
+		if (char_ref != '>')
 		{
-			if (c == '<')
+			if (char_ref == '<')
 			{
 				v15 = 1;
 				advance_distance = 1;
@@ -585,33 +791,32 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 				if (*parse_stack.get_top() == _parse_state_reading_tag)
 				{
 					error = "unexpected symbol less than";
-					break;
+					goto ERROR_CODE;
 				}
 
 				parse_stack.push_back(_parse_state_reading_tag);
 				g_parser_state.reset();
 			}
-			else if (c == '=')
+			else if (char_ref == '=')
 			{
 				v15 = 1;
 				advance_distance = 1;
 
-				if (*parse_stack.get_top() != _parse_state_reading_property)
+				if (*parse_stack.get_top() == _parse_state_reading_property)
 				{
-					error = "= sign expected";
-					break;
-				}
+					if (*parse_stack.get_top() == _parse_state_reading_property)
+					{
+						parse_stack.push_back(_parse_state_reading_property_found_eqauls);
+					}
 
-				if (*parse_stack.get_top() != _parse_state_reading_property)
-				{
 					error = "*parse_stack.get_top() == _parse_state_reading_property";
-					break;
+					goto ERROR_CODE;
 				}
-
-				parse_stack.push_back(_parse_state_reading_property_found_eqauls);
+				error = "= sign expected";
+				goto ERROR_CODE;
 			}
 
-			goto LABEL_124;
+			goto LABEL_73;
 		}
 
 		v15 = 1;
@@ -620,46 +825,42 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 		if (*parse_stack.get_top() == _parse_state_reading_open_tag)
 		{
 			parse_stack.pop();
-			if (*parse_stack.get_top() != _parse_state_reading_tag)
+			if (*parse_stack.get_top() == _parse_state_reading_tag)
 			{
-				error = "*parse_stack.get_top() == _parse_state_reading_tag";
-				break;
+				char build_property_error[1024]{};
+				parse_stack.pop();
+				if (g_parser_state.m_property_owner == _property_owner_item)
+				{
+					if (debug_menu_build_item(menu, build_property_error, sizeof(build_property_error)))
+					{
+						error = build_property_error;
+						goto ERROR_CODE;
+					}
+				}
+				else
+				{
+					csstrnzcpy(build_property_error, "", sizeof(build_property_error));
+					c_debug_menu* built_menu = debug_menu_build_menu(g_parser_state.m_property_owner, menu);
+					if (!built_menu)
+					{
+						error = build_property_error;
+						goto ERROR_CODE;
+					}
+
+					v15 = 2;
+					char_ref = fgetc(menu_file);
+					if (char const* recursive_build_error = debug_menu_build_recursive(menu_file, char_ref, built_menu, line_count, error_buffer, error_buffer_size))
+					{
+						result = recursive_build_error;
+						goto ERROR_CODE;
+					}
+				}
+
+				goto LABEL_73;
 			}
 
-			parse_stack.pop();
-
-			long const xml_element = (2 - 2);
-
-
-			char build_property_error[1024]{};
-			if (g_parser_state.m_property_owner == _property_owner_item)
-			{
-				if (debug_menu_build_item(menu, build_property_error, sizeof(build_property_error)))
-				{
-					error = build_property_error;
-					break;
-				}
-			}
-			else
-			{
-				csstrnzcpy(build_property_error, "", sizeof(build_property_error));
-				c_debug_menu* built_menu = debug_menu_build_menu(g_parser_state.m_property_owner, menu);
-				if (!built_menu)
-				{
-					error = build_property_error;
-					break;
-				}
-
-				v15 = 2;
-				char_ref = fgetc(menu_file);
-				if (char const* recursive_build_error = debug_menu_build_recursive(menu_file, char_ref, built_menu, line_count, error_buffer, error_buffer_size))
-				{
-					result = recursive_build_error;
-					break;
-				}
-			}
-
-			goto LABEL_124;
+			error = "*parse_stack.get_top() == _parse_state_reading_tag";
+			goto ERROR_CODE;
 		}
 
 		if (*parse_stack.get_top() == _parse_state_reading_forward_slash)
@@ -671,7 +872,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 				char_ref = fgetc(menu_file);
 				result = error_text;
 
-				break;
+				goto FUNCTION_END;
 			}
 
 			error = "*parse_stack.get_top() == _parse_state_reading_tag";
@@ -680,17 +881,20 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 		{
 			error = "unexpected symbol greater than";
 		}
-	}
 
-	if (error)
-	{
-		csnzprintf(error_buffer, error_buffer_size, "ln %d: %s", *line_count, error);
-		error_text = error_buffer;
-		debug_menu_display_error(error_buffer, true);
+	ERROR_CODE:;
+		if (error)
+		{
+			csnzprintf(error_buffer, error_buffer_size, "ln %d: %s", *line_count, error);
+			error_text = error_buffer;
+			debug_menu_display_error(error_buffer, true);
+		}
 	}
 
 	if (error_text)
 		result = error_text;
+
+FUNCTION_END:;
 
 	return result;
 }
