@@ -106,7 +106,7 @@ struct s_parser_state
 	bool m_inc;
 	real m_inc_value;
 
-	bool m_item_type;
+	byte m_item_type;
 	long m_item_type_value; // 1: global, 2: command
 };
 //static_assert(sizeof(s_parser_state) == 0x330);
