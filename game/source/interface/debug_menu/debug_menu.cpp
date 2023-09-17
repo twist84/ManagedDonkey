@@ -165,7 +165,7 @@ void c_debug_menu::update()
 	}
 }
 
-void c_debug_menu::render(c_font_cache_base* font_cache, int16_point2d* point)
+void c_debug_menu::render(c_font_cache_base* font_cache, int16_point2d const& point)
 {
 	render_background(font_cache, point);
 	render_title(font_cache, point);
@@ -331,7 +331,7 @@ short c_debug_menu::get_max_active_captions()
 	return max_active_captions;
 }
 
-void c_debug_menu::render_background(c_font_cache_base* font_cache, int16_point2d* point)
+void c_debug_menu::render_background(c_font_cache_base* font_cache, int16_point2d const& point)
 {
 	real unused = get_enabled() ? 0.7f : 0.1f;
 	real item_margin = get_value_width() ? debug_menu_get_item_margin() : 0.0f;
@@ -344,7 +344,7 @@ void c_debug_menu::render_background(c_font_cache_base* font_cache, int16_point2
 	debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_tv_blue);
 }
 
-void c_debug_menu::render_title(c_font_cache_base* font_cache, int16_point2d* point)
+void c_debug_menu::render_title(c_font_cache_base* font_cache, int16_point2d const& point)
 {
 	real unused = get_enabled() ? 0.7f : 0.1f;
 	c_rasterizer_draw_string draw_string{};
@@ -365,15 +365,15 @@ void c_debug_menu::render_title(c_font_cache_base* font_cache, int16_point2d* po
 	draw_string.draw(font_cache, m_name);
 }
 
-void c_debug_menu::render_caption(c_font_cache_base* font_cache, int16_point2d* point)
+void c_debug_menu::render_caption(c_font_cache_base* font_cache, int16_point2d const& point)
 {
 }
 
-void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, int16_point2d* point)
+void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, int16_point2d const& point)
 {
 }
 
-void c_debug_menu::render_items(c_font_cache_base* font_cache, int16_point2d* point, short start_index, short end_index)
+void c_debug_menu::render_items(c_font_cache_base* font_cache, int16_point2d const& point, short start_index, short end_index)
 {
 }
 

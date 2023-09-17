@@ -43,7 +43,7 @@ void c_debug_menu_scroll::update()
 	}
 }
 
-void c_debug_menu_scroll::render(c_font_cache_base* font_cache, int16_point2d* point)
+void c_debug_menu_scroll::render(c_font_cache_base* font_cache, int16_point2d const& point)
 {
 	render_background(font_cache, point);
 	render_title(font_cache, point);

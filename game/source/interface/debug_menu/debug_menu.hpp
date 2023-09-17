@@ -14,7 +14,7 @@ class c_debug_menu
 public:
 	virtual ~c_debug_menu();
 	virtual void update();
-	virtual void render(c_font_cache_base* font_cache, int16_point2d* point);
+	virtual void render(c_font_cache_base* font_cache, int16_point2d const& point);
 	virtual void game_render();
 	virtual void notify_selected(short selected_value);
 	virtual void open();
@@ -37,11 +37,11 @@ protected:
 	short get_menu_rate();
 	short get_max_active_captions();
 
-	void render_background(c_font_cache_base* font_cache, int16_point2d* point);
-	void render_title(c_font_cache_base* font_cache, int16_point2d* point);
-	void render_caption(c_font_cache_base* font_cache, int16_point2d* point);
-	void render_global_caption(c_font_cache_base* font_cache, int16_point2d* point);
-	void render_items(c_font_cache_base* font_cache, int16_point2d* point, short start_index, short end_index);
+	void render_background(c_font_cache_base* font_cache, int16_point2d const& point);
+	void render_title(c_font_cache_base* font_cache, int16_point2d const& point);
+	void render_caption(c_font_cache_base* font_cache, int16_point2d const& point);
+	void render_global_caption(c_font_cache_base* font_cache, int16_point2d const& point);
+	void render_items(c_font_cache_base* font_cache, int16_point2d const& point, short start_index, short end_index);
 
 private:
 	void try_left();

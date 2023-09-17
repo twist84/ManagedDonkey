@@ -10,7 +10,7 @@ class c_debug_menu_item
 public:
 	virtual ~c_debug_menu_item();
 	virtual void update();
-	virtual void render(c_font_cache_base*, int16_point2d const&);
+	virtual void render(c_font_cache_base* font_cache, int16_point2d const& point);
 	virtual void notify_selected();
 	virtual void open();
 	virtual void notify_left();
