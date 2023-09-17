@@ -60,7 +60,7 @@ void c_debug_menu_scroll::render(c_font_cache_base* font_cache, int16_point2d* p
 	draw_string.set_color(debug_real_argb_tv_magenta);
 	if (get_first() > 0)
 	{
-		set_rectangle2d(&bounds, point->x, point->y + get_title_height(), bounds.x1, bounds.y1);
+		set_rectangle2d(&bounds, point.x, point.y + get_title_height(), bounds.x1, bounds.y1);
 
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(font_cache, "^");
@@ -72,7 +72,7 @@ void c_debug_menu_scroll::render(c_font_cache_base* font_cache, int16_point2d* p
 
 	if (get_num_items() - get_first() > get_num_visible())
 	{
-		set_rectangle2d(&bounds, point->x, (point->y + get_title_height()) + (get_num_visible() - 2) * get_item_height(), bounds.x1, bounds.y1);
+		set_rectangle2d(&bounds, point.x, (point.y + get_title_height()) + (get_num_visible() - 2) * get_item_height(), bounds.x1, bounds.y1);
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(font_cache, "|");
 
