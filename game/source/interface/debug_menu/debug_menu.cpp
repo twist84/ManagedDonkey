@@ -367,6 +367,24 @@ void c_debug_menu::render_title(c_font_cache_base* font_cache, int16_point2d con
 
 void c_debug_menu::render_caption(c_font_cache_base* font_cache, int16_point2d const& point)
 {
+	c_rasterizer_draw_string draw_string{};
+
+	short_rectangle2d bounds{};
+	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+	if (*get_caption())
+	{
+		real unused = get_enabled() ? 0.7f : 0.1f;
+
+		short a1 = point.x;
+		short a2 = short(point.y + debug_menu_get_item_indent_y());
+		short a3 = short(point.x + debug_menu_get_item_width());
+		short a4 = short(((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+
+		debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_grey);
+	}
+
+	set_rectangle2d(&bounds, point.x, short((point.y + get_title_height()) + get_num_items_to_render() * get_item_height()), short(point.x + debug_menu_get_item_width()), bounds.y1);
+	draw_string.draw(font_cache, get_caption());
 }
 
 void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, int16_point2d const& point)
