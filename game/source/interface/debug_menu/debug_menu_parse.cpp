@@ -290,9 +290,17 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 
 	char const* name = g_parser_state.m_name ? g_parser_state.m_name_buffer : g_parser_state.m_variable_buffer;
 
-	c_debug_menu_item* item = NULL;
+	long console_global_index = NONE;
+	for (long i = 0; i < k_console_global_count; i++)
+	{
+		if (!csstricmp(g_parser_state.m_variable_buffer, k_console_globals[i]->name) && k_console_globals[i]->pointer)
+		{
+			console_global_index = i;
+			break;
+		}
+	}
 
-	long console_global_index = NONE; // find_console_global_by_name(g_parser_state.m_variable_buffer, NULL);
+	c_debug_menu_item* item = NULL;
 	if (console_global_index != NONE && k_console_globals[console_global_index]->pointer)
 	{
 		e_hs_type type = k_console_globals[console_global_index]->type;

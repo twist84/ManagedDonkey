@@ -148,7 +148,7 @@ void c_debug_menu::update()
 		{
 			if (input_key_frames_down(letter_keys[i], _input_type_ui) == 1)
 			{
-				selection = i - _key_code_f10;
+				selection = i + _key_code_f10;
 				break;
 			}
 		}

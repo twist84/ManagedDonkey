@@ -401,45 +401,45 @@ void __cdecl main_loop_body_end()
 			event_manager_button_pressed(_controller_index0, _gamepad_button_right_bumper);
 	}
 
-	// home cluster keys
-	if (input_key_frames_down(_key_code_insert, _input_type_ui) == 1)
-	{
-		console_process_command("load_preferences_from_file preferences.txt", true);
-	}
-	if (input_key_frames_down(_key_code_delete, _input_type_ui) == 1)
-	{
-		static bool elite_hanger = false;
-
-		if (game_is_ui_shell())
-			user_interface_start_hs_script_by_name((elite_hanger = !elite_hanger) ? "elitehangar" : "humanhangar");
-	}
+	//// home cluster keys
+	//if (input_key_frames_down(_key_code_insert, _input_type_ui) == 1)
+	//{
+	//	console_process_command("load_preferences_from_file preferences.txt", true);
+	//}
+	//if (input_key_frames_down(_key_code_delete, _input_type_ui) == 1)
+	//{
+	//	static bool elite_hanger = false;
+	//
+	//	if (game_is_ui_shell())
+	//		user_interface_start_hs_script_by_name((elite_hanger = !elite_hanger) ? "elitehangar" : "humanhangar");
+	//}
 	//if (input_key_frames_down(_key_code_home, _input_type_ui) == 1)
 	//{
 	//	//main_game_launch_set_multiplayer_splitscreen_count(2);
 	//	main_game_launch_set_coop_player_count(2);
 	//	main_game_launch("maps\\riverworld");
 	//}
-	if (input_key_frames_down(_key_code_end, _input_type_ui) == 1)
-	{
-		director_toggle(main_game_launch_get_last_player(), _director_mode_debug);
-	}
-	if (input_key_frames_down(_key_code_page_up, _input_type_ui) == 1)
-	{
-		player_control_toggle_machinima_camera_enabled();
-		player_control_toggle_machinima_camera_debug();
-	}
-	if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
-	{
-		player_control_toggle_machinima_camera_use_old_controls();
-	}
-
-	if (input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
-	{
-	}
-	if (input_key_frames_down(_key_code_keypad_decimal, _input_type_ui) == 1)
-	{
-		load_game_browser(_controller_index0, 0, _browser_type_system_link_games);
-	}
+	//if (input_key_frames_down(_key_code_end, _input_type_ui) == 1)
+	//{
+	//	director_toggle(main_game_launch_get_last_player(), _director_mode_debug);
+	//}
+	//if (input_key_frames_down(_key_code_page_up, _input_type_ui) == 1)
+	//{
+	//	player_control_toggle_machinima_camera_enabled();
+	//	player_control_toggle_machinima_camera_debug();
+	//}
+	//if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
+	//{
+	//	player_control_toggle_machinima_camera_use_old_controls();
+	//}
+	//
+	//if (input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
+	//{
+	//}
+	//if (input_key_frames_down(_key_code_keypad_decimal, _input_type_ui) == 1)
+	//{
+	//	load_game_browser(_controller_index0, 0, _browser_type_system_link_games);
+	//}
 }
 
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
