@@ -453,3 +453,29 @@ void __cdecl director_debug_camera(bool render)
 	g_debug_observer_render = render;
 }
 
+void __cdecl director_script_camera(bool scripted)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
+
+	if (*director_camera_scripted == scripted)
+		return;
+
+	for (long i = 0; i < 4; i++)
+	{
+		if (scripted)
+		{
+			director_set_camera_mode(i, _camera_mode_scripted);
+		}
+		else
+		{
+			director_set_mode(i, e_director_mode(choose_appropriate_director(i)));
+		}
+	}
+}
+
+void __cdecl director_set_camera_mode(long user_index, e_camera_mode camera_mode)
+{
+	director_get(user_index)->set_camera_mode(camera_mode, 0.0f);
+}
+
+

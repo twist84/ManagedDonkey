@@ -153,7 +153,7 @@ char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* struct
 	bool first_structure_bsp = true;
 	for (long i = 0; i < global_scenario_get()->structure_bsps.count(); i++)
 	{
-		if (!TEST_BIT(mask, i))
+		if (TEST_BIT(mask, i))
 			continue;
 
 		if (char const* structure_bsp_name = scenario_get_structure_bsp_name(i))

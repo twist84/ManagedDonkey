@@ -914,7 +914,7 @@ callback_result_t online_set_is_connected_to_live_callback(void const* userdata,
 
 	long value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
-		online_set_is_connected_to_live(static_cast<bool>(value));
+		online_set_is_connected_to_live(static_cast<bool>(value - 1));
 
 	return result;
 }
@@ -1272,6 +1272,15 @@ callback_result_t cheat_all_weapons_callback(void const* userdata, long token_co
 	return result;
 }
 
+callback_result_t cheat_teleport_to_camera_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	cheat_teleport_to_camera();
+
+	return result;
+}
+
 callback_result_t drop_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
@@ -1310,7 +1319,29 @@ callback_result_t director_debug_camera_callback(void const* userdata, long toke
 
 	long value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
-		director_debug_camera(static_cast<bool>(value));
+		director_debug_camera(static_cast<bool>(value - 1));
+
+	return result;
+}
+
+callback_result_t camera_control_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long value = token_try_parse_bool(tokens[1]);
+	if (value != NONE)
+		director_script_camera(static_cast<bool>(value - 1));
+
+	return result;
+}
+
+callback_result_t camera_set_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long user_index = atol(tokens[1]->get_string());
+	e_camera_mode camera_mode = static_cast<e_camera_mode>(atol(tokens[2]->get_string()));
+	director_set_camera_mode(user_index, camera_mode);
 
 	return result;
 }

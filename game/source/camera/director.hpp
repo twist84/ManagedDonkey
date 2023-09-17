@@ -137,4 +137,6 @@ extern void __cdecl director_load_camera_named(char const* name);
 extern void __cdecl director_save_camera();
 extern void __cdecl director_load_camera();
 extern void __cdecl director_debug_camera(bool render);
+extern void __cdecl director_script_camera(bool scripted);
+extern void __cdecl director_set_camera_mode(long user_index, e_camera_mode camera_mode);
 

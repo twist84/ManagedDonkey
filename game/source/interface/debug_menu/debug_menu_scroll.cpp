@@ -5,6 +5,7 @@
 #include "interface/debug_menu/debug_menu_item_numbered.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/interface_constants.hpp"
+#include "main/main.hpp"
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 
@@ -135,12 +136,11 @@ void c_debug_menu_zone_sets::notify_selected(short selected_value)
 {
 	if (VALID_INDEX(get_selection(), global_scenario_get()->zone_sets.count()))
 	{
-		//main_switch_zone_set(selected_value);
+		main_switch_zone_set(selected_value);
 	}
 	else
 	{
-		//generate_event(_event_level_critical, "this should be a valid zone set index WTF???");
-		c_console::write_line("this should be a valid zone set index WTF???");
+		generate_event(_event_level_critical, "this should be a valid zone set index WTF???");
 	}
 }
 

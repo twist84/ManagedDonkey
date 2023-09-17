@@ -798,3 +798,8 @@ void __cdecl main_cheat_drop_tag_private()
 	cheat_drop_permutation_count = 0;
 }
 
+void __cdecl main_switch_zone_set(long zone_set_index)
+{
+	INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
+}
+

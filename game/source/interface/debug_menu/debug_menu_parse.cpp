@@ -737,7 +737,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 			break;
 			case _token_zone_set_menu:
 			{
-				PARSER_ASSERT(GET_STATE != _parse_state_reading_forward_slash)
+				if (GET_STATE != _parse_state_reading_forward_slash)
 				{
 					g_parser_state.m_property_owner = _property_owner_zone_set_menu;
 

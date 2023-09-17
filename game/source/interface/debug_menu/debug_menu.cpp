@@ -455,8 +455,8 @@ void c_debug_menu::try_right()
 }
 
 c_debug_menu::c_debug_menu(c_debug_menu* parent, char const* name) :
-	m_name(),
-	m_caption(),
+	m_name(NULL),
+	m_caption(NULL),
 	m_parent(parent)
 {
 	set_name(name ? name : "Menu???");
@@ -540,7 +540,7 @@ void c_debug_menu::set_caption(char const* caption)
 {
 	long caption_size = strlen(caption) + 1;
 
-	ASSERT(m_caption == NULL);
+	//ASSERT(m_caption == NULL);
 	m_caption = static_cast<char*>(debug_menu_malloc(caption_size));
 	csstrnzcpy(m_caption, caption, caption_size);
 }

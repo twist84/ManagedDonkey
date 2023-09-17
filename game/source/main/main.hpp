@@ -35,4 +35,5 @@ extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash
 extern void __cdecl main_crash(char const* type);
 extern void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count);
 extern void __cdecl main_cheat_drop_tag_private();
+extern void __cdecl main_switch_zone_set(long zone_set_index);
 
