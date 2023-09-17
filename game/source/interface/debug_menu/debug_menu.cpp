@@ -375,6 +375,27 @@ void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, int16_po
 
 void c_debug_menu::render_items(c_font_cache_base* font_cache, int16_point2d const& point, short start_index, short end_index)
 {
+	ASSERT(start_index >= 0);
+	ASSERT(start_index <= end_index);
+
+	for (short item_index = start_index; item_index <= end_index && item_index < get_num_items(); item_index++)
+	{
+		c_debug_menu_item* item = get_item(item_index);
+		if (item->get_active())
+		{
+			real unused = get_enabled() ? 0.7f : 0.1f;
+
+			short a1 = point.x;
+			short a2 = short(((point.y + get_title_height()) + (item_index - start_index) * get_item_height()) + debug_menu_get_item_indent_y());
+			short a3 = short(point.x + debug_menu_get_item_width());
+			short a4 = short((((point.y + get_title_height()) + (item_index - start_index + 1) * get_item_height())) - (2.0f * debug_menu_get_item_indent_y()));
+			debug_menu_draw_rect(a1, a2, a3, a4, unused, item->get_background_color());
+		}
+
+		int16_point2d item_point{};
+		set_point2d(&item_point, point.x, point.y + (get_title_height() + (item_index - start_index) * get_item_height()));
+		item->render(font_cache, item_point);
+	}
 }
 
 void c_debug_menu::try_left()

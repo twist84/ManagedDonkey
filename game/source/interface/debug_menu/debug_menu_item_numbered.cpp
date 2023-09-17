@@ -1,5 +1,7 @@
 #include "interface/debug_menu/debug_menu_item_numbered.hpp"
 
+#include "interface/debug_menu/debug_menu.hpp"
+#include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/interface_constants.hpp"
 #include "main/console.hpp"
 #include "text/draw_string.hpp"
@@ -72,6 +74,18 @@ c_debug_menu_item_type::~c_debug_menu_item_type()
 
 void c_debug_menu_item_type::render(c_font_cache_base* font_cache, int16_point2d const& point)
 {
+	int16_point2d value_point{};
+	set_point2d(&value_point, point.x - 66, point.y);
+
+	int16_point2d number_point{};
+	set_point2d(&value_point, point.x, point.y);
+
+	render_value(font_cache, value_point);
+	render_number(font_cache, number_point);
+
+	int16_point2d next_point{};
+	set_point2d(&next_point, point.x + get_indent(), point.y);
+	c_debug_menu_item::render(font_cache, next_point);
 }
 
 void c_debug_menu_item_type::to_string(char* buffer, long buffer_size)
@@ -81,6 +95,33 @@ void c_debug_menu_item_type::to_string(char* buffer, long buffer_size)
 
 void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, int16_point2d const& point)
 {
+	c_rasterizer_draw_string draw_string{};
+
+	char buffer[1024]{};
+	to_string(buffer, sizeof(buffer));
+
+	short_rectangle2d bounds{};
+	set_rectangle2d(&bounds, point.x + 2, point.y, point.x + 60, point.y + get_menu()->get_item_height());
+
+	if (get_active())
+	{
+		real unused = get_menu()->get_enabled() ? 0.7f : 0.1f;
+
+		short a1 = point.x;
+		short a2 = short(point.y + debug_menu_get_item_indent_y());
+		short a3 = short(point.x + 60);
+		short a4 = short((point.y + get_menu()->get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+
+		debug_menu_draw_rect(a1, a2, a3, a4, unused, get_background_color());
+	}
+
+	real_argb_color const* color = debug_real_argb_grey;
+	if (!get_active() || get_readonly())
+		color = global_real_argb_black;
+
+	draw_string.set_color(color);
+	draw_string.set_bounds(&bounds);
+	draw_string.draw(font_cache, buffer);
 }
 
 c_debug_menu_item_type::c_debug_menu_item_type(c_debug_menu* menu, const char* name, bool readonly) :
