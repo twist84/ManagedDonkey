@@ -171,7 +171,7 @@ void c_debug_menu::render(c_font_cache_base* font_cache, int16_point2d const& po
 	render_title(font_cache, point);
 	render_caption(font_cache, point);
 	render_global_caption(font_cache, point);
-	render_items(font_cache, point, 0 /* start_index */, get_num_items() - 1 /* end_index */);
+	render_items(font_cache, point, 0, get_num_items() - 1);
 }
 
 void c_debug_menu::game_render()
@@ -389,6 +389,37 @@ void c_debug_menu::render_caption(c_font_cache_base* font_cache, int16_point2d c
 
 void c_debug_menu::render_global_caption(c_font_cache_base* font_cache, int16_point2d const& point)
 {
+	c_rasterizer_draw_string draw_string{};
+
+	short_rectangle2d bounds{};
+	interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+
+	set_rectangle2d(&bounds, point.x, short((point.y + get_title_height()) * (get_num_items_to_render() + 1) * get_item_height()), short(point.x + debug_menu_get_item_width()), bounds.y1);
+	draw_string.set_color(debug_real_argb_tv_magenta);
+
+	for (short caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
+	{
+		if (*debug_menu_get_caption(caption_index))
+		{
+			real unused = get_enabled() ? 0.7f : 0.1f;
+
+			short a1 = point.x;
+			short a2 = short(((point.y + get_title_height()) + ((caption_index + 1) + get_num_items_to_render()) * get_item_height()) + debug_menu_get_item_indent_y());
+			short a3 = short(point.x + debug_menu_get_item_width());
+			short a4 = short(((point.y + get_title_height()) + ((caption_index + 2) + get_num_items_to_render()) * get_item_height()) - (2.0f * debug_menu_get_item_indent_y()));
+
+			debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_grey);
+		}
+
+		if (bounds.x1 - bounds.x0 > 0 && bounds.y1 - bounds.y0 > 0)
+		{
+			draw_string.set_bounds(&bounds);
+			draw_string.draw(font_cache, debug_menu_get_caption(caption_index));
+		}
+
+		debug_menu_set_caption(caption_index, "");
+		bounds.y0 += get_item_height();
+	}
 }
 
 void c_debug_menu::render_items(c_font_cache_base* font_cache, int16_point2d const& point, short start_index, short end_index)
