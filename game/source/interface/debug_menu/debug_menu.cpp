@@ -339,7 +339,7 @@ void c_debug_menu::render_background(c_font_cache_base* font_cache, int16_point2
 	short a1 = short((((point.x - debug_menu_get_item_margin()) - get_num_items_to_render()) - item_margin) - 60.0);
 	short a2 = point.y;
 	short a3 = short((point.x + debug_menu_get_item_width()) + debug_menu_get_item_margin());
-	short a4 = short((point.y + get_title_height()) + (get_value_width() + get_max_active_captions()) * get_item_height());
+	short a4 = short((point.y + get_title_height()) + (get_num_items_to_render() + get_max_active_captions()) * get_item_height());
 
 	debug_menu_draw_rect(a1, a2, a3, a4, unused, debug_real_argb_tv_blue);
 }
