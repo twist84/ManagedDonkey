@@ -2,6 +2,7 @@
 
 #include "cache/restricted_memory_regions.hpp"
 #include "cseries/cseries.hpp"
+#include "game/game_time.hpp"
 #include "input/controllers.hpp"
 #include "input/input.hpp"
 #include "interface/debug_menu/debug_menu.hpp"
@@ -294,6 +295,8 @@ void debug_menu_set_active_menu(c_debug_menu* menu, bool active)
 	{
 		if (!v4 && !active)
 		{
+			game_time_set_paused(true, _game_time_pause_reason_debug);
+
 			menu->open();
 			menu = g_debug_menu_globals.active_menu;
 		}
@@ -302,6 +305,8 @@ void debug_menu_set_active_menu(c_debug_menu* menu, bool active)
 	else if (active_menu)
 	{
 		active_menu->notify_closed();
+
+		game_time_set_paused(false, _game_time_pause_reason_debug);
 	}
 
 	for (short caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
