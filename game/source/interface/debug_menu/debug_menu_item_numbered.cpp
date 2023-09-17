@@ -6,6 +6,9 @@
 #include "main/console.hpp"
 #include "text/draw_string.hpp"
 
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
 c_debug_menu_item_numbered::~c_debug_menu_item_numbered()
 {
 }
@@ -75,16 +78,15 @@ c_debug_menu_item_type::~c_debug_menu_item_type()
 void c_debug_menu_item_type::render(c_font_cache_base* font_cache, int16_point2d const& point)
 {
 	int16_point2d value_point{};
-	set_point2d(&value_point, point.x - 66, point.y);
-
 	int16_point2d number_point{};
+	int16_point2d next_point{};
+
+	set_point2d(&value_point, point.x - 66, point.y);
 	set_point2d(&value_point, point.x, point.y);
+	set_point2d(&next_point, point.x + get_indent(), point.y);
 
 	render_value(font_cache, value_point);
 	render_number(font_cache, number_point);
-
-	int16_point2d next_point{};
-	set_point2d(&next_point, point.x + get_indent(), point.y);
 	c_debug_menu_item::render(font_cache, next_point);
 }
 
@@ -191,10 +193,7 @@ void c_debug_menu_item_type_bool::notify_left()
 	c_debug_menu_item::notify_left();
 
 	if (!get_readonly())
-	{
-		bool value = m_value.get();
-		m_value.set(!value);
-	}
+		m_value.set(!m_value.get());
 }
 
 void c_debug_menu_item_type_bool::notify_right()
@@ -202,10 +201,7 @@ void c_debug_menu_item_type_bool::notify_right()
 	c_debug_menu_item::notify_right();
 
 	if (!get_readonly())
-	{
-		bool value = m_value.get();
-		m_value.set(!value);
-	}
+		m_value.set(!m_value.get());
 }
 
 void c_debug_menu_item_type_bool::to_string(char* buffer, long buffer_size)
@@ -228,13 +224,7 @@ void c_debug_menu_item_type_real::notify_left()
 	c_debug_menu_item::notify_left();
 
 	if (!get_readonly())
-	{
-		real value = m_value.get();
-
-		// #TODO: logic
-
-		m_value.set(value);
-	}
+		m_value.set(MIN(m_max_value, MAX(m_min_value, m_value.get() - m_inc_value)));
 }
 
 void c_debug_menu_item_type_real::notify_right()
@@ -242,13 +232,7 @@ void c_debug_menu_item_type_real::notify_right()
 	c_debug_menu_item::notify_right();
 
 	if (!get_readonly())
-	{
-		real value = m_value.get();
-
-		// #TODO: logic
-
-		m_value.set(value);
-	}
+		m_value.set(MIN(m_max_value, MAX(m_min_value, m_value.get() + m_inc_value)));
 }
 
 void c_debug_menu_item_type_real::to_string(char* buffer, long buffer_size)
@@ -274,13 +258,7 @@ void c_debug_menu_item_type_short::notify_left()
 	c_debug_menu_item::notify_left();
 
 	if (!get_readonly())
-	{
-		short value = m_value.get();
-
-		// #TODO: logic
-
-		m_value.set(value);
-	}
+		m_value.set(MIN(m_max_value, MAX(m_min_value, m_value.get() - m_inc_value)));
 }
 
 void c_debug_menu_item_type_short::notify_right()
@@ -288,13 +266,7 @@ void c_debug_menu_item_type_short::notify_right()
 	c_debug_menu_item::notify_right();
 
 	if (!get_readonly())
-	{
-		short value = m_value.get();
-
-		// #TODO: logic
-
-		m_value.set(value);
-	}
+		m_value.set(MIN(m_max_value, MAX(m_min_value, m_value.get() + m_inc_value)));
 }
 
 void c_debug_menu_item_type_short::to_string(char* buffer, long buffer_size)
@@ -320,13 +292,7 @@ void c_debug_menu_item_type_long::notify_left()
 	c_debug_menu_item::notify_left();
 
 	if (!get_readonly())
-	{
-		long value = m_value.get();
-
-		// #TODO: logic
-
-		m_value.set(value);
-	}
+		m_value.set(MIN(m_max_value, MAX(m_min_value, m_value.get() - m_inc_value)));
 }
 
 void c_debug_menu_item_type_long::notify_right()
@@ -334,13 +300,7 @@ void c_debug_menu_item_type_long::notify_right()
 	c_debug_menu_item::notify_right();
 
 	if (!get_readonly())
-	{
-		long value = m_value.get();
-
-		// #TODO: logic
-
-		m_value.set(value);
-	}
+		m_value.set(MIN(m_max_value, MAX(m_min_value, m_value.get() + m_inc_value)));
 }
 
 void c_debug_menu_item_type_long::to_string(char* buffer, long buffer_size)
