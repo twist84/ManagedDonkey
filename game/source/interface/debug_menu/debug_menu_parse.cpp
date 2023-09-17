@@ -17,8 +17,16 @@
 #define GET_STATE parse_stack[stack_index]
 #define PUSH_STATE(STATE) ASSERT(stack_index < stack_size - 1); stack_index++; parse_stack[stack_index] = STATE;
 #define POP_STATE ASSERT(stack_index > 0); stack_index--;
-#define SOFT_ASSERT(STATEMENT) if (!(STATEMENT)) { soft_assert_message = #STATEMENT; goto HANDLE_SOFT_ASSERT; } else 
-#define SOFT_ASSERT_CUSTOM(STATEMENT, MESSAGE) if (!(STATEMENT)) { soft_assert_message = MESSAGE; goto HANDLE_SOFT_ASSERT; } else 
+
+#define PARSER_ASSERT(STATEMENT) PARSER_ASSERT_WITH_MESSAGE(STATEMENT, #STATEMENT)
+#define PARSER_ASSERT_WITH_MESSAGE(STATEMENT, MESSAGE) \
+if (!(STATEMENT)) \
+{ \
+	csnzprintf(error_buffer, error_buffer_size, "ln %d: %s", *line_count, MESSAGE); \
+	parse_error = error_buffer; \
+	debug_menu_display_error(error_buffer, true); \
+	continue; \
+} else 
 
 s_parser_state g_parser_state = {};
 
@@ -85,42 +93,50 @@ void debug_menu_look_ahead_read_token(FILE* menu_file, long c, char* token_buffe
 {
 	long menu_file_size = ftell(menu_file);
 	*token_buffer = char(c);
-	long characters_read = fread(token_buffer + 1, sizeof(char), token_buffer_count - 1, menu_file);
+	token_buffer[1] = 0;
+	fread(token_buffer + 1, sizeof(char), token_buffer_count - 1, menu_file);
 	fseek(menu_file, menu_file_size, 0);
-	ASSERT(IN_RANGE_INCLUSIVE(characters_read, 0, token_buffer_count - 1));
-
-	long token_buffer_index = characters_read + 1;
-	if (characters_read + 1 > token_buffer_count - 1)
-		token_buffer_index = token_buffer_count - 1;
-
-	token_buffer[token_buffer_index] = 0;
 }
 
 bool string_in_string_case_insensitive(char const* source, char const* find)
 {
 	ASSERT(source && find);
 
-	while (*source != 0)
+	char const* source_ = source;
+	char const* find_ = find;
+
+	char v3 = *source_;
+	if (IN_RANGE_INCLUSIVE(*source_, 'A', 'Z'))
+		v3 = *source_ - 'A' + 'a';
+
+	char v6 = *find_;
+	if (IN_RANGE_INCLUSIVE(*find_, 'A', 'Z'))
+		v6 = *find_ - 'A' + 'a';
+
+	for (char i = v6; v3 == i || !i; i = v6)
 	{
-		const char* source_ptr = source;
-		const char* find_ptr = find;
-
-		while (tolower(*source_ptr) == tolower(*find_ptr) && *find_ptr != 0)
-		{
-			source_ptr++;
-			find_ptr++;
-		}
-
-		if (*find_ptr == 0)
+		if (!i)
 			return true;
 
-		source++;
+		if (!v3)
+			return false;
+
+		++source_;
+		++find_;
+
+		v3 = *source_;
+		if (IN_RANGE_INCLUSIVE(*source_, 'A', 'Z'))
+			v3 = *source_ - 'A' + 'a';
+
+		v6 = *find_;
+		if (IN_RANGE_INCLUSIVE(*find_, 'A', 'Z'))
+			v6 = *find_ - 'A' + 'a';
 	}
 
 	return false;
 }
 
-void debug_menu_store_number_property(long stack_size, long& stack_index, long* parse_stack)
+void debug_menu_store_number_property(long stack_size, long& stack_index, e_parse_state* parse_stack)
 {
 	ASSERT(GET_STATE == _parse_state_reading_number);
 
@@ -154,7 +170,7 @@ void debug_menu_store_number_property(long stack_size, long& stack_index, long* 
 	g_parser_state.m_xml_attribute = 0;
 }
 
-void debug_menu_store_string_property(long stack_size, long& stack_index, long* parse_stack)
+void debug_menu_store_string_property(long stack_size, long& stack_index, e_parse_state* parse_stack)
 {
 	ASSERT(GET_STATE == _parse_state_reading_string);
 
@@ -399,25 +415,24 @@ c_debug_menu* debug_menu_build_menu(e_property_owner property_owner, c_debug_men
 	child->set_caption(caption);
 	menu->add_item(new c_debug_menu_item_numbered(menu, name, child));
 
-	// #TODO: implement this
-	return NULL;
+	return child;
 }
 
 void debug_menu_display_error(char const* error_text, bool error)
 {
-	generate_event(error == false ? _event_level_warning : _event_level_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR");
+	generate_event(error == false ? _event_level_warning : _event_level_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR", error_text);
 }
 
-char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* menu, long* line_count, char* error_buffer, long error_buffer_size)
+char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* menu, long* line_count, char* error_buffer, long error_buffer_size)
 {
-	char const* error_text = NULL;
-	char const* soft_assert_message = NULL;
+	char const* parse_error = NULL;
 
 	long const stack_size = k_parse_state_count;
 	long stack_index = 0;
-	long parse_stack[stack_size]{};
+	e_parse_state parse_stack[stack_size]{};
 
-	parse_stack[stack_index++] = _parse_state_none;
+	PUSH_STATE(_parse_state_none);
+
 	g_parser_state.reset();
 
 	ASSERT(menu_file != NULL);
@@ -425,162 +440,206 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 	ASSERT(line_count != NULL);
 	ASSERT(error_buffer != NULL);
 
-	while (*c && *c != -1 && !error_text)
+	while (c && c != NONE && !parse_error)
 	{
 		long advance_distance = 0;
 		long v15 = 0;
 
 		if (GET_STATE == _parse_state_reading_number)
 		{
-			if (*c >= '0' && *c <= '9' || *c == '.')
+			if (IN_RANGE_INCLUSIVE(c, '0', '9') || c == '.')
 			{
-				g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(*c);
+				g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(c);
+				g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
+
 				advance_distance = 1;
 				v15 = 1;
 			}
 			else
 			{
 				debug_menu_store_number_property(stack_size, stack_index, parse_stack);
-				if (*c)
-					*c = fgetc(menu_file);
+				if (c)
+					c = fgetc(menu_file);
 			}
 		}
-
-		if (GET_STATE != _parse_state_reading_number)
+		else
 		{
 			if (GET_STATE == _parse_state_reading_escape_sequence)
 			{
 				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_string)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_string)
 				{
-					SOFT_ASSERT(VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+					PARSER_ASSERT(VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
 					{
-						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(*c);
+						g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index++] = char(c);
+						g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index] = 0;
+
 						advance_distance = 1;
 						v15 = 1;
 					}
 				}
 			}
-			else if (GET_STATE == _parse_state_reading_string && *c == '"')
+			else if (GET_STATE == _parse_state_reading_string && c != '"')
 			{
-				if (*c == '\\')
+				if (c == '\\')
 				{
-					SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_string, "can not use escape sequences outside of string declaration")
+					PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_reading_string, "can not use escape sequences outside of string declaration")
 					{
 						PUSH_STATE(_parse_state_reading_escape_sequence);
 					}
 				}
 				else
 				{
-					SOFT_ASSERT(VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+					PARSER_ASSERT(VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
 					{
-						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(*c);
+						g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index++] = char(c);
+						g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index] = 0;
 					}
 				}
+
 				advance_distance = 1;
 				v15 = 1;
 			}
 			else
 			{
-				if (*c < '0' || *c > '9')
+				if (IN_RANGE_INCLUSIVE(c, '0', '9'))
 				{
-					switch (*c)
+					PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_reading_property_found_eqauls, "losse number not assigned to property")
 					{
-					case 0xFFFFFFCD:
-					case '\t':
-					case ' ':
+						PUSH_STATE(_parse_state_reading_number);
+						g_parser_state.m_number_buffer_index = 0;
+						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(c);
+						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
+
+						advance_distance = 1;
+						v15 = 1;
+					}
+				}
+				else
+				{
+#define CHAR_CASE(CHAR) CHAR + 51
+
+					switch (CHAR_CASE(c))
+					{
+					case 0:
+					case CHAR_CASE('\t'):
+					case CHAR_CASE(' '):
 					{
 						advance_distance = 1;
 						v15 = 1;
 					}
 					break;
-					case '"':
+					case CHAR_CASE('"'):
 					{
 						long state = GET_STATE;
 						if (state == _parse_state_reading_property_found_eqauls)
 						{
+							g_parser_state.m_string_buffer_index = 0;
 							PUSH_STATE(_parse_state_reading_string);
 						}
-						else SOFT_ASSERT_CUSTOM(state == _parse_state_reading_string, "unexpected symbol \"")
+						else
 						{
-							debug_menu_store_string_property(stack_size, stack_index, parse_stack);
-
-							advance_distance = 1;
-							v15 = 1;
+							PARSER_ASSERT_WITH_MESSAGE(state == _parse_state_reading_string, "unexpected symbol \"")
+							{
+								debug_menu_store_string_property(stack_size, stack_index, parse_stack);
+							}
 						}
+
+						advance_distance = 1;
+						v15 = 1;
 					}
 					break;
-					case '-':
-					case '.':
+					case CHAR_CASE('-'):
+					case CHAR_CASE('.'):
 					{
-						SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_property_found_eqauls, "losse number not assigned to property")
+						PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_reading_property_found_eqauls, "losse number not assigned to property")
 						{
 							PUSH_STATE(_parse_state_reading_number);
 							g_parser_state.m_number_buffer_index = 0;
-							g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = char(*c);
-							g_parser_state.m_number_buffer_index = 1;
-
-							advance_distance = 1;
-							v15 = 1;
+							g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(c);
+							g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
 						}
+
+						advance_distance = 1;
+						v15 = 1;
 					}
 					break;
-					case '/':
+					case CHAR_CASE('/'):
 					{
 						advance_distance = 1;
 						v15 = 1;
 
-						SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_tag, "unexpected symbol back slash")
+						PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_reading_tag, "unexpected symbol back slash")
 						{
 							PUSH_STATE(_parse_state_reading_forward_slash);
 						}
 					}
 					break;
-					case '<':
+					case CHAR_CASE('<'):
 					{
 						advance_distance = 1;
 						v15 = 1;
 
-						SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_none, "unexpected symbol less than")
+						PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_none, "unexpected symbol less than")
 						{
 							PUSH_STATE(_parse_state_reading_tag);
 							g_parser_state.reset();
 						}
 					}
 					break;
-					case '=':
+					case CHAR_CASE('='):
 					{
 						advance_distance = 1;
 						v15 = 1;
 
-						SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_property, "= sign expected")
+						PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_reading_property, "= sign expected")
 						{
-							SOFT_ASSERT(GET_STATE == _parse_state_reading_property)
+							PARSER_ASSERT(GET_STATE == _parse_state_reading_property)
 							{
 								PUSH_STATE(_parse_state_reading_property_found_eqauls);
 							}
 						}
 					}
 					break;
-					case '>':
+					case CHAR_CASE('>'):
 					{
+						advance_distance = 1;
+						v15 = 1;
 
+						if (GET_STATE == _parse_state_reading_open_tag)
+						{
+							POP_STATE;
+							PARSER_ASSERT(GET_STATE == _parse_state_reading_tag)
+							{
+								POP_STATE;
+								char build_property_error[1024]{};
+								if (g_parser_state.m_property_owner == _property_owner_item)
+								{
+									PARSER_ASSERT_WITH_MESSAGE(!debug_menu_build_item(menu, build_property_error, sizeof(build_property_error)), build_property_error);
+								}
+								else
+								{
+									csstrnzcpy(build_property_error, "", sizeof(build_property_error));
+									c_debug_menu* built_menu = debug_menu_build_menu(g_parser_state.m_property_owner, menu);
+									PARSER_ASSERT_WITH_MESSAGE(built_menu, build_property_error)
+									{
+										v15 = 2;
+										c = fgetc(menu_file);
+										char const* recursive_build_error = debug_menu_build_recursive(menu_file, c, built_menu, line_count, error_buffer, error_buffer_size);
+										PARSER_ASSERT_WITH_MESSAGE(recursive_build_error, recursive_build_error);
+									}
+								}
+							}
+						}
+					}
+					break;
+					case CHAR_CASE('\\'):
+					{
+						PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_reading_string, "can not use escape sequences outside of string declaration");
 					}
 					break;
 					}
-				}
-				else
-				{
-					SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_property_found_eqauls, "losse number not assigned to property")
-					{
-						PUSH_STATE(_parse_state_reading_number);
-						g_parser_state.m_number_buffer_index = 0;
-						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = char(*c);
-						g_parser_state.m_number_buffer_index = 1;
-
-						advance_distance = 1;
-						v15 = 1;
-					}
+#undef CHAR_CASE
 				}
 			}
 		}
@@ -599,16 +658,16 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			}
 			ASSERT(maximum_token_name_length + 1 < NUMBEROF(token_buffer));
 
-			debug_menu_look_ahead_read_token(menu_file, *c, token_buffer, maximum_token_name_length + 1);
+			debug_menu_look_ahead_read_token(menu_file, c, token_buffer, maximum_token_name_length + 1);
 			for (long i = 0; i < NUMBEROF(g_token_names); i++)
 			{
-				if (!string_in_string_case_insensitive(token_buffer, g_token_names[i]))
-					continue;
-
-				token = i;
-				advance_distance = strlen(g_token_names[i]);
-				v15 = 1;
-				break;
+				if (string_in_string_case_insensitive(token_buffer, g_token_names[i]))
+				{
+					token = i;
+					advance_distance = strlen(g_token_names[i]);
+					v15 = 1;
+					break;
+				}
 			}
 
 			switch (token)
@@ -617,7 +676,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_xml_attribute = 6;
 
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
 					PUSH_STATE(_parse_state_reading_property);
 				}
@@ -627,7 +686,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_xml_attribute = 7;
 
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
 					PUSH_STATE(_parse_state_reading_property);
 				}
@@ -637,7 +696,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_xml_attribute = 8;
 
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
 					PUSH_STATE(_parse_state_reading_property);
 				}
@@ -645,13 +704,11 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			break;
 			case _token_menu:
 			{
-				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_forward_slash)
+				if (GET_STATE != _parse_state_reading_forward_slash)
 				{
 					g_parser_state.m_property_owner = _property_owner_menu;
 
-					POP_STATE;
-					SOFT_ASSERT(GET_STATE == _parse_state_reading_tag)
+					PARSER_ASSERT(GET_STATE == _parse_state_reading_tag)
 					{
 						PUSH_STATE(_parse_state_reading_open_tag);
 					}
@@ -660,13 +717,11 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			break;
 			case _token_zone_set_menu:
 			{
-				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_forward_slash)
+				PARSER_ASSERT(GET_STATE != _parse_state_reading_forward_slash)
 				{
 					g_parser_state.m_property_owner = _property_owner_zone_set_menu;
 
-					POP_STATE;
-					SOFT_ASSERT(GET_STATE == _parse_state_reading_tag)
+					PARSER_ASSERT(GET_STATE == _parse_state_reading_tag)
 					{
 						PUSH_STATE(_parse_state_reading_open_tag);
 					}
@@ -677,8 +732,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_property_owner = _property_owner_item;
 
-				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_tag)
 				{
 					PUSH_STATE(_parse_state_reading_open_tag);
 				}
@@ -688,8 +742,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_xml_attribute = 3;
 
-				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
 					PUSH_STATE(_parse_state_reading_property);
 				}
@@ -699,8 +752,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_xml_attribute = 4;
 
-				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
 					PUSH_STATE(_parse_state_reading_property);
 				}
@@ -710,8 +762,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_xml_attribute = 5;
 
-				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
 					PUSH_STATE(_parse_state_reading_property);
 				}
@@ -721,8 +772,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_xml_attribute = 2;
 
-				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
 					PUSH_STATE(_parse_state_reading_property);
 				}
@@ -732,8 +782,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			{
 				g_parser_state.m_xml_attribute = 1;
 
-				POP_STATE;
-				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
 					PUSH_STATE(_parse_state_reading_property);
 				}
@@ -742,18 +791,18 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			case _token_global:
 			case _token_command:
 			{
-				SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_property_found_eqauls, "unexpected token \"global\"")
+				PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_reading_property_found_eqauls, "unexpected token \"global\"")
 				{
 					g_parser_state.m_item_type = 1;
 					g_parser_state.m_item_type_value = (token - _token_global) + 1;
 
-					SOFT_ASSERT(GET_STATE == _parse_state_reading_property_found_eqauls)
+					PARSER_ASSERT(GET_STATE == _parse_state_reading_property_found_eqauls)
 					{
 						POP_STATE;
-						SOFT_ASSERT(GET_STATE == _parse_state_reading_property)
+						PARSER_ASSERT(GET_STATE == _parse_state_reading_property)
 						{
 							POP_STATE;
-							SOFT_ASSERT(GET_STATE == _parse_state_reading_property)
+							PARSER_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 							{
 								break;
 							}
@@ -771,34 +820,22 @@ char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* m
 			}
 		}
 
-		if (v15)
+		PARSER_ASSERT_WITH_MESSAGE(v15, "unexpected token")
 		{
 			if (v15 == 1)
 			{
 				ASSERT(advance_distance != 0);
-				while (advance_distance > 0)
+				do
 				{
-					*c = fgetc(menu_file);
-					--advance_distance;
-				}
+					c = fgetc(menu_file);
+					advance_distance--;
+				} while (advance_distance > 0);
 			}
-			else ASSERT(v15 > 2, unreachable);
-		}
-		else
-		{
-			soft_assert_message = "unexpected token";
-		}
-
-	HANDLE_SOFT_ASSERT:;
-		if (soft_assert_message)
-		{
-			csnzprintf(error_buffer, error_buffer_size, "ln %d: %s", *line_count, soft_assert_message);
-			error_text = error_buffer;
-			debug_menu_display_error(error_buffer, true);
+			else ASSERT(v15 >= 3, unreachable);
 		}
 	}
 
-	return error_text;
+	return parse_error ? parse_error : NULL;
 }
 
 void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
@@ -813,13 +850,13 @@ void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
 
 		long line_count = 1;
 		long c = (long)fgetc(menu_file);
-		debug_menu_build_recursive(menu_file, &c, root_menu, &line_count, error_buffer, sizeof(error_buffer));
+		debug_menu_build_recursive(menu_file, c, root_menu, &line_count, error_buffer, sizeof(error_buffer));
 		fclose(menu_file);
 	}
 }
 
-#undef SOFT_ASSERT_CUSTOM
-#undef SOFT_ASSERT
+#undef PARSER_ASSERT_WITH_MESSAGE
+#undef PARSER_ASSERT
 #undef POP_STATE
 #undef PUSH_STATE
 #undef GET_STATE
