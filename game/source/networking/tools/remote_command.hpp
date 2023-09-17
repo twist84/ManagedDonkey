@@ -136,6 +136,7 @@ COMMAND_CALLBACK_DECLARE(cheat_all_powerups);
 COMMAND_CALLBACK_DECLARE(cheat_all_vehicles);
 COMMAND_CALLBACK_DECLARE(cheat_all_weapons);
 COMMAND_CALLBACK_DECLARE(cheat_teleport_to_camera);
+COMMAND_CALLBACK_DECLARE(debug_menu_rebuild);
 COMMAND_CALLBACK_DECLARE(drop);
 COMMAND_CALLBACK_DECLARE(drop_variant);
 COMMAND_CALLBACK_DECLARE(drop_permutation);
@@ -205,6 +206,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(cheat_all_vehicles, 0, "", "drops all vehicles on player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "", "drops all weapons near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_teleport_to_camera, 0, "", "teleports player to camera location\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(debug_menu_rebuild, 0, "", "Reparses the debug menu from the text file."),
 
 	COMMAND_CALLBACK_REGISTER(drop, 1, "<string>", "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle\r\nNETWORK SAFE: Yes, for objects"),
 	COMMAND_CALLBACK_REGISTER(drop_variant, 2, "<string> <string>", "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle using the specified variant name\r\n"),

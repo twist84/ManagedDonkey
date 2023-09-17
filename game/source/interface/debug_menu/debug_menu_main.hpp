@@ -17,6 +17,7 @@ extern real_argb_color const* const debug_real_argb_tv_orange;
 extern real_argb_color const* const debug_real_argb_tv_green;
 
 extern bool debug_menu_enabled;
+extern bool g_debug_menu_rebuild_request;
 extern c_static_stack<long, 262144> g_debug_menu_stack;
 
 extern void patch_debug_menu();

@@ -61,6 +61,9 @@ real_argb_color const* const debug_real_argb_tv_green   = new real_argb_color({ 
 
 bool debug_menu_enabled = true;
 s_debug_menu_globals g_debug_menu_globals = {};
+
+bool g_debug_menu_rebuild_request = false;
+
 c_static_stack<long, 262144> g_debug_menu_stack;
 
 void debug_menu_draw_rect(short a1, short a2, short a3, short a4, real a5, real_argb_color const* color)
@@ -134,8 +137,6 @@ void debug_menu_update_current_gamepad_state()
 	csmemset(&g_debug_menu_globals.current_gamepad_state.trigger_down_amount, 0, 2);
 	csmemset(&g_debug_menu_globals.current_gamepad_state.max_trigger_down_amount, 0, 2);
 }
-
-bool g_debug_menu_rebuild_request = false;
 
 void debug_menu_update()
 {

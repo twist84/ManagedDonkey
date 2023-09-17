@@ -11,6 +11,7 @@
 #include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
 #include "hf2p/hf2p.hpp"
+#include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
@@ -1277,6 +1278,15 @@ callback_result_t cheat_teleport_to_camera_callback(void const* userdata, long t
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	cheat_teleport_to_camera();
+
+	return result;
+}
+
+callback_result_t debug_menu_rebuild_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	g_debug_menu_rebuild_request = true;
 
 	return result;
 }
