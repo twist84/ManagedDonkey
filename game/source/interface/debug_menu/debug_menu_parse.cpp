@@ -14,6 +14,12 @@
 #include <math.h>
 #include <string.h>
 
+#define GET_STATE parse_stack[stack_index]
+#define PUSH_STATE(STATE) ASSERT(stack_index < stack_size - 1); stack_index++; parse_stack[stack_index] = STATE;
+#define POP_STATE ASSERT(stack_index > 0); stack_index--;
+#define SOFT_ASSERT(STATEMENT) if (!(STATEMENT)) { soft_assert_message = #STATEMENT; goto HANDLE_SOFT_ASSERT; } else 
+#define SOFT_ASSERT_CUSTOM(STATEMENT, MESSAGE) if (!(STATEMENT)) { soft_assert_message = MESSAGE; goto HANDLE_SOFT_ASSERT; } else 
+
 s_parser_state g_parser_state = {};
 
 void s_parser_state::reset()
@@ -94,19 +100,96 @@ bool string_in_string_case_insensitive(char const* source, char const* find)
 {
 	ASSERT(source && find);
 
-	while (*source && *find)
+	while (*source != 0)
 	{
-		char source_char = tolower(*source);
-		char find_char = tolower(*find);
+		const char* source_ptr = source;
+		const char* find_ptr = find;
 
-		if (source_char != find_char)
-			return false;
+		while (tolower(*source_ptr) == tolower(*find_ptr) && *find_ptr != 0)
+		{
+			source_ptr++;
+			find_ptr++;
+		}
+
+		if (*find_ptr == 0)
+			return true;
 
 		source++;
-		find++;
 	}
 
-	return (*find == 0);
+	return false;
+}
+
+void debug_menu_store_number_property(long stack_size, long& stack_index, long* parse_stack)
+{
+	ASSERT(GET_STATE == _parse_state_reading_number);
+
+	POP_STATE;
+	ASSERT(GET_STATE == _parse_state_reading_property_found_eqauls);
+
+	POP_STATE;
+	ASSERT(GET_STATE == _parse_state_reading_property);
+
+	POP_STATE;
+	ASSERT(GET_STATE == _parse_state_reading_open_tag);
+
+	ASSERT(VALID_INDEX(g_parser_state.m_number_buffer_index, s_parser_state::k_string_length));
+
+	g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
+	switch (g_parser_state.m_xml_attribute)
+	{
+	case 6:
+		g_parser_state.m_min = true;
+		g_parser_state.m_min_value = real(atof(g_parser_state.m_number_buffer));
+		break;
+	case 7:
+		g_parser_state.m_max = true;
+		g_parser_state.m_max_value = real(atof(g_parser_state.m_number_buffer));
+		break;
+	case 8:
+		g_parser_state.m_inc = true;
+		g_parser_state.m_inc_value = real(atof(g_parser_state.m_number_buffer));
+		break;
+	}
+	g_parser_state.m_xml_attribute = 0;
+}
+
+void debug_menu_store_string_property(long stack_size, long& stack_index, long* parse_stack)
+{
+	ASSERT(GET_STATE == _parse_state_reading_string);
+
+	POP_STATE;
+	ASSERT(GET_STATE == _parse_state_reading_property_found_eqauls);
+
+	POP_STATE;
+	ASSERT(GET_STATE == _parse_state_reading_property);
+
+	POP_STATE;
+	ASSERT(GET_STATE == _parse_state_reading_open_tag);
+
+	ASSERT(VALID_INDEX(g_parser_state.m_number_buffer_index, s_parser_state::k_string_length));
+
+	g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
+	switch (g_parser_state.m_xml_attribute)
+	{
+	case 2:
+		g_parser_state.m_color = true;
+		csstrnzcpy(g_parser_state.m_color_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
+		break;
+	case 3:
+		g_parser_state.m_caption = true;
+		csstrnzcpy(g_parser_state.m_caption_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
+		break;
+	case 4:
+		g_parser_state.m_name = true;
+		csstrnzcpy(g_parser_state.m_name_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
+		break;
+	case 5:
+		g_parser_state.m_variable = true;
+		csstrnzcpy(g_parser_state.m_variable_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
+		break;
+	}
+	g_parser_state.m_xml_attribute = 0;
 }
 
 void debug_menu_store_number_property(parse_stack_t* parse_stack)
@@ -140,6 +223,7 @@ void debug_menu_store_number_property(parse_stack_t* parse_stack)
 		g_parser_state.m_inc_value = real(atof(g_parser_state.m_number_buffer));
 		break;
 	}
+	g_parser_state.m_xml_attribute = 0;
 }
 
 void debug_menu_store_string_property(parse_stack_t* parse_stack)
@@ -177,6 +261,7 @@ void debug_menu_store_string_property(parse_stack_t* parse_stack)
 		csstrnzcpy(g_parser_state.m_variable_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
 		break;
 	}
+	g_parser_state.m_xml_attribute = 0;
 }
 
 char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* error_buffer, long error_buffer_size)
@@ -323,16 +408,16 @@ void debug_menu_display_error(char const* error_text, bool error)
 	generate_event(error == false ? _event_level_warning : _event_level_critical, "%s: %s", error == 0 ? "DEBUG_MENU_WARNING" : "DEBUG_MENU_ERROR");
 }
 
-char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_menu* menu, long* line_count, char* error_buffer, long error_buffer_size)
+char const* debug_menu_build_recursive(FILE* menu_file, long* c, c_debug_menu* menu, long* line_count, char* error_buffer, long error_buffer_size)
 {
-	char const* result = NULL;
-
 	char const* error_text = NULL;
-	char const* error = NULL;
+	char const* soft_assert_message = NULL;
 
-	c_static_stack<e_parse_state, 10> parse_stack;
-	parse_stack.push_back(_parse_state_none);
+	long const stack_size = k_parse_state_count;
+	long stack_index = 0;
+	long parse_stack[stack_size]{};
 
+	parse_stack[stack_index++] = _parse_state_none;
 	g_parser_state.reset();
 
 	ASSERT(menu_file != NULL);
@@ -340,563 +425,380 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& char_ref, c_debug_
 	ASSERT(line_count != NULL);
 	ASSERT(error_buffer != NULL);
 
-	long advance_distance = 0;
-	long v15 = 0;
-	while (char_ref && char_ref != NONE && !error_text)
+	while (*c && *c != -1 && !error_text)
 	{
-		advance_distance = 0;
-		v15 = 0;
+		long advance_distance = 0;
+		long v15 = 0;
 
-		if (debug_menu_memory_available() < 10240)
+		if (GET_STATE == _parse_state_reading_number)
 		{
-			error = "out of memory, please make your debug menu smaller";
-			goto ERROR_CODE;
-		}
-
-		if (*parse_stack.get_top() == _parse_state_reading_number)
-		{
-			if (char_ref >= '0' && char_ref <= '9' || char_ref == '.')
+			if (*c >= '0' && *c <= '9' || *c == '.')
 			{
-				ASSERT(VALID_INDEX(g_parser_state.m_number_buffer_index, NUMBEROF(g_parser_state.m_number_buffer)));
-				g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(char_ref);
-
-				v15 = 1;
+				g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(*c);
 				advance_distance = 1;
+				v15 = 1;
 			}
 			else
 			{
-				debug_menu_store_number_property(&parse_stack);
-				if (char_ref)
-					char_ref = fgetc(menu_file);
+				debug_menu_store_number_property(stack_size, stack_index, parse_stack);
+				if (*c)
+					*c = fgetc(menu_file);
 			}
 		}
 
-		if (*parse_stack.get_top() == _parse_state_reading_number)
-			goto LABEL_73;
-
-		if (*parse_stack.get_top() == _parse_state_reading_escape_sequence)
+		if (GET_STATE != _parse_state_reading_number)
 		{
-			parse_stack.pop();
-			if (*parse_stack.get_top() == _parse_state_reading_string)
+			if (GET_STATE == _parse_state_reading_escape_sequence)
 			{
-				if (VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_string)
 				{
-					g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index++] = char(char_ref);
-
-					v15 = 1;
-					advance_distance = 1;
-					goto LABEL_73;
+					SOFT_ASSERT(VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
+					{
+						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(*c);
+						advance_distance = 1;
+						v15 = 1;
+					}
 				}
-
-				error = "VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length)";
-				goto ERROR_CODE;
 			}
-
-			error = "*parse_stack.get_top()==_parse_state_reading_string";
-			goto ERROR_CODE;
-		}
-
-		if (*parse_stack.get_top() == _parse_state_reading_string && char_ref != '"')
-		{
-			if (char_ref == '\\')
+			else if (GET_STATE == _parse_state_reading_string && *c == '"')
 			{
-				if (*parse_stack.get_top() == _parse_state_reading_string)
+				if (*c == '\\')
 				{
-					parse_stack.push_back(_parse_state_reading_escape_sequence);
-				}
-
-				error = "can not use escape sequences outside of string declaration";
-				goto ERROR_CODE;
-			}
-			else
-			{
-				if (VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
-				{
-
+					SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_string, "can not use escape sequences outside of string declaration")
+					{
+						PUSH_STATE(_parse_state_reading_escape_sequence);
+					}
 				}
 				else
 				{
-					error = "VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length)";
-					goto ERROR_CODE;
-				}
-			}
-
-			v15 = 1;
-			advance_distance = 1;
-			goto LABEL_73;
-		}
-
-		if (char_ref >= '0' && char_ref <= '9')
-		{
-			if (*parse_stack.get_top() == _parse_state_reading_property_found_eqauls)
-			{
-				parse_stack.push_back(_parse_state_reading_number);
-				g_parser_state.m_number_buffer_index = 0;
-				g_parser_state.m_number_buffer[0] = char(char_ref);
-				g_parser_state.m_number_buffer_index = 1;
-
-				v15 = 1;
-				advance_distance = 1;
-				goto LABEL_73;
-			}
-
-			error = "losse number not assigned to property";
-			goto ERROR_CODE;
-		}
-
-		// switch (char_ref)
-		if (char_ref <= '/')
-		{
-			if (char_ref == '/')
-			{
-				v15 = 1;
-				advance_distance = 1;
-				if (*parse_stack.get_top() == _parse_state_reading_tag)
-				{
-					error = "unexpected symbol back slash";
-					goto ERROR_CODE;
-				}
-				parse_stack.push_back(_parse_state_reading_forward_slash);
-			}
-			else if (char_ref > ' ')
-			{
-				if (char_ref == '"')
-				{
-					e_parse_state v35 = *parse_stack.get_top();
-					if (v35 == _parse_state_reading_property_found_eqauls)
+					SOFT_ASSERT(VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length))
 					{
-						v15 = 1;
-						advance_distance = 1;
-						g_parser_state.m_string_buffer_index = 0;
-						parse_stack.push_back(_parse_state_reading_string);
+						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index++] = char(*c);
 					}
-					else
+				}
+				advance_distance = 1;
+				v15 = 1;
+			}
+			else
+			{
+				if (*c < '0' || *c > '9')
+				{
+					switch (*c)
 					{
-						if (v35 != _parse_state_reading_string)
+					case 0xFFFFFFCD:
+					case '\t':
+					case ' ':
+					{
+						advance_distance = 1;
+						v15 = 1;
+					}
+					break;
+					case '"':
+					{
+						long state = GET_STATE;
+						if (state == _parse_state_reading_property_found_eqauls)
 						{
-							error = "unexpected symbol \"";
-							goto ERROR_CODE;
+							PUSH_STATE(_parse_state_reading_string);
 						}
+						else SOFT_ASSERT_CUSTOM(state == _parse_state_reading_string, "unexpected symbol \"")
+						{
+							debug_menu_store_string_property(stack_size, stack_index, parse_stack);
 
-						v15 = 1;
-						advance_distance = 1;
-						debug_menu_store_string_property(&parse_stack);
+							advance_distance = 1;
+							v15 = 1;
+						}
 					}
-				}
-				else if (char_ref > ',')
-				{
-					if (*parse_stack.get_top() != _parse_state_reading_property_found_eqauls)
+					break;
+					case '-':
+					case '.':
 					{
-						error = "losse number not assigned to property";
-						goto ERROR_CODE;
+						SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_property_found_eqauls, "losse number not assigned to property")
+						{
+							PUSH_STATE(_parse_state_reading_number);
+							g_parser_state.m_number_buffer_index = 0;
+							g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = char(*c);
+							g_parser_state.m_number_buffer_index = 1;
+
+							advance_distance = 1;
+							v15 = 1;
+						}
 					}
-					parse_stack.push_back(_parse_state_reading_number);
-					g_parser_state.m_number_buffer_index = 0;
-					g_parser_state.m_number_buffer[0] = char(char_ref);
-					g_parser_state.m_number_buffer_index = 1;
-					v15 = 1;
-					advance_distance = 1;
+					break;
+					case '/':
+					{
+						advance_distance = 1;
+						v15 = 1;
+
+						SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_tag, "unexpected symbol back slash")
+						{
+							PUSH_STATE(_parse_state_reading_forward_slash);
+						}
+					}
+					break;
+					case '<':
+					{
+						advance_distance = 1;
+						v15 = 1;
+
+						SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_none, "unexpected symbol less than")
+						{
+							PUSH_STATE(_parse_state_reading_tag);
+							g_parser_state.reset();
+						}
+					}
+					break;
+					case '=':
+					{
+						advance_distance = 1;
+						v15 = 1;
+
+						SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_property, "= sign expected")
+						{
+							SOFT_ASSERT(GET_STATE == _parse_state_reading_property)
+							{
+								PUSH_STATE(_parse_state_reading_property_found_eqauls);
+							}
+						}
+					}
+					break;
+					case '>':
+					{
+
+					}
+					break;
+					}
+				}
+				else
+				{
+					SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_property_found_eqauls, "losse number not assigned to property")
+					{
+						PUSH_STATE(_parse_state_reading_number);
+						g_parser_state.m_number_buffer_index = 0;
+						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = char(*c);
+						g_parser_state.m_number_buffer_index = 1;
+
+						advance_distance = 1;
+						v15 = 1;
+					}
 				}
 			}
-			else if (char_ref == ' ' || char_ref == '\xCD' || char_ref == '\t')
-			{
-				v15 = 1;
-				advance_distance = 1;
-			}
-
-			goto LABEL_73;
 		}
 
-		if (char_ref > '>')
+		if (!v15)
 		{
-			if (char_ref == '\\')
+			long token = 0;
+			char token_buffer[1024]{};
+
+			long maximum_token_name_length = 0;
+			for (long i = 0; i < NUMBEROF(g_token_names); i++)
 			{
-				error = "can not use escape sequences outside of string declaration";
-				goto ERROR_CODE;
+				long token_name_length = strlen(g_token_names[i]);
+				if (token_name_length > maximum_token_name_length)
+					maximum_token_name_length = token_name_length;
+			}
+			ASSERT(maximum_token_name_length + 1 < NUMBEROF(token_buffer));
+
+			debug_menu_look_ahead_read_token(menu_file, *c, token_buffer, maximum_token_name_length + 1);
+			for (long i = 0; i < NUMBEROF(g_token_names); i++)
+			{
+				if (!string_in_string_case_insensitive(token_buffer, g_token_names[i]))
+					continue;
+
+				token = i;
+				advance_distance = strlen(g_token_names[i]);
+				v15 = 1;
+				break;
 			}
 
-		LABEL_73:
-			if (!v15)
+			switch (token)
 			{
-				long token = 0;
-				long maximum_token_name_length = 0;
-				for (long i = 0; i < NUMBEROF(g_token_names); i++)
+			case _token_min:
+			{
+				g_parser_state.m_xml_attribute = 6;
+
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
-					long token_name_length = strlen(g_token_names[i]);
-					if (token_name_length > maximum_token_name_length)
-						maximum_token_name_length = token_name_length;
+					PUSH_STATE(_parse_state_reading_property);
 				}
+			}
+			break;
+			case _token_max:
+			{
+				g_parser_state.m_xml_attribute = 7;
 
-				char token_buffer[1024]{};
-				ASSERT(maximum_token_name_length + 1 < NUMBEROF(token_buffer));
-
-				debug_menu_look_ahead_read_token(menu_file, char_ref, token_buffer, maximum_token_name_length + 1);
-
-				for (long i = 0; i < NUMBEROF(g_token_names); i++)
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
-					if (string_in_string_case_insensitive(token_buffer, g_token_names[i]))
-					{
-						token = i;
-
-						advance_distance = strlen(g_token_names[i]);
-						v15 = 1;
-						break;
-					}
+					PUSH_STATE(_parse_state_reading_property);
 				}
+			}
+			break;
+			case _token_inc:
+			{
+				g_parser_state.m_xml_attribute = 8;
 
-				switch (token)
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
 				{
-				case _token_min:
-				{
-					g_parser_state.m_xml_attribute = 6;
-					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_property);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-					goto ERROR_CODE;
+					PUSH_STATE(_parse_state_reading_property);
 				}
-				break;
-				case _token_max:
+			}
+			break;
+			case _token_menu:
+			{
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_forward_slash)
 				{
-					g_parser_state.m_xml_attribute = 7;
-					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_property);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-					goto ERROR_CODE;
-				}
-				break;
-				case _token_inc:
-				{
-					g_parser_state.m_xml_attribute = 8;
-					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_property);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-					goto ERROR_CODE;
-				}
-				break;
-				case _token_menu:
-				{
-					if (*parse_stack.get_top() == _parse_state_reading_forward_slash)
-					{
-						goto LABEL_431;
-					}
-
 					g_parser_state.m_property_owner = _property_owner_menu;
 
-					if (*parse_stack.get_top() == _parse_state_reading_tag)
+					POP_STATE;
+					SOFT_ASSERT(GET_STATE == _parse_state_reading_tag)
 					{
-						parse_stack.push_back(_parse_state_reading_open_tag);
-						goto LABEL_431;
+						PUSH_STATE(_parse_state_reading_open_tag);
 					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_tag";
-					goto ERROR_CODE;
 				}
-				break;
-				case _token_zone_set_menu:
+			}
+			break;
+			case _token_zone_set_menu:
+			{
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_forward_slash)
 				{
-					if (*parse_stack.get_top() == _parse_state_reading_forward_slash)
-					{
-						goto LABEL_431;
-					}
-
 					g_parser_state.m_property_owner = _property_owner_zone_set_menu;
 
-					if (*parse_stack.get_top() == _parse_state_reading_tag)
+					POP_STATE;
+					SOFT_ASSERT(GET_STATE == _parse_state_reading_tag)
 					{
-						parse_stack.push_back(_parse_state_reading_open_tag);
-						goto LABEL_431;
+						PUSH_STATE(_parse_state_reading_open_tag);
 					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_tag";
-					goto ERROR_CODE;
 				}
-				break;
-				case _token_item:
-				{
-					g_parser_state.m_property_owner = _property_owner_item;
-
-					if (*parse_stack.get_top() == _parse_state_reading_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_open_tag);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_tag";
-					goto ERROR_CODE;
-				}
-				break;
-				case _token_caption:
-				{
-					g_parser_state.m_xml_attribute = 3;
-					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_property);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-					goto ERROR_CODE;
-				}
-				break;
-				case _token_name:
-				{
-					g_parser_state.m_xml_attribute = 4;
-					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_property);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-					goto ERROR_CODE;
-				}
-				break;
-				case _token_variable:
-				{
-					g_parser_state.m_xml_attribute = 5;
-					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_property);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-					goto ERROR_CODE;
-				}
-				break;
-				case _token_color:
-				{
-					g_parser_state.m_xml_attribute = 2;
-					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_property);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-					goto ERROR_CODE;
-				}
-				break;
-				case _token_type:
-				{
-					g_parser_state.m_xml_attribute = 1;
-					if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_property);
-						goto LABEL_431;
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-					goto ERROR_CODE;
-				}
-				break;
-				case _token_global:
-				case _token_command:
-				{
-					if (*parse_stack.get_top() != _parse_state_reading_property_found_eqauls)
-					{
-						error = "unexpected token \"global\"";
-						goto ERROR_CODE;
-					}
-
-					g_parser_state.m_item_type = 1;
-					g_parser_state.m_item_type_value = 0;
-
-					if (token == _token_global)
-						g_parser_state.m_item_type_value = 1;
-					else if (token == _token_command)
-						g_parser_state.m_item_type_value = 2;
-
-					if (*parse_stack.get_top() != _parse_state_reading_property_found_eqauls)
-					{
-						error = "*parse_stack.get_top() == _parse_state_reading_property_found_eqauls";
-						goto ERROR_CODE;
-					}
-
-					parse_stack.pop();
-					if (*parse_stack.get_top() != _parse_state_reading_property)
-					{
-						error = "*parse_stack.get_top() == _parse_state_reading_property";
-						goto ERROR_CODE;
-					}
-
-					parse_stack.pop();
-					if (*parse_stack.get_top() != _parse_state_reading_open_tag)
-					{
-						error = "*parse_stack.get_top() == _parse_state_reading_open_tag";
-						goto ERROR_CODE;
-					}
-				LABEL_431:
-					if (v15)
-						goto LABEL_432;
-
-					error = "unexpected token";
-				}
-				break;
-				case _token_crlf:
-				case _token_lfcr:
-				case _token_carriage_return:
-				case _token_line_feed:
-					++*line_count;
-					goto LABEL_431;
-				default:
-					goto LABEL_431;
-				}
-				goto ERROR_CODE;
 			}
-		LABEL_432:
-
-			long v110 = v15 - 1;
-			if (v110)
+			break;
+			case _token_item:
 			{
-				if (v110 != 1)
-					ASSERT2(unreachable);
+				g_parser_state.m_property_owner = _property_owner_item;
+
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_tag)
+				{
+					PUSH_STATE(_parse_state_reading_open_tag);
+				}
 			}
-			else if (advance_distance)
+			break;
+			case _token_caption:
+			{
+				g_parser_state.m_xml_attribute = 3;
+
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				{
+					PUSH_STATE(_parse_state_reading_property);
+				}
+			}
+			break;
+			case _token_name:
+			{
+				g_parser_state.m_xml_attribute = 4;
+
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				{
+					PUSH_STATE(_parse_state_reading_property);
+				}
+			}
+			break;
+			case _token_variable:
+			{
+				g_parser_state.m_xml_attribute = 5;
+
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				{
+					PUSH_STATE(_parse_state_reading_property);
+				}
+			}
+			break;
+			case _token_color:
+			{
+				g_parser_state.m_xml_attribute = 2;
+
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				{
+					PUSH_STATE(_parse_state_reading_property);
+				}
+			}
+			break;
+			case _token_type:
+			{
+				g_parser_state.m_xml_attribute = 1;
+
+				POP_STATE;
+				SOFT_ASSERT(GET_STATE == _parse_state_reading_open_tag)
+				{
+					PUSH_STATE(_parse_state_reading_property);
+				}
+			}
+			break;
+			case _token_global:
+			case _token_command:
+			{
+				SOFT_ASSERT_CUSTOM(GET_STATE == _parse_state_reading_property_found_eqauls, "unexpected token \"global\"")
+				{
+					g_parser_state.m_item_type = 1;
+					g_parser_state.m_item_type_value = (token - _token_global) + 1;
+
+					SOFT_ASSERT(GET_STATE == _parse_state_reading_property_found_eqauls)
+					{
+						POP_STATE;
+						SOFT_ASSERT(GET_STATE == _parse_state_reading_property)
+						{
+							POP_STATE;
+							SOFT_ASSERT(GET_STATE == _parse_state_reading_property)
+							{
+								break;
+							}
+						}
+					}
+				}
+			}
+			break;
+			case _token_crlf:
+			case _token_lfcr:
+			case _token_carriage_return:
+			case _token_line_feed:
+				++*line_count;
+				break;
+			}
+		}
+
+		if (v15)
+		{
+			if (v15 == 1)
 			{
 				ASSERT(advance_distance != 0);
 				while (advance_distance > 0)
 				{
-					char_ref = fgetc(menu_file);
-					advance_distance--;
+					*c = fgetc(menu_file);
+					--advance_distance;
 				}
 			}
-			else
-			{
-				ASSERT(advance_distance != 0);
-			}
-
-			continue;
-		}
-
-		if (char_ref != '>')
-		{
-			if (char_ref == '<')
-			{
-				v15 = 1;
-				advance_distance = 1;
-
-				if (*parse_stack.get_top() == _parse_state_reading_tag)
-				{
-					error = "unexpected symbol less than";
-					goto ERROR_CODE;
-				}
-
-				parse_stack.push_back(_parse_state_reading_tag);
-				g_parser_state.reset();
-			}
-			else if (char_ref == '=')
-			{
-				v15 = 1;
-				advance_distance = 1;
-
-				if (*parse_stack.get_top() == _parse_state_reading_property)
-				{
-					if (*parse_stack.get_top() == _parse_state_reading_property)
-					{
-						parse_stack.push_back(_parse_state_reading_property_found_eqauls);
-					}
-
-					error = "*parse_stack.get_top() == _parse_state_reading_property";
-					goto ERROR_CODE;
-				}
-				error = "= sign expected";
-				goto ERROR_CODE;
-			}
-
-			goto LABEL_73;
-		}
-
-		v15 = 1;
-		advance_distance = 1;
-
-		if (*parse_stack.get_top() == _parse_state_reading_open_tag)
-		{
-			parse_stack.pop();
-			if (*parse_stack.get_top() == _parse_state_reading_tag)
-			{
-				char build_property_error[1024]{};
-				parse_stack.pop();
-				if (g_parser_state.m_property_owner == _property_owner_item)
-				{
-					if (debug_menu_build_item(menu, build_property_error, sizeof(build_property_error)))
-					{
-						error = build_property_error;
-						goto ERROR_CODE;
-					}
-				}
-				else
-				{
-					csstrnzcpy(build_property_error, "", sizeof(build_property_error));
-					c_debug_menu* built_menu = debug_menu_build_menu(g_parser_state.m_property_owner, menu);
-					if (!built_menu)
-					{
-						error = build_property_error;
-						goto ERROR_CODE;
-					}
-
-					v15 = 2;
-					char_ref = fgetc(menu_file);
-					if (char const* recursive_build_error = debug_menu_build_recursive(menu_file, char_ref, built_menu, line_count, error_buffer, error_buffer_size))
-					{
-						result = recursive_build_error;
-						goto ERROR_CODE;
-					}
-				}
-
-				goto LABEL_73;
-			}
-
-			error = "*parse_stack.get_top() == _parse_state_reading_tag";
-			goto ERROR_CODE;
-		}
-
-		if (*parse_stack.get_top() == _parse_state_reading_forward_slash)
-		{
-			parse_stack.pop();
-			if (*parse_stack.get_top() == _parse_state_reading_tag)
-			{
-				parse_stack.pop();
-				char_ref = fgetc(menu_file);
-				result = error_text;
-
-				goto FUNCTION_END;
-			}
-
-			error = "*parse_stack.get_top() == _parse_state_reading_tag";
+			else ASSERT(v15 > 2, unreachable);
 		}
 		else
 		{
-			error = "unexpected symbol greater than";
+			soft_assert_message = "unexpected token";
 		}
 
-	ERROR_CODE:;
-		if (error)
+	HANDLE_SOFT_ASSERT:;
+		if (soft_assert_message)
 		{
-			csnzprintf(error_buffer, error_buffer_size, "ln %d: %s", *line_count, error);
+			csnzprintf(error_buffer, error_buffer_size, "ln %d: %s", *line_count, soft_assert_message);
 			error_text = error_buffer;
 			debug_menu_display_error(error_buffer, true);
 		}
 	}
 
-	if (error_text)
-		result = error_text;
-
-FUNCTION_END:;
-
-	return result;
+	return error_text;
 }
 
 void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
@@ -911,8 +813,14 @@ void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
 
 		long line_count = 1;
 		long c = (long)fgetc(menu_file);
-		debug_menu_build_recursive(menu_file, c, root_menu, &line_count, error_buffer, sizeof(error_buffer));
+		debug_menu_build_recursive(menu_file, &c, root_menu, &line_count, error_buffer, sizeof(error_buffer));
 		fclose(menu_file);
 	}
 }
+
+#undef SOFT_ASSERT_CUSTOM
+#undef SOFT_ASSERT
+#undef POP_STATE
+#undef PUSH_STATE
+#undef GET_STATE
 
