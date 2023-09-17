@@ -626,9 +626,21 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 										v15 = 2;
 										c = fgetc(menu_file);
 										char const* recursive_build_error = debug_menu_build_recursive(menu_file, c, built_menu, line_count, error_buffer, error_buffer_size);
-										PARSER_ASSERT_WITH_MESSAGE(recursive_build_error, recursive_build_error);
+										PARSER_ASSERT_WITH_MESSAGE(!recursive_build_error, recursive_build_error);
 									}
 								}
+							}
+
+							break;
+						}
+
+						PARSER_ASSERT_WITH_MESSAGE(GET_STATE == _parse_state_reading_forward_slash, "unexpected symbol greater than")
+						{
+							POP_STATE;
+							PARSER_ASSERT(GET_STATE == _parse_state_reading_tag);
+							{
+								c = fgetc(menu_file);
+								return NULL;
 							}
 						}
 					}
@@ -831,7 +843,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 					advance_distance--;
 				} while (advance_distance > 0);
 			}
-			else ASSERT(v15 >= 3, unreachable);
+			else ASSERT(v15 < 3, unreachable);
 		}
 	}
 
