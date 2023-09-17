@@ -481,6 +481,7 @@ callback_result_t script_doc_callback(void const* userdata, long token_count, to
 	dword error = 0;
 	if (file_open(&help_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
+		file_printf(&help_file, "; %s\n\n", "AVAILABLE FUNCTIONS:");
 		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
 		{
 			s_command const& command = k_registered_commands[i];
@@ -497,6 +498,16 @@ callback_result_t script_doc_callback(void const* userdata, long token_count, to
 			out.append_line();
 
 			file_printf(&help_file, out.get_string());
+		}
+
+		file_printf(&help_file, "; %s\n\n", "AVAILABLE EXTERNAL GLOBALS:");
+		for (long global_index = 0; global_index < k_console_global_count; global_index++)
+		{
+			s_console_global const* global = k_console_globals[global_index];
+
+			callback_result_t out;
+			out.append_print("(<%s> %s)", k_hs_type_names[global->type.get()], global->name);
+			file_printf(&help_file, "%s\n\n", out.get_string());
 		}
 	}
 	file_close(&help_file);

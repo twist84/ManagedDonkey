@@ -132,6 +132,8 @@ enum e_hs_type
 	k_hs_type_count
 };
 
+extern char const* const k_hs_type_names[k_hs_type_count];
+
 struct hs_script_parameter
 {
 	c_static_string<32> name;
@@ -212,3 +214,4 @@ struct s_hs_unit_seat_mapping
 	long unit_seats2;
 };
 static_assert(sizeof(s_hs_unit_seat_mapping) == 0xC);
+
