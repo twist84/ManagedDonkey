@@ -110,7 +110,7 @@ void c_debug_menu_item::set_name(char const* name)
 
 c_debug_menu* c_debug_menu_item::get_menu()
 {
-	return nullptr;
+	return m_menu;
 }
 
 c_debug_menu* c_debug_menu_item::get_child()
