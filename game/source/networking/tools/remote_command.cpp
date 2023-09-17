@@ -16,6 +16,7 @@
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "main/console.hpp"
+#include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/data_packets.hpp"
 #include "memory/data_packet_groups.hpp"
@@ -559,6 +560,15 @@ callback_result_t game_start_callback(void const* userdata, long token_count, to
 
 	char const* map_name = tokens[1]->get_string();
 	main_game_launch(map_name);
+
+	return result;
+}
+
+callback_result_t main_menu_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_menu_launch_force();
 
 	return result;
 }

@@ -73,5 +73,6 @@ extern bool main_game_loaded_map();
 //extern void main_game_load_from_core();
 
 extern void __cdecl main_menu_launch();
+extern void __cdecl main_menu_launch_force();
 
 extern void main_game_notify_language_change(e_language language);

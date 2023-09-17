@@ -61,6 +61,11 @@ void __cdecl main_menu_launch()
 	INVOKE(0x005680E0, main_menu_launch);
 }
 
+void __cdecl main_menu_launch_force()
+{
+	INVOKE(0x00568190, main_menu_launch_force);
+}
+
 void main_game_notify_language_change(e_language language)
 {
 	INVOKE(0x00567BF0, main_game_notify_language_change, language);

@@ -103,6 +103,7 @@ COMMAND_CALLBACK_DECLARE(script_start);
 COMMAND_CALLBACK_DECLARE(game_splitscreen);
 COMMAND_CALLBACK_DECLARE(game_coop_players);
 COMMAND_CALLBACK_DECLARE(game_start);
+COMMAND_CALLBACK_DECLARE(main_menu);
 COMMAND_CALLBACK_DECLARE(net_session_create);
 COMMAND_CALLBACK_DECLARE(net_session_add);
 COMMAND_CALLBACK_DECLARE(net_test_ping);
@@ -158,6 +159,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for mainmenu only"),
+	COMMAND_CALLBACK_REGISTER(main_menu, 0, "", "goes back to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_session_add, 1, "<string>", "<ip:port> adds a session from the given ip:port to the local games browser \r\nNETWORK SAFE: Unknown, assumed unsafe"),
