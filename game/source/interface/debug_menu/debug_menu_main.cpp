@@ -56,7 +56,7 @@ real_argb_color const* const debug_real_argb_tv_white   = new real_argb_color({ 
 real_argb_color const* const debug_real_argb_tv_blue    = new real_argb_color({ 1.0f, {  0.2f, 0.2f,  0.45f } });
 real_argb_color const* const debug_real_argb_tv_magenta = new real_argb_color({ 1.0f, {  0.7f, 0.05f, 0.7f  } });
 real_argb_color const* const debug_real_argb_tv_orange  = new real_argb_color({ 1.0f, {  1.0f, 0.5f,  0.0f  } });
-real_argb_color const* const debug_real_argb_tv_green   = new real_argb_color({ 1.0f, { 0.05f, 0.65f, 0.5f  } });
+real_argb_color const* const debug_real_argb_tv_green   = new real_argb_color({ 1.0f, { 0.05f, 0.65f, 0.05f } });
 
 bool debug_menu_enabled = true;
 s_debug_menu_globals g_debug_menu_globals = {};
@@ -230,7 +230,7 @@ void render_debug_debug_menu()
 
 		int16_point2d point{};
 		set_point2d(&point, 180, 60);
-		debug_menu_get_active_menu()->render(&font_cache, &point);
+		debug_menu_get_active_menu()->render(&font_cache, point);
 	}
 }
 
