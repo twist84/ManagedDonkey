@@ -151,7 +151,7 @@ struct s_parser_state
 	bool m_inc;
 	real m_inc_value;
 
-	byte m_item;
+	bool m_item;
 	c_enum<e_item_type, long, _item_type_none, k_item_type_count> m_item_type;
 };
 //static_assert(sizeof(s_parser_state) == 0x330);

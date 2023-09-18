@@ -24,6 +24,54 @@ if (!(STATEMENT)) \
 	continue; \
 } else 
 
+#define CHAR_CASE(CHAR) CHAR + 51
+
+#define TOKEN_CASE_PROPERTY(PROPERTY) \
+case _token_##PROPERTY: \
+{ \
+	g_parser_state.m_property = _property_##PROPERTY; \
+	PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag) \
+	{ \
+		parse_stack.push_back(_parse_state_reading_property); \
+	} \
+} \
+break
+#define TOKEN_CASE_PROPERTY_OWNER(PROPERTY_OWNER, CHECK_FORWORD_SLASH) \
+case _token_##PROPERTY_OWNER: \
+{ \
+	if (CHECK_FORWORD_SLASH && *parse_stack.get_top() == _parse_state_reading_forward_slash) \
+		break; \
+	g_parser_state.m_property_owner = _property_owner_##PROPERTY_OWNER; \
+	PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_tag) \
+	{ \
+		parse_stack.push_back(_parse_state_reading_open_tag); \
+	} \
+} \
+break
+#define TOKEN_CASE_ITEM_TYPE(ITEM_TYPE) \
+case _token_##ITEM_TYPE: \
+{ \
+	PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_reading_property_found_eqauls, "unexpected token \"global\"") \
+	{ \
+		g_parser_state.m_item = true; \
+		g_parser_state.m_item_type = e_item_type((token - (_token_type + 1)) + 1); \
+		PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_property_found_eqauls) \
+		{ \
+			parse_stack.pop(); \
+			PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_property) \
+			{ \
+				parse_stack.pop(); \
+				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag) \
+				{ \
+					break; \
+				} \
+			} \
+		} \
+	} \
+} \
+break
+#define TOKEN_CASE_NEW_LINE(TOKEN) case _token_##TOKEN: ++*line_count; break
+
 s_parser_state g_parser_state = {};
 
 void s_parser_state::reset()
@@ -428,8 +476,6 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 				}
 				else
 				{
-#define CHAR_CASE(CHAR) CHAR + 51
-
 					switch (CHAR_CASE(c))
 					{
 					case 0:
@@ -562,7 +608,6 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 					}
 					break;
 					}
-#undef CHAR_CASE
 				}
 			}
 		}
@@ -592,86 +637,31 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 					break;
 				}
 			}
-
-#define CASE_PROPERTY(PROPERTY) \
-case _token_##PROPERTY: \
-{ \
-	g_parser_state.m_property = _property_##PROPERTY; \
-	PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag) \
-	{ \
-		parse_stack.push_back(_parse_state_reading_property); \
-	} \
-} \
-break
-#define CASE_MENU(MENU) \
-case _token_##MENU: \
-{ \
-	if (*parse_stack.get_top() != _parse_state_reading_forward_slash) \
-	{ \
-		g_parser_state.m_property_owner = _property_owner_##MENU; \
-		PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_tag) \
-		{ \
-			parse_stack.push_back(_parse_state_reading_open_tag); \
-		} \
-	} \
-} \
-break
 			switch (token)
 			{
-			CASE_PROPERTY(caption);
-			CASE_PROPERTY(name);
-			CASE_PROPERTY(variable);
-			CASE_PROPERTY(color);
-			CASE_PROPERTY(type);
-			CASE_PROPERTY(min);
-			CASE_PROPERTY(max);
-			CASE_PROPERTY(inc);
-			CASE_MENU(menu);
-			CASE_MENU(zone_set_menu);
-			//CASE_MENU(create_zone_set_menu);
-			//CASE_MENU(error_geometry_settings_menu);
-			case _token_item:
-			{
-				g_parser_state.m_property_owner = _property_owner_item;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_open_tag);
-				}
+			TOKEN_CASE_PROPERTY(caption);
+			TOKEN_CASE_PROPERTY(name);
+			TOKEN_CASE_PROPERTY(variable);
+			TOKEN_CASE_PROPERTY(color);
+			TOKEN_CASE_PROPERTY(type);
+			TOKEN_CASE_PROPERTY(min);
+			TOKEN_CASE_PROPERTY(max);
+			TOKEN_CASE_PROPERTY(inc);
+			TOKEN_CASE_PROPERTY_OWNER(menu, true);
+			TOKEN_CASE_PROPERTY_OWNER(zone_set_menu, true);
+			//TOKEN_CASE_PROPERTY_OWNER(create_zone_set_menu, true);
+			//TOKEN_CASE_PROPERTY_OWNER(error_geometry_settings_menu, true);
+			//TOKEN_CASE_PROPERTY_OWNER(saved_film_marker_goto_menu, true);
+			//TOKEN_CASE_PROPERTY_OWNER(scenario_loader, true);
+			//TOKEN_CASE_PROPERTY_OWNER(object_dropper, true);
+			TOKEN_CASE_PROPERTY_OWNER(item, false);
+			TOKEN_CASE_ITEM_TYPE(global);
+			TOKEN_CASE_ITEM_TYPE(command);
+			TOKEN_CASE_NEW_LINE(crlf);
+			TOKEN_CASE_NEW_LINE(lfcr);
+			TOKEN_CASE_NEW_LINE(carriage_return);
+			TOKEN_CASE_NEW_LINE(line_feed);
 			}
-			break;
-			case _token_global:
-			case _token_command:
-			{
-				PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_reading_property_found_eqauls, "unexpected token \"global\"")
-				{
-					g_parser_state.m_item = true;
-					g_parser_state.m_item_type = e_item_type((token - _token_global) + 1);
-
-					PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_property_found_eqauls)
-					{
-						parse_stack.pop();
-						PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_property)
-						{
-							parse_stack.pop();
-							PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-							{
-								break;
-							}
-						}
-					}
-				}
-			}
-			break;
-			case _token_crlf:
-			case _token_lfcr:
-			case _token_carriage_return:
-			case _token_line_feed:
-				++*line_count;
-				break;
-			}
-#undef CASE_MENU
-#undef CASE_PROPERTY
 		}
 
 		PARSER_ASSERT_WITH_MESSAGE(v15, "unexpected token")
@@ -708,6 +698,13 @@ void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
 		fclose(menu_file);
 	}
 }
+
+#undef TOKEN_CASE_NEW_LINE
+#undef TOKEN_CASE_ITEM_TYPE
+#undef TOKEN_CASE_PROPERTY_OWNER
+#undef TOKEN_CASE_PROPERTY
+
+#undef CHAR_CASE
 
 #undef PARSER_ASSERT_WITH_MESSAGE
 #undef PARSER_ASSERT
