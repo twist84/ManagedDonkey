@@ -35,8 +35,8 @@ void s_parser_state::reset()
 	m_min = 0;
 	m_max = 0;
 	m_inc = 0;
-	m_item_type = 0;
-	m_xml_attribute = 0;
+	m_item_type = _item_type_none;
+	m_property = _property_none;
 	m_property_owner = _property_owner_none;
 }
 
@@ -61,24 +61,6 @@ char const* const g_token_names[k_token_count]
 	"\r",
 	"\n",
 };
-
-enum e_parse_state
-{
-	_parse_state_none = 0,
-	_parse_state_reading_tag,
-	_parse_state_reading_open_tag,
-	_parse_state_reading_forward_slash,
-	_parse_state_reading_property,
-	_parse_state_reading_property_found_eqauls,
-	_parse_state_unknown6,
-	_parse_state_reading_string,
-	_parse_state_reading_escape_sequence,
-	_parse_state_reading_number,
-
-	k_parse_state_count
-};
-
-using parse_stack_t = c_static_stack<e_parse_state, k_parse_state_count>;
 
 long debug_menu_memory_available()
 {
@@ -148,22 +130,22 @@ void debug_menu_store_number_property(parse_stack_t* parse_stack)
 	ASSERT(VALID_INDEX(g_parser_state.m_number_buffer_index, s_parser_state::k_string_length));
 
 	g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
-	switch (g_parser_state.m_xml_attribute)
+	switch (g_parser_state.m_property.get())
 	{
-	case 6:
+	case _property_min:
 		g_parser_state.m_min = true;
 		g_parser_state.m_min_value = real(atof(g_parser_state.m_number_buffer));
 		break;
-	case 7:
+	case _property_max:
 		g_parser_state.m_max = true;
 		g_parser_state.m_max_value = real(atof(g_parser_state.m_number_buffer));
 		break;
-	case 8:
+	case _property_inc:
 		g_parser_state.m_inc = true;
 		g_parser_state.m_inc_value = real(atof(g_parser_state.m_number_buffer));
 		break;
 	}
-	g_parser_state.m_xml_attribute = 0;
+	g_parser_state.m_property = _property_none;
 }
 
 void debug_menu_store_string_property(parse_stack_t* parse_stack)
@@ -182,26 +164,26 @@ void debug_menu_store_string_property(parse_stack_t* parse_stack)
 	ASSERT(VALID_INDEX(g_parser_state.m_string_buffer_index, s_parser_state::k_string_length));
 
 	g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
-	switch (g_parser_state.m_xml_attribute)
+	switch (g_parser_state.m_property.get())
 	{
-	case 2:
+	case _property_color:
 		g_parser_state.m_color = true;
 		csstrnzcpy(g_parser_state.m_color_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
 		break;
-	case 3:
+	case _property_caption:
 		g_parser_state.m_caption = true;
 		csstrnzcpy(g_parser_state.m_caption_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
 		break;
-	case 4:
+	case _property_name:
 		g_parser_state.m_name = true;
 		csstrnzcpy(g_parser_state.m_name_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
 		break;
-	case 5:
+	case _property_variable:
 		g_parser_state.m_variable = true;
 		csstrnzcpy(g_parser_state.m_variable_buffer, g_parser_state.m_string_buffer, s_parser_state::k_string_length);
 		break;
 	}
-	g_parser_state.m_xml_attribute = 0;
+	g_parser_state.m_property = _property_none;
 }
 
 char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* error_buffer, long error_buffer_size)
@@ -295,17 +277,17 @@ char const* debug_menu_build_item_command(c_debug_menu* menu, char* error_buffer
 
 char const* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, long error_buffer_size)
 {
-	if (!g_parser_state.m_item_type)
+	if (!g_parser_state.m_item)
 	{
 		csnzprintf(error_buffer, error_buffer_size, "menu items must supply a type");
 		return error_buffer;
 	}
 
-	switch (g_parser_state.m_item_type_value)
+	switch (g_parser_state.m_item_type.get())
 	{
-	case 1:
+	case _item_type_global:
 		return debug_menu_build_item_hs_variable_global(menu, error_buffer, error_buffer_size);
-	case 2:
+	case _item_type_command:
 		return debug_menu_build_item_command(menu, error_buffer, error_buffer_size);
 	default:
 		ASSERT2(unreachable);
@@ -611,64 +593,43 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 				}
 			}
 
+#define CASE_PROPERTY(PROPERTY) \
+case _token_##PROPERTY: \
+{ \
+	g_parser_state.m_property = _property_##PROPERTY; \
+	PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag) \
+	{ \
+		parse_stack.push_back(_parse_state_reading_property); \
+	} \
+} \
+break
+#define CASE_MENU(MENU) \
+case _token_##MENU: \
+{ \
+	if (*parse_stack.get_top() != _parse_state_reading_forward_slash) \
+	{ \
+		g_parser_state.m_property_owner = _property_owner_##MENU; \
+		PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_tag) \
+		{ \
+			parse_stack.push_back(_parse_state_reading_open_tag); \
+		} \
+	} \
+} \
+break
 			switch (token)
 			{
-			case _token_min:
-			{
-				g_parser_state.m_xml_attribute = 6;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_property);
-				}
-			}
-			break;
-			case _token_max:
-			{
-				g_parser_state.m_xml_attribute = 7;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_property);
-				}
-			}
-			break;
-			case _token_inc:
-			{
-				g_parser_state.m_xml_attribute = 8;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_property);
-				}
-			}
-			break;
-			case _token_menu:
-			{
-				if (*parse_stack.get_top() != _parse_state_reading_forward_slash)
-				{
-					g_parser_state.m_property_owner = _property_owner_menu;
-
-					PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_open_tag);
-					}
-				}
-			}
-			break;
-			case _token_zone_set_menu:
-			{
-				if (*parse_stack.get_top() != _parse_state_reading_forward_slash)
-				{
-					g_parser_state.m_property_owner = _property_owner_zone_set_menu;
-
-					PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_tag)
-					{
-						parse_stack.push_back(_parse_state_reading_open_tag);
-					}
-				}
-			}
-			break;
+			CASE_PROPERTY(caption);
+			CASE_PROPERTY(name);
+			CASE_PROPERTY(variable);
+			CASE_PROPERTY(color);
+			CASE_PROPERTY(type);
+			CASE_PROPERTY(min);
+			CASE_PROPERTY(max);
+			CASE_PROPERTY(inc);
+			CASE_MENU(menu);
+			CASE_MENU(zone_set_menu);
+			//CASE_MENU(create_zone_set_menu);
+			//CASE_MENU(error_geometry_settings_menu);
 			case _token_item:
 			{
 				g_parser_state.m_property_owner = _property_owner_item;
@@ -679,63 +640,13 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 				}
 			}
 			break;
-			case _token_caption:
-			{
-				g_parser_state.m_xml_attribute = 3;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_property);
-				}
-			}
-			break;
-			case _token_name:
-			{
-				g_parser_state.m_xml_attribute = 4;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_property);
-				}
-			}
-			break;
-			case _token_variable:
-			{
-				g_parser_state.m_xml_attribute = 5;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_property);
-				}
-			}
-			break;
-			case _token_color:
-			{
-				g_parser_state.m_xml_attribute = 2;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_property);
-				}
-			}
-			break;
-			case _token_type:
-			{
-				g_parser_state.m_xml_attribute = 1;
-
-				PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_open_tag)
-				{
-					parse_stack.push_back(_parse_state_reading_property);
-				}
-			}
-			break;
 			case _token_global:
 			case _token_command:
 			{
 				PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_reading_property_found_eqauls, "unexpected token \"global\"")
 				{
-					g_parser_state.m_item_type = 1;
-					g_parser_state.m_item_type_value = (token - _token_global) + 1;
+					g_parser_state.m_item = true;
+					g_parser_state.m_item_type = e_item_type((token - _token_global) + 1);
 
 					PARSER_ASSERT(*parse_stack.get_top() == _parse_state_reading_property_found_eqauls)
 					{
@@ -759,6 +670,8 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 				++*line_count;
 				break;
 			}
+#undef CASE_MENU
+#undef CASE_PROPERTY
 		}
 
 		PARSER_ASSERT_WITH_MESSAGE(v15, "unexpected token")
