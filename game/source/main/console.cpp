@@ -22,6 +22,7 @@
 #include "render/render_visibility.hpp"
 #include "render/render_water.hpp"
 #include "render/views/render_player_view.hpp"
+#include "scenario/scenario_soft_ceilings.hpp"
 #include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
 #include "units/bipeds.hpp"
@@ -585,6 +586,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_memory_always_system, g_havok_memory_always_system),
 	
 	CONSOLE_GLOBAL_DECLARE_BOOL(contrail_render_enable),
+	CONSOLE_GLOBAL_DECLARE_BOOL(soft_ceilings_disable),
 
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);

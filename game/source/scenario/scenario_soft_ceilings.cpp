@@ -1,8 +1,11 @@
 #include "scenario/scenario_soft_ceilings.hpp"
 
+#include "memory/module.hpp"
 #include "render/render_debug.hpp"
 #include "scenario/scenario.hpp"
 #include "structures/structure_physics_definitions.hpp"
+
+bool soft_ceilings_disable = false;
 
 struct s_soft_ceiling_debug_cache
 {
@@ -157,4 +160,55 @@ void __cdecl scenario_soft_ceilings_render_debug(real_point3d const* point, bool
 		}
 	}
 }
+
+__declspec(naked) void soft_ceilings_disable_inline0()
+{
+	__asm
+	{
+		// our code
+		cmp soft_ceilings_disable, 0
+		jnz loc_67603E
+
+		// original code
+		cmp dword ptr[esp + 0xB4], 0
+		jle loc_67603E
+
+		mov eax, 0x00675E51
+		jmp eax
+
+		// jump out
+	loc_67603E:
+		mov eax, 0x0067603E
+		jmp eax
+	}
+}
+HOOK_DECLARE(0x00675E43, soft_ceilings_disable_inline0);
+
+__declspec(naked) void soft_ceilings_disable_inline1()
+{
+	__asm
+	{
+		// our code
+		cmp soft_ceilings_disable, 0
+		jz      loc_6755B4
+
+		// original code
+		cmp[esp + 0x28], eax
+		jz      loc_6755B4
+
+		movss   xmm1, dword ptr[esp + 0x50]
+		xorps   xmm0, xmm0
+		comiss  xmm0, xmm1
+		jbe     loc_6755B4
+
+		mov eax, 0x00675518
+		jmp eax
+
+		// jump out
+	loc_6755B4:
+		mov eax, 0x006755B4
+		jmp eax
+	}
+}
+HOOK_DECLARE(0x006754FC, soft_ceilings_disable_inline1);
 
