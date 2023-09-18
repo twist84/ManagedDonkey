@@ -191,6 +191,7 @@ POPD
     <ClCompile Include="source\cseries\cseries_windows_debug_pc.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
     <ClCompile Include="source\cseries\stack_walk_windows.cpp" />
+    <ClCompile Include="source\cubemaps\cubemap_debug.cpp" />
     <ClCompile Include="source\cutscene\cinematics.cpp" />
     <ClCompile Include="source\cutscene\cinematics_definitions.cpp" />
     <ClCompile Include="source\cutscene\recorded_animations.cpp" />
@@ -445,6 +446,7 @@ POPD
     <ClCompile Include="source\saved_games\saved_game_files.cpp" />
     <ClCompile Include="source\saved_games\scenario_map_variant.cpp" />
     <ClCompile Include="source\scenario\scenario.cpp" />
+    <ClCompile Include="source\scenario\scenario_cubemap_definitions.cpp" />
     <ClCompile Include="source\scenario\scenario_definitions.cpp" />
     <ClCompile Include="source\scenario\scenario_soft_ceilings.cpp" />
     <ClCompile Include="source\scenario\scenario_tags_fixup.cpp" />
@@ -507,6 +509,7 @@ POPD
     <ClInclude Include="source\cseries\cseries_events.hpp" />
     <ClInclude Include="source\cseries\cseries_windows_debug_pc.hpp" />
     <ClInclude Include="source\cseries\stack_walk_windows.hpp" />
+    <ClInclude Include="source\cubemaps\cubemap_debug.hpp" />
     <ClInclude Include="source\cutscene\recorded_animations.hpp" />
     <ClInclude Include="source\devices\devices.hpp" />
     <ClInclude Include="source\dialogs\edit_text.hpp" />

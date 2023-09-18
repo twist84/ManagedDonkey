@@ -1,6 +1,7 @@
 #include "main/console.hpp"
 
 #include "camera/camera_globals.hpp"
+#include "cubemaps/cubemap_debug.hpp"
 #include "game/cheats.hpp"
 #include "effects/contrails.hpp"
 #include "interface/terminal.hpp"
@@ -587,6 +588,7 @@ s_console_global const* const k_console_globals[] =
 	
 	CONSOLE_GLOBAL_DECLARE_BOOL(contrail_render_enable),
 	CONSOLE_GLOBAL_DECLARE_BOOL(soft_ceilings_disable),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(cubemap_debug, c_cubemap_debug::g_render),
 
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);

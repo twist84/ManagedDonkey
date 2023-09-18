@@ -2,6 +2,7 @@
 
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/observer.hpp"
+#include "cubemaps/cubemap_debug.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "hs/hs_runtime.hpp"
@@ -313,6 +314,7 @@ void __cdecl render_debug_clients(long user_index)
 		// this does not belong here
 		sound_debug_render();
 
+		c_cubemap_debug::render();
 		render_debug_objects();
 		render_debug_trigger_volumes();
 		render_debug_structure();

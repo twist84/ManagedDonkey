@@ -76,3 +76,5 @@ static_assert(sizeof(s_render_object_first_person_globals) == 0xB720);
 
 extern s_render_object_first_person_globals& render_object_globals;
 
+extern render_lighting const* object_get_cached_render_lighting(long object_index);
+

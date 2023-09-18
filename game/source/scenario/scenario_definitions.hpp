@@ -355,7 +355,7 @@ struct s_scenario
 	c_typed_tag_block<s_game_globals_player_representation> override_player_representations;
 	c_typed_tag_block<s_campaign_metagame_scenario> campaign_metagame;
 	c_typed_tag_block<s_soft_surfaces_definition> soft_surfaces;
-	c_typed_tag_block<s_scenario_cubemap_info> cubemaps;
+	c_typed_tag_block<s_structure_cluster_cubemap_info> cubemaps;
 	c_typed_tag_block<s_scenario_cortana_effect> cortana_effects;
 	c_typed_tag_block<s_scenario_airprobe_info> airprobes;
 	c_typed_tag_block<s_scenario_budget_reference> budget_references;

@@ -4,6 +4,7 @@
 #include "geometry/geometry_definitions.hpp"
 #include "physics/collision_instanced_geometry_definitions.hpp"
 #include "render/render_structure.hpp"
+#include "scenario/scenario_cubemap_definitions.hpp"
 #include "structures/structure_physics_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 
@@ -174,16 +175,10 @@ enum e_structure_cluster_flags
 	k_structure_cluster_flags
 };
 
-struct s_structure_cluster_cubemap_info
-{
-	real_point3d cubemap_position;
-	short scenario_cubemap_index;
-	short cubemap_bitmap_index;
-};
-static_assert(sizeof(s_structure_cluster_cubemap_info) == 0x10);
-
 struct structure_cluster
 {
+	// CLUSTER INFO
+
 	real_rectangle3d bounds;
 	char scenario_sky_index;
 	char atmosphere_index;
