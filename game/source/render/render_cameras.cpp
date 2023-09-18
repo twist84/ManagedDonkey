@@ -4,8 +4,12 @@
 #include "cutscene/cinematics.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
+#include "render/render_debug.hpp"
+#include "render/views/render_view.hpp"
 
 #include <math.h>
+
+bool debug_camera_projection = false;
 
 HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
 
@@ -183,5 +187,40 @@ void __cdecl render_view_compute_fullscreen_bounds(render_camera* camera)
 void __cdecl render_view_compute_window_bounds(long player_index, long player_count, short_rectangle2d* bounds, short_rectangle2d* safe_bounds)
 {
 	INVOKE(0x00A65F90, render_view_compute_window_bounds, player_index, player_count, bounds, safe_bounds);
+}
+
+void render_debug_camera_projection()
+{
+	if (!debug_camera_projection)
+		return;
+
+	render_camera const* rasterizer_camera = c_player_view::get_global_player_view()->get_rasterizer_camera();
+	render_projection const* rasterizer_projection = c_player_view::get_global_player_view()->get_rasterizer_projection();
+
+	real verical_fov_half_tan = tanf(rasterizer_camera->vertical_field_of_view * 0.5f);
+	short width = rasterizer_camera->render_title_safe_pixel_bounds.x1 - rasterizer_camera->render_title_safe_pixel_bounds.x0;
+	short height = rasterizer_camera->render_title_safe_pixel_bounds.y1 - rasterizer_camera->render_title_safe_pixel_bounds.y0;
+
+	real_point3d points[3][3]{};
+	for (long i = 0; i < 3; i++)
+	{
+		for (long j = 0; j < 3; j++)
+		{
+			real point_x = real((width * ((j - 1) * verical_fov_half_tan)) / height);
+			real point_y = real(verical_fov_half_tan * (i - 1));
+
+			set_real_point3d(&points[j][i], point_x, point_y, -1.0f);
+			matrix4x3_transform_point(&rasterizer_projection->view_to_world, &points[j][i], &points[j][i]);
+		}
+	}
+
+	for (long i = 0; i < 3; i++)
+	{
+		for (long j = 0; j < 3; j++)
+		{
+			render_debug_line(true, &points[j][0], &points[i][2], global_real_argb_red);
+			render_debug_line(true, &points[0][j], &points[2][i], global_real_argb_red);
+		}
+	}
 }
 

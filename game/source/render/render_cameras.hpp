@@ -70,6 +70,8 @@ struct render_view_parameters
 };
 static_assert(sizeof(render_view_parameters) == 0x40);
 
+extern bool debug_camera_projection;
+
 struct s_observer_result;
 struct render_mirror;
 extern void __cdecl render_camera_build(render_camera* camera, s_observer_result const* result);
@@ -90,4 +92,5 @@ extern real __cdecl render_projection_sphere_diameter_in_pixels(render_projectio
 extern void __cdecl render_view_compute_all_bounds(long player_index, long player_count, render_camera* camera);
 extern void __cdecl render_view_compute_fullscreen_bounds(render_camera* camera);
 extern void __cdecl render_view_compute_window_bounds(long player_index, long player_count, short_rectangle2d* bounds, short_rectangle2d* safe_bounds);
+extern void render_debug_camera_projection();
 

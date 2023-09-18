@@ -20,6 +20,7 @@
 #include "physics/havok.hpp"
 #include "physics/water_physics.hpp"
 #include "render/old_render_debug.hpp"
+#include "render/render_cameras.hpp"
 #include "render/render_visibility.hpp"
 #include "render/render_water.hpp"
 #include "render/views/render_player_view.hpp"
@@ -589,6 +590,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(contrail_render_enable),
 	CONSOLE_GLOBAL_DECLARE_BOOL(soft_ceilings_disable),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cubemap_debug, c_cubemap_debug::g_render),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_camera_projection),
 
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);

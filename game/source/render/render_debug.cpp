@@ -320,7 +320,7 @@ void __cdecl render_debug_clients(long user_index)
 		sound_debug_render();
 
 		c_cubemap_debug::render();
-		//render_debug_camera_projection();
+		render_debug_camera_projection();
 		render_debug_objects();
 		//render_debug_object_damage();
 		//render_debug_projectiles();
