@@ -637,13 +637,9 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 					break;
 				}
 			}
+
 			switch (token)
 			{
-			TOKEN_CASE_PROPERTY(caption);
-			TOKEN_CASE_PROPERTY(name);
-			TOKEN_CASE_PROPERTY(variable);
-			TOKEN_CASE_PROPERTY(color);
-			TOKEN_CASE_PROPERTY(type);
 			TOKEN_CASE_PROPERTY(min);
 			TOKEN_CASE_PROPERTY(max);
 			TOKEN_CASE_PROPERTY(inc);
@@ -655,6 +651,11 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 			//TOKEN_CASE_PROPERTY_OWNER(scenario_loader, true);
 			//TOKEN_CASE_PROPERTY_OWNER(object_dropper, true);
 			TOKEN_CASE_PROPERTY_OWNER(item, false);
+			TOKEN_CASE_PROPERTY(caption);
+			TOKEN_CASE_PROPERTY(name);
+			TOKEN_CASE_PROPERTY(variable);
+			TOKEN_CASE_PROPERTY(color);
+			TOKEN_CASE_PROPERTY(type);
 			TOKEN_CASE_ITEM_TYPE(global);
 			TOKEN_CASE_ITEM_TYPE(command);
 			TOKEN_CASE_NEW_LINE(crlf);
