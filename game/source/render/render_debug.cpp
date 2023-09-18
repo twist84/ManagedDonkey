@@ -309,26 +309,62 @@ void __cdecl render_debug_end(bool a1, bool a2, bool a3)
 
 void __cdecl render_debug_clients(long user_index)
 {
+	//geometry_cache_debug_render();
+	//texture_cache_debug_render();
+	//sound_cache_debug_render();
+	//file_activity_debug_render();
+
 	if (game_in_progress())
 	{
 		// this does not belong here
 		sound_debug_render();
 
 		c_cubemap_debug::render();
+		//render_debug_camera_projection();
 		render_debug_objects();
+		//render_debug_object_damage();
+		//render_debug_projectiles();
+		//render_debug_scripting();
 		render_debug_trigger_volumes();
+		//render_debug_recording();
+		//render_debug_detail_objects();
+		//render_debug_obstacle_path();
+		//render_debug_fog_planes();
+		//render_debug_player();
+		//render_debug_camera();
 		render_debug_structure();
+		//render_debug_bsp();
+		//render_debug_input();
+		//render_debug_structure_decals();
+		//ai_debug_render();
+		//ai_profile_render();
+		//aim_assist_debug_render();
+		//collision_debug_render();
+		//chud_debug_render();
+		//havok_debug_render();
 		object_early_mover_render_debug();
+		//collision_log_render();
 		game_pvs_debug_render();
+		//players_debug_render();
+		//simulation_debug_render();
+		//voice_render();
 		debug_render_observer();
+		//render_debug_scenario_comments();
 		render_report_render_debug(user_index, true);
+		//saved_film_render_debug();
+		//saved_film_history_render_debug();
 		events_debug_render();
+		//data_mine_render_mission_segment();
+		//bandwidth_profiler_render();
 
+		// this does not belong here
 		// location_messages
 		//real_point3d point = { 81.6f, -72.4f, 7.2f };
 		//render_debug_point(true, &point, 2.0f, global_real_argb_magenta);
 		//render_debug_string_at_point(&point, "test location", global_real_argb_magenta);
 	}
+
+	//editor_render_debug();
 }
 
 long __cdecl render_debug_add_cache_string(char const* string)
