@@ -19,6 +19,15 @@ enum e_parse_state
 };
 using parse_stack_t = c_static_stack<e_parse_state, k_parse_state_count>;
 
+enum e_advance_type
+{
+	_advance_type_process_token = 0,
+	_advance_type_process_distance,
+	_advance_type_process_nothing,
+
+	k_advance_type_count
+};
+
 enum e_token
 {
 	_token_none = 0,

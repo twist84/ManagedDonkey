@@ -48,8 +48,8 @@ case _token_##PROPERTY_OWNER: \
 	} \
 } \
 break
-#define TOKEN_CASE_ITEM_TYPE(ITEM_TYPE) \
-case _token_##ITEM_TYPE: \
+#define TOKEN_CASE_TYPE(TYPE) \
+case _token_##TYPE: \
 { \
 	PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_reading_property_found_eqauls, "unexpected token \"global\"") \
 	{ \
@@ -402,7 +402,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 	while (c && c != NONE && !parse_error)
 	{
 		long advance_distance = 0;
-		long v15 = 0;
+		e_advance_type advance_process_type = _advance_type_process_token;
 
 		if (*parse_stack.get_top() == _parse_state_reading_number)
 		{
@@ -412,7 +412,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 				g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
 
 				advance_distance = 1;
-				v15 = 1;
+				advance_process_type = _advance_type_process_distance;
 			}
 			else
 			{
@@ -434,7 +434,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 						g_parser_state.m_string_buffer[g_parser_state.m_string_buffer_index] = 0;
 
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 					}
 				}
 			}
@@ -457,7 +457,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 				}
 
 				advance_distance = 1;
-				v15 = 1;
+				advance_process_type = _advance_type_process_distance;
 			}
 			else
 			{
@@ -471,7 +471,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 						g_parser_state.m_number_buffer[g_parser_state.m_number_buffer_index] = 0;
 
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 					}
 				}
 				else
@@ -483,7 +483,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 					case CHAR_CASE(' '):
 					{
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 					}
 					break;
 					case CHAR_CASE('"'):
@@ -503,7 +503,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 						}
 
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 					}
 					break;
 					case CHAR_CASE('-'):
@@ -518,13 +518,13 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 						}
 
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 					}
 					break;
 					case CHAR_CASE('/'):
 					{
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 
 						PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_reading_tag, "unexpected symbol back slash")
 						{
@@ -535,7 +535,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 					case CHAR_CASE('<'):
 					{
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 
 						PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_none, "unexpected symbol less than")
 						{
@@ -547,7 +547,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 					case CHAR_CASE('='):
 					{
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 
 						PARSER_ASSERT_WITH_MESSAGE(*parse_stack.get_top() == _parse_state_reading_property, "= sign expected")
 						{
@@ -561,7 +561,7 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 					case CHAR_CASE('>'):
 					{
 						advance_distance = 1;
-						v15 = 1;
+						advance_process_type = _advance_type_process_distance;
 
 						if (*parse_stack.get_top() == _parse_state_reading_open_tag)
 						{
@@ -580,7 +580,8 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 									c_debug_menu* built_menu = debug_menu_build_menu(g_parser_state.m_property_owner, menu);
 									PARSER_ASSERT_WITH_MESSAGE(built_menu, build_property_error)
 									{
-										v15 = 2;
+										advance_process_type = _advance_type_process_nothing;
+
 										c = fgetc(menu_file);
 										char const* recursive_build_error = debug_menu_build_recursive(menu_file, c, built_menu, line_count, error_buffer, error_buffer_size);
 										PARSER_ASSERT_WITH_MESSAGE(!recursive_build_error, recursive_build_error);
@@ -612,9 +613,9 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 			}
 		}
 
-		if (!v15)
+		if (advance_process_type == _advance_type_process_token)
 		{
-			long token = 0;
+			e_token token = _token_none;
 			char token_buffer[1024]{};
 
 			long maximum_token_name_length = 0;
@@ -631,9 +632,10 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 			{
 				if (string_in_string_case_insensitive(token_buffer, g_token_names[i]))
 				{
-					token = i;
+					token = e_token(i);
+
 					advance_distance = strlen(g_token_names[i]);
-					v15 = 1;
+					advance_process_type = _advance_type_process_distance;
 					break;
 				}
 			}
@@ -656,8 +658,8 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 			TOKEN_CASE_PROPERTY(variable);
 			TOKEN_CASE_PROPERTY(color);
 			TOKEN_CASE_PROPERTY(type);
-			TOKEN_CASE_ITEM_TYPE(global);
-			TOKEN_CASE_ITEM_TYPE(command);
+			TOKEN_CASE_TYPE(global);
+			TOKEN_CASE_TYPE(command);
 			TOKEN_CASE_NEW_LINE(crlf);
 			TOKEN_CASE_NEW_LINE(lfcr);
 			TOKEN_CASE_NEW_LINE(carriage_return);
@@ -665,18 +667,15 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 			}
 		}
 
-		PARSER_ASSERT_WITH_MESSAGE(v15, "unexpected token")
+		PARSER_ASSERT_WITH_MESSAGE(advance_process_type, "unexpected token")
 		{
-			if (v15 == 1)
+			if (advance_process_type == _advance_type_process_distance)
 			{
 				ASSERT(advance_distance != 0);
-				do
-				{
+				while (advance_distance-- > 0)
 					c = fgetc(menu_file);
-					advance_distance--;
-				} while (advance_distance > 0);
 			}
-			else ASSERT(v15 < 3, unreachable);
+			else ASSERT(advance_process_type < k_advance_type_count, unreachable);
 		}
 	}
 
@@ -701,7 +700,7 @@ void debug_menu_parse(c_debug_menu* root_menu, char const* file_name)
 }
 
 #undef TOKEN_CASE_NEW_LINE
-#undef TOKEN_CASE_ITEM_TYPE
+#undef TOKEN_CASE_TYPE
 #undef TOKEN_CASE_PROPERTY_OWNER
 #undef TOKEN_CASE_PROPERTY
 
