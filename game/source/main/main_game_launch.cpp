@@ -108,7 +108,12 @@ void main_game_launch_set_insertion_point(short insertion_point)
 }
 
 // void main_game_launch_set_tick_rate(long tick_rate)
-// void main_game_launch_legacy(char const* map_name)
+
+void main_game_launch_legacy(char const* map_name)
+{
+	//damaged_media_clear_error();
+	main_game_launch(map_name);
+}
 
 void main_game_launch(const char* map_name)
 {

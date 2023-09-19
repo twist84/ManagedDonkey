@@ -545,6 +545,16 @@ callback_result_t script_start_callback(void const* userdata, long token_count, 
 	return result;
 }
 
+callback_result_t map_name_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* name = tokens[1]->get_string();
+	main_game_launch_legacy(name);
+
+	return result;
+}
+
 callback_result_t game_splitscreen_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
