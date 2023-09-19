@@ -435,6 +435,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 s_console_global const* const k_console_globals[] =
 {
+	CONSOLE_GLOBAL_DECLARE_BOOL2(terminal_render, g_terminal_render_enable),
 	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_fov, g_camera_globals.field_of_view),
