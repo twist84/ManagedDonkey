@@ -1377,3 +1377,21 @@ callback_result_t camera_set_mode_callback(void const* userdata, long token_coun
 	return result;
 }
 
+callback_result_t debug_camera_save_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	director_save_camera();
+
+	return result;
+}
+
+callback_result_t debug_camera_load_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	director_load_camera();
+
+	return result;
+}
+
