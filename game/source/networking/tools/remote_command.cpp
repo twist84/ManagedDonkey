@@ -575,6 +575,17 @@ callback_result_t game_splitscreen_callback(void const* userdata, long token_cou
 	return result;
 }
 
+callback_result_t game_difficulty_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* difficulty_name = tokens[1]->get_string();
+	e_campaign_difficulty_level difficulty = campaign_difficulty_level_from_string(difficulty_name);
+	main_game_launch_set_difficulty(difficulty);
+
+	return result;
+}
+
 callback_result_t game_coop_players_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

@@ -849,6 +849,44 @@ e_subtitle_setting subtitle_setting_from_string(char const* str)
 	return subtitle_setting;
 }
 
+char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty)
+{
+	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_campaign_difficulty_levels_count)
+		return "<invalid 'difficulty'>";
+
+	char const* names[k_campaign_difficulty_levels_count]
+	{
+		"easy",
+		"normal",
+		"heroic",
+		"legendary",
+	};
+
+	return names[difficulty];
+}
+
+e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str)
+{
+	char const* names[k_campaign_difficulty_levels_count]
+	{
+		"easy",
+		"normal",
+		"heroic",
+		"legendary",
+	};
+
+	e_campaign_difficulty_level difficulty = _campaign_difficulty_level_normal;
+	for (long i = _campaign_difficulty_level_easy; i < k_campaign_difficulty_levels_count; i++)
+	{
+		if (csstricmp(str, names[i]) != 0)
+			continue;
+
+		difficulty = e_campaign_difficulty_level(i);
+	}
+
+	return difficulty;
+}
+
 char const* network_session_mode_get_name(long session_mode)
 {
 	if (session_mode < _network_session_mode_none || session_mode >= k_network_session_mode_count)

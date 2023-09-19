@@ -1897,6 +1897,8 @@ extern char const* quality_setting_get_name(e_quality_setting quality_setting);
 extern e_quality_setting quality_setting_from_string(char const* str);
 extern char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting);
 extern e_subtitle_setting subtitle_setting_from_string(char const* str);
+extern char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty);
+extern e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str);
 extern char const* network_session_mode_get_name(long session_mode);
 extern char const* ui_game_mode_get_name(long ui_game_mode);
 extern char const* gui_network_session_advertisement_mode_get_name(long advertisement_mode);
