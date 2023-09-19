@@ -267,7 +267,7 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		break;
 		case _hs_type_real:
 		{
-			real inc_value = g_parser_state.m_inc ? g_parser_state.m_inc : 0.1f;
+			real inc_value = g_parser_state.m_inc ? g_parser_state.m_inc_value : 0.1f;
 			real max_value = g_parser_state.m_max ? g_parser_state.m_max_value : 3.4028235e38f;
 			real min_value = g_parser_state.m_min ? g_parser_state.m_min_value : -3.4028235e38f;
 
@@ -276,18 +276,18 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		break;
 		case _hs_type_short_integer:
 		{
-			short inc_value = g_parser_state.m_inc ? g_parser_state.m_inc : 1;
-			short max_value = g_parser_state.m_max ? short(g_parser_state.m_max_value) : INT16_MAX - 1;
-			short min_value = g_parser_state.m_min ? short(g_parser_state.m_min_value) : ~(INT16_MAX - 1);
+			short inc_value = short(g_parser_state.m_inc ? g_parser_state.m_inc_value : 1);
+			short max_value = short(g_parser_state.m_max ? g_parser_state.m_max_value : INT16_MAX - 1);
+			short min_value = short(g_parser_state.m_min ? g_parser_state.m_min_value : ~(INT16_MAX - 1));
 
 			item = new c_debug_menu_item_type_short(menu, name, NULL, g_parser_state.m_variable_buffer, min_value, max_value, inc_value);
 		}
 		break;
 		case _hs_type_long_integer:
 		{
-			long inc_value = g_parser_state.m_inc ? g_parser_state.m_inc : 1;
-			long max_value = g_parser_state.m_max ? long(g_parser_state.m_max_value) : INT32_MAX - 1;
-			long min_value = g_parser_state.m_min ? long(g_parser_state.m_min_value) : ~(INT32_MAX - 1);
+			long inc_value = long(g_parser_state.m_inc ? g_parser_state.m_inc_value : 1);
+			long max_value = long(g_parser_state.m_max ? g_parser_state.m_max_value : INT32_MAX - 1);
+			long min_value = long(g_parser_state.m_min ? g_parser_state.m_min_value : ~(INT32_MAX - 1));
 
 			item = new c_debug_menu_item_type_long(menu, name, NULL, g_parser_state.m_variable_buffer, min_value, max_value, inc_value);
 		}

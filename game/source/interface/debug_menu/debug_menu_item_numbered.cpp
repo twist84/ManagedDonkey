@@ -82,7 +82,7 @@ void c_debug_menu_item_type::render(c_font_cache_base* font_cache, int16_point2d
 	int16_point2d next_point{};
 
 	set_point2d(&value_point, point.x - 66, point.y);
-	set_point2d(&value_point, point.x, point.y);
+	set_point2d(&number_point, point.x, point.y);
 	set_point2d(&next_point, point.x + get_indent(), point.y);
 
 	render_value(font_cache, value_point);

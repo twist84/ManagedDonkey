@@ -8,7 +8,11 @@ class c_debug_menu
 {
 	enum
 	{
+		// Halo 3
 		k_max_items = 64
+
+		// Reach
+		//k_max_items = 128
 	};
 
 public:
