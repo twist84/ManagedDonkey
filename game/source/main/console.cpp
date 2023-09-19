@@ -7,6 +7,7 @@
 #include "interface/terminal.hpp"
 #include "hs/hs_runtime.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
+#include "interface/user_interface.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
 #include "main/main_time.hpp"
@@ -598,6 +599,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_camera_projection),
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(render_screenspace_center, g_screenspace_pixel_center),
+	CONSOLE_GLOBAL_DECLARE_REAL2(ui_time_scale, g_ui_time_scale),
 
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);

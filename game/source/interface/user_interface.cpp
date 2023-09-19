@@ -6,6 +6,9 @@
 #include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
 
+real g_ui_time_scale = 1.0f;
+real g_ui_time_step = 0.0f;
+
 HOOK_DECLARE(0x00A84C00, user_interface_scoreboard_update);
 
 bool __cdecl get_alpha_custom_games_disabled()
@@ -87,6 +90,11 @@ bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_
 
 void __cdecl user_interface_update(real ui_time)
 {
-	INVOKE(0x00A84EE0, user_interface_update, ui_time);
+	real new_ui_time = (ui_time * g_ui_time_scale) + g_ui_time_step;
+
+	INVOKE(0x00A84EE0, user_interface_update, new_ui_time);
 }
+HOOK_DECLARE_CALL(0x00505DB1, user_interface_update);
+//HOOK_DECLARE_CALL(0x0069D618, user_interface_update);
+//HOOK_DECLARE_CALL(0x0069D648, user_interface_update);
 

@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+extern real g_ui_time_scale;
+extern real g_ui_time_step;
+
 extern bool __cdecl get_alpha_custom_games_disabled();
 extern bool __cdecl get_alpha_eula_accepted();
 extern bool __cdecl get_alpha_is_external_beta();
