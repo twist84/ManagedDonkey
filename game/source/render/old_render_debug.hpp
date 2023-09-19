@@ -22,7 +22,9 @@ extern bool debug_instanced_geometry_vertex_counts;
 extern bool debug_instanced_geometry_collision_geometry;
 extern bool debug_zone_set_critical_portals;
 extern bool debug_structure_water;
+extern bool debug_input;
 
+extern void render_debug_input();
 extern bool __cdecl render_debug_lost_camera();
 extern real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real red, real green, real blue);
 extern real_argb_color* __cdecl set_real_argb_color(real_argb_color* color, real alpha, real red, real green, real blue);

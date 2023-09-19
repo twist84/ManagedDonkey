@@ -13,6 +13,7 @@
 #include "objects/object_early_movers.hpp"
 #include "objects/object_types.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "render/old_render_debug.hpp"
 #include "render/views/render_view.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_debug_structure.hpp"
@@ -334,7 +335,7 @@ void __cdecl render_debug_clients(long user_index)
 		//render_debug_camera();
 		render_debug_structure();
 		//render_debug_bsp();
-		//render_debug_input();
+		render_debug_input();
 		//render_debug_structure_decals();
 		//ai_debug_render();
 		//ai_profile_render();

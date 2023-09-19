@@ -339,7 +339,7 @@ void __cdecl main_loop_body_begin()
 		//shell_halt_with_message("FUCK");
 #endif // ISEXPERIMENTAL
 
-		main_crash("fast");
+		//main_crash("fast");
 	}
 
 	if (input_key_frames_down(_key_code_keypad_subtract, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)

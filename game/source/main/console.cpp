@@ -512,6 +512,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_zone_set_critical_portals),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_structure_water),
 	CONSOLE_GLOBAL_DECLARE_BOOL(water_physics_debug),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_early_movers),

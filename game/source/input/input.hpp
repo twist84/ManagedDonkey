@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "shell/shell.hpp"
 
 const long k_number_of_windows_input_virtual_codes = 256;
 const long k_number_of_input_ascii_codes = 128;
@@ -405,6 +406,13 @@ struct gamepad_state
 };
 static_assert(sizeof(gamepad_state) == 0x3C);
 
+struct debug_gamepad_data
+{
+	int16_point2d thumb_left;
+	int16_point2d thumb_right;
+};
+static_assert(sizeof(debug_gamepad_data) == 0x8);
+
 // based on `XINPUT_VIBRATION`
 struct rumble_state
 {
@@ -448,10 +456,10 @@ struct s_input_globals
 	long __unknownB24;
 
 	c_static_flags<32> gamepad_valid_mask;
-	c_static_array<gamepad_state, 4> gamepad_states;
+	c_static_array<gamepad_state, k_number_of_controllers> gamepad_states;
 	gamepad_state suppressed_gamepad_state;
 
-	c_static_array<rumble_state, 4> rumble_states;
+	c_static_array<rumble_state, k_number_of_controllers> rumble_states;
 
 	long __unknownC68;
 	long __unknownC6C;
@@ -468,6 +476,7 @@ extern byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input
 extern word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
 extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type);
+extern void input_get_raw_data_string(char* buffer, short size);
 
 // key_to_virtual_table[_key_code_escape] = VK_ESCAPE
 extern c_static_array<char const, k_key_code_count>& key_to_virtual_table;
@@ -482,4 +491,6 @@ extern c_static_array<char const, k_key_code_count>& key_to_ascii_table;
 extern c_static_array<short const, k_number_of_input_ascii_codes>& ascii_to_key_table;
 
 extern s_input_globals& input_globals;
+
+extern c_static_array<debug_gamepad_data, k_number_of_controllers> g_debug_gamepad_data;
 
