@@ -555,6 +555,16 @@ callback_result_t map_name_callback(void const* userdata, long token_count, toke
 	return result;
 }
 
+callback_result_t game_multiplayer_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* multiplayer_engine = tokens[1]->get_string();
+	main_game_launch_set_multiplayer_engine(multiplayer_engine);
+
+	return result;
+}
+
 callback_result_t game_splitscreen_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
