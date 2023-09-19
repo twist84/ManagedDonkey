@@ -34,7 +34,7 @@ extern void main_game_launch_set_multiplayer_engine(char const* multiplayer_engi
 //extern void main_game_launch_set_multiplayer_variant(char const*);
 extern void main_game_launch_set_initial_zone_set_index(long initial_zone_set_index);
 extern void main_game_launch_set_insertion_point(short insertion_point);
-//extern void main_game_launch_set_tick_rate(long tick_rate);
+extern void main_game_launch_set_tick_rate(long tick_rate);
 extern void main_game_launch_legacy(char const* map_name);
 extern void main_game_launch(const char* map_name);
 //extern void main_game_launch_process();

@@ -606,6 +606,16 @@ callback_result_t game_initial_bsp_callback(void const* userdata, long token_cou
 	return result;
 }
 
+callback_result_t game_tick_rate_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long initial_zone_set_index = atol(tokens[1]->get_string());
+	main_game_launch_set_tick_rate(initial_zone_set_index);
+
+	return result;
+}
+
 callback_result_t game_start_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

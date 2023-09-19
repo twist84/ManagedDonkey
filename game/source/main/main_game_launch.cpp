@@ -107,7 +107,10 @@ void main_game_launch_set_insertion_point(short insertion_point)
 	g_launch_globals.options.campaign_insertion_point = insertion_point;
 }
 
-// void main_game_launch_set_tick_rate(long tick_rate)
+void main_game_launch_set_tick_rate(long tick_rate)
+{
+	g_launch_globals.options.game_tick_rate = tick_rate;
+}
 
 void main_game_launch_legacy(char const* map_name)
 {
