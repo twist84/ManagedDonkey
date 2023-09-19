@@ -105,6 +105,7 @@ COMMAND_CALLBACK_DECLARE(game_multiplayer);
 COMMAND_CALLBACK_DECLARE(game_splitscreen);
 COMMAND_CALLBACK_DECLARE(game_difficulty);
 COMMAND_CALLBACK_DECLARE(game_coop_players);
+COMMAND_CALLBACK_DECLARE(game_initial_bsp);
 COMMAND_CALLBACK_DECLARE(game_start);
 COMMAND_CALLBACK_DECLARE(main_menu);
 COMMAND_CALLBACK_DECLARE(net_session_create);
@@ -167,6 +168,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_difficulty, 1, "<game_difficulty>", "debug map launching: sets the difficulty of the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
+	COMMAND_CALLBACK_REGISTER(game_initial_bsp, 1, "<long>", "debug map launching: sets the initial bsp for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(main_menu, 0, "", "goes back to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 

@@ -596,6 +596,16 @@ callback_result_t game_coop_players_callback(void const* userdata, long token_co
 	return result;
 }
 
+callback_result_t game_initial_bsp_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long initial_zone_set_index = atol(tokens[1]->get_string());
+	main_game_launch_set_initial_zone_set_index(initial_zone_set_index);
+
+	return result;
+}
+
 callback_result_t game_start_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
