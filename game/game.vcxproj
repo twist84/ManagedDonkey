@@ -417,7 +417,7 @@ POPD
     <ClCompile Include="source\physics\water_physics.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_d3d_allocations.cpp" />
-    <ClCompile Include="source\rasterizer\rasterizer_dx9_dynamic_geometry.cpp" />
+    <ClCompile Include="source\rasterizer\dx9\rasterizer_dx9_dynamic_geometry.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_globals.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_global_shaders.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_main.cpp" />
@@ -895,6 +895,7 @@ POPD
     <ClInclude Include="source\physics\physics_models.hpp" />
     <ClInclude Include="source\physics\physics_model_definitions.hpp" />
     <ClInclude Include="source\physics\water_physics.hpp" />
+    <ClInclude Include="source\rasterizer\dx9\rasterizer_dx9_dynamic_geometry.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_d3d_allocations.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_globals.hpp" />

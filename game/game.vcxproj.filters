@@ -837,7 +837,7 @@
     <ClCompile Include="source\physics\havok_entity_iterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\rasterizer\rasterizer_dx9_dynamic_geometry.cpp">
+    <ClCompile Include="source\rasterizer\dx9\rasterizer_dx9_dynamic_geometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\render\render_debug.cpp">
@@ -2550,6 +2550,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cubemaps\cubemap_debug.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\rasterizer\dx9\rasterizer_dx9_dynamic_geometry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
