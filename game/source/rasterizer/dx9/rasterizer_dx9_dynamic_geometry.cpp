@@ -1,4 +1,12 @@
+#include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
+
 #include "rasterizer/rasterizer.hpp"
+
+REFERENCE_DECLARE(0x01914BBC, real, g_screenspace_scale_x);
+REFERENCE_DECLARE(0x01914BC0, real, g_screenspace_scale_y);
+REFERENCE_DECLARE(0x01914BC4, real, g_screenspace_pixel_center);
+REFERENCE_DECLARE(0x05106FA4, real, g_screenspace_offset_x);
+REFERENCE_DECLARE(0x05106FA8, real, g_screenspace_offset_y);
 
 void __cdecl rasterizer_quad_screenspace(int16_point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5)
 {
