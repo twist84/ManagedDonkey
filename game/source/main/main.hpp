@@ -2,7 +2,14 @@
 
 #include "cseries/cseries.hpp"
 
+struct c_interlocked_long;
 extern bool& g_force_upload_even_if_untracked;
+extern bool& g_render_thread_user_setting;
+extern bool& disable_main_loop_throttle;
+extern c_interlocked_long& g_render_thread_waiting;
+extern c_interlocked_long& g_render_thread_enabled;
+extern c_interlocked_long& g_single_thread_request_flags;
+extern bool& g_main_game_exit;
 
 extern bool __cdecl main_events_pending();
 extern void __cdecl main_exit_game();

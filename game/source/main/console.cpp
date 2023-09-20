@@ -601,6 +601,7 @@ s_console_global const* const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(render_screenspace_center, g_screenspace_pixel_center),
 	CONSOLE_GLOBAL_DECLARE_REAL2(ui_time_scale, g_ui_time_scale),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(render_thread_enable, g_render_thread_user_setting),
 
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
