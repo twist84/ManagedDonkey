@@ -546,7 +546,12 @@ void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 }
 
 // void __cdecl game_update_pvs()
-// void __cdecl game_won()
+
+void __cdecl game_won()
+{
+	INVOKE(0x00533E40, game_won);
+}
+
 // bool __cdecl game_is_won()
 
 void __cdecl game_lost(bool game_revert)

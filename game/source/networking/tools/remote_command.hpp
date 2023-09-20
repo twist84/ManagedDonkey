@@ -108,6 +108,7 @@ COMMAND_CALLBACK_DECLARE(game_coop_players);
 COMMAND_CALLBACK_DECLARE(game_initial_bsp);
 COMMAND_CALLBACK_DECLARE(game_tick_rate);
 COMMAND_CALLBACK_DECLARE(game_start);
+COMMAND_CALLBACK_DECLARE(game_won);
 COMMAND_CALLBACK_DECLARE(main_menu);
 COMMAND_CALLBACK_DECLARE(net_session_create);
 COMMAND_CALLBACK_DECLARE(net_session_add);
@@ -172,6 +173,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_initial_bsp, 1, "<long>", "debug map launching: sets the initial bsp for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_tick_rate, 1, "<long>", "debug map launching: sets the tick rate for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_start, 1, "<string>", "debug map launching: starts a game on the specified map.\r\nNETWORK SAFE: No, for init.txt only"),
+	COMMAND_CALLBACK_REGISTER(game_won, 0, "", "causes the player to successfully finish the current level and move to the next\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(main_menu, 0, "", "goes back to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),

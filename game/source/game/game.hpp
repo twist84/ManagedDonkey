@@ -27,7 +27,7 @@ extern void __cdecl game_pvs_scripted_clear();
 extern void __cdecl game_tick();
 extern void __cdecl game_update(long tick_count, real* game_seconds_elapsed);
 //extern void __cdecl game_update_pvs();
-//extern void __cdecl game_won();
+extern void __cdecl game_won();
 //extern bool __cdecl game_is_won();
 extern void __cdecl game_lost(bool game_revert);
 extern bool __cdecl game_is_lost();
