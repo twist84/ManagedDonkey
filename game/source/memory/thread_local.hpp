@@ -13,6 +13,7 @@
 #include "gpu_particle/light_volume_gpu.hpp"
 #include "gpu_particle/particle_block.hpp"
 #include "effects/effects.hpp"
+#include "interface/chud/chud.hpp"
 #include "interface/user_interface_objectives.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
@@ -25,9 +26,18 @@
 #include "physics/havok.hpp"
 #include "physics/impacts.hpp"
 #include "physics/physics_constants.hpp"
+#include "physics/ragdolls.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
+#include "rasterizer/rasterizer_implicit_geometry.hpp"
+#include "rasterizer/rasterizer_main.hpp"
+#include "render/views/hud_camera_view.hpp"
+#include "render/views/render_texture_camera_view.hpp"
+#include "render/depth_of_field.hpp"
+#include "render/render_game_state.hpp"
 #include "render/render_objects.hpp"
 #include "render/render_objects_static_lighting.hpp"
+#include "render/render_shield_cache.hpp"
+#include "render/render_water.hpp"
 #include "scenario/scenario_interpolators.hpp"
 #include "simulation/simulation_gamestate_entities.hpp"
 #include "structures/cluster_partitions.hpp"
@@ -291,255 +301,6 @@ struct object_list_datum : s_datum_header
 	long reference_index;
 };
 static_assert(sizeof(object_list_datum) == 0xC);
-
-struct s_ragdoll_datum : s_datum_header
-{
-	byte __data[0x12E];
-};
-static_assert(sizeof(s_ragdoll_datum) == 0x130);
-
-struct rasterizer_game_states
-{
-	bool motion_blur;
-	bool atmosphere_fog;
-	bool patchy_fog;
-	bool weather;
-	bool cinematic_motion_blur;
-	byte __unknown5[39];
-	bool autoexposure;
-	byte __unknown44[475];
-};
-static_assert(sizeof(rasterizer_game_states) == 0x208);
-
-struct scripted_exposure_globals
-{
-	byte __data[0x34];
-};
-static_assert(sizeof(scripted_exposure_globals) == 0x34);
-
-struct render_hud_globals
-{
-	byte __data[0x480];
-};
-static_assert(sizeof(render_hud_globals) == 0x480);
-
-struct s_interaction_event
-{
-	byte __data[0x1400];
-};
-static_assert(sizeof(s_interaction_event) == 0x1400);
-
-struct render_texture_globals
-{
-	bool camera_enable;
-	bool camera_dynamic_lights_enable;
-	short __unknown2;
-	long camera_render_mode;
-	long __unknown8;
-	long __unknownC;
-	long __unknown10;
-	long __unknown14;
-	long __unknown18;
-	long camera_object_handle;
-	long camera_marker_name;
-	long __unknown24;
-	real_point3d camera_position_world;
-	real_point3d camera_target_object;
-	byte __unknown40[0x1C];
-	real camera_fov;
-	real aspect_ratio;
-	long camera_resolution_width;
-	long camera_resolution_height;
-};
-static_assert(sizeof(render_texture_globals) == 0x6C);
-
-struct render_game_globals
-{
-	byte __data[0xD80];
-};
-static_assert(sizeof(render_game_globals) == 0xD80);
-
-struct s_depth_of_field
-{
-	bool enable;
-	byte __unknown1[0x3];
-	real __unknown4;
-	real __unknown8;
-	real __unknownC;
-	real intensity;
-	real __unknown14;
-	real __unknown18;
-	real __unknown1C;
-	real __unknown20;
-	real __unknown24;
-	real __unknown28;
-	real __unknown2C;
-	real __unknown30;
-	real __unknown34;
-	real __unknown38;
-	real __unknown3C;
-};
-static_assert(sizeof(s_depth_of_field) == 0x40);
-
-enum e_implicit_transparent_type
-{
-	_implicit_transparent_type_cylinder = 0,
-	_implicit_transparent_type_sphere,
-	_implicit_transparent_type_box,
-
-	k_implicit_transparent_type_count
-};
-
-struct s_rasterizer_implicit_cylinder_object
-{
-	real width;
-};
-static_assert(sizeof(s_rasterizer_implicit_cylinder_object) == sizeof(real));
-
-struct s_rasterizer_implicit_sphere_object
-{
-	real width;
-	real absolute_positive_height;
-	real absolute_negative_height;
-};
-static_assert(sizeof(s_rasterizer_implicit_sphere_object) == sizeof(real) * 3);
-
-struct s_rasterizer_implicit_box_object
-{
-	real width;
-	real length;
-	real absolute_positive_height;
-	real absolute_negative_height;
-};
-static_assert(sizeof(s_rasterizer_implicit_box_object) == sizeof(real) * 4);
-
-struct s_rasterizer_implicit_object
-{
-	c_enum<e_implicit_transparent_type, long, _implicit_transparent_type_cylinder, k_implicit_transparent_type_count> transparent_type;
-	long render_method_index;
-	real_argb_color color;
-	real_matrix4x3 transform;
-
-	union
-	{
-		s_rasterizer_implicit_cylinder_object cylinder;
-		s_rasterizer_implicit_sphere_object sphere;
-		s_rasterizer_implicit_box_object box;
-	};
-};
-static_assert(sizeof(s_rasterizer_implicit_object) == 0x5C);
-
-struct s_implicit_vertex
-{
-	real_point3d position;
-	real_point2d texcoord;
-};
-static_assert(sizeof(s_implicit_vertex) == 0x14);
-
-struct rasterizer_vertex_implicit
-{
-	s_implicit_vertex bottom;
-	s_implicit_vertex top;
-};
-static_assert(sizeof(rasterizer_vertex_implicit) == 0x28);
-
-struct s_rasterizer_implicit_geometry_globals
-{
-	long implicit_object_count;
-	s_rasterizer_implicit_object implicit_objects[64];
-	rasterizer_vertex_implicit implicit_vertex_data[64];
-};
-static_assert(sizeof(s_rasterizer_implicit_geometry_globals) == 0x2104);
-
-//void initialize_circle_strip()
-//{
-//	TLS_DATA_GET_VALUE_REFERENCE(g_rasterizer_implicit_geometry_globals);
-//
-//	for (long i = 0; i < NUMBEROF(g_rasterizer_implicit_geometry_globals->implicit_vertex_data); i++)
-//	{
-//		rasterizer_vertex_implicit* vertex_data = &g_rasterizer_implicit_geometry_globals->implicit_vertex_data[i];
-//
-//		real angle_scaling_factor = i * 63.0f;
-//		real circle_x_shift = sinf(angle_scaling_factor * TWO_PI);
-//		real circle_y_shift = cosf(angle_scaling_factor * TWO_PI);
-//
-// 
-//		// MS23
-//
-//		vertex_data->bottom.position.x = circle_x_shift;
-//		vertex_data->bottom.position.y = circle_y_shift;
-//		vertex_data->bottom.position.z = 0.0f;
-//		vertex_data->bottom.texcoord.x = angle_scaling_factor;
-//		vertex_data->bottom.texcoord.y = 0.0f;
-//
-//		vertex_data->top.position.x = circle_x_shift;
-//		vertex_data->top.position.y = circle_y_shift;
-//		vertex_data->top.position.z = 1.0f;
-//		vertex_data->top.texcoord.x = angle_scaling_factor;
-//		vertex_data->top.texcoord.y = 1.0f;
-//
-// 
-//		// H3EK
-//		for (long j = 0; j < 2; j += 2)
-//		{
-//			vertex_data->bottom.position.x = circle_x_shift;
-//			vertex_data->bottom.position.y = circle_y_shift;
-//			vertex_data->bottom.position.z = j ? 1.0f : 0.0f;
-//			vertex_data->bottom.texcoord.x = angle_scaling_factor;
-//			vertex_data->bottom.texcoord.y = j ? 1.0f : 0.0f;
-//
-//			vertex_data->top.position.x = circle_x_shift;
-//			vertex_data->top.position.y = circle_y_shift;
-//			vertex_data->top.position.z = j == -1 ? 0.0f : 1.0f;
-//			vertex_data->top.texcoord.x = angle_scaling_factor;
-//			vertex_data->top.texcoord.y = j == -1 ? 0.0f : 1.0f;
-//		}
-//	}
-//}
-
-struct shield_render_cache_message : s_datum_header
-{
-	byte __data[0x12];
-};
-static_assert(sizeof(shield_render_cache_message) == 0x14);
-
-struct chud_player_hud_elements
-{
-	byte __unknown0[0x2];
-	byte crosshair;
-	byte shield;
-	byte grenades;
-	byte messages;
-	byte motion_sensor;
-	byte spike_grenades;
-	byte fire_grenades;
-	byte compass;
-	byte stamina;
-	byte energy_meters;
-	byte consumables;
-};
-
-struct chud_persistent_user_data
-{
-	byte __data[0x14D];
-	chud_player_hud_elements player_hud;
-	byte __unknown181[0x316];
-};
-static_assert(sizeof(chud_persistent_user_data) == 0x470);
-
-struct chud_persistent_global_data
-{
-	byte __unknown0[0x14D];
-	chud_player_hud_elements player_hud[4];
-	byte __unknown181[0x273];
-	byte bonus_round_show_timer;
-	byte bonus_round_start_timer;
-	byte __unknown3F6[2];
-	long bonus_round_set_timer;
-	long bonus_round_set_target_score;
-	byte __unknown3FC[0xF640];
-};
-static_assert(sizeof(chud_persistent_global_data) == 0xFA40);
 
 struct chud_widget_datum : s_datum_header
 {
@@ -1058,11 +819,11 @@ struct s_thread_local_storage
 
 	// name: "scripted exposure globals"
 	// size: 0x34
-	scripted_exposure_globals* scripted_exposure_globals;
+	s_scripted_exposure* scripted_exposure_game_globals;
 
 	// name: "render hud globals"
 	// size: 0x480
-	render_hud_globals* render_hud_globals;
+	s_hud_camera_globals* g_hud_camera_globals;
 
 	// name: "interaction ripples"
 	// size: 0x1400
@@ -1070,11 +831,11 @@ struct s_thread_local_storage
 
 	// name: "render texture globals"
 	// size: 0x6C
-	render_texture_globals* render_texture_globals;
+	s_render_texture_camera_globals* g_render_texture_camera_globals;
 
 	// name: "render game globals"
 	// size: 0xD80
-	render_game_globals* render_game_globals;
+	s_render_game_state* render_game_globals;
 
 	// name: "DOF globals"
 	// size: 0x40
@@ -1172,13 +933,15 @@ struct s_thread_local_storage
 
 	// name: "chud"
 	// type: "persistent user data"
-	// size: 0xFA40
-	chud_persistent_user_data* chud_persistent_user_data;
+	// size: 0x470
+	// c_chud_manager::x_persistent_global_data
+	c_chud_persistent_global_data* g_chud_manager_persistent_global_data;
 
 	// name: "chud"
 	// type: "persistent user data"
-	// size: 0x470
-	chud_persistent_global_data* chud_persistent_global_data;
+	// size: 0xFA40
+	// c_chud_manager::x_persistent_user_data
+	c_chud_persistent_user_data* g_chud_manager_persistent_user_data;
 
 	// name: "chud widgets"
 	// count: 128
