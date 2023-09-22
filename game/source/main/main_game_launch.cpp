@@ -109,7 +109,7 @@ void main_game_launch_set_insertion_point(short insertion_point)
 
 void main_game_launch_set_tick_rate(long tick_rate)
 {
-	g_launch_globals.options.game_tick_rate = tick_rate;
+	g_launch_globals.options.game_tick_rate = static_cast<short>(tick_rate);
 }
 
 void main_game_launch_legacy(char const* map_name)

@@ -16,6 +16,7 @@
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "main/console.hpp"
+#include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
 #include "memory/data_packets.hpp"
@@ -1451,6 +1452,16 @@ callback_result_t debug_camera_load_callback(void const* userdata, long token_co
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	director_load_camera();
+
+	return result;
+}
+
+callback_result_t crash_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* type = tokens[1]->get_string();
+	main_crash(type);
 
 	return result;
 }
