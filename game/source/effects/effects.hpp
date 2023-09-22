@@ -9,6 +9,7 @@
 #include "effects/particle_emitter.hpp"
 #include "effects/particle_location.hpp"
 #include "effects/particle_system.hpp"
+#include "effects/player_effects.hpp"
 #include "effects/screen_effect.hpp"
 #include "effects/vision_mode.hpp"
 #include "memory/data.hpp"

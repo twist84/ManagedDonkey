@@ -246,6 +246,20 @@ struct s_object_render_data
 };
 static_assert(sizeof(s_object_render_data) == 0x2000);
 
+struct s_object_globals
+{
+	byte __data[0x6608];
+};
+static_assert(sizeof(s_object_globals) == 0x6608);
+
+struct s_object_render_thread_message
+{
+	long object_index;
+	short __unknown4;
+	short __unknown6;
+};
+static_assert(sizeof(s_object_render_thread_message) == 0x8);
+
 extern bool debug_objects;
 extern bool debug_objects_early_movers;
 extern bool debug_objects_sound_spheres;

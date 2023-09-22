@@ -522,6 +522,7 @@ POPD
     <ClInclude Include="source\effects\particle_emitter.hpp" />
     <ClInclude Include="source\effects\particle_location.hpp" />
     <ClInclude Include="source\effects\particle_system.hpp" />
+    <ClInclude Include="source\effects\player_effects.hpp" />
     <ClInclude Include="source\effects\vision_mode.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
@@ -534,12 +535,14 @@ POPD
     <ClInclude Include="source\game\game_save.hpp" />
     <ClInclude Include="source\game\materials.hpp" />
     <ClInclude Include="source\game\player_rumble.hpp" />
+    <ClInclude Include="source\game\player_training.hpp" />
     <ClInclude Include="source\geometry\geometry_definitions.hpp" />
     <ClInclude Include="source\gpu_particle\beam_gpu.hpp" />
     <ClInclude Include="source\gpu_particle\contrail_gpu.hpp" />
     <ClInclude Include="source\gpu_particle\light_volume_gpu.hpp" />
     <ClInclude Include="source\gpu_particle\particle_block.hpp" />
     <ClInclude Include="source\hs\hs_library_external.hpp" />
+    <ClInclude Include="source\hs\object_lists.hpp" />
     <ClInclude Include="source\interface\c_gui_model_widget.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_item.hpp" />
@@ -564,6 +567,7 @@ POPD
     <ClInclude Include="source\memory\data_packet_groups.hpp" />
     <ClInclude Include="source\memory\hashtable.hpp" />
     <ClInclude Include="source\memory\member_to_static.hpp" />
+    <ClInclude Include="source\memory\memory_pool.hpp" />
     <ClInclude Include="source\memory\read_write_lock.hpp" />
     <ClInclude Include="source\memory\ring_buffer.hpp" />
     <ClInclude Include="source\memory\sliding_window.hpp" />
@@ -893,6 +897,7 @@ POPD
     <ClInclude Include="source\physics\havok_entity_iterator.hpp" />
     <ClInclude Include="source\physics\havok_halo_external.hpp" />
     <ClInclude Include="source\physics\havok_mopp_code_definitions.hpp" />
+    <ClInclude Include="source\physics\havok_proxies.hpp" />
     <ClInclude Include="source\physics\havok_utilities.hpp" />
     <ClInclude Include="source\physics\havok_vehicle_physics_definitions.hpp" />
     <ClInclude Include="source\physics\impacts.hpp" />

@@ -4,12 +4,12 @@
 #include "ai/cl_engine.hpp"
 #include "bink/bink_playback.hpp"
 #include "cache/restricted_memory.hpp"
-#include "camera/observer.hpp"
 #include "camera/camera.hpp"
 #include "camera/camera_scripting.hpp"
 #include "camera/director.hpp"
 #include "camera/observer.hpp"
 #include "cutscene/cinematics.hpp"
+#include "cutscene/recorded_animations.hpp"
 #include "devices/devices.hpp"
 #include "game/campaign_metagame.hpp"
 #include "game/game.hpp"
@@ -17,12 +17,14 @@
 #include "game/game_save.hpp"
 #include "game/player_control.hpp"
 #include "game/player_rumble.hpp"
+#include "game/player_training.hpp"
 #include "gpu_particle/beam_gpu.hpp"
 #include "gpu_particle/contrail_gpu.hpp"
 #include "gpu_particle/light_volume_gpu.hpp"
 #include "gpu_particle/particle_block.hpp"
 #include "effects/effects.hpp"
 #include "hs/hs_runtime.hpp"
+#include "hs/object_lists.hpp"
 #include "interface/chud/chud.hpp"
 #include "interface/first_person_weapons.hpp"
 #include "interface/user_interface_objectives.hpp"
@@ -30,11 +32,13 @@
 #include "main/main_time.hpp"
 #include "memory/data.hpp"
 #include "memory/hashtable.hpp"
+#include "memory/memory_pool.hpp"
 #include "multithreading/message_queue.hpp"
 #include "objects/objects.hpp"
 #include "objects/widgets/widgets.hpp"
 #include "physics/breakable_surfaces.hpp"
 #include "physics/havok.hpp"
+#include "physics/havok_proxies.hpp"
 #include "physics/impacts.hpp"
 #include "physics/physics_constants.hpp"
 #include "physics/ragdolls.hpp"
@@ -61,55 +65,7 @@
 #include "structures/cluster_partitions.hpp"
 #include "structures/structure_seams.hpp"
 
-struct s_havok_proxy_datum : s_datum_header
-{
-	struct hkRigidBody* rigid_body;
-	real_matrix4x3 matrix;
-	long object_index;
-	dword __time40;
-};
-static_assert(sizeof(s_havok_proxy_datum) == 0x44);
-
-struct recorded_animation_datum : s_datum_header
-{
-	byte __data[0xA2];
-};
-static_assert(sizeof(recorded_animation_datum) == 0xA4);
-
-struct s_player_effect_globals
-{
-	byte __data[0x3A0];
-};
-static_assert(sizeof(s_player_effect_globals) == 0x3A0);
-
-struct s_player_training_globals
-{
-	byte __data[0x8E8];
-};
-static_assert(sizeof(s_player_training_globals) == 0x8E8);
-
-struct object_list_header_datum : s_datum_header
-{
-	short __unknown2;
-	short reference_count;
-	short count;
-	long reference_index;
-};
-static_assert(sizeof(object_list_header_datum) == 0xC);
-
-struct object_list_datum : s_datum_header
-{
-	long object_index;
-	long reference_index;
-};
-static_assert(sizeof(object_list_datum) == 0xC);
-
-struct chud_widget_datum : s_datum_header
-{
-	byte __data[0x16];
-};
-static_assert(sizeof(chud_widget_datum) == 0x18);
-
+// what is this named? and where does it belong?
 struct s_cortana_globals
 {
 	dword cortana_effect_definition_index;
@@ -118,26 +74,6 @@ struct s_cortana_globals
 	dword __unknownC;
 };
 static_assert(sizeof(s_cortana_globals) == 0x10);
-
-struct s_object_globals
-{
-	byte __data[0x6608];
-};
-static_assert(sizeof(s_object_globals) == 0x6608);
-
-struct objects_memory_pool
-{
-	byte __data[0x44];
-};
-static_assert(sizeof(objects_memory_pool) == 0x44);
-
-struct s_object_render_thread_message
-{
-	long object_index;
-	short __unknown4;
-	short __unknown6;
-};
-static_assert(sizeof(s_object_render_thread_message) == 0x8);
 
 struct s_thread_local_storage
 {
@@ -414,7 +350,7 @@ struct s_thread_local_storage
 	//  name: "recorded animations"
 	// count: 1
 	//  size: 0xA4
-	c_smart_data_array<recorded_animation_datum> animation_threads;
+	c_smart_data_array<animation_thread> animation_threads;
 
 	// name: "game save globals"
 	// size: 0x18
@@ -592,12 +528,12 @@ struct s_thread_local_storage
 
 	// name: "rasterizer game states"
 	// size: 0x208
-	rasterizer_game_states* rasterizer_game_states;
+	s_rasterizer_game_states* g_rasterizer_game_states;
 
 	// name: "hue saturation control"
 	// size: 0x14
 	// c_hue_saturation_control::x_in_gamestate
-	c_hue_saturation_control* hue_saturation_control;
+	c_hue_saturation_control* g_hue_saturation_control_in_gamestate;
 
 	void* __unknown3C4;
 
@@ -717,15 +653,15 @@ struct s_thread_local_storage
 
 	// name: "chud"
 	// type: "persistent user data"
-	// size: 0x470
-	// c_chud_manager::x_persistent_global_data
-	c_chud_persistent_global_data* g_chud_manager_persistent_global_data;
-
-	// name: "chud"
-	// type: "persistent user data"
 	// size: 0xFA40
 	// c_chud_manager::x_persistent_user_data
 	c_chud_persistent_user_data* g_chud_manager_persistent_user_data;
+
+	// name: "chud"
+	// type: "persistent user data"
+	// size: 0x470
+	// c_chud_manager::x_persistent_global_data
+	c_chud_persistent_global_data* g_chud_manager_persistent_global_data;
 
 	// name: "chud widgets"
 	// count: 128
@@ -761,8 +697,7 @@ struct s_thread_local_storage
 
 	// name: "objects"
 	// size: 0x180000
-	// s_memory_pool* object_memory_pool
-	objects_memory_pool* objects_memory_pool;
+	s_memory_pool* object_memory_pool;
 
 	// name: "object name list"
 	// size: 0x2000

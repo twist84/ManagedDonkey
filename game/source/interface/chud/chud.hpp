@@ -1,6 +1,13 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "memory/data.hpp"
+
+struct chud_widget_datum : s_datum_header
+{
+	byte __data[0x16];
+};
+static_assert(sizeof(chud_widget_datum) == 0x18);
 
 struct chud_player_hud_elements
 {

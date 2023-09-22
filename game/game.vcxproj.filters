@@ -2612,6 +2612,21 @@
     <ClInclude Include="source\sky_atm\atmosphere.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\hs\object_lists.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\havok_proxies.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\effects\player_effects.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\player_training.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\memory\memory_pool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
