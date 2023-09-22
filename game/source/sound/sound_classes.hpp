@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
+
 enum e_sound_class
 {
 	_sound_class_projectile_impact,
@@ -70,6 +72,12 @@ enum e_sound_class
 
 	k_sound_class_count
 };
+
+struct sound_class_datum
+{
+	byte __data[0x1144];
+};
+static_assert(sizeof(sound_class_datum) == 0x1144);
 
 extern char const* const sound_class_names[k_sound_class_count];
 

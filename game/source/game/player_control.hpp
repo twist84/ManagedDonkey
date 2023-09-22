@@ -4,6 +4,12 @@
 #include "game/aim_assist.hpp"
 #include "units/units.hpp"
 
+struct s_player_control_globals_deterministic
+{
+	byte __data[0x80];
+};
+static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
+
 struct s_player_control_non_deterministic_input_user_state
 {
 	byte __data0[0x6];

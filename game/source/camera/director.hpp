@@ -116,6 +116,14 @@ struct s_director_globals
 };
 static_assert(sizeof(s_director_globals) == 0x5C0);
 
+struct s_observer_gamestate_globals
+{
+	dword __unknown0;
+	dword __unknown4;
+	dword __unknown8;
+};
+static_assert(sizeof(s_observer_gamestate_globals) == 0xC);
+
 template<typename t_type = c_director>
 extern t_type* director_get(long user_index);
 

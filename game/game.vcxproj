@@ -488,6 +488,7 @@ POPD
     <ClInclude Include="source\ai\ai_player.hpp" />
     <ClInclude Include="source\ai\clump.hpp" />
     <ClInclude Include="source\ai\ai_dialogue.hpp" />
+    <ClInclude Include="source\ai\cl_engine.hpp" />
     <ClInclude Include="source\ai\formations.hpp" />
     <ClInclude Include="source\ai\joint_behavior.hpp" />
     <ClInclude Include="source\ai\props.hpp" />
@@ -524,11 +525,15 @@ POPD
     <ClInclude Include="source\effects\vision_mode.hpp" />
     <ClInclude Include="source\game\aim_assist.hpp" />
     <ClInclude Include="source\game\aim_target.hpp" />
+    <ClInclude Include="source\game\campaign_metagame.hpp" />
+    <ClInclude Include="source\game\game_allegiance.hpp" />
     <ClInclude Include="source\game\game_engine_event_definitions.hpp" />
     <ClInclude Include="source\game\game_engine_scripting.hpp" />
     <ClInclude Include="source\game\game_engine_spawning.hpp" />
     <ClInclude Include="source\game\game_results.hpp" />
+    <ClInclude Include="source\game\game_save.hpp" />
     <ClInclude Include="source\game\materials.hpp" />
+    <ClInclude Include="source\game\player_rumble.hpp" />
     <ClInclude Include="source\geometry\geometry_definitions.hpp" />
     <ClInclude Include="source\gpu_particle\beam_gpu.hpp" />
     <ClInclude Include="source\gpu_particle\contrail_gpu.hpp" />
@@ -945,6 +950,7 @@ POPD
     <ClInclude Include="source\scenario\scenario_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_designer_zones_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_interpolators.hpp" />
+    <ClInclude Include="source\scenario\scenario_kill_trigger_volumes.hpp" />
     <ClInclude Include="source\scenario\scenario_resource_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_soft_ceilings.hpp" />
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />
@@ -980,7 +986,11 @@ POPD
     <ClInclude Include="source\simulation\simulation_view.hpp" />
     <ClInclude Include="source\simulation\simulation_watcher.hpp" />
     <ClInclude Include="source\simulation\simulation_world.hpp" />
+    <ClInclude Include="source\sky_atm\atmosphere.hpp" />
     <ClInclude Include="source\sound\game_audibility.hpp" />
+    <ClInclude Include="source\sound\game_sound.hpp" />
+    <ClInclude Include="source\sound\game_sound_deterministic.hpp" />
+    <ClInclude Include="source\sound\game_sound_player_effects.hpp" />
     <ClInclude Include="source\sound\sound_acoustics_definitions.hpp" />
     <ClInclude Include="source\sound\sound_classes.hpp" />
     <ClInclude Include="source\sound\sound_definitions.hpp" />
@@ -988,6 +998,7 @@ POPD
     <ClInclude Include="source\structures\cluster_partitions.hpp" />
     <ClInclude Include="source\structures\structure_bsp_definitions.hpp" />
     <ClInclude Include="source\structures\structure_physics_definitions.hpp" />
+    <ClInclude Include="source\structures\structure_seams.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
     <ClInclude Include="source\tag_files\string_ids.hpp" />

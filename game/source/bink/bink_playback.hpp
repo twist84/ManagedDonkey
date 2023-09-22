@@ -2,6 +2,13 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_bink_shared_game_state
+{
+	dword __unknown0;
+	dword __unknown4;
+};
+static_assert(sizeof(s_bink_shared_game_state) == 0x8);
+
 struct s_game_non_bsp_zone_set;
 enum e_map_memory_configuration;
 

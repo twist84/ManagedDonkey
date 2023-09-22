@@ -1,19 +1,30 @@
 #pragma once
 
 #include "ai/ai.hpp"
+#include "ai/cl_engine.hpp"
+#include "bink/bink_playback.hpp"
 #include "cache/restricted_memory.hpp"
 #include "camera/observer.hpp"
 #include "camera/camera.hpp"
 #include "camera/camera_scripting.hpp"
 #include "camera/director.hpp"
+#include "camera/observer.hpp"
+#include "cutscene/cinematics.hpp"
 #include "devices/devices.hpp"
+#include "game/campaign_metagame.hpp"
 #include "game/game.hpp"
+#include "game/game_allegiance.hpp"
+#include "game/game_save.hpp"
+#include "game/player_control.hpp"
+#include "game/player_rumble.hpp"
 #include "gpu_particle/beam_gpu.hpp"
 #include "gpu_particle/contrail_gpu.hpp"
 #include "gpu_particle/light_volume_gpu.hpp"
 #include "gpu_particle/particle_block.hpp"
 #include "effects/effects.hpp"
+#include "hs/hs_runtime.hpp"
 #include "interface/chud/chud.hpp"
+#include "interface/first_person_weapons.hpp"
 #include "interface/user_interface_objectives.hpp"
 #include "main/global_preferences.hpp"
 #include "main/main_time.hpp"
@@ -39,178 +50,16 @@
 #include "render/render_shield_cache.hpp"
 #include "render/render_water.hpp"
 #include "scenario/scenario_interpolators.hpp"
+#include "scenario/scenario_kill_trigger_volumes.hpp"
+#include "scenario/scenario_soft_ceilings.hpp"
 #include "simulation/simulation_gamestate_entities.hpp"
+#include "sky_atm/atmosphere.hpp"
+#include "sound/game_sound.hpp"
+#include "sound/game_sound_deterministic.hpp"
+#include "sound/game_sound_player_effects.hpp"
+#include "sound/sound_classes.hpp"
 #include "structures/cluster_partitions.hpp"
-
-struct hs_stack_frame
-{
-	word stack_offset;
-	long return_value;
-	long tracking_index;
-
-	// 0: _hs_thread_type_script
-	// 1: [global initialize]
-	// 2: [console command]
-	// 3: script?
-	// 4: script?
-	char type;
-
-	byte_flags __flagsD;
-	byte_flags __flagsE;
-	byte __unknownF;
-	dword __unknown10;
-};
-static_assert(sizeof(hs_stack_frame) == 0x14);
-
-struct hs_thread : s_datum_header
-{
-	short script_index;
-	short previous_script_index;
-	long sleep_until;
-	long sleep_time;
-	hs_stack_frame stack_pointer;
-	byte stack_data[0x500];
-};
-static_assert(sizeof(hs_thread) == 0x524);
-
-struct s_hs_runtime_globals
-{
-	bool initialized;
-	bool require_gc;
-	bool require_object_list_gc;
-	bool globals_initializing;
-	long executing_thread_index;
-};
-static_assert(sizeof(s_hs_runtime_globals) == 0x8);
-
-struct hs_global_datum : s_datum_header
-{
-	word __unknown2;
-	dword __unknown4;
-};
-static_assert(sizeof(hs_global_datum) == 0x8);
-
-struct hs_distributed_global_data : s_datum_header
-{
-	byte __data[0x2A];
-};
-static_assert(sizeof(hs_distributed_global_data) == 0x2C);
-
-struct hs_thread_tracking_data : s_datum_header
-{
-	word __unknown2;
-	dword __unknown4;
-	dword __unknown8;
-};
-static_assert(sizeof(hs_thread_tracking_data) == 0xC);
-
-struct s_player_control_globals_deterministic
-{
-	byte __data[0x80];
-};
-static_assert(sizeof(s_player_control_globals_deterministic) == 0x80);
-
-struct game_looping_sound_datum : s_datum_header
-{
-	byte __data[0x1E];
-};
-static_assert(sizeof(game_looping_sound_datum) == 0x20);
-
-struct s_game_sound_globals
-{
-	byte __data[0x154];
-};
-static_assert(sizeof(s_game_sound_globals) == 0x154);
-
-struct s_game_sound_impulse_datum
-{
-	byte __data[0x200];
-};
-static_assert(sizeof(s_game_sound_impulse_datum) == 0x200);
-
-struct s_seam_mapping
-{
-	struct s_seam_cluster_mapping
-	{
-		real_point3d cluster_center;
-		short cluster_indices[2];
-		short cluster_mapping_indices[2];
-	};
-	static_assert(sizeof(s_seam_cluster_mapping) == 0x14);
-
-	char structure_bsp_indices[2];
-	short cluster_count;
-	c_static_array<s_seam_cluster_mapping, 32> clusters;
-};
-static_assert(sizeof(s_seam_mapping) == 0x284);
-
-using c_active_seam_flags = c_static_flags<128>;
-
-struct s_structure_seam_globals
-{
-	c_static_array<c_static_flags<512>, 16> flags;
-	c_static_array<s_seam_mapping, 128> seam_mappings;
-	c_active_seam_flags active_seams_mask;
-	dword_flags connected_bsps_mask;
-};
-static_assert(sizeof(s_structure_seam_globals) == 0x14614);
-
-struct s_campaign_metagame_runtime_globals
-{
-	byte __data[0x1A158];
-};
-static_assert(sizeof(s_campaign_metagame_runtime_globals) == 0x1A158);
-
-struct s_observer_gamestate_globals
-{
-	dword __unknown0;
-	dword __unknown4;
-	dword __unknown8;
-};
-static_assert(sizeof(s_observer_gamestate_globals) == 0xC);
-
-struct rumble_global_data
-{
-	byte __data[0x22C];
-};
-static_assert(sizeof(rumble_global_data) == 0x22C);
-
-struct s_bink_shared_game_state
-{
-	dword __unknown0;
-	dword __unknown4;
-};
-static_assert(sizeof(s_bink_shared_game_state) == 0x8);
-
-struct sound_class_datum
-{
-	byte __data[0x1144];
-};
-static_assert(sizeof(sound_class_datum) == 0x1144);
-
-struct s_game_allegiance_globals
-{
-	byte __data[0x184];
-};
-static_assert(sizeof(s_game_allegiance_globals) == 0x184);
-
-struct s_atmosphere_fog_globals
-{
-	byte __data[0x14];
-};
-static_assert(sizeof(s_atmosphere_fog_globals) == 0x14);
-
-struct s_scenario_soft_ceilings_globals
-{
-	c_static_flags<128> flags;
-};
-static_assert(sizeof(s_scenario_soft_ceilings_globals) == 0x10);
-
-struct s_game_sound_player_effects_globals
-{
-	byte __data[0x28];
-};
-static_assert(sizeof(s_game_sound_player_effects_globals) == 0x28);
+#include "structures/structure_seams.hpp"
 
 struct s_havok_proxy_datum : s_datum_header
 {
@@ -221,46 +70,11 @@ struct s_havok_proxy_datum : s_datum_header
 };
 static_assert(sizeof(s_havok_proxy_datum) == 0x44);
 
-struct cinematic_new_globals
-{
-	byte __data[0x3C];
-};
-static_assert(sizeof(cinematic_new_globals) == 0x3C);
-
-struct cinematic_globals
-{
-	byte __unknown0[4];
-	bool show_letterbox;
-	bool start_stop;
-	bool skip_start_stop;
-	bool suppress_bsp_object_creation;
-	byte __unknown8[24];
-	dword subtitle_string_id;
-	real subtitle_time_shown;
-	real subtitle_time_shown2;
-	byte __unknown2C[2];
-	bool outro_start_stop;
-	byte __unknown2F[10201];
-};
-static_assert(sizeof(cinematic_globals) == 0x2808);
-
-struct cinematic_light_globals
-{
-	byte __data[0xB2C8];
-};
-static_assert(sizeof(cinematic_light_globals) == 0xB2C8);
-
 struct recorded_animation_datum : s_datum_header
 {
 	byte __data[0xA2];
 };
 static_assert(sizeof(recorded_animation_datum) == 0xA4);
-
-struct s_game_save_globals
-{
-	byte __data[0x18];
-};
-static_assert(sizeof(s_game_save_globals) == 0x18);
 
 struct s_player_effect_globals
 {
@@ -273,18 +87,6 @@ struct s_player_training_globals
 	byte __data[0x8E8];
 };
 static_assert(sizeof(s_player_training_globals) == 0x8E8);
-
-struct s_scenario_kill_trigger_volumes_state
-{
-	byte __data[0x84];
-};
-static_assert(sizeof(s_scenario_kill_trigger_volumes_state) == 0x84);
-
-struct s_game_sound_deterministic_globals
-{
-	byte __data[0x1300];
-};
-static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
 
 struct object_list_header_datum : s_datum_header
 {
@@ -307,18 +109,6 @@ struct chud_widget_datum : s_datum_header
 	byte __data[0x16];
 };
 static_assert(sizeof(chud_widget_datum) == 0x18);
-
-struct s_first_person_orientations
-{
-	byte __data[0x12C00];
-};
-static_assert(sizeof(s_first_person_orientations) == 0x12C00);
-
-struct first_person_weapon
-{
-	byte __data[0x14000];
-};
-static_assert(sizeof(first_person_weapon) == 0x14000);
 
 struct s_cortana_globals
 {
@@ -348,12 +138,6 @@ struct s_object_render_thread_message
 	short __unknown6;
 };
 static_assert(sizeof(s_object_render_thread_message) == 0x8);
-
-struct command_script_datum : s_datum_header
-{
-	byte __data[0x186];
-};
-static_assert(sizeof(command_script_datum) == 0x188);
 
 struct s_thread_local_storage
 {
@@ -593,7 +377,7 @@ struct s_thread_local_storage
 
 	// name: "atmosphere fog globals"
 	// size: 0x14
-	s_atmosphere_fog_globals* g_atmosphere_fog_globals;
+	c_atmosphere_fog_interface* g_atmosphere_fog_globals;
 
 	// name: "soft surface globals"
 	// size: 0x10
@@ -613,15 +397,15 @@ struct s_thread_local_storage
 
 	// name: "cinematic new globals"
 	// size: 0x2808
-	cinematic_new_globals* cinematic_new_globals;
+	s_cinematic_new_globals_definition* cinematic_new_globals;
 
 	// name: "cinematic globals"
 	// size: 0x3C
-	cinematic_globals* cinematic_globals;
+	s_cinematic_globals_definition* cinematic_globals;
 
 	// name: "cinematic light globals"
 	// size: 0xB2C8
-	cinematic_light_globals* cinematic_light_globals;
+	s_cinematic_light_globals* cinematic_light_globals;
 
 	// name: "physics constants"
 	// size: 0x20
