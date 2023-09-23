@@ -29,7 +29,9 @@
 #define REFERENCE_DECLARE_ARRAY(address, type, name, count) type(&name)[count] = *reinterpret_cast<type(*)[count]>(address)
 #define REFERENCE_DECLARE_STATIC_ARRAY(address, type, count, name) c_static_array<type, count> &name = *reinterpret_cast<c_static_array<type, count>*>(address)
 
-#define FLOOR(VAL0, VAL1) (((VAL0) <= (VAL1)) ? (VAL1) : (VAL0))
+#define FLOOR(a, b) (((a) <= (b)) ? (b) : (a))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 #define try_bool(X) if (!X) return false
 

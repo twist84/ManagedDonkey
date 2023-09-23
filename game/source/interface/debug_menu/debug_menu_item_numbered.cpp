@@ -5,9 +5,6 @@
 #include "interface/interface_constants.hpp"
 #include "text/draw_string.hpp"
 
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-
 c_debug_menu_item_numbered::~c_debug_menu_item_numbered()
 {
 }
