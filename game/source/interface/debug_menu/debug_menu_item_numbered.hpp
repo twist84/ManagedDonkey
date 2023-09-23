@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/debug_menu/debug_menu_item.hpp"
+#include "interface/debug_menu/debug_menu_value_hs_global_external.hpp"
 
 struct c_font_cache_base;
 class c_debug_menu_item_numbered :
@@ -34,19 +35,6 @@ public:
 
 protected:
 	bool m_readonly;
-};
-
-template<typename t_type>
-class c_debug_menu_value_hs_global_external
-{
-public:
-	c_debug_menu_value_hs_global_external(char const* hs_global_name);
-
-	t_type get();
-	void set(t_type value);
-
-protected:
-	short m_hs_global_external_index;
 };
 
 class c_debug_menu_item_type_bool :
