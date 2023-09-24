@@ -29,6 +29,8 @@ enum e_hs_script_type
 	k_hs_script_type_count
 };
 
+extern char const* const k_hs_script_type_names[k_hs_script_type_count];
+
 enum e_hs_type
 {
 	_hs_type_unparsed = 0,

@@ -5,6 +5,16 @@ void hs_tag_reference::update_reference_names()
 	UPDATE_REFERENCE_NAME(reference);
 }
 
+char const* const k_hs_script_type_names[k_hs_script_type_count]
+{
+	"startup",
+	"dormant",
+	"continuous",
+	"static",
+	"command_script",
+	"stub"
+};
+
 char const* const k_hs_type_names[k_hs_type_count]
 {
 	"unparsed",
