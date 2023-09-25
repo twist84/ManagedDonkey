@@ -217,11 +217,27 @@ struct c_rasterizer_draw_string :
 {
 	struct s_glyph_group_render_data
 	{
-		long __unknown0;
+		struct s_unknown_struct
+		{
+			//e_utf32 utf32;
+			long utf32;
+
+			real __unknown4;
+			real __unknown8;
+			real __unknownC;
+			real __unknown10;
+			real __unknown14;
+			real __unknown18;
+		};
+
+		// e_font_id
+		long m_font_id;
+
 		long __unknown4;
 		long __unknown8;
-		byte __dataC[0x700];
-		long __unknown70C;
+
+		s_unknown_struct __unknownC[64];
+		long __unknownC_count;
 	};
 	static_assert(sizeof(s_glyph_group_render_data) == 0x710);
 
