@@ -118,6 +118,20 @@ bool hs_type_primitive_parser_integer(long expression_index)
 	return result;
 }
 
+bool hs_type_primitive_parser_string(long expression_index)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	ASSERT(expression->type == _hs_type_string);
+	ASSERT(expression->constant_type == expression->type);
+
+	char const* value = reinterpret_cast<char const*>(expression->data);
+
+	value = source_offset;
+	return true;
+}
+
 hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 {
 	// non-types
@@ -132,5 +146,6 @@ hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 	hs_type_primitive_parser_real,
 	hs_type_primitive_parser_integer,
 	hs_type_primitive_parser_integer,
+	hs_type_primitive_parser_string
 };
 
