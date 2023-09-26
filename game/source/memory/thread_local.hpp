@@ -328,8 +328,10 @@ struct s_thread_local_storage
 	//  size: 0x44
 	c_smart_data_array<s_havok_proxy_datum> g_havok_proxy_data;
 
-	// there are potentially other locals in here
-	void* __unknown114[131];
+	void* __unknown114;
+
+	/* \\Saved Games\\blamlib\\Replays\\ */
+	wchar_t blamlib_replays_path[260];
 
 	// name: "cinematic new globals"
 	// size: 0x2808
