@@ -179,6 +179,15 @@ bool hs_type_primitive_parser_string_id(long expression_index)
 	return false;
 }
 
+bool hs_type_primitive_parser_ai_command_list(long expression_index)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+
+	ASSERT(expression->type == _hs_type_ai_line);
+
+	return false;
+}
+
 hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 {
 	nullptr,                                  // unparsed
@@ -193,5 +202,17 @@ hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 	hs_type_primitive_parser_string,          // string
 	hs_type_primitive_parser_script,          // script
 	hs_type_primitive_parser_string_id,       // string_id
+	nullptr,                                  // unit_seat_mapping,
+	nullptr,                                  // trigger_volume,
+	nullptr,                                  // cutscene_flag,
+	nullptr,                                  // cutscene_camera_point,
+	nullptr,                                  // cutscene_title,
+	nullptr,                                  // cutscene_recording,
+	nullptr,                                  // device_group,
+	nullptr,                                  // ai,
+	hs_type_primitive_parser_ai_command_list, // ai_command_list,
+	nullptr,                                  // ai_command_script,
+	nullptr,                                  // ai_behavior,
+	nullptr,                                  // ai_orders,
 };
 
