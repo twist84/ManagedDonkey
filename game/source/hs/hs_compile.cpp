@@ -202,6 +202,64 @@ bool hs_type_primitive_parser_ai_line(long expression_index)
 	return true;
 }
 
+bool hs_type_primitive_parser_enum(long expression_index)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	decltype(hs_compile_globals.error_message_buffer)& error_message_buffer = hs_compile_globals.error_message_buffer;
+
+	short& value = *reinterpret_cast<short*>(expression->data);
+
+	if (!HS_TYPE_IS_ENUM(expression->type))
+	{
+		csnzprintf(
+			error_message_buffer,
+			sizeof(error_message_buffer),
+			"corrupt enum expression (type %d constant-type %d)",
+			expression->type.get(),
+			expression->constant_type.get());
+
+		hs_compile_globals.error_message = error_message_buffer;
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
+	}
+
+	hs_enum_definition const* enum_definition = &hs_enum_table[expression->type.get() - _hs_type_game_difficulty];
+	ASSERT(enum_definition->count);
+
+	short i = 0;
+	for (; i < enum_definition->count && csstricmp(source_offset, enum_definition->names[i]); i++);
+
+	bool result = true;
+	if (i == enum_definition->count)
+	{
+		csnzprintf(error_message_buffer, sizeof(error_message_buffer), "%s must be ", hs_type_names[expression->type.get()]);
+
+		for (i = 0; i < enum_definition->count - 1; i++)
+		{
+			csstrnzcat(error_message_buffer, "\"", sizeof(error_message_buffer));
+			csstrnzcat(error_message_buffer, enum_definition->names[i], sizeof(error_message_buffer));
+			csstrnzcat(error_message_buffer, "\", ", sizeof(error_message_buffer));
+		}
+
+		if (enum_definition->count > 1)
+			csstrnzcat(error_message_buffer, "or ", sizeof(error_message_buffer));
+
+		csstrnzcat(error_message_buffer, "\"", sizeof(error_message_buffer));
+		csstrnzcat(error_message_buffer, enum_definition->names[i], sizeof(error_message_buffer));
+		csstrnzcat(error_message_buffer, "\".", sizeof(error_message_buffer));
+
+		hs_compile_globals.error_message = error_message_buffer;
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		result = false;
+	}
+
+	value = i;
+	return result;
+}
+
 hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 {
 	nullptr,                                  // unparsed
@@ -255,5 +313,43 @@ hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 
 	nullptr,                                  // any_tag,
 	nullptr,                                  // any_tag_not_resolving,
+
+	hs_type_primitive_parser_enum,            // game_difficulty,
+	hs_type_primitive_parser_enum,            // team,
+	hs_type_primitive_parser_enum,            // mp_team,
+	hs_type_primitive_parser_enum,            // controller,
+	hs_type_primitive_parser_enum,            // button_preset,
+	hs_type_primitive_parser_enum,            // joystick_preset,
+	hs_type_primitive_parser_enum,            // player_character_type,
+	hs_type_primitive_parser_enum,            // voice_output_setting,
+	hs_type_primitive_parser_enum,            // voice_mask,
+	hs_type_primitive_parser_enum,            // subtitle_setting,
+	hs_type_primitive_parser_enum,            // actor_type,
+	hs_type_primitive_parser_enum,            // model_state,
+	hs_type_primitive_parser_enum,            // event,
+	hs_type_primitive_parser_enum,            // character_physics,
+	hs_type_primitive_parser_enum,            // primary_skull,
+	hs_type_primitive_parser_enum,            // secondary_skull,
+
+	nullptr,                                  // object,
+	nullptr,                                  // unit,
+	nullptr,                                  // vehicle,
+	nullptr,                                  // weapon,
+	nullptr,                                  // device,
+	nullptr,                                  // scenery,
+	nullptr,                                  // effect_scenery,
+
+	nullptr,                                  // object_name,
+	nullptr,                                  // unit_name,
+	nullptr,                                  // vehicle_name,
+	nullptr,                                  // weapon_name,
+	nullptr,                                  // device_name,
+	nullptr,                                  // scenery_name,
+	nullptr,                                  // effect_scenery_name,
+
+	nullptr,                                  // cinematic_lightprobe,
+	nullptr,                                  // animation_budget_reference,
+	nullptr,                                  // looping_sound_budget_reference,
+	nullptr,                                  // sound_budget_reference,
 };
 
