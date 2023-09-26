@@ -188,6 +188,20 @@ bool hs_type_primitive_parser_ai_command_list(long expression_index)
 	return false;
 }
 
+bool hs_type_primitive_parser_ai_line(long expression_index)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	ASSERT(expression->type == _hs_type_ai_line);
+	ASSERT(expression->constant_type == expression->type);
+
+	string_id& value = *reinterpret_cast<string_id*>(expression->data);
+
+	value = string_id_retrieve(source_offset);
+	return true;
+}
+
 hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 {
 	nullptr,                                  // unparsed
@@ -214,5 +228,32 @@ hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 	nullptr,                                  // ai_command_script,
 	nullptr,                                  // ai_behavior,
 	nullptr,                                  // ai_orders,
+	hs_type_primitive_parser_ai_line,         // ai_line,
+	nullptr,                                  // starting_profile,
+	nullptr,                                  // conversation,
+	nullptr,                                  // zone_set,
+	nullptr,                                  // designer_zone,
+	nullptr,                                  // point_reference,
+	nullptr,                                  // style,
+	nullptr,                                  // object_list,
+	nullptr,                                  // folder,
+	nullptr,                                  // sound,
+	nullptr,                                  // effect,
+	nullptr,                                  // damage,
+	nullptr,                                  // looping_sound,
+	nullptr,                                  // animation_graph,
+	nullptr,                                  // damage_effect,
+	nullptr,                                  // object_definition,
+	nullptr,                                  // bitmap,
+	nullptr,                                  // shader,
+	nullptr,                                  // render_model,
+	nullptr,                                  // structure_definition,
+	nullptr,                                  // lightmap_definition,
+	nullptr,                                  // cinematic_definition,
+	nullptr,                                  // cinematic_scene_definition,
+	nullptr,                                  // bink_definition,
+
+	nullptr,                                  // any_tag,
+	nullptr,                                  // any_tag_not_resolving,
 };
 
