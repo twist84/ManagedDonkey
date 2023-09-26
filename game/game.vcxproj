@@ -232,6 +232,7 @@ POPD
     <ClCompile Include="source\game\players.cpp" />
     <ClCompile Include="source\hf2p\hf2p.cpp" />
     <ClCompile Include="source\hs\hs.cpp" />
+    <ClCompile Include="source\hs\hs_compile.cpp" />
     <ClCompile Include="source\hs\hs_function.cpp" />
     <ClCompile Include="source\hs\hs_globals_external.cpp" />
     <ClCompile Include="source\hs\hs_library_external.cpp" />
@@ -482,6 +483,7 @@ POPD
     <ClCompile Include="source\xbox\xnet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\hs\hs_compile.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />
     <ClInclude Include="source\ai\actors.hpp" />
     <ClInclude Include="source\ai\actor_dynamic_firing_position.hpp" />
