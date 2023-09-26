@@ -5,7 +5,7 @@
 
 struct hs_function_definition
 {
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> return_type;
+	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
 	short parse;
 	short(__cdecl* evaluate)(long, long, bool);
 	const char* usage;
@@ -14,7 +14,7 @@ struct hs_function_definition
 
 #pragma warning(push)
 #pragma warning(disable : 4200)
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> parameters[];
+	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> parameters[];
 #pragma warning(pop)
 };
 static_assert(sizeof(hs_function_definition) == 0x10);

@@ -17,16 +17,8 @@ struct s_console_global
 {
 	char const* name;
 
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
-	union
-	{
-		bool* boolean_value;
-		real* real_value;
-		short* short_value;
-		long* long_value;
-
-		void* pointer;
-	};
+	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
+	void* pointer;
 };
 static_assert(sizeof(s_console_global) == 0xC);
 

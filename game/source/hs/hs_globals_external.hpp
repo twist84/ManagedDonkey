@@ -5,7 +5,7 @@
 
 struct hs_global_external
 {
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
+	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
 	short __unknown2;
 	void* value;
 };

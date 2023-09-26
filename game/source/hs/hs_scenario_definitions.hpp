@@ -29,16 +29,15 @@ enum e_hs_script_type
 	k_hs_script_type_count
 };
 
-extern char const* const k_hs_script_type_names[k_hs_script_type_count];
-
 enum e_hs_type
 {
-	_hs_type_unparsed = 0,
-	_hs_type_special_form,
-	_hs_type_function_name,
-	_hs_type_passthrough,
-	_hs_type_void,
+	_hs_unparsed = 0,
+	_hs_special_form,
+	_hs_function_name,
+	_hs_passthrough,
 
+	// actual types start
+	_hs_type_void,
 	_hs_type_boolean,
 	_hs_type_real,
 	_hs_type_short_integer,
@@ -134,12 +133,10 @@ enum e_hs_type
 	k_hs_type_count
 };
 
-extern char const* const k_hs_type_names[k_hs_type_count];
-
 struct hs_script_parameter
 {
 	c_static_string<32> name;
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> return_type;
+	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
 
 	// pad
 	byte JBG[2];
@@ -149,7 +146,7 @@ static_assert(sizeof(hs_script_parameter) == 0x24);
 struct hs_global_internal
 {
 	c_static_string<32> name;
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
+	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
 
 	// pad
 	byte EB[2];
@@ -162,7 +159,7 @@ struct hs_script
 {
 	c_static_string<32> name;
 	c_enum<e_hs_script_type, short, _hs_script_startup, k_hs_script_type_count> script_type;
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> return_type;
+	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
 	long root_expression_index;
 	c_typed_tag_block<hs_script_parameter> parameters;
 };
@@ -184,20 +181,32 @@ struct hs_string_data_definition
 #pragma warning(pop)
 };
 
+enum e_hs_syntax_node_flags
+{
+	_hs_syntax_node_primitive_bit = 0,
+	_hs_syntax_node_script_bit,
+	_hs_syntax_node_variable_bit,
+
+	k_hs_syntax_node_flags
+};
+
 struct hs_syntax_node : s_datum_header
 {
 	union
 	{
 		short script_index;
 		short function_index;
-		c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> constant_type;
+		c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> constant_type;
 	};
 
-	c_enum<e_hs_type, short, _hs_type_unparsed, k_hs_type_count> type;
+	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
+
+	//c_flags<e_hs_syntax_node_flags, word, k_hs_syntax_node_flags> flags;
 	word_flags flags;
+
 	long next_node_index;
 	long source_offset;
-	long data;
+	byte data[4];
 	short line_number;
 	short HMM;
 };
@@ -216,4 +225,7 @@ struct s_hs_unit_seat_mapping
 	long unit_seats2;
 };
 static_assert(sizeof(s_hs_unit_seat_mapping) == 0xC);
+
+extern char const* const k_hs_script_type_names[k_hs_script_type_count];
+extern char const* const k_hs_type_names[k_hs_type_count];
 
