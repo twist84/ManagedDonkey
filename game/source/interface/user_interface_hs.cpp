@@ -4,7 +4,6 @@
 #include "hs/hs_runtime.hpp"
 #include "scenario/scenario.hpp"
 
-
 long start_script(hs_script const* script, long index)
 {
 	ASSERT(script);
@@ -46,3 +45,4 @@ long user_interface_start_hs_script_by_name(char const* name)
 	c_console::write_line("ui:hs: no such script \"%s\"", name);
 	return NONE;
 }
+

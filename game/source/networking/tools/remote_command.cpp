@@ -507,7 +507,7 @@ callback_result_t script_doc_callback(void const* userdata, long token_count, to
 			s_console_global const* global = k_console_globals[global_index];
 
 			callback_result_t out;
-			out.append_print("(<%s> %s)", k_hs_type_names[global->type.get()], global->name);
+			out.append_print("(<%s> %s)", hs_type_names[global->type.get()], global->name);
 			file_printf(&help_file, "%s\n\n", out.get_string());
 		}
 	}

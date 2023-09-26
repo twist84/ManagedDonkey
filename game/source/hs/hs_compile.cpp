@@ -132,20 +132,42 @@ bool hs_type_primitive_parser_string(long expression_index)
 	return true;
 }
 
+bool hs_type_primitive_parser_script(long expression_index)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	ASSERT(expression->type == _hs_type_script);
+	ASSERT(expression->constant_type == expression->type);
+
+	short& value = *reinterpret_cast<short*>(expression->data);
+
+	short script_index = hs_find_script_by_name(source_offset, NONE);
+	if (script_index != NONE)
+	{
+		value = script_index;
+		//sub_82D12368(script_index, 1, expression_index);
+		return true;
+	}
+
+	hs_compile_globals.error_message = "this is not a valid script name.";
+	hs_compile_globals.error_offset = expression->source_offset;
+
+	return false;
+}
+
 hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
 {
-	// non-types
-	nullptr,
-	nullptr,
-	nullptr,
-
-	// void
-	nullptr,
-
-	hs_type_primitive_parser_bool,
-	hs_type_primitive_parser_real,
-	hs_type_primitive_parser_integer,
-	hs_type_primitive_parser_integer,
-	hs_type_primitive_parser_string
+	nullptr,                                  // unparsed
+	nullptr,                                  // special_form
+	nullptr,                                  // function_name
+	nullptr,                                  // passthrough
+	nullptr,                                  // void
+	hs_type_primitive_parser_bool,            // boolean
+	hs_type_primitive_parser_real,            // real
+	hs_type_primitive_parser_integer,         // short_integer
+	hs_type_primitive_parser_integer,         // long_integer
+	hs_type_primitive_parser_string,          // string
+	hs_type_primitive_parser_script,          // script
 };
 
