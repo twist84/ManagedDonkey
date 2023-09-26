@@ -259,7 +259,7 @@ void __cdecl object_reinitialize_from_placement(long object_index, object_placem
 
 void __cdecl object_render_debug(long object_index)
 {
-	if (TEST_BIT(SOUND_SCENERY_OBJECT_MASK, object_get_type(object_index)) && !debug_objects_sound_spheres)
+	if (TEST_BIT(_object_mask_sound_scenery, object_get_type(object_index)) && !debug_objects_sound_spheres)
 		return;
 
 	object_render_debug_internal(object_index);
@@ -354,7 +354,7 @@ void __cdecl object_set_position_in_editor(long object_index, real_point3d const
 	
 	object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, true);
 	object_load_scenario_placement_matrices(object_index);
-	if (at_rest && TEST_BIT(EDITOR_PLACEABLE_OBJECTS_MASK, object_get_type(object_index)))
+	if (at_rest && TEST_BIT(_object_mask_editor_placeable_objects, object_get_type(object_index)))
 		object_set_at_rest(object_index, false);
 }
 

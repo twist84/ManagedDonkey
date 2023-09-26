@@ -38,7 +38,7 @@ struct c_player_profile_interface
 	long m_camera_flying_movement;
 	long m_camera_flying_thrust;
 
-	c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> m_campaign_difficulty;
+	c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> m_campaign_difficulty;
 
 	byte __data214[0xBC];
 

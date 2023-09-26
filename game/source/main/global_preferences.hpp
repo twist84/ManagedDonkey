@@ -97,7 +97,7 @@ struct s_gui_game_setup_storage
 		long campaign_id;
 		long map_id;
 		short insertion_point;
-		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> difficulty_level;
+		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> difficulty_level;
 		long metagame_scoring_option;
 		dword active_primary_skulls;
 		dword active_secondary_skulls;
@@ -122,7 +122,7 @@ struct s_gui_game_setup_storage
 		long campaign_id;
 		long map_id;
 		short insertion_point;
-		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> difficulty_level;
+		c_enum<e_campaign_difficulty_level, long, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> difficulty_level;
 		long metagame_scoring_option;
 		dword active_primary_skulls;
 		dword active_secondary_skulls;
@@ -311,7 +311,7 @@ struct s_global_preferences_data
 	long contrast;
 	s_video_settings video_settings;
 	bool hide_watermark;
-	c_enum<e_subtitle_setting, long, _subtitle_setting_automatic, k_subtitle_setting_count> subtitle_setting;
+	c_enum<e_subtitle_setting, long, _subtitle_setting_automatic, k_number_of_subtitle_settings> subtitle_setting;
 	long content_item_unique_name_number_seed[14];
 	s_sound_settings sound_settings;
 	s_gameplay_settings gameplay_settings;

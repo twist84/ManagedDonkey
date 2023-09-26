@@ -128,7 +128,7 @@ void main_game_launch(const char* map_name)
 	{
 		if (g_launch_globals.options.campaign_difficulty.get() <= _campaign_difficulty_level_easy)
 			g_launch_globals.options.campaign_difficulty = _campaign_difficulty_level_easy;
-		if (g_launch_globals.options.campaign_difficulty.get() > k_campaign_difficulty_levels_count)
+		if (g_launch_globals.options.campaign_difficulty.get() > k_number_of_campaign_difficulty_levels)
 			g_launch_globals.options.campaign_difficulty = _campaign_difficulty_level_legendary;
 	}
 	else if (g_launch_globals.options.game_mode != _game_mode_multiplayer)

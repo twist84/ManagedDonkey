@@ -708,6 +708,181 @@ char const* k_game_variant_parameter_names[k_game_variant_parameter_count]
 	"template_forced_change_colors",
 };
 
+// 0189DF28
+char const* const global_campaign_difficulty_level_names[k_number_of_campaign_difficulty_levels]
+{
+	"easy",
+	"normal",
+	"heroic",
+	"legendary"
+};
+
+// 018BE868
+char const* const global_campaign_team_names[k_number_of_campaign_teams]
+{
+	"default",
+	"player",
+	"human",
+	"covenant",
+	"flood",
+	"sentinel",
+	"heretic",
+	"prophet",
+	"guilty",
+	"unused9",
+	"unused10",
+	"unused11",
+	"unused12",
+	"unused13",
+	"unused14",
+	"unused15"
+};
+
+// 0189EECC
+char const* const global_multiplayer_team_names[k_number_of_multiplayer_teams]
+{
+	"mp_team_red",
+	"mp_team_blue",
+	"mp_team_green",
+	"mp_team_yellow",
+	"mp_team_purple",
+	"mp_team_orange",
+	"mp_team_brown",
+	"mp_team_grey"
+};
+
+// 0191CB00
+char const* const global_controller_index_names[k_number_of_controllers]
+{
+	"controller1",
+	"controller2",
+	"controller3",
+	"controller4"
+};
+
+// 0191CB10
+char const* const global_button_preset_names[k_number_of_button_presets]
+{
+	"standard",
+	"south_paw",
+	"boxer",
+	"green_thumb",
+	"professional",
+	"walkie-talkie"
+};
+
+// 0191CB28
+char const* const global_joystick_preset_names[k_number_of_joystick_presets]
+{
+	"standard",
+	"south_paw",
+	"legacy",
+	"legacy_south_paw"
+};
+
+// 0189DD38
+char const* const global_player_model_choice_names[k_number_of_player_model_choices]
+{
+	"spartan",
+	"elite"
+};
+
+// 0191CB38
+char const* const global_voice_output_setting_names[k_number_of_voice_output_settings]
+{
+	"default",
+	"headset"
+};
+
+// 0191CB40
+char const* const global_voice_mask_names[k_number_of_voice_masks]
+{
+	"none",
+	"anonymous"
+};
+
+// 0191CB48
+char const* const global_subtitle_setting_names[k_number_of_subtitle_settings]
+{
+	"automatic",
+	"enabled",
+	"disabled"
+};
+
+// 01992AF8
+char const* const global_actor_type_names[k_number_of_actor_types]
+{
+	"elite",
+	"jackal",
+	"grunt",
+	"hunter",
+	"engineer",
+	"assassin",
+	"player",
+	"marine",
+	"crew",
+	"combat_form",
+	"infection_form",
+	"carrier_form",
+	"monitor",
+	"sentinel",
+	"none",
+	"mounted_weapon",
+	"brute",
+	"prophet",
+	"bugger",
+	"juggernaut",
+	"pure_form_stealth",
+	"pure_form_tank",
+	"pure_form_ranged",
+	"scarab",
+	"guardian"
+};
+
+// 018ECC80
+char const* const global_model_state_names[k_number_of_model_states]
+{
+	"standard",
+	"minor damage",
+	"medium damage",
+	"major damage",
+	"destroyed"
+};
+
+// 018ECCEC
+char const* const global_character_physics_override_names[k_number_of_character_physics_overrides]
+{
+	"NONE",
+	"player",
+	"biped"
+};
+
+// 018BAE24
+char const* const global_primary_skull_names[k_number_of_primary_skulls]
+{
+	"skull_iron",
+	"skull_black_eye",
+	"skull_tough_luck",
+	"skull_catch",
+	"skull_fog",
+	"skull_famine",
+	"skull_thunderstorm",
+	"skull_tilt",
+	"skull_mythic"
+};
+
+// 018BAE48
+char const* const global_secondary_skull_names[k_number_of_secondary_skulls]
+{
+	"skull_assassin",
+	"skull_blind",
+	"skull_superman",
+	"skull_birthday_party",
+	"skull_daddy",
+	"skull_third_person",
+	"skull_directors_cut"
+};
+
 bool __cdecl shell_application_is_paused()
 {
 	//return INVOKE(0x0042E310, shell_application_is_paused);
@@ -815,32 +990,18 @@ e_quality_setting quality_setting_from_string(char const* str)
 
 char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
 {
-	if (subtitle_setting < _subtitle_setting_automatic || subtitle_setting >= k_subtitle_setting_count)
+	if (subtitle_setting < _subtitle_setting_automatic || subtitle_setting >= k_number_of_subtitle_settings)
 		return "<invalid 'subtitle_setting'>";
 
-	char const* names[k_subtitle_setting_count]
-	{
-		"automatic",
-		"enabled",
-		"disabled",
-	};
-
-	return names[subtitle_setting];
+	return global_subtitle_setting_names[subtitle_setting];
 }
 
 e_subtitle_setting subtitle_setting_from_string(char const* str)
 {
-	char const* names[k_subtitle_setting_count]
-	{
-		"automatic",
-		"enabled",
-		"disabled",
-	};
-
 	e_subtitle_setting subtitle_setting = e_subtitle_setting(-1);
-	for (long i = _subtitle_setting_automatic; i < k_subtitle_setting_count; i++)
+	for (long i = _subtitle_setting_automatic; i < k_number_of_subtitle_settings; i++)
 	{
-		if (csstricmp(str, names[i]) != 0)
+		if (csstricmp(str, global_subtitle_setting_names[i]) != 0)
 			continue;
 
 		subtitle_setting = e_subtitle_setting(i);
@@ -851,34 +1012,18 @@ e_subtitle_setting subtitle_setting_from_string(char const* str)
 
 char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty)
 {
-	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_campaign_difficulty_levels_count)
+	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_number_of_campaign_difficulty_levels)
 		return "<invalid 'difficulty'>";
 
-	char const* names[k_campaign_difficulty_levels_count]
-	{
-		"easy",
-		"normal",
-		"heroic",
-		"legendary",
-	};
-
-	return names[difficulty];
+	return global_campaign_difficulty_level_names[difficulty];
 }
 
 e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str)
 {
-	char const* names[k_campaign_difficulty_levels_count]
-	{
-		"easy",
-		"normal",
-		"heroic",
-		"legendary",
-	};
-
 	e_campaign_difficulty_level difficulty = _campaign_difficulty_level_normal;
-	for (long i = _campaign_difficulty_level_easy; i < k_campaign_difficulty_levels_count; i++)
+	for (long i = _campaign_difficulty_level_easy; i < k_number_of_campaign_difficulty_levels; i++)
 	{
-		if (csstricmp(str, names[i]) != 0)
+		if (csstricmp(str, global_campaign_difficulty_level_names[i]) != 0)
 			continue;
 
 		difficulty = e_campaign_difficulty_level(i);

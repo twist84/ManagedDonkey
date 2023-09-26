@@ -112,7 +112,7 @@ struct game_options
 	byte : 8;
 	long playback_start_ticks;
 	long playback_length_in_ticks;
-	c_enum<e_campaign_difficulty_level, short, _campaign_difficulty_level_easy, k_campaign_difficulty_levels_count> campaign_difficulty;
+	c_enum<e_campaign_difficulty_level, short, _campaign_difficulty_level_easy, k_number_of_campaign_difficulty_levels> campaign_difficulty;
 	short campaign_insertion_point;
 	short campaign_metagame_scoring;
 	bool campaign_metagame_enabled;
@@ -123,8 +123,8 @@ struct game_options
 	byte : 8;
 	byte : 8;
 	s_campaign_game_progression campaign_game_progression;
-	c_flags<e_campaign_skulls_primary, long, k_campaign_skulls_primary_count> skulls_primary;
-	c_flags<e_campaign_skulls_secondary, long, k_campaign_skulls_secondary_count> skulls_secondary;
+	c_flags<e_primary_skulls, long, k_number_of_primary_skulls> skulls_primary;
+	c_flags<e_secondary_skulls, long, k_number_of_secondary_skulls> skulls_secondary;
 	s_hub_progression hub_progression;
 	bool matchmade_game;
 	byte __align2C9[7];

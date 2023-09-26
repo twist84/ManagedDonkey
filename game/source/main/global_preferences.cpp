@@ -746,7 +746,7 @@ void __cdecl global_preferences_make_safe(s_global_preferences* preferences)
 	if (!VALID_INDEX(preferences->data.last_font_language, k_language_count))
 		preferences->data.last_font_language = _language_invalid;
 
-	if (!VALID_INDEX(preferences->data.subtitle_setting, k_subtitle_setting_count))
+	if (!VALID_INDEX(preferences->data.subtitle_setting, k_number_of_subtitle_settings))
 		preferences->data.subtitle_setting = _subtitle_setting_automatic;
 
 	if (!VALID_INDEX(preferences->data.__unknown41BD0, 3))

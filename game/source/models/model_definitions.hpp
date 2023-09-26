@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_model_definition_flags
@@ -279,23 +280,12 @@ enum e_model_state_property_flags
 	k_model_state_property_flags
 };
 
-enum e_model_state
-{
-	_model_state_default = 0,
-	_model_state_minor_damage,
-	_model_state_medium_damage,
-	_model_state_major_damage,
-	_model_state_destroyed,
-
-	k_model_state_count
-};
-
 struct s_model_variant_state
 {
 	c_string_id permutation_name;
 	char runtime_permutation_index;
 	c_flags<e_model_state_property_flags, byte, k_model_state_property_flags> property_flags;
-	c_enum<e_model_state, short, _model_state_default, k_model_state_count> state;
+	c_enum<e_model_state, short, _model_state_standard, k_number_of_model_states> state;
 
 	// played while the model is in this state
 	c_typed_tag_reference<EFFECT_TAG> looping_effect;

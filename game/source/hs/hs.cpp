@@ -2,7 +2,9 @@
 
 #include "cseries/cseries_events.hpp"
 #include "hs/hs_scenario_definitions.hpp"
+#include "objects/objects.hpp"
 #include "scenario/scenario.hpp"
+#include "shell/shell.hpp"
 
 //REFERENCE_DECLARE_ARRAY(, short const, hs_type_sizes, k_hs_type_count);
 //REFERENCE_DECLARE_ARRAY(0x, short const, hs_object_type_masks, k_hs_type_object_count);
@@ -12,14 +14,14 @@
 //REFERENCE_DECLARE_ARRAY(0x, char const* const, hs_script_type_names, k_hs_script_type_count);
 REFERENCE_DECLARE(0x024B06D4, c_typed_data_array<hs_syntax_node>*, g_hs_syntax_data);
 
-hs_syntax_node* __cdecl hs_syntax_get(long datum_index)
+hs_syntax_node* __cdecl hs_syntax_get(long expression_index)
 {
-	if (DATUM_INDEX_TO_ABSOLUTE_INDEX(datum_index) > g_hs_syntax_data->maximum_count)
-		return &g_hs_syntax_data->data[DATUM_INDEX_TO_ABSOLUTE_INDEX(datum_index)];
+	if (DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index) > g_hs_syntax_data->maximum_count)
+		return &g_hs_syntax_data->data[DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index)];
 
 	return nullptr;
 
-	//return INVOKE(0x00598A10, hs_syntax_get, datum_index);
+	//return INVOKE(0x00598A10, hs_syntax_get, expression_index);
 }
 
 short hs_find_script_by_name(char const* name, short parameter_index)
@@ -138,13 +140,13 @@ short const hs_type_sizes[k_hs_type_count]
 // 0166D7B8
 short const hs_object_type_masks[k_hs_type_object_count]
 {
-	short(0xFFFF), // object
-	short(0x2003), // unit
-	short(0x2),    // vehicle
-	short(0x4),    // weapon
-	short(0x330),  // device
-	short(0x80),   // scenery
-	short(0x4000)  // effect_scenery
+	_object_mask_object,        // object
+	_object_mask_unit,          // unit
+	_object_mask_vehicle,       // vehicle
+	_object_mask_weapon,        // weapon
+	_object_mask_device,        // device
+	_object_mask_scenery,       // scenery
+	_object_mask_effect_scenery // effect_scenery
 };
 
 // 0166D7C8
@@ -166,181 +168,6 @@ long const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count]
 	CINEMATIC_SCENE_TAG,                  // cinematic_scene_definition
 	BINK_TAG,                             // bink_definition
 	NONE                                  // any_tag, any_tag_not_resolving
-};
-
-// 0189DF28
-char const* const global_campaign_difficulty_level_names[4]
-{
-	"easy",
-	"normal",
-	"heroic",
-	"legendary"
-};
-
-// 018BE868
-char const* const global_campaign_team_names[16]
-{
-	"default",
-	"player",
-	"human",
-	"covenant",
-	"flood",
-	"sentinel",
-	"heretic",
-	"prophet",
-	"guilty",
-	"unused9",
-	"unused10",
-	"unused11",
-	"unused12",
-	"unused13",
-	"unused14",
-	"unused15"
-};
-
-// 0189EECC
-char const* const global_multiplayer_team_names[8]
-{
-	"mp_team_red",
-	"mp_team_blue",
-	"mp_team_green",
-	"mp_team_yellow",
-	"mp_team_purple",
-	"mp_team_orange",
-	"mp_team_brown",
-	"mp_team_grey"
-};
-
-// 0191CB00
-char const* const global_controller_index_names[4]
-{
-	"controller1",
-	"controller2",
-	"controller3",
-	"controller4"
-};
-
-// 0191CB10
-char const* const global_button_preset_names[6]
-{
-	"standard",
-	"south_paw",
-	"boxer",
-	"green_thumb",
-	"professional",
-	"walkie-talkie"
-};
-
-// 0191CB28
-char const* const global_joystick_preset_names[4]
-{
-	"standard",
-	"south_paw",
-	"legacy",
-	"legacy_south_paw"
-};
-
-// 0189DD38
-char const* const global_player_model_choice_names[2]
-{
-	"spartan",
-	"elite"
-};
-
-// 0191CB38
-char const* const global_voice_output_setting_names[2]
-{
-	"default",
-	"headset"
-};
-
-// 0191CB40
-char const* const global_voice_mask_names[2]
-{
-	"none",
-	"anonymous"
-};
-
-// 0191CB48
-char const* const global_subtitle_setting_names[3]
-{
-	"automatic",
-	"enabled",
-	"disabled"
-};
-
-// 01992AF8
-char const* const global_actor_type_names[25]
-{
-	"elite",
-	"jackal",
-	"grunt",
-	"hunter",
-	"engineer",
-	"assassin",
-	"player",
-	"marine",
-	"crew",
-	"combat_form",
-	"infection_form",
-	"carrier_form",
-	"monitor",
-	"sentinel",
-	"none",
-	"mounted_weapon",
-	"brute",
-	"prophet",
-	"bugger",
-	"juggernaut",
-	"pure_form_stealth",
-	"pure_form_tank",
-	"pure_form_ranged",
-	"scarab",
-	"guardian"
-};
-
-// 018ECC80
-char const* const global_model_state_names[5]
-{
-	"standard",
-	"minor damage",
-	"medium damage",
-	"major damage",
-	"destroyed"
-};
-
-// 018ECCEC
-char const* const global_character_physics_override_names[3]
-{
-	"NONE",
-	"player",
-	"biped"
-};
-
-// 018BAE24
-char const* const global_primary_skull_names[9]
-{
-	"skull_iron",
-	"skull_black_eye",
-	"skull_tough_luck",
-	"skull_catch",
-	"skull_fog",
-	"skull_famine",
-	"skull_thunderstorm",
-	"skull_tilt",
-	"skull_mythic"
-};
-
-// 018BAE48
-char const* const global_secondary_skull_names[7]
-{
-	"skull_assassin",
-	"skull_blind",
-	"skull_superman",
-	"skull_birthday_party",
-	"skull_daddy",
-	"skull_third_person",
-	"skull_directors_cut"
 };
 
 // 0166D808

@@ -37,62 +37,50 @@ enum e_object_type
 	k_object_type_count
 };
 
-#define BIPED_OBJECT_MASK (FLAG(_object_type_biped))
-static_assert(BIPED_OBJECT_MASK == 0b0000000000000001);
+enum e_object_mask
+{
+	_object_mask_object = NONE,
+	_object_mask_biped = FLAG(_object_type_biped),
+	_object_mask_vehicle = FLAG(_object_type_vehicle),
+	_object_mask_weapon = FLAG(_object_type_weapon),
+	_object_mask_equipment = FLAG(_object_type_equipment),
+	_object_mask_arg_device = FLAG(_object_type_arg_device),
+	_object_mask_terminal = FLAG(_object_type_terminal),
+	_object_mask_projectile = FLAG(_object_type_projectile),
+	_object_mask_scenery = FLAG(_object_type_scenery),
+	_object_mask_machine = FLAG(_object_type_machine),
+	_object_mask_control = FLAG(_object_type_control),
+	_object_mask_sound_scenery = FLAG(_object_type_sound_scenery),
+	_object_mask_crate = FLAG(_object_type_crate),
+	_object_mask_creature = FLAG(_object_type_creature),
+	_object_mask_giant = FLAG(_object_type_giant),
+	_object_mask_effect_scenery = FLAG(_object_type_effect_scenery),
 
-#define VEHICLE_OBJECT_MASK (FLAG(_object_type_vehicle))
-static_assert(VEHICLE_OBJECT_MASK == 0b0000000000000010);
+	_object_mask_item = _object_mask_weapon | _object_mask_equipment,
+	_object_mask_device = _object_mask_arg_device | _object_mask_terminal | _object_mask_machine | _object_mask_control,
+	_object_mask_unit = _object_mask_biped | _object_mask_vehicle | _object_mask_giant,
+	_object_mask_editor_placeable_objects = _object_mask_biped | _object_mask_vehicle |  _object_mask_weapon | _object_mask_equipment | _object_mask_arg_device | _object_mask_terminal | _object_mask_scenery | _object_mask_machine | _object_mask_crate | _object_mask_creature | _object_mask_giant,
+};
+static_assert(0b0000000000000001 == _object_mask_biped);
+static_assert(0b0000000000000010 == _object_mask_vehicle);
+static_assert(0b0000000000000100 == _object_mask_weapon);
+static_assert(0b0000000000001000 == _object_mask_equipment);
+static_assert(0b0000000000010000 == _object_mask_arg_device);
+static_assert(0b0000000000100000 == _object_mask_terminal);
+static_assert(0b0000000001000000 == _object_mask_projectile);
+static_assert(0b0000000010000000 == _object_mask_scenery);
+static_assert(0b0000000100000000 == _object_mask_machine);
+static_assert(0b0000001000000000 == _object_mask_control);
+static_assert(0b0000010000000000 == _object_mask_sound_scenery);
+static_assert(0b0000100000000000 == _object_mask_crate);
+static_assert(0b0001000000000000 == _object_mask_creature);
+static_assert(0b0010000000000000 == _object_mask_giant);
+static_assert(0b0100000000000000 == _object_mask_effect_scenery);
+static_assert(0b0000000000001100 == _object_mask_item);
+static_assert(0b0000001100110000 == _object_mask_device);
+static_assert(0b0010000000000011 == _object_mask_unit);
+static_assert(0b0011100110111111 == _object_mask_editor_placeable_objects);
 
-#define WEAPON_OBJECT_MASK (FLAG(_object_type_weapon))
-static_assert(WEAPON_OBJECT_MASK == 0b0000000000000100);
-
-#define EQUIPMENT_OBJECT_MASK (FLAG(_object_type_equipment))
-static_assert(EQUIPMENT_OBJECT_MASK == 0b0000000000001000);
-
-#define ARG_DEVICE_OBJECT_MASK (FLAG(_object_type_arg_device))
-static_assert(ARG_DEVICE_OBJECT_MASK == 0b0000000000010000);
-
-#define TERMINAL_OBJECT_MASK (FLAG(_object_type_terminal))
-static_assert(TERMINAL_OBJECT_MASK == 0b0000000000100000);
-
-#define PROJECTILE_OBJECT_MASK (FLAG(_object_type_projectile))
-static_assert(PROJECTILE_OBJECT_MASK == 0b0000000001000000);
-
-#define SCENERY_OBJECT_MASK (FLAG(_object_type_scenery))
-static_assert(SCENERY_OBJECT_MASK == 0b0000000010000000);
-
-#define MACHINE_OBJECT_MASK (FLAG(_object_type_machine))
-static_assert(MACHINE_OBJECT_MASK == 0b0000000100000000);
-
-#define CONTROL_OBJECT_MASK (FLAG(_object_type_control))
-static_assert(CONTROL_OBJECT_MASK == 0b0000001000000000);
-
-#define SOUND_SCENERY_OBJECT_MASK (FLAG(_object_type_sound_scenery))
-static_assert(SOUND_SCENERY_OBJECT_MASK == 0b0000010000000000);
-
-#define CRATE_OBJECT_MASK (FLAG(_object_type_crate))
-static_assert(CRATE_OBJECT_MASK == 0b0000100000000000);
-
-#define CREATURE_OBJECT_MASK (FLAG(_object_type_creature))
-static_assert(CREATURE_OBJECT_MASK == 0b0001000000000000);
-
-#define GIANT_OBJECT_MASK (FLAG(_object_type_giant))
-static_assert(GIANT_OBJECT_MASK == 0b0010000000000000);
-
-#define EFFECT_SCENERY_OBJECT_MASK (FLAG(_object_type_effect_scenery))
-static_assert(EFFECT_SCENERY_OBJECT_MASK == 0b0100000000000000);
-
-#define UNIT_OBJECTS_MASK (BIPED_OBJECT_MASK | VEHICLE_OBJECT_MASK | GIANT_OBJECT_MASK)
-static_assert(UNIT_OBJECTS_MASK == 0b0010000000000011);
-
-#define ITEM_OBJECTS_MASK (WEAPON_OBJECT_MASK | EQUIPMENT_OBJECT_MASK)
-static_assert(ITEM_OBJECTS_MASK == 0b0000000000001100);
-
-#define DEVICE_OBJECTS_MASK (ARG_DEVICE_OBJECT_MASK | TERMINAL_OBJECT_MASK | MACHINE_OBJECT_MASK | CONTROL_OBJECT_MASK)
-static_assert(DEVICE_OBJECTS_MASK == 0b0000001100110000);
-
-#define EDITOR_PLACEABLE_OBJECTS_MASK (BIPED_OBJECT_MASK | VEHICLE_OBJECT_MASK |  WEAPON_OBJECT_MASK | EQUIPMENT_OBJECT_MASK | ARG_DEVICE_OBJECT_MASK | TERMINAL_OBJECT_MASK | SCENERY_OBJECT_MASK | MACHINE_OBJECT_MASK | CRATE_OBJECT_MASK | CREATURE_OBJECT_MASK | GIANT_OBJECT_MASK)
-static_assert(EDITOR_PLACEABLE_OBJECTS_MASK == 0b0011100110111111);
 
 enum e_object_source
 {

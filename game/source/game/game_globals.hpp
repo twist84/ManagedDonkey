@@ -45,8 +45,8 @@ struct game_globals_storage
 	byte : 8;
 	long game_finished_wait_time;
 
-	c_flags<e_campaign_skulls_primary, dword, k_campaign_skulls_primary_count> active_primary_skulls;
-	c_flags<e_campaign_skulls_secondary, dword, k_campaign_skulls_secondary_count> active_secondary_skulls;
+	c_flags<e_primary_skulls, dword, k_number_of_primary_skulls> active_primary_skulls;
+	c_flags<e_secondary_skulls, dword, k_number_of_secondary_skulls> active_secondary_skulls;
 
 	byte : 8;
 
@@ -404,57 +404,57 @@ struct s_game_globals_difficulty_information
 	// health
 	// 
 	// scale values for enemy health and damage settings
-	real enemy_damage[k_campaign_difficulty_levels_count];    // enemy damage multiplier
-	real enemy_vitality[k_campaign_difficulty_levels_count];  // enemy maximum body vitality scale
-	real enemy_shield[k_campaign_difficulty_levels_count];    // enemy maximum shield vitality scale
-	real enemy_recharge[k_campaign_difficulty_levels_count];  // enemy shield recharge scale
-	real friend_damage[k_campaign_difficulty_levels_count];   // friend damage multiplier
-	real friend_vitality[k_campaign_difficulty_levels_count]; // friend maximum body vitality scale
-	real friend_shield[k_campaign_difficulty_levels_count];   // friend maximum shield vitality scale
-	real friend_recharge[k_campaign_difficulty_levels_count]; // friend shield recharge scale
-	real infection_forms[k_campaign_difficulty_levels_count]; // toughness of infection forms (may be negative)
-	byte $[sizeof(real) * k_campaign_difficulty_levels_count];
+	real enemy_damage[k_number_of_campaign_difficulty_levels];    // enemy damage multiplier
+	real enemy_vitality[k_number_of_campaign_difficulty_levels];  // enemy maximum body vitality scale
+	real enemy_shield[k_number_of_campaign_difficulty_levels];    // enemy maximum shield vitality scale
+	real enemy_recharge[k_number_of_campaign_difficulty_levels];  // enemy shield recharge scale
+	real friend_damage[k_number_of_campaign_difficulty_levels];   // friend damage multiplier
+	real friend_vitality[k_number_of_campaign_difficulty_levels]; // friend maximum body vitality scale
+	real friend_shield[k_number_of_campaign_difficulty_levels];   // friend maximum shield vitality scale
+	real friend_recharge[k_number_of_campaign_difficulty_levels]; // friend shield recharge scale
+	real infection_forms[k_number_of_campaign_difficulty_levels]; // toughness of infection forms (may be negative)
+	byte $[sizeof(real) * k_number_of_campaign_difficulty_levels];
 
 	// ranged fire
 	// 
 	// difficulty-affecting values for enemy ranged combat settings
-	real rate_of_fire[k_campaign_difficulty_levels_count];       // enemy rate of fire scale
-	real projectile_error[k_campaign_difficulty_levels_count];   // enemy projectile error scale, as a fraction of their base firing error.
-	real burst_error[k_campaign_difficulty_levels_count];        // enemy burst error scale; reduces intra-burst shot distance.
-	real new_target_delay[k_campaign_difficulty_levels_count];   // enemy new-target delay scale factor.
-	real burst_separation[k_campaign_difficulty_levels_count];   // delay time between bursts scale factor for enemies.
-	real target_tracking[k_campaign_difficulty_levels_count];    // additional target tracking fraction for enemies.
-	real target_leading[k_campaign_difficulty_levels_count];     // additional target leading fraction for enemies.
-	real overcharge_chance[k_campaign_difficulty_levels_count];  // overcharge chance scale factor for enemies.
-	real special_fire_delay[k_campaign_difficulty_levels_count]; // delay between special-fire shots (overcharge, banshee bombs) scale factor for enemies.
-	real guidance_vs_player[k_campaign_difficulty_levels_count]; // guidance velocity scale factor for all projectiles targeted on a player.
-	real melee_delay_base[k_campaign_difficulty_levels_count];   // delay period added to all melee attacks, even when berserk.
-	real melee_delay_scale[k_campaign_difficulty_levels_count];  // multiplier for all existing non-berserk melee delay times.
-	byte $$[sizeof(real) * k_campaign_difficulty_levels_count];
+	real rate_of_fire[k_number_of_campaign_difficulty_levels];       // enemy rate of fire scale
+	real projectile_error[k_number_of_campaign_difficulty_levels];   // enemy projectile error scale, as a fraction of their base firing error.
+	real burst_error[k_number_of_campaign_difficulty_levels];        // enemy burst error scale; reduces intra-burst shot distance.
+	real new_target_delay[k_number_of_campaign_difficulty_levels];   // enemy new-target delay scale factor.
+	real burst_separation[k_number_of_campaign_difficulty_levels];   // delay time between bursts scale factor for enemies.
+	real target_tracking[k_number_of_campaign_difficulty_levels];    // additional target tracking fraction for enemies.
+	real target_leading[k_number_of_campaign_difficulty_levels];     // additional target leading fraction for enemies.
+	real overcharge_chance[k_number_of_campaign_difficulty_levels];  // overcharge chance scale factor for enemies.
+	real special_fire_delay[k_number_of_campaign_difficulty_levels]; // delay between special-fire shots (overcharge, banshee bombs) scale factor for enemies.
+	real guidance_vs_player[k_number_of_campaign_difficulty_levels]; // guidance velocity scale factor for all projectiles targeted on a player.
+	real melee_delay_base[k_number_of_campaign_difficulty_levels];   // delay period added to all melee attacks, even when berserk.
+	real melee_delay_scale[k_number_of_campaign_difficulty_levels];  // multiplier for all existing non-berserk melee delay times.
+	byte $$[sizeof(real) * k_number_of_campaign_difficulty_levels];
 
 	// grenades
 	// 
 	// difficulty-affecting values for enemy grenade behavior
-	real grenade_chance_scale[k_campaign_difficulty_levels_count]; // scale factor affecting the desicions to throw a grenade.
-	real grenade_timer_scale[k_campaign_difficulty_levels_count];  // scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often).
-	byte $$$[sizeof(real) * k_campaign_difficulty_levels_count];
-	byte $$$$[sizeof(real) * k_campaign_difficulty_levels_count];
-	byte $$$$$[sizeof(real) * k_campaign_difficulty_levels_count];
+	real grenade_chance_scale[k_number_of_campaign_difficulty_levels]; // scale factor affecting the desicions to throw a grenade.
+	real grenade_timer_scale[k_number_of_campaign_difficulty_levels];  // scale factor affecting the delay period between grenades thrown from the same encounter (lower is more often).
+	byte $$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	byte $$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	byte $$$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
 
 	// placement
 	// 
 	// difficulty-affecting values for enemy placement
-	real major_upgrade_normal[k_campaign_difficulty_levels_count]; // fraction of actors upgraded to their major variant.
-	real major_upgrade_few[k_campaign_difficulty_levels_count];    // fraction of actors upgraded to their major variant when mix = normal.
-	real major_upgrade_many[k_campaign_difficulty_levels_count];   // fraction of actors upgraded to their major variant when mix = many.
+	real major_upgrade_normal[k_number_of_campaign_difficulty_levels]; // fraction of actors upgraded to their major variant.
+	real major_upgrade_few[k_number_of_campaign_difficulty_levels];    // fraction of actors upgraded to their major variant when mix = normal.
+	real major_upgrade_many[k_number_of_campaign_difficulty_levels];   // fraction of actors upgraded to their major variant when mix = many.
 
 	// vehicles
 	// 
 	// difficulty-affecting values for vehicle driving/combat
-	real player_vehicle_ram_chance[k_campaign_difficulty_levels_count]; // Chance of deciding to ram the player in a vehicle
-	byte $$$$$$[sizeof(real) * k_campaign_difficulty_levels_count];
-	byte $$$$$$$[sizeof(real) * k_campaign_difficulty_levels_count];
-	byte $$$$$$$$[sizeof(real) * k_campaign_difficulty_levels_count];
+	real player_vehicle_ram_chance[k_number_of_campaign_difficulty_levels]; // Chance of deciding to ram the player in a vehicle
+	byte $$$$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	byte $$$$$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
+	byte $$$$$$$$[sizeof(real) * k_number_of_campaign_difficulty_levels];
 
 	byte Q[0x54];
 };

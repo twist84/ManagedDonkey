@@ -18,7 +18,7 @@ e_vehicle_type __cdecl vehicle_get_type(long vehicle_index)
 
 void __cdecl vehicle_render_debug(long vehicle_index)
 {
-	byte* vehicle = static_cast<byte*>(object_get_and_verify_type(vehicle_index, VEHICLE_OBJECT_MASK));
+	byte* vehicle = static_cast<byte*>(object_get_and_verify_type(vehicle_index, _object_mask_vehicle));
 	REFERENCE_DECLARE(vehicle, long, object_definition_index);
 	REFERENCE_DECLARE(vehicle + 0x14, long, parent_object_index);
 	REFERENCE_DECLARE(vehicle + 0x5A4, c_vehicle_type_component, type_component);

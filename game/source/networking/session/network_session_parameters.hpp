@@ -68,8 +68,8 @@ struct c_network_session_parameters
 		c_generic_network_session_parameter<long> determinism_version;
 		c_generic_network_session_parameter<e_network_game_simulation_protocol> game_simulation_protocol;
 		c_generic_network_session_parameter<e_campaign_difficulty_level> campaign_difficulty;
-		c_generic_network_session_parameter<c_flags<e_campaign_skulls_primary, dword, k_campaign_skulls_primary_count>> campaign_active_skulls_primary;
-		c_generic_network_session_parameter<c_flags<e_campaign_skulls_secondary, dword, k_campaign_skulls_secondary_count>> campaign_active_skulls_secondary;
+		c_generic_network_session_parameter<c_flags<e_primary_skulls, dword, k_number_of_primary_skulls>> campaign_active_skulls_primary;
+		c_generic_network_session_parameter<c_flags<e_secondary_skulls, dword, k_number_of_secondary_skulls>> campaign_active_skulls_secondary;
 		c_generic_network_session_parameter<short> campaign_metagame_scoring;
 		c_generic_network_session_parameter<short> campaign_insertion_point;
 		c_generic_network_session_parameter<s_network_ui_state> ui_state;

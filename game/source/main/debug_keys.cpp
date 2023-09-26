@@ -956,7 +956,7 @@ void __cdecl debug_key_rotate_all_units(bool enabled)
 // #TODO: more testing required
 void __cdecl unit_debug_ninja_rope(long unit_index)
 {
-	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK));
+	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, _object_mask_unit));
 	REFERENCE_DECLARE(unit + 0x1BB, vector3d, unit_aiming_vector);
 
 	s_collision_test_flags flags = {}; // 0x1001

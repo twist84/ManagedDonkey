@@ -63,11 +63,11 @@ enum e_campaign_difficulty_level
 	_campaign_difficulty_level_heroic,
 	_campaign_difficulty_level_legendary,
 
-	k_campaign_difficulty_levels_count
+	k_number_of_campaign_difficulty_levels
 };
 
 // e_game_skulls
-enum e_campaign_skulls_primary
+enum e_primary_skulls
 {
 	_campaign_skull_iron = 0,
 	_campaign_skull_black_eye,
@@ -79,10 +79,10 @@ enum e_campaign_skulls_primary
 	_campaign_skull_tilt,
 	_campaign_skull_mythic,
 
-	k_campaign_skulls_primary_count
+	k_number_of_primary_skulls
 };
 
-enum e_campaign_skulls_secondary
+enum e_secondary_skulls
 {
 	_campaign_skull_assassin = 0,
 	_campaign_skull_blind,
@@ -92,7 +92,7 @@ enum e_campaign_skulls_secondary
 	_campaign_skull_third_person,
 	_campaign_skull_directors_cut,
 
-	k_campaign_skulls_secondary_count
+	k_number_of_secondary_skulls
 };
 
 // #TODO: find a home
@@ -141,7 +141,7 @@ enum e_player_model_choice
 	_player_model_choice_spartan,
 	_player_model_choice_elite,
 
-	k_player_model_choice_count
+	k_number_of_player_model_choices
 };
 
 enum e_controller_index
@@ -1677,7 +1677,7 @@ enum e_subtitle_setting
 	_subtitle_setting_enabled,
 	_subtitle_setting_disabled,
 
-	k_subtitle_setting_count
+	k_number_of_subtitle_settings
 };
 
 enum e_color_type
@@ -1868,6 +1868,131 @@ enum e_init_file_type
 	_init_file_type_bonobo,
 };
 
+enum e_campaign_team
+{
+	_campaign_team_default = 0,
+	_campaign_team_player,
+	_campaign_team_human,
+	_campaign_team_covenant,
+	_campaign_team_flood,
+	_campaign_team_sentinel,
+	_campaign_team_heretic,
+	_campaign_team_prophet,
+	_campaign_team_guilty,
+	_campaign_team_unused9,
+	_campaign_team_unused10,
+	_campaign_team_unused11,
+	_campaign_team_unused12,
+	_campaign_team_unused13,
+	_campaign_team_unused14,
+	_campaign_team_unused15,
+
+	k_number_of_campaign_teams
+};
+
+enum e_multiplayer_team
+{
+	_multiplayer_team_red = 0,
+	_multiplayer_team_blue,
+	_multiplayer_team_green,
+	_multiplayer_team_yellow,
+	_multiplayer_team_purple,
+	_multiplayer_team_orange,
+	_multiplayer_team_brown,
+	_multiplayer_team_grey,
+
+	k_number_of_multiplayer_teams
+};
+
+enum e_button_preset
+{
+	_button_preset_standard = 0,
+	_button_preset_south_paw,
+	_button_preset_boxer,
+	_button_preset_green_thumb,
+	_button_preset_professional,
+	_button_preset_walkie_talkie,
+
+	k_number_of_button_presets
+};
+
+enum e_joystick_preset
+{
+	_joystick_preset_standard = 0,
+	_joystick_preset_south_paw,
+	_joystick_preset_legacy,
+	_joystick_preset_legacy_south_paw,
+
+	k_number_of_joystick_presets
+};
+
+enum e_voice_output_setting
+{
+	_voice_output_setting_default = 0,
+	_voice_output_setting_headset,
+
+	k_number_of_voice_output_settings
+};
+
+enum e_voice_mask
+{
+	_voice_mask_none = 0,
+	_voice_mask_anonymous,
+
+	k_number_of_voice_masks
+};
+
+enum e_actor_type
+{
+	_actor_type_elite = 0,
+	_actor_type_jackal,
+	_actor_type_grunt,
+	_actor_type_hunter,
+	_actor_type_engineer,
+	_actor_type_assassin,
+	_actor_type_player,
+	_actor_type_marine,
+	_actor_type_crew,
+	_actor_type_combat_form,
+	_actor_type_infection_form,
+	_actor_type_carrier_form,
+	_actor_type_monitor,
+	_actor_type_sentinel,
+	_actor_type_none,
+	_actor_type_mounted_weapon,
+	_actor_type_brute,
+	_actor_type_prophet,
+	_actor_type_bugger,
+	_actor_type_juggernaut,
+	_actor_type_pure_form_stealth,
+	_actor_type_pure_form_tank,
+	_actor_type_pure_form_ranged,
+	_actor_type_scarab,
+	_actor_type_guardian,
+
+	k_number_of_actor_types
+};
+
+enum e_model_state
+{
+	_model_state_standard = 0,
+	_model_state_minor_damage,
+	_model_state_medium_damage,
+	_model_state_major_damage,
+	_model_state_destroyed,
+
+	k_number_of_model_states
+};
+
+enum e_character_physics_override
+{
+	_character_physics_override_none = 0,
+	_character_physics_override_player,
+	_character_physics_override_biped,
+
+	k_number_of_character_physics_overrides
+};
+
 //e_network_interface_user_state
 // none
 // local user exists
@@ -1903,4 +2028,20 @@ extern char const* network_session_mode_get_name(long session_mode);
 extern char const* ui_game_mode_get_name(long ui_game_mode);
 extern char const* gui_network_session_advertisement_mode_get_name(long advertisement_mode);
 extern char const* game_variant_parameter_get_name(long parameter);
+
+extern char const* const global_campaign_difficulty_level_names[k_number_of_campaign_difficulty_levels];
+extern char const* const global_campaign_team_names[k_number_of_campaign_teams];
+extern char const* const global_multiplayer_team_names[k_number_of_multiplayer_teams];
+extern char const* const global_controller_index_names[k_number_of_controllers];
+extern char const* const global_button_preset_names[k_number_of_button_presets];
+extern char const* const global_joystick_preset_names[k_number_of_joystick_presets];
+extern char const* const global_player_model_choice_names[k_number_of_player_model_choices];
+extern char const* const global_voice_output_setting_names[k_number_of_voice_output_settings];
+extern char const* const global_voice_mask_names[k_number_of_voice_masks];
+extern char const* const global_subtitle_setting_names[k_number_of_subtitle_settings];
+extern char const* const global_actor_type_names[k_number_of_actor_types];
+extern char const* const global_model_state_names[k_number_of_model_states];
+extern char const* const global_character_physics_override_names[k_number_of_character_physics_overrides];
+extern char const* const global_primary_skull_names[k_number_of_primary_skulls];
+extern char const* const global_secondary_skull_names[k_number_of_secondary_skulls];
 

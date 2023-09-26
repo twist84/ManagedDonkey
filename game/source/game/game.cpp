@@ -172,7 +172,7 @@ void __cdecl game_set_difficulty(e_campaign_difficulty_level campaign_difficulty
 	if (game_in_progress() &&
 		game_is_campaign() &&
 		campaign_difficulty >= _campaign_difficulty_level_easy &&
-		campaign_difficulty < k_campaign_difficulty_levels_count)
+		campaign_difficulty < k_number_of_campaign_difficulty_levels)
 	{
 		game_options_get()->campaign_difficulty = campaign_difficulty;
 	}
@@ -298,7 +298,7 @@ long __cdecl game_tick_rate_get()
 	return game_options_get()->game_tick_rate;
 }
 
-bool __cdecl game_skull_is_active_primary(e_campaign_skulls_primary primary_skull)
+bool __cdecl game_skull_is_active_primary(e_primary_skulls primary_skull)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
@@ -307,7 +307,7 @@ bool __cdecl game_skull_is_active_primary(e_campaign_skulls_primary primary_skul
 	return false;
 }
 
-bool __cdecl game_skull_is_active_secondary(e_campaign_skulls_secondary secondary_skull)
+bool __cdecl game_skull_is_active_secondary(e_secondary_skulls secondary_skull)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
@@ -316,14 +316,14 @@ bool __cdecl game_skull_is_active_secondary(e_campaign_skulls_secondary secondar
 	return false;
 }
 
-void __cdecl game_skull_enable_primary(e_campaign_skulls_primary primary_skull, bool enable)
+void __cdecl game_skull_enable_primary(e_primary_skulls primary_skull, bool enable)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->active_primary_skulls.set(primary_skull, enable);
 }
 
-void __cdecl game_skull_enable_secondary(e_campaign_skulls_secondary secondary_skull, bool enable)
+void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_skull, bool enable)
 {
 	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)

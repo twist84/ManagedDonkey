@@ -58,7 +58,7 @@ bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_defin
 
 void __cdecl unit_render_debug(long unit_index)
 {
-	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK));
+	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, _object_mask_unit));
 	REFERENCE_DECLARE(unit, long, object_definition_index);
 
 	_unit_definition* unit_definition = static_cast<_unit_definition*>(tag_get(UNIT_TAG, object_definition_index));
@@ -125,14 +125,14 @@ bool units_debug_can_select_unit(long unit_index)
 
 	object_header_datum const* header = object_header_get(unit_index);
 	void* object = nullptr;
-	if (header && TEST_BIT(UNIT_OBJECTS_MASK, header->object_type.get()))
+	if (header && TEST_BIT(_object_mask_unit, header->object_type.get()))
 		object = header->datum;
 
 	if (!object)
 		return false;
 
-	//void* object = object_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK);
-	//void* object = object_try_and_get_and_verify_type(unit_index, UNIT_OBJECTS_MASK);
+	//void* object = object_get_and_verify_type(unit_index, _object_mask_unit);
+	//void* object = object_try_and_get_and_verify_type(unit_index, _object_mask_unit);
 
 	//unit_datum* unit = static_cast<unit_datum*>(object);
 	byte* unit = static_cast<byte*>(object);
@@ -153,7 +153,7 @@ long __cdecl units_debug_get_closest_unit(long unit_index)
 	real closest_distance = 3.4028235e38f;
 
 	c_object_iterator<unit_datum> unit_iterator;
-	unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
+	unit_iterator.begin(_object_mask_unit, 0);
 	while (unit_iterator.next())
 	{
 		if (unit_iterator.get_index() != unit_index)
@@ -190,7 +190,7 @@ long units_debug_get_next_unit(long unit_index)
 
 	if (unit_index != NONE)
 	{
-		unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
+		unit_iterator.begin(_object_mask_unit, 0);
 		if (unit_iterator.next())
 		{
 			while (unit_iterator.get_index() != unit_index && unit_iterator.next());
@@ -212,7 +212,7 @@ long units_debug_get_next_unit(long unit_index)
 		}
 	}
 LABEL_12:
-	unit_iterator.begin(UNIT_OBJECTS_MASK, 0);
+	unit_iterator.begin(_object_mask_unit, 0);
 	if (!unit_iterator.next())
 		return next_unit_index;
 

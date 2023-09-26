@@ -48,9 +48,9 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 	REFERENCE_DECLARE(bump_object + 0x198, long, bump_object_player_index);
 	REFERENCE_DECLARE(bump_object + 0x5D8, char, bump_object_bump_ticks);
 
-	if (TEST_BIT(BIPED_OBJECT_MASK, object_get_type(bump_object_index)))
+	if (TEST_BIT(_object_mask_biped, object_get_type(bump_object_index)))
 	{
-		byte* bumped_object = (byte*)object_get_and_verify_type(bump_object_index, BIPED_OBJECT_MASK);
+		byte* bumped_object = (byte*)object_get_and_verify_type(bump_object_index, _object_mask_biped);
 
 		REFERENCE_DECLARE(bumped_object + 0x590, word_flags, bumped_object_biped_flags);
 		//REFERENCE_DECLARE(bumped_object + 0x624, c_character_physics_component, bumped_object_physics);
@@ -74,7 +74,7 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 			{
 				if (game_ticks_to_seconds(++biped_bump_ticks) > 0.1f)
 				{
-					if (TEST_BIT(UNIT_OBJECTS_MASK, bump_object_object_identifier.m_type.get()) &&
+					if (TEST_BIT(_object_mask_unit, bump_object_object_identifier.m_type.get()) &&
 						cheat.bump_possession &&
 						bump_object_player_index == NONE)
 					{
