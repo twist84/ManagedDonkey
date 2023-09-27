@@ -21,6 +21,12 @@ hs_function_definition const* hs_function_get(short function_index)
 	return hs_function_table[function_index];
 }
 
+hs_function_definition_debug const* hs_function_get_debug(short function_index)
+{
+	ASSERT(function_index >= 0 && function_index < hs_function_table_debug_count);
+	return hs_function_table_debug[function_index];
+}
+
 hs_syntax_node* __cdecl hs_syntax_get(long expression_index)
 {
 	if (DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index) > g_hs_syntax_data->maximum_count)

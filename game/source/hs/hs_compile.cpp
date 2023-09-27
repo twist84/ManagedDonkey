@@ -1,6 +1,8 @@
 #include "hs/hs_compile.hpp"
 
+#include "cseries/cseries.hpp"
 #include "hs/hs.hpp"
+#include "hs/hs_function.hpp"
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -258,6 +260,51 @@ bool hs_type_primitive_parser_enum(long expression_index)
 
 	value = i;
 	return result;
+}
+
+bool __cdecl hs_macro_function_parse(short function_index, long expression_index)
+{
+	bool valid = true;
+
+	decltype(hs_compile_globals.error_message_buffer)& error_message_buffer = hs_compile_globals.error_message_buffer;
+
+	hs_function_definition_debug const* definition = hs_function_get_debug(function_index);
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	long next_node_index = hs_syntax_get(reinterpret_cast<long>(expression->data))->next_node_index;
+
+	ASSERT(hs_type_valid(definition->return_type.get()));
+
+	short parameter_index;
+	for (parameter_index = 0;
+		valid && parameter_index < definition->parameter_count && next_node_index != NONE;
+		parameter_index++)
+	{
+		hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
+		//if (hs_parse(next_node_index, definition->parameters[parameter_index])) // #TODO
+		//{
+		//	next_node_index = next_expression->next_node_index;
+		//}
+		//else
+		{
+			if (next_expression->type == _hs_type_string_id && hs_syntax_get(next_node_index)->flags.test(_hs_syntax_node_primitive_bit))
+			{
+				csnzprintf(error_message_buffer, sizeof(error_message_buffer), "this is not a valid string for '%s'", definition->name);
+				hs_compile_globals.error_message = hs_compile_globals.error_message_buffer;
+				hs_compile_globals.error_offset = next_expression->source_offset;
+			}
+			valid = false;
+		}
+	}
+
+	if (valid && (parameter_index != definition->parameter_count || next_node_index != NONE))
+	{
+		csnzprintf(error_message_buffer, sizeof(error_message_buffer), "the \"%s\" call requires exactly %d arguments.", definition->name, definition->parameter_count);
+		hs_compile_globals.error_message = hs_compile_globals.error_message_buffer;
+		hs_compile_globals.error_offset = expression->source_offset;
+		valid = false;
+	}
+
+	return valid;
 }
 
 hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]

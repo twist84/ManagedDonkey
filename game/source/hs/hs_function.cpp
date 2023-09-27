@@ -1,7 +1,20 @@
 #include "hs/hs_function.hpp"
 
-REFERENCE_DECLARE_ARRAY(0x018ED378, hs_function_definition*, hs_function_table, hs_function_table_count);
+#define MAKE_HS_FUNCTION_TABLE_ENTRY(_return_type, _name, _flags, _parser, _evaluate, _description, _usage, _parameter_count, ...) new hs_function_definition_debug \
+{ \
+	.return_type = (_return_type), \
+	.name = #_name, \
+	.flags = (_flags), \
+	.parser = (_parser), \
+	.evaluate = (_evaluate), \
+	.description = (_description), \
+	.usage = (_usage), \
+	.parameter_count = (_parameter_count), \
+	.parameters = { __VA_ARGS__ } \
+}
+#define MAKE_HS_FUNCTION_TABLE_ENTRY2(_return_type, _name, _flags, _description, _usage, _parameter_count, ...) MAKE_HS_FUNCTION_TABLE_ENTRY(_return_type, _name, _flags, hs_##_name##_parser, hs_##_name##_evaluate, _description, _usage, _parameter_count, __VA_ARGS__)
 
+REFERENCE_DECLARE_ARRAY(0x018ED378, hs_function_definition const*, hs_function_table, hs_function_table_count);
 
 // index (comment)
 // name (string)
@@ -5154,4 +5167,14 @@ char const* const hs_function_table_names[hs_function_table_count]
 	// 1696
 	"unknown6A0",
 };
+
+hs_function_definition_debug const* const hs_function_table_debug[]
+{
+	MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin, FLAG(1), NULL, hs_function_table[0]->evaluate, "returns the last expression in a sequence after evaluating the sequence in order.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
+	//MAKE_HS_FUNCTION_TABLE_ENTRY2(_hs_passthrough, begin, FLAG(1), "returns the last expression in a sequence after evaluating the sequence in order.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed)
+};
+long const hs_function_table_debug_count = NUMBEROF(hs_function_table_debug);
+
+#undef MAKE_HS_FUNCTION_TABLE_ENTRY2
+#undef MAKE_HS_FUNCTION_TABLE_ENTRY
 

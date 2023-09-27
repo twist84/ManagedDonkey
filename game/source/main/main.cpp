@@ -212,6 +212,7 @@ void __cdecl main_loop_body_begin()
 	// right control for tests
 	if (input_key_frames_down(_key_code_right_control, _input_type_ui) == 1)
 	{
+		hs_function_table_debug;
 		hs_function_table;
 		hs_external_globals;
 		c_player_view::x_current_player_view;
