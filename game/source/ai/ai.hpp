@@ -18,7 +18,7 @@
 struct ai_globals_type
 {
 	bool enable;
-	byte __unknown1;
+	bool __unknown1; // render_enable
 	byte_flags flags;
 	byte __unknown3;
 	byte __unknown4;

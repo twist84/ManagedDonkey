@@ -1,5 +1,6 @@
 #include "render/render_debug.hpp"
 
+#include "ai/ai_debug.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/observer.hpp"
 #include "cubemaps/cubemap_debug.hpp"
@@ -337,7 +338,7 @@ void __cdecl render_debug_clients(long user_index)
 		//render_debug_bsp();
 		render_debug_input();
 		//render_debug_structure_decals();
-		//ai_debug_render();
+		ai_debug_render();
 		//ai_profile_render();
 		//aim_assist_debug_render();
 		//collision_debug_render();

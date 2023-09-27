@@ -960,6 +960,9 @@
     <ClCompile Include="source\hs\hs_compile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ai\ai_debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2634,6 +2637,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\hs\hs_compile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ai\ai_debug.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
