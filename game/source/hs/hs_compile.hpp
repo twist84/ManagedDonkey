@@ -39,6 +39,6 @@ struct
 } hs_compile_globals;
 static_assert(sizeof(hs_compile_globals) == 0x444);
 
-using hs_type_primitive_parser_t = bool(__cdecl* const)(long expression_index);
-extern hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count];
+using hs_type_primitive_parser_t = bool __cdecl(long expression_index);
+extern hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count];
 

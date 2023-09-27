@@ -69,7 +69,6 @@ short const hs_type_sizes[k_hs_type_count]
 	4, // string
 	2, // script
 	4, // string_id
-
 	4, // unit_seat_mapping
 	2, // trigger_volume
 	2, // cutscene_flag
@@ -222,7 +221,6 @@ char const* const hs_type_names[k_hs_type_count]
 	"string",
 	"script",
 	"string_id",
-
 	"unit_seat_mapping",
 	"trigger_volume",
 	"cutscene_flag",

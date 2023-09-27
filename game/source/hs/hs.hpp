@@ -25,7 +25,6 @@ enum e_hs_type
 	_hs_type_string,
 	_hs_type_script,
 	_hs_type_string_id,
-
 	_hs_type_unit_seat_mapping,
 	_hs_type_trigger_volume,
 	_hs_type_cutscene_flag,
@@ -64,7 +63,6 @@ enum e_hs_type
 	_hs_type_cinematic_definition,
 	_hs_type_cinematic_scene_definition,
 	_hs_type_bink_definition,
-
 	_hs_type_any_tag,
 	_hs_type_any_tag_not_resolving,
 

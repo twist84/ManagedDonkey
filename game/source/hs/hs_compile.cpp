@@ -3,11 +3,12 @@
 #include "cseries/cseries.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
+#include "scenario/scenario.hpp"
 
 #include <ctype.h>
 #include <stdlib.h>
 
-bool hs_type_primitive_parser_bool(long expression_index)
+bool hs_parse_boolean(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
@@ -35,7 +36,7 @@ bool hs_type_primitive_parser_bool(long expression_index)
 	return false;
 }
 
-bool hs_type_primitive_parser_real(long expression_index)
+bool hs_parse_real(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
@@ -71,7 +72,7 @@ bool hs_type_primitive_parser_real(long expression_index)
 	return result;
 }
 
-bool hs_type_primitive_parser_integer(long expression_index)
+bool hs_parse_integer(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
@@ -120,7 +121,7 @@ bool hs_type_primitive_parser_integer(long expression_index)
 	return result;
 }
 
-bool hs_type_primitive_parser_string(long expression_index)
+bool hs_parse_string(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
@@ -134,7 +135,7 @@ bool hs_type_primitive_parser_string(long expression_index)
 	return true;
 }
 
-bool hs_type_primitive_parser_script(long expression_index)
+bool hs_parse_script(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
@@ -158,7 +159,7 @@ bool hs_type_primitive_parser_script(long expression_index)
 	return false;
 }
 
-bool hs_type_primitive_parser_string_id(long expression_index)
+bool hs_parse_string_id(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
@@ -181,7 +182,55 @@ bool hs_type_primitive_parser_string_id(long expression_index)
 	return false;
 }
 
-bool hs_type_primitive_parser_ai_command_list(long expression_index)
+bool hs_parse_unit_seat_mapping(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_trigger_volume(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_cutscene_flag(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_cutscene_camera_point(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_cutscene_title(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_cutscene_recording(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_device_group(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_ai(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_ai_command_list(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 
@@ -190,7 +239,25 @@ bool hs_type_primitive_parser_ai_command_list(long expression_index)
 	return false;
 }
 
-bool hs_type_primitive_parser_ai_line(long expression_index)
+bool hs_parse_ai_command_script(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_ai_behavior(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_ai_orders(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_ai_line(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
@@ -204,7 +271,73 @@ bool hs_type_primitive_parser_ai_line(long expression_index)
 	return true;
 }
 
-bool hs_type_primitive_parser_enum(long expression_index)
+bool hs_parse_starting_profile(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_conversation(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_zone_set(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_designer_zone(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_point_ref(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_style(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_object_list(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_folder(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_sound_tag_reference(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_tag_reference(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_tag_reference_not_resolving(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_enum(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
@@ -262,7 +395,210 @@ bool hs_type_primitive_parser_enum(long expression_index)
 	return result;
 }
 
-bool __cdecl hs_macro_function_parse(short function_index, long expression_index)
+bool hs_parse_object(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_object_name(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_cinematic_lightprobe(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse_budget_reference(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
+{
+	nullptr,                              // unparsed
+	nullptr,                              // special_form
+	nullptr,                              // function_name
+	nullptr,                              // passthrough
+
+	nullptr,                              // void
+	hs_parse_boolean,                     // boolean
+	hs_parse_real,                        // real
+	hs_parse_integer,                     // short_integer
+	hs_parse_integer,                     // long_integer
+	hs_parse_string,                      // string
+	hs_parse_script,                      // script
+	hs_parse_string_id,                   // string_id
+	hs_parse_unit_seat_mapping,           // unit_seat_mapping,
+	hs_parse_trigger_volume,              // trigger_volume,
+	hs_parse_cutscene_flag,               // cutscene_flag,
+	hs_parse_cutscene_camera_point,       // cutscene_camera_point,
+	hs_parse_cutscene_title,              // cutscene_title,
+	hs_parse_cutscene_recording,          // cutscene_recording,
+	hs_parse_device_group,                // device_group,
+	hs_parse_ai,                          // ai,
+	hs_parse_ai_command_list,             // ai_command_list,
+	hs_parse_ai_command_script,           // ai_command_script,
+	hs_parse_ai_behavior,                 // ai_behavior,
+	hs_parse_ai_orders,                   // ai_orders,
+	hs_parse_ai_line,                     // ai_line,
+	hs_parse_starting_profile,            // starting_profile,
+	hs_parse_conversation,                // conversation,
+	hs_parse_zone_set,                    // zone_set,
+	hs_parse_designer_zone,               // designer_zone,
+	hs_parse_point_ref,                   // point_reference,
+	hs_parse_style,                       // style,
+	hs_parse_object_list,                 // object_list,
+	hs_parse_folder,                      // folder,
+
+	hs_parse_sound_tag_reference,         // sound,
+	hs_parse_tag_reference,               // effect,
+	hs_parse_tag_reference,               // damage,
+	hs_parse_tag_reference,               // looping_sound,
+	hs_parse_tag_reference,               // animation_graph,
+	hs_parse_tag_reference,               // damage_effect,
+	hs_parse_tag_reference,               // object_definition,
+	hs_parse_tag_reference,               // bitmap,
+	hs_parse_tag_reference,               // shader,
+	hs_parse_tag_reference,               // render_model,
+	hs_parse_tag_reference,               // structure_definition,
+	hs_parse_tag_reference,               // lightmap_definition,
+	hs_parse_tag_reference,               // cinematic_definition,
+	hs_parse_tag_reference,               // cinematic_scene_definition,
+	hs_parse_tag_reference,               // bink_definition,
+	hs_parse_tag_reference,               // any_tag,
+	hs_parse_tag_reference_not_resolving, // any_tag_not_resolving,
+
+	hs_parse_enum,                        // game_difficulty,
+	hs_parse_enum,                        // team,
+	hs_parse_enum,                        // mp_team,
+	hs_parse_enum,                        // controller,
+	hs_parse_enum,                        // button_preset,
+	hs_parse_enum,                        // joystick_preset,
+	hs_parse_enum,                        // player_character_type,
+	hs_parse_enum,                        // voice_output_setting,
+	hs_parse_enum,                        // voice_mask,
+	hs_parse_enum,                        // subtitle_setting,
+	hs_parse_enum,                        // actor_type,
+	hs_parse_enum,                        // model_state,
+	hs_parse_enum,                        // event,
+	hs_parse_enum,                        // character_physics,
+	hs_parse_enum,                        // primary_skull,
+	hs_parse_enum,                        // secondary_skull,
+
+	hs_parse_object,                      // object,
+	hs_parse_object,                      // unit,
+	hs_parse_object,                      // vehicle,
+	hs_parse_object,                      // weapon,
+	hs_parse_object,                      // device,
+	hs_parse_object,                      // scenery,
+	hs_parse_object,                      // effect_scenery,
+
+	hs_parse_object_name,                 // object_name,
+	hs_parse_object_name,                 // unit_name,
+	hs_parse_object_name,                 // vehicle_name,
+	hs_parse_object_name,                 // weapon_name,
+	hs_parse_object_name,                 // device_name,
+	hs_parse_object_name,                 // scenery_name,
+	hs_parse_object_name,                 // effect_scenery_name,
+
+	hs_parse_cinematic_lightprobe,        // cinematic_lightprobe,
+
+	hs_parse_budget_reference,            // animation_budget_reference,
+	hs_parse_budget_reference,            // looping_sound_budget_reference,
+	hs_parse_budget_reference,            // sound_budget_reference,
+};
+
+bool hs_parse_variable(long expression_index)
+{
+	// #TODO
+	return false;
+
+	//hs_syntax_node* expression = hs_syntax_get(expression_index);
+	//
+	//ASSERT(hs_type_valid(expression->type) || expression->type == _hs_unparsed);
+	//
+	//bool result = false;
+	//short type = NONE;
+	//bool v9 = true;
+	//if (hs_compile_globals.current_script_index != NONE && global_scenario_index_get() != NONE)
+	//{
+	//
+	//}
+}
+
+bool hs_parse_primitive(long expression_index)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+
+	decltype(hs_compile_globals.error_message_buffer)& error_message_buffer = hs_compile_globals.error_message_buffer;
+
+	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_special_form || expression->type == _hs_unparsed);
+
+	if (expression->type == _hs_special_form)
+	{
+		hs_compile_globals.error_message = "i expected a script or variable definition.";
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		return false;
+	}
+
+	if (expression->type == _hs_type_void)
+	{
+		hs_compile_globals.error_message = "the value of this expression (in a <void> slot) can never be used.";
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		return false;
+	}
+
+	bool error_occurred = false;
+	if (!hs_compile_globals.__unknown424 || expression->flags.test(_hs_syntax_node_variable_bit))
+		error_occurred = hs_parse_variable(expression_index);
+
+	if (error_occurred || !expression->type.get() || hs_compile_globals.error_message || (!hs_compile_globals.__unknown424 || !expression->flags.test(_hs_syntax_node_variable_bit)))
+		return false;
+
+	if (hs_type_primitive_parser_t* primitive_parser = hs_type_primitive_parsers[expression->type.get()])
+		return primitive_parser(expression_index);
+
+	csnzprintf(error_message_buffer, sizeof(error_message_buffer), "expressions of type %s are currently unsupported.", hs_type_names[expression->type.get()]);
+	hs_compile_globals.error_message = hs_compile_globals.error_message_buffer;
+	hs_compile_globals.error_offset = expression->source_offset;
+	return false;
+}
+
+bool hs_parse_nonprimitive(long expression_index)
+{
+	// #TODO
+	return false;
+}
+
+bool hs_parse(long expression_index, short expected_type)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+
+	ASSERT(!hs_compile_globals.error_message);
+	ASSERT(hs_type_valid(expected_type) || expected_type == _hs_special_form || expected_type == _hs_unparsed);
+
+	if (expression->type)
+		return true;
+
+	expression->type = expected_type;
+	if (hs_syntax_get(expression_index)->flags.test(_hs_syntax_node_primitive_bit))
+	{
+		expression->constant_type = expected_type;
+		return hs_parse_primitive(expression_index);
+	}
+
+	return hs_parse_nonprimitive(expression_index);
+}
+
+bool hs_macro_function_parse(short function_index, long expression_index)
 {
 	bool valid = true;
 
@@ -280,11 +616,11 @@ bool __cdecl hs_macro_function_parse(short function_index, long expression_index
 		parameter_index++)
 	{
 		hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
-		//if (hs_parse(next_node_index, definition->parameters[parameter_index])) // #TODO
-		//{
-		//	next_node_index = next_expression->next_node_index;
-		//}
-		//else
+		if (hs_parse(next_node_index, definition->parameters[parameter_index]))
+		{
+			next_node_index = next_expression->next_node_index;
+		}
+		else
 		{
 			if (next_expression->type == _hs_type_string_id && hs_syntax_get(next_node_index)->flags.test(_hs_syntax_node_primitive_bit))
 			{
@@ -306,97 +642,4 @@ bool __cdecl hs_macro_function_parse(short function_index, long expression_index
 
 	return valid;
 }
-
-hs_type_primitive_parser_t hs_type_primitive_parsers[k_hs_type_count]
-{
-	nullptr,                                  // unparsed
-	nullptr,                                  // special_form
-	nullptr,                                  // function_name
-	nullptr,                                  // passthrough
-	nullptr,                                  // void
-	hs_type_primitive_parser_bool,            // boolean
-	hs_type_primitive_parser_real,            // real
-	hs_type_primitive_parser_integer,         // short_integer
-	hs_type_primitive_parser_integer,         // long_integer
-	hs_type_primitive_parser_string,          // string
-	hs_type_primitive_parser_script,          // script
-	hs_type_primitive_parser_string_id,       // string_id
-	nullptr,                                  // unit_seat_mapping,
-	nullptr,                                  // trigger_volume,
-	nullptr,                                  // cutscene_flag,
-	nullptr,                                  // cutscene_camera_point,
-	nullptr,                                  // cutscene_title,
-	nullptr,                                  // cutscene_recording,
-	nullptr,                                  // device_group,
-	nullptr,                                  // ai,
-	hs_type_primitive_parser_ai_command_list, // ai_command_list,
-	nullptr,                                  // ai_command_script,
-	nullptr,                                  // ai_behavior,
-	nullptr,                                  // ai_orders,
-	hs_type_primitive_parser_ai_line,         // ai_line,
-	nullptr,                                  // starting_profile,
-	nullptr,                                  // conversation,
-	nullptr,                                  // zone_set,
-	nullptr,                                  // designer_zone,
-	nullptr,                                  // point_reference,
-	nullptr,                                  // style,
-	nullptr,                                  // object_list,
-	nullptr,                                  // folder,
-	nullptr,                                  // sound,
-	nullptr,                                  // effect,
-	nullptr,                                  // damage,
-	nullptr,                                  // looping_sound,
-	nullptr,                                  // animation_graph,
-	nullptr,                                  // damage_effect,
-	nullptr,                                  // object_definition,
-	nullptr,                                  // bitmap,
-	nullptr,                                  // shader,
-	nullptr,                                  // render_model,
-	nullptr,                                  // structure_definition,
-	nullptr,                                  // lightmap_definition,
-	nullptr,                                  // cinematic_definition,
-	nullptr,                                  // cinematic_scene_definition,
-	nullptr,                                  // bink_definition,
-
-	nullptr,                                  // any_tag,
-	nullptr,                                  // any_tag_not_resolving,
-
-	hs_type_primitive_parser_enum,            // game_difficulty,
-	hs_type_primitive_parser_enum,            // team,
-	hs_type_primitive_parser_enum,            // mp_team,
-	hs_type_primitive_parser_enum,            // controller,
-	hs_type_primitive_parser_enum,            // button_preset,
-	hs_type_primitive_parser_enum,            // joystick_preset,
-	hs_type_primitive_parser_enum,            // player_character_type,
-	hs_type_primitive_parser_enum,            // voice_output_setting,
-	hs_type_primitive_parser_enum,            // voice_mask,
-	hs_type_primitive_parser_enum,            // subtitle_setting,
-	hs_type_primitive_parser_enum,            // actor_type,
-	hs_type_primitive_parser_enum,            // model_state,
-	hs_type_primitive_parser_enum,            // event,
-	hs_type_primitive_parser_enum,            // character_physics,
-	hs_type_primitive_parser_enum,            // primary_skull,
-	hs_type_primitive_parser_enum,            // secondary_skull,
-
-	nullptr,                                  // object,
-	nullptr,                                  // unit,
-	nullptr,                                  // vehicle,
-	nullptr,                                  // weapon,
-	nullptr,                                  // device,
-	nullptr,                                  // scenery,
-	nullptr,                                  // effect_scenery,
-
-	nullptr,                                  // object_name,
-	nullptr,                                  // unit_name,
-	nullptr,                                  // vehicle_name,
-	nullptr,                                  // weapon_name,
-	nullptr,                                  // device_name,
-	nullptr,                                  // scenery_name,
-	nullptr,                                  // effect_scenery_name,
-
-	nullptr,                                  // cinematic_lightprobe,
-	nullptr,                                  // animation_budget_reference,
-	nullptr,                                  // looping_sound_budget_reference,
-	nullptr,                                  // sound_budget_reference,
-};
 
