@@ -236,7 +236,7 @@ bool hs_parse_script(long expression_index)
 	if (script_index != NONE)
 	{
 		value = script_index;
-		//sub_82D12368(script_index, 1, expression_index);
+		//hs_compile_add_reference(script_index, 1, expression_index);
 		return true;
 	}
 
@@ -332,9 +332,28 @@ bool hs_parse_ai_command_script(long expression_index)
 	return false;
 }
 
+short __cdecl behavior_index_by_name(char* name)
+{
+	return INVOKE(0x014745C0, behavior_index_by_name, name);
+}
+
 bool hs_parse_ai_behavior(long expression_index)
 {
-	// #TODO
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	short& value = *reinterpret_cast<short*>(expression->data);
+
+	short behavior_index = behavior_index_by_name(source_offset);
+	if (behavior_index != NONE)
+	{
+		value = behavior_index;
+		return true;
+	}
+
+	hs_compile_globals.error_message = "not a valid behavior";
+	hs_compile_globals.error_offset = expression->source_offset;
+
 	return false;
 }
 
