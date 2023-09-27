@@ -80,8 +80,7 @@ struct hs_syntax_node : s_datum_header
 
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> type;
 
-	//c_flags<e_hs_syntax_node_flags, word, k_hs_syntax_node_flags> flags;
-	word_flags flags;
+	c_flags<e_hs_syntax_node_flags, word, k_hs_syntax_node_flags> flags;
 
 	long next_node_index;
 	long source_offset;
