@@ -458,8 +458,13 @@ bool hs_parse_folder(long expression_index)
 
 bool hs_parse_sound_tag_reference(long expression_index)
 {
-	// #TODO
-	return false;
+	if (!hs_parse_tag_reference(expression_index))
+	{
+		*reinterpret_cast<long*>(hs_syntax_get(expression_index)->data) = NONE;
+		hs_compile_globals.error_message = 0;
+	}
+
+	return true;
 }
 
 // #TODO: find the actual name for this function
