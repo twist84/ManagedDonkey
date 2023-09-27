@@ -11,7 +11,7 @@
 bool hs_parse_boolean(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_boolean);
 	ASSERT(expression->constant_type == expression->type);
@@ -39,7 +39,7 @@ bool hs_parse_boolean(long expression_index)
 bool hs_parse_real(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_real);
 	ASSERT(expression->constant_type == expression->type);
@@ -75,7 +75,7 @@ bool hs_parse_real(long expression_index)
 bool hs_parse_integer(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_short_integer || expression->type == _hs_type_long_integer);
 	ASSERT(expression->constant_type == expression->type);
@@ -124,7 +124,7 @@ bool hs_parse_integer(long expression_index)
 bool hs_parse_string(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_string);
 	ASSERT(expression->constant_type == expression->type);
@@ -138,7 +138,7 @@ bool hs_parse_string(long expression_index)
 bool hs_parse_script(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_script);
 	ASSERT(expression->constant_type == expression->type);
@@ -162,7 +162,7 @@ bool hs_parse_script(long expression_index)
 bool hs_parse_string_id(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_string_id);
 	ASSERT(expression->constant_type == expression->type);
@@ -260,7 +260,7 @@ bool hs_parse_ai_orders(long expression_index)
 bool hs_parse_ai_line(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	ASSERT(expression->type == _hs_type_ai_line);
 	ASSERT(expression->constant_type == expression->type);
@@ -279,7 +279,6 @@ bool hs_parse_starting_profile(long expression_index)
 
 bool hs_parse_conversation(long expression_index)
 {
-	// #TODO
 	return false;
 }
 
@@ -340,7 +339,7 @@ bool hs_parse_tag_reference_not_resolving(long expression_index)
 bool hs_parse_enum(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
-	char const* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
 
 	decltype(hs_compile_globals.error_message_buffer)& error_message_buffer = hs_compile_globals.error_message_buffer;
 
