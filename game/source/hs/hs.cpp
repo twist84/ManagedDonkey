@@ -180,7 +180,7 @@ long const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count]
 	CINEMATIC_TAG,                        // cinematic_definition
 	CINEMATIC_SCENE_TAG,                  // cinematic_scene_definition
 	BINK_TAG,                             // bink_definition
-	NONE                                  // any_tag, any_tag_not_resolving
+	NONE                                  // any_tag
 };
 
 // 0166D808

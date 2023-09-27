@@ -113,7 +113,7 @@ enum e_hs_type
 
 	k_hs_type_count,
 
-	k_hs_tag_reference_type_count = _hs_type_any_tag_not_resolving - _hs_type_effect + 1,
+	k_hs_tag_reference_type_count = _hs_type_any_tag - _hs_type_sound + 1,
 	k_hs_type_enum_count = _hs_type_secondary_skull - _hs_type_game_difficulty + 1,
 	k_hs_type_object_count = _hs_type_effect_scenery - _hs_type_object + 1,
 	k_hs_type_object_name_count = _hs_type_effect_scenery_name - _hs_type_object_name + 1
