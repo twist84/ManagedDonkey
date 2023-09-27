@@ -520,8 +520,7 @@ bool hs_parse_object(long expression_index)
 
 bool hs_parse_object_name(long expression_index)
 {
-	// #TODO
-	return false;
+	return hs_parse_object_and_object_name_internal(expression_index, _hs_type_object_name);;
 }
 
 bool hs_parse_cinematic_lightprobe(long expression_index)
