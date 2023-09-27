@@ -1,17 +1,20 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "hs/hs.hpp"
 #include "hs/hs_scenario_definitions.hpp"
+
+using hs_function_parser_t = bool __cdecl(short function_index, long expression_index);
+using hs_function_evaluate_t = void __cdecl(short function_index, long thread_index, bool a3);
 
 struct hs_function_definition
 {
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
-	short parse;
-	short(__cdecl* evaluate)(long, long, bool);
-	const char* usage;
+	word_flags flags;
+	hs_function_evaluate_t* evaluate;
+	char const* usage;
 
 	short parameter_count;
-
 #pragma warning(push)
 #pragma warning(disable : 4200)
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> parameters[];
@@ -20,6 +23,6 @@ struct hs_function_definition
 static_assert(sizeof(hs_function_definition) == 0x10);
 
 long const hs_function_table_count = 1697;
-extern hs_function_definition* (&hs_function_table)[hs_function_table_count];
+extern hs_function_definition const* (&hs_function_table)[hs_function_table_count];
 extern char const* const hs_function_table_names[hs_function_table_count];
 
