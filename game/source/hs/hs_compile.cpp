@@ -273,49 +273,49 @@ bool hs_parse_string_id(long expression_index)
 
 bool hs_parse_unit_seat_mapping(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_trigger_volume(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_cutscene_flag(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_cutscene_camera_point(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_cutscene_title(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_cutscene_recording(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_device_group(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_ai(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
@@ -330,7 +330,7 @@ bool hs_parse_ai_command_list(long expression_index)
 
 bool hs_parse_ai_command_script(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
@@ -361,7 +361,7 @@ bool hs_parse_ai_behavior(long expression_index)
 
 bool hs_parse_ai_orders(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
@@ -381,7 +381,7 @@ bool hs_parse_ai_line(long expression_index)
 
 bool hs_parse_starting_profile(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
@@ -392,19 +392,19 @@ bool hs_parse_conversation(long expression_index)
 
 bool hs_parse_zone_set(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_designer_zone(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
 bool hs_parse_point_ref(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
@@ -452,7 +452,7 @@ bool hs_parse_object_list(long expression_index)
 
 bool hs_parse_folder(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
@@ -703,7 +703,7 @@ bool hs_parse_cinematic_lightprobe(long expression_index)
 
 bool hs_parse_budget_reference(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
@@ -817,7 +817,7 @@ short __cdecl hs_script_find_parameter_by_name(long script_index, char const* na
 
 bool hs_parse_variable(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 
 	//hs_syntax_node* expression = hs_syntax_get(expression_index);
@@ -947,7 +947,7 @@ bool hs_parse_primitive(long expression_index)
 
 bool hs_parse_nonprimitive(long expression_index)
 {
-	// #TODO
+	// #TODO: implement
 	return false;
 }
 
