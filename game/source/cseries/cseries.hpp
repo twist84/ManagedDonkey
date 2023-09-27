@@ -35,6 +35,19 @@
 
 #define try_bool(X) if (!X) return false
 
+#if defined(_DEBUG)
+#define DEBUG_ONLY(...) __VA_ARGS__
+#define RELEASE_ONLY(...)
+#else
+#define DEBUG_ONLY(...)
+#define RELEASE_ONLY(...) __VA_ARGS__
+#endif
+
+#ifdef DEBUG_ONLY
+#undef DEBUG_ONLY
+#define DEBUG_ONLY(...)
+#endif
+
 // 4-character tag group identifier
 typedef unsigned long tag;
 static_assert(sizeof(tag) == 0x4);
