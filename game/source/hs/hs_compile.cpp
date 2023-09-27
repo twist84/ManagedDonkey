@@ -395,8 +395,16 @@ bool hs_parse_style(long expression_index)
 
 bool hs_parse_object_list(long expression_index)
 {
-	// #TODO
-	return false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+
+	ASSERT(expression->type == _hs_type_object_list);
+
+	expression->constant_type = _hs_type_object_name;
+	expression->type = _hs_type_object_name;
+	bool result = hs_parse_object_and_object_name_internal(expression_index, expression->constant_type);
+	expression->type = _hs_type_object_list;
+
+	return result;
 }
 
 bool hs_parse_folder(long expression_index)
