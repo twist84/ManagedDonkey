@@ -8,6 +8,93 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+short scenario_object_name_index_from_string(s_scenario* scenario, char const* name)
+{
+	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count()); object_name_index++)
+	{
+		scenario_object_name& object_name = global_scenario_get()->object_names[object_name_index];
+		if (object_name.name.equals(name))
+			return object_name_index;
+	}
+
+	return NONE;
+}
+
+bool hs_parse_object_and_object_name_internal(long expression_index, short byteswap_type)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	decltype(hs_compile_globals.error_message_buffer)& error_message_buffer = hs_compile_globals.error_message_buffer;
+
+	long& long_value = *reinterpret_cast<long*>(expression->data);
+	short& short_value = *reinterpret_cast<short*>(expression->data);
+
+	if (global_scenario_index_get() == NONE)
+	{
+		hs_compile_globals.error_message = "no scenario loaded";
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		return false;
+	}
+
+	ASSERT(HS_TYPE_IS_OBJECT(byteswap_type) || HS_TYPE_IS_OBJECT_NAME(byteswap_type));
+	ASSERT(HS_TYPE_IS_OBJECT_NAME(expression->type));
+
+	short object_name_index = scenario_object_name_index_from_string(global_scenario_get(), source_offset);
+	if (object_name_index == NONE)
+	{
+		hs_compile_globals.error_message = "this is not a valid object name.";
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		return false;
+	}
+
+	scenario_object_name& object_name = global_scenario_get()->object_names[object_name_index];
+
+	if (object_name.object_type == NONE)
+	{
+		hs_compile_globals.error_message = "no object exists with this name.";
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		return false;
+	}
+	
+	if (object_name.scenario_datum_index == NONE)
+	{
+		hs_compile_globals.error_message = "this object no longer exists in the scenario.";
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		return false;
+	}
+
+	if (!TEST_BIT(hs_object_type_masks[expression->type.get() - _hs_type_object_name], object_name.object_type))
+	{
+		csnzprintf(error_message_buffer, sizeof(error_message_buffer), "this is not an object of type %s.", hs_type_names[expression->type.get()]);
+		hs_compile_globals.error_message = hs_compile_globals.error_message_buffer;
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		return false;
+	}
+
+	if (HS_TYPE_IS_OBJECT(byteswap_type))
+	{
+		long_value = object_name_index;
+		return true;
+	}
+
+	if (HS_TYPE_IS_OBJECT_NAME(byteswap_type))
+	{
+		short_value = object_name_index;
+		return true;
+	}
+
+	hs_compile_globals.error_message = "invalid byteswap type,";
+	hs_compile_globals.error_offset = expression->source_offset;
+
+	return false;
+}
+
 bool hs_parse_boolean(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
