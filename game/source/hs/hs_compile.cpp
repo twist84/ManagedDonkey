@@ -406,9 +406,31 @@ bool hs_parse_point_ref(long expression_index)
 	return false;
 }
 
+long __cdecl style_get_by_name(char const* name)
+{
+	return INVOKE(0x014B32D0, style_get_by_name, name);
+}
+
 bool hs_parse_style(long expression_index)
 {
-	// #TODO
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	long& value = *reinterpret_cast<long*>(expression->data);
+
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_style);
+	ASSERT(expression->constant_type == expression->type);
+
+	long style = style_get_by_name(source_offset);
+	if (style != NONE)
+	{
+		value = style;
+		return true;
+	}
+
+	hs_compile_globals.error_message = "invalid style";
+	hs_compile_globals.error_offset = expression->source_offset;
+
 	return false;
 }
 
@@ -649,22 +671,107 @@ hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
 	hs_parse_budget_reference,            // sound_budget_reference,
 };
 
+short __cdecl hs_script_find_parameter_by_name(long script_index, char const* name)
+{
+	hs_script& script = global_scenario_get()->scripts[script_index];
+	for (short parameter_index = 0; parameter_index < static_cast<short>(script.parameters.count()); parameter_index++)
+	{
+		hs_script_parameter& parameter = script.parameters[parameter_index];
+		if (parameter.name.equals(name))
+			return parameter_index;
+	}
+
+	return NONE;
+}
+
 bool hs_parse_variable(long expression_index)
 {
 	// #TODO
 	return false;
 
 	//hs_syntax_node* expression = hs_syntax_get(expression_index);
+	//char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+	//
+	//decltype(hs_compile_globals.error_message_buffer)& error_message_buffer = hs_compile_globals.error_message_buffer;
+	//
+	//long& value = *reinterpret_cast<long*>(expression->data);
 	//
 	//ASSERT(hs_type_valid(expression->type) || expression->type == _hs_unparsed);
 	//
-	//bool result = false;
+	//bool valid = false;
 	//short type = NONE;
-	//bool v9 = true;
+	//bool v9 = false;
 	//if (hs_compile_globals.current_script_index != NONE && global_scenario_index_get() != NONE)
 	//{
+	//	value = hs_script_find_parameter_by_name(hs_compile_globals.current_script_index, source_offset);
+	//	if (value != NONE)
+	//	{
+	//		hs_script& script = global_scenario_get()->scripts[hs_compile_globals.current_script_index];
+	//		type = script.parameters[value].return_type.get();
 	//
+	//		v9 = true;
+	//		valid = true;
+	//	}
 	//}
+	//
+	//if (!valid && (!hs_compile_globals.__unknown424
+	//	|| expression->type.get() == NONE
+	//	|| value == NONE
+	//	|| !expression->flags.test(_hs_syntax_node_unknown_bit4)))
+	//{
+	//	value = hs_find_global_by_name(source_offset);
+	//	if (value != NONE)
+	//	{
+	//		type = hs_global_get_type(value);
+	//		valid = true;
+	//	}
+	//}
+	//
+	//if (!valid)
+	//	return false;
+	//
+	//ASSERT(type != NONE);
+	//if (expression->type.get() && !hs_can_cast(type, expression->type))
+	//{
+	//	csnzprintf(error_message_buffer,
+	//		sizeof(error_message_buffer),
+	//		"i expected a value of type %s, but the variable %s has type %s",
+	//		hs_type_names[expression->type.get()],
+	//		hs_global_get_name(value),
+	//		hs_type_names[type]);
+	//
+	//	hs_compile_globals.error_message = hs_compile_globals.error_message_buffer;
+	//	hs_compile_globals.error_offset = expression->source_offset;
+	//
+	//	return false;
+	//}
+	//else
+	//{
+	//	if (!expression->type)
+	//		expression->type = type;
+	//
+	//	expression->flags.set(_hs_syntax_node_variable_bit, true);
+	//
+	//	if (v9)
+	//		expression->flags.set(_hs_syntax_node_unknown_bit4, true);
+	//	else
+	//		hs_compile_add_reference(value, 0, expression_index);
+	//
+	//	return true;
+	//}
+	//
+	//if (!hs_compile_globals.__unknown424)
+	//	return false;
+	//
+	//if (expression->type.get() == NONE || value == NONE || !expression->flags.test(_hs_syntax_node_unknown_bit4))
+	//{
+	//	hs_compile_globals.error_message = "this is not a valid variable name.";
+	//	hs_compile_globals.error_offset = expression->source_offset;
+	//
+	//	return false;
+	//}
+	//
+	//return true;
 }
 
 bool hs_parse_primitive(long expression_index)

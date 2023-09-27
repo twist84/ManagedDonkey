@@ -65,6 +65,8 @@ enum e_hs_syntax_node_flags
 	_hs_syntax_node_primitive_bit = 0,
 	_hs_syntax_node_script_bit,
 	_hs_syntax_node_variable_bit,
+	_hs_syntax_node_unknown_bit3,
+	_hs_syntax_node_unknown_bit4,
 
 	k_hs_syntax_node_flags
 };

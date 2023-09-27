@@ -39,6 +39,8 @@ hs_syntax_node* __cdecl hs_syntax_get(long expression_index)
 
 short hs_find_script_by_name(char const* name, short parameter_index)
 {
+	//return INVOKE(0x00679220, hs_find_script_by_name, name, parameter_index);
+
 	if (global_scenario_index_get() != NONE)
 	{
 		c_typed_tag_block<hs_script>& scripts = global_scenario_get()->scripts;
