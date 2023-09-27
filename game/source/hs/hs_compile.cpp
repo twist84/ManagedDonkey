@@ -1,5 +1,6 @@
 #include "hs/hs_compile.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
@@ -7,6 +8,7 @@
 
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 
 short scenario_object_name_index_from_string(s_scenario* scenario, char const* name)
 {
@@ -460,10 +462,69 @@ bool hs_parse_sound_tag_reference(long expression_index)
 	return false;
 }
 
+// #TODO: find the actual name for this function
+bool group_tag_from_group_name(char const* group_name, tag* group_tag_out)
+{
+	tag group_tag = group_name_to_group_tag(group_name);
+	if (group_tag == NONE)
+		return false;
+
+	*group_tag_out = group_tag;
+	return true;
+}
+
 bool hs_parse_tag_reference(long expression_index)
 {
-	// #TODO
-	return false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	long& value = *reinterpret_cast<long*>(expression->data);
+
+	if (global_scenario_index_get() == NONE)
+	{
+		value = NONE;
+		return true;
+	}
+
+	ASSERT(HS_TYPE_IS_TAG_REFERENCE(expression->type));
+
+	tag group_tag = hs_tag_reference_type_group_tags[expression->type.get() - _hs_type_sound];
+
+	for (hs_tag_reference& tag_reference : global_scenario_get()->references)
+	{
+		if (tag_reference.reference.index != NONE)
+		{
+			char const* tag_name = tag_get_name(tag_reference.reference.index);
+			if (csstrcmp(tag_name, source_offset) == 0 && tag_reference.reference.group_tag == group_tag)
+			{
+				value = tag_reference.reference.index;
+				break;
+			}
+		}
+	}
+
+	if (value == NONE && !hs_compile_globals.__unknown421)
+	{
+		bool v11 = false;
+		if (char* extension_offset = strrchr(source_offset, '.'))
+		{
+			char* extension = extension_offset + 1;
+			long tag_name_length = extension_offset - source_offset;
+			if (group_tag_from_group_name(extension, &group_tag))
+			{
+				c_static_string<256> tag_name;
+				tag_name.set_bounded(source_offset, tag_name_length);
+				value = tag_loaded(group_tag, tag_name.get_string());
+
+				v11 = value != NONE;
+			}
+		}
+
+		if (!v11)
+			value = tag_loaded(group_tag, source_offset);
+	}
+
+	return true;
 }
 
 bool hs_parse_tag_reference_not_resolving(long expression_index)
