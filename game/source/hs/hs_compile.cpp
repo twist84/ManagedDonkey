@@ -491,8 +491,31 @@ bool hs_parse_enum(long expression_index)
 
 bool hs_parse_object(long expression_index)
 {
-	// #TODO
-	return false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+
+	long& value = *reinterpret_cast<long*>(expression->data);
+
+	ASSERT(HS_TYPE_IS_OBJECT(expression->type));
+
+	if (csstrcmp(&hs_compile_globals.compiled_source[expression->source_offset], "none") == 0)
+	{
+		value = NONE;
+		return true;
+	}
+
+	expression->type += k_hs_script_type_count;
+	expression->constant_type = expression->type;
+	bool result = hs_parse_object_and_object_name_internal(expression_index, expression->constant_type);
+	expression->type -= k_hs_script_type_count;
+
+	if (!result && hs_parse_ai(expression_index))
+	{
+		hs_compile_globals.error_message = NULL;
+		hs_compile_globals.error_offset = NONE;
+		result = true;
+	}
+
+	return result;
 }
 
 bool hs_parse_object_name(long expression_index)
