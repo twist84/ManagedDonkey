@@ -1,6 +1,7 @@
 #include "text/font_loading.hpp"
 
 #include "main/global_preferences.hpp"
+#include "text/draw_string.hpp"
 
 #include <string.h>
 
@@ -140,12 +141,44 @@ void __cdecl font_initialize()
 void __cdecl font_initialize_emergency()
 {
 	INVOKE(0x00509420, font_initialize_emergency);
+
+	//if (!g_font_globals.initialized)
+	//{
+	//	csmemset(&g_font_globals, 0, sizeof(g_font_globals));
+	//	g_font_globals.language = _language_invalid;
+	//	font_cache_new();
+	//	font_package_cache_new();
+	//	g_font_globals.initialized = true;
+	//}
+	//
+	//c_font_cache_mt_safe font_cache{};
+	//g_font_globals.emergency_mode = true;
 }
 
 //void font_load(struct s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool load_blocking)
 void __cdecl font_load(s_font_loading_state* loading_state, long font_index, char const* filename, bool load_blocking)
 {
 	INVOKE(0x00509480, font_load, loading_state, font_index, filename, load_blocking);
+
+	//ASSERT(!loading_state->started.peek());
+	//ASSERT(!loading_state->finished.peek());
+	//ASSERT(!loading_state->failed.peek());
+	//
+	//loading_state->filename.set(filename);
+	//loading_state->font_index = font_index;
+	//
+	//char const* font_directory = g_font_globals.load_font_from_hard_drive ? k_hard_drive_font_directory : k_dvd_font_directory;
+	//file_reference_create_from_path(&loading_state->font_file, font_directory, true);
+	//file_reference_set_name(&loading_state->font_file, filename);
+	//loading_state->started = true;
+	//
+	//byte async_task[220]{};
+	//REFERENCE_DECLARE(async_task + 0, long, async_task_loading_state);
+	//
+	//loading_state->async_task = async_task_add(4 * load_blocking + 5, &async_task, 7, font_load_callback, &loading_state->finished);
+	//
+	//if (load_blocking)
+	//	font_block_until_load_completes(loading_state);
 }
 
 //enum e_async_completion font_load_callback(void*)
