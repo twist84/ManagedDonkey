@@ -534,7 +534,42 @@ bool hs_parse_tag_reference(long expression_index)
 
 bool hs_parse_tag_reference_not_resolving(long expression_index)
 {
-	// #TODO
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	long& value = *reinterpret_cast<long*>(expression->data);
+
+	if (global_scenario_index_get() == NONE)
+	{
+		value = NONE;
+		hs_compile_globals.error_message = "no scenario loaded";
+		hs_compile_globals.error_offset = expression->source_offset;
+
+		return false;
+	}
+
+	if (value == NONE && !hs_compile_globals.__unknown421)
+	{
+		tag group_tag = NONE;
+		if (char* extension_offset = strrchr(source_offset, '.'))
+		{
+			char* extension = extension_offset + 1;
+			long tag_name_length = extension_offset - source_offset;
+			if (group_tag_from_group_name(extension, &group_tag))
+			{
+				c_static_string<256> tag_name;
+				tag_name.set_bounded(source_offset, tag_name_length);
+				value = tag_loaded(group_tag, tag_name.get_string());
+			}
+		}
+	}
+
+	if (value != NONE)
+		return true;
+
+	hs_compile_globals.error_message = "not a loaded tag";
+	hs_compile_globals.error_offset = expression->source_offset;
+
 	return false;
 }
 
