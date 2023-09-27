@@ -488,6 +488,13 @@ struct s_scenario_zone_set
 };
 static_assert(sizeof(s_scenario_zone_set) == 0x24);
 
+struct s_scenario_cinematic_lighting_palette_entry
+{
+	c_string_id name;
+	c_typed_tag_reference<NEW_CINEMATIC_LIGHTING_TAG> cinematic_lighting_tag;
+};
+static_assert(sizeof(s_scenario_cinematic_lighting_palette_entry) == 0x14);
+
 struct s_scenario_lighting_zone_set
 {
 	c_string_id name;

@@ -564,9 +564,39 @@ bool hs_parse_object_name(long expression_index)
 	return hs_parse_object_and_object_name_internal(expression_index, _hs_type_object_name);;
 }
 
+long __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(s_scenario const* scenario, string_id name)
+{
+	for (long cinematic_lighting_palette_entry = 0; cinematic_lighting_palette_entry < scenario->cinematic_lighting_palette.count(); cinematic_lighting_palette_entry++)
+	{
+		if (scenario->cinematic_lighting_palette[cinematic_lighting_palette_entry].name.get_value() == name)
+			return cinematic_lighting_palette_entry;
+	}
+
+	return NONE;
+}
+
 bool hs_parse_cinematic_lightprobe(long expression_index)
 {
-	// #TODO
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	char* source_offset = &hs_compile_globals.compiled_source[expression->source_offset];
+
+	long& value = *reinterpret_cast<long*>(expression->data);
+
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cinematic_lightprobe);
+	ASSERT(expression->constant_type == expression->type);
+
+	string_id name = string_id_retrieve(source_offset);
+
+	long cinematic_lighting_palette_entry = scenario_cinematic_lighting_palette_entry_get_by_name(global_scenario_get(), name);
+	if (cinematic_lighting_palette_entry != NONE)
+	{
+		value = cinematic_lighting_palette_entry;
+		return true;
+	}
+
+	hs_compile_globals.error_message = "this is not a lightprobe name.";
+	hs_compile_globals.error_offset = expression->source_offset;
+
 	return false;
 }
 
