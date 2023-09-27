@@ -1,6 +1,7 @@
 #include "hs/hs.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "hs/hs_function.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "objects/objects.hpp"
 #include "scenario/scenario.hpp"
@@ -13,6 +14,12 @@
 //REFERENCE_DECLARE_ARRAY(0x, char const* const, hs_type_names, k_hs_type_count);
 //REFERENCE_DECLARE_ARRAY(0x, char const* const, hs_script_type_names, k_hs_script_type_count);
 REFERENCE_DECLARE(0x024B06D4, c_typed_data_array<hs_syntax_node>*, g_hs_syntax_data);
+
+hs_function_definition const* hs_function_get(short function_index)
+{
+	ASSERT(function_index >= 0 && function_index < hs_function_table_count);
+	return hs_function_table[function_index];
+}
 
 hs_syntax_node* __cdecl hs_syntax_get(long expression_index)
 {

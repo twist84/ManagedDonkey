@@ -7,6 +7,7 @@
 #define HS_TYPE_IS_OBJECT(_hs_type) ((_hs_type) >= _hs_type_object && (_hs_type) <= _hs_type_effect_scenery)
 #define HS_TYPE_IS_OBJECT_NAME(_hs_type) ((_hs_type) >= _hs_type_object_name && (_hs_type) <= _hs_type_effect_scenery_name)
 #define HS_TYPE_IS_BUDGET_REFERENCE(_hs_type) ((_hs_type) >= _hs_type_animation_budget_reference && (_hs_type) <= _hs_type_sound_budget_reference)
+#define hs_type_valid(_hs_type) ((_hs_type) >= _hs_type_void && (_hs_type) < k_hs_type_count)
 
 enum e_hs_type
 {
@@ -138,6 +139,7 @@ struct hs_enum_definition
 };
 static_assert(sizeof(hs_enum_definition) == 0x8);
 
+struct hs_function_definition;
 struct hs_syntax_node;
 
 extern short const hs_type_sizes[k_hs_type_count];
@@ -148,6 +150,7 @@ extern char const* const hs_script_type_names[k_hs_script_type_count];
 extern hs_enum_definition const hs_enum_table[k_hs_type_enum_count];
 extern c_typed_data_array<hs_syntax_node>*& g_hs_syntax_data;
 
+extern hs_function_definition const* hs_function_get(short function_index);
 extern hs_syntax_node* __cdecl hs_syntax_get(long datum_index);
 extern short hs_find_script_by_name(char const* name, short parameter_index);
 
