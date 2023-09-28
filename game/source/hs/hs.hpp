@@ -117,15 +117,16 @@ enum e_hs_type
 	k_hs_type_object_name_count = _hs_type_effect_scenery_name - _hs_type_object_name + 1
 };
 static_assert(k_hs_type_object_count == k_hs_type_object_name_count);
+#define NUMBER_OF_HS_OBJECT_TYPES k_hs_type_object_count
 
 enum e_hs_script_type
 {
-	_hs_script_startup = 0,
-	_hs_script_dormant,
-	_hs_script_continuous,
-	_hs_script_static,
-	_hs_script_command_script,
-	_hs_script_stub,
+	_hs_script_type_startup = 0,
+	_hs_script_type_dormant,
+	_hs_script_type_continuous,
+	_hs_script_type_static,
+	_hs_script_type_command_script,
+	_hs_script_type_stub,
 
 	k_hs_script_type_count
 };
@@ -153,4 +154,5 @@ extern hs_function_definition const* hs_function_get(short function_index);
 extern hs_function_definition_debug const* hs_function_get_debug(short function_index);
 extern hs_syntax_node* __cdecl hs_syntax_get(long datum_index);
 extern short hs_find_script_by_name(char const* name, short parameter_index);
+extern short hs_script_find_parameter_by_name(long script_index, char const* name);
 

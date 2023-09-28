@@ -1,10 +1,8 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
-#include "tag_files/tag_groups.hpp"
-
 #include "ai/ai_scenario_definitions.hpp"
 #include "ai/cs_scenario_definitions.hpp"
+#include "cseries/cseries.hpp"
 #include "editor/editor_scenario_definitions.hpp"
 #include "game/game_engine_spawn_influencer.hpp"
 #include "hs/hs_scenario_definitions.hpp"
@@ -15,6 +13,7 @@
 #include "scenario/scenario_resource_definitions.hpp"
 #include "scenario/scenario_trigger_volumes.hpp"
 #include "scenario/scenario_zone_debugger_definitions.hpp"
+#include "tag_files/tag_groups.hpp"
 #include "units/units.hpp"
 
 enum e_scenario_type
@@ -618,4 +617,6 @@ struct s_background_bitmap_reference_definition
 
 	void update_reference_names();
 };
+
+extern long __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(s_scenario const* scenario, string_id name);
 

@@ -1,16 +1,60 @@
 #include "hs/hs_runtime.hpp"
 
 #include "cseries/cseries.hpp"
+#include "hs/hs.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_lights.hpp"
 #include "scenario/scenario.hpp"
 
 bool debug_trigger_volumes = false;
 
+bool __cdecl hs_can_cast(short actual_type, short desired_type)
+{
+	return INVOKE(0x005942F0, hs_can_cast, actual_type, desired_type);
+
+	//ASSERT(actual_type == _hs_passthrough || hs_type_valid(actual_type));
+	//ASSERT(hs_type_valid(desired_type));
+	//
+	//if (actual_type == _hs_passthrough || actual_type == desired_type)
+	//	return true;
+	//
+	//if (HS_TYPE_IS_OBJECT(desired_type))
+	//{
+	//	if (HS_TYPE_IS_OBJECT(actual_type))
+	//		return hs_object_type_can_cast(actual_type - _hs_type_object, desired_type - _hs_type_object);
+	//
+	//	if (HS_TYPE_IS_OBJECT_NAME(desired_type))
+	//		return hs_object_type_can_cast(actual_type - _hs_type_object_name, desired_type - _hs_type_object);
+	//
+	//	return actual_type == _hs_type_ai;
+	//}
+	//
+	//if (HS_TYPE_IS_OBJECT_NAME(desired_type))
+	//	return hs_object_type_can_cast(actual_type - _hs_type_object_name, desired_type - _hs_type_object_name);
+	//
+	//if (HS_TYPE_IS_OBJECT_NAME(actual_type))
+	//	return g_typecasting_procedures[desired_type][actual_type] != NULL;
+	//
+	//return false;
+}
+
 //bool hs_evaluate(long, long, hs_destination_pointer, long*)
 bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast)
 {
 	return INVOKE(0x00594510, hs_evaluate, thread_index, expression_index, destination_pointer, out_cast);
+}
+
+bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type)
+{
+	return INVOKE(0x005973A0, hs_object_type_can_cast, actual_type, desired_type);
+
+	//ASSERT(actual_type >= 0 && actual_type < NUMBER_OF_HS_OBJECT_TYPES);
+	//ASSERT(desired_type >= 0 && desired_type < NUMBER_OF_HS_OBJECT_TYPES);
+	//
+	//short actual_type_mask = hs_object_type_masks[actual_type];
+	//short desired_type_mask = hs_object_type_masks[desired_type];
+	//
+	//return actual_type_mask == (actual_type_mask & desired_type_mask);
 }
 
 //long hs_runtime_script_begin(short, e_hs_script_type, e_hs_thread_type)

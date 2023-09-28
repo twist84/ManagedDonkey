@@ -2,13 +2,33 @@
 
 #include "hs/hs_scenario_definitions.hpp"
 
-struct
+enum e_reference_type
 {
-	struct s_unknown_struct
-	{
-		byte __data[0x14];
-	};
+	_reference_type_global = 0,
+	_reference_type_script,
 
+	k_reference_type_count
+};
+
+long const k_hs_compile_error_buffer_size = 1024;
+long const k_maximum_hs_scripts_per_scenario = 1024;
+long const k_maximum_hs_globals_per_scenario = 256;
+
+struct hs_compile_globals_reference_struct
+{
+	e_reference_type reference_type;
+
+	// script->return_type != _hs_type_void
+	bool has_return_type;
+
+	long index;
+	long expression_index;
+	hs_compile_globals_reference_struct* __unknown10; // previous/next?
+};
+static_assert(sizeof(hs_compile_globals_reference_struct) == 0x14);
+
+struct hs_compile_globals_struct
+{
 	bool initialized;
 
 	long compiled_source_size;
@@ -18,7 +38,7 @@ struct
 
 	char const* error_message;
 	long error_offset;
-	char error_message_buffer[1024];
+	char error_buffer[k_hs_compile_error_buffer_size];
 
 	bool __unknown420;
 	bool __unknown421;
@@ -31,13 +51,17 @@ struct
 	long current_script_index;
 	long current_global_index;
 
-	s_unknown_struct* __unknown434;
-	long* __unknown438; // 1024
-	long* __unknown43C; // 256
-	short __unknown434_count;
+	struct
+	{
+		hs_compile_globals_reference_struct* references;
+		hs_compile_globals_reference_struct*(*script_references)[k_maximum_hs_scripts_per_scenario];
+		hs_compile_globals_reference_struct*(*global_references)[k_maximum_hs_globals_per_scenario];
+		short reference_count; // hs_compile_globals_reference_struct* references
+	};
+};
+static_assert(sizeof(hs_compile_globals_struct) == 0x444);
 
-} hs_compile_globals;
-static_assert(sizeof(hs_compile_globals) == 0x444);
+extern hs_compile_globals_struct hs_compile_globals;
 
 using hs_type_primitive_parser_t = bool __cdecl(long expression_index);
 extern hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count];
@@ -77,4 +101,12 @@ extern bool hs_parse_object(long expression_index);
 extern bool hs_parse_object_name(long expression_index);
 extern bool hs_parse_cinematic_lightprobe(long expression_index);
 extern bool hs_parse_budget_reference(long expression_index);
+extern bool hs_parse_variable(long expression_index);
+extern bool hs_parse_primitive(long expression_index);
+extern bool hs_parse_nonprimitive(long expression_index);
+extern bool hs_parse(long expression_index, short expected_type);
+extern bool hs_macro_function_parse(short function_index, long expression_index);
+extern bool hs_compile_get_tag_by_name(char const* group_name, tag* group_tag_out);
+extern short hs_count_children(long expression_index);
+extern void hs_compile_add_reference(long referred_index, e_reference_type reference_type, long expression_index);
 

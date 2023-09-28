@@ -28,7 +28,7 @@ struct hs_function_definition_debug
 	char const* name;
 	word_flags flags;
 
-	hs_function_parser_t* parser;
+	hs_function_parser_t* parse;
 	hs_function_evaluate_t* evaluate;
 
 	char const* description;

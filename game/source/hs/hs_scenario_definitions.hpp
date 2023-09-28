@@ -37,7 +37,7 @@ static_assert(sizeof(hs_global_internal) == 0x28);
 struct hs_script
 {
 	c_static_string<32> name;
-	c_enum<e_hs_script_type, short, _hs_script_startup, k_hs_script_type_count> script_type;
+	c_enum<e_hs_script_type, short, _hs_script_type_startup, k_hs_script_type_count> script_type;
 	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> return_type;
 	long root_expression_index;
 	c_typed_tag_block<hs_script_parameter> parameters;
@@ -86,7 +86,19 @@ struct hs_syntax_node : s_datum_header
 
 	long next_node_index;
 	long source_offset;
-	byte data[4];
+
+	union
+	{
+		bool bool_value;
+		real real_value;
+		short short_value;
+		long long_value;
+		char const* string_value;
+		string_id string_id_value;
+
+		byte storage[4];
+	};
+
 	short line_number;
 	short HMM;
 };

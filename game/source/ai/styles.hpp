@@ -327,3 +327,5 @@ struct style_behavior_name
 };
 static_assert(sizeof(style_behavior_name) == sizeof(c_static_string<32>));
 
+extern long __cdecl style_get_by_name(char const* name);
+

@@ -55,6 +55,19 @@ short hs_find_script_by_name(char const* name, short parameter_index)
 	return NONE;
 }
 
+short __cdecl hs_script_find_parameter_by_name(long script_index, char const* name)
+{
+	hs_script& script = global_scenario_get()->scripts[script_index];
+	for (short parameter_index = 0; parameter_index < static_cast<short>(script.parameters.count()); parameter_index++)
+	{
+		hs_script_parameter& parameter = script.parameters[parameter_index];
+		if (parameter.name.equals(name))
+			return parameter_index;
+	}
+
+	return NONE;
+}
+
 // 0166D710
 short const hs_type_sizes[k_hs_type_count]
 {
