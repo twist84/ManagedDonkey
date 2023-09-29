@@ -717,87 +717,84 @@ hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
 
 bool hs_parse_variable(long expression_index)
 {
-	// #TODO: implement
-	return false;
-
-	//hs_syntax_node* expression = hs_syntax_get(expression_index);
-	//REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
-	//
-	//ASSERT(hs_type_valid(expression->type) || expression->type == _hs_unparsed);
-	//
-	//bool valid = false;
-	//short type = NONE;
-	//bool v9 = false;
-	//if (hs_compile_globals.current_script_index != NONE && global_scenario_index_get() != NONE)
-	//{
-	//	expression->long_value = hs_script_find_parameter_by_name(hs_compile_globals.current_script_index, source_offset);
-	//	if (expression->long_value != NONE)
-	//	{
-	//		hs_script& script = global_scenario_get()->scripts[hs_compile_globals.current_script_index];
-	//		type = script.parameters[expression->long_value].return_type.get();
-	//
-	//		v9 = true;
-	//		valid = true;
-	//	}
-	//}
-	//
-	//if (!valid && (!hs_compile_globals.__unknown424
-	//	|| expression->type.get() == NONE
-	//	|| expression->long_value == NONE
-	//	|| !expression->flags.test(_hs_syntax_node_unknown_bit4)))
-	//{
-	//	expression->long_value = hs_find_global_by_name(source_offset);
-	//	if (expression->long_value != NONE)
-	//	{
-	//		type = hs_global_get_type(expression->long_value);
-	//		valid = true;
-	//	}
-	//}
-	//
-	//if (!valid)
-	//	return false;
-	//
-	//ASSERT(type != NONE);
-	//if (expression->type.get() && !hs_can_cast(type, expression->type))
-	//{
-	//	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-	//		"i expected a value of type %s, but the variable %s has type %s",
-	//		hs_type_names[expression->type.get()],
-	//		hs_global_get_name(expression->long_value),
-	//		hs_type_names[type]);
-	//
-	//	hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-	//	hs_compile_globals.error_offset = expression->source_offset;
-	//
-	//	return false;
-	//}
-	//else
-	//{
-	//	if (!expression->type)
-	//		expression->type = type;
-	//
-	//	expression->flags.set(_hs_syntax_node_variable_bit, true);
-	//
-	//	if (v9)
-	//		expression->flags.set(_hs_syntax_node_unknown_bit4, true);
-	//	else
-	//		hs_compile_add_reference(expression->long_value, _reference_type_global, expression_index);
-	//
-	//	return true;
-	//}
-	//
-	//if (!hs_compile_globals.__unknown424)
-	//	return false;
-	//
-	//if (expression->type.get() == NONE || expression->long_value == NONE || !expression->flags.test(_hs_syntax_node_unknown_bit4))
-	//{
-	//	hs_compile_globals.error_message = "this is not a valid variable name.";
-	//	hs_compile_globals.error_offset = expression->source_offset;
-	//
-	//	return false;
-	//}
-	//
-	//return true;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+	
+	ASSERT(hs_type_valid(expression->type) || expression->type == _hs_unparsed);
+	
+	bool valid = false;
+	short type = NONE;
+	bool v9 = false;
+	if (hs_compile_globals.current_script_index != NONE && global_scenario_index_get() != NONE)
+	{
+		expression->long_value = hs_script_find_parameter_by_name(hs_compile_globals.current_script_index, source_offset);
+		if (expression->long_value != NONE)
+		{
+			hs_script& script = global_scenario_get()->scripts[hs_compile_globals.current_script_index];
+			type = script.parameters[expression->long_value].return_type.get();
+	
+			v9 = true;
+			valid = true;
+		}
+	}
+	
+	if (!valid && (!hs_compile_globals.__unknown424
+		|| expression->type.get() == NONE
+		|| expression->long_value == NONE
+		|| !expression->flags.test(_hs_syntax_node_unknown_bit4)))
+	{
+		expression->long_value = hs_find_global_by_name(source_offset);
+		if (expression->long_value != NONE)
+		{
+			type = hs_global_get_type(expression->long_value);
+			valid = true;
+		}
+	}
+	
+	if (!valid)
+		return false;
+	
+	ASSERT(type != NONE);
+	if (expression->type.get() && !hs_can_cast(type, expression->type))
+	{
+		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+			"i expected a value of type %s, but the variable %s has type %s",
+			hs_type_names[expression->type.get()],
+			hs_global_get_name(expression->long_value),
+			hs_type_names[type]);
+	
+		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+		hs_compile_globals.error_offset = expression->source_offset;
+	
+		return false;
+	}
+	else
+	{
+		if (!expression->type)
+			expression->type = type;
+	
+		expression->flags.set(_hs_syntax_node_variable_bit, true);
+	
+		if (v9)
+			expression->flags.set(_hs_syntax_node_unknown_bit4, true);
+		else
+			hs_compile_add_reference(expression->long_value, _reference_type_global, expression_index);
+	
+		return true;
+	}
+	
+	if (!hs_compile_globals.__unknown424)
+		return false;
+	
+	if (expression->type.get() == NONE || expression->long_value == NONE || !expression->flags.test(_hs_syntax_node_unknown_bit4))
+	{
+		hs_compile_globals.error_message = "this is not a valid variable name.";
+		hs_compile_globals.error_offset = expression->source_offset;
+	
+		return false;
+	}
+	
+	return true;
 }
 
 bool hs_parse_primitive(long expression_index)
