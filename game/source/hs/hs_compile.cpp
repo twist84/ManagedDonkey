@@ -727,11 +727,11 @@ bool hs_parse_variable(long expression_index)
 	bool v9 = false;
 	if (hs_compile_globals.current_script_index != NONE && global_scenario_index_get() != NONE)
 	{
-		expression->long_value = hs_script_find_parameter_by_name(hs_compile_globals.current_script_index, source_offset);
-		if (expression->long_value != NONE)
+		expression->short_value = hs_script_find_parameter_by_name(hs_compile_globals.current_script_index, source_offset);
+		if (expression->short_value != NONE)
 		{
 			hs_script& script = global_scenario_get()->scripts[hs_compile_globals.current_script_index];
-			type = script.parameters[expression->long_value].return_type.get();
+			type = script.parameters[expression->short_value].return_type.get();
 	
 			v9 = true;
 			valid = true;
@@ -740,13 +740,13 @@ bool hs_parse_variable(long expression_index)
 	
 	if (!valid && (!hs_compile_globals.__unknown424
 		|| expression->type.get() == NONE
-		|| expression->long_value == NONE
+		|| expression->short_value == NONE
 		|| !expression->flags.test(_hs_syntax_node_unknown_bit4)))
 	{
-		expression->long_value = hs_find_global_by_name(source_offset);
-		if (expression->long_value != NONE)
+		expression->short_value = hs_find_global_by_name(source_offset);
+		if (expression->short_value != NONE)
 		{
-			type = hs_global_get_type(expression->long_value);
+			type = hs_global_get_type(expression->short_value);
 			valid = true;
 		}
 	}
@@ -760,7 +760,7 @@ bool hs_parse_variable(long expression_index)
 		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 			"i expected a value of type %s, but the variable %s has type %s",
 			hs_type_names[expression->type.get()],
-			hs_global_get_name(expression->long_value),
+			hs_global_get_name(expression->short_value),
 			hs_type_names[type]);
 	
 		hs_compile_globals.error_message = hs_compile_globals.error_buffer;

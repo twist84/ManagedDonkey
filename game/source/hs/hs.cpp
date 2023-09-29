@@ -2,11 +2,11 @@
 
 #include "cseries/cseries_events.hpp"
 #include "hs/hs_function.hpp"
+#include "hs/hs_globals_external.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "objects/objects.hpp"
 #include "scenario/scenario.hpp"
 #include "shell/shell.hpp"
-#include "hs_globals_external.hpp"
 
 //REFERENCE_DECLARE_ARRAY(, short const, hs_type_sizes, k_hs_type_count);
 //REFERENCE_DECLARE_ARRAY(0x, short const, hs_object_type_masks, k_hs_type_object_count);
