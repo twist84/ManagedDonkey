@@ -109,4 +109,5 @@ extern bool hs_macro_function_parse(short function_index, long expression_index)
 extern bool hs_compile_get_tag_by_name(char const* group_name, tag* group_tag_out);
 extern short hs_count_children(long expression_index);
 extern void hs_compile_add_reference(long referred_index, e_reference_type reference_type, long expression_index);
+extern void hs_parse_call_predicate(long expression_index, bool* a2, bool* a3);
 

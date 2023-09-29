@@ -210,7 +210,7 @@ bool hs_parse_script(long expression_index)
 	if (script_index != NONE)
 	{
 		expression->short_value = script_index;
-		//hs_compile_add_reference(script_index, 1, expression_index);
+		hs_compile_add_reference(script_index, _reference_type_script, expression_index);
 		return true;
 	}
 
@@ -856,7 +856,7 @@ bool hs_parse_nonprimitive(long expression_index)
 
 		bool is_function = false;
 		bool is_script = false;
-		//hs_parse_call_predicate(expression_index, &is_function, is_script);
+		hs_parse_call_predicate(expression_index, &is_function, &is_script);
 
 		if (expression->constant_type == NONE)
 		{
@@ -1119,6 +1119,52 @@ void hs_compile_add_reference(long referred_index, e_reference_type reference_ty
 		default:
 			ASSERT2(unreachable);
 		}
+	}
+}
+
+void hs_parse_call_predicate(long expression_index, bool* is_function, bool* is_script)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	long predicate_index = expression->long_value;
+	hs_syntax_node* predicate = hs_syntax_get(predicate_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + predicate->source_offset, char*, source_offset);
+
+	if (predicate->type.get() == _hs_function_name)
+	{
+		ASSERT(predicate->function_index != NONE);
+		expression->constant_type = predicate->constant_type;
+	}
+	else
+	{
+		short parameter_count = hs_count_children(expression_index) - 1;
+		expression->constant_type = hs_find_function_by_name(source_offset, parameter_count);
+		predicate->type = _hs_function_name;
+
+		if (expression->constant_type.get() == NONE)
+		{
+			expression->constant_type = hs_find_script_by_name(source_offset, parameter_count);
+			if (expression->constant_type == NONE)
+			{
+				if (is_function)
+					*is_function = hs_find_function_by_name(source_offset, parameter_count) != NONE;
+
+				if (is_script)
+					*is_script = hs_find_script_by_name(source_offset, parameter_count) != NONE;
+			}
+			else
+			{
+				expression->flags.set(_hs_syntax_node_script_bit, true);
+
+				if (is_script)
+					*is_script = true;
+			}
+		}
+		else if (is_function)
+		{
+			*is_function = true;
+		}
+
+		predicate->constant_type = expression->constant_type;
 	}
 }
 

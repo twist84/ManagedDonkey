@@ -6,6 +6,7 @@
 #include "objects/objects.hpp"
 #include "scenario/scenario.hpp"
 #include "shell/shell.hpp"
+#include "hs_globals_external.hpp"
 
 //REFERENCE_DECLARE_ARRAY(, short const, hs_type_sizes, k_hs_type_count);
 //REFERENCE_DECLARE_ARRAY(0x, short const, hs_object_type_masks, k_hs_type_object_count);
@@ -37,9 +38,9 @@ hs_syntax_node* __cdecl hs_syntax_get(long expression_index)
 	//return INVOKE(0x00598A10, hs_syntax_get, expression_index);
 }
 
-short hs_find_script_by_name(char const* name, short parameter_index)
+short hs_find_script_by_name(char const* name, short parameter_count)
 {
-	//return INVOKE(0x00679220, hs_find_script_by_name, name, parameter_index);
+	//return INVOKE(0x00679220, hs_find_script_by_name, name, parameter_count);
 
 	if (global_scenario_index_get() != NONE)
 	{
@@ -47,8 +48,37 @@ short hs_find_script_by_name(char const* name, short parameter_index)
 		for (long script_index = 0; script_index < scripts.count(); script_index++)
 		{
 			hs_script& script = scripts[script_index];
-			if (script.name.equals(name) && parameter_index == NONE || parameter_index == script.parameters.count())
+			if (script.name.equals(name) && parameter_count == NONE || parameter_count == script.parameters.count())
 				return static_cast<short>(script_index);
+		}
+	}
+
+	return NONE;
+}
+
+short hs_find_function_by_name(char const* name, short parameter_count)
+{
+	for (short function_index = 0; function_index < hs_function_table_count; function_index++)
+	{
+		hs_function_definition const* const function = hs_function_table[function_index];
+		if (csstrcmp(hs_function_table_names[function_index], name) == 0
+			&& (TEST_BIT(function->flags, 9)
+				|| parameter_count == NONE
+				|| function->parameter_count == parameter_count))
+		{
+			return function_index;
+		}
+	}
+
+	for (short function_index = 0; function_index < hs_function_table_debug_count; function_index++)
+	{
+		hs_function_definition_debug const* const function = hs_function_table_debug[function_index];
+		if (csstrcmp(function->name, name) == 0
+			&& (TEST_BIT(function->flags, 9)
+				|| parameter_count == NONE
+				|| function->parameter_count == parameter_count))
+		{
+			return function_index;
 		}
 	}
 
@@ -66,6 +96,77 @@ short __cdecl hs_script_find_parameter_by_name(long script_index, char const* na
 	}
 
 	return NONE;
+}
+
+hs_global_external* hs_global_external_get(short global_index)
+{
+	ASSERT(global_index >= 0 && global_index < k_hs_external_global_count);
+
+	return hs_external_globals[global_index];
+}
+
+hs_global_external_debug* hs_global_external_get_debug(short global_index)
+{
+	ASSERT(global_index >= 0 && global_index < k_hs_external_global_debug_count);
+
+	return hs_external_globals_debug[global_index];
+}
+
+short hs_find_global_by_name(char const* name)
+{
+	for (short global_index = 0; global_index < k_hs_external_global_count; global_index++)
+	{
+		if (csstrcmp(name, hs_external_globals_names[global_index]) == 0)
+			return global_index & 0x7FFF | 0x8000;
+	}
+
+	for (short global_index = 0; global_index < k_hs_external_global_debug_count; global_index++)
+	{
+		hs_global_external_debug* global_external = hs_global_external_get_debug(global_index);
+		if (csstrcmp(name, global_external->name) == 0)
+			return global_index & 0x7FFF | 0x8000;
+	}
+
+	if (global_scenario_index_get() != NONE)
+	{
+		c_typed_tag_block<hs_global_internal>& globals = global_scenario_get()->globals;
+		for (short global_index = 0; global_index < static_cast<short>(globals.count()); global_index++)
+		{
+			hs_global_internal& global_internal = globals[global_index];
+			if (global_internal.name.equals(name))
+				return global_index & 0x7FFF;
+		}
+	}
+
+	return NONE;
+}
+
+char const* hs_global_get_name(short global_index)
+{
+	if ((global_index & 0x8000) != 0)
+	{
+		if (VALID_INDEX(global_index, k_hs_external_global_count))
+			return hs_external_globals_names[global_index];
+
+		if (VALID_INDEX(global_index, k_hs_external_global_debug_count))
+			return hs_global_external_get_debug(global_index & 0x7FFF)->name;
+	}
+
+	return global_scenario_get()->globals[global_index].name.get_string();
+}
+
+short hs_global_get_type(short global_index)
+{
+	if ((global_index & 0x8000) != 0)
+	{
+		if (VALID_INDEX(global_index, k_hs_external_global_count))
+			return hs_global_external_get(global_index & 0x7FFF)->type;
+
+		if (VALID_INDEX(global_index, k_hs_external_global_debug_count))
+			return hs_global_external_get_debug(global_index & 0x7FFF)->type;
+	}
+
+	return global_scenario_get()->globals[global_index].type;
 }
 
 // 0166D710

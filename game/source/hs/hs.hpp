@@ -138,9 +138,11 @@ struct hs_enum_definition
 };
 static_assert(sizeof(hs_enum_definition) == 0x8);
 
+struct hs_syntax_node;
 struct hs_function_definition;
 struct hs_function_definition_debug;
-struct hs_syntax_node;
+struct hs_global_external;
+struct hs_global_external_debug;
 
 extern short const hs_type_sizes[k_hs_type_count];
 extern short const hs_object_type_masks[k_hs_type_object_count];
@@ -153,6 +155,12 @@ extern c_typed_data_array<hs_syntax_node>*& g_hs_syntax_data;
 extern hs_function_definition const* hs_function_get(short function_index);
 extern hs_function_definition_debug const* hs_function_get_debug(short function_index);
 extern hs_syntax_node* __cdecl hs_syntax_get(long datum_index);
-extern short hs_find_script_by_name(char const* name, short parameter_index);
+extern short hs_find_script_by_name(char const* name, short parameter_count);
+extern short hs_find_function_by_name(char const* name, short parameter_count);
 extern short hs_script_find_parameter_by_name(long script_index, char const* name);
+extern hs_global_external* hs_global_external_get(short global_index);
+extern hs_global_external_debug* hs_global_external_get_debug(short global_index);
+extern short hs_find_global_by_name(char const* name);
+extern char const* hs_global_get_name(short global_index);
+extern short hs_global_get_type(short global_index);
 
