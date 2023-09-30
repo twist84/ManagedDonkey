@@ -16,6 +16,8 @@ struct terminal_output_datum : s_datum_header
 };
 static_assert(sizeof(terminal_output_datum) == 0x120);
 
+long const k_terminal_gets_state_input_text_size = 256;
+
 //#pragma pack(push, 4)
 struct terminal_gets_state
 {
@@ -24,7 +26,7 @@ struct terminal_gets_state
 	c_static_array<s_key_state, 32> keys;
 	real_argb_color prompt_color;
 	c_static_string<32> prompt_text;
-	char input_text[256];
+	char input_text[k_terminal_gets_state_input_text_size];
 	long scroll_amount;
 	edit_text edit;
 	c_static_string<255> previous_inputs[16];

@@ -9,11 +9,11 @@ struct hs_stack_frame
 	long return_value;
 	long tracking_index;
 
-	// 0: _hs_thread_type_script
-	// 1: [global initialize]
-	// 2: [console command]
-	// 3: script?
-	// 4: script?
+	// 0: script
+	// 1: global-initialize
+	// 2: runtime-evaluate
+	// 3: command-script
+	// 4: performance-script
 	char type;
 
 	byte_flags __flagsD;

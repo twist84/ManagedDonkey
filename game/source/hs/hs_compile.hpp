@@ -33,8 +33,13 @@ struct hs_compile_globals_struct
 
 	long compiled_source_size;
 	char* compiled_source;
-
-	char __padC[0xC];
+	
+	struct // contant in this case refers to script string tag data
+	{
+		char* script_string_contant_memory;
+		long script_string_memory_size;
+		long script_string_contant_memory_size;
+	};
 
 	char const* error_message;
 	long error_offset;
