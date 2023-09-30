@@ -143,6 +143,7 @@ struct hs_function_definition;
 struct hs_function_definition_debug;
 struct hs_global_external;
 struct hs_global_external_debug;
+struct s_tag_block;
 
 extern short const hs_type_sizes[k_hs_type_count];
 extern short const hs_object_type_masks[k_hs_type_object_count];
@@ -163,4 +164,33 @@ extern hs_global_external_debug* hs_global_external_get_debug(short global_index
 extern short hs_find_global_by_name(char const* name);
 extern char const* hs_global_get_name(short global_index);
 extern short hs_global_get_type(short global_index);
+
+extern void hs_tokens_enumerate_add_string(char const* string);
+extern void hs_enumerate_from_string_list(char const** string_list, short starting_index, short count);
+extern void hs_enumerate_block_data(s_tag_block const* block, short offset, long size);
+extern void hs_enumerate_scenario_data(short scenario_offset, short block_offset, long block_size);
+extern void hs_enumerate_block_data_string_id(s_tag_block const* block, short offset, long size);
+extern void hs_enumerate_scenario_data_string_id(short scenario_offset, short block_offset, long block_size);
+extern short hs_tokens_enumerate(char const* token, long type_mask, char const** matching_items, short matching_item_count);
+
+extern bool __cdecl sort_by_found_index(long look_inside1, long look_inside2, void const* look_for);
+extern void __cdecl hs_enumerate_special_form_names(void);
+extern void __cdecl hs_enumerate_script_type_names(void);
+extern void __cdecl hs_enumerate_type_names(void);
+extern void __cdecl hs_enumerate_function_names(void);
+extern void __cdecl hs_enumerate_script_names(void);
+extern void __cdecl hs_enumerate_variable_names(void);
+extern void __cdecl hs_enumerate_ai_names(void);
+extern void __cdecl hs_enumerate_ai_command_list_names(void);
+extern void __cdecl hs_enumerate_ai_command_script_names(void);
+extern void __cdecl hs_enumerate_ai_behavior_names(void);
+extern void __cdecl hs_enumerate_starting_profile_names(void);
+extern void __cdecl hs_enumerate_conversation_names(void);
+extern void __cdecl hs_enumerate_object_names(void);
+extern void __cdecl hs_enumerate_trigger_volume_names(void);
+extern void __cdecl hs_enumerate_cutscene_flag_names(void);
+extern void __cdecl hs_enumerate_cutscene_camera_point_names(void);
+extern void __cdecl hs_enumerate_cutscene_title_names(void);
+extern void __cdecl hs_enumerate_cutscene_recording_names(void);
+extern void __cdecl hs_enumerate_enum_skull_names(void);
 
