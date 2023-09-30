@@ -1,5 +1,6 @@
 #include "main/console.hpp"
 
+#include "ai/behavior.hpp"
 #include "camera/camera_globals.hpp"
 #include "cubemaps/cubemap_debug.hpp"
 #include "game/cheats.hpp"
