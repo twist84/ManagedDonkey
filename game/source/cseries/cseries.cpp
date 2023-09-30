@@ -219,9 +219,9 @@ char* csstrnlwr(char* s, dword size)
 	return s;
 }
 
-char const* csstrstr(char const* s1, char const* s2)
+char const* csstrstr(char const* look_inside, char const* look_for)
 {
-	return strstr(s1, s2);
+	return strstr(look_inside, look_for);
 }
 
 //char* csstrtok(char*, char const*, bool, struct csstrtok_data* data)
@@ -278,9 +278,14 @@ void string_terminate_at_first_delimiter(char* s, char const* delimiter)
 	s[strcspn(s, delimiter)] = 0;
 }
 
-bool ascii_isupper(char char_)
+long ascii_tolower(long C)
 {
-	return char_ >= 'A' && char_ <= 'Z';
+	return ascii_isupper((char)C) ? C + 32 : C;
+}
+
+bool ascii_isupper(char C)
+{
+	return C >= 'A' && C <= 'Z';
 }
 
 void ascii_strnlwr(char* string, long count)
@@ -293,6 +298,21 @@ void ascii_strnlwr(char* string, long count)
 		if (ascii_isupper(string[i]))
 			string[i] += ' ';
 	}
+}
+
+int __fastcall ascii_stristr(char const* look_inside, char const* look_for)
+{
+	return INVOKE(0x00401160, ascii_stristr, look_inside, look_for);
+}
+
+long __cdecl ascii_strnicmp(char const* s1, char const* s2, unsigned int size)
+{
+	return INVOKE(0x004011E0, ascii_strnicmp, s1, s2, size);
+}
+
+long __cdecl ascii_stricmp(char const* s1, char const* s2)
+{
+	return INVOKE(0x00401270, ascii_stricmp, s1, s2) > 0;
 }
 
 char* tag_to_string(tag _tag, char* buffer)

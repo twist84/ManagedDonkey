@@ -222,7 +222,7 @@ extern char* csstrnzcat(char* s1, char const* s2, dword size);
 extern dword csstrnlen(char const* s, dword size);
 extern char* csstrnupr(char* s, dword size);
 extern char* csstrnlwr(char* s, dword size);
-extern char const* csstrstr(char const* s1, char const* s2);
+extern char const* csstrstr(char const* look_for, char const* look_inside);
 //extern char* csstrtok(char*, char const*, bool, struct csstrtok_data* data);
 extern long cvsnzprintf(char* buffer, dword size, char const* format, va_list list);
 extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
@@ -230,8 +230,12 @@ extern char* csnzappendf(char* buffer, dword size, char const* format, ...);
 extern bool string_is_not_empty(char const* s);
 extern void string_terminate_at_first_delimiter(char* s, char const* delimiter);
 
-extern bool ascii_isupper(char char_);
+extern long ascii_tolower(long C);
+extern bool ascii_isupper(char C);
 extern void ascii_strnlwr(char* string, long count);
+extern int __fastcall ascii_stristr(char const* look_inside, char const* look_for);
+extern long __cdecl ascii_strnicmp(char const* s1, char const* s2, unsigned int size);
+extern long __cdecl ascii_stricmp(char const* s1, char const* s2);
 
 template<typename t_type, long k_count>
 typename std::enable_if<!std::is_floating_point<t_type>::value, bool>::type
@@ -1021,7 +1025,7 @@ public:
 	{
 		ASSERT(_string);
 
-		long result = -1;
+		long result = NONE;
 
 		if (index < length())
 		{
@@ -1058,6 +1062,14 @@ public:
 		s.set_bounded(get_offset(index), _length);
 
 		return true;
+	}
+
+	char* copy_to(char* s, unsigned int size)const
+	{
+		if (size > k_maximum_count)
+			size = k_maximum_count;
+
+		return csstrnzcpy(s, m_string, size);
 	}
 
 protected:
