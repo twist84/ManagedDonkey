@@ -1,6 +1,5 @@
 #include "main/console.hpp"
 
-#include "ai/behavior.hpp"
 #include "camera/camera_globals.hpp"
 #include "cubemaps/cubemap_debug.hpp"
 #include "game/cheats.hpp"
@@ -34,6 +33,7 @@
 #include "units/bipeds.hpp"
 #include "xbox/xbox.hpp"
 
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -110,8 +110,8 @@ void __cdecl console_initialize()
 		console_globals.input_state.prompt_text.set("donkey( ");
 		console_globals.input_state.input_text[0] = '\0';
 		console_globals.input_state.__unknown11F4 = 0;
-		console_globals.input_state.previous_inputs_count = -1;
-		console_globals.input_state.__unknown11F8 = -1;
+		console_globals.input_state.previous_inputs_count = NONE;
+		console_globals.input_state.__unknown11F8 = NONE;
 
 		debug_keys_initialize();
 
@@ -177,11 +177,11 @@ void __cdecl console_clear()
 	terminal_clear();
 }
 
-char const* __cdecl console_get_token()
+char* __cdecl console_get_token()
 {
-	char const* input_text = strrchr(console_globals.input_state.input_text, ' ') + 1;
-	char const* v1 = strrchr(console_globals.input_state.input_text, '(') + 1;
-	char const* result = strrchr(console_globals.input_state.input_text, '"') + 1;
+	char* input_text = strrchr(console_globals.input_state.input_text, ' ') + 1;
+	char* v1 = strrchr(console_globals.input_state.input_text, '(') + 1;
+	char* result = strrchr(console_globals.input_state.input_text, '"') + 1;
 
 	if (console_globals.input_state.input_text > input_text)
 		input_text = console_globals.input_state.input_text;
@@ -205,9 +205,95 @@ void __cdecl console_complete()
 	{
 		console_token_buffer.set(console_get_token());
 		console_token_buffer.set_length(console_globals.input_state.edit.cursor_selection_index);
-		suggestion_current_index = -1;
+		suggestion_current_index = NONE;
 
 		something = true;
+	}
+
+	char* token = console_get_token();
+
+	char const* matching_items[256]{};
+	short matching_item_count = hs_tokens_enumerate(console_token_buffer.get_string(), NONE, matching_items, NUMBEROF(matching_items));
+	if (matching_item_count)
+	{
+		ASSERT(matching_items[0]);
+
+		short last_similar_character_index = INT16_MAX;
+		bool matching_item_count_valid = matching_item_count > 16;
+
+		c_static_string<1024> matching_item_row;
+		matching_item_row.set("");
+
+		if (something)
+		{
+			console_printf("");
+
+			short matching_item_index = 0;
+			char const** matching_item = matching_items;
+			for (matching_item_index = 0; matching_item_index < matching_item_count; matching_item_index++, matching_item++)
+			{
+				short matching_item_length_minus_one = short(strlen(*matching_item)) - 1;
+				if (last_similar_character_index > matching_item_length_minus_one)
+					last_similar_character_index = matching_item_length_minus_one;
+
+				short similar_character_index;
+				for (similar_character_index = 0; ; similar_character_index++)
+				{
+					if (tolower(matching_items[0][similar_character_index]) != tolower(matching_items[matching_item_index][similar_character_index])
+						|| similar_character_index > last_similar_character_index)
+					{
+						break;
+					}
+				}
+
+				if (similar_character_index)
+				{
+					if (similar_character_index >= short(console_token_buffer.length()))
+						last_similar_character_index = similar_character_index - 1;
+				}
+
+				if (matching_item_count_valid)
+				{
+					matching_item_row.append_print("%s|t", *matching_item);
+					if (matching_item_index % 6 == 5)
+					{
+						console_printf("%s", matching_item_row.get_string());
+						matching_item_row.clear();
+					}
+				}
+				else
+				{
+					console_printf("%s", *matching_item);
+				}
+			}
+
+			if (matching_item_count_valid && (matching_item_index - 1) % 6 != 5)
+				console_printf("%s", matching_item_row.get_string());
+
+			ASSERT(short(strlen(matching_items[0])) >= (last_similar_character_index + 1));
+
+			csmemcpy(token, matching_items[0], last_similar_character_index + 1);
+			token[last_similar_character_index + 1] = 0;
+
+			console_globals.input_state.edit.cursor_selection_index = last_similar_character_index + short(token - console_globals.input_state.input_text + 1);
+
+			suggestion_current_index = short(strlen(matching_items[0])) == last_similar_character_index + 1;
+		}
+		else if (suggestion_current_index == matching_item_count)
+		{
+			suggestion_current_index = 0;
+			console_token_buffer.copy_to(token, k_terminal_gets_state_input_text_size);
+			console_globals.input_state.edit.cursor_selection_index = word(console_token_buffer.length() + 1);
+		}
+		else
+		{
+			csmemcpy(token, matching_items[suggestion_current_index], strlen(matching_items[suggestion_current_index]));
+
+			short suggestion_length = short(strlen(matching_items[suggestion_current_index++]));
+			token[suggestion_length] = 0;
+
+			console_globals.input_state.edit.cursor_selection_index = short(token - console_globals.input_state.input_text) + suggestion_length;
+		}
 	}
 }
 
@@ -244,11 +330,18 @@ void __cdecl console_update(real shell_seconds_elapsed)
 				game_time_set_paused(false, _game_time_pause_reason_debug);
 				break;
 			}
+			else if (key->key_type == _key_type_up && key->key_code == _key_code_tab)
+			{
+				console_complete();
+			}
 			else if (key->modifier.test(_key_modifier_flag_control_key_bit) && key->key_type == _key_type_up && key->key_code == _key_code_v)
 			{
 				char buffer[256]{};
 				get_clipboard_as_text(buffer, NUMBEROF(buffer));
 				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), buffer);
+
+				suggestion_current_index = 0;
+				console_token_buffer.clear();
 				break;
 			}
 			else if (key->key_type == _key_type_up && (key->key_code == _key_code_enter || key->key_code == _key_code_keypad_enter))
@@ -281,21 +374,26 @@ void __cdecl console_update(real shell_seconds_elapsed)
 					console_globals.input_state.__unknown11F8 = console_globals.input_state.__unknown11F4 - 1;
 				}
 
-				if (v4 != -1)
+				if (v4 != NONE)
 				{
 					decltype(console_globals.input_state.input_text)& input_text = console_globals.input_state.input_text;
 					decltype(console_globals.input_state.previous_inputs)& previous_inputs = console_globals.input_state.previous_inputs;
 					decltype(console_globals.input_state.previous_inputs_count)& previous_inputs_count = console_globals.input_state.previous_inputs_count;
 
-					csstrnzcpy(input_text, previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)].get_string(), NUMBEROF(input_text));
+					previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)].copy_to(input_text, NUMBEROF(input_text));
 					edit_text_selection_reset(&console_globals.input_state.edit);
 				}
 				break;
 			}
-			else if (key->vk_code != 0xFFFF && key->key_type == _key_type_char)
+			else if (key->vk_code != NONE && key->key_type == _key_type_char)
 			{
 				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), key->character);
 				break;
+			}
+			else
+			{
+				suggestion_current_index = 0;
+				console_token_buffer.clear();
 			}
 		}
 	}
@@ -375,7 +473,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 		v5 = console_globals.input_state.__unknown11F4 + 1;
 	console_globals.input_state.__unknown11F4 = v5;
 
-	console_globals.input_state.__unknown11F8 = -1;
+	console_globals.input_state.__unknown11F8 = NONE;
 
 	bool result = false;//hs_compile_and_evaluate(_event_level_message, "console_command", command, a2);
 
@@ -398,7 +496,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 				c_console::write(callback_result.get_string());
 
 				long succeeded = callback_result.index_of(": succeeded");
-				result = succeeded != -1 || tokens[0]->equals("help");
+				result = succeeded != NONE || tokens[0]->equals("help");
 
 				if (result)
 					console_printf("command '%s' succeeded", command_name);
