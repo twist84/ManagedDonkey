@@ -171,6 +171,7 @@ POPD
     <ClCompile Include="source\ai\ai_globals.cpp" />
     <ClCompile Include="source\ai\behavior.cpp" />
     <ClCompile Include="source\ai\styles.cpp" />
+    <ClCompile Include="source\algorithms\qsort.cpp" />
     <ClCompile Include="source\bink\bink_playback.cpp" />
     <ClCompile Include="source\bink\bink_texture_view.cpp" />
     <ClCompile Include="source\bitmaps\bitmaps.cpp" />
@@ -488,6 +489,7 @@ POPD
   <ItemGroup>
     <ClInclude Include="source\ai\ai_debug.hpp" />
     <ClInclude Include="source\ai\behavior.hpp" />
+    <ClInclude Include="source\algorithms\qsort.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />
     <ClInclude Include="source\ai\actors.hpp" />

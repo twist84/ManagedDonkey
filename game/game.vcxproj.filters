@@ -969,6 +969,9 @@
     <ClCompile Include="source\ai\styles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\algorithms\qsort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2649,6 +2652,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\ai\behavior.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\algorithms\qsort.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
