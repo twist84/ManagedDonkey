@@ -1010,42 +1010,37 @@ bool hs_macro_function_parse(short function_index, long expression_index)
 
 	ASSERT(hs_type_valid(definition->return_type.get()));
 
-	bool valid = true;
-	short parameter_index = 0;
-	while (valid && parameter_index < definition->parameter_count && next_node_index != NONE)
+	bool has_remaining_arguments = true;
+	short parameter_index;
+	for (parameter_index = 0; has_remaining_arguments && parameter_index < definition->parameter_count && next_node_index != NONE; parameter_index++)
 	{
 		hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
 		if (hs_parse(next_node_index, definition->parameters[parameter_index]))
 		{
 			next_node_index = next_expression->next_node_index;
+			continue;
 		}
-		else
+
+		if (next_expression->type == _hs_type_string_id && hs_syntax_get(next_node_index)->flags.test(_hs_syntax_node_primitive_bit))
 		{
-			if (next_expression->type == _hs_type_string_id && hs_syntax_get(next_node_index)->flags.test(_hs_syntax_node_primitive_bit))
-			{
-				csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-					"this is not a valid string for '%s'", definition->name);
-				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-				hs_compile_globals.error_offset = next_expression->source_offset;
-			}
-
-			valid = false;
+			csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+				"this is not a valid string for '%s'", definition->name);
+			hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+			hs_compile_globals.error_offset = next_expression->source_offset;
 		}
 
-		parameter_index++;
+		has_remaining_arguments = false;
 	}
 
-	if (valid && (parameter_index != definition->parameter_count || next_node_index != NONE))
-	{
-		csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-			"the \"%s\" call requires exactly %d arguments.", definition->name, definition->parameter_count);
-		hs_compile_globals.error_message = hs_compile_globals.error_buffer;
-		hs_compile_globals.error_offset = expression->source_offset;
+	if (!has_remaining_arguments || (parameter_index == definition->parameter_count && next_node_index == NONE))
+		return true;
 
-		return false;
-	}
+	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+		"the \"%s\" call requires exactly %d arguments.", definition->name, definition->parameter_count);
+	hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+	hs_compile_globals.error_offset = expression->source_offset;
 
-	return true;
+	return false;
 }
 
 bool hs_compile_get_tag_by_name(char const* group_name, tag* group_tag_out)
