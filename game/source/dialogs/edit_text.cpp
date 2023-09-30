@@ -28,19 +28,19 @@ void __cdecl edit_text_fix_selection(edit_text* edit)
 	bool v8 = edit->selection_index8 <= 0xFFFF;
 	edit->cursor_selection_index = text_len;
 
-	short v5 = -1;
+	short v5 = NONE;
 	if (!v8)
 		v5 = selection_index8;
 	if (v5 < text_len)
 	{
-		text_len = -1;
-		if (selection_index8 > -1)
+		text_len = NONE;
+		if (selection_index8 > NONE)
 			text_len = selection_index8;
 	}
 
 	edit->selection_index8 = text_len;
 	if (text_len11 == text_len)
-		edit->selection_index8 = -1;
+		edit->selection_index8 = NONE;
 }
 
 void __cdecl edit_text_selection_reset(edit_text* edit)
@@ -49,7 +49,7 @@ void __cdecl edit_text_selection_reset(edit_text* edit)
 
 	edit_text_fix_selection(edit);
 	edit->cursor_selection_index = static_cast<word>(strlen(edit->text));
-	edit->selection_index8 = -1;
+	edit->selection_index8 = NONE;
 }
 
 byte __cdecl edit_text_get_selection_indices(edit_text* edit, short* out_selection_index0, short* out_selection_index1)
@@ -58,7 +58,7 @@ byte __cdecl edit_text_get_selection_indices(edit_text* edit, short* out_selecti
 
 	edit_text_fix_selection(edit);
 
-	if (edit->selection_index8 == -1)
+	if (edit->selection_index8 == NONE)
 		return 0;
 
 	*out_selection_index0 = (edit->selection_index8 <= edit->cursor_selection_index) ? edit->selection_index8 : edit->cursor_selection_index;
