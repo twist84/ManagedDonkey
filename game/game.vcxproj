@@ -191,6 +191,7 @@ POPD
     <ClCompile Include="source\cseries\async_xoverlapped_memory.cpp" />
     <ClCompile Include="source\cseries\cseries_console.cpp" />
     <ClCompile Include="source\cseries\cseries_events.cpp" />
+    <ClCompile Include="source\cseries\cseries_memory.cpp" />
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\cseries_windows_debug_pc.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
@@ -490,6 +491,7 @@ POPD
     <ClInclude Include="source\ai\ai_debug.hpp" />
     <ClInclude Include="source\ai\behavior.hpp" />
     <ClInclude Include="source\algorithms\qsort.hpp" />
+    <ClInclude Include="source\cseries\cseries_memory.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />
     <ClInclude Include="source\ai\actors.hpp" />
