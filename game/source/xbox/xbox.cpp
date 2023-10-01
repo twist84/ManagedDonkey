@@ -10,26 +10,53 @@ REFERENCE_DECLARE(0x0199C014, HWND, g_game_window_handle);
 
 bool __cdecl get_clipboard_as_text(char* buf, long len)
 {
-	if (!IsClipboardFormatAvailable(1) || !OpenClipboard(g_game_window_handle))
+	if (!IsClipboardFormatAvailable(CF_TEXT) || !OpenClipboard(g_game_window_handle))
 		return false;
 
 	bool result = false;
 
-	HANDLE clipboard_data = GetClipboardData(1u);
-	if (clipboard_data)
+	HANDLE clipboard_data = GetClipboardData(CF_TEXT);
+	if (!clipboard_data)
 	{
-		const char* clipboard_text = (const char*)GlobalLock(clipboard_data);
-		if (clipboard_text)
-		{
-			result = true;
-			csstrnzcpy(buf, clipboard_text, len);
-			GlobalUnlock(clipboard_data);
-		}
+		CloseClipboard();
+		return false;
+	}
+
+	if (char const* clipboard_text = (char const*)GlobalLock(clipboard_data))
+	{
+		csstrnzcpy(buf, clipboard_text, len);
+		GlobalUnlock(clipboard_data);
 	}
 
 	CloseClipboard();
+	return true;
+}
 
-	return result;
+bool __cdecl set_clipboard_as_text(char* buf, long len)
+{
+	if (!OpenClipboard(g_game_window_handle))
+		return false;
+
+	EmptyClipboard();
+
+	HANDLE clipboard_data = GlobalAlloc(GMEM_MOVEABLE, len);
+	if (!clipboard_data)
+	{
+		CloseClipboard();
+		return false;
+	}
+
+	if (char* clipboard_text = (char*)GlobalLock(clipboard_data))
+	{
+		csmemcpy(clipboard_text, buf, len);
+		clipboard_text[len - 1] = 0;
+
+		GlobalUnlock(clipboard_data);
+		SetClipboardData(CF_TEXT, clipboard_data);
+	}
+
+	CloseClipboard();
+	return true;
 }
 
 struct XShowKeyboardUI_struct

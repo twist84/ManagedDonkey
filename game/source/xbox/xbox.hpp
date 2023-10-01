@@ -1,6 +1,7 @@
 #pragma once
 
 extern bool __cdecl get_clipboard_as_text(char* buf, long len);
+extern bool __cdecl set_clipboard_as_text(char* buf, long len);
 
 extern long XShowKeyboardUI(
 	long controller_index,
