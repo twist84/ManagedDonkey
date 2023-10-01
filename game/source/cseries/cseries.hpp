@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries_console.hpp"
+#include "cseries/cseries_memory.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "cseries/cseries_windows_debug_pc.hpp"
 #include "cseries/stack_walk_windows.hpp"
@@ -852,7 +853,7 @@ public:
 		//	if (index == initial_length && index < k_maximum_count - 1)
 		//	{
 		//		m_string[index] = character;
-		//		m_string[index + 1] = '\0';
+		//		m_string[index + 1] = 0;
 		//	}
 		//}
 		//else
@@ -861,7 +862,7 @@ public:
 		//}
 
 		if (!m_string[index])
-			m_string[index + 1] = '\0';
+			m_string[index + 1] = 0;
 
 		m_string[index] = character;
 	}
@@ -870,7 +871,7 @@ public:
 	{
 		if (VALID_COUNT(length, k_maximum_count - 1))
 		{
-			m_string[length] = '\0';
+			m_string[length] = 0;
 		}
 	}
 

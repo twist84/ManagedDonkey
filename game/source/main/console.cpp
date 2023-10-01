@@ -108,7 +108,7 @@ void __cdecl console_initialize()
 		console_globals.status_render = false;
 		console_globals.input_state.prompt_color = { 1.0f, 1.0f, 0.3f, 1.0f };
 		console_globals.input_state.prompt_text.set("donkey( ");
-		console_globals.input_state.input_text[0] = '\0';
+		console_globals.input_state.input_text[0] = 0;
 		console_globals.input_state.__unknown11F4 = 0;
 		console_globals.input_state.previous_inputs_count = NONE;
 		console_globals.input_state.__unknown11F8 = NONE;
@@ -152,7 +152,7 @@ void __cdecl console_open(bool debug_menu)
 		}
 		else
 		{
-			console_globals.input_state.input_text[0] = '\0';
+			console_globals.input_state.input_text[0] = 0;
 			console_globals.is_active = terminal_gets_begin(&console_globals.input_state);
 		}
 	}
@@ -219,7 +219,7 @@ void __cdecl console_complete()
 		ASSERT(matching_items[0]);
 
 		short last_similar_character_index = INT16_MAX;
-		bool matching_item_count_valid = matching_item_count > 16;
+		bool use_rows = matching_item_count > 16;
 
 		c_static_string<1024> matching_item_row;
 		matching_item_row.set("");
@@ -252,7 +252,7 @@ void __cdecl console_complete()
 						last_similar_character_index = similar_character_index - 1;
 				}
 
-				if (matching_item_count_valid)
+				if (use_rows)
 				{
 					matching_item_row.append_print("%s|t", *matching_item);
 					if (matching_item_index % 6 == 5)
@@ -267,7 +267,7 @@ void __cdecl console_complete()
 				}
 			}
 
-			if (matching_item_count_valid && (matching_item_index - 1) % 6 != 5)
+			if (use_rows && (matching_item_index - 1) % 6 != 5)
 				console_printf("%s", matching_item_row.get_string());
 
 			ASSERT(short(strlen(matching_items[0])) >= (last_similar_character_index + 1));
@@ -349,7 +349,7 @@ void __cdecl console_update(real shell_seconds_elapsed)
 				if (console_globals.input_state.input_text[0])
 				{
 					console_process_command(console_globals.input_state.input_text, true);
-					console_globals.input_state.input_text[0] = '\0';
+					console_globals.input_state.input_text[0] = 0;
 					edit_text_selection_reset(&console_globals.input_state.edit);
 				}
 				break;

@@ -346,13 +346,13 @@ void command_tokenize(char const* input, tokens_t& tokens, long* token_count)
 {
 	bool in_quotes = false;
 	long num_chars = strlen(input);
-	char current_token[k_token_length] = { '\0' };
+	char current_token[k_token_length] = { 0 };
 
 	for (int i = 0; i < num_chars; i++)
 	{
 		char c = input[i];
 
-		if (c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == '\0')
+		if (c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == 0)
 		{
 			if (in_quotes)
 			{
@@ -363,7 +363,7 @@ void command_tokenize(char const* input, tokens_t& tokens, long* token_count)
 				token_t& token = tokens[*token_count] = new _token_t();
 				token->set(current_token);
 				(*token_count)++;
-				memset(current_token, '\0', k_token_length);
+				memset(current_token, 0, k_token_length);
 			}
 		}
 		else if (c == '"')
@@ -457,8 +457,8 @@ callback_result_t help_callback(void const* userdata, long token_count, tokens_t
 			s_command const& command = k_registered_commands[i];
 
 			result.append_print("%s ", command.name);
-			result.append_line(command.parameter_types && *command.parameter_types != '\0' ? command.parameter_types : "");
-			result.append_line(command.extra_info && *command.extra_info != '\0' ? command.extra_info : "");
+			result.append_line(command.parameter_types && *command.parameter_types != 0 ? command.parameter_types : "");
+			result.append_line(command.extra_info && *command.extra_info != 0 ? command.extra_info : "");
 			result.append_line();
 		}
 	}
@@ -489,12 +489,12 @@ callback_result_t script_doc_callback(void const* userdata, long token_count, to
 
 			callback_result_t out("(");
 			out.append_print("%s", command.name);
-			if (command.parameter_types && *command.parameter_types != '\0')
+			if (command.parameter_types && *command.parameter_types != 0)
 				out.append_print(" %s", command.parameter_types);
 			out.append_print_line(")");
 			out.append_line();
 
-			out.append_print_line("%s", command.extra_info && *command.extra_info != '\0' ? command.extra_info : "");
+			out.append_print_line("%s", command.extra_info && *command.extra_info != 0 ? command.extra_info : "");
 			out.append_line();
 			out.append_line();
 

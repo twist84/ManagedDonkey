@@ -129,7 +129,7 @@ void c_raw_connection::update()
 		len = recv(m_socket, buffer, sizeof(buffer), 0);
 		if (len > 0 && len < sizeof(buffer))
 		{
-			buffer[len] = '\0';
+			buffer[len] = 0;
 			printf("%s", buffer);
 		}
 	}

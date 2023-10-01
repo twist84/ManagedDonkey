@@ -642,14 +642,14 @@ bool __cdecl cache_file_debug_tag_names_load()
 			char* comma_pos = position + 1;
 			if (char* nl = strchr(comma_pos, '\n'))
 			{
-				*nl = '\0';
+				*nl = 0;
 				nl++;
 				line_end = nl;
 			}
 
 			if (char* cr = strchr(comma_pos, '\r'))
 			{
-				*cr = '\0';
+				*cr = 0;
 				cr++;
 				line_end = cr;
 			}

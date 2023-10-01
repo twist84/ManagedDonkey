@@ -169,7 +169,9 @@ enum e_key_type
 	// uMsg == WM_SYSCHAR
 	_key_type_char,
 
-	k_key_type_count
+	k_key_type_count,
+
+	k_key_type_none = NONE
 };
 
 enum e_mouse_button

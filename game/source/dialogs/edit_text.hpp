@@ -5,9 +5,9 @@
 struct edit_text
 {
 	char* text;
-	word text_length;
-	word cursor_selection_index;
-	word selection_index8;
+	short text_length;
+	short cursor_selection_index;
+	short selection_index8;
 };
 static_assert(sizeof(edit_text) == 0xC);
 

@@ -4,7 +4,7 @@
 
 #include <string.h>
 
-#define valid_edit_text(edit) ((edit) && (edit)->text && (edit)->text_length > 0 && strlen((edit)->text) <= (edit)->text_length)
+#define valid_edit_text(edit) ((edit) && (edit)->text && (edit)->text_length > 0 && short(strlen((edit)->text)) <= (edit)->text_length)
 
 void __cdecl edit_text_new(edit_text* edit)
 {
@@ -15,7 +15,7 @@ void __cdecl edit_text_new(edit_text* edit)
 
 void __cdecl edit_text_fix_selection(edit_text* edit)
 {
-	short text_len = static_cast<short>(strlen(edit->text));
+	short text_len = short(strlen(edit->text));
 
 	if (edit->cursor_selection_index <= 0)
 		edit->cursor_selection_index = 0;
@@ -25,7 +25,7 @@ void __cdecl edit_text_fix_selection(edit_text* edit)
 		text_len11 = edit->cursor_selection_index;
 
 	word selection_index8 = edit->selection_index8;
-	bool v8 = edit->selection_index8 <= 0xFFFF;
+	bool v8 = edit->selection_index8 <= NONE;
 	edit->cursor_selection_index = text_len;
 
 	short v5 = NONE;
@@ -78,7 +78,7 @@ void __cdecl edit_text_handle_key(edit_text* edit, s_key_state const* key)
 	e_key_code key_code = key->key_code;
 	if (key->key_type == _key_type_down && key_code == _key_code_backspace)
 	{
-		edit->text[edit->cursor_selection_index - 1] = '\0';
+		edit->text[edit->cursor_selection_index - 1] = 0;
 	}
 }
 
