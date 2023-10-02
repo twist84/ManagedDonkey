@@ -5177,6 +5177,7 @@ hs_function_definition_debug const* const hs_function_table_debug[]
 	MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin_random, FLAG(1), hs_parse_begin, hs_function_table[_hs_function_begin_random]->evaluate /* hs_evaluate_begin_random */, "evaluates the sequence of expressions in random order and returns the last value evaluated.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
 	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, if, FLAG(1), hs_parse_if, hs_function_table[_hs_function_if]->evaluate /* hs_evaluate_if */, "returns one of two values based on the value of a condition.\r\nNETWORK SAFE: Yes", "<boolean> <then> [<else>]", 0, _hs_unparsed),
 	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, cond, FLAG(1), hs_parse_cond, NULL, "returns the value associated with the first true condition.\r\nNETWORK SAFE: Yes", "(<boolean1> <result1>) [(<boolean2> <result2>) [...]]", 0, _hs_unparsed),
+	//MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, set, FLAG(1), hs_parse_set, hs_function_table[_hs_function_set]->evaluate /* hs_evaluate_set */, "returns the value associated with the first true condition.\r\nNETWORK SAFE: Yes", "(<boolean1> <result1>) [(<boolean2> <result2>) [...]]", 0, _hs_unparsed),
 };
 long const hs_function_table_debug_count = NUMBEROF(hs_function_table_debug);
 
