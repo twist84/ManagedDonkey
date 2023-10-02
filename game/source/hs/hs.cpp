@@ -590,7 +590,7 @@ hs_enum_definition const hs_enum_table[k_hs_type_enum_count]
 };
 
 // 018BEC94
-char const* hs_type_names[k_hs_type_count]
+char const* const hs_type_names[k_hs_type_count]
 {
 	"unparsed",
 	"special_form",
@@ -686,7 +686,7 @@ char const* hs_type_names[k_hs_type_count]
 };
 
 // 018BEDE4
-char const* hs_script_type_names[k_hs_script_type_count]
+char const* const hs_script_type_names[k_hs_script_type_count]
 {
 	"startup",
 	"dormant",

@@ -148,8 +148,8 @@ struct s_tag_block;
 extern short const hs_type_sizes[k_hs_type_count];
 extern short const hs_object_type_masks[k_hs_type_object_count];
 extern long const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count];
-extern char const* hs_type_names[k_hs_type_count];
-extern char const* hs_script_type_names[k_hs_script_type_count];
+extern char const* const hs_type_names[k_hs_type_count];
+extern char const* const hs_script_type_names[k_hs_script_type_count];
 extern hs_enum_definition const hs_enum_table[k_hs_type_enum_count];
 extern c_typed_data_array<hs_syntax_node>*& g_hs_syntax_data;
 
