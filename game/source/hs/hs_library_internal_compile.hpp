@@ -8,6 +8,7 @@
 enum e_hs_function
 {
 	_hs_function_begin = 0,
+	_hs_function_begin_random,
 };
 
 bool hs_parse_begin(short function_index, long expression_index)

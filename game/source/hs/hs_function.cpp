@@ -5174,6 +5174,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 hs_function_definition_debug const* const hs_function_table_debug[]
 {
 	MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin, FLAG(1), hs_parse_begin, hs_function_table[_hs_function_begin]->evaluate /* hs_evaluate_begin */, "returns the last expression in a sequence after evaluating the sequence in order.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
+	MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin_random, FLAG(1), hs_parse_begin, hs_function_table[_hs_function_begin_random]->evaluate /* hs_evaluate_begin_random */, "evaluates the sequence of expressions in random order and returns the last value evaluated.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
 };
 long const hs_function_table_debug_count = NUMBEROF(hs_function_table_debug);
 
