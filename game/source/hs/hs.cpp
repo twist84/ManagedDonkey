@@ -186,7 +186,7 @@ void hs_tokens_enumerate_add_string(char const* string)
 		enumeration_results[enumeration_count++] = string;
 }
 
-void hs_enumerate_from_string_list(char const** string_list, short starting_index, short count)
+void hs_enumerate_from_string_list(char const* const* string_list, short starting_index, short count)
 {
 	while (starting_index < count)
 		hs_tokens_enumerate_add_string(string_list[starting_index++]);
@@ -215,8 +215,9 @@ void hs_enumerate_block_data_string_id(s_tag_block const* block, short offset, l
 {
 	for (short index = 0; index < block->count; index++)
 	{
-		long name = *reinterpret_cast<long const*>(static_cast<char const*>(tag_block_get_element_with_size(block, index, size)) + offset);
-		hs_tokens_enumerate_add_string(string_id_get_string_const(name));
+		string_id name_string_id = *reinterpret_cast<string_id const*>(static_cast<char const*>(tag_block_get_element_with_size(block, index, size)) + offset);
+		char const* name = string_id_get_string_const(name_string_id);
+		hs_tokens_enumerate_add_string(name);
 	}
 }
 
@@ -252,7 +253,7 @@ hs_enumerator_t* hs_token_enumerators[]
 	hs_enumerate_cutscene_flag_names,
 	hs_enumerate_cutscene_camera_point_names,
 	hs_enumerate_cutscene_title_names,
-	//hs_enumerate_cutscene_recording_names,
+	hs_enumerate_cutscene_recording_names,
 	hs_enumerate_enum_skull_names
 };
 long const k_hs_token_enumerator_count = NUMBEROF(hs_token_enumerators);
@@ -313,11 +314,12 @@ void __cdecl hs_enumerate_type_names(void)
 
 void __cdecl hs_enumerate_function_names(void)
 {
-	for (long function_index = 0; function_index < hs_function_table_count; function_index++)
-		hs_tokens_enumerate_add_string(hs_function_table_names[function_index]);
+	// original names
+	hs_enumerate_from_string_list(hs_function_table_names, 0, hs_function_table_count);
 
-	for (short function_index = 0; function_index < short(hs_function_table_debug_count); function_index++)
-		hs_tokens_enumerate_add_string(hs_function_get_debug(function_index)->name);
+	// our names, eventually it'll only be this
+	//for (short function_index = 0; function_index < short(hs_function_table_debug_count); function_index++)
+	//	hs_tokens_enumerate_add_string(hs_function_get_debug(function_index)->name);
 }
 
 void __cdecl hs_enumerate_script_names(void)
@@ -327,31 +329,41 @@ void __cdecl hs_enumerate_script_names(void)
 
 void __cdecl hs_enumerate_variable_names(void)
 {
-	for (long global_index = 0; global_index < k_hs_external_global_count; global_index++)
-		hs_tokens_enumerate_add_string(hs_external_globals_names[global_index]);
+	// original names
+	hs_enumerate_from_string_list(hs_external_globals_names, 0, k_hs_external_global_count);
 
-	for (short global_index = 0; global_index < short(k_hs_external_global_debug_count); global_index++)
-		hs_tokens_enumerate_add_string(hs_global_external_get_debug(global_index)->name);
+	// our names, eventually it'll only be this
+	//for (short global_index = 0; global_index < short(k_hs_external_global_debug_count); global_index++)
+	//	hs_tokens_enumerate_add_string(hs_global_external_get_debug(global_index)->name);
 
 	hs_enumerate_scenario_data(offsetof(s_scenario, globals), 0, sizeof(hs_global_internal));
 }
 
 void __cdecl hs_enumerate_ai_names(void)
 {
-	//if (global_scenario_index_get() == NONE)
-	//	return;
-	//
-	//hs_enumerate_scenario_data(offsetof(s_scenario, ), offsetof(, name), sizeof());
-	//hs_enumerate_scenario_data(offsetof(s_scenario, ), offsetof(, name), sizeof());
-	//hs_enumerate_scenario_data(offsetof(s_scenario, ), offsetof(, name), sizeof());
-	//hs_enumerate_scenario_data(offsetof(s_scenario, ), offsetof(, name), sizeof());
-	//
-	//s_scenario* scenario = global_scenario_get();
-	//if (scenario->scripting_data.count())
+	//if (global_scenario_index_get() != NONE)
 	//{
-	//	for (long point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count(); point_set_index++)
+	//	s_scenario* scenario = global_scenario_get();
+	//
+	//	for (user_hint_data& ai_user_hint_data : scenario->ai_user_hint_data)
+	//		hs_tokens_enumerate_add_string(ai_user_hint_data.name);
+	//
+	//	for (user_hint_data& ai_pathfinding_data : scenario->ai_pathfinding_data)
+	//		hs_tokens_enumerate_add_string(ai_pathfinding_data.name);
+	//
+	//	for (user_hint_data& ai_recording_references : scenario->ai_recording_references)
+	//		hs_tokens_enumerate_add_string(ai_recording_references.name);
+	//
+	//	for (user_hint_data& ai_objectives : scenario->ai_objectives)
+	//		hs_tokens_enumerate_add_string(ai_objectives.name);
+	//
+	//	s_scenario* scenario = global_scenario_get();
+	//	if (scenario->scripting_data.count())
 	//	{
-	//		hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name);
+	//		for (long point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count(); point_set_index++)
+	//		{
+	//			hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name);
+	//		}
 	//	}
 	//}
 }
@@ -362,14 +374,15 @@ void __cdecl hs_enumerate_ai_command_list_names(void)
 
 void __cdecl hs_enumerate_ai_command_script_names(void)
 {
-	if (global_scenario_index_get() == NONE)
-		return;
-
-	s_scenario* scenario = global_scenario_get();
-	for (hs_script& script : scenario->scripts)
+	if (global_scenario_index_get() != NONE)
 	{
-		if (script.script_type == _hs_script_type_command_script)
-			hs_tokens_enumerate_add_string(script.name.get_string());
+		s_scenario* scenario = global_scenario_get();
+
+		for (hs_script& script : scenario->scripts)
+		{
+			if (script.script_type == _hs_script_type_command_script)
+				hs_tokens_enumerate_add_string(script.name.get_string());
+		}
 	}
 }
 
@@ -400,31 +413,28 @@ void __cdecl hs_enumerate_trigger_volume_names(void)
 
 void __cdecl hs_enumerate_cutscene_flag_names(void)
 {
-	//hs_enumerate_scenario_data(offsetof(s_scenario, cutscene_flags), offsetof(scenario_cutscene_flag, name), sizeof(scenario_cutscene_flag));
+	hs_enumerate_scenario_data_string_id(offsetof(s_scenario, cutscene_flags), offsetof(scenario_cutscene_flag, name), sizeof(scenario_cutscene_flag));
 }
 
 void __cdecl hs_enumerate_cutscene_camera_point_names(void)
 {
-	//hs_enumerate_scenario_data(offsetof(s_scenario, cutscene_camera_points), offsetof(scenario_cutscene_camera_point, name), sizeof(scenario_cutscene_camera_point));
+	hs_enumerate_scenario_data(offsetof(s_scenario, cutscene_camera_points), offsetof(scenario_cutscene_camera_point, name), sizeof(scenario_cutscene_camera_point));
 }
 
 void __cdecl hs_enumerate_cutscene_title_names(void)
 {
-	//hs_enumerate_scenario_data(offsetof(s_scenario, cutscene_titles), offsetof(s_scenario_cutscene_title, name), sizeof(s_scenario_cutscene_title));
+	hs_enumerate_scenario_data_string_id(offsetof(s_scenario, cutscene_titles), offsetof(s_scenario_cutscene_title, name), sizeof(s_scenario_cutscene_title));
 }
 
 void __cdecl hs_enumerate_cutscene_recording_names(void)
 {
-	//hs_enumerate_scenario_data(...);
+	hs_enumerate_scenario_data(offsetof(s_scenario, recorded_animations), offsetof(recorded_animation_definition, name), sizeof(recorded_animation_definition));
 }
 
 void __cdecl hs_enumerate_enum_skull_names(void)
 {
-	for (long skull_index = 0; skull_index < k_number_of_primary_skulls; skull_index++)
-		hs_tokens_enumerate_add_string(global_primary_skull_names[skull_index]);
-
-	for (long skull_index = 0; skull_index < k_number_of_secondary_skulls; skull_index++)
-		hs_tokens_enumerate_add_string(global_secondary_skull_names[skull_index]);
+	hs_enumerate_from_string_list(global_primary_skull_names, _campaign_skull_iron, k_number_of_primary_skulls);
+	hs_enumerate_from_string_list(global_secondary_skull_names, _campaign_skull_assassin, k_number_of_secondary_skulls);
 }
 
 // 0166D710

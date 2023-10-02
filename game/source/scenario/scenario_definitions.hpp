@@ -3,6 +3,7 @@
 #include "ai/ai_scenario_definitions.hpp"
 #include "ai/cs_scenario_definitions.hpp"
 #include "cseries/cseries.hpp"
+#include "cutscene/recorded_animation_definitions.hpp"
 #include "editor/editor_scenario_definitions.hpp"
 #include "game/game_engine_spawn_influencer.hpp"
 #include "hs/hs_scenario_definitions.hpp"
@@ -83,7 +84,6 @@ struct editor_comment_definition;
 struct editor_scenario_data_definition;
 struct orders_definition;
 struct pathfinding_data;
-struct recorded_animation_definition;
 struct s_ai_reference_frame_definition;
 struct s_campaign_metagame_scenario;
 struct s_cinematic_reference;
@@ -610,6 +610,99 @@ struct scenario_player
 	byte ANDYNDGE[2];
 };
 static_assert(sizeof(scenario_player) == 0x1C);
+
+struct scenario_cutscene_flag
+{
+	byte MMNGQBXC[0x4];
+	c_string_id name;
+	real_point3d position;
+	euler_angles2d facing;
+	short editor_folder;
+	byte IWERHADF[0x2];
+};
+static_assert(sizeof(scenario_cutscene_flag) == 0x20);
+
+enum e_scenario_cutscene_camera_flags
+{
+	_scenario_cutscene_camera_flag_edit_as_relative_bit = 0,
+	_scenario_cutscene_camera_flag_bit1,
+	_scenario_cutscene_camera_flag_bit2,
+
+	k_scenario_cutscene_camera_flags
+};
+
+enum e_scenario_cutscene_camera_type
+{
+	_scenario_cutscene_camera_type_normal = 0,
+	_scenario_cutscene_camera_type_ignore_target_orientation,
+	_scenario_cutscene_camera_type_dolly,
+	_scenario_cutscene_camera_type_ignore_target_updates,
+
+	k_scenario_cutscene_camera_type_count
+};
+
+struct scenario_cutscene_camera_point
+{
+	c_flags<e_scenario_cutscene_camera_flags, word, k_scenario_cutscene_camera_flags> flags;
+	c_enum<e_scenario_cutscene_camera_type, short, _scenario_cutscene_camera_type_normal, k_scenario_cutscene_camera_type_count> type;
+	char name[32];
+	byte pad[0x4];
+	real_point3d position;
+	euler_angles3d orientation;
+};
+static_assert(sizeof(scenario_cutscene_camera_point) == 0x40);
+
+enum e_text_justification
+{
+	_text_justification_left = 0,
+	_text_justification_right,
+	_text_justification_center,
+
+	k_text_justification_count
+};
+
+enum e_text_vertical_justification
+{
+	_text_vertical_justification_default = 0,
+	_text_vertical_justification_top,
+	_text_vertical_justification_center,
+	_text_vertical_justification_bottom,
+
+	k_text_vertical_justification_count
+};
+
+enum e_font_id
+{
+	_font_id_terminal_font = 0,
+	_font_id_body_text_font,
+	_font_id_title_font,
+	_font_id_super_large_font,
+	_font_id_large_body_text_font,
+	_font_id_split_screen_hud_message_font,
+	_font_id_full_screen_hud_message_font,
+	_font_id_english_body_text_font,
+	_font_id_hud_number_font,
+	_font_id_subtitle_font,
+	_font_id_main_menu_font,
+
+	k_font_id_count
+};
+
+struct s_scenario_cutscene_title
+{
+	c_string_id name;
+	short_rectangle2d text_bounds; // on screen
+	c_enum<e_text_justification, short, _text_justification_left, k_text_justification_count> justification;
+	c_enum<e_text_vertical_justification, short, _text_vertical_justification_default, k_text_vertical_justification_count > vertical_justification;
+	c_enum<e_font_id, short, _font_id_terminal_font, k_font_id_count> font;
+	byte padding[0x2];
+	rgb_color text_color;
+	rgb_color shadow_color;
+	real fade_in_time; // seconds
+	real up_time; // seconds
+	real fade_out_time; // seconds
+};
+static_assert(sizeof(s_scenario_cutscene_title) == 0x28);
 
 struct s_background_bitmap_reference_definition
 {

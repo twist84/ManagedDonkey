@@ -166,7 +166,7 @@ extern char const* hs_global_get_name(short global_index);
 extern short hs_global_get_type(short global_index);
 
 extern void hs_tokens_enumerate_add_string(char const* string);
-extern void hs_enumerate_from_string_list(char const** string_list, short starting_index, short count);
+extern void hs_enumerate_from_string_list(char const* const* string_list, short starting_index, short count);
 extern void hs_enumerate_block_data(s_tag_block const* block, short offset, long size);
 extern void hs_enumerate_scenario_data(short scenario_offset, short block_offset, long block_size);
 extern void hs_enumerate_block_data_string_id(s_tag_block const* block, short offset, long size);
