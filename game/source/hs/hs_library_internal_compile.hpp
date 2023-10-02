@@ -9,6 +9,9 @@ enum e_hs_function
 {
 	_hs_function_begin = 0,
 	_hs_function_begin_random,
+	_hs_function_if,
+
+	// ...
 };
 
 bool hs_parse_begin(short function_index, long expression_index)
@@ -63,5 +66,14 @@ bool hs_parse_begin(short function_index, long expression_index)
 	}
 
 	return parse_success;
+}
+
+bool hs_parse_if(short function_index, long expression_index)
+{
+	// #TODO: implement
+
+	ASSERT(function_index == _hs_function_if);
+
+	return false;
 }
 
