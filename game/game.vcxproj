@@ -494,6 +494,7 @@ POPD
     <ClInclude Include="source\algorithms\qsort.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
+    <ClInclude Include="source\hs\hs_library_internal_compile.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />
     <ClInclude Include="source\ai\actors.hpp" />
     <ClInclude Include="source\ai\actor_dynamic_firing_position.hpp" />

@@ -1,5 +1,8 @@
 #include "hs/hs_function.hpp"
 
+#include "hs/hs_compile.hpp"
+#include "hs/hs_library_internal_compile.hpp"
+
 #define MAKE_HS_FUNCTION_TABLE_ENTRY(_return_type, _name, _flags, _parse, _evaluate, _description, _usage, _parameter_count, ...) new hs_function_definition_debug \
 { \
 	.return_type = (_return_type), \
@@ -5170,8 +5173,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 
 hs_function_definition_debug const* const hs_function_table_debug[]
 {
-	MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin, FLAG(1), NULL, hs_function_table[0]->evaluate, "returns the last expression in a sequence after evaluating the sequence in order.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
-	//MAKE_HS_FUNCTION_TABLE_ENTRY2(_hs_passthrough, begin, FLAG(1), "returns the last expression in a sequence after evaluating the sequence in order.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed)
+	MAKE_HS_FUNCTION_TABLE_ENTRY(_hs_passthrough, begin, FLAG(1), hs_parse_begin, hs_function_table[_hs_function_begin]->evaluate /* hs_evaluate_begin */, "returns the last expression in a sequence after evaluating the sequence in order.\r\nNETWORK SAFE: Yes", "<expression(s)>", 0, _hs_unparsed),
 };
 long const hs_function_table_debug_count = NUMBEROF(hs_function_table_debug);
 
