@@ -60,3 +60,4 @@ struct cs_script_data
 	byte TPHWNCUR[0x78];
 };
 static_assert(sizeof(cs_script_data) == 0x84);
+

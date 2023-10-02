@@ -14,6 +14,7 @@
 #include "scenario/scenario_resource_definitions.hpp"
 #include "scenario/scenario_trigger_volumes.hpp"
 #include "scenario/scenario_zone_debugger_definitions.hpp"
+#include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 #include "units/units.hpp"
 
@@ -611,13 +612,72 @@ struct scenario_player
 };
 static_assert(sizeof(scenario_player) == 0x1C);
 
+struct squad_group_definition
+{
+	c_static_string<32> name;
+	short parent;
+	short initial_objective;
+
+	// pad
+	byte soon_to_be_an_initial_task[0x2];
+
+	short editor_folder;
+};
+static_assert(sizeof(squad_group_definition) == 0x28);
+
+struct s_squad_definition_internal
+{
+	s_tag_block cells;
+};
+static_assert(sizeof(s_squad_definition_internal) == sizeof(s_tag_block));
+
+struct s_squad_definition
+{
+	c_static_string<32> name;
+	dword_flags flags;
+	c_enum<e_campaign_team, short, _campaign_team_default, k_number_of_campaign_teams> team;
+	short parent;
+	short initial_zone;
+	short initial_objective;
+	short initial_task;
+	short editor_folder;
+	s_tag_block spawn_formations;
+	s_tag_block spawn_points;
+	word_flags excluded_placement_flags;
+
+	// pad
+	byte post_excluded_placement_flags[0x2];
+
+	c_string_id _template;
+	long squad_template_index;
+
+	// Merge
+	s_squad_definition_internal designer;
+	s_squad_definition_internal templated;
+};
+static_assert(sizeof(s_squad_definition) == 0x6C);
+
+struct zone_definition
+{
+	c_static_string<32> name;
+	word_flags flags;
+	word_flags runtime_bsp_flags;
+	s_tag_block firing_positions;
+	s_tag_block areas;
+};
+static_assert(sizeof(zone_definition) == 0x3C);
+
 struct scenario_cutscene_flag
 {
+	// pad
 	byte MMNGQBXC[0x4];
+
 	c_string_id name;
 	real_point3d position;
 	euler_angles2d facing;
 	short editor_folder;
+
+	// pad
 	byte IWERHADF[0x2];
 };
 static_assert(sizeof(scenario_cutscene_flag) == 0x20);
@@ -645,8 +705,11 @@ struct scenario_cutscene_camera_point
 {
 	c_flags<e_scenario_cutscene_camera_flags, word, k_scenario_cutscene_camera_flags> flags;
 	c_enum<e_scenario_cutscene_camera_type, short, _scenario_cutscene_camera_type_normal, k_scenario_cutscene_camera_type_count> type;
-	char name[32];
+	c_static_string<32> name;
+
+	// pad
 	byte pad[0x4];
+
 	real_point3d position;
 	euler_angles3d orientation;
 };
@@ -695,7 +758,10 @@ struct s_scenario_cutscene_title
 	c_enum<e_text_justification, short, _text_justification_left, k_text_justification_count> justification;
 	c_enum<e_text_vertical_justification, short, _text_vertical_justification_default, k_text_vertical_justification_count > vertical_justification;
 	c_enum<e_font_id, short, _font_id_terminal_font, k_font_id_count> font;
+
+	// pad
 	byte padding[0x2];
+
 	rgb_color text_color;
 	rgb_color shadow_color;
 	real fade_in_time; // seconds
@@ -703,6 +769,34 @@ struct s_scenario_cutscene_title
 	real fade_out_time; // seconds
 };
 static_assert(sizeof(s_scenario_cutscene_title) == 0x28);
+
+struct orders_definition
+{
+	c_static_string<32> name;
+	short style;
+
+	// pad
+	byte YATIWNRNR[0x2];
+
+	dword_flags flags;
+	short_enum force_combat_status;
+
+	// pad
+	byte PWY[0x2];
+
+	c_static_string<32> entry_script;
+	short script_index;
+	short follow_squad;
+	real follow_radius;
+
+	s_tag_block primary_area_set;
+	s_tag_block secondary_area_set;
+	s_tag_block secondary_set_trigger;
+	s_tag_block special_movement;
+	s_tag_block order_endings;
+	s_tag_block pureform_distribution;
+};
+static_assert(sizeof(orders_definition) == 0x9C);
 
 struct s_background_bitmap_reference_definition
 {

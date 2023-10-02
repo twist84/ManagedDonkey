@@ -975,6 +975,9 @@
     <ClCompile Include="source\cseries\cseries_memory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cl_engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

@@ -1,6 +1,7 @@
 #include "hs/hs.hpp"
 
 #include "ai/behavior.hpp"
+#include "ai/cl_engine.hpp"
 #include "algorithms/qsort.hpp"
 #include "cseries/cseries_events.hpp"
 #include "hs/hs_function.hpp"
@@ -341,31 +342,28 @@ void __cdecl hs_enumerate_variable_names(void)
 
 void __cdecl hs_enumerate_ai_names(void)
 {
-	//if (global_scenario_index_get() != NONE)
-	//{
-	//	s_scenario* scenario = global_scenario_get();
-	//
-	//	for (user_hint_data& ai_user_hint_data : scenario->ai_user_hint_data)
-	//		hs_tokens_enumerate_add_string(ai_user_hint_data.name);
-	//
-	//	for (user_hint_data& ai_pathfinding_data : scenario->ai_pathfinding_data)
-	//		hs_tokens_enumerate_add_string(ai_pathfinding_data.name);
-	//
-	//	for (user_hint_data& ai_recording_references : scenario->ai_recording_references)
-	//		hs_tokens_enumerate_add_string(ai_recording_references.name);
-	//
-	//	for (user_hint_data& ai_objectives : scenario->ai_objectives)
-	//		hs_tokens_enumerate_add_string(ai_objectives.name);
-	//
-	//	s_scenario* scenario = global_scenario_get();
-	//	if (scenario->scripting_data.count())
-	//	{
-	//		for (long point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count(); point_set_index++)
-	//		{
-	//			hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name);
-	//		}
-	//	}
-	//}
+	if (global_scenario_index_get() != NONE)
+	{
+		s_scenario* scenario = global_scenario_get();
+
+		for (s_squad_definition& squad : scenario->squads)
+			hs_tokens_enumerate_add_string(squad.name.get_string());
+
+		for (squad_group_definition& squad_group : scenario->squad_groups)
+			hs_tokens_enumerate_add_string(squad_group.name.get_string());
+
+		for (zone_definition& zone : scenario->zones)
+			hs_tokens_enumerate_add_string(zone.name.get_string());
+
+		for (orders_definition& order : scenario->orders)
+			hs_tokens_enumerate_add_string(order.name.get_string());
+	
+		if (scenario->scripting_data.count())
+		{
+			for (long point_set_index = 0; point_set_index < cs_scenario_get_script_data(scenario)->point_sets.count(); point_set_index++)
+				hs_tokens_enumerate_add_string(cs_get_point_set(point_set_index)->name.get_string());
+		}
+	}
 }
 
 void __cdecl hs_enumerate_ai_command_list_names(void)

@@ -186,6 +186,7 @@ POPD
     <ClCompile Include="source\camera\camera_globals.cpp" />
     <ClCompile Include="source\camera\debug_director.cpp" />
     <ClCompile Include="source\camera\editor_director.cpp" />
+    <ClCompile Include="source\cl_engine.cpp" />
     <ClCompile Include="source\config\version.cpp" />
     <ClCompile Include="source\cseries\async_xoverlapped.cpp" />
     <ClCompile Include="source\cseries\async_xoverlapped_memory.cpp" />
