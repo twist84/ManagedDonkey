@@ -144,3 +144,41 @@ long XShowKeyboardUI(
 	return 0;
 }
 
+// #TODO: add an icon for notifications, more customization?
+void display_notification(wchar_t const* tip, wchar_t const* info, wchar_t const* info_title)
+{
+	ASSERT(tip != NULL);
+	ASSERT(info != NULL);
+	ASSERT(info_title != NULL);
+
+	NOTIFYICONDATAW notify_icon_data = { sizeof(NOTIFYICONDATAW) };
+
+	notify_icon_data.hWnd = g_game_window_handle;
+
+	// Unique ID for the notification icon
+	notify_icon_data.uID = 1;
+	notify_icon_data.uFlags = NIF_ICON | NIF_TIP | NIF_MESSAGE;
+
+	// Load an icon
+	notify_icon_data.hIcon = LoadIcon(NULL, IDI_INFORMATION);
+	wcscpy_s(notify_icon_data.szTip, tip);
+	notify_icon_data.uCallbackMessage = WM_USER;
+
+
+	// Add the notification icon
+	Shell_NotifyIcon(NIM_ADD, &notify_icon_data);
+
+
+	// Show a notification
+	notify_icon_data.uFlags = NIF_INFO;
+	notify_icon_data.dwInfoFlags = NIIF_INFO;
+	wcscpy_s(notify_icon_data.szInfo, info);
+	wcscpy_s(notify_icon_data.szInfoTitle, info_title);
+	Shell_NotifyIcon(NIM_MODIFY, &notify_icon_data);
+
+	Sleep(25);
+
+	// Remove the notification icon
+	Shell_NotifyIcon(NIM_DELETE, &notify_icon_data);
+}
+

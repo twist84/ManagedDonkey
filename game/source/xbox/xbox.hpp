@@ -14,3 +14,5 @@ extern long XShowKeyboardUI(
 	void* platform_handle
 );
 
+extern void display_notification(wchar_t const* tip = L"Notification Tip", wchar_t const* info = L"Notification Message", wchar_t const* info_title = L"Notification Title");
+
