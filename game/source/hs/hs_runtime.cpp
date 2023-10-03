@@ -7,6 +7,7 @@
 #include "scenario/scenario.hpp"
 
 bool debug_trigger_volumes = false;
+hs_debug_data_definition hs_debug_data{};
 
 bool __cdecl hs_can_cast(short actual_type, short desired_type)
 {
@@ -127,12 +128,11 @@ void __cdecl render_debug_trigger_volumes()
 				point_from_line3d(&points[1], &v24, 1.0f, &points[2]);
 				point_from_line3d(&points[2], &v23, -1.0f, &points[3]);
 
-				// #TODO: find all the places `hs_debug_data` should be used and add it back
-				//if ((hs_debug_data[trigger_volume_index >> 5] & (1 << (trigger_volume_index & 0x1F))) != 0) // this is a static flags
-				//{
-				//	render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_blue);
-				//}
-				//else
+				if (hs_debug_data.activated_trigger_volumes.test(trigger_volume_index))
+				{
+					render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_blue);
+				}
+				else
 				{
 					real_argb_color polygon_color = *global_real_argb_blue;
 					polygon_color.alpha = 0.15f;
@@ -154,12 +154,11 @@ void __cdecl render_debug_trigger_volumes()
 			//collision_result collision;
 			//if (!collision_test_vector(flags, &rasterizer_camera->position, &name_vector, NONE, NONE, &collision))
 			{
-				// #TODO: find all the places `hs_debug_data` should be used and add it back
-				//if ((hs_debug_data[volume_index >> 5] & (1 << (volume_index & 0x1F))) != 0)
-				//{
-				//	render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), global_real_argb_yellow);
-				//}
-				//else
+				if (hs_debug_data.activated_trigger_volumes.test(trigger_volume_index))
+				{
+					render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), global_real_argb_yellow);
+				}
+				else
 				{
 					render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), global_real_argb_white);
 				}

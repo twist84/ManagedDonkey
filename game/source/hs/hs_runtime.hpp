@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
+#define MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO 1024
+
 struct hs_stack_frame
 {
 	word stack_offset;
@@ -65,7 +67,14 @@ struct hs_thread_tracking_data : s_datum_header
 };
 static_assert(sizeof(hs_thread_tracking_data) == 0xC);
 
+struct hs_debug_data_definition
+{
+	c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO> activated_trigger_volumes;
+};
+static_assert(sizeof(hs_debug_data_definition) == sizeof(c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO>));
+
 extern bool debug_trigger_volumes;
+extern hs_debug_data_definition hs_debug_data;
 
 extern bool __cdecl hs_can_cast(short actual_type, short desired_type);
 extern bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast);
