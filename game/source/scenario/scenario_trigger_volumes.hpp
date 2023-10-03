@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 
+#define MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO 1024
+
 struct s_real_sector_point;
 struct s_trigger_volume_triangle;
 struct scenario_trigger_volume

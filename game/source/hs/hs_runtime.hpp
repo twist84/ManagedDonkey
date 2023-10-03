@@ -2,8 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
-
-#define MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO 1024
+#include "scenario/scenario_trigger_volumes.hpp"
 
 struct hs_stack_frame
 {
