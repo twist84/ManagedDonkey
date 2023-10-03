@@ -62,6 +62,8 @@ struct game_time_globals_definition
 };
 static_assert(sizeof(game_time_globals_definition) == 0x2C);
 
+extern real debug_game_speed;
+
 extern game_time_globals_definition* game_time_globals_get();
 
 extern long __cdecl game_seconds_integer_to_ticks(long seconds); // 0x00564B40

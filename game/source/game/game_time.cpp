@@ -2,6 +2,8 @@
 
 #include "memory/thread_local.hpp"
 
+real debug_game_speed = 1.0f;
+
 game_time_globals_definition* game_time_globals_get()
 {
 	if (!get_tls())

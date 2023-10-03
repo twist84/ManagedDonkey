@@ -1150,8 +1150,6 @@ void __cdecl debug_key_print_screen(bool enabled)
 	}
 }
 
-// #TODO: move this
-real debug_game_speed = 1.0f;
 void __cdecl debug_key_adjust_game_speed_internal(real increment)
 {
 	real v2 = fabsf(increment);
