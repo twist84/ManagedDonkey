@@ -6,6 +6,8 @@
 #include "render/render_lights.hpp"
 #include "scenario/scenario.hpp"
 
+bool breakpoints_enabled = true;
+
 bool debug_trigger_volumes = false;
 hs_debug_data_definition hs_debug_data{};
 
