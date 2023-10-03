@@ -73,6 +73,12 @@ struct hs_debug_data_definition
 };
 static_assert(sizeof(hs_debug_data_definition) == sizeof(c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO>));
 
+extern bool& debug_scripting;
+extern bool& debug_globals;
+extern bool& debug_globals_all;
+extern bool& hs_verbose;
+extern bool debug_global_variables[512];
+
 extern bool breakpoints_enabled;
 
 extern bool debug_trigger_volumes;
