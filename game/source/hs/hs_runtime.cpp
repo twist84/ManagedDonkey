@@ -11,8 +11,8 @@ REFERENCE_DECLARE(0x023FF441, bool, debug_globals);
 REFERENCE_DECLARE(0x023FF442, bool, debug_globals_all);
 REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);
 
-// this is potentially as address `0x023FF444`,
-// there's a 512 byte + 4 byte gap here before we see `g_typecasting_procedures`
+// this is potentially at address `0x023FF444`,
+// there's a 512 byte + 4 byte gap there between `hs_verbose` and `g_typecasting_procedures`
 bool debug_global_variables[512]{};
 
 bool breakpoints_enabled = true;
