@@ -2,6 +2,7 @@
 
 #include "interface/terminal.hpp"
 
+//REFERENCE_DECLARE(0x0167B188, short const, k_hs_external_global_count);
 REFERENCE_DECLARE_ARRAY(0x018EF450, hs_global_external*, hs_external_globals, k_hs_external_global_count);
 
 char const* const hs_external_globals_names[k_hs_external_global_count]
