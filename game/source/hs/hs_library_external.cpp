@@ -11,6 +11,8 @@ HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x0096D3E0, hs_debug_variable);
 HOOK_DECLARE(0x0096D8B0, hs_log_print);
 HOOK_DECLARE(0x0096EF60, hs_print);
+HOOK_DECLARE(0x0096F0F0, hs_trigger_volume_test_objects_all);
+HOOK_DECLARE(0x0096F150, hs_trigger_volume_test_objects_any);
 
 void __cdecl hs_breakpoint(const char* s)
 {
@@ -80,3 +82,21 @@ void __cdecl hs_print(char const* s)
 	terminal_printf(global_real_argb_green, s);
 }
 
+bool __cdecl hs_trigger_volume_test_objects(short trigger_volume_index, long object_index, bool a3)
+{
+	bool result = INVOKE(0x0096F080, hs_trigger_volume_test_objects, trigger_volume_index, object_index, a3);
+
+	hs_debug_data.activated_trigger_volumes.set(trigger_volume_index, result);
+
+	return result;
+}
+
+bool __cdecl hs_trigger_volume_test_objects_all(short trigger_volume_index, long object_index)
+{
+	return hs_trigger_volume_test_objects(trigger_volume_index, object_index, true);
+}
+
+bool __cdecl hs_trigger_volume_test_objects_any(short trigger_volume_index, long object_index)
+{
+	return hs_trigger_volume_test_objects(trigger_volume_index, object_index, false);
+}
