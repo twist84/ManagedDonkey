@@ -48,22 +48,20 @@ bool hs_parse_begin(short function_index, long expression_index)
 
 	if (parse_success)
 	{
-		if (argument_count >= 1)
-		{
-			if (argument_count > 32 && function_index == _hs_function_begin_random)
-			{
-				hs_compile_globals.error_message = "begin_random can take a maximum of 32 arguments (matt can increase this.)";
-				hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
-				parse_success = false;
-			}
-		}
-		else
+		if (argument_count < 1)
 		{
 			hs_compile_globals.error_message = csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
 				"a statement block must contain at least one argument.",
 				hs_function_get_debug(function_index)->name);
 			hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
-			parse_success = false;
+			return false;
+		}
+
+		if (argument_count > 32 && function_index == _hs_function_begin_random)
+		{
+			hs_compile_globals.error_message = "begin_random can take a maximum of 32 arguments (matt can increase this.)";
+			hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+			return false;
 		}
 	}
 
@@ -96,53 +94,51 @@ bool hs_parse_set(short function_index, long expression_index)
 	{
 		hs_compile_globals.error_message = "i expected a variable to set and a value.";
 		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+		return false;
 	}
-	else
+
+	long next_next_node_index = hs_syntax_get(next_node_index)->next_node_index;
+	if (next_next_node_index == NONE)
 	{
-		long next_next_node_index = hs_syntax_get(next_node_index)->next_node_index;
-		if (next_next_node_index == NONE)
-		{
-			hs_compile_globals.error_message = "i expected a variable to set and a value.";
-			hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
-		}
-		else if (hs_syntax_get(next_next_node_index)->next_node_index == NONE)
-		{
-			hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
-			short global_index = hs_find_global_by_name(&hs_compile_globals.compiled_source[next_expression->source_offset]);
-			if (global_index == NONE)
-			{
-				hs_compile_globals.error_message = "this is not a valid global variable.";
-				hs_compile_globals.error_offset = next_expression->source_offset;
-			}
-			else
-			{
-				next_expression->type = hs_global_get_type(global_index);
-				if (expression->type && !hs_can_cast(next_expression->type, expression->type))
-				{
-					hs_compile_globals.error_message = csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-						"you cannot pass the result of this set (type %s) to a function that expects type %s.",
-						hs_type_names[next_expression->type.get()],
-						hs_type_names[expression->type.get()]);
-					hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
-				}
-				else
-				{
-					ASSERT(hs_parse_variable(next_node_index));
-					if (!expression->type)
-						expression->type = next_expression->type;
-
-					if (hs_parse(next_next_node_index, next_expression->type))
-						parse_success = true;
-				}
-			}
-		}
-		else
-		{
-			hs_compile_globals.error_message = "i didn't expect this argument.";
-			hs_compile_globals.error_offset = hs_syntax_get(hs_syntax_get(next_next_node_index)->next_node_index)->source_offset;
-		}
+		hs_compile_globals.error_message = "i expected a variable to set and a value.";
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+		return false;
 	}
 
-	return parse_success;
+	if (hs_syntax_get(next_next_node_index)->next_node_index != NONE)
+	{
+		hs_compile_globals.error_message = "i didn't expect this argument.";
+		hs_compile_globals.error_offset = hs_syntax_get(hs_syntax_get(next_next_node_index)->next_node_index)->source_offset;
+		return false;
+	}
+
+	hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
+	short global_index = hs_find_global_by_name(&hs_compile_globals.compiled_source[next_expression->source_offset]);
+	if (global_index == NONE)
+	{
+		hs_compile_globals.error_message = "this is not a valid global variable.";
+		hs_compile_globals.error_offset = next_expression->source_offset;
+		return false;
+	}
+
+	next_expression->type = hs_global_get_type(global_index);
+	if (expression->type && !hs_can_cast(next_expression->type, expression->type))
+	{
+		hs_compile_globals.error_message = csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+			"you cannot pass the result of this set (type %s) to a function that expects type %s.",
+			hs_type_names[next_expression->type.get()],
+			hs_type_names[expression->type.get()]);
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+		return false;
+	}
+
+	ASSERT(hs_parse_variable(next_node_index));
+	if (!expression->type)
+		expression->type = next_expression->type;
+
+	if (!hs_parse(next_next_node_index, next_expression->type))
+		return false;
+
+	return true;
 }
 
