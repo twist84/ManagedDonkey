@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
 #define HS_TYPE_IS_TAG_REFERENCE(_hs_type) ((_hs_type) >= _hs_type_effect && (_hs_type) <= _hs_type_bink_definition)
@@ -145,6 +146,76 @@ struct hs_global_external;
 struct hs_global_external_debug;
 struct s_tag_block;
 
+extern bool const _hs_type_boolean_default;
+extern real const _hs_type_real_default;
+extern short const _hs_type_short_integer_default;
+extern long const _hs_type_long_integer_default;
+extern short const _hs_type_script_default;
+extern long const _hs_type_string_id_default;
+extern long const _hs_type_unit_seat_mapping_default;
+extern short const _hs_type_trigger_volume_default;
+extern short const _hs_type_cutscene_flag_default;
+extern short const _hs_type_cutscene_camera_point_default;
+extern short const _hs_type_cutscene_title_default;
+extern short const _hs_type_cutscene_recording_default;
+extern long const _hs_type_device_group_default;
+extern long const _hs_type_ai_default;
+extern short const _hs_type_ai_command_list_default;
+extern short const _hs_type_ai_command_script_default;
+extern short const _hs_type_ai_behavior_default;
+extern short const _hs_type_ai_orders_default;
+extern long const _hs_type_ai_line_default;
+extern short const _hs_type_starting_profile_default;
+extern short const _hs_type_conversation_default;
+extern short const _hs_type_zone_set_default;
+extern short const _hs_type_designer_zone_default;
+extern long const _hs_type_point_ref_default;
+extern long const _hs_type_style_default;
+extern long const _hs_type_object_list_default;
+extern long const _hs_type_folder_default;
+extern long const _hs_type_sound_default;
+extern long const _hs_type_looping_sound_default;
+extern long const _hs_type_effect_default;
+extern long const _hs_type_damage_default;
+extern long const _hs_type_animation_graph_default;
+extern long const _hs_type_damage_effect_default;
+extern long const _hs_type_object_definition_default;
+extern long const _hs_type_bitmap_default;
+extern long const _hs_type_shader_default;
+extern long const _hs_type_render_model_definition_default;
+extern long const _hs_type_structure_bsp_definition_default;
+extern long const _hs_type_structure_lightmap_definition_default;
+extern long const _hs_type_cinematic_definition_default;
+extern long const _hs_type_cinematic_scene_definition_default;
+extern long const _hs_type_bink_definition_default;
+extern long const _hs_type_any_tag_default;
+extern short const _hs_type_enum_game_difficulty_default;
+extern short const _hs_type_enum_team_default;
+extern short const _hs_type_enum_mp_team_default;
+extern short const _hs_type_enum_controller_default;
+extern short const _hs_type_enum_button_preset_default;
+extern short const _hs_type_enum_joystick_preset_default;
+extern short const _hs_type_enum_player_character_type_default;
+extern short const _hs_type_enum_voice_output_setting_default;
+extern short const _hs_type_enum_subtitle_setting_default;
+extern short const _hs_type_enum_actor_type_default;
+extern short const _hs_type_enum_model_state_default;
+extern short const _hs_type_enum_event_default;
+extern short const _hs_type_enum_character_physics_override_default;
+extern short const _hs_type_enum_primary_skull_default;
+extern short const _hs_type_enum_secondary_skull_default;
+extern short const _hs_type_object_name_default;
+extern long const _hs_type_object_default;
+extern long const _hs_type_unit_default;
+extern long const _hs_type_vehicle_default;
+extern long const _hs_type_weapon_default;
+extern long const _hs_type_device_default;
+extern long const _hs_type_scenery_default;
+extern long const _hs_type_effect_scenery_default;
+extern long const _hs_type_cinematic_lightprobe_default;
+extern long const _hs_type_budget_reference_animation_graph_default;
+extern long const _hs_type_budget_reference_looping_sound_default;
+extern long const _hs_type_budget_reference_sound_default;
 extern short const hs_type_sizes[k_hs_type_count];
 extern short const hs_object_type_masks[k_hs_type_object_count];
 extern long const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count];

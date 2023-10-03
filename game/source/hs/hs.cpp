@@ -11,12 +11,83 @@
 #include "scenario/scenario.hpp"
 #include "shell/shell.hpp"
 
-//REFERENCE_DECLARE_ARRAY(, short const, hs_type_sizes, k_hs_type_count);
-//REFERENCE_DECLARE_ARRAY(0x, short const, hs_object_type_masks, k_hs_type_object_count);
-//REFERENCE_DECLARE_ARRAY(0x, long const, hs_tag_reference_type_group_tags, k_hs_tag_reference_type_count);
-//REFERENCE_DECLARE_ARRAY(0x, hs_enum_definition const, hs_enum_table, k_hs_type_enum_count);
-//REFERENCE_DECLARE_ARRAY(0x, char const* const, hs_type_names, k_hs_type_count);
-//REFERENCE_DECLARE_ARRAY(0x, char const* const, hs_script_type_names, k_hs_script_type_count);
+//REFERENCE_DECLARE(0x0166D5E8, bool const, _hs_type_boolean_default);
+//REFERENCE_DECLARE(0x0166D5EC, real const, _hs_type_real_default);
+//REFERENCE_DECLARE(0x0166D5F0, short const, _hs_type_short_integer_default);
+//REFERENCE_DECLARE(0x0166D5F4, long const, _hs_type_long_integer_default);
+//REFERENCE_DECLARE(0x0166D5F8, short const, _hs_type_script_default);
+//REFERENCE_DECLARE(0x0166D5FC, long const, _hs_type_string_id_default);
+//REFERENCE_DECLARE(0x0166D600, long const, _hs_type_unit_seat_mapping_default);
+//REFERENCE_DECLARE(0x0166D604, short const, _hs_type_trigger_volume_default);
+//REFERENCE_DECLARE(0x0166D608, short const, _hs_type_cutscene_flag_default);
+//REFERENCE_DECLARE(0x0166D60C, short const, _hs_type_cutscene_camera_point_default);
+//REFERENCE_DECLARE(0x0166D610, short const, _hs_type_cutscene_title_default);
+//REFERENCE_DECLARE(0x0166D614, short const, _hs_type_cutscene_recording_default);
+//REFERENCE_DECLARE(0x0166D618, long const, _hs_type_device_group_default);
+//REFERENCE_DECLARE(0x0166D61C, long const, _hs_type_ai_default);
+//REFERENCE_DECLARE(0x0166D620, short const, _hs_type_ai_command_list_default);
+//REFERENCE_DECLARE(0x0166D624, short const, _hs_type_ai_command_script_default);
+//REFERENCE_DECLARE(0x0166D628, short const, _hs_type_ai_behavior_default);
+//REFERENCE_DECLARE(0x0166D62C, short const, _hs_type_ai_orders_default);
+//REFERENCE_DECLARE(0x0166D630, long const, _hs_type_ai_line_default);
+//REFERENCE_DECLARE(0x0166D634, short const, _hs_type_starting_profile_default);
+//REFERENCE_DECLARE(0x0166D638, short const, _hs_type_conversation_default);
+//REFERENCE_DECLARE(0x0166D63C, short const, _hs_type_zone_set_default);
+//REFERENCE_DECLARE(0x0166D640, short const, _hs_type_designer_zone_default);
+//REFERENCE_DECLARE(0x0166D644, long const, _hs_type_point_ref_default);
+//REFERENCE_DECLARE(0x0166D648, long const, _hs_type_style_default);
+//REFERENCE_DECLARE(0x0166D64C, long const, _hs_type_object_list_default);
+//REFERENCE_DECLARE(0x0166D650, long const, _hs_type_folder_default);
+//REFERENCE_DECLARE(0x0166D654, long const, _hs_type_sound_default);
+//REFERENCE_DECLARE(0x0166D658, long const, _hs_type_looping_sound_default);
+//REFERENCE_DECLARE(0x0166D65C, long const, _hs_type_effect_default);
+//REFERENCE_DECLARE(0x0166D660, long const, _hs_type_damage_default);
+//REFERENCE_DECLARE(0x0166D664, long const, _hs_type_animation_graph_default);
+//REFERENCE_DECLARE(0x0166D668, long const, _hs_type_damage_effect_default);
+//REFERENCE_DECLARE(0x0166D66C, long const, _hs_type_object_definition_default);
+//REFERENCE_DECLARE(0x0166D670, long const, _hs_type_bitmap_default);
+//REFERENCE_DECLARE(0x0166D674, long const, _hs_type_shader_default);
+//REFERENCE_DECLARE(0x0166D678, long const, _hs_type_render_model_definition_default);
+//REFERENCE_DECLARE(0x0166D67C, long const, _hs_type_structure_bsp_definition_default);
+//REFERENCE_DECLARE(0x0166D680, long const, _hs_type_structure_lightmap_definition_default);
+//REFERENCE_DECLARE(0x0166D684, long const, _hs_type_cinematic_definition_default);
+//REFERENCE_DECLARE(0x0166D688, long const, _hs_type_cinematic_scene_definition_default);
+//REFERENCE_DECLARE(0x0166D68C, long const, _hs_type_bink_definition_default);
+//REFERENCE_DECLARE(0x0166D690, long const, _hs_type_any_tag_default);
+//REFERENCE_DECLARE(0x0166D694, short const, _hs_type_enum_game_difficulty_default);
+//REFERENCE_DECLARE(0x0166D698, short const, _hs_type_enum_team_default);
+//REFERENCE_DECLARE(0x0166D69C, short const, _hs_type_enum_mp_team_default);
+//REFERENCE_DECLARE(0x0166D6A0, short const, _hs_type_enum_controller_default);
+//REFERENCE_DECLARE(0x0166D6A4, short const, _hs_type_enum_button_preset_default);
+//REFERENCE_DECLARE(0x0166D6A8, short const, _hs_type_enum_joystick_preset_default);
+//REFERENCE_DECLARE(0x0166D6AC, short const, _hs_type_enum_player_character_type_default);
+//REFERENCE_DECLARE(0x0166D6B0, short const, _hs_type_enum_voice_output_setting_default);
+//REFERENCE_DECLARE(0x0166D6B4, short const, _hs_type_enum_subtitle_setting_default);
+//REFERENCE_DECLARE(0x0166D6B8, short const, _hs_type_enum_actor_type_default);
+//REFERENCE_DECLARE(0x0166D6BC, short const, _hs_type_enum_model_state_default);
+//REFERENCE_DECLARE(0x0166D6C0, short const, _hs_type_enum_event_default);
+//REFERENCE_DECLARE(0x0166D6C8, short const, _hs_type_enum_character_physics_override_default);
+//REFERENCE_DECLARE(0x0166D6CC, short const, _hs_type_enum_primary_skull_default);
+//REFERENCE_DECLARE(0x0166D6D0, short const, _hs_type_enum_secondary_skull_default);
+//REFERENCE_DECLARE(0x0166D6D4, short const, _hs_type_object_name_default);
+//REFERENCE_DECLARE(0x0166D6D8, long const, _hs_type_object_default);
+//REFERENCE_DECLARE(0x0166D6DC, long const, _hs_type_unit_default);
+//REFERENCE_DECLARE(0x0166D6E0, long const, _hs_type_vehicle_default);
+//REFERENCE_DECLARE(0x0166D6E4, long const, _hs_type_weapon_default);
+//REFERENCE_DECLARE(0x0166D6E8, long const, _hs_type_device_default);
+//REFERENCE_DECLARE(0x0166D6EC, long const, _hs_type_scenery_default);
+//REFERENCE_DECLARE(0x0166D6F0, long const, _hs_type_effect_scenery_default);
+//REFERENCE_DECLARE(0x0166D6F4, long const, _hs_type_cinematic_lightprobe_default);
+//REFERENCE_DECLARE(0x0166D6F8, long const, _hs_type_budget_reference_animation_graph_default);
+//REFERENCE_DECLARE(0x0166D6FC, long const, _hs_type_budget_reference_looping_sound_default);
+//REFERENCE_DECLARE(0x0166D700, long const, _hs_type_budget_reference_sound_default);
+//REFERENCE_DECLARE_ARRAY(0x0166D710, short const, hs_type_sizes, k_hs_type_count);
+//REFERENCE_DECLARE_ARRAY(0x0166D7B8, short const, hs_object_type_masks, k_hs_type_object_count);
+//REFERENCE_DECLARE_ARRAY(0x0166D7C8, long const, hs_tag_reference_type_group_tags, k_hs_tag_reference_type_count);
+//REFERENCE_DECLARE_ARRAY(0x0166D808, hs_enum_definition const, hs_enum_table, k_hs_type_enum_count);
+//REFERENCE_DECLARE(0x018BEC94, char const* const, _hs_type_string_default);
+//REFERENCE_DECLARE_ARRAY(0x018BEC98, char const* const, hs_type_names, k_hs_type_count);
+//REFERENCE_DECLARE_ARRAY(0x018BEDE8, char const* const, hs_script_type_names, k_hs_script_type_count);
 REFERENCE_DECLARE(0x024B06D4, c_typed_data_array<hs_syntax_node>*, g_hs_syntax_data);
 
 hs_function_definition const* hs_function_get(short function_index)
@@ -435,6 +506,216 @@ void __cdecl hs_enumerate_enum_skull_names(void)
 	hs_enumerate_from_string_list(global_secondary_skull_names, _campaign_skull_assassin, k_number_of_secondary_skulls);
 }
 
+// 0166D5E8
+bool const _hs_type_boolean_default = false;
+
+// 0166D5EC
+real const _hs_type_real_default = 0.0f;
+
+// 0166D5F0
+short const _hs_type_short_integer_default = 0;
+
+// 0166D5F4
+long const _hs_type_long_integer_default = 0;
+
+// 0166D5F8
+short const _hs_type_script_default = NONE;
+
+// 0166D5FC
+long const _hs_type_string_id_default = _string_id_empty_string;
+
+// 0166D600
+long const _hs_type_unit_seat_mapping_default = NONE;
+
+// 0166D604
+short const _hs_type_trigger_volume_default = NONE;
+
+// 0166D608
+short const _hs_type_cutscene_flag_default = NONE;
+
+// 0166D60C
+short const _hs_type_cutscene_camera_point_default = NONE;
+
+// 0166D610
+short const _hs_type_cutscene_title_default = NONE;
+
+// 0166D614
+short const _hs_type_cutscene_recording_default = NONE;
+
+// 0166D618
+long const _hs_type_device_group_default = NONE;
+
+// 0166D61C
+long const _hs_type_ai_default = 0;
+
+// 0166D620
+short const _hs_type_ai_command_list_default = NONE;
+
+// 0166D624
+short const _hs_type_ai_command_script_default = NONE;
+
+// 0166D628
+short const _hs_type_ai_behavior_default = NONE;
+
+// 0166D62C
+short const _hs_type_ai_orders_default = NONE;
+
+// 0166D630
+long const _hs_type_ai_line_default = NONE;
+
+// 0166D634
+short const _hs_type_starting_profile_default = NONE;
+
+// 0166D638
+short const _hs_type_conversation_default = NONE;
+
+// 0166D63C
+short const _hs_type_zone_set_default = NONE;
+
+// 0166D640
+short const _hs_type_designer_zone_default = NONE;
+
+// 0166D644
+long const _hs_type_point_ref_default = NONE;
+
+// 0166D648
+long const _hs_type_style_default = NONE;
+
+// 0166D64C
+long const _hs_type_object_list_default = NONE;
+
+// 0166D650
+long const _hs_type_folder_default = NONE;
+
+// 0166D654
+long const _hs_type_sound_default = NONE;
+
+// 0166D658
+long const _hs_type_looping_sound_default = NONE;
+
+// 0166D65C
+long const _hs_type_effect_default = NONE;
+
+// 0166D660
+long const _hs_type_damage_default = NONE;
+
+// 0166D664
+long const _hs_type_animation_graph_default = NONE;
+
+// 0166D668
+long const _hs_type_damage_effect_default = NONE;
+
+// 0166D66C
+long const _hs_type_object_definition_default = NONE;
+
+// 0166D670
+long const _hs_type_bitmap_default = NONE;
+
+// 0166D674
+long const _hs_type_shader_default = NONE;
+
+// 0166D678
+long const _hs_type_render_model_definition_default = NONE;
+
+// 0166D67C
+long const _hs_type_structure_bsp_definition_default = NONE;
+
+// 0166D680
+long const _hs_type_structure_lightmap_definition_default = NONE;
+
+// 0166D684
+long const _hs_type_cinematic_definition_default = NONE;
+
+// 0166D688
+long const _hs_type_cinematic_scene_definition_default = NONE;
+
+// 0166D68C
+long const _hs_type_bink_definition_default = NONE;
+
+// 0166D690
+long const _hs_type_any_tag_default = NONE;
+
+// 0166D694
+short const _hs_type_enum_game_difficulty_default = NONE;
+
+// 0166D698
+short const _hs_type_enum_team_default = NONE;
+
+// 0166D69C
+short const _hs_type_enum_mp_team_default = _multiplayer_team_red;
+
+// 0166D6A0
+short const _hs_type_enum_controller_default = _controller_index0;
+
+// 0166D6A4
+short const _hs_type_enum_button_preset_default = _button_preset_standard;
+
+// 0166D6A8
+short const _hs_type_enum_joystick_preset_default = _joystick_preset_standard;
+
+// 0166D6AC
+short const _hs_type_enum_player_character_type_default = _player_model_choice_spartan;
+
+// 0166D6B0
+short const _hs_type_enum_voice_output_setting_default = _voice_output_setting_default;
+
+// 0166D6B4
+short const _hs_type_enum_subtitle_setting_default = _subtitle_setting_automatic;
+
+// 0166D6B8
+short const _hs_type_enum_actor_type_default = NONE;
+
+// 0166D6BC
+short const _hs_type_enum_model_state_default = NONE;
+
+// 0166D6C0
+short const _hs_type_enum_event_default = NONE;
+
+// 0166D6C8
+short const _hs_type_enum_character_physics_override_default = _character_physics_override_none;
+
+// 0166D6CC
+short const _hs_type_enum_primary_skull_default = NONE;
+
+// 0166D6D0
+short const _hs_type_enum_secondary_skull_default = NONE;
+
+// 0166D6D4
+short const _hs_type_object_name_default = NONE;
+
+// 0166D6D8
+long const _hs_type_object_default = NONE;
+
+// 0166D6DC
+long const _hs_type_unit_default = NONE;
+
+// 0166D6E0
+long const _hs_type_vehicle_default = NONE;
+
+// 0166D6E4
+long const _hs_type_weapon_default = NONE;
+
+// 0166D6E8
+long const _hs_type_device_default = NONE;
+
+// 0166D6EC
+long const _hs_type_scenery_default = NONE;
+
+// 0166D6F0
+long const _hs_type_effect_scenery_default = NONE;
+
+// 0166D6F4
+long const _hs_type_cinematic_lightprobe_default = NONE;
+
+// 0166D6F8
+long const _hs_type_budget_reference_animation_graph_default = NONE;
+
+// 0166D6FC
+long const _hs_type_budget_reference_looping_sound_default = NONE;
+
+// 0166D700
+long const _hs_type_budget_reference_sound_default = NONE;
+
 // 0166D710
 short const hs_type_sizes[k_hs_type_count]
 {
@@ -588,6 +869,9 @@ hs_enum_definition const hs_enum_table[k_hs_type_enum_count]
 };
 
 // 018BEC94
+char const* const _hs_type_string_default = "";
+
+// 018BEC98
 char const* const hs_type_names[k_hs_type_count]
 {
 	"unparsed",
@@ -683,7 +967,7 @@ char const* const hs_type_names[k_hs_type_count]
 	"sound_budget_reference"
 };
 
-// 018BEDE4
+// 018BEDE8
 char const* const hs_script_type_names[k_hs_script_type_count]
 {
 	"startup",
