@@ -115,7 +115,8 @@ enum e_hs_type
 	k_hs_tag_reference_type_count = _hs_type_any_tag - _hs_type_sound + 1,
 	k_hs_type_enum_count = _hs_type_secondary_skull - _hs_type_game_difficulty + 1,
 	k_hs_type_object_count = _hs_type_effect_scenery - _hs_type_object + 1,
-	k_hs_type_object_name_count = _hs_type_effect_scenery_name - _hs_type_object_name + 1
+	k_hs_type_object_name_count = _hs_type_effect_scenery_name - _hs_type_object_name + 1,
+	k_hs_type_budget_reference_count = _hs_type_sound_budget_reference - _hs_type_animation_budget_reference + 1
 };
 static_assert(k_hs_type_object_count == k_hs_type_object_name_count);
 #define NUMBER_OF_HS_OBJECT_TYPES k_hs_type_object_count
@@ -216,6 +217,7 @@ extern long const _hs_type_cinematic_lightprobe_default;
 extern long const _hs_type_budget_reference_animation_graph_default;
 extern long const _hs_type_budget_reference_looping_sound_default;
 extern long const _hs_type_budget_reference_sound_default;
+extern tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_count];
 extern short const hs_type_sizes[k_hs_type_count];
 extern short const hs_object_type_masks[k_hs_type_object_count];
 extern long const hs_tag_reference_type_group_tags[k_hs_tag_reference_type_count];

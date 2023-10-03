@@ -81,6 +81,7 @@
 //REFERENCE_DECLARE(0x0166D6F8, long const, _hs_type_budget_reference_animation_graph_default);
 //REFERENCE_DECLARE(0x0166D6FC, long const, _hs_type_budget_reference_looping_sound_default);
 //REFERENCE_DECLARE(0x0166D700, long const, _hs_type_budget_reference_sound_default);
+//REFERENCE_DECLARE_ARRAY(0x0166D704, tag const, hs_budget_reference_type_group_tags, k_hs_type_budget_reference_count);
 //REFERENCE_DECLARE_ARRAY(0x0166D710, short const, hs_type_sizes, k_hs_type_count);
 //REFERENCE_DECLARE_ARRAY(0x0166D7B8, short const, hs_object_type_masks, k_hs_type_object_count);
 //REFERENCE_DECLARE_ARRAY(0x0166D7C8, long const, hs_tag_reference_type_group_tags, k_hs_tag_reference_type_count);
@@ -715,6 +716,14 @@ long const _hs_type_budget_reference_looping_sound_default = NONE;
 
 // 0166D700
 long const _hs_type_budget_reference_sound_default = NONE;
+
+// 0166D704
+tag const hs_budget_reference_type_group_tags[k_hs_type_budget_reference_count]
+{
+	MODEL_ANIMATION_GRAPH_TAG,
+	SOUND_LOOPING_TAG,
+	SOUND_TAG
+};
 
 // 0166D710
 short const hs_type_sizes[k_hs_type_count]
