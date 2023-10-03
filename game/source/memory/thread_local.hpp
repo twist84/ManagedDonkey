@@ -181,7 +181,7 @@ struct s_thread_local_storage
 	//  name: "hs globals"
 	// count: 3072
 	//  size: 0x8
-	c_smart_data_array<hs_global_datum> hs_global_data;
+	c_smart_data_array<hs_global_runtime> hs_global_data;
 
 	//  name: "hs dist. globals"
 	// count: 512
