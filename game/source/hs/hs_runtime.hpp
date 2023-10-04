@@ -48,7 +48,17 @@ static_assert(sizeof(s_hs_runtime_globals) == 0x8);
 struct hs_global_runtime : s_datum_header
 {
 	word __unknown2;
-	dword __unknown4;
+
+	union
+	{
+		bool bool_value;
+		real real_value;
+		short short_value;
+		long long_value;
+		char const* string_value;
+		short enum_value;
+		byte storage[4];
+	};
 };
 static_assert(sizeof(hs_global_runtime) == 0x8);
 
@@ -88,5 +98,7 @@ extern bool __cdecl hs_evaluate(long thread_index, long expression_index, long d
 extern bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type);
 extern long __cdecl hs_runtime_script_begin(short script_index, short script_type, char thread_type);
 extern long __cdecl hs_thread_new(char thread_index, long script_index, bool deterministic);
+extern void __cdecl render_debug_scripting();
+extern void __cdecl render_debug_scripting_globals();
 extern void __cdecl render_debug_trigger_volumes();
 

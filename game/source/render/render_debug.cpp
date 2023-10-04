@@ -326,7 +326,7 @@ void __cdecl render_debug_clients(long user_index)
 		render_debug_objects();
 		//render_debug_object_damage();
 		//render_debug_projectiles();
-		//render_debug_scripting();
+		render_debug_scripting();
 		render_debug_trigger_volumes();
 		//render_debug_recording();
 		//render_debug_detail_objects();

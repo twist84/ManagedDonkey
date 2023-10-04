@@ -2,9 +2,13 @@
 
 #include "cseries/cseries.hpp"
 #include "hs/hs.hpp"
+#include "interface/interface.hpp"
+#include "main/main.hpp"
+#include "memory/thread_local.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_lights.hpp"
 #include "scenario/scenario.hpp"
+#include "text/draw_string.hpp"
 
 REFERENCE_DECLARE(0x023FF440, bool, debug_scripting);
 REFERENCE_DECLARE(0x023FF441, bool, debug_globals);
@@ -96,6 +100,79 @@ long __cdecl hs_runtime_script_begin(short script_index, short script_type, char
 long __cdecl hs_thread_new(char thread_index, long script_index, bool deterministic)
 {
 	return INVOKE(0x00598E70, hs_thread_new, thread_index, script_index, deterministic);
+}
+
+void __cdecl render_debug_scripting()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
+	TLS_DATA_GET_VALUE_REFERENCE(hs_runtime_globals);
+
+	//char buffer[10240]{};
+	//
+	//main_set_single_thread_request_flag(4, debug_scripting || debug_globals);
+	//if (debug_scripting && *hs_thread_deterministic_data)
+	//{
+	//	short tab_stops[] { 250, 300, 350 };
+	//	c_rasterizer_draw_string draw_string{};
+	//	c_font_cache_mt_safe font_cache{};
+	//	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+	//	draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
+	//
+	//	csnzprintf(buffer, sizeof(buffer), "script name\tLine \tsleep time\tfunction");
+	//	hs_thread_iterator_new(thread_iterator, true, true);
+	//	while (true)
+	//	{
+	//		long thread_index = hs_thread_iterator_next(thread_iterator);
+	//		if (thread_index == NONE)
+	//			break;
+	//
+	//		thread_render_debug_scripting(thread_index, buffer, sizeof(buffer));
+	//	}
+	//
+	//	draw_string.draw(&font_cache, buffer);
+	//}
+	//
+	//render_debug_scripting_globals();
+}
+
+void thread_render_debug_scripting(long thread_index, char* buffer, long buffer_size)
+{
+	//hs_thread* thread = hs_thread_get(thread_index);
+	//
+	//ASSERT(buffer);
+	//ASSERT(buffer_size > 0);
+}
+
+void __cdecl render_debug_scripting_globals()
+{
+	//TLS_DATA_GET_VALUE_REFERENCE(hs_global_data);
+	//
+	//char buffer[10240]{};
+	//
+	//if (debug_globals && *hs_global_data)
+	//{
+	//	c_rasterizer_draw_string draw_string{};
+	//	c_font_cache_mt_safe font_cache{};
+	//	short tab_stops[]{ 300 };
+	//	s_scenario* scenario = global_scenario_get();
+	//	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+	//	draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
+	//
+	//	csnzprintf(buffer, sizeof(buffer), "|n|n|nglobal name|tvalue");
+	//	for (short global_index = 0; global_index < scenario->globals.count(); global_index++)
+	//	{
+	//		hs_global_internal& global = scenario->globals[global_index];
+	//		csnzappendf(buffer, sizeof(buffer), "|n%s|t", global.name.get_string());
+	//		long runtime_index = hs_runtime_index_from_global_designator(global_index & 0x7FFF);
+	//		hs_global_runtime* runtime_global = datum_get_absolute(*hs_global_data, runtime_index);
+	//		char global_value[1024]{};
+	//		inspect_internal(global.type.get(), runtime_global->storage, global_value, sizeof(global_value));
+	//		csnzappendf(buffer, sizeof(buffer), "%s", global_value);
+	//	}
+	//	buffer[1024] = 0;
+	//
+	//	draw_string.draw(&font_cache, buffer);
+	//}
 }
 
 void __cdecl render_debug_trigger_volumes()
