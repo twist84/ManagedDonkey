@@ -276,8 +276,9 @@ bool hs_parse_cutscene_title(long expression_index)
 
 bool hs_parse_cutscene_recording(long expression_index)
 {
-	// #TODO: implement
-	return false;
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_recording);
+
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, offsetof(recorded_animation_definition, name), global_scenario_index_get(), &global_scenario_get()->recorded_animations, sizeof(recorded_animation_definition)));
 }
 
 bool hs_parse_device_group(long expression_index)
