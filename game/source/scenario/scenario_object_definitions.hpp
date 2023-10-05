@@ -95,7 +95,26 @@ struct s_scenario_creature;
 struct s_scenario_terminal;
 struct scenario_biped_block;
 struct scenario_control_block;
-struct scenario_device_group;
+
+enum e_device_group_flags
+{
+	_device_group_flag_can_change_only_once_bit = 0,
+
+	k_device_group_flags
+};
+
+struct scenario_device_group
+{
+	c_static_string<k_tag_string_length> name;
+	real initial_value; // [0,1]
+	c_flags<e_device_group_flags, dword, k_device_group_flags> flags;
+	short editor_folder; // short_block_index
+
+	// pad
+	byte WAFNDIO[0x2];
+};
+static_assert(sizeof(scenario_device_group) == 0x2C);
+
 struct scenario_effect_scenery_block;
 struct scenario_equipment_block;
 struct scenario_giant_block;
