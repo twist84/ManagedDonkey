@@ -1,5 +1,6 @@
 #include "hs/hs_compile.hpp"
 
+#include "ai/ai_orders.hpp"
 #include "ai/behavior.hpp"
 #include "ai/styles.hpp"
 #include "cache/cache_files.hpp"
@@ -354,8 +355,19 @@ bool hs_parse_ai_behavior(long expression_index)
 
 bool hs_parse_ai_orders(long expression_index)
 {
-	// #TODO: implement
-	return false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+
+	short orders_index = orders_get_by_name(source_offset);
+	if (orders_index == NONE)
+	{
+		hs_compile_globals.error_message = "not a valid order";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
+	}
+
+	expression->short_value = orders_index;
+	return true;
 }
 
 bool hs_parse_ai_line(long expression_index)
