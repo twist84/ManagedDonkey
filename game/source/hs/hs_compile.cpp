@@ -528,7 +528,34 @@ bool hs_parse_object_list(long expression_index)
 
 bool hs_parse_folder(long expression_index)
 {
-	// #TODO: implement
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+
+	if (global_scenario_index_get() == NONE)
+	{
+		hs_compile_globals.error_message = "cannot parse editor folder, no scenario loaded";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
+	}
+
+	ASSERT(expression->type == _hs_type_folder);
+
+	s_scenario* scenario = global_scenario_get();
+	if (scenario->editor_folders.count() > 0)
+	{
+		for (long editor_folder_index = 0; editor_folder_index < scenario->editor_folders.count(); editor_folder_index++)
+		{
+			s_scenario_editor_folder& editor_folder = scenario->editor_folders[editor_folder_index];
+			if (editor_folder.name.equals(source_offset))
+			{
+				expression->long_value = editor_folder_index;
+				return true;
+			}
+		}
+	}
+
+	hs_compile_globals.error_message = "folder not found";
+	hs_compile_globals.error_offset = expression->source_offset;
 	return false;
 }
 
