@@ -211,6 +211,22 @@ long scenario_get_zone_set_index_by_name(s_scenario const* scenario, char const*
 	return NONE;
 }
 
+long scenario_get_designer_zone_index_by_name(s_scenario const* scenario, char const* name)
+{
+	string_id retrieved_string_id = string_id_retrieve(name);
+	if (retrieved_string_id != NONE)
+	{
+		for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count(); designer_zone_index++)
+		{
+			s_scenario_designer_zone& designer_zone = scenario->designer_zones[designer_zone_index];
+			if (designer_zone.name.get_value() == retrieved_string_id)
+				return designer_zone_index;
+		}
+	}
+
+	return NONE;
+}
+
 #define SCENARIO_PRINT_ZONE_SETS()\
 if (scenario->zone_sets.count())\
 {\
