@@ -207,37 +207,36 @@ bool hs_parse_script(long expression_index)
 	ASSERT(expression->constant_type == expression->type);
 
 	short script_index = hs_find_script_by_name(source_offset, NONE);
-	if (script_index != NONE)
+	if (script_index == NONE)
 	{
-		expression->short_value = script_index;
-		hs_compile_add_reference(script_index, _reference_type_script, expression_index);
-		return true;
+		hs_compile_globals.error_message = "this is not a valid script name.";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
 	}
 
-	hs_compile_globals.error_message = "this is not a valid script name.";
-	hs_compile_globals.error_offset = expression->source_offset;
-	return false;
+	expression->short_value = script_index;
+	hs_compile_add_reference(script_index, _reference_type_script, expression_index);
+	return true;
 }
 
 bool hs_parse_string_id(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
-	REFERENCE_DECLARE(expression->storage, string_id, string_id_value);
 
 	ASSERT(expression->type == _hs_type_string_id);
 	ASSERT(expression->constant_type == expression->type);
 
 	string_id retrieved_string_id = string_id_retrieve(source_offset);
-	if (retrieved_string_id != NONE)
+	if (retrieved_string_id == NONE)
 	{
-		string_id_value = retrieved_string_id;
-		return true;
+		hs_compile_globals.error_message = "this is not a valid string parameter.";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
 	}
 
-	hs_compile_globals.error_message = "this is not a valid string parameter.";
-	hs_compile_globals.error_offset = expression->source_offset;
-	return false;
+	expression->string_id_value = retrieved_string_id;
+	return true;
 }
 
 bool hs_parse_unit_seat_mapping(long expression_index)
@@ -321,18 +320,17 @@ bool hs_parse_ai_behavior(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
-	REFERENCE_DECLARE(expression->storage, short, short_value);
 
 	short behavior_index = behavior_index_by_name(source_offset);
-	if (behavior_index != NONE)
+	if (behavior_index == NONE)
 	{
-		short_value = behavior_index;
-		return true;
+		hs_compile_globals.error_message = "not a valid behavior";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
 	}
 
-	hs_compile_globals.error_message = "not a valid behavior";
-	hs_compile_globals.error_offset = expression->source_offset;
-	return false;
+	expression->short_value = behavior_index;
+	return true;
 }
 
 bool hs_parse_ai_orders(long expression_index)
@@ -345,12 +343,11 @@ bool hs_parse_ai_line(long expression_index)
 {
 	hs_syntax_node* expression = hs_syntax_get(expression_index);
 	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
-	REFERENCE_DECLARE(expression->storage, string_id, string_id_value);
 
 	ASSERT(expression->type == _hs_type_ai_line);
 	ASSERT(expression->constant_type == expression->type);
 
-	string_id_value = string_id_retrieve(source_offset);
+	expression->string_id_value = string_id_retrieve(source_offset);
 	return true;
 }
 
@@ -393,15 +390,15 @@ bool hs_parse_style(long expression_index)
 	ASSERT(expression->constant_type == expression->type);
 
 	long style = style_get_by_name(source_offset);
-	if (style != NONE)
+	if (style == NONE)
 	{
-		expression->long_value = style;
-		return true;
+		hs_compile_globals.error_message = "invalid style";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
 	}
 
-	hs_compile_globals.error_message = "invalid style";
-	hs_compile_globals.error_offset = expression->source_offset;
-	return false;
+	expression->long_value = style;
+	return true;
 }
 
 bool hs_parse_object_list(long expression_index)
@@ -515,12 +512,14 @@ bool hs_parse_tag_reference_not_resolving(long expression_index)
 		}
 	}
 
-	if (expression->long_value != NONE)
-		return true;
+	if (expression->long_value == NONE)
+	{
+		hs_compile_globals.error_message = "not a loaded tag";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
+	}
 
-	hs_compile_globals.error_message = "not a loaded tag";
-	hs_compile_globals.error_offset = expression->source_offset;
-	return false;
+	return true;
 }
 
 bool hs_parse_enum(long expression_index)
