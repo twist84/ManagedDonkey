@@ -312,8 +312,27 @@ bool hs_parse_ai_command_list(long expression_index)
 
 bool hs_parse_ai_command_script(long expression_index)
 {
-	// #TODO: implement
-	return false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+
+	short script_index = hs_find_script_by_name(source_offset, 0);
+	if (script_index == NONE)
+	{
+		hs_compile_globals.error_message = "this is not a valid command list script";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
+	}
+
+	if (global_scenario_get()->scripts[script_index].script_type != _hs_script_type_command_script)
+	{
+		hs_compile_globals.error_message = "script is not a command-script";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
+	}
+
+	expression->short_value = script_index;
+	hs_compile_add_reference(script_index, _reference_type_script, expression_index);
+	return true;
 }
 
 bool hs_parse_ai_behavior(long expression_index)
