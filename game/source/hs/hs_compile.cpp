@@ -8,11 +8,13 @@
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_runtime.hpp"
+#include "hs/hs_unit_seats.hpp"
 #include "scenario/scenario.hpp"
 
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include <algorithm>
 
 hs_compile_globals_struct hs_compile_globals = {};
 
@@ -242,7 +244,77 @@ bool hs_parse_string_id(long expression_index)
 
 bool hs_parse_unit_seat_mapping(long expression_index)
 {
-	// #TODO: implement
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+
+	ASSERT(expression->type == _hs_type_unit_seat_mapping);
+	ASSERT(expression->constant_type == expression->type);
+
+	if (*source_offset)
+	{
+		bool valid = true;
+		c_static_stack<s_hs_unit_seat_mapping, 256> seats_stack;
+		tag_iterator iterator{};
+		tag_iterator_new(&iterator, UNIT_TAG);
+		for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+		{
+			s_hs_unit_seat_mapping unit_seat_mapping{};
+			unit_seat_mapping.unit_definition_tag_index = tag_index;
+			if (hs_get_unit_seats_from_substring(tag_index, source_offset, &unit_seat_mapping.unit_seats))
+			{
+				if (seats_stack.full())
+				{
+					hs_compile_globals.error_message = "too many units match this seat substring";
+					hs_compile_globals.error_offset = expression->source_offset;
+					valid = false;
+					break;
+				}
+				seats_stack.push_back(unit_seat_mapping);
+			}
+		}
+
+		if (!valid || global_scenario_index_get() == NONE)
+		{
+			hs_compile_globals.error_message = "no scenario loaded";
+			hs_compile_globals.error_offset = expression->source_offset;
+			return false;
+		}
+
+		if (seats_stack.count() <= 0)
+		{
+			hs_compile_globals.error_message = "no units match this seat substring";
+			hs_compile_globals.error_offset = expression->source_offset;
+			return false;
+		}
+
+		s_scenario* scenario = global_scenario_get();
+		long unit_seat_start_index = NONE;
+		long unit_seat_mapping_count = seats_stack.count();
+
+		if (scenario->hs_unit_seats.count() > 0)
+		{
+			s_hs_unit_seat_mapping* seats_blocks_begin = scenario->hs_unit_seats.begin();
+			s_hs_unit_seat_mapping* seats_blocks_end = scenario->hs_unit_seats.end();
+			s_hs_unit_seat_mapping* seats_stack_begin = seats_stack.get_elements();
+			s_hs_unit_seat_mapping* seats_stack_end = seats_stack_begin + seats_stack.count();
+
+			s_hs_unit_seat_mapping* found_seat = std::search(seats_blocks_begin, seats_blocks_end, seats_stack_begin, seats_stack_end, hs_unit_seat_mappings_match);
+			if (found_seat != seats_blocks_end)
+				unit_seat_start_index = found_seat - seats_blocks_begin;
+		}
+
+		if (unit_seat_start_index != NONE)
+		{
+			expression->long_value = hs_encode_unit_seat_mapping(unit_seat_start_index, unit_seat_mapping_count);
+			return true;
+		}
+	}
+	else
+	{
+		expression->long_value = NONE;
+		return true;
+	}
+
 	return false;
 }
 

@@ -984,6 +984,9 @@
     <ClCompile Include="source\ai\ai_orders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\hs\hs_unit_seats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2673,6 +2676,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\hs\hs_library_internal_compile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\hs\hs_unit_seats.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
