@@ -1160,3 +1160,47 @@ void hs_parse_call_predicate(long expression_index, bool* is_function, bool* is_
 	}
 }
 
+bool hs_parse_tag_block_element_string_id(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size)
+{
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+
+	ASSERT((offset + (long)sizeof(string_id)) <= element_size);
+
+	bool valid = false;
+	for (long block_index = 0; block_index < block->count; block_index++)
+	{
+		string_id block_element_string_id = *reinterpret_cast<string_id*>(static_cast<byte*>(tag_block_get_element_with_size(block, block_index, element_size)) + offset);
+		if (block_element_string_id == string_id_retrieve(source_offset))
+		{
+			expression->short_value = static_cast<short>(block_index);
+			valid = true;
+			break;
+		}
+	}
+
+	if (valid)
+	{
+		if (hs_compile_globals.__unknown421)
+		{
+			if (scenario_index == global_scenario_index_get())
+			{
+				//editor_register_script_referenced_block(block);
+			}
+			else
+			{
+				//tag_group_dependencies_register_dependency(global_scenario_index_get(), scenario_index);
+			}
+		}
+
+		return true;
+	}
+
+	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
+		"this is not a valid %s name", hs_type_names[expression->type.get()]);
+	hs_compile_globals.error_message = hs_compile_globals.error_buffer;
+	hs_compile_globals.error_offset = expression->source_offset;
+
+	return false;
+}
+
