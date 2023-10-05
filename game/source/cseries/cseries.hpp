@@ -1096,6 +1096,16 @@ protected:
 	string_id m_value;
 };
 
+struct c_old_string_id
+{
+public:
+	char const* get_string() const;
+	bool is_string(char const* string) const;
+
+protected:
+	string_id m_value;
+};
+
 extern __int64 make_int64(__int64 a, __int64 b);
 
 // IDA
