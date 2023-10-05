@@ -169,6 +169,7 @@ POPD
     <ClCompile Include="source\ai\ai.cpp" />
     <ClCompile Include="source\ai\ai_debug.cpp" />
     <ClCompile Include="source\ai\ai_globals.cpp" />
+    <ClCompile Include="source\ai\ai_orders.cpp" />
     <ClCompile Include="source\ai\behavior.cpp" />
     <ClCompile Include="source\ai\styles.cpp" />
     <ClCompile Include="source\algorithms\qsort.cpp" />
