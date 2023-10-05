@@ -283,7 +283,16 @@ bool hs_parse_cutscene_recording(long expression_index)
 
 bool hs_parse_device_group(long expression_index)
 {
-	// #TODO: implement
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_device_group);
+
+	if (hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, offsetof(scenario_device_group, name), global_scenario_index_get(), &global_scenario_get()->device_groups, sizeof(scenario_device_group))))
+	{
+		hs_syntax_node* expression = hs_syntax_get(expression_index);
+		//expression->long_value = device_group_get_from_scenario_index(expression->short_value); // #TODO: implement `device_group_get_from_scenario_index`
+
+		return true;
+	}
+
 	return false;
 }
 
