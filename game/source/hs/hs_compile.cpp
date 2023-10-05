@@ -454,14 +454,36 @@ bool hs_parse_zone_set(long expression_index)
 	}
 
 	expression->short_value = static_cast<short>(zone_set_index);
-
 	return true;
 }
 
 bool hs_parse_designer_zone(long expression_index)
 {
-	// #TODO: implement
-	return false;
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_designer_zone);
+
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+
+	if (global_scenario_index_get() == NONE)
+	{
+		hs_compile_globals.error_message = "no scenario loaded";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
+	}
+
+	long designer_zone_index = NONE;
+	if (global_scenario_try_and_get())
+		designer_zone_index = scenario_get_designer_zone_index_by_name(global_scenario_get(), source_offset);
+
+	if (designer_zone_index == NONE)
+	{
+		hs_compile_globals.error_message = "this is not a valid zone set name.";
+		hs_compile_globals.error_offset = expression->source_offset;
+		return false;
+	}
+
+	expression->short_value = static_cast<short>(designer_zone_index);
+	return true;
 }
 
 bool hs_parse_point_ref(long expression_index)
