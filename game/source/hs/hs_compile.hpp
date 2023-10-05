@@ -118,3 +118,9 @@ extern void hs_parse_call_predicate(long expression_index, bool* a2, bool* a3);
 extern bool hs_parse_tag_block_element_string_id(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size);
 extern bool hs_parse_tag_block_element(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size);
 
+template<typename block_index_type_t, typename return_type_t>
+return_type_t hs_check_block_index_type_and_return(return_type_t return_value)
+{
+	return return_value;
+}
+
