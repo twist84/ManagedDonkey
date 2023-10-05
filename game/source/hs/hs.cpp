@@ -1,5 +1,6 @@
 #include "hs/hs.hpp"
 
+#include "ai/ai_orders.hpp"
 #include "ai/behavior.hpp"
 #include "ai/cl_engine.hpp"
 #include "algorithms/qsort.hpp"
