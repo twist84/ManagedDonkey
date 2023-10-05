@@ -12,3 +12,5 @@ struct device_group_datum : s_datum_header
 };
 static_assert(sizeof(device_group_datum) == 0x10);
 
+extern long __cdecl device_group_get_from_scenario_index(short device_index);
+
