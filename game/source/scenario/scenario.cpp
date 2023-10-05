@@ -194,6 +194,23 @@ short scenario_object_name_index_from_string(s_scenario* scenario, char const* n
 	return NONE;
 }
 
+long scenario_get_zone_set_index_by_name(s_scenario const* scenario, char const* name, bool strip_path)
+{
+	for (long zone_set_index = 0; zone_set_index < scenario->zone_sets.count(); zone_set_index++)
+	{
+		s_scenario_zone_set& zone_set = scenario->zone_sets[zone_set_index];
+
+		char const* zone_set_name = zone_set.name.get_string();
+		if (strip_path)
+			zone_set_name = tag_name_strip_path(zone_set_name);
+
+		if (csstrcmp(zone_set_name, name) == 0)
+			return zone_set_index;
+	}
+
+	return NONE;
+}
+
 #define SCENARIO_PRINT_ZONE_SETS()\
 if (scenario->zone_sets.count())\
 {\
