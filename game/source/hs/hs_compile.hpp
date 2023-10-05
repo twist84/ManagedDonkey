@@ -116,4 +116,5 @@ extern short hs_count_children(long expression_index);
 extern void hs_compile_add_reference(long referred_index, e_reference_type reference_type, long expression_index);
 extern void hs_parse_call_predicate(long expression_index, bool* a2, bool* a3);
 extern bool hs_parse_tag_block_element_string_id(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size);
+extern bool hs_parse_tag_block_element(long expression_index, long offset, long scenario_index, s_tag_block* block, long element_size);
 
