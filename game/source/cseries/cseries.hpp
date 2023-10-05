@@ -1095,16 +1095,14 @@ public:
 protected:
 	string_id m_value;
 };
+static_assert(sizeof(c_string_id) == sizeof(string_id));
 
-struct c_old_string_id
+struct c_old_string_id : public c_string_id
 {
 public:
-	char const* get_string() const;
 	bool is_string(char const* string) const;
-
-protected:
-	string_id m_value;
 };
+static_assert(sizeof(c_old_string_id) == sizeof(c_string_id));
 
 extern __int64 make_int64(__int64 a, __int64 b);
 

@@ -337,11 +337,6 @@ char const* c_string_id::get_string() const
 	return string_id_get_string_const(m_value);
 }
 
-char const* c_old_string_id::get_string() const
-{
-	return string_id_get_string_const(m_value);
-}
-
 bool c_old_string_id::is_string(char const* string) const
 {
 	return m_value != NONE && m_value == string_id_retrieve(string);
