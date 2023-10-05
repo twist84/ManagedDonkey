@@ -248,8 +248,9 @@ bool hs_parse_unit_seat_mapping(long expression_index)
 
 bool hs_parse_trigger_volume(long expression_index)
 {
-	// #TODO: implement
-	return false;
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_trigger_volume);
+
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, offsetof(scenario_trigger_volume, name), global_scenario_index_get(), &global_scenario_get()->trigger_volumes, sizeof(scenario_trigger_volume)));
 }
 
 bool hs_parse_cutscene_flag(long expression_index)
