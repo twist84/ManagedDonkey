@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 
 enum e_reference_type
