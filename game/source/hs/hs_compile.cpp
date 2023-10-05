@@ -768,8 +768,30 @@ bool hs_parse_cinematic_lightprobe(long expression_index)
 
 bool hs_parse_budget_reference(long expression_index)
 {
-	// #TODO: implement
-	return false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+
+	if (global_scenario_index_get() == NONE)
+	{
+		ASSERT(HS_TYPE_IS_BUDGET_REFERENCE(expression->type));
+
+		s_scenario* scenario = global_scenario_get();
+		if (scenario->budget_references.count() <= 0)
+			return true;
+
+		for (long budget_reference_index = 0; budget_reference_index < scenario->budget_references.count(); budget_reference_index++)
+		{
+			s_scenario_budget_reference& budget_reference = scenario->budget_references[budget_reference_index];
+			if (budget_reference.reference.index != NONE && csstrcmp(budget_reference.reference.get_name(), source_offset) == 0)
+			{
+				expression->long_value = budget_reference.reference.index;
+				return true;
+			}
+		}
+	}
+
+	expression->long_value = NONE;
+	return true;
 }
 
 hs_type_primitive_parser_t* hs_type_primitive_parsers[k_hs_type_count]
