@@ -33,3 +33,5 @@ static_assert(sizeof(orders_definition) == 0x9C);
 
 struct trigger_definition;
 
+extern short orders_get_by_name(char const* name);
+
