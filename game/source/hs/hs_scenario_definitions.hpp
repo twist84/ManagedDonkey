@@ -113,8 +113,7 @@ static_assert(sizeof(hs_source_file) == sizeof(s_tag_block));
 struct s_hs_unit_seat_mapping
 {
 	long unit_definition_tag_index;
-	long unit_seats;
-	long unit_seats2;
+	c_static_flags<64> unit_seats;
 };
 static_assert(sizeof(s_hs_unit_seat_mapping) == 0xC);
 

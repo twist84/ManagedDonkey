@@ -52,8 +52,8 @@ struct s_unit_camera
 {
 	c_flags<e_unit_camera_flags, short, k_unit_camera_flags> flags;
 	byte doh[0x2]; // pad
-	c_string_id camera_marker_name; // c_old_string_id
-	c_string_id camera_submerged_marker_name; // c_old_string_id
+	c_old_string_id camera_marker_name;
+	c_old_string_id camera_submerged_marker_name;
 	angle pitch_auto_level;
 	angle_bounds pitch_range;
 	c_typed_tag_block<s_unit_camera_track> camera_tracks;
@@ -438,8 +438,8 @@ enum e_global_ai_seat_type
 struct unit_seat
 {
 	c_flags<e_unit_seat_flags, dword_flags, k_unit_seat_flags> flags;
-	c_string_id label; // old string id
-	c_string_id marker_name; // old string id
+	c_old_string_id label;
+	c_old_string_id marker_name;
 	c_string_id entry_markers_name;
 	c_string_id boarding_grenade_marker;
 	c_string_id boarding_grenade_string;
