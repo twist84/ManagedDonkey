@@ -38,6 +38,10 @@ long hs_encode_unit_seat_mapping(long unit_seat_start_index, long unit_seat_mapp
 	ASSERT(IN_RANGE_INCLUSIVE(unit_seat_mapping_count, 0, k_maximum_hs_unit_seat_mappings));
 	ASSERT(unit_seat_start_index + unit_seat_mapping_count <= k_maximum_hs_unit_seat_mappings);
 
-	return unit_seat_start_index | (unit_seat_mapping_count << 16);
+	// Xenon
+	//return unit_seat_start_index | (unit_seat_mapping_count << 16);
+
+	// PC
+	return (unit_seat_mapping_count << 16) | unit_seat_start_index;
 }
 
