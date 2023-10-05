@@ -166,7 +166,11 @@ long csstrcmp(char const* s1, char const* s2)
 	return strcmp(s1, s2);
 }
 
-//long csstrnicmp(char const* s1, char const* s2, dword size)
+long csstrnicmp(char const* s1, char const* s2, dword max_count)
+{
+	return _strnicmp(s1, s2, max_count);
+}
+
 //char* csstristr(char const* s1, char const* s2)
 
 char* csstrnzcpy(char* s1, char const* s2, dword size)
