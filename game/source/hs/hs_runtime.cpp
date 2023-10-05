@@ -100,6 +100,9 @@ long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool
 	return INVOKE(0x00598E70, hs_thread_new, thread_type, script_index, deterministic);
 }
 
+void __cdecl inspect_internal(short type, long value, char* buffer, short buffer_size)
+{
+	INVOKE(0x00599280, inspect_internal, type, value, buffer, buffer_size);
 }
 
 void __cdecl render_debug_scripting()
