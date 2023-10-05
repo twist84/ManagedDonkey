@@ -1,21 +1,53 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "hs/hs.hpp"
 #include "memory/data.hpp"
 #include "scenario/scenario_trigger_volumes.hpp"
 
+enum e_hs_thread_type
+{
+	_hs_thread_type_script = 0,
+	_hs_thread_type_global_initialize,
+	_hs_thread_type_runtime_evaluate,
+	_hs_thread_type_command_script,
+	_hs_thread_type_performance_script,
+
+	//... are there anymore?
+
+	k_number_of_hs_thread_types
+};
+
+struct hs_stack_pointer
+{
+	short stack_offset;
+};
+static_assert(sizeof(hs_stack_pointer) == 0x2);
+
+struct hs_destination_pointer
+{
+	// wtf is this?
+	// 0: NULL
+	// 1: &thread->stack_data[stack_pointer.stack_offset]
+	// 2: &hs_global_data[index].long_value
+	// 3: &thread->stack.return_value
+	short type;
+
+	union
+	{
+		short index;
+		hs_stack_pointer stack_pointer;
+	};
+};
+static_assert(sizeof(hs_destination_pointer) == 0x4);
+
 struct hs_stack_frame
 {
-	word stack_offset;
+	hs_stack_pointer stack_pointer;
 	long return_value;
 	long tracking_index;
 
-	// 0: script
-	// 1: global-initialize
-	// 2: runtime-evaluate
-	// 3: command-script
-	// 4: performance-script
-	char type;
+	c_enum<e_hs_thread_type, char, _hs_thread_type_script, k_number_of_hs_thread_types> type;
 
 	byte_flags __flagsD;
 	byte_flags __flagsE;
@@ -30,7 +62,7 @@ struct hs_thread : s_datum_header
 	short previous_script_index;
 	long sleep_until;
 	long sleep_time;
-	hs_stack_frame stack_pointer;
+	hs_stack_frame stack_frame;
 	byte stack_data[0x500];
 };
 static_assert(sizeof(hs_thread) == 0x524);
@@ -96,8 +128,8 @@ extern hs_debug_data_definition hs_debug_data;
 extern bool __cdecl hs_can_cast(short actual_type, short desired_type);
 extern bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast);
 extern bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type);
-extern long __cdecl hs_runtime_script_begin(short script_index, short script_type, char thread_type);
-extern long __cdecl hs_thread_new(char thread_index, long script_index, bool deterministic);
+extern long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script_type, e_hs_thread_type thread_type);
+extern long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool deterministic);
 extern void __cdecl render_debug_scripting();
 extern void __cdecl render_debug_scripting_globals();
 extern void __cdecl render_debug_trigger_volumes();

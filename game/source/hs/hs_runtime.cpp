@@ -73,8 +73,7 @@ bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type)
 	//return actual_type_mask == (actual_type_mask & desired_type_mask);
 }
 
-//long hs_runtime_script_begin(short, e_hs_script_type, e_hs_thread_type)
-long __cdecl hs_runtime_script_begin(short script_index, short script_type, char thread_type)
+long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script_type, e_hs_thread_type thread_type)
 {
 	//return INVOKE(0x00598050, hs_runtime_script_begin, script_index, script_type, thread_type);
 
@@ -96,10 +95,11 @@ long __cdecl hs_runtime_script_begin(short script_index, short script_type, char
 	return thread_index;
 }
 
-//long hs_thread_new(e_hs_thread_type, long, bool)
-long __cdecl hs_thread_new(char thread_index, long script_index, bool deterministic)
+long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool deterministic)
 {
-	return INVOKE(0x00598E70, hs_thread_new, thread_index, script_index, deterministic);
+	return INVOKE(0x00598E70, hs_thread_new, thread_type, script_index, deterministic);
+}
+
 }
 
 void __cdecl render_debug_scripting()
