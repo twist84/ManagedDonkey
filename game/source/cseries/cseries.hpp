@@ -58,12 +58,15 @@ enum : tag
 	_tag_none = 0xFFFFFFFF
 };
 
+#define k_tag_string_length 32
+#define k_tag_long_string_length 256
+
 // 32-character ascii string
-//typedef char string[32];
+//typedef char string[k_tag_string_length];
 //static_assert(sizeof(string) == 0x20);
 
 // 256-character ascii string
-typedef char long_string[256];
+typedef char long_string[k_tag_long_string_length];
 static_assert(sizeof(long_string) == 0x100);
 
 // a 32-bit string identifier

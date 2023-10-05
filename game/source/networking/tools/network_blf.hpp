@@ -36,7 +36,7 @@ public:
 	// BOM: { UTF-16 (BE): FE FF }
 	word byte_order_mark;
 
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 
 	byte pad[2];
 };
@@ -216,7 +216,7 @@ struct s_blf_saved_film : s_blffile_saved_game_file, s_blf_chunk_author
 		dword __unknownC; // alignment
 
 		// build_string.set(version_get_build_string());
-		c_static_string<32> build_string;
+		c_static_string<k_tag_string_length> build_string;
 
 		// network_get_build_identifiers(&executable_type, &executable_version, &compatible_version)
 		long executable_type;
@@ -361,8 +361,8 @@ public:
 	c_static_wchar_string<32> names[12];
 	c_static_wchar_string<128> descriptions[12];
 
-	c_static_string<256> image_file_base;
-	c_static_string<256> scenario_path;
+	c_static_string<k_tag_long_string_length> image_file_base;
+	c_static_string<k_tag_long_string_length> scenario_path;
 
 	long precense_context_id;
 	long sort_order;

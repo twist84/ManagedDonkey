@@ -33,7 +33,7 @@ struct special_movement_definition;
 struct style_behavior_name;
 struct style_palette_entry
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 
 	// Combat status decay options
 	// 
@@ -85,9 +85,9 @@ static_assert(sizeof(special_movement_definition) == sizeof(dword));
 
 struct style_behavior_name
 {
-	c_static_string<32> behavior_name;
+	c_static_string<k_tag_string_length> behavior_name;
 };
-static_assert(sizeof(style_behavior_name) == sizeof(c_static_string<32>));
+static_assert(sizeof(style_behavior_name) == sizeof(c_static_string<k_tag_string_length>));
 
 extern long __cdecl style_get_by_name(char const* name);
 

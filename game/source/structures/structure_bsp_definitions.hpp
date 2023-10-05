@@ -209,7 +209,7 @@ static_assert(sizeof(structure_cluster) == 0xDC);
 
 struct structure_marker
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 	real_quaternion rotation;
 	real_point3d position;
 };

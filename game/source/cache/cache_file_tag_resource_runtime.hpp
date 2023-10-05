@@ -92,7 +92,7 @@ static_assert(sizeof(s_cache_file_resource_runtime_active_game_state) == sizeof(
 struct s_cache_file_resource_prefetch_map_state
 {
 	long campaign_id;
-	c_static_string<256> scenario_path;
+	c_static_string<k_tag_long_string_length> scenario_path;
 	bool __unknown104;
 };
 static_assert(sizeof(s_cache_file_resource_prefetch_map_state) == 0x108);

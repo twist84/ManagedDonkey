@@ -250,7 +250,7 @@ bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char co
 {
 	return INVOKE(0x00501950, cache_file_header_verify, header, scenario_path, fail_fatally);
 
-	//c_static_string<256> error;
+	//c_static_string<k_tag_long_string_length> error;
 	//s_file_last_modification_date file_time{};
 	//
 	//get_current_file_time(&file_time);
@@ -465,7 +465,7 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 	g_cache_file_globals.tag_index_absolute_mapping[tag_index] = tag_loaded_count;
 	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
 
-	REFERENCE_DECLARE(instance->base + instance->total_size, c_static_string<256>, tag_name);
+	REFERENCE_DECLARE(instance->base + instance->total_size, c_static_string<k_tag_long_string_length>, tag_name);
 	tag_name = tag_get_name(tag_index);
 	g_cache_file_globals.tag_loaded_size += cache_file_round_up_read_size(sizeof(tag_name));
 

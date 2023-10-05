@@ -5,7 +5,7 @@
 
 struct cs_point
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 	real_point3d position;
 
 	// ai_reference_frame
@@ -33,7 +33,7 @@ enum e_point_set_flags
 
 struct cs_point_set
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 	s_tag_block points;
 
 	// scenario_structure_bsp_reference

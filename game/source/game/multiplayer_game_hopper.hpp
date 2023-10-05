@@ -22,7 +22,7 @@ enum e_hopper_type
 
 struct c_hopper_configuration
 {
-	c_static_string<32> hopper_name;
+	c_static_string<k_tag_string_length> hopper_name;
 	s_network_http_request_hash game_set_hash;
 	word hopper_identifier;
 	long hopper_category;
@@ -171,7 +171,7 @@ struct s_game_hopper_description
 {
 	word hopper_identifier;
 	long hopper_description_type;
-	c_static_string<256> hopper_description;
+	c_static_string<k_tag_long_string_length> hopper_description;
 };
 static_assert(sizeof(s_game_hopper_description) == 0x108);
 
@@ -190,10 +190,10 @@ struct s_game_set_entry
 	bool optional;
 	long map_id;
 
-	c_static_string<32> game_variant_file_name;
+	c_static_string<k_tag_string_length> game_variant_file_name;
 	s_network_http_request_hash game_variant_hash;
 
-	c_static_string<32> map_variant_file_name;
+	c_static_string<k_tag_string_length> map_variant_file_name;
 	s_network_http_request_hash map_variant_hash;
 };
 static_assert(sizeof(s_game_set_entry) == 0x78);

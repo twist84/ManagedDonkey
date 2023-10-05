@@ -194,7 +194,7 @@ struct s_game_globals
 	{
 		short index;
 		short version;
-		c_static_string<32> name;
+		c_static_string<k_tag_string_length> name;
 	};
 	static_assert(sizeof(damage_reporting_type_block) == 0x24);
 
@@ -516,7 +516,7 @@ struct s_game_globals_interface_tag_references
 
 	struct gfx_ui_string_block
 	{
-		c_static_string<32> name;
+		c_static_string<k_tag_string_length> name;
 		c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> strings;
 
 		void update_reference_names();

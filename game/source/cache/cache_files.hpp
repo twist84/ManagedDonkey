@@ -49,7 +49,7 @@ union s_cache_file_header
 		dword __unknown18;
 
 		long_string source_file;
-		c_static_string<32> build;
+		c_static_string<k_tag_string_length> build;
 		short scenario_type;
 		short scenario_load_type;
 		bool __unknown140;
@@ -67,7 +67,7 @@ union s_cache_file_header
 		dword_flags shared_file_flags; // bool uses_shared_map[shared_file_count];
 		s_file_last_modification_date creation_time;
 		s_file_last_modification_date shared_file_times[6];
-		c_static_string<32> name;
+		c_static_string<k_tag_string_length> name;
 		dword game_language;
 		long_string relative_path;
 		long minor_version;
@@ -78,7 +78,7 @@ union s_cache_file_header
 		s_cache_file_section_file_bounds reports;
 
 		byte __data2E4[0x4];
-		c_static_string<32> author;
+		c_static_string<k_tag_string_length> author;
 		byte __data308[0x18];
 
 		s_network_http_request_hash hash;
@@ -144,7 +144,7 @@ union cache_file_tag_instance
 
 	char const* get_name()
 	{
-		REFERENCE_DECLARE(base + total_size, c_static_string<256>, tag_name);
+		REFERENCE_DECLARE(base + total_size, c_static_string<k_tag_long_string_length>, tag_name);
 		return tag_name.get_string();
 	}
 

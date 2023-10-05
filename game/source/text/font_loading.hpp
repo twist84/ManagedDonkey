@@ -14,7 +14,7 @@ enum e_font_index
 #pragma pack(push, 1)
 struct s_font_loading_state
 {
-	c_static_string<32> filename;
+	c_static_string<k_tag_string_length> filename;
 
 	long font_index;
 
@@ -104,7 +104,7 @@ struct s_font_header
 	// 0xF0000006 in mcc
 	dword version;
 
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 
 	word __unknown24;
 	word __unknown26;

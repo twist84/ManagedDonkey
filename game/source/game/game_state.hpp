@@ -20,8 +20,8 @@ static_assert(sizeof(c_game_state_compressor) == 0x1C);
 struct s_game_state_header
 {
 	dword cookie[2];
-	c_static_string<256> scenario_path;
-	c_static_string<32> build_string;
+	c_static_string<k_tag_long_string_length> scenario_path;
+	c_static_string<k_tag_string_length> build_string;
 	dword map_file_checksum;
 	byte __data134[0x4];
 	game_options options;

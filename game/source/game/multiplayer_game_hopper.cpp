@@ -253,7 +253,7 @@ bool __cdecl create_configuration_file(const char* filename, const void* file_co
 void __cdecl network_build_game_variant(char const* filename)
 {
 	byte* buffer = new byte[0x600]{};
-	c_static_string<256> filepath;
+	c_static_string<k_tag_long_string_length> filepath;
 
 	c_game_variant const* game_variant = &game_options_get()->game_variant;
 	long file_size = multiplayer_game_hopper_pack_game_variant(buffer, 0x600, game_variant);
@@ -273,7 +273,7 @@ void __cdecl network_build_game_variant(char const* filename)
 void __cdecl network_build_map_variant(char const* filename)
 {
 	byte* buffer = new byte[sizeof(s_blffile_map_variant)]{};
-	c_static_string<256> filepath;
+	c_static_string<k_tag_long_string_length> filepath;
 
 	c_map_variant const* map_variant = &game_options_get()->map_variant;
 	{

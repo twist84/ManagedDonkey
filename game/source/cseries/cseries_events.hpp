@@ -61,7 +61,7 @@ struct s_event_category
 	dword __time58;
 	long __unknown5C;
 	e_event_level log_level;
-	c_static_string<256> log_file;
+	c_static_string<k_tag_long_string_length> log_file;
 	void(__cdecl* build_buffer_for_log_proc)(char*, long);
 	e_event_level remote_log_level;
 	e_event_level debugger_break_level;

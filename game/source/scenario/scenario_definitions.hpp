@@ -80,7 +80,7 @@ enum e_scenario_flags
 
 struct ai_scenario_mission_dialogue;
 struct ai_scene;
-struct device_group_block;
+struct scenario_device_group;
 struct editor_comment_definition;
 struct editor_scenario_data_definition;
 struct orders_definition;
@@ -185,7 +185,7 @@ struct s_scenario
 	c_typed_tag_block<scenario_weapon_block> weapons;
 	c_typed_tag_block<scenario_object_palette_entry<WEAPON_TAG>, 'sort'> weapon_palette;
 
-	c_typed_tag_block<device_group_block> device_groups;
+	c_typed_tag_block<scenario_device_group> device_groups;
 
 	c_typed_tag_block<scenario_machine_block> machines;
 	c_typed_tag_block<scenario_object_palette_entry<DEVICE_MACHINE_TAG>, 'sort'> machine_palette;
@@ -515,7 +515,7 @@ static_assert(sizeof(scenario_campaign_player_representation_names_block) == 0x4
 
 struct scenario_object_name
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 	short object_type; // short_block_index_custom_search
 	short scenario_datum_index; // short_block_index_custom_search
 };
@@ -562,7 +562,7 @@ static_assert(sizeof(scenario_starting_profile_weapon) == 0x14);
 
 struct scenario_starting_profile
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 
 	// [0,1]
 	real_fraction starting_health_damage;
@@ -614,7 +614,7 @@ static_assert(sizeof(scenario_player) == 0x1C);
 
 struct squad_group_definition
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 	short parent;
 	short initial_objective;
 
@@ -633,7 +633,7 @@ static_assert(sizeof(s_squad_definition_internal) == sizeof(s_tag_block));
 
 struct s_squad_definition
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 	dword_flags flags;
 	c_enum<e_campaign_team, short, _campaign_team_default, k_number_of_campaign_teams> team;
 	short parent;
@@ -659,7 +659,7 @@ static_assert(sizeof(s_squad_definition) == 0x6C);
 
 struct zone_definition
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 	word_flags flags;
 	word_flags runtime_bsp_flags;
 	s_tag_block firing_positions;
@@ -705,7 +705,7 @@ struct scenario_cutscene_camera_point
 {
 	c_flags<e_scenario_cutscene_camera_flags, word, k_scenario_cutscene_camera_flags> flags;
 	c_enum<e_scenario_cutscene_camera_type, short, _scenario_cutscene_camera_type_normal, k_scenario_cutscene_camera_type_count> type;
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 
 	// pad
 	byte pad[0x4];
@@ -772,7 +772,7 @@ static_assert(sizeof(s_scenario_cutscene_title) == 0x28);
 
 struct orders_definition
 {
-	c_static_string<32> name;
+	c_static_string<k_tag_string_length> name;
 	short style;
 
 	// pad
@@ -784,7 +784,7 @@ struct orders_definition
 	// pad
 	byte PWY[0x2];
 
-	c_static_string<32> entry_script;
+	c_static_string<k_tag_string_length> entry_script;
 	short script_index;
 	short follow_squad;
 	real follow_radius;

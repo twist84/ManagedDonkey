@@ -24,7 +24,7 @@ static_assert(sizeof(s_cached_map_file) == 0x33A0);
 
 struct s_failed_map
 {
-	c_static_string<256> path;
+	c_static_string<k_tag_long_string_length> path;
 	dword time;
 	long index;
 };
@@ -120,16 +120,16 @@ struct s_cache_file_copy_globals
 
 	bool copy_paused;
 
-	c_static_string<256> source_file;
+	c_static_string<k_tag_long_string_length> source_file;
 
 	byte __pad34D9[3];
 
 	struct
 	{
-		c_static_string<256> map_name;
+		c_static_string<k_tag_long_string_length> map_name;
 		long action; // e_cache_file_load_action
 
-		c_static_string<256> pending_map_name;
+		c_static_string<k_tag_long_string_length> pending_map_name;
 		long pending_action; // e_cache_file_load_action
 	} current_action;
 

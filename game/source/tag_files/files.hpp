@@ -31,7 +31,7 @@ struct file_reference_info
 	tag signature;
 	word_flags flags;
 	short location;
-	c_static_string<256> path;
+	c_static_string<k_tag_long_string_length> path;
 };
 static_assert(sizeof(file_reference_info) == 0x108);
 
