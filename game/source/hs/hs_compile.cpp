@@ -269,8 +269,9 @@ bool hs_parse_cutscene_camera_point(long expression_index)
 
 bool hs_parse_cutscene_title(long expression_index)
 {
-	// #TODO: implement
-	return false;
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_camera_point);
+
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, offsetof(s_scenario_cutscene_title, name), global_scenario_index_get(), &global_scenario_get()->cutscene_titles, sizeof(s_scenario_cutscene_title)));
 }
 
 bool hs_parse_cutscene_recording(long expression_index)
