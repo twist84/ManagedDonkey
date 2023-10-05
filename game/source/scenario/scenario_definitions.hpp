@@ -495,6 +495,12 @@ struct s_scenario_cinematic_lighting_palette_entry
 };
 static_assert(sizeof(s_scenario_cinematic_lighting_palette_entry) == 0x14);
 
+struct s_scenario_budget_reference
+{
+	c_typed_tag_reference<MODEL_ANIMATION_GRAPH_TAG, SOUND_LOOPING_TAG, SOUND_TAG> reference;
+};
+static_assert(sizeof(s_scenario_budget_reference) == sizeof(s_tag_reference));
+
 struct s_scenario_lighting_zone_set
 {
 	c_string_id name;
