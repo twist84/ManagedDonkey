@@ -264,58 +264,53 @@ static_assert(sizeof(s_tag_data) == 0x14);
 
 template<typename t_element_type, dword ...t_extra>
 //using c_typed_tag_block = s_tag_block;
-struct c_typed_tag_block
+struct c_typed_tag_block : s_tag_block
 {
 public:
 	long count() const
 	{
-		return m_count;
+		return s_tag_block::count;
 	}
 
 	t_element_type* begin()
 	{
-		return m_elements;
+		return static_cast<t_element_type*>(address);
 	}
 
 	t_element_type const* begin() const
 	{
-		return m_elements;
+		return static_cast<t_element_type*>(address);
 	}
 
 	t_element_type* end()
 	{
-		return m_elements + m_count;
+		return static_cast<t_element_type*>(address) + s_tag_block::count;
 	}
 
 	t_element_type const* end() const
 	{
-		return m_elements + m_count;
+		return static_cast<t_element_type*>(address) + s_tag_block::count;
 	}
 
 	t_element_type& operator[](long index)
 	{
-		ASSERT(VALID_INDEX(index, m_count));
+		ASSERT(VALID_INDEX(index, s_tag_block::count));
 
-		return m_elements[index];
+		return static_cast<t_element_type*>(address)[index];
 	}
 
 	t_element_type& operator[](long index) const
 	{
-		ASSERT(VALID_INDEX(index, m_count));
+		ASSERT(VALID_INDEX(index, s_tag_block::count));
 
-		return m_elements[index];
+		return static_cast<t_element_type*>(address)[index];
 	}
 
 	void clear()
 	{
-		csmemset(m_elements, 0, sizeof(m_elements) * m_count);
-		m_count = 0;
+		csmemset(address, 0, sizeof(t_element_type) * s_tag_block::count);
+		s_tag_block::count = 0;
 	}
-
-//protected:
-	long m_count;
-	t_element_type* m_elements;
-	long : 32; // byte* definition;
 };
 
 template<tag ...k_group_tags>
