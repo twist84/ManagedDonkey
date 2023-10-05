@@ -347,8 +347,9 @@ bool hs_parse_ai_line(long expression_index)
 
 bool hs_parse_starting_profile(long expression_index)
 {
-	// #TODO: implement
-	return false;
+	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_starting_profile);
+
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, offsetof(scenario_starting_profile, name), global_scenario_index_get(), &global_scenario_get()->player_starting_profile, sizeof(scenario_starting_profile)));
 }
 
 bool hs_parse_conversation(long expression_index)
