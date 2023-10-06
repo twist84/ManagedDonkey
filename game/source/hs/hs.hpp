@@ -43,7 +43,7 @@ enum e_hs_type
 	_hs_type_conversation,
 	_hs_type_zone_set,
 	_hs_type_designer_zone,
-	_hs_type_point_reference,
+	_hs_type_point_ref,
 	_hs_type_style,
 	_hs_type_object_list,
 	_hs_type_folder,

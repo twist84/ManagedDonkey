@@ -562,6 +562,50 @@ bool hs_parse_point_ref(long expression_index)
 {
 	// #TODO: implement
 	return false;
+	
+	//hs_syntax_node* expression = hs_syntax_get(expression_index);
+	//REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+	//
+	//bool valid = false;
+	//if (global_scenario_index_get() != NONE)
+	//{
+	//	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_point_ref);
+	//	ASSERT(expression->constant_type == expression->type);
+	//
+	//	if (char* v7 = strrchr(source_offset, '/'))
+	//	{
+	//		char name[k_tag_string_length]{};
+	//		if (v7 - source_offset < k_tag_string_length)
+	//		{
+	//			dword name_size = (v7 - source_offset + 1) >= k_tag_string_length ? k_tag_string_length : v7 - source_offset + 1;
+	//			csstrnzcpy(name, source_offset, name_size);
+	//			short point_set_index = cs_point_set_index_by_name(name); // #TODO: implement `cs_point_set_index_by_name`
+	//			short point_index = NONE;
+	//			if (point_set_index < INT16_MAX + 1)
+	//			{
+	//				expression->long_value = (point_set_index << 16) | point_index;
+	//				valid = true;
+	//			}
+	//		}
+	//	}
+	//	else
+	//	{
+	//		short point_set_index = cs_point_set_index_by_name(source_offset); // #TODO: implement `cs_point_set_index_by_name`
+	//		if (point_set_index != NONE)
+	//		{
+	//			expression->long_value = (point_set_index << 16) | 0xFFFF;
+	//			valid = true;
+	//		}
+	//	}
+	//}
+	//
+	//if (!valid)
+	//{
+	//	hs_compile_globals.error_message = "this is not a valid point reference";
+	//	hs_compile_globals.error_offset = expression->source_offset;
+	//}
+	//
+	//return valid;
 }
 
 bool hs_parse_style(long expression_index)
