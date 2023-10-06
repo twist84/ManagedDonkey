@@ -170,6 +170,7 @@ POPD
     <ClCompile Include="source\ai\ai_debug.cpp" />
     <ClCompile Include="source\ai\ai_globals.cpp" />
     <ClCompile Include="source\ai\ai_orders.cpp" />
+    <ClCompile Include="source\ai\ai_script.cpp" />
     <ClCompile Include="source\ai\behavior.cpp" />
     <ClCompile Include="source\ai\cs_scenario_definitions.cpp" />
     <ClCompile Include="source\ai\styles.cpp" />
@@ -494,6 +495,7 @@ POPD
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ai\ai_debug.hpp" />
+    <ClInclude Include="source\ai\ai_script.hpp" />
     <ClInclude Include="source\ai\behavior.hpp" />
     <ClInclude Include="source\algorithms\qsort.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />

@@ -1,6 +1,7 @@
 #include "hs/hs_compile.hpp"
 
 #include "ai/ai_orders.hpp"
+#include "ai/ai_script.hpp"
 #include "ai/behavior.hpp"
 #include "ai/cl_engine.hpp"
 #include "ai/cs_scenario_definitions.hpp"
@@ -372,42 +373,39 @@ bool hs_parse_device_group(long expression_index)
 
 bool hs_parse_ai(long expression_index)
 {
-	// #TODO: implement
-	return false;
-
-	//hs_syntax_node* expression = hs_syntax_get(expression_index);
-	//REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
-	//
-	//bool valid = false;
-	//if (!HS_TYPE_IS_OBJECT(expression->type))
-	//{
-	//	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_ai);
-	//	ASSERT(expression->constant_type == expression->type);
-	//}
-	//else
-	//{
-	//	valid = true;
-	//}
-	//
-	//bool ai_index_from_string_result = false;
-	//if (global_scenario_index_get() != NONE)
-	//{
-	//	long ai_index_reference = NONE;
-	//	if (ai_index_from_string_result = ai_index_from_string(global_scenario_get(), source_offset, ai_index_reference)) // #TODO: implement `ai_index_from_string`
-	//	{
-	//		expression->long_value = ai_index_from_string_result;
-	//		if (valid)
-	//			expression->constant_type = _hs_type_ai;
-	//	}
-	//}
-	//
-	//if (!ai_index_from_string_result && !valid)
-	//{
-	//	hs_compile_globals.error_message = "this is not a valid ai squad or squad group";
-	//	hs_compile_globals.error_offset = expression->source_offset;
-	//}
-	//
-	//return ai_index_from_string_result;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	REFERENCE_DECLARE(hs_compile_globals.compiled_source + expression->source_offset, char*, source_offset);
+	
+	bool valid = false;
+	if (!HS_TYPE_IS_OBJECT(expression->type))
+	{
+		ASSERT(hs_syntax_get(expression_index)->type == _hs_type_ai);
+		ASSERT(expression->constant_type == expression->type);
+	}
+	else
+	{
+		valid = true;
+	}
+	
+	bool ai_index_from_string_result = false;
+	if (global_scenario_index_get() != NONE)
+	{
+		long ai_index_reference = NONE;
+		if (ai_index_from_string_result = ai_index_from_string(global_scenario_get(), source_offset, &ai_index_reference))
+		{
+			expression->long_value = ai_index_from_string_result;
+			if (valid)
+				expression->constant_type = _hs_type_ai;
+		}
+	}
+	
+	if (!ai_index_from_string_result && !valid)
+	{
+		hs_compile_globals.error_message = "this is not a valid ai squad or squad group";
+		hs_compile_globals.error_offset = expression->source_offset;
+	}
+	
+	return ai_index_from_string_result;
 }
 
 bool hs_parse_ai_command_list(long expression_index)
