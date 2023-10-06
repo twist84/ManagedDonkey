@@ -10,6 +10,7 @@
 #include "hs/hs_scenario_definitions.hpp"
 #include "main/console.hpp"
 
+#include <climits>
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
@@ -277,8 +278,8 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		case _hs_type_short_integer:
 		{
 			short inc_value = short(g_parser_state.m_inc ? g_parser_state.m_inc_value : 1);
-			short max_value = short(g_parser_state.m_max ? g_parser_state.m_max_value : SHORT_MAX - 1);
-			short min_value = short(g_parser_state.m_min ? g_parser_state.m_min_value : ~(SHORT_MAX - 1));
+			short max_value = short(g_parser_state.m_max ? g_parser_state.m_max_value : SHRT_MAX - 1);
+			short min_value = short(g_parser_state.m_min ? g_parser_state.m_min_value : ~(SHRT_MAX - 1));
 
 			item = new c_debug_menu_item_type_short(menu, name, NULL, g_parser_state.m_variable_buffer, min_value, max_value, inc_value);
 		}

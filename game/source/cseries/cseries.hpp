@@ -137,13 +137,13 @@ const long LONG_BITS = SIZEOF_BITS(long);
 
 #define NONE -1
 
-#define CHAR_MAX 0x7F
+//#define CHAR_MAX 0x7F
 #define UNSIGNED_CHAR_MAX 0xFF
 
-#define SHORT_MAX 0x7FFF
+//#define SHORT_MAX 0x7FFF
 #define UNSIGNED_SHORT_MAX 0xFFFF
 
-#define LONG_MAX 0x7FFFFFFF
+//#define LONG_MAX 0x7FFFFFFF
 #define UNSIGNED_LONG_MAX 0xFFFFFFFF
 
 struct c_allocation_base

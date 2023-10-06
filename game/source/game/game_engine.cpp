@@ -13,6 +13,8 @@
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/files.hpp"
 
+#include <climits>
+
 REFERENCE_DECLARE_ARRAY(0x0189ECF0, char const*, k_game_engine_end_conditions, k_game_engine_end_condition_count);
 
 #ifndef DEDICATED_SERVER

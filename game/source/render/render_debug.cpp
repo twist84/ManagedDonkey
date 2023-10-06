@@ -1181,8 +1181,8 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 		short_rectangle2d bounds{};
 		bounds.x0 = static_cast<short>(screen_point.x - window_display_bounds.x0);
 		bounds.y0 = static_cast<short>(screen_point.y - window_display_bounds.y0);
-		bounds.x1 = SHORT_MAX;
-		bounds.y1 = SHORT_MAX;
+		bounds.x1 = SHRT_MAX;
+		bounds.y1 = SHRT_MAX;
 
 		if (g_render_debug_globals->use_simple_font)
 		{

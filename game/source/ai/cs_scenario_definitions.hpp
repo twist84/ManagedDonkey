@@ -61,3 +61,6 @@ struct cs_script_data
 };
 static_assert(sizeof(cs_script_data) == 0x84);
 
+extern short cs_point_set_index_by_name(char const* name);
+extern short cs_point_index_by_name(cs_point_set* point_set, char const* name);
+

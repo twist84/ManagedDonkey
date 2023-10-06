@@ -3,6 +3,8 @@
 #include "physics/bsp3d.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 
+#include <climits>
+
 c_collision_edge_reference::c_collision_edge_reference() :
 	c_collision_bsp_reference(),
 	m_edge_index(0)
@@ -121,7 +123,7 @@ long c_collision_surface_reference::get_plane_index() const
 	//ASSERT((m_surface_index != NONE) == m_bsp.valid())
 
 	if (is_small())
-		return get_small_bsp()->surfaces[m_surface_index].plane & SHORT_MAX;
+		return get_small_bsp()->surfaces[m_surface_index].plane & SHRT_MAX;
 
 	return get_large_bsp()->surfaces[m_surface_index].plane & LONG_MAX;
 }
