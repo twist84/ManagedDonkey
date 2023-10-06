@@ -171,6 +171,7 @@ POPD
     <ClCompile Include="source\ai\ai_globals.cpp" />
     <ClCompile Include="source\ai\ai_orders.cpp" />
     <ClCompile Include="source\ai\behavior.cpp" />
+    <ClCompile Include="source\ai\cs_scenario_definitions.cpp" />
     <ClCompile Include="source\ai\styles.cpp" />
     <ClCompile Include="source\algorithms\qsort.cpp" />
     <ClCompile Include="source\bink\bink_playback.cpp" />
