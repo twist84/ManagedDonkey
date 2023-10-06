@@ -280,11 +280,11 @@ bool __cdecl cache_file_header_verify(s_cache_file_header const* header, char co
 	//	error_occurred = true;
 	//}
 	//
-	//if (header->size < 0 || header->size > INT32_MAX /*cache_file_get_absolute_maximum_size()*/)
+	//if (header->size < 0 || header->size > LONG_MAX /*cache_file_get_absolute_maximum_size()*/)
 	//{
 	//	error.print("had a size out of range for any cache file (%d, should be within [0, %d])",
 	//		header->size,
-	//		INT32_MAX /*cache_file_get_absolute_maximum_size()*/);
+	//		LONG_MAX /*cache_file_get_absolute_maximum_size()*/);
 	//	error_occurred = true;
 	//}
 	//

@@ -403,7 +403,7 @@ bool c_http_client::send_data()
 		if (m_http_stream->read(buffer, buffer_length, &bytes_read))
 		{
 			word bytes_written = 0;
-			ASSERT(IN_RANGE_INCLUSIVE(bytes_read, 0, SHRT_MAX - 1));
+			ASSERT(IN_RANGE_INCLUSIVE(bytes_read, 0, SHORT_MAX - 1));
 
 			if (bytes_read)
 				bytes_written = transport_endpoint_write(m_endpoint_ptr, buffer, static_cast<short>(bytes_read));

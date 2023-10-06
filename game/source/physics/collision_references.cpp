@@ -121,8 +121,8 @@ long c_collision_surface_reference::get_plane_index() const
 	//ASSERT((m_surface_index != NONE) == m_bsp.valid())
 
 	if (is_small())
-		return get_small_bsp()->surfaces[m_surface_index].plane & INT16_MAX;
+		return get_small_bsp()->surfaces[m_surface_index].plane & SHORT_MAX;
 
-	return get_large_bsp()->surfaces[m_surface_index].plane & INT32_MAX;
+	return get_large_bsp()->surfaces[m_surface_index].plane & LONG_MAX;
 }
 

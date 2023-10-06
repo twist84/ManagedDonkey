@@ -218,7 +218,7 @@ void __cdecl console_complete()
 	{
 		ASSERT(matching_items[0]);
 
-		short last_similar_character_index = INT16_MAX;
+		short last_similar_character_index = SHORT_MAX;
 		bool use_rows = matching_item_count > 16;
 
 		c_static_string<1024> matching_item_row;

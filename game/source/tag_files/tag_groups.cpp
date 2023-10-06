@@ -105,13 +105,11 @@ char const* s_tag_reference::get_group_name()
 	return g_cache_file_globals.tag_instances[g_cache_file_globals.tag_index_absolute_mapping[index]]->tag_group.name.get_string();
 }
 
-static_assert(INT32_MAX == 0x7FFFFFFF);
-
 void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* name)
 {
 	ASSERT(reference);
 	ASSERT(strlen(name) < k_tag_file_name_length);
-	ASSERT(strlen(name) <= INT32_MAX);
+	ASSERT(strlen(name) <= LONG_MAX);
 
 	if (reference->index != NONE)
 		c_console::write_line("tags:dependencies:unlink: removing reference to '%s.%s'", reference->get_name(), reference->get_group_name());

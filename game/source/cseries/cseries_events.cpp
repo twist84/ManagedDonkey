@@ -348,8 +348,8 @@ void __cdecl events_debug_render()
 	short_rectangle2d bounds{};
 	bounds.x0 = display_title_safe_pixel_bounds.x0;
 	bounds.y0 = display_title_safe_pixel_bounds.y0 + 70;
-	bounds.x1 = INT16_MAX;
-	bounds.y1 = INT16_MAX;
+	bounds.x1 = SHORT_MAX;
+	bounds.y1 = SHORT_MAX;
 
 	real_argb_color color{};
 	color.alpha = global_real_argb_red->alpha;
