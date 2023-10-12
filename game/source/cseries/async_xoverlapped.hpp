@@ -9,7 +9,7 @@ enum e_overlapped_task_state
 	_overlapped_task_state_pending,
 	_overlapped_task_state_completing,
 	_overlapped_task_state_succeeded,
-	_overlapped_task_state_unknown5,
+	_overlapped_task_state_failure,
 
 	k_overlapped_task_state_count
 };
