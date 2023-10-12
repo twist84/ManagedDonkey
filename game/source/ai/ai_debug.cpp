@@ -153,7 +153,7 @@ void __cdecl ai_debug_render()
 	//		ai_debug_render_sectors();
 	//
 	//	if (ai_render_sector_geometry_errors_enabled)
-	//		nullsub_405();
+	//		ai_render_sector_geometry_errors();
 	//
 	//	if (ai_render_link_specific != NONE)
 	//		ai_debug_render_link_specific();
@@ -177,7 +177,7 @@ void __cdecl ai_debug_render()
 	//	}
 	//
 	//	if (ai_render_object_properties_enabled)
-	//		sub_140B9E4E0();
+	//		ai_render_object_properties();
 	//
 	//	if (ai_render_sector_bsps_enabled)
 	//	{
