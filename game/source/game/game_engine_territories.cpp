@@ -192,7 +192,7 @@ void c_territories_engine::dump_settings(s_file_reference* file) const
 	file_printf(file, "one-sided= %s\r\n", territories_variant->get_one_sided() ? "TRUE" : "FALSE");
 	file_printf(file, "lock after first capture= %s\r\n", territories_variant->get_lock_after_first_capture() ? "TRUE" : "FALSE");
 
-	file_printf(file, "respawn on capture= ");;
+	file_printf(file, "respawn on capture= ");
 	switch (territories_variant->get_respawn_on_capture())
 	{
 	case _territories_respawn_on_capture_settings_disabled:

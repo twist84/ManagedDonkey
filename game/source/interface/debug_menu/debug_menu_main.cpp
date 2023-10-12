@@ -238,7 +238,7 @@ void render_debug_debug_menu()
 
 gamepad_state const& debug_menu_get_gamepad_state()
 {
-	return g_debug_menu_globals.current_gamepad_state;;
+	return g_debug_menu_globals.current_gamepad_state;
 }
 
 gamepad_state const& debug_menu_get_last_gamepad_state()

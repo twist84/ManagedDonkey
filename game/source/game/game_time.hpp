@@ -68,7 +68,7 @@ extern game_time_globals_definition* game_time_globals_get();
 
 extern long __cdecl game_seconds_integer_to_ticks(long seconds); // 0x00564B40
 extern real __cdecl game_seconds_to_ticks_real(real seconds); // 0x00564B70
-extern long __cdecl game_seconds_to_ticks_round(real seconds);; // 0x00564BB0
+extern long __cdecl game_seconds_to_ticks_round(real seconds); // 0x00564BB0
 extern real __cdecl game_tick_length(); // 0x00564C20
 extern long __cdecl game_tick_rate(); // 0x00564C40
 extern real __cdecl game_ticks_to_seconds(real ticks); // 0x00564C60

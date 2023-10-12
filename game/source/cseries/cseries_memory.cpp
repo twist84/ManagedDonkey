@@ -23,6 +23,6 @@ void memmove_guarded(void* write_start, void const* source, unsigned int size, v
 		ASSERT(write_start >= bounds_lower && write_start <= bounds_upper);
 		ASSERT(write_end >= bounds_lower && write_end <= bounds_upper);
 
-		memmove(write_start, source, size);;
+		memmove(write_start, source, size);
 	}
 }

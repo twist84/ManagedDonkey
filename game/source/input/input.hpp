@@ -245,7 +245,7 @@ enum e_controller_button
 	_controller_button_left_bumper,
 
 	k_controller_button_count,
-	k_controller_button_none
+	k_controller_button_none = NONE
 };
 
 enum e_gamepad_button
