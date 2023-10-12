@@ -3437,61 +3437,61 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"controller_unlock_solo_levels",
 
 	// 1119
-	"unknown45F",
+	"controller_set_look_inverted",
 
 	// 1120
-	"unknown460",
+	"controller_set_vibration_enabled",
 
 	// 1121
-	"unknown461",
+	"controller_set_flight_stick_aircraft_controls",
 
 	// 1122
-	"unknown462",
+	"controller_set_auto_center_look",
 
 	// 1123
-	"unknown463",
+	"controller_set_crouch_lock",
 
 	// 1124
-	"unknown464",
+	"controller_set_button_preset",
 
 	// 1125
-	"unknown465",
+	"controller_set_joystick_preset",
 
 	// 1126
-	"unknown466",
+	"controller_set_look_sensitivity",
 
 	// 1127
-	"unknown467",
+	"controller_unlock_single_player_levels",
 
 	// 1128
-	"unknown468",
+	"controller_lock_single_player_levels",
 
 	// 1129
-	"unknown469",
+	"controller_unlock_skulls",
 
 	// 1130
-	"unknown46A",
+	"controller_lock_skulls",
 
 	// 1131
-	"unknown46B",
+	"controller_unlock_models",
 
 	// 1132
-	"unknown46C",
+	"controller_lock_models",
 
 	// 1133
-	"unknown46D",
+	"controller_set_single_player_level_completed",
 
 	// 1134
-	"unknown46E",
+	"controller_set_player_character_type",
 
 	// 1135
-	"unknown46F",
+	"controller_set_voice_output_setting",
 
 	// 1136
-	"unknown470",
+	"controller_set_voice_mask",
 
 	// 1137
-	"unknown471",
+	"controller_set_subtitle_setting",
 
 	// 1138
 	"unknown472",
@@ -3521,142 +3521,142 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"unknown47A",
 
 	// 1147
-	"unknown47B",
+	"ui_debug_load_main_menu",
 
 	// 1148
-	"unknown47C",
+	"ui_debug_text_bounds",
 
 	// 1149
-	"unknown47D",
+	"ui_debug_text_font",
 
 	// 1150
-	"unknown47E",
+	"ui_debug_show_title_safe_bounds",
 
 	// 1151
-	"unknown47F",
+	"ui_debug_element_bounds",
 
 	// 1152
-	"unknown480",
+	"ui_memory_dump",
 
 	// 1153
-	"unknown481",
+	"ui_time_scale_step",
 
 	// 1154
-	"unknown482",
+	"xoverlapped_debug_render",
 
 	// 1155
-	"unknown483",
+	"gui_load_screen",
 
 	// 1156
-	"unknown484",
+	"gui_reset",
 
 	// 1157
-	"unknown485",
+	"gui_start",
 
 	// 1158
-	"unknown486",
+	"gui_stop",
 
 	// 1159
-	"unknown487",
+	"gui_error_post",
 
 	// 1160
-	"unknown488",
+	"gui_error_post_toast",
 
 	// 1161
-	"unknown489",
+	"gui_error_resolve",
 
 	// 1162
-	"unknown48A",
+	"gui_error_clear",
 
 	// 1163
-	"unknown48B",
+	"gui_dialog_show",
 
 	// 1164
-	"unknown48C",
+	"gui_spartan_milestone_show",
 
 	// 1165
-	"unknown48D",
+	"gui_spartan_rank_show",
 
 	// 1166
-	"unknown48E",
+	"gui_print_active_screens",
 
 	// 1167
-	"unknown48F",
+	"gui_print_active_screen_strings",
 
 	// 1168
-	"unknown490",
+	"gui_debug_screen_name",
 
 	// 1169
-	"unknown491",
+	"gui_debug_screen_animation",
 
 	// 1170
-	"unknown492",
+	"gui_debug_screen_bounds",
 
 	// 1171
-	"unknown493",
+	"gui_debug_screen_rotation",
 
 	// 1172
-	"unknown494",
+	"gui_debug_group_name",
 
 	// 1173
-	"unknown495",
+	"gui_debug_group_animation",
 
 	// 1174
-	"unknown496",
+	"gui_debug_group_bounds",
 
 	// 1175
-	"unknown497",
+	"gui_debug_group_rotation",
 
 	// 1176
-	"unknown498",
+	"gui_debug_list_name",
 
 	// 1177
-	"unknown499",
+	"gui_debug_list_animation",
 
 	// 1178
-	"unknown49A",
+	"gui_debug_list_bounds",
 
 	// 1179
-	"unknown49B",
+	"gui_debug_list_rotation",
 
 	// 1180
-	"unknown49C",
+	"gui_debug_list_item_name",
 
 	// 1181
-	"unknown49D",
+	"gui_debug_list_item_animation",
 
 	// 1182
-	"unknown49E",
+	"gui_debug_list_item_bounds",
 
 	// 1183
-	"unknown49F",
+	"gui_debug_list_item_rotation",
 
 	// 1184
-	"unknown4A0",
+	"gui_debug_text_name",
 
 	// 1185
-	"unknown4A1",
+	"gui_debug_text_animation",
 
 	// 1186
-	"unknown4A2",
+	"gui_debug_text_bounds",
 
 	// 1187
-	"unknown4A3",
+	"gui_debug_text_rotation",
 
 	// 1188
-	"unknown4A4",
+	"gui_debug_bitmap_name",
 
 	// 1189
-	"unknown4A5",
+	"gui_debug_bitmap_animation",
 
 	// 1190
-	"unknown4A6",
+	"gui_debug_bitmap_bounds",
 
 	// 1191
-	"unknown4A7",
+	"gui_debug_bitmap_rotation",
 
 	// 1192
-	"unknown4A8",
+	"gui_debug_music_state",
 
 	// 1193
 	"cc_enable",
