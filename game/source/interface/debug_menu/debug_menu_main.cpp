@@ -126,11 +126,11 @@ void debug_menu_update_current_gamepad_state()
 	csmemset(&g_debug_menu_globals.current_gamepad_state, 0, sizeof(g_debug_menu_globals.current_gamepad_state));
 	for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	{
-		//if (player_index_from_controller_index(controller_index) != k_no_controller)
-		//{
-		//	if (gamepad_state const* state = input_get_gamepad_state(controller_index))
-		//		xor_buffers(&g_debug_menu_globals.current_gamepad_state, state, sizeof(gamepad_state));
-		//}
+		if (controller_index != k_no_controller)
+		{
+			if (gamepad_state const* state = input_get_gamepad_state(static_cast<short>(controller_index)))
+				xor_buffers(&g_debug_menu_globals.current_gamepad_state, state, sizeof(gamepad_state));
+		}
 	}
 
 	csmemset(&g_debug_menu_globals.current_gamepad_state.thumb_left, 0, 8);

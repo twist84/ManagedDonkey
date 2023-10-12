@@ -11,6 +11,11 @@ REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
 
 c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
 
+gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index)
+{
+	return INVOKE(0x00511840, input_get_gamepad_state, gamepad_index);
+}
+
 bool __cdecl input_get_key(s_key_state* key, e_input_type input_type)
 {
 	return INVOKE(0x005118C0, input_get_key, key, input_type);
