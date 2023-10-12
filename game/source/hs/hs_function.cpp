@@ -3695,268 +3695,268 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"input_suppress_rumble",
 
 	// 1205
-	"unknown4B5",
+	"input_disable_claw_button_combos",
 
 	// 1206
-	"unknown4B6",
+	"update_remote_camera",
 
 	// 1207
-	"unknown4B7",
+	"net_build_network_config",
 
 	// 1208
-	"unknown4B8",
+	"net_build_game_variant",
 
 	// 1209
-	"unknown4B9",
+	"net_verify_game_variant",
 
 	// 1210
-	"unknown4BA",
+	"net_load_and_use_game_variant",
 
 	// 1211
-	"unknown4BB",
+	"net_use_hopper_directory",
 
 	// 1212
-	"unknown4BC",
+	"net_quality_dump",
 
 	// 1213
-	"unknown4BD",
+	"net_quality_clear",
 
 	// 1214
-	"unknown4BE",
+	"net_quality_set_connection_badness_history",
 
 	// 1215
-	"unknown4BF",
+	"net_quality_set_squad_host_badness_history",
 
 	// 1216
-	"unknown4C0",
+	"net_quality_set_squad_client_badness_history",
 
 	// 1217
-	"unknown4C1",
+	"net_quality_set_group_host_badness_history",
 
 	// 1218
-	"unknown4C2",
+	"net_quality_set_group_client_badness_history",
 
 	// 1219
-	"unknown4C3",
+	"net_quality_set_estimated_bandwidth",
 
 	// 1220
-	"unknown4C4",
+	"net_join_friend",
 
 	// 1221
-	"unknown4C5",
+	"net_join_squad_to_friend",
 
 	// 1222
-	"unknown4C6",
+	"net_join_sessionid",
 
 	// 1223
-	"unknown4C7",
+	"net_join_squad_to_sessionid",
 
 	// 1224
-	"unknown4C8",
+	"net_enable_join_friend_loop",
 
 	// 1225
-	"unknown4C9",
+	"net_set_maximum_player_count",
 
 	// 1226
-	"unknown4CA",
+	"net_set_campaign_insertion_point",
 
 	// 1227
-	"unknown4CB",
+	"net_status_filter",
 
 	// 1228
-	"unknown4CC",
+	"net_sim_reset",
 
 	// 1229
-	"unknown4CD",
+	"net_sim_spike_now",
 
 	// 1230
-	"unknown4CE",
+	"net_sim_dropspike_now",
 
 	// 1231
-	"unknown4CF",
+	"net_test_ping",
 
 	// 1232
-	"unknown4D0",
+	"net_test_channel_delete",
 
 	// 1233
-	"net_delegate_?",
+	"net_test_delegate_host",
 
 	// 1234
-	"net_map_name",
+	"net_test_delegate_leader",
 
 	// 1235
-	"unknown4D3",
+	"net_test_map_name",
 
 	// 1236
-	"net_campaign_difficulty",
+	"net_test_campaign_difficulty",
 
 	// 1237
-	"unknown4D5",
+	"net_test_reset_objects",
 
 	// 1238
-	"unknown4D6",
+	"net_test_fatal_error",
 
 	// 1239
-	"unknown4D7",
+	"net_set_machine_name",
 
 	// 1240
-	"unknown4D8",
+	"events_enabled",
 
 	// 1241
-	"unknown4D9",
+	"events_disable_suppression",
 
 	// 1242
-	"unknown4DA",
+	"event_global_display_category",
 
 	// 1243
-	"unknown4DB",
+	"event_global_log_category",
 
 	// 1244
-	"unknown4DC",
+	"event_global_remote_log_category",
 
 	// 1245
-	"unknown4DD",
+	"event_display_category",
 
 	// 1246
-	"unknown4DE",
+	"event_force_display_category",
 
 	// 1247
-	"unknown4DF",
+	"event_log_category",
 
 	// 1248
-	"unknown4E0",
+	"event_remote_log_category",
 
 	// 1249
-	"unknown4E1",
+	"event_debugger_break_category",
 
 	// 1250
-	"unknown4E2",
+	"event_halt_category",
 
 	// 1251
-	"unknown4E3",
+	"event_list_categories",
 
 	// 1252
-	"unknown4E4",
+	"events_suppress_console_display",
 
 	// 1253
-	"unknown4E5",
+	"play_bink_movie",
 
 	// 1254
-	"unknown4E6",
+	"play_bink_movie_from_tag",
 
 	// 1255
-	"unknown4E7",
+	"play_credits_skip_to_menu",
 
 	// 1256
-	"unknown4E8",
+	"bink_time",
 
 	// 1257
-	"unknown4E9",
+	"set_global_doppler_factor",
 
 	// 1258
-	"unknown4EA",
+	"set_global_mixbin_headroom",
 
 	// 1259
-	"unknown4EB",
+	"debug_sound_environment_source_parameter",
 
 	// 1260
 	"data_mine_set_mission_segment",
 
 	// 1261
-	"data_mine_display_mission_segment",
+	"data_mine_insert",
 
 	// 1262
-	"data_mine_insert",
+	"data_mine_upload",
 
 	// 1263
 	"unknown4EF",
 
 	// 1264
-	"data_mine_upload",
-
-	// 1265
-	"data_mine_playback",
-
-	// 1266
 	"data_mine_enable",
 
+	// 1265
+	"data_mine_flush",
+
+	// 1266
+	"data_mine_debug_menu_setting",
+
 	// 1267
-	"unknown4F3",
+	"data_mine_open_debug_menu",
 
 	// 1268
-	"unknown4F4",
+	"data_mine_set_display_mission_segment",
 
 	// 1269
-	"unknown4F5",
+	"test_memory_allocators",
 
 	// 1270
-	"unknown4F6",
+	"test_memory_allocators",
 
 	// 1271
-	"unknown4F7",
+	"display_video_standard",
 
 	// 1272
-	"unknown4F8",
+	"test_xcr_monkey_enable",
 
 	// 1273
-	"unknown4F9",
+	"test_show_guide_status",
 
 	// 1274
-	"unknown4FA",
+	"test_show_users_xuids",
 
 	// 1275
-	"unknown4FB",
+	"test_show_are_users_friends",
 
 	// 1276
-	"unknown4FC",
+	"test_invite_friend",
 
 	// 1277
-	"unknown4FD",
+	"test_get_squad_session_id",
 
 	// 1278
-	"unknown4FE",
+	"test_auto_get_screens",
 
 	// 1279
-	"unknown4FF",
+	"test_auto_get_screen_widgets",
 
 	// 1280
-	"unknown500",
+	"test_auto_screen_get_datasources",
 
 	// 1281
-	"unknown501",
+	"test_auto_screen_get_data_columns",
 
 	// 1282
-	"unknown502",
+	"test_auto_screen_get_data",
 
 	// 1283
-	"unknown503",
+	"test_auto_screen_invoke_list_item_by_name",
 
 	// 1284
-	"unknown504",
+	"test_auto_screen_invoke_list_item_by_text",
 
 	// 1285
-	"unknown505",
+	"test_auto_screen_invoke_list_item_by_handle",
 
 	// 1286
-	"unknown506",
+	"test_auto_screen_send_button_press",
 
 	// 1287
-	"unknown507",
+	"test_download_storage_file",
 
 	// 1288
-	"unknown508",
+	"test_game_results_save_to_file",
 
 	// 1289
-	"unknown509",
+	"test_game_results_load_from_file",
 
 	// 1290
-	"unknown50A",
+	"test_roster_save_to_file",
 
 	// 1291
-	"unknown50B",
+	"test_roster_load_from_file",
 
 	// 1292
-	"unknown50C",
+	"test_fragment_utility_drive",
 
 	// 1293
 	"unknown50D",
@@ -3965,58 +3965,58 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"unknown50E",
 
 	// 1295
-	"unknown50F",
+	"clear_webcache",
 
 	// 1296
-	"unknown510",
+	"force_manifest_redownload",
 
 	// 1297
-	"unknown511",
+	"online_files_retry",
 
 	// 1298
-	"unknown512",
+	"online_files_upload",
 
 	// 1299
-	"unknown513",
+	"online_files_throttle_bandwidth",
 
 	// 1300
-	"unknown514",
+	"online_marketplace_refresh",
 
 	// 1301
-	"unknown515",
+	"webstats_disable",
 
 	// 1302
-	"unknown516",
+	"webstats_test_submit",
 
 	// 1303
-	"unknown517",
+	"webstats_test_submit_multiplayer",
 
 	// 1304
-	"unknown518",
+	"webstats_test_submit_campaign",
 
 	// 1305
-	"unknown519",
+	"webstats_throttle_bandwidth",
 
 	// 1306
-	"unknown51A",
+	"netdebug_prefer_internet",
 
 	// 1307
-	"unknown51B",
+	"flag_new",
 
 	// 1308
-	"unknown51C",
+	"flag_new_at_look",
 
 	// 1309
-	"unknown51D",
+	"flags_clear",
 
 	// 1310
-	"unknown51E",
+	"bug_now",
 
 	// 1311
-	"unknown51F",
+	"bug_now_lite",
 
 	// 1312
-	"unknown520",
+	"bug_now_auto",
 
 	// 1313
 	"object_list_children",
@@ -4028,22 +4028,22 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"voice_set_voice_repeater_peer_index",
 
 	// 1316
-	"unknown524",
+	"voice_set_mute",
 
 	// 1317
-	"unknown525",
+	"net_leaderboard_clear_hopper",
 
 	// 1318
-	"unknown526",
+	"net_leaderboard_clear_global_arbitrated",
 
 	// 1319
-	"unknown527",
+	"net_leaderboard_clear_global_unarbitrated",
 
 	// 1320
-	"unknown528",
+	"net_leaderboard_refresh",
 
 	// 1321
-	"unknown529",
+	"dump_loaded_tags",
 
 	// 1322
 	"interpolator_start",
@@ -4109,7 +4109,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"interpolator_flip",
 
 	// 1343
-	"unknown53F",
+	"set_pc_runtime_language",
 
 	// 1344
 	"animation_cache_stats_reset",
@@ -4139,40 +4139,40 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"cinematic_enable_ambience_details",
 
 	// 1353
-	"unknown549",
+	"rasterizer_bloom_override",
 
 	// 1354
-	"unknown54A",
+	"rasterizer_bloom_override_reset",
 
 	// 1355
-	"unknown54B",
+	"rasterizer_bloom_override_blur_amount",
 
 	// 1356
-	"unknown54C",
+	"rasterizer_bloom_override_threshold",
 
 	// 1357
-	"unknown54D",
+	"rasterizer_bloom_override_brightness",
 
 	// 1358
-	"unknown54E",
+	"rasterizer_bloom_override_box_factor",
 
 	// 1359
-	"unknown54F",
+	"rasterizer_bloom_override_max_factor",
 
 	// 1360
-	"unknown550",
+	"rasterizer_bloom_override_silver_bullet",
 
 	// 1361
-	"unknown551",
+	"rasterizer_bloom_override_only",
 
 	// 1362
-	"unknown552",
+	"rasterizer_bloom_override_high_res",
 
 	// 1363
-	"unknown553",
+	"rasterizer_bloom_override_brightness_alpha",
 
 	// 1364
-	"unknown554",
+	"rasterizer_bloom_override_max_factor_alpha",
 
 	// 1365
 	"cache_block_for_one_frame",
