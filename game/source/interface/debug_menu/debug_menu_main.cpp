@@ -143,7 +143,7 @@ void debug_menu_update()
 	debug_menu_update_current_gamepad_state();
 
 	gamepad_state const& state = debug_menu_get_gamepad_state();
-	if (state.buttons_down_frames[6])
+	if (state.buttons_down_frames[_xinput_gamepad_left_thumb])
 	{
 		g_debug_menu_globals.render = false;
 	}
@@ -153,13 +153,13 @@ void debug_menu_update()
 		if (console_is_active())
 		{
 			v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
-				|| state.buttons_down_frames[5] == 1;
+				|| state.buttons_down_frames[_xinput_gamepad_back] == 1;
 		}
 		else
 		{
 			v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
-				|| state.buttons_down_frames[5] == 1 && state.buttons_down_frames[4]
-				|| state.buttons_down_frames[5] && state.buttons_down_frames[4] == 1;
+				|| state.buttons_down_frames[_xinput_gamepad_back] == 1 && state.buttons_down_frames[_xinput_gamepad_start]
+				|| state.buttons_down_frames[_xinput_gamepad_back] && state.buttons_down_frames[_xinput_gamepad_start] == 1;
 		}
 
 		if (!console_is_active() && !debug_menu_enabled)

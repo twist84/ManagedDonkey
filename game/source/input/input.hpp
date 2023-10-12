@@ -392,14 +392,34 @@ struct mouse_state
 };
 static_assert(sizeof(mouse_state) == 0x2C);
 
+enum e_xinput_gamepad
+{
+	_xinput_gamepad_dpad_up = 0,
+	_xinput_gamepad_dpad_down,
+	_xinput_gamepad_dpad_left,
+	_xinput_gamepad_dpad_right,
+	_xinput_gamepad_start,
+	_xinput_gamepad_back,
+	_xinput_gamepad_left_thumb,
+	_xinput_gamepad_right_thumb,
+	_xinput_gamepad_left_shoulder,
+	_xinput_gamepad_right_shoulder,
+	_xinput_gamepad_a,
+	_xinput_gamepad_b,
+	_xinput_gamepad_x,
+	_xinput_gamepad_y,
+
+	k_xinput_gamepad_count
+};
+
 // based on `XINPUT_STATE`
 struct gamepad_state
 {
 	c_static_array<byte, 2> trigger_down_amount;
 	c_static_array<byte, 2> max_trigger_down_amount;
 	c_static_array<byte, 2> trigger_down_frames;
-	c_static_array<byte, 14> buttons_down_frames;
-	c_static_array<word, 14> buttons_down_msec;
+	c_static_array<byte, k_xinput_gamepad_count> buttons_down_frames;
+	c_static_array<word, k_xinput_gamepad_count> buttons_down_msec;
 
 	int16_point2d thumb_left;
 	int16_point2d thumb_right;
