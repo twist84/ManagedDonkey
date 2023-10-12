@@ -1466,3 +1466,15 @@ callback_result_t crash_callback(void const* userdata, long token_count, tokens_
 	return result;
 }
 
+callback_result_t player_force_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* desired_mode_string = tokens[1]->get_string();
+	long desired_mode = string_id_retrieve(desired_mode_string);
+
+	player_override_desired_mode(desired_mode);
+
+	return result;
+}
+

@@ -1,6 +1,7 @@
 #include "units/units.hpp"
 
 #include "cache/cache_files.hpp"
+#include "game/players.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
@@ -40,6 +41,16 @@ bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, lo
 {
 	return INVOKE(0x00B393D0, unit_add_weapon_to_inventory, unit_index, object_index, weapon_addition_method);
 }
+
+//void __cdecl unit_control(long unit_index, unit_control_data const* control_data)
+void __cdecl unit_control(long unit_index, unit_control_data* control_data)
+{
+	if (g_player_desired_mode_override != NONE)
+		control_data->desired_mode = g_player_desired_mode_override;
+
+	INVOKE(0x00B3E240, unit_control, unit_index, control_data);
+}
+HOOK_DECLARE_CALL(0x0053F212, unit_control); // player_submit_control
 
 void __cdecl unit_get_camera_position(long unit_index, real_point3d* position)
 {

@@ -682,6 +682,10 @@ struct c_player_with_unit_iterator :
 	}
 };
 
+extern string_id g_player_desired_mode_override;
+extern void player_override_desired_mode(long desired_mode_override);
+extern void players_debug_render();
+
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);

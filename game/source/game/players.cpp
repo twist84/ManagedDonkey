@@ -1,15 +1,19 @@
-#include "players.hpp"
+#include "game/players.hpp"
 
 #include "cache/cache_files.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/interface_constants.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "scenario/scenario.hpp"
+#include "text/draw_string.hpp"
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
+
+string_id g_player_desired_mode_override = NONE;
 
 s_player_identifier::s_player_identifier() :
 	ipv4_address(0),
@@ -30,6 +34,49 @@ s_player_identifier::s_player_identifier(transport_address const* address) :
 	port(address->port),
 	flags(address->address_length)
 {
+}
+
+void player_override_desired_mode(long desired_mode)
+{
+	g_player_desired_mode_override = NONE;
+
+	switch (desired_mode)
+	{
+	case STRING_ID(global, berserk):
+	case STRING_ID(global, flaming):
+	case STRING_ID(global, sleep):
+	case STRING_ID(global, patrol):
+	case STRING_ID(global, combat):
+	case STRING_ID(global, armored):
+	case STRING_ID(global, protected):
+	case STRING_ID(global, crouch):
+	case STRING_ID(global, flee):
+	case STRING_ID(global, stunned):
+	case STRING_ID(global, climb):
+		g_player_desired_mode_override = desired_mode;
+		break;
+	}
+}
+
+void players_debug_render()
+{
+	c_font_cache_mt_safe font_cache;
+	char string[2048]{};
+
+	if (g_player_desired_mode_override != NONE)
+	{
+		c_rasterizer_draw_string draw_string;
+
+		short_rectangle2d bounds{};
+		interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		bounds.y0 = bounds.y1 - 40;
+
+		char const* string_const = string_id_get_string_const(g_player_desired_mode_override);
+		csnzprintf(string, sizeof(string), "Player Forced Into Mode: %s|n", string_const);
+
+		draw_string.set_bounds(&bounds);
+		draw_string.draw(&font_cache, string);
+	}
 }
 
 void __cdecl player_set_unit_index(long player_index, long unit_index)

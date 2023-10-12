@@ -153,6 +153,7 @@ COMMAND_CALLBACK_DECLARE(camera_set_mode);
 COMMAND_CALLBACK_DECLARE(debug_camera_save);
 COMMAND_CALLBACK_DECLARE(debug_camera_load);
 COMMAND_CALLBACK_DECLARE(crash);
+COMMAND_CALLBACK_DECLARE(player_force_mode);
 
 //-----------------------------------------------------------------------------
 
@@ -236,6 +237,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(debug_camera_save, 0, "", "saves the camera position and facing.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(debug_camera_load, 0, "", "loads the saved camera position and facing.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(crash, 1, "<string>", "crashes (for debugging).\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(player_force_mode, 1, "<string_id>", "force your will upon the player\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

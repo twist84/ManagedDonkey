@@ -19,7 +19,7 @@ struct s_unit_weapon_set
 
 struct unit_control_data
 {
-	long animation_seat;
+	string_id desired_mode;
 	short aiming_speed;
 	s_unit_weapon_set weapon_set;
 	word grenade_index;
