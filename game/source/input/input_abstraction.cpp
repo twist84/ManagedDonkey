@@ -128,8 +128,11 @@ void __cdecl input_abstraction_initialize()
 		input_abstraction_get_default_preferences(&input_abstraction_globals.preferences[controller_index]);
 		input_abstraction_globals.input_has_gamepad[controller_index] = input_has_gamepad(static_cast<short>(controller_index));
 
-		for (long button_index = 0; button_index < 16; button_index++)
-			input_abstraction_globals.input_states[controller_index].abstract_buttons[button_index].unlock();
+		for (long button_index = 0; button_index < k_controller_button_count; button_index++)
+		{
+			e_button_action button_action = static_cast<e_button_action>(button_index);
+			input_abstraction_globals.input_states[controller_index].get_button(button_action).unlock();
+		}
 	}
 
 	input_abstraction_reset_controller_detection_timer();
@@ -144,8 +147,11 @@ void __cdecl input_abstraction_latch_all_buttons(long controller_index)
 {
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
-	for (long button_index = 0; button_index < k_gamepad_button_count; button_index++)
-		input_abstraction_globals.input_states[controller_index].abstract_buttons[button_index].latch();
+	for (long button_index = 0; button_index < k_button_action_count; button_index++)
+	{
+		e_button_action button_action = static_cast<e_button_action>(button_index);
+		input_abstraction_globals.input_states[controller_index].get_button(button_action).latch();
+	}
 }
 
 //void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
@@ -163,10 +169,13 @@ void __cdecl input_abstraction_set_controller_preferences(long controller_index,
 {
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 	ASSERT(preferences);
-	//ASSERT(preferences->gamepad_buttons[_gamepad_button_start] != _controller_button_start || preferences->gamepad_buttons[_gamepad_button_back] != _controller_button_back);
+	ASSERT(preferences->gamepad_buttons[_button_action_start] != _controller_button_start || preferences->gamepad_buttons[_button_action_back] != _controller_button_back);
 
 	for (long button_index = 0; button_index < 16; button_index++)
-		input_abstraction_globals.input_states[controller_index].abstract_buttons[button_index].unlock();
+	{
+		e_button_action button_action = static_cast<e_button_action>(button_index);
+		input_abstraction_globals.input_states[controller_index].get_button(button_action).unlock();
+	}
 
 	csmemcpy(&input_abstraction_globals.preferences[controller_index], preferences, sizeof(s_gamepad_input_preferences));
 }
@@ -194,7 +203,7 @@ void c_abstract_button::update(word down_msec, word down_frames, byte down_amoun
 		set_latch_bit(false);
 }
 
-void c_abstract_button::set_accessor(long accessor)
+void c_abstract_button::set_accessor(e_button_action accessor)
 {
 	m_accessor = static_cast<byte>(accessor);
 }
@@ -260,5 +269,15 @@ void c_abstract_button::set_latch_bit(bool set_bit)
 void c_abstract_button::latch()
 {
 	set_latch_bit(true);
+}
+
+c_abstract_button& s_game_input_state::get_button(e_button_action button_index)
+{
+	return abstract_buttons[button_index];
+}
+
+c_abstract_button const& s_game_input_state::get_button(e_button_action button_index) const
+{
+	return abstract_buttons[button_index];
 }
 

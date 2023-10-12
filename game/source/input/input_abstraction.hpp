@@ -7,10 +7,10 @@
 
 struct s_keyboard_input_preferences
 {
-	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_gamepad_button_count_keyboard> keys_primary;
-	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_gamepad_button_count_keyboard> keys_alternative;
-	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_primary;
-	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_gamepad_button_count_keyboard> mouse_buttons_alternative;
+	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_button_action_count_keyboard> keys_primary;
+	c_static_array<c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count>, k_button_action_count_keyboard> keys_alternative;
+	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_button_action_count_keyboard> mouse_buttons_primary;
+	c_static_array<c_enum<e_mouse_button, char, _mouse_button_1, k_total_mouse_button_count>, k_button_action_count_keyboard> mouse_buttons_alternative;
 
 	short joystick_preset;
 };
@@ -21,8 +21,8 @@ struct s_gamepad_input_preferences
 	real look_sensitivity_x;
 	real look_sensitivity_y;
 
-	c_static_array<c_enum<e_controller_button, char, _controller_button_left_trigger, k_controller_button_count>, k_gamepad_button_count> gamepad_buttons;
-	c_static_array<bool, k_gamepad_button_count> gamepad_buttons_held;
+	c_static_array<c_enum<e_controller_button, char, _controller_button_left_trigger, k_controller_button_count>, k_button_action_count> gamepad_buttons;
+	c_static_array<bool, k_button_action_count> gamepad_buttons_held;
 
 	s_keyboard_input_preferences keyboard_preferences;
 
@@ -37,10 +37,10 @@ static_assert(sizeof(s_gamepad_input_preferences) == 0x208);
 struct c_abstract_button
 {
 public:
-	
 	c_abstract_button();
+	
 	void update(word down_msec, word down_frames, byte down_amount);
-	void set_accessor(long accessor); // e_button_action
+	void set_accessor(e_button_action accessor);
 	void unlock();
 	bool locked();
 	void lock();
@@ -64,7 +64,10 @@ static_assert(sizeof(c_abstract_button) == 0xC);
 
 struct s_game_input_state
 {
-	c_abstract_button abstract_buttons[k_gamepad_button_count_keyboard];
+	c_abstract_button& get_button(e_button_action button_index);
+	c_abstract_button const& get_button(e_button_action button_index) const;
+
+	c_abstract_button abstract_buttons[k_button_action_count_keyboard];
 	int16_point2d abstract_sticks[2];
 	real forward_movement;
 	real strafe;

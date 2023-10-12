@@ -56,7 +56,7 @@ void __cdecl cheats_load()
 	if (fopen_s(&cheats_file, "cheats.txt", "r") == 0 && cheats_file)
 	{
 		char line[200]{};
-		for (long controller_button = 0; controller_button < k_controller_button_count && fgets(line, NUMBEROF(line), cheats_file); controller_button++)
+		for (long controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count && fgets(line, NUMBEROF(line), cheats_file); controller_button++)
 		{
 			char* line_match = strpbrk(line, "\r\n\t;");
 			if (line_match == line)
@@ -80,12 +80,13 @@ void __cdecl cheats_load()
 // #TODO: find used locations and add hooks
 bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state const* input_state)
 {
-	long banned_button = game_is_ui_shell() + _controller_button_back;
-	if (cheat.controller && controller_index != k_no_controller && !game_is_networked() && input_state->abstract_buttons[banned_button].down_frames())
+	e_button_action banned_action = static_cast<e_button_action>(game_is_ui_shell() + _button_action_back);
+	if (cheat.controller && controller_index != k_no_controller && !game_is_networked() && input_state->get_button(banned_action).down_frames())
 	{
 		for (long controller_button = _controller_button_left_trigger; controller_button < k_controller_button_count; controller_button++)
 		{
-			if (controller_button != banned_button && !cheat.lines[controller_button].is_empty() && input_state->abstract_buttons[controller_button].down_frames() == 1)
+			e_button_action controller_action = static_cast<e_button_action>(controller_button);
+			if (controller_action != banned_action && !cheat.lines[controller_button].is_empty() && input_state->get_button(controller_action).down_frames() == 1)
 			{
 				console_printf(cheat.lines[controller_button].get_string());
 

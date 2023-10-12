@@ -17,45 +17,45 @@ void __cdecl event_manager_button_pressed(e_controller_index controller_index, c
 	event_record.controller = controller_index;
 	switch (gamepad_button)
 	{
-	case _gamepad_button_left_trigger:
+	case _button_action_left_trigger:
 		event_record.component = _controller_component_button_left_trigger;
 		break;
-	case _gamepad_button_right_trigger:
+	case _button_action_right_trigger:
 		event_record.component = _controller_component_button_right_trigger;
 		break;
-	case _gamepad_button_dpad_up:
-	case _gamepad_button_dpad_down:
-	case _gamepad_button_dpad_left:
-	case _gamepad_button_dpad_right:
+	case _button_action_dpad_up:
+	case _button_action_dpad_down:
+	case _button_action_dpad_left:
+	case _button_action_dpad_right:
 		break;
-	case _gamepad_button_start:
+	case _button_action_start:
 		event_record.component = _controller_component_button_start;
 		break;
-	case _gamepad_button_back:
+	case _button_action_back:
 		event_record.component = _controller_component_button_back;
 		break;
-	case _gamepad_button_left_stick:
+	case _button_action_left_stick:
 		event_record.component = _controller_component_button_left_stick;
 		break;
-	case _gamepad_button_right_stick:
+	case _button_action_right_stick:
 		event_record.component = _controller_component_button_right_stick;
 		break;
-	case _gamepad_button_a:
+	case _button_action_a:
 		event_record.component = _controller_component_button_a;
 		break;
-	case _gamepad_button_b:
+	case _button_action_b:
 		event_record.component = _controller_component_button_b;
 		break;
-	case _gamepad_button_x:
+	case _button_action_x:
 		event_record.component = _controller_component_button_x;
 		break;
-	case _gamepad_button_y:
+	case _button_action_y:
 		event_record.component = _controller_component_button_y;
 		break;
-	case _gamepad_button_right_bumper:
+	case _button_action_right_bumper:
 		event_record.component = _controller_component_button_left_bumper;
 		break;
-	case _gamepad_button_left_bumper:
+	case _button_action_left_bumper:
 		event_record.component = _controller_component_button_right_bumper;
 		break;
 	}

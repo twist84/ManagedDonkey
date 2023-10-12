@@ -43,22 +43,22 @@ void c_debug_menu::update()
 	{
 		if (input_key_frames_down(_key_code_up, _input_type_ui) == 1 || state.buttons_down_frames[_xinput_gamepad_dpad_up])
 		{
-			input_state->abstract_buttons[_gamepad_button_dpad_up].latch();
+			input_state->get_button(_button_action_dpad_up).latch();
 			notify_up();
 		}
 		else if (input_key_frames_down(_key_code_down, _input_type_ui) == 1 || state.buttons_down_frames[_xinput_gamepad_dpad_down])
 		{
-			input_state->abstract_buttons[_gamepad_button_dpad_down].latch();
+			input_state->get_button(_button_action_dpad_down).latch();
 			notify_down();
 		}
 		else if (input_key_frames_down(_key_code_left, _input_type_ui) == 1 || state.buttons_down_frames[_xinput_gamepad_dpad_left])
 		{
-			input_state->abstract_buttons[_gamepad_button_dpad_left].latch();
+			input_state->get_button(_button_action_dpad_left).latch();
 			try_left();
 		}
 		else if (input_key_frames_down(_key_code_right, _input_type_ui) == 1 || state.buttons_down_frames[_xinput_gamepad_dpad_right])
 		{
-			input_state->abstract_buttons[_gamepad_button_dpad_right].latch();
+			input_state->get_button(_button_action_dpad_right).latch();
 			try_right();
 		}
 		else
@@ -77,14 +77,14 @@ void c_debug_menu::update()
 			|| input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1
 			|| input_key_frames_down(_key_code_enter, _input_type_ui) == 1))
 	{
-		input_state->abstract_buttons[_gamepad_button_a].latch();
+		input_state->get_button(_button_action_a).latch();
 		get_item(get_selection())->notify_selected();
 		notify_selected(get_selection());
 	}
 	else if (!state.buttons_down_frames[_xinput_gamepad_b] &&
 		last_state.buttons_down_frames[_xinput_gamepad_b] || input_key_frames_down(_key_code_end, _input_type_ui) == 1)
 	{
-		input_state->abstract_buttons[_gamepad_button_b].latch();
+		input_state->get_button(_button_action_b).latch();
 		close(false);
 	}
 	else
