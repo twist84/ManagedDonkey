@@ -293,16 +293,15 @@ struct player_datum : s_datum_header
 	datum_index failed_teleport_unit_index;
 	dword_flags latched_control_flags;
 
-	// ---------- cooldown_reset ----------
-
-	// these are used in `players_update_after_game`, `player_spawn`, `sub_53C860`, struct?
-	// if `player->cooldown_reset_unknown40 == 0` do something with equipment
-	// gameplay_modifier: `cooldown_reset` related
-	word cooldown_reset_unknown40;
-	word cooldown_reset_unknown42;
-	word cooldown_reset_unknown44;
-
-	// ---------- cooldown_reset ----------
+	struct // ---------- cooldown_reset ----------
+	{
+		// these are used in `players_update_after_game`, `player_spawn`, `sub_53C860`, struct?
+		// if `player->cooldown_reset_unknown40 == 0` do something with equipment
+		// gameplay_modifier: `cooldown_reset` related
+		word cooldown_reset_unknown40;
+		word cooldown_reset_unknown42;
+		word cooldown_reset_unknown44;
+	};
 
 	word_flags latched_action_flags;
 	byte outside_of_world_timer;
@@ -323,57 +322,57 @@ struct player_datum : s_datum_header
 	byte __unknown5B;
 	word magnification_level; // zoom
 
-	// ------------- momentum -------------
+	struct // momentum
+	{
+		// these are used in `player_submit_actions`, struct?
 
-	// these are used in `player_submit_actions`, struct?
-
-	bool __unknown5E; // something todo with `shooting`
-	bool __unknown5F; // something todo with `magnification_level`
-	word __unknown60; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown98), something todo with `shooting`
-	word __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
-
-	// ------------- momentum -------------
+		bool __unknown5E; // something todo with `shooting`
+		bool __unknown5F; // something todo with `magnification_level`
+		word __unknown60; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown98), something todo with `shooting`
+		word __unknown62; // set from tags, game_seconds_to_ticks_round(game_globals:player_information:__unknown94), something todo with `magnification_level`
+	};
 
 	vector3d position;
 
 	s_player_configuration configuration;
 	s_player_configuration desired_configuration;
 
-	// timers
-	long single_player_respawn_timer;
-	bool early_respawn_requested;
-	bool respawn_in_progress;
-	bool respawn_forced; // instant respawn when true
-	byte __unknown2CB7;
-	long respawn_timer;
-	long respawn_timer_countdown;
-	long respawn_penalty;
-	long telefrag_timer;
-	long dead_timer;
-	long __unknown2CCC;
-	long __unknown2CD0;
-	long __unknown2CD4;
-	long grenade_recharge_timer;
+	struct // timers
+	{
+		long single_player_respawn_timer;
+		bool early_respawn_requested;
+		bool respawn_in_progress;
+		bool respawn_forced; // if true respawn instantaneously
+		byte __unknown2CB7;
+		long respawn_timer;
+		long respawn_timer_countdown;
+		long respawn_penalty;
+		long telefrag_timer;
+		long dead_timer;
+		long __unknown2CCC;
+		long __unknown2CD0;
+		long __unknown2CD4;
+		long grenade_recharge_timer;
+	};
 
 	long aim_assist_object_index;
 	long aim_assist_timestamp;
 
-	// ------------- momentum -------------
+	struct // momentum
+	{
+		// set in `player_submit_actions`, struct?
+		short momentum_timer;
 
-	// set in `player_submit_actions`, struct?
-	short momentum_timer;
+		short momemtum_unknown2CE6;
 
-	short momemtum_unknown2CE6;
+		// set in `player_submit_actions`
+		short momentum_decay_timer; // set from tags, `game_globals:player_control:cooldown_time`
 
-	// set in `player_submit_actions`
-	short momentum_decay_timer; // set from tags, `game_globals:player_control:cooldown_time`
+		// set in `player_submit_actions`, `sub_53C570`
+		short momentum_falloff_timer; // set from tags, `momentum_falloff_timer - (game_globals:player_control:stamina_deplete_restore_time * s_equipment:adrenaline:sprint_restore)`
 
-	// set in `player_submit_actions`, `sub_53C570`
-	short momentum_falloff_timer; // set from tags, `momentum_falloff_timer - (game_globals:player_control:stamina_deplete_restore_time * s_equipment:adrenaline:sprint_restore)`
-
-	bool momemtum_suppressed;
-
-	// ------------- momentum -------------
+		bool momemtum_suppressed;
+	};
 
 	// used in `players_update_after_game`
 	short vehicle_ban_timer;
@@ -386,29 +385,27 @@ struct player_datum : s_datum_header
 	bool recently_spawned_timer_is_initial_spawn;
 	byte respawn_failure_reason;
 
-	// ------------ tank_mode -------------
+	struct // tank_mode
+	{
+		// used in `sub_537D10`, struct?
+		long tank_mode_time2D64; // = game_time_get();
+		real tank_mode_duration; // set from tags, `equipment:tank_mode:duration`
+		real tank_mode_unknown2D6C; // set from tags, `equipment:tank_mode:__unknown10 / 100.0f`
+		real tank_mode_damage_absorption_scale; // set from tags, `equipment:tank_mode:damage_absorption_scale / 100.0f`
 
-	// used in `sub_537D10`, struct?
-	long tank_mode_time2D64; // = game_time_get();
-	real tank_mode_duration; // set from tags, `equipment:tank_mode:duration`
-	real tank_mode_unknown2D6C; // set from tags, `equipment:tank_mode:__unknown10 / 100.0f`
-	real tank_mode_damage_absorption_scale; // set from tags, `equipment:tank_mode:damage_absorption_scale / 100.0f`
+		// used in `sub_540730`
+		real tank_mode_unknown2D74;
+		real tank_mode_unknown2D78;
+	};
 
-	// used in `sub_540730`
-	real tank_mode_unknown2D74;
-	real tank_mode_unknown2D78;
-
-	// ------------ tank_mode -------------
-
-	// ---------- reactive_armor ----------
-
-	// used in `sub_537C90`, struct?
-	long reactive_armor_time2D7C; // = game_time_get();
-	real reactive_armor_duration; // set from tags, `equipment:reactive_armor:duration`
-	real reactive_armor_damage_reflection_scale; // set from tags, `equipment:reactive_armor:damage_reflection_scale / 100.0f`
-	real reactive_armor_unknown2D88; // set from tags, `equipment:reactive_armor:__unknown8 / 100.0f`
-
-	// ---------- reactive_armor ----------
+	struct // reactive_armor
+	{
+		// used in `sub_537C90`, struct?
+		long reactive_armor_time2D7C; // = game_time_get();
+		real reactive_armor_duration; // set from tags, `equipment:reactive_armor:duration`
+		real reactive_armor_damage_reflection_scale; // set from tags, `equipment:reactive_armor:damage_reflection_scale / 100.0f`
+		real reactive_armor_unknown2D88; // set from tags, `equipment:reactive_armor:__unknown8 / 100.0f`
+	};
 
 	// used in `players_update_after_game`
 	long stamina_restore_near_death_timer; // gameplay_modifier: `stamina_restore_near_death`
@@ -435,11 +432,14 @@ struct player_datum : s_datum_header
 	// *(dword*)&__data2E2A[0x1A] = 0;
 	byte __data2E2A[0x1E];
 
-	long weak_assassination_unit_index;
-	bool is_assassination_victim;
-	real_point3d assassination_authoritative_position;
-	vector3d assassination_authoritative_forward;
-	c_typed_opaque_data<struct s_simulation_unit_melee_damage_event_data, sizeof(_simulation_unit_melee_damage_event_data), __alignof(_simulation_unit_melee_damage_event_data) - 1> melee_damage_event_data;
+	struct // assassination info
+	{
+		long weak_assassination_unit_index;
+		bool is_assassination_victim;
+		real_point3d assassination_authoritative_position;
+		vector3d assassination_authoritative_forward;
+		c_typed_opaque_data<struct s_simulation_unit_melee_damage_event_data, sizeof(_simulation_unit_melee_damage_event_data), __alignof(_simulation_unit_melee_damage_event_data) - 1> melee_damage_event_data;
+	};
 
 	c_static_array<s_player_shot_info, 8> shot_info;
 	short spawn_count;
@@ -572,9 +572,9 @@ struct s_players_global_data
 	bool input_disabled;
 	bool mostly_inhibited;
 
-	bool disable_weapon_pickup;
+	bool weapon_pickup_disabled;
 	bool __unknown7;
-	bool disable_equipment_use;
+	bool equipment_use_disabled;
 
 	byte __data9[3];
 
