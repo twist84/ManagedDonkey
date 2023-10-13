@@ -169,7 +169,7 @@ void __cdecl input_abstraction_set_controller_preferences(long controller_index,
 {
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 	ASSERT(preferences);
-	ASSERT(preferences->gamepad_buttons[_button_action_start] != _controller_button_start || preferences->gamepad_buttons[_button_action_back] != _controller_button_back);
+	ASSERT(preferences->gamepad_buttons[_button_action_start] == _controller_button_start && preferences->gamepad_buttons[_button_action_back] == _controller_button_back, "invalid controller preferences; can't remap start & back buttons");
 
 	for (long button_index = 0; button_index < 16; button_index++)
 	{
