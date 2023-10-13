@@ -1667,10 +1667,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"cs_number_queued",
 
 	// 529
-	"unknown211",
+	"cs_moving",
 
 	// 530
-	"unknown212",
+	"cs_moving",
 
 	// 531
 	"vs_running_atom",
@@ -1913,10 +1913,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"vs_play_line",
 
 	// 611
-	"unknown263",
+	"cs_die",
 
 	// 612
-	"unknown264",
+	"vs_die",
 
 	// 613
 	"cs_deploy_turret",
@@ -2111,10 +2111,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"vs_enable_pathfinding_failsafe",
 
 	// 677
-	"unknown2A5",
+	"cs_set_pathfinding_radius",
 
 	// 678
-	"unknown2A6",
+	"vs_set_pathfinding_radius",
 
 	// 679
 	"cs_ignore_obstacles",
@@ -2195,19 +2195,19 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"vs_stop_sound",
 
 	// 705
-	"unknown2C1",
+	"cs_player_melee",
 
 	// 706
 	"vs_player_melee",
 
 	// 707
-	"unknown2C3",
+	"cs_melee_direction",
 
 	// 708
 	"vs_melee_direction",
 
 	// 709
-	"unknown2C5",
+	"cs_smash_direction",
 
 	// 710
 	"vs_smash_direction",
@@ -4922,13 +4922,13 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"survival_mode_set_multiplier_set",
 
 	// 1614
-	"survival_mode_round_multiplier_get?",
+	"survival_mode_bonus_multiplier_get",
 
 	// 1615
-	"survival_mode_round_multiplier_set?",
+	"survival_mode_bonus_multiplier_set",
 
 	// 1616
-	"unknown650",
+	"debug_sound_channel_fadeout_time",
 
 	// 1617
 	"survival_mode_set_rounds_per_set",
