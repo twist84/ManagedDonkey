@@ -2588,16 +2588,16 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"screenshot_webmap",
 
 	// 836
-	"unknown344",
+	"screenshot_unknown344",
 
 	// 837
-	"unknown345",
+	"screenshot_capture",
 
 	// 838
-	"screenshot_paths_set",
+	"screenshot_set_path",
 
 	// 839
-	"unknown347",
+	"screenshot_unknown347",
 
 	// 840
 	"main_menu",
@@ -3485,40 +3485,40 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"controller_set_player_character_type",
 
 	// 1135
-	"controller_set_voice_output_setting",
+	"controller_set_emblem_info", // there are two parameters more than the other engines
 
 	// 1136
-	"controller_set_voice_mask",
+	"controller_set_voice_output_setting",
 
 	// 1137
-	"controller_set_subtitle_setting",
+	"controller_set_voice_mask",
 
 	// 1138
-	"unknown472",
+	"controller_set_subtitle_setting",
 
 	// 1139
-	"unknown473",
+	"controller_set_campaign_solo_high_score",
 
 	// 1140
-	"unknown474",
+	"controller_set_campaign_coop_high_score",
 
 	// 1141
-	"unknown475",
+	"controller_set_survival_solo_high_score",
 
 	// 1142
-	"unknown476",
+	"controller_set_survival_coop_high_score",
 
 	// 1143
-	"unknown477",
+	"controller_clear_high_scores",
 
 	// 1144
-	"unknown478",
+	"controller_set_unsignedin_user",
 
 	// 1145
-	"unknown479",
+	"controller_display_storage_device_selection",
 
 	// 1146
-	"unknown47A",
+	"font_cache_bitmap_save",
 
 	// 1147
 	"ui_debug_load_main_menu",
@@ -3869,22 +3869,22 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"data_mine_upload",
 
 	// 1263
-	"unknown4EF",
-
-	// 1264
 	"data_mine_enable",
 
-	// 1265
+	// 1264
 	"data_mine_flush",
 
-	// 1266
+	// 1265
 	"data_mine_debug_menu_setting",
 
-	// 1267
+	// 1266
 	"data_mine_open_debug_menu",
 
-	// 1268
+	// 1267
 	"data_mine_set_display_mission_segment",
+
+	// 1268
+	"unknown4F4",
 
 	// 1269
 	"test_memory_allocators",
@@ -3959,10 +3959,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"test_fragment_utility_drive",
 
 	// 1293
-	"unknown50D",
+	"test_metagame_results_save_to_file",
 
 	// 1294
-	"unknown50E",
+	"test_metagame_results_load_from_file",
 
 	// 1295
 	"clear_webcache",
@@ -4316,7 +4316,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"determinism_debug_manager_set_consumer_sample_level",
 
 	// 1412
-	"unknown584",
+	"determinism_debug_manager_enable_log_file_comparision_on_oos",
 
 	// 1413
 	"saved_film_play",
@@ -4325,19 +4325,19 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"saved_film_play_last",
 
 	// 1415
-	"unknown587",
+	"saved_film_disable_version_checking",
 
 	// 1416
-	"unknown588",
+	"saved_film_toggle_debug_saving",
 
 	// 1417
-	"unknown589",
+	"saved_films_delete_on_level_load",
 
 	// 1418
-	"unknown58A",
+	"saved_films_show_timestamp",
 
 	// 1419
-	"unknown58B",
+	"saved_film_manager_should_record_film_default",
 
 	// 1420
 	"mover_set_program",
@@ -4460,10 +4460,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"net_test_matchmaking_hopper_set_game",
 
 	// 1460
-	"unknown5B4",
+	"saved_film_set_playback_game_speed",
 
 	// 1461
-	"unknown5B5",
+	"saved_film_set_pending_playback_game_speed",
 
 	// 1462
 	"noguchis_mystery_tour",
