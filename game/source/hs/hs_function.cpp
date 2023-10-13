@@ -2114,7 +2114,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"cs_set_pathfinding_radius",
 
 	// 678
-	"vs_set_pathfinding_radius",
+	"cs_set_pathfinding_radius",
 
 	// 679
 	"cs_ignore_obstacles",
