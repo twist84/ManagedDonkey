@@ -404,7 +404,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	// Sets the (object-relative) forward velocity of the given object\r\nNETWORK SAFE: Yes
 
 	// 109
-	"unknown06D", // object_set_inertia_tensor_scale?
+	"object_set_inertia_tensor_scale",
 
 	// 110
 	"object_set_collision_damage_armor_scale",
@@ -887,7 +887,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"unit_board_vehicle",
 
 	// 269
-	"unit_set_emotion_by_?",
+	"unit_set_emotion",
 
 	// 270
 	"unit_set_emotion_by_name",
@@ -1265,7 +1265,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"ai_teleport_to_starting_location_if_outside_bsp",
 
 	// 395
-	"ai_teleport_to_starting_location_if_outside_bsp?",
+	"ai_teleport_to_spawn_point_if_outside_bsp",
 
 	// 396
 	"ai_teleport",
@@ -1448,7 +1448,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"player_in_vehicle",
 
 	// 456
-	"player_in_vehicle?",
+	"ai_player_needs_vehicle",
 
 	// 457
 	"ai_player_any_needs_vehicle",
@@ -1679,7 +1679,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"vs_running_atom_movement",
 
 	// 533
-	"vs_running_atom_?",
+	"vs_running_atom_action",
 
 	// 534
 	"vs_running_atom_dialogue",
@@ -1769,10 +1769,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"vs_move_in_direction",
 
 	// 563
-	"cs_move_towards?",
+	"cs_move_towards",
 
 	// 564
-	"vs_move_towards?",
+	"vs_move_towards",
 
 	// 565
 	"cs_move_towards",
@@ -1991,10 +1991,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"vs_suppress_activity_termination",
 
 	// 637
-	"cs_suppress_dialogue_global?",
+	"cs_suppress_dialogue_global",
 
 	// 638
-	"vs_suppress_dialogue_global?",
+	"vs_suppress_dialogue_global",
 
 	// 639
 	"cs_look",
@@ -2099,10 +2099,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"vs_vehicle_boost",
 
 	// 673
-	"cs_turn_sharpness?",
+	"cs_turn_sharpness",
 
 	// 674
-	"vs_turn_sharpness?",
+	"vs_turn_sharpness",
 
 	// 675
 	"cs_enable_pathfinding_failsafe",
@@ -2234,10 +2234,10 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"camera_set_animation_relative_with_speed",
 
 	// 718
-	"camera_set_animation_relative_with_speed_?boolean",
+	"camera_set_animation_relative_with_speed_loop",
 
 	// 719
-	"camera_set_animation_relative_with_speed_?boolean_real",
+	"camera_set_animation_relative_with_speed_loop_offset",
 
 	// 720
 	"camera_predict_resources_at_frame",
@@ -2849,7 +2849,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"cinematic_tag_reference_get_animation",
 
 	// 923
-	"cinematic_tag_reference_get_?",
+	"cinematic_scripting_object_coop_flags_valid",
 
 	// 924
 	"cinematic_scripting_fade_out",
@@ -2861,7 +2861,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"cinematic_scripting_create_cinematic_object",
 
 	// 927
-	"cinematic_scripting_create_object?",
+	"cinematic_scripting_start_animation",
 
 	// 928
 	"cinematic_scripting_destroy_object",
@@ -2930,7 +2930,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"game_insertion_point_unlock",
 
 	// 950
-	"game_insertion_point_lock?",
+	"game_insertion_point_lock",
 
 	// 951
 	"saved_games_enumerate",
@@ -3224,7 +3224,7 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"player_training_activate_stealth",
 
 	// 1048
-	"player_training_activate_?",
+	"player_training_activate_equipment",
 
 	// 1049
 	"player_training_activate_jump",
@@ -4217,19 +4217,19 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"render_debug_video_mode",
 
 	// 1379
-	"cinematic_lightmap_shadow_disable?",
+	"cinematic_lightmap_shadow_disable",
 
 	// 1380
-	"cinematic_lightmap_shadow_enable?",
+	"cinematic_lightmap_shadow_enable",
 
 	// 1381
 	"predict_animation",
 
 	// 1382
-	"game_team_get_players?",
+	"mp_players_by_team",
 
 	// 1383
-	"game_team_get_player_count?",
+	"mp_active_player_count_by_team",
 
 	// 1384
 	"deterministic_end_game",
