@@ -570,11 +570,11 @@ struct s_players_global_data
 	long players_in_game_count;
 
 	bool input_disabled;
-	bool mostly_inhibit;
+	bool mostly_inhibited;
 
-	bool __unknown6;
+	bool disable_weapon_pickup;
 	bool __unknown7;
-	bool __unknown8;
+	bool disable_equipment_use;
 
 	byte __data9[3];
 

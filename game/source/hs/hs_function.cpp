@@ -2330,13 +2330,13 @@ char const* const hs_function_table_names[hs_function_table_count]
 	"player_disable_movement",
 
 	// 750
-	"unknown2EE",
+	"player_disable_weapon_pickup",
 
 	// 751
-	"unknown2EF",
+	"player_disable_unknown2EF",
 
 	// 752
-	"unknown2F0",
+	"player_disable_equipment_use",
 
 	// 753
 	"player_flashlight_on",
