@@ -23,3 +23,4 @@ extern bool __cdecl editor_should_render_transparent_geometry();
 extern bool __cdecl editor_switch_zone_set(long zoneset_index);
 extern void __cdecl editor_update();
 extern bool __cdecl game_in_editor();
+

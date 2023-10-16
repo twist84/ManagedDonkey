@@ -101,3 +101,4 @@ bool __cdecl game_in_editor()
 {
 	return false;
 }
+

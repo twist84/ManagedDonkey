@@ -1,5 +1,7 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
+
 struct s_scenario_editor_folder
 {
 	long parent_folder; // long_block_index

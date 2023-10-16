@@ -43,7 +43,7 @@ void __cdecl hs_find_dormant_script(char const* dormant_script_name, long* scrip
 
 	hs_thread* thread = hs_thread_get(thread_index);
 
-	if (global_scenario_get()->scripts[thread->script_index].script_type == _hs_script_dormant)
+	if (global_scenario_get()->scripts[thread->script_index].script_type == _hs_script_type_dormant)
 		*script_index_out = thread->script_index;
 }
 
@@ -156,4 +156,3 @@ struct c_simulation_hs_script_wake_event_definition :
 	}
 };
 */
-
