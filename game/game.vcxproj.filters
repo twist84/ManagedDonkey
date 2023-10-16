@@ -975,7 +975,7 @@
     <ClCompile Include="source\cseries\cseries_memory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\cl_engine.cpp">
+    <ClCompile Include="source\ai\cl_engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\devices\devices.cpp">

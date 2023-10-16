@@ -383,7 +383,7 @@ void __cdecl network_test_ping()
 		{
 			.id = id++,
 			.timestamp = network_time_get(),
-			.request_qos = 0
+			.request_qos = false
 		};
 
 		c_console::write_line("networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
@@ -405,7 +405,7 @@ void __cdecl network_test_ping_directed(transport_address const* address)
 		{
 			.id = id++,
 			.timestamp = network_time_get(),
-			.request_qos = 0
+			.request_qos = false
 		};
 
 		c_console::write_line("networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
