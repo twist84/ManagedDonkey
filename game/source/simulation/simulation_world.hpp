@@ -44,21 +44,15 @@ struct c_simulation_distributed_world
 };
 static_assert(sizeof(c_simulation_distributed_world) == 0xD0C8);
 
+struct c_simulation_watcher;
 struct c_simulation_view;
 struct s_simulation_update_node;
 struct c_simulation_world
 {
-	bool exists()
-	{
-		return m_world_type > _simulation_world_type_none;
-	}
+	bool exists();
+	bool is_active();
 
-	bool is_active()
-	{
-		ASSERT(exists());
-
-		return m_world_state == _simulation_world_state_active;
-	}
+	void debug_render();
 
 	c_simulation_watcher* m_watcher;
 	c_simulation_distributed_world* m_distributed_world;

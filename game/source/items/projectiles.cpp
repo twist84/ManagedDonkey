@@ -1,7 +1,12 @@
 #include "items/projectiles.hpp"
 
+bool debug_projectiles = false;
+
 void render_debug_projectiles()
 {
-    // #TODO: implement
+	if (debug_projectiles)
+	{
+		// #TODO: implement
+	}
 }
 

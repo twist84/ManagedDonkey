@@ -2,6 +2,5 @@
 
 void geometry_cache_debug_render()
 {
-    // #TODO: implement
 }
 

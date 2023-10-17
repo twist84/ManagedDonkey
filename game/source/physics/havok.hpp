@@ -45,6 +45,9 @@ extern bool& g_havok_memory_always_system;
 
 extern void __cdecl havok_can_modify_state_allow();
 extern void __cdecl havok_can_modify_state_disallow();
+extern void __cdecl havok_prepare_fpu_for_update();
+extern void __cdecl havok_restore_fpu_from_update();
 
+extern s_havok_constants const* get_havok_constants();
 extern void havok_debug_render();
 

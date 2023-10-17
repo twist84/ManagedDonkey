@@ -24,6 +24,10 @@ struct c_replication_entity_manager;
 struct c_simulation_type_collection;
 struct c_simulation_entity_database
 {
+public:
+	void debug_render();
+
+protected:
 	bool m_initialized;
 	byte __unknown1;
 	c_simulation_world* m_world;

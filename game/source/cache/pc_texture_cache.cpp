@@ -2,6 +2,5 @@
 
 void texture_cache_debug_render()
 {
-    // #TODO: implement
 }
 

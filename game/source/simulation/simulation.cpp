@@ -45,6 +45,7 @@ bool __cdecl simulation_starting_up()
 
 void simulation_debug_render()
 {
-    // #TODO: implement
+	ASSERT(simulation_globals.world);
+	simulation_globals.world->debug_render();
 }
 

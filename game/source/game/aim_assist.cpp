@@ -2,6 +2,5 @@
 
 void aim_assist_debug_render()
 {
-	// #TODO: implement
 }
 

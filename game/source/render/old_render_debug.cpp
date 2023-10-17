@@ -25,6 +25,11 @@ bool debug_instanced_geometry_collision_geometry = false;
 bool debug_zone_set_critical_portals = false;
 bool debug_structure_water = false;
 bool debug_input = false;
+bool debug_player = false;
+bool debug_render_freeze = false;
+bool debug_camera = false;
+bool debug_tangent_space = false;
+bool debug_permanent_decals = false;
 
 void render_debug_input()
 {
@@ -38,12 +43,24 @@ void render_debug_input()
 
 void render_debug_player()
 {
-    // #TODO: implement
+    long user_index = c_player_view::get_global_player_view()->get_player_view_user_index();
+    if (debug_player && user_index != NONE)
+    {
+        // #TODO: implement
+    }
 }
 
 void render_debug_camera()
 {
-    // #TODO: implement
+    if (debug_render_freeze)
+    {
+        // #TODO: implement
+    }
+
+    if (debug_camera || debug_tangent_space)
+    {
+        // #TODO: implement
+    }
 }
 
 void render_debug_bsp()
@@ -53,7 +70,10 @@ void render_debug_bsp()
 
 void render_debug_structure_decals()
 {
-    // #TODO: implement
+    if (debug_permanent_decals)
+    {
+        // #TODO: implement
+    }
 }
 
 bool __cdecl render_debug_lost_camera()

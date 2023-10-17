@@ -2,6 +2,5 @@
 
 void render_debug_fog_planes()
 {
-    // #TODO: implement
 }
 

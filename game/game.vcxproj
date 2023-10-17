@@ -484,6 +484,8 @@ POPD
     <ClCompile Include="source\simulation\game_interface\simulation_game_action.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
+    <ClCompile Include="source\simulation\simulation_entity_database.cpp" />
+    <ClCompile Include="source\simulation\simulation_world.cpp" />
     <ClCompile Include="source\sound\sound_classes.cpp" />
     <ClCompile Include="source\sound\sound_definitions.cpp" />
     <ClCompile Include="source\sound\sound_manager.cpp" />
@@ -497,6 +499,7 @@ POPD
     <ClCompile Include="source\text\draw_string.cpp" />
     <ClCompile Include="source\text\font_loading.cpp" />
     <ClCompile Include="source\text\unicode.cpp" />
+    <ClCompile Include="source\toolbox\game_helpers.cpp" />
     <ClCompile Include="source\units\bipeds.cpp" />
     <ClCompile Include="source\units\biped_definitions.cpp" />
     <ClCompile Include="source\units\units.cpp" />
@@ -1081,6 +1084,7 @@ POPD
     <ClInclude Include="source\text\text_group.hpp" />
     <ClInclude Include="source\text\unicode.hpp" />
     <ClInclude Include="source\text\xml_parser.hpp" />
+    <ClInclude Include="source\toolbox\game_helpers.hpp" />
     <ClInclude Include="source\units\bipeds.hpp" />
     <ClInclude Include="source\units\biped_definitions.hpp" />
     <ClInclude Include="source\units\units.hpp" />

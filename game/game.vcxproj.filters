@@ -1047,6 +1047,15 @@
     <ClCompile Include="source\data_mining\data_mine_usability.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\simulation_world.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\simulation\simulation_entity_database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\toolbox\game_helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2793,6 +2802,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\data_mining\data_mine_usability.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\toolbox\game_helpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

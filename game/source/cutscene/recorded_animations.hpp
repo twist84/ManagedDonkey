@@ -23,6 +23,8 @@ struct animation_thread : s_datum_header
 };
 static_assert(sizeof(animation_thread) == 0xA4);
 
+extern bool debug_recording;
+
 extern bool __cdecl recorded_animation_controlling_unit(long object_index);
 
 extern void render_debug_recording();
