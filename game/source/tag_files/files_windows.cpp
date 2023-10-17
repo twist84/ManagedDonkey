@@ -591,3 +591,8 @@ void find_files_recursive(s_file_reference* directory, dword open_flags, bool(*f
 	find_files_end(&find_file_data);
 }
 
+void file_activity_debug_render()
+{
+    // #TODO: implement
+}
+

@@ -170,9 +170,11 @@ POPD
     <ClCompile Include="source\ai\ai_debug.cpp" />
     <ClCompile Include="source\ai\ai_globals.cpp" />
     <ClCompile Include="source\ai\ai_orders.cpp" />
+    <ClCompile Include="source\ai\ai_profile.cpp" />
     <ClCompile Include="source\ai\ai_script.cpp" />
     <ClCompile Include="source\ai\behavior.cpp" />
     <ClCompile Include="source\ai\cs_scenario_definitions.cpp" />
+    <ClCompile Include="source\ai\path_obstacle_avoidance.cpp" />
     <ClCompile Include="source\ai\styles.cpp" />
     <ClCompile Include="source\algorithms\qsort.cpp" />
     <ClCompile Include="source\bink\bink_playback.cpp" />
@@ -183,6 +185,9 @@ POPD
     <ClCompile Include="source\cache\cache_file_builder_security.cpp" />
     <ClCompile Include="source\cache\cache_file_builder_tag_resource_manager.cpp" />
     <ClCompile Include="source\cache\cache_file_tag_resource_runtime.cpp" />
+    <ClCompile Include="source\cache\fmod_sound_cache.cpp" />
+    <ClCompile Include="source\cache\pc_geometry_cache.cpp" />
+    <ClCompile Include="source\cache\pc_texture_cache.cpp" />
     <ClCompile Include="source\cache\restricted_memory.cpp" />
     <ClCompile Include="source\cache\restricted_memory_regions.cpp" />
     <ClCompile Include="source\cache\security_functions.cpp" />
@@ -204,12 +209,16 @@ POPD
     <ClCompile Include="source\cutscene\cinematics.cpp" />
     <ClCompile Include="source\cutscene\cinematics_definitions.cpp" />
     <ClCompile Include="source\cutscene\recorded_animations.cpp" />
+    <ClCompile Include="source\data_mining\data_mine_usability.cpp" />
     <ClCompile Include="source\devices\devices.cpp" />
     <ClCompile Include="source\dialogs\edit_text.cpp" />
+    <ClCompile Include="source\editor\editor_flags.cpp" />
+    <ClCompile Include="source\editor\editor_render_stubs.cpp" />
     <ClCompile Include="source\editor\editor_stubs.cpp" />
     <ClCompile Include="source\effects\contrails.cpp" />
     <ClCompile Include="source\effects\screen_effect.cpp" />
     <ClCompile Include="source\fmod\fmod.cpp" />
+    <ClCompile Include="source\game\aim_assist.cpp" />
     <ClCompile Include="source\game\cheats.cpp" />
     <ClCompile Include="source\game\game_engine.cpp" />
     <ClCompile Include="source\game\game_engine_assault.cpp" />
@@ -253,6 +262,7 @@ POPD
     <ClCompile Include="source\input\input.cpp" />
     <ClCompile Include="source\input\input_abstraction.cpp" />
     <ClCompile Include="source\interface\chud\chud.cpp" />
+    <ClCompile Include="source\interface\chud\chud_draw.cpp" />
     <ClCompile Include="source\interface\chud\chud_messaging.cpp" />
     <ClCompile Include="source\interface\chud\chud_navpoints.cpp" />
     <ClCompile Include="source\interface\closed_caption.cpp" />
@@ -318,6 +328,7 @@ POPD
     <ClCompile Include="source\interface\user_interface_window_manager.cpp" />
     <ClCompile Include="source\items\equipment_definitions.cpp" />
     <ClCompile Include="source\items\item_definitions.cpp" />
+    <ClCompile Include="source\items\projectiles.cpp" />
     <ClCompile Include="source\items\weapons.cpp" />
     <ClCompile Include="source\main\console.cpp" />
     <ClCompile Include="source\main\debug_keys.cpp" />
@@ -410,6 +421,7 @@ POPD
     <ClCompile Include="source\networking\transport\transport_endpoint_set_winsock.cpp" />
     <ClCompile Include="source\networking\transport\transport_endpoint_winsock.cpp" />
     <ClCompile Include="source\networking\transport\transport_security.cpp" />
+    <ClCompile Include="source\objects\damage.cpp" />
     <ClCompile Include="source\objects\multiplayer_game_objects.cpp" />
     <ClCompile Include="source\objects\objects.cpp" />
     <ClCompile Include="source\objects\object_definitions.cpp" />
@@ -418,7 +430,9 @@ POPD
     <ClCompile Include="source\physics\bsp3d.cpp" />
     <ClCompile Include="source\physics\collisions.cpp" />
     <ClCompile Include="source\physics\collision_bsp_references.cpp" />
+    <ClCompile Include="source\physics\collision_debug.cpp" />
     <ClCompile Include="source\physics\collision_references.cpp" />
+    <ClCompile Include="source\physics\collision_usage.cpp" />
     <ClCompile Include="source\physics\havok.cpp" />
     <ClCompile Include="source\physics\havok_component.cpp" />
     <ClCompile Include="source\physics\havok_entity_iterator.cpp" />
@@ -455,6 +469,8 @@ POPD
     <ClCompile Include="source\saved_games\content_catalogue_tasks.cpp" />
     <ClCompile Include="source\saved_games\content_item.cpp" />
     <ClCompile Include="source\saved_games\c_storage_device.cpp" />
+    <ClCompile Include="source\saved_games\saved_film.cpp" />
+    <ClCompile Include="source\saved_games\saved_film_history.cpp" />
     <ClCompile Include="source\saved_games\saved_game_files.cpp" />
     <ClCompile Include="source\saved_games\scenario_map_variant.cpp" />
     <ClCompile Include="source\scenario\scenario.cpp" />
@@ -471,6 +487,8 @@ POPD
     <ClCompile Include="source\sound\sound_classes.cpp" />
     <ClCompile Include="source\sound\sound_definitions.cpp" />
     <ClCompile Include="source\sound\sound_manager.cpp" />
+    <ClCompile Include="source\structures\structures.cpp" />
+    <ClCompile Include="source\structures\structure_detail_objects.cpp" />
     <ClCompile Include="source\tag_files\files.cpp" />
     <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\string_ids.cpp" />
@@ -495,13 +513,22 @@ POPD
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\ai\ai_debug.hpp" />
+    <ClInclude Include="source\ai\ai_profile.hpp" />
     <ClInclude Include="source\ai\ai_script.hpp" />
     <ClInclude Include="source\ai\behavior.hpp" />
+    <ClInclude Include="source\ai\path_obstacle_avoidance.hpp" />
     <ClInclude Include="source\algorithms\qsort.hpp" />
+    <ClInclude Include="source\cache\fmod_sound_cache.hpp" />
+    <ClInclude Include="source\cache\pc_geometry_cache.hpp" />
+    <ClInclude Include="source\cache\pc_texture_cache.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
+    <ClInclude Include="source\data_mining\data_mine_usability.hpp" />
+    <ClInclude Include="source\editor\editor_flags.hpp" />
+    <ClInclude Include="source\editor\editor_render_stubs.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
     <ClInclude Include="source\hs\hs_library_internal_compile.hpp" />
     <ClInclude Include="source\hs\hs_unit_seats.hpp" />
+    <ClInclude Include="source\interface\chud\chud_draw.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />
     <ClInclude Include="source\ai\actors.hpp" />
     <ClInclude Include="source\ai\actor_dynamic_firing_position.hpp" />
@@ -577,6 +604,7 @@ POPD
     <ClInclude Include="source\interface\terminal.hpp" />
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />
     <ClInclude Include="source\items\item_definitions.hpp" />
+    <ClInclude Include="source\items\projectiles.hpp" />
     <ClInclude Include="source\main\console.hpp" />
     <ClInclude Include="source\main\debug_keys.hpp" />
     <ClInclude Include="source\math\function_definitions.hpp" />
@@ -885,6 +913,7 @@ POPD
     <ClInclude Include="source\networking\transport\transport_endpoint_winsock.hpp" />
     <ClInclude Include="source\networking\transport\transport_qos.hpp" />
     <ClInclude Include="source\networking\transport\transport_security.hpp" />
+    <ClInclude Include="source\objects\damage.hpp" />
     <ClInclude Include="source\objects\damage_new.hpp" />
     <ClInclude Include="source\objects\damage_owner.hpp" />
     <ClInclude Include="source\objects\damage_reporting.hpp" />
@@ -910,9 +939,11 @@ POPD
     <ClInclude Include="source\physics\character_physics_definitions.hpp" />
     <ClInclude Include="source\physics\collisions.hpp" />
     <ClInclude Include="source\physics\collision_bsp_references.hpp" />
+    <ClInclude Include="source\physics\collision_debug.hpp" />
     <ClInclude Include="source\physics\collision_instanced_geometry_definitions.hpp" />
     <ClInclude Include="source\physics\collision_model_definitions.hpp" />
     <ClInclude Include="source\physics\collision_references.hpp" />
+    <ClInclude Include="source\physics\collision_usage.hpp" />
     <ClInclude Include="source\physics\havok.hpp" />
     <ClInclude Include="source\physics\havok_component.hpp" />
     <ClInclude Include="source\physics\havok_entity_iterator.hpp" />
@@ -968,6 +999,8 @@ POPD
     <ClInclude Include="source\saved_games\content_item.hpp" />
     <ClInclude Include="source\saved_games\c_storage_device.hpp" />
     <ClInclude Include="source\saved_games\determinism_debug_manager.hpp" />
+    <ClInclude Include="source\saved_games\saved_film.hpp" />
+    <ClInclude Include="source\saved_games\saved_film_history.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
     <ClInclude Include="source\saved_games\scenario_map_variant.hpp" />
     <ClInclude Include="source\scenario\scenario.hpp" />
@@ -1022,7 +1055,9 @@ POPD
     <ClInclude Include="source\sound\sound_definitions.hpp" />
     <ClInclude Include="source\sound\sound_manager.hpp" />
     <ClInclude Include="source\structures\cluster_partitions.hpp" />
+    <ClInclude Include="source\structures\structures.hpp" />
     <ClInclude Include="source\structures\structure_bsp_definitions.hpp" />
+    <ClInclude Include="source\structures\structure_detail_objects.hpp" />
     <ClInclude Include="source\structures\structure_physics_definitions.hpp" />
     <ClInclude Include="source\structures\structure_seams.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />

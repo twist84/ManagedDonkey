@@ -133,3 +133,5 @@ extern void __cdecl get_current_file_time(s_file_last_modification_date* date);
 extern void __cdecl invalidate_file_handle(s_file_handle* handle);
 extern void find_files_recursive(s_file_reference* directory, dword open_flags, bool(*file_handler)(s_file_reference*));
 
+extern void file_activity_debug_render();
+

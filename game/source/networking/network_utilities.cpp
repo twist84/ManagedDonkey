@@ -16,3 +16,9 @@ bool __cdecl network_get_machine_name(wchar_t* machine_name, long machine_name_l
 	ascii_string_to_wchar_string(system_identifier, machine_name, machine_name_len, nullptr);
 	return true;
 }
+
+void bandwidth_profiler_render()
+{
+	// #TODO: implement
+}
+

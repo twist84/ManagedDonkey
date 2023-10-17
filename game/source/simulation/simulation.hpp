@@ -172,3 +172,5 @@ extern bool __cdecl simulation_aborted();
 extern bool __cdecl simulation_in_progress();
 extern bool __cdecl simulation_starting_up();
 
+extern void simulation_debug_render();
+

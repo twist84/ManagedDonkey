@@ -36,6 +36,26 @@ void render_debug_input()
     }
 }
 
+void render_debug_player()
+{
+    // #TODO: implement
+}
+
+void render_debug_camera()
+{
+    // #TODO: implement
+}
+
+void render_debug_bsp()
+{
+    // #TODO: implement
+}
+
+void render_debug_structure_decals()
+{
+    // #TODO: implement
+}
+
 bool __cdecl render_debug_lost_camera()
 {
     return c_player_view::get_global_player_view()->m_location.cluster_reference.bsp_index;

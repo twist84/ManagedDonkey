@@ -25,6 +25,10 @@ extern bool debug_structure_water;
 extern bool debug_input;
 
 extern void render_debug_input();
+extern void render_debug_player();
+extern void render_debug_camera();
+extern void render_debug_bsp();
+extern void render_debug_structure_decals();
 extern bool __cdecl render_debug_lost_camera();
 extern real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real red, real green, real blue);
 extern real_argb_color* __cdecl set_real_argb_color(real_argb_color* color, real alpha, real red, real green, real blue);

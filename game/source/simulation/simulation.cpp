@@ -43,3 +43,8 @@ bool __cdecl simulation_starting_up()
 	return result;
 }
 
+void simulation_debug_render()
+{
+    // #TODO: implement
+}
+

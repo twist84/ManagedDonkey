@@ -1,18 +1,34 @@
 #include "render/render_debug.hpp"
 
 #include "ai/ai_debug.hpp"
+#include "ai/ai_profile.hpp"
+#include "ai/path_obstacle_avoidance.hpp"
+#include "cache/fmod_sound_cache.hpp"
+#include "cache/pc_geometry_cache.hpp"
+#include "cache/pc_texture_cache.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/observer.hpp"
 #include "cubemaps/cubemap_debug.hpp"
+#include "cutscene/recorded_animations.hpp"
 #include "cseries/cseries_events.hpp"
+#include "data_mining/data_mine_usability.hpp"
+#include "editor/editor_flags.hpp"
+#include "editor/editor_render_stubs.hpp"
 #include "game/game.hpp"
 #include "hs/hs_runtime.hpp"
+#include "interface/chud/chud_draw.hpp"
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
+#include "items/projectiles.hpp"
 #include "math/color_math.hpp"
 #include "math/random_math.hpp"
+#include "networking/network_utilities.hpp"
+#include "objects/damage.hpp"
 #include "objects/object_early_movers.hpp"
 #include "objects/object_types.hpp"
+#include "physics/collision_debug.hpp"
+#include "physics/collision_usage.hpp"
+#include "physics/havok.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/old_render_debug.hpp"
 #include "render/views/render_view.hpp"
@@ -21,7 +37,12 @@
 #include "render/render_error_report.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_visibility.hpp"
+#include "saved_games/saved_film.hpp"
+#include "saved_games/saved_film_history.hpp"
+#include "simulation/simulation.hpp"
 #include "sound/sound_manager.hpp"
+#include "structures/structure_detail_objects.hpp"
+#include "structures/structures.hpp"
 #include "text/draw_string.hpp"
 
 #include <math.h>
@@ -311,10 +332,10 @@ void __cdecl render_debug_end(bool a1, bool a2, bool a3)
 
 void __cdecl render_debug_clients(long user_index)
 {
-	//geometry_cache_debug_render();
-	//texture_cache_debug_render();
-	//sound_cache_debug_render();
-	//file_activity_debug_render();
+	geometry_cache_debug_render();
+	texture_cache_debug_render();
+	sound_cache_debug_render();
+	file_activity_debug_render();
 
 	if (game_in_progress())
 	{
@@ -324,40 +345,40 @@ void __cdecl render_debug_clients(long user_index)
 		c_cubemap_debug::render();
 		render_debug_camera_projection();
 		render_debug_objects();
-		//render_debug_object_damage();
-		//render_debug_projectiles();
+		render_debug_object_damage();
+		render_debug_projectiles();
 		render_debug_scripting();
 		render_debug_trigger_volumes();
-		//render_debug_recording();
-		//render_debug_detail_objects();
-		//render_debug_obstacle_path();
-		//render_debug_fog_planes();
-		//render_debug_player();
-		//render_debug_camera();
+		render_debug_recording();
+		render_debug_detail_objects();
+		render_debug_obstacle_path();
+		render_debug_fog_planes();
+		render_debug_player();
+		render_debug_camera();
 		render_debug_structure();
-		//render_debug_bsp();
+		render_debug_bsp();
 		render_debug_input();
-		//render_debug_structure_decals();
+		render_debug_structure_decals();
 		ai_debug_render();
-		//ai_profile_render();
-		//aim_assist_debug_render();
-		//collision_debug_render();
-		//chud_debug_render();
-		//havok_debug_render();
+		ai_profile_render();
+		aim_assist_debug_render();
+		collision_debug_render();
+		chud_debug_render();
+		havok_debug_render();
 		object_early_mover_render_debug();
-		//collision_log_render();
+		collision_log_render();
 		game_pvs_debug_render();
 		players_debug_render();
-		//simulation_debug_render();
+		simulation_debug_render();
 		//voice_render();
 		debug_render_observer();
-		//render_debug_scenario_comments();
+		render_debug_scenario_comments();
 		render_report_render_debug(user_index, true);
-		//saved_film_render_debug();
-		//saved_film_history_render_debug();
+		saved_film_render_debug();
+		saved_film_history_render_debug();
 		events_debug_render();
-		//data_mine_render_mission_segment();
-		//bandwidth_profiler_render();
+		data_mine_render_mission_segment();
+		bandwidth_profiler_render();
 
 		// this does not belong here
 		// location_messages
@@ -366,7 +387,7 @@ void __cdecl render_debug_clients(long user_index)
 		//render_debug_string_at_point(&point, "test location", global_real_argb_magenta);
 	}
 
-	//editor_render_debug();
+	editor_render_debug();
 }
 
 long __cdecl render_debug_add_cache_string(char const* string)

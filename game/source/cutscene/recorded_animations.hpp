@@ -25,3 +25,5 @@ static_assert(sizeof(animation_thread) == 0xA4);
 
 extern bool __cdecl recorded_animation_controlling_unit(long object_index);
 
+extern void render_debug_recording();
+

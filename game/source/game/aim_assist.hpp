@@ -14,3 +14,5 @@ struct s_aim_assist_targeting_result
 };
 static_assert(sizeof(s_aim_assist_targeting_result) == 0x28);
 
+extern void aim_assist_debug_render();
+
