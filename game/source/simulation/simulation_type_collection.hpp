@@ -96,7 +96,7 @@ public:
 	virtual char const* __cdecl entity_type_name();
 	virtual long __cdecl state_data_size();
 	virtual long __cdecl creation_data_size();
-	virtual long __cdecl update_flags();
+	virtual long __cdecl update_flag_count();
 	virtual dword __cdecl initial_update_mask();
 	virtual bool __cdecl entity_replication_required_for_view_activation(s_simulation_entity const*);
 	virtual bool __cdecl entity_type_is_gameworld_object();
@@ -139,25 +139,40 @@ public:
 	virtual long __cdecl minimum_required_bits(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, long*) = 0;
 	virtual real __cdecl calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real) = 0;
 	virtual void __cdecl write_description_to_string(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real, long, char*) = 0;
-
-	// TODO: figure it out
-	virtual void* __cdecl __func9(dword* out_flags, void* event) = 0;
-
+	virtual long* __cdecl maximum_required_bits(long* out_bits, c_replication_outgoing_event*, long) = 0; // unsure of the name, pc only?
 	virtual void __cdecl event_payload_encode(long, void const*, c_bitstream*) = 0;
 	virtual bool __cdecl event_payload_decode(long, void*, c_bitstream*) = 0;
 	virtual void __cdecl prepare_event_data_for_gameworld(long, void*) = 0;
 	virtual bool __cdecl apply_game_event(long, long const*, long, void const*) = 0;
-
-protected:
-	// TODO: figure out any data
 };
 
 struct c_simulation_type_collection
 {
+public:
+	c_simulation_type_collection();
+	~c_simulation_type_collection();
+
+	void clear_types();
+	void finish_types(long entity_type_count, long event_type_count);
+
+	long get_entity_definition_count() const;
+	c_simulation_entity_definition* get_entity_definition(e_simulation_entity_type) const;
+	char const* get_entity_type_name(e_simulation_entity_type) const;
+	void register_entity_definition(e_simulation_entity_type, c_simulation_entity_definition*);
+
+	long get_event_definition_count() const;
+	c_simulation_event_definition* get_event_definition(e_simulation_event_type) const;
+	char const* get_event_type_name(e_simulation_event_type) const;
+	void register_event_definition(e_simulation_event_type, c_simulation_event_definition*);
+
+protected:
 	long m_entity_type_count;
 	c_static_array<c_simulation_entity_definition*, k_simulation_entity_type_maximum_count> m_entity_definitions;
 
 	long m_event_type_count;
 	c_static_array<c_simulation_event_definition*, k_simulation_event_type_maximum_count> m_event_definitions;
 };
+long const k_simulation_entity_type_maximum_size = sizeof(long) + (sizeof(c_simulation_entity_definition*) * k_simulation_entity_type_maximum_count);
+long const k_simulation_event_type_maximum_size = sizeof(long) + (sizeof(c_simulation_event_definition*) * k_simulation_event_type_maximum_count);
+static_assert(sizeof(c_simulation_type_collection) == k_simulation_entity_type_maximum_size + k_simulation_event_type_maximum_size);
 

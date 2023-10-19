@@ -485,6 +485,7 @@ POPD
     <ClCompile Include="source\simulation\simulation.cpp" />
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
     <ClCompile Include="source\simulation\simulation_entity_database.cpp" />
+    <ClCompile Include="source\simulation\simulation_type_collection.cpp" />
     <ClCompile Include="source\simulation\simulation_world.cpp" />
     <ClCompile Include="source\sound\sound_classes.cpp" />
     <ClCompile Include="source\sound\sound_definitions.cpp" />
