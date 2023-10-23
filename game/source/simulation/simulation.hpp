@@ -80,7 +80,7 @@ struct simulation_update
 	c_simulation_queue bookkeeping_simulation_queue;
 	c_simulation_queue game_simulation_queue;
 };
-static_assert(sizeof(simulation_update) == 0x1658);
+static_assert(sizeof(struct simulation_update) == 0x1658);
 
 struct s_simulation_update_metadata
 {
@@ -113,7 +113,7 @@ struct s_simulation_update_node
 
 	byte __data0[0x4];
 
-	simulation_update update;
+	struct simulation_update update;
 	s_simulation_update_metadata metadata;
 	s_simulation_update_playback_event playback_event;
 	s_simulation_update_node* next;
@@ -141,9 +141,9 @@ struct s_simulation_globals
 
 	bool prepare_to_load_saved_game;
 	bool recording_film;
+	bool must_close_saved_film;
+	bool performed_main_save_and_exit_campaign_immediately_this_map;
 
-	byte __unknown11;
-	byte __unknown12;
 	byte __unknown13;
 
 	c_simulation_world* world;
@@ -161,7 +161,7 @@ struct s_simulation_globals
 	byte __unknown127;
 
 	// used in `simulation_update_write_to_buffer`
-	simulation_update update;
+	struct simulation_update update;
 	dword_flags update_flags;
 };
 static_assert(sizeof(s_simulation_globals) == 0x1784);
