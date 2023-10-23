@@ -115,7 +115,10 @@ bool __cdecl simulation_film_start_recording()
 	return INVOKE(0x004413B0, simulation_film_start_recording);
 }
 
-// 00441410
+void __cdecl simulation_film_stop_recording()
+{
+	INVOKE(0x00441410, simulation_film_stop_recording);
+}
 
 bool __cdecl simulation_format_player_netdebug_data(long a1, s_simulation_player_netdebug_data const* netdebug_data, long* a3)
 {
@@ -169,16 +172,26 @@ c_simulation_view* __cdecl simulation_get_remote_view_by_channel(c_network_chann
 	return INVOKE(0x004417C0, simulation_get_remote_view_by_channel, channel);
 }
 
-// 004417F0
+char const* simulation_get_starting_up_description()
+{
+	return INVOKE(0x004417F0, simulation_get_starting_up_description);
+}
 
-// 00441830
+//enum e_simulation_status __cdecl simulation_get_status(void)
+long __cdecl simulation_get_status()
+{
+	return INVOKE(0x00441830, simulation_get_status);
+}
 
 c_simulation_type_collection* __cdecl simulation_get_type_collection()
 {
 	return INVOKE(0x00441850, simulation_get_type_collection);
 }
 
-// 00441860
+bool __cdecl simulation_get_view_network_metrics(c_simulation_view const* view, long* rtt_msec, long* packet_rate, long* bandwidth_bps, long* packet_loss)
+{
+	return INVOKE(0x00441860, simulation_get_view_network_metrics, view, rtt_msec, packet_rate, bandwidth_bps, packet_loss);
+}
 
 c_simulation_world* __cdecl simulation_get_world()
 {
@@ -351,7 +364,10 @@ void __cdecl simulation_set_performed_main_save_and_exit_campaign_immediately_th
 	INVOKE(0x00442090, simulation_set_performed_main_save_and_exit_campaign_immediately_this_map, performed_main_save_and_exit_campaign_immediately_this_map);
 }
 
-// 004420A0
+bool __cdecl simulation_should_transmit_simulation_data()
+{
+	return INVOKE(0x004420A0, simulation_should_transmit_simulation_data);
+}
 
 void __cdecl simulation_start()
 {
@@ -388,17 +404,35 @@ void __cdecl simulation_update()
 	INVOKE(0x004421B0, simulation_update);
 }
 
-// 004423F0
+void __cdecl simulation_update_aftermath(struct simulation_update const* update, s_simulation_update_metadata* metadata)
+{
+	INVOKE(0x004423F0, simulation_update_aftermath, update, metadata);
+}
 
-// 00442430
+void __cdecl simulation_update_out_of_sync()
+{
+	INVOKE(0x00442430, simulation_update_out_of_sync);
+}
 
-// 004424F0
+bool __cdecl simulation_update_player_netdebug_data(long player_index, s_simulation_player_netdebug_data* netdebug_data)
+{
+	return INVOKE(0x004424F0, simulation_update_player_netdebug_data, player_index, netdebug_data);
+}
 
-// 004426F0
+void __cdecl simulation_update_pregame()
+{
+	INVOKE(0x004426F0, simulation_update_pregame);
+}
 
-// 004427C0
+bool simulation_update_read_from_buffer(struct simulation_update* update, long buffer_size, byte const* buffer)
+{
+	return INVOKE(0x004427C0, simulation_update_read_from_buffer, update, buffer_size, buffer);
+}
 
-// 00442840
+bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* update, long buffer_size, byte* buffer, long* out_update_length)
+{
+	return INVOKE(0x00442840, simulation_update_write_to_buffer, update, buffer_size, buffer, out_update_length);
+}
 
 void simulation_debug_render()
 {
