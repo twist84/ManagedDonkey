@@ -482,6 +482,7 @@ POPD
     <ClCompile Include="source\screenshots\screenshots_uploader.cpp" />
     <ClCompile Include="source\shell\shell.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_action.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_interface.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
     <ClCompile Include="source\simulation\simulation_entity_database.cpp" />
@@ -1031,6 +1032,7 @@ POPD
     <ClInclude Include="source\simulation\game_interface\simulation_game_engine_globals.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_engine_player.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_hs.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_interface.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_projectiles.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_units.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_vehicles.hpp" />

@@ -1059,6 +1059,9 @@
     <ClCompile Include="source\simulation\simulation_type_collection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\game_interface\simulation_game_interface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2808,6 +2811,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\toolbox\game_helpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\simulation\game_interface\simulation_game_interface.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

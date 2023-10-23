@@ -1,0 +1,77 @@
+#include "simulation/game_interface/simulation_game_interface.hpp"
+
+#include "simulation/simulation_type_collection.hpp"
+
+void __cdecl simulation_game_register_types(c_simulation_type_collection* type_collection, long* entity_type_count, long* event_type_count)
+{
+	INVOKE(0x004715D0, simulation_game_register_types, type_collection, entity_type_count, event_type_count);
+
+	//type_collection->register_entity_definition(_simulation_entity_type_slayer, &g_simulation_slayer_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_ctf, &g_simulation_ctf_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_assault, &g_simulation_assault_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_oddball, &g_simulation_oddball_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_king, &g_simulation_king_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_territories, &g_simulation_territories_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_juggernaut, &g_simulation_juggernaut_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_sandbox, c_simulation_sandbox_engine_globals_definition::instance());
+	//type_collection->register_entity_definition(_simulation_entity_type_infection, &g_simulation_infection_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_vip, &g_simulation_vip_engine_globals_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_game_engine_player, &g_simulation_game_engine_player_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_game_statborg, &g_simulation_game_statborg_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_breakable_surface_group, &g_simulation_breakable_surface_group_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_map_variant, &g_simulation_map_variant_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_unit, &g_simulation_unit_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_item, &g_simulation_item_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_generic, &g_simulation_generic_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_generic_garbage, &g_simulation_generic_garbage_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_vehicle, &g_simulation_vehicle_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_projectile, &g_simulation_projectile_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_weapon, &g_simulation_weapon_entity_definition);
+	//type_collection->register_entity_definition(_simulation_entity_type_device, &g_simulation_device_entity_definition);
+	//type_collection->register_event_definition(_event_simulation_type_damage_aftermath, &g_simulation_damage_aftermath_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_damage_section_response, &g_simulation_damage_section_response_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_breakable_surface_damage, &g_simulation_breakable_surface_damage_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_projectile_attached, &g_simulation_projectile_attached_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_projectile_detonate, &g_simulation_projectile_detonate_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_projectile_impact_effect, &g_simulation_projectile_impact_effect_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_projectile_object_impact_effect, &g_simulation_projectile_object_impact_effect_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_effect_on_pos, &g_simulation_effect_on_pos_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_game_engine, &g_simulation_game_engine_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_board_vehicle, &g_simulation_unit_board_vehicle_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_pickup, &g_simulation_unit_pickup_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_weapon_effect, &g_simulation_weapon_effect_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_weapon_empty_click, &g_simulation_weapon_empty_click_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_hit_marker, &g_simulation_hit_marker_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_exit_vehicle, &g_simulation_unit_exit_vehicle_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_assassinate, &g_simulation_unit_assassinate_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_player_taunt_request, &g_simulation_player_taunt_request_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_weapon_fire, &g_simulation_weapon_fire_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_equipment_use, &g_simulation_unit_equipment_use_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_weapon_reload, &g_simulation_weapon_reload_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_throw_initiate, &g_simulation_unit_throw_initiate_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_melee_initiate, &g_simulation_unit_melee_initiate_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_weapon_pickup, &g_simulation_weapon_pickup_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_weapon_put_away, &g_simulation_weapon_put_away_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_weapon_drop, &g_simulation_weapon_drop_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_vehicle_flip, &g_simulation_vehicle_flip_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_vehicle_trick, &g_simulation_vehicle_trick_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_device_touch, &g_simulation_device_touch_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_throw_release, &g_simulation_unit_throw_release_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_melee_damage, &g_simulation_unit_melee_damage_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_melee_clang, &g_simulation_unit_melee_clang_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_enter_vehicle, &g_simulation_unit_enter_vehicle_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_game_engine_request_boot_player, &g_simulation_game_engine_request_boot_player_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_player_respawn_request, &g_simulation_player_respawn_request_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_player_force_base_respawn, &g_simulation_player_force_base_respawn_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_unit_equipment_pickup, &g_simulation_unit_equipment_pickup_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_projectile_supercombine_request, &g_simulation_projectile_supercombine_request_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_object_refresh, &g_simulation_object_refresh_event_definition);
+	//type_collection->register_event_definition(_event_simulation_type_player_editor_request, &g_simulation_player_editor_request_event_definition);
+	//
+	//*entity_type_count = k_simulation_entity_type_count;
+	//*event_type_count = k_simulation_event_type_count;
+	//
+	////type_collection->register_event_definition(_event_simulation_type_hs_script_wake, &g_simulation_hs_script_wake_event_definition);
+	////*event_type_count++;
+}
+
