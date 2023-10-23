@@ -4,7 +4,6 @@
 #include "main/main.hpp"
 #include "networking/delivery/network_channel.hpp"
 #include "simulation/simulation_type_collection.hpp"
-#include "simulation/simulation_view.hpp"
 #include "simulation/simulation_world.hpp"
 
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);

@@ -5,7 +5,7 @@
 
 struct s_network_message_synchronous_update
 {
-	simulation_update update;
+	struct simulation_update update;
 	s_simulation_update_metadata metadata;
 	byte __data[0x4];
 };

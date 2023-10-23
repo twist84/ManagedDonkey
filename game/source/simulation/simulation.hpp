@@ -5,6 +5,7 @@
 #include "game/players.hpp"
 #include "replication/replication_encoding.hpp"
 #include "simulation/simulation_queue.hpp"
+#include "simulation/simulation_view.hpp"
 #include "units/units.hpp"
 
 class c_wait_for_render_thread
@@ -168,9 +169,83 @@ static_assert(sizeof(s_simulation_globals) == 0x1784);
 
 extern s_simulation_globals& simulation_globals;
 
+struct s_simulation_player_netdebug_data;
+
+extern void __cdecl simulation_abort_immediate(e_simulation_abort_reason abort_reason);
 extern bool __cdecl simulation_aborted();
+extern void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, s_machine_identifier const* remote_machine_identifier, long remote_machine_index, char const* remote_machine_name);
+extern void __cdecl simulation_apply_after_game(struct simulation_update const* update);
+extern void __cdecl simulation_apply_before_game(struct simulation_update const* update);
+extern bool __cdecl simulation_boot_machine(s_machine_identifier const* machine, e_network_session_boot_reason boot_reason);
+extern void __cdecl simulation_build_machine_update(bool* machine_update_valid, simulation_machine_update* machine_update);
+extern void __cdecl simulation_build_player_updates();
+extern void __cdecl simulation_build_update(bool should_build, struct simulation_update* update, s_simulation_update_metadata* metadata);
+extern void __cdecl simulation_clear_errors();
+extern void __cdecl simulation_describe_status(char* status, long status_size);
+extern void __cdecl simulation_destroy_update(struct simulation_update* update);
+extern void __cdecl simulation_dispose();
+extern void __cdecl simulation_dispose_from_old_map();
+extern void __cdecl simulation_end(e_simulation_abort_reason abort_reason);
+extern void __cdecl simulation_fatal_error();
+extern bool __cdecl simulation_film_retrieve_updates(long ticks_remaining, long* updates_read_out);
+extern bool __cdecl simulation_film_start_recording();
+extern void __cdecl simulation_film_stop_recording();
+extern bool __cdecl simulation_format_player_netdebug_data(long a1, s_simulation_player_netdebug_data const* netdebug_data, long* a3);
+extern char const* __cdecl simulation_get_abort_reason_string();
+extern e_simulation_abort_reason __cdecl simulation_get_aborted_reason();
+extern void __cdecl simulation_get_game_description(c_static_string<260>* game_description);
+extern bool __cdecl simulation_get_machine_active_in_game(s_machine_identifier const* machine);
+extern bool __cdecl simulation_get_machine_bandwidth_events(s_machine_identifier const* machine, long bandwidth_event_type_count, long* bandwidth_event_counters);
+extern bool __cdecl simulation_get_machine_connectivity(s_machine_identifier const* machine);
+extern bool __cdecl simulation_get_machine_is_host(s_machine_identifier const* machine);
+extern dword __cdecl simulation_get_network_time_since_abort();
+extern c_simulation_view* __cdecl simulation_get_remote_view_by_channel(c_network_channel* channel);
+extern char const* simulation_get_starting_up_description();
+extern long __cdecl simulation_get_status();
+extern c_simulation_type_collection* __cdecl simulation_get_type_collection();
+extern bool __cdecl simulation_get_view_network_metrics(c_simulation_view const* view, long* rtt_msec, long* packet_rate, long* bandwidth_bps, long* packet_loss);
+extern c_simulation_world* __cdecl simulation_get_world();
+extern c_simulation_world* __cdecl simulation_get_world_if_exists();
 extern bool __cdecl simulation_in_progress();
+extern void __cdecl simulation_initialize();
+extern void __cdecl simulation_initialize_for_new_map();
+extern void __cdecl simulation_initialize_for_saved_game(long flags);
+extern void __cdecl simulation_invalidate();
+extern void __cdecl simulation_must_close_saved_film();
+extern void __cdecl simulation_notify_channel_closure(void* closure_callback);
+extern void __cdecl simulation_notify_core_save();
+extern void __cdecl simulation_notify_going_active();
+extern void __cdecl simulation_notify_initial_core_load(long next_update_number);
+extern void __cdecl simulation_notify_reset_complete();
+extern void __cdecl simulation_notify_reset_initiate();
+extern void __cdecl simulation_notify_revert();
+extern void __cdecl simulation_notify_saved_film_ended();
+extern void __cdecl simulation_notify_saved_film_revert(long a1, long a2);
+extern bool __cdecl simulation_performed_main_save_and_exit_campaign_immediately_this_map();
+extern void __cdecl simulation_player_joined_game(long player_index);
+extern void __cdecl simulation_player_left_game(long player_index);
+extern void __cdecl simulation_prepare_to_load_saved_game(long a1);
+extern void __cdecl simulation_prepare_to_send();
+extern void __cdecl simulation_process_actor_control(long actor_index, unit_control_data const* control);
+extern void __cdecl simulation_process_input(dword player_mask, c_static_array<player_action, 4> const& actions);
+extern void __cdecl simulation_record_update(struct simulation_update const* update);
+extern void __cdecl simulation_remove_view_from_world(c_simulation_view* view);
+extern void __cdecl simulation_reset();
+extern bool __cdecl simulation_reset_in_progress();
+extern void __cdecl simulation_saved_film_revert();
+extern void __cdecl simulation_set_performed_main_save_and_exit_campaign_immediately_this_map(bool performed_main_save_and_exit_campaign_immediately_this_map);
+extern bool __cdecl simulation_should_transmit_simulation_data();
+extern void __cdecl simulation_start();
 extern bool __cdecl simulation_starting_up();
+extern void __cdecl simulation_stop();
+extern long __cdecl simulation_time_get_maximum_available(bool* match_remote_time);
+extern void __cdecl simulation_update();
+extern void __cdecl simulation_update_aftermath(struct simulation_update const* update, s_simulation_update_metadata* metadata);
+extern void __cdecl simulation_update_out_of_sync();
+extern bool __cdecl simulation_update_player_netdebug_data(long player_index, s_simulation_player_netdebug_data* netdebug_data);
+extern void __cdecl simulation_update_pregame();
+extern bool __cdecl simulation_update_read_from_buffer(struct simulation_update* update, long buffer_size, byte const* buffer);
+extern bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* update, long buffer_size, byte* buffer, long* out_update_length);
 
 extern void simulation_debug_render();
 
