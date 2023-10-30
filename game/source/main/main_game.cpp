@@ -14,7 +14,12 @@ REFERENCE_DECLARE(0x023DAE90, bool, debug_load_panic_to_main_menu);
 // void main_game_launch_default();
 // void main_game_launch_default_editor();
 // void main_game_reset_map(bool reset_map);
-// bool main_game_reset_in_progress();
+
+bool main_game_reset_in_progress()
+{
+	return main_game_globals.reset_in_progress;
+}
+
 // bool main_game_change_in_progress();
 
 void main_game_change(game_options const* options)
