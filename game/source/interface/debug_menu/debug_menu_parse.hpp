@@ -39,14 +39,18 @@ enum e_token
 	_token_menu,
 	_token_zone_set_menu,
 
-	// ODST
+	// Halo 3: ODST
 	//_token_create_zone_set_menu,
 	//_token_error_geometry_settings_menu,
 
-	// Reach
+	// Halo: Reach
 	//_token_saved_film_marker_goto_menu,
 	//_token_scenario_loader,
 	//_token_object_dropper,
+
+	// Halo 4
+	//_token_effects_browser
+	//_token_cinematics_menu
 
 	_token_item,
 
@@ -58,6 +62,9 @@ enum e_token
 	_token_type,
 	_token_global,
 	_token_command,
+	
+	// Halo 4
+	//_token_sequence_command
 
 	// CR LF
 	_token_crlf,
@@ -96,14 +103,18 @@ enum e_property_owner
 	_property_owner_menu,
 	_property_owner_zone_set_menu,
 
-	// ODST
+	// Halo 3: ODST
 	//_property_owner_create_zone_set_menu,
 	//_property_owner_error_geometry_settings_menu,
 
-	// Reach
+	// Halo: Reach
 	//_property_owner_saved_film_marker_goto_menu,
 	//_property_owner_scenario_loader,
 	//_property_owner_object_dropper,
+
+	// Halo 4
+	//_property_owner_effects_browser
+	//_property_owner_cinematics_menu
 
 	k_property_owner_count
 };
