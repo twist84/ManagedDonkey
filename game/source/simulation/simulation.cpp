@@ -2,11 +2,17 @@
 
 #include "game/game_engine.hpp"
 #include "main/main.hpp"
+#include "memory/module.hpp"
 #include "networking/delivery/network_channel.hpp"
+#include "networking/network_memory.hpp"
+#include "simulation/game_interface/simulation_game_interface.hpp"
+#include "simulation/simulation_gamestate_entities.hpp"
 #include "simulation/simulation_type_collection.hpp"
 #include "simulation/simulation_world.hpp"
 
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
+
+HOOK_DECLARE(0x004419C0, simulation_initialize);
 
 c_wait_for_render_thread::c_wait_for_render_thread(char const* file, long line) :
 	m_flags(_internal_halt_render_thread_and_lock_resources(file, line))
@@ -209,28 +215,28 @@ bool __cdecl simulation_in_progress()
 
 void __cdecl simulation_initialize()
 {
-	INVOKE(0x004419C0, simulation_initialize);
+	//INVOKE(0x004419C0, simulation_initialize);
 
-	//ASSERT(!simulation_globals.initialized);
-	//
-	//simulation_gamestate_entities_initialize();
-	//if (network_memory_simulation_initialize(&simulation_globals.world, &simulation_globals.watcher, &simulation_globals.type_collection))
-	//{
-	//	ASSERT(simulation_globals.world);
-	//	ASSERT(simulation_globals.watcher);
-	//	ASSERT(simulation_globals.type_collection);
-	//
-	//	long entity_type_count = NONE;
-	//	long event_type_count = NONE;
-	//
-	//	simulation_globals.type_collection->clear_types();
-	//	simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
-	//	simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
-	//
-	//	simulation_globals.reset_in_progress = false;
-	//	simulation_globals.recording_film = false;
-	//	simulation_globals.initialized = true;
-	//}
+	ASSERT(!simulation_globals.initialized);
+	
+	simulation_gamestate_entities_initialize();
+	if (network_memory_simulation_initialize(&simulation_globals.world, &simulation_globals.watcher, &simulation_globals.type_collection))
+	{
+		ASSERT(simulation_globals.world);
+		ASSERT(simulation_globals.watcher);
+		ASSERT(simulation_globals.type_collection);
+	
+		long entity_type_count = NONE;
+		long event_type_count = NONE;
+	
+		simulation_globals.type_collection->clear_types();
+		simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
+		simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
+	
+		simulation_globals.reset_in_progress = false;
+		simulation_globals.recording_film = false;
+		simulation_globals.initialized = true;
+	}
 }
 
 void __cdecl simulation_initialize_for_new_map()

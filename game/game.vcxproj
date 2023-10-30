@@ -482,10 +482,14 @@ POPD
     <ClCompile Include="source\screenshots\screenshots_uploader.cpp" />
     <ClCompile Include="source\shell\shell.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_action.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_engine_assault.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_engine_ctf.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_engine_slayer.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_interface.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
     <ClCompile Include="source\simulation\simulation_entity_database.cpp" />
+    <ClCompile Include="source\simulation\simulation_gamestate_entities.cpp" />
     <ClCompile Include="source\simulation\simulation_type_collection.cpp" />
     <ClCompile Include="source\simulation\simulation_world.cpp" />
     <ClCompile Include="source\sound\sound_classes.cpp" />
@@ -1029,8 +1033,11 @@ POPD
     <ClInclude Include="source\simulation\game_interface\simulation_game_damage.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_device_machines.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_effects.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_engine_assault.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_engine_ctf.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_engine_globals.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_engine_player.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_engine_slayer.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_hs.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_interface.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_projectiles.hpp" />

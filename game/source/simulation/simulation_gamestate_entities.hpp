@@ -12,3 +12,5 @@ struct s_simulation_gamestate_entity : s_datum_header
 };
 static_assert(sizeof(s_simulation_gamestate_entity) == 0x10);
 
+extern void __cdecl simulation_gamestate_entities_initialize();
+

@@ -1,6 +1,11 @@
 #include "simulation/game_interface/simulation_game_interface.hpp"
 
-#include "simulation/simulation_type_collection.hpp"
+#include "memory/module.hpp"
+#include "simulation/game_interface/simulation_game_engine_assault.hpp"
+#include "simulation/game_interface/simulation_game_engine_ctf.hpp"
+#include "simulation/game_interface/simulation_game_engine_slayer.hpp"
+
+//HOOK_DECLARE_CALL(0x004419FF, simulation_game_register_types);
 
 void __cdecl simulation_game_register_types(c_simulation_type_collection* type_collection, long* entity_type_count, long* event_type_count)
 {
@@ -9,6 +14,8 @@ void __cdecl simulation_game_register_types(c_simulation_type_collection* type_c
 	//type_collection->register_entity_definition(_simulation_entity_type_slayer, &g_simulation_slayer_engine_globals_definition);
 	//type_collection->register_entity_definition(_simulation_entity_type_ctf, &g_simulation_ctf_engine_globals_definition);
 	//type_collection->register_entity_definition(_simulation_entity_type_assault, &g_simulation_assault_engine_globals_definition);
+	//*entity_type_count = _simulation_entity_type_assault + 1;
+
 	//type_collection->register_entity_definition(_simulation_entity_type_oddball, &g_simulation_oddball_engine_globals_definition);
 	//type_collection->register_entity_definition(_simulation_entity_type_king, &g_simulation_king_engine_globals_definition);
 	//type_collection->register_entity_definition(_simulation_entity_type_territories, &g_simulation_territories_engine_globals_definition);

@@ -1,0 +1,4 @@
+#include "simulation/game_interface/simulation_game_engine_slayer.hpp"
+
+REFERENCE_DECLARE(0x0189B6DC, c_simulation_slayer_engine_globals_definition, g_simulation_slayer_engine_globals_definition);
+

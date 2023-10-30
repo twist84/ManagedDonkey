@@ -1,0 +1,4 @@
+#include "simulation/game_interface/simulation_game_engine_assault.hpp"
+
+REFERENCE_DECLARE(0x0189B7B0, c_simulation_assault_engine_globals_definition, g_simulation_assault_engine_globals_definition);
+

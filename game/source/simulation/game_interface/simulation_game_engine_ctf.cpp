@@ -1,0 +1,4 @@
+#include "simulation/game_interface/simulation_game_engine_ctf.hpp"
+
+REFERENCE_DECLARE(0x0189B744, c_simulation_ctf_engine_globals_definition, g_simulation_ctf_engine_globals_definition);
+
