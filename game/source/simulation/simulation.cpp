@@ -12,7 +12,13 @@
 
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
-HOOK_DECLARE(0x004419C0, simulation_initialize);
+void patch_simulation()
+{
+	patch_pointer({ .address = 0x01655EC0 }, simulation_initialize);
+	patch_pointer({ .address = 0x01655EC4 }, simulation_dispose);
+	patch_pointer({ .address = 0x01655EC8 }, simulation_initialize_for_new_map);
+	patch_pointer({ .address = 0x01655ECC }, simulation_dispose_from_old_map);
+}
 
 c_wait_for_render_thread::c_wait_for_render_thread(char const* file, long line) :
 	m_flags(_internal_halt_render_thread_and_lock_resources(file, line))
@@ -90,7 +96,16 @@ void __cdecl simulation_destroy_update(struct simulation_update* update)
 
 void __cdecl simulation_dispose()
 {
-	INVOKE(0x00441230, simulation_dispose);
+	//INVOKE(0x00441230, simulation_dispose);
+
+	simulation_gamestate_entities_dispose();
+	if (simulation_globals.initialized)
+	{
+		simulation_globals.world = NULL;
+		simulation_globals.watcher = NULL;
+		simulation_globals.type_collection = NULL;
+		simulation_globals.initialized = false;
+	}
 }
 
 void __cdecl simulation_dispose_from_old_map()

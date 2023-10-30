@@ -171,6 +171,8 @@ extern s_simulation_globals& simulation_globals;
 
 struct s_simulation_player_netdebug_data;
 
+extern void patch_simulation();
+
 extern void __cdecl simulation_abort_immediate(e_simulation_abort_reason abort_reason);
 extern bool __cdecl simulation_aborted();
 extern void __cdecl simulation_add_view_to_world(e_simulation_view_type view_type, s_machine_identifier const* remote_machine_identifier, long remote_machine_index, char const* remote_machine_name);
