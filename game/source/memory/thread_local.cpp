@@ -4,13 +4,6 @@
 
 #include <windows.h>
 
-struct t_restricted_allocation_manager :
-	public c_allocation_base
-{
-	long m_member_index;
-	long m_thread_index;
-};
-
 /* k_game_state_update_region  */ REFERENCE_DECLARE(0x01861570, t_restricted_allocation_manager, g_simulation_gamestate_entity_data_allocator);
 /* k_game_state_shared_region  */ REFERENCE_DECLARE(0x0189D094, t_restricted_allocation_manager, g_main_gamestate_timing_data_allocator);
 /* k_game_state_render_region  */ REFERENCE_DECLARE(0x0189D0A0, t_restricted_allocation_manager, g_main_render_timing_data_allocator);
