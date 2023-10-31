@@ -502,7 +502,9 @@ extern byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input
 extern word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
 extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type);
+
 extern void input_get_raw_data_string(char* buffer, short size);
+extern void input_mouse_state_get_raw_data_string(char* buffer, short size);
 
 // key_to_virtual_table[_key_code_escape] = VK_ESCAPE
 extern c_static_array<char const, k_key_code_count>& key_to_virtual_table;

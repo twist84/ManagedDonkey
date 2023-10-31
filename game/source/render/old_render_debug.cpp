@@ -27,6 +27,7 @@ bool debug_zone_set_critical_portals = false;
 bool debug_structure_water = false;
 bool debug_input = false;
 bool debug_input_abstraction = false;
+bool debug_input_mouse_state = false;
 bool debug_player = false;
 bool debug_render_freeze = false;
 bool debug_camera = false;
@@ -45,6 +46,12 @@ void render_debug_input()
     if (debug_input_abstraction)
     {
         input_abstraction_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
+        render_debug_string(raw_data_string);
+    }
+
+    if (debug_input_mouse_state)
+    {
+        input_mouse_state_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
         render_debug_string(raw_data_string);
     }
 }

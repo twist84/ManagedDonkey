@@ -115,3 +115,22 @@ void input_get_raw_data_string(char* buffer, short size)
 	//}
 }
 
+void input_mouse_state_get_raw_data_string(char* buffer, short size)
+{
+	ASSERT(buffer);
+	ASSERT(size > 0);
+	
+	if (buffer && size > 0)
+	{
+		csnzappendf(buffer, size, "|ninput_mouse_state|n");
+		//raw_data_string[0] = 0;
+
+		csnzappendf(buffer, size, "x: ", input_globals.raw_mouse_state.x);
+		csnzappendf(buffer, size, "y: ", input_globals.raw_mouse_state.y);
+		csnzappendf(buffer, size, "wheel_ticks: ", input_globals.raw_mouse_state.wheel_ticks);
+		csnzappendf(buffer, size, "relative_x: ", input_globals.raw_mouse_state.relative_x);
+		csnzappendf(buffer, size, "relative_y: ", input_globals.raw_mouse_state.relative_y);
+		csnzappendf(buffer, size, "wheel_delta: ", input_globals.raw_mouse_state.wheel_delta);
+	}
+}
+
