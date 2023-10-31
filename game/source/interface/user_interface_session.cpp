@@ -46,7 +46,12 @@ e_session_game_start_status __cdecl user_interface_get_session_game_start_status
 //.text:00A811F0 ; bool __cdecl user_interface_interactive_session_is_group()
 //.text:00A81230 ; bool __cdecl user_interface_interactive_session_is_squad()
 //.text:00A81270 ; void __cdecl user_interface_leave_game()
-//.text:00A81280 ; void __cdecl user_interface_leave_squad(bool disconnect)
+
+void __cdecl user_interface_leave_sessions(e_user_interface_session_leave_type leave_type, e_user_interface_session_leave_reason leave_reason)
+{
+	INVOKE(0x00A81280, user_interface_leave_sessions, leave_type, leave_reason);
+}
+
 //.text:00A812A0 ; long __cdecl user_interface_local_player_count()
 //.text:00A81370 ; bool __cdecl user_interface_remote_squad_contains_local_peer(s_network_session_status_data const* status_data)
 //.text:00A81440 ; bool __cdecl user_interface_remote_squad_is_joinable(s_network_session_status_data const* status_data)

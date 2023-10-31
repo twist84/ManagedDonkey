@@ -528,6 +528,34 @@ enum e_gui_network_session_advertisement_mode
 	k_gui_network_session_advertisement_mode_count
 };
 
+enum e_user_interface_session_leave_type
+{
+	_user_interface_session_leave_type_leave_to_pre_game_lobby = 0,
+	_user_interface_session_leave_type_leave_to_main_menu,
+
+	k_user_interface_session_leave_type_count
+};
+
+enum e_user_interface_session_leave_reason
+{
+	_user_interface_session_leave_reason_all_controllers_signed_out = 0,
+	_user_interface_session_leave_reason_booted,
+	_user_interface_session_leave_reason_failed_to_start,
+	_user_interface_session_leave_reason_leaving_game,
+	_user_interface_session_leave_reason_backing_out_of_searching,
+	_user_interface_session_leave_reason_backing_out_of_post_game,
+	_user_interface_session_leave_reason_backing_out_of_pre_game,
+
+	// Halo: Reach
+	//_user_interface_session_leave_reason_whitelist_enforcement,
+	//_user_interface_session_leave_reason_leaving_game_on_resume,
+
+	// MCC
+	//_user_interface_session_leave_reason_banned,
+
+	k_user_interface_session_leave_reason_count
+};
+
 enum e_ui_message_type
 {
 	_ui_message_type_unknown0 = 0,
