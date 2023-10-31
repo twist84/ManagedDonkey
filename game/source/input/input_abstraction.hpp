@@ -69,16 +69,20 @@ struct s_game_input_state
 
 	c_abstract_button abstract_buttons[k_button_action_count_keyboard];
 	int16_point2d abstract_sticks[2];
+
 	real forward_movement;
-	real strafe;
+	real sideways_movement;
+	real vehicle_forward_movement;
+
 	real yaw;
 	real pitch;
-	real __unknown30C;
-	real __unknown310;
-	real __unknown314;
-	real __unknown318;
-	real __unknown31C;
-	real __unknown320;
+	real pitch1;
+
+	real yaw1;
+	real pitch2;
+	real pitch3;
+	real pitch4;
+
 	bool __unknown324;
 };
 static_assert(sizeof(s_game_input_state) == 0x328);
