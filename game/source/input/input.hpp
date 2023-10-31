@@ -463,20 +463,22 @@ struct s_input_globals
 	short buffered_mouse_button_read_count;
 	c_static_array<s_mouse_state, 64> buffered_mouse_buttons;
 
-	bool __unknownAB4;
-	bool __unknownAB5;
-	bool __unknownAB6;
+	bool raw_input_unknownAB4;
+	bool raw_input_unknownAB5;
+	bool raw_input_unknownAB6;
+	bool raw_input_mouse_state_update;
 
-	bool raw_input_enabled;
-	mouse_state raw_input_mouse_state;
-	mouse_state suppressed_mouse_state;
+	mouse_state raw_mouse_state;
+	mouse_state suppressed_raw_mouse_state;
 
-	long __unknownB10;
-	long __unknownB14;
-	long __unknownB18;
-	long __unknownB1C;
-	long __unknownB20;
-	long __unknownB24;
+	// sub_511550
+	// sub_511AF0
+	long mouse_relative_x;  // 1
+	long mouse_relative_y;  // 1
+	long mouse_wheel_delta; // 120, WHEEL_DELTA
+	long mouse_x_ticks;     // 1
+	long mouse_y_ticks;     // 1
+	long mouse_wheel_ticks; // 1
 
 	c_static_flags<32> gamepad_valid_mask;
 	c_static_array<gamepad_state, k_number_of_controllers> gamepad_states;
