@@ -380,15 +380,16 @@ static_assert(sizeof(s_mouse_state) == 0x14);
 
 struct mouse_state
 {
-	long __unknown0;
-	long __unknown4;
-	long __unknown8;
-	c_static_array<byte, k_mouse_button_count> frames_down;
-	c_static_array<word, k_mouse_button_count> msec_down;
-	byte_flags flags;
 	long x;
 	long y;
-	long wheel_delta;
+	long wheel_ticks;
+	c_static_array<byte, k_mouse_button_count> frames_down;
+	c_static_array<word, k_mouse_button_count> msec_down;
+
+	c_flags<e_mouse_button, byte, k_mouse_button_count> raw_flags;
+	long relative_x;
+	long relative_y;
+	long wheel_delta; // += TEST_FLAGS(usButtonFlags, RI_MOUSE_WHEEL) ? usButtonData : 0
 };
 static_assert(sizeof(mouse_state) == 0x2C);
 
