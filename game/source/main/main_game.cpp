@@ -20,7 +20,10 @@ bool main_game_reset_in_progress()
 	return main_game_globals.reset_in_progress;
 }
 
-// bool main_game_change_in_progress();
+bool main_game_change_in_progress()
+{
+	return main_game_globals.change_in_progress;
+}
 
 void main_game_change(game_options const* options)
 {
@@ -31,7 +34,7 @@ void main_game_change(game_options const* options)
 		assert_game_options_verify(options);
 		memcpy(&main_game_globals.game_loaded_options, options, sizeof(game_options));
 	}
-	main_game_globals.change_in_progress = 1;
+	main_game_globals.change_in_progress = true;
 	main_game_globals.game_load_pending = options == nullptr;
 	main_game_globals.game_loaded_time = system_milliseconds();
 	if (!options)

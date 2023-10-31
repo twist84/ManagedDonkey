@@ -55,7 +55,7 @@ extern bool& debug_load_panic_to_main_menu;
 //extern void main_game_launch_default_editor();
 //extern void main_game_reset_map(bool reset_map);
 extern bool main_game_reset_in_progress();
-//extern bool main_game_change_in_progress();
+extern bool main_game_change_in_progress();
 
 extern void main_game_change(game_options const* options);
 
