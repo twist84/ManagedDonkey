@@ -281,6 +281,53 @@ c_abstract_button const& s_game_input_state::get_button(e_button_action button_i
 	return abstract_buttons[button_index];
 }
 
+void __cdecl sub_60D160(s_mouse_state* state, s_game_input_state* input_state, long a3)
+{
+	INVOKE(0x0060D160, sub_60D160, state, input_state, a3);
+
+	//if (input_key_frames_down(_key_code_page_up, _input_type_ui))
+	//{
+	//	input_abstraction_globals.input_states[0].aircraft_pitch1 += 0.005f;
+	//}
+	//
+	//if (input_key_frames_down(_key_code_page_down, _input_type_ui))
+	//{
+	//	input_abstraction_globals.input_states[0].vehicle_pitch1 += 0.005f;
+	//}
+	//
+	//input_abstraction_globals.input_states[0].forward_movement = 1.0f;
+	//input_abstraction_globals.input_states[0].side_movement = 1.0f;
+	//input_abstraction_globals.input_states[0].vehicle_forward_movement = 1.0f;
+	// 
+	//input_abstraction_globals.input_states[1].yaw = 0.001f;
+	//input_abstraction_globals.input_states[1].pitch = 0.0005f;
+	//input_abstraction_globals.input_states[1].aircraft_pitch = 0.0005f;
+	//input_abstraction_globals.input_states[1].vehicle_yaw = 0.001f;
+	//input_abstraction_globals.input_states[1].vehicle_pitch = 0.0005f;
+	//input_abstraction_globals.input_states[1].aircraft_pitch1 = 0.0005f;
+	//input_abstraction_globals.input_states[1].vehicle_pitch1 = 0.0005f;
+	//input_abstraction_globals.input_states[1].__unknown324 = true;
+	// 
+	//input_abstraction_globals.input_states[2].yaw = 0.01f;
+	//input_abstraction_globals.input_states[2].pitch = 0.005f;
+	//input_abstraction_globals.input_states[2].aircraft_pitch = 0.005f;
+	//input_abstraction_globals.input_states[2].vehicle_yaw = 0.01f;
+	//input_abstraction_globals.input_states[2].vehicle_pitch = 0.005f;
+	//input_abstraction_globals.input_states[2].aircraft_pitch1 = 0.005f;
+	//input_abstraction_globals.input_states[2].vehicle_pitch1 = 0.005f;
+	//input_abstraction_globals.input_states[2].__unknown324 = true;
+	// 
+	//input_abstraction_globals.input_states[3].yaw = 0.1f;
+	//input_abstraction_globals.input_states[3].pitch = 0.05f;
+	//input_abstraction_globals.input_states[3].aircraft_pitch = 0.05f;
+	//input_abstraction_globals.input_states[3].vehicle_yaw = 0.1f;
+	//input_abstraction_globals.input_states[3].vehicle_pitch = 0.05f;
+	//input_abstraction_globals.input_states[3].aircraft_pitch1 = 0.05f;
+	//input_abstraction_globals.input_states[3].vehicle_pitch1 = 0.05f;
+	//input_abstraction_globals.input_states[3].__unknown324 = true;
+}
+//HOOK_DECLARE_CALL(0x0060D9AA, sub_60D160);
+
 void input_abstraction_get_raw_data_string(char* buffer, short size)
 {
 	ASSERT(buffer);
@@ -296,31 +343,25 @@ void input_abstraction_get_raw_data_string(char* buffer, short size)
 			if (!input_state.__unknown324)
 				continue;
 
-			csnzappendf(buffer, size, "%hd,   abstract_sticks: [left (%hd, %hd), right (%hd, %hd)]|n",
+			csnzappendf(buffer, size, "%hd,   sticks: (left: %hd, %hd), (right: %hd, %hd)]|n",
 				i,
-				input_state.abstract_sticks[0].x,
-				input_state.abstract_sticks[0].y,
-				input_state.abstract_sticks[1].x,
-				input_state.abstract_sticks[1].y);
+				input_state.abstract_sticks[0].x, input_state.abstract_sticks[0].y,
+				input_state.abstract_sticks[1].x, input_state.abstract_sticks[1].y);
 
-			csnzappendf(buffer, size, "%hd,  movement: [forwards: %f, sideways: %f|n, forwards (vehicle): %f",
+			csnzappendf(buffer, size, "%hd, movement: (forward: %f, side: %f, vehicle forward: %f)|n",
 				i,
-				input_state.forwards_movement,
-				input_state.sideways_movement,
-				input_state.vehicle_forwards_movement);
+				input_state.forward_movement,
+				input_state.side_movement,
+				input_state.vehicle_forward_movement);
 
-			csnzappendf(buffer, size, "%hd,               yaw: (%f, %f)|n",
+			csnzappendf(buffer, size, "%hd,      yaw: (%f, vehicle: %f)|n",
 				i,
-				input_state.yaw,
-				input_state.yaw1);
+				input_state.yaw, input_state.vehicle_yaw);
 
-			csnzappendf(buffer, size, "%hd,             pitch: (%f, %f, %f, %f, %f)|n",
-				i,
-				input_state.pitch,
-				input_state.pitch1,
-				input_state.pitch2,
-				input_state.pitch3,
-				input_state.pitch4);
+			csnzappendf(buffer, size, "%hd,    pitch: (%f, vehicle: %f, %f, aircraft: %f, %f)|n",
+				i, input_state.pitch,
+				input_state.vehicle_pitch, input_state.vehicle_pitch1,
+				input_state.aircraft_pitch, input_state.aircraft_pitch1);
 		}
 	}
 }

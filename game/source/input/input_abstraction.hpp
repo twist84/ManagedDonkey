@@ -67,22 +67,39 @@ struct s_game_input_state
 	c_abstract_button& get_button(e_button_action button_index);
 	c_abstract_button const& get_button(e_button_action button_index) const;
 
+	// player_control_get_controller_input
+	// if (unit->unit.seat_index != NONE && unit->object.parent_object_index != NONE)
+	// {
+	//   input_state->yaw = input_state->vehicle_yaw;
+	//   input_state->pitch = input_state->vehicle_pitch;
+	//   input_state->aircraft_pitch1 = input_state->vehicle_pitch1;
+	// }
+	// 
+	// real pitch = user_currently_piloting_aircraft(input_user_index) ? input_state->aircraft_pitch : input_state->pitch
+
+	// sub_60D620
+	// input_state->aircraft_pitch = input_state->aircraft_pitch1
+
+
 	c_abstract_button abstract_buttons[k_button_action_count_keyboard];
 	int16_point2d abstract_sticks[2];
 
-	real forwards_movement;
-	real sideways_movement;
-	real vehicle_forwards_movement;
+	real forward_movement;
+	real side_movement;
+	real vehicle_forward_movement;
 
 	real yaw;
 	real pitch;
-	real pitch1;
+	real aircraft_pitch;
 
-	real yaw1;
-	real pitch2;
-	real pitch3;
-	real pitch4;
+	real vehicle_yaw;
+	real vehicle_pitch;
 
+	// overrides?
+	real aircraft_pitch1;
+	real vehicle_pitch1;
+
+	// allow_use?
 	bool __unknown324;
 };
 static_assert(sizeof(s_game_input_state) == 0x328);
