@@ -3,6 +3,7 @@
 #include "input/input.hpp"
 #include "render/views/render_view.hpp"
 #include "render/render_debug.hpp"
+#include "input/input_abstraction.hpp"
 
 bool debug_structure_markers = false;
 bool debug_structure_surface_references = false;
@@ -25,6 +26,7 @@ bool debug_instanced_geometry_collision_geometry = false;
 bool debug_zone_set_critical_portals = false;
 bool debug_structure_water = false;
 bool debug_input = false;
+bool debug_input_abstraction = false;
 bool debug_player = false;
 bool debug_render_freeze = false;
 bool debug_camera = false;
@@ -37,6 +39,12 @@ void render_debug_input()
     if (debug_input)
     {
         input_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
+        render_debug_string(raw_data_string);
+    }
+
+    if (debug_input_abstraction)
+    {
+        input_abstraction_get_raw_data_string(raw_data_string, sizeof(raw_data_string) - 1);
         render_debug_string(raw_data_string);
     }
 }

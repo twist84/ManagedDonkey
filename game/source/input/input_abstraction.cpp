@@ -281,3 +281,47 @@ c_abstract_button const& s_game_input_state::get_button(e_button_action button_i
 	return abstract_buttons[button_index];
 }
 
+void input_abstraction_get_raw_data_string(char* buffer, short size)
+{
+	ASSERT(buffer);
+	ASSERT(size > 0);
+
+	if (buffer && size > 0)
+	{
+		csnzprintf(buffer, size, "|n|n|n|ninput_abstraction|n");
+		for (short i = 0; i < k_number_of_controllers; i++)
+		{
+			s_game_input_state& input_state = input_abstraction_globals.input_states[i];
+
+			if (!input_state.__unknown324)
+				continue;
+
+			csnzappendf(buffer, size, "%hd,   abstract_sticks: [left (%hd, %hd), right (%hd, %hd)]|n",
+				i,
+				input_state.abstract_sticks[0].x,
+				input_state.abstract_sticks[0].y,
+				input_state.abstract_sticks[1].x,
+				input_state.abstract_sticks[1].y);
+
+			csnzappendf(buffer, size, "%hd,  movement: [forwards: %f, sideways: %f|n, forwards (vehicle): %f",
+				i,
+				input_state.forwards_movement,
+				input_state.sideways_movement,
+				input_state.vehicle_forwards_movement);
+
+			csnzappendf(buffer, size, "%hd,               yaw: (%f, %f)|n",
+				i,
+				input_state.yaw,
+				input_state.yaw1);
+
+			csnzappendf(buffer, size, "%hd,             pitch: (%f, %f, %f, %f, %f)|n",
+				i,
+				input_state.pitch,
+				input_state.pitch1,
+				input_state.pitch2,
+				input_state.pitch3,
+				input_state.pitch4);
+		}
+	}
+}
+

@@ -70,9 +70,9 @@ struct s_game_input_state
 	c_abstract_button abstract_buttons[k_button_action_count_keyboard];
 	int16_point2d abstract_sticks[2];
 
-	real forward_movement;
+	real forwards_movement;
 	real sideways_movement;
-	real vehicle_forward_movement;
+	real vehicle_forwards_movement;
 
 	real yaw;
 	real pitch;
@@ -138,3 +138,6 @@ extern void __cdecl input_abstraction_reset_controller_detection_timer();
 extern void __cdecl input_abstraction_set_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences);
 //extern void __cdecl input_abstraction_update();
 //extern void __cdecl input_abstraction_update_device_changes(dword_flags flags);
+
+extern void input_abstraction_get_raw_data_string(char* buffer, short size);
+
