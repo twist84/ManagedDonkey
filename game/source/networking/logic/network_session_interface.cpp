@@ -209,10 +209,10 @@ void __cdecl network_session_interface_set_local_user_properties(long user_index
 	INVOKE(0x00436AB0, network_session_interface_set_local_user_properties, user_index, controller_index, player_data, player_voice_settings);
 }
 
-//void __cdecl network_session_interface_set_local_user_state(long user_index, e_network_interface_user_state state)
-void __cdecl network_session_interface_set_local_user_state(long user_index, long state)
+//void __cdecl network_session_interface_set_local_user_state(long user_index, e_network_interface_user_state local_user_state)
+void __cdecl network_session_interface_set_local_user_state(long user_index, long local_user_state)
 {
-	INVOKE(0x00436B30, network_session_interface_set_local_user_state, user_index, state);
+	INVOKE(0x00436B30, network_session_interface_set_local_user_state, user_index, local_user_state);
 }
 
 void __cdecl network_session_interface_set_local_user_xuid(long user_index, qword xuid)
