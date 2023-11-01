@@ -2,6 +2,39 @@
 
 #include "interface/c_controller.hpp"
 
+enum e_bungienet_user_flags
+{
+	_bungienet_user_flag_bit0 = 0,
+	_bungienet_user_flag_bit1,
+	_bungienet_user_flag_bungie_bit,
+	_bungienet_user_flag_community_bit,
+	_bungienet_user_flag_community2_bit,
+	_bungienet_user_flag_community3_bit,
+
+	// are there more?
+
+	k_bungienet_user_flags
+};
+
+struct s_user_interface_controller
+{
+	c_flags<e_bungienet_user_flags, dword, k_bungienet_user_flags> bungienet_user;
+	byte hopper_access;
+	bool extras_portal_debug;
+
+	byte __unknown6;
+
+	bool desires_veto;
+	long armor_loadout_index;
+	long weapon_loadout_index;
+	bool desires_rematch;
+	bool griefer;
+	bool __unknown12;
+
+	byte __data13[0x19];
+};
+static_assert(sizeof(s_user_interface_controller) == 0x2C);
+
 enum e_event_type
 {
 	_event_type_none = 0,
@@ -74,6 +107,18 @@ struct s_event_record
 	e_controller_component component;
 	short value;
 };
+static_assert(sizeof(s_event_record) == 0x10);
+
+struct s_user_interface_controller_globals
+{
+	s_user_interface_controller controller[k_number_of_controllers];
+	s_event_record record[k_number_of_controllers];
+	bool controller_detached[k_number_of_controllers];
+	bool event_manager_suppress;
+};
+static_assert(sizeof(s_user_interface_controller_globals) == 0xF8);
+
+extern s_user_interface_controller_globals& g_user_interface_controller_globals;
 
 extern void __cdecl event_manager_button_pressed(e_controller_index controller_index, char gamepad_button);
 extern void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller_index, int16_point2d const* a3, dword a4, e_controller_component controller_component);

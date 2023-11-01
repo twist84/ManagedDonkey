@@ -4,6 +4,8 @@
 #include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
 
+REFERENCE_DECLARE(0x05260268, s_user_interface_controller_globals, g_user_interface_controller_globals);
+
 HOOK_DECLARE(0x00A935C0, event_manager_button_pressed);
 //HOOK_DECLARE(0x00A936B0, event_manager_tab);
 HOOK_DECLARE_CALL(0x00A941B9, event_manager_tab);
