@@ -52,7 +52,11 @@ void __cdecl user_interface_leave_sessions(e_user_interface_session_leave_type l
 	INVOKE(0x00A81280, user_interface_leave_sessions, leave_type, leave_reason);
 }
 
-//.text:00A812A0 ; long __cdecl user_interface_local_player_count()
+long __cdecl user_interface_local_player_count()
+{
+	return INVOKE(0x00A812A0, user_interface_local_player_count);
+}
+
 //.text:00A81370 ; bool __cdecl user_interface_remote_squad_contains_local_peer(s_network_session_status_data const* status_data)
 //.text:00A81440 ; bool __cdecl user_interface_remote_squad_is_joinable(s_network_session_status_data const* status_data)
 //.text:00A81510 ; bool __cdecl user_interface_squad_can_new_user_join(e_output_user_index user_index)
