@@ -3,12 +3,13 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game_results.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_error_manager.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "interface/user_interface_session.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/network_globals.hpp"
 #include "shell/shell.hpp"
-#include "user_interface_messages.hpp"
 
 REFERENCE_DECLARE(0x05253D88, s_user_interface_networking_globals, user_interface_networking_globals);
 
@@ -227,10 +228,24 @@ void __cdecl user_interface_networking_memory_initialize(long configuration)
 
 }
 
-//.text:00A7F580 ; 
-void __cdecl user_interface_networking_notify_booted_from_session(e_network_session_type session_type, e_network_session_boot_reason boot_reason)
+void __cdecl user_interface_networking_notify_booted_from_session(e_network_session_type type, e_network_session_boot_reason boot_reason)
 {
+	INVOKE(0x00A7F580, user_interface_networking_notify_booted_from_session, type, boot_reason);
 
+	generate_event(_event_level_message, "networking:ui: notified that we have been booted from a session [type %d / reason %d]", type, boot_reason);
+
+	if (boot_reason == _network_session_boot_reason_unknown4)
+	{
+		generate_event(_event_level_message, "networking:ui: posting alert and taking us back to the pre-game lobby (from-ui)");
+		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_session), k_any_controller, false);
+	}
+	else
+	{
+		generate_event(_event_level_message, "networking:ui: posting alert and taking us back to the pre-game lobby (in-game)");
+		user_interface_error_manager_get()->post_error(STRING_ID(gui_alert, booted_from_game), k_any_controller, false);
+	}
+
+	user_interface_leave_sessions(_user_interface_session_leave_type_leave_to_pre_game_lobby, _user_interface_session_leave_reason_booted);
 }
 
 //.text:00A7F5D0

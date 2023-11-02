@@ -9,6 +9,8 @@
 real g_ui_time_scale = 1.0f;
 real g_ui_time_step = 0.0f;
 
+REFERENCE_DECLARE(0x052559E4, s_user_interface_globals, g_user_interface_globals);
+
 HOOK_DECLARE(0x00A84C00, user_interface_scoreboard_update);
 
 bool __cdecl get_alpha_custom_games_disabled()
@@ -45,6 +47,11 @@ long __cdecl get_alpha_locked_down_state()
 bool __cdecl get_is_alpha_version()
 {
 	return INVOKE(0x00A841E0, get_is_alpha_version);
+}
+
+dword __cdecl user_interface_milliseconds()
+{
+	return INVOKE(0x00A848E0, user_interface_milliseconds);
 }
 
 void __cdecl user_interface_update_console_scoreboard()

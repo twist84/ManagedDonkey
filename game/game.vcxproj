@@ -314,6 +314,7 @@ POPD
     <ClCompile Include="source\interface\terminal.cpp" />
     <ClCompile Include="source\interface\user_interface.cpp" />
     <ClCompile Include="source\interface\user_interface_controller.cpp" />
+    <ClCompile Include="source\interface\user_interface_error_manager.cpp" />
     <ClCompile Include="source\interface\user_interface_global_text_parsers.cpp" />
     <ClCompile Include="source\interface\user_interface_hs.cpp" />
     <ClCompile Include="source\interface\user_interface_mapping.cpp" />
@@ -612,6 +613,7 @@ POPD
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
     <ClInclude Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.hpp" />
     <ClInclude Include="source\interface\terminal.hpp" />
+    <ClInclude Include="source\interface\user_interface_error_manager.hpp" />
     <ClInclude Include="source\interface\user_interface_mapping.hpp" />
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />
     <ClInclude Include="source\items\item_definitions.hpp" />

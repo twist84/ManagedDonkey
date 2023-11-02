@@ -22,7 +22,9 @@
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
+#include "interface/user_interface.hpp"
 #include "interface/user_interface_controller.hpp"
+#include "interface/user_interface_error_manager.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_text.hpp"
 #include "main/console.hpp"
@@ -252,6 +254,8 @@ void __cdecl main_loop_body_begin()
 		c_visible_items::m_items;
 		c_visible_items::m_marker_indices;
 		g_render_structure_globals;
+		g_gui_error_manager;
+		g_user_interface_globals;
 
 		s_thread_local_storage* tls = get_tls();
 

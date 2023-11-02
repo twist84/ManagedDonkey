@@ -1,6 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "interface/user_interface_data.hpp"
+#include "multithreading/synchronized_value.hpp"
 #include "tag_files/tag_groups.hpp"
 
 struct s_user_interface_widget_reference
@@ -180,6 +182,50 @@ struct s_user_interface_shared_globals
 };
 static_assert(sizeof(s_user_interface_shared_globals) == 0x3CC);
 
+struct c_user_interface_main_menu_music
+{
+	long __unknown0;
+	long m_state;
+	long m_game_shell_music_state;
+	long __unknownC;
+	long m_looping_sound_index;
+	long __unknown14;
+	c_synchronized_long __unknown18;
+};
+static_assert(sizeof(c_user_interface_main_menu_music) == 0x1C);
+
+struct s_user_interface_globals
+{
+	enum e_flags
+	{
+		_debug_render_title_safe_bounds = 0,
+		_debug_frame_element_bounds,
+		_bad_download_flag,
+		_storage_device_selection_deferred
+	};
+
+	c_synchronized_long flags;
+	c_synchronized_long reload_from_persistent_storage;
+	real shell_seconds_elapsed;
+	c_synchronized_long milliseconds;
+	c_synchronized_long milliseconds_at_last_event;
+	c_synchronized_long __unknown14;
+	long __unknown18;
+	c_synchronized_long selected_campaign_id;
+	c_synchronized_long selected_campaign_map_id;
+	c_synchronized_long selected_campaign_difficulty;
+	c_user_interface_main_menu_music main_menu_music;
+	c_static_array<c_gui_tag_datasource, 32> global_datasource;
+	long global_datasource_index;
+	long __unknown2248;
+	long __unknown224C;
+	long active_output_user_count;
+	bool __unknown2254;
+};
+static_assert(sizeof(s_user_interface_globals) == 0x2258);
+
+extern s_user_interface_globals& g_user_interface_globals;
+
 extern real g_ui_time_scale;
 extern real g_ui_time_step;
 
@@ -190,6 +236,7 @@ extern bool __cdecl get_alpha_is_internal_beta();
 extern bool __cdecl get_alpha_is_locked_down();
 extern long __cdecl get_alpha_locked_down_state();
 extern bool __cdecl get_is_alpha_version();
+extern dword __cdecl user_interface_milliseconds();
 extern void __cdecl user_interface_scoreboard_update();
 extern s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get();
 extern bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state);
