@@ -3,6 +3,38 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 
+struct s_user_interface_widget_reference
+{
+	c_typed_tag_reference<GUI_SCREEN_WIDGET_DEFINITION_TAG> widget_tag;
+};
+static_assert(sizeof(s_user_interface_widget_reference) == sizeof(s_tag_reference));
+
+struct s_user_interface_tag_globals
+{
+	static tag const k_group_tag = USER_INTERFACE_GLOBALS_DEFINITION_TAG;
+
+	// Shared Globals
+	// This is a reference to the ui shared globals tag
+	c_typed_tag_reference<USER_INTERFACE_SHARED_GLOBALS_DEFINITION_TAG> shared_globals;
+
+	// Multiplayer Variant Settings Interface
+	// This blob defines the ui for setting multiplayer game variant parameters
+	c_typed_tag_reference<MULTIPLAYER_VARIANT_SETTINGS_INTERFACE_DEFINITION_TAG> mp_variant_settings_ui;
+
+	// Game Hopper Localization Strings
+	// This is for the loc game hopper strings
+	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> game_hopper_descriptions;
+
+	// Screen Widgets
+	// These are the HaloX screen widgets
+	c_typed_tag_block<s_user_interface_widget_reference> halox_screen_widgets;
+
+	// Render Textures
+	// These are Saber tags
+	c_typed_tag_reference<TEXTURE_RENDER_LIST_TAG> texture_render_list;
+};
+static_assert(sizeof(s_user_interface_tag_globals) == 0x4C);
+
 struct s_campaign_character
 {
 	char biped_name[32];
@@ -161,5 +193,6 @@ extern bool __cdecl get_is_alpha_version();
 extern void __cdecl user_interface_scoreboard_update();
 extern s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get();
 extern bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state);
+extern s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get();
 extern void __cdecl user_interface_update(real ui_time);
 

@@ -95,6 +95,11 @@ bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_
 	return INVOKE(0x00A84D60, user_interface_should_show_console_scoreboard, user_interface_show_busy_state);
 }
 
+s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_get()
+{
+	return INVOKE(0x00A84E80, user_interface_tag_globals_try_and_get);
+}
+
 void __cdecl user_interface_update(real ui_time)
 {
 	real new_ui_time = (ui_time * g_ui_time_scale) + g_ui_time_step;
