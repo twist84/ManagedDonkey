@@ -144,6 +144,8 @@ enum e_player_model_choice
 	k_number_of_player_model_choices
 };
 
+#define VALID_CONTROLLER(CONTROLLER) ((CONTROLLER) >= _controller_index0 && (CONTROLLER) < k_number_of_controllers)
+
 enum e_controller_index
 {
 	_controller_index0 = 0,
