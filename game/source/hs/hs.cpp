@@ -124,7 +124,7 @@ short hs_find_script_by_name(char const* name, short parameter_count)
 		for (long script_index = 0; script_index < scripts.count(); script_index++)
 		{
 			hs_script& script = scripts[script_index];
-			if (script.name.equals(name) && parameter_count == NONE || parameter_count == script.parameters.count())
+			if (script.name.is_equal(name) && parameter_count == NONE || parameter_count == script.parameters.count())
 				return static_cast<short>(script_index);
 		}
 	}
@@ -167,7 +167,7 @@ short __cdecl hs_script_find_parameter_by_name(long script_index, char const* na
 	for (short parameter_index = 0; parameter_index < static_cast<short>(script.parameters.count()); parameter_index++)
 	{
 		hs_script_parameter& parameter = script.parameters[parameter_index];
-		if (parameter.name.equals(name))
+		if (parameter.name.is_equal(name))
 			return parameter_index;
 	}
 
@@ -209,7 +209,7 @@ short hs_find_global_by_name(char const* name)
 		for (short global_index = 0; global_index < static_cast<short>(globals.count()); global_index++)
 		{
 			hs_global_internal& global_internal = globals[global_index];
-			if (global_internal.name.equals(name))
+			if (global_internal.name.is_equal(name))
 				return global_index & 0x7FFF;
 		}
 	}

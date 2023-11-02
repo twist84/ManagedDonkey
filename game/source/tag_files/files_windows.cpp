@@ -569,7 +569,7 @@ void find_files_recursive(s_file_reference* directory, dword open_flags, bool(*f
 	s_file_reference found_file{};
 	while (find_files_next(&find_file_data, &found_file, nullptr))
 	{
-		if (found_file.path.equals(".") || found_file.path.equals(".."))
+		if (found_file.path.is_equal(".") || found_file.path.is_equal(".."))
 			continue;
 
 		if (find_file_data.active_find_file_state.find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)

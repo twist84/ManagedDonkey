@@ -33,7 +33,7 @@ long user_interface_start_hs_script_by_name(char const* name)
 	for (script_index = 0; script_index < scenario->scripts.count(); script_index++)
 	{
 		script = &scenario->scripts[script_index];
-		if (script->name.equals(name))
+		if (script->name.is_equal(name))
 			break;
 	}
 

@@ -400,7 +400,7 @@ void command_execute(long token_count, tokens_t& tokens, long command_count, s_c
 
 	for (long i = 0; i < command_count; i++)
 	{
-		if (tokens[0]->equals(commands[i].name))
+		if (tokens[0]->is_equal(commands[i].name))
 		{
 			output = commands[i].callback(&commands[i], token_count, tokens);
 			output.append_line();
@@ -431,11 +431,11 @@ long token_try_parse_bool(token_t const& token)
 	{
 		return !!atol(value) + 1;
 	}
-	else if (token->equals("true"))
+	else if (token->is_equal("true"))
 	{
 		return 2;
 	}
-	else if (token->equals("false"))
+	else if (token->is_equal("false"))
 	{
 		return 1;
 	}

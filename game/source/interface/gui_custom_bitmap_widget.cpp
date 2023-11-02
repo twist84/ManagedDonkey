@@ -58,7 +58,7 @@ void __thiscall c_gui_custom_bitmap_widget::_assemble_render_data(byte* render_d
 				if (!instance)
 					continue;
 
-				if (!m_path.equals(reinterpret_cast<char const*>(instance->base + instance->total_size)))
+				if (!m_path.is_equal(reinterpret_cast<char const*>(instance->base + instance->total_size)))
 					continue;
 
 				bitmap_widget_definition->bitmap_tag_reference_index = tag_index;

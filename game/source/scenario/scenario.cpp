@@ -187,7 +187,7 @@ short scenario_object_name_index_from_string(s_scenario* scenario, char const* n
 	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count()); object_name_index++)
 	{
 		scenario_object_name& object_name = global_scenario_get()->object_names[object_name_index];
-		if (object_name.name.equals(name))
+		if (object_name.name.is_equal(name))
 			return object_name_index;
 	}
 

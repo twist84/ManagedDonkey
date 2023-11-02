@@ -487,7 +487,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 		bool command_found = false;
 		for (long i = 0; i < NUMBEROF(k_registered_commands); i++)
 		{
-			if (tokens[0]->equals(k_registered_commands[i].name))
+			if (tokens[0]->is_equal(k_registered_commands[i].name))
 			{
 				command_found = true;
 
@@ -496,7 +496,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 				c_console::write(callback_result.get_string());
 
 				long succeeded = callback_result.index_of(": succeeded");
-				result = succeeded != NONE || tokens[0]->equals("help");
+				result = succeeded != NONE || tokens[0]->is_equal("help");
 
 				if (result)
 					console_printf("command '%s' succeeded", command_name);
@@ -509,13 +509,13 @@ bool __cdecl console_process_command(char const* command, bool a2)
 
 
 		callback_result_t callback_result = set_callback(nullptr, token_count, tokens);
-		if (callback_result.equals("success"))
+		if (callback_result.is_equal("success"))
 			return true;
 
-		if (callback_result.equals("failure"))
+		if (callback_result.is_equal("failure"))
 			return false;
 
-		if (!command_found || callback_result.equals("not found"))
+		if (!command_found || callback_result.is_equal("not found"))
 			console_warning("command '%s' not found", command_name);
 	}
 
@@ -777,7 +777,7 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	long console_global_index = NONE;
 	for (long i = 0; i < k_console_global_count; i++)
 	{
-		if (!tokens[0]->equals(k_console_globals[i]->name))
+		if (!tokens[0]->is_equal(k_console_globals[i]->name))
 			continue;
 
 		console_global_index = i;

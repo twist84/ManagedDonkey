@@ -1004,7 +1004,7 @@ public:
 		return csstrnlen(m_string, k_maximum_count);
 	}
 
-	bool equals(char const* _string) const
+	bool is_equal(char const* _string) const
 	{
 		ASSERT(_string);
 

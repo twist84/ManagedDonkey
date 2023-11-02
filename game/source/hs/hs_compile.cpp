@@ -664,7 +664,7 @@ bool hs_parse_folder(long expression_index)
 		for (long editor_folder_index = 0; editor_folder_index < scenario->editor_folders.count(); editor_folder_index++)
 		{
 			s_scenario_editor_folder& editor_folder = scenario->editor_folders[editor_folder_index];
-			if (editor_folder.name.equals(source_offset))
+			if (editor_folder.name.is_equal(source_offset))
 			{
 				expression->long_value = editor_folder_index;
 				return true;

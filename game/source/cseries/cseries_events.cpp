@@ -501,7 +501,7 @@ long event_find_category_recursive(long category_index, bool create_category, lo
 	{
 		temp_category = get_writeable_category(i);
 
-		if (temp_category->name.equals(category_name))
+		if (temp_category->name.is_equal(category_name))
 		{
 			next_category_index = i;
 			break;

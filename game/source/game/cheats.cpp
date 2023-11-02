@@ -92,7 +92,7 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 
 				// #TODO: add and implement `hs_compile_and_evaluate`
 				//hs_compile_and_evaluate(_event_level_message, "cheats", cheat.lines[controller_button].get_string(), true);
-				if (cheat.lines[controller_button].equals("(set cheat_controller (not cheat_controller))"))
+				if (cheat.lines[controller_button].is_equal("(set cheat_controller (not cheat_controller))"))
 					cheat.controller = !cheat.controller;
 			}
 		}
