@@ -25,7 +25,14 @@ wchar_t* ustrnzcat(wchar_t* dest, wchar_t const* src, long count)
 	return dest;
 }
 
-//int ustrncmp(wchar_t const *,wchar_t const *,long)
+int ustrncmp(wchar_t const* string1, wchar_t const* string2, long max_count)
+{
+	ASSERT(string1 != NULL);
+	ASSERT(string2 != NULL);
+
+	return wcsncmp(string1, string2, max_count);
+}
+
 //wchar_t * ustrncpy(wchar_t *,wchar_t const *,long)
 
 wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
@@ -53,9 +60,9 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 //wchar_t * ustrnlwr(wchar_t *,long)
 //wchar_t * ustrnupr(wchar_t *,long)
 
-int ustricmp(wchar_t const* a1, wchar_t const* a2)
+int ustricmp(wchar_t const* string1, wchar_t const* string2)
 {
-	return INVOKE(0x00401370, ustricmp, a1, a2);
+	return INVOKE(0x00401370, ustricmp, string1, string2);
 }
 
 void ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, long* out_dest_len)
@@ -63,7 +70,11 @@ void ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, 
 	return INVOKE(0x004EC600, ascii_string_to_wchar_string, src, dest, src_len, out_dest_len);
 }
 
-//int ustrnicmp(wchar_t const *,wchar_t const *,long)
+int ustrnicmp(wchar_t const* string1, wchar_t const* string2, long max_count)
+{
+	return INVOKE(0x004ECBC0, ustrnicmp, string1, string2, max_count);
+}
+
 //int uisalpha(wchar_t)
 //int uisupper(wchar_t)
 //int uislower(wchar_t)

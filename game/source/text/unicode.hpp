@@ -14,7 +14,7 @@ extern unsigned int ustrnlen(wchar_t const*, long);
 
 extern wchar_t* ustrnzcat(wchar_t*, wchar_t const*, long);
 
-//extern int ustrncmp(wchar_t const *,wchar_t const *,long);
+extern int ustrncmp(wchar_t const *,wchar_t const *,long);
 //extern wchar_t * ustrncpy(wchar_t *,wchar_t const *,long);
 
 extern wchar_t* ustrnzcpy(wchar_t*, wchar_t const*, long);
@@ -28,7 +28,7 @@ extern wchar_t* ustrnzcpy(wchar_t*, wchar_t const*, long);
 //extern wchar_t * ustrnlwr(wchar_t *,long);
 //extern wchar_t * ustrnupr(wchar_t *,long);
 extern int ustricmp(wchar_t const *,wchar_t const *);
-//extern int ustrnicmp(wchar_t const *,wchar_t const *,long);
+extern int ustrnicmp(wchar_t const *,wchar_t const *,long);
 //extern int uisalpha(wchar_t);
 //extern int uisupper(wchar_t);
 //extern int uislower(wchar_t);
@@ -226,6 +226,19 @@ public:
 		uvsnzprintf(m_string + current_length, k_buffer_size - current_length, format, list);
 
 		return m_string;
+	}
+
+	bool is_equal(wchar_t const* s, bool case_sensitive) const
+	{
+		if (case_sensitive)
+			return ustrncmp(m_string, s, k_buffer_size) == 0;
+
+		return ustrnicmp(m_string, s, k_buffer_size) == 0;
+	}
+
+	bool is_equal(wchar_t const* s) const
+	{
+		return is_equal(s, true);
 	}
 
 protected:
