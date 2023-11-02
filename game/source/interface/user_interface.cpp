@@ -72,6 +72,8 @@ void __cdecl user_interface_update_console_scoreboard()
 
 void __cdecl user_interface_scoreboard_update()
 {
+	//INVOKE(0x00A84C00, user_interface_scoreboard_update);
+
 	user_interface_update_console_scoreboard();
 	for (long i = 0; i < k_number_of_controllers; i++)
 	{
@@ -81,6 +83,11 @@ void __cdecl user_interface_scoreboard_update()
 		if (!controller->in_use() && !user_interface_should_show_console_scoreboard(0))
 			c_gui_screen_scoreboard::hide_scoreboard(controller_index);
 	}
+}
+
+s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get()
+{
+	return INVOKE(0x00A84D20, user_interface_shared_tag_globals_try_and_get);
 }
 
 bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state)
