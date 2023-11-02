@@ -1074,6 +1074,9 @@
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_assault.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\user_interface_mapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2835,6 +2838,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\simulation\game_interface\simulation_game_engine_assault.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\user_interface_mapping.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
