@@ -142,8 +142,8 @@ enum e_game_results_medal
 	_game_results_medal_ctf_flag_player_kill_carrier,
 	_game_results_medal_ctf_flag_carrier_kill_player,
 	_game_results_medal_infection_survive,
-	_game_results_medal_unused1,
-	_game_results_medal_unused2,
+	_game_results_medal_nemesis,
+	_game_results_medal_avenger,
 	_game_results_medal_unused3,
 
 	k_game_results_medal_count
