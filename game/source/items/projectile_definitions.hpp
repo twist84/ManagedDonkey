@@ -158,6 +158,8 @@ struct _projectile_definition
 	c_typed_tag_block<s_projectile_brute_grenade_definition> brute_grenade;
 	c_typed_tag_block<s_projectile_fire_bomb_grenade_definition> fire_bomb_grenade;
 	c_typed_tag_block<s_projectile_conical_projection_defintion> conical_spread;
+
+	void update_reference_names();
 };
 static_assert(sizeof(_projectile_definition) == 0x2CC);
 

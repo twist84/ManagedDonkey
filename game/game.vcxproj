@@ -331,6 +331,7 @@ POPD
     <ClCompile Include="source\items\equipment_definitions.cpp" />
     <ClCompile Include="source\items\item_definitions.cpp" />
     <ClCompile Include="source\items\projectiles.cpp" />
+    <ClCompile Include="source\items\projectile_definitions.cpp" />
     <ClCompile Include="source\items\weapons.cpp" />
     <ClCompile Include="source\main\console.cpp" />
     <ClCompile Include="source\main\debug_keys.cpp" />
