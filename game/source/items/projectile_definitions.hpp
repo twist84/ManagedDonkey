@@ -254,3 +254,4 @@ struct s_projectile_conical_projection_defintion
 	angle spread; // degrees
 };
 static_assert(sizeof(s_projectile_conical_projection_defintion) == 0xC);
+
