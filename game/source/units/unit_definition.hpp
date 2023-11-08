@@ -177,17 +177,6 @@ enum e_unit_default_teams
 	k_unit_default_teams_count
 };
 
-enum e_ai_sound_volume
-{
-	_ai_sound_volume_silent = 0,
-	_ai_sound_volume_medium,
-	_ai_sound_volume_loud,
-	_ai_sound_volume_shout,
-	_ai_sound_volume_quiet,
-
-	k_ai_sound_volume_count
-};
-
 enum e_global_chud_blip_type
 {
 	_global_chud_blip_type_medium = 0,

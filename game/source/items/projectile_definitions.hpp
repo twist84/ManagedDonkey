@@ -44,17 +44,6 @@ enum e_projectile_detonation_timer_mode
 	k_projectile_detonation_timer_mode_count
 };
 
-enum e_ai_sound_volume
-{
-	_ai_sound_volume_silent = 0,
-	_ai_sound_volume_medium,
-	_ai_sound_volume_loud,
-	_ai_sound_volume_shout,
-	_ai_sound_volume_quiet,
-
-	k_ai_sound_volume_count
-};
-
 struct s_projectile_material_response_definition;
 struct s_projectile_brute_grenade_definition;
 struct s_projectile_fire_bomb_grenade_definition;

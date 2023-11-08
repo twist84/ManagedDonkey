@@ -2023,6 +2023,17 @@ enum e_character_physics_override
 	k_number_of_character_physics_overrides
 };
 
+enum e_ai_sound_volume
+{
+	_ai_sound_volume_silent = 0,
+	_ai_sound_volume_medium,
+	_ai_sound_volume_loud,
+	_ai_sound_volume_shout,
+	_ai_sound_volume_quiet,
+
+	k_ai_sound_volume_count
+};
+
 //e_network_interface_user_state
 // none
 // local user exists
