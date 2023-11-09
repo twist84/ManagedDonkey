@@ -3,6 +3,7 @@
 #include "cache/cache_file_builder_tag_resource_manager.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/language.hpp"
 #include "memory/secure_signature.hpp"
 #include "tag_files/files.hpp"
 #include "tag_files/tag_groups.hpp"
@@ -68,7 +69,7 @@ union s_cache_file_header
 		s_file_last_modification_date creation_time;
 		s_file_last_modification_date shared_file_times[6];
 		c_static_string<k_tag_string_length> name;
-		dword game_language;
+		c_enum<e_language, long, _language_invalid, k_language_count> game_language;
 		long_string relative_path;
 		long minor_version;
 		long debug_tag_name_count;
@@ -185,6 +186,12 @@ struct s_cache_file_report
 	dword __unknown110;
 };
 static_assert(sizeof(s_cache_file_report) == 0x114);
+
+// this is an actual calculation used within the game
+#define GET_REPORT_COUNT_FROM_SIZE(REPORT_SIZE) (((0x76B981DBi64 * REPORT_SIZE) >> 32) >> 7)
+
+static_assert(GET_REPORT_COUNT_FROM_SIZE(sizeof(s_cache_file_report) * 1000) == 1000);
+static_assert(GET_REPORT_COUNT_FROM_SIZE(0x0004FC80) == 0x0004FC80 / sizeof(s_cache_file_report));
 
 struct s_cache_file_reports
 {
