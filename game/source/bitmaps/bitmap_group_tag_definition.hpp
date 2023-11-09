@@ -5,6 +5,38 @@
 #include "rasterizer/rasterizer_text.hpp"
 #include "tag_files/tag_groups.hpp"
 
+struct bitmap_group_sprite
+{
+	short bitmap_index;
+
+	// pad
+	byte D[2];
+
+	// pad
+	byte GMLJPJIMC[4];
+
+	real left;
+	real right;
+	real top;
+	real bottom;
+
+	real_point2d registration_point;
+};
+static_assert(sizeof(bitmap_group_sprite) == 0x20);
+
+struct bitmap_group_sequence
+{
+	char name[32];
+	short first_bitmap_index;
+	short bitmap_count;
+
+	// pad
+	byte OTXYKQ[16];
+
+	c_typed_tag_block<bitmap_group_sprite> sprites;
+};
+static_assert(sizeof(bitmap_group_sequence) == 0x40);
+
 enum e_bitmap_more_flags
 {
 	// is this even used anymore?
@@ -615,7 +647,7 @@ struct bitmap_group
 	s_tag_data source_data;
 
 	s_tag_data processed_pixel_data;
-	s_tag_block sequences;
+	c_typed_tag_block<bitmap_group_sequence> sequences;
 	c_typed_tag_block<bitmap_data> bitmaps;
 	s_tag_data xenon_processed_pixel_data;
 	c_typed_tag_block<bitmap_data> xenon_bitmaps;
