@@ -188,6 +188,7 @@ POPD
     <ClCompile Include="source\cache\fmod_sound_cache.cpp" />
     <ClCompile Include="source\cache\pc_geometry_cache.cpp" />
     <ClCompile Include="source\cache\pc_texture_cache.cpp" />
+    <ClCompile Include="source\cache\physical_memory_map.cpp" />
     <ClCompile Include="source\cache\restricted_memory.cpp" />
     <ClCompile Include="source\cache\restricted_memory_regions.cpp" />
     <ClCompile Include="source\cache\security_functions.cpp" />
@@ -534,6 +535,7 @@ POPD
     <ClInclude Include="source\cache\fmod_sound_cache.hpp" />
     <ClInclude Include="source\cache\pc_geometry_cache.hpp" />
     <ClInclude Include="source\cache\pc_texture_cache.hpp" />
+    <ClInclude Include="source\cache\physical_memory_map.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
     <ClInclude Include="source\data_mining\data_mine_usability.hpp" />
     <ClInclude Include="source\editor\editor_flags.hpp" />

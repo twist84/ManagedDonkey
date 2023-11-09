@@ -1083,6 +1083,9 @@
     <ClCompile Include="source\items\projectile_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cache\physical_memory_map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2856,6 +2859,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\ai\character_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cache\physical_memory_map.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

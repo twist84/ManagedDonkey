@@ -3,6 +3,7 @@
 #include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "cache/cache_file_builder_security.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
+#include "cache/physical_memory_map.hpp"
 #include "cache/security_functions.hpp"
 #include "config/version.hpp"
 #include "cseries/cseries.hpp"
@@ -685,11 +686,6 @@ bool __cdecl cache_file_debug_tag_names_load()
 	return true;
 }
 
-void* __cdecl _physical_memory_malloc_fixed(long memory_stage, char const* name, long size, dword_flags flags)
-{
-	return INVOKE(0x0051D180, _physical_memory_malloc_fixed, memory_stage, name, size, flags);
-}
-
 bool __cdecl cache_file_tags_load_allocate()
 {
 	//return INVOKE(0x00502B40, cache_file_tags_load_allocate);
@@ -702,7 +698,7 @@ bool __cdecl cache_file_tags_load_allocate()
 	{
 		tag_offsets_size = sizeof(long) * g_cache_file_globals.header.tag_count;
 		g_cache_file_globals.tag_total_count = g_cache_file_globals.header.tag_count;
-		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(5, nullptr, cache_file_round_up_read_size(tag_offsets_size), 0);
+		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(5, NULL, cache_file_round_up_read_size(tag_offsets_size), 0);
 
 		result = cache_file_blocking_read(_cache_file_section_tag, g_cache_file_globals.header.tag_cache_offsets, cache_file_round_up_read_size(tag_offsets_size), g_cache_file_globals.tag_cache_offsets);
 	}
@@ -721,8 +717,8 @@ bool __cdecl cache_file_tags_load_allocate()
 
 		tag_offsets_size = sizeof(long) * tags_header.tag_count;
 		g_cache_file_globals.tag_total_count = tags_header.tag_count;
-		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(5, nullptr, 4 * tags_header.tag_count, 0);
-		long* tag_offsets = (long*)_physical_memory_malloc_fixed(5, nullptr, tag_offsets_size, 0);
+		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(5, NULL, 4 * tags_header.tag_count, 0);
+		long* tag_offsets = (long*)_physical_memory_malloc_fixed(5, NULL, tag_offsets_size, 0);
 
 		if (!cache_file_tags_section_read(tags_header.tag_cache_offsets, tag_offsets_size, tag_offsets))
 			return false;
@@ -734,8 +730,8 @@ bool __cdecl cache_file_tags_load_allocate()
 		//debug_free_aligned(tag_offsets); // nullsub
 	}
 
-	g_cache_file_globals.tag_index_absolute_mapping = (long*)_physical_memory_malloc_fixed(5, nullptr, tag_offsets_size, 0);
-	g_cache_file_globals.absolute_index_tag_mapping = (long*)_physical_memory_malloc_fixed(5, nullptr, tag_offsets_size, 0);
+	g_cache_file_globals.tag_index_absolute_mapping = (long*)_physical_memory_malloc_fixed(5, NULL, tag_offsets_size, 0);
+	g_cache_file_globals.absolute_index_tag_mapping = (long*)_physical_memory_malloc_fixed(5, NULL, tag_offsets_size, 0);
 	memset(g_cache_file_globals.tag_index_absolute_mapping, NONE, tag_offsets_size);
 	memset(g_cache_file_globals.absolute_index_tag_mapping, NONE, tag_offsets_size);
 
@@ -821,7 +817,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		cache_file_tags_load_allocate();
 
 		dword total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;
-		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc_fixed(5, 0, total_instance_size, 0);
+		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc_fixed(5, NULL, total_instance_size, 0);
 		csmemset(g_cache_file_globals.tag_instances, 0, total_instance_size);
 
 		g_cache_file_globals.tag_loaded_count = 0;
