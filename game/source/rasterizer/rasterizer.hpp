@@ -39,17 +39,119 @@ struct rasterizer_vertex_debug
 };
 static_assert(sizeof(rasterizer_vertex_debug) == 0x10);
 
+struct rasterizer_vertex_screen
+{
+	real_point2d position;
+	real_point2d texcoord;
+	argb_color color;
+};
+static_assert(sizeof(rasterizer_vertex_screen) == 0x14);
+
+struct rasterizer_vertex_transparent
+{
+	real_point3d position;
+	real_point2d texcoord;
+	dword color;
+};
+static_assert(sizeof(rasterizer_vertex_transparent) == 0x18);
+
+struct rasterizer_vertex_world
+{
+	real_point3d position;
+	real_point2d texcoord;
+	vector3d normal;
+	vector3d tangent;
+	vector3d binormal;
+};
+static_assert(sizeof(rasterizer_vertex_world) == 0x38);
+
 struct c_rasterizer
 {
-	enum e_separate_alpha_blend_mode;
-	enum e_stencil_mode;
+	enum e_separate_alpha_blend_mode
+	{
+		_separate_alpha_blend_mode_unknown0 = 0,
+		_separate_alpha_blend_mode_unknown1,
+		_separate_alpha_blend_mode_unknown2,
+		_separate_alpha_blend_mode_unknown3,
+		_separate_alpha_blend_mode_unknown4,
+
+		k_separate_alpha_blend_mode_count
+	};
+
+	enum e_stencil_mode
+	{
+		_stencil_mode_unknown0 = 0,
+		_stencil_mode_unknown1,
+		_stencil_mode_unknown2,
+		_stencil_mode_unknown3,
+		_stencil_mode_unknown4,
+		_stencil_mode_unknown5,
+		_stencil_mode_unknown6,
+		_stencil_mode_unknown7,
+		_stencil_mode_unknown8,
+		_stencil_mode_unknown9,
+		_stencil_mode_unknown10,
+		_stencil_mode_unknown11,
+		_stencil_mode_unknown12,
+		_stencil_mode_unknown13,
+		_stencil_mode_unknown14,
+		_stencil_mode_unknown15,
+		_stencil_mode_unknown16,
+		_stencil_mode_unknown17,
+		_stencil_mode_unknown18,
+		_stencil_mode_unknown19,
+		_stencil_mode_unknown20,
+
+		k_stencil_mode_count
+	};
+
 	enum e_gpr_allocation;
-	enum e_cull_mode;
-	enum e_alpha_blend_mode;
+
+	enum e_cull_mode
+	{
+		_cull_mode_none = 0x1,
+		_cull_mode_clockwise = 0x2,
+		_cull_mode_counter_clockwise = 0x3,
+		_cull_mode_force_dword = 0x7FFFFFFF,
+	};
+
+	enum e_alpha_blend_mode
+	{
+		_alpha_blend_mode_unknown0 = 0,
+		_alpha_blend_mode_unknown1,
+		_alpha_blend_mode_unknown2,
+		_alpha_blend_mode_unknown3,
+		_alpha_blend_mode_unknown4,
+		_alpha_blend_mode_unknown5,
+		_alpha_blend_mode_unknown6,
+		_alpha_blend_mode_unknown7,
+		_alpha_blend_mode_unknown8,
+		_alpha_blend_mode_unknown9,
+		_alpha_blend_mode_unknown10,
+		_alpha_blend_mode_unknown11,
+		_alpha_blend_mode_unknown12,
+
+		k_alpha_blend_mode_count
+	};
+
 	enum e_surface;
 	enum e_sampler_address_mode;
 	enum e_sampler_filter_mode;
-	enum e_z_buffer_mode;
+
+	enum e_z_buffer_mode
+	{
+		_z_buffer_mode_unknown0 = 0,
+		_z_buffer_mode_unknown1,
+		_z_buffer_mode_unknown2,
+		_z_buffer_mode_unknown3,
+		_z_buffer_mode_unknown4,
+		_z_buffer_mode_unknown5,
+		_z_buffer_mode_unknown6,
+		_z_buffer_mode_unknown7,
+		_z_buffer_mode_unknown8,
+
+		k_z_buffer_mode_count
+	};
 
 	static void __cdecl begin(short_rectangle2d, short_rectangle2d);
 	static bool __cdecl cleanup_before_device_reset();
@@ -106,11 +208,20 @@ struct c_rasterizer
 
 	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
-	// sub_A458B0;
+	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
 	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
 	static void __cdecl draw_debug_linestrip2d(int16_point2d const* points, long point_count, dword color);
-	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
+	static void __cdecl draw_debug_polygon2d(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
 	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* vertex_debug, long primitive_count, c_rasterizer_index_buffer::e_primitive_type type);
+	static void __cdecl draw_fullscreen_quad(int width, int height);
+	static void __cdecl draw_fullscreen_quad_with_texture_xform(int width, int height, real_rectangle2d const* bounds);
+	static void __cdecl draw_textured_screen_quad(real a1, real a2, real a3, real a4);
+	static void __cdecl draw_textured_screen_quad(rasterizer_vertex_screen const* vertex_screen, bool a2);
+	static void __cdecl draw_textured_screen_triangle_list(rasterizer_vertex_screen const* vertex_screen, long primitive_count);
+	static void __cdecl draw_textured_transparent_polygon(rasterizer_vertex_transparent const* vertex_transparent, long polygon_count, e_alpha_blend_mode alpha_blend_mode);
+	static void __cdecl draw_textured_transparent_polygon(rasterizer_vertex_transparent const* vertex_transparent, e_alpha_blend_mode alpha_blend_mode);
+	static void __cdecl draw_worldspace_polygon(real_point3d const* polygon, long polygon_count);
+	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* vertex_world, long polygon_count);
 
 	static IDirect3DDevice9Ex*& g_device;
 	static e_separate_alpha_blend_mode& g_current_separate_alpha_blend_mode;
@@ -342,6 +453,7 @@ struct s_texture_references_block
 };
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 
+extern void __cdecl draw_tesselated_quad();
 extern void __cdecl rasterizer_quad_screenspace(int16_point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5);
 
 extern bool rasterizer_dump_display_to_bmp(char const* file_name);
