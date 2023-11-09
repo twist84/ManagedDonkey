@@ -432,15 +432,15 @@ void __cdecl main_loop_body_end()
 	//{
 	//	director_toggle(main_game_launch_get_last_player(), _director_mode_debug);
 	//}
-	//if (input_key_frames_down(_key_code_page_up, _input_type_ui) == 1)
-	//{
-	//	player_control_toggle_machinima_camera_enabled();
-	//	player_control_toggle_machinima_camera_debug();
-	//}
-	//if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
-	//{
-	//	player_control_toggle_machinima_camera_use_old_controls();
-	//}
+	if (input_key_frames_down(_key_code_page_up, _input_type_ui) == 1)
+	{
+		player_control_toggle_machinima_camera_enabled();
+		player_control_toggle_machinima_camera_debug();
+	}
+	if (input_key_frames_down(_key_code_page_down, _input_type_ui) == 1)
+	{
+		player_control_toggle_machinima_camera_use_old_controls();
+	}
 	//
 	//if (input_key_frames_down(_key_code_keypad_enter, _input_type_ui) == 1)
 	//{
