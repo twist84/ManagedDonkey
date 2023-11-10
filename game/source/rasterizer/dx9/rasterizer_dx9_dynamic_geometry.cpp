@@ -1,5 +1,6 @@
 #include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
 
+#include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
 
 REFERENCE_DECLARE(0x01914BBC, real, g_screenspace_scale_x);
@@ -93,8 +94,16 @@ void __cdecl c_rasterizer::draw_worldspace_polygon(real_point3d const* polygon, 
 
 void __cdecl c_rasterizer::draw_worldspace_polygon(rasterizer_vertex_world const* vertex_world, long polygon_count)
 {
-	DECLFUNC(0x00A46890, void, __cdecl, rasterizer_vertex_world const*, long)(vertex_world, polygon_count);
+	//DECLFUNC(0x00A46890, void, __cdecl, rasterizer_vertex_world const*, long)(vertex_world, polygon_count);
+
+	set_cull_mode(_cull_mode_none);
+	set_indices(NULL);
+	draw_primitive_up(c_rasterizer_index_buffer::_primitive_type_triangle_list, polygon_count - 2, vertex_world, sizeof(rasterizer_vertex_world));
+	set_cull_mode(_cull_mode_clockwise);
 }
+using rasterizer_draw_worldspace_polygon_t = void __cdecl(rasterizer_vertex_world const*, long);
+rasterizer_draw_worldspace_polygon_t* rasterizer_draw_worldspace_polygon = c_rasterizer::draw_worldspace_polygon;
+HOOK_DECLARE_CALL(0x00A5A205, rasterizer_draw_worldspace_polygon);
 
 void __cdecl rasterizer_quad_screenspace(int16_point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5)
 {

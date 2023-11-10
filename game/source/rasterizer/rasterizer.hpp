@@ -20,16 +20,27 @@ struct c_rasterizer_index_buffer
 {
 	enum e_primitive_type
 	{
-		_primitive_type_point_list = 1,
-		_primitive_type_line_list = 2,
-		_primitive_type_list_strip = 3,
-		_primitive_type_triangle_list = 4,
-		_primitive_type_triangle_strip = 5,
-		_primitive_type_triangle_fan = 6,
-		//_primitive_type_quad = 8,
-		//_primitive_type_quad_list = 13,
-		_primitive_type_force_dword = 0x7FFFFFFF,
+		_primitive_type_point_list = 0,
+		_primitive_type_line_list,
+		_primitive_type_list_strip,
+		_primitive_type_triangle_list,
+		_primitive_type_triangle_fan,
+		_primitive_type_triangle_strip,
+		_primitive_type_force_dword,
+
+		k_primitive_type_count
 	};
+
+	//D3DPRIMITIVETYPE g_primitive_types[k_primitive_type_count]
+	//{
+	//	D3DPT_POINTLIST,
+	//	D3DPT_LINELIST,
+	//	D3DPT_LINESTRIP,
+	//	D3DPT_TRIANGLELIST,
+	//	D3DPT_TRIANGLEFAN,
+	//	D3DPT_TRIANGLESTRIP,
+	//	D3DPT_FORCE_DWORD
+	//};
 };
 
 struct rasterizer_vertex_debug
@@ -115,6 +126,14 @@ struct c_rasterizer
 		_cull_mode_force_dword = 0x7FFFFFFF,
 	};
 
+	enum e_fill_mode
+	{
+		_fill_mode_point = 0x1,
+		_fill_mode_wireframe = 0x2,
+		_fill_mode_solid = 0x3,
+		_fill_mode_force_dword = 0x7FFFFFFF,
+	};
+
 	enum e_alpha_blend_mode
 	{
 		_alpha_blend_mode_unknown0 = 0,
@@ -153,6 +172,14 @@ struct c_rasterizer
 		k_z_buffer_mode_count
 	};
 
+	struct s_stream_source
+	{
+		IDirect3DVertexBuffer9* data;
+		unsigned int offset;
+		unsigned int stride;
+	};
+	static_assert(sizeof(s_stream_source) == 0xC);
+
 	static void __cdecl begin(short_rectangle2d, short_rectangle2d);
 	static bool __cdecl cleanup_before_device_reset();
 	static void __cdecl cleanup_d3d_states();
@@ -189,6 +216,8 @@ struct c_rasterizer
 	static void __cdecl set_color_write_enable(long, long);
 	static void __cdecl set_cull_mode(e_cull_mode);
 	static bool __cdecl set_explicit_shaders(long, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
+	static void __cdecl set_fill_mode(e_fill_mode);
+	static void __cdecl set_indices(IDirect3DIndexBuffer9*);
 	static bool __cdecl set_pixel_shader(c_rasterizer_pixel_shader const*, e_entry_point);
 	static void __cdecl set_aliased_surface_as_texture(long, e_surface);
 	static void __cdecl set_sampler_address_mode(long, e_sampler_address_mode);
@@ -199,12 +228,17 @@ struct c_rasterizer
 	static void __cdecl set_stencil_mode(e_stencil_mode);
 	static bool __cdecl set_vertex_shader(c_rasterizer_vertex_shader const*, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
 	static void __cdecl set_z_buffer_mode(e_z_buffer_mode);
+
 	static void __cdecl setup_occlusion_state();
 	static void __cdecl setup_render_target_globals_with_exposure(real, real, bool);
 	static void __cdecl setup_targets_distortion(short_rectangle2d*);
 	static void __cdecl setup_targets_simple();
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool, bool);
+
 	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const*, long, long, long, long);
+	static void __cdecl draw_primitive(c_rasterizer_index_buffer::e_primitive_type, long, long);
+	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type, dword, void const*, dword);
+	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type, long, long);
 
 	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
@@ -224,10 +258,30 @@ struct c_rasterizer
 	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* vertex_world, long polygon_count);
 
 	static IDirect3DDevice9Ex*& g_device;
+
+	static bool(&byte_50DADE0)[3];
+	static IDirect3DQuery9* (&dword_50DADE4)[3];
+
+	static e_alpha_blend_mode& g_current_alpha_blend_mode;
 	static e_separate_alpha_blend_mode& g_current_separate_alpha_blend_mode;
+	static e_z_buffer_mode& g_current_z_buffer_mode;
+	static bool& g_current_z_buffer_floating_point;
+	static byte& g_current_stencil_value;
 	static bool& initialized;
 	static bool& m_use_floating_point_z_buffer;
 	static e_stencil_mode& g_current_stencil_mode;
+	static bool& g_lock_clip_plane;
+	static long(&x_last_render_state_value)[4];
+	static e_cull_mode& g_current_cull_mode;
+	static IDirect3DVertexShader9*& g_current_vertex_shader;
+	static IDirect3DPixelShader9*& g_current_pixel_shader;
+	static IDirect3DVertexDeclaration9*& g_current_vertex_declaration;
+	static IDirect3DIndexBuffer9*& g_current_index_buffer;
+	static s_stream_source(&x_last_stream_source)[16];
+
+	static e_surface& g_depth_stencil_surface;
+	static e_surface(&g_color_surfaces)[4];
+
 	static dword& g_max_vs_gprs;
 	static dword& g_max_ps_gprs;
 };
