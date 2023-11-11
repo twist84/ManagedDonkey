@@ -27,6 +27,8 @@ HOOK_DECLARE_CLASS(0x00A460A0, c_rasterizer, draw_fullscreen_quad_with_texture_x
 HOOK_DECLARE(0x00A46520, rasterizer_draw_textured_screen_quad0);
 //HOOK_DECLARE(0x00A465F0, rasterizer_draw_textured_screen_quad1);
 HOOK_DECLARE_CLASS(0x00A46640, c_rasterizer, draw_textured_screen_triangle_list);
+//HOOK_DECLARE_CLASS(0x00A46680, c_rasterizer, draw_textured_transparent_polygon);
+//HOOK_DECLARE_CLASS(0x00A46750, c_rasterizer, draw_textured_transparent_quad);
 //HOOK_DECLARE(0x00A46820, rasterizer_draw_worldspace_polygon0);
 HOOK_DECLARE(0x00A46890, rasterizer_draw_worldspace_polygon1);
 

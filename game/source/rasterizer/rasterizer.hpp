@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 #include "tag_files/tag_groups.hpp"
 
@@ -297,7 +298,130 @@ public:
 	{
 		_explicit_shader_debug = 0,
 		_explicit_shader_debug2d,
+		_explicit_shader_copy_surface,
+		_explicit_shader_spike_blur_vertical,
+		_explicit_shader_spike_blur_horizontal,
+		_explicit_shader_downsize_2x_to_bloom,
+		_explicit_shader_downsize_2x_target,
+		_explicit_shader_copy_rgbe_to_rgb,
+		_explicit_shader_update_persistence,
+		_explicit_shader_add_downsampled,
+		_explicit_shader_add,
+		_explicit_shader_blur_11_horizontal,
+		_explicit_shader_blur_11_vertical,
+		_explicit_shader_cubemap_phi_blur,
+		_explicit_shader_cubemap_theta_blur,
+		_explicit_shader_cubemap_clamp,
+		_explicit_shader_cubemap_divide,
+		_explicit_shader_write_depth,
+		_explicit_shader_final_composite,
+		_explicit_shader_sky_dome_simple,
+		_explicit_shader_transparent,
+		_explicit_shader_shield_meter,
+		_explicit_shader_legacy_meter,
+		_explicit_shader_overhead_map_geometry,
+		_explicit_shader_legacy_hud_bitmap,
+		_explicit_shader_blend3,
+		_explicit_shader_particle_update,
+		_explicit_shader_particle_spawn,
+		_explicit_shader_screenshot_combine,
+		_explicit_shader_downsample_2x2,
+		_explicit_shader_rotate_2d,
+		_explicit_shader_bspline_resample,
+		_explicit_shader_downsample_4x4_bloom_dof,
+		_explicit_shader_final_composite_dof,
+		_explicit_shader_kernel_5,
+		_explicit_shader_exposure_downsample,
+		_explicit_shader_yuv_to_rgb,
+		_explicit_shader_displacement,
+		_explicit_shader_screenshot_display,
+		_explicit_shader_downsample_4x4_block,
+		_explicit_shader_crop,
+		_explicit_shader_screenshot_combine_dof,
+		_explicit_shader_gamma_correct,
+		_explicit_shader_contrail_spawn,
+		_explicit_shader_contrail_update,
+		_explicit_shader_stencil_stipple,
+		_explicit_shader_lens_flare,
+		_explicit_shader_decorator_default,
+		_explicit_shader_downsample_4x4_block_bloom,
+		_explicit_shader_downsample_4x4_gaussian,
+		_explicit_shader_apply_color_matrix,
+		_explicit_shader_copy,
+		_explicit_shader_shadow_geometry,
+		_explicit_shader_shadow_apply,
+		_explicit_shader_gradient,
+		_explicit_shader_alpha_test_explicit,
+		_explicit_shader_patchy_fog,
+		_explicit_shader_light_volume_update,
+		_explicit_shader_water_ripple,
+		_explicit_shader_double_gradient,
+		_explicit_shader_sniper_scope,
+		_explicit_shader_shield_impact,
+		_explicit_shader_player_emblem_world,
+		_explicit_shader_player_emblem_screen,
+		_explicit_shader_implicit_hill,
+		_explicit_shader_chud_overlay_blend,
+		_explicit_shader_bloom_add_alpha1,
+		_explicit_shader_downsample_4x4_block_bloom_ldr,
+		_explicit_shader_restore_ldr_hdr_depth,
+		_explicit_shader_beam_update,
+		_explicit_shader_decorator_no_wind,
+		_explicit_shader_decorator_static,
+		_explicit_shader_decorator_sun,
+		_explicit_shader_decorator_wavy,
+		_explicit_shader_final_composite_zoom,
+		_explicit_shader_final_composite_debug,
+
+		//_explicit_shader_shadow_apply_point,
+		//_explicit_shader_shadow_apply_bilinear,
+		//_explicit_shader_shadow_apply_fancy,
+		//_explicit_shader_shadow_apply_faster,
+		//_explicit_shader_shadow_apply,
+
+		_explicit_shader_displacement_motion_blur = 81,
+
+		//_explicit_shader_decorator_shaded,
+
+		_explicit_shader_screenshot_memexport = 83,
+		_explicit_shader_downsample_4x4_gaussian_bloom_ldr,
+		_explicit_shader_downsample_4x4_gaussian_bloom,
+		_explicit_shader_downsample_4x4_block_bloom_new,
+		_explicit_shader_bloom_curve,
+		_explicit_shader_custom_gamma_correct,
+		_explicit_shader_pixel_copy,
+		_explicit_shader_unknown_90,
+		_explicit_shader_exposure_hdr_retrieve,
+		_explicit_shader_unknown_debug_92,
+		_explicit_shader_fxaa,
+		_explicit_shader_unknown_94,
+		_explicit_shader_unknown_95,
+		_explicit_shader_ssao_ldr,
+		_explicit_shader_ssao_hdr,
+		_explicit_shader_ssao_apply,
+		_explicit_shader_lightshafts,
+		_explicit_shader_lightshafts_blur,
+		_explicit_shader_screen_space_reflection,
+		_explicit_shader_unknown_102,
+		_explicit_shader_halve_depth_color,
+		_explicit_shader_halve_depth_normal,
+		_explicit_shader_unknown_105,
+		_explicit_shader_screen_space_reflection_blur,
+		_explicit_shader_hud_camera,
+		_explicit_shader_hud_camera_nightvision,
+		_explicit_shader_hud_camera_mask,
+
+		k_explicit_shader_count
 	};
+
+	struct s_explicit_shader
+	{
+		c_typed_tag_reference<VERTEX_SHADER_TAG> explicit_vertex_shader;
+		c_typed_tag_reference<PIXEL_SHADER_TAG> explicit_pixel_shader;
+
+		void update_reference_names();
+	};
+	static_assert(sizeof(s_explicit_shader) == 0x20);
 
 	dword __cdecl get_max_vs_gprs() const
 	{
@@ -312,14 +436,6 @@ public:
 	void update_reference_names();
 
 protected:
-	struct s_explicit_shader
-	{
-		c_typed_tag_reference<VERTEX_SHADER_TAG> explicit_vertex_shader;
-		c_typed_tag_reference<PIXEL_SHADER_TAG> explicit_pixel_shader;
-
-		void update_reference_names();
-	};
-	static_assert(sizeof(s_explicit_shader) == 0x20);
 
 	// default bitmaps
 	//	0:  ............... default 2D texture (white)
@@ -436,19 +552,25 @@ protected:
 	//	73: .............. decorators wavy
 	//	74: .............. final composite zoom
 	//	75: .............. final composite debug
+	//	76: .............. 
+	//	77: .............. 
+	//	78: .............. 
+	//	79: .............. 
+	//	80: .............. 
 	//	81: .............. displacement with motion blur
+	//	82: .............. 
 	//	83: .............. screenshot memexport
 	//	84: .............. bloom: NEW downsample 4x4 gauss with curve LDR
-	//	85: ...............bloom_downsample_4x4_gaussian_bloom
-	//	86: ...............bloom_downsample_4x4_gaussian_bloom new
-	//	87: ...............bloom_curve
-	//	88: ...............custom gamma correct
-	//	89: ...............pixel copy
-	//	90: ...............hud camera
-	//	91: ...............hud night vision
-	//	92: ...............hud camera mask
-	//	93: ...............shield impact procedural uv
-	//	94: ...............screenshot night vision
+	//	85: .............. bloom_downsample_4x4_gaussian_bloom
+	//	86: .............. bloom_downsample_4x4_gaussian_bloom new
+	//	87: .............. bloom_curve
+	//	88: .............. custom gamma correct
+	//	89: .............. pixel copy
+	//	90: .............. hud camera
+	//	91: .............. hud night vision
+	//	92: .............. hud camera mask
+	//	93: .............. shield impact procedural uv
+	//	94: .............. screenshot night vision
 	//	95: .............. bloom: NEW downsample 4x4 gauss with curve LDR
 	//	96: .............. decorators edit
 	//	97: .............. smirnov test
