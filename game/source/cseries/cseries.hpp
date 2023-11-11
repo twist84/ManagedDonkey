@@ -1149,6 +1149,17 @@ T rotate_left(T value, int count)
 #define __ROR4__(value, count) rotate_left(static_cast<dword>(value), -count)
 #define __ROR8__(value, count) rotate_left(static_cast<qword>(value), -count)
 
+// IDA
+template <typename T, typename F>
+inline typename std::enable_if<sizeof(T) <= sizeof(F), T>::type __coerce(F f)
+{
+	T t;
+	csmemcpy(&t, &f, sizeof(T));
+	return t;
+}
+#define COERCE_FLOAT(v) __coerce<float>(v)
+#define COERCE_DWORD(v) __coerce<DWORD>(v)
+
 extern void* offset_pointer(void* pointer, long offset);
 extern void const* offset_pointer(void const* pointer, long offset);
 extern unsigned int address_from_pointer(void const* pointer);
