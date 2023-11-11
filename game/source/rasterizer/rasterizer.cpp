@@ -341,15 +341,17 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 	//HOOK_INVOKE_CLASS(, c_rasterizer, set_z_buffer_mode, decltype(set_z_buffer_mode)*, z_buffer_mode);
 	//INVOKE(0x00A247E0, set_z_buffer_mode, z_buffer_mode);
 
-	REFERENCE_DECLARE(0x01910530, real, flt_1910530);
-	REFERENCE_DECLARE(0x01910534, real, flt_1910534);
-	REFERENCE_DECLARE(0x01910538, real, flt_1910538);
-	REFERENCE_DECLARE(0x0191053C, real, flt_191053C);
-	REFERENCE_DECLARE(0x01910540, real, flt_1910540);
-	REFERENCE_DECLARE(0x01910544, real, flt_1910544);
-	REFERENCE_DECLARE(0x01910548, real, flt_1910548);
-	REFERENCE_DECLARE(0x050DD9F0, real, flt_50DD9F0);
-	REFERENCE_DECLARE(0x050DD9F4, real, flt_50DD9F4);
+	REFERENCE_DECLARE(0x0165E20C, real, flt_165E20C); // -0.5
+	REFERENCE_DECLARE(0x01692A1C, real, flt_1692A1C); // -0.0000049999999
+	REFERENCE_DECLARE(0x01910530, real, flt_1910530); // 1.414
+	REFERENCE_DECLARE(0x01910534, real, flt_1910534); // 0.003
+	REFERENCE_DECLARE(0x01910538, real, flt_1910538); // 1.414
+	REFERENCE_DECLARE(0x0191053C, real, flt_191053C); // 0.00079999998
+	REFERENCE_DECLARE(0x01910540, real, flt_1910540); // -0.1
+	REFERENCE_DECLARE(0x01910544, real, flt_1910544); // -2.0e-7
+	REFERENCE_DECLARE(0x01910548, real, flt_1910548); // -0.000099999997
+	REFERENCE_DECLARE(0x050DD9F0, real, flt_50DD9F0); // dynamically initialized?
+	REFERENCE_DECLARE(0x050DD9F4, real, flt_50DD9F4); // dynamically initialized?
 	
 	if (z_buffer_mode == g_current_z_buffer_mode && m_use_floating_point_z_buffer == g_current_z_buffer_floating_point)
 		return;
@@ -359,9 +361,9 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 	
 	DWORD zfunc_value = m_use_floating_point_z_buffer ? D3DCMP_GREATEREQUAL : D3DCMP_LESSEQUAL;
 	
-	real slope_scale_depth_bias = flt_50DD9F0;
-	real depth_bias = flt_50DD9F0;
-	real depth_bias_scale = m_use_floating_point_z_buffer ? -1.0f : 1.0f;
+	real slope_z_bias = flt_50DD9F0;
+	real z_bias = flt_50DD9F0;
+	real z_bias_scale = m_use_floating_point_z_buffer ? -1.0f : 1.0f;
 	
 	switch (z_buffer_mode)
 	{
@@ -384,40 +386,44 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 		g_device->SetRenderState(D3DRS_ZENABLE, FALSE);
 	}
 	break;
-	case _z_buffer_mode_unknown3:
+	case _z_buffer_mode_unknown3: // shadow_generate?
 	{
 		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
 		g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-		slope_scale_depth_bias = flt_1910530;
-		depth_bias = flt_1910534;
+
+		slope_z_bias = flt_1910530;
+		z_bias = flt_1910534;
 	}
 	break;
-	case _z_buffer_mode_unknown4:
+	case _z_buffer_mode_unknown4: // shadow_generate_dynamic_lights?
 	{
 		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
 		g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-		slope_scale_depth_bias = flt_1910538;
-		depth_bias = flt_191053C;
+
+		slope_z_bias = flt_1910538;
+		z_bias = flt_191053C;
 	}
 	break;
-	case _z_buffer_mode_unknown5:
+	case _z_buffer_mode_unknown5: // shadow_apply?
 	{
 		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
 		g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-		slope_scale_depth_bias = flt_1910540;
-		depth_bias = flt_1910544;
+
+		slope_z_bias = flt_1910540;
+		z_bias = flt_1910544;
 	}
 	break;
-	case _z_buffer_mode_unknown6:
+	case _z_buffer_mode_unknown6: // decal?
 	{
 		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
 		g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-		slope_scale_depth_bias = -0.5f;
-		depth_bias = -0.000005f;
+
+		slope_z_bias = flt_165E20C;
+		z_bias = flt_1692A1C;
 	}
 	break;
 	case _z_buffer_mode_unknown7:
@@ -425,8 +431,9 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
 		g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-		slope_scale_depth_bias = flt_50DD9F4;
-		depth_bias = flt_1910548;
+
+		slope_z_bias = flt_50DD9F4;
+		z_bias = flt_1910548;
 	}
 	break;
 	case _z_buffer_mode_unknown8:
@@ -438,8 +445,8 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 	break;
 	}
 	
-	g_device->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, COERCE_DWORD(slope_scale_depth_bias * depth_bias_scale));
-	g_device->SetRenderState(D3DRS_DEPTHBIAS, COERCE_DWORD(depth_bias * depth_bias_scale));
+	g_device->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, COERCE_DWORD(slope_z_bias * z_bias_scale));
+	g_device->SetRenderState(D3DRS_DEPTHBIAS, COERCE_DWORD(z_bias * z_bias_scale));
 }
 HOOK_DECLARE_CLASS(0x00A247E0, c_rasterizer, set_z_buffer_mode);
 
