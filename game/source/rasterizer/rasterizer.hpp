@@ -214,6 +214,7 @@ struct c_rasterizer
 	static void __cdecl clear_sampler_textures(dword);
 	static e_cull_mode __cdecl get_cull_mode(void);
 	static void __cdecl set_alpha_blend_mode(e_alpha_blend_mode);
+	static void __cdecl set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex*, e_alpha_blend_mode);
 	static void __cdecl set_color_write_enable(long, long);
 	static void __cdecl set_cull_mode(e_cull_mode);
 	static bool __cdecl set_explicit_shaders(long, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
@@ -227,6 +228,7 @@ struct c_rasterizer
 	static void __cdecl set_scissor_rect(short_rectangle2d const*);
 	static void __cdecl set_separate_alpha_blend_mode(e_separate_alpha_blend_mode);
 	static void __cdecl set_stencil_mode(e_stencil_mode);
+	static void __cdecl set_stencil_mode_with_value(e_stencil_mode, byte);
 	static bool __cdecl set_vertex_shader(c_rasterizer_vertex_shader const*, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
 	static void __cdecl set_z_buffer_mode(e_z_buffer_mode);
 
@@ -257,6 +259,8 @@ struct c_rasterizer
 	static void __cdecl draw_textured_transparent_quad(rasterizer_vertex_transparent const* textured_transparent_quad, e_alpha_blend_mode alpha_blend_mode);
 	static void __cdecl draw_worldspace_polygon(real_point3d const* worldspace_polygon, long polygon_count);
 	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, long polygon_count);
+
+	static D3DRENDERSTATETYPE(&x_last_render_state_types)[4];
 
 	static IDirect3DDevice9Ex*& g_device;
 

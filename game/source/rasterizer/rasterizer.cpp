@@ -4,6 +4,7 @@
 #include "memory/module.hpp"
 #include "tag_files/files.hpp"
 
+REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_render_state_types, 4);
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
 REFERENCE_DECLARE_ARRAY(0x050DADE0, bool, c_rasterizer::byte_50DADE0, 3);
 REFERENCE_DECLARE_ARRAY(0x050DADE4, IDirect3DQuery9*, c_rasterizer::dword_50DADE4, 3);
@@ -231,17 +232,37 @@ enum c_rasterizer::e_cull_mode __cdecl c_rasterizer::get_cull_mode()
 
 void __cdecl c_rasterizer::set_alpha_blend_mode(e_alpha_blend_mode alpha_blend_mode)
 {
-	INVOKE(0x00A22D10, set_alpha_blend_mode, alpha_blend_mode);
+	//INVOKE(0x00A22D10, set_alpha_blend_mode, alpha_blend_mode);
+
+	if (alpha_blend_mode == g_current_alpha_blend_mode)
+		return;
+
+	g_current_alpha_blend_mode = alpha_blend_mode;
+	set_alpha_blend_mode_custom_device_no_cache(g_device, alpha_blend_mode);
+}
+HOOK_DECLARE_CLASS(0x00A22D10, c_rasterizer, set_alpha_blend_mode);
+
+void __cdecl c_rasterizer::set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex* device, e_alpha_blend_mode alpha_blend_mode)
+{
+	INVOKE(0x00A22D40, set_alpha_blend_mode_custom_device_no_cache, device, alpha_blend_mode);
 }
 
-void __cdecl c_rasterizer::set_color_write_enable(long a1, long a2)
+void __cdecl c_rasterizer::set_color_write_enable(long render_state, long render_state_value)
 {
-	INVOKE(0x00A231E0, set_color_write_enable, a1, a2);
+	//INVOKE(0x00A231E0, set_color_write_enable, render_state, render_state_value);
+
+	if (render_state_value == x_last_render_state_value[render_state])
+		return;
+
+	x_last_render_state_value[render_state] = render_state_value;
+
+	g_device->SetRenderState(x_last_render_state_types[render_state], render_state_value);
 }
+HOOK_DECLARE_CLASS(0x00A231E0, c_rasterizer, set_color_write_enable);
 
 void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
 {
-	INVOKE(0x00A232D0, set_cull_mode, cull_mode);
+	//INVOKE(0x00A232D0, set_cull_mode, cull_mode);
 
 	if (cull_mode != g_current_cull_mode)
 	{
@@ -249,6 +270,7 @@ void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
 		g_device->SetRenderState(D3DRS_CULLMODE, cull_mode);
 	}
 }
+HOOK_DECLARE_CLASS(0x00A232D0, c_rasterizer, set_cull_mode);
 
 bool __cdecl c_rasterizer::set_explicit_shaders(long a1, e_vertex_type a2, e_transfer_vector_vertex_types a3, e_entry_point a4)
 {
@@ -261,6 +283,7 @@ void __cdecl c_rasterizer::set_fill_mode(e_fill_mode fill_mode)
 
 	g_device->SetRenderState(D3DRS_FILLMODE, fill_mode);
 }
+HOOK_DECLARE_CLASS(0x00A233A0, c_rasterizer, set_fill_mode);
 
 void __cdecl c_rasterizer::set_indices(IDirect3DIndexBuffer9* index_buffer)
 {
@@ -272,6 +295,7 @@ void __cdecl c_rasterizer::set_indices(IDirect3DIndexBuffer9* index_buffer)
 		g_device->SetIndices(index_buffer);
 	}
 }
+HOOK_DECLARE_CLASS(0x00A233C0, c_rasterizer, set_indices);
 
 bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* a1, e_entry_point a2)
 {
@@ -320,15 +344,68 @@ void __cdecl c_rasterizer::set_scissor_rect(short_rectangle2d const* scissor_rec
 		g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
 	}
 }
+HOOK_DECLARE_CLASS(0x00A239B0, c_rasterizer, set_scissor_rect);
 
 void __cdecl c_rasterizer::set_separate_alpha_blend_mode(e_separate_alpha_blend_mode separate_alpha_blend_mode)
 {
-	INVOKE(0x00A23A20, set_separate_alpha_blend_mode, separate_alpha_blend_mode);
+	//INVOKE(0x00A23A20, set_separate_alpha_blend_mode, separate_alpha_blend_mode);
+
+	if (separate_alpha_blend_mode == g_current_separate_alpha_blend_mode)
+		return;
+
+	g_current_separate_alpha_blend_mode = separate_alpha_blend_mode;
+
+	switch (separate_alpha_blend_mode)
+	{
+	case _separate_alpha_blend_mode_unknown0:
+	{
+		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, FALSE);
+	}
+	break;
+	case _separate_alpha_blend_mode_unknown1:
+	{
+		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+		g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
+		g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_ONE);
+		g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ZERO);
+	}
+	break;
+	case _separate_alpha_blend_mode_unknown2:
+	{
+		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+		g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
+		g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_ONE);
+		g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
+	}
+	break;
+	case _separate_alpha_blend_mode_unknown3:
+	{
+		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+		g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
+		g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_DESTALPHA);
+		g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ZERO);
+	}
+	break;
+	case _separate_alpha_blend_mode_unknown4:
+	{
+		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+		g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
+		g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_BLENDFACTOR);
+		g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_INVSRCALPHA);
+	}
+	break;
+	}
 }
+HOOK_DECLARE_CLASS(0x00A23A20, c_rasterizer, set_separate_alpha_blend_mode);
 
 void __cdecl c_rasterizer::set_stencil_mode(e_stencil_mode stencil_mode)
 {
 	INVOKE(0x00A23BA0, set_stencil_mode, stencil_mode);
+}
+
+void __cdecl c_rasterizer::set_stencil_mode_with_value(e_stencil_mode stencil_mode, byte value)
+{
+	INVOKE(0x00A242E0, set_stencil_mode_with_value, stencil_mode, value);
 }
 
 bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type vertex_type, e_transfer_vector_vertex_types vertex_types, e_entry_point entry_point)
@@ -338,7 +415,6 @@ bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* v
 
 void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 {
-	//HOOK_INVOKE_CLASS(, c_rasterizer, set_z_buffer_mode, decltype(set_z_buffer_mode)*, z_buffer_mode);
 	//INVOKE(0x00A247E0, set_z_buffer_mode, z_buffer_mode);
 
 	REFERENCE_DECLARE(0x0165E20C, real, flt_165E20C); // -0.5
@@ -352,19 +428,19 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 	REFERENCE_DECLARE(0x01910548, real, flt_1910548); // -0.000099999997
 	REFERENCE_DECLARE(0x050DD9F0, real, flt_50DD9F0); // dynamically initialized?
 	REFERENCE_DECLARE(0x050DD9F4, real, flt_50DD9F4); // dynamically initialized?
-	
+
 	if (z_buffer_mode == g_current_z_buffer_mode && m_use_floating_point_z_buffer == g_current_z_buffer_floating_point)
 		return;
-	
+
 	g_current_z_buffer_mode = z_buffer_mode;
 	g_current_z_buffer_floating_point = m_use_floating_point_z_buffer;
-	
+
 	DWORD zfunc_value = m_use_floating_point_z_buffer ? D3DCMP_GREATEREQUAL : D3DCMP_LESSEQUAL;
-	
+
 	real slope_z_bias = flt_50DD9F0;
 	real z_bias = flt_50DD9F0;
 	real z_bias_scale = m_use_floating_point_z_buffer ? -1.0f : 1.0f;
-	
+
 	switch (z_buffer_mode)
 	{
 	case _z_buffer_mode_unknown0:
@@ -444,7 +520,7 @@ void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 	}
 	break;
 	}
-	
+
 	g_device->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, COERCE_DWORD(slope_z_bias * z_bias_scale));
 	g_device->SetRenderState(D3DRS_DEPTHBIAS, COERCE_DWORD(z_bias * z_bias_scale));
 }
