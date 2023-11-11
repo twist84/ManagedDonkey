@@ -160,8 +160,8 @@ struct c_rasterizer
 	enum e_z_buffer_mode
 	{
 		_z_buffer_mode_unknown0 = 0,
-		_z_buffer_mode_unknown1,
-		_z_buffer_mode_unknown2,
+		_z_buffer_mode_unknown1, // debug?
+		_z_buffer_mode_unknown2, // debug2d?
 		_z_buffer_mode_unknown3,
 		_z_buffer_mode_unknown4,
 		_z_buffer_mode_unknown5,
@@ -235,27 +235,27 @@ struct c_rasterizer
 	static void __cdecl setup_targets_simple();
 	static void __cdecl setup_targets_static_lighting_alpha_blend(bool, bool);
 
-	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const*, long, long, long, long);
-	static void __cdecl draw_primitive(c_rasterizer_index_buffer::e_primitive_type, long, long);
-	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type, dword, void const*, dword);
-	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type, long, long);
+	static void __cdecl draw_indexed_primitive(c_rasterizer_index_buffer const* indices, long base_vertex_index, long num_vertices, long min_index, long triangle_count);
+	static void __cdecl draw_primitive(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
+	static void __cdecl draw_primitive_up(c_rasterizer_index_buffer::e_primitive_type primitive_type, dword primitive_count, void const* stream_data, dword stride);
+	static void __cdecl draw_vertices(c_rasterizer_index_buffer::e_primitive_type primitive_type, long start_vertex, long primitive_count);
 
 	static void __cdecl draw_debug_line2d(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	static void __cdecl draw_debug_line(real_point3d const& p0, real_point3d const& p1, dword color0, dword color1);
 	static void __cdecl draw_debug_line_list2d_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
 	static void __cdecl draw_debug_line_list_explicit(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
 	static void __cdecl draw_debug_linestrip2d(int16_point2d const* points, long point_count, dword color);
-	static void __cdecl draw_debug_polygon2d(rasterizer_vertex_debug const* vertex_debug, long primitive_count);
-	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* vertex_debug, long primitive_count, c_rasterizer_index_buffer::e_primitive_type type);
+	static void __cdecl draw_debug_polygon2d(rasterizer_vertex_debug const* polygon2d, long primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
+	static void __cdecl draw_debug_polygon(rasterizer_vertex_debug const* polygon, long primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type);
 	static void __cdecl draw_fullscreen_quad(int width, int height);
 	static void __cdecl draw_fullscreen_quad_with_texture_xform(int width, int height, real_rectangle2d const* bounds);
 	static void __cdecl draw_textured_screen_quad(real a1, real a2, real a3, real a4);
-	static void __cdecl draw_textured_screen_quad(rasterizer_vertex_screen const* vertex_screen, bool a2);
-	static void __cdecl draw_textured_screen_triangle_list(rasterizer_vertex_screen const* vertex_screen, long primitive_count);
-	static void __cdecl draw_textured_transparent_polygon(rasterizer_vertex_transparent const* vertex_transparent, long polygon_count, e_alpha_blend_mode alpha_blend_mode);
-	static void __cdecl draw_textured_transparent_polygon(rasterizer_vertex_transparent const* vertex_transparent, e_alpha_blend_mode alpha_blend_mode);
-	static void __cdecl draw_worldspace_polygon(real_point3d const* polygon, long polygon_count);
-	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* vertex_world, long polygon_count);
+	static void __cdecl draw_textured_screen_quad(rasterizer_vertex_screen const* textured_screen_quad, bool a2);
+	static void __cdecl draw_textured_screen_triangle_list(rasterizer_vertex_screen const* textured_screen_triangle_list, long primitive_count);
+	static void __cdecl draw_textured_transparent_polygon(rasterizer_vertex_transparent const* textured_transparent_polygon, long polygon_count, e_alpha_blend_mode alpha_blend_mode);
+	static void __cdecl draw_textured_transparent_quad(rasterizer_vertex_transparent const* textured_transparent_quad, e_alpha_blend_mode alpha_blend_mode);
+	static void __cdecl draw_worldspace_polygon(real_point3d const* worldspace_polygon, long polygon_count);
+	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, long polygon_count);
 
 	static IDirect3DDevice9Ex*& g_device;
 
@@ -293,6 +293,12 @@ struct c_rasterizer_globals
 public:
 	static tag const k_group_tag = RASTERIZER_GLOBALS_TAG;
 
+	enum e_explicit_shader
+	{
+		_explicit_shader_debug = 0,
+		_explicit_shader_debug2d,
+	};
+
 	dword __cdecl get_max_vs_gprs() const
 	{
 		return m_max_vs_gprs;
@@ -308,8 +314,8 @@ public:
 protected:
 	struct s_explicit_shader
 	{
-		s_tag_reference explicit_vertex_shader;
-		s_tag_reference explicit_pixel_shader;
+		c_typed_tag_reference<VERTEX_SHADER_TAG> explicit_vertex_shader;
+		c_typed_tag_reference<PIXEL_SHADER_TAG> explicit_pixel_shader;
 
 		void update_reference_names();
 	};
@@ -509,6 +515,7 @@ static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 
 extern void __cdecl draw_tesselated_quad();
 extern void __cdecl rasterizer_quad_screenspace(int16_point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5);
+extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader explicit_shader);
 
 extern bool rasterizer_dump_display_to_bmp(char const* file_name);
 
