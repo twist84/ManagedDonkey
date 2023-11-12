@@ -1,5 +1,12 @@
 #include "render_methods/render_method_submit.hpp"
 
+#include "cseries/cseries.hpp"
+
+void __cdecl render_method_submit_invalidate_cache()
+{
+	INVOKE(0x00A3D090, render_method_submit_invalidate_cache);
+};
+
 char const* k_render_method_extern_names[k_render_method_extern_count]
 {
 	"none",

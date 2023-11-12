@@ -59,3 +59,5 @@ enum e_render_method_extern
 
 extern char const* k_render_method_extern_names[k_render_method_extern_count];
 
+extern void __cdecl render_method_submit_invalidate_cache();
+
