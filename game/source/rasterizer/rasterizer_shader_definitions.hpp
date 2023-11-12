@@ -95,6 +95,8 @@ static_assert(sizeof(c_rasterizer_compiled_vertex_shader) == 0x50);
 struct c_rasterizer_compiled_pixel_shader :
 	public c_rasterizer_compiled_shader // compiled shader splut
 {
+	IDirect3DPixelShader9* get_d3d_shader() const;
+
 	IDirect3DPixelShader9* runtime_shader;
 };
 static_assert(sizeof(c_rasterizer_compiled_pixel_shader) == 0x50);
@@ -110,6 +112,12 @@ static_assert(sizeof(c_rasterizer_vertex_shader) == 0x20);
 
 struct c_rasterizer_pixel_shader
 {
+	static c_rasterizer_pixel_shader const* get(long definition_index);
+	static c_rasterizer_pixel_shader* get_modifiable(long definition_index);
+
+	c_rasterizer_compiled_pixel_shader const* get_compiled_shader(e_entry_point entry_point, long shader_index) const;
+	IDirect3DPixelShader9* get_d3d_shader(e_entry_point entry_point, long shader_index) const;
+
 	c_flags<e_entry_point, dword, k_entry_point_count> entry_point_flags;
 	c_typed_tag_block<s_compiled_shader_reference> entry_points;
 	long version;

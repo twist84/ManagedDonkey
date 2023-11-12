@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
+#include "render_methods/render_method_submit.hpp"
 #include "tag_files/files.hpp"
 
 REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_render_state_types, 4);
@@ -297,10 +298,35 @@ void __cdecl c_rasterizer::set_indices(IDirect3DIndexBuffer9* index_buffer)
 }
 HOOK_DECLARE_CLASS(0x00A233C0, c_rasterizer, set_indices);
 
-bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* a1, e_entry_point a2)
+bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* pixel_shader, e_entry_point entry_point)
 {
-	return INVOKE(0x00A23460, set_pixel_shader, a1, a2);
+	//return INVOKE(0x00A23460, set_pixel_shader, pixel_shader, entry_point);
+
+	if (!g_device)
+		return true;
+
+	render_method_submit_invalidate_cache();
+
+	if (pixel_shader)
+	{
+		IDirect3DPixelShader9* d3d_shader = pixel_shader->get_d3d_shader(entry_point, 0);
+		if (d3d_shader != g_current_pixel_shader)
+		{
+			g_current_pixel_shader = d3d_shader;
+			return SUCCEEDED(g_device->SetPixelShader(d3d_shader)) && d3d_shader != NULL;
+		}
+
+		return true;
+	}
+	else if (g_current_pixel_shader)
+	{
+		g_current_pixel_shader = NULL;
+		return SUCCEEDED(g_device->SetPixelShader(NULL));
+	}
+
+	return true;
 }
+HOOK_DECLARE_CLASS(0x00A23460, c_rasterizer, set_pixel_shader);
 
 void __cdecl c_rasterizer::set_aliased_surface_as_texture(long sampler_index, e_surface surface)
 {

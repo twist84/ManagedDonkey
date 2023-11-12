@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
+#include "rasterizer/rasterizer_shader_definitions.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 #include "tag_files/tag_groups.hpp"
 
@@ -13,10 +14,7 @@ extern void __stdcall sub_79BA30(long width, long height);
 enum e_platform;
 enum e_vertex_type;
 enum e_transfer_vector_vertex_types;
-enum e_entry_point;
 
-struct c_rasterizer_pixel_shader;
-struct c_rasterizer_vertex_shader;
 struct c_rasterizer_index_buffer
 {
 	enum e_primitive_type
