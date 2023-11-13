@@ -12,7 +12,36 @@
 extern void __stdcall sub_79BA30(long width, long height);
 
 enum e_platform;
-enum e_vertex_type;
+
+enum e_vertex_type
+{
+	_vertex_type_world = 0,
+	_vertex_type_rigid,
+	_vertex_type_skinned,
+	_vertex_type_particle_model,
+	_vertex_type_flat_world,
+	_vertex_type_flat_rigid,
+	_vertex_type_flat_skinned,
+	_vertex_type_screen,
+	_vertex_type_debug,
+	_vertex_type_transparent,
+	_vertex_type_particle,
+	_vertex_type_contrail,
+	_vertex_type_light_volume,
+	_vertex_type_simple_chud,
+	_vertex_type_fancy_chud,
+	_vertex_type_decorator,
+	_vertex_type_tiny_position,
+	_vertex_type_patchy_fog,
+	_vertex_type_water,
+	_vertex_type_ripple,
+	_vertex_type_implicit,
+	_vertex_type_beam,
+	_vertex_type_dual_quat,
+
+	k_vertex_type_count
+};
+
 enum e_transfer_vector_vertex_types;
 
 struct c_rasterizer_index_buffer
