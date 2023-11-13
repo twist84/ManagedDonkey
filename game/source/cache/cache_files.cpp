@@ -487,6 +487,9 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
 		return false;
 
+	// not needed
+	//sub_503470(&g_cache_file_globals.reports, tag_instance, tag_index);
+
 	tag_loaded_count++;
 
 	tag_instance_modification_apply(instance, _instance_modification_stage_tag_load);
@@ -823,7 +826,9 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 		cache_file_load_tags_section();
 
+		// only needed if `sub_503470` is called in `cache_file_tags_load_recursive`
 		cache_file_load_reports(&g_cache_file_globals.reports, &g_cache_file_globals.header);
+
 		cache_file_tags_load_allocate();
 
 		dword total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;
