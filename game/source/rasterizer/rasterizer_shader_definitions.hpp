@@ -3,6 +3,72 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 
+enum e_vertex_type
+{
+	_vertex_type_world = 0,
+	_vertex_type_rigid,
+	_vertex_type_skinned,
+	_vertex_type_particle_model,
+	_vertex_type_flat_world,
+	_vertex_type_flat_rigid,
+	_vertex_type_flat_skinned,
+	_vertex_type_screen,
+	_vertex_type_debug,
+	_vertex_type_transparent,
+	_vertex_type_particle,
+	_vertex_type_contrail,
+	_vertex_type_light_volume,
+	_vertex_type_simple_chud,
+	_vertex_type_fancy_chud,
+	_vertex_type_decorator,
+	_vertex_type_tiny_position,
+	_vertex_type_patchy_fog,
+	_vertex_type_water,
+	_vertex_type_ripple,
+	_vertex_type_implicit,
+	_vertex_type_beam,
+	_vertex_type_dual_quat,
+
+	k_number_of_vertex_types
+};
+
+enum e_lighting_vertex_types
+{
+	// default
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, _transfer_vector_vertex_type_unknown0)
+	// _entry_point_static_prt_ambient
+	// _entry_point_static_prt_linear
+	// _entry_point_static_prt_quadratic
+	// _entry_point_active_camo
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown0, transfer_vertex_type)
+	_lighting_vertex_type_unknown0 = 0,
+
+	// _entry_point_vertex_color_lighting
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown1, _transfer_vector_vertex_type_unknown0)
+	_lighting_vertex_type_unknown1,
+
+	// _entry_point_static_per_pixel
+	// _entry_point_lightmap_debug_mode
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown2, _transfer_vector_vertex_type_unknown0)
+	_lighting_vertex_type_unknown2,
+
+	// _entry_point_static_per_vertex
+	// - get_d3d_vertex_declaration(base_vertex_type, _lighting_vertex_type_unknown3, _transfer_vector_vertex_type_unknown0)
+	_lighting_vertex_type_unknown3,
+
+	k_number_of_lighting_vertex_types
+};
+
+enum e_transfer_vector_vertex_types
+{
+	_transfer_vector_vertex_type_unknown0 = 0,
+	_transfer_vector_vertex_type_unknown1,
+	_transfer_vector_vertex_type_unknown2,
+	_transfer_vector_vertex_type_unknown3,
+
+	k_number_of_transfer_vertex_types
+};
+
 enum e_entry_point
 {
 	_entry_point_default = 0,
@@ -39,11 +105,13 @@ struct s_compiled_shader_reference
 };
 static_assert(sizeof(s_compiled_shader_reference) == 0x2);
 
-struct s_vertex_entry_point
+struct s_rasterizer_vertex_shader_entry_point
 {
+	s_compiled_shader_reference const* get_shader_reference(e_vertex_type vertex_type) const;
+
 	c_typed_tag_block<s_compiled_shader_reference> vertex_types;
 };
-static_assert(sizeof(s_vertex_entry_point) == sizeof(s_tag_block));
+static_assert(sizeof(s_rasterizer_vertex_shader_entry_point) == sizeof(s_tag_block));
 
 enum e_rasterizer_constant_table_type
 {
@@ -69,16 +137,12 @@ static_assert(sizeof(s_global_rasterizer_constant_table) == 0x10);
 struct c_rasterizer_compiled_shader
 {
 	// ..:xenon compiled shader
-	s_tag_data xenon_compiled_shader;
-
 	// ..:dx9 compiled shader
-	s_tag_data dx9_compiled_shader;
+	s_tag_data compiled_shader[2]; // c_rasterizer::e_platform::k_platform_count
 
 	// Xenon constant table
-	s_global_rasterizer_constant_table xenon_rasterizer_constant_table;
-
 	// DX9 constant table
-	s_global_rasterizer_constant_table dx9_rasterizer_constant_table;
+	s_global_rasterizer_constant_table rasterizer_constant_table[2]; // c_rasterizer::e_platform::k_platform_count
 
 	// ..:gprs
 	long gprs;
@@ -88,6 +152,8 @@ static_assert(sizeof(c_rasterizer_compiled_shader) == 0x4C);
 struct c_rasterizer_compiled_vertex_shader :
 	public c_rasterizer_compiled_shader // compiled shader splut
 {
+	IDirect3DVertexShader9* get_d3d_shader() const;
+
 	IDirect3DVertexShader9* runtime_shader;
 };
 static_assert(sizeof(c_rasterizer_compiled_vertex_shader) == 0x50);
@@ -103,8 +169,16 @@ static_assert(sizeof(c_rasterizer_compiled_pixel_shader) == 0x50);
 
 struct c_rasterizer_vertex_shader
 {
+	static c_rasterizer_vertex_shader const* get(long definition_index);
+	static c_rasterizer_vertex_shader* get_modifiable(long definition_index);
+
+	s_rasterizer_vertex_shader_entry_point const* get_entry_point(long entry_point) const;
+	c_rasterizer_compiled_vertex_shader const* get_compiled_shader(long shader_index) const;
+	c_rasterizer_compiled_vertex_shader const* get_compiled_shader(e_vertex_type vertex_type, e_entry_point entry_point, long shader_index) const;
+	IDirect3DVertexShader9* get_d3d_shader(e_vertex_type vertex_type, e_entry_point entry_point, long shader_index) const;
+
 	c_flags<e_entry_point, dword, k_entry_point_count> entry_point_flags;
-	c_typed_tag_block<s_vertex_entry_point> entry_points;
+	c_typed_tag_block<s_rasterizer_vertex_shader_entry_point> entry_points;
 	long version;
 	c_typed_tag_block<c_rasterizer_compiled_vertex_shader> compiled_shader;
 };

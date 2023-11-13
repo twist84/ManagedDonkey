@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
+#include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render_methods/render_method_submit.hpp"
 #include "tag_files/files.hpp"
 
@@ -186,7 +187,7 @@ void __cdecl c_rasterizer::end_high_quality_blend()
 	INVOKE(0x00A21880, end_high_quality_blend);
 }
 
-e_platform __cdecl c_rasterizer::get_runtime_platform()
+c_rasterizer::e_platform __cdecl c_rasterizer::get_runtime_platform()
 {
 	return INVOKE(0x00A21A80, get_runtime_platform);
 }
@@ -312,13 +313,11 @@ bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* pix
 	if (pixel_shader)
 	{
 		IDirect3DPixelShader9* d3d_shader = pixel_shader->get_d3d_shader(entry_point, 0);
-		if (d3d_shader != g_current_pixel_shader)
-		{
-			g_current_pixel_shader = d3d_shader;
-			return SUCCEEDED(g_device->SetPixelShader(d3d_shader)) && d3d_shader != NULL;
-		}
+		if (d3d_shader == g_current_pixel_shader)
+			return d3d_shader != NULL;
 
-		return true;
+		g_current_pixel_shader = d3d_shader;
+		return SUCCEEDED(g_device->SetPixelShader(d3d_shader)) && d3d_shader != NULL;
 	}
 	else if (g_current_pixel_shader)
 	{
@@ -435,6 +434,18 @@ void __cdecl c_rasterizer::set_stencil_mode_with_value(e_stencil_mode stencil_mo
 {
 	INVOKE(0x00A242E0, set_stencil_mode_with_value, stencil_mode, value);
 }
+
+bool __cdecl c_rasterizer::set_vertex_declaration(IDirect3DVertexDeclaration9* vertex_declaration)
+{
+	//return INVOKE(0x00A24650, set_vertex_declaration, vertex_declaration);
+
+	if (vertex_declaration == g_current_vertex_declaration)
+		return true;
+
+	g_current_vertex_declaration = vertex_declaration;
+	return SUCCEEDED(g_device->SetVertexDeclaration(vertex_declaration));
+}
+HOOK_DECLARE_CLASS(0x00A24650, c_rasterizer, set_vertex_declaration);
 
 bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
@@ -557,6 +568,18 @@ HOOK_DECLARE_CLASS(0x00A247E0, c_rasterizer, set_z_buffer_mode);
 void __cdecl c_rasterizer::setup_occlusion_state()
 {
 	INVOKE(0x00A24B30, setup_occlusion_state);
+
+	//if (g_device)
+	//{
+	//	set_z_buffer_mode(_z_buffer_mode_unknown1);
+	//	set_depth_stencil_surface(_surface_depth_stencil);
+	//	set_render_target(0, _surface_albedo, 0xFFFFFFFF);
+	//	set_render_target(1, _surface_normal, 0xFFFFFFFF);
+	//	set_render_target(2, _surface_none, 0xFFFFFFFF);
+	//	set_render_target(3, _surface_none, 0xFFFFFFFF);
+	//	restore_last_viewport();
+	//	restore_last_scissor_rect();
+	//}
 }
 
 void __cdecl c_rasterizer::setup_render_target_globals_with_exposure(real a1, real a2, bool a3)
@@ -564,14 +587,32 @@ void __cdecl c_rasterizer::setup_render_target_globals_with_exposure(real a1, re
 	INVOKE(0x00A24B90, setup_render_target_globals_with_exposure, a1, a2, a3);
 }
 
-void __cdecl c_rasterizer::setup_targets_distortion(short_rectangle2d* a1)
+void __cdecl c_rasterizer::setup_targets_distortion(short_rectangle2d* bounds)
 {
-	INVOKE(0x00A250D0, setup_targets_distortion, a1);
+	INVOKE(0x00A250D0, setup_targets_distortion, bounds);
+
+	//set_depth_stencil_surface(_surface_depth_stencil);
+	//set_render_target(0, _surface_distortion, 0xFFFFFFFF);
+	//set_render_target(1, _surface_none, 0xFFFFFFFF);
+	//set_render_target(2, _surface_none, 0xFFFFFFFF);
+	//set_render_target(3, _surface_none, 0xFFFFFFFF);
+	//clearf(1, 0x808000, 0.0f, 0);
+	//set_viewport(bounds, 0.0f, 1.0);
+	//set_scissor_rect(bounds);
 }
 
 void __cdecl c_rasterizer::setup_targets_simple()
 {
 	INVOKE(0x00A25280, setup_targets_simple);
+
+	//if (g_device)
+	//{
+	//	set_depth_stencil_surface(_surface_depth_stencil);
+	//	set_render_target(0, _surface_accum_LDR, 0xFFFFFFFF);
+	//	set_render_target(1, _surface_none, 0xFFFFFFFF);
+	//	set_render_target(2, _surface_none, 0xFFFFFFFF);
+	//	set_render_target(3, _surface_none, 0xFFFFFFFF);
+	//}
 }
 
 void __cdecl c_rasterizer::setup_targets_static_lighting_alpha_blend(bool a1, bool a2)

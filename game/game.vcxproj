@@ -452,6 +452,7 @@ POPD
     <ClCompile Include="source\rasterizer\rasterizer_global_shaders.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_main.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_performance_throttles.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_resource_definitions.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_shader_definitions.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_text.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_textures_xenon_formats.cpp" />
@@ -986,6 +987,7 @@ POPD
     <ClInclude Include="source\rasterizer\rasterizer_implicit_geometry.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_main.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_performance_throttles.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_resource_definitions.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_shader_definitions.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_text.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_textures_xenon_formats.hpp" />
