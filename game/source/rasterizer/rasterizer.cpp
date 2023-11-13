@@ -283,6 +283,27 @@ bool __cdecl c_rasterizer::set_compiled_pixel_shader(c_rasterizer_compiled_pixel
 }
 HOOK_DECLARE_CLASS(0x00A23220, c_rasterizer, set_compiled_pixel_shader);
 
+bool __cdecl c_rasterizer::set_compiled_vertex_shader(c_rasterizer_compiled_vertex_shader const* compiled_vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
+{
+	//return INVOKE(0x00A23260, set_compiled_vertex_shader, compiled_vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
+
+	if (!g_device)
+		return true;
+
+	if (!compiled_vertex_shader)
+		return true;
+
+	IDirect3DVertexShader9* d3d_shader = compiled_vertex_shader->get_d3d_shader();
+	bool vertex_declaration_set = c_vertex_declaration_table::set(base_vertex_type, transfer_vertex_type, entry_point);
+
+	if (d3d_shader == g_current_vertex_shader)
+		return d3d_shader != NULL && vertex_declaration_set;
+
+	g_current_vertex_shader = d3d_shader;
+	return SUCCEEDED(g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
+}
+HOOK_DECLARE_CLASS(0x00A23260, c_rasterizer, set_compiled_vertex_shader);
+
 void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
 {
 	//INVOKE(0x00A232D0, set_cull_mode, cull_mode);

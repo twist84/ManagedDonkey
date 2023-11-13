@@ -289,6 +289,7 @@ struct c_rasterizer
 	static void __cdecl set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex*, e_alpha_blend_mode);
 	static void __cdecl set_color_write_enable(long, long);
 	static bool __cdecl set_compiled_pixel_shader(c_rasterizer_compiled_pixel_shader const*, e_entry_point);
+	static bool __cdecl set_compiled_vertex_shader(c_rasterizer_compiled_vertex_shader const*, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
 	static void __cdecl set_cull_mode(e_cull_mode);
 	static bool __cdecl set_explicit_shaders(long, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
 	static void __cdecl set_fill_mode(e_fill_mode);
