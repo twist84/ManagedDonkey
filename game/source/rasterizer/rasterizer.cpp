@@ -275,9 +275,9 @@ void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
 }
 HOOK_DECLARE_CLASS(0x00A232D0, c_rasterizer, set_cull_mode);
 
-bool __cdecl c_rasterizer::set_explicit_shaders(long a1, e_vertex_type a2, e_transfer_vector_vertex_types a3, e_entry_point a4)
+bool __cdecl c_rasterizer::set_explicit_shaders(long explicit_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
-	return INVOKE(0x00A23300, set_explicit_shaders, a1, a2, a3, a4);
+	return INVOKE(0x00A23300, set_explicit_shaders, explicit_shader, base_vertex_type, transfer_vertex_type, entry_point);
 }
 
 void __cdecl c_rasterizer::set_fill_mode(e_fill_mode fill_mode)
@@ -436,9 +436,9 @@ void __cdecl c_rasterizer::set_stencil_mode_with_value(e_stencil_mode stencil_mo
 	INVOKE(0x00A242E0, set_stencil_mode_with_value, stencil_mode, value);
 }
 
-bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type vertex_type, e_transfer_vector_vertex_types vertex_types, e_entry_point entry_point)
+bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
-	return INVOKE(0x00A246E0, set_vertex_shader, vertex_shader, vertex_type, vertex_types, entry_point);
+	return INVOKE(0x00A246E0, set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 }
 
 void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)

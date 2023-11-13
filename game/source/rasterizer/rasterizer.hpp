@@ -57,7 +57,15 @@ enum e_lighting_vertex_types
 	k_number_of_lighting_vertex_types
 };
 
-enum e_transfer_vector_vertex_types;
+enum e_transfer_vector_vertex_types
+{
+	_transfer_vector_vertex_type_unknown0 = 0,
+	_transfer_vector_vertex_type_unknown1,
+	_transfer_vector_vertex_type_unknown2,
+	_transfer_vector_vertex_type_unknown3,
+
+	k_number_of_transfer_vertex_types
+};
 
 struct c_rasterizer_index_buffer
 {
