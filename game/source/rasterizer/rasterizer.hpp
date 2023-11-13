@@ -44,7 +44,17 @@ enum e_vertex_type
 	_vertex_type_beam,
 	_vertex_type_dual_quat,
 
-	k_vertex_type_count
+	k_number_of_vertex_types
+};
+
+enum e_lighting_vertex_types
+{
+	_lighting_vertex_type_unknown0 = 0,
+	_lighting_vertex_type_unknown1,
+	_lighting_vertex_type_unknown2,
+	_lighting_vertex_type_unknown3,
+
+	k_number_of_lighting_vertex_types
 };
 
 enum e_transfer_vector_vertex_types;
