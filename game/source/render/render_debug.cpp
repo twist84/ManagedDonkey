@@ -46,6 +46,7 @@
 #include "text/draw_string.hpp"
 
 #include <math.h>
+#include <windows.h>
 
 #define MAXIMUM_CACHE_STRING_LENGTH 4096
 

@@ -6,10 +6,15 @@
 #include "rasterizer/rasterizer_text.hpp"
 #include "tag_files/tag_groups.hpp"
 
-#include <d3d9.h>
-
 // force update the backbuffer
 extern void __stdcall sub_79BA30(long width, long height);
+
+enum _D3DRENDERSTATETYPE;
+__interface IDirect3DDevice9Ex;
+__interface IDirect3DQuery9;
+__interface IDirect3DVertexBuffer9;
+__interface IDirect3DIndexBuffer9;
+__interface IDirect3DVertexDeclaration9;
 
 enum e_platform;
 
@@ -352,7 +357,7 @@ struct c_rasterizer
 	static void __cdecl draw_worldspace_polygon(real_point3d const* worldspace_polygon, long polygon_count);
 	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, long polygon_count);
 
-	static D3DRENDERSTATETYPE(&x_last_render_state_types)[4];
+	static _D3DRENDERSTATETYPE(&x_last_render_state_types)[4];
 
 	static IDirect3DDevice9Ex*& g_device;
 

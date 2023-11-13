@@ -5,6 +5,8 @@
 #include "render_methods/render_method_submit.hpp"
 #include "tag_files/files.hpp"
 
+#include <d3d9.h>
+
 REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_render_state_types, 4);
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
 REFERENCE_DECLARE_ARRAY(0x050DADE0, bool, c_rasterizer::byte_50DADE0, 3);

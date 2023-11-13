@@ -26,6 +26,8 @@
 #include "units/vehicle_definitions.hpp"
 
 #include <DDS.h>
+#include <malloc.h>
+#include <search.h>
 #include <string.h>
 
 void*(__cdecl* tag_get_hook)(tag group_tag, long tag_index) = tag_get;

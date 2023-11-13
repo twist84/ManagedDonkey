@@ -14,6 +14,7 @@
 
 #include <windows.h>
 #include <dbghelp.h>
+#include <float.h>
 #include <Psapi.h>
 
 struct s_exception_type_info

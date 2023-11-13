@@ -8,6 +8,8 @@
 #include "simulation/simulation.hpp"
 #include "sound/sound_classes.hpp"
 
+#include <string.h>
+
 #define MAXIMUM_SOUND_SOURCES 196
 
 #define NUMBER_OF_SOUND_SAMPLE_RATES 3
