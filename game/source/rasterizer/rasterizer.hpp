@@ -181,7 +181,72 @@ struct c_rasterizer
 		k_alpha_blend_mode_count
 	};
 
-	enum e_surface;
+	enum e_surface
+	{
+		_surface_none = 0,
+		_surface_disable,
+		_surface_display,
+		_surface_shadow_1,
+		_surface_depth_stencil,
+		_surface_depth_stencil_multisample,
+		_surface_screenshot_composite_16f,
+		_surface_accum_LDR,
+		_surface_accum_HDR,
+		_surface_albedo,
+		_surface_albedo_debug,
+		_surface_gbuf,
+		_surface_normal,
+		_surface_post_LDR,
+		_surface_post_HDR,
+		_surface_post_half_LDR,
+		_surface_post_half_HDR,
+		_surface_normal_half,
+		_surface_depth_half_fp32,
+		_surface_color_half_fp16_0,
+		_surface_color_half_fp16_1,
+		_surface_fullscreen_blur,
+		_surface_shadow_color,
+		_surface_depth_fp32,
+		_surface_aux_reflection,
+		_surface_aux_refraction,
+		_surface_hdr_retrieve,
+		_surface_ssao_noise,
+		_surface_screenshot_composite_8bit,
+		_surface_screenshot_display,
+		_surface_screenshot_composite_16i,
+		_surface_aux_bloom,
+		_surface_aux_chud,
+		_surface_aux_star,
+		_surface_aux_small,
+		_surface_aux_tiny,
+		_surface_aux_mini,
+		_surface_aux_exposure_0,
+		_surface_aux_exposure_1,
+		_surface_aux_exposure_2,
+		_surface_aux_exposure_3,
+		_surface_aux_exposure_4,
+		_surface_aux_exposure_5,
+		_surface_aux_exposure_6,
+		_surface_aux_exposure_7,
+		_surface_aux_small2,
+		_surface_aux_tiny2,
+		_surface_aux_mini2,
+		_surface_aux_depth_of_field2,
+		_surface_aux_depth_of_field,
+		_surface_distortion,
+		_surface_depth_camera_depth,
+		_surface_depth_camera,
+		_surface_aux_water_interaction_height,
+		_surface_aux_water_interaction_slope,
+		_surface_chud_turbulence,
+		_surface_cortana_effect_mua_haha,
+		_surface_surface_depth_camera_texture,
+		_surface_surface_weather_occlusion,
+		_surface_surface_depth_visr,
+
+		k_number_of_surfaces
+	};
+
 	enum e_sampler_address_mode;
 	enum e_sampler_filter_mode;
 
