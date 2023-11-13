@@ -449,8 +449,33 @@ HOOK_DECLARE_CLASS(0x00A24650, c_rasterizer, set_vertex_declaration);
 
 bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
-	return INVOKE(0x00A246E0, set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
+	//return INVOKE(0x00A246E0, set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
+
+	if (!g_device)
+		return true;
+	
+	render_method_submit_invalidate_cache();
+	
+	if (vertex_shader)
+	{
+		IDirect3DVertexShader9* d3d_shader = vertex_shader->get_d3d_shader(base_vertex_type, entry_point, 0);
+		bool vertex_declaration_set = c_vertex_declaration_table::set(base_vertex_type, transfer_vertex_type, entry_point);
+
+		if (d3d_shader == g_current_vertex_shader)
+			return d3d_shader != NULL && vertex_declaration_set;
+	
+		g_current_vertex_shader = d3d_shader;
+		return SUCCEEDED(g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
+	}
+	else if (g_current_vertex_shader)
+	{
+		g_current_vertex_shader = NULL;
+		return SUCCEEDED(g_device->SetVertexShader(NULL));
+	}
+
+	return true;
 }
+HOOK_DECLARE_CLASS(0x00A246E0, c_rasterizer, set_vertex_shader);
 
 void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 {
