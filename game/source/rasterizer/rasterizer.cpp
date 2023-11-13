@@ -264,6 +264,25 @@ void __cdecl c_rasterizer::set_color_write_enable(long render_state, long render
 }
 HOOK_DECLARE_CLASS(0x00A231E0, c_rasterizer, set_color_write_enable);
 
+bool __cdecl c_rasterizer::set_compiled_pixel_shader(c_rasterizer_compiled_pixel_shader const* compiled_pixel_shader, e_entry_point entry_point)
+{
+	//return INVOKE(0x00A23220, set_compiled_pixel_shader, compiled_pixel_shader, entry_point);
+
+	if (!g_device)
+		return true;
+
+	if (!compiled_pixel_shader)
+		return false;
+
+	IDirect3DPixelShader9* d3d_shader = compiled_pixel_shader->get_d3d_shader();
+	if (d3d_shader == g_current_pixel_shader)
+		return true;
+
+	g_current_pixel_shader = d3d_shader;
+	return SUCCEEDED(g_device->SetPixelShader(d3d_shader));
+}
+HOOK_DECLARE_CLASS(0x00A23220, c_rasterizer, set_compiled_pixel_shader);
+
 void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
 {
 	//INVOKE(0x00A232D0, set_cull_mode, cull_mode);
