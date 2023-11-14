@@ -35,14 +35,14 @@ enum e_scenario_game_engine
 
 enum e_multiplayer_team_designator
 {
-	_multiplayer_team_designator_defender = 0,
-	_multiplayer_team_designator_attacker,
-	_multiplayer_team_designator_third_party,
-	_multiplayer_team_designator_fourth_party,
-	_multiplayer_team_designator_fifth_party,
-	_multiplayer_team_designator_sixth_party,
-	_multiplayer_team_designator_seventh_party,
-	_multiplayer_team_designator_eigth_party,
+	_multiplayer_team_designator_defenders = 0,
+	_multiplayer_team_designator_attackers,
+	_multiplayer_team_designator_3rd_party,
+	_multiplayer_team_designator_4th_party,
+	_multiplayer_team_designator_5th_party,
+	_multiplayer_team_designator_6th_party,
+	_multiplayer_team_designator_7th_party,
+	_multiplayer_team_designator_8th_party,
 	_multiplayer_team_designator_neutral,
 
 	k_multiplayer_team_designator_count
@@ -110,7 +110,7 @@ public:
 protected:
 	c_flags<e_game_engine_symmetric_placement, word, k_game_engine_symmetric_placement_count> symmetry_placement_flags;
 	c_flags<e_scenario_game_engine, byte, k_scenario_game_engine_count> game_engine_flags;
-	c_enum<e_multiplayer_team_designator, byte, _multiplayer_team_designator_defender, k_multiplayer_team_designator_count> owner_team;
+	c_enum<e_multiplayer_team_designator, byte, _multiplayer_team_designator_defenders, k_multiplayer_team_designator_count> owner_team;
 
 	union
 	{
