@@ -645,7 +645,7 @@ debug_key global_debug_key_list[]
 	}
 };
 
-c_static_flags<ALIGN(NUMBEROF(global_debug_key_list), 4), NUMBEROF(global_debug_key_list)> global_debug_key_down; // 16 bit aligned
+c_static_flags<ALIGN(NUMBEROF(global_debug_key_list), 4)> global_debug_key_down; // 16 bit aligned
 //long global_debug_key_down[((NUMBEROF(global_debug_key_list) - 1) >> 5) + 1]{};
 dword_flags g_debug_button_down_flags;
 

@@ -697,37 +697,165 @@ protected:
 	t_storage_type m_storage;
 };
 
-template<size_t k_maximum_count, size_t k_storage_count = ((k_maximum_count - 1) >> 5) + 1>
-struct c_static_flags
+template<long k_maximum_count>
+struct c_static_flags_no_init
 {
-	bool test(long index)
+	static long const MAX_COUNT = k_maximum_count;
+
+	void and_(c_static_flags_no_init<k_maximum_count> const* vector_a)
+	{
+		ASSERT(vector_a);
+
+		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
+			m_storage[i] &= vector_a[i];
+	}
+
+	void and_not_range(c_static_flags_no_init<k_maximum_count> const* vector_a, c_static_flags_no_init<k_maximum_count> const* vector_b, long count)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		dword const* vector_a_bits = vector_a->get_bits_direct();
+		dword const* vector_b_bits = vector_b->get_bits_direct();
+
+		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
+			m_storage[i] = vector_a_bits[i] & ~vector_b_bits[i];
+	}
+
+	void and_range(c_static_flags_no_init<k_maximum_count> const* vector_a, c_static_flags_no_init<k_maximum_count> const* vector_b, long count)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		dword const* vector_a_bits = vector_a->get_bits_direct();
+		dword const* vector_b_bits = vector_b->get_bits_direct();
+
+		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
+			m_storage[i] = vector_a_bits[i] & vector_b_bits[i];
+	}
+
+	void clear()
+	{
+		csmemset(m_storage, 0, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
+	}
+
+	void clear_range(long count)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		csmemset(m_storage, 0, BIT_VECTOR_SIZE_IN_BYTES(count));
+	}
+
+	void copy(c_static_flags_no_init<k_maximum_count> const* vector_a)
+	{
+		csmemcpy(m_storage, vector_a, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
+	}
+
+	long count_bits_set() const
+	{
+		return bit_vector_count_bits(m_storage, k_maximum_count);
+	}
+
+	void fill(long count, byte fill_value)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		csmemset(m_storage, fill_value, BIT_VECTOR_SIZE_IN_BYTES(count));
+	}
+
+	dword const* get_bits_direct() const
+	{
+		return m_storage;
+	}
+
+	dword* get_writeable_bits_direct()
+	{
+		return m_storage;
+	}
+
+	long highest_bit_set_in_range(long count) const
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		return bit_vector_highest_bit_set(m_storage, count);
+	}
+
+	void invert_bits()
+	{
+		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
+			m_storage[i] = ~m_storage[i];
+
+		// no clue
+		//m_storage[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1] = (byte)m_storage[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)-1];
+	}
+
+	bool is_clear() const
+	{
+		byte result = 1;
+		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
+			result &= m_storage[i] == 0;
+
+		return result;
+	}
+
+	void keep_range(long count)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		for (long i = BIT_VECTOR_SIZE_IN_LONGS(count); i < BIT_VECTOR_SIZE_IN_LONGS(count); ++i)
+			m_storage[i] = 0;
+
+		m_storage[BIT_VECTOR_SIZE_IN_LONGS(count) - 1] &= ((count & (LONG_BITS - 1)) != 0) ? 0xFFFFFFFF >> (LONG_BITS - (count & (LONG_BITS - 1))) : 0xFFFFFFFF;
+	}
+
+	void or_bits(dword const* bits, long count)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		for (long i = 0; i < BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count); i++)
+			m_storage[i] |= bits[i];
+	}
+
+	void set(long index, bool enable)
 	{
 		ASSERT(VALID_INDEX(index, k_maximum_count));
 
-		return (m_storage[index >> 5] & 1 << (index & 31)) != 0;
+		if (enable)
+			BIT_VECTOR_OR_FLAG(m_storage, index);
+		else
+			BIT_VECTOR_AND_FLAG(m_storage, index);
+	}
+
+	void set_all()
+	{
+		csmemset(m_storage, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(k_maximum_count));
+	}
+
+	void set_bits_direct_destructive(long count, dword const* bits)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		csmemcpy(m_storage, bits, BIT_VECTOR_SIZE_IN_BYTES(count));
+	}
+
+	void set_range(long count)
+	{
+		ASSERT(IN_RANGE_INCLUSIVE(count, 0, k_maximum_count));
+
+		csmemset(m_storage, 0xFFFFFFFF, BIT_VECTOR_SIZE_IN_BYTES(count));
 	}
 
 	bool test(long index) const
 	{
 		ASSERT(VALID_INDEX(index, k_maximum_count));
 
-		return (m_storage[index >> 5] & 1 << (index & 31)) != 0;
+		return BIT_VECTOR_TEST_FLAG(m_storage, index);
 	}
 
-	void clear()
-	{
-		csmemset(m_storage, 0, sizeof(m_storage));
-	}
+	dword m_storage[BIT_VECTOR_SIZE_IN_LONGS(k_maximum_count)];
+};
 
-	void set(long index, bool enable)
-	{
-		if (enable)
-			m_storage[index >> 5] |= (1 << (index & 31));
-		else
-			m_storage[index >> 5] &= ~(1 << (index & 31));
-	}
-
-	dword m_storage[k_storage_count];
+template<long k_maximum_count>
+struct c_static_flags : public c_static_flags_no_init<k_maximum_count>
+{
 };
 
 template<typename t_type, typename t_storage_type, t_type k_minimum_value, t_type k_maximum_value_plus_one>
