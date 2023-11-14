@@ -79,9 +79,24 @@ struct object_datum : s_datum_header
 };
 static_assert(sizeof(object_datum) == 0x178);
 
+// Same as Halo 3
+enum e_object_header_flags
+{
+	_object_header_active_bit = 0,
+	_object_header_awake_bit,
+	_object_header_requires_motion_bit,
+	_object_header_post_update_bit,
+	_object_header_being_deleted_bit,
+	_object_header_do_not_update_bit,
+	_object_header_connected_to_map_bit,
+	_object_header_child_bit,
+
+	k_object_header_flags
+};
+
 struct object_header_datum : s_datum_header
 {
-	byte_flags flags;
+	c_flags<e_object_header_flags, byte, k_object_header_flags> flags;
 	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
 	short __unknown2;
 	short data_size;
