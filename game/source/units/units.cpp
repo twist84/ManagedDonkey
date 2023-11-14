@@ -152,7 +152,7 @@ bool units_debug_can_select_unit(long unit_index)
 	REFERENCE_DECLARE(unit + 0x120, word_flags, damage_flags);
 	REFERENCE_DECLARE(unit + 0x4, dword_flags, data_flags);
 
-	if (some_index != NONE || TEST_BIT(damage_flags, 2) || TEST_BIT(data_flags, 26))
+	if (some_index != NONE || TEST_BIT(damage_flags, 2) || TEST_BIT(data_flags, _object_created_with_parent_bit))
 		return false;
 
 	return true;

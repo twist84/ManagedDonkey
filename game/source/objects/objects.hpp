@@ -60,7 +60,6 @@ static_assert(0b0000001100110000 == _object_mask_device);
 static_assert(0b0010000000000011 == _object_mask_unit);
 static_assert(0b0011100110111111 == _object_mask_editor_placeable_objects);
 
-
 enum e_object_source
 {
 	_object_source_structure = 0,
@@ -73,9 +72,54 @@ enum e_object_source
 	k_object_source_count
 };
 
+// Same as Halo 3
+enum e_object_data_flags
+{
+	_object_hidden_bit = 0,
+	_object_always_active_bit,
+	_object_being_created_bit,
+
+	// semi confirmed
+	_object_underwater_bit,
+
+	_object_has_attached_lights_bit,
+	_object_has_attached_looping_sounds_bit,
+	_object_has_unattached_lights_bit,
+	_object_in_limbo_bit,
+	_object_connected_to_map_bit,
+	_object_uses_collidable_list_bit,
+	_object_mirrored_bit,
+	_object_render_model_has_instances_bit,
+	_object_static_lighting_recompute_bit,
+	_object_static_lighting_raycast_sideways_bit,
+	_object_render_time_node_matrices_complete_bit,
+	_object_clip_plane_bit,
+	_object_shadowless_bit,
+	_object_deleted_when_deactivated_bit,
+	_object_outside_of_map_bit,
+	_object_cinematic_lod_bit,
+	_object_cinematic_collision_bit,
+	_object_cinematic_visibility_bit,
+	_object_static_pathfinding_bit,
+	_object_dynamic_pathfinding_disabled_bit,
+	_object_uses_cinematic_lighting_bit,
+	_object_has_override_bit,
+	_object_created_with_parent_bit,
+	_object_reconnect_to_map_bit,
+	_object_ever_referenced_by_hs_bit,
+	_object_orientations_frozen_bit,
+	_object_render_only_orientations_needed_bit,
+	_object_is_prt_and_lightmapped_bit,
+
+	k_object_data_flags
+};
+
 struct object_datum : s_datum_header
 {
-	byte __data[0x176];
+	long definition_index;
+	c_flags<e_object_data_flags, dword, k_object_data_flags> flags;
+
+	byte __data[0x16C];
 };
 static_assert(sizeof(object_datum) == 0x178);
 
