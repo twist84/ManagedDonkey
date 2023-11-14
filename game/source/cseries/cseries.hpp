@@ -610,8 +610,34 @@ struct c_reference_count
 };
 static_assert(sizeof(c_reference_count<long>) == 0x4);
 
-template<typename t_type, typename t_storage_type, size_t k_count>
-struct c_flags
+template<typename t_type, typename t_storage_type, long k_count>
+struct c_flags_no_init
+{
+	//void clear()
+	//t_storage_type get_unsafe()
+	//bool is_empty()
+	//void set(t_storage_type, bool)
+	//void set(t_type, bool)
+	//void set_all()
+	//void set_unsafe(t_storage_type)
+	//bool test(t_storage_type)
+	//bool test(t_type)
+	//bool test_range(t_type, t_type)
+	//void toggle(t_type)
+	//bool valid()
+	//bool valid_bit(t_storage_type)
+	//bool valid_bit(t_type)
+	//bool operator!=(c_flags_no_init<t_type, t_storage_type, k_count> const&)
+	//c_flags_no_init<t_type, t_storage_type, k_count> operator&(c_flags_no_init<t_type, t_storage_type, k_count> const&)
+	//c_flags_no_init<t_type, t_storage_type, k_count>& operator&=(c_flags_no_init<t_type, t_storage_type, k_count> const&)
+	//bool operator==(c_flags_no_init<t_type, t_storage_type, k_count> const&)
+	//c_flags_no_init<t_type, t_storage_type, k_count>& operator|=(c_flags_no_init<t_type, t_storage_type, k_count> const&)
+	//c_flags_no_init<t_type, t_storage_type, k_count> operator|(c_flags_no_init<t_type, t_storage_type, k_count> const&)
+	//c_flags_no_init<t_type, t_storage_type, k_count> operator~()
+};
+
+template<typename t_type, typename t_storage_type, long k_count>
+struct c_flags //: public c_flags_no_init<t_type, t_storage_type, k_count>
 {
 public:
 	c_flags() :
