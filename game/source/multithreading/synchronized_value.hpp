@@ -38,9 +38,10 @@ public:
 	}
 
 	long peek() const;
-	long set(long Value);
-	long set_if_equal(long ExChange, long Comperand);
-
+	long set(long value);
+	long set_if_equal(long exchange, long comperand);
+	long set_bit(long index, bool enable);
+	
 	operator long() const
 	{
 		return peek();

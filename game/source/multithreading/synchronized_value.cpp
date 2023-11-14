@@ -1,5 +1,7 @@
 #include "multithreading/synchronized_value.hpp"
 
+#include "cseries/cseries.hpp"
+
 #include <windows.h>
 
 long c_synchronized_long::increment()
@@ -37,13 +39,23 @@ long c_interlocked_long::peek() const
 	return m_value;
 }
 
-long c_interlocked_long::set(long Value)
+long c_interlocked_long::set(long value)
 {
-	return InterlockedExchange(&m_value, Value);
+	return InterlockedExchange(&m_value, value);
 }
 
-long c_interlocked_long::set_if_equal(long ExChange, long Comperand)
+long c_interlocked_long::set_if_equal(long exchange, long comperand)
 {
-	return InterlockedCompareExchange(&m_value, ExChange, Comperand);
+	return InterlockedCompareExchange(&m_value, exchange, comperand);
+}
+
+long c_interlocked_long::set_bit(long index, bool enable)
+{
+	if (enable)
+		m_value |= FLAG(index);
+	else
+		m_value &= ~FLAG(index);
+
+	return m_value;
 }
 
