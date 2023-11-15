@@ -45,6 +45,8 @@ extern bool& g_havok_memory_always_system;
 
 extern void __cdecl havok_can_modify_state_allow();
 extern void __cdecl havok_can_modify_state_disallow();
+extern void __cdecl havok_display_stats(bool display_as_event);
+extern void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color const* color, char const* format, ...);
 extern void __cdecl havok_prepare_fpu_for_update();
 extern void __cdecl havok_restore_fpu_from_update();
 

@@ -36,7 +36,7 @@ void __cdecl terminal_printf(real_argb_color const* color, char const* format, .
 		//telnet_console_print(message);
 	}
 
-	c_console::write_line(message);
+	//c_console::write_line(message);
 }
 
 void __cdecl terminal_initialize()

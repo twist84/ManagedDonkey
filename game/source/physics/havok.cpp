@@ -3,12 +3,17 @@
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
+#include "interface/terminal.hpp"
 #include "main/main.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
 
 REFERENCE_DECLARE(0x018A2324, s_havok_constants, g_havok_constants);
 REFERENCE_DECLARE(0x04B1DA80, bool, g_havok_memory_always_system);
+
+HOOK_DECLARE(0x005C5520, havok_display_stats_printf);
 
 void __cdecl havok_can_modify_state_allow()
 {
@@ -18,6 +23,30 @@ void __cdecl havok_can_modify_state_allow()
 void __cdecl havok_can_modify_state_disallow()
 {
 	INVOKE(0x005C45D0, havok_can_modify_state_disallow);
+}
+
+void __cdecl havok_display_stats(bool display_as_event)
+{
+    INVOKE(0x005C4FC0, havok_display_stats, display_as_event);
+}
+
+void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color const* color, char const* format, ...)
+{
+    va_list list;
+    va_start(list, format);
+
+    char buffer[260]{};
+    cvsnzprintf(buffer, 255, format, list);
+
+    // missing in Halo Online
+    if (display_as_event)
+    {
+        generate_event(_event_level_warning, "%s", buffer);
+    }
+    else
+    {
+        terminal_printf(NULL, "%s", buffer);
+    }
 }
 
 void __cdecl havok_prepare_fpu_for_update()
@@ -73,9 +102,9 @@ void havok_debug_render()
     {
         havok_prepare_fpu_for_update();
         
-        //if (get_havok_constants()->display_stats)
-        //    havok_display_stats(false); // #TODO: implement
-        //
+        if (get_havok_constants()->display_stats)
+            havok_display_stats(false);
+        
         //if (get_havok_constants()->impacts_debug)
         //    impacts_render_debug(); // #TODO: implement
         //
