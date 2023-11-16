@@ -129,17 +129,27 @@ c_gui_model_widget* __cdecl c_gui_widget::create_model_widget(s_model_widget_blo
 void __cdecl c_gui_widget::update(dword a1)
 {
 	__vftable->update(this, a1);
-};
+}
 
 void __cdecl c_gui_widget::update_render_state(dword a1)
 {
 	__vftable->update_render_state(this, a1);
-};
+}
 
 void __cdecl c_gui_widget::set_animated_state_baseline(s_animation_transform* a1)
 {
 	__vftable->set_animated_state_baseline(this, a1);
-};
+}
+
+bool __cdecl c_gui_widget::transitioning_in()
+{
+	return __vftable->transitioning_in(this);
+}
+
+bool __cdecl c_gui_widget::transitioning_out()
+{
+	return __vftable->transitioning_out(this);
+}
 
 void __cdecl c_gui_widget::assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point)
 {
@@ -151,9 +161,19 @@ bool __cdecl c_gui_widget::handle_widget_back_out()
 	return __vftable->handle_widget_back_out(this);
 }
 
+bool __cdecl c_gui_widget::handle_widget_selected()
+{
+	return __vftable->handle_widget_selected(this);
+}
+
 bool __cdecl c_gui_widget::handle_tab(c_controller_input_message const* input_message)
 {
 	return __vftable->handle_tab(this, input_message);
+}
+
+bool __cdecl c_gui_widget::handle_controller_input_message(c_controller_input_message const* input_message)
+{
+	return __vftable->handle_controller_input_message(this, input_message);
 }
 
 bool __cdecl c_gui_widget::get_string_by_string_id(string_id name, c_static_wchar_string<1024>* out_string)

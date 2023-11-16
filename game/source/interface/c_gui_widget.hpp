@@ -170,15 +170,15 @@ protected:
 			void(__thiscall* update)(c_gui_widget*, dword);
 			void(__thiscall* update_render_state)(c_gui_widget*, dword);
 			void(__thiscall* set_animated_state_baseline)(c_gui_widget*, s_animation_transform*);
-			void* __func27;
-			void* __func28;
+			bool(__thiscall* transitioning_in)(c_gui_widget*);
+			bool(__thiscall* transitioning_out)(c_gui_widget*);
 			void(__thiscall* assemble_render_data)(c_gui_widget*, s_gui_widget_render_data*, rectangle2d const*, e_controller_index, long, bool, bool, bool);
 			bool(__thiscall* handle_widget_back_out)(c_gui_widget*);
-			void* __func31;
+			bool(__thiscall* handle_widget_selected)(c_gui_widget*);
 			bool(__thiscall* handle_tab)(c_gui_widget*, c_controller_input_message const*);
 			void* __func33;
 			void* __func34;
-			void* __func35;
+			bool(__thiscall* handle_controller_input_message)(c_gui_widget*, c_controller_input_message const*);
 			bool(__thiscall* get_string_by_string_id)(c_gui_widget*, string_id, c_static_wchar_string<1024>*);
 		};
 
@@ -214,9 +214,13 @@ public:
 	void __cdecl update(dword a1);
 	void __cdecl update_render_state(dword a1);
 	void __cdecl set_animated_state_baseline(s_animation_transform* a1);
+	bool __cdecl transitioning_in();
+	bool __cdecl transitioning_out();
 	void __cdecl assemble_render_data(s_gui_widget_render_data* render_data, rectangle2d const* window_bounds, e_controller_index controller_index, long projected_bounds, bool offset, bool scale_about_local_point, bool rotate_about_local_point);
 	bool __cdecl handle_widget_back_out();
+	bool __cdecl handle_widget_selected();
 	bool __cdecl handle_tab(c_controller_input_message const* input_message);
+	bool __cdecl handle_controller_input_message(c_controller_input_message const* input_message);
 	bool __cdecl get_string_by_string_id(string_id name, c_static_wchar_string<1024>* out_string);
 	
 	c_gui_list_item_widget* __cdecl get_next_list_item_widget(bool a1);
