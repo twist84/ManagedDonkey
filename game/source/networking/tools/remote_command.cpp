@@ -35,6 +35,7 @@
 #include "networking/tools/network_debug_dump.hpp"
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
+#include "objects/multiplayer_game_objects.hpp"
 #include "xbox/xnet.hpp"
 
 s_remote_command_globals remote_command_globals;
@@ -1020,6 +1021,17 @@ callback_result_t mp_game_won_callback(void const* userdata, long token_count, t
 
 	short team = static_cast<short>(atol(tokens[1]->get_string()));
 	game_engine_game_won(team);
+
+	return result;
+}
+
+callback_result_t mp_debug_goal_object_boundary_geometry_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long value = token_try_parse_bool(tokens[1]);
+	if (value != NONE)
+		debug_multiplayer_object_boundary_geometry(static_cast<bool>(value - 1));
 
 	return result;
 }

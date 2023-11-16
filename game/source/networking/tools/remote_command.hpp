@@ -137,6 +137,7 @@ COMMAND_CALLBACK_DECLARE(alert_carry);
 COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
 COMMAND_CALLBACK_DECLARE(online_user_set_name);
 COMMAND_CALLBACK_DECLARE(mp_game_won);
+COMMAND_CALLBACK_DECLARE(mp_debug_goal_object_boundary_geometry);
 COMMAND_CALLBACK_DECLARE(load_preferences_from_file);
 COMMAND_CALLBACK_DECLARE(load_customization_from_file);
 COMMAND_CALLBACK_DECLARE(cheat_all_powerups);
@@ -217,6 +218,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(online_user_set_name, 1, "<string>", "sets the name of the first user\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<long>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_debug_goal_object_boundary_geometry, 1, "<bool>", "toggle debug geometry for multiplayer goal objects\r\nNETWORK SAFE: No"),
 
 	COMMAND_CALLBACK_REGISTER(load_preferences_from_file, 1, "<string>", "<preferences filename> loads preferences from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(load_customization_from_file, 1, "<string>", "<customization filename> loads customization from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
