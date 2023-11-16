@@ -3,22 +3,6 @@
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
 
-struct s_multiplayer_object_boundary_geometry_data
-{
-	long boundary_shape;
-
-	// shader used for boundary geometry
-	union { long standard_shader_index; long opaque_shader_index; };
-	
-	real boundary_width;
-	real boundary_box_length;
-	real boundary_positive_height;
-	real boundary_negative_height;
-	real_matrix4x3 boundary_matrix;
-	real boundary_raius;
-};
-static_assert(sizeof(s_multiplayer_object_boundary_geometry_data) == 0x50);
-
 enum e_global_game_engine_type_flags
 {
 	_global_game_engine_type_flag_ctf_bit = 0,
@@ -104,6 +88,23 @@ enum e_multiplayer_object_spawn_timer_type
 	k_multiplayer_object_spawn_timer_type_count
 };
 
+struct s_multiplayer_object_boundary_geometry_data
+{
+	//long boundary_shape;
+	c_enum<e_multiplayer_object_boundary_shape, long, _multiplayer_object_boundary_shape_unused, k_multiplayer_object_boundary_shape_count> boundary_shape;
+
+	// shader used for boundary geometry
+	union { long standard_shader_index; long opaque_shader_index; };
+
+	real boundary_width;
+	real boundary_box_length;
+	real boundary_positive_height;
+	real boundary_negative_height;
+	real_matrix4x3 boundary_matrix;
+	real boundary_radius;
+};
+static_assert(sizeof(s_multiplayer_object_boundary_geometry_data) == 0x50);
+
 struct s_multiplayer_object_properties_definition
 {
 	// GAME ENGINE INCLUSION
@@ -173,4 +174,8 @@ struct s_multiplayer_object_properties_definition
 	void update_reference_names();
 };
 static_assert(sizeof(s_multiplayer_object_properties_definition) == 0xC4);
+
+extern void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_boundary_geometry_data const* geometry_data, real_argb_color const* color);
+
+extern void debug_multiplayer_object_boundary_geometry(bool should_debug);
 
