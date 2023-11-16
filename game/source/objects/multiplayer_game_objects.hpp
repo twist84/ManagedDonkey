@@ -90,7 +90,6 @@ enum e_multiplayer_object_spawn_timer_type
 
 struct s_multiplayer_object_boundary_geometry_data
 {
-	//long boundary_shape;
 	c_enum<e_multiplayer_object_boundary_shape, long, _multiplayer_object_boundary_shape_unused, k_multiplayer_object_boundary_shape_count> boundary_shape;
 
 	// shader used for boundary geometry
