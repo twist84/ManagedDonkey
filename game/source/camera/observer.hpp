@@ -75,7 +75,7 @@ static_assert(sizeof(s_observer) == 0x3C8);
 
 struct s_observer_globals
 {
-	real __unknown0;
+	real timestep;
 	s_observer observers[4];
 	byte __dataF24[0x2];
 	bool block_for_one_frame;

@@ -259,34 +259,6 @@ void __cdecl main_loop_body_begin()
 
 		s_thread_local_storage* tls = get_tls();
 
-		c_data_iterator<c_havok_component> havok_component_iterator = g_havok_component_data.begin();
-		do
-		{
-			if (c_havok_component* havok_component = havok_component_iterator.get_datum())
-			{
-				c_console::write_line("havok_component[%d]->m_rigid_body:", havok_component_iterator.get_absolute_index());
-				
-				c_console::write_line("    m_pre_simulation_position         = { .x = %.2f, .y = %.2f, .z = %.2f };",
-					havok_component->m_rigid_body.m_pre_simulation_position.x,
-					havok_component->m_rigid_body.m_pre_simulation_position.y,
-					havok_component->m_rigid_body.m_pre_simulation_position.z
-				);
-				c_console::write_line("    m_pre_simulation_linear_velocity  = { .i = %.2f, .j = %.2f, .k = %.2f };",
-					havok_component->m_rigid_body.m_pre_simulation_linear_velocity.i,
-					havok_component->m_rigid_body.m_pre_simulation_linear_velocity.j,
-					havok_component->m_rigid_body.m_pre_simulation_linear_velocity.k
-				);
-				c_console::write_line("    m_pre_simulation_angular_velocity = { .i = %.2f, .j = %.2f, .k = %.2f };",
-					havok_component->m_rigid_body.m_pre_simulation_angular_velocity.i,
-					havok_component->m_rigid_body.m_pre_simulation_angular_velocity.j,
-					havok_component->m_rigid_body.m_pre_simulation_angular_velocity.k
-				);
-
-				if (!TEST_BIT(havok_component->m_flags, 3))
-					havok_component->m_flags |= FLAG(3);
-			}
-		} while (havok_component_iterator.next());
-
 		TLS_DATA_GET_VALUE_REFERENCE(g_objectives);
 		TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 
@@ -676,100 +648,69 @@ void __cdecl main_crash(char const* type)
 	if (!csstricmp(type, "now"))
 	{
 		NULL_BELONGS_TO_CHUCKY;
-		return;
 	}
-
-	if (!csstricmp(type, "fast"))
+	else if (!csstricmp(type, "fast"))
 	{
 		main_crash_just_upload_dammit();
 		//g_fake_minidump_creation = true;
 		NULL_BELONGS_TO_CHUCKY;
-		return;
 	}
-
-	if (!csstricmp(type, "gpu") || !csstricmp(type, "halt"))
+	else if (!csstricmp(type, "gpu") || !csstricmp(type, "halt"))
 	{
 		main_halt_and_catch_fire();
-		return;
 	}
-
-	if (!csstricmp(type, "async"))
+	else if (!csstricmp(type, "async"))
 	{
 		//c_synchronized_long ill_never_be_done{};
 		//async_queue_simple_callback(main_crash_async, 0, 0, 6, &ill_never_be_done);
-		return;
 	}
-
-	if (!csstricmp(type, "screen"))
+	else if (!csstricmp(type, "screen"))
 	{
 		rasterizer_dump_display_to_bmp("crash_report\\crash_screen.bmp");
-		return;
 	}
-
-	if (!csstricmp(type, "crash_profiler_thread"))
+	else if (!csstricmp(type, "crash_profiler_thread"))
 	{
 		signal_thread_to_crash(k_thread_profiler);
-		return;
 	}
-
-	if (!csstricmp(type, "assert_profiler_thread"))
+	else if (!csstricmp(type, "assert_profiler_thread"))
 	{
 		signal_thread_to_assert(k_thread_profiler);
-		return;
 	}
-
-	if (!csstricmp(type, "crash_async_io_thread"))
+	else if (!csstricmp(type, "crash_async_io_thread"))
 	{
 		signal_thread_to_crash(k_thread_async_io);
-		return;
 	}
-
-	if (!csstricmp(type, "assert_async_io_thread"))
+	else if (!csstricmp(type, "assert_async_io_thread"))
 	{
 		signal_thread_to_assert(k_thread_async_io);
-		return;
 	}
-
-	if (!csstricmp(type, "crash_render_thread"))
+	else if (!csstricmp(type, "crash_render_thread"))
 	{
 		signal_thread_to_crash(k_thread_render);
-		return;
 	}
-
-	if (!csstricmp(type, "assert_render_thread"))
+	else if (!csstricmp(type, "assert_render_thread"))
 	{
 		signal_thread_to_assert(k_thread_render);
-		return;
 	}
-
-	if (!csstricmp(type, "crash_netdebug_thread"))
+	else if (!csstricmp(type, "crash_netdebug_thread"))
 	{
 		signal_thread_to_crash(k_thread_net_debug);
-		return;
 	}
-
-	if (!csstricmp(type, "assert_netdebug_thread"))
+	else if (!csstricmp(type, "assert_netdebug_thread"))
 	{
 		signal_thread_to_assert(k_thread_net_debug);
-		return;
 	}
-
-	if (!csstricmp(type, "crash_event_logs_thread"))
+	else if (!csstricmp(type, "crash_event_logs_thread"))
 	{
 		signal_thread_to_crash(k_thread_event_logs);
-		return;
 	}
-
-	if (!csstricmp(type, "assert_event_logs_thread"))
+	else if (!csstricmp(type, "assert_event_logs_thread"))
 	{
 		signal_thread_to_assert(k_thread_event_logs);
-		return;
 	}
-
-	if (!csstricmp(type, "quit"))
+	else if (!csstricmp(type, "quit"))
 	{
 		main_exit_game();
-		return;
 	}
 }
 
