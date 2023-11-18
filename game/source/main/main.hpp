@@ -34,6 +34,7 @@ bool main_status(char const* status_type, char const* format, parameters_t... pa
 struct s_file_reference;
 struct s_model_customization_region_permutation;
 extern void __cdecl main_status_dump(s_file_reference* file);
+extern void __cdecl main_switch_zone_set(long zone_set_index);
 extern dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
 extern bool __cdecl main_time_halted();
 extern bool __cdecl render_thread_enabled();
@@ -42,5 +43,4 @@ extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash
 extern void __cdecl main_crash(char const* type);
 extern void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count);
 extern void __cdecl main_cheat_drop_tag_private();
-extern void __cdecl main_switch_zone_set(long zone_set_index);
 

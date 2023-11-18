@@ -532,6 +532,11 @@ void __cdecl main_status_dump(s_file_reference* file)
 	INVOKE(0x00507100, main_status_dump, file);
 }
 
+void __cdecl main_switch_zone_set(long zone_set_index)
+{
+	INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
+}
+
 bool __cdecl main_time_halted()
 {
 	return INVOKE(0x00507370, main_time_halted);
@@ -748,10 +753,5 @@ void __cdecl main_cheat_drop_tag_private()
 	cheat_drop_tag_index = NONE;
 	cheat_drop_variant_name = NONE;
 	cheat_drop_permutation_count = 0;
-}
-
-void __cdecl main_switch_zone_set(long zone_set_index)
-{
-	INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
 }
 
