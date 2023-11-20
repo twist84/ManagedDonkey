@@ -120,6 +120,81 @@ s_observer_result const* c_player_render_camera_iterator::get_observer_result() 
 void __cdecl main_render()
 {
 	INVOKE(0x006042C0, main_render);
+
+	////bool should_draw = !debug_no_drawing;
+	//bool should_draw = !sub_42E5D0();
+	//
+	//c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	//rasterizer_lag_timing_mark_render_start();
+	//main_render_process_messages();
+	//
+	//if (dword_2446778 > 50)
+	//{
+	//	should_draw = false;
+	//	dword_2446778 = 0;
+	//}
+	//
+	//if (rasterizer_lag_timing_get_gamestate_delay() <= 10)
+	//	dword_2446778 = 0;
+	//else
+	//	dword_2446778++;
+	//
+	//if (should_draw)
+	//{
+	//	bool render_game = true;
+	//	bool render_sapien = false;
+	//
+	//	if (c_rasterizer::begin_frame())
+	//	{
+	//		if (game_in_progress() && game_get_active_structure_bsp_mask())
+	//		{
+	//			if (simulation_starting_up())
+	//				render_game = false;
+	//		}
+	//		else
+	//		{
+	//			render_game = false;
+	//		}
+	//
+	//		if (render_game)
+	//		{
+	//			render_sapien = game_in_editor();
+	//			render_game = !render_sapien;
+	//		}
+	//
+	//		main_render_frame_begin();
+	//
+	//		if (render_game)
+	//		{
+	//			main_render_game();
+	//		}
+	//		else if (render_sapien)
+	//		{
+	//			main_render_sapien();
+	//		}
+	//		else
+	//		{
+	//			main_render_pregame(1, NULL);
+	//		}
+	//
+	//		should_draw = !texture_cache_is_blocking() && !geometry_cache_is_blocking();
+	//	}
+	//	else
+	//	{
+	//		should_draw = false;
+	//	}
+	//	c_render_globals::increment_frame_index();;
+	//}
+	//
+	//rasterizer_lag_timing_mark_render_end();
+	//wait_for_render_thread.~c_wait_for_render_thread();
+	//
+	//if (should_draw)
+	//{
+	//	long long target_display_vblank_index = main_time_get_target_display_vblank_index();
+	//	restricted_region_mirror_locked_for_current_thread(3);
+	//	main_time_throttle(target_display_vblank_index);
+	//}
 }
 
 void __cdecl main_render_assert_no_pending_messages()

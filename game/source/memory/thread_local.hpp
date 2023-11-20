@@ -800,7 +800,7 @@ struct s_thread_local_storage
 	//  name: "muffin"
 	// count: 10
 	//  size: 0x1890
-	c_smart_data_array<muffin_datum> muffin_data;
+	c_smart_data_array<s_muffin_datum> muffin_data;
 
 	//  name: "leaf system"
 	// count: 32

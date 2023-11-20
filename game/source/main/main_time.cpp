@@ -51,7 +51,7 @@ void __cdecl main_time_reset()
 	INVOKE(0x00508110, main_time_reset);
 }
 
-void __cdecl main_time_throttle(qword a1)
+void __cdecl main_time_throttle(__int64 a1)
 {
 	INVOKE(0x00508160, main_time_throttle, a1);
 }

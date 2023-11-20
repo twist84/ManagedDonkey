@@ -28,6 +28,6 @@ extern bool display_frame_deltas;
 
 extern void __cdecl main_time_frame_rate_display();
 extern void __cdecl main_time_reset();
-extern void __cdecl main_time_throttle(qword a1);
+extern void __cdecl main_time_throttle(__int64 a1);
 extern real __cdecl main_time_update();
 
