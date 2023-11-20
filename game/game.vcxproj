@@ -356,6 +356,7 @@ POPD
     <ClCompile Include="source\memory\data_packets.cpp" />
     <ClCompile Include="source\memory\data_packet_groups.cpp" />
     <ClCompile Include="source\memory\hashtable.cpp" />
+    <ClCompile Include="source\memory\lruv_cache.cpp" />
     <ClCompile Include="source\memory\module.cpp" />
     <ClCompile Include="source\memory\read_write_lock.cpp" />
     <ClCompile Include="source\memory\thread_local.cpp" />
