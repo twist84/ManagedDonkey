@@ -58,8 +58,14 @@ using locked_block_proc_t = bool __cdecl(void*, long);
 using usage_block_proc_t = byte __cdecl(void*, long);
 using move_block_proc_t = void __cdecl(void*, long, dword, dword);
 
-// #TODO: map this
-enum e_hole_algorithm;
+enum e_hole_algorithm
+{
+	_hole_algorithm_age = 0,
+	_hole_algorithm_fragmentation,
+	_hole_algorithm_blend,
+
+	k_number_of_hole_algorithms
+};
 
 struct s_lruv_cache
 {
@@ -71,7 +77,7 @@ struct s_lruv_cache
 	usage_block_proc_t* usage_block_proc;
 	move_block_proc_t* move_block_proc;
 
-	long hole_algorithm; // e_hole_algorithm
+	c_enum<e_hole_algorithm, long, _hole_algorithm_age, k_number_of_hole_algorithms> hole_algorithm;
 	long maximum_page_count;
 	long page_size_bits;
 	long fragmentation_threshold;
@@ -104,5 +110,18 @@ extern void __cdecl lruv_block_set_age(s_lruv_cache* cache, long block_index, lo
 extern void __cdecl lruv_block_set_always_locked(s_lruv_cache* cache, long block_index, bool always_locked);
 extern void __cdecl lruv_block_touch(s_lruv_cache* cache, long block_index);
 extern bool __cdecl lruv_block_touched(s_lruv_cache* cache, long block_index);
-extern bool __cdecl lruv_cache_block_is_locked(s_lruv_cache* cache, long a2, long a3, struct s_lruv_cache_block* block);
+extern bool __cdecl lruv_cache_block_is_locked(s_lruv_cache* cache, long a2, long a3, s_lruv_cache_block* block);
+extern dword __cdecl lruv_cache_bytes_to_pages(s_lruv_cache const* cache, dword size_in_bytes);
+extern bool __cdecl lruv_cache_find_hole(s_lruv_cache* cache, long a2, long a3, s_lruv_cache_hole* hole, long* a5, bool* a6);
+extern void __cdecl lruv_cache_get_page_usage(s_lruv_cache* cache, byte* page_usage);
+extern void __cdecl lruv_cache_purge_hole(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long a3);
+extern bool __cdecl lruv_cache_should_use_hole(s_lruv_cache* cache, long a2, s_lruv_cache_hole const* a3, s_lruv_cache_hole const* a4);
+extern dword __cdecl lruv_compact(s_lruv_cache* cache);
+extern long __cdecl lruv_compute_fragmentation_threshold(s_lruv_cache const* cache);
+extern void __cdecl lruv_connect(s_lruv_cache* cache, s_data_array* blocks, long maximum_page_count);
+extern void __cdecl lruv_delete(s_lruv_cache* cache);
+extern void __cdecl lruv_flush(s_lruv_cache* cache);
+extern dword __cdecl lruv_get_address_from_page_index(s_lruv_cache* cache, dword page_index);
+extern long __cdecl lruv_get_age(s_lruv_cache* cache);
+extern long __cdecl lruv_get_largest_slot_in_pages(s_lruv_cache* cache);
 

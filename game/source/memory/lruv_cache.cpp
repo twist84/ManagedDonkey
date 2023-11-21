@@ -136,24 +136,92 @@ bool __cdecl lruv_block_touched(s_lruv_cache* cache, long block_index)
 	//return cache->blocks[block_index].last_used_frame_index == cache->maximum_page_size_bits;
 }
 
-bool __cdecl lruv_cache_block_is_locked(s_lruv_cache* cache, long a2, long a3, struct s_lruv_cache_block* block)
+bool __cdecl lruv_cache_block_is_locked(s_lruv_cache* cache, long a2, long a3, s_lruv_cache_block* block)
 {
 	return INVOKE(0x00966F30, lruv_cache_block_is_locked, cache, a2, a3, block);
 }
 
-//.text:00966F70 ; lruv_cache_bytes_to_pages
-//.text:00966F90 ; lruv_cache_find_hole
-//.text:00967250 ; lruv_cache_get_page_usage
-//.text:00967310 ; lruv_cache_purge_hole
-//.text:00967390 ; lruv_cache_should_use_hole
-//.text:00967410 ; lruv_compact
-//.text:00967470 ; lruv_compute_fragmentation_threshold
-//.text:009674A0 ; lruv_connect
-//.text:00967510 ; lruv_delete
-//.text:00967540 ; lruv_flush
-//.text:009675A0 ; lruv_get_address_from_page_index
-//.text:009675B0 ; lruv_get_age
-//.text:009675C0 ; lruv_get_largest_slot_in_pages
+dword __cdecl lruv_cache_bytes_to_pages(s_lruv_cache const* cache, dword size_in_bytes)
+{
+	return INVOKE(0x00966F70, lruv_cache_bytes_to_pages, cache, size_in_bytes);
+}
+
+bool __cdecl lruv_cache_find_hole(s_lruv_cache* cache, long a2, long a3, s_lruv_cache_hole* hole, long* a5, bool* a6)
+{
+	return INVOKE(0x00966F90, lruv_cache_find_hole, cache, a2, a3, hole, a5, a6);
+}
+
+void __cdecl lruv_cache_get_page_usage(s_lruv_cache* cache, byte* page_usage)
+{
+	INVOKE(0x00967250, lruv_cache_get_page_usage, cache, page_usage);
+}
+
+void __cdecl lruv_cache_purge_hole(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long a3)
+{
+	INVOKE(0x00967310, lruv_cache_purge_hole, cache, hole, a3);
+}
+
+bool __cdecl lruv_cache_should_use_hole(s_lruv_cache* cache, long a2, s_lruv_cache_hole const* a3, s_lruv_cache_hole const* a4)
+{
+	return INVOKE(0x00967390, lruv_cache_should_use_hole, cache, a2, a3, a4);
+}
+
+dword __cdecl lruv_compact(s_lruv_cache* cache)
+{
+	return INVOKE(0x00967410, lruv_compact, cache);
+}
+
+long __cdecl lruv_compute_fragmentation_threshold(s_lruv_cache const* cache)
+{
+	return INVOKE(0x00967470, lruv_compute_fragmentation_threshold, cache);
+}
+
+void __cdecl lruv_connect(s_lruv_cache* cache, s_data_array* blocks, long maximum_page_count)
+{
+	INVOKE(0x009674A0, lruv_connect, cache, blocks, maximum_page_count);
+
+	//ASSERT(cache);
+	//ASSERT(blocks);
+	//ASSERT(*cache->blocks == NULL);
+	//
+	//cache->maximum_page_count = maximum_page_count;
+	//cache->blocks = blocks;
+	//cache->fragmentation_threshold = lruv_compute_fragmentation_threshold(cache);
+	//lruv_reset_failed_pages(cache);
+}
+
+void __cdecl lruv_delete(s_lruv_cache* cache)
+{
+	INVOKE(0x00967510, lruv_delete, cache);
+
+	//data_dispose(*cache->blocks);
+	//cache->allocation->deallocate(cache);
+}
+
+void __cdecl lruv_flush(s_lruv_cache* cache)
+{
+	INVOKE(0x00967540, lruv_flush, cache);
+}
+
+dword __cdecl lruv_get_address_from_page_index(s_lruv_cache* cache, dword page_index)
+{
+	return INVOKE(0x009675A0, lruv_get_address_from_page_index, cache, page_index);
+
+	//return page_index << cache->page_size_bits;
+}
+
+long __cdecl lruv_get_age(s_lruv_cache* cache)
+{
+	return INVOKE(0x009675B0, lruv_get_age, cache);
+
+	//return cache->maximum_page_size_bits;
+}
+
+long __cdecl lruv_get_largest_slot_in_pages(s_lruv_cache* cache)
+{
+	return INVOKE(0x009675C0, lruv_get_largest_slot_in_pages, cache);
+}
+
 //.text:00967690 ; lruv_get_locked_pages
 //.text:00967710 ; lruv_get_page_count
 //.text:00967720 ; lruv_get_page_size
