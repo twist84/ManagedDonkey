@@ -143,6 +143,8 @@ const long LONG_BITS = SIZEOF_BITS(long);
 #define FLAG(bit) (1 << (bit))
 #define MASK(bit) ((1 << (bit)) - 1)
 #define TEST_BIT(flags, bit) (((flags) & (1 << (bit))) != 0)
+#define TEST_FLAG(flags, bit) (flags.test((bit)))
+#define TEST_MASK(flags, mask) (((flags) & mask) != 0)
 #define ALIGN(value, bit) (((value) & ~((1 << (bit)) - 1)) + (1 << (bit)))
 #define ALIGN_UP(value, bit) ((((value) & ((1 << (bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
 
@@ -222,10 +224,12 @@ if (!handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
 }
 #define ASSERT2(STATEMENT) ASSERT_EXCEPTION2(STATEMENT, true)
 #else
-#define ASSERT_EXCEPTION2(STATEMENT, ...) (void)(#STATEMENT)
-#define ASSERT2(STATEMENT, ...) (void)(#STATEMENT)
 #define ASSERT_EXCEPTION(STATEMENT, ...) (void)(#STATEMENT)
 #define ASSERT(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT_EXCEPTION2(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT2(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT_EXCEPTION3(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT3(STATEMENT, ...) (void)(#STATEMENT)
 #endif // _DEBUG
 
 extern bool& g_catch_exceptions;

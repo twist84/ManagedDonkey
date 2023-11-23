@@ -34,6 +34,27 @@ s_datum_header* s_data_array::get_datum(const datum_index index) const
 	return datum;
 }
 
+void data_verify(s_data_array const* data)
+{
+	//ASSERT(data);
+	//
+	//if (data->signature != 'd@t@'
+	//	|| data->maximum_count < 0
+	//	|| data->first_unallocated < 0
+	//	|| data->first_unallocated > data->maximum_count
+	//	|| data->next_index < 0
+	//	|| data->next_index > data->maximum_count
+	//	|| data->actual_count < 0
+	//	|| data->actual_count > data->first_unallocated
+	//	|| !TEST_BIT(data->flags, _data_array_disconnected_bit) && !data->offset_to_data
+	//	|| !data->offset_to_bit_vector)
+	//{
+	//	c_static_string<256> assert_string;
+	//	assert_string.print("%s data array @%p is bad or not allocated", data->name, data);
+	//	ASSERT3(assert_string.get_string());
+	//}
+}
+
 long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits)
 {
 	return INVOKE(0x0055AAB0, data_allocation_size, maximum_count, size, alignment_bits);

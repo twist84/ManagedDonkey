@@ -86,7 +86,7 @@ struct c_smart_data_array
 		m_data = rhs;
 	}
 
-	s_data_array* operator*()
+	s_data_array* operator*() const
 	{
 		return m_data;
 	}
@@ -96,14 +96,14 @@ struct c_smart_data_array
 		return m_data;
 	}
 
-	c_data_iterator<t_datum_type> begin()
+	c_data_iterator<t_datum_type> begin() const
 	{
 		c_data_iterator<t_datum_type> result(m_data);
 		result.next();
 		return result;
 	}
 
-	c_data_iterator<t_datum_type> end()
+	c_data_iterator<t_datum_type> end() const
 	{
 		c_data_iterator<t_datum_type> result(m_data);
 		result.absolute_index = m_data.maximum_count;
@@ -186,6 +186,7 @@ struct c_typed_data_array
 };
 static_assert(sizeof(c_typed_data_array<void>) == sizeof(s_data_array));
 
+extern void data_verify(s_data_array const* data);
 extern long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits);
 extern void __cdecl data_connect(s_data_array* data, long count, void* datums);
 extern void __cdecl data_delete_all(s_data_array* data);
@@ -223,7 +224,7 @@ struct c_data_iterator
 	static_assert(__is_base_of(s_datum_header, t_datum_type));
 
 public:
-	c_data_iterator(s_data_array* data) :
+	c_data_iterator(s_data_array const* data) :
 		m_datum(),
 		m_iterator(data)
 	{
@@ -255,7 +256,7 @@ public:
 		return m_datum;
 	}
 
-protected:
+//protected:
 	t_datum_type* m_datum;
 	s_data_iterator m_iterator;
 };
