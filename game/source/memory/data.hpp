@@ -11,6 +11,11 @@ enum : datum_index
 	_datum_index_none = 0xFFFFFFFF
 };
 
+enum
+{
+	k_data_signature = 'd@t@'
+};
+
 #define DATUM_INDEX_TO_ABSOLUTE_INDEX(VALUE) ((VALUE) & 0xFFFF)
 #define DATUM_INDEX_TO_IDENTIFIER(VALUE)  ((VALUE) >> 16)
 
@@ -24,6 +29,9 @@ enum e_data_array_flags
 {
 	_data_array_can_disconnect_bit = 0,
 	_data_array_disconnected_bit,
+
+	_data_array_unknown_bit2,
+	_data_array_unknown_bit3,
 
 	// are there more flags?
 };
@@ -39,9 +47,9 @@ struct s_data_array
 	// e_data_array_flags
 	word_flags flags;
 
-	tag signature;
+	tag signature; // k_data_signature
 
-	c_allocation_base* allocator;
+	c_allocation_base* allocation;
 
 	long next_index;
 	long first_unallocated;
@@ -54,7 +62,7 @@ struct s_data_array
 	// salt_type == 1
 	word isolated_next_identifier;
 
-	char* data;
+	void* data;
 	dword* in_use_bit_vector;
 	long offset_to_data;
 	long offset_to_bit_vector;
@@ -96,20 +104,6 @@ struct c_smart_data_array
 		return m_data;
 	}
 
-	c_data_iterator<t_datum_type> begin() const
-	{
-		c_data_iterator<t_datum_type> result(m_data);
-		result.next();
-		return result;
-	}
-
-	c_data_iterator<t_datum_type> end() const
-	{
-		c_data_iterator<t_datum_type> result(m_data);
-		result.absolute_index = m_data.maximum_count;
-		return result;
-	}
-
 	s_data_array* m_data;
 };
 static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array*));
@@ -121,13 +115,6 @@ struct s_data_iterator
 	s_data_array const* data;
 	long index;
 	long absolute_index;
-
-	s_data_iterator(const s_data_array* data) :
-		data(data),
-		index((datum_index)-1),
-		absolute_index(-1)
-	{
-	}
 };
 static_assert(sizeof(s_data_iterator) == 0xC);
 
@@ -194,7 +181,7 @@ extern void __cdecl data_disconnect(s_data_array* data);
 extern void __cdecl data_dispose(s_data_array* data);
 extern void __cdecl data_initialize(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation);
 extern void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation, dword* in_use_bit_vector);
-extern void __cdecl data_iterator_begin(s_data_iterator* iterator, s_data_array* data);
+extern void __cdecl data_iterator_begin(s_data_iterator* iterator, s_data_array const* data);
 extern void* __cdecl data_iterator_next(s_data_iterator* iterator);
 extern void* __cdecl data_iterator_next_with_word_flags(s_data_iterator* iterator, long flag_offset, word flag_mask, word flag_value);
 extern void __cdecl data_make_invalid(s_data_array* data);
@@ -221,16 +208,21 @@ extern bool __cdecl data_is_full(s_data_array const* data);
 template<typename t_datum_type>
 struct c_data_iterator
 {
-	static_assert(__is_base_of(s_datum_header, t_datum_type));
+	static_assert(std::is_same<t_datum_type, void>::value || std::is_base_of<s_datum_header, t_datum_type>::value);
 
 public:
-	c_data_iterator(s_data_array const* data) :
+	c_data_iterator() :
 		m_datum(),
-		m_iterator(data)
+		m_iterator()
 	{
 	}
 
 	void begin(s_data_array* data)
+	{
+		data_iterator_begin(&m_iterator, data);
+	}
+
+	void begin(s_data_array const* data)
 	{
 		data_iterator_begin(&m_iterator, data);
 	}
@@ -241,17 +233,17 @@ public:
 		return m_datum != nullptr;
 	}
 
-	long get_index()// const
+	long get_index() const
 	{
 		return m_iterator.index;
 	}
 
-	short get_absolute_index()// const
+	short get_absolute_index() const
 	{
 		return static_cast<short>(m_iterator.absolute_index);
 	}
 
-	t_datum_type* get_datum()// const
+	t_datum_type* get_datum() const
 	{
 		return m_datum;
 	}

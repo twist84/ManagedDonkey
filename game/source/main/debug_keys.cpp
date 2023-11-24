@@ -1239,13 +1239,13 @@ void __cdecl debug_key_force_respawn(bool enabled)
 {
 	if (enabled)
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(player_data);
-		c_player_in_game_iterator player_iterator = player_data.begin();
-		do
+		c_player_in_game_iterator player_iterator;
+		player_iterator.begin();
+		while (player_iterator.next())
 		{
 			player_datum* player = player_iterator.get_datum();
 			player->respawn_forced = force_respawn;
-		} while (player_iterator.next());
+		}
 	}
 }
 

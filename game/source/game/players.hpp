@@ -642,44 +642,70 @@ struct s_players_global_data
 static_assert(sizeof(s_players_global_data) == 0x234);
 #pragma pack(pop)
 
-struct c_player_in_game_iterator :
-	public c_data_iterator<player_datum>
+struct c_player_in_game_iterator
 {
-	c_player_in_game_iterator(c_data_iterator<player_datum> iterator) :
-		c_data_iterator<player_datum>(iterator)
-	{
-	}
+	void begin();
 
 	bool next()
 	{
-		for (m_datum = (player_datum*)data_iterator_next(&m_iterator);
-			m_datum && TEST_BIT(m_datum->flags, 1);
-			m_datum = (player_datum*)data_iterator_next(&m_iterator))
+		for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
+			m_iterator.m_datum && TEST_BIT(m_iterator.m_datum->flags, 1);
+			m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
 		{
 		}
 
-		return m_datum != nullptr;
+		return m_iterator.m_datum != NULL;
 	}
+
+	player_datum* get_datum()
+	{
+		return m_iterator.m_datum;
+	}
+
+	long get_index() const
+	{
+		return m_iterator.m_iterator.index;
+	}
+
+	short get_absolute_index() const
+	{
+		return m_iterator.get_absolute_index();
+	}
+
+	c_data_iterator<player_datum> m_iterator;
 };
 
-struct c_player_with_unit_iterator :
-	public c_data_iterator<player_datum>
+struct c_player_with_unit_iterator
 {
-	c_player_with_unit_iterator(c_data_iterator<player_datum> iterator) :
-		c_data_iterator<player_datum>(iterator)
-	{
-	}
+	void begin();
 
 	bool next()
 	{
-		for (m_datum = (player_datum*)data_iterator_next(&m_iterator);
-			m_datum && m_datum->unit_index == -1;
-			m_datum = (player_datum*)data_iterator_next(&m_iterator))
+		for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
+			m_iterator.m_datum && m_iterator.m_datum->unit_index == NONE;
+			m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
 		{
 		}
 
-		return m_datum != nullptr;
+		return m_iterator.m_datum != NULL;
 	}
+
+	player_datum* get_datum()
+	{
+		return m_iterator.m_datum;
+	}
+
+	long get_index() const
+	{
+		return m_iterator.m_iterator.index;
+	}
+
+	short get_absolute_index() const
+	{
+		return m_iterator.get_absolute_index();
+	}
+
+	c_data_iterator<player_datum> m_iterator;
 };
 
 extern string_id g_player_desired_mode_override;

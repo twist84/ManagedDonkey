@@ -268,26 +268,30 @@ void __cdecl main_loop_body_begin()
 		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 		long player_count = 0;
 		{
-			c_player_in_game_iterator player_iterator = player_data.begin();
-			do
+			c_player_in_game_iterator player_iterator;
+			player_iterator.begin();
+			while (player_iterator.next())
 			{
 				player_count++;
-			} while (player_iterator.next());
+			}
 		}
 
-		c_console::write_line("players: %i", player_count);
-		c_player_with_unit_iterator player_iterator = player_data.begin();
-		do
 		{
-			long index = player_iterator.get_index();
-			short absolute_index = player_iterator.get_absolute_index();
-			player_datum* player = player_iterator.get_datum();
+			c_console::write_line("players: %i", player_count);
+			c_player_in_game_iterator player_iterator;
+			player_iterator.begin();
+			while (player_iterator.next())
+			{
+				long index = player_iterator.get_index();
+				short absolute_index = player_iterator.get_absolute_index();
+				player_datum* player = player_iterator.get_datum();
 
-			c_console::write_line(L"    0x%08X, #%hi, %s",
-				index,
-				absolute_index,
-				player->configuration.host.name.get_string());
-		} while (player_iterator.next());
+				c_console::write_line(L"    0x%08X, #%hi, %s",
+					index,
+					absolute_index,
+					player->configuration.host.name.get_string());
+			}
+		}
 
 		TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
 		game_engine_globals->map_variant.print();

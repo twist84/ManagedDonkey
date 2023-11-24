@@ -309,6 +309,23 @@ long __cdecl lruv_get_largest_slot_in_pages(s_lruv_cache* cache)
 long __cdecl lruv_get_locked_pages(s_lruv_cache* cache, long a2)
 {
 	return INVOKE(0x00967690, lruv_get_locked_pages, cache, a2);
+
+	//long locked_pages = 0;
+	//
+	//c_data_iterator<s_lruv_cache_block const> block_iterator(*cache->blocks);
+	//while (block_iterator.next())
+	//{
+	//	s_lruv_cache_block const* block = block_iterator.get_datum();
+	//	if (!block->flags.test(_lruv_cache_block_always_locked_bit) && (a2 + block->last_used_frame_index) < cache->frame_index)
+	//	{
+	//		if (!cache->locked_block_proc || !cache->locked_block_proc(cache->proc_context, block_iterator.get_index()))
+	//			continue;
+	//	}
+	//
+	//	locked_pages += block->page_count;
+	//}
+	//
+	//return locked_pages;
 }
 
 long __cdecl lruv_get_page_count(s_lruv_cache* cache)
@@ -432,7 +449,8 @@ void __cdecl lruv_resize(s_lruv_cache* cache, long new_page_count)
 	//c_critical_section_scope critical_section(cache->critical_section_index);
 	//lruv_cache_verify(cache, true);
 	//
-	//c_data_iterator<s_lruv_cache_block> block_iterator = cache->blocks.begin();
+	//c_data_iterator<s_lruv_cache_block> block_iterator;
+	//block_iterator.begin(*cache->blocks);
 	//while (block_iterator.next())
 	//{
 	//	s_lruv_cache_block* block = block_iterator.get_datum();
@@ -455,7 +473,8 @@ void __cdecl lruv_resize_non_destructive(s_lruv_cache* cache, long new_page_coun
 	//
 	//lruv_cache_verify(cache, true);
 	//
-	//c_data_iterator<s_lruv_cache_block> block_iterator = cache->blocks.begin();
+	//c_data_iterator<s_lruv_cache_block> block_iterator;
+	//block_iterator.begin(*cache->blocks);
 	//while (block_iterator.next())
 	//{
 	//	s_lruv_cache_block* block = block_iterator.get_datum();
@@ -518,13 +537,15 @@ bool __cdecl lruv_verify_slave_data_array(s_lruv_cache const* cache, s_data_arra
 
 	//byte valid = 1;
 	//
-	//c_data_iterator<s_lruv_cache_block> block_iterator = cache->blocks.begin();
+	//c_data_iterator<s_lruv_cache_block> block_iterator;
+	//block_iterator.begin(*cache->blocks);
 	//while (block_iterator.next() && valid)
 	//{
 	//	valid &= datum_try_and_get(data, block_iterator.get_index()) != NULL;
 	//}
 	//
-	//c_data_iterator<void> iterator(data); // requires enable_if for the static assert in `c_data_iterator`
+	//c_data_iterator<void> iterator;
+	//iterator.begin(data);
 	//while (iterator.next() && valid)
 	//{
 	//	valid &= datum_try_and_get(*cache->blocks, iterator.get_index()) != NULL;

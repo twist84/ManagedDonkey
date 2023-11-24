@@ -36,6 +36,18 @@ s_player_identifier::s_player_identifier(transport_address const* address) :
 {
 }
 
+void c_player_in_game_iterator::begin()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	m_iterator.begin(*player_data);
+}
+
+void c_player_with_unit_iterator::begin()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	m_iterator.begin(*player_data);
+}
+
 void player_override_desired_mode(long desired_mode)
 {
 	g_player_desired_mode_override = NONE;

@@ -262,9 +262,9 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 	}
 	else
 	{
-		TLS_DATA_GET_VALUE_REFERENCE(player_data);
-		c_player_in_game_iterator player_iterator = player_data.begin();
-		do
+		c_player_in_game_iterator player_iterator;
+		player_iterator.begin();
+		while (player_iterator.next())
 		{
 			player_datum* player = player_iterator.get_datum();
 			long player_iterator_index = player_iterator.get_index();
@@ -350,7 +350,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					);
 				}
 			}
-		} while (player_iterator.next());
+		}
 
 		if (include_team_score)
 		{

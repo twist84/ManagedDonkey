@@ -546,7 +546,8 @@ void __cdecl sound_debug_render()
 
 	if (debug_sound)
 	{
-		c_data_iterator<sound_datum> sound_iterator = g_sound_data.begin();
+		c_data_iterator<sound_datum> sound_iterator;
+		sound_iterator.begin(*g_sound_data);
 		do
 		{
 			render_debug_sound(sound_iterator.get_index());

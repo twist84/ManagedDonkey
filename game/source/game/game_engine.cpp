@@ -181,11 +181,12 @@ void __cdecl game_engine_update_round_conditions()
 	{
 		TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-		c_player_in_game_iterator player_iterator = player_data.begin();
-		do
+		c_player_in_game_iterator player_iterator;
+		player_iterator.begin();
+		while (player_iterator.next())
 		{
 			current_game_engine()->emit_game_start_event(player_iterator.get_index());
-		} while (player_iterator.next());
+		}
 	}
 
 	c_flags<long, qword, 64> flags(64);
