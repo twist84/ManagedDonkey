@@ -377,3 +377,13 @@ void* align_pointer(void* pointer, long alignment_bits)
 	return pointer_from_address(align_address(address_from_pointer(pointer), alignment_bits));
 }
 
+long pointer_distance(void const* pointer_a, void const* pointer_b)
+{
+	return static_cast<long>((char*)pointer_b - (char*)pointer_a);
+}
+
+long pointer_difference(void const* pointer_a, void const* pointer_b)
+{
+	return static_cast<long>((char*)pointer_b - (char*)pointer_a);
+}
+
