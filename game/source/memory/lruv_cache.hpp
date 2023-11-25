@@ -111,7 +111,7 @@ extern void __cdecl lruv_block_initialize(s_lruv_cache* cache, s_lruv_cache_hole
 extern long __cdecl lruv_block_new(s_lruv_cache* cache, long size_in_bytes, long minimum_age);
 extern long __cdecl lruv_block_new_at_index(s_lruv_cache* cache, long block_index, long size_in_bytes, long minimum_age);
 extern long __cdecl lruv_block_new_at_index_and_page(s_lruv_cache* cache, long block_index, long page_index, long size_in_bytes);
-extern long __cdecl lruv_block_new_in_hole(s_lruv_cache* cache, long block_index, long hole_index, s_lruv_cache_hole* hole, long page_count);
+extern long __cdecl lruv_block_new_in_hole(s_lruv_cache* cache, long force_datum_index, long oldest_unlocked_block_index, s_lruv_cache_hole* hole, long page_count);
 extern void __cdecl lruv_block_set_age(s_lruv_cache* cache, long block_index, long age);
 extern void __cdecl lruv_block_set_always_locked(s_lruv_cache* cache, long block_index, bool always_locked);
 extern void __cdecl lruv_block_touch(s_lruv_cache* cache, long block_index);
@@ -120,7 +120,7 @@ extern bool __cdecl lruv_cache_block_is_locked(s_lruv_cache* cache, long a2, lon
 extern dword __cdecl lruv_cache_bytes_to_pages(s_lruv_cache const* cache, dword size_in_bytes);
 extern bool __cdecl lruv_cache_find_hole(s_lruv_cache* cache, long a2, long a3, s_lruv_cache_hole* hole, long* a5, bool* a6);
 extern void __cdecl lruv_cache_get_page_usage(s_lruv_cache* cache, byte* page_usage);
-extern void __cdecl lruv_cache_purge_hole(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long page_count);
+extern void __cdecl lruv_cache_purge_hole(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long desired_page_count);
 extern bool __cdecl lruv_cache_should_use_hole(s_lruv_cache* cache, long desired_page_count, s_lruv_cache_hole const* hole_a, s_lruv_cache_hole const* hole_b);
 extern dword __cdecl lruv_compact(s_lruv_cache* cache);
 extern long __cdecl lruv_compute_fragmentation_threshold(s_lruv_cache const* cache);

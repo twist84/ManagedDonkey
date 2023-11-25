@@ -18,6 +18,16 @@ c_lruv_block_long::operator long() const
 	return peek();
 }
 
+s_lruv_cache_block const* lruv_cache_block_get(s_lruv_cache const* cache, long block_index)
+{
+	return &cache->blocks[block_index];
+}
+
+s_lruv_cache_block* lruv_cache_block_get_mutable(s_lruv_cache* cache, long block_index)
+{
+	return &cache->blocks[block_index];
+}
+
 void lruv_cache_verify(s_lruv_cache* cache, bool a2)
 {
 	//ASSERT(cache);
@@ -25,35 +35,35 @@ void lruv_cache_verify(s_lruv_cache* cache, bool a2)
 	//
 	//data_verify(*cache->blocks);
 	//
-	//if (!a2 || cache->flags.test(_lruv_cache_disable_lock_bit))
-	//	return;
-	//
-	//s_lruv_cache_block* block;
-	//for (long block_index = cache->first_block_index; block_index != NONE; block_index = block->next_block_index)
+	//if (a2 && !cache->flags.test(_lruv_cache_disable_lock_bit))
 	//{
-	//	block = &cache->blocks[block_index];
-	//	if (block->previous_block_index == NONE)
+	//	s_lruv_cache_block const* block;
+	//	for (long block_index = cache->first_block_index; block_index != NONE; block_index = block->next_block_index)
 	//	{
-	//		ASSERT(cache->first_block_index == block_index);
-	//	}
-	//	else
-	//	{
-	//		s_lruv_cache_block* previous_block = &cache->blocks[block->previous_block_index];
-	//		ASSERT(previous_block->next_block_index == block_index);
-	//		ASSERT(previous_block->first_page_index < block->first_page_index);
-	//		ASSERT(previous_block->first_page_index + previous_block->page_count <= block->first_page_index);
-	//	}
+	//		block = lruv_cache_block_get(cache, block_index);
+	//		if (block->previous_block_index == NONE)
+	//		{
+	//			ASSERT(cache->first_block_index == block_index);
+	//		}
+	//		else
+	//		{
+	//			s_lruv_cache_block const* previous_block = lruv_cache_block_get(cache, block->previous_block_index);
+	//			ASSERT(previous_block->next_block_index == block_index);
+	//			ASSERT(previous_block->first_page_index < block->first_page_index);
+	//			ASSERT(previous_block->first_page_index + previous_block->page_count <= block->first_page_index);
+	//		}
 	//
-	//	if (block->next_block_index == NONE)
-	//	{
-	//		ASSERT(cache->last_block_index == block_index);
-	//	}
-	//	else
-	//	{
-	//		s_lruv_cache_block* next_block = &cache->blocks[block->next_block_index];
-	//		ASSERT(next_block->previous_block_index == block_index);
-	//		ASSERT(next_block->first_page_index > block->first_page_index);
-	//		ASSERT(block->first_page_index + block->page_count <= next_block->first_page_index);
+	//		if (block->next_block_index == NONE)
+	//		{
+	//			ASSERT(cache->last_block_index == block_index);
+	//		}
+	//		else
+	//		{
+	//			s_lruv_cache_block const* next_block = lruv_cache_block_get(cache, block->next_block_index);
+	//			ASSERT(next_block->previous_block_index == block_index);
+	//			ASSERT(next_block->first_page_index > block->first_page_index);
+	//			ASSERT(block->first_page_index + block->page_count <= next_block->first_page_index);
+	//		}
 	//	}
 	//}
 }
@@ -81,9 +91,47 @@ void __cdecl lruv_block_delete(s_lruv_cache* cache, long block_index)
 	//lruv_block_delete_internal(cache, block_index, false);
 }
 
+void __cdecl lruv_block_detach_and_delete(s_lruv_cache* cache, long block_index)
+{
+	s_lruv_cache_block const* block = lruv_cache_block_get(cache, block_index);
+
+	if (block->previous_block_index != NONE)
+	{
+		s_lruv_cache_block* previous_block = lruv_cache_block_get_mutable(cache, block->previous_block_index);
+		previous_block->next_block_index = block->next_block_index;
+	}
+	else
+	{
+		ASSERT(cache->first_block_index == block_index);
+		cache->first_block_index = block->next_block_index;
+	}
+
+	if (block->next_block_index != NONE)
+	{
+		s_lruv_cache_block* next_block = lruv_cache_block_get_mutable(cache, block->next_block_index);
+		next_block->previous_block_index = block->previous_block_index;
+	}
+	else
+	{
+		ASSERT(cache->last_block_index == block_index);
+		cache->last_block_index = block->previous_block_index;
+	}
+
+	datum_delete(*cache->blocks, block_index);
+	lruv_cache_verify(cache, true);
+}
+
 void __cdecl lruv_block_delete_internal(s_lruv_cache* cache, long block_index, bool a3)
 {
 	INVOKE(0x00966910, lruv_block_delete_internal, cache, block_index, a3);
+
+	//c_critical_section_scope critical_section(cache->critical_section_index);
+	//lruv_cache_verify(cache, true);
+	//
+	//if (cache->delete_block_proc)
+	//	cache->delete_block_proc(cache->proc_context, block_index, a3);
+	//
+	//lruv_block_detach_and_delete(cache, block_index);
 }
 
 //.text:009669F0
@@ -123,6 +171,69 @@ dword __cdecl lruv_block_get_size(s_lruv_cache* cache, long block_index)
 void __cdecl lruv_block_initialize(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long page_count, long block_index)
 {
 	INVOKE(0x00966A80, lruv_block_initialize, cache, hole, page_count, block_index);
+
+	//if (block_index != NONE)
+	//{
+	//	c_critical_section_scope critical_section(cache->critical_section_index);
+	//
+	//	s_lruv_cache_block* block = lruv_cache_block_get_mutable(cache, block_index);
+	//	if (hole->previous_block_index == NONE)
+	//	{
+	//		if (cache->first_block_index == NONE)
+	//		{
+	//			block->previous_block_index = NONE;
+	//			cache->last_block_index = block_index;
+	//		}
+	//		else
+	//		{
+	//			s_lruv_cache_block* next_block = lruv_cache_block_get_mutable(cache, cache->first_block_index);
+	//			ASSERT(next_block->previous_block_index == NONE);
+	//			ASSERT(next_block->first_page_index >= hole->first_page_index);
+	//			ASSERT(next_block->first_page_index >= hole->first_page_index + hole->page_count);
+	//
+	//			block->previous_block_index = NONE;
+	//			next_block->previous_block_index = block_index;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		s_lruv_cache_block* previous_block = lruv_cache_block_get_mutable(cache, hole->previous_block_index);
+	//		ASSERT(previous_block->first_page_index < hole->first_page_index);
+	//		ASSERT(previous_block->first_page_index + previous_block->page_count <= hole->first_page_index);
+	//
+	//		if (previous_block->next_block_index == NONE)
+	//		{
+	//			block->previous_block_index = cache->last_block_index;
+	//			cache->last_block_index = block_index;
+	//		}
+	//		else
+	//		{
+	//			s_lruv_cache_block* next_block = lruv_cache_block_get_mutable(cache, cache->first_block_index);
+	//			ASSERT(next_block->first_page_index >= hole->first_page_index);
+	//			ASSERT(next_block->first_page_index >= hole->first_page_index + hole->page_count);
+	//
+	//			block->previous_block_index = next_block->previous_block_index;
+	//			next_block->previous_block_index = block_index;
+	//		}
+	//	}
+	//
+	//	if (hole->previous_block_index == NONE)
+	//	{
+	//		block->next_block_index = cache->first_block_index;
+	//		cache->first_block_index = block_index;
+	//	}
+	//	else
+	//	{
+	//		s_lruv_cache_block* previous_block = lruv_cache_block_get_mutable(cache, hole->previous_block_index);
+	//		block->next_block_index = previous_block->next_block_index;
+	//		previous_block->next_block_index = block_index;
+	//	}
+	//
+	//	block->first_page_index = hole->first_page_index;
+	//	block->page_count = page_count;
+	//	block->last_used_frame_index.set(cache->frame_index);
+	//	lruv_cache_verify(cache, true);
+	//}
 }
 
 long __cdecl lruv_block_new(s_lruv_cache* cache, long size_in_bytes, long minimum_age)
@@ -142,9 +253,34 @@ long __cdecl lruv_block_new_at_index_and_page(s_lruv_cache* cache, long block_in
 	return INVOKE(0x00966C90, lruv_block_new_at_index_and_page, cache, block_index, page_index, size_in_bytes);
 }
 
-long __cdecl lruv_block_new_in_hole(s_lruv_cache* cache, long block_index, long hole_index, s_lruv_cache_hole* hole, long page_count)
+long __cdecl lruv_block_new_in_hole(s_lruv_cache* cache, long force_datum_index, long oldest_unlocked_block_index, s_lruv_cache_hole* hole, long page_count)
 {
-	return INVOKE(0x00966DF0, lruv_block_new_in_hole, cache, block_index, hole_index, hole, page_count);
+	return INVOKE(0x00966DF0, lruv_block_new_in_hole, cache, force_datum_index, oldest_unlocked_block_index, hole, page_count);
+
+	//lruv_cache_purge_hole(cache, hole, page_count);
+	//if (cache->blocks->actual_count == cache->blocks->maximum_count)
+	//{
+	//	ASSERT(force_datum_index == NONE);
+	//
+	//	if (oldest_unlocked_block_index != NONE)
+	//	{
+	//		if (hole->previous_block_index == oldest_unlocked_block_index)
+	//		{
+	//			hole->previous_block_index = cache->blocks[oldest_unlocked_block_index].previous_block_index;
+	//		}
+	//	}
+	//}
+	//
+	//long block_index = NONE;
+	//if (force_datum_index != NONE)
+	//{
+	//	block_index = datum_new_at_index(*cache->blocks, force_datum_index);
+	//}
+	//else
+	//{
+	//	block_index = datum_new(*cache->blocks);
+	//}
+	//lruv_block_initialize(cache, hole, page_count, block_index);
 }
 
 void __cdecl lruv_block_set_age(s_lruv_cache* cache, long block_index, long age)
@@ -176,12 +312,20 @@ bool __cdecl lruv_block_touched(s_lruv_cache* cache, long block_index)
 	return INVOKE(0x00966F00, lruv_block_touched, cache, block_index);
 
 	//lruv_cache_verify(cache, false);
-	//return cache->blocks[block_index].last_used_frame_index == cache->frame_index;
+	//return cache->frame_index == cache->blocks[block_index].last_used_frame_index;
 }
 
 bool __cdecl lruv_cache_block_is_locked(s_lruv_cache* cache, long a2, long a3, s_lruv_cache_block* block)
 {
 	return INVOKE(0x00966F30, lruv_cache_block_is_locked, cache, a2, a3, block);
+
+	//if (block->flags.test(_lruv_cache_block_always_locked_bit))
+	//	return true;
+	//
+	//if (cache->frame_index >= (block->last_used_frame_index + a2))
+	//	return true;
+	//
+	//return cache->locked_block_proc && cache->locked_block_proc(cache->proc_context, a3);
 }
 
 dword __cdecl lruv_cache_bytes_to_pages(s_lruv_cache const* cache, dword size_in_bytes)
@@ -206,14 +350,54 @@ void __cdecl lruv_cache_get_page_usage(s_lruv_cache* cache, byte* page_usage)
 	INVOKE(0x00967250, lruv_cache_get_page_usage, cache, page_usage);
 }
 
-void __cdecl lruv_cache_purge_hole(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long page_count)
+void __cdecl lruv_cache_purge_hole(s_lruv_cache* cache, s_lruv_cache_hole const* hole, long desired_page_count)
 {
-	INVOKE(0x00967310, lruv_cache_purge_hole, cache, hole, page_count);
+	INVOKE(0x00967310, lruv_cache_purge_hole, cache, hole, desired_page_count);
+
+	//ASSERT(desired_page_count >= 0 && hole->first_page_index >= 0);
+	//
+	//long block_index = cache->first_block_index;
+	//if (hole->previous_block_index != NONE)
+	//	block_index = cache->blocks[hole->previous_block_index].next_block_index;
+	//
+	//long next_block_index = block_index;
+	//while (next_block_index != NONE)
+	//{
+	//	long block_index_to_delete = next_block_index;
+	//
+	//	s_lruv_cache_block* next_block = lruv_cache_block_get_mutable(cache, next_block_index);
+	//	next_block_index = next_block->next_block_index;
+	//
+	//	if (next_block->first_page_index >= (hole->first_page_index + desired_page_count))
+	//		break;
+	//
+	//	if ((next_block->first_page_index + next_block->page_count) <= hole->first_page_index)
+	//		break;
+	//
+	//	lruv_block_delete_internal(cache, block_index_to_delete, true);
+	//}
 }
 
 bool __cdecl lruv_cache_should_use_hole(s_lruv_cache* cache, long desired_page_count, s_lruv_cache_hole const* hole_a, s_lruv_cache_hole const* hole_b)
 {
 	return INVOKE(0x00967390, lruv_cache_should_use_hole, cache, desired_page_count, hole_a, hole_b);
+
+	//e_hole_algorithm hole_algorithm = cache->hole_algorithm;
+	//switch (hole_algorithm)
+	//{
+	//case _hole_algorithm_age:
+	//	should_use_this_hole_age(cache, desired_page_count, hole_a, hole_b);
+	//	break;
+	//case _hole_algorithm_fragmentation:
+	//	should_use_this_hole_fragmentation(cache, desired_page_count, hole_a, hole_b);
+	//	break;
+	//case _hole_algorithm_blend:
+	//	should_use_this_hole_blend(cache, desired_page_count, hole_a, hole_b);
+	//	break;
+	//default:
+	//	ASSERT2(unreachable);
+	//	break;
+	//}
 }
 
 dword __cdecl lruv_compact(s_lruv_cache* cache)
@@ -223,9 +407,9 @@ dword __cdecl lruv_compact(s_lruv_cache* cache)
 	//lruv_cache_verify(cache, true);
 	//
 	//dword next_available_page_index = 0;
-	//for (long block_index = cache->first_block_index; block_index != NONE; block_index = cache->blocks[block_index].next_block_index)
+	//for (long block_index = cache->first_block_index; block_index != NONE; block_index = lruv_cache_block_get(cache, block_index)->next_block_index)
 	//{
-	//	s_lruv_cache_block* block = &cache->blocks[block_index];
+	//	s_lruv_cache_block* block = lruv_cache_block_get_mutable(cache, block_index);
 	//	ASSERT(block->first_page_index >= next_available_page_index);
 	//	if (block->first_page_index > next_available_page_index)
 	//	{
@@ -283,6 +467,14 @@ void __cdecl lruv_delete(s_lruv_cache* cache)
 void __cdecl lruv_flush(s_lruv_cache* cache)
 {
 	INVOKE(0x00967540, lruv_flush, cache);
+
+	//lruv_cache_verify(cache, true);
+	//c_data_iterator<s_lruv_cache_block const> block_iterator;
+	//block_iterator.begin(*cache->blocks);
+	//while (block_iterator.next())
+	//{
+	//	lruv_block_delete(cache, block_iterator.get_index());
+	//}
 }
 
 dword __cdecl lruv_get_address_from_page_index(s_lruv_cache* cache, dword page_index)
@@ -302,6 +494,47 @@ long __cdecl lruv_get_age(s_lruv_cache* cache)
 long __cdecl lruv_get_largest_slot_in_pages(s_lruv_cache* cache)
 {
 	return INVOKE(0x009675C0, lruv_get_largest_slot_in_pages, cache);
+
+	//long largest_slot_in_pages = 0;
+	//
+	//c_data_iterator<s_lruv_cache_block const> block_iterator;
+	//block_iterator.begin(*cache->blocks);
+	//if (block_iterator.next())
+	//{
+	//	while (block_iterator.next())
+	//	{
+	//		if (s_lruv_cache_block const* block = block_iterator.get_datum())
+	//		{
+	//			long slot_in_pages = block->first_page_index - (block->first_page_index + block->page_count);
+	//			if (largest_slot_in_pages <= slot_in_pages)
+	//				largest_slot_in_pages = slot_in_pages;
+	//		}
+	//
+	//	}
+	//}
+	//
+	//if (cache->first_block_index != NONE)
+	//{
+	//	s_lruv_cache_block const* first_block = lruv_cache_block_get(cache, cache->first_block_index);
+	//
+	//	if (largest_slot_in_pages <= first_block->first_page_index)
+	//		largest_slot_in_pages = first_block->first_page_index;
+	//
+	//	if (cache->last_block_index != NONE)
+	//	{
+	//		s_lruv_cache_block const* last_block = lruv_cache_block_get(cache, cache->last_block_index);
+	//
+	//		long slot_in_pages = cache->maximum_page_count - last_block->first_page_index - last_block->page_count;
+	//		if (largest_slot_in_pages <= slot_in_pages)
+	//			largest_slot_in_pages = slot_in_pages;
+	//	}
+	//}
+	//else
+	//{
+	//	largest_slot_in_pages = cache->maximum_page_count;
+	//}
+	//
+	//return largest_slot_in_pages;
 }
 
 long __cdecl lruv_get_locked_pages(s_lruv_cache* cache, long a2)
@@ -350,8 +583,8 @@ dword __cdecl lruv_get_used_page_end(s_lruv_cache* cache)
 	//{
 	//	ASSERT(cache->last_block_index != NONE);
 	//
-	//	s_lruv_cache_block& block = cache->blocks[cache->last_block_index];
-	//	return block.first_page_index + block.page_count;
+	//	s_lruv_cache_block const* block = lruv_cache_block_get(cache, cache->last_block_index);
+	//	return block->first_page_index + block->page_count;
 	//}
 	//
 	//return 0;
@@ -611,5 +844,25 @@ bool __cdecl should_use_this_hole_blend(s_lruv_cache const* cache, long desired_
 bool __cdecl should_use_this_hole_fragmentation(s_lruv_cache const* cache, long desired_page_count, s_lruv_cache_hole const* hole_a, s_lruv_cache_hole const* hole_b)
 {
 	return INVOKE(0x00967DD0, should_use_this_hole_fragmentation, cache, desired_page_count, hole_a, hole_b);
+
+	//long diff_a = cache->frame_index - hole_a->frame_index;
+	//long diff_b = cache->frame_index - hole_b->frame_index;
+	//
+	//long term_a = diff_a != 0 ? diff_a : 0;
+	//long term_b = diff_b != 0 ? diff_b : 0;
+	//
+	//if (diff_a && diff_a >= 300)
+	//	term_a = 300;
+	//
+	//if (diff_b && diff_b >= 300)
+	//	term_b = 300;
+	//
+	//if (term_a + 150 < term_b)
+	//	return false;
+	//
+	//if (term_b + 150 > term_a)
+	//	return true;
+	//
+	//return hole_a->page_count < hole_b->page_count;
 }
 
