@@ -31,9 +31,17 @@ enum e_data_array_flags
 	_data_array_disconnected_bit,
 
 	_data_array_unknown_bit2,
-	_data_array_unknown_bit3,
+	_data_array_should_verify_data_pattern_bit,
 
 	// are there more flags?
+};
+
+enum e_datum_salt
+{
+	_datum_salt_next_identifier = 0,
+	_datum_salt_isolated_next_identifier,
+
+	k_datum_salt_count
 };
 
 struct s_data_array
@@ -192,14 +200,15 @@ extern long __cdecl data_next_absolute_index(s_data_array const* data, long inde
 extern long __cdecl data_next_index(s_data_array const* data, long index);
 extern long __cdecl data_previous_index(s_data_array* data, long index);
 extern void __cdecl data_set_new_base_address(s_data_array** out_data, s_data_array* data);
-extern long __cdecl datum_absolute_index_to_index(s_data_array const* data, long index);
+extern bool __cdecl data_should_verify_data_pattern(s_data_array const* data);
+extern long __cdecl datum_absolute_index_to_index(s_data_array const* data, long absolute_index);
 extern bool __cdecl datum_available_at_index(s_data_array const* data, long index);
 extern void __cdecl datum_delete(s_data_array* data, long index);
 extern void __cdecl datum_initialize(s_data_array* data, s_datum_header* header);
 extern long __cdecl datum_new(s_data_array* data);
-extern long __cdecl datum_new_at_absolute_index(s_data_array* data, long index);
+extern long __cdecl datum_new_at_absolute_index(s_data_array* data, long absolute_index);
 extern long __cdecl datum_new_at_index(s_data_array* data, long index);
-extern long __cdecl datum_new_in_range(s_data_array* data, long begin_index, long end_index, bool initialize);
+extern long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long count_indices, bool initialize);
 extern void* __cdecl datum_try_and_get(s_data_array const* data, long index);
 extern void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index);
 extern void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index);

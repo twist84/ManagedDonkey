@@ -152,7 +152,7 @@ void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, 
 	//
 	//data->flags |= FLAG(_data_array_disconnected_bit);
 	//data->flags |= FLAG(_data_array_can_disconnect_bit);
-	////data->flags |= FLAG(_data_array_unknown_bit3);
+	////data->flags |= FLAG(_data_array_should_verify_data_pattern_bit);
 }
 
 void data_iterator_begin(s_data_iterator* iterator, s_data_array const* data)
@@ -246,9 +246,14 @@ void __cdecl data_set_new_base_address(s_data_array** out_data, s_data_array* da
 	INVOKE(0x0055B1D0, data_set_new_base_address, out_data, data);
 }
 
-long __cdecl datum_absolute_index_to_index(s_data_array const* data, long index)
+bool __cdecl data_should_verify_data_pattern(s_data_array const* data)
 {
-	return INVOKE(0x0055B280, datum_absolute_index_to_index, data, index);
+	return INVOKE(0x0055B230, data_should_verify_data_pattern, data);
+}
+
+long __cdecl datum_absolute_index_to_index(s_data_array const* data, long absolute_index)
+{
+	return INVOKE(0x0055B280, datum_absolute_index_to_index, data, absolute_index);
 }
 
 bool __cdecl datum_available_at_index(s_data_array const* data, long index)
@@ -271,9 +276,9 @@ long __cdecl datum_new(s_data_array* data)
 	return INVOKE(0x0055B410, datum_new, data);
 }
 
-long __cdecl datum_new_at_absolute_index(s_data_array* data, long index)
+long __cdecl datum_new_at_absolute_index(s_data_array* data, long absolute_index)
 {
-	return INVOKE(0x0055B4D0, datum_new_at_absolute_index, data, index);
+	return INVOKE(0x0055B4D0, datum_new_at_absolute_index, data, absolute_index);
 }
 
 long __cdecl datum_new_at_index(s_data_array* data, long index)
@@ -281,24 +286,195 @@ long __cdecl datum_new_at_index(s_data_array* data, long index)
 	return INVOKE(0x0055B550, datum_new_at_index, data, index);
 }
 
-long __cdecl datum_new_in_range(s_data_array* data, long begin_index, long end_index, bool initialize)
+long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long count_indices, bool initialize)
 {
-	return INVOKE(0x0055B5D0, datum_new_in_range, data, begin_index, end_index, initialize);
+	return INVOKE(0x0055B5D0, datum_new_in_range, data, minimum_index, count_indices, initialize);
 }
+
+//void* __cdecl datum_get(s_data_array* data, long index)
+//{
+//	long identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+//	long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+//
+//	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+//	s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
+//
+//	ASSERT(data);
+//	ASSERT(data->valid);
+//
+//	if (index == NONE)
+//	{
+//		c_static_string<1024> assert_string;
+//		assert_string.print("tried to access %s index NONE", data->name.get_string());
+//		ASSERT2(assert_string.get_string());
+//	}
+//
+//	if (!identifier)
+//	{
+//		c_static_string<1024> assert_string;
+//		assert_string.print("tried to access %s using datum_get() with an absolute index #%d",
+//			data->name.get_string(),
+//			index);
+//		ASSERT2(assert_string.get_string());
+//	}
+//
+//	if (absolute_index >= data->actual_count)
+//	{
+//		c_static_string<1024> assert_string;
+//		assert_string.print("%s index #%d (0x%x) is out of range (%d)",
+//			data->name.get_string(),
+//			absolute_index,
+//			index,
+//			data->actual_count);
+//		ASSERT2(assert_string.get_string());
+//	}
+//
+//	if (!header->identifier)
+//	{
+//		c_static_string<1024> assert_string;
+//		assert_string.print("%s index #%d (0x%x) is unused",
+//			data->name.get_string(),
+//			absolute_index,
+//			index);
+//		ASSERT2(assert_string.get_string());
+//	}
+//
+//	if (identifier != index >> 16)
+//	{
+//		c_static_string<1024> assert_string;
+//		assert_string.print("%s index #%d (0x%x) is changed, should be 0x%x",
+//			data->name.get_string(),
+//			absolute_index,
+//			index,
+//			(identifier << 16) | absolute_index);
+//		ASSERT2(assert_string.get_string());
+//	}
+//
+//	ASSERT(data->alignment_bits == 0 || header == align_pointer(header, data->alignment_bits));
+//	return header;
+//}
 
 void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 {
 	return INVOKE(0x0055B6D0, datum_try_and_get, data, index);
+
+	//void* result = NULL;
+	//
+	//ASSERT(data);
+	//ASSERT(data->valid);
+	//
+	//long identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	//long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	//
+	//if (index != NONE)
+	//{
+	//	if (identifier)
+	//	{
+	//		c_static_string<1024> assert_string;
+	//		assert_string.print("tried to access %s using datum_try_and_get() with an absolute index #%d",
+	//			data->name.get_string(),
+	//			DATUM_INDEX_TO_ABSOLUTE_INDEX(index));
+	//
+	//		ASSERT2(assert_string.get_string());
+	//	}
+	//
+	//	if (index < 0 || index >= data->maximum_count)
+	//	{
+	//		c_static_string<1024> assert_string;
+	//		assert_string.print("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
+	//			data->name.get_string(),
+	//			index,
+	//			data->maximum_count);
+	//
+	//		ASSERT2(assert_string.get_string());
+	//	}
+	//
+	//	if (absolute_index < data->first_unallocated)
+	//	{
+	//		void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	//		s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
+	//	
+	//		if (header->identifier)
+	//			result = header;
+	//	}
+	//}
+	//
+	//ASSERT(result == align_pointer(result, data->alignment_bits));
+	//return result;
 }
 
 void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index)
 {
 	return INVOKE(0x0055B710, datum_try_and_get_absolute, data, index);
+
+	//void* result = NULL;
+	//
+	//ASSERT(data);
+	//ASSERT(data->valid);
+	//
+	//long identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	//long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	//
+	//if (index != NONE)
+	//{
+	//	if (identifier)
+	//	{
+	//		c_static_string<1024> assert_string;
+	//		assert_string.print("tried to access %s using datum_try_and_get_absolute() with a non absolute index #%d (0x%x)",
+	//			data->name.get_string(),
+	//			DATUM_INDEX_TO_ABSOLUTE_INDEX(index),
+	//			index);
+	//
+	//		ASSERT2(assert_string.get_string());
+	//	}
+	//
+	//	if (index < 0 || index >= data->maximum_count)
+	//	{
+	//		c_static_string<1024> assert_string;
+	//		assert_string.print("tried to access %s using datum_try_and_get_absolute() with an absolute index 0x%04X outside maximum range [0, %d)", 
+	//			data->name.get_string(),
+	//			index,
+	//			data->maximum_count);
+	//		ASSERT2(assert_string.get_string());
+	//	}
+	//
+	//	if (absolute_index < data->first_unallocated)
+	//	{
+	//		void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	//		s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
+	//
+	//		if (header->identifier)
+	//			result = header;
+	//	}
+	//}
+	//
+	//ASSERT(result == align_pointer(result, data->alignment_bits));
+	//return result;
 }
 
 void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index)
 {
 	return INVOKE(0x0055B740, datum_try_and_get_unsafe, data, index);
+
+	//void* result = NULL;
+	//
+	//ASSERT(data);
+	//ASSERT(data->valid);
+	//
+	//long identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	//long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	//
+	//if (index != NONE && absolute_index < data->first_unallocated)
+	//{
+	//	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	//	s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
+	//
+	//	if (header->identifier && header->identifier == identifier)
+	//		result = header;
+	//}
+	//
+	//ASSERT(result == align_pointer(result, data->alignment_bits));
+	//return result;
 }
 
 bool __cdecl data_is_full(s_data_array const* data)
