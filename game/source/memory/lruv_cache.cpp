@@ -3,8 +3,6 @@
 #include "cache/physical_memory_map.hpp"
 #include "multithreading/synchronization.hpp"
 
-#include <climits>
-
 long c_lruv_block_long::peek() const
 {
 	return m_value;
@@ -312,7 +310,8 @@ long __cdecl lruv_get_locked_pages(s_lruv_cache* cache, long a2)
 
 	//long locked_pages = 0;
 	//
-	//c_data_iterator<s_lruv_cache_block const> block_iterator(*cache->blocks);
+	//c_data_iterator<s_lruv_cache_block const> block_iterator;
+	//block_iterator.begin(*cache->blocks);
 	//while (block_iterator.next())
 	//{
 	//	s_lruv_cache_block const* block = block_iterator.get_datum();
@@ -381,7 +380,7 @@ void __cdecl lruv_idle(s_lruv_cache* cache)
 	//c_critical_section_scope critical_section(cache->critical_section_index);
 	//lruv_cache_verify(cache, false);
 	//
-	//if (cache->frame_index == LONG_MAX)
+	//if (cache->frame_index == k_lruv_max_frame_index)
 	//	lruv_wrap_frame_index(cache);
 	//else
 	//	cache->frame_index++;
@@ -417,6 +416,7 @@ s_lruv_cache* __cdecl lruv_new(char const* name, long maximum_page_count, long p
 
 	//s_lruv_cache* cache = static_cast<s_lruv_cache*>(allocation->allocate(lruv_allocation_size(maximum_block_count), name));
 	//s_data_array* data = (s_data_array*)cache + 1;
+	//s_data_array* data = static_cast<s_data_array*>(align_pointer(cache + 1, 0));
 	//
 	//ASSERT(name);
 	//ASSERT(page_size_bits >= 0 && page_size_bits < SHORT_BITS);
@@ -425,8 +425,7 @@ s_lruv_cache* __cdecl lruv_new(char const* name, long maximum_page_count, long p
 	//data_initialize(data, name, maximum_block_count, sizeof(s_lruv_cache_block), 0, g_no_allocation);
 	//data_make_valid(data);
 	//
-	//lruv_setup(cache, name, page_size_bits, proc_context, delete_block_proc, locked_block_proc, usage_block_proc, allocation, critical_section_index);
-	//lruv_connect(cache, data, maximum_page_count);
+	//lruv_initialize(cache, name, maximum_page_count, page_size_bits, data, proc_context, delete_block_proc, locked_block_proc, usage_block_proc, allocation, critical_section_index);
 	//
 	//return cache;
 }
@@ -437,7 +436,7 @@ void __cdecl lruv_reset_failed_pages(s_lruv_cache* cache)
 
 	//ASSERT(cache);
 	//for (long i = 0; i < cache->ages.get_count(); i++)
-	//	cache->ages[i] = LONG_MAX;
+	//	cache->ages[i] = k_lruv_max_frame_index;
 }
 
 void __cdecl lruv_resize(s_lruv_cache* cache, long new_page_count)
@@ -558,12 +557,14 @@ void __cdecl lruv_wrap_frame_index(s_lruv_cache* cache)
 {
 	INVOKE(0x00967C10, lruv_wrap_frame_index, cache);
 
+	//ASSERT(cache->frame_index == k_lruv_max_frame_index);
 	//cache->frame_index = k_post_wrap_frame_index + 1;
 	//
-	//c_data_iterator<s_lruv_cache_block> iterator = cache->blocks.begin();
+	//c_data_iterator<s_lruv_cache_block> iterator;
+	//iterator.begin(*cache->blocks);
 	//while (iterator.next())
 	//{
-	//	dword block_age = LONG_MAX - iterator.get_datum()->last_used_frame_index;
+	//	dword block_age = k_lruv_max_frame_index - iterator.get_datum()->last_used_frame_index;
 	//	if (block_age <= k_post_wrap_frame_index)
 	//	{
 	//		iterator.get_datum()->last_used_frame_index.set(k_post_wrap_frame_index - block_age);
@@ -597,11 +598,18 @@ bool __cdecl should_use_this_hole_blend(s_lruv_cache const* cache, long desired_
 	return INVOKE(0x00967D90, should_use_this_hole_blend, cache, desired_page_count, hole_a, hole_b);
 
 	//return (cache->frame_index != hole_a->frame_index ? cache->frame_index - hole_a->frame_index : 0) * hole_b->page_count > (cache->frame_index != hole_b->frame_index ? cache->frame_index - hole_b->frame_index : 0) * hole_a->page_count;
+
+	//long diff_a = cache->frame_index != hole_a->frame_index ? cache->frame_index - hole_a->frame_index : 0;
+	//long diff_b = cache->frame_index != hole_b->frame_index ? cache->frame_index - hole_b->frame_index : 0;
+	//
+	//long term_a = diff_a * hole_b->page_count;
+	//long term_b = diff_b * hole_a->page_count;
+	//
+	//return term_a > term_b;
 }
 
 bool __cdecl should_use_this_hole_fragmentation(s_lruv_cache const* cache, long desired_page_count, s_lruv_cache_hole const* hole_a, s_lruv_cache_hole const* hole_b)
 {
 	return INVOKE(0x00967DD0, should_use_this_hole_fragmentation, cache, desired_page_count, hole_a, hole_b);
 }
-
 

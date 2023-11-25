@@ -7,7 +7,8 @@
 
 enum
 {
-	k_post_wrap_frame_index = 256
+	k_post_wrap_frame_index = 256,
+	k_lruv_max_frame_index = 0x7FFFFFFF
 };
 
 enum e_lruv_cache_block_bit
