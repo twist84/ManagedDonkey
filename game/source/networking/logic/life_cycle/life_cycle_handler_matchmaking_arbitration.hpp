@@ -1,6 +1,6 @@
 #pragma once
 
-#include "networking/logic/life_cycle/life_cycle_manager.hpp"
+#include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 #include "networking/logic/network_arbitration.hpp"
 
 struct c_life_cycle_state_handler_matchmaking_arbitration : c_life_cycle_state_handler

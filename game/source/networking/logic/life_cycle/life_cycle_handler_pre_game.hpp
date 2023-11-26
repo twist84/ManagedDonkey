@@ -1,6 +1,6 @@
 #pragma once
 
-#include "networking/logic/life_cycle/life_cycle_manager.hpp"
+#include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
 extern bool net_skip_countdown;
 

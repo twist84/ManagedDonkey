@@ -1,6 +1,6 @@
-#include "life_cycle_manager.hpp"
+#include "networking/logic/life_cycle/life_cycle_manager.hpp"
 
-#include <string>
+#include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
 void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data)
 {
@@ -10,12 +10,12 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 	m_pending_state_change = true;
 	m_pending_state = state;
 	m_entry_data_size = entry_data_size;
-	memset(m_entry_data, 0, k_maximum_state_change_entry_data_size);
+	csmemset(m_entry_data, 0, k_maximum_state_change_entry_data_size);
 
 	if (m_entry_data_size > 0)
 	{
 		ASSERT(entry_data != NULL);
-		memcpy(m_entry_data, entry_data, m_entry_data_size);
+		csmemcpy(m_entry_data, entry_data, m_entry_data_size);
 	}
 }
 
@@ -26,7 +26,7 @@ void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 	if (m_current_state == _life_cycle_state_leaving)
 		c_console::write_line("networking:logic:life-cycle: we are already leaving, no need to try again");
 	else
-		request_state_change(_life_cycle_state_leaving, 1, &disconnect);
+		request_state_change(_life_cycle_state_leaving, sizeof(bool), &disconnect);
 }
 
 void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data)

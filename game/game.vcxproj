@@ -648,6 +648,7 @@ POPD
     <ClInclude Include="source\multithreading\synchronization.hpp" />
     <ClInclude Include="source\multithreading\threads.hpp" />
     <ClInclude Include="source\networking\delivery\network_connection.hpp" />
+    <ClInclude Include="source\networking\logic\life_cycle\life_cycle_state_handler.hpp" />
     <ClInclude Include="source\networking\logic\logic_session_tracker.hpp" />
     <ClInclude Include="source\networking\logic\network_bandwidth.hpp" />
     <ClInclude Include="source\networking\messages\network_messages_connect.hpp" />

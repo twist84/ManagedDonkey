@@ -3,46 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "networking/network_utilities.hpp"
 
-enum e_life_cycle_state_transition_type
-{
-
-};
-
-enum e_life_cycle_state_handler_flags
-{
-
-	k_life_cycle_state_handler_bit_count = 6
-};
-
-struct c_life_cycle_state_manager;
-struct c_life_cycle_state_handler
-{
-	virtual void update(void);
-	virtual e_life_cycle_state_transition_type update_for_state_transition(long);
-	virtual void enter(c_life_cycle_state_handler*, long, void*);
-	virtual void exit(c_life_cycle_state_handler*);
-	virtual char const* get_state_string(void);
-	virtual void handle_missing_required_session_parameter(e_life_cycle_session_type);
-
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-
-	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_state;
-	c_life_cycle_state_manager* m_manager;
-
-	c_flags<e_life_cycle_state_handler_flags, byte_flags, k_life_cycle_state_handler_bit_count> m_handler_flags;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-
-	byte __data14[0x14];
-};
-static_assert(sizeof(c_life_cycle_state_handler) == 0x28);
-
 const long k_maximum_state_change_entry_data_size = 16;
 
+struct c_life_cycle_state_handler;
 struct c_network_session_manager;
 struct c_network_session;
 struct c_network_observer;
@@ -65,6 +28,10 @@ struct c_life_cycle_state_manager
 	long m_entry_data_size;
 	byte m_entry_data[k_maximum_state_change_entry_data_size];
 
+	// is this another struct?
+	//byte __data7C[0x4];
+	//c_matchmaking_quality m_matchmaking_quality; // c_matchmaking_quality* c_life_cycle_state_manager::get_matchmaking_quality()
+	//byte __data9978[0x18];
 	byte __data7C[0x9914];
 
 	void request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data);
@@ -74,3 +41,4 @@ struct c_life_cycle_state_manager
 	void terminate();
 };
 static_assert(sizeof(c_life_cycle_state_manager) == 0x9990);
+
