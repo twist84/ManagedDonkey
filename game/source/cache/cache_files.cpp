@@ -413,7 +413,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 		type_as_byte_string(&hash, hash_string);
 		display_debug_string("cache_files:header: failed hash verification - copying new validated values, %s", hash_string);
 
-		memcpy(&header->hash, &hash, sizeof(s_network_http_request_hash));
+		csmemcpy(&header->hash, &hash, sizeof(s_network_http_request_hash));
 	}
 
 	//type_as_byte_string(&hash, hash_string);
@@ -421,7 +421,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 	security_calculate_hash(&header->hash, sizeof(s_network_http_request_hash), true, &hash);
 
 	s_rsa_signature rsa_signature{};
-	memcpy(&rsa_signature, &header->rsa_signature, sizeof(s_rsa_signature));
+	csmemcpy(&rsa_signature, &header->rsa_signature, sizeof(s_rsa_signature));
 
 	bool result = security_rsa_compute_and_verify_signature(&hash, &rsa_signature);
 	if (!result)
@@ -745,8 +745,8 @@ bool __cdecl cache_file_tags_load_allocate()
 
 	g_cache_file_globals.tag_index_absolute_mapping = (long*)_physical_memory_malloc_fixed(5, NULL, tag_offsets_size, 0);
 	g_cache_file_globals.absolute_index_tag_mapping = (long*)_physical_memory_malloc_fixed(5, NULL, tag_offsets_size, 0);
-	memset(g_cache_file_globals.tag_index_absolute_mapping, NONE, tag_offsets_size);
-	memset(g_cache_file_globals.absolute_index_tag_mapping, NONE, tag_offsets_size);
+	csmemset(g_cache_file_globals.tag_index_absolute_mapping, NONE, tag_offsets_size);
+	csmemset(g_cache_file_globals.absolute_index_tag_mapping, NONE, tag_offsets_size);
 
 	return result;
 }
@@ -971,7 +971,7 @@ void __cdecl scenario_tags_unload()
 	cache_file_invalidate_signature();
 	g_cache_file_globals.tags_loaded = 0;
 	cache_file_tags_unload();
-	memset(&g_cache_file_globals.header, 0, sizeof(g_cache_file_globals.header));
+	csmemset(&g_cache_file_globals.header, 0, sizeof(g_cache_file_globals.header));
 }
 
 void __cdecl tag_files_close()

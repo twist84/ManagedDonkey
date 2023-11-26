@@ -4,7 +4,6 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_set_winsock.hpp"
 
-
 HOOK_DECLARE(0x0043F980, get_platform_socket_option);
 HOOK_DECLARE(0x0043FA30, transport_endpoint_accept);
 HOOK_DECLARE(0x0043FAC0, transport_endpoint_async_connect);
@@ -68,7 +67,7 @@ transport_endpoint* __cdecl transport_endpoint_accept(transport_endpoint* listen
 
     byte socket_address[0x1C];
     int socket_address_size = sizeof(socket_address);
-    memset(socket_address, 0, socket_address_size);
+    csmemset(socket_address, 0, socket_address_size);
 
     SOCKET listening_socket = accept(listening_endpoint->socket, (sockaddr*)socket_address, &socket_address_size);
     if (listening_socket == INVALID_SOCKET)
@@ -105,7 +104,7 @@ bool __cdecl transport_endpoint_async_connect(transport_endpoint* endpoint, tran
 
     byte socket_address[0x1C];
     long socket_address_size = sizeof(socket_address);
-    memset(socket_address, 0, socket_address_size);
+    csmemset(socket_address, 0, socket_address_size);
 
     if (transport_endpoint_get_socket_address(address, &socket_address_size, socket_address) && transport_endpoint_create_socket(endpoint, address))
     {
@@ -162,7 +161,7 @@ bool __cdecl transport_endpoint_bind(transport_endpoint* endpoint, transport_add
 
     byte socket_address[0x1C];
     long socket_address_size = sizeof(socket_address);
-    memset(socket_address, 0, socket_address_size);
+    csmemset(socket_address, 0, socket_address_size);
 
     if (transport_endpoint_get_socket_address(address, &socket_address_size, socket_address) && transport_endpoint_create_socket(endpoint, address))
     {
@@ -193,7 +192,7 @@ bool __cdecl transport_endpoint_connect(transport_endpoint* endpoint, transport_
 
     byte socket_address[0x1C];
     long socket_address_size = sizeof(socket_address);
-    memset(socket_address, 0, socket_address_size);
+    csmemset(socket_address, 0, socket_address_size);
 
     if (transport_endpoint_get_socket_address(address, &socket_address_size, socket_address) && transport_endpoint_create_socket(endpoint, address))
     {

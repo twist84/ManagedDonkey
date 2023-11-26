@@ -364,7 +364,7 @@ void command_tokenize(char const* input, tokens_t& tokens, long* token_count)
 				token_t& token = tokens[*token_count] = new _token_t();
 				token->set(current_token);
 				(*token_count)++;
-				memset(current_token, 0, k_token_length);
+				csmemset(current_token, 0, k_token_length);
 			}
 		}
 		else if (c == '"')

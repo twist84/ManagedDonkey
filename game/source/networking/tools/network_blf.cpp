@@ -5,8 +5,6 @@
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 
-#include <string.h>
-
 HOOK_DECLARE(0x00462F00, network_blf_find_chunk);
 HOOK_DECLARE(0x004630D0, network_blf_read_for_known_chunk);
 HOOK_DECLARE(0x00463240, network_blf_verify_end_of_file);
@@ -31,7 +29,7 @@ void s_blf_chunk_start_of_file::initialize()
 
 	byte_order_mark = bswap_word(0xFFFE);
 	name.clear();
-	memset(pad, 0, sizeof(pad));
+	csmemset(pad, 0, sizeof(pad));
 }
 
 s_blf_chunk_end_of_file::s_blf_chunk_end_of_file()
@@ -120,7 +118,7 @@ s_blffile_game_variant::s_blffile_game_variant() :
 	game_variant_chunk(),
 	end_of_file_chunk()
 {
-	memset(pad, 0, sizeof(pad));
+	csmemset(pad, 0, sizeof(pad));
 }
 
 s_blffile_map_variant::s_blffile_map_variant() :
@@ -128,7 +126,7 @@ s_blffile_map_variant::s_blffile_map_variant() :
 	map_variant_chunk(),
 	end_of_file_chunk()
 {
-	memset(pad, 0, sizeof(pad));
+	csmemset(pad, 0, sizeof(pad));
 }
 
 bool s_blffile_map_variant::copy_to_and_validate(c_map_variant* map_variant, bool* is_valid) const
@@ -255,8 +253,8 @@ s_blf_chunk_campaign::s_blf_chunk_campaign()
 
 	type_flags = 0;
 	campaign_id = -1;
-	memset(names, 0, sizeof(names));
-	memset(descriptions, 0, sizeof(descriptions));
+	csmemset(names, 0, sizeof(names));
+	csmemset(descriptions, 0, sizeof(descriptions));
 	map_ids.clear();
 }
 
@@ -266,15 +264,15 @@ s_blf_chunk_scenario::s_blf_chunk_scenario()
 
 	map_id = -1;
 	type_flags = 0;
-	memset(names, 0, sizeof(names));
-	memset(descriptions, 0, sizeof(descriptions));
+	csmemset(names, 0, sizeof(names));
+	csmemset(descriptions, 0, sizeof(descriptions));
 	image_file_base.set(0);
 	scenario_path.set(0);
 	multiplayer_minimum_desired_players = 0;
 	multiplayer_maximum_desired_players = 0;
-	memset(engine_maximum_teams, 0, sizeof(engine_maximum_teams));
+	csmemset(engine_maximum_teams, 0, sizeof(engine_maximum_teams));
 	allows_saved_films = false;
-	memset(insertions, 0, sizeof(insertions));
+	csmemset(insertions, 0, sizeof(insertions));
 }
 
 bool __cdecl network_blf_find_chunk(char const* buffer, long buffer_count, bool byte_swap, long chunk_type, short major_version, long* out_chunk_size, char const** out_chunk_buffer, long* out_chunk_buffer_size, short* out_minor_version, bool* out_eof_chunk)

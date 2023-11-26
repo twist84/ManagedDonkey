@@ -97,7 +97,7 @@ s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info,
 	ASSERT(info);
 	ASSERT(location >= NONE && location < NUMBER_OF_FILE_REFERENCE_LOCATIONS);
 
-	memset(info, 0, sizeof(s_file_reference));
+	csmemset(info, 0, sizeof(s_file_reference));
 	info->signature = FILE_REFERENCE_SIGNATURE;
 	info->location = location;
 
@@ -108,7 +108,7 @@ s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info,
 
 s_file_reference* __cdecl file_reference_copy(s_file_reference* info, s_file_reference const* other)
 {
-	memcpy(info, other, sizeof(file_reference_info));
+	csmemcpy(info, other, sizeof(file_reference_info));
 	return info;
 
 	//return INVOKE(0x00528530, file_reference_copy, info, other);

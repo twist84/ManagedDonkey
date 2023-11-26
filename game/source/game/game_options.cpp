@@ -1,11 +1,9 @@
 #include "game/game_options.hpp"
 
-#include <string.h>
-
 c_game_variant::c_game_variant()
 {
 	m_game_engine_index = _game_engine_base_variant;
-	memset(m_variant_storage, 0, sizeof(m_variant_storage));
+	csmemset(m_variant_storage, 0, sizeof(m_variant_storage));
 }
 
 void c_game_variant::encode_to_mcc(c_bitstream* packet) const

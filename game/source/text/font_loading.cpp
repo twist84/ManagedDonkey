@@ -3,8 +3,6 @@
 #include "main/global_preferences.hpp"
 #include "text/draw_string.hpp"
 
-#include <string.h>
-
 REFERENCE_DECLARE(0x022B7FAC, s_font_globals, g_font_globals);
 REFERENCE_DECLARE(0x02457BB8, s_font_package_cache, g_font_package_cache);
 
@@ -213,7 +211,7 @@ void __cdecl fonts_close()
 	//INVOKE(0x00509A50, fonts_close);
 
 	fonts_close_internal(&g_font_globals.loading_state);
-	memset(&g_font_globals.loading_state, 0, sizeof(g_font_globals.loading_state));
+	csmemset(&g_font_globals.loading_state, 0, sizeof(g_font_globals.loading_state));
 	g_font_globals.font_package_header = nullptr;
 }
 

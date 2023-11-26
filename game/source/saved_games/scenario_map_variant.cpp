@@ -2,11 +2,9 @@
 
 #include "cache/cache_files.hpp"
 
-#include <string.h>
-
 c_map_variant::c_map_variant()
 {
-	memset(this, 0, sizeof(*this));
+	csmemset(this, 0, sizeof(*this));
 
 	DECLFUNC(0x00580B80, void, __thiscall, c_map_variant*)(this);
 }
@@ -53,7 +51,7 @@ long __cdecl c_map_variant::get_map_id() const
 void s_variant_multiplayer_object_properties_definition::print(long const tab_count)
 {
 	char tabs[128]{};
-	memset(tabs, ' ', tab_count * 4);
+	csmemset(tabs, ' ', tab_count * 4);
 
 	PRINT_TABS; c_console::write_line("symmetry_placement_flags: 0x%04X", (word)symmetry_placement_flags);
 	PRINT_TABS; c_console::write_line("game_engine_flags: 0x%02X", (byte)game_engine_flags);
@@ -74,7 +72,7 @@ void s_variant_object_datum::print(c_map_variant* map_variant, long const tab_co
 		return;
 
 	char tabs[128]{};
-	memset(tabs, ' ', tab_count * 4);
+	csmemset(tabs, ' ', tab_count * 4);
 
 	PRINT_TABS; c_console::write_line("flags: 0x%04X", (dword)flags);
 	PRINT_TABS; c_console::write_line("object_datum_index: 0x%08X", object_datum_index);
@@ -108,7 +106,7 @@ void s_variant_quota::print(long const tab_count)
 		return;
 
 	char tabs[128]{};
-	memset(tabs, ' ', tab_count * 4);
+	csmemset(tabs, ' ', tab_count * 4);
 
 	PRINT_TABS; c_console::write("object: { definition_index = 0x%08X", object_definition_index);
 	if (object_definition_index != NONE)
@@ -132,7 +130,7 @@ void c_map_variant::print()
 	long const tab_count = 1;
 
 	char tabs[128]{};
-	memset(tabs, ' ', tab_count * 4);
+	csmemset(tabs, ' ', tab_count * 4);
 
 	PRINT_TABS; c_console::write_line("m_map_variant_version: %d", m_map_variant_version);
 	PRINT_TABS; c_console::write_line("m_number_of_scenario_objects: %d", m_number_of_scenario_objects);

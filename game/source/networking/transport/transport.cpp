@@ -5,7 +5,6 @@
 #include "networking/online/online_error.hpp"
 #include "networking/transport/transport_security.hpp"
 
-#include <string.h>
 #include <WinSock2.h>
 
 REFERENCE_DECLARE(0x0199FA28, s_transport_globals, transport_globals);
@@ -75,7 +74,7 @@ void __cdecl transport_global_update()
 
 void __cdecl transport_initialize()
 {
-	memset(&transport_globals, 0, sizeof(transport_globals));
+	csmemset(&transport_globals, 0, sizeof(transport_globals));
 	transport_security_initialize();
 	//transport_qos_initialize();
 	transport_globals.initialized = true;
@@ -134,7 +133,7 @@ void __cdecl transport_startup()
 
 	if (!transport_globals.winsock_initialized)
 	{
-		memset(&wsa_data, 0, sizeof(wsa_data));
+		csmemset(&wsa_data, 0, sizeof(wsa_data));
 
 		int wsa_startup_result = WSAStartup(2u, &wsa_data);
 		if (wsa_startup_result)

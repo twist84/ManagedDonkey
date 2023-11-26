@@ -28,8 +28,6 @@
 #include "saved_games/scenario_map_variant.hpp"
 #include "tag_files/tag_groups.hpp"
 
-#include <stdlib.h>
-
 REFERENCE_DECLARE(0x0224A490, c_network_session_parameter_type_collection*, g_network_parameter_types);
 REFERENCE_DECLARE(0x0224A494, c_network_link*, g_network_link);
 REFERENCE_DECLARE(0x0224A498, c_network_message_type_collection*, g_network_message_types);
@@ -422,7 +420,7 @@ void __cdecl network_test_text_chat(char const* text)
 	if (network_initialized())
 	{
 		static s_network_message_text_chat text_chat{};
-		memset(&text_chat, 0, sizeof(s_network_message_text_chat));
+		csmemset(&text_chat, 0, sizeof(s_network_message_text_chat));
 
 		text_chat.payload.destination_player_count = 16;
 		text_chat.payload.text.print(L"%hs", text);
@@ -442,8 +440,8 @@ void __cdecl network_test_text_chat_directed(transport_address const* address, c
 	if (network_initialized())
 	{
 		static s_network_message_text_chat text_chat{};
-		memset(&text_chat, 0xFF, sizeof(s_network_message_text_chat));
-		memset(text_chat.payload.text_buffer, 0, sizeof(text_chat.payload.text_buffer));
+		csmemset(&text_chat, 0xFF, sizeof(s_network_message_text_chat));
+		csmemset(text_chat.payload.text_buffer, 0, sizeof(text_chat.payload.text_buffer));
 
 		text_chat.payload.destination_player_count = 16;
 		text_chat.payload.text.print(L"%hs", text);

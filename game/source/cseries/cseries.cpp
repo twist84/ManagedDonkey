@@ -14,7 +14,6 @@
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <string.h>
 #include <windows.h>
 
 REFERENCE_DECLARE(0x0189CD4C, bool, g_catch_exceptions);
@@ -240,7 +239,7 @@ long cvsnzprintf(char* buffer, dword size, char const* format, va_list list)
 	buffer[size - 1] = 0;
 
 	size_t buf_size = strlen(buffer);
-	memset(buffer + buf_size, 0, size - buf_size);
+	csmemset(buffer + buf_size, 0, size - buf_size);
 
 	return result;
 }

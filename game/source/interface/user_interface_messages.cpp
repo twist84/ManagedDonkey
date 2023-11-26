@@ -8,8 +8,6 @@
 #include "networking/logic/logic_session_tracker.hpp"
 #include "tag_files/string_ids.hpp"
 
-#include <windows.h>
-
 REFERENCE_DECLARE(0x052600D0, c_message_globals, g_message_globals);
 
 //HOOK_DECLARE(0x00A93410, user_interface_messaging_initialize);
@@ -231,7 +229,7 @@ void c_load_dialog_screen_message::set_test_mode(bool test_mode)
 
 c_message_globals::c_message_globals()
 {
-	memset(m_queue, 0, sizeof(m_queue));
+	csmemset(m_queue, 0, sizeof(m_queue));
 	m_next_read = nullptr;
 	m_prev_read = nullptr;
 	m_xbox_guide_is_active = false;

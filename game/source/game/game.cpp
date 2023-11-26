@@ -11,8 +11,6 @@
 #include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/files_windows.hpp"
 
-#include <string.h>
-
 HOOK_DECLARE(0x005336F0, game_update);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 HOOK_DECLARE(0x006961C0, game_options_get_launch_settings);
@@ -704,7 +702,7 @@ bool __cdecl game_options_read_launch_settings_from_string(char const* buffer, s
 	{
 		//launch_settings.insertion_point_name[0] &= (strncmp(launch_settings.insertion_point_name, "-", 128) == 0) - 1;
 		//launch_settings.zone_set_name[0] &= (strncmp(launch_settings.zone_set_name, "-", 128); == 0) - 1;
-		memcpy(out_launch_settings, &launch_settings, sizeof(s_game_options_launch_settings));
+		csmemcpy(out_launch_settings, &launch_settings, sizeof(s_game_options_launch_settings));
 		return true;
 	}
 
@@ -728,7 +726,7 @@ bool __cdecl game_launch_get_settings(s_game_options_launch_settings* out_launch
 
 			if (game_options_read_launch_settings_from_string(buffer, &launch_settings) && launch_settings.build_number == version_get_build_number())
 			{
-				memcpy(out_launch_settings, &launch_settings, sizeof(s_game_options_launch_settings));
+				csmemcpy(out_launch_settings, &launch_settings, sizeof(s_game_options_launch_settings));
 				result = true;
 			}
 		}

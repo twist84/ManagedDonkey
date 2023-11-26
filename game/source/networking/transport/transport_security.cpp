@@ -5,8 +5,6 @@
 #include "networking/transport/transport.hpp"
 #include "xbox/xnet.hpp"
 
-#include <string.h>
-
 REFERENCE_DECLARE(0x0199FAB0, s_transport_security_globals, transport_security_globals);
 
 HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
@@ -47,7 +45,7 @@ void __cdecl transport_secure_address_extract_identifier(s_transport_secure_addr
 {
 	//INVOKE(0x00430B80, transport_secure_address_extract_identifier, secure_address, unique_identifier);
 
-	memcpy(unique_identifier, secure_address, sizeof(s_transport_unique_identifier));
+	csmemcpy(unique_identifier, secure_address, sizeof(s_transport_unique_identifier));
 }
 
 bool __cdecl transport_secure_address_get(s_transport_secure_address* secure_address)
@@ -199,7 +197,7 @@ void __cdecl transport_security_initialize()
 {
 	//INVOKE(0x004311A0, transport_security_initialize);
 
-	memset(&transport_security_globals, 0, sizeof(transport_security_globals));
+	csmemset(&transport_security_globals, 0, sizeof(transport_security_globals));
 	transport_register_transition_functions(
 		0,
 		transport_secure_address_reset_for_new_networking_mode,

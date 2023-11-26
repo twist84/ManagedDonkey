@@ -51,7 +51,7 @@ bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_
 			g_broadcast_search_globals.maximum_session_count = maximum_session_count;
 			g_broadcast_search_globals.available_sessions = session_storage;
 
-			memset(session_storage, 0, sizeof(s_available_session) * maximum_session_count);
+			csmemset(session_storage, 0, sizeof(s_available_session) * maximum_session_count);
 		}
 		else
 		{

@@ -4,8 +4,6 @@
 #include "game/game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
-#include <windows.h>
-
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);
 REFERENCE_DECLARE(0x023DAE90, bool, debug_load_panic_to_main_menu);
 
@@ -32,7 +30,7 @@ void main_game_change(game_options const* options)
 	if (options)
 	{
 		assert_game_options_verify(options);
-		memcpy(&main_game_globals.game_loaded_options, options, sizeof(game_options));
+		csmemcpy(&main_game_globals.game_loaded_options, options, sizeof(game_options));
 	}
 	main_game_globals.change_in_progress = true;
 	main_game_globals.game_load_pending = options == nullptr;
@@ -78,3 +76,4 @@ void main_game_notify_language_change(e_language language)
 {
 	INVOKE(0x00567BF0, main_game_notify_language_change, language);
 }
+

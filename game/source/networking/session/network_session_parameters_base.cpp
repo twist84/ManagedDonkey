@@ -1,7 +1,5 @@
 #include "networking/session/network_session_parameters_base.hpp"
 
-#include <string>
-
 char const* c_network_session_parameter_base::get_session_description() const
 {
 	//if (m_session && m_session->get_session_id(nullptr))
@@ -40,14 +38,14 @@ void c_network_session_parameter_base::set_update_required()
 	ASSERT(set_allowed());
 
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] marking dirty", get_session_description(), m_type, m_name);
-	memset(m_transmitted_peer_updates, 0, sizeof(m_transmitted_peer_updates));
+	csmemset(m_transmitted_peer_updates, 0, sizeof(m_transmitted_peer_updates));
 	notify_set_update_required();
 }
 
 void c_network_session_parameter_base::transition_state_to_become_host()
 {
 	c_console::write_line("networking:session_parameters: [%s] parameter %d [%s] transitioning to host", get_session_description(), m_type, m_name);
-	memset(m_transmitted_peer_updates, 0, sizeof(m_transmitted_peer_updates));
+	csmemset(m_transmitted_peer_updates, 0, sizeof(m_transmitted_peer_updates));
 	m_state_flags &= FLAG(0);
 	notify_transition_state_to_become_host();
 }
