@@ -24,8 +24,8 @@ HOOK_DECLARE(0x0060C390, input_abstraction_initialize);
 //HOOK_DECLARE(0x0060C6D0, sub_60C6D0);
 HOOK_DECLARE(0x0060CE40, input_abstraction_latch_all_buttons);
 //HOOK_DECLARE(0x0060CE70, sub_60CE70);
-//HOOK_DECLARE(0x0060D160, sub_60D160);
-//HOOK_DECLARE(0x0060D620, sub_60D620);
+//HOOK_DECLARE_CALL(0x0060D9AA, sub_60D160); //HOOK_DECLARE(0x0060D160, sub_60D160);
+HOOK_DECLARE(0x0060D620, sub_60D620);
 HOOK_DECLARE(0x0060D7A0, input_abstraction_reset_controller_detection_timer);
 //HOOK_DECLARE(0x0060D7B0, input_should_suppress_rumble);
 HOOK_DECLARE(0x0060D830, input_abstraction_set_controller_preferences);
@@ -155,8 +155,30 @@ void __cdecl input_abstraction_latch_all_buttons(long controller_index)
 }
 
 //void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
-//void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, long a3)
-//void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
+
+void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, long a3)
+{
+	INVOKE(0x0060D160, sub_60D160, state, input_state, a3);
+}
+
+void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
+{
+	//INVOKE(0x0060D620, sub_60D620, preferences, input_state);
+
+	input_state->__unknown324 = true;
+	input_state->aircraft_pitch = input_state->aircraft_pitch1;
+
+	byte forward_frames = input_state->abstract_buttons[_button_action_move_forward].down_frames();
+	byte back_frames = input_state->abstract_buttons[_button_action_move_back].down_frames();
+	byte left_frames = input_state->abstract_buttons[_button_action_move_left].down_frames();
+	byte right_frames = input_state->abstract_buttons[_button_action_move_right].down_frames();
+	byte vehicle_accelerate_frames = input_state->abstract_buttons[_button_action_vehicle_accelerate].down_frames();
+	byte vehicle_reverse_frames = input_state->abstract_buttons[_button_action_vehicle_reverse].down_frames();
+
+	input_state->forward_movement = real((forward_frames != 0) - (back_frames != 0));
+	input_state->strafe = real((left_frames != 0) - (right_frames != 0));
+	input_state->vehicle_forward_movement = real((vehicle_accelerate_frames != 0) - (vehicle_reverse_frames != 0));
+}
 
 void __cdecl input_abstraction_reset_controller_detection_timer()
 {
@@ -281,53 +303,6 @@ c_abstract_button const& s_game_input_state::get_button(e_button_action button_i
 	return abstract_buttons[button_index];
 }
 
-void __cdecl sub_60D160(s_mouse_state* state, s_game_input_state* input_state, long a3)
-{
-	INVOKE(0x0060D160, sub_60D160, state, input_state, a3);
-
-	//if (input_key_frames_down(_key_code_page_up, _input_type_ui))
-	//{
-	//	input_abstraction_globals.input_states[0].aircraft_pitch1 += 0.005f;
-	//}
-	//
-	//if (input_key_frames_down(_key_code_page_down, _input_type_ui))
-	//{
-	//	input_abstraction_globals.input_states[0].vehicle_pitch1 += 0.005f;
-	//}
-	//
-	//input_abstraction_globals.input_states[0].forward_movement = 1.0f;
-	//input_abstraction_globals.input_states[0].side_movement = 1.0f;
-	//input_abstraction_globals.input_states[0].vehicle_forward_movement = 1.0f;
-	// 
-	//input_abstraction_globals.input_states[1].yaw = 0.001f;
-	//input_abstraction_globals.input_states[1].pitch = 0.0005f;
-	//input_abstraction_globals.input_states[1].aircraft_pitch = 0.0005f;
-	//input_abstraction_globals.input_states[1].vehicle_yaw = 0.001f;
-	//input_abstraction_globals.input_states[1].vehicle_pitch = 0.0005f;
-	//input_abstraction_globals.input_states[1].aircraft_pitch1 = 0.0005f;
-	//input_abstraction_globals.input_states[1].vehicle_pitch1 = 0.0005f;
-	//input_abstraction_globals.input_states[1].__unknown324 = true;
-	// 
-	//input_abstraction_globals.input_states[2].yaw = 0.01f;
-	//input_abstraction_globals.input_states[2].pitch = 0.005f;
-	//input_abstraction_globals.input_states[2].aircraft_pitch = 0.005f;
-	//input_abstraction_globals.input_states[2].vehicle_yaw = 0.01f;
-	//input_abstraction_globals.input_states[2].vehicle_pitch = 0.005f;
-	//input_abstraction_globals.input_states[2].aircraft_pitch1 = 0.005f;
-	//input_abstraction_globals.input_states[2].vehicle_pitch1 = 0.005f;
-	//input_abstraction_globals.input_states[2].__unknown324 = true;
-	// 
-	//input_abstraction_globals.input_states[3].yaw = 0.1f;
-	//input_abstraction_globals.input_states[3].pitch = 0.05f;
-	//input_abstraction_globals.input_states[3].aircraft_pitch = 0.05f;
-	//input_abstraction_globals.input_states[3].vehicle_yaw = 0.1f;
-	//input_abstraction_globals.input_states[3].vehicle_pitch = 0.05f;
-	//input_abstraction_globals.input_states[3].aircraft_pitch1 = 0.05f;
-	//input_abstraction_globals.input_states[3].vehicle_pitch1 = 0.05f;
-	//input_abstraction_globals.input_states[3].__unknown324 = true;
-}
-//HOOK_DECLARE_CALL(0x0060D9AA, sub_60D160);
-
 void input_abstraction_get_raw_data_string(char* buffer, short size)
 {
 	ASSERT(buffer);
@@ -348,10 +323,10 @@ void input_abstraction_get_raw_data_string(char* buffer, short size)
 				input_state.abstract_sticks[0].x, input_state.abstract_sticks[0].y,
 				input_state.abstract_sticks[1].x, input_state.abstract_sticks[1].y);
 
-			csnzappendf(buffer, size, "%hd, movement: (forward: %f, side: %f, vehicle forward: %f)|n",
+			csnzappendf(buffer, size, "%hd, movement: (forward: %f, strafe: %f, vehicle forward: %f)|n",
 				i,
 				input_state.forward_movement,
-				input_state.side_movement,
+				input_state.strafe,
 				input_state.vehicle_forward_movement);
 
 			csnzappendf(buffer, size, "%hd,      yaw: (%f, vehicle: %f)|n",

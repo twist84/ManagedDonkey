@@ -85,7 +85,7 @@ struct s_game_input_state
 	int16_point2d abstract_sticks[2];
 
 	real forward_movement;
-	real side_movement;
+	real strafe;
 	real vehicle_forward_movement;
 
 	real yaw;
@@ -99,7 +99,7 @@ struct s_game_input_state
 	real aircraft_pitch1;
 	real vehicle_pitch1;
 
-	// allow_use?
+	// apply_mouse_acceleration?
 	bool __unknown324;
 };
 static_assert(sizeof(s_game_input_state) == 0x328);
@@ -148,8 +148,8 @@ extern void __cdecl input_abstraction_initialize();
 
 void __cdecl input_abstraction_latch_all_buttons(long controller_index);
 //extern void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
-//extern void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, long a3);
-//extern void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
+extern void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, long a3);
+extern void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
 extern void __cdecl input_abstraction_reset_controller_detection_timer();
 //extern void __cdecl input_should_suppress_rumble(long controls_method);
 extern void __cdecl input_abstraction_set_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences);
