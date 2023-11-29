@@ -23,5 +23,10 @@ static_assert(sizeof(s_rasterizer_globals) == 0x78);
 
 extern s_rasterizer_globals& rasterizer_globals;
 
-extern bool rasterizer_get_is_widescreen();
+extern bool __cdecl rasterizer_get_is_widescreen();
+extern long __cdecl rasterizer_lag_timing_get_gamestate_delay();
+extern void __cdecl rasterizer_lag_timing_mark_input_adjustment(__int64 a1);
+extern void __cdecl rasterizer_lag_timing_mark_render_end();
+extern void __cdecl rasterizer_lag_timing_mark_render_present(__int64 a1);
+extern void __cdecl rasterizer_lag_timing_mark_render_start();
 

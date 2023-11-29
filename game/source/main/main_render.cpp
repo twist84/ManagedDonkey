@@ -121,6 +121,8 @@ void __cdecl main_render()
 {
 	INVOKE(0x006042C0, main_render);
 
+	//REFERENCE_DECLARE(0x02446778, long, dword_2446778);
+	//
 	////bool should_draw = !debug_no_drawing;
 	//bool should_draw = !sub_42E5D0();
 	//
@@ -183,7 +185,7 @@ void __cdecl main_render()
 	//	{
 	//		should_draw = false;
 	//	}
-	//	c_render_globals::increment_frame_index();;
+	//	c_render_globals::increment_frame_index();
 	//}
 	//
 	//rasterizer_lag_timing_mark_render_end();
