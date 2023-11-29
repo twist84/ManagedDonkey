@@ -644,7 +644,7 @@ bool events_try_to_initialize()
 
 		csmemset(event_globals.spamming_events.get_elements(), 0, event_globals.spamming_events.get_total_element_size());
 
-		event_globals.thread_query_flags = 0xFFFFFBF7;
+		event_globals.thread_query_flags = 0xFFFFFBF7; // ~(FLAG(3) | FLAG(10));
 		event_globals.event_log_flags_bit3_enabled = false;
 		event_globals.__unknown81B65 = false;
 
