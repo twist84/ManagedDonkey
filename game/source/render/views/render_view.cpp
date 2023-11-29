@@ -52,8 +52,8 @@ HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
 //	},
 //	{
 //		.blank_frame = { 0.0f, 0.2f, 0.0f },
-//		.text_color = { 0.55000001f, 0.44999999f, 0.64999998f },
-//		.text_shadow_color = { 0.079999998f, 0.050000001f, 0.012f }
+//		.text_color = { 0.55f, 0.45f, 0.65f },
+//		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
 //	},
 //	{
 //		.blank_frame = { 0.047058824f, 0.06666667f, 0.1254902f },
@@ -62,18 +62,18 @@ HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
 //	},
 //	{
 //		.blank_frame = { 0.0f, 0.0f, 0.0f },
-//		.text_color = { 0.55000001f, 0.44999999f, 0.64999998f },
-//		.text_shadow_color = { 0.079999998f, 0.050000001f, 0.012f }
+//		.text_color = { 0.55f, 0.45f, 0.65f },
+//		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
 //	},
 //	{
 //		.blank_frame = { 0.0f, 0.0f, 0.0f },
-//		.text_color = { 0.55000001f, 0.44999999f, 0.64999998f },
-//		.text_shadow_color = { 0.079999998f, 0.050000001f, 0.012f }
+//		.text_color = { 0.55f, 0.45f, 0.65f },
+//		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
 //	},
 //	{
-//		.blank_frame = { 0.28999999f, 0.059999999f, 0.36000001f },
-//		.text_color = { 0.55000001f, 0.44999999f, 0.64999998f },
-//		.text_shadow_color = { 0.079999998f, 0.050000001f, 0.012f }
+//		.blank_frame = { 0.29f, 0.06f, 0.36f },
+//		.text_color = { 0.55f, 0.45f, 0.65f },
+//		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
 //	},
 //	{
 //		.blank_frame = { 1.0f, 1.0f, 1.0f },
