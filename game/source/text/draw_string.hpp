@@ -104,7 +104,31 @@ struct c_draw_string
 
 	struct s_parse_string_state
 	{
-		byte __data[0x4C];
+		long __unknown0;
+		e_utf32 const* string;
+
+		long __unknown8;
+		long __unknownC;
+		e_utf32 __unknown10;
+		long __unknown14;
+
+		// e_font_id
+		long font_id18;
+
+		// e_font_id
+		long font_id1C;
+
+		real_argb_color color20;
+		real_argb_color color30;
+
+		// e_text_justification
+		long justification40;
+
+		// e_text_justification
+		long justification44;
+
+		// m_flags.test(_text_flag_wrap_horizontally_bit) && utf32_can_line_break(__unknown10, string[__unknown0]);
+		bool unknown48;
 	};
 	static_assert(sizeof(s_parse_string_state) == 0x4C);
 
