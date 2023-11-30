@@ -128,7 +128,7 @@ struct c_draw_string
 		long justification44;
 
 		// m_flags.test(_text_flag_wrap_horizontally_bit) && utf32_can_line_break(__unknown10, string[__unknown0]);
-		bool unknown48;
+		bool __unknown48;
 	};
 	static_assert(sizeof(s_parse_string_state) == 0x4C);
 

@@ -15,13 +15,13 @@ struct c_tag_resource_page_table
 {
 	struct c_tag_resource_lruv_cache
 	{
-		dword_flags* __unknown0;
-		long __unknown4;
+		long m_allocation_alignment;
+		c_tag_resource_page_range_allocator* m_storage_allocator;
 		s_lruv_cache* m_lruv_cache;
 	};
 	static_assert(sizeof(c_tag_resource_lruv_cache) == 0xC);
 
-	s_data_array* __unknown0;
+	s_data_array* m_resource_page_data;
 	c_tag_resource_lruv_cache __lruv_cache4;
 	char const* __unknown10;
 	char const* __unknown14;
