@@ -7,19 +7,18 @@ struct c_tag_resource_inverse_page_table
 {
 	struct s_page_resource_reference_range : s_datum_header
 	{
-		word __unknown2;
-		word __unknown4;
-		word __unknown6;
+		word first_resource_handle_index;
+		word used_resource_handle_count;
+		word resource_handle_count;
 	};
 	static_assert(sizeof(s_page_resource_reference_range) == 0x8);
 
 	c_allocation_base* m_allocator;
 	void* m_allocation;
-	dword __unknown8;
-	dword __unknownC;
-	c_smart_data_array<s_page_resource_reference_range> m_page_entries;
-	byte_flags flags;
-	word __unknown16;
+	c_wrapped_array<long> m_resource_handle_storage;
+	s_data_array* m_page_entries;
+	word_flags flags;
+	word m_next_resource_handle_index;
 };
 static_assert(sizeof(c_tag_resource_inverse_page_table) == 0x18);
 
