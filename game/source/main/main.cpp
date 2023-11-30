@@ -256,6 +256,7 @@ void __cdecl main_loop_body_begin()
 		g_render_structure_globals;
 		g_gui_error_manager;
 		g_user_interface_globals;
+		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.get();
 
 		s_thread_local_storage* tls = get_tls();
 
