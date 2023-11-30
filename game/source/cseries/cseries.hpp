@@ -614,6 +614,13 @@ struct c_reference_count
 };
 static_assert(sizeof(c_reference_count<long>) == 0x4);
 
+struct c_wrapped_flags
+{
+	dword* m_bit_storage;
+	long m_bit_count;
+};
+static_assert(sizeof(c_wrapped_flags) == 0x8);
+
 template<typename t_type, typename t_storage_type, long k_count>
 struct c_flags_no_init
 {
