@@ -222,7 +222,7 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 			if (loading_status)
 			{
 				loading_status->print(L"%s %d%%", loading_text, loading_progress);
-				loading_status->append(L"|n|nhttps://github.com/theTwist84/ManagedDonkey");
+				loading_status->append(L"|n|nhttps://github.com/twist84/ManagedDonkey");
 			}
 		}
 
