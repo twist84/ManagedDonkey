@@ -8,8 +8,8 @@ struct c_tag_resource_cache_thread_lock_lock_freeish
 {
 	byte __data0[0xC0];
 	byte __dataC0[0x20];
-	c_static_array<c_tag_resource_cache_file_access_cache, 3> m_access_cache_storage;
-	c_reference_count<long> m_reference_count;
+	c_static_array<c_tag_resource_cache_file_access_cache, 3> m_access_cache_storage; // c_tag_resource_cache_thread_lock_lock_freeish::c_synchronized_access_cache
+	c_reference_count<long> m_published_cache_count;
 	c_read_write_lock m_read_write_lock;
 	byte __data198[0x8];
 	bool m_blocking_update;
