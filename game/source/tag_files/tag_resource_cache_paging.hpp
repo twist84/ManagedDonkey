@@ -9,6 +9,14 @@ struct c_tag_resource_page_table_io_listener
 };
 static_assert(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
 
+struct s_tag_resource_page_datum : s_datum_header
+{
+	byte_flags flags;
+
+	byte __data[0x11];
+};
+static_assert(sizeof(s_tag_resource_page_datum) == 0x14);
+
 struct s_lruv_cache;
 struct c_tag_resource_page_range_allocator;
 struct c_tag_resource_cache_file_reader;
@@ -26,7 +34,7 @@ struct c_tag_resource_page_table
 	};
 	static_assert(sizeof(c_tag_resource_lruv_cache) == 0x14);
 
-	s_data_array* m_resource_page_data;
+	c_smart_data_array<s_tag_resource_page_datum> m_resource_page_data;
 	c_tag_resource_page_table::c_tag_resource_lruv_cache __lruv_cache4;
 	s_data_array* m_pending_resource_requests;
 	c_wrapped_flags m_ready_pages_flags;
@@ -34,16 +42,15 @@ struct c_tag_resource_page_table
 	c_tag_resource_cache_file_reader* m_cache_file_reader;
 	c_cache_file_tag_resource_location_handler* m_resource_location_handler;
 	c_tag_resource_cache_published_location_interface* m_published_location_interface;
-	c_allocation_base* m_allocation;
-
-	byte __data3C[0x4];
-
+	c_allocation_base* m_allocator;
+	void* m_allocation;
 	c_tag_resource_page_table_control_interface* m_control_interface;
 
 	byte __data44[0x4];
 	s_data_iterator __unknown0_iterator;
 	byte __data[0xC];
 	bool m_stop_prefetching;
+	bool __unknown61;
 };
 static_assert(sizeof(c_tag_resource_page_table) == 0x64);
 
