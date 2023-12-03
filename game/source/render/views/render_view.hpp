@@ -18,7 +18,7 @@ protected:
 		long(__thiscall* render_setup)(c_view*);
 		long(__thiscall* compute_visibility)(c_view*);
 		long(__thiscall* render_submit_visibility)(c_view*);
-	}*__vftable;
+	}* __vftable;
 
 public:
 	c_view() :

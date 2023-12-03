@@ -116,7 +116,15 @@ static_assert(sizeof(c_cache_file_tag_resource_runtime_control_allocation) == 0x
 
 struct c_cache_file_tag_resource_location_handler
 {
-	void* __vftable;
+	struct
+	{
+		void* get_location_sub_location;
+		void* get_location_memory_size;
+		void* try_to_get_location_checksum;
+		void* get_location_indirect_identifier;
+		void* get_location_file_sort_key;
+	}*__vftable;
+
 	c_cache_file_resource_uber_location_table* m_uber_location_table;
 };
 static_assert(sizeof(c_cache_file_tag_resource_location_handler) == 0x8);

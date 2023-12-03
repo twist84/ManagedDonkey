@@ -183,7 +183,7 @@ protected:
 		};
 
 		void* __funcs[64];
-	}*__vftable;
+	}* __vftable;
 
 	long __cdecl get_ambient_state();
 

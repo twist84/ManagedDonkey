@@ -27,7 +27,7 @@ public:
 		bool(__thiscall* get_pixels)(c_font_cache_base* _this, dword a1, e_character_data_index character_data_index, s_font_character const* font_character, c_static_array<word, 16384>* pixels);
 		bool(__thiscall* character_predict)(c_font_cache_base* _this, e_font_id font_id, e_utf32 utf32);
 		bool(__thiscall* character_load)(c_font_cache_base* _this, e_font_id font_id, e_utf32 utf32, bool a3, dword* a4, e_character_data_index* out_character_data_index, s_font_character const** out_font_character);
-	}*__vftable;
+	}* __vftable;
 
 	c_font_cache_base();
 
@@ -142,7 +142,7 @@ struct c_draw_string
 		bool(__thiscall* predict_character)(c_draw_string* _this, c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character);
 		bool(__thiscall* precache_character)(c_draw_string* _this, c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, s_font_character const** font_character);
 		void(__thiscall* draw_character)(c_draw_string* _this, c_font_cache_base* font_cache, e_font_id font_id, e_utf32 character, dword a4, dword a5, real a6, real a7, real a8, real a9, real a10, real a11);
-	}*__vftable;
+	}* __vftable;
 
 public:
 	c_draw_string();
