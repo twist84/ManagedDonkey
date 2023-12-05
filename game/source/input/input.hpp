@@ -65,7 +65,10 @@ enum e_key_code
 	_key_code_j,                  // 'J'
 	_key_code_k,                  // 'K'
 	_key_code_l,                  // 'L'
-	_key_code_semicolon,          // VK_OEM_1         ';:' for US
+
+	_key_code_colon,              // VK_OEM_1         ';:' for US
+	_key_code_semicolon = _key_code_colon,
+
 	_key_code_apostrophe,         // VK_OEM_7         ''"' for US
 	_key_code_enter,              // VK_RETURN
 
@@ -507,16 +510,24 @@ extern void input_get_raw_data_string(char* buffer, short size);
 extern void input_mouse_state_get_raw_data_string(char* buffer, short size);
 
 // key_to_virtual_table[_key_code_escape] = VK_ESCAPE
-extern c_static_array<char const, k_key_code_count>& key_to_virtual_table;
+//extern c_static_array<byte const, k_key_code_count>& key_to_virtual_table;
+extern byte const(&key_to_virtual_table)[k_key_code_count];
+//extern byte const key_to_virtual_table[k_key_code_count];
 
 // virtual_to_key_table[VK_ESCAPE] = _key_code_escape
-extern c_static_array<short const, k_number_of_windows_input_virtual_codes>& virtual_to_key_table;
+//extern c_static_array<short const, k_number_of_windows_input_virtual_codes>& virtual_to_key_table;
+extern short const(&virtual_to_key_table)[k_number_of_windows_input_virtual_codes];
+//extern short const virtual_to_key_table[k_number_of_windows_input_virtual_codes];
 
 // key_to_ascii_table[_key_code_spacebar] = ' '
-extern c_static_array<char const, k_key_code_count>& key_to_ascii_table;
+//extern c_static_array<byte const, k_key_code_count>& key_to_ascii_table;
+extern byte const(&key_to_ascii_table)[k_key_code_count];
+//extern byte const key_to_ascii_table[k_key_code_count];
 
 // key_to_ascii_table[' '] = _key_code_spacebar
-extern c_static_array<short const, k_number_of_input_ascii_codes>& ascii_to_key_table;
+//extern c_static_array<short const, k_number_of_input_ascii_codes>& ascii_to_key_table;
+extern short const(&ascii_to_key_table)[k_number_of_input_ascii_codes];
+//extern short const ascii_to_key_table[k_number_of_input_ascii_codes];
 
 extern s_input_globals& input_globals;
 
