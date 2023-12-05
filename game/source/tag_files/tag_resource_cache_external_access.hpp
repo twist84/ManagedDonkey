@@ -13,7 +13,7 @@ struct c_tag_resource_cache_new
 {
 	void* __unknown0;
 
-	c_tag_resource_page_table_io_listener m_io_listener;
+	c_tag_resource_page_table_io_listener m_page_io_listener;
 	c_tag_resource_page_table m_page_table;
 	c_tag_resource_cache_controller m_cache_controller;
 	c_tag_resource_address_cache m_address_cache;

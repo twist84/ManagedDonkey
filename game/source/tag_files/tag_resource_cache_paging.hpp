@@ -12,8 +12,11 @@ static_assert(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
 struct s_tag_resource_page_datum : s_datum_header
 {
 	byte_flags flags;
-
-	byte __data[0x11];
+	byte state;
+	byte __data4[0x2];
+	c_reference_count<short> reference_count;
+	long reservation;
+	c_basic_buffer<void> buffer;
 };
 static_assert(sizeof(s_tag_resource_page_datum) == 0x14);
 
