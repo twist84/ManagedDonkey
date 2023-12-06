@@ -647,9 +647,12 @@ struct c_flags_no_init
 	//c_flags_no_init<t_type, t_storage_type, k_count> operator~()
 };
 
-template<typename t_type, typename t_storage_type, long k_count>
+//template<typename t_type, typename t_storage_type, t_type k_count>
+template<typename t_type, typename t_storage_type, long k_count >
 struct c_flags //: public c_flags_no_init<t_type, t_storage_type, k_count>
 {
+	static t_type const k_maximum_count = (t_type)k_count;
+
 public:
 	c_flags() :
 		m_storage(0)
@@ -670,7 +673,7 @@ public:
 
 	void set(t_type bit, bool enable)
 	{
-		if (bit < k_count)
+		if (bit < k_maximum_count)
 		{
 			if (enable)
 				m_storage |= (1 << bit);
@@ -684,14 +687,19 @@ public:
 		m_storage = 0;
 	}
 
+	bool is_empty() const
+	{
+		return (m_storage & (MASK(SIZEOF_BITS(t_storage_type)) >> (SIZEOF_BITS(t_storage_type) - k_maximum_count))) == 0;
+	}
+
 	bool valid_bit(t_type bit)
 	{
-		return VALID_INDEX(0, k_count);
+		return VALID_INDEX(0, k_maximum_count);
 	}
 
 	bool valid_bit(t_type bit) const
 	{
-		return VALID_INDEX(0, k_count);
+		return VALID_INDEX(0, k_maximum_count);
 	}
 
 	bool test(t_type bit)
@@ -708,7 +716,7 @@ public:
 		return TEST_BIT(m_storage, static_cast<t_storage_type>(bit));
 	}
 
-	bool operator==(c_flags<t_type, t_storage_type, k_count>& value)
+	bool operator==(c_flags<t_type, t_storage_type, k_maximum_count>& value)
 	{
 		return m_storage == value.m_storage;
 	}
