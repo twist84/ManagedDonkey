@@ -433,6 +433,15 @@ void __cdecl main_loop_body_end()
 	//}
 }
 
+void __cdecl main_loop_body_multi_threaded()
+{
+	//INVOKE(0x00506070, main_loop_body_multi_threaded);
+
+	publish_waiting_gamestate();
+	main_loop_body_main_part();
+	publish_waiting_gamestate();
+}
+
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
