@@ -442,6 +442,153 @@ void __cdecl main_loop_body_multi_threaded()
 	publish_waiting_gamestate();
 }
 
+enum e_main_loop_body_part_flags
+{
+	_main_loop_body_part_flags_count = 3
+};
+
+//void __cdecl main_loop_body_single_threaded(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run) // debug?
+void __cdecl main_loop_body_single_threaded()
+{
+	INVOKE(0x00506080, main_loop_body_single_threaded);
+
+	// Halo Online
+
+	//main_loop_body_main_part();
+	//
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+
+	//if (!game_is_multithreaded() || !g_main_gamestate_timing_data->flags.is_empty())
+	//{
+	//	font_idle();
+	//	if (game_is_multithreaded())
+	//	{
+	//		main_time_mark_publishing_start_time();
+	//		if (restricted_region_publish_to_mirror(k_game_state_shared_region))
+	//		{
+	//			main_time_mark_publishing_end_time();
+	//
+	//			restricted_region_unlock_primary(k_game_state_shared_region);
+	//			if (restricted_region_lock_mirror(k_game_state_shared_region))
+	//			{
+	//				main_thread_lock_rasterizer_and_resources();
+	//				process_published_game_state(true);
+	//				main_thread_unlock_rasterizer_and_resources();
+	//
+	//				if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
+	//					restricted_region_unlock_mirror(k_game_state_shared_region);
+	//			}
+	//			restricted_region_lock_primary(k_game_state_shared_region);
+	//		}
+	//	}
+	//	else
+	//	{
+	//		main_time_mark_publishing_start_time();
+	//		main_time_mark_publishing_end_time();
+	//
+	//		main_thread_lock_rasterizer_and_resources();
+	//		process_published_game_state(!shell_application_is_paused());
+	//		main_thread_unlock_rasterizer_and_resources();
+	//	}
+	//
+	//	g_main_gamestate_timing_data.reset();
+	//	main_render_purge_pending_messages();
+	//}
+
+	// Halo 3
+	////PROFILER(single_thread_update)
+	//
+	////main_loop_body()
+	//
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	//
+	//if (!g_main_gamestate_timing_data->flags.is_empty())
+	//{
+	//	font_idle();
+	//	main_time_mark_publishing_start_time();
+	//
+	//	if (restricted_region_publish_to_mirror(k_game_state_shared_region))
+	//	{
+	//		//PROFILER(single_thread_render)
+	//
+	//		restricted_region_unlock_primary(k_game_state_shared_region);
+	//		if (restricted_region_lock_mirror(k_game_state_shared_region))
+	//		{
+	//			main_thread_lock_rasterizer_and_resources();
+	//			process_published_game_state(true);
+	//			main_thread_unlock_rasterizer_and_resources();
+	//
+	//			if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
+	//				restricted_region_unlock_mirror(k_game_state_shared_region);
+	//		}
+	//		restricted_region_lock_primary(k_game_state_shared_region);
+	//
+	//		g_main_gamestate_timing_data.reset();
+	//		main_render_purge_pending_messages();
+	//	}
+	//}
+
+	// Halo Reach
+	//if (parts_to_run.test((e_main_loop_body_part_flags)1))
+	//{
+	//	//PROFILER(single_thread_update)
+	//	main_loop_body_main_part();
+	//}
+	//
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	//
+	//if (!g_main_gamestate_timing_data->flags.is_empty())
+	//{
+	//	font_idle();
+	//	main_time_mark_publishing_start_time();
+	//
+	//	if (restricted_region_publish_to_mirror(k_game_state_shared_region))
+	//	{
+	//		generate_event(_event_level_message, "sound:multithreading: === Mirror Published Single");
+	//		//bool global_shared_mirror_success = restricted_region_publish_to_mirror_blocking(k_global_shared_data_region);
+	//		//ASSERT(global_shared_mirror_success);
+	//
+	//		main_time_mark_publishing_end_time();
+	//
+	//		//PROFILER(single_thread_render)
+	//
+	//		render_debug_update();
+	//		sound_render_deferred_wait(true);
+	//		render_debug_process_deferred_events();
+	//		sound_render_deferred_start(true);
+	//
+	//		restricted_region_unlock_primary(k_game_state_shared_region);
+	//		restricted_region_unlock_primary(k_global_shared_data_region);
+	//		if (restricted_region_lock_mirror(k_game_state_shared_region)/* && restricted_region_lock_mirror(k_global_shared_data_region)*/)
+	//		{
+	//			restricted_region_allow_mirror_aliasing(k_game_state_shared_region);
+	//			main_thread_lock_rasterizer_and_resources();
+	//			process_published_game_state(true);
+	//			main_thread_unlock_rasterizer_and_resources();
+	//
+	//			if (restricted_region_mirror_locked_for_current_thread(k_global_shared_data_region))
+	//				restricted_region_unlock_mirror(k_global_shared_data_region);
+	//
+	//			if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
+	//				restricted_region_unlock_mirror(k_game_state_shared_region);
+	//		}
+	//		restricted_region_lock_primary(k_game_state_shared_region);
+	//		restricted_region_lock_primary(k_global_shared_data_region);
+	//	}
+	//
+	//	g_main_gamestate_timing_data.reset();
+	//	main_render_purge_pending_messages();
+	//}
+}
+
+//void main_loop_body(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run, dword* wait_for_render_thread)
+//{
+//	//ASSERT(!parts_to_run.is_clear());
+//	//ASSERT(parts_to_run.test_range((e_main_loop_body_part_flags)0, (e_main_loop_body_part_flags)(_main_loop_body_part_flags_count - 1)));
+//
+//
+//}
+
 void __cdecl main_loop_initialize_restricted_regions()
 {
 	if (game_is_multithreaded())
@@ -459,6 +606,64 @@ void __cdecl main_loop_dispose_restricted_regions()
 		restricted_region_lock_primary(k_global_render_data_region);
 	}
 }
+
+//void __cdecl main_loop()
+//{
+//	if (game_is_multithreaded())
+//	{
+//		g_render_thread_user_setting = true;
+//		g_render_thread_enabled.set(true);
+//	}
+//
+//	main_loop_enter();
+//	main_loop_initialize_restricted_regions();
+//
+//	DWORD prev_tick_count = GetTickCount();
+//	while (!g_main_game_exit)
+//	{
+//		DWORD tick_count = GetTickCount();
+//		DWORD tick_delta = tick_count - prev_tick_count;
+//
+//		if (disable_main_loop_throttle || tick_delta >= 7)
+//		{
+//			bool requested_single_thread = false;
+//			prev_tick_count = tick_count;
+//			main_set_single_thread_request_flag(0, HIBYTE(g_render_thread_user_setting) == 0);
+//			if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
+//			{
+//				main_thread_process_pending_messages();
+//				main_loop_body_multi_threaded();
+//			}
+//			else
+//			{
+//				requested_single_thread = true;
+//				main_thread_process_pending_messages();
+//				main_loop_body_single_threaded();
+//			}
+//
+//			if (game_is_multithreaded())
+//			{
+//				if (!g_single_thread_request_flags.peek() != requested_single_thread)
+//				{
+//					//c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+//					if (requested_single_thread)
+//						unlock_resources_and_resume_render_thread(v1);
+//					else
+//						v1 = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+//				}
+//			}
+//		}
+//		else
+//		{
+//			// main_thread_sleep
+//			sleep(7 - tick_delta);
+//		}
+//	}
+//
+//	enable_render_thread();
+//	main_loop_dispose_restricted_regions();
+//	main_loop_exit();
+//}
 
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
 {

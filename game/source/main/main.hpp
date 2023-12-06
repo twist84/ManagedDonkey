@@ -19,6 +19,7 @@ extern void __cdecl main_loop_body_begin();
 extern void __cdecl main_loop_body_mid(real shell_seconds_elapsed);
 extern void __cdecl main_loop_body_end();
 extern void __cdecl main_loop_body_multi_threaded();
+extern void __cdecl main_loop_body_single_threaded();
 extern void __cdecl main_loop_enter();
 extern void __cdecl main_loop_exit();
 extern void __cdecl main_loop_pregame();
