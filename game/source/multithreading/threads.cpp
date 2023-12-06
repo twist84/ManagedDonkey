@@ -51,6 +51,16 @@ void post_thread_assert_arguments(s_thread_assert_arguments* arguments)
 	g_thread_assert_triggered = true;
 }
 
+char const* __cdecl get_registered_thread_name(long thread_index)
+{
+	return INVOKE(0x0051C440, get_registered_thread_name, thread_index);
+
+	//if (thread_index < k_thread_unknown || thread_index >= k_registered_thread_count)
+	//	ASSERT_EXCEPTION("invalid thread index", true);
+	//
+	//g_registered_threads[thread_index].name;
+}
+
 char const* __cdecl get_thread_name_from_thread_id(long thread_id)
 {
 	return INVOKE(0x0051C480, get_thread_name_from_thread_id, thread_id);
@@ -72,14 +82,9 @@ bool __cdecl is_main_thread()
 	//return !g_thread_globals.initialized.peek() || g_registered_thread_index == k_thread_main;
 }
 
-char const* __cdecl get_registered_thread_name(long thread_index)
+void __cdecl sleep(dword milliseconds)
 {
-	return INVOKE(0x0051C440, get_registered_thread_name, thread_index);
-
-	//if (thread_index < k_thread_unknown || thread_index >= k_registered_thread_count)
-	//	ASSERT_EXCEPTION("invalid thread index", true);
-	//
-	//g_registered_threads[thread_index].name;
+	Sleep(milliseconds);
 }
 
 bool __cdecl switch_to_thread()
