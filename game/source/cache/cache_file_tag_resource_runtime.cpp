@@ -193,8 +193,37 @@ long __cdecl tag_resources_lock_game()
 	return INVOKE(0x00563F80, tag_resources_lock_game);
 }
 
+void __cdecl tag_resources_lock_render()
+{
+	INVOKE(0x00563FC0, tag_resources_lock_render);
+}
+
+bool __cdecl tag_resources_locked_for_current_thread_UGLY()
+{
+	return INVOKE(0x00563FE0, tag_resources_locked_for_current_thread_UGLY);
+}
+
+void __cdecl tag_resources_main_loop_idle()
+{
+	INVOKE(0x00563FF0, tag_resources_main_loop_idle);
+}
+
+//.text:00564000 // called from `main_game_internal_close_caches`
+
+void __cdecl tag_resources_pump_io()
+{
+	INVOKE(0x00564010, tag_resources_pump_io);
+}
+
+//.text:00564070 ; tag_resources_demand_optional_resources
+
+void __cdecl tag_resources_stagnate_deferred_resources()
+{
+	INVOKE(0x00564090, tag_resources_stagnate_deferred_resources);
+}
+
 void __cdecl tag_resources_unlock_game(long& lock)
 {
-	return INVOKE(0x005640B0, tag_resources_unlock_game, lock);
+	INVOKE(0x005640B0, tag_resources_unlock_game, lock);
 }
 

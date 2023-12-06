@@ -355,6 +355,11 @@ extern c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_man
 extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
 extern long __cdecl tag_resources_lock_game();
+extern void __cdecl tag_resources_lock_render();
+extern bool __cdecl tag_resources_locked_for_current_thread_UGLY();
+extern void __cdecl tag_resources_main_loop_idle();
+extern void __cdecl tag_resources_pump_io();
+extern void __cdecl tag_resources_stagnate_deferred_resources();
 extern void __cdecl tag_resources_unlock_game(long& lock);
 
 struct s_resource_file_header
