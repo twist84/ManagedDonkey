@@ -462,6 +462,15 @@ HOOK_DECLARE_CALL(0x00506219, game_initialize_hook_for_console_initialize);
 void __cdecl main_loop_exit()
 {
 	INVOKE(0x00506360, main_loop_exit);
+
+	//render_thread_set_mode(1, 0);
+	//main_loop_dispose_restricted_regions();
+	//
+	//if (game_is_multithreaded())
+	//{
+	//	main_render_purge_pending_messages();
+	//	wait_for_thread_to_exit(_registered_thread_render, 0xFFFFFFFF);
+	//}
 }
 
 void __cdecl main_loop_pregame()
@@ -586,7 +595,12 @@ long __cdecl render_thread_get_mode()
 
 bool __cdecl render_thread_enabled()
 {
-	return INVOKE(0x00507550, render_thread_enabled);
+	//return INVOKE(0x00507550, render_thread_enabled);
+
+	if (game_is_multithreaded())
+		return g_render_thread_enabled.peek();
+
+	return false;
 }
 
 void __cdecl unlock_resources_and_resume_render_thread(dword flags)
