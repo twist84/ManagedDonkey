@@ -451,6 +451,15 @@ void __cdecl main_loop_initialize_restricted_regions()
 	}
 }
 
+void __cdecl main_loop_dispose_restricted_regions()
+{
+	if (game_is_multithreaded())
+	{
+		restricted_region_lock_primary(k_game_state_render_region);
+		restricted_region_lock_primary(k_global_render_data_region);
+	}
+}
+
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
