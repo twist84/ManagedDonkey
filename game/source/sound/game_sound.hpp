@@ -21,3 +21,5 @@ struct s_game_sound_impulse_datum
 };
 static_assert(sizeof(s_game_sound_impulse_datum) == 0x200);
 
+extern void __cdecl game_sound_process_update_messages();
+

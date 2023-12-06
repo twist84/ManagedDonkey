@@ -179,4 +179,5 @@ extern long __cdecl game_engine_round_time_get();
 extern void __cdecl game_engine_update_round_conditions();
 extern void __cdecl game_engine_dump_variant_settings(char const* filename);
 extern void __cdecl post_game_engine_globals_message(long message_type, char a2, short a3);
+extern void __cdecl process_game_engine_globals_messages();
 

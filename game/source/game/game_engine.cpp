@@ -264,3 +264,8 @@ void __cdecl post_game_engine_globals_message(long message_type, char a2, short 
 	INVOKE(0x00554780, post_game_engine_globals_message, message_type, a2, a3);
 }
 
+void __cdecl process_game_engine_globals_messages()
+{
+	INVOKE(0x005547F0, process_game_engine_globals_messages);
+}
+

@@ -542,6 +542,14 @@ void __cdecl main_switch_zone_set(long zone_set_index)
 	INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
 }
 
+void __cdecl main_thread_process_pending_messages()
+{
+	//INVOKE(0x00507340, main_thread_process_pending_messages);
+
+	process_game_engine_globals_messages();
+	game_sound_process_update_messages();
+}
+
 bool __cdecl main_time_halted()
 {
 	return INVOKE(0x00507370, main_time_halted);
