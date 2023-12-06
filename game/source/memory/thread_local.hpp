@@ -112,15 +112,18 @@ struct s_thread_local_storage
 	// using `c_global_preferences_scope_lock`
 	s_global_preferences_internals_type* g_global_preferences;
 
-	void* __unknown1C;
+	// `thread_execution_crash_handler`
+	// `set_thread_exception_arguments`
+	// `build_exception_information`
+	bool __unknown1C; // should_set_thread_assertion?
 
 	// from assert
 	long g_registered_thread_index;
 
-	void* __unknown24;
-	void* __unknown28;
-	void* __unknown2C;
-	void* __unknown30;
+	// `thread_execution_crash_handler`
+	// `set_thread_exception_arguments`
+	// `build_exception_information`
+	dword exception_information[4 /* number_parameters */];
 
 	// name: "random math"
 	// type: "globals"
