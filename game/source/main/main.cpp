@@ -209,6 +209,11 @@ void __cdecl game_dispose_hook_for_console_dispose()
 }
 HOOK_DECLARE_CALL(0x00505BF5, game_dispose_hook_for_console_dispose);
 
+void __cdecl main_loop_body_main_part()
+{
+	INVOKE(0x00505C10, main_loop_body_main_part);
+}
+
 void __cdecl main_loop_body_begin()
 {
 	// right control for tests

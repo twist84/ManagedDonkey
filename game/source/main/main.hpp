@@ -14,6 +14,7 @@ extern bool& g_main_game_exit;
 extern bool __cdecl main_events_pending();
 extern void __cdecl main_exit_game();
 extern void __cdecl main_halt_and_catch_fire();
+extern void __cdecl main_loop_body_main_part();
 extern void __cdecl main_loop_body_begin();
 extern void __cdecl main_loop_body_mid(real shell_seconds_elapsed);
 extern void __cdecl main_loop_body_end();
