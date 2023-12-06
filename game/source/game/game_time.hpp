@@ -41,10 +41,34 @@ enum e_game_tick_publishing_flags
 	k_game_tick_publishing_flags = 12
 };
 
-// TODO: actually figure out this structure
 struct s_game_tick_time_samples
 {
+	void initialize()
+	{
+		reset();
+	}
+
+	void reset()
+	{
+		flags.clear();
+		__unknown4 = 0.0f;
+		__unknown8 = 0.0f;
+		__unknownC = 0.0f;
+		__unknown10 = 0;
+	}
+
+	void accum(s_game_tick_time_samples const* samples)
+	{
+		flags = samples->flags;
+		__unknown4 += samples->__unknown4;
+		__unknown8 += samples->__unknown8;
+		__unknownC += samples->__unknownC;
+		__unknown10 = samples->__unknown10;
+	}
+
 	c_flags<e_game_tick_publishing_flags, dword, k_game_tick_publishing_flags> flags;
+
+	// #TODO: find names
 	real __unknown4;
 	real __unknown8;
 	real __unknownC;
