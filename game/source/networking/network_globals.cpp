@@ -90,7 +90,7 @@ bool __cdecl network_memory_base_initialize(
 }
 HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
 
-// TODO: fully inplement and cleanup `network_initialize`
+// #TODO: fully inplement and cleanup `network_initialize`
 //void __cdecl network_initialize()
 //{
 //	if (shell_application_type() != _shell_application_type_client || network_globals.initialized)
@@ -184,7 +184,7 @@ HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
 //	network_globals.initialized = true;
 //}
 
-// TODO: replace this with a reimplementation of `network_initialize`
+// #TODO: replace this with a reimplementation of `network_initialize`
 void __cdecl _network_message_types_register_test(c_network_message_type_collection* message_collection)
 {
 	ASSERT(message_collection);

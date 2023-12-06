@@ -301,7 +301,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = true,
 	//	.allow_in_editor = true,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO `bool render_debug_show_4x3_bounds`
+	//	.variable = nullptr // #TODO: `bool render_debug_show_4x3_bounds`
 	//},
 	{
 		.name = "exit game",
@@ -341,7 +341,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO `cheat.deathless_player`
+	//	.variable = nullptr // #TODO: `cheat.deathless_player`
 	//},
 	//{
 	//	.name = "infinite ammo",
@@ -351,7 +351,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO `cheat.infinite_ammo`
+	//	.variable = nullptr // #TODO: `cheat.infinite_ammo`
 	//},
 	{
 		.name = "display framerate",
@@ -371,7 +371,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO `bool render_debug_infinite_framerate`
+	//	.variable = nullptr // #TODO: `bool render_debug_infinite_framerate`
 	//},
 	//{
 	//	.name = "render model vertex",
@@ -381,7 +381,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = true,
-	//	.variable = nullptr // #TODO `bool debug_render_model_vertex_counts`
+	//	.variable = nullptr // #TODO: `bool debug_render_model_vertex_counts`
 	//},
 	//{
 	//	.name = "render model names",
@@ -391,7 +391,7 @@ debug_key global_debug_key_list[]
 	//	.allow_out_of_game = false,
 	//	.allow_in_editor = false,
 	//	.toggle_variable = false,
-	//	.variable = nullptr // #TODO `bool debug_render_model_names`
+	//	.variable = nullptr // #TODO: `bool debug_render_model_names`
 	//},
 	{
 		.name = "save camera",

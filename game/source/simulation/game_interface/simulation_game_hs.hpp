@@ -95,7 +95,7 @@ struct c_simulation_hs_script_wake_event_definition :
 		csnzprintf(buffer, buffer_count, "hs-script-wake : relevance=%5.3f", calculate_relevance(a1, a2, a3));
 	}
 
-	// TODO: figure it out
+	// #TODO: figure it out
 	virtual void* __cdecl __func9(dword* out_flags, void*) override
 	{
 		*out_flags = 0x5500;

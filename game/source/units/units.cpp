@@ -131,7 +131,7 @@ void __cdecl unit_render_debug(long unit_index)
 
 bool units_debug_can_select_unit(long unit_index)
 {
-	// #TODO implement
+	// #TODO: implement
 	//return true;
 
 	object_header_datum const* header = object_header_get(unit_index);
