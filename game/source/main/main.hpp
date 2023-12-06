@@ -38,6 +38,8 @@ extern void __cdecl main_switch_zone_set(long zone_set_index);
 extern dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
 extern void __cdecl main_thread_process_pending_messages();
 extern bool __cdecl main_time_halted();
+extern void __cdecl publish_waiting_gamestate();
+extern long __cdecl render_thread_get_mode();
 extern bool __cdecl render_thread_enabled();
 extern void __cdecl unlock_resources_and_resume_render_thread(dword flags);
 extern void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, void* context);

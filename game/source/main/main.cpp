@@ -552,7 +552,22 @@ void __cdecl main_thread_process_pending_messages()
 
 bool __cdecl main_time_halted()
 {
-	return INVOKE(0x00507370, main_time_halted);
+	//return INVOKE(0x00507370, main_time_halted);
+
+	return shell_application_is_paused();
+}
+
+void __cdecl publish_waiting_gamestate()
+{
+	INVOKE(0x005074D0, publish_waiting_gamestate);
+}
+
+long __cdecl render_thread_get_mode()
+{
+	if (game_is_multithreaded())
+		return g_render_thread_enabled.peek();
+
+	return 0;
 }
 
 bool __cdecl render_thread_enabled()
