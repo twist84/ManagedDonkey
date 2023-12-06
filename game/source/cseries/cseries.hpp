@@ -648,10 +648,11 @@ struct c_flags_no_init
 };
 
 //template<typename t_type, typename t_storage_type, t_type k_count>
-template<typename t_type, typename t_storage_type, long k_count >
+template<typename t_type, typename t_storage_type, long k_count>
 struct c_flags //: public c_flags_no_init<t_type, t_storage_type, k_count>
 {
 	static t_type const k_maximum_count = (t_type)k_count;
+	//static_assert(k_maximum_count <= SIZEOF_BITS(t_storage_type));
 
 public:
 	c_flags() :
@@ -689,7 +690,10 @@ public:
 
 	bool is_empty() const
 	{
+#pragma warning(push)
+#pragma warning(disable : 4293)
 		return (m_storage & (MASK(SIZEOF_BITS(t_storage_type)) >> (SIZEOF_BITS(t_storage_type) - k_maximum_count))) == 0;
+#pragma warning(pop)
 	}
 
 	bool valid_bit(t_type bit)
