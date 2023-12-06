@@ -36,10 +36,15 @@ enum e_game_time_pause_reason
 	k_game_time_pause_reason_count,
 };
 
+enum e_game_tick_publishing_flags
+{
+	k_game_tick_publishing_flags = 12
+};
+
 // TODO: actually figure out this structure
 struct s_game_tick_time_samples
 {
-	c_flags<long, dword, 32> flags;
+	c_flags<e_game_tick_publishing_flags, dword, k_game_tick_publishing_flags> flags;
 	real __unknown4;
 	real __unknown8;
 	real __unknownC;
