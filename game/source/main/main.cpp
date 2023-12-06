@@ -74,6 +74,7 @@ REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
+HOOK_DECLARE(0x00506080, main_loop_body_single_threaded);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 
 void copy_input_states(bool enabled)
@@ -450,50 +451,51 @@ enum e_main_loop_body_part_flags
 //void __cdecl main_loop_body_single_threaded(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run) // debug?
 void __cdecl main_loop_body_single_threaded()
 {
-	INVOKE(0x00506080, main_loop_body_single_threaded);
+	//INVOKE(0x00506080, main_loop_body_single_threaded);
 
 	// Halo Online
 
-	//main_loop_body_main_part();
-	//
-	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	main_loop_body_main_part();
+	
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	
+	if (!game_is_multithreaded() || !g_main_gamestate_timing_data->flags.is_empty())
+	{
+		font_idle();
 
-	//if (!game_is_multithreaded() || !g_main_gamestate_timing_data->flags.is_empty())
-	//{
-	//	font_idle();
-	//	if (game_is_multithreaded())
-	//	{
-	//		main_time_mark_publishing_start_time();
-	//		if (restricted_region_publish_to_mirror(k_game_state_shared_region))
-	//		{
-	//			main_time_mark_publishing_end_time();
-	//
-	//			restricted_region_unlock_primary(k_game_state_shared_region);
-	//			if (restricted_region_lock_mirror(k_game_state_shared_region))
-	//			{
-	//				main_thread_lock_rasterizer_and_resources();
-	//				process_published_game_state(true);
-	//				main_thread_unlock_rasterizer_and_resources();
-	//
-	//				if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
-	//					restricted_region_unlock_mirror(k_game_state_shared_region);
-	//			}
-	//			restricted_region_lock_primary(k_game_state_shared_region);
-	//		}
-	//	}
-	//	else
-	//	{
-	//		main_time_mark_publishing_start_time();
-	//		main_time_mark_publishing_end_time();
-	//
-	//		main_thread_lock_rasterizer_and_resources();
-	//		process_published_game_state(!shell_application_is_paused());
-	//		main_thread_unlock_rasterizer_and_resources();
-	//	}
-	//
-	//	g_main_gamestate_timing_data.reset();
-	//	main_render_purge_pending_messages();
-	//}
+		if (game_is_multithreaded())
+		{
+			main_time_mark_publishing_start_time();
+			if (restricted_region_publish_to_mirror(k_game_state_shared_region))
+			{
+				main_time_mark_publishing_end_time();
+	
+				restricted_region_unlock_primary(k_game_state_shared_region);
+				if (restricted_region_lock_mirror(k_game_state_shared_region))
+				{
+					main_thread_lock_rasterizer_and_resources();
+					process_published_game_state(true);
+					main_thread_unlock_rasterizer_and_resources();
+	
+					if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
+						restricted_region_unlock_mirror(k_game_state_shared_region);
+				}
+				restricted_region_lock_primary(k_game_state_shared_region);
+			}
+		}
+		else
+		{
+			main_time_mark_publishing_start_time();
+			main_time_mark_publishing_end_time();
+	
+			main_thread_lock_rasterizer_and_resources();
+			process_published_game_state(!shell_application_is_paused());
+			main_thread_unlock_rasterizer_and_resources();
+		}
+	
+		g_main_gamestate_timing_data->reset();
+		main_render_purge_pending_messages();
+	}
 
 	// Halo 3
 	////PROFILER(single_thread_update)
@@ -660,7 +662,7 @@ void __cdecl main_loop_dispose_restricted_regions()
 //		}
 //	}
 //
-//	enable_render_thread();
+//	//render_thread_set_mode(1, 0);
 //	main_loop_dispose_restricted_regions();
 //	main_loop_exit();
 //}
@@ -788,6 +790,13 @@ void __cdecl main_switch_zone_set(long zone_set_index)
 	INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
 }
 
+void __cdecl main_thread_lock_rasterizer_and_resources()
+{
+	//INVOKE(0x00507330, main_thread_lock_rasterizer_and_resources);
+
+	tag_resources_lock_render();
+}
+
 void __cdecl main_thread_process_pending_messages()
 {
 	//INVOKE(0x00507340, main_thread_process_pending_messages);
@@ -796,11 +805,21 @@ void __cdecl main_thread_process_pending_messages()
 	game_sound_process_update_messages();
 }
 
+void __cdecl main_thread_unlock_rasterizer_and_resources()
+{
+	INVOKE(0x00507350, main_thread_unlock_rasterizer_and_resources);
+}
+
 bool __cdecl main_time_halted()
 {
 	//return INVOKE(0x00507370, main_time_halted);
 
 	return shell_application_is_paused();
+}
+
+void __cdecl process_published_game_state(bool a1)
+{
+	INVOKE(0x00507450, process_published_game_state, a1);
 }
 
 void __cdecl publish_waiting_gamestate()
