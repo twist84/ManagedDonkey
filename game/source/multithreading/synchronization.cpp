@@ -1,6 +1,6 @@
 #include "multithreading/synchronization.hpp"
 
-#include "cseries/cseries.hpp"
+REFERENCE_DECLARE(0x0238F45C, s_synchronization_globals, g_synch_globals);
 
 c_critical_section_scope::c_critical_section_scope(long critical_section_id) :
 	m_critical_section_id(),
