@@ -827,6 +827,14 @@ void __cdecl publish_waiting_gamestate()
 	INVOKE(0x005074D0, publish_waiting_gamestate);
 }
 
+//bool __cdecl render_thread_set_mode(e_render_thread_mode mode_a, e_render_thread_mode mode_b)
+bool __cdecl render_thread_set_mode(long mode_compare, long mode_exchange)
+{
+	//return INVOKE(0x005076D0, render_thread_set_mode, mode_compare, mode_exchange);
+
+	return game_is_multithreaded() && g_render_thread_enabled.set_if_equal(mode_exchange, mode_compare) == mode_compare;
+}
+
 long __cdecl render_thread_get_mode()
 {
 	if (game_is_multithreaded())

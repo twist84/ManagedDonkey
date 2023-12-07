@@ -45,6 +45,7 @@ extern void __cdecl main_thread_unlock_rasterizer_and_resources();
 extern bool __cdecl main_time_halted();
 extern void __cdecl process_published_game_state(bool a1);
 extern void __cdecl publish_waiting_gamestate();
+extern bool __cdecl render_thread_set_mode(long mode_compare, long mode_exchange);
 extern long __cdecl render_thread_get_mode();
 extern bool __cdecl render_thread_enabled();
 extern void __cdecl unlock_resources_and_resume_render_thread(dword flags);
