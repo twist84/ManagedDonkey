@@ -659,63 +659,29 @@ void __cdecl main_loop_dispose_restricted_regions()
 	}
 }
 
-//void __cdecl main_loop()
-//{
-//	if (game_is_multithreaded())
-//	{
-//		g_render_thread_user_setting = true;
-//		g_render_thread_enabled.set(true);
-//	}
-//
-//	main_loop_enter();
-//	main_loop_initialize_restricted_regions();
-//
-//	DWORD prev_tick_count = GetTickCount();
-//	while (!g_main_game_exit)
-//	{
-//		DWORD tick_count = GetTickCount();
-//		DWORD tick_delta = tick_count - prev_tick_count;
-//
-//		if (disable_main_loop_throttle || tick_delta >= 7)
-//		{
-//			bool requested_single_thread = false;
-//			prev_tick_count = tick_count;
-//			main_set_single_thread_request_flag(0, HIBYTE(g_render_thread_user_setting) == 0);
-//			if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
-//			{
-//				main_thread_process_pending_messages();
-//				main_loop_body_multi_threaded();
-//			}
-//			else
-//			{
-//				requested_single_thread = true;
-//				main_thread_process_pending_messages();
-//				main_loop_body_single_threaded();
-//			}
-//
-//			if (game_is_multithreaded())
-//			{
-//				if (!g_single_thread_request_flags.peek() != requested_single_thread)
-//				{
-//					//c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
-//					if (requested_single_thread)
-//						unlock_resources_and_resume_render_thread(v1);
-//					else
-//						v1 = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
-//				}
-//			}
-//		}
-//		else
-//		{
-//			// main_thread_sleep
-//			sleep(7 - tick_delta);
-//		}
-//	}
-//
-//	//render_thread_set_mode(1, 0);
-//	main_loop_dispose_restricted_regions();
-//	main_loop_exit();
-//}
+void __cdecl main_loop()
+{
+	if (game_is_multithreaded())
+	{
+		g_render_thread_user_setting = true;
+		g_render_thread_enabled.set(true);
+	}
+
+	main_loop_enter();
+	main_loop_initialize_restricted_regions();
+
+	dword wait_for_render_thread = 0;
+	dword tick_count = GetTickCount();
+	while (!g_main_game_exit)
+	{
+		main_loop_body(&wait_for_render_thread, &tick_count);
+	}
+
+	render_thread_set_mode(1, 0);
+	main_loop_dispose_restricted_regions();
+	main_loop_exit();
+}
+HOOK_DECLARE(0x005059E0, main_loop);
 
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
 {
