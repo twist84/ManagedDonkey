@@ -445,6 +445,15 @@ void __cdecl main_loop_body_multi_threaded()
 
 enum e_main_loop_body_part_flags
 {
+	// 1: main_pix_add_named_counter
+	//  - main_thread_work_ms
+	//  - main_thread_constant_overhead_ms
+	//  - main_thread_raw_ms
+	//  - main_thread_raw_game_ticks_ms
+	//  - main_thread_raw_publish_ms
+	//  - main_thread_zone_set_switch_raw_ms
+	//  - main_thread_game_state_flush_raw_ms
+
 	_main_loop_body_part_flags_count = 3
 };
 
@@ -583,13 +592,54 @@ void __cdecl main_loop_body_single_threaded()
 	//}
 }
 
-//void main_loop_body(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run, dword* wait_for_render_thread)
-//{
-//	//ASSERT(!parts_to_run.is_clear());
-//	//ASSERT(parts_to_run.test_range((e_main_loop_body_part_flags)0, (e_main_loop_body_part_flags)(_main_loop_body_part_flags_count - 1)));
-//
-//
-//}
+REFERENCE_DECLARE(0x022B47B8, long, main_globals_main_loop_time);
+REFERENCE_DECLARE(0x0244DF07, bool, byte_244DF07);
+REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
+
+//void main_loop_body(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run, dword* wait_for_render_thread, __int64* vblank_index) // debug?
+void main_loop_body(dword* wait_for_render_thread, dword* tick_count)
+{
+	dword current_tick_count = GetTickCount();
+	dword tick_delta = current_tick_count - *tick_count;
+
+	if (disable_main_loop_throttle || tick_delta >= 7)
+	{
+		*tick_count = current_tick_count;
+
+		bool requested_single_thread = false;
+		main_globals_main_loop_time = system_milliseconds();
+
+		main_set_single_thread_request_flag(0, !g_render_thread_user_setting);
+		if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
+		{
+			main_thread_process_pending_messages();
+			main_loop_body_multi_threaded();
+		}
+		else
+		{
+			requested_single_thread = true;
+			main_thread_process_pending_messages();
+			main_loop_body_single_threaded();
+		}
+
+		g_single_thread_request_flags.set_bit(3, byte_244DF08 || byte_244DF07);
+		if (game_is_multithreaded())
+		{
+			if (!g_single_thread_request_flags.peek() != requested_single_thread)
+			{
+				if (requested_single_thread)
+					unlock_resources_and_resume_render_thread(*wait_for_render_thread);
+				else
+					*wait_for_render_thread = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+			}
+		}
+	}
+	else
+	{
+		// main_thread_sleep
+		sleep(7 - tick_delta);
+	}
+}
 
 void __cdecl main_loop_initialize_restricted_regions()
 {
