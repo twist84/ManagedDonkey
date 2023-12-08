@@ -2,6 +2,15 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_game_state_revert_bit
+{
+	_game_state_revert_bit_user = 0,
+	_game_state_revert_bit_scripting,
+	_game_state_revert_bit_scripting_cinematic,
+
+	k_game_state_revert_bits
+};
+
 struct s_scenario_zone_activation
 {
 	long deactivating_designer_zone_mask;
@@ -25,8 +34,9 @@ struct _main_globals
 
 	bool map_reset;
 	bool map_reset_random;
+
 	bool map_revert;
-	byte_flags map_revert_flags;
+	c_flags<e_game_state_revert_bit, byte, k_game_state_revert_bits> map_revert_flags;
 
 	bool save;
 	bool save_and_exit;
