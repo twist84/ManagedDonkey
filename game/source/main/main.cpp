@@ -64,7 +64,7 @@ REFERENCE_DECLARE(0x022AE4F2, bool, disable_main_loop_throttle);
 REFERENCE_DECLARE(0x022B456C, c_interlocked_long, g_render_thread_waiting);
 REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
 REFERENCE_DECLARE(0x022B471C, c_interlocked_long, g_single_thread_request_flags);
-REFERENCE_DECLARE(0x022B473C, bool, g_main_game_exit);
+REFERENCE_DECLARE(0x022B4738, _main_globals, main_globals);
 
 // a static byte array used in `c_network_channel::receive_packet`
 // passed to `c_network_message_queue::retrieve_message`
@@ -74,7 +74,7 @@ REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
-HOOK_DECLARE(0x00506080, main_loop_body_single_threaded);
+//HOOK_DECLARE(0x00506080, main_loop_body_single_threaded);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 
 void copy_input_states(bool enabled)
@@ -147,19 +147,18 @@ void __cdecl main_exit_game()
 {
 	//INVOKE(0x005056D0, main_exit_game);
 
-	g_main_game_exit = true;
+	main_globals.exit_game = true;
 }
 
 void __cdecl main_halt_and_catch_fire()
 {
 	INVOKE(0x00505710, main_halt_and_catch_fire);
 
-	//REFERENCE_DECLARE(0x022B47B4, long, main_globals_main_loop_pregame_entered);
 	//REFERENCE_DECLARE(0x022B47F0, bool, byte_22B47F0);
 	//REFERENCE_DECLARE(0x022B47F1, bool, byte_22B47F1);
 	//
 	//if (is_main_thread())
-	//	main_globals_main_loop_pregame_entered++;
+	//	main_globals.main_loop_pregame_entered++;
 	//
 	//if (byte_22B47F0)
 	//{
@@ -178,7 +177,7 @@ void __cdecl main_halt_and_catch_fire()
 	//}
 	//
 	//if (is_main_thread())
-	//	main_globals_main_loop_pregame_entered++;
+	//	main_globals.main_loop_pregame_entered++;
 	//
 	//release_locks_safe_for_crash_release();
 	//byte_22B47F0 = true;
@@ -200,7 +199,7 @@ void __cdecl main_halt_and_catch_fire()
 	//byte_22B47F0 = false;
 	//
 	//if (is_main_thread())
-	//	main_globals_main_loop_pregame_entered--;
+	//	main_globals.main_loop_pregame_entered--;
 }
 
 void __cdecl game_dispose_hook_for_console_dispose()
@@ -264,6 +263,7 @@ void __cdecl main_loop_body_begin()
 		g_user_interface_globals;
 		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.get();
 		g_synch_globals;
+		main_globals;
 
 		s_thread_local_storage* tls = get_tls();
 
@@ -346,7 +346,7 @@ void __cdecl main_loop_body_begin()
 	show_location_messages();
 }
 
-bool cheat_drop_has_tag = false;
+bool cheat_drop_tag = false;
 long cheat_drop_tag_index = 0;
 long cheat_drop_variant_name = 0;
 s_model_customization_region_permutation cheat_drop_permutations[16]{};
@@ -357,7 +357,7 @@ void __cdecl main_loop_body_mid(real shell_seconds_elapsed)
 {
 	long lock = tag_resources_lock_game();
 
-	if (cheat_drop_has_tag)
+	if (cheat_drop_tag)
 		main_cheat_drop_tag_private();
 	
 	real elapsed_game_dt = shell_seconds_elapsed;
@@ -593,7 +593,6 @@ void __cdecl main_loop_body_single_threaded()
 	//}
 }
 
-REFERENCE_DECLARE(0x022B47B8, long, main_globals_main_loop_time);
 REFERENCE_DECLARE(0x0244DF07, bool, byte_244DF07);
 REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
 
@@ -608,7 +607,7 @@ void main_loop_body(dword* wait_for_render_thread, dword* tick_count)
 		*tick_count = current_tick_count;
 
 		bool requested_single_thread = false;
-		main_globals_main_loop_time = system_milliseconds();
+		main_globals.main_loop_time = system_milliseconds();
 
 		main_set_single_thread_request_flag(0, !g_render_thread_user_setting);
 		if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
@@ -673,7 +672,7 @@ void __cdecl main_loop()
 
 	dword wait_for_render_thread = 0;
 	dword tick_count = GetTickCount();
-	while (!g_main_game_exit)
+	while (!main_globals.exit_game)
 	{
 		main_loop_body(&wait_for_render_thread, &tick_count);
 	}
@@ -1049,7 +1048,7 @@ void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_cust
 
 	cheat_drop_tag_index = tag_index;
 	cheat_drop_variant_name = variant_name;
-	cheat_drop_has_tag = true;
+	cheat_drop_tag = true;
 	cheat_drop_permutation_count = 0;
 
 	if (permutations)
@@ -1065,7 +1064,7 @@ void __cdecl main_cheat_drop_tag(long tag_index, long variant_name, s_model_cust
 
 void __cdecl main_cheat_drop_tag_private()
 {
-	cheat_drop_has_tag = false;
+	cheat_drop_tag = false;
 
 	cheat_drop_tag_in_main_event_loop(
 		cheat_drop_tag_index,
