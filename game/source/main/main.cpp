@@ -71,6 +71,7 @@ REFERENCE_DECLARE(0x022B4738, _main_globals, main_globals);
 // passed to `c_network_message_handler::handle_channel_message`
 REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
 
+HOOK_DECLARE(0x00505650, main_events_reset);
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
@@ -143,11 +144,67 @@ bool __cdecl main_events_pending()
 	return INVOKE(0x00505530, main_events_pending);
 }
 
+void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool* variable)
+{
+	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
+
+	if (*variable == true)
+	{
+		generate_event(_event_level_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
+		*variable = false;
+	}
+}
+
+void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool volatile* variable)
+{
+	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
+
+	if (*variable == true)
+	{
+		generate_event(_event_level_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
+		*variable = false;
+	}
+}
+
+char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons]
+{
+	"changing the map",
+	"xsync in progress"
+};
+
+void __cdecl main_events_reset(e_main_reset_events_reason reason)
+{
+	//INVOKE(0x00505650, main_events_reset, reason);
+
+	main_event_reset_internal("skip cinematic", reason, &main_globals.skip_cinematic);
+	main_event_reset_internal("map reset", reason, &main_globals.map_reset);
+	main_event_reset_internal("map revert", reason, &main_globals.map_revert);
+	main_globals.map_revert_flags.clear();
+	main_event_reset_internal("activate cinematic tag", reason, &main_globals.activate_cinematic_tag);
+	main_event_reset_internal("game state decompression", reason, &main_globals.game_state_decompression);
+	main_event_reset_internal("reset zone resources", reason, &main_globals.reset_zone_resources);
+	main_event_reset_internal("prepare to switch zone set", reason, &main_globals.prepare_to_switch_zone_set);
+	main_event_reset_internal("switch zone set", reason, &main_globals.switch_zone_set);
+	main_event_reset_internal("save", reason, &main_globals.save);
+	main_event_reset_internal("save and exit", reason, &main_globals.save_and_exit);
+	main_event_reset_internal("reloading active zone set", reason, &main_globals.reloading_active_zone_set);
+	main_event_reset_internal("non-bsp zone activation", reason, &main_globals.non_bsp_zone_activation);
+	main_globals.scenario_zone_activation.clear();
+	//main_event_reset_internal("cheat drop tag", reason, &main_globals.cheat_drop_tag);
+}
+
 void __cdecl main_exit_game()
 {
 	//INVOKE(0x005056D0, main_exit_game);
 
 	main_globals.exit_game = true;
+}
+
+bool __cdecl main_game_is_exiting()
+{
+	//return INVOKE(0x00505700, main_game_is_exiting);
+
+	return main_globals.exit_game;
 }
 
 void __cdecl main_halt_and_catch_fire()

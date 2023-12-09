@@ -2,6 +2,14 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_main_reset_events_reason
+{
+	_main_reset_events_reason_changing_the_map = 0,
+	_main_reset_events_reason_xsync_in_progress,
+
+	k_number_of_main_reset_event_reasons
+};
+
 enum e_game_state_revert_bit
 {
 	_game_state_revert_bit_user = 0,
@@ -13,6 +21,20 @@ enum e_game_state_revert_bit
 
 struct s_scenario_zone_activation
 {
+	void clear()
+	{
+		deactivating_designer_zone_mask = 0;
+		activating_designer_zone_mask = 0;
+		deactivating_cinematic_zone_mask = 0;
+		activating_cinematic_zone_mask = 0;
+	}
+
+	//bool is_empty() const
+	//{
+	//	return !(deactivating_designer_zone_mask || activating_designer_zone_mask
+	//		|| deactivating_cinematic_zone_mask || activating_cinematic_zone_mask);
+	//}
+
 	long deactivating_designer_zone_mask;
 	long activating_designer_zone_mask;
 	long deactivating_cinematic_zone_mask;
@@ -78,7 +100,12 @@ extern c_interlocked_long& g_render_thread_enabled;
 extern c_interlocked_long& g_single_thread_request_flags;
 extern _main_globals& main_globals;
 
+extern char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons];
+
 extern bool __cdecl main_events_pending();
+extern void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool* variable);
+extern void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool volatile* variable);
+extern void __cdecl main_events_reset(e_main_reset_events_reason reason);
 extern void __cdecl main_exit_game();
 extern void __cdecl main_halt_and_catch_fire();
 extern void __cdecl main_loop_body_main_part();

@@ -27,12 +27,12 @@
 //
 //	if (shell_initialize(false))
 //	{
-//		RegisterHotKey_Snapshot();
+//		RegisterHotKey_Snapshot(); // Halo Online
 //
 //		main_loop();
 //		shell_dispose();
 //
-//		UnregisterHotKey_Snapshot();
+//		UnregisterHotKey_Snapshot(); // Halo Online
 //	}
 //
 //	physical_memory_stage_pop(_memory_stage_game_initialize);
