@@ -4,6 +4,7 @@
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files.hpp"
 #include "cache/cache_files_windows.hpp"
+#include "cache/physical_memory_map.hpp"
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
@@ -321,6 +322,7 @@ void __cdecl main_loop_body_begin()
 		c_cache_file_tag_resource_runtime_manager* resource_runtime_manager = g_resource_runtime_manager.get();
 		g_synch_globals;
 		main_globals;
+		physical_memory_globals;
 
 		s_thread_local_storage* tls = get_tls();
 

@@ -711,7 +711,7 @@ bool __cdecl cache_file_tags_load_allocate()
 	{
 		tag_offsets_size = sizeof(long) * g_cache_file_globals.header.tag_count;
 		g_cache_file_globals.tag_total_count = g_cache_file_globals.header.tag_count;
-		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(5, NULL, cache_file_round_up_read_size(tag_offsets_size), 0);
+		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, cache_file_round_up_read_size(tag_offsets_size), 0);
 
 		result = cache_file_blocking_read(_cache_file_section_tag, g_cache_file_globals.header.tag_cache_offsets, cache_file_round_up_read_size(tag_offsets_size), g_cache_file_globals.tag_cache_offsets);
 	}
@@ -730,8 +730,8 @@ bool __cdecl cache_file_tags_load_allocate()
 
 		tag_offsets_size = sizeof(long) * tags_header.tag_count;
 		g_cache_file_globals.tag_total_count = tags_header.tag_count;
-		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(5, NULL, 4 * tags_header.tag_count, 0);
-		long* tag_offsets = (long*)_physical_memory_malloc_fixed(5, NULL, tag_offsets_size, 0);
+		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
+		long* tag_offsets = (long*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
 
 		if (!cache_file_tags_section_read(tags_header.tag_cache_offsets, tag_offsets_size, tag_offsets))
 			return false;
@@ -740,11 +740,11 @@ bool __cdecl cache_file_tags_load_allocate()
 		for (long tag_index = 0; tag_index < tags_header.tag_count; g_cache_file_globals.tag_cache_offsets[tag_index - 1] = tag_offset)
 			tag_offset = tag_offsets[tag_index++];
 
-		//debug_free_aligned(tag_offsets); // nullsub
+		physical_memory_free(tag_offsets);
 	}
 
-	g_cache_file_globals.tag_index_absolute_mapping = (long*)_physical_memory_malloc_fixed(5, NULL, tag_offsets_size, 0);
-	g_cache_file_globals.absolute_index_tag_mapping = (long*)_physical_memory_malloc_fixed(5, NULL, tag_offsets_size, 0);
+	g_cache_file_globals.tag_index_absolute_mapping = (long*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
+	g_cache_file_globals.absolute_index_tag_mapping = (long*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
 	csmemset(g_cache_file_globals.tag_index_absolute_mapping, NONE, tag_offsets_size);
 	csmemset(g_cache_file_globals.absolute_index_tag_mapping, NONE, tag_offsets_size);
 
@@ -832,12 +832,12 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		cache_file_tags_load_allocate();
 
 		dword total_instance_size = sizeof(cache_file_tag_instance*) * g_cache_file_globals.tag_total_count;
-		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc_fixed(5, NULL, total_instance_size, 0);
+		g_cache_file_globals.tag_instances = (cache_file_tag_instance**)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, total_instance_size, 0);
 		csmemset(g_cache_file_globals.tag_instances, 0, total_instance_size);
 
 		g_cache_file_globals.tag_loaded_count = 0;
 		g_cache_file_globals.tag_cache_size = 0x4B00000;
-		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(5, "tag cache", g_cache_file_globals.tag_cache_size, 0);
+		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
 		g_cache_file_globals.tag_loaded_size = 0;
 
 		success = g_cache_file_globals.tag_cache_base_address != nullptr;

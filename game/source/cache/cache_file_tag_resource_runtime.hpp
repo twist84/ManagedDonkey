@@ -6,6 +6,7 @@
 #include "cache/cache_file_tag_resource_location_table.hpp"
 #include "cache/cache_file_tag_resource_vtable_list.hpp"
 #include "cache/optional_cache.hpp"
+#include "cache/physical_memory_map.hpp"
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "scenario/scenario.hpp"
@@ -269,15 +270,6 @@ public:
 	virtual bool get_location(qword, s_indirect_cache_file_location* out_location);
 };
 static_assert(sizeof(c_indirect_cache_file_location_atlas) == 0x4);
-
-struct c_physical_memory_contiguous_region_listener
-{
-public:
-	virtual void initialize_resize_buffer(c_basic_buffer<void>);
-	virtual void resize_no_fail(c_basic_buffer<void>, c_basic_buffer<void>);
-	virtual void dispose_resize_buffer(c_basic_buffer<void>);
-};
-static_assert(sizeof(c_physical_memory_contiguous_region_listener) == 0x4);
 
 struct c_tag_resource_prediction_atom_collector;
 struct c_tag_resource_prediction_atom_generator
