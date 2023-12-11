@@ -186,6 +186,7 @@ POPD
     <ClCompile Include="source\cache\cache_file_builder_tag_resource_manager.cpp" />
     <ClCompile Include="source\cache\cache_file_tag_resource_runtime.cpp" />
     <ClCompile Include="source\cache\fmod_sound_cache.cpp" />
+    <ClCompile Include="source\cache\optional_cache.cpp" />
     <ClCompile Include="source\cache\pc_geometry_cache.cpp" />
     <ClCompile Include="source\cache\pc_texture_cache.cpp" />
     <ClCompile Include="source\cache\physical_memory_map.cpp" />
@@ -291,7 +292,7 @@ POPD
     <ClCompile Include="source\game\game_engine_variant.cpp" />
     <ClCompile Include="source\game\game_globals.cpp" />
     <ClCompile Include="source\game\game_options.cpp" />
-    <ClCompile Include="source\game\game_state.cpp" />
+    <ClCompile Include="source\saved_games\game_state.cpp" />
     <ClCompile Include="source\game\game_time.cpp" />
     <ClCompile Include="source\game\player_control.cpp" />
     <ClCompile Include="source\game\player_mapping.cpp" />
@@ -835,7 +836,7 @@ POPD
     <ClInclude Include="source\game\game_globals.hpp" />
     <ClInclude Include="source\game\game_options.hpp" />
     <ClInclude Include="source\game\game_progression.hpp" />
-    <ClInclude Include="source\game\game_state.hpp" />
+    <ClInclude Include="source\saved_games\game_state.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
     <ClInclude Include="source\game\players.hpp" />
     <ClInclude Include="source\game\player_control.hpp" />

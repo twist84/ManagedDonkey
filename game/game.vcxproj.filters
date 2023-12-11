@@ -102,7 +102,7 @@
     <ClCompile Include="source\interface\c_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\game\game_state.cpp">
+    <ClCompile Include="source\saved_games\game_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\interface\first_person_weapons.cpp">
@@ -1110,6 +1110,9 @@
     <ClCompile Include="source\cseries\runtime_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cache\optional_cache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -1403,7 +1406,7 @@
     <ClInclude Include="source\interface\c_player_profile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\game\game_state.hpp">
+    <ClInclude Include="source\saved_games\game_state.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\first_person_weapons.hpp">

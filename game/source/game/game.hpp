@@ -5,7 +5,6 @@
 #include "game/game_engine_variant.hpp"
 #include "game/game_globals.hpp"
 #include "game/game_options.hpp"
-#include "game/game_state.hpp"
 #include "game/game_time.hpp"
 #include "game/player_control.hpp"
 #include "game/player_mapping.hpp"
@@ -13,6 +12,7 @@
 #include "game/survival_mode.hpp"
 #include "memory/data.hpp"
 #include "render/render_visibility_collection.hpp"
+#include "saved_games/game_state.hpp"
 #include "shell/shell.hpp"
 
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs();
