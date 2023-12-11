@@ -1104,6 +1104,9 @@
     <ClCompile Include="source\saved_games\game_state_procs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\saved_games\game_state_pc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2895,6 +2898,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\saved_games\game_state_procs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\saved_games\game_state_pc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
