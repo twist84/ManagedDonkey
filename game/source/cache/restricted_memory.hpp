@@ -13,8 +13,15 @@ enum e_restricted_memory_region
 	k_game_state_render_region,
 	k_game_state_shared_region,
 	k_global_render_data_region,
+	//k_global_shared_data_region,
 
-	k_total_restricted_memory_regions
+	k_total_restricted_memory_regions,
+	k_total_game_state_subsections = k_total_restricted_memory_regions,
+
+	k_game_state_header_region_size = 0x30000,
+	k_game_state_update_region_size = 0x200000,
+	k_game_state_render_region_size = 0x2D0000,
+	k_game_state_shared_region_size = 0x480000,
 };
 
 enum e_memory_protection;
@@ -99,5 +106,6 @@ public:
 };
 
 extern char const*(&g_restricted_region_names)[k_total_restricted_memory_regions];
+extern c_restricted_section(&g_restricted_section)[k_total_restricted_memory_regions];
 extern c_restricted_memory(&g_restricted_regions)[k_total_restricted_memory_regions];
 
