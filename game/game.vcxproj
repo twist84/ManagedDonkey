@@ -476,6 +476,7 @@ POPD
     <ClCompile Include="source\saved_games\content_catalogue_tasks.cpp" />
     <ClCompile Include="source\saved_games\content_item.cpp" />
     <ClCompile Include="source\saved_games\c_storage_device.cpp" />
+    <ClCompile Include="source\saved_games\game_state_procs.cpp" />
     <ClCompile Include="source\saved_games\saved_film.cpp" />
     <ClCompile Include="source\saved_games\saved_film_history.cpp" />
     <ClCompile Include="source\saved_games\saved_game_files.cpp" />
@@ -1026,6 +1027,7 @@ POPD
     <ClInclude Include="source\saved_games\content_item.hpp" />
     <ClInclude Include="source\saved_games\c_storage_device.hpp" />
     <ClInclude Include="source\saved_games\determinism_debug_manager.hpp" />
+    <ClInclude Include="source\saved_games\game_state_procs.hpp" />
     <ClInclude Include="source\saved_games\saved_film.hpp" />
     <ClInclude Include="source\saved_games\saved_film_history.hpp" />
     <ClInclude Include="source\saved_games\saved_game_files.hpp" />
