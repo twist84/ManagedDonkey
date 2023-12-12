@@ -8,6 +8,7 @@
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_custom_bitmap_widget.hpp"
 #include "networking/tools/remote_command.hpp"
+#include "saved_games/game_state.hpp"
 #include "simulation/simulation.hpp"
 
 void process_attach(HMODULE hModule)
@@ -25,6 +26,7 @@ void process_attach(HMODULE hModule)
 	patch_debug_menu();
 	patch_gui_custom_bitmap_widget();
 	patch_remote_command();
+	patch_game_state();
 	patch_simulation();
 }
 

@@ -6,6 +6,7 @@
 #include "multithreading/threads.hpp"
 #include "rasterizer/rasterizer_main.hpp"
 #include "shell/shell.hpp"
+#include "tag_files/files.hpp"
 #include "text/draw_string.hpp"
 
 #include <string.h>
@@ -14,6 +15,9 @@
 #include <wtypes.h>
 
 HOOK_DECLARE(0x000D858D0, network_debug_print);
+
+char const* const k_reports_directory_name = "reports\\";
+char const* const k_reports_directory_root_name = "\\";
 
 thread_local bool g_generating_event = false;
 
@@ -46,6 +50,21 @@ char const* const k_event_level_severity_strings[k_event_level_count]
 bool g_events_debug_render_enable = true;
 char const* const k_primary_event_log_filename = "debug.txt";
 char const* const k_primary_full_event_log_filename = "debug_full.txt";
+
+s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, char const* filename, bool use_sub_directory)
+{
+	c_static_string<256> reports_file_path;
+	reports_file_path.print("%s", use_sub_directory ? k_reports_directory_name : k_reports_directory_root_name);
+	reports_file_path.append(filename);
+
+	s_file_reference* result = file_reference_create_from_path(info, reports_file_path.get_string(), false);
+	ASSERT(result != NULL);
+
+	if (result)
+		file_create_parent_directories_if_not_present(result);
+
+	return result;
+}
 
 void __cdecl build_networking_buffer_for_log(char*, long)
 {

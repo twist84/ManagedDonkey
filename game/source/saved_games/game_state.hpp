@@ -31,6 +31,8 @@ struct c_gamestate_deterministic_allocation_callbacks :
 	public c_restricted_memory_callbacks
 {
 public:
+	void __thiscall _handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long a4, void* base_address, unsigned int allocation_size);
+
 	virtual long filter_base_offset(long, long);
 };
 
@@ -38,6 +40,7 @@ struct c_gamestate_nondeterministic_allocation_callbacks :
 	public c_restricted_memory_callbacks
 {
 public:
+	void __thiscall _handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long a4, void* base_address, unsigned int allocation_size);
 };
 
 struct c_game_state_compressor
@@ -105,6 +108,8 @@ extern c_gamestate_deterministic_allocation_callbacks& g_gamestate_deterministic
 extern c_gamestate_nondeterministic_allocation_callbacks& g_gamestate_nondeterministic_allocation_callbacks;
 extern s_game_state_globals& game_state_globals;
 
+extern void patch_game_state();
+
 enum e_controller_index;
 enum e_critical_sections;
 struct s_player_identifier;
@@ -163,4 +168,5 @@ extern bool __cdecl game_state_write_core(char const* core_name, void const* buf
 extern void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header const* header, long header_size, void const* buffer, long buffer_length);
 extern void __cdecl initialize_game_state_section(long section_index, unsigned int size, byte** starting_address, dword* available_memory, e_critical_sections critical_section_id);
 extern bool __cdecl player_identifier_exists_in_game_header(s_player_identifier const* player_identifier, s_game_state_header const* header);
+extern void __cdecl game_state_allocation_record(long region_index, char const* name, char const* type, long allocation_size);
 

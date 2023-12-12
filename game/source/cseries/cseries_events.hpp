@@ -140,6 +140,8 @@ extern char const* const k_primary_full_event_log_filename;
 
 extern bool g_events_debug_render_enable;
 
+struct s_file_reference;
+extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, char const* filename, bool use_sub_directory);
 extern void __cdecl events_debug_render();
 extern char const* __cdecl events_get();
 extern long __cdecl event_interlocked_compare_exchange(c_interlocked_long& value, long ExChange, long Comperand);

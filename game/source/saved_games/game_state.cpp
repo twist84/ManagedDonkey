@@ -2,12 +2,15 @@
 
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
+#include "config/version.hpp"
+#include "cseries/cseries_events.hpp"
 #include "cseries/runtime_state.hpp"
 #include "memory/crc.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
 #include "saved_games/game_state_pc.hpp"
 #include "saved_games/game_state_procs.hpp"
+#include "tag_files/files.hpp"
 
 REFERENCE_DECLARE(0x0189D468, c_game_state_compressor_callback, g_game_state_compressor_optional_cache_callback);
 REFERENCE_DECLARE(0x0189D46C, c_gamestate_deterministic_allocation_callbacks, g_gamestate_deterministic_allocation_callbacks);
@@ -15,6 +18,16 @@ REFERENCE_DECLARE(0x0189D470, c_gamestate_nondeterministic_allocation_callbacks,
 REFERENCE_DECLARE(0x02344148, s_game_state_globals, game_state_globals);
 
 HOOK_DECLARE(0x00510A50, game_state_shell_initialize);
+
+s_file_reference game_state_allocation_record_file{};
+bool game_state_allocation_recording = false;
+
+void patch_game_state()
+{
+	patch_pointer({ .address = 0x01650874 + (sizeof(void*) * 2) }, member_to_static_function(&c_gamestate_deterministic_allocation_callbacks::_handle_allocation));
+	patch_pointer({ .address = 0x01650884 + (sizeof(void*) * 2) }, member_to_static_function(&c_gamestate_nondeterministic_allocation_callbacks::_handle_allocation));
+	patch_pointer({ .address = 0x01655D48 }, game_state_initialize_for_new_map);
+}
 
 //.text:0050EEA0 ; c_game_state_compressor_callback::c_game_state_compressor_callback
 //.text:0050EEB0 ; c_gamestate_deterministic_allocation_callbacks::c_gamestate_deterministic_allocation_callbacks
@@ -154,6 +167,13 @@ void __cdecl game_state_initialize()
 
 void __cdecl game_state_initialize_for_new_map()
 {
+	// this is supposed to be after `game_state_reset_mapping`
+	if (game_state_allocation_recording)
+	{
+		file_close(&game_state_allocation_record_file);
+		game_state_allocation_recording = false;
+	}
+
 	INVOKE(0x0050FDC0, game_state_initialize_for_new_map);
 }
 
@@ -299,45 +319,63 @@ void __cdecl game_state_shell_initialize()
 {
 	//INVOKE(0x00510A50, game_state_shell_initialize);
 
-	ASSERT(!game_state_globals.initialized);;
-	
+	ASSERT(!game_state_globals.initialized);
+
 	game_state_proc_globals_initialize();
 	game_state_globals.checksum = crc_new();
-	
+
 	ASSERT(game_state_globals.base_address);
-	
+
 	game_state_globals.compressor.initialize();
 	game_state_initialize_storage();
-	
+
 	game_state_globals.runtime_saved_game_storage_count = game_state_get_storage_count();
 	ASSERT(IN_RANGE_INCLUSIVE(game_state_globals.runtime_saved_game_storage_count, 1, k_saved_game_storage_max_count));
-	
+
 	dword available_memory = k_game_state_cpu_size;
 	byte* starting_address = static_cast<byte*>(game_state_globals.base_address);
-	
+
 	initialize_game_state_section(k_game_state_header_region, k_game_state_header_region_size, &starting_address, &available_memory, _critical_section_header_section);
 	initialize_game_state_section(k_game_state_update_region, k_game_state_update_region_size, &starting_address, &available_memory, _critical_section_update_section);
 	initialize_game_state_section(k_game_state_render_region, k_game_state_render_region_size, &starting_address, &available_memory, _critical_section_render_section);
 	initialize_game_state_section(k_game_state_shared_region, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_section);
 	initialize_game_state_section(k_game_state_shared_region_mirror0, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_mirror0);
 	initialize_game_state_section(k_game_state_shared_region_mirror1, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_mirror1);
-	
+
 	restricted_region_create(k_game_state_header_region, &g_restricted_section[k_game_state_header_region], _critical_section_header_region, &g_gamestate_deterministic_allocation_callbacks);
 	restricted_region_create(k_game_state_update_region, &g_restricted_section[k_game_state_update_region], _critical_section_update_region, &g_gamestate_deterministic_allocation_callbacks);
 	restricted_region_create(k_game_state_render_region, &g_restricted_section[k_game_state_render_region], _critical_section_render_region, &g_gamestate_nondeterministic_allocation_callbacks);
 	restricted_region_create(k_game_state_shared_region, &g_restricted_section[k_game_state_shared_region], _critical_section_shared_region, &g_gamestate_deterministic_allocation_callbacks);
 	restricted_region_add_mirror(k_game_state_shared_region, &g_restricted_section[k_game_state_shared_region_mirror0]);
 	restricted_region_add_mirror(k_game_state_shared_region, &g_restricted_section[k_game_state_shared_region_mirror1]);
-	
+
 	restricted_region_lock_primary(k_game_state_header_region);
 	restricted_region_lock_primary(k_game_state_update_region);
 	restricted_region_lock_primary(k_game_state_render_region);
 	restricted_region_lock_primary(k_game_state_shared_region);
-	
+
 	long game_state_header_member_index = restricted_region_add_member(k_game_state_header_region, "header", "game_state_header", sizeof(s_game_state_header), 0, game_state_set_header_address, NULL, NULL);
 	game_state_globals.header = (s_game_state_header*)restricted_region_get_member_address(k_game_state_header_region, game_state_header_member_index);
 	ASSERT(game_state_globals.header == (s_game_state_header*)game_state_globals.base_address);
-	
+
+	dword error = 0;
+	create_report_file_reference(&game_state_allocation_record_file, "gamestate.txt", true);
+	if (file_create(&game_state_allocation_record_file) && file_open(&game_state_allocation_record_file, FLAG(_file_open_flag_desired_access_write), &error))
+	{
+		file_printf(&game_state_allocation_record_file, "game state allocations from: %s\r\n", version_get_full_string());
+		file_printf(&game_state_allocation_record_file, "memory total, %u\r\n", k_game_state_cpu_size);
+		file_printf(&game_state_allocation_record_file, "memory available, %u\r\n", available_memory);
+		file_printf(&game_state_allocation_record_file, "% 44s,% 24s", "name", "type");
+
+		for (long i = 0; i < k_total_restricted_memory_regions; i++)
+			file_printf(&game_state_allocation_record_file, ",% 32s", restricted_region_get_name(i));
+
+		file_printf(&game_state_allocation_record_file, "\r\n");
+		game_state_allocation_recording = true;
+
+		game_state_allocation_record(k_game_state_header_region, "header", "s_game_state_header", sizeof(s_game_state_header));
+	}
+
 	game_state_globals.initialized = true;
 }
 
@@ -364,8 +402,21 @@ void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header
 }
 
 //.text:00511040 ; c_game_state_compressor_callback::get_memory_configuration
+
 //.text:00511070 ; c_gamestate_deterministic_allocation_callbacks::handle_allocation
+void __thiscall c_gamestate_deterministic_allocation_callbacks::_handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long a4, void* base_address, unsigned int allocation_size)
+{
+	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
+	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
+}
+
 //.text:00511090 ; c_gamestate_nondeterministic_allocation_callbacks::handle_allocation
+void __thiscall c_gamestate_nondeterministic_allocation_callbacks::_handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long a4, void* base_address, unsigned int allocation_size)
+{
+	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
+	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
+}
+
 //.text:005110B0 ; c_restricted_memory_callbacks::handle_allocation
 //.text:005110C0 ; c_gamestate_deterministic_allocation_callbacks::handle_release
 //.text:005110D0 ; c_gamestate_nondeterministic_allocation_callbacks::handle_release
@@ -390,7 +441,6 @@ void c_game_state_compressor::initialize()
 	//m_compressed_game_state_size = 0;
 }
 
-
 void __cdecl initialize_game_state_section(long section_index, unsigned int size, byte** starting_address, dword* available_memory, e_critical_sections critical_section_id)
 {
 	return INVOKE(0x00511170, initialize_game_state_section, section_index, size, starting_address, available_memory, critical_section_id);
@@ -414,4 +464,17 @@ bool __cdecl player_identifier_exists_in_game_header(s_player_identifier const* 
 //.text:00511310 ; c_game_state_compressor::set_lock_pending
 //.text:00511320 ; c_game_state_compressor_callback::terminate
 //.text:00511370 ; c_game_state_compressor::unlock
+
+void __cdecl game_state_allocation_record(long region_index, char const* name, char const* type, long allocation_size)
+{
+	if (game_state_allocation_recording)
+	{
+		file_printf(&game_state_allocation_record_file, "% 44s,% 24s", name, type);
+
+		for (long i = 0; i < k_total_restricted_memory_regions; i++)
+			file_printf(&game_state_allocation_record_file, ",% 32d", region_index == i ? allocation_size : 0);
+	}
+
+	file_printf(&game_state_allocation_record_file, "\r\n");
+}
 
