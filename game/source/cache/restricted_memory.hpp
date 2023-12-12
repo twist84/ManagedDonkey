@@ -64,20 +64,20 @@ struct c_restricted_memory
 		dword offset;
 		dword size;
 		void(__cdecl* update_callback)(void*);
-		void(__cdecl* unknown_callback1)(void*);
-		void(__cdecl* unknown_callback2)(void*);
+		void(__cdecl* post_copy_fixup)(void*);
+		void(__cdecl* pre_overwrite_fixup)(void*);
 	};
 	static_assert(sizeof(s_registered_member) == 0x18);
 
 	c_interlocked_long m_mirror_read_in_progress;
 	c_interlocked_long m_mirror_write_in_progress;
 	c_static_array<s_mirror_slot, k_max_section_mirrors> m_mirrors;
-	c_interlocked_long m_mirror_index48;
-	c_interlocked_long m_mirror_index4C;
+	c_interlocked_long m_new_write_mirror;
+	c_interlocked_long m_available_mirror;
 	c_synchronized_long m_alias_allowed;
 	c_synchronized_long m_alias_count;
 	c_restricted_section* m_primary_section;
-	dword_flags m_initialized;
+	dword_flags m_internal_flags; // 0: _initialized
 	long __unknown60;
 	dword m_subsection_size;
 	dword m_reserved_size;
@@ -86,8 +86,8 @@ struct c_restricted_memory
 	long m_registered_member_count;
 	c_static_array<s_registered_member, k_max_registered_members> m_registered_member;
 	c_restricted_memory_callbacks* m_callbacks;
-	void* __unknownC7C;
-	void* __unknownC80;
+	void* m_subsectionC7C;
+	void* m_subsectionC80;
 	long m_region_index;
 };
 static_assert(sizeof(c_restricted_memory) == 0xC88);
