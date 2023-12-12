@@ -14,7 +14,7 @@ REFERENCE_DECLARE(0x0189D46C, c_gamestate_deterministic_allocation_callbacks, g_
 REFERENCE_DECLARE(0x0189D470, c_gamestate_nondeterministic_allocation_callbacks, g_gamestate_nondeterministic_allocation_callbacks);
 REFERENCE_DECLARE(0x02344148, s_game_state_globals, game_state_globals);
 
-//HOOK_DECLARE(0x00510A50, game_state_shell_initialize);
+HOOK_DECLARE(0x00510A50, game_state_shell_initialize);
 
 //.text:0050EEA0 ; c_game_state_compressor_callback::c_game_state_compressor_callback
 //.text:0050EEB0 ; c_gamestate_deterministic_allocation_callbacks::c_gamestate_deterministic_allocation_callbacks
@@ -271,6 +271,8 @@ void __cdecl game_state_security_write_signature(bool a1, void* a2)
 void __cdecl game_state_set_header_address(void* header_address)
 {
 	INVOKE(0x00510950, game_state_set_header_address, header_address);
+
+	//game_state_globals.header = static_cast<s_game_state_header*>(header_address);
 }
 
 void __cdecl game_state_set_revert_time()
@@ -295,47 +297,48 @@ void __cdecl game_state_shell_gobble_first_physical_allocation()
 
 void __cdecl game_state_shell_initialize()
 {
-	INVOKE(0x00510A50, game_state_shell_initialize);
+	//INVOKE(0x00510A50, game_state_shell_initialize);
 
-	//ASSERT(!game_state_globals.initialized)
-	//
-	//game_state_proc_globals_initialize();
-	//game_state_globals.checksum = crc_new();
-	//
-	//ASSERT(game_state_globals.base_address)
-	//
-	//game_state_globals.compressor.initialize();
-	//game_state_initialize_storage();
-	//
-	//game_state_globals.runtime_saved_game_storage_count = game_state_get_storage_count();
-	//ASSERT(IN_RANGE_INCLUSIVE(game_state_globals.runtime_saved_game_storage_count, 1, k_saved_game_storage_max_count));
-	//
-	//dword available_memory = 0x1280000; // cpu_size = 0x1280000, persist_size = 0x980000
-	//byte* starting_address = static_cast<byte*>(game_state_globals.base_address);
-	//ASSERT(*starting_address);
-	//
-	//initialize_game_state_section(k_game_state_header_region, k_game_state_header_region_size, &starting_address, &available_memory, _critical_section_header_section);
-	//initialize_game_state_section(k_game_state_update_region, k_game_state_update_region_size, &starting_address, &available_memory, _critical_section_update_section);
-	//initialize_game_state_section(k_game_state_render_region, k_game_state_render_region_size, &starting_address, &available_memory, _critical_section_render_section);
-	//initialize_game_state_section(k_game_state_shared_region, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_section);
-	//initialize_game_state_section(k_global_render_data_region, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_mirror0);
-	//initialize_game_state_section(k_global_render_data_region + 1, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_mirror1);
-	//
-	//restricted_region_create(k_game_state_header_region, &g_restricted_section[k_game_state_header_region], _critical_section_header_region, &g_gamestate_deterministic_allocation_callbacks);
-	//restricted_region_create(k_game_state_update_region, &g_restricted_section[k_game_state_update_region], _critical_section_update_region, &g_gamestate_deterministic_allocation_callbacks);
-	//restricted_region_create(k_game_state_render_region, &g_restricted_section[k_game_state_render_region], _critical_section_render_region, &g_gamestate_nondeterministic_allocation_callbacks);
-	//restricted_region_create(k_game_state_shared_region, &g_restricted_section[k_game_state_shared_region], _critical_section_shared_region, &g_gamestate_deterministic_allocation_callbacks);
-	//
-	//restricted_region_lock_primary(k_game_state_header_region);
-	//restricted_region_lock_primary(k_game_state_update_region);
-	//restricted_region_lock_primary(k_game_state_render_region);
-	//restricted_region_lock_primary(k_game_state_shared_region);
-	//
-	//long game_state_header_member_index = restricted_region_add_member(k_game_state_header_region, "header", "game_state_header", sizeof(s_game_state_header), 0, game_state_set_header_address, NULL, NULL);
-	//game_state_globals.header = (s_game_state_header*)restricted_region_get_member_address(k_game_state_header_region, game_state_header_member_index);
-	//ASSERT(game_state_globals.header == (s_game_state_header*)game_state_globals.base_address);
-	//
-	//game_state_globals.initialized = true;
+	ASSERT(!game_state_globals.initialized);;
+	
+	game_state_proc_globals_initialize();
+	game_state_globals.checksum = crc_new();
+	
+	ASSERT(game_state_globals.base_address);
+	
+	game_state_globals.compressor.initialize();
+	game_state_initialize_storage();
+	
+	game_state_globals.runtime_saved_game_storage_count = game_state_get_storage_count();
+	ASSERT(IN_RANGE_INCLUSIVE(game_state_globals.runtime_saved_game_storage_count, 1, k_saved_game_storage_max_count));
+	
+	dword available_memory = k_game_state_cpu_size;
+	byte* starting_address = static_cast<byte*>(game_state_globals.base_address);
+	
+	initialize_game_state_section(k_game_state_header_region, k_game_state_header_region_size, &starting_address, &available_memory, _critical_section_header_section);
+	initialize_game_state_section(k_game_state_update_region, k_game_state_update_region_size, &starting_address, &available_memory, _critical_section_update_section);
+	initialize_game_state_section(k_game_state_render_region, k_game_state_render_region_size, &starting_address, &available_memory, _critical_section_render_section);
+	initialize_game_state_section(k_game_state_shared_region, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_section);
+	initialize_game_state_section(k_game_state_shared_region_mirror0, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_mirror0);
+	initialize_game_state_section(k_game_state_shared_region_mirror1, k_game_state_shared_region_size, &starting_address, &available_memory, _critical_section_shared_mirror1);
+	
+	restricted_region_create(k_game_state_header_region, &g_restricted_section[k_game_state_header_region], _critical_section_header_region, &g_gamestate_deterministic_allocation_callbacks);
+	restricted_region_create(k_game_state_update_region, &g_restricted_section[k_game_state_update_region], _critical_section_update_region, &g_gamestate_deterministic_allocation_callbacks);
+	restricted_region_create(k_game_state_render_region, &g_restricted_section[k_game_state_render_region], _critical_section_render_region, &g_gamestate_nondeterministic_allocation_callbacks);
+	restricted_region_create(k_game_state_shared_region, &g_restricted_section[k_game_state_shared_region], _critical_section_shared_region, &g_gamestate_deterministic_allocation_callbacks);
+	restricted_region_add_mirror(k_game_state_shared_region, &g_restricted_section[k_game_state_shared_region_mirror0]);
+	restricted_region_add_mirror(k_game_state_shared_region, &g_restricted_section[k_game_state_shared_region_mirror1]);
+	
+	restricted_region_lock_primary(k_game_state_header_region);
+	restricted_region_lock_primary(k_game_state_update_region);
+	restricted_region_lock_primary(k_game_state_render_region);
+	restricted_region_lock_primary(k_game_state_shared_region);
+	
+	long game_state_header_member_index = restricted_region_add_member(k_game_state_header_region, "header", "game_state_header", sizeof(s_game_state_header), 0, game_state_set_header_address, NULL, NULL);
+	game_state_globals.header = (s_game_state_header*)restricted_region_get_member_address(k_game_state_header_region, game_state_header_member_index);
+	ASSERT(game_state_globals.header == (s_game_state_header*)game_state_globals.base_address);
+	
+	game_state_globals.initialized = true;
 }
 
 void __cdecl game_state_try_and_load_from_persistent_storage(e_controller_index controller_index)
