@@ -312,6 +312,7 @@ void __cdecl game_state_shell_initialize()
 	//
 	//dword available_memory = 0x1280000; // cpu_size = 0x1280000, persist_size = 0x980000
 	//byte* starting_address = static_cast<byte*>(game_state_globals.base_address);
+	//ASSERT(*starting_address);
 	//
 	//initialize_game_state_section(k_game_state_header_region, k_game_state_header_region_size, &starting_address, &available_memory, _critical_section_header_section);
 	//initialize_game_state_section(k_game_state_update_region, k_game_state_update_region_size, &starting_address, &available_memory, _critical_section_update_section);
