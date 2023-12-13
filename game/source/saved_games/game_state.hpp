@@ -21,26 +21,45 @@ struct c_restricted_memory;
 struct c_restricted_memory_callbacks
 {
 public:
+	c_restricted_memory_callbacks();
+
 	virtual unsigned int filter_size_request(unsigned int size);
-	virtual long filter_base_offset(long);
-	virtual void handle_allocation(c_restricted_memory const* restricted_memory, char const* name, char const* type, long member_index, void* address, unsigned int size);
-	virtual void handle_release(c_restricted_memory const* restricted_memory, long member_index, void* address, unsigned int size);
+	virtual long filter_base_offset(long a1);
+	virtual void handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size);
+	virtual void handle_release(c_restricted_memory const* memory, long member_index, void* base_address, unsigned int allocation_size);
 };
 
 struct c_gamestate_deterministic_allocation_callbacks :
 	public c_restricted_memory_callbacks
 {
 public:
-	void __thiscall _handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long a4, void* base_address, unsigned int allocation_size);
+	c_gamestate_deterministic_allocation_callbacks();
 
-	virtual long filter_base_offset(long, long);
+	virtual unsigned int filter_size_request(unsigned int size) override;
+	virtual void handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size) override;
+	virtual void handle_release(c_restricted_memory const* memory, long member_index, void* base_address, unsigned int allocation_size) override;
+	virtual long filter_base_offset(long a1, long a2);
 };
 
 struct c_gamestate_nondeterministic_allocation_callbacks :
 	public c_restricted_memory_callbacks
 {
 public:
-	void __thiscall _handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long a4, void* base_address, unsigned int allocation_size);
+	c_gamestate_nondeterministic_allocation_callbacks();
+
+	virtual unsigned int filter_size_request(unsigned int size) override;
+	virtual long filter_base_offset(long a1) override;
+	virtual void handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size) override;
+	virtual void handle_release(c_restricted_memory const* memory, long member_index, void* base_address, unsigned int allocation_size) override;
+};
+
+struct c_gamestate_allocation_record_allocation_callbacks :
+	public c_restricted_memory_callbacks
+{
+public:
+	c_gamestate_allocation_record_allocation_callbacks();
+
+	virtual void handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size) override;
 };
 
 struct c_game_state_compressor
@@ -104,8 +123,8 @@ struct s_game_state_globals
 };
 
 extern c_game_state_compressor_callback& g_game_state_compressor_optional_cache_callback;
-extern c_gamestate_deterministic_allocation_callbacks& g_gamestate_deterministic_allocation_callbacks;
-extern c_gamestate_nondeterministic_allocation_callbacks& g_gamestate_nondeterministic_allocation_callbacks;
+extern c_gamestate_deterministic_allocation_callbacks g_gamestate_deterministic_allocation_callbacks;
+extern c_gamestate_nondeterministic_allocation_callbacks g_gamestate_nondeterministic_allocation_callbacks;
 extern s_game_state_globals& game_state_globals;
 
 extern void patch_game_state();

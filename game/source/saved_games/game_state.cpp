@@ -13,27 +13,57 @@
 #include "tag_files/files.hpp"
 
 REFERENCE_DECLARE(0x0189D468, c_game_state_compressor_callback, g_game_state_compressor_optional_cache_callback);
-REFERENCE_DECLARE(0x0189D46C, c_gamestate_deterministic_allocation_callbacks, g_gamestate_deterministic_allocation_callbacks);
-REFERENCE_DECLARE(0x0189D470, c_gamestate_nondeterministic_allocation_callbacks, g_gamestate_nondeterministic_allocation_callbacks);
 REFERENCE_DECLARE(0x02344148, s_game_state_globals, game_state_globals);
 
 HOOK_DECLARE(0x00510A50, game_state_shell_initialize);
+
+c_gamestate_deterministic_allocation_callbacks g_gamestate_deterministic_allocation_callbacks{};
+c_gamestate_nondeterministic_allocation_callbacks g_gamestate_nondeterministic_allocation_callbacks{};
+c_gamestate_allocation_record_allocation_callbacks g_gamestate_allocation_record_allocation_callbacks{};
 
 s_file_reference game_state_allocation_record_file{};
 bool game_state_allocation_recording = false;
 
 void patch_game_state()
 {
-	patch_pointer({ .address = 0x01650874 + (sizeof(void*) * 2) }, member_to_static_function(&c_gamestate_deterministic_allocation_callbacks::_handle_allocation));
-	patch_pointer({ .address = 0x01650884 + (sizeof(void*) * 2) }, member_to_static_function(&c_gamestate_nondeterministic_allocation_callbacks::_handle_allocation));
 	patch_pointer({ .address = 0x01655D48 }, game_state_initialize_for_new_map);
 }
 
+void __cdecl restricted_region_create_for_render_initialize(long index, c_restricted_section* primary_section, long critical_section_index, c_restricted_memory_callbacks* callbacks)
+{
+	ASSERT(callbacks == NULL);
+	callbacks = &g_gamestate_allocation_record_allocation_callbacks;
+
+	restricted_region_create(index, primary_section, critical_section_index, callbacks);
+}
+HOOK_DECLARE_CALL(0x00A29936, restricted_region_create_for_render_initialize);
+
 //.text:0050EEA0 ; c_game_state_compressor_callback::c_game_state_compressor_callback
+
 //.text:0050EEB0 ; c_gamestate_deterministic_allocation_callbacks::c_gamestate_deterministic_allocation_callbacks
+c_gamestate_deterministic_allocation_callbacks::c_gamestate_deterministic_allocation_callbacks() :
+	c_restricted_memory_callbacks()
+{
+}
+
 //.text:0050EEC0 ; c_gamestate_nondeterministic_allocation_callbacks::c_gamestate_nondeterministic_allocation_callbacks
+c_gamestate_nondeterministic_allocation_callbacks::c_gamestate_nondeterministic_allocation_callbacks() :
+	c_restricted_memory_callbacks()
+{
+}
+
+c_gamestate_allocation_record_allocation_callbacks::c_gamestate_allocation_record_allocation_callbacks() :
+	c_restricted_memory_callbacks()
+{
+}
+
 //.text:0050EED0 ; c_optional_cache_user_callback::c_optional_cache_user_callback
+
 //.text:0050EEE0 ; c_restricted_memory_callbacks::c_restricted_memory_callbacks
+c_restricted_memory_callbacks::c_restricted_memory_callbacks()
+{
+}
+
 //.text:0050EEF0
 //.text:0050EF10
 //.text:0050EF70
@@ -50,12 +80,42 @@ bool __cdecl create_file_from_buffer(char const* file_name, char const* file_con
 
 //.text:0050F170 ; c_game_state_compressor::deallocate_buffer
 //.text:0050F1A0 ; c_game_state_compressor::dispose
+
 //.text:0050F220 ; c_gamestate_deterministic_allocation_callbacks::filter_base_offset
+long c_gamestate_deterministic_allocation_callbacks::filter_base_offset(long a1, long a2)
+{
+	return a1;
+}
+
 //.text:0050F230 ; c_gamestate_nondeterministic_allocation_callbacks::filter_base_offset
+long c_gamestate_nondeterministic_allocation_callbacks::filter_base_offset(long a1)
+{
+	return a1;
+}
+
 //.text:0050F240 ; c_restricted_memory_callbacks::filter_base_offset
+long c_restricted_memory_callbacks::filter_base_offset(long a1)
+{
+	return a1;
+}
+
 //.text:0050F250 ; c_gamestate_deterministic_allocation_callbacks::filter_size_request
+unsigned int c_gamestate_deterministic_allocation_callbacks::filter_size_request(unsigned int size)
+{
+	return (size + 3) & ~3;
+}
+
 //.text:0050F260 ; c_gamestate_nondeterministic_allocation_callbacks::filter_size_request
+unsigned int c_gamestate_nondeterministic_allocation_callbacks::filter_size_request(unsigned int size)
+{
+	return (size + 3) & ~3;
+}
+
 //.text:0050F270 ; c_restricted_memory_callbacks::filter_size_request
+unsigned int c_restricted_memory_callbacks::filter_size_request(unsigned int size)
+{
+	return size;
+}
 
 void __cdecl game_state_buffer_handle_read()
 {
@@ -368,7 +428,7 @@ void __cdecl game_state_shell_initialize()
 		file_printf(&game_state_allocation_record_file, "% 44s,% 24s", "name", "type");
 
 		for (long i = 0; i < k_total_restricted_memory_regions; i++)
-			file_printf(&game_state_allocation_record_file, ",% 32s", restricted_region_get_name(i));
+			file_printf(&game_state_allocation_record_file, ",% 40s", restricted_region_get_name(i));
 
 		file_printf(&game_state_allocation_record_file, "\r\n");
 		game_state_allocation_recording = true;
@@ -404,23 +464,44 @@ void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header
 //.text:00511040 ; c_game_state_compressor_callback::get_memory_configuration
 
 //.text:00511070 ; c_gamestate_deterministic_allocation_callbacks::handle_allocation
-void __thiscall c_gamestate_deterministic_allocation_callbacks::_handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long a4, void* base_address, unsigned int allocation_size)
+void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size)
 {
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
 	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
 }
 
 //.text:00511090 ; c_gamestate_nondeterministic_allocation_callbacks::handle_allocation
-void __thiscall c_gamestate_nondeterministic_allocation_callbacks::_handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long a4, void* base_address, unsigned int allocation_size)
+void __thiscall c_gamestate_nondeterministic_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size)
 {
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
 	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
 }
 
+void c_gamestate_allocation_record_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size)
+{
+	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
+}
+
 //.text:005110B0 ; c_restricted_memory_callbacks::handle_allocation
+void c_restricted_memory_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size)
+{
+}
+
 //.text:005110C0 ; c_gamestate_deterministic_allocation_callbacks::handle_release
+void c_gamestate_deterministic_allocation_callbacks::handle_release(c_restricted_memory const* memory, long member_index, void* base_address, unsigned int allocation_size)
+{
+}
+
 //.text:005110D0 ; c_gamestate_nondeterministic_allocation_callbacks::handle_release
+void c_gamestate_nondeterministic_allocation_callbacks::handle_release(c_restricted_memory const* memory, long member_index, void* base_address, unsigned int allocation_size)
+{
+}
+
 //.text:005110E0 ; c_restricted_memory_callbacks::handle_release
+void c_restricted_memory_callbacks::handle_release(c_restricted_memory const* memory, long member_index, void* base_address, unsigned int allocation_size)
+{
+}
+
 //.text:005110F0 ; c_game_state_compressor_callback::idle
 //.text:00511100 ; c_optional_cache_user_callback::idle
 
@@ -472,7 +553,7 @@ void __cdecl game_state_allocation_record(long region_index, char const* name, c
 		file_printf(&game_state_allocation_record_file, "% 44s,% 24s", name, type);
 
 		for (long i = 0; i < k_total_restricted_memory_regions; i++)
-			file_printf(&game_state_allocation_record_file, ",% 32d", region_index == i ? allocation_size : 0);
+			file_printf(&game_state_allocation_record_file, ",% 40d", region_index == i ? allocation_size : 0);
 	}
 
 	file_printf(&game_state_allocation_record_file, "\r\n");
