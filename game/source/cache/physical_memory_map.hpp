@@ -75,4 +75,5 @@ extern void __cdecl physical_memory_resize_region_unlock(c_basic_buffer<void> re
 extern dword __cdecl physical_memory_round_up_allocation_size(dword size);
 extern void __cdecl physical_memory_stage_pop(memory_stage stage);
 extern void __cdecl physical_memory_stage_push(memory_stage stage);
+extern void __cdecl physical_memory_system_free(void* address);
 

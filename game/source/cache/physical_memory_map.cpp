@@ -224,6 +224,13 @@ void __cdecl physical_memory_stage_push(memory_stage stage)
 }
 //HOOK_DECLARE(0x0051DC00, physical_memory_stage_push);
 
+void __cdecl physical_memory_system_free(void* address)
+{
+	INVOKE(0x0051DC50, physical_memory_system_free, address);
+
+	//VirtualFree(memory, 0, MEM_RELEASE);
+}
+
 //.text:0051DDD0 ; GPU_CONVERT_CPU_TO_CPU_CACHED_READONLY_ADDRESS
 //.text:0051DE00 ; c_physical_memory_index::shrink_region
 //.text:0051DE30 ; c_physical_memory_index::shrink_region_pages
