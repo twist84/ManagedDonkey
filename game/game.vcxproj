@@ -292,6 +292,7 @@ POPD
     <ClCompile Include="source\game\game_engine_variant.cpp" />
     <ClCompile Include="source\game\game_globals.cpp" />
     <ClCompile Include="source\game\game_options.cpp" />
+    <ClCompile Include="source\memory\base\base_memory_windows.cpp" />
     <ClCompile Include="source\saved_games\game_state.cpp" />
     <ClCompile Include="source\game\game_time.cpp" />
     <ClCompile Include="source\game\player_control.cpp" />
@@ -639,6 +640,7 @@ POPD
     <ClInclude Include="source\math\matrix_math.hpp" />
     <ClInclude Include="source\math\random_math.hpp" />
     <ClInclude Include="source\math\real_math.hpp" />
+    <ClInclude Include="source\memory\base\base_memory_windows.hpp" />
     <ClInclude Include="source\memory\data_encoding.hpp" />
     <ClInclude Include="source\memory\data_packets.hpp" />
     <ClInclude Include="source\memory\data_packet_groups.hpp" />

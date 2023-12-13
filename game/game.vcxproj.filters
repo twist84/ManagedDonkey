@@ -1113,6 +1113,9 @@
     <ClCompile Include="source\cache\optional_cache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\memory\base\base_memory_windows.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2910,6 +2913,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cseries\runtime_state.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\memory\base\base_memory_windows.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
