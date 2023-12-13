@@ -15,7 +15,6 @@ enum e_restricted_memory_region
 	k_global_render_data_region,
 
 	k_total_restricted_memory_regions,
-	k_total_game_state_subsections = k_total_restricted_memory_regions,
 
 	k_game_state_shared_region_mirror0 = k_game_state_shared_region + 1,
 	k_game_state_shared_region_mirror1 = k_game_state_shared_region + 2,
@@ -25,11 +24,11 @@ enum e_restricted_memory_region
 	k_game_state_render_region_size = 0x2D0000,
 	k_game_state_shared_region_size = 0x480000,
 
-	k_game_state_persist_size = k_game_state_header_region_size + k_game_state_update_region_size + k_game_state_render_region_size + k_game_state_shared_region_size,
-	k_game_state_cpu_size = k_game_state_persist_size + (k_game_state_shared_region_size * 2),
+	k_game_state_size = k_game_state_header_region_size + k_game_state_update_region_size + k_game_state_render_region_size + k_game_state_shared_region_size,
+	k_game_state_with_mirrors_size = k_game_state_size + (k_game_state_shared_region_size * 2),
 };
-static_assert(0x0980000 == k_game_state_persist_size);
-static_assert(0x1280000 == k_game_state_cpu_size);
+static_assert(0x0980000 == k_game_state_size);
+static_assert(0x1280000 == k_game_state_with_mirrors_size);
 
 enum e_memory_protection;
 

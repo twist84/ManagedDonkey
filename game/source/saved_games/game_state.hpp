@@ -125,6 +125,7 @@ struct s_game_state_globals
 extern c_game_state_compressor_callback& g_game_state_compressor_optional_cache_callback;
 extern c_gamestate_deterministic_allocation_callbacks g_gamestate_deterministic_allocation_callbacks;
 extern c_gamestate_nondeterministic_allocation_callbacks g_gamestate_nondeterministic_allocation_callbacks;
+extern c_gamestate_allocation_record_allocation_callbacks g_gamestate_allocation_record_allocation_callbacks;
 extern s_game_state_globals& game_state_globals;
 
 extern void patch_game_state();
@@ -183,6 +184,7 @@ extern void __cdecl game_state_shell_gobble_first_physical_allocation();
 extern void __cdecl game_state_shell_initialize();
 extern void __cdecl game_state_try_and_load_from_persistent_storage(e_controller_index controller_index);
 extern bool __cdecl game_state_validate_and_prepare_to_load_header(s_game_state_header* header);
+extern void const* __cdecl game_state_with_mirrors_get_buffer_address(long* buffer_size);
 extern bool __cdecl game_state_write_core(char const* core_name, void const* buffer, dword buffer_length);
 extern void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header const* header, long header_size, void const* buffer, long buffer_length);
 extern void __cdecl initialize_game_state_section(long section_index, unsigned int size, byte** starting_address, dword* available_memory, e_critical_sections critical_section_id);

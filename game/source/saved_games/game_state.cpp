@@ -392,7 +392,7 @@ void __cdecl game_state_shell_initialize()
 	game_state_globals.runtime_saved_game_storage_count = game_state_get_storage_count();
 	ASSERT(IN_RANGE_INCLUSIVE(game_state_globals.runtime_saved_game_storage_count, 1, k_saved_game_storage_max_count));
 
-	dword available_memory = k_game_state_cpu_size;
+	dword available_memory = k_game_state_with_mirrors_size;
 	byte* starting_address = static_cast<byte*>(game_state_globals.base_address);
 
 	initialize_game_state_section(k_game_state_header_region, k_game_state_header_region_size, &starting_address, &available_memory, _critical_section_header_section);
@@ -423,7 +423,7 @@ void __cdecl game_state_shell_initialize()
 	if (file_create(&game_state_allocation_record_file) && file_open(&game_state_allocation_record_file, FLAG(_file_open_flag_desired_access_write), &error))
 	{
 		file_printf(&game_state_allocation_record_file, "game state allocations from: %s\r\n", version_get_full_string());
-		file_printf(&game_state_allocation_record_file, "memory total, %u\r\n", k_game_state_cpu_size);
+		file_printf(&game_state_allocation_record_file, "memory total, %u\r\n", k_game_state_with_mirrors_size);
 		file_printf(&game_state_allocation_record_file, "memory available, %u\r\n", available_memory);
 		file_printf(&game_state_allocation_record_file, "% 44s,% 24s", "name", "type");
 
@@ -449,7 +449,10 @@ bool __cdecl game_state_validate_and_prepare_to_load_header(s_game_state_header*
 	return INVOKE(0x00510EF0, game_state_validate_and_prepare_to_load_header, header);
 }
 
-//.text:00510F90
+void const* __cdecl game_state_with_mirrors_get_buffer_address(long* buffer_size)
+{
+	return INVOKE(0x00510F90, game_state_with_mirrors_get_buffer_address, buffer_size);
+}
 
 bool __cdecl game_state_write_core(char const* core_name, void const* buffer, dword buffer_length)
 {
