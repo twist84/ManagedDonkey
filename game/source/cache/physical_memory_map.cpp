@@ -231,6 +231,13 @@ void __cdecl physical_memory_system_free(void* address)
 	//VirtualFree(memory, 0, MEM_RELEASE);
 }
 
+void* __cdecl physical_memory_system_malloc(dword size, void* address)
+{
+	return INVOKE(0x0051DC70, physical_memory_system_malloc, size, address);
+
+	//return VirtualAlloc(address, size, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+}
+
 //.text:0051DDD0 ; GPU_CONVERT_CPU_TO_CPU_CACHED_READONLY_ADDRESS
 //.text:0051DE00 ; c_physical_memory_index::shrink_region
 //.text:0051DE30 ; c_physical_memory_index::shrink_region_pages

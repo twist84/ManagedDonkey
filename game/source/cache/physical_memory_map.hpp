@@ -76,4 +76,5 @@ extern dword __cdecl physical_memory_round_up_allocation_size(dword size);
 extern void __cdecl physical_memory_stage_pop(memory_stage stage);
 extern void __cdecl physical_memory_stage_push(memory_stage stage);
 extern void __cdecl physical_memory_system_free(void* address);
+extern void* __cdecl physical_memory_system_malloc(dword size, void* address);
 
