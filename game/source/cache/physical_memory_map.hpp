@@ -68,6 +68,7 @@ extern long __cdecl physical_memory_get_remaining();
 extern void __cdecl physical_memory_initialize();
 extern void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> resize_region_a, class c_basic_buffer<void> resize_region_b);
 extern void __cdecl physical_memory_resize_region_dispose();
+extern void __cdecl physical_memory_query_bounds(dword a1, dword a2, dword* a3, dword* a4);
 extern void __cdecl physical_memory_resize_region_initialize();
 extern c_basic_buffer<void> __cdecl physical_memory_resize_region_lock();
 extern void __cdecl physical_memory_resize_region_unlock(c_basic_buffer<void> resize_region);

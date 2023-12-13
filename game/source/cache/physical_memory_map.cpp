@@ -31,6 +31,14 @@ dword __cdecl align_up(dword value, long alignment_bits)
 }
 
 //.text:0051D2A0 ; c_physical_memory_allocation::allocate
+//.text:0051D2F0 ; c_physical_memory_index::allocate_specific_page
+//.text:0051D330 ; c_physical_memory_index::free_region
+//.text:0051D360 ; c_physical_memory_index::free_region_pages
+//.text:0051D380 ; c_physical_memory_index::free_specific_page
+//.text:0051D3B0 ; c_physical_memory_index::get_page_count
+//.text:0051D3C0 ; c_physical_memory_index::get_region_size
+//.text:0051D3D0 ; c_physical_memory_index::grow_region
+//.text:0051D420 ; c_physical_memory_index::grow_region_pages
 
 void __cdecl physical_memory_adjust_resize_region(c_basic_buffer<void> resize_region_a, c_basic_buffer<void> resize_region_b)
 {
@@ -116,6 +124,16 @@ void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> resize_region
 
 	//physical_memory_adjust_resize_region(resize_region_a, resize_region_b);
 }
+
+void __cdecl physical_memory_query_bounds(dword a1, dword a2, dword* a3, dword* a4)
+{
+	INVOKE(0x0051D7A0, physical_memory_query_bounds, a1, a2, a3, a4);
+}
+
+//.text:0051D8A0
+//.text:0051D8E0
+//.text:0051D920
+//.text:0051D940
 
 void __cdecl physical_memory_resize_region_dispose()
 {
@@ -205,4 +223,11 @@ void __cdecl physical_memory_stage_push(memory_stage stage)
 	////ASSERT((physical_memory_globals.memory_stages[new_stage].high_address & k_physical_memory_page_mask) == 0);
 }
 //HOOK_DECLARE(0x0051DC00, physical_memory_stage_push);
+
+//.text:0051DDD0 ; GPU_CONVERT_CPU_TO_CPU_CACHED_READONLY_ADDRESS
+//.text:0051DE00 ; c_physical_memory_index::shrink_region
+//.text:0051DE30 ; c_physical_memory_index::shrink_region_pages
+//.text:0051DE80
+//.text:0051DEB0 ; GPU_CONVERT_CPU_TO_GPU_ADDRESS
+//.text:0051DED0 ; GPU_CONVERT_GPU_TO_CPU_CACHED_READONLY_ADDRESS
 
