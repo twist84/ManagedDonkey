@@ -77,4 +77,6 @@ extern void __cdecl physical_memory_stage_pop(memory_stage stage);
 extern void __cdecl physical_memory_stage_push(memory_stage stage);
 extern void __cdecl physical_memory_system_free(void* address);
 extern void* __cdecl physical_memory_system_malloc(dword size, void* address);
+extern bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_memory_contiguous_region_listener* region_listener, c_basic_buffer<void> in_region, dword minimum_new_size, c_basic_buffer<void>* out_new_region);
+extern bool __cdecl physical_memory_try_to_resize_contiguous_region(c_physical_memory_contiguous_region_listener const* region_listener, void* in_region_buffer, dword in_region_size, dword minimum_new_size, dword requested_size, dword a6, void** out_new_base_address, dword* out_new_region_size);
 

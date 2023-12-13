@@ -238,6 +238,23 @@ void* __cdecl physical_memory_system_malloc(dword size, void* address)
 	//return VirtualAlloc(address, size, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
 }
 
+bool __cdecl physical_memory_try_to_resize_contiguous_buffer_simple(c_physical_memory_contiguous_region_listener* region_listener, c_basic_buffer<void> in_region, dword minimum_new_size, c_basic_buffer<void>* out_new_region)
+{
+	return INVOKE(0x0051DC90, physical_memory_try_to_resize_contiguous_buffer_simple, region_listener, in_region, minimum_new_size, out_new_region);
+
+	//void* new_base_address = NULL;
+	//dword new_region_size = 0;
+	//bool result = physical_memory_try_to_resize_contiguous_region(region_listener, in_region.begin(), in_region.size(), minimum_new_size, minimum_new_size, 0, &new_base_address, &new_region_size);
+	//if (result)
+	//	out_new_region->set_buffer(new_base_address, new_region_size);
+	//return result;
+}
+
+bool __cdecl physical_memory_try_to_resize_contiguous_region(c_physical_memory_contiguous_region_listener const* region_listener, void* in_region_buffer, dword in_region_size, dword minimum_new_size, dword requested_size, dword a6, void** out_new_base_address, dword* out_new_region_size)
+{
+	return INVOKE(0x0051DCD0, physical_memory_try_to_resize_contiguous_region, region_listener, in_region_buffer, in_region_size, minimum_new_size, requested_size, a6, out_new_base_address, out_new_region_size);
+}
+
 //.text:0051DDD0 ; GPU_CONVERT_CPU_TO_CPU_CACHED_READONLY_ADDRESS
 //.text:0051DE00 ; c_physical_memory_index::shrink_region
 //.text:0051DE30 ; c_physical_memory_index::shrink_region_pages
