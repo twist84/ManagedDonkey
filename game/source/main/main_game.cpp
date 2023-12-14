@@ -7,23 +7,32 @@
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);
 REFERENCE_DECLARE(0x023DAE90, bool, debug_load_panic_to_main_menu);
 
-// void main_game_initialize();
-// void main_game_launch_initialize();
-// void main_game_launch_default();
-// void main_game_launch_default_editor();
-// void main_game_reset_map(bool reset_map);
+//void __cdecl main_game_initialize();
+//void __cdecl main_game_launch_initialize();
 
-bool main_game_reset_in_progress()
+void __cdecl main_game_launch_default()
+{
+	INVOKE(0x00567750, main_game_launch_default);
+}
+
+void __cdecl main_game_launch_default_editor()
+{
+	INVOKE(0x00567820, main_game_launch_default_editor);
+}
+
+//void __cdecl main_game_reset_map(bool reset_map);
+
+bool __cdecl main_game_reset_in_progress()
 {
 	return main_game_globals.reset_in_progress;
 }
 
-bool main_game_change_in_progress()
+bool __cdecl main_game_change_in_progress()
 {
 	return main_game_globals.change_in_progress;
 }
 
-void main_game_change(game_options const* options)
+void __cdecl main_game_change(game_options const* options)
 {
 	// main_halt_and_display_errors
 	// c_life_cycle_state_handler_in_game::begin_load_map
@@ -44,23 +53,28 @@ void main_game_change(game_options const* options)
 	}
 }
 
-// void main_game_change_abort();
-// void main_game_change_update();
-// bool main_game_change_immediate(game_options const* options);
-// void main_game_goto_next_level();
-// bool main_game_load_map(game_options const* options);
-// void main_game_unload_and_prepare_for_next_game(game_options const* options);
-// bool main_game_loaded_pregame();
+//void main_game_change_abort();
+
+void __cdecl main_game_change_update()
+{
+	INVOKE(0x005670F0, main_game_change_update);
+}
+
+//bool __cdecl main_game_change_immediate(game_options const* options);
+//void __cdecl main_game_goto_next_level();
+//bool __cdecl main_game_load_map(game_options const* options);
+//void __cdecl main_game_unload_and_prepare_for_next_game(game_options const* options);
+//bool __cdecl main_game_loaded_pregame();
 
 bool main_game_loaded_map()
 {
 	return main_game_globals.game_loaded_status == _game_loaded_status_map_loaded;
 }
 
-// char const* main_game_loaded_map_name();
-// void main_game_load_panic();
-// void main_game_load_from_core_name(char const* core_name);
-// void main_game_load_from_core();
+//char const* __cdecl main_game_loaded_map_name();
+//void __cdecl main_game_load_panic();
+//void __cdecl main_game_load_from_core_name(char const* core_name);
+//void __cdecl main_game_load_from_core();
 
 void __cdecl main_menu_launch()
 {
@@ -72,7 +86,7 @@ void __cdecl main_menu_launch_force()
 	INVOKE(0x00568190, main_menu_launch_force);
 }
 
-void main_game_notify_language_change(e_language language)
+void __cdecl main_game_notify_language_change(e_language language)
 {
 	INVOKE(0x00567BF0, main_game_notify_language_change, language);
 }

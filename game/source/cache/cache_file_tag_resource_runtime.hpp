@@ -344,6 +344,9 @@ static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
 
 extern c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>& g_resource_runtime_manager;
 
+extern bool __cdecl cache_file_tag_resources_prefetch_update_required();
+extern void __cdecl cache_file_tag_resources_update_prefetch_state();
+
 extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
 extern long __cdecl tag_resources_lock_game();

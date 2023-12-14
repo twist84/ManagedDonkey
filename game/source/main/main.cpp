@@ -4,10 +4,13 @@
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files.hpp"
 #include "cache/cache_files_windows.hpp"
+#include "cache/pc_geometry_cache.hpp"
+#include "cache/pc_texture_cache.hpp"
 #include "cache/physical_memory_map.hpp"
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
+#include "editor/editor_stubs.hpp"
 #include "game/cheats.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_candy_monitor.hpp"
@@ -31,6 +34,7 @@
 #include "main/debug_keys.hpp"
 #include "main/global_preferences.hpp"
 #include "main/loading.hpp"
+#include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
 #include "main/main_render.hpp"
 #include "memory/data.hpp"
@@ -68,12 +72,17 @@ REFERENCE_DECLARE(0x022B46C8, c_interlocked_long, g_render_thread_enabled);
 REFERENCE_DECLARE(0x022B471C, c_interlocked_long, g_single_thread_request_flags);
 REFERENCE_DECLARE(0x022B4738, _main_globals, main_globals);
 
+REFERENCE_DECLARE(0x0244DF07, bool, byte_244DF07);
+REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
+
+
 // a static byte array used in `c_network_channel::receive_packet`
 // passed to `c_network_message_queue::retrieve_message`
 // passed to `c_network_message_handler::handle_channel_message`
 REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
 
 HOOK_DECLARE(0x00505650, main_events_reset);
+HOOK_DECLARE(0x005059E0, main_loop);
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
 HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
@@ -141,6 +150,85 @@ void show_location_messages()
 	}
 }
 
+dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
+{
+	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
+}
+
+void __cdecl main_activate_cinematic_tag_private()
+{
+	INVOKE(0x00505190, main_activate_cinematic_tag_private);
+
+	//main_globals.activate_cinematic_zone_from_tag = false;
+}
+
+void __cdecl main_activate_cinematic_zone(long cinematic_zone_index)
+{
+	INVOKE(0x005051A0, main_activate_cinematic_zone, cinematic_zone_index);
+}
+
+void __cdecl main_activate_cinematic_zone_for_debugging(long cinematic_zone_index)
+{
+	INVOKE(0x00505220, main_activate_cinematic_zone_for_debugging, cinematic_zone_index);
+}
+
+void __cdecl main_activate_designer_zone(long designer_zone_index)
+{
+	INVOKE(0x005052D0, main_activate_designer_zone, designer_zone_index);
+}
+
+void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flags)
+{
+	INVOKE(0x00505380, main_clear_global_pending_zone_activation, game_state_proc_flags);
+
+	//if (main_globals.prepare_to_switch_zone_set)
+	//{
+	//	main_globals.prepare_to_switch_zone_set = false;
+	//	main_globals.prepare_to_switch_zone_set_index = NONE;
+	//}
+	//
+	//if (main_globals.switch_zone_set)
+	//{
+	//	main_globals.switch_zone_set = false;
+	//	main_globals.switch_zone_set_index = NONE;
+	//}
+	//
+	//if (main_globals.non_bsp_zone_activation)
+	//{
+	//	main_globals.non_bsp_zone_activation = false;
+	//	main_globals.scenario_zone_activation.clear();
+	//}
+}
+
+void __cdecl main_deactivate_cinematic_tag_private()
+{
+	INVOKE(0x005053F0, main_deactivate_cinematic_tag_private);
+
+	//main_globals.deactivate_cinematic_zone_from_tag = false;
+	//scenario_set_and_activate_runtime_cinematic_tag(NONE);
+}
+
+void __cdecl main_deactivate_cinematic_zone(long cinematic_zone_index)
+{
+	INVOKE(0x00505400, main_deactivate_cinematic_zone, cinematic_zone_index);
+}
+
+void __cdecl main_deactivate_designer_zone(long designer_zone_index)
+{
+	INVOKE(0x00505470, main_deactivate_designer_zone, designer_zone_index);
+}
+
+void __cdecl main_decompress_gamestate()
+{
+	INVOKE(0x005054F0, main_decompress_gamestate);
+
+	//if (!main_globals.game_state_decompression)
+	//	main_globals.game_state_decompression = true;
+}
+
+//.text:00505510
+//.text:00505520
+
 bool __cdecl main_events_pending()
 {
 	return INVOKE(0x00505530, main_events_pending);
@@ -202,6 +290,17 @@ void __cdecl main_exit_game()
 	main_globals.exit_game = true;
 }
 
+void __cdecl main_game_gamestate_decompress_and_apply_private()
+{
+	INVOKE(0x005056E0, main_game_gamestate_decompress_and_apply_private);
+
+	//if (!game_state_get_compressor()->game_state_decompress_buffer(true, true, false))
+	//{
+	//	generate_event(_event_level_error, "main_game: game_state_compressor failed to decompress and load gamestate.");
+	//};
+	//main_globals.game_state_decompression = false;
+}
+
 bool __cdecl main_game_is_exiting()
 {
 	//return INVOKE(0x00505700, main_game_is_exiting);
@@ -259,6 +358,154 @@ void __cdecl main_halt_and_catch_fire()
 	//
 	//if (is_main_thread())
 	//	main_globals.main_loop_pregame_entered--;
+}
+
+void __cdecl main_halt_and_display_errors()
+{
+	INVOKE(0x00505840, main_halt_and_display_errors);
+
+	//main_globals.halted_with_errors = true;
+	////damaged_media_halt_and_display_error();
+	//main_game_change(NULL);
+}
+
+bool __cdecl main_halted_with_errors()
+{
+	return INVOKE(0x00505860, main_halted_with_errors);
+
+	//return main_globals.halted_with_errors;
+}
+
+bool __cdecl main_is_in_main_loop_pregame()
+{
+	return INVOKE(0x005058A0, main_is_in_main_loop_pregame);
+
+	//return main_globals.main_loop_pregame_entered != 0;
+}
+
+bool __cdecl main_is_switching_zone_sets()
+{
+	return INVOKE(0x005058B0, main_is_switching_zone_sets);
+
+	//return main_globals.switch_zone_set;
+}
+
+void __cdecl main_kick_startup_masking_sequence(bool kick_input)
+{
+	INVOKE(0x005058C0, main_kick_startup_masking_sequence, kick_input);
+}
+
+void __cdecl main_load_core()
+{
+	INVOKE(0x00505980, main_load_core);
+
+	//main_load_core_name("core");
+}
+
+void __cdecl main_load_core_name(char const* core_name)
+{
+	INVOKE(0x005059A0, main_load_core_name, core_name);
+
+	//main_globals.load_core = true;
+	//main_globals.core_name.set(core_name);
+	////director_notify_map_reset();
+}
+
+void __cdecl main_load_core_private()
+{
+	INVOKE(0x005059C0, main_load_core_private);
+
+	//if (game_in_progress())
+	//{
+	//	game_state_load_core(main_globals.core_name.get_string());
+	//	main_globals.load_core = false;
+	//}
+}
+
+void __cdecl main_loop_initialize_restricted_regions()
+{
+	if (game_is_multithreaded())
+	{
+		restricted_region_unlock_primary(k_global_render_data_region);
+		restricted_region_unlock_primary(k_game_state_render_region);
+	}
+}
+
+void __cdecl main_loop_dispose_restricted_regions()
+{
+	if (game_is_multithreaded())
+	{
+		restricted_region_lock_primary(k_game_state_render_region);
+		restricted_region_lock_primary(k_global_render_data_region);
+	}
+}
+
+//void main_loop_body(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run, dword* wait_for_render_thread, __int64* vblank_index) // debug?
+void __cdecl main_loop_body(dword* wait_for_render_thread, dword* tick_count)
+{
+	dword current_tick_count = GetTickCount();
+	dword tick_delta = current_tick_count - *tick_count;
+
+	if (disable_main_loop_throttle || tick_delta >= 7)
+	{
+		*tick_count = current_tick_count;
+
+		bool requested_single_thread = false;
+		main_globals.main_loop_time = system_milliseconds();
+
+		main_set_single_thread_request_flag(0, !g_render_thread_user_setting);
+		if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
+		{
+			main_thread_process_pending_messages();
+			main_loop_body_multi_threaded();
+		}
+		else
+		{
+			requested_single_thread = true;
+			main_thread_process_pending_messages();
+			main_loop_body_single_threaded();
+		}
+
+		g_single_thread_request_flags.set_bit(3, byte_244DF08 /* sub_6103F0 */ || byte_244DF07 /* sub_610530 */);
+		if (game_is_multithreaded())
+		{
+			if (!g_single_thread_request_flags.peek() != requested_single_thread)
+			{
+				if (requested_single_thread)
+					unlock_resources_and_resume_render_thread(*wait_for_render_thread);
+				else
+					*wait_for_render_thread = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+			}
+		}
+	}
+	else
+	{
+		// main_thread_sleep
+		sleep(7 - tick_delta);
+	}
+}
+
+void __cdecl main_loop()
+{
+	if (game_is_multithreaded())
+	{
+		g_render_thread_user_setting = true;
+		g_render_thread_enabled.set(true);
+	}
+
+	main_loop_enter();
+	main_loop_initialize_restricted_regions();
+
+	dword wait_for_render_thread = 0;
+	dword tick_count = GetTickCount();
+	while (!main_globals.exit_game)
+	{
+		main_loop_body(&wait_for_render_thread, &tick_count);
+	}
+
+	render_thread_set_mode(1, 0);
+	main_loop_dispose_restricted_regions();
+	main_loop_exit();
 }
 
 void __cdecl game_dispose_hook_for_console_dispose()
@@ -419,18 +666,18 @@ void __cdecl main_loop_body_mid(real shell_seconds_elapsed)
 
 	if (cheat_drop_tag)
 		main_cheat_drop_tag_private();
-	
+
 	real elapsed_game_dt = shell_seconds_elapsed;
 	if (main_time_halted())
 		elapsed_game_dt = 0.0f;
-	
+
 	terminal_update(elapsed_game_dt);
 	console_update(elapsed_game_dt);
 	//xbox_connection_update();
 	remote_command_process();
 	debug_menu_update();
 	//cinematic_debug_camera_control_update();
-	
+
 	tag_resources_unlock_game(lock);
 }
 
@@ -526,9 +773,9 @@ void __cdecl main_loop_body_single_threaded()
 	// Halo Online
 
 	main_loop_body_main_part();
-	
+
 	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
-	
+
 	if (!game_is_multithreaded() || !g_main_gamestate_timing_data->flags.is_empty())
 	{
 		font_idle();
@@ -539,14 +786,14 @@ void __cdecl main_loop_body_single_threaded()
 			if (restricted_region_publish_to_mirror(k_game_state_shared_region))
 			{
 				main_time_mark_publishing_end_time();
-	
+
 				restricted_region_unlock_primary(k_game_state_shared_region);
 				if (restricted_region_lock_mirror(k_game_state_shared_region))
 				{
 					main_thread_lock_rasterizer_and_resources();
 					process_published_game_state(true);
 					main_thread_unlock_rasterizer_and_resources();
-	
+
 					if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
 						restricted_region_unlock_mirror(k_game_state_shared_region);
 				}
@@ -557,12 +804,12 @@ void __cdecl main_loop_body_single_threaded()
 		{
 			main_time_mark_publishing_start_time();
 			main_time_mark_publishing_end_time();
-	
+
 			main_thread_lock_rasterizer_and_resources();
 			process_published_game_state(!shell_application_is_paused());
 			main_thread_unlock_rasterizer_and_resources();
 		}
-	
+
 		g_main_gamestate_timing_data->reset();
 		main_render_purge_pending_messages();
 	}
@@ -653,101 +900,6 @@ void __cdecl main_loop_body_single_threaded()
 	//}
 }
 
-REFERENCE_DECLARE(0x0244DF07, bool, byte_244DF07);
-REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
-
-//void main_loop_body(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run, dword* wait_for_render_thread, __int64* vblank_index) // debug?
-void main_loop_body(dword* wait_for_render_thread, dword* tick_count)
-{
-	dword current_tick_count = GetTickCount();
-	dword tick_delta = current_tick_count - *tick_count;
-
-	if (disable_main_loop_throttle || tick_delta >= 7)
-	{
-		*tick_count = current_tick_count;
-
-		bool requested_single_thread = false;
-		main_globals.main_loop_time = system_milliseconds();
-
-		main_set_single_thread_request_flag(0, !g_render_thread_user_setting);
-		if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
-		{
-			main_thread_process_pending_messages();
-			main_loop_body_multi_threaded();
-		}
-		else
-		{
-			requested_single_thread = true;
-			main_thread_process_pending_messages();
-			main_loop_body_single_threaded();
-		}
-
-		g_single_thread_request_flags.set_bit(3, byte_244DF08 || byte_244DF07);
-		if (game_is_multithreaded())
-		{
-			if (!g_single_thread_request_flags.peek() != requested_single_thread)
-			{
-				if (requested_single_thread)
-					unlock_resources_and_resume_render_thread(*wait_for_render_thread);
-				else
-					*wait_for_render_thread = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
-			}
-		}
-	}
-	else
-	{
-		// main_thread_sleep
-		sleep(7 - tick_delta);
-	}
-}
-
-void __cdecl main_loop_initialize_restricted_regions()
-{
-	if (game_is_multithreaded())
-	{
-		restricted_region_unlock_primary(k_global_render_data_region);
-		restricted_region_unlock_primary(k_game_state_render_region);
-	}
-}
-
-void __cdecl main_loop_dispose_restricted_regions()
-{
-	if (game_is_multithreaded())
-	{
-		restricted_region_lock_primary(k_game_state_render_region);
-		restricted_region_lock_primary(k_global_render_data_region);
-	}
-}
-
-void __cdecl main_loop()
-{
-	if (game_is_multithreaded())
-	{
-		g_render_thread_user_setting = true;
-		g_render_thread_enabled.set(true);
-	}
-
-	main_loop_enter();
-	main_loop_initialize_restricted_regions();
-
-	dword wait_for_render_thread = 0;
-	dword tick_count = GetTickCount();
-	while (!main_globals.exit_game)
-	{
-		main_loop_body(&wait_for_render_thread, &tick_count);
-	}
-
-	render_thread_set_mode(1, 0);
-	main_loop_dispose_restricted_regions();
-	main_loop_exit();
-}
-HOOK_DECLARE(0x005059E0, main_loop);
-
-dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
-{
-	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
-}
-
 void __cdecl main_loop_enter()
 {
 	INVOKE(0x00506200, main_loop_enter);
@@ -831,7 +983,132 @@ void __cdecl main_loop_pregame_show_progress_screen()
 
 void __cdecl main_loop_process_global_state_changes()
 {
-	INVOKE(0x005065B0, main_loop_process_global_state_changes);
+	//INVOKE(0x005065B0, main_loop_process_global_state_changes);
+
+	if (game_in_editor())
+	{
+		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	
+		main_game_launch_default_editor();
+		main_game_change_update();
+	
+		if (main_globals.skip_cinematic)
+			main_globals.skip_cinematic = false;
+	
+		if (main_globals.map_revert)
+			main_globals.map_revert = false;
+	
+		if (!main_globals.map_revert_flags.is_empty())
+			main_globals.map_revert_flags.clear();
+	
+		if (main_globals.map_reset)
+			main_reset_map_private();
+	
+		if (main_globals.deactivate_cinematic_zone_from_tag)
+			main_deactivate_cinematic_tag_private();
+	
+		if (main_globals.activate_cinematic_zone_from_tag)
+			main_activate_cinematic_tag_private();
+	
+		if (main_globals.reset_zone_resources)
+			main_reset_zone_resources_private();
+	
+		if (main_globals.switch_zone_set)
+			main_switch_zone_set_private();
+	
+		if (main_globals.save)
+			main_globals.save = false;
+	
+		if (main_globals.save_and_exit)
+			main_globals.save_and_exit = false;
+	
+		if (main_globals.save_core)
+			main_globals.save_core = false;
+	
+		if (main_globals.load_core)
+			main_globals.load_core = false;
+	
+		if (main_globals.user_interface_save_files)
+			main_globals.user_interface_save_files = false;
+	
+		if (main_globals.reloading_active_zone_set)
+			main_reload_active_zone_set_private();
+	
+		if (main_globals.non_bsp_zone_activation)
+			main_modify_zone_activation_private();
+	
+		if (main_globals.game_state_decompression)
+			main_globals.game_state_decompression = false;
+	}
+	else
+	{
+		if (main_globals.run_demos)
+			main_run_demos_private();
+	
+		main_game_launch_default();
+		main_game_change_update();
+	
+		if (main_events_pending())
+		{
+			c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	
+			exceptions_update();
+	
+			if (main_globals.skip_cinematic)
+				main_skip_cinematic_private();
+	
+			if (main_globals.map_revert)
+				main_revert_map_private();
+	
+			if (main_globals.map_reset)
+				main_reset_map_private();
+	
+			if (main_globals.deactivate_cinematic_zone_from_tag)
+				main_deactivate_cinematic_tag_private();
+	
+			if (main_globals.activate_cinematic_zone_from_tag)
+				main_activate_cinematic_tag_private();
+	
+			if (main_globals.game_state_decompression)
+				main_game_gamestate_decompress_and_apply_private();
+	
+			if (game_state_compressor_lock_pending())
+				game_state_compressor_lock_update();
+	
+			if (main_globals.reset_zone_resources)
+				main_reset_zone_resources_private();
+	
+			if (main_globals.prepare_to_switch_zone_set)
+				main_prepare_to_switch_zone_set_private();
+	
+			if (main_globals.switch_zone_set)
+				main_switch_zone_set_private();
+	
+			if (main_globals.non_bsp_zone_activation)
+				main_modify_zone_activation_private();
+	
+			if (main_globals.save)
+				main_save_map_private();
+	
+			if (main_globals.save_and_exit)
+				main_save_map_and_exit_private();
+	
+			if (main_globals.save_core)
+				main_save_core_private();
+	
+			if (main_globals.load_core)
+				main_load_core_private();
+	
+			if (main_globals.user_interface_save_files)
+				main_user_interface_save_files_private();
+	
+			if (main_globals.reloading_active_zone_set)
+				main_reload_active_zone_set_private();
+	
+			if (cache_file_tag_resources_prefetch_update_required())
+				cache_file_tag_resources_update_prefetch_state();
+		}
+	}
 }
 
 void __cdecl main_loop_status_message(wchar_t const* status_message)
@@ -846,6 +1123,284 @@ void __cdecl main_loop_status_message(wchar_t const* status_message)
 	c_rasterizer::end_frame();
 }
 
+bool __cdecl main_menu_has_performed_startup_sequence()
+{
+	//return INVOKE(0x005069B0, main_menu_has_performed_startup_sequence);
+
+	return main_globals.has_performed_startup_sequence;
+}
+
+void __cdecl main_modify_zone_activation_private()
+{
+	INVOKE(0x005069C0, main_modify_zone_activation_private);
+
+	//main_globals.non_bsp_zone_activation = false;
+	//if (game_in_progress())
+	//	scenario_modify_active_zones(&main_globals.scenario_zone_activation);
+	//main_globals.scenario_zone_activation.clear();
+}
+
+void __cdecl main_prepare_for_switch_zone_set(long zone_set_index)
+{
+	INVOKE(0x00506A10, main_prepare_for_switch_zone_set, zone_set_index);
+
+	//if (global_scenario_try_and_get())
+	//{
+	//	if (zone_set_index >= 0 && zone_set_index < global_scenario->zone_sets.count())
+	//	{
+	//		if (zone_set_index == scenario_zone_set_index_get())
+	//		{
+	//			if (main_globals.prepare_to_switch_zone_set)
+	//			{
+	//				main_globals.prepare_to_switch_zone_set = false;
+	//				main_globals.prepare_to_switch_zone_set_index = 0;
+	//			}
+	//			else
+	//			{
+	//				console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			//main_trace_event_internal(__FUNCTION__);
+	//			main_globals.prepare_to_switch_zone_set = true;
+	//			main_globals.prepare_to_switch_zone_set_index = zone_set_index;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		console_warning("tried to switch to invalid zone-set %d", zone_set_index);
+	//	}
+	//}
+	//else
+	//{
+	//	console_warning("tried to switch to a zone-set without a scenario loaded");
+	//}
+}
+
+void __cdecl main_prepare_to_switch_zone_set_private()
+{
+	INVOKE(0x00506A70, main_prepare_to_switch_zone_set_private);
+
+	//bool load_failed = false;
+	//if (game_in_editor())
+	//{
+	//	load_failed = true;
+	//}
+	//else
+	//{
+	//	load_failed = scenario_prepare_to_switch_zone_set(main_globals.prepare_to_switch_zone_set_index);
+	//	chud_messaging_special_load(false);
+	//}
+	//
+	//if (!load_failed)
+	//{
+	//	generate_event(_event_level_error,
+	//		"main_prepare_to_switch_zone_set() failed for '%s' zone set %d, must abort game",
+	//		game_options_get()->scenario_path.get_string(),
+	//		main_globals.switch_zone_set_index);
+	//
+	//	main_game_load_panic();
+	//}
+	//
+	//main_globals.prepare_to_switch_zone_set = false;
+	//main_globals.prepare_to_switch_zone_set_index = NONE;
+}
+
+void __cdecl main_print_version()
+{
+	INVOKE(0x00506AB0, main_print_version);
+}
+
+void __cdecl main_reload_active_zone_set_private()
+{
+	INVOKE(0x00506AE0, main_reload_active_zone_set_private);
+}
+
+void __cdecl main_reset_map()
+{
+	INVOKE(0x00506AF0, main_reset_map);
+
+	////main_trace_event_internal(__FUNCTION__);
+	//main_reset_map_internal(false);
+}
+
+void __cdecl main_reset_map_internal(bool random)
+{
+	INVOKE(0x00506B00, main_reset_map_internal, random);
+
+	//main_globals.map_reset = true;
+	//main_globals.map_reset_random = random;
+}
+
+void __cdecl main_reset_map_private()
+{
+	INVOKE(0x00506B20, main_reset_map_private);
+
+	//if (game_in_progress() && !game_time_get_paused())
+	//{
+	//	main_clear_global_pending_zone_activation(NONE);
+	//	main_game_reset_map(main_globals.map_reset_random);
+	//	main_globals.map_reset = false;
+	//	main_globals.map_reset_random = false;
+	//}
+}
+
+void __cdecl main_reset_map_random()
+{
+	INVOKE(0x00506B60, main_reset_map_random);
+
+	////main_trace_event_internal(__FUNCTION__);
+	//main_reset_map_internal(true);
+}
+
+void __cdecl main_reset_zone_resources()
+{
+	INVOKE(0x00506B70, main_reset_zone_resources);
+
+	//if (global_scenario_try_and_get())
+	//{
+	//	//main_trace_event_internal(__FUNCTION__);
+	//	main_globals.reset_zone_resources = true;
+	//}
+	//else
+	//{
+	//	console_warning("tried to switch to a zone-set without a scenario loaded");
+	//}
+}
+
+void __cdecl main_reset_zone_resources_private()
+{
+	INVOKE(0x00506B90, main_reset_zone_resources_private);
+
+	//main_globals.reset_zone_resources = false;
+	//scenario_reset_zone_resources_from_main();
+}
+
+void __cdecl main_revert_map(bool user)
+{
+	INVOKE(0x00506BA0, main_revert_map, user);
+
+	//main_globals.map_revert = true;
+	//main_globals.map_revert_flags.set(_game_state_revert_bit_user, user);
+}
+
+void __cdecl main_revert_map_private()
+{
+	INVOKE(0x00506BD0, main_revert_map_private);
+}
+
+void __cdecl main_revert_map_scripting()
+{
+	INVOKE(0x00506CA0, main_revert_map_scripting);
+
+	////main_trace_event_internal(__FUNCTION__);
+	//main_globals.map_revert = true;
+	//main_globals.map_revert_flags.clear();
+	//main_globals.map_revert_flags.set(_game_state_revert_bit_scripting, true);
+	//main_globals.map_revert_flags.set(_game_state_revert_bit_scripting_cinematic, true);
+}
+
+//.text:00506CC0
+
+void __cdecl main_run_demos_private()
+{
+	INVOKE(0x00506CD0, main_run_demos_private);
+
+	//main_globals.run_demos = false;
+}
+
+void __cdecl main_save_and_exit_campaign()
+{
+	INVOKE(0x00506CE0, main_save_and_exit_campaign);
+
+	//if (game_in_progress() && game_is_campaign())
+	//	user_interface_interactive_session_request_campaign_quit(2);
+	//else
+	//	main_save_and_exit_campaign_immediately();
+}
+
+void __cdecl main_save_and_exit_campaign_immediately()
+{
+	INVOKE(0x00506D10, main_save_and_exit_campaign_immediately);
+
+	//main_globals.save_and_exit = true;
+}
+
+void __cdecl main_save_core()
+{
+	INVOKE(0x00506D20, main_save_core);
+
+	//main_save_core_name("core");
+}
+
+void __cdecl main_save_core_name(char const* core_name)
+{
+	INVOKE(0x00506D40, main_save_core_name, core_name);
+
+	//main_globals.save_core = true;
+	//main_globals.core_name.set(core_name);
+}
+
+void __cdecl main_save_core_private()
+{
+	INVOKE(0x00506D60, main_save_core_private);
+
+	//if (game_in_progress())
+	//{
+	//	game_state_save_core(main_globals.core_name.get_string());
+	//	main_globals.save_core = false;
+	//}
+}
+
+void __cdecl main_save_map()
+{
+	INVOKE(0x00506D80, main_save_map);
+
+	//main_globals.save = true;
+	//chud_messaging_special_autosave(true);
+}
+
+void __cdecl main_save_map_and_exit_private()
+{
+	INVOKE(0x00506D90, main_save_map_and_exit_private);
+
+	//if (!game_is_playback())
+	//{
+	//	game_state_save_to_persistent_storage_blocking();
+	//	game_finish();
+	//}
+	//main_globals.save_and_exit = false;
+}
+
+bool __cdecl main_save_map_pending()
+{
+	return INVOKE(0x00506DB0, main_save_map_pending);
+
+	//return main_globals.save;
+}
+
+void __cdecl main_save_map_private()
+{
+	INVOKE(0x00506DC0, main_save_map_private);
+
+	//chud_messaging_special_autosave(false);
+	//if (game_in_progress())
+	//{
+	//	game_state_save();
+	//
+	//	c_datamine datamine(0, "checkpoint save", 1, "main");
+	//	data_mine_usability_add_basic_information(&datamine);
+	//	data_mine_usability_add_all_players_status(&datamine, 4);
+	//}
+	//main_globals.save = false;
+}
+
+void __cdecl main_set_active_designer_zone_mask(dword a1)
+{
+	INVOKE(0x00506E50, main_set_active_designer_zone_mask, a1);
+}
+
 void __cdecl main_set_single_thread_request_flag(long single_threaded_request_flags, bool set)
 {
 	INVOKE(0x00506EB0, main_set_single_thread_request_flag, single_threaded_request_flags, set);
@@ -853,7 +1408,23 @@ void __cdecl main_set_single_thread_request_flag(long single_threaded_request_fl
 	//g_single_thread_request_flags.set_bit(single_threaded_request_flags, set);
 }
 
-//main_status
+void __cdecl main_skip_cinematic()
+{
+	INVOKE(0x00506ED0, main_skip_cinematic);
+}
+
+void __cdecl main_skip_cinematic_private()
+{
+	INVOKE(0x00506EF0, main_skip_cinematic_private);
+}
+
+bool __cdecl main_startup_sequence()
+{
+	return INVOKE(0x00506F10, main_startup_sequence);
+}
+
+// main_status in main.hpp
+//.text:00506FB0 ; void __cdecl main_status(char const* status_type, char const* format, ...)
 
 struct s_file_reference;
 void __cdecl main_status_dump(s_file_reference* file)
@@ -861,9 +1432,45 @@ void __cdecl main_status_dump(s_file_reference* file)
 	INVOKE(0x00507100, main_status_dump, file);
 }
 
+void __cdecl main_status_print()
+{
+	//INVOKE(0x005071C0, main_status_print);
+
+	for (long i = 0; i < NUMBEROF(g_status_values); i++)
+	{
+		if (csstrnlen(g_status_values[i].status_type, NUMBEROF(g_status_values[i].status_type)))
+			console_printf("%s: %s", g_status_values[i].status_type, g_status_values[i].status_value);
+	}
+}
+
+void __cdecl main_suppress_startup_sequence()
+{
+	INVOKE(0x005071F0, main_suppress_startup_sequence);
+
+	//main_globals.suppress_startup_sequence = false;
+}
+
+void __cdecl main_switch_bsp(long zone_set_index)
+{
+	INVOKE(0x00507200, main_switch_bsp, zone_set_index);
+
+	//generate_event(_event_level_error, "switch bsp is a deprecated function. Use switch zone set instead.");
+	//main_switch_zone_set(zone_set_index);
+}
+
 void __cdecl main_switch_zone_set(long zone_set_index)
 {
 	INVOKE(0x00507210, main_switch_zone_set, zone_set_index);
+}
+
+void __cdecl main_switch_zone_set_private()
+{
+	INVOKE(0x00507280, main_switch_zone_set_private);
+}
+
+void __cdecl main_thread_combine_timing_data(s_game_tick_time_samples* samples)
+{
+	INVOKE(0x005072D0, main_thread_combine_timing_data, samples);
 }
 
 void __cdecl main_thread_lock_rasterizer_and_resources()
@@ -893,6 +1500,27 @@ bool __cdecl main_time_halted()
 	return shell_application_is_paused();
 }
 
+void __cdecl main_user_interface_save_files()
+{
+	INVOKE(0x00507380, main_user_interface_save_files);
+
+	//if (!main_globals.user_interface_save_files)
+	//{
+	//	main_globals.user_interface_save_files = true;
+	//	if (game_in_progress())
+	//		chud_messaging_special_saving(true);
+	//}
+}
+
+void __cdecl main_user_interface_save_files_private()
+{
+	INVOKE(0x005073B0, main_user_interface_save_files_private);
+
+	//main_globals.user_interface_save_files = false;
+	//if (game_in_progress())
+	//	chud_messaging_special_saving(false);
+}
+
 void __cdecl process_published_game_state(bool a1)
 {
 	INVOKE(0x00507450, process_published_game_state, a1);
@@ -903,12 +1531,14 @@ void __cdecl publish_waiting_gamestate()
 	INVOKE(0x005074D0, publish_waiting_gamestate);
 }
 
-//bool __cdecl render_thread_set_mode(e_render_thread_mode mode_a, e_render_thread_mode mode_b)
-bool __cdecl render_thread_set_mode(long mode_compare, long mode_exchange)
+bool __cdecl render_thread_enabled()
 {
-	//return INVOKE(0x005076D0, render_thread_set_mode, mode_compare, mode_exchange);
+	//return INVOKE(0x00507550, render_thread_enabled);
 
-	return game_is_multithreaded() && g_render_thread_enabled.set_if_equal(mode_exchange, mode_compare) == mode_compare;
+	if (game_is_multithreaded())
+		return g_render_thread_enabled.peek();
+
+	return false;
 }
 
 long __cdecl render_thread_get_mode()
@@ -919,14 +1549,12 @@ long __cdecl render_thread_get_mode()
 	return 0;
 }
 
-bool __cdecl render_thread_enabled()
+//bool __cdecl render_thread_set_mode(e_render_thread_mode mode_a, e_render_thread_mode mode_b)
+bool __cdecl render_thread_set_mode(long mode_compare, long mode_exchange)
 {
-	//return INVOKE(0x00507550, render_thread_enabled);
+	//return INVOKE(0x005076D0, render_thread_set_mode, mode_compare, mode_exchange);
 
-	if (game_is_multithreaded())
-		return g_render_thread_enabled.peek();
-
-	return false;
+	return game_is_multithreaded() && g_render_thread_enabled.set_if_equal(mode_exchange, mode_compare) == mode_compare;
 }
 
 void __cdecl unlock_resources_and_resume_render_thread(dword flags)

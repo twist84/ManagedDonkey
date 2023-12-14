@@ -1,4 +1,5 @@
 #pragma once
 
-extern void geometry_cache_debug_render();
+extern bool __cdecl geometry_cache_is_blocking();
+extern void __cdecl geometry_cache_debug_render();
 

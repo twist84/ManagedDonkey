@@ -1,4 +1,5 @@
 #pragma once
 
-extern void texture_cache_debug_render();
+extern bool __cdecl texture_cache_is_blocking();
+extern void __cdecl texture_cache_debug_render();
 

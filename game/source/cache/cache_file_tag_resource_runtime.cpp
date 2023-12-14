@@ -150,6 +150,16 @@ static_assert(sizeof(c_runtime_tag_resource_cache_file_decompressor_service) == 
 static c_runtime_resource_cache_file_decompressor_service g_runtime_resource_cache_file_decompressor_service = {};
 static c_runtime_tag_resource_cache_file_decompressor_service g_runtime_tag_resource_cache_file_decompressor_service = {};
 
+bool __cdecl cache_file_tag_resources_prefetch_update_required()
+{
+	return INVOKE(0x0055F870, cache_file_tag_resources_prefetch_update_required);
+}
+
+void __cdecl cache_file_tag_resources_update_prefetch_state()
+{
+	return INVOKE(0x0055F960, cache_file_tag_resources_update_prefetch_state);
+}
+
 void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_tag_resource_codec_service* _this, void* unused, c_allocation_base* allocator, c_cache_file_runtime_decompressor_registry* decompressor_registry, c_cache_file_resource_uber_location_table* uber_location_table)
 {
 	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);

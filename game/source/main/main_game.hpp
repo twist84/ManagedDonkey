@@ -49,30 +49,30 @@ extern s_main_game_globals& main_game_globals;
 // main_game_load_panic
 extern bool& debug_load_panic_to_main_menu;
 
-//extern void main_game_initialize();
-//extern void main_game_launch_initialize();
-//extern void main_game_launch_default();
-//extern void main_game_launch_default_editor();
-//extern void main_game_reset_map(bool reset_map);
-extern bool main_game_reset_in_progress();
-extern bool main_game_change_in_progress();
+//extern void __cdecl main_game_initialize();
+//extern void __cdecl main_game_launch_initialize();
+extern void __cdecl main_game_launch_default();
+extern void __cdecl main_game_launch_default_editor();
+//extern void __cdecl main_game_reset_map(bool reset_map);
+extern bool __cdecl main_game_reset_in_progress();
+extern bool __cdecl main_game_change_in_progress();
 
-extern void main_game_change(game_options const* options);
+extern void __cdecl main_game_change(game_options const* options);
 
-//extern void main_game_change_abort();
-//extern void main_game_change_update();
-//extern bool main_game_change_immediate(game_options const* options);
-//extern void main_game_goto_next_level();
-//extern bool main_game_load_map(game_options const* options);
-//extern void main_game_unload_and_prepare_for_next_game(game_options const* options);
-//extern bool main_game_loaded_pregame();
-extern bool main_game_loaded_map();
-//extern char const* main_game_loaded_map_name();
-//extern void main_game_load_panic();
-//extern void main_game_load_from_core_name(char const* core_name);
-//extern void main_game_load_from_core();
+//extern void __cdecl main_game_change_abort();
+extern void __cdecl main_game_change_update();
+//extern bool __cdecl main_game_change_immediate(game_options const* options);
+//extern void __cdecl main_game_goto_next_level();
+//extern bool __cdecl main_game_load_map(game_options const* options);
+//extern void __cdecl main_game_unload_and_prepare_for_next_game(game_options const* options);
+//extern bool __cdecl main_game_loaded_pregame();
+extern bool __cdecl main_game_loaded_map();
+//extern char const* __cdecl main_game_loaded_map_name();
+//extern void __cdecl main_game_load_panic();
+//extern void __cdecl main_game_load_from_core_name(char const* core_name);
+//extern void __cdecl main_game_load_from_core();
 
 extern void __cdecl main_menu_launch();
 extern void __cdecl main_menu_launch_force();
 
-extern void main_game_notify_language_change(e_language language);
+extern void __cdecl main_game_notify_language_change(e_language language);
