@@ -91,10 +91,17 @@ struct _main_globals
 };
 static_assert(sizeof(_main_globals) == 0x84);
 
+struct s_main_status_value
+{
+	char status_type[256];
+	char status_value[512];
+};
+
 struct c_interlocked_long;
 extern bool& g_force_upload_even_if_untracked;
 extern bool& g_render_thread_user_setting;
 extern bool& disable_main_loop_throttle;
+extern s_main_status_value(&g_status_values)[32];
 extern c_interlocked_long& g_render_thread_waiting;
 extern c_interlocked_long& g_render_thread_enabled;
 extern c_interlocked_long& g_single_thread_request_flags;
