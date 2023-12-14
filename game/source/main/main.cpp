@@ -81,6 +81,7 @@ REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
 // passed to `c_network_message_handler::handle_channel_message`
 REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
 
+HOOK_DECLARE(0x00505530, main_events_pending);
 HOOK_DECLARE(0x00505650, main_events_reset);
 HOOK_DECLARE(0x005059E0, main_loop);
 HOOK_DECLARE_CALL(0x00505C2B, main_loop_body_begin);
