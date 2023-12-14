@@ -169,7 +169,7 @@ extern void __cdecl game_state_reset_mapping(long a1);
 extern void __cdecl game_state_revert(dword flags);
 extern bool __cdecl game_state_reverted();
 extern void __cdecl game_state_save();
-extern void __cdecl game_state_save_core(char* core_name);
+extern void __cdecl game_state_save_core(char const* core_name);
 extern void __cdecl game_state_save_to_persistent_storage_blocking();
 extern void __cdecl game_state_security_invalidate_signature();
 extern bool __cdecl game_state_security_verify_signature_insecure(void* header_address);

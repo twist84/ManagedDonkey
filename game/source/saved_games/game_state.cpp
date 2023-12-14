@@ -311,7 +311,7 @@ void __cdecl game_state_save()
 	INVOKE(0x00510550, game_state_save);
 }
 
-void __cdecl game_state_save_core(char* core_name)
+void __cdecl game_state_save_core(char const* core_name)
 {
 	INVOKE(0x005105F0, game_state_save_core, core_name);
 }
@@ -469,6 +469,7 @@ void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header
 //.text:00511070 ; c_gamestate_deterministic_allocation_callbacks::handle_allocation
 void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size)
 {
+	ASSERT(!game_state_globals.allocations_locked);
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
 	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
 }
@@ -476,12 +477,14 @@ void __thiscall c_gamestate_deterministic_allocation_callbacks::handle_allocatio
 //.text:00511090 ; c_gamestate_nondeterministic_allocation_callbacks::handle_allocation
 void __thiscall c_gamestate_nondeterministic_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size)
 {
+	ASSERT(!game_state_globals.allocations_locked);
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
 	game_state_globals.checksum = crc_checksum_buffer(game_state_globals.checksum, (byte*)&allocation_size, 4);
 }
 
 void c_gamestate_allocation_record_allocation_callbacks::handle_allocation(c_restricted_memory const* memory, char const* name, char const* type, long member_index, void* base_address, unsigned int allocation_size)
 {
+	ASSERT(!game_state_globals.allocations_locked);
 	game_state_allocation_record(memory->m_region_index, name, type, allocation_size);
 }
 
