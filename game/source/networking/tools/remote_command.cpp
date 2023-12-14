@@ -1478,6 +1478,15 @@ callback_result_t crash_callback(void const* userdata, long token_count, tokens_
 	return result;
 }
 
+callback_result_t status_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_status_print();
+
+	return result;
+}
+
 callback_result_t player_force_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
