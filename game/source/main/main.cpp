@@ -89,6 +89,7 @@ HOOK_DECLARE_CALL(0x00505CCD, main_loop_body_mid);
 HOOK_DECLARE_CALL(0x0050605C, main_loop_body_end);
 //HOOK_DECLARE(0x00506080, main_loop_body_single_threaded);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
+HOOK_DECLARE(0x005065B0, main_loop_process_global_state_changes);
 
 void copy_input_states(bool enabled)
 {
