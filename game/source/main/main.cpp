@@ -231,7 +231,40 @@ void __cdecl main_decompress_gamestate()
 
 bool __cdecl main_events_pending()
 {
-	return INVOKE(0x00505530, main_events_pending);
+	//return INVOKE(0x00505530, main_events_pending);
+
+	bool result = main_game_change_in_progress();
+	if (game_in_editor())
+	{
+		if (main_globals.reset_zone_resources || main_globals.switch_zone_set || main_globals.map_reset)
+			result = true;
+	}
+	else if (main_globals.skip_cinematic
+		|| main_globals.map_reset
+		|| main_globals.map_revert
+		|| main_globals.deactivate_cinematic_zone_from_tag
+		|| main_globals.activate_cinematic_zone_from_tag
+		|| main_globals.game_state_decompression
+		|| game_state_compressor_lock_pending()
+		|| main_globals.reset_zone_resources
+		|| main_globals.prepare_to_switch_zone_set
+		|| main_globals.switch_zone_set
+		|| main_globals.save
+		|| main_globals.save_and_exit
+		|| main_globals.save_core
+		|| main_globals.load_core
+		|| main_globals.user_interface_save_files
+		|| main_globals.reloading_active_zone_set
+		|| main_globals.non_bsp_zone_activation
+		|| cache_file_tag_resources_prefetch_update_required()
+		|| texture_cache_is_blocking()
+		|| geometry_cache_is_blocking()
+		|| byte_244DF08 /* sub_6103F0 */)
+	{
+		result = true;
+	}
+
+	return result;
 }
 
 void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool* variable)
