@@ -80,8 +80,8 @@ struct _main_globals
 	bool activate_cinematic_zone_from_tag;
 	bool deactivate_cinematic_zone_from_tag;
 	//bool cleanup_loading_screen; // unused is this the still here?
-	long prepared_zone_set_index;
-	long zone_set_index;
+	long prepare_to_switch_zone_set_index;
+	long switch_zone_set_index;
 	s_scenario_zone_activation scenario_zone_activation;
 
 	//dword cinematic_zone_group_tag;
