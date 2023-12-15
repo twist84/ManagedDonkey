@@ -1,9 +1,11 @@
-//#include "cseries/cseries.hpp"
-//
-//#include "memory/module.hpp"
-//
-//#include <Windows.h>
-//
+#include "cseries/cseries.hpp"
+
+#include "cache/physical_memory_map.hpp"
+#include "main/main.hpp"
+#include "memory/module.hpp"
+
+#include <Windows.h>
+
 //int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 //{
 //	SetLastError(NO_ERROR);
@@ -16,7 +18,8 @@
 //	g_hWnd = NULL;
 //
 //	c_static_string<64> name;
-//	name.print("HaloOnline %s", sub_5013A0());
+//	//name.print("HaloOnline %s", sub_5013A0());
+//	name.print("HaloOnline %s_%d", "cert_ms23_release_106708", g_level_globals.checksum);
 //	csstrnzcpy(g_lpszClassName, name.get_string(), sizeof(g_lpszClassName));
 //	csstrnzcpy(g_lpszWindowName, name.get_string(), sizeof(g_lpszClassName));
 //
@@ -41,5 +44,4 @@
 //	return 0;
 //}
 //HOOK_DECLARE(0x0042EB10, WinMain);
-//
-//
+

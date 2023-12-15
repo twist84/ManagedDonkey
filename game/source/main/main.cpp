@@ -33,6 +33,7 @@
 #include "main/console.hpp"
 #include "main/debug_keys.hpp"
 #include "main/global_preferences.hpp"
+#include "main/levels.hpp"
 #include "main/loading.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
@@ -606,6 +607,7 @@ void __cdecl main_loop_body_begin()
 		g_synch_globals;
 		main_globals;
 		physical_memory_globals;
+		g_level_globals;
 
 		s_thread_local_storage* tls = get_tls();
 

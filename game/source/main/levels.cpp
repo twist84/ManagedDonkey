@@ -7,6 +7,8 @@
 #include "tag_files/files_windows.hpp"
 #include "text/unicode.hpp"
 
+REFERENCE_DECLARE(0x0189E2D4, s_level_globals, g_level_globals);
+
 HOOK_DECLARE(0x0054A2A0, levels_add_campaign);
 HOOK_DECLARE(0x0054A4E0, levels_add_map_from_scripting);
 HOOK_DECLARE(0x0054A6A0, levels_add_fake_map_from_scripting);
@@ -82,22 +84,22 @@ long __cdecl levels_dvd_enumeration_callback2(void* callback_data)
 	return result;
 }
 
-long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* callback_data)
+long __cdecl levels_dvd_enumeration_callback(s_configuration_enumeration_task* task_data)
 {
 	c_static_string<256> found_file_name{};
 	s_file_reference found_file{};
 
-	if (callback_data->enumeration_index)
+	if (task_data->enumeration_index)
 	{
-		if (callback_data->enumeration_index == 1)
+		if (task_data->enumeration_index == 1)
 		{
 			s_file_reference file{};
 			s_file_last_modification_date date{};
 
-			if (!find_files_next(callback_data->find_file_data, &file, &date))
+			if (!find_files_next(task_data->find_file_data, &file, &date))
 			{
-				find_files_end(callback_data->find_file_data);
-				return ++callback_data->enumeration_index == 2;
+				find_files_end(task_data->find_file_data);
+				return ++task_data->enumeration_index == 2;
 			}
 
 			wchar_t file_directory[256]{};
@@ -126,12 +128,12 @@ long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_d
 
 		file_reference_create_from_path(&found_file, found_file_name.get_string(), true);
 
-		find_files_start(callback_data->find_file_data, 0, &found_file);
+		find_files_start(task_data->find_file_data, 0, &found_file);
 
-		++callback_data->enumeration_index;
+		++task_data->enumeration_index;
 	}
 
-	return callback_data->enumeration_index == 2;
+	return task_data->enumeration_index == 2;
 }
 
 //e_map_id levels_get_default_multiplayer_map_id()
@@ -376,7 +378,9 @@ function_end:
 
 	if (!file_added)
 	{
-		// #TODO: file_reference_get_name
+		dword_flags flags = FLAG(0) | FLAG(2) | FLAG(3);
+		char filename[256]{};
+		file_reference_get_name(file, flags, filename, NUMBEROF(filename));
 		c_console::write_line("levels: failed to add level file '%s'", file->path.get_string());
 	}
 }

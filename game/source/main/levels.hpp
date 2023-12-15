@@ -1,8 +1,40 @@
 #pragma once
 
-struct s_level_datum
+#include "memory/data.hpp"
+#include "multithreading/synchronized_value.hpp"
+#include "tag_files/files_windows.hpp"
+
+enum
 {
-	unsigned short flags;
+	k_max_campaign_insertion_points = 9
+};
+
+struct s_configuration_enumeration_task
+{
+	long enumeration_index;
+	s_find_file_data* find_file_data;
+};
+static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
+
+struct s_campaign_datum : s_datum_header
+{
+	word_flags flags;
+	long campaign_id;
+	wchar_t name[64];
+	wchar_t description[128];
+	long map_ids[64];
+};
+static_assert(sizeof(s_campaign_datum) == 0x288);
+
+enum e_level_flags
+{
+	k_level_flags
+};
+
+struct s_level_datum : s_datum_header
+{
+	//c_flags<e_level_flags, word, k_level_flags> flags;
+	word_flags flags;
 	long map_id;
 	wchar_t name[32];
 	wchar_t description[128];
@@ -19,17 +51,45 @@ struct s_level_datum
 };
 static_assert(sizeof(s_level_datum) == 0x360);
 
+struct s_level_insertion_datum : s_datum_header
+{
+	short next_insertion_index;
+	long map_id;
+	wchar_t names[k_max_campaign_insertion_points][32];
+	wchar_t descriptions[k_max_campaign_insertion_points][128];
+	byte zone_sets[k_max_campaign_insertion_points];
+	long __unknownB54[k_max_campaign_insertion_points];
+	long __unknownB78[k_max_campaign_insertion_points];
+	byte_flags __flagsB9C[k_max_campaign_insertion_points];
+};
+static_assert(sizeof(s_level_insertion_datum) == 0xBA8);
+
+struct s_level_globals
+{
+	c_smart_data_array<s_campaign_datum> campaigns;
+	c_smart_data_array<s_level_datum> campaign_levels;
+	c_smart_data_array<s_level_insertion_datum> campaign_insertions;
+	c_smart_data_array<s_level_datum> multiplayer_levels;
+	s_level_datum mainmenu_level;
+
+	dword enumeration_task;
+	s_find_file_data enumeration_task_data;
+	c_synchronized_long enumeration_result;
+	bool __unknownA14;
+	bool __unknownA15;
+
+	bool initialized;
+	byte controller_mask;
+
+	// checksum = fast_checksum(header.hash, sizeof(s_network_http_request_hash), fast_checksum_new());
+	dword checksum;
+};
+static_assert(sizeof(s_level_globals) == 0xA1C);
+
+extern s_level_globals& g_level_globals;
+
 struct s_blf_chunk_campaign;
 struct s_blf_chunk_scenario;
-
-struct s_file_reference;
-
-struct s_find_file_data;
-struct s_levels_dvd_enumeration_callback_data
-{
-	long enumeration_index;
-	s_find_file_data* find_file_data;
-};
 
 extern void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
 extern void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path);
@@ -38,7 +98,7 @@ extern void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool 
 extern bool __cdecl levels_begin_dvd_enumeration();
 
 extern long __cdecl levels_dvd_enumeration_callback2(void* callback_data);
-extern long __cdecl levels_dvd_enumeration_callback(s_levels_dvd_enumeration_callback_data* callback_data);
+extern long __cdecl levels_dvd_enumeration_callback(s_configuration_enumeration_task* task_data);
 
 extern long levels_get_default_multiplayer_map_id();
 extern long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name);
