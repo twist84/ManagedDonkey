@@ -10,6 +10,7 @@
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
+#include "cseries/async.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/cheats.hpp"
 #include "game/game.hpp"
@@ -608,6 +609,7 @@ void __cdecl main_loop_body_begin()
 		main_globals;
 		physical_memory_globals;
 		g_level_globals;
+		g_async_globals;
 
 		s_thread_local_storage* tls = get_tls();
 

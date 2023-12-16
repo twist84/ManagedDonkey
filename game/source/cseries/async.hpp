@@ -3,6 +3,11 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
+enum
+{
+	k_maximum_async_task_data_size = 0x220
+};
+
 enum e_async_category
 {
 	_async_category_none = 0,
@@ -35,6 +40,11 @@ enum e_async_priority
 	_async_priority_blocking_animation,
 
 	k_async_priorities_count
+};
+
+enum e_async_completion
+{
+
 };
 
 struct s_create_file_task
@@ -167,4 +177,50 @@ static_assert(sizeof(s_file_raw_handle_based_task) == 0x4);
 //	s_find_file_data* find_file_data;
 //};
 //static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
+
+union s_async_task
+{
+	s_create_file_task create_file;
+	s_read_position_task read_position;
+	s_write_position_task write_position;
+	s_copy_position_task copy_position;
+	s_set_file_size_task set_file_size;
+	s_delete_file_task delete_file;
+	s_enumerate_files_task enumerate_files;
+	s_read_entire_file_task read_entire_file;
+	s_write_buffer_to_file_task write_buffer_to_file;
+	s_close_file_task close_file;
+	s_get_file_size_task get_file_size;
+	s_file_raw_handle_based_task file_raw_handle_based;
+
+	byte storage[k_maximum_async_task_data_size];
+};
+static_assert(sizeof(s_async_task) == k_maximum_async_task_data_size);
+
+using async_work_callback_t = e_async_completion __cdecl(s_async_task*);
+
+struct s_async_task_element
+{
+	e_async_priority priority;
+	long task_index;
+	s_async_task task;
+	e_async_category category;
+	async_work_callback_t* work_callback;
+	c_synchronized_long* done;
+	s_async_task_element* next;
+};
+static_assert(sizeof(s_async_task_element) == 0x238);
+
+struct s_async_globals
+{
+	long __unknown0;
+	s_async_task_element task_list[25];
+	s_async_task_element* free_list;
+	s_async_task_element* work_list;
+	s_async_task_element* temp_list;
+	long __unknown3788;
+};
+static_assert(sizeof(s_async_globals) == 0x378C);
+
+extern s_async_globals& g_async_globals;
 
