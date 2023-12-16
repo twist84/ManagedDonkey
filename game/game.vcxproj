@@ -546,6 +546,7 @@ POPD
     <ClInclude Include="source\cache\pc_geometry_cache.hpp" />
     <ClInclude Include="source\cache\pc_texture_cache.hpp" />
     <ClInclude Include="source\cache\physical_memory_map.hpp" />
+    <ClInclude Include="source\cseries\async.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
     <ClInclude Include="source\cseries\runtime_state.hpp" />
     <ClInclude Include="source\data_mining\data_mine_usability.hpp" />
