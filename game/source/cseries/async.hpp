@@ -1,5 +1,6 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
@@ -49,11 +50,11 @@ enum e_async_completion
 
 struct s_create_file_task
 {
-	wchar_t file_name[256];
-	unsigned long desired_access;
-	unsigned long share_mode;
-	unsigned long creation_disposition;
-	unsigned long flags_and_attributes;
+	wchar_t file_path[256];
+	dword desired_access;
+	dword share_mode;
+	dword creation_disposition;
+	dword flags_and_attributes;
 	s_file_handle volatile* file;
 	bool always_open;
 };
@@ -70,14 +71,34 @@ struct s_read_position_task
 };
 static_assert(sizeof(s_read_position_task) == 0x18);
 
+enum e_write_position_flags
+{
+	_write_position_flush_file_bit = 0,
+
+	k_write_position_flags
+};
+
 struct s_write_position_task
+{
+	s_file_handle file;
+	void* buffer;
+	long size;
+	dword offset;
+	c_synchronized_long* success;
+	dword total_bytes_written;
+	c_flags<e_write_position_flags, dword, k_write_position_flags> flags;
+	bool __unknown1C;
+};
+static_assert(sizeof(s_write_position_task) == 0x20);
+
+struct s_write_position_task2
 {
 	s_file_handle file;
 	long buffer_length;
 	void* buffer;
 	bool* success;
 };
-static_assert(sizeof(s_write_position_task) == 0x10);
+static_assert(sizeof(s_write_position_task2) == 0x10);
 
 struct s_copy_position_task
 {
@@ -85,7 +106,7 @@ struct s_copy_position_task
 	s_file_handle destination_file;
 	long source_offset;
 	long destination_offset;
-	byte* buffer;
+	void* buffer;
 	long buffer_size;
 	c_synchronized_long* success;
 	long buffer_offset;
@@ -104,7 +125,7 @@ static_assert(sizeof(s_set_file_size_task) == 0xC);
 
 struct s_delete_file_task
 {
-	char file_name[256];
+	char file_path[256];
 	bool directory;
 	c_synchronized_long* success;
 };
@@ -124,21 +145,21 @@ static_assert(sizeof(s_enumerate_files_task) == 0x11C);
 
 struct s_read_entire_file_task
 {
-	wchar_t file_name[256];
+	wchar_t file_path[256];
 	void* buffer;
-	long buffer_size;
-	long* size;
+	dword buffer_size;
+	dword volatile* size;
 	c_synchronized_long* success;
 	s_file_handle file;
-	long file_size;
+	dword file_size;
 };
 static_assert(sizeof(s_read_entire_file_task) == 0x218);
 
 struct s_write_buffer_to_file_task
 {
-	wchar_t filename[256];
+	wchar_t file_path[256];
 	void const* buffer;
-	long size;
+	dword size;
 	long __unknown208;
 	c_synchronized_long* success;
 	s_file_handle file;

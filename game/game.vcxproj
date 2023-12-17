@@ -199,6 +199,7 @@ POPD
     <ClCompile Include="source\ai\cl_engine.cpp" />
     <ClCompile Include="source\config\version.cpp" />
     <ClCompile Include="source\cseries\async.cpp" />
+    <ClCompile Include="source\cseries\async_buffer.cpp" />
     <ClCompile Include="source\cseries\async_xoverlapped.cpp" />
     <ClCompile Include="source\cseries\async_xoverlapped_memory.cpp" />
     <ClCompile Include="source\cseries\cseries_console.cpp" />
@@ -548,6 +549,7 @@ POPD
     <ClInclude Include="source\cache\pc_texture_cache.hpp" />
     <ClInclude Include="source\cache\physical_memory_map.hpp" />
     <ClInclude Include="source\cseries\async.hpp" />
+    <ClInclude Include="source\cseries\async_buffer.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
     <ClInclude Include="source\cseries\runtime_state.hpp" />
     <ClInclude Include="source\data_mining\data_mine_usability.hpp" />
