@@ -4,6 +4,20 @@
 
 #include <windows.h>
 
+c_synchronized_long::c_synchronized_long() :
+	m_value(0)
+{
+}
+
+c_synchronized_long::c_synchronized_long(long value) :
+	m_value(value)
+{
+}
+
+c_synchronized_long::~c_synchronized_long()
+{
+}
+
 long c_synchronized_long::increment()
 {
 	return InterlockedIncrement(&m_value);
@@ -14,9 +28,14 @@ long c_synchronized_long::peek() const
 	return m_value;
 }
 
-void c_synchronized_long::operator=(long Value)
+void c_synchronized_long::operator=(long value)
 {
-	InterlockedExchange(&m_value, Value);
+	InterlockedExchange(&m_value, value);
+}
+
+c_synchronized_long::operator long() const
+{
+	return m_value;
 }
 
 __int64 c_synchronized_int64::increment()

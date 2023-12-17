@@ -245,3 +245,6 @@ static_assert(sizeof(s_async_globals) == 0x378C);
 
 extern s_async_globals& g_async_globals;
 
+extern bool __cdecl async_usable();
+extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool with_idle, bool with_spinner, char const* file, long line);
+

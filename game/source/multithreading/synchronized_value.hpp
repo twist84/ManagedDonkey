@@ -3,9 +3,14 @@
 struct c_synchronized_long
 {
 public:
+	c_synchronized_long();
+	c_synchronized_long(long value);
+	~c_synchronized_long();
+
 	long increment();
 	long peek() const;
-	void operator=(long Value);
+	void operator=(long value);
+	operator long() const;
 
 protected:
 	volatile long m_value;

@@ -6,15 +6,33 @@
 
 enum e_async_buffer_state
 {
-	k_async_buffer_state_none = NONE
+	k_async_buffer_state_none = NONE,
+	// 0: ready_to_read
+	// 1: ready_to_write
+
+	k_async_buffer_state_count
 };
 
 enum e_async_buffer_file_access
 {
+	_async_buffer_file_access_none = NONE,
+	_async_buffer_file_access_write,
+	_async_buffer_file_access_read,
+	_async_buffer_file_access_read_write,
+
+	k_async_buffer_file_access_count
 };
 
 enum e_async_buffer_disposition
 {
+	_async_buffer_disposition_open_existing = 0,
+	_async_buffer_disposition_create_always,
+	_async_buffer_disposition_create_new,
+	_async_buffer_disposition_open_always0,
+	_async_buffer_disposition_open_always1,
+	_async_buffer_disposition_truncate_existing,
+
+	k_async_buffer_disposition_count
 };
 
 struct s_async_buffer
@@ -22,7 +40,7 @@ struct s_async_buffer
 	s_async_buffer();
 
 	void* data;
-	long __unknown4;
+	long data_allocation_size;
 	bool use_external_storage;
 	long __unknownC;
 	long data_size;
@@ -41,7 +59,7 @@ public:
 	long get_buffer_count() const;
 
 	long m_buffer_count;
-	c_static_array<s_async_buffer, 3> m_buffer;
+	c_static_array<s_async_buffer, 3> m_buffers;
 };
 static_assert(sizeof(c_async_buffer_set_base) == 0x64);
 
@@ -51,7 +69,7 @@ struct c_async_buffer_set :
 public:
 	c_async_buffer_set(long buffer_count);
 
-	bool allocate_storage(c_allocation_base* allocation, long allocation_size);
+	bool allocate_storage(c_allocation_base* allocator, long buffer_size);
 	void async_read_buffer(long buffer_index);
 	void async_write_buffer(long buffer_index);
 	bool at_end_of_file() const;
@@ -73,11 +91,11 @@ public:
 	void read(void* destination, long bytes_to_read, long* bytes_read);
 	bool ready_to_read();
 	bool ready_to_write();
-	void release_storage(c_allocation_base* allocation);
-	bool set_position(long position);
+	void release_storage(c_allocation_base* allocator);
+	bool set_position(long file_position);
 	bool set_state(e_async_buffer_state new_state);
 	void swap_buffers();
-	void use_external_storage(char** buffers, long a2, long allocation_size);
+	void use_external_storage(char** buffers, long buffer_count, long buffer_size);
 	void write(void const* source, long bytes_to_write, long* byte_written);
 
 protected:
@@ -86,12 +104,12 @@ protected:
 	e_async_buffer_state m_state;
 	s_file_handle m_async_file_handle;
 	long __unknown74;
-	long m_position;
+	long m_file_position;
 	long m_file_size;
 	long m_buffer_index;
 	bool m_storage_initialized;
 	bool m_at_end_of_file;
-	bool __unknown86;
+	bool m_fatal_error_occurred;
 	bool __unknown87;
 };
 static_assert(sizeof(c_async_buffer_set) == 0x88);
