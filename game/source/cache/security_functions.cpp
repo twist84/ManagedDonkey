@@ -2,6 +2,8 @@
 
 #include "memory/module.hpp"
 
+REFERENCE_DECLARE_ARRAY(0x01650460, s_secure_memory_region, k_secure_memory_regions, k_secure_memory_region_count);
+
 HOOK_DECLARE(0x00508F80, security_rsa_compute_and_verify_signature);
 
 bool __cdecl security_validate_hash(void const* buffer, dword buffer_size, bool calculate, s_network_http_request_hash const* hash, s_network_http_request_hash* out_hash)
