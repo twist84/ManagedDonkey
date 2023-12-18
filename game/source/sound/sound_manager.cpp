@@ -284,6 +284,11 @@ sound_channel_datum* __cdecl channel_get(short index)
 	return INVOKE(0x00513230, channel_get, index);
 }
 
+void __cdecl sound_idle()
+{
+	INVOKE(0x00517170, sound_idle);
+}
+
 s_sound_listener const* __cdecl sound_manager_get_listener(long index)
 {
 	return INVOKE(0x005182A0, sound_manager_get_listener, index);

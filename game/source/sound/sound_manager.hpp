@@ -108,6 +108,7 @@ extern bool debug_sound_listeners;
 extern bool debug_sound;
 extern bool debug_sound_manager_channels;
 
+extern void __cdecl sound_idle();
 extern s_sound_listener const* __cdecl sound_manager_get_listener(long listener_index);
 
 extern void __cdecl sound_debug_render();
