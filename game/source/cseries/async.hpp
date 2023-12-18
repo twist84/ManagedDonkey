@@ -45,6 +45,15 @@ enum e_async_priority
 
 enum e_async_completion
 {
+	_async_completion_unknown0 = 0,
+	_async_completion_done,
+	_async_completion_thread_exit,
+
+	k_async_completion_count
+};
+
+enum e_yield_reason
+{
 
 };
 
@@ -185,19 +194,19 @@ struct s_file_raw_handle_based_task
 };
 static_assert(sizeof(s_file_raw_handle_based_task) == 0x4);
 
-//struct s_font_loading_state;
-//struct s_font_loading_task
-//{
-//	s_font_loading_state* loading_state;
-//};
-//static_assert(sizeof(s_font_loading_task) == 0x4);
+struct s_font_loading_state;
+struct s_font_loading_task
+{
+	s_font_loading_state* loading_state;
+};
+static_assert(sizeof(s_font_loading_task) == 0x4);
 
-//struct s_configuration_enumeration_task
-//{
-//	long enumeration_index;
-//	s_find_file_data* find_file_data;
-//};
-//static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
+struct s_configuration_enumeration_task
+{
+	long enumeration_index;
+	s_find_file_data* find_file_data;
+};
+static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
 
 union s_async_task
 {
@@ -213,6 +222,8 @@ union s_async_task
 	s_close_file_task close_file;
 	s_get_file_size_task get_file_size;
 	s_file_raw_handle_based_task file_raw_handle_based;
+	s_font_loading_task font_loading;
+	s_configuration_enumeration_task configuration_enumeration;
 
 	byte storage[k_maximum_async_task_data_size];
 };
@@ -223,7 +234,7 @@ using async_work_callback_t = e_async_completion __cdecl(s_async_task*);
 struct s_async_task_element
 {
 	e_async_priority priority;
-	long task_index;
+	long task_id;
 	s_async_task task;
 	e_async_category category;
 	async_work_callback_t* work_callback;
@@ -245,6 +256,21 @@ static_assert(sizeof(s_async_globals) == 0x378C);
 
 extern s_async_globals& g_async_globals;
 
+extern bool __cdecl async_busy_hint();
+extern bool __cdecl async_category_in_queue(e_async_category category);
+extern void __cdecl async_dispose();
+extern void __cdecl async_idle();
+extern void __cdecl async_initialize();
+extern dword __cdecl async_main(void* thread_params);
+extern long __cdecl async_task_add(e_async_priority priority, s_async_task* task, e_async_category category, e_async_completion(*work_callback)(s_async_task*), c_synchronized_long* done);
+extern long __cdecl async_task_add_ex(e_async_priority priority, s_async_task* task, e_async_category category, e_async_completion(*work_callback)(s_async_task*), c_synchronized_long* done, bool a6);
+extern bool __cdecl async_task_change_priority(long task_id, e_async_priority priority);
+extern long __cdecl async_tasks_in_queue();
+extern bool __cdecl async_test_completion_flag(c_synchronized_long* completion_flag);
 extern bool __cdecl async_usable();
-extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool with_idle, bool with_spinner, char const* file, long line);
+extern void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yield_function)(c_synchronized_long*), bool idle, bool networking, bool spinner, e_yield_reason yield_reason);
+extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line);
+extern void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle, bool spinner, e_yield_reason yield_reason, char const* file, long line);
+extern void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line);
+extern bool __cdecl simple_yield_function(c_synchronized_long* done);
 

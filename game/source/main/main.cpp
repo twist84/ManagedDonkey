@@ -961,7 +961,7 @@ void __cdecl main_loop_exit()
 	//if (game_is_multithreaded())
 	//{
 	//	main_render_purge_pending_messages();
-	//	wait_for_thread_to_exit(_registered_thread_render, 0xFFFFFFFF);
+	//	wait_for_thread_to_exit(k_thread_render, INFINITE);
 	//}
 }
 

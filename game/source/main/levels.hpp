@@ -9,13 +9,6 @@ enum
 	k_max_campaign_insertion_points = 9
 };
 
-struct s_configuration_enumeration_task
-{
-	long enumeration_index;
-	s_find_file_data* find_file_data;
-};
-static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
-
 struct s_campaign_datum : s_datum_header
 {
 	word_flags flags;
@@ -90,6 +83,7 @@ extern s_level_globals& g_level_globals;
 
 struct s_blf_chunk_campaign;
 struct s_blf_chunk_scenario;
+struct s_configuration_enumeration_task;
 
 extern void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
 extern void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path);
