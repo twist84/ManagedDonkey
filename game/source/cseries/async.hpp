@@ -208,6 +208,15 @@ struct s_configuration_enumeration_task
 };
 static_assert(sizeof(s_configuration_enumeration_task) == 0x8);
 
+union s_async_task;
+struct s_simple_callback_task
+{
+	e_async_completion(__cdecl* callback)(s_async_task* task, void* data, long data_size);
+	byte callback_data[0x11C - sizeof(short)];
+	c_enum<long, short, 0, 0x120> callback_data_size;
+};
+static_assert(sizeof(s_simple_callback_task) == 0x120);
+
 union s_async_task
 {
 	s_create_file_task create_file;
@@ -224,6 +233,7 @@ union s_async_task
 	s_file_raw_handle_based_task file_raw_handle_based;
 	s_font_loading_task font_loading;
 	s_configuration_enumeration_task configuration_enumeration;
+	s_simple_callback_task simple_callback;
 
 	byte storage[k_maximum_async_task_data_size];
 };
@@ -250,11 +260,14 @@ struct s_async_globals
 	s_async_task_element* free_list;
 	s_async_task_element* work_list;
 	s_async_task_element* temp_list;
-	long __unknown3788;
+	long tasks_in_queue;
+
+	// Added back by us
+	static c_synchronized_long work_delay_milliseconds;
 };
 static_assert(sizeof(s_async_globals) == 0x378C);
 
-extern s_async_globals& g_async_globals;
+extern s_async_globals& async_globals;
 
 extern bool __cdecl async_busy_hint();
 extern bool __cdecl async_category_in_queue(e_async_category category);
@@ -269,8 +282,15 @@ extern long __cdecl async_tasks_in_queue();
 extern bool __cdecl async_test_completion_flag(c_synchronized_long* completion_flag);
 extern bool __cdecl async_usable();
 extern void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yield_function)(c_synchronized_long*), bool idle, bool networking, bool spinner, e_yield_reason yield_reason);
+extern void __cdecl sub_508950(s_async_task_element* element);
+extern s_async_task_element* __cdecl async_task_add_free_list(bool a1);
 extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line);
 extern void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle, bool spinner, e_yield_reason yield_reason, char const* file, long line);
 extern void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line);
 extern bool __cdecl simple_yield_function(c_synchronized_long* done);
+extern s_async_task_element* __cdecl sub_508BD0();
+extern void __cdecl sub_508C00(s_async_task_element* element);
+extern void __cdecl sub_508C30(s_async_task_element* element);
+extern long __cdecl async_queue_simple_callback(e_async_completion(__cdecl* callback)(s_async_task* task, void* data, long data_size), void const* data, long data_size, e_async_priority priority, c_synchronized_long* done);
+extern e_async_completion __cdecl async_simple_callback_task_callback(s_async_task* task);
 

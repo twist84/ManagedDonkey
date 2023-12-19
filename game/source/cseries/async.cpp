@@ -10,8 +10,9 @@
 #include "rasterizer/rasterizer.hpp"
 #include "simulation/simulation.hpp"
 #include "sound/sound_manager.hpp"
+#include "multithreading/synchronization.hpp"
 
-REFERENCE_DECLARE(0x022B4818, s_async_globals, g_async_globals);
+REFERENCE_DECLARE(0x022B4818, s_async_globals, async_globals);
 
 HOOK_DECLARE(0x005085C0, async_task_add);
 HOOK_DECLARE(0x00508A20, internal_async_yield_until_done);
@@ -59,7 +60,8 @@ long __cdecl async_task_add_ex(e_async_priority priority, s_async_task* task, e_
 {
 	return INVOKE(0x00508660, async_task_add_ex, priority, task, category, work_callback, done, a6);
 
-	//g_async_globals.__unknown3788++;
+	//ASSERT(done);
+	//async_globals.tasks_in_queue++;
 	//done = 0;
 	//if (s_async_task_element* element = async_task_add_free_list(a6))
 	//{
@@ -79,9 +81,9 @@ bool __cdecl async_task_change_priority(long task_id, e_async_priority priority)
 
 	//bool result = false;
 	//internal_mutex_take(_synchronization_mutex_async_work); // mutex_async_work_take
-	//if (task_id < NUMBEROF(g_async_globals.task_list))
+	//if (task_id < NUMBEROF(async_globals.task_list))
 	//{
-	//	s_async_task_element* element = &g_async_globals.task_list[task_id];
+	//	s_async_task_element* element = &async_globals.task_list[task_id];
 	//	if (element->task_id == task_id)
 	//	{
 	//		sub_508C30(element);
@@ -108,10 +110,60 @@ bool __cdecl async_test_completion_flag(c_synchronized_long* completion_flag)
 
 bool __cdecl async_usable()
 {
-	return INVOKE(0x00508780, async_usable);
+	//return INVOKE(0x00508780, async_usable);
+
+	return !thread_has_crashed(k_thread_async_io);
 }
 
-//.text:005087A0 ; async_work_function
+bool __cdecl async_work_function()
+{
+	//INVOKE(0x005087A0, async_work_function);
+
+	bool should_exit = false;
+	while (!should_exit)
+	{
+		should_exit = current_thread_should_exit();
+		if (should_exit)
+			break;
+
+		current_thread_update_test_functions();
+
+		internal_semaphore_take(_synchronization_semaphore_async_work);
+
+		async_globals.temp_list = sub_508BD0();
+
+		//if (async_globals.work_delay_milliseconds > 0)
+		//	sleep(async_globals.work_delay_milliseconds);
+
+		if (async_globals.temp_list)
+		{
+			e_async_completion completion_status = async_globals.temp_list->work_callback(&async_globals.temp_list->task);
+			//g_statistics.work_callbacks++;
+
+			if (completion_status)
+			{
+				//g_statistics.work_retired++;
+				if (completion_status == _async_completion_done)
+				{
+					if (async_globals.temp_list->done)
+						*async_globals.temp_list->done = true;
+				}
+
+				sub_508C00(async_globals.temp_list);
+				sub_508950(async_globals.temp_list);
+			}
+			else
+			{
+				//g_statistics.__unknown1C_work_list = internal_semaphore_release(_synchronization_semaphore_async_work);
+				internal_semaphore_release(_synchronization_semaphore_async_work);
+				sleep(0);
+			}
+		}
+	}
+
+	return should_exit;
+}
+HOOK_DECLARE(0x005087A0, async_work_function);
 
 void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yield_function)(c_synchronized_long*), bool idle, bool networking, bool spinner, e_yield_reason yield_reason)
 {
@@ -162,7 +214,61 @@ void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yi
 	}
 }
 
-//.text:00508980 ; async_task_add_free_list
+void __cdecl sub_508950(s_async_task_element* element)
+{
+	//INVOKE(0x00508950, sub_508950, element);
+
+	// mutex_async_free_take
+	internal_mutex_take(_synchronization_mutex_async_free);
+
+	element->next = async_globals.free_list;
+	async_globals.free_list = element;
+	ASSERT(async_globals.free_list->next != async_globals.free_list);
+
+	// mutex_async_free_release
+	internal_mutex_release(_synchronization_mutex_async_free);
+}
+
+s_async_task_element* __cdecl async_task_add_free_list(bool a1)
+{
+	//return INVOKE(0x00508980, async_task_add_free_list, a1);
+
+	bool stalled = false;
+	s_async_task_element* free_list = NULL;
+	while (!free_list)
+	{
+		// mutex_async_free_take
+		internal_mutex_take(_synchronization_mutex_async_free);
+
+		if (async_globals.free_list)
+		{
+			ASSERT(async_globals.free_list->next != async_globals.free_list);
+			free_list = async_globals.free_list;
+			async_globals.free_list = async_globals.free_list->next;
+			ASSERT(async_globals.free_list->next != async_globals.free_list);
+		}
+
+		// mutex_async_free_release
+		internal_mutex_release(_synchronization_mutex_async_free);
+
+		if (!free_list)
+		{
+			if (!a1)
+				break;
+
+			if (!stalled)
+			{
+				stalled = true;
+				//g_statistics.free_list_get_stalls++;
+			}
+
+			main_loop_pregame();
+			switch_to_thread();
+		}
+	}
+
+	return free_list;
+}
 
 void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line)
 {
@@ -194,5 +300,64 @@ bool __cdecl simple_yield_function(c_synchronized_long* done)
 
 //.text:00508AA0 ; async_task_add_work_list
 //.text:00508B00 ; 
-//.text:00508C30 ; 
+
+s_async_task_element* __cdecl sub_508BD0()
+{
+	//return INVOKE(0x00508BD0, sub_508BD0);
+
+	internal_mutex_take(_synchronization_mutex_async_work);
+	s_async_task_element* work_list = async_globals.work_list;
+	internal_mutex_release(_synchronization_mutex_async_work);
+	return work_list;
+}
+
+void __cdecl sub_508C00(s_async_task_element* element)
+{
+	//INVOKE(0x00508C00, sub_508C00, element);
+
+	internal_mutex_take(_synchronization_mutex_async_work);
+	sub_508C30(element);
+	element->task_id = NONE;
+	internal_mutex_release(_synchronization_mutex_async_work);
+}
+
+void __cdecl sub_508C30(s_async_task_element* element)
+{
+	//INVOKE(0x00508C30, sub_508C30, element);
+
+	ASSERT(async_globals.work_list != NULL);
+	if (async_globals.work_list == element)
+	{
+		async_globals.work_list = element->next;
+	}
+	else
+	{
+		s_async_task_element* work_list = async_globals.work_list;
+		while (work_list->next != element)
+			work_list = work_list->next;
+		work_list->next = element->next;
+	}
+}
+
+long __cdecl async_queue_simple_callback(e_async_completion(__cdecl* callback)(s_async_task* task, void* data, long data_size), void const* data, long data_size, e_async_priority priority, c_synchronized_long* done)
+{
+	//return INVOKE(0x005AD8B0, async_queue_simple_callback, callback, data, data_size, priority, done);
+
+	s_async_task task{};
+	ASSERT(sizeof(task.simple_callback.callback_data) >= data_size);
+	if (data_size <= sizeof(task.simple_callback.callback_data))
+	{
+		task.simple_callback.callback = callback;
+		csmemcpy(task.simple_callback.callback_data, data, data_size);
+		return async_task_add(priority, &task, _async_category_none, async_simple_callback_task_callback, done);
+	}
+	return NONE;
+}
+
+e_async_completion __cdecl async_simple_callback_task_callback(s_async_task* task)
+{
+	//return INVOKE(0x005ADE50, async_simple_callback_task_callback, task);
+
+	return task->simple_callback.callback(task, task->simple_callback.callback_data, task->simple_callback.callback_data_size);
+}
 
