@@ -28,6 +28,11 @@ long c_synchronized_long::peek() const
 	return m_value;
 }
 
+long c_synchronized_long::set(long value)
+{
+	return InterlockedExchange(&m_value, value);
+}
+
 void c_synchronized_long::operator=(long value)
 {
 	InterlockedExchange(&m_value, value);

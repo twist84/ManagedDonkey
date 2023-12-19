@@ -9,6 +9,7 @@ public:
 
 	long increment();
 	long peek() const;
+	long set(long value);
 	void operator=(long value);
 	operator long() const;
 
