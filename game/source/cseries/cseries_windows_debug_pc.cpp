@@ -31,7 +31,7 @@ struct s_exception_information
 	CONTEXT context_record;
 	dword exception_code;
 	dword exception_flags;
-	dword exception_address;
+	void* exception_address;
 	dword number_parameters;
 	s_exception_type_info exception_type_info;
 };
@@ -45,24 +45,6 @@ REFERENCE_DECLARE(0x0238E884, c_synchronized_long, g_exception_caching_in_progre
 REFERENCE_DECLARE(0x0238E888, s_exception_information, g_exception_information);
 
 HOOK_DECLARE(0x0051C020, exceptions_update);
-
-char const* GetExceptionFlagsString(DWORD exception)
-{
-	switch (exception)
-	{
-	case EXCEPTION_NONCONTINUABLE:           return "EXCEPTION_NONCONTINUABLE";
-	case EXCEPTION_UNWINDING:                return "EXCEPTION_UNWINDING";
-	case EXCEPTION_EXIT_UNWIND:              return "EXCEPTION_EXIT_UNWIND";
-	case EXCEPTION_STACK_INVALID:            return "EXCEPTION_STACK_INVALID";
-	case EXCEPTION_NESTED_CALL:              return "EXCEPTION_NESTED_CALL";
-	case EXCEPTION_TARGET_UNWIND:            return "EXCEPTION_TARGET_UNWIND";
-	case EXCEPTION_COLLIDED_UNWIND:          return "EXCEPTION_COLLIDED_UNWIND";
-	case EXCEPTION_SOFTWARE_ORIGINATE:       return "EXCEPTION_SOFTWARE_ORIGINATE";
-	case EXCEPTION_ACCESS_VIOLATION:         return "EXCEPTION_ACCESS_VIOLATION";
-	}
-
-	return "";
-}
 
 char const* GetExceptionString(dword code)
 {
@@ -159,6 +141,24 @@ char const* GetExceptionString(dword code)
 	return exception_code_string;
 }
 
+char const* GetExceptionFlagsString(DWORD exception)
+{
+	switch (exception)
+	{
+	case EXCEPTION_NONCONTINUABLE:           return "EXCEPTION_NONCONTINUABLE";
+	case EXCEPTION_UNWINDING:                return "EXCEPTION_UNWINDING";
+	case EXCEPTION_EXIT_UNWIND:              return "EXCEPTION_EXIT_UNWIND";
+	case EXCEPTION_STACK_INVALID:            return "EXCEPTION_STACK_INVALID";
+	case EXCEPTION_NESTED_CALL:              return "EXCEPTION_NESTED_CALL";
+	case EXCEPTION_TARGET_UNWIND:            return "EXCEPTION_TARGET_UNWIND";
+	case EXCEPTION_COLLIDED_UNWIND:          return "EXCEPTION_COLLIDED_UNWIND";
+	case EXCEPTION_SOFTWARE_ORIGINATE:       return "EXCEPTION_SOFTWARE_ORIGINATE";
+	case EXCEPTION_ACCESS_VIOLATION:         return "EXCEPTION_ACCESS_VIOLATION";
+	}
+
+	return "";
+}
+
 void exception_print_recursive(PEXCEPTION_RECORD exception_record, s_file_reference file)
 {
 	if (!exception_record)
@@ -176,8 +176,46 @@ void exception_print_recursive(PEXCEPTION_RECORD exception_record, s_file_refere
 	exception_print_recursive(exception_record->ExceptionRecord, file);
 }
 
+void __cdecl build_exception_information(_EXCEPTION_POINTERS* exception_pointers, s_exception_information* exception_information)
+{
+	//INVOKE(0x0051BC10, build_exception_information, exception_pointers, exception_information);
+
+	if (exception_information)
+	{
+		csmemset(exception_information, 0, sizeof(s_exception_information));
+		if (exception_pointers)
+		{
+			exception_information->thread_id = GetCurrentThreadId();
+			csmemcpy(&exception_information->context_record, exception_pointers->ContextRecord, sizeof(exception_information->context_record));
+			exception_information->exception_code = exception_pointers->ExceptionRecord->ExceptionCode;
+			exception_information->exception_flags = exception_pointers->ExceptionRecord->ExceptionFlags;
+			exception_information->exception_address = exception_pointers->ExceptionRecord->ExceptionAddress;
+			if (exception_pointers->ExceptionRecord != (PEXCEPTION_RECORD)-0x14)
+			{
+				exception_information->number_parameters = min(4, exception_pointers->ExceptionRecord->NumberParameters);
+				csmemcpy(&exception_information->exception_type_info, exception_pointers->ExceptionRecord->ExceptionInformation, 4 * exception_information->number_parameters);
+			}
+			exception_information->exception_occurred = 1;
+		}
+	}
+}
+
+void __cdecl cache_exception_information(_EXCEPTION_POINTERS* exception_pointers)
+{
+	//INVOKE(0x0051BCC0, cache_exception_information, exception_pointers);
+
+	if (!g_exception_caching_in_progress.set(1) && !has_cached_exception())
+	{
+		build_exception_information(exception_pointers, &g_exception_information);
+		g_exception_information.exception_occurred = 1;
+		g_exception_time = system_milliseconds();
+	}
+}
+
 long __cdecl exceptions_update()
 {
+	//INVOKE(0x0051C020, exceptions_update);
+
 	if (!has_cached_exception())
 		return 0;
 
@@ -213,21 +251,23 @@ long __cdecl exceptions_update()
 	//event_logs_flush();
 	release_locks_safe_for_crash_release();
 
-	c_console::write_line("crash: ");
-	c_console::write_line("crash: FATAL ERROR ENCOUNTERED");
-	c_console::write_line("crash: ");
+	generate_event(_event_level_message, "crash: ");
+	generate_event(_event_level_message, "crash: FATAL ERROR ENCOUNTERED");
+	generate_event(_event_level_message, "crash: ");
+	generate_event(_event_level_message, "crash: ");
 
-	dword exception_address = g_exception_information.exception_address;
-	char const* symbol_name = symbol_name_from_address(g_exception_information.exception_address, nullptr);
-
-	c_console::write_line("crash: ");
-
-	c_console::write_line("crash: %s",
+	dword exception_address = address_from_pointer(g_exception_information.exception_address);
+	char const* symbol_name = symbol_name_from_address(exception_address, nullptr);
+	generate_event(_event_level_message, "crash: %s",
 		version_get_full_string());
+
 	crash_info.print("version:\r\n%s\r\n",
 		version_get_full_string());
 
-	c_console::write_line("crash:   thread information: thread_name: %s thread_id: %08lx",
+	generate_event(_event_level_message, "crash:   thread information: thread_name: %s thread_id: %08lx",
+		thread_name,
+		thread_id);
+	crash_info.append_print("thread information:\r\n thread_name: %s, thread_id: %08lx\r\n",
 		thread_name,
 		thread_id);
 
@@ -238,7 +278,7 @@ long __cdecl exceptions_update()
 		dword parameter1 = g_exception_information.exception_type_info.exception_parameters[1];
 		bool parameter2 = !!g_exception_information.exception_type_info.exception_parameters[2];
 
-		c_console::write_line("crash: %s at %s,#%d",
+		generate_event(_event_level_message, "crash: %s at %s,#%d",
 			parameter2 ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
 			parameter0,
 			parameter1);
@@ -250,46 +290,62 @@ long __cdecl exceptions_update()
 
 		if (exception_string)
 		{
-			c_console::write_line("crash:   %s", exception_string);
-
-			crash_info.append_print("halt information:\r\n  %s\r\n", exception_string);
+			generate_event(_event_level_message, "crash:   %s",
+				exception_string);
+			crash_info.append_print("halt information:\r\n  %s\r\n",
+				exception_string);
 		}
 	}
 	else
 	{
 		if (exception_code_string)
 		{
-			c_console::write_line("crash: ### RUNTIME ERROR: %s at %08lX",
+			generate_event(_event_level_message, "crash: ### RUNTIME ERROR: %s at %08lX",
 				exception_code_string,
 				exception_address);
-			c_console::write_line("crash:   (%s)", symbol_name);
+			generate_event(_event_level_message, "crash:   (%s)",
+				symbol_name);
 
 			crash_info.append_print("halt:\r\n### RUNTIME ERROR: %s at %08lX\r\n",
 				exception_code_string,
 				exception_address);
-			crash_info.append_print("halt information:\r\n  (%s)\r\n", symbol_name);
+			crash_info.append_print("halt information:\r\n  (%s)\r\n",
+				symbol_name);
 		}
 		else
 		{
-			if (code == EXCEPTION_ACCESS_VIOLATION)
-			{
-				if (g_exception_information.number_parameters >= 2)
-				{
-					c_console::write_line("crash:   tried to %s address %08lx",
-						g_exception_information.exception_type_info.exception_string ? "write" : "read",
-						g_exception_information.exception_type_info.exception_parameters[0]);
+			generate_event(_event_level_message, "crash: ### RUNTIME ERROR: UNKNOWN EXCEPTION %08lX at %08lX",
+				exception_code_string,
+				exception_address);
+			generate_event(_event_level_message, "crash:   (%s)",
+				symbol_name);
 
-					crash_info.append_print("crash:   tried to %s address %08lx\r\n",
-						g_exception_information.exception_type_info.exception_string ? "write" : "read",
-						g_exception_information.exception_type_info.exception_parameters[0]);
-				}
-			}
-			else if (code == 0xC06D007E && g_exception_information.number_parameters)
+			crash_info.append_print("halt:\r\n### RUNTIME ERROR: UNKNOWN EXCEPTION %08lX at %08lX\r\n",
+				code,
+				exception_address);
+			crash_info.append_print("halt information:\r\n  (%s)\r\n",
+				symbol_name);
+		}
+
+		if (code == EXCEPTION_ACCESS_VIOLATION)
+		{
+			if (g_exception_information.number_parameters >= 2)
 			{
-				crash_info.append_print("%s - tried to load %s",
-					exception_code_string,
-					*((char const**)g_exception_information.exception_type_info.exception_string + 3));
+				generate_event(_event_level_message, "crash:   tried to %s address %08lx",
+					g_exception_information.exception_type_info.exception_string ? "write" : "read",
+					g_exception_information.exception_type_info.exception_parameters[0]);
+
+				crash_info.append_print("crash:   tried to %s address %08lx\r\n",
+					g_exception_information.exception_type_info.exception_string ? "write" : "read",
+					g_exception_information.exception_type_info.exception_parameters[0]);
 			}
+		}
+		else if (code == 0xC06D007E && g_exception_information.number_parameters) // VCPPEXCEPTION_MODULE_NOT_FOUND
+		{
+			generate_event(_event_level_message, "crash:   tried to load %s",
+				*((char const**)g_exception_information.exception_type_info.exception_string + 3));
+			crash_info.append_print("  tried to load %s\r\n",
+				*((char const**)g_exception_information.exception_type_info.exception_string + 3));
 		}
 	}
 
@@ -302,15 +358,17 @@ long __cdecl exceptions_update()
 		release_locks_safe_for_crash_release();
 	}
 
-	main_halt_and_catch_fire();
+	if (is_debugger_present())
+		__debugbreak();
+	else
+		main_halt_and_catch_fire();
+
+	long result = !is_debugger_present() ? 1 : -1;
 
 	g_exception_information.exception_occurred = 0;
 	main_loop_pregame_disable(false);
-	return !is_debugger_present() ? 1 : -1;
 
-	//long result = 0;
-	//HOOK_INVOKE(result =, exceptions_update);
-	//return result;
+	return result;
 }
 
 void __cdecl force_debugger_always_present(bool debugger_always_present)

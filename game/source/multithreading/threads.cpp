@@ -187,39 +187,48 @@ void __cdecl set_thread_exception_arguments(_EXCEPTION_POINTERS* exception_point
 
 int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_pointers, long thread_index)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(__unknown1C);
+	return INVOKE(0x0051C8C0, thread_execution_crash_handler, exception_pointers, thread_index);
 
-	g_thread_globals.thread_has_crashed[thread_index].set(1);
-	thread_release_locks_and_d3d_device();
-	if (__unknown1C)
-	{
-		set_thread_exception_arguments(exception_pointers);
-		if (exception_pointers->ExceptionRecord)
-			exception_pointers->ExceptionRecord->ExceptionCode = 'asrt';
-	}
-	cache_exception_information(exception_pointers);
-
-	if (is_debugger_present() && !g_catch_exceptions)
-		__debugbreak();
-	else
-		while (true)
-			Sleep(1000);
-
-	return 0;
+	//TLS_DATA_GET_VALUE_REFERENCE(__unknown1C);
+	//
+	//g_thread_globals.thread_has_crashed[thread_index].set(1);
+	//thread_release_locks_and_d3d_device();
+	//if (__unknown1C)
+	//{
+	//	set_thread_exception_arguments(exception_pointers);
+	//	if (exception_pointers->ExceptionRecord)
+	//		exception_pointers->ExceptionRecord->ExceptionCode = 'asrt';
+	//}
+	//cache_exception_information(exception_pointers);
+	//
+	//if (is_debugger_present() && !g_catch_exceptions)
+	//	__debugbreak();
+	//else
+	//	while (true)
+	//		Sleep(1000);
+	//
+	//return 0;
 }
 
 dword __stdcall thread_execution_wrapper(void* thread_parameter)
 {
-	//return INVOKE(0x0051C960, thread_execution_wrapper, thread_parameter);
+	return INVOKE(0x0051C960, thread_execution_wrapper, thread_parameter);
 
-	long registered_thread_index = static_cast<long>(address_from_pointer(thread_parameter));
-	ASSERT(registered_thread_index > k_thread_main && registered_thread_index < k_registered_thread_count);
-	
-	s_registered_thread_definition* definition = &k_registered_thread_definitions[registered_thread_index];
-	ASSERT(definition->start_routine);
-	
-	register_thread_running(registered_thread_index);
-	return definition->start_routine(definition->thread_parameter);
+	//__try
+	//{
+	//	long registered_thread_index = static_cast<long>(address_from_pointer(thread_parameter));
+	//	ASSERT(registered_thread_index > k_thread_main && registered_thread_index < k_registered_thread_count);
+	//
+	//	s_registered_thread_definition* definition = &k_registered_thread_definitions[registered_thread_index];
+	//	ASSERT(definition->start_routine);
+	//
+	//	register_thread_running(registered_thread_index);
+	//	return definition->start_routine(definition->thread_parameter);
+	//}
+	//__except (thread_execution_crash_handler(GetExceptionInformation(), registered_thread_index))
+	//{
+	//
+	//}
 }
 
 bool __cdecl thread_has_crashed(e_registered_threads thread_index)
