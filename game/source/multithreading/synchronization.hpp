@@ -61,7 +61,7 @@ enum e_critical_sections
 	_critical_section_shared_mirror2,
 
 	// CS:UI widgets
-	_critical_section_UI_widgets,
+	_critical_section_ui_widgets,
 
 	// CS:UI memory
 	_critical_section_ui_memory,
@@ -351,5 +351,29 @@ protected:
 
 extern s_synchronization_globals& g_synch_globals;
 
+extern bool __cdecl event_has_automatic_reset(long event_id);
+extern char const* __cdecl get_sync_primitive_name(long type, long index);
+extern void __cdecl initialize_synchronization_objects();
+extern void __cdecl internal_critical_section_enter(long critical_section_id);
+extern void __cdecl internal_critical_section_leave(long critical_section_id);
+extern bool __cdecl internal_critical_section_try_and_enter(long critical_section_id);
+extern void __cdecl internal_event_reset(long event_id);
+extern void __cdecl internal_event_set(long event_id);
+extern void __cdecl internal_event_wait(long event_id);
+extern bool __cdecl internal_event_wait_timeout(long event_id, dword timeout_in_milliseconds);
+extern void __cdecl internal_mutex_release(long mutex_id);
+extern void __cdecl internal_mutex_take(long mutex_id);
+extern bool __cdecl internal_mutex_take_timeout(long mutex_id, dword timeout_in_milliseconds);
+extern long __cdecl internal_semaphore_release(long semaphore_id);
+extern void __cdecl internal_semaphore_take(long semaphore_id);
+extern void __cdecl release_all_critical_sections_owned_by_thread();
+extern void __cdecl release_all_locks_owned_by_thread();
+extern void __cdecl release_all_mutexes_owned_by_thread();
+extern void __cdecl release_all_semaphores_owned_by_thread();
+extern void __cdecl release_critical_section_owned_by_thread(long thread_index, e_critical_sections critical_section_id);
 extern void __cdecl release_locks_safe_for_crash_release();
+extern void __cdecl render_synchronization_stats();
+extern long __cdecl sempahore_get_max_signal_count(long semaphore_id);
+extern bool __cdecl synchronization_objects_initialized();
+extern bool __cdecl wait_for_single_object_internal(void* handle, dword timeout_in_milliseconds);
 
