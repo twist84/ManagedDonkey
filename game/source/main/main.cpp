@@ -609,7 +609,7 @@ void __cdecl main_loop_body_begin()
 		main_globals;
 		physical_memory_globals;
 		g_level_globals;
-		g_async_globals;
+		async_globals;
 
 		s_thread_local_storage* tls = get_tls();
 
@@ -1693,6 +1693,13 @@ void __cdecl main_crash_just_upload_dammit()
 
 #define NULL_BELONGS_TO_CHUCKY *(char const**)NULL = "chucky was here!  NULL belongs to me!!!!!"
 
+static c_synchronized_long ill_never_be_done{};
+e_async_completion main_crash_async(s_async_task* task, void* data, long data_size)
+{
+	NULL_BELONGS_TO_CHUCKY;
+	return _async_completion_done;
+}
+
 void __cdecl main_crash(char const* type)
 {
 	stack_walk(0);
@@ -1715,8 +1722,7 @@ void __cdecl main_crash(char const* type)
 	}
 	else if (!csstricmp(type, "async"))
 	{
-		//c_synchronized_long ill_never_be_done{};
-		//async_queue_simple_callback(main_crash_async, 0, 0, 6, &ill_never_be_done);
+		async_queue_simple_callback(main_crash_async, NULL, 0, _async_priority_blocking_generic, &ill_never_be_done);
 	}
 	else if (!csstricmp(type, "screen"))
 	{
