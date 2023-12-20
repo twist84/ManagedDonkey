@@ -11,6 +11,7 @@
 #include "cutscene/cinematics.hpp"
 #include "cutscene/recorded_animations.hpp"
 #include "devices/devices.hpp"
+#include "effects/effects.hpp"
 #include "game/campaign_metagame.hpp"
 #include "game/game.hpp"
 #include "game/game_allegiance.hpp"
@@ -22,7 +23,6 @@
 #include "gpu_particle/contrail_gpu.hpp"
 #include "gpu_particle/light_volume_gpu.hpp"
 #include "gpu_particle/particle_block.hpp"
-#include "effects/effects.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/object_lists.hpp"
 #include "interface/chud/chud.hpp"
@@ -34,6 +34,7 @@
 #include "memory/hashtable.hpp"
 #include "memory/memory_pool.hpp"
 #include "multithreading/message_queue.hpp"
+#include "multithreading/threads.hpp"
 #include "objects/objects.hpp"
 #include "objects/widgets/widgets.hpp"
 #include "physics/breakable_surfaces.hpp"
@@ -45,14 +46,14 @@
 #include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "rasterizer/rasterizer_implicit_geometry.hpp"
 #include "rasterizer/rasterizer_main.hpp"
-#include "render/views/hud_camera_view.hpp"
-#include "render/views/render_texture_camera_view.hpp"
 #include "render/depth_of_field.hpp"
 #include "render/render_game_state.hpp"
 #include "render/render_objects.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/render_shield_cache.hpp"
 #include "render/render_water.hpp"
+#include "render/views/hud_camera_view.hpp"
+#include "render/views/render_texture_camera_view.hpp"
 #include "scenario/scenario_interpolators.hpp"
 #include "scenario/scenario_kill_trigger_volumes.hpp"
 #include "scenario/scenario_soft_ceilings.hpp"
@@ -112,18 +113,9 @@ struct s_thread_local_storage
 	// using `c_global_preferences_scope_lock`
 	s_global_preferences_internals_type* g_global_preferences;
 
-	// `thread_execution_crash_handler`
-	// `set_thread_exception_arguments`
-	// `build_exception_information`
-	bool __unknown1C; // should_set_thread_assertion?
-
-	// from assert
+	bool g_thread_assert_triggered;
 	long g_registered_thread_index;
-
-	// `thread_execution_crash_handler`
-	// `set_thread_exception_arguments`
-	// `build_exception_information`
-	dword exception_information[4 /* number_parameters */];
+	s_thread_assert_arguments g_thread_assert_arguments;
 
 	// name: "random math"
 	// type: "globals"

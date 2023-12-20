@@ -2,6 +2,7 @@
 
 #include "config/version.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "editor/editor_stubs.hpp"
 #include "interface/damaged_media.hpp"
 #include "main/main.hpp"
@@ -66,58 +67,61 @@ REFERENCE_DECLARE(0x0189CDE4, c_no_allocation*, g_no_allocation);
 
 static c_interlocked_long g_entry_gate;
 
-void display_assert(char const* statement, char const* file, long line, bool is_assert)
+void display_assert(char const* statement, char const* file, long line, bool assertion_failed)
 {
 	for (long i = g_entry_gate.set_if_equal(0, 1); i == 1; g_entry_gate.set_if_equal(0, 1))
 		switch_to_thread();
 
 	c_static_string<1156> crash_info;
 
-	if (is_assert && !is_debugger_present())
+	if (assertion_failed && !is_debugger_present())
 	{
+		generate_event(_event_level_critical, "");
 		stack_walk(1);
 		editor_save_progress();
 	}
 
+	generate_event(_event_level_critical, "");
+
 	if (is_debugger_present())
 	{
-		c_console::write_line("%s(%d): %s: %s",
+		generate_event(_event_level_critical, "%s(%d): %s: %s",
 			file,
 			line,
-			is_assert ? "ASSERT" : "WARNING",
+			assertion_failed ? "ASSERT" : "WARNING",
 			statement ? statement : "");
 		crash_info.print("halt:\r\n%s(%d): %s: %s\r\n",
 			file,
 			line,
-			is_assert ? "ASSERT" : "WARNING",
+			assertion_failed ? "ASSERT" : "WARNING",
 			statement ? statement : "");
 	}
 	else
 	{
-		c_console::write_line("%s",
+		generate_event(_event_level_critical, "%s",
 			version_get_full_string());
 		crash_info.print("version:\r\n%s\r\n",
 			version_get_full_string());
 
-		c_console::write_line("%s at %s,#%d",
-			is_assert ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
+		generate_event(_event_level_critical, "%s at %s,#%d",
+			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
 			file,
 			line);
 		crash_info.append_print("halt:\r\n%s at %s,#%d\r\n",
-			is_assert ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
+			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
 			file,
 			line);
 
 		if (statement)
 		{
-			c_console::write_line("  %s", statement);
+			generate_event(_event_level_critical, "  %s", statement);
 			crash_info.append_print("halt information:\r\n  %s\r\n", statement);
 		}
 	}
 
 	main_write_stack_to_crash_info_status_file(crash_info.get_string(), nullptr);
 
-	if (is_assert)
+	if (assertion_failed)
 	{
 		//call_fatal_error_callbacks();
 
@@ -130,9 +134,9 @@ void display_assert(char const* statement, char const* file, long line, bool is_
 	g_entry_gate.set(0);
 }
 
-bool handle_assert_as_exception(char const* statement, char const* file, long line, bool is_exception)
+bool handle_assert_as_exception(char const* statement, char const* file, long line, bool assertion_failed)
 {
-	if (is_debugger_present() && !g_catch_exceptions || !is_exception || is_main_thread())
+	if (is_debugger_present() && !g_catch_exceptions || !assertion_failed || is_main_thread())
 		return false;
 
 	s_thread_assert_arguments arguments
@@ -140,7 +144,7 @@ bool handle_assert_as_exception(char const* statement, char const* file, long li
 		.statement = statement,
 		.file = file,
 		.line = line,
-		.is_exception = is_exception,
+		.assertion_failed = assertion_failed,
 	};
 
 	post_thread_assert_arguments(&arguments);

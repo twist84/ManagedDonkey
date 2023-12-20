@@ -40,10 +40,10 @@ enum e_thread_processor
 
 struct s_thread_assert_arguments
 {
-	const char* statement;
-	const char* file;
+	char const* statement;
+	char const* file;
 	long line;
-	bool is_exception;
+	bool assertion_failed;
 };
 static_assert(sizeof(s_thread_assert_arguments) == 0x10);
 
@@ -85,7 +85,7 @@ extern c_interlocked_long thread_should_crash[k_registered_thread_count];
 extern s_registered_thread_definition(&k_registered_thread_definitions)[k_registered_thread_count];
 extern s_thread_system_globals& g_thread_globals;
 
-extern void post_thread_assert_arguments(s_thread_assert_arguments* arguments);
+struct _EXCEPTION_POINTERS;
 extern void __cdecl SetThreadName(dword thread_id, char const* thread_name);
 extern bool __cdecl current_thread_should_exit();
 extern void __cdecl current_thread_update_test_functions();
@@ -95,13 +95,19 @@ extern char const* __cdecl get_thread_name_from_thread_id(long thread_id);
 extern void __cdecl initialize_thread(e_registered_threads thread_index);
 extern bool __cdecl is_async_thread();
 extern bool __cdecl is_main_thread();
-extern void __cdecl sleep(dword milliseconds);
+extern void __cdecl post_thread_assert_arguments(s_thread_assert_arguments* arguments);
 extern void __cdecl register_thread(void* handle, long thread_index, dword thread_id, void* user_data);
 extern void __cdecl register_thread_running(long thread_index);
+extern void __cdecl set_thread_exception_arguments(_EXCEPTION_POINTERS* exception_pointers);
+extern void __cdecl sleep(dword milliseconds);
+extern void __cdecl start_thread(e_registered_threads thread_index);
+extern void __cdecl stop_thread(e_registered_threads thread_index);
 extern bool __cdecl switch_to_thread();
+extern int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_pointers, long thread_index);
 extern dword __stdcall thread_execution_wrapper(void* thread_parameter);
 extern bool __cdecl thread_has_crashed(e_registered_threads thread_index);
 extern bool __cdecl thread_is_being_traced(e_registered_threads thread_index);
+extern void __cdecl thread_release_locks_and_d3d_device();
 extern void __cdecl thread_set_priority(long thread_index, e_thread_priority priority);
 extern void __cdecl signal_thread_to_crash(e_registered_threads thread_index);
 extern void __cdecl signal_thread_to_assert(e_registered_threads thread_index);

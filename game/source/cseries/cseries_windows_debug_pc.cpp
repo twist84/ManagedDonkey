@@ -33,7 +33,11 @@ struct s_exception_information
 	dword exception_flags;
 	void* exception_address;
 	dword number_parameters;
-	s_exception_type_info exception_type_info;
+	union
+	{
+		s_exception_type_info exception_type_info;
+		s_thread_assert_arguments thread_assert_arguments;
+	};
 };
 static_assert(sizeof(s_exception_information) == 0x2F4);
 
@@ -127,8 +131,8 @@ void __cdecl build_exception_information(_EXCEPTION_POINTERS* exception_pointers
 			exception_information->exception_address = exception_pointers->ExceptionRecord->ExceptionAddress;
 			if (exception_pointers->ExceptionRecord != (PEXCEPTION_RECORD)-0x14)
 			{
-				exception_information->number_parameters = min(4, exception_pointers->ExceptionRecord->NumberParameters);
-				csmemcpy(&exception_information->exception_type_info, exception_pointers->ExceptionRecord->ExceptionInformation, 4 * exception_information->number_parameters);
+				exception_information->number_parameters = min((sizeof(s_exception_type_info) / sizeof(ULONG_PTR)), exception_pointers->ExceptionRecord->NumberParameters);
+				csmemcpy(&exception_information->exception_type_info, exception_pointers->ExceptionRecord->ExceptionInformation, (exception_information->number_parameters * sizeof(ULONG_PTR)));
 			}
 			exception_information->exception_occurred = 1;
 		}
@@ -208,20 +212,20 @@ long __cdecl exceptions_update()
 
 	if (code == 'asrt' && g_exception_information.number_parameters >= 4)
 	{
-		char const* exception_string = g_exception_information.exception_type_info.exception_string;
-		char const* parameter0 = (char const*)g_exception_information.exception_type_info.exception_parameters[0];
-		dword parameter1 = g_exception_information.exception_type_info.exception_parameters[1];
-		bool parameter2 = !!g_exception_information.exception_type_info.exception_parameters[2];
+		char const* exception_string = g_exception_information.thread_assert_arguments.statement;
+		char const* file = g_exception_information.thread_assert_arguments.file;
+		long line = g_exception_information.thread_assert_arguments.line;
+		bool assertion_failed = g_exception_information.thread_assert_arguments.assertion_failed;
 
 		generate_event(_event_level_message, "crash: %s at %s,#%d",
-			parameter2 ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
-			parameter0,
-			parameter1);
+			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
+			file,
+			line);
 
 		crash_info.append_print("halt:\r\n%s at %s,#%d\r\n",
-			parameter2 ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
-			parameter0,
-			parameter1);
+			assertion_failed ? "### ASSERTION FAILED: " : "### RUNTIME WARNING: ",
+			file,
+			line);
 
 		if (exception_string)
 		{

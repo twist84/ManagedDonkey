@@ -1,8 +1,12 @@
 #include "multithreading/threads.hpp"
 
+#include "cache/restricted_memory_regions.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "multithreading/synchronization.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "rasterizer/rasterizer.hpp"
+#include "render/views/render_view.hpp"
 
 #include <windows.h>
 
@@ -14,17 +18,6 @@ c_interlocked_long thread_should_crash[k_registered_thread_count]{};
 
 HOOK_DECLARE(0x0051C510, initialize_thread);
 //HOOK_DECLARE(0x0051C960, thread_execution_wrapper);
-
-thread_local s_thread_assert_arguments g_thread_assert_arguments;
-thread_local bool g_thread_assert_triggered = false;
-
-void post_thread_assert_arguments(s_thread_assert_arguments* arguments)
-{
-	if (arguments)
-		csmemcpy(&g_thread_assert_arguments, arguments, sizeof(s_thread_assert_arguments));
-
-	g_thread_assert_triggered = true;
-}
 
 void __cdecl SetThreadName(dword thread_id, char const* thread_name)
 {
@@ -38,14 +31,14 @@ bool __cdecl current_thread_should_exit()
 	//long thread_index = get_current_thread_index();
 	//if (!VALID_INDEX(thread_index, k_registered_thread_count))
 	//	ASSERT2(invalid thread index);
-	//return g_thread_globals.thread_should_exit[thread_index].peek() == 1;
+	//return g_thread_globals.thread_should_exit[thread_index].peek() == TRUE;
 }
 
 bool __cdecl current_thread_should_assert()
 {
 	long thread_index = get_current_thread_index();
 	if (VALID_INDEX(thread_index, k_registered_thread_count))
-		return thread_should_assert[thread_index].peek() == 1;
+		return thread_should_assert[thread_index].peek() == TRUE;
 
 	return false;
 }
@@ -54,7 +47,7 @@ bool __cdecl current_thread_should_crash()
 {
 	long thread_index = get_current_thread_index();
 	if (VALID_INDEX(thread_index, k_registered_thread_count))
-		return thread_should_crash[thread_index].peek() == 1;
+		return thread_should_crash[thread_index].peek() == TRUE;
 
 	return false;
 }
@@ -133,12 +126,18 @@ bool __cdecl is_main_thread()
 	//return !g_thread_globals.initialized.peek() || g_registered_thread_index == k_thread_main;
 }
 
-void __cdecl sleep(dword milliseconds)
+void __cdecl post_thread_assert_arguments(s_thread_assert_arguments* arguments)
 {
-	Sleep(milliseconds);
+	INVOKE(0x0051C6B0, post_thread_assert_arguments, arguments);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_thread_assert_arguments);
+	//TLS_DATA_GET_VALUE_REFERENCE(g_thread_assert_triggered);
+	//if (arguments)
+	//	csmemcpy(&g_thread_assert_arguments, arguments, sizeof(s_thread_assert_arguments));
+	//g_thread_assert_triggered = true;
 }
 
-void register_thread(void* handle, long thread_index, dword thread_id, void* user_data)
+void __cdecl register_thread(void* handle, long thread_index, dword thread_id, void* user_data)
 {
 	//INVOKE(0x0051C710, register_thread, handle, thread_index, thread_id, user_data);
 
@@ -162,6 +161,45 @@ void __cdecl register_thread_running(long thread_index)
 	//g_registered_thread_index = thread_index;
 }
 
+void __cdecl set_thread_exception_arguments(_EXCEPTION_POINTERS* exception_pointers)
+{
+	INVOKE(0x0051C780, set_thread_exception_arguments, exception_pointers);
+
+	TLS_DATA_GET_VALUE_REFERENCE(g_thread_assert_arguments);
+	if (exception_pointers && exception_pointers->ExceptionRecord)
+	{
+		csmemcpy(exception_pointers->ExceptionRecord->ExceptionInformation, &g_thread_assert_arguments, sizeof(s_thread_assert_arguments));
+		exception_pointers->ExceptionRecord->NumberParameters = (sizeof(s_thread_assert_arguments) / sizeof(ULONG_PTR));
+	}
+}
+
+void __cdecl sleep(dword milliseconds)
+{
+	//INVOKE(0x0051C7F0, sleep, milliseconds);
+
+	Sleep(milliseconds);
+}
+
+void __cdecl start_thread(e_registered_threads thread_index)
+{
+	INVOKE(0x0051C800, start_thread, thread_index);
+
+	//g_thread_globals.thread_should_exit[thread_index].set(FALSE);
+	//g_thread_globals.thread_has_crashed[thread_index].set(FALSE);
+	//initialize_thread(thread_index);
+}
+
+void __cdecl stop_thread(e_registered_threads thread_index)
+{
+	INVOKE(0x0051C830, stop_thread, thread_index);
+
+	//if (registered_thread_handle_valid(thread_index) && wait_for_thread_to_exit(thread_index, INFINITE))
+	//{
+	//	thread_destroy(g_thread_globals.thread_handle[thread_index]);
+	//	unregister_thread(thread_index);
+	//}
+}
+
 bool __cdecl switch_to_thread()
 {
 	return INVOKE(0x0051C8A0, switch_to_thread);
@@ -169,31 +207,15 @@ bool __cdecl switch_to_thread()
 	//return SwitchToThread() == TRUE;
 }
 
-void __cdecl thread_release_locks_and_d3d_device()
-{
-
-}
-
-void __cdecl set_thread_exception_arguments(_EXCEPTION_POINTERS* exception_pointers)
-{
-	TLS_DATA_GET_VALUE_REFERENCE(exception_information);
-
-	if (exception_pointers && exception_pointers->ExceptionRecord)
-	{
-		csmemcpy(exception_pointers->ExceptionRecord->ExceptionInformation, exception_information, sizeof(exception_information));
-		exception_pointers->ExceptionRecord->NumberParameters = NUMBEROF(exception_information);
-	}
-}
-
 int __stdcall thread_execution_crash_handler(_EXCEPTION_POINTERS* exception_pointers, long thread_index)
 {
 	return INVOKE(0x0051C8C0, thread_execution_crash_handler, exception_pointers, thread_index);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(__unknown1C);
+	//TLS_DATA_GET_VALUE_REFERENCE(g_thread_assert_triggered);
 	//
-	//g_thread_globals.thread_has_crashed[thread_index].set(1);
+	//g_thread_globals.thread_has_crashed[thread_index].set(TRUE);
 	//thread_release_locks_and_d3d_device();
-	//if (__unknown1C)
+	//if (g_thread_assert_triggered)
 	//{
 	//	set_thread_exception_arguments(exception_pointers);
 	//	if (exception_pointers->ExceptionRecord)
@@ -235,7 +257,7 @@ bool __cdecl thread_has_crashed(e_registered_threads thread_index)
 {
 	//return INVOKE(0x0051CA10, thread_has_crashed, thread_index);
 
-	return g_thread_globals.thread_has_crashed[thread_index].peek() == 1;
+	return g_thread_globals.thread_has_crashed[thread_index].peek() == TRUE;
 }
 
 bool __cdecl thread_is_being_traced(e_registered_threads thread_index)
@@ -243,6 +265,19 @@ bool __cdecl thread_is_being_traced(e_registered_threads thread_index)
 	return INVOKE(0x0051CA30, thread_is_being_traced, thread_index);
 
 	//return trace_dump_is_trace_enabled_for_thread(thread_index);
+}
+
+void __cdecl thread_release_locks_and_d3d_device()
+{
+	INVOKE(0x0051CA40, thread_release_locks_and_d3d_device);
+
+	//if (c_rasterizer::rasterizer_thread_owns_device())
+	//{
+	//	c_rasterizer::rasterizer_device_release_thread();
+	//	c_view::abort_current_view_stack();
+	//}
+	//restricted_region_handle_crash_of_current_thread();
+	//release_all_locks_owned_by_thread();
 }
 
 void __cdecl thread_set_priority(long thread_index, e_thread_priority priority)
@@ -284,13 +319,13 @@ void __cdecl thread_set_priority(long thread_index, e_thread_priority priority)
 void __cdecl signal_thread_to_crash(e_registered_threads thread_index)
 {
 	if (VALID_INDEX(thread_index, k_registered_thread_count))
-		thread_should_crash[thread_index].set(true);
+		thread_should_crash[thread_index].set(TRUE);
 }
 
 void __cdecl signal_thread_to_assert(e_registered_threads thread_index)
 {
 	if (VALID_INDEX(thread_index, k_registered_thread_count))
-		thread_should_assert[thread_index].set(true);
+		thread_should_assert[thread_index].set(TRUE);
 }
 
 //// all your threads are belong to donkey
