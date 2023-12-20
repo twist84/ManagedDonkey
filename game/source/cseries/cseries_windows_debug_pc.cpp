@@ -48,97 +48,32 @@ HOOK_DECLARE(0x0051C020, exceptions_update);
 
 char const* GetExceptionString(dword code)
 {
-	char const* exception_code_string = nullptr;
-
-	if (code > 0xC0000005)
+	switch (code)
 	{
-		if (code > 0xC00002B4)
-		{
-			switch (code)
-			{
-			case 0xC00002B5:
-				exception_code_string = "STATUS_FLOAT_MULTIPLE_TRAPS";
-				break;
-			case 0xC06D007E:
-				exception_code_string = "VCPPEXCEPTION_MODULE_NOT_FOUND";
-				break;
-			case 0xC06D007F:
-				exception_code_string = "VCPPEXCEPTION_PROC_NOT_FOUND";
-				break;
-			}
-		}
-		else if (code == 0xC00002B4)
-		{
-			exception_code_string = "STATUS_FLOAT_MULTIPLE_FAULTS";
-		}
-		else
-		{
-			switch (code)
-			{
-			case 0xC000001D:
-				exception_code_string = "EXCEPTION_ILLEGAL_INSTRUCTION";
-				break;
-			case 0xC0000025:
-				exception_code_string = "EXCEPTION_NONCONTINUABLE_EXCEPTION";
-				break;
-			case 0xC000008C:
-				exception_code_string = "EXCEPTION_ARRAY_BOUNDS_EXCEEDED";
-				break;
-			case 0xC000008D:
-				exception_code_string = "EXCEPTION_FLT_DENORMAL_OPERAND";
-				break;
-			case 0xC000008E:
-				exception_code_string = "EXCEPTION_FLT_DIVIDE_BY_ZERO";
-				break;
-			case 0xC000008F:
-				exception_code_string = "EXCEPTION_FLT_INEXACT_RESULT";
-				break;
-			case 0xC0000090:
-				exception_code_string = "EXCEPTION_FLT_INVALID_OPERATION";
-				break;
-			case 0xC0000091:
-				exception_code_string = "EXCEPTION_FLT_OVERFLOW";
-				break;
-			case 0xC0000092:
-				exception_code_string = "EXCEPTION_FLT_STACK_CHECK";
-				break;
-			case 0xC0000093:
-				exception_code_string = "EXCEPTION_FLT_UNDERFLOW";
-				break;
-			case 0xC0000094:
-				exception_code_string = "EXCEPTION_INT_DIVIDE_BY_ZERO";
-				break;
-			case 0xC0000095:
-				exception_code_string = "EXCEPTION_INT_OVERFLOW";
-				break;
-			case 0xC0000096:
-				exception_code_string = "EXCEPTION_PRIV_INSTRUCTION";
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	else
-	{
-		switch (code)
-		{
-		case 0xC0000005:
-			exception_code_string = "EXCEPTION_ACCESS_VIOLATION";
-			break;
-		case 0x80000002:
-			exception_code_string = "EXCEPTION_DATATYPE_MISALIGNMENT";
-			break;
-		case 0x80000003:
-			exception_code_string = "EXCEPTION_BREAKPOINT";
-			break;
-		case 0x80000004:
-			exception_code_string = "EXCEPTION_SINGLE_STEP";
-			break;
-		}
+	case EXCEPTION_DATATYPE_MISALIGNMENT:    return "EXCEPTION_DATATYPE_MISALIGNMENT";
+	case EXCEPTION_BREAKPOINT:               return "EXCEPTION_BREAKPOINT";
+	case EXCEPTION_SINGLE_STEP:              return "EXCEPTION_SINGLE_STEP";
+	case EXCEPTION_ACCESS_VIOLATION:         return "EXCEPTION_ACCESS_VIOLATION";
+	case EXCEPTION_NONCONTINUABLE_EXCEPTION: return "EXCEPTION_NONCONTINUABLE_EXCEPTION";
+	case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:    return "EXCEPTION_ARRAY_BOUNDS_EXCEEDED";
+	case EXCEPTION_FLT_DENORMAL_OPERAND:     return "EXCEPTION_FLT_DENORMAL_OPERAND";
+	case EXCEPTION_FLT_DIVIDE_BY_ZERO:       return "EXCEPTION_FLT_DIVIDE_BY_ZERO";
+	case EXCEPTION_FLT_INEXACT_RESULT:       return "EXCEPTION_FLT_INEXACT_RESULT";
+	case EXCEPTION_FLT_INVALID_OPERATION:    return "EXCEPTION_FLT_INVALID_OPERATION";
+	case EXCEPTION_FLT_OVERFLOW:             return "EXCEPTION_FLT_OVERFLOW";
+	case EXCEPTION_FLT_STACK_CHECK:          return "EXCEPTION_FLT_STACK_CHECK";
+	case EXCEPTION_FLT_UNDERFLOW:            return "EXCEPTION_FLT_UNDERFLOW";
+	case EXCEPTION_INT_DIVIDE_BY_ZERO:       return "EXCEPTION_INT_DIVIDE_BY_ZERO";
+	case EXCEPTION_INT_OVERFLOW:             return "EXCEPTION_INT_OVERFLOW";
+	case EXCEPTION_PRIV_INSTRUCTION:         return "EXCEPTION_PRIV_INSTRUCTION";
+	case EXCEPTION_ILLEGAL_INSTRUCTION:      return "EXCEPTION_ILLEGAL_INSTRUCTION";
+	case STATUS_FLOAT_MULTIPLE_FAULTS:       return "STATUS_FLOAT_MULTIPLE_FAULTS";
+	case STATUS_FLOAT_MULTIPLE_TRAPS:        return "STATUS_FLOAT_MULTIPLE_TRAPS";
+	case 0xC06D007E:                         return "VCPPEXCEPTION_MODULE_NOT_FOUND";
+	case 0xC06D007F:                         return "VCPPEXCEPTION_PROC_NOT_FOUND";
 	}
 
-	return exception_code_string;
+	return nullptr;
 }
 
 char const* GetExceptionFlagsString(DWORD exception)
