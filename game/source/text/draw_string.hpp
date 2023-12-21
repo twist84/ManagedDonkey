@@ -172,7 +172,9 @@ public:
 	{
 		return __vftable->draw_character(this, font_cache, font_id, character, a4, a5, a6, a7, a8, a9, a10, a11);
 	}
-
+	
+	void __cdecl set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b);
+	void __cdecl set_bounds(real_rectangle2d const* bounds);
 	void __cdecl set_bounds(short_rectangle2d const* bounds);
 	void __cdecl set_color(real_argb_color const* color);
 	void __cdecl set_shadow_color(real_argb_color const* shadow_color);

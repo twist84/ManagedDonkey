@@ -7,12 +7,16 @@
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/terminal.hpp"
+#include "main/main.hpp"
+#include "main/main_game.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
 #include "render/render.hpp"
 #include "render/views/render_view.hpp"
 #include "simulation/simulation.hpp"
-#include "interface/terminal.hpp"
+#include <text/draw_string.hpp>
+#include <interface/interface_constants.hpp>
+#include <game/game.hpp>
 
 //HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 
@@ -214,11 +218,66 @@ void __cdecl main_render_game()
 	INVOKE(0x00604440, main_render_game);
 }
 
+bool g_show_watermark = true;
+
+//void __cdecl game_engine_render_window_watermarks(e_output_user_index user_index)
+void __cdecl game_engine_render_window_watermarks(long user_index)
+{
+}
+
+void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_index controller_index)
+{
+	if (g_show_watermark)
+	{
+		// #TODO: implement this
+	}
+}
+
+void __cdecl game_engine_render_frame_watermarks(bool pregame)
+{
+	if (g_show_watermark && (pregame || simulation_starting_up()) && !bink_playback_active())
+	{
+		c_static_wchar_string<1024> status;
+		c_font_cache_mt_safe font_cache;
+		c_rasterizer_draw_string draw_string;
+
+		wchar_t const* spinner_states[] = { L"/", L"-", L"\\" };
+		long spinner_state_index = 8 * system_milliseconds() / 1000 % NUMBEROF(spinner_states);
+		status.print(L"Establishing connection... %s|n(please do not turn off your Xbox 360)|n|n%S",
+			spinner_states[spinner_state_index],
+			simulation_get_starting_up_description());
+
+		draw_string.set_font(6);
+		draw_string.set_justification(2);
+		draw_string.set_color(global_real_argb_white);
+
+		short_rectangle2d display_title_safe_pixel_bounds{};
+		interface_get_current_display_or_window_settings(NULL, NULL, NULL, &display_title_safe_pixel_bounds);
+		real_rectangle2d bounds{};
+		set_real_rectangle2d(&bounds,
+			display_title_safe_pixel_bounds.x0,
+			display_title_safe_pixel_bounds.x1,
+			// this calculation seems to be correct, could possibly go a little lower
+			((display_title_safe_pixel_bounds.y1 - (4.0f * draw_string.get_line_height())) * 0.5f),
+			display_title_safe_pixel_bounds.y1
+		);
+		draw_string.set_bounds(&bounds);
+		draw_string.draw(&font_cache, status.get_string());
+	}
+
+	if (pregame || !game_in_progress())
+		game_engine_render_window_watermarks(NONE);
+	
+	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
+	game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94980, short, __cdecl)()));
+}
+
 bool __cdecl sub_42E5D0()
 {
 	return INVOKE(0x0042E5D0, sub_42E5D0);
 }
 
+HOOK_DECLARE(0x00604860, main_render_pregame);
 void __cdecl main_render_pregame(long pregame_frame_type, char const* text)
 {
 	//INVOKE(0x00604860, main_render_pregame, pregame_frame_type, text);
@@ -235,36 +294,41 @@ void __cdecl main_render_pregame(long pregame_frame_type, char const* text)
 		fullscreen_view.render_blank_frame(&pregame_frame_colors[pregame_frame_type].blank_frame);
 
 		s_render_fullscreen_text_context context;
+
 		context.text = text;
 		context.color = &pregame_frame_colors[pregame_frame_type].text_color;
 		context.shadow_color = &pregame_frame_colors[pregame_frame_type].text_shadow_color;
 		context.scale = pregame_frame_scales[pregame_frame_type];
 
-		bool simple_font = true;
-		if (pregame_frame_type == 1 || (pregame_frame_type - 4) <= 1)
+		bool render_pregame = true;
+		if (pregame_frame_type == 1 && !main_game_change_in_progress() && main_halted_with_errors())
 		{
-			//context.text = events_get();
-			simple_font = false;
+			context.text = events_get();
+			render_pregame = true;
 		}
 
-		render_fullscreen_text(&context, simple_font);
-		overlapped_render();
-		controllers_render();
-
-		// this isn't actually supposed to be here
-		terminal_draw();
+		if (render_pregame)
+		{
+			render_fullscreen_text(&context, pregame_frame_type == 5 || pregame_frame_type == 6);
+			overlapped_render();
+			controllers_render();
+		}
 
 		if (pregame_frame_type == 1)
 		{
 			fullscreen_view.render();
-
-			if (bink_playback_active())
-			{
-				bink_playback_update();
-				bink_playback_check_for_terminate();
-				bink_playback_render();
-			}
+			terminal_draw(); // this belongs in `c_fullscreen_view::render`
 		}
+
+		if (pregame_frame_type == 1 && bink_playback_active())
+		{
+			bink_playback_update();
+			bink_playback_check_for_terminate();
+			bink_playback_render();
+		}
+
+		if (pregame_frame_type == 1 || pregame_frame_type == 2)
+			game_engine_render_frame_watermarks(true);
 
 		c_view::end();
 	}

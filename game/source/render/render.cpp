@@ -13,16 +13,16 @@ void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* cont
 {
 	if (simple_font)
 	{
-		c_simple_font_draw_string simple_font_draw_string;
-		render_fullscreen_text_internal(context, &simple_font_draw_string, nullptr);
+		c_simple_font_draw_string draw_string;
+		render_fullscreen_text_internal(context, &draw_string, nullptr);
 	}
 	else
 	{
-		c_rasterizer_draw_string rasterizer_draw_string;
+		c_rasterizer_draw_string draw_string;
 		c_font_cache_mt_safe font_cache;
 
-		rasterizer_draw_string.set_font(-2);
-		render_fullscreen_text_internal(context, &rasterizer_draw_string, &font_cache);
+		draw_string.set_font(-2);
+		render_fullscreen_text_internal(context, &draw_string, &font_cache);
 	}
 }
 

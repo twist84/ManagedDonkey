@@ -2,6 +2,16 @@
 
 #include "text/font_loading.hpp"
 
+void __cdecl c_draw_string::set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b)
+{
+	DECLFUNC(0x00658B10, void, __thiscall, c_draw_string*, real_rectangle2d const*, real_rectangle2d const*)(this, bounds_a, bounds_b);
+}
+
+void __cdecl c_draw_string::set_bounds(real_rectangle2d const* bounds)
+{
+	DECLFUNC(0x00658BC0, void, __thiscall, c_draw_string*, real_rectangle2d const*)(this, bounds);
+}
+
 void __cdecl c_draw_string::set_bounds(short_rectangle2d const* bounds)
 {
 	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, short_rectangle2d const*)(this, bounds);

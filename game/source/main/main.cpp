@@ -349,17 +349,17 @@ void __cdecl main_halt_and_catch_fire()
 {
 	INVOKE(0x00505710, main_halt_and_catch_fire);
 
-	//REFERENCE_DECLARE(0x022B47F0, bool, byte_22B47F0);
-	//REFERENCE_DECLARE(0x022B47F1, bool, byte_22B47F1);
+	//REFERENCE_DECLARE(0x022B47F0, bool, recursion_lock_triggered);
+	//REFERENCE_DECLARE(0x022B47F1, bool, recursion_lock_triggered_while_exiting);
 	//
 	//if (is_main_thread())
 	//	main_globals.main_loop_pregame_entered++;
 	//
-	//if (byte_22B47F0)
+	//if (recursion_lock_triggered)
 	//{
-	//	if (!byte_22B47F1)
+	//	if (!recursion_lock_triggered_while_exiting)
 	//	{
-	//		byte_22B47F1 = true;
+	//		recursion_lock_triggered_while_exiting = true;
 	//
 	//		c_console::write_line("crash: recursion lock triggered!");
 	//
@@ -375,7 +375,7 @@ void __cdecl main_halt_and_catch_fire()
 	//	main_globals.main_loop_pregame_entered++;
 	//
 	//release_locks_safe_for_crash_release();
-	//byte_22B47F0 = true;
+	//recursion_lock_triggered = true;
 	//c_console::write_line("lifecycle: CRASH");
 	//main_status("system_milliseconds", "time %d", system_milliseconds());
 	//main_status_dump(nullptr);
@@ -391,7 +391,7 @@ void __cdecl main_halt_and_catch_fire()
 	//char Dst[256]{};
 	//game_state_debug_server_file_uploading_enabled(Dst);
 	//
-	//byte_22B47F0 = false;
+	//recursion_lock_triggered = false;
 	//
 	//if (is_main_thread())
 	//	main_globals.main_loop_pregame_entered--;
@@ -980,8 +980,8 @@ void __cdecl main_loop_pregame_show_progress_screen()
 	//INVOKE(0x00506460, main_loop_pregame_show_progress_screen);
 
 	static c_static_wchar_string<12288> status_message;
-	long main_pregame_frame = main_loading_get_loading_status(&status_message);
-	if (!main_pregame_frame)
+	long pregame_frame_type = main_loading_get_loading_status(&status_message);
+	if (pregame_frame_type == 0)
 	{
 		//editor_show_pregame_progress(main_pregame_frame, status_message.get_string());
 		return;
@@ -992,11 +992,11 @@ void __cdecl main_loop_pregame_show_progress_screen()
 	{
 		c_rasterizer::setup_targets_simple();
 
-		if (main_pregame_frame == 8)
+		if (pregame_frame_type == 8)
 		{
 			main_render_pregame_loading_screen();
 		}
-		else if (main_pregame_frame == 3)
+		else if (pregame_frame_type == 3)
 		{
 			main_render_status_message(status_message.get_string());
 		}
@@ -1006,9 +1006,9 @@ void __cdecl main_loop_pregame_show_progress_screen()
 			status_message_ascii.clear();
 			status_message_ascii.print("%ls", status_message.get_string());
 
-			main_render_pregame(main_pregame_frame, status_message_ascii.get_string());
+			main_render_pregame(pregame_frame_type, status_message_ascii.get_string());
 
-			if (main_pregame_frame == 2)
+			if (pregame_frame_type == 2)
 			{
 				c_rasterizer::end_frame();
 				return;
