@@ -304,6 +304,16 @@ long __cdecl rectangle3d_build_edges(real_rectangle3d const* bounds, long maximu
 	return k_edges_per_cube_count;
 }
 
+real_rectangle2d* __cdecl set_real_rectangle2d(real_rectangle2d* rect, real x_lower, real x_upper, real y_lower, real y_upper)
+{
+	rect->x.lower = x_lower;
+	rect->x.upper = x_upper;
+	rect->y.lower = y_lower;
+	rect->y.upper = y_upper;
+
+	return rect;
+}
+
 real_rectangle3d* __cdecl set_real_rectangle3d(real_rectangle3d* rect, real x_lower, real x_upper, real y_lower, real y_upper, real z_lower, real z_upper)
 {
 	rect->x.lower = x_lower;
