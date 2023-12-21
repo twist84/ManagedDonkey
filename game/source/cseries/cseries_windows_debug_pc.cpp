@@ -50,36 +50,6 @@ REFERENCE_DECLARE(0x0238E888, s_exception_information, g_exception_information);
 
 HOOK_DECLARE(0x0051C020, exceptions_update);
 
-char const* GetExceptionString(dword code)
-{
-	switch (code)
-	{
-	case EXCEPTION_DATATYPE_MISALIGNMENT:    return "EXCEPTION_DATATYPE_MISALIGNMENT";
-	case EXCEPTION_BREAKPOINT:               return "EXCEPTION_BREAKPOINT";
-	case EXCEPTION_SINGLE_STEP:              return "EXCEPTION_SINGLE_STEP";
-	case EXCEPTION_ACCESS_VIOLATION:         return "EXCEPTION_ACCESS_VIOLATION";
-	case EXCEPTION_NONCONTINUABLE_EXCEPTION: return "EXCEPTION_NONCONTINUABLE_EXCEPTION";
-	case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:    return "EXCEPTION_ARRAY_BOUNDS_EXCEEDED";
-	case EXCEPTION_FLT_DENORMAL_OPERAND:     return "EXCEPTION_FLT_DENORMAL_OPERAND";
-	case EXCEPTION_FLT_DIVIDE_BY_ZERO:       return "EXCEPTION_FLT_DIVIDE_BY_ZERO";
-	case EXCEPTION_FLT_INEXACT_RESULT:       return "EXCEPTION_FLT_INEXACT_RESULT";
-	case EXCEPTION_FLT_INVALID_OPERATION:    return "EXCEPTION_FLT_INVALID_OPERATION";
-	case EXCEPTION_FLT_OVERFLOW:             return "EXCEPTION_FLT_OVERFLOW";
-	case EXCEPTION_FLT_STACK_CHECK:          return "EXCEPTION_FLT_STACK_CHECK";
-	case EXCEPTION_FLT_UNDERFLOW:            return "EXCEPTION_FLT_UNDERFLOW";
-	case EXCEPTION_INT_DIVIDE_BY_ZERO:       return "EXCEPTION_INT_DIVIDE_BY_ZERO";
-	case EXCEPTION_INT_OVERFLOW:             return "EXCEPTION_INT_OVERFLOW";
-	case EXCEPTION_PRIV_INSTRUCTION:         return "EXCEPTION_PRIV_INSTRUCTION";
-	case EXCEPTION_ILLEGAL_INSTRUCTION:      return "EXCEPTION_ILLEGAL_INSTRUCTION";
-	case STATUS_FLOAT_MULTIPLE_FAULTS:       return "STATUS_FLOAT_MULTIPLE_FAULTS";
-	case STATUS_FLOAT_MULTIPLE_TRAPS:        return "STATUS_FLOAT_MULTIPLE_TRAPS";
-	case 0xC06D007E:                         return "VCPPEXCEPTION_MODULE_NOT_FOUND";
-	case 0xC06D007F:                         return "VCPPEXCEPTION_PROC_NOT_FOUND";
-	}
-
-	return nullptr;
-}
-
 char const* GetExceptionFlagsString(DWORD exception)
 {
 	switch (exception)
@@ -151,6 +121,87 @@ void __cdecl cache_exception_information(_EXCEPTION_POINTERS* exception_pointers
 	}
 }
 
+bool __cdecl debug_get_binary_filename(c_static_string<260>* binary_filename)
+{
+	return INVOKE(0x0051BD40, debug_get_binary_filename, binary_filename);
+
+	//if (binary_filename)
+	//{
+	//	//// halo 3
+	//	//binary_filename->print(shell_get_target());
+	//	//binary_filename->append("_");
+	//	//binary_filename->append(shell_get_target_variant());g
+	//	//binary_filename->append("_");
+	//	//binary_filename->append(shell_get_configuration());
+	//
+	//	//// halo reach
+	//	//char const* target_application = version_get_target_application();
+	//	//if (!strcmp(target_application, "blam"))
+	//	//	target_application = version_get_project_executable_name();
+	//	//binary_filename->print(target_application);
+	//	//binary_filename->append("_");
+	//	//binary_filename->append(version_get_target_variant());
+	//	//binary_filename->append("_");
+	//	//binary_filename->append(version_get_target_configuration());
+	//
+	//	//// halo online
+	//	//char const* target = "unknown_target";
+	//	//if (game_is_halo3() || game_is_client())
+	//	//	target = "halo3";
+	//	//else if (game_is_sapien())
+	//	//	target = "sapien";
+	//	//else if (game_is_guerilla())
+	//	//	target = "guerilla";
+	//	//else if (game_is_tool())
+	//	//	target = "tool";
+	//	//else if (game_is_dedicated_server())
+	//	//	target = "hf2p_dedicated_server";
+	//	//binary_filename->print(target);
+	//	//binary_filename->append("_");
+	//	//char const* target_variant = shell_get_target_variant();
+	//	//if (string_is_not_empty(target_variant))
+	//	//{
+	//	//	binary_filename->append(target_variant);
+	//	//	binary_filename->append("_");
+	//	//}
+	//	//binary_filename->append(shell_get_configuration());
+	//
+	//	return true;
+	//}
+	//return false;
+}
+
+char const* __cdecl exception_code_get_string(unsigned long code)
+{
+	return INVOKE(0x0051BE40, exception_code_get_string, code);
+
+	//switch (code)
+	//{
+	//case EXCEPTION_DATATYPE_MISALIGNMENT:    return "EXCEPTION_DATATYPE_MISALIGNMENT";
+	//case EXCEPTION_BREAKPOINT:               return "EXCEPTION_BREAKPOINT";
+	//case EXCEPTION_SINGLE_STEP:              return "EXCEPTION_SINGLE_STEP";
+	//case EXCEPTION_ACCESS_VIOLATION:         return "EXCEPTION_ACCESS_VIOLATION";
+	//case EXCEPTION_NONCONTINUABLE_EXCEPTION: return "EXCEPTION_NONCONTINUABLE_EXCEPTION";
+	//case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:    return "EXCEPTION_ARRAY_BOUNDS_EXCEEDED";
+	//case EXCEPTION_FLT_DENORMAL_OPERAND:     return "EXCEPTION_FLT_DENORMAL_OPERAND";
+	//case EXCEPTION_FLT_DIVIDE_BY_ZERO:       return "EXCEPTION_FLT_DIVIDE_BY_ZERO";
+	//case EXCEPTION_FLT_INEXACT_RESULT:       return "EXCEPTION_FLT_INEXACT_RESULT";
+	//case EXCEPTION_FLT_INVALID_OPERATION:    return "EXCEPTION_FLT_INVALID_OPERATION";
+	//case EXCEPTION_FLT_OVERFLOW:             return "EXCEPTION_FLT_OVERFLOW";
+	//case EXCEPTION_FLT_STACK_CHECK:          return "EXCEPTION_FLT_STACK_CHECK";
+	//case EXCEPTION_FLT_UNDERFLOW:            return "EXCEPTION_FLT_UNDERFLOW";
+	//case EXCEPTION_INT_DIVIDE_BY_ZERO:       return "EXCEPTION_INT_DIVIDE_BY_ZERO";
+	//case EXCEPTION_INT_OVERFLOW:             return "EXCEPTION_INT_OVERFLOW";
+	//case EXCEPTION_PRIV_INSTRUCTION:         return "EXCEPTION_PRIV_INSTRUCTION";
+	//case EXCEPTION_ILLEGAL_INSTRUCTION:      return "EXCEPTION_ILLEGAL_INSTRUCTION";
+	//case STATUS_FLOAT_MULTIPLE_FAULTS:       return "STATUS_FLOAT_MULTIPLE_FAULTS";
+	//case STATUS_FLOAT_MULTIPLE_TRAPS:        return "STATUS_FLOAT_MULTIPLE_TRAPS";
+	//case 0xC06D007E:                         return "VCPPEXCEPTION_MODULE_NOT_FOUND";
+	//case 0xC06D007F:                         return "VCPPEXCEPTION_PROC_NOT_FOUND";
+	//}
+	//return nullptr;
+}
+
 long __cdecl exceptions_update()
 {
 	//INVOKE(0x0051C020, exceptions_update);
@@ -161,7 +212,7 @@ long __cdecl exceptions_update()
 	main_loop_pregame_disable(true);
 
 	dword code = g_exception_information.exception_code;
-	char const* exception_code_string = GetExceptionString(g_exception_information.exception_code);
+	char const* exception_code_string = exception_code_get_string(g_exception_information.exception_code);
 	if (!g_catch_exceptions)
 	{
 		g_exception_information.exception_occurred = 0;
