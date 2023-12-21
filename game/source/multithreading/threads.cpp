@@ -61,6 +61,32 @@ void __cdecl current_thread_update_test_functions()
 		*(char const**)NULL = "Forced crash to test the minidump system, this is awesome";
 }
 
+void __cdecl destroy_thread_management()
+{
+	INVOKE(0x0051C3A0, destroy_thread_management);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
+	//ASSERT(g_thread_globals.initialized.peek() != FALSE, "thread management has not been initialized");
+	//ASSERT(g_registered_thread_index == k_thread_main, "Must be called by the main thread");
+	//for (long thread_index = k_thread_render; thread_index < k_registered_thread_count; thread_index++)
+	//{
+	//	if (g_thread_globals.thread_id[thread_index] != NONE)
+	//		g_thread_globals.thread_should_exit[thread_index].set(TRUE);
+	//}
+	//sleep(500);
+	//for (long thread_index = k_thread_render; thread_index < k_registered_thread_count; thread_index++)
+	//{
+	//	if (g_thread_globals.thread_handle[thread_index] != INVALID_HANDLE_VALUE)
+	//	{
+	//		//wait_for_thread_to_exit(thread_index, 1000);
+	//		CloseHandle(g_thread_globals.thread_handle[thread_index]);
+	//		g_thread_globals.thread_handle[thread_index] = INVALID_HANDLE_VALUE;
+	//		g_thread_globals.thread_id[thread_index] = NONE;
+	//	}
+	//}
+	//g_thread_globals.initialized.set(FALSE);
+}
+
 dword __cdecl get_main_thread_id()
 {
 	//return INVOKE(0x0051C430, get_main_thread_id);
@@ -101,13 +127,37 @@ void __cdecl initialize_thread(e_registered_threads thread_index)
 {
 	//INVOKE(0x0051C510, initialize_thread, thread_index);
 
+	//ASSERT(thread_index> k_thread_main && thread_index<k_registered_thread_count);
 	s_registered_thread_definition* definition = &k_registered_thread_definitions[thread_index];
 	if (definition->start_routine)
 	{
+		//ASSERT(g_thread_globals.thread_handle[thread_index] != INVALID_HANDLE_VALUE, "Thread already created");
 		dword thread_id;
 		HANDLE thread_handle = CreateThread(NULL, definition->stack_size, thread_execution_wrapper, pointer_from_address(thread_index), 0, &thread_id);
 		register_thread(thread_handle, thread_index, thread_id, NULL);
 	}
+}
+
+void __cdecl initialize_thread_management()
+{
+	INVOKE(0x0051C580, initialize_thread_management);
+
+	//SetThreadName(GetCurrentThreadId(), "MAIN_THREAD");
+	//for (long thread_index = k_thread_unknown; thread_index < k_registered_thread_count; thread_index++)
+	//{
+	//	g_thread_globals.thread_handle[thread_index] = INVALID_HANDLE_VALUE;
+	//	g_thread_globals.thread_has_crashed[thread_index].set(FALSE);
+	//	g_thread_globals.thread_should_exit[thread_index].set(FALSE);
+	//	thread_should_assert[thread_index].set(FALSE);
+	//	thread_should_crash[thread_index].set(FALSE);
+	//}
+	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
+	//g_registered_thread_index = k_thread_main;
+	//g_thread_globals.thread_handle[k_thread_unknown] = INVALID_HANDLE_VALUE;
+	//g_thread_globals.thread_id[k_thread_unknown] = NONE;
+	//g_thread_globals.thread_handle[k_thread_main] = GetCurrentThread(); // INVALID_HANDLE_VALUE;
+	//g_thread_globals.thread_id[k_thread_main] = GetCurrentThreadId();
+	//g_thread_globals.initialized.set(TRUE);
 }
 
 bool __cdecl is_async_thread()
@@ -124,6 +174,14 @@ bool __cdecl is_main_thread()
 
 	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
 	//return !g_thread_globals.initialized.peek() || g_registered_thread_index == k_thread_main;
+}
+
+bool __cdecl is_render_thread()
+{
+	return INVOKE(0x0051C680, is_render_thread);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
+	//return !g_thread_globals.initialized.peek() || g_registered_thread_index == k_thread_render;
 }
 
 void __cdecl post_thread_assert_arguments(s_thread_assert_arguments* arguments)
@@ -314,6 +372,35 @@ void __cdecl thread_set_priority(long thread_index, e_thread_priority priority)
 		SetThreadPriority(g_thread_globals.thread_handle[thread_index], THREAD_PRIORITY_TIME_CRITICAL);
 		break;
 	}
+}
+
+bool __cdecl thread_system_initialized()
+{
+	return INVOKE(0x0051CB30, thread_system_initialized);
+
+	//return g_thread_globals.initialized.peek() != FALSE;
+}
+
+void __cdecl unregister_thread(long thread_index)
+{
+	INVOKE(0x0051CB40, unregister_thread, thread_index);
+
+	//ASSERT(VALID_INDEX(thread_index, k_registered_thread_count));
+	//g_thread_globals.thread_handle[thread_index] = INVALID_HANDLE_VALUE;
+	//g_thread_globals.thread_id[thread_index] = NONE;
+	//g_thread_globals.thread_user_data[thread_index] = NULL;
+}
+
+bool __cdecl wait_for_thread_to_exit(long thread_index, dword timeout_in_milliseconds)
+{
+	return INVOKE(0x0051CB70, wait_for_thread_to_exit, thread_index, timeout_in_milliseconds);
+
+	//ASSERT(g_thread_globals.initialized.peek() != FALSE, "thread management has not been initialized");
+	//ASSERT(VALID_INDEX(thread_index, k_registered_thread_count), "invalid thread index");
+	//g_thread_globals.thread_should_exit[thread_index].set(TRUE);
+	//if (timeout_in_milliseconds == INFINITE)
+	//	return wait_for_single_object_internal(g_thread_globals.thread_handle[thread_index], INFINITE);
+	//return wait_for_single_object_internal(g_thread_globals.thread_handle[thread_index], timeout_in_milliseconds);
 }
 
 void __cdecl signal_thread_to_crash(e_registered_threads thread_index)

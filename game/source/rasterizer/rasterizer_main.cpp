@@ -4,7 +4,9 @@
 
 long __cdecl get_current_thread_index()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
-	return g_registered_thread_index;
+	return INVOKE(0x0051C410, get_current_thread_index);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_registered_thread_index);
+	//return g_registered_thread_index;
 }
 
