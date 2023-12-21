@@ -309,7 +309,7 @@ void __cdecl main_render_pregame(long pregame_frame_type, char const* text)
 
 		if (render_pregame)
 		{
-			render_fullscreen_text(&context, pregame_frame_type == 5 || pregame_frame_type == 6);
+			render_fullscreen_text(&context, pregame_frame_type == 4 || pregame_frame_type == 5);
 			overlapped_render();
 			controllers_render();
 		}
