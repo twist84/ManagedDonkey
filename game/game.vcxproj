@@ -208,6 +208,7 @@ POPD
     <ClCompile Include="source\cseries\cseries_windows.cpp" />
     <ClCompile Include="source\cseries\cseries_windows_debug_pc.cpp" />
     <ClCompile Include="source\cseries\language.cpp" />
+    <ClCompile Include="source\cseries\progress.cpp" />
     <ClCompile Include="source\cseries\runtime_state.cpp" />
     <ClCompile Include="source\cseries\stack_walk_windows.cpp" />
     <ClCompile Include="source\cubemaps\cubemap_debug.cpp" />
@@ -551,6 +552,7 @@ POPD
     <ClInclude Include="source\cseries\async.hpp" />
     <ClInclude Include="source\cseries\async_buffer.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
+    <ClInclude Include="source\cseries\progress.hpp" />
     <ClInclude Include="source\cseries\runtime_state.hpp" />
     <ClInclude Include="source\data_mining\data_mine_usability.hpp" />
     <ClInclude Include="source\editor\editor_flags.hpp" />
