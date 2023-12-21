@@ -2,85 +2,132 @@
 
 #include "bink/bink_playback.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/progress.hpp"
 #include "game/game.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
 #include "scenario/scenario.hpp"
 
 REFERENCE_DECLARE(0x02390D00, bool, disable_progress_screen);
-REFERENCE_DECLARE(0x02390D04, char const*, loading_globals_scenario_path);
-REFERENCE_DECLARE(0x02390D08, long, loading_globals_insertion_point);
-REFERENCE_DECLARE(0x02390D0C, bool, loading_globals_tag_load_in_progress);
-REFERENCE_DECLARE(0x02390D14, bool, loading_globals_basic_progress_enabled);
-REFERENCE_DECLARE(0x02390D15, bool, loading_globals_progress_sizes);
-REFERENCE_DECLARE(0x02390D18, long, loading_globals_basic_progress_phase);
-REFERENCE_DECLARE(0x02390D34, real, loading_globals_progress);
-REFERENCE_DECLARE(0x02390D38, bool, loading_globals_spinner_enabled);
-REFERENCE_DECLARE(0x02390D39, bool, loading_globals_progress_start);
-
+REFERENCE_DECLARE(0x02390D04, loading_globals_definition, loading_globals);
 REFERENCE_DECLARE(0x0471AA58, long, loaded_resource_bytes);
 REFERENCE_DECLARE(0x0471AA5C, long, total_resource_bytes);
+
+c_static_string<256> loading_globals_definition::loading_progress{};
+c_static_string<256> loading_globals_definition::copy_progress{};
+
+bool force_load_map_failed = false;
+bool force_load_map_mainmenu_launch = false;
 
 HOOK_DECLARE(0x0052F180, main_load_map);
 
 void __cdecl loading_basic_progress_complete()
 {
 	INVOKE(0x0052EDF0, loading_basic_progress_complete);
+
+	//ASSERT(loading_globals.basic_progress_enabled);
+	//loading_globals.basic_progress_phase = _basic_loading_phase_none;
+	//loading_globals.progress_sizes1[0] = 0.0f;
+	//loading_globals.progress_sizes1[1] = 0.0f;
+	//loading_globals.progress_sizes1[2] = 0.0f;
+	//loading_globals.progress = 1.0f;
 }
 
 void __cdecl loading_basic_progress_disable()
 {
 	INVOKE(0x0052EE20, loading_basic_progress_disable);
+
+	//ASSERT(loading_globals.basic_progress_enabled);
+	//loading_globals.basic_progress_enabled = false;
+	//loading_globals.scenario_path = NULL;
 }
 
 void __cdecl loading_basic_progress_enable(char const* scenario_path, long insertion_point)
 {
 	INVOKE(0x0052EE40, loading_basic_progress_enable, scenario_path, insertion_point);
+
+	//ASSERT(!loading_globals.basic_progress_enabled);
+	//loading_globals.scenario_path = scenario_path;
+	//loading_globals.insertion_point = insertion_point;
+	//loading_globals.basic_progress_enabled = true;
+	//loading_globals.has_progress_sizes = 0;
+	//loading_globals.basic_progress_phase = _basic_loading_phase_none;
+	//csmemset(loading_globals.progress_sizes0, 0, sizeof(loading_globals.progress_sizes0));
+	//csmemset(loading_globals.progress_sizes1, 0, sizeof(loading_globals.progress_sizes1));
+	//loading_globals.progress = 0.0f;
 }
 
 bool __cdecl loading_basic_progress_enabled()
 {
 	return INVOKE(0x0052EEA0, loading_basic_progress_enabled);
+
+	//return loading_globals.basic_progress_enabled;
 }
 
 real __cdecl loading_basic_progress_get()
 {
 	return INVOKE(0x0052EEB0, loading_basic_progress_get);
+
+	//ASSERT(loading_globals.basic_progress_enabled);
+	//return loading_globals.progress;
 }
 
 void __cdecl loading_basic_progress_phase_begin(long phase, dword update_size)
 {
 	INVOKE(0x0052EEC0, loading_basic_progress_phase_begin, phase, update_size);
+
+	//if (loading_globals.basic_progress_enabled)
+	//{
+	//	ASSERT(loading_globals.basic_progress_phase == _basic_loading_phase_none);
+	//	ASSERT(VALID_INDEX(phase, k_basic_loading_phase_count));
+	//	loading_globals.basic_progress_phase = phase;
+	//	loading_basic_progress_update_size(update_size);
+	//}
 }
 
 void __cdecl loading_basic_progress_phase_end()
 {
 	INVOKE(0x0052EEF0, loading_basic_progress_phase_end);
+
+	//if (loading_globals.basic_progress_enabled)
+	//{
+	//	ASSERT(VALID_INDEX(loading_globals.basic_progress_phase, k_basic_loading_phase_count));
+	//	loading_basic_progress_update_size(0);
+	//	loading_globals.basic_progress_phase = _basic_loading_phase_none;
+	//}
 }
 
-void __cdecl loading_basic_progress_update_fraction(real update_fraction)
+void __cdecl loading_basic_progress_update_fraction(real progress_fraction)
 {
-	INVOKE(0x0052EF10, loading_basic_progress_update_fraction, update_fraction);
+	INVOKE(0x0052EF10, loading_basic_progress_update_fraction, progress_fraction);
+
+	//if (loading_globals.basic_progress_enabled && VALID_INDEX(loading_globals.basic_progress_phase, k_basic_loading_phase_count))
+	//{
+	//	ASSERT(IN_RANGE_INCLUSIVE(progress_fraction, 0.0f, 1.0f));
+	//	loading_basic_progress_update_size(dword((1.0f - progress_fraction) * loading_globals.progress_sizes0[loading_globals.basic_progress_phase]));
+	//}
 }
 
 void __cdecl loading_basic_progress_update_phase_sizes()
 {
 	INVOKE(0x0052EF70, loading_basic_progress_update_phase_sizes);
+
+	// #TODO: implement
 }
 
 void __cdecl loading_basic_progress_update_size(dword update_size)
 {
 	INVOKE(0x0052F010, loading_basic_progress_update_size, update_size);
+
+	// #TODO: implement
 }
 
 bool __cdecl main_blocking_load_in_progress(real* out_progress)
 {
 	return INVOKE(0x0052F130, main_blocking_load_in_progress, out_progress);
 }
-
-bool force_load_map_failed = false;
-bool force_load_map_mainmenu_launch = false;
 
 //bool __cdecl main_load_map(char const *,enum e_map_load_type)
 bool __cdecl main_load_map(char* scenario_path, long map_load_type)
@@ -161,13 +208,13 @@ long __cdecl main_loading_get_gui_game_mode()
 long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_status)
 {
 #if defined(_DEBUG)
-	loading_globals_spinner_enabled = true;
+	loading_globals.spinner_enabled = true;
 #endif // _DEBUG
 
 	if (bink_playback_active())
 		return 1;
 
-	if (loading_globals_basic_progress_enabled)
+	if (loading_globals.basic_progress_enabled)
 	{
 		if (disable_progress_screen)
 			return 8;
@@ -176,7 +223,7 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 		if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
 			loading_progress = long((loaded_resource_bytes * 100.0f) / total_resource_bytes);
 
-		if (loading_globals_spinner_enabled)
+		if (loading_globals.spinner_enabled)
 		{
 			if (!g_active_designer_zone_mask)
 			{
@@ -191,7 +238,7 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 				last_time = time;
 				spinner_state_index = (spinner_state_index + 1) % NUMBEROF(spinner_states);
 
-				if (game_in_progress() && !loading_globals_tag_load_in_progress)
+				if (game_in_progress() && !loading_globals.tag_load_in_progress)
 					return 0;
 
 				if (loading_status)
@@ -200,7 +247,7 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 				if (string_is_not_empty(loading_globals_scenario_path))
 				{
 					if (loading_status)
-						loading_status->append_print(L"loading scenario %hs...", loading_globals_scenario_path);
+						loading_status->append_print(L"loading scenario %S...", loading_globals.scenario_path);
 				}
 
 				if (loading_status)
@@ -240,6 +287,16 @@ void __cdecl main_loading_idle_with_blocking_load()
 void __cdecl main_loading_initialize()
 {
 	INVOKE(0x0052FAD0, main_loading_initialize);
+
+	//progress_callbacks callbacks
+	//{
+	//	.progress_new_proc = main_loading_progress_new,
+	//	.progress_update_proc = main_loading_progress_update,
+	//	.progress_done_proc = main_loading_progress_done,
+	//	.progress_data = NULL
+	//};
+	//progress_set_default_callbacks(&callbacks);
+	//loading_globals.loading_in_progress = false;
 }
 
 bool __cdecl main_loading_is_idle()

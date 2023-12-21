@@ -11,6 +11,7 @@
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/director.hpp"
 #include "cseries/async.hpp"
+#include "cseries/progress.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/cheats.hpp"
 #include "game/game.hpp"
@@ -40,8 +41,8 @@
 #include "main/main_game_launch.hpp"
 #include "main/main_render.hpp"
 #include "memory/data.hpp"
-#include "memory/thread_local.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "multithreading/synchronization.hpp"
 #include "multithreading/threads.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
@@ -610,6 +611,8 @@ void __cdecl main_loop_body_begin()
 		physical_memory_globals;
 		g_level_globals;
 		async_globals;
+		loading_globals;
+		progress_globals;
 
 		s_thread_local_storage* tls = get_tls();
 
