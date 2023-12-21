@@ -22,6 +22,9 @@ bool force_load_map_failed = false;
 bool force_load_map_mainmenu_launch = false;
 
 HOOK_DECLARE(0x0052F180, main_load_map);
+HOOK_DECLARE(0x0052FB60, main_loading_progress_done);
+HOOK_DECLARE(0x0052FB70, main_loading_progress_new);
+HOOK_DECLARE(0x0052FB80, main_loading_progress_update);
 
 void __cdecl loading_basic_progress_complete()
 {
@@ -244,7 +247,19 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 				if (loading_status)
 					loading_status->print(L"%s %d%%|n", spinner_states[spinner_state_index], loading_progress);
 
-				if (string_is_not_empty(loading_globals_scenario_path))
+				if (!loading_globals.copy_progress.is_empty())
+				{
+					if (loading_status)
+						loading_status->append_print(L"%S|n", loading_globals.copy_progress.get_string());
+				}
+
+				if (loading_globals.loading_in_progress && !loading_globals.loading_progress.is_empty())
+				{
+					if (loading_status)
+						loading_status->append_print(L"%S", loading_globals.loading_progress.get_string());
+				}
+
+				if (string_is_not_empty(loading_globals.scenario_path))
 				{
 					if (loading_status)
 						loading_status->append_print(L"loading scenario %S...", loading_globals.scenario_path);
@@ -304,18 +319,33 @@ bool __cdecl main_loading_is_idle()
 	return INVOKE(0x0052FB40, main_loading_is_idle);
 }
 
-void __cdecl main_loading_progress_done(char const* scenario_path, void* a2)
+void __cdecl main_loading_progress_done(char const* description, void* userdata)
 {
-	INVOKE(0x0052FB60, main_loading_progress_done, scenario_path, a2);
+	//INVOKE(0x0052FB60, main_loading_progress_done, description, userdata);
+
+	ASSERT(loading_globals.loading_in_progress, "someone called main_loading_progress_done without calling main_loading_progress_start!");
+	loading_globals.loading_progress.print("%s... done|n", description);
+	main_loop_pregame();
+	loading_globals.loading_in_progress = false;
 }
 
-void __cdecl main_loading_progress_new(char const* scenario_path, void* a2)
+void __cdecl main_loading_progress_new(char const* description, void* userdata)
 {
-	INVOKE(0x0052FB70, main_loading_progress_done, scenario_path, a2);
+	//INVOKE(0x0052FB70, main_loading_progress_new, description, userdata);
+
+	loading_globals.loading_progress.print("%s...|n", description);
+	loading_globals.loading_in_progress = true;
+	main_loop_pregame();
 }
 
-void __cdecl main_loading_progress_update(char const* scenario_path, char const* a2, long progress, void* a4)
+void __cdecl main_loading_progress_update(char const* description, char const* scenario_path, long progress, void* userdata)
 {
-	INVOKE(0x0052FB80, main_loading_progress_update, scenario_path, a2, progress, a4);
+	//INVOKE(0x0052FB80, main_loading_progress_update, description, scenario_path, progress, userdata);
+
+	loading_globals.loading_progress.print("%s... %2d%c|n", description, progress, '%');
+	if (scenario_path)
+		loading_globals.loading_progress.append_print("    %s", scenario_path);
+	loading_basic_progress_update_fraction(progress / 100.0f);
+	main_loop_pregame();
 }
 
