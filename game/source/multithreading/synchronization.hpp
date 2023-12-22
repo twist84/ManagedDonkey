@@ -91,7 +91,7 @@ enum e_critical_sections
 	_critical_section_http_request_queue,
 
 	// CS:LSP Manager
-	_critical_section_lsp_Manager,
+	_critical_section_lsp_manager,
 
 	// CS:Online files
 	_critical_section_online_files,
