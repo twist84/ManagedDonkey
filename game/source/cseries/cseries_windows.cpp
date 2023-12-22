@@ -4,6 +4,7 @@
 #include "main/main.hpp"
 
 #include <windows.h>
+#include <time.h>
 
 void display_debug_string(const char* format, ...)
 {
@@ -25,6 +26,11 @@ void display_debug_string(const char* format, ...)
 unsigned long system_milliseconds()
 {
 	return timeGetTime();
+}
+
+unsigned long system_seconds()
+{
+	return static_cast<unsigned long>(_time64(0));
 }
 
 void system_abort()

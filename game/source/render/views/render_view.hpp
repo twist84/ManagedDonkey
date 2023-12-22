@@ -262,16 +262,6 @@ protected:
 };
 static_assert(sizeof(c_texture_camera_view) == sizeof(c_player_view) + 0x30);
 
-struct s_render_fullscreen_text_context_colors
-{
-	real_rgb_color blank_frame;
-	real_rgb_color text_color;
-	real_rgb_color text_shadow_color;
-};
-
-extern real(&pregame_frame_scales)[9];
-extern s_render_fullscreen_text_context_colors(&pregame_frame_colors)[9];
-
 extern void __cdecl render_debug_frame_render();
 extern void __cdecl render_debug_window_render(long user_index);
 

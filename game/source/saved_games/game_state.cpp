@@ -5,6 +5,8 @@
 #include "config/version.hpp"
 #include "cseries/cseries_events.hpp"
 #include "cseries/runtime_state.hpp"
+#include "main/console.hpp"
+#include "main/main.hpp"
 #include "memory/crc.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
@@ -12,10 +14,14 @@
 #include "saved_games/game_state_procs.hpp"
 #include "tag_files/files.hpp"
 
+#include <string.h>
+
 REFERENCE_DECLARE(0x0189D468, c_game_state_compressor_callback, g_game_state_compressor_optional_cache_callback);
 REFERENCE_DECLARE(0x02344148, s_game_state_globals, game_state_globals);
 
 HOOK_DECLARE(0x00510A50, game_state_shell_initialize);
+
+long s_game_state_globals::test_option = 0;
 
 c_gamestate_deterministic_allocation_callbacks g_gamestate_deterministic_allocation_callbacks{};
 c_gamestate_nondeterministic_allocation_callbacks g_gamestate_nondeterministic_allocation_callbacks{};
@@ -139,7 +145,33 @@ void __cdecl game_state_compressor_lock_update()
 
 bool __cdecl game_state_debug_server_file_uploading_enabled(c_static_string<256>* reason)
 {
-	return INVOKE(0x0050F330, game_state_debug_server_file_uploading_enabled, reason);
+	//return INVOKE(0x0050F330, game_state_debug_server_file_uploading_enabled, reason);
+
+	bool upload_to_server = true;
+
+	if (reason)
+		reason->clear();
+
+	if (game_state_globals.test_option == 1)
+	{
+		if (reason)
+			reason->set("Build is a repro build and won't upload.");
+
+		upload_to_server = false;
+	}
+
+	if (!version_is_tracked_build() && !g_force_upload_even_if_untracked)
+	{
+		if (reason)
+			reason->set("Untracked build, won't upload.");
+
+		upload_to_server = false;
+	}
+
+	if (reason)
+		ASSERT(upload_to_server == (reason->length() == 0));
+
+	return upload_to_server;
 }
 
 //.text:0050F370 ; c_game_state_compressor::game_state_decompress_buffer
@@ -360,9 +392,36 @@ void __cdecl game_state_set_revert_time()
 	INVOKE(0x00510960, game_state_prepare_for_revert);
 }
 
+char const* const k_game_state_test_option_description[]
+{
+	"default",
+	"repro",
+	"stress"
+};
+
 void __cdecl game_state_set_test_options(char const* test_type)
 {
-	INVOKE(0x00510980, game_state_set_test_options, test_type);
+	//INVOKE(0x00510980, game_state_set_test_options, test_type);
+
+	main_status("test-type", "%s", test_type);
+
+	if (!test_type)
+		return;
+
+	for (long test_option = 0; test_option < NUMBEROF(k_game_state_test_option_description); test_option++)
+	{
+		char const* description_a = k_game_state_test_option_description[test_option];
+		if (!description_a)
+			continue;
+
+		char const* description_b = k_game_state_test_option_description[test_option];
+		if (strncmp(test_type, description_a, description_b - description_a - 1) == 0)
+		{
+			game_state_globals.test_option = test_option;
+			console_printf("game state test option set to %s\n", description_a);
+			break;
+		}
+	}
 }
 
 void __cdecl game_state_shell_dispose()

@@ -207,7 +207,7 @@ void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yi
 				loading_text.print("loading %s", spinner_states[spinner_state_index]);
 
 				c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
-				main_render_pregame(2, loading_text.get_string());
+				main_render_pregame(_main_pregame_frame_progress_report, loading_text.get_string());
 				c_rasterizer::end_frame();
 			}
 		}

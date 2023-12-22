@@ -109,6 +109,9 @@ extern c_interlocked_long& g_render_thread_enabled;
 extern c_interlocked_long& g_single_thread_request_flags;
 extern _main_globals& main_globals;
 
+extern bool g_fake_minidump_creation;
+extern bool g_suppress_keyboard_for_minidump;
+
 extern char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons];
 
 struct s_file_reference;

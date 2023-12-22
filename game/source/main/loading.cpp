@@ -7,6 +7,7 @@
 #include "interface/user_interface_networking.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
+#include "main/main_render.hpp"
 #include "memory/module.hpp"
 #include "scenario/scenario.hpp"
 
@@ -207,20 +208,19 @@ long __cdecl main_loading_get_gui_game_mode()
 	return INVOKE(0x0052F8F0, main_loading_get_gui_game_mode);
 }
 
-//enum e_main_pregame_frame __cdecl main_loading_get_loading_status(class c_static_wchar_string<12288> *)
-long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_status)
+e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_status)
 {
 #if defined(_DEBUG)
 	loading_globals.spinner_enabled = true;
 #endif // _DEBUG
 
 	if (bink_playback_active())
-		return 1;
+		return _main_pregame_frame_normal;
 
 	if (loading_globals.basic_progress_enabled)
 	{
 		if (disable_progress_screen)
-			return 8;
+			return _main_pregame_frame_loading_screen;
 
 		long loading_progress = 0;
 		if (loaded_resource_bytes > 0 && total_resource_bytes > 0)
@@ -236,13 +236,13 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 				static dword last_time = system_milliseconds();
 				dword time = system_milliseconds();
 				if (time < last_time + 250)
-					return 0;
+					return _main_pregame_frame_none;
 
 				last_time = time;
 				spinner_state_index = (spinner_state_index + 1) % NUMBEROF(spinner_states);
 
 				if (game_in_progress() && !loading_globals.tag_load_in_progress)
-					return 0;
+					return _main_pregame_frame_none;
 
 				if (loading_status)
 					loading_status->print(L"%s %d%%|n", spinner_states[spinner_state_index], loading_progress);
@@ -268,7 +268,7 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 				if (loading_status)
 					loading_status->append(L"|n");
 
-				return 2;
+				return _main_pregame_frame_progress_report;
 			}
 		}
 
@@ -288,10 +288,10 @@ long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loadi
 			}
 		}
 
-		return 3;
+		return _main_pregame_frame_status_message;
 	}
 
-	return 0;
+	return _main_pregame_frame_none;
 }
 
 void __cdecl main_loading_idle_with_blocking_load()

@@ -1125,6 +1125,15 @@
     <ClCompile Include="source\cseries\progress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\data_mining\data_mine_management.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\tools\network_webstats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cseries\upload_debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2934,6 +2943,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cseries\progress.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\data_mining\data_mine_management.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\upload_debug.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

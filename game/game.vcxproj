@@ -211,10 +211,12 @@ POPD
     <ClCompile Include="source\cseries\progress.cpp" />
     <ClCompile Include="source\cseries\runtime_state.cpp" />
     <ClCompile Include="source\cseries\stack_walk_windows.cpp" />
+    <ClCompile Include="source\cseries\upload_debug.cpp" />
     <ClCompile Include="source\cubemaps\cubemap_debug.cpp" />
     <ClCompile Include="source\cutscene\cinematics.cpp" />
     <ClCompile Include="source\cutscene\cinematics_definitions.cpp" />
     <ClCompile Include="source\cutscene\recorded_animations.cpp" />
+    <ClCompile Include="source\data_mining\data_mine_management.cpp" />
     <ClCompile Include="source\data_mining\data_mine_usability.cpp" />
     <ClCompile Include="source\devices\devices.cpp" />
     <ClCompile Include="source\dialogs\edit_text.cpp" />
@@ -296,6 +298,7 @@ POPD
     <ClCompile Include="source\game\game_globals.cpp" />
     <ClCompile Include="source\game\game_options.cpp" />
     <ClCompile Include="source\memory\base\base_memory_windows.cpp" />
+    <ClCompile Include="source\networking\tools\network_webstats.cpp" />
     <ClCompile Include="source\saved_games\game_state.cpp" />
     <ClCompile Include="source\game\game_time.cpp" />
     <ClCompile Include="source\game\player_control.cpp" />
@@ -554,6 +557,8 @@ POPD
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
     <ClInclude Include="source\cseries\progress.hpp" />
     <ClInclude Include="source\cseries\runtime_state.hpp" />
+    <ClInclude Include="source\cseries\upload_debug.hpp" />
+    <ClInclude Include="source\data_mining\data_mine_management.hpp" />
     <ClInclude Include="source\data_mining\data_mine_usability.hpp" />
     <ClInclude Include="source\editor\editor_flags.hpp" />
     <ClInclude Include="source\editor\editor_render_stubs.hpp" />

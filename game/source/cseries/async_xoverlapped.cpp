@@ -55,6 +55,11 @@ void __cdecl overlapped_render()
 	INVOKE(0x005A8E20, overlapped_render);
 }
 
+void __cdecl overlapped_update()
+{
+	INVOKE(0x005A9050, overlapped_update);
+}
+
 bool __stdcall overlapped_task_start_internal(c_overlapped_task* task, const char* file, int line)
 {
 	ASSERT(task);

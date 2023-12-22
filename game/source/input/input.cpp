@@ -13,6 +13,12 @@ REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
 
 c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
 
+
+void __cdecl input_clear_all_rumblers()
+{
+	INVOKE(0x005115C0, input_clear_all_rumblers);
+}
+
 gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index)
 {
 	return INVOKE(0x00511840, input_get_gamepad_state, gamepad_index);
@@ -74,6 +80,11 @@ bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type)
 bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type)
 {
 	return INVOKE(0x00511EC0, input_peek_mouse, mouse, input_type);
+}
+
+void __cdecl input_update()
+{
+	INVOKE(0x00512690, input_update);
 }
 
 bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword a2, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data)

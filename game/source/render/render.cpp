@@ -1,6 +1,7 @@
 #include "render/render.hpp"
 
 #include "config/version.hpp"
+#include "main/main_render.hpp"
 #include "memory/module.hpp"
 #include "text/draw_string.hpp"
 
@@ -68,4 +69,68 @@ void __cdecl render_window_reset(long user_index)
 {
 	INVOKE(0x00A2A2E0, render_window_reset, user_index);
 }
+
+real pregame_frame_scales[9] =
+{
+	1.0f,
+	1.0f,
+	1.0f,
+	1.0f,
+	1.0f,
+	1.0f,
+	1.0f,
+	1.0f,
+	1.0f
+};
+
+s_render_fullscreen_text_context_colors pregame_frame_colors[9] =
+{
+	{
+		.blank_frame = { 0.0f, 0.0f, 0.0f },
+		.text_color = { 1.0f, 1.0f, 1.0f },
+		.text_shadow_color = { 0.0f, 0.0f, 0.0f }
+	},
+	{
+		.blank_frame = { 0.0f, 0.0f, 0.0f },
+		.text_color = { 1.0f, 1.0f, 1.0f },
+		.text_shadow_color = { 0.0f, 0.0f, 0.0f }
+	},
+	{
+		.blank_frame = { 0.0f, 0.2f, 0.0f },
+		.text_color = { 0.55f, 0.45f, 0.65f },
+		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
+	},
+	{
+		.blank_frame = { 0.047058824f, 0.06666667f, 0.1254902f },
+		.text_color = { 1.0f, 1.0f, 1.0f },
+		.text_shadow_color = { 0.015686275f, 0.023529412f, 0.039215688f }
+	},
+	{
+		//.blank_frame       = { 0.0f, 0.0f, 0.0f },
+		.blank_frame = { 0.55f, 0.1f, 0.1f },
+		.text_color = { 0.55f, 0.45f, 0.65f },
+		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
+	},
+	{
+		//.blank_frame       = { 0.0f, 0.0f, 0.0f },
+		.blank_frame = { 0.15f, 0.1f, 0.38f },
+		.text_color = { 0.55f, 0.45f, 0.65f },
+		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
+	},
+	{
+		.blank_frame = { 0.29f, 0.06f, 0.36f },
+		.text_color = { 0.55f, 0.45f, 0.65f },
+		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
+	},
+	{
+		.blank_frame = { 1.0f, 1.0f, 1.0f },
+		.text_color = { 0.0f, 0.0f, 0.0f },
+		.text_shadow_color = { 1.0f, 1.0f, 1.0f }
+	},
+	{
+		.blank_frame = { 0.047058824f, 0.06666667f, 0.1254902f },
+		.text_color = { 1.0f, 1.0f, 1.0f },
+		.text_shadow_color = { 0.015686275f, 0.023529412f, 0.039215688f }
+	}
+};
 

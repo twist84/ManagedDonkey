@@ -2,18 +2,10 @@
 
 #include "cseries/cseries.hpp"
 
-struct s_render_fullscreen_text_context
-{
-	char const* text;
-	real_rgb_color* color;
-	real_rgb_color* shadow_color;
-	real scale;
-};
-static_assert(sizeof(s_render_fullscreen_text_context) == 0x10);
-
 struct c_draw_string;
 struct c_font_cache_base;
 
+struct s_render_fullscreen_text_context;
 struct render_camera;
 struct render_projection;
 

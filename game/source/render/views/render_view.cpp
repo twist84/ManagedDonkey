@@ -19,73 +19,8 @@ REFERENCE_DECLARE(0x019180C0, dword, c_lights_view::g_debug_clip_planes);
 REFERENCE_DECLARE(0x01913434, real, c_first_person_view::m_fov_scale);
 REFERENCE_DECLARE(0x01913470, real, c_first_person_view::m_z_far_scale);
 
-REFERENCE_DECLARE_ARRAY(0x018BABE8, real, pregame_frame_scales, 9);
-REFERENCE_DECLARE_ARRAY(0x0165DA08, s_render_fullscreen_text_context_colors, pregame_frame_colors, 9);
-
 HOOK_DECLARE(0x00A29220, render_debug_frame_render);
 HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
-
-//real pregame_frame_scales[9] =
-//{
-//	1.0f,
-//	1.0f,
-//	1.0f,
-//	1.0f,
-//	1.0f,
-//	1.0f,
-//	1.0f,
-//	1.0f,
-//	1.0f
-//};
-//
-//s_render_fullscreen_text_context_colors pregame_frame_colors[9] =
-//{
-//	{
-//		.blank_frame = { 0.0f, 0.0f, 0.0f },
-//		.text_color = { 1.0f, 1.0f, 1.0f },
-//		.text_shadow_color = { 0.0f, 0.0f, 0.0f }
-//	},
-//	{
-//		.blank_frame = { 0.0f, 0.0f, 0.0f },
-//		.text_color = { 1.0f, 1.0f, 1.0f },
-//		.text_shadow_color = { 0.0f, 0.0f, 0.0f }
-//	},
-//	{
-//		.blank_frame = { 0.0f, 0.2f, 0.0f },
-//		.text_color = { 0.55f, 0.45f, 0.65f },
-//		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
-//	},
-//	{
-//		.blank_frame = { 0.047058824f, 0.06666667f, 0.1254902f },
-//		.text_color = { 1.0f, 1.0f, 1.0f },
-//		.text_shadow_color = { 0.015686275f, 0.023529412f, 0.039215688f }
-//	},
-//	{
-//		.blank_frame = { 0.0f, 0.0f, 0.0f },
-//		.text_color = { 0.55f, 0.45f, 0.65f },
-//		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
-//	},
-//	{
-//		.blank_frame = { 0.0f, 0.0f, 0.0f },
-//		.text_color = { 0.55f, 0.45f, 0.65f },
-//		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
-//	},
-//	{
-//		.blank_frame = { 0.29f, 0.06f, 0.36f },
-//		.text_color = { 0.55f, 0.45f, 0.65f },
-//		.text_shadow_color = { 0.08f, 0.05f, 0.012f }
-//	},
-//	{
-//		.blank_frame = { 1.0f, 1.0f, 1.0f },
-//		.text_color = { 0.0f, 0.0f, 0.0f },
-//		.text_shadow_color = { 1.0f, 1.0f, 1.0f }
-//	},
-//	{
-//		.blank_frame = { 0.047058824f, 0.06666667f, 0.1254902f },
-//		.text_color = { 1.0f, 1.0f, 1.0f },
-//		.text_shadow_color = { 0.015686275f, 0.023529412f, 0.039215688f }
-//	}
-//};
 
 void __cdecl c_view::abort_current_view_stack()
 {

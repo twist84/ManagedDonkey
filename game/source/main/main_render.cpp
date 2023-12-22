@@ -278,7 +278,7 @@ bool __cdecl sub_42E5D0()
 }
 
 HOOK_DECLARE(0x00604860, main_render_pregame);
-void __cdecl main_render_pregame(long pregame_frame_type, char const* text)
+void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char const* text)
 {
 	//INVOKE(0x00604860, main_render_pregame, pregame_frame_type, text);
 
@@ -300,34 +300,29 @@ void __cdecl main_render_pregame(long pregame_frame_type, char const* text)
 		context.shadow_color = &pregame_frame_colors[pregame_frame_type].text_shadow_color;
 		context.scale = pregame_frame_scales[pregame_frame_type];
 
-		bool render_pregame = true;
-		if (pregame_frame_type == 1 && !main_game_change_in_progress() && main_halted_with_errors())
-		{
+		if (pregame_frame_type == _main_pregame_frame_normal && !main_game_change_in_progress() && main_halted_with_errors())
 			context.text = events_get();
-			render_pregame = true;
-		}
 
-		if (render_pregame)
-		{
-			render_fullscreen_text(&context, pregame_frame_type == 4 || pregame_frame_type == 5);
-			overlapped_render();
-			controllers_render();
-		}
+		bool simple_font = pregame_frame_type == _main_pregame_frame_minidump_upload_waiting || pregame_frame_type == _main_pregame_frame_minidump_upload_completed_successfully;
+		render_fullscreen_text(&context, simple_font);
+		overlapped_render();
+		controllers_render();
 
-		if (pregame_frame_type == 1)
+		if (pregame_frame_type == _main_pregame_frame_normal)
 		{
 			fullscreen_view.render();
 			terminal_draw(); // this belongs in `c_fullscreen_view::render`
 		}
 
-		if (pregame_frame_type == 1 && bink_playback_active())
+		if (pregame_frame_type == _main_pregame_frame_normal && bink_playback_active())
 		{
 			bink_playback_update();
 			bink_playback_check_for_terminate();
 			bink_playback_render();
 		}
 
-		if (pregame_frame_type == 1 || pregame_frame_type == 2)
+		if (pregame_frame_type == _main_pregame_frame_normal ||
+			pregame_frame_type == _main_pregame_frame_progress_report)
 			game_engine_render_frame_watermarks(true);
 
 		c_view::end();
@@ -414,4 +409,5 @@ void __cdecl main_render_view(c_player_view* player_view, long player_index)
 	c_view::end();
 	c_player_view::set_global_player_view(0);
 }
+
 

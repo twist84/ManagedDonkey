@@ -117,7 +117,8 @@ struct s_game_state_globals
 
 	s_game_state_header* header;
 
-	bool __unknown499D4;
+	static long test_option;
+	bool force_immediate_save_on_core_load;
 
 	c_game_state_compressor compressor;
 };

@@ -36,6 +36,8 @@ extern loading_globals_definition& loading_globals;
 extern long& loaded_resource_bytes;
 extern long& total_resource_bytes;
 
+enum e_main_pregame_frame;
+
 extern void __cdecl loading_basic_progress_complete();
 extern void __cdecl loading_basic_progress_disable();
 extern void __cdecl loading_basic_progress_enable(char const* scenario_path, long insertion_point);
@@ -57,7 +59,7 @@ extern void __cdecl main_loading_dispose();
 extern void __cdecl main_loading_enable_spinner(bool enable_spinner);
 extern bool __cdecl main_loading_get_action(struct s_main_loading_action* out_loading_action);
 extern long __cdecl main_loading_get_gui_game_mode();
-extern long __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* status_message);
+extern e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* status_message);
 extern void __cdecl main_loading_idle_with_blocking_load();
 extern void __cdecl main_loading_initialize();
 extern bool __cdecl main_loading_is_idle();

@@ -23,13 +23,47 @@ protected:
 };
 static_assert(sizeof(c_player_render_camera_iterator) == 0x14);
 
+enum e_main_pregame_frame
+{
+	_main_pregame_frame_none = 0,
+	_main_pregame_frame_normal,
+	_main_pregame_frame_progress_report,
+	_main_pregame_frame_status_message,
+	_main_pregame_frame_minidump_upload_waiting,
+	_main_pregame_frame_minidump_upload_completed_successfully,
+	_main_pregame_frame_unknown6,
+	_main_pregame_frame_notify_out_of_sync,
+	_main_pregame_frame_loading_screen,
+
+	k_main_pregame_frame_count
+};
+
+struct s_render_fullscreen_text_context_colors
+{
+	real_rgb_color blank_frame;
+	real_rgb_color text_color;
+	real_rgb_color text_shadow_color;
+};
+
+struct s_render_fullscreen_text_context
+{
+	char const* text;
+	real_rgb_color* color;
+	real_rgb_color* shadow_color;
+	real scale;
+};
+static_assert(sizeof(s_render_fullscreen_text_context) == 0x10);
+
+extern real pregame_frame_scales[k_main_pregame_frame_count];
+extern s_render_fullscreen_text_context_colors pregame_frame_colors[k_main_pregame_frame_count];
+
 struct c_player_view;
 
 extern void __cdecl main_render();
 extern void __cdecl main_render_assert_no_pending_messages();
 extern void __cdecl main_render_frame_begin();
 extern void __cdecl main_render_game();
-extern void __cdecl main_render_pregame(long main_pregame_frame, char const* loading_status);
+extern void __cdecl main_render_pregame(e_main_pregame_frame main_pregame_frame, char const* loading_status);
 extern void __cdecl main_render_pregame_loading_screen();
 extern void __cdecl main_render_process_messages();
 extern void __cdecl main_render_purge_pending_messages();

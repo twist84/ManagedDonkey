@@ -494,6 +494,7 @@ struct s_input_globals
 };
 static_assert(sizeof(s_input_globals) == 0xC70);
 
+extern void __cdecl input_clear_all_rumblers();
 extern gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index);
 extern bool __cdecl input_get_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_get_mouse(s_mouse_state* mouse, e_input_type input_type);
@@ -505,6 +506,7 @@ extern byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input
 extern word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
 extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type);
+extern void __cdecl input_update();
 
 extern void input_get_raw_data_string(char* buffer, short size);
 extern void input_mouse_state_get_raw_data_string(char* buffer, short size);

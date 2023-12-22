@@ -50,6 +50,8 @@ REFERENCE_DECLARE(0x0238E888, s_exception_information, g_exception_information);
 
 HOOK_DECLARE(0x0051C020, exceptions_update);
 
+char const* const k_screenshot_file = "crash_report\\crash_screenshot.bmp";
+
 char const* GetExceptionFlagsString(DWORD exception)
 {
 	switch (exception)
@@ -224,7 +226,7 @@ long __cdecl exceptions_update()
 	{
 		if (version_is_tracked_build() || g_force_upload_even_if_untracked)
 		{
-			rasterizer_dump_display_to_bmp("crash_report\\crash_screenshot.bmp");
+			rasterizer_dump_display_to_bmp(k_screenshot_file);
 			release_locks_safe_for_crash_release();
 		}
 
@@ -344,7 +346,7 @@ long __cdecl exceptions_update()
 	//call_fatal_error_callbacks();
 	if (version_is_tracked_build() || g_force_upload_even_if_untracked)
 	{
-		rasterizer_dump_display_to_bmp("crash_report\\crash_screenshot.bmp");
+		rasterizer_dump_display_to_bmp(k_screenshot_file);
 		release_locks_safe_for_crash_release();
 	}
 
