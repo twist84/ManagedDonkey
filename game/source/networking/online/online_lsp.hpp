@@ -30,7 +30,7 @@ enum e_client_state
 
 struct c_online_lsp_manager
 {
-	long __thiscall _acquire_server(long service_type, long* connection_token_out, long* ip_address, unsigned short* port, char const* service_description);
+	long __thiscall acquire_server(long service_type, long* connection_token_out, long* ip_address, unsigned short* port, char const* service_description);
 	
 	void clear_activated_servers();
 	void clear_client(long client_index);
