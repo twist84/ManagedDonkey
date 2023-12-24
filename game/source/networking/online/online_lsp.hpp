@@ -2,6 +2,24 @@
 
 #include "cseries/cseries.hpp"
 
+enum e_online_lsp_service_type
+{
+	// H3
+	/* ttl */ _online_lsp_service_type_title_files = 0,
+	/* usr */ _online_lsp_service_type_user_files,
+	/* shr */ _online_lsp_service_type_mass_storage,
+	/* dbg */ _online_lsp_service_type_debug,
+	/* web */ _online_lsp_service_type_webstats,
+
+	// HO
+	/* mmk */ _online_lsp_service_type_mmk, // matchmaking?
+	/* amm */ _online_lsp_service_type_amm, // ?
+	/* prs */ _online_lsp_service_type_prs, // presence from reach?
+	/* ofr */ _online_lsp_service_type_ofr, // offers?
+
+	k_online_lsp_service_type_count
+};
+
 enum e_online_lsp_state
 {
 	_online_lsp_state_search_start = 0,
@@ -30,7 +48,7 @@ enum e_client_state
 
 struct c_online_lsp_manager
 {
-	long __thiscall acquire_server(long service_type, long* connection_token_out, long* ip_address, unsigned short* port, char const* service_description);
+	long __thiscall acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, word* port_out, char const* service_description);
 	
 	void clear_activated_servers();
 	void clear_client(long client_index);
@@ -77,6 +95,8 @@ static_assert(sizeof(c_online_lsp_manager) == 0x494);
 extern c_static_string<4>(&g_server_descriptions)[9];
 extern s_server_connect_info(&g_additional_raw_servers)[1];
 extern c_online_lsp_manager& g_online_lsp_manager;
+
+extern char const* const k_service_type_descriptions[k_online_lsp_service_type_count];
 
 extern bool __cdecl online_lsp_activate_and_retrieve_server(int server_index, long* ip_address_out);
 extern bool __cdecl online_lsp_begin_search();

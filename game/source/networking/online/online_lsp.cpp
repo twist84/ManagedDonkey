@@ -14,16 +14,31 @@ REFERENCE_DECLARE(0x0199FE88, c_online_lsp_manager, g_online_lsp_manager);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00431440, c_online_lsp_manager, acquire_server);
 
+char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
+{
+	// H3
+	/* ttl */ "title_files",
+	/* usr */ "user_files",
+	/* shr */ "mass_storage",
+	/* dbg */ "debug",
+	/* web */ "webstats",
+
+	// HO
+	/* mmk */ "mmk", // matchmaking?
+	/* amm */ "amm", // ?
+	/* prs */ "prs", // presence from reach?
+	/* ofr */ "ofr"  // offers?
+};
+
 long const lsp_server_ip = inet_addr("127.0.0.1");
 unsigned short const lsp_server_port = htons(8000);
 
-//enum e_online_lsp_server_acquire_result __cdecl c_online_lsp_manager::acquire_server(enum e_online_lsp_service_type service_type, long, long* connection_token_out, long* ip_address, unsigned short* port, char const* service_description)
-long __thiscall c_online_lsp_manager::acquire_server(long service_type, long* connection_token_out, long* ip_address, unsigned short* port, char const* service_description)
+//e_online_lsp_server_acquire_result c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, word* port_out, char const* service_description)
+long __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, word* port_out, char const* service_description)
 {
-	*connection_token_out = 1;
-	*ip_address = lsp_server_ip;
-	*port = lsp_server_port;
-
+	*out_connection_token = 1;
+	*ip_address_out = lsp_server_ip;
+	*port_out = lsp_server_port;
 	return 1;
 }
 
