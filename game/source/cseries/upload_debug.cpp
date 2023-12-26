@@ -54,9 +54,9 @@ bool c_file_reference::find_or_create(dword flags)
 
 bool __cdecl upload_debug_start()
 {
-	g_upload_debug_globals.__unknown4 = 0;
-	g_upload_debug_globals.__unknown0 = 0;
-	g_upload_debug_globals.upload_succeeded = 0;
+	g_upload_debug_globals.upload_completed = FALSE;
+	g_upload_debug_globals.upload_started = FALSE;
+	g_upload_debug_globals.upload_succeeded = FALSE;
 
 	if (!g_suppress_upload_debug)
 	{
@@ -77,9 +77,9 @@ bool __cdecl upload_debug_start()
 			file_get_size(&file, &size);
 			ASSERT(size > 0);
 
-			g_upload_debug_globals.__unknown0 = 1;
-			g_upload_debug_globals.__unknownC.set(0);
-			g_upload_debug_globals.__unknown10.set(0);
+			g_upload_debug_globals.upload_started = TRUE;
+			g_upload_debug_globals.upload_position.set(0);
+			g_upload_debug_globals.upload_length.set(100);
 
 			progress_new("uploading crash files");
 			progress_update(0, 1);
@@ -88,11 +88,11 @@ bool __cdecl upload_debug_start()
 		}
 		else
 		{
-			upload_debug_completion_callback(0, 0);
+			upload_debug_completion_callback(false, NULL);
 		}
 	}
 
-	return g_upload_debug_globals.__unknown0.peek();
+	return g_upload_debug_globals.upload_started.peek() != FALSE;
 }
 
 bool upload_debug_complete(bool* out_success)
@@ -100,13 +100,13 @@ bool upload_debug_complete(bool* out_success)
 	if (out_success)
 	{
 		bool success = false;
-		if (g_upload_debug_globals.__unknown4)
+		if (g_upload_debug_globals.upload_completed)
 			success = g_upload_debug_globals.upload_succeeded;
 
 		*out_success = success;
 	}
 
-	return !g_upload_debug_globals.__unknown0 && g_upload_debug_globals.__unknown4 == 1;// && !data_mine_uploading_files();
+	return !g_upload_debug_globals.upload_started && g_upload_debug_globals.upload_completed == TRUE;// && !data_mine_uploading_files();
 }
 
 bool __cdecl upload_debug_get_output(char* output, long output_size)
@@ -115,7 +115,7 @@ bool __cdecl upload_debug_get_output(char* output, long output_size)
 	{
 		*output = 0;
 
-		if (upload_debug_complete(NULL))
+		if (g_upload_debug_globals.upload_completed)
 		{
 			if (g_upload_debug_globals.upload_succeeded)
 				csnzappendf(output, output_size, "\r\nFile upload to server complete.  (Safe to reboot)");
@@ -124,13 +124,13 @@ bool __cdecl upload_debug_get_output(char* output, long output_size)
 		}
 		//else if (data_mine_uploading_files())
 		//{
-		//	
+		//	csnzappendf(output, output_size, "\r\nUploading data mine files, please wait...");
 		//}
 		else
 		{
 			real upload_progress = 0.0f;
-			if (g_upload_debug_globals.__unknown10)
-				upload_progress = 100.0f * (g_upload_debug_globals.__unknownC / g_upload_debug_globals.__unknown10);
+			if (g_upload_debug_globals.upload_length)
+				upload_progress = 100.0f * (g_upload_debug_globals.upload_position / g_upload_debug_globals.upload_length);
 			csnzappendf(output, output_size, "\r\nUploading files to server, please wait... %i %%", upload_progress);
 		}
 	}
@@ -163,24 +163,24 @@ bool __cdecl upload_debug_create_fake_archive()
 	return fake_contents_written;
 }
 
-void __cdecl upload_debug_update_callback(long a1, long a2)
+void __cdecl upload_debug_update_callback(long upload_position, long upload_length)
 {
-	g_upload_debug_globals.__unknownC = a1;
-	g_upload_debug_globals.__unknown10 = a2;
+	g_upload_debug_globals.upload_position = upload_position;
+	g_upload_debug_globals.upload_length = upload_length;
 }
 
 void __cdecl upload_debug_completion_callback(bool succeeded, void* data)
 {
-	g_upload_debug_globals.__unknown0 = 0;
-	g_upload_debug_globals.__unknown4 = 1;
+	g_upload_debug_globals.upload_started = FALSE;
+	g_upload_debug_globals.upload_completed = TRUE;
 	g_upload_debug_globals.upload_succeeded = succeeded;
 
 	progress_done();
 
-	if (succeeded)
-		generate_event(_event_level_message, "### crash upload succeeded");
-	else
-		generate_event(_event_level_message, "### crash upload failed");
-	generate_event(_event_level_message, "### crash upload completed");
+	//if (succeeded)
+	//	telnet_console_print("### crash upload succeeded");
+	//else
+	//	telnet_console_print("### crash upload failed");
+	//telnet_console_print("### crash upload completed");
 }
 

@@ -19,11 +19,11 @@ protected:
 
 struct _g_upload_debug_globals
 {
-	c_synchronized_long __unknown0;
-	c_synchronized_long __unknown4;
+	c_synchronized_long upload_started;
+	c_synchronized_long upload_completed;
 	c_synchronized_long upload_succeeded;
-	c_synchronized_long __unknownC;
-	c_synchronized_long __unknown10;
+	c_synchronized_long upload_position;
+	c_synchronized_long upload_length;
 };
 
 extern bool g_suppress_upload_debug;

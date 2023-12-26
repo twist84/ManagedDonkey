@@ -200,7 +200,7 @@ dword __cdecl netdebug_thread_function(void* thread_parameter)
 }
 
 HOOK_DECLARE(0x00430300, netdebug_upload_file);
-void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(long, long), void(__cdecl* completion_proc)(bool, void*), void* completion_data)
+void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(long upload_position, long upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data)
 {
 	//INVOKE(0x00430300, netdebug_upload_file, a1, path, update_proc, completion_proc, completion_data);
 
@@ -239,12 +239,12 @@ void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl
 		completion_proc(false, completion_data);
 }
 
-void __cdecl remove_current_task(bool a1)
+void __cdecl remove_current_task(bool succeeded)
 {
-	INVOKE(0x00430380, remove_current_task, a1);
+	INVOKE(0x00430380, remove_current_task, succeeded);
 
 	//if (g_netdebug_globals.current_task.completion_proc)
-	//	g_netdebug_globals.current_task.completion_proc(a1, g_netdebug_globals.current_task.completion_data);
+	//	g_netdebug_globals.current_task.completion_proc(succeeded, g_netdebug_globals.current_task.completion_data);
 	//csmemset(&g_netdebug_globals.current_task, 0, sizeof(g_netdebug_globals.current_task));
 }
 
