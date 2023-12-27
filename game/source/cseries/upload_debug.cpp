@@ -128,10 +128,10 @@ bool __cdecl upload_debug_get_output(char* output, long output_size)
 		//}
 		else
 		{
-			real upload_progress = 0.0f;
-			if (g_upload_debug_globals.upload_length)
-				upload_progress = 100.0f * (g_upload_debug_globals.upload_position / g_upload_debug_globals.upload_length);
-			csnzappendf(output, output_size, "\r\nUploading files to server, please wait... %i %%", upload_progress);
+			long upload_position = g_upload_debug_globals.upload_position;
+			long upload_length = g_upload_debug_globals.upload_length;
+			real upload_progress = upload_length > 0 ? 100.0f * (real(upload_position) / real(upload_length)) : 0.0f;
+			csnzappendf(output, output_size, "\r\nUploading files to server, please wait... %i %%", long(upload_progress));
 		}
 	}
 

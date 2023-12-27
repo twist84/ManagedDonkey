@@ -479,6 +479,8 @@ void __cdecl main_halt_and_catch_fire()
 			//	if (g_fake_minidump_creation)
 			//	{
 			//		create_fake_minidump = false;
+			//		c_static_string<256> description = "crash fast";
+			//		crash_user_input_upload_now(description.get_string(), description.length() + 1);
 			//	}
 			//	else if()
 			//	{
