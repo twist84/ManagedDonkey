@@ -546,6 +546,9 @@ void __cdecl main_halt_and_catch_fire()
 			sleep(0);
 		}
 
+		// by setting the `emergency_mode` here to `false` we enable fonts again
+		g_font_globals.emergency_mode = false;
+
 		recursion_lock_triggered = false;
 	}
 	main_loop_pregame_halt_and_catch_fire_pop();
