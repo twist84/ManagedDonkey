@@ -40,10 +40,11 @@ static_assert(sizeof(s_server_connect_info) == 0xDA);
 
 enum e_client_state
 {
-	_client_state_none = 0
+	_client_state_none = 0,
+	_client_state_connecting,
+	_client_state_connected,
 
-	// #TODO: map the rest
-	//...
+	k_client_state_count
 };
 
 struct c_online_lsp_manager
@@ -52,9 +53,13 @@ struct c_online_lsp_manager
 	
 	void clear_activated_servers();
 	void clear_client(long client_index);
+	void disconnect_from_server(long connection_token, bool success);
+	long find_empty_slot_index();
+	long find_slot_index_from_token(long connection_token);
 	static c_online_lsp_manager* get();
 	void go_into_crash_mode();
 	void reset();
+	void server_connected(long connection_token);
 
 	static long const k_maximum_simultaneous_clients = 16;
 	static long const k_client_description_length = 48;
@@ -69,9 +74,7 @@ struct c_online_lsp_manager
 
 	struct s_client_data
 	{
-		// e_client_state
-		long client_state;
-
+		c_enum<e_client_state, long, _client_state_none, k_client_state_count> client_state;
 		long service_type;
 		long connection_token;
 
