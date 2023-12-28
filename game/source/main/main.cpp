@@ -1,4 +1,4 @@
-#include "main/main.hpp"
+﻿#include "main/main.hpp"
 
 #include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"

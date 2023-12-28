@@ -36,9 +36,9 @@ HOOK_DECLARE(0x00442BF0, online_update);
 static s_online_user g_controller_users[4] =
 {
 	g_online_user,
-	{.initialized = true, .player_xuid = 1, .player_name = L"user1" },
-	{.initialized = true, .player_xuid = 2, .player_name = L"user2" },
-	{.initialized = true, .player_xuid = 3, .player_name = L"user3" },
+	{ .initialized = true, .player_xuid = 1, .player_name = L"user1" },
+	{ .initialized = true, .player_xuid = 2, .player_name = L"user2" },
+	{ .initialized = true, .player_xuid = 3, .player_name = L"user3" },
 };
 
 long g_nat_type_override = _online_nat_type_open;
@@ -190,6 +190,7 @@ qword __cdecl online_user_get_xuid(long controller_index)
 	{
 		transport_secure_random(sizeof(bytes), bytes);
 		xuid_make_online(value);
+		online_user_set_xuid(value);
 	}
 
 	return value;
@@ -210,7 +211,7 @@ bool __cdecl online_has_signed_in_user(long controller_index)
 	return g_controller_users[controller_index].initialized;
 }
 
-bool online_local_xuid_is_silver_or_gold_live(long controller_index)
+bool __cdecl online_local_xuid_is_silver_or_gold_live(long controller_index)
 {
 	return g_controller_users[controller_index].initialized;
 }
@@ -227,6 +228,7 @@ void __cdecl online_process_debug_output_queue()
 void __cdecl online_user_set_xuid(qword xuid)
 {
 	g_controller_users[0].player_xuid = xuid;
+	g_controller_users[0].initialized = true;
 }
 
 void __cdecl online_set_is_connected_to_live(bool is_connected_to_live)
