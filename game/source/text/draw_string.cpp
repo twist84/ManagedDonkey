@@ -95,24 +95,6 @@ short __cdecl c_draw_string::get_line_height() const
 	return DECLFUNC(0x00658440, short, __thiscall, c_draw_string const*)(this);
 }
 
-c_font_cache_base::c_font_cache_base() :
-	__vftable(reinterpret_cast<decltype(__vftable)>(0x0165FCB0))
-{
-}
-
-c_font_cache_mt_safe::c_font_cache_mt_safe() :
-	c_font_cache_base(),
-	m_locked()
-{
-	__vftable = reinterpret_cast<decltype(__vftable)>(0x0165FCCC);
-	DECLFUNC(0x00659650, void, __thiscall, c_font_cache_mt_safe*)(this);
-}
-
-c_font_cache_mt_safe::~c_font_cache_mt_safe()
-{
-	DECLFUNC(0x00659720, void, __thiscall, c_font_cache_mt_safe*)(this);
-}
-
 c_draw_string::c_draw_string() :
 	__vftable(reinterpret_cast<decltype(__vftable)>(0x0165DB98)),
 	m_flags(),

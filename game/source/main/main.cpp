@@ -70,6 +70,7 @@
 #include "saved_games/game_state.hpp"
 #include "screenshots/screenshots_uploader.hpp"
 #include "simulation/simulation.hpp"
+#include "text/font_cache.hpp"
 #include "text/font_loading.hpp"
 #include "visibility/visibility_collection.hpp"
 
@@ -547,7 +548,10 @@ void __cdecl main_halt_and_catch_fire()
 		}
 
 		// by setting the `emergency_mode` here to `false` we enable fonts again
-		g_font_globals.emergency_mode = false;
+		{
+			c_font_cache_scope_lock scope_lock{};
+			g_font_globals.emergency_mode = false;
+		}
 
 		recursion_lock_triggered = false;
 	}
