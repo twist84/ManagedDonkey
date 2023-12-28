@@ -34,8 +34,8 @@ public:
 	bool is_connected();
 	bool is_started();
 
-private:
 	bool parse_http_response(
+//private:
 		char const* buffer,
 		long buffer_length,
 		bool* out_completed_successfully,
@@ -43,7 +43,7 @@ private:
 		long* http_response_code,
 		long* content_length
 	);
-	bool receive_data(
+	bool __thiscall receive_data(
 		bool* out_completed_successfully,
 		char* out_response_content_buffer,
 		long* out_response_content_buffer_count,

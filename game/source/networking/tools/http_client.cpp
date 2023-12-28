@@ -3,6 +3,7 @@
 #include "memory/module.hpp"
 #include "networking/transport/transport.hpp"
 
+HOOK_DECLARE_CLASS_MEMBER(0x00433760, c_http_client, receive_data);
 
 real g_http_client_test_failure_ratio = 0.0f;
 
@@ -19,7 +20,7 @@ c_http_client::c_http_client() :
 	m_started(),
 	m_start_time(0),
 	m_previous_time(0),
-	m_upstream_quota(-1),
+	m_upstream_quota(NONE),
 	m_current_state()
 {
 	transport_register_transition_functions(nullptr, transport_shutdown, nullptr, this);
@@ -136,7 +137,7 @@ void c_http_client::get_ip_address_string(long ipv4_address, c_static_string<16>
 
 	value = ipv4_address;
 
-	out_string->print("%d.%d.%d.%d", bytes[3], bytes[2], bytes[1], bytes[0]);
+	out_string->print("%d.%d.%d.%d", bytes[0], bytes[1], bytes[2], bytes[3]);
 }
 
 long c_http_client::get_upload_length()
@@ -183,9 +184,9 @@ bool c_http_client::parse_http_response(
 	c_static_string<4096> http_response;
 	http_response.set_bounded(buffer, buffer_length);
 
-	*out_completed_successfully = 0;
-	*http_header_size = -1;
-	*content_length = -1;
+	*out_completed_successfully = false;
+	*http_header_size = NONE;
+	*content_length = NONE;
 
 	if (http_response.length() > 9)
 	{
@@ -227,7 +228,7 @@ bool c_http_client::parse_http_response(
 	return true;
 }
 
-bool c_http_client::receive_data(
+bool __thiscall c_http_client::receive_data(
 	bool* out_completed_successfully,
 	char* out_response_content_buffer,
 	long* out_response_content_buffer_count,
@@ -383,12 +384,12 @@ bool c_http_client::send_data()
 	char buffer[4096]{};
 	long buffer_length = 4096;
 
-	long upstream_quota = -1;
-	if (m_upstream_quota != -1)
+	long upstream_quota = NONE;
+	if (m_upstream_quota != NONE)
 		upstream_quota = static_cast<long>((m_upstream_quota * (m_start_time - m_previous_time)) / 1000);
 
 	bool result = true;
-	while (result && (upstream_quota == -1 || upstream_quota > 0))
+	while (result && (upstream_quota == NONE || upstream_quota > 0))
 	{
 		long position = m_http_stream->get_position();
 		long bytes_read = 0;
@@ -432,7 +433,7 @@ bool c_http_client::send_data()
 			{
 				result = true;
 
-				if (upstream_quota != -1)
+				if (upstream_quota != NONE)
 					upstream_quota -= bytes_written;
 
 				if (bytes_written < bytes_read)
