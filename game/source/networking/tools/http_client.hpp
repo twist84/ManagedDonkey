@@ -34,8 +34,8 @@ public:
 	bool is_connected();
 	bool is_started();
 
-	bool parse_http_response(
 //private:
+	bool parse_http_response(
 		char const* buffer,
 		long buffer_length,
 		bool* out_completed_successfully,
