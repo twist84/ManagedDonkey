@@ -6,9 +6,18 @@
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
 #include "multithreading/threads.hpp"
+#include "networking/online/online_lsp.hpp"
+#include "networking/transport/transport.hpp"
 
 REFERENCE_DECLARE(0x0199C0B0, s_netdebug_globals, g_netdebug_globals);
 REFERENCE_DECLARE(0x0199FA20, c_synchronized_long, g_net_debug_thread_has_exited);
+
+//HOOK_DECLARE(0x0042FD00, netdebug_get_next_task);
+//HOOK_DECLARE(0x0042FF70, netdebug_process_file_upload);
+//HOOK_DECLARE(0x004300F0, netdebug_process_next_task);
+//HOOK_DECLARE(0x004301D0, netdebug_thread_function);
+//HOOK_DECLARE(0x00430300, netdebug_upload_file);
+//HOOK_DECLARE(0x00430380, remove_current_task);
 
 char const* const k_sessionid_filename_pack_token = "#";
 char const* const k_session_description_title_string = "title= ";
@@ -37,13 +46,20 @@ void __cdecl create_sessionid()
 	INVOKE(0x0042FA90, create_sessionid);
 }
 
-void __cdecl fill_packed_sessionid_filename(char const* filename, class c_static_string<256>* sessionid_filename)
+template<long k_filename_size>
+char* file_reference_get_filename(s_file_reference const* file, char(&filename)[k_filename_size])
 {
-	INVOKE(0x0042FAF0, fill_packed_sessionid_filename, filename, sessionid_filename);
+	constexpr dword_flags flags = FLAG(_name_file_bit) | FLAG(_name_extension_bit);
+	return file_reference_get_name(file, flags, filename, k_filename_size);
+}
 
-	//ASSERT(filename);
-	//ASSERT(sessionid_filename);
-	//sessionid_filename->print("%s%s%s", g_netdebug_globals.sessionid, k_sessionid_filename_pack_token, filename);
+void __cdecl fill_packed_sessionid_filename(char const* filename, c_static_string<256>* sessionid_filename)
+{
+	//INVOKE(0x0042FAF0, fill_packed_sessionid_filename, filename, sessionid_filename);
+
+	ASSERT(filename);
+	ASSERT(sessionid_filename);
+	sessionid_filename->print("%s%s%s", g_netdebug_globals.sessionid.get_string(), k_sessionid_filename_pack_token, filename);
 }
 
 void __cdecl get_system_ip_addresses(c_static_string<16>* insecure_ip, c_static_string<128>* secure_ip)
@@ -67,25 +83,25 @@ char const* __cdecl netdebug_get_build()
 
 void __cdecl netdebug_get_next_task()
 {
-	INVOKE(0x0042FD00, netdebug_get_next_task);
+	//INVOKE(0x0042FD00, netdebug_get_next_task);
 
-	//if (!g_netdebug_globals.current_task.active)
-	//{
-	//	for (s_netdebug_upload_task& task : g_netdebug_globals.task_queue)
-	//	{
-	//		if (task.active)
-	//		{
-	//			csmemcpy(&g_netdebug_globals.current_task, &task, sizeof(s_netdebug_upload_task));
-	//			g_netdebug_globals.task_fails = 0;
-	//			memset(&task, 0, sizeof(s_netdebug_upload_task));
-	//			task.active = false;
-	//			break;
-	//		}
-	//	}
-	//
-	//	if (g_netdebug_globals.current_task.active)
-	//		compute_task_file_upload_signatures(&g_netdebug_globals.current_task);
-	//}
+	if (!g_netdebug_globals.current_task.active)
+	{
+		for (s_netdebug_upload_task& task : g_netdebug_globals.task_queue)
+		{
+			if (task.active)
+			{
+				csmemcpy(&g_netdebug_globals.current_task, &task, sizeof(s_netdebug_upload_task));
+				g_netdebug_globals.task_fails = 0;
+				memset(&task, 0, sizeof(s_netdebug_upload_task));
+				task.active = false;
+				break;
+			}
+		}
+	
+		if (g_netdebug_globals.current_task.active)
+			compute_task_file_upload_signatures(&g_netdebug_globals.current_task);
+	}
 }
 
 char const* __cdecl netdebug_get_sessionid()
@@ -144,23 +160,59 @@ void __cdecl netdebug_prefer_internet(bool prefer_internet)
 
 bool __cdecl netdebug_process_file_upload(s_netdebug_upload_task* task)
 {
-	return INVOKE(0x0042FF70, netdebug_process_file_upload, task);
+	//return INVOKE(0x0042FF70, netdebug_process_file_upload, task);
+
+	ASSERT(task);
+
+	dword error = 0;
+	if (file_open(&task->file, FLAG(_file_open_flag_desired_access_read), &error))
+	{
+		c_http_post_source post_source{};
+		char filename[256];
+		file_reference_get_filename(&task->file, filename);
+		c_static_string<256> sessionid_filename;
+		fill_packed_sessionid_filename(filename, &sessionid_filename);
+		add_http_xbox_upload_info_headers(&g_netdebug_globals.http_post_stream, task);
+		post_source.set_source_as_file(&task->file);
+		post_source.set_filename(sessionid_filename.get_string());
+		post_source.set_content_type("application/x-halo3-upload");
+		g_netdebug_globals.http_post_stream.set_source(&post_source);
+
+		if (upload_synchronous(&g_netdebug_globals.http_client, &g_netdebug_globals.http_post_stream, 1800, task))
+		{
+			file_close(&task->file);
+			return true;
+		}
+		else
+		{
+			generate_event(_event_level_warning, "netdebug_process_file_upload: upload failed.");
+			file_close(&task->file);
+		}
+	}
+	else
+	{
+		char filename[256];
+		file_reference_get_filename(&task->file, filename);
+		generate_event(_event_level_warning, "netdebug_process_file_upload() failed to open file '%s' for uploading", filename);
+	}
+
+	return false;
 }
 
 void __cdecl netdebug_process_next_task()
 {
-	INVOKE(0x004300F0, netdebug_process_next_task);
+	//INVOKE(0x004300F0, netdebug_process_next_task);
 
-	//ASSERT(g_netdebug_globals.current_task.active);
-	//if (netdebug_process_file_upload(&g_netdebug_globals.current_task))
-	//{
-	//	remove_current_task(true);
-	//}
-	//else if (++g_netdebug_globals.task_fails >= 3)
-	//{
-	//	generate_event(_event_level_warning, "netdebug fail threshold exceeded, removing task from queue");
-	//	remove_current_task(false);
-	//}
+	ASSERT(g_netdebug_globals.current_task.active);
+	if (netdebug_process_file_upload(&g_netdebug_globals.current_task))
+	{
+		remove_current_task(true);
+	}
+	else if (++g_netdebug_globals.task_fails >= 3)
+	{
+		generate_event(_event_level_warning, "netdebug fail threshold exceeded, removing task from queue");
+		remove_current_task(false);
+	}
 }
 
 bool __cdecl netdebug_queue_task(s_netdebug_upload_task const* task)
@@ -175,7 +227,6 @@ void __cdecl netdebug_set_sessionid(char const* sessionid)
 	//g_netdebug_globals.sessionid.set(sessionid);
 }
 
-HOOK_DECLARE(0x004301D0, netdebug_thread_function);
 dword __cdecl netdebug_thread_function(void* thread_parameter)
 {
 	//return INVOKE(0x004301D0, netdebug_thread_function, thread_parameter);
@@ -199,7 +250,6 @@ dword __cdecl netdebug_thread_function(void* thread_parameter)
 	return 0;
 }
 
-HOOK_DECLARE(0x00430300, netdebug_upload_file);
 void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl* update_proc)(long upload_position, long upload_length), void(__cdecl* completion_proc)(bool succeeded, void* data), void* completion_data)
 {
 	//INVOKE(0x00430300, netdebug_upload_file, a1, path, update_proc, completion_proc, completion_data);
@@ -241,11 +291,11 @@ void __cdecl netdebug_upload_file(char const* a1, char const* path, void(__cdecl
 
 void __cdecl remove_current_task(bool succeeded)
 {
-	INVOKE(0x00430380, remove_current_task, succeeded);
+	//INVOKE(0x00430380, remove_current_task, succeeded);
 
-	//if (g_netdebug_globals.current_task.completion_proc)
-	//	g_netdebug_globals.current_task.completion_proc(succeeded, g_netdebug_globals.current_task.completion_data);
-	//csmemset(&g_netdebug_globals.current_task, 0, sizeof(g_netdebug_globals.current_task));
+	if (g_netdebug_globals.current_task.completion_proc)
+		g_netdebug_globals.current_task.completion_proc(succeeded, g_netdebug_globals.current_task.completion_data);
+	csmemset(&g_netdebug_globals.current_task, 0, sizeof(g_netdebug_globals.current_task));
 }
 
 void __cdecl netdebug_set_system_version()
@@ -264,7 +314,69 @@ void __cdecl netdebug_set_xtl_version()
 
 bool __cdecl upload_synchronous(c_http_client* client, c_http_stream* stream, long seconds, s_netdebug_upload_task const* task)
 {
-	return INVOKE(0x00430470, upload_synchronous, client, stream, seconds, task);
+	//return INVOKE(0x00430470, upload_synchronous, client, stream, seconds, task);
+
+	ASSERT(client);
+	ASSERT(task);
+	
+	bool result = false;
+	if (transport_available())
+	{
+		long connection_token = 0;
+		long ip_address = 0;
+		word port = 0;
+	
+		long acquire_server_result = 0;
+		do
+		{
+			acquire_server_result = c_online_lsp_manager::get()->acquire_server(_online_lsp_service_type_debug, &connection_token, &ip_address, &port, "crash upload");
+			sleep(0);
+		} while (!acquire_server_result);
+	
+		if (acquire_server_result == 1)
+		{
+			if (client->start(stream, ip_address, port, k_debug_server_url, true))
+			{
+				bool upload_complete = false;
+				dword timeout = system_milliseconds() + 1000 * seconds;
+				while (!upload_complete && system_milliseconds() < timeout)
+				{
+					if (!client->do_work(&upload_complete, NULL, NULL, NULL))
+					{
+						client->stop();
+						break;
+					}
+	
+					if (task->update_proc)
+						task->update_proc(client->get_upload_position(), client->get_upload_length());
+	
+					if (upload_complete)
+					{
+						c_online_lsp_manager::get()->disconnect_from_server(connection_token, true);
+						connection_token = NONE;
+						result = true;
+					}
+	
+					if (client->is_connected())
+						c_online_lsp_manager::get()->server_connected(connection_token);
+	
+					sleep(0);
+				}
+	
+				if (system_milliseconds() >= timeout)
+					client->stop();
+			}
+	
+			if (!result)
+			{
+				generate_event(_event_level_warning, "networking:network_debug_dump: Upload failed in progress to 0x%08x.", ip_address);
+				c_online_lsp_manager::get()->disconnect_from_server(connection_token, false);
+				connection_token = NONE;
+			}
+		}
+	}
+	
+	return result;
 }
 
 void __cdecl create_session_description()

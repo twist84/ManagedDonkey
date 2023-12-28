@@ -115,7 +115,7 @@ bool __cdecl upload_debug_get_output(char* output, long output_size)
 	{
 		*output = 0;
 
-		if (g_upload_debug_globals.upload_completed)
+ 		if (upload_debug_complete(NULL))
 		{
 			if (g_upload_debug_globals.upload_succeeded)
 				csnzappendf(output, output_size, "\r\nFile upload to server complete.  (Safe to reboot)");
