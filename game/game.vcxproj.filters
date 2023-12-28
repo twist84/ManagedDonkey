@@ -1137,6 +1137,9 @@
     <ClCompile Include="source\text\font_cache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq\start_menu_headquarters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2955,6 +2958,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\text\font_cache.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq\start_menu_headquarters.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

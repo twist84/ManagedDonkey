@@ -5,6 +5,10 @@
 
 struct s_motd_popup_data
 {
+	static long const k_chunk_type = 'mtdp';
+	static long const k_version_major = 4;
+	//static long const k_version_minor = 0;
+
 	// c_player_profile_interface::popup_message_titles[title_index] = title_index_identifier;
 	long title_index_identifier;
 	dword button_key_wait_time;
