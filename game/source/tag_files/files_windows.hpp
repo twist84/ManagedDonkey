@@ -16,6 +16,19 @@ enum e_file_open_flags
 	_file_open_flag_flags_and_attributes_sequecial_scan,
 };
 
+enum e_file_open_error
+{
+	_file_open_error_none = 0,
+	_file_open_error_file_not_found,
+	_file_open_error_access_denied,
+	_file_open_error_path_not_found,
+	_file_open_error_invalid_drive,
+	_file_open_error_sharing_violation,
+	_file_open_error_unknown,
+
+	k_file_open_error_count
+};
+
 struct s_file_last_modification_date
 {
 	dword low;

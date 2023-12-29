@@ -281,7 +281,7 @@ bool __cdecl file_open(s_file_reference* reference, dword open_flags, dword* err
 	dword share_mode = 0;
 	dword flags_and_attributes = FILE_READ_ATTRIBUTES;
 
-	*error = 0;
+	*error = _file_open_error_none;
 
 	if (TEST_BIT(open_flags, _file_open_flag_desired_access_read))
 		desired_access = GENERIC_READ;
@@ -308,22 +308,22 @@ bool __cdecl file_open(s_file_reference* reference, dword open_flags, dword* err
 		switch (GetLastError())
 		{
 		case ERROR_FILE_NOT_FOUND:
-			*error = 1;
+			*error = _file_open_error_file_not_found;
 			break;
 		case ERROR_PATH_NOT_FOUND:
-			*error = 3;
+			*error = _file_open_error_path_not_found;
 			break;
 		case ERROR_ACCESS_DENIED:
-			*error = 2;
+			*error = _file_open_error_access_denied;
 			break;
 		case ERROR_INVALID_DRIVE:
-			*error = 4;
+			*error = _file_open_error_invalid_drive;
 			break;
 		case ERROR_SHARING_VIOLATION:
-			*error = 5;
+			*error = _file_open_error_sharing_violation;
 			break;
 		default:
-			*error = 6;
+			*error = _file_open_error_unknown;
 			break;
 		}
 	}

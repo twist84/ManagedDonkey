@@ -156,6 +156,7 @@ COMMAND_CALLBACK_DECLARE(debug_camera_load);
 COMMAND_CALLBACK_DECLARE(crash);
 COMMAND_CALLBACK_DECLARE(status);
 COMMAND_CALLBACK_DECLARE(player_force_mode);
+COMMAND_CALLBACK_DECLARE(test_download_storage_file);
 
 //-----------------------------------------------------------------------------
 
@@ -242,6 +243,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(crash, 1, "<string>", "crashes (for debugging).\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(status, 0, "", "prints the value of all global status variables.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(player_force_mode, 1, "<string_id>", "force your will upon the player\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(test_download_storage_file, 2, "<string> <string>", "<url> <filename> downloads a file from LSP to the client\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

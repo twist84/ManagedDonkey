@@ -51,6 +51,7 @@ protected:
 
 	// Halo Online
 	bool m_is_json;
+	byte __pad139[0x3];
 };
 static_assert(sizeof(c_http_post_source) == 0x13C);
 

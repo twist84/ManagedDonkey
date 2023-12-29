@@ -44,34 +44,24 @@ e_download_status __thiscall c_http_buffer_downloader::get_download_status()
 
 e_download_status __cdecl c_http_buffer_downloader::get_download_status_from_internal_status(e_internal_status internal_status)
 {
-	e_download_status result = _http_download_status_none;
 	switch (internal_status)
 	{
 	case _internal_status_none:
-		result = _http_download_status_none;
-		break;
-
+		return _http_download_status_none;
 	case _internal_status_cache_retrieving:
 	case _internal_status_unknown2:
 	case _internal_status_unknown3:
-		result = _http_download_status_pending;
-		break;
-
+		return _http_download_status_pending;
 	case _internal_status_cache_submitting:
 	case _internal_status_succeeded:
-		result = _http_download_status_succeeded;
-		break;
-
+		return _http_download_status_succeeded;
 	case _internal_status_failed:
-		result = _http_download_status_failed;
-		break;
-
+		return _http_download_status_failed;
 	case _internal_status_failed_file_not_found:
-		result = _http_download_status_failed_file_not_found;
-		break;
+		return _http_download_status_failed_file_not_found;
 	}
 
-	return result;
+	return _http_download_status_none;
 }
 
 void __thiscall c_http_buffer_downloader::update()

@@ -19,8 +19,8 @@
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
-#include "memory/data_packets.hpp"
 #include "memory/data_packet_groups.hpp"
+#include "memory/data_packets.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
@@ -36,6 +36,7 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_endpoint_winsock.hpp"
 #include "objects/multiplayer_game_objects.hpp"
+#include "test/test_functions.hpp"
 #include "xbox/xnet.hpp"
 
 s_remote_command_globals remote_command_globals;
@@ -1495,6 +1496,17 @@ callback_result_t player_force_mode_callback(void const* userdata, long token_co
 	long desired_mode = string_id_retrieve(desired_mode_string);
 
 	player_override_desired_mode(desired_mode);
+
+	return result;
+}
+
+callback_result_t test_download_storage_file_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* url = tokens[1]->get_string();
+	char const* filename = tokens[2]->get_string();
+	test_download_storage_file(url, filename);
 
 	return result;
 }
