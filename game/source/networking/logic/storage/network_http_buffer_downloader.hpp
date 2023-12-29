@@ -86,8 +86,39 @@ template<typename t_blf_type>
 struct c_http_blf_simple_downloader
 	: public c_http_stored_buffer_downloader<sizeof(t_blf_type)>
 {
+public:
+	e_download_status __thiscall get_data(t_blf_type const** data, long* data_size)
+	{
+		// override this function for hooks
+	}
+
+protected:
 	long __unknown_index_or_count;
 	char const* m_chunk_buffer;
 	long m_chunk_buffer_size;
 };
+
+//struct s_some_data
+//{
+//	long some_count;
+//	long many_things[256];
+//};
+//using t_some_data_downloader = c_http_blf_simple_downloader<s_some_data>;
+//e_download_status __thiscall t_some_data_downloader::get_data(s_some_data const** data, long* data_size)
+//{
+//	static s_some_data static_data{};
+//	if (!static_data.some_count)
+//	{
+//		static_data.many_things[static_data.some_count++] = 0xDEADBEEF;
+//	}
+//
+//	if (*data)
+//		*data = &static_data;
+//
+//	if (data_size)
+//		*data_size = sizeof(static_data);
+//
+//	return _http_download_status_succeeded;
+//}
+//HOOK_DECLARE_CLASS_MEMBER(0 /* some address */, t_some_data_downloader, get_data);
 
