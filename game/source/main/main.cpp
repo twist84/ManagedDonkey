@@ -384,7 +384,10 @@ void __cdecl main_crash_just_upload_dammit()
 	game_state_set_test_options("default");
 }
 
+#if defined(_DEBUG)
+// crash and burn outside of debug
 HOOK_DECLARE(0x00505710, main_halt_and_catch_fire);
+#endif
 void __cdecl main_halt_and_catch_fire()
 {
 	//INVOKE(0x00505710, main_halt_and_catch_fire);
