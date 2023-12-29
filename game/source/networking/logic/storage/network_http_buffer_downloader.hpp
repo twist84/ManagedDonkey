@@ -45,7 +45,7 @@ protected:
 	c_url_string m_url;
 
 #pragma pack(push, 1)
-	bool __unknown114;
+	bool m_hash_is_set;
 	s_network_http_request_hash m_hash;
 	byte __pad129[3];
 #pragma pack(pop)
