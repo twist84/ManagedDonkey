@@ -37,8 +37,6 @@ e_download_status __thiscall c_http_buffer_downloader::get_data(char const** buf
 
 e_download_status __thiscall c_http_buffer_downloader::get_download_status()
 {
-	//c_console::write_line(_this->m_url.m_string.get_string() + (g_title_url_base_length == k_title_url_base_override_length ? 0 : g_title_url_base_length));
-
 	return get_download_status_from_internal_status(m_internal_status);
 }
 
