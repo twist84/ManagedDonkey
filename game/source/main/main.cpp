@@ -776,6 +776,7 @@ void __cdecl main_loop_body_begin()
 		async_globals;
 		loading_globals;
 		progress_globals;
+		g_online_url;
 
 		s_thread_local_storage* tls = get_tls();
 
