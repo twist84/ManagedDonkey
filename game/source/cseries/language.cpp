@@ -156,8 +156,23 @@ char const* __cdecl get_language_suffix(e_language language, bool a2)
 {
 	//return INVOKE(0x0052FFD0, get_language_suffix, language, a2);
 
-	if (language > _language_invalid && language < k_language_count)
+	switch (language)
+	{
+	case _language_english:
+		return a2 ? "" : k_language_suffix_names[language];
+	case _language_japanese:
+	case _language_german:
+	case _language_french:
+	case _language_spanish:
+	case _language_mexican_spanish:
+	case _language_italian:
+	case _language_korean:
+	case _language_chinese_traditional:
+	case _language_chinese_simplified:
+	case _language_portuguese:
+	case _language_russian:
 		return k_language_suffix_names[language];
+	}
 
 	return "";
 }
