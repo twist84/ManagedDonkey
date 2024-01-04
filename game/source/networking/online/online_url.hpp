@@ -32,12 +32,12 @@ struct _g_online_url // supposed to be unnamed
 	char hopper_directory[64];
 	char user_override_hopper_directory[64];
 
-	// titles?
-	c_static_string<4> __unknown80;
-	c_static_string<4> __unknown84;
-	c_static_string<4> __unknown88;
-	c_static_string<4> __unknown8C;
-	c_static_string<4> __unknown90;
+	// titles
+	c_static_string<4> __unknown80; // unknown
+	c_static_string<4> __unknown84; // Halo 3
+	c_static_string<4> __unknown88; // Halo 3: Mythic
+	c_static_string<4> __unknown8C; // Halo 3: ODST and Halo Online
+	c_static_string<4> __unknown90; // unknown
 };
 extern _g_online_url& g_online_url;
 

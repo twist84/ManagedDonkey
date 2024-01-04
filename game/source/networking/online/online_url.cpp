@@ -113,20 +113,11 @@ void __cdecl online_url_initialize()
 
 	csmemset(&g_online_url, 0, sizeof(g_online_url));
 
-	// the following are titles? what are the significance of these?
-
-	// unknown
-	g_online_url.__unknown80.print("%d", 0);
-
-	// H3: title = !g_ui_is_blue ? __unknown84 : __unknown88;
-	g_online_url.__unknown84.print("%d", 1);
-	g_online_url.__unknown88.print("%d", 2);
-
-	// ODST/HO: title = __unknown8C
-	g_online_url.__unknown8C.print("%d", 3);
-
-	// unknown
-	g_online_url.__unknown90.print("%d", 4);
+	g_online_url.__unknown80.print("%d", 0); // unknown
+	g_online_url.__unknown84.print("%d", 1); // Halo 3
+	g_online_url.__unknown88.print("%d", 2); // Halo 3: Mythic
+	g_online_url.__unknown8C.print("%d", 3); // Halo 3: ODST and Halo Online
+	g_online_url.__unknown90.print("%d", 4); // unknown
 }
 
 void __cdecl online_url_make_bnet_consume_begin(c_url_string* url, qword user_id, dword consumable_id)
