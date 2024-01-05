@@ -1143,6 +1143,57 @@
     <ClCompile Include="source\test\test_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_state_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_none.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_end_game_write_stats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_end_match_write_stats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_in_game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_in_match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_joining.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_leaving.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_arbitration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_assemble_match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_find_and_assemble_match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_find_match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_find_match_client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_prepare_map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_matchmaking_select_host.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_post_match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_handler_start_game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2967,6 +3018,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\test\test_functions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\logic\logic_matchmaking_seeker.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
