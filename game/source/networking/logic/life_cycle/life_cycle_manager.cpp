@@ -46,10 +46,16 @@ void c_life_cycle_state_manager::set_current_state(e_life_cycle_state state, lon
 	}
 }
 
-e_life_cycle_state c_life_cycle_state_manager::get_current_state()
+e_life_cycle_state c_life_cycle_state_manager::get_current_state() const
 {
-	ASSERT(m_current_state >= _life_cycle_state_none && m_current_state < k_life_cycle_state_count);
+	ASSERT(m_current_state.get() >= _life_cycle_state_none && m_current_state.get() < k_life_cycle_state_count);
 	return m_current_state;
+}
+
+c_life_cycle_state_handler* c_life_cycle_state_manager::get_current_state_handler() const
+{
+	ASSERT(m_handlers[get_current_state()] != NULL);
+	return m_handlers[get_current_state()];
 }
 
 void c_life_cycle_state_manager::terminate()
@@ -77,13 +83,13 @@ c_network_session* c_life_cycle_state_manager::get_group_session() const
 
 void c_life_cycle_state_manager::register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
 {
-	ASSERT(m_handlers[state] == handler);
+	ASSERT(m_handlers[state] == NULL);
 	m_handlers[state] = handler;
 }
 
 void c_life_cycle_state_manager::deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
 {
-	ASSERT(m_handlers[state] == NULL);
+	ASSERT(m_handlers[state] == handler);
 	m_handlers[state] = NULL;
 }
 
