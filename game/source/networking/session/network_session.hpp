@@ -55,12 +55,15 @@ struct c_network_session :
 	c_network_session_membership const* get_session_membership_unsafe() const;
 	c_network_session_parameters const* get_session_parameters() const;
 	c_network_session_parameters* get_session_parameters();
+	void force_disconnect();
+	bool force_disconnect_peer(s_transport_secure_address const* peer_secure_address);
 	bool join_abort(transport_address const* incoming_address, qword join_nonce);
 	long current_local_state() const;
 	bool disconnected() const;
 	bool established() const;
 	bool is_host() const;
-	bool is_leader();
+	bool is_leader() const;
+	bool leaving_session() const;
 	e_network_session_mode session_mode() const;
 
 	s_network_session_player* get_player(long player_index);

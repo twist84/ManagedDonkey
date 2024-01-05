@@ -46,6 +46,16 @@ c_network_session_parameters const* c_network_session::get_session_parameters() 
 	return &m_session_parameters;
 }
 
+void c_network_session::force_disconnect()
+{
+	DECLFUNC(0x0045BE20, void, __thiscall, c_network_session*)(this);
+}
+
+bool c_network_session::force_disconnect_peer(s_transport_secure_address const* peer_secure_address)
+{
+	return DECLFUNC(0x0045BE80, bool, __thiscall, c_network_session*, s_transport_secure_address const*)(this, peer_secure_address);
+}
+
 c_network_session_parameters* c_network_session::get_session_parameters()
 {
 	//return DECLFUNC(0x0045C2A0, c_network_session_parameters*, __thiscall, c_network_session*)(this);
@@ -78,9 +88,14 @@ bool c_network_session::is_host() const
 	return current_local_state() == _network_session_state_host_established || current_local_state() == _network_session_state_host_disband;
 }
 
-bool c_network_session::is_leader()
+bool c_network_session::is_leader() const
 {
 	return m_session_membership.m_local_peer_index == m_session_membership.m_shared_network_membership.leader_peer_index;
+}
+
+bool c_network_session::leaving_session() const
+{
+	return DECLFUNC(0x00434E30, bool, __thiscall, c_network_session const*)(this);
 }
 
 s_network_session_player* c_network_session::get_player(long player_index)
