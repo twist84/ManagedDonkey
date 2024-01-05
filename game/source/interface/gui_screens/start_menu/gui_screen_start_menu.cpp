@@ -1,5 +1,6 @@
 #include "interface/gui_screens/start_menu/gui_screen_start_menu.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "cutscene/cinematics.hpp"
 #include "game/players.hpp"
 #include "interface/c_controller.hpp"
@@ -43,11 +44,11 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_cont
 
 		if (cinematic_in_progress())
 		{
-			c_console::write_line("ui:start_menu: Can't show start menu -- cinematic in progress.");
+			generate_event(_event_level_status, "ui:start_menu: Can't show start menu -- cinematic in progress.");
 		}
 		else if (simulation_starting_up())
 		{
-			c_console::write_line("ui:start_menu: Can't show start menu -- simulation starting up.");
+			generate_event(_event_level_status, "ui:start_menu: Can't show start menu -- simulation starting up.");
 		}
 		else if (controller->in_use() && controller->get_user_index() != -1)
 		{
@@ -59,7 +60,7 @@ bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_cont
 		}
 		else
 		{
-			c_console::write_line("ui:start_menu: controller not in use.");
+			generate_event(_event_level_error, "ui:start_menu: controller not in use.");
 		}
 	}
 

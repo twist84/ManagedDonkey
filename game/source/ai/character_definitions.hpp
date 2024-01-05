@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "tag_files/tag_groups.hpp"
-#include <shell/shell.hpp>
+#include "shell/shell.hpp"
 
 enum e_character_flags
 {

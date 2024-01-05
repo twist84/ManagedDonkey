@@ -1,5 +1,6 @@
 #include "game/game_engine_player_traits.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "game/game_engine_util.hpp"
 #include "memory/byte_swapping.hpp"
 
@@ -198,7 +199,7 @@ void c_player_trait_shield_vitality::set_damage_resistance_percentage_setting(e_
 {
 	if (!VALID_INDEX(damage_resistance_percentage_setting, k_damage_resistance_percentage_settings))
 	{
-		c_console::write_line("game_engine:player_trait:shield_vitality: invalid damage resistance value '%ld'!", damage_resistance_percentage_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:shield_vitality: invalid damage resistance value '%ld'!", damage_resistance_percentage_setting);
 
 		if (force)
 			m_shield_recharge_rate_percentage_setting = _damage_resistance_percentage_setting_unchanged;
@@ -249,7 +250,7 @@ void c_player_trait_shield_vitality::set_shield_recharge_rate_percentage_setting
 {
 	if (!VALID_INDEX(shield_recharge_rate_percentage_setting, k_shield_recharge_rate_percentage_settings))
 	{
-		c_console::write_line("game_engine:player_trait:shield_vitality: invalid shield recharge rate value '%ld'!", shield_recharge_rate_percentage_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:shield_vitality: invalid shield recharge rate value '%ld'!", shield_recharge_rate_percentage_setting);
 
 		if (force)
 			m_shield_recharge_rate_percentage_setting = _shield_recharge_rate_percentage_setting_unchanged;
@@ -300,7 +301,7 @@ void c_player_trait_shield_vitality::set_vampirism_percentage_setting(e_vampiris
 {
 	if (!VALID_INDEX(vampirism_percentage_setting, k_vampirism_percentage_settings))
 	{
-		c_console::write_line("game_engine:player_trait:shield_vitality: invalid vampirism value '%ld'!", vampirism_percentage_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:shield_vitality: invalid vampirism value '%ld'!", vampirism_percentage_setting);
 
 		if (force)
 			m_vampirism_percentage_setting = _vampirism_percentage_setting_unchanged;
@@ -351,7 +352,7 @@ void c_player_trait_shield_vitality::set_headshot_immunity_setting(e_headshot_im
 {
 	if (!VALID_INDEX(headshot_immunity_setting, k_headshot_immunity_settings))
 	{
-		c_console::write_line("game_engine:player_trait:shield_vitality: invalid headshot immunity value '%ld'!", headshot_immunity_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:shield_vitality: invalid headshot immunity value '%ld'!", headshot_immunity_setting);
 
 		if (force)
 			m_headshot_immunity_setting = _headshot_immunity_setting_unchanged;
@@ -381,7 +382,7 @@ void c_player_trait_shield_vitality::set_shield_multiplier_setting(e_shield_mult
 {
 	if (!VALID_INDEX(shield_multiplier_setting, k_shield_multiplier_settings))
 	{
-		c_console::write_line("game_engine:player_trait:shield_vitality: invalid shield multiplier value '%ld'!", shield_multiplier_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:shield_vitality: invalid shield multiplier value '%ld'!", shield_multiplier_setting);
 
 		if (force)
 			m_shield_multiplier_setting = _shield_multiplier_setting_unchanged;
@@ -501,7 +502,7 @@ void c_player_trait_weapons::set_initial_grenade_count_setting(e_grenade_count_s
 {
 	if (!VALID_INDEX(initial_grenade_count_setting, k_grenade_count_settings))
 	{
-		c_console::write_line("game_engine:player_trait:weapons: invalid initial grenade count '%d'", initial_grenade_count_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:weapons: invalid initial grenade count '%d'", initial_grenade_count_setting);
 
 		if (force)
 			m_initial_grenade_count_setting = _grenade_count_setting_unchanged;
@@ -558,12 +559,12 @@ void c_player_trait_weapons::set_initial_primary_weapon_absolute_index(char init
 		}
 		else
 		{
-			c_console::write_line("game_engine:player_trait:weapons: ignoring initial primary weapon '%d'", char(0xFE));
+			generate_event(_event_level_warning, "game_engine:player_trait:weapons: ignoring initial primary weapon '%d'", char(0xFE));
 		}
 	}
 	else if (force)
 	{
-		c_console::write_line("game_engine:player_trait:weapons: invalid initial primary weapon '%d'", initial_primary_weapon_absolute_index);
+		generate_event(_event_level_warning, "game_engine:player_trait:weapons: invalid initial primary weapon '%d'", initial_primary_weapon_absolute_index);
 		m_initial_primary_weapon_absolute_index = char(0xFE);
 	}
 }
@@ -593,12 +594,12 @@ void c_player_trait_weapons::set_initial_secondary_weapon_absolute_index(char in
 		}
 		else
 		{
-			c_console::write_line("game_engine:player_trait:weapons: ignoring initial secondary weapon '%d'", char(0xFE));
+			generate_event(_event_level_warning, "game_engine:player_trait:weapons: ignoring initial secondary weapon '%d'", char(0xFE));
 		}
 	}
 	else if (force)
 	{
-		c_console::write_line("game_engine:player_trait:weapons: invalid initial secondary weapon '%d'", initial_secondary_weapon_absolute_index);
+		generate_event(_event_level_warning, "game_engine:player_trait:weapons: invalid initial secondary weapon '%d'", initial_secondary_weapon_absolute_index);
 		m_initial_secondary_weapon_absolute_index = char(0xFE);
 	}
 }
@@ -622,7 +623,7 @@ void c_player_trait_weapons::set_damage_modifier_percentage_setting(e_damage_mod
 {
 	if (!VALID_INDEX(damage_modifier_percentage_setting, k_damage_modifier_percentage_settings))
 	{
-		c_console::write_line("game_engine:player_trait:weapons: invalid damage modifier value '%ld'!", damage_modifier_percentage_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:weapons: invalid damage modifier value '%ld'!", damage_modifier_percentage_setting);
 
 		if (force)
 			m_damage_modifier_percentage_setting = _damage_modifier_percentage_setting_unchanged;
@@ -673,7 +674,7 @@ void c_player_trait_weapons::set_recharging_grenades_setting(e_recharging_grenad
 {
 	if (!VALID_INDEX(recharging_grenades_setting, k_recharging_grenades_settings))
 	{
-		c_console::write_line("game_engine:player_trait:weapons: invalid recharging grenade setting '%d'", recharging_grenades_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:weapons: invalid recharging grenade setting '%d'", recharging_grenades_setting);
 
 		if (force)
 			m_recharging_grenades_setting = _recharging_grenades_setting_unchanged;
@@ -705,7 +706,7 @@ void c_player_trait_weapons::set_infinite_ammo_setting(e_infinite_ammo_setting i
 {
 	if (!VALID_INDEX(infinite_ammo_setting, k_infinite_ammo_settings))
 	{
-		c_console::write_line("game_engine:player_trait:weapons: invalid infinite ammo setting '%d'", infinite_ammo_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:weapons: invalid infinite ammo setting '%d'", infinite_ammo_setting);
 
 		if (force)
 			m_infinite_ammo_setting = _infinite_ammo_setting_unchanged;
@@ -737,7 +738,7 @@ void c_player_trait_weapons::set_weapon_pickup_allowed_setting(e_weapon_pickup_s
 {
 	if (!VALID_INDEX(weapon_pickup_setting, k_weapon_pickup_settings))
 	{
-		c_console::write_line("game_engine:player_trait:weapons: invalid weapon pickup setting '%d'", weapon_pickup_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:weapons: invalid weapon pickup setting '%d'", weapon_pickup_setting);
 
 		if (force)
 			m_weapon_pickup_setting = _weapon_pickup_setting_unchanged;
@@ -802,7 +803,7 @@ void c_player_trait_movement::set_speed_setting(e_player_speed_setting speed_set
 {
 	if (!VALID_INDEX(speed_setting, k_player_speed_settings))
 	{
-		c_console::write_line("game_engine:player_trait:movement: invalid walking speed percentage '%ld'", speed_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:movement: invalid walking speed percentage '%ld'", speed_setting);
 
 		if (force)
 			m_speed_setting = _player_speed_setting_unchanged;
@@ -853,7 +854,7 @@ void c_player_trait_movement::set_gravity_setting(e_player_gravity_setting gravi
 {
 	if (!VALID_INDEX(gravity_setting, k_player_gravity_settings))
 	{
-		c_console::write_line("game_engine:player_trait:movement: invalid personal gravity '%ld'", gravity_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:movement: invalid personal gravity '%ld'", gravity_setting);
 
 		if (force)
 			m_gravity_setting = _player_gravity_setting_unchanged;
@@ -904,7 +905,7 @@ void c_player_trait_movement::set_vehicle_usage_setting(e_vehicle_usage_setting 
 {
 	if (!VALID_INDEX(vehicle_usage_setting, k_vehicle_usage_settings))
 	{
-		c_console::write_line("game_engine:player_trait:movement: invalid vehicle usage '%ld'", vehicle_usage_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:movement: invalid vehicle usage '%ld'", vehicle_usage_setting);
 
 		if (force)
 			m_vehicle_usage_setting = _vehicle_usage_setting_unchanged;
@@ -964,7 +965,7 @@ void c_player_trait_appearance::set_active_camo_setting(e_active_camo_setting ac
 {
 	if (!VALID_INDEX(active_camo_setting, k_active_camo_settings))
 	{
-		c_console::write_line("game_engine:player_trait:appearance: invalid active camo setting '%ld'", active_camo_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:appearance: invalid active camo setting '%ld'", active_camo_setting);
 
 		if (force)
 			m_active_camo_setting = _active_camo_setting_unchanged;
@@ -984,7 +985,7 @@ void c_player_trait_appearance::set_waypoint_setting(e_waypoint_setting waypoint
 {
 	if (!VALID_INDEX(waypoint_setting, k_waypoint_settings))
 	{
-		c_console::write_line("game_engine:player_trait:appearance: invalid active camo setting '%ld'", waypoint_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:appearance: invalid active camo setting '%ld'", waypoint_setting);
 
 		if (force)
 			m_waypoint_setting = _waypoint_setting_unchanged;
@@ -1004,7 +1005,7 @@ void c_player_trait_appearance::set_aura_setting(e_aura_setting aura_setting, bo
 {
 	if (!VALID_INDEX(aura_setting, k_aura_settings))
 	{
-		c_console::write_line("game_engine:player_trait:appearance: invalid aura setting '%ld'", aura_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:appearance: invalid aura setting '%ld'", aura_setting);
 
 		if (force)
 			m_aura_setting = _aura_setting_unchanged;
@@ -1024,7 +1025,7 @@ void c_player_trait_appearance::set_forced_change_color_setting(e_forced_change_
 {
 	if (!VALID_INDEX(forced_change_color_setting, k_forced_change_color_settings))
 	{
-		c_console::write_line("game_engine:player_trait:appearance: invalid forced_change_color setting '%ld'", forced_change_color_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:appearance: invalid forced_change_color setting '%ld'", forced_change_color_setting);
 
 		if (force)
 			m_forced_change_color_setting = _forced_change_color_setting_unchanged;
@@ -1080,7 +1081,7 @@ void c_player_trait_sensors::set_motion_tracker_setting(e_motion_tracker_setting
 {
 	if (!VALID_INDEX(motion_tracker_setting, k_motion_tracker_settings))
 	{
-		c_console::write_line("game_engine:player_trait:sensors: invalid motion_tracker setting '%ld'", motion_tracker_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:sensors: invalid motion_tracker setting '%ld'", motion_tracker_setting);
 
 		if (force)
 			m_motion_tracker_setting = _motion_tracker_setting_unchanged;
@@ -1100,7 +1101,7 @@ void c_player_trait_sensors::set_motion_tracker_range_setting(e_motion_tracker_r
 {
 	if (!VALID_INDEX(motion_tracker_range_setting, k_motion_tracker_range_settings))
 	{
-		c_console::write_line("game_engine:player_trait:sensors: invalid motion_tracker_range setting '%ld'", motion_tracker_range_setting);
+		generate_event(_event_level_warning, "game_engine:player_trait:sensors: invalid motion_tracker_range setting '%ld'", motion_tracker_range_setting);
 
 		if (force)
 			m_motion_tracker_range_setting = _motion_tracker_range_setting_unchanged;

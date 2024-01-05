@@ -1,5 +1,6 @@
 #include "game/game_engine_sandbox.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x0240648C, c_game_engine_sandbox_variant*, sandbox_variant);
@@ -77,7 +78,7 @@ void c_game_engine_sandbox_variant::set_edit_mode(e_sandbox_edit_mode_settings e
 {
 	if (!VALID_INDEX(edit_mode, k_sandbox_edit_mode_settings))
 	{
-		c_console::write_line("game_engine:sandbox: invalid edit_mode setting '%d' outside range '[0, %d)'!", edit_mode, k_sandbox_edit_mode_settings);
+		generate_event(_event_level_warning, "game_engine:sandbox: invalid edit_mode setting '%d' outside range '[0, %d)'!", edit_mode, k_sandbox_edit_mode_settings);
 
 		m_edit_mode = k_sandbox_edit_mode_settings_default;
 	}
@@ -96,7 +97,7 @@ void c_game_engine_sandbox_variant::set_respawn_time(short respawn_time)
 {
 	if (!VALID_INDEX(respawn_time, k_sandbox_respawn_times))
 	{
-		c_console::write_line("game_engine:sandbox: invalid respawn_time setting '%d' outside range '[%d, %d]'!", respawn_time, _sandbox_respawn_time_instant, _sandbox_respawn_time_60_seconds);
+		generate_event(_event_level_warning, "game_engine:sandbox: invalid respawn_time setting '%d' outside range '[%d, %d]'!", respawn_time, _sandbox_respawn_time_instant, _sandbox_respawn_time_60_seconds);
 
 		m_respawn_time = k_sandbox_respawn_times_default;
 	}

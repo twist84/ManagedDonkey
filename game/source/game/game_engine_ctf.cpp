@@ -1,5 +1,6 @@
 #include "game/game_engine_ctf.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D96BC, c_game_engine_ctf_variant*, ctf_variant);
@@ -109,7 +110,7 @@ void c_game_engine_ctf_variant::set_home_flag_waypoint(e_ctf_home_flag_waypoint_
 {
 	if (!VALID_INDEX(home_flag_waypoint, k_ctf_home_flag_waypoint_settings))
 	{
-		c_console::write_line("game_engine:ctf: invalid home_flag_waypoint setting '%d' outside range '[0, %d)'!", home_flag_waypoint, k_ctf_home_flag_waypoint_settings);
+		generate_event(_event_level_warning, "game_engine:ctf: invalid home_flag_waypoint setting '%d' outside range '[0, %d)'!", home_flag_waypoint, k_ctf_home_flag_waypoint_settings);
 
 		m_home_flag_waypoint = k_ctf_home_flag_waypoint_settings_default;
 	}
@@ -128,7 +129,7 @@ void c_game_engine_ctf_variant::set_game_type(e_ctf_game_type_settings game_type
 {
 	if (!VALID_INDEX(m_game_type, k_ctf_game_type_settings))
 	{
-		c_console::write_line("game_engine:ctf: invalid game_type setting '%d' outside range '[0, %d)'!", game_type, k_ctf_game_type_settings);
+		generate_event(_event_level_warning, "game_engine:ctf: invalid game_type setting '%d' outside range '[0, %d)'!", game_type, k_ctf_game_type_settings);
 
 		m_game_type = k_ctf_game_type_settings_default;
 	}
@@ -147,7 +148,7 @@ void c_game_engine_ctf_variant::set_respawn(e_ctf_respawn_settings respawn)
 {
 	if (!VALID_INDEX(respawn, k_ctf_respawn_settings))
 	{
-		c_console::write_line("game_engine:ctf: invalid respawn setting '%d' outside range '[0, %d)'!", respawn, k_ctf_respawn_settings);
+		generate_event(_event_level_warning, "game_engine:ctf: invalid respawn setting '%d' outside range '[0, %d)'!", respawn, k_ctf_respawn_settings);
 
 		m_respawn = k_ctf_respawn_settings_default;
 	}
@@ -176,7 +177,7 @@ void c_game_engine_ctf_variant::set_sudden_death_time(short sudden_death_time)
 {
 	if (!VALID_INDEX(sudden_death_time + 1, k_ctf_sudden_death_times))
 	{
-		c_console::write_line("game_engine:ctf: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", sudden_death_time, _ctf_sudden_death_time_infinite, _ctf_sudden_death_time_5_minute);
+		generate_event(_event_level_warning, "game_engine:ctf: invalid sudden_death_time setting '%d' outside range '[%d, %d]'!", sudden_death_time, _ctf_sudden_death_time_infinite, _ctf_sudden_death_time_5_minute);
 
 		m_sudden_death_time = k_ctf_sudden_death_times_default;
 	}
@@ -195,7 +196,7 @@ void c_game_engine_ctf_variant::set_score_to_win(short score_to_win)
 {
 	if (!VALID_INDEX(score_to_win, 50))
 	{
-		c_console::write_line("game_engine:ctf: invalid score_to_win setting '%d' outside range '[%d, %d]'!", score_to_win, 0, 50);
+		generate_event(_event_level_warning, "game_engine:ctf: invalid score_to_win setting '%d' outside range '[%d, %d]'!", score_to_win, 0, 50);
 
 		m_score_to_win = 5;
 	}
@@ -214,7 +215,7 @@ void c_game_engine_ctf_variant::set_flag_reset_time(short flag_reset_time)
 {
 	if (!VALID_INDEX(flag_reset_time, 300))
 	{
-		c_console::write_line("game_engine:ctf: invalid flag_reset_time setting '%d' outside range '[%d, %d]'!", flag_reset_time, 0, 300);
+		generate_event(_event_level_warning, "game_engine:ctf: invalid flag_reset_time setting '%d' outside range '[%d, %d]'!", flag_reset_time, 0, 300);
 
 		m_flag_reset_time = 30;
 	}

@@ -1,5 +1,6 @@
 #include "networking/delivery/network_link.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/bitstream.hpp"
 #include "memory/module.hpp"
 #include "networking/network_memory.hpp"
@@ -33,7 +34,7 @@ bool __cdecl c_network_link::adjust_packet_size(bool game_data, long voice_data_
 
 		if (payload_length < 0)
 		{
-			c_console::write_line("networking:link: requested in-channel VDP packet (%d bytes voice, %d bytes data) exceeds maximum payload (%d bytes), impossible to send", voice_data_length, *game_data_length, maximum_payload);
+			generate_event(_event_level_warning, "networking:link: requested in-channel VDP packet (%d bytes voice, %d bytes data) exceeds maximum payload (%d bytes), impossible to send", voice_data_length, *game_data_length, maximum_payload);
 			return false;
 		}
 		else
@@ -61,7 +62,7 @@ bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_
 	//transport_endpoint* endpoint = transport_endpoint_create(type);
 	//if (!endpoint)
 	//{
-	//	c_console::write_line("networking:link: create_endpoint[%d] - unable to create endpoint!", type);
+	//	generate_event(_event_level_error, "networking:link: create_endpoint[%d] - unable to create endpoint!", type);
 	//	return false;
 	//}
 	//
@@ -70,7 +71,7 @@ bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_
 	//
 	//if (!transport_endpoint_bind(endpoint, &address) || !transport_endpoint_set_blocking(endpoint, false) || (set_broadcast_option && !transport_endpoint_set_option_value(endpoint, _transport_endpoint_option_broadcast, true)))
 	//{
-	//	c_console::write_line("networking:link: create_endpoint(%d) - unable to setup endpoint!", type);
+	//	generate_event(_event_level_error, "networking:link: create_endpoint(%d) - unable to setup endpoint!", type);
 	//	transport_endpoint_delete(endpoint);
 	//	return false;
 	//}

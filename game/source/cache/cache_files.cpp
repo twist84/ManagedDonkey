@@ -794,7 +794,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 	long tag_index = NONE;
 	bool success = false;
 
-	c_console::write_line("cache: scenario load tags, name=%s", scenario_path);
+	generate_event(_event_level_message, "cache: scenario load tags, name=%s", scenario_path);
 
 	void* working_memory = nullptr;
 	long working_memory_size = 0;
@@ -843,7 +843,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		success = g_cache_file_globals.tag_cache_base_address != nullptr;
 		if (!success)
 		{
-			c_console::write_line("failed to allocate the physical memory for the tags");
+			generate_event(_event_level_critical, "failed to allocate the physical memory for the tags");
 		}
 
 		if (success)
@@ -851,7 +851,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 		if (!success)
 		{
-			c_console::write_line("failed to load debug tag names");
+			generate_event(_event_level_critical, "failed to load debug tag names");
 		}
 
 		if (bool cache_file_global_tags_loaded = cache_file_tags_load_recursive(0))
@@ -870,7 +870,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		if (!success)
 		{
 			global_preferences_invalidate_maps();
-			c_console::write_line("failed to read the tag data section");
+			generate_event(_event_level_critical, "failed to read the tag data section");
 		}
 
 		// #TODO: security stuff
@@ -883,7 +883,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 			//success = string_id_load_strings(&g_cache_file_globals.header);
 			if (!success)
 			{
-				c_console::write_line("networking:failed to load the string ids [%s]", scenario_path);
+				generate_event(_event_level_error, "networking:failed to load the string ids [%s]", scenario_path);
 			}
 		}
 
@@ -908,7 +908,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 	if (!success)
 	{
-		c_console::write_line("failed to load tags for cache file");
+		generate_event(_event_level_critical, "failed to load tags for cache file");
 		cache_file_tags_unload();
 		cache_file_close();
 		ASSERT(tag_index == NONE);
@@ -931,7 +931,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		success = true;
 	}
 
-	c_console::write_line("cache: scenario load tags, success=%s", success ? "true" : "false");
+	generate_event(_event_level_message, "cache: scenario load tags, success=%s", success ? "true" : "false");
 
 	return success;
 }

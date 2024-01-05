@@ -3,6 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/player_mapping.hpp"
 #include "input/input_abstraction.hpp"
@@ -139,7 +140,7 @@ void __cdecl cheat_teleport_to_camera()
 				{
 					if (unit_index == NONE)
 					{
-						c_console::write_line("networking:simulation:event: attempting to generate a debug teleport event for NONE target unit");
+						generate_event(_event_level_warning, "networking:simulation:event: attempting to generate a debug teleport event for NONE target unit");
 					}
 					else
 					{
@@ -301,7 +302,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	if (tag_index == NONE)
 	{
 		if (expected_group_tag == OBJECT_TAG)
-			c_console::write_line("cheats: couldn't load object '%s.%s' to drop it", tag_name, tag_group_name);
+			generate_event(_event_level_warning, "cheats: couldn't load object '%s.%s' to drop it", tag_name, tag_group_name);
 
 		return false;
 	}
@@ -334,7 +335,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	long object_index = object_new(&data);
 	if (object_index == NONE)
 	{
-		c_console::write_line("cheats: couldn't place '%s.%s'", tag_name, tag_group_name);
+		generate_event(_event_level_warning, "cheats: couldn't place '%s.%s'", tag_name, tag_group_name);
 		return false;
 	}
 
@@ -391,7 +392,7 @@ long __cdecl cheat_drop_tag(tag group_tag, char const* tag_name, char const* var
 
 	if (tag_index == NONE)
 	{
-		c_console::write_line("cheats: couldn't load tag '%s.%s' to place", tag_name, tag_group_name);
+		generate_event(_event_level_warning, "cheats: couldn't load tag '%s.%s' to place", tag_name, tag_group_name);
 	}
 	else
 	{
@@ -427,7 +428,7 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 		
 		if (strlen(group_name))
 		{
-			c_console::write_line("cheats: unknown tag group '%s'", group_name);
+			generate_event(_event_level_warning, "cheats: unknown tag group '%s'", group_name);
 		}
 	}
 
@@ -440,7 +441,7 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 	{
 		if (++droppable_tag_type_index >= 14)
 		{
-			c_console::write_line("cheats: could not find any tags named '%s' to drop", name_buffer);
+			generate_event(_event_level_warning, "cheats: could not find any tags named '%s' to drop", name_buffer);
 			return;
 		}
 	}
@@ -461,7 +462,7 @@ long __cdecl cheat_get_region_and_permutation_array_from_string(char const* perm
 		permutation_string_next_index = permutations_string.next_index_of("=", permutation_string_index);
 		if (permutation_string_next_index == -1)
 		{
-			c_console::write_line("error dropping permutation: string '%s' is in an unexpected format!", permutation_info);
+			generate_event(_event_level_error, "error dropping permutation: string '%s' is in an unexpected format!", permutation_info);
 			break;
 		}
 
@@ -553,7 +554,7 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 		}
 		else
 		{
-			c_console::write_line("cheats: don't know how to place tags of type '%s'", tag_group_get_name(group_tag_));
+			generate_event(_event_level_warning, "cheats: don't know how to place tags of type '%s'", tag_group_get_name(group_tag_));
 		}
 	}
 

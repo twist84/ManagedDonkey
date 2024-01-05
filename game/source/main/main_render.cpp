@@ -4,8 +4,10 @@
 #include "cseries/async_xoverlapped.hpp"
 #include "cseries/cseries_events.hpp"
 #include "cutscene/cinematics.hpp"
+#include "game/game.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/interface_constants.hpp"
 #include "interface/terminal.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
@@ -14,9 +16,7 @@
 #include "render/render.hpp"
 #include "render/views/render_view.hpp"
 #include "simulation/simulation.hpp"
-#include <text/draw_string.hpp>
-#include <interface/interface_constants.hpp>
-#include <game/game.hpp>
+#include "text/draw_string.hpp"
 
 //HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 

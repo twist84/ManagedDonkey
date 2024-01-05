@@ -1,11 +1,12 @@
 #include "network_session_parameters_game_variant.hpp"
 
+#include "cseries/cseries_events.hpp"
+
 c_game_variant const* c_network_session_parameter_game_variant::get() const
 {
 	if (!get_allowed())
 	{
-		c_console::write_line("networking:session_parameters:chunked:game_variant: [%s] can't get variant, unavailable", get_session_description());
-
+		generate_event(_event_level_warning, "networking:session_parameters:chunked:game_variant: [%s] can't get variant, unavailable", get_session_description());
 		return nullptr;
 	}
 
@@ -19,8 +20,7 @@ bool c_network_session_parameter_game_variant::request_change(c_game_variant con
 
 	if (!change_request_allowed())
 	{
-		c_console::write_line("networking:session_parameters:chunked:game_variant: [%s] failed to request change, access denied [%s]", get_session_description(), get_change_request_denied_reason());
-
+		generate_event(_event_level_warning, "networking:session_parameters:chunked:game_variant: [%s] failed to request change, access denied [%s]", get_session_description(), get_change_request_denied_reason());
 		return false;
 	}
 

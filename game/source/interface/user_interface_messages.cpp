@@ -1,6 +1,7 @@
 #include "interface/user_interface_messages.hpp"
 
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/game_time.hpp"
 #include "interface/user_interface_memory.hpp"
@@ -472,12 +473,12 @@ void __cdecl user_interface_messaging_post(c_message* message)
 		}
 		else
 		{
-			c_console::write_line("ui: failed to post message because message queue is not writeable!");
+			generate_event(_event_level_message, "ui: failed to post message because message queue is not writeable!");
 		}
 	}
 	else
 	{
-		c_console::write_line("ui: failed to post message because game is not in progress!");
+		generate_event(_event_level_message, "ui: failed to post message because game is not in progress!");
 	}
 
 	if (!message_queued)

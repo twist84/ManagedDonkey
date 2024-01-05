@@ -1,6 +1,7 @@
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
+#include "cseries/cseries_events.hpp"
 
 void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data)
 {
@@ -21,10 +22,10 @@ void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, 
 
 void c_life_cycle_state_manager::request_leave_sessions(bool disconnect)
 {
-	c_console::write_line("networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
+	generate_event(_event_level_message, "networking:logic:life-cycle: leave requested to life-cycle manager (disconnect %s)", disconnect ? "TRUE" : "FALSE");
 
 	if (m_current_state == _life_cycle_state_leaving)
-		c_console::write_line("networking:logic:life-cycle: we are already leaving, no need to try again");
+		generate_event(_event_level_message, "networking:logic:life-cycle: we are already leaving, no need to try again");
 	else
 		request_state_change(_life_cycle_state_leaving, sizeof(bool), &disconnect);
 }

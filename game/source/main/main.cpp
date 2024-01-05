@@ -840,7 +840,7 @@ void __cdecl main_loop_body_begin()
 		//static c_map_variant map_variant;
 		//bool is_valid = false;
 		//if (!blf_saved_film.copy_to_and_validate(&game_variant, &map_variant, &is_valid) && is_valid)
-		//	c_console::write_line("ui: unable to load variants from saved film file, copy_to_and_validate() failed!");
+		//	generate_event(_event_level_warning, "ui: unable to load variants from saved film file, copy_to_and_validate() failed!");
 #else
 		//shell_halt_with_message("FUCK");
 #endif // ISEXPERIMENTAL

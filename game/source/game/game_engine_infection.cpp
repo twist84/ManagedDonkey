@@ -1,5 +1,6 @@
 #include "game/game_engine_infection.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D9F84, c_game_engine_infection_variant*, infection_variant);
@@ -132,7 +133,7 @@ void c_game_engine_infection_variant::set_safe_havens(e_infection_safe_havens_se
 {
 	if (!VALID_INDEX(safe_havens, k_infection_safe_havens_settings))
 	{
-		c_console::write_line("game_engine:infection: invalid safe_havens setting '%d' outside range '[0, %d)'!", safe_havens, k_infection_safe_havens_settings);
+		generate_event(_event_level_warning, "game_engine:infection: invalid safe_havens setting '%d' outside range '[0, %d)'!", safe_havens, k_infection_safe_havens_settings);
 
 		m_safe_havens = k_infection_safe_havens_settings_default;
 	}
@@ -151,7 +152,7 @@ void c_game_engine_infection_variant::set_next_zombie(e_infection_next_zombie_se
 {
 	if (!VALID_INDEX(next_zombie, k_infection_next_zombie_settings))
 	{
-		c_console::write_line("game_engine:infection: invalid next_zombie setting '%d' outside range '[0, %d)'!", next_zombie, k_infection_next_zombie_settings);
+		generate_event(_event_level_warning, "game_engine:infection: invalid next_zombie setting '%d' outside range '[0, %d)'!", next_zombie, k_infection_next_zombie_settings);
 
 		m_next_zombie = k_infection_next_zombie_settings_default;
 	}
@@ -170,7 +171,7 @@ void c_game_engine_infection_variant::set_initial_zombie_count(e_infection_initi
 {
 	if (!VALID_INDEX(initial_zombie_count, k_infection_initial_zombie_count_settings))
 	{
-		c_console::write_line("game_engine:infection: invalid initial_zombie_count setting '%d' outside range '[0, %d)'!", initial_zombie_count, k_infection_initial_zombie_count_settings);
+		generate_event(_event_level_warning, "game_engine:infection: invalid initial_zombie_count setting '%d' outside range '[0, %d)'!", initial_zombie_count, k_infection_initial_zombie_count_settings);
 
 		m_initial_zombie_count = k_infection_initial_zombie_count_settings_default;
 	}
@@ -189,7 +190,7 @@ void c_game_engine_infection_variant::set_safe_haven_movement_time(short safe_ha
 {
 	if (!VALID_INDEX(safe_haven_movement_time, 120))
 	{
-		c_console::write_line("game_engine:infection: invalid safe_haven_movement_time setting '%d' outside range '[%d, %d]'!", safe_haven_movement_time, 0, 120);
+		generate_event(_event_level_warning, "game_engine:infection: invalid safe_haven_movement_time setting '%d' outside range '[%d, %d]'!", safe_haven_movement_time, 0, 120);
 
 		m_safe_haven_movement_time = 30;
 	}
@@ -208,7 +209,7 @@ void c_game_engine_infection_variant::set_zombie_kill_points(char zombie_kill_po
 {
 	if (!VALID_INDEX(zombie_kill_points + 10, 20))
 	{
-		c_console::write_line("game_engine:infection: invalid zombie_kill_points setting '%d' outside range '[%d, %d]'!", zombie_kill_points, -10, 10);
+		generate_event(_event_level_warning, "game_engine:infection: invalid zombie_kill_points setting '%d' outside range '[%d, %d]'!", zombie_kill_points, -10, 10);
 
 		m_zombie_kill_points = 1;
 	}
@@ -227,7 +228,7 @@ void c_game_engine_infection_variant::set_infection_points(char infection_points
 {
 	if (!VALID_INDEX(infection_points + 10, 20))
 	{
-		c_console::write_line("game_engine:infection: invalid infection_points setting '%d' outside range '[%d, %d]'!", infection_points, -10, 10);
+		generate_event(_event_level_warning, "game_engine:infection: invalid infection_points setting '%d' outside range '[%d, %d]'!", infection_points, -10, 10);
 
 		m_infection_points = 0;
 	}
@@ -246,7 +247,7 @@ void c_game_engine_infection_variant::set_safe_haven_arrival_points(char safe_ha
 {
 	if (!VALID_INDEX(safe_haven_arrival_points + 10, 20))
 	{
-		c_console::write_line("game_engine:infection: invalid safe_haven_arrival_points setting '%d' outside range '[%d, %d]'!", safe_haven_arrival_points, -10, 10);
+		generate_event(_event_level_warning, "game_engine:infection: invalid safe_haven_arrival_points setting '%d' outside range '[%d, %d]'!", safe_haven_arrival_points, -10, 10);
 
 		m_safe_haven_arrival_points = 0;
 	}
@@ -265,7 +266,7 @@ void c_game_engine_infection_variant::set_suicide_points(char suicide_points)
 {
 	if (!VALID_INDEX(suicide_points + 10, 20))
 	{
-		c_console::write_line("game_engine:infection: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
+		generate_event(_event_level_warning, "game_engine:infection: invalid suicide_points setting '%d' outside range '[%d, %d]'!", suicide_points, -10, 10);
 
 		m_suicide_points = -1;
 	}
@@ -284,7 +285,7 @@ void c_game_engine_infection_variant::set_betrayal_points(char betrayal_points)
 {
 	if (!VALID_INDEX(betrayal_points + 10, 20))
 	{
-		c_console::write_line("game_engine:infection: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
+		generate_event(_event_level_warning, "game_engine:infection: invalid betrayal_points setting '%d' outside range '[%d, %d]'!", betrayal_points, -10, 10);
 
 		m_betrayal_points = -1;
 	}
@@ -303,7 +304,7 @@ void c_game_engine_infection_variant::set_last_man_bonus_points(char last_man_bo
 {
 	if (!VALID_INDEX(last_man_bonus_points + 10, 20))
 	{
-		c_console::write_line("game_engine:infection: invalid last_man_bonus_points setting '%d' outside range '[%d, %d]'!", last_man_bonus_points, -10, 10);
+		generate_event(_event_level_warning, "game_engine:infection: invalid last_man_bonus_points setting '%d' outside range '[%d, %d]'!", last_man_bonus_points, -10, 10);
 
 		m_last_man_bonus_points = 0;
 	}

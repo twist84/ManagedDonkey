@@ -7,10 +7,11 @@
 #include "camera/game_director.hpp"
 #include "camera/observer_director.hpp"
 #include "camera/saved_film_director.hpp"
-#include "interface/first_person_weapons.hpp"
-#include "interface/interface_constants.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/players.hpp"
+#include "interface/first_person_weapons.hpp"
+#include "interface/interface_constants.hpp"
 #include "main/console.hpp"
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
@@ -391,7 +392,7 @@ void __cdecl director_load_camera_named(char const* name)
 	fopen_s(&file, filename.get_string(), "r");
 	if (!file)
 	{
-		c_console::write_line("saved camera '%s' couldn't be opened", filename.get_string());
+		generate_event(_event_level_error, "saved camera '%s' couldn't be opened", filename.get_string());
 		return;
 	}
 
@@ -410,14 +411,14 @@ void __cdecl director_load_camera_named(char const* name)
 	// #TODO: actually validate `position`, `forward`, `up` and `field_of_view`
 	if (false)
 	{
-		c_console::write_line("saved camera '%s' isn't valid", filename.get_string());
+		generate_event(_event_level_error, "saved camera '%s' isn't valid", filename.get_string());
 		return;
 	}
 
 	long active_user = players_first_active_user();
 	if (active_user == NONE)
 	{
-		c_console::write_line("no active user to set saved camera '%s'", filename.get_string());
+		generate_event(_event_level_error, "no active user to set saved camera '%s'", filename.get_string());
 		return;
 	}
 

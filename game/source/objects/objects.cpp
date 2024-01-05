@@ -389,7 +389,7 @@ void __cdecl object_debug_teleport(long object_index, real_point3d const* positi
 	}
 	else
 	{
-		c_console::write_line("Failed to get a valid object in %s.", __FUNCTION__);
+		generate_event(_event_level_warning, "Failed to get a valid object in %s.", __FUNCTION__);
 	}
 }
 

@@ -2,6 +2,7 @@
 
 /*
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "memory/thread_local.hpp"
 #include "simulation/simulation_type_collection.hpp"
 
@@ -141,7 +142,7 @@ struct c_simulation_hs_script_wake_event_definition :
 
 		if (definition->script_index == NONE)
 		{
-			c_console::write_line("networking:simulation:hs: invalid script index in hs wake event");
+			generate_event(_event_level_warning, "networking:simulation:hs: invalid script index in hs wake event");
 			return;
 		}
 
@@ -149,7 +150,7 @@ struct c_simulation_hs_script_wake_event_definition :
 		hs_find_dormant_script(definition->script_name, &script_index);
 		if (script_index != definition->script_index)
 		{
-			c_console::write_line("networking:simulation:hs: script index mismatch in hs wake event [0x%08X != 0x%08X]", script_index, definition->script_index);
+			generate_event(_event_level_warning, "networking:simulation:hs: script index mismatch in hs wake event [0x%08X != 0x%08X]", script_index, definition->script_index);
 		}
 
 		hs_wake_by_name(definition->script_name);
