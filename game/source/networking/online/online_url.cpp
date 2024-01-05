@@ -9,6 +9,8 @@
 
 #include <string.h>
 
+REFERENCE_DECLARE(0x01860808, long, dword_1860808);
+REFERENCE_DECLARE(0x0186080C, long, dword_186080C);
 REFERENCE_DECLARE(0x019AB758, _g_online_url, g_online_url);
 
 HOOK_DECLARE(0x004515F0, create_title_url_base);
@@ -46,11 +48,38 @@ HOOK_DECLARE(0x00451FE0, online_url_make_upload_saved_screenshot);
 HOOK_DECLARE(0x00452020, online_url_make_user_file);
 HOOK_DECLARE(0x00452080, online_url_make_vidmaster_popup);
 HOOK_DECLARE(0x004520C0, online_url_make_vidmaster_popup_image);
-//HOOK_DECLARE(0x00452100, online_url_use_hopper_directory);
-//HOOK_DECLARE(0x00452150, online_url_use_user_override_hopper_directory);
+HOOK_DECLARE(0x00452100, online_url_use_hopper_directory);
+HOOK_DECLARE(0x00452150, online_url_use_user_override_hopper_directory);
 
-//.text:00451460 ; public: __cdecl c_url_string::c_url_string(char const* url, e_cachable_type cachable)
-//.text:004514B0 ; public: __cdecl c_url_string::c_url_string()
+c_url_string::c_url_string(char const* url, e_cachable_type cachable) :
+	m_string(url),
+	m_service_type(_online_lsp_service_type_title_files),
+	m_cachable(cachable),
+	m_untracked_cache_lifetime_seconds(dword_186080C),
+	m_request_type(_network_http_request_queue_type_unknown0)
+{
+	//DECLFUNC(0x00451460, void, __thiscall, c_url_string*, char const*, e_cachable_type)(this, url, cachable);
+}
+
+c_url_string::c_url_string() :
+	m_string(),
+	m_service_type(_online_lsp_service_type_title_files),
+	m_cachable(_cachable_type_unknown0),
+	m_untracked_cache_lifetime_seconds(dword_186080C),
+	m_request_type(_network_http_request_queue_type_unknown0)
+{
+	//DECLFUNC(0x004514B0, void, __thiscall, c_url_string*)(this);
+}
+
+char const* c_url_string::get_string() const
+{
+	return m_string.get_string();
+}
+
+c_url_string::e_cachable_type c_url_string::get_cachable() const
+{
+	return m_cachable;
+}
 
 void __cdecl create_machine_url_base(c_url_string* url, qword machine_id)
 {
@@ -71,9 +100,26 @@ void __cdecl create_user_url_base(c_url_string* url, qword user_id)
 	INVOKE(0x00451660, create_user_url_base, url, user_id);
 }
 
-//.text:004516A0 ; c_url_string::get_request_type
-//.text:004516B0 ; c_url_string::get_service_type
-//.text:004516D0 ; c_url_string::get_untracked_cache_lifetime_seconds
+e_network_http_request_queue_type c_url_string::get_request_type() const
+{
+	//return DECLFUNC(0x004516A0, e_network_http_request_queue_type, __thiscall, c_url_string const*)(this);
+
+	return m_request_type;
+}
+
+e_online_lsp_service_type c_url_string::get_service_type() const
+{
+	//return DECLFUNC(0x004516B0, e_online_lsp_service_type, __thiscall, c_url_string const*)(this);
+
+	return m_service_type;
+}
+
+long c_url_string::get_untracked_cache_lifetime_seconds() const
+{
+	//return DECLFUNC(0x004516D0, long, __thiscall, c_url_string const*)(this);
+
+	return m_untracked_cache_lifetime_seconds;
+}
 
 void __cdecl make_hopper_network_directory(char* hopper_directory, long hopper_directory_size, char some_char /* separator? */)
 {
@@ -431,30 +477,57 @@ void __cdecl online_url_make_vidmaster_popup_image(c_url_string* url)
 
 void __cdecl online_url_use_hopper_directory(char const* hopper_directory)
 {
-	INVOKE(0x00452100, online_url_use_hopper_directory, hopper_directory);
+	//INVOKE(0x00452100, online_url_use_hopper_directory, hopper_directory);
 
-	//c_static_string<64> _hopper_directory = hopper_directory;
-	//if (!_hopper_directory.is_empty())
-	//{
-	//	_hopper_directory.copy_to(g_online_url.hopper_directory, sizeof(g_online_url.hopper_directory));
-	//	dword_1860808++;
-	//}
+	c_static_string<64> _hopper_directory = hopper_directory;
+	if (!_hopper_directory.is_empty())
+	{
+		_hopper_directory.copy_to(g_online_url.hopper_directory, sizeof(g_online_url.hopper_directory));
+		dword_1860808++;
+	}
 }
 
 void __cdecl online_url_use_user_override_hopper_directory(char const* hopper_directory)
 {
-	INVOKE(0x00452150, online_url_use_user_override_hopper_directory, hopper_directory);
+	//INVOKE(0x00452150, online_url_use_user_override_hopper_directory, hopper_directory);
 
-	//c_static_string<64> _hopper_directory = hopper_directory;
-	//if (!_hopper_directory.is_empty())
-	//{
-	//	_hopper_directory.copy_to(g_online_url.user_override_hopper_directory, sizeof(g_online_url.user_override_hopper_directory));
-	//	dword_1860808++;
-	//}
+	c_static_string<64> _hopper_directory = hopper_directory;
+	if (!_hopper_directory.is_empty())
+	{
+		_hopper_directory.copy_to(g_online_url.user_override_hopper_directory, sizeof(g_online_url.user_override_hopper_directory));
+		dword_1860808++;
+	}
 }
 
-//.text:004521E0 ; public: void __cdecl c_url_string::set(c_url_string const* other)
-//.text:00452230 ; public: void __cdecl c_url_string::set_cachable(e_cachable_type cachable)
-//.text:00452240 ; public: void __cdecl c_url_string::set_request_type(e_network_http_request_queue_type queue_type)
-//.text:00452250 ; public: void __cdecl c_url_string::set_service_type(e_online_lsp_service_type service_type)
+void c_url_string::set(c_url_string const* other)
+{
+	//DECLFUNC(0x004521E0, void, __thiscall, c_url_string*, c_url_string const*)(this, other);
+
+	m_string = other->m_string;
+	m_service_type = other->m_service_type;
+	m_cachable = other->m_cachable;
+	m_untracked_cache_lifetime_seconds = other->m_untracked_cache_lifetime_seconds;
+	m_request_type = other->m_request_type;
+}
+
+void c_url_string::set_cachable(e_cachable_type cachable)
+{
+	//DECLFUNC(0x00452230, void, __thiscall, c_url_string*, e_cachable_type)(this, cachable);
+
+	m_cachable = cachable;
+}
+
+void c_url_string::set_request_type(e_network_http_request_queue_type queue_type)
+{
+	//DECLFUNC(0x00452240, void, __thiscall, c_url_string*, e_network_http_request_queue_type)(this, queue_type);
+
+	m_request_type = queue_type;
+}
+
+void c_url_string::set_service_type(e_online_lsp_service_type service_type)
+{
+	//DECLFUNC(0x00452250, void, __thiscall, c_url_string*, e_online_lsp_service_type)(this, service_type);
+
+	m_service_type = service_type;
+}
 

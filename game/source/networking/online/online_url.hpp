@@ -19,6 +19,22 @@ struct c_url_string
 		_cachable_type_unknown2,
 	};
 
+	c_url_string(char const* url, e_cachable_type cachable);
+	c_url_string();
+
+	char const* get_string() const;
+	e_cachable_type get_cachable() const;
+	e_network_http_request_queue_type get_request_type() const;
+	e_online_lsp_service_type get_service_type() const;
+	long get_untracked_cache_lifetime_seconds() const;
+
+	void set(c_url_string const* other);
+	void set_cachable(e_cachable_type cachable);
+	void set_request_type(e_network_http_request_queue_type queue_type);
+	void set_service_type(e_online_lsp_service_type service_type);
+
+	void operator=(c_url_string const* other) { set(other); }
+
 	c_static_string<256> m_string;
 	e_online_lsp_service_type m_service_type;
 	e_cachable_type m_cachable;
