@@ -57,3 +57,33 @@ void c_life_cycle_state_manager::terminate()
 	set_current_state(_life_cycle_state_none, 0, nullptr);
 }
 
+c_network_session* c_life_cycle_state_manager::get_active_squad_session() const
+{
+	ASSERT(m_active_squad_session != NULL);
+	return m_active_squad_session;
+}
+
+c_network_session* c_life_cycle_state_manager::get_target_session() const
+{
+	ASSERT(m_target_session != NULL);
+	return m_target_session;
+}
+
+c_network_session* c_life_cycle_state_manager::get_group_session() const
+{
+	ASSERT(m_group_session != NULL);
+	return m_group_session;
+}
+
+void c_life_cycle_state_manager::register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
+{
+	ASSERT(m_handlers[state] == handler);
+	m_handlers[state] = handler;
+}
+
+void c_life_cycle_state_manager::deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
+{
+	ASSERT(m_handlers[state] == NULL);
+	m_handlers[state] = NULL;
+}
+

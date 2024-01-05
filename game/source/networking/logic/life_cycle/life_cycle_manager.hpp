@@ -11,6 +11,17 @@ struct c_network_session;
 struct c_network_observer;
 struct c_life_cycle_state_manager
 {
+	void request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data);
+	void request_leave_sessions(bool disconnect);
+	void set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data);
+	e_life_cycle_state get_current_state();
+	void terminate();
+	c_network_session* get_active_squad_session() const;
+	c_network_session* get_target_session() const;
+	c_network_session* get_group_session() const;
+	void register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
+	void deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
+
 	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_current_state;
 	c_static_array<c_life_cycle_state_handler*, k_life_cycle_state_count> m_handlers;
 	c_network_session_manager* m_session_manager;
@@ -33,12 +44,6 @@ struct c_life_cycle_state_manager
 	//c_matchmaking_quality m_matchmaking_quality; // c_matchmaking_quality* c_life_cycle_state_manager::get_matchmaking_quality()
 	//byte __data9978[0x18];
 	byte __data7C[0x9914];
-
-	void request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data);
-	void request_leave_sessions(bool disconnect);
-	void set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data);
-	e_life_cycle_state get_current_state();
-	void terminate();
 };
 static_assert(sizeof(c_life_cycle_state_manager) == 0x9990);
 
