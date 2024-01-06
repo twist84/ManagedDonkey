@@ -45,12 +45,6 @@ void c_life_cycle_state_handler_none::enter(c_life_cycle_state_handler* handler,
 	get_manager()->get_target_session()->force_disconnect();
 	network_squad_session_set_closed_status(0);
 	network_join_set_join_queue_mode(_network_join_closed_to_all_joins);
-
-	//get_manager()->get_target_session()->disconnect();
-	//network_squad_session_set_closed_for_matchmaking(false);
-	//network_squad_session_set_disallow_local_joins(false);
-	//network_group_session_set_disable_host_election(false);
-	//network_join_set_join_queue_mode(_network_join_closed_to_all_joins);
 }
 
 void c_life_cycle_state_handler_none::exit(c_life_cycle_state_handler* handler)

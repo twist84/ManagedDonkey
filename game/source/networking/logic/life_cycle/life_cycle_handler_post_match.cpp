@@ -1,5 +1,7 @@
 #include "networking/logic/life_cycle/life_cycle_handler_post_match.hpp"
 
+#include "cseries/cseries_events.hpp"
+
 void c_life_cycle_state_handler_post_match::update()
 {
 	DECLFUNC(0x0049A680, void, __thiscall, c_life_cycle_state_handler_post_match*)(this);
@@ -22,12 +24,18 @@ void c_life_cycle_state_handler_post_match::exit(c_life_cycle_state_handler* han
 
 char const* c_life_cycle_state_handler_post_match::get_state_string()
 {
-	return DECLFUNC(0x004547C0, char const*, __thiscall, c_life_cycle_state_handler_post_match*)(this);
+	//return DECLFUNC(0x004547C0, char const*, __thiscall, c_life_cycle_state_handler_post_match*)(this);
+
+	return "post-match";
 }
 
-void c_life_cycle_state_handler_post_match::handle_missing_required_session_parameter(e_life_cycle_session_type session_type)
+void c_life_cycle_state_handler_post_match::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
-	DECLFUNC(0x0049A3D0, void, __thiscall, c_life_cycle_state_handler_post_match*, e_life_cycle_session_type)(this, session_type);
+	DECLFUNC(0x0049A3D0, void, __thiscall, c_life_cycle_state_handler_post_match*, e_network_session_type)(this, session_type);
+
+	//ASSERT(session_type == _network_session_type_group);
+	//generate_event(_event_level_error, "networking:logic:life_cycle:post_match: became host without required session parameters, restarting matchmaking");
+	//disband_group_session();
 }
 
 void c_life_cycle_state_handler_post_match::initialize(c_life_cycle_state_manager* manager)

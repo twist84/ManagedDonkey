@@ -22,12 +22,25 @@ void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::exit(c_life
 
 char const* c_life_cycle_state_handler_matchmaking_find_and_assemble_match::get_state_string()
 {
-	return DECLFUNC(0x00454750, char const*, __thiscall, c_life_cycle_state_handler_matchmaking_find_and_assemble_match*)(this);
+	//return DECLFUNC(0x00454750, char const*, __thiscall, c_life_cycle_state_handler_matchmaking_find_and_assemble_match*)(this);
+
+	return "matchmaking-find-and-assemble-match";
 }
 
-void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::handle_missing_required_session_parameter(e_life_cycle_session_type session_type)
+void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
-	DECLFUNC(0x00496740, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_and_assemble_match*, e_life_cycle_session_type)(this, session_type);
+	DECLFUNC(0x00496740, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_and_assemble_match*, e_network_session_type)(this, session_type);
+
+	//generate_event(_event_level_warning, "networking:logic:life_cycle:matchmaking_find_and_assemble_match: became host without required session parameters [session type %d], aborting matchmaking", session_type);
+	//switch (session_type)
+	//{
+	//case _network_session_type_squad:
+	//	squad_session_host_abort_matchmaking();
+	//	break;
+	//case _network_session_type_group:
+	//	disband_group_session();
+	//	break;
+	//}
 }
 
 void c_life_cycle_state_handler_matchmaking_find_and_assemble_match::initialize(c_life_cycle_state_manager* manager)

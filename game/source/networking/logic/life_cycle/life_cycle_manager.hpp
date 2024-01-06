@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "networking/network_utilities.hpp"
+#include "shell/shell.hpp"
 
 const long k_maximum_state_change_entry_data_size = 16;
 
@@ -20,6 +20,7 @@ struct c_life_cycle_state_manager
 	c_network_session* get_active_squad_session() const;
 	c_network_session* get_target_session() const;
 	c_network_session* get_group_session() const;
+	c_network_observer* get_observer() const;
 	void register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
 	void deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
 

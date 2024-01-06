@@ -22,7 +22,9 @@ void c_life_cycle_state_handler_start_game::exit(c_life_cycle_state_handler* han
 
 char const* c_life_cycle_state_handler_start_game::get_state_string()
 {
-	return DECLFUNC(0x004547E0, char const*, __thiscall, c_life_cycle_state_handler_start_game*)(this);
+	//return DECLFUNC(0x004547E0, char const*, __thiscall, c_life_cycle_state_handler_start_game*)(this);
+
+	return "start-game";
 }
 
 void c_life_cycle_state_handler_start_game::initialize(c_life_cycle_state_manager* manager)

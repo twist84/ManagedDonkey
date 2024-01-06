@@ -26,7 +26,9 @@ void c_life_cycle_state_handler_pre_game::exit(c_life_cycle_state_handler* handl
 
 char const* c_life_cycle_state_handler_pre_game::get_state_string()
 {
-	return DECLFUNC(0x004547D0, char const*, __thiscall, c_life_cycle_state_handler_pre_game*)(this);
+	//return DECLFUNC(0x004547D0, char const*, __thiscall, c_life_cycle_state_handler_pre_game*)(this);
+
+	return "pre-game";
 }
 
 void c_life_cycle_state_handler_pre_game::initialize(c_life_cycle_state_manager* manager)

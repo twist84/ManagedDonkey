@@ -1,5 +1,6 @@
 #include "networking/logic/life_cycle/life_cycle_handler_matchmaking_start.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "main/console.hpp"
 #include "memory/module.hpp"
 
@@ -30,12 +31,18 @@ void c_life_cycle_state_handler_matchmaking_start::exit(c_life_cycle_state_handl
 
 char const* c_life_cycle_state_handler_matchmaking_start::get_state_string()
 {
-	return DECLFUNC(0x004547A0, char const*, __thiscall, c_life_cycle_state_handler_matchmaking_start*)(this);
+	//return DECLFUNC(0x004547A0, char const*, __thiscall, c_life_cycle_state_handler_matchmaking_start*)(this);
+
+	return "matchmaking-start";
 }
 
-void c_life_cycle_state_handler_matchmaking_start::handle_missing_required_session_parameter(e_life_cycle_session_type session_type)
+void c_life_cycle_state_handler_matchmaking_start::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
-	DECLFUNC(0x00494010, void, __thiscall, c_life_cycle_state_handler_matchmaking_start*, e_life_cycle_session_type)(this, session_type);
+	DECLFUNC(0x00494010, void, __thiscall, c_life_cycle_state_handler_matchmaking_start*, e_network_session_type)(this, session_type);
+
+	//ASSERT(session_type == _network_session_type_squad);
+	//generate_event(_event_level_warning, "networking:logic:life_cycle:matchmaking_start: became host without required session parameters, aborting matchmaking");
+	//squad_session_host_abort_matchmaking();
 }
 
 void c_life_cycle_state_handler_matchmaking_start::initialize(c_life_cycle_state_manager* manager)

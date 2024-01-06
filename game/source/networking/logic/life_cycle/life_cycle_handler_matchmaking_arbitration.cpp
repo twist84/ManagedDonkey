@@ -1,5 +1,7 @@
 #include "networking/logic/life_cycle/life_cycle_handler_matchmaking_arbitration.hpp"
 
+#include "cseries/cseries_events.hpp"
+
 void c_life_cycle_state_handler_matchmaking_arbitration::update()
 {
 	DECLFUNC(0x00494EF0, void, __thiscall, c_life_cycle_state_handler_matchmaking_arbitration*)(this);
@@ -22,12 +24,18 @@ void c_life_cycle_state_handler_matchmaking_arbitration::exit(c_life_cycle_state
 
 char const* c_life_cycle_state_handler_matchmaking_arbitration::get_state_string()
 {
-	return DECLFUNC(0x00454730, char const*, __thiscall, c_life_cycle_state_handler_matchmaking_arbitration*)(this);
+	//return DECLFUNC(0x00454730, char const*, __thiscall, c_life_cycle_state_handler_matchmaking_arbitration*)(this);
+
+	return "matchmaking-arbitration";
 }
 
-void c_life_cycle_state_handler_matchmaking_arbitration::handle_missing_required_session_parameter(e_life_cycle_session_type session_type)
+void c_life_cycle_state_handler_matchmaking_arbitration::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
-	DECLFUNC(0x00494960, void, __thiscall, c_life_cycle_state_handler_matchmaking_arbitration*, e_life_cycle_session_type)(this, session_type);
+	//DECLFUNC(0x00494960, void, __thiscall, c_life_cycle_state_handler_matchmaking_arbitration*, e_network_session_type)(this, session_type);
+
+	//ASSERT(session_type == _network_session_type_group);
+	//generate_event(_event_level_error, "networking:logic:life_cycle:matchmaking_arbitration: became host without required session parameters, restarting matchmaking");
+	//disband_group_session();
 }
 
 void c_life_cycle_state_handler_matchmaking_arbitration::initialize(c_life_cycle_state_manager* manager)

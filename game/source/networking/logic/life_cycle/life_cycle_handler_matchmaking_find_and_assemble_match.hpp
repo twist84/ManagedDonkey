@@ -11,7 +11,7 @@ struct c_life_cycle_state_handler_matchmaking_find_and_assemble_match : c_life_c
 	virtual void enter(c_life_cycle_state_handler* handler, long entry_data_size, void* entry_data) override;
 	virtual void exit(c_life_cycle_state_handler* handler) override;
 	virtual char const* get_state_string() override;
-	virtual void handle_missing_required_session_parameter(e_life_cycle_session_type session_type) override;
+	virtual void handle_missing_required_session_parameter(e_network_session_type session_type) override;
 
 	void initialize(c_life_cycle_state_manager* manager);
 

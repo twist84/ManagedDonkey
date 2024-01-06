@@ -70,6 +70,7 @@ struct c_network_observer
 	s_channel_observer const* find_observer_by_channel(c_network_channel const* channel) const;
 	long observer_channel_find_by_network_channel(long owner_type, c_network_channel* channel) const;
 	void observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data);
+	void observer_prioritize_upload_bandwidth(bool prioritize_upload_bandwidth);
 
 	c_network_link* m_link;
 	c_network_message_gateway* m_message_gateway;
@@ -82,8 +83,14 @@ struct c_network_observer
 	bool m_quality_statistics_are_set;
 	int __unknown23CEC;
 	s_network_quality_statistics m_quality_statistics;
-	byte __data23DB0[0x9];
+	byte __data23DB0[0x8];
+	bool m_prioritize_upload_bandwidth;
 	bool m_online_network_environment;
-	byte __data[0x166];
+	char __data23DBA[0x4E];
+	c_network_time_statistics time_statistics;
+	char __data23EE0[0x20];
+	bool __unknown23F00;
+	bool __unknown23F01;
+	char __data23F02[0x1E];
 };
 static_assert(sizeof(c_network_observer) == 0x23F20);

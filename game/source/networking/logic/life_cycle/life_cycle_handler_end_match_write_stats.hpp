@@ -12,7 +12,8 @@ struct c_life_cycle_state_handler_end_match_write_stats : c_life_cycle_state_han
 
 	void initialize(c_life_cycle_state_manager* manager);
 
-	byte __data[0x8];
+	word_flags m_flags;
+	long __time2C;
 };
 static_assert(sizeof(c_life_cycle_state_handler_end_match_write_stats) == 0x30);
 

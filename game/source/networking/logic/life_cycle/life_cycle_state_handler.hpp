@@ -1,13 +1,14 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "networking/network_utilities.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
+#include "shell/shell.hpp"
 
 enum e_life_cycle_state_transition_type
 {
 	_life_cycle_state_transition_type_unknown0 = 0,
 	_life_cycle_state_transition_type_unknown1,
+	_life_cycle_state_transition_type_unknown2,
 };
 
 enum e_life_cycle_state_handler_flags
@@ -30,7 +31,7 @@ struct c_life_cycle_state_handler
 	virtual void enter(c_life_cycle_state_handler* handler, long entry_data_size, void* entry_data);
 	virtual void exit(c_life_cycle_state_handler* handler);
 	virtual char const* get_state_string() = 0;
-	virtual void handle_missing_required_session_parameter(e_life_cycle_session_type session_type);
+	virtual void handle_missing_required_session_parameter(e_network_session_type session_type);
 
 	c_life_cycle_state_handler();
 	void initialize(c_life_cycle_state_manager* manager, e_life_cycle_state state, c_flags<e_life_cycle_state_handler_flags, byte, k_life_cycle_state_handler_flags> const* handler_flags, qword required_squad_session_parameter_mask, qword required_group_session_parameter_mask);

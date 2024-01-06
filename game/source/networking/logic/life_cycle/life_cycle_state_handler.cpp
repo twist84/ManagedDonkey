@@ -30,9 +30,9 @@ void c_life_cycle_state_handler::exit(c_life_cycle_state_handler* handler)
 	generate_event(_event_level_message, "networking:logic:life-cycle: exiting state %s", get_state_string());
 }
 
-void c_life_cycle_state_handler::handle_missing_required_session_parameter(e_life_cycle_session_type session_type)
+void c_life_cycle_state_handler::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
-	//DECLFUNC(0x0048D7D0, void, __thiscall, c_life_cycle_state_handler*, e_life_cycle_session_type)(this, session_type);
+	//DECLFUNC(0x0048D7D0, void, __thiscall, c_life_cycle_state_handler*, e_network_session_type)(this, session_type);
 }
 
 c_life_cycle_state_handler::c_life_cycle_state_handler() :

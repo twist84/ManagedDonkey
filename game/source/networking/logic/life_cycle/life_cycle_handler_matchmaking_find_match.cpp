@@ -1,5 +1,7 @@
 #include "networking/logic/life_cycle/life_cycle_handler_matchmaking_find_match.hpp"
 
+#include "cseries/cseries_events.hpp"
+
 void c_life_cycle_state_handler_matchmaking_find_match::update()
 {
 	DECLFUNC(0x00495E20, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_match*)(this);
@@ -22,12 +24,18 @@ void c_life_cycle_state_handler_matchmaking_find_match::exit(c_life_cycle_state_
 
 char const* c_life_cycle_state_handler_matchmaking_find_match::get_state_string()
 {
-	return DECLFUNC(0x00454760, char const*, __thiscall, c_life_cycle_state_handler_matchmaking_find_match*)(this);
+	//return DECLFUNC(0x00454760, char const*, __thiscall, c_life_cycle_state_handler_matchmaking_find_match*)(this);
+
+	return "matchmaking-find-match";
 }
 
-void c_life_cycle_state_handler_matchmaking_find_match::handle_missing_required_session_parameter(e_life_cycle_session_type session_type)
+void c_life_cycle_state_handler_matchmaking_find_match::handle_missing_required_session_parameter(e_network_session_type session_type)
 {
-	DECLFUNC(0x00495D30, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_match*, e_life_cycle_session_type)(this, session_type);
+	DECLFUNC(0x00495D30, void, __thiscall, c_life_cycle_state_handler_matchmaking_find_match*, e_network_session_type)(this, session_type);
+
+	//ASSERT(session_type == _network_session_type_squad);
+	//generate_event(_event_level_warning, "networking:logic:life_cycle:matchmaking_find_match: became host without required session parameters, aborting matchmaking");
+	//squad_session_host_abort_matchmaking();
 }
 
 void c_life_cycle_state_handler_matchmaking_find_match::initialize(c_life_cycle_state_manager* manager)

@@ -88,6 +88,12 @@ void c_life_cycle_state_manager::register_state_handler(e_life_cycle_state state
 	m_handlers[state] = handler;
 }
 
+c_network_observer* c_life_cycle_state_manager::get_observer() const
+{
+	ASSERT(m_observer != NULL);
+	return m_observer;
+}
+
 void c_life_cycle_state_manager::deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler)
 {
 	ASSERT(m_handlers[state] == handler);
