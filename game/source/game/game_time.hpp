@@ -38,7 +38,20 @@ enum e_game_time_pause_reason
 
 enum e_game_tick_publishing_flags
 {
-	k_game_tick_publishing_flags = 12
+	_game_tick_publishing_unknown_bit0 = 0,
+	_game_tick_publishing_unknown_bit1,
+	_game_tick_publishing_unknown_bit2,
+	_game_tick_publishing_unknown_bit3,
+	_game_tick_publishing_unknown_bit4,
+	_game_tick_publishing_unknown_bit5,
+	_game_tick_publishing_unknown_bit6,
+	_game_tick_publishing_unknown_bit7,
+	_game_tick_publishing_unknown_bit8,
+	_game_tick_publishing_unknown_bit9,
+	_game_tick_publishing_unknown_bit10,
+	_game_tick_publishing_unknown_bit11,
+
+	k_game_tick_publishing_flags
 };
 
 struct s_game_tick_time_samples
@@ -51,27 +64,50 @@ struct s_game_tick_time_samples
 	void reset()
 	{
 		flags.clear();
+		//shell_seconds_elapsed = 0.0f;
 		__unknown4 = 0.0f;
+
+		//elapsed_game_dt = 0.0f;
 		__unknown8 = 0.0f;
+
+		//game_seconds_elapsed = 0.0f;
 		__unknownC = 0.0f;
+
+		//tick_count = 0;
 		__unknown10 = 0;
 	}
 
 	void accum(s_game_tick_time_samples const* samples)
 	{
 		flags = samples->flags;
+
+		//shell_seconds_elapsed += samples->shell_seconds_elapsed;
 		__unknown4 += samples->__unknown4;
+
+		//elapsed_game_dt += samples->elapsed_game_dt;
 		__unknown8 += samples->__unknown8;
+
+		//game_seconds_elapsed += samples->game_seconds_elapsed;
 		__unknownC += samples->__unknownC;
+
+		//tick_count = samples->tick_count;
 		__unknown10 = samples->__unknown10;
 	}
 
 	c_flags<e_game_tick_publishing_flags, dword, k_game_tick_publishing_flags> flags;
 
 	// #TODO: find names
+
+	//real shell_seconds_elapsed;
 	real __unknown4;
+
+	//real elapsed_game_dt;
 	real __unknown8;
+
+	//real game_seconds_elapsed;
 	real __unknownC;
+
+	//dword tick_count;
 	dword __unknown10;
 };
 static_assert(sizeof(s_game_tick_time_samples) == 0x14);
