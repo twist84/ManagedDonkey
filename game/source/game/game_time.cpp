@@ -133,9 +133,9 @@ void __cdecl game_time_set_speed(real speed)
 	INVOKE(0x005651D0, game_time_set_speed, speed);
 }
 
-bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* tick_count)
+bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed)
 {
-	return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, tick_count);
+	return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed);
 }
 
 void __cdecl game_time_update_paused_flags()

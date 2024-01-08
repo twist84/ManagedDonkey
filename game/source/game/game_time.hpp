@@ -64,51 +64,26 @@ struct s_game_tick_time_samples
 	void reset()
 	{
 		flags.clear();
-		//shell_seconds_elapsed = 0.0f;
-		__unknown4 = 0.0f;
-
-		//elapsed_game_dt = 0.0f;
-		__unknown8 = 0.0f;
-
-		//game_seconds_elapsed = 0.0f;
-		__unknownC = 0.0f;
-
-		//tick_count = 0;
-		__unknown10 = 0;
+		shell_seconds_elapsed = 0.0f;
+		world_seconds_elapsed = 0.0f;
+		game_seconds_elapsed = 0.0f;
+		game_ticks_elapsed = 0;
 	}
 
 	void accum(s_game_tick_time_samples const* samples)
 	{
 		flags = samples->flags;
-
-		//shell_seconds_elapsed += samples->shell_seconds_elapsed;
-		__unknown4 += samples->__unknown4;
-
-		//elapsed_game_dt += samples->elapsed_game_dt;
-		__unknown8 += samples->__unknown8;
-
-		//game_seconds_elapsed += samples->game_seconds_elapsed;
-		__unknownC += samples->__unknownC;
-
-		//tick_count = samples->tick_count;
-		__unknown10 = samples->__unknown10;
+		shell_seconds_elapsed += samples->shell_seconds_elapsed;
+		world_seconds_elapsed += samples->world_seconds_elapsed;
+		game_seconds_elapsed += samples->game_seconds_elapsed;
+		game_ticks_elapsed = samples->game_ticks_elapsed;
 	}
 
 	c_flags<e_game_tick_publishing_flags, dword, k_game_tick_publishing_flags> flags;
-
-	// #TODO: find names
-
-	//real shell_seconds_elapsed;
-	real __unknown4;
-
-	//real elapsed_game_dt;
-	real __unknown8;
-
-	//real game_seconds_elapsed;
-	real __unknownC;
-
-	//dword tick_count;
-	dword __unknown10;
+	real shell_seconds_elapsed;
+	real world_seconds_elapsed;
+	real game_seconds_elapsed;
+	dword game_ticks_elapsed;
 };
 static_assert(sizeof(s_game_tick_time_samples) == 0x14);
 
@@ -154,5 +129,5 @@ extern void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason r
 extern void __cdecl game_time_set_rate_scale(real rate_scale0, real rate_scale1, real rate_scale2); // 0x00565060
 extern void __cdecl game_time_set_rate_scale_direct(real rate_scale); // 0x00565110
 extern void __cdecl game_time_set_speed(real speed); // 0x005651D0
-extern bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* tick_count); // 0x00565250
+extern bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed); // 0x00565250
 extern void __cdecl game_time_update_paused_flags(); // 0x00565510
