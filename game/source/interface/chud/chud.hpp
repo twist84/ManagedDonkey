@@ -63,4 +63,5 @@ struct s_chud_navpoint
 static_assert(sizeof(s_chud_navpoint) == 0x30);
 
 extern void __cdecl chud_submit_navpoint(long, s_chud_navpoint* navpoint);
+extern void __cdecl chud_update(real world_seconds_elapsed);
 

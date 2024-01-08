@@ -153,7 +153,7 @@ extern void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_
 extern void __cdecl input_abstraction_reset_controller_detection_timer();
 //extern void __cdecl input_should_suppress_rumble(long controls_method);
 extern void __cdecl input_abstraction_set_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences);
-//extern void __cdecl input_abstraction_update();
+extern void __cdecl input_abstraction_update();
 //extern void __cdecl input_abstraction_update_device_changes(dword_flags flags);
 
 extern void input_abstraction_get_raw_data_string(char* buffer, short size);

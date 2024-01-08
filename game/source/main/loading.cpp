@@ -294,9 +294,9 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 	return _main_pregame_frame_none;
 }
 
-void __cdecl main_loading_idle_with_blocking_load()
+void __cdecl main_loading_idle()
 {
-	INVOKE(0x0052FA00, main_loading_idle_with_blocking_load);
+	INVOKE(0x0052FA00, main_loading_idle);
 }
 
 void __cdecl main_loading_initialize()

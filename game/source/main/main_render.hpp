@@ -71,4 +71,5 @@ extern void __cdecl main_render_start_blocking_frame();
 extern void __cdecl main_render_status_message(wchar_t const* loading_status);
 extern void __cdecl main_render_update_loading_screen();
 extern void __cdecl main_render_view(c_player_view* player_view, long player_index);
+extern void __cdecl main_render_predict_tag_resources();
 

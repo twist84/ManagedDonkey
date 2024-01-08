@@ -1143,6 +1143,18 @@
     <ClCompile Include="source\test\test_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\player_rumble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\tag_files\tag_files_sync.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\spartan_program\spartan_program_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\online\online_achievements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2970,6 +2982,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\logic\logic_matchmaking_seeker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\profiler\profiler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\tag_files\tag_files_sync.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\spartan_program\spartan_program_handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\online\online_achievements.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

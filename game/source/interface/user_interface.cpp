@@ -54,6 +54,11 @@ dword __cdecl user_interface_milliseconds()
 	return INVOKE(0x00A848E0, user_interface_milliseconds);
 }
 
+bool __cdecl user_interface_requests_unlocked_framerate()
+{
+	return INVOKE(0x00A84BF0, user_interface_requests_unlocked_framerate);
+}
+
 void __cdecl user_interface_update_console_scoreboard()
 {
 	c_gui_screen_scoreboard::update_scoreboard_alpha(k_any_controller);

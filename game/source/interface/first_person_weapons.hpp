@@ -15,4 +15,5 @@ struct first_person_weapon
 static_assert(sizeof(first_person_weapon) == 0x14000);
 
 extern void __cdecl first_person_weapon_perspective_changed(long user_index);
+extern void __cdecl first_person_weapons_update_camera_estimates();
 

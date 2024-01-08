@@ -36,6 +36,11 @@ s_observer_result const* __cdecl observer_try_and_get_camera(long output_user_in
 	return INVOKE(0x00613960, observer_try_and_get_camera, output_user_index);
 }
 
+void __cdecl observer_update(real world_seconds_elapsed)
+{
+	INVOKE(0x00613A60, observer_update, world_seconds_elapsed);
+}
+
 void __cdecl debug_render_observer()
 {
 	if (!g_debug_observer_render)

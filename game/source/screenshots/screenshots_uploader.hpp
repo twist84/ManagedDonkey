@@ -27,3 +27,5 @@ static_assert(sizeof(c_screenshots_uploader) == 0xE08);
 
 extern c_screenshots_uploader*& g_screenshots_uploader;
 
+extern void __cdecl screenshots_uploader_update();
+

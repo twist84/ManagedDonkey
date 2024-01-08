@@ -99,6 +99,16 @@ struct s_main_status_value
 	char status_value[512];
 };
 
+class c_tag_resources_game_lock
+{
+public:
+	c_tag_resources_game_lock();
+	~c_tag_resources_game_lock();
+
+protected:
+	long lock;
+};
+
 struct c_interlocked_long;
 extern bool& g_force_upload_even_if_untracked;
 extern bool& g_render_thread_user_setting;

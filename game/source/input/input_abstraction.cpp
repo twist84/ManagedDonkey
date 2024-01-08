@@ -202,7 +202,11 @@ void __cdecl input_abstraction_set_controller_preferences(long controller_index,
 	csmemcpy(&input_abstraction_globals.preferences[controller_index], preferences, sizeof(s_gamepad_input_preferences));
 }
 
-//void __cdecl input_abstraction_update()
+void __cdecl input_abstraction_update()
+{
+	INVOKE(0x0060D880, input_abstraction_update);
+}
+
 //void __cdecl input_abstraction_update_device_changes(dword_flags flags)
 
 c_abstract_button::c_abstract_button() :

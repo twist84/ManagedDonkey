@@ -284,6 +284,11 @@ sound_channel_datum* __cdecl channel_get(short index)
 	return INVOKE(0x00513230, channel_get, index);
 }
 
+real sound_definition_map_pitch(void const* sound_definition, real a1, real a2)
+{
+	return INVOKE(0x00516650, sound_definition_map_pitch, sound_definition, a1, a2);
+}
+
 void __cdecl sound_idle()
 {
 	INVOKE(0x00517170, sound_idle);
@@ -294,9 +299,9 @@ s_sound_listener const* __cdecl sound_manager_get_listener(long index)
 	return INVOKE(0x005182A0, sound_manager_get_listener, index);
 }
 
-real sound_definition_map_pitch(void const* sound_definition, real a1, real a2)
+void __cdecl sound_render()
 {
-	return INVOKE(0x00516650, sound_definition_map_pitch, sound_definition, a1, a2);
+	INVOKE(0x00518E20, sound_render);
 }
 
 real __cdecl sound_source_get_inner_cone_angle(s_sound_source const* source, long sound_definition_index)
@@ -511,7 +516,7 @@ void __cdecl sound_debug_render()
 		//}
 	}
 
-	if (debug_sound_timing)
+	//if (debug_sound_timing)
 	{
 		debug_string.append_print("Sound system_time: %6.4f render_time: %6.4f delta_time: %1.4f|n",
 			g_sound_manager_globals->system_time / 1000.0f,

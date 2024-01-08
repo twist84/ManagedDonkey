@@ -2080,6 +2080,7 @@ extern void __cdecl shell_application_pause(bool pause);
 extern e_shell_application_type __cdecl shell_application_type();
 extern e_shell_tool_type __cdecl shell_tool_type();
 extern void __cdecl shell_halt_with_message(char const* message);
+extern void __cdecl shell_idle();
 extern void __cdecl shell_screen_pause(bool pause);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);
 

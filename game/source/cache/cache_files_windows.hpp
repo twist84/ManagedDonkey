@@ -169,3 +169,5 @@ extern s_cache_file_table_of_contents& cache_file_table_of_contents;
 extern s_cache_file_copy_globals& cache_file_copy_globals;
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
 
+extern void __cdecl cache_files_copy_do_work();
+

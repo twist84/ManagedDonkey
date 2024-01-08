@@ -25,6 +25,7 @@ extern bool& display_framerate;
 extern bool debug_disable_frame_rate_throttle;
 extern bool display_frame_deltas;
 
+extern void __cdecl main_time_frame_rate_debug();
 extern void __cdecl main_time_frame_rate_display();
 extern __int64 __cdecl main_time_get_absolute_milliseconds();
 extern __int64 __cdecl main_time_get_input_collection_time();

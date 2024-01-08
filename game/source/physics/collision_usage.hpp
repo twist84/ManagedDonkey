@@ -11,5 +11,8 @@ extern bool global_collision_log_switch_pending_value;
 extern short global_current_collision_user_depth;
 extern short global_collision_period_depth;
 
+extern void __cdecl collision_log_end_frame();
+extern void __cdecl collision_log_begin_frame();
+
 extern void collision_log_render();
 

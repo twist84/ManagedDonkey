@@ -89,5 +89,6 @@ extern s_observer* observer_get(long user_index);
 extern s_observer_result const* observer_get_camera(long output_user_index);
 extern long __cdecl choose_appropriate_director(long output_user_index);
 extern s_observer_result const* __cdecl observer_try_and_get_camera(long output_user_index);
+extern void __cdecl observer_update(real world_seconds_elapsed);
 extern void __cdecl debug_render_observer();
 

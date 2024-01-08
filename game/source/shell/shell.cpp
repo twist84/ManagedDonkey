@@ -938,7 +938,12 @@ void __cdecl shell_halt_with_message(char const* message)
 //.text:0042E650 ; bool __cdecl game_is_tool()
 //.text:0042E660 ; e_shell_tool_type __cdecl shell_tool_type()
 //.text:0042E930 ; char* __cdecl shell_get_command_line(void)
-//.text:0042E940 ; void __cdecl shell_idle()
+
+void __cdecl shell_idle()
+{
+	INVOKE(0x0042E940, shell_idle);
+}
+
 //.text:0042EA00 ; void __cdecl shell_platform_dispose()
 //.text:0042EA10 ; bool __cdecl shell_platform_initialize()
 

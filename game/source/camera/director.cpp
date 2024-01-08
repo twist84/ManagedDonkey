@@ -25,6 +25,11 @@ long __cdecl dead_or_alive_unit_from_user(long user_index)
 	return INVOKE(0x005916F0, dead_or_alive_unit_from_user, user_index);
 }
 
+void __cdecl director_update(real world_seconds_elapsed)
+{
+	INVOKE(0x005926C0, director_update, world_seconds_elapsed);
+}
+
 char const* k_director_mode_names[k_number_of_director_modes]
 {
 	"game",

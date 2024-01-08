@@ -12,6 +12,11 @@ REFERENCE_DECLARE(0x022B47FC, bool, display_framerate);
 bool debug_disable_frame_rate_throttle = false;
 bool display_frame_deltas = false;
 
+void __cdecl main_time_frame_rate_debug()
+{
+	INVOKE(0x00507B30, main_time_frame_rate_debug);
+}
+
 void rasterizer_render_debug_frame_deltas()
 {
 	c_rasterizer_draw_string draw_string;

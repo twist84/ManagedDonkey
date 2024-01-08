@@ -100,4 +100,9 @@ void __cdecl player_control_suppress_rotate_weapons(long user_index)
 	INVOKE(0x005D4860, player_control_suppress_rotate_weapons, user_index);
 }
 
+void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds_elapsed)
+{
+	INVOKE(0x005D4990, player_control_update, world_seconds_elapsed, game_seconds_elapsed);
+}
+
 

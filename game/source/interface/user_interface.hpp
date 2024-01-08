@@ -237,6 +237,7 @@ extern bool __cdecl get_alpha_is_locked_down();
 extern long __cdecl get_alpha_locked_down_state();
 extern bool __cdecl get_is_alpha_version();
 extern dword __cdecl user_interface_milliseconds();
+extern bool __cdecl user_interface_requests_unlocked_framerate();
 extern void __cdecl user_interface_scoreboard_update();
 extern s_user_interface_shared_globals const* user_interface_shared_tag_globals_try_and_get();
 extern bool __cdecl user_interface_should_show_console_scoreboard(long* user_interface_show_busy_state);

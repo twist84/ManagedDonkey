@@ -117,6 +117,11 @@ void __cdecl game_dispose()
 	INVOKE(0x00530CD0, game_dispose);
 }
 
+void __cdecl game_frame(real game_seconds_elapsed)
+{
+	INVOKE(0x00531070, game_frame, game_seconds_elapsed);
+}
+
 e_game_mode __cdecl game_mode_get()
 {
 	return game_options_get()->game_mode;

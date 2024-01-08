@@ -254,6 +254,7 @@ POPD
     <ClCompile Include="source\game\materials_definitions.cpp" />
     <ClCompile Include="source\game\multiplayer_definitions.cpp" />
     <ClCompile Include="source\game\multiplayer_game_hopper.cpp" />
+    <ClCompile Include="source\game\player_rumble.cpp" />
     <ClCompile Include="source\geometry\geometry_definitions.cpp" />
     <ClCompile Include="source\geometry\geometry_sampling.cpp" />
     <ClCompile Include="source\game\players.cpp" />
@@ -299,6 +300,7 @@ POPD
     <ClCompile Include="source\game\game_options.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq\start_menu_headquarters.cpp" />
     <ClCompile Include="source\memory\base\base_memory_windows.cpp" />
+    <ClCompile Include="source\networking\online\online_achievements.cpp" />
     <ClCompile Include="source\networking\tools\network_webstats.cpp" />
     <ClCompile Include="source\saved_games\game_state.cpp" />
     <ClCompile Include="source\game\game_time.cpp" />
@@ -516,11 +518,13 @@ POPD
     <ClCompile Include="source\sound\sound_classes.cpp" />
     <ClCompile Include="source\sound\sound_definitions.cpp" />
     <ClCompile Include="source\sound\sound_manager.cpp" />
+    <ClCompile Include="source\spartan_program\spartan_program_handler.cpp" />
     <ClCompile Include="source\structures\structures.cpp" />
     <ClCompile Include="source\structures\structure_detail_objects.cpp" />
     <ClCompile Include="source\tag_files\files.cpp" />
     <ClCompile Include="source\tag_files\files_windows.cpp" />
     <ClCompile Include="source\tag_files\string_ids.cpp" />
+    <ClCompile Include="source\tag_files\tag_files_sync.cpp" />
     <ClCompile Include="source\tag_files\tag_groups.cpp" />
     <ClCompile Include="source\tag_files\tag_resource_threading.cpp" />
     <ClCompile Include="source\test\test_functions.cpp" />
@@ -854,6 +858,8 @@ POPD
     <ClInclude Include="source\game\game_globals.hpp" />
     <ClInclude Include="source\game\game_options.hpp" />
     <ClInclude Include="source\game\game_progression.hpp" />
+    <ClInclude Include="source\networking\online\online_achievements.hpp" />
+    <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\saved_games\game_state.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
     <ClInclude Include="source\game\players.hpp" />
@@ -1110,6 +1116,7 @@ POPD
     <ClInclude Include="source\sound\sound_classes.hpp" />
     <ClInclude Include="source\sound\sound_definitions.hpp" />
     <ClInclude Include="source\sound\sound_manager.hpp" />
+    <ClInclude Include="source\spartan_program\spartan_program_handler.hpp" />
     <ClInclude Include="source\structures\cluster_partitions.hpp" />
     <ClInclude Include="source\structures\structures.hpp" />
     <ClInclude Include="source\structures\structure_bsp_definitions.hpp" />
@@ -1119,6 +1126,7 @@ POPD
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
     <ClInclude Include="source\tag_files\string_ids.hpp" />
+    <ClInclude Include="source\tag_files\tag_files_sync.hpp" />
     <ClInclude Include="source\tag_files\tag_groups.hpp" />
     <ClInclude Include="source\tag_files\tag_group_definitions.hpp" />
     <ClInclude Include="source\tag_files\tag_resource_cache_access_cache.hpp" />

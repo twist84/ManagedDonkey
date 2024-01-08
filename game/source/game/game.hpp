@@ -53,6 +53,7 @@ extern void __cdecl game_options_clear_game_playback();
 extern e_campaign_difficulty_level __cdecl game_difficulty_level_get();
 extern e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy();
 extern void __cdecl game_dispose();
+extern void __cdecl game_frame(real game_seconds_elapsed);
 extern e_game_mode __cdecl game_mode_get();
 extern bool __cdecl game_is_ui_shell();
 extern bool __cdecl game_is_multiplayer();
