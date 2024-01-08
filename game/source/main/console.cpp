@@ -2,11 +2,11 @@
 
 #include "camera/camera_globals.hpp"
 #include "cubemaps/cubemap_debug.hpp"
-#include "game/cheats.hpp"
 #include "effects/contrails.hpp"
-#include "interface/terminal.hpp"
+#include "game/cheats.hpp"
 #include "hs/hs_runtime.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
+#include "interface/terminal.hpp"
 #include "interface/user_interface.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"

@@ -82,8 +82,14 @@ struct c_network_observer
 	bool m_quality_statistics_are_set;
 	int __unknown23CEC;
 	s_network_quality_statistics m_quality_statistics;
-	byte __data23DB0[0x9];
+	byte __data23DB0[0x8];
+	bool m_prioritize_upload_bandwidth;
 	bool m_online_network_environment;
-	byte __data[0x166];
+	char __data23DBA[0x4E];
+	c_network_time_statistics time_statistics;
+	char __data23EE0[0x20];
+	bool __unknown23F00;
+	bool __unknown23F01;
+	char __data23F02[0x1E];
 };
 static_assert(sizeof(c_network_observer) == 0x23F20);
