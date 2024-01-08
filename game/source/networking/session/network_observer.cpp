@@ -1,5 +1,7 @@
 #include "network_observer.hpp"
 
+#include "cseries/cseries_events.hpp"
+
 c_network_observer::s_channel_observer const* c_network_observer::find_observer_by_channel(c_network_channel const* observer) const
 {
     ASSERT(observer >= &m_channel_observers[0] && observer < &m_channel_observers[k_network_maximum_observers]);
@@ -25,5 +27,18 @@ long c_network_observer::observer_channel_find_by_network_channel(long owner_typ
 void c_network_observer::observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data)
 {
     DECLFUNC(0x004474F0, void, __thiscall, c_network_observer*, long, long, bool, e_network_message_type, long, void const*)(this, owner_type, observer_index, a3, message_type, data_size, data);
+}
+
+void c_network_observer::observer_prioritize_upload_bandwidth(bool prioritize_upload_bandwidth)
+{
+    //DECLFUNC(0x004477E0, void, __thiscall, c_network_observer*, bool)(this, prioritize_upload_bandwidth);
+
+    if (m_prioritize_upload_bandwidth != prioritize_upload_bandwidth)
+    {
+        m_prioritize_upload_bandwidth = prioritize_upload_bandwidth;
+        __unknown23F00 = true;
+        __unknown23F01 = true;
+        generate_event(_event_level_message, "networking:observer:stream: rebalance stream for upload bandwidth prioritzation=%d", prioritize_upload_bandwidth);
+    }
 }
 

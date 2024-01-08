@@ -1,6 +1,7 @@
 #include "game/multiplayer_game_hopper.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "main/levels.hpp"
 #include "memory/byte_swapping.hpp"
@@ -224,27 +225,27 @@ bool __cdecl create_configuration_file(const char* filename, const void* file_co
 
 	if (!file_create_parent_directories_if_not_present(&info))
 	{
-		c_console::write_line("create_configuration_file: unable to create parent directories: %s", filename);
+		generate_event(_event_level_warning, "create_configuration_file: unable to create parent directories: %s", filename);
 		return false;
 	}
 
 	if (!file_create(&info))
 	{
-		c_console::write_line("create_configuration_file: unable to create file: %s", filename);
+		generate_event(_event_level_warning, "create_configuration_file: unable to create file: %s", filename);
 		return false;
 	}
 
 	dword error = 0;
 	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
 	{
-		c_console::write_line("create_configuration_file: unable to open file: %s", filename);
+		generate_event(_event_level_warning, "create_configuration_file: unable to open file: %s", filename);
 		return false;
 	}
 
 	bool result = file_write(&info, file_size, file_contents);
 	if (!file_close(&info))
 	{
-		c_console::write_line("create_configuration_file: unable to close file: %s", filename);
+		generate_event(_event_level_warning, "create_configuration_file: unable to close file: %s", filename);
 	}
 
 	return result;
@@ -264,7 +265,7 @@ void __cdecl network_build_game_variant(char const* filename)
 	filepath.print("game_variants\\%s_%03u.bin", filename, 18);
 	if (!create_configuration_file(filepath.get_string(), buffer, file_size))
 	{
-		c_console::write_line("failed!");
+		generate_event(_event_level_critical, "failed!");
 	}
 
 	delete[] buffer;
@@ -289,7 +290,7 @@ void __cdecl network_build_map_variant(char const* filename)
 	filepath.print("map_variants\\%s_%03u.mvar", filename, 19);
 	if (!create_configuration_file(filepath.get_string(), buffer, file_size))
 	{
-		c_console::write_line("failed!");
+		generate_event(_event_level_critical, "failed!");
 	}
 
 	delete[] buffer;

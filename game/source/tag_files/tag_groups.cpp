@@ -1,6 +1,7 @@
 #include "tag_files/tag_groups.hpp"
 
 #include "cache/cache_files.hpp"
+#include "cseries/cseries_events.hpp"
 
 #include <stdlib.h>
 #include <string.h>
@@ -112,12 +113,12 @@ void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* na
 	ASSERT(strlen(name) <= LONG_MAX);
 
 	if (reference->index != NONE)
-		c_console::write_line("tags:dependencies:unlink: removing reference to '%s.%s'", reference->get_name(), reference->get_group_name());
+		generate_event(_event_level_message, "tags:dependencies:unlink: removing reference to '%s.%s'", reference->get_name(), reference->get_group_name());
 
 	reference->group_tag = group_tag;
 	reference->index = tag_name_get_index(group_tag, name);
 
 	if (reference->index != NONE)
-		c_console::write_line("tags:dependencies:link: setting reference to '%s.%s'", reference->get_name(), reference->get_group_name());
+		generate_event(_event_level_message, "tags:dependencies:link: setting reference to '%s.%s'", reference->get_name(), reference->get_group_name());
 }
 

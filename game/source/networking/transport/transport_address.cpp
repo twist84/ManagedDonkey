@@ -1,5 +1,6 @@
 #include "networking/transport/transport_address.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "game/players.hpp"
 #include "memory/module.hpp"
 #include "networking/transport/transport_security.hpp"
@@ -159,7 +160,7 @@ bool __cdecl transport_address_valid(transport_address const* address)
 		{
 			result = address->ipv4_address != 0;
 			if (!result)
-				c_console::write_line("networking:transport:transport_address_valid: the IPV4 address is NOT valid");
+				generate_event(_event_level_warning, "networking:transport:transport_address_valid: the IPV4 address is NOT valid");
 		}
 		break;
 		case 16:
@@ -173,7 +174,7 @@ bool __cdecl transport_address_valid(transport_address const* address)
 				}
 			}
 			if (!result)
-				c_console::write_line("networking:transport:transport_address_valid: the IPV6 address is NOT valid");
+				generate_event(_event_level_warning, "networking:transport:transport_address_valid: the IPV6 address is NOT valid");
 		}
 		break;
 		}

@@ -1,6 +1,7 @@
 #include "cseries/stack_walk_windows.hpp"
 
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "tag_files/files.hpp"
 #include "tag_files/files_windows.hpp"
 #include "tag_files/tag_groups.hpp"
@@ -128,7 +129,7 @@ void stack_walk_print(s_file_reference* file, _CONTEXT* context, long levels_dum
 		}
 		else
 		{
-			c_console::write_line("crash: %08lX %s", routine_address - 5 /* take off size of call instruction */, symbol_name);
+			generate_event(_event_level_message, "crash: %08lX %s", routine_address - 5 /* take off size of call instruction */, symbol_name);
 		}
 	}
 }

@@ -893,7 +893,7 @@ void __cdecl ai_scripting_erase_all()
 {
 	if (ai_print_scripting)
 	{
-		//c_console::write_line("ai: %s: ai_erase_all", hs_runtime_get_executing_thread_name());
+		//generate_event(_event_level_warning, "ai: %s: ai_erase_all", hs_runtime_get_executing_thread_name());
 	}
 
 	//ai_erase(NONE, false);

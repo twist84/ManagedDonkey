@@ -1,5 +1,6 @@
 #include "networking/transport/transport.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/online/online_error.hpp"
@@ -57,12 +58,12 @@ void __cdecl transport_global_update()
 			transport_globals.is_started = available;
 			if (available)
 			{
-				c_console::write_line("networking:transport: network interface connection restored, resetting networking");
+				generate_event(_event_level_message, "networking:transport: network interface connection restored, resetting networking");
 				transport_startup();
 			}
 			else
 			{
-				c_console::write_line("networking:transport: network interface connection lost");
+				generate_event(_event_level_error, "networking:transport: network interface connection lost");
 				transport_shutdown();
 			}
 		}
@@ -138,11 +139,11 @@ void __cdecl transport_startup()
 		int wsa_startup_result = WSAStartup(2u, &wsa_data);
 		if (wsa_startup_result)
 		{
-			c_console::write_line("networking:transport: WSAStartup() failed; error= %s", online_error_get_string(wsa_startup_result));
+			generate_event(_event_level_error, "networking:transport: WSAStartup() failed; error= %s", online_error_get_string(wsa_startup_result));
 		}
 		else
 		{
-			c_console::write_line("networking:transport: Winsock initialized");
+			generate_event(_event_level_message, "networking:transport: Winsock initialized");
 
 			transport_globals.winsock_initialized = true;
 			transport_security_startup();
@@ -156,7 +157,7 @@ void __cdecl transport_startup()
 			}
 
 			network_session_interface_handle_message(2);
-			c_console::write_line("networking:transport: Trasport global started");
+			generate_event(_event_level_message, "networking:transport: Trasport global started");
 		}
 	}
 }

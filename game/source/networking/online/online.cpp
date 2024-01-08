@@ -1,5 +1,6 @@
 #include "networking/online/online.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 #include "networking/network_memory.hpp"
 #include "text/unicode.hpp"
@@ -62,14 +63,14 @@ void __cdecl online_dispose()
 
 void __cdecl online_dump_machine_info(qword game_instance)
 {
-	c_console::write_line("networking:online:machine_info: game instance-%0I64X", game_instance);
+	generate_event(_event_level_message, "networking:online:machine_info: game instance-%0I64X", game_instance);
 }
 
 e_online_nat_type __cdecl online_get_maximum_compatible_nat_type(e_online_nat_type nat_type)
 {
 	if (nat_type >= k_online_nat_type_count)
 	{
-		c_console::write_line("online: unexpected nat type %d passed to online_get_maximum_compatible_nat_type()", nat_type);
+		generate_event(_event_level_error, "online: unexpected nat type %d passed to online_get_maximum_compatible_nat_type()", nat_type);
 		return _online_nat_type_open;
 	}
 
@@ -107,14 +108,14 @@ e_online_nat_type __cdecl online_get_nat_type()
 	//}
 	//else
 	//{
-	//	c_console::write_line("online: XOnlineGetNatType returned unknown NAT type 0x%08lX", xnat_type);
+	//	generate_event(_event_level_error, "online: XOnlineGetNatType returned unknown NAT type 0x%08lX", xnat_type);
 	//}
 
 	if (g_nat_type_override)
 	{
 		if (g_nat_type_override < _online_nat_type_open || g_nat_type_override >= k_online_nat_type_count)
 		{
-			c_console::write_line("online: invalid NAT override %d, resetting", g_nat_type_override);
+			generate_event(_event_level_error, "online: invalid NAT override %d, resetting", g_nat_type_override);
 			g_nat_type_override = _online_nat_type_none;
 		}
 		else

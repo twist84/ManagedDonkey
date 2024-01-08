@@ -1,6 +1,7 @@
 #include "main/console.hpp"
 
 #include "camera/camera_globals.hpp"
+#include "cseries/cseries_events.hpp"
 #include "cubemaps/cubemap_debug.hpp"
 #include "effects/contrails.hpp"
 #include "game/cheats.hpp"
@@ -462,7 +463,7 @@ bool __cdecl console_process_command(char const* command, bool a2)
 	if (!command[0] || command[0] == ';')
 		return false;
 
-	c_console::write_line("console_command: %s", command);
+	generate_event(_event_level_message, "console_command: %s", command);
 
 	short command_index = (console_globals.input_state.previous_inputs_count + 1) % NUMBEROF(console_globals.input_state.previous_inputs);
 	console_globals.input_state.previous_inputs_count = command_index;

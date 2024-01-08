@@ -21,20 +21,20 @@ __declspec(naked) void net_skip_countdown_inline()
 
 		mov     eax, 0
 
-	loc_48F66A:
+		loc_48F66A:
 		pop     edx
 
-		// execute the original instructrions
-		test    eax, eax
-		jnz     loc_48F7C1
+			// execute the original instructrions
+			test    eax, eax
+			jnz     loc_48F7C1
 
-		// jump out to after our hook
-		mov     ecx, 0x0048F672
-		jmp     ecx
+			// jump out to after our hook
+			mov     ecx, 0x0048F672
+			jmp     ecx
 
-	loc_48F7C1:
+			loc_48F7C1 :
 		mov     ecx, 0x0048F7C1
-		jmp     ecx
+			jmp     ecx
 	}
 }
 HOOK_DECLARE(0x0048F66A, net_skip_countdown_inline);

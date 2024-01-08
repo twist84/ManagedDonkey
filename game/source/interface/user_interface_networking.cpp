@@ -317,13 +317,13 @@ bool __cdecl user_interface_reset_networking_to_pregame()
 
 	if (!network_squad_session_local_peer_is_leader())
 	{
-		c_console::write_line("ui:networking:user_interface_reset_networking_to_pregame: we are not the leader of a custom game");
+		generate_event(_event_level_error, "ui:networking:user_interface_reset_networking_to_pregame: we are not the leader of a custom game");
 		return false;
 	}
 
 	if (!network_life_cycle_set_pre_game_state())
 	{
-		c_console::write_line("ui:networking:user_interface_reset_networking_to_pregame: failed to return networking to pregame mode");
+		generate_event(_event_level_error, "ui:networking:user_interface_reset_networking_to_pregame: failed to return networking to pregame mode");
 		return false;
 	}
 

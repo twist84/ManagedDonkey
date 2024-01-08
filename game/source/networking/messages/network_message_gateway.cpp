@@ -1,5 +1,6 @@
 #include "networking/messages/network_message_gateway.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 #include "networking/delivery/network_link.hpp"
 #include "networking/messages/network_message_handler.hpp"
@@ -119,7 +120,7 @@ bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_add
 			result = m_message_types->decode_message(packet, &message_type, &message_storage_size, message_storage);
 			if (!result)
 			{
-				c_console::write_line("networking:messages:gateway:anomaly: failed to parse %d/%s %d-byte message from '%s'",
+				generate_event(_event_level_verbose, "networking:messages:gateway:anomaly: failed to parse %d/%s %d-byte message from '%s'",
 					message_type,
 					m_message_types->get_message_type_name(message_type),
 					message_storage_size,
@@ -128,7 +129,7 @@ bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_add
 				break;
 			}
 
-			c_console::write_line("networking:messages:gateway:receive: received %d/%s %d-byte message out-of-band from '%s'",
+			generate_event(_event_level_verbose, "networking:messages:gateway:receive: received %d/%s %d-byte message out-of-band from '%s'",
 				message_type,
 				m_message_types->get_message_type_name(message_type),
 				message_storage_size,
@@ -170,7 +171,7 @@ bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_add
 		static char address_string[256]{};
 		transport_address_to_string(incoming_address, nullptr, address_string, 256, true, true);
 
-		c_console::write_line("networking:messages:gateway:anomaly: foreign packet (%d bytes %s%s) from '%s'",
+		generate_event(_event_level_verbose, "networking:messages:gateway:anomaly: foreign packet (%d bytes %s%s) from '%s'",
 			data_length,
 			data_length <= 8 ? "" : "beginning ",
 			data_string.get_string(),
@@ -202,7 +203,7 @@ void __cdecl c_network_message_gateway::send_all_pending_messages()
 		{
 			result = read_packet_header(&m_outgoing_packet);
 			if (!result)
-				c_console::write_line("networking:messages:gateway:send_all_pending_messages: an outgoing message header is corrupt!");
+				generate_event(_event_level_critical, "networking:messages:gateway:send_all_pending_messages: an outgoing message header is corrupt!");
 
 			e_network_message_type message_type;
 			long message_storage_size = 0;
@@ -213,7 +214,7 @@ void __cdecl c_network_message_gateway::send_all_pending_messages()
 				result = m_message_types->decode_message(&m_outgoing_packet, &message_type, &message_storage_size, message_storage);
 				if (!result)
 				{
-					c_console::write_line("networking:messages:gateway:send_all_pending_messages: an outgoing message payload is corrupt!");
+					generate_event(_event_level_critical, "networking:messages:gateway:send_all_pending_messages: an outgoing message payload is corrupt!");
 					break;
 				}
 
@@ -261,7 +262,7 @@ bool __cdecl c_network_message_gateway::send_message_directed(transport_address 
 			long packet_size = sizeof(m_outgoing_packet_storage);
 			if (!m_link->adjust_packet_size(true, 0, &packet_size))
 			{
-				c_console::write_line("networking:messages:gateway:send_message: unable to get packet size to send [tried %d bytes]", packet_size);
+				generate_event(_event_level_error, "networking:messages:gateway:send_message: unable to get packet size to send [tried %d bytes]", packet_size);
 				break;
 			}
 
@@ -308,7 +309,7 @@ bool __cdecl c_network_message_gateway::send_message_directed(transport_address 
 		}
 	}
 
-	c_console::write_line("networking:messages:gateway:send_message: message type '%s' size raw-bytes/enc-bits %d/%d doesn't fit in a packet and cannot be sent out-of-band",
+	generate_event(_event_level_critical, "networking:messages:gateway:send_message: message type '%s' size raw-bytes/enc-bits %d/%d doesn't fit in a packet and cannot be sent out-of-band",
 		m_message_types->get_message_type_name(message_type),
 		data_size,
 		encoded_bits);

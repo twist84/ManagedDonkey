@@ -1,6 +1,7 @@
 #include "networking/logic/life_cycle/life_cycle_manager.hpp"
 
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
+#include "cseries/cseries_events.hpp"
 
 void c_life_cycle_state_manager::request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data)
 {

@@ -1,6 +1,7 @@
 #include "networking/network_globals.hpp"
 
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/game_options.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_networking.hpp"
@@ -11,18 +12,18 @@
 #include "networking/delivery/network_link.hpp"
 #include "networking/logic/network_recruiting_search.hpp"
 #include "networking/logic/network_session_interface.hpp"
-#include "networking/messages/network_messages_out_of_band.hpp"
 #include "networking/messages/network_messages_connect.hpp"
-#include "networking/messages/network_messages_session_protocol.hpp"
+#include "networking/messages/network_messages_out_of_band.hpp"
 #include "networking/messages/network_messages_session_membership.hpp"
 #include "networking/messages/network_messages_session_parameters.hpp"
+#include "networking/messages/network_messages_session_protocol.hpp"
 #include "networking/messages/network_messages_simulation.hpp"
-#include "networking/messages/network_messages_simulation_synchronous.hpp"
 #include "networking/messages/network_messages_simulation_distributed.hpp"
-#include "networking/messages/network_messages_text_chat.hpp"
+#include "networking/messages/network_messages_simulation_synchronous.hpp"
 #include "networking/messages/network_messages_test.hpp"
-#include "networking/network_time.hpp"
+#include "networking/messages/network_messages_text_chat.hpp"
 #include "networking/network_memory.hpp"
+#include "networking/network_time.hpp"
 #include "networking/session/network_session.hpp"
 #include "networking/transport/transport.hpp"
 #include "saved_games/scenario_map_variant.hpp"
@@ -95,7 +96,7 @@ HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
 //{
 //	if (shell_application_type() != _shell_application_type_client || network_globals.initialized)
 //	{
-//		c_console::write_line("network_globals_initialize(): failed to initialize base networking memory layer");
+//		generate_event(_event_level_warning, "network_globals_initialize(): failed to initialize base networking memory layer");
 //		return;
 //	}
 //
@@ -175,7 +176,7 @@ HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
 //
 //	if (!success)
 //	{
-//		c_console::write_line("network_globals_initialize(): failed to initialize networking");
+//		generate_event(_event_level_warning, "network_globals_initialize(): failed to initialize networking");
 //		network_dispose();
 //		return;
 //	}
@@ -255,7 +256,7 @@ void __cdecl network_test_set_map_name(char const* scenario_path)
 	}
 	else
 	{
-		c_console::write_line("unable to set map %s", scenario_path);
+		generate_event(_event_level_warning, "unable to set map %s", scenario_path);
 	}
 }
 
@@ -384,13 +385,13 @@ void __cdecl network_test_ping()
 			.request_qos = false
 		};
 
-		c_console::write_line("networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
+		generate_event(_event_level_message, "networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
 		for (word broadcast_port = k_broadcast_port; broadcast_port < k_broadcast_port + k_broadcast_port_alt_ammount; broadcast_port++)
 			g_network_message_gateway->send_message_broadcast(_network_message_ping, sizeof(s_network_message_ping), &ping, broadcast_port);
 	}
 	else
 	{
-		c_console::write_line("networking:test: networking is not initialized");
+		generate_event(_event_level_error, "networking:test: networking is not initialized");
 	}
 }
 
@@ -406,12 +407,12 @@ void __cdecl network_test_ping_directed(transport_address const* address)
 			.request_qos = false
 		};
 
-		c_console::write_line("networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
+		generate_event(_event_level_message, "networking:test:ping: ping #%d sent at local %dms", id, network_time_get_exact());
 		g_network_message_gateway->send_message_directed(address, _network_message_ping, sizeof(s_network_message_ping), &ping);
 	}
 	else
 	{
-		c_console::write_line("networking:test: networking is not initialized");
+		generate_event(_event_level_error, "networking:test: networking is not initialized");
 	}
 }
 
@@ -430,7 +431,7 @@ void __cdecl network_test_text_chat(char const* text)
 	}
 	else
 	{
-		c_console::write_line("networking:test: networking is not initialized");
+		generate_event(_event_level_error, "networking:test: networking is not initialized");
 	}
 
 }
@@ -450,7 +451,7 @@ void __cdecl network_test_text_chat_directed(transport_address const* address, c
 	}
 	else
 	{
-		c_console::write_line("networking:test: networking is not initialized");
+		generate_event(_event_level_error, "networking:test: networking is not initialized");
 	}
 
 }

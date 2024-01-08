@@ -1,9 +1,9 @@
 #include "main_game_launch.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "main/main_game.hpp"
 #include "networking/logic/network_life_cycle.hpp"
-
 
 s_main_game_launch_globals g_launch_globals = { .player_count = 1, .options = *reinterpret_cast<game_options*>(0x023B6348) };
 
@@ -58,7 +58,7 @@ void main_game_launch_set_coop_player_count(long coop_player_count)
 	}
 	else
 	{
-		c_console::write_line("main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", coop_player_count, 4);
+		generate_event(_event_level_warning, "main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", coop_player_count, 4);
 	}
 }
 
@@ -76,7 +76,7 @@ void main_game_launch_set_multiplayer_splitscreen_count(long multiplayer_splitsc
 	}
 	else
 	{
-		c_console::write_line("main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)", multiplayer_splitscreen_count, 4);
+		generate_event(_event_level_warning, "main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)", multiplayer_splitscreen_count, 4);
 	}
 }
 
@@ -133,7 +133,7 @@ void main_game_launch(const char* map_name)
 	}
 	else if (g_launch_globals.options.game_mode != _game_mode_multiplayer)
 	{
-		c_console::write_line("main_game_launch: unknown game mode %d!", g_launch_globals.options.game_mode.get());
+		generate_event(_event_level_warning, "main_game_launch: unknown game mode %d!", g_launch_globals.options.game_mode.get());
 		return;
 	}
 

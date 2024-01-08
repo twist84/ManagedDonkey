@@ -459,8 +459,7 @@ long parse_network_event(const char* event_name, long category_substring_count, 
 			}
 			else
 			{
-				c_console::write_line("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, maximum_characters);
-				//GENERATE_ERROR("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, maximum_characters);
+				generate_event(_event_level_error, "network event category substring #%d '%s' exceeded %d characters", category_index, category_name, maximum_characters);
 
 				failed = true;
 			}
@@ -478,8 +477,7 @@ long parse_network_event(const char* event_name, long category_substring_count, 
 				}
 				else
 				{
-					c_console::write_line("network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, category_substring_count);
-					//GENERATE_ERROR("network event category substring #%d '%s' exceeded %d characters", category_index, category_name, maximum_characters);
+					generate_event(_event_level_error, "network event category #%d '%s' exceeded %d category substrings", category_index, category_substring, category_substring_count);
 
 					failed = true;
 				}
@@ -491,7 +489,7 @@ long parse_network_event(const char* event_name, long category_substring_count, 
 		}
 	} while (!succeeded && !failed);
 
-	if (failed)
+	if (failed) // #TODO: asserts with string builder
 		c_console::write_line("failed to parse network event '%s'", event_name);
 
 	if (category_index > category_count)
@@ -535,8 +533,7 @@ long event_find_category_recursive(long category_index, bool create_category, lo
 
 		if (next_category_index == NONE)
 		{
-			c_console::write_line("event_find_category_recursive: ran out of categories creating '%s'", (*category_names)[0]);
-			//GENERATE_ERROR("event_find_category_recursive: ran out of categories creating '%s'", category_names);
+			generate_event(_event_level_error, "event_find_category_recursive: ran out of categories creating '%s'", (*category_names)[0]);
 		}
 		else
 		{

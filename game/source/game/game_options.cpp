@@ -1,5 +1,7 @@
 #include "game/game_options.hpp"
 
+#include "cseries/cseries_events.hpp"
+
 c_game_variant::c_game_variant()
 {
 	m_game_engine_index = _game_engine_base_variant;
@@ -118,7 +120,7 @@ long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type g
 	//DECLFUNC(0x0057A2E0, void, __thiscall, c_game_variant const*, e_game_engine_type)(this, game_engine_index);
 
 	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
-		c_console::write_line("invalid game engine type #%ld requested variant size");
+		generate_event(_event_level_warning, "invalid game engine type #%ld requested variant size");
 
 	long size = 0;
 	switch (game_engine_index)
@@ -182,7 +184,7 @@ void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine
 
 	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
 	{
-		c_console::write_line("invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
+		generate_event(_event_level_warning, "invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
 		game_engine_index = _game_engine_base_variant;
 	}
 

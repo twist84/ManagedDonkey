@@ -1,6 +1,7 @@
 #include "networking/online/online_guide_pc.hpp"
 
 #include "cseries/async_xoverlapped_memory.hpp"
+#include "cseries/cseries_events.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/user_interface_text.hpp"
 #include "memory/module.hpp"
@@ -180,7 +181,7 @@ c_virtual_keyboard_task* __cdecl c_virtual_keyboard_task::get_instance(
 			m_instance->set_sanitize_result(sanitize_result);
 		}
 		else
-			c_console::write_line("ui: someone tried to get a duplicate instance of the virtual keyboard!");
+			generate_event(_event_level_warning, "ui: someone tried to get a duplicate instance of the virtual keyboard!");
 	}
 
 	return m_instance;
@@ -288,7 +289,7 @@ void __cdecl online_guide_show_file_share_recommendation(e_controller_index cont
 	MessageBoxA(NULL, "File Share Recommendation UI Placeholder", "networking:online:guide", MB_OK);
 
 	//if (g_online_guide_globals->busy()) 
-	//	c_console::write_line("networking:online:guide: online_guide_show_file_share_recommendation called when task is already in progress");
+	//	generate_event(_event_level_error, "networking:online:guide: online_guide_show_file_share_recommendation called when task is already in progress");
 }
 
 dword __cdecl online_guide_show_friend_request_ui(e_controller_index controller_index, qword user_xuid)
@@ -304,7 +305,7 @@ dword __cdecl online_guide_show_friend_request_ui(e_controller_index controller_
 	//	result = XShowFriendRequestUI(controller_index, user_xuid);
 	//
 	//if (FAILED(result))
-	//	c_console::write_line("networking:online:guide: XShowFriendRequestUI call failed with result %s", online_error_get_string(error_string, result));
+	//	generate_event(_event_level_warning, "networking:online:guide: XShowFriendRequestUI call failed with result %s", online_error_get_string(error_string, result));
 	//
 	//return result;
 
@@ -323,7 +324,7 @@ dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
 	//	result = XShowFriendsUI(controller_index);
 	//
 	//if (FAILED(result))
-	//	c_console::write_line("networking:online:guide: XShowFriendsUI() returned #%ld for controller #%ld", result, controller_index);
+	//	generate_event(_event_level_error, "networking:online:guide: XShowFriendsUI() returned #%ld for controller #%ld", result, controller_index);
 	//
 	//return result;
 
@@ -343,7 +344,7 @@ dword __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_inde
 	//	result = XShowGamerCardUI(controller_index, user_xuid);
 	//
 	//if (FAILED(result))
-	//	c_console::write_line("networking:online:guide: XShowGamerCardUI call failed with result %s", online_error_get_string(error_string, result));
+	//	generate_event(_event_level_warning, "networking:online:guide: XShowGamerCardUI call failed with result %s", online_error_get_string(error_string, result));
 	//
 	//return result;
 
@@ -364,7 +365,7 @@ dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 	//	result = XShowPlayerReviewUI(controller_index, target_user_xuid);
 	//
 	//if (FAILED(result))
-	//	c_console::write_line("networking:online:guide: XShowPlayerReviewUI call failed with result %s", online_error_get_string(error_string, result));
+	//	generate_event(_event_level_warning, "networking:online:guide: XShowPlayerReviewUI call failed with result %s", online_error_get_string(error_string, result));
 	//
 	//return result;
 
@@ -383,7 +384,7 @@ bool __cdecl online_guide_show_sign_in_ui(long pane_count, dword_flags flags)
 	//
 	//result = XShowSigninUI(pane_count, signin_flags0 | signin_flags1 | 0x80000);
 	//if (result)
-	//	c_console::write_line("networking:online:guide: XShowSigninUI failed with result %08x.", result);
+	//	generate_event(_event_level_warning, "networking:online:guide: XShowSigninUI failed with result %08x.", result);
 	//
 	//return result == 0;
 

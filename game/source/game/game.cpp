@@ -3,6 +3,7 @@
 #include "config/version.hpp"
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_hs.hpp"
+#include "main/console.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "render/render_debug.hpp"
@@ -83,7 +84,7 @@ void __cdecl game_options_print_game_id()
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
-	c_console::write_line("%I64d", game_options_get()->game_instance);
+	console_printf("%I64d", game_options_get()->game_instance);
 }
 
 // void __cdecl game_options_setup_for_saved_film(e_game_playback_type playback_type)
@@ -226,7 +227,7 @@ void __cdecl game_simulation_set(e_game_simulation_type game_simulation)
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	game_globals->options.game_simulation = game_simulation;
-	c_console::write_line("game_simulation: %s", k_game_simulation_names[game_simulation]);
+	main_status("game_simulation: %s", k_game_simulation_names[game_simulation]);
 }
 
 bool __cdecl game_is_multithreaded()

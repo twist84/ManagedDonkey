@@ -1,6 +1,7 @@
 #include "game/game_engine.hpp"
 
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_util.hpp"
 #include "game/game_time.hpp"
@@ -248,13 +249,13 @@ void __cdecl game_engine_dump_variant_settings(char const* filename)
 			}
 			else
 			{
-				c_console::write_line("game_engine: failed to create file to write variant settings!");
+				generate_event(_event_level_error, "game_engine: failed to create file to write variant settings!");
 			}
 		}
 	}
 	else
 	{
-		c_console::write_line("game_engine: this game cannot export game engine variant settings!");
+		generate_event(_event_level_error, "game_engine: this game cannot export game engine variant settings!");
 	}
 }
 

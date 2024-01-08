@@ -1,5 +1,6 @@
 #include "game/game_engine_traits.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "main/main_game.hpp"
 #include "memory/byte_swapping.hpp"
@@ -519,7 +520,7 @@ void c_game_engine_social_options::set_team_changing_setting(long team_changing)
 {
 	if (!VALID_INDEX(team_changing, 2))
 	{
-		c_console::write_line("game_engine:social_option:team_changing: invalid team changing setting '%d'!", team_changing);
+		generate_event(_event_level_warning, "game_engine:social_option:team_changing: invalid team changing setting '%d'!", team_changing);
 	}
 	else
 	{
@@ -655,7 +656,7 @@ void c_game_engine_map_override_options::set_weapon_set_absolute_index(short wea
 	}
 	else
 	{
-		c_console::write_line("game_engine:map_option:weapon_set: invalid weapon set '%d'!", weapon_set_absolute_index);
+		generate_event(_event_level_warning, "game_engine:map_option:weapon_set: invalid weapon set '%d'!", weapon_set_absolute_index);
 		m_weapon_set_absolute_index = short(0xFFFF);
 	}
 }
@@ -673,7 +674,7 @@ void c_game_engine_map_override_options::set_vehicle_set_absolute_index(short ve
 	}
 	else
 	{
-		c_console::write_line("game_engine:map_option:vehicle_set: invalid vehicle set '%d'!", vehicle_set_absolute_index);
+		generate_event(_event_level_warning, "game_engine:map_option:vehicle_set: invalid vehicle set '%d'!", vehicle_set_absolute_index);
 
 		//ms23: `m_weapon_set_absolute_index`
 		m_vehicle_set_absolute_index = short(0xFFFF);

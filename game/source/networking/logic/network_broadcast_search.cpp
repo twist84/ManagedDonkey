@@ -1,5 +1,6 @@
 #include "networking/logic/network_broadcast_search.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 #include "networking/delivery/network_link.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
@@ -55,7 +56,7 @@ bool __cdecl network_broadcast_search_begin(long controller_index, long maximum_
 		}
 		else
 		{
-			c_console::write_line("networking:logic:broadcast-search: no physical link available");
+			generate_event(_event_level_error, "networking:logic:broadcast-search: no physical link available");
 		}
 	}
 
@@ -129,7 +130,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 
 		if (v5 == -1)
 		{
-			c_console::write_line("networking:logic:broadcast-search: too many games on the network, can't store reply");
+			generate_event(_event_level_error, "networking:logic:broadcast-search: too many games on the network, can't store reply");
 		}
 		else
 		{

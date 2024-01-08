@@ -1,7 +1,8 @@
 #include "networking/session/network_session.hpp"
 
-#include "interface/c_controller.hpp"
+#include "cseries/cseries_events.hpp"
 #include "hf2p/hf2p.hpp"
+#include "interface/c_controller.hpp"
 #include "memory/module.hpp"
 #include "networking/delivery/network_channel.hpp"
 #include "networking/messages/network_message_type_collection.hpp"
@@ -120,16 +121,22 @@ bool __cdecl c_network_session::handle_player_properties(c_network_channel* chan
 		long peer_index = m_session_membership.get_peer_from_observer_channel(observer_channel_index);
 		if (peer_index == NONE || peer_index == m_session_membership.local_peer_index())
 		{
-			c_console::write_line("networking:session:membership: [%s] player-properties received from invalid peer [#%d]",
+			generate_event(_event_level_message, "networking:session:membership: [%s] player-properties received from invalid peer [#%d]",
 				managed_session_get_id_string(m_managed_session_index),
 				peer_index);
 		}
+		//else if (message->user_index < 0 || message->user_index >= 4)
+		//{
+		//	generate_event(_event_level_error, "networking:session:membership: [%s] player-properties received for invalid user_index [#%d]",
+		//		managed_session_get_id_string(m_managed_session_index),
+		//		message->user_index);
+		//}
 		else
 		{
 			long player_index = m_session_membership.get_player_index_from_peer(peer_index);
 			if (player_index == NONE)
 			{
-				c_console::write_line("networking:session:membership: [%s] player-properties received but no player associated with peer [#%d]",
+				generate_event(_event_level_warning, "networking:session:membership: [%s] player-properties received but no player associated with peer [#%d]",
 					managed_session_get_id_string(m_managed_session_index),
 					peer_index);
 			}
@@ -141,7 +148,7 @@ bool __cdecl c_network_session::handle_player_properties(c_network_channel* chan
 					&message->player_data,
 					message->player_voice);
 
-				c_console::write_line("networking:session:membership: [%s] player-properties accepted for peer/player [#%d]/[#%d]",
+				generate_event(_event_level_status, "networking:session:membership: [%s] player-properties accepted for peer/player [#%d]/[#%d]",
 					managed_session_get_id_string(m_managed_session_index),
 					peer_index,
 					peer_index);
@@ -152,7 +159,7 @@ bool __cdecl c_network_session::handle_player_properties(c_network_channel* chan
 	}
 	else
 	{
-		c_console::write_line("networking:session:membership: [%s] player-properties received but not host, can't update players",
+		generate_event(_event_level_warning, "networking:session:membership: [%s] player-properties received but not host, can't update players",
 			managed_session_get_id_string(m_managed_session_index));
 	}
 
@@ -191,7 +198,7 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 		long player_index = m_session_membership.get_player_index_from_peer(m_session_membership.local_peer_index());
 		if (player_index == NONE)
 		{
-			c_console::write_line("networking:session:membership: [%s] local host requested player-properties does not exist",
+			generate_event(_event_level_error, "networking:session:membership: [%s] local host requested player-properties does not exist",
 				managed_session_get_id_string(m_managed_session_index));
 
 			return false;
@@ -199,7 +206,7 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 
 		s_network_session_player* player = get_player(player_index);
 
-		c_console::write_line("networking:session:membership: [%s] local host applying player-properties for player [#%d]",
+		generate_event(_event_level_status, "networking:session:membership: [%s] local host applying player-properties for player [#%d]",
 			managed_session_get_id_string(m_managed_session_index),
 			player_index);
 
@@ -213,7 +220,7 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 	}
 	else
 	{
-		c_console::write_line("networking:session:membership: [%s] sending player-properties request",
+		generate_event(_event_level_status, "networking:session:membership: [%s] sending player-properties request",
 			managed_session_get_id_string(m_managed_session_index));
 
 		s_network_message_player_properties message{};
