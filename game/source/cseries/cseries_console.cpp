@@ -14,30 +14,36 @@ bool c_console::m_initialized = false;
 
 void c_console::initialize(char const* window_title)
 {
-	m_initialized = true;
+	if (!m_initialized)
+	{
+		m_initialized = true;
 
 #if defined(CONSOLE_ENABLED)
-	AllocConsole();
-	AttachConsole(GetCurrentProcessId());
-	SetConsoleTitleA(window_title);
+		AllocConsole();
+		AttachConsole(GetCurrentProcessId());
+		SetConsoleTitleA(window_title);
 
-	freopen_s(&m_file, "CONIN$", "r", stdin);
-	freopen_s(&m_file, "CONOUT$", "w", stderr);
-	freopen_s(&m_file, "CONOUT$", "w", stdout);
+		freopen_s(&m_file, "CONIN$", "r", stdin);
+		freopen_s(&m_file, "CONOUT$", "w", stderr);
+		freopen_s(&m_file, "CONOUT$", "w", stdout);
 #endif // _DEBUG
+	}
 }
 
 void c_console::dispose()
 {
+	if (m_initialized)
+	{
+		m_initialized = false;
+
 #if defined(CONSOLE_ENABLED)
-	m_initialized = false;
+		if (m_file)
+			fclose(m_file);
 
-	if (m_file)
-		fclose(m_file);
-
-	FreeConsole();
-	PostMessageW(GetConsoleWindow(), WM_CLOSE, 0, 0);
+		FreeConsole();
+		PostMessageW(GetConsoleWindow(), WM_CLOSE, 0, 0);
 #endif // _DEBUG
+	}
 }
 
 void c_console::write(char const* format, ...)

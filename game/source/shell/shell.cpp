@@ -918,7 +918,12 @@ e_shell_tool_type __cdecl shell_tool_type()
 
 //.text:0042E360 ; bool __cdecl shell_build_number_is_compatible(long)
 //.text:0042E390 ; bool __cdecl shell_build_string_is_compatible(char const *)
-//.text:0042E410 ; void __cdecl shell_dispose()
+
+void __cdecl shell_dispose()
+{
+	INVOKE(0x0042E410, shell_dispose);
+}
+
 //.text:0042E470 ; char const* __cdecl shell_get_target()
 //.text:0042E480 ; char const* __cdecl version_get_target_variant()
 //.text:0042E4A0 ; void __cdecl shell_halt_on_pure_virtual_call()
@@ -928,7 +933,37 @@ void __cdecl shell_halt_with_message(char const* message)
 	INVOKE(0x0042E4B0, shell_halt_with_message, message);
 }
 
-//.text:0042E540 ; bool __cdecl shell_initialize(bool)
+bool __cdecl shell_initialize(bool windowed)
+{
+	return INVOKE(0x0042E540, shell_initialize, windowed);
+
+	//bool shell_initialized = false;
+	//set_purecall_handler(shell_halt_on_pure_virtual_call);
+	//cseries_initialize();
+	//game_state_shell_gobble_first_physical_allocation();
+	//runtime_state_shell_initialize();
+	//if (shell_platform_initialize())
+	//{
+	//	real_math_initialize();
+	//	async_initialize();
+	//	security_initialize();
+	//	network_remote_reporting_initialize();
+	//	global_preferences_initialize();
+	//	font_initialize();
+	//	tag_files_open();
+	//	game_state_shell_initialize();
+	//	c_rasterizer::shell_initialize(false, windowed);
+	//	if (rasterizer_initialized())
+	//	{
+	//		input_initialize();
+	//		sound_initialize();
+	//		shell_initialized = true;
+	//	}
+	//	shell_platform_verify();
+	//}
+	//return shell_initialized;
+}
+
 //.text:0042E5F0 ; bool __cdecl game_is_bot_client()
 //.text:0042E600 ; bool __cdecl game_is_dedicated_server()
 //.text:0042E610 ; bool __cdecl game_is_client()

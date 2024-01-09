@@ -516,7 +516,7 @@ void __cdecl sound_debug_render()
 		//}
 	}
 
-	//if (debug_sound_timing)
+	if (debug_sound_timing)
 	{
 		debug_string.append_print("Sound system_time: %6.4f render_time: %6.4f delta_time: %1.4f|n",
 			g_sound_manager_globals->system_time / 1000.0f,

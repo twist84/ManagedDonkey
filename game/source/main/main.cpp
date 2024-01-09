@@ -109,7 +109,6 @@ REFERENCE_DECLARE_ARRAY(0x019E8D58, byte, message_storage, 0x40000);
 
 HOOK_DECLARE(0x00505530, main_events_pending);
 HOOK_DECLARE(0x00505650, main_events_reset);
-HOOK_DECLARE(0x005059E0, main_loop);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 HOOK_DECLARE(0x005065B0, main_loop_process_global_state_changes);
 
