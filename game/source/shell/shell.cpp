@@ -924,8 +924,20 @@ void __cdecl shell_dispose()
 	INVOKE(0x0042E410, shell_dispose);
 }
 
-//.text:0042E470 ; char const* __cdecl shell_get_target()
-//.text:0042E480 ; char const* __cdecl version_get_target_variant()
+char const* __cdecl shell_get_target()
+{
+	return INVOKE(0x0042E470, shell_get_target);
+
+	//return "blam";
+}
+
+char const* __cdecl shell_get_target_variant()
+{
+	return INVOKE(0x0042E480, shell_get_target_variant);
+
+	//return "cache";
+}
+
 //.text:0042E4A0 ; void __cdecl shell_halt_on_pure_virtual_call()
 
 void __cdecl shell_halt_with_message(char const* message)
@@ -940,6 +952,7 @@ bool __cdecl shell_initialize(bool windowed)
 	//bool shell_initialized = false;
 	//set_purecall_handler(shell_halt_on_pure_virtual_call);
 	//cseries_initialize();
+	//events_initialize();
 	//game_state_shell_gobble_first_physical_allocation();
 	//runtime_state_shell_initialize();
 	//if (shell_platform_initialize())

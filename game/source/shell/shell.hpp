@@ -2080,6 +2080,8 @@ extern void __cdecl shell_application_pause(bool pause);
 extern e_shell_application_type __cdecl shell_application_type();
 extern e_shell_tool_type __cdecl shell_tool_type();
 extern void __cdecl shell_dispose();
+extern char const* __cdecl shell_get_target();
+extern char const* __cdecl shell_get_target_variant();
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_initialize(bool windowed);
 extern void __cdecl shell_idle();
