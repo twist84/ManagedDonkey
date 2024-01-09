@@ -19,6 +19,7 @@ struct s_windows_params
 	CHAR window_name[64];
 	LPSTR cmd_line;
 };
+static_assert(sizeof(s_windows_params));
 
 REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
 
