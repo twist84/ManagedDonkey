@@ -12,6 +12,7 @@
 #include "camera/director.hpp"
 #include "cseries/async.hpp"
 #include "cseries/progress.hpp"
+#include "cseries/runtime_state.hpp"
 #include "cseries/upload_debug.hpp"
 #include "data_mining/data_mine_management.hpp"
 #include "editor/editor_stubs.hpp"
@@ -57,6 +58,7 @@
 #include "networking/network_configuration.hpp"
 #include "networking/network_globals.hpp"
 #include "networking/network_memory.hpp"
+#include "networking/online/online_achievements.hpp"
 #include "networking/online/online_lsp.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/tools/network_blf.hpp"
@@ -82,7 +84,6 @@
 #include "text/font_cache.hpp"
 #include "text/font_loading.hpp"
 #include "visibility/visibility_collection.hpp"
-#include "networking/online/online_achievements.hpp"
 
 #include <math.h>
 #include <time.h>
@@ -1066,6 +1067,9 @@ void __cdecl main_loop_body_begin()
 		loading_globals;
 		progress_globals;
 		g_online_url;
+		g_runtime_state_allocation;
+		g_actual_runtime_state_allocation;
+		g_runtime_state_globals;
 
 		s_thread_local_storage* tls = get_tls();
 
