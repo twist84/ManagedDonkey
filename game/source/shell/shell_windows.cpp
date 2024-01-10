@@ -249,7 +249,7 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	if (uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN || uMsg == WM_CHAR || uMsg == WM_SYSCHAR)
+	if (key.key_type == _key_type_down || key.key_type == _key_type_char)
 		key.was_key_down = TEST_MASK(lParam, 0x40000000);
 
 	if (key.key_code != k_key_code_none)
