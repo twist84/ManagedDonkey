@@ -2084,6 +2084,7 @@ extern char const* __cdecl shell_get_target();
 extern char const* __cdecl shell_get_target_variant();
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_initialize(bool windowed);
+extern char* __cdecl shell_get_command_line();
 extern void __cdecl shell_idle();
 extern void __cdecl shell_screen_pause(bool pause);
 extern bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len);

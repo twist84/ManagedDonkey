@@ -1077,6 +1077,7 @@ POPD
     <ClInclude Include="source\shell\game_interface\simulation_game_events.hpp" />
     <ClInclude Include="source\shell\shell.hpp" />
     <ClInclude Include="source\scenario\scenario_object_definitions.hpp" />
+    <ClInclude Include="source\shell\shell_windows.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_action.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_breakable_surfaces.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_damage.hpp" />

@@ -1,8 +1,11 @@
 #include "shell/shell.hpp"
 
 #include "cseries/cseries.hpp"
+#include "input/input.hpp"
+#include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
+#include "shell/shell_windows.hpp"
 
 REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);
 
@@ -25,7 +28,7 @@ char const* const k_network_session_mode_names[k_network_session_mode_count]
 	"matchmaking_choosing_game"
 };
 
-char const* k_ui_game_mode_names[k_ui_game_mode_count]
+char const* const k_ui_game_mode_names[k_ui_game_mode_count]
 {
 	"campaign",
 	"matchmaking",
@@ -35,7 +38,7 @@ char const* k_ui_game_mode_names[k_ui_game_mode_count]
 	"survival"
 };
 
-char const* k_gui_network_session_advertisement_mode_names[k_gui_network_session_advertisement_mode_count]
+char const* const k_gui_network_session_advertisement_mode_names[k_gui_network_session_advertisement_mode_count]
 {
 	"open_to_public",
 	"open_to_friends",
@@ -45,7 +48,7 @@ char const* k_gui_network_session_advertisement_mode_names[k_gui_network_session
 	"full"
 };
 
-char const* k_game_variant_parameter_names[k_game_variant_parameter_count]
+char const* const k_game_variant_parameter_names[k_game_variant_parameter_count]
 {
 	"game_misc_teams",
 	"game_misc_unknown1",
@@ -988,7 +991,13 @@ bool __cdecl shell_initialize(bool windowed)
 //.text:0042E640 ; bool __cdecl game_is_sapien()
 //.text:0042E650 ; bool __cdecl game_is_tool()
 //.text:0042E660 ; e_shell_tool_type __cdecl shell_tool_type()
-//.text:0042E930 ; char* __cdecl shell_get_command_line(void)
+
+char* __cdecl shell_get_command_line()
+{
+	//return INVOKE(0x0042E930, shell_get_command_line);
+
+	return g_windows_params.cmd_line;
+}
 
 void __cdecl shell_idle()
 {

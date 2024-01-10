@@ -1,4 +1,4 @@
-#include "cseries/cseries.hpp"
+#include "shell/shell_windows.hpp"
 
 #include "cache/physical_memory_map.hpp"
 #include "input/input.hpp"
@@ -7,45 +7,9 @@
 #include "memory/module.hpp"
 #include "shell/shell.hpp"
 
-#include <Windows.h>
-
-struct s_windows_params
-{
-	HINSTANCE instance;
-	HWND created_window_handle;
-	HWND window_handle;
-	int cmd_show;
-	WNDPROC window_proc;
-	CHAR class_name[64];
-	CHAR window_name[64];
-	LPSTR cmd_line;
-};
-static_assert(sizeof(s_windows_params));
-
 REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
 
-// forward declare these here to avoid putting `#include <Windows.h>` in the header
-LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-void __cdecl UnregisterHotKey_Snapshot();
-void __cdecl RegisterHotKey_Snapshot();
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow);
-char const* __cdecl sub_5013A0();
-bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam);
-void __cdecl WndProc_HandleMouse(UINT Msg, WPARAM wParam, LPARAM lParam);
-void __cdecl WndProc_HandleActivate(UINT uMsg, WPARAM wParam);
-void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam);
-void __cdecl SetBinDllDirectory();
-
-//HOOK_DECLARE(0x0042E6A0, WndProc);
-//HOOK_DECLARE(0x0042E850, UnregisterHotKey_Snapshot);
-//HOOK_DECLARE(0x0042E870, RegisterHotKey_Snapshot);
 HOOK_DECLARE(0x0042EB10, WinMain);
-//HOOK_DECLARE(0x005013A0, sub_5013A0);
-//HOOK_DECLARE(0x00511F40, WndProc_HandleKeys);
-//HOOK_DECLARE(0x00512160, WndProc_HandleMouse);
-//HOOK_DECLARE(0x00512320, WndProc_HandleActivate);
-//HOOK_DECLARE(0x00512350, WndProc_HandleRawMouse);
-//HOOK_DECLARE(0x0051CF30, SetBinDllDirectory);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
