@@ -980,7 +980,7 @@ void __cdecl main_loop_body_main_part()
 				}
 				else if (game_in_progress() && game_is_playback())
 				{
-					if (g_main_gamestate_timing_data->world_seconds_elapsed > 0.0f && g_main_gamestate_timing_data->world_seconds_elapsed < 0.025f
+					if (g_main_gamestate_timing_data->world_seconds_elapsed > 0.0f && g_main_gamestate_timing_data->world_seconds_elapsed < 0.025f // 0.0083333338 in h3ek
 						&& !g_main_gamestate_timing_data->flags.test(_game_tick_publishing_unknown_bit8)
 						&& !g_main_gamestate_timing_data->flags.test(_game_tick_publishing_unknown_bit9)
 						&& !g_main_gamestate_timing_data->flags.test(_game_tick_publishing_unknown_bit0))
@@ -1887,6 +1887,16 @@ void __cdecl main_thread_unlock_rasterizer_and_resources()
 bool __cdecl main_time_halted()
 {
 	//return INVOKE(0x00507370, main_time_halted);
+
+	//if (debug_console_pauses_game
+	//	&& debugging_system_has_focus()
+	//	&& (!game_in_progress() || !game_has_nonlocal_players() || game_is_authoritative_playback()))
+	//{
+	//	return true;
+	//}
+
+	if (main_globals.reset_zone_resources)
+		return true;
 
 	return shell_application_is_paused();
 }
