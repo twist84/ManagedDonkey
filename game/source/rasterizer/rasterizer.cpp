@@ -218,7 +218,7 @@ HCURSOR __cdecl sub_A22340()
 	HCURSOR result = (HCURSOR)LoadImage(NULL, L"halo3.cur", IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
 	if (!result)
 	{
-		result = (HCURSOR)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(0x66), IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
+		result = (HCURSOR)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(102), IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
 		if (!result)
 			return LoadCursor(NULL, MAKEINTRESOURCE(0x7F00));
 	}
