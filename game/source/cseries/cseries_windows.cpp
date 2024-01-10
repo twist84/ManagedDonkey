@@ -6,7 +6,7 @@
 #include <windows.h>
 #include <time.h>
 
-void display_debug_string(const char* format, ...)
+void __cdecl display_debug_string(const char* format, ...)
 {
 	va_list list;
 	va_start(list, format);
@@ -23,24 +23,40 @@ void display_debug_string(const char* format, ...)
 	va_end(list);
 }
 
-unsigned long system_milliseconds()
+unsigned long __cdecl system_milliseconds()
 {
+	//return INVOKE(0x004EC110, system_milliseconds);
+
 	return timeGetTime();
 }
 
-unsigned long system_seconds()
+unsigned long __cdecl system_seconds()
 {
+	//return INVOKE(0x004EC260, system_seconds);
+
 	return static_cast<unsigned long>(_time64(0));
 }
 
-void system_abort()
+void __cdecl system_abort()
 {
 	main_halt_and_catch_fire();
 }
 
 // __trap()
-void system_exit()
+void __cdecl system_exit()
 {
 	exit(1);
+}
+
+void __cdecl system_set_dll_directory()
+{
+	//INVOKE(0x0051CF30, system_set_dll_directory);
+
+	char dll_directory[1024]{};
+	csstrnzcat(dll_directory, ".\\bin", 1024);
+	SetDllDirectoryA(dll_directory);
+
+	//generate_event(_event_level_message, "system: dll directory={ %s }", dll_directory);
+	printf("system: dll directory={ %s }\n", dll_directory);
 }
 
