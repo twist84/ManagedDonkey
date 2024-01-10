@@ -408,22 +408,22 @@ void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			input_globals.raw_mouse_state.relative_y += raw_buf.data.mouse.lLastY;
 			input_globals.raw_mouse_state.wheel_delta += TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_WHEEL) ? raw_buf.data.mouse.usButtonData : 0;
 
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_LEFT_BUTTON_DOWN))
+			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_1_DOWN))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_1, true);
 
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_LEFT_BUTTON_UP))
+			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_1_UP))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_1, false);
 
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_RIGHT_BUTTON_DOWN))
+			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_2_DOWN))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_2, true);
 
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_RIGHT_BUTTON_UP))
+			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_2_UP))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_2, false);
 
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_MIDDLE_BUTTON_DOWN))
+			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_3_DOWN))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_3, true);
 
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_MIDDLE_BUTTON_UP))
+			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_3_UP))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_3, false);
 
 			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_4_DOWN))
