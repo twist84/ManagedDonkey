@@ -2,10 +2,13 @@
 
 #include "cseries/cseries.hpp"
 #include "main/main_time.hpp"
+#include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);
 
-char const* k_network_session_mode_names[k_network_session_mode_count]
+HOOK_DECLARE(0x0042E940, shell_idle);
+
+char const* const k_network_session_mode_names[k_network_session_mode_count]
 {
 	"none",
 	"idle",
@@ -989,7 +992,30 @@ bool __cdecl shell_initialize(bool windowed)
 
 void __cdecl shell_idle()
 {
-	INVOKE(0x0042E940, shell_idle);
+	//INVOKE(0x0042E940, shell_idle);
+
+	static dword quit_timeout = NONE;
+
+	MSG message{};
+	while (PeekMessageW(&message, NULL, 0, 0, PM_REMOVE))
+	{
+		if (message.message == WM_QUIT)
+		{
+			main_exit_game();
+			quit_timeout = system_milliseconds();
+		}
+		else
+		{
+			TranslateMessage(&message);
+			DispatchMessageA(&message);
+		}
+	}
+
+	if (quit_timeout != NONE && system_milliseconds() > quit_timeout + 2000)
+		ExitProcess(0);
+
+	if ( !shell_application_is_paused() && !input_get_mouse_state(_input_type_ui))
+		Sleep(1);
 }
 
 //.text:0042EA00 ; void __cdecl shell_platform_dispose()
