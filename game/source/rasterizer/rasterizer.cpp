@@ -4,6 +4,8 @@
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render_methods/render_method_submit.hpp"
+#include "shell/shell.hpp"
+#include "shell/shell_windows.hpp"
 #include "tag_files/files.hpp"
 
 #include <d3d9.h>
@@ -40,6 +42,7 @@ HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
 //HOOK_DECLARE_CALL(0x00A9FACB, rasterizer_get_display_pixel_bounds); // ui
 //HOOK_DECLARE_CALL(0x00A9F80C, rasterizer_get_display_pixel_bounds); // logo
 //HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds); // watermark
+HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
 
 void __stdcall sub_79BA30(long width, long height)
 {
@@ -207,6 +210,21 @@ void __cdecl c_rasterizer::rasterizer_device_release_thread()
 	INVOKE(0x00A222F0, rasterizer_device_release_thread);
 }
 
+// get cursor image
+HCURSOR __cdecl sub_A22340()
+{
+	//return INVOKE(0x00A22340, sub_A22340);
+
+	HCURSOR result = (HCURSOR)LoadImage(NULL, L"halo3.cur", IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
+	if (!result)
+	{
+		result = (HCURSOR)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(0x66), IMAGE_CURSOR, 0, 0, LR_DEFAULTCOLOR);
+		if (!result)
+			return LoadCursor(NULL, MAKEINTRESOURCE(0x7F00));
+	}
+	return result;
+}
+
 bool __cdecl c_rasterizer::rasterizer_thread_owns_device()
 {
 	return INVOKE(0x00A22390, rasterizer_thread_owns_device);
@@ -214,7 +232,122 @@ bool __cdecl c_rasterizer::rasterizer_thread_owns_device()
 
 void __cdecl c_rasterizer::initialize_window()
 {
-	INVOKE(0x00A223F0, initialize_window);
+	//INVOKE(0x00A223F0, initialize_window);
+
+	if (g_windows_params.created_window_handle != NULL)
+		return;
+
+	short_rectangle2d bounds{};
+	c_rasterizer::get_display_pixel_bounds(&bounds);
+	short display_width = bounds.x1;
+	short display_height = bounds.y1;
+
+	WNDCLASSEXA window_class{};
+	window_class.cbSize = sizeof(WNDCLASSEXA);
+	window_class.style = CS_CLASSDC;
+	window_class.lpfnWndProc = g_windows_params.window_proc;
+	window_class.cbClsExtra = 0;
+	window_class.cbWndExtra = 0;
+	window_class.hInstance = g_windows_params.instance;
+	window_class.hIcon = NULL;
+	window_class.hCursor = sub_A22340();
+	window_class.hbrBackground = NULL;
+	window_class.lpszMenuName = NULL;
+	window_class.lpszClassName = g_windows_params.class_name;
+	window_class.hIconSm = NULL;
+
+	ATOM class_registered = RegisterClassExA(&window_class);
+	if (class_registered == INVALID_ATOM)
+	{
+		CHAR error_message_buffer[256]{};
+		FormatMessageA(
+			FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+			NULL,
+			GetLastError(),
+			0,
+			error_message_buffer,
+			sizeof(error_message_buffer),
+			NULL);
+
+		//generate_event(_event_level_warning, "%s", error_message_buffer);
+		c_console::write_line("%s", error_message_buffer);
+	}
+
+	if (class_registered != INVALID_ATOM)
+	{
+		HWND window_handle_created = CreateWindowExA(
+			0,
+			g_windows_params.class_name,
+			g_windows_params.window_name,
+			WS_TILEDWINDOW,
+			0,
+			0,
+			display_width,
+			display_height,
+			GetDesktopWindow(),
+			NULL,
+			window_class.hInstance,
+			NULL);
+		g_windows_params.created_window_handle = window_handle_created;
+
+		if (window_handle_created != NULL)
+		{
+			RECT client_rect{};
+			RECT window_rect{};
+
+			GetClientRect(window_handle_created, &client_rect);
+			GetWindowRect(window_handle_created, &window_rect);
+
+			BOOL window_position_set = SetWindowPos(
+				window_handle_created,
+				HWND_NOTOPMOST,
+				0,
+				0,
+				window_rect.right - window_rect.left + display_width - (client_rect.right - client_rect.left),
+				window_rect.bottom - window_rect.top + display_height - (client_rect.bottom - client_rect.top),
+				SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOMOVE) > 0;
+
+			if (strstr(shell_get_command_line(), "-centered") != 0)
+			{
+				GetWindowRect(window_handle_created, &window_rect);
+				GetClientRect(window_handle_created, &client_rect);
+
+				POINT client_point = { client_rect.left, client_rect.top };
+				ClientToScreen(window_handle_created, &client_point);
+
+				SetWindowPos(
+					window_handle_created,
+					HWND_NOTOPMOST,
+					(GetSystemMetrics(SM_CXSCREEN) - display_width) / 2 - (client_rect.left - window_rect.left),
+					(GetSystemMetrics(SM_CYSCREEN) - display_height) / 2 - (client_rect.top - window_rect.top),
+					0,
+					0,
+					SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOSIZE);
+			}
+
+			if (window_position_set == TRUE)
+			{
+				ShowWindow(window_handle_created, g_windows_params.cmd_show);
+
+				return;
+			}
+		}
+	}
+
+	LPSTR error_message = NULL;
+	FormatMessageA(
+		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS | FORMAT_MESSAGE_ALLOCATE_BUFFER,
+		NULL,
+		GetLastError(),
+		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		(LPSTR)&error_message,
+		0,
+		NULL);
+	MessageBoxA(NULL, error_message, "ERROR - failed to create window", MB_ICONINFORMATION);
+	LocalFree(error_message);
+
+	//generate_event(_event_level_error, "failed to create a window");
+	c_console::write_line("failed to create a window");
 }
 
 c_rasterizer::e_gpr_allocation __cdecl c_rasterizer::set_gprs_allocation(e_gpr_allocation a1)
