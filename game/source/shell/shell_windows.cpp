@@ -2,7 +2,6 @@
 
 #include "cache/physical_memory_map.hpp"
 #include "input/input.hpp"
-#include "main/levels.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "shell/shell.hpp"
@@ -15,113 +14,65 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	//return INVOKE(0x0042E6A0, WndProc, hWnd, uMsg, wParam, lParam);
 
-	if (uMsg <= WM_SYSCHAR)
+	if (uMsg == WM_MOUSEACTIVATE)
+		return 2;
+
+	if (uMsg == WM_MOUSEACTIVATE)
 	{
-		if (uMsg < WM_SYSKEYDOWN)
+		PostQuitMessage(0);
+		return 0;
+	}
+
+	if (uMsg == WM_ACTIVATE)
+	{
+		WndProc_HandleActivate(WM_ACTIVATE, wParam);
+		return 0;
+	}
+
+	if (uMsg == WM_ACTIVATEAPP)
+	{
+		if (!input_get_mouse_state(_input_type_ui))
+			return 0;
+
+		int v4 = strcmp(shell_get_target(), "blam");
+		if (v4)
+			v4 = v4 < 0 ? -1 : 1;
+		if (v4)
 		{
-			if (uMsg <= WM_MOUSEACTIVATE)
-			{
-				switch (uMsg)
-				{
-				case WM_MOUSEACTIVATE:
-					return 2;
-				case WM_DESTROY:
-					PostQuitMessage(0);
-					return 0;
-				case WM_ACTIVATE:
-					WndProc_HandleActivate(WM_ACTIVATE, wParam);
-					return 0;
-				case WM_ACTIVATEAPP:
-					if (input_get_mouse_state(_input_type_ui))
-					{
-						int v4 = strcmp(shell_get_target(), "blam");
-
-						if (v4)
-							v4 = v4 < 0 ? -1 : 1;
-
-						if (v4)
-						{
-							shell_application_pause(wParam == 0);
-							return 0;
-						}
-					}
-
-					return 0;
-				}
-
-				return DefWindowProcA(hWnd, uMsg, wParam, lParam);
-			}
-
-			if (uMsg == WM_INPUT)
-			{
-				WndProc_HandleRawMouse(WM_INPUT, wParam, lParam);
-
-				if (!LOBYTE(wParam))
-					return DefWindowProcA(hWnd, WM_INPUT, wParam, lParam);
-
-				return 0;
-			}
-
-			if (uMsg <= WM_INPUT || uMsg > WM_CHAR)
-				return DefWindowProcA(hWnd, uMsg, wParam, lParam);
+			shell_application_pause(wParam == 0);
+			return 0;
 		}
+	}
 
+	if (uMsg == WM_INPUT)
+	{
+		WndProc_HandleRawMouse(WM_INPUT, wParam, lParam);
+		if (!GET_RAWINPUT_CODE_WPARAM(wParam))
+			return DefWindowProcA(hWnd, WM_INPUT, wParam, lParam);
+
+		return 0;
+	}
+
+	if (IN_RANGE_INCLUSIVE(uMsg, WM_KEYFIRST, WM_KEYLAST))
+	{
 		WndProc_HandleKeys(uMsg, wParam, lParam);
 		return 0;
 	}
 
-	if (uMsg > WM_MBUTTONUP)
+	if (IN_RANGE_INCLUSIVE(uMsg, WM_MOUSEFIRST, WM_MOUSELAST))
 	{
-		if (uMsg < WM_MOUSEWHEEL)
-			return DefWindowProcA(hWnd, uMsg, wParam, lParam);
-
-		if (uMsg > WM_XBUTTONUP)
-		{
-			if (uMsg != WM_HOTKEY)
-				return DefWindowProcA(hWnd, uMsg, wParam, lParam);
-
-			WndProc_HandleKeys(uMsg, wParam, lParam);
-			return 0;
-		}
-	}
-	else if (uMsg < WM_MBUTTONDOWN)
-	{
-		switch (uMsg)
-		{
-		case WM_MOUSEMOVE:
-		case WM_LBUTTONDOWN:
-		case WM_LBUTTONUP:
-		case WM_RBUTTONDOWN:
-		case WM_RBUTTONUP:
-			break;
-		default:
-			return DefWindowProcA(hWnd, uMsg, wParam, lParam);
-		}
+		WndProc_HandleMouse(uMsg, wParam, lParam);
+		return 0;
 	}
 
-	WndProc_HandleMouse(uMsg, wParam, lParam);
-	return 0;
-}
-
-void __cdecl UnregisterHotKey_Snapshot()
-{
-	//INVOKE(0x0042E850, UnregisterHotKey_Snapshot);
-
-	if (shell_application_type() == _shell_application_type_client)
-		UnregisterHotKey(g_windows_params.created_window_handle, VK_SNAPSHOT);
-}
-
-void __cdecl RegisterHotKey_Snapshot()
-{
-	//INVOKE(0x0042E870, RegisterHotKey_Snapshot);
-
-	if (shell_application_type() == _shell_application_type_client)
-		RegisterHotKey(g_windows_params.created_window_handle, 0x2C /* 0x2C same as VK_SNAPSHOT */, 0, VK_SNAPSHOT);
+	return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	//return INVOKE(0x0042EB10, WinMain, hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+
+	lpCmdLine = GetCommandLineA();
 
 	SetLastError(NO_ERROR);
 	SetProcessDPIAware();
@@ -140,17 +91,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	physical_memory_initialize();
 	physical_memory_stage_push(_memory_stage_game_initialize);
 
-	SetBinDllDirectory(); // PC
+	system_set_dll_directory();
 
+	static bool shell_initialized = false;
 	if (shell_initialize(false))
 	{
-		RegisterHotKey_Snapshot(); // Halo Online
-
 		main_loop();
 
-		UnregisterHotKey_Snapshot(); // Halo Online
+		shell_initialized = true;
+		shell_dispose();
 	}
-	shell_dispose();
+
+	if (!shell_initialized)
+		shell_dispose();
 
 	physical_memory_dispose();
 
@@ -173,67 +126,54 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	if (!input_globals.mouse_acquired)
 		return false;
 
-	s_key_state key{};
-	byte const* key_table = nullptr;
-
-	key.key_type = k_key_type_none;
-	key.vk_code = NONE;
-	key.key_code = k_key_code_none;
-	key.was_key_down = false;
-
-	if (uMsg != WM_KEYDOWN && uMsg != WM_KEYUP && uMsg != WM_SYSKEYDOWN && uMsg != WM_SYSKEYUP && uMsg != WM_HOTKEY)
+	s_key_state key
 	{
-		if (uMsg == WM_CHAR || uMsg == WM_SYSCHAR)
+		.key_type = k_key_type_none,
+		.key_code = k_key_code_none,
+		.vk_code = word(NONE),
+		.was_key_down = false
+	};
+
+	short key_code = NONE;
+	byte const* key_table = NULL;
+
+	if (uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN || uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP)
+	{
+		ASSERT(wParam >= 0 && wParam < k_number_of_windows_input_virtual_codes);
+
+		key_code = virtual_to_key_table[wParam];
+		if (key_code != k_key_code_none)
 		{
-			key.vk_code = wParam;
-			key_table = key_to_ascii_table;
-			key.key_code = ascii_to_key_table[wParam];
+			key.key_type = uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN ? _key_type_down : uMsg == WM_KEYUP || uMsg == WM_SYSKEYUP ? _key_type_up : k_key_type_none;
+			key.key_code = key_code;
+			key.vk_code = word(NONE);
+			key_table = key_to_virtual_table;
 		}
 	}
-	else if (virtual_to_key_table[wParam] != NONE)
+	else if (uMsg == WM_CHAR || uMsg == WM_SYSCHAR && wParam < k_number_of_input_ascii_codes)
 	{
-		key.vk_code = NONE;
-		key_table = key_to_virtual_table;
-		key.key_code = virtual_to_key_table[wParam];
+		key_code = ascii_to_key_table[wParam];
+		if (key_code != k_key_code_none)
+		{
+			key.key_type = _key_type_char;
+			key.key_code = key_code;
+			key.vk_code = wParam;
+			key_table = key_to_ascii_table;
+		}
 	}
 
-	switch (uMsg)
-	{
-	case WM_KEYDOWN:
-	case WM_SYSKEYDOWN:
-		key.key_type = _key_type_down;
-		break;
-	case WM_KEYUP:
-	case WM_SYSKEYUP:
-		key.key_type = _key_type_up;
-		break;
-	case WM_CHAR:
-	case WM_SYSCHAR:
-		key.key_type = _key_type_char;
-		break;
-	}
-
-	if (key.key_type == _key_type_down || key.key_type == _key_type_char)
-		key.was_key_down = TEST_MASK(lParam, 0x40000000);
-
-	if (key.key_code != k_key_code_none)
+	if (key_code == k_key_code_none)
 		return false;
 
-	if (uMsg == WM_HOTKEY)
-	{
-		key.modifier.set(_key_modifier_flag_shift_key_bit, (lParam & MOD_SHIFT) == MOD_SHIFT);
-		key.modifier.set(_key_modifier_flag_control_key_bit, (lParam & MOD_CONTROL) == MOD_CONTROL);
-		key.modifier.set(_key_modifier_flag_alt_key_bit, (lParam & MOD_ALT) == MOD_ALT);
-	}
-	else
-	{
-		key.modifier.set(_key_modifier_flag_shift_key_bit, GetKeyState(VK_SHIFT) & 0x8000);
-		key.modifier.set(_key_modifier_flag_control_key_bit, GetKeyState(VK_CONTROL) & 0x8000);
-		key.modifier.set(_key_modifier_flag_alt_key_bit, GetKeyState(VK_MENU) & 0x8000);
-	}
+	key.modifier.set(_key_modifier_flag_shift_key_bit, GetKeyState(VK_SHIFT) & 0x8000);
+	key.modifier.set(_key_modifier_flag_control_key_bit, GetKeyState(VK_CONTROL) & 0x8000);
+	key.modifier.set(_key_modifier_flag_alt_key_bit, GetKeyState(VK_MENU) & 0x8000);
 
 	if (input_globals.buffered_key_read_count < input_globals.buffered_keys.get_count())
+	{
+		key.was_key_down = (HIWORD(lParam) & KF_REPEAT) == KF_REPEAT;
 		input_globals.buffered_keys[input_globals.buffered_key_read_count++] = key;
+	}
 
 	if (key_table)
 	{
@@ -264,75 +204,68 @@ void __cdecl WndProc_HandleMouse(UINT Msg, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 		mouse.mouse_type = _mouse_type_move;
 		break;
-
 	case WM_LBUTTONDOWN:
-		input_globals.raw_mouse_state.raw_flags.set(_mouse_button_1, true);
 		mouse.mouse_type = _mouse_type_down;
 		mouse.mouse_button = _mouse_button_1;
+		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
 		break;
 	case WM_LBUTTONUP:
-		input_globals.raw_mouse_state.raw_flags.set(_mouse_button_1, false);
 		mouse.mouse_type = _mouse_type_up;
 		mouse.mouse_button = _mouse_button_1;
+		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
 		break;
-
 	case WM_RBUTTONDOWN:
-		input_globals.raw_mouse_state.raw_flags.set(_mouse_button_2, true);
 		mouse.mouse_type = _mouse_type_down;
 		mouse.mouse_button = _mouse_button_2;
+		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
 		break;
 	case WM_RBUTTONUP:
-		input_globals.raw_mouse_state.raw_flags.set(_mouse_button_2, false);
 		mouse.mouse_type = _mouse_type_up;
 		mouse.mouse_button = _mouse_button_2;
+		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
 		break;
-
 	case WM_MBUTTONDOWN:
-		input_globals.raw_mouse_state.raw_flags.set(_mouse_button_3, true);
 		mouse.mouse_type = _mouse_type_down;
 		mouse.mouse_button = _mouse_button_3;
+		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
 		break;
 	case WM_MBUTTONUP:
-		input_globals.raw_mouse_state.raw_flags.set(_mouse_button_3, false);
 		mouse.mouse_type = _mouse_type_up;
 		mouse.mouse_button = _mouse_button_3;
+		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
 		break;
-
 	case WM_MOUSEWHEEL:
-		input_globals.raw_mouse_state.wheel_delta += HIWORD(wParam);
 		mouse.mouse_type = _mouse_type_wheel;
-		mouse.wheel_delta = HIWORD(wParam);
+		mouse.wheel_delta = GET_WHEEL_DELTA_WPARAM(wParam);
+		input_globals.raw_mouse_state.wheel_delta += mouse.wheel_delta;
 		break;
-
 	case WM_XBUTTONDOWN:
-		if (HIWORD(wParam) == 1)
+		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
 		{
-			input_globals.raw_mouse_state.raw_flags.set(_mouse_button_4, true);
 			mouse.mouse_type = _mouse_type_down;
 			mouse.mouse_button = _mouse_button_4;
+			input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
 		}
-		else if (HIWORD(wParam) == 2)
+		else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
 		{
-			input_globals.raw_mouse_state.raw_flags.set(_mouse_button_5, true);
 			mouse.mouse_type = _mouse_type_down;
 			mouse.mouse_button = _mouse_button_5;
+			input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
 		}
 		break;
 	case WM_XBUTTONUP:
-		if (HIWORD(wParam) == 1)
+		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
 		{
-			input_globals.raw_mouse_state.raw_flags.set(_mouse_button_4, false);
 			mouse.mouse_type = _mouse_type_up;
 			mouse.mouse_button = _mouse_button_4;
+			input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
 		}
-		else if (HIWORD(wParam) == 2)
+		else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
 		{
-			input_globals.raw_mouse_state.raw_flags.set(_mouse_button_5, false);
 			mouse.mouse_type = _mouse_type_up;
 			mouse.mouse_button = _mouse_button_5;
+			input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
 		}
-		break;
-	default:
 		break;
 	}
 
@@ -405,15 +338,4 @@ void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-void __cdecl SetBinDllDirectory()
-{
-	//INVOKE(0x0051CF30, SetBinDllDirectory);
-
-	char dll_directory[1024]{};
-	csstrnzcat(dll_directory, ".\\bin", 1024);
-	SetDllDirectoryA(dll_directory);
-
-	//generate_event(_event_level_message, "system: dll directory={ %s }", dll_directory);
-	printf("system: dll directory={ %s }\n", dll_directory);
-}
 
