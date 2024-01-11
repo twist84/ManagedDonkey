@@ -69,8 +69,13 @@
 struct t_restricted_allocation_manager :
 	public c_allocation_base
 {
+	bool valid() const
+	{
+		return m_member_index != NONE && m_thread_id != NONE;
+	}
+
 	long m_member_index;
-	long m_thread_index;
+	long m_thread_id;
 };
 
 // what is this named? and where does it belong?
@@ -971,6 +976,18 @@ static_assert(sizeof(s_thread_local_storage) == 0x584);
 #define TLS_DATA_GET_VALUE_REFERENCE(NAME) decltype(get_tls()->NAME)& NAME = get_tls()->NAME
 
 extern s_thread_local_storage* get_tls();
+extern void restricted_allocation_manager_reserve_memory(
+	long index,
+	void(__cdecl* tls_update_callback)(void*),
+	void(__cdecl* tls_pre_overwrite_fixup_callback)(void*),
+	void(__cdecl* tls_post_copy_fixup_callback)(void*),
+	t_restricted_allocation_manager* allocator,
+	char const* name,
+	char const* type,
+	unsigned int allocation,
+	long alignment_bits,
+	void* address
+);
 
 extern t_restricted_allocation_manager& g_simulation_gamestate_entity_data_allocator;
 extern t_restricted_allocation_manager& g_main_gamestate_timing_data_allocator;
@@ -1149,3 +1166,4 @@ extern t_restricted_allocation_manager& g_squad_patrol_data_allocator;
 extern t_restricted_allocation_manager& g_flocks_data_allocator;
 extern t_restricted_allocation_manager& g_formation_data_allocator;
 extern t_restricted_allocation_manager& g_vision_mode_state_allocator;
+

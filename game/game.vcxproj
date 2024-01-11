@@ -299,6 +299,7 @@ POPD
     <ClCompile Include="source\game\game_globals.cpp" />
     <ClCompile Include="source\game\game_options.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\hq\start_menu_headquarters.cpp" />
+    <ClCompile Include="source\main\main_predict.cpp" />
     <ClCompile Include="source\memory\base\base_memory_windows.cpp" />
     <ClCompile Include="source\networking\online\online_achievements.cpp" />
     <ClCompile Include="source\networking\tools\network_webstats.cpp" />
@@ -655,6 +656,7 @@ POPD
     <ClInclude Include="source\items\projectile_definitions.hpp" />
     <ClInclude Include="source\main\console.hpp" />
     <ClInclude Include="source\main\debug_keys.hpp" />
+    <ClInclude Include="source\main\main_predict.hpp" />
     <ClInclude Include="source\math\function_definitions.hpp" />
     <ClInclude Include="source\math\matrix_math.hpp" />
     <ClInclude Include="source\math\random_math.hpp" />

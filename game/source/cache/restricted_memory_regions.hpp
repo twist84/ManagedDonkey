@@ -4,7 +4,7 @@ struct c_restricted_section;
 struct c_restricted_memory_callbacks;
 
 extern void __cdecl restricted_region_add_alias(long index);
-extern long __cdecl restricted_region_add_member(long index, char const* name, char const* type, unsigned int allocation, long alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_unknown_callback1)(void*), void(__cdecl* tls_unknown_callback2)(void*));
+extern long __cdecl restricted_region_add_member(long index, char const* name, char const* type, unsigned int allocation, long alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_pre_overwrite_fixup_callback)(void*), void(__cdecl* tls_post_copy_fixup_callback)(void*));
 extern void __cdecl restricted_region_add_mirror(long index, c_restricted_section* mirror_section);
 extern bool __cdecl restricted_region_aliased_for_current_thread(long index);
 extern void __cdecl restricted_region_begin_aliasing(long index);

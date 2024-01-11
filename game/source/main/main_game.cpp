@@ -2,13 +2,17 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game.hpp"
+#include "main/main_game_launch.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);
 REFERENCE_DECLARE(0x023DAE90, bool, debug_load_panic_to_main_menu);
 
-//void __cdecl main_game_initialize();
-//void __cdecl main_game_launch_initialize();
+void __cdecl main_game_initialize()
+{
+	main_game_launch_initialize();
+	main_game_globals.request_level_advance = false;
+}
 
 void __cdecl main_game_launch_default()
 {

@@ -218,7 +218,7 @@ extern void __cdecl main_suppress_startup_sequence();
 extern void __cdecl main_switch_bsp(long zone_set_index);
 extern void __cdecl main_switch_zone_set(long zone_set_index);
 extern void __cdecl main_switch_zone_set_private();
-extern void __cdecl main_thread_combine_timing_data(s_game_tick_time_samples* samples);
+extern void __cdecl main_thread_combine_timing_data(void* address);
 extern void __cdecl main_thread_lock_rasterizer_and_resources();
 extern void __cdecl main_thread_process_pending_messages();
 extern void __cdecl main_thread_unlock_rasterizer_and_resources();

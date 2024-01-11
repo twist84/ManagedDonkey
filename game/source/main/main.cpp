@@ -46,6 +46,7 @@
 #include "main/loading.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
+#include "main/main_predict.hpp"
 #include "main/main_render.hpp"
 #include "memory/data.hpp"
 #include "memory/module.hpp"
@@ -182,6 +183,22 @@ void show_location_messages()
 		chud_messaging_post(player_mapping_first_active_output_user(), found_location_message->message, _chud_message_context_self);
 		last_message_time = game_time_get_safe_in_seconds();
 	}
+}
+
+void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* address)
+{
+	INVOKE(0x00504CE0, __tls_set_g_main_gamestate_timing_data_allocator, address);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	//g_main_gamestate_timing_data = (s_game_tick_time_samples*)address;
+}
+
+void __cdecl __tls_set_g_main_render_timing_data_allocator(void* address)
+{
+	INVOKE(0x00504D00, __tls_set_g_main_render_timing_data_allocator, address);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+	//g_main_render_timing_data = (s_game_tick_time_samples*)address;
 }
 
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
@@ -1288,20 +1305,70 @@ void __cdecl main_loop_body_single_threaded()
 		g_main_gamestate_timing_data->reset();
 		main_render_purge_pending_messages();
 	}
-
 }
 
 void __cdecl main_loop_enter()
 {
-	INVOKE(0x00506200, main_loop_enter);
-}
+	//INVOKE(0x00506200, main_loop_enter);
 
-void __cdecl game_initialize_hook_for_console_initialize()
-{
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+
+	main_globals.suppress_startup_sequence = true;
+	main_globals.has_performed_startup_sequence = false;
+
+	main_loading_initialize();
+	main_game_initialize();
+	main_time_initialize();
 	console_initialize();
 	game_initialize();
+
+	restricted_allocation_manager_reserve_memory(
+		k_game_state_shared_region,
+		__tls_set_g_main_gamestate_timing_data_allocator,
+		main_thread_combine_timing_data,
+		NULL,
+		&g_main_gamestate_timing_data_allocator,
+		"timing samples",
+		"global",
+		sizeof(s_game_tick_time_samples),
+		0,
+		g_main_gamestate_timing_data);
+
+	restricted_allocation_manager_reserve_memory(
+		k_game_state_shared_region,
+		__tls_set_g_main_render_timing_data_allocator,
+		NULL,
+		NULL,
+		&g_main_render_timing_data_allocator,
+		"timing samples",
+		"global",
+		sizeof(s_game_tick_time_samples),
+		0,
+		g_main_render_timing_data);
+
+	//shell_halt_if_necessary();
+	//tag_files_initialize_from_main();
+	main_render_predict_initialize();
+	console_execute_initial_commands();
+	physical_memory_resize_region_initialize();
+
+	g_main_gamestate_timing_data->initialize();
+	g_main_render_timing_data->initialize();
+
+	main_render_purge_pending_messages();
+	main_time_mark_publishing_start_time();
+	main_time_mark_publishing_end_time();
+
+	if (game_is_multithreaded())
+	{
+		c_rasterizer::rasterizer_device_release_thread();
+		start_thread(k_thread_render);
+		thread_set_priority(k_thread_render, _thread_priority_above_normal);
+		start_thread(k_thread_update);
+	}
+	start_thread(k_thread_audio);
 }
-HOOK_DECLARE_CALL(0x00506219, game_initialize_hook_for_console_initialize);
 
 void __cdecl main_loop_exit()
 {
@@ -1859,9 +1926,12 @@ void __cdecl main_switch_zone_set_private()
 	INVOKE(0x00507280, main_switch_zone_set_private);
 }
 
-void __cdecl main_thread_combine_timing_data(s_game_tick_time_samples* samples)
+void __cdecl main_thread_combine_timing_data(void* address)
 {
-	INVOKE(0x005072D0, main_thread_combine_timing_data, samples);
+	INVOKE(0x005072D0, main_thread_combine_timing_data, address);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	//g_main_gamestate_timing_data->accum((s_game_tick_time_samples*)address);
 }
 
 void __cdecl main_thread_lock_rasterizer_and_resources()

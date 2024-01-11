@@ -62,9 +62,9 @@ struct c_restricted_memory
 
 		dword offset;
 		dword size;
-		void(__cdecl* update_callback)(void*);
-		void(__cdecl* post_copy_fixup)(void*);
-		void(__cdecl* pre_overwrite_fixup)(void*);
+		void(__cdecl* tls_update_callback)(void*);
+		void(__cdecl* tls_post_copy_fixup_callback)(void*);
+		void(__cdecl* tls_pre_overwrite_fixup_callback)(void*);
 	};
 	static_assert(sizeof(s_registered_member) == 0x18);
 

@@ -1,5 +1,6 @@
 #include "memory/thread_local.hpp"
 
+#include "cache/restricted_memory_regions.hpp"
 #include "memory/module.hpp"
 
 #include <windows.h>
@@ -199,5 +200,26 @@ s_thread_local_storage* get_tls()
 
 	void** tls_ptr = reinterpret_cast<void**>(__readfsdword(0x2C));
 	return reinterpret_cast<s_thread_local_storage*>(tls_ptr[tls_index]);
+}
+
+// this is a pseudo implementation of `t_restricted_allocation_manager::reserve_memory`
+void restricted_allocation_manager_reserve_memory(
+	long index,
+	void(__cdecl* tls_update_callback)(void*),
+	void(__cdecl* tls_pre_overwrite_fixup_callback)(void*),
+	void(__cdecl* tls_post_copy_fixup_callback)(void*),
+	t_restricted_allocation_manager* allocator,
+	char const* name,
+	char const* type,
+	unsigned int allocation,
+	long alignment_bits,
+	void* address
+)
+{
+	ASSERT(!allocator->valid());
+
+	allocator->m_member_index = restricted_region_add_member(index, name, type, allocation, alignment_bits, tls_update_callback, tls_pre_overwrite_fixup_callback, tls_post_copy_fixup_callback);
+	allocator->m_thread_id = get_current_thread_index();
+	address = restricted_region_get_member_address(index, allocator->m_member_index);
 }
 

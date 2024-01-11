@@ -8,9 +8,20 @@ void __cdecl restricted_region_add_alias(long index)
 	INVOKE(0x0059FFD0, restricted_region_add_alias, index);
 }
 
-long __cdecl restricted_region_add_member(long index, char const* name, char const* type, unsigned int allocation, long alignment_bits, void(__cdecl*tls_update_callback)(void*), void(__cdecl* tls_unknown_callback1)(void*), void(__cdecl* tls_unknown_callback2)(void*))
+long __cdecl restricted_region_add_member(long index, char const* name, char const* type, unsigned int allocation, long alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_pre_overwrite_fixup_callback)(void*), void(__cdecl* tls_post_copy_fixup_callback)(void*))
 {
-	return INVOKE(0x005A0010, restricted_region_add_member, index, name, type, allocation, alignment_bits, tls_update_callback, tls_unknown_callback1, tls_unknown_callback2);
+	//ASSERT(allocation);
+	//ASSERT(tls_update_callback);
+	//ASSERT(alignment_bits >= 0 && alignment_bits < 6);
+	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
+	//long member_index = g_restricted_regions[index].add_member(name, type, allocation, alignment_bits, tls_update_callback, tls_pre_overwrite_fixup_callback, tls_post_copy_fixup_callback);
+	//ASSERT(member_index != NONE);
+	//void* address = restricted_region_get_member_address(index, member_index);
+	//ASSERT(align_pointer(address, alignment_bits) == address);
+	//tls_update_callback(address);
+	//return member_index;
+
+	return INVOKE(0x005A0010, restricted_region_add_member, index, name, type, allocation, alignment_bits, tls_update_callback, tls_pre_overwrite_fixup_callback, tls_post_copy_fixup_callback);
 }
 
 void __cdecl restricted_region_add_mirror(long index, c_restricted_section* mirror_section)

@@ -162,7 +162,7 @@ const long LONG_BITS = SIZEOF_BITS(long);
 struct c_allocation_base
 {
 public:
-	virtual void* allocate(dword size, char const* name);
+	virtual void* allocate(dword allocation, char const* name);
 	virtual void deallocate(void* buffer);
 };
 

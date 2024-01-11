@@ -12,7 +12,7 @@ s_main_game_launch_globals g_launch_globals = { .player_count = 1, .options = *r
 
 void main_game_launch_initialize()
 {
-	//game_options_new(&g_launch_globals.options);
+	game_options_new(&g_launch_globals.options);
 }
 
 void main_game_launch_set_map_name(char const* map_name)

@@ -49,8 +49,7 @@ extern s_main_game_globals& main_game_globals;
 // main_game_load_panic
 extern bool& debug_load_panic_to_main_menu;
 
-//extern void __cdecl main_game_initialize();
-//extern void __cdecl main_game_launch_initialize();
+extern void __cdecl main_game_initialize();
 extern void __cdecl main_game_launch_default();
 extern void __cdecl main_game_launch_default_editor();
 //extern void __cdecl main_game_reset_map(bool reset_map);

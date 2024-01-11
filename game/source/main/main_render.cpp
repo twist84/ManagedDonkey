@@ -410,8 +410,3 @@ void __cdecl main_render_view(c_player_view* player_view, long player_index)
 	c_player_view::set_global_player_view(0);
 }
 
-void __cdecl main_render_predict_tag_resources()
-{
-	INVOKE(0x00605E20, main_render_predict_tag_resources);
-}
-

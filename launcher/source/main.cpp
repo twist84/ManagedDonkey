@@ -37,7 +37,9 @@ int main(int argc, char* argv[])
 
     printf("Launcher: Creating process `%s`\n", ApplicationName);
 
-    if (DetourCreateProcessWithDllA(ApplicationPath, NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
+    CHAR command_line_buffer[256]{};
+    strcpy_s(command_line_buffer, "-centered");
+    if (DetourCreateProcessWithDllA(ApplicationPath, command_line_buffer, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
         return 5;
 
 #ifndef REMOTE_CONSOLE_ENABLED

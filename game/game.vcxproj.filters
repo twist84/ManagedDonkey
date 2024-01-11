@@ -1155,6 +1155,9 @@
     <ClCompile Include="source\networking\online\online_achievements.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\main\main_predict.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2997,6 +3000,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\shell\shell_windows.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\main\main_predict.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

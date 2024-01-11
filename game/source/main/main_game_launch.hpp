@@ -21,7 +21,7 @@ extern s_main_game_launch_globals g_launch_globals;
 
 //extern void main_game_launch_default();
 //extern void main_game_launch_default_editor();
-//extern void main_game_launch_initialize();
+extern void main_game_launch_initialize();
 extern void main_game_launch_set_map_name(char const* map_name);
 extern void main_game_launch_set_difficulty(e_campaign_difficulty_level difficulty);
 extern void main_game_launch_campaign();
