@@ -718,6 +718,8 @@ void __cdecl main_loop_body(dword* wait_for_render_thread, dword* tick_count)
 
 void __cdecl main_loop()
 {
+	//INVOKE(0x005059E0, main_loop);
+
 	if (game_is_multithreaded())
 	{
 		g_render_thread_user_setting = true;
@@ -725,7 +727,6 @@ void __cdecl main_loop()
 	}
 
 	main_loop_enter();
-	main_loop_initialize_restricted_regions();
 
 	dword wait_for_render_thread = 0;
 	dword tick_count = GetTickCount();
@@ -734,8 +735,6 @@ void __cdecl main_loop()
 		main_loop_body(&wait_for_render_thread, &tick_count);
 	}
 
-	render_thread_set_mode(1, 0);
-	main_loop_dispose_restricted_regions();
 	main_loop_exit();
 }
 
@@ -1362,6 +1361,8 @@ void __cdecl main_loop_enter()
 		start_thread(k_thread_update);
 	}
 	start_thread(k_thread_audio);
+
+	main_loop_initialize_restricted_regions();
 }
 
 void __cdecl main_loop_exit()
