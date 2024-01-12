@@ -1,4 +1,4 @@
-#include "main/loading.hpp"
+﻿#include "main/loading.hpp"
 
 #include "bink/bink_playback.hpp"
 #include "cseries/cseries.hpp"
@@ -26,6 +26,11 @@ HOOK_DECLARE(0x0052F180, main_load_map);
 HOOK_DECLARE(0x0052FB60, main_loading_progress_done);
 HOOK_DECLARE(0x0052FB70, main_loading_progress_new);
 HOOK_DECLARE(0x0052FB80, main_loading_progress_update);
+
+wchar_t const* __cdecl loading_get_text()
+{
+	return INVOKE(0x0052EBC0, loading_get_text);
+}
 
 void __cdecl loading_basic_progress_complete()
 {
@@ -136,6 +141,8 @@ bool __cdecl main_blocking_load_in_progress(real* out_progress)
 //bool __cdecl main_load_map(char const *,enum e_map_load_type)
 bool __cdecl main_load_map(char* scenario_path, long map_load_type)
 {
+	//return INVOKE(0x0052F180, main_load_map, scenario_path, map_load_type);
+
 	if (force_load_map_failed)
 		return false;
 
@@ -143,11 +150,11 @@ bool __cdecl main_load_map(char* scenario_path, long map_load_type)
 	{
 		static long count = 0;
 		count++;
-	
+
 		// 300 gives the scoreboard enough time to show up
 		if (count <= 300)
 			return true;
-	
+
 		count = 0;
 
 		// main_game_change_update
@@ -190,11 +197,16 @@ bool __cdecl main_load_next_map_loading()
 void __cdecl main_loading_dispose()
 {
 	INVOKE(0x0052F4E0, main_loading_dispose);
+
+	//loading_globals.loading_in_progress = false;
+	//progress_set_default_callbacks(NULL);
 }
 
 void __cdecl main_loading_enable_spinner(bool enable_spinner)
 {
 	INVOKE(0x0052F4F0, main_loading_enable_spinner, enable_spinner);
+
+	//loading_globals.spinner_enabled = enable_spinner;
 }
 
 bool __cdecl main_loading_get_action(struct s_main_loading_action* out_loading_action)
@@ -206,12 +218,23 @@ bool __cdecl main_loading_get_action(struct s_main_loading_action* out_loading_a
 long __cdecl main_loading_get_gui_game_mode()
 {
 	return INVOKE(0x0052F8F0, main_loading_get_gui_game_mode);
+
+	//if (user_interface_squad_exists())
+	//	return user_interface_squad_get_ui_game_mode();
+	//
+	//e_gui_game_mode game_mode = _ui_game_mode_none;
+	//if (c_gui_pregame_setup_manager::get()->try_to_get_last_set_game_mode(&game_mode))
+	//	return game_mode;
+	//
+	//return _ui_game_mode_none;
 }
 
 e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_string<12288>* loading_status)
 {
+	//return INVOKE(0x0052F930, main_loading_get_loading_status, loading_status);
+
 #if defined(_DEBUG)
-	loading_globals.spinner_enabled = true;
+	main_loading_enable_spinner(true);
 #endif // _DEBUG
 
 	if (bink_playback_active())
@@ -278,13 +301,13 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 
 			dword temp_game_language = game_language;
 			game_language = 0;
-			wchar_t const* loading_text = DECLFUNC(0x0052EBC0, wchar_t const*, __cdecl)();
+			wchar_t const* loading_text = loading_get_text();
 			game_language = temp_game_language;
 
 			if (loading_status)
 			{
 				loading_status->print(L"%s %d%%", loading_text, loading_progress);
-				loading_status->append(L"|n|nhttps://github.com/twist84/ManagedDonkey");
+				loading_status->append(L"|n|nhttps://github.com/twist84/ManagedDonkey/");
 			}
 		}
 
@@ -317,6 +340,8 @@ void __cdecl main_loading_initialize()
 bool __cdecl main_loading_is_idle()
 {
 	return INVOKE(0x0052FB40, main_loading_is_idle);
+
+	//return cache_files_copy_in_progress() == 0;
 }
 
 void __cdecl main_loading_progress_done(char const* description, void* userdata)
