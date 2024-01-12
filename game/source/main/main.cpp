@@ -739,13 +739,7 @@ void __cdecl main_loop()
 	main_loop_exit();
 }
 
-void __cdecl game_dispose_hook_for_console_dispose()
-{
-	game_dispose();
-	console_dispose();
-}
-HOOK_DECLARE_CALL(0x00505BF5, game_dispose_hook_for_console_dispose);
-
+// functions for `main_loop_body_main_part`
 void __cdecl sub_5077E0()
 {
 	INVOKE(0x005077E0, sub_5077E0);
@@ -1372,16 +1366,25 @@ void __cdecl main_loop_enter()
 
 void __cdecl main_loop_exit()
 {
-	INVOKE(0x00506360, main_loop_exit);
+	//INVOKE(0x00506360, main_loop_exit);
 
-	//render_thread_set_mode(1, 0);
-	//main_loop_dispose_restricted_regions();
-	//
-	//if (game_is_multithreaded())
-	//{
-	//	main_render_purge_pending_messages();
-	//	wait_for_thread_to_exit(k_thread_render, INFINITE);
-	//}
+	REFERENCE_DECLARE(0x02446530, bool, d3d_resource_allocator_dont_release);
+	
+	render_thread_set_mode(1, 0);
+	main_loop_dispose_restricted_regions();
+	
+	if (game_is_multithreaded())
+	{
+		main_render_purge_pending_messages();
+		wait_for_thread_to_exit(k_thread_render, INFINITE);
+	}
+	
+	d3d_resource_allocator_dont_release = true;
+	main_game_unload_and_prepare_for_next_game(NULL);
+	physical_memory_resize_region_dispose();
+	game_dispose();
+	console_dispose();
+	main_loading_dispose();
 }
 
 void __cdecl main_loop_pregame()
