@@ -289,9 +289,44 @@ real sound_definition_map_pitch(void const* sound_definition, real a1, real a2)
 	return INVOKE(0x00516650, sound_definition_map_pitch, sound_definition, a1, a2);
 }
 
+void __cdecl sound_delete(long sound_index)
+{
+	INVOKE(0x005169D0, sound_delete, sound_index);
+}
+
+void __cdecl sound_dispose()
+{
+	INVOKE(0x00516A30, sound_dispose);
+}
+
 void __cdecl sound_idle()
 {
 	INVOKE(0x00517170, sound_idle);
+}
+
+void __cdecl sound_initialize()
+{
+	INVOKE(0x00517960, sound_initialize);
+}
+
+void __cdecl sound_initialize_for_new_map()
+{
+	INVOKE(0x00517CF0, sound_initialize_for_new_map);
+}
+
+void __cdecl sound_initialize_for_new_structure_bsp()
+{
+	INVOKE(0x00517F20, sound_initialize_for_new_structure_bsp);
+}
+
+bool __cdecl sound_is_active()
+{
+	return INVOKE(0x00518020, sound_is_active);
+}
+
+bool __cdecl sound_is_fading_out(long sound_index)
+{
+	return INVOKE(0x00518050, sound_is_fading_out, sound_index);
 }
 
 s_sound_listener const* __cdecl sound_manager_get_listener(long index)

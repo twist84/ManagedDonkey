@@ -1357,6 +1357,9 @@ extern void* align_pointer(void* pointer, long alignment_bits);
 extern long pointer_distance(void const* pointer_a, void const* pointer_b);
 extern long pointer_difference(void const* pointer_a, void const* pointer_b);
 
+extern void __cdecl cseries_dispose();
+extern void __cdecl cseries_initialize();
+
 extern real_argb_color const* const& global_real_argb_white;
 extern real_argb_color const* const& global_real_argb_grey;
 extern real_argb_color const* const& global_real_argb_black;

@@ -144,6 +144,7 @@ struct s_file_reference;
 extern s_file_reference* __cdecl create_report_file_reference(s_file_reference* info, char const* filename, bool use_sub_directory);
 extern void __cdecl events_debug_render();
 extern char const* __cdecl events_get();
+extern void __cdecl events_initialize();
 extern long __cdecl event_interlocked_compare_exchange(c_interlocked_long& value, long ExChange, long Comperand);
 extern void __cdecl network_debug_print(const char* format, ...);
 

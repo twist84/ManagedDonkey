@@ -1,6 +1,6 @@
 #include "dialogs/edit_text.hpp"
 
-#include "input/input.hpp"
+#include "input/input_windows.hpp"
 
 #include <string.h>
 

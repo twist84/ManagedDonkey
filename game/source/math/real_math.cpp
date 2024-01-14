@@ -25,6 +25,29 @@ vector3d* __cdecl generate_up_vector3d(vector3d const* forward, vector3d* up)
 	return INVOKE(0x004F2310, generate_up_vector3d, forward, up);
 }
 
+void __cdecl real_math_dispose()
+{
+	INVOKE(0x004FB7D0, real_math_dispose);
+
+	//periodic_functions_dispose();
+}
+
+void __cdecl real_math_initialize()
+{
+	INVOKE(0x004FB7F0, real_math_initialize);
+}
+
+//.text:004FB820
+
+void __cdecl real_math_reset_precision()
+{
+	INVOKE(0x004FB850, real_math_reset_precision);
+}
+
+//.text:004FB880
+//.text:004FB890
+//.text:004FB920
+
 euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward)
 {
 	return INVOKE(0x004F13E0, euler_angles2d_from_vector3d, facing, forward);

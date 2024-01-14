@@ -2,7 +2,7 @@
 
 #include "cseries/cseries_windows.hpp"
 #include "input/controllers.hpp"
-#include "input/input.hpp"
+#include "input/input_windows.hpp"
 #include "memory/module.hpp"
 
 

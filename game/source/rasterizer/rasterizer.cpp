@@ -147,6 +147,16 @@ void __cdecl c_rasterizer::initialize_for_new_map()
 	INVOKE(0x00A1FEC0, initialize_for_new_map);
 }
 
+void __cdecl c_rasterizer::initialize_for_new_structure_bsp(dword structure_bsp_index)
+{
+	INVOKE(0x00A1FF40, initialize_for_new_structure_bsp, structure_bsp_index);
+}
+
+bool __cdecl rasterizer_initialized()
+{
+	return INVOKE(0x00A1FF50, rasterizer_initialized);
+}
+
 void __cdecl c_rasterizer::restore_last_scissor_rect()
 {
 	INVOKE(0x00A202E0, restore_last_scissor_rect);
@@ -162,9 +172,9 @@ void __cdecl c_rasterizer::shell_dispose()
 	INVOKE(0x00A20340, shell_dispose);
 }
 
-void __cdecl c_rasterizer::shell_initialize(bool a1, bool a2)
+void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 {
-	INVOKE(0x00A20370, shell_initialize, a1, a2);
+	INVOKE(0x00A20370, shell_initialize, window_exists, windowed);
 }
 
 bool __cdecl c_rasterizer::begin_frame()
@@ -195,9 +205,9 @@ c_rasterizer::e_platform __cdecl c_rasterizer::get_runtime_platform()
 	return INVOKE(0x00A21A80, get_runtime_platform);
 }
 
-bool __cdecl c_rasterizer::initialize_device(bool a1, bool a2)
+bool __cdecl c_rasterizer::initialize_device(bool window_exists, bool windowed)
 {
-	return INVOKE(0x00A21B40, initialize_device, a1, a2);
+	return INVOKE(0x00A21B40, initialize_device, window_exists, windowed);
 }
 
 void __cdecl c_rasterizer::rasterizer_device_acquire_thread()

@@ -1,7 +1,7 @@
 #include "interface/debug_menu/debug_menu.hpp"
 
 #include "cseries/cseries.hpp"
-#include "input/input.hpp"
+#include "input/input_windows.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/debug_menu/debug_menu_item.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"

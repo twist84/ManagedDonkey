@@ -337,6 +337,7 @@ struct tag_iterator
 static_assert(sizeof(tag_iterator) == 0x14);
 
 extern void __cdecl tag_files_close();
+extern void __cdecl tag_files_open();
 extern void __cdecl tag_iterator_new(tag_iterator* iterator, tag group_tag);
 extern long __cdecl tag_iterator_next(tag_iterator* iterator);
 

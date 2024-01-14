@@ -977,11 +977,29 @@ void __cdecl scenario_tags_unload()
 void __cdecl tag_files_close()
 {
 	INVOKE(0x00503300, tag_files_close);
+
+	//cache_file_tag_resources_dispose();
+	//physical_memory_free(g_cache_file_globals.debug_tag_names);
+	//g_cache_file_globals.debug_tag_names = NULL;
+	//optional_cache_unregister_user((e_optional_cache_user)0, &g_cache_file_copy_optional_cache_callback);
+
+	//tag build
+	//tag_groups_dispose();
+	//ASSERT(g_tag_file_globals.open);
+	//g_tag_file_globals.some_count++;
+	//ASSERT(g_tag_file_globals.open);
+	//ASSERT(g_tag_file_globals.shim);
+	//g_tag_file_globals.shim->tag_files_new_sync_initialize();
+	//g_tag_file_globals.shim->tag_files_new_single_file_close();
 }
 
 void __cdecl tag_files_open()
 {
 	INVOKE(0x00503340, tag_files_open);
+
+	//cache_files_initialize();
+	//g_cache_file_globals.debug_tag_names = (decltype(g_cache_file_globals.debug_tag_names)) _physical_memory_malloc_fixed(_memory_stage_game_initialize, 0, 0xF1B300, 1);
+	//cache_file_tag_resources_initialize();
 }
 
 void* __cdecl tag_get(tag group_tag, long tag_index)

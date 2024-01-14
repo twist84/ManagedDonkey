@@ -396,7 +396,7 @@
     <ClCompile Include="source\input\controllers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\input\input.cpp">
+    <ClCompile Include="source\input\input_windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\interface\user_interface_text_parser.cpp">
@@ -1940,7 +1940,7 @@
     <ClInclude Include="source\input\controllers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\input\input.hpp">
+    <ClInclude Include="source\input\input_windows.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\user_interface_text_parser.hpp">

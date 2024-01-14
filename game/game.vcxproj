@@ -268,7 +268,7 @@ POPD
     <ClCompile Include="source\hs\hs_scenario_definitions.cpp" />
     <ClCompile Include="source\hs\hs_unit_seats.cpp" />
     <ClCompile Include="source\input\controllers.cpp" />
-    <ClCompile Include="source\input\input.cpp" />
+    <ClCompile Include="source\input\input_windows.cpp" />
     <ClCompile Include="source\input\input_abstraction.cpp" />
     <ClCompile Include="source\interface\chud\chud.cpp" />
     <ClCompile Include="source\interface\chud\chud_draw.cpp" />
@@ -754,7 +754,7 @@ POPD
     <ClInclude Include="source\hs\hs_runtime.hpp" />
     <ClInclude Include="source\hs\hs_scenario_definitions.hpp" />
     <ClInclude Include="source\input\controllers.hpp" />
-    <ClInclude Include="source\input\input.hpp" />
+    <ClInclude Include="source\input\input_windows.hpp" />
     <ClInclude Include="source\input\input_abstraction.hpp" />
     <ClInclude Include="source\interface\chud\chud.hpp" />
     <ClInclude Include="source\interface\chud\chud_messaging.hpp" />

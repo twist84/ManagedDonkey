@@ -689,14 +689,6 @@ void __cdecl events_initialize()
 	generate_event(_event_level_message, "lifecycle: events initalize");
 }
 
-void __cdecl game_state_shell_gobble_first_physical_allocation_for_events_initialize()
-{
-	events_initialize();
-
-	INVOKE(0x00510A10, game_state_shell_gobble_first_physical_allocation_for_events_initialize);
-}
-HOOK_DECLARE_CALL(0x0042E558, game_state_shell_gobble_first_physical_allocation_for_events_initialize);
-
 long __cdecl event_interlocked_compare_exchange(c_interlocked_long& value, long ExChange, long Comperand)
 {
 	return value.set_if_equal(ExChange, Comperand);

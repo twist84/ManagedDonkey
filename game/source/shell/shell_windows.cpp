@@ -1,14 +1,14 @@
 #include "shell/shell_windows.hpp"
 
 #include "cache/physical_memory_map.hpp"
-#include "input/input.hpp"
+#include "input/input_windows.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
 #include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
 
-HOOK_DECLARE(0x0042EB10, WinMain);
+HOOK_DECLARE(0x0042EB10, _WinMain);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -68,43 +68,89 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProcA(hWnd, uMsg, wParam, lParam);
 }
 
-#define IDD_CHOOSE_RASTERIZER_DIALOG 101
-#define ID_CHOOSE_RASTERIZER_BUTTON_OK IDOK
-#define ID_CHOOSE_RASTERIZER_BUTTON_CANCEL IDCANCEL
-#define ID_CHOOSE_RASTERIZER_LISTBOX_RENDERER 1001
-#define ID_CHOOSE_RASTERIZER_LISTBOX_SELECTED_DEVICE_CHARACTERISTICS 1002
-#define ID_CHOOSE_RASTERIZER_LISTBOX_SELECTED_DEVICE_DISPLAY_MODES 1003
-#define ID_CHOOSE_RASTERIZER_LISTBOX_DEVICE 1004
-#define ID_CHOOSE_RASTERIZER_BUTTON_RUN_WINDOWED 1005
-#define ID_CHOOSE_RASTERIZER_BUTTON_DO_NOT_SHOW_THIS_AGAIN 1007
-#define ID_CHOOSE_RASTERIZER_BUTTON_DISABLE_MULTITEXTURING_D3D_ONLY 1008
-#define ID_CHOOSE_RASTERIZER_BUTTON_TEXTURE_QUALITY 1013
-#define ID_CHOOSE_RASTERIZER_BUTTON_HIGH_RES_32BIT 1014
-#define ID_CHOOSE_RASTERIZER_BUTTON_LOW_RES_32BIT 1015
-#define ID_CHOOSE_RASTERIZER_BUTTON_HIGH_RES_16BIT 1016
-#define ID_CHOOSE_RASTERIZER_BUTTON_LOW_RES_16BIT 1017
-
-INT_PTR CALLBACK ChooseRasterizerDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+BOOL WINAPI HandlerRoutine(DWORD CtrlType)
 {
-	switch (uMsg)
-	{
-	case WM_INITDIALOG:
-		// Initialization code if needed
-		return TRUE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-		{
-			EndDialog(hwndDlg, LOWORD(wParam));
-			return TRUE;
-		}
-		break;
-	}
-
-	return FALSE;
+	return INVOKE(0x0042E900, HandlerRoutine, CtrlType);
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+char* __cdecl shell_get_command_line()
+{
+	//return INVOKE(0x0042E930, shell_get_command_line);
+
+	return g_windows_params.cmd_line;
+}
+
+void __cdecl shell_idle()
+{
+	//INVOKE(0x0042E940, shell_idle);
+
+	static dword quit_timeout = NONE;
+
+	MSG message{};
+	while (PeekMessageW(&message, NULL, 0, 0, PM_REMOVE))
+	{
+		if (message.message == WM_QUIT)
+		{
+			main_exit_game();
+			quit_timeout = system_milliseconds();
+		}
+		else
+		{
+			TranslateMessage(&message);
+			DispatchMessageA(&message);
+		}
+	}
+
+	if (quit_timeout != NONE && system_milliseconds() > quit_timeout + 2000)
+		ExitProcess(0);
+
+	if (!shell_application_is_paused() && !input_get_mouse_state(_input_type_ui))
+		Sleep(1);
+}
+
+void __cdecl shell_platform_dispose()
+{
+	INVOKE(0x0042EA00, shell_platform_dispose);
+
+	//SetConsoleCtrlHandler(HandlerRoutine, FALSE);
+}
+
+bool __cdecl shell_platform_initialize()
+{
+	return INVOKE(0x0042EA10, shell_platform_initialize);
+
+	SetConsoleCtrlHandler(HandlerRoutine, TRUE);
+	//SetUnhandledExceptionFilter(TopLevelExceptionFilter);
+	//sub_42EA80();
+}
+
+void __cdecl shell_platform_verify()
+{
+	INVOKE(0x0042EA60, shell_platform_verify);
+}
+
+void __cdecl shell_screen_pause(bool pause)
+{
+	//INVOKE(0x0042EA70, shell_screen_pause, pause);
+}
+
+void __cdecl sub_42EA80()
+{
+	INVOKE(0x0042EA80, sub_42EA80);
+
+	//static CHAR path[2048];
+	//GetEnvironmentVariableA("path", path, sizeof(path));
+	//
+	//CHAR current_directory[MAX_PATH]{};
+	//GetCurrentDirectoryA(MAX_PATH, current_directory);
+}
+
+LONG WINAPI TopLevelExceptionFilter(_EXCEPTION_POINTERS* ExceptionInfo)
+{
+	return INVOKE(0x0042EAC0, TopLevelExceptionFilter, ExceptionInfo);
+}
+
+int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	//return INVOKE(0x0042EB10, WinMain, hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
@@ -369,6 +415,47 @@ void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_5, false);
 		}
 	}
+}
+
+bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len)
+{
+	return INVOKE(0x0051CE40, shell_get_system_identifier, system_identifier, system_identifier_len);
+}
+
+#define IDD_CHOOSE_RASTERIZER_DIALOG 101
+#define ID_CHOOSE_RASTERIZER_BUTTON_OK IDOK
+#define ID_CHOOSE_RASTERIZER_BUTTON_CANCEL IDCANCEL
+#define ID_CHOOSE_RASTERIZER_LISTBOX_RENDERER 1001
+#define ID_CHOOSE_RASTERIZER_LISTBOX_SELECTED_DEVICE_CHARACTERISTICS 1002
+#define ID_CHOOSE_RASTERIZER_LISTBOX_SELECTED_DEVICE_DISPLAY_MODES 1003
+#define ID_CHOOSE_RASTERIZER_LISTBOX_DEVICE 1004
+#define ID_CHOOSE_RASTERIZER_BUTTON_RUN_WINDOWED 1005
+#define ID_CHOOSE_RASTERIZER_BUTTON_DO_NOT_SHOW_THIS_AGAIN 1007
+#define ID_CHOOSE_RASTERIZER_BUTTON_DISABLE_MULTITEXTURING_D3D_ONLY 1008
+#define ID_CHOOSE_RASTERIZER_BUTTON_TEXTURE_QUALITY 1013
+#define ID_CHOOSE_RASTERIZER_BUTTON_HIGH_RES_32BIT 1014
+#define ID_CHOOSE_RASTERIZER_BUTTON_LOW_RES_32BIT 1015
+#define ID_CHOOSE_RASTERIZER_BUTTON_HIGH_RES_16BIT 1016
+#define ID_CHOOSE_RASTERIZER_BUTTON_LOW_RES_16BIT 1017
+
+INT_PTR CALLBACK ChooseRasterizerDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_INITDIALOG:
+		// Initialization code if needed
+		return TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hwndDlg, LOWORD(wParam));
+			return TRUE;
+		}
+		break;
+	}
+
+	return FALSE;
 }
 
 

@@ -1,15 +1,283 @@
 #include "shell/shell.hpp"
 
+#include "cache/cache_files.hpp"
+#include "cache/security_functions.hpp"
+#include "cseries/async.hpp"
 #include "cseries/cseries.hpp"
-#include "input/input.hpp"
+#include "cseries/cseries_events.hpp"
+#include "cseries/runtime_state.hpp"
+#include "input/input_windows.hpp"
+#include "main/global_preferences.hpp"
 #include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
+#include "networking/network_utilities.hpp"
+#include "rasterizer/rasterizer.hpp"
+#include "saved_games/game_state.hpp"
 #include "shell/shell_windows.hpp"
+#include "sound/sound_manager.hpp"
+#include "text/font_loading.hpp"
 
 REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);
 
 HOOK_DECLARE(0x0042E940, shell_idle);
+
+bool __cdecl shell_application_is_paused()
+{
+	//return INVOKE(0x0042E310, shell_application_is_paused);
+
+	return shell_application_paused;
+}
+
+void __cdecl shell_application_pause(bool pause)
+{
+	//INVOKE(0x0042E320, shell_application_pause, pause);
+
+	if (shell_application_is_paused() == pause)
+		return;
+
+	shell_application_paused = pause;
+	shell_screen_pause(pause);
+
+	if (!pause)
+		main_time_reset();
+}
+
+e_shell_application_type __cdecl shell_application_type()
+{
+	//return INVOKE(0x0042E350, shell_application_type);
+
+	return _shell_application_type_client;
+}
+
+e_shell_tool_type __cdecl shell_tool_type()
+{
+	return _shell_tool_type_none;
+}
+
+bool __cdecl shell_build_number_is_compatible(long build_number)
+{
+	return INVOKE(0x0042E360, shell_build_number_is_compatible, build_number);
+}
+
+bool __cdecl shell_build_string_is_compatible(char const* build_string)
+{
+	return INVOKE(0x0042E390, shell_build_string_is_compatible, build_string);
+}
+
+void __cdecl shell_dispose()
+{
+	//INVOKE(0x0042E410, shell_dispose);
+
+	game_state_shell_dispose();
+	sound_dispose();
+	input_dispose();
+	real_math_dispose();
+	tag_files_close();
+	font_dispose();
+	security_dispose();
+	async_dispose();
+	network_remote_reporting_dispose();
+	c_rasterizer::shell_dispose();
+	shell_platform_dispose();
+	runtime_state_shell_dispose();
+	cseries_dispose();
+}
+
+char const* __cdecl shell_get_target()
+{
+	//return INVOKE(0x0042E470, shell_get_target);
+
+	return "blam";
+}
+
+char const* __cdecl shell_get_target_variant()
+{
+	//return INVOKE(0x0042E480, shell_get_target_variant);
+
+	return "cache";
+}
+
+void __cdecl shell_halt_on_pure_virtual_call()
+{
+	INVOKE(0x0042E4A0, shell_halt_on_pure_virtual_call);
+
+	//ASSERT2("calling pure virtual function!");
+}
+
+void __cdecl shell_halt_with_message(char const* message)
+{
+	INVOKE(0x0042E4B0, shell_halt_with_message, message);
+
+	//wchar_t const* spinner_states[] = { L"-", L"\\", L"||", L"/" };
+	//while (true)
+	//{
+	//	c_static_wchar_string<256> status_message;
+	//	ascii_string_to_wchar_string(message, status_message.get_buffer(), status_message.element_count, NULL);
+	//	status_message.print(L"|n%s", spinner_states[(system_milliseconds() / 100) & 3]);
+	//	main_loop_status_message(status_message.get_string());
+	//}
+}
+
+_VCRTIMP _purecall_handler __cdecl set_purecall_handler(_purecall_handler _Handler)
+{
+	return INVOKE(0x00BED579, set_purecall_handler, _Handler);
+
+	//return _set_purecall_handler(_Handler);
+}
+
+bool __cdecl shell_initialize(bool windowed)
+{
+	//return INVOKE(0x0042E540, shell_initialize, windowed);
+
+	bool shell_initialized = false;
+	set_purecall_handler(shell_halt_on_pure_virtual_call);
+	cseries_initialize();
+	events_initialize();
+	game_state_shell_gobble_first_physical_allocation();
+	runtime_state_shell_initialize();
+	if (shell_platform_initialize())
+	{
+		real_math_initialize();
+		async_initialize();
+		security_initialize();
+		network_remote_reporting_initialize();
+		global_preferences_initialize();
+		font_initialize();
+		tag_files_open();
+		game_state_shell_initialize();
+		c_rasterizer::shell_initialize(false, windowed);
+		if (rasterizer_initialized())
+		{
+			input_initialize();
+			sound_initialize();
+			shell_initialized = true;
+		}
+		shell_platform_verify();
+	}
+	return shell_initialized;
+}
+
+//.text:0042E5F0 ; bool __cdecl game_is_bot_client()
+//.text:0042E600 ; bool __cdecl game_is_dedicated_server()
+//.text:0042E610 ; bool __cdecl game_is_client()
+//.text:0042E620 ; bool __cdecl game_is_guerilla()
+//.text:0042E630 ; bool __cdecl game_is_halo3()
+//.text:0042E640 ; bool __cdecl game_is_sapien()
+//.text:0042E650 ; bool __cdecl game_is_tool()
+//.text:0042E660 ; e_shell_tool_type __cdecl shell_tool_type()
+
+char const* quality_setting_get_name(e_quality_setting quality_setting)
+{
+	if (quality_setting < _quality_setting_low || quality_setting >= k_quality_setting_count)
+		return "<invalid 'quality_setting'>";
+
+	char const* names[k_quality_setting_count]
+	{
+		"low",
+		"medium",
+		"high",
+	};
+
+	return names[quality_setting];
+}
+
+e_quality_setting quality_setting_from_string(char const* str)
+{
+	char const* names[k_quality_setting_count]
+	{
+		"low",
+		"medium",
+		"high",
+	};
+
+	e_quality_setting quality_setting = e_quality_setting(-1);
+	for (long i = _quality_setting_low; i < k_quality_setting_count; i++)
+	{
+		if (csstricmp(str, names[i]) != 0)
+			continue;
+
+		quality_setting = e_quality_setting(i);
+	}
+
+	return quality_setting;
+}
+
+char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
+{
+	if (subtitle_setting < _subtitle_setting_automatic || subtitle_setting >= k_number_of_subtitle_settings)
+		return "<invalid 'subtitle_setting'>";
+
+	return global_subtitle_setting_names[subtitle_setting];
+}
+
+e_subtitle_setting subtitle_setting_from_string(char const* str)
+{
+	e_subtitle_setting subtitle_setting = e_subtitle_setting(-1);
+	for (long i = _subtitle_setting_automatic; i < k_number_of_subtitle_settings; i++)
+	{
+		if (csstricmp(str, global_subtitle_setting_names[i]) != 0)
+			continue;
+
+		subtitle_setting = e_subtitle_setting(i);
+	}
+
+	return subtitle_setting;
+}
+
+char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty)
+{
+	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_number_of_campaign_difficulty_levels)
+		return "<invalid 'difficulty'>";
+
+	return global_campaign_difficulty_level_names[difficulty];
+}
+
+e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str)
+{
+	e_campaign_difficulty_level difficulty = _campaign_difficulty_level_normal;
+	for (long i = _campaign_difficulty_level_easy; i < k_number_of_campaign_difficulty_levels; i++)
+	{
+		if (csstricmp(str, global_campaign_difficulty_level_names[i]) != 0)
+			continue;
+
+		difficulty = e_campaign_difficulty_level(i);
+	}
+
+	return difficulty;
+}
+
+char const* network_session_mode_get_name(long session_mode)
+{
+	if (session_mode < _network_session_mode_none || session_mode >= k_network_session_mode_count)
+		return "<invalid 'network_session_mode'>";
+
+	return k_network_session_mode_names[session_mode];
+}
+
+char const* ui_game_mode_get_name(long ui_game_mode)
+{
+	if (ui_game_mode < _ui_game_mode_campaign || ui_game_mode >= k_ui_game_mode_count)
+		return "<invalid 'ui_game_mode'>";
+
+	return k_ui_game_mode_names[ui_game_mode];
+}
+
+char const* gui_network_session_advertisement_mode_get_name(long advertisement_mode)
+{
+	if (advertisement_mode < _gui_network_session_advertisement_mode_open_to_public || advertisement_mode >= k_gui_network_session_advertisement_mode_count)
+		return "<invalid 'ui_game_mode'>";
+
+	return k_gui_network_session_advertisement_mode_names[advertisement_mode];
+}
+
+char const* game_variant_parameter_get_name(long parameter)
+{
+	if (parameter < _game_variant_parameter_game_misc_teams || parameter >= k_game_variant_parameter_count)
+		return "<invalid 'parameter'>";
+
+	return k_game_variant_parameter_names[parameter];
+}
 
 char const* const k_network_session_mode_names[k_network_session_mode_count]
 {
@@ -888,267 +1156,4 @@ char const* const global_secondary_skull_names[k_number_of_secondary_skulls]
 	"skull_third_person",
 	"skull_directors_cut"
 };
-
-bool __cdecl shell_application_is_paused()
-{
-	//return INVOKE(0x0042E310, shell_application_is_paused);
-
-	return shell_application_paused;
-}
-
-void __cdecl shell_application_pause(bool pause)
-{
-	//INVOKE(0x0042E320, shell_application_pause, pause);
-
-	if (shell_application_is_paused() == pause)
-		return;
-
-	shell_application_paused = pause;
-	shell_screen_pause(pause);
-
-	if (!pause)
-		main_time_reset();
-}
-
-e_shell_application_type __cdecl shell_application_type()
-{
-	//return INVOKE(0x0042E350, shell_application_type);
-
-	return _shell_application_type_client;
-}
-
-e_shell_tool_type __cdecl shell_tool_type()
-{
-	return _shell_tool_type_none;
-}
-
-//.text:0042E360 ; bool __cdecl shell_build_number_is_compatible(long)
-//.text:0042E390 ; bool __cdecl shell_build_string_is_compatible(char const *)
-
-void __cdecl shell_dispose()
-{
-	INVOKE(0x0042E410, shell_dispose);
-}
-
-char const* __cdecl shell_get_target()
-{
-	return INVOKE(0x0042E470, shell_get_target);
-
-	//return "blam";
-}
-
-char const* __cdecl shell_get_target_variant()
-{
-	return INVOKE(0x0042E480, shell_get_target_variant);
-
-	//return "cache";
-}
-
-//.text:0042E4A0 ; void __cdecl shell_halt_on_pure_virtual_call()
-
-void __cdecl shell_halt_with_message(char const* message)
-{
-	INVOKE(0x0042E4B0, shell_halt_with_message, message);
-}
-
-bool __cdecl shell_initialize(bool windowed)
-{
-	return INVOKE(0x0042E540, shell_initialize, windowed);
-
-	//bool shell_initialized = false;
-	//set_purecall_handler(shell_halt_on_pure_virtual_call);
-	//cseries_initialize();
-	//events_initialize();
-	//game_state_shell_gobble_first_physical_allocation();
-	//runtime_state_shell_initialize();
-	//if (shell_platform_initialize())
-	//{
-	//	real_math_initialize();
-	//	async_initialize();
-	//	security_initialize();
-	//	network_remote_reporting_initialize();
-	//	global_preferences_initialize();
-	//	font_initialize();
-	//	tag_files_open();
-	//	game_state_shell_initialize();
-	//	c_rasterizer::shell_initialize(false, windowed);
-	//	if (rasterizer_initialized())
-	//	{
-	//		input_initialize();
-	//		sound_initialize();
-	//		shell_initialized = true;
-	//	}
-	//	shell_platform_verify();
-	//}
-	//return shell_initialized;
-}
-
-//.text:0042E5F0 ; bool __cdecl game_is_bot_client()
-//.text:0042E600 ; bool __cdecl game_is_dedicated_server()
-//.text:0042E610 ; bool __cdecl game_is_client()
-//.text:0042E620 ; bool __cdecl game_is_guerilla()
-//.text:0042E630 ; bool __cdecl game_is_halo3()
-//.text:0042E640 ; bool __cdecl game_is_sapien()
-//.text:0042E650 ; bool __cdecl game_is_tool()
-//.text:0042E660 ; e_shell_tool_type __cdecl shell_tool_type()
-
-char* __cdecl shell_get_command_line()
-{
-	//return INVOKE(0x0042E930, shell_get_command_line);
-
-	return g_windows_params.cmd_line;
-}
-
-void __cdecl shell_idle()
-{
-	//INVOKE(0x0042E940, shell_idle);
-
-	static dword quit_timeout = NONE;
-
-	MSG message{};
-	while (PeekMessageW(&message, NULL, 0, 0, PM_REMOVE))
-	{
-		if (message.message == WM_QUIT)
-		{
-			main_exit_game();
-			quit_timeout = system_milliseconds();
-		}
-		else
-		{
-			TranslateMessage(&message);
-			DispatchMessageA(&message);
-		}
-	}
-
-	if (quit_timeout != NONE && system_milliseconds() > quit_timeout + 2000)
-		ExitProcess(0);
-
-	if ( !shell_application_is_paused() && !input_get_mouse_state(_input_type_ui))
-		Sleep(1);
-}
-
-//.text:0042EA00 ; void __cdecl shell_platform_dispose()
-//.text:0042EA10 ; bool __cdecl shell_platform_initialize()
-
-void __cdecl shell_screen_pause(bool pause)
-{
-	//INVOKE(0x0042EA70, shell_screen_pause, pause);
-}
-
-bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len)
-{
-	return INVOKE(0x0051CE40, shell_get_system_identifier, system_identifier, system_identifier_len);
-}
-
-char const* quality_setting_get_name(e_quality_setting quality_setting)
-{
-	if (quality_setting < _quality_setting_low || quality_setting >= k_quality_setting_count)
-		return "<invalid 'quality_setting'>";
-
-	char const* names[k_quality_setting_count]
-	{
-		"low",
-		"medium",
-		"high",
-	};
-
-	return names[quality_setting];
-}
-
-e_quality_setting quality_setting_from_string(char const* str)
-{
-	char const* names[k_quality_setting_count]
-	{
-		"low",
-		"medium",
-		"high",
-	};
-
-	e_quality_setting quality_setting = e_quality_setting(-1);
-	for (long i = _quality_setting_low; i < k_quality_setting_count; i++)
-	{
-		if (csstricmp(str, names[i]) != 0)
-			continue;
-
-		quality_setting = e_quality_setting(i);
-	}
-
-	return quality_setting;
-}
-
-char const* subtitle_setting_get_name(e_subtitle_setting subtitle_setting)
-{
-	if (subtitle_setting < _subtitle_setting_automatic || subtitle_setting >= k_number_of_subtitle_settings)
-		return "<invalid 'subtitle_setting'>";
-
-	return global_subtitle_setting_names[subtitle_setting];
-}
-
-e_subtitle_setting subtitle_setting_from_string(char const* str)
-{
-	e_subtitle_setting subtitle_setting = e_subtitle_setting(-1);
-	for (long i = _subtitle_setting_automatic; i < k_number_of_subtitle_settings; i++)
-	{
-		if (csstricmp(str, global_subtitle_setting_names[i]) != 0)
-			continue;
-
-		subtitle_setting = e_subtitle_setting(i);
-	}
-
-	return subtitle_setting;
-}
-
-char const* campaign_difficulty_level_get_name(e_campaign_difficulty_level difficulty)
-{
-	if (difficulty < _campaign_difficulty_level_easy || difficulty >= k_number_of_campaign_difficulty_levels)
-		return "<invalid 'difficulty'>";
-
-	return global_campaign_difficulty_level_names[difficulty];
-}
-
-e_campaign_difficulty_level campaign_difficulty_level_from_string(char const* str)
-{
-	e_campaign_difficulty_level difficulty = _campaign_difficulty_level_normal;
-	for (long i = _campaign_difficulty_level_easy; i < k_number_of_campaign_difficulty_levels; i++)
-	{
-		if (csstricmp(str, global_campaign_difficulty_level_names[i]) != 0)
-			continue;
-
-		difficulty = e_campaign_difficulty_level(i);
-	}
-
-	return difficulty;
-}
-
-char const* network_session_mode_get_name(long session_mode)
-{
-	if (session_mode < _network_session_mode_none || session_mode >= k_network_session_mode_count)
-		return "<invalid 'network_session_mode'>";
-
-	return k_network_session_mode_names[session_mode];
-}
-
-char const* ui_game_mode_get_name(long ui_game_mode)
-{
-	if (ui_game_mode < _ui_game_mode_campaign || ui_game_mode >= k_ui_game_mode_count)
-		return "<invalid 'ui_game_mode'>";
-
-	return k_ui_game_mode_names[ui_game_mode];
-}
-
-char const* gui_network_session_advertisement_mode_get_name(long advertisement_mode)
-{
-	if (advertisement_mode < _gui_network_session_advertisement_mode_open_to_public || advertisement_mode >= k_gui_network_session_advertisement_mode_count)
-		return "<invalid 'ui_game_mode'>";
-
-	return k_gui_network_session_advertisement_mode_names[advertisement_mode];
-}
-
-char const* game_variant_parameter_get_name(long parameter)
-{
-	if (parameter < _game_variant_parameter_game_misc_teams || parameter >= k_game_variant_parameter_count)
-		return "<invalid 'parameter'>";
-
-	return k_game_variant_parameter_names[parameter];
-}
 

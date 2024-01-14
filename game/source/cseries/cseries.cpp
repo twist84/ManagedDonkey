@@ -390,3 +390,22 @@ long pointer_difference(void const* pointer_a, void const* pointer_b)
 	return static_cast<long>((char*)pointer_b - (char*)pointer_a);
 }
 
+void __cdecl cseries_dispose()
+{
+	INVOKE(0x004EBC40, cseries_dispose);
+
+	//destroy_thread_management();
+	//destroy_synchronization_objects();
+}
+
+void __cdecl cseries_initialize()
+{
+	INVOKE(0x004EBC50, cseries_initialize);
+
+	//initialize_performance_counters();
+	//initialize_thread_management();
+	//initialize_synchronization_objects();
+	//debug_memory_manager_initialize();
+	//std::set_new_handler((void (__cdecl *)())exit_with_code_one);
+}
+

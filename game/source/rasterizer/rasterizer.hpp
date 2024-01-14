@@ -267,17 +267,18 @@ struct c_rasterizer
 	static void __cdecl initialize();
 	static bool __cdecl initialize_after_device_creation_or_reset();
 	static void __cdecl initialize_for_new_map();
+	static void __cdecl initialize_for_new_structure_bsp(dword structure_bsp_index);
 	static void __cdecl restore_last_scissor_rect();
 	static void __cdecl restore_last_viewport();
 	static void __cdecl shell_dispose();
-	static void __cdecl shell_initialize(bool, bool);
+	static void __cdecl shell_initialize(bool window_exists, bool windowed);
 	static bool __cdecl begin_frame();
 	static void __cdecl begin_high_quality_blend();
 	//static void __cdecl clearf(unsigned long, union real_vector4d const*, float, unsigned long);
 	static bool __cdecl end_frame();
 	static void __cdecl end_high_quality_blend();
 	static e_platform __cdecl get_runtime_platform();
-	static bool __cdecl initialize_device(bool, bool);
+	static bool __cdecl initialize_device(bool window_exists, bool windowed);
 	static void __cdecl rasterizer_device_acquire_thread();
 	static void __cdecl rasterizer_device_release_thread();
 	static bool __cdecl rasterizer_thread_owns_device();
@@ -715,6 +716,7 @@ struct s_texture_references_block
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
 
 extern void __cdecl draw_tesselated_quad();
+extern bool __cdecl rasterizer_initialized();
 extern void __cdecl rasterizer_quad_screenspace(int16_point2d const(&points)[4], dword color, s_tag_reference const* reference, short bitmap_index, bool a5);
 extern bool __cdecl rasterizer_set_explicit_debug_shader(c_rasterizer_globals::e_explicit_shader explicit_shader);
 

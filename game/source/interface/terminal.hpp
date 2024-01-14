@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "dialogs/edit_text.hpp"
-#include "input/input.hpp"
+#include "input/input_windows.hpp"
 #include "memory/data.hpp"
 
 struct terminal_output_datum : s_datum_header

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "input/input.hpp"
+#include "input/input_windows.hpp"
 #include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 

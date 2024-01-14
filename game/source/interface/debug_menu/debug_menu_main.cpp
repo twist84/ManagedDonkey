@@ -4,7 +4,7 @@
 #include "cseries/cseries.hpp"
 #include "game/game_time.hpp"
 #include "input/controllers.hpp"
-#include "input/input.hpp"
+#include "input/input_windows.hpp"
 #include "interface/debug_menu/debug_menu.hpp"
 #include "interface/debug_menu/debug_menu_scroll.hpp"
 #include "interface/debug_menu/debug_menu_parse.hpp"

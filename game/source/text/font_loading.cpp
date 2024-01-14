@@ -24,6 +24,16 @@ void __cdecl fonts_close_internal(s_font_loading_state* loading_state)
 void __cdecl font_dispose()
 {
 	INVOKE(0x00509210, font_dispose);
+
+	//if (g_font_globals.initialized)
+	//{
+	//	font_close_loaded_file(&g_font_globals.loading_state);
+	//	csmemset(&g_font_globals.loading_state, 0, sizeof(g_font_globals.loading_state));
+	//	g_font_globals.font_package_header = NULL;
+	//	font_cache_delete();
+	//	font_package_cache_delete();
+	//}
+	//csmemset(&g_font_globals, 0, sizeof(g_font_globals));
 }
 
 //char const* __cdecl font_get_debug_name(e_font_index font_index);

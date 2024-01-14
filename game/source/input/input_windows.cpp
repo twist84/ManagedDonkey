@@ -1,7 +1,9 @@
-#include "input/input.hpp"
+#include "input/input_windows.hpp"
 
 #include "cseries/cseries.hpp"
+#include "editor/editor_stubs.hpp"
 #include "memory/module.hpp"
+#include "shell/shell_windows.hpp"
 
 //#include <Windows.h> // for `key_to_virtual_table`
 
@@ -13,10 +15,97 @@ REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
 
 c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
 
+void __cdecl sub_5113E0(int vKey, e_mouse_button mouse_button)
+{
+	INVOKE(0x005113E0, sub_5113E0, vKey, mouse_button);
+
+	//input_globals.raw_mouse_state.raw_flags.set(mouse_button, (GetAsyncKeyState(vKey) & 0xFFFE) != 0);
+}
+
+void __cdecl sub_511410()
+{
+	INVOKE(0x00511410, sub_511410);
+
+	//sub_5113E0(VK_LBUTTON, _mouse_button_1);
+	//sub_5113E0(VK_RBUTTON, _mouse_button_2);
+	//sub_5113E0(VK_MBUTTON, _mouse_button_3);
+	//sub_5113E0(VK_XBUTTON1, _mouse_button_4);
+	//sub_5113E0(VK_XBUTTON2, _mouse_button_5);
+}
+
+void __cdecl sub_5114A0()
+{
+	INVOKE(0x005114A0, sub_5114A0);
+}
+
+void __cdecl sub_511550()
+{
+	INVOKE(0x00511550, sub_511550);
+
+	//if (!input_globals.raw_input_mouse_state_update)
+	//	sub_511AF0();
+}
+
+void __cdecl sub_5115A0()
+{
+	INVOKE(0x005115A0, sub_5115A0);
+
+	//input_globals.update_time = system_milliseconds();
+	//input_globals.mouse_acquired = true;
+	//if (input_globals.raw_input_mouse_state_update)
+	//	sub_5114A0();
+}
 
 void __cdecl input_clear_all_rumblers()
 {
 	INVOKE(0x005115C0, input_clear_all_rumblers);
+}
+
+void __cdecl sub_511620()
+{
+	INVOKE(0x00511620, sub_511620);
+}
+
+void __cdecl sub_5116A0()
+{
+	INVOKE(0x005116A0, sub_5116A0);
+
+	//if (input_globals.raw_input_mouse_state_update)
+	//	sub_5125A0();
+	//input_globals.mouse_acquired = false;
+}
+
+void __cdecl input_dispose()
+{
+	INVOKE(0x005116C0, input_dispose);
+
+	//sub_511710();
+	//sub_65EEB0();
+	//input_globals.initialized = false;
+}
+
+void __cdecl sub_511710()
+{
+	INVOKE(0x00511710, sub_511710);
+
+	//if (input_globals.raw_input_mouse_state_update)
+	//{
+	//	input_globals.raw_input_unknownAB4 = false;
+	//	sub_512650();
+	//	input_globals.raw_input_mouse_state_update = false;
+	//}
+}
+
+//.text:00511760
+
+void __cdecl input_feedback_suppress(bool suppress_feedback)
+{
+	INVOKE(0x005117A0, input_feedback_suppress, suppress_feedback);
+}
+
+void __cdecl input_flush()
+{
+	INVOKE(0x005117B0, input_flush);
 }
 
 gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index)
@@ -49,6 +138,46 @@ bool __cdecl input_has_gamepad(short gamepad_index)
 	return INVOKE(0x00511A40, input_has_gamepad, gamepad_index);
 }
 
+void __cdecl input_initialize()
+{
+	INVOKE(0x00511A90, input_initialize);
+
+	//if (shell_application_type() == _shell_application_type_client)
+	//	sub_511550();
+	//
+	//if (shell_application_type() == _shell_application_type_client || shell_tool_type() == _shell_tool_type_guerilla)
+	//	sub_5115A0();
+	//
+	//sub_65EF00();
+	//input_globals.initialized = true;
+}
+
+bool __cdecl sub_511AF0()
+{
+	return INVOKE(0x00511AF0, sub_511AF0);
+
+	//input_globals.raw_input_unknownAB6 = 0;
+	//input_globals.raw_input_mouse_state_update = 1;
+	//input_globals.mouse_relative_x = 1;
+	//input_globals.mouse_relative_y = 1;
+	//input_globals.mouse_wheel_delta = WHEEL_DELTA;
+	//input_globals.mouse_x_ticks = 1;
+	//input_globals.mouse_y_ticks = 1;
+	//input_globals.mouse_wheel_ticks = 1;
+}
+
+bool __cdecl sub_511B40()
+{
+	return INVOKE(0x00511B40, sub_511B40);
+}
+
+bool __cdecl input_type_suppressed(e_input_type input_type)
+{
+	return INVOKE(0x00511B50, input_type_suppressed, input_type);
+
+	//return input_globals.input_type_suppressed[input_type];
+}
+
 byte __cdecl input_key_frames_down(e_key_code key_code, e_input_type input_type)
 {
 	return INVOKE(0x00511B60, input_key_frames_down, key_code, input_type);
@@ -62,16 +191,34 @@ word __cdecl input_key_msec_down(e_key_code key_code, e_input_type input_type)
 byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type)
 {
 	return INVOKE(0x00511DF0, input_mouse_frames_down, mouse_button, input_type);
+
+	//bool suppressed = input_globals.input_type_suppressed[input_type] || input_globals.suppressed;
+	//if (!input_globals.raw_input_mouse_state_update || suppressed)
+	//	return false;
+	//
+	//return input_globals.raw_mouse_state.frames_down[mouse_button];
 }
 
 word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type)
 {
 	return INVOKE(0x00511E30, input_mouse_msec_down, mouse_button, input_type);
+
+	//bool suppressed = input_globals.input_type_suppressed[input_type] || input_globals.suppressed;
+	//if (!input_globals.raw_input_mouse_state_update || suppressed)
+	//	return false;
+	//
+	//return input_globals.raw_mouse_state.msec_down[mouse_button];
 }
 
 bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type)
 {
 	return INVOKE(0x00511E70, input_peek_key, key, input_type);
+
+	//if (input_globals.input_type_suppressed[input_type] || input_globals.buffered_key_read_index >= input_globals.buffered_key_read_count)
+	//	return false;
+	//
+	//*key = input_globals.buffered_keys[input_globals.buffered_key_read_index];
+	//return true;
 }
 
 // Because of the way the game handles input this function won't actually run when the game is tabbed in
@@ -82,9 +229,77 @@ bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type)
 	return INVOKE(0x00511EC0, input_peek_mouse, mouse, input_type);
 }
 
+void __cdecl input_set_gamepad_rumbler_state(short gamepad_index, word left_motor_speed, word right_motor_speed)
+{
+	INVOKE(0x005124F0, input_set_gamepad_rumbler_state, gamepad_index, left_motor_speed, right_motor_speed);
+
+	//if (user_interface_controller_get_rumble_enabled())
+	//{
+	//	input_globals.rumble_states[gamepad_index].left_motor_speed = left_motor_speed;
+	//	input_globals.rumble_states[gamepad_index].right_motor_speed = right_motor_speed;
+	//}
+	//else
+	//{
+	//	input_globals.rumble_states[gamepad_index].left_motor_speed = 0;
+	//	input_globals.rumble_states[gamepad_index].right_motor_speed = 0;
+	//}
+}
+
+void __cdecl input_suppress_type(e_input_type input_type, bool suppress)
+{
+	INVOKE(0x00512530, input_suppress_type, input_type, suppress);
+
+	//bool suppressed = input_globals.input_type_suppressed[input_type] == suppress;
+	//input_globals.input_type_suppressed[input_type] = suppress;
+	//
+	//if (input_type == _input_type_game && !suppressed)
+	//{
+	//	if (suppress)
+	//	{
+	//		input_globals.raw_input_unknownAB6 = true;
+	//		sub_5125A0();
+	//	}
+	//	else
+	//	{
+	//		input_globals.raw_input_unknownAB6 = 0;
+	//		if (!game_in_editor() && g_windows_params.created_window_handle == GetForegroundWindow())
+	//			sub_5114A0();
+	//	}
+	//}
+}
+
+void __cdecl input_suppress()
+{
+	INVOKE(0x00512590, input_suppress);
+
+	//input_globals.suppressed = true;
+}
+
+void __cdecl sub_5125A0()
+{
+	INVOKE(0x005125A0, sub_5125A0);
+}
+
+void __cdecl sub_512650()
+{
+	INVOKE(0x00512650, sub_512650);
+}
+
 void __cdecl input_update()
 {
 	INVOKE(0x00512690, input_update);
+}
+
+void __cdecl sub_65EEB0()
+{
+	INVOKE(0x0065EE80, sub_65EEB0);
+}
+
+//.text:0065EEE0 ; DWORD __cdecl sub_65EEE0(DWORD dwUserIndex, XINPUT_STATE *pState)
+
+void __cdecl sub_65EF00()
+{
+	INVOKE(0x0065EF00, sub_65EF00);
 }
 
 bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword a2, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data)
