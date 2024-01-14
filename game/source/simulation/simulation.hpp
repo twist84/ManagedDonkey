@@ -51,10 +51,44 @@ struct s_simulation_camera_update
 };
 static_assert(sizeof(s_simulation_camera_update) == 0x24);
 
+enum e_simulation_update_high_level_flags
+{
+	// set in 'c_simulation_world::build_update'
+	_simulation_update_high_level_simulation_in_progress_bit = 0,
+
+	// set in 'c_simulation_world::build_update', `is_authority() && m_notify_gamestate_flushed`
+	_simulation_update_high_level_unknown_bit1, // _simulation_update_high_level_gamestate_flushed_bit?
+
+	// set in 'c_simulation_world::build_update', `m_notify_gamestate_flushed_outside_game_tick`
+	_simulation_update_high_level_unknown_bit2, // _simulation_update_high_level_gamestate_flushed_outside_game_tick_bit
+
+	// set in 'c_simulation_world::attach_simulation_queues_to_update'
+	_simulation_update_high_level_game_simulation_queue_requires_application_bit,
+
+	k_simulation_update_high_level_flags
+};
+
+enum e_simulation_update_metadata_flags
+{
+	// set in `c_simulation_world::build_update`
+	_simulation_update_from_local_simulation_bit = 0,
+
+	// set in `c_simulation_world::handle_synchronous_update`
+	_simulation_update_unknown_bit1, // _simulation_update_from_remote_simulation_bit?
+
+	// set in `simulation_film_retrieve_updates`
+	_simulation_update_from_saved_film_bit,
+
+	k_simulation_update_metadata_flags
+};
+
 struct simulation_update
 {
 	long update_number;
+
+	//c_flags<e_simulation_update_high_level_flags, word, k_simulation_update_high_level_flags> high_level_flags;
 	word_flags flags;
+
 	dword_flags player_flags;
 
 	dword_flags action_test_flags;
@@ -85,7 +119,9 @@ static_assert(sizeof(struct simulation_update) == 0x1658);
 
 struct s_simulation_update_metadata
 {
-	dword_flags flags;
+	//c_flags<e_simulation_update_metadata_flags, word, k_simulation_update_metadata_flags> flags;
+	word_flags flags;
+
 	long saved_film_position;
 	long saved_film_tick;
 };

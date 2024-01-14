@@ -6,13 +6,13 @@
 #include "main/console.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
+#include "profiler/profiler.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_visibility.hpp"
 #include "simulation/simulation.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/files_windows.hpp"
 
-HOOK_DECLARE(0x005336F0, game_update);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 HOOK_DECLARE(0x006961C0, game_options_get_launch_settings);
 
@@ -115,6 +115,35 @@ e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy()
 void __cdecl game_dispose()
 {
 	INVOKE(0x00530CD0, game_dispose);
+}
+
+void __cdecl game_finish()
+{
+	//INVOKE(0x00530F80, game_finish);
+
+	game_globals_storage* game_globals = game_globals_get();
+	ASSERT(game_globals && game_globals->map_active);
+
+	if (!game_globals->game_finished)
+	{
+		// seconds_to_wait:
+		// - halo 3: 7.0f
+		// - halo reach: game_is_campaign_or_survival() ? 1.0f : 7.0f
+		// - halo online: 40.0f
+		real seconds_to_wait = 7.0f;
+
+		game_globals->game_finished = true;
+		game_globals->game_finished_wait_time = game_seconds_to_ticks_round(seconds_to_wait);
+
+		// halo online
+		//if (!game_is_playback())
+		//	game_sound_disable_at_game_finish();
+	}
+}
+
+void __cdecl game_finished_update()
+{
+	INVOKE(0x00531040, game_finished_update);
 }
 
 void __cdecl game_frame(real game_seconds_elapsed)
@@ -433,120 +462,133 @@ void __cdecl game_tick()
 {
 	INVOKE(0x00533120, game_tick);
 
-	//simulation_update update = { .flags = 0 };
-	//s_simulation_update_metadata metadata = { .flags = 0 };
-	//
-	//game_globals_get()->update_tick_this_frame = true;
-	//main_status("game_tick", "time %d", game_time_get());
-	//
-	//real_math_reset_precision();
-	//simulation_build_update(true, &update, &metadata);
-	//simulation_record_update(&update);
-	//game_state_preserve();
-	//c_rasterizer::notify_game_tick_begin();
-	//c_water_renderer::game_update();
-	//damage_acceleration_queue_begin();
-	//simulation_apply_before_game(&update);
-	//levels_update();
-	//
-	//if (TEST_BIT(update.flags, 0))
+	//PROFILER(game_tick)
 	//{
-	//	chud_game_tick();
-	//	players_update_before_game(&update);
-	//	sound_update();
-	//	game_tick_pulse_random_seed_deterministic(&update);
-	//	ai_update();
-	//	recorded_animations_update();
-	//	game_sound_deterministic_update_timers();
-	//	game_engine_update();
-	//	game_results_update();
-	//	editor_update();
-	//	cinematics_game_tick();
-	//	c_hue_saturation_control::copy_from_gamestate();
-	//	hs_update();
-	//	c_hue_saturation_control::copy_to_gamestate();
+	//	struct simulation_update update = { .flags = 0 };
+	//	s_simulation_update_metadata metadata = { .flags = 0 };
 	//
-	//	BOT_CLIENT(FALSE)
+	//	game_globals_get()->update_tick_this_frame = true;
+	//	main_status("game_tick", "time %d", game_time_get());
+	//
+	//	PROFILER(build_simulation_update)
 	//	{
-	//		game_update_pvs();
+	//		real_math_reset_precision();
+	//		simulation_build_update(true, &update, &metadata);
+	//		simulation_record_update(&update);
+	//		game_state_preserve();
 	//	}
 	//
-	//	object_scheduler_update();
-	//	object_activation_regions_update();
-	//	objects_update();
-	//	damage_acceleration_queue_end();
-	//	havok_proxies_update();
-	//	havok_update();
-	//	havok_proxies_move();
-	//	objects_move();
-	//	objects_post_update();
+	//	c_rasterizer::notify_game_tick_begin();
+	//	c_water_renderer::game_update();
+	//	damage_acceleration_queue_begin();
+	//	simulation_apply_before_game(&update);
+	//	levels_update();
 	//
-	//	BOT_CLIENT(FALSE)
+	//	//if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
+	//	if (TEST_BIT(update.flags, 0))
 	//	{
-	//		impacts_update();
+	//		chud_game_tick();
+	//		players_update_before_game(&update);
+	//		sound_update();
+	//		game_tick_pulse_random_seed_deterministic(&update);
+	//		ai_update();
+	//		recorded_animations_update();
+	//		game_sound_deterministic_update_timers();
+	//		game_engine_update();
+	//		game_results_update();
+	//		editor_update();
+	//		cinematics_game_tick();
+	//		c_hue_saturation_control::copy_from_gamestate();
+	//		hs_update();
+	//		c_hue_saturation_control::copy_to_gamestate();
+	//
+	//		BOT_CLIENT(FALSE)
+	//		{
+	//			game_update_pvs();
+	//		}
+	//
+	//		object_scheduler_update();
+	//		object_activation_regions_update();
+	//		objects_update();
+	//		damage_acceleration_queue_end();
+	//		havok_proxies_update();
+	//		havok_update();
+	//		havok_proxies_move();
+	//		objects_move();
+	//		objects_post_update();
+	//
+	//		BOT_CLIENT(FALSE)
+	//		{
+	//			impacts_update();
+	//		}
+	//
+	//		breakable_surfaces_update();
+	//		effects_update();
+	//		lights_update();
+	//		game_engine_update_after_game();
+	//		simulation_apply_after_game(&update);
+	//		players_update_after_game(&update);
+	//
+	//		PROFILER(high_level_game_systems)
+	//		{
+	//			campaign_metagame_update();
+	//			game_allegiance_update();
+	//			game_loss_update();
+	//			game_finished_update();
+	//
+	//			// odst achievement function?
+	//			sub_6967B0();
+	//
+	//			game_save_update();
+	//			cinematic_update();
+	//			s_depth_of_field::update();
+	//			game_grief_update();
+	//			//achievements_update();
+	//			test_functions_update();
+	//		}
+	//
+	//		PROFILER(interface_system_update)
+	//		{
+	//			first_person_weapons_update();
+	//			player_effect_update();
+	//			overhead_map_update();
+	//			observer_game_tick();
+	//			director_game_tick();
+	//		}
 	//	}
+	//	else
+	//	{
+	//		damage_acceleration_queue_end();
+	//	}
+	//	simulation_update_aftermath(&update, &metadata);
 	//
-	//	breakable_surfaces_update();
-	//	effects_update();
-	//	lights_update();
-	//	game_engine_update_after_game();
-	//	simulation_apply_after_game(&update);
-	//	players_update_after_game(&update);
-	//	campaign_metagame_update();
-	//	game_allegiance_update();
-	//	game_loss_update();
-	//	game_decrement_end_match_wait_time();
-	//	game_finished_update();
-	//	game_save_update();
-	//	cinematic_update();
-	//	s_depth_of_field::update();
-	//	game_grief_update();
-	//	first_person_weapons_update();
-	//	player_effect_update();
-	//	overhead_map_update();
-	//	observer_game_tick();
-	//	director_game_tick();
+	//	//if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
+	//	if (TEST_BIT(update.flags, 0))
+	//		game_time_advance();
+	//
+	//	simulation_destroy_update(&update);
+	//	main_status("game_tick", 0);
 	//}
-	//else
-	//{
-	//	damage_acceleration_queue_end();
-	//}
-	//simulation_update_aftermath(&update, &metadata);
-	//
-	//if (TEST_BIT(update.flags, 0))
-	//	game_time_advance();
-	//
-	//simulation_destroy_update(&update);
-	//main_status("game_tick", 0);
 }
 
 void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 {
-	render_thread_enabled();
-
-	// reach
-	if (game_options_get()->game_simulation == _game_simulation_synchronous_server && tick_count == 1)
-		game_globals_get()->update_tick_this_frame = true;
-	else
-		game_globals_get()->update_tick_this_frame = false;
-
-	long actual_ticks = 0;
-	if (tick_count > 0)
+	PROFILER(game_update)
 	{
-		while (!main_events_pending() && !simulation_aborted())
+		render_thread_get_mode();
+
+		game_globals_get()->update_tick_this_frame = game_simulation_get() == _game_simulation_synchronous_server && tick_count == 1;
+
+		long actual_ticks;
+		for (actual_ticks = 0; actual_ticks < tick_count && !main_events_pending() && !simulation_aborted(); actual_ticks++)
 		{
 			game_tick();
-
-			// reach
 			game_globals_get()->update_tick_this_frame = false;
-
-			if (++actual_ticks >= tick_count)
-				return;
 		}
+		
+		if (actual_ticks < tick_count)
+			game_time_discard(tick_count, actual_ticks, game_seconds_elapsed);
 	}
-
-	if (actual_ticks < tick_count)
-		game_time_discard(tick_count, actual_ticks, game_seconds_elapsed);
 }
 
 // void __cdecl game_update_pvs()
@@ -601,28 +643,6 @@ bool __cdecl game_is_lost_immediate()
 	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_lost && !game_globals->game_lost_wait_time;
-}
-
-void __cdecl game_finish()
-{
-	game_globals_storage* game_globals = game_globals_get();
-	ASSERT(game_globals && game_globals->map_active);
-
-	if (!game_globals->game_finished)
-	{
-		// seconds_to_wait:
-		// - halo 3: 7.0f
-		// - halo reach: game_is_campaign_or_survival() ? 1.0f : 7.0f
-		// - halo online: 40.0f
-		real seconds_to_wait = 7.0f;
-
-		game_globals->game_finished = true;
-		game_globals->game_finished_wait_time = game_seconds_to_ticks_round(seconds_to_wait);
-
-		// halo online
-		//if (!game_is_playback())
-		//	game_sound_disable_at_game_finish();
-	}
 }
 
 void __cdecl game_finish_immediate()

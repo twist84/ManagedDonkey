@@ -106,5 +106,4 @@ void __cdecl game_grief_update_for_test_functions_update()
 	test_functions_update();
 }
 HOOK_DECLARE_CALL(0x0053332C, game_grief_update_for_test_functions_update); // game_tick
-HOOK_DECLARE_CALL(0x0053392A, game_grief_update_for_test_functions_update); // game_update
 
