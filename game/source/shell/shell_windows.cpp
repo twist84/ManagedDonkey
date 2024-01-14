@@ -17,7 +17,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	if (uMsg == WM_MOUSEACTIVATE)
 		return 2;
 
-	if (uMsg == WM_MOUSEACTIVATE)
+	if (uMsg == WM_DESTROY)
 	{
 		PostQuitMessage(0);
 		return 0;
@@ -345,32 +345,27 @@ void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_1_DOWN))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_1, true);
-
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_1_UP))
+			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_1_UP))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_1, false);
 
 			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_2_DOWN))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_2, true);
-
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_2_UP))
+			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_2_UP))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_2, false);
 
 			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_3_DOWN))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_3, true);
-
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_3_UP))
+			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_3_UP))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_3, false);
 
 			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_4_DOWN))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_4, true);
-
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_4_UP))
+			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_4_UP))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_4, false);
 
 			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_5_DOWN))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_5, true);
-
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_5_UP))
+			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_5_UP))
 				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_5, false);
 		}
 	}
