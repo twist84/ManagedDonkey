@@ -59,6 +59,7 @@ extern s_render_fullscreen_text_context_colors pregame_frame_colors[k_main_prega
 
 struct c_player_view;
 
+extern bool __cdecl sub_42E5D0();
 extern void __cdecl main_render();
 extern void __cdecl main_render_assert_no_pending_messages();
 extern void __cdecl main_render_frame_begin();

@@ -5,8 +5,10 @@
 #include "interface/user_interface_hs.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
+#include "main/main_render.hpp"
 #include "memory/module.hpp"
 #include "profiler/profiler.hpp"
+#include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_visibility.hpp"
 #include "simulation/simulation.hpp"
@@ -468,7 +470,7 @@ void __cdecl game_tick()
 	//	s_simulation_update_metadata metadata = { .flags = 0 };
 	//
 	//	game_globals_get()->update_tick_this_frame = true;
-	//	main_status("game_tick", "time %d", game_time_get());
+	//	main_status(__FUNCTION__, "time %d", game_time_get());
 	//
 	//	PROFILER(build_simulation_update)
 	//	{
@@ -498,9 +500,12 @@ void __cdecl game_tick()
 	//		game_results_update();
 	//		editor_update();
 	//		cinematics_game_tick();
-	//		c_hue_saturation_control::copy_from_gamestate();
+	//
+	//		if (!sub_42E5D0()) c_hue_saturation_control::copy_from_gamestate();
+	//
 	//		hs_update();
-	//		c_hue_saturation_control::copy_to_gamestate();
+	//
+	//		if (!sub_42E5D0()) c_hue_saturation_control::copy_to_gamestate();
 	//
 	//		BOT_CLIENT(FALSE)
 	//		{
@@ -567,7 +572,7 @@ void __cdecl game_tick()
 	//		game_time_advance();
 	//
 	//	simulation_destroy_update(&update);
-	//	main_status("game_tick", 0);
+	//	main_status(__FUNCTION__, NULL);
 	//}
 }
 

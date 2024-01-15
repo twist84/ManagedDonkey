@@ -121,6 +121,11 @@ s_observer_result const* c_player_render_camera_iterator::get_observer_result() 
 	return m_current_observer_result;
 }
 
+bool __cdecl sub_42E5D0()
+{
+	return INVOKE(0x0042E5D0, sub_42E5D0);
+}
+
 void __cdecl main_render()
 {
 	INVOKE(0x006042C0, main_render);
@@ -270,11 +275,6 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 	
 	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
 	game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94980, short, __cdecl)()));
-}
-
-bool __cdecl sub_42E5D0()
-{
-	return INVOKE(0x0042E5D0, sub_42E5D0);
 }
 
 HOOK_DECLARE(0x00604860, main_render_pregame);
