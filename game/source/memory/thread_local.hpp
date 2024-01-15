@@ -26,6 +26,7 @@
 #include "hs/hs_runtime.hpp"
 #include "hs/object_lists.hpp"
 #include "interface/chud/chud.hpp"
+#include "interface/chud/cortana_effect.hpp"
 #include "interface/first_person_weapons.hpp"
 #include "interface/user_interface_objectives.hpp"
 #include "main/global_preferences.hpp"
@@ -77,16 +78,6 @@ struct t_restricted_allocation_manager :
 	long m_member_index;
 	long m_thread_id;
 };
-
-// what is this named? and where does it belong?
-struct s_cortana_globals
-{
-	dword cortana_effect_definition_index;
-	dword __unknown4;
-	dword __unknown8;
-	dword __unknownC;
-};
-static_assert(sizeof(s_cortana_globals) == 0x10);
 
 struct s_thread_local_storage
 {

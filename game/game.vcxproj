@@ -303,6 +303,7 @@ POPD
     <ClCompile Include="source\memory\base\base_memory_windows.cpp" />
     <ClCompile Include="source\networking\online\online_achievements.cpp" />
     <ClCompile Include="source\networking\tools\network_webstats.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_hue_saturation.cpp" />
     <ClCompile Include="source\saved_games\game_state.cpp" />
     <ClCompile Include="source\game\game_time.cpp" />
     <ClCompile Include="source\game\player_control.cpp" />
@@ -574,6 +575,7 @@ POPD
     <ClInclude Include="source\hs\hs_library_internal_compile.hpp" />
     <ClInclude Include="source\hs\hs_unit_seats.hpp" />
     <ClInclude Include="source\interface\chud\chud_draw.hpp" />
+    <ClInclude Include="source\interface\chud\cortana_effect.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />
     <ClInclude Include="source\ai\actors.hpp" />
     <ClInclude Include="source\ai\actor_dynamic_firing_position.hpp" />

@@ -35,6 +35,9 @@ void __cdecl real_math_dispose()
 void __cdecl real_math_initialize()
 {
 	INVOKE(0x004FB7F0, real_math_initialize);
+
+	//real_math_reset_precision();
+	//periodic_functions_initialize();
 }
 
 //.text:004FB820

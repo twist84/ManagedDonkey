@@ -12,6 +12,7 @@
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "networking/network_utilities.hpp"
+#include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "saved_games/game_state.hpp"
 #include "shell/shell_windows.hpp"
@@ -133,27 +134,32 @@ bool __cdecl shell_initialize(bool windowed)
 	bool shell_initialized = false;
 	set_purecall_handler(shell_halt_on_pure_virtual_call);
 	cseries_initialize();
-	events_initialize();
-	game_state_shell_gobble_first_physical_allocation();
-	runtime_state_shell_initialize();
-	if (shell_platform_initialize())
+
+	PROFILER(shell_initialize)
 	{
-		real_math_initialize();
-		async_initialize();
-		security_initialize();
-		network_remote_reporting_initialize();
-		global_preferences_initialize();
-		font_initialize();
-		tag_files_open();
-		game_state_shell_initialize();
-		c_rasterizer::shell_initialize(false, windowed);
-		if (rasterizer_initialized())
+		//errors_initialize();
+		events_initialize();
+		game_state_shell_gobble_first_physical_allocation();
+		runtime_state_shell_initialize();
+		if (shell_platform_initialize())
 		{
-			input_initialize();
-			sound_initialize();
-			shell_initialized = true;
+			real_math_initialize();
+			async_initialize();
+			security_initialize();
+			network_remote_reporting_initialize();
+			global_preferences_initialize();
+			font_initialize();
+			tag_files_open();
+			game_state_shell_initialize();
+			c_rasterizer::shell_initialize(false, windowed);
+			if (rasterizer_initialized())
+			{
+				input_initialize();
+				sound_initialize();
+				shell_initialized = true;
+			}
+			shell_platform_verify();
 		}
-		shell_platform_verify();
 	}
 	return shell_initialized;
 }

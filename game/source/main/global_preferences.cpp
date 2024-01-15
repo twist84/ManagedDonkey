@@ -701,7 +701,7 @@ void __cdecl global_preferences_init()
 
 void __cdecl global_preferences_initialize()
 {
-	INVOKE(0x0050CAA0, global_preferences_initialize);
+	//INVOKE(0x0050CAA0, global_preferences_initialize);
 
 	c_global_preferences_scope_lock scope_lock;
 

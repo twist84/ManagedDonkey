@@ -110,18 +110,20 @@ void __cdecl shell_idle()
 
 void __cdecl shell_platform_dispose()
 {
-	INVOKE(0x0042EA00, shell_platform_dispose);
+	//INVOKE(0x0042EA00, shell_platform_dispose);
 
-	//SetConsoleCtrlHandler(HandlerRoutine, FALSE);
+	SetConsoleCtrlHandler(HandlerRoutine, FALSE);
 }
 
 bool __cdecl shell_platform_initialize()
 {
-	return INVOKE(0x0042EA10, shell_platform_initialize);
+	//return INVOKE(0x0042EA10, shell_platform_initialize);
 
 	SetConsoleCtrlHandler(HandlerRoutine, TRUE);
-	//SetUnhandledExceptionFilter(TopLevelExceptionFilter);
-	//sub_42EA80();
+	SetUnhandledExceptionFilter(TopLevelExceptionFilter);
+	sub_42EA80();
+
+	return true;
 }
 
 void __cdecl shell_platform_verify()
@@ -136,18 +138,44 @@ void __cdecl shell_screen_pause(bool pause)
 
 void __cdecl sub_42EA80()
 {
-	INVOKE(0x0042EA80, sub_42EA80);
+	//INVOKE(0x0042EA80, sub_42EA80);
 
-	//static CHAR path[2048];
-	//GetEnvironmentVariableA("path", path, sizeof(path));
-	//
-	//CHAR current_directory[MAX_PATH]{};
-	//GetCurrentDirectoryA(MAX_PATH, current_directory);
+	static CHAR path[4096];
+	DWORD path_size = GetEnvironmentVariableA("path", path, sizeof(path));
+	if (path_size > 0 && path_size < sizeof(path))
+	{
+		//generate_event(_event_level_message, "system: path={ %s }", path);
+		printf("system: path={ %s }", path); printf("\n");
+	}
+	
+	CHAR current_directory[MAX_PATH]{};
+	if (GetCurrentDirectoryA(MAX_PATH, current_directory))
+	{
+		//generate_event(_event_level_message, "system: current directory={ %s }", current_directory);
+		printf("system: current directory={ %s }", current_directory); printf("\n");
+	}
+
+	ULONG HeapInformation;
+	if (HeapQueryInformation(GetProcessHeap(), HeapCompatibilityInformation, &HeapInformation, sizeof(HeapInformation), NULL))
+	{
+		//generate_event(_event_level_message, "HeapCompatibilityInformation == %d!", HeapInformation);
+		printf("HeapCompatibilityInformation == %d!", HeapInformation); printf("\n");
+	}
 }
 
 LONG WINAPI TopLevelExceptionFilter(_EXCEPTION_POINTERS* ExceptionInfo)
 {
 	return INVOKE(0x0042EAC0, TopLevelExceptionFilter, ExceptionInfo);
+
+	//if (!is_main_thread())
+	//{
+	//	cache_exception_information(ExceptionInfo);
+	//	PostThreadMessageA(get_main_thread_id(), WM_NULL, 0, 0);
+	//
+	//	while (true)
+	//		Sleep(1);
+	//}
+	//return generic_exception_filter(ExceptionInfo->ExceptionRecord->ExceptionCode, ExceptionInfo);
 }
 
 int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)

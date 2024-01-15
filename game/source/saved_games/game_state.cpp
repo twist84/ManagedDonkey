@@ -19,8 +19,6 @@
 REFERENCE_DECLARE(0x0189D468, c_game_state_compressor_callback, g_game_state_compressor_optional_cache_callback);
 REFERENCE_DECLARE(0x02344148, s_game_state_globals, game_state_globals);
 
-HOOK_DECLARE(0x00510A50, game_state_shell_initialize);
-
 long s_game_state_globals::test_option = 0;
 
 c_gamestate_deterministic_allocation_callbacks g_gamestate_deterministic_allocation_callbacks{};
