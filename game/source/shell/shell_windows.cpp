@@ -154,7 +154,8 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 {
 	//return INVOKE(0x0042EB10, WinMain, hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
-	DialogBox(hInstance, MAKEINTRESOURCE(IDD_CHOOSE_RASTERIZER_DIALOG), NULL, ChooseRasterizerDialogProc);
+	if (GetAsyncKeyState(VK_SHIFT) & 0x8000) // if shift is held open the "Choose Rasterizer" dialog
+		DialogBox(hInstance, MAKEINTRESOURCE(IDD_CHOOSE_RASTERIZER_DIALOG), NULL, ChooseRasterizerDialogProc);
 
 	lpCmdLine = GetCommandLineA();
 
