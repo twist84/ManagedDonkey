@@ -1,7 +1,7 @@
 #include "main.hpp"
 
 #ifdef _DEBUG
-#define REMOTE_CONSOLE_ENABLED
+#define NO_WAIT_FOR_PROCESS
 #endif // _DEBUG
 #ifdef DEDICATED_SERVER
 #define REMOTE_CONSOLE_ENABLED
@@ -43,13 +43,15 @@ int main(int argc, char* argv[])
         return 5;
 
 #ifndef REMOTE_CONSOLE_ENABLED
+#ifndef NO_WAIT_FOR_PROCESS
     WaitForSingleObject(ProcessInfo.hProcess, INFINITE);
+#endif
 #else
     // leave enough time for `remote_command_initialize` to be called
     Sleep(1000);
     printf("Launcher: Creating process `%s`\n", "remote_console.exe");
     CreateProcessA("remote_console.exe", NULL, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo);
-#endif // _DEBUG
+#endif // REMOTE_CONSOLE_ENABLED
 
     return 0;
 }
