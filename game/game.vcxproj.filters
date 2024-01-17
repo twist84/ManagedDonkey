@@ -1161,6 +1161,9 @@
     <ClCompile Include="source\rasterizer\rasterizer_hue_saturation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\test\test_globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3009,6 +3012,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\chud\cortana_effect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\test\test_globals.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
