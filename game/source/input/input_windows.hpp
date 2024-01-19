@@ -179,14 +179,14 @@ enum e_key_type
 
 enum e_mouse_button
 {
-	// left-click
 	_mouse_button_1 = 0,
+	_mouse_button_left_click = _mouse_button_1,
 
-	// middle-click
 	_mouse_button_2,
+	_mouse_button_middle_click = _mouse_button_2,
 
-	// right-click
 	_mouse_button_3,
+	_mouse_button_right_click = _mouse_button_3,
 
 	// mouse 4
 	_mouse_button_4,

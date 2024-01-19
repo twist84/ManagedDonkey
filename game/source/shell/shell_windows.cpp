@@ -131,6 +131,11 @@ void __cdecl shell_platform_verify()
 	INVOKE(0x0042EA60, shell_platform_verify);
 }
 
+void __cdecl shell_halt_if_necessary()
+{
+
+}
+
 void __cdecl shell_screen_pause(bool pause)
 {
 	//INVOKE(0x0042EA70, shell_screen_pause, pause);

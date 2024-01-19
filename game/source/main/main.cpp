@@ -1035,7 +1035,7 @@ void __cdecl main_loop_enter()
 		0,
 		g_main_render_timing_data);
 
-	//shell_halt_if_necessary();
+	shell_halt_if_necessary();
 	//tag_files_initialize_from_main();
 	main_render_predict_initialize();
 	console_execute_initial_commands();

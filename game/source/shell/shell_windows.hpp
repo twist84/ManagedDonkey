@@ -26,6 +26,7 @@ extern void __cdecl shell_idle();
 extern void __cdecl shell_platform_dispose();
 extern bool __cdecl shell_platform_initialize();
 extern void __cdecl shell_platform_verify();
+extern void __cdecl shell_halt_if_necessary();
 extern void __cdecl shell_screen_pause(bool pause);
 extern void __cdecl sub_42EA80();
 extern LONG WINAPI TopLevelExceptionFilter(_EXCEPTION_POINTERS* ExceptionInfo);
