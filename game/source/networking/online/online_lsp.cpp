@@ -30,7 +30,14 @@ char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
 	/* ofr */ "ofr"  // offers?
 };
 
+#if defined(LSP_SERVER_ADDRESS_SUNRISE)
+long const lsp_server_ip = inet_addr(LSP_SERVER_ADDRESS_SUNRISE);
+#elif defined(LSP_SERVER_ADDRESS_REMOTE)
+long const lsp_server_ip = inet_addr(LSP_SERVER_ADDRESS_REMOTE);
+#else
 long const lsp_server_ip = inet_addr("127.0.0.1");
+#endif
+
 unsigned short const lsp_server_port = htons(8000);
 
 //.text:004313C0 ; c_online_lsp_manager::c_online_lsp_manager
