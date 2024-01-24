@@ -44,6 +44,35 @@ enum e_datum_salt
 	k_datum_salt_count
 };
 
+struct s_data_array;
+
+struct s_data_iterator
+{
+	s_data_array const* data;
+	long index;
+	long absolute_index;
+};
+static_assert(sizeof(s_data_iterator) == 0xC);
+
+enum class data_address_type : long
+{
+	memory,
+	definition,
+	resource
+};
+static_assert(sizeof(data_address_type) == 0x4);
+
+union data_address
+{
+	dword value;
+	struct
+	{
+		data_address_type type : 3;
+		long offset : 29;
+	};
+};
+static_assert(sizeof(data_address) == 0x4);
+
 struct s_data_array
 {
 	c_static_string<32> name;
@@ -82,13 +111,13 @@ struct s_data_array
 static_assert(sizeof(s_data_array) == 0x54);
 
 template <typename t_datum_type>
-struct c_data_iterator;
-
-// #TODO: decide if this should be `c_smart_data_array` or `c_wrapped_data_array`
-template <typename t_datum_type>
 struct c_smart_data_array
 {
 	static_assert(__is_base_of(s_datum_header, t_datum_type));
+
+	//s_data_array*& get_restricted_data_array_address()
+	//{
+	//}
 
 	t_datum_type& operator[](datum_index index) const
 	{
@@ -112,56 +141,93 @@ struct c_smart_data_array
 		return m_data;
 	}
 
+	//operator struct s_data_array*() const
+	//{
+	//}
+
 	s_data_array* m_data;
 };
 static_assert(sizeof(c_smart_data_array<s_datum_header>) == sizeof(s_data_array*));
 
 typedef c_smart_data_array<s_datum_header> data_array_base;
 
-struct s_data_iterator
-{
-	s_data_array const* data;
-	long index;
-	long absolute_index;
-};
-static_assert(sizeof(s_data_iterator) == 0xC);
+//template <typename t_datum_type>
+//struct c_wrapped_data_array
+//{
+//	static_assert(__is_base_of(s_datum_header, t_datum_type));
+//
+//	void initialize(s_data_array* data)
+//	{
+//	}
+//
+//	void dispose()
+//	{
+//	}
+//
+//	t_datum_type const* try_to_get(long) const
+//	{
+//	}
+//
+//	t_datum_type const* get(long) const
+//	{
+//	}
+//
+//	s_datum_header* get_mutable(long)
+//	{
+//	}
+//
+//	s_data_array const* get_data()
+//	{
+//	}
+//
+//	s_data_array*& get_data_array_reference()
+//	{
+//	}
+//
+//	operator s_data_array* ()
+//	{
+//	}
+//};
+//static_assert(sizeof(c_wrapped_data_array<s_datum_header>) == sizeof(s_data_array*));
 
-enum class data_address_type : long
-{
-	memory,
-	definition,
-	resource
-};
-static_assert(sizeof(data_address_type) == 0x4);
-
-union data_address
-{
-	dword value;
-	struct
-	{
-		data_address_type type : 3;
-		long offset : 29;
-	};
-};
-static_assert(sizeof(data_address) == 0x4);
+//template <typename t_datum_type>
+//struct c_typed_datum_index
 
 template <typename t_datum_type>
 struct c_typed_data_array
 {
+	//void initialize(char const*, long, c_allocation_base*)
+	//{
+	//}
+	//
+	//void dispose()
+	//{
+	//}
+	//
+	//void delete_datum(c_typed_datum_index<c_typed_data_array<t_datum_type>> const&)
+	//{
+	//}
+	//
+	//t_datum_type* get(c_typed_datum_index<c_typed_data_array<t_datum_type>> const&)
+	//{
+	//}
+	//
+	//s_data_array* get_data() const
+	//{
+	//}
+
 	c_static_string<32> name;
 	long maximum_count;
 	long size;
 	byte alignment_bits;
 	bool valid;
 
-	// bit 0, _data_array_can_disconnect_bit
-	// bit 1, _data_array_disconnected_bit
-	word flags;
+	// e_data_array_flags
+	word_flags flags;
 
-	tag signature;
+	tag signature; // k_data_signature
 
-	// c_allocation_interface
-	void* allocator;
+	c_allocation_base* allocation;
 
 	long next_index;
 	long first_unallocated;
@@ -180,6 +246,26 @@ struct c_typed_data_array
 	long offset_to_bit_vector;
 };
 static_assert(sizeof(c_typed_data_array<void>) == sizeof(s_data_array));
+
+//template <typename t_datum_type>
+//struct c_typed_datum_index
+//{
+//	c_typed_datum_index(long)
+//	{
+//	}
+//
+//	bool valid() const
+//	{
+//	}
+//
+//	void clear()
+//	{
+//	}
+//
+//	c_typed_datum_index<c_typed_data_array<t_datum_type>> new_datum()
+//	{
+//	}
+//};
 
 extern void data_verify(s_data_array const* data);
 extern long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits);
