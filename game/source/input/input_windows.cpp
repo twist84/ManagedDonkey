@@ -14,10 +14,6 @@ REFERENCE_DECLARE_ARRAY(0x01650B80, byte const, key_to_ascii_table, k_key_code_c
 REFERENCE_DECLARE_ARRAY(0x01650BE8, short const, ascii_to_key_table, k_number_of_input_ascii_codes);
 REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
 
-HOOK_DECLARE_CALL(0x005128FB, input_xinput_update_gamepad);
-
-c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
-
 void __cdecl sub_5113E0(int vKey, e_mouse_button mouse_button)
 {
 	INVOKE(0x005113E0, sub_5113E0, vKey, mouse_button);
@@ -67,8 +63,7 @@ void __cdecl sub_5114A0()
 	//	}
 	//	else
 	//	{
-	//		//format_4096(E_FAIL, "Acquire (mouse)");
-	//		c_console::write_line("E_FAIL: Acquire (mouse)");
+	//		sub_511760(E_FAIL, "Acquire (mouse)");
 	//	}
 	//}
 }
@@ -126,7 +121,7 @@ void __cdecl input_dispose()
 	INVOKE(0x005116C0, input_dispose);
 
 	//sub_511710();
-	//sub_65EEB0();
+	//input_xinput_dispose();
 	//input_globals.initialized = false;
 }
 
@@ -149,15 +144,15 @@ void __cdecl sub_511760(int error, char const* format, ...)
 	va_start(list, format);
 
 	REFERENCE_DECLARE(0x0189D5B0, int, last_error);
-
 	//static int last_error = NONE;
+
 	if (error != last_error)
 	{
 		last_error = error;
 		char error_message[4096]{};
 		cvsnzprintf(error_message, sizeof(error_message), format, list);
 
-		//char const* error_string = "<unknown error>";
+		char const* error_string = "<unknown error>";
 		//switch (error)
 		//{
 		//#define DIERR_ERROR_CASE(ERROR) case ERROR: error_string = #ERROR; break;
@@ -192,8 +187,10 @@ void __cdecl sub_511760(int error, char const* format, ...)
 		//DIERR_ERROR_CASE(DIERR_GENERIC);
 		//#undef DIERR_ERROR_CASE
 		//}
-		////generate_event(_event_level_warning, "DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
+		//generate_event(_event_level_warning, "DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
 		//c_console::write_line("DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
+
+		c_console::write_line("RawInput: '%s' returned (%s#%d)", error_message, error_string, error);
 	}
 
 	va_end(list);
@@ -202,34 +199,78 @@ void __cdecl sub_511760(int error, char const* format, ...)
 void __cdecl input_feedback_suppress(bool suppress_feedback)
 {
 	INVOKE(0x005117A0, input_feedback_suppress, suppress_feedback);
+
+	//input_globals.feedback_suppressed = suppress_feedback;
 }
 
 void __cdecl input_flush()
 {
 	INVOKE(0x005117B0, input_flush);
+
+	//input_globals.keys.clear();
+	//
+	//input_globals.buffered_key_read_index = 0;
+	//input_globals.buffered_key_read_count = 0;
+	//input_globals.buffered_keys.clear();
+	//
+	//byte raw_flags = input_globals.raw_mouse_state.raw_flags;
+	//csmemset(&input_globals.raw_mouse_state, 0, sizeof(input_globals.raw_mouse_state));
+	//input_globals.raw_mouse_state.raw_flags = raw_flags;
+	//
+	//input_globals.buffered_mouse_button_read_index = 0;
+	//input_globals.buffered_mouse_button_read_count = 0;
+	//input_globals.buffered_mouse_buttons.clear();
+	//
+	//input_globals.gamepad_states.clear();
 }
 
 gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index)
 {
 	return INVOKE(0x00511840, input_get_gamepad_state, gamepad_index);
+
+	//if (!input_has_gamepad(gamepad_index))
+	//	return nullptr;
+	//
+	//if (input_globals.suppressed)
+	//	return &input_globals.suppressed_gamepad_state;
+	//
+	//return &input_globals.gamepad_states[gamepad_index];
 }
 
 bool __cdecl input_get_key(s_key_state* key, e_input_type input_type)
 {
 	return INVOKE(0x005118C0, input_get_key, key, input_type);
+
+	//bool result = input_peek_key(key, input_type);
+	//if (result)
+	//	input_globals.buffered_key_read_index++;
+	//return result;
 }
 
 // Because of the way the game handles input this function won't actually run when the game is tabbed in
 // In the window proc the `WM_INPUT` message is handled with a `RawInput` function
-// Raw input is great but I want to peek the damn mouse state
+// RawInput is great but I want to get the damn mouse state
 bool __cdecl input_get_mouse(s_mouse_state* mouse, e_input_type input_type)
 {
 	return INVOKE(0x00511990, input_get_mouse, mouse, input_type);
+
+	//bool result = input_peek_mouse(mouse, input_type);
+	//if (result)
+	//	input_globals.buffered_mouse_button_read_index++;
+	//return result;
 }
 
 mouse_state* __cdecl input_get_mouse_state(e_input_type input_type)
 {
 	return INVOKE(0x005119F0, input_get_mouse_state, input_type);
+
+	//if (!input_globals.raw_input_mouse_state_update)
+	//	return nullptr;
+	//
+	//if (input_globals.input_type_suppressed[input_type] || input_globals.suppressed)
+	//	return &input_globals.suppressed_raw_mouse_state;
+	//
+	//return &input_globals.raw_mouse_state;
 }
 
 bool __cdecl input_has_gamepad(short gamepad_index)
@@ -237,6 +278,8 @@ bool __cdecl input_has_gamepad(short gamepad_index)
 	ASSERT(gamepad_index >= 0 && gamepad_index < k_number_of_controllers);
 
 	return INVOKE(0x00511A40, input_has_gamepad, gamepad_index);
+
+	//return enable_pc_joystick && (!game_in_editor() || !input_globals.raw_input_mouse_state_update) && input_globals.gamepad_valid_mask.test(gamepad_index);
 }
 
 void __cdecl input_initialize()
@@ -249,7 +292,7 @@ void __cdecl input_initialize()
 	//if (shell_application_type() == _shell_application_type_client || shell_tool_type() == _shell_tool_type_guerilla)
 	//	sub_5115A0();
 	//
-	//sub_65EF00();
+	//input_xinput_initialize();
 	//input_globals.initialized = true;
 }
 
@@ -257,8 +300,8 @@ bool __cdecl sub_511AF0()
 {
 	return INVOKE(0x00511AF0, sub_511AF0);
 
-	//input_globals.raw_input_unknownAB6 = 0;
-	//input_globals.raw_input_mouse_state_update = 1;
+	//input_globals.raw_input_unknownAB6 = false;
+	//input_globals.raw_input_mouse_state_update = true;
 	//input_globals.mouse_relative_x = 1;
 	//input_globals.mouse_relative_y = 1;
 	//input_globals.mouse_wheel_delta = WHEEL_DELTA;
@@ -270,6 +313,8 @@ bool __cdecl sub_511AF0()
 bool __cdecl sub_511B40()
 {
 	return INVOKE(0x00511B40, sub_511B40);
+
+	//return input_globals.mouse_acquired;
 }
 
 bool __cdecl input_type_suppressed(e_input_type input_type)
@@ -282,11 +327,49 @@ bool __cdecl input_type_suppressed(e_input_type input_type)
 byte __cdecl input_key_frames_down(e_key_code key_code, e_input_type input_type)
 {
 	return INVOKE(0x00511B60, input_key_frames_down, key_code, input_type);
+
+	//if (input_globals.input_type_suppressed[input_type] || input_globals.suppressed)
+	//	return 0;
+	//
+	//switch (key_code)
+	//{
+	//case _key_code_left_windows:
+	//case _key_code_right_windows:
+	//case _key_code_windows:
+	//	return 0;
+	//case _key_code_shift:
+	//	return MAX(input_globals.keys[_key_code_left_shift].frames_down, input_globals.keys[_key_code_right_shift].frames_down);
+	//case _key_code_control:
+	//	return MAX(input_globals.keys[_key_code_left_control].frames_down, input_globals.keys[_key_code_right_control].frames_down);
+	//case _key_code_alt:
+	//	return MAX(input_globals.keys[_key_code_left_alt].frames_down, input_globals.keys[_key_code_right_alt].frames_down);
+	//}
+	//
+	//return input_globals.keys[key_code].frames_down;
 }
 
 word __cdecl input_key_msec_down(e_key_code key_code, e_input_type input_type)
 {
 	return INVOKE(0x00511CE0, input_key_msec_down, key_code, input_type);
+
+	//if (input_globals.input_type_suppressed[input_type] || input_globals.suppressed)
+	//	return 0;
+	//
+	//switch (key_code)
+	//{
+	//case _key_code_left_windows:
+	//case _key_code_right_windows:
+	//case _key_code_windows:
+	//	return 0;
+	//case _key_code_shift:
+	//	return MAX(input_globals.keys[_key_code_left_shift].msec_down, input_globals.keys[_key_code_right_shift].msec_down);
+	//case _key_code_control:
+	//	return MAX(input_globals.keys[_key_code_left_control].msec_down, input_globals.keys[_key_code_right_control].msec_down);
+	//case _key_code_alt:
+	//	return MAX(input_globals.keys[_key_code_left_alt].msec_down, input_globals.keys[_key_code_right_alt].msec_down);
+	//}
+	//
+	//return input_globals.keys[key_code].msec_down;
 }
 
 byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type input_type)
@@ -323,26 +406,30 @@ bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type)
 }
 
 // Because of the way the game handles input this function won't actually run when the game is tabbed in
-// In the window proc the `WM_INPUT` message is handled with a `RawInput` function
-// Raw input is great but I want to peek the damn mouse state
 bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type)
 {
 	return INVOKE(0x00511EC0, input_peek_mouse, mouse, input_type);
+
+	//if (input_globals.input_type_suppressed[input_type] || input_globals.buffered_mouse_button_read_index >= input_globals.buffered_mouse_button_read_count)
+	//	return false;
+	//
+	//*mouse = input_globals.buffered_mouse_buttons[input_globals.buffered_mouse_button_read_index];
+	//return true;
 }
 
 bool __cdecl sub_512450()
 {
 	return INVOKE(0x00512450, sub_512450);
 
-	//RAWINPUTDEVICE raw_input_devices
+	//RAWINPUTDEVICE raw_input_device
 	//{
 	//	.usUsagePage = 1, // HID_USAGE_PAGE_GENERIC
-	//	.usUsage = 2, // HID_USAGE_GENERIC_MOUSE
-	//	.dwFlags = RIDEV_NOLEGACY | RIDEV_CAPTUREMOUSE,
-	//	.hwndTarget = shell_application_type() == _shell_application_type_client ? g_windows_params.created_window_handle : g_windows_params.window_handle
+	//	.usUsage     = 2, // HID_USAGE_GENERIC_MOUSE
+	//	.dwFlags     = RIDEV_NOLEGACY | RIDEV_CAPTUREMOUSE,
+	//	.hwndTarget  = shell_application_type() == _shell_application_type_client ? g_windows_params.created_window_handle : g_windows_params.window_handle
 	//};
 	//
-	//return RegisterRawInputDevices(&raw_input_devices, 1, sizeof(RAWINPUTDEVICE)) == TRUE;
+	//return RegisterRawInputDevices(&raw_input_device, 1, sizeof(RAWINPUTDEVICE)) == TRUE;
 }
 
 void __cdecl input_set_gamepad_rumbler_state(short gamepad_index, word left_motor_speed, word right_motor_speed)
@@ -377,7 +464,7 @@ void __cdecl input_suppress_type(e_input_type input_type, bool suppress)
 	//	}
 	//	else
 	//	{
-	//		input_globals.raw_input_unknownAB6 = 0;
+	//		input_globals.raw_input_unknownAB6 = false;
 	//		if (!game_in_editor() && g_windows_params.created_window_handle == GetForegroundWindow())
 	//			sub_5114A0();
 	//	}
@@ -394,42 +481,36 @@ void __cdecl input_suppress()
 void __cdecl sub_5125A0()
 {
 	INVOKE(0x005125A0, sub_5125A0);
+
+	//if (input_globals.raw_input_unknownAB4)
+	//{
+	//	input_globals.raw_input_unknownAB4 = false;
+	//
+	//	bool result = sub_512650();
+	//	sub_5129B0();
+	//	ShowCursor(TRUE);
+	//	if (!result)
+	//		sub_511760(E_FAIL, "Unacquire (mouse)");
+	//}
 }
 
-void __cdecl sub_512650()
+bool __cdecl sub_512650()
 {
-	INVOKE(0x00512650, sub_512650);
+	return INVOKE(0x00512650, sub_512650);
+
+	//RAWINPUTDEVICE raw_input_device
+	//{
+	//	.usUsagePage = 1, // HID_USAGE_PAGE_GENERIC
+	//	.usUsage     = 2, // HID_USAGE_GENERIC_MOUSE
+	//	.dwFlags     = RIDEV_REMOVE,
+	//	.hwndTarget  = NULL
+	//};
+	//return RegisterRawInputDevices(&raw_input_device, 1, sizeof(RAWINPUTDEVICE)) == TRUE;
 }
 
 void __cdecl input_update()
 {
 	INVOKE(0x00512690, input_update);
-}
-
-void __cdecl sub_65EEB0()
-{
-	INVOKE(0x0065EE80, sub_65EEB0);
-}
-
-//.text:0065EEE0 ; DWORD __cdecl sub_65EEE0(DWORD dwUserIndex, XINPUT_STATE *pState)
-
-void __cdecl sub_65EF00()
-{
-	INVOKE(0x0065EF00, sub_65EF00);
-}
-
-bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword a2, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data)
-{
-	bool result = INVOKE(0x0065EF60, input_xinput_update_gamepad, gamepad_index, a2, state, out_debug_gamepad_data);
-	if (result)
-	{
-		if (!out_debug_gamepad_data)
-			out_debug_gamepad_data = &g_debug_gamepad_data[gamepad_index];
-
-		out_debug_gamepad_data->thumb_left = state->thumb_left;
-		out_debug_gamepad_data->thumb_right = state->thumb_right;
-	}
-	return result;
 }
 
 void __cdecl sub_5129B0()
@@ -480,7 +561,7 @@ void input_mouse_state_get_raw_data_string(char* buffer, short size)
 	if (buffer && size > 0)
 	{
 		csnzappendf(buffer, size, "|ninput_mouse_state|n");
-		//raw_data_string[0] = 0;
+		//buffer[0] = 0;
 
 		csnzappendf(buffer, size, "x: ", input_globals.raw_mouse_state.x);
 		csnzappendf(buffer, size, "y: ", input_globals.raw_mouse_state.y);

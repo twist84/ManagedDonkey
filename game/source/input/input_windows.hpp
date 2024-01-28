@@ -432,13 +432,6 @@ struct gamepad_state
 };
 static_assert(sizeof(gamepad_state) == 0x3C);
 
-struct debug_gamepad_data
-{
-	int16_point2d thumb_left;
-	int16_point2d thumb_right;
-};
-static_assert(sizeof(debug_gamepad_data) == 0x8);
-
 // based on `XINPUT_VIBRATION`
 struct rumble_state
 {
@@ -516,8 +509,6 @@ extern short const(&ascii_to_key_table)[k_number_of_input_ascii_codes];
 
 extern s_input_globals& input_globals;
 
-extern c_static_array<debug_gamepad_data, k_number_of_controllers> g_debug_gamepad_data;
-
 extern void __cdecl sub_5113E0(int vKey, e_mouse_button mouse_button);
 extern void __cdecl sub_511410();
 extern void __cdecl sub_5114A0();
@@ -551,11 +542,8 @@ extern void __cdecl input_set_gamepad_rumbler_state(short gamepad_index, word le
 extern void __cdecl input_suppress_type(e_input_type input_type, bool suppress);
 extern void __cdecl input_suppress();
 extern void __cdecl sub_5125A0();
-extern void __cdecl sub_512650();
+extern bool __cdecl sub_512650();
 extern void __cdecl input_update();
-extern void __cdecl sub_65EEB0();
-extern void __cdecl sub_65EF00();
-extern bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword a2, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data);
 extern void __cdecl sub_5129B0();
 
 extern void input_get_raw_data_string(char* buffer, short size);
