@@ -21,8 +21,6 @@
 
 REFERENCE_DECLARE(0x0199C000, bool, shell_application_paused);
 
-HOOK_DECLARE(0x0042E940, shell_idle);
-
 bool __cdecl shell_application_is_paused()
 {
 	//return INVOKE(0x0042E310, shell_application_is_paused);

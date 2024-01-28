@@ -8,6 +8,7 @@
 
 REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
 
+HOOK_DECLARE(0x0042E940, shell_idle);
 HOOK_DECLARE(0x0042EB10, _WinMain);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -85,7 +86,7 @@ void __cdecl shell_idle()
 	//INVOKE(0x0042E940, shell_idle);
 
 	static dword quit_timeout = NONE;
-
+	
 	MSG message{};
 	while (PeekMessageW(&message, NULL, 0, 0, PM_REMOVE))
 	{
@@ -103,6 +104,8 @@ void __cdecl shell_idle()
 
 	if (quit_timeout != NONE && system_milliseconds() > quit_timeout + 2000)
 		ExitProcess(0);
+
+	sub_511F20();
 
 	if (!shell_application_is_paused() && !input_get_mouse_state(_input_type_ui))
 		Sleep(1);
@@ -306,6 +309,19 @@ bool __cdecl WndProc_HandleKeys(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return true;
+}
+
+void __cdecl sub_511F20()
+{
+	INVOKE(0x00511F20, sub_511F20);
+
+	//if (input_globals.raw_input_unknownAB5)
+	//{
+	//	sub_5114A0();
+	//
+	//	if (input_globals.raw_input_unknownAB5)
+	//		sub_511410();
+	//}
 }
 
 void __cdecl WndProc_HandleMouse(UINT Msg, WPARAM wParam, LPARAM lParam)
