@@ -1057,7 +1057,7 @@ bool get_device_context_for_window(HWND window_handle, const char* file_name, HB
 
 	csmemset(bitmap_memory, 0, bitmap_info.bmiHeader.biSizeImage);
 
-	if (!GetDIBits(window_device_context, bitmap_handle, 0, bitmap_info.bmiHeader.biHeight, bitmap_memory, &bitmap_info, 0))
+	if (!GetDIBits(window_device_context, bitmap_handle, 0, bitmap_info.bmiHeader.biHeight, bitmap_memory, &bitmap_info, DIB_RGB_COLORS))
 	{
 		c_console::write_line("could not get the color array");
 
@@ -1096,6 +1096,7 @@ bool get_device_context_for_window(HWND window_handle, const char* file_name, HB
 	file_write(&info, bitmap_info.bmiHeader.biSizeImage, bitmap_memory);
 	file_close(&info);
 
+	free(bitmap_memory);
 	return true;
 }
 
@@ -1113,7 +1114,7 @@ bool rasterizer_dump_display_to_bmp(char const* file_name)
 	if (file_exists(&info))
 		file_delete(&info);
 
-	REFERENCE_DECLARE(0x0199C014, HWND, window_handle);
+	HWND window_handle = g_windows_params.created_window_handle;
 	if (!window_handle)
 		return false;
 
@@ -1170,6 +1171,7 @@ bool rasterizer_dump_display_to_bmp(char const* file_name)
 	{
 		c_console::write_line("could not get the device context for the window");
 
+		DeleteObject(bitmap_handle);
 		return false;
 	}
 

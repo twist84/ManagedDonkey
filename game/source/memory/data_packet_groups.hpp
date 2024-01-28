@@ -23,5 +23,9 @@ struct data_packet_group_definition
 	data_packet* packets;
 };
 
+struct packet_header
+{
+};
+
 extern unsigned char __cdecl data_packet_group_encode_packet(data_packet_group_definition* group_definition, void* a2, void* encoded_packet, short* encoded_packet_size, short packet_type, short version);
 
