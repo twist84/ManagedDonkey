@@ -528,6 +528,7 @@ extern void __cdecl sub_511620();
 extern void __cdecl sub_5116A0();
 extern void __cdecl input_dispose();
 extern void __cdecl sub_511710();
+extern void __cdecl sub_511760(int error, char const* format, ...);
 extern void __cdecl input_feedback_suppress(bool suppress_feedback);
 extern void __cdecl input_flush();
 extern gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index);
@@ -545,6 +546,7 @@ extern byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input
 extern word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type input_type);
 extern bool __cdecl input_peek_key(s_key_state* key, e_input_type input_type);
 extern bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type);
+extern bool __cdecl sub_512450();
 extern void __cdecl input_set_gamepad_rumbler_state(short gamepad_index, word left_motor_speed, word right_motor_speed);
 extern void __cdecl input_suppress_type(e_input_type input_type, bool suppress);
 extern void __cdecl input_suppress();
@@ -554,6 +556,7 @@ extern void __cdecl input_update();
 extern void __cdecl sub_65EEB0();
 extern void __cdecl sub_65EF00();
 extern bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword a2, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data);
+extern void __cdecl sub_5129B0();
 
 extern void input_get_raw_data_string(char* buffer, short size);
 extern void input_mouse_state_get_raw_data_string(char* buffer, short size);

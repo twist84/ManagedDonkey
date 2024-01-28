@@ -134,7 +134,7 @@ void __cdecl main_game_change_update()
 	//		main_game_change_immediate(&main_game_globals.game_loaded_options);
 	//	}
 	//
-	//	//sub_5129B0();
+	//	sub_5129B0();
 	//
 	//	main_game_globals.change_in_progress = false;
 	//	main_game_globals.game_load_pending = false;

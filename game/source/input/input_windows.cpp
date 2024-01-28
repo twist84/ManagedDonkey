@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "editor/editor_stubs.hpp"
+#include "game/game.hpp"
 #include "memory/module.hpp"
 #include "shell/shell_windows.hpp"
 
@@ -12,6 +13,8 @@ REFERENCE_DECLARE_ARRAY(0x01650980, short const, virtual_to_key_table, k_number_
 REFERENCE_DECLARE_ARRAY(0x01650B80, byte const, key_to_ascii_table, k_key_code_count);
 REFERENCE_DECLARE_ARRAY(0x01650BE8, short const, ascii_to_key_table, k_number_of_input_ascii_codes);
 REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
+
+HOOK_DECLARE_CALL(0x005128FB, input_xinput_update_gamepad);
 
 c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
 
@@ -36,6 +39,38 @@ void __cdecl sub_511410()
 void __cdecl sub_5114A0()
 {
 	INVOKE(0x005114A0, sub_5114A0);
+
+	//if (shell_application_type() == _shell_application_type_client)
+	//{
+	//	if ((GetAsyncKeyState(VK_LBUTTON) & 0xFFFE) != 0 ||
+	//		(GetAsyncKeyState(VK_RBUTTON) & 0xFFFE) != 0 ||
+	//		(GetAsyncKeyState(VK_MBUTTON) & 0xFFFE) != 0 ||
+	//		(GetAsyncKeyState(VK_XBUTTON1) & 0xFFFE) != 0 ||
+	//		(GetAsyncKeyState(VK_XBUTTON2) & 0xFFFE) != 0 ||
+	//		GetForegroundWindow() != g_windows_params.created_window_handle)
+	//	{
+	//		input_globals.raw_input_unknownAB5 = true;
+	//		return;
+	//	}
+	//
+	//	input_globals.raw_input_unknownAB5 = false;
+	//}
+	//
+	//if (!input_globals.raw_input_unknownAB4 && !input_globals.raw_input_unknownAB6)
+	//{
+	//	sub_511410();
+	//	if (sub_512450())
+	//	{
+	//		sub_5129B0();
+	//		ShowCursor(FALSE);
+	//		input_globals.raw_input_unknownAB4 = true;
+	//	}
+	//	else
+	//	{
+	//		//format_4096(E_FAIL, "Acquire (mouse)");
+	//		c_console::write_line("E_FAIL: Acquire (mouse)");
+	//	}
+	//}
 }
 
 void __cdecl sub_511550()
@@ -64,6 +99,17 @@ void __cdecl input_clear_all_rumblers()
 void __cdecl sub_511620()
 {
 	INVOKE(0x00511620, sub_511620);
+
+	//RECT client_rect{};
+	//GetClientRect(g_windows_params.created_window_handle, &client_rect);
+	//
+	//POINT client_point0 = { .x = client_rect.left, .y = client_rect.top };
+	//POINT client_point1 = { .x = client_rect.right, .y = client_rect.bottom };
+	//ClientToScreen(g_windows_params.created_window_handle, &client_point0);
+	//ClientToScreen(g_windows_params.created_window_handle, &client_point1);
+	//
+	//client_rect = { .left = client_point0.x, .top = client_point0.y, .right = client_point1.x, .bottom = client_point1.y };
+	//ClipCursor(&client_rect);
 }
 
 void __cdecl sub_5116A0()
@@ -96,7 +142,62 @@ void __cdecl sub_511710()
 	//}
 }
 
-//.text:00511760
+// Halo 3 (H3EK) uses DirectInput, it's possible so did Halo Online until RawInput was added
+void __cdecl sub_511760(int error, char const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	REFERENCE_DECLARE(0x0189D5B0, int, last_error);
+
+	//static int last_error = NONE;
+	if (error != last_error)
+	{
+		last_error = error;
+		char error_message[4096]{};
+		cvsnzprintf(error_message, sizeof(error_message), format, list);
+
+		//char const* error_string = "<unknown error>";
+		//switch (error)
+		//{
+		//#define DIERR_ERROR_CASE(ERROR) case ERROR: error_string = #ERROR; break;
+		//DIERR_ERROR_CASE(DIERR_BADDRIVERVER);
+		//DIERR_ERROR_CASE(DIERR_ACQUIRED);
+		//DIERR_ERROR_CASE(DIERR_OLDDIRECTINPUTVERSION);
+		//DIERR_ERROR_CASE(DIERR_BETADIRECTINPUTVERSION);
+		//DIERR_ERROR_CASE(DIERR_ALREADYINITIALIZED);
+		//DIERR_ERROR_CASE(DIERR_INVALIDPARAM);
+		//DIERR_ERROR_CASE(DIERR_OTHERAPPHASPRIO);
+		//DIERR_ERROR_CASE(DIERR_NOTACQUIRED);
+		//DIERR_ERROR_CASE(DIERR_OUTOFMEMORY);
+		//DIERR_ERROR_CASE(DIERR_NOTINITIALIZED);
+		//DIERR_ERROR_CASE(DIERR_INPUTLOST);
+		//DIERR_ERROR_CASE(DIERR_OBJECTNOTFOUND);
+		//DIERR_ERROR_CASE(DIERR_DEVICENOTREG);
+		//DIERR_ERROR_CASE(DIERR_INSUFFICIENTPRIVS);
+		//DIERR_ERROR_CASE(DIERR_DEVICEFULL);
+		//DIERR_ERROR_CASE(DIERR_MOREDATA);
+		//DIERR_ERROR_CASE(DIERR_NOTDOWNLOADED);
+		//DIERR_ERROR_CASE(DIERR_HASEFFECTS);
+		//DIERR_ERROR_CASE(DIERR_NOTEXCLUSIVEACQUIRED);
+		//DIERR_ERROR_CASE(DIERR_INCOMPLETEEFFECT);
+		//DIERR_ERROR_CASE(DIERR_NOTBUFFERED);
+		//DIERR_ERROR_CASE(DIERR_EFFECTPLAYING);
+		//DIERR_ERROR_CASE(DIERR_UNPLUGGED);
+		//DIERR_ERROR_CASE(DIERR_REPORTFULL);
+		//DIERR_ERROR_CASE(DIERR_MAPFILEFAIL);
+		//DIERR_ERROR_CASE(DIERR_NOAGGREGATION);
+		//DIERR_ERROR_CASE(DIERR_UNSUPPORTED);
+		//DIERR_ERROR_CASE(DIERR_NOINTERFACE);
+		//DIERR_ERROR_CASE(DIERR_GENERIC);
+		//#undef DIERR_ERROR_CASE
+		//}
+		////generate_event(_event_level_warning, "DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
+		//c_console::write_line("DirectInput: '%s' returned (%s#%d)", error_message, error_string, error);
+	}
+
+	va_end(list);
+}
 
 void __cdecl input_feedback_suppress(bool suppress_feedback)
 {
@@ -229,6 +330,21 @@ bool __cdecl input_peek_mouse(s_mouse_state* mouse, e_input_type input_type)
 	return INVOKE(0x00511EC0, input_peek_mouse, mouse, input_type);
 }
 
+bool __cdecl sub_512450()
+{
+	return INVOKE(0x00512450, sub_512450);
+
+	//RAWINPUTDEVICE raw_input_devices
+	//{
+	//	.usUsagePage = 1, // HID_USAGE_PAGE_GENERIC
+	//	.usUsage = 2, // HID_USAGE_GENERIC_MOUSE
+	//	.dwFlags = RIDEV_NOLEGACY | RIDEV_CAPTUREMOUSE,
+	//	.hwndTarget = shell_application_type() == _shell_application_type_client ? g_windows_params.created_window_handle : g_windows_params.window_handle
+	//};
+	//
+	//return RegisterRawInputDevices(&raw_input_devices, 1, sizeof(RAWINPUTDEVICE)) == TRUE;
+}
+
 void __cdecl input_set_gamepad_rumbler_state(short gamepad_index, word left_motor_speed, word right_motor_speed)
 {
 	INVOKE(0x005124F0, input_set_gamepad_rumbler_state, gamepad_index, left_motor_speed, right_motor_speed);
@@ -315,7 +431,20 @@ bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword a2, gamepad_
 	}
 	return result;
 }
-HOOK_DECLARE_CALL(0x005128FB, input_xinput_update_gamepad);
+
+void __cdecl sub_5129B0()
+{
+	INVOKE(0x005129B0, sub_5129B0);
+
+	//if (!game_in_editor() && GetForegroundWindow() == g_windows_params.created_window_handle)
+	//{
+	//	if (input_globals.raw_input_unknownAB4 || game_options_valid() && !game_is_ui_shell())
+	//		sub_511620();
+	//	else
+	//		ClipCursor(NULL);
+	//}
+}
+
 
 void input_get_raw_data_string(char* buffer, short size)
 {
