@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
+#include "input/input_abstraction.hpp"
+#include "input/input_xinput.hpp"
 #include "memory/module.hpp"
 #include "shell/shell_windows.hpp"
 
@@ -13,6 +15,8 @@ REFERENCE_DECLARE_ARRAY(0x01650980, short const, virtual_to_key_table, k_number_
 REFERENCE_DECLARE_ARRAY(0x01650B80, byte const, key_to_ascii_table, k_key_code_count);
 REFERENCE_DECLARE_ARRAY(0x01650BE8, short const, ascii_to_key_table, k_number_of_input_ascii_codes);
 REFERENCE_DECLARE(0x0238DBE8, s_input_globals, input_globals);
+
+//HOOK_DECLARE(0x00512690, input_update);
 
 void __cdecl sub_5113E0(int vKey, e_mouse_button mouse_button)
 {
@@ -63,7 +67,7 @@ void __cdecl sub_5114A0()
 	//	}
 	//	else
 	//	{
-	//		sub_511760(E_FAIL, "Acquire (mouse)");
+	//		sub_511760(DDERR_GENERIC, "Acquire (mouse)");
 	//	}
 	//}
 }
@@ -231,7 +235,7 @@ gamepad_state const* __cdecl input_get_gamepad_state(short gamepad_index)
 	//if (!input_has_gamepad(gamepad_index))
 	//	return nullptr;
 	//
-	//if (input_globals.suppressed)
+	//if (input_globals.input_suppressed)
 	//	return &input_globals.suppressed_gamepad_state;
 	//
 	//return &input_globals.gamepad_states[gamepad_index];
@@ -267,7 +271,7 @@ mouse_state* __cdecl input_get_mouse_state(e_input_type input_type)
 	//if (!input_globals.raw_input_mouse_state_update)
 	//	return nullptr;
 	//
-	//if (input_globals.input_type_suppressed[input_type] || input_globals.suppressed)
+	//if (input_globals.input_type_suppressed[input_type] || input_globals.input_suppressed)
 	//	return &input_globals.suppressed_raw_mouse_state;
 	//
 	//return &input_globals.raw_mouse_state;
@@ -328,7 +332,7 @@ byte __cdecl input_key_frames_down(e_key_code key_code, e_input_type input_type)
 {
 	return INVOKE(0x00511B60, input_key_frames_down, key_code, input_type);
 
-	//if (input_globals.input_type_suppressed[input_type] || input_globals.suppressed)
+	//if (input_globals.input_type_suppressed[input_type] || input_globals.input_suppressed)
 	//	return 0;
 	//
 	//switch (key_code)
@@ -352,7 +356,7 @@ word __cdecl input_key_msec_down(e_key_code key_code, e_input_type input_type)
 {
 	return INVOKE(0x00511CE0, input_key_msec_down, key_code, input_type);
 
-	//if (input_globals.input_type_suppressed[input_type] || input_globals.suppressed)
+	//if (input_globals.input_type_suppressed[input_type] || input_globals.input_suppressed)
 	//	return 0;
 	//
 	//switch (key_code)
@@ -376,7 +380,7 @@ byte __cdecl input_mouse_frames_down(e_mouse_button mouse_button, e_input_type i
 {
 	return INVOKE(0x00511DF0, input_mouse_frames_down, mouse_button, input_type);
 
-	//bool suppressed = input_globals.input_type_suppressed[input_type] || input_globals.suppressed;
+	//bool suppressed = input_globals.input_type_suppressed[input_type] || input_globals.input_suppressed;
 	//if (!input_globals.raw_input_mouse_state_update || suppressed)
 	//	return false;
 	//
@@ -387,7 +391,7 @@ word __cdecl input_mouse_msec_down(e_mouse_button mouse_button, e_input_type inp
 {
 	return INVOKE(0x00511E30, input_mouse_msec_down, mouse_button, input_type);
 
-	//bool suppressed = input_globals.input_type_suppressed[input_type] || input_globals.suppressed;
+	//bool suppressed = input_globals.input_type_suppressed[input_type] || input_globals.input_suppressed;
 	//if (!input_globals.raw_input_mouse_state_update || suppressed)
 	//	return false;
 	//
@@ -475,7 +479,7 @@ void __cdecl input_suppress()
 {
 	INVOKE(0x00512590, input_suppress);
 
-	//input_globals.suppressed = true;
+	//input_globals.input_suppressed = true;
 }
 
 void __cdecl sub_5125A0()
@@ -490,7 +494,7 @@ void __cdecl sub_5125A0()
 	//	sub_5129B0();
 	//	ShowCursor(TRUE);
 	//	if (!result)
-	//		sub_511760(E_FAIL, "Unacquire (mouse)");
+	//		sub_511760(DDERR_GENERIC, "Unacquire (mouse)");
 	//}
 }
 
@@ -511,6 +515,110 @@ bool __cdecl sub_512650()
 void __cdecl input_update()
 {
 	INVOKE(0x00512690, input_update);
+
+	//bool window_has_focus = game_in_editor() || g_windows_params.created_window_handle == GetForegroundWindow();
+	//
+	//if (!input_globals.initialized || !(input_globals.mouse_acquired || game_in_editor() && sub_42E000()))
+	//	return;
+	//
+	//dword time = system_milliseconds();
+	//dword time_delta = time - input_globals.update_time;
+	//
+	//dword duration_ms = 100;
+	//if ((time - input_globals.update_time) <= 0 || time_delta < 100)
+	//{
+	//	duration_ms = 0;
+	//	if (time_delta > 0)
+	//		duration_ms = time - input_globals.update_time;
+	//}
+	//
+	//input_globals.input_suppressed = false;
+	//input_globals.update_time = time;
+	//
+	//input_globals.buffered_key_read_index = 0;
+	//input_globals.buffered_key_read_count = 0;
+	//
+	//for (long key_index = 0; key_index < k_key_code_count; key_index++)
+	//{
+	//	key_state& key = input_globals.keys[key_index];
+	//	byte virtual_key = key_to_virtual_table[key_index];
+	//
+	//	bool key_down = false;
+	//	if (window_has_focus)
+	//	{
+	//		key_down = (GetKeyState(virtual_key) & 0x8000) != 0;
+	//		if (key.msec_down == 1 && !key.frames_down && !key_down)
+	//			key_down = true;
+	//	}
+	//
+	//	update_key(&key, key_down, duration_ms);
+	//
+	//	// Halo 3 handles `input_globals.buffered_keys` here
+	//}
+	//
+	//if (input_globals.raw_input_mouse_state_update)
+	//{
+	//	input_globals.buffered_mouse_button_read_index = 0;
+	//	input_globals.buffered_mouse_button_read_count = 0;
+	//
+	//	input_globals.raw_mouse_state.x = input_globals.mouse_x_ticks * (input_globals.raw_mouse_state.relative_x / input_globals.mouse_relative_x);
+	//	input_globals.raw_mouse_state.y = input_globals.mouse_y_ticks * (input_globals.raw_mouse_state.relative_y / input_globals.mouse_relative_y);
+	//
+	//	if (input_globals.input_type_suppressed[_input_type_game])
+	//	{
+	//		input_globals.raw_mouse_wheel_update_time = 0;
+	//	}
+	//	else
+	//	{
+	//		if ((time - input_globals.raw_mouse_wheel_update_time) > 700)
+	//			input_globals.raw_mouse_wheel_update_time = 0;
+	//		else
+	//			input_globals.raw_mouse_state.wheel_ticks = 0;
+	//
+	//		long wheel_ticks = input_globals.mouse_wheel_ticks * (input_globals.raw_mouse_state.wheel_delta / input_globals.mouse_wheel_delta);
+	//		if (wheel_ticks && !input_globals.raw_mouse_wheel_update_time)
+	//		{
+	//			input_globals.raw_mouse_wheel_update_time = time;
+	//			input_globals.raw_mouse_state.wheel_ticks = wheel_ticks;
+	//		}
+	//	}
+	//
+	//	input_globals.raw_mouse_state.relative_y %= input_globals.mouse_relative_y;
+	//	input_globals.raw_mouse_state.relative_x %= input_globals.mouse_relative_x;
+	//	input_globals.raw_mouse_state.wheel_delta %= input_globals.mouse_wheel_delta;
+	//
+	//	for (long i = 0; i < k_mouse_button_count; i++)
+	//	{
+	//		if (window_has_focus)
+	//		{
+	//			byte& frames_down = input_globals.raw_mouse_state.frames_down[i];
+	//			word& msec_down = input_globals.raw_mouse_state.msec_down[i];
+	//			bool key_down = input_globals.raw_mouse_state.raw_flags.test(e_mouse_button(i));
+	//			update_button(&frames_down, &msec_down, key_down, duration_ms);
+	//		}
+	//	}
+	//}
+	//
+	//if (input_abstraction_get_controls_method() == 1)
+	//{
+	//	for (dword gamepad_index = 0; gamepad_index < k_number_of_controllers; gamepad_index++)
+	//	{
+	//		gamepad_state& state = input_globals.gamepad_states[gamepad_index];
+	//		debug_gamepad_data& debug_gamepad = g_debug_gamepad_data[gamepad_index];
+	//
+	//		if (input_xinput_update_gamepad(gamepad_index, duration_ms, &state, &debug_gamepad))
+	//		{
+	//			input_globals.gamepad_valid_mask.set(gamepad_index, true);
+	//		}
+	//		else
+	//		{
+	//			input_globals.gamepad_valid_mask.set(gamepad_index, true);
+	//			csmemset(&state, 0, sizeof(gamepad_state));
+	//		}
+	//	}
+	//}
+	//
+	//input_update_gamepads_rumble();
 }
 
 void __cdecl sub_5129B0()
@@ -526,6 +634,43 @@ void __cdecl sub_5129B0()
 	//}
 }
 
+void __cdecl input_update_gamepads_rumble()
+{
+	INVOKE(0x005129F0, input_update_gamepads_rumble);
+
+	//bool suppressed = input_globals.feedback_suppressed || input_globals.input_suppressed;
+	//if (game_in_progress())
+	//{
+	//	if (game_time_get_paused())
+	//		suppressed = true;
+	//}
+	//else
+	//{
+	//	suppressed = true;
+	//}
+	//
+	//for (dword user_index = 0; user_index < k_number_of_controllers; user_index++)
+	//	input_xinput_update_rumble_state(user_index, &input_globals.rumble_states[user_index], suppressed);
+}
+
+void __cdecl update_button(byte* frames_down, word* msec_down, bool key_down, long duration_ms)
+{
+	INVOKE(0x00512B00, update_button, frames_down, msec_down, key_down, duration_ms);
+
+	//*frames_down = key_down ? MIN(*frames_down + 1, UNSIGNED_CHAR_MAX) : 0;
+	//*msec_down = key_down ? MIN(*msec_down + (word)duration_ms, UNSIGNED_SHORT_MAX) : 0;
+}
+
+void __cdecl update_key(key_state* key, bool key_down, long duration_ms)
+{
+	INVOKE(0x00512B50, update_key, key, key_down, duration_ms);
+
+	//if (!key->__unknown3 || !key_down)
+	//{
+	//	key->__unknown3 = false;
+	//	update_button(&key->frames_down, &key->msec_down, key_down, duration_ms);
+	//}
+}
 
 void input_get_raw_data_string(char* buffer, short size)
 {

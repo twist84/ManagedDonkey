@@ -65,9 +65,9 @@ dword __cdecl input_xinput_set_state(dword user_index, _XINPUT_VIBRATION* vibrat
 	return xinput_globals.set_state(user_index, vibration);
 }
 
-bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword a2, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data)
+bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data)
 {
-	bool result = INVOKE(0x0065EF60, input_xinput_update_gamepad, gamepad_index, a2, state, out_debug_gamepad_data);
+	bool result = INVOKE(0x0065EF60, input_xinput_update_gamepad, gamepad_index, duration_ms, state, out_debug_gamepad_data);
 	if (result)
 	{
 		if (!out_debug_gamepad_data)

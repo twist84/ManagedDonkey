@@ -110,7 +110,7 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 			terminal_handle_key(&key);
 
 		// input_suppress();
-		input_globals.suppressed = true;
+		input_globals.input_suppressed = true;
 
 		terminal_globals.draw_time += shell_seconds_elapsed;
 		if (terminal_globals.draw_time > 1.0f)

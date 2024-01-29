@@ -444,7 +444,7 @@ struct s_input_globals
 {
 	bool initialized;
 	bool mouse_acquired;
-	bool suppressed;
+	bool input_suppressed;
 	c_static_array<bool, k_input_type_count> input_type_suppressed;
 	bool feedback_suppressed;
 	dword update_time;
@@ -482,7 +482,7 @@ struct s_input_globals
 
 	c_static_array<rumble_state, k_number_of_controllers> rumble_states;
 
-	long __unknownC68;
+	long raw_mouse_wheel_update_time;
 	long __unknownC6C;
 };
 static_assert(sizeof(s_input_globals) == 0xC70);
@@ -545,6 +545,9 @@ extern void __cdecl sub_5125A0();
 extern bool __cdecl sub_512650();
 extern void __cdecl input_update();
 extern void __cdecl sub_5129B0();
+extern void __cdecl input_update_gamepads_rumble();
+extern void __cdecl update_button(byte* frames_down, word* msec_down, bool key_down, long duration_ms);
+extern void __cdecl update_key(key_state* key, bool key_down, long duration_ms);
 
 extern void input_get_raw_data_string(char* buffer, short size);
 extern void input_mouse_state_get_raw_data_string(char* buffer, short size);

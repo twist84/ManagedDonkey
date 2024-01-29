@@ -79,7 +79,7 @@ void __cdecl event_manager_tab(long gamepad_stick, e_controller_index controller
 
 void __cdecl user_interface_controller_input_event_submit(s_event_record* event_record)
 {
-	if (input_globals.suppressed)
+	if (input_globals.input_suppressed)
 		return;
 
 	c_window_manager* window_manager = window_manager_get();
