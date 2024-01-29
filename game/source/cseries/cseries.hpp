@@ -44,6 +44,7 @@
 #define FLOOR(a, b) (((a) <= (b)) ? (b) : (a))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define CLAMP(a, b, c) (MIN(MAX(a, b), c))
 
 #define try_bool(X) if (!X) return false
 
