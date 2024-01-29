@@ -593,9 +593,6 @@ void __cdecl input_update_mouse(long duration_ms)
 		}
 		else
 		{
-			input_globals.raw_mouse_wheel_update_time = input_globals.update_time;
-			input_globals.raw_mouse_state.wheel_ticks = input_globals.mouse_wheel_ticks * (input_globals.raw_mouse_state.wheel_delta / input_globals.mouse_wheel_delta);
-
 			if ((input_globals.update_time - input_globals.raw_mouse_wheel_update_time) > 700)
 				input_globals.raw_mouse_wheel_update_time = 0;
 			else
