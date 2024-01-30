@@ -13,7 +13,7 @@ REFERENCE_DECLARE(0x02497CE4, XInputGetState_proxy_t*, XInputGetState_proxy);
 REFERENCE_DECLARE(0x02497CE8, XInputSetState_proxy_t*, XInputSetState_proxy);
 REFERENCE_DECLARE(0x02497CEC, HMODULE, XInput_module);
 
-HOOK_DECLARE(0x0065EE00, sub_65EE00);
+HOOK_DECLARE(0x0065EE00, input_xinput_adjust_thumb_axis_deadzone);
 HOOK_DECLARE(0x0065EE80, input_xinput_available);
 HOOK_DECLARE(0x0065EEB0, input_xinput_dispose);
 HOOK_DECLARE(0x0065EEE0, input_xinput_get_state);
@@ -21,9 +21,9 @@ HOOK_DECLARE(0x0065EF00, input_xinput_initialize);
 HOOK_DECLARE(0x0065EF40, input_xinput_set_state);
 HOOK_DECLARE(0x0065EF60, input_xinput_update_gamepad);
 HOOK_DECLARE(0x0065F220, input_xinput_update_rumble_state);
-HOOK_DECLARE(0x0065F280, sub_65F280);
-HOOK_DECLARE(0x0065F380, sub_65F380);
-HOOK_DECLARE(0x0065F3D0, sub_65F3D0);
+HOOK_DECLARE(0x0065F280, input_xinput_update_thumbstick);
+HOOK_DECLARE(0x0065F380, input_xinput_update_button);
+HOOK_DECLARE(0x0065F3D0, input_xinput_update_trigger);
 
 word xinput_buttons[]
 {
@@ -46,9 +46,9 @@ long const k_xinput_button_count = NUMBEROF(xinput_buttons);
 
 c_static_array<debug_gamepad_data, 4> g_debug_gamepad_data = {};
 
-double __cdecl sub_65EE00(double thumb_axis, double thumb_deadzone)
+double __cdecl input_xinput_adjust_thumb_axis_deadzone(double thumb_axis, double thumb_deadzone)
 {
-	//return INVOKE(0x0065EE00, sub_65EE00, thumb_axis, thumb_deadzone);
+	//return INVOKE(0x0065EE00, input_xinput_adjust_thumb_axis_deadzone, thumb_axis, thumb_deadzone);
 
 	if (thumb_axis > thumb_deadzone)
 		return (thumb_axis - thumb_deadzone) * 0x7FFF / (0x7FFF - thumb_deadzone);
@@ -93,7 +93,7 @@ bool __cdecl input_xinput_initialize()
 	if (XInput_module != NULL)
 		ASSERT2("please don't try to initialize xinput multiple times!");
 
-	if (XInput_module = LoadLibraryA(XINPUT_DLL_A))
+	if (XInput_module = LoadLibrary(XINPUT_DLL))
 	{
 		XInputGetState_proxy = (XInputGetState_proxy_t*)GetProcAddress(XInput_module, "XInputGetState");
 		XInputSetState_proxy = (XInputSetState_proxy_t*)GetProcAddress(XInput_module, "XInputSetState");
@@ -143,8 +143,8 @@ bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms,
 			trigger_msec_down = trigger_index ? state.Gamepad.bRightTrigger : state.Gamepad.bLeftTrigger;
 			bool trigger_down = trigger_msec_down > max_trigger_msec_down;
 
-			sub_65F380(&button_frames_down, &button_msec_down, trigger_down, duration_ms);
-			sub_65F3D0(&trigger_msec_down, trigger_down, (byte)duration_ms);
+			input_xinput_update_button(&button_frames_down, &button_msec_down, trigger_down, duration_ms);
+			input_xinput_update_trigger(&trigger_msec_down, trigger_down, (byte)duration_ms);
 		}
 
 		for (long button_index = 0; button_index < k_xinput_button_count; button_index++)
@@ -154,7 +154,7 @@ bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms,
 
 			bool button_down = TEST_MASK(state.Gamepad.wButtons, xinput_buttons[button_index]);
 
-			sub_65F380(&button_frames_down, &button_msec_down, button_down, duration_ms);
+			input_xinput_update_button(&button_frames_down, &button_msec_down, button_down, duration_ms);
 		}
 
 		// In Halo Online `out_debug_gamepad_data` is NULL, we "fix" that here
@@ -167,8 +167,8 @@ bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms,
 		out_debug_gamepad_data->thumb_right.x = state.Gamepad.sThumbRX;
 		out_debug_gamepad_data->thumb_right.y = state.Gamepad.sThumbRY;
 
-		sub_65F280(true, &gamepad_state->thumb_left, state.Gamepad.sThumbLX, state.Gamepad.sThumbLY);
-		sub_65F280(false, &gamepad_state->thumb_right, state.Gamepad.sThumbRX, state.Gamepad.sThumbRY);
+		input_xinput_update_thumbstick(true, &gamepad_state->thumb_left, state.Gamepad.sThumbLX, state.Gamepad.sThumbLY);
+		input_xinput_update_thumbstick(false, &gamepad_state->thumb_right, state.Gamepad.sThumbRX, state.Gamepad.sThumbRY);
 
 		return true;
 	}
@@ -193,43 +193,37 @@ void __cdecl input_xinput_update_rumble_state(dword user_index, rumble_state con
 	}
 }
 
-void __cdecl sub_65F280(bool left_thumb, int16_point2d* thumbstick, short thumb_x, short thumb_y)
+void __cdecl input_xinput_update_thumbstick(bool left_thumb, int16_point2d* thumbstick, short thumb_x, short thumb_y)
 {
-	//INVOKE(0x0065F280, sub_65F280, left_thumb, thumbstick, thumb_x, thumb_y);
+	//INVOKE(0x0065F280, input_xinput_update_thumbstick, left_thumb, thumbstick, thumb_x, thumb_y);
 
-	thumbstick->x = (short)sub_65EE00(thumb_x, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
-	thumbstick->y = (short)sub_65EE00(thumb_y, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	thumbstick->x = (short)input_xinput_adjust_thumb_axis_deadzone(thumb_x, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	thumbstick->y = (short)input_xinput_adjust_thumb_axis_deadzone(thumb_y, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
 }
 
-void __cdecl sub_65F380(byte* button_frames_down, word* button_msec_down, bool button_down, long duration_ms)
+void __cdecl input_xinput_update_button(byte* button_frames_down, word* button_msec_down, bool button_down, long duration_ms)
 {
-	//INVOKE(0x0065F380, sub_65F380, button_frames_down, button_msec_down, button_down, duration_ms);
+	//INVOKE(0x0065F380, input_xinput_update_button, button_frames_down, button_msec_down, button_down, duration_ms);
 
 	*button_frames_down = button_down ? MIN(*button_frames_down + 1, UNSIGNED_CHAR_MAX) : 0;
 	*button_msec_down = button_down ? MIN(*button_msec_down + (word)duration_ms, UNSIGNED_SHORT_MAX) : 0;
 }
 
-void __cdecl sub_65F3D0(byte* trigger_msec_down, bool trigger_down, byte duration_ms)
+void __cdecl input_xinput_update_trigger(byte* trigger_msec_down, bool trigger_down, byte duration_ms)
 {
-	//INVOKE(0x0065F3D0, sub_65F3D0, trigger_msec_down, trigger_down, duration_ms);
-
-#define CLAMP_TRIGGER_DOWN(a, b, c) ((a) >= (c) - (b) ? (a) - (c) : (b))
-#define CLAMP_TRIGGER_UP(a, b, c) ((a) <= (c) - (b) ? (a) + (b) : (c))
+	//INVOKE(0x0065F3D0, input_xinput_update_trigger, trigger_msec_down, trigger_down, duration_ms);
 
 	if (trigger_down)
 	{
-		byte msec_down = CLAMP_TRIGGER_DOWN(duration_ms, 0, 32);
+		byte msec_down = CLAMP_LOWER(duration_ms, 0, 32);
 		if (*trigger_msec_down <= msec_down)
 			*trigger_msec_down = msec_down;
 	}
 	else
 	{
-		byte msec_down = CLAMP_TRIGGER_UP(duration_ms, 64, 255);
+		byte msec_down = CLAMP_UPPER(duration_ms, 64, 255);
 		if (*trigger_msec_down >= msec_down)
 			*trigger_msec_down = msec_down;
 	}
-
-#undef CLAMP_TRIGGER_UP
-#undef CLAMP_TRIGGER_DOWN
 }
 
