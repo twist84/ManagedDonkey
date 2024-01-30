@@ -573,6 +573,8 @@ void __cdecl input_update_keyboard(long duration_ms)
 	}
 
 	// Halo 3 handles `input_globals.buffered_keys` here
+
+	// #TODO: dedicated server debug console
 }
 
 void __cdecl input_update_mouse(long duration_ms)
@@ -649,7 +651,7 @@ void __cdecl input_update_gamepads_rumble()
 {
 	INVOKE(0x005129F0, input_update_gamepads_rumble);
 
-	//bool suppressed = input_globals.feedback_suppressed || input_globals.input_suppressed;
+	//bool suppressed = input_globals.feedback_suppressed || input_globals.input_suppressed;// || debugging_system_has_focus();
 	//if (game_in_progress())
 	//{
 	//	if (game_time_get_paused())
