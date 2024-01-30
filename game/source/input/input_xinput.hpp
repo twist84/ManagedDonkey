@@ -10,30 +10,22 @@ struct debug_gamepad_data
 };
 static_assert(sizeof(debug_gamepad_data) == 0x8);
 
+extern c_static_array<debug_gamepad_data, k_number_of_controllers> g_debug_gamepad_data;
+
 struct _XINPUT_STATE;
 struct _XINPUT_VIBRATION;
-struct s_xinput_globals
-{
-	//DWORD(WINAPI* GetState)(DWORD dwUserIndex, XINPUT_STATE* pState);
-	dword(__stdcall* get_state)(dword user_index, _XINPUT_STATE* state);
-	//DWORD(WINAPI* SetState)(DWORD dwUserIndex, XINPUT_VIBRATION* pVibration);
-	dword(__stdcall* set_state)(dword user_index, _XINPUT_VIBRATION* vibration);
-	//HMODULE hModule;
-	void* module_handle;
-};
-static_assert(sizeof(s_xinput_globals) == 0xC);
-
-extern c_static_array<debug_gamepad_data, k_number_of_controllers> g_debug_gamepad_data;
-extern s_xinput_globals& xinput_globals;
-
 struct gamepad_state;
 struct rumble_state;
 
+extern double __cdecl sub_65EE00(double thumb_axis, double thumb_deadzone);
 extern bool __cdecl input_xinput_available();
 extern void __cdecl input_xinput_dispose();
 extern dword __cdecl input_xinput_get_state(dword user_index, _XINPUT_STATE* state);
-extern void __cdecl input_xinput_initialize();
+extern bool __cdecl input_xinput_initialize();
 extern dword __cdecl input_xinput_set_state(dword user_index, _XINPUT_VIBRATION* state);
-extern bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword a2, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data);
+extern bool __cdecl input_xinput_update_gamepad(dword gamepad_index, dword duration_ms, gamepad_state* state, debug_gamepad_data* out_debug_gamepad_data);
 extern void __cdecl input_xinput_update_rumble_state(dword user_index, rumble_state const* state, bool suppressed);
+extern void __cdecl sub_65F280(bool left_thumb, int16_point2d* thumbstick, short thumb_x, short thumb_y);
+extern void __cdecl sub_65F380(byte* trigger_down_frames, word* trigger_down_msec, bool trigger_down, long duration_ms);
+extern void __cdecl sub_65F3D0(byte* trigger_down_msec, bool trigger_down, byte duration_ms);
 
