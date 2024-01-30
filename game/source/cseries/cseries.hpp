@@ -215,9 +215,9 @@ if (!(STATEMENT) && !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, 
 }
 #define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) ASSERT_EXCEPTION(STATEMENT, true, __VA_ARGS__)
 #define ASSERT_EXCEPTION2(STATEMENT, IS_EXCEPTION, ...) \
-if (!handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
+if (!handle_assert_as_exception(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
 {                                                                                              \
-    display_assert(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION);                              \
+    display_assert(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION);                              \
     if (!is_debugger_present() && g_catch_exceptions)                                          \
         system_abort();                                                                        \
     else                                                                                       \

@@ -30,7 +30,7 @@ bool __cdecl current_thread_should_exit()
 
 	//long thread_index = get_current_thread_index();
 	//if (!VALID_INDEX(thread_index, k_registered_thread_count))
-	//	ASSERT2(invalid thread index);
+	//	ASSERT2("invalid thread index");
 	//return g_thread_globals.thread_should_exit[thread_index].peek() == TRUE;
 }
 

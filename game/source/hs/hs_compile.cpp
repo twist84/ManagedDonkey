@@ -1401,7 +1401,7 @@ void hs_compile_add_reference(long referred_index, e_reference_type reference_ty
 		}
 		break;
 		default:
-			ASSERT2(unreachable);
+			ASSERT2("unreachable");
 		}
 	}
 }

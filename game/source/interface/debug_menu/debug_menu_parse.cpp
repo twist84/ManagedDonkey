@@ -339,7 +339,7 @@ char const* debug_menu_build_item(c_debug_menu* menu, char* error_buffer, long e
 	case _item_type_command:
 		return debug_menu_build_item_command(menu, error_buffer, error_buffer_size);
 	default:
-		ASSERT2(unreachable);
+		ASSERT2("unreachable");
 		break;
 	}
 
@@ -371,7 +371,7 @@ c_debug_menu* debug_menu_build_menu(e_property_owner property_owner, c_debug_men
 	}
 	break;
 	default:
-		ASSERT2(unreachable);
+		ASSERT2("unreachable");
 		break;
 	}
 

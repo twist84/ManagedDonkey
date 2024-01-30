@@ -338,7 +338,7 @@ bool __cdecl wait_for_single_object_internal(void* handle, dword timeout_in_mill
 	//	switch (wait_result)
 	//	{
 	//	case WAIT_ABANDONED:
-	//		ASSERT2(some thread terminated before releasing a sychronization primative);
+	//		ASSERT2("some thread terminated before releasing a sychronization primative");
 	//		success = true;
 	//		break;
 	//	case WAIT_TIMEOUT:

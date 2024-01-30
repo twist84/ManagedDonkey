@@ -177,12 +177,12 @@ void c_async_buffer_set::complete_pending_async_buffer_activity()
 	//case k_async_buffer_state_none:
 	//{
 	//	if (m_file_access == 2)
-	//		ASSERT2(unreachable);
+	//		ASSERT2("unreachable");
 	//}
 	//break;
 	//default:
 	//{
-	//	ASSERT2(unreachable);
+	//	ASSERT2("unreachable");
 	//}
 	//break;
 	//}
