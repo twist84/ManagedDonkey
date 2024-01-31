@@ -6,6 +6,8 @@
 #include <Windows.h>
 #include <XInput.h>
 
+#define ADJUST_THUMB_AXIS_DEADZONE_SHORT(THUMB_AXIS, THUMB_DEADZONE) (short)input_xinput_adjust_thumb_axis_deadzone((THUMB_AXIS), (THUMB_DEADZONE))
+
 using XInputGetState_proxy_t = DWORD WINAPI(DWORD dwUserIndex, XINPUT_STATE* pState);
 using XInputSetState_proxy_t = DWORD WINAPI(DWORD dwUserIndex, XINPUT_VIBRATION* pVibration);
 
@@ -197,8 +199,8 @@ void __cdecl input_xinput_update_thumbstick(bool left_thumb, int16_point2d* thum
 {
 	//INVOKE(0x0065F280, input_xinput_update_thumbstick, left_thumb, thumbstick, thumb_x, thumb_y);
 
-	thumbstick->x = (short)input_xinput_adjust_thumb_axis_deadzone(thumb_x, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
-	thumbstick->y = (short)input_xinput_adjust_thumb_axis_deadzone(thumb_y, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	thumbstick->x = ADJUST_THUMB_AXIS_DEADZONE_SHORT(thumb_x, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
+	thumbstick->y = ADJUST_THUMB_AXIS_DEADZONE_SHORT(thumb_y, left_thumb ? XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE : XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
 }
 
 void __cdecl input_xinput_update_button(byte* button_frames_down, word* button_msec_down, bool button_down, long duration_ms)
