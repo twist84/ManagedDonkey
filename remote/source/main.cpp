@@ -114,7 +114,7 @@ void c_raw_connection::update()
 			break;
 		}
 
-		if (strcmp(buffer, "close_game") == 0)
+		if (strcmp(buffer, "exit_game") == 0)
 		{
 			send(m_socket, buffer, len, 0);
 			break;
