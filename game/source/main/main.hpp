@@ -160,7 +160,7 @@ extern void __cdecl main_load_core_name(char const* core_name);
 extern void __cdecl main_load_core_private();
 extern void __cdecl main_loop_initialize_restricted_regions();
 extern void __cdecl main_loop_dispose_restricted_regions();
-extern void __cdecl main_loop_body(dword* wait_for_render_thread, dword* tick_count);
+extern void __cdecl main_loop_body(dword* wait_for_render_thread, dword* time);
 extern void __cdecl main_loop();
 extern void __cdecl main_loop_body_main_part();
 extern void __cdecl main_loop_body_multi_threaded();

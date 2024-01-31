@@ -82,6 +82,25 @@ long cheat_drop_variant_name = 0;
 s_model_customization_region_permutation cheat_drop_permutations[16]{};
 long cheat_drop_permutation_count = 0;
 
+bool main_loop_suspended = false;
+
+bool main_loop_is_suspended()
+{
+	return main_loop_suspended;
+}
+
+void main_loop_suspend()
+{
+	if (!main_loop_suspended)
+		main_loop_suspended = true;
+}
+
+void main_loop_resume()
+{
+	if (main_loop_suspended)
+		main_loop_suspended = false;
+}
+
 void __cdecl __tls_set_g_main_gamestate_timing_data_allocator(void* address)
 {
 	INVOKE(0x00504CE0, __tls_set_g_main_gamestate_timing_data_allocator, address);
@@ -569,47 +588,39 @@ void __cdecl main_loop_dispose_restricted_regions()
 }
 
 //void main_loop_body(c_flags<e_main_loop_body_part_flags, byte, _main_loop_body_part_flags_count> parts_to_run, dword* wait_for_render_thread, __int64* vblank_index) // debug?
-void __cdecl main_loop_body(dword* wait_for_render_thread, dword* tick_count)
+void __cdecl main_loop_body(dword* wait_for_render_thread, dword* time)
 {
-	dword current_tick_count = GetTickCount();
-	dword tick_delta = current_tick_count - *tick_count;
+	dword time_delta = system_milliseconds() - *time;
+	if (!disable_main_loop_throttle && time_delta < 7)
+		sleep(7 - time_delta);
+	*time = system_milliseconds();
 
-	if (disable_main_loop_throttle || tick_delta >= 7)
+	bool requested_single_thread = false;
+	main_globals.main_loop_time = system_milliseconds();
+
+	main_set_single_thread_request_flag(0, !g_render_thread_user_setting);
+	if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
 	{
-		*tick_count = current_tick_count;
-
-		bool requested_single_thread = false;
-		main_globals.main_loop_time = system_milliseconds();
-
-		main_set_single_thread_request_flag(0, !g_render_thread_user_setting);
-		if (game_is_multithreaded() && (render_thread_get_mode() == 1 || render_thread_get_mode() == 2))
-		{
-			main_thread_process_pending_messages();
-			main_loop_body_multi_threaded();
-		}
-		else
-		{
-			requested_single_thread = true;
-			main_thread_process_pending_messages();
-			main_loop_body_single_threaded();
-		}
-
-		g_single_thread_request_flags.set_bit(3, byte_244DF08 /* sub_6103F0 */ || byte_244DF07 /* sub_610530 */);
-		if (game_is_multithreaded())
-		{
-			if (!g_single_thread_request_flags.peek() != requested_single_thread)
-			{
-				if (requested_single_thread)
-					unlock_resources_and_resume_render_thread(*wait_for_render_thread);
-				else
-					*wait_for_render_thread = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
-			}
-		}
+		main_thread_process_pending_messages();
+		main_loop_body_multi_threaded();
 	}
 	else
 	{
-		// main_thread_sleep
-		sleep(7 - tick_delta);
+		requested_single_thread = true;
+		main_thread_process_pending_messages();
+		main_loop_body_single_threaded();
+	}
+
+	g_single_thread_request_flags.set_bit(3, byte_244DF08 /* sub_6103F0 */ || byte_244DF07 /* sub_610530 */);
+	if (game_is_multithreaded())
+	{
+		if (!g_single_thread_request_flags.peek() != requested_single_thread)
+		{
+			if (requested_single_thread)
+				unlock_resources_and_resume_render_thread(*wait_for_render_thread);
+			else
+				*wait_for_render_thread = _internal_halt_render_thread_and_lock_resources(__FILE__, __LINE__);
+		}
 	}
 }
 
@@ -626,10 +637,17 @@ void __cdecl main_loop()
 	main_loop_enter();
 
 	dword wait_for_render_thread = 0;
-	dword tick_count = GetTickCount();
+	dword time = system_milliseconds();
 	while (!main_globals.exit_game)
 	{
-		main_loop_body(&wait_for_render_thread, &tick_count);
+		if (main_loop_is_suspended())
+		{
+			switch_to_thread();
+		}
+		else
+		{
+			main_loop_body(&wait_for_render_thread, &time);
+		}
 	}
 
 	main_loop_exit();
