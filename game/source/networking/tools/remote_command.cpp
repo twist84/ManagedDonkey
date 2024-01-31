@@ -534,9 +534,13 @@ callback_result_t breakpoint_callback(void const* userdata, long token_count, to
 	return result;
 }
 
-callback_result_t close_game_callback(void const* userdata, long token_count, tokens_t const tokens)
+callback_result_t exit_game_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
-	exit(-1);
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_exit_game();
+
+	return result;
 }
 
 callback_result_t script_start_callback(void const* userdata, long token_count, tokens_t const tokens)
