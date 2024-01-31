@@ -6,14 +6,27 @@
 #include <Windows.h>
 #include <XInput.h>
 
+#if defined(_DEBUG)
+#define STATIC_XINPUT
+#endif
+
+#ifdef STATIC_XINPUT
+#pragma comment(lib, "xinput.lib")
+#endif
+
 #define ADJUST_THUMB_AXIS_DEADZONE_SHORT(THUMB_AXIS, THUMB_DEADZONE) (short)input_xinput_adjust_thumb_axis_deadzone((THUMB_AXIS), (THUMB_DEADZONE))
 
 using XInputGetState_proxy_t = DWORD WINAPI(DWORD dwUserIndex, XINPUT_STATE* pState);
 using XInputSetState_proxy_t = DWORD WINAPI(DWORD dwUserIndex, XINPUT_VIBRATION* pVibration);
 
+#if defined(STATIC_XINPUT)
+XInputGetState_proxy_t* XInputGetState_proxy = XInputGetState;
+XInputSetState_proxy_t* XInputSetState_proxy = XInputSetState;
+#else
 REFERENCE_DECLARE(0x02497CE4, XInputGetState_proxy_t*, XInputGetState_proxy);
 REFERENCE_DECLARE(0x02497CE8, XInputSetState_proxy_t*, XInputSetState_proxy);
 REFERENCE_DECLARE(0x02497CEC, HMODULE, XInput_module);
+#endif
 
 HOOK_DECLARE(0x0065EE00, input_xinput_adjust_thumb_axis_deadzone);
 HOOK_DECLARE(0x0065EE80, input_xinput_available);
@@ -65,13 +78,21 @@ bool __cdecl input_xinput_available()
 {
 	//return INVOKE(0x0065EE80, input_xinput_available);
 
+#if defined(STATIC_XINPUT)
+	return XInputGetState_proxy && XInputSetState_proxy;
+#else
 	return XInput_module && XInputGetState_proxy && XInputSetState_proxy;
+#endif
 }
 
 void __cdecl input_xinput_dispose()
 {
 	//INVOKE(0x0065EEB0, input_xinput_dispose);
 
+#if defined(STATIC_XINPUT)
+	XInputGetState_proxy = NULL;
+	XInputSetState_proxy = NULL;
+#else
 	if (XInput_module)
 	{
 		FreeLibrary(XInput_module);
@@ -79,6 +100,7 @@ void __cdecl input_xinput_dispose()
 		XInputGetState_proxy = NULL;
 		XInputSetState_proxy = NULL;
 	}
+#endif
 }
 
 dword __cdecl input_xinput_get_state(dword user_index, _XINPUT_STATE* state)
@@ -92,6 +114,12 @@ bool __cdecl input_xinput_initialize()
 {
 	//INVOKE(0x0065EF00, input_xinput_initialize);
 
+#if defined(STATIC_XINPUT)
+	XInputGetState_proxy = XInputGetState;
+	XInputSetState_proxy = XInputSetState;
+
+	return true;
+#else
 	if (XInput_module != NULL)
 		ASSERT2("please don't try to initialize xinput multiple times!");
 
@@ -107,6 +135,7 @@ bool __cdecl input_xinput_initialize()
 	}
 
 	return XInput_module != NULL;
+#endif
 }
 
 dword __cdecl input_xinput_set_state(dword user_index, _XINPUT_VIBRATION* vibration)
