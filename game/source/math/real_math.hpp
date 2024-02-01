@@ -5,7 +5,7 @@
 #define RAD 180 / PI
 #define DEG PI / 180
 
-#define _real_epsilon _real_epsilon
+#define _real_epsilon 0.000099999997f
 
 typedef float real;
 static_assert(sizeof(real) == sizeof(float));
