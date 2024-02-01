@@ -42,11 +42,11 @@
 #define REFERENCE_DECLARE_STATIC_ARRAY(address, type, count, name) c_static_array<type, count> &name = *reinterpret_cast<c_static_array<type, count>*>(address)
 
 #define FLOOR(a, b) (((a) <= (b)) ? (b) : (a))
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define CLAMP(a, b, c) ((a) > (b) ? (a) : (b) < (c) ? (a) > (b) ? (a) : (b) : (c))
-#define CLAMP_LOWER(a, b, c) ((a) >= (c) - (b) ? (a) - (c) : (b))
-#define CLAMP_UPPER(a, b, c) ((a) <= (c) - (b) ? (a) + (b) : (c))
+#define MIN(x, low) ((x) < (low) ? (x) : (low))
+#define MAX(x, high) ((x) > (high) ? (x) : (high))
+#define CLAMP(x, low, high) ((x) > (low) ? (x) : (low) < (high) ? (x) > (low) ? (x) : (low) : (high))
+#define CLAMP_LOWER(x, low, high) ((x) >= (high) - (low) ? (x) - (high) : (low))
+#define CLAMP_UPPER(x, low, high) ((x) <= (high) - (low) ? (x) + (low) : (high))
 
 #define try_bool(X) if (!X) return false
 
