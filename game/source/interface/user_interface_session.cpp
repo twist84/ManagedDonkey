@@ -147,7 +147,12 @@ long __cdecl user_interface_squad_get_countdown_timer()
 //.text:00A82BA0 ; e_squad_join_permission __cdecl user_interface_squad_get_join_permission()
 //.text:00A82BE0 ; long __cdecl user_interface_squad_get_leader_player_index()
 //.text:00A82C90 ; long __cdecl user_interface_squad_get_local_player_count()
-//.text:00A82D20 ; long __cdecl user_interface_squad_get_machine_count()
+
+long __cdecl user_interface_squad_get_machine_count()
+{
+	return INVOKE(0x00A82D20, user_interface_squad_get_machine_count);
+}
+
 //.text:00A82D50 ; long __cdecl user_interface_squad_get_machine_index(long player_index)
 //.text:00A82E10 ; bool __cdecl user_interface_squad_get_player_at_local_controller(e_controller_index controller_index)
 //.text:00A82E90 ; long __cdecl user_interface_squad_get_player_count()

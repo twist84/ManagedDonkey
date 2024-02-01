@@ -21,6 +21,7 @@ extern bool __cdecl user_interface_squad_is_player_valid(long player_index);
 extern long __cdecl user_interface_squad_get_player_index(s_player_identifier const* player_identifier);
 extern long __cdecl user_interface_squad_get_countdown_delaying_player();
 extern long __cdecl user_interface_squad_get_countdown_timer();
+extern long __cdecl user_interface_squad_get_machine_count();
 extern e_gui_game_mode __cdecl user_interface_squad_get_ui_game_mode();
 extern bool __cdecl user_interface_squad_set_map_variant(c_map_variant const* map_variant);
 extern bool __cdecl user_interface_squad_set_multiplayer_map_internal(c_map_variant const* map_variant, bool needs_verification);
