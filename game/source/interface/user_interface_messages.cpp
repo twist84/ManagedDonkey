@@ -456,6 +456,13 @@ void __cdecl user_interface_messaging_update()
 	// #TODO: implement
 }
 
+bool __cdecl user_interface_xbox_guide_is_active()
+{
+	return INVOKE(0x00A934B0, user_interface_xbox_guide_is_active);
+
+	//return g_message_globals.get_xbox_guide_is_active();
+}
+
 void __cdecl user_interface_messaging_post(c_message* message)
 {
 	ASSERT(message != nullptr);

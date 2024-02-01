@@ -211,6 +211,7 @@ extern void __cdecl user_interface_messaging_dispose();
 extern void __cdecl user_interface_messaging_initialize_for_new_map();
 extern void __cdecl user_interface_messaging_dispose_from_old_map();
 extern void __cdecl user_interface_messaging_update();
+extern bool __cdecl user_interface_xbox_guide_is_active();
 extern void __cdecl user_interface_messaging_post(c_message* message);
 extern bool __cdecl user_interface_messaging_get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference);
 extern void __cdecl user_interface_messaging_pop(c_message* message);
