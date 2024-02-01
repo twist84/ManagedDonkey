@@ -23,6 +23,11 @@ void __cdecl display_debug_string(const char* format, ...)
 	va_end(list);
 }
 
+void __cdecl system_get_date_and_time(char* buffer, short buffer_size, bool short_date_and_time)
+{
+	INVOKE(0x004EBF70, system_get_date_and_time, buffer, buffer_size, short_date_and_time);
+}
+
 unsigned long __cdecl system_milliseconds()
 {
 	//return INVOKE(0x004EC110, system_milliseconds);
