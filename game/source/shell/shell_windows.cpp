@@ -350,22 +350,22 @@ void __cdecl WndProc_HandleMouse(UINT Msg, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_RBUTTONDOWN:
 		mouse.mouse_type = _mouse_type_down;
-		mouse.mouse_button = _mouse_button_2;
+		mouse.mouse_button = _mouse_button_3;
 		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
 		break;
 	case WM_RBUTTONUP:
 		mouse.mouse_type = _mouse_type_up;
-		mouse.mouse_button = _mouse_button_2;
+		mouse.mouse_button = _mouse_button_3;
 		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
 		break;
 	case WM_MBUTTONDOWN:
 		mouse.mouse_type = _mouse_type_down;
-		mouse.mouse_button = _mouse_button_3;
+		mouse.mouse_button = _mouse_button_2;
 		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
 		break;
 	case WM_MBUTTONUP:
 		mouse.mouse_type = _mouse_type_up;
-		mouse.mouse_button = _mouse_button_3;
+		mouse.mouse_button = _mouse_button_2;
 		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
 		break;
 	case WM_MOUSEWHEEL:
