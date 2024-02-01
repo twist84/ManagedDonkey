@@ -41,7 +41,7 @@
 #define REFERENCE_DECLARE_3D_ARRAY(address, type, name, count0, count1, count3) type(&name)[count0][count1][count3] = *reinterpret_cast<type(*)[count0][count1][count3]>(address)
 #define REFERENCE_DECLARE_STATIC_ARRAY(address, type, count, name) c_static_array<type, count> &name = *reinterpret_cast<c_static_array<type, count>*>(address)
 
-#define FLOOR(a, b) (((a) <= (b)) ? (b) : (a))
+#define FLOOR(a, b) ((a) <= (b) ? (b) : (a))
 #define MIN(x, low) ((x) < (low) ? (x) : (low))
 #define MAX(x, high) ((x) > (high) ? (x) : (high))
 #define CLAMP(x, low, high) ((x) < (low) ? (low) : (x) > (high) ? (high) : (x))
