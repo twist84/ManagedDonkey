@@ -143,7 +143,7 @@ vector3d* __cdecl perpendicular3d(vector3d const* vector, vector3d* out_vector)
 real __cdecl normalize3d(vector3d* vector)
 {
 	real result = magnitude3d(vector);
-	if (fabsf(result - 0.0f) < 0.000099999997f)
+	if (fabsf(result - 0.0f) < _real_epsilon)
 		result = 0.0f;
 	else
 		scale_vector3d(vector, 1.0f / result, vector);
@@ -211,7 +211,7 @@ real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* 
 	short v6 = global_projection3d_mappings[2 * projection + 1 + 3 * a4];
 
 	real v7 = 0.0f;
-	if (fabsf((plane->normal.n[projection] - 0.0f)) >= 0.000099999997f)
+	if (fabsf((plane->normal.n[projection] - 0.0f)) >= _real_epsilon)
 		v7 = ((plane->distance - (plane->normal.n[v5] * point->n[0])) - (plane->normal.n[v6] * point->n[1])) / plane->normal.n[projection];
 
 	ASSERT(projection >= _x && projection <= _z);

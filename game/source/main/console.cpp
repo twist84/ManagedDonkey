@@ -702,6 +702,11 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_REAL2(render_screenspace_center, g_screenspace_pixel_center),
 	CONSOLE_GLOBAL_DECLARE_REAL2(ui_time_scale, g_ui_time_scale),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_thread_enable, g_render_thread_user_setting),
+	
+	CONSOLE_GLOBAL_DECLARE_BOOL2(game_paused, debug_pause_game),
+	CONSOLE_GLOBAL_DECLARE_REAL2(game_speed, debug_game_speed),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_lock, debug_game_time_lock),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_statistics, debug_game_time_statistics),
 
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);

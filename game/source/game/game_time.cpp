@@ -10,16 +10,99 @@
 
 #include <math.h>
 
-real debug_game_speed = 1.0f;
+HOOK_DECLARE(0x00564D20, game_time_dispose_from_old_map);
+HOOK_DECLARE(0x00564F30, game_time_initialize_for_new_map);
 
+real debug_game_speed = 1.0f;
 bool debug_game_time_statistics = false;
 bool debug_game_time_lock = false;
 bool debug_pause_game_active = false;
 bool debug_pause_game = false;
 
-long frame_tick_limit = 0;
-bool debug_render_game_time_history = false;
-bool debug_gather_game_time_history = false;
+FILE* game_time_statistics_file = NULL;
+bool game_time_statistics_started;
+bool game_time_statistics_update_time;
+bool game_time_statistics_write_header;
+dword game_time_statistics_time;
+
+void game_time_statistics_start()
+{
+	if (debug_game_time_statistics)
+	{
+		if (!game_time_statistics_file)
+			fopen_s(&game_time_statistics_file, "game_time_statistics.txt", "w");
+
+		game_time_statistics_started = true;
+		game_time_statistics_update_time = true;
+		game_time_statistics_write_header = true;
+	}
+}
+
+void game_time_statistics_frame(
+	real world_seconds_elapsed,
+	real game_seconds_elapsed,
+	real real_desired_ticks,
+	long game_ticks_target,
+	long game_ticks_limit,
+	long game_ticks_available,
+	long game_ticks_elapsed,
+	real game_ticks_leftover,
+	bool discontinuity)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+
+	if (game_time_statistics_started)
+	{
+		if (game_time_statistics_update_time)
+		{
+			game_time_statistics_time = system_milliseconds();
+			game_time_statistics_update_time = false;
+		}
+
+		dword time = system_milliseconds();
+		dword milliseconds_elapsed = time - game_time_statistics_time;
+		game_time_statistics_time = time;
+
+		if (game_time_statistics_file)
+		{
+			if (game_time_statistics_write_header)
+			{
+				char date_and_time[256]{};
+				system_get_date_and_time(date_and_time, sizeof(date_and_time), false);
+
+				fprintf(game_time_statistics_file, "\nSTATISTICS FOR %s %s\n",
+					tag_name_strip_path(game_options_get()->scenario_path.get_string()),
+					date_and_time);
+
+				fprintf(game_time_statistics_file, "  time= game time, msec= milliseconds elapsed, w-dt= elapsed world dt, g-dt= elapsed game dt\n");
+				fprintf(game_time_statistics_file, "  ticks= real desired ticks, tgt= target updates, lim= limit of updates, avl= currently available updates\n");
+				fprintf(game_time_statistics_file, "  ela= actual elapsed ticks, left= leftover fractional tick, d= discontinuity\n");
+				fprintf(game_time_statistics_file, "\n");
+				fprintf(game_time_statistics_file, "  time msec  w-dt  g-dt    ticks tgt lim avl     ela   left (d)\n");
+
+				game_time_statistics_write_header = false;
+			}
+
+			fprintf(game_time_statistics_file, "%6d %4d %5.3f %5.3f    %5.2f %3d %3d %3d     %3d %6.3f  %s\n",
+				game_time_globals->elapsed_ticks,
+				milliseconds_elapsed,
+				world_seconds_elapsed,
+				game_seconds_elapsed,
+				real_desired_ticks,
+				game_ticks_target,
+				game_ticks_limit,
+				game_ticks_available,
+				game_ticks_elapsed,
+				game_ticks_leftover,
+				discontinuity ? "*" : " ");
+		}
+	}
+}
+
+void game_time_statistics_stop()
+{
+	game_time_statistics_started = false;
+}
 
 long __cdecl game_seconds_integer_to_ticks(long seconds)
 {
@@ -92,21 +175,25 @@ void __cdecl game_time_advance()
 	//game_time_globals->elapsed_ticks++;
 }
 
-void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* game_seconds_elapsed_)
+void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* elapsed_game_dt)
 {
-	INVOKE(0x00564CB0, game_time_discard, desired_ticks, actual_ticks, game_seconds_elapsed_);
+	INVOKE(0x00564CB0, game_time_discard, desired_ticks, actual_ticks, elapsed_game_dt);
 
 	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//ASSERT(desired_ticks > 0);
+	//ASSERT(actual_ticks < desired_ticks);
+	//ASSERT(elapsed_game_dt);
 	//if (actual_ticks)
 	//{
-	//	real game_seconds_elapsed = *game_seconds_elapsed_ - (game_time_globals->tick_length * (desired_ticks - actual_ticks));
-	//	if (game_seconds_elapsed <= 0.0f)
-	//		game_seconds_elapsed = 0.0f;
-	//	*game_seconds_elapsed_ = game_seconds_elapsed;
+	//	real lost_dt = game_ticks_to_seconds(desired_ticks - actual_ticks);
+	//	ASSERT(*elapsed_game_dt - lost_dt > -_real_epsilon);
+	//	*elapsed_game_dt = MAX(*elapsed_game_dt - lost_dt, 0.0f);
 	//}
 	//else
 	//{
-	//	*game_seconds_elapsed_ = 0.0f;
+	//	*elapsed_game_dt = 0.0f;
 	//}
 }
 
@@ -262,10 +349,10 @@ void __cdecl game_time_set_rate_scale(real world_seconds_elapsed, real game_seco
 	//game_seconds_elapsed = CLAMP(game_seconds_elapsed, 0.2f, 5.0f);
 	//if (shell_seconds_elapsed > 0.0f)
 	//{
-	//	game_time_globals->time_samples.flags.clear();
-	//	game_time_globals->time_samples.shell_seconds_elapsed = shell_seconds_elapsed;
-	//	game_time_globals->time_samples.world_seconds_elapsed = world_seconds_elapsed;
-	//	game_time_globals->time_samples.game_seconds_elapsed = game_seconds_elapsed;
+	//	game_time_globals->__unknown18 = 0.0f;
+	//	game_time_globals->shell_seconds_elapsed = shell_seconds_elapsed;
+	//	game_time_globals->world_seconds_elapsed = world_seconds_elapsed;
+	//	game_time_globals->game_seconds_elapsed = game_seconds_elapsed;
 	//}
 	//game_time_set_rate_scale_direct(shell_seconds_elapsed > 0.0f ? world_seconds_elapsed : game_seconds_elapsed);
 }
@@ -325,21 +412,21 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 	//
 	//if (game_in_progress())
 	//{
-	//	if (game_time_globals->time_samples.shell_seconds_elapsed > 0.0f)
+	//	if (game_time_globals->shell_seconds_elapsed > 0.0f)
 	//	{
-	//		*(real*)&game_time_globals->time_samples.flags += world_seconds_elapsed;
-	//		real v18 = *(float*)&game_time_globals->time_samples.flags;
-	//		real shell_seconds_elapsed = game_time_globals->time_samples.shell_seconds_elapsed;
-	//		if (shell_seconds_elapsed <= v18)
+	//		game_time_globals->__unknown18 += world_seconds_elapsed;
+	//		real unknown18 = game_time_globals->__unknown18;
+	//		real shell_seconds_elapsed = game_time_globals->shell_seconds_elapsed;
+	//		if (shell_seconds_elapsed <= unknown18)
 	//		{
-	//			game_time_set_rate_scale_direct(game_time_globals->time_samples.game_seconds_elapsed);
-	//			game_time_globals->time_samples.shell_seconds_elapsed = 0.0f;
+	//			game_time_set_rate_scale_direct(game_time_globals->game_seconds_elapsed);
+	//			game_time_globals->shell_seconds_elapsed = 0.0f;
 	//		}
 	//		else
 	//		{
 	//			real rate_scale = 
-	//				((1.0f - (v18 / shell_seconds_elapsed)) * game_time_globals->time_samples.world_seconds_elapsed)
-	//				+ ((v18 / shell_seconds_elapsed) * game_time_globals->time_samples.game_seconds_elapsed);
+	//				((1.0f - (unknown18 / shell_seconds_elapsed)) * game_time_globals->world_seconds_elapsed)
+	//				+ ((unknown18 / shell_seconds_elapsed) * game_time_globals->game_seconds_elapsed);
 	//			game_time_set_rate_scale_direct(rate_scale);
 	//		}
 	//	}
@@ -377,13 +464,6 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 	//		elapsed_game_dt = game_time_get_speed() * world_seconds_elapsed;
 	//		real_desired_ticks = (game_time_globals->tick_rate * elapsed_game_dt) + game_time_globals->ticks_leftover;
 	//		game_ticks_target = (long)real_desired_ticks;
-	//	}
-	//
-	//	if (!v36 && frame_tick_limit > 0 && frame_tick_limit < game_ticks_limit)
-	//	{
-	//		elapsed_game_dt = 0x82000000;
-	//		if (debug_game_speed == 1.0f)
-	//			game_ticks_limit = frame_tick_limit;
 	//	}
 	//
 	//	if (match_remote_time)
@@ -439,8 +519,16 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 	//	result = true;
 	//}
 	//
-	//
-	////game_time_statistics_frame(...);
+	//game_time_statistics_frame(
+	//	world_seconds_elapsed,
+	//	elapsed_game_dt,
+	//	real_desired_ticks,
+	//	game_ticks_target,
+	//	game_ticks_limit,
+	//	0,
+	//	game_ticks_elapsed,
+	//	game_ticks_leftover,
+	//	discontinuity);
 	//
 	//game_time_globals->ticks_leftover = game_ticks_leftover;
 	//

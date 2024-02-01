@@ -104,11 +104,20 @@ struct game_time_globals_definition
 	long elapsed_ticks;
 	real speed;
 	real ticks_leftover;
-	s_game_tick_time_samples time_samples;
+
+	real __unknown18;
+	real shell_seconds_elapsed;
+	real world_seconds_elapsed;
+	real game_seconds_elapsed;
+	dword game_ticks_elapsed;
 };
 static_assert(sizeof(game_time_globals_definition) == 0x2C);
 
 extern real debug_game_speed;
+extern bool debug_game_time_statistics;
+extern bool debug_game_time_lock;
+extern bool debug_pause_game_active;
+extern bool debug_pause_game;
 extern e_game_time_pause_reason const k_controller_pause_reasons[k_number_of_controllers];
 
 extern long __cdecl game_seconds_integer_to_ticks(long seconds);
