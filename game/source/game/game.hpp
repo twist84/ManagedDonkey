@@ -75,6 +75,7 @@ extern void __cdecl game_simulation_set(e_game_simulation_type game_simulation);
 extern bool __cdecl game_is_multithreaded();
 extern bool __cdecl game_is_synchronous_networking();
 extern bool __cdecl game_is_networked();
+extern bool __cdecl game_is_or_was_cooperative();
 //extern bool __cdecl game_is_in_progress_on_live();
 extern bool __cdecl game_is_server();
 extern bool __cdecl game_is_authoritative();

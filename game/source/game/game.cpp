@@ -291,6 +291,11 @@ bool __cdecl game_is_networked()
 	return false;
 }
 
+bool __cdecl game_is_or_was_cooperative()
+{
+	return INVOKE(0x00531C50, game_is_or_was_cooperative);
+}
+
 // bool __cdecl game_is_in_progress_on_live()
 
 bool __cdecl game_is_server()
