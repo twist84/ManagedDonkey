@@ -335,72 +335,38 @@ void __cdecl WndProc_HandleMouse(UINT Msg, WPARAM wParam, LPARAM lParam)
 
 	switch (Msg)
 	{
+#define HANDLE_MOUSE_BUTTON(TYPE, BUTTON) \
+{ \
+	mouse.mouse_type = _mouse_##TYPE; \
+	mouse.mouse_button = _mouse_##BUTTON; \
+	input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true); \
+	break; \
+}
+
 	case WM_MOUSEMOVE:
 		mouse.mouse_type = _mouse_type_move;
 		break;
-	case WM_LBUTTONDOWN:
-		mouse.mouse_type = _mouse_type_down;
-		mouse.mouse_button = _mouse_button_1;
-		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
-		break;
-	case WM_LBUTTONUP:
-		mouse.mouse_type = _mouse_type_up;
-		mouse.mouse_button = _mouse_button_1;
-		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
-		break;
-	case WM_RBUTTONDOWN:
-		mouse.mouse_type = _mouse_type_down;
-		mouse.mouse_button = _mouse_button_3;
-		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
-		break;
-	case WM_RBUTTONUP:
-		mouse.mouse_type = _mouse_type_up;
-		mouse.mouse_button = _mouse_button_3;
-		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
-		break;
-	case WM_MBUTTONDOWN:
-		mouse.mouse_type = _mouse_type_down;
-		mouse.mouse_button = _mouse_button_2;
-		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
-		break;
-	case WM_MBUTTONUP:
-		mouse.mouse_type = _mouse_type_up;
-		mouse.mouse_button = _mouse_button_2;
-		input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
-		break;
+	case WM_LBUTTONDOWN: HANDLE_MOUSE_BUTTON(type_down, button_left_click);
+	case WM_LBUTTONUP:   HANDLE_MOUSE_BUTTON(type_up,   button_left_click);
+	case WM_RBUTTONDOWN: HANDLE_MOUSE_BUTTON(type_down, button_right_click);
+	case WM_RBUTTONUP:   HANDLE_MOUSE_BUTTON(type_up,   button_right_click);
+	case WM_MBUTTONDOWN: HANDLE_MOUSE_BUTTON(type_down, button_middle_click);
+	case WM_MBUTTONUP:   HANDLE_MOUSE_BUTTON(type_up,   button_middle_click);
 	case WM_MOUSEWHEEL:
 		mouse.mouse_type = _mouse_type_wheel;
 		mouse.wheel_delta = GET_WHEEL_DELTA_WPARAM(wParam);
 		input_globals.raw_mouse_state.wheel_delta += mouse.wheel_delta;
 		break;
 	case WM_XBUTTONDOWN:
-		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
-		{
-			mouse.mouse_type = _mouse_type_down;
-			mouse.mouse_button = _mouse_button_4;
-			input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
-		}
-		else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
-		{
-			mouse.mouse_type = _mouse_type_down;
-			mouse.mouse_button = _mouse_button_5;
-			input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, true);
-		}
+		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) HANDLE_MOUSE_BUTTON(type_down, button_4);
+		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2) HANDLE_MOUSE_BUTTON(type_down, button_5);
 		break;
 	case WM_XBUTTONUP:
-		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1)
-		{
-			mouse.mouse_type = _mouse_type_up;
-			mouse.mouse_button = _mouse_button_4;
-			input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
-		}
-		else if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2)
-		{
-			mouse.mouse_type = _mouse_type_up;
-			mouse.mouse_button = _mouse_button_5;
-			input_globals.raw_mouse_state.raw_flags.set(mouse.mouse_button, false);
-		}
+		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) HANDLE_MOUSE_BUTTON(type_up, button_4);
+		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON2) HANDLE_MOUSE_BUTTON(type_up, button_5);
 		break;
+
+#undef HANDLE_MOUSE
 	}
 
 	if (input_globals.buffered_mouse_button_read_count < input_globals.buffered_mouse_buttons.get_count())
@@ -439,30 +405,20 @@ void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			input_globals.raw_mouse_state.relative_y += raw_buf.data.mouse.lLastY;
 			input_globals.raw_mouse_state.wheel_delta += TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_WHEEL) ? raw_buf.data.mouse.usButtonData : 0;
 
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_1_DOWN))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_1, true);
-			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_1_UP))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_1, false);
+#define HANDLE_RAW_MOUSE_BUTTON(RAW_BUTTON, BUTTON) \
+{ \
+	if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_##RAW_BUTTON##_DOWN)) \
+	input_globals.raw_mouse_state.raw_flags.set(_mouse_##BUTTON, true); \
+	else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_##RAW_BUTTON##_UP)) \
+	input_globals.raw_mouse_state.raw_flags.set(_mouse_##BUTTON, false); \
+}
+			HANDLE_RAW_MOUSE_BUTTON(LEFT_BUTTON,   button_left_click);
+			HANDLE_RAW_MOUSE_BUTTON(RIGHT_BUTTON,  button_right_click);
+			HANDLE_RAW_MOUSE_BUTTON(MIDDLE_BUTTON, button_middle_click);
+			HANDLE_RAW_MOUSE_BUTTON(BUTTON_4,      button_4);
+			HANDLE_RAW_MOUSE_BUTTON(BUTTON_5,      button_5);
 
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_2_DOWN))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_2, true);
-			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_2_UP))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_2, false);
-
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_3_DOWN))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_3, true);
-			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_3_UP))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_3, false);
-
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_4_DOWN))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_4, true);
-			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_4_UP))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_4, false);
-
-			if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_5_DOWN))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_5, true);
-			else if (TEST_MASK(raw_buf.data.mouse.usButtonFlags, RI_MOUSE_BUTTON_5_UP))
-				input_globals.raw_mouse_state.raw_flags.set(_mouse_button_5, false);
+#undef HANDLE_RAW_MOUSE_BUTTON
 		}
 	}
 }
