@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "shell/shell.hpp"
 
 // mapped using halo 3/odst/halo reach
 // only `_game_time_pause_reason_debug` works in multiplayer
@@ -33,7 +34,7 @@ enum e_game_time_pause_reason
 	// metagame: load postgame carnage report
 	_game_time_pause_reason_postgame,
 
-	k_game_time_pause_reason_count,
+	k_game_time_pause_reason_count
 };
 
 enum e_game_tick_publishing_flags
@@ -90,44 +91,49 @@ static_assert(sizeof(s_game_tick_time_samples) == 0x14);
 struct game_time_globals_definition
 {
 	bool initialized;
-	byte : 8; // halo 3: bool paused
+
+	// halo 3: bool paused
+	byte : 8; // alignment
+
 	c_flags<e_game_time_pause_reason, word, k_game_time_pause_reason_count> flags;
 	short tick_rate;
-	word : 16;
-	real seconds_per_tick;
+
+	word : 16; // alignment
+
+	real tick_length;
 	long elapsed_ticks;
 	real speed;
-	real __unknown14;
+	real ticks_leftover;
 	s_game_tick_time_samples time_samples;
 };
 static_assert(sizeof(game_time_globals_definition) == 0x2C);
 
 extern real debug_game_speed;
+extern e_game_time_pause_reason const k_controller_pause_reasons[k_number_of_controllers];
 
-extern game_time_globals_definition* game_time_globals_get();
+extern long __cdecl game_seconds_integer_to_ticks(long seconds);
+extern real __cdecl game_seconds_to_ticks_real(real seconds);
+extern long __cdecl game_seconds_to_ticks_round(real seconds);
+extern real __cdecl game_tick_length();
+extern long __cdecl game_tick_rate();
+extern real __cdecl game_ticks_to_seconds(real ticks);
+extern void __cdecl game_time_advance();
+extern void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* elapsed_game_dt);
+extern void __cdecl game_time_dispose();
+extern void __cdecl game_time_dispose_from_old_map();
+extern long __cdecl game_time_get();
+extern bool __cdecl game_time_get_paused();
+extern bool __cdecl game_time_get_paused_for_reason(e_game_time_pause_reason reason);
+extern real __cdecl game_time_get_safe_in_seconds();
+extern real __cdecl game_time_get_speed();
+extern void __cdecl game_time_initialize();
+extern void __cdecl game_time_initialize_for_new_map();
+extern bool __cdecl game_time_initialized();
+extern void __cdecl game_time_set(long time);
+extern void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason);
+extern void __cdecl game_time_set_rate_scale(real rate_scale0, real rate_scale1, real rate_scale2);
+extern void __cdecl game_time_set_rate_scale_direct(real rate_scale);
+extern void __cdecl game_time_set_speed(real speed);
+extern bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed);
+extern void __cdecl game_time_update_paused_flags();
 
-extern long __cdecl game_seconds_integer_to_ticks(long seconds); // 0x00564B40
-extern real __cdecl game_seconds_to_ticks_real(real seconds); // 0x00564B70
-extern long __cdecl game_seconds_to_ticks_round(real seconds); // 0x00564BB0
-extern real __cdecl game_tick_length(); // 0x00564C20
-extern long __cdecl game_tick_rate(); // 0x00564C40
-extern real __cdecl game_ticks_to_seconds(real ticks); // 0x00564C60
-extern void __cdecl game_time_advance(); // 0x00564C90
-extern void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* elapsed_game_dt); // 0x00564CB0
-extern void __cdecl game_time_dispose(); // 0x00564D10
-extern void __cdecl game_time_dispose_from_old_map(); // 0x00564D20
-extern long __cdecl game_time_get(); // 0x00564D50
-extern bool __cdecl game_time_get_paused(); // 0x00564D70
-extern bool __cdecl game_time_get_paused_for_reason(e_game_time_pause_reason reason); // 0x00564E20
-extern real __cdecl game_time_get_safe_in_seconds(); // 0x00564E60
-extern real __cdecl game_time_get_speed(); // 0x00564EB0
-extern void __cdecl game_time_initialize(); // 0x00564ED0
-extern void __cdecl game_time_initialize_for_new_map(); // 0x00564F30
-extern bool __cdecl game_time_initialized(); // 0x00564FA0
-extern void __cdecl game_time_set(long time); // 0x00564FE0
-extern void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason); // 0x00565000
-extern void __cdecl game_time_set_rate_scale(real rate_scale0, real rate_scale1, real rate_scale2); // 0x00565060
-extern void __cdecl game_time_set_rate_scale_direct(real rate_scale); // 0x00565110
-extern void __cdecl game_time_set_speed(real speed); // 0x005651D0
-extern bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed); // 0x00565250
-extern void __cdecl game_time_update_paused_flags(); // 0x00565510

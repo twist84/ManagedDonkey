@@ -1,61 +1,113 @@
 #include "game/game_time.hpp"
 
+#include "input/controllers.hpp"
+#include "interface/c_controller.hpp"
+#include "interface/user_interface_messages.hpp"
+#include "interface/user_interface_session.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "simulation/simulation.hpp"
+
+#include <math.h>
 
 real debug_game_speed = 1.0f;
 
-game_time_globals_definition* game_time_globals_get()
-{
-	if (!get_tls())
-		return nullptr;
+bool debug_game_time_statistics = false;
+bool debug_game_time_lock = false;
+bool debug_pause_game_active = false;
+bool debug_pause_game = false;
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
-	return game_time_globals;
-}
+long frame_tick_limit = 0;
+bool debug_render_game_time_history = false;
+bool debug_gather_game_time_history = false;
 
 long __cdecl game_seconds_integer_to_ticks(long seconds)
 {
 	return INVOKE(0x00564B40, game_seconds_integer_to_ticks, seconds);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//return seconds * game_time_globals->tick_rate;
 }
+
 real __cdecl game_seconds_to_ticks_real(real seconds)
 {
 	return INVOKE(0x00564B70, game_seconds_to_ticks_real, seconds);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//return seconds * game_time_globals->tick_rate;
 }
 
 long __cdecl game_seconds_to_ticks_round(real seconds)
 {
-	real tick_rate = game_time_globals_get()->tick_rate * seconds;
-	if (tick_rate < 0.0)
-		return static_cast<long>((-1.0 * 0.5) + tick_rate);
-	else
-		return static_cast<long>((1.0 * 0.5) + tick_rate);
-
 	return INVOKE(0x00564BB0, game_seconds_to_ticks_round, seconds);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//real tick_rate = game_time_globals->tick_rate * seconds;
+	//return tick_rate + ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f);
 }
 
 real __cdecl game_tick_length()
 {
 	return INVOKE(0x00564C20, game_tick_length);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//return game_time_globals->tick_length;
 }
 
 long __cdecl game_tick_rate()
 {
 	return INVOKE(0x00564C40, game_tick_rate);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//return game_time_globals->tick_rate;
 }
 
 real __cdecl game_ticks_to_seconds(real ticks)
 {
 	return INVOKE(0x00564C60, game_ticks_to_seconds, ticks);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//return game_time_globals->tick_length * ticks;
 }
 
 void __cdecl game_time_advance()
 {
 	INVOKE(0x00564C90, game_time_advance);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//game_time_globals->elapsed_ticks++;
 }
 
-void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* elapsed_game_dt)
+void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* game_seconds_elapsed_)
 {
-	INVOKE(0x00564CB0, game_time_discard, desired_ticks, actual_ticks, elapsed_game_dt);
+	INVOKE(0x00564CB0, game_time_discard, desired_ticks, actual_ticks, game_seconds_elapsed_);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//if (actual_ticks)
+	//{
+	//	real game_seconds_elapsed = *game_seconds_elapsed_ - (game_time_globals->tick_length * (desired_ticks - actual_ticks));
+	//	if (game_seconds_elapsed <= 0.0f)
+	//		game_seconds_elapsed = 0.0f;
+	//	*game_seconds_elapsed_ = game_seconds_elapsed;
+	//}
+	//else
+	//{
+	//	*game_seconds_elapsed_ = 0.0f;
+	//}
 }
 
 void __cdecl game_time_dispose()
@@ -66,79 +118,381 @@ void __cdecl game_time_dispose()
 void __cdecl game_time_dispose_from_old_map()
 {
 	INVOKE(0x00564D20, game_time_dispose_from_old_map);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//if (game_time_globals && game_time_globals->initialized)
+	//{
+	//	//game_time_statistics_stop();
+	//	game_time_globals->initialized = false;
+	//}
 }
 
 long __cdecl game_time_get()
 {
 	return INVOKE(0x00564D50, game_time_get);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals && game_time_globals->initialized);
+	//return game_time_globals->elapsed_ticks;
 }
 
 bool __cdecl game_time_get_paused()
 {
 	return INVOKE(0x00564D70, game_time_get_paused);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//if (game_time_globals->initialized)
+	//{
+	//	bool v1 = game_is_campaign() && (game_is_playback() && !game_is_authoritative_playback());
+	//	bool v2 = game_time_globals->flags.test(_game_time_pause_reason_debug);
+	//	if (game_time_globals->flags.test(_game_time_pause_reason_ui) ||
+	//		game_time_globals->flags.test(_game_time_pause_reason_unknown0))
+	//		v2 |= v1;
+	//
+	//	if (game_time_globals->flags.test(_game_time_pause_reason_controller0) ||
+	//		game_time_globals->flags.test(_game_time_pause_reason_controller1) ||
+	//		game_time_globals->flags.test(_game_time_pause_reason_controller2) ||
+	//		game_time_globals->flags.test(_game_time_pause_reason_controller3))
+	//		v2 |= v1;
+	//
+	//	if (TEST_FLAG(game_time_globals->flags, _game_time_pause_reason_xbox_guide))
+	//		return v2 || v1;
+	//}
+	//return false;
 }
 
 bool __cdecl game_time_get_paused_for_reason(e_game_time_pause_reason reason)
 {
 	return INVOKE(0x00564E20, game_time_get_paused_for_reason, reason);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//return game_time_globals->initialized && game_time_globals->flags.test(reason);
 }
 
 real __cdecl game_time_get_safe_in_seconds()
 {
 	return INVOKE(0x00564E60, game_time_get_safe_in_seconds);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//if (game_time_globals && game_time_globals->initialized)
+	//	return game_time_globals->elapsed_ticks * game_time_globals->tick_length;
+	//return 0.0f;
 }
 
 real __cdecl game_time_get_speed()
 {
 	return INVOKE(0x00564EB0, game_time_get_speed);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//return game_time_globals->speed;
 }
 
 void __cdecl game_time_initialize()
 {
 	INVOKE(0x00564ED0, game_time_initialize);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//restricted_allocation_manager_reserve_memory(
+	//	k_game_state_shared_region,
+	//	__tls_set_g_game_time_globals_allocator,
+	//	NULL,
+	//	NULL,
+	//	&g_main_gamestate_timing_data_allocator,
+	//	"timing samples",
+	//	"global",
+	//	sizeof(s_game_tick_time_samples),
+	//	0,
+	//	game_time_globals);
+	//csmemset(game_time_globals, 0, sizeof(game_time_globals_definition));
 }
 
 void __cdecl game_time_initialize_for_new_map()
 {
 	INVOKE(0x00564F30, game_time_initialize_for_new_map);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//csmemset(game_time_globals, 0, sizeof(game_time_globals_definition));
+	//game_time_globals->tick_rate = game_options_get()->game_tick_rate;
+	//game_time_globals->tick_length = 1.0f / game_time_globals->tick_rate;
+	//game_time_globals->speed = 1.0f;
+	//debug_game_speed = game_time_globals->speed;
+	////game_time_statistics_start();
+	//game_time_globals->initialized = true;
 }
 
 bool __cdecl game_time_initialized()
 {
 	return INVOKE(0x00564FA0, game_time_initialized);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//return game_time_globals && game_time_globals->initialized;
 }
 
-void __cdecl game_time_set(long time)
+void __cdecl game_time_set(long game_time)
 {
-	INVOKE(0x00564FE0, game_time_set, time);
+	INVOKE(0x00564FE0, game_time_set, game_time);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals && game_time_globals->initialized);
+	//ASSERT(game_is_networked() && !simulation_in_progress());
+	//ASSERT(game_time >= 0);
+	//game_time_globals->elapsed_ticks = game_time;
 }
 
 void __cdecl game_time_set_paused(bool enable, e_game_time_pause_reason reason)
 {
 	INVOKE(0x00565000, game_time_set_paused, enable, reason);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//game_time_globals->flags.set(reason, enable);
+	//game_time_update_paused_flags();
+	//cinematic_game_pause_handler(game_time_get_paused());
+	//sound_game_pause_handler(game_time_get_paused());
 }
 
-void __cdecl game_time_set_rate_scale(real rate_scale0, real rate_scale1, real rate_scale2)
+void __cdecl game_time_set_rate_scale(real world_seconds_elapsed, real game_seconds_elapsed, real shell_seconds_elapsed)
 {
-	INVOKE(0x00565060, game_time_set_rate_scale, rate_scale0, rate_scale1, rate_scale2);
+	INVOKE(0x00565060, game_time_set_rate_scale, world_seconds_elapsed, game_seconds_elapsed, shell_seconds_elapsed);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//world_seconds_elapsed = CLAMP(world_seconds_elapsed, 0.2f, 5.0f);
+	//game_seconds_elapsed = CLAMP(game_seconds_elapsed, 0.2f, 5.0f);
+	//if (shell_seconds_elapsed > 0.0f)
+	//{
+	//	game_time_globals->time_samples.flags.clear();
+	//	game_time_globals->time_samples.shell_seconds_elapsed = shell_seconds_elapsed;
+	//	game_time_globals->time_samples.world_seconds_elapsed = world_seconds_elapsed;
+	//	game_time_globals->time_samples.game_seconds_elapsed = game_seconds_elapsed;
+	//}
+	//game_time_set_rate_scale_direct(shell_seconds_elapsed > 0.0f ? world_seconds_elapsed : game_seconds_elapsed);
 }
 
 void __cdecl game_time_set_rate_scale_direct(real rate_scale)
 {
 	INVOKE(0x00565110, game_time_set_rate_scale_direct, rate_scale);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//real game_tick_rate = game_options_get()->game_tick_rate;
+	//real tick_rate = game_tick_rate / MAX(rate_scale, 0.0099999998f);
+	//tick_rate += ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f);
+	//game_time_globals->tick_rate = short(tick_rate);
+	//game_time_globals->tick_length = 1.0f / tick_rate;
+	//game_time_globals->speed = game_tick_rate / tick_rate;
+	//debug_game_speed = game_time_globals->speed;
 }
 
 void __cdecl game_time_set_speed(real speed)
 {
 	INVOKE(0x005651D0, game_time_set_speed, speed);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//ASSERT(game_time_globals);
+	//ASSERT(game_time_globals->initialized);
+	//game_time_globals->speed = speed;
 }
 
-bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed)
+bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed_)
 {
-	return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed);
+	return INVOKE(0x00565250, game_time_update, world_seconds_elapsed, game_seconds_elapsed, game_ticks_elapsed_);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//
+	//long game_ticks_target = 0;
+	//bool result = false;
+	//long game_ticks_limit = 0;
+	//long game_ticks_elapsed = 0;
+	//bool discontinuity = false;
+	//real elapsed_game_dt = 0.0f;
+	//real real_desired_ticks = 0.0f;
+	//real game_ticks_leftover = 0.0f;
+	//
+	//if (debug_pause_game != debug_pause_game_active)
+	//{
+	//	game_time_set_paused(debug_pause_game, _game_time_pause_reason_debug);
+	//	debug_pause_game_active = debug_pause_game;
+	//}
+	//
+	//if (debug_game_speed != game_time_get_speed())
+	//	game_time_set_speed(debug_game_speed);
+	//
+	//game_time_update_paused_flags();
+	//
+	//if (game_is_playback())
+	//	game_time_set_speed(0.0f);
+	//
+	//if (game_in_progress())
+	//{
+	//	if (game_time_globals->time_samples.shell_seconds_elapsed > 0.0f)
+	//	{
+	//		*(real*)&game_time_globals->time_samples.flags += world_seconds_elapsed;
+	//		real v18 = *(float*)&game_time_globals->time_samples.flags;
+	//		real shell_seconds_elapsed = game_time_globals->time_samples.shell_seconds_elapsed;
+	//		if (shell_seconds_elapsed <= v18)
+	//		{
+	//			game_time_set_rate_scale_direct(game_time_globals->time_samples.game_seconds_elapsed);
+	//			game_time_globals->time_samples.shell_seconds_elapsed = 0.0f;
+	//		}
+	//		else
+	//		{
+	//			real rate_scale = 
+	//				((1.0f - (v18 / shell_seconds_elapsed)) * game_time_globals->time_samples.world_seconds_elapsed)
+	//				+ ((v18 / shell_seconds_elapsed) * game_time_globals->time_samples.game_seconds_elapsed);
+	//			game_time_set_rate_scale_direct(rate_scale);
+	//		}
+	//	}
+	//}
+	//
+	//if (game_in_progress() && !game_time_get_paused() && game_time_get_speed() > 0.0)
+	//{
+	//	bool match_remote_time = false;
+	//	bool v36 = cinematic_in_progress() && debug_game_speed == 1.0f;
+	//
+	//	if (game_is_networked() || game_is_playback())
+	//		game_ticks_limit = simulation_time_get_maximum_available(&match_remote_time);
+	//	else
+	//		game_ticks_limit = 5 * game_time_globals->tick_rate;
+	//
+	//	if (!match_remote_time && !v36)
+	//	{
+	//		real tick_rate = (2.0f * CLAMP(game_time_get_speed(), 1.0f, 5.0f));
+	//		game_ticks_limit = (long)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f));
+	//	}
+	//
+	//	if (thread_is_being_traced(k_thread_main))
+	//	{
+	//		game_ticks_limit = MIN(1, game_ticks_limit);
+	//	}
+	//
+	//	if (debug_game_time_lock /*|| movie_recording()*/)
+	//	{
+	//		real_desired_ticks = 1.0f;
+	//		game_ticks_target = 1;
+	//		elapsed_game_dt = game_time_globals->tick_length;
+	//	}
+	//	else
+	//	{
+	//		elapsed_game_dt = game_time_get_speed() * world_seconds_elapsed;
+	//		real_desired_ticks = (game_time_globals->tick_rate * elapsed_game_dt) + game_time_globals->ticks_leftover;
+	//		game_ticks_target = (long)real_desired_ticks;
+	//	}
+	//
+	//	if (!v36 && frame_tick_limit > 0 && frame_tick_limit < game_ticks_limit)
+	//	{
+	//		elapsed_game_dt = 0x82000000;
+	//		if (debug_game_speed == 1.0f)
+	//			game_ticks_limit = frame_tick_limit;
+	//	}
+	//
+	//	if (match_remote_time)
+	//	{
+	//		if (game_ticks_target > game_ticks_limit)
+	//		{
+	//			game_ticks_elapsed = MAX(0, game_ticks_limit - 1);
+	//			discontinuity = true;
+	//		}
+	//		else if (game_ticks_target + 7 < game_ticks_limit)
+	//		{
+	//			game_ticks_elapsed = MAX(0, game_ticks_limit - 1);
+	//			discontinuity = true;
+	//		}
+	//		else if (game_ticks_target + 1 < game_ticks_limit)
+	//		{
+	//			game_ticks_elapsed = game_ticks_target + 1;
+	//			discontinuity = true;
+	//		}
+	//		else if (game_ticks_target + 1 > game_ticks_limit)
+	//		{
+	//			game_ticks_elapsed = MAX(0, game_ticks_limit - 1);
+	//			discontinuity = true;
+	//		}
+	//		else
+	//		{
+	//			game_ticks_elapsed = game_ticks_target;
+	//		}
+	//	}
+	//	else if (game_ticks_target > game_ticks_limit)
+	//	{
+	//		game_ticks_elapsed = game_ticks_limit;
+	//		discontinuity = true;
+	//	}
+	//	else
+	//	{
+	//		game_ticks_elapsed = game_ticks_target;
+	//	}
+	//	ASSERT(game_ticks_elapsed >= 0 && game_ticks_elapsed <= game_ticks_limit);
+	//
+	//	if (discontinuity)
+	//	{
+	//		game_ticks_elapsed = game_ticks_limit;
+	//		elapsed_game_dt = game_time_globals->tick_length * game_ticks_limit;
+	//	}
+	//	else
+	//	{
+	//		game_ticks_leftover = real_desired_ticks - (real)game_ticks_elapsed;
+	//		ASSERT(abs(game_ticks_elapsed - game_ticks_target) <= 1);
+	//		ASSERT(game_ticks_leftover >= -1.0f && game_ticks_leftover <= 2.0f);
+	//	}
+	//
+	//	result = true;
+	//}
+	//
+	//
+	////game_time_statistics_frame(...);
+	//
+	//game_time_globals->ticks_leftover = game_ticks_leftover;
+	//
+	//if (game_seconds_elapsed)
+	//	*game_seconds_elapsed = elapsed_game_dt;
+	//
+	//if (game_ticks_elapsed_)
+	//	*game_ticks_elapsed_ = game_ticks_elapsed;
+	//
+	//return result;
 }
 
 void __cdecl game_time_update_paused_flags()
 {
 	INVOKE(0x00565510, game_time_update_paused_flags);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//if (game_time_globals->initialized && !game_time_globals->flags.test(_game_time_pause_reason_unknown0))
+	//	game_time_globals->flags.set(_game_time_pause_reason_unknown0, true);
+	//
+	//bool v1 = !game_is_campaign() || !game_is_or_was_cooperative() || game_is_server() && user_interface_squad_get_machine_count() <= 1;
+	//if (bink_playback_active())
+	//	v1 = false;
+	//
+	//if (game_time_globals->flags.test(_game_time_pause_reason_ui) && !v1)
+	//	game_time_set_paused(false, _game_time_pause_reason_ui);
+	//
+	//for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
+	//{
+	//	c_controller_interface* controller = controller_get(e_controller_index(controller_index));
+	//	if (controller->in_use() && !controller->is_attached() && v1 && controller->get_user_index() != NONE)
+	//	{
+	//		game_time_set_paused(true, k_controller_pause_reasons[controller_index]);
+	//	}
+	//	else
+	//	{
+	//		if (game_time_get_paused_for_reason(k_controller_pause_reasons[controller_index]))
+	//			game_time_set_paused(false, k_controller_pause_reasons[controller_index]);
+	//	}
+	//}
+	//
+	//if (v1 && !game_time_get_paused_for_reason(_game_time_pause_reason_xbox_guide))
+	//	game_time_set_paused(user_interface_xbox_guide_is_active(), _game_time_pause_reason_xbox_guide);
+	//
+	//game_time_globals->flags.set(_game_time_pause_reason_unknown0, false);
 }
+
+e_game_time_pause_reason const k_controller_pause_reasons[k_number_of_controllers]
+{
+	_game_time_pause_reason_controller0,
+	_game_time_pause_reason_controller1,
+	_game_time_pause_reason_controller2,
+	_game_time_pause_reason_controller3
+};
+
