@@ -26,83 +26,12 @@ bool game_time_statistics_update_time;
 bool game_time_statistics_write_header;
 dword game_time_statistics_time;
 
-void game_time_statistics_start()
+void __cdecl __tls_set_g_game_time_globals_allocator(void* address)
 {
-	if (debug_game_time_statistics)
-	{
-		if (!game_time_statistics_file)
-			fopen_s(&game_time_statistics_file, "game_time_statistics.txt", "w");
+	INVOKE(0x00564A70, __tls_set_g_game_time_globals_allocator, address);
 
-		game_time_statistics_started = true;
-		game_time_statistics_update_time = true;
-		game_time_statistics_write_header = true;
-	}
-}
-
-void game_time_statistics_frame(
-	real world_seconds_elapsed,
-	real game_seconds_elapsed,
-	real real_desired_ticks,
-	long game_ticks_target,
-	long game_ticks_limit,
-	long game_ticks_available,
-	long game_ticks_elapsed,
-	real game_ticks_leftover,
-	bool discontinuity)
-{
-	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
-
-	if (game_time_statistics_started)
-	{
-		if (game_time_statistics_update_time)
-		{
-			game_time_statistics_time = system_milliseconds();
-			game_time_statistics_update_time = false;
-		}
-
-		dword time = system_milliseconds();
-		dword milliseconds_elapsed = time - game_time_statistics_time;
-		game_time_statistics_time = time;
-
-		if (game_time_statistics_file)
-		{
-			if (game_time_statistics_write_header)
-			{
-				char date_and_time[256]{};
-				system_get_date_and_time(date_and_time, sizeof(date_and_time), false);
-
-				fprintf(game_time_statistics_file, "\nSTATISTICS FOR %s %s\n",
-					tag_name_strip_path(game_options_get()->scenario_path.get_string()),
-					date_and_time);
-
-				fprintf(game_time_statistics_file, "  time= game time, msec= milliseconds elapsed, w-dt= elapsed world dt, g-dt= elapsed game dt\n");
-				fprintf(game_time_statistics_file, "  ticks= real desired ticks, tgt= target updates, lim= limit of updates, avl= currently available updates\n");
-				fprintf(game_time_statistics_file, "  ela= actual elapsed ticks, left= leftover fractional tick, d= discontinuity\n");
-				fprintf(game_time_statistics_file, "\n");
-				fprintf(game_time_statistics_file, "  time msec  w-dt  g-dt    ticks tgt lim avl     ela   left (d)\n");
-
-				game_time_statistics_write_header = false;
-			}
-
-			fprintf(game_time_statistics_file, "%6d %4d %5.3f %5.3f    %5.2f %3d %3d %3d     %3d %6.3f  %s\n",
-				game_time_globals->elapsed_ticks,
-				milliseconds_elapsed,
-				world_seconds_elapsed,
-				game_seconds_elapsed,
-				real_desired_ticks,
-				game_ticks_target,
-				game_ticks_limit,
-				game_ticks_available,
-				game_ticks_elapsed,
-				game_ticks_leftover,
-				discontinuity ? "*" : " ");
-		}
-	}
-}
-
-void game_time_statistics_stop()
-{
-	game_time_statistics_started = false;
+	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+	//game_time_globals = (game_time_globals_definition*)address;
 }
 
 long __cdecl game_seconds_integer_to_ticks(long seconds)
@@ -287,9 +216,9 @@ void __cdecl game_time_initialize()
 	//	NULL,
 	//	NULL,
 	//	&g_main_gamestate_timing_data_allocator,
-	//	"timing samples",
-	//	"global",
-	//	sizeof(s_game_tick_time_samples),
+	//	"game time globals",
+	//	NULL,
+	//	sizeof(game_time_globals_definition),
 	//	0,
 	//	game_time_globals);
 	//csmemset(game_time_globals, 0, sizeof(game_time_globals_definition));
@@ -364,7 +293,7 @@ void __cdecl game_time_set_rate_scale_direct(real rate_scale)
 
 	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	//real game_tick_rate = game_options_get()->game_tick_rate;
-	//real tick_rate = game_tick_rate / MAX(rate_scale, 0.0099999998f);
+	//real tick_rate = game_tick_rate / MAX(rate_scale, 0.01f);
 	//tick_rate += ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f);
 	//game_time_globals->tick_rate = short(tick_rate);
 	//game_time_globals->tick_length = 1.0f / tick_rate;
@@ -575,6 +504,85 @@ void __cdecl game_time_update_paused_flags()
 	//	game_time_set_paused(user_interface_xbox_guide_is_active(), _game_time_pause_reason_xbox_guide);
 	//
 	//game_time_globals->flags.set(_game_time_pause_reason_unknown0, false);
+}
+
+void game_time_statistics_start()
+{
+	if (debug_game_time_statistics)
+	{
+		if (!game_time_statistics_file)
+			fopen_s(&game_time_statistics_file, "game_time_statistics.txt", "w");
+
+		game_time_statistics_started = true;
+		game_time_statistics_update_time = true;
+		game_time_statistics_write_header = true;
+	}
+}
+
+void game_time_statistics_frame(
+	real world_seconds_elapsed,
+	real game_seconds_elapsed,
+	real real_desired_ticks,
+	long game_ticks_target,
+	long game_ticks_limit,
+	long game_ticks_available,
+	long game_ticks_elapsed,
+	real game_ticks_leftover,
+	bool discontinuity)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
+
+	if (game_time_statistics_started)
+	{
+		if (game_time_statistics_update_time)
+		{
+			game_time_statistics_time = system_milliseconds();
+			game_time_statistics_update_time = false;
+		}
+
+		dword time = system_milliseconds();
+		dword milliseconds_elapsed = time - game_time_statistics_time;
+		game_time_statistics_time = time;
+
+		if (game_time_statistics_file)
+		{
+			if (game_time_statistics_write_header)
+			{
+				char date_and_time[256]{};
+				system_get_date_and_time(date_and_time, sizeof(date_and_time), false);
+
+				fprintf(game_time_statistics_file, "\nSTATISTICS FOR %s %s\n",
+					tag_name_strip_path(game_options_get()->scenario_path.get_string()),
+					date_and_time);
+
+				fprintf(game_time_statistics_file, "  time= game time, msec= milliseconds elapsed, w-dt= elapsed world dt, g-dt= elapsed game dt\n");
+				fprintf(game_time_statistics_file, "  ticks= real desired ticks, tgt= target updates, lim= limit of updates, avl= currently available updates\n");
+				fprintf(game_time_statistics_file, "  ela= actual elapsed ticks, left= leftover fractional tick, d= discontinuity\n");
+				fprintf(game_time_statistics_file, "\n");
+				fprintf(game_time_statistics_file, "  time msec  w-dt  g-dt    ticks tgt lim avl     ela   left (d)\n");
+
+				game_time_statistics_write_header = false;
+			}
+
+			fprintf(game_time_statistics_file, "%6d %4d %5.3f %5.3f    %5.2f %3d %3d %3d     %3d %6.3f  %s\n",
+				game_time_globals->elapsed_ticks,
+				milliseconds_elapsed,
+				world_seconds_elapsed,
+				game_seconds_elapsed,
+				real_desired_ticks,
+				game_ticks_target,
+				game_ticks_limit,
+				game_ticks_available,
+				game_ticks_elapsed,
+				game_ticks_leftover,
+				discontinuity ? "*" : " ");
+		}
+	}
+}
+
+void __cdecl game_time_statistics_stop()
+{
+	game_time_statistics_started = false;
 }
 
 e_game_time_pause_reason const k_controller_pause_reasons[k_number_of_controllers]

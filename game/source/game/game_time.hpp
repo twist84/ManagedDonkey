@@ -146,3 +146,16 @@ extern void __cdecl game_time_set_speed(real speed);
 extern bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_elapsed, long* game_ticks_elapsed);
 extern void __cdecl game_time_update_paused_flags();
 
+extern void __cdecl game_time_statistics_start();
+extern void __cdecl game_time_statistics_frame(
+	real world_seconds_elapsed,
+	real game_seconds_elapsed,
+	real real_desired_ticks,
+	long game_ticks_target,
+	long game_ticks_limit,
+	long game_ticks_available,
+	long game_ticks_elapsed,
+	real game_ticks_leftover,
+	bool discontinuity);
+extern void __cdecl game_time_statistics_stop();
+
