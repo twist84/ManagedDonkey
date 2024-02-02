@@ -10,9 +10,31 @@
 
 #include <math.h>
 
+//HOOK_DECLARE(0x00564B40, game_seconds_integer_to_ticks);
+//HOOK_DECLARE(0x00564B70, game_seconds_to_ticks_real);
+//HOOK_DECLARE(0x00564BB0, game_seconds_to_ticks_round);
+//HOOK_DECLARE(0x00564C20, game_tick_length);
+//HOOK_DECLARE(0x00564C40, game_tick_rate);
+//HOOK_DECLARE(0x00564C60, game_ticks_to_seconds);
+//HOOK_DECLARE(0x00564C90, game_time_advance);
+//HOOK_DECLARE(0x00564CB0, game_time_discard);
+//HOOK_DECLARE(0x00564D10, game_time_dispose);
 HOOK_DECLARE(0x00564D20, game_time_dispose_from_old_map);
+//HOOK_DECLARE(0x00564D50, game_time_get);
+//HOOK_DECLARE(0x00564D70, game_time_get_paused);
+//HOOK_DECLARE(0x00564E20, game_time_get_paused_for_reason);
+//HOOK_DECLARE(0x00564E60, game_time_get_safe_in_seconds);
+//HOOK_DECLARE(0x00564EB0, game_time_get_speed);
+//HOOK_DECLARE(0x00564ED0, game_time_initialize);
 HOOK_DECLARE(0x00564F30, game_time_initialize_for_new_map);
+//HOOK_DECLARE(0x00564FA0, game_time_initialized);
+//HOOK_DECLARE(0x00564FE0, game_time_set);
+//HOOK_DECLARE(0x00565000, game_time_set_paused);
+//HOOK_DECLARE(0x00565060, game_time_set_rate_scale);
+//HOOK_DECLARE(0x00565110, game_time_set_rate_scale_direct);
+//HOOK_DECLARE(0x005651D0, game_time_set_speed);
 HOOK_DECLARE(0x00565250, game_time_update);
+//HOOK_DECLARE(0x00565510, game_time_update_paused_flags);
 
 real debug_game_speed = 1.0f;
 bool debug_game_time_statistics = false;
