@@ -1,5 +1,6 @@
 #include "game/game_time.hpp"
 
+#include "cutscene/cinematics.hpp"
 #include "input/controllers.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/user_interface_messages.hpp"
@@ -7,6 +8,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "simulation/simulation.hpp"
+#include "sound/sound_manager.hpp"
 
 #include <math.h>
 
@@ -84,7 +86,7 @@ long __cdecl game_seconds_to_ticks_round(real seconds)
 	//ASSERT(game_time_globals);
 	//ASSERT(game_time_globals->initialized);
 	//real tick_rate = game_time_globals->tick_rate * seconds;
-	//return tick_rate + ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f);
+	//return long(tick_rate + ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f));
 }
 
 real __cdecl game_tick_length()
@@ -139,7 +141,7 @@ void __cdecl game_time_discard(long desired_ticks, long actual_ticks, real* elap
 	//ASSERT(elapsed_game_dt);
 	//if (actual_ticks)
 	//{
-	//	real lost_dt = game_ticks_to_seconds(desired_ticks - actual_ticks);
+	//	real lost_dt = game_ticks_to_seconds(real(desired_ticks - actual_ticks));
 	//	ASSERT(*elapsed_game_dt - lost_dt > -_real_epsilon);
 	//	*elapsed_game_dt = MAX(*elapsed_game_dt - lost_dt, 0.0f);
 	//}
@@ -181,24 +183,28 @@ bool __cdecl game_time_get_paused()
 
 	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	//ASSERT(game_time_globals);
+	//
+	//bool result = false;
 	//if (game_time_globals->initialized)
 	//{
+	//	c_flags<e_game_time_pause_reason, word, k_game_time_pause_reason_count>& pause_flags = game_time_globals->flags;
+	//
 	//	bool v1 = game_is_campaign() && (game_is_playback() && !game_is_authoritative_playback());
-	//	bool v2 = game_time_globals->flags.test(_game_time_pause_reason_debug);
-	//	if (game_time_globals->flags.test(_game_time_pause_reason_ui) ||
-	//		game_time_globals->flags.test(_game_time_pause_reason_unknown0))
-	//		v2 |= v1;
+	//	result = TEST_FLAG(pause_flags, _game_time_pause_reason_debug);
+	//	if (TEST_FLAG(pause_flags, _game_time_pause_reason_ui) ||
+	//		TEST_FLAG(pause_flags, _game_time_pause_reason_unknown0))
+	//		result |= v1;
 	//
-	//	if (game_time_globals->flags.test(_game_time_pause_reason_controller0) ||
-	//		game_time_globals->flags.test(_game_time_pause_reason_controller1) ||
-	//		game_time_globals->flags.test(_game_time_pause_reason_controller2) ||
-	//		game_time_globals->flags.test(_game_time_pause_reason_controller3))
-	//		v2 |= v1;
+	//	if (TEST_FLAG(pause_flags, _game_time_pause_reason_controller0) ||
+	//		TEST_FLAG(pause_flags, _game_time_pause_reason_controller1) ||
+	//		TEST_FLAG(pause_flags, _game_time_pause_reason_controller2) ||
+	//		TEST_FLAG(pause_flags, _game_time_pause_reason_controller3))
+	//		result |= v1;
 	//
-	//	if (TEST_FLAG(game_time_globals->flags, _game_time_pause_reason_xbox_guide))
-	//		return v2 || v1;
+	//	if (TEST_FLAG(pause_flags, _game_time_pause_reason_xbox_guide))
+	//		result |= v1;
 	//}
-	//return false;
+	//return result;
 }
 
 bool __cdecl game_time_get_paused_for_reason(e_game_time_pause_reason reason)
@@ -237,7 +243,7 @@ void __cdecl game_time_initialize()
 	//	__tls_set_g_game_time_globals_allocator,
 	//	NULL,
 	//	NULL,
-	//	&g_main_gamestate_timing_data_allocator,
+	//	&g_game_time_globals_allocator,
 	//	"game time globals",
 	//	NULL,
 	//	sizeof(game_time_globals_definition),
@@ -498,34 +504,46 @@ void __cdecl game_time_update_paused_flags()
 	INVOKE(0x00565510, game_time_update_paused_flags);
 
 	//TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
-	//if (game_time_globals->initialized && !game_time_globals->flags.test(_game_time_pause_reason_unknown0))
+	//if (!game_time_get_paused_for_reason(_game_time_pause_reason_unknown0))
+	//{
 	//	game_time_globals->flags.set(_game_time_pause_reason_unknown0, true);
 	//
-	//bool v1 = !game_is_campaign() || !game_is_or_was_cooperative() || game_is_server() && user_interface_squad_get_machine_count() <= 1;
-	//if (bink_playback_active())
-	//	v1 = false;
+	//	bool v1 = true;
+	//	if (game_is_campaign() && game_is_or_was_cooperative())
+	//		v1 = game_is_server() && user_interface_squad_get_machine_count() <= 1;
 	//
-	//if (game_time_globals->flags.test(_game_time_pause_reason_ui) && !v1)
-	//	game_time_set_paused(false, _game_time_pause_reason_ui);
+	//	if (bink_playback_active())
+	//		v1 = false;
 	//
-	//for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
-	//{
-	//	c_controller_interface* controller = controller_get(e_controller_index(controller_index));
-	//	if (controller->in_use() && !controller->is_attached() && v1 && controller->get_user_index() != NONE)
+	//	if (game_time_get_paused_for_reason(_game_time_pause_reason_ui) && !v1)
+	//		game_time_set_paused(false, _game_time_pause_reason_ui);
+	//
+	//	for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
 	//	{
-	//		game_time_set_paused(true, k_controller_pause_reasons[controller_index]);
+	//		c_controller_interface* controller = controller_get(e_controller_index(controller_index));
+	//		if (controller->in_use() && !controller->is_attached() && v1 && controller->get_user_index() != NONE)
+	//		{
+	//			game_time_set_paused(true, k_controller_pause_reasons[controller_index]);
+	//		}
+	//		else
+	//		{
+	//			if (game_time_get_paused_for_reason(k_controller_pause_reasons[controller_index]))
+	//				game_time_set_paused(false, k_controller_pause_reasons[controller_index]);
+	//		}
 	//	}
-	//	else
+	//
+	//	if (user_interface_xbox_guide_is_active())
 	//	{
-	//		if (game_time_get_paused_for_reason(k_controller_pause_reasons[controller_index]))
-	//			game_time_set_paused(false, k_controller_pause_reasons[controller_index]);
+	//		if (v1 && !game_time_get_paused_for_reason(_game_time_pause_reason_xbox_guide))
+	//			game_time_set_paused(true, _game_time_pause_reason_xbox_guide);
 	//	}
+	//	else if (game_time_get_paused_for_reason(_game_time_pause_reason_xbox_guide))
+	//	{
+	//		game_time_set_paused(false, _game_time_pause_reason_xbox_guide);
+	//	}
+	//
+	//	game_time_globals->flags.set(_game_time_pause_reason_unknown0, false);
 	//}
-	//
-	//if (v1 && !game_time_get_paused_for_reason(_game_time_pause_reason_xbox_guide))
-	//	game_time_set_paused(user_interface_xbox_guide_is_active(), _game_time_pause_reason_xbox_guide);
-	//
-	//game_time_globals->flags.set(_game_time_pause_reason_unknown0, false);
 }
 
 void game_time_statistics_start()
