@@ -111,6 +111,7 @@ extern bool debug_sound_manager_channels;
 extern real sound_definition_map_pitch(void const* sound_definition, real a1, real a2);
 extern void __cdecl sound_delete(long sound_index);
 extern void __cdecl sound_dispose();
+extern void __cdecl sound_game_pause_handler(bool paused);
 extern void __cdecl sound_idle();
 extern void __cdecl sound_initialize();
 extern void __cdecl sound_initialize_for_new_map();

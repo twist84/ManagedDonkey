@@ -299,6 +299,11 @@ void __cdecl sound_dispose()
 	INVOKE(0x00516A30, sound_dispose);
 }
 
+void __cdecl sound_game_pause_handler(bool paused)
+{
+	INVOKE(0x00517100, sound_game_pause_handler, paused);
+}
+
 void __cdecl sound_idle()
 {
 	INVOKE(0x00517170, sound_idle);
