@@ -5,13 +5,25 @@
 #define RAD 180 / PI
 #define DEG PI / 180
 
-#define _real_epsilon 0.000099999997f
-
 typedef float real;
 static_assert(sizeof(real) == sizeof(float));
 
 typedef float real_fraction;
 static_assert(sizeof(real_fraction) == sizeof(real));
+
+#define DEFINE_REAL_CONSTANT(NAME) real const k##NAME = NAME
+
+#define _test_real_epsilon  0.001f
+#define _real_epsilon       0.0001f
+#define _real_tiny_epsilon  0.000001f
+#define _real_max           3.4028235e38f
+#define _real_min          -3.4028235e38f
+
+DEFINE_REAL_CONSTANT(_test_real_epsilon);
+DEFINE_REAL_CONSTANT(_real_epsilon);
+DEFINE_REAL_CONSTANT(_real_tiny_epsilon);
+DEFINE_REAL_CONSTANT(_real_max);
+DEFINE_REAL_CONSTANT(_real_min);
 
 enum
 {

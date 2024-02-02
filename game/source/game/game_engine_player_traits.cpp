@@ -231,7 +231,7 @@ void c_player_trait_shield_vitality::set_damage_resistance_percentage(real damag
 		if ((damage_resistance_percentage - value) < 0.0f)
 			distance = -distance;
 
-		if (distance > 0.0001f)
+		if (distance > k_real_epsilon)
 			continue;
 
 		set_damage_resistance_percentage_setting(static_cast<e_damage_resistance_percentage_setting>(setting), force);
@@ -282,7 +282,7 @@ void c_player_trait_shield_vitality::set_shield_recharge_rate_percentage(real sh
 		if ((shield_recharge_rate_percentage - value) < 0.0f)
 			distance = -distance;
 
-		if (distance > 0.0001f)
+		if (distance > k_real_epsilon)
 			continue;
 
 		set_shield_recharge_rate_percentage_setting(static_cast<e_shield_recharge_rate_percentage_setting>(setting), force);
@@ -333,7 +333,7 @@ void c_player_trait_shield_vitality::set_vampirism_percentage(real vampirism_per
 		if ((vampirism_percentage - value) < 0.0f)
 			distance = -distance;
 
-		if (distance > 0.0001f)
+		if (distance > k_real_epsilon)
 			continue;
 
 		set_vampirism_percentage_setting(static_cast<e_vampirism_percentage_setting>(setting), force);
@@ -414,7 +414,7 @@ void c_player_trait_shield_vitality::set_shield_multiplier(long shield_multiplie
 		if ((shield_multiplier - value) < 0.0f)
 			distance = -distance;
 
-		if (distance > 0.0001f)
+		if (distance > k_real_epsilon)
 			continue;
 
 		set_shield_multiplier_setting(static_cast<e_shield_multiplier_setting>(setting), force);
@@ -534,7 +534,7 @@ void c_player_trait_weapons::set_initial_grenade_count(long initial_grenade_coun
 		if ((initial_grenade_count - value) < 0.0f)
 			distance = -distance;
 
-		if (distance > 0.0001f)
+		if (distance > k_real_epsilon)
 			continue;
 
 		set_initial_grenade_count_setting(static_cast<e_grenade_count_setting>(setting), force);
@@ -655,7 +655,7 @@ void c_player_trait_weapons::set_damage_modifier_percentage(real damage_modifier
 		if ((damage_modifier_percentage - value) < 0.0f)
 			distance = -distance;
 
-		if (distance > 0.0001f)
+		if (distance > k_real_epsilon)
 			continue;
 
 		set_damage_modifier_percentage_setting(static_cast<e_damage_modifier_percentage_setting>(setting), force);
@@ -835,7 +835,7 @@ void c_player_trait_movement::set_speed(real speed, bool force)
 		if ((speed - value) < 0.0f)
 			distance = -distance;
 
-		if (distance > 0.0001f)
+		if (distance > k_real_epsilon)
 			continue;
 
 		set_speed_setting(static_cast<e_player_speed_setting>(setting), force);
@@ -886,7 +886,7 @@ void c_player_trait_movement::set_gravity(real gravity, bool force)
 		if ((gravity - value) < 0.0f)
 			distance = -distance;
 
-		if (distance > 0.0001f)
+		if (distance > k_real_epsilon)
 			continue;
 
 		set_gravity_setting(static_cast<e_player_gravity_setting>(setting), force);

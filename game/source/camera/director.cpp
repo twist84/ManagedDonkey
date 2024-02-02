@@ -77,7 +77,7 @@ e_director_perspective c_director::get_perspective()
 		return _director_perspective_3;
 	e_director_perspective director_perspective = (e_director_perspective)get_camera()->get_perspective();
 	if (!director_perspective)
-		director_perspective = e_director_perspective(m_transition_time > 0.0);
+		director_perspective = e_director_perspective(m_transition_time > 0.0f);
 	if (game_is_ui_shell())
 		return _director_perspective_3;
 

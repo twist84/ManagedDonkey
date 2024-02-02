@@ -334,7 +334,7 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 			matrix4x3_transform_point(matrix, &points[1], &points[1]);
 		
 			vector3d height{};
-			if (magnitude_squared3d(vector_from_points3d(&points[0], &points[1], &height)) >= 0.000001f)
+			if (magnitude_squared3d(vector_from_points3d(&points[0], &points[1], &height)) >= k_real_tiny_epsilon)
 				render_debug_pill(true, &points[1], &height, capsule_shape->m_radius, color);
 			else
 				render_debug_sphere(true, &points[1], capsule_shape->m_radius, color);
