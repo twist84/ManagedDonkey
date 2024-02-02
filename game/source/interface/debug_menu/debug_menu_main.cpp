@@ -296,7 +296,7 @@ void debug_menu_set_active_menu(c_debug_menu* menu, bool active)
 	{
 		if (!v4 && !active)
 		{
-			game_time_set_paused(true, _game_time_pause_reason_debug);
+			debug_pause_game = true;
 
 			menu->open();
 			menu = g_debug_menu_globals.active_menu;
@@ -307,7 +307,7 @@ void debug_menu_set_active_menu(c_debug_menu* menu, bool active)
 	{
 		active_menu->notify_closed();
 
-		game_time_set_paused(false, _game_time_pause_reason_debug);
+		debug_pause_game = false;
 	}
 
 	for (short caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)
