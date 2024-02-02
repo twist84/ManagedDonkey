@@ -1,5 +1,10 @@
 #include "cutscene/cinematics.hpp"
 
+void __cdecl cinematic_game_pause_handler(bool paused)
+{
+	INVOKE(0x0067CEC0, cinematic_game_pause_handler, paused);
+}
+
 bool __cdecl cinematic_in_progress()
 {
 	return INVOKE(0x0067D270, cinematic_in_progress);

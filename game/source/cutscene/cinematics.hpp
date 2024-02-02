@@ -31,6 +31,7 @@ struct s_cinematic_light_globals
 };
 static_assert(sizeof(s_cinematic_light_globals) == 0xB2C8);
 
+extern void __cdecl cinematic_game_pause_handler(bool paused);
 extern bool __cdecl cinematic_in_progress();
 extern void __cdecl cinematic_update();
 extern void __cdecl cinematics_game_tick();
