@@ -223,7 +223,7 @@ void c_abstract_button::update(word down_msec, word down_frames, byte down_amoun
 {
 	m_down_msec = down_msec;
 	m_down_frames = static_cast<byte>(down_frames);
-	m_down_amount = down_amount / 255.0f;
+	m_down_amount = static_cast<real>(down_amount / 255);
 
 	if (!m_down_frames && latched())
 		set_latch_bit(false);
