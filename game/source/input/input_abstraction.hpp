@@ -147,7 +147,7 @@ extern void __cdecl input_abstraction_initialize();
 //extern void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
 
 void __cdecl input_abstraction_latch_all_buttons(long controller_index);
-//extern void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
+extern void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
 extern void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, long a3);
 extern void __cdecl sub_60D620(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
 extern void __cdecl input_abstraction_reset_controller_detection_timer();

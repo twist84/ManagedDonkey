@@ -23,7 +23,7 @@ HOOK_DECLARE(0x0060C390, input_abstraction_initialize);
 //HOOK_DECLARE(0x0060C4A0, sub_60C4A0);
 //HOOK_DECLARE(0x0060C6D0, sub_60C6D0);
 HOOK_DECLARE(0x0060CE40, input_abstraction_latch_all_buttons);
-//HOOK_DECLARE(0x0060CE70, sub_60CE70);
+HOOK_DECLARE(0x0060CE70, sub_60CE70);
 //HOOK_DECLARE_CALL(0x0060D9AA, sub_60D160); //HOOK_DECLARE(0x0060D160, sub_60D160);
 HOOK_DECLARE(0x0060D620, sub_60D620);
 HOOK_DECLARE(0x0060D7A0, input_abstraction_reset_controller_detection_timer);
@@ -154,7 +154,42 @@ void __cdecl input_abstraction_latch_all_buttons(long controller_index)
 	}
 }
 
-//void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
+void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
+{
+	//INVOKE(0x0060CE70, sub_60CE70, preferences, input_state);
+
+	for (long i = 0; i < k_button_action_count * 2; i++)
+	{
+		long mouse_button_index = i < k_button_action_count ? i : i - k_button_action_count;
+
+		e_mouse_button mouse_button = preferences->keyboard_preferences.mouse_buttons_primary[mouse_button_index];
+		if (i >= k_button_action_count)
+			mouse_button = preferences->keyboard_preferences.mouse_buttons_alternative[mouse_button_index];
+
+		if (mouse_button < k_mouse_button_count)
+		{
+			word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), input_mouse_msec_down(mouse_button, _input_type_game));
+			byte down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), input_mouse_frames_down(mouse_button, _input_type_game));
+			byte down_amount = MAX((byte)input_state->abstract_buttons[mouse_button_index].down_amount(), input_mouse_frames_down(mouse_button, _input_type_game));
+
+			input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
+			continue;
+		}
+
+		mouse_state* state = input_get_mouse_state(_input_type_ui);
+		if (!state || input_type_suppressed(_input_type_game))
+			continue;
+
+		if ((mouse_button != _mouse_button_wheel_up && mouse_button != _mouse_button_wheel_down) || state->wheel_ticks == 0)
+			continue;
+
+		word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), 1);
+		byte down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), 1);
+		byte down_amount = 255;
+
+		input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
+	}
+}
 
 void __cdecl sub_60D160(mouse_state* state, s_game_input_state* input_state, long a3)
 {
