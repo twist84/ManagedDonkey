@@ -13,6 +13,7 @@ HOOK_DECLARE(0x0060B3C0, input_abstraction_dispose_from_old_map);
 //HOOK_DECLARE(0x0060B3D0, sub_60B3D0);
 HOOK_DECLARE(0x0060BE20, input_abstraction_get_abstract_stick_pitch);
 HOOK_DECLARE(0x0060BE60, input_abstraction_get_controls_method);
+//HOOK_DECLARE(0x0060BE70, input_abstraction_get_controller_preferences);
 //HOOK_DECLARE(0x0060BEA0, sub_60BEA0);
 HOOK_DECLARE(0x0060BF00, input_abstraction_get_default_preferences);
 HOOK_DECLARE(0x0060BFE0, input_abstraction_get_input_state);
@@ -42,10 +43,10 @@ void __cdecl input_abstraction_dispose_from_old_map()
 	input_abstraction_globals.input_globals = nullptr;
 }
 
-//void __cdecl sub_60B3D0(struct gamepad_state* state, s_gamepad_input_preferences* preferences, s_game_input_state* input_state, long gamepad_index)
-//{
-//	HOOK_INVOKE(, sub_60B3D0, state, preferences, input_state, gamepad_index);
-//}
+void __cdecl sub_60B3D0(gamepad_state* state, s_gamepad_input_preferences* preferences, s_game_input_state* input_state, long gamepad_index)
+{
+	INVOKE(0x0060B3D0, sub_60B3D0, state, preferences, input_state, gamepad_index);
+}
 
 short __cdecl input_abstraction_get_abstract_stick_pitch(long controller_index)
 {
@@ -62,18 +63,19 @@ long __cdecl input_abstraction_get_controls_method()
 	return input_abstraction_globals.controls_method;
 }
 
-// global_preferences
-//void __cdecl sub_60BEA0(s_gamepad_input_preferences* preferences, void* bindings)
-//{
-//	HOOK_INVOKE(, sub_60BEA0, preferences, bindings);
-//}
-
 void __cdecl input_abstraction_get_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences)
 {
+	//INVOKE(0x0060BE70, input_abstraction_get_controller_preferences, controller_index, preferences);
+
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 	ASSERT(preferences);
 
 	csmemcpy(preferences, &input_abstraction_globals.preferences[controller_index], sizeof(s_gamepad_input_preferences));
+}
+
+void __cdecl sub_60BEA0(s_gamepad_input_preferences* preferences, void* bindings)
+{
+	INVOKE(0x0060BEA0, sub_60BEA0, preferences, bindings);
 }
 
 void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferences* preferences)
@@ -100,8 +102,12 @@ void __cdecl input_abstraction_get_default_preferences(s_gamepad_input_preferenc
 	//preferences->camera_flying_thrust = 1.0;
 }
 
+//.text:0060BFC0 ; gamepad_state *sub_60BFC0()
+
 void __cdecl input_abstraction_get_input_state(long controller_index, s_game_input_state** input_state)
 {
+	//INVOKE(0x0060BFE0, input_abstraction_get_input_state, controller_index, input_state);
+
 	ASSERT(input_state);
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
@@ -110,6 +116,8 @@ void __cdecl input_abstraction_get_input_state(long controller_index, s_game_inp
 
 void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_index, euler_angles2d* angular_velocity)
 {
+	//INVOKE(0x0060C000, input_abstraction_get_player_look_angular_velocity, controller_index, angular_velocity);
+
 	angular_velocity->yaw = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_x * DEG);
 	angular_velocity->pitch = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_y * DEG);
 }
@@ -264,6 +272,8 @@ void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* prefe
 
 void __cdecl input_abstraction_initialize()
 {
+	//INVOKE(0x0060C390, input_abstraction_initialize);
+
 	csmemset(&input_abstraction_globals, 0, sizeof(s_input_abstraction_globals));
 
 	for (long controller_index = first_controller(); controller_index != k_no_controller; controller_index = next_controller(controller_index))
@@ -282,7 +292,10 @@ void __cdecl input_abstraction_initialize()
 	input_abstraction_globals.input_device_changed = true;
 }
 
-//void __cdecl input_abstraction_initialize_for_new_map()
+void __cdecl input_abstraction_initialize_for_new_map()
+{
+	INVOKE(0x0060C430, input_abstraction_initialize_for_new_map);
+}
 
 void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
 {
@@ -370,6 +383,8 @@ void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_s
 
 void __cdecl input_abstraction_latch_all_buttons(long controller_index)
 {
+	//INVOKE(0x0060CE40, input_abstraction_latch_all_buttons, controller_index);
+
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 
 	for (long button_index = 0; button_index < k_button_action_count; button_index++)
@@ -445,10 +460,15 @@ void __cdecl input_abstraction_reset_controller_detection_timer()
 	input_abstraction_globals.controller_detection_timer = system_milliseconds();
 }
 
-//void __cdecl input_should_suppress_rumble(long controls_method)
+void __cdecl input_should_suppress_rumble(long controls_method)
+{
+	INVOKE(0x0060D7B0, input_should_suppress_rumble, controls_method);
+}
 
 void __cdecl input_abstraction_set_controller_preferences(long controller_index, s_gamepad_input_preferences* preferences)
 {
+	//INVOKE(0x0060D830, input_abstraction_set_controller_preferences, controller_index, preferences);
+
 	ASSERT(controller_index >= 0 && controller_index < k_number_of_controllers);
 	ASSERT(preferences);
 	ASSERT(preferences->gamepad_buttons[_button_action_start] == _controller_button_start && preferences->gamepad_buttons[_button_action_back] == _controller_button_back, "invalid controller preferences; can't remap start & back buttons");
@@ -467,7 +487,10 @@ void __cdecl input_abstraction_update()
 	INVOKE(0x0060D880, input_abstraction_update);
 }
 
-//void __cdecl input_abstraction_update_device_changes(dword_flags flags)
+void __cdecl input_abstraction_update_device_changes(dword flags)
+{
+	INVOKE(0x0060D9E0, input_abstraction_update_device_changes, flags);
+}
 
 c_abstract_button::c_abstract_button() :
 	m_down_msec(),
