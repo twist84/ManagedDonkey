@@ -195,8 +195,8 @@ enum e_mouse_button
 	_mouse_button_5,
 
 	k_mouse_button_count,
+	_mouse_button_6,
 	_mouse_button_7,
-	_mouse_button_8,
 
 	_mouse_button_wheel_up,
 	_mouse_button_wheel_down,
@@ -459,7 +459,7 @@ struct s_input_globals
 
 	c_static_array<rumble_state, k_number_of_controllers> rumble_states;
 
-	long raw_mouse_wheel_update_time;
+	dword raw_mouse_wheel_update_time;
 	long __unknownC6C;
 };
 static_assert(sizeof(s_input_globals) == 0xC70);

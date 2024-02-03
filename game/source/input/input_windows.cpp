@@ -519,7 +519,7 @@ void __cdecl input_update()
 	if (input_globals.initialized && (input_globals.mouse_acquired || game_in_editor() && sub_42E000()))
 	{
 		dword time = system_milliseconds();
-		dword duration_ms = CLAMP(time - input_globals.update_time, 0, 100);
+		long duration_ms = CLAMP(time - input_globals.update_time, 0, 100);
 	
 		input_globals.input_suppressed = false;
 		input_globals.update_time = time;
@@ -579,48 +579,47 @@ void __cdecl input_update_keyboard(long duration_ms)
 
 void __cdecl input_update_mouse(long duration_ms)
 {
-	bool window_has_focus = game_in_editor() || g_windows_params.created_window_handle == GetForegroundWindow();
+	if (!input_globals.raw_input_mouse_state_update)
+		return;
 
-	if (input_globals.raw_input_mouse_state_update)
+	input_globals.buffered_mouse_button_read_index = 0;
+	input_globals.buffered_mouse_button_read_count = 0;
+
+	input_globals.raw_mouse_state.x = input_globals.mouse_x_ticks * (input_globals.raw_mouse_state.relative_x / input_globals.mouse_relative_x);
+	input_globals.raw_mouse_state.y = input_globals.mouse_y_ticks * (input_globals.raw_mouse_state.relative_y / input_globals.mouse_relative_y);
+
+	if (input_globals.input_type_suppressed[_input_type_game])
 	{
-		input_globals.buffered_mouse_button_read_index = 0;
-		input_globals.buffered_mouse_button_read_count = 0;
-
-		input_globals.raw_mouse_state.x = input_globals.mouse_x_ticks * (input_globals.raw_mouse_state.relative_x / input_globals.mouse_relative_x);
-		input_globals.raw_mouse_state.y = input_globals.mouse_y_ticks * (input_globals.raw_mouse_state.relative_y / input_globals.mouse_relative_y);
-
-		if (input_globals.input_type_suppressed[_input_type_game])
-		{
+		input_globals.raw_mouse_wheel_update_time = 0;
+	}
+	else
+	{
+		if ((input_globals.update_time - input_globals.raw_mouse_wheel_update_time) > 700 /* wheel spam timeout */)
 			input_globals.raw_mouse_wheel_update_time = 0;
-		}
 		else
+			input_globals.raw_mouse_state.wheel_ticks = 0;
+
+		long wheel_ticks = input_globals.mouse_wheel_ticks * (input_globals.raw_mouse_state.wheel_delta / input_globals.mouse_wheel_delta);
+		if (wheel_ticks && !input_globals.raw_mouse_wheel_update_time)
 		{
-			if ((input_globals.update_time - input_globals.raw_mouse_wheel_update_time) > 700)
-				input_globals.raw_mouse_wheel_update_time = 0;
-			else
-				input_globals.raw_mouse_state.wheel_ticks = 0;
-			
-			long wheel_ticks = input_globals.mouse_wheel_ticks * (input_globals.raw_mouse_state.wheel_delta / input_globals.mouse_wheel_delta);
-			if (wheel_ticks && !input_globals.raw_mouse_wheel_update_time)
-			{
-				input_globals.raw_mouse_wheel_update_time = input_globals.update_time;
-				input_globals.raw_mouse_state.wheel_ticks = wheel_ticks;
-			}
+			input_globals.raw_mouse_wheel_update_time = input_globals.update_time;
+			input_globals.raw_mouse_state.wheel_ticks = wheel_ticks;
+			return;
 		}
+	}
 
-		input_globals.raw_mouse_state.relative_y %= input_globals.mouse_relative_y;
-		input_globals.raw_mouse_state.relative_x %= input_globals.mouse_relative_x;
-		input_globals.raw_mouse_state.wheel_delta %= input_globals.mouse_wheel_delta;
+	input_globals.raw_mouse_state.relative_y %= input_globals.mouse_relative_y;
+	input_globals.raw_mouse_state.relative_x %= input_globals.mouse_relative_x;
+	input_globals.raw_mouse_state.wheel_delta %= input_globals.mouse_wheel_delta;
 
+	if (game_in_editor() || g_windows_params.created_window_handle == GetForegroundWindow())
+	{
 		for (long i = 0; i < k_mouse_button_count; i++)
 		{
-			if (window_has_focus)
-			{
-				byte& frames_down = input_globals.raw_mouse_state.frames_down[i];
-				word& msec_down = input_globals.raw_mouse_state.msec_down[i];
-				bool key_down = input_globals.raw_mouse_state.raw_flags.test(e_mouse_button(i));
-				update_button(&frames_down, &msec_down, key_down, duration_ms);
-			}
+			byte& frames_down = input_globals.raw_mouse_state.frames_down[i];
+			word& msec_down = input_globals.raw_mouse_state.msec_down[i];
+			bool key_down = input_globals.raw_mouse_state.raw_flags.test(e_mouse_button(i));
+			update_button(&frames_down, &msec_down, key_down, duration_ms);
 		}
 	}
 }
