@@ -20,8 +20,8 @@ HOOK_DECLARE(0x0060C000, input_abstraction_get_player_look_angular_velocity);
 //HOOK_DECLARE(0x0060C040, sub_60C040);
 HOOK_DECLARE(0x0060C390, input_abstraction_initialize);
 //HOOK_DECLARE(0x0060C430, input_abstraction_initialize_for_new_map);
-//HOOK_DECLARE(0x0060C4A0, sub_60C4A0);
 //HOOK_DECLARE(0x0060C6D0, sub_60C6D0);
+HOOK_DECLARE(0x0060C4A0, sub_60C4A0);
 HOOK_DECLARE(0x0060CE40, input_abstraction_latch_all_buttons);
 HOOK_DECLARE(0x0060CE70, sub_60CE70);
 //HOOK_DECLARE_CALL(0x0060D9AA, sub_60D160); //HOOK_DECLARE(0x0060D160, sub_60D160);
@@ -283,7 +283,40 @@ void __cdecl input_abstraction_initialize()
 }
 
 //void __cdecl input_abstraction_initialize_for_new_map()
-//void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
+
+void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state)
+{
+	//INVOKE(0x0060C4A0, sub_60C4A0, preferences, input_state);
+
+	for (long i = 0; i < k_button_action_count_keyboard * 2; i++)
+	{
+		long key_index = i % k_button_action_count_keyboard;
+
+		e_key_code key_code = preferences->keyboard_preferences.keys_primary[key_index];
+		if (i >= k_button_action_count_keyboard)
+			key_code = preferences->keyboard_preferences.keys_alternative[key_index];
+
+		if ((short)key_code == 0xFF)
+			continue;
+
+		e_input_type input_type = _input_type_game;
+		if (i == _key_code_f6 || i == _key_code_f7)
+			input_type = _input_type_special;
+
+		if (i == _key_code_left_shift || i == _key_code_enter)
+			input_type = _input_type_ui;
+
+		if (i == _key_code_z)
+			input_type = _input_type_ui;
+
+		word down_msec = MAX(input_state->abstract_buttons[key_index].down_msec(), input_key_msec_down(key_code, input_type));
+		byte down_frames = MAX(input_state->abstract_buttons[key_index].down_frames(), input_key_frames_down(key_code, input_type));
+		byte down_amount = MAX((byte)input_state->abstract_buttons[key_index].down_amount(), input_key_frames_down(key_code, input_type));
+
+		input_state->abstract_buttons[key_index].update(down_msec, down_frames, down_amount);
+	}
+}
+
 //void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state) // this is for setting editor controls
 
 void __cdecl input_abstraction_latch_all_buttons(long controller_index)

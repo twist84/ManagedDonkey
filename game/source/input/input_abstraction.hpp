@@ -143,8 +143,8 @@ extern void __cdecl input_abstraction_get_player_look_angular_velocity(long cont
 extern void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* preferences);
 extern void __cdecl input_abstraction_initialize();
 //extern void __cdecl input_abstraction_initialize_for_new_map();
-//extern void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
 //extern void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
+extern void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
 
 void __cdecl input_abstraction_latch_all_buttons(long controller_index);
 extern void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_state* input_state);
