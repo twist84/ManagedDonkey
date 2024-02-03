@@ -20,8 +20,8 @@ HOOK_DECLARE(0x0060C000, input_abstraction_get_player_look_angular_velocity);
 //HOOK_DECLARE(0x0060C040, sub_60C040);
 HOOK_DECLARE(0x0060C390, input_abstraction_initialize);
 //HOOK_DECLARE(0x0060C430, input_abstraction_initialize_for_new_map);
-//HOOK_DECLARE(0x0060C6D0, sub_60C6D0);
 HOOK_DECLARE(0x0060C4A0, sub_60C4A0);
+//HOOK_DECLARE(0x0060C6D0, sub_60C6D0);
 HOOK_DECLARE(0x0060CE40, input_abstraction_latch_all_buttons);
 HOOK_DECLARE(0x0060CE70, sub_60CE70);
 //HOOK_DECLARE_CALL(0x0060D9AA, sub_60D160); //HOOK_DECLARE(0x0060D160, sub_60D160);
@@ -317,7 +317,56 @@ void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_s
 	}
 }
 
-//void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state) // this is for setting editor controls
+void __cdecl sub_60C6D0(s_gamepad_input_preferences* preferences, s_game_input_state* input_state) // this is for setting editor controls
+{
+	INVOKE(0x0060C6D0, sub_60C6D0, preferences, input_state);
+
+//#define UPDATE_BUTTON_KEY(TYPE, KEY, ACTION) \
+//{ \
+//	word msec_down = input_key_msec_down(_key_code_##KEY, _input_type_##TYPE); \
+//	byte frames_down = input_key_frames_down(_key_code_##KEY, _input_type_##TYPE); \
+//	input_state->abstract_buttons[_button_action_##ACTION].update(msec_down, frames_down, -(frames_down != 0)); \
+//}
+//#define UPDATE_BUTTON_MOUSE(TYPE, MOUSE, ACTION) \
+//{ \
+//	word msec_down = input_mouse_msec_down(_mouse_button_##MOUSE, _input_type_##TYPE); \
+//	byte frames_down = input_mouse_frames_down(_mouse_button_##MOUSE, _input_type_##TYPE); \
+//	input_state->abstract_buttons[_button_action_##ACTION].update(msec_down, frames_down, -(frames_down != 0)); \
+//}
+//
+//#define UPDATE_BUTTON_MOUSE_AND_KEY(TYPE, MOUSE, KEY, ACTION) \
+//{ \
+//	word msec_down = FLOOR(input_mouse_msec_down(_mouse_button_##MOUSE, _input_type_##TYPE), input_key_msec_down(_key_code_##KEY, _input_type_##TYPE)); \
+//	byte frames_down = FLOOR(input_mouse_frames_down(_mouse_button_##MOUSE, _input_type_##TYPE), input_key_frames_down(_key_code_##KEY, _input_type_##TYPE)); \
+//	input_state->abstract_buttons[_button_action_##ACTION].update(msec_down, frames_down, -(frames_down != 0)); \
+//}
+//
+//	UPDATE_BUTTON_KEY(          ui,            w,   move_forward);
+//	UPDATE_BUTTON_KEY(          ui,            s,      move_back);
+//	UPDATE_BUTTON_KEY(          ui,            a,      move_left);
+//	UPDATE_BUTTON_KEY(          ui,            d,     move_right);
+//	UPDATE_BUTTON_KEY(          ui,     spacebar,              a);
+//	UPDATE_BUTTON_KEY(          ui,            v,              b);
+//	UPDATE_BUTTON_KEY(          ui,            f,              x);
+//	UPDATE_BUTTON_KEY(          ui,            r,              y);
+//	UPDATE_BUTTON_KEY(          ui,            x,      dpad_left);
+//	UPDATE_BUTTON_KEY(          ui,            c,     dpad_right);
+//	UPDATE_BUTTON_KEY(          ui,            q,   right_bumper);
+//	UPDATE_BUTTON_KEY(          ui,            e,    left_bumper);
+//	UPDATE_BUTTON_KEY(          ui,      control,     left_stick);
+//	UPDATE_BUTTON_MOUSE_AND_KEY(ui, middle_click, z, right_stick);
+//	UPDATE_BUTTON_MOUSE(        ui,  right_click,   left_trigger);
+//	UPDATE_BUTTON_MOUSE(        ui,   left_click,  right_trigger);
+//	UPDATE_BUTTON_KEY(     special,    page_down,          start);
+//	UPDATE_BUTTON_KEY(     special,      page_up,           back);
+//
+//	for (long i = _button_action_jump; i < k_button_action_count; i++)
+//		input_state->abstract_buttons[i].set_accessor(preferences->gamepad_buttons[i]);
+//
+//#undef UPDATE_BUTTON_MOUSE_AND_KEY
+//#undef UPDATE_BUTTON_MOUSE
+//#undef UPDATE_BUTTON_KEY
+}
 
 void __cdecl input_abstraction_latch_all_buttons(long controller_index)
 {
