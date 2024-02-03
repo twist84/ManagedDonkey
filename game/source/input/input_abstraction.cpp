@@ -114,10 +114,153 @@ void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_
 	angular_velocity->pitch = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_y * DEG);
 }
 
-//void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* preferences)
-//{
-//	HOOK_INVOKE(, sub_60C040, keyboard_preset, preferences);
-//}
+void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* preferences)
+{
+	INVOKE(0x0060C040, sub_60C040, keyboard_preset, preferences);
+
+	//for (long i = 0; i < k_button_action_count_keyboard; i++)
+	//{
+	//	preferences->keyboard_preferences.keys_primary[i] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[i] = k_mouse_button_none;
+	//	preferences->keyboard_preferences.keys_primary[i] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_alternative[i] = k_mouse_button_none;
+	//}
+	//
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown35] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown36] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown37] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown38] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                              _button_action_a] = _key_code_spacebar;
+	//preferences->keyboard_preferences.keys_primary[                              _button_action_b] = _key_code_q;
+	//preferences->keyboard_preferences.keys_primary[                          _button_action_start] = _key_code_escape;
+	//preferences->keyboard_preferences.keys_primary[                           _button_action_back] = _key_code_tab;
+	//preferences->keyboard_preferences.keys_primary[                     _button_action_voice_chat] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown42] = _key_code_spacebar;
+	//preferences->keyboard_preferences.keys_primary[                        _button_action_dpad_up] = _key_code_up;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_dpad_down] = _key_code_down;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_dpad_left] = _key_code_left;
+	//preferences->keyboard_preferences.keys_primary[                     _button_action_dpad_right] = _key_code_right;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_unknown31] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_lean_left] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                   _button_action_general_chat] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                      _button_action_team_chat] = k_key_code_none;
+	//preferences->keyboard_preferences.keys_primary[                  _button_action_vehicle_boost] = _key_code_left_shift;
+	//preferences->keyboard_preferences.keys_primary[                   _button_action_vehicle_dive] = _key_code_left_control;
+	//preferences->keyboard_preferences.keys_alternative[         _button_action_vehicle_accelerate] = _key_code_up;
+	//preferences->keyboard_preferences.keys_alternative[            _button_action_vehicle_reverse] = _key_code_down;
+	//preferences->keyboard_preferences.keys_primary[                  _button_action_vehicle_raise] = _key_code_spacebar;
+	//preferences->keyboard_preferences.mouse_buttons_alternative[      _button_action_vehicle_dive] = _mouse_button_wheel_down;
+	//preferences->keyboard_preferences.mouse_buttons_alternative[     _button_action_vehicle_raise] = _mouse_button_wheel_up;
+	//preferences->keyboard_preferences.mouse_buttons_primary[          _button_action_vehicle_fire] = _mouse_button_left_click;
+	//preferences->keyboard_preferences.mouse_buttons_primary[      _button_action_vehicle_alt_fire] = _mouse_button_right_click;
+	//
+	//switch (keyboard_preset)
+	//{
+	//case 0:
+	//case 3:
+	//{
+	//	preferences->keyboard_preferences.keys_alternative[                  _button_action_melee] = _key_code_v;
+	//	preferences->keyboard_preferences.keys_primary[                _button_action_vehicle_use] = _key_code_e;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_melee_fire] = _key_code_q;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_lean_right] = _key_code_left_shift;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[     _button_action_throw_grenade] = preferences->keyboard_preferences.mouse_buttons_primary[_button_action_fire_left];
+	//	preferences->keyboard_preferences.keys_alternative[             _button_action_melee_fire] = _key_code_v;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_unknown58] = _key_code_spacebar;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_fire_right] = k_key_code_none;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_fire_left] = _key_code_f;
+	//	preferences->keyboard_preferences.keys_primary[                       _button_action_jump] = _key_code_spacebar;
+	//	preferences->keyboard_preferences.keys_primary[            _button_action_switch_grenades] = _key_code_g;
+	//	preferences->keyboard_preferences.keys_primary[                      _button_action_melee] = _key_code_q;
+	//	preferences->keyboard_preferences.keys_primary[              _button_action_throw_grenade] = _key_code_f;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[        _button_action_fire_right] = _mouse_button_left_click;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[    _button_action_switch_weapons] = _mouse_button_wheel_up;
+	//	preferences->keyboard_preferences.mouse_buttons_alternative[_button_action_switch_weapons] = _mouse_button_wheel_down;
+	//	preferences->keyboard_preferences.mouse_buttons_alternative[     _button_action_fire_left] = _mouse_button_middle_click;
+	//	preferences->keyboard_preferences.keys_primary[               _button_action_reload_right] = _key_code_r;
+	//	preferences->keyboard_preferences.keys_primary[                        _button_action_use] = _key_code_e;
+	//	preferences->keyboard_preferences.keys_alternative[           _button_action_reload_right] = k_key_code_none;
+	//	preferences->keyboard_preferences.keys_alternative[                    _button_action_use] = k_key_code_none;
+	//	preferences->keyboard_preferences.keys_alternative[            _button_action_vehicle_use] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[      _button_action_reload_right] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[               _button_action_use] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[       _button_action_vehicle_use] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_alternative[  _button_action_reload_right] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_alternative[           _button_action_use] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_alternative[   _button_action_vehicle_use] = k_key_code_none;
+	//	preferences->keyboard_preferences.keys_primary[                     _button_action_crouch] = _key_code_left_control;
+	//	preferences->keyboard_preferences.keys_primary[                       _button_action_zoom] = k_key_code_none;
+	//	preferences->keyboard_preferences.keys_primary[           _button_action_use_consumable_1] = _key_code_1;
+	//	preferences->keyboard_preferences.keys_primary[           _button_action_use_consumable_2] = _key_code_2;
+	//	preferences->keyboard_preferences.keys_primary[           _button_action_use_consumable_3] = _key_code_3;
+	//	preferences->keyboard_preferences.keys_primary[           _button_action_use_consumable_4] = _key_code_4;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_team_chat] = _key_code_y;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_voice_chat] = _key_code_caps_lock;
+	//	preferences->keyboard_preferences.keys_primary[               _button_action_general_chat] = _key_code_t;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[              _button_action_zoom] = _mouse_button_right_click;
+	//	preferences->keyboard_preferences.keys_primary[               _button_action_move_forward] = _key_code_w;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_move_back] = _key_code_s;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_move_left] = _key_code_a;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_move_right] = _key_code_d;
+	//	preferences->keyboard_preferences.keys_alternative[           _button_action_move_forward] = _key_code_up;
+	//	preferences->keyboard_preferences.keys_alternative[              _button_action_move_back] = _key_code_down;
+	//	preferences->keyboard_preferences.keys_alternative[              _button_action_move_left] = _key_code_left;
+	//	preferences->keyboard_preferences.keys_alternative[             _button_action_move_right] = _key_code_right;
+	//	preferences->keyboard_preferences.keys_alternative[          _button_action_throw_grenade] = preferences->keyboard_preferences.keys_alternative[_button_action_fire_left];
+	//	preferences->keyboard_preferences.mouse_buttons_alternative[ _button_action_throw_grenade] = _mouse_button_middle_click;
+	//	preferences->keyboard_preferences.keys_primary[                _button_action_next_player] = _key_code_d;
+	//	preferences->keyboard_preferences.keys_primary[                _button_action_prev_player] = _key_code_a;
+	//}
+	//break;
+	//case 1:
+	//{
+	//	preferences->keyboard_preferences.keys_primary[               _button_action_reload_right] = _key_code_t;
+	//	preferences->keyboard_preferences.keys_primary[            _button_action_switch_grenades] = _key_code_e;
+	//	preferences->keyboard_preferences.keys_primary[             _button_action_switch_weapons] = _key_code_tab;
+	//	preferences->keyboard_preferences.keys_primary[                      _button_action_melee] = _key_code_f;
+	//	preferences->keyboard_preferences.keys_primary[              _button_action_throw_grenade] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[        _button_action_fire_right] = _mouse_button_left_click;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[         _button_action_fire_left] = _mouse_button_right_click;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_flashlight] = _key_code_x;
+	//	preferences->keyboard_preferences.keys_primary[                       _button_action_zoom] = _key_code_left_shift;
+	//	preferences->keyboard_preferences.keys_primary[                     _button_action_crouch] = _key_code_z;
+	//	preferences->keyboard_preferences.keys_primary[               _button_action_move_forward] = _key_code_w;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_move_back] = _key_code_s;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_move_left] = _key_code_a;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_move_right] = _key_code_d;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_melee_fire] = _key_code_f;
+	//	preferences->keyboard_preferences.keys_primary[                       _button_action_jump] = _key_code_spacebar;
+	//	preferences->keyboard_preferences.keys_primary[                _button_action_reload_left] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[    _button_action_switch_weapons] = _mouse_button_7;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_fire_right] = k_key_code_none;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_fire_left] = k_key_code_none;
+	//}
+	//break;
+	//case 2:
+	//{
+	//	preferences->keyboard_preferences.keys_primary[               _button_action_reload_right] = _key_code_u;
+	//	preferences->keyboard_preferences.keys_primary[            _button_action_switch_grenades] = _key_code_g;
+	//	preferences->keyboard_preferences.keys_primary[             _button_action_switch_weapons] = k_key_code_none;
+	//	preferences->keyboard_preferences.keys_primary[                      _button_action_melee] = _key_code_h;
+	//	preferences->keyboard_preferences.keys_primary[              _button_action_throw_grenade] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[        _button_action_fire_right] = _mouse_button_right_click;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[         _button_action_fire_left] = _mouse_button_left_click;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_flashlight] = _key_code_alt;
+	//	preferences->keyboard_preferences.keys_primary[                       _button_action_zoom] = _key_code_left_shift;
+	//	preferences->keyboard_preferences.keys_primary[                     _button_action_crouch] = _key_code_n;
+	//	preferences->keyboard_preferences.keys_primary[               _button_action_move_forward] = _key_code_i;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_move_back] = _key_code_k;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_move_left] = _key_code_j;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_move_right] = _key_code_l;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_melee_fire] = _key_code_h;
+	//	preferences->keyboard_preferences.keys_primary[                       _button_action_jump] = _key_code_spacebar;
+	//	preferences->keyboard_preferences.keys_primary[                _button_action_reload_left] = k_key_code_none;
+	//	preferences->keyboard_preferences.mouse_buttons_primary[    _button_action_switch_weapons] = _mouse_button_7;
+	//	preferences->keyboard_preferences.keys_primary[                 _button_action_fire_right] = k_key_code_none;
+	//	preferences->keyboard_preferences.keys_primary[                  _button_action_fire_left] = k_key_code_none;
+	//}
+	//break;
+	//}
+}
 
 void __cdecl input_abstraction_initialize()
 {
