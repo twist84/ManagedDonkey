@@ -447,6 +447,16 @@ void __cdecl simulation_update_pregame()
 bool simulation_update_read_from_buffer(struct simulation_update* update, long buffer_size, byte const* buffer)
 {
 	return INVOKE(0x004427C0, simulation_update_read_from_buffer, update, buffer_size, buffer);
+
+	//c_bitstream packet;
+	//csmemset(update, 0, sizeof(struct simulation_update));
+	//packet.begin_reading();
+	//if (simulation_update_decode(&packet, update))
+	//{
+	//	packet.finish_reading();
+	//	return true;
+	//}
+	//return false;
 }
 
 bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* update, long buffer_size, byte* buffer, long* out_update_length)

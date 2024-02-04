@@ -1167,6 +1167,9 @@
     <ClCompile Include="source\input\input_xinput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\simulation_encoding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3021,6 +3024,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\input\input_xinput.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\simulation\simulation_encoding.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

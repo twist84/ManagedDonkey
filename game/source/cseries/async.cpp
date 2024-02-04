@@ -37,6 +37,8 @@ void __cdecl async_dispose()
 void __cdecl async_idle()
 {
 	INVOKE(0x005084E0, async_idle);
+
+	//async_globals.tasks_in_queue = async_tasks_in_queue();
 }
 
 void __cdecl async_initialize()

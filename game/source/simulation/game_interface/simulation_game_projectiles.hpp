@@ -21,12 +21,19 @@ struct s_simulation_projectile_detonate_event_data
 	byte projectile_effect_flag;
 	bool collided_with_invalid_material;
 	long material_index;
-	s_location location;
-	vector3d hit_normal;
-	long absolute_player_index;
 
-	// padding?
-	byte __data[0x4];
+	bool location_valid;
+	byte : 8;
+
+	// In Halo Online is `s_location` the same as Halo 3 or Halo Reach
+	// Halo 3: cluster reference + leaf index
+	// Halo Reach: cluster reference
+	//s_location location;
+	s_cluster_reference location;
+
+	vector3d hit_normal;
+	long player_index0; // from?
+	long player_index1; // to?
 };
 static_assert(sizeof(s_simulation_projectile_detonate_event_data) == 0x40);
 

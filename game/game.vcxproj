@@ -513,6 +513,7 @@ POPD
     <ClCompile Include="source\simulation\game_interface\simulation_game_interface.cpp" />
     <ClCompile Include="source\simulation\simulation.cpp" />
     <ClCompile Include="source\simulation\simulation_debug_globals.cpp" />
+    <ClCompile Include="source\simulation\simulation_encoding.cpp" />
     <ClCompile Include="source\simulation\simulation_entity_database.cpp" />
     <ClCompile Include="source\simulation\simulation_gamestate_entities.cpp" />
     <ClCompile Include="source\simulation\simulation_type_collection.cpp" />
@@ -1104,6 +1105,7 @@ POPD
     <ClInclude Include="source\simulation\simulation.hpp" />
     <ClInclude Include="source\simulation\simulation_actors.hpp" />
     <ClInclude Include="source\simulation\simulation_debug_globals.hpp" />
+    <ClInclude Include="source\simulation\simulation_encoding.hpp" />
     <ClInclude Include="source\simulation\simulation_entity_database.hpp" />
     <ClInclude Include="source\simulation\simulation_event_handler.hpp" />
     <ClInclude Include="source\simulation\simulation_gamestate_entities.hpp" />

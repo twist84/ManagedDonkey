@@ -91,7 +91,7 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 				local_game_engine_globals->__time0 = game_time_get() + game_seconds_integer_to_ticks(1);
 			}
 
-			if (user_interface_should_show_console_scoreboard(0) || down_frames != 0)
+			if (user_interface_should_show_console_scoreboard(NULL) || down_frames != 0)
 				c_gui_screen_scoreboard::show_scoreboard(controller_index, true);
 			else
 				c_gui_screen_scoreboard::hide_scoreboard(controller_index);
