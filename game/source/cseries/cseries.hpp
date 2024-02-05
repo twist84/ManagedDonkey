@@ -670,7 +670,12 @@ public:
 
 	}
 
-	void set_raw_bits(t_storage_type raw_bits)
+	t_storage_type get_unsafe() const
+	{
+		return m_storage;
+	}
+
+	void set_unsafe(t_storage_type raw_bits)
 	{
 		m_storage = raw_bits;
 	}
@@ -707,6 +712,11 @@ public:
 	bool valid_bit(t_type bit) const
 	{
 		return VALID_INDEX(0, k_maximum_count);
+	}
+
+	bool valid() const
+	{
+		return (m_storage & MASK(k_maximum_count)) == 0;
 	}
 
 	bool test(t_type bit)
