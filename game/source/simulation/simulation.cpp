@@ -1,5 +1,6 @@
 #include "simulation/simulation.hpp"
 
+#include "game/game.hpp"
 #include "game/game_engine.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
@@ -442,6 +443,30 @@ bool __cdecl simulation_update_player_netdebug_data(long player_index, s_simulat
 void __cdecl simulation_update_pregame()
 {
 	INVOKE(0x004426F0, simulation_update_pregame);
+
+	//if (simulation_globals.initialized && game_in_progress())
+	//{
+	//	if (simulation_globals.watcher->need_to_generate_updates())
+	//	{
+	//		struct simulation_update update{};
+	//		s_simulation_update_metadata metadata{};
+	//		simulation_build_update(false, &update, &metadata);
+	//		ASSERT(!update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit));
+	//
+	//		//saved_film_history_after_update_built(&update, &metadata);
+	//		//simulation_record_update(&update);
+	//		simulation_globals.recording_film = false;
+	//
+	//		//random_seed_allow_use();
+	//		damage_acceleration_queue_begin();
+	//		simulation_apply_before_game(&update);
+	//		damage_acceleration_queue_end();
+	//		//random_seed_disallow_use();
+	//
+	//		simulation_update_aftermath(&update, &metadata);
+	//		simulation_destroy_update(&update);
+	//	}
+	//}
 }
 
 bool simulation_update_read_from_buffer(struct simulation_update* update, long buffer_size, byte const* buffer)
