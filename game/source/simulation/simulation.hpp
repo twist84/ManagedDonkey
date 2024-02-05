@@ -86,8 +86,7 @@ struct simulation_update
 {
 	long update_number;
 
-	//c_flags<e_simulation_update_high_level_flags, word, k_simulation_update_high_level_flags> high_level_flags;
-	word_flags flags;
+	c_flags<e_simulation_update_high_level_flags, word, k_simulation_update_high_level_flags> high_level_flags;
 
 	dword_flags player_flags;
 
@@ -98,7 +97,7 @@ struct simulation_update
 	c_static_array<long, 16> actor_unit_indices;
 	c_static_array<unit_control_data, 16> actor_control;
 
-	bool machine_update_valid;
+	bool machine_update_exists;
 	simulation_machine_update machine_update;
 
 	dword valid_player_prediction_mask;
@@ -110,7 +109,7 @@ struct simulation_update
 	//s_determinism_verification determinism_verification;
 
 	dword valid_camera_mask;
-	c_static_array<s_simulation_camera_update, 1> camera_update;
+	c_static_array<s_simulation_camera_update, 1> camera_updates;
 
 	c_simulation_queue bookkeeping_simulation_queue;
 	c_simulation_queue game_simulation_queue;
@@ -119,8 +118,7 @@ static_assert(sizeof(struct simulation_update) == 0x1658);
 
 struct s_simulation_update_metadata
 {
-	//c_flags<e_simulation_update_metadata_flags, word, k_simulation_update_metadata_flags> flags;
-	word_flags flags;
+	c_flags<e_simulation_update_metadata_flags, word, k_simulation_update_metadata_flags> flags;
 
 	long saved_film_position;
 	long saved_film_tick;
