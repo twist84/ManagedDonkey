@@ -166,6 +166,7 @@ POPD
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\simulation\simulation_players.cpp" />
     <ClCompile Include="source\ai\ai.cpp" />
     <ClCompile Include="source\ai\ai_debug.cpp" />
     <ClCompile Include="source\ai\ai_globals.cpp" />
