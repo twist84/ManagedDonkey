@@ -235,7 +235,14 @@ dword simulation_player_collection_get_in_game_mask(s_player_collection const* c
 	return INVOKE(0x004A7E90, simulation_player_collection_get_in_game_mask, collection);
 
 	//ASSERT(collection);
-	//#TODO: implement me
+	//
+	//dword in_game_mask = 0;
+	//for (long player_index = 0; player_index < k_maximum_players; player_index++)
+	//{
+	//	if (TEST_BIT(collection->player_valid_mask, player_index))
+	//		SET_BIT(in_game_mask, player_index, !collection->collection_players[player_index].left_game);
+	//}
+	//return in_game_mask;
 }
 
 void __cdecl simulation_player_collection_verify(s_player_collection const* collection)
