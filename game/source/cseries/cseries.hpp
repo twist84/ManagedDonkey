@@ -150,6 +150,7 @@ const long LONG_BITS = SIZEOF_BITS(long);
 #define TEST_MASK(flags, mask) (((flags) & mask) != 0)
 #define ALIGN(value, bit) (((value) & ~((1 << (bit)) - 1)) + (1 << (bit)))
 #define ALIGN_UP(value, bit) ((((value) & ((1 << (bit)) - 1)) == 0) ? (value) : ((value) | ((1 << (bit)) - 1)) + 1)
+#define SET_BIT(flags, bit, enable) { if ((enable)) { (flags) |= FLAG((bit)); } else { (flags) &= ~FLAG((bit)); } }
 
 #define NONE -1
 
