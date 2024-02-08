@@ -2,6 +2,7 @@
 
 #include "game/game_time.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 
 // cseries, char const* const g_zero_buffer;
 char const g_zero_buffer[256]{};
@@ -176,7 +177,40 @@ void __cdecl simulation_player_collection_build(s_player_collection* collection)
 
 	//ASSERT(collection);
 	//ASSERT(collection->player_valid_mask == 0);
-	//#TODO: implement me
+	//
+	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	//c_data_iterator<player_datum> player_iterator;
+	//player_iterator.begin(*player_data);
+	//while (player_iterator.next())
+	//{
+	//	long player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index());
+	//	player_datum* player = player_iterator.get_datum();
+	//
+	//	s_player_collection_player* collection_player = &collection->collection_players[player_absolute_index];
+	//	ASSERT(player_absolute_index >= 0 && player_absolute_index < k_maximum_players);
+	//	ASSERT(!TEST_BIT(collection->player_valid_mask, player_absolute_index));
+	//
+	//	SET_BIT(collection->player_valid_mask, player_absolute_index, true);
+	//	collection_player->identifier = player->player_identifier;
+	//
+	//	if (TEST_BIT(player->flags, 1))
+	//	{
+	//		collection_player->left_game = true;
+	//		collection_player->left_game_time = player->left_game_time;
+	//		collection_player->machine_identifier = {};
+	//		//collection_player->controller_index = k_no_controller;
+	//		//collection_player->user_index = NONE;
+	//	}
+	//	else
+	//	{
+	//		collection_player->left_game = false;
+	//		collection_player->left_game_time = NONE;
+	//		collection_player->machine_identifier = player->machine_identifier;
+	//		//collection_player->controller_index = player->machine_controller_index;
+	//		//collection_player->user_index = player->machine_user_index;
+	//		csmemcpy(&collection_player->configuration, &player->desired_configuration, sizeof(collection_player->configuration));
+	//	}
+	//}
 }
 
 void __cdecl simulation_player_collection_clear(s_player_collection* collection)
