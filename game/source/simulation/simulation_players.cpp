@@ -307,7 +307,38 @@ bool __cdecl simulation_player_update_apply_added(simulation_player_update const
 
 	//ASSERT(player_update);
 	//ASSERT(player_update->update_type == _simulation_player_update_type_added);
-	//#TODO: implement me
+	//
+	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	//player_datum* player = &player_data[player_update->player_index];
+	//if (!player)
+	//{
+	//	//generate_event(_event_level_error, "networking:simulation:players:apply-configuration: simulation asked us to update unknown player [#%d]",
+	//	//	player_update->player_index);
+	//	c_console::write_line("networking:simulation:players:apply-configuration: simulation asked us to update unknown player [#%d]",
+	//		player_update->player_index);
+	//
+	//	return false;
+	//}
+	//
+	//if (csmemcmp(&player->player_identifier, &player_update->player_identifier, sizeof(player->player_identifier)))
+	//{
+	//	//generate_event(_event_level_error, "networking:simulation:players:apply-configuration: identifier mismatch updating player [#%d]",
+	//	//	player_update->player_index);
+	//	c_console::write_line("networking:simulation:players:apply-configuration: identifier mismatch updating player [#%d]",
+	//		player_update->player_index);
+	//
+	//	return false;
+	//}
+	//
+	//long player_index = player_data->get_index(player_update->player_index);
+	//player_set_configuration(player_index, &player_update->configuration);
+	//
+	////generate_event(_event_level_message, "networking:simulation:players:apply-configuration: player [#%d] configuration updated",
+	////	player_update->player_index);
+	//c_console::write_line("networking:simulation:players:apply-configuration: player [#%d] configuration updated",
+	//	player_update->player_index);
+	//
+	//return true;
 }
 
 bool __cdecl simulation_player_update_apply_configuration(simulation_player_update const* player_update)
