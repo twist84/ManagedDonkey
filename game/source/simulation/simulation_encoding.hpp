@@ -29,6 +29,6 @@ extern void __cdecl simulation_update_encode(c_bitstream* packet, struct simulat
 extern void __cdecl simulation_write_location(c_bitstream* packet, s_location const* location);
 extern void __cdecl simulation_write_quantized_node_space_position(c_bitstream* packet, real_point3d const* node_space_position, long encoding_type, long axis_encoding_size_in_bits);
 extern void __cdecl simulation_write_quantized_position(c_bitstream* packet, real_point3d const* position, long a3, bool a4, real_rectangle3d const* world_bounds);
-extern bool __cdecl unit_control_decode(c_bitstream* packet, unit_control_data* unit_control);
-extern bool __cdecl unit_control_encode(c_bitstream* packet, unit_control_data const* unit_control);
+extern bool __cdecl unit_control_decode(c_bitstream* bitstream, unit_control_data* unit_control);
+extern bool __cdecl unit_control_encode(c_bitstream* bitstream, unit_control_data const* unit_control);
 

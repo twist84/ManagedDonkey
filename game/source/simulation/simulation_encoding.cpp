@@ -224,13 +224,43 @@ void __cdecl simulation_write_quantized_position(c_bitstream* packet, real_point
 	INVOKE(0x0046FD80, simulation_write_quantized_position, packet, position, a3, a4, world_bounds);
 }
 
-bool __cdecl unit_control_decode(c_bitstream* packet, unit_control_data* unit_control)
+bool __cdecl unit_control_decode(c_bitstream* bitstream, unit_control_data* unit_control)
 {
-	return INVOKE(0x0046FFE0, unit_control_decode, packet, unit_control);
+	return INVOKE(0x0046FFE0, unit_control_decode, bitstream, unit_control);
+
+	//ASSERT(bitstream);
+	//ASSERT(unit_control);
+	//
+	//unit_control->desired_mode = bitstream->read_integer("animation-seat", 32);
+	//unit_control->aiming_speed = bitstream->read_integer("animation-speed", 32);
+	//
+	//unit_control->weapon_set.set_identifier = bitstream->read_integer("weapon-set-id", 32);
+	//bitstream->read_bits_internal(unit_control->weapon_set.weapon_indices.begin(), SIZEOF_BITS(k_weapon_set_count));
+	//
+	//unit_control->grenade_index = bitstream->read_integer("grenade-index", 32);
+	//unit_control->zoom_level = bitstream->read_integer("zoom-level", 32);
+	//unit_control->control_flags = bitstream->read_integer("control-flags", 32);
+	//
+	//unit_control->primary_trigger = bitstream->read_quantized_real("primary-trigger", 0.0f, 1.0f, 20, false, true);
+	//unit_control->secondary_trigger = bitstream->read_quantized_real("secondary-trigger", -1.0f, 1.0f, 20, false, true);
+	//
+	//unit_control->throttle.i = bitstream->read_quantized_real("throttle-i", -1.0f, 1.0f, 20, true, true);
+	//unit_control->throttle.j = bitstream->read_quantized_real("throttle-j", -1.0f, 1.0f, 20, true, true);
+	//unit_control->throttle.k = bitstream->read_quantized_real("throttle-k", -1.0f, 1.0f, 20, true, true);
+	//
+	//bitstream->read_unit_vector("facing", &unit_control->facing_vector, 19);
+	//bitstream->read_unit_vector("aiming", &unit_control->aiming_vector, 19);
+	//bitstream->read_unit_vector("looking", &unit_control->looking_vector, 19);
+	//
+	//// position
+	//simulation_read_quantized_position(bitstream, &unit_control->gaze_position, 16, NULL);
+	//
+	//// aim-assist-data
+	//bitstream->read_bits_internal(align_pointer(&unit_control->aim_assist_data, 2), SIZEOF_BITS(s_aim_assist_targeting_result));
 }
 
-bool __cdecl unit_control_encode(c_bitstream* packet, unit_control_data const* unit_control)
+bool __cdecl unit_control_encode(c_bitstream* bitstream, unit_control_data const* unit_control)
 {
-	return INVOKE(0x00470180, unit_control_encode, packet, unit_control);
+	return INVOKE(0x00470180, unit_control_encode, bitstream, unit_control);
 }
 
