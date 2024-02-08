@@ -60,7 +60,7 @@ static_assert(sizeof(s_player_collection_player) == 0x1640);
 
 struct s_player_collection
 {
-	c_flags<long, dword, 16> player_valid_mask;
+	dword_flags player_valid_mask;
 	dword __unknown4;
 	s_player_collection_player collection_players[16];
 };

@@ -49,7 +49,7 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//{
 	//case _simulation_player_update_type_left_game:
 	//{
-	//	ASSERT(collection->player_valid_mask.test(player_update->player_index));
+	//	ASSERT(TEST_BIT(collection->player_valid_mask, player_update->player_index));
 	//	ASSERT(!collection_player->left_game);
 	//	ASSERT(collection_player->left_game_time == NONE);
 	//	ASSERT(csmemcmp(&player_update->player_identifier, &collection_player->identifier, sizeof(player_update->player_identifier)) == 0);
@@ -62,12 +62,12 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//case _simulation_player_update_type_swap:
 	//{
 	//	ASSERT(player_update->swap_player_index >= 0 && player_update->swap_player_index < k_maximum_players);
-	//	ASSERT(collection->player_valid_mask.test(player_update->swap_player_index));
+	//	ASSERT(TEST_BIT(collection->player_valid_mask, player_update->swap_player_index));
 	//
 	//	s_player_collection_player* swap_player = &collection->collection_players[player_update->swap_player_index];
 	//
-	//	bool player1_valid = collection->player_valid_mask.test(player_update->player_index);
-	//	bool player2_valid = collection->player_valid_mask.test(player_update->swap_player_index);
+	//	bool player1_valid = TEST_BIT(collection->player_valid_mask, player_update->player_index);
+	//	bool player2_valid = TEST_BIT(collection->player_valid_mask, player_update->swap_player_index);
 	//
 	//	bool player1_left_game = swap_player->left_game;
 	//	dword player1_left_game_time = swap_player->left_game_time;
@@ -98,12 +98,12 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//		ASSERT(csmemcmp(&player_update->swap_player_identifier, g_zero_buffer, sizeof(player_update->swap_player_identifier)) == 0);
 	//	}
 	//
-	//	collection->player_valid_mask.set(player_update->player_index, player2_valid != 0);
+	//	SET_BIT(collection->player_valid_mask, player_update->player_index, player2_valid != 0);
 	//	swap_player->identifier = player_update->swap_player_identifier;
 	//	swap_player->left_game = player2_left_game;
 	//	swap_player->left_game_time = player2_left_game_time;
 	//
-	//	collection->player_valid_mask.set(player_update->swap_player_index, player1_valid != 0);
+	//	SET_BIT(collection->player_valid_mask, player_update->swap_player_index, player1_valid != 0);
 	//	swap_player->identifier = player_update->player_identifier;
 	//	swap_player->left_game = player1_left_game;
 	//	swap_player->left_game_time = player1_left_game_time;
@@ -111,12 +111,12 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//break;
 	//case _simulation_player_update_type_remove:
 	//{
-	//	ASSERT(collection->player_valid_mask.test(player_update->player_index));
+	//	ASSERT(TEST_BIT(collection->player_valid_mask, player_update->player_index));
 	//	ASSERT(collection_player->left_game);
 	//	ASSERT(collection_player->left_game_time >= 0);
 	//	ASSERT(csmemcmp(&player_update->player_identifier, &collection_player->identifier, sizeof(player_update->player_identifier)) == 0);
 	//
-	//	collection->player_valid_mask.set(player_update->player_index, false);
+	//	SET_BIT(collection->player_valid_mask, player_update->player_index, false);
 	//	collection_player->identifier = {};
 	//	collection_player->left_game = false;
 	//	collection_player->left_game_time = NONE;
@@ -124,7 +124,7 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//break;
 	//case _simulation_player_update_type_added:
 	//{
-	//	if (collection->player_valid_mask.test(player_update->player_index))
+	//	if (TEST_BIT(collection->player_valid_mask, player_update->player_index))
 	//	{
 	//		ASSERT(collection_player->left_game);
 	//		ASSERT(collection_player->left_game_time >= 0);
@@ -141,7 +141,7 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//		ASSERT(csmemcmp(&collection_player->identifier, g_zero_buffer, sizeof(collection_player->identifier)) == 0);
 	//		ASSERT(csmemcmp(&player_update->player_identifier, g_zero_buffer, sizeof(player_update->player_identifier)) != 0);
 	//
-	//		collection->player_valid_mask.set(player_update->player_index, true);
+	//		SET_BIT(collection->player_valid_mask, player_update->player_index, true);
 	//		collection_player->identifier = player_update->player_identifier;
 	//		if (player_update->player_left_game)
 	//		{
@@ -154,7 +154,7 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//break;
 	//case _simulation_player_update_type_configuration:
 	//{
-	//	ASSERT(collection->player_valid_mask.test(player_update->player_index));
+	//	ASSERT(TEST_BIT(collection->player_valid_mask, player_update->player_index));
 	//	ASSERT(!collection_player->left_game);
 	//	ASSERT(collection_player->left_game_time == NONE);
 	//	ASSERT(csmemcmp(&player_update->player_identifier, &collection_player->identifier, sizeof(player_update->player_identifier)) == 0);
@@ -175,7 +175,7 @@ void __cdecl simulation_player_collection_build(s_player_collection* collection)
 	INVOKE(0x004A7D70, simulation_player_collection_build, collection);
 
 	//ASSERT(collection);
-	//ASSERT(collection->player_valid_mask.is_empty());
+	//ASSERT(collection->player_valid_mask == 0);
 	//#TODO: implement me
 }
 
@@ -204,7 +204,7 @@ void __cdecl simulation_player_collection_verify(s_player_collection const* coll
 	//for (long player_index = 0; player_index < k_maximum_players; player_index++)
 	//{
 	//	s_player_collection_player const* collection_player = &collection->collection_players[player_index];
-	//	if (collection->player_valid_mask.test(player_index))
+	//	if (TEST_BIT(collection->player_valid_mask, player_index))
 	//	{
 	//		ASSERT(csmemcmp(&collection_player->identifier, g_zero_buffer, sizeof(collection_player->identifier)) != 0);
 	//
@@ -217,14 +217,14 @@ void __cdecl simulation_player_collection_verify(s_player_collection const* coll
 	//		}
 	//		else
 	//		{
-	//			ASSERT(collection_player->left_game_time == NONE)
-	//			//ASSERT(collection_player->user_index >= 0 && collection_player->user_index < k_number_of_users)
-	//			//ASSERT(collection_player->controller_index >= 0 && collection_player->controller_index < k_number_of_controllers)
+	//			ASSERT(collection_player->left_game_time == NONE);
+	//			//ASSERT(collection_player->user_index >= 0 && collection_player->user_index < k_number_of_users);
+	//			//ASSERT(collection_player->controller_index >= 0 && collection_player->controller_index < k_number_of_controllers);
 	//		}
 	//
 	//		//for (long test_player_index = player_index + 1; test_player_index < k_maximum_players; test_player_index++)
 	//		//{
-	//		//	if (collection->player_valid_mask.test(test_player_index))
+	//		//	if (TEST_BIT(collection->player_valid_mask, test_player_index))
 	//		//	{
 	//		//		s_player_collection_player const* test_player = &collection->collection_players[test_player_index];
 	//		//		ASSERT(csmemcmp(&collection_player->identifier, &test_player->identifier, sizeof(collection_player->identifier)) != 0);
@@ -296,6 +296,7 @@ bool __cdecl simulation_player_update_apply_swap(simulation_player_update const*
 	//#TODO: implement me
 }
 
+//void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, long machine_user_index, e_controller_index machine_controller_index, s_player_configuration const* player_data, bool joined_in_progress)
 void __cdecl simulation_player_update_generate_add(simulation_player_update* player_update, s_player_collection* players, long player_index, s_player_identifier const* player_identifier, s_machine_identifier const* machine_identifier, s_player_configuration const* player_data, bool joined_in_progress)
 {
 	INVOKE(0x004A8390, simulation_player_update_generate_add, player_update, players, player_index, player_identifier, machine_identifier, player_data, joined_in_progress);
@@ -309,7 +310,7 @@ void __cdecl simulation_player_update_generate_add(simulation_player_update* pla
 	////ASSERT(machine_controller_index >= 0 && machine_controller_index < k_number_of_controllers);
 	//ASSERT(player_data);
 	//
-	//if (players->player_valid_mask.test(player_index))
+	//if (TEST_BIT(players->player_valid_mask, player_index))
 	//{
 	//	s_player_collection_player* collection_player = &players->collection_players[player_index];
 	//	ASSERT(collection_player->left_game);
@@ -341,7 +342,7 @@ void __cdecl simulation_player_update_generate_configuration(simulation_player_u
 	//
 	//player_update->update_type = _simulation_player_update_type_configuration;
 	//
-	//ASSERT(players->player_valid_mask.test(player_index));
+	//ASSERT(TEST_BIT(players->player_valid_mask, player_index));
 	//ASSERT(!collection_player->left_game);
 	//ASSERT(csmemcmp(&collection_player->identifier, player_identifier, sizeof(collection_player->identifier)) == 0);
 	//
@@ -379,7 +380,7 @@ void __cdecl simulation_player_update_generate_remove(simulation_player_update* 
 	//
 	//player_update->update_type = _simulation_player_update_type_remove;
 	//
-	//ASSERT(players->player_valid_mask.test(player_index));
+	//ASSERT(TEST_BIT(players->player_valid_mask, player_index));
 	//ASSERT(collection_player->left_game);
 	//
 	//player_update->player_index = player_index;
@@ -398,7 +399,7 @@ void __cdecl simulation_player_update_generate_swap(simulation_player_update* pl
 	//player_update->update_type = _simulation_player_update_type_swap;
 	//
 	//player_update->player_index = player_index;
-	//if (players->player_valid_mask.test(player_index))
+	//if (TEST_BIT(players->player_valid_mask, player_index))
 	//{
 	//	s_player_collection_player* collection_player = &players->collection_players[player_index];
 	//	ASSERT(collection_player->left_game);
@@ -410,7 +411,7 @@ void __cdecl simulation_player_update_generate_swap(simulation_player_update* pl
 	//}
 	//
 	//player_update->swap_player_index = swap_player_index;
-	//if (players->player_valid_mask.test(swap_player_index))
+	//if (TEST_BIT(players->player_valid_mask, swap_player_index))
 	//{
 	//	s_player_collection_player* swap_player = &players->collection_players[swap_player_index];
 	//	ASSERT(swap_player->left_game);

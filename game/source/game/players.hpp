@@ -284,7 +284,7 @@ struct player_datum : s_datum_header
 	long left_game_time;
 	s_machine_identifier machine_identifier;
 	short machine_index;
-	short machine_input_user_index;
+	short machine_user_index;
 	long machine_controller_index;
 
 	s_cluster_reference cluster_reference;
@@ -452,7 +452,7 @@ static_assert(0x0008 == OFFSETOF(player_datum, player_identifier));
 static_assert(0x0010 == OFFSETOF(player_datum, left_game_time));
 static_assert(0x0014 == OFFSETOF(player_datum, machine_identifier));
 static_assert(0x0024 == OFFSETOF(player_datum, machine_index));
-static_assert(0x0026 == OFFSETOF(player_datum, machine_input_user_index));
+static_assert(0x0026 == OFFSETOF(player_datum, machine_user_index));
 static_assert(0x0028 == OFFSETOF(player_datum, machine_controller_index));
 static_assert(0x002C == OFFSETOF(player_datum, cluster_reference));
 static_assert(0x0030 == OFFSETOF(player_datum, unit_index));
