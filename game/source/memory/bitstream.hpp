@@ -120,6 +120,7 @@ public:
 	void __cdecl read_string(char const* name, char* _string, long max_string_size);
 	void __cdecl read_string_utf8(char const* name, char* char_string, long max_string_size);
 	void __cdecl read_string_wchar(char const* name, wchar_t* _string, long max_string_size);
+	void __cdecl read_unit_vector(char const* name, vector3d* unit_vector, long size_in_bits);
 	void __cdecl read_vector(char const* name, vector3d* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
 
 	template<typename t_enum, long size_in_bits>
@@ -145,6 +146,8 @@ public:
 	void __cdecl write_string(char const* name, char const* _string, long max_string_size);
 	void __cdecl write_string_utf8(char const* name, utf8 const* _string, long max_string_size);
 	void __cdecl write_string_wchar(char const* name, wchar_t const* _string, long max_string_size);
+	void __cdecl write_unit_vector(char const* name, vector3d const* unit_vector, long size_in_bits);
+	void __cdecl write_vector(char const* name, vector3d const* vector, real min_value, real max_value, long step_count_size_in_bits, long size_in_bits);
 
 	template<typename t_enum, long size_in_bits>
 	void __cdecl write_enum(char const* name, t_enum value)
