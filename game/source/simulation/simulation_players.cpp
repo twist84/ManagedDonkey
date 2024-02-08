@@ -218,7 +218,16 @@ void __cdecl simulation_player_collection_clear(s_player_collection* collection)
 	INVOKE(0x004A7E50, simulation_player_collection_clear, collection);
 
 	//ASSERT(collection);
-	//#TODO: implement me
+	//
+	//csmemset(collection, 0, sizeof(s_player_collection));
+	//for (long player_index = 0; player_index < k_maximum_players; player_index++)
+	//{
+	//	s_player_collection_player* collection_player = &collection->collection_players[player_index];
+	//	collection_player->left_game = false;
+	//	collection_player->left_game_time = NONE;
+	//	//collection_player->controller_index = k_no_controller;
+	//	//collection_player->user_index = NONE;
+	//}
 }
 
 dword simulation_player_collection_get_in_game_mask(s_player_collection const* collection)
