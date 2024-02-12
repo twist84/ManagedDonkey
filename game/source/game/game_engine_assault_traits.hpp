@@ -3,6 +3,7 @@
 	enum e_assault_variant_flags
 	{
 		_assault_variant_flags_reset_bomb_on_disarm = 0,
+		_assault_variant_flags_unknown1,
 
 		k_assault_variant_flags
 	};
