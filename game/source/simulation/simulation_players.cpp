@@ -193,7 +193,7 @@ void __cdecl simulation_player_collection_build(s_player_collection* collection)
 	//	SET_BIT(collection->player_valid_mask, player_absolute_index, true);
 	//	collection_player->identifier = player->player_identifier;
 	//
-	//	if (TEST_BIT(player->flags, 1))
+	//	if (TEST_BIT(player->flags, _player_left_game_bit))
 	//	{
 	//		collection_player->left_game = true;
 	//		collection_player->left_game_time = player->left_game_time;

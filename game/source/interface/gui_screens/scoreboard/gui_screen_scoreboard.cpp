@@ -272,7 +272,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 			long network_player_index = user_interface_squad_get_player_index(&player->player_identifier);
 			if (player->configuration.host.team_index != NONE)
 			{
-				bool dead = !TEST_BIT(player->flags, 3) && player->unit_index == NONE && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
+				bool dead = !TEST_BIT(player->flags, _player_unknown_bit3) && player->unit_index == NONE && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
 
 				if (include_score)
 				{
@@ -288,7 +288,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 				}
 
 				if (include_team_score)
-					team_flags |= 1 << player->configuration.host.team_index;
+					team_flags |= FLAG(player->configuration.host.team_index);
 
 				if (network_player_index != NONE)
 				{
@@ -326,7 +326,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 				{
 					long base_color = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
 					long player_index = player_iterator_index;
-					bool left = TEST_BIT(player->flags, 1);
+					bool left = TEST_BIT(player->flags, _player_left_game_bit);
 					team_round_score = 0;
 
 					c_gui_scoreboard_data::add_player_internal(
@@ -360,10 +360,9 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 			csmemset(&player_appearance, 0, sizeof(s_player_appearance));
 			team_name.clear();
 
-			long team_mask = 1;
 			for (long team_index = 0; team_index < 8; team_index++)
 			{
-				if (game_engine_is_team_ever_active(team_index) || (team_mask & team_flags) != 0)
+				if (game_engine_is_team_ever_active(team_index) || TEST_BIT(team_flags, team_index))
 				{
 					if (include_score)
 					{
@@ -403,8 +402,6 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 						/* left                 */ false
 					);
 				}
-
-				team_mask = __ROL4__(team_mask, 1);
 			}
 		}
 	}
