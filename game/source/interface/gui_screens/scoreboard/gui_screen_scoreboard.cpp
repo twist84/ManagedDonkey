@@ -95,7 +95,7 @@ void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
 
 				long player_row_type = 0;
 				long base_color = 0;
-				long team_color = -1;
+				long team_color = NONE;
 
 				if (data->get_integer_value(element_handle, STRING_ID(gui, player_row_type), &player_row_type)
 					&& data->get_integer_value(element_handle, STRING_ID(gui, base_color), &base_color)
@@ -138,7 +138,7 @@ void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
 				real_rectangle2d current_bounds{};
 				list_item_widget->get_current_bounds(&current_bounds);
 
-				if (list_item_widget->get_element_handle() != -1)
+				if (list_item_widget->get_element_handle() != NONE)
 					y19 = (long)current_bounds.y.lower;
 
 				v18 = (long)current_bounds.y.lower;
@@ -227,9 +227,9 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 			if (user_interface_squad_is_player_valid(session_player_index))
 			{
 				s_player_configuration* player_data = user_interface_session_get_player_data(session_player_index);
-				if (player_data->host.team_index != -1)
+				if (player_data->host.team_index != NONE)
 				{
-					long player_rating = -1;
+					long player_rating = NONE;
 					e_controller_index controller_index = k_no_controller;
 					if (user_interface_session_is_local_player(session_player_index))
 						controller_index = user_interface_session_get_controller_index(session_player_index);
@@ -239,13 +239,13 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 
 					add_player_internal(
 						/* row_type             */ _player_row_type_player,
-						/* player_index         */ -1,
+						/* player_index         */ NONE,
 						/* network_player_index */ session_player_index,
 						/* appearance           */ &player_data->host.appearance,
 						/* player_name          */ player_data->host.name.get_string(),
 						/* service_tag          */ player_data->host.appearance.service_tag.get_string(),
 						/* base_color           */ base_color,
-						/* multiplayer_team     */ -1,
+						/* multiplayer_team     */ NONE,
 						/* team_game            */ false,
 						/* controller_index     */ controller_index,
 						/* voice_talking_state  */ voice_for_player,
@@ -270,9 +270,9 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 			long player_iterator_index = player_iterator.get_index();
 
 			long network_player_index = user_interface_squad_get_player_index(&player->player_identifier);
-			if (player->configuration.host.team_index != -1)
+			if (player->configuration.host.team_index != NONE)
 			{
-				bool dead = !TEST_BIT(player->flags, 3) && player->unit_index == -1 && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
+				bool dead = !TEST_BIT(player->flags, 3) && player->unit_index == NONE && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
 
 				if (include_score)
 				{
@@ -290,9 +290,9 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 				if (include_team_score)
 					team_flags |= 1 << player->configuration.host.team_index;
 
-				if (network_player_index != -1)
+				if (network_player_index != NONE)
 				{
-					long player_rating = -1;
+					long player_rating = NONE;
 
 					e_controller_index controller_index = k_no_controller;
 					if (user_interface_session_is_local_player(network_player_index))
@@ -303,7 +303,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 
 					add_player_internal(
 						/* row_type             */ _player_row_type_player,
-						/* player_index         */ -1,
+						/* player_index         */ NONE,
 						/* network_player_index */ network_player_index,
 						/* appearance           */ &player->configuration.host.appearance,
 						/* player_name          */ player->configuration.host.name.get_string(),
@@ -332,7 +332,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 					c_gui_scoreboard_data::add_player_internal(
 						/* row_type             */ _player_row_type_player,
 						/* player_index         */ player_index,
-						/* network_player_index */ -1,
+						/* network_player_index */ NONE,
 						/* appearance           */ &player->configuration.host.appearance,
 						/* player_name          */ player->configuration.host.name.get_string(),
 						/* service_tag          */ player->configuration.host.appearance.service_tag.get_string(),
@@ -341,7 +341,7 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 						/* team_game            */ team_game,
 						/* controller_index     */ k_no_controller,
 						/* voice_talking_state  */ 0,
-						/* connectivity_rating  */ -1,
+						/* connectivity_rating  */ NONE,
 						/* place                */ place.get_string(),
 						/* score                */ score.get_string(),
 						/* round_score          */ round_score.get_string(),
@@ -385,17 +385,17 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 
 					add_player_internal(
 						/* row_type             */ _player_row_type_team_bar,
-						/* player_index         */ -1,
-						/* network_player_index */ -1,
+						/* player_index         */ NONE,
+						/* network_player_index */ NONE,
 						/* appearance           */ &player_appearance,
 						/* player_name          */ team_name.get_string(),
 						/* service_tag          */ L" ",
-						/* base_color           */ -1,
+						/* base_color           */ NONE,
 						/* multiplayer_team     */ team_index,
 						/* team_game            */ true,
 						/* controller_index     */ k_no_controller,
 						/* voice_talking_state  */ 0,
-						/* connectivity_rating  */ -1,
+						/* connectivity_rating  */ NONE,
 						/* place                */ place.get_string(),
 						/* score                */ score.get_string(),
 						/* round_score          */ round_score.get_string(),
