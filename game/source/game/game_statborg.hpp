@@ -66,7 +66,7 @@ struct c_game_statborg
 	word __unknown2;
 	c_static_array<s_game_statborg_player, 16> player;
 	c_static_array<s_game_statborg_team, 8>  team;
-	bool stats_paused;
+	bool stats_started;
 	c_static_flags<64> update_mask;
 	bool finalized;
 };
