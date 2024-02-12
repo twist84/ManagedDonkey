@@ -91,6 +91,64 @@ void players_debug_render()
 	}
 }
 
+//.text:00536AC0
+//.text:00536B80
+//.text:00536EA0 ; public: __cdecl player_datum::player_datum(void)
+//.text:00536FD0
+//.text:00537210
+//.text:00537430
+//.text:005375B0 ; long __cdecl find_best_starting_location_index(long, bool, bool)
+//.text:00537860 ; void __cdecl map_editor_process_player_control(long, struct s_player_action *)
+//.text:005379E0 ; void __cdecl player_action_clear(struct player_action *)
+//.text:00537A50 ; void __cdecl player_action_context_clear(struct s_player_action_context *)
+//.text:00537A80
+//.text:00537AB0 ; bool __cdecl player_action_valid(struct player_action const *)
+//.text:00537C90
+//.text:00537D10
+//.text:00537DB0 ; void __cdecl player_active_camo_screen_effect(long)
+//.text:00537EA0 ; bool __cdecl player_active_camouflage_on(void)
+//.text:00537F20
+//.text:00537F90 ; void __cdecl player_appearance_initialize(struct s_player_appearance *)
+//.text:00537FB0 ; bool __cdecl player_appearance_valid(struct s_player_appearance const *)
+//.text:00537FE0 ; void __cdecl player_approve_pickup_weapon(long, long, struct unit_weapon_pickup_result *)
+//.text:005381F0 ; void __cdecl player_build_aiming_vector_from_facing(long, float, float, union vector3d *)
+//.text:005384C0
+//.text:00538510 ; bool __cdecl player_can_assassinate_object(long, long)
+//.text:005385F0 ; bool __cdecl player_can_fancy_assassinate_object(long, long)
+//.text:005386D0
+//.text:00538730 ; void __cdecl player_clear_assassination_state(long)
+//.text:005387A0 ; void __cdecl player_configuration_initialize(struct s_player_configuration *)
+//.text:005387F0 ; bool __cdecl player_consider_biped_interaction(long, long, struct s_player_interaction *)
+//.text:005388D0 ; bool __cdecl player_consider_device_interaction(long, long, struct s_player_interaction *)
+//.text:005389E0 ; bool __cdecl player_consider_unit_seat_interaction(long, long, struct s_player_interaction *)
+//.text:00538B10 ; bool __cdecl player_consider_vehicle_interaction(long, long, struct s_player_interaction *)
+//.text:00538D00 ; bool __cdecl player_consider_weapon_interaction(long, long, struct s_player_interaction *)
+//.text:00538ED0 ; void __cdecl player_copy_object_appearance(long, long)
+//.text:00538FD0
+//.text:00539050 ; void __cdecl player_delete(long)
+//.text:005390B0 ; void __cdecl player_died(long)
+//.text:005391D0
+//.text:00539210
+//.text:00539220
+//.text:00539240 ; bool __cdecl player_evaluate_interaction(long, struct s_player_interaction const *, struct s_player_interaction *)
+//.text:005392F0 ; float __cdecl player_evaluate_interaction_compute_weight(long, long)
+//.text:005394A0 ; void __cdecl player_examine_nearby_item(long, long)
+//.text:00539900 ; void __cdecl player_examine_nearby_objects(long)
+//.text:00539A30 ; bool __cdecl player_fancy_assassinate_object(long, long)
+//.text:00539B20 ; void __cdecl player_find_action_context(long, struct s_player_action_context *)
+//.text:00539E30 ; bool __cdecl player_find_best_spawn_location(long, union real_point3d *, float *, float *, bool, bool)
+//.text:00539F70 ; void __cdecl player_find_player_character_unit_and_variant_info(long, long *, long *)
+//.text:0053A010 ; bool __cdecl player_find_zone_set_switches(long, long *)
+//.text:0053A1E0 ; bool __cdecl player_flashlight_on(void)
+//.text:0053A290 ; void __cdecl player_force_spawn(long)
+//.text:0053A330 ; void __cdecl player_forge_cleanup_on_death(long)
+//.text:0053A3F0
+//.text:0053A450
+//.text:0053A5A0
+//.text:0053A6F0
+//.text:0053A770 ; enum e_player_character_type __cdecl player_get_character_type(long)
+//.text:0053A7D0
+//.text:0053A940
 //.text:0053A9A0 ; long __cdecl player_get_unit_index_even_if_dead(long)
 //.text:0053A9E0 ; bool __cdecl player_try_to_pick_up_equipment(long, struct s_player_interaction const *)
 //.text:0053AD10 ; bool __cdecl player_handle_interaction_press(long, struct s_player_interaction const *)
