@@ -227,7 +227,7 @@ template<long const k_max_file_count>
 struct c_cache_file_tag_name_collection
 {
 	dword offsets[k_max_file_count];
-	char buffer[k_max_file_count * 256];
+	char buffer[k_max_file_count * k_tag_long_string_length];
 	char const* storage[k_max_file_count];
 };
 static_assert(sizeof(c_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>) == 0xF1B300);
