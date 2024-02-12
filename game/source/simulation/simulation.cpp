@@ -1,11 +1,14 @@
 #include "simulation/simulation.hpp"
 
+#include "cache/cache_file_tag_resource_runtime.hpp"
 #include "game/game.hpp"
 #include "game/game_engine.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
 #include "networking/delivery/network_channel.hpp"
 #include "networking/network_memory.hpp"
+#include "profiler/profiler.hpp"
 #include "simulation/game_interface/simulation_game_interface.hpp"
 #include "simulation/simulation_gamestate_entities.hpp"
 #include "simulation/simulation_type_collection.hpp"
@@ -56,6 +59,75 @@ void __cdecl simulation_apply_after_game(struct simulation_update const* update)
 void __cdecl simulation_apply_before_game(struct simulation_update const* update)
 {
 	INVOKE(0x00440E50, simulation_apply_before_game, update);
+
+	//PROFILER(simulation_apply_before_game)
+	//{
+	//	PROFILER(simulation)
+	//	{
+	//		TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	//
+	//		ASSERT(update);
+	//		ASSERT(simulation_globals.initialized);
+	//		ASSERT(simulation_globals.world);
+	//		ASSERT(game_in_progress());
+	//
+	//		for (long actor_index = 0; actor_index < k_maximum_players; actor_index++)
+	//		{
+	//			if (TEST_BIT(update->valid_actor_mask, actor_index))
+	//			{
+	//				if (object_try_and_get_and_verify_type(update->actor_unit_indices[actor_index], _object_mask_unit))
+	//					unit_control(update->actor_unit_indices[actor_index], &update->actor_control[actor_index]);
+	//			}
+	//		}
+	//
+	//		if (update->machine_update_exists)
+	//			players_set_machines(update->machine_update.machine_valid_mask, update->machine_update.machine_identifiers);
+	//
+	//		c_data_iterator<player_datum> player_iterator;
+	//		player_iterator.begin(*player_data);
+	//		while (player_iterator.next())
+	//		{
+	//			if (player_iterator.get_datum()->unit_index != NONE)
+	//			{
+	//				long player_index = player_iterator.get_index();
+	//				long player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index);
+	//				if ((update->valid_player_prediction_mask & (1 << player_index)) != 0)
+	//					simulation_game_process_player_prediction(player_index, &update->player_prediction[player_absolute_index]);
+	//			}
+	//		}
+	//
+	//		simulation_globals.world->apply_simulation_queue(&update->bookkeeping_simulation_queue);
+	//
+	//		long resource_lock = 0;
+	//		if (update->game_simulation_queue.queued_count() <= 0)
+	//		{
+	//			ASSERT(update->game_simulation_queue.queued_size_in_bytes() == 0);
+	//		}
+	//		else
+	//		{
+	//			ASSERT(update->game_simulation_queue.queued_size_in_bytes() > 0);
+	//			ASSERT(update->flags.test(_simulation_update_simulation_in_progress_bit) || update->flags.test(_simulation_update_game_simulation_queue_requires_application_bit));
+	//
+	//			if (!update->high_level_flags.test(_simulation_update_simulation_in_progress_bit) && !game_is_playback())
+	//				resource_lock = tag_resources_lock_game();
+	//
+	//			simulation_globals.world->apply_simulation_queue(&update->game_simulation_queue);
+	//
+	//			if (!update->high_level_flags.test(_simulation_update_simulation_in_progress_bit))
+	//			{
+	//				objects_purge_deleted_objects();
+	//				if (!game_is_playback())
+	//					tag_resources_unlock_game(resource_lock);
+	//			}
+	//		}
+	//
+	//		if (update->high_level_flags.test(_simulation_update_high_level_unknown_bit1) && !simulation_globals.world->is_authority())
+	//		{
+	//			ASSERT(!game_is_distributed());
+	//			simulation_globals.world->gamestate_flush();
+	//		}
+	//	}
+	//}
 }
 
 bool __cdecl simulation_boot_machine(s_machine_identifier const* machine, e_network_session_boot_reason boot_reason)
