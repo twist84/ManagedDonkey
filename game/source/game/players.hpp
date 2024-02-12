@@ -8,6 +8,11 @@
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
+enum
+{
+	k_maximum_machines = 17
+};
+
 struct s_machine_identifier
 {
 	long parts[4];
@@ -164,7 +169,7 @@ static_assert(sizeof(s_player_configuration) == 0x1620);
 struct game_machine_options
 {
 	dword valid_machine_mask;
-	s_machine_identifier machines[17];
+	s_machine_identifier machines[k_maximum_machines];
 
 	bool local_machine_exists;
 	s_machine_identifier local_machine;
@@ -274,6 +279,17 @@ struct s_player_shot_info
 	char __data6[0x6];
 };
 static_assert(sizeof(s_player_shot_info) == 0xC);
+
+enum e_player_flags
+{
+	_player_active_in_game_bit = 0,
+	_player_left_game_bit,
+	_player_unknown_bit2,
+	_player_unknown_bit3,
+	_player_unknown_bit4,
+	_player_unknown_bit5,
+	_player_unknown_bit6
+};
 
 #pragma pack(push, 4)
 struct player_datum : s_datum_header
@@ -579,7 +595,7 @@ struct s_players_global_data
 	byte __data9[3];
 
 	dword machine_valid_mask;
-	c_static_array<s_machine_identifier, 17> machine_identifiers;
+	c_static_array<s_machine_identifier, k_maximum_machines> machine_identifiers;
 
 	bool local_machine_exists;
 	s_machine_identifier local_machine_identifier;
@@ -712,11 +728,11 @@ extern string_id g_player_desired_mode_override;
 extern void player_override_desired_mode(long desired_mode_override);
 extern void players_debug_render();
 
+extern long __cdecl player_index_from_unit_index(long unit_index);
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
 extern long __cdecl players_first_active_user();
-extern long __cdecl player_index_from_unit_index(long unit_index);
 extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
 extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player);
 extern long multiplayer_universal_data_get_absolute_equipment_block_index(char const* name);
