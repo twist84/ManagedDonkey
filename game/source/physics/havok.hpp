@@ -4,8 +4,8 @@
 
 struct s_havok_gamestate
 {
-	dword __unknown0;
-	dword __unknown4;
+	long last_state_reset_time;
+	long last_garbage_collection_reset_time;
 };
 static_assert(sizeof(s_havok_gamestate) == 0x8);
 
