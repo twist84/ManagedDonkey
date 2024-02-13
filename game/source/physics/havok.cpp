@@ -11,6 +11,7 @@
 #include "objects/objects.hpp"
 
 REFERENCE_DECLARE(0x018A2324, s_havok_constants, g_havok_constants);
+REFERENCE_DECLARE(0x018A2370, s_havok_globals, g_havok_globals);
 REFERENCE_DECLARE(0x04B1DA80, bool, g_havok_memory_always_system);
 
 HOOK_DECLARE(0x005C5520, havok_display_stats_printf);

@@ -2,6 +2,69 @@
 
 #include "cseries/cseries.hpp"
 
+// Havok Types
+
+struct hkRigidBody;
+struct hkMemory;
+
+struct hkThreadMemory
+{
+	virtual void* alignedAllocate(int, int, enum HK_MEMORY_CLASS);
+	virtual void alignedDeallocate(void*);
+	virtual void setStackArea(void*, int);
+	virtual void releaseCachedMemory(void);
+	virtual void destructor(unsigned int);
+	virtual void* onStackOverflow(int);
+	virtual void onStackUnderflow(void*);
+
+	struct Stack
+	{
+		int __unknown0;
+		int __unknown4;
+		int __unknown8;
+		int __unknownC;
+	};
+	static_assert(sizeof(Stack) == 0x10);
+
+	struct FreeList
+	{
+		void* __unknown0;
+		int __unknown4;
+	};
+	static_assert(sizeof(FreeList) == 0x8);
+
+	byte __data4[0xC];
+	hkMemory* m_memoryAllocator;
+	int m_referenceCount;
+	byte __data18[0x8];
+	Stack m_stack;
+	byte __data30[0x4];
+	int __unknown34;
+	FreeList m_freeList[17];
+	int __unknownC0[17];
+	char __unknown104[512 + 1];
+	int __data[10];
+};
+static_assert(sizeof(hkThreadMemory) == 0x330);
+
+struct hkBool
+{
+	int m_value;
+};
+static_assert(sizeof(hkBool) == 0x4);
+
+struct hkMonitorStream
+{
+	char* __unknown0;
+	char* __unknown4;
+	char* __unknown8;
+	char* __unknownC;
+	hkBool __unknown10;
+};
+static_assert(sizeof(hkMonitorStream) == 0x14);
+
+// Blam Types
+
 struct s_havok_gamestate
 {
 	long last_state_reset_time;
@@ -40,7 +103,32 @@ struct s_havok_constants
 };
 static_assert(sizeof(s_havok_constants) == 0x38);
 
+struct s_havok_globals
+{
+	c_static_array<hkRigidBody*, 16> __unknown0;
+	long last_find_inital_contact_points_player_absolute_index;
+	long rigid_bodies_connected_to_world_count;
+	long collision_damage_is_disable_time;
+	long can_modify_state;
+	bool rigid_bodies_active;
+	bool environment_active;
+	bool resetting_havok_state;
+	bool garbage_collection_locked;
+	bool inside_simulation_step;
+	bool broadphase_attachment_disabled;
+
+	hkThreadMemory thread_memory;
+	hkThreadMemory render_thread_memory;
+	hkMonitorStream render_thread_monitor_stream;
+	char __pad6CC[4];
+	byte render_thread_memory_stack_area[65536];
+	c_static_array<hkMonitorStream, 1> thread_monitor_stream_buffer;
+	long thread_monitor_stream_buffer_count;
+};
+static_assert(sizeof(s_havok_globals) == 0x106E8);
+
 extern s_havok_constants& g_havok_constants;
+extern s_havok_globals& g_havok_globals;
 extern bool& g_havok_memory_always_system;
 
 extern void __cdecl havok_can_modify_state_allow();

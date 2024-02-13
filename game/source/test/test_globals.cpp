@@ -32,6 +32,7 @@
 #include "networking/online/online_lsp.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/tools/network_blf.hpp"
+#include "physics/havok.hpp"
 #include "physics/havok_component.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "render/render_objects_static_lighting.hpp"
@@ -129,6 +130,7 @@ void __cdecl test_main_loop_body_begin()
 		g_global_preferences;
 		g_gui_error_manager;
 		g_havok_component_data;
+		g_havok_globals;
 		g_hue_saturation_control_default;
 		g_hue_saturation_control_exposed_to_hs;
 		g_level_globals;
