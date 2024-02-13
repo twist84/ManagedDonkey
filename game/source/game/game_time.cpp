@@ -345,10 +345,10 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	
-	long game_ticks_target = 0;
+	dword game_ticks_target = 0;
 	bool result = false;
-	long game_ticks_limit = 0;
-	long game_ticks_elapsed = 0;
+	dword game_ticks_limit = 0;
+	dword game_ticks_elapsed = 0;
 	bool discontinuity = false;
 	real elapsed_game_dt = 0.0f;
 	real real_desired_ticks = 0.0f;
@@ -403,7 +403,7 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 		if (!match_remote_time && !v36)
 		{
 			real tick_rate = (2.0f * CLAMP(game_time_get_speed(), 1.0f, 5.0f));
-			game_ticks_limit = (long)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f));
+			game_ticks_limit = (dword)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f));
 		}
 	
 		if (thread_is_being_traced(k_thread_main))
