@@ -166,6 +166,7 @@ POPD
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
     <ClCompile Include="source\simulation\simulation_players.cpp" />
     <ClCompile Include="source\ai\ai.cpp" />
     <ClCompile Include="source\ai\ai_debug.cpp" />
@@ -868,6 +869,7 @@ POPD
     <ClInclude Include="source\game\game_options.hpp" />
     <ClInclude Include="source\game\game_progression.hpp" />
     <ClInclude Include="source\networking\online\online_achievements.hpp" />
+    <ClInclude Include="source\physics\character_physics_mode_ground.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\saved_games\game_state.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
