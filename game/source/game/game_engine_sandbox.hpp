@@ -74,3 +74,5 @@ static_assert(sizeof(s_sandbox_globals) == 0x748);
 
 extern c_game_engine_sandbox_variant*& sandbox_variant;
 
+extern bool __cdecl game_engine_object_is_fixed(long object_index);
+

@@ -122,3 +122,8 @@ void c_game_engine_sandbox_variant::set_player_traits(c_player_traits const* tra
 	m_player_traits.set(traits, force);
 }
 
+bool __cdecl game_engine_object_is_fixed(long object_index)
+{
+	return INVOKE(0x0059A7B0, game_engine_object_is_fixed, object_index);
+}
+
