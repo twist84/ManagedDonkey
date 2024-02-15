@@ -168,6 +168,21 @@ struct s_player_action_context
 };
 static_assert(sizeof(s_player_action_context) == 0xC);
 
+struct s_player_control_input
+{
+	real_point2d throttle;
+	real primary_trigger;
+	real secondary_trigger;
+	euler_angles2d desired_angles;
+	dword_flags control_flags;
+	dword_flags __flags1C;
+	word_flags action_flags;
+	bool controller_look_inverted;
+	real __unknown24;
+	s_aim_assist_targeting_result targeting;
+};
+static_assert(sizeof(s_player_control_input) == 0x50);
+
 struct s_player_control_state
 {
 	dword control_flags;
