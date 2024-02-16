@@ -101,6 +101,9 @@ extern c_online_lsp_manager& g_online_lsp_manager;
 
 extern char const* const k_service_type_descriptions[k_online_lsp_service_type_count];
 
+extern void online_lsp_get_info(long* ip_address, word* port);
+extern void online_lsp_set_info(char const* host, char const* port);
+
 extern bool __cdecl online_lsp_activate_and_retrieve_server(int server_index, long* ip_address_out);
 extern bool __cdecl online_lsp_begin_search();
 extern void __cdecl online_lsp_deactivate();

@@ -1,8 +1,10 @@
 #include "networking/online/online_lsp.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
+#include "networking/transport/transport_address.hpp"
 
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <winsock2.h> // inet_addr, htons
@@ -30,15 +32,28 @@ char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
 	/* ofr */ "ofr"  // offers?
 };
 
-#if defined(LSP_SERVER_ADDRESS_SUNRISE)
-long const lsp_server_ip = inet_addr(LSP_SERVER_ADDRESS_SUNRISE);
-#elif defined(LSP_SERVER_ADDRESS_REMOTE)
-long const lsp_server_ip = inet_addr(LSP_SERVER_ADDRESS_REMOTE);
-#else
-long const lsp_server_ip = inet_addr("127.0.0.1");
-#endif
+long lsp_server_ip = inet_addr("127.0.0.1");
+word lsp_server_port = htons(8000);
 
-unsigned short const lsp_server_port = htons(8000);
+void online_lsp_get_info(long* ip_address, word* port)
+{
+	if (ip_address)
+		*ip_address = ntohl(lsp_server_ip);
+
+	if (port)
+		*port = ntohs(lsp_server_port);
+}
+
+void online_lsp_set_info(char const* host, char const* port)
+{
+	transport_address address{};
+
+	if (host) transport_address_from_host(host, address);
+	if (port) address.port = htons(static_cast<word>(atol(port)));
+
+	if (host && *host) lsp_server_ip = address.ipv4_address;
+	if (port && *port) lsp_server_port = address.port;
+}
 
 //.text:004313C0 ; c_online_lsp_manager::c_online_lsp_manager
 

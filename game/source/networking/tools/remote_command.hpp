@@ -157,6 +157,8 @@ COMMAND_CALLBACK_DECLARE(crash);
 COMMAND_CALLBACK_DECLARE(status);
 COMMAND_CALLBACK_DECLARE(player_force_mode);
 COMMAND_CALLBACK_DECLARE(test_download_storage_file);
+COMMAND_CALLBACK_DECLARE(lsp_info_get);
+COMMAND_CALLBACK_DECLARE(lsp_info_set);
 
 //-----------------------------------------------------------------------------
 
@@ -245,6 +247,9 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(player_force_mode, 1, "<string_id>", "force your will upon the player\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(test_download_storage_file, 2, "<string> <string>", "<url> <filename> downloads a file from LSP to the client\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(lsp_info_get, 0, "", "gets the LSP server info\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(lsp_info_set, 1, "<string>", "<ip:port> sets the LSP server address and port\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

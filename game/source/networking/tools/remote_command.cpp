@@ -32,6 +32,7 @@
 #include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
 #include "networking/online/online.hpp"
+#include "networking/online/online_lsp.hpp"
 #include "networking/session/network_managed_session.hpp"
 #include "networking/tools/network_debug_dump.hpp"
 #include "networking/transport/transport.hpp"
@@ -1512,6 +1513,38 @@ callback_result_t test_download_storage_file_callback(void const* userdata, long
 	char const* url = tokens[1]->get_string();
 	char const* filename = tokens[2]->get_string();
 	test_download_storage_file(url, filename);
+
+	return result;
+}
+
+callback_result_t lsp_info_get_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	union
+	{
+		long ip_address = 0;
+		byte ina[4];
+	};
+
+	word port = 0;
+	online_lsp_get_info(&ip_address, &port);
+	console_printf("%hd.%hd.%hd.%hd:%hd", ina[3], ina[2], ina[1], ina[0], port);
+
+	return result;
+}
+
+callback_result_t lsp_info_set_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	token_t const& str = tokens[1];
+	c_static_string<256> parts[2];
+
+	split_host_string_into_parts(str, parts);
+	char const* host = parts[0].get_string();
+	char const* port = parts[1].get_string();
+	online_lsp_set_info(host, port);
 
 	return result;
 }
