@@ -1529,7 +1529,7 @@ callback_result_t lsp_info_get_callback(void const* userdata, long token_count, 
 
 	word port = 0;
 	online_lsp_get_info(&ip_address, &port);
-	console_printf("%hd.%hd.%hd.%hd:%hd", ina[3], ina[2], ina[1], ina[0], port);
+	console_printf_color(global_real_argb_cyan, "%hd.%hd.%hd.%hd:%hd", ina[3], ina[2], ina[1], ina[0], port);
 
 	return result;
 }

@@ -32,27 +32,24 @@ char const* const k_service_type_descriptions[k_online_lsp_service_type_count]
 	/* ofr */ "ofr"  // offers?
 };
 
-long lsp_server_ip = inet_addr("127.0.0.1");
-word lsp_server_port = htons(8000);
+transport_address lsp_server_address(inet_addr("127.0.0.1"), htons(8000), sizeof(dword));
 
 void online_lsp_get_info(long* ip_address, word* port)
 {
 	if (ip_address)
-		*ip_address = ntohl(lsp_server_ip);
+		*ip_address = ntohl(lsp_server_address.ipv4_address);
 
 	if (port)
-		*port = ntohs(lsp_server_port);
+		*port = ntohs(lsp_server_address.port);
 }
 
 void online_lsp_set_info(char const* host, char const* port)
 {
 	transport_address address{};
+	transport_address_from_host(host, address);
 
-	if (host) transport_address_from_host(host, address);
-	if (port) address.port = htons(static_cast<word>(atol(port)));
-
-	if (host && *host) lsp_server_ip = address.ipv4_address;
-	if (port && *port) lsp_server_port = address.port;
+	if (host) lsp_server_address.ipv4_address = htonl(address.ipv4_address);
+	if (port) lsp_server_address.port = htons(static_cast<word>(atol(port)));
 }
 
 //.text:004313C0 ; c_online_lsp_manager::c_online_lsp_manager
@@ -61,8 +58,8 @@ void online_lsp_set_info(char const* host, char const* port)
 long __thiscall c_online_lsp_manager::acquire_server(e_online_lsp_service_type service_type, long* out_connection_token, long* ip_address_out, word* port_out, char const* service_description)
 {
 	*out_connection_token = 1;
-	*ip_address_out = lsp_server_ip;
-	*port_out = lsp_server_port;
+	*ip_address_out = lsp_server_address.ipv4_address;
+	*port_out = lsp_server_address.port;
 	return 1;
 }
 
