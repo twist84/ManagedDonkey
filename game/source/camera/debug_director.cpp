@@ -50,6 +50,6 @@ void __thiscall c_debug_director::_update(real a1)
 
 bool c_debug_director::finished_cycle()
 {
-	return m_camera_mode_index == 1;
+	return m_camera_mode_index == NUMBEROF(k_debug_camera_modes) - 1;
 }
 

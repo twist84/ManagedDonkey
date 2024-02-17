@@ -2,7 +2,8 @@
 
 #include "camera/camera.hpp"
 
-struct c_dead_camera : public c_camera
+struct c_dead_camera :
+	public c_camera
 {
 	real_point3d m_position;
 	euler_angles2d m_facing;
@@ -23,3 +24,4 @@ struct c_dead_camera : public c_camera
 	}
 };
 static_assert(sizeof(c_dead_camera) == 0x4C);
+

@@ -20,6 +20,116 @@
 
 HOOK_DECLARE(0x00591F80, director_render);
 
+//.text:005914B0 ; c_director::c_director(e_output_user_index)
+//.text:00591540 ; c_director::c_director()
+//.text:00591550 ; c_null_camera::c_null_camera()
+//.text:005915A0 ; byte(&__cdecl c_static_array<byte[352], 4>::operator[]<e_output_user_index>(e_output_user_index))[352]
+//.text:005915C0 ; s_director_info& __cdecl c_static_array<s_director_info, 4>::operator[]<e_output_user_index>(e_output_user_index)
+//.text:005916B0 ; e_director_mode __cdecl choose_appropriate_director(e_output_user_index)
+//.text:005916F0 ; long __cdecl dead_or_alive_unit_from_output_user(e_output_user_index)
+//.text:005917B0 ; void __cdecl director_dispose()
+//.text:005917C0 ; void __cdecl director_dispose_from_old_map()
+//.text:005917D0 ; void __cdecl director_fix_vtables_for_saved_game()
+//.text:005917E0 ; e_director_perspective __cdecl director_game_desired_perspective(long, e_seat_state*)
+//.text:00591980 ; void __cdecl director_game_tick()
+//.text:00591990 ; c_director* __cdecl director_get(e_output_user_index)
+//.text:005919C0 ; bool __cdecl director_get_camera_third_person(e_output_user_index)
+//.text:005919F0 ; s_cluster_reference __cdecl director_get_deterministic_scripted_camera_cluster_reference()
+//.text:00591A20 ; real __cdecl director_get_fade_timer()
+//.text:00591A40 ; e_director_perspective __cdecl director_get_perspective(e_output_user_index)
+//.text:00591A70 ; void __cdecl director_get_position(e_output_user_index, real_point3d*)
+//.text:00591AE0 ; void __cdecl director_handle_deleted_object(long)
+//.text:00591B30 ; void __cdecl director_handle_deleted_player(long)
+//.text:00591B80 ; bool __cdecl director_in_scripted_camera()
+//.text:00591BA0 ; bool __cdecl director_in_unit_perspective(e_output_user_index)
+//.text:00591BE0 ; bool __cdecl director_inhibited_facing(e_output_user_index)
+//.text:00591C10 ; bool __cdecl director_inhibited_input(e_output_user_index)
+//.text:00591C40 ; void __cdecl director_initialize()
+//.text:00591CE0 ; void __cdecl director_initialize_for_new_map()
+//.text:00591DA0 ; void __cdecl director_initialize_for_saved_game(long)
+//.text:00591F20 ; void __cdecl director_notify_map_reset(void)
+//.text:00591F30 ; c_game_team director_player_get_team_index(long)
+//.text:00591F80 ; void __cdecl director_render()
+//.text:00592210 ; void __cdecl director_reset()
+//.text:005922F0 ; void __cdecl director_reset_user_game_camera(e_output_user_index)
+//.text:00592320 ; void __cdecl director_script_camera(bool)
+//.text:005923C0 ; void __cdecl director_set_camera_mode(e_output_user_index, e_camera_mode)
+//.text:00592400 ; void __cdecl director_set_camera_third_person(e_output_user_index, bool)
+//.text:00592440 ; void __cdecl director_set_fade_timer(real)
+//.text:00592480 ; void __cdecl director_set_mode(e_output_user_index, e_director_mode)
+//.text:00592620 ; void __cdecl director_setup_flying_camera_at_scenario_point(e_output_user_index, long)
+//.text:005926C0 ; void __cdecl director_update(real)
+//.text:00592780 ; void __cdecl c_camera::enable_movement(bool)
+//.text:00592790 ; void __cdecl c_camera::enable_orientation(bool)
+//.text:005927A0 ; void __cdecl c_camera::enable_roll(bool)
+//.text:005927B0 ; bool __cdecl c_director::force_set_camera_mode(e_camera_mode, real)
+//.text:00592830 ; c_camera* __cdecl c_director::get_camera()
+//.text:00592840 ; c_camera const* __cdecl c_director::get_camera() const
+//.text:00592850 ; s_observer_command const* __cdecl c_director::get_last_observer_command() const
+//.text:00592860 ; e_director_perspective __cdecl c_director::get_perspective() const
+//.text:005928B0 ; e_director_perspective __cdecl c_null_camera::get_perspective() const
+//.text:005928C0 ; void __cdecl c_director::get_position(real_point3d*)
+//.text:00592920 ; 
+//.text:00592930 ; 
+//.text:00592940 ; e_camera_mode __cdecl c_null_camera::get_type() const
+//.text:00592950 ; e_output_user_index __cdecl c_director::get_output_user_index() const
+//.text:00592960 ; long __cdecl c_director::get_watched_player() const
+//.text:00592970 ; void __cdecl c_director::handle_deleted_object(long)
+//.text:00592980 ; void __cdecl c_director::handle_deleted_player(long)
+//.text:005929B0 ; void __cdecl hs_director_set_camera_mode(long, long)
+//.text:005929F0 ; void __cdecl hs_director_set_camera_target(long, long)
+//.text:00592A20 ; bool __cdecl c_director::in_free_camera_mode() const
+//.text:00592A60 ; bool __cdecl c_director::inhibits_facing() const
+//.text:00592A70 ; bool __cdecl c_director::inhibits_input() const
+//.text:00592A80 ; long __cdecl c_director::player_get_next_player_with_a_unit(long, long, long, long, bool, bool, bool, long*)
+//.text:00592C10 ; 
+//.text:00592C80 ; void __cdecl c_director::player_switch_gui_button_pressed()
+//.text:00592CC0 ; 
+//.text:00592D80 ; void __cdecl c_director::player_switch_gui_create_or_update()
+//.text:00592D90 ; bool __cdecl c_director::player_switch_gui_destroy()
+//.text:00592DD0 ; bool __cdecl c_director::player_switch_gui_set_visible(e_output_user_index)
+//.text:00592E30 ; 
+//.text:00592F90 ; bool __cdecl c_director::player_switch_update()
+//.text:005931CC ; 
+//.text:005931F0 ; bool __cdecl c_director::set_camera_mode(e_camera_mode, real)
+//.text:00593210 ; bool __cdecl c_director::set_camera_mode_internal(e_camera_mode, real, bool)
+//.text:005934A0 ; void __cdecl c_camera::set_forward(vector3d const*)
+//.text:005934B0 ; void __cdecl c_camera::set_position(real_point3d const*)
+//.text:005934C0 ; void __cdecl c_camera::set_roll(real)
+//.text:005934D0 ; void __cdecl c_director::set_watched_player(long)
+//.text:00593520 ; bool __cdecl c_director::should_draw_hud() const
+//.text:00593530 ; bool __cdecl c_director::should_draw_hud_saved_film() const
+//.text:00593540 ; void __cdecl c_director::update(real)
+//.text:00593770 ; void __cdecl c_null_camera::update(long, real, s_observer_command*)
+//.text:00593780 ; void __cdecl c_director::update_perspective()
+//.text:005937F0 ; void __cdecl update_vtables()
+
+//.text:007215C0 ; c_game_director::c_game_director(e_output_user_index)
+//.text:007215F0 ; c_game_director::c_game_director()
+//.text:00721610 ; e_director_perspective __cdecl director_game_camera_deterministic(long, real_point3d*, vector3d*)
+//.text:00721660 ; bool __cdecl c_game_director::dead_camera_should_switch_to_orbiting(long, long)
+//.text:00721910 ; e_director_mode __cdecl c_game_director::get_type() const
+//.text:00721920 ; bool __cdecl c_game_director::inhibits_facing() const
+//.text:00721970 ; bool __cdecl c_game_director::inhibits_input() const
+//.text:00721980 ; bool __cdecl c_game_director::should_draw_hud() const
+//.text:00721990 ; bool __cdecl c_game_director::should_draw_hud_saved_film() const
+//.text:007219A0 ; void __cdecl c_game_director::update(real)
+
+//.text:00725A80 ; c_camera::c_camera()
+//.text:00725AA0 ; bool __cdecl camera_input_inhibited(e_controller_index)
+//.text:00725B90 ; 
+//.text:00725BA0 ; long __cdecl c_camera::get_target() const
+//.text:00725BB0 ; void __cdecl c_camera::handle_deleted_object(long)
+//.text:00725BD0 ; void __cdecl c_camera::handle_deleted_player(long)
+//.text:00725BE0 ; void __cdecl c_camera::post_update(s_observer_command*)
+//.text:00725C10 ; void __cdecl c_camera::pre_update()
+//.text:00725C20 ; void __cdecl c_flags_no_init<c_camera::e_base_camera_flags, long, 1>::set(c_camera::e_base_camera_flags, bool)
+//.text:00725C50 ; void __cdecl c_camera::set_next_move_instantly()
+//.text:00725C60 ; void __cdecl c_camera::set_target(long)
+//.text:00725C70 ; bool __cdecl c_flags_no_init<c_camera::e_base_camera_flags, long, 1>::test(c_camera::e_base_camera_flags) const
+//.text:00725C90 ; void camera_globals_initialize_from_tags()
+//.text:007260D0 ; c_debug_director::c_debug_director(long)
+
 long __cdecl dead_or_alive_unit_from_user(long user_index)
 {
 	return INVOKE(0x005916F0, dead_or_alive_unit_from_user, user_index);
@@ -482,5 +592,4 @@ void __cdecl director_set_camera_mode(long user_index, e_camera_mode camera_mode
 {
 	director_get(user_index)->set_camera_mode(camera_mode, 0.0f);
 }
-
 

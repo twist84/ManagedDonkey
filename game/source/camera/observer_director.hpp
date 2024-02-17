@@ -2,7 +2,8 @@
 
 #include "camera/director.hpp"
 
-struct c_observer_director : public c_director
+struct c_observer_director :
+	public c_director
 {
 	virtual void select_fallback_target();
 
@@ -20,3 +21,4 @@ struct c_observer_director : public c_director
 	}
 };
 static_assert(sizeof(c_observer_director) == 0x158);
+

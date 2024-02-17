@@ -39,5 +39,6 @@ e_camera_mode camera_mode_from_string(const char* str)
 void c_camera::set_next_move_instantly()
 {
 	__unknownC = 5;
-	m_flags |= FLAG(_next_move_instantly_bit);
+	SET_BIT(m_flags, _next_move_instantly_bit, true);
 }
+

@@ -2,7 +2,8 @@
 
 #include "camera/camera.hpp"
 
-struct c_static_camera : public c_camera
+struct c_static_camera :
+	public c_camera
 {
 	real_point3d m_position;
 	vector3d m_forward;
@@ -20,7 +21,8 @@ struct c_static_camera : public c_camera
 };
 static_assert(sizeof(c_static_camera) == 0x4C);
 
-struct c_scripted_camera : public c_camera
+struct c_scripted_camera :
+	public c_camera
 {
 	byte unused[0x3C];
 
@@ -30,3 +32,4 @@ struct c_scripted_camera : public c_camera
 	}
 };
 static_assert(sizeof(c_scripted_camera) == 0x4C);
+

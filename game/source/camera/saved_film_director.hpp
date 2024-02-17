@@ -2,7 +2,8 @@
 
 #include "camera/observer_director.hpp"
 
-struct c_saved_film_director : public c_observer_director
+struct c_saved_film_director :
+	public c_observer_director
 {
 	bool __unknown158;
 	bool __unknown159;
@@ -16,3 +17,4 @@ struct c_saved_film_director : public c_observer_director
 	}
 };
 static_assert(sizeof(c_saved_film_director) == 0x160);
+

@@ -2,7 +2,8 @@
 
 #include "camera/camera.hpp"
 
-struct c_flying_camera : public c_camera
+struct c_flying_camera :
+	public c_camera
 {
 	enum e_flags
 	{
@@ -33,34 +34,23 @@ struct c_flying_camera : public c_camera
 
 	void set_lock_in_xy_plane(bool value)
 	{
-		if (value)
-			m_flags |= FLAG(_lock_in_xy_plane_bit);
-		else
-			m_flags |= ~FLAG(_lock_in_xy_plane_bit);
+		SET_BIT(m_flags, _lock_in_xy_plane_bit, value);
 	}
 
 	void set_collision(bool value)
 	{
-		if (value)
-			m_flags |= FLAG(_collision_bit);
-		else
-			m_flags |= ~FLAG(_collision_bit);
+		SET_BIT(m_flags, _collision_bit, value);
 	}
 
 	void enable_orientation(bool value)
 	{
-		if (value)
-			m_flags |= FLAG(_orientation_bit);
-		else
-			m_flags |= ~FLAG(_orientation_bit);
+		SET_BIT(m_flags, _orientation_bit, value);
 	}
 
 	void enable_movement(bool value)
 	{
-		if (value)
-			m_flags |= FLAG(_movement_bit);
-		else
-			m_flags |= ~FLAG(_movement_bit);
+		SET_BIT(m_flags, _movement_bit, value);
 	}
 };
 static_assert(sizeof(c_flying_camera) == 0x4C);
+

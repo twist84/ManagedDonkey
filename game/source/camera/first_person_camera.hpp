@@ -2,7 +2,8 @@
 
 #include "camera/camera.hpp"
 
-struct c_first_person_camera : public c_camera
+struct c_first_person_camera :
+	public c_camera
 {
 	real m_field_of_view;
 	euler_angles2d m_facing;
@@ -15,7 +16,8 @@ struct c_first_person_camera : public c_camera
 };
 static_assert(sizeof(c_first_person_camera) == 0x20);
 
-struct c_authored_camera : public c_camera
+struct c_authored_camera :
+	public c_camera
 {
 	bool __unknown10;
 	bool __unknown11;
@@ -29,3 +31,4 @@ struct c_authored_camera : public c_camera
 	}
 };
 static_assert(sizeof(c_authored_camera) == 0x4C);
+

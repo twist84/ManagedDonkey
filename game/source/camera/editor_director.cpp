@@ -42,3 +42,4 @@ void __cdecl c_editor_director::set_scripted(bool scripted)
 	DECLFUNC(0x00728410, void, __thiscall, c_editor_director const*, bool)(this, scripted);
 	console_printf("%s scripted camera mode", scripted ? "entering" : "exiting");
 }
+

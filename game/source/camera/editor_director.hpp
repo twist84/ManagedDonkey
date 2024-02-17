@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "camera/director.hpp"
 
-struct c_editor_director : public c_director
+struct c_editor_director :
+	public c_director
 {
 	long __unknown168;
 	bool m_scripted;
@@ -28,3 +29,4 @@ extern void __cdecl editor_director_save_position();
 extern void __cdecl editor_director_set_position(real_point3d const* position, euler_angles2d* facing);
 extern bool __cdecl editor_director_valid();
 extern c_editor_director* __cdecl get_editor_director();
+

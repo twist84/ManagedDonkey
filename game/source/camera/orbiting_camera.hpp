@@ -2,7 +2,8 @@
 
 #include "camera/camera.hpp"
 
-struct c_orbiting_camera : public c_camera
+struct c_orbiting_camera :
+	public c_camera
 {
 	euler_angles2d m_facing;
 	real m_distance;
@@ -21,3 +22,4 @@ struct c_orbiting_camera : public c_camera
 	}
 };
 static_assert(sizeof(c_orbiting_camera) == 0x4C);
+

@@ -3,7 +3,8 @@
 #include "camera/camera.hpp"
 
 #pragma pack(push, 2)
-struct c_following_camera : public c_camera
+struct c_following_camera :
+	public c_camera
 {
 	dword __unknown10;
 	dword __unknown14;
@@ -25,3 +26,4 @@ struct c_following_camera : public c_camera
 };
 static_assert(sizeof(c_following_camera) == 0x4C);
 #pragma pack(pop)
+

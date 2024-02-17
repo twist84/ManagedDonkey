@@ -2,7 +2,8 @@
 
 #include "camera/director.hpp"
 
-struct c_game_director : public c_director
+struct c_game_director :
+	public c_director
 {
 	byte unused[0x14];
 
@@ -12,3 +13,4 @@ struct c_game_director : public c_director
 	}
 };
 static_assert(sizeof(c_game_director) == 0x160);
+

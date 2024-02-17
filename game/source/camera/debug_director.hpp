@@ -2,7 +2,8 @@
 
 #include "camera/director.hpp"
 
-struct c_debug_director : public c_director
+struct c_debug_director :
+	public c_director
 {
 	void __thiscall _update(real a1);
 
