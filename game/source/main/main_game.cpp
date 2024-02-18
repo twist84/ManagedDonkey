@@ -293,6 +293,45 @@ void __cdecl main_game_reset_map(bool reset_map)
 bool __cdecl main_game_start(game_options const* options)
 {
 	return INVOKE(0x00567E40, main_game_start, options);
+
+	//long zoneset_index = 0;
+	//if (options->initial_zone_set_index > 0)
+	//	zoneset_index = options->initial_zone_set_index;
+	//
+	//if (zoneset_index > global_scenario->zone_sets.count() - 1)
+	//	zoneset_index = global_scenario->zone_sets.count() - 1;
+	//
+	//c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	//
+	//bool result = false;
+	//
+	//game_initialize_for_new_map(options);
+	//scenario_activate_initial_designer_zones(zoneset_index);
+	//game_create_objects(0);
+	//game_create_players();
+	//
+	//if (scenario_activate_initial_zone_set(zoneset_index))
+	//{
+	//	game_start(0);
+	//	game_create_ai(0);
+	//
+	//	result = true;
+	//}
+	//
+	//if (result)
+	//{
+	//	if (!game_is_ui_shell())
+	//	{
+	//		//c_datamine datamine(0, "game start", 1, "main");
+	//		//data_mine_usability_add_basic_information(&datamine);
+	//	}
+	//}
+	//else
+	//{
+	//	game_dispose_from_old_map();
+	//}
+	//
+	//return result;
 }
 
 void __cdecl main_game_unload_and_prepare_for_next_game(game_options const* options)
