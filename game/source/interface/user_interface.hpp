@@ -236,6 +236,7 @@ extern bool __cdecl get_alpha_is_internal_beta();
 extern bool __cdecl get_alpha_is_locked_down();
 extern long __cdecl get_alpha_locked_down_state();
 extern bool __cdecl get_is_alpha_version();
+extern void __cdecl user_interface_enter_game_shell();
 extern dword __cdecl user_interface_milliseconds();
 extern bool __cdecl user_interface_requests_unlocked_framerate();
 extern void __cdecl user_interface_scoreboard_update();

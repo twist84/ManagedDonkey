@@ -49,6 +49,13 @@ bool __cdecl get_is_alpha_version()
 	return INVOKE(0x00A841E0, get_is_alpha_version);
 }
 
+void __cdecl user_interface_enter_game_shell()
+{
+	INVOKE(0x00A84330, user_interface_enter_game_shell);
+
+	//g_user_interface_globals.milliseconds_at_last_event = g_user_interface_globals.milliseconds.peek();
+}
+
 dword __cdecl user_interface_milliseconds()
 {
 	return INVOKE(0x00A848E0, user_interface_milliseconds);
