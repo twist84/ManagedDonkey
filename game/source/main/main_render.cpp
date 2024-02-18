@@ -211,6 +211,8 @@ void __cdecl main_render()
 void __cdecl main_render_assert_no_pending_messages()
 {
 	INVOKE(0x00604420, main_render_assert_no_pending_messages);
+
+	//effects_assert_no_pending_messages();
 }
 
 void __cdecl main_render_frame_begin()
