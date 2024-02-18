@@ -2,14 +2,23 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game.hpp"
+#include "input/input_windows.hpp"
+#include "interface/user_interface.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "main/global_preferences.hpp"
+#include "main/main.hpp"
 #include "main/main_game_launch.hpp"
+#include "main/main_render.hpp"
+#include "memory/module.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/online/online_guide_pc.hpp"
 #include "simulation/simulation.hpp"
 
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);
 REFERENCE_DECLARE(0x023DAE90, bool, debug_load_panic_to_main_menu);
+
+HOOK_DECLARE(0x00566EF0, main_game_change_immediate);
 
 //.text:00566A80 ; unknown destructor
 //.text:00566AD0 ; unknown destructor
@@ -69,7 +78,105 @@ void __cdecl main_game_change_abort()
 
 bool __cdecl main_game_change_immediate(game_options const* options)
 {
-	return INVOKE(0x00566EF0, main_game_change_immediate, options);
+	//return INVOKE(0x00566EF0, main_game_change_immediate, options);
+
+	bool result = false;
+	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+
+	main_render_purge_pending_messages();
+	main_render_assert_no_pending_messages();
+	main_game_unload_and_prepare_for_next_game(options);
+	main_render_assert_no_pending_messages();
+	main_events_reset(_main_reset_events_reason_changing_the_map);
+	main_render_assert_no_pending_messages();
+	main_status("map", NULL);
+
+	if (options)
+	{
+		//events_clear();
+		input_flush();
+
+		main_status("map", "loading %s", options->scenario_path.get_string());
+
+		assert_game_options_verify(options);
+		//determinism_debug_manager_game_start();
+
+		main_render_assert_no_pending_messages();
+		if (main_game_load_map(options) && (main_render_assert_no_pending_messages(), main_game_start(options)))
+		{
+			main_status("map", "loaded %s", options->scenario_path.get_string());
+			main_status("minor_version", "%i", get_map_minor_version());
+
+			//generate_event(_event_level_message, "lifecycle: MAP-LOADED %s", options->scenario_path.get_string());
+			c_console::write_line("lifecycle: MAP-LOADED %s", options->scenario_path.get_string());
+
+			//c_datamine datamine(0, "map l oaded", 2, "main", "game");
+			//data_mine_usability_add_basic_information(&datamine);
+			//datamine.add_string("map", options->scenario_path.get_string());
+
+			global_preferences_flush();
+
+			switch (e_game_mode game_mode = options->game_mode)
+			{
+			case _game_mode_campaign:
+			{
+				//data_mine_insert_single_player_game_options("game start");
+				main_game_campaign_loaded(options);
+			}
+			break;
+			case _game_mode_mainmenu:
+			{
+				//data_mine_upload();
+				if (!main_startup_sequence())
+					user_interface_enter_game_shell();
+
+				online_guide_delay_toasts(0);
+			}
+			break;
+			case _game_mode_multiplayer:
+			{
+				char const* game_engine_name = game_engine_type_get_string(options->game_variant.get_game_engine_index());
+				char const* game_variant_name = options->game_variant.get_active_variant()->get_name();
+
+				//generate_event(_event_level_message, "lifecycle: MULTIPLAYER-GAME %s", game_engine_name);
+				c_console::write_line("lifecycle: MULTIPLAYER-GAME %s", game_engine_name);
+
+				//generate_event(_event_level_message, "lifecycle: MULTIPLAYER-VARIANT %s", game_variant_name);
+				c_console::write_line("lifecycle: MULTIPLAYER-VARIANT %s", game_variant_name);
+			}
+			break;
+			}
+
+			if (!g_launch_globals.core_name.is_empty())
+			{
+				main_load_core_name(g_launch_globals.core_name.get_string());
+				g_launch_globals.core_name.clear();
+			}
+
+			result = true;
+		}
+		else
+		{
+			main_status("map", "load-failed %s", options->scenario_path.get_string());
+
+			//generate_event(_event_level_critical, "main_game_change_immediate() failed for '%s', cannot load game", options->scenario_path.get_string());
+			c_console::write_line("main_game_change_immediate() failed for '%s', cannot load game", options->scenario_path.get_string());
+
+			main_game_load_panic();
+		}
+	}
+	else
+	{
+		main_game_internal_pregame_load();
+		result = true;
+	}
+
+	//if (!success)
+	//	main_game_cleanup_loading_screen();
+
+	ASSERT(main_game_loaded_map() || main_game_loaded_pregame());
+
+	return result;
 }
 
 bool __cdecl main_game_change_in_progress()
