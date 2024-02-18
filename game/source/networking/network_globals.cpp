@@ -251,7 +251,7 @@ void __cdecl network_test_set_map_name(char const* scenario_path)
 
 		network_test_set_map_variant(&map_variant);
 
-		//BUILD_DEFAULT_GAME_VARIANT(game_variant, _game_engine_slayer_variant);
+		//BUILD_DEFAULT_GAME_VARIANT(game_variant, _game_engine_type_slayer);
 		//network_test_set_game_variant(&game_variant);
 	}
 	else
@@ -285,18 +285,18 @@ void __cdecl network_test_set_game_variant(e_game_engine_type game_engine_index)
 	if (!user_interface_squad_set_game_variant(&game_variant))
 	{
 		static c_game_variant default_game_variant;
-		BUILD_DEFAULT_GAME_VARIANT(default_game_variant, _game_engine_slayer_variant);
+		BUILD_DEFAULT_GAME_VARIANT(default_game_variant, _game_engine_type_slayer);
 		user_interface_squad_set_game_variant(&default_game_variant);
 	}
 }
 
 void __cdecl network_test_set_game_variant(char const* game_engine_name)
 {
-	e_game_engine_type game_engine_index = _game_engine_base_variant;
+	e_game_engine_type game_engine_index = _game_engine_type_none;
 
-	for (long i = _game_engine_base_variant; i < k_game_engine_type_count; i++)
+	for (long i = _game_engine_type_none; i < k_game_engine_type_count; i++)
 	{
-		if (csstricmp(game_engine_name, game_engine_variant_get_name(i)) != 0)
+		if (csstricmp(game_engine_name, game_engine_type_get_string(i)) != 0)
 			continue;
 
 		game_engine_index = e_game_engine_type(i);

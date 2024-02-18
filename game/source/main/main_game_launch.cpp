@@ -68,11 +68,11 @@ void main_game_launch_set_multiplayer_splitscreen_count(long multiplayer_splitsc
 	{
 		g_launch_globals.options.game_mode = _game_mode_multiplayer;
 		g_launch_globals.player_count = multiplayer_splitscreen_count;
-		if (g_launch_globals.options.game_variant.get_game_engine_index() == _game_engine_base_variant)
-			g_launch_globals.options.game_variant.set_game_engine_index(_game_engine_slayer_variant);
+		if (g_launch_globals.options.game_variant.get_game_engine_index() == _game_engine_type_none)
+			g_launch_globals.options.game_variant.set_game_engine_index(_game_engine_type_slayer);
 
-		//if (g_launch_globals.options.game_variant.m_game_engine_index == _game_engine_base_variant)
-		//	build_default_game_variant(&g_launch_globals.options.game_variant, _game_engine_slayer_variant);
+		//if (g_launch_globals.options.game_variant.m_game_engine_index == _game_engine_type_none)
+		//	build_default_game_variant(&g_launch_globals.options.game_variant, _game_engine_type_slayer);
 	}
 	else
 	{
@@ -84,9 +84,9 @@ void main_game_launch_set_multiplayer_engine(char const* multiplayer_engine)
 {
 	e_game_engine_type game_engine_index;
 
-	for (long i = _game_engine_base_variant; i < k_game_engine_type_count; i++)
+	for (long i = _game_engine_type_none; i < k_game_engine_type_count; i++)
 	{
-		if (csstricmp(multiplayer_engine, game_engine_variant_get_name(i)) != 0)
+		if (csstricmp(multiplayer_engine, game_engine_type_get_string(i)) != 0)
 			continue;
 
 		game_engine_index = e_game_engine_type(i);

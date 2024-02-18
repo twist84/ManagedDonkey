@@ -4,9 +4,9 @@
 #include "game/game_options.hpp"
 #include "memory/byte_swapping.hpp"
 
-char const* k_game_engine_variant_names[k_game_engine_type_count] =
+char const* k_game_engine_type_names[k_game_engine_type_count] =
 {
-	"base",
+	"none",
 	"ctf",
 	"slayer",
 	"oddball",
@@ -19,12 +19,12 @@ char const* k_game_engine_variant_names[k_game_engine_type_count] =
 	"infection"
 };
 
-const char* game_engine_variant_get_name(long game_engine_index)
+const char* game_engine_type_get_string(long game_engine_index)
 {
-	if (game_engine_index < _game_engine_base_variant || game_engine_index >= k_game_engine_type_count)
+	if (game_engine_index < _game_engine_type_none || game_engine_index >= k_game_engine_type_count)
 		return "<invalid 'game_engine_index'>";
 
-	return k_game_engine_variant_names[game_engine_index];
+	return k_game_engine_type_names[game_engine_index];
 }
 
 void c_game_engine_base_variant::encode_to_mcc(c_bitstream* packet) const

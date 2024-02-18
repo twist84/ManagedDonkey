@@ -9,20 +9,20 @@
 
 enum e_game_engine_type
 {
-	_game_engine_base_variant = 0,
-	_game_engine_ctf_variant,
-	_game_engine_slayer_variant,
-	_game_engine_oddball_variant,
-	_game_engine_king_variant,
-	_game_engine_sandbox_variant,
-	_game_engine_vip_variant,
-	_game_engine_juggernaut_variant,
-	_game_engine_territories_variant,
-	_game_engine_assault_variant,
-	_game_engine_infection_variant,
+	_game_engine_type_none = 0,
+	_game_engine_type_ctf,
+	_game_engine_type_slayer,
+	_game_engine_type_oddball,
+	_game_engine_type_king,
+	_game_engine_type_sandbox,
+	_game_engine_type_vip,
+	_game_engine_type_juggernaut,
+	_game_engine_type_territories,
+	_game_engine_type_assault,
+	_game_engine_type_infection,
 
 	k_game_engine_type_count,
-	k_game_engine_type_default = _game_engine_base_variant
+	k_game_engine_type_default = _game_engine_type_none
 };
 
 struct c_game_engine_base_variant
@@ -96,7 +96,7 @@ protected:
 constexpr size_t k_game_engine_base_variant_size = sizeof(c_game_engine_base_variant);
 static_assert(k_game_engine_base_variant_size == 0x1D0);
 
-extern const char* game_engine_variant_get_name(long game_engine_variant);
+extern const char* game_engine_type_get_string(long game_engine_variant);
 
 struct c_game_variant;
 extern c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);

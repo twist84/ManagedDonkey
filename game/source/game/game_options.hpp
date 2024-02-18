@@ -68,7 +68,7 @@ protected:
 	bool get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const;
 	bool set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value);
 
-	c_enum<e_game_engine_type, long, _game_engine_base_variant, k_game_engine_type_count> m_game_engine_index;
+	c_enum<e_game_engine_type, long, _game_engine_type_none, k_game_engine_type_count> m_game_engine_index;
 	union
 	{
 		c_game_engine_base_variant m_base_variant;

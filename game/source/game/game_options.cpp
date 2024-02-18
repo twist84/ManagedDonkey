@@ -4,7 +4,7 @@
 
 c_game_variant::c_game_variant()
 {
-	m_game_engine_index = _game_engine_base_variant;
+	m_game_engine_index = _game_engine_type_none;
 	csmemset(m_variant_storage, 0, sizeof(m_variant_storage));
 }
 
@@ -17,37 +17,37 @@ void c_game_variant::encode_to_mcc(c_bitstream* packet) const
 	{
 		switch (get_game_engine_index())
 		{
-		case _game_engine_base_variant:
+		case _game_engine_type_none:
 			m_base_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_ctf_variant:
+		case _game_engine_type_ctf:
 			m_ctf_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_slayer_variant:
+		case _game_engine_type_slayer:
 			m_slayer_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_oddball_variant:
+		case _game_engine_type_oddball:
 			m_oddball_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_king_variant:
+		case _game_engine_type_king:
 			m_king_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_sandbox_variant:
+		case _game_engine_type_sandbox:
 			m_sandbox_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_vip_variant:
+		case _game_engine_type_vip:
 			m_vip_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_juggernaut_variant:
+		case _game_engine_type_juggernaut:
 			m_juggernaut_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_territories_variant:
+		case _game_engine_type_territories:
 			m_territories_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_assault_variant:
+		case _game_engine_type_assault:
 			m_assault_variant.encode_to_mcc(packet);
 			break;
-		case _game_engine_infection_variant:
+		case _game_engine_type_infection:
 			m_infection_variant.encode_to_mcc(packet);
 			break;
 		}
@@ -61,43 +61,43 @@ bool c_game_variant::decode_from_mcc(c_bitstream* packet)
 	e_game_engine_type game_engine_index = packet->read_enum<e_game_engine_type, 4>("variant-game-engine-index");
 	set_game_engine_index(game_engine_index);
 
-	//if (m_game_engine_index == _game_engine_base_variant)
+	//if (m_game_engine_index == _game_engine_type_none)
 	//	return false;
 
 	m_base_variant.set_built_in(false);
 	switch (game_engine_index)
 	{
-	case _game_engine_base_variant:
+	case _game_engine_type_none:
 		m_base_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_ctf_variant:
+	case _game_engine_type_ctf:
 		m_ctf_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_slayer_variant:
+	case _game_engine_type_slayer:
 		m_slayer_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_oddball_variant:
+	case _game_engine_type_oddball:
 		m_oddball_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_king_variant:
+	case _game_engine_type_king:
 		m_king_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_sandbox_variant:
+	case _game_engine_type_sandbox:
 		m_sandbox_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_vip_variant:
+	case _game_engine_type_vip:
 		m_vip_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_juggernaut_variant:
+	case _game_engine_type_juggernaut:
 		m_juggernaut_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_territories_variant:
+	case _game_engine_type_territories:
 		m_territories_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_assault_variant:
+	case _game_engine_type_assault:
 		m_assault_variant.decode_from_mcc(packet);
 		break;
-	case _game_engine_infection_variant:
+	case _game_engine_type_infection:
 		m_infection_variant.decode_from_mcc(packet);
 		break;
 	}
@@ -125,37 +125,37 @@ long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type g
 	long size = 0;
 	switch (game_engine_index)
 	{
-	case _game_engine_base_variant:
+	case _game_engine_type_none:
 		size = sizeof(c_game_engine_base_variant);
 		break;
-	case _game_engine_ctf_variant:
+	case _game_engine_type_ctf:
 		size = sizeof(c_game_engine_ctf_variant);
 		break;
-	case _game_engine_slayer_variant:
+	case _game_engine_type_slayer:
 		size = sizeof(c_game_engine_slayer_variant);
 		break;
-	case _game_engine_oddball_variant:
+	case _game_engine_type_oddball:
 		size = sizeof(c_game_engine_oddball_variant);
 		break;
-	case _game_engine_king_variant:
+	case _game_engine_type_king:
 		size = sizeof(c_game_engine_king_variant);
 		break;
-	case _game_engine_sandbox_variant:
+	case _game_engine_type_sandbox:
 		size = sizeof(c_game_engine_sandbox_variant);
 		break;
-	case _game_engine_vip_variant:
+	case _game_engine_type_vip:
 		size = sizeof(c_game_engine_vip_variant);
 		break;
-	case _game_engine_juggernaut_variant:
+	case _game_engine_type_juggernaut:
 		size = sizeof(c_game_engine_juggernaut_variant);
 		break;
-	case _game_engine_territories_variant:
+	case _game_engine_type_territories:
 		size = sizeof(c_game_engine_territories_variant);
 		break;
-	case _game_engine_assault_variant:
+	case _game_engine_type_assault:
 		size = sizeof(c_game_engine_assault_variant);
 		break;
-	case _game_engine_infection_variant:
+	case _game_engine_type_infection:
 		size = sizeof(c_game_engine_infection_variant);
 		break;
 	}
@@ -185,42 +185,42 @@ void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine
 	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
 	{
 		generate_event(_event_level_warning, "invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
-		game_engine_index = _game_engine_base_variant;
+		game_engine_index = _game_engine_type_none;
 	}
 
 	switch (game_engine_index)
 	{
-	case _game_engine_base_variant:
+	case _game_engine_type_none:
 		m_base_variant.constructor();
 		break;
-	case _game_engine_ctf_variant:
+	case _game_engine_type_ctf:
 		m_ctf_variant.constructor();
 		break;
-	case _game_engine_slayer_variant:
+	case _game_engine_type_slayer:
 		m_slayer_variant.constructor();
 		break;
-	case _game_engine_oddball_variant:
+	case _game_engine_type_oddball:
 		m_oddball_variant.constructor();
 		break;
-	case _game_engine_king_variant:
+	case _game_engine_type_king:
 		m_king_variant.constructor();
 		break;
-	case _game_engine_sandbox_variant:
+	case _game_engine_type_sandbox:
 		m_sandbox_variant.constructor();
 		break;
-	case _game_engine_vip_variant:
+	case _game_engine_type_vip:
 		m_vip_variant.constructor();
 		break;
-	case _game_engine_juggernaut_variant:
+	case _game_engine_type_juggernaut:
 		m_juggernaut_variant.constructor();
 		break;
-	case _game_engine_territories_variant:
+	case _game_engine_type_territories:
 		m_territories_variant.constructor();
 		break;
-	case _game_engine_assault_variant:
+	case _game_engine_type_assault:
 		m_assault_variant.constructor();
 		break;
-	case _game_engine_infection_variant:
+	case _game_engine_type_infection:
 		m_infection_variant.constructor();
 		break;
 	}
@@ -248,121 +248,121 @@ c_game_engine_base_variant* c_game_variant::get_active_variant_writeable()
 
 c_game_engine_ctf_variant const* c_game_variant::get_ctf_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_ctf_variant, "this variant is not ctf!");
+	ASSERT(get_game_engine_index() == _game_engine_type_ctf, "this variant is not ctf!");
 	return static_cast<c_game_engine_ctf_variant const*>(get_active_variant());
 }
 
 c_game_engine_ctf_variant* c_game_variant::get_ctf_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_ctf_variant, "this variant is not ctf!");
+	ASSERT(get_game_engine_index() == _game_engine_type_ctf, "this variant is not ctf!");
 	return static_cast<c_game_engine_ctf_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_slayer_variant const* c_game_variant::get_slayer_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_slayer_variant, "this variant is not slayer!");
+	ASSERT(get_game_engine_index() == _game_engine_type_slayer, "this variant is not slayer!");
 	return static_cast<c_game_engine_slayer_variant const*>(get_active_variant());
 }
 
 c_game_engine_slayer_variant* c_game_variant::get_slayer_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_slayer_variant, "this variant is not slayer!");
+	ASSERT(get_game_engine_index() == _game_engine_type_slayer, "this variant is not slayer!");
 	return static_cast<c_game_engine_slayer_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_oddball_variant const* c_game_variant::get_oddball_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_oddball_variant, "this variant is not oddball!");
+	ASSERT(get_game_engine_index() == _game_engine_type_oddball, "this variant is not oddball!");
 	return static_cast<c_game_engine_oddball_variant const*>(get_active_variant());
 }
 
 c_game_engine_oddball_variant* c_game_variant::get_oddball_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_oddball_variant, "this variant is not oddball!");
+	ASSERT(get_game_engine_index() == _game_engine_type_oddball, "this variant is not oddball!");
 	return static_cast<c_game_engine_oddball_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_king_variant const* c_game_variant::get_king_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_king_variant, "this variant is not king of the hill!");
+	ASSERT(get_game_engine_index() == _game_engine_type_king, "this variant is not king of the hill!");
 	return static_cast<c_game_engine_king_variant const*>(get_active_variant());
 }
 
 c_game_engine_king_variant* c_game_variant::get_king_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_king_variant, "this variant is not king of the hill!");
+	ASSERT(get_game_engine_index() == _game_engine_type_king, "this variant is not king of the hill!");
 	return static_cast<c_game_engine_king_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_sandbox_variant const* c_game_variant::get_sandbox_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_sandbox_variant, "this variant is not sandbox editor!");
+	ASSERT(get_game_engine_index() == _game_engine_type_sandbox, "this variant is not sandbox editor!");
 	return static_cast<c_game_engine_sandbox_variant const*>(get_active_variant());
 }
 
 c_game_engine_sandbox_variant* c_game_variant::get_sandbox_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_sandbox_variant, "this variant is not sandbox editor!");
+	ASSERT(get_game_engine_index() == _game_engine_type_sandbox, "this variant is not sandbox editor!");
 	return static_cast<c_game_engine_sandbox_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_vip_variant const* c_game_variant::get_vip_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_vip_variant, "this variant is not vip!");
+	ASSERT(get_game_engine_index() == _game_engine_type_vip, "this variant is not vip!");
 	return static_cast<c_game_engine_vip_variant const*>(get_active_variant());
 }
 
 c_game_engine_vip_variant* c_game_variant::get_vip_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_vip_variant, "this variant is not vip!");
+	ASSERT(get_game_engine_index() == _game_engine_type_vip, "this variant is not vip!");
 	return static_cast<c_game_engine_vip_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_juggernaut_variant const* c_game_variant::get_juggernaut_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_juggernaut_variant, "this variant is not juggernaut!");
+	ASSERT(get_game_engine_index() == _game_engine_type_juggernaut, "this variant is not juggernaut!");
 	return static_cast<c_game_engine_juggernaut_variant const*>(get_active_variant());
 }
 
 c_game_engine_juggernaut_variant* c_game_variant::get_juggernaut_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_juggernaut_variant, "this variant is not juggernaut!");
+	ASSERT(get_game_engine_index() == _game_engine_type_juggernaut, "this variant is not juggernaut!");
 	return static_cast<c_game_engine_juggernaut_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_territories_variant const* c_game_variant::get_territories_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_territories_variant, "this variant is not territories!");
+	ASSERT(get_game_engine_index() == _game_engine_type_territories, "this variant is not territories!");
 	return static_cast<c_game_engine_territories_variant const*>(get_active_variant());
 }
 
 c_game_engine_territories_variant* c_game_variant::get_territories_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_territories_variant, "this variant is not territories!");
+	ASSERT(get_game_engine_index() == _game_engine_type_territories, "this variant is not territories!");
 	return static_cast<c_game_engine_territories_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_assault_variant const* c_game_variant::get_assault_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_assault_variant, "this variant is not assault!");
+	ASSERT(get_game_engine_index() == _game_engine_type_assault, "this variant is not assault!");
 	return static_cast<c_game_engine_assault_variant const*>(get_active_variant());
 }
 
 c_game_engine_assault_variant* c_game_variant::get_assault_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_assault_variant, "this variant is not assault!");
+	ASSERT(get_game_engine_index() == _game_engine_type_assault, "this variant is not assault!");
 	return static_cast<c_game_engine_assault_variant*>(get_active_variant_writeable());
 }
 
 c_game_engine_infection_variant const* c_game_variant::get_infection_variant() const
 {
-	ASSERT(get_game_engine_index() == _game_engine_infection_variant, "this variant is not infection!");
+	ASSERT(get_game_engine_index() == _game_engine_type_infection, "this variant is not infection!");
 	return static_cast<c_game_engine_infection_variant const*>(get_active_variant());
 }
 
 c_game_engine_infection_variant* c_game_variant::get_infection_variant_writeable()
 {
-	ASSERT(get_game_engine_index() == _game_engine_infection_variant, "this variant is not infection!");
+	ASSERT(get_game_engine_index() == _game_engine_type_infection, "this variant is not infection!");
 	return static_cast<c_game_engine_infection_variant*>(get_active_variant_writeable());
 }
 

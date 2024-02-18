@@ -805,7 +805,7 @@ bool __cdecl game_options_get_launch_settings(game_options* options, bool change
 	options->record_saved_film = true;//saved_film_manager_should_record_film(options);
 	options->campaign_difficulty = launch_settings.campaign_difficulty;
 
-	build_default_game_variant(&options->game_variant, options->game_mode != _game_mode_multiplayer ? _game_engine_base_variant : launch_settings.game_engine_index);
+	build_default_game_variant(&options->game_variant, options->game_mode != _game_mode_multiplayer ? _game_engine_type_none : launch_settings.game_engine_index);
 
 	options->campaign_insertion_point = launch_settings.insertion_point;
 	options->initial_zone_set_index = launch_settings.zone_set_index;

@@ -146,7 +146,7 @@ struct s_game_engine_globals
 	bool game_finished;
 	dword __unknown13DA8;
 	dword __unknown13DAC;
-	c_enum<e_game_engine_type, long, _game_engine_base_variant, k_game_engine_type_count> game_engine_index;
+	c_enum<e_game_engine_type, long, _game_engine_type_none, k_game_engine_type_count> game_engine_index;
 	long multiplayer_weapon_count;
 	c_static_array<s_multiplayer_weapon_tracker, 8> multiplayer_weapons;
 	c_area_set<c_teleporter_area, 32> teleporters;
