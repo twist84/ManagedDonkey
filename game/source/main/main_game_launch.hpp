@@ -7,7 +7,7 @@ struct s_main_game_launch_globals
 {
 	// main_game_change_immediate
 	// main_game_load_from_core_name
-	char core_name[256];
+	c_static_string<256> core_name;
 
 	// main_game_launch
 	// main_game_launch_set_coop_player_count
