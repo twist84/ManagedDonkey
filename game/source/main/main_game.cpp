@@ -21,6 +21,7 @@ REFERENCE_DECLARE(0x023DAE90, bool, load_panic_recursion_lock);
 bool debug_load_panic_to_main_menu = true;
 
 HOOK_DECLARE(0x00566EF0, main_game_change_immediate);
+HOOK_DECLARE(0x00567AD0, main_game_load_panic);
 
 //.text:00566A80 ; unknown destructor
 //.text:00566AD0 ; unknown destructor
@@ -345,7 +346,44 @@ bool __cdecl main_game_load_map(game_options const* options)
 
 void __cdecl main_game_load_panic()
 {
-	INVOKE(0x00567AD0, main_game_load_panic);
+	//INVOKE(0x00567AD0, main_game_load_panic);
+
+	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+
+	main_render_purge_pending_messages();
+	main_game_unload_and_prepare_for_next_game(NULL);
+	ASSERT(!main_game_loaded_map() && !main_game_loaded_pregame());
+
+	bool successfully_loaded = false;
+	if (debug_load_panic_to_main_menu)
+	{
+		if (load_panic_recursion_lock)
+		{
+			//generate_event(_event_level_critical, "main_game_load_panic: recursion lock triggered (we must have failed to load the main menu from a panic state)");
+			c_console::write_line("main_game_load_panic: recursion lock triggered (we must have failed to load the main menu from a panic state)");
+		}
+		else
+		{
+			game_options options = game_options();
+			load_panic_recursion_lock = true;
+			main_menu_build_game_options(&options);
+			main_game_change_immediate(&options);
+			ASSERT(main_game_loaded_map() || main_game_loaded_pregame());
+			load_panic_recursion_lock = false;
+			successfully_loaded = true;
+		}
+	}
+
+	if (!successfully_loaded)
+	{
+		//generate_event(_event_level_critical, "main game load failed, unable to recover, aborting to pregame");
+		c_console::write_line("main game load failed, unable to recover, aborting to pregame");
+
+		main_game_internal_pregame_load();
+		main_halt_and_display_errors();
+	}
+
+	ASSERT(main_game_loaded_map() || main_game_loaded_pregame());
 }
 
 void __cdecl main_game_load_from_core_name(char const* core_name)
@@ -412,22 +450,22 @@ bool __cdecl main_game_start(game_options const* options)
 	//
 	//c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 	//
-	//bool result = false;
-	//
 	//game_initialize_for_new_map(options);
 	//scenario_activate_initial_designer_zones(zoneset_index);
-	//game_create_objects(0);
+	//game_create_objects(_game_create_mode_0);
 	//game_create_players();
+	//
+	//bool success = false;
 	//
 	//if (scenario_activate_initial_zone_set(zoneset_index))
 	//{
-	//	game_start(0);
-	//	game_create_ai(0);
+	//	game_start(_game_create_mode_0);
+	//	game_create_ai(_game_create_mode_0);
 	//
-	//	result = true;
+	//	success = true;
 	//}
 	//
-	//if (result)
+	//if (success)
 	//{
 	//	if (!game_is_ui_shell())
 	//	{
@@ -440,7 +478,7 @@ bool __cdecl main_game_start(game_options const* options)
 	//	game_dispose_from_old_map();
 	//}
 	//
-	//return result;
+	//return success;
 }
 
 void __cdecl main_game_unload_and_prepare_for_next_game(game_options const* options)
