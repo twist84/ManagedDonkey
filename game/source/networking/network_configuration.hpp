@@ -827,8 +827,8 @@ struct s_network_configuration
 	dword __unknown15B4;
 	s_map_information map_infos[32];
 	dword __unknown16B8;
-	dword determinism_version;
-	dword __unknown16C0;
+	long determinism_version;
+	long determinism_compatible_version;
 };
 static_assert(sizeof(s_network_configuration) == 0x16C4);
 

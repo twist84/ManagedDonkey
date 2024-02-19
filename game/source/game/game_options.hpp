@@ -89,6 +89,11 @@ static_assert(sizeof(c_game_variant) == 0x264);
 
 struct game_options
 {
+	game_options()
+	{
+		DECLFUNC(0x00485420, void, __thiscall, game_options*)(this);
+	}
+
 	c_enum<e_game_mode, long, _game_mode_none, k_game_mode_count> game_mode;
 	c_enum<e_game_simulation_type, char, _game_simulation_none, k_game_simulation_count> game_simulation;
 	byte game_network_type;

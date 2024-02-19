@@ -47,7 +47,8 @@ struct s_main_game_globals
 extern s_main_game_globals& main_game_globals;
 
 // main_game_load_panic
-extern bool& debug_load_panic_to_main_menu;
+extern bool& load_panic_recursion_lock;
+extern bool debug_load_panic_to_main_menu;
 
 //extern e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game_options const* options);
 //extern void __cdecl data_mine_insert_single_player_game_options(char const* event_name);

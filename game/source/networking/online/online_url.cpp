@@ -9,8 +9,8 @@
 
 #include <string.h>
 
-REFERENCE_DECLARE(0x01860808, long, dword_1860808);
-REFERENCE_DECLARE(0x0186080C, long, dword_186080C);
+REFERENCE_DECLARE(0x01860808, long, dword_1860808); // initial value: 1
+REFERENCE_DECLARE(0x0186080C, long, dword_186080C); // initial value: 600
 REFERENCE_DECLARE(0x019AB758, _g_online_url, g_online_url);
 
 HOOK_DECLARE(0x004515F0, create_title_url_base);

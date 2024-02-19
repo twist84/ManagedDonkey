@@ -74,7 +74,7 @@ struct game_globals_storage
 	// game_pvs_scripted_set_object
 	// game_pvs_scripted_set_camera_point
 	// scenario_group, scenario_block, scenario_cutscene_camera_point_block, camera_point_index
-	datum_index scripted_object_index; // scenario_group.scenario_block.cutscene_camera_points[camera_point_index]
+	long scripted_object_index; // scenario_group.scenario_block.cutscene_camera_points[camera_point_index]
 
 	long game_ragdoll_count;
 

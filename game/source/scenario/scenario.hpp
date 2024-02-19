@@ -40,6 +40,7 @@ extern structure_bsp* __cdecl global_structure_bsp_get(long structure_bsp_index)
 extern bool __cdecl global_structure_bsp_is_active(long structure_bsp_index);
 extern long __cdecl global_structure_bsp_next_active_index_get(long structure_bsp_index);
 extern s_structure_design* global_structure_design_get(long structure_bsp_index);
+extern bool __cdecl scenario_activate_initial_designer_zones(long zoneset_index);
 extern void __cdecl scenario_invalidate();
 extern bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path);
 extern bool __cdecl scenario_switch_zone_set(long zoneset_index);

@@ -537,9 +537,9 @@ bool __cdecl main_is_switching_zone_sets()
 	//return main_globals.switch_zone_set;
 }
 
-void __cdecl main_kick_startup_masking_sequence(bool kick_input)
+bool __cdecl main_kick_startup_masking_sequence(bool kick_input)
 {
-	INVOKE(0x005058C0, main_kick_startup_masking_sequence, kick_input);
+	return INVOKE(0x005058C0, main_kick_startup_masking_sequence, kick_input);
 }
 
 void __cdecl main_load_core()

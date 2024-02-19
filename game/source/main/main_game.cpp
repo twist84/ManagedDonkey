@@ -16,7 +16,9 @@
 #include "simulation/simulation.hpp"
 
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);
-REFERENCE_DECLARE(0x023DAE90, bool, debug_load_panic_to_main_menu);
+REFERENCE_DECLARE(0x023DAE90, bool, load_panic_recursion_lock);
+
+bool debug_load_panic_to_main_menu = true;
 
 HOOK_DECLARE(0x00566EF0, main_game_change_immediate);
 

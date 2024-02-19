@@ -154,7 +154,7 @@ extern void __cdecl main_halt_and_display_errors();
 extern bool __cdecl main_halted_with_errors();
 extern bool __cdecl main_is_in_main_loop_pregame();
 extern bool __cdecl main_is_switching_zone_sets();
-extern void __cdecl main_kick_startup_masking_sequence(bool kick_input);
+extern bool __cdecl main_kick_startup_masking_sequence(bool kick_input);
 extern void __cdecl main_load_core();
 extern void __cdecl main_load_core_name(char const* core_name);
 extern void __cdecl main_load_core_private();
