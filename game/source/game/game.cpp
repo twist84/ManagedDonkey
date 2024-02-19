@@ -5,6 +5,7 @@
 #include "interface/user_interface_hs.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
+#include "main/main_game.hpp"
 #include "main/main_render.hpp"
 #include "memory/module.hpp"
 #include "profiler/profiler.hpp"
@@ -70,12 +71,94 @@ void __cdecl assert_game_options_verify(game_options const* options)
 //.text:005308B0 ; game_compute_pvs
 //.text:00530A20 ; bool __cdecl game_coop_allow_respawn()
 //.text:00530A40 ; long __cdecl game_coop_player_count()
-//.text:00530A70 ; void __cdecl game_create_ai(e_game_create_mode mode)
-//.text:00530AC0 ; long __cdecl game_create_lock_resources(e_game_create_mode mode)
-//.text:00530AE0 ; void __cdecl game_create_missing_objects(e_game_create_mode mode)
-//.text:00530B30 ; void __cdecl game_create_objects(e_game_create_mode mode)
-//.text:00530B90 ; void __cdecl game_create_players()
-//.text:00530C20 ; void __cdecl game_create_unlock_resources(e_game_create_mode mode, long&)
+
+void __cdecl game_create_ai(e_game_create_mode mode)
+{
+	INVOKE(0x00530A70, game_create_ai, mode);
+
+	//long lock = game_create_lock_resources(mode);
+	////random_seed_allow_use();
+	//
+	//ai_place(game_mode_get(), true);
+	//
+	////random_seed_disallow_use();
+	//game_create_unlock_resources(mode, lock);
+}
+
+long __cdecl game_create_lock_resources(e_game_create_mode mode)
+{
+	return INVOKE(0x00530AC0, game_create_lock_resources, mode);
+
+	//return mode == _game_create_mode_lock ? tag_resources_lock_game() : 0;
+}
+
+void __cdecl game_create_missing_objects(e_game_create_mode mode)
+{
+	INVOKE(0x00530AE0, game_create_missing_objects, mode);
+
+	//game_globals_storage* game_globals = game_globals_get();
+	//assert_game_options_verify(&game_globals->options);
+	//ASSERT(game_globals->map_active);
+	//
+	//long lock = game_create_lock_resources(mode);
+	////random_seed_allow_use();
+	//
+	//object_placement_create_global_objects(game_globals->options.game_mode, true);
+	//
+	////random_seed_disallow_use();
+	//game_create_unlock_resources(mode, lock);
+}
+
+void __cdecl game_create_objects(e_game_create_mode mode)
+{
+	INVOKE(0x00530B30, game_create_objects, mode);
+
+	//game_globals_storage* game_globals = game_globals_get();
+	//assert_game_options_verify(&game_globals->options);
+	//ASSERT(game_globals->map_active);
+	//
+	//long lock = game_create_lock_resources(mode);
+	////random_seed_allow_use();
+	//
+	//c_scenerio_sky_objects_helper::create_sky_objects(global_scenario_get());
+	//object_placement_create_global_objects(game_globals->options.game_mode, false);
+	//lights_place(game_globals->options.game_mode);
+	//
+	////random_seed_disallow_use();
+	//game_create_unlock_resources(mode, lock);
+}
+
+void __cdecl game_create_players()
+{
+	INVOKE(0x00530B90, game_create_players);
+
+	//if (!main_game_reset_in_progress())
+	//{
+	//	game_options* options = game_options_get();
+	//	ASSERT(!simulation_reset_in_progress());
+	//
+	//	players_set_machines(options->machine_options.valid_machine_mask, options->machine_options.machines);
+	//	players_set_local_machine(options->machine_options.local_machine_exists ? &options->machine_options.local_machine : NULL);
+	//	for (long i = 0; i < 16; i++)
+	//	{
+	//		if (options->players[i].player_valid)
+	//			player_new(i, &options->players[i], false);
+	//	}
+	//
+	//	players_finish_creation();
+	//	simulation_notify_players_created();
+	//	//player_training_notify_players_created();
+	//}
+}
+
+void __cdecl game_create_unlock_resources(e_game_create_mode mode, long& lock)
+{
+	INVOKE(0x00530C20, game_create_unlock_resources, mode, lock);
+
+	//if (mode == _game_create_mode_lock)
+	//	tag_resources_unlock_game(lock);
+}
+
 //.text:00530C50 ; bool __cdecl game_determinism_version_compatible(long determinism_version)
 
 e_campaign_difficulty_level __cdecl game_difficulty_level_get()
@@ -100,7 +183,11 @@ void __cdecl game_dispose()
 	INVOKE(0x00530CD0, game_dispose);
 }
 
-//.text:00530D10 ; void __cdecl game_dispose_from_old_map()
+void __cdecl game_dispose_from_old_map()
+{
+	INVOKE(0x00530D10, game_dispose_from_old_map);
+}
+
 //.text:00530E10 ; void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
 //.text:00530E70 ; void __cdecl game_dispose_from_old_structure_bsp(dword)
 
@@ -442,7 +529,15 @@ bool __cdecl game_is_ui_shell()
 	return game_mode_get() == _game_mode_mainmenu;
 }
 
-//.text:00531EB0 ; void __cdecl game_launch_initial_script()
+void __cdecl game_launch_initial_script()
+{
+	INVOKE(0x00531EB0, game_launch_initial_script);
+
+	//char script_name[128]{};
+	//if (game_launch_get_initial_script_name(script_name))
+	//	hs_wake_by_name(script_name);
+}
+
 //.text:00531EE0 ; game_level_advance
 //.text:00531FF0 ; prepare_game_level
 //.text:00532050 ; game_level_prepare
@@ -701,7 +796,29 @@ void __cdecl game_simulation_set(e_game_simulation_type game_simulation)
 	main_status("game_simulation: %s", k_game_simulation_names[game_simulation]);
 }
 
-//.text:00533030 ; void __cdecl game_start(e_game_create_mode)
+void __cdecl game_start(e_game_create_mode mode)
+{
+	INVOKE(0x00533030, game_start, mode);
+
+	//game_globals_storage* game_globals = game_globals_get();
+	//ASSERT(game_globals);
+	//ASSERT(!game_globals->initializing);
+	//ASSERT(game_globals->map_active);
+	//ASSERT(game_globals->active_structure_bsp_mask != 0);
+	//ASSERT(!game_globals->game_in_progress);
+	//
+	//game_globals->game_in_progress = true;
+	//simulation_start();
+	//
+	//long lock = game_create_lock_resources(mode);
+	////random_seed_allow_use();
+	//
+	//game_engine_game_starting();
+	//game_launch_initial_script();
+	//
+	////random_seed_disallow_use();
+	//game_create_unlock_resources(mode, lock);
+}
 
 bool __cdecl game_survival_allow_respawn()
 {

@@ -15,6 +15,14 @@
 #include "saved_games/game_state.hpp"
 #include "shell/shell.hpp"
 
+enum e_game_create_mode
+{
+	_game_create_mode_lock = 0,
+	_game_create_mode_no_lock,
+
+	k_game_create_mode_count
+};
+
 struct s_game_options_launch_settings
 {
 	// 106708
@@ -58,17 +66,17 @@ extern void __cdecl assert_game_options_verify(game_options const* options);
 //.text:005308B0 ; game_compute_pvs;
 //extern bool __cdecl game_coop_allow_respawn();
 //extern long __cdecl game_coop_player_count();
-//extern void __cdecl game_create_ai(e_game_create_mode mode);
-//extern long __cdecl game_create_lock_resources(e_game_create_mode mode);
-//extern void __cdecl game_create_missing_objects(e_game_create_mode mode);
-//extern void __cdecl game_create_objects(e_game_create_mode mode);
-//extern void __cdecl game_create_players();
-//extern void __cdecl game_create_unlock_resources(e_game_create_mode mode, long&);
+extern void __cdecl game_create_ai(e_game_create_mode mode);
+extern long __cdecl game_create_lock_resources(e_game_create_mode mode);
+extern void __cdecl game_create_missing_objects(e_game_create_mode mode);
+extern void __cdecl game_create_objects(e_game_create_mode mode);
+extern void __cdecl game_create_players();
+extern void __cdecl game_create_unlock_resources(e_game_create_mode mode, long&);
 //extern bool __cdecl game_determinism_version_compatible(long determinism_version);
 extern e_campaign_difficulty_level __cdecl game_difficulty_level_get();
 extern e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy();
 extern void __cdecl game_dispose();
-//extern void __cdecl game_dispose_from_old_map();
+extern void __cdecl game_dispose_from_old_map();
 //extern void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set);
 //extern void __cdecl game_dispose_from_old_structure_bsp(dword);
 extern void __cdecl game_finish();
@@ -121,7 +129,7 @@ extern bool __cdecl game_is_server();
 extern bool __cdecl game_is_survival();
 extern bool __cdecl game_is_synchronous_networking();
 extern bool __cdecl game_is_ui_shell();
-//extern void __cdecl game_launch_initial_script();
+extern void __cdecl game_launch_initial_script();
 //.text:00531EE0 ; game_level_advance;
 //.text:00531FF0 ; prepare_game_level;
 //.text:00532050 ; game_level_prepare;
@@ -166,7 +174,7 @@ extern void __cdecl game_set_active_skulls(dword* active_primary_skulls, dword* 
 extern void __cdecl game_set_difficulty(e_campaign_difficulty_level campaign_difficulty);
 extern e_game_simulation_type __cdecl game_simulation_get();
 extern void __cdecl game_simulation_set(e_game_simulation_type game_simulation);
-//extern void __cdecl game_start(e_game_create_mode);
+extern void __cdecl game_start(e_game_create_mode mode);
 extern bool __cdecl game_survival_allow_respawn();
 //extern bool __cdecl game_test_cluster_activation(s_cluster_reference const*);
 extern void __cdecl game_tick();

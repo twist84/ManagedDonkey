@@ -30,6 +30,11 @@ void __cdecl game_engine_end_round_with_winner(long team, bool a1, e_game_engine
 	INVOKE(0x0054E390, game_engine_end_round_with_winner, team, a1, condition);
 }
 
+void __cdecl game_engine_game_starting()
+{
+	INVOKE(0x0054EA60, game_engine_game_starting);
+}
+
 void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string)
 {
 	INVOKE(0x00550460, game_engine_get_multiplayer_string, id, out_multiplayer_string);

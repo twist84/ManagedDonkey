@@ -85,6 +85,11 @@ bool __cdecl scenario_activate_initial_designer_zones(long zoneset_index)
 	return INVOKE(0x004E9950, scenario_activate_initial_designer_zones, zoneset_index);
 }
 
+bool __cdecl scenario_activate_initial_zone_set(long zoneset_index)
+{
+	return INVOKE(0x004E9990, scenario_activate_initial_zone_set, zoneset_index);
+}
+
 void __cdecl scenario_invalidate()
 {
 	return INVOKE(0x004EA3E0, scenario_invalidate);
