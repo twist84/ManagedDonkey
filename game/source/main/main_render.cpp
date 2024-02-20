@@ -336,21 +336,38 @@ void __cdecl main_render_pregame_loading_screen()
 	INVOKE(0x00604990, main_render_pregame_loading_screen);
 }
 
-// 00604A20
-// calls `c_rasterizer::end_frame`
+//.text:00604A20 ; calls `c_rasterizer::end_frame()` then `g_main_render_timing_data->reset()`
 
 void __cdecl main_render_process_messages()
 {
 	INVOKE(0x00604A60, main_render_process_messages);
+
+	//if (!thread_has_crashed(k_thread_render))
+	//{
+	//	objects_render_thread_update();
+	//	effects_process_render_thread_messages();
+	//	c_decal_system::process_render_thread_messages();
+	//}
+	//main_render_purge_pending_messages();
 }
 
 void __cdecl main_render_purge_pending_messages()
 {
 	INVOKE(0x00604AA0, main_render_purge_pending_messages);
+
+	//reset_object_render_message_queue();
+	//reset_effect_render_message_queue(0);
+	//c_decal_system::reset_render_message_queue();
 }
 
-// 00604AD0
-// sets a bool related to D3D
+void __cdecl main_render_sapien()
+{
+	//INVOKE(0x00604AC0, main_render_sapien);
+
+	main_render_game();
+}
+
+//.text:00604AD0 ; sets a bool related to D3D
 
 void __cdecl main_render_start_blocking_frame()
 {

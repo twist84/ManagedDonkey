@@ -68,6 +68,7 @@ extern void __cdecl main_render_pregame(e_main_pregame_frame main_pregame_frame,
 extern void __cdecl main_render_pregame_loading_screen();
 extern void __cdecl main_render_process_messages();
 extern void __cdecl main_render_purge_pending_messages();
+extern void __cdecl main_render_sapien();
 extern void __cdecl main_render_start_blocking_frame();
 extern void __cdecl main_render_status_message(wchar_t const* loading_status);
 extern void __cdecl main_render_update_loading_screen();
