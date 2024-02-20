@@ -76,6 +76,8 @@ bool g_fake_minidump_creation = true;
 bool g_suppress_keyboard_for_minidump = false;
 char const* const k_crash_info_output_filename = "crash_report\\crash_info.txt";
 
+bool debug_no_drawing = false;
+
 bool cheat_drop_tag = false;
 long cheat_drop_tag_index = 0;
 long cheat_drop_variant_name = 0;

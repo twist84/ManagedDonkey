@@ -122,6 +122,8 @@ extern _main_globals& main_globals;
 extern bool g_fake_minidump_creation;
 extern bool g_suppress_keyboard_for_minidump;
 
+extern bool debug_no_drawing;
+
 extern char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons];
 
 struct s_file_reference;
