@@ -5,6 +5,70 @@
 #include "memory/module.hpp"
 #include "text/draw_string.hpp"
 
+REFERENCE_DECLARE(0x01913474, dword, c_render_globals::m_frame_index);
+REFERENCE_DECLARE(0x050E88F0, real, c_render_globals::m_frame_time);
+REFERENCE_DECLARE(0x050E88F4, bool, c_render_globals::m_distortion_active);
+REFERENCE_DECLARE(0x050E88F5, bool, c_render_globals::m_distortion_visible);
+REFERENCE_DECLARE(0x050E88F6, bool, c_render_globals::m_distortion_history);
+REFERENCE_DECLARE(0x050E88F7, bool, c_render_globals::m_depth_fade_active);
+REFERENCE_DECLARE(0x050E88F9, bool, c_render_globals::m_weather_occlusion_available);
+
+void __cdecl c_render_globals::advance_frame_time(real seconds_elapsed)
+{
+	//INVOKE(0x00A29410, advance_frame_time, seconds_elapsed);
+
+	m_frame_time += seconds_elapsed;
+}
+
+bool __cdecl c_render_globals::get_depth_fade_active()
+{
+	//return INVOKE(0x00A29550, get_depth_fade_active);
+
+	return m_depth_fade_active;
+}
+
+bool __cdecl c_render_globals::get_distortion_active()
+{
+	//return INVOKE(0x00A29560, get_distortion_active);
+
+	return m_distortion_active;
+}
+
+bool __cdecl c_render_globals::get_distortion_history()
+{
+	//return INVOKE(0x00A29570, get_distortion_history);
+
+	return m_distortion_history;
+}
+
+bool __cdecl c_render_globals::get_distortion_visible()
+{
+	//return INVOKE(0x00A29580, get_distortion_visible);
+
+	return m_distortion_visible;
+}
+
+long __cdecl c_render_globals::get_frame_index()
+{
+	//return INVOKE(0x00A29590, get_frame_index);
+
+	return m_frame_index;
+}
+
+real __cdecl c_render_globals::get_frame_time()
+{
+	//return INVOKE(0x00A295A0, get_frame_time);
+
+	return m_frame_time;
+}
+
+void __cdecl c_render_globals::increment_frame_index()
+{
+	//INVOKE(0x00A295E0, increment_frame_index);
+
+	m_frame_index++;
+}
+
 void __cdecl render_frame_begin()
 {
 	INVOKE(0x00A29760, render_frame_begin);
@@ -68,6 +132,62 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 void __cdecl render_window_reset(long user_index)
 {
 	INVOKE(0x00A2A2E0, render_window_reset, user_index);
+}
+
+void __cdecl c_render_globals::set_depth_fade_active(bool depth_fade_active)
+{
+	//INVOKE(0x00A2A2F0, set_depth_fade_active, depth_fade_active);
+
+	m_depth_fade_active = depth_fade_active;
+}
+
+void __cdecl c_render_globals::set_distortion_active(bool distortion_active)
+{
+	//INVOKE(0x00A2A300, set_distortion_active, distortion_active);
+
+	m_distortion_active = distortion_active;
+}
+
+void __cdecl c_render_globals::set_distortion_history(bool distortion_history)
+{
+	//INVOKE(0x00A2A310, set_distortion_history, distortion_history);
+
+	m_distortion_history = distortion_history;
+}
+
+void __cdecl c_render_globals::set_distortion_visible(bool distortion_visible)
+{
+	//INVOKE(0x00A2A320, set_distortion_visible, distortion_visible);
+
+	m_distortion_visible = distortion_visible;
+}
+
+void __cdecl c_render_globals::set_frame_index(long frame_index)
+{
+	//INVOKE(0x00A2A330, set_frame_index, frame_index);
+
+	m_frame_index = frame_index;
+}
+
+void __cdecl c_render_globals::set_frame_time(real frame_time)
+{
+	//INVOKE(0x00A2A340, set_frame_time, frame_time);
+
+	m_frame_time = frame_time;
+}
+
+void __cdecl c_render_globals::set_weather_occlusion_available(bool weather_occlusion_available)
+{
+	//INVOKE(0x00A3B7E0, set_weather_occlusion_available, weather_occlusion_available);
+
+	m_weather_occlusion_available = weather_occlusion_available;
+}
+
+bool __cdecl c_render_globals::get_weather_occlusion_available()
+{
+	//return INVOKE(0x00A4BFD0, get_weather_occlusion_available);
+
+	return m_weather_occlusion_available;
 }
 
 real pregame_frame_scales[9] =
