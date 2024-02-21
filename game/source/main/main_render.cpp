@@ -1,9 +1,14 @@
 #include "main/main_render.hpp"
 
 #include "bink/bink_playback.hpp"
+#include "cache/pc_geometry_cache.hpp"
+#include "cache/pc_texture_cache.hpp"
+#include "cache/restricted_memory.hpp"
+#include "cache/restricted_memory_regions.hpp"
 #include "cseries/async_xoverlapped.hpp"
 #include "cseries/cseries_events.hpp"
 #include "cutscene/cinematics.hpp"
+#include "editor/editor_stubs.hpp"
 #include "game/game.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/c_controller.hpp"
@@ -11,13 +16,19 @@
 #include "interface/terminal.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
+#include "main/main_time.hpp"
 #include "memory/module.hpp"
+#include "memory/thread_local.hpp"
+#include "profiler/profiler.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
 #include "render/render.hpp"
 #include "render/views/render_view.hpp"
 #include "simulation/simulation.hpp"
 #include "text/draw_string.hpp"
 
+//HOOK_DECLARE(0x006042C0, main_render);
+HOOK_DECLARE(0x00604860, main_render_pregame);
 //HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 
 bool debug_render_horizontal_splitscreen = false;
@@ -81,7 +92,7 @@ bool c_player_render_camera_iterator::next()
 		else
 		{
 			m_user_index++;
-			while (m_user_index < MAXIMUM_PLAYER_WINDOWS && !players_user_is_active(m_user_index))
+			while (m_user_index < MAXIMUM_PLAYER_WINDOWS && !player_mapping_output_user_is_active(m_user_index))
 				m_user_index++;
 
 			if (m_user_index >= MAXIMUM_PLAYER_WINDOWS)
@@ -130,81 +141,105 @@ void __cdecl main_render()
 {
 	INVOKE(0x006042C0, main_render);
 
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
 	//REFERENCE_DECLARE(0x02446778, long, dword_2446778);
 	//
-	////bool should_draw = !debug_no_drawing;
-	//bool should_draw = !sub_42E5D0();
-	//
-	//c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
-	//rasterizer_lag_timing_mark_render_start();
-	//main_render_process_messages();
-	//
-	//if (dword_2446778 > 50)
+	//PROFILER(main_render)
 	//{
-	//	should_draw = false;
-	//	dword_2446778 = 0;
-	//}
+	//	bool should_draw = !sub_42E5D0() || !debug_no_drawing;
 	//
-	//if (rasterizer_lag_timing_get_gamestate_delay() <= 10)
-	//	dword_2446778 = 0;
-	//else
-	//	dword_2446778++;
-	//
-	//if (should_draw)
-	//{
-	//	bool render_game = true;
-	//	bool render_sapien = false;
-	//
-	//	if (c_rasterizer::begin_frame())
 	//	{
-	//		if (game_in_progress() && game_get_active_structure_bsp_mask())
+	//		c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	//		rasterizer_lag_timing_mark_render_start();
+	//		main_render_process_messages();
+	//
+	//		if (dword_2446778 > 50)
 	//		{
-	//			if (simulation_starting_up())
-	//				render_game = false;
+	//			should_draw = false;
+	//			dword_2446778 = 0;
 	//		}
+	//
+	//		if (rasterizer_lag_timing_get_gamestate_delay() > 10)
+	//			dword_2446778++;
 	//		else
+	//			dword_2446778 = 0;
+	//
+	//		if (should_draw)
 	//		{
-	//			render_game = false;
+	//			bool render_game = true;
+	//			bool render_sapien = false;
+	//
+	//			if (c_rasterizer::begin_frame())
+	//			{
+	//				PROFILER(render)
+	//				{
+	//					PROFILER(general)
+	//					{
+	//						if (game_in_progress() && game_get_active_structure_bsp_mask())
+	//						{
+	//							if (simulation_starting_up())
+	//								render_game = false;
+	//						}
+	//						else
+	//						{
+	//							render_game = false;
+	//						}
+	//
+	//						if (render_game)
+	//						{
+	//							render_sapien = game_in_editor();
+	//							render_game = !render_sapien;
+	//						}
+	//
+	//						main_render_frame_begin();
+	//
+	//						if (render_game)
+	//						{
+	//							main_render_game();
+	//						}
+	//						else if (render_sapien)
+	//						{
+	//							main_render_sapien();
+	//						}
+	//						else
+	//						{
+	//							main_render_pregame(_main_pregame_frame_normal, NULL);
+	//						}
+	//
+	//						should_draw = !texture_cache_is_blocking() && !geometry_cache_is_blocking();
+	//					}
+	//				}
+	//			}
+	//			else
+	//			{
+	//				should_draw = false;
+	//			}
+	//
+	//			c_render_globals::increment_frame_index();
 	//		}
 	//
-	//		if (render_game)
-	//		{
-	//			render_sapien = game_in_editor();
-	//			render_game = !render_sapien;
-	//		}
+	//		//if (should_draw)
+	//		//{
+	//		//	if (__int64 blocking_cycles = g_main_render_block_watch.stop())
+	//		//	{
+	//		//		real blocking_milliseconds = c_stop_watch::cycles_to_seconds(blocking_cycles);
+	//		//		status_printf("blocking time: %.2f ms", blocking_milliseconds * 1000.0f);
+	//		//	}
+	//		//}
 	//
-	//		main_render_frame_begin();
-	//
-	//		if (render_game)
-	//		{
-	//			main_render_game();
-	//		}
-	//		else if (render_sapien)
-	//		{
-	//			main_render_sapien();
-	//		}
-	//		else
-	//		{
-	//			main_render_pregame(1, NULL);
-	//		}
-	//
-	//		should_draw = !texture_cache_is_blocking() && !geometry_cache_is_blocking();
+	//		rasterizer_lag_timing_mark_render_end();
 	//	}
-	//	else
+	//
+	//	if (should_draw)
 	//	{
-	//		should_draw = false;
+	//		__int64 target_display_vblank_index = main_time_get_target_display_vblank_index();
+	//		restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region);
+	//		main_time_throttle(target_display_vblank_index);
+	//
+	//		// done in `sub_604A20`
+	//		c_rasterizer::end_frame();
+	//		g_main_render_timing_data->reset();
 	//	}
-	//	c_render_globals::increment_frame_index();
-	//}
-	//
-	//rasterizer_lag_timing_mark_render_end();
-	//wait_for_render_thread.~c_wait_for_render_thread();
-	//
-	//if (should_draw)
-	//{
-	//	long long target_display_vblank_index = main_time_get_target_display_vblank_index();
-	//	restricted_region_mirror_locked_for_current_thread(3);
-	//	main_time_throttle(target_display_vblank_index);
 	//}
 }
 
@@ -279,7 +314,6 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 	game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94980, short, __cdecl)()));
 }
 
-HOOK_DECLARE(0x00604860, main_render_pregame);
 void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char const* text)
 {
 	//INVOKE(0x00604860, main_render_pregame, pregame_frame_type, text);
@@ -336,7 +370,14 @@ void __cdecl main_render_pregame_loading_screen()
 	INVOKE(0x00604990, main_render_pregame_loading_screen);
 }
 
-//.text:00604A20 ; calls `c_rasterizer::end_frame()` then `g_main_render_timing_data->reset()`
+void __cdecl sub_604A20()
+{
+	INVOKE(0x00604A20, sub_604A20);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+	//c_rasterizer::end_frame();
+	//g_main_render_timing_data->reset();
+}
 
 void __cdecl main_render_process_messages()
 {
