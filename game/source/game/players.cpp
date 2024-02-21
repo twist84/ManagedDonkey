@@ -184,7 +184,12 @@ long __cdecl player_index_from_unit_index(long unit_index)
 //.text:0053B7D0 ; void __cdecl player_left_game(long)
 //.text:0053B7E0
 //.text:0053B840 ; void __cdecl player_mostly_input_inhibit(long, struct s_player_action *)
-//.text:0053B880 ; long __cdecl player_new(long, struct game_player_options const *, bool)
+
+long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress)
+{
+	return INVOKE(0x0053B880, player_new, player_array_index, options, joined_in_progress);
+}
+
 //.text:0053B8F0 ; void __cdecl player_notify_of_tracking_or_locking(long, long, short)
 //.text:0053BA10 ; void __cdecl player_notify_vehicle_ejection_finished(long)
 //.text:0053BA90 ; void __cdecl player_over_shield_screen_effect(long)
@@ -312,7 +317,12 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 //.text:00541AF0 ; void __cdecl players_dispose(void)
 //.text:00541B30 ; void __cdecl players_dispose_from_old_map(void)
 //.text:00541B70 ; void __cdecl players_dispose_from_old_structure_bsp(dword)
-//.text:00541B80 ; void __cdecl players_finish_creation(void)
+
+void __cdecl players_finish_creation()
+{
+	INVOKE(0x00541B80, players_finish_creation);
+}
+
 //.text:00541BA0 ; void __cdecl players_force_detach_from_object(long)
 //.text:00541C70 ; long __cdecl players_get_active_and_in_game_count(bool)
 //.text:00541CF0 ; long __cdecl players_get_alive_count(void)
@@ -338,7 +348,11 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 //.text:005425A0 ; bool __cdecl players_joined_in_progress_and_waiting_to_respawn(void)
 //.text:00542620 ; void __cdecl players_rebuild_user_mapping(bool)
 //.text:005427A0 ; void __cdecl players_remap_local_machine(struct s_machine_identifier const *, struct game_player_options const *)
-//.text:00542D60 ; void __cdecl players_set_local_machine(struct s_machine_identifier const *)
+
+void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier)
+{
+	INVOKE(0x00542D60, players_set_local_machine, machine_identifier);
+}
 
 void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers)
 {
@@ -459,7 +473,12 @@ void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identi
 //.text:00543D20 ; void __cdecl players_update_before_game(struct simulation_update const *)
 //.text:00544370 ; void __cdecl players_update_for_checkpoint(void)
 //.text:00544380 ; void __cdecl players_validate_configuration(void)
-//.text:00544400 ; void __cdecl players_verify(void)
+
+void __cdecl players_verify()
+{
+	INVOKE(0x00544400, players_verify);
+}
+
 //.text:00544410 ; bool __cdecl players_zone_set_switch_trigger_active(void)
 //.text:00544440 ; void __cdecl players_zone_set_switch_trigger_clear(void)
 //.text:00544610

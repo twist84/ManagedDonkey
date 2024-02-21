@@ -730,9 +730,14 @@ extern void player_override_desired_mode(long desired_mode_override);
 extern void players_debug_render();
 
 extern long __cdecl player_index_from_unit_index(long unit_index);
+extern long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress);
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
+extern void __cdecl players_finish_creation();
+extern void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier);
+extern void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);
+extern void __cdecl players_verify();
 extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
 extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player);
 extern long multiplayer_universal_data_get_absolute_equipment_block_index(char const* name);
