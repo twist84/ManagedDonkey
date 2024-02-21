@@ -78,13 +78,13 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 
 	if (game_in_progress() && !game_is_ui_shell())
 	{
-		for (long i = 0; i < k_number_of_controllers; i++)
+		for (long i = player_mapping_first_active_output_user(); i != NONE; i = player_mapping_next_active_output_user(i))
 		{
 			e_controller_index controller_index = static_cast<e_controller_index>(i);
 
-			s_game_input_state* input_state;
+			s_game_input_state* input_state = NULL;
 			input_abstraction_get_input_state(controller_index, &input_state);
-			byte down_frames = input_state->get_button(_button_action_back).down_frames();
+			bool back_pressed = input_state && input_state->get_button(_button_action_back).down_frames() != 0;
 
 			TLS_DATA_GET_VALUE_REFERENCE(local_game_engine_globals);
 			if (!current_game_engine() || game_engine_in_round())
@@ -96,8 +96,8 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 				local_game_engine_globals->__time0 = game_time_get() + game_seconds_integer_to_ticks(1);
 			}
 
-			if (user_interface_should_show_console_scoreboard(NULL) || down_frames != 0)
-				c_gui_screen_scoreboard::show_scoreboard(controller_index, true);
+			if (user_interface_should_show_console_scoreboard(NULL) || back_pressed)
+				c_gui_screen_scoreboard::show_scoreboard(controller_index, back_pressed);
 			else
 				c_gui_screen_scoreboard::hide_scoreboard(controller_index);
 
