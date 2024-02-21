@@ -70,12 +70,6 @@ void __cdecl player_control_toggle_player_input(long user_index)
 	player_control_globals->input_user_states[user_index].player_input_locked = !player_control_globals->input_user_states[user_index].player_input_locked;
 }
 
-//enum e_input_user_index __cdecl player_mapping_get_input_user(long)
-long __cdecl player_mapping_get_input_user(long player_index)
-{
-	return INVOKE(0x00589B00, player_mapping_get_input_user, player_index);
-}
-
 short __cdecl player_control_get_zoom_level(long user_index)
 {
 	return INVOKE(0x005D2D50, player_control_get_zoom_level, user_index);

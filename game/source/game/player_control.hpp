@@ -305,7 +305,6 @@ extern void __cdecl player_control_toggle_machinima_camera_enabled();
 extern void __cdecl player_control_toggle_machinima_camera_use_old_controls();
 extern void __cdecl player_control_toggle_machinima_camera_debug();
 extern void __cdecl player_control_toggle_player_input(long user_index);
-extern long __cdecl player_mapping_get_input_user(long player_index);
 extern short __cdecl player_control_get_zoom_level(long user_index);
 extern void __cdecl player_control_suppress_rotate_weapons(long user_index);
 extern void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds_elapsed);

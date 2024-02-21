@@ -529,7 +529,7 @@ void __cdecl director_load_camera_named(char const* name)
 		return;
 	}
 
-	long active_user = players_first_active_user();
+	long active_user = player_mapping_first_active_input_user();
 	if (active_user == NONE)
 	{
 		c_console::write_line("no active user to set saved camera '%s'", filename.get_string());

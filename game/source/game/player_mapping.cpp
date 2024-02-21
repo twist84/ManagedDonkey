@@ -1,79 +1,252 @@
 #include "game/player_mapping.hpp"
 
+#include "game/players.hpp"
 #include "memory/thread_local.hpp"
 
-s_player_mapping_globals* __cdecl player_mapping_globals_get()
+void __cdecl __tls_set_g_player_mapping_globals_allocator(void* address)
 {
-	if (!get_tls())
-		return nullptr;
+	INVOKE(0x00589620, __tls_set_g_player_mapping_globals_allocator, address);
 
-	TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
-	return player_mapping_globals;
+	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
+	//player_mapping_globals = (s_player_mapping_globals*)address;
 }
 
-long __cdecl player_index_from_user_index(long user_index)
+//.text:00589640 ; 
+//.text:00589680 ; public: void __cdecl c_player_output_user_iterator::begin_player(long)
+//.text:005896A0 ; public: void __cdecl c_player_output_user_iterator::begin_unit(long)
+//.text:00589700 ; 
+//.text:00589730 ; 
+//.text:00589760 ; public: e_output_user_index __cdecl c_player_output_user_iterator::get_output_user_index()
+//.text:00589770 ; public: bool __cdecl c_player_output_user_iterator::next()
+
+//void __cdecl player_mapping_attach_output_user(e_output_user_index output_user_index, long player_index)
+void __cdecl player_mapping_attach_output_user(long output_user_index, long player_index)
 {
-	if (user_index == -1)
-		return -1;
-
-	return player_mapping_globals_get()->output_user_player_mapping[user_index];
-
-	//ASSERT(user_index < 4);
-	//s_player_mapping_globals* player_mapping_globals = player_mapping_globals_get();
-	//datum_index input_user_index = player_mapping_globals->input_user_player_mapping[user_index];
-	//if (input_user_index != -1)
-	//{
-	//	ASSERT(input_user_index < 16);
-	//	ASSERT(player_mapping_globals->player_input_user_mapping[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index)] == user_index);
-	//}
-	//return input_user_index;
+	INVOKE(0x005897A0, player_mapping_attach_output_user, output_user_index, player_index);
 }
 
-bool __cdecl players_user_is_active(long user_index)
+void __cdecl player_mapping_detach_output_users(long player_index)
 {
-	if (user_index == -1)
-		return false;
-
-	return player_mapping_globals_get()->output_user_player_mapping[user_index] != -1;
+	INVOKE(0x005898D0, player_mapping_detach_output_users, player_index);
 }
 
-long __cdecl player_mapping_get_player_count()
+void __cdecl player_mapping_dispose()
 {
-	return player_mapping_globals_get()->active_output_user_count;
+	INVOKE(0x005899C0, player_mapping_dispose);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
+	//if (player_mapping_globals)
+	//	player_mapping_globals = NULL;
+}
+
+//e_input_user_index __cdecl player_mapping_first_active_input_user()
+long __cdecl player_mapping_first_active_input_user()
+{
+	//return INVOKE(0x005899F0, player_mapping_first_active_input_user);
+
+	return player_mapping_next_active_input_user(NONE);
 }
 
 long __cdecl player_mapping_first_active_output_user()
 {
-	long index = 0;
-	for (long* active_output_user = player_mapping_globals_get()->output_user_player_mapping; *active_output_user == -1; ++active_output_user)
-	{
-		if (++index >= 4)
-			return -1;
-	}
+	//return INVOKE(0x00589A30, player_mapping_first_active_output_user);
 
-	return index;
+	return player_mapping_next_active_output_user(NONE);
 }
 
+//e_output_user_index __cdecl player_mapping_get_first_output_user(long player_index)
+long __cdecl player_mapping_get_first_output_user(long player_index)
+{
+	//return INVOKE(0x00589A70, player_mapping_get_first_output_user, player_index);
+
+	return player_mapping_get_next_output_user(player_index, NONE);
+}
+
+e_controller_index __cdecl player_mapping_get_input_controller(long player_index)
+{
+	return INVOKE(0x00589AD0, player_mapping_get_input_controller, player_index);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
+	//
+	//ASSERT(player_index != NONE); //ASSERT(player_index != k_player_index_none);
+	//
+	//long player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index);
+	//long controller_index = player_mapping_globals->player_input_controller_mapping[player_absolute_index];
+	//if (controller_index != NONE)
+	//	ASSERT(player_mapping_globals->input_controller_player_mapping[controller_index] == player_index);
+	//
+	//return static_cast<e_controller_index>(controller_index);
+}
+
+//e_input_user_index __cdecl player_mapping_get_input_user(long player_index)
+long __cdecl player_mapping_get_input_user(long player_index)
+{
+	return INVOKE(0x00589B00, player_mapping_get_input_user, player_index);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
+	//
+	//ASSERT(player_index != NONE); //ASSERT(player_index != k_player_index_none);
+	//
+	//long input_user_index = NONE;
+	//if (player_index != NONE)
+	//{
+	//	long player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index);
+	//	input_user_index = player_mapping_globals->player_input_user_mapping[player_absolute_index];
+	//	if (input_user_index != NONE)
+	//		ASSERT(player_mapping_globals->input_user_player_mapping[input_user_index] == player_index);
+	//}
+	//return input_user_index;
+}
+
+//e_input_user_index __cdecl player_mapping_get_input_user_by_unit(long unit_index)
+long __cdecl player_mapping_get_input_user_by_unit(long unit_index)
+{
+	return INVOKE(0x00589B30, player_mapping_get_input_user_by_unit, unit_index);
+
+	//long input_user_index = NONE;
+	//if (unit_index != NONE)
+	//{
+	//	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+	//	if (unit->player_index != NONE)
+	//		input_user_index = player_mapping_get_input_user(unit->player_index);
+	//}
+	//return input_user_index;
+}
+
+//e_output_user_index __cdecl player_mapping_get_next_output_user(long player_index, e_output_user_index output_user_index)
+long __cdecl player_mapping_get_next_output_user(long player_index, long output_user_index)
+{
+	return INVOKE(0x00589B90, player_mapping_get_next_output_user, player_index, output_user_index);
+}
+
+long __cdecl player_mapping_get_player_by_input_controller(e_controller_index controller_index)
+{
+	return INVOKE(0x00589C00, player_mapping_get_player_by_input_controller, controller_index);
+}
+
+//long __cdecl player_mapping_get_player_by_input_user(e_input_user_index input_user_index)
+long __cdecl player_mapping_get_player_by_input_user(long input_user_index)
+{
+	return INVOKE(0x00589C30, player_mapping_get_player_by_input_user, input_user_index);
+}
+
+//long __cdecl player_mapping_get_player_by_output_user(e_output_user_index output_user_index)
+long __cdecl player_mapping_get_player_by_output_user(long output_user_index)
+{
+	return INVOKE(0x00589C60, player_mapping_get_player_by_output_user, output_user_index);
+}
+
+//long __cdecl player_mapping_get_unit_by_input_user(e_input_user_index input_user_index)
+long __cdecl player_mapping_get_unit_by_input_user(long input_user_index)
+{
+	return INVOKE(0x00589C90, player_mapping_get_unit_by_input_user, input_user_index);
+}
+
+//long __cdecl player_mapping_get_unit_by_output_user(e_output_user_index output_user_index)
 long __cdecl player_mapping_get_unit_by_output_user(long output_user_index)
 {
-	ASSERT(output_user_index != NONE && VALID_INDEX(output_user_index, k_number_of_input_users));
-
-	return player_mapping_globals_get()->output_user_unit_mapping[output_user_index];
+	return INVOKE(0x00589CC0, player_mapping_get_unit_by_output_user, output_user_index);
 }
 
-long __cdecl player_mapping_get_unit_by_input_user(long user_index)
+void __cdecl player_mapping_initialize()
 {
-	if (user_index == NONE)
-		return NONE;
-
-	ASSERT(VALID_INDEX(user_index, k_number_of_input_users));
-
-	return player_mapping_globals_get()->input_user_unit_mapping[user_index];
+	INVOKE(0x00589CF0, player_mapping_initialize);
 }
 
+long __cdecl player_mapping_input_controller_active_count()
+{
+	return INVOKE(0x00589D50, player_mapping_input_controller_active_count);
+}
+
+//bool __cdecl player_mapping_input_controller_is_active(e_controller_index controller_index)
+bool __cdecl player_mapping_input_controller_is_active(e_controller_index controller_index)
+{
+	return INVOKE(0x00589D70, player_mapping_input_controller_is_active, controller_index);
+}
+
+long __cdecl player_mapping_input_user_active_count()
+{
+	return INVOKE(0x00589DA0, player_mapping_input_user_active_count);
+}
+
+//bool __cdecl player_mapping_input_user_is_active(e_input_user_index input_user_index)
+bool __cdecl player_mapping_input_user_is_active(long input_user_index)
+{
+	return INVOKE(0x00589DC0, player_mapping_input_user_is_active, input_user_index);
+}
+
+//void __cdecl player_mapping_input_user_set_unit(e_input_user_index, long unit_index)
+void __cdecl player_mapping_input_user_set_unit(long input_user_index, long unit_index)
+{
+	INVOKE(0x00589DF0, player_mapping_input_user_set_unit, input_user_index, unit_index);
+}
+
+//e_input_user_index __cdecl player_mapping_next_active_input_user(e_input_user_index input_user_index)
+long __cdecl player_mapping_next_active_input_user(long input_user_index)
+{
+	return INVOKE(0x00589E60, player_mapping_next_active_input_user, input_user_index);
+}
+
+//e_output_user_index __cdecl player_mapping_next_active_output_user(e_output_user_index output_user_index)
+long __cdecl player_mapping_next_active_output_user(long output_user_index)
+{
+	return INVOKE(0x00589EB0, player_mapping_next_active_output_user, output_user_index);
+}
 
 long __cdecl player_mapping_output_user_active_count()
 {
-	return player_mapping_globals_get()->active_output_user_count;
+	return INVOKE(0x00589F00, player_mapping_output_user_active_count);
+}
+
+//bool __cdecl player_mapping_output_user_is_active(e_output_user_index output_user_index)
+bool __cdecl player_mapping_output_user_is_active(long output_user_index)
+{
+	return INVOKE(0x00589F20, player_mapping_output_user_is_active, output_user_index);
+}
+
+//void __cdecl player_mapping_output_user_set_unit(e_output_user_index output_user_index, long unit_index)
+void __cdecl player_mapping_output_user_set_unit(long output_user_index, long unit_index)
+{
+	INVOKE(0x00589F50, player_mapping_output_user_set_unit, output_user_index, unit_index);
+}
+
+void __cdecl player_mapping_reset()
+{
+	INVOKE(0x0058A000, player_mapping_reset);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(player_mapping_globals);
+	//
+	////generate_event(_event_level_message, "player_mapping: reset");
+	//c_console::write_line("player_mapping: reset");
+	//
+	//player_mapping_globals->active_input_user_count = 0;
+	//player_mapping_globals->active_input_controller_count = 0;
+	//player_mapping_globals->input_user_player_mapping.set_all(NONE);
+	//player_mapping_globals->input_user_unit_mapping.set_all(NONE);
+	//player_mapping_globals->input_controller_player_mapping.set_all(NONE);
+	//player_mapping_globals->player_input_controller_mapping.set_all(NONE);
+	//player_mapping_globals->player_input_user_mapping.set_all(NONE);
+	//player_mapping_globals->active_output_user_count = 0;
+	//player_mapping_globals->output_user_player_mapping.set_all(NONE);
+	//player_mapping_globals->output_user_unit_mapping.set_all(NONE);
+	//player_mapping_globals->player_output_user_mapping.set_all(NONE);
+	players_verify();
+}
+
+//void __cdecl player_mapping_set_input_controller(long player_index, e_controller_index controller_index)
+void __cdecl player_mapping_set_input_controller(long player_index, e_controller_index controller_index)
+{
+	INVOKE(0x0058A140, player_mapping_set_input_controller, player_index, controller_index);
+}
+
+//void __cdecl player_mapping_set_input_user(long player_index, e_input_user_index input_user_index)
+void __cdecl player_mapping_set_input_user(long player_index, long input_user_index)
+{
+	INVOKE(0x0058A1D0, player_mapping_set_input_user, player_index, input_user_index);
+}
+
+void __cdecl player_mapping_set_player_unit(long player_index, long unit_index)
+{
+	INVOKE(0x0058A2B0, player_mapping_set_player_unit, player_index, unit_index);
 }
 

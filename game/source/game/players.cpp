@@ -465,11 +465,6 @@ void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identi
 //.text:00544610
 //.text:00544680
 
-long __cdecl players_first_active_user()
-{
-	return INVOKE(0x00589A30, players_first_active_user);
-}
-
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
 {
 	s_s3d_player_armor_configuration_loadout& loadout = player->configuration.host.armor.loadouts[player->armor_loadout_index];

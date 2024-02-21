@@ -147,7 +147,6 @@ void __cdecl game_create_players()
 	//
 	//	players_finish_creation();
 	//	simulation_notify_players_created();
-	//	//player_training_notify_players_created();
 	//}
 }
 

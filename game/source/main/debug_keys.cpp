@@ -914,12 +914,12 @@ void __cdecl debug_key_rotate_units(bool enabled)
 {
 	if (enabled && game_in_progress() && !game_is_ui_shell())
 	{
-		long active_user = players_first_active_user();
+		long active_user = player_mapping_first_active_input_user();
 		if (active_user != NONE)
 		{
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-			long player_index = player_index_from_user_index(active_user);
+			long player_index = player_mapping_get_player_by_input_user(active_user);
 			player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
 			long unit_index = player->unit_index;
 			if (unit_index != NONE)
@@ -936,12 +936,12 @@ void __cdecl debug_key_rotate_all_units(bool enabled)
 {
 	if (enabled && game_in_progress() && !game_is_ui_shell())
 	{
-		long active_user = players_first_active_user();
+		long active_user = player_mapping_first_active_input_user();
 		if (active_user != NONE)
 		{
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-			long player_index = player_index_from_user_index(active_user);
+			long player_index = player_mapping_get_player_by_input_user(active_user);
 			player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
 			long unit_index = player->unit_index;
 			if (unit_index != NONE)
@@ -981,7 +981,7 @@ void __cdecl debug_key_ninja_rope(bool enabled)
 {
 	if (enabled && game_in_progress())
 	{
-		long active_user = players_first_active_user();
+		long active_user = player_mapping_first_active_input_user();
 		if (active_user != NONE)
 		{
 			long unit_index = player_mapping_get_unit_by_input_user(active_user);

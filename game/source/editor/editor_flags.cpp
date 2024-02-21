@@ -1,7 +1,7 @@
 #include "editor/editor_flags.hpp"
 
 #include "camera/observer.hpp"
-#include "game/players.hpp"
+#include "game/player_mapping.hpp"
 #include "toolbox/game_helpers.hpp"
 
 bool render_comment_flags = false;
@@ -23,7 +23,7 @@ void editor_flag_new_at_camera()
 {
 	if (enable_controller_flag_drop)
 	{
-		long active_user = players_first_active_user();
+		long active_user = player_mapping_first_active_input_user();
 		if (active_user != NONE)
 		{
 			s_observer_result const* result = observer_get_camera(active_user);
@@ -41,7 +41,7 @@ void editor_flag_new_at_look_at_point()
 {
 	if (enable_controller_flag_drop)
 	{
-		long active_user = players_first_active_user();
+		long active_user = player_mapping_first_active_input_user();
 		real_point3d result_point = {};
 		if (user_get_look_at_point(active_user, &result_point))
 		{

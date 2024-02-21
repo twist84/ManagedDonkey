@@ -11,6 +11,7 @@
 #include "game/game_time.hpp"
 #include "game/multiplayer_game_hopper.hpp"
 #include "game/player_mapping.hpp"
+#include "game/player_mapping.hpp"
 #include "hf2p/hf2p.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
@@ -207,7 +208,7 @@ void __cdecl remote_command_process()
 	{
 		for (long user_index = 0; user_index < 4; ++user_index)
 		{
-			if (players_user_is_active(user_index))
+			if (player_mapping_output_user_is_active(user_index))
 			{
 				s_observer_result const* camera = observer_try_and_get_camera(user_index);
 				if (camera)
@@ -324,7 +325,7 @@ bool __cdecl remote_command_send(long command_type, void const* a2, long payload
 bool __cdecl remote_camera_update(long user_index, s_observer_result const* camera)
 {
 	// Check if the game is being run in the editor or if the user index is not the first active user.
-	if (!game_in_editor() || user_index != players_first_active_user())
+	if (!game_in_editor() || user_index != player_mapping_first_active_input_user())
 		return false;
 
 	// If less than 4 seconds have passed since the last update, store the updated camera information and return false.
@@ -1506,6 +1507,7 @@ callback_result_t player_force_mode_callback(void const* userdata, long token_co
 	return result;
 }
 
+//test_download_storage_file /storage/test.txt test/storage/test.txt
 callback_result_t test_download_storage_file_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

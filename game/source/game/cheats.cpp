@@ -512,7 +512,7 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 	if (tag_index == NONE)
 		return;
 
-	long active_user = players_first_active_user();
+	long active_user = player_mapping_first_active_input_user();
 	if (active_user == NONE)
 		return;
 
