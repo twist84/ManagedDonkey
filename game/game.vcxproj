@@ -167,6 +167,7 @@ POPD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\game\game_grief.cpp" />
+    <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
     <ClCompile Include="source\simulation\simulation_players.cpp" />
     <ClCompile Include="source\ai\ai.cpp" />
@@ -654,6 +655,7 @@ POPD
     <ClInclude Include="source\interface\debug_menu\debug_menu_main.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_parse.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_scroll.hpp" />
+    <ClInclude Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.hpp" />
     <ClInclude Include="source\interface\gui_screens\game_browser\gui_game_browser.hpp" />
     <ClInclude Include="source\interface\gui_screens\motd_popup\gui_screen_motd_popup.hpp" />
     <ClInclude Include="source\interface\gui_screens\start_menu\panes\hq\start_menu_headquarters.hpp" />
