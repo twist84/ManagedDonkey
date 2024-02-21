@@ -15,6 +15,7 @@ private:
 public:
 	enum e_scoreboard_mode;
 
+	void set_is_interactive(bool is_interactive);
 	static real __cdecl get_scoreboard_alpha(e_controller_index controller_index);
 	static c_gui_screen_scoreboard* __cdecl get_scoreboard_screen(e_controller_index controller_index);
 	static void __cdecl hide_scoreboard(e_controller_index controller_index);

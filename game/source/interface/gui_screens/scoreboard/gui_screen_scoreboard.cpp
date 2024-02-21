@@ -25,6 +25,11 @@ REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboar
 HOOK_DECLARE_CLASS_MEMBER(0x00AB3DA0, c_gui_scoreboard_data, _update);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
 
+void c_gui_screen_scoreboard::set_is_interactive(bool is_interactive)
+{
+	m_is_interactive = is_interactive;
+}
+
 void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, long a2, long a3)
 {
 	INVOKE(0x00AB2870, c_gui_screen_scoreboard::translate_widget_recursive, widget, a2, a3);
