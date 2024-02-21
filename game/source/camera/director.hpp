@@ -89,7 +89,7 @@ struct c_director
 			return true;
 
 		if (camera_mode == _camera_mode_authored)
-			return get_camera()->get_target() == -1;
+			return get_camera()->get_target() == NONE;
 
 		return false;
 	}
