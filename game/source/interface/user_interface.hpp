@@ -237,6 +237,7 @@ extern bool __cdecl get_alpha_is_locked_down();
 extern long __cdecl get_alpha_locked_down_state();
 extern bool __cdecl get_is_alpha_version();
 extern void __cdecl user_interface_enter_game_shell();
+extern void __cdecl user_interface_get_number_of_render_windows(long user_index, long* a2, long* a3);
 extern dword __cdecl user_interface_milliseconds();
 extern bool __cdecl user_interface_requests_unlocked_framerate();
 extern void __cdecl user_interface_scoreboard_update();

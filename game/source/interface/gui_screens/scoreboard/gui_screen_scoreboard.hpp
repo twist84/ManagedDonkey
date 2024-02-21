@@ -3,8 +3,20 @@
 #include "cseries/cseries.hpp"
 #include "interface/c_gui_screen_widget.hpp"
 #include "interface/user_interface_data.hpp"
+#include "interface/user_interface_messages.hpp"
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
+
+struct c_scoreboard_load_screen_message :
+	public c_load_screen_message
+{
+public:
+	void set_is_interactive(bool is_interactive);
+
+protected:
+	bool m_is_interactive;
+};
+static_assert(sizeof(c_scoreboard_load_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
 struct c_gui_screen_scoreboard :
 	c_gui_screen_widget
@@ -34,6 +46,7 @@ private:
 	static real(&m_scoreboard_alpha)[4];
 	static real& m_console_scoreboard_alpha;
 };
+static_assert(sizeof(c_gui_screen_scoreboard) == sizeof(c_gui_screen_widget) + 0x8);
 
 struct c_gui_scoreboard_data :
 	c_gui_ordered_data
@@ -114,5 +127,12 @@ struct c_gui_scoreboard_data :
 	long m_player_row_count;
 	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
 };
-static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);
+static_assert(sizeof(c_gui_scoreboard_data) == sizeof(c_gui_ordered_data) + 0xD234);
+
+extern c_scoreboard_load_screen_message* scoreboard_load_screen_message_ctor(c_scoreboard_load_screen_message* message,
+	long screen_name,
+	e_controller_index controller,
+	e_window_index window,
+	long layered_position,
+	bool is_interactive);
 

@@ -56,6 +56,11 @@ void __cdecl user_interface_enter_game_shell()
 	//g_user_interface_globals.milliseconds_at_last_event = g_user_interface_globals.milliseconds.peek();
 }
 
+void __cdecl user_interface_get_number_of_render_windows(long user_index, long* a2, long* a3)
+{
+	INVOKE(0x00A84370, user_interface_get_number_of_render_windows, user_index, a2, a3);
+}
+
 dword __cdecl user_interface_milliseconds()
 {
 	return INVOKE(0x00A848E0, user_interface_milliseconds);

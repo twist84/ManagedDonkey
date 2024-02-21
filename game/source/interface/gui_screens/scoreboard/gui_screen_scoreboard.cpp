@@ -5,9 +5,13 @@
 #include "game/game_engine.hpp"
 #include "game/game_engine_display.hpp"
 #include "game/game_engine_team.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/c_gui_bitmap_widget.hpp"
 #include "interface/c_gui_list_item_widget.hpp"
 #include "interface/c_gui_list_widget.hpp"
+#include "interface/user_interface.hpp"
+#include "interface/user_interface_mapping.hpp"
+#include "interface/user_interface_memory.hpp"
 #include "interface/user_interface_session.hpp"
 #include "interface/user_interface_utilities.hpp"
 #include "memory/module.hpp"
@@ -25,6 +29,11 @@ REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboar
 HOOK_DECLARE_CLASS_MEMBER(0x00AB3DA0, c_gui_scoreboard_data, _update);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
 
+void c_scoreboard_load_screen_message::set_is_interactive(bool is_interactive)
+{
+	m_is_interactive = is_interactive;
+}
+
 void c_gui_screen_scoreboard::set_is_interactive(bool is_interactive)
 {
 	m_is_interactive = is_interactive;
@@ -33,6 +42,17 @@ void c_gui_screen_scoreboard::set_is_interactive(bool is_interactive)
 void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, long a2, long a3)
 {
 	INVOKE(0x00AB2870, c_gui_screen_scoreboard::translate_widget_recursive, widget, a2, a3);
+}
+
+// c_scoreboard_load_screen_message::c_scoreboard_load_screen_message
+c_scoreboard_load_screen_message* scoreboard_load_screen_message_ctor(c_scoreboard_load_screen_message* message,
+	long screen_name,
+	e_controller_index controller,
+	e_window_index window,
+	long layered_position,
+	bool is_interactive)
+{
+	return DECLFUNC(0x00AB2AD0, c_scoreboard_load_screen_message*, __thiscall, c_scoreboard_load_screen_message*, long, e_controller_index, e_window_index, long, bool)(message, screen_name, controller, window, layered_position, is_interactive);
 }
 
 real __cdecl c_gui_screen_scoreboard::get_scoreboard_alpha(e_controller_index controller_index)
@@ -63,6 +83,45 @@ bool __cdecl c_gui_screen_scoreboard::is_scoreboard_interactive(e_controller_ind
 void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index controller_index, bool is_interactive)
 {
 	INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
+
+	//if (is_scoreboard_displayed(controller_index))
+	//{
+	//	if (c_gui_screen_scoreboard* scoreboard_screen = get_scoreboard_screen(controller_index))
+	//	{
+	//		scoreboard_screen->set_is_interactive(is_interactive);
+	//	}
+	//}
+	//else
+	//{
+	//	bool half_screen = false;
+	//	if (controller_index == k_any_controller)
+	//	{
+	//		half_screen = true;
+	//	}
+	//	else
+	//	{
+	//		long user_index = controller_get(controller_index)->get_user_index();
+	//		if (user_index != NONE)
+	//		{
+	//			long v1 = 0;
+	//			long v2 = 0;
+	//			user_interface_get_number_of_render_windows(user_index, &v1, &v2);
+	//			half_screen = v2 == 1;
+	//		}
+	//	}
+	//
+	//	c_scoreboard_load_screen_message* message = (c_scoreboard_load_screen_message*)user_interface_malloc_tracked(sizeof(c_scoreboard_load_screen_message), __FILE__, __LINE__);
+	//	if (scoreboard_load_screen_message_ctor(
+	//		message,
+	//		!half_screen + STRING_ID(gui, scoreboard),
+	//		controller_index,
+	//		user_interface_get_window_for_controller(controller_index),
+	//		STRING_ID(gui, top_most),
+	//		is_interactive))
+	//	{
+	//		user_interface_messaging_post(message);
+	//	}
+	//}
 }
 
 void __thiscall c_gui_scoreboard_data::_update()
