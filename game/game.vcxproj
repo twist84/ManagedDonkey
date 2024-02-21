@@ -166,6 +166,7 @@ POPD
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\game\game_grief.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
     <ClCompile Include="source\simulation\simulation_players.cpp" />
     <ClCompile Include="source\ai\ai.cpp" />
@@ -576,6 +577,7 @@ POPD
     <ClInclude Include="source\data_mining\data_mine_usability.hpp" />
     <ClInclude Include="source\editor\editor_flags.hpp" />
     <ClInclude Include="source\editor\editor_render_stubs.hpp" />
+    <ClInclude Include="source\game\game_grief.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
     <ClInclude Include="source\hs\hs_library_internal_compile.hpp" />
     <ClInclude Include="source\hs\hs_unit_seats.hpp" />

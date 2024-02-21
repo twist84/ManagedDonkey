@@ -1176,6 +1176,9 @@
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\game_grief.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3036,6 +3039,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\character_physics_mode_ground.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\game_grief.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
