@@ -220,7 +220,7 @@ struct multiplayer_player_info
 	short lives;
 
 	// used in `game_engine_respond_to_betrayal`, `game_engine_player_is_dead_and_betrayed_by_griefer`
-	long betrayal_player_index;
+	long griefer_player_index;
 
 	// used in `game_engine_player_killed`, `game_engine_add_starting_equipment`
 	dword last_killed_round_time; // = `game_engine_round_time_get`
@@ -551,7 +551,7 @@ static_assert(0x2D9E == OFFSETOF(player_datum, multiplayer.__unknownA));
 static_assert(0x2D9F == OFFSETOF(player_datum, multiplayer.__unknownB));
 static_assert(0x2DA0 == OFFSETOF(player_datum, multiplayer.__unknownC));
 static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.lives));
-static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.betrayal_player_index));
+static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.griefer_player_index));
 static_assert(0x2DAC == OFFSETOF(player_datum, multiplayer.player_traits));
 static_assert(0x2DC8 == OFFSETOF(player_datum, multiplayer.powerup_pickup_time));
 static_assert(0x2DD4 == OFFSETOF(player_datum, multiplayer.dead_camera_target_player_index));
