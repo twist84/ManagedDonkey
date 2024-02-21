@@ -105,6 +105,7 @@ struct c_gui_scoreboard_data :
 		bool left);
 
 	void __cdecl update_for_scoreboard_mode(bool a1, bool a2);
+	void __thiscall _update();
 
 //protected:
 	long m_current_scoreboard_mode;
@@ -113,6 +114,4 @@ struct c_gui_scoreboard_data :
 	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> m_controller_index;
 };
 static_assert(sizeof(c_gui_scoreboard_data) == 0xD340);
-
-extern void __fastcall gui_scoreboard_data_update(c_gui_scoreboard_data* _this);
 

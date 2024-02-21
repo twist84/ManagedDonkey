@@ -22,7 +22,7 @@ REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboar
 
 // for some reason unknown to me these hooks are being zeroed out
 // meaning `HOOK_INVOKE` and `HOOK_INVOKE_CLASS` can't be used, so they're mostly reimplement now
-HOOK_DECLARE(0x00AB3DA0, gui_scoreboard_data_update);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB3DA0, c_gui_scoreboard_data, _update);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
 
 void __cdecl c_gui_screen_scoreboard::translate_widget_recursive(c_gui_widget* widget, long a2, long a3)
@@ -60,8 +60,26 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	INVOKE(0x00AB3C60, c_gui_screen_scoreboard::show_scoreboard, controller_index, is_interactive);
 }
 
+void __thiscall c_gui_scoreboard_data::_update()
+{
+	// 0x00AB3DA0
+
+	if (m_current_scoreboard_mode == 1 || m_current_scoreboard_mode == 2)
+	{
+		if (game_in_progress() && game_is_multiplayer())
+			update_for_scoreboard_mode(false, true);
+		else
+			update_for_scoreboard_mode(false, false);
+	}
+	else if (m_current_scoreboard_mode == 3 || m_current_scoreboard_mode == 4)
+	{
+		update_for_scoreboard_mode(true, false);
+	}
+}
+
 void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
 {
+	// 0x00AB4920
 	//HOOK_INVOKE_CLASS(, c_gui_screen_scoreboard, _update_render_state, void(__thiscall*)(c_gui_screen_scoreboard*, dword), _this, a2);
 
 	c_gui_list_widget* child_list_widget = get_child_list_widget(STRING_ID(gui, scoreboard));
@@ -408,21 +426,5 @@ void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool inc
 
 	int(__cdecl * scoreboard_sort_proc)(void const*, void const*) = reinterpret_cast<decltype(scoreboard_sort_proc)>(a1 ? 0x00AB3A00 : 0x00AB38A0);
 	qsort(m_player_rows.get_elements(), m_player_row_count, sizeof(s_player_row), scoreboard_sort_proc);
-}
-
-void __fastcall gui_scoreboard_data_update(c_gui_scoreboard_data* _this)
-{
-	long mode = _this->m_current_scoreboard_mode;
-	if (mode == 1 || mode == 2)
-	{
-		if (game_in_progress() && game_is_multiplayer())
-			_this->update_for_scoreboard_mode(false, true);
-		else
-			_this->update_for_scoreboard_mode(false, false);
-	}
-	else if (mode == 3 || mode == 4)
-	{
-		_this->update_for_scoreboard_mode(true, false);
-	}
 }
 
