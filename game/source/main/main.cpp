@@ -67,10 +67,12 @@ REFERENCE_DECLARE(0x022B47F1, bool, recursion_lock_triggered_while_exiting);
 REFERENCE_DECLARE(0x0244DF07, bool, byte_244DF07);
 REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
 
+//HOOK_DECLARE(0x00504D20, _internal_halt_render_thread_and_lock_resources);
 HOOK_DECLARE(0x00505530, main_events_pending);
 HOOK_DECLARE(0x00505650, main_events_reset);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 HOOK_DECLARE(0x005065B0, main_loop_process_global_state_changes);
+HOOK_DECLARE(0x00507450, process_published_game_state);
 
 bool g_fake_minidump_creation = true;
 bool g_suppress_keyboard_for_minidump = false;
@@ -122,6 +124,53 @@ void __cdecl __tls_set_g_main_render_timing_data_allocator(void* address)
 dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line)
 {
 	return INVOKE(0x00504D20, _internal_halt_render_thread_and_lock_resources, file, line);
+
+	//if (!game_is_multithreaded())
+	//	return 0;
+	//
+	//dword result = 0;
+	//
+	//PROFILER(internal_halt_render_thread)
+	//{
+	//	if (render_thread_get_mode() != 2 && thread_system_initialized() && restricted_region_valid(k_game_state_render_region) && get_current_thread_index() != k_thread_render)
+	//	{
+	//		result = render_thread_set_mode(1, 0) ? FLAG(1) : 0;
+	//
+	//		if (!restricted_region_locked_for_current_thread(k_game_state_render_region))
+	//		{
+	//			restricted_region_lock_primary(k_game_state_render_region);
+	//			restricted_region_lock_primary(k_global_render_data_region);
+	//			c_rasterizer::rasterizer_device_acquire_thread();
+	//
+	//			result |= FLAG(0);
+	//
+	//			if (!thread_has_crashed(k_thread_render))
+	//			{
+	//				restricted_region_unlock_primary(k_game_state_shared_region);
+	//				for (long i = restricted_region_get_mirror_count(k_game_state_shared_region); i; --i)
+	//				{
+	//					if (restricted_region_lock_mirror(k_game_state_shared_region))
+	//					{
+	//						{
+	//							c_tag_resources_game_lock game_lock{};
+	//							process_published_game_state(false);
+	//						}
+	//
+	//						if (restricted_region_mirror_locked_for_current_thread(k_game_state_shared_region))
+	//							restricted_region_unlock_mirror(k_game_state_shared_region);
+	//					}
+	//				}
+	//			}
+	//		}
+	//
+	//		if (get_current_thread_index() == k_game_state_update_region && restricted_region_locked_for_current_thread(k_game_state_update_region))
+	//		{
+	//			main_thread_process_pending_messages();
+	//		}
+	//	}
+	//}
+	//
+	//return result;
 }
 
 void __cdecl main_activate_cinematic_tag_private()
@@ -1717,7 +1766,25 @@ void __cdecl main_user_interface_save_files_private()
 
 void __cdecl process_published_game_state(bool a1)
 {
-	INVOKE(0x00507450, process_published_game_state, a1);
+	//INVOKE(0x00507450, process_published_game_state, a1);
+
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_gamestate_timing_data);
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_render_timing_data);
+	
+	PROFILER(process_published_game_state)
+	{
+		g_main_render_timing_data->accum(g_main_gamestate_timing_data);
+	
+		if (a1 && c_rasterizer::rasterizer_thread_owns_device())
+		{
+			main_render();
+			sub_604A20();
+		}
+		else
+		{
+			main_render_process_messages();
+		}
+	}
 }
 
 void __cdecl publish_waiting_gamestate()
