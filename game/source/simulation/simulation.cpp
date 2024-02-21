@@ -367,6 +367,11 @@ void __cdecl simulation_notify_initial_core_load(long next_update_number)
 	INVOKE(0x00441D30, simulation_notify_initial_core_load, next_update_number);
 }
 
+void __cdecl simulation_notify_players_created()
+{
+	INVOKE(0x00441D50, simulation_notify_players_created);
+}
+
 void __cdecl simulation_notify_reset_complete()
 {
 	INVOKE(0x00441D90, simulation_notify_reset_complete);
@@ -465,21 +470,30 @@ bool __cdecl simulation_should_transmit_simulation_data()
 void __cdecl simulation_start()
 {
 	INVOKE(0x004420C0, simulation_start);
+
+	//ASSERT(game_in_progress());
+	//
+	//if (simulation_globals.initialized)
+	//{
+	//	ASSERT(simulation_globals.world);
+	//
+	//	if (!simulation_globals.world->attached_to_map())
+	//		simulation_globals.world.attach_to_map();
+	//}
 }
 
 bool __cdecl simulation_starting_up()
 {
 	//return INVOKE(0x004420E0, simulation_starting_up);
 
-	bool result = false;
 	if (simulation_globals.initialized)
 	{
 		ASSERT(simulation_globals.world);
 
 		if (!simulation_globals.aborted && simulation_globals.world->exists())
-			result = !simulation_globals.world->is_active();
+			return !simulation_globals.world->is_active();
 	}
-	return result;
+	return false;
 }
 
 void __cdecl simulation_stop()

@@ -252,6 +252,7 @@ extern void __cdecl simulation_notify_channel_closure(void* closure_callback);
 extern void __cdecl simulation_notify_core_save();
 extern void __cdecl simulation_notify_going_active();
 extern void __cdecl simulation_notify_initial_core_load(long next_update_number);
+extern void __cdecl simulation_notify_players_created();
 extern void __cdecl simulation_notify_reset_complete();
 extern void __cdecl simulation_notify_reset_initiate();
 extern void __cdecl simulation_notify_revert();
