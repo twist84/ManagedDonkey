@@ -57,7 +57,8 @@ static_assert(sizeof(c_gui_custom_bitmap_storage_item) == 0x60);
 
 struct c_gui_custom_bitmap_storage_manager
 {
-	struct s_bitmap_storage_handle_datum : s_datum_header
+	struct s_bitmap_storage_handle_datum :
+		s_datum_header
 	{
 		word __unknown2;
 		long reference_count;

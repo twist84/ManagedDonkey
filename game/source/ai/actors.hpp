@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct actor_datum : s_datum_header
+struct actor_datum :
+	s_datum_header
 {
 	byte __data[0xA96];
 };

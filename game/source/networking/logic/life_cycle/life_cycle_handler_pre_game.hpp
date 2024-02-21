@@ -4,7 +4,8 @@
 
 extern bool net_skip_countdown;
 
-struct c_life_cycle_state_handler_pre_game : c_life_cycle_state_handler
+struct c_life_cycle_state_handler_pre_game :
+	c_life_cycle_state_handler
 {
 	virtual void update() override;
 	virtual e_life_cycle_state_transition_type update_for_state_transition() override;

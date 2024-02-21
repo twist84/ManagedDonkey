@@ -9,7 +9,8 @@ struct s_breakable_surface_globals
 };
 static_assert(sizeof(s_breakable_surface_globals) == 0x3CE18);
 
-struct s_breakable_surface_set_broken_event : s_datum_header
+struct s_breakable_surface_set_broken_event :
+	s_datum_header
 {
 	byte __data[0x462];
 };

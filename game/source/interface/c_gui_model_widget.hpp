@@ -43,7 +43,8 @@ struct s_model_widget_camera_slice
 };
 static_assert(sizeof(s_model_widget_camera_slice) == 0x14);
 
-struct s_model_widget_definition : s_core_widget_definition
+struct s_model_widget_definition :
+	s_core_widget_definition
 {
 	s_tag_block camera_settings;
 	s_model_widget_globals_definition model_widget_globals;
@@ -93,7 +94,8 @@ struct s_runtime_model_widget_camera_settings
 };
 static_assert(sizeof(s_runtime_model_widget_camera_settings) == 0xA0);
 
-struct s_runtime_model_widget_definition : s_runtime_core_widget_definition
+struct s_runtime_model_widget_definition :
+	s_runtime_core_widget_definition
 {
 	s_runtime_model_widget_camera_settings camera_settings[32];
 	s_model_widget_globals_definition model_widget_globals;
@@ -101,7 +103,8 @@ struct s_runtime_model_widget_definition : s_runtime_core_widget_definition
 };
 static_assert(sizeof(s_runtime_model_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1490);
 
-struct c_gui_model_widget : public c_gui_widget
+struct c_gui_model_widget :
+	public c_gui_widget
 {
 	long __unknownDC;
 

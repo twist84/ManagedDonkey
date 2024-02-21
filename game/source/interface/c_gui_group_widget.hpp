@@ -13,7 +13,8 @@ enum e_group_widget_definition_flags
 	k_group_widget_definition_flags
 };
 
-struct s_group_widget_definition : s_core_widget_definition
+struct s_group_widget_definition :
+	s_core_widget_definition
 {
 	s_tag_block list;
 	s_tag_block text_items;
@@ -22,7 +23,8 @@ struct s_group_widget_definition : s_core_widget_definition
 };
 static_assert(sizeof(s_group_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
 
-struct s_runtime_group_widget_definition : s_runtime_core_widget_definition
+struct s_runtime_group_widget_definition :
+	s_runtime_core_widget_definition
 {
 	s_tag_block list;
 	s_tag_block text_items;
@@ -32,7 +34,8 @@ struct s_runtime_group_widget_definition : s_runtime_core_widget_definition
 };
 static_assert(sizeof(s_runtime_group_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x34);
 
-struct c_gui_group_widget : public c_gui_widget
+struct c_gui_group_widget :
+	public c_gui_widget
 {
 	long __unknownDC;
 	s_runtime_group_widget_definition m_core_definition;
@@ -41,7 +44,8 @@ struct c_gui_group_widget : public c_gui_widget
 };
 static_assert(sizeof(c_gui_group_widget) == sizeof(c_gui_widget) + 0x74);
 
-struct c_gui_button_key_widget : public c_gui_group_widget
+struct c_gui_button_key_widget :
+	public c_gui_group_widget
 {
 };
 static_assert(sizeof(c_gui_button_key_widget) == sizeof(c_gui_group_widget));

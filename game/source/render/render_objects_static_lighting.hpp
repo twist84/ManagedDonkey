@@ -41,7 +41,8 @@ struct s_shader_extern_info
 };
 static_assert(sizeof(s_shader_extern_info) == 0x25C);
 
-struct cached_object_render_state_datum : s_datum_header
+struct cached_object_render_state_datum :
+	s_datum_header
 {
 	byte __unknown2;
 	byte __unknown3;

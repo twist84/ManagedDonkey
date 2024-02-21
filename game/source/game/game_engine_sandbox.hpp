@@ -7,7 +7,8 @@
 #include "game/game_engine_variant.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 
-struct c_game_engine_sandbox_variant : c_game_engine_base_variant
+struct c_game_engine_sandbox_variant :
+	c_game_engine_base_variant
 {
 public:
 	c_game_engine_sandbox_variant* constructor()
@@ -44,7 +45,8 @@ protected:
 };
 static_assert(sizeof(c_game_engine_sandbox_variant) == 0x1F0);
 
-struct c_sandbox_engine : c_game_engine
+struct c_sandbox_engine :
+	c_game_engine
 {
 };
 

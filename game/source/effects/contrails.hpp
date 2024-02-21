@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_contrail_system : s_datum_header
+struct c_contrail_system :
+	s_datum_header
 {
 	enum e_flags
 	{
@@ -36,7 +37,8 @@ struct c_contrail_system : s_datum_header
 };
 static_assert(sizeof(c_contrail_system) == 0x30);
 
-struct c_contrail : s_datum_header
+struct c_contrail :
+	s_datum_header
 {
 	static void __cdecl render_callback(void const*, long);
 	void __cdecl render() const;
@@ -66,7 +68,8 @@ struct c_contrail : s_datum_header
 };
 static_assert(sizeof(c_contrail) == 0x4C);
 
-struct c_contrail_location : s_datum_header
+struct c_contrail_location :
+	s_datum_header
 {
 	enum e_flags
 	{
@@ -85,7 +88,8 @@ struct c_contrail_location : s_datum_header
 };
 static_assert(sizeof(c_contrail_location) == 0x60);
 
-struct c_contrail_profile : s_datum_header
+struct c_contrail_profile :
+	s_datum_header
 {
 	enum e_flags
 	{

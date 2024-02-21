@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct chud_widget_datum : s_datum_header
+struct chud_widget_datum :
+	s_datum_header
 {
 	byte __data[0x16];
 };

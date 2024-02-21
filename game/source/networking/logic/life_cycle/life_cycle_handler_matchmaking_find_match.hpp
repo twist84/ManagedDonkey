@@ -5,7 +5,8 @@
 #include "networking/logic/logic_matchmaking_seeker.hpp"
 #include "networking/logic/logic_session_tracker.hpp"
 
-struct c_life_cycle_state_handler_matchmaking_find_match : c_life_cycle_state_handler
+struct c_life_cycle_state_handler_matchmaking_find_match :
+	c_life_cycle_state_handler
 {
 	byte_flags m_flags;
 	byte __data29[0x3];

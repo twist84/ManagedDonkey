@@ -5,7 +5,8 @@
 #include "game/game_engine_ctf.hpp"
 #include "game/game_engine_variant.hpp"
 
-struct c_game_engine_assault_variant : c_game_engine_base_variant
+struct c_game_engine_assault_variant :
+	c_game_engine_base_variant
 {
 public:
 	c_game_engine_assault_variant* constructor()
@@ -81,7 +82,8 @@ protected:
 };
 static_assert(sizeof(c_game_engine_assault_variant) == 0x228);
 
-struct c_assault_engine : c_ctf_engine
+struct c_assault_engine :
+	c_ctf_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;

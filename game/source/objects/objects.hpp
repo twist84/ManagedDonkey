@@ -114,7 +114,8 @@ enum e_object_data_flags
 	k_object_data_flags
 };
 
-struct object_datum : s_datum_header
+struct object_datum :
+	s_datum_header
 {
 	long definition_index;
 	c_flags<e_object_data_flags, dword, k_object_data_flags> flags;
@@ -138,7 +139,8 @@ enum e_object_header_flags
 	k_object_header_flags
 };
 
-struct object_header_datum : s_datum_header
+struct object_header_datum :
+	s_datum_header
 {
 	c_flags<e_object_header_flags, byte, k_object_header_flags> flags;
 	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
@@ -183,7 +185,8 @@ private:
 };
 
 template<typename t_object_type>
-struct c_object_iterator : c_object_iterator_base
+struct c_object_iterator :
+	c_object_iterator_base
 {
 	void __cdecl begin(dword type_flags, byte match_flags)
 	{

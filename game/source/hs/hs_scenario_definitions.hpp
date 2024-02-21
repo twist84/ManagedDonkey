@@ -71,7 +71,8 @@ enum e_hs_syntax_node_flags
 	k_hs_syntax_node_flags
 };
 
-struct hs_syntax_node : s_datum_header
+struct hs_syntax_node :
+	s_datum_header
 {
 	union
 	{

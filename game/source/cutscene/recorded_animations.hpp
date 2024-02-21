@@ -10,7 +10,8 @@ struct animation_playback_controller
 };
 static_assert(sizeof(animation_playback_controller) == 0xC);
 
-struct animation_thread : s_datum_header
+struct animation_thread :
+	s_datum_header
 {
 	long unit_index;
 	word ticks_left;

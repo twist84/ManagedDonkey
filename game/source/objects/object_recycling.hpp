@@ -9,7 +9,8 @@ struct s_recycling_volumes
 };
 static_assert(sizeof(s_recycling_volumes) == 0x148);
 
-struct s_recycling_group : s_datum_header
+struct s_recycling_group :
+	s_datum_header
 {
 	byte __data[0x12];
 };

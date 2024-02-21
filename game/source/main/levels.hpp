@@ -9,7 +9,8 @@ enum
 	k_max_campaign_insertion_points = 9
 };
 
-struct s_campaign_datum : s_datum_header
+struct s_campaign_datum :
+	s_datum_header
 {
 	word_flags flags;
 	long campaign_id;
@@ -24,7 +25,8 @@ enum e_level_flags
 	k_level_flags
 };
 
-struct s_level_datum : s_datum_header
+struct s_level_datum :
+	s_datum_header
 {
 	//c_flags<e_level_flags, word, k_level_flags> flags;
 	word_flags flags;
@@ -44,7 +46,8 @@ struct s_level_datum : s_datum_header
 };
 static_assert(sizeof(s_level_datum) == 0x360);
 
-struct s_level_insertion_datum : s_datum_header
+struct s_level_insertion_datum :
+	s_datum_header
 {
 	short next_insertion_index;
 	long map_id;

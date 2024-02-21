@@ -26,7 +26,8 @@ public:
 };
 static_assert(sizeof(c_network_channel_client) == 0x8);
 
-struct c_network_connection : c_network_channel_client
+struct c_network_connection :
+	c_network_channel_client
 {
 	struct s_connection_incoming_packet
 	{
@@ -62,7 +63,8 @@ struct c_network_connection : c_network_channel_client
 static_assert(sizeof(c_network_connection) == 0x960);
 
 struct c_network_message_type_collection;
-struct c_network_message_queue : c_network_channel_client
+struct c_network_message_queue :
+	c_network_channel_client
 {
 	struct s_incoming_outgoing_record;
 	struct s_incoming_fragment_record;
@@ -115,7 +117,8 @@ protected:
 };
 static_assert(sizeof(c_network_channel_simulation_interface) == 0x34);
 
-struct c_network_channel_simulation_gatekeeper : c_network_channel_client
+struct c_network_channel_simulation_gatekeeper :
+	c_network_channel_client
 {
 };
 static_assert(sizeof(c_network_channel_simulation_gatekeeper) == sizeof(c_network_channel_client));

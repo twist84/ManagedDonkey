@@ -3,9 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_beam_gpu : s_datum_header
+struct c_beam_gpu :
+	s_datum_header
 {
-	struct s_row : s_datum_header
+	struct s_row :
+		s_datum_header
 	{
 		word __unknown2;
 		dword __unknown4;

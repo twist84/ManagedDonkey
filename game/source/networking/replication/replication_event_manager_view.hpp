@@ -13,7 +13,8 @@ static_assert(sizeof(s_replication_event_manager_view_statistics) == 0xC);
 
 struct c_replication_outgoing_event;
 struct c_replication_event_manager;
-struct c_replication_event_manager_view : c_replication_scheduler_client
+struct c_replication_event_manager_view :
+	c_replication_scheduler_client
 {
 	struct c_event_record
 	{

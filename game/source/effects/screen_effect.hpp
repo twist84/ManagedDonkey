@@ -5,7 +5,8 @@
 #include "memory/data.hpp"
 #include "tag_files/tag_groups.hpp"
 
-struct s_screen_effect_datum : s_datum_header
+struct s_screen_effect_datum :
+	s_datum_header
 {
 	long tag_index;
 	real seconds_active;

@@ -50,7 +50,8 @@ struct s_simulation_projectile_impact_effect_event_data
 };
 static_assert(sizeof(s_simulation_projectile_impact_effect_event_data) == 0x38);
 
-struct s_simulation_projectile_object_impact_effect_event_data : s_simulation_projectile_impact_effect_event_data
+struct s_simulation_projectile_object_impact_effect_event_data :
+	s_simulation_projectile_impact_effect_event_data
 {
 	bool detonation_timer_started;
 	long collision_node_index;

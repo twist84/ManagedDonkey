@@ -24,7 +24,8 @@ struct c_xor_cache_file_decompressor :
 };
 static_assert(sizeof(c_xor_cache_file_decompressor) == sizeof(c_cache_file_decompressor) + 0x14);
 
-struct c_xor_cache_file_decompressor_service : c_single_instance_cache_file_decompressor_service<c_xor_cache_file_decompressor>
+struct c_xor_cache_file_decompressor_service :
+	c_single_instance_cache_file_decompressor_service<c_xor_cache_file_decompressor>
 {
 };
 static_assert(sizeof(c_xor_cache_file_decompressor_service) == 0x24);

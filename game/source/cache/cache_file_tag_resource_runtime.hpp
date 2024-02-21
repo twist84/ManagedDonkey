@@ -23,7 +23,8 @@ struct s_tag_resource
 static_assert(sizeof(s_tag_resource) == 0x8);
 
 template<typename t_resource_type, dword ...t_extra>
-struct c_typed_tag_resource : s_tag_resource
+struct c_typed_tag_resource :
+	s_tag_resource
 {
 	t_resource_type* get()
 	{
@@ -85,7 +86,8 @@ struct c_cache_file_streamed_sublocation_decompressor :
 };
 static_assert(sizeof(c_cache_file_streamed_sublocation_decompressor) == sizeof(c_cache_file_decompressor) + 0x18);
 
-struct s_cache_file_resource_runtime_active_game_state : s_scenario_game_state
+struct s_cache_file_resource_runtime_active_game_state :
+	s_scenario_game_state
 {
 };
 static_assert(sizeof(s_cache_file_resource_runtime_active_game_state) == sizeof(s_scenario_game_state));

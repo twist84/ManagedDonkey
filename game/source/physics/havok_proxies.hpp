@@ -4,7 +4,8 @@
 #include "memory/data.hpp"
 
 struct hkRigidBody;
-struct s_havok_proxy_datum : s_datum_header
+struct s_havok_proxy_datum :
+	s_datum_header
 {
 	hkRigidBody* rigid_body;
 	real_matrix4x3 matrix;

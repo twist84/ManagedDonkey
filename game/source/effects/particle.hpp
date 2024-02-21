@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_particle : s_datum_header
+struct c_particle :
+	s_datum_header
 {
 	byte __data[0x7A];
 };

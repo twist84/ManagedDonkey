@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/sliding_window.hpp"
 
-//struct c_network_connection : c_network_channel_client
+//struct c_network_connection :
+//	c_network_channel_client
 //{
 //	struct s_connection_incoming_packet
 //	{

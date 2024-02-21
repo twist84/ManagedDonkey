@@ -6,7 +6,8 @@
 #include "game/game_engine_variant.hpp"
 #include "game/game_engine_vip_traits.hpp"
 
-struct c_game_engine_vip_variant : c_game_engine_base_variant
+struct c_game_engine_vip_variant :
+	c_game_engine_base_variant
 {
 public:
 	c_game_engine_vip_variant* constructor()
@@ -108,13 +109,15 @@ protected:
 };
 static_assert(sizeof(c_game_engine_vip_variant) == 0x238);
 
-struct c_vip_engine : c_game_engine
+struct c_vip_engine :
+	c_game_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;
 };
 
-struct c_destination_zone : c_area
+struct c_destination_zone :
+	c_area
 {
 	byte_flags m_team_designator_flags;
 };

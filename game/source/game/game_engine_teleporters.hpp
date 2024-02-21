@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "game/game_engine_area_set.hpp"
 
-struct c_teleporter_area : c_area
+struct c_teleporter_area :
+	c_area
 {
 	long m_recharge_timer;
 	long m_blocked_message_delay;

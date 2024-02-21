@@ -4,7 +4,8 @@
 #include "memory/sliding_window.hpp"
 
 //struct c_network_message_type_collection;
-//struct c_network_message_queue : c_network_channel_client
+//struct c_network_message_queue :
+//	c_network_channel_client
 //{
 //	struct s_incoming_outgoing_record;
 //	struct s_incoming_fragment_record;

@@ -5,7 +5,8 @@
 
 struct c_tag_resource_inverse_page_table
 {
-	struct s_page_resource_reference_range : s_datum_header
+	struct s_page_resource_reference_range :
+		s_datum_header
 	{
 		word first_resource_handle_index;
 		word used_resource_handle_count;

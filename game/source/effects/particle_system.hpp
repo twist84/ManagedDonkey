@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_particle_system : s_datum_header
+struct c_particle_system :
+	s_datum_header
 {
 	short particle_tag_index;
 	long __unknown4;

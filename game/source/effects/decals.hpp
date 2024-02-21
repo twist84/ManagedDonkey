@@ -4,7 +4,8 @@
 #include "memory/data.hpp"
 #include "multithreading/message_queue.hpp"
 
-struct c_decal_system : s_datum_header
+struct c_decal_system :
+	s_datum_header
 {
 	long tag_index;
 	long __unknown8;
@@ -35,7 +36,8 @@ struct s_decal_counts
 };
 static_assert(sizeof(s_decal_counts) == 0x20);
 
-struct c_decal : s_datum_header
+struct c_decal :
+	s_datum_header
 {
 	byte __data[0x12E];
 };

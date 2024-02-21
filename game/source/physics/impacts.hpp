@@ -9,13 +9,15 @@ struct s_impact_globals
 };
 static_assert(sizeof(s_impact_globals) == 0x8C);
 
-struct c_impact : s_datum_header
+struct c_impact :
+	s_datum_header
 {
 	byte __unknown2[0xB2];
 };
 static_assert(sizeof(c_impact) == 0xB4);
 
-struct impact_array_datum : s_datum_header
+struct impact_array_datum :
+	s_datum_header
 {
 	short impact_indexes_count;
 	long impact_indexes[33];

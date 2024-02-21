@@ -461,7 +461,8 @@ struct s_game_engine_status_response
 static_assert(sizeof(s_game_engine_status_response) == 0x24);
 
 template<tag group_tag>
-struct s_multiplayer_globals_tag_reference : s_tag_reference
+struct s_multiplayer_globals_tag_reference :
+	s_tag_reference
 {
 	void update_reference_names();
 };

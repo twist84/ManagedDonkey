@@ -32,7 +32,8 @@ protected:
 };
 static_assert(sizeof(c_lruv_block_long) == 0x4);
 
-struct s_lruv_cache_block : s_datum_header
+struct s_lruv_cache_block :
+	s_datum_header
 {
 	c_flags<e_lruv_cache_block_bit, byte, k_lruv_cache_block_bits> flags;
 	long page_count;

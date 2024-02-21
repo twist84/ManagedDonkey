@@ -4,7 +4,8 @@
 #include "interface/user_interface_data.hpp"
 #include "shell/shell.hpp"
 
-struct c_gui_roster_data : c_gui_ordered_data
+struct c_gui_roster_data :
+	c_gui_ordered_data
 {
 	enum e_player_row_type
 	{
@@ -62,12 +63,14 @@ protected:
 };
 static_assert(sizeof(c_gui_roster_data) == 0x168A8);
 
-struct c_gui_active_roster_data : c_gui_roster_data
+struct c_gui_active_roster_data :
+	c_gui_roster_data
 {
 };
 static_assert(sizeof(c_gui_active_roster_data) == sizeof(c_gui_roster_data));
 
-struct c_gui_static_roster_data : c_gui_roster_data
+struct c_gui_static_roster_data :
+	c_gui_roster_data
 {
 };
 static_assert(sizeof(c_gui_static_roster_data) == sizeof(c_gui_roster_data));

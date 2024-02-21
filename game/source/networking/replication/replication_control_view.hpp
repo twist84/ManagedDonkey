@@ -7,7 +7,8 @@
 #include "units/units.hpp"
 
 struct c_simulation_view_telemetry_provider;
-struct c_replication_control_view : c_replication_scheduler_client
+struct c_replication_control_view :
+	c_replication_scheduler_client
 {
 	byte __data4[0x4];
 

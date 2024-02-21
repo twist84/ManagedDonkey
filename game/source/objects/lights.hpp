@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct light_datum : s_datum_header
+struct light_datum :
+	s_datum_header
 {
 	byte __data[0xE2];
 };

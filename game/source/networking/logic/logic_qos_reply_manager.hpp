@@ -30,12 +30,14 @@ protected:
 };
 static_assert(sizeof(c_session_qos_reply_manager) == 0x164D0);
 
-struct c_squad_session_qos_reply_manager : c_session_qos_reply_manager
+struct c_squad_session_qos_reply_manager :
+	c_session_qos_reply_manager
 {
 };
 static_assert(sizeof(c_squad_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));
 
-struct c_group_session_qos_reply_manager : c_session_qos_reply_manager
+struct c_group_session_qos_reply_manager :
+	c_session_qos_reply_manager
 {
 };
 static_assert(sizeof(c_group_session_qos_reply_manager) == sizeof(c_session_qos_reply_manager));

@@ -3,7 +3,8 @@
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 #include "networking/logic/network_arbitration.hpp"
 
-struct c_life_cycle_state_handler_matchmaking_arbitration : c_life_cycle_state_handler
+struct c_life_cycle_state_handler_matchmaking_arbitration :
+	c_life_cycle_state_handler
 {
 	virtual void update() override;
 	virtual e_life_cycle_state_transition_type update_for_state_transition() override;

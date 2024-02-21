@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct device_group_datum : s_datum_header
+struct device_group_datum :
+	s_datum_header
 {
 	word_flags flags;
 	real __unknown4; // desired value, actual value

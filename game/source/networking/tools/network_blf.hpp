@@ -73,7 +73,8 @@ public:
 };
 static_assert(sizeof(s_blf_chunk_end_of_file) == sizeof(s_blf_header) + 0x5);
 
-struct s_blf_chunk_end_of_file_with_crc : s_blf_chunk_end_of_file
+struct s_blf_chunk_end_of_file_with_crc :
+	s_blf_chunk_end_of_file
 {
 public:
 	static e_blf_file_authentication_type const k_authentication_type = _blf_file_authentication_type_crc;
@@ -86,7 +87,8 @@ public:
 };
 static_assert(sizeof(s_blf_chunk_end_of_file_with_crc) == 0x15);
 
-struct s_blf_chunk_end_of_file_with_rsa : s_blf_chunk_end_of_file
+struct s_blf_chunk_end_of_file_with_rsa :
+	s_blf_chunk_end_of_file
 {
 	static e_blf_file_authentication_type const k_authentication_type = _blf_file_authentication_type_rsa;
 
@@ -176,7 +178,8 @@ public:
 };
 static_assert(sizeof(s_blffile_saved_game_file) == 0x138);
 
-struct s_blffile_game_variant : s_blffile_saved_game_file
+struct s_blffile_game_variant :
+	s_blffile_saved_game_file
 {
 public:
 	s_blffile_game_variant();
@@ -188,7 +191,8 @@ public:
 };
 static_assert(sizeof(s_blffile_game_variant) == 0x3BC);
 
-struct s_blffile_map_variant : s_blffile_saved_game_file
+struct s_blffile_map_variant :
+	s_blffile_saved_game_file
 {
 public:
 	s_blffile_map_variant();
@@ -202,7 +206,9 @@ public:
 };
 static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 
-struct s_blf_saved_film : s_blffile_saved_game_file, s_blf_chunk_author
+struct s_blf_saved_film :
+	s_blffile_saved_game_file,
+	s_blf_chunk_author
 {
 #pragma pack(push, 4)
 	struct s_blf_chunk_saved_film_header_delta // 08172.07.03.08.2240.delta

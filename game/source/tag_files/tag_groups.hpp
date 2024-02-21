@@ -264,7 +264,8 @@ static_assert(sizeof(s_tag_data) == 0x14);
 
 template<typename t_element_type, dword ...t_extra>
 //using c_typed_tag_block = s_tag_block;
-struct c_typed_tag_block : s_tag_block
+struct c_typed_tag_block :
+	s_tag_block
 {
 public:
 	long count() const
@@ -318,7 +319,8 @@ using c_typed_tag_reference = s_tag_reference;
 
 template<typename t_data_type, dword ...t_extra>
 //using c_typed_tag_data = s_tag_data;
-struct c_typed_tag_data : s_tag_data
+struct c_typed_tag_data :
+	s_tag_data
 {
 	t_data_type* get()
 	{

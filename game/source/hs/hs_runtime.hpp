@@ -56,7 +56,8 @@ struct hs_stack_frame
 };
 static_assert(sizeof(hs_stack_frame) == 0x14);
 
-struct hs_thread : s_datum_header
+struct hs_thread :
+	s_datum_header
 {
 	short script_index;
 	short previous_script_index;
@@ -77,7 +78,8 @@ struct s_hs_runtime_globals
 };
 static_assert(sizeof(s_hs_runtime_globals) == 0x8);
 
-struct hs_global_runtime : s_datum_header
+struct hs_global_runtime :
+	s_datum_header
 {
 	word __unknown2;
 
@@ -94,13 +96,15 @@ struct hs_global_runtime : s_datum_header
 };
 static_assert(sizeof(hs_global_runtime) == 0x8);
 
-struct hs_distributed_global_data : s_datum_header
+struct hs_distributed_global_data :
+	s_datum_header
 {
 	byte __data[0x2A];
 };
 static_assert(sizeof(hs_distributed_global_data) == 0x2C);
 
-struct hs_thread_tracking_data : s_datum_header
+struct hs_thread_tracking_data :
+	s_datum_header
 {
 	word __unknown2;
 	dword __unknown4;

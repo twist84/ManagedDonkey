@@ -85,7 +85,8 @@ struct sound_channel_datum
 };
 static_assert(sizeof(sound_channel_datum) == 0x38);
 
-struct s_sound_tracker_datum : s_datum_header
+struct s_sound_tracker_datum :
+	s_datum_header
 {
 	byte_flags flags;
 	byte flip_flop;
@@ -97,7 +98,8 @@ struct s_sound_tracker_datum : s_datum_header
 };
 static_assert(sizeof(s_sound_tracker_datum) == 0x40);
 
-struct sound_datum : s_datum_header
+struct sound_datum :
+	s_datum_header
 {
 	char software_reference_count;
 	char hardware_reference_count;
@@ -150,7 +152,8 @@ struct sound_datum : s_datum_header
 };
 static_assert(sizeof(sound_datum) == 0xC8);
 
-struct s_xbox_sound_datum : s_datum_header
+struct s_xbox_sound_datum :
+	s_datum_header
 {
 	byte __data0[0xA];
 };
@@ -168,7 +171,8 @@ struct looping_sound_track_datum
 };
 static_assert(sizeof(looping_sound_track_datum) == 0x24);
 
-struct looping_sound_datum : s_datum_header
+struct looping_sound_datum :
+	s_datum_header
 {
 	byte __data2[0x6];
 
@@ -188,7 +192,8 @@ struct looping_sound_datum : s_datum_header
 };
 static_assert(sizeof(looping_sound_datum) == 0x128);
 
-struct s_sound_effect_datum : s_datum_header
+struct s_sound_effect_datum :
+	s_datum_header
 {
 	byte __data2[0x1];
 
@@ -202,7 +207,8 @@ struct s_sound_effect_datum : s_datum_header
 };
 static_assert(sizeof(s_sound_effect_datum) == 0x64);
 
-struct c_sound_playback_controller : s_datum_header
+struct c_sound_playback_controller :
+	s_datum_header
 {
 	// reference ^= (reference ^ (reference + 1)) & 0x3F
 	byte reference;

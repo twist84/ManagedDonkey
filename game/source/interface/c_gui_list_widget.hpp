@@ -14,7 +14,8 @@ enum e_list_widget_definition_flags
 	k_list_widget_definition_flags
 };
 
-struct s_list_widget_definition : s_core_widget_definition
+struct s_list_widget_definition :
+	s_core_widget_definition
 {
 	c_string_id datasource_name;
 	s_tag_reference skin;
@@ -25,7 +26,8 @@ struct s_list_widget_definition : s_core_widget_definition
 };
 static_assert(sizeof(s_list_widget_definition) == sizeof(s_core_widget_definition) + 0x44);
 
-struct s_runtime_list_widget_definition : s_runtime_core_widget_definition
+struct s_runtime_list_widget_definition :
+	s_runtime_core_widget_definition
 {
 	c_string_id datasource_name;
 	long skin_index;
@@ -37,7 +39,8 @@ struct s_runtime_list_widget_definition : s_runtime_core_widget_definition
 static_assert(sizeof(s_runtime_list_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x20);
 
 struct c_gui_data;
-struct c_gui_list_widget : public c_gui_widget
+struct c_gui_list_widget :
+	public c_gui_widget
 {
 public:
 	c_gui_data* __cdecl get_data();

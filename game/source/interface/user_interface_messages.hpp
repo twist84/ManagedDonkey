@@ -31,7 +31,8 @@ protected:
 static_assert(sizeof(c_message) == 0x18);
 
 //_ui_message_type_controller_input
-struct c_controller_input_message : c_message
+struct c_controller_input_message :
+	c_message
 {
 public:
 	e_event_type get_event_type() const;
@@ -48,7 +49,8 @@ protected:
 static_assert(sizeof(c_controller_input_message) == sizeof(c_message) + 0x10);
 
 //_ui_message_type_xenon
-struct c_xenon_message : c_message
+struct c_xenon_message :
+	c_message
 {
 	enum e_xenon_message_type;
 
@@ -65,7 +67,8 @@ static_assert(sizeof(c_xenon_message) == sizeof(c_message) + 0x8);
 enum e_screen_transition_type;
 
 //_ui_message_type_load_screen
-struct c_load_screen_message : c_message
+struct c_load_screen_message :
+	c_message
 {
 public:
 	virtual void apply_initial_state(c_gui_screen_widget*) const;
@@ -99,7 +102,8 @@ protected:
 static_assert(sizeof(c_load_screen_message) == sizeof(c_message) + 0x24);
 
 //_ui_message_type_screen_custom
-struct c_screen_custom_message : c_message
+struct c_screen_custom_message :
+	c_message
 {
 public:
 	long get_sub_type() const;
@@ -112,7 +116,8 @@ static_assert(sizeof(c_screen_custom_message) == sizeof(c_message) + 0x4);
 enum e_gui_dialog_choice;
 
 //_ui_message_type_dialog_result
-struct c_dialog_result_message : c_message
+struct c_dialog_result_message :
+	c_message
 {
 public:
 	long get_dialog_name() const;
@@ -127,21 +132,24 @@ protected:
 };
 static_assert(sizeof(c_dialog_result_message) == sizeof(c_message) + 0xC);
 
-struct c_load_terminal_screen_message : c_load_screen_message
+struct c_load_terminal_screen_message :
+	c_load_screen_message
 {
 protected:
 	int m_initial_state; // apply_initial_state
 };
 static_assert(sizeof(c_load_terminal_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
-struct c_load_alert_screen_message : c_load_screen_message
+struct c_load_alert_screen_message :
+	c_load_screen_message
 {
 protected:
 	int m_error_name; // apply_initial_state
 };
 static_assert(sizeof(c_load_alert_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
-struct c_load_dialog_screen_message : c_load_screen_message
+struct c_load_dialog_screen_message :
+	c_load_screen_message
 {
 public:
 	long get_dialog_screen_name(long dialog_name);
@@ -156,7 +164,8 @@ protected:
 };
 static_assert(sizeof(c_load_dialog_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
-struct c_load_game_browser_screen_message : c_load_screen_message
+struct c_load_game_browser_screen_message :
+	c_load_screen_message
 {
 protected:
 	dword_flags m_squad_search_flags;

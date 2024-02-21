@@ -12,7 +12,8 @@ enum e_screen_widget_definition_flags
 	k_screen_widget_definition_flags
 };
 
-struct s_screen_widget_definition : s_core_widget_definition
+struct s_screen_widget_definition :
+	s_core_widget_definition
 {
 	c_typed_tag_reference<MULTILINGUAL_UNICODE_STRING_LIST_TAG> string_list;
 	c_typed_tag_reference<GUI_SCREEN_WIDGET_DEFINITION_TAG> screen_template;
@@ -37,7 +38,8 @@ struct s_screen_widget_definition : s_core_widget_definition
 };
 static_assert(sizeof(s_screen_widget_definition) == sizeof(s_core_widget_definition) + 0x7C);
 
-struct s_runtime_screen_widget_definition : s_runtime_core_widget_definition
+struct s_runtime_screen_widget_definition :
+	s_runtime_core_widget_definition
 {
 	long string_list_index;
 	c_string_id initial_button_key_name;
@@ -74,7 +76,8 @@ static_assert(sizeof(s_window_manager_screen_render_data) == 0x1818);
 enum e_window_index;
 struct c_gui_data;
 struct c_game_tag_parser;
-struct c_gui_screen_widget : public c_gui_widget
+struct c_gui_screen_widget :
+	public c_gui_widget
 {
 public:
 	c_gui_data* get_data(long name, long* datasource_index);

@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct s_objective : s_datum_header
+struct s_objective :
+	s_datum_header
 {
 	dword __unknown4;
 	dword __unknown8;

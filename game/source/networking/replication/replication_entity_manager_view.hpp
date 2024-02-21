@@ -30,7 +30,8 @@ static_assert(sizeof(s_replication_entity_manager_view_statistics) == 0x18);
 struct c_replication_entity_manager;
 struct c_replication_entity_packet_record;
 struct c_replication_entity_status_record;
-struct c_replication_entity_manager_view : c_replication_scheduler_client
+struct c_replication_entity_manager_view :
+	c_replication_scheduler_client
 {
 	byte __data4[0x4];
 

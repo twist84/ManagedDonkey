@@ -609,7 +609,8 @@ struct s_game_globals_shield_boost
 static_assert(sizeof(s_game_globals_shield_boost) == 0xC);
 
 template<tag group_tag>
-struct s_game_globals_tag_reference : s_tag_reference
+struct s_game_globals_tag_reference :
+	s_tag_reference
 {
 	void update_reference_names();
 };

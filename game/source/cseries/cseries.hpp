@@ -918,7 +918,8 @@ struct c_static_flags_no_init
 };
 
 template<long k_maximum_count>
-struct c_static_flags : public c_static_flags_no_init<k_maximum_count>
+struct c_static_flags :
+	public c_static_flags_no_init<k_maximum_count>
 {
 };
 
@@ -1309,7 +1310,8 @@ protected:
 };
 static_assert(sizeof(c_string_id) == sizeof(string_id));
 
-struct c_old_string_id : public c_string_id
+struct c_old_string_id :
+	public c_string_id
 {
 public:
 	bool is_string(char const* string) const;

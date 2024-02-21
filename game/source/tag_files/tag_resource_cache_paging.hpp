@@ -9,7 +9,8 @@ struct c_tag_resource_page_table_io_listener
 };
 static_assert(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
 
-struct s_tag_resource_page_datum : s_datum_header
+struct s_tag_resource_page_datum :
+	s_datum_header
 {
 	byte_flags flags;
 	byte state;

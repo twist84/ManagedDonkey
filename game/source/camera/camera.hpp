@@ -48,7 +48,8 @@ struct c_camera
 };
 static_assert(sizeof(c_camera) == 0x10);
 
-struct c_null_camera : public c_camera
+struct c_null_camera :
+	public c_camera
 {
 	byte unused[0x3C];
 };

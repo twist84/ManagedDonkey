@@ -16,7 +16,8 @@ struct c_aim_target_base
 	long m_object_model;
 };
 
-struct c_aim_target_object : c_aim_target_base
+struct c_aim_target_object :
+	c_aim_target_base
 {
 	union
 	{
@@ -26,7 +27,8 @@ struct c_aim_target_object : c_aim_target_base
 };
 static_assert(sizeof(c_aim_target_object) == 0xC);
 
-struct c_aim_target_predicted : c_aim_target_base
+struct c_aim_target_predicted :
+	c_aim_target_base
 {
 	union
 	{
@@ -36,7 +38,8 @@ struct c_aim_target_predicted : c_aim_target_base
 };
 static_assert(sizeof(c_aim_target_predicted) == 0xC);
 
-struct c_aim_target_simulation_entity : c_aim_target_base
+struct c_aim_target_simulation_entity :
+	c_aim_target_base
 {
 	bool m_data_valid;
 	union

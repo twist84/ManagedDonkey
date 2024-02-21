@@ -3,9 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_contrail_gpu : s_datum_header
+struct c_contrail_gpu :
+	s_datum_header
 {
-	struct s_row : s_datum_header
+	struct s_row :
+		s_datum_header
 	{
 		long __unknown4;
 		long __unknown8;

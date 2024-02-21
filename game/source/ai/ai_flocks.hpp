@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct flock_datum : s_datum_header
+struct flock_datum :
+	s_datum_header
 {
 	byte __data[0x4A];
 };

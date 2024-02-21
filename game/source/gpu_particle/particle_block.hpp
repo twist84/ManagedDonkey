@@ -3,9 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_particle_emitter_gpu : s_datum_header
+struct c_particle_emitter_gpu :
+	s_datum_header
 {
-	struct s_row : s_datum_header
+	struct s_row :
+		s_datum_header
 	{
 		byte __data[0x12];
 	};

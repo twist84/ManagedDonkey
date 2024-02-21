@@ -26,7 +26,8 @@ enum e_text_widget_definition_flags
 	k_text_widget_definition_flags
 };
 
-struct s_text_widget_definition : s_core_widget_definition
+struct s_text_widget_definition :
+	s_core_widget_definition
 {
 	c_string_id value_override_list;
 	c_string_id value_identifier;
@@ -37,7 +38,8 @@ struct s_text_widget_definition : s_core_widget_definition
 };
 static_assert(sizeof(s_text_widget_definition) == sizeof(s_core_widget_definition) + 0x10);
 
-struct s_runtime_text_widget_definition : s_runtime_core_widget_definition
+struct s_runtime_text_widget_definition :
+	s_runtime_core_widget_definition
 {
 	c_string_id value_override_list;
 	c_string_id value_identifier;
@@ -47,7 +49,8 @@ struct s_runtime_text_widget_definition : s_runtime_core_widget_definition
 static_assert(sizeof(s_runtime_text_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x1C);
 
 struct c_gui_screen_widget;
-struct c_gui_text_widget : public c_gui_widget
+struct c_gui_text_widget :
+	public c_gui_widget
 {
 	struct s_text_source_data
 	{
@@ -74,7 +77,8 @@ protected:
 static_assert(sizeof(c_gui_text_widget) == sizeof(c_gui_widget) + 0x64);
 
 template<long k_maximum_count>
-struct c_sized_user_interface_text : public c_user_interface_text
+struct c_sized_user_interface_text :
+	public c_user_interface_text
 {
 protected:
 	c_static_wchar_string<k_maximum_count> m_string1;
@@ -86,7 +90,8 @@ static_assert(sizeof(c_sized_user_interface_text<256>) == 0x460);
 static_assert(sizeof(c_sized_user_interface_text<1024>) == 0x1060);
 
 template<long k_text_buffer_size>
-struct c_gui_sized_text_widget : public c_gui_text_widget
+struct c_gui_sized_text_widget :
+	public c_gui_text_widget
 {
 protected:
 	c_sized_user_interface_text<k_text_buffer_size> m_text_buffer;

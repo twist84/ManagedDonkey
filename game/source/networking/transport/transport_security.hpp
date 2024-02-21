@@ -10,19 +10,22 @@ struct s_transport_unique_identifier
 };
 static_assert(sizeof(s_transport_unique_identifier) == 0x8);
 
-struct s_transport_secure_identifier : s_transport_unique_identifier
+struct s_transport_secure_identifier :
+	s_transport_unique_identifier
 {
 	byte part8[8];
 };
 static_assert(sizeof(s_transport_secure_identifier) == 0x10);
 
-struct s_transport_secure_address : s_transport_unique_identifier
+struct s_transport_secure_address :
+	s_transport_unique_identifier
 {
 	byte part8[8];
 };
 static_assert(sizeof(s_transport_secure_address) == 0x10);
 
-struct s_transport_secure_key : s_transport_unique_identifier
+struct s_transport_secure_key :
+	s_transport_unique_identifier
 {
 	byte part8[8];
 };

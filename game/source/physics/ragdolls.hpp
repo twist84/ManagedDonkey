@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct s_ragdoll_datum : s_datum_header
+struct s_ragdoll_datum :
+	s_datum_header
 {
 	byte __data[0x12E];
 };

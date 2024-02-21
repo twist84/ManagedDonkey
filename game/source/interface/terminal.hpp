@@ -5,7 +5,8 @@
 #include "input/input_windows.hpp"
 #include "memory/data.hpp"
 
-struct terminal_output_datum : s_datum_header
+struct terminal_output_datum :
+	s_datum_header
 {
 	long line_index;
 	long line_count;

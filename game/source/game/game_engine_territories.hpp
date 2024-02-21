@@ -6,7 +6,8 @@
 #include "game/game_engine_territories_traits.hpp"
 #include "game/game_engine_variant.hpp"
 
-struct c_game_engine_territories_variant : c_game_engine_base_variant
+struct c_game_engine_territories_variant :
+	c_game_engine_base_variant
 {
 public:
 	c_game_engine_territories_variant* constructor()
@@ -56,13 +57,15 @@ protected:
 };
 static_assert(sizeof(c_game_engine_territories_variant) == 0x210);
 
-struct c_territories_engine : c_game_engine
+struct c_territories_engine :
+	c_game_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;
 };
 
-struct s_territory_data : c_area
+struct s_territory_data :
+	c_area
 {
 	c_static_array<word, 8> __unknown64;
 	c_static_array<byte, 8> __unknown74;

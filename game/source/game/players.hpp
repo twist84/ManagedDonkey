@@ -292,7 +292,8 @@ enum e_player_flags
 };
 
 #pragma pack(push, 4)
-struct player_datum : s_datum_header
+struct player_datum :
+	s_datum_header
 {
 	short __unknown2;
 	dword_flags flags;

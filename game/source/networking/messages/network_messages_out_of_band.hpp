@@ -31,7 +31,8 @@ struct s_network_message_broadcast_search
 };
 static_assert(sizeof(s_network_message_broadcast_search) == 0x10);
 
-struct s_network_message_directed_search : s_network_message_broadcast_search
+struct s_network_message_directed_search :
+	s_network_message_broadcast_search
 {
 };
 static_assert(sizeof(s_network_message_directed_search) == sizeof(s_network_message_broadcast_search));

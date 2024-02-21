@@ -25,7 +25,8 @@ struct s_observer_configuration;
 enum e_network_message_type;
 struct c_network_observer
 {
-	struct s_channel_observer : c_network_channel
+	struct s_channel_observer :
+		c_network_channel
 	{
 		long state;
 

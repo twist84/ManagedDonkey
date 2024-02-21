@@ -4,7 +4,8 @@
 #include "game/game_engine_variant.hpp"
 #include "game/game_engine_slayer_traits.hpp"
 
-struct c_game_engine_slayer_variant : c_game_engine_base_variant
+struct c_game_engine_slayer_variant :
+	c_game_engine_base_variant
 {
 public:
 	c_game_engine_slayer_variant* constructor()
@@ -88,7 +89,8 @@ protected:
 };
 static_assert(sizeof(c_game_engine_slayer_variant) == 0x200);
 
-struct c_slayer_engine : c_game_engine
+struct c_slayer_engine :
+	c_game_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;

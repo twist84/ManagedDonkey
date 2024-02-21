@@ -22,19 +22,22 @@ struct s_effect_vector
 };
 static_assert(sizeof(s_effect_vector) == 0x1C);
 
-struct effect_datum : s_datum_header
+struct effect_datum :
+	s_datum_header
 {
 	byte __data[0x9E];
 };
 static_assert(sizeof(effect_datum) == 0xA0);
 
-struct effect_event_datum : s_datum_header
+struct effect_event_datum :
+	s_datum_header
 {
 	byte __data[0x12];
 };
 static_assert(sizeof(effect_event_datum) == 0x14);
 
-struct effect_location_datum : s_datum_header
+struct effect_location_datum :
+	s_datum_header
 {
 	byte __data[0x3E];
 };
@@ -46,7 +49,8 @@ struct s_effect_counts
 };
 static_assert(sizeof(s_effect_counts) == 0x18);
 
-struct effect_geometry_sample_datum : s_datum_header
+struct effect_geometry_sample_datum :
+	s_datum_header
 {
 	byte __data[0x26];
 };

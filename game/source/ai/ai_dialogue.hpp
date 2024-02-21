@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct vocalization_records : s_datum_header
+struct vocalization_records :
+	s_datum_header
 {
 	byte __data[0x5A];
 };

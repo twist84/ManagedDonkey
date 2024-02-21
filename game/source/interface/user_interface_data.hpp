@@ -44,15 +44,21 @@ protected:
 };
 static_assert(sizeof(c_gui_data) == 0x8);
 
-struct c_gui_ordered_data : c_gui_data
+struct c_gui_ordered_data :
+	c_gui_data
 {
 protected:
-	byte __unknown8[32][8]; // qword array?
-	long __unknown108;
+	struct
+	{
+		long __unknown0;
+		long __unknown4;
+	} m_disabled_elements[32];
+	long m_disabled_element_count;
 };
 static_assert(sizeof(c_gui_ordered_data) == 0x10C);
 
-struct c_gui_tag_datasource : c_gui_ordered_data
+struct c_gui_tag_datasource :
+	c_gui_ordered_data
 {
 	long m_gui_datasource_definition_index;
 };

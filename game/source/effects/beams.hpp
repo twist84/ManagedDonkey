@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct c_beam_system : s_datum_header
+struct c_beam_system :
+	s_datum_header
 {
 	long m_effect_index;
 	byte m_event_block_index;
@@ -24,7 +25,8 @@ struct c_beam_system : s_datum_header
 };
 static_assert(sizeof(c_beam_system) == 0x2C);
 
-struct c_beam : s_datum_header
+struct c_beam :
+	s_datum_header
 {
 	long m_next_sibling_index;
 	long m_beam_gpu_index;
@@ -40,7 +42,8 @@ struct c_beam : s_datum_header
 };
 static_assert(sizeof(c_beam) == 0x34);
 
-struct c_beam_location : s_datum_header
+struct c_beam_location :
+	s_datum_header
 {
 	long m_next_sibling_index;
 	long m_parent_system_index;

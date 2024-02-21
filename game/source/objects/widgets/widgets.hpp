@@ -7,7 +7,8 @@
 #include "objects/widgets/muffins.hpp"
 #include "memory/data.hpp"
 
-struct widget_datum : s_datum_header
+struct widget_datum :
+	s_datum_header
 {
 	dword __unknown4;
 	dword __unknown8;

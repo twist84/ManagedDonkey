@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "text/xml_parser.hpp"
 
-struct c_game_tag_parser : public c_xml_tag_parser<wchar_t>
+struct c_game_tag_parser :
+	public c_xml_tag_parser<wchar_t>
 {
 public:
 	virtual bool get_magic_string(wchar_t* buffer, long buffer_length);

@@ -7,7 +7,8 @@
 #include "game/game_engine_juggernaut_traits.hpp"
 #include "game/game_engine_variant.hpp"
 
-struct c_game_engine_juggernaut_variant : c_game_engine_base_variant
+struct c_game_engine_juggernaut_variant :
+	c_game_engine_base_variant
 {
 public:
 	c_game_engine_juggernaut_variant* constructor()
@@ -96,7 +97,8 @@ protected:
 };
 static_assert(sizeof(c_game_engine_juggernaut_variant) == 0x200);
 
-struct c_juggernaut_engine : c_game_engine
+struct c_juggernaut_engine :
+	c_game_engine
 {
 public:
 	void dump_settings(s_file_reference* file) const;

@@ -6,7 +6,8 @@
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_variant.hpp"
 
-struct c_game_engine_ctf_variant : c_game_engine_base_variant
+struct c_game_engine_ctf_variant :
+	c_game_engine_base_variant
 {
 public:
 	c_game_engine_ctf_variant* constructor()
@@ -67,7 +68,8 @@ protected:
 static_assert(sizeof(c_game_engine_ctf_variant) == 0x200);
 
 struct s_static_spawn_zone;
-struct c_ctf_engine : c_game_engine
+struct c_ctf_engine :
+	c_game_engine
 {
 public:
 	virtual bool static_spawn_zone_is_valid_for_player(long, s_static_spawn_zone const*) const;

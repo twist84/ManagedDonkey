@@ -5,7 +5,8 @@
 #include "networking/transport/transport_security.hpp"
 
 struct s_online_session;
-struct c_managed_session_overlapped_task : c_overlapped_task
+struct c_managed_session_overlapped_task :
+	c_overlapped_task
 {
 	dword context;
 

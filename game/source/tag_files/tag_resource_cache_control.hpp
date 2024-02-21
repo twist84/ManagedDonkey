@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
-struct s_tag_resource_control_datum : s_datum_header
+struct s_tag_resource_control_datum :
+	s_datum_header
 {
 	word_flags flags;
 	byte __data4[0x4];

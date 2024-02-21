@@ -3,7 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
-struct c_life_cycle_state_handler_matchmaking_start : c_life_cycle_state_handler
+struct c_life_cycle_state_handler_matchmaking_start :
+	c_life_cycle_state_handler
 {
 	virtual void update() override;
 	virtual e_life_cycle_state_transition_type update_for_state_transition() override;

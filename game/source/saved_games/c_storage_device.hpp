@@ -5,7 +5,8 @@
 #include "shell/shell.hpp"
 
 struct c_storage_device;
-struct c_storage_device_selector_overlapped_task : public c_overlapped_task
+struct c_storage_device_selector_overlapped_task :
+	public c_overlapped_task
 {
 	dword __thiscall _start(void* xenon_task_handle);
 

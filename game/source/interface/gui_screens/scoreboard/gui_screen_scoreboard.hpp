@@ -6,7 +6,8 @@
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
-struct c_gui_screen_scoreboard : c_gui_screen_widget
+struct c_gui_screen_scoreboard :
+	c_gui_screen_widget
 {
 private:
 	static void __cdecl translate_widget_recursive(c_gui_widget* widget, long a2, long a3);
@@ -33,7 +34,8 @@ private:
 	static real& m_console_scoreboard_alpha;
 };
 
-struct c_gui_scoreboard_data : c_gui_ordered_data
+struct c_gui_scoreboard_data :
+	c_gui_ordered_data
 {
 	enum e_player_row_type
 	{

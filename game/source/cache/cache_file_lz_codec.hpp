@@ -26,7 +26,8 @@ struct c_lz_cache_file_decompressor :
 };
 static_assert(sizeof(c_lz_cache_file_decompressor) == sizeof(c_cache_file_decompressor) + 0x1C);
 
-struct c_lz_cache_file_decompressor_service : c_single_instance_cache_file_decompressor_service<c_lz_cache_file_decompressor>
+struct c_lz_cache_file_decompressor_service :
+	c_single_instance_cache_file_decompressor_service<c_lz_cache_file_decompressor>
 {
 };
 static_assert(sizeof(c_lz_cache_file_decompressor_service) == 0x2C);

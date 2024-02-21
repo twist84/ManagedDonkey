@@ -19,7 +19,8 @@ enum e_bitmap_widget_definition_flags
 	k_bitmap_widget_definition_flags
 };
 
-struct s_bitmap_widget_definition : s_core_widget_definition
+struct s_bitmap_widget_definition :
+	s_core_widget_definition
 {
 	s_tag_reference bitmap_tag;
 	s_tag_reference custom_pixel_shader;
@@ -33,7 +34,8 @@ struct s_bitmap_widget_definition : s_core_widget_definition
 };
 static_assert(sizeof(s_bitmap_widget_definition) == sizeof(s_core_widget_definition) + 0x30);
 
-struct s_runtime_bitmap_widget_definition : s_runtime_core_widget_definition
+struct s_runtime_bitmap_widget_definition :
+	s_runtime_core_widget_definition
 {
 	long bitmap_tag_reference_index;
 	long __unknown38;
@@ -46,7 +48,8 @@ struct s_runtime_bitmap_widget_definition : s_runtime_core_widget_definition
 static_assert(sizeof(s_runtime_bitmap_widget_definition) == sizeof(s_runtime_core_widget_definition) + 0x18);
 
 struct bitmap_data;
-struct c_gui_bitmap_widget : public c_gui_widget
+struct c_gui_bitmap_widget :
+	public c_gui_widget
 {
 public:
 	void __cdecl set_sprite_frame(long sprite_frame);

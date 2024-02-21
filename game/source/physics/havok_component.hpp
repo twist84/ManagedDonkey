@@ -57,7 +57,8 @@ static_assert(sizeof(c_havok_contact_point) == 0x44);
 struct hkRigidBody;
 struct hkConstraintInstance;
 struct hkWorldObject;
-struct c_havok_component : s_datum_header
+struct c_havok_component :
+	s_datum_header
 {
 	struct c_rigid_body
 	{

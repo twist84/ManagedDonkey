@@ -4,7 +4,8 @@
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files.hpp"
 
-struct c_file_reference : s_file_reference
+struct c_file_reference :
+	s_file_reference
 {
 public:
 	c_file_reference(char const* path, dword flags);
