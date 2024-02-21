@@ -118,8 +118,7 @@ struct c_gui_scoreboard_data :
 		bool dead,
 		bool left);
 
-	void __cdecl update_for_scoreboard_mode(bool a1, bool a2);
-	void __thiscall _update();
+	void __thiscall _update_for_scoreboard_mode(bool a1, bool a2);
 
 //protected:
 	long m_current_scoreboard_mode;

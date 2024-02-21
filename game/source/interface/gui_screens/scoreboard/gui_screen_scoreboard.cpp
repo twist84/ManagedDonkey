@@ -24,9 +24,7 @@
 REFERENCE_DECLARE_ARRAY(0x05269788, real, c_gui_screen_scoreboard::m_scoreboard_alpha, 4);
 REFERENCE_DECLARE(0x05269798, real, c_gui_screen_scoreboard::m_console_scoreboard_alpha);
 
-// for some reason unknown to me these hooks are being zeroed out
-// meaning `HOOK_INVOKE` and `HOOK_INVOKE_CLASS` can't be used, so they're mostly reimplement now
-HOOK_DECLARE_CLASS_MEMBER(0x00AB3DA0, c_gui_scoreboard_data, _update);
+HOOK_DECLARE_CLASS_MEMBER(0x00AB42F0, c_gui_scoreboard_data, _update_for_scoreboard_mode);
 HOOK_DECLARE_CLASS_MEMBER(0x00AB4920, c_gui_screen_scoreboard, _update_render_state);
 
 void c_scoreboard_load_screen_message::set_is_interactive(bool is_interactive)
@@ -122,23 +120,6 @@ void __cdecl c_gui_screen_scoreboard::show_scoreboard(e_controller_index control
 	//		user_interface_messaging_post(message);
 	//	}
 	//}
-}
-
-void __thiscall c_gui_scoreboard_data::_update()
-{
-	// 0x00AB3DA0
-
-	if (m_current_scoreboard_mode == 1 || m_current_scoreboard_mode == 2)
-	{
-		if (game_in_progress() && game_is_multiplayer())
-			update_for_scoreboard_mode(false, true);
-		else
-			update_for_scoreboard_mode(false, false);
-	}
-	else if (m_current_scoreboard_mode == 3 || m_current_scoreboard_mode == 4)
-	{
-		update_for_scoreboard_mode(true, false);
-	}
 }
 
 void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
@@ -284,7 +265,7 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 	return result;
 }
 
-void __cdecl c_gui_scoreboard_data::update_for_scoreboard_mode(bool a1, bool include_score)
+void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool include_score)
 {
 	static c_static_wchar_string<256> place;
 	static c_static_wchar_string<256> score;
