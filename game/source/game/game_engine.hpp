@@ -158,7 +158,7 @@ static_assert(sizeof(s_game_engine_globals) == 0x15858);
 
 struct s_local_game_engine_globals
 {
-	dword __time0;
+	long __time0;
 	byte __data[0xC0];
 };
 static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
@@ -172,11 +172,14 @@ extern long __cdecl game_engine_get_team_place(long team);
 extern long __cdecl game_engine_get_team_score_for_display(long team, bool final_score);
 extern bool __cdecl game_engine_in_round();
 extern void __cdecl game_engine_interface_update(float world_seconds_elapsed);
+extern bool __cdecl game_engine_player_is_dead_and_betrayed_by_griefer(long player_index, long* griefer_player_index);
+extern bool __cdecl game_engine_player_is_out_of_lives(long player_index);
 extern bool __cdecl game_engine_player_is_playing(long player_index);
 extern void __cdecl game_engine_player_set_spawn_timer(long player_index, long spawn_time);
 extern long __cdecl game_engine_get_pre_round_ticks();
 extern long __cdecl game_engine_get_post_round_ticks();
 extern long __cdecl game_engine_round_time_get();
+extern void game_engine_update_global_fade_timers(real world_seconds_elapsed);
 extern void __cdecl game_engine_update_round_conditions();
 extern void __cdecl game_engine_dump_variant_settings(char const* filename);
 extern void __cdecl post_game_engine_globals_message(long message_type, char a2, short a3);

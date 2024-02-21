@@ -1,14 +1,20 @@
 #include "game/game_engine.hpp"
 
+#include "camera/saved_film_director.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_util.hpp"
+#include "game/game_grief.hpp"
 #include "game/game_time.hpp"
 #include "game/players.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/gui_screens/boot_betrayer/gui_screen_boot_betrayer.hpp"
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_mapping.hpp"
+#include "interface/user_interface_memory.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
@@ -70,42 +76,107 @@ bool __cdecl game_engine_in_round()
 	return INVOKE(0x00550F90, game_engine_in_round);
 }
 
-// this isn't the correct implementation
-// skipping standard player iteration and boot betrayer screen
 void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 {
 	//INVOKE(0x00551780, game_engine_interface_update, world_seconds_elapsed);
 
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	TLS_DATA_GET_VALUE_REFERENCE(local_game_engine_globals);
+
 	if (game_in_progress() && !game_is_ui_shell())
 	{
-		for (long i = player_mapping_first_active_output_user(); i != NONE; i = player_mapping_next_active_output_user(i))
+		for (long output_user_index = player_mapping_first_active_output_user(); output_user_index != NONE; output_user_index = player_mapping_next_active_output_user(output_user_index))
 		{
-			e_controller_index controller_index = static_cast<e_controller_index>(i);
-
-			s_game_input_state* input_state = NULL;
-			input_abstraction_get_input_state(controller_index, &input_state);
-			bool back_pressed = input_state && input_state->get_button(_button_action_back).down_frames() != 0;
-
-			TLS_DATA_GET_VALUE_REFERENCE(local_game_engine_globals);
-			if (!current_game_engine() || game_engine_in_round())
+			long player_index = player_mapping_get_player_by_output_user(output_user_index);
+			player_datum* player = (player_datum*)datum_try_and_get(*player_data, player_index);
+			e_controller_index controller_index = controller_index_from_output_user_index(output_user_index);
+			if (controller_index != k_no_controller)
 			{
-				local_game_engine_globals->__time0 = LONG_MAX;
-			}
-			else if (local_game_engine_globals->__time0 == LONG_MAX)
-			{
-				local_game_engine_globals->__time0 = game_time_get() + game_seconds_integer_to_ticks(1);
-			}
+				s_game_input_state* input_state = NULL;
+				input_abstraction_get_input_state(controller_index, &input_state);
+				bool back_pressed = input_state && input_state->get_button(_button_action_back).down_frames() != 0;
 
-			if (user_interface_should_show_console_scoreboard(NULL) || back_pressed)
-				c_gui_screen_scoreboard::show_scoreboard(controller_index, back_pressed);
-			else
-				c_gui_screen_scoreboard::hide_scoreboard(controller_index);
+				if (!current_game_engine() || game_engine_in_round())
+				{
+					local_game_engine_globals->__time0 = LONG_MAX;
+				}
+				else if (local_game_engine_globals->__time0 == LONG_MAX)
+				{
+					local_game_engine_globals->__time0 = game_time_get() + game_seconds_integer_to_ticks(1);
+				}
 
-			c_gui_screen_scoreboard::update_scoreboard_alpha(controller_index);
+				if (user_interface_should_show_console_scoreboard(NULL))
+				{
+					c_gui_screen_scoreboard::hide_scoreboard(controller_index);
+				}
+				else
+				{
+					c_gui_screen_scoreboard* screen = c_gui_screen_scoreboard::get_scoreboard_screen(controller_index);
+					if (!screen || !window_manager_get()->get_screen_above(screen->get_render_window(), screen))
+					{
+						bool show_scoreboard = back_pressed && (game_is_cooperative() || game_is_multiplayer()) && player_control_get_zoom_level(output_user_index) == (short)0xFFFF;
+
+						if (current_game_engine())
+						{
+							if (game_time_get() >= local_game_engine_globals->__time0)
+								show_scoreboard = true;
+
+							if (player->unit_index == NONE
+								&& player->respawn_timer_countdown <= 1
+								//&& !TEST_BIT(player->flags, 12) // what bit is this? 12 in reach x360, 13 in halo3 mcc
+								&& !game_engine_player_is_out_of_lives(player_index)
+								&& game_time_get() > game_seconds_integer_to_ticks(3)
+								&& TEST_BIT(player->flags, _player_active_in_game_bit)
+								&& (!game_is_playback()
+									|| director_get(output_user_index)->get_type() != _director_mode_saved_film
+									|| !director_get(output_user_index)->in_free_camera_mode()))
+							{
+								show_scoreboard = true;
+							}
+						}
+
+						if (show_scoreboard)
+							c_gui_screen_scoreboard::show_scoreboard(controller_index, back_pressed);
+						else
+							c_gui_screen_scoreboard::hide_scoreboard(controller_index);
+					}
+				}
+
+				// #TODO: enable this
+				//if (current_game_engine())
+				//{
+				//	long griefer_player_index = NONE;
+				//	if (game_engine_player_is_dead_and_betrayed_by_griefer(player_index, &griefer_player_index))
+				//	{
+				//		if (game_grief_can_eject(player_index) && !game_grief_get_ui_active_for_local_user(controller_index))
+				//		{
+				//			player_datum* griefer = (player_datum*)datum_try_and_get(*player_data, griefer_player_index);
+				//			e_window_index window_index = user_interface_get_window_for_controller(controller_index);
+				//
+				//			c_load_boot_betrayer_screen_message* message = (c_load_boot_betrayer_screen_message*)user_interface_malloc_tracked(sizeof(c_load_boot_betrayer_screen_message), __FILE__, __LINE__);
+				//			if (load_boot_betrayer_screen_message_ctor(message, controller_index, window_index, STRING_ID(gui, top_most), &player->player_identifier, &griefer->player_identifier))
+				//			{
+				//				user_interface_messaging_post(message);
+				//				sub_6790A0(controller_index, true);
+				//			}
+				//		}
+				//	}
+				//}
+			}
 		}
 	}
 
-	DECLFUNC(0x00552D40, void, __cdecl, real)(world_seconds_elapsed);
+	game_engine_update_global_fade_timers(world_seconds_elapsed);
+}
+
+bool __cdecl game_engine_player_is_dead_and_betrayed_by_griefer(long player_index, long* griefer_player_index)
+{
+	return INVOKE(0x00551F50, game_engine_player_is_dead_and_betrayed_by_griefer, player_index, griefer_player_index);
+}
+
+bool __cdecl game_engine_player_is_out_of_lives(long player_index)
+{
+	return INVOKE(0x00552020, game_engine_player_is_out_of_lives, player_index);
 }
 
 bool __cdecl game_engine_player_is_playing(long player_index)
@@ -157,6 +228,11 @@ long __cdecl game_engine_round_time_get()
 		return game_time_get() - game_engine_globals->round_timer;
 
 	return 0;
+}
+
+void game_engine_update_global_fade_timers(real world_seconds_elapsed)
+{
+	INVOKE(0x00552D40, game_engine_update_global_fade_timers, world_seconds_elapsed);
 }
 
 void __cdecl game_engine_update_round_conditions()
