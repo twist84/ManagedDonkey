@@ -39,7 +39,7 @@ public:
 	bool is_attached();
 	bool in_use();
 	bool is_signed_in_to_machine();
-	short get_user_index();
+	short get_user_index() const;
 	void get_player_identifier(s_player_identifier* out_player_identifier);
 	qword get_player_xuid();
 
@@ -62,8 +62,10 @@ static_assert(sizeof(s_controller_globals) == 0x5120);
 
 extern s_controller_globals& g_controller_globals;
 
+enum e_window_index;
 enum e_controller_index;
 
 extern c_controller_interface* __cdecl controller_get(e_controller_index controller_index);
+extern e_window_index __cdecl controller_get_game_render_window(e_controller_index controller_index);
 extern void __cdecl controllers_render();
 
