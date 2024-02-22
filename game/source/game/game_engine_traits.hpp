@@ -16,6 +16,9 @@ enum e_game_engine_miscellaneous_option_flags
 	_game_engine_miscellaneous_option_round_reset_players,
 	_game_engine_miscellaneous_option_round_reset_map,
 
+	// TEST_BIT(miscellaneous_options.flags, _game_engine_miscellaneous_option_unknown_bit3)
+	_game_engine_miscellaneous_option_unknown_bit3, // player switching allowed?
+
 	k_game_engine_miscellaneous_option_flags
 };
 

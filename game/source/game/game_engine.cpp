@@ -189,7 +189,7 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 					c_gui_screen_scoreboard* screen = c_gui_screen_scoreboard::get_scoreboard_screen(controller_index);
 					if (!screen || !window_manager_get()->get_screen_above(screen->get_render_window(), screen))
 					{
-						bool show_scoreboard = back_pressed && (game_is_cooperative() || game_is_multiplayer()) && player_control_get_zoom_level(output_user_index) == (short)0xFFFF;
+						bool show_scoreboard = back_pressed && (game_is_cooperative() || game_is_multiplayer()) && player_control_get_zoom_level(output_user_index) == (short)NONE;
 
 						if (current_game_engine())
 						{
