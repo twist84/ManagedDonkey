@@ -166,6 +166,7 @@ POPD
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\game\game_engine_scoring.cpp" />
     <ClCompile Include="source\game\game_grief.cpp" />
     <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
