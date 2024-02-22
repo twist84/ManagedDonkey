@@ -280,7 +280,7 @@ struct s_player_shot_info
 };
 static_assert(sizeof(s_player_shot_info) == 0xC);
 
-// a high likely hood of Halo Online using the Halo Reach player flags enum
+// there's a high likelihood of Halo Online using the Halo Reach player flags enum
 enum e_player_flags
 {
 	// players_update_activation
