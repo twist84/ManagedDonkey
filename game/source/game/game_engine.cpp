@@ -123,7 +123,7 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 
 							if (player->unit_index == NONE
 								&& player->respawn_timer_countdown <= 1
-								//&& !TEST_BIT(player->flags, 12) // what bit is this? 12 in reach x360, 13 in halo3 mcc
+								&& !TEST_BIT(player->flags, _player_unknown_bit12)
 								&& !game_engine_player_is_out_of_lives(player_index)
 								&& game_time_get() > game_seconds_integer_to_ticks(3)
 								&& TEST_BIT(player->flags, _player_active_in_game_bit)
