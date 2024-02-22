@@ -610,22 +610,22 @@ void c_game_engine_map_override_options::decode_from_mcc(c_bitstream* packet)
 
 bool c_game_engine_map_override_options::get_grenades_on_map_enabled() const
 {
-	return m_flags.test(_game_engine_map_override_options_grenades_on_map_enabled);
+	return m_flags.test(_game_engine_map_override_option_grenades_on_map_enabled);
 }
 
 void c_game_engine_map_override_options::set_grenades_on_map_enabled(bool grenades_on_map_enabled)
 {
-	m_flags.set(_game_engine_map_override_options_grenades_on_map_enabled, grenades_on_map_enabled);
+	m_flags.set(_game_engine_map_override_option_grenades_on_map_enabled, grenades_on_map_enabled);
 }
 
 bool c_game_engine_map_override_options::get_indestructible_vehicles_enabled() const
 {
-	return m_flags.test(_game_engine_map_override_options_indestructible_vehicles_enabled);
+	return m_flags.test(_game_engine_map_override_option_indestructible_vehicles_enabled);
 }
 
 void c_game_engine_map_override_options::set_indestructible_vehicles_enabled(bool indestructible_vehicles_enabled)
 {
-	m_flags.set(_game_engine_map_override_options_indestructible_vehicles_enabled, indestructible_vehicles_enabled);
+	m_flags.set(_game_engine_map_override_option_indestructible_vehicles_enabled, indestructible_vehicles_enabled);
 }
 
 c_player_traits* c_game_engine_map_override_options::get_base_player_traits_writeable()

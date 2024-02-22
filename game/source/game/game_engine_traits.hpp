@@ -60,12 +60,12 @@ enum e_game_engine_social_options_flags
 	k_game_engine_social_options_flags
 };
 
-enum e_game_engine_map_override_options_flags
+enum e_game_engine_map_override_option_flags
 {
-	_game_engine_map_override_options_grenades_on_map_enabled = 0,
-	_game_engine_map_override_options_indestructible_vehicles_enabled,
+	_game_engine_map_override_option_grenades_on_map_enabled = 0,
+	_game_engine_map_override_option_indestructible_vehicles_enabled,
 
-	k_game_engine_map_override_options_flags
+	k_game_engine_map_override_option_flags
 };
 
 struct c_game_engine_miscellaneous_options
@@ -282,7 +282,7 @@ public:
 	void set_yellow_powerup_duration_seconds(byte yellow_powerup_duration_seconds);
 
 protected:
-	c_flags<e_game_engine_map_override_options_flags, dword_flags, k_game_engine_map_override_options_flags> m_flags;
+	c_flags<e_game_engine_map_override_option_flags, dword_flags, k_game_engine_map_override_option_flags> m_flags;
 	c_player_traits m_base_player_traits;
 	word m_weapon_set_absolute_index;
 	word m_vehicle_set_absolute_index;
