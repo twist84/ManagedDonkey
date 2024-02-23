@@ -419,36 +419,6 @@ void c_game_engine_social_options::decode_from_mcc(c_bitstream* packet)
 	set_dead_player_voice_enabled(dead_player_voice_enabled);
 }
 
-bool c_game_engine_social_options::get_observers_enabled() const
-{
-	return m_flags.test(_game_engine_social_options_observers_enabled);
-}
-
-void c_game_engine_social_options::set_observers_enabled(bool observers_enabled)
-{
-	m_flags.set(_game_engine_social_options_observers_enabled, observers_enabled);
-}
-
-bool c_game_engine_social_options::get_team_changing_enabled() const
-{
-	return m_flags.test(_game_engine_social_options_team_changing_enabled);
-}
-
-void c_game_engine_social_options::set_team_changing_enabled(bool team_changing_enabled)
-{
-	m_flags.set(_game_engine_social_options_team_changing_enabled, team_changing_enabled);
-}
-
-bool c_game_engine_social_options::get_team_changing_balancing_only_enabled() const
-{
-	return m_flags.test(_game_engine_social_options_team_changing_balancing_only_enabled);
-}
-
-void c_game_engine_social_options::set_team_changing_balancing_only_enabled(bool team_changing_balancing_only_enabled)
-{
-	m_flags.set(_game_engine_social_options_team_changing_balancing_only_enabled, team_changing_balancing_only_enabled);
-}
-
 bool c_game_engine_social_options::get_friendly_fire_enabled() const
 {
 	return m_flags.test(_game_engine_social_options_friendly_fire_enabled);
@@ -507,6 +477,36 @@ bool c_game_engine_social_options::get_spartans_vs_elites_enabled() const
 void c_game_engine_social_options::set_spartans_vs_elites_enabled(bool spartans_vs_elites_enabled)
 {
 	m_flags.set(_game_engine_social_options_spartans_vs_elites_enabled, spartans_vs_elites_enabled);
+}
+
+bool c_game_engine_social_options::get_observers_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_observers_enabled);
+}
+
+void c_game_engine_social_options::set_observers_enabled(bool observers_enabled)
+{
+	m_flags.set(_game_engine_social_options_observers_enabled, observers_enabled);
+}
+
+bool c_game_engine_social_options::get_team_changing_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_team_changing_enabled);
+}
+
+void c_game_engine_social_options::set_team_changing_enabled(bool team_changing_enabled)
+{
+	m_flags.set(_game_engine_social_options_team_changing_enabled, team_changing_enabled);
+}
+
+bool c_game_engine_social_options::get_team_changing_balancing_only_enabled() const
+{
+	return m_flags.test(_game_engine_social_options_team_changing_balancing_only_enabled);
+}
+
+void c_game_engine_social_options::set_team_changing_balancing_only_enabled(bool team_changing_balancing_only_enabled)
+{
+	m_flags.set(_game_engine_social_options_team_changing_balancing_only_enabled, team_changing_balancing_only_enabled);
 }
 
 //e_team_changing_type c_game_engine_social_options::get_team_changing_setting() const

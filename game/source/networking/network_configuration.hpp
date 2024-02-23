@@ -681,10 +681,10 @@ struct s_network_configuration
 	dword __unknown1378;
 	dword __unknown137C;
 	byte __unknown1380;
-	dword __unknown1384;
-	dword __unknown1388;
-	real __unknown138C;
-	dword __unknown1390;
+	long griefer_betrayal_timeout;
+	long griefer_ejection_timeout;
+	real maximum_griefer_betrayal_count;
+	long maximum_griefer_eviction_count;
 	dword __unknown1394;
 	dword __unknown1398;
 	dword __unknown139C;

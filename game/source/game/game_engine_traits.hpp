@@ -40,25 +40,25 @@ enum e_game_engine_respawn_options_flags
 
 enum e_game_engine_social_options_flags
 {
-	_game_engine_social_options_observers_enabled = 0,
-	_game_engine_social_options_team_changing_enabled,
-	_game_engine_social_options_team_changing_balancing_only_enabled,
-	_game_engine_social_options_friendly_fire_enabled,
+	_game_engine_social_options_friendly_fire_enabled = 0,
 	_game_engine_social_options_betrayal_booting_enabled,
-
-	// removed from halo online
-	//_game_engine_social_options_enemy_voice_enabled,
-	//_game_engine_social_options_open_channel_voice_enabled,
-	//_game_engine_social_options_dead_player_voice_enabled,
+	_game_engine_social_options_enemy_voice_enabled,
+	_game_engine_social_options_open_channel_voice_enabled,
+	_game_engine_social_options_dead_player_voice_enabled,
 
 	// added in halo online
 	_game_engine_social_options_spartans_vs_elites_enabled,
 
+	// removed from halo 3: odst
+	//_game_engine_social_options_observers_enabled = 0,
+	//_game_engine_social_options_team_changing_enabled,
+	//_game_engine_social_options_team_changing_balancing_only_enabled,
+
 	// add back these even if the game doesn't use them
 	// these bits aren't checked so it should be fine?
-	_game_engine_social_options_enemy_voice_enabled,
-	_game_engine_social_options_open_channel_voice_enabled,
-	_game_engine_social_options_dead_player_voice_enabled,
+	_game_engine_social_options_observers_enabled,
+	_game_engine_social_options_team_changing_enabled,
+	_game_engine_social_options_team_changing_balancing_only_enabled,
 
 	k_game_engine_social_options_flags
 };
@@ -194,15 +194,6 @@ public:
 	void encode_to_mcc(c_bitstream* packet) const;
 	void decode_from_mcc(c_bitstream* packet);
 
-	bool get_observers_enabled() const;
-	void set_observers_enabled(bool observers_enabled);
-
-	bool get_team_changing_enabled() const;
-	void set_team_changing_enabled(bool team_changing_enabled);
-
-	bool get_team_changing_balancing_only_enabled() const;
-	void set_team_changing_balancing_only_enabled(bool team_changing_balancing_only_enabled);
-
 	bool get_friendly_fire_enabled() const;
 	void set_friendly_fire_enabled(bool friendly_fire_enabled);
 
@@ -220,6 +211,15 @@ public:
 
 	bool get_spartans_vs_elites_enabled() const;
 	void set_spartans_vs_elites_enabled(bool spartans_vs_elites_enabled);
+
+	bool get_observers_enabled() const;
+	void set_observers_enabled(bool observers_enabled);
+
+	bool get_team_changing_enabled() const;
+	void set_team_changing_enabled(bool team_changing_enabled);
+
+	bool get_team_changing_balancing_only_enabled() const;
+	void set_team_changing_balancing_only_enabled(bool team_changing_balancing_only_enabled);
 
 	long get_team_changing_setting() const;
 	void set_team_changing_setting(long team_changing);

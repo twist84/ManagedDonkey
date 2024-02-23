@@ -2,10 +2,10 @@
 
 struct s_game_grief_globals
 {
-	long betrayal_time;
-	long ejection_time;
-	long update_time;
-	long reprieve_time;
+	unsigned long betrayal_time;
+	unsigned long ejection_time;
+	unsigned long update_time;
+	unsigned long reprieve_time;
 	bool ui_active[4];
 };
 static_assert(sizeof(s_game_grief_globals) == 0x14);
