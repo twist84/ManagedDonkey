@@ -1185,6 +1185,9 @@
     <ClCompile Include="source\game\game_engine_scoring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3051,6 +3054,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\game\game_grief.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\start_menu\start_menu_pane_screen_widget.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
