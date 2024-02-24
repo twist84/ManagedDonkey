@@ -90,10 +90,7 @@ enum e_gui_widget_type
 	_gui_widget_type_group_widget,
 	_gui_widget_type_button_key_widget,
 	_gui_widget_type_list_item_widget,
-
-	// unused?
-	_gui_widget_type_unknown_widget,
-
+	_gui_widget_type_slider_widget,
 	_gui_widget_type_list_widget,
 	_gui_widget_type_screen_widget,
 
