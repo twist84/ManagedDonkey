@@ -217,26 +217,24 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 					}
 				}
 
-				// #TODO: enable this
-				//if (current_game_engine())
-				//{
-				//	long griefer_player_index = NONE;
-				//	if (game_engine_player_is_dead_and_betrayed_by_griefer(player_index, &griefer_player_index))
-				//	{
-				//		if (game_grief_can_eject(player_index) && !game_grief_get_ui_active_for_local_user(controller_index))
-				//		{
-				//			player_datum* griefer = (player_datum*)datum_try_and_get(*player_data, griefer_player_index);
-				//			e_window_index window_index = user_interface_get_window_for_controller(controller_index);
-				//
-				//			c_load_boot_betrayer_screen_message* message = (c_load_boot_betrayer_screen_message*)user_interface_malloc_tracked(sizeof(c_load_boot_betrayer_screen_message), __FILE__, __LINE__);
-				//			if (load_boot_betrayer_screen_message_ctor(message, controller_index, window_index, STRING_ID(gui, top_most), &player->player_identifier, &griefer->player_identifier))
-				//			{
-				//				user_interface_messaging_post(message);
-				//				sub_6790A0(controller_index, true);
-				//			}
-				//		}
-				//	}
-				//}
+				if (current_game_engine())
+				{
+					long griefer_player_index = NONE;
+					if (game_engine_player_is_dead_and_betrayed_by_griefer(player_index, &griefer_player_index))
+					{
+						if (game_grief_can_eject(player_index) && !game_grief_get_ui_active_for_local_user(controller_index))
+						{
+							player_datum* griefer = (player_datum*)datum_try_and_get(*player_data, griefer_player_index);
+							e_window_index window_index = user_interface_get_window_for_controller(controller_index);
+				
+							if (c_load_boot_betrayer_screen_message* message = new c_load_boot_betrayer_screen_message(controller_index, window_index, STRING_ID(gui, top_most), &player->player_identifier, &griefer->player_identifier))
+							{
+								user_interface_messaging_post(message);
+								sub_6790A0(controller_index, true);
+							}
+						}
+					}
+				}
 			}
 		}
 	}
