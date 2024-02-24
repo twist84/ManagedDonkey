@@ -18,7 +18,7 @@
 #define STRCONCAT(x, y) _STRCONCAT(x, y)
 
 #define DECLFUNC(ADDR, R, CC, ...) reinterpret_cast<R(CC*)(__VA_ARGS__)>(ADDR)
-#define INVOKE(ADDR, TYPE, ...) reinterpret_cast<decltype(TYPE)*>(ADDR)(__VA_ARGS__)
+#define INVOKE(ADDR, TYPE, ...) reinterpret_cast<decltype(&TYPE)>(ADDR)(__VA_ARGS__)
 
 #define OFFSETOF(s,m) __builtin_offsetof(s,m)
 #define NUMBEROF(_array) (sizeof(_array) / sizeof(_array[0]))
