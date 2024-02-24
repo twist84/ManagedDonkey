@@ -317,7 +317,7 @@ void c_gui_error_manager::update(dword ui_time)
 	//{
 	//	c_gui_queued_error const* error;
 	//	string_id name;
-	//} alerts[k_number_of_windows]{};
+	//} alerts[k_number_of_render_windows]{};
 	//
 	//clean_out_error_queue();
 	//sort_queue();
@@ -334,7 +334,7 @@ void c_gui_error_manager::update(dword ui_time)
 	//		.name = !error_ || error_->get_blocking() ? STRING_ID(gui, gui_alert_toast) : STRING_ID(gui, gui_alert_nonblocking)
 	//	};
 	//}
-	//for (long window_index = 0; window_index < k_number_of_windows; window_index++)
+	//for (long window_index = 0; window_index < k_number_of_render_windows; window_index++)
 	//{
 	//	c_gui_queued_error const* error = get_current_for_user(controller_index);
 	//
@@ -350,7 +350,7 @@ void c_gui_error_manager::update(dword ui_time)
 	//	}
 	//}
 	//
-	//for (long window_index = 0; window_index < k_number_of_windows; window_index++)
+	//for (long window_index = 0; window_index < k_number_of_render_windows; window_index++)
 	//{
 	//	c_gui_queued_error const* error = alerts[window_index].error;
 	//

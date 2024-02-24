@@ -167,7 +167,10 @@ enum e_window_index
 	_window_index3,
 	_window_index4,
 
-	k_number_of_windows
+	k_number_of_render_windows,
+
+	k_any_window = 0xFF,
+	k_no_window = 0xFFFFFFFF,
 };
 
 enum e_network_game_start_mode
@@ -590,8 +593,8 @@ enum e_ui_message_type
 	_ui_message_type_load_screen,
 	_ui_message_type_unknown4,
 	_ui_message_type_screen_custom,
-	_ui_message_type_unknown6,
 	_ui_message_type_dialog_result,
+	_ui_message_type_unknown7,
 };
 
 enum e_browser_type

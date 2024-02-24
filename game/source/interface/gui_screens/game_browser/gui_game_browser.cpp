@@ -5,8 +5,7 @@
 
 void load_game_browser(e_controller_index controller, long search_flags, e_browser_type type)
 {
-	c_load_game_browser_screen_message* message = (c_load_game_browser_screen_message*)user_interface_malloc_tracked(sizeof(c_load_game_browser_screen_message), __FILE__, __LINE__);
-	if (load_game_browser_screen_message_ctor(message, STRING_ID(gui, game_browser), controller, _window_index4, STRING_ID(gui, top_most), search_flags, type))
+	if (c_load_game_browser_screen_message* message = new c_load_game_browser_screen_message(STRING_ID(gui, game_browser), controller, _window_index4, STRING_ID(gui, top_most), search_flags, type))
 		user_interface_messaging_post(message);
 }
 

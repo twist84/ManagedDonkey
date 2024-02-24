@@ -11,29 +11,51 @@
 
 REFERENCE_DECLARE(0x052600D0, c_message_globals, g_message_globals);
 
-//HOOK_DECLARE(0x00A93410, user_interface_messaging_initialize);
-//HOOK_DECLARE(0x00A933B0, user_interface_messaging_dispose);
-//HOOK_DECLARE(0x00A93420, user_interface_messaging_initialize_for_new_map);
-//HOOK_DECLARE(0x00A933C0, user_interface_messaging_dispose_from_old_map);
-//HOOK_DECLARE(0x00A934A0, user_interface_messaging_update);
+HOOK_DECLARE(0x00A93390, user_interface_message_queue_is_empty);
+HOOK_DECLARE(0x00A933B0, user_interface_messaging_dispose);
+HOOK_DECLARE(0x00A933C0, user_interface_messaging_dispose_from_old_map);
+HOOK_DECLARE(0x00A933D0, user_interface_messaging_get_next_message);
+HOOK_DECLARE(0x00A93410, user_interface_messaging_initialize);
+HOOK_DECLARE(0x00A93420, user_interface_messaging_initialize_for_new_map);
+HOOK_DECLARE(0x00A93430, user_interface_messaging_pop);
 HOOK_DECLARE(0x00A93450, user_interface_messaging_post);
-//HOOK_DECLARE(0x00A933D0, user_interface_messaging_get_next_message);
-//HOOK_DECLARE(0x00A93430, user_interface_messaging_pop);
+HOOK_DECLARE(0x00A934A0, user_interface_messaging_update);
+HOOK_DECLARE(0x00A934B0, user_interface_xbox_guide_is_active);
 
-// #TODO: find this
-//HOOK_DECLARE(0x00000000, user_interface_message_queue_is_empty);
+template<>
+void ui_track_delete<c_message>(c_message const* object)
+{
+	ASSERT(object != NULL);
 
-//c_message::c_message(e_ui_message_type type, long screen_name, e_controller_index controller, e_window_index window) :
-//	m_type(type),
-//	m_screen_name(screen_name),
-//	m_controller(controller),
-//	m_window(window)
-//{
-//	if (game_time_initialized())
-//		m_game_time_at_creation = game_time_get();
-//	else
-//		m_game_time_at_creation = 0;
-//}
+	object->~c_message();
+	user_interface_free(object);
+}
+
+c_message::c_message(e_ui_message_type type, long screen_name, e_controller_index controller, e_window_index window) :
+	m_game_time_at_creation(game_time_initialized() ? game_time_get() : 0),
+	m_type(type),
+	m_screen_name(screen_name),
+	m_controller(controller),
+	m_window(window)
+{
+}
+
+c_message::~c_message()
+{
+}
+
+void c_message::initialize()
+{
+}
+
+void c_message::update()
+{
+}
+
+void* c_message::operator new(unsigned int size)
+{
+	return user_interface_malloc_tracked(size, __FILE__, __LINE__);
+}
 
 //c_controller.obj
 e_ui_message_type c_message::get_type() const
@@ -65,6 +87,19 @@ long c_message::get_game_time_at_creation() const
 	return m_game_time_at_creation;
 }
 
+c_controller_input_message::c_controller_input_message(long screen_name, e_controller_index controller, e_window_index window, e_event_type event_type, e_controller_component component, long event_value) :
+	c_message(_ui_message_type_controller_input, screen_name, controller, window),
+	m_event_type(event_type),
+	m_component(component),
+	m_event_value(event_value),
+	__unknown24(false)
+{
+}
+
+c_controller_input_message::~c_controller_input_message()
+{
+}
+
 //gui_screen_start_menu.obj
 e_event_type c_controller_input_message::get_event_type() const
 {
@@ -83,6 +118,17 @@ long c_controller_input_message::get_event_value() const
 	return m_event_value;
 }
 
+c_xenon_message::c_xenon_message(e_controller_index controller, e_xenon_message_type xenon_message_type, long event_value) :
+	c_message(_ui_message_type_xenon, _string_id_invalid, controller, k_no_window),
+	m_xenon_message_type(xenon_message_type),
+	m_event_value(event_value)
+{
+}
+
+c_xenon_message::~c_xenon_message()
+{
+}
+
 //c_controller.obj
 c_xenon_message::e_xenon_message_type c_xenon_message::get_xenon_message_type() const
 {
@@ -93,6 +139,36 @@ c_xenon_message::e_xenon_message_type c_xenon_message::get_xenon_message_type() 
 long c_xenon_message::get_event_value() const
 {
 	return m_event_value;
+}
+
+c_load_screen_message::c_load_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position) :
+	c_message(_ui_message_type_load_screen, screen_name, controller, window),
+	m_transition_type((e_screen_transition_type)1),
+	m_respond_to_controller_events(true),
+	m_focus_on_load_list_name(NONE),
+	m_focus_on_load_element_handle(NONE),
+	m_focus_on_load_column_name(NONE),
+	m_focus_on_load_column_value(NONE),
+	m_parent_screen_index(NONE),
+	m_layered_position(layered_position),
+	m_applies_even_to_codeless_screens(false)
+{
+	ASSERT(VALID_INDEX(controller, k_number_of_controllers) || controller == k_any_controller);
+	ASSERT(VALID_INDEX(window, k_number_of_render_windows));
+	ASSERT(m_layered_position != _string_id_invalid);
+	if (screen_name == _string_id_invalid)
+	{
+		//generate_event(_event_level_error, "ui:dialog: dialog %s (%d) does not exist", string_id_get_string_const(_string_id_invalid), _string_id_invalid);
+		c_console::write_line("ui:dialog: dialog %s (%d) does not exist", string_id_get_string_const(_string_id_invalid), _string_id_invalid);
+	}
+}
+
+c_load_screen_message::~c_load_screen_message()
+{
+}
+
+void c_load_screen_message::apply_initial_state(c_gui_screen_widget* screen) const
+{
 }
 
 //saved_film_director.obj
@@ -176,10 +252,32 @@ bool c_load_screen_message::get_applies_even_to_codeless_screens() const
 	return m_applies_even_to_codeless_screens;
 }
 
+c_screen_custom_message::c_screen_custom_message(long sub_type, long screen_name, e_controller_index controller, e_window_index window) :
+	c_message(_ui_message_type_screen_custom, screen_name, controller, window),
+	m_sub_type(sub_type)
+{
+}
+
+c_screen_custom_message::~c_screen_custom_message()
+{
+}
+
 //gui_screen_start_menu.obj
 long c_screen_custom_message::get_sub_type() const
 {
 	return m_sub_type;
+}
+
+c_dialog_result_message::c_dialog_result_message(long screen_name, e_controller_index controller, e_window_index window, long dialog_name, e_gui_dialog_choice dialog_result) :
+	c_message(_ui_message_type_dialog_result, screen_name, controller, window),
+	m_dialog_result(dialog_result),
+	m_dialog_name(dialog_name),
+	m_dispose_on_success_screen_index()
+{
+}
+
+c_dialog_result_message::~c_dialog_result_message()
+{
 }
 
 //user_interface_networking.obj
@@ -206,6 +304,20 @@ void c_dialog_result_message::set_dispose_on_success_screen_index(long dispose_o
 	m_dispose_on_success_screen_index = dispose_on_success_screen_index;
 }
 
+
+c_load_dialog_screen_message::c_load_dialog_screen_message(e_controller_index controller, e_window_index window, long layered_position, long dialog_name, long dialog_invoker) :
+	c_load_screen_message(get_dialog_screen_name(dialog_name), controller, window, layered_position),
+	m_dialog_name(dialog_name),
+	m_dialog_invoker(dialog_invoker),
+	m_test_mode(false),
+	m_dispose_on_success_screen_index(NONE)
+{
+}
+
+c_load_dialog_screen_message::~c_load_dialog_screen_message()
+{
+}
+
 long c_load_dialog_screen_message::get_dialog_screen_name(long dialog_name)
 {
 	// #TODO: iterate through `user_interface_shared_globals->dialog_descriptions`,
@@ -228,13 +340,24 @@ void c_load_dialog_screen_message::set_test_mode(bool test_mode)
 	m_test_mode = test_mode;
 }
 
+c_load_game_browser_screen_message::c_load_game_browser_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, long search_flags, e_browser_type type) :
+	c_load_screen_message(screen_name, controller, window, layered_position),
+	m_squad_search_flags(search_flags),
+	m_type(type)
+{
+}
+
+c_load_game_browser_screen_message::~c_load_game_browser_screen_message()
+{
+}
+
 c_message_globals::c_message_globals()
 {
 	csmemset(m_queue, 0, sizeof(m_queue));
-	m_next_read = nullptr;
-	m_prev_read = nullptr;
+	m_next_read = NULL;
+	m_prev_read = NULL;
 	m_xbox_guide_is_active = false;
-	//m_system_message_notification_handle = nullptr;
+	//m_system_message_notification_handle = NULL;
 }
 
 c_message_globals::~c_message_globals()
@@ -253,27 +376,30 @@ void c_message_globals::dispose()
 	//if (m_system_message_notification_handle && m_system_message_notification_handle != INVALID_HANDLE_VALUE)
 	//{
 	//	CloseHandle(m_system_message_notification_handle);
-	//	m_system_message_notification_handle = nullptr;
+	//	m_system_message_notification_handle = NULL;
 	//}
 }
 
 void c_message_globals::initialize_for_new_map()
 {
-	for (long i = 0; i < NUMBEROF(m_queue); ++i)
+	s_message_queue_node* next = NULL;
+	s_message_queue_node* prev = NULL;
+
+	for (long node_index = 0; node_index < NUMBEROF(m_queue); node_index++)
 	{
-		s_message_queue_node* next = m_queue[i].m_next;
-		if (i == NUMBEROF(m_queue) - 1)
+		if (node_index == NUMBEROF(m_queue) - 1)
 			next = m_queue;
 		else
-			next = &m_queue[i + 1];
+			next = &m_queue[node_index + 1];
 
-		s_message_queue_node* prev = m_queue[i].m_prev;
-		if (i)
-			prev = &m_queue[i - 1];
+		if (node_index)
+			prev = &m_queue[node_index - 1];
 		else
 			prev = &m_queue[NUMBEROF(m_queue) - 1];
 
-		m_queue[i].m_message = nullptr;
+		m_queue[node_index].m_next = next;
+		m_queue[node_index].m_prev = prev;
+		m_queue[node_index].m_message = NULL;
 	}
 
 	m_prev_read = m_queue;
@@ -289,18 +415,16 @@ void c_message_globals::empty_queue()
 {
 	while (can_read())
 	{
-		c_message* message = dequeue_node(m_next_read, true);
-
-		//ui_track_delete<c_message const>(message);
-		message->destructor(0);
-		user_interface_free(message);
+		ui_track_delete(dequeue_node(m_next_read, true));
 	}
 }
 
 c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unknown)
 {
+	//return DECLFUNC(0x00A92EC0, c_message*, __thiscall, c_message_globals*, s_message_queue_node*, bool)(this, node, unknown);
+
 	ASSERT(&m_queue[0] <= node && node <= &m_queue[NUMBEROF(m_queue) - 1]);
-	ASSERT(node->m_message != nullptr);
+	ASSERT(node->m_message != NULL);
 
 	c_message* message = node->m_message;
 
@@ -321,86 +445,85 @@ c_message* c_message_globals::dequeue_node(s_message_queue_node* node, bool unkn
 		node->m_next = next;
 	}
 
-	return nullptr;
+	return message;
 }
 
 bool c_message_globals::can_read()
 {
-	if (m_next_read)
-		return m_next_read->m_message == 0;
+	//return DECLFUNC(0x00A92E10, bool, __thiscall, c_message_globals*)(this);
 
-	return false;
+	return m_next_read->m_message != NULL;
 }
 
 void c_message_globals::queue(c_message* message)
 {
-	ASSERT(message != nullptr);
+	ASSERT(message != NULL);
 	ASSERT(can_write());
+	//ASSERT(user_interface_is_tracked_memory(message));
 
-	if (m_prev_read)
+	for (s_message_queue_node* node = m_next_read; node && node != m_prev_read; node = node->m_next)
 	{
-		m_prev_read->m_message = message;
-		m_prev_read = m_prev_read->m_next;
+		if (node->m_message && node->m_message == message)
+		{
+			ASSERT2("ui: attempting to queue a message that has already been queued");
+			break;
+		}
 	}
+
+	m_prev_read->m_message = message;
+	m_prev_read = m_prev_read->m_next;
 }
 
 bool c_message_globals::can_write()
 {
-	return !game_in_progress() || g_message_globals.m_next_read->m_message == 0;
+	return !m_prev_read->m_message && m_prev_read->m_next != m_next_read;
 }
 
 void c_message_globals::get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
-	ASSERT(message_reference != nullptr);
+	ASSERT(message_reference != NULL);
+
+	c_message* next_message = NULL;
+	s_message_queue_node* next_node = NULL;
 
 	if (*message_reference)
 	{
-		if (m_next_read)
+		for (s_message_queue_node* node = m_next_read; node && node != m_prev_read; node = node->m_next)
 		{
-			while (m_next_read != m_prev_read)
+			if (node->m_message && node->m_message == *message_reference)
 			{
-				if (m_next_read->m_message && m_next_read->m_message == *message_reference)
-				{
-					m_next_read = m_next_read->m_next;
-					break;
-				}
-
-				m_next_read = m_next_read->m_next;
-				if (!m_next_read)
-					break;
-			}
-		}
-	}
-
-	if (m_next_read)
-	{
-		for (s_message_queue_node* prev_read = m_prev_read; m_next_read != prev_read; prev_read = m_prev_read)
-		{
-			if (m_next_read->m_message && message_match(m_next_read->m_message, screen_name, controller, window))
-			{
-				*message_reference = m_next_read->m_message;
-				return;
-			}
-
-			m_next_read = m_next_read->m_next;
-			if (!m_next_read)
+				next_node = node->m_next;
 				break;
+			}
 		}
 	}
+	else
+	{
+		ASSERT(m_next_read != NULL);
+		next_node = m_next_read;
+	}
 
-	*message_reference = nullptr;
+	while (next_node && next_node != m_prev_read)
+	{
+		if (next_node->m_message && message_match(next_node->m_message, screen_name, controller, window))
+		{
+			next_message = next_node->m_message;
+			break;
+		}
+
+		next_node = next_node->m_next;
+	}
+
+	*message_reference = next_message;
 }
 
 bool c_message_globals::message_match(c_message* message, long screen_name, e_controller_index controller, e_window_index window)
 {
-	bool result = false;
-	if ((screen_name == _string_id_invalid || message->get_screen_name() == screen_name)
-		&& (controller == k_any_controller || message->get_controller() == controller)
-		&& (window == 0xFF || window == 0xFFFFFFFF || message->get_window() == window))
-	{
-		result = true;
-	}
-	return result;
+	bool screen_matched = screen_name == _string_id_invalid || message->get_screen_name() == screen_name;
+	bool controller_matched = controller == k_any_controller || message->get_controller() == controller;
+	bool window_matched = window == k_any_window || window == k_no_window || message->get_window() == window;
+
+	return screen_matched && controller_matched && window_matched;
 }
 
 void c_message_globals::dequeue(c_message* message)
@@ -428,47 +551,70 @@ void c_message_globals::set_xbox_guide_is_active(bool xbox_guide_is_active)
 void* c_message_globals::get_system_message_notification_handle()
 {
 	//return m_system_message_notification_handle;
-	return nullptr;
+	return NULL;
 }
 
-void __cdecl user_interface_messaging_initialize()
+bool __cdecl user_interface_message_queue_is_empty()
 {
-	g_message_globals.initialize();
+	//return INVOKE(0x00A93390, user_interface_message_queue_is_empty);
+
+	return game_in_progress() && !g_message_globals.can_read();
 }
 
 void __cdecl user_interface_messaging_dispose()
 {
-	g_message_globals.dispose();
-}
+	//INVOKE(0x00A933B0, user_interface_messaging_dispose);
 
-void __cdecl user_interface_messaging_initialize_for_new_map()
-{
-	g_message_globals.initialize_for_new_map();
+	g_message_globals.dispose();
 }
 
 void __cdecl user_interface_messaging_dispose_from_old_map()
 {
+	//INVOKE(0x00A933C0, user_interface_messaging_dispose_from_old_map);
+
 	g_message_globals.dispose_from_old_map();
 }
 
-void __cdecl user_interface_messaging_update()
+bool __cdecl user_interface_messaging_get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
 {
-	// #TODO: implement
+	//return INVOKE(0x00A933D0, user_interface_messaging_get_next_message, screen_name, controller, window, message_reference);
+
+	if (game_in_progress())
+	{
+		g_message_globals.get_next_message(screen_name, controller, window, message_reference);
+		return *message_reference != NULL;
+	}
+
+	return false;
 }
 
-bool __cdecl user_interface_xbox_guide_is_active()
+void __cdecl user_interface_messaging_initialize()
 {
-	return INVOKE(0x00A934B0, user_interface_xbox_guide_is_active);
+	//INVOKE(0x00A93410, user_interface_messaging_initialize);
 
-	//return g_message_globals.get_xbox_guide_is_active();
+	g_message_globals.initialize();
+}
+
+void __cdecl user_interface_messaging_initialize_for_new_map()
+{
+	//INVOKE(0x00A93420, user_interface_messaging_initialize_for_new_map);
+
+	g_message_globals.initialize_for_new_map();
+}
+
+void __cdecl user_interface_messaging_pop(c_message* message)
+{
+	//INVOKE(0x00A93430, user_interface_messaging_pop, message);
+
+	if (game_in_progress())
+		g_message_globals.dequeue(message);
 }
 
 void __cdecl user_interface_messaging_post(c_message* message)
 {
-	ASSERT(message != nullptr);
+	//INVOKE(0x00A93450, user_interface_messaging_post, message);
 
-	HOOK_INVOKE(, user_interface_messaging_post, message);
-	return;
+	ASSERT(message != NULL);
 
 	bool message_queued = false;
 	if (game_in_progress())
@@ -489,46 +635,20 @@ void __cdecl user_interface_messaging_post(c_message* message)
 	}
 
 	if (!message_queued)
-	{
-		//ui_track_delete<c_message const>(message);
-		message->destructor(0);
-		user_interface_free(message);
-	}
+		ui_track_delete(message);
 }
 
-bool __cdecl user_interface_messaging_get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference)
+void __cdecl user_interface_messaging_update()
 {
-	//return INVOKE(0x00A933D0, user_interface_messaging_get_next_message, screen_name, controller, window, message_reference);
+	//INVOKE(0x00A934A0, user_interface_messaging_update);
 
-	g_message_globals.get_next_message(screen_name, controller, window, message_reference);
-	return message_reference == nullptr;
+	//update_xenon_messages()
 }
 
-void __cdecl user_interface_messaging_pop(c_message* message)
+bool __cdecl user_interface_xbox_guide_is_active()
 {
-	//INVOKE(0x00A93430, user_interface_messaging_pop, message);
+	//return INVOKE(0x00A934B0, user_interface_xbox_guide_is_active);
 
-	if (game_in_progress())
-		g_message_globals.dequeue(message);
-}
-
-bool __cdecl user_interface_message_queue_is_empty()
-{
-	if (game_in_progress())
-		return !g_message_globals.can_read();
-
-	return true;
-}
-
-// c_load_screen_message::c_load_screen_message
-c_load_screen_message* load_screen_message_ctor(c_load_screen_message* message, long screen_name, e_controller_index controller, e_window_index window, long layered_position)
-{
-	return DECLFUNC(0x00A92780, c_load_screen_message*, __thiscall, c_load_screen_message*, long, e_controller_index, e_window_index, long)(message, screen_name, controller, window, layered_position);
-}
-
-// c_load_game_browser_screen_message::c_load_game_browser_screen_message
-c_load_game_browser_screen_message* load_game_browser_screen_message_ctor(c_load_game_browser_screen_message* message, long screen_name, e_controller_index controller, e_window_index window, long layered_position, long search_flags, e_browser_type type)
-{
-	return DECLFUNC(0x00ADE0B0, c_load_game_browser_screen_message*, __thiscall, c_load_game_browser_screen_message*, long, e_controller_index, e_window_index, long, long, e_browser_type)(message, screen_name, controller, window, layered_position, search_flags, type);
+	return g_message_globals.get_xbox_guide_is_active();
 }
 

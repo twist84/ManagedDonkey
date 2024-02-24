@@ -2,18 +2,25 @@
 
 #include "cseries/cseries.hpp"
 #include "interface/user_interface_controller.hpp"
+#include "interface/user_interface_error_manager.hpp"
 #include "shell/shell.hpp"
 
 struct c_gui_screen_widget;
 
+template<typename t_class>
+void ui_track_delete(t_class const* object)
+{
+}
+
 struct c_message
 {
 public:
-	virtual void* destructor(dword);
+	c_message(e_ui_message_type type, long screen_name, e_controller_index controller, e_window_index window);
+	virtual ~c_message();
 	virtual void initialize();
 	virtual void update();
 
-	//c_message(e_ui_message_type type, long screen_name, e_controller_index controller, e_window_index window);
+	void* operator new(unsigned int size);
 
 	e_ui_message_type get_type() const;
 	long get_screen_name() const;
@@ -32,9 +39,12 @@ static_assert(sizeof(c_message) == 0x18);
 
 //_ui_message_type_controller_input
 struct c_controller_input_message :
-	c_message
+	public c_message
 {
 public:
+	c_controller_input_message(long screen_name, e_controller_index controller, e_window_index window, e_event_type event_type, e_controller_component component, long event_value);
+	virtual ~c_controller_input_message();
+
 	e_event_type get_event_type() const;
 	e_controller_component get_component() const;
 	long get_event_value() const;
@@ -50,11 +60,14 @@ static_assert(sizeof(c_controller_input_message) == sizeof(c_message) + 0x10);
 
 //_ui_message_type_xenon
 struct c_xenon_message :
-	c_message
+	public c_message
 {
 	enum e_xenon_message_type;
 
 public:
+	c_xenon_message(e_controller_index controller, e_xenon_message_type xenon_message_type, long event_value);
+	virtual ~c_xenon_message();
+
 	e_xenon_message_type get_xenon_message_type() const;
 	long get_event_value() const;
 
@@ -68,9 +81,12 @@ enum e_screen_transition_type;
 
 //_ui_message_type_load_screen
 struct c_load_screen_message :
-	c_message
+	public c_message
 {
 public:
+	c_load_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position);
+	virtual ~c_load_screen_message();
+
 	virtual void apply_initial_state(c_gui_screen_widget*) const;
 
 	void set_focus_on_load_by_name(long list_name, long column_name, long column_value);
@@ -103,9 +119,12 @@ static_assert(sizeof(c_load_screen_message) == sizeof(c_message) + 0x24);
 
 //_ui_message_type_screen_custom
 struct c_screen_custom_message :
-	c_message
+	public c_message
 {
 public:
+	c_screen_custom_message(long sub_type, long screen_name, e_controller_index controller, e_window_index window);
+	virtual ~c_screen_custom_message();
+
 	long get_sub_type() const;
 
 protected:
@@ -117,9 +136,12 @@ enum e_gui_dialog_choice;
 
 //_ui_message_type_dialog_result
 struct c_dialog_result_message :
-	c_message
+	public c_message
 {
 public:
+	c_dialog_result_message(long screen_name, e_controller_index controller, e_window_index window, long dialog_name, e_gui_dialog_choice dialog_result);
+	virtual ~c_dialog_result_message();
+
 	long get_dialog_name() const;
 	e_gui_dialog_choice get_dialog_result() const;
 	long get_dispose_on_success_screen_index() const;
@@ -133,25 +155,36 @@ protected:
 static_assert(sizeof(c_dialog_result_message) == sizeof(c_message) + 0xC);
 
 struct c_load_terminal_screen_message :
-	c_load_screen_message
+	public c_load_screen_message
 {
+public:
+	c_load_terminal_screen_message(e_controller_index controller, e_window_index window, long layered_position, long initial_state);
+	virtual ~c_load_terminal_screen_message();
+
 protected:
-	int m_initial_state; // apply_initial_state
+	long m_initial_state; // apply_initial_state
 };
 static_assert(sizeof(c_load_terminal_screen_message) == sizeof(c_load_screen_message) + 0x4);
 
 struct c_load_alert_screen_message :
-	c_load_screen_message
-{
-protected:
-	int m_error_name; // apply_initial_state
-};
-static_assert(sizeof(c_load_alert_screen_message) == sizeof(c_load_screen_message) + 0x4);
-
-struct c_load_dialog_screen_message :
-	c_load_screen_message
+	public c_load_screen_message
 {
 public:
+	c_load_alert_screen_message(long screen_name, e_controller_index controller, e_window_index window, c_gui_queued_error* error);
+	virtual ~c_load_alert_screen_message();
+
+protected:
+	c_gui_queued_error m_error; // apply_initial_state
+};
+static_assert(sizeof(c_load_alert_screen_message) == sizeof(c_load_screen_message) + 0x424);
+
+struct c_load_dialog_screen_message :
+	public c_load_screen_message
+{
+public:
+	c_load_dialog_screen_message(e_controller_index controller, e_window_index window, long layered_position, long dialog_name, long dialog_invoker);
+	virtual ~c_load_dialog_screen_message();
+
 	long get_dialog_screen_name(long dialog_name);
 	void set_dispose_on_success_screen_index(long dispose_on_success_screen_index);
 	void set_test_mode(bool test_mode);
@@ -165,8 +198,12 @@ protected:
 static_assert(sizeof(c_load_dialog_screen_message) == sizeof(c_load_screen_message) + 0x10);
 
 struct c_load_game_browser_screen_message :
-	c_load_screen_message
+	public c_load_screen_message
 {
+public:
+	c_load_game_browser_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position, long search_flags, e_browser_type type);
+	virtual ~c_load_game_browser_screen_message();
+
 protected:
 	dword_flags m_squad_search_flags;
 	c_enum<e_browser_type, long, _browser_type_system_link_games, k_browser_type_count> m_type;
@@ -215,17 +252,14 @@ static_assert(sizeof(c_message_globals) == 0x18C);
 
 extern c_message_globals& g_message_globals;
 
-extern void __cdecl user_interface_messaging_initialize();
-extern void __cdecl user_interface_messaging_dispose();
-extern void __cdecl user_interface_messaging_initialize_for_new_map();
-extern void __cdecl user_interface_messaging_dispose_from_old_map();
-extern void __cdecl user_interface_messaging_update();
-extern bool __cdecl user_interface_xbox_guide_is_active();
-extern void __cdecl user_interface_messaging_post(c_message* message);
-extern bool __cdecl user_interface_messaging_get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference);
-extern void __cdecl user_interface_messaging_pop(c_message* message);
-extern bool __cdecl user_interface_message_queue_is_empty();
-
-extern c_load_screen_message* load_screen_message_ctor(c_load_screen_message* message, long screen_name, e_controller_index controller, e_window_index window, long layered_position);
-extern c_load_game_browser_screen_message* load_game_browser_screen_message_ctor(c_load_game_browser_screen_message* message, long screen_name, e_controller_index controller, e_window_index window, long layered_position, long search_flags, e_browser_type type);
+bool __cdecl user_interface_message_queue_is_empty();
+void __cdecl user_interface_messaging_dispose();
+void __cdecl user_interface_messaging_dispose_from_old_map();
+bool __cdecl user_interface_messaging_get_next_message(long screen_name, e_controller_index controller, e_window_index window, c_message** message_reference);
+void __cdecl user_interface_messaging_initialize();
+void __cdecl user_interface_messaging_initialize_for_new_map();
+void __cdecl user_interface_messaging_pop(c_message* message);
+void __cdecl user_interface_messaging_post(c_message* message);
+void __cdecl user_interface_messaging_update();
+bool __cdecl user_interface_xbox_guide_is_active();
 
