@@ -38,18 +38,22 @@ static_assert(sizeof(s_user_interface_controller) == 0x2C);
 enum e_event_type
 {
 	_event_type_none = 0,
-	_event_type_vertical_navigation1,
-	_event_type_horizontal_navigation2,
-	_event_type_vertical_navigation3,
-	_event_type_horizontal_navigation4,
-	_event_type_vertical_navigation5,
-	_event_type_horizontal_navigation6,
-	_event_type_vertical_navigation7,
-	_event_type_horizontal_navigation8,
-	_event_type_vertical_navigation9,
-	_event_type_horizontal_navigation10,
-	_event_type_vertical_navigation11,
-	_event_type_horizontal_navigation12,
+
+	_event_type_vertical_navigation1,   // up
+	_event_type_horizontal_navigation2, // left
+	_event_type_vertical_navigation3,   // down
+	_event_type_horizontal_navigation4, // right
+
+	_event_type_vertical_navigation5,   // up?
+	_event_type_horizontal_navigation6, // left?
+	_event_type_vertical_navigation7,   // down?
+	_event_type_horizontal_navigation8, // right?
+
+	_event_type_vertical_navigation9,    // up?
+	_event_type_horizontal_navigation10, // left?
+	_event_type_vertical_navigation11,   // down?
+	_event_type_horizontal_navigation12, // right?
+
 	_event_type_controller_component,
 
 	k_event_type_count

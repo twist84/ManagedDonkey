@@ -139,7 +139,7 @@ void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
 		{
 			bool has_teams = game_engine_has_teams();
 
-			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
+			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item));
 				list_item_widget;
 				list_item_widget = list_item_widget->get_next_list_item_widget(true))
 			{
@@ -189,12 +189,12 @@ void __thiscall c_gui_screen_scoreboard::_update_render_state(dword a1)
 			}
 		}
 
-		c_gui_widget* button_key_child_list_widget = get_first_child_widget_by_type(_gui_widget_type_button_key_widget);
+		c_gui_widget* button_key_child_list_widget = get_first_child_widget_by_type(_gui_widget_type_button_key);
 		if (button_key_child_list_widget)
 		{
 			long v18 = 0;
 			long y19 = 0;
-			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item_widget));
+			for (c_gui_list_item_widget* list_item_widget = static_cast<c_gui_list_item_widget*>(child_list_widget->get_first_child_widget_by_type(_gui_widget_type_list_item));
 				list_item_widget;
 				list_item_widget = list_item_widget->get_next_list_item_widget(false))
 			{

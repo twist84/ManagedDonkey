@@ -193,32 +193,32 @@ void __cdecl c_gui_widget::set_visible(bool is_visible)
 
 c_gui_bitmap_widget* __cdecl c_gui_widget::get_child_bitmap_widget(string_id name)
 {
-	return (c_gui_bitmap_widget*)get_child_widget(_gui_widget_type_bitmap_widget, name);
+	return (c_gui_bitmap_widget*)get_child_widget(_gui_widget_type_bitmap, name);
 }
 
 c_gui_group_widget* __cdecl c_gui_widget::get_child_group_widget(string_id name)
 {
-	return (c_gui_group_widget*)get_child_widget(_gui_widget_type_group_widget, name);
+	return (c_gui_group_widget*)get_child_widget(_gui_widget_type_group, name);
 }
 
 c_gui_list_item_widget* __cdecl c_gui_widget::get_child_list_item_widget(string_id name)
 {
-	return (c_gui_list_item_widget*)get_child_widget(_gui_widget_type_list_item_widget, name);
+	return (c_gui_list_item_widget*)get_child_widget(_gui_widget_type_list_item, name);
 }
 
 c_gui_list_widget* __cdecl c_gui_widget::get_child_list_widget(string_id name)
 {
-	return (c_gui_list_widget*)get_child_widget(_gui_widget_type_list_widget, name);
+	return (c_gui_list_widget*)get_child_widget(_gui_widget_type_list, name);
 }
 
 c_gui_model_widget* __cdecl c_gui_widget::get_child_model_widget(string_id name)
 {
-	return (c_gui_model_widget*)get_child_widget(_gui_widget_type_model_widget, name);
+	return (c_gui_model_widget*)get_child_widget(_gui_widget_type_model, name);
 }
 
 c_gui_text_widget* __cdecl c_gui_widget::get_child_text_widget(string_id name)
 {
-	return (c_gui_text_widget*)get_child_widget(_gui_widget_type_text_widget, name);
+	return (c_gui_text_widget*)get_child_widget(_gui_widget_type_text, name);
 }
 
 c_gui_widget* __cdecl c_gui_widget::get_child_widget(e_gui_widget_type widget_type, string_id name)
