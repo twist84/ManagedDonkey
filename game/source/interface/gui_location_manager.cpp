@@ -106,7 +106,3 @@ void __cdecl c_gui_location_manager::update()
 	DECLFUNC(0x00ADFA10, void, __thiscall, c_gui_location_manager*)(this);
 }
 
-void __cdecl window_manager_load_screen_hs(long screen_name)
-{
-	INVOKE(0x00AAD9A0, window_manager_load_screen_hs, screen_name);
-}
