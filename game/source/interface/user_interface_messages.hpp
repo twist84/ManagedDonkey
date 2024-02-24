@@ -87,7 +87,7 @@ public:
 	c_load_screen_message(long screen_name, e_controller_index controller, e_window_index window, long layered_position);
 	virtual ~c_load_screen_message();
 
-	virtual void apply_initial_state(c_gui_screen_widget*) const;
+	virtual void apply_initial_state(c_gui_screen_widget* screen) const;
 
 	void set_focus_on_load_by_name(long list_name, long column_name, long column_value);
 	void set_transition_type(e_screen_transition_type transition_type);
