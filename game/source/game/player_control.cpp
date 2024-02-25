@@ -1,7 +1,11 @@
 #include "game/player_control.hpp"
 
 #include "game/game.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+
+HOOK_DECLARE_CALL(0x005D1389, evaluate_piecewise_linear_function);
+HOOK_DECLARE_CALL(0x005D13B4, evaluate_piecewise_linear_function);
 
 bool __cdecl player_control_get_machinima_camera_debug()
 {
@@ -70,6 +74,19 @@ void __cdecl player_control_toggle_player_input(long user_index)
 	player_control_globals->input_user_states[user_index].player_input_locked = !player_control_globals->input_user_states[user_index].player_input_locked;
 }
 
+// crash hack fix for controller
+// count is player_control[i]->look_function.count
+// function is player_control[i]->look_function.address
+// there is no check inplace of count
+// count is used to determine index
+real __cdecl evaluate_piecewise_linear_function(short count, real* const function, real a3)
+{
+	if (count <= 0)
+		return a3;
+
+	return INVOKE(0x005CFA50, evaluate_piecewise_linear_function, count, function, a3);
+}
+
 short __cdecl player_control_get_zoom_level(long user_index)
 {
 	return INVOKE(0x005D2D50, player_control_get_zoom_level, user_index);
@@ -85,5 +102,4 @@ void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds
 {
 	INVOKE(0x005D4990, player_control_update, world_seconds_elapsed, game_seconds_elapsed);
 }
-
 
