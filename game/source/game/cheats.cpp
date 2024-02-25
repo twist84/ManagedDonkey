@@ -106,11 +106,11 @@ bool __cdecl cheats_process_gamepad(long controller_index, s_game_input_state co
 
 bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_point3d* position)
 {
-	long output_user = player_mapping_first_active_output_user();
-	if (output_user == NONE)
+	e_output_user_index output_user_index = player_mapping_first_active_output_user();
+	if (output_user_index == k_number_of_output_users)
 		return false;
 
-	s_observer_result const* result = observer_get_camera(output_user);
+	s_observer_result const* result = observer_get_camera(output_user_index);
 	ASSERT(result);
 
 	if (result->location.cluster_reference.bsp_index == 0xFF)
@@ -119,7 +119,7 @@ bool __cdecl cheat_get_teleport_to_camera_information(long* unit_index, real_poi
 		return false;
 	}
 
-	*unit_index = object_get_ultimate_parent(player_mapping_get_unit_by_output_user(output_user));
+	*unit_index = object_get_ultimate_parent(player_mapping_get_unit_by_output_user(output_user_index));
 	*position = result->focus_point;
 
 	return true;
@@ -512,11 +512,11 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 	if (tag_index == NONE)
 		return;
 
-	long active_user = player_mapping_first_active_input_user();
-	if (active_user == NONE)
+	e_output_user_index user_index = player_mapping_first_active_output_user();
+	if (user_index == k_number_of_output_users)
 		return;
 
-	s_observer_result const* result = observer_try_and_get_camera(active_user);
+	s_observer_result const* result = observer_try_and_get_camera(user_index);
 
 	tag group_tag_ = tag_get_group_tag(tag_index);
 	tag group_tag = group_tag_;

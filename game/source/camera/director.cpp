@@ -358,7 +358,7 @@ void __cdecl director_render()
 
 	if (player_control_get_machinima_camera_debug())
 	{
-		long active_output_user = player_mapping_first_active_output_user();
+		e_output_user_index active_output_user = player_mapping_first_active_output_user();
 		s_observer_result const* camera = observer_try_and_get_camera(active_output_user);
 		if (camera)
 		{
@@ -457,9 +457,9 @@ void __cdecl director_save_camera_named(char const* name)
 	if (file)
 	{
 		s_observer_result const* camera = nullptr;
-		for (long i = 0; i < 4; i++)
+		for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
 		{
-			camera = observer_try_and_get_camera(i++);
+			camera = observer_try_and_get_camera(user_index);
 			if (camera)
 				break;
 		}
@@ -551,17 +551,17 @@ void __cdecl director_load_camera()
 
 void __cdecl director_debug_camera(bool render)
 {
-	long active_output_user = player_mapping_first_active_output_user();
-	if (VALID_INDEX(active_output_user, 4))
+	e_output_user_index user_index = player_mapping_first_active_output_user();
+	if (VALID_INDEX(user_index, k_number_of_output_users))
 	{
 		if (render)
 		{
-			director_set_mode(active_output_user, _director_mode_debug);
+			director_set_mode(user_index, _director_mode_debug);
 		}
 		else
 		{
-			e_director_mode appropriate_director = static_cast<e_director_mode>(choose_appropriate_director(active_output_user));
-			director_set_mode(active_output_user, appropriate_director);
+			e_director_mode appropriate_director = static_cast<e_director_mode>(choose_appropriate_director(user_index));
+			director_set_mode(user_index, appropriate_director);
 		}
 	}
 
@@ -575,15 +575,15 @@ void __cdecl director_script_camera(bool scripted)
 	if (*director_camera_scripted == scripted)
 		return;
 
-	for (long i = 0; i < 4; i++)
+	for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
 	{
 		if (scripted)
 		{
-			director_set_camera_mode(i, _camera_mode_scripted);
+			director_set_camera_mode(user_index, _camera_mode_scripted);
 		}
 		else
 		{
-			director_set_mode(i, e_director_mode(choose_appropriate_director(i)));
+			director_set_mode(user_index, e_director_mode(choose_appropriate_director(user_index)));
 		}
 	}
 }

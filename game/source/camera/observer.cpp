@@ -17,7 +17,7 @@ s_observer* observer_get(long user_index)
 	return g_observer_globals ? &g_observer_globals->observers[user_index] : nullptr;
 }
 
-s_observer_result const* observer_get_camera(long output_user_index)
+s_observer_result const* observer_get_camera(e_output_user_index output_user_index)
 {
 	s_observer* observer = observer_get(output_user_index);
 	ASSERT(observer);
@@ -25,13 +25,13 @@ s_observer_result const* observer_get_camera(long output_user_index)
 	return &observer->result;
 }
 
-//e_director_mode __cdecl choose_appropriate_director(long output_user_index)
-long __cdecl choose_appropriate_director(long output_user_index)
+//e_director_mode __cdecl choose_appropriate_director(e_output_user_index output_user_index)
+long __cdecl choose_appropriate_director(e_output_user_index output_user_index)
 {
 	return INVOKE(0x005916B0, choose_appropriate_director, output_user_index);
 }
 
-s_observer_result const* __cdecl observer_try_and_get_camera(long output_user_index)
+s_observer_result const* __cdecl observer_try_and_get_camera(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00613960, observer_try_and_get_camera, output_user_index);
 }

@@ -1,5 +1,29 @@
 #pragma once
 
+enum e_input_user_index
+{
+	_input_user_index0 = 0,
+	_input_user_index1,
+	_input_user_index2,
+	_input_user_index3,
+
+	k_number_of_input_users,
+
+	k_input_user_none = -1
+};
+
+enum e_output_user_index
+{
+	_output_user_index0 = 0,
+	_output_user_index1,
+	_output_user_index2,
+	_output_user_index3,
+
+	k_number_of_output_users,
+
+	k_output_user_none = -1
+};
+
 enum e_network_game_type
 {
 	_network_game_type_none = 0,

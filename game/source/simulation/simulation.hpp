@@ -91,7 +91,7 @@ struct simulation_update
 	dword_flags player_flags;
 
 	dword_flags action_test_flags;
-	c_static_array<player_action, 16> player_actions;
+	c_static_array<s_player_action, 16> player_actions;
 
 	dword valid_actor_mask;
 	c_static_array<long, 16> actor_unit_indices;
@@ -264,7 +264,7 @@ extern void __cdecl simulation_player_left_game(long player_index);
 extern void __cdecl simulation_prepare_to_load_saved_game(long a1);
 extern void __cdecl simulation_prepare_to_send();
 extern void __cdecl simulation_process_actor_control(long actor_index, unit_control_data const* control);
-extern void __cdecl simulation_process_input(dword player_mask, c_static_array<player_action, 4> const& actions);
+extern void __cdecl simulation_process_input(dword player_mask, c_static_array<s_player_action, 4> const& actions);
 extern void __cdecl simulation_record_update(struct simulation_update const* update);
 extern void __cdecl simulation_remove_view_from_world(c_simulation_view* view);
 extern void __cdecl simulation_reset();

@@ -38,7 +38,7 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 	m_window_count(),
 	m_window_arrangement(),
 	m_next(0),
-	m_user_index(-1),
+	m_output_user_index(k_output_user_none),
 	m_current_observer_result(nullptr)
 {
 	if (cinematic_in_progress()/* || player_is_reading_terminal()*/)
@@ -87,24 +87,25 @@ bool c_player_render_camera_iterator::next()
 
 		if (debug_force_all_player_views_to_default_player)
 		{
-			m_user_index = player_mapping_first_active_output_user();
+			m_output_user_index = player_mapping_first_active_output_user();
 		}
 		else
 		{
-			m_user_index++;
-			while (m_user_index < MAXIMUM_PLAYER_WINDOWS && !player_mapping_output_user_is_active(m_user_index))
-				m_user_index++;
-
-			if (m_user_index >= MAXIMUM_PLAYER_WINDOWS)
+			do
 			{
-				m_user_index = -1;
+				m_output_user_index = next_output_user(m_output_user_index);
+			} while (m_output_user_index != k_output_user_none && !player_mapping_output_user_is_active(m_output_user_index));
+
+			if (m_output_user_index >= k_number_of_output_users)
+			{
+				m_output_user_index = k_output_user_none;
 				result = false;
 			}
 		}
 
-		if (m_user_index != -1)
+		if (m_output_user_index != k_output_user_none)
 		{
-			m_current_observer_result = observer_get_camera(m_user_index);
+			m_current_observer_result = observer_get_camera(m_output_user_index);
 			ASSERT(m_current_observer_result != NULL);
 		}
 	}
@@ -122,9 +123,9 @@ long c_player_render_camera_iterator::get_window_arrangement() const
 	return m_window_arrangement;
 }
 
-long c_player_render_camera_iterator::get_user_index() const
+e_output_user_index c_player_render_camera_iterator::get_output_user_index() const
 {
-	return m_user_index;
+	return m_output_user_index;
 }
 
 s_observer_result const* c_player_render_camera_iterator::get_observer_result() const

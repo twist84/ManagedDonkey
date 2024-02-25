@@ -15,7 +15,7 @@ struct s_network_session_interface_user
 	s_player_identifier identifier;
 	long controller_index;
 	s_player_configuration player_data;
-	long output_user_index;
+	e_output_user_index output_user_index;
 	c_static_string<64> override_hopper_directory;
 	long player_voice_settings;
 	byte __data78[0x20];

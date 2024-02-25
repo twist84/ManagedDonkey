@@ -23,10 +23,10 @@ void editor_flag_new_at_camera()
 {
 	if (enable_controller_flag_drop)
 	{
-		long active_user = player_mapping_first_active_input_user();
-		if (active_user != NONE)
+		e_output_user_index user_index = player_mapping_first_active_output_user();
+		if (user_index != NONE)
 		{
-			s_observer_result const* result = observer_get_camera(active_user);
+			s_observer_result const* result = observer_get_camera(user_index);
 			//editor_flag_new_internal(controller_flag_drop_name, controller_flag_drop_comment, &result->focus_point);
 		}
 	}
@@ -41,11 +41,11 @@ void editor_flag_new_at_look_at_point()
 {
 	if (enable_controller_flag_drop)
 	{
-		long active_user = player_mapping_first_active_input_user();
+		e_output_user_index user_index = player_mapping_first_active_output_user();
 		real_point3d result_point = {};
-		if (user_get_look_at_point(active_user, &result_point))
+		if (user_get_look_at_point(user_index, &result_point))
 		{
-			s_observer_result const* result = observer_get_camera(active_user);
+			s_observer_result const* result = observer_get_camera(user_index);
 			//editor_flag_new_internal(controller_flag_drop_name, controller_flag_drop_comment, &result_point);
 		}
 	}

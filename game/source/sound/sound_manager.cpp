@@ -5,6 +5,7 @@
 #include "memory/data.hpp"
 #include "memory/module.hpp"
 #include "render/render_debug.hpp"
+#include "shell/shell.hpp"
 #include "simulation/simulation.hpp"
 #include "sound/sound_classes.hpp"
 
@@ -135,7 +136,7 @@ struct sound_datum :
 	char permutation_index;
 	short permutation_chunk_index;
 
-	char listener_index;
+	c_enum<e_output_user_index, byte, _output_user_index0, k_number_of_output_users> listener_index;
 	byte __unknownB1;
 	byte __unknownB2;
 	byte __unknownB3;
@@ -494,11 +495,11 @@ void __cdecl render_debug_sound(long sound_index)
 		render_debug_cone_outline(/*false*/true, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);
 	}
 
-	if (sound->listener_index == NONE || TEST_BIT(sound->source.flags, 7) || !TEST_BIT(sound->source.flags, 0))
+	if (sound->listener_index == k_output_user_none || TEST_BIT(sound->source.flags, 7) || !TEST_BIT(sound->source.flags, 0))
 		return;
 
-	long listener_unit = player_mapping_get_unit_by_output_user(sound->listener_index);
-	if (listener_unit != NONE)
+	long unit_index = player_mapping_get_unit_by_output_user(sound->listener_index);
+	if (unit_index != NONE)
 	{
 		s_sound_listener const* listener = sound_manager_get_listener(sound->listener_index); // listener_get_internal
 		ASSERT(listener->valid);
@@ -516,7 +517,7 @@ void __cdecl render_debug_sound(long sound_index)
 			break;
 		}
 
-		unit_get_head_position(listener_unit, &cone_point);
+		unit_get_head_position(unit_index, &cone_point);
 		render_debug_line(true, &volume_type_point, &cone_point, global_real_argb_red);
 	}
 }

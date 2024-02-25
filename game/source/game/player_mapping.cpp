@@ -20,7 +20,7 @@ void __cdecl __tls_set_g_player_mapping_globals_allocator(void* address)
 //.text:00589770 ; public: bool __cdecl c_player_output_user_iterator::next()
 
 //void __cdecl player_mapping_attach_output_user(e_output_user_index output_user_index, long player_index)
-void __cdecl player_mapping_attach_output_user(long output_user_index, long player_index)
+void __cdecl player_mapping_attach_output_user(e_output_user_index output_user_index, long player_index)
 {
 	INVOKE(0x005897A0, player_mapping_attach_output_user, output_user_index, player_index);
 }
@@ -39,27 +39,25 @@ void __cdecl player_mapping_dispose()
 	//	player_mapping_globals = NULL;
 }
 
-//e_input_user_index __cdecl player_mapping_first_active_input_user()
-long __cdecl player_mapping_first_active_input_user()
+e_input_user_index __cdecl player_mapping_first_active_input_user()
 {
 	//return INVOKE(0x005899F0, player_mapping_first_active_input_user);
 
-	return player_mapping_next_active_input_user(NONE);
+	return player_mapping_next_active_input_user(k_input_user_none);
 }
 
-long __cdecl player_mapping_first_active_output_user()
+e_output_user_index player_mapping_first_active_output_user()
 {
 	//return INVOKE(0x00589A30, player_mapping_first_active_output_user);
 
-	return player_mapping_next_active_output_user(NONE);
+	return player_mapping_next_active_output_user(k_output_user_none);
 }
 
-//e_output_user_index __cdecl player_mapping_get_first_output_user(long player_index)
-long __cdecl player_mapping_get_first_output_user(long player_index)
+e_output_user_index __cdecl player_mapping_get_first_output_user(long player_index)
 {
 	//return INVOKE(0x00589A70, player_mapping_get_first_output_user, player_index);
 
-	return player_mapping_get_next_output_user(player_index, NONE);
+	return player_mapping_get_next_output_user(player_index, k_output_user_none);
 }
 
 e_controller_index __cdecl player_mapping_get_input_controller(long player_index)
@@ -78,8 +76,7 @@ e_controller_index __cdecl player_mapping_get_input_controller(long player_index
 	//return static_cast<e_controller_index>(controller_index);
 }
 
-//e_input_user_index __cdecl player_mapping_get_input_user(long player_index)
-long __cdecl player_mapping_get_input_user(long player_index)
+e_input_user_index __cdecl player_mapping_get_input_user(long player_index)
 {
 	return INVOKE(0x00589B00, player_mapping_get_input_user, player_index);
 
@@ -87,7 +84,7 @@ long __cdecl player_mapping_get_input_user(long player_index)
 	//
 	//ASSERT(player_index != NONE); //ASSERT(player_index != k_player_index_none);
 	//
-	//long input_user_index = NONE;
+	//e_input_user_index input_user_index = NONE;
 	//if (player_index != NONE)
 	//{
 	//	long player_absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(player_index);
@@ -98,12 +95,11 @@ long __cdecl player_mapping_get_input_user(long player_index)
 	//return input_user_index;
 }
 
-//e_input_user_index __cdecl player_mapping_get_input_user_by_unit(long unit_index)
-long __cdecl player_mapping_get_input_user_by_unit(long unit_index)
+e_input_user_index __cdecl player_mapping_get_input_user_by_unit(long unit_index)
 {
 	return INVOKE(0x00589B30, player_mapping_get_input_user_by_unit, unit_index);
 
-	//long input_user_index = NONE;
+	//e_input_user_index input_user_index = NONE;
 	//if (unit_index != NONE)
 	//{
 	//	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
@@ -113,8 +109,7 @@ long __cdecl player_mapping_get_input_user_by_unit(long unit_index)
 	//return input_user_index;
 }
 
-//e_output_user_index __cdecl player_mapping_get_next_output_user(long player_index, e_output_user_index output_user_index)
-long __cdecl player_mapping_get_next_output_user(long player_index, long output_user_index)
+e_output_user_index __cdecl player_mapping_get_next_output_user(long player_index, e_output_user_index output_user_index)
 {
 	return INVOKE(0x00589B90, player_mapping_get_next_output_user, player_index, output_user_index);
 }
@@ -124,26 +119,22 @@ long __cdecl player_mapping_get_player_by_input_controller(e_controller_index co
 	return INVOKE(0x00589C00, player_mapping_get_player_by_input_controller, controller_index);
 }
 
-//long __cdecl player_mapping_get_player_by_input_user(e_input_user_index input_user_index)
-long __cdecl player_mapping_get_player_by_input_user(long input_user_index)
+long __cdecl player_mapping_get_player_by_input_user(e_input_user_index input_user_index)
 {
 	return INVOKE(0x00589C30, player_mapping_get_player_by_input_user, input_user_index);
 }
 
-//long __cdecl player_mapping_get_player_by_output_user(e_output_user_index output_user_index)
-long __cdecl player_mapping_get_player_by_output_user(long output_user_index)
+long __cdecl player_mapping_get_player_by_output_user(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00589C60, player_mapping_get_player_by_output_user, output_user_index);
 }
 
-//long __cdecl player_mapping_get_unit_by_input_user(e_input_user_index input_user_index)
-long __cdecl player_mapping_get_unit_by_input_user(long input_user_index)
+long __cdecl player_mapping_get_unit_by_input_user(e_input_user_index input_user_index)
 {
 	return INVOKE(0x00589C90, player_mapping_get_unit_by_input_user, input_user_index);
 }
 
-//long __cdecl player_mapping_get_unit_by_output_user(e_output_user_index output_user_index)
-long __cdecl player_mapping_get_unit_by_output_user(long output_user_index)
+long __cdecl player_mapping_get_unit_by_output_user(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00589CC0, player_mapping_get_unit_by_output_user, output_user_index);
 }
@@ -158,7 +149,6 @@ long __cdecl player_mapping_input_controller_active_count()
 	return INVOKE(0x00589D50, player_mapping_input_controller_active_count);
 }
 
-//bool __cdecl player_mapping_input_controller_is_active(e_controller_index controller_index)
 bool __cdecl player_mapping_input_controller_is_active(e_controller_index controller_index)
 {
 	return INVOKE(0x00589D70, player_mapping_input_controller_is_active, controller_index);
@@ -169,26 +159,22 @@ long __cdecl player_mapping_input_user_active_count()
 	return INVOKE(0x00589DA0, player_mapping_input_user_active_count);
 }
 
-//bool __cdecl player_mapping_input_user_is_active(e_input_user_index input_user_index)
-bool __cdecl player_mapping_input_user_is_active(long input_user_index)
+bool __cdecl player_mapping_input_user_is_active(e_input_user_index input_user_index)
 {
 	return INVOKE(0x00589DC0, player_mapping_input_user_is_active, input_user_index);
 }
 
-//void __cdecl player_mapping_input_user_set_unit(e_input_user_index, long unit_index)
-void __cdecl player_mapping_input_user_set_unit(long input_user_index, long unit_index)
+void __cdecl player_mapping_input_user_set_unit(e_input_user_index input_user_index, long unit_index)
 {
 	INVOKE(0x00589DF0, player_mapping_input_user_set_unit, input_user_index, unit_index);
 }
 
-//e_input_user_index __cdecl player_mapping_next_active_input_user(e_input_user_index input_user_index)
-long __cdecl player_mapping_next_active_input_user(long input_user_index)
+e_input_user_index __cdecl player_mapping_next_active_input_user(e_input_user_index input_user_index)
 {
 	return INVOKE(0x00589E60, player_mapping_next_active_input_user, input_user_index);
 }
 
-//e_output_user_index __cdecl player_mapping_next_active_output_user(e_output_user_index output_user_index)
-long __cdecl player_mapping_next_active_output_user(long output_user_index)
+e_output_user_index __cdecl player_mapping_next_active_output_user(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00589EB0, player_mapping_next_active_output_user, output_user_index);
 }
@@ -198,14 +184,12 @@ long __cdecl player_mapping_output_user_active_count()
 	return INVOKE(0x00589F00, player_mapping_output_user_active_count);
 }
 
-//bool __cdecl player_mapping_output_user_is_active(e_output_user_index output_user_index)
-bool __cdecl player_mapping_output_user_is_active(long output_user_index)
+bool __cdecl player_mapping_output_user_is_active(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00589F20, player_mapping_output_user_is_active, output_user_index);
 }
 
-//void __cdecl player_mapping_output_user_set_unit(e_output_user_index output_user_index, long unit_index)
-void __cdecl player_mapping_output_user_set_unit(long output_user_index, long unit_index)
+void __cdecl player_mapping_output_user_set_unit(e_output_user_index output_user_index, long unit_index)
 {
 	INVOKE(0x00589F50, player_mapping_output_user_set_unit, output_user_index, unit_index);
 }
@@ -233,14 +217,12 @@ void __cdecl player_mapping_reset()
 	players_verify();
 }
 
-//void __cdecl player_mapping_set_input_controller(long player_index, e_controller_index controller_index)
 void __cdecl player_mapping_set_input_controller(long player_index, e_controller_index controller_index)
 {
 	INVOKE(0x0058A140, player_mapping_set_input_controller, player_index, controller_index);
 }
 
-//void __cdecl player_mapping_set_input_user(long player_index, e_input_user_index input_user_index)
-void __cdecl player_mapping_set_input_user(long player_index, long input_user_index)
+void __cdecl player_mapping_set_input_user(long player_index, e_input_user_index input_user_index)
 {
 	INVOKE(0x0058A1D0, player_mapping_set_input_user, player_index, input_user_index);
 }

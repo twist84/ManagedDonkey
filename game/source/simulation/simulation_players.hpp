@@ -79,7 +79,7 @@ struct c_simulation_player
 	bool m_active;
 	byte __data2A[0x2];
 	long __unknown2C;
-	player_action m_action;
+	s_player_action m_action;
 };
 static_assert(sizeof(c_simulation_player) == 0xB0);
 

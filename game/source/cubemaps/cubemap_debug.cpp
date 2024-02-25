@@ -12,15 +12,15 @@ bool c_cubemap_debug::g_render = false;
 void c_cubemap_debug::render()
 {
     if (g_render)
-        render_user_cubemap_samples(0);
+        render_user_cubemap_samples(_output_user_index0);
 }
 
-void c_cubemap_debug::render_user_cubemap_samples(long user_index)
+void c_cubemap_debug::render_user_cubemap_samples(e_output_user_index output_user_index)
 {
-    if (!g_render || user_index == NONE)
+    if (!g_render || output_user_index == k_number_of_output_users)
         return;
 
-    long object_index = player_mapping_get_unit_by_output_user(user_index);
+    long object_index = player_mapping_get_unit_by_output_user(output_user_index);
     render_object_cubemap_samples(object_index);
 }
 

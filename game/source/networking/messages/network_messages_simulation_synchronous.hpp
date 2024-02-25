@@ -25,7 +25,7 @@ struct s_network_message_synchronous_actions
 	long current_action_number;
 	dword_flags user_flags;
 	long : 32;
-	c_static_array<player_action, 4> actions;
+	c_static_array<s_player_action, 4> actions;
 };
 static_assert(sizeof(s_network_message_synchronous_actions) == 0x210);
 

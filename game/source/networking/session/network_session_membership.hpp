@@ -118,7 +118,7 @@ struct s_player_add_queue_entry
 {
 	s_player_identifier player_identifier;
 	long player_index;
-	long output_user_index;
+	e_output_user_index output_user_index;
 	long controller_index;
 	s_player_configuration_from_client client_configuration;
 	s_player_voice_settings voice_settings;

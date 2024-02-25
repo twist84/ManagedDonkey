@@ -119,6 +119,7 @@ void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context co
 	}
 }
 
+//void __cdecl render_prepare_for_window(long player_window_index, e_output_user_index output_user_index)
 void __cdecl render_prepare_for_window(long player_window_index, long output_user_index)
 {
 	INVOKE(0x00A29990, render_prepare_for_window, player_window_index, output_user_index);

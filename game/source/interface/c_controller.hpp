@@ -67,6 +67,6 @@ enum e_controller_index;
 
 extern c_controller_interface* __cdecl controller_get(e_controller_index controller_index);
 extern e_window_index __cdecl controller_get_game_render_window(e_controller_index controller_index);
-extern e_controller_index __cdecl controller_index_from_output_user_index(long output_user_index);
+extern e_controller_index __cdecl controller_index_from_output_user_index(e_output_user_index output_user_index);
 extern void __cdecl controllers_render();
 

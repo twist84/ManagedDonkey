@@ -206,15 +206,12 @@ void __cdecl remote_command_process()
 	// Update remote cameras if the game is in progress
 	if (game_in_progress())
 	{
-		for (long user_index = 0; user_index < 4; ++user_index)
+		for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
 		{
 			if (player_mapping_output_user_is_active(user_index))
 			{
-				s_observer_result const* camera = observer_try_and_get_camera(user_index);
-				if (camera)
-				{
+				if (s_observer_result const* camera = observer_try_and_get_camera(user_index))
 					remote_camera_update(user_index, camera);
-				}
 			}
 		}
 	}
@@ -995,7 +992,7 @@ callback_result_t alert_carry_callback(void const* userdata, long token_count, t
 	}
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
-	player_control_globals->controls[user_index].alert_carry = !player_control_globals->controls[user_index].alert_carry;
+	player_control_globals->input_states[user_index].alert_carry = !player_control_globals->input_states[user_index].alert_carry;
 
 	return result;
 }

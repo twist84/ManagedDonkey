@@ -160,7 +160,7 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 
 	if (game_in_progress() && !game_is_ui_shell())
 	{
-		for (long output_user_index = player_mapping_first_active_output_user(); output_user_index != NONE; output_user_index = player_mapping_next_active_output_user(output_user_index))
+		for (e_output_user_index output_user_index = player_mapping_first_active_output_user(); output_user_index != NONE; output_user_index = player_mapping_next_active_output_user(output_user_index))
 		{
 			long player_index = player_mapping_get_player_by_output_user(output_user_index);
 			player_datum* player = (player_datum*)datum_try_and_get(*player_data, player_index);
@@ -219,6 +219,24 @@ void __cdecl game_engine_interface_update(float world_seconds_elapsed)
 
 				if (current_game_engine())
 				{
+					//static wchar_t const* player_to_boot = L"DonkeyDebug";
+					//if (player_to_boot)
+					//{
+					//	if (player->configuration.host.name.is_equal(player_to_boot))
+					//	{
+					//		game_options* options = game_options_get();
+					//		c_game_variant* game_variant = &options->game_variant;
+					//		c_game_engine_base_variant* active_variant = game_variant->get_active_variant_writeable();
+					//		c_game_engine_social_options* social_options = active_variant->get_social_options_writeable();
+					//		if (!social_options->get_betrayal_booting_enabled())
+					//			social_options->set_betrayal_booting_enabled(true);
+					//	}
+					//
+					//	player_to_boot = NULL;
+					//}
+					//
+					//long griefer_player_index = player_index;
+
 					long griefer_player_index = NONE;
 					if (game_engine_player_is_dead_and_betrayed_by_griefer(player_index, &griefer_player_index))
 					{

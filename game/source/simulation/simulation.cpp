@@ -427,7 +427,7 @@ void __cdecl simulation_process_actor_control(long actor_index, unit_control_dat
 	INVOKE(0x00441F30, simulation_process_actor_control, actor_index, control);
 }
 
-void __cdecl simulation_process_input(dword player_mask, c_static_array<player_action, 4> const& actions)
+void __cdecl simulation_process_input(dword player_mask, c_static_array<s_player_action, 4> const& actions)
 {
 	INVOKE(0x00441F60, simulation_process_input, player_mask, actions);
 }
