@@ -218,7 +218,7 @@ static_assert(sizeof(s_player_control_output_state) == 0x70);
 struct s_player_control_input_state
 {
 	dword unit_index;
-	s_player_control_state input;
+	s_player_control_state state;
 
 	bool __unknown70;
 	real __unknown74;

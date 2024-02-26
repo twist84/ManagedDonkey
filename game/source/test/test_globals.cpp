@@ -237,7 +237,7 @@ void __cdecl test_main_loop_body_begin()
 		//main_crash("fast");
 	}
 
-	if (input_key_frames_down(_key_code_keypad_subtract, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
+	if (input_key_frames_down(_key_code_keypad_divide, _input_type_ui) == 1/* || GetKeyState(VK_PAUSE) & 0x8000*/)
 	{
 		static long controls_method = 0;
 		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
@@ -261,10 +261,10 @@ void __cdecl test_main_loop_body_end()
 	}
 	else
 	{
-		if (input_key_frames_down(_key_code_right_parenthesis, _input_type_game) == 1)
+		if (input_key_frames_down(_key_code_right, _input_type_game) == 1)
 			event_manager_button_pressed(_controller_index0, _button_action_left_bumper);
 
-		if (input_key_frames_down(_key_code_left_parenthesis, _input_type_game) == 1)
+		if (input_key_frames_down(_key_code_left, _input_type_game) == 1)
 			event_manager_button_pressed(_controller_index0, _button_action_right_bumper);
 	}
 

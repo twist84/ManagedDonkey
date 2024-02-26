@@ -251,7 +251,7 @@ void __cdecl player_control_propagate_output(e_input_user_index input_user_index
 	{
 		s_player_control_output_state* player_control_output = player_control_output_get(user_index);
 		if (player_control_output->unit_index == player_control_input->unit_index)
-			csmemcpy(&player_control_output->output, &player_control_input->input, sizeof(s_player_control_state));
+			csmemcpy(&player_control_output->output, &player_control_input->state, sizeof(s_player_control_state));
 	}
 }
 
@@ -303,9 +303,6 @@ void __cdecl player_control_update_machinima()
 	//INVOKE(0x005D4A60, player_control_update_machinima);
 
 	TLS_DATA_GET_VALUE_REFERENCE(player_control_globals);
-
-	if (!player_control_machinima_available())
-		return;
 
 	if (!player_control_get_machinima_camera_enabled())
 		return;
