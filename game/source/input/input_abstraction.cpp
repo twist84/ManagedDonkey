@@ -21,7 +21,7 @@ HOOK_DECLARE(0x0060C000, input_abstraction_get_player_look_angular_velocity);
 //HOOK_DECLARE(0x0060C040, sub_60C040);
 HOOK_DECLARE(0x0060C390, input_abstraction_initialize);
 //HOOK_DECLARE(0x0060C430, input_abstraction_initialize_for_new_map);
-HOOK_DECLARE(0x0060C4A0, sub_60C4A0);
+//HOOK_DECLARE(0x0060C4A0, sub_60C4A0);
 //HOOK_DECLARE(0x0060C6D0, sub_60C6D0);
 HOOK_DECLARE(0x0060CE40, input_abstraction_latch_all_buttons);
 HOOK_DECLARE(0x0060CE70, sub_60CE70);
