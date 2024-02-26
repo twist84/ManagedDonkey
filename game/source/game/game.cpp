@@ -300,7 +300,10 @@ bool __cdecl game_had_an_update_tick_this_frame()
 	return game_globals && game_globals->update_tick_this_frame;
 }
 
-//.text:00531430 ; bool __cdecl game_has_nonlocal_players()
+bool __cdecl game_has_nonlocal_players()
+{
+	return INVOKE(0x00531430, game_has_nonlocal_players);
+}
 
 bool __cdecl game_in_progress()
 {

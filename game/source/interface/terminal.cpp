@@ -109,8 +109,7 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 		while (input_get_key(&key, _input_type_game))
 			terminal_handle_key(&key);
 
-		// input_suppress();
-		input_globals.input_suppressed = true;
+		input_suppress();
 
 		terminal_globals.draw_time += shell_seconds_elapsed;
 		if (terminal_globals.draw_time > 1.0f)

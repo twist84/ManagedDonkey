@@ -734,7 +734,6 @@ callback_result_t net_session_add_callback(void const* userdata, long token_coun
 	load_game_browser(k_any_controller, 0, _browser_type_system_link_games);
 
 	console_close();
-	game_time_set_paused(false, _game_time_pause_reason_debug);
 
 	return result;
 }

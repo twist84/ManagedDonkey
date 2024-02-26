@@ -5,6 +5,7 @@
 #include "game/game.hpp"
 #include "input/input_abstraction.hpp"
 #include "input/input_xinput.hpp"
+#include "main/console.hpp"
 #include "memory/module.hpp"
 #include "shell/shell_windows.hpp"
 
@@ -520,7 +521,7 @@ void __cdecl input_update()
 	{
 		dword time = system_milliseconds();
 		long duration_ms = CLAMP(time - input_globals.update_time, 0, 100);
-	
+
 		input_globals.input_suppressed = false;
 		input_globals.update_time = time;
 	
@@ -648,26 +649,26 @@ void __cdecl input_update_gamepads(long duration_ms)
 
 void __cdecl input_update_gamepads_rumble()
 {
-	INVOKE(0x005129F0, input_update_gamepads_rumble);
+	//INVOKE(0x005129F0, input_update_gamepads_rumble);
 
-	//bool suppressed = input_globals.feedback_suppressed || input_globals.input_suppressed;// || debugging_system_has_focus();
-	//if (game_in_progress())
-	//{
-	//	if (game_time_get_paused())
-	//		suppressed = true;
-	//}
-	//else
-	//{
-	//	suppressed = true;
-	//}
-	//
-	//for (dword user_index = 0; user_index < k_number_of_controllers; user_index++)
-	//{
-	//	//if (g_display_rumble_status_lines)
-	//	//	g_rumble_status_lines[user_index].clear();
-	//
-	//	input_xinput_update_rumble_state(user_index, &input_globals.rumble_states[user_index], suppressed);
-	//}
+	bool suppressed = input_globals.feedback_suppressed || input_globals.input_suppressed || debugging_system_has_focus();
+	if (game_in_progress())
+	{
+		if (game_time_get_paused())
+			suppressed = true;
+	}
+	else
+	{
+		suppressed = true;
+	}
+	
+	for (dword user_index = 0; user_index < k_number_of_controllers; user_index++)
+	{
+		//if (g_display_rumble_status_lines)
+		//	g_rumble_status_lines[user_index].clear();
+	
+		input_xinput_update_rumble_state(user_index, &input_globals.rumble_states[user_index], suppressed);
+	}
 }
 
 void __cdecl update_button(byte* frames_down, word* msec_down, bool key_down, long duration_ms)

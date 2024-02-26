@@ -96,7 +96,7 @@ extern e_language __cdecl game_get_master_language();
 //extern void __cdecl game_globals_dispose_from_old_map();
 //extern void __cdecl game_globals_initialize_for_new_map(game_options const* options);
 extern bool __cdecl game_had_an_update_tick_this_frame();
-//.text:00531430 ; bool __cdecl game_has_nonlocal_players();
+extern bool __cdecl game_has_nonlocal_players();
 extern bool __cdecl game_in_progress();
 extern bool __cdecl game_in_startup_phase();
 extern void __cdecl game_initialize();

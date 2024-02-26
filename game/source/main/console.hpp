@@ -29,6 +29,7 @@ extern long const k_console_global_count;
 
 extern bool console_dump_to_debug_display;
 
+extern bool __cdecl debugging_system_has_focus();
 extern void __cdecl console_printf(char const* format, ...);
 extern void __cdecl console_printf_color(real_argb_color const* color, char const* format, ...);
 extern void __cdecl console_warning(char const* format, ...);

@@ -78,6 +78,7 @@ bool g_fake_minidump_creation = true;
 bool g_suppress_keyboard_for_minidump = false;
 char const* const k_crash_info_output_filename = "crash_report\\crash_info.txt";
 
+bool debug_console_pauses_game = true;
 bool debug_no_drawing = false;
 
 bool cheat_drop_tag = false;
@@ -1730,17 +1731,19 @@ bool __cdecl main_time_halted()
 {
 	//return INVOKE(0x00507370, main_time_halted);
 
-	//if (debug_console_pauses_game
-	//	&& debugging_system_has_focus()
-	//	&& (!game_in_progress() || !game_has_nonlocal_players() || game_is_authoritative_playback()))
-	//{
-	//	return true;
-	//}
+	bool time_halted = shell_application_is_paused();
+
+	if (debug_console_pauses_game
+		&& debugging_system_has_focus()
+		&& (!game_in_progress() || !game_has_nonlocal_players() || game_is_authoritative_playback()))
+	{
+		time_halted = true;
+	}
 
 	if (main_globals.reset_zone_resources)
-		return true;
+		time_halted = true;
 
-	return shell_application_is_paused();
+	return time_halted;
 }
 
 void __cdecl main_user_interface_save_files()

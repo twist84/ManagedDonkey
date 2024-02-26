@@ -6,8 +6,9 @@
 #include "input/controllers.hpp"
 #include "input/input_windows.hpp"
 #include "interface/debug_menu/debug_menu.hpp"
-#include "interface/debug_menu/debug_menu_scroll.hpp"
 #include "interface/debug_menu/debug_menu_parse.hpp"
+#include "interface/debug_menu/debug_menu_scroll.hpp"
+#include "interface/user_interface_controller.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
 #include "math/color_math.hpp"
@@ -150,7 +151,7 @@ void debug_menu_update()
 	else
 	{
 		bool v2 = false;
-		if (console_is_active())
+		if (debugging_system_has_focus())
 		{
 			v2 = input_key_frames_down(_key_code_home, _input_type_ui) == 1
 				|| state.button_frames_down[_controller_button_back] == 1;
@@ -162,10 +163,10 @@ void debug_menu_update()
 				|| state.button_frames_down[_controller_button_back] && state.button_frames_down[_controller_button_start] == 1;
 		}
 
-		if (!console_is_active() && !debug_menu_enabled)
+		if (!debugging_system_has_focus() && !debug_menu_enabled)
 			v2 = false;
 
-		if (console_is_active())
+		if (debugging_system_has_focus())
 		{
 			if (v2)
 				debug_menu_close();
@@ -296,18 +297,16 @@ void debug_menu_set_active_menu(c_debug_menu* menu, bool active)
 	{
 		if (!v4 && !active)
 		{
-			game_time_set_paused(true, _game_time_pause_reason_debug);
-
 			menu->open();
 			menu = g_debug_menu_globals.active_menu;
+			g_user_interface_controller_globals.event_manager_suppress = true;
 		}
 		menu->notify_activated();
 	}
 	else if (active_menu)
 	{
 		active_menu->notify_closed();
-
-		game_time_set_paused(false, _game_time_pause_reason_debug);
+		g_user_interface_controller_globals.event_manager_suppress = false;
 	}
 
 	for (short caption_index = 0; caption_index < DEBUG_MENU_NUM_GLOBAL_CAPTIONS; caption_index++)

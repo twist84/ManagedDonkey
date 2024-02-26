@@ -44,6 +44,11 @@ s_console_globals console_globals;
 
 bool console_dump_to_debug_display = false;
 
+bool __cdecl debugging_system_has_focus()
+{
+	return console_is_active() || debug_menu_get_active();
+}
+
 void __cdecl console_printf(char const* format, ...)
 {
 	va_list list;
@@ -145,7 +150,7 @@ void __cdecl console_dispose()
 
 bool __cdecl console_is_active()
 {
-	return console_globals.is_active || debug_menu_get_active();
+	return console_globals.is_active;
 }
 
 bool __cdecl console_is_empty()
@@ -171,7 +176,7 @@ void __cdecl console_open(bool debug_menu)
 
 void __cdecl console_close()
 {
-	if (console_globals.is_active)
+	if (console_is_active())
 	{
 		terminal_gets_end(&console_globals.input_state);
 		console_globals.__time4 = 0.1f;
@@ -328,8 +333,6 @@ void __cdecl console_update(real shell_seconds_elapsed)
 	}
 	else
 	{
-		game_time_set_paused(true, _game_time_pause_reason_debug);
-
 		for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
 		{
 			s_key_state* key = &console_globals.input_state.keys[key_index];
@@ -338,7 +341,6 @@ void __cdecl console_update(real shell_seconds_elapsed)
 			if (key->key_type == _key_type_down && (key->key_code == _key_code_backquote || key->key_code == _key_code_f1))
 			{
 				console_close();
-				game_time_set_paused(false, _game_time_pause_reason_debug);
 				break;
 			}
 			else if (key->key_type == _key_type_up && key->key_code == _key_code_tab)
@@ -584,6 +586,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_infinite_equipment_energy, cheat.infinite_equipment_energy),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(console_pauses_game, debug_console_pauses_game),
 
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_r),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_g),
