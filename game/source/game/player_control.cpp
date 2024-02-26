@@ -251,7 +251,7 @@ void __cdecl player_control_propagate_output(e_input_user_index input_user_index
 	{
 		s_player_control_output_state* player_control_output = player_control_output_get(user_index);
 		if (player_control_output->unit_index == player_control_input->unit_index)
-			csmemcpy(&player_control_output->output, &player_control_input->input, sizeof(s_player_control_output_state));
+			csmemcpy(&player_control_output->output, &player_control_input->input, sizeof(s_player_control_state));
 	}
 }
 
@@ -280,12 +280,15 @@ void __cdecl player_control_update(real world_seconds_elapsed, real game_seconds
 	for (e_input_user_index user_index = first_input_user(); user_index != k_input_user_none; user_index = next_input_user(user_index))
 	{
 		long player_index = player_mapping_get_player_by_input_user(user_index);
-		e_controller_index controller_index = player_mapping_get_input_controller(player_index);
-		player_control_update_player(player_index, user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed);
-		player_control_build_action(player_index, user_index, &actions[user_index]);
-		player_control_propagate_output(user_index);
+		if (player_index != NONE)
+		{
+			e_controller_index controller_index = player_mapping_get_input_controller(player_index);
+			player_control_update_player(player_index, user_index, controller_index, world_seconds_elapsed, game_seconds_elapsed);
+			player_control_build_action(player_index, user_index, &actions[user_index]);
+			player_control_propagate_output(user_index);
 
-		player_mask |= FLAG(user_index);
+			player_mask |= FLAG(user_index);
+		}
 	}
 
 	simulation_process_input(player_mask, actions);
