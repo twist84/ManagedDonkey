@@ -21,6 +21,7 @@
 #include "objects/object_types.hpp"
 #include "physics/havok.hpp"
 #include "physics/water_physics.hpp"
+#include "profiler/profiler.hpp"
 #include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
 #include "render/old_render_debug.hpp"
 #include "render/render_cameras.hpp"
@@ -160,7 +161,7 @@ bool __cdecl console_is_empty()
 
 void __cdecl console_open(bool debug_menu)
 {
-	if (!console_is_active())
+	if (!console_is_active() && !debug_menu_get_active())
 	{
 		if (debug_menu)
 		{
@@ -315,106 +316,107 @@ void __cdecl console_complete()
 
 void __cdecl console_update(real shell_seconds_elapsed)
 {
-	if (!console_is_active() || debug_menu_get_active())
+	PROFILER(console_update)
 	{
-		s_key_state key{};
-		if (input_peek_key(&key, _input_type_game))
+		if (console_is_active())
 		{
-			if (!key.was_key_down && !key.modifier && key.key_type == _key_type_down && (key.key_code == _key_code_backquote || key.key_code == _key_code_f1))
+			for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
 			{
-				input_get_key(&key, _input_type_game);
-				console_open(false);
+				s_key_state* key = &console_globals.input_state.keys[key_index];
+				ASSERT(key->key_code != NONE);
+
+				if (key->key_type == _key_type_down && (key->key_code == _key_code_backquote || key->key_code == _key_code_f1))
+				{
+					console_close();
+					break;
+				}
+				else if (key->key_type == _key_type_up && key->key_code == _key_code_tab)
+				{
+					console_complete();
+				}
+				else if (key->modifier.test(_key_modifier_flag_control_key_bit) && key->key_type == _key_type_up && key->key_code == _key_code_v)
+				{
+					char buffer[256]{};
+					get_clipboard_as_text(buffer, NUMBEROF(buffer));
+					csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), buffer);
+
+					suggestion_current_index = 0;
+					console_token_buffer.clear();
+					break;
+				}
+				else if (key->key_type == _key_type_up && (key->key_code == _key_code_enter || key->key_code == _key_code_keypad_enter))
+				{
+					if (console_globals.input_state.input_text[0])
+					{
+						console_process_command(console_globals.input_state.input_text, true);
+						console_globals.input_state.input_text[0] = 0;
+						edit_text_selection_reset(&console_globals.input_state.edit);
+					}
+					break;
+				}
+				else if (key->key_type == _key_type_up && (key->key_code == _key_code_up || key->key_code == _key_code_down))
+				{
+					if (key->key_code == _key_code_up)
+						console_globals.input_state.__unknown11F8 += 2;
+
+					short v4 = console_globals.input_state.__unknown11F8 - 1;
+					console_globals.input_state.__unknown11F8 = v4;
+
+					if (v4 <= 0)
+						console_globals.input_state.__unknown11F8 = 0;
+
+					if (v4 <= 0)
+						v4 = 0;
+
+					if (v4 > console_globals.input_state.__unknown11F4 - 1)
+					{
+						v4 = console_globals.input_state.__unknown11F4 - 1;
+						console_globals.input_state.__unknown11F8 = console_globals.input_state.__unknown11F4 - 1;
+					}
+
+					if (v4 != NONE)
+					{
+						decltype(console_globals.input_state.input_text)& input_text = console_globals.input_state.input_text;
+						decltype(console_globals.input_state.previous_inputs)& previous_inputs = console_globals.input_state.previous_inputs;
+						decltype(console_globals.input_state.previous_inputs_count)& previous_inputs_count = console_globals.input_state.previous_inputs_count;
+
+						previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)].copy_to(input_text, NUMBEROF(input_text));
+						edit_text_selection_reset(&console_globals.input_state.edit);
+					}
+					break;
+				}
+				else if (key->vk_code != NONE && key->key_type == _key_type_char)
+				{
+					csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), key->character);
+					break;
+				}
+				else
+				{
+					suggestion_current_index = 0;
+					console_token_buffer.clear();
+				}
 			}
 		}
-		else
+		else if (!debugging_system_has_focus())
 		{
+			s_key_state key{};
+			if (input_peek_key(&key, _input_type_game))
+			{
+				if (!key.was_key_down && !key.modifier && key.key_type == _key_type_down && (key.key_code == _key_code_backquote || key.key_code == _key_code_f1))
+				{
+					input_get_key(&key, _input_type_game);
+					console_open(false);
+				}
+			}
+
 			debug_keys_update();
 		}
+
+		if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
+			console_globals.__time4 -= shell_seconds_elapsed;
+		else
+			console_globals.__time4 = 0.0f;
 	}
-	else
-	{
-		for (long key_index = 0; key_index < console_globals.input_state.key_count; key_index++)
-		{
-			s_key_state* key = &console_globals.input_state.keys[key_index];
-			ASSERT(key->key_code != NONE);
-
-			if (key->key_type == _key_type_down && (key->key_code == _key_code_backquote || key->key_code == _key_code_f1))
-			{
-				console_close();
-				break;
-			}
-			else if (key->key_type == _key_type_up && key->key_code == _key_code_tab)
-			{
-				console_complete();
-			}
-			else if (key->modifier.test(_key_modifier_flag_control_key_bit) && key->key_type == _key_type_up && key->key_code == _key_code_v)
-			{
-				char buffer[256]{};
-				get_clipboard_as_text(buffer, NUMBEROF(buffer));
-				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), buffer);
-
-				suggestion_current_index = 0;
-				console_token_buffer.clear();
-				break;
-			}
-			else if (key->key_type == _key_type_up && (key->key_code == _key_code_enter || key->key_code == _key_code_keypad_enter))
-			{
-				if (console_globals.input_state.input_text[0])
-				{
-					console_process_command(console_globals.input_state.input_text, true);
-					console_globals.input_state.input_text[0] = 0;
-					edit_text_selection_reset(&console_globals.input_state.edit);
-				}
-				break;
-			}
-			else if (key->key_type == _key_type_up && (key->key_code == _key_code_up || key->key_code == _key_code_down))
-			{
-				if (key->key_code == _key_code_up)
-					console_globals.input_state.__unknown11F8 += 2;
-
-				short v4 = console_globals.input_state.__unknown11F8 - 1;
-				console_globals.input_state.__unknown11F8 = v4;
-
-				if (v4 <= 0)
-					console_globals.input_state.__unknown11F8 = 0;
-
-				if (v4 <= 0)
-					v4 = 0;
-
-				if (v4 > console_globals.input_state.__unknown11F4 - 1)
-				{
-					v4 = console_globals.input_state.__unknown11F4 - 1;
-					console_globals.input_state.__unknown11F8 = console_globals.input_state.__unknown11F4 - 1;
-				}
-
-				if (v4 != NONE)
-				{
-					decltype(console_globals.input_state.input_text)& input_text = console_globals.input_state.input_text;
-					decltype(console_globals.input_state.previous_inputs)& previous_inputs = console_globals.input_state.previous_inputs;
-					decltype(console_globals.input_state.previous_inputs_count)& previous_inputs_count = console_globals.input_state.previous_inputs_count;
-
-					previous_inputs[(previous_inputs_count - v4 + NUMBEROF(previous_inputs)) % NUMBEROF(previous_inputs)].copy_to(input_text, NUMBEROF(input_text));
-					edit_text_selection_reset(&console_globals.input_state.edit);
-				}
-				break;
-			}
-			else if (key->vk_code != NONE && key->key_type == _key_type_char)
-			{
-				csnzappendf(console_globals.input_state.input_text, NUMBEROF(console_globals.input_state.input_text), key->character);
-				break;
-			}
-			else
-			{
-				suggestion_current_index = 0;
-				console_token_buffer.clear();
-			}
-		}
-	}
-
-	if ((console_globals.__time4 - shell_seconds_elapsed) >= 0.0f)
-		console_globals.__time4 -= shell_seconds_elapsed;
-	else
-		console_globals.__time4 = 0.0f;
 }
 
 char const* console_get_init_file_name(e_shell_application_type shell_application_type)
@@ -459,8 +461,7 @@ void console_execute_commands_from_file(FILE* file)
 
 void __cdecl console_execute_initial_commands()
 {
-	FILE* file = console_open_init();
-	if (file)
+	if (FILE* file = console_open_init())
 	{
 		console_execute_commands_from_file(file);
 		fclose(file);
@@ -708,7 +709,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_cleanup_inactive_agents, g_havok_constants.cleanup_inactive_agents),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(havok_memory_always_system, g_havok_memory_always_system),
-	
+
 	CONSOLE_GLOBAL_DECLARE_BOOL(contrail_render_enable),
 	CONSOLE_GLOBAL_DECLARE_BOOL(soft_ceilings_disable),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cubemap_debug, c_cubemap_debug::g_render),
@@ -717,7 +718,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_REAL2(render_screenspace_center, g_screenspace_pixel_center),
 	CONSOLE_GLOBAL_DECLARE_REAL2(ui_time_scale, g_ui_time_scale),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_thread_enable, g_render_thread_user_setting),
-	
+
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_paused, debug_pause_game),
 	CONSOLE_GLOBAL_DECLARE_REAL2(game_speed, debug_game_speed),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_lock, debug_game_time_lock),
