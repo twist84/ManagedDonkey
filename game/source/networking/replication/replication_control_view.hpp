@@ -6,6 +6,8 @@
 #include "replication/replication_encoding.hpp"
 #include "units/units.hpp"
 
+long const k_network_maximum_control_streams = 32;
+
 struct c_simulation_view_telemetry_provider;
 struct c_replication_control_view :
 	c_replication_scheduler_client
@@ -16,13 +18,13 @@ struct c_replication_control_view :
 	c_simulation_view_telemetry_provider* m_telemetry_provider;
 
 	dword_flags m_motion_available_send;
-	dword_flags __unknown14;
-	c_static_array<s_player_motion, 32> m_motion;
-	dword __time998[32]; // motion update times?
+	dword_flags __unknown14; // motion flags
+	c_static_array<s_player_motion, k_network_maximum_control_streams> m_motion;
+	c_static_array<dword, k_network_maximum_control_streams> __time998; // motion update times?
 
 	dword_flags m_prediction_available_send;
-	dword_flags __unknownA1C;
-	c_static_array<s_player_prediction, 32> m_prediction;
+	dword_flags __unknownA1C; // prediction flags
+	c_static_array<s_player_prediction, k_network_maximum_control_streams> m_prediction;
 
 	byte __data1320[0xA8]; // prediction update times? and other data?
 

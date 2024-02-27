@@ -35,10 +35,13 @@ struct s_player_motion
 	word_flags motion_flags;
 	s_unit_weapon_set weapon_set;
 	word zoom_level;
-	byte primary_predicted_fire_primary;
-	byte primary_predicted_fire_secondary;
-	byte secondary_predicted_fire_primary;
-	byte secondary_predicted_fire_secondary;
+
+	// 0: primary, 1: secondary
+	bool primary_predicted_fire[2];
+
+	// 0: primary, 1: secondary
+	bool secondary_predicted_fire[2];
+
 	bool motion_sensor_velocity_threshold_exceeded;
 	bool __unknown25;
 	bool predicted_aim_assist_exists;

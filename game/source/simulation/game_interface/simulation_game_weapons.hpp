@@ -77,7 +77,7 @@ static_assert(sizeof(s_simulation_weapon_reload_event_data) == 0x3);
 struct s_simulation_weapon_pickup_event_data
 {
 	s_unit_weapon_set weapon_set;
-	long add_weapon_type;
+	long unit_add_weapon_mode;
 };
 static_assert(sizeof(s_simulation_weapon_pickup_event_data) == 0x8);
 
