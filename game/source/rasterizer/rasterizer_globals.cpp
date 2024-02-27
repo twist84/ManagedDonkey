@@ -11,7 +11,7 @@ bool __cdecl rasterizer_get_is_widescreen()
 {
 	//return INVOKE(0x00A1FC90, rasterizer_get_is_widescreen);
 
-	return (render_globals_width / render_globals_height) > real(720 / 480);
+	return ((real)render_globals_width / render_globals_height) > ((real)720 / 480);
 }
 
 long __cdecl rasterizer_lag_timing_get_gamestate_delay()

@@ -76,6 +76,16 @@ struct rasterizer_vertex_world
 };
 static_assert(sizeof(rasterizer_vertex_world) == 0x38);
 
+struct s_rasterizer_render_globals
+{
+	long width;
+	long height;
+
+	// #TODO: there are more values below these ^ in memory
+	// figure out what other values are part of `s_rasterizer_render_globals`
+};
+static_assert(sizeof(s_rasterizer_render_globals) == 0x8); // 0x8 for now
+
 struct c_rasterizer
 {
 	enum e_separate_alpha_blend_mode
@@ -337,6 +347,8 @@ struct c_rasterizer
 	static void __cdecl draw_worldspace_polygon(rasterizer_vertex_world const* worldspace_polygon, long polygon_count);
 
 	static _D3DRENDERSTATETYPE(&x_last_render_state_types)[4];
+
+	static s_rasterizer_render_globals& render_globals;
 
 	static IDirect3DDevice9Ex*& g_device;
 

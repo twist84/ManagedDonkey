@@ -11,6 +11,7 @@
 #include <d3d9.h>
 
 REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_render_state_types, 4);
+REFERENCE_DECLARE(0x019106C0, s_rasterizer_render_globals, c_rasterizer::render_globals);
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
 REFERENCE_DECLARE_ARRAY(0x050DADE0, bool, c_rasterizer::byte_50DADE0, 3);
 REFERENCE_DECLARE_ARRAY(0x050DADE4, IDirect3DQuery9*, c_rasterizer::dword_50DADE4, 3);
@@ -43,6 +44,18 @@ HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
 //HOOK_DECLARE_CALL(0x00A9F80C, rasterizer_get_display_pixel_bounds); // logo
 //HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds); // watermark
 HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
+
+//#define RESOLUTION_FIX
+#if defined(RESOLUTION_FIX) // If YOU want it YOU fix the HUD!
+
+// Fix aspect ratio not matching resolution
+HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
+
+// Disable converting the game's resolution to 16:9
+byte const resolution_patch_bytes[2] = { 0xEB, 0x1C };
+DATA_PATCH_DECLARE(0x00A2217D, resolution_patch0, resolution_patch_bytes); // 7D 0C
+
+#endif
 
 void __stdcall sub_79BA30(long width, long height)
 {
@@ -81,7 +94,14 @@ void __cdecl c_rasterizer::dispose_from_old_structure_bsp()
 
 real __cdecl c_rasterizer::get_aspect_ratio()
 {
-	return INVOKE(0x00A1FA30, get_aspect_ratio);
+	//return INVOKE(0x00A1FA30, get_aspect_ratio);
+	real current_aspect_ratio = (real)render_globals.width / render_globals.height;
+
+#if defined(RESOLUTION_FIX) // I'm not fixing the HUD!
+	return current_aspect_ratio;
+#else
+	return current_aspect_ratio > 1.5f ? (real)16 / 9 : (real)4 / 3;
+#endif
 }
 
 void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_pixel_bounds)
