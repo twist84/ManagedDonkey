@@ -25,11 +25,11 @@ void render_debug_object_damage()
 	}
 }
 
-real __cdecl compute_total_damage(void* damage_data, void* damage_effect_definition, void const* damage_definition, long a4, bool* a5)
+real __cdecl compute_total_damage(void* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5)
 {
-	real result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, a4, a5);
+	real result = INVOKE(0x00B4FB10, compute_total_damage, damage_data, damage_effect_definition, damage_definition, object_index, a5);
 
-	if (cheat.chevy)
+	if (cheat.chevy && TEST_MASK(FLAG(object_get_type(object_index)), _object_mask_vehicle))
 		result = 0.0f;
 
 	return result;

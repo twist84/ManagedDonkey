@@ -9,5 +9,5 @@ extern bool debug_player_damage;
 extern bool debug_damage;
 
 extern void render_debug_object_damage();
-extern real __cdecl compute_total_damage(void* damage_data, void* damage_effect_definition, void const* damage_definition, long a4, bool* a5);
+extern real __cdecl compute_total_damage(void* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5);
 
