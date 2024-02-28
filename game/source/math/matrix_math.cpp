@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+#include <math.h>
+
 void __cdecl matrix4x3_rotation_from_vectors(real_matrix4x3* matrix, vector3d const* forward, vector3d const* up)
 {
 	matrix->scale = 1.0f;
@@ -83,5 +85,41 @@ void __cdecl matrix4x3_multiply(real_matrix4x3 const* in_matrix0, real_matrix4x3
 	out_matrix->center.n[2] = in_matrix0->center.n[2] + (in_matrix0->scale * (((in_matrix0->matrix.forward.n[2] * in_matrix1->center.n[0]) + (in_matrix0->matrix.left.n[2] * in_matrix1->center.n[1])) + (in_matrix0->matrix.up.n[2] * in_matrix1->center.n[2])));
 
 	out_matrix->scale = in_matrix0->scale * in_matrix1->scale;
+}
+
+void __cdecl matrix4x3_inverse(real_matrix4x3 const* matrix, real_matrix4x3* out_matrix)
+{
+	real negative_x = -matrix->center.x;
+	real negative_y = -matrix->center.y;
+	real negative_z = -matrix->center.z;
+
+	if (matrix->scale == 1.0f)
+	{
+		out_matrix->scale = 1.0f;
+	}
+	else
+	{
+		out_matrix->scale = 1.0f / (matrix->scale < 0.0f ? fmaxf(matrix->scale, -0.000099999997f) : fmaxf(matrix->scale, 0.000099999997f));
+
+		negative_x *= out_matrix->scale;
+		negative_y *= out_matrix->scale;
+		negative_z *= out_matrix->scale;
+	}
+
+	out_matrix->matrix.forward.i = matrix->matrix.forward.i;
+	out_matrix->matrix.left.j = matrix->matrix.left.j;
+	out_matrix->matrix.up.k = matrix->matrix.up.k;
+
+	out_matrix->matrix.left.i = matrix->matrix.forward.j;
+	out_matrix->matrix.forward.j = matrix->matrix.left.i;
+	out_matrix->matrix.up.i = matrix->matrix.forward.k;
+
+	out_matrix->matrix.forward.k = matrix->matrix.up.i;
+	out_matrix->matrix.up.j = matrix->matrix.left.k;
+	out_matrix->matrix.left.k = matrix->matrix.up.j;
+
+	out_matrix->center.x = ((negative_x * out_matrix->matrix.forward.i) + (negative_y * out_matrix->matrix.left.i)) + (negative_z * out_matrix->matrix.up.i);
+	out_matrix->center.y = ((negative_x * out_matrix->matrix.forward.j) + (negative_y * out_matrix->matrix.left.j)) + (negative_z * out_matrix->matrix.up.j);
+	out_matrix->center.z = ((negative_x * out_matrix->matrix.forward.k) + (negative_y * out_matrix->matrix.left.k)) + (negative_z * out_matrix->matrix.up.k);
 }
 
