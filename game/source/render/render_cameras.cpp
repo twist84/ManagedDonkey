@@ -90,8 +90,8 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 
 	real v2 = real(camera->display_pixel_bounds.x1 - camera->display_pixel_bounds.x0);
 	real v3 = real(camera->display_pixel_bounds.y1 - camera->display_pixel_bounds.y0);
-	projection->__unknownB8.i *= (v2 > 0.000099999997f ? real(1280) / v2 : 1.0f);
-	projection->__unknownB8.j *= (v3 > 0.000099999997f ? real(720) / v3 : 1.0f);
+	projection->__unknownB8.i *= (v2 > 0.000099999997f ? real(c_rasterizer::render_globals.width) / v2 : 1.0f);
+	projection->__unknownB8.j *= (v3 > 0.000099999997f ? real(c_rasterizer::render_globals.height) / v3 : 1.0f);
 	
 	plane3d transformed_plane{};
 	if (v1 == 0.0f)
