@@ -1,17 +1,50 @@
 #include "rasterizer/rasterizer_globals.hpp"
 
 #include "cseries/cseries.hpp"
+#include "memory/module.hpp"
+#include "rasterizer/rasterizer.hpp"
+#include "shell/shell_windows.hpp"
+
+#include <math.h>
+#include <windows.h>
 
 REFERENCE_DECLARE(0x050DDA00, s_rasterizer_globals, rasterizer_globals);
 
-REFERENCE_DECLARE(0x019106C0, long, render_globals_width);
-REFERENCE_DECLARE(0x019106C8, long, render_globals_height);
+bool render_debug_force_4x3_aspect_ratio = false;
+
+HOOK_DECLARE(0x00A1FC90, rasterizer_get_is_widescreen);
 
 bool __cdecl rasterizer_get_is_widescreen()
 {
 	//return INVOKE(0x00A1FC90, rasterizer_get_is_widescreen);
+	//return ((real)c_rasterizer::render_globals.width / (real)c_rasterizer::render_globals.height) > 1.5f;
 
-	return ((real)render_globals_width / render_globals_height) > ((real)720 / 480);
+	RECT client_rect{};
+
+	HWND window_handle = g_windows_params.window_handle;
+	if (window_handle != NULL || (window_handle = g_windows_params.created_window_handle) != NULL)
+	{
+		GetClientRect(window_handle, &client_rect);
+	}
+	else
+	{
+		client_rect.right = c_rasterizer::render_globals.width;
+		client_rect.bottom = c_rasterizer::render_globals.height;
+	}
+
+	if (client_rect.right <= 8)
+		client_rect.right = 8;
+
+	if (client_rect.bottom <= 8)
+		client_rect.bottom = 8;
+
+	if (render_debug_force_4x3_aspect_ratio)
+	{
+		if (fabsf(real((real)client_rect.right / (real)client_rect.bottom) - 1.3333334f) > _real_epsilon)
+			return false;
+	}
+
+	return true;
 }
 
 long __cdecl rasterizer_lag_timing_get_gamestate_delay()
