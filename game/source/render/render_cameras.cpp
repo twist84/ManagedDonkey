@@ -11,6 +11,7 @@
 
 bool debug_camera_projection = false;
 
+HOOK_DECLARE(0x00A64140, render_camera_build_projection);
 HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
 
 bool __cdecl c_rasterizer::get_is_using_floating_point_depth_buffer()
@@ -44,10 +45,94 @@ void __cdecl render_camera_build_orthogonal_projection(s_oriented_bounding_box c
 
 void __cdecl render_camera_build_projection(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_projection* projection, real aspect_ratio)
 {
+	//INVOKE(0x00A64140, render_camera_build_projection, camera, frustum_bounds, projection, aspect_ratio);
+
 	ASSERT(camera);
 	ASSERT(projection);
 
-	INVOKE(0x00A64140, render_camera_build_projection, camera, frustum_bounds, projection, a4);
+	real v0 = camera->z_far;
+	real v1 = camera->z_near;
+	if (c_rasterizer::get_is_using_floating_point_depth_buffer())
+	{
+		v0 = camera->z_near;
+		v1 = camera->z_far;
+	}
+
+	render_view_parameters parameters{};
+	render_camera_build_view_parameters(camera, frustum_bounds, &parameters, aspect_ratio);
+
+	vector3d forward{};
+	vector3d left{};
+	vector3d up{};
+	
+	cross_product3d(&camera->forward, &camera->up, &forward);
+	cross_product3d(&forward, &camera->forward, &left);
+	negate_vector3d(&camera->forward, &up);
+	
+	normalize3d(&forward);
+	normalize3d(&left);
+	normalize3d(&up);
+	
+	projection->view_to_world.matrix.forward = forward;
+	projection->view_to_world.matrix.left = left;
+	projection->view_to_world.matrix.up = up;
+	projection->view_to_world.center = camera->position;
+	projection->view_to_world.scale = 1.0f;
+	
+	matrix4x3_inverse(&projection->view_to_world, &projection->world_to_view);
+	
+	//if (!valid_real_matrix4x3(&projection->world_to_view))
+	//if (!valid_real_matrix4x3(&projection->view_to_world))
+	
+	projection->__unknownB8.i = real(parameters.width * parameters.__unknown28) * 0.5f;
+	projection->__unknownB8.j = real(parameters.hight * parameters.__unknown2C) * 0.5f;
+	projection->projection_bounds = parameters.projection_bounds;
+
+	real v2 = real(camera->display_pixel_bounds.x1 - camera->display_pixel_bounds.x0);
+	real v3 = real(camera->display_pixel_bounds.y1 - camera->display_pixel_bounds.y0);
+	projection->__unknownB8.i *= (v2 > 0.000099999997f ? real(1280) / v2 : 1.0f);
+	projection->__unknownB8.j *= (v3 > 0.000099999997f ? real(720) / v3 : 1.0f);
+	
+	plane3d transformed_plane{};
+	if (v1 == 0.0f)
+	{
+		matrix4x3_transform_plane(&projection->world_to_view, &camera->__plane64, &transformed_plane);
+	}
+	else
+	{
+		transformed_plane.normal.i = 0.0f;
+		transformed_plane.normal.j = 0.0f;
+		transformed_plane.normal.k = 1.0f;
+		transformed_plane.distance = -v1;
+	}
+	
+	real v6 = (real)-transformed_plane.distance / transformed_plane.normal.k;
+	real v7 = real(1.0f + fabsf(real(transformed_plane.normal.i / transformed_plane.normal.k)));
+	real v8 = fabsf(real(transformed_plane.normal.j / transformed_plane.normal.k));
+	real v10 = v0 / real(real(v0 - v6) * real(v7 + v8));
+	
+	transformed_plane.normal.i = real(v10 * transformed_plane.normal.i) / transformed_plane.normal.k;
+	transformed_plane.normal.j = real(v10 * transformed_plane.normal.j) / transformed_plane.normal.k;
+	transformed_plane.normal.k = v10;
+	transformed_plane.distance = -v10 * v6;
+	if (transformed_plane.distance > 0.0f && v1 == 0.0f)
+	{
+		transformed_plane.normal.i = -transformed_plane.normal.i;
+		transformed_plane.normal.j = -transformed_plane.normal.j;
+		transformed_plane.normal.k = -transformed_plane.normal.k;
+		transformed_plane.distance = -transformed_plane.distance;
+	}
+	
+	csmemset(projection->projection_matrix.matrix, 0, sizeof(s_oriented_bounding_box));
+	projection->projection_matrix.matrix[0][0] = parameters.__unknown28;
+	projection->projection_matrix.matrix[0][2] = -transformed_plane.normal.i;
+	projection->projection_matrix.matrix[1][1] = parameters.__unknown2C;
+	projection->projection_matrix.matrix[1][2] = -transformed_plane.normal.j;
+	projection->projection_matrix.matrix[2][0] = -parameters.__unknown20;
+	projection->projection_matrix.matrix[2][1] = -parameters.__unknown24;
+	projection->projection_matrix.matrix[2][2] = -transformed_plane.normal.k;
+	projection->projection_matrix.matrix[2][3] = -1.0f;
+	projection->projection_matrix.matrix[3][2] = transformed_plane.distance;
 }
 
 void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real a4)
