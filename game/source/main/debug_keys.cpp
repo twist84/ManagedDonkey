@@ -1161,7 +1161,7 @@ void __cdecl debug_key_adjust_game_speed_internal(real increment)
 	if (v4 < 0.0f)
 		v5 = -1.0f;
 
-	real v6 = ((v5 * 0.5f) + v4) * v2;
+	real v6 = ((v5 / 2) + v4) * v2;
 	if (fmaxf(v6, 0.0f) >= 5.0f)
 	{
 		v6 = 5.0f;

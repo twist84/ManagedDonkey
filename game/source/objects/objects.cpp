@@ -539,7 +539,7 @@ void __cdecl object_render_debug_internal(long object_index)
 		real seconds = game_ticks_to_seconds(real(game_time_get()));
 		real angle = real(seconds * TWO_PI) / 3.0f;
 		real cos_angle = cosf(angle);
-		real radius = (((cos_angle + 1.0f) * a2) * 0.5f) + a1;
+		real radius = (((cos_angle + 1.0f) * a2) / 2) + a1;
 
 		real_point3d origin{};
 		object_get_origin(object_index, &origin);

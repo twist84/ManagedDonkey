@@ -13,6 +13,7 @@ static_assert(sizeof(real_fraction) == sizeof(real));
 
 #define DEFINE_REAL_CONSTANT(NAME) real const k##NAME = NAME
 
+#define _pi PI
 #define _test_real_epsilon  0.001f
 #define _real_epsilon       0.0001f
 #define _real_tiny_epsilon  0.000001f
@@ -248,6 +249,13 @@ static_assert(sizeof(real_matrix4x3) == 0x34);
 
 union real_rectangle2d
 {
+	struct
+	{
+		real x0;
+		real x1;
+		real y0;
+		real y1;
+	};
 	struct
 	{
 		real_bounds x;

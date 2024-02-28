@@ -301,7 +301,7 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 			display_title_safe_pixel_bounds.x0,
 			display_title_safe_pixel_bounds.x1,
 			// this calculation seems to be correct, could possibly go a little lower
-			((display_title_safe_pixel_bounds.y1 - (4.0f * draw_string.get_line_height())) * 0.5f),
+			((display_title_safe_pixel_bounds.y1 - (4.0f * draw_string.get_line_height())) / 2),
 			display_title_safe_pixel_bounds.y1
 		);
 		draw_string.set_bounds(&bounds);

@@ -90,8 +90,8 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	//if (!valid_real_matrix4x3(&projection->world_to_view))
 	//if (!valid_real_matrix4x3(&projection->view_to_world))
 	
-	projection->__unknownB8.i = real(parameters.width * parameters.__unknown28) * 0.5f;
-	projection->__unknownB8.j = real(parameters.hight * parameters.__unknown2C) * 0.5f;
+	projection->__unknownB8.i = real(parameters.width * parameters.__unknown28) / 2;
+	projection->__unknownB8.j = real(parameters.hight * parameters.__unknown2C) / 2;
 	projection->projection_bounds = parameters.projection_bounds;
 
 	real v2 = real(camera->display_pixel_bounds.x1 - camera->display_pixel_bounds.x0);
@@ -295,7 +295,7 @@ void render_debug_camera_projection()
 	render_camera const* rasterizer_camera = c_player_view::get_global_player_view()->get_rasterizer_camera();
 	render_projection const* rasterizer_projection = c_player_view::get_global_player_view()->get_rasterizer_projection();
 
-	real verical_fov_half_tan = tanf(rasterizer_camera->vertical_field_of_view * 0.5f);
+	real verical_fov_half_tan = tanf(rasterizer_camera->vertical_field_of_view / 2);
 	short width = rasterizer_camera->render_title_safe_pixel_bounds.x1 - rasterizer_camera->render_title_safe_pixel_bounds.x0;
 	short height = rasterizer_camera->render_title_safe_pixel_bounds.y1 - rasterizer_camera->render_title_safe_pixel_bounds.y0;
 

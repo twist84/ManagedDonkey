@@ -86,7 +86,7 @@ long __cdecl game_seconds_to_ticks_round(real seconds)
 	ASSERT(game_time_globals);
 	ASSERT(game_time_globals->initialized);
 	real tick_rate = game_time_globals->tick_rate * seconds;
-	return long(tick_rate + ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f));
+	return long(tick_rate + ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
 }
 
 real __cdecl game_tick_length()
@@ -322,7 +322,7 @@ void __cdecl game_time_set_rate_scale_direct(real rate_scale)
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
 	real game_tick_rate = game_options_get()->game_tick_rate;
 	real tick_rate = game_tick_rate / MAX(rate_scale, 0.01f);
-	tick_rate += ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f);
+	tick_rate += ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2);
 	game_time_globals->tick_rate = short(tick_rate);
 	game_time_globals->tick_length = 1.0f / tick_rate;
 	game_time_globals->speed = game_tick_rate / tick_rate;
@@ -403,7 +403,7 @@ bool __cdecl game_time_update(real world_seconds_elapsed, real* game_seconds_ela
 		if (!match_remote_time && !v36)
 		{
 			real tick_rate = (2.0f * CLAMP(game_time_get_speed(), 1.0f, 5.0f));
-			game_ticks_limit = (dword)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) * 0.5f));
+			game_ticks_limit = (dword)MAX(game_ticks_limit, ((tick_rate < 0.0f ? -1.0f : 1.0f) / 2));
 		}
 	
 		if (thread_is_being_traced(k_thread_main))
