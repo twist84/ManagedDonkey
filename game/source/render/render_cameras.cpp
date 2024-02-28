@@ -42,7 +42,7 @@ void __cdecl render_camera_build_orthogonal_projection(s_oriented_bounding_box c
 	INVOKE(0x00A63C70, render_camera_build_orthogonal_projection, camera, window_display_bounds, projection, a4);
 }
 
-void __cdecl render_camera_build_projection(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_projection* projection, real a4)
+void __cdecl render_camera_build_projection(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_projection* projection, real aspect_ratio)
 {
 	ASSERT(camera);
 	ASSERT(projection);

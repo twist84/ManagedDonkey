@@ -54,12 +54,9 @@ static_assert(sizeof(render_projection) == 0xC0);
 
 struct render_view_parameters
 {
-	real __unknown0;
-	real __unknown4;
-	real __unknown8;
-	real __unknownC;
-	real __unknown10;
-	real __unknown14;
+	real_rectangle2d frustum_bounds;
+	real width;
+	real hight;
 	real __unknown18;
 	real __unknown1C;
 	real __unknown20;
@@ -77,7 +74,7 @@ struct render_mirror;
 extern void __cdecl render_camera_build(render_camera* camera, s_observer_result const* result);
 extern bool __cdecl render_camera_build_clipped_frustum_bounds(render_camera const* camera, real_rectangle2d const* clip, real_rectangle2d* frustum_bounds);
 extern void __cdecl render_camera_build_orthogonal_projection(s_oriented_bounding_box const* camera, short_rectangle2d const* window_display_bounds, struct render_projection* projection, bool a4);
-extern void __cdecl render_camera_build_projection(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_projection* projection, real a4);
+extern void __cdecl render_camera_build_projection(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_projection* projection, real aspect_ratio);
 extern void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real a4);
 extern void __cdecl render_camera_build_viewport_frustum_bounds(render_camera const* camera, real_rectangle2d* frustum_bounds);
 extern void __cdecl render_camera_mirror(render_camera const* camera, render_mirror const* mirror, render_camera* result);
