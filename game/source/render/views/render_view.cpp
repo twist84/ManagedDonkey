@@ -4,7 +4,10 @@
 #include "interface/terminal.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
+#include "render/render.hpp"
 #include "render/render_debug.hpp"
+
+#include <math.h>
 
 REFERENCE_DECLARE(0x01913430, long, c_view::g_view_stack_top);
 REFERENCE_DECLARE_ARRAY(0x050DEDF4, c_view*, c_view::g_view_stack, 4);
@@ -121,6 +124,42 @@ void __cdecl c_fullscreen_view::setup_camera(s_observer_result const* result)
 void __cdecl c_fullscreen_view::render_blank_frame(real_rgb_color const* color)
 {
 	DECLFUNC(0x00A291E0, void, __cdecl, real_rgb_color const*)(color);
+}
+
+// get cortana effect fov?
+real __cdecl sub_ABEA20()
+{
+	return INVOKE(0x00ABEA20, sub_ABEA20);
+}
+
+HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
+void __thiscall c_first_person_view::override_projection(bool first_person_squish)
+{
+	render_camera* rasterizer_camera_modifiable = get_rasterizer_camera_modifiable();
+	render_projection* render_projection_modifiable = get_render_projection_modifiable();
+
+	*rasterizer_camera_modifiable = *m_camera;
+
+	m_fov_scale = 0.6908f / fmaxf(rasterizer_camera_modifiable->horizontal_field_of_view, _real_epsilon);
+	rasterizer_camera_modifiable->vertical_field_of_view *= m_fov_scale;
+
+	long width = rasterizer_camera_modifiable->window_pixel_bounds.x1 - rasterizer_camera_modifiable->window_pixel_bounds.x0;
+	long height = rasterizer_camera_modifiable->window_pixel_bounds.y1 - rasterizer_camera_modifiable->window_pixel_bounds.y0;
+	real aspect_ratio = (real)width / (real)height;
+
+	// cortana effect fov?
+	rasterizer_camera_modifiable->vertical_field_of_view /= fmaxf(sub_ABEA20(), _real_epsilon);
+
+	if (!first_person_squish)
+	{
+		rasterizer_camera_modifiable->z_far *= m_z_far_scale;
+		rasterizer_camera_modifiable->z_near *= aspect_ratio > 1.8f ? 2.4f : 3.2f;
+	}
+
+	real_rectangle2d frustum_bounds{};
+	render_camera_build_viewport_frustum_bounds(rasterizer_camera_modifiable, &frustum_bounds);
+	render_camera_build_projection(rasterizer_camera_modifiable, &frustum_bounds, render_projection_modifiable, 0.0f);
+	render_setup_window(rasterizer_camera_modifiable, render_projection_modifiable);
 }
 
 void __cdecl render_debug_frame_render()

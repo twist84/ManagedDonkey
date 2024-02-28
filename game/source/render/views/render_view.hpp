@@ -153,6 +153,9 @@ static_assert(sizeof(c_reflection_view) == sizeof(c_view));
 struct c_first_person_view :
 	public c_view
 {
+public:
+	void __thiscall override_projection(bool first_person_squish);
+
 protected:
 
 	// c_first_person_camera::update
