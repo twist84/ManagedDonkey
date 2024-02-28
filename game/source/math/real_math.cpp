@@ -159,6 +159,15 @@ vector2d* __cdecl rotate_vector2d(vector2d const* vector, real a2, real a3, vect
 	return out_vector;
 }
 
+vector3d* __cdecl negate_vector3d(vector3d const* in_vector, vector3d* out_vector)
+{
+	out_vector->i = -in_vector->i;
+	out_vector->j = -in_vector->j;
+	out_vector->k = -in_vector->k;
+
+	return out_vector;
+}
+
 vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d* out_vector)
 {
 	out_vector->i = scale * in_vector->i;
