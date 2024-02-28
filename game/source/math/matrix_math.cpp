@@ -132,3 +132,11 @@ vector3d* __cdecl matrix4x3_transform_normal(real_matrix4x3 const* matrix, vecto
 	return out_vector;
 }
 
+plane3d* __cdecl matrix4x3_transform_plane(real_matrix4x3 const* matrix, plane3d const* plane, plane3d* out_plane)
+{
+	matrix4x3_transform_normal(matrix, &plane->normal, &out_plane->normal);
+	out_plane->distance = (matrix->scale * plane->distance) + dot_product3d((vector3d*)&matrix->center, &out_plane->normal);
+
+	return out_plane;
+}
+
