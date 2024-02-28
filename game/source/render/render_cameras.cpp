@@ -12,6 +12,9 @@
 bool debug_camera_projection = false;
 bool debug_static_first_person = false;
 
+bool reduce_widescreen_fov_during_cinematics = true;
+real render_debug_aspect_ratio_scale = 1.0f;
+
 HOOK_DECLARE(0x00A64140, render_camera_build_projection);
 HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
 
@@ -141,12 +144,87 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	projection->projection_matrix.matrix[3][2] = transformed_plane.distance;
 }
 
-void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real a4)
+void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real aspect_ratio)
 {
+	//INVOKE(0x00A64780, render_camera_build_view_parameters, camera, frustum_bounds, parameters, aspect_ratio);
+
 	ASSERT(camera);
 	ASSERT(parameters);
+	ASSERT(camera->vertical_field_of_view < _pi - _real_epsilon);
+	//ASSERT(camera->vertical_field_of_view > _real_epsilon);
+	ASSERT(camera->z_near >= 0.0f);
+	ASSERT(camera->render_pixel_bounds.x0 < camera->render_pixel_bounds.x1);
+	ASSERT(camera->render_pixel_bounds.y0 < camera->render_pixel_bounds.y1);
 
-	INVOKE(0x00A64780, render_camera_build_view_parameters, camera, frustum_bounds, parameters, a4);
+	parameters->width = real((real)camera->window_pixel_bounds.x1 - (real)camera->window_pixel_bounds.x0) * real((real)camera->display_pixel_bounds.x1 / (real)camera->render_pixel_bounds.x1);
+	parameters->hight = real((real)camera->window_pixel_bounds.y1 - (real)camera->window_pixel_bounds.y0) * real((real)camera->display_pixel_bounds.y1 / (real)camera->render_pixel_bounds.y1);
+
+	if (frustum_bounds)
+	{
+		ASSERT(frustum_bounds->x0 < frustum_bounds->x1);
+		ASSERT(frustum_bounds->y0 < frustum_bounds->y1);
+
+		parameters->frustum_bounds = *frustum_bounds;
+	}
+	else
+	{
+		parameters->frustum_bounds.y0 = -1.0f;
+		parameters->frustum_bounds.x0 = -1.0f;
+		parameters->frustum_bounds.y1 =  1.0f;
+		parameters->frustum_bounds.x1 =  1.0f;
+	}
+
+	parameters->__unknown18 = real(parameters->frustum_bounds.x1 - parameters->frustum_bounds.x0) / 2;
+	parameters->__unknown1C = real(parameters->frustum_bounds.y1 - parameters->frustum_bounds.y0) / 2;
+	parameters->__unknown20 = real(-real(parameters->frustum_bounds.x1 + parameters->frustum_bounds.x0) / 2) / parameters->__unknown18;
+	parameters->__unknown24 = real(-real(parameters->frustum_bounds.y1 + parameters->frustum_bounds.y0) / 2) / parameters->__unknown1C;
+
+	real vertical_field_of_view_tangent = tanf(camera->vertical_field_of_view / 2);
+	real aspect_ratio_ = (real)parameters->width / (real)parameters->hight;
+
+	if (aspect_ratio == 0.0f)
+	{
+		short_rectangle2d display_pixel_bounds{};
+		c_rasterizer::get_display_pixel_bounds(&display_pixel_bounds);
+
+		real v21 = real((display_pixel_bounds.x1 - display_pixel_bounds.x0) / real(display_pixel_bounds.y1 - display_pixel_bounds.y0));
+		if (fabsf((v21 - c_rasterizer::get_aspect_ratio())))
+			aspect_ratio_ = aspect_ratio_ * real(c_rasterizer::get_aspect_ratio() / v21);
+	}
+	else
+	{
+		aspect_ratio_ = aspect_ratio;
+	}
+
+	aspect_ratio_ *= fminf(fmaxf(render_debug_aspect_ratio_scale, 0.25), 2.0f);
+
+	if (cinematic_in_progress())
+	{
+		if (rasterizer_get_is_widescreen())
+		{
+			if (reduce_widescreen_fov_during_cinematics)
+				vertical_field_of_view_tangent = 1.0f * ((vertical_field_of_view_tangent * 1.3333334f) * 0.5625f);
+		}
+		else
+		{
+			short_rectangle2d display_pixel_bounds{};
+			c_rasterizer::get_display_pixel_bounds(&display_pixel_bounds);
+
+			parameters->frustum_bounds.y0 *= real(parameters->hight / (real)display_pixel_bounds.y1);
+			parameters->frustum_bounds.y1 *= real(parameters->hight / (real)display_pixel_bounds.y1);
+		}
+	}
+
+	parameters->__unknown28 = 1.0f / ((aspect_ratio_ * parameters->__unknown18) * vertical_field_of_view_tangent);
+	parameters->__unknown2C = 1.0f / (parameters->__unknown1C * vertical_field_of_view_tangent);
+
+	parameters->projection_bounds.x0 = -real(parameters->__unknown20 + 1.0f) / parameters->__unknown28;
+	parameters->projection_bounds.x1 = -real(parameters->__unknown20 - 1.0f) / parameters->__unknown28;
+	parameters->projection_bounds.y0 = -real(parameters->__unknown24 + 1.0f) / parameters->__unknown2C;
+	parameters->projection_bounds.y1 = -real(parameters->__unknown24 - 1.0f) / parameters->__unknown2C;
+
+	ASSERT(parameters->projection_bounds.x0 < parameters->projection_bounds.x1);
+	ASSERT(parameters->projection_bounds.y0 < parameters->projection_bounds.y1);
 }
 
 void __cdecl render_camera_build_viewport_frustum_bounds(render_camera const* camera, real_rectangle2d* frustum_bounds)

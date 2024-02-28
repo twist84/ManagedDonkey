@@ -76,7 +76,7 @@ extern void __cdecl render_camera_build(render_camera* camera, s_observer_result
 extern bool __cdecl render_camera_build_clipped_frustum_bounds(render_camera const* camera, real_rectangle2d const* clip, real_rectangle2d* frustum_bounds);
 extern void __cdecl render_camera_build_orthogonal_projection(s_oriented_bounding_box const* camera, short_rectangle2d const* window_display_bounds, struct render_projection* projection, bool a4);
 extern void __cdecl render_camera_build_projection(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_projection* projection, real aspect_ratio);
-extern void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real a4);
+extern void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real aspect_ratio);
 extern void __cdecl render_camera_build_viewport_frustum_bounds(render_camera const* camera, real_rectangle2d* frustum_bounds);
 extern void __cdecl render_camera_mirror(render_camera const* camera, render_mirror const* mirror, render_camera* result);
 extern bool __cdecl render_camera_project_vector_to_screen(vector3d const* world_vector, real_point3d const* world_point, real_matrix4x3 const* matrix, vector2d const* a4, bool use_perspective, bool a6, vector2d* result);
