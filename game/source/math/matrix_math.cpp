@@ -123,3 +123,12 @@ void __cdecl matrix4x3_inverse(real_matrix4x3 const* matrix, real_matrix4x3* out
 	out_matrix->center.z = ((negative_x * out_matrix->matrix.forward.k) + (negative_y * out_matrix->matrix.left.k)) + (negative_z * out_matrix->matrix.up.k);
 }
 
+vector3d* __cdecl matrix4x3_transform_normal(real_matrix4x3 const* matrix, vector3d const* vector, vector3d* out_vector)
+{
+	out_vector->i = ((vector->i * matrix->matrix.forward.i) + (vector->j * matrix->matrix.left.i)) + (vector->k * matrix->matrix.up.i);
+	out_vector->j = ((vector->i * matrix->matrix.forward.j) + (vector->j * matrix->matrix.left.j)) + (vector->k * matrix->matrix.up.j);
+	out_vector->k = ((vector->i * matrix->matrix.forward.k) + (vector->j * matrix->matrix.left.k)) + (vector->k * matrix->matrix.up.k);
+
+	return out_vector;
+}
+
