@@ -68,6 +68,7 @@ struct render_view_parameters
 static_assert(sizeof(render_view_parameters) == 0x40);
 
 extern bool debug_camera_projection;
+extern bool debug_static_first_person;
 
 struct s_observer_result;
 struct render_mirror;

@@ -10,6 +10,7 @@
 #include <math.h>
 
 bool debug_camera_projection = false;
+bool debug_static_first_person = false;
 
 HOOK_DECLARE(0x00A64140, render_camera_build_projection);
 HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
@@ -58,8 +59,13 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 		v1 = camera->z_far;
 	}
 
+	// shamelessly stolen from cartographer
+	real vertical_field_of_view = debug_static_first_person ? (64.0f * real(DEG)) * 0.78500003f : camera->vertical_field_of_view;
+
 	render_view_parameters parameters{};
 	render_camera_build_view_parameters(camera, frustum_bounds, &parameters, aspect_ratio);
+
+	const_cast<render_camera*>(camera)->vertical_field_of_view = vertical_field_of_view;
 
 	vector3d forward{};
 	vector3d left{};
