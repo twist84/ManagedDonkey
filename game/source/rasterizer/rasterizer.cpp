@@ -53,7 +53,7 @@ HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
 
 // Disable converting the game's resolution to 16:9
 byte const resolution_patch_bytes[2] = { 0xEB, 0x1C };
-DATA_PATCH_DECLARE(0x00A2217D, resolution_patch0, resolution_patch_bytes); // 7D 0C
+DATA_PATCH_DECLARE(0x00A2217D, resolution_patch, resolution_patch_bytes); // 7D 0C
 
 #endif
 
@@ -95,12 +95,12 @@ void __cdecl c_rasterizer::dispose_from_old_structure_bsp()
 real __cdecl c_rasterizer::get_aspect_ratio()
 {
 	//return INVOKE(0x00A1FA30, get_aspect_ratio);
-	real current_aspect_ratio = (real)render_globals.width / render_globals.height;
+	real current_aspect_ratio = (real)render_globals.width / (real)render_globals.height;
 
 #if defined(RESOLUTION_FIX) // I'm not fixing the HUD!
 	return current_aspect_ratio;
 #else
-	return current_aspect_ratio > 1.5f ? (real)16 / 9 : (real)4 / 3;
+	return current_aspect_ratio > 1.5f ? (real)16 / (real)9 : (real)4 / (real)3;
 #endif
 }
 

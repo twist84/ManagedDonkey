@@ -317,6 +317,7 @@ struct c_rasterizer
 	static bool __cdecl set_vertex_declaration(IDirect3DVertexDeclaration9*);
 	static bool __cdecl set_vertex_shader(c_rasterizer_vertex_shader const*, e_vertex_type, e_transfer_vector_vertex_types, e_entry_point);
 	static void __cdecl set_z_buffer_mode(e_z_buffer_mode);
+	static bool __cdecl get_is_using_floating_point_depth_buffer();
 
 	static void __cdecl setup_occlusion_state();
 	static void __cdecl setup_render_target_globals_with_exposure(real, real, bool);

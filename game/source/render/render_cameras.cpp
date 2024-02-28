@@ -13,6 +13,13 @@ bool debug_camera_projection = false;
 
 HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
 
+bool __cdecl c_rasterizer::get_is_using_floating_point_depth_buffer()
+{
+	//return INVOKE(0x00A63980, get_is_using_floating_point_depth_buffer);
+
+	return m_use_floating_point_z_buffer;
+}
+
 void __cdecl render_camera_build(render_camera* camera, s_observer_result const* result)
 {
 	INVOKE(0x00A63A00, render_camera_build, camera, result);
