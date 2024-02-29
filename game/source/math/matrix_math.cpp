@@ -99,7 +99,7 @@ void __cdecl matrix4x3_inverse(real_matrix4x3 const* matrix, real_matrix4x3* out
 	}
 	else
 	{
-		out_matrix->scale = 1.0f / (matrix->scale < 0.0f ? fmaxf(matrix->scale, -0.000099999997f) : fmaxf(matrix->scale, 0.000099999997f));
+		out_matrix->scale = 1.0f / (matrix->scale < 0.0f ? fmaxf(matrix->scale, -_real_epsilon) : fmaxf(matrix->scale, _real_epsilon));
 
 		negative_x *= out_matrix->scale;
 		negative_y *= out_matrix->scale;

@@ -22,6 +22,7 @@ REFERENCE_DECLARE(0x019180C0, dword, c_lights_view::g_debug_clip_planes);
 REFERENCE_DECLARE(0x01913434, real, c_first_person_view::m_fov_scale);
 REFERENCE_DECLARE(0x01913470, real, c_first_person_view::m_z_far_scale);
 
+HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
 HOOK_DECLARE(0x00A29220, render_debug_frame_render);
 HOOK_DECLARE_CALL(0x00A3A0A5, render_debug_window_render);
 
@@ -132,7 +133,6 @@ real __cdecl sub_ABEA20()
 	return INVOKE(0x00ABEA20, sub_ABEA20);
 }
 
-HOOK_DECLARE_CLASS_MEMBER(0x00A28DA0, c_first_person_view, override_projection);
 void __thiscall c_first_person_view::override_projection(bool first_person_squish)
 {
 	render_camera* rasterizer_camera_modifiable = get_rasterizer_camera_modifiable();
@@ -150,7 +150,7 @@ void __thiscall c_first_person_view::override_projection(bool first_person_squis
 	// cortana effect fov?
 	rasterizer_camera_modifiable->vertical_field_of_view /= fmaxf(sub_ABEA20(), _real_epsilon);
 
-	if (!first_person_squish)
+	if (first_person_squish)
 	{
 		rasterizer_camera_modifiable->z_far *= m_z_far_scale;
 		rasterizer_camera_modifiable->z_near *= aspect_ratio > 1.8f ? 2.4f : 3.2f;

@@ -9,14 +9,14 @@
 
 #include <math.h>
 
+HOOK_DECLARE(0x00A64140, render_camera_build_projection);
+HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
+
 bool debug_camera_projection = false;
 bool debug_static_first_person = false;
 
 real render_debug_aspect_ratio_scale = 1.0f;
 bool g_reduce_widescreen_fov_during_cinematics = true;
-
-HOOK_DECLARE(0x00A64140, render_camera_build_projection);
-HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
 
 bool __cdecl c_rasterizer::get_is_using_floating_point_depth_buffer()
 {
@@ -99,8 +99,8 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 
 	real v2 = real(camera->display_pixel_bounds.x1 - camera->display_pixel_bounds.x0);
 	real v3 = real(camera->display_pixel_bounds.y1 - camera->display_pixel_bounds.y0);
-	projection->__unknownB8.i *= (v2 > 0.000099999997f ? real(c_rasterizer::render_globals.width) / v2 : 1.0f);
-	projection->__unknownB8.j *= (v3 > 0.000099999997f ? real(c_rasterizer::render_globals.height) / v3 : 1.0f);
+	projection->__unknownB8.i *= (v2 > _real_epsilon ? real(c_rasterizer::render_globals.width) / v2 : 1.0f);
+	projection->__unknownB8.j *= (v3 > _real_epsilon ? real(c_rasterizer::render_globals.height) / v3 : 1.0f);
 	
 	plane3d transformed_plane{};
 	if (v1 == 0.0f)
@@ -187,9 +187,9 @@ void __cdecl render_camera_build_view_parameters(render_camera const* camera, re
 		short_rectangle2d display_pixel_bounds{};
 		c_rasterizer::get_display_pixel_bounds(&display_pixel_bounds);
 
-		real v21 = real((display_pixel_bounds.x1 - display_pixel_bounds.x0) / real(display_pixel_bounds.y1 - display_pixel_bounds.y0));
-		if (fabsf((v21 - c_rasterizer::get_aspect_ratio())))
-			aspect_ratio_ = aspect_ratio_ * real(c_rasterizer::get_aspect_ratio() / v21);
+		real pixel_bounds_aspect_ratio = real((display_pixel_bounds.x1 - display_pixel_bounds.x0) / real(display_pixel_bounds.y1 - display_pixel_bounds.y0));
+		if (fabsf((pixel_bounds_aspect_ratio - c_rasterizer::get_aspect_ratio())))
+			aspect_ratio_ = aspect_ratio_ * real(c_rasterizer::get_aspect_ratio() / pixel_bounds_aspect_ratio);
 	}
 	else
 	{
