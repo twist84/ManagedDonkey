@@ -9,6 +9,8 @@
 
 #include <math.h>
 
+REFERENCE_DECLARE(0x05115B38, bool, debug_no_frustum_clip);
+
 HOOK_DECLARE(0x00A64140, render_camera_build_projection);
 HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
 
@@ -32,11 +34,34 @@ void __cdecl render_camera_build(render_camera* camera, s_observer_result const*
 
 bool __cdecl render_camera_build_clipped_frustum_bounds(render_camera const* camera, real_rectangle2d const* clip, real_rectangle2d* frustum_bounds)
 {
-	ASSERT(camera);
-	ASSERT(clip);
-	ASSERT(frustum_bounds);
-
 	return INVOKE(0x00A63B50, render_camera_build_clipped_frustum_bounds, camera, clip, frustum_bounds);
+
+	//ASSERT(camera);
+	//ASSERT(clip);
+	//ASSERT(frustum_bounds);
+	//
+	//bool result = true;
+	//if (!debug_no_frustum_clip && clip->x0 < clip->x1 && clip->y0 < clip->y1)
+	//{
+	//	real v8 = real(camera->render_pixel_bounds.y1 - camera->render_pixel_bounds.y0) / real(camera->render_pixel_bounds.x1 - camera->render_pixel_bounds.x0);
+	//	real v9 = 1.0f / tanf(real(camera->vertical_field_of_view / 2));
+	//	frustum_bounds->x0 = clip->x0 * (v9 * v8);
+	//	frustum_bounds->x1 = clip->x1 * (v9 * v8);
+	//	frustum_bounds->y0 = clip->y0 * v9;
+	//	frustum_bounds->y1 = clip->y1 * v9;
+	//
+	//	result = frustum_bounds->x0 >= frustum_bounds->x1 || frustum_bounds->y0 >= frustum_bounds->y1;
+	//}
+	//
+	//if (result)
+	//{
+	//	frustum_bounds->y0 = -1.0;
+	//	frustum_bounds->x0 = -1.0;
+	//	frustum_bounds->y1 =  1.0;
+	//	frustum_bounds->x1 =  1.0;
+	//}
+	//
+	//return !result;
 }
 
 void __cdecl render_camera_build_orthogonal_projection(s_oriented_bounding_box const* camera, short_rectangle2d const* window_display_bounds, struct render_projection* projection, bool a4)
