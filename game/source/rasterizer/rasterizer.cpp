@@ -863,6 +863,46 @@ void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_
 	INVOKE(0x00A283B0, draw_vertices, primitive_type, start_vertex, primitive_count);
 }
 
+
+void __cdecl c_rasterizer::set_pixel_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data)
+{
+	INVOKE(0x00A66270, set_pixel_shader_constant, start_register, vector4f_count, constant_data);
+}
+
+void __cdecl c_rasterizer::set_pixel_shader_constant_bool(long start_register, long bool_count, int const* constant_data)
+{
+	INVOKE(0x00A66370, set_pixel_shader_constant_bool, start_register, bool_count, constant_data);
+}
+
+void __cdecl c_rasterizer::set_pixel_shader_constant_int(long start_register, long vector4i_count, int const* constant_data)
+{
+	INVOKE(0x00A663A0, set_pixel_shader_constant_int, start_register, vector4i_count, constant_data);
+}
+
+void __cdecl c_rasterizer::set_pixel_shader_constant_single(long start_register, real constant_value)
+{
+	INVOKE(0x00A663C0, set_pixel_shader_constant_single, start_register, constant_value);
+}
+
+//.text:00A66400 ; 
+
+void __cdecl c_rasterizer::set_vertex_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data)
+{
+	INVOKE(0x00A66410, set_vertex_shader_constant, start_register, vector4f_count, constant_data);
+}
+
+void __cdecl c_rasterizer::set_vertex_shader_constant_bool(long start_register, long bool_count, int const* constant_data)
+{
+	INVOKE(0x00A66370, set_vertex_shader_constant_bool, start_register, bool_count, constant_data);
+}
+
+void __cdecl c_rasterizer::set_vertex_shader_constant_int(long start_register, long vector4i_count, int const* constant_data)
+{
+	INVOKE(0x00A663A0, set_vertex_shader_constant_int, start_register, vector4i_count, constant_data);
+}
+
+//.text:00A66660 ; 
+
 HBITMAP create_bitmap_handle(HWND window_handle)
 {
 	if (!window_handle)
