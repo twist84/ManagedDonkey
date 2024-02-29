@@ -46,6 +46,7 @@ struct s_render_fullscreen_text_context;
 struct render_camera;
 struct render_projection;
 
+extern void __cdecl combine_projection_and_view_matrix(real_matrix4x3 const* view_matrix, real const (* const projection_matrix)[4], real* const projection_and_view_matrix);
 extern void __cdecl render_frame_begin();
 extern void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* context, bool simple_font);
 extern void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context const* context, c_draw_string* draw_string, c_font_cache_base* font_cache);

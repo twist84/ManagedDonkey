@@ -23,6 +23,11 @@ void __cdecl c_render_globals::advance_frame_time(real seconds_elapsed)
 	m_frame_time += seconds_elapsed;
 }
 
+void __cdecl combine_projection_and_view_matrix(real_matrix4x3 const* view_matrix, real const (* const projection_matrix)[4], real* const projection_and_view_matrix)
+{
+	INVOKE(0x00A29440, combine_projection_and_view_matrix, view_matrix, projection_matrix, projection_and_view_matrix);
+}
+
 bool __cdecl c_render_globals::get_depth_fade_active()
 {
 	//return INVOKE(0x00A29550, get_depth_fade_active);
