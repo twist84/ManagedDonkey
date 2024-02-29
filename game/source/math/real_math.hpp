@@ -121,6 +121,11 @@ union vector4d
 		real k;
 		real w;
 	};
+	struct
+	{
+		vector3d vector;
+		real w;
+	};
 	real n[k_4d_count];
 };
 static_assert(sizeof(vector4d) == sizeof(real) * k_4d_count);

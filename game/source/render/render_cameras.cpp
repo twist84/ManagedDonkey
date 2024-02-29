@@ -12,8 +12,8 @@
 bool debug_camera_projection = false;
 bool debug_static_first_person = false;
 
-bool reduce_widescreen_fov_during_cinematics = true;
 real render_debug_aspect_ratio_scale = 1.0f;
+bool g_reduce_widescreen_fov_during_cinematics = true;
 
 HOOK_DECLARE(0x00A64140, render_camera_build_projection);
 HOOK_DECLARE(0x00A65E30, render_projection_sphere_diameter_in_pixels);
@@ -202,8 +202,8 @@ void __cdecl render_camera_build_view_parameters(render_camera const* camera, re
 	{
 		if (rasterizer_get_is_widescreen())
 		{
-			if (reduce_widescreen_fov_during_cinematics)
-				vertical_field_of_view_tangent = 1.0f * ((vertical_field_of_view_tangent * 1.3333334f) * 0.5625f);
+			if (g_reduce_widescreen_fov_during_cinematics)
+				vertical_field_of_view_tangent = 1.0f * ((vertical_field_of_view_tangent * 1.3333334f /* 4/3 */) * 0.5625f /* 9/16 */);
 		}
 		else
 		{

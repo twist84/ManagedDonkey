@@ -24,6 +24,7 @@
 #include "profiler/profiler.hpp"
 #include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
 #include "render/old_render_debug.hpp"
+#include "render/render.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_visibility.hpp"
@@ -714,7 +715,6 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(soft_ceilings_disable),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cubemap_debug, c_cubemap_debug::g_render),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_camera_projection),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(static_fp_fov, debug_static_first_person),
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(render_screenspace_center, g_screenspace_pixel_center),
 	CONSOLE_GLOBAL_DECLARE_REAL2(ui_time_scale, g_ui_time_scale),
@@ -725,6 +725,12 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_lock, debug_game_time_lock),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_statistics, debug_game_time_statistics),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL2(static_fp_fov, debug_static_first_person),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(reduce_widescreen_fov_during_cinematics, g_reduce_widescreen_fov_during_cinematics),
+	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_aspect_ratio_scale),
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 

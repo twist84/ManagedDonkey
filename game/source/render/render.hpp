@@ -36,6 +36,9 @@ private:
 	static bool& m_weather_occlusion_available;
 };
 
+extern bool& render_pc_specular;
+extern bool& render_pc_albedo_lighting;
+
 struct c_draw_string;
 struct c_font_cache_base;
 

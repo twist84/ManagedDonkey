@@ -3,14 +3,13 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer.hpp"
+#include "rasterizer/rasterizer_main.hpp"
 #include "shell/shell_windows.hpp"
 
 #include <math.h>
 #include <windows.h>
 
 REFERENCE_DECLARE(0x050DDA00, s_rasterizer_globals, rasterizer_globals);
-
-bool render_debug_force_4x3_aspect_ratio = false;
 
 HOOK_DECLARE(0x00A1FC90, rasterizer_get_is_widescreen);
 
@@ -40,7 +39,7 @@ bool __cdecl rasterizer_get_is_widescreen()
 
 	if (render_debug_force_4x3_aspect_ratio)
 	{
-		if (fabsf(real((real)client_rect.right / (real)client_rect.bottom) - 1.3333334f) > _real_epsilon)
+		if (fabsf(real((real)client_rect.right / (real)client_rect.bottom) - 1.3333334f /* 4/3 */) > _real_epsilon)
 			return false;
 	}
 

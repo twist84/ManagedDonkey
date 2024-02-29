@@ -70,6 +70,9 @@ static_assert(sizeof(render_view_parameters) == 0x40);
 extern bool debug_camera_projection;
 extern bool debug_static_first_person;
 
+extern real render_debug_aspect_ratio_scale;
+extern bool g_reduce_widescreen_fov_during_cinematics;
+
 struct s_observer_result;
 struct render_mirror;
 extern void __cdecl render_camera_build(render_camera* camera, s_observer_result const* result);

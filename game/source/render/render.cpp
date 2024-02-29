@@ -3,15 +3,18 @@
 #include "config/version.hpp"
 #include "main/main_render.hpp"
 #include "memory/module.hpp"
+#include "render/render_cameras.hpp"
 #include "text/draw_string.hpp"
 
 REFERENCE_DECLARE(0x01913474, dword, c_render_globals::m_frame_index);
+REFERENCE_DECLARE(0x0191347D, bool, render_pc_specular);
 REFERENCE_DECLARE(0x050E88F0, real, c_render_globals::m_frame_time);
 REFERENCE_DECLARE(0x050E88F4, bool, c_render_globals::m_distortion_active);
 REFERENCE_DECLARE(0x050E88F5, bool, c_render_globals::m_distortion_visible);
 REFERENCE_DECLARE(0x050E88F6, bool, c_render_globals::m_distortion_history);
 REFERENCE_DECLARE(0x050E88F7, bool, c_render_globals::m_depth_fade_active);
 REFERENCE_DECLARE(0x050E88F9, bool, c_render_globals::m_weather_occlusion_available);
+REFERENCE_DECLARE(0x050E88FA, bool, render_pc_albedo_lighting);
 
 void __cdecl c_render_globals::advance_frame_time(real seconds_elapsed)
 {
@@ -128,6 +131,45 @@ void __cdecl render_prepare_for_window(long player_window_index, long output_use
 void __cdecl render_setup_window(render_camera* camera, render_projection* projection)
 {
 	INVOKE(0x00A2A080, render_setup_window, camera, projection);
+
+	//ASSERT(camera && projection);
+	//
+	//vector4d shader_constant{};
+	//real pc_specular = render_pc_specular ? 1.0f : 0.0f;
+	//set_real_vector4d(&shader_constant, pc_specular, pc_specular, pc_specular, pc_specular);
+	//c_rasterizer::set_pixel_shader_constant(95, 1, &shader_constant);
+	//
+	//real pc_albedo_lighting = render_pc_albedo_lighting ? 1.0f : 0.0f;
+	//set_real_vector4d(&shader_constant, pc_albedo_lighting, pc_albedo_lighting, pc_albedo_lighting, pc_albedo_lighting);
+	//c_rasterizer::set_pixel_shader_constant(95, 1, &shader_constant);
+	//
+	//real projection_and_view_matrix[16]{};
+	//combine_projection_and_view_matrix(&projection->world_to_view, projection->projection_matrix.matrix, projection_and_view_matrix);
+	//c_rasterizer::set_vertex_shader_constant(0, 4, projection_and_view_matrix);
+	//
+	//vector4d position{};
+	//vector4d forward{};
+	//vector4d up{};
+	//
+	//set_real_vector4d(&position, camera->position.x, camera->position.y, camera->position.z, 0.0f);
+	//
+	//set_real_vector4d(&forward, camera->forward.i, camera->forward.j, camera->forward.k, 0.0f);
+	//set_real_vector4d(&up, camera->up.i, camera->up.j, camera->up.k, 0.0f);
+	//ASSERT(valid_real(up.i) && valid_real(up.j) && valid_real(up.k));
+	//ASSERT(valid_real(forward.i) && valid_real(forward.j) && valid_real(forward.k));
+	//
+	//vector4d left{};
+	//cross_product3d(&up.vector, &forward.vector, &left.vector);
+	//ASSERT(valid_real(left.i) && valid_real(left.j) && valid_real(left.k));
+	//
+	//normalize3d(&left.vector);
+	//left.w = 0.0f;
+	//
+	//c_rasterizer::set_vertex_shader_constant(4, 1, &forward);
+	//c_rasterizer::set_vertex_shader_constant(5, 1, &left);
+	//c_rasterizer::set_vertex_shader_constant(6, 1, &up);
+	//c_rasterizer::set_vertex_shader_constant(7, 1, &position);
+	//c_rasterizer::set_pixel_shader_constant(16, 1, &position);
 }
 
 void __cdecl render_window_reset(long user_index)

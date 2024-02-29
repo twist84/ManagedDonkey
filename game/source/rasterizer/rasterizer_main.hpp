@@ -18,5 +18,7 @@ struct s_rasterizer_game_states
 };
 static_assert(sizeof(s_rasterizer_game_states) == 0x208);
 
+extern bool render_debug_force_4x3_aspect_ratio;
+
 extern long __cdecl get_current_thread_index();
 
