@@ -435,3 +435,13 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* e
 	return enclosed_rect;
 }
 
+vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real w)
+{
+	result->i = i;
+	result->j = j;
+	result->k = k;
+	result->w = w;
+
+	return result;
+}
+

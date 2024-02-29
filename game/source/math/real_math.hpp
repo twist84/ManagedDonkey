@@ -121,11 +121,6 @@ union vector4d
 		real k;
 		real w;
 	};
-	struct
-	{
-		vector3d vector;
-		real w;
-	};
 	real n[k_4d_count];
 };
 static_assert(sizeof(vector4d) == sizeof(real) * k_4d_count);
@@ -274,6 +269,15 @@ union real_rectangle3d
 {
 	struct
 	{
+		real x0;
+		real x1;
+		real y0;
+		real y1;
+		real z0;
+		real z1;
+	};
+	struct
+	{
 		real_bounds x;
 		real_bounds y;
 		real_bounds z;
@@ -331,4 +335,5 @@ extern real_rectangle3d* __cdecl set_real_rectangle3d(real_rectangle3d* rect, re
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* enclosed_rect, real_point3d const* point);
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* enclosed_rect, long point_count, real_point3d const* points);
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* enclosed_rect, real_rectangle3d const* rect);
+extern vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real w);
 
