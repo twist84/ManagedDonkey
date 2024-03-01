@@ -41,6 +41,11 @@ void __cdecl observer_update(real world_seconds_elapsed)
 	INVOKE(0x00613A60, observer_update, world_seconds_elapsed);
 }
 
+void __cdecl observer_validate_camera_command(s_observer_command* result)
+{
+	INVOKE(0x00614D60, observer_validate_camera_command, result);
+}
+
 void __cdecl debug_render_observer()
 {
 	if (!g_debug_observer_render)

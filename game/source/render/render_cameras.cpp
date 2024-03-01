@@ -88,7 +88,7 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	}
 
 	// shamelessly stolen from cartographer
-	real vertical_field_of_view = debug_static_first_person ? (64.0f * real(DEG)) * 0.78500003f : camera->vertical_field_of_view;
+	real vertical_field_of_view = debug_static_first_person ? (64.0f * DEG) * 0.78500003f : camera->vertical_field_of_view;
 
 	render_view_parameters parameters{};
 	render_camera_build_view_parameters(camera, frustum_bounds, &parameters, aspect_ratio);

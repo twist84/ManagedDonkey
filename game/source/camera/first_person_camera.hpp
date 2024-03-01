@@ -2,9 +2,14 @@
 
 #include "camera/camera.hpp"
 
+enum e_output_user_index;
+struct s_observer_command;
+
 struct c_first_person_camera :
 	public c_camera
 {
+	void __thiscall _update(e_output_user_index output_user_index, real a2, s_observer_command* result);
+
 	real m_field_of_view;
 	euler_angles2d m_facing;
 	bool m_allow_controlled_facing;

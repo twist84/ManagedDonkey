@@ -23,6 +23,8 @@ enum e_director_mode : long
 	k_number_of_director_modes
 };
 
+enum e_controller_index;
+extern bool __cdecl camera_input_inhibited(e_controller_index controller_index);
 extern void __cdecl director_update(real world_seconds_elapsed);
 extern const char* director_mode_get_name(e_director_mode director_mode);
 extern e_director_mode director_mode_from_string(const char* str);

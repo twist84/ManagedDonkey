@@ -118,8 +118,8 @@ void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_
 {
 	//INVOKE(0x0060C000, input_abstraction_get_player_look_angular_velocity, controller_index, angular_velocity);
 
-	angular_velocity->yaw = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_x * DEG);
-	angular_velocity->pitch = static_cast<real>(input_abstraction_globals.preferences[controller_index].look_sensitivity_y * DEG);
+	angular_velocity->yaw = input_abstraction_globals.preferences[controller_index].look_sensitivity_x * DEG;
+	angular_velocity->pitch = input_abstraction_globals.preferences[controller_index].look_sensitivity_y * DEG;
 }
 
 void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* preferences)

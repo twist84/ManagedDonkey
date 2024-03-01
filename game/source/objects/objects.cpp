@@ -113,6 +113,11 @@ bool __cdecl object_function_get_function_value(long object_index, s_object_func
 	return INVOKE(0x00B2DA20, object_function_get_function_value, object_index, function, object_definition_index, out_function_magnitude, deterministic);
 }
 
+real_point3d* __cdecl object_get_center_of_mass(long object_index, real_point3d* center)
+{
+	return INVOKE(0x00B2DD90, object_get_center_of_mass, object_index, center);
+}
+
 bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude)
 {
 	return INVOKE(0x00B2E030, object_get_function_value, object_index, function_name, object_definition_index, out_function_magnitude);
@@ -537,7 +542,7 @@ void __cdecl object_render_debug_internal(long object_index)
 		real a1 = 0.1f;
 		real a2 = 0.4f;
 		real seconds = game_ticks_to_seconds(real(game_time_get()));
-		real angle = real(seconds * TWO_PI) / 3.0f;
+		real angle = (seconds * TWO_PI) / 3.0f;
 		real cos_angle = cosf(angle);
 		real radius = (((cos_angle + 1.0f) * a2) / 2) + a1;
 

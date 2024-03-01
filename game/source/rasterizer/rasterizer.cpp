@@ -52,11 +52,6 @@ HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
 byte const resolution_patch_bytes[2] = { 0xEB, 0x1C };
 DATA_PATCH_DECLARE(0x00A2217D, resolution_patch, resolution_patch_bytes); // 7D 0C
 
-// Disable updating `c_first_person_view::m_fov_scale` based on camera fov
-// `c_first_person_view::m_fov_scale` should only be updated in `c_first_person_view::override_projection`
-byte const weapon_fov_set_bypass_patch_bytes[8] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
-DATA_PATCH_DECLARE(0x0065FAB6, weapon_fov_set_bypass_patch, weapon_fov_set_bypass_patch_bytes); // F3 0F 11 05 34 34 91 01
-
 void __stdcall sub_79BA30(long width, long height)
 {
 	INVOKE(0x0079BA30, sub_79BA30, width, height);

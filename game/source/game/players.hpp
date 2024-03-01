@@ -846,6 +846,7 @@ extern long __cdecl player_new(long player_array_index, game_player_options cons
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
+extern long __cdecl player_get_control_index_from_unit(long unit_index);
 extern void __cdecl players_finish_creation();
 extern void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier);
 extern void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);

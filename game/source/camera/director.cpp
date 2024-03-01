@@ -116,7 +116,12 @@ HOOK_DECLARE(0x00591F80, director_render);
 //.text:007219A0 ; void __cdecl c_game_director::update(real)
 
 //.text:00725A80 ; c_camera::c_camera()
-//.text:00725AA0 ; bool __cdecl camera_input_inhibited(e_controller_index)
+
+bool __cdecl camera_input_inhibited(e_controller_index controller_index)
+{
+	return INVOKE(0x00725AA0, camera_input_inhibited, controller_index);
+}
+
 //.text:00725B90 ; 
 //.text:00725BA0 ; long __cdecl c_camera::get_target() const
 //.text:00725BB0 ; void __cdecl c_camera::handle_deleted_object(long)
@@ -368,7 +373,7 @@ void __cdecl director_render()
 			euler_angles2d facing{};
 			euler_angles2d_from_vector3d(&facing, &camera->forward);
 			if (facing.yaw < 0.0f)
-				facing.yaw += real(TWO_PI);
+				facing.yaw += TWO_PI;
 
 			char const* control_mode = "normal";
 			if (player_control_get_machinima_camera_use_old_controls())

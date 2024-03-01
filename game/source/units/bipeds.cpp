@@ -101,6 +101,11 @@ void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector
 	INVOKE(0x00B6E0A0, biped_get_autoaim_pill, biped_index, base, height, autoaim_width);
 }
 
+void __cdecl biped_get_physics_pill(long biped_index, real_point3d* position, real* height, real* radius)
+{
+	INVOKE(0x00B6E840, biped_get_physics_pill, biped_index, position, height, radius);
+}
+
 void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, vector3d* velocity)
 {
 	INVOKE(0x00B6E9C0, biped_get_sentinel_animation_node_position_and_velocity, biped_index, position, velocity);

@@ -289,7 +289,13 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 //.text:00540150 ; bool __cdecl player_try_to_swap_weapons(long, bool, s_player_interaction const *)
 //.text:00540320 ; void __cdecl player_unit_calculate_location_pesemistic(long, s_location *)
 //.text:00540350
-//.text:00540440
+
+// not the correct name
+long __cdecl player_get_control_index_from_unit(long unit_index)
+{
+	return INVOKE(0x00540440, player_get_control_index_from_unit, unit_index);
+}
+
 //.text:00540490 ; bool __cdecl player_unit_should_teleport_to_unit(long, long, long)
 //.text:00540510
 //.text:005405A0 ; void __cdecl player_update_invisibility(long)

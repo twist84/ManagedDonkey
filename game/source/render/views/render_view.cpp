@@ -1,5 +1,6 @@
 #include "render/views/render_view.hpp"
 
+#include "interface/chud/cortana_effect.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
 #include "main/main_time.hpp"
@@ -125,12 +126,6 @@ void __cdecl c_fullscreen_view::setup_camera(s_observer_result const* result)
 void __cdecl c_fullscreen_view::render_blank_frame(real_rgb_color const* color)
 {
 	DECLFUNC(0x00A291E0, void, __cdecl, real_rgb_color const*)(color);
-}
-
-// get cortana effect fov?
-real __cdecl sub_ABEA20()
-{
-	return INVOKE(0x00ABEA20, sub_ABEA20);
 }
 
 void __thiscall c_first_person_view::override_projection(bool first_person_squish)

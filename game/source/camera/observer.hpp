@@ -8,7 +8,7 @@ struct s_observer_command
 	dword_flags flags;
 	real_point3d position;
 	vector3d focus_offset;
-	real_point2d look_shift;
+	real_point2d crosshair_location;
 	real focus_distance;
 	real field_of_view;
 	vector3d forward;
@@ -18,7 +18,11 @@ struct s_observer_command
 	dword __unknown84;
 	real_point3d center;
 	real timer;
-	byte __data98[0x28];
+	byte __data98[0xC];
+	real_point3d physics_pill_position;
+	real physics_pill_height;
+	real physics_pill_radius;
+	byte __dataB8[0x8];
 	real __unknownC0[6];
 	byte __dataD8[0x14];
 };
@@ -92,5 +96,6 @@ extern s_observer_result const* observer_get_camera(e_output_user_index output_u
 extern long __cdecl choose_appropriate_director(e_output_user_index output_user_index);
 extern s_observer_result const* __cdecl observer_try_and_get_camera(e_output_user_index output_user_index);
 extern void __cdecl observer_update(real world_seconds_elapsed);
+extern void __cdecl observer_validate_camera_command(s_observer_command* result);
 extern void __cdecl debug_render_observer();
 

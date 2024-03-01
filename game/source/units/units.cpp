@@ -18,6 +18,11 @@ bool debug_objects_unit_firing = false;
 bool debug_objects_unit_acceleration = false;
 bool debug_objects_unit_camera = false;
 
+long __cdecl unit_get_current_primary_weapon(long unit_index)
+{
+	return INVOKE(0x0058C4D0, unit_get_current_primary_weapon, unit_index);
+}
+
 void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index)
 {
 	INVOKE(0x00B38AB0, unit_add_equipment_to_inventory, unit_index, slot_index, object_index);
@@ -49,6 +54,21 @@ void __cdecl unit_control(long unit_index, unit_control_data const* control_data
 		const_cast<unit_control_data*>(control_data)->desired_mode = g_player_desired_mode_override;
 
 	INVOKE(0x00B3E240, unit_control, unit_index, control_data);
+}
+
+long __cdecl unit_get_active_primary_weapon(long unit_index, long* parent_unit_index)
+{
+	return INVOKE(0x00B42EF0, unit_get_active_primary_weapon, unit_index, parent_unit_index);
+}
+
+real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level)
+{
+	return INVOKE(0x00B44080, unit_get_field_of_view, unit_index, fov_radians, zoom_level);
+}
+
+short __cdecl unit_get_zoom_level(long unit_index)
+{
+	return INVOKE(0x00B44780, unit_get_zoom_level, unit_index);
 }
 
 void __cdecl unit_get_camera_position(long unit_index, real_point3d* position)

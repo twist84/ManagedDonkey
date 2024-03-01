@@ -489,7 +489,7 @@ void __cdecl render_debug_sound(long sound_index)
 		break;
 	}
 
-	if (inner_cone_angle > 0.0f && inner_cone_angle < real(PI) || outer_cone_angle > 0.0f && outer_cone_angle < real(PI))
+	if (inner_cone_angle > 0.0f && inner_cone_angle < PI || outer_cone_angle > 0.0f && outer_cone_angle < PI)
 	{
 		render_debug_cone_outline(/*false*/true, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, inner_cone_angle, global_real_argb_orange);
 		render_debug_cone_outline(/*false*/true, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);

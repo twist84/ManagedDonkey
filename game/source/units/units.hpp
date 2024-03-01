@@ -45,12 +45,16 @@ extern bool debug_objects_unit_firing;
 extern bool debug_objects_unit_acceleration;
 extern bool debug_objects_unit_camera;
 
+extern long __cdecl unit_get_current_primary_weapon(long unit_index);
 extern void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index);
 extern bool __cdecl unit_add_grenade_to_inventory(long unit_index, long object_index);
 extern short __cdecl unit_add_grenade_type_to_inventory(long unit_index, short grenade_type, short grenade_count);
 extern void __cdecl unit_add_starting_profile_equipment(long unit_index, short profile_index, bool clear_player, bool create_new);
 extern bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, long weapon_addition_method);
 extern void __cdecl unit_control(long unit_index, unit_control_data const* control_data);
+extern long __cdecl unit_get_active_primary_weapon(long unit_index, long* parent_unit_index);
+extern real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level);
+extern short __cdecl unit_get_zoom_level(long unit_index);
 extern void __cdecl unit_get_camera_position(long unit_index, real_point3d* position);
 extern void __cdecl unit_get_head_position(long unit_index, real_point3d* position);
 extern bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index);

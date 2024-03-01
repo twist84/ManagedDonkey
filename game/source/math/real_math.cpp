@@ -435,6 +435,16 @@ real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* e
 	return enclosed_rect;
 }
 
+vector3d* __cdecl vector3d_from_euler_angles2d(vector3d* vector, euler_angles2d const* angles)
+{
+	return INVOKE(0x004FF060, vector3d_from_euler_angles2d, vector, angles);
+
+	//vector->i = cosf(angles->yaw) * cosf(angles->pitch);
+	//vector->j = sinf(angles->yaw) * cosf(angles->pitch);
+	//vector->k = sinf(angles->pitch);
+	//return vector;
+}
+
 vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real w)
 {
 	result->i = i;

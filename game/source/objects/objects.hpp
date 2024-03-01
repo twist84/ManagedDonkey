@@ -331,6 +331,7 @@ extern long __cdecl cluster_get_next_noncollideable_object_and_payload(long* dat
 extern bool __cdecl object_load_scenario_placement_matrices(long object_index);
 extern void __cdecl object_delete(long object_index);
 extern bool __cdecl object_function_get_function_value(long object_index, s_object_function_definition const* function, long object_definition_index, real* out_function_magnitude, bool* deterministic);
+extern real_point3d* __cdecl object_get_center_of_mass(long object_index, real_point3d* center);
 extern bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude);
 extern short __cdecl object_get_markers_by_string_id(long object_index, string_id marker_name, object_marker* markers, short maximum_marker_count);
 extern real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short node_index);

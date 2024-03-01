@@ -162,7 +162,12 @@ void __cdecl player_control_build_action(long player_index, e_input_user_index i
 //.text:005D0B80 ; bool __cdecl player_control_flags_test_all_players(e_player_control_bit)
 //.text:005D0BD0 ; s_player_action_context const* __cdecl player_control_get_action_context(long)
 //.text:005D0C00 ; long __cdecl player_control_get_aiming_unit_index(e_output_user_index)
-//.text:005D0C30 ; void __cdecl player_control_get_aiming_vector(e_output_user_index, vector3d*)
+
+void __cdecl player_control_get_aiming_vector(e_output_user_index output_user_index, vector3d* aiming_vector)
+{
+	INVOKE(0x005D0C30, player_control_get_aiming_vector, output_user_index, aiming_vector);
+}
+
 //.text:005D0C90 ; void __cdecl player_control_get_controller_input(e_input_user_index, e_controller_index, real, real, s_game_input_state**, s_player_control_input*)
 //.text:005D29E0 ; euler_angles2d const* __cdecl player_control_get_facing_angles(long)
 //.text:005D2A10 ; real __cdecl player_control_get_field_of_view(long)

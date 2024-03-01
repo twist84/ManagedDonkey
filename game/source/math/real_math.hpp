@@ -1,9 +1,9 @@
 #pragma once
 
-#define PI 3.14159265359
-#define TWO_PI PI * 2
-#define RAD 180 / PI
-#define DEG PI / 180
+#define PI 3.14159265359f
+#define TWO_PI real(PI * 2)
+#define RAD real(180 / PI)
+#define DEG real(PI / 180)
 
 typedef float real;
 static_assert(sizeof(real) == sizeof(float));
@@ -335,5 +335,6 @@ extern real_rectangle3d* __cdecl set_real_rectangle3d(real_rectangle3d* rect, re
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* enclosed_rect, real_point3d const* point);
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* enclosed_rect, long point_count, real_point3d const* points);
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* enclosed_rect, real_rectangle3d const* rect);
+extern vector3d* __cdecl vector3d_from_euler_angles2d(vector3d* vector, euler_angles2d const* angles);
 extern vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real w);
 

@@ -17,6 +17,11 @@ real __cdecl weapon_get_age(long weapon_index)
 	return result;
 }
 
+real __cdecl weapon_get_field_of_view_change_time(long weapon_index)
+{
+	return INVOKE(0x00B62B80, weapon_get_field_of_view_change_time, weapon_index);
+}
+
 bool __cdecl weapon_has_infinite_ammo(long weapon_index)
 {
 	bool result = false;
@@ -27,3 +32,4 @@ bool __cdecl weapon_has_infinite_ammo(long weapon_index)
 
 	return result;
 }
+

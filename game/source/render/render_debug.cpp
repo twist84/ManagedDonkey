@@ -1114,7 +1114,7 @@ void __cdecl render_debug_cone_outline(bool draw_immediately, real_point3d const
 	real_point3d cone_outline_points[10]{};
 	for (long i = 0; i < NUMBEROF(cone_outline_points); i++)
 	{
-		real angle = real(TWO_PI * i) / NUMBEROF(cone_outline_points);
+		real angle = (TWO_PI * i) / NUMBEROF(cone_outline_points);
 
 		real_point3d* outline_point = &cone_outline_points[i];
 		point_from_line3d(&vertex_on_cone, &perpendicular_to_cone_direction, (cone_vertex_offset * sinf(angle)), outline_point);
@@ -1647,7 +1647,7 @@ void __cdecl render_debug_build_circle_points(real radius, real_point2d* points,
 {
 	ASSERT(total_point_count > 0);
 
-	real angle = real(TWO_PI / (total_point_count - 1));
+	real angle = (TWO_PI / (total_point_count - 1));
 	real sin_angle = sinf(angle);
 	real cos_angle = cosf(angle);
 	set_real_point2d(points, radius, 0.0f);
