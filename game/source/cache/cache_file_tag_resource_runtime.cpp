@@ -184,6 +184,11 @@ HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);
 
 #endif // ISEXPERIMENTAL
 
+void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state)
+{
+	INVOKE(0x0055F8E0, cache_file_tag_resources_set_zone_state, scenario_index, zone_set_name, zone_state);
+}
+
 bool __cdecl tag_resource_available(s_tag_resource const* resource)
 {
 	return INVOKE(0x00563DC0, tag_resource_get, resource);

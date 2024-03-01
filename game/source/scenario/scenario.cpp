@@ -1,5 +1,6 @@
 #include "scenario/scenario.hpp"
 
+#include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_globals.hpp"
@@ -90,6 +91,11 @@ bool __cdecl scenario_activate_initial_zone_set(long zoneset_index)
 	return INVOKE(0x004E9990, scenario_activate_initial_zone_set, zoneset_index);
 }
 
+void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state)
+{
+	INVOKE(0x004EA1F0, scenario_get_global_zone_state, global_zone_state);
+}
+
 void __cdecl scenario_invalidate()
 {
 	return INVOKE(0x004EA3E0, scenario_invalidate);
@@ -130,9 +136,61 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	return false;
 }
 
+bool __cdecl scenario_load_resources_blocking(bool pending)
+{
+	return INVOKE(0x004EA730, scenario_load_resources_blocking, pending);
+
+	//bool succeeded = false;
+	//long failure_count = 0;
+	//while (!succeeded && failure_count < 3)
+	//{
+	//	c_simple_io_result io_result{};
+	//	//if (pending)
+	//	cache_file_tag_resources_load_pending_resources_blocking(&io_result);
+	//	//else
+	//	//	cache_file_tag_resources_load_required_resources_blocking(io_result);
+	//
+	//	if (io_result.check_success())
+	//	{
+	//		succeeded = true;
+	//	}
+	//	else if (++failure_count >= 3)
+	//	{
+	//		io_result.handle_failure();
+	//	}
+	//}
+	//
+	//return succeeded;
+}
+
 bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 {
-	return INVOKE(0x004EB260, scenario_preload_initial_zone_set, zone_set_index);
+	//return INVOKE(0x004EB260, scenario_preload_initial_zone_set, zone_set_index);
+
+	s_scenario* scenario = global_scenario_get();
+	if (VALID_INDEX(zone_set_index, scenario->zone_sets.count()))
+	{
+		s_scenario_zone_state zone_state{};
+		scenario_get_global_zone_state(&zone_state);
+
+		s_scenario_zone_set& zone_set = scenario->zone_sets[zone_set_index];
+		zone_state.pending_bsp_zone_mask |= zone_set.bsp_zone_flags;
+		zone_state.pending_cinematic_zone_mask |= zone_set.cinematic_zones;
+		zone_state.pending_designer_zone_mask |= zone_set.required_designer_zones;
+
+		string_id zone_set_name = _string_id_empty_string;
+		if (global_scenario_index_get() != NONE)
+		{
+			s_scenario* global_scenario = (s_scenario*)tag_get(SCENARIO_TAG, global_scenario_index_get());
+			if (VALID_INDEX(scenario_zone_set_index_get(), global_scenario->zone_sets.count()))
+				zone_set_name = global_scenario->zone_sets[scenario_zone_set_index_get()].name.get_value();
+		}
+
+		cache_file_tag_resources_set_zone_state(global_scenario_index_get(), zone_set_name, &zone_state);
+		return scenario_load_resources_blocking(true);
+	}
+
+	return true;
 }
 
 bool __cdecl scenario_switch_zone_set(long zoneset_index)

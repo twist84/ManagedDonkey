@@ -86,11 +86,11 @@ struct c_cache_file_streamed_sublocation_decompressor :
 };
 static_assert(sizeof(c_cache_file_streamed_sublocation_decompressor) == sizeof(c_cache_file_decompressor) + 0x18);
 
-struct s_cache_file_resource_runtime_active_game_state :
-	s_scenario_game_state
+struct s_cache_file_resource_runtime_active_zone_state :
+	s_scenario_zone_state
 {
 };
-static_assert(sizeof(s_cache_file_resource_runtime_active_game_state) == sizeof(s_scenario_game_state));
+static_assert(sizeof(s_cache_file_resource_runtime_active_zone_state) == sizeof(s_scenario_zone_state));
 
 struct s_cache_file_resource_prefetch_map_state
 {
@@ -308,7 +308,7 @@ struct c_cache_file_tag_resource_runtime_manager :
 	}
 
 	s_cache_file_resource_gestalt* m_resource_gestalt;
-	s_cache_file_resource_runtime_active_game_state m_active_game_state;
+	s_cache_file_resource_runtime_active_zone_state m_active_zone_state;
 	s_cache_file_resource_runtime_prefetching_state m_prefetching_state;
 
 	// #TODO: name this
@@ -349,6 +349,8 @@ extern c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_man
 extern bool __cdecl cache_file_tag_resources_prefetch_update_required();
 extern void __cdecl cache_file_tag_resources_update_prefetch_state();
 
+struct s_scenario_game_state;
+extern void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state);
 extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
 extern long __cdecl tag_resources_lock_game();

@@ -411,10 +411,9 @@ bool __cdecl main_game_load_map(game_options const* options)
 	main_game_internal_map_load_begin(reload_map);
 	if (scenario_load(options->campaign_id, options->map_id, scenario_path))
 	{
-		if (main_game_internal_map_load_complete(reload_map, options)
-			&& scenario_preload_initial_zone_set(options->initial_zone_set_index))
+		if (main_game_internal_map_load_complete(reload_map, options))
 		{
-			success = true;
+			success = scenario_preload_initial_zone_set(options->initial_zone_set_index);
 		}
 		else
 		{

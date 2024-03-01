@@ -15,6 +15,19 @@ struct s_scenario_game_state
 };
 static_assert(sizeof(s_scenario_game_state) == 0x20);
 
+struct s_scenario_zone_state
+{
+	bool using_designer_zones;
+	dword active_bsp_mask;
+	dword touched_bsp_mask;
+	dword active_designer_zone_mask;
+	dword active_cinematic_zone_mask;
+	dword pending_bsp_zone_mask;
+	dword pending_designer_zone_mask;
+	dword pending_cinematic_zone_mask;
+};
+static_assert(sizeof(s_scenario_zone_state) == 0x20);
+
 struct s_game_globals;
 struct structure_bsp;
 struct s_structure_design;
@@ -42,8 +55,10 @@ extern long __cdecl global_structure_bsp_next_active_index_get(long structure_bs
 extern s_structure_design* global_structure_design_get(long structure_bsp_index);
 extern bool __cdecl scenario_activate_initial_designer_zones(long zoneset_index);
 extern bool __cdecl scenario_activate_initial_zone_set(long zoneset_index);
+extern void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state);
 extern void __cdecl scenario_invalidate();
 extern bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path);
+extern bool __cdecl scenario_load_resources_blocking(bool a1);
 extern bool __cdecl scenario_preload_initial_zone_set(short zone_set_index);
 extern bool __cdecl scenario_switch_zone_set(long zoneset_index);
 extern long __cdecl scenario_zone_set_index_get();
