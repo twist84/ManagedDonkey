@@ -151,10 +151,15 @@ void __thiscall c_first_person_view::override_projection(bool first_person_squis
 		rasterizer_camera_modifiable->z_near *= aspect_ratio > 1.8f ? 2.4f : 3.2f;
 	}
 
+	real static_vertical_field_of_view = rasterizer_camera_modifiable->vertical_field_of_view * 0.78500003f;
+
 	real_rectangle2d frustum_bounds{};
 	render_camera_build_viewport_frustum_bounds(rasterizer_camera_modifiable, &frustum_bounds);
 	render_camera_build_projection(rasterizer_camera_modifiable, &frustum_bounds, render_projection_modifiable, 0.0f);
 	render_setup_window(rasterizer_camera_modifiable, render_projection_modifiable);
+
+	if (debug_static_first_person)
+		rasterizer_camera_modifiable->vertical_field_of_view = static_vertical_field_of_view;
 }
 
 void __cdecl render_debug_frame_render()

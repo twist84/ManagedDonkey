@@ -105,19 +105,6 @@ void __thiscall c_first_person_camera::_update(e_output_user_index output_user_i
 			result->flags |= FLAG(13);
 			biped_get_physics_pill(m_object_index, &result->physics_pill_position, &result->physics_pill_height, &result->physics_pill_radius);
 		}
-		else
-		{
-			result->position;
-			result->focus_offset;
-			result->crosshair_location;
-			result->focus_distance;
-			result->field_of_view;
-			result->forward;
-			result->up;
-			result->velocities;
-			result->focus_space;
-			result->center;
-		}
 	
 		object_get_center_of_mass(object_get_ultimate_parent(m_object_index), &result->center);
 		result->flags |= FLAG(10);
