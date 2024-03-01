@@ -101,9 +101,12 @@ extern long levels_get_default_multiplayer_map_id();
 extern long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name);
 extern char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long maximum_characters);
 extern bool __cdecl levels_map_id_is_fake(long map_id);
+extern void __cdecl levels_open_dlc(char const* scenario_path, bool a2);
+extern bool __cdecl levels_path_is_dlc(const char* scenario_path);
 
 extern void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
 extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
+extern bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level);
 extern bool __cdecl levels_try_and_get_multiplayer_map(long map_id, s_level_datum* level);
 
 

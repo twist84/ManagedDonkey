@@ -67,7 +67,7 @@ extern void __cdecl main_game_initialize();
 extern void __cdecl main_game_internal_close_caches();
 extern void __cdecl main_game_internal_map_load_abort(bool reload_map);
 extern void __cdecl main_game_internal_map_load_begin(bool reload_map);
-extern bool __cdecl main_game_internal_map_load_complete(bool a1, game_options const* options);
+extern bool __cdecl main_game_internal_map_load_complete(bool reload_map, game_options const* options);
 extern void __cdecl main_game_internal_map_unload_begin();
 extern void __cdecl main_game_internal_map_unload_complete();
 extern bool __cdecl main_game_internal_open_caches(game_options const* options);
@@ -98,4 +98,6 @@ extern void __cdecl main_menu_launch_force();
 //extern bool __cdecl map_memory_configuration_is_main_menu(e_map_memory_configuration configuration);
 //extern bool __cdecl map_memory_configuration_is_multiplayer(e_map_memory_configuration configuration);
 //extern bool __cdecl map_memory_configuration_is_saved_film(e_map_memory_configuration configuration);
+extern void __cdecl cache_files_copy_pause();
+extern void __cdecl cache_files_copy_resume();
 

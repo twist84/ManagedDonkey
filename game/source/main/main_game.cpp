@@ -1,14 +1,22 @@
 #include "main/main_game.hpp"
 
+#include "bink/bink_playback.hpp"
+#include "cache/cache_files_windows.hpp"
+#include "camera/director.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game.hpp"
 #include "input/input_windows.hpp"
+#include "interface/damaged_media.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "interface/user_interface_session.hpp"
 #include "main/global_preferences.hpp"
+#include "main/levels.hpp"
+#include "main/loading.hpp"
 #include "main/main.hpp"
 #include "main/main_game_launch.hpp"
 #include "main/main_render.hpp"
+#include "math/random_math.hpp"
 #include "memory/module.hpp"
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -285,9 +293,9 @@ void __cdecl main_game_internal_map_load_begin(bool reload_map)
 	INVOKE(0x00567540, main_game_internal_map_load_begin, reload_map);
 }
 
-bool __cdecl main_game_internal_map_load_complete(bool a1, game_options const* options)
+bool __cdecl main_game_internal_map_load_complete(bool reload_map, game_options const* options)
 {
-	return INVOKE(0x00567560, main_game_internal_map_load_complete, a1, options);
+	return INVOKE(0x00567560, main_game_internal_map_load_complete, reload_map, options);
 }
 
 void __cdecl main_game_internal_map_unload_begin()
@@ -337,12 +345,139 @@ void __cdecl main_game_launch_default_editor()
 
 bool __cdecl main_game_load_blocking(char const* scenario_path)
 {
-	return INVOKE(0x00567830, main_game_load_blocking, scenario_path);
+	//return INVOKE(0x00567830, main_game_load_blocking, scenario_path);
+
+	return main_load_map(scenario_path, 2);
+}
+
+void __cdecl main_tag_load_begin(long game_mode, long a2, char const* map_or_zone_name)
+{
+	ASSERT(map_or_zone_name);
+	ASSERT(!loading_globals.tag_load_in_progress);
+
+	//tag_load_missing_tags_reset();
+
+	loading_globals.tag_load_in_progress = true;
+	loading_globals.tag_load_time = system_milliseconds();
+}
+
+void __cdecl main_tag_load_end()
+{
+	ASSERT(loading_globals.tag_load_in_progress);
+
+	if (shell_application_type() == _shell_application_type_none)
+		tag_load_missing_tags_report();
+
+	loading_globals.tag_load_in_progress = false;
 }
 
 bool __cdecl main_game_load_map(game_options const* options)
 {
-	return INVOKE(0x00567850, main_game_load_map, options);
+	//return INVOKE(0x00567850, main_game_load_map, options);
+
+	assert_game_options_verify(options);
+	ASSERT(main_game_globals.game_loaded_status == _game_loaded_status_none);
+
+	bool success = false;
+	bool reload_map = false;
+	bool map_loaded = false;
+
+	char const* scenario_path = options->scenario_path.get_string();
+	long map_load_status = main_load_map_status(scenario_path);
+
+	if (map_load_status == 0 || map_load_status == 1)
+	{
+		main_game_unload_and_prepare_for_next_game(NULL);
+		main_game_pregame_blocking_load();
+	}
+
+	if (!main_kick_startup_masking_sequence(true) || !bink_playback_active())
+		loading_basic_progress_enable(scenario_path, options->campaign_insertion_point);
+
+	if (levels_path_is_dlc(scenario_path))
+		levels_open_dlc(scenario_path, true);
+
+	if (map_load_status != _map_load_status_loaded)
+	{
+		if (map_load_status == 0 || map_load_status == 1)
+		{
+			map_loaded = main_game_load_blocking(scenario_path);
+			main_game_internal_pregame_blocking_unload();
+			main_game_unload_and_prepare_for_next_game(options);
+		}
+	}
+
+	main_tag_load_begin(options->game_mode, NONE, scenario_path);
+	main_game_internal_map_load_begin(reload_map);
+	if (scenario_load(options->campaign_id, options->map_id, scenario_path))
+	{
+		if (main_game_internal_map_load_complete(reload_map, options)
+			&& scenario_preload_initial_zone_set(options->initial_zone_set_index))
+		{
+			success = true;
+		}
+		else
+		{
+			main_game_globals.game_loaded_status = _game_loaded_status_map_loaded_failure;
+		}
+	}
+
+	if (!success)
+		main_game_internal_map_load_abort(reload_map);
+
+	if ((map_load_status != _map_load_status_loaded && !map_loaded) || !success)
+		damaged_media_exception();
+
+	main_tag_load_end();
+
+	bink_notify_load_masking_complete();
+
+	bool resume_copy = false;
+	while (bink_playback_active())
+	{
+		if (main_game_is_exiting())
+			break;
+
+		input_update();
+		main_loop_pregame();
+		cache_files_copy_do_work();
+		if (bink_playback_using_io_during_map_load_masking() && !resume_copy)
+		{
+			cache_files_copy_pause();
+			resume_copy = true;
+		}
+	}
+
+	if (resume_copy)
+		cache_files_copy_resume();
+
+	// main_game_cleanup_loading_screen
+	if (loading_basic_progress_enabled())
+	{
+		loading_basic_progress_complete();
+		//if (c_rasterizer_loading_screen::active()) // function returns false, skipping for now
+		//{
+		//	bool keep_pumping = true;
+		//	while (keep_pumping)
+		//	{
+		//		long map_load_progress = 0;
+		//		e_session_game_start_status game_start_status{};
+		//		if (user_interface_squad_get_machine_count() <= 1
+		//			|| !user_interface_get_session_precaching_progress(&map_load_progress, &game_start_status)
+		//			|| game_start_status == _session_game_start_status_error
+		//			|| map_load_progress >= 100)
+		//		{
+		//			keep_pumping = !loading_basic_progress_keep_pumping();
+		//		}
+		//
+		//		main_loop_pregame();
+		//	}
+		//}
+		loading_basic_progress_disable();
+	}
+
+	ASSERT(main_game_globals.game_loaded_status == (success ? _game_loaded_status_map_loaded : _game_loaded_status_none));
+	return success;
 }
 
 void __cdecl main_game_load_panic()
@@ -516,4 +651,14 @@ void __cdecl main_menu_launch_force()
 //.text:00568290 ; bool __cdecl map_memory_configuration_is_main_menu(e_map_memory_configuration configuration)
 //.text:005682A0 ; bool __cdecl map_memory_configuration_is_multiplayer(e_map_memory_configuration configuration)
 //.text:005682C0 ; bool __cdecl map_memory_configuration_is_saved_film(e_map_memory_configuration configuration)
+
+void __cdecl cache_files_copy_pause()
+{
+	INVOKE(0x005AAEA0, cache_files_copy_pause);
+}
+
+void __cdecl cache_files_copy_resume()
+{
+	INVOKE(0x005AAEC0, cache_files_copy_resume);
+}
 

@@ -139,7 +139,7 @@ bool __cdecl main_blocking_load_in_progress(real* out_progress)
 }
 
 //bool __cdecl main_load_map(char const *,enum e_map_load_type)
-bool __cdecl main_load_map(char* scenario_path, long map_load_type)
+bool __cdecl main_load_map(char const* scenario_path, long map_load_type)
 {
 	//return INVOKE(0x0052F180, main_load_map, scenario_path, map_load_type);
 
@@ -171,13 +171,15 @@ real __cdecl main_load_map_loading_progress(long scenario_type, short a2, char c
 	return INVOKE(0x0052F1A0, main_load_map_loading_progress, scenario_type, a2, scenario_path);
 }
 
-//enum e_map_load_status __cdecl main_load_map_status(char const*)
+//e_map_load_status __cdecl main_load_map_status(char const* scenario_path)
 long __cdecl main_load_map_status(char const* scenario_path)
 {
-	return INVOKE(0x0052F250, main_load_map_status, scenario_path);
+	//return INVOKE(0x0052F250, main_load_map_status, scenario_path);
+
+	return main_load_map_status_with_insertion_point(NONE, scenario_path);
 }
 
-//enum e_map_load_status __cdecl main_load_map_status_with_insertion_point(short,char const *)
+//e_map_load_status __cdecl main_load_map_status_with_insertion_point(short insertion_point, char const* scenario_path)
 long __cdecl main_load_map_status_with_insertion_point(short insertion_point, char const* scenario_path)
 {
 	return INVOKE(0x0052F270, main_load_map_status_with_insertion_point, insertion_point, scenario_path);

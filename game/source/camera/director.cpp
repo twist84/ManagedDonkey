@@ -47,7 +47,12 @@ HOOK_DECLARE(0x00591F80, director_render);
 //.text:00591C40 ; void __cdecl director_initialize()
 //.text:00591CE0 ; void __cdecl director_initialize_for_new_map()
 //.text:00591DA0 ; void __cdecl director_initialize_for_saved_game(long)
-//.text:00591F20 ; void __cdecl director_notify_map_reset(void)
+
+void __cdecl director_notify_map_reset()
+{
+	INVOKE(0x00591F20, director_notify_map_reset);
+}
+
 //.text:00591F30 ; c_game_team director_player_get_team_index(long)
 //.text:00591F80 ; void __cdecl director_render()
 //.text:00592210 ; void __cdecl director_reset()

@@ -165,6 +165,16 @@ bool __cdecl levels_map_id_is_fake(long map_id)
 	return map_id == -2;
 }
 
+void __cdecl levels_open_dlc(char const* scenario_path, bool a2)
+{
+	INVOKE(0x0054C330, levels_open_dlc, scenario_path, a2);
+}
+
+bool __cdecl levels_path_is_dlc(const char* scenario_path)
+{
+	return INVOKE(0x0054C360, levels_path_is_dlc, scenario_path);
+}
+
 void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc)
 {
 	//HOOK_INVOKE(, levels_process_campaign_configuration_file, file, maps_path, is_dlc);
@@ -189,6 +199,12 @@ void __cdecl levels_process_level_configuration_file(s_file_reference* file, wch
 	levels_find_scenario_chunk(file, file_buffer, &level, &byte_swap);
 	if (level)
 		levels_add_level(level, byte_swap, maps_path, is_dlc);
+}
+
+//bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
+bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level)
+{
+	return INVOKE(0x0054CAD0, levels_try_and_get_main_menu_map, level);
 }
 
 //bool __cdecl levels_try_and_get_multiplayer_map(e_map_id map_id, s_level_datum* level)

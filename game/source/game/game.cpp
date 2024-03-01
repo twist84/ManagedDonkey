@@ -645,7 +645,11 @@ bool __cdecl game_options_valid()
 	return game_globals && (game_globals->initializing || game_globals->map_active);
 }
 
-//.text:00532680 ; void __cdecl game_options_validate(game_options* options)
+void __cdecl game_options_validate(game_options* options)
+{
+	INVOKE(0x00532680, game_options_validate, options);
+}
+
 //.text:005326B0 ; void __cdecl game_options_validate_for_saved_game(long)
 
 bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length)

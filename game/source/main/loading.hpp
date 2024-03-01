@@ -3,6 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "text/unicode.hpp"
 
+enum e_map_load_status
+{
+	_map_load_status_loaded = 3,
+};
+
 enum e_basic_loading_phase
 {
 	_basic_loading_phase_none = NONE,
@@ -49,7 +54,7 @@ extern void __cdecl loading_basic_progress_update_fraction(real progress_fractio
 extern void __cdecl loading_basic_progress_update_phase_sizes();
 extern void __cdecl loading_basic_progress_update_size(dword update_size);
 extern bool __cdecl main_blocking_load_in_progress(real* out_progress);
-extern bool __cdecl main_load_map(char* scenario_path, long map_load_type);
+extern bool __cdecl main_load_map(char const* scenario_path, long map_load_type);
 extern real __cdecl main_load_map_loading_progress(long scenario_type, short a2, char const* scenario_path);
 extern long __cdecl main_load_map_status(char const* scenario_path);
 extern long __cdecl main_load_map_status_with_insertion_point(short insertion_point, char const* scenario_path);

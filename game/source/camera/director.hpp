@@ -24,6 +24,8 @@ enum e_director_mode : long
 };
 
 enum e_controller_index;
+
+extern void __cdecl director_notify_map_reset();
 extern bool __cdecl camera_input_inhibited(e_controller_index controller_index);
 extern void __cdecl director_update(real world_seconds_elapsed);
 extern const char* director_mode_get_name(e_director_mode director_mode);

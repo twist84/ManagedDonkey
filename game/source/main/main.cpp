@@ -1883,7 +1883,7 @@ void __cdecl main_write_stack_to_crash_info_status_file(char const* crash_info, 
 			file_write(&crash_info_output_file, last_accessed.length(), last_accessed.get_string());
 		}
 
-		if (last_resource_owner != NONE)
+		if (last_resource_owner != NONE && g_cache_file_globals.resource_gestalt != NULL)
 		{
 			for (s_cache_file_tag_resource_data* resource : g_cache_file_globals.resource_gestalt->resources)
 			{

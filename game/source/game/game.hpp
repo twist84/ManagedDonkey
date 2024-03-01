@@ -147,7 +147,7 @@ extern void __cdecl game_options_setup_default_players(long player_count, game_o
 //extern void __cdecl game_options_setup_for_playback(e_game_playback_type);
 //void __cdecl game_options_setup_for_saved_film(e_game_playback_type);
 extern bool __cdecl game_options_valid();
-//extern void __cdecl game_options_validate(game_options* options);
+extern void __cdecl game_options_validate(game_options* options);
 //extern void __cdecl game_options_validate_for_saved_game(long);
 extern bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length);
 extern e_game_playback_type __cdecl game_playback_get();

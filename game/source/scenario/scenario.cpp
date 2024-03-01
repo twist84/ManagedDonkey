@@ -100,6 +100,8 @@ void on_scenario_loaded();
 //bool __cdecl scenario_load(enum e_campaign_id, enum e_map_id, char const*)
 bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path)
 {
+	//return INVOKE(0x004EA5E0, scenario_load, campaign_id, map_id, scenario_path);
+
 	//bool result = false;
 	//HOOK_INVOKE(result =, scenario_load, campaign_id, map_id, scenario_path);
 	//return result;
@@ -128,9 +130,19 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	return false;
 }
 
+bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
+{
+	return INVOKE(0x004EB260, scenario_preload_initial_zone_set, zone_set_index);
+}
+
 bool __cdecl scenario_switch_zone_set(long zoneset_index)
 {
 	return INVOKE(0x004EB620, scenario_switch_zone_set, zoneset_index);
+}
+
+long __cdecl scenario_zone_set_index_get()
+{
+	return INVOKE(0x004EBA20, scenario_zone_set_index_get);
 }
 
 char const* scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
