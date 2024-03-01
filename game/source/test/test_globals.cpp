@@ -127,7 +127,7 @@ void __cdecl test_main_loop_body_begin()
 		g_font_globals;
 		g_font_package_cache;
 		g_game_results_globals;
-		g_global_preferences;
+		g_global_preferences_internal;
 		g_gui_error_manager;
 		g_havok_component_data;
 		g_havok_globals;
