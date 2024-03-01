@@ -314,8 +314,8 @@ struct c_cache_file_tag_resource_runtime_manager :
 	// #TODO: name this
 	bool __unknown260;
 
-	bool m_resources_required;
-	bool m_resources_pending;
+	bool m_resources_required; // m_dirty_active_resource_mask?
+	bool m_resources_pending;  // m_dirty_pending_resource_mask?
 	bool m_resources_loading;
 
 	c_typed_allocation_data_no_destruct<c_tag_resource_cache_dynamic_predictor, 0> m_dynamic_predictor;
