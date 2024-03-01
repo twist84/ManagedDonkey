@@ -22,8 +22,6 @@ REFERENCE_DECLARE(0x022AAEC4, dword, g_active_designer_zone_mask);
 REFERENCE_DECLARE(0x022AAEC8, dword, g_active_cinematic_zone_mask);
 REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
 
-HOOK_DECLARE(0x004EA5E0, scenario_load);
-
 s_scenario* global_scenario_get()
 {
 	// halo 3
