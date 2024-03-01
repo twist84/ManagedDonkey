@@ -61,6 +61,7 @@ struct s_controller_globals
 static_assert(sizeof(s_controller_globals) == 0x5120);
 
 extern s_controller_globals& g_controller_globals;
+extern bool controller_centered_crosshair;
 
 enum e_window_index;
 enum e_controller_index;
@@ -69,4 +70,5 @@ extern c_controller_interface* __cdecl controller_get(e_controller_index control
 extern e_window_index __cdecl controller_get_game_render_window(e_controller_index controller_index);
 extern e_controller_index __cdecl controller_index_from_output_user_index(e_output_user_index output_user_index);
 extern void __cdecl controllers_render();
+extern bool __cdecl controller_has_centered_crosshair(e_controller_index controller_index);
 

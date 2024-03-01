@@ -5,6 +5,7 @@
 #include "game/player_control.hpp"
 #include "game/player_mapping.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/chud/cortana_effect.hpp"
 #include "items/weapons.hpp"
 #include "main/global_preferences.hpp"
@@ -73,8 +74,15 @@ void __thiscall c_first_person_camera::_update(e_output_user_index output_user_i
 			first_person_camera_for_unit_and_vector(m_object_index, &forward, result);
 		}
 	
-		if (scenario_get_game_globals()->player_control.count())
-			set_real_point2d(&result->crosshair_location, 1.0f, scenario_get_game_globals()->player_control[0].crosshair_location.y);
+		if (controller_has_centered_crosshair(controller_index))
+		{
+			set_real_point2d(&result->crosshair_location, 1.0f, 0.0f);
+		}
+		else
+		{
+			if (scenario_get_game_globals()->player_control.count())
+				set_real_point2d(&result->crosshair_location, 1.0f, scenario_get_game_globals()->player_control[0].crosshair_location.y);
+		}
 
 		real camera_fov = fminf(fmaxf(global_preferences_get_camera_fov(), 70.0f), 120.0f);
 	

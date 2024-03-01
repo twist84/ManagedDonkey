@@ -156,7 +156,7 @@ struct c_first_person_view :
 public:
 	void __thiscall override_projection(bool first_person_squish);
 
-protected:
+//protected:
 
 	// c_first_person_camera::update
 	// c_first_person_view::override_projection

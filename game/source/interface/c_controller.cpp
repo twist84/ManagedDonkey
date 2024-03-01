@@ -4,27 +4,7 @@
 
 REFERENCE_DECLARE(0x0524EC48, s_controller_globals, g_controller_globals);
 
-#if defined(_DEBUG)
-
-// simulate added controllers
-c_controller_interface* __cdecl controller_get_hook(e_controller_index controller_index)
-{
-	c_controller_interface* controller = controller_get(controller_index);
-	if (false && !controller->is_attached())
-	{
-		// set attached bit
-		controller->m_state_flags.set(c_controller_interface::_controller_state_flag_attached, true);
-		controller->m_user_index = (short)controller_index;
-		controller->m_display_name.print(L"Player%hd", controller->m_user_index + 1);
-	}
-
-	return controller;
-}
-
-// c_gui_active_roster_data::update_press_a_to_join_slots
-HOOK_DECLARE_CALL(0x00B25952, controller_get_hook);
-
-#endif // _DEBUG
+bool controller_centered_crosshair = false;
 
 c_controller_interface* __cdecl controller_get(e_controller_index controller_index)
 {
@@ -50,6 +30,11 @@ e_controller_index __cdecl controller_index_from_output_user_index(e_output_user
 void __cdecl controllers_render()
 {
 	INVOKE(0x00A7D180, controllers_render);
+}
+
+bool __cdecl controller_has_centered_crosshair(e_controller_index controller_index)
+{
+	return controller_centered_crosshair;
 }
 
 bool c_controller_interface::is_attached()

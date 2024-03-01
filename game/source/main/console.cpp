@@ -6,6 +6,7 @@
 #include "effects/contrails.hpp"
 #include "game/cheats.hpp"
 #include "hs/hs_runtime.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
 #include "interface/user_interface.hpp"
@@ -726,6 +727,8 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_statistics, debug_game_time_statistics),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(static_fp_fov, debug_static_first_person),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(centered_crosshair, controller_centered_crosshair),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL2(reduce_widescreen_fov_during_cinematics, g_reduce_widescreen_fov_during_cinematics),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_aspect_ratio_scale),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),
