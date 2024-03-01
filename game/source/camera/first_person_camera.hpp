@@ -7,7 +7,7 @@ struct c_first_person_camera :
 {
 	real m_field_of_view;
 	euler_angles2d m_facing;
-	bool __unknown1C;
+	bool m_allow_controlled_facing;
 
 	void constructor(long unit_index)
 	{

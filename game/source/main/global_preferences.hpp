@@ -345,6 +345,8 @@ struct s_global_preferences_internals_type
 };
 static_assert(sizeof(s_global_preferences_internals_type) == 0x84030);
 
+extern s_global_preferences_internals_type& g_global_preferences_internal;
+
 extern s_global_preferences_internals_type* __cdecl global_preferences_get();
 extern void __cdecl global_preferences_dirty(bool dirty);
 extern bool __cdecl global_preferences_are_dirty();

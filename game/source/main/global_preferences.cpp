@@ -1,11 +1,14 @@
 #include "main/global_preferences.hpp"
 
 #include "interface/user_interface.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/threads.hpp"
 #include "rasterizer/rasterizer.hpp"
 
-s_global_preferences_internals_type* g_global_preferences = reinterpret_cast<s_global_preferences_internals_type*>(0x022C0128);
+REFERENCE_DECLARE(0x022C0128, s_global_preferences_internals_type, g_global_preferences_internal);
+
+HOOK_DECLARE(0x0050AA30, global_preferences_get_camera_fov);
 
 c_global_preferences_scope_lock::c_global_preferences_scope_lock() :
 	m_took_lock(0)
