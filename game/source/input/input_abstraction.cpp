@@ -24,7 +24,7 @@ HOOK_DECLARE(0x0060C390, input_abstraction_initialize);
 //HOOK_DECLARE(0x0060C4A0, sub_60C4A0);
 //HOOK_DECLARE(0x0060C6D0, sub_60C6D0);
 HOOK_DECLARE(0x0060CE40, input_abstraction_latch_all_buttons);
-HOOK_DECLARE(0x0060CE70, sub_60CE70);
+//HOOK_DECLARE(0x0060CE70, sub_60CE70);
 //HOOK_DECLARE_CALL(0x0060D9AA, sub_60D160); //HOOK_DECLARE(0x0060D160, sub_60D160);
 HOOK_DECLARE(0x0060D620, sub_60D620);
 HOOK_DECLARE(0x0060D7A0, input_abstraction_reset_controller_detection_timer);
