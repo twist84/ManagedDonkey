@@ -324,13 +324,13 @@ void __cdecl player_control_update_machinima()
 		{
 			if (input_state->get_button(_button_action_crouch).down_frames() && input_state->get_button(_button_action_zoom).down_frames())
 			{
-				if (input_state->get_button(_button_action_unknown37).down_frames() == 1)
+				if (input_state->get_button(_button_action_unknown37).down_frames() == 1) // dpad left
 				{
 					player_control_globals->machinima_camera_use_old_controls = !player_control_globals->machinima_camera_use_old_controls;
 					//user_interface_play_sound(_user_interface_sound_effect_x_button, NONE);
 				}
 
-				if (input_state->get_button(_button_action_unknown38).down_frames() == 1)
+				if (input_state->get_button(_button_action_unknown38).down_frames() == 1) // dpad right
 				{
 					player_control_globals->machinima_camera_debug = !player_control_globals->machinima_camera_debug;
 					//user_interface_play_sound(_user_interface_sound_effect_x_button, NONE);

@@ -293,10 +293,10 @@ enum e_button_action
 	_button_action_lean_left,
 	_button_action_lean_right, // sprint
 	_button_action_flashlight,
-	_button_action_unknown35,
-	_button_action_unknown36,
-	_button_action_unknown37,
-	_button_action_unknown38,
+	_button_action_unknown35, // dpad up
+	_button_action_unknown36, // dpad down
+	_button_action_unknown37, // dpad left
+	_button_action_unknown38, // dpad right
 	_button_action_general_chat,
 	_button_action_team_chat,
 	_button_action_voice_chat,
