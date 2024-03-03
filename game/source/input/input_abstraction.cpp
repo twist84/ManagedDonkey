@@ -305,28 +305,25 @@ void __cdecl sub_60C4A0(s_gamepad_input_preferences* preferences, s_game_input_s
 	{
 		long key_index = i % k_button_action_count_keyboard;
 
-		e_key_code key_code = preferences->keyboard_preferences.keys_primary[key_index];
-		if (i >= k_button_action_count_keyboard)
-			key_code = preferences->keyboard_preferences.keys_alternative[key_index];
+		e_key_code key_code = (i < k_button_action_count_keyboard ? preferences->keyboard_preferences.keys_primary : preferences->keyboard_preferences.keys_alternative)[key_index];
+		if ((short)key_code != 0xFF)
+		{
+			e_input_type input_type = _input_type_game;
+			if (i == _key_code_f6 || i == _key_code_f7)
+				input_type = _input_type_special;
 
-		if ((short)key_code == 0xFF)
-			continue;
+			if (i == _key_code_left_shift || i == _key_code_enter)
+				input_type = _input_type_ui;
 
-		e_input_type input_type = _input_type_game;
-		if (i == _key_code_f6 || i == _key_code_f7)
-			input_type = _input_type_special;
+			if (i == _key_code_z)
+				input_type = _input_type_ui;
 
-		if (i == _key_code_left_shift || i == _key_code_enter)
-			input_type = _input_type_ui;
+			word down_msec = MAX(input_state->abstract_buttons[key_index].down_msec(), input_key_msec_down(key_code, input_type));
+			byte down_frames = MAX(input_state->abstract_buttons[key_index].down_frames(), input_key_frames_down(key_code, input_type));
+			byte down_amount = MAX((byte)input_state->abstract_buttons[key_index].down_amount(), input_key_frames_down(key_code, input_type));
 
-		if (i == _key_code_z)
-			input_type = _input_type_ui;
-
-		word down_msec = MAX(input_state->abstract_buttons[key_index].down_msec(), input_key_msec_down(key_code, input_type));
-		byte down_frames = MAX(input_state->abstract_buttons[key_index].down_frames(), input_key_frames_down(key_code, input_type));
-		byte down_amount = MAX((byte)input_state->abstract_buttons[key_index].down_amount(), input_key_frames_down(key_code, input_type));
-
-		input_state->abstract_buttons[key_index].update(down_msec, down_frames, down_amount);
+			input_state->abstract_buttons[key_index].update(down_msec, down_frames, -(down_amount != 0));
+		}
 	}
 }
 
@@ -400,12 +397,9 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 
 	for (long i = 0; i < k_button_action_count * 2; i++)
 	{
-		long mouse_button_index = i < k_button_action_count ? i : i - k_button_action_count;
+		long mouse_button_index = i % k_button_action_count;
 
-		e_mouse_button mouse_button = preferences->keyboard_preferences.mouse_buttons_primary[mouse_button_index];
-		if (i >= k_button_action_count)
-			mouse_button = preferences->keyboard_preferences.mouse_buttons_alternative[mouse_button_index];
-
+		e_mouse_button mouse_button = (i < k_button_action_count ? preferences->keyboard_preferences.mouse_buttons_primary : preferences->keyboard_preferences.mouse_buttons_alternative)[mouse_button_index];
 		if (mouse_button < k_mouse_button_count)
 		{
 			word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), input_mouse_msec_down(mouse_button, _input_type_game));
@@ -413,21 +407,27 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 			byte down_amount = MAX((byte)input_state->abstract_buttons[mouse_button_index].down_amount(), input_mouse_frames_down(mouse_button, _input_type_game));
 
 			input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
-			continue;
 		}
+		else
+		{
+			mouse_state* state = input_get_mouse_state(_input_type_ui);
+			if (state && !input_type_suppressed(_input_type_game))
+			{
+				if (mouse_button == _mouse_button_wheel_up)
+				{
+					if (state->wheel_ticks <= 0)
+						continue;
+				}
+				else if (mouse_button != _mouse_button_wheel_down || state->wheel_ticks >= 0)
+					continue;
+			}
 
-		mouse_state* state = input_get_mouse_state(_input_type_ui);
-		if (!state || input_type_suppressed(_input_type_game))
-			continue;
+			byte down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), 1);
+			word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), 1);
+			byte down_amount = 255;
 
-		if ((mouse_button != _mouse_button_wheel_up && mouse_button != _mouse_button_wheel_down) || state->wheel_ticks == 0)
-			continue;
-
-		word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), 1);
-		byte down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), 1);
-		byte down_amount = 255;
-
-		input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
+			input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
+		}
 	}
 }
 
@@ -569,15 +569,17 @@ byte c_abstract_button::down_frames() const
 
 void c_abstract_button::set_latch_bit(bool set_bit)
 {
-	if (set_bit)
-		m_flags |= (1 << 0);
-	else
-		m_flags |= ~(1 << 0);
+	SET_BIT(m_flags, 0, set_bit);
 }
 
 void c_abstract_button::latch()
 {
 	set_latch_bit(true);
+}
+
+bool c_abstract_button::is_down()
+{
+	return down_frames() != 0;
 }
 
 c_abstract_button& s_game_input_state::get_button(e_button_action button_index)

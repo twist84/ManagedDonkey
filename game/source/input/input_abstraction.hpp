@@ -51,6 +51,7 @@ public:
 	byte down_frames() const;
 	void set_latch_bit(bool set_bit);
 	void latch();
+	bool is_down();
 
 protected:
 	word m_down_msec;
