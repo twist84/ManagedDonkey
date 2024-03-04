@@ -811,7 +811,7 @@ void __cdecl main_loop_body_main_part()
 						//xbox_connection_update();
 						remote_command_process();
 						debug_menu_update();
-						//cinematic_debug_camera_control_update();
+						cinematic_debug_camera_control_update();
 					}
 	
 					{

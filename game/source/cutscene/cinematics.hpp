@@ -35,5 +35,6 @@ extern void __cdecl cinematic_game_pause_handler(bool paused);
 extern bool __cdecl cinematic_in_progress();
 extern void __cdecl cinematic_update();
 extern void __cdecl cinematics_game_tick();
+extern void __cdecl cinematic_debug_camera_control_update();
 extern void __cdecl draw_quad(short_rectangle2d* rect, dword color);
 
