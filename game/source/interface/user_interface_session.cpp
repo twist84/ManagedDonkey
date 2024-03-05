@@ -161,6 +161,7 @@ long __cdecl user_interface_squad_get_machine_count()
 //.text:00A82F90 ; long __cdecl user_interface_session_get_player_index(s_player_identifier const* player_identifier)
 //.text:00A83020 ; long __cdecl user_interface_squad_get_player_join_sequence_number(long player_index)
 //.text:00A83110 ; e_network_session_class __cdecl user_interface_squad_get_session_class()
+//.text:00A83120 ; bool __cdecl user_interface_squad_get_session_id(s_transport_secure_identifier* session_id)
 //.text:00A83160 ; wchar_t const* __cdecl user_interface_squad_get_session_name()
 //.text:00A83170 ; e_network_game_start_mode __cdecl user_interface_squad_get_start_mode()
 
