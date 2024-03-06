@@ -276,7 +276,7 @@ struct s_thread_local_storage
 
 	// name: "campaign meta-game globals"
 	// size: 0x1A158
-	s_campaign_metagame_runtime_globals* g_campaign_metagame_globals;
+	s_campaign_metagame_runtime_globals* g_campaign_metagame_runtime_globals;
 
 	// name: "observer gamestate globals"
 	// size: 0xC
