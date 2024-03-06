@@ -4,6 +4,7 @@
 #include "cache/cache_files_windows.hpp"
 #include "camera/director.hpp"
 #include "cseries/cseries.hpp"
+#include "game/campaign_metagame.hpp"
 #include "game/game.hpp"
 #include "input/input_windows.hpp"
 #include "interface/damaged_media.hpp"
@@ -198,67 +199,106 @@ bool __cdecl main_game_change_in_progress()
 	return main_game_globals.change_in_progress;
 }
 
-//// functions for `main_game_change_update`
-//
-//bool __cdecl campaign_metagame_sub_60B080()
-//{
-//	return INVOKE(0x0060B080, campaign_metagame_sub_60B080);
-//}
-//
-//void __cdecl carnage_report_transition_out()
-//{
-//	INVOKE(0x0060AFD0, carnage_report_transition_out);
-//}
+// functions for `main_game_change_update`
+
+void __cdecl carnage_report_transition_out()
+{
+	INVOKE(0x0060AFD0, carnage_report_transition_out);
+
+	//if (c_gui_screen_widget* screen = window_manager_get()->get_screen_by_name(_window_index4, STRING_ID(gui, carnage_report)))
+	//	sub_AB2830(screen, 0);
+}
 
 void __cdecl main_game_change_update()
 {
-	INVOKE(0x005670F0, main_game_change_update);
+	//INVOKE(0x005670F0, main_game_change_update);
 
-	////main_game_editor_world_controller_update();
-	//
-	//if (main_game_globals.request_level_advance && !campaign_metagame_sub_60B080())
-	//{
-	//	bool is_leader = false;
-	//
-	//	if (game_is_playback())
-	//	{
-	//		carnage_report_transition_out();
-	//	}
-	//	else if ((!game_in_progress()
-	//		|| !game_is_campaign()
-	//		|| game_is_survival()
-	//		|| main_game_globals.gp_level_advance_type
-	//		|| !main_game_goto_next_level())
-	//		&& (!network_squad_session_controls_coop_game_options(&is_leader) || is_leader))
-	//	{
-	//		if (!game_in_progress() || !game_is_ui_shell())
-	//			simulation_end(_simulation_abort_reason_failed_to_find_next_map);
-	//
-	//		if (!user_interface_reset_networking_to_pregame())
-	//			main_menu_launch();
-	//	}
-	//
-	//	main_game_globals.request_level_advance = false;
-	//}
-	//
-	//if (main_game_globals.change_in_progress)
-	//{
-	//	if (main_game_globals.game_load_pending)
-	//	{
-	//		if (main_game_globals.game_loaded_status != _game_loaded_status_pregame)
-	//			main_game_change_immediate(NULL);
-	//	}
-	//	else
-	//	{
-	//		main_game_change_immediate(&main_game_globals.game_loaded_options);
-	//	}
-	//
-	//	sub_5129B0();
-	//
-	//	main_game_globals.change_in_progress = false;
-	//	main_game_globals.game_load_pending = false;
-	//	main_game_globals.__unknown120 = 0;
-	//}
+	//main_game_editor_world_controller_update();
+
+	// #TODO: test campaign for following code path
+	if (main_game_globals.request_level_advance && !sub_60B080())
+	{
+		if (game_is_playback())
+		{
+			carnage_report_transition_out();
+		}
+		//else if (!game_in_progress() || !game_is_campaign() || (main_game_goto_next_level(), !v0))
+		else
+		{
+			bool goto_next_level = false;
+
+			if (game_in_progress() && game_is_campaign() && !game_is_survival())
+			{
+				// ODST
+				e_game_progression_level map_advance_type = main_game_globals.gp_level_advance_type;
+				switch (map_advance_type)
+				{
+				case _game_progression_level_none:
+					goto_next_level = main_game_goto_next_level();
+					break;
+					//case _game_progression_level_normal:
+					//	goto_next_level = ;
+					//	break;
+					//case _game_progression_level_hub_and_level_is_hub:
+					//	goto_next_level = ;
+					//	break;
+					//case _game_progression_level_spoke_and_level_is_spoke:
+					//	goto_next_level = ;
+					//	break;
+					//default:
+					//{
+					//	//generate_event(_event_level_error, "networking:main_game: invalid map advance type %d!", map_advance_type);
+					//	c_console::write_line("networking:main_game: invalid map advance type %d!", map_advance_type);
+					//}
+					//break;
+				}
+			}
+
+			if (!goto_next_level)
+			{
+				bool is_leader = false;
+				if (!network_squad_session_controls_coop_game_options(&is_leader) || is_leader)
+				{
+					//generate_event(_event_level_message, "networking:main_game: congratulations, you won the game! or, the next map failed to load");
+					c_console::write_line("networking:main_game: congratulations, you won the game! or, the next map failed to load");
+
+					if (game_in_progress() && game_is_ui_shell())
+					{
+						//generate_event(_event_level_message, "networking:main_game: already in the ui, not ending the simulation");
+						c_console::write_line("networking:main_game: already in the ui, not ending the simulation");
+					}
+					else
+					{
+						simulation_end(_simulation_abort_reason_failed_to_find_next_map);
+					}
+
+					if (!user_interface_reset_networking_to_pregame())
+						main_menu_launch();
+				}
+			}
+		}
+	
+		main_game_globals.request_level_advance = false;
+	}
+	
+	if (main_game_globals.change_in_progress)
+	{
+		if (main_game_globals.game_load_pending)
+		{
+			if (!main_game_loaded_pregame())
+				main_game_change_immediate(NULL);
+		}
+		else
+		{
+			main_game_change_immediate(&main_game_globals.game_loaded_options);
+		}
+	
+		sub_5129B0();
+	
+		main_game_globals.change_in_progress = false;
+		main_game_globals.game_load_pending = false;
+		main_game_globals.__unknown120 = 0;
+	}
 }
 
 //.text:00567200 ; void __cdecl main_game_configure_map_memory(game_options const* options)

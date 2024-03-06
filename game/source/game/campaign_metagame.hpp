@@ -17,3 +17,5 @@ struct s_campaign_metagame_runtime_globals
 };
 static_assert(sizeof(s_campaign_metagame_runtime_globals) == 0x1A158);
 
+extern bool __cdecl sub_60B080();
+

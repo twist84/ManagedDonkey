@@ -167,6 +167,7 @@ POPD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\camera\first_person_camera.cpp" />
+    <ClCompile Include="source\game\campaign_metagame.cpp" />
     <ClCompile Include="source\game\game_engine_scoring.cpp" />
     <ClCompile Include="source\game\game_grief.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
