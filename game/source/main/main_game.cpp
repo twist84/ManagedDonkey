@@ -194,7 +194,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 
 bool __cdecl main_game_change_in_progress()
 {
-	return INVOKE(0x005670E0, main_game_change_in_progress);
+	//return INVOKE(0x005670E0, main_game_change_in_progress);
 
 	return main_game_globals.change_in_progress;
 }
@@ -595,10 +595,49 @@ void __cdecl main_game_notify_language_change(e_language language)
 	INVOKE(0x00567BF0, main_game_notify_language_change, language);
 }
 
-//.text:00567C10 ; unknown main_game_progression
-//.text:00567C30 ; unknown main_game_progression
-//.text:00567C50 ; unknown main_game_progression
-//.text:00567C70 ; unknown main_game_progression
+void __cdecl main_game_progression_request_level_advance_spoke(long gp_level_index)
+{
+	//INVOKE(0x00567C10, main_game_progression_request_level_advance_spoke, gp_level_index);
+
+	ASSERT(game_is_campaign());
+
+	main_game_globals.gp_level_advance_type = _game_progression_level_spoke_and_level_is_spoke;
+	main_game_globals.gp_level_block_index = gp_level_index;
+	main_game_globals.request_level_advance = true;
+}
+
+void __cdecl main_game_progression_request_level_advance()
+{
+	//INVOKE(0x00567C30, main_game_progression_request_level_advance);
+
+	ASSERT(game_is_campaign());
+
+	main_game_globals.gp_level_advance_type = _game_progression_level_none;
+	main_game_globals.request_level_advance = true;
+}
+
+void __cdecl main_game_progression_request_level_advance_hub(long gp_level_index)
+{
+	//INVOKE(0x00567C50, main_game_progression_request_level_advance_hub, gp_level_index);
+
+	ASSERT(game_is_campaign());
+
+	main_game_globals.gp_level_advance_type = _game_progression_level_hub_and_level_is_hub;
+	main_game_globals.gp_level_block_index = gp_level_index;
+	main_game_globals.request_level_advance = true;
+}
+
+void __cdecl main_game_progression_request_level_advance_normal(long gp_level_index)
+{
+	//INVOKE(0x00567C70, main_game_progression_request_level_advance_normal, gp_level_index);
+
+	ASSERT(game_is_campaign());
+
+	main_game_globals.gp_level_advance_type = _game_progression_level_normal;
+	main_game_globals.gp_level_block_index = gp_level_index;
+	main_game_globals.request_level_advance = true;
+}
+
 
 bool __cdecl main_game_reset_in_progress()
 {
