@@ -9,6 +9,18 @@
 #include "tag_files/tag_groups.hpp"
 #include "tag_files/tag_resource_internals.hpp"
 
+enum e_cache_file_shared_section
+{
+	_cache_file_shared_section_tags = 0,
+	_cache_file_shared_section_resources,
+	_cache_file_shared_section_textures,
+	_cache_file_shared_section_textures_b,
+	_cache_file_shared_section_audio,
+	_cache_file_shared_section_video,
+
+	k_number_of_cache_file_shared_sections
+};
+
 enum e_cache_file_section
 {
 	_cache_file_section_debug = 0,
@@ -51,12 +63,15 @@ union s_cache_file_header
 
 		long_string source_file;
 		c_static_string<k_tag_string_length> build;
+
 		short scenario_type;
 		short scenario_load_type;
+
 		bool __unknown140;
 		bool tracked_build;
 		bool has_insertion_points;
 		byte_flags header_flags;
+
 		s_file_last_modification_date modification_date;
 
 		byte __data14C[0xC];
@@ -65,32 +80,42 @@ union s_cache_file_header
 		long string_id_string_storage_length;
 		long string_id_index_buffer;
 		long string_id_string_storage;
+
 		dword_flags shared_file_flags; // bool uses_shared_map[shared_file_count];
 		s_file_last_modification_date creation_time;
-		s_file_last_modification_date shared_file_times[6];
+		c_static_array<s_file_last_modification_date, k_number_of_cache_file_shared_sections> shared_file_times;
+
 		c_static_string<k_tag_string_length> name;
 		c_enum<e_language, long, _language_invalid, k_language_count> game_language;
 		long_string relative_path;
 		long minor_version;
+
 		long debug_tag_name_count;
 		long debug_tag_name_buffer;
 		long debug_tag_name_buffer_length;
 		long debug_tag_name_offsets;
+
 		s_cache_file_section_file_bounds reports;
 
 		byte __data2E4[0x4];
+
 		c_static_string<k_tag_string_length> author;
+
 		byte __data308[0x18];
 
 		s_network_http_request_hash hash;
 		s_rsa_signature rsa_signature;
+
 		c_static_array<long, k_number_of_cache_file_sections> section_offsets;
 		c_static_array<s_cache_file_section_file_bounds, k_number_of_cache_file_sections> original_section_bounds;
+
 		s_cache_file_shared_resource_usage shared_resource_usage;
 		long insertion_point_resource_usage_count; // `has_insertion_points`
 		c_static_array<s_cache_file_insertion_point_resource_usage, 9> insertion_point_resource_usage;
+
 		long tag_cache_offsets;
 		long tag_count;
+
 		long map_id;
 		long scenario_index;
 		long cache_file_resource_gestalt_index; // 'zone' tags don't exist in ms23
