@@ -9,16 +9,16 @@
 #include "tag_files/tag_groups.hpp"
 #include "tag_files/tag_resource_internals.hpp"
 
-enum e_cache_file_shared_section
+enum e_cache_file_shared_file_type
 {
-	_cache_file_shared_section_tags = 0,
-	_cache_file_shared_section_resources,
-	_cache_file_shared_section_textures,
-	_cache_file_shared_section_textures_b,
-	_cache_file_shared_section_audio,
-	_cache_file_shared_section_video,
+	_cache_file_shared_file_type_tags = 0,
+	_cache_file_shared_file_type_resources,
+	_cache_file_shared_file_type_textures,
+	_cache_file_shared_file_type_textures_b,
+	_cache_file_shared_file_type_audio,
+	_cache_file_shared_file_type_video,
 
-	k_number_of_cache_file_shared_sections
+	k_number_of_cache_file_shared_file_types
 };
 
 enum e_cache_file_section
@@ -81,9 +81,12 @@ union s_cache_file_header
 		long string_id_index_buffer;
 		long string_id_string_storage;
 
-		dword_flags shared_file_flags; // bool uses_shared_map[shared_file_count];
+		// bool uses_shared_map[shared_file_count];
+		// c_flags<e_cache_file_shared_file_type, byte, k_number_of_cache_file_shared_file_types> shared_file_flags;
+		byte_flags shared_file_flags;
+
 		s_file_last_modification_date creation_time;
-		c_static_array<s_file_last_modification_date, k_number_of_cache_file_shared_sections> shared_file_times;
+		c_static_array<s_file_last_modification_date, k_number_of_cache_file_shared_file_types> shared_file_times;
 
 		c_static_string<k_tag_string_length> name;
 		c_enum<e_language, long, _language_invalid, k_language_count> game_language;
