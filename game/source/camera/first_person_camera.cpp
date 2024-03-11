@@ -1,6 +1,7 @@
 #include "camera/first_person_camera.hpp"
 
 #include "camera/director.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/game_globals.hpp"
 #include "game/player_control.hpp"
 #include "game/player_mapping.hpp"
@@ -34,15 +35,11 @@ void __thiscall c_first_person_camera::_update(e_output_user_index output_user_i
 	long unit_index = player_mapping_get_unit_by_output_user(output_user_index);
 	if (m_object_index != unit_index)
 	{
-		//generate_event(_event_level_error, "camera: first person camera #%d attached to object 0x%08X != user object 0x%08X, this should never happen",
-		//	output_user_index,
-		//	m_object_index,
-		//	unit_index);
-		c_console::write_line("camera: first person camera #%d attached to object 0x%08X != user object 0x%08X, this should never happen",
+		generate_event(_event_level_error, "camera: first person camera #%d attached to object 0x%08X != user object 0x%08X, this should never happen",
 			output_user_index,
 			m_object_index,
 			unit_index);
-	
+
 		set_target(unit_index);
 	}
 
@@ -84,7 +81,7 @@ void __thiscall c_first_person_camera::_update(e_output_user_index output_user_i
 				set_real_point2d(&result->crosshair_location, 1.0f, scenario_get_game_globals()->player_control[0].crosshair_location.y);
 		}
 
-		real camera_fov = fminf(fmaxf(global_preferences_get_camera_fov(), 70.0f), 120.0f);
+		real camera_fov = fminf(fmaxf(global_preferences_get_camera_fov(), 70.0f), k_horizontal_field_of_view_max * RAD);
 	
 		//c_first_person_view::m_fov_scale = 1.700000047683716f - camera_fov * 0.01f;
 	

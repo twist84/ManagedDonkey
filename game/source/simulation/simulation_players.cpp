@@ -33,11 +33,7 @@ void __cdecl simulation_player_collection_apply_update(s_player_collection* coll
 	//ASSERT(player_update->player_index >= 0 && player_update->player_index < k_maximum_players);
 	//
 	//e_simulation_player_update_type type = player_update->update_type;
-	////generate_event(_event_level_verbose, "networking:simulation:players: player-collection test-applying type %d to player %d at time %d",
-	////	type,
-	////	player_update->player_index,
-	////	game_time_get());
-	//c_console::write_line("networking:simulation:players: player-collection test-applying type %d to player %d at time %d",
+	//generate_event(_event_level_verbose, "networking:simulation:players: player-collection test-applying type %d to player %d at time %d",
 	//	type,
 	//	player_update->player_index,
 	//	game_time_get());
@@ -312,9 +308,7 @@ bool __cdecl simulation_player_update_apply_added(simulation_player_update const
 	//player_datum* player = &player_data[player_update->player_index];
 	//if (!player)
 	//{
-	//	//generate_event(_event_level_error, "networking:simulation:players:apply-configuration: simulation asked us to update unknown player [#%d]",
-	//	//	player_update->player_index);
-	//	c_console::write_line("networking:simulation:players:apply-configuration: simulation asked us to update unknown player [#%d]",
+	//	generate_event(_event_level_error, "networking:simulation:players:apply-configuration: simulation asked us to update unknown player [#%d]",
 	//		player_update->player_index);
 	//
 	//	return false;
@@ -322,9 +316,7 @@ bool __cdecl simulation_player_update_apply_added(simulation_player_update const
 	//
 	//if (csmemcmp(&player->player_identifier, &player_update->player_identifier, sizeof(player->player_identifier)))
 	//{
-	//	//generate_event(_event_level_error, "networking:simulation:players:apply-configuration: identifier mismatch updating player [#%d]",
-	//	//	player_update->player_index);
-	//	c_console::write_line("networking:simulation:players:apply-configuration: identifier mismatch updating player [#%d]",
+	//	generate_event(_event_level_error, "networking:simulation:players:apply-configuration: identifier mismatch updating player [#%d]",
 	//		player_update->player_index);
 	//
 	//	return false;
@@ -333,9 +325,7 @@ bool __cdecl simulation_player_update_apply_added(simulation_player_update const
 	//long player_index = player_data->get_index(player_update->player_index);
 	//player_set_configuration(player_index, &player_update->configuration);
 	//
-	////generate_event(_event_level_message, "networking:simulation:players:apply-configuration: player [#%d] configuration updated",
-	////	player_update->player_index);
-	//c_console::write_line("networking:simulation:players:apply-configuration: player [#%d] configuration updated",
+	//generate_event(_event_level_message, "networking:simulation:players:apply-configuration: player [#%d] configuration updated",
 	//	player_update->player_index);
 	//
 	//return true;
@@ -513,11 +503,7 @@ bool __cdecl simulation_players_apply_update(simulation_player_update const* pla
 	//ASSERT(player_update);
 	//
 	//e_simulation_player_update_type type = player_update->update_type;
-	////generate_event(_event_level_verbose, "networking:simulation:players: for-real applying type %d to player %d at time %d",
-	////	type,
-	////	player_update->player_index,
-	////	game_time_get());
-	//c_console::write_line("networking:simulation:players: for-real applying type %d to player %d at time %d",
+	//generate_event(_event_level_verbose, "networking:simulation:players: for-real applying type %d to player %d at time %d",
 	//	type,
 	//	player_update->player_index,
 	//	game_time_get());

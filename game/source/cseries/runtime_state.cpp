@@ -1,6 +1,7 @@
 #include "cseries/runtime_state.hpp"
 
 #include "cache/physical_memory_map.hpp"
+#include "cseries/cseries_events.hpp"
 #include "memory/crc.hpp"
 #include "memory/data.hpp"
 #include "memory/module.hpp"
@@ -85,8 +86,7 @@ void* __cdecl runtime_state_malloc_aligned(char const* name, char const* type, l
 	ASSERT(g_runtime_state_globals.allocated_size + true_size <= k_runtime_state_size);
 	g_runtime_state_globals.allocated_size += true_size;
 
-	//generate_event(_event_level_message, "system:runtime_state: runtime_state_malloc %s: %d (total: %d)", name, true_size, g_runtime_state_globals.allocated_size);
-	c_console::write_line("system:runtime_state: runtime_state_malloc %s: %d (total: %d)", name, true_size, g_runtime_state_globals.allocated_size);
+	generate_event(_event_level_message, "system:runtime_state: runtime_state_malloc %s: %d (total: %d)", name, true_size, g_runtime_state_globals.allocated_size);
 
 	g_runtime_state_globals.checksum = crc_checksum_buffer(g_runtime_state_globals.checksum, (byte*)&true_size, sizeof(true_size));
 

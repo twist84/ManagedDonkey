@@ -158,8 +158,7 @@ c_load_screen_message::c_load_screen_message(long screen_name, e_controller_inde
 	ASSERT(m_layered_position != _string_id_invalid);
 	if (screen_name == _string_id_invalid)
 	{
-		//generate_event(_event_level_error, "ui:dialog: dialog %s (%d) does not exist", string_id_get_string_const(_string_id_invalid), _string_id_invalid);
-		c_console::write_line("ui:dialog: dialog %s (%d) does not exist", string_id_get_string_const(_string_id_invalid), _string_id_invalid);
+		generate_event(_event_level_error, "ui:dialog: dialog %s (%d) does not exist", string_id_get_string_const(_string_id_invalid), _string_id_invalid);
 	}
 }
 

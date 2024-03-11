@@ -156,9 +156,11 @@ void generate_event(e_event_level event_level, char const* event_name, parameter
 	c_event _event(event_level, event_category, 0);
 	if (_event.query())
 	{
-		long category_index = _event.generate(event_name, parameters...);
-		if (event_category == NONE)
-			event_interlocked_compare_exchange(event_category, category_index, NONE);
+		//long category_index = _event.generate(event_name, parameters...);
+		//if (event_category == NONE)
+		//	event_interlocked_compare_exchange(event_category, category_index, NONE);
+
+		c_console::write_line(event_name, parameters...);
 	}
 }
 

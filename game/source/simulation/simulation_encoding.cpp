@@ -197,8 +197,7 @@ void __cdecl simulation_update_encode(c_bitstream* packet, struct simulation_upd
 	//	ASSERT(pre_queues_encoded_size > 0);
 	//	if (pre_queues_encoded_size > 0x1800)
 	//	{
-	//		//generate_event(_event_level_critical, "simulation:encoding: encoded simulation update (no queues) exceeding estimate [%d > %d]", pre_queues_encoded_size, 0x1800);
-	//		c_console::write_line("simulation:encoding: encoded simulation update (no queues) exceeding estimate [%d > %d]", pre_queues_encoded_size, 0x1800);
+	//		generate_event(_event_level_critical, "simulation:encoding: encoded simulation update (no queues) exceeding estimate [%d > %d]", pre_queues_encoded_size, 0x1800);
 	//	}
 	//	update->bookkeeping_simulation_queue.encode(packet);
 	//	update->game_simulation_queue.encode(packet);

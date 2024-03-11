@@ -1,5 +1,6 @@
 #include "input/input_xinput.hpp"
 
+#include "cseries/cseries_events.hpp"
 #include "input/input_windows.hpp"
 #include "memory/module.hpp"
 
@@ -130,8 +131,7 @@ bool __cdecl input_xinput_initialize()
 	}
 	else
 	{
-		//generate_event(_event_level_message, "system:input: XInput dll ('%s') not found, controllers will be unavailable", XINPUT_DLL_A);
-		c_console::write_line("system:input: XInput dll ('%s') not found, controllers will be unavailable", XINPUT_DLL_A);
+		generate_event(_event_level_message, "system:input: XInput dll ('%s') not found, controllers will be unavailable", XINPUT_DLL_A);
 	}
 
 	return XInput_module != NULL;

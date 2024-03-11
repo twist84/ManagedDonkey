@@ -118,7 +118,7 @@ int uvsnzprintf(wchar_t* string, long size, wchar_t const* format, va_list list)
 	ASSERT(string && format);
 	ASSERT(size > 0);
 
-	long result = _vsnwprintf_s(string, size, size - 1, format, list);
+	int result = _vsnwprintf_s(string, size, size - 1, format, list);
 	string[size - 1] = 0;
 
 	return result;

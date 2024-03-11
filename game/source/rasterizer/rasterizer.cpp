@@ -1,6 +1,7 @@
 #include "rasterizer/rasterizer.hpp"
 
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render_methods/render_method_submit.hpp"
@@ -289,8 +290,7 @@ void __cdecl c_rasterizer::initialize_window()
 			sizeof(error_message_buffer),
 			NULL);
 
-		//generate_event(_event_level_warning, "%s", error_message_buffer);
-		c_console::write_line("%s", error_message_buffer);
+		generate_event(_event_level_warning, "%s", error_message_buffer);
 	}
 
 	if (class_registered != INVALID_ATOM)
@@ -366,8 +366,7 @@ void __cdecl c_rasterizer::initialize_window()
 	MessageBoxA(NULL, error_message, "ERROR - failed to create window", MB_ICONINFORMATION);
 	LocalFree(error_message);
 
-	//generate_event(_event_level_error, "failed to create a window");
-	c_console::write_line("failed to create a window");
+	generate_event(_event_level_error, "failed to create a window");
 }
 
 c_rasterizer::e_gpr_allocation __cdecl c_rasterizer::set_gprs_allocation(e_gpr_allocation a1)
