@@ -19,7 +19,7 @@
 
 #include <string>
 
-constexpr dword k_string_namespace_count_mapping[k_string_namespace_count] =
+dword const k_string_namespace_count_mapping[k_string_namespace_count] =
 {
 	k_gui_string_id_count,
 	k_gui_alert_string_id_count,
@@ -32,7 +32,7 @@ constexpr dword k_string_namespace_count_mapping[k_string_namespace_count] =
 	k_global_string_id_count
 };
 
-constexpr e_string_namespace k_string_index_namespace_mapping[k_string_namespace_count] =
+e_string_namespace const k_string_index_namespace_mapping[k_string_namespace_count] =
 {
 	_string_namespace_gui,
 	_string_namespace_gui_alert,
@@ -278,7 +278,7 @@ long __cdecl string_id_retrieve(char const* string)
 //{
 //	return a == b;
 //}
-
+//
 //char* __cdecl string_id_get_string(long string_id, char* string, long string_size)
 //{
 //	long storage_index = NONE;
@@ -292,7 +292,7 @@ long __cdecl string_id_retrieve(char const* string)
 //
 //	return string;
 //}
-
+//
 //char const* string_id_get_string_const(long string_id)
 //{
 //	long storage_index = NONE;
@@ -306,7 +306,7 @@ long __cdecl string_id_retrieve(char const* string)
 //
 //	return string;
 //}
-
+//
 //long string_id_retrieve(char const* string)
 //{
 //	c_static_string<128> string_buffer = string;
@@ -318,7 +318,7 @@ long __cdecl string_id_retrieve(char const* string)
 //
 //	return result;
 //}
-
+//
 //void __cdecl initialize_hash_tables()
 //{
 //	if (!g_string_id_globals.string_ids.created())
@@ -349,8 +349,8 @@ long __cdecl string_id_retrieve(char const* string)
 //
 //	g_string_id_globals.string_id_count = g_strings_defined_in_tags_starting_index;
 //}
-
-//long __cdecl sub_82A8F1A8(char const* string, long string_id_index, long string_id_mapping_index)
+//
+//long __cdecl add_string_to_hashtables(char const* string, long string_id_index, long string_id_mapping_index)
 //{
 //	if (IN_RANGE_INCLUSIVE(string_id_index, k_constant_string_id_table_entries, g_strings_defined_in_tags_starting_index - 1))
 //		return NONE;
@@ -362,7 +362,7 @@ long __cdecl string_id_retrieve(char const* string)
 //		id = g_constant_string_id_table[string_id_index].id;
 //
 //	ASSERT(g_string_id_globals.string_ids.add(string, &id));
-//	ASSERT(g_string_id_globals.string_id_mappings.add(reinterpret_cast<long const*>(id), &string_id_mapping_index));
+//	ASSERT(g_string_id_globals.string_id_mappings.add(&id, &string_id_mapping_index));
 //
 //	return id;
 //}

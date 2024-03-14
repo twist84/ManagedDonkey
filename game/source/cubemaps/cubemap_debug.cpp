@@ -52,10 +52,10 @@ void __cdecl c_cubemap_debug::render_object_cubemap_samples(long object_index)
 
         REFERENCE_DECLARE(object + 0x20, real_point3d, bounding_sphere_center);
 
-        if (cubemap_info0 && color.color.green > 0.0)
+        if (cubemap_info0 && color.color.green > 0.0f)
             render_debug_line(true /* false */, &cubemap_info0->cubemap_position, &bounding_sphere_center, &color);
 
-        if (cubemap_info1 && color.color.green < 1.0)
+        if (cubemap_info1 && color.color.green < 1.0f)
             render_debug_line(true /* false */, &bounding_sphere_center, &cubemap_info1->cubemap_position, &color);
     }
 }
