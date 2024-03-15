@@ -108,6 +108,16 @@ void c_game_engine_assault_variant::set_reset_bomb_on_disarm(bool reset_bomb_on_
 	m_variant_flags.set(_assault_variant_flags_reset_bomb_on_disarm, reset_bomb_on_disarm);
 }
 
+bool c_game_engine_assault_variant::get_siege_mode() const
+{
+	return m_variant_flags.test(_assault_variant_flags_siege_mode);
+}
+
+void c_game_engine_assault_variant::set_siege_mode(bool siege_mode)
+{
+	m_variant_flags.set(_assault_variant_flags_siege_mode, siege_mode);
+}
+
 e_assault_respawn_settings c_game_engine_assault_variant::get_respawn() const
 {
 	return m_respawn;

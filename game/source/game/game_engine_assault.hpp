@@ -24,6 +24,9 @@ public:
 
 	bool get_reset_bomb_on_disarm() const;
 	void set_reset_bomb_on_disarm(bool reset_bomb_on_disarm);
+	
+	bool get_siege_mode() const;
+	void set_siege_mode(bool siege_mode);
 
 	e_assault_respawn_settings get_respawn() const;
 	void set_respawn(e_assault_respawn_settings respawn);
