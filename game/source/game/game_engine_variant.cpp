@@ -192,6 +192,21 @@ bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_
 	return INVOKE(0x00572270, game_engine_tag_defined_variant_get_built_in_variant, game_engine_index, variant_index, game_variant);
 }
 
+long __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index)
+{
+	return INVOKE(0x00572560, game_engine_tag_defined_variant_get_default_variant_count, game_engine_index);
+}
+
+long __cdecl game_engine_tag_defined_variant_get_default_variant_index(c_game_variant const* game_variant)
+{
+	return INVOKE(0x00572600, game_engine_tag_defined_variant_get_default_variant_index, game_variant);
+}
+
+bool __cdecl game_engine_tag_defined_variant_get_strings(e_game_engine_type game_engine_index, long variant_index, c_static_wchar_string<48>* variant_name, c_static_wchar_string<256>* variant_description)
+{
+	return INVOKE(0x00572690, game_engine_tag_defined_variant_get_strings, game_engine_index, variant_index, variant_name, variant_description);
+}
+
 void __cdecl game_engine_variant_describe_invalidity(c_game_variant const* game_variant)
 {
 	INVOKE(0x00572830, game_engine_variant_describe_invalidity, game_variant);

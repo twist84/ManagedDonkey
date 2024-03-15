@@ -514,3 +514,14 @@ void __cdecl process_game_engine_globals_messages()
 	INVOKE(0x005547F0, process_game_engine_globals_messages);
 }
 
+//.text:00572120 ; void __cdecl set_variant<s_game_engine_assault_variant_definition>(s_game_engine_assault_variant_definition const*, c_game_engine_base_variant*)
+//.text:00572130 ; void __cdecl set_variant<s_game_engine_ctf_variant_definition>(s_game_engine_ctf_variant_definition const*, c_game_engine_base_variant*)
+//.text:00572140 ; void __cdecl set_variant<s_game_engine_infection_variant_definition>(s_game_engine_infection_variant_definition const*, c_game_engine_base_variant*)
+//.text:00572150 ; void __cdecl set_variant<s_game_engine_juggernaut_variant_definition>(s_game_engine_juggernaut_variant_definition const*, c_game_engine_base_variant*)
+//.text:00572160 ; void __cdecl set_variant<s_game_engine_king_variant_definition>(s_game_engine_king_variant_definition const*, c_game_engine_base_variant*)
+//.text:00572170 ; void __cdecl set_variant<s_game_engine_oddball_variant_definition>(s_game_engine_oddball_variant_definition const*, c_game_engine_base_variant*)
+//.text:00572180 ; void __cdecl set_variant<s_game_engine_sandbox_variant_definition>(s_game_engine_sandbox_variant_definition const*, c_game_engine_base_variant*)
+//.text:00572190 ; void __cdecl set_variant<s_game_engine_slayer_variant_definition>(s_game_engine_slayer_variant_definition const*, c_game_engine_base_variant*)
+//.text:005721A0 ; void __cdecl set_variant<s_game_engine_territories_variant_definition>(s_game_engine_territories_variant_definition const*, c_game_engine_base_variant*)
+//.text:005721B0 ; void __cdecl set_variant<s_game_engine_vip_variant_definition>(s_game_engine_vip_variant_definition const*, c_game_engine_base_variant*)
+
