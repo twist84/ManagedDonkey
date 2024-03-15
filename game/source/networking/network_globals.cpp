@@ -271,12 +271,6 @@ void __cdecl network_test_set_map_variant(c_map_variant const* map_variant)
 	}
 }
 
-#define BUILD_DEFAULT_GAME_VARIANT(_game_variant, _game_engine_index)   \
-if (DECLFUNC(0x00572560, long, __cdecl, long)(_game_engine_index) <= 0) \
-    build_default_game_variant(&_game_variant, _game_engine_index);     \
-else                                                                    \
-    game_engine_tag_defined_variant_get_built_in_variant(_game_engine_index, 0, &_game_variant);
-
 void __cdecl network_test_set_game_variant(e_game_engine_type game_engine_index)
 {
 	static c_game_variant game_variant;

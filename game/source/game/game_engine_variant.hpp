@@ -7,6 +7,12 @@
 #include "saved_games/saved_game_files.hpp"
 #include "text/unicode.hpp"
 
+#define BUILD_DEFAULT_GAME_VARIANT(_game_variant, _game_engine_index)                            \
+if (game_engine_tag_defined_variant_get_default_variant_count(_game_engine_index) > 0)           \
+    game_engine_tag_defined_variant_get_built_in_variant(_game_engine_index, 0, &_game_variant); \
+else                                                                                             \
+    build_default_game_variant(&_game_variant, _game_engine_index);
+
 enum e_game_engine_type
 {
 	_game_engine_type_none = 0,
