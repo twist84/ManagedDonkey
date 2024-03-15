@@ -1047,7 +1047,7 @@ enum e_game_engine_category
 enum e_game_variant_parameter
 {
 	_game_variant_parameter_game_misc_teams = 0,
-	_game_variant_parameter_game_misc_unknown1,
+	_game_variant_parameter_game_misc_director_allow_player_switching,
 	_game_variant_parameter_game_misc_round_reset_map,
 	_game_variant_parameter_game_misc_round_time_limit,
 	_game_variant_parameter_game_misc_round_limit,
@@ -1651,11 +1651,11 @@ enum e_game_variant_parameter
 	_game_variant_parameter_assault_carrier_active_camo,
 	_game_variant_parameter_assault_carrier_visual,
 	_game_variant_parameter_assault_carrier_forced_change_colors,
-	_game_variant_parameter_assault_unknown571,
-	_game_variant_parameter_assault_game_type,
-	_game_variant_parameter_assault_reset_bomb_on_disarm,
-	_game_variant_parameter_assault_respawn,
 	_game_variant_parameter_assault_enemy_bomb_waypoint,
+	_game_variant_parameter_assault_game_type,
+	_game_variant_parameter_assault_reset_bomb_on_disarm, // e_assault_variant_flags bit 0
+	_game_variant_parameter_assault_unknown574,           // e_assault_variant_flags bit 1
+	_game_variant_parameter_assault_respawn,
 	_game_variant_parameter_assault_score_to_win,
 	_game_variant_parameter_assault_unknown577,
 	_game_variant_parameter_assault_unknown578,
