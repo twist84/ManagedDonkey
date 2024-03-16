@@ -217,7 +217,7 @@ struct multiplayer_player_info
 	char __unknownA;
 	char __unknownB;
 	short __unknownC;
-	short lives;
+	short lives_remaining;
 
 	// used in `game_engine_respond_to_betrayal`, `game_engine_player_is_dead_and_betrayed_by_griefer`
 	long griefer_player_index;
@@ -259,8 +259,8 @@ struct multiplayer_player_info
 	short revenge_shield_boost_unknown82; // `object->__unknown100 *= (revenge_shield_boost_modifier_value * player->revenge_shield_boost_unknown2E16) + 1.0f`
 	long revenge_shield_boost_unknown84;
 	long revenge_shield_boost_player_index; // == `player_index`
+	s_damage_reporting_info revenge_shield_boost_damage;
 
-	dword __unknown8C;
 	bool __unknown90;
 	byte __data91[3];
 };
@@ -662,7 +662,7 @@ static_assert(0x2D9D == OFFSETOF(player_datum, multiplayer.__unknown9));
 static_assert(0x2D9E == OFFSETOF(player_datum, multiplayer.__unknownA));
 static_assert(0x2D9F == OFFSETOF(player_datum, multiplayer.__unknownB));
 static_assert(0x2DA0 == OFFSETOF(player_datum, multiplayer.__unknownC));
-static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.lives));
+static_assert(0x2DA2 == OFFSETOF(player_datum, multiplayer.lives_remaining));
 static_assert(0x2DA4 == OFFSETOF(player_datum, multiplayer.griefer_player_index));
 static_assert(0x2DAC == OFFSETOF(player_datum, multiplayer.player_traits));
 static_assert(0x2DC8 == OFFSETOF(player_datum, multiplayer.powerup_pickup_time));
@@ -677,7 +677,7 @@ static_assert(0x2E14 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_
 static_assert(0x2E16 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_unknown82));
 static_assert(0x2E18 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_unknown84));
 static_assert(0x2E1C == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_player_index));
-static_assert(0x2E20 == OFFSETOF(player_datum, multiplayer.__unknown8C));
+static_assert(0x2E20 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_damage));
 static_assert(0x2E24 == OFFSETOF(player_datum, multiplayer.__unknown90));
 static_assert(0x2E25 == OFFSETOF(player_datum, multiplayer.__data91));
 static_assert(0x2E28 == OFFSETOF(player_datum, __data2E28));
