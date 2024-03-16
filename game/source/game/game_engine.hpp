@@ -64,11 +64,16 @@ static_assert(sizeof(s_player_waypoint_data) == 0x1C);
 
 struct s_simulation_player_netdebug_data
 {
-	byte __data0[0x8];
-	short rtt_msec;
-	short packet_rate;
-	short bandwidth_bps;
-	short packet_loss;
+	bool is_host;
+
+	short host_estimated_bps;
+	short host_transmission_rate;
+	short host_transmission_bps;
+
+	short client_rtt_msec;
+	short client_packet_rate;
+	short client_bandwidth_bps;
+	short client_packet_loss;
 };
 static_assert(sizeof(s_simulation_player_netdebug_data) == 0x10);
 
