@@ -298,7 +298,7 @@ enum e_player_flags
 	// c_game_engine::apply_player_update
 	// halo reach x360: bit 2
 	// halo 4 x360:     bit 2
-	_player_unknown_bit2,
+	_player_blocking_teleporter_bit,
 	
 	// game_engine_update_after_game_update_state
 	// player_spawn
@@ -356,7 +356,7 @@ enum e_player_flags
 	// c_game_engine::apply_player_update
 	// halo reach x360: bit 10
 	// halo 4 x360:     bit 12
-	_player_unknown_bit10,
+	_player_vehicle_entrance_ban_bit,
 
 	// player_spawn
 	// players_coop_update_respawn
@@ -368,7 +368,7 @@ enum e_player_flags
 	// c_game_engine::apply_player_update
 	// halo reach x360: bit 12
 	// halo 4 x360:     bit 14
-	_player_unknown_bit12,
+	_player_sitting_out_bit,
 
 	// player_reset
 	// players_joined_in_progress_allow_spawn
