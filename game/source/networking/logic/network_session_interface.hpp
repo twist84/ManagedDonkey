@@ -77,8 +77,14 @@ struct s_network_session_interface_globals
 	real map_progress;
 	s_saved_film_description local_specific_film;
 	dword local_specific_film_time;
-	c_static_array<long, 8> session_connection_identifiers;
-	byte __data5EE4[0x1C];
+	c_static_array<long, 3> session_connection_identifiers;
+	c_static_array<long, 3> session_peer_properties_update_times;
+	c_static_array<long, 3> session_membership_update_number;
+	c_static_array<bool, 3> session_variant_has_teams;
+	c_static_array<bool, 3> session_variant_has_sve_teams;
+	c_static_array<bool, 3> session_variant_observers_allowed;
+	byte __pad5EF1[3];
+	c_static_array<long, 3> session_variant_session_maximum_team_counts;
 	c_network_session_manager* session_manager;
 	byte : 8;
 	byte : 8;
