@@ -1,14 +1,13 @@
 #include "game/game_engine_util.hpp"
 
 #include "game/game.hpp"
-#include "game/game_engine.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "units/units.hpp"
 
 //HOOK_DECLARE(0x005CE150, current_game_engine);
 
-REFERENCE_DECLARE_ARRAY(0x0471A920, c_game_engine*, game_engines, 11);
+REFERENCE_DECLARE_ARRAY(0x0471A920, c_game_engine*, game_engines, k_game_engine_type_count);
 
 REFERENCE_DECLARE(0x0190B890, c_game_engine*, ctf_engine);
 REFERENCE_DECLARE(0x0190B8D0, c_ctf_engine, internal_ctf_engine);

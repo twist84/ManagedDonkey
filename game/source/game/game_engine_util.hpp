@@ -4,7 +4,10 @@
 
 enum e_weapon_set;
 
+struct c_game_engine;
 struct c_game_variant;
+
+extern c_game_engine* (&game_engines)[k_game_engine_type_count];
 
 extern c_game_engine const* __cdecl current_game_engine();
 extern c_game_variant const* __cdecl current_game_variant();
