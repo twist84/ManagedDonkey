@@ -1,19 +1,10 @@
 #pragma once
 
-#include "cseries/cseries.hpp"
 #include "game/game_engine_default.hpp"
-#include "game/game_engine_ctf.hpp"
-#include "game/game_engine_slayer.hpp"
-#include "game/game_engine_oddball.hpp"
-#include "game/game_engine_king.hpp"
-#include "game/game_engine_sandbox.hpp"
-#include "game/game_engine_vip.hpp"
-#include "game/game_engine_juggernaut.hpp"
-#include "game/game_engine_territories.hpp"
-#include "game/game_engine_assault.hpp"
-#include "game/game_engine_infection.hpp"
 
 enum e_weapon_set;
+
+struct c_game_variant;
 
 extern c_game_engine const* __cdecl current_game_engine();
 extern c_game_variant const* __cdecl current_game_variant();

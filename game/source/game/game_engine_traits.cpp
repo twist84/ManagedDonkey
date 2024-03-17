@@ -3,6 +3,7 @@
 #include "cseries/cseries_events.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "main/main_game.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 
 void c_game_engine_miscellaneous_options::byteswap()

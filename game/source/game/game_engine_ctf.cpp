@@ -1,6 +1,7 @@
 #include "game/game_engine_ctf.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D96BC, c_game_engine_ctf_variant*, ctf_variant);

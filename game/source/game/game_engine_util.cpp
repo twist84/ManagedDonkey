@@ -1,6 +1,7 @@
 #include "game/game_engine_util.hpp"
 
 #include "game/game.hpp"
+#include "game/game_engine.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "units/units.hpp"

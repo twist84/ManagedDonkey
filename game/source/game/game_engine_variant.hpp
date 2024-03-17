@@ -1,10 +1,18 @@
 #pragma once
-#pragma pack(push, 4)
 
 #include "cseries/cseries.hpp"
-#include "game/game_engine_traits.hpp"
-#include "memory/bitstream.hpp"
-#include "saved_games/saved_game_files.hpp"
+#include "game/game_engine_default.hpp"
+#include "game/game_engine_assault.hpp"
+#include "game/game_engine_ctf.hpp"
+#include "game/game_engine_infection.hpp"
+#include "game/game_engine_juggernaut.hpp"
+#include "game/game_engine_king.hpp"
+#include "game/game_engine_oddball.hpp"
+#include "game/game_engine_sandbox.hpp"
+#include "game/game_engine_slayer.hpp"
+#include "game/game_engine_territories.hpp"
+#include "game/game_engine_vip.hpp"
+#include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
 #define BUILD_DEFAULT_GAME_VARIANT(_game_variant, _game_engine_index)                            \
@@ -13,98 +21,95 @@ if (game_engine_tag_defined_variant_get_default_variant_count(_game_engine_index
 else                                                                                             \
     build_default_game_variant(&_game_variant, _game_engine_index);
 
-enum e_game_engine_type
-{
-	_game_engine_type_none = 0,
-	_game_engine_type_ctf,
-	_game_engine_type_slayer,
-	_game_engine_type_oddball,
-	_game_engine_type_king,
-	_game_engine_type_sandbox,
-	_game_engine_type_vip,
-	_game_engine_type_juggernaut,
-	_game_engine_type_territories,
-	_game_engine_type_assault,
-	_game_engine_type_infection,
+struct c_bitstream;
 
-	k_game_engine_type_count,
-	k_game_engine_type_default = _game_engine_type_none
-};
+//#pragma pack(push, 4)
+//
+//#pragma pack(pop)
 
-struct c_game_engine_base_variant
+long const k_maximum_game_engine_variant_size = 0x260;
+
+struct c_game_variant
 {
 public:
-	virtual long get_game_engine_name_string_id() const;
-	virtual long get_game_engine_default_description_string_id() const;
-	virtual void initialize();
-	virtual void validate();
-	virtual void encode(c_bitstream* packet) const;
-	virtual void decode(c_bitstream* packet);
-	//virtual void byteswap(); // MCC
-	virtual bool can_add_to_recent_list() const;
-	virtual long get_score_to_win_round() const;
-	virtual long get_score_unknown() const; // halo online specific
-	virtual bool can_be_cast_to(e_game_engine_type game_engine_index, void const**) const;
-	virtual void custom_team_score_stats(long team_index, long, long) const;
+	c_game_variant();
 
 	void encode_to_mcc(c_bitstream* packet) const;
-	void decode_from_mcc(c_bitstream* packet);
-	
-	c_game_engine_base_variant* constructor()
-	{
-		return DECLFUNC(0x00572B20, c_game_engine_base_variant*, __thiscall, c_game_engine_base_variant*)(this);
-	}
+	bool decode_from_mcc(c_bitstream* packet);
 
-	void byteswap();
+	void copy_from_and_validate(c_game_variant const* other);
+	void copy_from_unsafe(class c_game_variant const* other);
 
-	void set(c_game_engine_base_variant const* variant, bool force);
-	//void set(s_game_engine_base_variant_definition const* definition, bool force);
+	long get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
+	bool is_equal_to(c_game_variant const* other) const;
+	void recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
 
-	void get_game_engine_name(c_static_wchar_string<1024>* game_engine_name) const;
-	void get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const;
+	e_game_engine_type get_game_engine_index() const;
+	void set_game_engine_index(e_game_engine_type game_engine_index);
 
-	char const* get_name() const;
-	void set_name(char const* name);
+	c_game_engine_base_variant const* get_active_variant() const;
+	c_game_engine_base_variant* get_active_variant_writeable();
 
-	char const* get_description() const;
-	void set_description(char const* description);
+	c_game_engine_ctf_variant const* get_ctf_variant() const;
+	c_game_engine_ctf_variant* get_ctf_variant_writeable();
 
-	c_game_engine_miscellaneous_options* get_miscellaneous_options_writeable();
-	c_game_engine_miscellaneous_options const* get_miscellaneous_options() const;
+	c_game_engine_slayer_variant const* get_slayer_variant() const;
+	c_game_engine_slayer_variant* get_slayer_variant_writeable();
 
-	c_game_engine_respawn_options* get_respawn_options_writeable();
-	c_game_engine_respawn_options const* get_respawn_options() const;
+	c_game_engine_oddball_variant const* get_oddball_variant() const;
+	c_game_engine_oddball_variant* get_oddball_variant_writeable();
 
-	c_game_engine_social_options* get_social_options_writeable();
-	c_game_engine_social_options const* get_social_options() const;
+	c_game_engine_king_variant const* get_king_variant() const;
+	c_game_engine_king_variant* get_king_variant_writeable();
 
-	c_game_engine_map_override_options* get_map_override_options_writeable();
-	c_game_engine_map_override_options const* get_map_override_options() const;
+	c_game_engine_sandbox_variant const* get_sandbox_variant() const;
+	c_game_engine_sandbox_variant* get_sandbox_variant_writeable();
 
-	bool get_built_in() const;
-	void set_built_in(bool built_in);
+	c_game_engine_vip_variant const* get_vip_variant() const;
+	c_game_engine_vip_variant* get_vip_variant_writeable();
 
-	short get_team_scoring_method() const;
-	void set_team_scoring_method(short team_scoring_method);
+	c_game_engine_juggernaut_variant const* get_juggernaut_variant() const;
+	c_game_engine_juggernaut_variant* get_juggernaut_variant_writeable();
+
+	c_game_engine_territories_variant const* get_territories_variant() const;
+	c_game_engine_territories_variant* get_territories_variant_writeable();
+
+	c_game_engine_assault_variant const* get_assault_variant() const;
+	c_game_engine_assault_variant* get_assault_variant_writeable();
+
+	c_game_engine_infection_variant const* get_infection_variant() const;
+	c_game_engine_infection_variant* get_infection_variant_writeable();
+
+	bool get_integer_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const;
+	bool set_integer_game_engine_setting(e_game_variant_parameter parameter, long value);
+
+	bool get_string_id_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const;
+	bool set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value);
 
 protected:
-	dword m_checksum;
+	bool get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const;
+	bool set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value);
 
-	char m_name[32];
-	s_content_item_metadata m_metadata;
-	c_game_engine_miscellaneous_options m_miscellaneous_options;
-	c_game_engine_respawn_options m_respawn_options;
-	c_game_engine_social_options m_social_options;
-	c_game_engine_map_override_options m_map_override_options;
-	c_flags<e_base_variant_flags, word, k_base_variant_flags> m_flags;
-	short m_team_scoring_method;
+	c_enum<e_game_engine_type, long, _game_engine_type_none, k_game_engine_type_count> m_game_engine_index;
+	union
+	{
+		c_game_engine_base_variant m_base_variant;
+		c_game_engine_ctf_variant m_ctf_variant;
+		c_game_engine_slayer_variant m_slayer_variant;
+		c_game_engine_oddball_variant m_oddball_variant;
+		c_game_engine_king_variant m_king_variant;
+		c_game_engine_sandbox_variant m_sandbox_variant;
+		c_game_engine_vip_variant m_vip_variant;
+		c_game_engine_juggernaut_variant m_juggernaut_variant;
+		c_game_engine_territories_variant m_territories_variant;
+		c_game_engine_assault_variant m_assault_variant;
+		c_game_engine_infection_variant m_infection_variant;
+		byte m_variant_storage[k_maximum_game_engine_variant_size];
+	};
 };
-constexpr size_t k_game_engine_base_variant_size = sizeof(c_game_engine_base_variant);
-static_assert(k_game_engine_base_variant_size == 0x1D0);
+static_assert(sizeof(c_game_variant) == 0x264);
 
 extern const char* game_engine_type_get_string(long game_engine_variant);
-
-struct c_game_variant;
 extern c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);
 extern bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, long variant_index, c_game_variant* game_variant);
 extern long __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index);
@@ -114,4 +119,3 @@ extern void __cdecl game_engine_variant_describe_invalidity(c_game_variant const
 extern bool __cdecl game_engine_variant_is_valid(c_game_variant const* game_variant);
 extern bool game_engine_variant_validate(c_game_variant* game_variant);
 
-#pragma pack(pop)

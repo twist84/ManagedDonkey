@@ -3,89 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "cseries/language.hpp"
 #include "game/game_engine_variant.hpp"
-#include "game/game_engine_ctf.hpp"
-#include "game/game_engine_slayer.hpp"
-#include "game/game_engine_oddball.hpp"
-#include "game/game_engine_king.hpp"
-#include "game/game_engine_sandbox.hpp"
-#include "game/game_engine_vip.hpp"
-#include "game/game_engine_juggernaut.hpp"
-#include "game/game_engine_territories.hpp"
-#include "game/game_engine_assault.hpp"
-#include "game/game_engine_infection.hpp"
 #include "game/game_progression.hpp"
 #include "game/players.hpp"
 #include "networking/tools/network_webstats.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 #include "shell/shell.hpp"
-
-long const k_maximum_game_engine_variant_size = 0x260;
-
-struct c_game_variant
-{
-public:
-	c_game_variant();
-
-	void encode_to_mcc(c_bitstream* packet) const;
-	bool decode_from_mcc(c_bitstream* packet);
-
-	void copy_from_and_validate(c_game_variant const* other);
-	void copy_from_unsafe(class c_game_variant const* other);
-	long get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const;
-	bool is_equal_to(c_game_variant const* other) const;
-	void recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index);
-	e_game_engine_type get_game_engine_index() const;
-	void set_game_engine_index(e_game_engine_type game_engine_index);
-
-	c_game_engine_base_variant const* get_active_variant() const;
-	c_game_engine_base_variant* get_active_variant_writeable();
-	c_game_engine_ctf_variant const* get_ctf_variant() const;
-	c_game_engine_ctf_variant* get_ctf_variant_writeable();
-	c_game_engine_slayer_variant const* get_slayer_variant() const;
-	c_game_engine_slayer_variant* get_slayer_variant_writeable();
-	c_game_engine_oddball_variant const* get_oddball_variant() const;
-	c_game_engine_oddball_variant* get_oddball_variant_writeable();
-	c_game_engine_king_variant const* get_king_variant() const;
-	c_game_engine_king_variant* get_king_variant_writeable();
-	c_game_engine_sandbox_variant const* get_sandbox_variant() const;
-	c_game_engine_sandbox_variant* get_sandbox_variant_writeable();
-	c_game_engine_vip_variant const* get_vip_variant() const;
-	c_game_engine_vip_variant* get_vip_variant_writeable();
-	c_game_engine_juggernaut_variant const* get_juggernaut_variant() const;
-	c_game_engine_juggernaut_variant* get_juggernaut_variant_writeable();
-	c_game_engine_territories_variant const* get_territories_variant() const;
-	c_game_engine_territories_variant* get_territories_variant_writeable();
-	c_game_engine_assault_variant const* get_assault_variant() const;
-	c_game_engine_assault_variant* get_assault_variant_writeable();
-	c_game_engine_infection_variant const* get_infection_variant() const;
-	c_game_engine_infection_variant* get_infection_variant_writeable();
-	bool get_integer_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const;
-	bool set_integer_game_engine_setting(e_game_variant_parameter parameter, long value);
-	bool get_string_id_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const;
-	bool set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value);
-
-protected:
-	bool get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const;
-	bool set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value);
-
-	c_enum<e_game_engine_type, long, _game_engine_type_none, k_game_engine_type_count> m_game_engine_index;
-	union
-	{
-		c_game_engine_base_variant m_base_variant;
-		c_game_engine_ctf_variant m_ctf_variant;
-		c_game_engine_slayer_variant m_slayer_variant;
-		c_game_engine_oddball_variant m_oddball_variant;
-		c_game_engine_king_variant m_king_variant;
-		c_game_engine_sandbox_variant m_sandbox_variant;
-		c_game_engine_vip_variant m_vip_variant;
-		c_game_engine_juggernaut_variant m_juggernaut_variant;
-		c_game_engine_territories_variant m_territories_variant;
-		c_game_engine_assault_variant m_assault_variant;
-		c_game_engine_infection_variant m_infection_variant;
-		byte m_variant_storage[k_maximum_game_engine_variant_size];
-	};
-};
-static_assert(sizeof(c_game_variant) == 0x264);
 
 struct game_options
 {
@@ -140,3 +62,4 @@ struct game_options
 	c_static_array<game_player_options, 16> players;
 };
 static_assert(sizeof(game_options) == 0x24B48);
+

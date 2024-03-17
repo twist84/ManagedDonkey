@@ -3,7 +3,10 @@
 #include "cseries/cseries.hpp"
 #include "game/game_engine_default.hpp"
 #include "game/game_engine_oddball_traits.hpp"
-#include "game/game_engine_variant.hpp"
+#include "game/game_engine_player_traits.hpp"
+
+struct c_bitstream;
+struct s_file_reference;
 
 struct c_game_engine_oddball_variant :
 	c_game_engine_base_variant

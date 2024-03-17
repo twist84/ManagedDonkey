@@ -1,8 +1,406 @@
 #include "game/game_engine_variant.hpp"
 
 #include "game/game_engine.hpp"
-#include "game/game_options.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
+
+c_game_variant::c_game_variant()
+{
+	m_game_engine_index = _game_engine_type_none;
+	csmemset(m_variant_storage, 0, sizeof(m_variant_storage));
+}
+
+void c_game_variant::encode_to_mcc(c_bitstream* packet) const
+{
+	ASSERT(packet);
+
+	packet->write_integer("variant-game-engine-index", get_game_engine_index(), 4);
+	if (m_game_engine_index)
+	{
+		switch (get_game_engine_index())
+		{
+		case _game_engine_type_none:
+			m_base_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_ctf:
+			m_ctf_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_slayer:
+			m_slayer_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_oddball:
+			m_oddball_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_king:
+			m_king_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_sandbox:
+			m_sandbox_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_vip:
+			m_vip_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_juggernaut:
+			m_juggernaut_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_territories:
+			m_territories_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_assault:
+			m_assault_variant.encode_to_mcc(packet);
+			break;
+		case _game_engine_type_infection:
+			m_infection_variant.encode_to_mcc(packet);
+			break;
+		}
+	}
+}
+
+bool c_game_variant::decode_from_mcc(c_bitstream* packet)
+{
+	ASSERT(packet);
+
+	e_game_engine_type game_engine_index = packet->read_enum<e_game_engine_type, 4>("variant-game-engine-index");
+	set_game_engine_index(game_engine_index);
+
+	//if (m_game_engine_index == _game_engine_type_none)
+	//	return false;
+
+	m_base_variant.set_built_in(false);
+	switch (game_engine_index)
+	{
+	case _game_engine_type_none:
+		m_base_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_ctf:
+		m_ctf_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_slayer:
+		m_slayer_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_oddball:
+		m_oddball_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_king:
+		m_king_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_sandbox:
+		m_sandbox_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_vip:
+		m_vip_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_juggernaut:
+		m_juggernaut_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_territories:
+		m_territories_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_assault:
+		m_assault_variant.decode_from_mcc(packet);
+		break;
+	case _game_engine_type_infection:
+		m_infection_variant.decode_from_mcc(packet);
+		break;
+	}
+
+	return true;
+}
+
+void c_game_variant::copy_from_and_validate(c_game_variant const* other)
+{
+	DECLFUNC(0x00573030, void, __thiscall, c_game_variant*, c_game_variant const*)(this, other);
+}
+
+void c_game_variant::copy_from_unsafe(class c_game_variant const* other)
+{
+	DECLFUNC(0x005730F0, void, __thiscall, c_game_variant*, c_game_variant const*)(this, other);
+}
+
+long c_game_variant::get_variant_size_for_game_engine_index(e_game_engine_type game_engine_index) const
+{
+	//DECLFUNC(0x0057A2E0, void, __thiscall, c_game_variant const*, e_game_engine_type)(this, game_engine_index);
+
+	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
+	{
+		//generate_event(_event_level_warning, "invalid game engine type #%ld requested variant size");
+		c_console::write_line("invalid game engine type #%ld requested variant size");
+	}
+
+	long size = 0;
+	switch (game_engine_index)
+	{
+	case _game_engine_type_none:
+		size = sizeof(c_game_engine_base_variant);
+		break;
+	case _game_engine_type_ctf:
+		size = sizeof(c_game_engine_ctf_variant);
+		break;
+	case _game_engine_type_slayer:
+		size = sizeof(c_game_engine_slayer_variant);
+		break;
+	case _game_engine_type_oddball:
+		size = sizeof(c_game_engine_oddball_variant);
+		break;
+	case _game_engine_type_king:
+		size = sizeof(c_game_engine_king_variant);
+		break;
+	case _game_engine_type_sandbox:
+		size = sizeof(c_game_engine_sandbox_variant);
+		break;
+	case _game_engine_type_vip:
+		size = sizeof(c_game_engine_vip_variant);
+		break;
+	case _game_engine_type_juggernaut:
+		size = sizeof(c_game_engine_juggernaut_variant);
+		break;
+	case _game_engine_type_territories:
+		size = sizeof(c_game_engine_territories_variant);
+		break;
+	case _game_engine_type_assault:
+		size = sizeof(c_game_engine_assault_variant);
+		break;
+	case _game_engine_type_infection:
+		size = sizeof(c_game_engine_infection_variant);
+		break;
+	}
+	ASSERT(size <= k_maximum_game_engine_variant_size);
+
+	return size;
+}
+
+bool c_game_variant::is_equal_to(c_game_variant const* other) const
+{
+	return DECLFUNC(0x0057A4C0, bool, __thiscall, c_game_variant const*, c_game_variant const*)(this, other);
+
+	// #TODO
+	//ASSERT(other != NULL);
+	//
+	//if (get_game_engine_index() != other->get_game_engine_index())
+	//	return false;
+	//
+	//long structure_size = get_variant_size_for_game_engine_index(get_game_engine_index()) - 4;
+	//ASSERT(structure_size > k_vtable_pointer_size);
+}
+
+void c_game_variant::recreate_variant_vtable_for_game_engine_index(e_game_engine_type game_engine_index)
+{
+	//DECLFUNC(0x0057A570, void, __thiscall, c_game_variant*, e_game_engine_type)(this, game_engine_index);
+
+	if (!VALID_INDEX(game_engine_index, k_game_engine_type_count))
+	{
+		//generate_event(_event_level_warning, "invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
+		c_console::write_line("invalid game engine type #%ld, game options given c_game_engine_base_variant vtable in recreate vtable!", game_engine_index);
+		game_engine_index = _game_engine_type_none;
+	}
+
+	switch (game_engine_index)
+	{
+	case _game_engine_type_none:
+		m_base_variant.constructor();
+		break;
+	case _game_engine_type_ctf:
+		m_ctf_variant.constructor();
+		break;
+	case _game_engine_type_slayer:
+		m_slayer_variant.constructor();
+		break;
+	case _game_engine_type_oddball:
+		m_oddball_variant.constructor();
+		break;
+	case _game_engine_type_king:
+		m_king_variant.constructor();
+		break;
+	case _game_engine_type_sandbox:
+		m_sandbox_variant.constructor();
+		break;
+	case _game_engine_type_vip:
+		m_vip_variant.constructor();
+		break;
+	case _game_engine_type_juggernaut:
+		m_juggernaut_variant.constructor();
+		break;
+	case _game_engine_type_territories:
+		m_territories_variant.constructor();
+		break;
+	case _game_engine_type_assault:
+		m_assault_variant.constructor();
+		break;
+	case _game_engine_type_infection:
+		m_infection_variant.constructor();
+		break;
+	}
+}
+
+e_game_engine_type c_game_variant::get_game_engine_index() const
+{
+	return m_game_engine_index;
+}
+
+void c_game_variant::set_game_engine_index(e_game_engine_type game_engine_index)
+{
+	DECLFUNC(0x0057AA70, void, __thiscall, c_game_variant*, e_game_engine_type)(this, game_engine_index);
+}
+
+c_game_engine_base_variant const* c_game_variant::get_active_variant() const
+{
+	return reinterpret_cast<c_game_engine_base_variant const*>(m_variant_storage);
+}
+
+c_game_engine_base_variant* c_game_variant::get_active_variant_writeable()
+{
+	return reinterpret_cast<c_game_engine_base_variant*>(m_variant_storage);
+}
+
+c_game_engine_ctf_variant const* c_game_variant::get_ctf_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_ctf, "this variant is not ctf!");
+	return static_cast<c_game_engine_ctf_variant const*>(get_active_variant());
+}
+
+c_game_engine_ctf_variant* c_game_variant::get_ctf_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_ctf, "this variant is not ctf!");
+	return static_cast<c_game_engine_ctf_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_slayer_variant const* c_game_variant::get_slayer_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_slayer, "this variant is not slayer!");
+	return static_cast<c_game_engine_slayer_variant const*>(get_active_variant());
+}
+
+c_game_engine_slayer_variant* c_game_variant::get_slayer_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_slayer, "this variant is not slayer!");
+	return static_cast<c_game_engine_slayer_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_oddball_variant const* c_game_variant::get_oddball_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_oddball, "this variant is not oddball!");
+	return static_cast<c_game_engine_oddball_variant const*>(get_active_variant());
+}
+
+c_game_engine_oddball_variant* c_game_variant::get_oddball_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_oddball, "this variant is not oddball!");
+	return static_cast<c_game_engine_oddball_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_king_variant const* c_game_variant::get_king_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_king, "this variant is not king of the hill!");
+	return static_cast<c_game_engine_king_variant const*>(get_active_variant());
+}
+
+c_game_engine_king_variant* c_game_variant::get_king_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_king, "this variant is not king of the hill!");
+	return static_cast<c_game_engine_king_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_sandbox_variant const* c_game_variant::get_sandbox_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_sandbox, "this variant is not sandbox editor!");
+	return static_cast<c_game_engine_sandbox_variant const*>(get_active_variant());
+}
+
+c_game_engine_sandbox_variant* c_game_variant::get_sandbox_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_sandbox, "this variant is not sandbox editor!");
+	return static_cast<c_game_engine_sandbox_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_vip_variant const* c_game_variant::get_vip_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_vip, "this variant is not vip!");
+	return static_cast<c_game_engine_vip_variant const*>(get_active_variant());
+}
+
+c_game_engine_vip_variant* c_game_variant::get_vip_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_vip, "this variant is not vip!");
+	return static_cast<c_game_engine_vip_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_juggernaut_variant const* c_game_variant::get_juggernaut_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_juggernaut, "this variant is not juggernaut!");
+	return static_cast<c_game_engine_juggernaut_variant const*>(get_active_variant());
+}
+
+c_game_engine_juggernaut_variant* c_game_variant::get_juggernaut_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_juggernaut, "this variant is not juggernaut!");
+	return static_cast<c_game_engine_juggernaut_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_territories_variant const* c_game_variant::get_territories_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_territories, "this variant is not territories!");
+	return static_cast<c_game_engine_territories_variant const*>(get_active_variant());
+}
+
+c_game_engine_territories_variant* c_game_variant::get_territories_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_territories, "this variant is not territories!");
+	return static_cast<c_game_engine_territories_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_assault_variant const* c_game_variant::get_assault_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_assault, "this variant is not assault!");
+	return static_cast<c_game_engine_assault_variant const*>(get_active_variant());
+}
+
+c_game_engine_assault_variant* c_game_variant::get_assault_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_assault, "this variant is not assault!");
+	return static_cast<c_game_engine_assault_variant*>(get_active_variant_writeable());
+}
+
+c_game_engine_infection_variant const* c_game_variant::get_infection_variant() const
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_infection, "this variant is not infection!");
+	return static_cast<c_game_engine_infection_variant const*>(get_active_variant());
+}
+
+c_game_engine_infection_variant* c_game_variant::get_infection_variant_writeable()
+{
+	ASSERT(get_game_engine_index() == _game_engine_type_infection, "this variant is not infection!");
+	return static_cast<c_game_engine_infection_variant*>(get_active_variant_writeable());
+}
+
+bool c_game_variant::get_integer_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const
+{
+	return get_game_engine_setting(parameter, _text_value_pair_parameter_type_integer, out_value);
+}
+
+bool c_game_variant::set_integer_game_engine_setting(e_game_variant_parameter parameter, long value)
+{
+	return set_game_engine_setting(parameter, _text_value_pair_parameter_type_integer, value);
+}
+
+bool c_game_variant::get_string_id_game_engine_setting(e_game_variant_parameter parameter, long* out_value) const
+{
+	return get_game_engine_setting(parameter, _text_value_pair_parameter_type_string_id, out_value);
+}
+
+bool c_game_variant::set_string_id_game_engine_setting(e_game_variant_parameter parameter, long value)
+{
+	return set_game_engine_setting(parameter, _text_value_pair_parameter_type_string_id, value);
+}
+
+bool c_game_variant::get_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long* out_value) const
+{
+	return DECLFUNC(0x00574530, bool, __thiscall, c_game_variant const*, e_game_variant_parameter, e_text_value_pair_parameter_type, long*)(this, parameter, parameter_type, out_value);
+}
+
+bool c_game_variant::set_game_engine_setting(e_game_variant_parameter parameter, e_text_value_pair_parameter_type parameter_type, long value)
+{
+	return DECLFUNC(0x0057AAB0, bool, __thiscall, c_game_variant*, e_game_variant_parameter, e_text_value_pair_parameter_type, long)(this, parameter, parameter_type, value);
+}
 
 char const* k_game_engine_type_names[k_game_engine_type_count] =
 {
@@ -25,161 +423,6 @@ const char* game_engine_type_get_string(long game_engine_index)
 		return "<invalid 'game_engine_index'>";
 
 	return k_game_engine_type_names[game_engine_index];
-}
-
-void c_game_engine_base_variant::encode_to_mcc(c_bitstream* packet) const
-{
-	m_metadata.encode_to_mcc(packet);
-
-	bool built_in = get_built_in();
-
-	packet->write_bool("variant-built-in", built_in);
-
-	get_miscellaneous_options()->encode_to_mcc(packet);
-	get_respawn_options()->encode_to_mcc(packet);
-	get_social_options()->encode_to_mcc(packet);
-	get_map_override_options()->encode_to_mcc(packet);
-
-	short team_scoring_method = get_team_scoring_method();
-
-	packet->write_integer("team-scoring-method", team_scoring_method, 3);
-}
-
-void c_game_engine_base_variant::decode_from_mcc(c_bitstream* packet)
-{
-	initialize();
-	m_metadata.decode_from_mcc(packet);
-
-	bool built_in = packet->read_bool("variant-built-in");
-
-	get_miscellaneous_options_writeable()->decode_from_mcc(packet);
-	get_respawn_options_writeable()->decode_from_mcc(packet);
-	get_social_options_writeable()->decode_from_mcc(packet);
-	get_map_override_options_writeable()->decode_from_mcc(packet);
-
-	short team_scoring_method = static_cast<short>(packet->read_integer("team-scoring-method", 3));
-
-	set_built_in(built_in);
-
-	set_team_scoring_method(team_scoring_method);
-}
-
-void c_game_engine_base_variant::byteswap()
-{
-	m_metadata.byteswap();
-	m_miscellaneous_options.byteswap();
-	m_respawn_options.byteswap();
-	m_social_options.byteswap();
-	m_map_override_options.byteswap();
-	bswap_word_inplace(m_flags);
-	bswap_word_inplace(m_team_scoring_method);
-}
-
-void c_game_engine_base_variant::set(c_game_engine_base_variant const* variant, bool force)
-{
-	ASSERT(variant != NULL);
-
-	set_name(variant->get_name());
-	set_description(variant->get_description());
-	m_miscellaneous_options.set(variant->get_miscellaneous_options(), force);
-	m_respawn_options.set(variant->get_respawn_options(), force);
-	m_social_options.set(variant->get_social_options(), force);
-	m_map_override_options.set(variant->get_map_override_options(), force);
-	set_team_scoring_method(variant->get_team_scoring_method());
-}
-
-//void c_game_engine_base_variant::set(s_game_engine_base_variant_definition const* definition, bool force)
-//{
-//}
-
-void c_game_engine_base_variant::get_game_engine_name(c_static_wchar_string<1024>* out_game_engine_name) const
-{
-	game_engine_get_multiplayer_string(get_game_engine_name_string_id(), out_game_engine_name);
-}
-
-void c_game_engine_base_variant::get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const
-{
-	game_engine_get_multiplayer_string(get_game_engine_default_description_string_id(), game_engine_description);
-}
-
-char const* c_game_engine_base_variant::get_name() const
-{
-	return m_name;
-}
-
-void c_game_engine_base_variant::set_name(char const* name)
-{
-	csstrnzcpy(m_name, name, 32);
-}
-
-char const* c_game_engine_base_variant::get_description() const
-{
-	return m_metadata.description;
-}
-
-void c_game_engine_base_variant::set_description(char const* description)
-{
-	csstrnzcpy(m_metadata.description, description, 128);
-}
-
-c_game_engine_miscellaneous_options* c_game_engine_base_variant::get_miscellaneous_options_writeable()
-{
-	return &m_miscellaneous_options;
-}
-
-c_game_engine_miscellaneous_options const* c_game_engine_base_variant::get_miscellaneous_options() const
-{
-	return &m_miscellaneous_options;
-}
-
-c_game_engine_respawn_options* c_game_engine_base_variant::get_respawn_options_writeable()
-{
-	return &m_respawn_options;
-}
-
-c_game_engine_respawn_options const* c_game_engine_base_variant::get_respawn_options() const
-{
-	return &m_respawn_options;
-}
-
-c_game_engine_social_options* c_game_engine_base_variant::get_social_options_writeable()
-{
-	return &m_social_options;
-}
-
-c_game_engine_social_options const* c_game_engine_base_variant::get_social_options() const
-{
-	return &m_social_options;
-}
-
-c_game_engine_map_override_options* c_game_engine_base_variant::get_map_override_options_writeable()
-{
-	return &m_map_override_options;
-}
-
-c_game_engine_map_override_options const* c_game_engine_base_variant::get_map_override_options() const
-{
-	return &m_map_override_options;
-}
-
-bool c_game_engine_base_variant::get_built_in() const
-{
-	return m_flags.test(_base_variant_flags_built_in);
-}
-
-void c_game_engine_base_variant::set_built_in(bool built_in)
-{
-	m_flags.set(_base_variant_flags_built_in, built_in);
-}
-
-short c_game_engine_base_variant::get_team_scoring_method() const
-{
-	return m_team_scoring_method;
-}
-
-void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_method)
-{
-	m_team_scoring_method = team_scoring_method;
 }
 
 c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index)

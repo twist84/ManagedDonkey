@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_variant.hpp"
 #include "game/game_options.hpp"
 #include "memory/secure_signature.hpp"
 #include "saved_games/saved_game_files.hpp"
@@ -178,6 +179,7 @@ public:
 };
 static_assert(sizeof(s_blffile_saved_game_file) == 0x138);
 
+#pragma pack(push, 1)
 struct s_blffile_game_variant :
 	s_blffile_saved_game_file
 {
@@ -190,6 +192,7 @@ public:
 	byte pad[3];
 };
 static_assert(sizeof(s_blffile_game_variant) == 0x3BC);
+#pragma pack(pop)
 
 struct s_blffile_map_variant :
 	s_blffile_saved_game_file

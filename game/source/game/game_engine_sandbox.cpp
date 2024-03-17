@@ -2,6 +2,7 @@
 
 #include "cseries/cseries_events.hpp"
 #include "memory/byte_swapping.hpp"
+#include "memory/bitstream.hpp"
 
 REFERENCE_DECLARE(0x0240648C, c_game_engine_sandbox_variant*, sandbox_variant);
 

@@ -2,21 +2,116 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game_engine_traits.hpp"
+#include "saved_games/saved_game_files.hpp"
 #include "tag_files/files.hpp"
+#include "text/unicode.hpp"
+
+#pragma pack(push, 4)
 
 enum e_multiplayer_team;
 enum e_team_scoring_method;
-struct game_engine_interface_state;
 enum e_multiplayer_team_designator;
-struct s_chud_navpoint;
-struct s_netgame_goal_influencer;
 enum e_game_team;
 enum e_multiplayer_team_designator;
 enum e_game_engine_kill_flags;
 enum e_simulation_entity_type;
-struct s_game_engine_event_data;
 enum e_simulation_event_type;
+
+struct game_engine_interface_state;
+struct s_chud_navpoint;
+struct s_netgame_goal_influencer;
+struct s_game_engine_event_data;
 struct s_multiplayer_runtime_globals_definition;
+struct c_bitstream;
+struct s_file_reference;
+
+enum e_game_engine_type
+{
+	_game_engine_type_none = 0,
+	_game_engine_type_ctf,
+	_game_engine_type_slayer,
+	_game_engine_type_oddball,
+	_game_engine_type_king,
+	_game_engine_type_sandbox,
+	_game_engine_type_vip,
+	_game_engine_type_juggernaut,
+	_game_engine_type_territories,
+	_game_engine_type_assault,
+	_game_engine_type_infection,
+
+	k_game_engine_type_count,
+	k_game_engine_type_default = _game_engine_type_none
+};
+
+struct c_game_engine_base_variant
+{
+public:
+	virtual long get_game_engine_name_string_id() const;
+	virtual long get_game_engine_default_description_string_id() const;
+	virtual void initialize();
+	virtual void validate();
+	virtual void encode(c_bitstream* packet) const;
+	virtual void decode(c_bitstream* packet);
+	//virtual void byteswap(); // MCC
+	virtual bool can_add_to_recent_list() const;
+	virtual long get_score_to_win_round() const;
+	virtual long get_score_unknown() const; // halo online specific
+	virtual bool can_be_cast_to(e_game_engine_type game_engine_index, void const**) const;
+	virtual void custom_team_score_stats(long team_index, long, long) const;
+
+	void encode_to_mcc(c_bitstream* packet) const;
+	void decode_from_mcc(c_bitstream* packet);
+
+	c_game_engine_base_variant* constructor()
+	{
+		return DECLFUNC(0x00572B20, c_game_engine_base_variant*, __thiscall, c_game_engine_base_variant*)(this);
+	}
+
+	void byteswap();
+
+	void set(c_game_engine_base_variant const* variant, bool force);
+	//void set(s_game_engine_base_variant_definition const* definition, bool force);
+
+	void get_game_engine_name(c_static_wchar_string<1024>* game_engine_name) const;
+	void get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const;
+
+	char const* get_name() const;
+	void set_name(char const* name);
+
+	char const* get_description() const;
+	void set_description(char const* description);
+
+	c_game_engine_miscellaneous_options* get_miscellaneous_options_writeable();
+	c_game_engine_miscellaneous_options const* get_miscellaneous_options() const;
+
+	c_game_engine_respawn_options* get_respawn_options_writeable();
+	c_game_engine_respawn_options const* get_respawn_options() const;
+
+	c_game_engine_social_options* get_social_options_writeable();
+	c_game_engine_social_options const* get_social_options() const;
+
+	c_game_engine_map_override_options* get_map_override_options_writeable();
+	c_game_engine_map_override_options const* get_map_override_options() const;
+
+	bool get_built_in() const;
+	void set_built_in(bool built_in);
+
+	short get_team_scoring_method() const;
+	void set_team_scoring_method(short team_scoring_method);
+
+protected:
+	dword m_checksum;
+
+	char m_name[32];
+	s_content_item_metadata m_metadata;
+	c_game_engine_miscellaneous_options m_miscellaneous_options;
+	c_game_engine_respawn_options m_respawn_options;
+	c_game_engine_social_options m_social_options;
+	c_game_engine_map_override_options m_map_override_options;
+	c_flags<e_base_variant_flags, word, k_base_variant_flags> m_flags;
+	short m_team_scoring_method;
+};
+static_assert(sizeof(c_game_engine_base_variant) == 0x1D0);
 
 struct s_game_engine_state_data
 {
@@ -131,3 +226,6 @@ public:
 	void dump_player_trait_settings(char const* traits_name, c_player_traits const* traits, s_file_reference* file) const;
 	void dump_settings(s_file_reference* file) const;
 };
+
+#pragma pack(pop)
+

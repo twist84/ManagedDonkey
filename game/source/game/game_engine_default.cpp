@@ -1,8 +1,10 @@
 #include "game/game_engine_default.hpp"
 
+#include "game/game_engine.hpp"
 #include "game/game_engine_util.hpp"
 #include "game/game_engine_variant.hpp"
-#include "game/game_options.hpp"
+#include "memory/bitstream.hpp"
+#include "memory/byte_swapping.hpp"
 
 void c_game_engine::dump_player_trait_settings(char const* traits_name, c_player_traits const* traits, s_file_reference* file) const
 {
@@ -278,5 +280,160 @@ void c_game_engine::dump_settings(s_file_reference* file) const
 	file_printf(file, "yellow powerup duration= %d seconds\r\n", active_variant->get_map_override_options()->get_yellow_powerup_duration_seconds());
 
 	file_printf(file, "---------- END BASE variant settings\r\n");
+}
+
+void c_game_engine_base_variant::encode_to_mcc(c_bitstream* packet) const
+{
+	m_metadata.encode_to_mcc(packet);
+
+	bool built_in = get_built_in();
+
+	packet->write_bool("variant-built-in", built_in);
+
+	get_miscellaneous_options()->encode_to_mcc(packet);
+	get_respawn_options()->encode_to_mcc(packet);
+	get_social_options()->encode_to_mcc(packet);
+	get_map_override_options()->encode_to_mcc(packet);
+
+	short team_scoring_method = get_team_scoring_method();
+
+	packet->write_integer("team-scoring-method", team_scoring_method, 3);
+}
+
+void c_game_engine_base_variant::decode_from_mcc(c_bitstream* packet)
+{
+	initialize();
+	m_metadata.decode_from_mcc(packet);
+
+	bool built_in = packet->read_bool("variant-built-in");
+
+	get_miscellaneous_options_writeable()->decode_from_mcc(packet);
+	get_respawn_options_writeable()->decode_from_mcc(packet);
+	get_social_options_writeable()->decode_from_mcc(packet);
+	get_map_override_options_writeable()->decode_from_mcc(packet);
+
+	short team_scoring_method = static_cast<short>(packet->read_integer("team-scoring-method", 3));
+
+	set_built_in(built_in);
+
+	set_team_scoring_method(team_scoring_method);
+}
+
+void c_game_engine_base_variant::byteswap()
+{
+	m_metadata.byteswap();
+	m_miscellaneous_options.byteswap();
+	m_respawn_options.byteswap();
+	m_social_options.byteswap();
+	m_map_override_options.byteswap();
+	bswap_word_inplace(m_flags);
+	bswap_word_inplace(m_team_scoring_method);
+}
+
+void c_game_engine_base_variant::set(c_game_engine_base_variant const* variant, bool force)
+{
+	ASSERT(variant != NULL);
+
+	set_name(variant->get_name());
+	set_description(variant->get_description());
+	m_miscellaneous_options.set(variant->get_miscellaneous_options(), force);
+	m_respawn_options.set(variant->get_respawn_options(), force);
+	m_social_options.set(variant->get_social_options(), force);
+	m_map_override_options.set(variant->get_map_override_options(), force);
+	set_team_scoring_method(variant->get_team_scoring_method());
+}
+
+//void c_game_engine_base_variant::set(s_game_engine_base_variant_definition const* definition, bool force)
+//{
+//}
+
+void c_game_engine_base_variant::get_game_engine_name(c_static_wchar_string<1024>* out_game_engine_name) const
+{
+	game_engine_get_multiplayer_string(get_game_engine_name_string_id(), out_game_engine_name);
+}
+
+void c_game_engine_base_variant::get_game_engine_description(c_static_wchar_string<1024>* game_engine_description) const
+{
+	game_engine_get_multiplayer_string(get_game_engine_default_description_string_id(), game_engine_description);
+}
+
+char const* c_game_engine_base_variant::get_name() const
+{
+	return m_name;
+}
+
+void c_game_engine_base_variant::set_name(char const* name)
+{
+	csstrnzcpy(m_name, name, 32);
+}
+
+char const* c_game_engine_base_variant::get_description() const
+{
+	return m_metadata.description;
+}
+
+void c_game_engine_base_variant::set_description(char const* description)
+{
+	csstrnzcpy(m_metadata.description, description, 128);
+}
+
+c_game_engine_miscellaneous_options* c_game_engine_base_variant::get_miscellaneous_options_writeable()
+{
+	return &m_miscellaneous_options;
+}
+
+c_game_engine_miscellaneous_options const* c_game_engine_base_variant::get_miscellaneous_options() const
+{
+	return &m_miscellaneous_options;
+}
+
+c_game_engine_respawn_options* c_game_engine_base_variant::get_respawn_options_writeable()
+{
+	return &m_respawn_options;
+}
+
+c_game_engine_respawn_options const* c_game_engine_base_variant::get_respawn_options() const
+{
+	return &m_respawn_options;
+}
+
+c_game_engine_social_options* c_game_engine_base_variant::get_social_options_writeable()
+{
+	return &m_social_options;
+}
+
+c_game_engine_social_options const* c_game_engine_base_variant::get_social_options() const
+{
+	return &m_social_options;
+}
+
+c_game_engine_map_override_options* c_game_engine_base_variant::get_map_override_options_writeable()
+{
+	return &m_map_override_options;
+}
+
+c_game_engine_map_override_options const* c_game_engine_base_variant::get_map_override_options() const
+{
+	return &m_map_override_options;
+}
+
+bool c_game_engine_base_variant::get_built_in() const
+{
+	return m_flags.test(_base_variant_flags_built_in);
+}
+
+void c_game_engine_base_variant::set_built_in(bool built_in)
+{
+	m_flags.set(_base_variant_flags_built_in, built_in);
+}
+
+short c_game_engine_base_variant::get_team_scoring_method() const
+{
+	return m_team_scoring_method;
+}
+
+void c_game_engine_base_variant::set_team_scoring_method(short team_scoring_method)
+{
+	m_team_scoring_method = team_scoring_method;
 }
 

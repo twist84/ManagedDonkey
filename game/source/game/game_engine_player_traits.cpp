@@ -2,6 +2,7 @@
 
 #include "cseries/cseries_events.hpp"
 #include "game/game_engine_util.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 
 void c_player_traits::byteswap()

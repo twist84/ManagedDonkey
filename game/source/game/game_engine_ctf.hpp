@@ -1,10 +1,10 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/game_engine_default.hpp"
 #include "game/game_engine_area_set.hpp"
 #include "game/game_engine_ctf_traits.hpp"
-#include "game/game_engine_default.hpp"
-#include "game/game_engine_variant.hpp"
+#include "game/game_engine_player_traits.hpp"
 
 struct c_game_engine_ctf_variant :
 	c_game_engine_base_variant

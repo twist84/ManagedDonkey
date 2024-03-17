@@ -1,6 +1,7 @@
 #include "game/game_engine_assault.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x0471AA14, c_game_engine_assault_variant*, assault_variant);

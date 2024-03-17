@@ -5,6 +5,7 @@
 #include "game/game.hpp"
 #include "main/levels.hpp"
 #include "memory/byte_swapping.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/logic/network_session_interface.hpp"

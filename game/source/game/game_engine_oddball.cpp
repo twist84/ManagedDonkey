@@ -1,6 +1,7 @@
 #include "game/game_engine_oddball.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 
 REFERENCE_DECLARE(0x050D9F74, c_game_engine_oddball_variant*, oddball_variant);
