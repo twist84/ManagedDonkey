@@ -1188,18 +1188,6 @@ POPD
     <ClInclude Include="source\xbox\xnet.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\tag_files\string_ids\string_ids.defined_in_tags.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.game_engine_strings.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.game_start_strings.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.global_strings.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.gpu_strings.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.gui_alert_strings.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.gui_dialog_strings.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.gui_strings.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.online_strings.inl" />
-    <None Include="source\tag_files\string_ids\string_ids.saved_game_strings.inl" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="resource\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

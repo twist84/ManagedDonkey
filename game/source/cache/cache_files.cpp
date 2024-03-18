@@ -976,6 +976,8 @@ void __cdecl scenario_tags_unload()
 
 void __cdecl tag_files_close()
 {
+	string_id_dispose();
+
 	INVOKE(0x00503300, tag_files_close);
 
 	//cache_file_tag_resources_dispose();
@@ -1000,6 +1002,8 @@ void __cdecl tag_files_open()
 	//cache_files_initialize();
 	//g_cache_file_globals.debug_tag_names = (decltype(g_cache_file_globals.debug_tag_names)) _physical_memory_malloc_fixed(_memory_stage_game_initialize, 0, 0xF1B300, 1);
 	//cache_file_tag_resources_initialize();
+
+	string_id_initialize();
 }
 
 void* __cdecl tag_get(tag group_tag, long tag_index)

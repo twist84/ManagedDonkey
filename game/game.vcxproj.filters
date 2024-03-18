@@ -3073,38 +3073,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\tag_files\string_ids\string_ids.global_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.gui_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.gui_alert_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.gui_dialog_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.game_engine_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.game_start_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.online_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.saved_game_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.gpu_strings.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="source\tag_files\string_ids\string_ids.defined_in_tags.inl">
-      <Filter>Header Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

@@ -9,8 +9,8 @@
 #define STRING_ID(NAMESPACE, STRING) (_string_namespace_##NAMESPACE << STRING_NAMESPACE_BITS) + _##NAMESPACE##_string_id_##STRING
 #define STRING_NAMESPACE_FROM_STRING_ID(ID) (ID >> STRING_NAMESPACE_BITS)
 #define STRING_INDEX_FROM_STRING_ID(ID) (ID & ((1 << STRING_NAMESPACE_BITS) - 1))
-#define DEFINE_CONSTANT_STRING_ID(NAMESPACE, STRING) { STRING_ID(NAMESPACE, STRING), k_##NAMESPACE##_string_id_strings[STRING_INDEX_FROM_STRING_ID(STRING_ID(NAMESPACE, STRING))] }
-#define DEFINE_CONSTANT_STRING_ID2(STRING_ID, STRING) { STRING_ID, #STRING }
+#define DEFINE_CONSTANT_STRING_ID(NAMESPACE, STRING) { STRING_ID(NAMESPACE, STRING), #STRING }
+#define DEFINE_CONSTANT_STRING_ID2(STRING_ID, STRING) { STRING_ID, STRING }
 
 enum e_string_namespace
 {
@@ -3879,53 +3879,53 @@ enum e_game_start_string_id
 
 enum e_online_string_id
 {
-	_online_string_id_achievement_beat_sc100 = 0,
-	_online_string_id_achievement_beat_sc110,
-	_online_string_id_achievement_beat_sc120,
-	_online_string_id_achievement_beat_sc130,
-	_online_string_id_achievement_beat_sc140,
-	_online_string_id_achievement_beat_sc150,
-	_online_string_id_achievement_beat_l200,
-	_online_string_id_achievement_beat_l300,
-	_online_string_id_achievement_beat_campaign_normal,
-	_online_string_id_achievement_beat_campaign_heroic,
-	_online_string_id_achievement_beat_campaign_legendary,
-	_online_string_id_achievement_wraith_killer,
-	_online_string_id_achievement_naughty_naughty,
-	_online_string_id_achievement_good_samaritan,
-	_online_string_id_achievement_dome_inspector,
-	_online_string_id_achievement_laser_blaster,
-	_online_string_id_achievement_both_tubes,
-	_online_string_id_achievement_i_like_fire,
-	_online_string_id_achievement_my_clothes,
-	_online_string_id_achievement_pink_and_deadly,
-	_online_string_id_achievement_dark_times,
-	_online_string_id_achievement_trading_down,
-	_online_string_id_achievement_headcase,
-	_online_string_id_achievement_boom_headshot,
-	_online_string_id_achievement_ewww_sticky,
-	_online_string_id_achievement_junior_detective,
-	_online_string_id_achievement_gumshoe,
-	_online_string_id_achievement_super_sleuth,
-	_online_string_id_achievement_metagame_points_in_sc100,
-	_online_string_id_achievement_metagame_points_in_sc110,
-	_online_string_id_achievement_metagame_points_in_sc120,
-	_online_string_id_achievement_metagame_points_in_sc130a,
-	_online_string_id_achievement_metagame_points_in_sc130b,
-	_online_string_id_achievement_metagame_points_in_sc140,
-	_online_string_id_achievement_metagame_points_in_l200,
-	_online_string_id_achievement_metagame_points_in_l300,
-	_online_string_id_achievement_be_like_marty,
-	_online_string_id_achievement_find_all_audio_logs,
-	_online_string_id_achievement_find_01_audio_logs,
-	_online_string_id_achievement_find_03_audio_logs,
-	_online_string_id_achievement_find_15_audio_logs,
-	_online_string_id_achievement_vidmaster_challenge_deja_vu,
-	_online_string_id_achievement_vidmaster_challenge_endure,
-	_online_string_id_achievement_vidmaster_challenge_classic,
-	_online_string_id_achievement_heal_up,
-	_online_string_id_achievement_stunning,
-	_online_string_id_achievement_tourist,
+	_online_string_id__achievement_beat_sc100 = 0,
+	_online_string_id__achievement_beat_sc110,
+	_online_string_id__achievement_beat_sc120,
+	_online_string_id__achievement_beat_sc130,
+	_online_string_id__achievement_beat_sc140,
+	_online_string_id__achievement_beat_sc150,
+	_online_string_id__achievement_beat_l200,
+	_online_string_id__achievement_beat_l300,
+	_online_string_id__achievement_beat_campaign_normal,
+	_online_string_id__achievement_beat_campaign_heroic,
+	_online_string_id__achievement_beat_campaign_legendary,
+	_online_string_id__achievement_wraith_killer,
+	_online_string_id__achievement_naughty_naughty,
+	_online_string_id__achievement_good_samaritan,
+	_online_string_id__achievement_dome_inspector,
+	_online_string_id__achievement_laser_blaster,
+	_online_string_id__achievement_both_tubes,
+	_online_string_id__achievement_i_like_fire,
+	_online_string_id__achievement_my_clothes,
+	_online_string_id__achievement_pink_and_deadly,
+	_online_string_id__achievement_dark_times,
+	_online_string_id__achievement_trading_down,
+	_online_string_id__achievement_headcase,
+	_online_string_id__achievement_boom_headshot,
+	_online_string_id__achievement_ewww_sticky,
+	_online_string_id__achievement_junior_detective,
+	_online_string_id__achievement_gumshoe,
+	_online_string_id__achievement_super_sleuth,
+	_online_string_id__achievement_metagame_points_in_sc100,
+	_online_string_id__achievement_metagame_points_in_sc110,
+	_online_string_id__achievement_metagame_points_in_sc120,
+	_online_string_id__achievement_metagame_points_in_sc130a,
+	_online_string_id__achievement_metagame_points_in_sc130b,
+	_online_string_id__achievement_metagame_points_in_sc140,
+	_online_string_id__achievement_metagame_points_in_l200,
+	_online_string_id__achievement_metagame_points_in_l300,
+	_online_string_id__achievement_be_like_marty,
+	_online_string_id__achievement_find_all_audio_logs,
+	_online_string_id__achievement_find_01_audio_logs,
+	_online_string_id__achievement_find_03_audio_logs,
+	_online_string_id__achievement_find_15_audio_logs,
+	_online_string_id__achievement_vidmaster_challenge_deja_vu,
+	_online_string_id__achievement_vidmaster_challenge_endure,
+	_online_string_id__achievement_vidmaster_challenge_classic,
+	_online_string_id__achievement_heal_up,
+	_online_string_id__achievement_stunning,
+	_online_string_id__achievement_tourist,
 
 	k_online_string_id_count
 };
@@ -4111,6 +4111,65 @@ static_assert(0x018 == k_saved_game_string_id_count);
 static_assert(0x00D == k_gpu_string_id_count);
 static_assert(0x073 == k_input_string_id_count);
 
+enum
+{
+	k_first_string_offset = _string_id_empty_string + 1,
+
+	k_last_string_offset
+	= k_gui_string_id_count
+	+ k_gui_alert_string_id_count
+	+ k_gui_dialog_string_id_count
+	+ k_game_start_string_id_count
+	+ k_game_engine_string_id_count
+	+ k_online_string_id_count
+	+ k_saved_game_string_id_count
+	+ k_gpu_string_id_count
+	+ k_global_string_id_count
+	- k_first_string_offset,
+
+	k_gui_string_offset
+	= k_first_string_offset,
+
+	k_gui_alert_string_offset
+	= k_gui_string_offset + k_gui_string_id_count,
+
+	k_gui_dialog_string_offset
+	= k_gui_alert_string_offset + k_gui_alert_string_id_count,
+
+	k_game_start_string_offset
+	= k_gui_dialog_string_offset + k_gui_dialog_string_id_count,
+
+	k_game_engine_string_offset
+	= k_game_start_string_offset + k_game_start_string_id_count,
+
+	k_online_string_offset
+	= k_game_engine_string_offset + k_game_engine_string_id_count,
+
+	k_saved_game_string_offset
+	= k_online_string_offset + k_online_string_id_count,
+
+	k_gpu_string_offset
+	= k_saved_game_string_offset + k_saved_game_string_id_count,
+
+	k_global_string_offset
+	= k_gpu_string_offset + k_gpu_string_id_count
+};
+static_assert(0x1 == k_first_string_offset);
+static_assert(0xF1E == k_last_string_offset);
+
+long const k_string_namespace_offsets[k_string_namespace_count]
+{
+	k_global_string_offset,
+	k_gui_string_offset,
+	k_gui_alert_string_offset,
+	k_gui_dialog_string_offset,
+	k_game_engine_string_offset,
+	k_game_start_string_offset,
+	k_online_string_offset,
+	k_saved_game_string_offset,
+	k_gpu_string_offset
+};
+
 long const k_maximum_string_id_storage = 0xAA000;
 struct s_string_id_globals
 {
@@ -4152,5 +4211,6 @@ long const k_constant_string_id_table_entries_missing = 447;
 //extern char* __cdecl string_id_get_string(long string_id, char* string, long string_size);
 extern char const* __cdecl string_id_get_string_const(long string_id);
 extern long __cdecl string_id_retrieve(char const* string);
-//void __cdecl initialize_hash_tables()
+extern void __cdecl string_id_initialize();
+extern void __cdecl string_id_dispose();
 
