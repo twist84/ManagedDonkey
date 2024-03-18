@@ -808,11 +808,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 	generate_event(_event_level_message, "cache: scenario load tags, name=%s", scenario_path);
 
-	void* working_memory = nullptr;
-	long working_memory_size = 0;
-	security_get_working_memory(0, &working_memory, &working_memory_size);
-	if (working_memory_size >= 0x38C8 && working_memory)
-		csmemset(working_memory, 0, 0x38C8);
+	cache_file_invalidate_signature();
 
 	if (cache_file_open(scenario_path, &g_cache_file_globals.header) && cache_file_header_verify_and_version(&g_cache_file_globals.header, scenario_path, false))
 	{
