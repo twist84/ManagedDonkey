@@ -54,10 +54,10 @@ static_assert(sizeof(s_tag_resource_prediction_molecule_key) == 0xC);
 
 struct c_tag_resource_cache_prediction_table
 {
-	c_wrapped_array<s_tag_resource_prediction_quantum const> m_prediction_quanta;
-	c_wrapped_array<s_tag_resource_prediction_atom const> m_prediction_atoms;
-	c_wrapped_array<long const> m_prediction_molecule_atoms;
-	c_wrapped_array<s_tag_resource_prediction_molecule const> m_prediction_molecules;
+	c_wrapped_array<s_tag_resource_prediction_quantum const*> m_prediction_quanta;
+	c_wrapped_array<s_tag_resource_prediction_atom const*> m_prediction_atoms;
+	c_wrapped_array<long const*> m_prediction_molecule_atoms;
+	c_wrapped_array<s_tag_resource_prediction_molecule const*> m_prediction_molecules;
 };
 static_assert(sizeof(c_tag_resource_cache_prediction_table) == 0x20);
 

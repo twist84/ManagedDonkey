@@ -8,7 +8,7 @@
 struct s_cache_file_tag_resource_data;
 struct c_cache_file_resource_uber_location_table
 {
-	c_wrapped_array<s_cache_file_tag_resource_data>* m_locations;
+	c_wrapped_array<s_cache_file_tag_resource_data*>* m_locations;
 	long __unknown4;
 };
 static_assert(sizeof(c_cache_file_resource_uber_location_table) == 0x8);

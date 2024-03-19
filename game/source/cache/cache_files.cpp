@@ -467,7 +467,7 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 	//reports->count = GET_REPORT_COUNT_FROM_SIZE(g_cache_file_globals.header.reports.size);
 }
 
-void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long>* resource_offsets)
+void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long*> resource_offsets)
 {
 	INVOKE(0x00502550, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk, resource_offsets);
 }

@@ -323,7 +323,7 @@ struct c_cache_file_tag_resource_runtime_manager :
 	c_static_flags<32768> m_required_resources;
 	c_static_flags<32768> m_pending_resources;
 	c_static_array<s_cache_file_tag_resource_vtable const*, 16> m_tag_resource_vtables;
-	c_wrapped_array<void> m_resource_runtime_data;
+	c_wrapped_array<void*> m_resource_runtime_data;
 	c_basic_buffer<void> m_resource_interop_data_buffer;
 	c_cache_file_combined_tag_resource_datum_handler m_combined_tag_resource_datum_handler;
 	c_cache_file_tag_resource_location_handler m_resource_location_handler;

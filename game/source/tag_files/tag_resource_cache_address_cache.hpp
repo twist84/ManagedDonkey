@@ -35,7 +35,7 @@ struct c_tag_resource_address_cache
 	static_assert(sizeof(s_cached_resource_state) == 0x14);
 
 	c_tag_resource_address_cache_control_interface m_control_interface;
-	c_wrapped_array<s_cached_resource_state> m_cached_access_datums;
+	c_wrapped_array<s_cached_resource_state*> m_cached_access_datums;
 
 	byte __dataC[0x8]; // ?
 
@@ -45,7 +45,7 @@ struct c_tag_resource_address_cache
 
 	byte __data2C[0x8]; // ?
 
-	c_wrapped_array<s_published_resources_state> m_published_resources_states;
+	c_wrapped_array<s_published_resources_state*> m_published_resources_states;
 	void* m_allocation;
 	c_allocation_base* m_allocator;
 };

@@ -45,11 +45,11 @@ public:
 	}
 
 	// m_handles[interop->descriptor]
-	c_wrapped_array<qword> __unknown0;
+	c_wrapped_array<qword*> __unknown0;
 
-	c_wrapped_array<s_tag_resource_access_datum> m_cached_access_datums;
-	c_wrapped_array<dword> m_cached_resource_handles;
-	c_wrapped_array<c_flags<e_tag_resource_access_state_bit, dword, k_tag_resource_access_state_bits>> m_resource_flags;
+	c_wrapped_array<s_tag_resource_access_datum*> m_cached_access_datums;
+	c_wrapped_array<dword*> m_cached_resource_handles;
+	c_wrapped_array<c_flags<e_tag_resource_access_state_bit, dword, k_tag_resource_access_state_bits>*> m_resource_flags;
 	
 	c_allocation_base* m_allocator;
 	void* m_allocation;
