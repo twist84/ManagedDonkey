@@ -812,12 +812,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 	if (cache_file_open(scenario_path, &g_cache_file_globals.header) && cache_file_header_verify_and_version(&g_cache_file_globals.header, scenario_path, false))
 	{
-		char creator_string[32]{};
-		g_cache_file_globals.header.author.copy_to(creator_string, 32);
-		for (long i = 0; i < 32; i++)
-			creator_string[i] ^= g_cache_file_creator_key[i];
-
-		c_console::write_line("map created by", "%s", creator_string);
+		cache_files_update_main_status();
 
 		s_cache_file_header header_copy{};
 		csmemcpy(&header_copy, &g_cache_file_globals.header, sizeof(s_cache_file_header));
@@ -985,6 +980,27 @@ void __cdecl scenario_tags_unload()
 	g_cache_file_globals.tags_loaded = 0;
 	cache_file_tags_unload();
 	csmemset(&g_cache_file_globals.header, 0, sizeof(g_cache_file_globals.header));
+}
+
+void cache_file_transform_creator_string(c_wrapped_array<char> in_out_creator_string)
+{
+	if (in_out_creator_string[0])
+	{
+		ASSERT(NUMBEROF(g_cache_file_creator_key) >= in_out_creator_string.count());
+
+		for (long i = 0; i < in_out_creator_string.count(); i++)
+			in_out_creator_string[i] ^= g_cache_file_creator_key[i];
+	}
+}
+
+void cache_files_update_main_status()
+{
+	c_static_string<32> author = g_cache_file_globals.header.author;
+	c_wrapped_array<char> creator_string(author.get_buffer(), 32);
+	cache_file_transform_creator_string(creator_string);
+	author.null_terminate_buffer();
+	main_status("map created by", "%s", author.get_string());
+	c_console::write_line("map created by %s", author.get_string());
 }
 
 void __cdecl tag_files_close()

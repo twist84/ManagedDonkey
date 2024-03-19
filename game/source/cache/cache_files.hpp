@@ -356,6 +356,9 @@ extern bool __cdecl scenario_tags_load(char const* scenario_path);
 extern void __cdecl scenario_tags_load_finished();
 extern void __cdecl scenario_tags_unload();
 
+extern void cache_file_transform_creator_string(c_wrapped_array<char> in_out_creator_string);
+extern void cache_files_update_main_status();
+
 struct tag_iterator
 {
 	dword __unknown0;
