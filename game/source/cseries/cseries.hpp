@@ -1063,6 +1063,11 @@ public:
 		set(s);
 	}
 
+	void null_terminate_buffer()
+	{
+		m_string[k_maximum_count - 1] = 0;
+	}
+
 	void set_character(long index, char character)
 	{
 		ASSERT(VALID_INDEX(index, k_maximum_count - 1));
