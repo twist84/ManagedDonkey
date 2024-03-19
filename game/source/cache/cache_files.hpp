@@ -104,7 +104,8 @@ union s_cache_file_header
 
 		c_static_string<k_tag_string_length> author;
 
-		byte __data308[0x18];
+		byte __data308[0x10];
+		qword __unknown318;
 
 		s_network_http_request_hash hash;
 		s_rsa_signature rsa_signature;
