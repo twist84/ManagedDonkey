@@ -10,3 +10,11 @@ struct s_scenario_kill_trigger_volumes_state
 };
 static_assert(sizeof(s_scenario_kill_trigger_volumes_state) == 0x84);
 
+extern void __cdecl scenario_kill_trigger_volume_disable(long trigger_volume_index);
+extern void __cdecl scenario_kill_trigger_volume_enable(long trigger_volume_index);
+extern bool __cdecl scenario_kill_trigger_volume_test_object(long object_index, bool* a2);
+extern void __cdecl scenario_kill_trigger_volumes_dispose();
+extern void __cdecl scenario_kill_trigger_volumes_dispose_from_old_map();
+extern void __cdecl scenario_kill_trigger_volumes_initialize();
+extern void __cdecl scenario_kill_trigger_volumes_initialize_for_new_map();
+

@@ -174,6 +174,7 @@ POPD
     <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
+    <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\simulation\simulation_players.cpp" />
     <ClCompile Include="source\ai\ai.cpp" />
     <ClCompile Include="source\ai\ai_debug.cpp" />

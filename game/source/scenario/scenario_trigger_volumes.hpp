@@ -39,7 +39,7 @@ struct scenario_trigger_volume
 	real C;
 
 	// s_scenario_kill_trigger_volume
-	short kill_trigger_volume; // short_block_index
+	short kill_trigger_volume_index; // short_block_index
 
 	// s_scenario_editor_folder
 	short editor_folder; // short_block_index
