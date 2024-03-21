@@ -3,6 +3,7 @@
 #ifdef _DEBUG
 #define NO_WAIT_FOR_PROCESS
 #endif // _DEBUG
+
 #ifdef DEDICATED_SERVER
 #define REMOTE_CONSOLE_ENABLED
 #endif // DEDICATED_SERVER
