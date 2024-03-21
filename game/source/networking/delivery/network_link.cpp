@@ -130,6 +130,13 @@ void __cdecl c_network_link::destroy_endpoints()
 c_network_channel* __cdecl c_network_link::get_associated_channel(transport_address const* address) const
 {
 	return DECLFUNC(0x0043BA40, c_network_channel*, __cdecl, transport_address const*)(address);
+
+	//c_network_channel* associated_channel = NULL;
+	//do
+	//	associated_channel = network_channel_iterate(associated_channel);
+	//while (associated_channel && !associated_channel->is_channel_remote_address(address));
+	//
+	//return associated_channel;
 }
 
 bool __cdecl c_network_link::physical_link_available()
