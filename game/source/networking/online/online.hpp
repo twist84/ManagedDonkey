@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "text/unicode.hpp"
 
 enum e_online_nat_type
 {
@@ -16,7 +17,7 @@ struct s_online_user
 {
 	bool initialized;
 	qword player_xuid;
-	wchar_t player_name[16];
+	c_static_wchar_string<16> player_name;
 };
 static_assert(sizeof(s_online_user) == 0x30);
 

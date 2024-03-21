@@ -76,14 +76,10 @@ e_online_nat_type __cdecl online_get_maximum_compatible_nat_type(e_online_nat_ty
 
 	switch (nat_type)
 	{
-	case _online_nat_type_none:
-		return _online_nat_type_none;
-	case _online_nat_type_open:
-		return _online_nat_type_open;
-	case _online_nat_type_moderate:
-		return _online_nat_type_moderate;
-	case _online_nat_type_strict:
-		return _online_nat_type_strict;
+	case _online_nat_type_none:     return _online_nat_type_none;
+	case _online_nat_type_open:     return _online_nat_type_open;
+	case _online_nat_type_moderate: return _online_nat_type_moderate;
+	case _online_nat_type_strict:   return _online_nat_type_strict;
 	}
 
 	return _online_nat_type_none;
@@ -155,7 +151,7 @@ bool __cdecl online_is_connected_to_live()
 
 wchar_t const* __cdecl online_user_get_name(long controller_index)
 {
-	return g_controller_users[controller_index].player_name;
+	return g_controller_users[controller_index].player_name.get_string();
 }
 
 qword __cdecl online_user_get_player_identifier(long controller_index)
@@ -239,13 +235,13 @@ void __cdecl online_set_is_connected_to_live(bool is_connected_to_live)
 
 void __cdecl online_user_set_name(wchar_t const* name)
 {
-	ustrnzcpy(g_controller_users[0].player_name, name, 16);
+	g_controller_users[0].player_name.set(name);
 }
 
 void __cdecl online_update()
 {
-	if (*g_controller_users[0].player_name == 0)
+	if (g_controller_users[0].player_name.is_empty())
 	{
-		wsprintfW(g_controller_users[0].player_name, L"%S", g_hostname);
+		g_controller_users[0].player_name.print(L"%S", g_hostname);
 	}
 }
