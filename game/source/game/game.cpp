@@ -269,7 +269,7 @@ s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs()
 
 s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs_local()
 {
-	//return INVOKE(0x005311B0, game_get_cluster_pvs);
+	//return INVOKE(0x005311B0, game_get_cluster_pvs_local);
 
 	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
@@ -526,7 +526,7 @@ bool __cdecl game_is_synchronous_networking()
 
 bool __cdecl game_is_ui_shell()
 {
-	//return INVOKE(0x00531E90, game_is_synchronous_networking);
+	//return INVOKE(0x00531E90, game_is_ui_shell);
 
 	return game_mode_get() == _game_mode_mainmenu;
 }
