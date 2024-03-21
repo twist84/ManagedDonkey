@@ -249,28 +249,40 @@ void __cdecl cache_file_get_path(char const* mapname, char* buffer, long buffer_
 	INVOKE(0x005018C0, cache_file_get_path, mapname, buffer, buffer_size);
 }
 
-//struct s_cache_file_security_globals
-//{
-//	s_cache_file_header header;
-//	bool valid_content_signature;
-//	c_static_array<dword, 1> hash_sizes;
-//	c_static_array<void const*, 1> hash_addresses;
-//	c_static_array<s_network_http_request_hash, 1> hashes;
-//	struct
-//	{
-//		dword count;
-//		dword state[5];
-//		byte buffer[64];
-//	}
-//	state;
-//
-//	dword SHA[234];
-//
-//	s_network_http_request_hash hash;
-//	s_rsa_signature rsa_signature;
-//	byte __data38C4[4];
-//};
-//static_assert(sizeof(s_cache_file_security_globals) == 0x38C8);
+#pragma pack(push, 4)
+struct s_cache_file_security_globals
+{
+	s_cache_file_header header;
+	bool valid_content_signature;
+	c_static_array<dword, 1> hash_sizes;
+	c_static_array<void const*, 1> hash_addresses;
+	c_static_array<s_network_http_request_hash, 1> hashes;
+	struct
+	{
+		dword count;
+		dword state[5];
+		byte buffer[64];
+	}
+	state;
+
+	dword SHA[234];
+
+	s_network_http_request_hash hash;
+	s_rsa_signature rsa_signature;
+	byte __data38C4[4];
+};
+static_assert(0x00000000 == offsetof(s_cache_file_security_globals, header));
+static_assert(0x00003390 == offsetof(s_cache_file_security_globals, valid_content_signature));
+static_assert(0x00003394 == offsetof(s_cache_file_security_globals, hash_sizes));
+static_assert(0x00003398 == offsetof(s_cache_file_security_globals, hash_addresses));
+static_assert(0x0000339C == offsetof(s_cache_file_security_globals, hashes));
+static_assert(0x000033B0 == offsetof(s_cache_file_security_globals, state));
+static_assert(0x00003408 == offsetof(s_cache_file_security_globals, SHA));
+static_assert(0x000037B0 == offsetof(s_cache_file_security_globals, hash));
+static_assert(0x000037C4 == offsetof(s_cache_file_security_globals, rsa_signature));
+static_assert(0x000038C4 == offsetof(s_cache_file_security_globals, __data38C4));
+static_assert(0x000038C8 == sizeof(s_cache_file_security_globals));
+#pragma pack(pop)
 
 s_cache_file_security_globals* __cdecl cache_file_get_security_globals()
 {
@@ -908,6 +920,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		//	calculate hash
 		//	calculate hash signature
 		//	compare hash signatures
+		s_cache_file_security_globals* security_globals = cache_file_get_security_globals();
 
 		if (success)
 		{
@@ -920,7 +933,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 		if (success)
 		{
-			//security_globals->valid_content_signature = true;
+			security_globals->valid_content_signature = true;
 
 			cache_file_tags_fixup_all_instances();
 
