@@ -9,6 +9,7 @@
 #include "main/console.hpp"
 #include "main/levels.hpp"
 #include "memory/module.hpp"
+#include "multithreading/threads.hpp"
 #include "networking/delivery/network_link.hpp"
 #include "networking/logic/network_recruiting_search.hpp"
 #include "networking/logic/network_session_interface.hpp"
@@ -26,6 +27,7 @@
 #include "networking/network_time.hpp"
 #include "networking/session/network_session.hpp"
 #include "networking/transport/transport.hpp"
+#include "profiler/profiler.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 #include "tag_files/tag_groups.hpp"
 
@@ -49,6 +51,18 @@ do                                                     \
     user_interface_update(_time);                      \
     network_update();                                  \
 } while (_get_value() != _value);
+
+#define NETWORK_ENTER_AND_LOCK_TIME \
+ASSERT(network_globals.entered == false); \
+ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
+network_globals.entered = true; \
+network_time_lock(true)
+
+#define NETWORK_EXIT_AND_UNLOCK_TIME \
+network_time_lock(false); \
+ASSERT(network_globals.entered == true); \
+ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
+network_globals.entered = false
 
 void __cdecl network_dispose()
 {
@@ -197,17 +211,70 @@ HOOK_DECLARE_CALL(0x0049E289, _network_message_types_register_test);
 
 bool __cdecl network_initialized()
 {
-	return INVOKE(0x0049E5A0, network_initialized);
+	//return INVOKE(0x0049E5A0, network_initialized);
+
+	return network_globals.initialized;
+}
+
+void __cdecl network_idle()
+{
+	INVOKE(0x0049E5B0, network_idle);
+
+	//ASSERT(is_main_thread());
+	//
+	//PROFILER(networking_idle)
+	//{
+	//	if (!network_globals.entered)
+	//	{
+	//		network_receive();
+	//		network_update();
+	//		network_send();
+	//	}
+	//}
 }
 
 void __cdecl network_receive()
 {
 	INVOKE(0x0049E600, network_receive);
+
+	//ASSERT(is_main_thread());
+	//
+	//PROFILER(networking_receive)
+	//{
+	//	if (network_initialized())
+	//	{
+	//		NETWORK_ENTER_AND_LOCK_TIME;
+	//
+	//		g_network_link->process_incoming_packets();
+	//
+	//		NETWORK_EXIT_AND_UNLOCK_TIME;
+	//	}
+	//}
 }
 
 void __cdecl network_send()
 {
 	INVOKE(0x0049E640, network_send);
+
+	//ASSERT(is_main_thread());
+	//
+	//PROFILER(networking_send)
+	//{
+	//	if (network_initialized())
+	//	{
+	//		NETWORK_ENTER_AND_LOCK_TIME;
+	//
+	//		for (long i = 0; i < k_network_session_type_count; i++)
+	//			g_network_sessions[i].idle();
+	//
+	//		g_network_observer->monitor();
+	//		simulation_prepare_to_send();
+	//		g_network_link->process_all_channels();
+	//		g_network_message_gateway->send_all_pending_messages();
+	//
+	//		NETWORK_EXIT_AND_UNLOCK_TIME;
+	//	}
+	//}
 }
 
 void __cdecl network_set_online_environment(bool online_environment)
@@ -217,23 +284,76 @@ void __cdecl network_set_online_environment(bool online_environment)
 
 void __cdecl network_shutdown_transport(void* userdata)
 {
-	//INVOKE(0x0049E6E0, network_shutdown_transport, userdata);
+	INVOKE(0x0049E6E0, network_shutdown_transport, userdata);
 
-	if (network_globals.initialized)
-	{
-		if (g_network_link)
-			g_network_link->create_endpoints();
-	}
+	//if (network_initialized())
+	//{
+	//	generate_event(_event_level_error, "networking:global: network terminating due to transport shutdown");
+	//
+	//	if (g_network_link)
+	//		g_network_link->destroy_endpoints();
+	//
+	//	if (g_network_observer)
+	//		g_network_observer->set_online_network_environment(false);
+	//}
 }
 
 void __cdecl network_startup_transport(void* userdata)
 {
 	INVOKE(0x0049E770, network_startup_transport, userdata);
+
+	//if (network_initialized())
+	//{
+	//	if (g_network_link)
+	//		g_network_link->destroy_endpoints();
+	//}
 }
 
 void __cdecl network_update()
 {
 	INVOKE(0x0049E7B0, network_update);
+
+	//ASSERT(is_main_thread());
+	//
+	//PROFILER(networking)
+	//{
+	//
+	//	transport_global_update();
+	//
+	//	if (network_initialized())
+	//	{
+	//		NETWORK_ENTER_AND_LOCK_TIME;
+	//
+	//		network_configuration_update();
+	//		network_bandwidth_update();
+	//		network_broadcast_search_update();
+	//		network_recruiting_search_update();
+	//		network_session_tracker_update();
+	//		network_session_interface_update();
+	//		network_join_update();
+	//		network_life_cycle_update();
+	//		network_banhammer_update();
+	//		online_session_manager_update();
+	//		online_update();
+	//		network_leaderboard_update();
+	//		network_arbitration_update();
+	//		network_storage_queue_update();
+	//		network_storage_manifest_update();
+	//		network_storage_cache_update();
+	//		data_mine_update();
+	//		network_webstats_update();
+	//		online_guide_update();
+	//		online_rich_presence_update();
+	//		online_files_update();
+	//		network_http_request_cache_update();
+	//		network_http_request_queue_update();
+	//		network_storage_files_update();
+	//		c_online_lsp_manager::get()->update();
+	//		service_client_get()->update();
+	//
+	//		NETWORK_EXIT_AND_UNLOCK_TIME;
+	//	}
+	//}
 }
 
 void __cdecl network_test_set_map_name(char const* scenario_path)

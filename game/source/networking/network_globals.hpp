@@ -32,6 +32,7 @@ extern void __cdecl network_dispose();
 extern c_network_session_manager* __cdecl network_get_session_manager();
 extern void __cdecl network_initialize();
 extern bool __cdecl network_initialized();
+extern void __cdecl network_idle();
 extern void __cdecl network_receive();
 extern void __cdecl network_send();
 extern void __cdecl network_set_online_environment(bool online_environment);
