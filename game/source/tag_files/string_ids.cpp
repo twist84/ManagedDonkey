@@ -142,7 +142,6 @@ void __cdecl string_id_initialize()
 
 	FILE* strings_file = NULL;
 	if (fopen_s(&strings_file, k_cache_strings_file, "rb") == 0 && strings_file != NULL)
-	//if (fopen_s(&strings_file, "maps/string_ids_.dat", "rb") == 0 && strings_file != NULL)
 	{
 		fread_s(&g_string_id_globals.string_id_count, sizeof(long), sizeof(long), 1, strings_file);
 	

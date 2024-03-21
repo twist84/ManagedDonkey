@@ -249,6 +249,29 @@ void __cdecl cache_file_get_path(char const* mapname, char* buffer, long buffer_
 	INVOKE(0x005018C0, cache_file_get_path, mapname, buffer, buffer_size);
 }
 
+//struct s_cache_file_security_globals
+//{
+//	s_cache_file_header header;
+//	bool valid_content_signature;
+//	c_static_array<dword, 1> hash_sizes;
+//	c_static_array<void const*, 1> hash_addresses;
+//	c_static_array<s_network_http_request_hash, 1> hashes;
+//	struct
+//	{
+//		dword count;
+//		dword state[5];
+//		byte buffer[64];
+//	}
+//	state;
+//
+//	dword SHA[234];
+//
+//	s_network_http_request_hash hash;
+//	s_rsa_signature rsa_signature;
+//	byte __data38C4[4];
+//};
+//static_assert(sizeof(s_cache_file_security_globals) == 0x38C8);
+
 s_cache_file_security_globals* __cdecl cache_file_get_security_globals()
 {
 	return INVOKE(0x005018F0, cache_file_get_security_globals);
@@ -416,7 +439,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 
 	static char hash_string[4096]{};
 	s_network_http_request_hash hash{};
-	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, &header->hash, &hash))
+	if (!security_validate_hash(&clean_header, sizeof(s_cache_file_header), true, &header->hash, nullptr))
 	{
 		if (!override_cache_file_header_security_validate_hash)
 		{
@@ -996,7 +1019,7 @@ void cache_file_transform_creator_string(c_wrapped_array<char> in_out_creator_st
 void cache_files_update_main_status()
 {
 	c_static_string<32> author = g_cache_file_globals.header.author;
-	c_wrapped_array<char> creator_string(author.get_buffer(), 32);
+	c_wrapped_array<char> creator_string = c_wrapped_array<char>(author.get());
 	cache_file_transform_creator_string(creator_string);
 	author.null_terminate_buffer();
 	main_status("map created by", "%s", author.get_string());

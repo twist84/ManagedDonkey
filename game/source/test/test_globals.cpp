@@ -149,6 +149,7 @@ void __cdecl test_main_loop_body_begin()
 		g_service_client;
 		g_synch_globals;
 		g_user_interface_globals;
+		game_engines;
 		game_state_globals;
 		hs_external_globals;
 		hs_function_table;

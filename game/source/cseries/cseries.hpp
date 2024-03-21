@@ -293,7 +293,14 @@ template<typename t_type>
 struct c_wrapped_array
 {
 public:
-	c_wrapped_array(t_type* elements, long element_count)
+
+	template<long k_element_count>
+	c_wrapped_array(t_type(&elements)[k_element_count])
+	{
+		set_elements(elements, k_element_count);
+	}
+
+	void set_elements(t_type* elements, long element_count)
 	{
 		m_count = element_count;
 		m_elements = elements;
@@ -1047,8 +1054,15 @@ static_assert(sizeof(s_location) == 0x4);
 template<long k_maximum_count>
 struct c_static_string
 {
+	using t_type = char[k_maximum_count];
+
 public:
 	static long const element_count = k_maximum_count;
+
+	__forceinline t_type& get()
+	{
+		return m_string;
+	}
 
 	c_static_string() :
 		m_string{}
