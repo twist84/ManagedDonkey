@@ -23,6 +23,13 @@ void __cdecl display_debug_string(const char* format, ...)
 	va_end(list);
 }
 
+unsigned long __cdecl system_get_current_thread_id()
+{
+	//return INVOKE(0x004EBF60, system_get_current_thread_id);
+
+	return GetCurrentThreadId();
+}
+
 void __cdecl system_get_date_and_time(char* buffer, short buffer_size, bool short_date_and_time)
 {
 	INVOKE(0x004EBF70, system_get_date_and_time, buffer, buffer_size, short_date_and_time);
