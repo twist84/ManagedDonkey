@@ -24,12 +24,16 @@
 
 REFERENCE_DECLARE_ARRAY(0x0189ECF0, char const*, k_game_engine_end_conditions, k_game_engine_end_condition_count);
 
+HOOK_DECLARE(0x00550B80, game_engine_get_statborg);
+
 #ifndef DEDICATED_SERVER
 HOOK_DECLARE(0x00551780, game_engine_interface_update);
 #endif // DEDICATED_SERVER
 
 HOOK_DECLARE(0x005521D0, game_engine_get_pre_round_ticks);
 HOOK_DECLARE(0x00553660, game_engine_update_round_conditions);
+
+c_game_statborg campaign_statborg{};
 
 //.text:0054D7E0 ; void __cdecl game_engine_adjust_player_results_statistic(long, bool, enum e_game_results_statistic, long)
 //.text:0054D840 ; bool __cdecl game_engine_adjust_player_score(long, long)
@@ -115,7 +119,26 @@ long __cdecl game_engine_get_player_score_for_display(long absolute_player_index
 //.text:00550B00 ; 
 //.text:00550B30 ; public: long __cdecl c_game_engine_miscellaneous_options::get_round_time_limit_seconds(void)const
 //.text:00550B50 ; long __cdecl game_engine_get_score_to_win_round(void)
-//.text:00550B80 ; class c_game_statborg * __cdecl game_engine_get_statborg(void)
+
+c_game_statborg* __cdecl game_engine_get_statborg()
+{
+	//00550B80
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
+	TLS_DATA_GET_VALUE_REFERENCE(g_survival_mode_globals);
+
+	if (current_game_engine())
+		return &game_engine_globals->statborg;
+
+	//if (game_is_survival())
+	//	return survival_mode_get_statborg();
+
+	if (game_is_survival())
+		return &g_survival_mode_globals->statborg;
+
+	return &campaign_statborg;
+}
+
 //.text:00550BC0 ; void __cdecl game_engine_get_team_color(enum e_game_team, union real_rgb_color *)
 
 long __cdecl game_engine_get_team_place(long team)
