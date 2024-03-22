@@ -164,6 +164,15 @@ const long LONG_BITS = SIZEOF_BITS(long);
 //#define LONG_MAX 0x7FFFFFFF
 #define UNSIGNED_LONG_MAX 0xFFFFFFFF
 
+extern void* offset_pointer(void* pointer, long offset);
+extern void const* offset_pointer(void const* pointer, long offset);
+extern unsigned int address_from_pointer(void const* pointer);
+extern void* pointer_from_address(unsigned int address);
+extern unsigned int align_address(unsigned int address, long alignment_bits);
+extern void* align_pointer(void* pointer, long alignment_bits);
+extern long pointer_distance(void const* pointer_a, void const* pointer_b);
+extern long pointer_difference(void const* pointer_a, void const* pointer_b);
+
 struct c_allocation_base
 {
 public:
@@ -342,12 +351,67 @@ template<typename t_type>
 struct c_basic_buffer
 {
 public:
-	//void clear()
-	//void set_buffer(t_type*, dword)
-	//void set_buffer(t_type*, t_type*)
-	//long size()
-	//t_type* begin() const
-	//t_type* end() const
+	//c_basic_buffer() :
+	//	m_buffer(nullptr),
+	//	m_size(0)
+	//{
+	//}
+	//
+	//c_basic_buffer(void* start, dword size) :
+	//	m_buffer(start),
+	//	m_size(size)
+	//{
+	//}
+	//
+	//c_basic_buffer(void* start, dword size) :
+	//	m_buffer(start),
+	//	m_size(size)
+	//{
+	//}
+	//
+	//c_basic_buffer(void* start, void const* end) :
+	//	m_buffer(start),
+	//	m_size(pointer_distance(start, end))
+	//{
+	//	ASSERT(start <= end);
+	//}
+
+	void clear()
+	{
+		m_buffer = nullptr;
+		m_size = 0;
+	}
+
+	void set_buffer(t_type* start, dword size)
+	{
+		ASSERT(start || size == 0);
+
+		m_buffer = start;
+		m_size = size;
+	}
+
+	void set_buffer(t_type* start, t_type* end)
+	{
+		ASSERT(start <= end);
+
+		m_buffer = start;
+		m_size = pointer_distance(start, end);
+	}
+
+	dword size()
+	{
+		return m_size;
+	}
+
+	t_type* begin() const
+	{
+		return m_buffer;
+	}
+
+	t_type* end() const
+	{
+		return (t_type*)offset_pointer(m_buffer, m_size);
+	}
 
 //protected:
 	t_type* m_buffer;
@@ -1389,15 +1453,6 @@ inline typename std::enable_if<sizeof(T) <= sizeof(F), T>::type __coerce(F f)
 }
 #define COERCE_FLOAT(v) __coerce<float>(v)
 #define COERCE_DWORD(v) __coerce<DWORD>(v)
-
-extern void* offset_pointer(void* pointer, long offset);
-extern void const* offset_pointer(void const* pointer, long offset);
-extern unsigned int address_from_pointer(void const* pointer);
-extern void* pointer_from_address(unsigned int address);
-extern unsigned int align_address(unsigned int address, long alignment_bits);
-extern void* align_pointer(void* pointer, long alignment_bits);
-extern long pointer_distance(void const* pointer_a, void const* pointer_b);
-extern long pointer_difference(void const* pointer_a, void const* pointer_b);
 
 extern void __cdecl cseries_dispose();
 extern void __cdecl cseries_initialize();
