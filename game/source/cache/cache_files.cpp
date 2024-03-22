@@ -231,7 +231,7 @@ long __cdecl cache_file_get_global_tag_index(tag group_tag)
 {
 	return INVOKE(0x005017E0, cache_file_get_global_tag_index, group_tag);
 
-	//s_cache_file_global_tags_definition* global_tags = static_cast<s_cache_file_global_tags_definition*>(tag_get(CACHE_FILE_GLOBAL_TAGS_TAG, 0));
+	//s_cache_file_global_tags_definition* global_tags = static_cast<s_cache_file_global_tags_definition*>(tag_get(CACHE_FILE_GLOBAL_TAGS_TAG, static_cast<long>(0)));
 	//if (!global_tags)
 	//	return NONE;
 	//
@@ -527,8 +527,8 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 	g_cache_file_globals.absolute_index_tag_mapping[tag_loaded_count] = tag_index;
 
 	REFERENCE_DECLARE(instance->base + instance->total_size, c_static_string<k_tag_long_string_length>, tag_name);
-	tag_name = tag_get_name(tag_index);
-	g_cache_file_globals.tag_loaded_size += cache_file_round_up_read_size(sizeof(tag_name));
+	tag_name.print("%s", tag_get_name(tag_index));
+	g_cache_file_globals.tag_loaded_size += cache_file_round_up_read_size(cache_file_round_up_read_size(tag_name.length()));
 
 	if (!cache_file_tags_section_read(tag_cache_offset, instance->total_size, g_cache_file_globals.tag_instances[tag_loaded_count]->base))
 		return false;
@@ -634,9 +634,9 @@ bool __cdecl cache_file_tags_single_tag_instance_fixup(cache_file_tag_instance* 
 			continue;
 
 		ASSERT(data_fixup.persistent == true);
-		data_fixup.offset += (dword)instance->base;
 		data_fixup.persistent = false;
-		ASSERT(data_fixup.value == data_fixup.offset);
+		data_fixup.value += (dword)instance;
+		//ASSERT(data_fixup.value == data_fixup.offset);
 	}
 
 	tag_instance_modification_apply(instance, _instance_modification_stage_tag_fixup);
@@ -1664,7 +1664,8 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	if (instance == nullptr)
 		return;
 
-#define APPLY_INSTANCE_MODIFICATION(GROUP_NAME) apply_##GROUP_NAME##_instance_modification(instance, stage)
+//#define APPLY_INSTANCE_MODIFICATION(GROUP_NAME) apply_##GROUP_NAME##_instance_modification(instance, stage)
+#define APPLY_INSTANCE_MODIFICATION(GROUP_NAME)
 
 	APPLY_INSTANCE_MODIFICATION(globals);
 	APPLY_INSTANCE_MODIFICATION(multiplayer_globals);
@@ -1681,7 +1682,7 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 #undef APPLY_INSTANCE_MODIFICATION
 }
 
-#define ISEXPERIMENTAL
+//#define ISEXPERIMENTAL
 
 #if defined(ISEXPERIMENTAL)
 
