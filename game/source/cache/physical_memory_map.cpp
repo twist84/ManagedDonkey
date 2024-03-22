@@ -4,6 +4,19 @@
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x0238EC50, s_physical_memory_globals, physical_memory_globals);
+REFERENCE_DECLARE(0x0238ED04, void*, physical_memory_cache_base_address);
+REFERENCE_DECLARE(0x0238ED08, void*, physical_memory_base_address);
+REFERENCE_DECLARE(0x0238ED0C, void*, physical_memory_data_base_address);
+
+HOOK_DECLARE(0x0051DB10, physical_memory_resize_region_lock);
+
+dword const k_physical_memory_data_size_increase_mb = 0;
+dword const k_physical_memory_data_size_increase_kb = 1024 * 1024 * k_physical_memory_data_size_increase_mb;
+dword const k_physical_memory_data_size_new = physical_memory_round_up_allocation_size(k_physical_memory_data_size + k_physical_memory_data_size_increase_kb);
+
+dword const k_physical_memory_cache_size_increase_mb = 100;
+dword const k_physical_memory_cache_size_increase_kb = 1024 * 1024 * k_physical_memory_cache_size_increase_mb;
+dword const k_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + k_physical_memory_cache_size_increase_kb);
 
 char const* const k_physical_memory_stage_names[]
 {
@@ -115,7 +128,27 @@ long __cdecl physical_memory_get_remaining()
 
 void __cdecl physical_memory_initialize()
 {
-	INVOKE(0x0051D690, physical_memory_initialize);
+	//INVOKE(0x0051D690, physical_memory_initialize);
+
+	physical_memory_base_address = physical_memory_system_malloc(k_physical_memory_data_size_new + k_physical_memory_cache_size_new, NULL);
+	physical_memory_data_base_address = physical_memory_base_address;
+	physical_memory_cache_base_address = (byte*)physical_memory_base_address + k_physical_memory_data_size_new;
+
+	csmemset(&physical_memory_globals, 0, sizeof(physical_memory_globals));
+
+	physical_memory_globals.current_stage = _memory_stage_initial;
+	physical_memory_globals.allocation_base_address = physical_memory_data_base_address;
+	physical_memory_globals.allocation_end_address = physical_memory_cache_base_address;
+	physical_memory_globals.no_mans_land = 1;
+
+	if (s_physical_memory_stage* current_stage = physical_memory_get_current_stage())
+	{
+		current_stage->low_address = physical_memory_globals.allocation_base_address;
+		current_stage->high_address = physical_memory_globals.allocation_end_address;
+		current_stage->next_available_zero_allocation = physical_memory_globals.no_mans_land;
+		current_stage->__unknownC = 0;
+		current_stage->__unknown10 = 0;
+	}
 }
 
 void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> resize_region_a, c_basic_buffer<void> resize_region_b)
@@ -163,9 +196,16 @@ void __cdecl physical_memory_resize_region_initialize()
 	//physical_memory_stage_push(_memory_stage_resize_available);
 }
 
-c_basic_buffer<void> __cdecl physical_memory_resize_region_lock()
+c_basic_buffer<void>& __cdecl physical_memory_resize_region_lock()
 {
-	return INVOKE(0x0051DB10, physical_memory_resize_region_lock);
+	//return INVOKE(0x0051DB10, physical_memory_resize_region_lock);
+
+	static c_basic_buffer<void> resize_region{};
+
+	physical_memory_stage_push(_memory_stage_resize_locked);
+	resize_region.set_buffer(physical_memory_cache_base_address, k_physical_memory_cache_size_new);
+
+	return resize_region;
 }
 
 void __cdecl physical_memory_resize_region_unlock(c_basic_buffer<void> resize_region)

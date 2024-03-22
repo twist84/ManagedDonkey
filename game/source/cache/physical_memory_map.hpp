@@ -4,6 +4,13 @@
 
 enum
 {
+	k_physical_memory_data_size = 0xAE00000,
+	k_physical_memory_cache_size = 0x24B00000,
+	k_physical_memory_total_size = k_physical_memory_data_size + k_physical_memory_cache_size,
+};
+
+enum
+{
 	k_physical_memory_page_size_bits = 16,
 	k_physical_memory_page_mask = MASK(k_physical_memory_page_size_bits)
 };
@@ -22,8 +29,8 @@ enum memory_stage
 
 struct s_physical_memory_stage
 {
-	dword low_address;
-	dword high_address;
+	void* low_address;
+	void* high_address;
 	dword next_available_zero_allocation;
 	dword __unknownC;
 	dword __unknown10;
@@ -70,7 +77,7 @@ extern void __cdecl physical_memory_mark_free_memory(c_basic_buffer<void> resize
 extern void __cdecl physical_memory_resize_region_dispose();
 extern void __cdecl physical_memory_query_bounds(dword a1, dword a2, dword* a3, dword* a4);
 extern void __cdecl physical_memory_resize_region_initialize();
-extern c_basic_buffer<void> __cdecl physical_memory_resize_region_lock();
+extern c_basic_buffer<void>& __cdecl physical_memory_resize_region_lock();
 extern void __cdecl physical_memory_resize_region_unlock(c_basic_buffer<void> resize_region);
 extern dword __cdecl physical_memory_round_up_allocation_size(dword size);
 extern void __cdecl physical_memory_stage_pop(memory_stage stage);
