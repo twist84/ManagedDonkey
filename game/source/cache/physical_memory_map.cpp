@@ -10,13 +10,28 @@ REFERENCE_DECLARE(0x0238ED0C, void*, physical_memory_data_base_address);
 
 HOOK_DECLARE(0x0051DB10, physical_memory_resize_region_lock);
 
-dword const k_physical_memory_data_size_increase_mb = 0;
-dword const k_physical_memory_data_size_increase_kb = 1024 * 1024 * k_physical_memory_data_size_increase_mb;
-dword const k_physical_memory_data_size_new = physical_memory_round_up_allocation_size(k_physical_memory_data_size + k_physical_memory_data_size_increase_kb);
+dword g_physical_memory_data_size_increase_mb = 0;
+dword g_physical_memory_cache_size_increase_mb = 100;
 
-dword const k_physical_memory_cache_size_increase_mb = 100;
-dword const k_physical_memory_cache_size_increase_kb = 1024 * 1024 * k_physical_memory_cache_size_increase_mb;
-dword const k_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + k_physical_memory_cache_size_increase_kb);
+dword g_physical_memory_data_size_increase_kb = 1024 * 1024 * g_physical_memory_data_size_increase_mb;
+dword g_physical_memory_data_size_new = physical_memory_round_up_allocation_size(k_physical_memory_data_size + g_physical_memory_data_size_increase_kb);
+
+dword g_physical_memory_cache_size_increase_kb = 1024 * 1024 * g_physical_memory_cache_size_increase_mb;
+dword g_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + g_physical_memory_cache_size_increase_kb);
+
+void recalculate_data_size_increase(long data_size_increase_mb)
+{
+	g_physical_memory_data_size_increase_mb = data_size_increase_mb;
+	g_physical_memory_data_size_increase_kb = 1024 * 1024 * g_physical_memory_data_size_increase_mb;
+	g_physical_memory_data_size_new = physical_memory_round_up_allocation_size(k_physical_memory_data_size + g_physical_memory_data_size_increase_kb);
+}
+
+void recalculate_cache_size_increase(long cache_size_increase_mb)
+{
+	g_physical_memory_cache_size_increase_mb = cache_size_increase_mb;
+	g_physical_memory_cache_size_increase_kb = 1024 * 1024 * g_physical_memory_cache_size_increase_mb;
+	g_physical_memory_cache_size_new = physical_memory_round_up_allocation_size(k_physical_memory_cache_size + g_physical_memory_cache_size_increase_kb);
+}
 
 char const* const k_physical_memory_stage_names[]
 {
@@ -129,10 +144,13 @@ long __cdecl physical_memory_get_remaining()
 void __cdecl physical_memory_initialize()
 {
 	//INVOKE(0x0051D690, physical_memory_initialize);
+	
+	recalculate_data_size_increase(g_physical_memory_data_size_increase_mb);
+	recalculate_cache_size_increase(g_physical_memory_cache_size_increase_mb);
 
-	physical_memory_base_address = physical_memory_system_malloc(k_physical_memory_data_size_new + k_physical_memory_cache_size_new, NULL);
+	physical_memory_base_address = physical_memory_system_malloc(g_physical_memory_data_size_new + g_physical_memory_cache_size_new, NULL);
 	physical_memory_data_base_address = physical_memory_base_address;
-	physical_memory_cache_base_address = (byte*)physical_memory_base_address + k_physical_memory_data_size_new;
+	physical_memory_cache_base_address = (byte*)physical_memory_base_address + g_physical_memory_data_size_new;
 
 	csmemset(&physical_memory_globals, 0, sizeof(physical_memory_globals));
 
@@ -203,7 +221,7 @@ c_basic_buffer<void>& __cdecl physical_memory_resize_region_lock()
 	static c_basic_buffer<void> resize_region{};
 
 	physical_memory_stage_push(_memory_stage_resize_locked);
-	resize_region.set_buffer(physical_memory_cache_base_address, k_physical_memory_cache_size_new);
+	resize_region.set_buffer(physical_memory_cache_base_address, g_physical_memory_cache_size_new);
 
 	return resize_region;
 }

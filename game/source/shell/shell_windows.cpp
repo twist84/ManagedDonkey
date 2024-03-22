@@ -81,6 +81,21 @@ char* __cdecl shell_get_command_line()
 	return g_windows_params.cmd_line;
 }
 
+bool shell_get_command_line_parameter(char* command_line, char const* parameter_name, long* value, long default_value)
+{
+	if (value)
+		*value = default_value;
+
+	char* parameter_offset = strstr(command_line, parameter_name) + strlen(parameter_name) + 1;
+	if (!parameter_offset)
+		return false;
+
+	if (value)
+		*value = atol(parameter_offset);
+
+	return true;
+}
+
 void __cdecl shell_idle()
 {
 	//INVOKE(0x0042E940, shell_idle);
@@ -208,6 +223,10 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	name.print("HaloOnline %s", sub_5013A0());
 	csstrnzcpy(g_windows_params.class_name, name.get_string(), sizeof(g_windows_params.class_name));
 	csstrnzcpy(g_windows_params.window_name, name.get_string(), sizeof(g_windows_params.window_name));
+
+	long cache_size_increase = 0;
+	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
+		g_physical_memory_cache_size_increase_mb = static_cast<dword>(cache_size_increase);
 
 	physical_memory_initialize();
 	physical_memory_stage_push(_memory_stage_game_initialize);

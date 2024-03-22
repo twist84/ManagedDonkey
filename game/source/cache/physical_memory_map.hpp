@@ -58,6 +58,8 @@ struct s_physical_memory_globals
 static_assert(sizeof(s_physical_memory_globals) == 0xB4);
 
 extern s_physical_memory_globals& physical_memory_globals;
+extern dword g_physical_memory_data_size_increase_mb;
+extern dword g_physical_memory_cache_size_increase_mb;
 extern char const* const k_physical_memory_stage_names[];
 
 extern void* __cdecl _physical_memory_malloc_fixed(memory_stage stage, char const* name, long size, dword flags);
