@@ -58,12 +58,13 @@ void __cdecl game_state_initialize_storage()
 //.text:0065DAF0
 //.text:0065DB00
 
-bool __cdecl game_state_read_from_storage(long storage_index, long game_state_proc_flags)
+bool __cdecl game_state_read_from_memory_storage(long storage_index, long game_state_proc_flags)
 {
-	//return INVOKE(0x0065DB10, game_state_read_from_storage, storage_index, game_state_proc_flags);
+	return false;
+}
 
-	ASSERT(VALID_INDEX(storage_index, game_state_get_storage_count()));
-	
+bool __cdecl game_state_read_from_file_storage(long storage_index, long game_state_proc_flags)
+{
 	if (pc_game_state_globals.allocated)
 	{
 		s_file_reference scratch_save_file{};
@@ -75,8 +76,15 @@ bool __cdecl game_state_read_from_storage(long storage_index, long game_state_pr
 			game_state_call_before_load_procs(game_state_proc_flags);
 			bool file_result = file_read(&scratch_save_file, pc_game_state_globals.buffer_size_to_persist, false, pc_game_state_globals.allocation);
 			file_close(&scratch_save_file);
+
+			//bool signature_check_result = game_state_security_verify_signature_insecure(NULL) && file_result;
+			//if (!signature_check_result)
+			//	generate_event(_event_level_critical, "game_state: pc game state read from file failed signature check");
+
 			game_state_buffer_handle_read();
 			game_state_call_after_load_procs(game_state_proc_flags);
+
+			//return signature_check_result;
 			return file_result;
 		}
 	}
@@ -86,6 +94,30 @@ bool __cdecl game_state_read_from_storage(long storage_index, long game_state_pr
 	}
 
 	return false;
+}
+
+bool __cdecl game_state_read_from_storage(long storage_index, long game_state_proc_flags)
+{
+	//return INVOKE(0x0065DB10, game_state_read_from_storage, storage_index, game_state_proc_flags);
+
+	ASSERT(VALID_INDEX(storage_index, game_state_get_storage_count()));
+
+	bool result = false;
+	//if (pc_game_state_globals.game_state_storage_buffer_type == 1)
+	//{
+	//	result = game_state_read_from_memory_storage(storage_index, game_state_proc_flags);
+	//}
+	//else if (pc_game_state_globals.game_state_storage_buffer_type == 2)
+	//{
+		result = game_state_read_from_file_storage(storage_index, game_state_proc_flags);
+	//}
+	//else
+	//{
+	//	ASSERT2("unreachable");
+	//	result = false;
+	//}
+
+	return result;
 }
 
 //.text:0065DB90
@@ -107,12 +139,12 @@ bool __cdecl game_state_storage_is_valid(long storage_index)
 
 //.text:0065DBD0
 
-void __cdecl game_state_write_to_storage(long storage_index)
+void __cdecl game_state_write_to_file_memory_storage(long storage_index)
 {
-	//INVOKE(0x0065DBE0, game_state_write_to_storage, storage_index);
+}
 
-	ASSERT(VALID_INDEX(storage_index, game_state_get_storage_count()));
-
+void __cdecl game_state_write_to_file_storage(long storage_index)
+{
 	if (pc_game_state_globals.allocated)
 	{
 		s_file_reference scratch_save_file{};
@@ -137,5 +169,25 @@ void __cdecl game_state_write_to_storage(long storage_index)
 	}
 
 	pc_game_state_globals.storage_is_valid = false;
+}
+
+void __cdecl game_state_write_to_storage(long storage_index)
+{
+	//INVOKE(0x0065DBE0, game_state_write_to_storage, storage_index);
+
+	ASSERT(VALID_INDEX(storage_index, game_state_get_storage_count()));
+
+	//if (pc_game_state_globals.game_state_storage_buffer_type == 1)
+	//{
+	//	game_state_write_to_file_memory_storage(storage_index);
+	//}
+	//else if (pc_game_state_globals.game_state_storage_buffer_type == 2)
+	//{
+		game_state_write_to_file_storage(storage_index);
+	//}
+	//else
+	//{
+	//	ASSERT2("unreachable");
+	//}
 }
 
