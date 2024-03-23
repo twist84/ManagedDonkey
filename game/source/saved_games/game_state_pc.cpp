@@ -1,6 +1,20 @@
 #include "saved_games/game_state_pc.hpp"
 
-#include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
+#include "memory/module.hpp"
+#include "saved_games/game_state.hpp"
+#include "saved_games/game_state_procs.hpp"
+#include "tag_files/files.hpp"
+
+#include <windows.h>
+
+REFERENCE_DECLARE(0x02497CD0, s_pc_game_state_globals, pc_game_state_globals);
+
+HOOK_DECLARE(0x0065DAD0, game_state_get_storage_count);
+HOOK_DECLARE(0x0065DB10, game_state_read_from_storage);
+HOOK_DECLARE(0x0065DBA0, game_state_set_buffer_protection);
+HOOK_DECLARE(0x0065DBC0, game_state_storage_is_valid);
+HOOK_DECLARE(0x0065DBE0, game_state_write_to_storage);
 
 void* __cdecl game_state_allocate_buffer(long cpu_size, long persist_size, long* out_guard_page_size)
 {
@@ -31,7 +45,9 @@ void __cdecl game_state_free_temporary_buffer(void* buffer, long buffer_size)
 
 long __cdecl game_state_get_storage_count()
 {
-	return INVOKE(0x0065DAD0, game_state_get_storage_count);
+	//return INVOKE(0x0065DAD0, game_state_get_storage_count);
+
+	return 2;
 }
 
 void __cdecl game_state_initialize_storage()
@@ -44,25 +60,82 @@ void __cdecl game_state_initialize_storage()
 
 bool __cdecl game_state_read_from_storage(long storage_index, long game_state_proc_flags)
 {
-	return INVOKE(0x0065DB10, game_state_read_from_storage, storage_index, game_state_proc_flags);
+	//return INVOKE(0x0065DB10, game_state_read_from_storage, storage_index, game_state_proc_flags);
+
+	ASSERT(VALID_INDEX(storage_index, game_state_get_storage_count()));
+	
+	if (pc_game_state_globals.allocated)
+	{
+		s_file_reference scratch_save_file{};
+		file_reference_create_from_path(&scratch_save_file, "core\\scratch_save_file.bin", false);
+
+		dword error = 0;
+		if (file_open(&scratch_save_file, FLAG(_file_open_flag_desired_access_read), &error))
+		{
+			game_state_call_before_load_procs(game_state_proc_flags);
+			bool file_result = file_read(&scratch_save_file, pc_game_state_globals.buffer_size_to_persist, false, pc_game_state_globals.allocation);
+			file_close(&scratch_save_file);
+			game_state_buffer_handle_read();
+			game_state_call_after_load_procs(game_state_proc_flags);
+			return file_result;
+		}
+	}
+	else
+	{
+		generate_event(_event_level_error, "game_state: can't load game state on PC if it's not allocated or not at a fixed address");
+	}
+
+	return false;
 }
 
 //.text:0065DB90
 
 void __cdecl game_state_set_buffer_protection(void* buffer, long cpu_size, long guard_page_size)
 {
-	INVOKE(0x0065DBA0, game_state_set_buffer_protection, buffer, cpu_size, guard_page_size);
+	//INVOKE(0x0065DBA0, game_state_set_buffer_protection, buffer, cpu_size, guard_page_size);
+
+	DWORD old_protect;
+	VirtualProtect(buffer, cpu_size + guard_page_size, PAGE_READWRITE, &old_protect);
 }
 
 bool __cdecl game_state_storage_is_valid(long storage_index)
 {
-	return INVOKE(0x0065DBC0, game_state_storage_is_valid, storage_index);
+	//return INVOKE(0x0065DBC0, game_state_storage_is_valid, storage_index);
+
+	return pc_game_state_globals.storage_is_valid;
 }
 
 //.text:0065DBD0
 
-void __cdecl game_state_write_to_storage()
+void __cdecl game_state_write_to_storage(long storage_index)
 {
-	INVOKE(0x0065DBE0, game_state_write_to_storage);
+	//INVOKE(0x0065DBE0, game_state_write_to_storage, storage_index);
+
+	ASSERT(VALID_INDEX(storage_index, game_state_get_storage_count()));
+
+	if (pc_game_state_globals.allocated)
+	{
+		s_file_reference scratch_save_file{};
+		file_reference_create_from_path(&scratch_save_file, "core\\scratch_save_file.bin", false);
+		file_create_parent_directories_if_not_present(&scratch_save_file);
+
+		if (!file_exists(&scratch_save_file))
+			file_create(&scratch_save_file);
+
+		dword error = 0;
+		if (file_open(&scratch_save_file, FLAG(_file_open_flag_desired_access_write), &error))
+		{
+			bool file_result = file_write(&scratch_save_file, pc_game_state_globals.buffer_size_to_persist, pc_game_state_globals.allocation);
+			file_close(&scratch_save_file);
+			pc_game_state_globals.storage_is_valid = file_result;
+			return;
+		}
+	}
+	else
+	{
+		generate_event(_event_level_error, "can't save game state on PC if it's not allocated or not at a fixed address");
+	}
+
+	pc_game_state_globals.storage_is_valid = false;
 }
 
