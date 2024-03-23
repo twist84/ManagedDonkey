@@ -4,7 +4,7 @@
 
 struct s_pc_game_state_globals
 {
-	bool allocated;
+	bool buffer_allocated;
 	bool allocated_virtually;
 	void* allocation;
 	long allocation_size;

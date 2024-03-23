@@ -65,7 +65,7 @@ bool __cdecl game_state_read_from_memory_storage(long storage_index, long game_s
 
 bool __cdecl game_state_read_from_file_storage(long storage_index, long game_state_proc_flags)
 {
-	if (pc_game_state_globals.allocated)
+	if (pc_game_state_globals.buffer_allocated)
 	{
 		s_file_reference scratch_save_file{};
 		file_reference_create_from_path(&scratch_save_file, "core\\scratch_save_file.bin", false);
@@ -145,7 +145,7 @@ void __cdecl game_state_write_to_file_memory_storage(long storage_index)
 
 void __cdecl game_state_write_to_file_storage(long storage_index)
 {
-	if (pc_game_state_globals.allocated)
+	if (pc_game_state_globals.buffer_allocated)
 	{
 		s_file_reference scratch_save_file{};
 		file_reference_create_from_path(&scratch_save_file, "core\\scratch_save_file.bin", false);
