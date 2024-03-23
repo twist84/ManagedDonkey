@@ -24,7 +24,10 @@ static_assert(sizeof(c_cache_file_decompressor_service) == 0x4);
 struct s_tag_persistent_identifier;
 struct c_cache_file_decompressor_registry
 {
-	virtual c_cache_file_decompressor_service* find_decompressor_service(s_tag_persistent_identifier* identifier);
+public:
+	c_cache_file_decompressor_registry();
+
+	virtual c_cache_file_decompressor_service* find_decompressor_service(s_tag_persistent_identifier* identifier) = 0;
 };
 static_assert(sizeof(c_cache_file_decompressor_registry) == 0x4);
 
@@ -68,6 +71,10 @@ struct c_single_instance_cache_file_decompressor_service :
 struct c_cache_file_runtime_decompressor_registry :
 	public c_cache_file_decompressor_registry
 {
+public:
+	c_cache_file_runtime_decompressor_registry();
+
+	virtual c_cache_file_decompressor_service* find_decompressor_service(s_tag_persistent_identifier* identifier) override;
 };
 static_assert(sizeof(c_cache_file_runtime_decompressor_registry) == sizeof(c_cache_file_decompressor_registry));
 

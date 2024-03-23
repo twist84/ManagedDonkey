@@ -29,6 +29,9 @@
 #include "networking/online/online_guide_pc.hpp"
 #include "simulation/simulation.hpp"
 
+REFERENCE_DECLARE(0x01670A18, long const, g_cache_file_tag_resource_vtable_count);
+REFERENCE_DECLARE_ARRAY(0x018EB7A8, s_cache_file_tag_resource_vtable const*, g_cache_file_tag_resource_vtable_list, 2);
+
 REFERENCE_DECLARE(0x023916D8, s_main_game_globals, main_game_globals);
 REFERENCE_DECLARE(0x023DAE90, bool, load_panic_recursion_lock);
 
@@ -37,6 +40,19 @@ bool debug_load_panic_to_main_menu = true;
 HOOK_DECLARE(0x00566EF0, main_game_change_immediate);
 HOOK_DECLARE(0x00567AD0, main_game_load_panic);
 HOOK_DECLARE(0x00567E40, main_game_start);
+
+void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mode)
+{
+	//INVOKE(0x0055F720, cache_file_tag_resources_initialize_for_new_map, game_mode);
+
+	c_cache_file_runtime_decompressor_registry runtime_decompressor_registry{};
+	g_resource_runtime_manager.get()->initialize_for_new_map(
+		game_mode,
+		NONE,
+		g_cache_file_tag_resource_vtable_count,
+		g_cache_file_tag_resource_vtable_list,
+		&runtime_decompressor_registry);
+}
 
 //.text:00566A80 ; unknown destructor
 //.text:00566AD0 ; unknown destructor

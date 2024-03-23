@@ -242,3 +242,14 @@ void __cdecl tag_resources_unlock_game(long& lock)
 	INVOKE(0x005640B0, tag_resources_unlock_game, lock);
 }
 
+void c_cache_file_tag_resource_runtime_manager::initialize_for_new_map(e_game_mode game_mode, long cache_file_resource_gestalt_index, long resource_vtable_list_count, s_cache_file_tag_resource_vtable const** resource_vtable_list, c_cache_file_runtime_decompressor_registry* runtime_decompressor_registry)
+{
+	DECLFUNC(0x00561DF0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*, e_game_mode, long, long, s_cache_file_tag_resource_vtable const**, c_cache_file_runtime_decompressor_registry*)(
+		this,
+		game_mode,
+		cache_file_resource_gestalt_index,
+		resource_vtable_list_count,
+		resource_vtable_list,
+		runtime_decompressor_registry);
+}
+

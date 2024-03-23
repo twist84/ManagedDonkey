@@ -166,6 +166,8 @@ POPD
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\cache\cache_file_runtime_codecs.cpp" />
+    <ClCompile Include="source\cache\pc_sound_cache.cpp" />
     <ClCompile Include="source\camera\first_person_camera.cpp" />
     <ClCompile Include="source\game\campaign_metagame.cpp" />
     <ClCompile Include="source\game\game_engine_scoring.cpp" />
@@ -572,6 +574,7 @@ POPD
     <ClInclude Include="source\algorithms\qsort.hpp" />
     <ClInclude Include="source\cache\fmod_sound_cache.hpp" />
     <ClInclude Include="source\cache\pc_geometry_cache.hpp" />
+    <ClInclude Include="source\cache\pc_sound_cache.hpp" />
     <ClInclude Include="source\cache\pc_texture_cache.hpp" />
     <ClInclude Include="source\cache\physical_memory_map.hpp" />
     <ClInclude Include="source\cseries\async.hpp" />
