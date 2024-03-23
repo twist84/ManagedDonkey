@@ -330,7 +330,16 @@ void __cdecl main_game_internal_map_load_begin(bool reload_map)
 
 bool __cdecl main_game_internal_map_load_complete(bool reload_map, game_options const* options)
 {
-	return INVOKE(0x00567560, main_game_internal_map_load_complete, reload_map, options);
+	//return INVOKE(0x00567560, main_game_internal_map_load_complete, reload_map, options);
+
+	bool result = true;
+	if (!reload_map)
+		result = main_game_internal_open_caches(options);
+
+	main_game_globals.game_loaded_status = _game_loaded_status_map_loaded;
+	options->scenario_path.copy_to(main_game_globals.game_loaded_scenario_path, 260);
+
+	return result;
 }
 
 void __cdecl main_game_internal_map_unload_begin()
