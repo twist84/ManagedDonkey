@@ -9,6 +9,11 @@ bool __cdecl geometry_cache_is_blocking()
 	return false;
 }
 
+void __cdecl geometry_cache_open()
+{
+	INVOKE(0x00618D90, geometry_cache_open);
+}
+
 void __cdecl geometry_cache_debug_render()
 {
 }

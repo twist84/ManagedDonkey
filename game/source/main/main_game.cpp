@@ -2,6 +2,9 @@
 
 #include "bink/bink_playback.hpp"
 #include "cache/cache_files_windows.hpp"
+#include "cache/pc_geometry_cache.hpp"
+#include "cache/pc_sound_cache.hpp"
+#include "cache/pc_texture_cache.hpp"
 #include "camera/director.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
@@ -17,6 +20,7 @@
 #include "main/loading.hpp"
 #include "main/main.hpp"
 #include "main/main_game_launch.hpp"
+#include "main/main_predict.hpp"
 #include "main/main_render.hpp"
 #include "math/random_math.hpp"
 #include "memory/module.hpp"
@@ -341,7 +345,16 @@ void __cdecl main_game_internal_map_unload_complete()
 
 bool __cdecl main_game_internal_open_caches(game_options const* options)
 {
-	return INVOKE(0x00567630, main_game_internal_open_caches, options);
+	//return INVOKE(0x00567630, main_game_internal_open_caches, options);
+
+	bool result = scenario_language_pack_load();
+	geometry_cache_open();
+	texture_cache_open();
+	sound_cache_open();
+	cache_file_tag_resources_initialize_for_new_map(options->game_mode);
+	main_predict_reset_for_map_reload();
+
+	return result;
 }
 
 void __cdecl main_game_pregame_blocking_load()

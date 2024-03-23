@@ -99,6 +99,11 @@ void __cdecl scenario_invalidate()
 	return INVOKE(0x004EA3E0, scenario_invalidate);
 }
 
+bool __cdecl scenario_language_pack_load()
+{
+	return INVOKE(0x004EA440, scenario_language_pack_load);
+}
+
 void on_scenario_loaded();
 
 //bool __cdecl scenario_load(enum e_campaign_id, enum e_map_id, char const*)

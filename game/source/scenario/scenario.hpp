@@ -57,6 +57,7 @@ extern bool __cdecl scenario_activate_initial_designer_zones(long zoneset_index)
 extern bool __cdecl scenario_activate_initial_zone_set(long zoneset_index);
 extern void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state);
 extern void __cdecl scenario_invalidate();
+extern bool __cdecl scenario_language_pack_load();
 extern bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_path);
 extern bool __cdecl scenario_load_resources_blocking(bool a1);
 extern bool __cdecl scenario_preload_initial_zone_set(short zone_set_index);
