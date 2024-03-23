@@ -642,6 +642,15 @@ callback_result_t game_won_callback(void const* userdata, long token_count, toke
 	return result;
 }
 
+callback_result_t game_revert_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_revert_map_scripting();
+
+	return result;
+}
+
 callback_result_t main_menu_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
