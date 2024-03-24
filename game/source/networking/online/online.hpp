@@ -13,6 +13,12 @@ enum e_online_nat_type
 	k_online_nat_type_count
 };
 
+union u_online_user_id
+{
+	qword value;
+	byte bytes[sizeof(qword)];
+};
+
 struct s_online_user
 {
 	bool initialized;

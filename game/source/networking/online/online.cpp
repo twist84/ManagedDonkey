@@ -34,13 +34,16 @@ HOOK_DECLARE(0x00442AB0, online_user_get_player_identifier);
 HOOK_DECLARE(0x00442BC0, online_user_set_name);
 HOOK_DECLARE(0x00442BF0, online_update);
 
-static s_online_user g_controller_users[4] =
+s_online_user g_controller_users[4] =
 {
 	g_online_user,
 	{ .initialized = true, .player_xuid = 1, .player_name = L"user1" },
 	{ .initialized = true, .player_xuid = 2, .player_name = L"user2" },
 	{ .initialized = true, .player_xuid = 3, .player_name = L"user3" },
 };
+
+u_online_user_id online_user_player_identifiers[4]{};
+u_online_user_id online_user_xuids[4]{};
 
 long g_nat_type_override = _online_nat_type_open;
 char g_hostname[264];
@@ -156,16 +159,10 @@ wchar_t const* __cdecl online_user_get_name(long controller_index)
 
 qword __cdecl online_user_get_player_identifier(long controller_index)
 {
-	static union
-	{
-		qword value = 0;
-		byte bytes[8];
-	};
+	if (!online_user_player_identifiers[controller_index].value)
+		transport_secure_random(sizeof(online_user_player_identifiers[controller_index].bytes), online_user_player_identifiers[controller_index].bytes);
 
-	if (!value)
-		transport_secure_random(sizeof(bytes), bytes);
-
-	return value;
+	return online_user_player_identifiers[controller_index].value;
 }
 
 qword __cdecl online_user_get_xuid(long controller_index)
@@ -177,20 +174,14 @@ qword __cdecl online_user_get_xuid(long controller_index)
 	//	xuid = 0;
 	//return xuid;
 
-	static union
-	{
-		qword value = 0;
-		byte bytes[8];
-	};
 
-	if (!value)
+	if (!online_user_xuids[controller_index].value)
 	{
-		transport_secure_random(sizeof(bytes), bytes);
-		xuid_make_online(value);
-		online_user_set_xuid(value);
+		transport_secure_random(sizeof(online_user_xuids[controller_index].bytes), online_user_xuids[controller_index].bytes);
+		online_user_set_xuid(online_user_xuids[controller_index].value);
 	}
 
-	return value;
+	return g_controller_users[controller_index].player_xuid;
 }
 
 bool __cdecl sub_442B00(long controller_index)
@@ -224,6 +215,8 @@ void __cdecl online_process_debug_output_queue()
 
 void __cdecl online_user_set_xuid(qword xuid)
 {
+	xuid_make_online(xuid);
+
 	g_controller_users[0].player_xuid = xuid;
 	g_controller_users[0].initialized = true;
 }
