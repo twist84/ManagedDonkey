@@ -118,7 +118,7 @@ bool c_http_client::do_work(
 	}
 
 	// ASSERT
-	if (*upload_complete && result)
+	if (*upload_complete && !result)
 	{
 		ASSERT2("upload_complete should only be set on success.");
 	}
