@@ -17,13 +17,15 @@ void __cdecl damaged_media_exception()
 {
 	//HOOK_INVOKE(, damaged_media_exception);
 
-	if (!is_debugger_present())
+	if (is_debugger_present())
+	{
+		DebugBreak();
+	}
+	else
 	{
 		main_status("damaged_media", "attach a debugger to catch the exception");
 		throw fatal_error_message;
 	}
-
-	DebugBreak();
 }
 
 void __cdecl damaged_media_update()
