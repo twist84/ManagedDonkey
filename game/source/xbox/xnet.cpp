@@ -33,7 +33,7 @@ long __cdecl XNetFindEntry(transport_address const* address, s_transport_secure_
 		s_xnet_entry& entry = xnet_mapping[entry_index];
 
 		if (ignore_invalid && !entry.initialized)
-			break;
+			continue;
 
 		if (address && transport_address_equivalent(&entry.address, address))
 			return entry_index;
@@ -41,8 +41,11 @@ long __cdecl XNetFindEntry(transport_address const* address, s_transport_secure_
 		if (secure_address && transport_secure_address_compare(&entry.secure_address, secure_address))
 			return entry_index;
 
-		result = entry_index;
-		break;
+		if (!ignore_invalid && !entry.initialized)
+		{
+			if (result == -1)
+				result = entry_index;
+		}
 	}
 
 	return result;
