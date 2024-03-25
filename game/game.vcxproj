@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+  </PropertyGroup> 
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -90,6 +93,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)third_party\DIA\lib\x32\;$(SolutionDir)third_party\detours\lib.X86\;$(SolutionDir)third_party\directx\lib.X86\;$(SolutionDir)third_party\directxtex\lib.X86\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dbghelp.lib;diaguids.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
+    </PreBuildEvent>
     <PostBuildEvent>
       <Command>
 IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" EXIT 0
@@ -132,6 +138,9 @@ IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">
     <ClCompile>
@@ -164,6 +173,9 @@ IF EXIST generate_pdb.bat CALL generate_pdb.bat
 POPD
 </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\cache\cache_file_runtime_codecs.cpp" />

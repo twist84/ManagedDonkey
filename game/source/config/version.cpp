@@ -3,6 +3,106 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
+#if defined(ORIGINAL_PROJECT_VERSION)
+#define VERSION_BUILD_STRING "1.106708 cert_ms23"
+#define VERSION_BUILD_NUMBER 106708
+#define VERSION_BUILD_DATE "Mar 20 2015"
+#define VERSION_BUILD_TIME "17:24:42"
+#define VERSION_TARGET_APPLICATION "blam"
+#define VERSION_TARGET_VARIANT "cache"
+#define VERSION_TARGET_CONFIGURATION "release"
+#define VERSION_TARGET_PLATFORM "pc"
+#define VERSION_BUILD_NUMBER_VERSION 1
+#define VERSION_PROJECT_NAME "cert_ms23"
+#define VERSION_BUILD_NAME ""
+#define VERSION_PROJECT_VERSION "1.106708"
+#define VERSION_FULL_STRING "blam cache release pc 1.106708 cert_ms23  Mar 20 2015 17:24:42"
+#define VERSION_TRACKED_STRING "1.106708_cert_ms23___release"
+#define VERSION_UNTRACKED_STRING "untracked_cert_ms23__release"
+#endif
+
+#if !defined(VERSION_BUILD_DATE)
+#define VERSION_BUILD_DATE __DATE__
+#endif
+
+#if !defined(VERSION_BUILD_TIME)
+#define VERSION_BUILD_TIME __TIME__
+#endif
+
+#if !defined(VERSION_TARGET_APPLICATION)
+#define VERSION_TARGET_APPLICATION "donkey"
+#endif
+
+#if !defined(VERSION_TARGET_VARIANT)
+#define VERSION_TARGET_VARIANT "cache"
+#endif
+
+#if !defined(VERSION_TARGET_CONFIGURATION)
+#if defined(_DEBUG)
+#define VERSION_TARGET_CONFIGURATION "debug"
+#else
+#define VERSION_TARGET_CONFIGURATION "release"
+#endif
+#endif
+
+#if !defined(VERSION_TARGET_PLATFORM)
+#define VERSION_TARGET_PLATFORM "pc"
+#endif
+
+#if !defined(VERSION_BUILD_NUMBER_VERSION)
+#define VERSION_BUILD_NUMBER_VERSION 1
+#endif
+
+#if !defined(VERSION_BUILD_NUMBER)
+#define VERSION_BUILD_NUMBER 106708
+#endif
+
+#if !defined(VERSION_PROJECT_NAME)
+#define VERSION_PROJECT_NAME "cert_ms23"
+#endif
+
+#if !defined(VERSION_PROJECT_VERSION)
+#define VERSION_PROJECT_VERSION xstr(VERSION_BUILD_NUMBER_VERSION) "." xstr(VERSION_BUILD_NUMBER)
+#endif
+
+#if !defined(VERSION_BUILD_STRING)
+#define VERSION_BUILD_STRING VERSION_PROJECT_VERSION " " VERSION_PROJECT_NAME
+#endif
+
+#if !defined(VERSION_BUILD_NAME)
+#define VERSION_BUILD_NAME ""
+#endif
+
+#if !defined(VERSION_FULL_STRING)
+#define VERSION_FULL_STRING VERSION_TARGET_APPLICATION " " VERSION_TARGET_VARIANT " " VERSION_TARGET_CONFIGURATION " " VERSION_TARGET_PLATFORM " " VERSION_BUILD_STRING " " VERSION_BUILD_NAME " " VERSION_BUILD_DATE " " VERSION_BUILD_TIME
+#endif
+
+#if !defined(VERSION_TRACKED_STRING)
+#define VERSION_TRACKED_STRING VERSION_BUILD_STRING "_" VERSION_BUILD_NAME "__" VERSION_TARGET_CONFIGURATION
+#endif
+
+#if !defined(VERSION_UNTRACKED_STRING)
+#define VERSION_UNTRACKED_STRING "untracked_" VERSION_PROJECT_NAME "__" VERSION_TARGET_CONFIGURATION
+#endif
+
+char const k_version_target_application[] = VERSION_TARGET_APPLICATION;
+char const k_version_target_variant[] = VERSION_TARGET_VARIANT;
+char const k_version_target_configuration[] = VERSION_TARGET_CONFIGURATION;
+char const k_version_target_platform[] = VERSION_TARGET_PLATFORM;
+
+long const k_version_build_number_version = VERSION_BUILD_NUMBER_VERSION;
+long const k_version_build_number = VERSION_BUILD_NUMBER;
+
+char const k_version_project_name[] = VERSION_PROJECT_NAME;
+char const k_version_project_version[] = VERSION_PROJECT_VERSION;
+
+char const k_version_build_string[] = VERSION_BUILD_STRING;
+char const k_version_build_name[] = VERSION_BUILD_NAME;
+char const k_version_full_string[] = VERSION_FULL_STRING;
+
+char const k_version_tracked_string[] = VERSION_TRACKED_STRING;
+char const k_version_untracked_string[] = VERSION_UNTRACKED_STRING;
+
 REFERENCE_DECLARE(0x0189CFD0, bool, k_tracked_build);
 
 HOOK_DECLARE(0x0042E480, version_get_target_variant);
@@ -16,42 +116,45 @@ HOOK_DECLARE(0x00501450, version_get_build_number_sequence_identifier);
 HOOK_DECLARE(0x00501460, version_get_build_string);
 HOOK_DECLARE(0x00501470, version_get_target_configuration);
 
-byte const k_build_date[] = __DATE__;
-byte const k_build_time[] = __TIME__;
+byte const k_build_date[] = VERSION_BUILD_DATE;
+byte const k_build_time[] = VERSION_BUILD_TIME;
 DATA_PATCH_DECLARE(0x016704A8, build_date, k_build_date);
 DATA_PATCH_DECLARE(0x016704B4, build_time, k_build_time);
 
 char const* __cdecl version_get_target_variant()
 {
-	return "cache";
+	//return "cache";
+	return k_version_target_variant;
 }
 
 char const* __cdecl version_get_full_string()
 {
-	return "blam cache release pc 1.106708 cert_ms23  Mar 20 2015 17:24:42";
+	//return "blam cache release pc 1.106708 cert_ms23  Mar 20 2015 17:24:42";
+	return k_version_full_string;
 }
 
 char const* __cdecl version_get_project_name()
 {
-	return "cert_ms23";
+	//return "cert_ms23";
+	return k_version_project_name;
 }
 
 char const* __cdecl version_get_build_identifier()
 {
-	if (version_is_tracked_build())
-		return "1.106708_cert_ms23___release";
-
-	return "untracked_cert_ms23__release";
+	//return version_is_tracked_build() ? "1.106708_cert_ms23___release" : "untracked_cert_ms23__release";
+	return version_is_tracked_build() ? k_version_tracked_string : k_version_untracked_string;
 }
 
 char const* __cdecl version_get_build_name()
 {
-	return "";
+	//return "";
+	return k_version_build_name;
 }
 
 long __cdecl version_get_build_number()
 {
-	return 106708;
+	//return 106708;
+	return k_version_build_number;
 }
 
 __int64 __cdecl version_get_build_number_identifier()
@@ -69,12 +172,14 @@ long __cdecl version_get_build_number_sequence_identifier()
 
 char const* __cdecl version_get_build_string()
 {
-	return "1.106708 cert_ms23";
+	//return "1.106708 cert_ms23";
+	return k_version_build_string;
 }
 
 char const* __cdecl version_get_target_configuration()
 {
-	return "release";
+	//return "release";
+	return k_version_target_configuration;
 }
 
 bool version_is_tracked_build()

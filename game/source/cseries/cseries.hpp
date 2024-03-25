@@ -14,6 +14,9 @@
 
 #define STARTSWITH(s1, s1_len, s2) (csmemcmp((s1), (s2), csstrnlen((s2), (s1_len))) == 0)
 
+#define xstr(a) str(a)
+#define str(a) #a
+
 #define _STRCONCAT(x, y) x ## y
 #define STRCONCAT(x, y) _STRCONCAT(x, y)
 
