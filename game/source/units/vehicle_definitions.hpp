@@ -380,7 +380,7 @@ enum e_walker_physics_leg_side
 	k_walker_physics_leg_side_count
 };
 
-enum e_walker_physics_leg_flags : long
+enum e_walker_physics_leg_flags
 {
 	_walker_physics_leg_flag_constrained_plant_bit = 0,
 
@@ -401,7 +401,7 @@ struct s_walker_physics_leg_block
 	c_string_id knee_node_b_name;
 	c_string_id foot_marker_name;
 	byte RLTGT[0x3C]; // pad
-	c_flags<e_walker_physics_leg_flags, int32_t, k_walker_physics_leg_flags> flags;
+	c_flags<e_walker_physics_leg_flags, long, k_walker_physics_leg_flags> flags;
 	vector3d runtime_initial_origin_to_hip_offset;
 	vector3d runtime_pivot_center_to_hip_offset;
 	real runtime_upper_leg_length;
