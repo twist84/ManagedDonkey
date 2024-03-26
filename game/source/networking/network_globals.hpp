@@ -28,6 +28,15 @@ struct c_game_variant;
 struct transport_address;
 enum e_game_engine_type;
 
+extern bool __cdecl network_memory_base_initialize(
+	c_network_link** link,
+	c_network_message_type_collection** message_types,
+	c_network_message_gateway** message_gateway,
+	c_network_message_handler** message_handler,
+	c_network_observer** observer,
+	c_network_session** sessions,
+	c_network_session_manager** session_manager,
+	c_network_session_parameter_type_collection** session_parameter_types);
 extern void __cdecl network_dispose();
 extern c_network_session_manager* __cdecl network_get_session_manager();
 extern void __cdecl network_initialize();
@@ -39,6 +48,7 @@ extern void __cdecl network_set_online_environment(bool online_environment);
 extern void __cdecl network_shutdown_transport(void* userdata);
 extern void __cdecl network_startup_transport(void* userdata);
 extern void __cdecl network_update();
+
 extern void __cdecl network_test_set_map_name(char const* scenario_path);
 extern void __cdecl network_test_set_map_variant(c_map_variant const* map_variant);
 extern void __cdecl network_test_set_game_variant(char const* game_engine_name);

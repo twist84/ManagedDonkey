@@ -111,5 +111,7 @@ extern void __cdecl online_lsp_dispose();
 extern dword __cdecl online_lsp_get_server_count();
 extern bool __cdecl online_lsp_get_server_description(long server_index, c_static_string<200>* server_description);
 extern e_online_lsp_state __cdecl online_lsp_get_state();
+extern void __cdecl online_lsp_initialize();
+extern bool __cdecl online_lsp_service_available();
 extern void __cdecl online_lsp_update();
 

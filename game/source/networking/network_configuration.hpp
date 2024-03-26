@@ -841,3 +841,5 @@ static_assert(sizeof(s_network_configuration) == 0x16C4);
 extern bool& g_network_configuration_initialized;
 extern s_network_configuration& g_network_configuration;
 
+extern void __cdecl network_configuration_initialize(bool a1);
+
