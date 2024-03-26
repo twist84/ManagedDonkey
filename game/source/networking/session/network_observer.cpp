@@ -1,6 +1,7 @@
 #include "network_observer.hpp"
 
 #include "cseries/cseries_events.hpp"
+#include "networking/messages/network_messages_connect.hpp"
 
 c_network_observer::s_channel_observer const* c_network_observer::find_observer_by_channel(c_network_channel const* observer) const
 {
@@ -10,8 +11,15 @@ c_network_observer::s_channel_observer const* c_network_observer::find_observer_
     return static_cast<c_network_observer::s_channel_observer const*>(observer);
 }
 
+void c_network_observer::handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* connect_request)
+{
+    DECLFUNC(0x004466A0, long, __thiscall, c_network_observer*, transport_address const*, s_network_message_connect_request const*)(this, incoming_address, connect_request);
+}
+
 long c_network_observer::observer_channel_find_by_network_channel(long owner_type, c_network_channel* channel) const
 {
+    //return DECLFUNC(0x00447150, long, __thiscall, c_network_observer const*, long, c_network_channel*)(this, owner_type, channel);
+
     //ASSERT(owner_type >= 0 && owner_type < k_network_observer_owner_count);
     ASSERT(channel != NULL);
 

@@ -22,6 +22,7 @@ struct c_network_message_gateway;
 struct c_network_message_handler;
 struct c_network_message_type_collection;
 struct s_observer_configuration;
+struct s_network_message_connect_request;
 enum e_network_message_type;
 struct c_network_observer
 {
@@ -69,6 +70,7 @@ struct c_network_observer
 	static_assert(sizeof(s_channel_observer) == 0x10D8);
 
 	s_channel_observer const* find_observer_by_channel(c_network_channel const* channel) const;
+	void handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* connect_request);
 	long observer_channel_find_by_network_channel(long owner_type, c_network_channel* channel) const;
 	void observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data);
 	void observer_prioritize_upload_bandwidth(bool prioritize_upload_bandwidth);
