@@ -7,28 +7,9 @@
 #include "networking/messages/network_message_type_collection.hpp"
 #include "networking/messages/network_messages_session_protocol.hpp"
 
-HOOK_DECLARE_CLASS(0x00483E20, c_network_message_gateway, _read_packet_header);
-HOOK_DECLARE_CLASS_MEMBER(0x00483E80, c_network_message_gateway, _receive_out_of_band_packet);
-HOOK_DECLARE_CLASS_MEMBER(0x004842D0, c_network_message_gateway, _write_packet_header);
-
 char const k_network_message_packet_header[] = "blam";
 char const k_network_message_experimental_packet_header[] = "bexp";
 bool net_experimental = false;
-
-bool __cdecl c_network_message_gateway::_read_packet_header(c_bitstream* packet)
-{
-	return read_packet_header(packet);
-}
-
-bool __thiscall c_network_message_gateway::_receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet)
-{
-	return receive_out_of_band_packet(incoming_address, packet);
-}
-
-void __thiscall c_network_message_gateway::_write_packet_header()
-{
-	write_packet_header();
-}
 
 void __cdecl c_network_message_gateway::attach_handler(c_network_message_handler* message_handler)
 {
@@ -96,7 +77,24 @@ bool __cdecl c_network_message_gateway::read_packet_header(c_bitstream* packet)
 	return !invalid_header && !packet->error_occurred();
 }
 
-bool __cdecl c_network_message_gateway::receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet)
+c_network_message_gateway::c_network_message_gateway() :
+	c_network_out_of_band_consumer(),
+	m_outgoing_packet_pending(false),
+	m_outgoing_packet(m_outgoing_packet_storage, sizeof(m_outgoing_packet_storage)),
+	m_link(NULL),
+	m_message_types(NULL),
+	m_message_handler(NULL),
+	m_initialized(false)
+{
+}
+
+c_network_message_gateway::~c_network_message_gateway()
+{
+	destroy_gateway();
+	m_outgoing_packet.~c_bitstream();
+}
+
+bool c_network_message_gateway::receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet)
 {
 	//return DECLFUNC(0x00483E80, bool, __thiscall, c_network_message_gateway*, transport_address const*, c_bitstream*)(this, incoming_address, packet);
 
@@ -295,16 +293,16 @@ bool __cdecl c_network_message_gateway::send_message_directed(transport_address 
 		{
 			if (v12)
 			{
-				m_outgoing_packet.pop_position(1);
+				m_outgoing_packet.pop_position(true);
 				break;
 			}
 
-			m_outgoing_packet.pop_position(1);
+			m_outgoing_packet.pop_position(true);
 			send_all_pending_messages();
 		}
 		else
 		{
-			m_outgoing_packet.pop_position(0);
+			m_outgoing_packet.pop_position(false);
 			return true;
 		}
 	}

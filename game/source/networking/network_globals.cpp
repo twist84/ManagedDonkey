@@ -43,6 +43,7 @@ REFERENCE_DECLARE(0x0224A4B0, c_network_session_manager*, g_network_session_mana
 REFERENCE_DECLARE(0x0224A4B4, s_network_globals, network_globals);
 
 c_network_message_type_collection custom_message_types_override = {};
+c_network_message_gateway custom_message_gateway_override = {};
 
 #define UI_WAIT(_time, _set_value, _get_value, _value) \
 _set_value(_value);                                    \
@@ -100,6 +101,7 @@ bool __cdecl network_memory_base_initialize(
 	bool result = INVOKE(0x004623F0, network_memory_base_initialize, link, message_types, message_gateway, message_handler, observer, sessions, session_manager, session_parameter_types);
 
 	*message_types = &custom_message_types_override;
+	*message_gateway = &custom_message_gateway_override;
 
 	return result;
 }

@@ -5,7 +5,9 @@ struct c_bitstream;
 struct c_network_out_of_band_consumer
 {
 public:
-	virtual bool __cdecl receive_out_of_band_packet_(transport_address const* address, c_bitstream* packet);
+	virtual bool receive_out_of_band_packet(transport_address const* incoming_address, c_bitstream* packet) = 0;
+
+	c_network_out_of_band_consumer();
 };
 static_assert(sizeof(c_network_out_of_band_consumer) == 0x4);
 
