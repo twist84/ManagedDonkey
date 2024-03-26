@@ -493,13 +493,13 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 {
 	DECLFUNC(0x00502500, void, __thiscall, s_cache_file_reports*, s_cache_file_header*)(reports, header);
 
-	//long reports_buffer_size = cache_file_round_up_read_size(g_cache_file_globals.header.reports.size);
-	//void* reports_buffer = _physical_memory_malloc_fixed(5, NULL, reports_buffer_size, 0);
+	//long reports_buffer_size = cache_file_round_up_read_size(header->reports.size);
+	//void* reports_buffer = _physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, reports_buffer_size, 0);
 	//
-	//cache_file_blocking_read(_cache_file_section_debug, g_cache_file_globals.header.reports.offset, reports_buffer_size, reports_buffer);
+	//cache_file_blocking_read(_cache_file_section_debug, header->reports.offset, reports_buffer_size, reports_buffer);
 	//
 	//reports->elements = static_cast<s_cache_file_report*>(reports_buffer);
-	//reports->count = GET_REPORT_COUNT_FROM_SIZE(g_cache_file_globals.header.reports.size);
+	//reports->count = GET_REPORT_COUNT_FROM_SIZE(header->reports.size);
 }
 
 void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long*> resource_offsets)
