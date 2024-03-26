@@ -374,6 +374,16 @@ struct s_observer_configuration
 };
 static_assert(sizeof(s_observer_configuration) == 0x418);
 
+struct s_lsp_service_configuration
+{
+	long lsp_port;
+	long __unknown4;
+	long __unknown8;
+	long __unknownC;
+	long __time10;
+};
+static_assert(sizeof(s_lsp_service_configuration) == 0x14);
+
 struct s_map_information
 {
 	long map_id;
@@ -820,11 +830,7 @@ struct s_network_configuration
 	dword maximum_multiplayer_split_screen;
 	byte __unknown159C;
 	dword __unknown15A0;
-	dword __unknown15A4;
-	dword __unknown15A8;
-	dword __unknown15AC;
-	dword __unknown15B0;
-	dword __unknown15B4;
+	s_lsp_service_configuration lsp_service_configuration;
 	s_map_information map_infos[32];
 	dword __unknown16B8;
 	long determinism_version;
