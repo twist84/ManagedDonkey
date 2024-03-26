@@ -746,9 +746,9 @@ void __cdecl c_network_message_handler::handle_broadcast_reply(transport_address
 
 void __cdecl c_network_message_handler::handle_connect_request(transport_address const* address, s_network_message_connect_request const* message)
 {
-	DECLFUNC(0x0049CDC0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_connect_request const*)(this, address, message);
+	//DECLFUNC(0x0049CDC0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_connect_request const*)(this, address, message);
 
-	//m_observer->handle_connect_request(address, message);
+	m_observer->handle_connect_request(address, message);
 }
 
 void __cdecl c_network_message_handler::handle_connect_refuse(c_network_channel* channel, s_network_message_connect_refuse const* message)
@@ -1318,6 +1318,35 @@ void __cdecl c_network_message_handler::handle_parameters_request(c_network_chan
 void __cdecl c_network_message_handler::handle_view_establishment(c_network_channel* channel, s_network_message_view_establishment const* message)
 {
 	DECLFUNC(0x0049DEC0, void, __cdecl, c_network_channel*, s_network_message_view_establishment const*)(channel, message);
+
+	//if (c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel))
+	//{
+	//	if (!remote_view->handle_remote_establishment(
+	//		message->establishment_mode,
+	//		message->establishment_identifier,
+	//		message->signature_exists ? message->signature_size : NONE,
+	//		message->signature_exists ? message->signature_data : NULL))
+	//	{
+	//		c_console::write_line("networking:messages:view-establishment: simulation view failed to handle view-establishment (%d/%d) over channel '%s'",
+	//			message->establishment_mode,
+	//			message->establishment_identifier,
+	//			channel->get_name());
+	//	}
+	//}
+	//else if (message->establishment_identifier == NONE)
+	//{
+	//	c_console::write_line("networking:messages:view-establishment: discarding non-established view-establishment (%d/%d) over channel '%s' with no simulation view",
+	//		message->establishment_mode,
+	//		NONE,
+	//		channel->get_name());
+	//}
+	//else
+	//{
+	//	c_console::write_line("networking:messages:view-establishment: discarding ESTABLISHED view-establishment (%d/%d) over channel '%s' with no simulation view",
+	//		message->establishment_mode,
+	//		message->establishment_identifier,
+	//		channel->get_name());
+	//}
 }
 
 void __cdecl c_network_message_handler::handle_player_acknowledge(c_network_channel* channel, s_network_message_player_acknowledge const* message)
@@ -1380,6 +1409,40 @@ void __cdecl c_network_message_handler::handle_synchronous_update(c_network_chan
 void __cdecl c_network_message_handler::handle_synchronous_playback_control(c_network_channel* channel, s_network_message_synchronous_playback_control const* message)
 {
 	DECLFUNC(0x0049DD10, void, __cdecl, c_network_channel*, s_network_message_synchronous_playback_control const*)(channel, message);
+
+	//if (c_simulation_view* view = simulation_get_remote_view_by_channel(channel))
+	//{
+	//	if (view->view_type() == _simulation_view_type_synchronous_to_remote_authority)
+	//	{
+	//		if (!view->handle_synchronous_playback_control(message->type, message->identifier, message->update_number))
+	//		{
+	//			c_console::write_line("networking:messages:synchronous-playback-control: failed to handle playback-control type #%d identifier #%d update #%d over channel '%s' with view mode %d/%d",
+	//				message->type,
+	//				message->identifier,
+	//				message->update_number,
+	//				channel->get_name(),
+	//				view->get_view_establishment_mode(),
+	//				view->get_view_establishment_identifier());
+	//		}
+	//	}
+	//	else
+	//	{
+	//		c_console::write_line("networking:messages:synchronous-playback-control: view not authority for playback-control type #%d identifier #%d update #%d over channel '%s' with view of type #%d",
+	//			message->type,
+	//			message->identifier,
+	//			message->update_number,
+	//			channel->get_name(),
+	//			view->view_type());
+	//	}
+	//}
+	//else
+	//{
+	//	c_console::write_line("networking:messages:synchronous-playback-control: no simulation view for playback-control type #%d identifier #%d update #%d over channel '%s'",
+	//		message->type,
+	//		message->identifier,
+	//		message->update_number,
+	//		channel->get_name());
+	//}
 }
 
 void __cdecl c_network_message_handler::handle_synchronous_actions(c_network_channel* channel, s_network_message_synchronous_actions const* message)
