@@ -7,7 +7,12 @@ struct c_debug_director :
 {
 	void __thiscall _update(real a1);
 
-	//  camera mode cycle  - F12
+	void constructor(long user_index);
+	void changed_camera();
+	void cycle_camera();
+	bool finished_cycle();
+
+	//  camera mode cycle  - Backspace (Previously F12)
 	// control mode toggle - middle-mouse click
 
 	// 0: _camera_mode_flying
@@ -24,10 +29,6 @@ struct c_debug_director :
 
 	byte pad[2];
 	byte unused[0xC];
-
-	void constructor(long user_index);
-	void changed_camera();
-	bool finished_cycle();
 };
 static_assert(sizeof(c_debug_director) == 0x160);
 

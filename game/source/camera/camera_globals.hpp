@@ -134,4 +134,5 @@ static_assert(sizeof(s_camera_globals) == 0x94);
 
 extern s_camera_globals& g_camera_globals;
 extern real& g_director_camera_speed_scale;
+extern bool g_editor_director_mouse_wheel_speed_enabled;
 
