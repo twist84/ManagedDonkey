@@ -23,6 +23,8 @@ extern bool debug_instanced_geometry_collision_geometry;
 extern bool debug_zone_set_critical_portals;
 extern bool debug_structure_water;
 extern bool debug_input;
+extern bool debug_input_abstraction;
+extern bool debug_input_mouse_state;
 extern bool debug_player;
 extern bool debug_render_freeze;
 extern bool debug_camera;

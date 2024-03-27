@@ -599,7 +599,7 @@ void input_abstraction_get_raw_data_string(char* buffer, short size)
 
 	if (buffer && size > 0)
 	{
-		csnzprintf(buffer, size, "|n|n|n|ninput_abstraction|n");
+		csnzappendf(buffer, size, "|n|n|n|ninput_abstraction|n");
 		for (short i = 0; i < k_number_of_controllers; i++)
 		{
 			s_game_input_state& input_state = input_abstraction_globals.input_states[i];
