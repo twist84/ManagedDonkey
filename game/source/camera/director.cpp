@@ -539,14 +539,15 @@ void __cdecl director_load_camera_named(char const* name)
 		return;
 	}
 
-	long active_user = player_mapping_first_active_input_user();
-	if (active_user == NONE)
+	e_input_user_index input_user = player_mapping_first_active_input_user();
+	if (input_user != k_input_user_none)
+	{
+		director_set_flying_camera_direct(input_user, &position, &forward, &up);
+	}
+	else
 	{
 		c_console::write_line("no active user to set saved camera '%s'", filename.get_string());
-		return;
 	}
-
-	director_set_flying_camera_direct(active_user, &position, &forward, &up);
 }
 
 void __cdecl director_save_camera()
