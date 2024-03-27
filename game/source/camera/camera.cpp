@@ -2,7 +2,7 @@
 
 //REFERENCE_DECLARE_ARRAY(0x018ECDA8, char const*, global_camera_mode_names, k_number_of_camera_modes);
 
-char const* global_camera_mode_names[k_number_of_camera_modes]
+char const* const global_camera_mode_names[k_number_of_camera_modes]
 {
 	"following",
 	"orbiting",
