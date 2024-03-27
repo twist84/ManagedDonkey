@@ -47,23 +47,44 @@ struct c_network_observer;
 struct c_network_session_manager;
 struct c_network_channel;
 struct s_network_message_player_properties;
+struct s_network_session_join_request;
 struct c_network_session :
 	public c_network_channel_owner
 {
-	c_network_session_membership const* get_session_membership() const;
-	c_network_session_membership* get_session_membership_for_update();
-	c_network_session_membership const* get_session_membership_unsafe() const;
-	c_network_session_parameters const* get_session_parameters() const;
-	c_network_session_parameters* get_session_parameters();
-	void force_disconnect();
-	bool force_disconnect_peer(s_transport_secure_address const* peer_secure_address);
-	bool join_abort(transport_address const* incoming_address, qword join_nonce);
 	long current_local_state() const;
 	bool disconnected() const;
 	bool established() const;
 	bool is_host() const;
 	bool is_leader() const;
 	bool leaving_session() const;
+	void force_disconnect();
+	bool force_disconnect_peer(s_transport_secure_address const* peer_secure_address);
+	c_network_session_membership const* get_session_membership() const;
+	c_network_session_membership* get_session_membership_for_update();
+	c_network_session_membership const* get_session_membership_unsafe() const;
+	long get_session_membership_update_number() const;
+	c_network_session_parameters* get_session_parameters();
+	c_network_session_parameters const* get_session_parameters() const;
+	void handle_disconnection();
+	bool handle_leave_internal(long peer_index);
+	bool has_managed_session_connection() const;
+	bool host_assume_leadership();
+	bool host_boot_machine(long peer_index, e_network_session_boot_reason boot_reason);
+	void host_connection_refused(transport_address const* address, e_network_join_refuse_reason refuse_reason);
+	bool host_established() const;
+	bool host_set_player_current_properties(long player_index, s_player_configuration const* player_data);
+	void idle();
+	bool initialize_session(long session_index, e_network_session_type session_type, c_network_message_gateway* message_gateway, c_network_observer* observer, c_network_session_manager* session_manager);
+	void initiate_leave_protocol(bool leave_immediately);
+	bool is_peer_joining_this_session() const;
+	bool join_abort(transport_address const* incoming_address, qword join_nonce);
+	bool join_abort_in_progress(transport_address const* address) const;
+	void join_abort_successful(transport_address const* address);
+	void join_accept(s_network_session_join_request const* join_request, transport_address const* address);
+	bool join_allowed_by_privacy() const;
+	//join_remote_session
+	bool leader_request_boot_machine(s_transport_secure_address const* boot_peer_address, e_network_session_boot_reason boot_reason);
+	bool leader_request_delegate_leadership(s_transport_secure_address const* leader_address);
 	e_network_session_mode session_mode() const;
 
 	s_network_session_player* get_player(long player_index);

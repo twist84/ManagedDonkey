@@ -1,5 +1,15 @@
 #pragma once
 
+enum e_session_creation_flags
+{
+	_session_creation_unknown_bit0 = 0,
+	_session_creation_unknown_bit1,
+	_session_creation_unknown_bit2,
+	_session_creation_unknown_bit3,
+
+	k_number_of_session_creation_flags
+};
+
 enum e_input_user_index
 {
 	_input_user_index0 = 0,
