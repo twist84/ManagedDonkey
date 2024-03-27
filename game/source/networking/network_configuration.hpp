@@ -396,6 +396,8 @@ struct s_network_configuration
 	dword __unknown0;
 	dword __unknown4;
 	dword __unknown8;
+
+	// start of `s_bandwidth_configuration`
 	real __unknownC;
 	dword __unknown10;
 	dword __unknown14;
@@ -405,10 +407,13 @@ struct s_network_configuration
 	dword __unknown24;
 	dword __unknown28;
 	dword __unknown2C;
+
+	// used in `c_network_session::idle`
 	dword __unknown30;
 	dword __unknown34;
 	dword __unknown38;
 	dword __unknown3C;
+
 	dword __unknown40;
 	dword __unknown44;
 	dword __unknown48;
@@ -473,9 +478,13 @@ struct s_network_configuration
 	dword __unknown134;
 	dword __unknown138;
 	dword __unknown13C;
+
+	// used in `c_network_session::idle`
 	dword __unknown140;
+
 	dword __unknown144;
 
+	// used in `matchmaking_calculate_best_possible_host`
 	struct
 	{
 		dword __unknown148;
@@ -498,42 +507,110 @@ struct s_network_configuration
 		dword __unknown18C;
 	} __unknown148[3];
 
+	// used in `matchmaking_calculate_best_possible_host`
 	dword __unknown220;
+
+	// used in `matchmaking_calculate_best_possible_host`
 	dword __unknown224;
+
+	// used in `matchmaking_calculate_best_possible_host`
 	dword __unknown228;
+
+	// used in `matchmaking_calculate_best_possible_host`
 	dword __unknown22C;
+
+	// used in `matchmaking_calculate_best_possible_host`
 	dword __unknown230;
+
+	// used in `matchmaking_calculate_best_possible_host`
 	dword __unknown234;
+
 	dword __unknown238;
 	dword __unknown23C;
+
+	// used in `c_network_observer::stream_balance_all_stream_bandwidth`
 	dword minimum_bandwidth;
+
+	// used in `network_join_update`
 	dword __unknown244;
+
+	// used in `network_join_update`
 	dword disband_timeout;
+
+	// used in `c_network_session::process_pending_joins`
 	dword __unknown24C;
+
 	dword __unknown250;
 	dword __unknown254;
 	dword __unknown258;
+
+	// used in `c_network_session::process_pending_joins`
 	dword __unknown25C;
+
 	dword __unknown260;
+
+	// used in `matchmaking_calculate_best_possible_host`
 	byte __unknown264;
+
+	// used in `initialize_fake_hopper`
 	real __unknown268;
+
+	// used in `c_life_cycle_state_handler_matchmaking_start::update`
 	dword __unknown26C;
+
+	// used in `c_life_cycle_state_handler_matchmaking_find_match::update_joining`
 	dword __unknown270;
+
+	// used in `c_life_cycle_state_handler_matchmaking_find_match::update_joining`
 	dword __unknown274;
+
+	// used in `c_life_cycle_state_handler_matchmaking_find_match::update_joining`
+	// used in `c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_joining`
 	dword __unknown278;
+
+	// used in `c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_joining`
 	dword __unknown27C;
+
+	// used in `c_life_cycle_state_handler_matchmaking_find_match::update_leaving`
+	// used in `c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update_leaving`
 	dword __unknown280;
+
+	// used in `c_life_cycle_state_handler_matchmaking_find_and_assemble_match::update`
 	dword __unknown284;
+
 	byte __unknown288;
+
+	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_veto`
 	dword __unknown28C;
+
+	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_loading`
 	dword __unknown290;
+
+	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_countdown`
 	dword __unknown294;
+
+	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_countdown`
 	dword __unknown298;
+
+	// used in `c_life_cycle_state_handler_matchmaking_prepare_map::update_countdown`
 	dword __unknown29C;
+
+	// used in `c_life_cycle_state_handler_end_game_write_stats::update`
+	// used in `c_life_cycle_state_handler_end_match_write_stats::update`
 	dword grief_timer_timeout;
+
+	// used in `c_life_cycle_state_handler_matchmaking_arbitration::exit`
+	// used in `c_life_cycle_state_handler_matchmaking_arbitration::update`
 	dword __unknown2A4;
+
+	// used in `c_life_cycle_state_handler_matchmaking_arbitration::exit`
+	// used in `c_life_cycle_state_handler_matchmaking_arbitration::update`
 	dword __unknown2A8;
+
+	// used in `c_life_cycle_state_handler_post_match::update_for_state_transition`
+	// used in `c_life_cycle_state_handler_post_match::update_squad_host`
 	bool should_disband_to_pre_game;
+
 	dword __unknown2B0;
 	dword __unknown2B4;
 	dword simulation_abort_as_host_timeout;
