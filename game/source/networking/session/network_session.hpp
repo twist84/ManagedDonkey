@@ -82,6 +82,10 @@ struct c_network_session :
 	long get_session_membership_update_number() const;
 	c_network_session_parameters* get_session_parameters();
 	c_network_session_parameters const* get_session_parameters() const;
+	static char const* get_type_string(e_network_session_type session_type);
+	static char const* get_class_string(e_network_session_class session_class);
+	char const* get_state_string() const;
+	char const* get_mode_string() const;
 	void handle_disconnection();
 	bool handle_leave_internal(long peer_index);
 	bool has_managed_session_connection() const;

@@ -132,6 +132,85 @@ c_network_session_parameters const* c_network_session::get_session_parameters() 
 	return &m_session_parameters;
 }
 
+char const* c_network_session::get_type_string(e_network_session_type type)
+{
+	static char const* const type_names[k_network_session_type_count]
+	{
+		"none",
+		"squad",
+		"group"
+	};
+
+	if (VALID_INDEX(type, k_network_session_type_count))
+		return type_names[type];
+
+	return "<unknown>";
+}
+
+char const* __cdecl c_network_session::get_class_string(e_network_session_class session_class)
+{
+	static char const* const session_class_names[k_network_session_class_count]
+	{
+		"offline",
+		"system-link",
+		"xbox-live"
+	};
+
+	if (VALID_INDEX(session_class, k_network_session_class_count))
+		return session_class_names[session_class];
+
+	return "<unknown>";
+}
+
+char const* c_network_session::get_state_string() const
+{
+	static char const* const state_names[k_network_session_state_count]
+	{
+		"none",
+		"peer-creating",
+		"peer-joining",
+		"peer-join-abort",
+		"peer-established",
+		"peer-leaving",
+		"host-established",
+		"host-disband"
+
+		//"host-handoff",
+		//"host-reestablish",
+		//"election"
+	};
+
+	long current_state = current_local_state();
+	ASSERT(current_state >= 0 && current_state < k_network_session_state_count);
+
+	return state_names[current_state];
+}
+
+char const* c_network_session::get_mode_string() const
+{
+	static char const* const mode_names[k_network_session_mode_count]
+	{
+		"none"
+		"idle"
+		"setup"
+		"in-game"
+		"end-game"
+		"post-game"
+		"matchmaking-start"
+		"matchmaking-searching"
+		"matchmaking-gathering"
+		"matchmaking-slave"
+		"matchmaking-disbanding"
+		"matchmaking-arbitrating"
+		"matchmaking-choosing-game"
+	};
+
+	long current_mode = m_session_parameters.m_parameters_internal.session_mode.get();
+	ASSERT(current_mode >= 0 && current_mode < k_network_session_mode_count);
+
+	return mode_names[current_mode];
+}
+
 void c_network_session::handle_disconnection()
 {
 	DECLFUNC(0x0045C2C0, void, __thiscall, c_network_session*)(this);

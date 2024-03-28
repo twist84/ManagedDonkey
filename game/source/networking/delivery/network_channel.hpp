@@ -1,12 +1,13 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/bitstream.hpp"
 #include "networking/delivery/network_connection.hpp"
 #include "networking/messages/network_message_queue.hpp"
+#include "networking/transport/transport_address.hpp"
 #include "shell/shell.hpp"
 
 enum e_network_read_result;
+struct c_bitstream;
 struct c_network_channel_client
 {
 public:
@@ -27,7 +28,7 @@ public:
 static_assert(sizeof(c_network_channel_client) == 0x8);
 
 struct c_network_connection :
-	c_network_channel_client
+	public c_network_channel_client
 {
 	struct s_connection_incoming_packet
 	{
@@ -62,12 +63,16 @@ struct c_network_connection :
 };
 static_assert(sizeof(c_network_connection) == 0x960);
 
+enum e_network_message_type;
 struct c_network_message_type_collection;
 struct c_network_message_queue :
-	c_network_channel_client
+	public c_network_channel_client
 {
 	struct s_incoming_outgoing_record;
 	struct s_incoming_fragment_record;
+
+public:
+	void send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload);
 
 	char __data[4];
 
@@ -85,6 +90,7 @@ struct c_network_message_queue :
 	long m_outgoing_payload_bytes;
 	long m_incoming_payload_bytes;
 };
+
 struct s_network_channel_client_info
 {
 	dword flags;
@@ -118,7 +124,7 @@ protected:
 static_assert(sizeof(c_network_channel_simulation_interface) == 0x34);
 
 struct c_network_channel_simulation_gatekeeper :
-	c_network_channel_client
+	public c_network_channel_client
 {
 };
 static_assert(sizeof(c_network_channel_simulation_gatekeeper) == sizeof(c_network_channel_client));
@@ -163,6 +169,8 @@ public:
 	void __cdecl close(e_network_channel_closure_reason reason);
 	void __cdecl open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier);
 
+	void send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload);
+
 protected:
 	c_network_link* m_link;
 	c_network_observer* m_observer;
@@ -187,9 +195,9 @@ protected:
 	transport_address m_remote_address;
 
 	bool m_send_connect_packets;
-	int m_connect_identifier;
-	int m_connect_timestamp;
-	int m_connect_unknown;
+	dword m_connect_identifier;
+	dword m_connect_timestamp;
+	dword m_connect_unknown;
 	byte __dataA50[0x8];
 
 	// 0: packets_sent

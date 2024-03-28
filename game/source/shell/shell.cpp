@@ -288,16 +288,16 @@ char const* const k_network_session_mode_names[k_network_session_mode_count]
 	"none",
 	"idle",
 	"setup",
-	"in_game",
-	"end_game",
-	"post_game",
-	"matchmaking_start",
-	"matchmaking_searching",
-	"matchmaking_gathering",
-	"matchmaking_slave",
-	"matchmaking_disbanding",
-	"matchmaking_arbitrating",
-	"matchmaking_choosing_game"
+	"in-game",
+	"end-game",
+	"post-game",
+	"matchmaking-start",
+	"matchmaking-searching",
+	"matchmaking-gathering",
+	"matchmaking-slave",
+	"matchmaking-disbanding",
+	"matchmaking-arbitrating",
+	"matchmaking-choosing-game"
 };
 
 char const* const k_ui_game_mode_names[k_ui_game_mode_count]

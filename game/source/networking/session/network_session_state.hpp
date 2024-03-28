@@ -16,6 +16,10 @@ enum e_network_session_state
 	_network_session_state_host_established,
 	_network_session_state_host_disband,
 
+	//_network_session_state_host_handoff,
+	//_network_session_state_host_reestablish,
+	//_network_session_state_election,
+
 	k_network_session_state_count
 };
 

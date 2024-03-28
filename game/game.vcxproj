@@ -187,6 +187,7 @@ POPD
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
     <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />
+    <ClCompile Include="source\networking\messages\network_message_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_out_of_band_consumer.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />

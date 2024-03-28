@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "game/aim_target.hpp"
+#include "units/units.hpp"
 
 struct s_player_prediction
 {

@@ -71,6 +71,7 @@ struct s_network_message_host_decline
 	bool session_exists;
 	bool peer_exists;
 	bool host_exists;
+	byte __pad13[0x1];
 	s_transport_secure_address host_address;
 };
 static_assert(sizeof(s_network_message_host_decline) == 0x24);

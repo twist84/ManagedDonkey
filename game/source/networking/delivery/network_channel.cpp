@@ -149,6 +149,8 @@ bool __cdecl c_network_channel::connected() const
 
 void __cdecl c_network_channel::close(e_network_channel_closure_reason closure_reason)
 {
+	//DECLFUNC(0x0045FA30, void, __thiscall, c_network_channel*, e_network_channel_closure_reason)(this, closure_reason);
+
 	ASSERT(closure_reason > _network_channel_reason_none && closure_reason < k_network_channel_reason_count);
 	ASSERT(allocated());
 	ASSERT(!closed());
@@ -219,5 +221,12 @@ void __cdecl c_network_channel::open(transport_address const* remote_address, bo
 	//m_connection.reset();
 	//m_message_queue.reset();
 	//m_message_queue.reserve_first_fragment();
+}
+
+void c_network_channel::send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload)
+{
+	//DECLFUNC(0x00460930, void, __thiscall, c_network_channel*, e_network_message_type, long, void const*)(this, message_type, raw_message_size, raw_message_payload);
+
+	m_message_queue.send_message(message_type, raw_message_size, raw_message_payload);
 }
 
