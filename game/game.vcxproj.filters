@@ -1212,6 +1212,9 @@
     <ClCompile Include="source\networking\messages\network_message_queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\simulation_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
