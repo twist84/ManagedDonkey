@@ -183,6 +183,15 @@ void __cdecl c_network_channel::close(e_network_channel_closure_reason closure_r
 	m_remote_channel_identifier = NONE;
 }
 
+//.text:0045FB00 ; void c_network_channel::complete_establishment()
+//.text:0045FBB0 ; void c_network_channel::deallocate()
+//.text:0045FC00 ; void c_network_channel::detach_simulation(c_network_channel_simulation_interface*)
+
+void __cdecl c_network_channel::establish(dword remote_channel_identifier)
+{
+	DECLFUNC(0x0045FC20, void, __thiscall, c_network_channel*, dword)(this, remote_channel_identifier);
+}
+
 void __cdecl c_network_channel::open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier)
 {
 	DECLFUNC(0x004603B0, void, __thiscall, c_network_channel*, transport_address const*, bool, long)(this, remote_address, send_connect_packets, channel_identifier);

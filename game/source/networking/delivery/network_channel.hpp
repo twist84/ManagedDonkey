@@ -23,7 +23,7 @@ public:
 	bool m_allocated;
 	bool read_simulation_data_expected;
 	bool m_first_fragment_reserved;
-	bool __unknown7;
+	bool m_has_channel_been_used;
 };
 static_assert(sizeof(c_network_channel_client) == 0x8);
 
@@ -73,6 +73,7 @@ struct c_network_message_queue :
 
 public:
 	void send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload);
+	bool has_channel_been_used() const;
 
 	char __data[4];
 
@@ -167,6 +168,7 @@ public:
 	bool __cdecl established() const;
 	bool __cdecl connected() const;
 	void __cdecl close(e_network_channel_closure_reason reason);
+	void __cdecl establish(dword remote_channel_identifier);
 	void __cdecl open(transport_address const* remote_address, bool send_connect_packets, long channel_identifier);
 
 	void send_message(e_network_message_type message_type, long raw_message_size, void const* raw_message_payload);

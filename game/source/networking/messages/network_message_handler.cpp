@@ -776,17 +776,33 @@ void __cdecl c_network_message_handler::handle_connect_establish(c_network_chann
 					channel->get_name(),
 					message->remote_identifier,
 					channel->get_remote_identifier());
+
+				long channel_identifier = NONE;
+				if (!channel->network_message_queue_get()->has_channel_been_used())
+					channel_identifier = channel->get_identifier();
 	
 				transport_address remote_address{};
 				channel->get_remote_address(&remote_address);
 				channel->close(_network_channel_reason_connect_reinitiate);
-				channel->open(&remote_address, false, channel->network_message_queue_get()->__unknown7 ? NONE : channel->get_identifier());
+				channel->open(&remote_address, false, channel_identifier);
 			}
 	
-			c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
-				channel->get_name(),
-				message->remote_identifier,
-				channel->get_identifier());
+			if (channel->closed())
+			{
+				c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d but the channel closed before we could establish",
+					channel->get_name(),
+					message->remote_identifier,
+					channel->get_identifier());
+			}
+			else
+			{
+				c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
+					channel->get_name(),
+					message->remote_identifier,
+					channel->get_identifier());
+
+				channel->establish(message->remote_identifier);
+			}
 		}
 		else
 		{
@@ -833,14 +849,13 @@ void __cdecl c_network_message_handler::handle_join_request(transport_address co
 	if (message->protocol == k_network_protocol_version)
 	{
 		c_network_session* session = m_session_manager->get_session(&message->session_id);
-		if (session)
+		if (session && session->is_host() && !session->handle_join_request(address, message))
 		{
-			if (session->is_host() && !session->handle_join_request(address, message))
-			{
-				c_console::write_line("networking:messages:join-request: can't handle join-request for '%s' from '%s'",
-					transport_secure_identifier_get_string(&message->session_id),
-					transport_address_get_string(address));
-			}
+			c_console::write_line("networking:messages:join-request: can't handle join-request for '%s' from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				transport_address_get_string(address));
+
+			c_console::write_line("networking:messages:join-request: failed to handle incomming join request");
 		}
 	}
 	else
