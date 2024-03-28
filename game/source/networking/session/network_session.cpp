@@ -55,6 +55,11 @@ bool c_network_session::leaving_session() const
 	return DECLFUNC(0x00434E30, bool, __thiscall, c_network_session const*)(this);
 }
 
+bool c_network_session::channel_is_authoritative(c_network_channel* channel)
+{
+	return DECLFUNC(0x0045A9E0, bool, __thiscall, c_network_session*, c_network_channel*)(this, channel);
+}
+
 void c_network_session::force_disconnect()
 {
 	DECLFUNC(0x0045BE20, void, __thiscall, c_network_session*)(this);
@@ -224,8 +229,19 @@ bool c_network_session::leader_request_delegate_leadership(s_transport_secure_ad
 	return DECLFUNC(0x0045D600, bool, __thiscall, c_network_session*, s_transport_secure_address const*)(this, leader_address);
 }
 
+e_network_session_mode c_network_session::session_mode() const
+{
+	return m_session_parameters.m_parameters_internal.session_mode.get();
+}
+
+s_network_session_player* c_network_session::get_player(long player_index)
+{
+	ASSERT(!disconnected());
+
+	return &m_session_membership.m_shared_network_membership.players[player_index];
+}
+
 //.text:0045D760 ; void c_network_session::leave_session()
-//.text:0045D770 ; long c_network_session_membership::local_membership_update_number() const
 //.text:0045D780 ; bool c_network_session::membership_is_locked() const
 //.text:0045D790 ; bool c_network_session::membership_is_stable() const
 //.text:0045D8C0 ; virtual void c_network_session::notify_channel_connection(long, dword, bool)
@@ -332,23 +348,81 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 //.text:0045EFD0 ; dword c_network_session::time_get() const
 //.text:0045EFE0 ; void c_network_session::time_release()
 //.text:0045EFF0 ; void c_network_session::time_set(long)
-//.text:0045F030 ; bool c_network_session::waiting_for_host_connection(transport_address const*) const
+
+bool c_network_session::waiting_for_host_connection(transport_address const* address) const
+{
+	return DECLFUNC(0x0045F030, bool, __thiscall, c_network_session const*, transport_address const*)(this, address);
+}
+
 //.text:0045F060 ; bool c_network_session::waiting_for_initial_update() const
 //.text:0045F080 ; void c_network_session::whack_session_to_offline_session_class()
 
-s_network_session_player* c_network_session::get_player(long player_index)
+bool c_network_session::handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message)
 {
-	ASSERT(!disconnected());
-
-	return &m_session_membership.m_shared_network_membership.players[player_index];
+	return DECLFUNC(0x004DA040, bool, __thiscall, c_network_session*, c_network_channel* channel, s_network_message_boot_machine const*)(this, channel, message);
 }
 
-e_network_session_mode c_network_session::session_mode() const
+bool c_network_session::handle_delegate_leadership(c_network_channel* channel, s_network_message_delegate_leadership const* message)
 {
-	return m_session_parameters.m_parameters_internal.session_mode.get();
+	return DECLFUNC(0x004DA1B0, bool, __thiscall, c_network_session*, c_network_channel* channel, s_network_message_delegate_leadership const*)(this, channel, message);
 }
 
-bool __cdecl c_network_session::handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message)
+bool c_network_session::handle_host_decline(c_network_channel* channel, s_network_message_host_decline const* message)
+{
+	return DECLFUNC(0x004DA300, bool, __thiscall, c_network_session*, c_network_channel* channel, s_network_message_host_decline const*)(this, channel, message);
+}
+
+bool c_network_session::handle_join_request(transport_address const* address, s_network_message_join_request const* message)
+{
+	return DECLFUNC(0x004DA410, bool, __thiscall, c_network_session*, transport_address const* channel, s_network_message_join_request const*)(this, address, message);
+}
+
+void c_network_session::handle_leave_acknowledgement(transport_address const* address)
+{
+	DECLFUNC(0x004DA540, void, __thiscall, c_network_session*, transport_address const*)(this, address);
+}
+
+bool c_network_session::handle_leave_request(transport_address const* address)
+{
+	return DECLFUNC(0x004DA5F0, bool, __thiscall, c_network_session*, transport_address const*)(this, address);
+}
+
+bool c_network_session::handle_membership_update(s_network_message_membership_update const* message)
+{
+	return DECLFUNC(0x004DA680, bool, __thiscall, c_network_session*, s_network_message_membership_update const*)(this, message);
+}
+
+bool c_network_session::handle_parameters_request(c_network_channel* channel, s_network_message_parameters_request const* message)
+{
+	return DECLFUNC(0x004DA690, bool, __thiscall, c_network_session*, c_network_channel* channel, s_network_message_parameters_request const*)(this, channel, message);
+}
+
+bool c_network_session::handle_parameters_update(s_network_message_parameters_update const* message)
+{
+	return DECLFUNC(0x004DA770, bool, __thiscall, c_network_session*, s_network_message_parameters_update const*)(this, message);
+}
+
+void c_network_session::handle_peer_connect(transport_address const* address, s_network_message_peer_connect const* message)
+{
+	DECLFUNC(0x004DA870, void, __thiscall, c_network_session*, transport_address const*, s_network_message_peer_connect const*)(this, address, message);
+}
+
+bool c_network_session::handle_peer_establish(c_network_channel* channel, s_network_message_peer_establish const* message)
+{
+	return DECLFUNC(0x004DAAB0, bool, __thiscall, c_network_session*, c_network_channel* channel, s_network_message_peer_establish const*)(this, channel, message);
+}
+
+bool c_network_session::handle_peer_properties(c_network_channel* channel, s_network_message_peer_properties const* message)
+{
+	return DECLFUNC(0x004DAC30, bool, __thiscall, c_network_session*, c_network_channel* channel, s_network_message_peer_properties const*)(this, channel, message);
+}
+
+bool c_network_session::handle_player_add(c_network_channel* channel, s_network_message_player_add const* message)
+{
+	return DECLFUNC(0x004DAD20, bool, __thiscall, c_network_session*, c_network_channel* channel, s_network_message_player_add const*)(this, channel, message);
+}
+
+bool c_network_session::handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message)
 {
 	//return DECLFUNC(0x004DAEC0, bool, __thiscall, c_network_session*, c_network_channel*, s_network_message_player_properties const*)(this, channel, message);
 
@@ -401,5 +475,30 @@ bool __cdecl c_network_session::handle_player_properties(c_network_channel* chan
 	}
 
 	return false;
+}
+
+bool c_network_session::handle_player_refuse(c_network_channel* channel, s_network_message_player_refuse const* message)
+{
+	return DECLFUNC(0x004DB000, bool, __thiscall, c_network_session*, c_network_channel*, s_network_message_player_refuse const*)(this, channel, message);
+}
+
+bool c_network_session::handle_player_remove(c_network_channel* channel, s_network_message_player_remove const* message)
+{
+	return DECLFUNC(0x004DB0E0, bool, __thiscall, c_network_session*, c_network_channel*, s_network_message_player_remove const*)(this, channel, message);
+}
+
+bool c_network_session::handle_session_boot(transport_address const* address, s_network_message_session_boot const* message)
+{
+	return DECLFUNC(0x004DB200, bool, __thiscall, c_network_session*, transport_address const*, s_network_message_session_boot const*)(this, address, message);
+}
+
+bool c_network_session::handle_session_disband(transport_address const* address, s_network_message_session_disband const* message)
+{
+	return DECLFUNC(0x004DB2B0, bool, __thiscall, c_network_session*, transport_address const*, s_network_message_session_disband const*)(this, address, message);
+}
+
+bool c_network_session::handle_time_synchronize(transport_address const* address, s_network_message_time_synchronize const* message)
+{
+	return DECLFUNC(0x004DB340, bool, __thiscall, c_network_session*, transport_address const*, s_network_message_time_synchronize const*)(this, address, message);
 }
 

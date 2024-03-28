@@ -42,12 +42,28 @@ public:
 };
 static_assert(sizeof(c_network_channel_owner) == 0x4);
 
+struct s_network_message_boot_machine;
+struct s_network_message_delegate_leadership;
+struct s_network_message_host_decline;
+struct s_network_message_join_request;
+struct s_network_message_membership_update;
+struct s_network_message_parameters_request;
+struct s_network_message_parameters_update;
+struct s_network_message_peer_connect;
+struct s_network_message_peer_establish;
+struct s_network_message_peer_properties;
+struct s_network_message_player_add;
+struct s_network_message_player_properties;
+struct s_network_message_player_refuse;
+struct s_network_message_player_remove;
+struct s_network_message_session_boot;
+struct s_network_message_session_disband;
+struct s_network_message_time_synchronize;
+
 struct c_network_message_gateway;
 struct c_network_observer;
 struct c_network_session_manager;
 struct c_network_channel;
-struct s_network_message_player_properties;
-struct s_network_session_join_request;
 struct c_network_session :
 	public c_network_channel_owner
 {
@@ -57,6 +73,7 @@ struct c_network_session :
 	bool is_host() const;
 	bool is_leader() const;
 	bool leaving_session() const;
+	bool channel_is_authoritative(c_network_channel* channel);
 	void force_disconnect();
 	bool force_disconnect_peer(s_transport_secure_address const* peer_secure_address);
 	c_network_session_membership const* get_session_membership() const;
@@ -86,10 +103,28 @@ struct c_network_session :
 	bool leader_request_boot_machine(s_transport_secure_address const* boot_peer_address, e_network_session_boot_reason boot_reason);
 	bool leader_request_delegate_leadership(s_transport_secure_address const* leader_address);
 	e_network_session_mode session_mode() const;
-
 	s_network_session_player* get_player(long player_index);
-	bool __cdecl handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message);
-	bool __cdecl peer_request_player_desired_properties_update(long player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, dword player_voice);
+	bool peer_request_player_desired_properties_update(long player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, dword player_voice);
+	bool waiting_for_host_connection(transport_address const* address) const;
+	bool handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message);
+	bool handle_delegate_leadership(c_network_channel* channel, s_network_message_delegate_leadership const* message);
+	bool handle_host_decline(c_network_channel* channel, s_network_message_host_decline const* message);
+	bool handle_join_request(transport_address const* address, s_network_message_join_request const* message);
+	void handle_leave_acknowledgement(transport_address const* address);
+	bool handle_leave_request(transport_address const* address);
+	bool handle_membership_update(s_network_message_membership_update const* message);
+	bool handle_parameters_request(c_network_channel* channel, s_network_message_parameters_request const* message);
+	bool handle_parameters_update(s_network_message_parameters_update const* message);
+	void handle_peer_connect(transport_address const* address, s_network_message_peer_connect const* message);
+	bool handle_peer_establish(c_network_channel* channel, s_network_message_peer_establish const* message);
+	bool handle_peer_properties(c_network_channel* channel, s_network_message_peer_properties const* message);
+	bool handle_player_add(c_network_channel* channel, s_network_message_player_add const* message);
+	bool handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message);
+	bool handle_player_refuse(c_network_channel* channel, s_network_message_player_refuse const* message);
+	bool handle_player_remove(c_network_channel* channel, s_network_message_player_remove const* message);
+	bool handle_session_boot(transport_address const* address, s_network_message_session_boot const* message);
+	bool handle_session_disband(transport_address const* address, s_network_message_session_disband const* message);
+	bool handle_time_synchronize(transport_address const* address, s_network_message_time_synchronize const* message);
 
 	c_network_message_gateway* m_message_gateway;
 	c_network_observer* m_observer;
