@@ -758,220 +758,220 @@ void __cdecl c_network_message_handler::handle_connect_refuse(c_network_channel*
 
 void __cdecl c_network_message_handler::handle_connect_establish(c_network_channel* channel, s_network_message_connect_establish const* message)
 {
-	DECLFUNC(0x0049CC10, void, __cdecl, c_network_channel*, s_network_message_connect_establish const*)(channel, message);
+	//DECLFUNC(0x0049CC10, void, __cdecl, c_network_channel*, s_network_message_connect_establish const*)(channel, message);
 
-	//if (channel->closed())
-	//{
-	//	c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (currently closed)",
-	//		channel->get_name(),
-	//		message->remote_identifier);
-	//}
-	//else 
-	//{
-	//	if (channel->get_identifier() == message->remote_identifier)
-	//	{
-	//		if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
-	//		{
-	//			c_console::write_line("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
-	//				channel->get_name(),
-	//				message->remote_identifier,
-	//				channel->get_remote_identifier());
-	//
-	//			transport_address remote_address{};
-	//			channel->get_remote_address(&remote_address);
-	//			channel->close(_network_channel_reason_connect_reinitiate);
-	//			channel->open(&remote_address, false, channel->network_message_queue_get()->__unknown7 ? NONE : channel->get_identifier());
-	//		}
-	//
-	//		c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
-	//			channel->get_name(),
-	//			message->remote_identifier,
-	//			channel->get_identifier());
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
-	//			channel->get_name(),
-	//			message->remote_identifier,
-	//			message->identifier,
-	//			channel->get_identifier());
-	//	}
-	//}
+	if (channel->closed())
+	{
+		c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (currently closed)",
+			channel->get_name(),
+			message->remote_identifier);
+	}
+	else 
+	{
+		if (channel->get_identifier() == message->remote_identifier)
+		{
+			if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
+			{
+				c_console::write_line("networking:channel:connect: received establishment from '%s'/%d but we are already established to %d",
+					channel->get_name(),
+					message->remote_identifier,
+					channel->get_remote_identifier());
+	
+				transport_address remote_address{};
+				channel->get_remote_address(&remote_address);
+				channel->close(_network_channel_reason_connect_reinitiate);
+				channel->open(&remote_address, false, channel->network_message_queue_get()->__unknown7 ? NONE : channel->get_identifier());
+			}
+	
+			c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d",
+				channel->get_name(),
+				message->remote_identifier,
+				channel->get_identifier());
+		}
+		else
+		{
+			c_console::write_line("networking:channel:connect: ignoring connect establish from '%s'/%d (establishment identifier %d != local identifier %d)",
+				channel->get_name(),
+				message->remote_identifier,
+				message->identifier,
+				channel->get_identifier());
+		}
+	}
 }
 
 void __cdecl c_network_message_handler::handle_connect_closed(c_network_channel* channel, s_network_message_connect_closed const* message)
 {
-	DECLFUNC(0x0049CBA0, void, __cdecl, c_network_channel*, s_network_message_connect_closed const*)(channel, message);
+	//DECLFUNC(0x0049CBA0, void, __cdecl, c_network_channel*, s_network_message_connect_closed const*)(channel, message);
 
-	//if (channel->closed())
-	//{
-	//	c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (already closed)",
-	//		channel->get_name());
-	//}
-	//else if (channel->get_identifier() == message->remote_identifier)
-	//{
-	//	c_console::write_line("networking:channel:connect: '%s' remotely closed (reason #%d: '%s')",
-	//		channel->get_name(),
-	//		message->reason,
-	//		channel->get_closure_reason_string(message->reason));
-	//
-	//	channel->close(_network_channel_reason_remote_closure);
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (closed identifier %d != identifier %d)",
-	//		channel->get_name(),
-	//		message->remote_identifier,
-	//		channel->get_identifier());
-	//}
+	if (channel->closed())
+	{
+		c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (already closed)",
+			channel->get_name());
+	}
+	else if (channel->get_identifier() == message->remote_identifier)
+	{
+		c_console::write_line("networking:channel:connect: '%s' remotely closed (reason #%d: '%s')",
+			channel->get_name(),
+			message->reason,
+			channel->get_closure_reason_string(message->reason));
+	
+		channel->close(_network_channel_reason_remote_closure);
+	}
+	else
+	{
+		c_console::write_line("networking:channel:connect: '%s' ignoring remote closure (closed identifier %d != identifier %d)",
+			channel->get_name(),
+			message->remote_identifier,
+			channel->get_identifier());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_join_request(transport_address const* address, s_network_message_join_request const* message)
 {
-	DECLFUNC(0x0049D0C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_request const*)(this, address, message);
+	//DECLFUNC(0x0049D0C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_request const*)(this, address, message);
 
-	//if (message->protocol == k_network_protocol_version)
-	//{
-	//	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
-	//	{
-	//		if (session->is_host() && !session->handle_join_request(address, message))
-	//		{
-	//			c_console::write_line("networking:messages:join-request: can't handle join-request for '%s' from '%s'",
-	//				transport_secure_identifier_get_string(&message->session_id),
-	//				transport_address_get_string(address));
-	//		}
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:join-request: received message with incorrect protocol version [%d!=%d]",
-	//		message->protocol,
-	//		k_network_protocol_version);
-	//}
+	if (message->protocol == k_network_protocol_version)
+	{
+		if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+		{
+			if (session->is_host() && !session->handle_join_request(address, message))
+			{
+				c_console::write_line("networking:messages:join-request: can't handle join-request for '%s' from '%s'",
+					transport_secure_identifier_get_string(&message->session_id),
+					transport_address_get_string(address));
+			}
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:join-request: received message with incorrect protocol version [%d!=%d]",
+			message->protocol,
+			k_network_protocol_version);
+	}
 }
 
 void __cdecl c_network_message_handler::handle_peer_connect(transport_address const* address, s_network_message_peer_connect const* message)
 {
-	DECLFUNC(0x0049D5C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_peer_connect const*)(this, address, message);
+	//DECLFUNC(0x0049D5C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_peer_connect const*)(this, address, message);
 
-	//if (message->protocol == k_network_protocol_version)
-	//{
-	//	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
-	//	{
-	//		session->handle_peer_connect(address, message);
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:peer-connect: no session, ignoring peer connect from '%s'",
-	//			transport_address_get_string(address));
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:peer-connect: received message with incorrect protocol version [%d!=%d]",
-	//		message->protocol,
-	//		k_network_protocol_version);
-	//}
+	if (message->protocol == k_network_protocol_version)
+	{
+		if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+		{
+			session->handle_peer_connect(address, message);
+		}
+		else
+		{
+			c_console::write_line("networking:messages:peer-connect: no session, ignoring peer connect from '%s'",
+				transport_address_get_string(address));
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:peer-connect: received message with incorrect protocol version [%d!=%d]",
+			message->protocol,
+			k_network_protocol_version);
+	}
 }
 
 void __cdecl c_network_message_handler::handle_join_abort(transport_address const* address, s_network_message_join_abort const* message)
 {
-	DECLFUNC(0x0049CF00, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_abort const*)(this, address, message);
+	//DECLFUNC(0x0049CF00, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_abort const*)(this, address, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->established() && session->is_host())
-	//{
-	//	e_network_join_refuse_reason reason = _network_join_refuse_reason_none;
-	//	if (session->join_abort(address, message->join_nonce))
-	//	{
-	//		reason = _network_join_refuse_reason_aborted;
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:join-abort: ignoring unknown abort from '%s'",
-	//			transport_address_get_string(address));
-	//		reason = _network_join_refuse_reason_abort_ignored;
-	//	}
-	//
-	//	c_console::write_line("networking:messages:join-abort: received abort, sending join-refusal (%s) to '%s'",
-	//		network_message_join_refuse_get_reason_string(reason),
-	//		transport_address_get_string(address));
-	//
-	//	s_network_message_join_refuse join_refuse =
-	//	{
-	//		.session_id = message->session_id,
-	//		.reason = reason
-	//	};
-	//	m_message_gateway->send_message_directed(address, _network_message_join_refuse, sizeof(s_network_message_join_refuse), &join_refuse);
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:join-abort: no session, ignoring join abort from '%s'",
-	//		transport_address_get_string(address));
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->established() && session->is_host())
+	{
+		e_network_join_refuse_reason reason = _network_join_refuse_reason_none;
+		if (session->join_abort(address, message->join_nonce))
+		{
+			reason = _network_join_refuse_reason_aborted;
+		}
+		else
+		{
+			c_console::write_line("networking:messages:join-abort: ignoring unknown abort from '%s'",
+				transport_address_get_string(address));
+			reason = _network_join_refuse_reason_abort_ignored;
+		}
+	
+		c_console::write_line("networking:messages:join-abort: received abort, sending join-refusal (%s) to '%s'",
+			network_message_join_refuse_get_reason_string(reason),
+			transport_address_get_string(address));
+	
+		s_network_message_join_refuse join_refuse =
+		{
+			.session_id = message->session_id,
+			.reason = reason
+		};
+		m_message_gateway->send_message_directed(address, _network_message_join_refuse, sizeof(s_network_message_join_refuse), &join_refuse);
+	}
+	else
+	{
+		c_console::write_line("networking:messages:join-abort: no session, ignoring join abort from '%s'",
+			transport_address_get_string(address));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_join_refuse(transport_address const* address, s_network_message_join_refuse const* message)
 {
-	DECLFUNC(0x0049CFF0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_refuse const*)(this, address, message);
+	//DECLFUNC(0x0049CFF0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_join_refuse const*)(this, address, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->waiting_for_host_connection(address))
-	//{
-	//	c_console::write_line("networking:messages:join-refuse: host-connection received join refusal (%s) type %d/%s from '%s'", 
-	//		transport_secure_identifier_get_string(&message->session_id), 
-	//		message->reason, 
-	//		network_message_join_refuse_get_reason_string(message->reason), 
-	//		transport_address_get_string(address));
-	//
-	//	session->host_connection_refused(address, message->reason);
-	//}
-	//else if (session && session->join_abort_in_progress(address))
-	//{
-	//	c_console::write_line("networking:messages:join-refuse: join-abort received join refusal (%s) type %d/%s from '%s'",
-	//		transport_secure_identifier_get_string(&message->session_id),
-	//		message->reason,
-	//		network_message_join_refuse_get_reason_string(message->reason),
-	//		transport_address_get_string(address));
-	//
-	//	session->join_abort_successful(address);
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:join-refuse: can't handle join refusal (%s) type %d/%s from '%s'",
-	//		transport_secure_identifier_get_string(&message->session_id),
-	//		message->reason,
-	//		network_message_join_refuse_get_reason_string(message->reason),
-	//		transport_address_get_string(address));
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->waiting_for_host_connection(address))
+	{
+		c_console::write_line("networking:messages:join-refuse: host-connection received join refusal (%s) type %d/%s from '%s'", 
+			transport_secure_identifier_get_string(&message->session_id), 
+			message->reason, 
+			network_message_join_refuse_get_reason_string(message->reason), 
+			transport_address_get_string(address));
+	
+		session->host_connection_refused(address, message->reason);
+	}
+	else if (session && session->join_abort_in_progress(address))
+	{
+		c_console::write_line("networking:messages:join-refuse: join-abort received join refusal (%s) type %d/%s from '%s'",
+			transport_secure_identifier_get_string(&message->session_id),
+			message->reason,
+			network_message_join_refuse_get_reason_string(message->reason),
+			transport_address_get_string(address));
+	
+		session->join_abort_successful(address);
+	}
+	else
+	{
+		c_console::write_line("networking:messages:join-refuse: can't handle join refusal (%s) type %d/%s from '%s'",
+			transport_secure_identifier_get_string(&message->session_id),
+			message->reason,
+			network_message_join_refuse_get_reason_string(message->reason),
+			transport_address_get_string(address));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_leave_session(transport_address const* address, s_network_message_leave_session const* message)
 {
 	DECLFUNC(0x0049D1C0, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_leave_session const*)(this, address, message);
 
-	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
-	//{
-	//	if (session->is_host())
-	//	{
-	//		if (!session->handle_leave_request(address))
-	//		{
-	//			c_console::write_line("networking:messages:leave-session: can't handle leave-session request (%s) from '%s'",
-	//				transport_secure_identifier_get_string(&message->session_id),
-	//				transport_address_get_string(address));
-	//		}
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:leave-session: ignoring leave-session from '%s' (not hosting)",
-	//			transport_address_get_string(address));
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:leave-session: ignoring leave-session from '%s' (session not found)",
-	//		transport_address_get_string(address));
-	//}
+	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+	{
+		if (session->is_host())
+		{
+			if (!session->handle_leave_request(address))
+			{
+				c_console::write_line("networking:messages:leave-session: can't handle leave-session request (%s) from '%s'",
+					transport_secure_identifier_get_string(&message->session_id),
+					transport_address_get_string(address));
+			}
+		}
+		else
+		{
+			c_console::write_line("networking:messages:leave-session: ignoring leave-session from '%s' (not hosting)",
+				transport_address_get_string(address));
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:leave-session: ignoring leave-session from '%s' (session not found)",
+			transport_address_get_string(address));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_leave_acknowledge(transport_address const* address, s_network_message_leave_acknowledge const* message)
@@ -994,64 +994,64 @@ void __cdecl c_network_message_handler::handle_leave_acknowledge(transport_addre
 
 void __cdecl c_network_message_handler::handle_session_disband(transport_address const* address, s_network_message_session_disband const* message)
 {
-	DECLFUNC(0x0049DA80, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_session_disband const*)(this, address, message);
+	//DECLFUNC(0x0049DA80, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_session_disband const*)(this, address, message);
 
-	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
-	//{
-	//	if (!session->handle_session_disband(address, message))
-	//	{
-	//		c_console::write_line("networking:messages:session-disband: session (%s) failed to handle session-disband from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			transport_address_get_string(address));
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:session-disband: ignoring message from '%s' (no %s session)",
-	//		transport_address_get_string(address),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+	{
+		if (!session->handle_session_disband(address, message))
+		{
+			c_console::write_line("networking:messages:session-disband: session (%s) failed to handle session-disband from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				transport_address_get_string(address));
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:session-disband: ignoring message from '%s' (no %s session)",
+			transport_address_get_string(address),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_session_boot(transport_address const* address, s_network_message_session_boot const* message)
 {
-	DECLFUNC(0x0049DA00, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_session_boot const*)(this, address, message);
+	//DECLFUNC(0x0049DA00, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_session_boot const*)(this, address, message);
 
-	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
-	//{
-	//	if (!session->handle_session_boot(address, message))
-	//	{
-	//		c_console::write_line("networking:messages:session-boot: session (%s) failed to handle session-boot from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			transport_address_get_string(address));
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:session-boot: ignoring session-boot from '%s' (no %s session)",
-	//		transport_address_get_string(address),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+	{
+		if (!session->handle_session_boot(address, message))
+		{
+			c_console::write_line("networking:messages:session-boot: session (%s) failed to handle session-boot from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				transport_address_get_string(address));
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:session-boot: ignoring session-boot from '%s' (no %s session)",
+			transport_address_get_string(address),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_host_decline(c_network_channel* channel, s_network_message_host_decline const* message)
 {
-	DECLFUNC(0x0049CEA0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_host_decline const*)(this, channel, message);
+	//DECLFUNC(0x0049CEA0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_host_decline const*)(this, channel, message);
 
-	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
-	//{
-	//	if (!session->handle_host_decline(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:host-decline: session failed to handle host-decline (%s)",
-	//			transport_secure_identifier_get_string(&message->session_id));
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:host-decline: channel '%s' ignoring host-decline (%s) (can not find session)",
-	//		channel->get_name(),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+	{
+		if (!session->handle_host_decline(channel, message))
+		{
+			c_console::write_line("networking:messages:host-decline: session failed to handle host-decline (%s)",
+				transport_secure_identifier_get_string(&message->session_id));
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:host-decline: channel '%s' ignoring host-decline (%s) (can not find session)",
+			channel->get_name(),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_peer_establish(c_network_channel* channel, s_network_message_peer_establish const* message)
@@ -1076,179 +1076,179 @@ void __cdecl c_network_message_handler::handle_peer_establish(c_network_channel*
 
 void __cdecl c_network_message_handler::handle_time_synchronize(transport_address const* address, s_network_message_time_synchronize const* message)
 {
-	DECLFUNC(0x0049DE40, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_time_synchronize const*)(this, address, message);
+	//DECLFUNC(0x0049DE40, void, __thiscall, c_network_message_handler*, transport_address const*, s_network_message_time_synchronize const*)(this, address, message);
 
-	//if (c_network_session* session = m_session_manager->get_session(&message->session_id))
-	//{
-	//	if (!session->handle_time_synchronize(address, message))
-	//	{
-	//		c_console::write_line("networking:messages:time-synchronize: session failed to handle time-synchronize (%s %d) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			message->synchronization_stage,
-	//			transport_address_get_string(address));
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:time-synchronize: session doesn't exist to handle time-synchronize (%s %d) from '%s'",
-	//		transport_secure_identifier_get_string(&message->session_id),
-	//		message->synchronization_stage,
-	//		transport_address_get_string(address));
-	//}
+	if (c_network_session* session = m_session_manager->get_session(&message->session_id))
+	{
+		if (!session->handle_time_synchronize(address, message))
+		{
+			c_console::write_line("networking:messages:time-synchronize: session failed to handle time-synchronize (%s %d) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				message->synchronization_stage,
+				transport_address_get_string(address));
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:time-synchronize: session doesn't exist to handle time-synchronize (%s %d) from '%s'",
+			transport_secure_identifier_get_string(&message->session_id),
+			message->synchronization_stage,
+			transport_address_get_string(address));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_membership_update(c_network_channel* channel, s_network_message_membership_update const* message)
 {
-	DECLFUNC(0x0049D250, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_membership_update const*)(this, channel, message);
+	//DECLFUNC(0x0049D250, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_membership_update const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->channel_is_authoritative(channel))
-	//{
-	//	if (!session->handle_membership_update(message))
-	//	{
-	//		c_console::write_line("networking:messages:membership-update: failed to handle authoritative membership-update (%s update %d) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			message->update_number,
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:membership-update: channel '%s' ignoring membership-update (channel is not authoritative)",
-	//		channel->get_name());
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->channel_is_authoritative(channel))
+	{
+		if (!session->handle_membership_update(message))
+		{
+			c_console::write_line("networking:messages:membership-update: failed to handle authoritative membership-update (%s update %d) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				message->update_number,
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:membership-update: channel '%s' ignoring membership-update (channel is not authoritative)",
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_peer_properties(c_network_channel* channel, s_network_message_peer_properties const* message)
 {
-	DECLFUNC(0x0049D6B0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_peer_properties const*)(this, channel, message);
+	//DECLFUNC(0x0049D6B0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_peer_properties const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->is_host())
-	//{
-	//	if (!session->handle_peer_properties(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:peer-properties: session failed to handle peer-properties (%s) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:peer-properties: channel '%s' ignoring peer-properties (%s) (not host)",
-	//		channel->get_name(),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->is_host())
+	{
+		if (!session->handle_peer_properties(channel, message))
+		{
+			c_console::write_line("networking:messages:peer-properties: session failed to handle peer-properties (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:peer-properties: channel '%s' ignoring peer-properties (%s) (not host)",
+			channel->get_name(),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_delegate_leadership(c_network_channel* channel, s_network_message_delegate_leadership const* message)
 {
-	DECLFUNC(0x0049CDD0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_delegate_leadership const*)(this, channel, message);
+	//DECLFUNC(0x0049CDD0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_delegate_leadership const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->is_host())
-	//{
-	//	if (!session->handle_delegate_leadership(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:delegate-leadership: session failed to handle delegate-leadership (%s) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:delegate-leadership: channel '%s' ignoring delegate-leadership (%s) (not host)",
-	//		channel->get_name(),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->is_host())
+	{
+		if (!session->handle_delegate_leadership(channel, message))
+		{
+			c_console::write_line("networking:messages:delegate-leadership: session failed to handle delegate-leadership (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:delegate-leadership: channel '%s' ignoring delegate-leadership (%s) (not host)",
+			channel->get_name(),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message)
 {
 	DECLFUNC(0x0049C240, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_boot_machine const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->is_host())
-	//{
-	//	if (!session->handle_boot_machine(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:boot-machine: session failed to handle boot-machine (%s) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:boot-machine: channel '%s' ignoring boot-machine (%s) (not host)",
-	//		channel->get_name(),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->is_host())
+	{
+		if (!session->handle_boot_machine(channel, message))
+		{
+			c_console::write_line("networking:messages:boot-machine: session failed to handle boot-machine (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:boot-machine: channel '%s' ignoring boot-machine (%s) (not host)",
+			channel->get_name(),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_player_add(c_network_channel* channel, s_network_message_player_add const* message)
 {
-	DECLFUNC(0x0049D7F0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_add const*)(this, channel, message);
+	//DECLFUNC(0x0049D7F0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_add const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->is_host())
-	//{
-	//	if (!session->handle_player_add(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:player-add: session failed to handle player-add (%s) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:player-add: channel '%s' ignoring player-add (%s) (not host)",
-	//		channel->get_name(),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->is_host())
+	{
+		if (!session->handle_player_add(channel, message))
+		{
+			c_console::write_line("networking:messages:player-add: session failed to handle player-add (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:player-add: channel '%s' ignoring player-add (%s) (not host)",
+			channel->get_name(),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_player_refuse(c_network_channel* channel, s_network_message_player_refuse const* message)
 {
-	DECLFUNC(0x0049D8D0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_refuse const*)(this, channel, message);
+	//DECLFUNC(0x0049D8D0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_refuse const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->channel_is_authoritative())
-	//{
-	//	if (!session->handle_player_refuse(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:player-refuse: session failed to handle player-refuse (%s) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:player-refuse: channel '%s' ignoring player-refuse (%s) (channel not authoritative)",
-	//		channel->get_name(),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->channel_is_authoritative(channel))
+	{
+		if (!session->handle_player_refuse(channel, message))
+		{
+			c_console::write_line("networking:messages:player-refuse: session failed to handle player-refuse (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:player-refuse: channel '%s' ignoring player-refuse (%s) (channel not authoritative)",
+			channel->get_name(),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_player_remove(c_network_channel* channel, s_network_message_player_remove const* message)
 {
-	DECLFUNC(0x0049D940, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_remove const*)(this, channel, message);
+	//DECLFUNC(0x0049D940, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_player_remove const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->is_host())
-	//{
-	//	if (!session->handle_player_remove(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:player-remove: session failed to handle player-remove (%s) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:player-remove: channel '%s' ignoring player-remove (%s) (not host)",
-	//		channel->get_name(),
-	//		transport_secure_identifier_get_string(&message->session_id));
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->is_host())
+	{
+		if (!session->handle_player_remove(channel, message))
+		{
+			c_console::write_line("networking:messages:player-remove: session failed to handle player-remove (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:player-remove: channel '%s' ignoring player-remove (%s) (not host)",
+			channel->get_name(),
+			transport_secure_identifier_get_string(&message->session_id));
+	}
 }
 
 void __cdecl c_network_message_handler::handle_player_properties(c_network_channel* channel, s_network_message_player_properties const* message)
@@ -1275,44 +1275,44 @@ void __cdecl c_network_message_handler::handle_player_properties(c_network_chann
 
 void __cdecl c_network_message_handler::handle_parameters_update(c_network_channel* channel, s_network_message_parameters_update const* message)
 {
-	DECLFUNC(0x0049D550, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_parameters_update const*)(this, channel, message);
+	//DECLFUNC(0x0049D550, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_parameters_update const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->handle_parameters_update())
-	//{
-	//	if (!session->handle_parameters_update(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:parameters-update-new: session failed to handle authoritative parameters-update (%s) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:parameters-update-new: channel '%s' ignoring parameters-update (channel is not authoritative)",
-	//		channel->get_name());
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->channel_is_authoritative(channel))
+	{
+		if (!session->handle_parameters_update(message))
+		{
+			c_console::write_line("networking:messages:parameters-update-new: session failed to handle authoritative parameters-update (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:parameters-update-new: channel '%s' ignoring parameters-update (channel is not authoritative)",
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_parameters_request(c_network_channel* channel, s_network_message_parameters_request const* message)
 {
-	DECLFUNC(0x0049D4E0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_parameters_request const*)(this, channel, message);
+	//DECLFUNC(0x0049D4E0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_parameters_request const*)(this, channel, message);
 
-	//c_network_session* session = m_session_manager->get_session(&message->session_id);
-	//if (session && session->is_host())
-	//{
-	//	if (!session->handle_parameters_request(channel, message))
-	//	{
-	//		c_console::write_line("networking:messages:parameters-request-new: session failed to handle parameters-request (%s) from '%s'",
-	//			transport_secure_identifier_get_string(&message->session_id),
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:parameters-request-new: channel '%s' ignoring parameters-request (we are not the host)",
-	//		channel->get_name());
-	//}
+	c_network_session* session = m_session_manager->get_session(&message->session_id);
+	if (session && session->is_host())
+	{
+		if (!session->handle_parameters_request(channel, message))
+		{
+			c_console::write_line("networking:messages:parameters-request-new: session failed to handle parameters-request (%s) from '%s'",
+				transport_secure_identifier_get_string(&message->session_id),
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:parameters-request-new: channel '%s' ignoring parameters-request (we are not the host)",
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_view_establishment(c_network_channel* channel, s_network_message_view_establishment const* message)
