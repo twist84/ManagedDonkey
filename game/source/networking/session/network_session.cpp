@@ -219,6 +219,62 @@ void c_network_session::handle_disconnection()
 bool c_network_session::handle_leave_internal(long peer_index)
 {
 	return DECLFUNC(0x0045C2C0, bool, __thiscall, c_network_session*, long)(this, peer_index);
+
+	//ASSERT(is_host());
+	//ASSERT(established());
+	//ASSERT(peer_index != NONE);
+	//ASSERT(peer_index != m_session_membership.local_peer_index());
+	//
+	//long observer_channel_index = m_session_membership.get_observer_channel_index(peer_index);
+	//if (m_session_class == _network_session_class_xbox_live)
+	//	m_observer->quality_statistics_notify_peer_left_gracefully(observer_owner(), observer_channel_index);
+	//
+	//if (membership_is_locked() || !m_session_membership.is_peer_valid(peer_index))
+	//{
+	//	// Missing in Halo Online
+	//	//if (m_local_state == _network_session_state_host_handoff)
+	//	//{
+	//	//	handoff_remove_peer_from_consideration(peer_index);
+	//	//	return true;
+	//	//}
+	//	//else if (m_local_state == _network_session_state_host_reestablish)
+	//	//{
+	//	//	reestablish_remove_peer_from_reestablishment(peer_index);
+	//	//	return true;
+	//	//}
+	//	//else
+	//	//{
+	//	//	generate_event(_event_level_warning, "networking:session:membership: [%s] leave-request from peer [%s] denied, session membership is locked (state %s)",
+	//	//		managed_session_get_id_string(m_managed_session_index),
+	//	//		get_peer_description(peer_index),
+	//	//		get_state_string());
+	//	//}
+	//
+	//	generate_event(_event_level_warning, "networking:session:membership: [%s] leave-request from peer [%s] denied, session membership is locked (state %s)",
+	//		managed_session_get_id_string(m_managed_session_index),
+	//		get_peer_description(peer_index),
+	//		get_state_string());
+	//}
+	//else
+	//{
+	//	generate_event(_event_level_message, "networking:session:membership: %s leave-request accepted for peer [%s]",
+	//		managed_session_get_id_string(m_managed_session_index),
+	//		get_peer_description(peer_index));
+	//
+	//	s_network_message_leave_acknowledge leave_acknowledge{};
+	//	managed_session_get_id(m_managed_session_index, &leave_acknowledge.session_id);
+	//	m_observer->observer_channel_send_message(
+	//		observer_owner(),
+	//		observer_channel_index,
+	//		true,
+	//		_network_message_leave_acknowledge,
+	//		sizeof(s_network_message_leave_acknowledge),
+	//		&leave_acknowledge);
+	//
+	//	return true;
+	//}
+	//
+	//return false;
 }
 
 bool c_network_session::has_managed_session_connection() const
@@ -229,26 +285,123 @@ bool c_network_session::has_managed_session_connection() const
 bool c_network_session::host_assume_leadership()
 {
 	return DECLFUNC(0x0045C410, bool, __thiscall, c_network_session*)(this);
+
+	//if (established())
+	//{
+	//	if (is_host())
+	//	{
+	//		if (m_session_membership.leader_peer_index() != m_session_membership.local_peer_index())
+	//		{
+	//			generate_event(_event_level_status, "networking:session:membership: [%s] assuming leadership ([#%d] -> [#%d])",
+	//				managed_session_get_id_string(m_managed_session_index),
+	//				m_session_membership.leader_peer_index(),
+	//				m_session_membership.local_peer_index());
+	//
+	//			return true;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		generate_event(_event_level_error, "networking:session:membership: [%s] failed assuming leadership, not host of session",
+	//			managed_session_get_id_string(m_managed_session_index));
+	//	}
+	//}
+	//else
+	//{
+	//	generate_event(_event_level_error, "networking:session:membership: [%s] failed assuming leadership, session not established",
+	//		managed_session_get_id_string(m_managed_session_index));
+	//}
+	//
+	//return false;
 }
 
 bool c_network_session::host_boot_machine(long peer_index, e_network_session_boot_reason boot_reason)
 {
 	return DECLFUNC(0x0045C4B0, bool, __thiscall, c_network_session*, long, e_network_session_boot_reason)(this, peer_index, boot_reason);
+
+	//if (is_host())
+	//{
+	//	generate_event(_event_level_message, "networking:session:membership: [%s] booting machine [#%d] locally [reason %d]",
+	//		managed_session_get_id_string(m_managed_session_index),
+	//		peer_index,
+	//		boot_reason);
+	//
+	//	if (m_session_membership.local_peer_index() == peer_index)
+	//	{
+	//		generate_event(_event_level_message, "networking:session:membership: we are the host and are being booted, leaving...");
+	//
+	//		user_interface_networking_notify_booted_from_session(session_type(), boot_reason);
+	//		disband_and_reestablish_as_host(session_type() == _network_session_type_group);
+	//	}
+	//	else
+	//	{
+	//		boot_peer(peer_index, boot_reason);
+	//	}
+	//
+	//	return true;
+	//}
+	//
+	//return false;
 }
 
 void c_network_session::host_connection_refused(transport_address const* address, e_network_join_refuse_reason refuse_reason)
 {
 	DECLFUNC(0x0045C530, void, __thiscall, c_network_session*, transport_address const*, e_network_join_refuse_reason)(this, address, refuse_reason);
+
+	//if (waiting_for_host_connection(address))
+	//{
+	//	if (refuse_reason == _network_join_refuse_reason_holding_in_queue && this->m_local_state == _network_session_state_peer_joining)
+	//	{
+	//		generate_event(_event_level_message, "networking:session:join: [%s] received join-queue ping from host, waiting",
+	//			managed_session_get_id_string(m_managed_session_index));
+	//
+	//		peer_joining.__unknown34C = network_time_get();
+	//	}
+	//	else
+	//	{
+	//		generate_event(_event_level_message, "networking:session:join: [%s] host connection refused, aborting join",
+	//			managed_session_get_id_string(m_managed_session_index));
+	//
+	//		m_join_refuse_reason = refuse_reason;
+	//		ASSERT(current_local_state() == _network_session_state_peer_joining);
+	//		disconnect();
+	//	}
+	//}
 }
 
 bool c_network_session::host_established() const
 {
 	return DECLFUNC(0x0045C5C0, bool, __thiscall, c_network_session const*)(this);
+
+	//return current_local_state() == _network_session_state_host_established;
 }
 
 bool c_network_session::host_set_player_current_properties(long player_index, struct s_player_configuration const* player_data)
 {
 	return DECLFUNC(0x0045C5D0, bool, __thiscall, c_network_session*, long, s_player_configuration const*)(this, player_index, player_data);
+
+	//ASSERT(player_index >= 0 && player_index < k_network_maximum_players_per_session);
+	//ASSERT(player_data);
+	//
+	//if (established() && is_host() && !membership_is_locked() )
+	//{
+	//	if (m_session_membership.is_player_valid(player_index))
+	//	{
+	//		generate_event(_event_level_status, "networking:session:membership: [%s] local host updating current player properties for player [#%d]",
+	//			managed_session_get_id_string(m_managed_session_index),
+	//			player_index);
+	//
+	//		return true;
+	//	}
+	//	else
+	//	{
+	//		generate_event(_event_level_status, "networking:session:membership: [%s] local host updating player properties for invalid player [#%d]",
+	//			managed_session_get_id_string(m_managed_session_index),
+	//			player_index);
+	//	}
+	//}
+	//
+	//return false;
 }
 
 void c_network_session::idle()
@@ -269,6 +422,18 @@ void c_network_session::initiate_leave_protocol(bool leave_immediately)
 bool c_network_session::is_peer_joining_this_session() const
 {
 	return DECLFUNC(0x0045CC20, bool, __thiscall, c_network_session const*)(this);
+
+	//if (established())
+	//{
+	//	c_network_session_membership const* session_membership = get_session_membership();
+	//	for (long peer_index = session_membership->get_first_peer(); peer_index != NONE; peer_index = session_membership->get_next_peer(peer_index))
+	//	{
+	//		if (peer_index != session_membership->local_peer_index() && session_membership->get_peer_connection_state(peer_index) != _network_session_peer_state_established)
+	//			return true;
+	//	}
+	//}
+	//
+	//return false;
 }
 
 bool c_network_session::join_abort(transport_address const* incoming_address, qword join_nonce)
