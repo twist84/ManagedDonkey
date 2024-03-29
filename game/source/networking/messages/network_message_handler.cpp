@@ -1340,286 +1340,286 @@ void __cdecl c_network_message_handler::handle_parameters_request(c_network_chan
 
 void __cdecl c_network_message_handler::handle_view_establishment(c_network_channel* channel, s_network_message_view_establishment const* message)
 {
-	DECLFUNC(0x0049DEC0, void, __cdecl, c_network_channel*, s_network_message_view_establishment const*)(channel, message);
+	//DECLFUNC(0x0049DEC0, void, __cdecl, c_network_channel*, s_network_message_view_establishment const*)(channel, message);
 
-	//c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//if (remote_view)
-	//{
-	//	if (!remote_view->handle_remote_establishment(
-	//		message->establishment_mode,
-	//		message->establishment_identifier,
-	//		message->signature_exists ? message->signature_size : NONE,
-	//		message->signature_exists ? message->signature_data : NULL))
-	//	{
-	//		c_console::write_line("networking:messages:view-establishment: simulation view failed to handle view-establishment (%d/%d) over channel '%s'",
-	//			message->establishment_mode,
-	//			message->establishment_identifier,
-	//			channel->get_name());
-	//	}
-	//}
-	//else if (message->establishment_identifier == NONE)
-	//{
-	//	c_console::write_line("networking:messages:view-establishment: discarding non-established view-establishment (%d/%d) over channel '%s' with no simulation view",
-	//		message->establishment_mode,
-	//		NONE,
-	//		channel->get_name());
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:view-establishment: discarding ESTABLISHED view-establishment (%d/%d) over channel '%s' with no simulation view",
-	//		message->establishment_mode,
-	//		message->establishment_identifier,
-	//		channel->get_name());
-	//}
+	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+	if (remote_view)
+	{
+		if (!remote_view->handle_remote_establishment(
+			message->establishment_mode,
+			message->establishment_identifier,
+			message->signature_exists ? message->signature_size : NONE,
+			message->signature_exists ? message->signature_data : NULL))
+		{
+			c_console::write_line("networking:messages:view-establishment: simulation view failed to handle view-establishment (%d/%d) over channel '%s'",
+				message->establishment_mode,
+				message->establishment_identifier,
+				channel->get_name());
+		}
+	}
+	else if (message->establishment_identifier == NONE)
+	{
+		c_console::write_line("networking:messages:view-establishment: discarding non-established view-establishment (%d/%d) over channel '%s' with no simulation view",
+			message->establishment_mode,
+			NONE,
+			channel->get_name());
+	}
+	else
+	{
+		c_console::write_line("networking:messages:view-establishment: discarding ESTABLISHED view-establishment (%d/%d) over channel '%s' with no simulation view",
+			message->establishment_mode,
+			message->establishment_identifier,
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_player_acknowledge(c_network_channel* channel, s_network_message_player_acknowledge const* message)
 {
-	DECLFUNC(0x0049D780, void, __cdecl, c_network_channel*, s_network_message_player_acknowledge const*)(channel, message);
+	//DECLFUNC(0x0049D780, void, __cdecl, c_network_channel*, s_network_message_player_acknowledge const*)(channel, message);
 
-	//c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//if (remote_view && remote_view->is_client_view())
-	//{
-	//	if (!remote_view->handle_player_acknowledge(message->player_valid_mask, message->player_in_game_mask, message->player_identifiers))
-	//	{
-	//		c_console::write_line("networking:messages:player-acknowledge: failed to handle (players 0x%04X 0x%04X) over channel '%s'",
-	//			message->player_valid_mask,
-	//			message->player_in_game_mask,
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:player-acknowledge: received (players 0x%04X 0x%04X) over channel '%s' with no simulation client view",
-	//		message->player_valid_mask,
-	//		message->player_in_game_mask,
-	//		channel->get_name());
-	//}
+	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+	if (remote_view && remote_view->is_client_view())
+	{
+		if (!remote_view->handle_player_acknowledge(message->player_valid_mask, message->player_in_game_mask, message->player_identifiers))
+		{
+			c_console::write_line("networking:messages:player-acknowledge: failed to handle (players 0x%04X 0x%04X) over channel '%s'",
+				message->player_valid_mask,
+				message->player_in_game_mask,
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:player-acknowledge: received (players 0x%04X 0x%04X) over channel '%s' with no simulation client view",
+			message->player_valid_mask,
+			message->player_in_game_mask,
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_synchronous_update(c_network_channel* channel, s_network_message_synchronous_update const* message)
 {
-	DECLFUNC(0x0049DDA0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_synchronous_update const*)(this, channel, message);
+	//DECLFUNC(0x0049DDA0, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_synchronous_update const*)(this, channel, message);
 
-	//c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//if (remote_view)
-	//{
-	//	if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_authority)
-	//	{
-	//		if (remote_view->handle_synchronous_update(&message->update))
-	//		{
-	//			c_console::write_line("networking:messages:synchronous-update: failed to handle #%d over channel '%s' with view mode %d/%d",
-	//				message->update.update_number,
-	//				channel->get_name(),
-	//				remote_view->get_view_establishment_mode(),
-	//				remote_view->get_view_establishment_identifier());
-	//		}
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:synchronous-update: view not authority for #%d over channel '%s' with view of type #%d",
-	//			message->update.update_number,
-	//			channel->get_name(),
-	//			remote_view->view_type());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:synchronous-update: no simulation view for #%d over channel '%s'",
-	//		message->update.update_number,
-	//		channel->get_name());
-	//}
+	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+	if (remote_view)
+	{
+		if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_authority)
+		{
+			if (remote_view->handle_synchronous_update(&message->update))
+			{
+				c_console::write_line("networking:messages:synchronous-update: failed to handle #%d over channel '%s' with view mode %d/%d",
+					message->update.update_number,
+					channel->get_name(),
+					remote_view->get_view_establishment_mode(),
+					remote_view->get_view_establishment_identifier());
+			}
+		}
+		else
+		{
+			c_console::write_line("networking:messages:synchronous-update: view not authority for #%d over channel '%s' with view of type #%d",
+				message->update.update_number,
+				channel->get_name(),
+				remote_view->view_type());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:synchronous-update: no simulation view for #%d over channel '%s'",
+			message->update.update_number,
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_synchronous_playback_control(c_network_channel* channel, s_network_message_synchronous_playback_control const* message)
 {
-	DECLFUNC(0x0049DD10, void, __cdecl, c_network_channel*, s_network_message_synchronous_playback_control const*)(channel, message);
+	//DECLFUNC(0x0049DD10, void, __cdecl, c_network_channel*, s_network_message_synchronous_playback_control const*)(channel, message);
 
-	//c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//if (remote_view)
-	//{
-	//	if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_authority)
-	//	{
-	//		if (!remote_view->handle_synchronous_playback_control(message->type, message->identifier, message->update_number))
-	//		{
-	//			c_console::write_line("networking:messages:synchronous-playback-control: failed to handle playback-control type #%d identifier #%d update #%d over channel '%s' with view mode %d/%d",
-	//				message->type,
-	//				message->identifier,
-	//				message->update_number,
-	//				channel->get_name(),
-	//				remote_view->get_view_establishment_mode(),
-	//				remote_view->get_view_establishment_identifier());
-	//		}
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:synchronous-playback-control: view not authority for playback-control type #%d identifier #%d update #%d over channel '%s' with view of type #%d",
-	//			message->type,
-	//			message->identifier,
-	//			message->update_number,
-	//			channel->get_name(),
-	//			remote_view->view_type());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:synchronous-playback-control: no simulation view for playback-control type #%d identifier #%d update #%d over channel '%s'",
-	//		message->type,
-	//		message->identifier,
-	//		message->update_number,
-	//		channel->get_name());
-	//}
+	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+	if (remote_view)
+	{
+		if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_authority)
+		{
+			if (!remote_view->handle_synchronous_playback_control(message->type, message->identifier, message->update_number))
+			{
+				c_console::write_line("networking:messages:synchronous-playback-control: failed to handle playback-control type #%d identifier #%d update #%d over channel '%s' with view mode %d/%d",
+					message->type,
+					message->identifier,
+					message->update_number,
+					channel->get_name(),
+					remote_view->get_view_establishment_mode(),
+					remote_view->get_view_establishment_identifier());
+			}
+		}
+		else
+		{
+			c_console::write_line("networking:messages:synchronous-playback-control: view not authority for playback-control type #%d identifier #%d update #%d over channel '%s' with view of type #%d",
+				message->type,
+				message->identifier,
+				message->update_number,
+				channel->get_name(),
+				remote_view->view_type());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:synchronous-playback-control: no simulation view for playback-control type #%d identifier #%d update #%d over channel '%s'",
+			message->type,
+			message->identifier,
+			message->update_number,
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_synchronous_actions(c_network_channel* channel, s_network_message_synchronous_actions const* message)
 {
-	DECLFUNC(0x0049DB80, void, __cdecl, c_network_channel*, s_network_message_synchronous_actions const*)(channel, message);
+	//DECLFUNC(0x0049DB80, void, __cdecl, c_network_channel*, s_network_message_synchronous_actions const*)(channel, message);
 
-	//c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//if (remote_view)
-	//{
-	//	if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_client)
-	//	{
-	//		if (!remote_view->handle_synchronous_actions(message->action_number, message->current_action_number, message->user_flags, message->actions))
-	//		{
-	//			c_console::write_line("networking:messages:synchronous-actions: failed to handle #%d over channel '%s' with view mode %d/%d",
-	//				message->action_number,
-	//				channel->get_name(),
-	//				remote_view->get_view_establishment_mode(),
-	//				remote_view->get_view_establishment_identifier());
-	//		}
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:synchronous-actions: view not a client for #%d over channel '%s' with view of type #%d",
-	//			message->action_number,
-	//			channel->get_name()
-	//			remote_view->view_type());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:synchronous-actions: no view for #%d over channel '%s'",
-	//		message->action_number,
-	//		channel->get_name());
-	//}
+	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+	if (remote_view)
+	{
+		if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_client)
+		{
+			if (!remote_view->handle_synchronous_actions(message->action_number, message->current_action_number, message->user_flags, message->actions))
+			{
+				c_console::write_line("networking:messages:synchronous-actions: failed to handle #%d over channel '%s' with view mode %d/%d",
+					message->action_number,
+					channel->get_name(),
+					remote_view->get_view_establishment_mode(),
+					remote_view->get_view_establishment_identifier());
+			}
+		}
+		else
+		{
+			c_console::write_line("networking:messages:synchronous-actions: view not a client for #%d over channel '%s' with view of type #%d",
+				message->action_number,
+				channel->get_name(),
+				remote_view->view_type());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:synchronous-actions: no view for #%d over channel '%s'",
+			message->action_number,
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_synchronous_acknowledge(c_network_channel* channel, s_network_message_synchronous_acknowledge const* message)
 {
-	DECLFUNC(0x0049DB00, void, __cdecl, c_network_channel*, s_network_message_synchronous_acknowledge const*)(channel, message);
+	//DECLFUNC(0x0049DB00, void, __cdecl, c_network_channel*, s_network_message_synchronous_acknowledge const*)(channel, message);
 
-	//c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//if (remote_view)
-	//{
-	//	if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_client)
-	//	{
-	//		if (!remote_view->handle_synchronous_acknowledge(message->current_update_number))
-	//		{
-	//			c_console::write_line("networking:messages:synchronous-acknowledge: failed to handle ack of #%d over channel '%s' with view mode %d/%d",
-	//				message->current_update_number,
-	//				channel->get_name(),
-	//				remote_view->get_view_establishment_mode(),
-	//				remote_view->get_view_establishment_identifier());
-	//		}
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:synchronous-acknowledge: view not a client for ack of #%d over channel '%s' with view of type #%d",
-	//			message->current_update_number,
-	//			channel->get_name(),
-	//			remote_view->view_type());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:synchronous-acknowledge: no view for ack of #%d over channel '%s'",
-	//		message->current_update_number,
-	//		channel->get_name());
-	//}
+	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+	if (remote_view)
+	{
+		if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_client)
+		{
+			if (!remote_view->handle_synchronous_acknowledge(message->current_update_number))
+			{
+				c_console::write_line("networking:messages:synchronous-acknowledge: failed to handle ack of #%d over channel '%s' with view mode %d/%d",
+					message->current_update_number,
+					channel->get_name(),
+					remote_view->get_view_establishment_mode(),
+					remote_view->get_view_establishment_identifier());
+			}
+		}
+		else
+		{
+			c_console::write_line("networking:messages:synchronous-acknowledge: view not a client for ack of #%d over channel '%s' with view of type #%d",
+				message->current_update_number,
+				channel->get_name(),
+				remote_view->view_type());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:synchronous-acknowledge: no view for ack of #%d over channel '%s'",
+			message->current_update_number,
+			channel->get_name());
+	}
 }
 
-void __cdecl c_network_message_handler::handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long additional_data_size, void const* additional_data)
+void __cdecl c_network_message_handler::handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long chunk_size, void const* chunk_data)
 {
-	DECLFUNC(0x0049DC70, void, __cdecl, c_network_channel*, s_network_message_synchronous_gamestate const*, long, void const*)(channel, message, additional_data_size, additional_data);
+	//DECLFUNC(0x0049DC70, void, __cdecl, c_network_channel*, s_network_message_synchronous_gamestate const*, long, void const*)(channel, message, chunk_size, chunk);
 
-	//if (additional_data_size == message->chunk_size)
-	//{
-	//	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//	if (remote_view)
-	//	{
-	//		if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_authority)
-	//		{
-	//			if (!remote_view->handle_synchronous_gamestate(message, additional_data))
-	//			{
-	//				c_console::write_line("networking:messages:synchronous-gamestate: failed to handle (%d@%d) over channel '%s' with view mode %d/%d",
-	//					message->chunk_size,
-	//					message->chunk_offset_next_update_compressed_checksum,
-	//					channel->get_name(),
-	//					remote_view->get_view_establishment_mode(),
-	//					remote_view->get_view_establishment_identifier());
-	//			}
-	//		}
-	//		else
-	//		{
-	//			c_console::write_line("networking:messages:synchronous-gamestate: view not a client over channel '%s' with view of type #%d",
-	//				channel->get_name(),
-	//				remote_view->view_type());
-	//		}
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:synchronous-gamestate: no simulation view on channel '%s'",
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:synchronous-gamestate: had corrupt sizes #%d!=#%d over channel '%s'",
-	//		chunk_size,
-	//		message->chunk_size,
-	//		channel->get_name());
-	//}
+	if (chunk_size == message->chunk_size)
+	{
+		c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+		if (remote_view)
+		{
+			if (remote_view->view_type() == _simulation_view_type_synchronous_to_remote_authority)
+			{
+				if (!remote_view->handle_synchronous_gamestate(message, chunk_data))
+				{
+					c_console::write_line("networking:messages:synchronous-gamestate: failed to handle (%d@%d) over channel '%s' with view mode %d/%d",
+						message->chunk_size,
+						message->chunk_offset_next_update_compressed_checksum,
+						channel->get_name(),
+						remote_view->get_view_establishment_mode(),
+						remote_view->get_view_establishment_identifier());
+				}
+			}
+			else
+			{
+				c_console::write_line("networking:messages:synchronous-gamestate: view not a client over channel '%s' with view of type #%d",
+					channel->get_name(),
+					remote_view->view_type());
+			}
+		}
+		else
+		{
+			c_console::write_line("networking:messages:synchronous-gamestate: no simulation view on channel '%s'",
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:synchronous-gamestate: had corrupt sizes #%d!=#%d over channel '%s'",
+			chunk_size,
+			message->chunk_size,
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_distributed_game_results(c_network_channel* channel, s_network_message_distributed_game_results const* message)
 {
-	DECLFUNC(0x0049CE40, void, __cdecl, c_network_channel*, s_network_message_distributed_game_results const*)(channel, message);
+	//DECLFUNC(0x0049CE40, void, __cdecl, c_network_channel*, s_network_message_distributed_game_results const*)(channel, message);
 
-	//c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//if (remote_view && remote_view->view_type() == _simulation_view_type_distributed_to_remote_authority)
-	//{
-	//	if (!remote_view->handle_distributed_game_results(message->establishment_identifier, message->update_number, &message->update))
-	//	{
-	//		c_console::write_line("networking:messages:game-results-update: failed to handle game results update over channel '%s'",
-	//			channel->get_name());
-	//	}
-	//}
-	//else
-	//{
-	//	c_console::write_line("networking:messages:game-results-update: received game-results-update over channel '%s' when not viewing remote authority",
-	//		channel->get_name());
-	//}
+	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+	if (remote_view && remote_view->view_type() == _simulation_view_type_distributed_to_remote_authority)
+	{
+		if (!remote_view->handle_distributed_game_results(message->establishment_identifier, message->update_number, &message->update))
+		{
+			c_console::write_line("networking:messages:game-results-update: failed to handle game results update over channel '%s'",
+				channel->get_name());
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:messages:game-results-update: received game-results-update over channel '%s' when not viewing remote authority",
+			channel->get_name());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_synchronous_client_ready(c_network_channel* channel)
 {
-	DECLFUNC(0x0049DC10, void, __cdecl, c_network_channel*)(channel);
+	//DECLFUNC(0x0049DC10, void, __cdecl, c_network_channel*)(channel);
 
-	//c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
-	//if (remote_view && remote_view->view_type() == _simulation_view_type_synchronous_to_remote_client)
-	//{
-	//	if (remote_view->synchronous_catchup_in_progress())
-	//	{
-	//		c_console::write_line("networking:messages:synchronous_client_ready: view %s reporting that he is ready to go active",
-	//			remote_view->get_view_description());
-	//	}
-	//	else
-	//	{
-	//		c_console::write_line("networking:messages:synchronous_client_ready: view %s received catchup finished notification for client that we don't have performing catchup at this time. This is bad.",
-	//			remote_view->get_view_description());
-	//	}
-	//}
+	c_simulation_view* remote_view = simulation_get_remote_view_by_channel(channel);
+	if (remote_view && remote_view->view_type() == _simulation_view_type_synchronous_to_remote_client)
+	{
+		if (remote_view->synchronous_catchup_in_progress())
+		{
+			c_console::write_line("networking:messages:synchronous_client_ready: view %s reporting that he is ready to go active",
+				remote_view->get_view_description());
+		}
+		else
+		{
+			c_console::write_line("networking:messages:synchronous_client_ready: view %s received catchup finished notification for client that we don't have performing catchup at this time. This is bad.",
+				remote_view->get_view_description());
+		}
+	}
 }
 
 void __cdecl c_network_message_handler::handle_text_chat(c_network_channel* channel, s_network_message_text_chat const* message)

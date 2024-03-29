@@ -138,7 +138,7 @@ public:
 	void __cdecl handle_synchronous_playback_control(c_network_channel* channel, s_network_message_synchronous_playback_control const* message);
 	void __cdecl handle_synchronous_actions(c_network_channel* channel, s_network_message_synchronous_actions const* message);
 	void __cdecl handle_synchronous_acknowledge(c_network_channel* channel, s_network_message_synchronous_acknowledge const* message);
-	void __cdecl handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long additional_data_size, void const* additional_data);
+	void __cdecl handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long chunk_size, void const* chunk_data);
 	void __cdecl handle_distributed_game_results(c_network_channel* channel, s_network_message_distributed_game_results const* message);
 	void __cdecl handle_synchronous_client_ready(c_network_channel* channel);
 	void __cdecl handle_text_chat(c_network_channel* channel, s_network_message_text_chat const* message);

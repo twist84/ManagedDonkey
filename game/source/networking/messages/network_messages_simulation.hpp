@@ -3,13 +3,25 @@
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
 
+enum e_simulation_view_establishment_mode
+{
+	_simulation_view_establishment_mode_none = 0,
+	_simulation_view_establishment_mode_unknown1,
+	_simulation_view_establishment_mode_unknown2,
+	_simulation_view_establishment_mode_unknown3,
+	_simulation_view_establishment_mode_joining,
+	_simulation_view_establishment_mode_unknown5,
+
+	k_simulation_view_establishment_mode_count
+};
+
 struct s_network_message_view_establishment
 {
-	dword establishment_mode;
-	dword establishment_identifier;
+	c_enum<e_simulation_view_establishment_mode, long, _simulation_view_establishment_mode_none, k_simulation_view_establishment_mode_count> establishment_mode;
+	long establishment_identifier;
 
 	bool signature_exists;
-	dword signature_size;
+	long signature_size;
 	byte signature_data[0x3C];
 };
 static_assert(sizeof(s_network_message_view_establishment) == 0x4C);
@@ -18,7 +30,7 @@ struct s_network_message_player_acknowledge
 {
 	dword player_valid_mask;
 	dword player_in_game_mask;
-	c_static_array<s_player_identifier, 16> player_identifiers;
+	s_player_identifier player_identifiers[16];
 };
 static_assert(sizeof(s_network_message_player_acknowledge) == 0x88);
 

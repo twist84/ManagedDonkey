@@ -11,10 +11,18 @@ struct s_network_message_synchronous_update
 };
 static_assert(sizeof(s_network_message_synchronous_update) == 0x1668);
 
+enum e_network_synchronous_playback_control
+{
+	_network_synchronous_playback_control_unknown0 = 0, // probably none?
+	_network_synchronous_playback_control_unknown1,
+
+	k_network_synchronous_playback_control_count
+};
+
 struct s_network_message_synchronous_playback_control
 {
-	long type;
-	dword identifier;
+	c_enum<e_network_synchronous_playback_control, long, _network_synchronous_playback_control_unknown0, k_network_synchronous_playback_control_count> type;
+	long identifier;
 	long update_number;
 };
 static_assert(sizeof(s_network_message_synchronous_playback_control) == 0xC);
@@ -23,9 +31,9 @@ struct s_network_message_synchronous_actions
 {
 	long action_number;
 	long current_action_number;
-	dword_flags user_flags;
+	dword user_flags;
 	long : 32;
-	c_static_array<s_player_action, 4> actions;
+	s_player_action actions[4];
 };
 static_assert(sizeof(s_network_message_synchronous_actions) == 0x210);
 
@@ -39,11 +47,11 @@ struct s_network_message_synchronous_gamestate
 {
 	byte message_type;
 	dword chunk_offset_next_update_compressed_checksum;
-	dword chunk_size;
+	long chunk_size;
 	dword decompressed_checksum;
 #pragma warning(push)
 #pragma warning(disable : 4200)
-	byte additional_data[];
+	byte chunk_data[];
 #pragma warning(pop)
 };
 static_assert(sizeof(s_network_message_synchronous_gamestate) == 0x10);

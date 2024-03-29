@@ -5,7 +5,7 @@
 
 struct s_network_message_distributed_game_results
 {
-	dword establishment_identifier;
+	long establishment_identifier;
 	long update_number;
 	s_game_results_incremental_update update;
 };

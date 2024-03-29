@@ -21,27 +21,82 @@
 //.text:00466590 ; void c_simulation_view::force_unacknowledge_player(long)
 //.text:004665B0 ; dword c_simulation_view::get_acknowledged_player_mask() const
 //.text:004665C0 ; c_replication_control_view* c_simulation_view::get_control_view()
-//.text:00466600 ; e_simulation_view_type c_simulation_view::view_type() const
+
+e_simulation_view_type c_simulation_view::view_type() const
+{
+	return DECLFUNC(0x00466600, e_simulation_view_type, __thiscall, c_simulation_view const*)(this);
+}
+
 //.text:00466620 ; long c_simulation_view::get_machine_index() const
 //.text:00466680 ; void c_simulation_view::get_statistics(s_simulation_view_statistics*)
 //.text:00466700 ; c_simulation_view::get_machine_identifier?
-//.text:00466710 ; char const* c_simulation_view::get_view_description() const
-//.text:00466720 ; long c_simulation_view::get_view_establishment_identifier() const
-//.text:00466730 ; e_simulation_view_establishment_mode c_simulation_view::get_view_establishment_mode() const
+
+char const* c_simulation_view::get_view_description() const
+{
+	return DECLFUNC(0x00466710, char const*, __thiscall, c_simulation_view const*)(this);
+}
+
+long c_simulation_view::get_view_establishment_identifier() const
+{
+	return DECLFUNC(0x00466720, long, __thiscall, c_simulation_view const*)(this);
+}
+
+e_simulation_view_establishment_mode c_simulation_view::get_view_establishment_mode() const
+{
+	return DECLFUNC(0x00466730, e_simulation_view_establishment_mode, __thiscall, c_simulation_view const*)(this);
+}
+
 //.text:00466740 ; void c_simulation_view::go_out_of_sync()
-//.text:004667A0 ; bool c_simulation_view::handle_distributed_game_results(long, long, s_game_results_incremental_update const*)
-//.text:00466820 ; bool c_simulation_view::handle_player_acknowledge(dword, dword, s_player_identifier const*)
-//.text:00466940 ; bool c_simulation_view::handle_remote_establishment(e_simulation_view_establishment_mode, long, long, byte const*)
-//.text:00466B10 ; bool c_simulation_view::handle_synchronous_acknowledge(long)
-//.text:00466B30 ; bool c_simulation_view::handle_synchronous_actions(long, long, dword, s_player_action const*)
-//.text:00466BB0 ; bool c_simulation_view::handle_synchronous_gamestate(s_network_message_synchronous_gamestate const*, void const*)
-//.text:00466D10 ; bool c_simulation_view::handle_synchronous_playback_control(e_network_synchronous_playback_control, long, long)
-//.text:00466D50 ; bool c_simulation_view::handle_synchronous_update(struct simulation_update const*)
+
+bool c_simulation_view::handle_distributed_game_results(long message_establishment_identifier, long incremental_update_number, s_game_results_incremental_update const* incremental_update)
+{
+	return DECLFUNC(0x004667A0, bool, __thiscall, c_simulation_view*, long, long, s_game_results_incremental_update const*)(this, message_establishment_identifier, incremental_update_number, incremental_update);
+}
+
+bool c_simulation_view::handle_player_acknowledge(dword player_valid_mask, dword player_in_game_mask, s_player_identifier const* player_identifiers)
+{
+	return DECLFUNC(0x00466820, bool, __thiscall, c_simulation_view*, dword, dword, s_player_identifier const*)(this, player_valid_mask, player_in_game_mask, player_identifiers);
+}
+
+bool c_simulation_view::handle_remote_establishment(e_simulation_view_establishment_mode establishment_mode, long establishment_identifier, long signature_size, byte const* signature_data)
+{
+	return DECLFUNC(0x00466940, bool, __thiscall, c_simulation_view*, e_simulation_view_establishment_mode, long, long, byte const*)(this, establishment_mode, establishment_identifier, signature_size, signature_data);
+}
+
+bool c_simulation_view::handle_synchronous_acknowledge(long current_update_number)
+{
+	return DECLFUNC(0x00466B10, bool, __thiscall, c_simulation_view*, long)(this, current_update_number);
+}
+
+bool c_simulation_view::handle_synchronous_actions(long action_number, long current_action_number, dword user_flags, s_player_action const* actions)
+{
+	return DECLFUNC(0x00466B30, bool, __thiscall, c_simulation_view*, long, long, dword, s_player_action const*)(this, action_number, current_action_number, user_flags, actions);
+}
+
+bool c_simulation_view::handle_synchronous_gamestate(s_network_message_synchronous_gamestate const* synchronous_gamestate, void const* chunk_data)
+{
+	return DECLFUNC(0x00466BB0, bool, __thiscall, c_simulation_view*, s_network_message_synchronous_gamestate const*, void const*)(this, synchronous_gamestate, chunk_data);
+}
+
+bool c_simulation_view::handle_synchronous_playback_control(e_network_synchronous_playback_control type, long identifier, long update_number)
+{
+	return DECLFUNC(0x00466D10, bool, __thiscall, c_simulation_view*, e_network_synchronous_playback_control, long, long)(this, type, identifier, update_number);
+}
+
+bool c_simulation_view::handle_synchronous_update(struct simulation_update const* update)
+{
+	return DECLFUNC(0x00466D50, bool, __thiscall, c_simulation_view*, struct simulation_update const*)(this, update);
+}
 
 //.text:00466DC0 ; void c_game_results_replicator::handle_view_establishment(bool)
 
 //.text:00466EB0 ; void c_simulation_view::initialize_view(long, e_simulation_view_type, c_simulation_distributed_view*, s_machine_identifier const*, long, char const*)
-//.text:00466FC0 ; bool c_simulation_view::is_client_view() const
+
+bool c_simulation_view::is_client_view() const
+{
+	return DECLFUNC(0x00466FC0, bool, __thiscall, c_simulation_view const*)(this);
+}
+
 //.text:00466FE0 ; bool c_simulation_view::is_dead(long*) const
 //.text:00467000 ; bool c_simulation_view::is_distributed() const
 //.text:00467050 ; void c_simulation_view::kill_view(e_simulation_view_reason)
@@ -62,13 +117,40 @@
 //.text:00467580 ; void c_game_results_replicator::stop_receiving_updates()
 //.text:00467590 ; void c_game_results_replicator::stop_sending_updates()
 
-//.text:004675A0 ; long c_simulation_view::synchronous_catchup_attempt_count() const
-//.text:004675B0 ; void c_simulation_view::synchronous_catchup_complete()
-//.text:00467610 ; bool c_simulation_view::synchronous_catchup_in_progress() const
-//.text:00467620 ; bool c_simulation_view::synchronous_catchup_initiate()
-//.text:00467730 ; void c_simulation_view::synchronous_catchup_send_data()
-//.text:00467A60 ; void c_simulation_view::synchronous_catchup_terminate()
-//.text:00467AA0 ; long c_simulation_view::synchronous_client_get_acknowledged_update_number()
+long c_simulation_view::synchronous_catchup_attempt_count() const
+{
+	return DECLFUNC(0x004675A0, long, __thiscall, c_simulation_view const*)(this);
+}
+
+void c_simulation_view::synchronous_catchup_complete()
+{
+	DECLFUNC(0x004675B0, void, __thiscall, c_simulation_view*)(this);
+}
+
+bool c_simulation_view::synchronous_catchup_in_progress() const
+{
+	return DECLFUNC(0x00467610, bool, __thiscall, c_simulation_view const*)(this);
+}
+
+bool c_simulation_view::synchronous_catchup_initiate()
+{
+	return DECLFUNC(0x00467620, bool, __thiscall, c_simulation_view*)(this);
+}
+
+void c_simulation_view::synchronous_catchup_send_data()
+{
+	DECLFUNC(0x00467730, void, __thiscall, c_simulation_view*)(this);
+}
+
+void c_simulation_view::synchronous_catchup_terminate()
+{
+	DECLFUNC(0x00467A60, void, __thiscall, c_simulation_view*)(this);
+}
+
+long c_simulation_view::synchronous_client_get_acknowledged_update_number()
+{
+	return DECLFUNC(0x00467AA0, long, __thiscall, c_simulation_view*)(this);
+}
 
 //.text:00467AD0 ; void c_game_results_replicator::update()
 
