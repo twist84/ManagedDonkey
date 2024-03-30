@@ -768,7 +768,7 @@ void __cdecl c_network_message_handler::handle_connect_establish(c_network_chann
 	}
 	else 
 	{
-		if (channel->get_identifier() == message->remote_identifier)
+		if (channel->get_identifier() == message->identifier)
 		{
 			if (channel->established() && channel->get_remote_identifier() != message->remote_identifier)
 			{
