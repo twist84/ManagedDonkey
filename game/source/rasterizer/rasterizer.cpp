@@ -53,6 +53,14 @@ HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
 byte const resolution_patch_bytes[2] = { 0xEB, 0x1C };
 DATA_PATCH_DECLARE(0x00A2217D, resolution_patch, resolution_patch_bytes); // 7D 0C
 
+// patch clear color if statement
+byte const rasterizer_clear_color_fix_bytes[9] = { 0x90, 0x90, 0x8A, 0x45, 0x08, 0x84, 0xC0, 0x75, 0x09 };
+DATA_PATCH_DECLARE(0x00A2508C, rasterizer_clear_color_fix, rasterizer_clear_color_fix_bytes);
+
+// patch clear color with pre-applied alpha
+byte const rasterizer_clear_color_bytes[4] = { 0xCC, 0x77, 0x55, 0x00 };
+DATA_PATCH_DECLARE(0x00A250A8 + 1, rasterizer_clear_color, rasterizer_clear_color_bytes);
+
 void __stdcall sub_79BA30(long width, long height)
 {
 	INVOKE(0x0079BA30, sub_79BA30, width, height);
