@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
+#define ORIGINAL_PROJECT_VERSION
 #if defined(ORIGINAL_PROJECT_VERSION)
 #define VERSION_BUILD_STRING "1.106708 cert_ms23"
 #define VERSION_BUILD_NUMBER 106708
