@@ -12,9 +12,9 @@ bool __cdecl bink_playback_active()
 	return INVOKE(0x00616910, bink_playback_active);
 }
 
-void __cdecl bink_playback_check_for_terminate()
+void __cdecl bink_playback_check_for_terminate_no_lock()
 {
-	INVOKE(0x00616960, bink_playback_check_for_terminate);
+	INVOKE(0x00616960, bink_playback_check_for_terminate_no_lock);
 }
 
 void __cdecl bink_playback_grab_memory()

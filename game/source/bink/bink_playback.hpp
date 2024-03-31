@@ -14,7 +14,7 @@ enum e_map_memory_configuration;
 
 extern void __cdecl bink_notify_load_masking_complete();
 extern bool __cdecl bink_playback_active();
-extern void __cdecl bink_playback_check_for_terminate();
+extern void __cdecl bink_playback_check_for_terminate_no_lock();
 extern void __cdecl bink_playback_grab_memory();
 extern bool __cdecl bink_playback_in_progress();
 extern void __cdecl bink_playback_memory_dispose();

@@ -354,7 +354,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 		if (pregame_frame_type == _main_pregame_frame_normal && bink_playback_active())
 		{
 			bink_playback_update();
-			bink_playback_check_for_terminate();
+			bink_playback_check_for_terminate_no_lock();
 			bink_playback_render();
 		}
 

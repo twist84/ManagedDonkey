@@ -70,6 +70,7 @@ REFERENCE_DECLARE(0x0244DF08, bool, byte_244DF08);
 //HOOK_DECLARE(0x00504D20, _internal_halt_render_thread_and_lock_resources);
 HOOK_DECLARE(0x00505530, main_events_pending);
 HOOK_DECLARE(0x00505650, main_events_reset);
+HOOK_DECLARE(0x005063A0, main_loop_pregame);
 HOOK_DECLARE(0x00506460, main_loop_pregame_show_progress_screen);
 HOOK_DECLARE(0x005065B0, main_loop_process_global_state_changes);
 HOOK_DECLARE(0x00507450, process_published_game_state);
@@ -1157,9 +1158,60 @@ void __cdecl main_loop_exit()
 	main_loading_dispose();
 }
 
+void __cdecl main_loop_pregame_do_work()
+{
+	//if (main_globals.main_loop_halt_and_catch_fire_entered_count)
+	//{
+	//	overlapped_update();
+	//}
+	//else
+	{
+		main_thread_process_pending_messages();
+		overlapped_update();
+		network_idle();
+		//hf2p_idle();
+
+		if (!render_thread_get_mode())
+			main_loop_pregame_show_progress_screen();
+
+		//if (render_debug_initialized())
+		//	render_debug_update();
+
+		sound_idle();
+		input_update();
+		shell_idle();
+
+		bink_playback_check_for_terminate_no_lock();
+	}
+}
+
 void __cdecl main_loop_pregame()
 {
-	INVOKE(0x005063A0, main_loop_pregame);
+	//INVOKE(0x005063A0, main_loop_pregame);
+
+	if (is_main_thread())
+	{
+		dword current_time = system_milliseconds();
+		bool bink_active = bink_playback_active();
+
+		if (!main_globals.main_loop_pregame_entered
+			&& main_globals.main_loop_time
+			&& current_time - main_globals.main_loop_time >= (!bink_active ? 24 : 15))
+		{
+			main_globals.main_loop_pregame_entered++;
+			if (bink_active)
+				main_globals.main_loop_time = current_time;
+
+			//main_loop_pregame_update_stack_high_water_mark();
+			main_loop_pregame_do_work();
+
+			if (!bink_active)
+				main_globals.main_loop_time = system_milliseconds();
+			main_globals.main_loop_pregame_entered--;
+		}
+
+		//main_globals.pregame_progress_screen_shown = 0;
+	}
 }
 
 void __cdecl main_loop_pregame_disable(bool disable)
