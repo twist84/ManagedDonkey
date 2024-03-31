@@ -1,6 +1,7 @@
 #include "interface/debug_menu/debug_menu_main.hpp"
 
 #include "cache/restricted_memory_regions.hpp"
+#include "config/version.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_time.hpp"
 #include "input/controllers.hpp"
@@ -30,7 +31,8 @@ class c_main_menu :
 {
 public:
 	c_main_menu() :
-		c_debug_menu_scroll(NULL, 26, "Main")
+		//c_debug_menu_scroll(NULL, 26, "Main") // Halo 3
+		c_debug_menu_scroll(NULL, 26, version_get_full_string()) // version_get_build_and_changelist_string() in Halo 4
 	{
 	}
 
