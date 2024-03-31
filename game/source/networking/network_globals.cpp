@@ -240,21 +240,21 @@ void __cdecl network_idle()
 
 void __cdecl network_receive()
 {
-	INVOKE(0x0049E600, network_receive);
+	//INVOKE(0x0049E600, network_receive);
 
-	//ASSERT(is_main_thread());
-	//
-	//PROFILER(networking_receive)
-	//{
-	//	if (network_initialized())
-	//	{
-	//		NETWORK_ENTER_AND_LOCK_TIME;
-	//
-	//		g_network_link->process_incoming_packets();
-	//
-	//		NETWORK_EXIT_AND_UNLOCK_TIME;
-	//	}
-	//}
+	ASSERT(is_main_thread());
+	
+	PROFILER(networking_receive)
+	{
+		if (network_initialized())
+		{
+			NETWORK_ENTER_AND_LOCK_TIME;
+	
+			g_network_link->process_incoming_packets();
+	
+			NETWORK_EXIT_AND_UNLOCK_TIME;
+		}
+	}
 }
 
 void __cdecl network_send()
