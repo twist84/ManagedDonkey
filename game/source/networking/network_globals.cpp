@@ -259,27 +259,27 @@ void __cdecl network_receive()
 
 void __cdecl network_send()
 {
-	INVOKE(0x0049E640, network_send);
+	//INVOKE(0x0049E640, network_send);
 
-	//ASSERT(is_main_thread());
-	//
-	//PROFILER(networking_send)
-	//{
-	//	if (network_initialized())
-	//	{
-	//		NETWORK_ENTER_AND_LOCK_TIME;
-	//
-	//		for (long i = 0; i < k_network_session_type_count; i++)
-	//			g_network_sessions[i].idle();
-	//
-	//		g_network_observer->monitor();
-	//		simulation_prepare_to_send();
-	//		g_network_link->process_all_channels();
-	//		g_network_message_gateway->send_all_pending_messages();
-	//
-	//		NETWORK_EXIT_AND_UNLOCK_TIME;
-	//	}
-	//}
+	ASSERT(is_main_thread());
+	
+	PROFILER(networking_send)
+	{
+		if (network_initialized())
+		{
+			NETWORK_ENTER_AND_LOCK_TIME;
+	
+			for (long i = 0; i < k_network_session_type_count; i++)
+				g_network_sessions[i].idle();
+	
+			g_network_observer->monitor();
+			simulation_prepare_to_send();
+			g_network_link->process_all_channels();
+			g_network_message_gateway->send_all_pending_messages();
+	
+			NETWORK_EXIT_AND_UNLOCK_TIME;
+		}
+	}
 }
 
 void __cdecl network_set_online_environment(bool online_environment)
