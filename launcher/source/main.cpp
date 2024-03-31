@@ -13,12 +13,22 @@ int main(int argc, char* argv[])
     if (argc < 3)
     {
         printf(usage);
-
         return 1;
     }
 
     char* ApplicationName = argv[1];
     char* DllName = argv[2];
+
+    if (argc > 3)
+    {
+        for (int argi = 3; argi < argc; argi++)
+        {
+            strcat_s(CommandLine, argv[argi]);
+
+            if (argi < argc - 1)
+                strcat_s(CommandLine, " ");
+        }
+    }
 
     GetCurrentDirectoryA(4096, CurrentDirectory);
     if (GetFileAttributesA(CurrentDirectory) == INVALID_FILE_ATTRIBUTES)
@@ -38,9 +48,7 @@ int main(int argc, char* argv[])
 
     printf("Launcher: Creating process `%s`\n", ApplicationName);
 
-    CHAR command_line_buffer[256]{};
-    strcpy_s(command_line_buffer, "-centered -cache-memory-increase 1200");
-    if (DetourCreateProcessWithDllA(ApplicationPath, command_line_buffer, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
+    if (DetourCreateProcessWithDllA(ApplicationPath, CommandLine, NULL, NULL, TRUE, CREATE_DEFAULT_ERROR_MODE, NULL, CurrentDirectory, &StartupInfo, &ProcessInfo, DllPath, NULL) == FALSE)
         return 5;
 
 #ifndef REMOTE_CONSOLE_ENABLED

@@ -255,7 +255,7 @@ char const* __cdecl sub_5013A0()
 	return INVOKE(0x005013A0, sub_5013A0);
 
 	//static c_static_string<256> name;
-	//name.print("HaloOnline %s_%d", "cert_ms23_release_106708", levels_get_checksum());
+	//name.print("%s_%d", "cert_ms23_release_106708", levels_get_checksum());
 	//return name.get_string();
 }
 
