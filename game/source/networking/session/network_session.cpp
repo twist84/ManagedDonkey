@@ -39,7 +39,21 @@ bool c_network_session::is_host() const
 {
 	//return DECLFUNC(0x00434D90, bool, __thiscall, c_network_session const*)(this);
 
-	return current_local_state() == _network_session_state_host_established || current_local_state() == _network_session_state_host_disband;
+	long current_state = current_local_state();
+	if (current_state == _network_session_state_host_established
+		|| current_state == _network_session_state_host_disband/*
+		|| current_state == _network_session_state_host_handoff
+		|| current_state == _network_session_state_host_reestablish*/)
+	{
+		ASSERT(m_session_membership.local_peer_index() == m_session_membership.host_peer_index());
+		return true;
+	}
+	else if (established())
+	{
+		ASSERT(m_session_membership.local_peer_index() != m_session_membership.host_peer_index());
+	}
+
+	return false;
 }
 
 bool c_network_session::is_leader() const
