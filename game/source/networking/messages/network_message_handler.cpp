@@ -753,7 +753,54 @@ void __cdecl c_network_message_handler::handle_connect_request(transport_address
 
 void __cdecl c_network_message_handler::handle_connect_refuse(c_network_channel* channel, s_network_message_connect_refuse const* message)
 {
-	DECLFUNC(0x0049CD10, void, __cdecl, c_network_channel*, s_network_message_connect_refuse const*)(channel, message);
+	//DECLFUNC(0x0049CD10, void, __cdecl, c_network_channel*, s_network_message_connect_refuse const*)(channel, message);
+
+	if (channel->closed() || channel->connected())
+	{
+		c_console::write_line("networking:channel:connect: '%s' ignoring connect refusal (%s)",
+			channel->get_name(),
+			channel->closed() ? "already closed" : "currently connected");
+	}
+	else if (channel->get_identifier() == message->remote_identifier)
+	{
+		switch (message->reason)
+		{
+		case _network_connect_refuse_reason_none:
+		case _network_connect_refuse_reason_invalid_flags:
+		case _network_connect_refuse_reason_old_identifier:
+		case _network_connect_refuse_reason_too_many_channels:
+		case _network_connect_refuse_reason_session_failed_to_add:
+		{
+			c_console::write_line("networking:channel:connect: '%s' connection refusal was fatal (%s)",
+				channel->get_name(),
+				network_message_connect_refuse_get_reason_string(message->reason));
+
+			channel->close(_network_channel_reason_connect_refused);
+		}
+		break;
+		case _network_connect_refuse_reason_unknown_stranger:
+		case _network_connect_refuse_reason_security_failed:
+		case _network_connect_refuse_reason_invalid_topology:
+		{
+			c_console::write_line("networking:channel:connect: '%s' connection temporarily refused (%s)",
+				channel->get_name(),
+				network_message_connect_refuse_get_reason_string(message->reason));
+		}
+		break;
+		default:
+		{
+			ASSERT2("unreachable");
+		}
+		break;
+		}
+	}
+	else
+	{
+		c_console::write_line("networking:channel:connect: '%s' ignoring connect refusal (refused identifier %d != identifier %d)",
+			channel->get_name(),
+			message->remote_identifier,
+			channel->get_identifier());
+	}
 }
 
 void __cdecl c_network_message_handler::handle_connect_establish(c_network_channel* channel, s_network_message_connect_establish const* message)
@@ -766,7 +813,7 @@ void __cdecl c_network_message_handler::handle_connect_establish(c_network_chann
 			channel->get_name(),
 			message->remote_identifier);
 	}
-	else 
+	else
 	{
 		if (channel->get_identifier() == message->identifier)
 		{
@@ -780,13 +827,13 @@ void __cdecl c_network_message_handler::handle_connect_establish(c_network_chann
 				long channel_identifier = NONE;
 				if (!channel->network_message_queue_get()->has_channel_been_used())
 					channel_identifier = channel->get_identifier();
-	
+
 				transport_address remote_address{};
 				channel->get_remote_address(&remote_address);
 				channel->close(_network_channel_reason_connect_reinitiate);
 				channel->open(&remote_address, false, channel_identifier);
 			}
-	
+
 			if (channel->closed())
 			{
 				c_console::write_line("networking:channel:connect: received establishment from '%s'/%d for local %d but the channel closed before we could establish",
@@ -830,7 +877,7 @@ void __cdecl c_network_message_handler::handle_connect_closed(c_network_channel*
 			channel->get_name(),
 			message->reason,
 			channel->get_closure_reason_string(message->reason));
-	
+
 		channel->close(_network_channel_reason_remote_closure);
 	}
 	else
@@ -909,11 +956,11 @@ void __cdecl c_network_message_handler::handle_join_abort(transport_address cons
 				transport_address_get_string(address));
 			reason = _network_join_refuse_reason_abort_ignored;
 		}
-	
+
 		c_console::write_line("networking:messages:join-abort: received abort, sending join-refusal (%s) to '%s'",
 			network_message_join_refuse_get_reason_string(reason),
 			transport_address_get_string(address));
-	
+
 		s_network_message_join_refuse join_refuse =
 		{
 			.session_id = message->session_id,
@@ -935,12 +982,12 @@ void __cdecl c_network_message_handler::handle_join_refuse(transport_address con
 	c_network_session* session = m_session_manager->get_session(&message->session_id);
 	if (session && session->waiting_for_host_connection(address))
 	{
-		c_console::write_line("networking:messages:join-refuse: host-connection received join refusal (%s) type %d/%s from '%s'", 
-			transport_secure_identifier_get_string(&message->session_id), 
-			message->reason, 
-			network_message_join_refuse_get_reason_string(message->reason), 
+		c_console::write_line("networking:messages:join-refuse: host-connection received join refusal (%s) type %d/%s from '%s'",
+			transport_secure_identifier_get_string(&message->session_id),
+			message->reason,
+			network_message_join_refuse_get_reason_string(message->reason),
 			transport_address_get_string(address));
-	
+
 		session->host_connection_refused(address, message->reason);
 	}
 	else if (session && session->join_abort_in_progress(address))
@@ -950,7 +997,7 @@ void __cdecl c_network_message_handler::handle_join_refuse(transport_address con
 			message->reason,
 			network_message_join_refuse_get_reason_string(message->reason),
 			transport_address_get_string(address));
-	
+
 		session->join_abort_successful(address);
 	}
 	else
@@ -1086,12 +1133,12 @@ void __cdecl c_network_message_handler::handle_peer_establish(c_network_channel*
 		c_console::write_line("networking:messages:peer-establish: channel '%s' failed to handle peer-establish (%s)",
 			channel->get_name(),
 			transport_secure_identifier_get_string(&message->session_id));
-	
+
 		s_network_message_host_decline host_decline =
 		{
 			.session_id = message->session_id
 		};
-	
+
 		channel->send_message(_network_message_host_decline, sizeof(s_network_message_host_decline), &host_decline);
 	}
 }
@@ -1188,7 +1235,7 @@ void __cdecl c_network_message_handler::handle_delegate_leadership(c_network_cha
 
 void __cdecl c_network_message_handler::handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message)
 {
-	DECLFUNC(0x0049C240, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_boot_machine const*)(this, channel, message);
+	//DECLFUNC(0x0049C240, void, __thiscall, c_network_message_handler*, c_network_channel*, s_network_message_boot_machine const*)(this, channel, message);
 
 	c_network_session* session = m_session_manager->get_session(&message->session_id);
 	if (session && session->is_host())
