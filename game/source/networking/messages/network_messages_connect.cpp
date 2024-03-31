@@ -96,3 +96,23 @@ void __cdecl network_message_types_register_connect(c_network_message_type_colle
 		nullptr);
 }
 
+char const* network_message_connect_refuse_get_reason_string(long reason)
+{
+	if (VALID_INDEX(reason, k_network_connect_refuse_reason_count))
+		return k_connect_refuse_reason_strings[reason];
+
+	return "<unknown>";
+}
+
+char const* const k_connect_refuse_reason_strings[k_network_connect_refuse_reason_count]
+{
+	"no-reason-given",
+	"invalid-flags",
+	"old-identifier",
+	"unknown-stranger",
+	"security-failed",
+	"too-many-channels",
+	"session-failed-to-add",
+	"invalid-topology"
+};
+

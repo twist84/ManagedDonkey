@@ -3,6 +3,20 @@
 #include "cseries/cseries.hpp"
 #include "shell/shell.hpp"
 
+enum e_network_connect_refuse_reason
+{
+	_network_connect_refuse_reason_none = 0,
+	_network_connect_refuse_reason_invalid_flags,
+	_network_connect_refuse_reason_old_identifier,
+	_network_connect_refuse_reason_unknown_stranger,
+	_network_connect_refuse_reason_security_failed,
+	_network_connect_refuse_reason_too_many_channels,
+	_network_connect_refuse_reason_session_failed_to_add,
+	_network_connect_refuse_reason_invalid_topology,
+
+	k_network_connect_refuse_reason_count
+};
+
 struct s_network_message_connect_request
 {
 	dword channel_identifier;
@@ -62,6 +76,9 @@ public:
 	static bool __cdecl decode(c_bitstream* packet, long message_storage_size, void* message_storage);
 };
 
+extern char const* const k_connect_refuse_reason_strings[k_network_connect_refuse_reason_count];
+
 struct c_network_message_type_collection;
 extern void __cdecl network_message_types_register_connect(c_network_message_type_collection* message_collection);
+extern char const* network_message_connect_refuse_get_reason_string(long reason);
 
