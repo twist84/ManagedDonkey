@@ -223,19 +223,19 @@ bool __cdecl network_initialized()
 
 void __cdecl network_idle()
 {
-	INVOKE(0x0049E5B0, network_idle);
+	//INVOKE(0x0049E5B0, network_idle);
 
-	//ASSERT(is_main_thread());
-	//
-	//PROFILER(networking_idle)
-	//{
-	//	if (!network_globals.entered)
-	//	{
-	//		network_receive();
-	//		network_update();
-	//		network_send();
-	//	}
-	//}
+	ASSERT(is_main_thread());
+	
+	PROFILER(networking_idle)
+	{
+		if (!network_globals.entered)
+		{
+			network_receive();
+			network_update();
+			network_send();
+		}
+	}
 }
 
 void __cdecl network_receive()
