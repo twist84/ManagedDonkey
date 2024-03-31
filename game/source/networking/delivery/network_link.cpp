@@ -7,7 +7,7 @@
 #include "networking/transport/transport.hpp"
 #include "networking/transport/transport_address.hpp"
 
-bool __cdecl c_network_link::adjust_packet_size(bool game_data, long voice_data_length, long* game_data_length) const
+bool c_network_link::adjust_packet_size(bool game_data, long voice_data_length, long* game_data_length) const
 {
 	//return DECLFUNC(0x0043B5E0, bool, __cdecl, bool, long, long*)(game_data, voice_data_length, game_data_length);
 
@@ -50,9 +50,14 @@ bool __cdecl c_network_link::adjust_packet_size(bool game_data, long voice_data_
 	return true;
 }
 
-void __cdecl c_network_link::attach_out_of_band(c_network_out_of_band_consumer* out_of_band)
+void c_network_link::attach_out_of_band(c_network_out_of_band_consumer* out_of_band)
 {
 	m_out_of_band = out_of_band;
+}
+
+long c_network_link::compute_size_on_wire(s_link_packet const* packet) const
+{
+	return DECLFUNC(0x0043B6A0, long, __thiscall, c_network_link const*, s_link_packet const*)(this, packet);
 }
 
 bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_broadcast_option, transport_endpoint** out_endpoint)
@@ -80,7 +85,7 @@ bool c_network_link::create_endpoint(e_transport_type type, word port, bool set_
 	//return true;
 }
 
-bool __cdecl c_network_link::create_endpoints()
+bool c_network_link::create_endpoints()
 {
 	//return DECLFUNC(0x0043B7C0, bool, __thiscall, c_network_link*)(this);
 
@@ -116,7 +121,7 @@ bool c_network_link::decode_packet(long data_buffer_size, byte const* data_buffe
 	return DECLFUNC(0x0043B820, bool, __thiscall, c_network_link const*, long, byte const*, s_link_packet*)(this, data_buffer_size, data_buffer, packet);
 }
 
-void __cdecl c_network_link::destroy_endpoints()
+void c_network_link::destroy_endpoints()
 {
 	//DECLFUNC(0x0043B940, void, __thiscall, c_network_link*)(this);
 
@@ -127,7 +132,22 @@ void __cdecl c_network_link::destroy_endpoints()
 	}
 }
 
-c_network_channel* __cdecl c_network_link::get_associated_channel(transport_address const* address) const
+void c_network_link::destroy_link()
+{
+	DECLFUNC(0x0043B960, void, __thiscall, c_network_link*)(this);
+}
+
+void c_network_link::encode_packet(s_link_packet const* packet, long* data_length, byte* data_buffer, long data_buffer_size) const
+{
+	DECLFUNC(0x0043B990, void, __thiscall, c_network_link const*, s_link_packet const*, long*, byte*, long)(this, packet, data_length, data_buffer, data_buffer_size);
+}
+
+dword c_network_link::generate_channel_identifier()
+{
+	return DECLFUNC(0x0043BA20, dword, __thiscall, c_network_link*)(this);
+}
+
+c_network_channel* c_network_link::get_associated_channel(transport_address const* address) const
 {
 	return DECLFUNC(0x0043BA40, c_network_channel*, __cdecl, transport_address const*)(address);
 
@@ -139,17 +159,95 @@ c_network_channel* __cdecl c_network_link::get_associated_channel(transport_addr
 	//return associated_channel;
 }
 
-bool __cdecl c_network_link::physical_link_available()
+bool c_network_link::initialize_link()
+{
+	return DECLFUNC(0x0043BAB0, bool, __thiscall, c_network_link*)(this);
+
+	//m_time_statistics[0].initialize(2000);
+	//m_time_statistics[1].initialize(2000);
+	//m_time_statistics[2].initialize(2000);
+	//m_time_statistics[0].initialize(2000);
+	//bool result = m_simulation_queues[0].initialize_queue() && m_simulation_queues[1].initialize_queue();
+	//ASSERT(transport_get_packet_overhead(_transport_type_udp) + k_network_link_maximum_game_data_size <= k_network_link_maximum_encoded_packet_size);
+	//ASSERT(transport_get_packet_overhead(_transport_type_vdp) + k_network_link_maximum_game_data_size + k_network_link_maximum_voice_data_size <= k_network_link_maximum_encoded_packet_size);
+	//if (result && transport_available() && !create_endpoints())
+	//	generate_event(_event_level_error, "networking:link: initialize() failed to create packet endpoints!");
+	//if (result)
+	//	m_initialized = true;
+	//else
+	//	destroy_link();
+	//return result;
+}
+
+void c_network_link::initialize_packet(s_link_packet* packet)
+{
+	INVOKE(0x0043BB20, initialize_packet, packet);
+
+	//ASSERT(packet);
+	//packet->mode = _network_packet_mode_none;
+	//packet->__unknown4 = false;
+	//packet->address = {};
+	//packet->game_data_length = 0;
+	//packet->voice_data_length = 0;
+}
+
+bool c_network_link::physical_link_available()
 {
 	//INVOKE(0x0043BBB0, c_network_link::physical_link_available);
 
 	return transport_available();
 }
 
-void __cdecl c_network_link::send_out_of_band(c_bitstream const* game_data, transport_address const* address, long* out_size_on_wire)
+void c_network_link::process_all_channels()
+{
+	DECLFUNC(0x0043BBC0, void, __thiscall, c_network_link*)(this);
+}
+
+void c_network_link::process_incoming_packets()
+{
+	DECLFUNC(0x0043BC70, void, __thiscall, c_network_link*)(this);
+}
+
+void c_network_link::process_packet_internal(s_link_packet const* packet)
+{
+	DECLFUNC(0x0043BDA0, void, __thiscall, c_network_link*, s_link_packet const*)(this, packet);
+}
+
+bool c_network_link::read_data_immediate(transport_address* address, long* packet_data_length, byte* packet_buffer, long packet_buffer_size)
+{
+	return DECLFUNC(0x0043BEC0, bool, __thiscall, c_network_link*, transport_address*, long*, byte*, long)(this, address, packet_data_length, packet_buffer, packet_buffer_size);
+}
+
+bool c_network_link::read_packet_internal(s_link_packet* packet)
+{
+	return DECLFUNC(0x0043BF50, bool, __thiscall, c_network_link*, s_link_packet*)(this, packet);
+}
+
+void c_network_link::send_broadcast(c_bitstream const* game_data, long* out_size_on_wire)
+{
+	DECLFUNC(0x0043BFD0, void, __thiscall, c_network_link*, c_bitstream const*, long*)(this, game_data, out_size_on_wire);
+}
+
+void c_network_link::send_channel(c_bitstream const* packet, long voice_data_length, byte const* voice_data, transport_address const* remote_address, long* out_size_on_wire)
+{
+	DECLFUNC(0x0043C020, void, __thiscall, c_network_link*, c_bitstream const*, long, byte const*, transport_address const*, long*)(this, packet, voice_data_length, voice_data, remote_address, out_size_on_wire);
+}
+
+void c_network_link::send_data_immediate(long packet_mode, transport_address const* address, long packet_data_length, void const* packet_data)
+{
+	DECLFUNC(0x0043C150, void, __thiscall, c_network_link*, long, transport_address const*, long, void const*)(this, packet_mode, address, packet_data_length, packet_data);
+}
+
+void c_network_link::send_out_of_band(c_bitstream const* game_data, transport_address const* address, long* out_size_on_wire)
 {
 	ASSERT(game_data);
 	ASSERT(address);
 
 	DECLFUNC(0x0043C250, void, __thiscall, c_network_link*, c_bitstream const*, transport_address const*, long*)(this, game_data, address, out_size_on_wire);
 }
+
+void c_network_link::send_packet_internal(s_link_packet const* packet)
+{
+	DECLFUNC(0x0043C370, void, __thiscall, c_network_link*, s_link_packet const*)(this, packet);
+}
+

@@ -40,16 +40,30 @@ struct c_network_link
 	};
 	static_assert(sizeof(s_link_packet) == 0x7E4);
 
-	bool __cdecl adjust_packet_size(bool game_data, long voice_data_length, long* game_data_length) const;
-	void __cdecl attach_out_of_band(c_network_out_of_band_consumer* out_of_band);
-	bool __cdecl create_endpoint(e_transport_type type, word port, bool a3, transport_endpoint** out_endpoint);
-	bool __cdecl decode_packet(long data_buffer_size, byte const* data_buffer, s_link_packet* packet) const;
-	void __cdecl destroy_endpoints();
-	c_network_channel* __cdecl get_associated_channel(transport_address const* address) const;
-	static bool __cdecl physical_link_available();
-	void __cdecl send_out_of_band(c_bitstream const* game_data, transport_address const* address, long* out_size_on_wire);
-
-	bool __cdecl create_endpoints();
+	bool adjust_packet_size(bool game_data, long voice_data_length, long* game_data_length) const;
+	void attach_out_of_band(c_network_out_of_band_consumer* out_of_band);
+	long compute_size_on_wire(s_link_packet const* packet) const;
+	bool create_endpoint(e_transport_type type, word port, bool a3, transport_endpoint** out_endpoint);
+	bool create_endpoints();
+	bool decode_packet(long data_buffer_size, byte const* data_buffer, s_link_packet* packet) const;
+	void destroy_endpoints();
+	void destroy_link();
+	void encode_packet(s_link_packet const* packet, long* data_length, byte* data_buffer, long data_buffer_size) const;
+	dword generate_channel_identifier();
+	c_network_channel* get_associated_channel(transport_address const* address) const;
+	bool initialize_link();
+	static void initialize_packet(s_link_packet* packet);
+	static bool physical_link_available();
+	void process_all_channels();
+	void process_incoming_packets();
+	void process_packet_internal(s_link_packet const* packet);
+	bool read_data_immediate(transport_address* address, long* packet_data_length, byte* packet_buffer, long packet_buffer_size);
+	bool read_packet_internal(s_link_packet* packet);
+	void send_broadcast(c_bitstream const* game_data, long* out_size_on_wire);
+	void send_channel(c_bitstream const* packet, long voice_data_length, byte const* voice_data, transport_address const* remote_address, long* out_size_on_wire);
+	void send_data_immediate(long packet_mode, transport_address const* address, long packet_data_length, void const* packet_data);
+	void send_out_of_band(c_bitstream const* game_data, transport_address const* address, long* out_size_on_wire);
+	void send_packet_internal(s_link_packet const* packet);
 
 	bool m_initialized;
 	long __unknown4;
