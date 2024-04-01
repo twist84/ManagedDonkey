@@ -1196,7 +1196,7 @@ void __cdecl main_loop_pregame()
 
 		if (!main_globals.main_loop_pregame_entered
 			&& main_globals.main_loop_time
-			&& current_time - main_globals.main_loop_time >= (!bink_active ? 24 : 15))
+			&& current_time - main_globals.main_loop_time >= dword(!bink_active ? 24 : 15))
 		{
 			main_globals.main_loop_pregame_entered++;
 			if (bink_active)

@@ -157,9 +157,9 @@ public:
 	char const* get_name() const;
 	static char const* __cdecl get_closure_reason_string(e_network_channel_closure_reason reason);
 	static char const* __cdecl get_state_string(e_network_channel_state state);
+	bool __cdecl get_remote_address(transport_address* address) const;
 	dword __cdecl get_remote_identifier() const;
 	dword __cdecl get_identifier() const;
-	bool __cdecl get_remote_address(transport_address* address) const;
 	c_network_message_queue const* __cdecl network_message_queue_get() const;
 	c_network_connection const* __cdecl network_connection_get() const;
 	bool __cdecl allocated() const;

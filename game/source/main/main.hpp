@@ -89,7 +89,7 @@ struct _main_globals
 	byte __pad74[8]; // is this the above?
 
 	long main_loop_pregame_entered;
-	long main_loop_time;
+	dword main_loop_time;
 };
 static_assert(sizeof(_main_globals) == 0x84);
 

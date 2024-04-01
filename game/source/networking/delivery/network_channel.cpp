@@ -89,18 +89,10 @@ char const* __cdecl c_network_channel::get_state_string(e_network_channel_state 
 	return "<unknown>";
 }
 
-dword __cdecl c_network_channel::get_remote_identifier() const
-{
-	return m_remote_channel_identifier;
-}
-
-dword __cdecl c_network_channel::get_identifier() const
-{
-	return m_local_channel_identifier;
-}
-
 bool __cdecl c_network_channel::get_remote_address(transport_address* address) const
 {
+	//return DECLFUNC(0x00446570, bool, __thiscall, c_network_channel const*, transport_address*)(this, address);
+
 	ASSERT(address);
 
 	if (get_state() == _network_channel_state_none && get_state() != _network_channel_state_empty)
@@ -110,6 +102,18 @@ bool __cdecl c_network_channel::get_remote_address(transport_address* address) c
 	}
 
 	return false;
+}
+
+dword __cdecl c_network_channel::get_remote_identifier() const
+{
+	//return DECLFUNC(0x004465C0, dword, __thiscall, c_network_channel const*)(this);
+
+	return m_remote_channel_identifier;
+}
+
+dword __cdecl c_network_channel::get_identifier() const
+{
+	return m_local_channel_identifier;
 }
 
 c_network_message_queue const* __cdecl c_network_channel::network_message_queue_get() const

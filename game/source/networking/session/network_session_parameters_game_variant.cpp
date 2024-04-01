@@ -1,4 +1,4 @@
-#include "network_session_parameters_game_variant.hpp"
+#include "networking/session/network_session_parameters_game_variant.hpp"
 
 #include "cseries/cseries_events.hpp"
 

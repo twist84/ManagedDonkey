@@ -727,6 +727,7 @@ struct s_network_configuration
 
 	s_observer_configuration observer_configuration;
 
+	// start of `s_channel_configuration`
 	dword __unknown12E0;
 	dword __unknown12E4;
 	dword __unknown12E8;
