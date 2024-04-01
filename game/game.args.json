@@ -4,7 +4,7 @@
   "Items": [
     {
       "Id": "0529fe8f-b816-49e5-b156-8f98c56ec22f",
-      "Command": "eldorado.exe $(TargetFileName)"
+      "Command": "eldorado.exe $(TargetFileName) -centered -cache-memory-increase 1200"
     }
   ]
 }

@@ -4,11 +4,11 @@
   "Items": [
     {
       "Id": "befab16a-e08e-4e9a-aa1f-82a1d92faf9b",
-      "Command": "eldorado.exe game.dll"
+      "Command": "eldorado.exe game.dll -centered -cache-memory-increase 1200"
     },
     {
       "Id": "8cd32b7a-d32e-4d33-90f0-be85eafe3e08",
-      "Command": "eldorado.exe dedicated_server.dll"
+      "Command": "eldorado.exe dedicated_server.dll -cache-memory-increase 1200"
     }
   ]
 }
