@@ -125,8 +125,8 @@ void __cdecl network_initialize()
 
 	//if (shell_application_type() != _shell_application_type_client || network_globals.initialized)
 	//{
-	//	network_configuration_initialize(false);
 	//	network_globals.thread_id = system_get_current_thread_id();
+	//	network_configuration_initialize(false);
 	//
 	//	if (network_memory_base_initialize(&g_network_link, &g_network_message_types, &g_network_message_gateway, &g_network_message_handler, &g_network_observer, &g_network_sessions, &g_network_session_manager, &g_network_session_parameter_types))
 	//	{
