@@ -302,6 +302,7 @@ struct c_cache_file_tag_resource_runtime_manager :
 	public c_tag_resource_prediction_atom_generator,
 	public c_cache_file_resource_stoler
 {
+	void idle();
 	void initialize_for_new_map(e_game_mode game_mode, long cache_file_resource_gestalt_index, long resource_vtable_list_count, s_cache_file_tag_resource_vtable const** resource_vtable_list, c_cache_file_runtime_decompressor_registry* runtime_decompressor_registry);
 
 	void* get_cached_resource_data(long resource_handle)

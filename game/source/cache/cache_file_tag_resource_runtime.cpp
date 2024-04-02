@@ -220,7 +220,9 @@ bool __cdecl tag_resources_locked_for_current_thread_UGLY()
 
 void __cdecl tag_resources_main_loop_idle()
 {
-	INVOKE(0x00563FF0, tag_resources_main_loop_idle);
+	//INVOKE(0x00563FF0, tag_resources_main_loop_idle);
+
+	g_resource_runtime_manager.get()->idle();
 }
 
 //.text:00564000 // called from `main_game_internal_close_caches`
@@ -240,6 +242,11 @@ void __cdecl tag_resources_stagnate_deferred_resources()
 void __cdecl tag_resources_unlock_game(long& lock)
 {
 	INVOKE(0x005640B0, tag_resources_unlock_game, lock);
+}
+
+void c_cache_file_tag_resource_runtime_manager::idle()
+{
+	DECLFUNC(0x005619D0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
 }
 
 void c_cache_file_tag_resource_runtime_manager::initialize_for_new_map(e_game_mode game_mode, long cache_file_resource_gestalt_index, long resource_vtable_list_count, s_cache_file_tag_resource_vtable const** resource_vtable_list, c_cache_file_runtime_decompressor_registry* runtime_decompressor_registry)
