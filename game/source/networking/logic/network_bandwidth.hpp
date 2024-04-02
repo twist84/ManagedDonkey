@@ -18,7 +18,15 @@ static_assert(sizeof(s_network_statistics) == 0x6C);
 
 struct s_network_quality_statistics
 {
-	byte __data[0xC0];
+	byte squad_client_badness_history[16];
+	byte squad_host_badness_history[16];
+	byte group_client_badness_history[16];
+	byte group_host_badness_history[16];
+	byte connection_badness_history[16];
+
+	s_network_statistics network_statistics;
+
+	byte __data[0x4];
 };
 static_assert(sizeof(s_network_quality_statistics) == 0xC0);
 
