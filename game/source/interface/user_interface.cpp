@@ -5,6 +5,7 @@
 #include "interface/gui_screens/scoreboard/gui_screen_scoreboard.hpp"
 #include "interface/user_interface_window_manager.hpp"
 #include "memory/module.hpp"
+#include "profiler/profiler.hpp"
 
 real g_ui_time_scale = 1.0f;
 real g_ui_time_step = 0.0f;
@@ -126,9 +127,12 @@ s_user_interface_tag_globals const* __cdecl user_interface_tag_globals_try_and_g
 
 void __cdecl user_interface_update(real ui_time)
 {
-	real new_ui_time = (ui_time * g_ui_time_scale) + g_ui_time_step;
+	PROFILER(user_interface_update)
+	{
+		real new_ui_time = (ui_time * g_ui_time_scale) + g_ui_time_step;
 
-	INVOKE(0x00A84EE0, user_interface_update, new_ui_time);
+		INVOKE(0x00A84EE0, user_interface_update, new_ui_time);
+	}
 }
 HOOK_DECLARE_CALL(0x00505DB1, user_interface_update);
 //HOOK_DECLARE_CALL(0x0069D618, user_interface_update);
