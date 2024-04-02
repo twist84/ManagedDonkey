@@ -10,6 +10,7 @@ extern void __cdecl editor_dispose();
 extern void __cdecl editor_dispose_from_old_map();
 extern void __cdecl editor_dispose_from_old_structure_bsp(dword a1);
 extern void __cdecl editor_get_cluster_color(s_cluster_reference const* cluster_reference, real_argb_color* cluster_color);
+extern char const* __cdecl editor_get_map_name();
 extern bool __cdecl sub_42E000();
 extern void __cdecl editor_initialize();
 extern void __cdecl editor_initialize_for_new_map();
