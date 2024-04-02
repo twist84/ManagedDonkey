@@ -1,5 +1,6 @@
 #include "main_game_launch.hpp"
 
+#include "cache/cache_files_windows.hpp"
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "main/main_game.hpp"
@@ -118,32 +119,30 @@ void main_game_launch_legacy(char const* map_name)
 
 void main_game_launch(const char* map_name)
 {
+	cache_file_map_clear_all_failures();
 	main_game_launch_set_map_name(map_name);
+
 	if (network_life_cycle_get_state())
 		network_life_cycle_end();
 
 	if (g_launch_globals.options.game_mode == _game_mode_campaign)
 	{
-		if (g_launch_globals.options.campaign_difficulty.get() <= _campaign_difficulty_level_easy)
-			g_launch_globals.options.campaign_difficulty = _campaign_difficulty_level_easy;
-		if (g_launch_globals.options.campaign_difficulty.get() > k_number_of_campaign_difficulty_levels)
-			g_launch_globals.options.campaign_difficulty = _campaign_difficulty_level_legendary;
+		g_launch_globals.options.campaign_difficulty = int_pin(g_launch_globals.options.campaign_difficulty.get(), _campaign_difficulty_level_easy, _campaign_difficulty_level_legendary);
+		g_launch_globals.player_count = int_pin(g_launch_globals.player_count, 1, 4);
 	}
-	else if (g_launch_globals.options.game_mode != _game_mode_multiplayer)
+	else if (g_launch_globals.options.game_mode == _game_mode_multiplayer)
+	{
+		g_launch_globals.player_count = int_pin(g_launch_globals.player_count, 1, 4);
+	}
+	else
 	{
 		generate_event(_event_level_warning, "main_game_launch: unknown game mode %d!", g_launch_globals.options.game_mode.get());
 		return;
 	}
 
 	g_launch_globals.options.record_saved_film = false;
-
-	if (g_launch_globals.player_count < 1)
-		g_launch_globals.player_count = 1;
-	if (g_launch_globals.player_count > 4)
-		g_launch_globals.player_count = 4;
-
 	game_options_setup_default_players(g_launch_globals.player_count, &g_launch_globals.options);
-	//game_options_validate(&g_launch_globals.options);
+	game_options_validate(&g_launch_globals.options);
 	main_game_change(&g_launch_globals.options);
 }
 
