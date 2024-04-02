@@ -64,19 +64,17 @@ void main_game_launch_set_coop_player_count(long coop_player_count)
 
 void main_game_launch_set_multiplayer_splitscreen_count(long multiplayer_splitscreen_count)
 {
-	if (multiplayer_splitscreen_count > 0 && multiplayer_splitscreen_count <= 4)
+	if (!IN_RANGE_INCLUSIVE(multiplayer_splitscreen_count, 1, 4))
 	{
-		g_launch_globals.options.game_mode = _game_mode_multiplayer;
-		g_launch_globals.player_count = multiplayer_splitscreen_count;
-		if (g_launch_globals.options.game_variant.get_game_engine_index() == _game_engine_type_none)
-			g_launch_globals.options.game_variant.set_game_engine_index(_game_engine_type_slayer);
-
-		//if (g_launch_globals.options.game_variant.m_game_engine_index == _game_engine_type_none)
-		//	build_default_game_variant(&g_launch_globals.options.game_variant, _game_engine_type_slayer);
+		generate_event(_event_level_warning, "main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)", multiplayer_splitscreen_count, 4);
 	}
 	else
 	{
-		generate_event(_event_level_warning, "main_game_launch_set_multiplayer_splitscreen_count: invalid player count %d (must be from 1-%d)", multiplayer_splitscreen_count, 4);
+		g_launch_globals.options.game_mode = _game_mode_multiplayer;
+		g_launch_globals.player_count = multiplayer_splitscreen_count;
+
+		if (g_launch_globals.options.game_variant.get_game_engine_index() == _game_engine_type_none)
+			build_default_game_variant(&g_launch_globals.options.game_variant, _game_engine_type_slayer);
 	}
 }
 
