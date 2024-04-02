@@ -51,14 +51,14 @@ void main_game_launch_ui_shell()
 
 void main_game_launch_set_coop_player_count(long coop_player_count)
 {
-	if (coop_player_count > 0 && coop_player_count <= 4)
+	if (!IN_RANGE_INCLUSIVE(coop_player_count, 1, 4))
 	{
-		g_launch_globals.options.game_mode = _game_mode_campaign;
-		g_launch_globals.player_count = coop_player_count;
+		generate_event(_event_level_warning, "main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", coop_player_count, 4);
 	}
 	else
 	{
-		generate_event(_event_level_warning, "main_game_launch_set_coop_player_count: invalid player count %d (must be from 1-%d)", coop_player_count, 4);
+		g_launch_globals.options.game_mode = _game_mode_campaign;
+		g_launch_globals.player_count = coop_player_count;
 	}
 }
 
