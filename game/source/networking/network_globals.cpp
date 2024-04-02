@@ -59,16 +59,27 @@ do                                                     \
     network_update();                                  \
 } while (_get_value() != _value);
 
+// comment out until `network_initialize` is implemented
+//#define NETWORK_ENTER_AND_LOCK_TIME \
+//ASSERT(network_globals.entered == false); \
+//ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
+//network_globals.entered = true; \
+//network_time_lock(true)
+//
+//#define NETWORK_EXIT_AND_UNLOCK_TIME \
+//network_time_lock(false); \
+//ASSERT(network_globals.entered == true); \
+//ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
+//network_globals.entered = false
+
 #define NETWORK_ENTER_AND_LOCK_TIME \
 ASSERT(network_globals.entered == false); \
-ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
 network_globals.entered = true; \
 network_time_lock(true)
 
 #define NETWORK_EXIT_AND_UNLOCK_TIME \
 network_time_lock(false); \
 ASSERT(network_globals.entered == true); \
-ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
 network_globals.entered = false
 
 bool __cdecl network_memory_base_initialize(
@@ -115,6 +126,8 @@ void __cdecl network_initialize()
 	//if (shell_application_type() != _shell_application_type_client || network_globals.initialized)
 	//{
 	//	network_configuration_initialize(false);
+	//	network_globals.thread_id = system_get_current_thread_id();
+	//
 	//	if (network_memory_base_initialize(&g_network_link, &g_network_message_types, &g_network_message_gateway, &g_network_message_handler, &g_network_observer, &g_network_sessions, &g_network_session_manager, &g_network_session_parameter_types))
 	//	{
 	//		ASSERT(g_network_link != NULL);
