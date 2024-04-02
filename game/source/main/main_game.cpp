@@ -8,6 +8,7 @@
 #include "camera/director.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
+#include "editor/editor_stubs.hpp"
 #include "game/campaign_metagame.hpp"
 #include "game/game.hpp"
 #include "input/input_windows.hpp"
@@ -404,12 +405,43 @@ void __cdecl main_game_internal_pregame_unload()
 
 void __cdecl main_game_launch_default()
 {
-	INVOKE(0x00567750, main_game_launch_default);
+	//INVOKE(0x00567750, main_game_launch_default);
+
+	if (!main_game_loaded_map() && !main_game_loaded_pregame())
+	{
+		{
+			game_options options{};
+			if (game_options_get_launch_settings(&options, main_game_globals.change_in_progress))
+			{
+				game_options_validate(&options);
+				main_game_change(&options);
+			}
+		}
+
+		if (main_game_globals.change_in_progress)
+		{
+			main_suppress_startup_sequence();
+		}
+		else if (game_in_editor())
+		{
+			ASSERT2("editor did not specify a level to load!");
+		}
+		else
+		{
+			main_menu_launch();
+		}
+	}
 }
 
 void __cdecl main_game_launch_default_editor()
 {
-	INVOKE(0x00567820, main_game_launch_default_editor);
+	//INVOKE(0x00567820, main_game_launch_default_editor);
+
+	if (!main_game_loaded_map() && !main_game_loaded_pregame())
+	{
+		char const* map_name = editor_get_map_name();
+		main_game_launch(map_name);
+	}
 }
 
 bool __cdecl main_game_load_blocking(char const* scenario_path)

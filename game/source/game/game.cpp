@@ -20,7 +20,6 @@
 #define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
 
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
-HOOK_DECLARE(0x006961C0, game_options_get_launch_settings);
 
 bool g_debug_survival_mode = false;
 
