@@ -96,7 +96,7 @@ void c_network_observer::observer_prioritize_upload_bandwidth(bool prioritize_up
 //.text:004478E0 ; 
 //.text:00447AA0 ; 
 //.text:00447B10 ; bool c_network_observer::quality_statistics_are_set() const
-//.text:00447B20 ; 
+//.text:00447B20 ; c_network_oberserver::quality_statistics_report_badness
 //.text:00447B60 ; s_network_quality_statistics* c_network_observer::quality_statistics_get()
 //.text:00447B70 ; void c_network_observer::quality_statistics_get_ratings(long*, long*, long*)
 //.text:00447CC0 ; void c_network_observer::quality_statistics_notify_established_connectivity(e_network_observer_owner, long, bool)

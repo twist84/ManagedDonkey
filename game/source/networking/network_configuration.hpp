@@ -135,7 +135,9 @@ struct s_observer_configuration
 	dword __unknown60;
 	dword __unknown64;
 	dword __unknown68;
+
 	dword connection_initiation_retry_count;
+
 	dword __unknown70;
 	dword __unknown74;
 	dword __unknown78;
@@ -181,7 +183,9 @@ struct s_observer_configuration
 	real __unknown118;
 	real __unknown11C;
 	dword __unknown120;
+
 	dword period_duration_msec;
+
 	dword __unknown128;
 	dword __unknown12C;
 	real __unknown130;
@@ -263,8 +267,11 @@ struct s_observer_configuration
 	dword __unknown260;
 	dword __unknown264;
 	dword __unknown268;
-	word __unknown26C;
-	byte __unknown26E;
+
+	bool disable_bad_client_anticheating;
+	bool disable_bad_connectivity_anticheating;
+	bool disable_bad_bandwidth_anticheating;
+
 	dword __unknown270;
 	dword __unknown274;
 	dword __unknown278;
