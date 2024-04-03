@@ -61,7 +61,7 @@ union s_cache_file_header
 		dword __unknown14;
 		dword __unknown18;
 
-		long_string source_file;
+		c_static_string<k_tag_long_string_length> source_file;
 		c_static_string<k_tag_string_length> build;
 
 		short scenario_type;
@@ -90,7 +90,7 @@ union s_cache_file_header
 
 		c_static_string<k_tag_string_length> name;
 		c_enum<e_language, long, _language_invalid, k_language_count> game_language;
-		long_string relative_path;
+		c_static_string<k_tag_long_string_length> relative_path;
 		long minor_version;
 
 		long debug_tag_name_count;

@@ -83,8 +83,8 @@ enum : tag
 //static_assert(sizeof(string) == 0x20);
 
 // 256-character ascii string
-typedef char long_string[k_tag_long_string_length];
-static_assert(sizeof(long_string) == 0x100);
+//typedef char long_string[k_tag_long_string_length];
+//static_assert(sizeof(long_string) == 0x100);
 
 // a 32-bit string identifier
 typedef long string_id;
