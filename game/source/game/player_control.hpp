@@ -352,7 +352,7 @@ extern real __cdecl evaluate_piecewise_linear_function(short count, real* const 
 //extern bool __cdecl player_control_action_test_rotate_weapons();
 //extern bool __cdecl player_control_action_test_x();
 //extern bool __cdecl player_control_action_test_y();
-//extern bool __cdecl player_control_action_test_zoom();;
+//extern bool __cdecl player_control_action_test_zoom();
 extern void __cdecl player_control_build_action(long player_index, e_input_user_index input_user_index, s_player_action* action);
 //extern bool __cdecl player_control_camera_control_is_active();
 //extern bool __cdecl player_control_compute_input_inhibition(e_input_user_index, e_controller_index, s_game_input_state const*, s_player_control_input*);
