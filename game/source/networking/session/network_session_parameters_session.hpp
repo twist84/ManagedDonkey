@@ -30,8 +30,8 @@ struct s_network_session_parameter_session_size
 };
 static_assert(sizeof(s_network_session_parameter_session_size) == 0x8);
 
-struct c_network_session_parameter_session_size
-	: public c_network_session_parameter_base,
+struct c_network_session_parameter_session_size :
+	public c_network_session_parameter_base,
 	c_generic_network_session_parameter_data<s_network_session_parameter_session_size>
 {
 };

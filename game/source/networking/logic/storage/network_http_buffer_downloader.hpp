@@ -75,16 +75,16 @@ protected:
 static_assert(sizeof(c_http_buffer_downloader) == 0x698);
 
 template<long k_buffer_size>
-struct c_http_stored_buffer_downloader
-	: public c_http_buffer_downloader
+struct c_http_stored_buffer_downloader :
+	public c_http_buffer_downloader
 {
 	char m_stored_buffer[k_buffer_size];
 };
 //static_assert(sizeof(c_http_stored_buffer_downloader<4>) == sizeof(c_http_buffer_downloader) + 4);
 
 template<typename t_blf_type>
-struct c_http_blf_simple_downloader
-	: public c_http_stored_buffer_downloader<sizeof(t_blf_type)>
+struct c_http_blf_simple_downloader :
+	public c_http_stored_buffer_downloader<sizeof(t_blf_type)>
 {
 public:
 	e_download_status __thiscall get_data(t_blf_type const** data, long* data_size)
