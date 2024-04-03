@@ -20,8 +20,16 @@ enum e_map_file_index
 
 	k_cached_map_file_shared_count = 6,
 
-	k_cached_map_files_count = 15
+	k_total_tracked_cached_map_files_count = 15
 };
+
+struct s_cache_file_share_map // this probably isn't the correct name
+{
+	char const* file_path;
+	e_map_file_index index;
+	e_map_file_index previous_index;
+};
+static_assert(sizeof(s_cache_file_share_map) == 0xC);
 
 struct c_cache_file_copy_optional_cache_callback :
 	public c_optional_cache_user_callback
@@ -52,9 +60,9 @@ static_assert(sizeof(s_failed_map) == 0x108);
 
 struct s_cache_file_table_of_contents
 {
-	c_static_array<s_cached_map_file, k_cached_map_files_count> map_files;
-	long open_map_file_index;
-	long locked_map_file_index;
+	c_static_array<s_cached_map_file, k_total_tracked_cached_map_files_count> map_files;
+	e_map_file_index open_map_file_index;
+	e_map_file_index locked_map_file_index;
 
 	long __unknown30668; // best_map_file_index
 	long load_action; // e_cache_file_load_action
@@ -126,7 +134,7 @@ struct s_cache_file_copy_globals
 
 	c_synchronized_long copy_task_is_done;
 
-	long map_file_index;
+	e_map_file_index map_file_index;
 	s_file_handle source_file_handle;
 
 	// cache_files_copy_pause
@@ -195,7 +203,10 @@ extern s_cache_file_copy_globals& cache_file_copy_globals;
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
 
 extern bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index);
+extern void __cdecl cache_file_block_until_not_busy();
 extern void __cdecl cache_file_close();
+extern long __cdecl cache_file_get_absolute_maximum_size();
+extern long __cdecl cache_file_get_failed_count(char const* map_path);
 extern void __cdecl cache_file_map_clear_all_failures();
 extern bool __cdecl cache_file_open(char const* scenario_path, void* header);
 extern long __cdecl cache_file_round_up_read_size(long size);
@@ -206,6 +217,11 @@ extern void __cdecl cache_files_delete_all();
 extern void __cdecl cache_files_delete_if_build_number_has_changed();
 extern void __cdecl cache_files_delete_if_language_has_changed();
 extern void __cdecl cache_files_initialize();
+extern void __cdecl cache_requests_flush();
+extern void __cdecl cached_map_file_close(e_map_file_index map_file_index);
+extern s_cached_map_file* __cdecl cached_map_file_get(e_map_file_index map_file_index);
+extern s_file_handle __cdecl cached_map_file_get_handle(e_map_file_index map_file_index);
+extern bool __cdecl cached_map_file_load(e_map_file_index map_file_index, char const* scenario_path);
 extern void __cdecl cached_map_files_open_all(bool* success);
 extern void __cdecl canonicalize_map_path(char const* path, c_static_string<256>* out_path);
 extern void __cdecl copy_and_strip_suffix(char const* path, c_static_string<256>* stripped_path);
