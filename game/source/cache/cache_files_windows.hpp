@@ -207,4 +207,6 @@ extern void __cdecl cache_files_delete_if_build_number_has_changed();
 extern void __cdecl cache_files_delete_if_language_has_changed();
 extern void __cdecl cache_files_initialize();
 extern void __cdecl cached_map_files_open_all(bool* success);
+extern void __cdecl canonicalize_map_path(char const* path, c_static_string<256>* out_path);
+extern void __cdecl copy_and_strip_suffix(char const* path, c_static_string<256>* stripped_path);
 

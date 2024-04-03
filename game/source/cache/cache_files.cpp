@@ -31,6 +31,22 @@
 #include <search.h>
 #include <string.h>
 
+REFERENCE_DECLARE(0x0189CFDC, char const* const, k_multiplayer_shared_scenario_tag);
+REFERENCE_DECLARE(0x0189CFE0, char const* const, k_single_player_shared_scenario_tag);
+REFERENCE_DECLARE(0x0189CFE4, char const* const, k_main_menu_scenario_tag);
+REFERENCE_DECLARE(0x0189CFE8, char const* const, k_introduction_scenario_tag);
+REFERENCE_DECLARE(0x0189CFEC, char const*, k_cache_strings_file);
+REFERENCE_DECLARE(0x0189CFF0, char const*, k_cache_tags_file);
+REFERENCE_DECLARE(0x0189CFF4, char const*, k_cache_tag_list_file);
+REFERENCE_DECLARE(0x0189CFF8, char const*, k_cache_resources_file);
+REFERENCE_DECLARE(0x0189CFFC, char const*, k_cache_textures_file);
+REFERENCE_DECLARE(0x0189D000, char const*, k_cache_textures_b_file);
+REFERENCE_DECLARE(0x0189D004, char const*, k_cache_audio_file);
+REFERENCE_DECLARE(0x0189D008, char const*, k_cache_video_file);
+REFERENCE_DECLARE(0x0189D00C, char const*, k_cache_file_extension);
+
+char const* k_cache_path_format = "maps\\%s.map";
+
 byte const g_cache_file_creator_key[64]
 {
 	0x05, 0x11, 0x6A, 0xA3, 0xCA, 0xB5, 0x07, 0xDF,
@@ -50,6 +66,7 @@ void*(__cdecl* tag_get_hook)(tag group_tag, long tag_index) = tag_get;
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_debug_globals*, g_cache_file_debug_globals);
 REFERENCE_DECLARE(0x022AAFF0, s_cache_file_globals, g_cache_file_globals);
 
+HOOK_DECLARE(0x00501FC0, cache_files_map_directory);
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
 HOOK_DECLARE(0x00502780, cache_file_tags_load_recursive);
 HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
@@ -435,7 +452,12 @@ long __cdecl cache_files_get_total_tags_size()
 
 char const* __cdecl cache_files_map_directory()
 {
-	return INVOKE(0x00501FC0, cache_files_map_directory);
+	//return INVOKE(0x00501FC0, cache_files_map_directory);
+
+	if (!g_cache_file_globals.map_directory)
+		g_cache_file_globals.map_directory = "maps\\";
+
+	return g_cache_file_globals.map_directory;
 }
 
 const bool override_cache_file_header_security_validate_hash = true;
@@ -581,7 +603,7 @@ void __cdecl cache_file_load_tags_section()
 	if (TEST_BIT(g_cache_file_globals.header.shared_file_flags, 1))
 	{
 		if (g_cache_file_globals.tags_section.path.is_empty())
-			file_reference_create_from_path(&g_cache_file_globals.tags_section, "maps\\tags.dat", false);
+			file_reference_create_from_path(&g_cache_file_globals.tags_section, k_cache_tags_file, false);
 
 		dword error = 0;
 		if (file_open(&g_cache_file_globals.tags_section, FLAG(_file_open_flag_desired_access_read), &error))
@@ -689,10 +711,10 @@ bool __cdecl cache_file_debug_tag_names_load()
 	else
 	{
 		s_file_reference tag_list_file;
-		file_reference_create_from_path(&tag_list_file, "maps\\tag_list.csv", false);
+		file_reference_create_from_path(&tag_list_file, k_cache_tag_list_file, false);
 		if (!file_exists(&tag_list_file))
 		{
-			c_console::write_line("cache: load tag names, 'maps\\tag_list.csv' file doesn't exist");
+			c_console::write_line("cache: load tag names, '%s' file doesn't exist", k_cache_tag_list_file);
 			return true;
 		}
 
@@ -700,7 +722,7 @@ bool __cdecl cache_file_debug_tag_names_load()
 		file_get_size(&tag_list_file, &tag_list_size);
 		if (!file_read_into_buffer(&tag_list_file, buffer, buffer_size))
 		{
-			c_console::write_line("cache: load tag names, 'maps\\tag_list.csv' file read failed");
+			c_console::write_line("cache: load tag names, '%s' file read failed", k_cache_tag_list_file);
 			return false;
 		}
 

@@ -3,6 +3,7 @@
 #include "config/version.hpp"
 #include "cseries/cseries_events.hpp"
 #include "main/global_preferences.hpp"
+#include "memory/module.hpp"
 
 REFERENCE_DECLARE(0x018A1A50, c_cache_file_copy_optional_cache_callback, g_cache_file_copy_optional_cache_callback);
 REFERENCE_DECLARE(0x018A1A54, c_cache_file_copy_fake_decompressor, g_copy_decompressor);
@@ -10,6 +11,8 @@ REFERENCE_DECLARE(0x0240B1E0, bool, g_cache_files_are_absolute);
 REFERENCE_DECLARE(0x0240B1E8, s_cache_file_table_of_contents, cache_file_table_of_contents);
 REFERENCE_DECLARE(0x0243C098, s_cache_file_copy_globals, cache_file_copy_globals);
 REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
+
+HOOK_DECLARE(0x005ABFF0, canonicalize_map_path);
 
 bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index)
 {
@@ -234,12 +237,12 @@ void __cdecl cached_map_files_open_all(bool* success)
 
 	s_cache_file_share_map shared_files[]
 	{
-		{ .file_path = "levels\\ui\\mainmenu\\mainmenu", .index = _map_file_index_shared_ui,         .previous_index = _map_file_index_none              }, // k_main_menu_scenario_tag
-		{ .file_path = "maps\\resources.dat",            .index = _map_file_index_shared_resources,  .previous_index = _map_file_index_shared_ui         },
-		{ .file_path = "maps\\textures.dat",             .index = _map_file_index_shared_textures,   .previous_index = _map_file_index_shared_resources  },
-		{ .file_path = "maps\\textures_b.dat",           .index = _map_file_index_shared_textures_b, .previous_index = _map_file_index_shared_textures   },
-		{ .file_path = "maps\\audio.dat",                .index = _map_file_index_shared_audio,      .previous_index = _map_file_index_shared_textures_b },
-		{ .file_path = "maps\\video.dat",                .index = _map_file_index_shared_video,      .previous_index = _map_file_index_shared_audio      },
+		{ .file_path = "levels\\ui\\mainmenu\\mainmenu",       .index = _map_file_index_shared_ui,         .previous_index = _map_file_index_none              }, // k_main_menu_scenario_tag
+		{ .file_path = g_cache_file_globals.resource_files[0], .index = _map_file_index_shared_resources,  .previous_index = _map_file_index_shared_ui         },
+		{ .file_path = g_cache_file_globals.resource_files[1], .index = _map_file_index_shared_textures,   .previous_index = _map_file_index_shared_resources  },
+		{ .file_path = g_cache_file_globals.resource_files[2], .index = _map_file_index_shared_textures_b, .previous_index = _map_file_index_shared_textures   },
+		{ .file_path = g_cache_file_globals.resource_files[3], .index = _map_file_index_shared_audio,      .previous_index = _map_file_index_shared_textures_b },
+		{ .file_path = g_cache_file_globals.resource_files[4], .index = _map_file_index_shared_video,      .previous_index = _map_file_index_shared_audio      },
 	};
 	ASSERT(NUMBEROF(shared_files) == k_cached_map_file_shared_count);
 
@@ -255,11 +258,22 @@ void __cdecl cached_map_files_open_all(bool* success)
 	generate_event(_event_level_message, "cache: open all cache map files complete");
 }
 
-//.text:005ABFF0 ; void __cdecl canonicalize_map_path(char const*, c_static_string<256>*)
+void __cdecl canonicalize_map_path(char const* path, c_static_string<256>* out_path)
+{
+	//INVOKE(0x005ABFF0, canonicalize_map_path, path, out_path);
+
+	c_static_string<256> stripped_path;
+	copy_and_strip_suffix(tag_name_strip_path(path), &stripped_path);
+	out_path->print(k_cache_path_format, stripped_path.get_string());
+}
 
 //.text:005AC070 ; c_cache_file_copy_fake_decompressor::check_for_doneness
 
-//.text:005AC0F0 ; void __cdecl copy_and_strip_suffix(char const*, c_static_string<256>*)
+void __cdecl copy_and_strip_suffix(char const* path, c_static_string<256>* stripped_path)
+{
+	INVOKE(0x005AC0F0, copy_and_strip_suffix, path, stripped_path);
+}
+
 //.text:005AC140 ; 
 
 //.text:005AC150 ; c_cache_file_copy_fake_decompressor::decompress_buffer

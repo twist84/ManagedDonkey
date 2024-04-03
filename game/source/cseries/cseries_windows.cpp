@@ -1,10 +1,26 @@
 #include "cseries/cseries_windows.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "main/main.hpp"
+#include "shell/shell_windows.hpp"
+#include "text/font_loading.hpp"
 
 #include <windows.h>
 #include <time.h>
+
+c_static_string<256> g_cache_path_directory;
+c_static_string<256> g_cache_path_format;
+c_static_string<256> g_cache_strings_file;
+c_static_string<256> g_cache_tags_file;
+c_static_string<256> g_cache_tag_list_file;
+c_static_string<256> g_cache_resources_file;
+c_static_string<256> g_cache_textures_file;
+c_static_string<256> g_cache_textures_b_file;
+c_static_string<256> g_cache_audio_file;
+c_static_string<256> g_cache_video_file;
+c_static_string<256> g_hard_drive_font_directory;
+c_static_string<256> g_dvd_font_directory;
 
 void __cdecl display_debug_string(const char* format, ...)
 {
@@ -70,5 +86,67 @@ void __cdecl system_set_dll_directory()
 
 	//generate_event(_event_level_message, "system: dll directory={ %s }", dll_directory);
 	printf("system: dll directory={ %s }\n", dll_directory);
+}
+
+template<long k_maximum_count>
+bool shell_get_command_line_parameter(char* command_line, char const* parameter_name, c_static_string<k_maximum_count>* value, char const* default_value)
+{
+	if (!command_line)
+		return false;
+
+	if (value)
+		*value = default_value;
+
+	char* parameter_offset = strstr(command_line, parameter_name) + strlen(parameter_name) + 1;
+	if (parameter_offset >= command_line && parameter_offset < command_line + strlen(command_line))
+	{
+		c_static_string<k_maximum_count> parameter = parameter_offset;
+		long separator = parameter.index_of(" ");
+		if (separator != NONE)
+			parameter.set_bounded(parameter_offset, separator);
+
+		if (value)
+			*value = parameter;
+
+		return true;
+	}
+
+	return false;
+}
+
+void system_set_maps_directory()
+{
+	c_static_string<256> map_directory = "maps\\";
+	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-maps", &map_directory, map_directory.get_string()))
+	{
+		if (!map_directory.ends_with("\\") && !map_directory.ends_with("/"))
+			map_directory.append("\\");
+
+		s_file_reference maps_file{};
+		if (!file_exists(file_reference_create_from_path(&maps_file, map_directory.get_string(), true)))
+			return;
+	}
+
+	g_cache_file_globals.map_directory = g_cache_path_directory.print(map_directory.get_string());
+	k_cache_path_format = g_cache_path_format.print("%s%s", g_cache_file_globals.map_directory, "%s.map");
+
+	k_cache_strings_file = g_cache_strings_file.print("%s%s", g_cache_file_globals.map_directory, "string_ids.dat");
+	k_cache_tags_file = g_cache_tags_file.print("%s%s", g_cache_file_globals.map_directory, "tags.dat");
+	k_cache_tag_list_file = g_cache_tag_list_file.print("%s%s", g_cache_file_globals.map_directory, "tag_list.csv");
+
+	k_cache_resources_file = g_cache_resources_file.print("%s%s", g_cache_file_globals.map_directory, "resources.dat");
+	k_cache_textures_file = g_cache_textures_file.print("%s%s", g_cache_file_globals.map_directory, "textures.dat");
+	k_cache_textures_b_file = g_cache_textures_b_file.print("%s%s", g_cache_file_globals.map_directory, "textures_b.dat");
+	k_cache_audio_file = g_cache_audio_file.print("%s%s", g_cache_file_globals.map_directory, "audio.dat");
+	k_cache_video_file = g_cache_video_file.print("%s%s", g_cache_file_globals.map_directory, "video.dat");
+
+	k_hard_drive_font_directory = g_hard_drive_font_directory.print("%s%s", g_cache_file_globals.map_directory, "fonts\\");
+	k_dvd_font_directory = g_dvd_font_directory.print("%s%s", g_cache_file_globals.map_directory, "fonts\\");
+
+	g_cache_file_globals.resource_files[0] = k_cache_resources_file;
+	g_cache_file_globals.resource_files[1] = k_cache_textures_file;
+	g_cache_file_globals.resource_files[2] = k_cache_textures_b_file;
+	g_cache_file_globals.resource_files[3] = k_cache_audio_file;
+	g_cache_file_globals.resource_files[4] = k_cache_video_file;
 }
 

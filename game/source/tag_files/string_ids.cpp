@@ -1,5 +1,6 @@
 #include "tag_files/string_ids.hpp"
 
+#include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/hashtable.hpp"
 #include "tag_files/files.hpp"
@@ -8,8 +9,6 @@
 
 #define ASSERT_STRING_ID(NAMESPACE, STRING) string_id_get_string_const(STRING_ID(NAMESPACE, STRING)); ASSERT(csstrcmp(NAMESPACE##_##STRING, #STRING) == 0)
 #define ASSERT_STRING_ID_TAGS(STRING, EXPECTED_STRING) { long id_##STRING = string_id_retrieve(EXPECTED_STRING); if (id_##STRING != _string_id_invalid) { tags_##STRING = string_id_get_string_const(id_##STRING); ASSERT(csstrcmp(tags_##STRING, EXPECTED_STRING) == 0); } }
-
-REFERENCE_DECLARE(0x0189CFEC, char const* const, k_cache_strings_file);
 
 // max string characters 128, string_id_retrieve
 

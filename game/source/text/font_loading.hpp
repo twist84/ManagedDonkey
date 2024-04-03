@@ -198,8 +198,8 @@ static_assert(sizeof(s_font_package_cache) == 0x40108);
 extern s_font_globals& g_font_globals;
 extern s_font_package_cache& g_font_package_cache;
 
-extern char const* const& k_hard_drive_font_directory;
-extern char const* const& k_dvd_font_directory;
+extern char const*& k_hard_drive_font_directory;
+extern char const*& k_dvd_font_directory;
 extern char const* const& k_font_package_base_name;
 extern char const* const& k_font_package_suffix;
 

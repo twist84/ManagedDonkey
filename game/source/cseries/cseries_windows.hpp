@@ -8,4 +8,5 @@ extern unsigned long __cdecl system_seconds();
 extern void __cdecl system_abort();
 extern void __cdecl system_exit();
 extern void __cdecl system_set_dll_directory();
+extern void system_set_maps_directory();
 

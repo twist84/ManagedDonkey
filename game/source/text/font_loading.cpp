@@ -6,8 +6,8 @@
 REFERENCE_DECLARE(0x022B7FAC, s_font_globals, g_font_globals);
 REFERENCE_DECLARE(0x02457BB8, s_font_package_cache, g_font_package_cache);
 
-REFERENCE_DECLARE(0x0189D358, char const* const, k_hard_drive_font_directory);
-REFERENCE_DECLARE(0x0189D35C, char const* const, k_dvd_font_directory);
+REFERENCE_DECLARE(0x0189D358, char const*, k_hard_drive_font_directory);
+REFERENCE_DECLARE(0x0189D35C, char const*, k_dvd_font_directory);
 REFERENCE_DECLARE(0x0189D360, char const* const, k_font_package_base_name);
 REFERENCE_DECLARE(0x0189D364, char const* const, k_font_package_suffix);
 

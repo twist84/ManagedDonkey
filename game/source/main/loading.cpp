@@ -146,7 +146,7 @@ bool __cdecl main_load_map(char const* scenario_path, long map_load_type)
 	if (force_load_map_failed)
 		return false;
 
-	if (csstricmp(scenario_path, "maps\\mainmenu") == 0)
+	if (csstricmp(tag_name_strip_path(scenario_path), "mainmenu") == 0)
 	{
 		static long count = 0;
 		count++;

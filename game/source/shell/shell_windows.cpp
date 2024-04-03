@@ -232,6 +232,7 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	physical_memory_stage_push(_memory_stage_game_initialize);
 
 	system_set_dll_directory();
+	system_set_maps_directory();
 
 	static bool shell_initialized = false;
 	if (shell_initialize(false))

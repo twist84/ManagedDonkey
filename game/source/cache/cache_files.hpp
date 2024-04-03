@@ -306,6 +306,21 @@ struct s_cache_file_globals
 };
 static_assert(sizeof(s_cache_file_globals) == 0x3500);
 
+extern char const* const& k_multiplayer_shared_scenario_tag;
+extern char const* const& k_single_player_shared_scenario_tag;
+extern char const* const& k_main_menu_scenario_tag;
+extern char const* const& k_introduction_scenario_tag;
+extern char const*& k_cache_strings_file;
+extern char const*& k_cache_tags_file;
+extern char const*& k_cache_tag_list_file;
+extern char const*& k_cache_resources_file;
+extern char const*& k_cache_textures_file;
+extern char const*& k_cache_textures_b_file;
+extern char const*& k_cache_audio_file;
+extern char const*& k_cache_video_file;
+extern char const*& k_cache_file_extension;
+extern char const* k_cache_path_format;
+
 extern byte const g_cache_file_creator_key[64];
 extern long g_tag_total_count_pre_external_files;
 
