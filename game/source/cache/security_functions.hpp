@@ -25,9 +25,19 @@ static_assert(sizeof(s_secure_memory_region) == 0x8);
 
 extern s_secure_memory_region(&k_secure_memory_regions)[k_secure_memory_region_count];
 
-extern bool __cdecl security_validate_hash(void const* buffer, dword buffer_size, bool calculate, s_network_http_request_hash const* hash, s_network_http_request_hash* out_hash);
+extern long __cdecl hash_compare_function(void const* a, void const* b, void const* find);
+extern long __cdecl rsa_signature_compare_function(void const* a, void const* b, void const* find);
 extern bool __cdecl security_calculate_hash(void const* buffer, dword buffer_size, bool calculate, s_network_http_request_hash* hash);
 extern void __cdecl security_dispose();
-extern void __cdecl security_get_working_memory(long region, void** out_working_memory, long* out_working_memory_size);
+extern void __cdecl security_get_working_memory(e_secure_memory_region region, void** out_working_memory, long* out_working_memory_size);
+extern bool __cdecl security_hash_manifest_find_hash(s_network_http_request_hash const* hash, void const* manifest, dword manifest_size);
+extern bool __cdecl security_incremental_hash_begin(void* working_memory, long working_memory_size, bool calculate);
+extern void __cdecl security_incremental_hash_finish(void* working_memory, long working_memory_size, s_network_http_request_hash* hash);
+extern void __cdecl security_incremental_hash_update(void* working_memory, long working_memory_size, void const* input, dword input_size);
 extern void __cdecl security_initialize();
+extern char* __cdecl security_print_hash(s_network_http_request_hash const* hash, char* buffer, long buffer_size);
+extern char* __cdecl security_print_rsa_signature(s_rsa_signature const* rsa_signature, char* buffer, long buffer_size);
 extern bool __cdecl security_rsa_compute_and_verify_signature(s_network_http_request_hash const* hash, s_rsa_signature* rsa_signature);
+extern bool __cdecl security_rsa_manifest_find_signature(s_rsa_signature const* rsa_signature, void const* manifest, dword manifest_size);
+extern bool __cdecl security_validate_hash(void const* buffer, dword buffer_size, bool calculate, s_network_http_request_hash const* hash, s_network_http_request_hash* out_hash);
+
