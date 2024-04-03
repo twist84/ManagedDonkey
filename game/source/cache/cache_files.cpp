@@ -3,6 +3,7 @@
 #include "bitmaps/bitmap_group_tag_definition.hpp"
 #include "cache/cache_file_builder_security.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
+#include "cache/cache_files_windows.hpp"
 #include "cache/physical_memory_map.hpp"
 #include "cache/security_functions.hpp"
 #include "config/version.hpp"
@@ -46,7 +47,8 @@ long g_tag_total_count_pre_external_files = 0;
 
 void*(__cdecl* tag_get_hook)(tag group_tag, long tag_index) = tag_get;
 
-REFERENCE_DECLARE(0x022AAFE8, s_cache_file_globals, g_cache_file_globals);
+REFERENCE_DECLARE(0x022AAFE8, s_cache_file_debug_globals*, g_cache_file_debug_globals);
+REFERENCE_DECLARE(0x022AAFF0, s_cache_file_globals, g_cache_file_globals);
 
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
 HOOK_DECLARE(0x00502780, cache_file_tags_load_recursive);
@@ -167,7 +169,7 @@ char const* tag_get_name(long tag_name_index)
 	//ASSERT(g_cache_file_globals.tags_loaded);
 	ASSERT(VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count));
 
-	return g_cache_file_globals.debug_tag_names->storage[tag_name_index];
+	return g_cache_file_debug_globals->debug_tag_names[tag_name_index];
 
 	//long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
 	//ASSERT(VALID_INDEX(tag_name_offset, sizeof(g_cache_file_globals.debug_tag_names->buffer)));
@@ -184,7 +186,7 @@ char const* tag_get_name_safe(long tag_name_index)
 
 	if (VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count))
 	{
-		return g_cache_file_globals.debug_tag_names->storage[tag_name_index];
+		return g_cache_file_debug_globals->debug_tag_names[tag_name_index];
 
 		//long tag_name_offset = g_cache_file_globals.debug_tag_names->offsets[tag_name_index];
 		//if (VALID_INDEX(tag_name_offset, sizeof(g_cache_file_globals.debug_tag_names->buffer)))
@@ -198,7 +200,7 @@ long tag_name_get_index(tag group_tag, char const* name)
 {
 	for (long tag_index = 0; tag_index < g_cache_file_globals.header.debug_tag_name_count; tag_index++)
 	{
-		char const* result = g_cache_file_globals.debug_tag_names->storage[tag_index];
+		char const* result = g_cache_file_debug_globals->debug_tag_names[tag_index];
 		if (!result)
 			continue;
 
@@ -508,10 +510,16 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 	//reports->count = GET_REPORT_COUNT_FROM_SIZE(header->reports.size);
 }
 
-void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long*> resource_offsets)
-{
-	INVOKE(0x00502550, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk, resource_offsets);
-}
+//void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long>* resource_offsets);
+//HOOK_DECLARE(0x00502550, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk);
+//
+//void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long>* resource_offsets)
+//{
+//	//INVOKE(0x00502550, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk, resource_offsets);
+//	HOOK_INVOKE(, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk, resource_offsets);
+//
+//	printf("");
+//}
 
 bool __cdecl cache_file_tags_load_recursive(long tag_index)
 {
@@ -661,12 +669,12 @@ bool __cdecl cache_file_debug_tag_names_load()
 	decltype(g_cache_file_globals.header.debug_tag_name_offsets)& debug_tag_name_offsets = g_cache_file_globals.header.debug_tag_name_offsets;
 
 	// debug_tag_names
-	decltype(g_cache_file_globals.debug_tag_names->offsets)& offsets = g_cache_file_globals.debug_tag_names->offsets;
-	constexpr dword offsets_size = sizeof(g_cache_file_globals.debug_tag_names->offsets);
-	decltype(g_cache_file_globals.debug_tag_names->buffer)& buffer = g_cache_file_globals.debug_tag_names->buffer;
-	constexpr dword buffer_size = sizeof(g_cache_file_globals.debug_tag_names->buffer);
-	decltype(g_cache_file_globals.debug_tag_names->storage)& storage = g_cache_file_globals.debug_tag_names->storage;
-	constexpr dword storage_size = sizeof(g_cache_file_globals.debug_tag_names->storage);
+	decltype(g_cache_file_debug_globals->debug_tag_name_offsets)& offsets = g_cache_file_debug_globals->debug_tag_name_offsets;
+	constexpr dword offsets_size = sizeof(g_cache_file_debug_globals->debug_tag_name_offsets);
+	decltype(g_cache_file_debug_globals->debug_tag_name_buffer)& buffer = g_cache_file_debug_globals->debug_tag_name_buffer;
+	constexpr dword buffer_size = sizeof(g_cache_file_debug_globals->debug_tag_name_buffer);
+	decltype(g_cache_file_debug_globals->debug_tag_names)& storage = g_cache_file_debug_globals->debug_tag_names;
+	constexpr dword storage_size = sizeof(g_cache_file_debug_globals->debug_tag_names);
 
 	//if ((g_cache_file_globals.header.shared_file_flags & 0x3F) == 0) // `shared_file_flags` is 0x3E
 	//if (!TEST_BIT(g_cache_file_globals.header.shared_file_flags, 0))
@@ -1068,13 +1076,16 @@ void __cdecl tag_files_close()
 
 void __cdecl tag_files_open()
 {
-	INVOKE(0x00503340, tag_files_open);
+	//INVOKE(0x00503340, tag_files_open);
 
-	//cache_files_initialize();
-	//g_cache_file_globals.debug_tag_names = (decltype(g_cache_file_globals.debug_tag_names)) _physical_memory_malloc_fixed(_memory_stage_game_initialize, 0, 0xF1B300, 1);
-	//cache_file_tag_resources_initialize();
+	cache_files_initialize();
+
+	ASSERT(g_cache_file_debug_globals == NULL);
+	g_cache_file_debug_globals = (s_cache_file_debug_globals*)_physical_memory_malloc_fixed(_memory_stage_game_initialize, "cache file debug globals", sizeof(s_cache_file_debug_globals), 1);
 
 	string_id_initialize();
+
+	cache_file_tag_resources_initialize();
 }
 
 void* __cdecl tag_get(tag group_tag, long tag_index)
@@ -1131,26 +1142,6 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	static char tag_instance_byte_string[sizeof(cache_file_tag_instance) * 3]{};
 	type_as_byte_string(instance, tag_instance_byte_string);
 	c_console::write_line(tag_instance_byte_string);
-}
-
-void __cdecl cache_file_close()
-{
-	INVOKE(0x005A9730, cache_file_close);
-}
-
-bool __cdecl cache_file_open(char const* scenario_path, void* header)
-{
-	return INVOKE(0x005AA7C0, cache_file_open, scenario_path, header);
-}
-
-long __cdecl cache_file_round_up_read_size(long size)
-{
-	//return INVOKE(0x005AA8D0, cache_file_round_up_read_size, size);
-
-	if ((size & MASK(4)) == 0)
-		return size;
-
-	return (size | MASK(4)) + 1;
 }
 
 bool cache_file_tags_single_tag_file_load(s_file_reference* file, long *out_tag_index, cache_file_tag_instance** out_instance)

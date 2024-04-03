@@ -5,6 +5,9 @@
 
 #include <DDS.h>
 
+REFERENCE_DECLARE(0x01670A18, long const, g_cache_file_tag_resource_vtable_count);
+REFERENCE_DECLARE_ARRAY(0x018EB7A8, s_cache_file_tag_resource_vtable const*, g_cache_file_tag_resource_vtable_list, 2);
+
 using resource_runtime_manager_typed_allocation_data_no_destruct_t = c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>;
 REFERENCE_DECLARE(0x023916C0, resource_runtime_manager_typed_allocation_data_no_destruct_t, g_resource_runtime_manager);
 
@@ -183,6 +186,27 @@ void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_ta
 HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);
 
 #endif // ISEXPERIMENTAL
+
+void __cdecl cache_file_tag_resources_initialize()
+{
+	INVOKE(0x0055F700, cache_file_tag_resources_initialize);
+
+	//g_resource_runtime_manager.construct();
+	//g_resource_runtime_manager.initialize(g_runtime_state_allocation);
+}
+
+void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mode)
+{
+	//INVOKE(0x0055F720, cache_file_tag_resources_initialize_for_new_map, game_mode);
+
+	c_cache_file_runtime_decompressor_registry runtime_decompressor_registry{};
+	g_resource_runtime_manager.get()->initialize_for_new_map(
+		game_mode,
+		NONE,
+		g_cache_file_tag_resource_vtable_count,
+		g_cache_file_tag_resource_vtable_list,
+		&runtime_decompressor_registry);
+}
 
 void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state)
 {

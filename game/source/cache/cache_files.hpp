@@ -252,22 +252,16 @@ static_assert(sizeof(s_cache_file_tags_header) == 0x20);
 const long k_tag_cache_maximum_files_count = 60000;
 const long k_tag_cache_maximum_size = 0x4B00000;
 
-template<long const k_max_file_count>
-struct c_cache_file_tag_name_collection
+struct s_cache_file_debug_globals
 {
-	dword offsets[k_max_file_count];
-	char buffer[k_max_file_count * k_tag_long_string_length];
-	char const* storage[k_max_file_count];
+	dword debug_tag_name_offsets[k_tag_cache_maximum_files_count];
+	char debug_tag_name_buffer[k_tag_cache_maximum_files_count * k_tag_long_string_length];
+	char const* debug_tag_names[k_tag_cache_maximum_files_count];
 };
-static_assert(sizeof(c_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>) == 0xF1B300);
+static_assert(sizeof(s_cache_file_debug_globals) == 0xF1B300);
 
 struct s_cache_file_globals
 {
-	c_cache_file_tag_name_collection<k_tag_cache_maximum_files_count>* debug_tag_names;
-
-	// padding?
-	dword __unknown4;
-
 	bool tags_loaded;
 
 	// physical_memory_malloc_fixed(sizeof(long) * header.tag_count)
@@ -310,7 +304,7 @@ struct s_cache_file_globals
 	c_static_array<const char*, 5> resource_files;
 	const char* map_directory;
 };
-static_assert(sizeof(s_cache_file_globals) == 0x3508);
+static_assert(sizeof(s_cache_file_globals) == 0x3500);
 
 extern byte const g_cache_file_creator_key[64];
 extern long g_tag_total_count_pre_external_files;
@@ -380,9 +374,6 @@ extern void* __cdecl tag_get(tag group_tag, long tag_index);
 extern void* __cdecl tag_get(tag group_tag, char const* tag_name);
 extern dword __cdecl tag_get_group_tag(long tag_index);
 extern void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_file_tag_instance* tag_instance, long tag_index);
-extern void __cdecl cache_file_close();
-extern bool __cdecl cache_file_open(char const* scenario_path, void* header);
-extern long __cdecl cache_file_round_up_read_size(long size);
 extern void cache_file_tags_load_single_tag_file_test(char const* file_name);
 
 enum e_instance_modification_stage

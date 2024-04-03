@@ -102,6 +102,4 @@ extern void __cdecl main_menu_launch_force();
 //extern bool __cdecl map_memory_configuration_is_main_menu(e_map_memory_configuration configuration);
 //extern bool __cdecl map_memory_configuration_is_multiplayer(e_map_memory_configuration configuration);
 //extern bool __cdecl map_memory_configuration_is_saved_film(e_map_memory_configuration configuration);
-extern void __cdecl cache_files_copy_pause();
-extern void __cdecl cache_files_copy_resume();
 

@@ -3,11 +3,31 @@
 #include "cache/cache_file_bulk_reader.hpp"
 #include "cache/cache_file_codec_work.hpp"
 #include "cache/cache_files.hpp"
+#include "cache/optional_cache.hpp"
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
 #include "tag_files/files_windows.hpp"
 
-const long k_cached_map_files_count = 15;
+enum e_map_file_index
+{
+	_map_file_index_none = -1,
+	_map_file_index_shared_ui,
+	_map_file_index_shared_resources,
+	_map_file_index_shared_textures,
+	_map_file_index_shared_textures_b,
+	_map_file_index_shared_audio,
+	_map_file_index_shared_video,
+
+	k_cached_map_file_shared_count = 6,
+
+	k_cached_map_files_count = 15
+};
+
+struct c_cache_file_copy_optional_cache_callback :
+	public c_optional_cache_user_callback
+{
+};
+static_assert(sizeof(c_cache_file_copy_optional_cache_callback) == sizeof(c_optional_cache_user_callback));
 
 struct s_cached_map_file
 {
@@ -158,17 +178,33 @@ struct c_cache_file_copy_fake_decompressor :
 	c_synchronized_long m_done;
 	dword m_checksum;
 	bool __unknown14;
+	bool m_overall_copy_in_progress;
+	byte __unknown16;
+	byte __unknown17;
 	s_simple_read_file_ex_overlapped_result m_overlapped_result;
 	byte m_overlapped[0x14]; // OVERLAPPED
 	c_basic_buffer<void> m_buffer;
 };
 static_assert(sizeof(c_cache_file_copy_fake_decompressor) == sizeof(c_cache_file_decompressor) + 0x40);
 
+extern c_cache_file_copy_optional_cache_callback& g_cache_file_copy_optional_cache_callback;
 extern c_cache_file_copy_fake_decompressor& g_copy_decompressor;
+extern bool& g_cache_files_are_absolute;
 extern s_cache_file_table_of_contents& cache_file_table_of_contents;
 extern s_cache_file_copy_globals& cache_file_copy_globals;
 extern c_asynchronous_io_arena& g_cache_file_io_arena;
 
+extern bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index);
+extern void __cdecl cache_file_close();
 extern void __cdecl cache_file_map_clear_all_failures();
+extern bool __cdecl cache_file_open(char const* scenario_path, void* header);
+extern long __cdecl cache_file_round_up_read_size(long size);
 extern void __cdecl cache_files_copy_do_work();
+extern void __cdecl cache_files_copy_pause();
+extern void __cdecl cache_files_copy_resume();
+extern void __cdecl cache_files_delete_all();
+extern void __cdecl cache_files_delete_if_build_number_has_changed();
+extern void __cdecl cache_files_delete_if_language_has_changed();
+extern void __cdecl cache_files_initialize();
+extern void __cdecl cached_map_files_open_all(bool* success);
 

@@ -352,8 +352,13 @@ extern c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_man
 extern bool __cdecl cache_file_tag_resources_prefetch_update_required();
 extern void __cdecl cache_file_tag_resources_update_prefetch_state();
 
+enum e_game_mode;
 struct s_scenario_game_state;
+
+extern void __cdecl cache_file_tag_resources_initialize();
+extern void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mode);
 extern void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state);
+
 extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);
 extern long __cdecl tag_resources_lock_game();
