@@ -161,6 +161,9 @@ static_assert(sizeof(s_cache_file_global_tags_definition) == 0x10);
 
 char const* tag_get_name(long tag_name_index)
 {
+	if (!g_cache_file_globals.header.debug_tag_name_count)
+		return nullptr;
+
 	//ASSERT(g_cache_file_globals.tags_loaded);
 	ASSERT(VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count));
 
@@ -175,6 +178,9 @@ char const* tag_get_name(long tag_name_index)
 char const* tag_get_name_safe(long tag_name_index)
 {
 	//ASSERT(g_cache_file_globals.tags_loaded);
+
+	if (!g_cache_file_globals.header.debug_tag_name_count)
+		return nullptr;
 
 	if (VALID_INDEX(tag_name_index, g_cache_file_globals.header.debug_tag_name_count))
 	{
