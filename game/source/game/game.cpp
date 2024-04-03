@@ -46,6 +46,15 @@ real_argb_color const* const k_activation_colors[6]
 };
 long k_activation_color_override_index = 1;
 
+game_globals_storage* game_globals_get()
+{
+	if (!get_tls())
+		return nullptr;
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	return game_globals;
+}
+
 bool __cdecl game_is_multithreaded()
 {
 	return INVOKE(0x0042E2C0, game_is_multithreaded);
@@ -96,7 +105,7 @@ void __cdecl game_create_missing_objects(e_game_create_mode mode)
 {
 	INVOKE(0x00530AE0, game_create_missing_objects, mode);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	//game_globals_storage* game_globals = game_globals_get();
 	//assert_game_options_verify(&game_globals->options);
 	//ASSERT(game_globals->map_active);
 	//
@@ -113,7 +122,7 @@ void __cdecl game_create_objects(e_game_create_mode mode)
 {
 	INVOKE(0x00530B30, game_create_objects, mode);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	//game_globals_storage* game_globals = game_globals_get();
 	//assert_game_options_verify(&game_globals->options);
 	//ASSERT(game_globals->map_active);
 	//
@@ -194,7 +203,7 @@ void __cdecl game_finish()
 {
 	//INVOKE(0x00530F80, game_finish);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
 
 	if (!game_globals->game_finished)
@@ -225,7 +234,7 @@ void __cdecl game_frame(real game_seconds_elapsed)
 {
 	INVOKE(0x00531070, game_frame, game_seconds_elapsed);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	//game_globals_storage* game_globals = game_globals_get();
 	//
 	//if (game_seconds_elapsed > 0.0f)
 	//{
@@ -245,7 +254,7 @@ dword __cdecl game_get_active_cinematic_zone_mask()
 {
 	//return INVOKE(0x00531110, game_get_active_cinematic_zone_mask);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	return game_globals->active_cinematic_zone_mask;
 }
 
@@ -253,7 +262,7 @@ dword __cdecl game_get_active_designer_zone_mask()
 {
 	//return INVOKE(0x00531130, game_get_active_designer_zone_mask);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	return game_globals->active_designer_zone_mask;
 }
 
@@ -261,7 +270,7 @@ dword __cdecl game_get_active_structure_bsp_mask()
 {
 	//return INVOKE(0x00531150, game_get_active_structure_bsp_mask);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	return game_globals->active_structure_bsp_mask;
 }
 
@@ -269,7 +278,7 @@ s_game_cluster_bit_vectors* __cdecl game_get_cluster_activation()
 {
 	//return INVOKE(0x00531170, game_get_cluster_activation);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
 	return &game_globals->cluster_activation;
@@ -279,7 +288,7 @@ s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs()
 {
 	//return INVOKE(0x00531190, game_get_cluster_pvs);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
 	return &game_globals->cluster_pvs;
@@ -289,7 +298,7 @@ s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs_local()
 {
 	//return INVOKE(0x005311B0, game_get_cluster_pvs_local);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask != 0);
 
 	return &game_globals->cluster_pvs_local;
@@ -313,7 +322,7 @@ bool __cdecl game_had_an_update_tick_this_frame()
 {
 	//return INVOKE(0x00531410, game_had_an_update_tick_this_frame);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	return game_globals && game_globals->update_tick_this_frame;
 }
 
@@ -326,7 +335,7 @@ bool __cdecl game_in_progress()
 {
 	//return INVOKE(0x005314B0, game_in_progress);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals && game_globals->game_in_progress)
 		return !game_globals->initializing && game_globals->map_active;
 
@@ -337,7 +346,7 @@ bool __cdecl game_in_startup_phase()
 {
 	//return INVOKE(0x005314F0, game_in_startup_phase);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 	{
 		if (game_globals->game_in_progress)
@@ -385,7 +394,7 @@ bool __cdecl game_is_available()
 {
 	//return INVOKE(0x00531A30, game_is_available);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	return game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask;
 }
 
@@ -421,7 +430,7 @@ bool __cdecl game_is_finished()
 {
 	//return INVOKE(0x00531B20, game_is_finished);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_finished;
@@ -431,7 +440,7 @@ bool __cdecl game_is_finished_immediate()
 {
 	//return INVOKE(0x00531B40, game_is_finished_immediate);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_finished && !game_globals->game_finished_wait_time;
@@ -443,7 +452,7 @@ bool __cdecl game_is_lost()
 {
 	return INVOKE(0x00531BE0, game_is_lost);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_lost;
@@ -452,7 +461,7 @@ bool __cdecl game_is_lost()
 // custom like `game_is_finished_immediate`
 bool __cdecl game_is_lost_immediate()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
 
 	return game_globals->game_lost && !game_globals->game_lost_wait_time;
@@ -521,7 +530,7 @@ bool __cdecl game_is_survival()
 {
 	//return INVOKE(0x00531E20, game_is_survival);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals && (game_globals->initializing || game_globals->map_active))
 		return game_globals->options.game_mode == _game_mode_campaign && game_globals->options.survival_enabled;
 
@@ -566,7 +575,7 @@ void __cdecl game_lost(bool game_revert)
 {
 	//INVOKE(0x005321E0, game_lost, game_revert);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
 
 	game_globals->game_revert = game_revert;
@@ -603,7 +612,7 @@ void __cdecl game_options_clear_game_playback()
 {
 	//INVOKE(0x00532280, game_options_clear_game_playback);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	game_globals->options.game_playback = _game_playback_none;
@@ -613,7 +622,7 @@ void __cdecl game_options_game_engine_fixup()
 {
 	INVOKE(0x005322A0, game_options_game_engine_fixup);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	//game_globals_storage* game_globals = game_globals_get();
 	//ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 	//
 	//game_globals->options.game_variant.recreate_variant_vtable_for_game_engine_index(game_globals->options.game_variant.get_game_engine_index());
@@ -623,7 +632,7 @@ game_options* __cdecl game_options_get()
 {
 	//return INVOKE(0x005322D0, game_options_get);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	return &game_globals->options;
@@ -631,7 +640,7 @@ game_options* __cdecl game_options_get()
 
 void __cdecl game_options_print_game_id()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	console_printf("%I64d", game_options_get()->game_instance);
@@ -656,7 +665,7 @@ bool __cdecl game_options_valid()
 {
 	//return INVOKE(0x00532650, game_options_valid);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	return game_globals && (game_globals->initializing || game_globals->map_active);
 }
 
@@ -689,7 +698,7 @@ void __cdecl game_pvs_clear_scripted_camera_pvs()
 {
 	//INVOKE(0x00532BB0, game_pvs_clear_scripted_camera_pvs);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted_camera_pvs = false;
 }
@@ -698,7 +707,7 @@ void __cdecl game_pvs_enable_scripted_camera_pvs()
 {
 	//INVOKE(0x00532BD0, game_pvs_enable_scripted_camera_pvs);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted_camera_pvs = true;
 }
@@ -707,7 +716,7 @@ void __cdecl game_pvs_scripted_clear()
 {
 	//INVOKE(0x00532BF0, game_pvs_scripted_clear);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->scripted = 0;
 }
@@ -719,7 +728,7 @@ void __cdecl game_pvs_scripted_set_object(long object_index)
 {
 	INVOKE(0x00532D40, game_pvs_scripted_set_object, object_index);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (!game_globals)
 		return;
 
@@ -738,7 +747,7 @@ void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_skull, boo
 {
 	//INVOKE(0x00532EE0, game_skull_enable_secondary, secondary_skull, enable);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->active_secondary_skulls.set(secondary_skull, enable);
 }
@@ -748,7 +757,7 @@ void __cdecl game_skull_enable_secondary(e_secondary_skulls secondary_skull, boo
 
 bool __cdecl game_skull_is_active_primary(e_primary_skulls primary_skull)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		return game_globals->active_primary_skulls == primary_skull;
 
@@ -757,7 +766,7 @@ bool __cdecl game_skull_is_active_primary(e_primary_skulls primary_skull)
 
 bool __cdecl game_skull_is_active_secondary(e_secondary_skulls secondary_skull)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		return game_globals->active_secondary_skulls == secondary_skull;
 
@@ -766,14 +775,14 @@ bool __cdecl game_skull_is_active_secondary(e_secondary_skulls secondary_skull)
 
 void __cdecl game_skull_enable_primary(e_primary_skulls primary_skull, bool enable)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 		game_globals->active_primary_skulls.set(primary_skull, enable);
 }
 
 void __cdecl game_set_active_skulls(dword* active_primary_skulls, dword* active_secondary_skulls)
 {
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	if (game_globals)
 	{
 		if (active_primary_skulls)
@@ -810,7 +819,7 @@ void __cdecl game_simulation_set(e_game_simulation_type game_simulation)
 
 	ASSERT(game_simulation > _game_simulation_none && game_simulation < k_game_simulation_count);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && (game_globals->initializing || game_globals->map_active));
 
 	game_globals->options.game_simulation = game_simulation;
@@ -821,7 +830,7 @@ void __cdecl game_start(e_game_create_mode mode)
 {
 	INVOKE(0x00533030, game_start, mode);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	//game_globals_storage* game_globals = game_globals_get();
 	//ASSERT(game_globals);
 	//ASSERT(!game_globals->initializing);
 	//ASSERT(game_globals->map_active);
@@ -845,7 +854,7 @@ bool __cdecl game_survival_allow_respawn()
 {
 	//return INVOKE(0x005330B0, game_survival_allow_respawn);
 
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	return game_globals && game_globals->options.game_mode == _game_mode_campaign && !game_skull_is_active_primary(_campaign_skull_iron);
 }
 
@@ -857,7 +866,7 @@ void __cdecl game_tick()
 
 	//PROFILER(game_tick)
 	//{
-	//	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	//	game_globals_storage* game_globals = game_globals_get();
 	//	struct simulation_update update = { .flags = 0 };
 	//	s_simulation_update_metadata metadata = { .flags = 0 };
 	//
@@ -991,7 +1000,7 @@ void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 	{
 		render_thread_get_mode();
 
-		TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+		game_globals_storage* game_globals = game_globals_get();
 		game_globals->update_tick_this_frame = game_simulation_get() == _game_simulation_synchronous_server && tick_count == 1;
 
 		long actual_ticks;
@@ -1019,7 +1028,7 @@ void __cdecl game_won()
 
 void __cdecl game_finish_immediate()
 {
-	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	game_globals_storage* game_globals = game_globals_get();
 	ASSERT(game_globals && game_globals->map_active);
 
 	if (!game_globals->game_finished)
