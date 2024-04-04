@@ -176,6 +176,25 @@ extern void* align_pointer(void* pointer, long alignment_bits);
 extern long pointer_distance(void const* pointer_a, void const* pointer_b);
 extern long pointer_difference(void const* pointer_a, void const* pointer_b);
 
+template<typename t_element_type>
+void _swap(t_element_type* a, t_element_type* b)
+{
+	t_element_type temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+template<typename t_element_type>
+void _reverse(t_element_type* begin, t_element_type* end)
+{
+	while (begin < end)
+	{
+		_swap(begin, end);
+		begin++;
+		end--;
+	}
+}
+
 struct c_allocation_base
 {
 public:
@@ -430,6 +449,13 @@ public:
 		clear();
 	}
 
+	c_static_array<t_type, k_count>& reverse()
+	{
+		_reverse(begin(), end() - 1);
+
+		return *this;
+	}
+
 	t_type* begin()
 	{
 		return m_storage;
@@ -507,6 +533,13 @@ public:
 		m_storage(),
 		m_count(0)
 	{
+	}
+
+	c_static_sized_dynamic_array<t_type, k_count>& reverse()
+	{
+		_reverse(begin(), end() - 1);
+
+		return *this;
 	}
 
 	t_type* begin()
