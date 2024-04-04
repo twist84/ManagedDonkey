@@ -175,6 +175,7 @@ void __cdecl cache_files_initialize()
 {
 	//INVOKE(0x005AB370, cache_files_initialize);
 
+	// seems like it was added in ODST?
 	// controls a few things
 	// this is the best name that we thought of
 	g_cache_files_are_absolute = true;
@@ -266,35 +267,39 @@ void __cdecl cached_map_files_open_all(bool* success)
 
 	generate_event(_event_level_message, "cache: open all cache map files");
 
-	for (s_cached_map_file& map_file : cache_file_table_of_contents.map_files)
+	if (g_cache_files_are_absolute)
 	{
-		invalidate_file_handle(&map_file.file_handle);
-		invalidate_file_handle(&map_file.overlapped_handle);
+		for (s_cached_map_file& map_file : cache_file_table_of_contents.map_files)
+		{
+			invalidate_file_handle(&map_file.file_handle);
+			invalidate_file_handle(&map_file.overlapped_handle);
+		}
+
+		// k_main_menu_scenario_tag
+		// k_multiplayer_shared_scenario_tag
+		// k_single_player_shared_scenario_tag
+
+		c_static_sized_dynamic_array<s_cache_file_share_map, k_total_tracked_cached_map_files_count> shared_files;
+		shared_files[shared_files.new_element_index()] = { .file_path = "levels\\ui\\mainmenu\\mainmenu",       .index = _map_file_index_shared_ui,         .previous_index = _map_file_index_none              }; // k_main_menu_scenario_tag
+		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[0], .index = _map_file_index_shared_resources,  .previous_index = _map_file_index_shared_ui         };
+		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[1], .index = _map_file_index_shared_textures,   .previous_index = _map_file_index_shared_resources  };
+		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[2], .index = _map_file_index_shared_textures_b, .previous_index = _map_file_index_shared_textures   };
+		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[3], .index = _map_file_index_shared_audio,      .previous_index = _map_file_index_shared_textures_b };
+		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[4], .index = _map_file_index_shared_video,      .previous_index = _map_file_index_shared_audio      };
+
+		// for some reason the above array is iterated over in reverse
+		for (s_cache_file_share_map& shared_file : shared_files.reverse())
+		{
+			if (cached_map_file_is_shared(shared_file.previous_index))
+				cached_map_file_load(shared_file.index, shared_file.file_path);
+		}
+
+		*success = true;
 	}
-
-	// k_main_menu_scenario_tag
-	// k_multiplayer_shared_scenario_tag
-	// k_single_player_shared_scenario_tag
-
-	s_cache_file_share_map shared_files[]
+	else
 	{
-		{ .file_path = "levels\\ui\\mainmenu\\mainmenu",       .index = _map_file_index_shared_ui,         .previous_index = _map_file_index_none              }, // k_main_menu_scenario_tag
-		{ .file_path = g_cache_file_globals.resource_files[0], .index = _map_file_index_shared_resources,  .previous_index = _map_file_index_shared_ui         },
-		{ .file_path = g_cache_file_globals.resource_files[1], .index = _map_file_index_shared_textures,   .previous_index = _map_file_index_shared_resources  },
-		{ .file_path = g_cache_file_globals.resource_files[2], .index = _map_file_index_shared_textures_b, .previous_index = _map_file_index_shared_textures   },
-		{ .file_path = g_cache_file_globals.resource_files[3], .index = _map_file_index_shared_audio,      .previous_index = _map_file_index_shared_textures_b },
-		{ .file_path = g_cache_file_globals.resource_files[4], .index = _map_file_index_shared_video,      .previous_index = _map_file_index_shared_audio      },
-	};
-	ASSERT(NUMBEROF(shared_files) == k_cached_map_file_shared_count);
-
-	for (long shared_file_index = NUMBEROF(shared_files) - 1; shared_file_index >= 0; shared_file_index--)
-	{
-		s_cache_file_share_map* shared_file = &shared_files[shared_file_index];
-		if (cached_map_file_is_shared(shared_file->previous_index))
-			cached_map_file_load(shared_file->index, shared_file->file_path);
+		*success = false;
 	}
-
-	*success = true;
 
 	generate_event(_event_level_message, "cache: open all cache map files complete");
 }
