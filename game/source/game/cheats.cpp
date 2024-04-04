@@ -411,10 +411,9 @@ void cheat_get_droppable_tag_types(tag* const out_droppable_tag_types, long* out
 
 void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_name, char const* variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
 {
-	char name_buffer[256]{};
-	csstrnzcpy(name_buffer, tag_name, 256);
+	c_static_string<256> name = tag_name;
 
-	if (char* position = strrchr(name_buffer, '.'))
+	if (char* position = strrchr(name.get_buffer(), '.'))
 	{
 		char const* group_name = position + 1;
 		*position = 0;
@@ -422,7 +421,7 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 		tag group_tag = group_name_to_group_tag(group_name);
 		if (group_tag != NONE)
 		{
-			cheat_drop_tag(group_tag, name_buffer, variant_name, permutations, permutation_count);
+			cheat_drop_tag(group_tag, name.get_string(), variant_name, permutations, permutation_count);
 			return;
 		}
 		
@@ -437,11 +436,11 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 	cheat_get_droppable_tag_types(droppable_tag_types, &droppable_tag_type_count);
 
 	long droppable_tag_type_index = 0;
-	while (cheat_drop_tag(droppable_tag_types[droppable_tag_type_index], name_buffer, variant_name, permutations, permutation_count) == NONE)
+	while (cheat_drop_tag(droppable_tag_types[droppable_tag_type_index], name.get_string(), variant_name, permutations, permutation_count) == NONE)
 	{
 		if (++droppable_tag_type_index >= 14)
 		{
-			generate_event(_event_level_warning, "cheats: could not find any tags named '%s' to drop", name_buffer);
+			generate_event(_event_level_warning, "cheats: could not find any tags named '%s' to drop", name.get_string());
 			return;
 		}
 	}
