@@ -84,17 +84,27 @@ char* __cdecl shell_get_command_line()
 
 bool shell_get_command_line_parameter(char* command_line, char const* parameter_name, long* value, long default_value)
 {
-	if (value)
-		*value = default_value;
-
-	char* parameter_offset = strstr(command_line, parameter_name) + strlen(parameter_name) + 1;
-	if (!parameter_offset)
+	if (!command_line)
 		return false;
 
 	if (value)
-		*value = atol(parameter_offset);
+		*value = default_value;
 
-	return true;
+	if (char* parameter_offset = strstr(command_line, parameter_name))
+	{
+		parameter_offset += strlen(parameter_name) + 1;
+		c_static_string<32> parameter = parameter_offset;
+		long separator = parameter.index_of(" ");
+		if (separator != NONE)
+			parameter.set_bounded(parameter_offset, separator);
+
+		if (value)
+			*value = atol(parameter.get_string());
+
+		return true;
+	}
+
+	return false;
 }
 
 void __cdecl shell_idle()

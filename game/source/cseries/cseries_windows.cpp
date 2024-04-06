@@ -97,9 +97,9 @@ bool shell_get_command_line_parameter(char* command_line, char const* parameter_
 	if (value)
 		*value = default_value;
 
-	char* parameter_offset = strstr(command_line, parameter_name) + strlen(parameter_name) + 1;
-	if (parameter_offset >= command_line && parameter_offset < command_line + strlen(command_line))
+	if (char* parameter_offset = strstr(command_line, parameter_name))
 	{
+		parameter_offset += strlen(parameter_name) + 1;
 		c_static_string<k_maximum_count> parameter = parameter_offset;
 		long separator = parameter.index_of(" ");
 		if (separator != NONE)

@@ -72,7 +72,7 @@ long __cdecl cache_file_get_failed_count(char const* map_path)
 //.text:005AA5D0 ; void __cdecl cache_file_header_get_file_progress_sizes(s_cache_file_header const*, long, dword*, dword*, dword*)
 //.text:005AA630 ; 
 //.text:005AA660 ; bool __cdecl cache_file_is_ready(char const*)
-//.text:005AA690 ; 
+//.text:005AA690 ; void __cdecl cache_file_lock_for_io(char const*, long*)
 
 void __cdecl cache_file_map_clear_all_failures()
 {
@@ -101,7 +101,7 @@ long __cdecl cache_file_round_up_read_size(long size)
 
 //.text:005AA8E0 ; s_cache_file_shared_resource_usage const* __cdecl cache_file_try_to_get_master_shared_resource_usage()
 //.text:005AA910 ; 
-//.text:005AA970 ; 
+//.text:005AA970 ; void __cdecl cache_file_unlock_for_io(long)
 //.text:005AA980 ; void __cdecl cache_files_clear_map_of_type(long)
 //.text:005AAA40 ; void __cdecl cache_files_clear_map_single(long)
 //.text:005AAAC0 ; bool __cdecl cache_files_copy_describe(c_static_string<256>*, real*)
