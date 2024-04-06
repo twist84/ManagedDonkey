@@ -11,7 +11,7 @@
 
 enum e_cache_file_shared_file_type
 {
-	_cache_file_shared_file_type_tags = 0,
+	_cache_file_shared_file_type_ui = 0,
 	_cache_file_shared_file_type_resources,
 	_cache_file_shared_file_type_textures,
 	_cache_file_shared_file_type_textures_b,

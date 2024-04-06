@@ -28,10 +28,10 @@ void __cdecl cache_file_close()
 {
 	//INVOKE(0x005A9730, cache_file_close);
 
-	if (cache_file_table_of_contents.open_map_file_index != _map_file_index_none)
+	if (cache_file_table_of_contents.open_map_file_index != k_no_cached_map_file_index)
 	{
 		cache_requests_flush();
-		cache_file_table_of_contents.open_map_file_index = _map_file_index_none;
+		cache_file_table_of_contents.open_map_file_index = k_no_cached_map_file_index;
 	}
 }
 
@@ -112,7 +112,7 @@ void __cdecl cache_files_copy_do_work()
 }
 
 //.text:005AAC20 ; void __cdecl cache_files_copy_halt()
-//.text:005AAC50 ; 
+//.text:005AAC50 ; bool __cdecl cache_files_copy_halting()
 //.text:005AAC60 ; bool __cdecl cache_files_copy_in_progress()
 //.text:005AAC70 ; bool __cdecl cache_files_copy_in_progress_internal(real*)
 //.text:005AAD30 ; bool __cdecl cache_files_copy_map(char const*, e_cache_file_load_action)
@@ -167,7 +167,7 @@ void __cdecl cache_files_delete_if_language_has_changed()
 //.text:005AB180 ; c_asynchronous_io_arena* __cdecl cache_files_get_io_arena()
 //.text:005AB190 ; e_cache_file_load_action __cdecl cache_files_get_load_action(char const*)
 //.text:005AB210 ; e_cache_file_load_action __cdecl cache_files_get_pending_load_action(char const*)
-//.text:005AB280 ; 
+//.text:005AB280 ; bool __cdecl cache_files_has_map_terminal_failure(char const*)
 //.text:005AB2B0 ; real __cdecl cache_files_individual_map_progress(char const*)
 //.text:005AB320 ; dword __cdecl cache_files_individual_map_size(char const*)
 
@@ -183,13 +183,13 @@ void __cdecl cache_files_initialize()
 	csmemset(&cache_file_table_of_contents, 0, sizeof(cache_file_table_of_contents));
 	csmemset(&cache_file_copy_globals, 0, sizeof(cache_file_copy_globals));
 	
-	cache_file_table_of_contents.open_map_file_index = _map_file_index_none;
-	cache_file_table_of_contents.locked_map_file_index = _map_file_index_none;
+	cache_file_table_of_contents.open_map_file_index = k_no_cached_map_file_index;
+	cache_file_table_of_contents.locked_map_file_index = k_no_cached_map_file_index;
 	cache_file_table_of_contents.__unknown30668 = NONE;
 	
 	cache_file_copy_globals.copy_task_is_done = 1;
 	cache_file_copy_globals.copy_task_id = NONE;
-	cache_file_copy_globals.map_file_index = _map_file_index_none;
+	cache_file_copy_globals.map_file_index = k_no_cached_map_file_index;
 	
 	cache_files_delete_if_language_has_changed();
 	cache_files_delete_if_build_number_has_changed();
@@ -283,7 +283,7 @@ void __cdecl cached_map_files_open_all(bool* success)
 		//  - levels\\shared\\shared\\campaign
 
 		c_static_sized_dynamic_array<s_cache_file_share_map, k_total_tracked_cached_map_files_count> shared_files;
-		shared_files[shared_files.new_element_index()] = { .file_path = k_main_menu_scenario_tag,               .index = _map_file_index_shared_ui,         .previous_index = _map_file_index_none              };
+		shared_files[shared_files.new_element_index()] = { .file_path = k_main_menu_scenario_tag,               .index = _map_file_index_shared_ui,         .previous_index = k_no_cached_map_file_index        };
 		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[0], .index = _map_file_index_shared_resources,  .previous_index = _map_file_index_shared_ui         };
 		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[1], .index = _map_file_index_shared_textures,   .previous_index = _map_file_index_shared_resources  };
 		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[2], .index = _map_file_index_shared_textures_b, .previous_index = _map_file_index_shared_textures   };
@@ -343,5 +343,41 @@ void __cdecl copy_and_strip_suffix(char const* path, c_static_string<256>* strip
 
 //.text:005AC4F0 ; c_cache_file_copy_fake_decompressor::overall_copy_in_progress
 
-//.text:005AC500 ; 
+//.text:005AC500 ; bool __cdecl pending_cache_file_copy_request()
+
+//.text:005AC510 ; 
+//.text:005AC520 ; 
+//.text:005AC550 ; 
+//.text:005AC580 ; c_cache_file_copy_fake_decompressor::setup
+
+char const* __cdecl shared_file_type_get_string(e_cache_file_shared_file_type shared_file_type)
+{
+	//return INVOKE(0x005AC5C0, shared_file_type_get_string, shared_file_type);
+
+	switch (shared_file_type)
+	{
+	case _cache_file_shared_file_type_ui:
+		return "ui";
+	case _cache_file_shared_file_type_resources:
+		return "resources.dat";
+	case _cache_file_shared_file_type_textures:
+		return "textures.dat";
+	case _cache_file_shared_file_type_textures_b:
+		return "textures_b.dat";
+	case _cache_file_shared_file_type_audio:
+		return "audio.dat";
+	case _cache_file_shared_file_type_video:
+		return "video.dat";
+	}
+
+	return "<unknown>";
+}
+
+//.text:005AC620 ; 
+//.text:005AC630 ; 
+//.text:005AC640 ; c_cache_file_copy_fake_decompressor::teardown
+//.text:005AC660 ; c_cache_file_copy_optional_cache_callback::terminate
+//.text:005AC6B0 ; 
+//.text:005AC6C0 ; 
+//.text:005AC6D0 ; c_cache_file_copy_fake_decompressor::wait_for_doneness
 

@@ -10,8 +10,7 @@
 
 enum e_map_file_index
 {
-	_map_file_index_none = -1,
-	_map_file_index_shared_ui,
+	_map_file_index_shared_ui = 0,
 	_map_file_index_shared_resources,
 	_map_file_index_shared_textures,
 	_map_file_index_shared_textures_b,
@@ -19,8 +18,8 @@ enum e_map_file_index
 	_map_file_index_shared_video,
 
 	k_cached_map_file_shared_count = 6,
-
-	k_total_tracked_cached_map_files_count = 15
+	k_total_tracked_cached_map_files_count = 15,
+	k_no_cached_map_file_index = -1,
 };
 
 struct s_cache_file_share_map // this probably isn't the correct name
