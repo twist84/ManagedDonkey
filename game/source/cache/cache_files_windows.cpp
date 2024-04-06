@@ -276,11 +276,14 @@ void __cdecl cached_map_files_open_all(bool* success)
 		}
 
 		// k_main_menu_scenario_tag
+		//  - levels\\ui\\mainmenu\\mainmenu
 		// k_multiplayer_shared_scenario_tag
-		// k_single_player_shared_scenario_tag
+		//  - levels\\shared\\shared\\shared
+		// k_single_player_shared_scenario_tag 
+		//  - levels\\shared\\shared\\campaign
 
 		c_static_sized_dynamic_array<s_cache_file_share_map, k_total_tracked_cached_map_files_count> shared_files;
-		shared_files[shared_files.new_element_index()] = { .file_path = "levels\\ui\\mainmenu\\mainmenu",       .index = _map_file_index_shared_ui,         .previous_index = _map_file_index_none              }; // k_main_menu_scenario_tag
+		shared_files[shared_files.new_element_index()] = { .file_path = k_main_menu_scenario_tag,               .index = _map_file_index_shared_ui,         .previous_index = _map_file_index_none              };
 		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[0], .index = _map_file_index_shared_resources,  .previous_index = _map_file_index_shared_ui         };
 		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[1], .index = _map_file_index_shared_textures,   .previous_index = _map_file_index_shared_resources  };
 		shared_files[shared_files.new_element_index()] = { .file_path = g_cache_file_globals.resource_files[2], .index = _map_file_index_shared_textures_b, .previous_index = _map_file_index_shared_textures   };

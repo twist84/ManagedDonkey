@@ -148,5 +148,7 @@ void system_set_maps_directory()
 	g_cache_file_globals.resource_files[2] = k_cache_textures_b_file;
 	g_cache_file_globals.resource_files[3] = k_cache_audio_file;
 	g_cache_file_globals.resource_files[4] = k_cache_video_file;
+
+	printf("system: maps directory={ %s }\n", map_directory.get_string());
 }
 
