@@ -4,6 +4,7 @@
 #include "input/input_windows.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
+#include "multithreading/threads.hpp"
 #include "shell/shell.hpp"
 
 REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
@@ -223,6 +224,12 @@ int WINAPI _WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	name.print("HaloOnline %s", sub_5013A0());
 	csstrnzcpy(g_windows_params.class_name, name.get_string(), sizeof(g_windows_params.class_name));
 	csstrnzcpy(g_windows_params.window_name, name.get_string(), sizeof(g_windows_params.window_name));
+
+	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-haltonstartup", NULL, 0))
+	{
+		while (!is_debugger_present())
+			sleep(1000);
+	}
 
 	long cache_size_increase = 0;
 	if (shell_get_command_line_parameter(g_windows_params.cmd_line, "-cache-memory-increase", &cache_size_increase, cache_size_increase))
