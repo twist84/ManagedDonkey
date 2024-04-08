@@ -42,7 +42,7 @@ struct s_cache_file_resource_file_location
 	union
 	{
 		// persistent file index, dependant on what location flag is active
-		short shared_file_location_index;
+		long shared_file_location_index;
 
 		// runtime combined offset, at runtime all resource files are a combined buffer
 		dword file_offset;
@@ -165,15 +165,15 @@ struct s_cache_file_resource_gestalt
 		struct
 		{
 			long loaded_resource_count;
-			s_cache_file_tag_resource_data*(*loaded_resources)[60000];
+			s_cache_file_tag_resource_data** loaded_resources;
 			long : 32;
 		};
-	
+
 		c_typed_tag_block<s_cache_file_tag_resource_data*> resources;
 	};
-
 	dword resource_loaded_size;
 	dword __unknown10;
+
 	s_tag_block designer_zone_manifests;
 	s_tag_block global_zone_manifest;
 	s_tag_block unattached_designer_zone_manifest;
@@ -207,6 +207,11 @@ struct s_cache_file_resource_gestalt
 
 	// Next time we don't put things that the game depends on outside of tool, guerilla, or sapien
 	long map_id;
+
+#pragma warning(push)
+#pragma warning(disable : 4200)
+	s_cache_file_tag_resource_data* resources_array[];
+#pragma warning(pop)
 };
 static_assert(sizeof(s_cache_file_resource_gestalt) == 0x17C);
 
