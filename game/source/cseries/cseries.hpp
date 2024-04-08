@@ -324,6 +324,10 @@ template<typename t_type>
 struct c_wrapped_array
 {
 public:
+	c_wrapped_array()
+	{
+		set_elements(nullptr, 0);
+	}
 
 	template<long k_element_count>
 	c_wrapped_array(t_type(&elements)[k_element_count])
