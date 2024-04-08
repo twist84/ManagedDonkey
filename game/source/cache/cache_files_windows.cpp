@@ -46,7 +46,11 @@ long __cdecl cache_file_get_absolute_maximum_size()
 	return 0x7FFFFFFF;
 }
 
-//.text:005AA060 ; bool __cdecl cache_file_get_async_file_handle_from_index(char const*, s_file_handle*)
+bool __cdecl cache_file_get_async_file_handle_from_index(e_map_file_index map_file_index, s_file_handle* out_handle)
+{
+	return INVOKE(0x005AA060, cache_file_get_async_file_handle_from_index, map_file_index, out_handle);
+}
+
 //.text:005AA0C0 ; bool __cdecl cache_file_get_async_file_handle_from_path(char const*, s_file_handle*)
 //.text:005AA130 ; c_static_string<256> __cdecl cache_file_get_canonical_path(char const*)
 

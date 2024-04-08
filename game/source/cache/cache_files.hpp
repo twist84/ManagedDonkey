@@ -229,7 +229,7 @@ struct s_cache_file_reports
 };
 static_assert(sizeof(s_cache_file_reports) == 0x8);
 
-union s_cache_file_tags_header
+union s_cache_file_section_header
 {
 #pragma warning(push)
 #pragma warning(disable : 4200)
@@ -239,15 +239,15 @@ union s_cache_file_tags_header
 	struct
 	{
 		dword __unknown0;
-		long tag_cache_offsets;
-		long tag_count;
+		long file_offsets;
+		long file_count;
 		dword __unknownC;
 		s_file_last_modification_date creation_date;
 		dword __unknown18;
 		dword __unknown1C;
 	};
 };
-static_assert(sizeof(s_cache_file_tags_header) == 0x20);
+static_assert(sizeof(s_cache_file_section_header) == 0x20);
 
 const long k_tag_cache_maximum_files_count = 60000;
 const long k_tag_cache_maximum_size = 0x4B00000;

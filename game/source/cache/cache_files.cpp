@@ -7,6 +7,7 @@
 #include "cache/physical_memory_map.hpp"
 #include "cache/security_functions.hpp"
 #include "config/version.hpp"
+#include "cseries/async_helpers.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
@@ -61,7 +62,7 @@ byte const g_cache_file_creator_key[64]
 
 long g_tag_total_count_pre_external_files = 0;
 
-void*(__cdecl* tag_get_hook)(tag group_tag, long tag_index) = tag_get;
+void* (__cdecl* tag_get_hook)(tag group_tag, long tag_index) = tag_get;
 
 REFERENCE_DECLARE(0x022AAFE8, s_cache_file_debug_globals*, g_cache_file_debug_globals);
 REFERENCE_DECLARE(0x022AAFF0, s_cache_file_globals, g_cache_file_globals);
@@ -532,16 +533,110 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 	//reports->count = GET_REPORT_COUNT_FROM_SIZE(header->reports.size);
 }
 
-//void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long>* resource_offsets);
-//HOOK_DECLARE(0x00502550, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk);
-//
-//void __cdecl cache_file_tags_load_resource_gestalt_resource_offsets_from_disk(c_wrapped_array<long>* resource_offsets)
-//{
-//	//INVOKE(0x00502550, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk, resource_offsets);
-//	HOOK_INVOKE(, cache_file_tags_load_resource_gestalt_resource_offsets_from_disk, resource_offsets);
-//
-//	printf("");
-//}
+void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resource_offsets)
+{
+	bool success = true;
+
+	// shared map files - ui
+	s_file_handle section_handles[k_cached_map_file_shared_count - 1]{};
+	s_cache_file_section_header section_headers[k_cached_map_file_shared_count - 1]{};
+
+	long file_count = 0;
+	for (long i = 0; i < NUMBEROF(section_handles); i++)
+	{
+		e_map_file_index map_file_index = e_map_file_index(i);
+		e_map_file_index next_map_file_index = e_map_file_index(i + 1);
+
+		if (!cached_map_file_is_shared(map_file_index))
+			continue;
+
+		if (!cache_file_get_async_file_handle_from_index(next_map_file_index, &section_handles[map_file_index]))
+		{
+			success = false;
+			break;
+		}
+
+		c_synchronized_long done = 0;
+		c_synchronized_long size = 0;
+
+		async_read_position(
+			section_handles[i],
+			&section_headers[i],
+			sizeof(s_cache_file_section_header),
+			0,
+			_async_category_none,
+			_async_priority_blocking_generic,
+			&size,
+			&done);
+
+		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+
+		if (size.peek() != sizeof(s_cache_file_section_header))
+		{
+			success = false;
+			break;
+		}
+
+		long section_file_count = section_headers[i].file_count;
+		file_count += section_file_count;
+
+		g_cache_file_globals.resource_file_counts_mapping[i] = section_file_count;
+	}
+
+	if (!success)
+	{
+		resource_offsets->set_elements(NULL, 0);
+		return;
+	}
+
+	dword* file_offsets = (dword*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, sizeof(dword) * file_count, 0);
+
+	long offset_index_offset = 0;
+	for (long i = 0; i < NUMBEROF(section_handles); i++)
+	{
+		e_map_file_index map_file_index = e_map_file_index(i);
+		if (!cached_map_file_is_shared(map_file_index))
+			continue;
+
+		void* offsets = (byte*)file_offsets + offset_index_offset;
+		long offsets_size = sizeof(long) * section_headers[i].file_count;
+
+		c_synchronized_long done = 0;
+		c_synchronized_long size = 0;
+
+		async_read_position(
+			section_handles[i],
+			offsets,
+			offsets_size,
+			section_headers[i].file_offsets,
+			_async_category_none,
+			_async_priority_blocking_generic,
+			&size,
+			&done);
+
+		internal_async_yield_until_done(&done, false, false, __FILE__, __LINE__);
+
+		if (size.peek() != offsets_size)
+		{
+			success = false;
+			break;
+		}
+
+		offset_index_offset += offsets_size;
+	}
+
+	if (!success)
+	{
+		physical_memory_free(file_offsets);
+		resource_offsets->set_elements(NULL, 0);
+		return;
+	}
+
+	resource_offsets->set_elements(file_offsets, file_count);
+}
+
+// used in `cache_files_populate_resource_gestalt`
+HOOK_DECLARE(0x00502550, cache_files_populate_resource_offsets);
 
 bool __cdecl cache_file_tags_load_recursive(long tag_index)
 {
@@ -802,27 +897,27 @@ bool __cdecl cache_file_tags_load_allocate()
 	}
 	else
 	{
-		s_cache_file_tags_header tags_header{};
+		s_cache_file_section_header tags_header{};
 		if (tags_section)
 		{
-			tags_header = *static_cast<s_cache_file_tags_header*>(tags_section);
+			tags_header = *static_cast<s_cache_file_section_header*>(tags_section);
 		}
 		else
 		{
-			if (!file_read(&g_cache_file_globals.tags_section, sizeof(s_cache_file_tags_header), false, &tags_header))
+			if (!file_read(&g_cache_file_globals.tags_section, sizeof(s_cache_file_section_header), false, &tags_header))
 				return false;
 		}
 
-		tag_offsets_size = sizeof(long) * tags_header.tag_count;
-		g_cache_file_globals.tag_total_count = tags_header.tag_count;
+		tag_offsets_size = sizeof(long) * tags_header.file_count;
+		g_cache_file_globals.tag_total_count = tags_header.file_count;
 		g_cache_file_globals.tag_cache_offsets = (long*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
 		long* tag_offsets = (long*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, tag_offsets_size, 0);
 
-		if (!cache_file_tags_section_read(tags_header.tag_cache_offsets, tag_offsets_size, tag_offsets))
+		if (!cache_file_tags_section_read(tags_header.file_offsets, tag_offsets_size, tag_offsets))
 			return false;
 
 		long tag_offset = 0;
-		for (long tag_index = 0; tag_index < tags_header.tag_count; g_cache_file_globals.tag_cache_offsets[tag_index - 1] = tag_offset)
+		for (long tag_index = 0; tag_index < tags_header.file_count; g_cache_file_globals.tag_cache_offsets[tag_index - 1] = tag_offset)
 			tag_offset = tag_offsets[tag_index++];
 
 		physical_memory_free(tag_offsets);
@@ -852,7 +947,7 @@ bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 		bool result = file_set_position(&g_cache_file_globals.tags_section, offset, 0);
 		if (result)
 			return file_read(&g_cache_file_globals.tags_section, size, false, buffer);
-		
+
 		return result;
 	}
 
@@ -1166,7 +1261,7 @@ void __fastcall sub_503470(s_cache_file_reports* reports, void* unused, cache_fi
 	c_console::write_line(tag_instance_byte_string);
 }
 
-bool cache_file_tags_single_tag_file_load(s_file_reference* file, long *out_tag_index, cache_file_tag_instance** out_instance)
+bool cache_file_tags_single_tag_file_load(s_file_reference* file, long* out_tag_index, cache_file_tag_instance** out_instance)
 {
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 	long& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
@@ -1799,7 +1894,7 @@ bool check_for_specific_scenario(s_file_reference* file)
 		return false;
 	}
 
-	char* const file_buffer = new char[file_size + 1]{};
+	char* const file_buffer = new char[file_size + 1] {};
 
 	if (!file_read(&specific_scenario_file, file_size, false, file_buffer))
 	{

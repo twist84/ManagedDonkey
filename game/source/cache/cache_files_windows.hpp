@@ -205,6 +205,7 @@ extern bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index);
 extern void __cdecl cache_file_block_until_not_busy();
 extern void __cdecl cache_file_close();
 extern long __cdecl cache_file_get_absolute_maximum_size();
+extern bool __cdecl cache_file_get_async_file_handle_from_index(e_map_file_index map_file_index, s_file_handle* out_handle);
 extern long __cdecl cache_file_get_failed_count(char const* map_path);
 extern void __cdecl cache_file_map_clear_all_failures();
 extern bool __cdecl cache_file_open(char const* scenario_path, void* header);
