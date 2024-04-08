@@ -535,6 +535,9 @@ void __cdecl cache_file_load_reports(s_cache_file_reports* reports, s_cache_file
 
 void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resource_offsets)
 {
+	//INVOKE(0x00502550, cache_files_populate_resource_offsets, resource_offsets);
+	//return;
+
 	bool success = true;
 
 	// shared map files - ui
@@ -637,6 +640,167 @@ void __cdecl cache_files_populate_resource_offsets(c_wrapped_array<dword>* resou
 
 // used in `cache_files_populate_resource_gestalt`
 HOOK_DECLARE(0x00502550, cache_files_populate_resource_offsets);
+
+s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
+{
+	bool use_implementation = false;
+	bool write_resource_gestalt_to_file = false;
+	char const* resource_gestalt_file_name0 = NULL;
+	char const* resource_gestalt_file_name1 = NULL;
+
+	if (use_implementation)
+	{
+		c_wrapped_array<dword> resource_offsets;
+		cache_files_populate_resource_offsets(&resource_offsets);
+
+		long total_resource_fixup_count = 0;
+		for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
+			total_resource_fixup_count += g_cache_file_globals.tag_instances[i]->resource_fixup_count;
+
+		long resource_fixup_size = sizeof(s_cache_file_tag_resource_data*) * total_resource_fixup_count;
+		long resource_gestalt_size = resource_fixup_size + sizeof(s_cache_file_resource_gestalt);
+		s_cache_file_resource_gestalt* resource_gestalt = (s_cache_file_resource_gestalt*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, NULL, resource_gestalt_size, 0);
+		csmemset(resource_gestalt, 0, resource_gestalt_size);
+		resource_gestalt->resources.address = resource_gestalt->resources_array;
+
+		g_cache_file_globals.resource_gestalt = resource_gestalt;
+
+		long loaded_resource_count = 0;
+		dword resource_loaded_size = 0;
+		dword unknown10 = 0;
+
+		c_console::write_line("loading resources:");
+		for (long instance_index = 0; instance_index < g_cache_file_globals.tag_loaded_count; instance_index++)
+		{
+			cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[instance_index];
+			cache_address* resource_fixups = reinterpret_cast<cache_address*>(instance->dependencies + instance->dependency_count + instance->data_fixup_count);
+			for (long resource_fixup_index = 0; resource_fixup_index < instance->resource_fixup_count; resource_fixup_index++)
+			{
+				cache_address& resource_fixup = resource_fixups[resource_fixup_index];
+
+				if (!resource_fixup.value)
+					continue;
+
+				if (!resource_fixup.persistent)
+					continue;
+
+				ASSERT(resource_fixup.persistent == true);
+				resource_fixup.persistent = false;
+				resource_fixup.value += (dword)instance;
+				//ASSERT(resource_fixup.value == resource_fixup.offset);
+
+				if (!resource_fixup.value)
+				{
+					resource_fixup.value = NONE;
+					continue;
+				}
+
+				REFERENCE_DECLARE(resource_fixup.value, s_cache_file_tag_resource_data*, resource);
+				resource_gestalt->resources_array[loaded_resource_count] = resource;
+				if (TEST_MASK(resource->file_location.flags.get_unsafe(), 0x3E))
+				{
+					if (resource->file_location.shared_file_location_index == NONE)
+					{
+						resource->file_location.file_offset = 0;
+					}
+					else
+					{
+						long offset_index = 0;
+						for (long map_file_index = 0; map_file_index < k_cached_map_file_shared_count - 1; map_file_index++)
+						{
+							if (cached_map_file_is_shared(e_map_file_index(map_file_index)))
+							{
+								if (resource->file_location.flags.test(e_cache_file_tag_resource_location_flags(map_file_index + 1)))
+									break;
+
+								offset_index += g_cache_file_globals.resource_file_counts_mapping[map_file_index];
+							}
+						}
+
+						if (offset_index >= resource_offsets.count())
+							printf("");
+
+						long shared_file_location_index = offset_index + resource->file_location.shared_file_location_index;
+						dword resource_offset = resource_offsets[shared_file_location_index];
+
+						resource->file_location.file_offset = resource_offset;
+					}
+
+					unknown10 = 1;
+				}
+
+				loaded_resource_count++;
+				resource_loaded_size += resource->file_location.size;
+
+				//c_console::write_line("%s.%s", resource->runtime_data.owner_tag.get_name(), resource->runtime_data.owner_tag.get_group_name());
+			}
+		}
+
+		resource_gestalt->resource_loaded_size = resource_loaded_size;
+		resource_gestalt->loaded_resource_count = loaded_resource_count;
+		resource_gestalt->__unknown10 = unknown10;
+
+		if (write_resource_gestalt_to_file)
+		{
+			resource_gestalt_file_name0 = "maps\\resource_gestalt2.bin";
+			resource_gestalt_file_name1 = "maps\\resource_gestalt2_resources.bin";
+		}
+	}
+	else
+	{
+		s_cache_file_resource_gestalt* resource_gestalt = INVOKE(0x00501FD0, cache_files_populate_resource_gestalt);
+
+		if (write_resource_gestalt_to_file)
+		{
+			resource_gestalt_file_name0 = "maps\\resource_gestalt.bin";
+			resource_gestalt_file_name1 = "maps\\resource_gestalt_resources.bin";
+		}
+	}
+
+	if (write_resource_gestalt_to_file)
+	{
+		dword error = 0;
+		s_file_reference resource_gestalt_file = {};
+		if (file_create(file_reference_create_from_path(&resource_gestalt_file, resource_gestalt_file_name0, false)))
+		{
+			if (file_open(&resource_gestalt_file, FLAG(_file_open_flag_desired_access_write), &error))
+			{
+				dword resource_gestalt_size = sizeof(s_cache_file_resource_gestalt) + (sizeof(dword) * g_cache_file_globals.resource_gestalt->loaded_resource_count);
+				file_write(&resource_gestalt_file, resource_gestalt_size, g_cache_file_globals.resource_gestalt);
+				file_close(&resource_gestalt_file);
+			}
+		}
+
+		error = 0;
+		resource_gestalt_file = {};
+		if (file_create(file_reference_create_from_path(&resource_gestalt_file, resource_gestalt_file_name1, false)))
+		{
+			if (file_open(&resource_gestalt_file, FLAG(_file_open_flag_desired_access_write), &error))
+			{
+				dword resource_gestalt_resources_size = sizeof(s_cache_file_tag_resource_data) * g_cache_file_globals.resource_gestalt->resources.count();
+				s_cache_file_tag_resource_data* resources_ = (s_cache_file_tag_resource_data*)malloc(resource_gestalt_resources_size);
+				csmemset(resources_, 0, resource_gestalt_resources_size);
+
+				for (long resource_index = 0; resource_index < g_cache_file_globals.resource_gestalt->resources.count(); resource_index++)
+				{
+					s_cache_file_tag_resource_data& resource_ = resources_[resource_index];
+					s_cache_file_tag_resource_data* resource = g_cache_file_globals.resource_gestalt->resources[resource_index];
+
+					resource_ = *resource;
+				}
+
+				file_write(&resource_gestalt_file, resource_gestalt_resources_size, resources_);
+				file_close(&resource_gestalt_file);
+
+				free(resources_);
+			}
+		}
+	}
+
+	return g_cache_file_globals.resource_gestalt;
+}
+//HOOK_DECLARE(0x00501FD0, cache_files_populate_resource_gestalt);
+HOOK_DECLARE_CALL(0x00561E0A, cache_files_populate_resource_gestalt);
 
 bool __cdecl cache_file_tags_load_recursive(long tag_index)
 {
