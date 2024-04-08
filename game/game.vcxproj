@@ -181,6 +181,7 @@ POPD
     <ClCompile Include="source\cache\cache_file_runtime_codecs.cpp" />
     <ClCompile Include="source\cache\pc_sound_cache.cpp" />
     <ClCompile Include="source\camera\first_person_camera.cpp" />
+    <ClCompile Include="source\cseries\async_helpers.cpp" />
     <ClCompile Include="source\game\campaign_metagame.cpp" />
     <ClCompile Include="source\game\game_engine_scoring.cpp" />
     <ClCompile Include="source\game\game_grief.cpp" />
@@ -594,6 +595,7 @@ POPD
     <ClInclude Include="source\cache\physical_memory_map.hpp" />
     <ClInclude Include="source\cseries\async.hpp" />
     <ClInclude Include="source\cseries\async_buffer.hpp" />
+    <ClInclude Include="source\cseries\async_helpers.hpp" />
     <ClInclude Include="source\cseries\cseries_memory.hpp" />
     <ClInclude Include="source\cseries\progress.hpp" />
     <ClInclude Include="source\cseries\runtime_state.hpp" />
