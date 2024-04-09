@@ -644,9 +644,25 @@ HOOK_DECLARE(0x00502550, cache_files_populate_resource_offsets);
 s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 {
 	bool use_implementation = false;
+	bool write_tag_cache_to_file = true;
 	bool write_resource_gestalt_to_file = false;
+	char const* tag_cache_file_name = NULL;
 	char const* resource_gestalt_file_name0 = NULL;
 	char const* resource_gestalt_file_name1 = NULL;
+
+	if (write_tag_cache_to_file)
+	{
+		dword error = 0;
+		s_file_reference tag_cache_file = {};
+		if (file_create(file_reference_create_from_path(&tag_cache_file, "maps\\tag_cache_before.bin", false)))
+		{
+			if (file_open(&tag_cache_file, FLAG(_file_open_flag_desired_access_write), &error))
+			{
+				file_write(&tag_cache_file, g_cache_file_globals.tag_loaded_size, g_cache_file_globals.tag_cache_base_address);
+				file_close(&tag_cache_file);
+			}
+		}
+	}
 
 	if (use_implementation)
 	{
@@ -665,7 +681,7 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 
 		g_cache_file_globals.resource_gestalt = resource_gestalt;
 
-		long loaded_resource_count = 0;
+		long resource_count = 0;
 		dword resource_loaded_size = 0;
 		dword unknown10 = 0;
 
@@ -673,10 +689,11 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 		for (long instance_index = 0; instance_index < g_cache_file_globals.tag_loaded_count; instance_index++)
 		{
 			cache_file_tag_instance* instance = g_cache_file_globals.tag_instances[instance_index];
-			cache_address* resource_fixups = reinterpret_cast<cache_address*>(instance->dependencies + instance->dependency_count + instance->data_fixup_count);
+			cache_address* resource_fixups = reinterpret_cast<cache_address*>(&instance->dependencies[instance->dependency_count + instance->data_fixup_count]);
+
 			for (long resource_fixup_index = 0; resource_fixup_index < instance->resource_fixup_count; resource_fixup_index++)
 			{
-				cache_address& resource_fixup = resource_fixups[resource_fixup_index];
+				cache_address resource_fixup = resource_fixups[resource_fixup_index];
 
 				if (!resource_fixup.value)
 					continue;
@@ -689,56 +706,84 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 				resource_fixup.value += (dword)instance;
 				//ASSERT(resource_fixup.value == resource_fixup.offset);
 
-				if (!resource_fixup.value)
+				REFERENCE_DECLARE(resource_fixup.value, s_tag_resource*, resource);
+				if (!resource)
+					continue;
+
+				if (!resource->resource_handle)
 				{
-					resource_fixup.value = NONE;
+					resource->resource_handle = NONE;
 					continue;
 				}
 
-				REFERENCE_DECLARE(resource_fixup.value, s_cache_file_tag_resource_data*, resource);
-				resource_gestalt->resources_array[loaded_resource_count] = resource;
-				if (TEST_MASK(resource->file_location.flags.get_unsafe(), 0x3E))
+				s_cache_file_tag_resource_data* resource_data = resource->resource_data;
+
+				resource_gestalt->resources_array[resource_count] = resource_data;
+
+				byte_flags flags = resource_data->file_location.flags.get_unsafe();
+
+				if (TEST_MASK(flags, k_cache_file_tag_resource_location_mask))
 				{
-					if (resource->file_location.shared_file_location_index == NONE)
+					if (resource_data->file_location.shared_file_location_index == NONE)
 					{
-						resource->file_location.file_offset = 0;
+						resource_data->file_location.file_offset = 0;
 					}
 					else
 					{
-						long offset_index = 0;
-						for (long map_file_index = 0; map_file_index < k_cached_map_file_shared_count - 1; map_file_index++)
-						{
-							if (cached_map_file_is_shared(e_map_file_index(map_file_index)))
-							{
-								if (resource->file_location.flags.test(e_cache_file_tag_resource_location_flags(map_file_index + 1)))
-									break;
+						long resource_index = 0;
 
-								offset_index += g_cache_file_globals.resource_file_counts_mapping[map_file_index];
+						for (long map_file_index = 0; map_file_index < 5; map_file_index++)
+						{
+							if (!cached_map_file_is_shared(e_map_file_index(map_file_index)))
+							{
+								if (!TEST_BIT(flags, map_file_index + 1))
+								{
+									resource_index += g_cache_file_globals.resource_file_counts_mapping[map_file_index];
+									continue;
+								}
+
+								resource_data->file_location.file_offset = 0;
+								break;
+							}
+							else
+							{
+								if (!TEST_BIT(flags, map_file_index + 1))
+								{
+									resource_index += g_cache_file_globals.resource_file_counts_mapping[map_file_index];
+
+									if (resource_index >= resource_offsets.count())
+										printf("");
+
+									dword file_offset = resource_offsets[resource_index + resource_data->file_location.shared_file_location_index];
+
+									resource_data->file_location.file_offset = file_offset;
+									break;
+								}
 							}
 						}
-
-						if (offset_index >= resource_offsets.count())
-							printf("");
-
-						long shared_file_location_index = offset_index + resource->file_location.shared_file_location_index;
-						dword resource_offset = resource_offsets[shared_file_location_index];
-
-						resource->file_location.file_offset = resource_offset;
 					}
 
 					unknown10 = 1;
 				}
 
-				loaded_resource_count++;
-				resource_loaded_size += resource->file_location.size;
+				resource->resource_handle = resource_count++;
+				resource_loaded_size += resource_data->file_location.size;
 
 				//c_console::write_line("%s.%s", resource->runtime_data.owner_tag.get_name(), resource->runtime_data.owner_tag.get_group_name());
 			}
 		}
 
 		resource_gestalt->resource_loaded_size = resource_loaded_size;
-		resource_gestalt->loaded_resource_count = loaded_resource_count;
+		resource_gestalt->loaded_resource_count = resource_count;
 		resource_gestalt->__unknown10 = unknown10;
+
+		if (resource_offsets.m_elements)
+			physical_memory_free(resource_offsets.m_elements);
+
+		if (write_tag_cache_to_file)
+		{
+			tag_cache_file_name = "maps\\tag_cache_after3.bin";
+		}
 
 		if (write_resource_gestalt_to_file)
 		{
@@ -750,10 +795,29 @@ s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 	{
 		s_cache_file_resource_gestalt* resource_gestalt = INVOKE(0x00501FD0, cache_files_populate_resource_gestalt);
 
+		if (write_tag_cache_to_file)
+		{
+			tag_cache_file_name = "maps\\tag_cache_after.bin";
+		}
+
 		if (write_resource_gestalt_to_file)
 		{
 			resource_gestalt_file_name0 = "maps\\resource_gestalt.bin";
 			resource_gestalt_file_name1 = "maps\\resource_gestalt_resources.bin";
+		}
+	}
+
+	if (write_tag_cache_to_file)
+	{
+		dword error = 0;
+		s_file_reference tag_cache_file = {};
+		if (file_create(file_reference_create_from_path(&tag_cache_file, tag_cache_file_name, false)))
+		{
+			if (file_open(&tag_cache_file, FLAG(_file_open_flag_desired_access_write), &error))
+			{
+				file_write(&tag_cache_file, g_cache_file_globals.tag_loaded_size, g_cache_file_globals.tag_cache_base_address);
+				file_close(&tag_cache_file);
+			}
 		}
 	}
 

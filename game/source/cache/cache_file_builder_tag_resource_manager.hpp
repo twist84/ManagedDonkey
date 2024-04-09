@@ -19,6 +19,13 @@ enum e_cache_file_tag_resource_location_flags
 	k_cache_file_tag_resource_location_flags
 };
 
+byte const k_cache_file_tag_resource_location_mask
+	= FLAG(_cache_file_tag_resource_location_flags_resources)
+	| FLAG(_cache_file_tag_resource_location_flags_textures)
+	| FLAG(_cache_file_tag_resource_location_flags_textures_b)
+	| FLAG(_cache_file_tag_resource_location_flags_audio)
+	| FLAG(_cache_file_tag_resource_location_flags_video);
+
 enum e_cache_file_compression_codec
 {
 	_cache_file_compression_codec_none = NONE,

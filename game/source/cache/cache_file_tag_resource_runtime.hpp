@@ -15,9 +15,15 @@
 #include "tag_files/tag_resource_cache_stoler.hpp"
 #include "tag_files/tag_resource_threading.hpp"
 
+struct s_cache_file_tag_resource_data;
 struct s_tag_resource
 {
-	long resource_handle;
+	union
+	{
+		dword resource_handle;
+		s_cache_file_tag_resource_data* resource_data;
+	};
+
 	dword definition_address;
 };
 static_assert(sizeof(s_tag_resource) == 0x8);
