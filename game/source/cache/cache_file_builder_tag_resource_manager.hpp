@@ -179,7 +179,7 @@ struct s_cache_file_resource_gestalt
 		c_typed_tag_block<s_cache_file_tag_resource_data*> resources;
 	};
 	dword resource_loaded_size;
-	dword __unknown10;
+	dword __unknown10; // this is something like resource fixups applied
 
 	s_tag_block designer_zone_manifests;
 	s_tag_block global_zone_manifest;
