@@ -70,6 +70,7 @@ REFERENCE_DECLARE(0x022AAFF0, s_cache_file_globals, g_cache_file_globals);
 HOOK_DECLARE(0x00501FC0, cache_files_map_directory);
 HOOK_DECLARE(0x00502210, cache_files_verify_header_rsa_signature);
 HOOK_DECLARE(0x00502780, cache_file_tags_load_recursive);
+HOOK_DECLARE(0x00502CE0, cache_file_tags_unload);
 HOOK_DECLARE(0x005031A0, cache_file_tags_fixup_all_instances);
 HOOK_DECLARE(0x00503370, tag_get_hook);
 HOOK_DECLARE(0x00503470, sub_503470);
@@ -1191,7 +1192,51 @@ bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 
 void __cdecl cache_file_tags_unload()
 {
-	INVOKE(0x00502CE0, cache_file_tags_unload);
+	//INVOKE(0x00502CE0, cache_file_tags_unload);
+
+	if (g_cache_file_globals.tag_cache_base_address)
+	{
+		physical_memory_free(g_cache_file_globals.tag_cache_base_address);
+		g_cache_file_globals.tag_cache_base_address = NULL;
+		g_cache_file_globals.tag_loaded_size = 0;
+	}
+
+	if (g_cache_file_globals.tag_instances)
+	{
+		physical_memory_free(g_cache_file_globals.tag_instances);
+		g_cache_file_globals.tag_instances = NULL;
+	}
+
+	if (g_cache_file_globals.tag_cache_offsets)
+	{
+		physical_memory_free(g_cache_file_globals.tag_cache_offsets);
+		g_cache_file_globals.tag_cache_offsets = NULL;
+	}
+
+	if (g_cache_file_globals.tag_index_absolute_mapping)
+	{
+		physical_memory_free(g_cache_file_globals.tag_index_absolute_mapping);
+		g_cache_file_globals.tag_index_absolute_mapping = NULL;
+	}
+
+	if (g_cache_file_globals.absolute_index_tag_mapping)
+	{
+		physical_memory_free(g_cache_file_globals.absolute_index_tag_mapping);
+		g_cache_file_globals.absolute_index_tag_mapping = NULL;
+	}
+
+	if (g_cache_file_globals.resource_gestalt)
+	{
+		physical_memory_free(g_cache_file_globals.resource_gestalt);
+		g_cache_file_globals.resource_gestalt = NULL;
+	}
+
+	if (g_cache_file_globals.reports.elements)
+	{
+		physical_memory_free(g_cache_file_globals.reports.elements);
+		g_cache_file_globals.reports.elements = NULL;
+		g_cache_file_globals.reports.count = 0;
+	}
 }
 
 void load_external_files();
