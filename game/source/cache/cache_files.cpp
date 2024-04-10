@@ -645,7 +645,7 @@ HOOK_DECLARE(0x00502550, cache_files_populate_resource_offsets);
 s_cache_file_resource_gestalt* __cdecl cache_files_populate_resource_gestalt()
 {
 	bool use_implementation = true;
-	bool print_info = true;
+	bool print_info = false;
 	bool write_tag_cache_to_file = false;
 	bool write_resource_gestalt_to_file = false;
 	char const* tag_cache_file_name = NULL;
@@ -1189,6 +1189,8 @@ bool __cdecl cache_file_tags_section_read(long offset, long size, void* buffer)
 
 	return cache_file_blocking_read(_cache_file_section_tag, offset, size, buffer);
 }
+
+//#define EXPERIMENTAL_TAG_CACHE_ALLOCATION
 
 void __cdecl cache_file_tags_unload()
 {
