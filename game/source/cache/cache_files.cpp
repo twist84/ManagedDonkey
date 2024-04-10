@@ -878,7 +878,10 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 {
 	//return INVOKE(0x00502780, cache_file_tags_load_recursive, tag_index);
 
+	ASSERT(g_cache_file_globals.tag_loaded_size < g_cache_file_globals.tag_cache_size);
+
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
+
 	long& tag_loaded_count = g_cache_file_globals.tag_loaded_count;
 	long tag_cache_offset = g_cache_file_globals.tag_cache_offsets[tag_index];
 
