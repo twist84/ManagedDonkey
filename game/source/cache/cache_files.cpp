@@ -884,7 +884,7 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 	if (g_cache_file_globals.tag_index_absolute_mapping[tag_index] != NONE)
 		return true;
 
-	if (!cache_file_tags_section_read(tag_cache_offset, cache_file_round_up_read_size(8), instance))
+	if (!cache_file_tags_section_read(tag_cache_offset, cache_file_round_up_read_size(sizeof(cache_file_tag_instance)), instance))
 		return false;
 
 	g_cache_file_globals.tag_loaded_size += instance->total_size;
@@ -896,7 +896,7 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 	tag_name.print("%s", tag_get_name(tag_index));
 	g_cache_file_globals.tag_loaded_size += cache_file_round_up_read_size(cache_file_round_up_read_size(tag_name.length()));
 
-	if (!cache_file_tags_section_read(tag_cache_offset, instance->total_size, g_cache_file_globals.tag_instances[tag_loaded_count]->base))
+	if (!cache_file_tags_section_read(tag_cache_offset, instance->total_size, instance->base))
 		return false;
 
 	if (crc_checksum_buffer_adler32(adler_new(), instance->base + sizeof(instance->checksum), instance->total_size - sizeof(instance->checksum)) != instance->checksum)
@@ -1249,7 +1249,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
 		g_cache_file_globals.tag_loaded_size = 0;
 
-		success = g_cache_file_globals.tag_cache_base_address != nullptr;
+		success = g_cache_file_globals.tag_cache_base_address != NULL;
 		if (!success)
 		{
 			generate_event(_event_level_critical, "failed to allocate the physical memory for the tags");
