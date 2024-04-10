@@ -1196,7 +1196,12 @@ void __cdecl cache_file_tags_unload()
 
 	if (g_cache_file_globals.tag_cache_base_address)
 	{
+#if defined(EXPERIMENTAL_TAG_CACHE_ALLOCATION)
+		free(g_cache_file_globals.tag_cache_base_address);
+#else
 		physical_memory_free(g_cache_file_globals.tag_cache_base_address);
+#endif
+
 		g_cache_file_globals.tag_cache_base_address = NULL;
 		g_cache_file_globals.tag_loaded_size = 0;
 	}
@@ -1290,8 +1295,16 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		csmemset(g_cache_file_globals.tag_instances, 0, total_instance_size);
 
 		g_cache_file_globals.tag_loaded_count = 0;
+
+#if defined(EXPERIMENTAL_TAG_CACHE_ALLOCATION)
+		// #TODO: don't use malloc but instead update physical memory
+		g_cache_file_globals.tag_cache_size = 0x6B00000;
+		g_cache_file_globals.tag_cache_base_address = (byte*)malloc(g_cache_file_globals.tag_cache_size);
+#else
 		g_cache_file_globals.tag_cache_size = 0x4B00000;
 		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
+#endif
+
 		g_cache_file_globals.tag_loaded_size = 0;
 
 		success = g_cache_file_globals.tag_cache_base_address != NULL;
