@@ -1083,7 +1083,7 @@ void __cdecl cache_file_tags_unload()
 	if (g_cache_file_globals.tag_cache_base_address)
 	{
 #if defined(EXPERIMENTAL_TAG_CACHE_ALLOCATION)
-		free(g_cache_file_globals.tag_cache_base_address);
+		physical_memory_system_free(g_cache_file_globals.tag_cache_base_address);
 #else
 		physical_memory_free(g_cache_file_globals.tag_cache_base_address);
 #endif
@@ -1183,11 +1183,11 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		g_cache_file_globals.tag_loaded_count = 0;
 
 #if defined(EXPERIMENTAL_TAG_CACHE_ALLOCATION)
-		// #TODO: don't use malloc but instead update physical memory
-		g_cache_file_globals.tag_cache_size = 0x6B00000;
-		g_cache_file_globals.tag_cache_base_address = (byte*)malloc(g_cache_file_globals.tag_cache_size);
+		//g_cache_file_globals.tag_cache_size = g_cache_file_globals.header.total_tags_size;
+		g_cache_file_globals.tag_cache_size = 0x6400000; // 100 * 1024 * 1024 or 100MiB
+		g_cache_file_globals.tag_cache_base_address = (byte*)physical_memory_system_malloc(g_cache_file_globals.tag_cache_size, NULL);
 #else
-		g_cache_file_globals.tag_cache_size = 0x4B00000;
+		g_cache_file_globals.tag_cache_size = 0x4B00000; //  75 * 1024 * 1024 or 75MiB
 		g_cache_file_globals.tag_cache_base_address = (byte*)_physical_memory_malloc_fixed(_memory_stage_level_initialize, "tag cache", g_cache_file_globals.tag_cache_size, 0);
 #endif
 
