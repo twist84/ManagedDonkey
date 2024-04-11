@@ -472,7 +472,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resourc
 
 	long resource_count = 0;
 	dword resources_size = 0;
-	bool resources_available = false;
+	dword resources_available = 0;
 
 	for (long i = 0; i < g_cache_file_globals.tag_loaded_count; i++)
 	{
@@ -507,7 +507,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resourc
 
 			if (!TEST_MASK(flags, k_cache_file_tag_resource_location_mask))
 			{
-				resources_available = false;
+				resources_available = 0;
 				resource->resource_handle = resource_count++;
 				resources_size += resource_data->file_location.size;
 				continue;
@@ -517,7 +517,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resourc
 			{
 				resource_data->file_location.file_offset = 0;
 
-				resources_available = true;
+				resources_available = 1;
 				resource->resource_handle = resource_count++;
 				resources_size += resource_data->file_location.size;
 				continue;
@@ -543,7 +543,7 @@ void __cdecl cache_file_tags_fixup_all_resources(c_wrapped_array<dword>& resourc
 				break;
 			}
 
-			resources_available = true;
+			resources_available = 1;
 			resource->resource_handle = resource_count++;
 			resources_size += resource_data->file_location.size;
 		}

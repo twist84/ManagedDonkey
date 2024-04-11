@@ -169,7 +169,7 @@ struct s_cache_file_resource_gestalt
 {
 	c_typed_tag_block<s_cache_file_tag_resource_data*> resources;
 	dword resources_size;
-	bool resources_available;
+	dword resources_available;
 
 	s_tag_block designer_zone_manifests;
 	s_tag_block global_zone_manifest;
