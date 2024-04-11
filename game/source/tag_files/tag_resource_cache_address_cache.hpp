@@ -40,7 +40,7 @@ struct c_tag_resource_address_cache
 	byte __dataC[0x8]; // ?
 
 	c_wrapped_flags m_available_resource_flags;
-	c_wrapped_flags __flags14;
+	c_wrapped_flags m_required_resource_flags;
 	c_wrapped_flags m_demanded_flags;
 
 	byte __data2C[0x8]; // ?
