@@ -34,6 +34,7 @@
 #include "networking/tools/network_blf.hpp"
 #include "physics/havok.hpp"
 #include "physics/havok_component.hpp"
+#include "rasterizer/rasterizer_globals.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "render/render_objects_static_lighting.hpp"
 #include "render/render_structure.hpp"
@@ -139,6 +140,7 @@ void __cdecl test_main_loop_body_begin()
 		g_online_lsp_manager;
 		g_online_url;
 		g_parse_text_table;
+		g_rasterizer_timing_globals;
 		g_render_structure_globals;
 		g_restricted_region_names;
 		g_restricted_regions;
@@ -164,6 +166,7 @@ void __cdecl test_main_loop_body_begin()
 		online_session_manager_globals;
 		physical_memory_globals;
 		progress_globals;
+		rasterizer_globals;
 		render_object_globals;
 		simulation_globals;
 

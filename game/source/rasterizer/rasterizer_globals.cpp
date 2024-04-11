@@ -10,6 +10,7 @@
 #include <windows.h>
 
 REFERENCE_DECLARE(0x050DDA00, s_rasterizer_globals, rasterizer_globals);
+REFERENCE_DECLARE(0x050DDA80, s_rasterizer_timing_globals, g_rasterizer_timing_globals);
 
 HOOK_DECLARE(0x00A1FC90, rasterizer_get_is_widescreen);
 

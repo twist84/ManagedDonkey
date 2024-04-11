@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "multithreading/event_queue.hpp"
 
 struct s_rasterizer_globals
 {
@@ -21,7 +22,23 @@ struct s_rasterizer_globals
 };
 static_assert(sizeof(s_rasterizer_globals) == 0x78);
 
+struct s_rasterizer_timing_event :
+	s_synchronized_list_entry
+{
+	byte __data0[0x5C];
+};
+static_assert(sizeof(s_rasterizer_timing_event) == 0x60);
+
+struct s_rasterizer_timing_globals
+{
+	byte __data0[0x60];
+	t_event_queue<s_rasterizer_timing_event, 45> timing_event_queue;
+	byte __data[0x208];
+};
+static_assert(sizeof(s_rasterizer_timing_globals) == 0x1360);
+
 extern s_rasterizer_globals& rasterizer_globals;
+extern s_rasterizer_timing_globals& g_rasterizer_timing_globals;
 
 extern bool __cdecl rasterizer_get_is_widescreen();
 extern long __cdecl rasterizer_lag_timing_get_gamestate_delay();
