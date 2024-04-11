@@ -167,19 +167,9 @@ static_assert(sizeof(s_tag_resource_cache_prediction_table) == 0x3C);
 
 struct s_cache_file_resource_gestalt
 {
-	union
-	{
-		struct
-		{
-			long loaded_resource_count;
-			s_cache_file_tag_resource_data** loaded_resources;
-			long : 32;
-		};
-
-		c_typed_tag_block<s_cache_file_tag_resource_data*> resources;
-	};
-	dword resource_loaded_size;
-	dword __unknown10; // this is something like resource fixups applied
+	c_typed_tag_block<s_cache_file_tag_resource_data*> resources;
+	dword resources_size;
+	bool resources_available;
 
 	s_tag_block designer_zone_manifests;
 	s_tag_block global_zone_manifest;
@@ -214,11 +204,6 @@ struct s_cache_file_resource_gestalt
 
 	// Next time we don't put things that the game depends on outside of tool, guerilla, or sapien
 	long map_id;
-
-#pragma warning(push)
-#pragma warning(disable : 4200)
-	s_cache_file_tag_resource_data* resources_array[];
-#pragma warning(pop)
 };
 static_assert(sizeof(s_cache_file_resource_gestalt) == 0x17C);
 
