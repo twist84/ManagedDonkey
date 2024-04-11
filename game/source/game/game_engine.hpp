@@ -58,7 +58,11 @@ enum e_game_engine_state
 
 struct s_player_waypoint_data
 {
-	byte __data[0x1C];
+	byte __data0[0x4];
+	real_point3d head_position;
+	word respawn_timer10;
+	word respawn_timer12;
+	byte __data[0x8];
 };
 static_assert(sizeof(s_player_waypoint_data) == 0x1C);
 

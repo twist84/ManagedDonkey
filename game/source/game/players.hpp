@@ -778,7 +778,7 @@ struct c_player_in_game_iterator
 	bool next()
 	{
 		for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
-			m_iterator.m_datum && TEST_BIT(m_iterator.m_datum->flags, 1);
+			m_iterator.m_datum && TEST_BIT(m_iterator.m_datum->flags, _player_left_game_bit);
 			m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
 		{
 		}

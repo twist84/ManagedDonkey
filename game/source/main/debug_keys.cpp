@@ -16,8 +16,6 @@
 
 #include <math.h>
 
-bool force_respawn = false;
-
 // Modifier Table
 // 
 // Index, Shift,  Control, Alt
@@ -41,7 +39,7 @@ debug_key global_debug_key_list[]
 		.allow_out_of_game = false,
 		.allow_in_editor = true,
 		.toggle_variable = true,
-		.variable = &force_respawn
+		.variable = nullptr
 	},
 	{
 		.name = "Select This Actor",
@@ -1239,13 +1237,29 @@ void __cdecl debug_key_force_respawn(bool enabled)
 {
 	if (enabled)
 	{
+		if (!game_is_authoritative())
+			return;
+
+		static bool force_respawn = false;
+		force_respawn = !force_respawn;
+
+		TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
+
 		c_player_in_game_iterator player_iterator;
 		player_iterator.begin();
 		while (player_iterator.next())
 		{
 			player_datum* player = player_iterator.get_datum();
-			player->respawn_forced = force_respawn;
+
+			// set and evaluate `player->respawn_forced`
+			if (player->respawn_forced = force_respawn)
+			{
+				player->respawn_timer = 0;
+				game_engine_globals->player_waypoints[DATUM_INDEX_TO_ABSOLUTE_INDEX(player_iterator.get_index())].__data[0] = 0;
+			}
 		}
+
+		console_printf("Force Respawn = %s", force_respawn ? "ON" : "OFF");
 	}
 }
 
