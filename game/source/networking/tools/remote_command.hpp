@@ -137,7 +137,15 @@ COMMAND_CALLBACK_DECLARE(game_export_variant_settings);
 COMMAND_CALLBACK_DECLARE(alert_carry);
 COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
 COMMAND_CALLBACK_DECLARE(online_user_set_name);
+COMMAND_CALLBACK_DECLARE(mp_players_by_team);
+COMMAND_CALLBACK_DECLARE(deterministic_end_game);
+COMMAND_CALLBACK_DECLARE(mp_active_player_count_by_team);
 COMMAND_CALLBACK_DECLARE(mp_game_won);
+COMMAND_CALLBACK_DECLARE(mp_respawn_override_timers);
+COMMAND_CALLBACK_DECLARE(mp_ai_allegiance);
+COMMAND_CALLBACK_DECLARE(mp_allegiance);
+COMMAND_CALLBACK_DECLARE(mp_object_belongs_to_team);
+COMMAND_CALLBACK_DECLARE(mp_weapon_belongs_to_team);
 COMMAND_CALLBACK_DECLARE(mp_debug_goal_object_boundary_geometry);
 COMMAND_CALLBACK_DECLARE(load_preferences_from_file);
 COMMAND_CALLBACK_DECLARE(load_customization_from_file);
@@ -223,7 +231,16 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(online_set_is_connected_to_live, 1, "<boolean>", "sets connected to live\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(online_user_set_name, 1, "<string>", "sets the name of the first user\r\nNETWORK SAFE: Yes"),
 
-	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<long>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_players_by_team, 1, "<long>", "<mp_team> given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(deterministic_end_game, 0, "", "end game deterministically, by inserting a simulation queue event\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_active_player_count_by_team, 1, "<long>", "<mp_team> given a team index, returns an object list containing all living player objects belonging to that team\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_game_won, 1, "<short>", "<mp_team> given a team index, declares the game a victory for that team and a loss for all others\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_respawn_override_timers, 1, "<short>", "<mp_team> causes all players on the specified team waiting to respawn (due to timer) to respawn immediately\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_ai_allegiance, 2, "<short> <short>", "<team> <mp_team> causes an allegiance to be formed between an AI squad team and a multiplayer team\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_allegiance, 2, "<short> <short>", "<mp_team> <mp_team> create an allegiance between two multiplayer teams\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_object_belongs_to_team, 2, "<long> <short>", "<object> <mp_team> causes specified object to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(mp_weapon_belongs_to_team, 2, "<long> <short>", "<object> <mp_team> causes specified weapon to belong to the given team, so that only that team can pick it up\r\nNETWORK SAFE: Yes"),
+
 	COMMAND_CALLBACK_REGISTER(mp_debug_goal_object_boundary_geometry, 1, "<bool>", "toggle debug geometry for multiplayer goal objects\r\nNETWORK SAFE: No"),
 
 	COMMAND_CALLBACK_REGISTER(load_preferences_from_file, 1, "<string>", "<preferences filename> loads preferences from the specified file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -241,7 +258,7 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(director_debug_camera, 1, "<boolean>", "enable/disable camera debugging\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(camera_control, 1, "<boolean>", "toggles script control of the camera.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(camera_set_mode, 2, "<user_index> <mode_index>", "sets user's camera perspective\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(camera_set_mode, 2, "<long> <long>", "<user_index> <camera_mode> sets user's camera perspective\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(debug_camera_save, 0, "", "saves the camera position and facing.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(debug_camera_load, 0, "", "loads the saved camera position and facing.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(crash, 1, "<string>", "crashes (for debugging).\r\nNETWORK SAFE: Unknown, assumed unsafe"),

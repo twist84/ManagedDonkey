@@ -1028,12 +1028,95 @@ callback_result_t online_user_set_name_callback(void const* userdata, long token
 	return result;
 }
 
+callback_result_t mp_players_by_team_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long team = atol(tokens[1]->get_string());
+	game_engine_players_by_team(team);
+
+	return result;
+}
+
+callback_result_t deterministic_end_game_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	game_engine_finish_game();
+
+	return result;
+}
+
+callback_result_t mp_active_player_count_by_team_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long team = atol(tokens[1]->get_string());
+	game_engine_active_player_count_by_team(team);
+
+	return result;
+}
+
 callback_result_t mp_game_won_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	short team = static_cast<short>(atol(tokens[1]->get_string()));
 	game_engine_game_won(team);
+
+	return result;
+}
+
+callback_result_t mp_respawn_override_timers_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	short team = static_cast<short>(atol(tokens[1]->get_string()));
+	game_engine_respawn_override_timers(team);
+
+	return result;
+}
+
+callback_result_t mp_ai_allegiance_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	short campaign_team = static_cast<short>(atol(tokens[1]->get_string()));
+	short team = static_cast<short>(atol(tokens[2]->get_string()));
+	game_engine_ai_scripting_allegiance(campaign_team, team);
+
+	return result;
+}
+
+callback_result_t mp_allegiance_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	short team_a = static_cast<short>(atol(tokens[1]->get_string()));
+	short team_b = static_cast<short>(atol(tokens[2]->get_string()));
+	game_engine_mp_team_allegiance(team_a, team_b);
+
+	return result;
+}
+
+callback_result_t mp_object_belongs_to_team_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long object_index = atol(tokens[1]->get_string());
+	short team = static_cast<short>(atol(tokens[2]->get_string()));
+	game_engine_give_object_ownership_to_team(object_index, team);
+
+	return result;
+}
+
+callback_result_t mp_weapon_belongs_to_team_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long weapon_index = atol(tokens[1]->get_string());
+	short team = static_cast<short>(atol(tokens[2]->get_string()));
+	game_engine_give_weapon_ownership_to_team(weapon_index, team);
 
 	return result;
 }
