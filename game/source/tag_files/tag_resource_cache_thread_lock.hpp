@@ -32,7 +32,7 @@ struct c_tag_resource_cache_thread_lock_lock_freeish
 	bool __unknown1C2;
 	bool m_thread_access_state_locked;
 	bool __unknown1C4;
-	bool __unknown1C5;
+	bool m_can_load_all_desired_resources;
 	bool __unknown1C6;
 	bool __unknown1C7;
 	bool __unknown1C8;
