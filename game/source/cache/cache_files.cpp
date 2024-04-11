@@ -588,7 +588,7 @@ bool __cdecl cache_files_verify_header_rsa_signature(s_cache_file_header* header
 	//HOOK_INVOKE(result =, cache_files_verify_header_rsa_signature, header);
 	//return result;
 
-	if (header->header_signature != 'head' || header->footer_signature != 'foot')
+	if (header->header_signature != k_cache_file_header_signature || header->footer_signature != k_cache_file_footer_signature)
 	{
 		display_debug_string("cache_files:header is invalid, header/footer signatures are bad");
 		return false;
@@ -759,7 +759,7 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 {
 	//return INVOKE(0x00502780, cache_file_tags_load_recursive, tag_index);
 
-	ASSERT(g_cache_file_globals.tag_loaded_size < g_cache_file_globals.tag_cache_size);
+	ASSERT(g_cache_file_globals.tag_loaded_size < g_cache_file_globals.tag_cache_size, "tag cache insufficient size");
 
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 
