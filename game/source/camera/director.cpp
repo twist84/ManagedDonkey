@@ -586,6 +586,8 @@ void __cdecl director_script_camera(bool scripted)
 	if (*director_camera_scripted == scripted)
 		return;
 
+	*director_camera_scripted = scripted;
+
 	for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
 	{
 		if (scripted)
