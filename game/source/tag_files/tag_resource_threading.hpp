@@ -17,12 +17,10 @@ private:
 	c_tag_resource_cache_file_access_cache* __cdecl get_current_thread_access_cache();
 
 protected:
-	long m_per_thread_acquired_access_cache[k_registered_thread_count];
-	c_tag_resource_cache_file_access_cache* m_per_thread_access_cache[k_registered_thread_count];
-	long m_per_thread_acquired_access_cache_index;
-	long* m_current_per_thread_acquired_access_cache;
-	long m_per_thread_access_cache_index;
-	c_tag_resource_cache_file_access_cache** m_current_per_thread_access_cache;
+	long m_per_thread_acquired_access_cache_storage[k_registered_thread_count];
+	c_tag_resource_cache_file_access_cache* m_per_thread_access_cache_storage[k_registered_thread_count];
+	c_wrapped_array<long> m_per_thread_acquired_access_cache;
+	c_wrapped_array<c_tag_resource_cache_file_access_cache*> m_per_thread_access_cache;
 	c_read_write_lock m_read_write_lock;
 	c_tag_resource_cache_thread_lock_lock_freeish* m_resource_thread_access_lock;
 	byte __data[0x10];
