@@ -122,3 +122,8 @@ void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* na
 		generate_event(_event_level_message, "tags:dependencies:link: setting reference to '%s.%s'", reference->get_name(), reference->get_group_name());
 }
 
+void tag_block_set_elements(s_tag_block* block, void* elements)
+{
+	block->address = elements;
+}
+

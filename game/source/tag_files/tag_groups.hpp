@@ -357,6 +357,7 @@ extern char const* __cdecl tag_name_strip_path(char const* path);
 extern wchar_t const* __cdecl tag_name_strip_path(wchar_t const* path);
 extern tag group_name_to_group_tag(char const* group_name);
 extern void tag_reference_set(s_tag_reference* reference, tag group_tag, char const* name);
+extern void tag_block_set_elements(s_tag_block* block, void* elements);
 
 static s_cache_file_tag_group global_tag_groups[] =
 {
