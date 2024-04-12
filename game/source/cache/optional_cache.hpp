@@ -47,6 +47,16 @@ private:
 };
 static_assert(sizeof(c_optional_cache_backend) == 0xC);
 
+struct s_optional_cache_globals
+{
+	c_optional_cache_backend* main_menu_cache_backend;
+	c_optional_cache_backend* game_cache_backend;
+	c_optional_cache_backend* active_cache_backend;
+	c_static_array<s_optional_cache_user, k_number_of_optional_cache_users> users;
+	c_static_flags<k_number_of_optional_cache_users> active_cache_users;
+};
+static_assert(sizeof(s_optional_cache_globals) == 0x40);
+
 extern void __cdecl _optional_cache_free(e_optional_cache_user user, void* buffer);
 extern void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority user_priority, long size, c_optional_cache_user_callback* callback);
 extern void __cdecl optional_cache_clear_in_game_backend(c_optional_cache_backend* backend);
