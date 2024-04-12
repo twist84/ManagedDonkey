@@ -2,12 +2,21 @@
 
 #include "cseries/cseries.hpp"
 
+long const k_total_allocated_physical_memory = 0x2F900000;
+
 enum
 {
+	k_physical_memory_compression_scratch_buffer_size_size = 0x4B000,
+	k_physical_memory_runtime_state_size = 0x380000,
+	k_physical_memory_tag_cache_size = 0x4B00000,
+	k_physical_memory_cache_file_debug_globals_size = 0xF1B300,
+
 	k_physical_memory_data_size = 0xAE00000,
 	k_physical_memory_cache_size = 0x24B00000,
 	k_physical_memory_total_size = k_physical_memory_data_size + k_physical_memory_cache_size,
 };
+
+static_assert(k_physical_memory_total_size == k_total_allocated_physical_memory);
 
 enum
 {
