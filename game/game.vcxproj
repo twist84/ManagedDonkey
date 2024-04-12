@@ -180,6 +180,7 @@ POPD
   <ItemGroup>
     <ClCompile Include="source\cache\cache_file_runtime_codecs.cpp" />
     <ClCompile Include="source\cache\pc_sound_cache.cpp" />
+    <ClCompile Include="source\camera\camera_scripting.cpp" />
     <ClCompile Include="source\camera\first_person_camera.cpp" />
     <ClCompile Include="source\cseries\async_helpers.cpp" />
     <ClCompile Include="source\game\campaign_metagame.cpp" />
