@@ -57,6 +57,8 @@ struct s_optional_cache_globals
 };
 static_assert(sizeof(s_optional_cache_globals) == 0x40);
 
+extern s_optional_cache_globals& g_optional_cache_globals;
+
 extern void __cdecl _optional_cache_free(e_optional_cache_user user, void* buffer);
 extern void* __cdecl _optional_cache_try_to_allocate(e_optional_cache_user user, e_optional_cache_user_priority user_priority, long size, c_optional_cache_user_callback* callback);
 extern void __cdecl optional_cache_clear_in_game_backend(c_optional_cache_backend* backend);

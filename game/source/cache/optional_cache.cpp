@@ -1,5 +1,7 @@
 #include "cache/optional_cache.hpp"
 
+REFERENCE_DECLARE(0x024464D0, s_optional_cache_globals, g_optional_cache_globals);
+
 void __cdecl _optional_cache_free(e_optional_cache_user user, void* buffer)
 {
 	INVOKE(0x00603DF0, _optional_cache_free, user, buffer);
