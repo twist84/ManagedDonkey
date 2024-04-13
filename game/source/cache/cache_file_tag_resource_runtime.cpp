@@ -278,7 +278,10 @@ void __cdecl tag_resources_main_loop_idle()
 	g_resource_runtime_manager.get()->idle();
 }
 
-//.text:00564000 // called from `main_game_internal_close_caches`
+void __cdecl tag_resources_prepare_for_new_map()
+{
+	INVOKE(0x00564000, tag_resources_prepare_for_new_map);
+}
 
 void __cdecl tag_resources_pump_io()
 {

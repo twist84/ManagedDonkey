@@ -372,6 +372,7 @@ extern long __cdecl tag_resources_lock_game();
 extern void __cdecl tag_resources_lock_render();
 extern bool __cdecl tag_resources_locked_for_current_thread_UGLY();
 extern void __cdecl tag_resources_main_loop_idle();
+extern void __cdecl tag_resources_prepare_for_new_map();
 extern void __cdecl tag_resources_pump_io();
 extern void __cdecl tag_resources_stagnate_deferred_resources();
 extern void __cdecl tag_resources_unlock_game(long& lock);
