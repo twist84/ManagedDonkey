@@ -41,7 +41,42 @@ HOOK_DECLARE(0x00567E40, main_game_start);
 
 //.text:00566A80 ; unknown destructor
 //.text:00566AD0 ; unknown destructor
-//.text:00566B30 ; e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game_options const* options)
+
+e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game_options const* options)
+{
+	return INVOKE(0x00566B30, compute_desired_map_memory_configuration, options);
+
+	//if (options)
+	//{
+	//	e_game_mode game_mode = options->game_mode;
+	//	switch (game_mode)
+	//	{
+	//	case _game_mode_campaign:
+	//	{
+	//		if (options->game_playback)
+	//			return _map_memory_configuration_campaign_saved_film;
+	//		else if (options->map_id == 4200) // ODST: C200, COASTAL HIGHWAY
+	//			return _map_memory_configuration_campaign_epilogue;
+	//
+	//		return _map_memory_configuration_campaign;
+	//	}
+	//	case _game_mode_multiplayer:
+	//	{
+	//		if (options->game_playback)
+	//			return _map_memory_configuration_multiplayer_saved_film;
+	//
+	//		return _map_memory_configuration_multiplayer;
+	//	}
+	//	case _game_mode_mainmenu:
+	//		return _map_memory_configuration_main_menu;
+	//	default:
+	//		return _map_memory_configuration_none;
+	//	}
+	//}
+	//
+	//return _map_memory_configuration_none;
+}
+
 //.text:00566B90 ; void __cdecl data_mine_insert_single_player_game_options(char const* event_name)
 
 bool __cdecl sub_566CC0()
@@ -297,9 +332,20 @@ void __cdecl main_game_change_update()
 	}
 }
 
-//.text:00567200 ; void __cdecl main_game_configure_map_memory(game_options const* options)
-//.text:00567230 ; void __cdecl main_game_configure_map_memory_pop()
-//.text:00567270 ; void __cdecl main_game_configure_map_memory_push(e_map_memory_configuration configuration)
+void __cdecl main_game_configure_map_memory(game_options const* options)
+{
+	INVOKE(0x00567200, main_game_configure_map_memory, options);
+}
+
+void __cdecl main_game_configure_map_memory_pop()
+{
+	INVOKE(0x00567230, main_game_configure_map_memory_pop);
+}
+
+void __cdecl main_game_configure_map_memory_push(e_map_memory_configuration configuration)
+{
+	INVOKE(0x00567270, main_game_configure_map_memory_push, configuration);
+}
 
 bool __cdecl main_game_goto_next_level()
 {
@@ -807,9 +853,42 @@ void __cdecl main_menu_launch_force()
 	INVOKE(0x00568190, main_menu_launch_force);
 }
 
-//.text:00568260 ; bool __cdecl map_memory_configuration_is_campaign(e_map_memory_configuration configuration)
-//.text:00568280 ; bool __cdecl map_memory_configuration_is_campaign_epilogue(e_map_memory_configuration configuration)
-//.text:00568290 ; bool __cdecl map_memory_configuration_is_main_menu(e_map_memory_configuration configuration)
-//.text:005682A0 ; bool __cdecl map_memory_configuration_is_multiplayer(e_map_memory_configuration configuration)
-//.text:005682C0 ; bool __cdecl map_memory_configuration_is_saved_film(e_map_memory_configuration configuration)
+bool __cdecl map_memory_configuration_is_campaign(e_map_memory_configuration configuration)
+{
+	//return INVOKE(0x00568260, map_memory_configuration_is_campaign, configuration);
+
+	return configuration == _map_memory_configuration_campaign
+		|| configuration == _map_memory_configuration_campaign_saved_film
+		|| configuration == _map_memory_configuration_campaign_epilogue;
+}
+
+bool __cdecl map_memory_configuration_is_campaign_epilogue(e_map_memory_configuration configuration)
+{
+	//return INVOKE(0x00568280, map_memory_configuration_is_campaign_epilogue, configuration);
+
+	return configuration == _map_memory_configuration_campaign_epilogue;
+}
+
+bool __cdecl map_memory_configuration_is_main_menu(e_map_memory_configuration configuration)
+{
+	//return INVOKE(0x00568290, map_memory_configuration_is_main_menu, configuration);
+
+	return configuration == _map_memory_configuration_main_menu;
+}
+
+bool __cdecl map_memory_configuration_is_multiplayer(e_map_memory_configuration configuration)
+{
+	//return INVOKE(0x005682A0, map_memory_configuration_is_multiplayer, configuration);
+
+	return configuration == _map_memory_configuration_multiplayer
+		|| configuration == _map_memory_configuration_multiplayer_saved_film;
+}
+
+bool __cdecl map_memory_configuration_is_saved_film(e_map_memory_configuration configuration)
+{
+	//return INVOKE(0x005682C0, map_memory_configuration_is_saved_film, configuration);
+
+	return configuration == _map_memory_configuration_campaign_saved_film
+		|| configuration == _map_memory_configuration_multiplayer_saved_film;
+}
 

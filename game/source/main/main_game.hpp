@@ -4,6 +4,19 @@
 #include "game/game_progression.hpp"
 #include "game/game_options.hpp"
 
+enum e_map_memory_configuration
+{
+	_map_memory_configuration_none = 0,
+	_map_memory_configuration_main_menu,
+	_map_memory_configuration_multiplayer,
+	_map_memory_configuration_multiplayer_saved_film,
+	_map_memory_configuration_campaign,
+	_map_memory_configuration_campaign_saved_film,
+	_map_memory_configuration_campaign_epilogue,
+
+	k_map_memory_configuration_count
+};
+
 enum e_game_loaded_status
 {
 	_game_loaded_status_none = 0,
@@ -50,7 +63,7 @@ extern s_main_game_globals& main_game_globals;
 extern bool& load_panic_recursion_lock;
 extern bool debug_load_panic_to_main_menu;
 
-//extern e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game_options const* options);
+extern e_map_memory_configuration __cdecl compute_desired_map_memory_configuration(game_options const* options);
 //extern void __cdecl data_mine_insert_single_player_game_options(char const* event_name);
 extern bool __cdecl sub_566CC0();
 extern void __cdecl main_game_campaign_loaded(game_options const* options);
@@ -59,9 +72,9 @@ extern void __cdecl main_game_change_abort();
 extern bool __cdecl main_game_change_immediate(game_options const* options);
 extern bool __cdecl main_game_change_in_progress();
 extern void __cdecl main_game_change_update();
-//extern void __cdecl main_game_configure_map_memory(game_options const* options);
-//extern void __cdecl main_game_configure_map_memory_pop();
-//extern void __cdecl main_game_configure_map_memory_push(e_map_memory_configuration configuration);
+extern void __cdecl main_game_configure_map_memory(game_options const* options);
+extern void __cdecl main_game_configure_map_memory_pop();
+extern void __cdecl main_game_configure_map_memory_push(e_map_memory_configuration configuration);
 extern bool __cdecl main_game_goto_next_level();
 extern void __cdecl main_game_initialize();
 extern void __cdecl main_game_internal_close_caches();
@@ -97,9 +110,9 @@ extern void __cdecl main_game_unload_and_prepare_for_next_game(game_options cons
 extern void __cdecl main_menu_build_game_options(game_options* options);
 extern void __cdecl main_menu_launch();
 extern void __cdecl main_menu_launch_force();
-//extern bool __cdecl map_memory_configuration_is_campaign(e_map_memory_configuration configuration);
-//extern bool __cdecl map_memory_configuration_is_campaign_epilogue(e_map_memory_configuration configuration);
-//extern bool __cdecl map_memory_configuration_is_main_menu(e_map_memory_configuration configuration);
-//extern bool __cdecl map_memory_configuration_is_multiplayer(e_map_memory_configuration configuration);
-//extern bool __cdecl map_memory_configuration_is_saved_film(e_map_memory_configuration configuration);
+extern bool __cdecl map_memory_configuration_is_campaign(e_map_memory_configuration configuration);
+extern bool __cdecl map_memory_configuration_is_campaign_epilogue(e_map_memory_configuration configuration);
+extern bool __cdecl map_memory_configuration_is_main_menu(e_map_memory_configuration configuration);
+extern bool __cdecl map_memory_configuration_is_multiplayer(e_map_memory_configuration configuration);
+extern bool __cdecl map_memory_configuration_is_saved_film(e_map_memory_configuration configuration);
 
