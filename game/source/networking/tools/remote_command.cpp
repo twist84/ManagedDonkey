@@ -660,6 +660,63 @@ callback_result_t main_menu_callback(void const* userdata, long token_count, tok
 	return result;
 }
 
+callback_result_t core_load_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_load_core();
+
+	return result;
+}
+
+callback_result_t core_load_name_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* core_name = tokens[1]->get_string();
+	main_load_core_name(core_name);
+
+	return result;
+}
+
+callback_result_t core_save_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_save_core();
+
+	return result;
+}
+
+callback_result_t core_save_name_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* core_name = tokens[1]->get_string();
+	main_save_core_name(core_name);
+
+	return result;
+}
+
+callback_result_t core_load_game_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_game_load_from_core();
+
+	return result;
+}
+
+callback_result_t core_load_game_name_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* core_name = tokens[1]->get_string();
+	main_game_load_from_core_name(core_name);
+
+	return result;
+}
+
 callback_result_t net_session_create_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

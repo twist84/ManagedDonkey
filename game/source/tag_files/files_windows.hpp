@@ -91,6 +91,7 @@ struct s_find_file_data
 struct s_file_reference;
 struct tm;
 
+extern bool string_is_absolute_path(char const* s);
 extern void __cdecl suppress_file_errors(bool suppress);
 extern bool __cdecl file_errors_suppressed();
 extern bool __cdecl file_close(s_file_reference* reference);

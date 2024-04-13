@@ -21,6 +21,9 @@
 REFERENCE_DECLARE(0x0189D468, c_game_state_compressor_callback, g_game_state_compressor_optional_cache_callback);
 REFERENCE_DECLARE(0x02344148, s_game_state_globals, game_state_globals);
 
+HOOK_DECLARE(0x00510110, game_state_read_core);
+HOOK_DECLARE(0x00510FB0, game_state_write_core);
+
 long s_game_state_globals::test_option = 0;
 
 c_gamestate_deterministic_allocation_callbacks g_gamestate_deterministic_allocation_callbacks{};
@@ -121,6 +124,21 @@ unsigned int c_gamestate_nondeterministic_allocation_callbacks::filter_size_requ
 unsigned int c_restricted_memory_callbacks::filter_size_request(unsigned int size)
 {
 	return size;
+}
+
+void game_state_get_core_file_reference(char const* core_name, s_file_reference* file)
+{
+	ASSERT(core_name);
+	ASSERT(file);
+
+	c_static_string<1024> filename;
+
+	if (string_is_absolute_path(core_name))
+		filename.print("%s.bin", core_name);
+	else
+		filename.print("core\\%s.bin", core_name);
+
+	file_reference_create_from_path(file, filename.get_string(), false);
 }
 
 void __cdecl game_state_buffer_handle_read()
@@ -306,7 +324,31 @@ void __cdecl game_state_preserve()
 
 bool __cdecl game_state_read_core(char const* core_name, void* buffer, dword buffer_length)
 {
-	return INVOKE(0x00510110, game_state_read_core, core_name, buffer, buffer_length);
+	//return INVOKE(0x00510110, game_state_read_core, core_name, buffer, buffer_length);
+
+	if (buffer == game_state_globals.base_address)
+		ASSERT(game_state_proc_globals_get_state() == _game_state_proc_state_loading);
+
+	s_file_reference file{};
+	game_state_get_core_file_reference(core_name, &file);
+
+	dword error = 0;
+	if (!file_open(&file, FLAG(_file_open_flag_desired_access_read), &error))
+		return false;
+
+	bool result = file_read(&file, buffer_length, false, buffer);
+	file_close(&file);
+
+	if (buffer == game_state_globals.base_address)
+	{
+		result &= game_state_security_verify_signature_insecure(0);
+		if (!result)
+			generate_event(_event_level_critical, "game_state: core '%s' failed signature check", core_name);
+
+		game_state_buffer_handle_read();
+	}
+
+	return result;
 }
 
 bool __cdecl game_state_read_from_persistent_storage_blocking(e_controller_index controller_index, void* buffer, dword buffer_size)
@@ -362,6 +404,7 @@ void __cdecl game_state_save_core(char const* core_name)
 
 	bool success = game_state_write_core(core_name, game_state_globals.base_address, k_game_state_size);
 	console_printf(success ? "saved '%s'" : "error writing '%s'", core_name);
+
 	game_state_call_after_save_procs(game_state_proc_flags);
 
 	//if (success)
@@ -536,7 +579,22 @@ void const* __cdecl game_state_with_mirrors_get_buffer_address(long* buffer_size
 
 bool __cdecl game_state_write_core(char const* core_name, void const* buffer, dword buffer_length)
 {
-	return INVOKE(0x00510FB0, game_state_write_core, core_name, buffer, buffer_length);
+	//return INVOKE(0x00510FB0, game_state_write_core, core_name, buffer, buffer_length);
+
+	s_file_reference file{};
+	game_state_get_core_file_reference(core_name, &file);
+	file_create_parent_directories_if_not_present(&file);
+
+	if (!file_exists(&file))
+		file_create(&file);
+
+	dword error = 0;
+	if (!file_open(&file, FLAG(_file_open_flag_desired_access_write), &error))
+		return false;
+
+	bool result = file_write(&file, buffer_length, buffer);
+	file_close(&file);
+	return result;
 }
 
 void __cdecl game_state_write_to_persistent_storage_blocking(s_game_state_header const* header, long header_size, void const* buffer, long buffer_length)

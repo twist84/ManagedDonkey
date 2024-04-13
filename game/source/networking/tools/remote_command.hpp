@@ -111,6 +111,12 @@ COMMAND_CALLBACK_DECLARE(game_start);
 COMMAND_CALLBACK_DECLARE(game_won);
 COMMAND_CALLBACK_DECLARE(game_revert);
 COMMAND_CALLBACK_DECLARE(main_menu);
+COMMAND_CALLBACK_DECLARE(core_load);
+COMMAND_CALLBACK_DECLARE(core_load_name);
+COMMAND_CALLBACK_DECLARE(core_save);
+COMMAND_CALLBACK_DECLARE(core_save_name);
+COMMAND_CALLBACK_DECLARE(core_load_game);
+COMMAND_CALLBACK_DECLARE(core_load_game_name);
 COMMAND_CALLBACK_DECLARE(net_session_create);
 COMMAND_CALLBACK_DECLARE(net_session_add);
 COMMAND_CALLBACK_DECLARE(net_test_ping);
@@ -192,6 +198,13 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_won, 0, "", "causes the player to successfully finish the current level and move to the next\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_revert, 0, "", "causes the player to revert to their previous saved game (for testing and cinematic skipping only please!)\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(main_menu, 0, "", "goes back to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(core_load, 0, "", "loads debug game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(core_load_name, 1, "<string>", "loads debug game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(core_save, 0, "", "saves debug game state to core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(core_save_name, 1, "<string>", "saves debug game state to core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(core_load_game, 0, "", "loads level and game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(core_load_game_name, 1, "<string>", "loads level and game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_session_add, 1, "<string>", "<ip:port> adds a session from the given ip:port to the local games browser \r\nNETWORK SAFE: Unknown, assumed unsafe"),

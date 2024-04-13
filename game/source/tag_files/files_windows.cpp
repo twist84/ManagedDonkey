@@ -59,6 +59,11 @@ HOOK_DECLARE(0x0052B850, find_files_start_with_search_spec);
 //HOOK_DECLARE(0x0052B980, get_current_file_time);
 //HOOK_DECLARE(0x0052BA20, invalidate_file_handle);
 
+bool string_is_absolute_path(char const* s)
+{
+	return s < strstr(s, ":\\");
+}
+
 void __cdecl suppress_file_errors(bool suppress)
 {
 	if (get_tls())

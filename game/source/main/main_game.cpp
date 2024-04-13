@@ -775,6 +775,9 @@ bool __cdecl main_game_loaded_pregame()
 void __cdecl main_game_notify_language_change(e_language language)
 {
 	INVOKE(0x00567BF0, main_game_notify_language_change, language);
+
+	//main_game_reload_map("");
+	//director_notify_map_reset();
 }
 
 void __cdecl main_game_progression_request_level_advance_spoke(long gp_level_index)

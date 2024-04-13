@@ -597,29 +597,29 @@ bool __cdecl main_kick_startup_masking_sequence(bool kick_input)
 
 void __cdecl main_load_core()
 {
-	INVOKE(0x00505980, main_load_core);
+	//INVOKE(0x00505980, main_load_core);
 
-	//main_load_core_name("core");
+	main_load_core_name("core");
 }
 
 void __cdecl main_load_core_name(char const* core_name)
 {
-	INVOKE(0x005059A0, main_load_core_name, core_name);
+	//INVOKE(0x005059A0, main_load_core_name, core_name);
 
-	//main_globals.load_core = true;
-	//main_globals.core_name.set(core_name);
-	////director_notify_map_reset();
+	main_globals.load_core = true;
+	main_globals.core_name.set(core_name);
+	director_notify_map_reset();
 }
 
 void __cdecl main_load_core_private()
 {
-	INVOKE(0x005059C0, main_load_core_private);
+	//INVOKE(0x005059C0, main_load_core_private);
 
-	//if (game_in_progress())
-	//{
-	//	game_state_load_core(main_globals.core_name.get_string());
-	//	main_globals.load_core = false;
-	//}
+	if (game_in_progress())
+	{
+		game_state_load_core(main_globals.core_name.get_string());
+		main_globals.load_core = false;
+	}
 }
 
 void __cdecl main_loop_initialize_restricted_regions()
