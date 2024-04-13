@@ -5,6 +5,7 @@
 #include "config/version.hpp"
 #include "cseries/cseries_events.hpp"
 #include "cseries/runtime_state.hpp"
+#include "game/game.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
 #include "memory/crc.hpp"
@@ -12,6 +13,7 @@
 #include "multithreading/synchronization.hpp"
 #include "saved_games/game_state_pc.hpp"
 #include "saved_games/game_state_procs.hpp"
+#include "simulation/simulation.hpp"
 #include "tag_files/files.hpp"
 
 #include <string.h>
@@ -321,19 +323,23 @@ bool __cdecl game_state_read_header_from_persistent_storage_blocking(e_controlle
 
 void __cdecl game_state_reset_mapping(long a1)
 {
-	INVOKE(0x00510330, game_state_reset_mapping, a1);
+	//INVOKE(0x00510330, game_state_reset_mapping, a1);
+
+	game_state_set_buffer_protection(game_state_globals.base_address, k_game_state_with_mirrors_size, game_state_globals.guard_page_size);
 }
 
 //.text:00510350
 
 void __cdecl game_state_revert(dword flags)
 {
-	INVOKE(0x005105F0, game_state_revert, flags);
+	INVOKE(0x00510360, game_state_revert, flags);
 }
 
 bool __cdecl game_state_reverted()
 {
-	return INVOKE(0x00510530, game_state_reverted);
+	//return INVOKE(0x00510530, game_state_reverted);
+
+	return game_state_globals.revert_time == game_time_get();
 }
 
 void __cdecl game_state_save()
@@ -343,7 +349,24 @@ void __cdecl game_state_save()
 
 void __cdecl game_state_save_core(char const* core_name)
 {
-	INVOKE(0x005105F0, game_state_save_core, core_name);
+	//INVOKE(0x005105F0, game_state_save_core, core_name);
+
+	long game_state_proc_flags = 0;
+
+	if ((game_is_server() || game_is_distributed()) && !game_is_playback())
+		simulation_notify_core_save();
+	else
+		game_state_proc_flags = 200;
+
+	game_state_call_before_save_procs(game_state_proc_flags);
+
+	bool success = game_state_write_core(core_name, game_state_globals.base_address, k_game_state_size);
+	console_printf(success ? "saved '%s'" : "error writing '%s'", core_name);
+	game_state_call_after_save_procs(game_state_proc_flags);
+
+	//if (success)
+	//	game_state_upload_to_debug_server(core_name);
+	//bug_notify_core_creation(core_name, success);
 }
 
 void __cdecl game_state_save_to_persistent_storage_blocking()
