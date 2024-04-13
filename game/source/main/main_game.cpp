@@ -504,7 +504,14 @@ void __cdecl main_game_internal_pregame_load()
 
 void __cdecl main_game_internal_pregame_unload()
 {
-	INVOKE(0x00567720, main_game_internal_pregame_unload);
+	//INVOKE(0x00567720, main_game_internal_pregame_unload);
+
+	ASSERT(main_game_globals.game_loaded_status == _game_loaded_status_pregame);
+
+	texture_cache_close_pregame();
+	physical_memory_stage_pop(_memory_stage_level_initialize);
+	physical_memory_stage_pop(_memory_stage_map_type_configuration);
+	main_game_globals.game_loaded_status = _game_loaded_status_none;
 }
 
 void __cdecl main_game_launch_default()
