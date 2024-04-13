@@ -334,7 +334,21 @@ void __cdecl main_game_change_update()
 
 void __cdecl main_game_configure_map_memory(game_options const* options)
 {
-	INVOKE(0x00567200, main_game_configure_map_memory, options);
+	//INVOKE(0x00567200, main_game_configure_map_memory, options);
+
+	e_map_memory_configuration desired_memory_configuration = compute_desired_map_memory_configuration(options);
+	ASSERT(VALID_INDEX(desired_memory_configuration, k_map_memory_configuration_count));
+
+	if (main_game_globals.map_memory_configuration == _game_loaded_status_map_reloading)
+	{
+		ASSERT(options->load_level_only);
+		ASSERT(desired_memory_configuration == main_game_globals.map_memory_configuration);
+	}
+	else if (main_game_globals.map_memory_configuration != desired_memory_configuration)
+	{
+		main_game_configure_map_memory_pop();
+		main_game_configure_map_memory_push(desired_memory_configuration);
+	}
 }
 
 void __cdecl main_game_configure_map_memory_pop()
