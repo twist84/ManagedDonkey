@@ -197,7 +197,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 			break;
 			}
 
-			if (!g_launch_globals.core_name.is_empty())
+			if (g_launch_globals.core_name_set)
 			{
 				main_load_core_name(g_launch_globals.core_name.get_string());
 				g_launch_globals.core_name.clear();
@@ -737,6 +737,8 @@ void __cdecl main_game_load_from_core_name(char const* core_name)
 	if (game_state_get_game_options_from_core(core_name, &options))
 	{
 		g_launch_globals.core_name_set = true;
+		g_launch_globals.core_name.set(core_name);
+
 		game_options_validate(&options);
 		main_game_change(&options);
 	}
