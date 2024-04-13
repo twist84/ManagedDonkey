@@ -5,6 +5,7 @@
 #include "interface/debug_menu/debug_menu_item_numbered.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/interface_constants.hpp"
+#include "main/global_preferences.hpp"
 #include "main/main.hpp"
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
@@ -177,6 +178,59 @@ void c_debug_menu_zone_sets::update_caption()
 
 	if (VALID_INDEX(get_selection(), global_scenario_get()->zone_sets.count()))
 		scenario_get_structure_bsp_string_from_mask(global_scenario_get()->zone_sets[get_selection()].flags, caption, sizeof(caption));
+
+	set_caption(caption);
+}
+
+c_debug_menu_global_preferences::~c_debug_menu_global_preferences()
+{
+}
+
+void c_debug_menu_global_preferences::notify_selected(short selected_value)
+{
+	if (VALID_INDEX(get_selection(), k_global_preference_count))
+	{
+		//global_preferences_handle_selected(selected_value);
+	}
+	else
+	{
+		generate_event(_event_level_critical, "this should be a valid global preference index WTF???");
+	}
+}
+
+void c_debug_menu_global_preferences::open()
+{
+	c_debug_menu_scroll::open();
+	update_caption();
+}
+
+void c_debug_menu_global_preferences::notify_up()
+{
+	c_debug_menu::notify_up();
+	update_caption();
+}
+
+void c_debug_menu_global_preferences::notify_down()
+{
+	c_debug_menu::notify_down();
+	update_caption();
+}
+
+c_debug_menu_global_preferences::c_debug_menu_global_preferences(c_debug_menu* parent, short num_visible, char const* name) :
+	c_debug_menu_scroll(parent, num_visible, name)
+{
+	csstrnzcpy(m_some_string, "", sizeof(m_some_string));
+
+	for (long global_preference_index = 0; global_preference_index < k_global_preference_count; global_preference_index++)
+		add_item(new c_debug_menu_item_numbered(this, k_global_preference_names[global_preference_index], NULL));
+}
+
+void c_debug_menu_global_preferences::update_caption()
+{
+	char caption[1024]{};
+
+	//if (VALID_INDEX(get_selection(), k_global_preference_count))
+	//	csstrnzcpy(m_some_string, k_global_preference_names[get_selection()], sizeof(m_some_string));
 
 	set_caption(caption);
 }
