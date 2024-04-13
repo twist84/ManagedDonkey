@@ -306,6 +306,8 @@ bool __cdecl main_game_goto_next_level()
 	return INVOKE(0x005672B0, main_game_goto_next_level);
 }
 
+//.text:00567440 ; network_squad_session_set_coop_game_options_internal
+
 void __cdecl main_game_initialize()
 {
 	//INVOKE(0x005674B0, main_game_initialize);
@@ -352,7 +354,15 @@ bool __cdecl main_game_internal_map_load_complete(bool reload_map, game_options 
 
 void __cdecl main_game_internal_map_unload_begin()
 {
-	INVOKE(0x005675D0, main_game_internal_map_unload_begin);
+	//INVOKE(0x005675D0, main_game_internal_map_unload_begin);
+
+	ASSERT(main_game_globals.game_loaded_status == _game_loaded_status_map_loaded);
+	ASSERT(!bink_playback_active());
+
+	main_game_internal_close_caches();
+
+	main_game_globals.game_loaded_status = _game_loaded_status_map_unloading;
+	csstrnzcpy(main_game_globals.game_loaded_scenario_path, "", 260);
 }
 
 void __cdecl main_game_internal_map_unload_complete()
