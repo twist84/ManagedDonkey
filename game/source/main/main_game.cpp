@@ -273,10 +273,10 @@ void __cdecl main_game_change_update()
 				}
 			}
 		}
-	
+
 		main_game_globals.request_level_advance = false;
 	}
-	
+
 	if (main_game_globals.change_in_progress)
 	{
 		if (main_game_globals.game_load_pending)
@@ -288,9 +288,9 @@ void __cdecl main_game_change_update()
 		{
 			main_game_change_immediate(&main_game_globals.game_loaded_options);
 		}
-	
+
 		sub_5129B0();
-	
+
 		main_game_globals.change_in_progress = false;
 		main_game_globals.game_load_pending = false;
 		main_game_globals.__unknown120 = 0;
@@ -330,7 +330,20 @@ void __cdecl main_game_internal_close_caches()
 
 void __cdecl main_game_internal_map_load_abort(bool reload_map)
 {
-	INVOKE(0x005674F0, main_game_internal_map_load_abort, reload_map);
+	//INVOKE(0x005674F0, main_game_internal_map_load_abort, reload_map);
+
+	ASSERT(main_game_globals.game_loaded_status == _game_loaded_status_map_loading
+		|| main_game_globals.game_loaded_status == _game_loaded_status_map_loaded_failure
+		|| (reload_map && main_game_globals.game_loaded_status == _game_loaded_status_map_reloading));
+
+	if (reload_map || main_game_globals.game_loaded_status == _game_loaded_status_map_loaded_failure)
+	{
+		main_game_internal_close_caches();
+		scenario_unload();
+	}
+
+	physical_memory_stage_pop(_memory_stage_level_initialize);
+	main_game_globals.game_loaded_status = _game_loaded_status_none;
 }
 
 void __cdecl main_game_internal_map_load_begin(bool reload_map)
@@ -728,12 +741,12 @@ bool __cdecl main_game_start(game_options const* options)
 	long zoneset_index = 0;
 	if (options->initial_zone_set_index > 0)
 		zoneset_index = options->initial_zone_set_index;
-	
+
 	if (zoneset_index > global_scenario->zone_sets.count() - 1)
 		zoneset_index = global_scenario->zone_sets.count() - 1;
-	
+
 	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
-	
+
 	game_initialize_for_new_map(options);
 	scenario_activate_initial_designer_zones(zoneset_index);
 	game_create_objects(_game_create_mode_lock);
@@ -745,10 +758,10 @@ bool __cdecl main_game_start(game_options const* options)
 	{
 		game_start(_game_create_mode_lock);
 		game_create_ai(_game_create_mode_lock);
-	
+
 		success = true;
 	}
-	
+
 	if (success)
 	{
 		if (!game_is_ui_shell())
@@ -761,7 +774,7 @@ bool __cdecl main_game_start(game_options const* options)
 	{
 		game_dispose_from_old_map();
 	}
-	
+
 	return success;
 }
 
