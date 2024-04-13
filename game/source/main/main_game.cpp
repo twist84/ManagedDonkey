@@ -316,7 +316,14 @@ void __cdecl main_game_initialize()
 
 void __cdecl main_game_internal_close_caches()
 {
-	INVOKE(0x005674D0, main_game_internal_close_caches);
+	//INVOKE(0x005674D0, main_game_internal_close_caches);
+
+	tag_resources_prepare_for_new_map();
+	cache_file_tag_resources_dispose_from_old_map();
+	sound_cache_close();
+	texture_cache_close();
+	geometry_cache_close();
+	scenario_language_pack_unload();
 }
 
 void __cdecl main_game_internal_map_load_abort(bool reload_map)
