@@ -335,12 +335,22 @@ void __cdecl main_game_internal_map_load_abort(bool reload_map)
 
 void __cdecl main_game_internal_map_load_begin(bool reload_map)
 {
-	INVOKE(0x00567540, main_game_internal_map_load_begin, reload_map);
+	//INVOKE(0x00567540, main_game_internal_map_load_begin, reload_map);
+
+	ASSERT(main_game_globals.game_loaded_status == (reload_map ? _game_loaded_status_map_reloading : _game_loaded_status_none));
+
+	if (!reload_map)
+		physical_memory_stage_push(_memory_stage_level_initialize);
+
+	main_game_globals.game_loaded_status = _game_loaded_status_map_loading;
 }
 
 bool __cdecl main_game_internal_map_load_complete(bool reload_map, game_options const* options)
 {
 	//return INVOKE(0x00567560, main_game_internal_map_load_complete, reload_map, options);
+
+	ASSERT(main_game_globals.game_loaded_status == _game_loaded_status_map_loading);
+	ASSERT(options);
 
 	bool result = true;
 	if (!reload_map)
