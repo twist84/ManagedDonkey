@@ -481,7 +481,13 @@ void __cdecl main_game_pregame_blocking_load()
 
 void __cdecl main_game_internal_pregame_blocking_unload()
 {
-	INVOKE(0x005676D0, main_game_internal_pregame_blocking_unload);
+	//INVOKE(0x005676D0, main_game_internal_pregame_blocking_unload);
+
+	ASSERT(main_game_globals.game_loaded_status == _game_loaded_status_pregame);
+
+	texture_cache_close_pregame();
+	physical_memory_stage_pop(_memory_stage_level_initialize);
+	main_game_globals.game_loaded_status = _game_loaded_status_none;
 }
 
 void __cdecl main_game_internal_pregame_load()
@@ -690,7 +696,7 @@ void __cdecl main_game_load_panic()
 		}
 		else
 		{
-			game_options options = game_options();
+			game_options options{};
 			load_panic_recursion_lock = true;
 			main_menu_build_game_options(&options);
 			main_game_change_immediate(&options);
@@ -713,10 +719,22 @@ void __cdecl main_game_load_panic()
 
 void __cdecl main_game_load_from_core_name(char const* core_name)
 {
+	game_options options{};
+	if (game_state_get_game_options_from_core(core_name, &options))
+	{
+		g_launch_globals.core_name_set = true;
+		game_options_validate(&options);
+		main_game_change(&options);
+	}
+	else
+	{
+		generate_event(_event_level_warning, "Failed to get game options from core (so I can't load it!)");
+	}
 }
 
 void __cdecl main_game_load_from_core()
 {
+	main_game_load_from_core_name("core");
 }
 
 bool __cdecl main_game_loaded_map()
