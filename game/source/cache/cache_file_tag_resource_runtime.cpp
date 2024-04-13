@@ -153,16 +153,6 @@ static_assert(sizeof(c_runtime_tag_resource_cache_file_decompressor_service) == 
 static c_runtime_resource_cache_file_decompressor_service g_runtime_resource_cache_file_decompressor_service = {};
 static c_runtime_tag_resource_cache_file_decompressor_service g_runtime_tag_resource_cache_file_decompressor_service = {};
 
-bool __cdecl cache_file_tag_resources_prefetch_update_required()
-{
-	return INVOKE(0x0055F870, cache_file_tag_resources_prefetch_update_required);
-}
-
-void __cdecl cache_file_tag_resources_update_prefetch_state()
-{
-	return INVOKE(0x0055F960, cache_file_tag_resources_update_prefetch_state);
-}
-
 void __fastcall cache_file_tag_resource_codec_service_initialize(c_cache_file_tag_resource_codec_service* _this, void* unused, c_allocation_base* allocator, c_cache_file_runtime_decompressor_registry* decompressor_registry, c_cache_file_resource_uber_location_table* uber_location_table)
 {
 	DECLFUNC(0x00561AB0, void, __thiscall, c_cache_file_tag_resource_codec_service*, c_allocation_base*, c_cache_file_runtime_decompressor_registry*, c_cache_file_resource_uber_location_table*)(_this, allocator, decompressor_registry, uber_location_table);
@@ -187,6 +177,19 @@ HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);
 
 #endif // ISEXPERIMENTAL
 
+void __cdecl cache_file_tag_resources_dispose()
+{
+	INVOKE(0x0055F650, cache_file_tag_resources_dispose);
+}
+
+void __cdecl cache_file_tag_resources_dispose_from_old_map()
+{
+	INVOKE(0x0055F6B0, cache_file_tag_resources_dispose_from_old_map);
+}
+
+//.text:0055F6C0 ; void __cdecl cache_file_tag_resources_get_active_tag_set(dword, dword, dword, dword, c_scenario_resource_registry*)
+//.text:0055F6D0 ; bool __cdecl cache_file_tag_resources_get_control_data_section(void const**, dword*)
+
 void __cdecl cache_file_tag_resources_initialize()
 {
 	INVOKE(0x0055F700, cache_file_tag_resources_initialize);
@@ -208,10 +211,36 @@ void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mo
 		&runtime_decompressor_registry);
 }
 
+//.text:0055F760 ; void __cdecl cache_file_tag_resources_load_pending_resources_blocking(c_io_result*)
+//.text:0055F7C0 ; void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_io_result*)
+//.text:0055F820 ; real __cdecl cache_file_tag_resources_map_prefetch_progress(short, char const*)
+//.text:0055F850 ; bool __cdecl cache_file_tag_resources_map_prefetched(short, char const*)
+
+bool __cdecl cache_file_tag_resources_prefetch_update_required()
+{
+	return INVOKE(0x0055F870, cache_file_tag_resources_prefetch_update_required);
+}
+
+//.text:0055F890 ; void __cdecl cache_file_tag_resources_prepare_for_next_map()
+
+void __cdecl cache_file_tag_resources_update_prefetch_state()
+{
+	return INVOKE(0x0055F960, cache_file_tag_resources_update_prefetch_state);
+}
+
 void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state)
 {
 	INVOKE(0x0055F8E0, cache_file_tag_resources_set_zone_state, scenario_index, zone_set_name, zone_state);
 }
+
+//.text:0055F900 ; void __cdecl cache_file_tag_resources_start_map_prefetch(short, char const*)
+//.text:0055F920 ; void __cdecl cache_file_tag_resources_stop_map_prefetch()
+//.text:0055F960 ; void __cdecl cache_file_tag_resources_update_prefetch_state(void)
+//.text:0055F9B0 ; 
+//.text:0055F9F0 ; 
+//.text:0055FA20 ; 
+//.text:0055FA70 ; 
+//.text:0055FAA0 ; 
 
 bool __cdecl tag_resource_available(s_tag_resource const* resource)
 {
