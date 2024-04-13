@@ -30,7 +30,7 @@ enum memory_stage
 	_memory_stage_game_initialize,
 	_memory_stage_resize_initialize,
 	_memory_stage_resize_available,
-	_memory_stage_map_configuration,
+	_memory_stage_map_type_configuration,
 	_memory_stage_level_initialize,
 	_memory_stage_resize_locked,
 	_memory_stage_in_level

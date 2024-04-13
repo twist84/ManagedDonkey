@@ -1605,35 +1605,35 @@ void __cdecl main_save_and_exit_campaign()
 
 void __cdecl main_save_and_exit_campaign_immediately()
 {
-	INVOKE(0x00506D10, main_save_and_exit_campaign_immediately);
+	//INVOKE(0x00506D10, main_save_and_exit_campaign_immediately);
 
-	//main_globals.save_and_exit = true;
+	main_globals.save_and_exit = true;
 }
 
 void __cdecl main_save_core()
 {
-	INVOKE(0x00506D20, main_save_core);
+	//INVOKE(0x00506D20, main_save_core);
 
-	//main_save_core_name("core");
+	main_save_core_name("core");
 }
 
 void __cdecl main_save_core_name(char const* core_name)
 {
-	INVOKE(0x00506D40, main_save_core_name, core_name);
+	//INVOKE(0x00506D40, main_save_core_name, core_name);
 
-	//main_globals.save_core = true;
-	//main_globals.core_name.set(core_name);
+	main_globals.save_core = true;
+	main_globals.core_name.set(core_name);
 }
 
 void __cdecl main_save_core_private()
 {
-	INVOKE(0x00506D60, main_save_core_private);
+	//INVOKE(0x00506D60, main_save_core_private);
 
-	//if (game_in_progress())
-	//{
-	//	game_state_save_core(main_globals.core_name.get_string());
-	//	main_globals.save_core = false;
-	//}
+	if (game_in_progress())
+	{
+		game_state_save_core(main_globals.core_name.get_string());
+		main_globals.save_core = false;
+	}
 }
 
 void __cdecl main_save_map()
@@ -1646,21 +1646,21 @@ void __cdecl main_save_map()
 
 void __cdecl main_save_map_and_exit_private()
 {
-	INVOKE(0x00506D90, main_save_map_and_exit_private);
+	//INVOKE(0x00506D90, main_save_map_and_exit_private);
 
-	//if (!game_is_playback())
-	//{
-	//	game_state_save_to_persistent_storage_blocking();
-	//	game_finish();
-	//}
-	//main_globals.save_and_exit = false;
+	if (!game_is_playback())
+	{
+		game_state_save_to_persistent_storage_blocking();
+		game_finish();
+	}
+	main_globals.save_and_exit = false;
 }
 
 bool __cdecl main_save_map_pending()
 {
-	return INVOKE(0x00506DB0, main_save_map_pending);
+	//return INVOKE(0x00506DB0, main_save_map_pending);
 
-	//return main_globals.save;
+	return main_globals.save;
 }
 
 void __cdecl main_save_map_private()
@@ -1686,9 +1686,9 @@ void __cdecl main_set_active_designer_zone_mask(dword a1)
 
 void __cdecl main_set_single_thread_request_flag(long single_threaded_request_flags, bool set)
 {
-	INVOKE(0x00506EB0, main_set_single_thread_request_flag, single_threaded_request_flags, set);
+	//INVOKE(0x00506EB0, main_set_single_thread_request_flag, single_threaded_request_flags, set);
 
-	//g_single_thread_request_flags.set_bit(single_threaded_request_flags, set);
+	g_single_thread_request_flags.set_bit(single_threaded_request_flags, set);
 }
 
 void __cdecl main_skip_cinematic()

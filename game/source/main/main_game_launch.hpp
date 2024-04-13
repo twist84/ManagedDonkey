@@ -5,6 +5,9 @@
 
 struct s_main_game_launch_globals
 {
+	// main_game_load_from_core_name
+	bool core_name_set;
+
 	// main_game_change_immediate
 	// main_game_load_from_core_name
 	c_static_string<256> core_name;
