@@ -67,6 +67,7 @@ extern long __cdecl scenario_zone_set_index_get();
 extern long global_scenario_index_get();
 extern char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* structure_bsp_string, dword structure_bsp_string_size);
 extern bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path);
+extern void __cdecl scenario_unload();
 extern short scenario_object_name_index_from_string(s_scenario* scenario, char const* name);
 extern long scenario_get_zone_set_index_by_name(s_scenario const* scenario, char const* name, bool strip_path);
 extern long scenario_get_designer_zone_index_by_name(s_scenario const* scenario, char const* name);

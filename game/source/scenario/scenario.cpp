@@ -270,6 +270,11 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 	return (scenario->campaign_id == campaign_id || campaign_id == -1) && (scenario->map_id == map_id || map_id == -1);
 }
 
+void __cdecl scenario_unload()
+{
+	INVOKE(0x004EB950, scenario_unload);
+}
+
 short scenario_object_name_index_from_string(s_scenario* scenario, char const* name)
 {
 	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count()); object_name_index++)
