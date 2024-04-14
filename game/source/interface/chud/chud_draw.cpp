@@ -1,17 +1,12 @@
 #include "interface/chud/chud_draw.hpp"
 
-bool chud_debug_grid = false;
-bool chud_debug_crosshair = false;
+#include "cseries/cseries.hpp"
 
-void chud_debug_render()
+REFERENCE_DECLARE(0x0526A085, bool, chud_debug_crosshair);
+REFERENCE_DECLARE(0x0526A087, bool, chud_debug_grid);
+
+void __cdecl chud_debug_render()
 {
-	if (chud_debug_grid)
-	{
-		// #TODO: implement
-	}
-	if (chud_debug_crosshair)
-	{
-		// #TODO: implement
-	}
+	INVOKE(0x00AC8070, chud_debug_render);
 }
 
