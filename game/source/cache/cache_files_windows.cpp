@@ -12,6 +12,7 @@ REFERENCE_DECLARE(0x0240B1E8, s_cache_file_table_of_contents, cache_file_table_o
 REFERENCE_DECLARE(0x0243C098, s_cache_file_copy_globals, cache_file_copy_globals);
 REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 
+HOOK_DECLARE(0x005AAE70, cache_files_copy_map_start_only);
 HOOK_DECLARE(0x005ABFF0, canonicalize_map_path);
 
 bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index)
@@ -52,7 +53,11 @@ bool __cdecl cache_file_get_async_file_handle_from_index(e_map_file_index map_fi
 }
 
 //.text:005AA0C0 ; bool __cdecl cache_file_get_async_file_handle_from_path(char const*, s_file_handle*)
-//.text:005AA130 ; c_static_string<256> __cdecl cache_file_get_canonical_path(char const*)
+
+c_static_string<256> __cdecl cache_file_get_canonical_path(char const* scenario_path)
+{
+	return INVOKE(0x005AA130, cache_file_get_canonical_path, scenario_path);
+}
 
 long __cdecl cache_file_get_failed_count(char const* map_path)
 {
@@ -115,12 +120,40 @@ void __cdecl cache_files_copy_do_work()
 	INVOKE(0x005AAB20, cache_files_copy_do_work);
 }
 
-//.text:005AAC20 ; void __cdecl cache_files_copy_halt()
-//.text:005AAC50 ; bool __cdecl cache_files_copy_halting()
-//.text:005AAC60 ; bool __cdecl cache_files_copy_in_progress()
-//.text:005AAC70 ; bool __cdecl cache_files_copy_in_progress_internal(real*)
-//.text:005AAD30 ; bool __cdecl cache_files_copy_map(char const*, e_cache_file_load_action)
-//.text:005AAE70 ; bool __cdecl cache_files_copy_map_start_only(char const*, e_cache_file_load_action)
+void __cdecl cache_files_copy_halt()
+{
+	INVOKE(0x005AAC20, cache_files_copy_halt);
+}
+
+bool __cdecl cache_files_copy_halting()
+{
+	return INVOKE(0x005AAC50, cache_files_copy_halting);
+}
+
+bool __cdecl cache_files_copy_in_progress()
+{
+	return INVOKE(0x005AAC60, cache_files_copy_in_progress);
+}
+
+bool __cdecl cache_files_copy_in_progress_internal(real* out_progress)
+{
+	return INVOKE(0x005AAC70, cache_files_copy_in_progress_internal, out_progress);
+}
+
+//bool __cdecl cache_files_copy_map(char const* scenario_path, e_cache_file_load_action load_action)
+bool __cdecl cache_files_copy_map(char const* scenario_path, long load_action)
+{
+	return INVOKE(0x005AAD30, cache_files_copy_map, scenario_path, load_action);
+}
+
+//bool __cdecl cache_files_copy_map_start_only(char const* scenario_path, e_cache_file_load_action load_action)
+bool __cdecl cache_files_copy_map_start_only(char const* scenario_path, long load_action)
+{
+	//return INVOKE(0x005AAE70, cache_files_copy_map_start_only, scenario_path, load_action);
+
+	return cache_files_get_file_status(scenario_path) == 0
+		&& cache_files_copy_map(scenario_path, load_action);
+}
 
 void __cdecl cache_files_copy_pause()
 {
@@ -132,7 +165,10 @@ void __cdecl cache_files_copy_resume()
 	INVOKE(0x005AAEC0, cache_files_copy_resume);
 }
 
-//.text:005AAED0 ; void __cdecl cache_files_copy_stop(char const*)
+void __cdecl cache_files_copy_stop(char const* scenario_path)
+{
+	INVOKE(0x005AAED0, cache_files_copy_stop, scenario_path);
+}
 
 void __cdecl cache_files_delete_all()
 {
@@ -167,7 +203,13 @@ void __cdecl cache_files_delete_if_language_has_changed()
 //.text:005AAFD0 ; e_cache_file_load_action __cdecl cache_files_get_current_load_action(char const*)
 //.text:005AB040 ; dword __cdecl cache_files_get_estimated_dvd_speed()
 //.text:005AB050 ; bool __cdecl cache_files_get_file_progress_sizes(char const*, long, dword*, dword*, dword*)
-//.text:005AB0E0 ; e_cache_file_status __cdecl cache_files_get_file_status(char const*)
+
+//e_cache_file_status __cdecl cache_files_get_file_status(char const* scenario_path)
+long __cdecl cache_files_get_file_status(char const* scenario_path)
+{
+	return INVOKE(0x005AB0E0, cache_files_get_file_status, scenario_path);
+}
+
 //.text:005AB180 ; c_asynchronous_io_arena* __cdecl cache_files_get_io_arena()
 //.text:005AB190 ; e_cache_file_load_action __cdecl cache_files_get_load_action(char const*)
 //.text:005AB210 ; e_cache_file_load_action __cdecl cache_files_get_pending_load_action(char const*)

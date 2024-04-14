@@ -188,5 +188,6 @@ extern bool __cdecl network_squad_session_set_ui_game_mode(e_gui_game_mode ui_ga
 extern bool __cdecl network_squad_session_set_ui_state(s_network_ui_state const* ui_state);
 extern bool __cdecl network_squad_session_whack_to_offline_session_class();
 extern bool __cdecl network_squad_session_local_peer_is_leader();
+extern bool __cdecl network_session_interface_wants_main_menu_to_load();
 extern bool __cdecl network_squad_session_set_session_mode(e_network_session_mode session_mode);
 

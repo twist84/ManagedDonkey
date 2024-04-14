@@ -1,6 +1,8 @@
 ﻿#include "main/loading.hpp"
 
 #include "bink/bink_playback.hpp"
+#include "cache/cache_files.hpp"
+#include "cache/cache_files_windows.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/progress.hpp"
 #include "game/game.hpp"
@@ -9,6 +11,7 @@
 #include "main/main_game.hpp"
 #include "main/main_render.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/network_session_interface.hpp"
 #include "scenario/scenario.hpp"
 
 REFERENCE_DECLARE(0x02390D00, bool, disable_progress_screen);
@@ -23,6 +26,7 @@ bool force_load_map_failed = false;
 bool force_load_map_mainmenu_launch = false;
 
 HOOK_DECLARE(0x0052F180, main_load_map);
+HOOK_DECLARE(0x0052FA00, main_loading_idle);
 HOOK_DECLARE(0x0052FB60, main_loading_progress_done);
 HOOK_DECLARE(0x0052FB70, main_loading_progress_new);
 HOOK_DECLARE(0x0052FB80, main_loading_progress_update);
@@ -321,7 +325,42 @@ e_main_pregame_frame __cdecl main_loading_get_loading_status(c_static_wchar_stri
 
 void __cdecl main_loading_idle()
 {
-	INVOKE(0x0052FA00, main_loading_idle);
+	//INVOKE(0x0052FA00, main_loading_idle);
+
+	s_main_loading_action loading_action{};
+	if (!main_loading_get_action(&loading_action) || network_session_interface_wants_main_menu_to_load())
+		return;
+
+	if (string_is_not_empty(loading_action.scenario_path))
+	{
+		if (loading_action.copy_stop)
+		{
+			cache_files_copy_stop(cache_file_get_canonical_path(k_single_player_shared_scenario_tag).get_string());
+			cache_files_copy_stop(cache_file_get_canonical_path(k_introduction_scenario_tag).get_string());
+		}
+		else if (loading_action.copy_map_start_only)
+		{
+			cache_files_copy_map_start_only(loading_action.scenario_path, loading_action.load_action);
+		}
+		else
+		{
+			cache_files_copy_map(loading_action.scenario_path, loading_action.load_action);
+		}
+
+		if (loading_action.map_has_progression)
+		{
+			cache_file_tag_resources_start_map_prefetch(static_cast<short>(loading_action.campaign_id), loading_action.scenario_path);
+		}
+		else if (loading_action.stop_map_prefetch)
+		{
+			cache_file_tag_resources_stop_map_prefetch();
+		}
+	}
+	else
+	{
+		if (!loading_action.map_has_progression && loading_action.stop_map_prefetch)
+			cache_file_tag_resources_stop_map_prefetch();
+	}
 }
 
 void __cdecl main_loading_initialize()

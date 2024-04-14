@@ -393,6 +393,11 @@ bool __cdecl network_squad_session_local_peer_is_leader()
 	return INVOKE(0x00455320, network_squad_session_local_peer_is_leader);
 }
 
+bool __cdecl network_session_interface_wants_main_menu_to_load()
+{
+	return INVOKE(0x00454B90, network_session_interface_wants_main_menu_to_load);
+}
+
 bool __cdecl network_squad_session_set_session_mode(e_network_session_mode session_mode)
 {
 	bool success = false;

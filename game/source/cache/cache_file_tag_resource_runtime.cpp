@@ -233,8 +233,16 @@ void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long z
 	INVOKE(0x0055F8E0, cache_file_tag_resources_set_zone_state, scenario_index, zone_set_name, zone_state);
 }
 
-//.text:0055F900 ; void __cdecl cache_file_tag_resources_start_map_prefetch(short, char const*)
-//.text:0055F920 ; void __cdecl cache_file_tag_resources_stop_map_prefetch()
+void __cdecl cache_file_tag_resources_start_map_prefetch(short campaign_id, char const* scenario_path)
+{
+	INVOKE(0x0055F900, cache_file_tag_resources_start_map_prefetch, campaign_id, scenario_path);
+}
+
+void __cdecl cache_file_tag_resources_stop_map_prefetch()
+{
+	INVOKE(0x0055F920, cache_file_tag_resources_stop_map_prefetch);
+}
+
 //.text:0055F960 ; void __cdecl cache_file_tag_resources_update_prefetch_state()
 //.text:0055F9B0 ; 
 //.text:0055F9F0 ; 

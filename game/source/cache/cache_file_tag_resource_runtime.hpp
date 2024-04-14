@@ -365,6 +365,8 @@ extern void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode 
 extern bool __cdecl cache_file_tag_resources_prefetch_update_required();
 extern void __cdecl cache_file_tag_resources_update_prefetch_state();
 extern void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state);
+extern void __cdecl cache_file_tag_resources_start_map_prefetch(short campaign_id, char const* scenario_path);
+extern void __cdecl cache_file_tag_resources_stop_map_prefetch();
 
 extern bool __cdecl tag_resource_available(s_tag_resource const* resource);
 extern void* __cdecl tag_resource_get(s_tag_resource const* resource);

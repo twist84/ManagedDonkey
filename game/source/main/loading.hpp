@@ -15,6 +15,18 @@ enum e_basic_loading_phase
 	k_basic_loading_phase_count = 3
 };
 
+struct s_main_loading_action
+{
+	char scenario_path[256];
+	long load_action;
+	long campaign_id;
+	bool copy_map_start_only;
+	bool copy_stop;
+	bool map_has_progression;
+	bool stop_map_prefetch;
+};
+static_assert(sizeof(s_main_loading_action) == 0x10C);
+
 struct loading_globals_definition
 {
 	char const* scenario_path;
