@@ -13,6 +13,7 @@
 #include "simulation/simulation_gamestate_entities.hpp"
 #include "simulation/simulation_type_collection.hpp"
 #include "simulation/simulation_world.hpp"
+#include "simulation/simulation_encoding.hpp"
 
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
@@ -530,44 +531,50 @@ void __cdecl simulation_update_pregame()
 {
 	INVOKE(0x004426F0, simulation_update_pregame);
 
-	//if (simulation_globals.initialized && game_in_progress())
-	//{
-	//	if (simulation_globals.watcher->need_to_generate_updates())
-	//	{
-	//		struct simulation_update update{};
-	//		s_simulation_update_metadata metadata{};
-	//		simulation_build_update(false, &update, &metadata);
-	//		ASSERT(!update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit));
+	//if (!simulation_globals.initialized)
+	//	return;
 	//
-	//		//saved_film_history_after_update_built(&update, &metadata);
-	//		//simulation_record_update(&update);
-	//		simulation_globals.recording_film = false;
+	//if (!game_in_progress())
+	//	return;
 	//
-	//		//random_seed_allow_use();
-	//		damage_acceleration_queue_begin();
-	//		simulation_apply_before_game(&update);
-	//		damage_acceleration_queue_end();
-	//		//random_seed_disallow_use();
+	//if (!simulation_globals.watcher->need_to_generate_updates())
+	//	return;
 	//
-	//		simulation_update_aftermath(&update, &metadata);
-	//		simulation_destroy_update(&update);
-	//	}
-	//}
+	//struct simulation_update update {};
+	//s_simulation_update_metadata metadata{};
+	//simulation_build_update(false, &update, &metadata);
+	//ASSERT(!update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit));
+	//
+	////saved_film_history_after_update_built(&update, &metadata);
+	////simulation_record_update(&update);
+	//simulation_globals.recording_film = false;
+	//
+	////random_seed_allow_use();
+	//damage_acceleration_queue_begin();
+	//
+	//simulation_apply_before_game(&update);
+	//
+	//damage_acceleration_queue_end();
+	////random_seed_disallow_use();
+	//
+	//simulation_update_aftermath(&update, &metadata);
+	//simulation_destroy_update(&update);
 }
 
 bool simulation_update_read_from_buffer(struct simulation_update* update, long buffer_size, byte const* buffer)
 {
 	return INVOKE(0x004427C0, simulation_update_read_from_buffer, update, buffer_size, buffer);
 
-	//c_bitstream packet;
 	//csmemset(update, 0, sizeof(struct simulation_update));
+	//
+	//c_bitstream packet((byte*)buffer, buffer_size);
 	//packet.begin_reading();
+	//
 	//if (simulation_update_decode(&packet, update))
-	//{
-	//	packet.finish_reading();
-	//	return true;
-	//}
-	//return false;
+	//	return false;
+	//
+	//packet.finish_reading();
+	//return true;
 }
 
 bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* update, long buffer_size, byte* buffer, long* out_update_length)
