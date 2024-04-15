@@ -191,6 +191,7 @@ extern void __cdecl game_engine_game_starting();
 extern void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string);
 extern long __cdecl game_engine_get_player_place(long absolute_player_index);
 extern long __cdecl game_engine_get_player_score_for_display(long absolute_player_index, bool final_score);
+extern e_game_engine_status __cdecl game_engine_get_player_state_index(long player_index);
 extern c_game_statborg* __cdecl game_engine_get_statborg();
 extern long __cdecl game_engine_get_team_place(long team);
 extern long __cdecl game_engine_get_team_score_for_display(long team, bool final_score);

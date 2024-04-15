@@ -113,7 +113,11 @@ long __cdecl game_engine_get_player_score_for_display(long absolute_player_index
 	return INVOKE(0x005507D0, game_engine_get_player_score_for_display, absolute_player_index, final_score);
 }
 
-//.text:00550830 ; enum e_game_engine_status __cdecl game_engine_get_player_state_index(long)
+e_game_engine_status __cdecl game_engine_get_player_state_index(long player_index)
+{
+	return INVOKE(0x00550830, game_engine_get_player_state_index, player_index);
+}
+
 //.text:00550A30 ; 
 //.text:00550AD0 ; long __cdecl game_engine_get_round(void)
 //.text:00550B00 ; 
