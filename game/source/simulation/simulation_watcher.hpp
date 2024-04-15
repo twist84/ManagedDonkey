@@ -11,6 +11,10 @@ struct c_network_session;
 struct c_simulation_watcher :
 	public c_network_channel_owner
 {
+public:
+	bool need_to_generate_updates() const;
+
+protected:
 	c_simulation_world* m_world;
 	c_network_observer* m_observer;
 	c_network_session* m_session;
