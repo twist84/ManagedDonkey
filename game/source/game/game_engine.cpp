@@ -162,7 +162,12 @@ long __cdecl game_engine_get_team_score_for_display(long team, bool final_score)
 //.text:00550D70 ; long __cdecl game_engine_get_time_left_in_ticks(bool)
 //.text:00550E10 ; void __cdecl game_engine_get_timer(long *, long *)
 //.text:00550E80 ; enum e_game_engine_type __cdecl game_engine_get_type(void)
-//.text:00550EA0 ; void __cdecl game_engine_get_universal_string(long, class c_static_wchar_string<256> *)
+
+void __cdecl game_engine_get_universal_string(long a1, c_static_wchar_string<256>* formatted_string)
+{
+	INVOKE(0x00550EA0, game_engine_get_universal_string, a1, formatted_string);
+}
+
 //.text:00550EF0 ; long __cdecl game_engine_get_winning_player(void)
 //.text:00550F50 ; enum e_multiplayer_team __cdecl game_engine_get_winning_team(void)
 //.text:00550F80 ; bool __cdecl game_engine_grenades_on_map_allowed(void)
