@@ -60,6 +60,11 @@ c_game_variant const* __cdecl current_game_variant()
 	return nullptr;
 }
 
+void __cdecl build_multiplayer_string(long player_index, wchar_t const* formatted_string, s_game_engine_event_data const* event_data, long buffer_size, wchar_t* dest_ptr)
+{
+	INVOKE(0x005CE070, build_multiplayer_string, player_index, formatted_string, event_data, buffer_size, dest_ptr);
+}
+
 short __cdecl game_engine_get_multiplayer_weapon_selection_absolute_index(long name)
 {
 	return INVOKE(0x005CE4A0, game_engine_get_multiplayer_weapon_selection_absolute_index, name);
