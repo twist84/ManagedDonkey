@@ -13,6 +13,18 @@ REFERENCE_DECLARE_ARRAY(0x0471AA0C, byte, unknown_bytes0471AA0C, 4);
 
 HOOK_DECLARE(0x006E5040, game_engine_render_fade_to_black);
 
+// game_engine_hud_get_state_message
+// skip over `respawning_soon`, and `game_over_{ won, tied, lost, you_lost_but_game_tied }` checks
+byte const game_engine_status_skip_patch_bytes[]
+{
+	//.text:006E4CF4                 jmp     short loc_6E4D0D
+	//.text:006E4CF6                 nop
+
+	0xEB, 0x17,
+	0x90
+};
+DATA_PATCH_DECLARE(0x006E4CF4, game_engine_status_skip, game_engine_status_skip_patch_bytes);
+
 // add a command/global
 bool g_fade_to_black_enabled = false;
 
@@ -46,51 +58,7 @@ real __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
 }
 
 //.text:006E4A40 ; real __cdecl game_engine_hud_get_fade(long)
-
 //.text:006E4AA0 ; bool __cdecl game_engine_hud_get_state_message(long, wchar_t*, long, bool)
-bool __cdecl game_engine_hud_get_state_message(long user_index, wchar_t* message_buffer, long message_buffer_length, bool a4)
-{
-	// #TODO: implement this
-	if (INVOKE(0x006E4AA0, game_engine_hud_get_state_message, user_index, message_buffer, message_buffer_length, a4))
-		return true;
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	TLS_DATA_GET_VALUE_REFERENCE(local_game_engine_globals);
-
-	s_player_state_data& player_state = local_game_engine_globals->player_states[user_index];
-	e_game_engine_status state_index = player_state.state_index;
-	switch (state_index)
-	{
-	case _game_engine_status_respawning_soon:
-	{
-		if (!game_engine_in_round())
-			return false;
-
-		long player_index = player_mapping_get_player_by_output_user((e_output_user_index)user_index);
-		player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
-		if (!player)
-			return false;
-
-		if (player->unit_index != NONE)
-			return false;
-
-		if (player->respawn_timer_countdown <= 0)
-			return false;
-
-		if (TEST_BIT(player->flags, _player_unknown_bit3)) // affected by `game_engine_get_pre_round_ticks`
-			usnzprintf(message_buffer, message_buffer_length, L"Spawn in %d", player->respawn_timer_countdown);
-		else
-			usnzprintf(message_buffer, message_buffer_length, L"Respawn in %d", player->respawn_timer_countdown);
-
-		return true;
-	}
-	break;
-	}
-
-	return false;
-}
-HOOK_DECLARE_CALL(0x00A963C6, game_engine_hud_get_state_message);
-
 //.text:006E4D90 ; bool __cdecl chud_should_render_motion_sensor(long)
 //.text:006E4DE0 ; void __cdecl game_engine_parse_utf_character(e_utf32, wchar_t*, long)
 //.text:006E4E50 ; void __cdecl game_engine_render(e_output_user_index)
