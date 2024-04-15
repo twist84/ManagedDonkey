@@ -77,7 +77,10 @@ bool __cdecl game_engine_hud_get_state_message(long user_index, wchar_t* message
 		if (player->respawn_timer_countdown <= 0)
 			return false;
 
-		usnzprintf(message_buffer, message_buffer_length, L"Respawn in %d", player->respawn_timer_countdown);
+		if (TEST_BIT(player->flags, _player_unknown_bit3)) // affected by `game_engine_get_pre_round_ticks`
+			usnzprintf(message_buffer, message_buffer_length, L"Spawn in %d", player->respawn_timer_countdown);
+		else
+			usnzprintf(message_buffer, message_buffer_length, L"Respawn in %d", player->respawn_timer_countdown);
 
 		return true;
 	}
