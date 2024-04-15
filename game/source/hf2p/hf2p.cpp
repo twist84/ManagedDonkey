@@ -95,12 +95,10 @@ void __cdecl hf2p_initialize()
 {
 	//INVOKE(0x00600630, hf2p_initialize);
 
-	//game_statistics_reset();
-	//hp2p_ui_proxy = nullptr;
-	//
-	//// crashes up the call stack
-	//// #TODO: investigate
-	//fmod_initialize();
+	game_statistics_reset();
+	hp2p_ui_proxy = nullptr;
+
+	fmod_initialize();
 }
 
 void __cdecl hf2p_game_initialize()
@@ -115,11 +113,11 @@ void __cdecl hf2p_scenario_tags_load_finished()
 {
 	//INVOKE(0x00600750, hf2p_scenario_tags_load_finished);
 
-	g_hf2p_first_run = true;
-	if (!g_hf2p_first_run)
+	//g_hf2p_first_run = true;
+	if (g_hf2p_first_run)
 	{
 		hf2p_initialize();
-		g_hf2p_first_run = true;
+		g_hf2p_first_run = false;
 	}
 }
 
@@ -131,8 +129,8 @@ void __cdecl hf2p_scenario_load()
 void __cdecl hf2p_game_dispose()
 {
 	//HOOK_INVOKE(, hf2p_game_dispose);
-	//
-	//fmod_terminate();
+	
+	fmod_terminate();
 }
 
 void __cdecl hf2p_dispose_from_old_map()
