@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "text/unicode.hpp"
 
 const long k_hash_size = 0x14;
 
@@ -22,4 +23,6 @@ struct c_language_pack
 	bool data_loaded;
 };
 static_assert(sizeof(c_language_pack) == 0x44);
+
+extern bool __cdecl string_list_get_normal_string(long definition_index, long id, c_static_wchar_string<256>* buffer);
 
