@@ -25,6 +25,16 @@ void render_debug_object_damage()
 	}
 }
 
+void __cdecl damage_acceleration_queue_begin()
+{
+	INVOKE(0x00B50120, damage_acceleration_queue_begin);
+}
+
+void __cdecl damage_acceleration_queue_end()
+{
+	INVOKE(0x00B50140, damage_acceleration_queue_end);
+}
+
 //real __cdecl compute_total_damage(struct s_damage_data* damage_data, struct s_damage_effect_definition* damage_effect_definition, struct damage_definition const* damage_definition, long object_index, bool* a5)
 real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5)
 {
@@ -35,4 +45,5 @@ real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effec
 
 	return result;
 };
+
 

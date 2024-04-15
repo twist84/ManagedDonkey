@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
-#include "objects/damage_new.hpp"
+#include "objects/damage.hpp"
 #include "objects/damage_owner.hpp"
 #include "objects/lights.hpp"
 #include "objects/multiplayer_game_objects.hpp"

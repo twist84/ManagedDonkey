@@ -5,6 +5,25 @@
 #include "objects/damage_owner.hpp"
 #include "objects/damage_reporting.hpp"
 
+struct s_damage_globals
+{
+	struct s_damage_acceleration
+	{
+		real_point3d point;
+		vector3d acceleration;
+		long object_index;
+		short node_index;
+		word_flags flags;
+	};
+	static_assert(sizeof(s_damage_acceleration) == 0x20);
+
+	long damage_acceleration_count;
+	c_static_array<s_damage_acceleration, 64> damage_accelerations;
+	c_static_flags<64> damage_accelerations_evictable;
+	bool damage_acceleration_queue_active;
+};
+static_assert(sizeof(s_damage_globals) == 0x810);
+
 struct s_damage_data
 {
 	long damage_effect_definition_index;
@@ -43,5 +62,7 @@ extern bool debug_player_damage;
 extern bool debug_damage;
 
 extern void render_debug_object_damage();
+extern void __cdecl damage_acceleration_queue_begin();
+extern void __cdecl damage_acceleration_queue_end();
 extern real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5);
 

@@ -1221,6 +1221,9 @@
     <ClCompile Include="source\camera\camera_scripting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\simulation_watcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2721,9 +2724,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\impacts.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\objects\damage_new.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\objects\object_placement.hpp">
