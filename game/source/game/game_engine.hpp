@@ -2,13 +2,14 @@
 
 #include "cseries/cseries.hpp"
 #include "game/game_engine_candy_monitor.hpp"
-#include "game/game_engine_spawn_influencer.hpp"
-#include "game/game_engine_variant.hpp"
 #include "game/game_engine_scoring.hpp"
 #include "game/game_engine_simulation.hpp"
+#include "game/game_engine_spawn_influencer.hpp"
 #include "game/game_engine_teleporters.hpp"
 #include "game/game_engine_util.hpp"
+#include "game/game_engine_variant.hpp"
 #include "game/game_statborg.hpp"
+#include "shell/shell.hpp"
 #include "saved_games/scenario_map_variant.hpp"
 #include "text/unicode.hpp"
 
@@ -165,10 +166,23 @@ struct s_game_engine_globals
 };
 static_assert(sizeof(s_game_engine_globals) == 0x15858);
 
+struct s_player_state_data
+{
+	c_enum<e_game_engine_status, long, _game_engine_status_waiting_for_space_to_clear, k_game_engine_status_count> state_index;
+	long __unknown4;
+	long state_response_index;
+};
+static_assert(sizeof(s_player_state_data) == 0xC);
+
 struct s_local_game_engine_globals
 {
 	long __time0;
-	byte __data[0xC0];
+
+	byte __data4[0x10];
+
+	c_static_array<s_player_state_data, 4> player_states;
+
+	byte __data44[0x80];
 };
 static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
 

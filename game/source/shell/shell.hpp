@@ -2095,6 +2095,51 @@ enum e_ai_sound_volume
 	k_ai_sound_volume_count
 };
 
+enum e_game_engine_status_flags
+{
+	_game_engine_status_flags_unused_bit = 0,
+
+	k_game_engine_status_flags
+};
+
+enum e_game_engine_status
+{
+	_game_engine_status_waiting_for_space_to_clear = 0,
+	_game_engine_status_observing,
+	_game_engine_status_respawning_soon,
+	_game_engine_status_sitting_out,
+	_game_engine_status_out_of_lives,
+	_game_engine_status_playing_winning,
+	_game_engine_status_playing_tied,
+	_game_engine_status_playing_losing,
+	_game_engine_status_game_over_won,
+	_game_engine_status_game_over_tied,
+	_game_engine_status_game_over_lost,
+	_game_engine_status_game_over_you_lost_but_game_tied,
+	_game_engine_status_you_have_flag,
+	_game_engine_status_enemy_has_flag,
+	_game_engine_status_flag_not_home,
+	_game_engine_status_carrying_oddball,
+	_game_engine_status_you_are_juggy,
+	_game_engine_status_you_control_hill,
+	_game_engine_status_switching_sides_soon,
+	_game_engine_status_player_recently_started,
+	_game_engine_status_you_have_bomb,
+	_game_engine_status_flag_contested,
+	_game_engine_status_bomb_contested,
+	_game_engine_status_limited_lives_left_multiple,
+	_game_engine_status_limited_lives_left_single,
+	_game_engine_status_limited_lives_left_final,
+	_game_engine_status_playing_winning_unlimited,
+	_game_engine_status_playing_tied_unlimited,
+	_game_engine_status_playing_losing_unlimited,
+
+	// HO?
+	_game_engine_status_in_lobby,
+
+	k_game_engine_status_count
+};
+
 //e_network_interface_user_state
 // none
 // local user exists
