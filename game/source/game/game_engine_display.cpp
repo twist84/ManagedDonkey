@@ -9,7 +9,7 @@
 #include "memory/thread_local.hpp"
 #include "simulation/simulation.hpp"
 
-REFERENCE_DECLARE_ARRAY(0x0471AA0C, byte, unknown_bytes0471AA0C, 4);
+REFERENCE_DECLARE(0x0471AA0C, s_game_engine_render_globals, g_game_engine_render_globals);
 
 HOOK_DECLARE(0x006E5040, game_engine_render_fade_to_black);
 
@@ -57,8 +57,26 @@ real __cdecl game_engine_get_user_fade_to_black_amount(long user_index)
 	return game_engine_globals->user_fade_to_black_amounts[user_index];
 }
 
-//.text:006E4A40 ; real __cdecl game_engine_hud_get_fade(long)
-//.text:006E4AA0 ; bool __cdecl game_engine_hud_get_state_message(long, wchar_t*, long, bool)
+real __cdecl game_engine_hud_get_fade(long user_index)
+{
+	return INVOKE(0x006E4A40, game_engine_hud_get_fade, user_index);
+
+	//if (!game_in_progress() || game_is_ui_shell())
+	//	return 1.0f;
+	//
+	//e_controller_index controller_index = user_interface_get_controller_for_local_user(user_index);
+	//if (controller_index == k_no_controller)
+	//	return 1.0f;
+	//
+	//real scoreboard_alpha = c_gui_screen_scoreboard::get_scoreboard_alpha(controller_index);
+	//return 1.0f - scoreboard_alpha;
+}
+
+bool __cdecl game_engine_hud_get_state_message(long user_index, wchar_t* message_buffer, long message_buffer_length, bool a4)
+{
+	return INVOKE(0x006E4AA0, game_engine_hud_get_state_message, user_index, message_buffer, message_buffer_length, a4);
+}
+
 //.text:006E4D90 ; bool __cdecl chud_should_render_motion_sensor(long)
 //.text:006E4DE0 ; void __cdecl game_engine_parse_utf_character(e_utf32, wchar_t*, long)
 //.text:006E4E50 ; void __cdecl game_engine_render(e_output_user_index)
@@ -80,14 +98,14 @@ void __cdecl game_engine_render_fade_to_black(long user_index)
 	if (TEST_BIT(game_engine_globals->user_fade_to_black_flags, user_index))
 	{
 		long ticks = 0;
-		if (ticks = game_seconds_to_ticks_round(3.0f), ++unknown_bytes0471AA0C[user_index], unknown_bytes0471AA0C[user_index] > ticks)
+		if (ticks = game_seconds_to_ticks_round(3.0f), ++g_game_engine_render_globals.__unknown0[user_index], g_game_engine_render_globals.__unknown0[user_index] > ticks)
 		{
 			post_game_engine_globals_message(0, static_cast<char>(user_index), 0);
 		}
 	}
 	else
 	{
-		unknown_bytes0471AA0C[user_index] = 0;
+		g_game_engine_render_globals.__unknown0[user_index] = 0;
 	}
 
 	//if (director_debug_supress_black_screen(player_mapping_first_active_output_user()))
