@@ -150,6 +150,16 @@ struct s_cache_file_tag_resource_data
 };
 static_assert(sizeof(s_cache_file_tag_resource_data) == 0x6C);
 
+struct s_cache_file_tag_parentage
+{
+	s_tag_reference tag;
+	word_flags flags;
+	short resource_owner_index;
+	c_typed_tag_block<long> parents;  // s_cache_file_tag_parentage block indices
+	c_typed_tag_block<long> children; // s_cache_file_tag_parentage block indices
+};
+static_assert(sizeof(s_cache_file_tag_parentage) == 0x2C);
+
 struct s_tag_resource_prediction_quantum;
 struct s_tag_resource_prediction_atom;
 struct s_tag_resource_prediction_molecule;
@@ -195,8 +205,8 @@ struct s_cache_file_resource_gestalt
 	s_tag_block __unknown108;
 	s_tag_block __unknown114;
 	s_tag_block __unknown120;
-	s_tag_block __unknown12C;
 
+	c_typed_tag_block<s_cache_file_tag_parentage> parentages;
 	s_tag_resource_cache_prediction_table prediction_table;
 
 	// Mat is in a really bad mood
