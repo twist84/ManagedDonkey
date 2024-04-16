@@ -759,7 +759,8 @@ bool __cdecl cache_file_tags_load_recursive(long tag_index)
 {
 	//return INVOKE(0x00502780, cache_file_tags_load_recursive, tag_index);
 
-	ASSERT(g_cache_file_globals.tag_loaded_size < g_cache_file_globals.tag_cache_size, "tag cache insufficient size");
+	if (g_cache_file_globals.tag_cache_size <= g_cache_file_globals.tag_loaded_size)
+		ASSERT2("tag cache insufficient memory allocation size, either decrease the size of the loaded tags for this scenario or try enabling the 'EXPERIMENTAL_TAG_CACHE_ALLOCATION' define if this persists");
 
 	cache_file_tag_instance* instance = reinterpret_cast<cache_file_tag_instance*>(g_cache_file_globals.tag_cache_base_address + g_cache_file_globals.tag_loaded_size);
 
