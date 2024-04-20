@@ -2160,7 +2160,6 @@ enum e_game_engine_status
 extern bool __cdecl shell_application_is_paused();
 extern void __cdecl shell_application_pause(bool pause);
 extern e_shell_application_type __cdecl shell_application_type();
-extern e_shell_tool_type __cdecl shell_tool_type();
 extern bool __cdecl shell_build_number_is_compatible(long build_number);
 extern bool __cdecl shell_build_string_is_compatible(char const* build_string);
 extern void __cdecl shell_dispose();
@@ -2169,6 +2168,14 @@ extern char const* __cdecl shell_get_target_variant();
 extern void __cdecl shell_halt_on_pure_virtual_call();
 extern void __cdecl shell_halt_with_message(char const* message);
 extern bool __cdecl shell_initialize(bool windowed);
+extern bool __cdecl game_is_bot_client();
+extern bool __cdecl game_is_dedicated_server();
+extern bool __cdecl game_is_client();
+extern bool __cdecl game_is_guerilla();
+extern bool __cdecl game_is_halo3();
+extern bool __cdecl game_is_sapien();
+extern bool __cdecl game_is_tool();
+extern e_shell_tool_type __cdecl shell_tool_type();
 
 extern char const* quality_setting_get_name(e_quality_setting quality_setting);
 extern e_quality_setting quality_setting_from_string(char const* str);

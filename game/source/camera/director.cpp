@@ -31,7 +31,12 @@ HOOK_DECLARE(0x00591F80, director_render);
 //.text:005917C0 ; void __cdecl director_dispose_from_old_map()
 //.text:005917D0 ; void __cdecl director_fix_vtables_for_saved_game()
 //.text:005917E0 ; e_director_perspective __cdecl director_game_desired_perspective(long, e_seat_state*)
-//.text:00591980 ; void __cdecl director_game_tick()
+
+void __cdecl director_game_tick()
+{
+	INVOKE(0x00591980, director_game_tick);
+}
+
 //.text:00591990 ; c_director* __cdecl director_get(e_output_user_index)
 //.text:005919C0 ; bool __cdecl director_get_camera_third_person(e_output_user_index)
 //.text:005919F0 ; s_cluster_reference __cdecl director_get_deterministic_scripted_camera_cluster_reference()

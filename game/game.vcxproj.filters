@@ -1227,6 +1227,12 @@
     <ClCompile Include="source\text\text_group.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\effects\player_effects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\render\depth_of_field.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

@@ -278,6 +278,7 @@ struct c_rasterizer
 	static bool __cdecl initialize_after_device_creation_or_reset();
 	static void __cdecl initialize_for_new_map();
 	static void __cdecl initialize_for_new_structure_bsp(dword structure_bsp_index);
+	static void __cdecl notify_game_tick_begin();
 	static void __cdecl restore_last_scissor_rect();
 	static void __cdecl restore_last_viewport();
 	static void __cdecl shell_dispose();

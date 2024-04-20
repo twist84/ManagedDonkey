@@ -49,11 +49,6 @@ e_shell_application_type __cdecl shell_application_type()
 	return _shell_application_type_client;
 }
 
-e_shell_tool_type __cdecl shell_tool_type()
-{
-	return _shell_tool_type_none;
-}
-
 bool __cdecl shell_build_number_is_compatible(long build_number)
 {
 	return INVOKE(0x0042E360, shell_build_number_is_compatible, build_number);
@@ -162,14 +157,47 @@ bool __cdecl shell_initialize(bool windowed)
 	return shell_initialized;
 }
 
-//.text:0042E5F0 ; bool __cdecl game_is_bot_client()
-//.text:0042E600 ; bool __cdecl game_is_dedicated_server()
-//.text:0042E610 ; bool __cdecl game_is_client()
-//.text:0042E620 ; bool __cdecl game_is_guerilla()
-//.text:0042E630 ; bool __cdecl game_is_halo3()
-//.text:0042E640 ; bool __cdecl game_is_sapien()
-//.text:0042E650 ; bool __cdecl game_is_tool()
-//.text:0042E660 ; e_shell_tool_type __cdecl shell_tool_type()
+bool __cdecl game_is_bot_client()
+{
+	return INVOKE(0x0042E5F0, game_is_bot_client);
+}
+
+bool __cdecl game_is_dedicated_server()
+{
+	return INVOKE(0x0042E600, game_is_dedicated_server);
+}
+
+bool __cdecl game_is_client()
+{
+	return INVOKE(0x0042E610, game_is_client);
+}
+
+bool __cdecl game_is_guerilla()
+{
+	return INVOKE(0x0042E620, game_is_guerilla);
+}
+
+bool __cdecl game_is_halo3()
+{
+	return INVOKE(0x0042E630, game_is_halo3);
+}
+
+bool __cdecl game_is_sapien()
+{
+	return INVOKE(0x0042E640, game_is_sapien);
+}
+
+bool __cdecl game_is_tool()
+{
+	return INVOKE(0x0042E650, game_is_tool);
+}
+
+e_shell_tool_type __cdecl shell_tool_type()
+{
+	//return INVOKE(0x0042E660, shell_tool_type);
+
+	return _shell_tool_type_none;
+}
 
 char const* quality_setting_get_name(e_quality_setting quality_setting)
 {

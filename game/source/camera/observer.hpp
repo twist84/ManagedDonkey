@@ -94,6 +94,7 @@ enum e_output_user_index;
 extern s_observer* observer_get(long user_index);
 extern s_observer_result const* observer_get_camera(e_output_user_index output_user_index);
 extern long __cdecl choose_appropriate_director(e_output_user_index output_user_index);
+extern void __cdecl observer_game_tick();
 extern s_observer_result const* __cdecl observer_try_and_get_camera(e_output_user_index output_user_index);
 extern void __cdecl observer_update(real world_seconds_elapsed);
 extern void __cdecl observer_validate_camera_command(s_observer_command* result);

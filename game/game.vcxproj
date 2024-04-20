@@ -183,6 +183,7 @@ POPD
     <ClCompile Include="source\camera\camera_scripting.cpp" />
     <ClCompile Include="source\camera\first_person_camera.cpp" />
     <ClCompile Include="source\cseries\async_helpers.cpp" />
+    <ClCompile Include="source\effects\player_effects.cpp" />
     <ClCompile Include="source\game\campaign_metagame.cpp" />
     <ClCompile Include="source\game\game_engine_scoring.cpp" />
     <ClCompile Include="source\game\game_grief.cpp" />
@@ -192,6 +193,7 @@ POPD
     <ClCompile Include="source\networking\messages\network_message_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_out_of_band_consumer.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
+    <ClCompile Include="source\render\depth_of_field.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\simulation\simulation_players.cpp" />
     <ClCompile Include="source\ai\ai.cpp" />

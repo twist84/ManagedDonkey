@@ -2,6 +2,9 @@
 
 #include "config/version.hpp"
 #include "cseries/cseries.hpp"
+#include "editor/editor_stubs.hpp"
+#include "effects/effects.hpp"
+#include "game/game_grief.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
@@ -16,6 +19,7 @@
 #include "simulation/simulation.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/files_windows.hpp"
+#include "test/test_functions.hpp"
 
 #define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
 
@@ -867,7 +871,7 @@ void __cdecl game_tick()
 	//PROFILER(game_tick)
 	//{
 	//	game_globals_storage* game_globals = game_globals_get();
-	//	struct simulation_update update = { .flags = 0 };
+	//	struct simulation_update update = { .high_level_flags = 0 };
 	//	s_simulation_update_metadata metadata = { .flags = 0 };
 	//
 	//	game_globals->update_tick_this_frame = true;
@@ -887,8 +891,7 @@ void __cdecl game_tick()
 	//	simulation_apply_before_game(&update);
 	//	levels_update();
 	//
-	//	//if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
-	//	if (TEST_BIT(update.flags, 0))
+	//	if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
 	//	{
 	//		chud_game_tick();
 	//		players_update_before_game(&update);
@@ -908,7 +911,7 @@ void __cdecl game_tick()
 	//
 	//		if (!sub_42E5D0()) c_hue_saturation_control::copy_to_gamestate();
 	//
-	//		BOT_CLIENT(FALSE)
+	//		BOT_CLIENT(false)
 	//		{
 	//			game_update_pvs();
 	//		}
@@ -923,7 +926,7 @@ void __cdecl game_tick()
 	//		objects_move();
 	//		objects_post_update();
 	//
-	//		BOT_CLIENT(FALSE)
+	//		BOT_CLIENT(false)
 	//		{
 	//			impacts_update();
 	//		}
@@ -957,7 +960,7 @@ void __cdecl game_tick()
 	//		{
 	//			first_person_weapons_update();
 	//			player_effect_update();
-	//			overhead_map_update();
+	//			//overhead_map_update(); where tf does this live?
 	//			observer_game_tick();
 	//			director_game_tick();
 	//		}
@@ -968,8 +971,7 @@ void __cdecl game_tick()
 	//	}
 	//	simulation_update_aftermath(&update, &metadata);
 	//
-	//	//if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
-	//	if (TEST_BIT(update.flags, 0))
+	//	if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
 	//		game_time_advance();
 	//
 	//	simulation_destroy_update(&update);

@@ -176,6 +176,11 @@ bool __cdecl rasterizer_initialized()
 	return INVOKE(0x00A1FF50, rasterizer_initialized);
 }
 
+void __cdecl c_rasterizer::notify_game_tick_begin()
+{
+	INVOKE(0x00A1FF60, notify_game_tick_begin);
+}
+
 void __cdecl c_rasterizer::restore_last_scissor_rect()
 {
 	INVOKE(0x00A202E0, restore_last_scissor_rect);

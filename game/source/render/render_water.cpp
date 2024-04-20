@@ -7,3 +7,8 @@ REFERENCE_DECLARE(0x019146F1, bool, render_water_tessellation_enabled);
 REFERENCE_DECLARE(0x019146F2, bool, render_water_interaction_enabled);
 REFERENCE_DECLARE(0x050FAB18, bool, render_water_wireframe_enabled);
 
+void __cdecl c_water_renderer::game_update()
+{
+	INVOKE(0x00A35CB0, game_update);
+}
+

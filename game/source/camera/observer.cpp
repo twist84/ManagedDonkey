@@ -31,6 +31,11 @@ long __cdecl choose_appropriate_director(e_output_user_index output_user_index)
 	return INVOKE(0x005916B0, choose_appropriate_director, output_user_index);
 }
 
+void __cdecl observer_game_tick()
+{
+	INVOKE(0x00612710, observer_game_tick);
+}
+
 s_observer_result const* __cdecl observer_try_and_get_camera(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00613960, observer_try_and_get_camera, output_user_index);

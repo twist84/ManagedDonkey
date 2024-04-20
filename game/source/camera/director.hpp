@@ -25,6 +25,7 @@ enum e_director_mode : long
 
 enum e_controller_index;
 
+extern void __cdecl director_game_tick();
 extern void __cdecl director_notify_map_reset();
 extern bool __cdecl camera_input_inhibited(e_controller_index controller_index);
 extern void __cdecl director_update(real world_seconds_elapsed);
