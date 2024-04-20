@@ -178,6 +178,7 @@ POPD
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\game\game_save.cpp" />
     <ClCompile Include="source\cache\cache_file_runtime_codecs.cpp" />
     <ClCompile Include="source\cache\pc_sound_cache.cpp" />
     <ClCompile Include="source\camera\camera_scripting.cpp" />

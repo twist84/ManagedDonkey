@@ -33,3 +33,21 @@ struct s_game_save_globals
 };
 static_assert(sizeof(s_game_save_globals) == 0x18);
 
+extern bool __cdecl game_all_quiet();
+extern bool __cdecl game_safe_to_save();
+extern bool __cdecl game_safe_to_save_internal(bool a1);
+extern bool __cdecl game_safe_to_speak();
+extern void __cdecl game_save(long game_save_type);
+extern void __cdecl game_save_cancel();
+extern void __cdecl game_save_cinematic_skip();
+extern void __cdecl game_save_dispose();
+extern void __cdecl game_save_dispose_from_old_map();
+extern void __cdecl game_save_immediate();
+extern void __cdecl game_save_initialize();
+extern void __cdecl game_save_initialize_for_new_map();
+extern void __cdecl game_save_no_timeout();
+extern void __cdecl game_save_safe();
+extern void __cdecl game_save_update();
+extern bool __cdecl game_saving();
+extern bool __cdecl not_enough_time_since_last_save();
+
