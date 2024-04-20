@@ -247,7 +247,28 @@ void __cdecl main_decompress_gamestate()
 }
 
 //.text:00505510
+void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool* variable)
+{
+	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
+
+	if (*variable == true)
+	{
+		generate_event(_event_level_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
+		*variable = false;
+	}
+}
+
 //.text:00505520
+void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool volatile* variable)
+{
+	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
+
+	if (*variable == true)
+	{
+		generate_event(_event_level_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
+		*variable = false;
+	}
+}
 
 bool __cdecl main_events_pending()
 {
@@ -285,28 +306,6 @@ bool __cdecl main_events_pending()
 	}
 
 	return result;
-}
-
-void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool* variable)
-{
-	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
-
-	if (*variable == true)
-	{
-		generate_event(_event_level_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
-		*variable = false;
-	}
-}
-
-void __cdecl main_event_reset_internal(char const* name, e_main_reset_events_reason reason, bool volatile* variable)
-{
-	ASSERT(VALID_INDEX(reason, k_number_of_main_reset_event_reasons));
-
-	if (*variable == true)
-	{
-		generate_event(_event_level_warning, "main:events: ignoring %s due to %s", name, k_main_event_reason_description[reason]);
-		*variable = false;
-	}
 }
 
 char const* const k_main_event_reason_description[k_number_of_main_reset_event_reasons]
