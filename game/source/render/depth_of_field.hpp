@@ -4,24 +4,44 @@
 
 struct s_depth_of_field
 {
-	bool enable;
+//public:
+	//static void __cdecl s_depth_of_field::dispose();
+	//static void __cdecl s_depth_of_field::dispose_from_old_map();
+	//static s_depth_of_field* __cdecl s_depth_of_field::get();
+	//bool __cdecl s_depth_of_field::get_current_depth_of_field_parameters(s_observer_depth_of_field const*, real*, real*, real*, real*);
+	//static real __cdecl s_depth_of_field::get_depth_of_field_blur_sigma(s_observer_depth_of_field const*);
+	//static bool __cdecl s_depth_of_field::get_enabled();
+	//static void __cdecl s_depth_of_field::initialize();
+	//static void __cdecl s_depth_of_field::initialize_for_new_map();
+	//void __cdecl s_depth_of_field::set_default_values();
+	//static void __cdecl s_depth_of_field::update();
 
-	byte __unknown1[0x3]; // pad?
+//private:
+	//void __cdecl update_internal();
+
+//protected:
+	bool enable;
+	bool __unknown1;
+
+	byte __data2[0x2]; // pad?
 
 	real __unknown4;
+
+	// these are linked?
 	real __unknown8;
 	real __unknownC;
-
-	real intensity;
+	real depth_of_field;
 
 	real __unknown14;
 	real __unknown18;
-	real __unknown1C;
-	real __unknown20;
-	real __unknown24;
-	real __unknown28;
+	long __unknown1C;
+	long __unknown20;
+	long __unknown24;
+	long __unknown28;
 	real __unknown2C;
 	real __unknown30;
+
+	// these are linked and set from the linked 3 above?
 	real __unknown34;
 	real __unknown38;
 	real __unknown3C;
