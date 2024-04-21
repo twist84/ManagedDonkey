@@ -717,6 +717,114 @@ callback_result_t core_load_game_name_callback(void const* userdata, long token_
 	return result;
 }
 
+callback_result_t game_save_and_quit_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_save_and_exit_campaign();
+
+	return result;
+}
+
+callback_result_t game_save_unsafe_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_save_map();
+
+	return result;
+}
+
+callback_result_t game_safe_to_save_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	console_printf("game_safe_to_save: %s", game_safe_to_save() ? "true" : "false");
+
+	return result;
+}
+
+callback_result_t game_safe_to_speak_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	console_printf("game_safe_to_speak: %s", game_safe_to_speak() ? "true" : "false");
+
+	return result;
+}
+
+callback_result_t game_all_quiet_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	console_printf("game_all_quiet: %s", game_all_quiet() ? "true" : "false");
+
+	return result;
+}
+
+callback_result_t game_save_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	game_save_safe();
+
+	return result;
+}
+
+callback_result_t game_save_cancel_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	game_save_cancel();
+
+	return result;
+}
+
+callback_result_t game_save_no_timeout_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	game_save_no_timeout();
+
+	return result;
+}
+
+callback_result_t game_save_immediate_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	game_save_immediate();
+
+	return result;
+}
+
+callback_result_t game_save_cinematic_skip_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	game_save_cinematic_skip();
+
+	return result;
+}
+
+callback_result_t game_saving_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	console_printf("game_saving: %s", game_saving() ? "true" : "false");
+
+	return result;
+}
+
+callback_result_t game_reverted_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	console_printf("game_state_reverted: %s", game_state_reverted() ? "true" : "false");
+
+	return result;
+}
+
 callback_result_t net_session_create_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

@@ -117,6 +117,18 @@ COMMAND_CALLBACK_DECLARE(core_save);
 COMMAND_CALLBACK_DECLARE(core_save_name);
 COMMAND_CALLBACK_DECLARE(core_load_game);
 COMMAND_CALLBACK_DECLARE(core_load_game_name);
+COMMAND_CALLBACK_DECLARE(game_save_and_quit);
+COMMAND_CALLBACK_DECLARE(game_save_unsafe);
+COMMAND_CALLBACK_DECLARE(game_safe_to_save);
+COMMAND_CALLBACK_DECLARE(game_safe_to_speak);
+COMMAND_CALLBACK_DECLARE(game_all_quiet);
+COMMAND_CALLBACK_DECLARE(game_save);
+COMMAND_CALLBACK_DECLARE(game_save_cancel);
+COMMAND_CALLBACK_DECLARE(game_save_no_timeout);
+COMMAND_CALLBACK_DECLARE(game_save_immediate);
+COMMAND_CALLBACK_DECLARE(game_save_cinematic_skip);
+COMMAND_CALLBACK_DECLARE(game_saving);
+COMMAND_CALLBACK_DECLARE(game_reverted);
 COMMAND_CALLBACK_DECLARE(net_session_create);
 COMMAND_CALLBACK_DECLARE(net_session_add);
 COMMAND_CALLBACK_DECLARE(net_test_ping);
@@ -205,6 +217,19 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(core_save_name, 1, "<string>", "saves debug game state to core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(core_load_game, 0, "", "loads level and game state from core\\core.bin\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(core_load_game_name, 1, "<string>", "loads level and game state from core\\<path>\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(game_save_and_quit, 0, "", "save & quit to the main menu\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_save_unsafe, 0, "", "saves right now, even if the game is in an immediate-loss state (NEVER USE THIS! EVER!)\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_safe_to_save, 0, "", "returns FALSE if it would be a bad idea to save the player's game right now\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_safe_to_speak, 0, "", "returns FALSE if it would be a bad idea to play mission dialog right now\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_all_quiet, 0, "", "returns FALSE if there are bad guys around, projectiles in the air, etc.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_save, 0, "", "checks to see if it is safe to save game, then saves (gives up after 8 seconds)\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_save_cancel, 0, "", "cancels any pending game_save, timeout or not\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_save_no_timeout, 0, "", "checks to see if it is safe to save game, then saves (this version never gives up)\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_save_immediate, 0, "", "disregards player's current situation and saves (BE VERY CAREFUL!)\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_save_cinematic_skip, 0, "", "don't use this, except in one place.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_saving, 0, "", "checks to see if the game is trying to save the map.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(game_reverted, 0, "", "don't use this for anything, you black-hearted bastards.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_session_add, 1, "<string>", "<ip:port> adds a session from the given ip:port to the local games browser \r\nNETWORK SAFE: Unknown, assumed unsafe"),
