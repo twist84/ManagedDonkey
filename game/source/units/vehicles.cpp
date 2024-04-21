@@ -11,9 +11,19 @@
 
 HOOK_DECLARE(0x00B76AB0, vehicle_render_debug);
 
+bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index)
+{
+	return INVOKE(0x00B75510, vehicle_about_to_detonate_near_any_player, out_vehicle_index);
+}
+
 e_vehicle_type __cdecl vehicle_get_type(long vehicle_index)
 {
 	return INVOKE(0x00B75EE0, vehicle_get_type, vehicle_index);
+}
+
+bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
+{
+	return INVOKE(0x00B762F0, vehicle_moving_near_any_player, out_vehicle_index);
 }
 
 void __cdecl vehicle_render_debug(long vehicle_index)

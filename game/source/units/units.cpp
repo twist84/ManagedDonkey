@@ -23,6 +23,11 @@ long __cdecl unit_get_current_primary_weapon(long unit_index)
 	return INVOKE(0x0058C4D0, unit_get_current_primary_weapon, unit_index);
 }
 
+bool __cdecl any_unit_is_dangerous(long* out_unit_index)
+{
+	return INVOKE(0x00B378F0, any_unit_is_dangerous, out_unit_index);
+}
+
 void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index)
 {
 	INVOKE(0x00B38AB0, unit_add_equipment_to_inventory, unit_index, slot_index, object_index);

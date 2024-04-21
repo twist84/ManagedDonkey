@@ -1236,6 +1236,15 @@
     <ClCompile Include="source\game\game_save.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\game\game_allegiance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\items\items.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\effects\effects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3114,6 +3123,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\multithreading\event_queue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\items\items.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

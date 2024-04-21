@@ -842,11 +842,16 @@ extern void player_override_desired_mode(long desired_mode_override);
 extern void players_debug_render();
 
 extern long __cdecl player_index_from_unit_index(long unit_index);
+extern bool __cdecl player_is_reading_terminal();
 extern long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress);
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
 extern bool __cdecl player_teleport(long player_index, long object_index, real_point3d const* position);
 extern long __cdecl player_get_control_index_from_unit(long unit_index);
+extern bool __cdecl players_all_are_dead();
+extern bool __cdecl players_any_are_dead();
+extern bool __cdecl players_any_are_in_the_air(long* out_unit_index);
+extern bool __cdecl players_any_are_near_death(long* out_unit_index);
 extern void __cdecl players_finish_creation();
 extern void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier);
 extern void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);

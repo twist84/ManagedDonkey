@@ -46,6 +46,7 @@ extern bool debug_objects_unit_acceleration;
 extern bool debug_objects_unit_camera;
 
 extern long __cdecl unit_get_current_primary_weapon(long unit_index);
+extern bool __cdecl any_unit_is_dangerous(long* out_unit_index);
 extern void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index);
 extern bool __cdecl unit_add_grenade_to_inventory(long unit_index, long object_index);
 extern short __cdecl unit_add_grenade_type_to_inventory(long unit_index, short grenade_type, short grenade_count);

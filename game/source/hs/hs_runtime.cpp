@@ -73,6 +73,11 @@ bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type)
 	//return actual_type_mask == (actual_type_mask & desired_type_mask);
 }
 
+bool __cdecl hs_runtime_nondeterministic_threads_running()
+{
+	return INVOKE(0x00597DD0, hs_runtime_nondeterministic_threads_running);
+}
+
 long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script_type, e_hs_thread_type thread_type)
 {
 	//return INVOKE(0x00598050, hs_runtime_script_begin, script_index, script_type, thread_type);

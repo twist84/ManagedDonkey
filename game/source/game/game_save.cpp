@@ -1,10 +1,22 @@
 #include "game/game_save.hpp"
 
+#include "ai/ai.hpp"
+#include "effects/effects.hpp"
+#include "game/game.hpp"
+#include "game/game_allegiance.hpp"
+#include "game/players.hpp"
+#include "hs/hs_runtime.hpp"
+#include "items/items.hpp"
+#include "items/projectiles.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "units/units.hpp"
+#include "units/vehicles.hpp"
 
-bool debug_game_save = false;
+HOOK_DECLARE(0x00682260, game_safe_to_save_internal);
+bool debug_game_save = true;
 
 //.text:00682130 ; void __cdecl __tls_set_g_game_save_globals_allocator(void*)
 //.text:00682150 ; 
@@ -32,36 +44,38 @@ bool __cdecl game_safe_to_save()
 
 bool __cdecl game_safe_to_save_internal(bool a1)
 {
-	return INVOKE(0x00682260, game_safe_to_save_internal, a1);
+	//return INVOKE(0x00682260, game_safe_to_save_internal, a1);
 
-	//#define DEBUG_SAFE_TO_SAVE(FUNCTION_NAME, ...) \
-	//if (FUNCTION_NAME(__VA_ARGS__)) \
-	//{ \
-	//    if (debug_game_save && !a1) \
-	//        console_warning("not safe to save: "#FUNCTION_NAME);\
-	//    return false; \
-	//}
-	//
-	//TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
-	//g_game_save_globals->unsafe_object_index = NONE;
-	//
-	//DEBUG_SAFE_TO_SAVE(not_enough_time_since_last_save);
-	//DEBUG_SAFE_TO_SAVE(game_allegiance_betrayal_exists);
-	//DEBUG_SAFE_TO_SAVE(ai_enemies_can_see_player, &g_game_save_globals->unsafe_object_index);
-	//DEBUG_SAFE_TO_SAVE(dangerous_projectiles_near_player, &g_game_save_globals->unsafe_object_index);
-	//DEBUG_SAFE_TO_SAVE(dangerous_items_near_player, &g_game_save_globals->unsafe_object_index);
-	//DEBUG_SAFE_TO_SAVE(dangerous_effects_near_player);
-	//DEBUG_SAFE_TO_SAVE(any_unit_is_dangerous, &g_game_save_globals->unsafe_object_index);
-	//DEBUG_SAFE_TO_SAVE(players_any_are_in_the_air, &g_game_save_globals->unsafe_object_index);
-	//DEBUG_SAFE_TO_SAVE(players_any_are_near_death, &g_game_save_globals->unsafe_object_index);
-	//DEBUG_SAFE_TO_SAVE(players_any_are_dead);
-	//DEBUG_SAFE_TO_SAVE(game_is_lost);
-	//DEBUG_SAFE_TO_SAVE(vehicle_moving_near_any_player, &g_game_save_globals->unsafe_object_index);
-	//DEBUG_SAFE_TO_SAVE(vehicle_about_to_detonate_near_any_player, &g_game_save_globals->unsafe_object_index);
-	//DEBUG_SAFE_TO_SAVE(player_is_reading_terminal);
-	//DEBUG_SAFE_TO_SAVE(hs_runtime_nondeterministic_threads_running);
-	//
-	//return true;
+	#define DEBUG_SAFE_TO_SAVE(FUNCTION_NAME, ...) \
+	if (FUNCTION_NAME(__VA_ARGS__)) \
+	{ \
+	    if (debug_game_save && !a1) \
+	        console_warning("not safe to save: "#FUNCTION_NAME);\
+	    return false; \
+	}
+	
+	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
+	g_game_save_globals->unsafe_object_index = NONE;
+	
+	DEBUG_SAFE_TO_SAVE(not_enough_time_since_last_save);
+	DEBUG_SAFE_TO_SAVE(game_allegiance_betrayal_exists);
+	DEBUG_SAFE_TO_SAVE(ai_enemies_can_see_player, &g_game_save_globals->unsafe_object_index);
+	DEBUG_SAFE_TO_SAVE(dangerous_projectiles_near_player, &g_game_save_globals->unsafe_object_index);
+	DEBUG_SAFE_TO_SAVE(dangerous_items_near_player, &g_game_save_globals->unsafe_object_index);
+	DEBUG_SAFE_TO_SAVE(dangerous_effects_near_player);
+	DEBUG_SAFE_TO_SAVE(any_unit_is_dangerous, &g_game_save_globals->unsafe_object_index);
+	DEBUG_SAFE_TO_SAVE(players_any_are_in_the_air, &g_game_save_globals->unsafe_object_index);
+	DEBUG_SAFE_TO_SAVE(players_any_are_near_death, &g_game_save_globals->unsafe_object_index);
+	DEBUG_SAFE_TO_SAVE(players_any_are_dead);
+	DEBUG_SAFE_TO_SAVE(game_is_lost);
+	DEBUG_SAFE_TO_SAVE(vehicle_moving_near_any_player, &g_game_save_globals->unsafe_object_index);
+	DEBUG_SAFE_TO_SAVE(vehicle_about_to_detonate_near_any_player, &g_game_save_globals->unsafe_object_index);
+	DEBUG_SAFE_TO_SAVE(player_is_reading_terminal);
+	DEBUG_SAFE_TO_SAVE(hs_runtime_nondeterministic_threads_running);
+
+	#undef DEBUG_SAFE_TO_SAVE
+	
+	return true;
 }
 
 bool __cdecl game_safe_to_speak()

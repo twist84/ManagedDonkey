@@ -177,8 +177,13 @@ long __cdecl player_index_from_unit_index(long unit_index)
 //.text:0053B340
 //.text:0053B370 ; bool __cdecl player_is_allowed_to_attempt_assassination(long, long)
 //.text:0053B480 ; bool __cdecl player_is_immune_to_headshot(long, bool)
-//.text:0053B4E0
-//.text:0053B570
+//.text:0053B4E0 ; bool __cdecl player_is_local(long)
+
+bool __cdecl player_is_reading_terminal()
+{
+	return INVOKE(0x0053B570, player_is_reading_terminal);
+}
+
 //.text:0053B590 ; bool __cdecl player_is_sprinting(long, float *)
 //.text:0053B670 ; void __cdecl player_leave_game_internal(long)
 //.text:0053B7D0 ; void __cdecl player_left_game(long)
@@ -307,10 +312,27 @@ long __cdecl player_get_control_index_from_unit(long unit_index)
 //.text:00540AE0
 //.text:00540B30
 //.text:00540B50
-//.text:00540B80 ; bool __cdecl players_all_are_dead(void)
-//.text:00540BA0 ; bool __cdecl players_any_are_dead(void)
-//.text:00540BC0 ; bool __cdecl players_any_are_in_the_air(long *)
-//.text:00540D10 ; bool __cdecl players_any_are_near_death(long *)
+
+bool __cdecl players_all_are_dead()
+{
+	return INVOKE(0x00540B80, players_all_are_dead);
+}
+
+bool __cdecl players_any_are_dead()
+{
+	return INVOKE(0x00540BA0, players_any_are_dead);
+}
+
+bool __cdecl players_any_are_in_the_air(long* out_unit_index)
+{
+	return INVOKE(0x00540BC0, players_any_are_in_the_air, out_unit_index);
+}
+
+bool __cdecl players_any_are_near_death(long* out_unit_index)
+{
+	return INVOKE(0x00540D10, players_any_are_near_death, out_unit_index);
+}
+
 //.text:00540DC0 ; bool __cdecl players_arm_unit_from_campaign_armaments_data(s_campaign_armaments_player const *, long)
 //.text:00540F30 ; void __cdecl players_build_persistent_player_options(game_options *)
 //.text:00541060 ; long __cdecl players_build_weapon_from_campaign_armaments_data(s_campaign_armaments_weapon const *, long, bool *)
