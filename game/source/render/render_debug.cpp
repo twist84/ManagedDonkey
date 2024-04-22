@@ -8,12 +8,13 @@
 #include "cache/pc_texture_cache.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "camera/observer.hpp"
+#include "cseries/cseries_events.hpp"
 #include "cubemaps/cubemap_debug.hpp"
 #include "cutscene/recorded_animations.hpp"
-#include "cseries/cseries_events.hpp"
 #include "data_mining/data_mine_usability.hpp"
 #include "editor/editor_flags.hpp"
 #include "editor/editor_render_stubs.hpp"
+#include "effects/effects.hpp"
 #include "game/game.hpp"
 #include "hs/hs_runtime.hpp"
 #include "interface/chud/chud_draw.hpp"
@@ -31,12 +32,12 @@
 #include "physics/havok.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "render/old_render_debug.hpp"
-#include "render/views/render_view.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_debug_structure.hpp"
 #include "render/render_error_report.hpp"
 #include "render/render_lights.hpp"
 #include "render/render_visibility.hpp"
+#include "render/views/render_view.hpp"
 #include "saved_games/saved_film.hpp"
 #include "saved_games/saved_film_history.hpp"
 #include "simulation/simulation.hpp"
@@ -348,7 +349,7 @@ void __cdecl render_debug_clients(long user_index)
 		render_debug_objects();
 		render_debug_object_damage();
 		render_debug_projectiles();
-		//render_debug_damage_effects();
+		render_debug_damage_effects();
 		render_debug_trigger_volumes();
 		render_debug_recording();
 		render_debug_detail_objects();
