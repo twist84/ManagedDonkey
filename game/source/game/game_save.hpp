@@ -33,6 +33,7 @@ struct s_game_save_globals
 };
 static_assert(sizeof(s_game_save_globals) == 0x18);
 
+extern void __cdecl __tls_set_g_game_save_globals_allocator(void* address);
 extern bool __cdecl game_all_quiet();
 extern bool __cdecl game_safe_to_save();
 extern bool __cdecl game_safe_to_save_internal(bool a1);
