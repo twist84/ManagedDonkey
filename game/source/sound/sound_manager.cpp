@@ -468,31 +468,31 @@ void __cdecl render_debug_sound(long sound_index)
 	switch (sound->source.volume_type)
 	{
 	case 0:
-		render_debug_sphere(/*false*/true, &sound->source.location.position, minimum_distance, global_real_argb_green);
-		render_debug_sphere(/*false*/true, &sound->source.location.position, maximum_distance, global_real_argb_darkgreen);
+		render_debug_sphere(false, &sound->source.location.position, minimum_distance, global_real_argb_green);
+		render_debug_sphere(false, &sound->source.location.position, maximum_distance, global_real_argb_darkgreen);
 		break;
 	case 1:
 		quaternion_transform_point(&sound->source.location.orientation, (real_point3d*)global_up3d, &volume_type_point);
 		volume_type_point.x *= sound->source.__unknown38;
 		volume_type_point.y *= sound->source.__unknown38;
 		volume_type_point.z *= sound->source.__unknown38;
-		render_debug_cylinder(/*false*/true, &sound->source.location.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
-		render_debug_cylinder(/*false*/true, &sound->source.location.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
+		render_debug_cylinder(false, &sound->source.location.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
+		render_debug_cylinder(false, &sound->source.location.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
 		break;
 	case 2:
 		quaternion_transform_point(&sound->source.location.orientation, (real_point3d*)global_up3d, &volume_type_point);
 		volume_type_point.x *= sound->source.__unknown38;
 		volume_type_point.y *= sound->source.__unknown38;
 		volume_type_point.z *= sound->source.__unknown38;
-		render_debug_pill(/*false*/true, &sound->source.location.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
-		render_debug_pill(/*false*/true, &sound->source.location.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
+		render_debug_pill(false, &sound->source.location.position, (vector3d*)&volume_type_point, minimum_distance, global_real_argb_green);
+		render_debug_pill(false, &sound->source.location.position, (vector3d*)&volume_type_point, maximum_distance, global_real_argb_darkgreen);
 		break;
 	}
 
 	if (inner_cone_angle > 0.0f && inner_cone_angle < PI || outer_cone_angle > 0.0f && outer_cone_angle < PI)
 	{
-		render_debug_cone_outline(/*false*/true, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, inner_cone_angle, global_real_argb_orange);
-		render_debug_cone_outline(/*false*/true, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);
+		render_debug_cone_outline(false, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, inner_cone_angle, global_real_argb_orange);
+		render_debug_cone_outline(false, &sound->source.location.position, (vector3d*)&cone_point, maximum_distance, outer_cone_angle, global_real_argb_red);
 	}
 
 	if (sound->listener_index == k_output_user_none || TEST_BIT(sound->source.flags, 7) || !TEST_BIT(sound->source.flags, 0))

@@ -35,7 +35,7 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 		{
 		case _multiplayer_object_boundary_shape_sphere:
 		{
-			render_debug_sphere(true /* false */, &geometry_data->boundary_matrix.center, geometry_data->boundary_width, color);
+			render_debug_sphere(false, &geometry_data->boundary_matrix.center, geometry_data->boundary_width, color);
 		}
 		break;
 		case _multiplayer_object_boundary_shape_cylinder:
@@ -52,7 +52,7 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 			matrix4x3_transform_vector(&geometry_data->boundary_matrix, &height, &height);
 			matrix4x3_transform_point(&geometry_data->boundary_matrix, &base, &base);
 
-			render_debug_cylinder(true /* false */, &base, &height, geometry_data->boundary_width, color);
+			render_debug_cylinder(false, &base, &height, geometry_data->boundary_width, color);
 		}
 		break;
 		case _multiplayer_object_boundary_shape_box:
@@ -74,7 +74,7 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 			bounds.z.lower = absolute_boundary_positive_height - v7;
 			bounds.z.upper = -absolute_boundary_negative_height - v7;
 
-			render_debug_box_outline_oriented(true /* false */, &bounds, &geometry_data->boundary_matrix, color);
+			render_debug_box_outline_oriented(false, &bounds, &geometry_data->boundary_matrix, color);
 		}
 		break;
 		}

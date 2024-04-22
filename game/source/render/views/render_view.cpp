@@ -1,10 +1,14 @@
 #include "render/views/render_view.hpp"
 
+#include "cseries/async_xoverlapped.hpp"
+#include "hs/hs_runtime.hpp"
+#include "interface/c_controller.hpp"
 #include "interface/chud/cortana_effect.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
+#include "multithreading/synchronization.hpp"
 #include "render/render.hpp"
 #include "render/render_debug.hpp"
 
@@ -169,11 +173,32 @@ void __cdecl render_debug_frame_render()
 	if (DECLFUNC(0x0042E5D0, bool, __cdecl)())
 		return;
 
-	//render_debug_begin(true, true, true);
+	short_rectangle2d screen_pixel_bounds{};
+	c_rasterizer::get_fullscreen_render_pixel_bounds(&screen_pixel_bounds);
+
+	short_rectangle2d screen_safe_pixel_bounds{};
+	c_rasterizer::get_fullscreen_render_title_safe_pixel_bounds(&screen_safe_pixel_bounds);
+
+	render_debug_begin(true, true, true);
+
 	terminal_draw();
+	//status_line_draw();
+	//cinematic_status_draw();
 	main_time_frame_rate_display();
+	render_debug_scripting();
+	//render_debug_cluster_blend_info();
+	//profile_render(&screen_pixel_bounds, &screen_safe_pixel_bounds);
+	render_synchronization_stats();
+	//player_control_debug_render();
+	//weapons_debug_render();
 	render_debug_debug_menu();
-	//render_debug_end(false, false, false);
+	//game_time_render_debug();
+	overlapped_render();
+	controllers_render();
+	//font_cache_debug_render();
+	//async_tasks_render();
+
+	render_debug_end(false, false, false);
 }
 
 void __cdecl render_debug_window_render(long user_index)
@@ -185,8 +210,10 @@ void __cdecl render_debug_window_render(long user_index)
 	//c_rasterizer::set_depth_stencil_surface(4);
 
 	render_debug_begin(false, false, false);
+
 	render_debug_structure_draw();
 	render_debug_clients(user_index);
+
 	render_debug_end(true, false, false);
 }
 

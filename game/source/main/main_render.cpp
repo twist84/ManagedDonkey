@@ -344,6 +344,7 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 		render_fullscreen_text(&context, simple_font);
 		overlapped_render();
 		controllers_render();
+		//async_tasks_render();
 
 		if (pregame_frame_type == _main_pregame_frame_normal)
 		{
