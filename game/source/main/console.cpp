@@ -728,6 +728,10 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_REAL2(game_speed, debug_game_speed),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_lock, debug_game_time_lock),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_statistics, debug_game_time_statistics),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_game_save),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(recover_saved_games_hack),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(game_state_verify_on_write),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(game_state_verify_on_read),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(static_fp_fov, debug_static_first_person),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(centered_crosshair, controller_centered_crosshair),

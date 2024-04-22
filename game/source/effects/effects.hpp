@@ -91,5 +91,8 @@ struct s_effect_lightprobe
 };
 static_assert(sizeof(s_effect_lightprobe) == 0x1FC);
 
+extern bool debug_damage_effects;
+
+extern void render_debug_damage_effects();
 extern bool __cdecl dangerous_effects_near_player();
 
