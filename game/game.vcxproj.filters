@@ -1245,6 +1245,9 @@
     <ClCompile Include="source\effects\effects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\effects\decals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

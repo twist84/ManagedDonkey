@@ -178,6 +178,7 @@ POPD
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\effects\decals.cpp" />
     <ClCompile Include="source\effects\effects.cpp" />
     <ClCompile Include="source\game\game_allegiance.cpp" />
     <ClCompile Include="source\game\game_save.cpp" />

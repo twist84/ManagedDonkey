@@ -54,3 +54,5 @@ struct c_decal_message_queue
 };
 static_assert(sizeof(c_decal_message_queue) == 0x824);
 
+extern void __cdecl sub_6948C0(long a1);
+
