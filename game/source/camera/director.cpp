@@ -60,7 +60,12 @@ void __cdecl director_notify_map_reset()
 
 //.text:00591F30 ; c_game_team director_player_get_team_index(long)
 //.text:00591F80 ; void __cdecl director_render()
-//.text:00592210 ; void __cdecl director_reset()
+
+void __cdecl director_reset()
+{
+	INVOKE(0x00592210, director_reset);
+}
+
 //.text:005922F0 ; void __cdecl director_reset_user_game_camera(e_output_user_index)
 //.text:00592320 ; void __cdecl director_script_camera(bool)
 //.text:005923C0 ; void __cdecl director_set_camera_mode(e_output_user_index, e_camera_mode)
