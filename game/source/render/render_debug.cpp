@@ -70,7 +70,7 @@ enum e_render_debug_type
 	k_render_debug_type_count
 };
 
-struct s_render_debug_cache_entry
+struct s_cache_entry
 {
 	short type;
 	short layer;
@@ -191,7 +191,7 @@ struct s_render_debug_globals
 	bool inside_game_tick;
 	char __data19[3];
 
-	s_render_debug_cache_entry cache_entries[8192];
+	s_cache_entry cache_entries[8192];
 
 	short cache_string_length;
 	short __unknown8001E;
@@ -200,12 +200,12 @@ struct s_render_debug_globals
 };
 static_assert(sizeof(s_render_debug_globals) == 0x81020);
 
-static s_render_debug_globals render_debug_globals
+static s_render_debug_globals _render_debug_globals
 {
 	.use_simple_font = false
 };
 
-thread_local s_render_debug_globals* g_render_debug_globals = &render_debug_globals;
+thread_local s_render_debug_globals* g_render_debug_globals = &_render_debug_globals;
 
 long type_list[] = { 0, 0, 0, 3, 0, 0, 0, 1, 0, 1, 2, 2, 0 };
 
@@ -214,6 +214,34 @@ s_render_debug_globals* __cdecl get_render_debug_globals()
 	ASSERT(g_render_debug_globals);
 
 	return g_render_debug_globals;
+}
+
+bool __cdecl render_debug_allowed_in_current_thread()
+{
+	return restricted_region_locked_for_current_thread(2 /* render thread */) && c_rasterizer::rasterizer_thread_owns_device();
+}
+
+bool __cdecl render_debug_active()
+{
+	return get_render_debug_globals()->active;
+}
+
+bool __cdecl render_debug_cache_currently_drawing()
+{
+	return get_render_debug_globals()->drawing_cached_geometry;
+}
+
+void __cdecl render_debug_text_using_simple_font(bool use_simple_font)
+{
+	get_render_debug_globals()->use_simple_font = use_simple_font;
+}
+
+void __cdecl render_debug_notify_game_tick_end()
+{
+	ASSERT(g_render_debug_globals->inside_game_tick);
+
+	//render_debug_process_deffered_events();
+	g_render_debug_globals->inside_game_tick = false;
 }
 
 void __cdecl rasterizer_debug_line(real_point3d const* p0, real_point3d const* p1, real_argb_color const* color0, real_argb_color const* color1)
@@ -268,8 +296,8 @@ void __cdecl rasterizer_debug_triangle(real_point3d const* point0, real_point3d 
 
 int __cdecl render_debug_cache_entry_sort_proc(void const* a, void const* b)
 {
-	s_render_debug_cache_entry const* entry0 = static_cast<s_render_debug_cache_entry const*>(a);
-	s_render_debug_cache_entry const* entry1 = static_cast<s_render_debug_cache_entry const*>(b);
+	s_cache_entry const* entry0 = static_cast<s_cache_entry const*>(a);
+	s_cache_entry const* entry1 = static_cast<s_cache_entry const*>(b);
 
 	if (entry0->layer < entry1->layer)
 		return false;
@@ -291,27 +319,27 @@ int __cdecl render_debug_cache_entry_sort_proc(void const* a, void const* b)
 
 void __cdecl render_debug_sort_cache_entries()
 {
-	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
-	if (render_debug_globals->cache_count <= 0)
+	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
+	if (g_render_debug_globals->cache_count <= 0)
 		return;
 
-	qsort(render_debug_globals->cache_entries,
-		render_debug_globals->cache_start_index,
-		sizeof(s_render_debug_cache_entry),
+	qsort(g_render_debug_globals->cache_entries,
+		g_render_debug_globals->cache_start_index,
+		sizeof(s_cache_entry),
 		render_debug_cache_entry_sort_proc);
 
-	qsort(render_debug_globals->cache_entries + render_debug_globals->cache_start_index,
-		render_debug_globals->cache_count - render_debug_globals->cache_start_index,
-		sizeof(s_render_debug_cache_entry),
+	qsort(g_render_debug_globals->cache_entries + g_render_debug_globals->cache_start_index,
+		g_render_debug_globals->cache_count - g_render_debug_globals->cache_start_index,
+		sizeof(s_cache_entry),
 		render_debug_cache_entry_sort_proc);
 }
 
 void __cdecl render_debug_begin(bool a1, bool a2, bool a3)
 {
-	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
-	ASSERT(!render_debug_globals->active);
+	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
+	ASSERT(!g_render_debug_globals->active);
 	
-	render_debug_globals->active = true;
+	g_render_debug_globals->active = true;
 
 	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_unknown6);
 	c_rasterizer::set_sampler_filter_mode(0, (c_rasterizer::e_sampler_filter_mode)0);
@@ -324,12 +352,12 @@ void __cdecl render_debug_begin(bool a1, bool a2, bool a3)
 
 void __cdecl render_debug_end(bool a1, bool a2, bool a3)
 {
-	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
-	ASSERT(render_debug_globals->active);
+	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
+	ASSERT(g_render_debug_globals->active);
 	
 	render_debug_sort_cache_entries();
 	render_debug_cache_draw(a1, a2, a3);
-	render_debug_globals->active = false;
+	g_render_debug_globals->active = false;
 }
 
 void __cdecl render_debug_clients(long user_index)
@@ -395,49 +423,42 @@ void __cdecl render_debug_clients(long user_index)
 
 long __cdecl render_debug_add_cache_string(char const* string)
 {
-	ASSERT(g_render_debug_globals);
+	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
 
-	long string_offset = 0;
-	long result = -1;
-
-	if (g_render_debug_globals->cache_string_length > 0)
+	for (long i = 0; i < render_debug_globals->cache_string_length; i++)
 	{
-		while (csstrcmp(string, &g_render_debug_globals->cache_string[string_offset]))
+		if (csstrcmp(string, &render_debug_globals->cache_string[i]) == 0)
 		{
-			if (++string_offset >= g_render_debug_globals->cache_string_length)
-				break;
-
-			result = string_offset;
-			if (string_offset != -1)
-				return string_offset;
+			if (i != NONE)
+				return i;
 		}
 	}
 
-	short cache_string_length = g_render_debug_globals->cache_string_length;
-	if (cache_string_length >= 4095)
+	short cache_string_length = render_debug_globals->cache_string_length;
+	if (cache_string_length < MAXIMUM_CACHE_STRING_LENGTH)
 	{
-		static bool render_debug_cache_string_overflow = false;
-		if (!render_debug_cache_string_overflow)
-		{
-			generate_event(_event_level_warning, "render debug cache string overflow");
-			render_debug_cache_string_overflow = true;
-		}
-	}
-	else
-	{
-		result = cache_string_length;
-		csstrnzcpy(&g_render_debug_globals->cache_string[cache_string_length], string, 4096 - cache_string_length);
-		short v7 = (short)strlen(string);
+		long string_offset = cache_string_length;
+		csstrnzcpy(&g_render_debug_globals->cache_string[cache_string_length], string, MAXIMUM_CACHE_STRING_LENGTH - cache_string_length);
+		short v8 = (short)strlen(string);
 		// length assert
 
-		g_render_debug_globals->cache_string_length += v7 + 1;
+		g_render_debug_globals->cache_string_length += v8 + 1;
 		short v9 = g_render_debug_globals->cache_string_length;
 		if (v9 > 4095)
 			v9 = 4095;
 		g_render_debug_globals->cache_string_length = v9;
+
+		return string_offset;
 	}
 
-	return result;
+	static bool render_debug_cache_string_overflow = false;
+	if (!render_debug_cache_string_overflow)
+	{
+		generate_event(_event_level_warning, "render debug cache string overflow");
+		render_debug_cache_string_overflow = true;
+	}
+
+	return NONE;
 }
 
 real_argb_color const* __cdecl render_debug_random_color(real_argb_color* color)
@@ -898,7 +919,7 @@ void __cdecl render_debug_cylinder(bool draw_immediately, real_point3d const* ba
 		real_point3d points0[CIRCLE_DIVISIONS + 1]{};
 		real_point3d points1[CIRCLE_DIVISIONS + 1]{};
 
-		render_debug_build_pill_points(base, height, radius, points0, points1, nullptr, nullptr, nullptr, nullptr);
+		render_debug_build_pill_points(base, height, radius, points0, points1, NULL, NULL, NULL, NULL);
 
 		for (long i = 0; i < CIRCLE_DIVISIONS; i++)
 		{
@@ -1137,7 +1158,7 @@ void __cdecl render_debug_string(char const* string)
 {
 	ASSERT(string);
 
-	//render_debug_string_immediate(false, nullptr, 0, string);
+	//render_debug_string_immediate(false, NULL, 0, string);
 	render_debug_add_cache_entry(_render_debug_type_string, string);
 }
 
@@ -1153,24 +1174,24 @@ void __cdecl render_debug_string_at_point(real_point3d const* point, char const*
 
 void __cdecl render_debug_string_immediate(bool draw_immediately, short const* tab_stops, short tab_stop_count, char const* string)
 {
-	ASSERT(string);
-	ASSERT(g_render_debug_globals);
-
-	if (draw_immediately || g_render_debug_globals->use_simple_font)
+	if (string && *string)
 	{
-		c_simple_font_draw_string draw_string;
-		draw_string.set_tab_stops(tab_stops, tab_stop_count);
-		interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
-		draw_string.draw(nullptr, string);
-	}
-	else
-	{
-		c_rasterizer_draw_string draw_string;
-		c_font_cache_mt_safe font_cache;
+		if (draw_immediately || get_render_debug_globals()->use_simple_font)
+		{
+			c_simple_font_draw_string draw_string;
+			draw_string.set_tab_stops(tab_stops, tab_stop_count);
+			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
+			draw_string.draw(NULL, string);
+		}
+		else
+		{
+			c_rasterizer_draw_string draw_string;
+			c_font_cache_mt_safe font_cache;
 
-		draw_string.set_tab_stops(tab_stops, tab_stop_count);
-		interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
-		draw_string.draw(&font_cache, string);
+			draw_string.set_tab_stops(tab_stops, tab_stop_count);
+			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
+			draw_string.draw(&font_cache, string);
+		}
 	}
 }
 
@@ -1211,20 +1232,20 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 		if (g_render_debug_globals->use_simple_font)
 		{
 			c_simple_font_draw_string draw_string;
-			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
 			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
 			if (scale > 0.01f)
 				draw_string.set_scale(scale);
-			draw_string.draw(nullptr, string);
+			draw_string.draw(NULL, string);
 		}
 		else
 		{
 			c_rasterizer_draw_string draw_string;
 			c_font_cache_mt_safe font_cache;
 
-			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
 			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
@@ -1237,18 +1258,14 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 
 bool __cdecl render_debug_draw_immediately(real_argb_color const* color)
 {
-	if (!restricted_region_locked_for_current_thread(2 /* render thread */) || !c_rasterizer::rasterizer_thread_owns_device())
-		return false;
-
 	ASSERT(g_render_debug_globals);
-	if (!g_render_debug_globals->active)
+
+	if (!render_debug_allowed_in_current_thread() || !render_debug_active())
 		return false;
 
 	if (color)
 	{
-		ASSERT(g_render_debug_globals);
-
-		if (!g_render_debug_globals->drawing_cached_geometry)
+		if (!render_debug_cache_currently_drawing())
 			return color->alpha >= 1.0f;
 	}
 
@@ -1261,7 +1278,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 
 	if (g_render_debug_globals->cache_count < NUMBEROF(g_render_debug_globals->cache_entries))
 	{
-		s_render_debug_cache_entry* entry = &g_render_debug_globals->cache_entries[g_render_debug_globals->cache_count++];
+		s_cache_entry* entry = &g_render_debug_globals->cache_entries[g_render_debug_globals->cache_count++];
 
 		real alpha = 1.0f;
 
@@ -1272,13 +1289,13 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		{
 		case _render_debug_type_circle:
 		{
-			entry->circle.plane = va_arg(list, decltype(entry->circle.plane));
-			entry->circle.projection_axis = va_arg(list, decltype(entry->circle.projection_axis));
-			entry->circle.a4 = va_arg(list, decltype(entry->circle.a4));
-			entry->circle.center = va_arg(list, decltype(entry->circle.center));
-			entry->circle.radius = va_arg(list, decltype(entry->circle.radius));
-			entry->circle.color = va_arg(list, decltype(entry->circle.color));
-			entry->circle.a8 = va_arg(list, decltype(entry->circle.a8));
+			entry->circle.plane = *va_arg(list, plane3d*);
+			entry->circle.projection_axis = (short)va_arg(list, int);
+			entry->circle.a4 = (bool)va_arg(list, int);
+			entry->circle.center = *va_arg(list, real_point2d*);
+			entry->circle.radius = (real)va_arg(list, double);
+			entry->circle.color = *va_arg(list, real_argb_color*);
+			entry->circle.a8 = (real)va_arg(list, double);
 			alpha = entry->circle.color.alpha;
 
 			real_point3d centroid{};
@@ -1288,112 +1305,110 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		break;
 		case _render_debug_type_point:
 		{
-			entry->point.point = va_arg(list, decltype(entry->point.point));
-			entry->point.scale = va_arg(list, decltype(entry->point.scale));
-			entry->point.color = va_arg(list, decltype(entry->point.color));
+			entry->point.point = *va_arg(list, real_point3d*);
+			entry->point.scale = (real)va_arg(list, double);
+			entry->point.color = *va_arg(list, real_argb_color*);
 			alpha = entry->point.color.alpha;
 		}
 		break;
 		case _render_debug_type_line:
 		{
 			
-			entry->line.point0 = va_arg(list, decltype(entry->line.point0));
-			entry->line.point1 = va_arg(list, decltype(entry->line.point1));
-			entry->line.color0 = va_arg(list, decltype(entry->line.color0));
-			entry->line.color1 = va_arg(list, decltype(entry->line.color1));
+			entry->line.point0 = *va_arg(list, real_point3d*);
+			entry->line.point1 = *va_arg(list, real_point3d*);
+			entry->line.color0 = *va_arg(list, real_argb_color*);
+			entry->line.color1 = *va_arg(list, real_argb_color*);
 			alpha = fminf(entry->line.color1.alpha, entry->line.color0.alpha);
 		}
 		break;
 		case _render_debug_type_line2d:
 		{
-			entry->line2d.point0 = va_arg(list, decltype(entry->line2d.point0));
-			entry->line2d.point1 = va_arg(list, decltype(entry->line2d.point1));
-			entry->line2d.color0 = va_arg(list, decltype(entry->line2d.color0));
-			entry->line2d.color1 = va_arg(list, decltype(entry->line2d.color1));
+			entry->line2d.point0 = *va_arg(list, real_point2d*);
+			entry->line2d.point1 = *va_arg(list, real_point2d*);
+			entry->line2d.color0 = *va_arg(list, real_argb_color*);
+			entry->line2d.color1 = *va_arg(list, real_argb_color*);
 			alpha = fminf(entry->line.color1.alpha, entry->line.color0.alpha);
 		}
 		break;
 		case _render_debug_type_sphere:
 		{
-			entry->sphere.center = va_arg(list, decltype(entry->sphere.center));
-			entry->sphere.radius = va_arg(list, decltype(entry->sphere.radius));
-			entry->sphere.color = va_arg(list, decltype(entry->sphere.color));
+			entry->sphere.center = *va_arg(list, real_point3d*);
+			entry->sphere.radius = (real)va_arg(list, double);
+			entry->sphere.color = *va_arg(list, real_argb_color*);
 			alpha = entry->sphere.color.alpha;
 		}
 		break;
 		case _render_debug_type_cylinder:
 		{
-			entry->cylinder.base = va_arg(list, decltype(entry->cylinder.base));
-			entry->cylinder.height = va_arg(list, decltype(entry->cylinder.height));
-			entry->cylinder.radius = va_arg(list, decltype(entry->cylinder.radius));
-			entry->cylinder.color = va_arg(list, decltype(entry->cylinder.color));
+			entry->cylinder.base = *va_arg(list, real_point3d*);
+			entry->cylinder.height = *va_arg(list, vector3d*);
+			entry->cylinder.radius = (real)va_arg(list, double);
+			entry->cylinder.color = *va_arg(list, real_argb_color*);
 			alpha = entry->sphere.color.alpha;
 		}
 		break;
 		case _render_debug_type_pill:
 		{
-			entry->pill.base = va_arg(list, decltype(entry->pill.base));
-			entry->pill.height = va_arg(list, decltype(entry->pill.height));
-			entry->pill.radius = va_arg(list, decltype(entry->pill.radius));
-			entry->pill.color = va_arg(list, decltype(entry->pill.color));
+			entry->pill.base = *va_arg(list, real_point3d*);
+			entry->pill.height = *va_arg(list, vector3d*);
+			entry->pill.radius = (real)va_arg(list, double);
+			entry->pill.color = *va_arg(list, real_argb_color*);
 			alpha = entry->pill.color.alpha;
 		}
 		break;
 		case _render_debug_type_box:
 		case _render_debug_type_box_outline:
 		{
-			entry->box.bounds = va_arg(list, decltype(entry->box.bounds));
-			entry->box.color = va_arg(list, decltype(entry->box.color));
+			entry->box.bounds = *va_arg(list, real_rectangle3d*);
+			entry->box.color = *va_arg(list, real_argb_color*);
 			alpha = entry->box.color.alpha;
 		}
 		break;
 		case _render_debug_type_triangle:
 		{
-			entry->triangle.point0 = va_arg(list, decltype(entry->triangle.point0));
-			entry->triangle.point1 = va_arg(list, decltype(entry->triangle.point1));
-			entry->triangle.point2 = va_arg(list, decltype(entry->triangle.point2));
-			entry->triangle.color = va_arg(list, decltype(entry->triangle.color));
+			entry->triangle.point0 = *va_arg(list, real_point3d*);
+			entry->triangle.point1 = *va_arg(list, real_point3d*);
+			entry->triangle.point2 = *va_arg(list, real_point3d*);
+			entry->triangle.color = *va_arg(list, real_argb_color*);
 			alpha = entry->triangle.color.alpha;
 		}
 		break;
 		case _render_debug_type_string:
 		{
-			const char* string = va_arg(list, decltype(string));
+			char const* string = va_arg(list, char const*);
 			long string_offset = render_debug_add_cache_string(string);
-			if (string_offset == -1)
-				break;
+			if (string_offset != NONE)
+			{
+				entry->string.string_offset = string_offset;
+				entry->string.tab_stop_count = 0;
 
-			entry->string.string_offset = string_offset;
-			entry->string.tab_stop_count = 0;
-
-			//LABEL_46
-			entry->type = type;
-			entry->layer = 0;
-			entry->__unknown4 = 0.0f;
-			if (g_render_debug_globals->group_level > 0)
-				entry->__unknown4 = g_render_debug_globals->__unknown4;
-			return;
+				//LABEL_46
+				entry->type = type;
+				entry->layer = 0;
+				entry->__unknown4 = 0.0f;
+				if (g_render_debug_globals->group_level > 0)
+					entry->__unknown4 = g_render_debug_globals->__unknown4;
+			}
 		}
 		break;
 		case _render_debug_type_string_at_point:
 		{
-			const char* string = va_arg(list, decltype(string));
+			char const* string = va_arg(list, char const*);
 			long string_offset = render_debug_add_cache_string(string);
-			if (string_offset == -1)
-				break;
-
-			entry->string_at_point.string_offset = string_offset;
-			entry->string_at_point.point = va_arg(list, decltype(entry->string_at_point.point));
-			entry->string_at_point.color = va_arg(list, decltype(entry->string_at_point.color));
-			entry->string_at_point.scale = va_arg(list, decltype(entry->string_at_point.scale));
-			alpha = entry->string_at_point.color.alpha;
-
+			if (string_offset != NONE)
+			{
+				entry->string_at_point.string_offset = string_offset;
+				entry->string_at_point.point = *va_arg(list, real_point3d*);
+				entry->string_at_point.color = *va_arg(list, real_argb_color*);
+				entry->string_at_point.scale = (real)va_arg(list, double);
+				alpha = entry->string_at_point.color.alpha;
+			}
 		}
 		break;
 		case _render_debug_type_box2d_outline:
 		{
-			entry->box2d_outline.bounds = va_arg(list, decltype(entry->box2d_outline.bounds));
-			entry->box2d_outline.color = va_arg(list, decltype(entry->box2d_outline.color));
+			entry->box2d_outline.bounds = *va_arg(list, real_rectangle2d*);
+			entry->box2d_outline.color = *va_arg(list, real_argb_color*);
 			alpha = entry->box2d_outline.color.alpha;
 
 			//LABEL_46
@@ -1421,10 +1436,13 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 
 		if (alpha > 0.0f)
 			entry->layer = alpha < 1.0f ? 1 : 0;
+		else
+			g_render_debug_globals->cache_count--;
 
-		g_render_debug_globals->cache_count--;
-
-		entry->__unknown4 = g_render_debug_globals->group_level > 0 ? g_render_debug_globals->__unknown4 : 0.0f;
+		if (g_render_debug_globals->group_level <= 0)
+			entry->__unknown4 = 0.0f;
+		else
+			entry->__unknown4 = g_render_debug_globals->__unknown4;
 	}
 
 	static bool render_debug_cache_overflow = false;
@@ -1437,177 +1455,175 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 
 void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 {
-	s_render_debug_globals* render_debug_globals = get_render_debug_globals();
+	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
 
 	short cache_start_index = 0;
 	if (!a1)
-		cache_start_index = render_debug_globals->cache_start_index;
+		cache_start_index = g_render_debug_globals->cache_start_index;
 
-	if (render_debug_globals->cache_count - cache_start_index > 0)
+	if (g_render_debug_globals->cache_count - cache_start_index > 0)
 	{
 		short cache_layer = 0;
 		long type = 0;
-		long v8 = 0;
 
-		ASSERT(!render_debug_globals->drawing_cached_geometry);
+		ASSERT(!g_render_debug_globals->drawing_cached_geometry);
 
-		render_debug_globals->drawing_cached_geometry = true;
+		g_render_debug_globals->drawing_cached_geometry = true;
 
 		long alpha_blend_modes[2] = { 0, 3 };
-		for (short cache_index = cache_start_index; cache_index < render_debug_globals->cache_count; cache_index++)
+		for (short cache_index = cache_start_index; cache_index < g_render_debug_globals->cache_count; cache_index++)
 		{
-			s_render_debug_cache_entry& entry = render_debug_globals->cache_entries[cache_index];
-			if (VALID_INDEX(entry.layer, NUMBEROF(alpha_blend_modes))) // `NUMBEROF(render_debug_globals->group_ids)` ?
+			s_cache_entry* entry = &g_render_debug_globals->cache_entries[cache_index];
+			if (VALID_INDEX(entry->layer, NUMBEROF(alpha_blend_modes))) // `NUMBEROF(g_render_debug_globals->group_ids)` ?
 			{
-				c_rasterizer::set_alpha_blend_mode(static_cast<c_rasterizer::e_alpha_blend_mode>(alpha_blend_modes[entry.layer]));
+				c_rasterizer::set_alpha_blend_mode(static_cast<c_rasterizer::e_alpha_blend_mode>(alpha_blend_modes[entry->layer]));
 			}
 			else
 			{
 				generate_event(_event_level_warning, "render:debug: unknown debug render cache layer %d!!!", cache_layer);
 			}
 
-			if (type_list[entry.type] != type)
+			if (type_list[entry->type] != type)
 			{
-				type = type_list[entry.type];
-				v8 = 0;
+				ASSERT(VALID_INDEX(entry->type, NUMBEROF(type_list)));
+				type = type_list[entry->type];
 			}
-			v8++;
 
-			if (a2 && type == 10)
-				continue;
-
-			switch (type)
+			if (!a2 || entry->type == _render_debug_type_string)
 			{
-			case _render_debug_type_circle:
-			{
-				render_debug_circle(true,
-					&entry.circle.plane,
-					entry.circle.projection_axis,
-					entry.circle.a4,
-					&entry.circle.center,
-					entry.circle.radius,
-					&entry.circle.color,
-					entry.circle.a8);
-			}
-			break;
-			case _render_debug_type_point:
-			{
-				render_debug_point(true,
-					&entry.point.point,
-					entry.point.scale,
-					&entry.point.color);
-			}
-			break;
-			case _render_debug_type_line:
-			{
-				render_debug_line_shaded(true,
-					&entry.line.point0,
-					&entry.line.point1,
-					&entry.line.color0,
-					&entry.line.color1);
-			}
-			break;
-			case _render_debug_type_line2d:
-			{
-				render_debug_line2d_shaded(
-					&entry.line2d.point0,
-					&entry.line2d.point1,
-					&entry.line2d.color0,
-					&entry.line2d.color1);
-			}
-			break;
-			case _render_debug_type_sphere:
-			{
-				render_debug_sphere(true,
-					&entry.sphere.center,
-					entry.sphere.radius,
-					&entry.sphere.color);
-			}
-			break;
-			case _render_debug_type_cylinder:
-			{
-				render_debug_cylinder(true,
-					&entry.cylinder.base,
-					&entry.cylinder.height,
-					entry.cylinder.radius,
-					&entry.cylinder.color);
-			}
-			break;
-			case _render_debug_type_pill:
-			{
-				render_debug_pill(true,
-					&entry.pill.base,
-					&entry.pill.height,
-					entry.pill.radius,
-					&entry.pill.color);
-			}
-			break;
-			case _render_debug_type_box:
-			{
-				render_debug_box(true,
-					&entry.box.bounds,
-					&entry.box.color);
-			}
-			break;
-			case _render_debug_type_box_outline:
-			{
-				render_debug_box_outline(true,
-					&entry.box.bounds,
-					&entry.box.color);
-			}
-			break;
-			case _render_debug_type_triangle:
-			{
-				render_debug_triangle(true,
-					&entry.triangle.point0,
-					&entry.triangle.point1,
-					&entry.triangle.point2,
-					&entry.triangle.color);
-			}
-			break;
-			case _render_debug_type_string:
-			{
-				char const* string = render_debug_globals->cache_string + entry.string_at_point.string_offset;
-				ASSERT(string != NULL);
-
-				render_debug_string_immediate(true,
-					entry.string.tab_stops,
-					entry.string.tab_stop_count,
-					string);
-			}
-			break;
-			case _render_debug_type_string_at_point:
-			{
-				char const* string = render_debug_globals->cache_string + entry.string_at_point.string_offset;
-				ASSERT(string != NULL);
-
-				render_debug_string_at_point_immediate(
-					&entry.string_at_point.point,
-					string,
-					&entry.string_at_point.color,
-					entry.string_at_point.scale);
-			}
-			break;
-			case _render_debug_type_box2d_outline:
-			{
-				render_debug_box2d_outline(true,
-					&entry.box2d_outline.bounds,
-					&entry.box2d_outline.color);
-			}
-			break;
-			default:
-				// ASSERT(halt());
+				switch (entry->type)
+				{
+				case _render_debug_type_circle:
+				{
+					render_debug_circle(true,
+						&entry->circle.plane,
+						entry->circle.projection_axis,
+						entry->circle.a4,
+						&entry->circle.center,
+						entry->circle.radius,
+						&entry->circle.color,
+						entry->circle.a8);
+				}
 				break;
+				case _render_debug_type_point:
+				{
+					render_debug_point(true,
+						&entry->point.point,
+						entry->point.scale,
+						&entry->point.color);
+				}
+				break;
+				case _render_debug_type_line:
+				{
+					render_debug_line_shaded(true,
+						&entry->line.point0,
+						&entry->line.point1,
+						&entry->line.color0,
+						&entry->line.color1);
+				}
+				break;
+				case _render_debug_type_line2d:
+				{
+					render_debug_line2d_shaded(
+						&entry->line2d.point0,
+						&entry->line2d.point1,
+						&entry->line2d.color0,
+						&entry->line2d.color1);
+				}
+				break;
+				case _render_debug_type_sphere:
+				{
+					render_debug_sphere(true,
+						&entry->sphere.center,
+						entry->sphere.radius,
+						&entry->sphere.color);
+				}
+				break;
+				case _render_debug_type_cylinder:
+				{
+					render_debug_cylinder(true,
+						&entry->cylinder.base,
+						&entry->cylinder.height,
+						entry->cylinder.radius,
+						&entry->cylinder.color);
+				}
+				break;
+				case _render_debug_type_pill:
+				{
+					render_debug_pill(true,
+						&entry->pill.base,
+						&entry->pill.height,
+						entry->pill.radius,
+						&entry->pill.color);
+				}
+				break;
+				case _render_debug_type_box:
+				{
+					render_debug_box(true,
+						&entry->box.bounds,
+						&entry->box.color);
+				}
+				break;
+				case _render_debug_type_box_outline:
+				{
+					render_debug_box_outline(true,
+						&entry->box.bounds,
+						&entry->box.color);
+				}
+				break;
+				case _render_debug_type_triangle:
+				{
+					render_debug_triangle(true,
+						&entry->triangle.point0,
+						&entry->triangle.point1,
+						&entry->triangle.point2,
+						&entry->triangle.color);
+				}
+				break;
+				case _render_debug_type_string:
+				{
+					char const* string = g_render_debug_globals->cache_string + entry->string_at_point.string_offset;
+					ASSERT(string != NULL);
+
+					render_debug_string_immediate(true,
+						entry->string.tab_stops,
+						entry->string.tab_stop_count,
+						string);
+				}
+				break;
+				case _render_debug_type_string_at_point:
+				{
+					char const* string = g_render_debug_globals->cache_string + entry->string_at_point.string_offset;
+					ASSERT(string != NULL);
+
+					render_debug_string_at_point_immediate(
+						&entry->string_at_point.point,
+						string,
+						&entry->string_at_point.color,
+						entry->string_at_point.scale);
+				}
+				break;
+				case _render_debug_type_box2d_outline:
+				{
+					render_debug_box2d_outline(true,
+						&entry->box2d_outline.bounds,
+						&entry->box2d_outline.color);
+				}
+				break;
+				default:
+					// ASSERT(halt());
+					break;
+				}
 			}
 		}
 
-		render_debug_globals->drawing_cached_geometry = false;
+		g_render_debug_globals->drawing_cached_geometry = false;
 	}
 
 	if (a3)
 	{
-		render_debug_globals->cache_count = render_debug_globals->cache_start_index;
-		render_debug_globals->cache_string_length = render_debug_globals->__unknown8001E;
+		g_render_debug_globals->cache_count = g_render_debug_globals->cache_start_index;
+		g_render_debug_globals->cache_string_length = g_render_debug_globals->__unknown8001E;
 	}
 }
 
