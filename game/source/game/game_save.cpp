@@ -33,6 +33,7 @@ HOOK_DECLARE(0x00682500, game_save_initialize);
 HOOK_DECLARE(0x00682560, game_save_initialize_for_new_map);
 HOOK_DECLARE(0x006825B0, game_save_no_timeout);
 HOOK_DECLARE(0x00682600, game_save_safe);
+HOOK_DECLARE(0x00682650, game_save_update);
 HOOK_DECLARE(0x00682770, game_saving);
 HOOK_DECLARE(0x006827A0, not_enough_time_since_last_save);
 
@@ -225,7 +226,174 @@ void __cdecl game_save_safe()
 
 void __cdecl game_save_update()
 {
-	INVOKE(0x00682650, game_save_update);
+	//INVOKE(0x00682650, game_save_update);
+
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
+
+	bool perform_cancel = false;
+	bool perform_save = false;
+	bool cinematic_skip = false;
+
+	if (cinematic_in_progress())
+	{
+		if (g_game_save_globals->game_save_type != _game_save_type_cinematic_skip)
+			return;
+
+	LABEL_0:;
+		if (game_is_lost())
+		{
+			if (!debug_game_save)
+			{
+			LABEL_1:;
+				g_game_save_globals->game_save_type = _game_save_type_cancel;
+				return;
+			}
+
+			console_printf("game is lost, cannot immediate-save, cancelling");
+
+		LABEL_2:;
+			if (debug_game_save)
+			{
+				console_printf("canceling!");
+
+				if (debug_game_save)
+					console_printf("game save cancelled");
+			}
+
+			goto LABEL_1;
+		}
+
+		if (debug_game_save)
+			console_printf("performing immediate save");
+
+		cinematic_skip = g_game_save_globals->game_save_type == _game_save_type_cinematic_skip;
+		goto LABEL_5;
+	}
+
+	if (g_game_save_globals->game_save_type <= _game_save_type_cancel)
+		return;
+
+	if (g_game_save_globals->game_save_type >= _game_save_type_immediate)
+		goto LABEL_0;
+
+	if (g_game_save_globals->__unknown4 > 0)
+	{
+		g_game_save_globals->__unknown4--;
+
+	LABEL_3:;
+		if (g_game_save_globals->game_save_type != _game_save_type_no_timeout)
+		{
+			if (game_ticks_to_seconds(real(game_time_get() - g_game_save_globals->__unknown8)) >= 8.0f)
+			{
+				if (debug_game_save)
+					console_printf("timeout trying to save");
+
+				perform_cancel = true;
+			}
+		}
+
+		goto LABEL_4;
+	}
+
+	if (game_safe_to_save())
+	{
+		if (debug_game_save)
+			console_printf("game currently safe to save");
+
+		perform_save = ++g_game_save_globals->__unknownC >= 3;
+	}
+	else
+	{
+		if (debug_game_save)
+			console_printf("game currently unsafe to save");
+
+		g_game_save_globals->__unknownC = 0;
+	}
+
+	g_game_save_globals->__unknown4 = game_seconds_to_ticks_round(0.33f);
+	if (!perform_save)
+		goto LABEL_3;
+
+LABEL_4:;
+	if (debug_game_save)
+	{
+		if (g_game_save_globals->unsafe_object_index != NONE)
+		{
+			real_point3d unsafe_object_position{};
+			object_get_origin(g_game_save_globals->unsafe_object_index, &unsafe_object_position);
+
+			real_point3d camera_position = unsafe_object_position;
+			if (s_observer_result const* camera = observer_try_and_get_camera(player_mapping_first_active_output_user()))
+			{
+				camera_position.x = camera->focus_point.x + (camera->forward.i * 0.05f);
+				camera_position.y = camera->focus_point.y + (camera->forward.j * 0.05f);
+				camera_position.z = camera->focus_point.z + (camera->forward.k * 0.05f);
+			}
+
+			render_debug_line(false, &unsafe_object_position, &camera_position, global_real_argb_red);
+			render_debug_sphere(false, &unsafe_object_position, 0.5f, global_real_argb_red);
+
+			byte* object = static_cast<byte*>(object_get_and_verify_type(g_game_save_globals->unsafe_object_index, NONE));
+			REFERENCE_DECLARE(object, long, object_definition_index);
+			render_debug_string_at_point(&unsafe_object_position, tag_get_name(object_definition_index), global_real_argb_white);
+		}
+	}
+
+	if (!perform_save)
+	{
+		if (!perform_cancel)
+			return;
+
+		goto LABEL_2;
+	}
+
+LABEL_5:;
+	if (debug_game_save)
+		console_printf("saving!");
+
+	g_game_save_globals->game_save_type = _game_save_type_cancel;
+
+	if (cinematic_skip)
+	{
+		director_reset();
+	}
+#if defined(_DEBUG)
+	else
+	{
+		c_data_iterator<player_datum> player_iterator;
+		player_iterator.begin(*player_data);
+		while (player_iterator.next())
+		{
+			long unit_index = player_iterator.get_datum()->unit_index;
+			if (unit_index != NONE)
+			{
+				if (unit_datum* unit = static_cast<unit_datum*>(object_try_and_get_and_verify_type(unit_index, _object_mask_unit)))
+				{
+					//if (unit->object.current_body_damage < 1.0f)
+					//{
+					//	unit->object.current_body_damage = 1.0f;
+					//	unit->object.body_stun_ticks = 0;
+					//}
+
+					byte* object = (byte*)unit;
+					REFERENCE_DECLARE(object + 0xFC, real, body_vitality);
+					REFERENCE_DECLARE(object + 0x11E, short, body_stun_ticks);
+
+					if (body_vitality < 1.0f)
+					{
+						body_vitality = 1.0f;
+						body_stun_ticks = 0;
+					}
+				}
+			}
+		}
+	}
+#endif
+
+	main_save_map();
+
+	g_game_save_globals->time_of_last_game_save = game_time_get();
 }
 
 bool __cdecl game_saving()
