@@ -2,6 +2,5 @@
 
 void render_debug_detail_objects()
 {
-    // #TODO: implement
 }
 

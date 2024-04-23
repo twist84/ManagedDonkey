@@ -82,7 +82,11 @@ bool __cdecl scenario_soft_ceilings_plane_get(plane3d* plane, long structure_des
 	return scenario_soft_ceilings_triangle_plane_get(plane, &triangle);
 }
 
-void __cdecl scenario_soft_ceilings_render_debug(real_point3d const* point, bool render_soft_ceilings, bool render_soft_kill, bool render_slip_surfaces)
+void __cdecl scenario_soft_ceilings_render_debug(
+	real_point3d const* point,
+	bool render_soft_ceilings,
+	bool render_soft_kill,
+	bool render_slip_surfaces)
 {
 	if (render_soft_ceilings || render_soft_kill || render_slip_surfaces)
 	{

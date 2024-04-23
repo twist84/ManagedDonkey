@@ -6,6 +6,8 @@
 #include "interface/interface_constants.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "render/render_debug.hpp"
+#include "render/render_lights.hpp"
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 
@@ -13,7 +15,11 @@ HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
 
+bool debug_player_network_aiming = false;
+bool debug_objects_biped_melee_in_range = false;
+bool debug_render_players = false;
 string_id g_player_desired_mode_override = NONE;
+long g_character_physics_override = _character_physics_override_none;
 
 s_player_identifier::s_player_identifier() :
 	ipv4_address(0),
@@ -72,8 +78,61 @@ void player_override_desired_mode(long desired_mode)
 
 void players_debug_render()
 {
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+
 	c_font_cache_mt_safe font_cache;
 	char string[2048]{};
+
+	if (debug_player_network_aiming)
+	{
+		//c_data_iterator<player_datum> player_iterator;
+		//player_iterator.begin(*player_data);
+		//while (player_iterator.next())
+		//{
+		//	player_datum* player = player_iterator.get_datum();
+		//	if (player->unit_index != NONE)
+		//	{
+		//		// #TODO: implement this
+		//	}
+		//}
+	}
+
+	if (debug_objects && debug_objects_biped_melee_in_range)
+	{
+		//c_data_iterator<player_datum> player_iterator;
+		//player_iterator.begin(*player_data);
+		//while (player_iterator.next())
+		//{
+		//	player_datum* player = player_iterator.get_datum();
+		//	if (player->unit_index != NONE
+		//		//&& player->machine_user_index
+		//		&& TEST_MASK(_object_mask_biped, FLAG(object_get_type(player->unit_index))))
+		//	{
+		//		byte* biped = (byte*)object_get_and_verify_type(player->unit_index, _object_mask_biped);
+		// 
+		//		// #TODO: find the offset
+		//		REFERENCE_DECLARE(biped + ??, word_flags, biped_flags);
+		//
+		//		// #TODO: find the bit index
+		//		if (TEST_BIT(biped_flags, ??))
+		//		{
+		//			real_point3d position{};
+		//			vector3d aiming_vector{};
+		//			biped_get_sight_position(player->unit_index, 0, false, NULL, NULL, NULL, NULL, &position);
+		//			unit_get_aiming_vector(player->unit_index, &aiming_vector);
+		//
+		//			real_point3d point{};
+		//			point_from_line3d(&point, &aiming_vector, 0.3f, &point);
+		//			render_debug_sphere(true, &point, 0.15f, global_real_argb_red);
+		//		}
+		//	}
+		//}
+	}
+
+	if (debug_render_players)
+	{
+
+	}
 
 	if (g_player_desired_mode_override != NONE)
 	{
@@ -88,6 +147,21 @@ void players_debug_render()
 
 		draw_string.set_bounds(&bounds);
 		draw_string.draw(&font_cache, string);
+	}
+
+	if (g_character_physics_override)
+	{
+		//c_rasterizer_draw_string draw_string;
+		//
+		//short_rectangle2d bounds{};
+		//interface_get_current_display_settings(NULL, NULL, NULL, &bounds);
+		//bounds.y0 = bounds.y1 - 20;
+		//
+		//char const* character_physics_override = g_character_physics_override < k_number_of_character_physics_overrides ? global_character_physics_override_names[g_character_physics_override] : "OUT OF RANGE!";
+		//csnzprintf(string, sizeof(string), "Character Physics Override: %s|n", character_physics_override);
+		//
+		//draw_string.set_bounds(&bounds);
+		//draw_string.draw(&font_cache, string);
 	}
 }
 

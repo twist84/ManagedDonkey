@@ -320,18 +320,18 @@ int __cdecl render_debug_cache_entry_sort_proc(void const* a, void const* b)
 void __cdecl render_debug_sort_cache_entries()
 {
 	s_render_debug_globals* g_render_debug_globals = get_render_debug_globals();
-	if (g_render_debug_globals->cache_count <= 0)
-		return;
+	if (g_render_debug_globals->cache_count > 0)
+	{
+		qsort(g_render_debug_globals->cache_entries,
+			g_render_debug_globals->cache_start_index,
+			sizeof(s_cache_entry),
+			render_debug_cache_entry_sort_proc);
 
-	qsort(g_render_debug_globals->cache_entries,
-		g_render_debug_globals->cache_start_index,
-		sizeof(s_cache_entry),
-		render_debug_cache_entry_sort_proc);
-
-	qsort(g_render_debug_globals->cache_entries + g_render_debug_globals->cache_start_index,
-		g_render_debug_globals->cache_count - g_render_debug_globals->cache_start_index,
-		sizeof(s_cache_entry),
-		render_debug_cache_entry_sort_proc);
+		qsort(g_render_debug_globals->cache_entries + g_render_debug_globals->cache_start_index,
+			g_render_debug_globals->cache_count - g_render_debug_globals->cache_start_index,
+			sizeof(s_cache_entry),
+			render_debug_cache_entry_sort_proc);
+	}
 }
 
 void __cdecl render_debug_begin(bool a1, bool a2, bool a3)

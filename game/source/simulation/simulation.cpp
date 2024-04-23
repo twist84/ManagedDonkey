@@ -585,6 +585,7 @@ bool __cdecl simulation_update_write_to_buffer(struct simulation_update const* u
 void simulation_debug_render()
 {
 	ASSERT(simulation_globals.world);
+
 	simulation_globals.world->debug_render();
 }
 
