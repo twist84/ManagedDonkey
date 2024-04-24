@@ -997,6 +997,15 @@ callback_result_t net_test_variant_callback(void const* userdata, long token_cou
 	return result;
 }
 
+callback_result_t net_test_reset_objects_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	network_test_reset_objects();
+
+	return result;
+}
+
 callback_result_t net_test_session_mode_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

@@ -197,6 +197,7 @@ POPD
     <ClCompile Include="source\items\items.cpp" />
     <ClCompile Include="source\networking\messages\network_message_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_out_of_band_consumer.cpp" />
+    <ClCompile Include="source\objects\object_placement.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />

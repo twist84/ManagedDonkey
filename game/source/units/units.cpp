@@ -36,7 +36,7 @@ bool __cdecl any_unit_is_dangerous(long* out_unit_index)
 //.text:00B37CE0 ; void __cdecl data_mine_insert_sp_actor_death(long, s_damage_aftermath_result_data const*)
 //.text:00B380B0 ; void __cdecl data_mine_insert_sp_player_death(long, s_damage_aftermath_result_data const*)
 //.text:00B38180 ; 
-//.text:00B38210 ; public: bool __cdecl c_multi_unit_passenger_iterator::next(void)
+//.text:00B38210 ; public: bool __cdecl c_multi_unit_passenger_iterator::next()
 //.text:00B38450 ; void __cdecl play_unit_sound(long, short)
 //.text:00B386E0 ; 
 //.text:00B38720 ; 

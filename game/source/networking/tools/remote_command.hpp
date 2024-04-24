@@ -137,6 +137,7 @@ COMMAND_CALLBACK_DECLARE(net_test_text_chat);
 COMMAND_CALLBACK_DECLARE(net_test_text_chat_directed);
 COMMAND_CALLBACK_DECLARE(net_test_map_name);
 COMMAND_CALLBACK_DECLARE(net_test_variant);
+COMMAND_CALLBACK_DECLARE(net_test_reset_objects);
 COMMAND_CALLBACK_DECLARE(net_test_session_mode);
 COMMAND_CALLBACK_DECLARE(net_test_ui_game_mode);
 COMMAND_CALLBACK_DECLARE(net_test_advertisement_mode);
@@ -241,6 +242,7 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(net_test_map_name, 1, "<string>", "network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_variant, 1, "<string>", "network test: sets the game variant to play\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(net_test_reset_objects, 0, "", "network test: resets all objects on the map\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_session_mode, 1, "<string>", "network test: sets the session mode to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_ui_game_mode, 1, "<string>", "network test: sets the ui game mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_advertisement_mode, 1, "<string>", "network test: sets the advertisement mode to play\r\nNETWORK SAFE: No, for mainmenu only"),

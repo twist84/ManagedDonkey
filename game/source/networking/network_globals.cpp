@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
+#include "game/game.hpp"
 #include "game/game_options.hpp"
 #include "interface/user_interface.hpp"
 #include "interface/user_interface_networking.hpp"
@@ -31,8 +32,10 @@
 #include "networking/online/online_url.hpp"
 #include "networking/session/network_session.hpp"
 #include "networking/transport/transport.hpp"
+#include "objects/object_placement.hpp"
 #include "profiler/profiler.hpp"
 #include "saved_games/scenario_map_variant.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/tag_groups.hpp"
 
 REFERENCE_DECLARE(0x0224A490, c_network_session_parameter_type_collection*, g_network_parameter_types);
@@ -527,6 +530,20 @@ void __cdecl network_test_ping()
 	}
 }
 
+void __cdecl network_test_reset_objects()
+{
+	c_object_iterator<object_datum> object_iterator;
+	object_iterator.begin(NONE, 0);
+	while (object_iterator.next())
+	{
+		if (!simulation_query_object_is_predicted(object_iterator.get_index()))
+			object_delete_immediately(object_iterator.get_index());
+	}
+
+	object_placement_create_global_objects(game_mode_get(), false);
+	object_placement_create_active_zone_set_objects(_object_placement_zone_set_create_mode_unknown0);
+}
+
 void __cdecl network_test_ping_directed(transport_address const* address)
 {
 	static word id = 0;
@@ -565,7 +582,6 @@ void __cdecl network_test_text_chat(char const* text)
 	{
 		generate_event(_event_level_error, "networking:test: networking is not initialized");
 	}
-
 }
 
 void __cdecl network_test_text_chat_directed(transport_address const* address, char const* text)
@@ -585,6 +601,5 @@ void __cdecl network_test_text_chat_directed(transport_address const* address, c
 	{
 		generate_event(_event_level_error, "networking:test: networking is not initialized");
 	}
-
 }
 

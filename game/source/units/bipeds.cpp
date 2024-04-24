@@ -20,6 +20,8 @@ bool debug_objects_pendulum = false;
 
 void __cdecl biped_bumped_object(long object_index, long bump_object_index, vector3d const* linear_velocity)
 {
+	//INVOKE(0x00B6B8F0, biped_bumped_object, object_index, bump_object_index, linear_velocity);
+
 	byte* biped = (byte*)(object_header_get(object_index))->datum;
 	REFERENCE_DECLARE(biped + 0x198, long, biped_player_index);
 	REFERENCE_DECLARE(biped + 0x590, word_flags, biped_biped_flags);
@@ -113,6 +115,8 @@ void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_
 
 void __cdecl biped_render_debug(long biped_index)
 {
+	//INVOKE(0x00B70DF0, biped_render_debug, biped_index);
+
 	if (debug_objects_physics_control_node)
 	{
 		real_point3d position{};

@@ -330,6 +330,15 @@ extern long __cdecl cluster_get_next_collideable_object_and_payload(long* datum_
 extern long __cdecl cluster_get_next_noncollideable_object_and_payload(long* datum_index, s_object_cluster_payload const** payload);
 extern bool __cdecl object_load_scenario_placement_matrices(long object_index);
 extern void __cdecl object_delete(long object_index);
+extern void __cdecl object_delete_all_multiplayer_cinematic_objects();
+extern void __cdecl object_delete_immediately(long object_index);
+extern void __cdecl object_delete_recursive(long object_index, bool deactivate);
+extern void __cdecl object_destroy_instance_group(long object_index, long instance_group_index);
+extern void __cdecl object_detach(long object_index);
+extern void __cdecl object_detach_from_node(long object_index, real_matrix4x3 const* node);
+extern void __cdecl object_detach_gamestate_entity(long object_index, long gamestate_index);
+extern void __cdecl object_detach_immediate(long object_index);
+extern void __cdecl object_detach_internal(long object_index, bool compute_bounding_sphere);
 extern bool __cdecl object_function_get_function_value(long object_index, s_object_function_definition const* function, long object_definition_index, real* out_function_magnitude, bool* deterministic);
 extern real_point3d* __cdecl object_get_center_of_mass(long object_index, real_point3d* center);
 extern bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude);

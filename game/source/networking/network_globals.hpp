@@ -57,6 +57,7 @@ extern void __cdecl network_test_set_ui_game_mode(char const* ui_game_mode_name)
 extern void __cdecl network_test_set_advertisement_mode(char const* advertisement_mode_name);
 extern void __cdecl network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value);
 extern void __cdecl network_test_ping();
+extern void __cdecl network_test_reset_objects();
 extern void __cdecl network_test_ping_directed(transport_address const* address);
 extern void __cdecl network_test_text_chat(char const* text);
 extern void __cdecl network_test_text_chat_directed(transport_address const* address, char const* text);

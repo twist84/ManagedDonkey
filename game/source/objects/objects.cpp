@@ -52,7 +52,8 @@ void* __cdecl object_get_and_verify_type(long object_index, dword object_type_ma
 {
 	//ASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
 
-	byte* object = (byte*)object_header_get(object_index)->datum;
+	object_header_datum const* object_header = object_header_get(object_index);
+	byte* object = (byte*)object_header->datum;
 	REFERENCE_DECLARE(object + 0x94, c_object_identifier, object_identifier);
 
 	if (!_bittest((long*)&object_type_mask, object_identifier.m_type.get()))
@@ -108,15 +109,75 @@ void __cdecl object_delete(long object_index)
 	INVOKE(0x00B2CD10, object_delete, object_index);
 }
 
+void __cdecl object_delete_all_multiplayer_cinematic_objects()
+{
+	INVOKE(0x00B2CE90, object_delete_all_multiplayer_cinematic_objects);
+}
+
+void __cdecl object_delete_immediately(long object_index)
+{
+	INVOKE(0x00B2CF40, object_delete_immediately, object_index);
+}
+
+void __cdecl object_delete_recursive(long object_index, bool deactivate)
+{
+	INVOKE(0x00B2CF70, object_delete_recursive, object_index, deactivate);
+}
+
+void __cdecl object_destroy_instance_group(long object_index, long instance_group_index)
+{
+	INVOKE(0x00B2D0B0, object_destroy_instance_group, object_index, instance_group_index);
+}
+
+void __cdecl object_detach(long object_index)
+{
+	INVOKE(0x00B2D180, object_detach, object_index);
+}
+
+void __cdecl object_detach_from_node(long object_index, real_matrix4x3 const* node)
+{
+	INVOKE(0x00B2D1D0, object_detach_from_node, object_index, node);
+}
+
+void __cdecl object_detach_gamestate_entity(long object_index, long gamestate_index)
+{
+	INVOKE(0x00B2D270, object_detach_gamestate_entity, object_index, gamestate_index);
+}
+
+void __cdecl object_detach_immediate(long object_index)
+{
+	INVOKE(0x00B2D2C0, object_detach_immediate, object_index);
+}
+
+void __cdecl object_detach_internal(long object_index, bool compute_bounding_sphere)
+{
+	INVOKE(0x00B2D460, object_detach_internal, object_index, compute_bounding_sphere);
+}
+
+//.text:00B2D4E0 ; void __cdecl object_detach_predicted_objects(long object_index)
+//.text:00B2D560 ; void __cdecl object_disconnect_from_map(long object_index, bool broadphase_remove_object)
+//.text:00B2D600 ; void __cdecl object_disconnect_from_physics(long object_index)
+//.text:00B2D660 ; bool __cdecl object_find_initial_location(long object_index, s_location* location)
+//.text:00B2D6E0 ; void __cdecl object_find_structure_bsp_fake_lightprobe_index(long structure_bsp_index, long object_index)
+//.text:00B2D7D0 ; bool __cdecl object_force_inside_bsp(long object_index, real_point3d const* position, long a3)
+//.text:00B2D9B0 ; void __cdecl object_freeze_node_orientations(long object_index, bool a2)
+
 bool __cdecl object_function_get_function_value(long object_index, s_object_function_definition const* function, long object_definition_index, real* out_function_magnitude, bool* deterministic)
 {
 	return INVOKE(0x00B2DA20, object_function_get_function_value, object_index, function, object_definition_index, out_function_magnitude, deterministic);
 }
 
+//.text:00B2DCB0 ; long __cdecl object_get_attachment_marker_name(long object_index, short attachment_index)
+//.text:00B2DD10 ; bool __cdecl object_get_base_change_color_by_index(long object_index, long change_color_index, real_rgb_color* color)
+
 real_point3d* __cdecl object_get_center_of_mass(long object_index, real_point3d* center)
 {
 	return INVOKE(0x00B2DD90, object_get_center_of_mass, object_index, center);
 }
+
+//.text:00B2DE50 ; bool __cdecl object_get_change_color(long object_index, e_change_color_reference change_color_reference, real_rgb_color* color)
+//.text:00B2DEF0 ; void __cdecl object_get_closest_point_and_normal(long object_index, real_point3d const* origin, real_point3d* closest_point, vector3d* normal)
+//.text:00B2DF80 ; void __cdecl object_get_damage_owner(long object_index, s_damage_owner* owner)
 
 bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude)
 {
