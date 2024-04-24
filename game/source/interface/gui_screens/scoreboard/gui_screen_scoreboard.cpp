@@ -235,7 +235,7 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 	wchar_t const* score,
 	wchar_t const* round_score,
 	bool dead,
-	bool left
+	bool left_game
 )
 {
 	bool result = m_player_row_count < 25;
@@ -257,7 +257,7 @@ bool __cdecl c_gui_scoreboard_data::add_player_internal(
 		m_player_rows[m_player_row_count].score.set(score);
 		m_player_rows[m_player_row_count].round_score.set(round_score);
 		m_player_rows[m_player_row_count].dead = dead;
-		m_player_rows[m_player_row_count].left = left;
+		m_player_rows[m_player_row_count].left_game = left_game;
 
 		m_player_row_count++;
 	}
@@ -317,7 +317,7 @@ void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool
 						/* score                */ score.get_string(),
 						/* round_score          */ round_score.get_string(),
 						/* dead                 */ false,
-						/* left                 */ false
+						/* left_game            */ false
 					);
 				}
 			}
@@ -335,7 +335,7 @@ void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool
 			long network_player_index = user_interface_squad_get_player_index(&player->player_identifier);
 			if (player->configuration.host.team_index != NONE)
 			{
-				bool dead = !TEST_BIT(player->flags, _player_unknown_bit3) && player->unit_index == NONE && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
+				bool dead = !TEST_BIT(player->flags, _player_initial_spawn_bit) && player->unit_index == NONE && game_in_progress() && !game_is_finished() && !simulation_starting_up() && game_engine_in_round();
 
 				if (include_score)
 				{
@@ -381,7 +381,7 @@ void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool
 						/* score                */ score.get_string(),
 						/* round_score          */ round_score.get_string(),
 						/* dead                 */ dead,
-						/* left                 */ false
+						/* left_game            */ false
 					);
 					team_round_score = 0;
 				}
@@ -389,7 +389,7 @@ void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool
 				{
 					long base_color = player->configuration.host.armor.loadouts[player->armor_loadout_index].colors[0].value;
 					long player_index = player_iterator_index;
-					bool left = TEST_BIT(player->flags, _player_left_game_bit);
+					bool left_game = TEST_BIT(player->flags, _player_left_game_bit);
 					team_round_score = 0;
 
 					c_gui_scoreboard_data::add_player_internal(
@@ -409,7 +409,7 @@ void __thiscall c_gui_scoreboard_data::_update_for_scoreboard_mode(bool a1, bool
 						/* score                */ score.get_string(),
 						/* round_score          */ round_score.get_string(),
 						/* dead                 */ dead,
-						/* left                 */ left
+						/* left_game            */ left_game
 					);
 				}
 			}

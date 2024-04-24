@@ -95,7 +95,7 @@ struct c_gui_scoreboard_data :
 		c_static_wchar_string<48> round_score;
 
 		bool dead;
-		bool left;
+		bool left_game;
 	};
 	static_assert(sizeof(s_player_row) == 0x868);
 
@@ -116,7 +116,7 @@ struct c_gui_scoreboard_data :
 		wchar_t const* score,
 		wchar_t const* round_score,
 		bool dead,
-		bool left);
+		bool left_game);
 
 	void __thiscall _update_for_scoreboard_mode(bool a1, bool a2);
 

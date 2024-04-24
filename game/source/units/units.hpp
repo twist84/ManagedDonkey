@@ -54,13 +54,16 @@ extern void __cdecl unit_add_starting_profile_equipment(long unit_index, short p
 extern bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, long weapon_addition_method);
 extern void __cdecl unit_control(long unit_index, unit_control_data const* control_data);
 extern long __cdecl unit_get_active_primary_weapon(long unit_index, long* parent_unit_index);
-extern real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level);
-extern short __cdecl unit_get_zoom_level(long unit_index);
+extern long __cdecl unit_get_aim_assist_dash_target(long unit_index);
+extern bool __cdecl unit_get_aim_position(long unit_index, real_point3d* aim_position);
+extern long __cdecl unit_get_aiming_unit_index(long unit_index);
+extern void __cdecl unit_get_aiming_vector(long unit_index, vector3d* aiming_vector);
 extern void __cdecl unit_get_camera_position(long unit_index, real_point3d* position);
+extern real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level);
 extern void __cdecl unit_get_head_position(long unit_index, real_point3d* position);
+extern short __cdecl unit_get_zoom_level(long unit_index);
 extern bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index);
 extern void __cdecl unit_render_debug(long unit_index);
-
 extern bool __cdecl units_debug_can_select_unit(long unit_index);
 extern long __cdecl units_debug_get_closest_unit(long unit_index);
 extern long __cdecl units_debug_get_next_unit(long unit_index);

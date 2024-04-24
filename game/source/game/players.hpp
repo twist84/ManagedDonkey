@@ -283,13 +283,16 @@ static_assert(sizeof(s_player_shot_info) == 0xC);
 // there's a high likelihood of Halo Online using the Halo Reach player flags enum
 enum e_player_flags
 {
+	// game_engine_player_is_playing
 	// players_update_activation
 	// c_game_engine::apply_player_update
 	// halo reach x360: bit 0
 	// halo 4 x360:     bit 0
 	_player_active_in_game_bit = 0,
 
+	// game_engine_player_is_playing
 	// player_rejoined_game
+	// players_joined_in_progress_allow_spawn
 	// halo 4 x360:     bit 1
 	// halo reach x360: bit 1
 	_player_left_game_bit,
@@ -307,7 +310,7 @@ enum e_player_flags
 	// c_game_engine::apply_player_update
 	// halo reach x360: bit 3
 	// halo 4 x360:     bit 3
-	_player_unknown_bit3, // initial spawn?
+	_player_initial_spawn_bit,
 
 	// halo 4 adds 2 new flags here
 	// bit 4, game_engine_display_role_selection_ui
@@ -337,6 +340,7 @@ enum e_player_flags
 	_player_unknown_bit7,
 
 	// teleporter_flag_object_as_having_teleported_recursive
+	//  should pass `_object_mask_unit` test
 	// update_players_before_teleporters
 	// update_players_after_teleporters
 	// c_teleporter_area::update_players
@@ -345,6 +349,7 @@ enum e_player_flags
 	_player_unknown_bit8,
 
 	// teleporter_flag_object_as_having_teleported_recursive
+	//  should pass `_object_mask_unit` test
 	// update_players_after_teleporters
 	// c_teleporter_area::update_players
 	// halo reach x360: bit 9
@@ -364,6 +369,7 @@ enum e_player_flags
 	// halo 4 x360:     bit 13
 	_player_unknown_bit11,
 
+	// game_engine_player_is_playing
 	// game_engine_update_player_sitting_out
 	// c_game_engine::apply_player_update
 	// halo reach x360: bit 12
