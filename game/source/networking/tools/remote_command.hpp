@@ -176,6 +176,7 @@ COMMAND_CALLBACK_DECLARE(debug_menu_rebuild);
 COMMAND_CALLBACK_DECLARE(drop);
 COMMAND_CALLBACK_DECLARE(drop_variant);
 COMMAND_CALLBACK_DECLARE(drop_permutation);
+COMMAND_CALLBACK_DECLARE(ai_enable);
 COMMAND_CALLBACK_DECLARE(director_debug_camera);
 COMMAND_CALLBACK_DECLARE(camera_control);
 COMMAND_CALLBACK_DECLARE(camera_set_mode);
@@ -295,6 +296,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(drop, 1, "<string>", "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle\r\nNETWORK SAFE: Yes, for objects"),
 	COMMAND_CALLBACK_REGISTER(drop_variant, 2, "<string> <string>", "drops the named tag e.g. objects\\vehicles\\banshee\\banshee.vehicle using the specified variant name\r\n"),
 	COMMAND_CALLBACK_REGISTER(drop_permutation, 2, "<string> <string>", "drops the named tag e.g. objects\\characters\\brute\\brute.biped using the specified permutation. permutations are specified as a comma-delimited string of region=permutation pairs (e.g. region1=permutation1,region2=permutation2).\r\n"),
+
+	COMMAND_CALLBACK_REGISTER(ai_enable, 1, "<boolean>", "turns all AI on or off.\r\nNETWORK SAFE: Yes"),
 
 	COMMAND_CALLBACK_REGISTER(director_debug_camera, 1, "<boolean>", "enable/disable camera debugging\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(camera_control, 1, "<boolean>", "toggles script control of the camera.\r\nNETWORK SAFE: Unknown, assumed unsafe"),

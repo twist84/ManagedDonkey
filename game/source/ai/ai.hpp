@@ -35,5 +35,6 @@ struct ai_globals_type
 static_assert(sizeof(ai_globals_type) == 0x688);
 
 extern bool __cdecl ai_enemies_can_see_player(long* out_unit_index);
+extern void __cdecl ai_globals_set_ai_active(bool ai_active);
 extern void __cdecl ai_handle_bump(long object_index, long bump_object_index, vector3d const* linear_velocity);
 

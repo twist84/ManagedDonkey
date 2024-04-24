@@ -1,5 +1,6 @@
 #include "networking/tools/remote_command.hpp"
 
+#include "ai/ai.hpp"
 #include "camera/observer.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
@@ -1683,6 +1684,17 @@ callback_result_t drop_permutation_callback(void const* userdata, long token_cou
 	char const* tag_name = tokens[1]->get_string();
 	char const* permutation = tokens[2]->get_string();
 	cheat_drop_tag_name_with_permutation_hs(tag_name, permutation);
+
+	return result;
+}
+
+callback_result_t ai_enable_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long value = token_try_parse_bool(tokens[1]);
+	if (value != NONE)
+		ai_globals_set_ai_active(static_cast<bool>(value - 1));
 
 	return result;
 }
