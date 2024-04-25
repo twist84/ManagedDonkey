@@ -336,5 +336,6 @@ extern real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_points(real_rectangle3d* enclosed_rect, long point_count, real_point3d const* points);
 extern real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectangle3d* enclosed_rect, real_rectangle3d const* rect);
 extern vector3d* __cdecl vector3d_from_euler_angles2d(vector3d* vector, euler_angles2d const* angles);
+extern vector3d* __cdecl set_real_vector3d(vector3d* vector, real i, real j, real k);
 extern vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real w);
 
