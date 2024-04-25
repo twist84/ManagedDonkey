@@ -130,75 +130,73 @@ void render_debug_obstacle_path()
 
 void render_debug_path(obstacle_path const* path)
 {
-	// #TODO: implement this
-
-	//if (path->step_count <= 0)
-	//	return;
-	//
-	//c_static_flags<64> step_flags{};
-	//step_flags.clear_range(path->step_count);
-	//
-	//short step_index0 = path->__unknown1E;
-	//while (step_index0 != 0xFFFF)
-	//{
-	//	struct step* step0 = path_get_step((obstacle_path*)path, step_index0);
-	//	step_flags.set(step_index0, true);
-	//	step_index0 = step0->__unknown2C;
-	//}
-	//
-	//for (short step_index = 0; step_index < path->step_count; step_index++)
-	//{
-	//	struct step* step1 = path_get_step((obstacle_path*)path, step_index);
-	//	if (step1->__unknown2C == 0xFFFF)
-	//		continue;
-	//
-	//	struct step* step2 = path_get_step((obstacle_path*)path, step1->__unknown2C);
-	//
-	//	real v15 = 0.0f;
-	//	real v10 = 0.0f;
-	//
-	//	//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
-	//	//{
-	//	//	if (path->obstacles->discs[disc_index].obstacle_index == step1->obstacle_index)
-	//	//	{
-	//	//		v15 = path->obstacles->discs[disc_index].__unknown14;
-	//	//		break;
-	//	//	}
-	//	//}
-	//	//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
-	//	//{
-	//	//	if (path->obstacles->discs[disc_index].obstacle_index == step2->obstacle_index)
-	//	//	{
-	//	//		v10 = path->obstacles->discs[disc_index].__unknown14;
-	//	//		break;
-	//	//	}
-	//	//}
-	//
-	//	real_point3d point0{};
-	//	real_point3d point1{};
-	//
-	//	point0.x = step2->__unknown0.x;
-	//	point0.y = step2->__unknown0.y;
-	//	point0.z = v10;
-	//
-	//	point1.x = step1->__unknown0.x;
-	//	point1.y = step1->__unknown0.y;
-	//	point1.z = v15;
-	//
-	//	real_argb_color const* color = global_real_argb_red;
-	//	if (step_flags.test(step_index))
-	//	{
-	//		color = global_real_argb_white;
-	//	}
-	//	else if (step1->__unknown20)
-	//	{
-	//		color = global_real_argb_green;
-	//	}
-	//
-	//	render_debug_line(true, &point0, &point1, color);
-	//
-	//	c_string_builder string("%.4f", step1->heap_cost);
-	//	render_debug_string_at_point(&point1, string.get_string(), color);
-	//}
+	if (path->step_count <= 0)
+		return;
+	
+	c_static_flags<64> step_flags{};
+	step_flags.clear_range(path->step_count);
+	
+	short step_index0 = path->__unknown1E;
+	while (step_index0 != 0xFFFF)
+	{
+		struct step* step0 = path_get_step((obstacle_path*)path, step_index0);
+		step_flags.set(step_index0, true);
+		step_index0 = step0->__unknown2C;
+	}
+	
+	for (short step_index = 0; step_index < path->step_count; step_index++)
+	{
+		struct step* step1 = path_get_step((obstacle_path*)path, step_index);
+		if (step1->__unknown2C == 0xFFFF)
+			continue;
+	
+		struct step* step2 = path_get_step((obstacle_path*)path, step1->__unknown2C);
+	
+		real v15 = 0.0f;
+		real v10 = 0.0f;
+	
+		//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
+		//{
+		//	if (path->obstacles->discs[disc_index].obstacle_index == step1->obstacle_index)
+		//	{
+		//		v15 = path->obstacles->discs[disc_index].__unknown14;
+		//		break;
+		//	}
+		//}
+		//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
+		//{
+		//	if (path->obstacles->discs[disc_index].obstacle_index == step2->obstacle_index)
+		//	{
+		//		v10 = path->obstacles->discs[disc_index].__unknown14;
+		//		break;
+		//	}
+		//}
+	
+		real_point3d point0{};
+		real_point3d point1{};
+	
+		point0.x = step2->__unknown0.x;
+		point0.y = step2->__unknown0.y;
+		point0.z = v10;
+	
+		point1.x = step1->__unknown0.x;
+		point1.y = step1->__unknown0.y;
+		point1.z = v15;
+	
+		real_argb_color const* color = global_real_argb_red;
+		if (step_flags.test(step_index))
+		{
+			color = global_real_argb_white;
+		}
+		else if (step1->__unknown20)
+		{
+			color = global_real_argb_green;
+		}
+	
+		render_debug_line(true, &point0, &point1, color);
+	
+		c_string_builder string("%.4f", step1->heap_cost);
+		render_debug_string_at_point(&point1, string.get_string(), color);
+	}
 }
 
