@@ -30,6 +30,8 @@ struct obstacles
 };
 static_assert(sizeof(struct obstacles) == 0x140C);
 
+extern struct disc const* __cdecl obstacles_get_disc(struct obstacles const* obstacles, short disc_index);
 extern void __cdecl obstacles_new(struct obstacles* obstacles);
+
 extern void render_debug_obstacles(struct obstacles const* obstacles, real radius);
 
