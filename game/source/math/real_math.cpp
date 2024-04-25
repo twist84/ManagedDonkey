@@ -211,13 +211,46 @@ vector2d* __cdecl vector_from_points2d(real_point2d const* point0, real_point2d 
 	return out_vector;
 };
 
-short const global_projection3d_mappings[18] = { _z, _y, _x, _y, _z, _x, _x, _z, _y, _z, _x, _y, _y, _x, _z, _x, _y, _z };
-short const global_projection3d_inverse_mappings[18] = { _z, _y, _x, _z, _x, _y, _x, _z, _y,	_y, _z, _x, _y, _x, _z, _x, _y, _z };
+// 0164F660
+short const global_projection3d_mappings[3][2][3] =
+{
+	{
+		{ _z, _y, _x },
+		{ _y, _z, _x }
+	},
+	{
+		{ _x, _z, _y },
+		{ _z, _x, _y }
+	},
+	{
+		{ _y, _x, _z },
+		{ _x, _y, _z }
+	}
+};
+
+// 0164F684
+short const global_projection3d_inverse_mappings[3][2][3] =
+{
+	{
+		{ _z, _y, _x },
+		{ _z, _x, _y }
+	},
+	{
+		{ _x, _z, _y },
+		{ _y, _z, _x }
+	},
+	{
+		{ _y, _x, _z },
+		{ _x, _y, _z }
+	}
+};
 
 real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* plane, short projection, bool a4, real_point3d* out_point)
 {
-	short v5 = global_projection3d_mappings[2 * projection + 3 * a4];
-	short v6 = global_projection3d_mappings[2 * projection + 1 + 3 * a4];
+	//return INVOKE(0x004F9830, project_point2d, point, plane, projection, a4, out_point);
+
+	short v5 = global_projection3d_mappings[projection][a4][_x];
+	short v6 = global_projection3d_mappings[projection][a4][_y];
 
 	real v7 = 0.0f;
 	if (fabsf((plane->normal.n[projection] - 0.0f)) >= k_real_epsilon)
@@ -230,6 +263,11 @@ real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* 
 
 	return out_point;
 }
+
+//.text:004F98F0 ; real_point2d* __cdecl project_point3d(real_point3d const*, short, bool, real_point2d*)
+//.text:004F9930 ; void __cdecl project_polygon2d(long, real_point2d const* const, plane3d const*, long, bool, real_point3d* const)
+//.text:004F9A20 ; void __cdecl project_polygon3d(long, real_point3d const* const, long, bool, real_point2d* const)
+//.text:004F9A80 ; vector2d* __cdecl project_vector3d(vector3d const *, short, bool, vector2d*)
 
 real __cdecl plane3d_distance_to_point(plane3d const* plane, real_point3d const* point)
 {
