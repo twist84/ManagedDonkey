@@ -60,7 +60,7 @@ void __cdecl console_printf(char const* format, ...)
 	if (is_main_thread())
 	{
 		c_static_string<255> message{};
-		message.vprint(format, list);
+		message.print_va(format, list);
 		char const* message_string = message.get_string();
 
 		terminal_printf(nullptr, message_string);
@@ -82,7 +82,7 @@ void __cdecl console_printf_color(real_argb_color const* color, char const* form
 	if (is_main_thread())
 	{
 		c_static_string<255> message{};
-		message.vprint(format, list);
+		message.print_va(format, list);
 		char const* message_string = message.get_string();
 
 		terminal_printf(color, message_string);
@@ -104,7 +104,7 @@ void __cdecl console_warning(char const* format, ...)
 	if (is_main_thread())
 	{
 		c_static_string<255> message{};
-		message.vprint(format, list);
+		message.print_va(format, list);
 		char const* message_string = message.get_string();
 
 		terminal_printf(global_real_argb_red, message_string);

@@ -55,7 +55,7 @@ void c_console::write(char const* format, ...)
 
 	va_list list;
 	va_start(list, format);
-	str.vprint(format, list);
+	str.print_va(format, list);
 	va_end(list);
 
 #if defined(CONSOLE_ENABLED)
@@ -75,7 +75,7 @@ void c_console::write_line(char const* format, ...)
 
 	va_list list;
 	va_start(list, format);
-	str.vprint(format, list);
+	str.print_va(format, list);
 	str.append("\n");
 	va_end(list);
 
@@ -97,7 +97,7 @@ void c_console::write(wchar_t const* format, ...)
 	va_list list;
 	va_start(list, format);
 
-	str.vprint(format, list);
+	str.print_va(format, list);
 
 	va_end(list);
 
@@ -118,7 +118,7 @@ void c_console::write_line(wchar_t const* format, ...)
 
 	va_list list;
 	va_start(list, format);
-	str.vprint(format, list);
+	str.print_va(format, list);
 	str.append(L"\n");
 	va_end(list);
 
@@ -137,7 +137,7 @@ void c_console::write(char const* format, va_list list)
 
 	c_static_string<4096> str;
 
-	str.vprint(format, list);
+	str.print_va(format, list);
 
 #if defined(CONSOLE_ENABLED)
 	printf(str.get_string());
@@ -154,7 +154,7 @@ void c_console::write_line(char const* format, va_list list)
 
 	c_static_string<4096> str;
 
-	str.vprint(format, list);
+	str.print_va(format, list);
 	str.append("\n");
 
 #if defined(CONSOLE_ENABLED)
@@ -172,7 +172,7 @@ void c_console::write(wchar_t const* format, va_list list)
 
 	c_static_wchar_string<4096> str;
 
-	str.vprint(format, list);
+	str.print_va(format, list);
 
 #if defined(CONSOLE_ENABLED)
 	wprintf(str.get_string());
@@ -189,7 +189,7 @@ void c_console::write_line(wchar_t const* format, va_list list)
 
 	c_static_wchar_string<4096> str;
 
-	str.vprint(format, list);
+	str.print_va(format, list);
 	str.append(L"\n");
 
 #if defined(CONSOLE_ENABLED)

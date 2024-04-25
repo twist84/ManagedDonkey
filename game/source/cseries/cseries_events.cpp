@@ -867,7 +867,7 @@ void sub_82894060(e_event_level event_level, long category_index, dword_flags ev
 
 	if (flags)
 	{
-		event_text.vprint(format, list);
+		event_text.print_va(format, list);
 		c_console::write_line(event_text.get_string());
 
 		g_event_read_write_lock.write_lock();

@@ -186,7 +186,7 @@ public:
 		return m_string;
 	}
 
-	wchar_t const* vprint(wchar_t const* format, va_list list)
+	wchar_t const* print_va(wchar_t const* format, va_list list)
 	{
 		uvsnzprintf(m_string, k_buffer_size, format, list);
 
