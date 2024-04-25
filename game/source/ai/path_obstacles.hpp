@@ -12,6 +12,9 @@ struct disc
 	long __unknown4;
 	real_point2d point;
 	real __unknown10;
+
+	// debug only?
+	//real __unknown14;
 };
 static_assert(sizeof(struct disc) == 0x14);
 

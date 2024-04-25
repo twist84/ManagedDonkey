@@ -2,6 +2,7 @@
 
 #include "ai/path_obstacles.hpp"
 #include "main/console.hpp"
+#include "render/render_debug.hpp"
 
 bool debug_obstacle_path = false;
 bool debug_obstacle_path_on_failure = false;
@@ -156,22 +157,22 @@ void render_debug_path(obstacle_path const* path)
 	//	real v15 = 0.0f;
 	//	real v10 = 0.0f;
 	//
-	//	for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
-	//	{
-	//		if (path->obstacles->discs[disc_index].obstacle_index == step1->obstacle_index)
-	//		{
-	//			v15 = path->obstacles->discs[disc_index].__unknown14;
-	//			break;
-	//		}
-	//	}
-	//	for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
-	//	{
-	//		if (path->obstacles->discs[disc_index].obstacle_index == step2->obstacle_index)
-	//		{
-	//			v10 = path->obstacles->discs[disc_index].__unknown14;
-	//			break;
-	//		}
-	//	}
+	//	//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
+	//	//{
+	//	//	if (path->obstacles->discs[disc_index].obstacle_index == step1->obstacle_index)
+	//	//	{
+	//	//		v15 = path->obstacles->discs[disc_index].__unknown14;
+	//	//		break;
+	//	//	}
+	//	//}
+	//	//for (short disc_index = 0; disc_index < path->obstacles->disc_count; disc_index++)
+	//	//{
+	//	//	if (path->obstacles->discs[disc_index].obstacle_index == step2->obstacle_index)
+	//	//	{
+	//	//		v10 = path->obstacles->discs[disc_index].__unknown14;
+	//	//		break;
+	//	//	}
+	//	//}
 	//
 	//	real_point3d point0{};
 	//	real_point3d point1{};
@@ -191,8 +192,13 @@ void render_debug_path(obstacle_path const* path)
 	//	}
 	//	else if (step1->__unknown20)
 	//	{
-	//
+	//		color = global_real_argb_green;
 	//	}
+	//
+	//	render_debug_line(true, &point0, &point1, color);
+	//
+	//	c_string_builder string("%.4f", step1->heap_cost);
+	//	render_debug_string_at_point(&point1, string.get_string(), color);
 	//}
 }
 

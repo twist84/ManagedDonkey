@@ -13,6 +13,7 @@ struct step
 	real __unknown18;
 	word obstacle_index;
 	word __unknown1E;
+	bool __unknown20;
 	bool turning_point;
 	word __unknown22[2];
 	byte __data26[2];
