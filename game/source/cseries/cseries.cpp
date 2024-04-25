@@ -409,3 +409,24 @@ void __cdecl cseries_initialize()
 	//std::set_new_handler((void (__cdecl *)())exit_with_code_one);
 }
 
+c_string_builder::c_string_builder() :
+	c_static_string<256>()
+{
+}
+
+c_string_builder::c_string_builder(char const* format, ...) :
+	c_static_string<256>()
+{
+	va_list list;
+	va_start(list, format);
+
+	print_va(format, list);
+
+	va_end(list);
+}
+
+c_string_builder::~c_string_builder()
+{
+
+}
+

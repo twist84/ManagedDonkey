@@ -1422,6 +1422,15 @@ protected:
 	char m_string[k_maximum_count];
 };
 
+struct c_string_builder :
+	public c_static_string<256>
+{
+public:
+	c_string_builder();
+	c_string_builder(char const* format, ...);
+	~c_string_builder();
+};
+
 extern char* tag_to_string(tag _tag, char* buffer);
 
 struct c_string_id
