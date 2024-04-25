@@ -179,6 +179,7 @@ POPD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\ai\path_obstacles.cpp" />
+    <ClCompile Include="source\ai\path_smoothing.cpp" />
     <ClCompile Include="source\effects\decals.cpp" />
     <ClCompile Include="source\effects\effects.cpp" />
     <ClCompile Include="source\game\game_allegiance.cpp" />
@@ -600,6 +601,7 @@ POPD
     <ClInclude Include="source\ai\character_definitions.hpp" />
     <ClInclude Include="source\ai\path_obstacles.hpp" />
     <ClInclude Include="source\ai\path_obstacle_avoidance.hpp" />
+    <ClInclude Include="source\ai\path_smoothing.hpp" />
     <ClInclude Include="source\ai\sector.hpp" />
     <ClInclude Include="source\algorithms\qsort.hpp" />
     <ClInclude Include="source\cache\fmod_sound_cache.hpp" />

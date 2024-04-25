@@ -8,7 +8,7 @@
 struct step
 {
 	real_point3d __unknown0;
-	long __unknownC;
+	c_sector_ref __unknownC;
 	vector2d __unknown10;
 	real __unknown18;
 	word obstacle_index;
@@ -17,7 +17,7 @@ struct step
 	word __unknown22[2];
 	byte __data26[2];
 	real heap_cost;
-	short __unknown2C;
+	word __unknown2C; // step_index
 	short __unknown2E;
 	short __unknown30;
 	short __unknown32;
@@ -37,7 +37,7 @@ struct obstacle_path
 	real_point3d goal_point;
 	c_sector_ref goal_sector_ref;
 	word obstacle_index;
-	short __unknown1E;
+	word __unknown1E; // step_index
 
 	short __unknown20;
 	byte __pad22[0x2];
@@ -75,6 +75,8 @@ extern bool debug_ignore_broken_surfaces;
 extern bool debug_obstacle_final_step;
 extern obstacle_path debug_obstacle_path_path;
 
+extern struct step* __cdecl path_get_step(obstacle_path* path, short step_index);
+extern short __cdecl path_get_step_index(obstacle_path* path, short heap_index);
 extern bool __cdecl path_iterate(obstacle_path* path, bool final_step);
 extern bool __cdecl path_new(
 	obstacle_path* path,
