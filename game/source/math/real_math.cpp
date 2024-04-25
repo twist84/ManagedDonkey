@@ -483,6 +483,14 @@ vector3d* __cdecl vector3d_from_euler_angles2d(vector3d* vector, euler_angles2d 
 	//return vector;
 }
 
+vector2d* __cdecl set_real_vector2d(vector2d* vector, real i, real j)
+{
+	vector->i = i;
+	vector->j = j;
+
+	return vector;
+}
+
 vector3d* __cdecl set_real_vector3d(vector3d* vector, real i, real j, real k)
 {
 	vector->i = i;
