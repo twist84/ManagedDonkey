@@ -113,6 +113,20 @@ void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_
 	INVOKE(0x00B6E9C0, biped_get_sentinel_animation_node_position_and_velocity, biped_index, position, velocity);
 }
 
+// e_unit_estimate_mode?
+// e_unit_estimate_position_mode?
+// 0: _unit_estimate_none
+// 3: _unit_estimate_gun_position
+// 6: k_unit_estimate_position_modes_count
+//
+// 0   crouch = biped_is_running_invisible_crouched_uber_melee(biped_index) ? 0.0f : biped->unit.crouch;
+// 1,4 crouch = 0.0f;
+// 2,5 crouch = 1.0f;
+void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, vector3d const* a5, vector3d const* desired_facing_vector, vector3d const* desired_gun_offset, real_point3d* camera_position)
+{
+	INVOKE(0x00B6EB80, biped_get_sight_position, biped_index, estimate_mode, offset_camera, estimated_body_position, a5, desired_facing_vector, desired_gun_offset, camera_position);
+}
+
 void __cdecl biped_render_debug(long biped_index)
 {
 	//INVOKE(0x00B70DF0, biped_render_debug, biped_index);
