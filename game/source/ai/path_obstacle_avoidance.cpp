@@ -1,5 +1,6 @@
 #include "ai/path_obstacle_avoidance.hpp"
 
+#include "ai/path_obstacles.hpp"
 #include "main/console.hpp"
 
 bool debug_obstacle_path = false;
@@ -51,23 +52,13 @@ bool __cdecl path_new(
 		a12);
 }
 
-void render_debug_obstacles(struct obstacles const* obstacles, real radius)
-{
-	// #TODO: implement this
-}
-
-void render_debug_path(obstacle_path const* path)
-{
-	// #TODO: implement this
-}
-
 void render_debug_obstacle_path()
 {
 	if (debug_obstacle_path)
 	{
 		if (!debugging_system_has_focus())
 		{
-			if (input_key_frames_down(_key_code_r, _input_type_game))
+			if (input_key_frames_down(_key_code_o, _input_type_game))
 			{
 				debug_obstacle_path_on_failure = true;
 				debug_obstacle_path = false;
@@ -94,6 +85,8 @@ void render_debug_obstacle_path()
 					debug_obstacle_path_projection_sign,
 					debug_obstacle_final_step,
 					false);
+
+				obstacles_new(&debug_obstacle_path_obstacles);
 			}
 
 			if (input_key_frames_down(_key_code_i, _input_type_game))
@@ -103,5 +96,10 @@ void render_debug_obstacle_path()
 		render_debug_obstacles(&debug_obstacle_path_obstacles, debug_obstacle_path_radius);
 		render_debug_path(&debug_obstacle_path_path);
 	}
+}
+
+void render_debug_path(obstacle_path const* path)
+{
+	// #TODO: implement this
 }
 

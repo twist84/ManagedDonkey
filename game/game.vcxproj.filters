@@ -1251,6 +1251,9 @@
     <ClCompile Include="source\objects\object_placement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ai\path_obstacles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3132,6 +3135,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\items\items.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ai\path_obstacles.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ai\sector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

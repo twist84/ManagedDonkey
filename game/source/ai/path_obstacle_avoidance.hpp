@@ -1,38 +1,9 @@
 #pragma once
 
+#include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
 
-#define MAXIMUM_DISC_COUNT 256
 #define MAXIMUM_OBSTACLE_AVOIDANCE_STEPS 64
-
-struct c_sector_ref
-{
-	short __unkown0;
-	short __unkown2;
-};
-static_assert(sizeof(c_sector_ref) == 0x4);
-
-struct disc
-{
-	word_flags flags;
-	short obstacle_index;
-	long __unknown4;
-	real_point2d point;
-	real __unknown10;
-};
-static_assert(sizeof(struct disc) == 0x14);
-
-struct obstacles
-{
-	short obstacle_count;
-	short disc_count;
-	short __unknown4;
-	short __unknown6;
-	short __unknown8;
-	byte __dataA[2];
-	disc discs[MAXIMUM_DISC_COUNT];
-};
-static_assert(sizeof(struct obstacles) == 0x140C);
 
 struct step
 {
@@ -97,7 +68,7 @@ extern real_point3d debug_obstacle_path_goal_point;
 extern c_sector_ref debug_obstacle_path_goal_sector_ref;
 extern short debug_obstacle_path_projection_axis;
 extern real debug_obstacle_path_radius;
-extern obstacles debug_obstacle_path_obstacles;
+extern struct obstacles debug_obstacle_path_obstacles;
 extern bool debug_obstacle_path_projection_sign;
 extern bool debug_obstacle_path_finishing;
 extern bool debug_ignore_broken_surfaces;
