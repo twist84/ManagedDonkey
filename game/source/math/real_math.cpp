@@ -245,12 +245,12 @@ short const global_projection3d_inverse_mappings[3][2][3] =
 	}
 };
 
-real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* plane, short projection, bool a4, real_point3d* out_point)
+real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* plane, short projection, bool projection_sign, real_point3d* out_point)
 {
-	//return INVOKE(0x004F9830, project_point2d, point, plane, projection, a4, out_point);
+	//return INVOKE(0x004F9830, project_point2d, point, plane, projection, projection_sign, out_point);
 
-	short v5 = global_projection3d_mappings[projection][a4][_x];
-	short v6 = global_projection3d_mappings[projection][a4][_y];
+	short v5 = global_projection3d_mappings[projection][projection_sign][_x];
+	short v6 = global_projection3d_mappings[projection][projection_sign][_y];
 
 	real v7 = 0.0f;
 	if (fabsf((plane->normal.n[projection] - 0.0f)) >= k_real_epsilon)

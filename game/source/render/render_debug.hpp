@@ -45,11 +45,11 @@ extern void __cdecl render_debug_clients(long user_index);
 real_argb_color const* __cdecl render_debug_random_color(real_argb_color* color);
 real_argb_color const* __cdecl render_debug_unique_color(long index, real_argb_color* color);
 //render_debug_spray
-extern void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, real scale, real_argb_color const* color, real a8);
+extern void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, real scale, real_argb_color const* color, real a8);
 extern void __cdecl render_debug_line2d(real_point2d const* point0, real_point2d const* point1, real_argb_color const* color);
-extern void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real a8);
-extern void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, vector2d const* vector, real scale, real_argb_color const* color, real a9);
-extern void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* center, real radius, real_argb_color const* color, real a8);
+extern void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real a8);
+extern void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, vector2d const* vector, real scale, real_argb_color const* color, real a9);
+extern void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* center, real radius, real_argb_color const* color, real a8);
 extern void __cdecl render_debug_circle(bool draw_immediately, real_point3d const* center, vector3d const* normal, real radius, real_argb_color const* color);
 extern void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d const* center, long point_count, vector3d const* normal, real radius, real_argb_color const* color);
 extern void __cdecl render_debug_point(bool draw_immediately, real_point3d const* point, real scale, real_argb_color const* color);

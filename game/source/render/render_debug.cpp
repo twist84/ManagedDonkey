@@ -82,7 +82,7 @@ struct s_cache_entry
 		{
 			plane3d plane;
 			short projection_axis;
-			bool a4;
+			bool projection_sign;
 			real_point2d center;
 			real radius;
 			real_argb_color color;
@@ -498,17 +498,17 @@ real_argb_color const* __cdecl render_debug_unique_color(long index, real_argb_c
 
 //render_debug_spray
 
-void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, real scale, real_argb_color const* color, real a8)
+void __cdecl render_debug_point2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, real scale, real_argb_color const* color, real a8)
 {
 	ASSERT(plane);
 	ASSERT(point);
 	ASSERT(color);
 
 	real_point3d q{};
-	project_point2d(point, plane, projection_axis, a4, &q);
+	project_point2d(point, plane, projection_axis, projection_sign, &q);
 	ASSERT(VALID_INDEX(projection_axis, NUMBEROF(q.n)));
 
-	q.n[projection_axis] += a4 ? a8 : -a8;
+	q.n[projection_axis] += projection_sign ? a8 : -a8;
 
 	render_debug_point(draw_immediately, &q, scale, color);
 }
@@ -529,7 +529,7 @@ void __cdecl render_debug_line2d(real_point2d const* point0, real_point2d const*
 	}
 }
 
-void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real a8)
+void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* p0, real_point2d const* p1, real_argb_color const* color, real a8)
 {
 	ASSERT(plane);
 	ASSERT(p0);
@@ -539,16 +539,16 @@ void __cdecl render_debug_line2d(bool draw_immediately, plane3d const* plane, sh
 	real_point3d point0{};
 	real_point3d point1{};
 
-	project_point2d(p0, plane, projection_axis, a4, &point0);
-	project_point2d(p1, plane, projection_axis, a4, &point1);
+	project_point2d(p0, plane, projection_axis, projection_sign, &point0);
+	project_point2d(p1, plane, projection_axis, projection_sign, &point1);
 
-	point0.n[projection_axis] += a4 ? a8 : -a8;
-	point1.n[projection_axis] += a4 ? a8 : -a8;
+	point0.n[projection_axis] += projection_sign ? a8 : -a8;
+	point1.n[projection_axis] += projection_sign ? a8 : -a8;
 
 	render_debug_line(draw_immediately, &point0, &point1, color);
 }
 
-void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* point, vector2d const* vector, real scale, real_argb_color const* color, real a9)
+void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* point, vector2d const* vector, real scale, real_argb_color const* color, real a9)
 {
 	ASSERT(plane);
 	ASSERT(point);
@@ -557,10 +557,10 @@ void __cdecl render_debug_vector2d(bool draw_immediately, plane3d const* plane, 
 
 	real_point2d point1{};
 	point_from_line2d(point, vector, scale, &point1);
-	render_debug_line2d(draw_immediately, plane, projection_axis, a4, point, &point1, color, a9);
+	render_debug_line2d(draw_immediately, plane, projection_axis, projection_sign, point, &point1, color, a9);
 }
 
-void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, short projection_axis, bool a4, real_point2d const* center, real radius, real_argb_color const* color, real a8)
+void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, short projection_axis, bool projection_sign, real_point2d const* center, real radius, real_argb_color const* color, real a8)
 {
 	ASSERT(plane);
 	ASSERT(center);
@@ -580,12 +580,12 @@ void __cdecl render_debug_circle(bool draw_immediately, plane3d const* plane, sh
 
 			set_real_point2d(&point0, (center->x + circle_point0->x), (center->y + circle_point0->y));
 			set_real_point2d(&point1, (center->x + circle_point1->x), (center->y + circle_point1->y));
-			render_debug_line2d(draw_immediately, plane, projection_axis, a4, &point0, &point1, color, a8);
+			render_debug_line2d(draw_immediately, plane, projection_axis, projection_sign, &point0, &point1, color, a8);
 		}
 	}
 	else
 	{
-		render_debug_add_cache_entry(_render_debug_type_circle, plane, projection_axis, a4, center, radius, color);
+		render_debug_add_cache_entry(_render_debug_type_circle, plane, projection_axis, projection_sign, center, radius, color);
 	}
 }
 
@@ -1291,7 +1291,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 		{
 			entry->circle.plane = *va_arg(list, plane3d*);
 			entry->circle.projection_axis = (short)va_arg(list, int);
-			entry->circle.a4 = (bool)va_arg(list, int);
+			entry->circle.projection_sign = (bool)va_arg(list, int);
 			entry->circle.center = *va_arg(list, real_point2d*);
 			entry->circle.radius = (real)va_arg(list, double);
 			entry->circle.color = *va_arg(list, real_argb_color*);
@@ -1299,7 +1299,7 @@ void __cdecl render_debug_add_cache_entry(short type, ...)
 			alpha = entry->circle.color.alpha;
 
 			real_point3d centroid{};
-			project_point2d(&entry->circle.center, &entry->circle.plane, entry->circle.projection_axis, entry->circle.a4, &centroid);
+			project_point2d(&entry->circle.center, &entry->circle.plane, entry->circle.projection_axis, entry->circle.projection_sign, &centroid);
 			ASSERT(VALID_INDEX(entry->circle.projection_axis, NUMBEROF(centroid.n)));
 		}
 		break;
@@ -1498,7 +1498,7 @@ void __cdecl render_debug_cache_draw(bool a1, bool a2, bool a3)
 					render_debug_circle(true,
 						&entry->circle.plane,
 						entry->circle.projection_axis,
-						entry->circle.a4,
+						entry->circle.projection_sign,
 						&entry->circle.center,
 						entry->circle.radius,
 						&entry->circle.color,
