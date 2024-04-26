@@ -177,12 +177,12 @@ struct c_player_view :
 	static c_player_view*& x_current_player_view;
 	static c_player_view(&x_global_player_views)[4];
 
-	static c_player_view* __cdecl get_global_player_view()
+	static c_player_view* __cdecl get_current()
 	{
 		return x_current_player_view;
 	}
 
-	static c_player_view* __cdecl get_global_player_view(long view_index)
+	static c_player_view* __cdecl get_current(long view_index)
 	{
 		return &x_global_player_views[view_index];
 	}

@@ -390,8 +390,8 @@ void render_debug_camera_projection()
 	if (!debug_camera_projection)
 		return;
 
-	render_camera const* rasterizer_camera = c_player_view::get_global_player_view()->get_rasterizer_camera();
-	render_projection const* rasterizer_projection = c_player_view::get_global_player_view()->get_rasterizer_projection();
+	render_camera const* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
+	render_projection const* rasterizer_projection = c_player_view::get_current()->get_rasterizer_projection();
 
 	real verical_fov_half_tan = tanf(rasterizer_camera->vertical_field_of_view / 2);
 	short width = rasterizer_camera->render_title_safe_pixel_bounds.x1 - rasterizer_camera->render_title_safe_pixel_bounds.x0;

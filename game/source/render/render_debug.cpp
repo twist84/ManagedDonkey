@@ -731,7 +731,7 @@ void __cdecl render_debug_line_unclipped(bool draw_immediately, real_point3d con
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
 		clip_distance = magnitude3d(&vector1);
 
-	real z_far = c_player_view::get_global_player_view()->get_rasterizer_camera()->z_far;
+	real z_far = c_player_view::get_current()->get_rasterizer_camera()->z_far;
 	if (clip_distance > (0.5f * z_far))
 	{
 		real distance = (0.5f * z_far) / clip_distance;
@@ -761,7 +761,7 @@ void __cdecl render_debug_line_non_occluded(bool draw_immediately, real_point3d 
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
 		clip_distance = magnitude3d(&vector1);
 
-	real z_near = c_player_view::get_global_player_view()->get_rasterizer_camera()->z_near;
+	real z_near = c_player_view::get_current()->get_rasterizer_camera()->z_near;
 	if (clip_distance > (0.5f * z_near))
 	{
 		real distance = (0.5f * z_near) / clip_distance;
@@ -996,7 +996,7 @@ void __cdecl render_debug_box2d_outline(bool draw_immediately, real_rectangle2d 
 		set_real_point3d(&points[2], bounds->x.upper, bounds->y.upper, -1.0);
 		set_real_point3d(&points[3], bounds->x.lower, bounds->y.upper, -1.0);
 
-		render_projection const* projection = c_player_view::get_global_player_view()->get_rasterizer_projection();
+		render_projection const* projection = c_player_view::get_current()->get_rasterizer_projection();
 		matrix4x3_transform_point(&projection->view_to_world, points, points);
 		matrix4x3_transform_point(&projection->view_to_world, &points[1], &points[1]);
 		matrix4x3_transform_point(&projection->view_to_world, &points[2], &points[2]);
@@ -1201,8 +1201,8 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 	ASSERT(string);
 	ASSERT(color);
 
-	render_camera const* camera = c_player_view::get_global_player_view()->get_rasterizer_camera();
-	render_projection const* projection = c_player_view::get_global_player_view()->get_rasterizer_projection();
+	render_camera const* camera = c_player_view::get_current()->get_rasterizer_camera();
+	render_projection const* projection = c_player_view::get_current()->get_rasterizer_projection();
 
 	vector2d aspect_ratio_scale{};
 	vector2d aspect_ratio_scaling = interface_get_aspect_ratio_scaling();
@@ -1843,7 +1843,7 @@ void c_render_debug_line_drawer::add_line_3d_unclipped(real_point3d const* p0, r
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
 		clip_distance = magnitude3d(&vector1);
 
-	real z_far = c_player_view::get_global_player_view()->get_rasterizer_camera()->z_far;
+	real z_far = c_player_view::get_current()->get_rasterizer_camera()->z_far;
 	if (clip_distance > (0.5f * z_far))
 	{
 		real distance = (0.5f * z_far) / clip_distance;

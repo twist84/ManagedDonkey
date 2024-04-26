@@ -15,7 +15,7 @@
 
 void __cdecl render_debug_structure()
 {
-	render_camera const* rasterizer_camera = c_player_view::get_global_player_view()->get_rasterizer_camera();
+	render_camera const* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
 
 	if (debug_structure_markers)
 	{
