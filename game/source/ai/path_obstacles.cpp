@@ -41,8 +41,8 @@ void render_debug_obstacles(struct obstacles const* obstacles, real radius)
 		real_point3d point{};
 		vector3d vector{};
 
-		flags.set(_collision_test_structure_bit, true);
-		flags.set(11, true);
+		flags.collision_flags.set(_collision_test_structure_bit, true);
+		flags.collision_flags.set(_collision_test_unknown11_bit, true);
 
 		set_real_point3d(&point, disc->point.x, disc->point.y, 0.0f/*disc->__unknown14*/);
 		set_real_vector3d(&vector, 0.0f, 0.0f, (-2.0f * (disc->__unknown10 + radius)));

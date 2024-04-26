@@ -5,8 +5,11 @@
 #include "interface/interface.hpp"
 #include "main/main.hpp"
 #include "memory/thread_local.hpp"
+#include "physics/collisions.hpp"
+#include "render/render_cameras.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_lights.hpp"
+#include "render/views/render_view.hpp"
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 
@@ -240,24 +243,17 @@ void __cdecl render_debug_trigger_volumes()
 			real_point3d name_point{};
 			point_from_line3d(&matrix.center, &extents_transformed, 0.5f, &name_point);
 
-			//render_camera const* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
-			//
-			//vector3d name_vector{};
-			//vector_from_points3d(&rasterizer_camera->position, &name_point, &name_vector);
-			//scale_vector3d(&name_vector, 0.95f, &name_vector);
-			//
-			//s_collision_test_flags flags = { 0x2D051855 };
-			//collision_result collision;
-			//if (!collision_test_vector(flags, &rasterizer_camera->position, &name_vector, NONE, NONE, &collision))
+			render_camera const* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
+			
+			vector3d name_vector{};
+			vector_from_points3d(&rasterizer_camera->position, &name_point, &name_vector);
+			scale_vector3d(&name_vector, 0.95f, &name_vector);
+			
+			collision_result collision;
+			if (!collision_test_vector(_collision_test_for_line_of_sight_obstruction_flags, &rasterizer_camera->position, &name_vector, NONE, NONE, &collision))
 			{
-				if (hs_debug_data.activated_trigger_volumes.test(trigger_volume_index))
-				{
-					render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), global_real_argb_yellow);
-				}
-				else
-				{
-					render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), global_real_argb_white);
-				}
+				real_argb_color const* color = hs_debug_data.activated_trigger_volumes.test(trigger_volume_index) ? global_real_argb_yellow : global_real_argb_white;
+				render_debug_string_at_point(&name_point, trigger_volume.name.get_string(), color);
 			}
 		}
 

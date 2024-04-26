@@ -963,8 +963,8 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 	vector3d aiming_vector = {};
 	collision_result collision = collision_result();
 	
-	flags.set(_collision_test_structure_bit, true);
-	flags.set(12, true);
+	flags.collision_flags.set(_collision_test_structure_bit, true);
+	flags.collision_flags.set(_collision_test_unknown12_bit, true);
 	unit_get_camera_position(unit_index, &camera_position);
 	scale_vector3d(&unit_aiming_vector, 25.0f, &aiming_vector);
 	long parent_index = object_get_ultimate_parent(unit_index);
