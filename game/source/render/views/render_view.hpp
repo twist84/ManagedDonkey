@@ -4,6 +4,7 @@
 #include "render/render_patchy_fog.hpp"
 #include "rasterizer/rasterizer_text.hpp"
 
+enum e_output_user_index;
 struct s_observer_result;
 
 // 0165DB98
