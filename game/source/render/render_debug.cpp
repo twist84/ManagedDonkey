@@ -341,11 +341,11 @@ void __cdecl render_debug_begin(bool a1, bool a2, bool a3)
 	
 	g_render_debug_globals->active = true;
 
-	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_unknown6);
+	c_rasterizer::set_z_buffer_mode(c_rasterizer::_z_buffer_mode_unknown7);
 	c_rasterizer::set_sampler_filter_mode(0, (c_rasterizer::e_sampler_filter_mode)0);
 	c_rasterizer::set_cull_mode(c_rasterizer::_cull_mode_clockwise);
 	c_rasterizer::set_color_write_enable(0, 7);
-	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_mode_unknown0);
+	c_rasterizer::set_alpha_blend_mode(c_rasterizer::_alpha_blend_mode_unknown3);
 
 	render_debug_cache_draw(a1, a2, a3);
 }
