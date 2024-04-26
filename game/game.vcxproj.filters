@@ -1257,6 +1257,9 @@
     <ClCompile Include="source\ai\path_smoothing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\physics\collision_constants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3147,6 +3150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\ai\path_smoothing.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\collision_constants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
