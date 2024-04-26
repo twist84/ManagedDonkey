@@ -1,9 +1,12 @@
 #include "render/old_render_debug.hpp"
 
-#include "input/input_windows.hpp"
-#include "render/views/render_view.hpp"
-#include "render/render_debug.hpp"
+#include "game/player_mapping.hpp"
 #include "input/input_abstraction.hpp"
+#include "input/input_windows.hpp"
+#include "objects/objects.hpp"
+#include "render/render_debug.hpp"
+#include "render/views/render_view.hpp"
+#include "units/units.hpp"
 
 bool debug_structure_markers = false;
 bool debug_structure_surface_references = false;
@@ -58,10 +61,27 @@ void render_debug_input()
 
 void render_debug_player()
 {
-    long user_index = c_player_view::get_global_player_view()->get_player_view_user_index();
-    if (debug_player && user_index != NONE)
+    // This function is implemented, however the function doesn't actually do much
+
+    if (!debug_player)
+        return;
+
+    e_output_user_index user_index = c_player_view::get_current()->get_player_view_output_user_index();
+    if (user_index != NONE)
     {
-        // #TODO: implement
+        long unit_index = player_mapping_get_unit_by_output_user(user_index);
+        if (byte* unit = (byte*)object_try_and_get_and_verify_type(unit_index, _object_mask_biped))
+        {
+            //if (unit->motor.object.parent_object_index != NONE && unit->parent_seat_index != NONE)
+            //    unit_index = unit->parent_object_index;
+
+            REFERENCE_DECLARE(unit + 0x14, long, parent_object_index);
+            REFERENCE_DECLARE(unit + 0x2B6, short, parent_seat_index);
+
+            if (parent_object_index != NONE && parent_seat_index != 0xFFFF)
+                unit_index = parent_object_index;
+        }
+        object_try_and_get_and_verify_type(unit_index, _object_mask_vehicle);
     }
 }
 
@@ -93,7 +113,7 @@ void render_debug_structure_decals()
 
 bool __cdecl render_debug_lost_camera()
 {
-    return c_player_view::get_global_player_view()->m_location.cluster_reference.bsp_index;
+    return c_player_view::get_current()->m_location.cluster_reference.bsp_index;
 }
 
 real_rgb_color* __cdecl set_real_rgb_color(real_rgb_color* color, real red, real green, real blue)
