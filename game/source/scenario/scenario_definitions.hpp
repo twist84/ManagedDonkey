@@ -782,6 +782,13 @@ struct s_background_bitmap_reference_definition
 
 	void update_reference_names();
 };
+static_assert(sizeof(s_background_bitmap_reference_definition) == sizeof(s_tag_reference));
+
+struct scenario_decal_palette_entry
+{
+	c_typed_tag_reference<DECAL_SYSTEM_TAG> reference;
+};
+static_assert(sizeof(scenario_decal_palette_entry) == sizeof(s_tag_reference));
 
 extern long __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(s_scenario const* scenario, string_id name);
 
