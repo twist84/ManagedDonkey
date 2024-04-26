@@ -199,6 +199,11 @@ struct c_player_view :
 		return m_player_view_user_index;
 	}
 
+	e_output_user_index __cdecl get_player_view_output_user_index()
+	{
+		return m_output_user_index;
+	}
+
 	static void __cdecl get_player_render_camera_orientation(real_matrix4x3* camera);
 	void __cdecl create_frame_textures(long player_index);
 
@@ -229,7 +234,7 @@ protected:
 	long m_player_view_count;
 	long m_player_view_arrangement;
 	long m_player_view_user_index;
-	long m_output_user_index;
+	e_output_user_index m_output_user_index;
 	long m_splitscreen_res;
 
 	long __unknown26B0;
