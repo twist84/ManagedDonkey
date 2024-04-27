@@ -1,5 +1,9 @@
 #include "memory/data.hpp"
 
+#include "memory/module.hpp"
+
+HOOK_DECLARE(0x0055B6D0, datum_try_and_get);
+
 long s_data_array::get_index(long index) const
 {
 	if ((index < 0) || (index >= first_unallocated))
@@ -297,7 +301,7 @@ long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long cou
 //	long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 //
 //	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
-//	s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
+//	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
 //
 //	ASSERT(data);
 //	ASSERT(data->valid);
@@ -318,14 +322,14 @@ long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long cou
 //		ASSERT2(assert_string.get_string());
 //	}
 //
-//	if (absolute_index >= data->actual_count)
+//	if (absolute_index < 0 || absolute_index >= data->first_unallocated)
 //	{
 //		c_static_string<1024> assert_string;
 //		assert_string.print("%s index #%d (0x%x) is out of range (%d)",
 //			data->name.get_string(),
 //			absolute_index,
 //			index,
-//			data->actual_count);
+//			data->first_unallocated);
 //		ASSERT2(assert_string.get_string());
 //	}
 //
@@ -339,14 +343,14 @@ long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long cou
 //		ASSERT2(assert_string.get_string());
 //	}
 //
-//	if (identifier != index >> 16)
+//	if (header->identifier != DATUM_INDEX_TO_IDENTIFIER(index))
 //	{
 //		c_static_string<1024> assert_string;
 //		assert_string.print("%s index #%d (0x%x) is changed, should be 0x%x",
 //			data->name.get_string(),
 //			absolute_index,
 //			index,
-//			(identifier << 16) | absolute_index);
+//			BUILD_DATUM_INDEX(header->identifier, absolute_index));
 //		ASSERT2(assert_string.get_string());
 //	}
 //
@@ -356,51 +360,57 @@ long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long cou
 
 void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 {
-	return INVOKE(0x0055B6D0, datum_try_and_get, data, index);
+	//return INVOKE(0x0055B6D0, datum_try_and_get, data, index);
 
-	//void* result = NULL;
-	//
-	//ASSERT(data);
-	//ASSERT(data->valid);
-	//
-	//long identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-	//long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
-	//
-	//if (index != NONE)
-	//{
-	//	if (identifier)
-	//	{
-	//		c_static_string<1024> assert_string;
-	//		assert_string.print("tried to access %s using datum_try_and_get() with an absolute index #%d",
-	//			data->name.get_string(),
-	//			DATUM_INDEX_TO_ABSOLUTE_INDEX(index));
-	//
-	//		ASSERT2(assert_string.get_string());
-	//	}
-	//
-	//	if (index < 0 || index >= data->maximum_count)
-	//	{
-	//		c_static_string<1024> assert_string;
-	//		assert_string.print("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
-	//			data->name.get_string(),
-	//			index,
-	//			data->maximum_count);
-	//
-	//		ASSERT2(assert_string.get_string());
-	//	}
-	//
-	//	if (absolute_index < data->first_unallocated)
-	//	{
-	//		void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
-	//		s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
-	//	
-	//		if (header->identifier)
-	//			result = header;
-	//	}
-	//}
-	//
-	//ASSERT(result == align_pointer(result, data->alignment_bits));
-	//return result;
+	if (!data)
+		return NULL;
+
+	void* result = NULL;
+	
+	ASSERT(data);
+	ASSERT(data->valid);
+
+	if (index != NONE)
+	{
+		word identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+		word absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+
+		if (!identifier)
+		{
+			c_static_string<1024> assert_string;
+			assert_string.print("tried to access %s using datum_try_and_get() with an absolute index #%d",
+				data->name.get_string(),
+				absolute_index);
+
+			ASSERT2(assert_string.get_string());
+		}
+
+		if (absolute_index < 0 || absolute_index >= data->maximum_count)
+		{
+			c_static_string<1024> assert_string;
+			assert_string.print("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
+				data->name.get_string(),
+				index,
+				data->maximum_count);
+
+			ASSERT2(assert_string.get_string());
+		}
+
+		if (absolute_index < data->first_unallocated)
+		{
+			void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+			s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
+
+			if (header->identifier)
+			{
+				if (header->identifier == identifier)
+					result = header;
+			}
+		}
+	}
+	
+	ASSERT(result == align_pointer(result, data->alignment_bits));
+	return result;
 }
 
 void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index)
