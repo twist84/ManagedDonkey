@@ -1263,6 +1263,9 @@
     <ClCompile Include="source\render\simple_font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\physics\character_physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3159,6 +3162,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\simple_font.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\character_physics.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

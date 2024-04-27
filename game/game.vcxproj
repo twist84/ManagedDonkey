@@ -200,6 +200,7 @@ POPD
     <ClCompile Include="source\networking\messages\network_message_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_out_of_band_consumer.cpp" />
     <ClCompile Include="source\objects\object_placement.cpp" />
+    <ClCompile Include="source\physics\character_physics.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
     <ClCompile Include="source\physics\collision_constants.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
@@ -921,6 +922,7 @@ POPD
     <ClInclude Include="source\game\game_options.hpp" />
     <ClInclude Include="source\game\game_progression.hpp" />
     <ClInclude Include="source\networking\online\online_achievements.hpp" />
+    <ClInclude Include="source\physics\character_physics.hpp" />
     <ClInclude Include="source\physics\character_physics_mode_ground.hpp" />
     <ClInclude Include="source\physics\collision_constants.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
