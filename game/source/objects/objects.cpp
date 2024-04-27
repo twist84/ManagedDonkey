@@ -219,6 +219,11 @@ real_matrix4x3* __cdecl object_get_world_matrix(long object_index, real_matrix4x
 	return INVOKE(0x00B2EC60, object_get_world_matrix, object_index, matrix);
 }
 
+e_object_type c_object_identifier::get_type() const
+{
+	return m_type;
+}
+
 long c_object_iterator_base::get_index()
 {
 	return m_index;

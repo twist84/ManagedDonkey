@@ -153,6 +153,8 @@ static_assert(sizeof(object_header_datum) == 0x10);
 
 struct c_object_identifier
 {
+	e_object_type get_type() const;
+
 	tag m_unique_id; // 'obj#'
 
 	// scenario_structure_bsp_reference
