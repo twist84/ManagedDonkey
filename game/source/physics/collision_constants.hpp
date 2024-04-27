@@ -2,26 +2,36 @@
 
 #include "cseries/cseries.hpp"
 
+// Bungie was kind enough to expose the following in `collision_debug_render`
+
+// #TODO: confirm the following bits
 enum e_collision_test_flag
 {
 	_collision_test_structure_bit = 0,
 	_collision_test_water_bit,
+
 	_collision_test_unknown2_bit,
+
 	_collision_test_instanced_geometry_bit,
 	_collision_test_render_only_bsps_bit,
-	_collision_test_unknown5_bit,
-	_collision_test_unknown6_bit,
+	_collision_test_ignore_child_objects_bit,
+	_collision_test_ignore_nonpathfindable_objects_bit,
+
 	_collision_test_unknown7_bit,
-	_collision_test_unknown8_bit,
-	_collision_test_unknown9_bit,
+
+	_collision_test_ignore_cinematic_objects_bit,
+	_collision_test_ignore_dead_bipeds_bit,
+
 	_collision_test_unknown10_bit,
-	_collision_test_unknown11_bit,
-	_collision_test_unknown12_bit,
-	_collision_test_unknown13_bit,
-	_collision_test_unknown14_bit,
-	_collision_test_unknown15_bit,
-	_collision_test_unknown16_bit,
+
+	_collision_test_front_facing_surfaces_bit,
+	_collision_test_back_facing_surfaces_bit,
+	_collision_test_ignore_two_sided_surfaces_bit,
+	_collision_test_ignore_invisible_surfaces_bit,
+	_collision_test_ignore_breakable_surfaces_bit,
+	_collision_test_allow_early_out_bit,
 	_collision_test_try_to_keep_location_valid_bit,
+
 	_collision_test_unknown18_bit,
 	_collision_test_unknown19_bit,
 	_collision_test_unknown20_bit,
