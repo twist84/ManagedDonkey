@@ -54,17 +54,14 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 
 	if (TEST_BIT(_object_mask_biped, object_get_type(bump_object_index)))
 	{
-		byte* bumped_object = (byte*)object_get_and_verify_type(bump_object_index, _object_mask_biped);
+		byte* bumped_biped = (byte*)object_get_and_verify_type(bump_object_index, _object_mask_biped);
 
-		REFERENCE_DECLARE(bumped_object + 0x590, word_flags, bumped_object_biped_flags);
-		//REFERENCE_DECLARE(bumped_object + 0x624, c_character_physics_component, bumped_object_physics);
-		byte* bumped_object_physics = bumped_object + 0x624;
-
-		REFERENCE_DECLARE(bumped_object_physics + 0x2, long, physics_mode);
-		if (physics_mode == 6)
+		REFERENCE_DECLARE(bumped_biped + 0x590, word_flags, bumped_biped_flags);
+		REFERENCE_DECLARE(bumped_biped + 0x624, c_character_physics_component, bumped_biped_physics);
+		if (bumped_biped_physics.get_mode() == c_character_physics_component::_mode_melee)
 		{
 			//biped->biped_flags.set(15, true);
-			biped_biped_flags |= (1 << 15);
+			biped_biped_flags |= FLAG(15);
 		}
 	}
 
@@ -72,20 +69,24 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 	{
 		ai_handle_bump(object_index, bump_object_index, linear_velocity);
 
-		if (biped_player_index != -1 || recorded_animation_controlling_unit(object_index))
+		if (biped_player_index != NONE || recorded_animation_controlling_unit(object_index))
 		{
 			if (biped_bump_object_index == bump_object_index)
 			{
 				if (game_ticks_to_seconds(++biped_bump_ticks) > 0.1f)
 				{
-					if (TEST_BIT(_object_mask_unit, bump_object_object_identifier.m_type.get()) &&
-						cheat.bump_possession &&
-						bump_object_player_index == NONE)
+					if (TEST_BIT(_object_mask_unit, bump_object_object_identifier.get_type()))
 					{
-						player_set_unit_index(biped_player_index, bump_object_index);
+						if (cheat.bump_possession)
+						{
+							if (bump_object_player_index == NONE)
+							{
+								player_set_unit_index(biped_player_index, bump_object_index);
 
-						if (bump_object_object_identifier.m_type == 0)
-							bump_object_bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
+								if (bump_object_object_identifier.get_type() == _object_type_biped)
+									bump_object_bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
+							}
+						}
 					}
 
 					biped_bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
