@@ -1142,11 +1142,7 @@ void __cdecl main_loop_exit()
 	if (game_is_multithreaded())
 	{
 		main_render_purge_pending_messages();
-#if defined(_DEBUG)
 		wait_for_thread_to_exit(k_thread_render, 1);
-#else
-		wait_for_thread_to_exit(k_thread_render, INFINITE);
-#endif
 	}
 	
 	d3d_resource_allocator_dont_release = true;
