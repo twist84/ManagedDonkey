@@ -56,6 +56,32 @@ euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vec
 	return INVOKE(0x004F13E0, euler_angles2d_from_vector3d, facing, forward);
 }
 
+//.text:005B0330 ; real __cdecl matrix3x3_determinant(matrix3x3 const*)
+//.text:005B03B0 ; void __cdecl matrix3x3_from_angles(matrix3x3*, real, real, real)
+//.text:005B04F0 ; 
+//.text:005B0630 ; matrix3x3* __cdecl matrix3x3_from_axis_and_angle(matrix3x3*, vector3d const*, real, real)
+//.text:005B0740 ; matrix3x3* __cdecl matrix3x3_from_forward_and_up(matrix3x3*, vector3d const*, vector3d const*)
+//.text:005B07C0 ; matrix3x3* __cdecl matrix3x3_inverse(matrix3x3 const*, real, matrix3x3*)
+//.text:005B0900 ; vector3d* __cdecl matrix3x3_inverse_transform_vector(matrix3x3 const*, vector3d const*, vector3d*)
+//.text:005B09B0 ; matrix3x3* __cdecl matrix3x3_multiply(matrix3x3 const*, matrix3x3 const*, matrix3x3*)
+//.text:005B0BB0 ; bool __cdecl matrix3x3_normalize(matrix3x3*)
+
+matrix3x3* __cdecl matrix3x3_rotation_from_quaternion(matrix3x3* matrix, real_quaternion const* quaternion)
+{
+	return INVOKE(0x005B0F80, matrix3x3_rotation_from_quaternion, matrix, quaternion);
+}
+
+//.text:005B10E0 ; real_quaternion* __cdecl matrix3x3_rotation_to_quaternion(matrix3x3 const*, real_quaternion*)
+//.text:005B12E0 ; real_vector3d* __cdecl matrix3x3_transform_vector(matrix3x3 const*, vector3d const*, vector3d*)
+//.text:005B1390 ; matrix3x3* __cdecl matrix3x3_transpose(matrix3x3 const*, matrix3x3*)
+//.text:005B1410 ; void __cdecl matrix4x3_apply_orientation(real_matrix4x3 const restrict*, real_orientation const restrict*, real_matrix4x3 restrict*)
+//.text:005B1780 ; 
+//.text:005B1AF0 ; 
+//.text:005B1C70 ; 
+//.text:005B1E10 ; void __cdecl matrix4x3_from_point_and_nonaxial_forward_and_left(real_matrix4x3*, real_point3d const*, vector3d const*, vector3d const*)
+//.text:005B1E70 ; void __cdecl matrix4x3_from_point_and_nonaxial_vectors(real_matrix4x3*, real_point3d const*, vector3d const*, vector3d const*)
+//.text:005B1ED0 ; void __cdecl matrix4x3_from_point_and_nonaxial_vectors_using_up(real_matrix4x3*, real_point3d const*, vector3d const*, vector3d const*)
+
 void __cdecl matrix4x3_from_point_and_quaternion(real_matrix4x3* matrix, real_point3d const* point, real_quaternion const* quaternion)
 {
 	INVOKE(0x005B1F30, matrix4x3_from_point_and_quaternion, matrix, point, quaternion);

@@ -961,7 +961,7 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 	s_collision_test_flags flags = {}; // 0x1001
 	real_point3d camera_position = {};
 	vector3d aiming_vector = {};
-	collision_result collision = collision_result();
+	collision_result collision;
 	
 	flags.collision_flags.set(_collision_test_structure_bit, true);
 	flags.collision_flags.set(_collision_test_unknown12_bit, true);

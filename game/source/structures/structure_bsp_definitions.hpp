@@ -28,6 +28,7 @@ struct cluster_portal;
 struct structure_weather_palette_entry;
 struct structure_cluster;
 struct structure_marker;
+struct structure_runtime_decal;
 struct structure_instanced_geometry_instance;
 struct structure_bsp
 {
@@ -65,7 +66,7 @@ struct structure_bsp
 	c_typed_tag_block<structure_marker> markers;
 	s_tag_block marker_light_palette;
 	s_tag_block marker_light_palette_index;
-	s_tag_block runtime_decals;
+	c_typed_tag_block<structure_runtime_decal> runtime_decals;
 	s_tag_block environment_object_palette;
 	s_tag_block environment_objects;
 	byte IMISWXUG[0x4];
@@ -192,7 +193,7 @@ struct structure_cluster
 	short background_sound_sound_cluster_index;
 	short reverb_sound_cluster_index;
 	short runtime_first_decal_index;
-	short runtime_decal_cound;
+	short runtime_decal_count; // `runtime decal cound` is misspelled is the tag definition, thanks Bungie
 	c_flags<e_structure_cluster_flags, word, k_structure_cluster_flags> flags;
 	s_tag_block predicted_resources;
 	s_tag_block portals;
@@ -214,6 +215,17 @@ struct structure_marker
 	real_point3d position;
 };
 static_assert(sizeof(structure_marker) == 0x3C);
+
+struct structure_runtime_decal
+{
+	short decal_palette_index;
+	byte padding[2];
+
+	real_quaternion rotation;
+	real_point3d position;
+	real scale;
+};
+static_assert(sizeof(structure_runtime_decal) == 0x24);
 
 struct structure_instanced_geometry_instance
 {

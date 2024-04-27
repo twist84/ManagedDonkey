@@ -31,6 +31,7 @@ static_assert(sizeof(s_scenario_zone_state) == 0x20);
 struct s_game_globals;
 struct structure_bsp;
 struct s_structure_design;
+struct s_cluster_reference;
 
 extern long& global_scenario_index;
 extern long& global_scenario_game_globals_index;
@@ -55,6 +56,7 @@ extern long __cdecl global_structure_bsp_next_active_index_get(long structure_bs
 extern s_structure_design* global_structure_design_get(long structure_bsp_index);
 extern bool __cdecl scenario_activate_initial_designer_zones(long zoneset_index);
 extern bool __cdecl scenario_activate_initial_zone_set(long zoneset_index);
+extern s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d const* point);
 extern void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state);
 extern void __cdecl scenario_invalidate();
 extern bool __cdecl scenario_language_pack_load();
@@ -68,6 +70,7 @@ extern long global_scenario_index_get();
 extern char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* structure_bsp_string, dword structure_bsp_string_size);
 extern bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path);
 extern void __cdecl scenario_unload();
+extern structure_bsp const* __cdecl scenario_structure_bsp_get(s_scenario const* scenario, long structure_bsp_index);
 extern short scenario_object_name_index_from_string(s_scenario* scenario, char const* name);
 extern long scenario_get_zone_set_index_by_name(s_scenario const* scenario, char const* name, bool strip_path);
 extern long scenario_get_designer_zone_index_by_name(s_scenario const* scenario, char const* name);

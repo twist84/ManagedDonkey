@@ -89,6 +89,11 @@ bool __cdecl scenario_activate_initial_zone_set(long zoneset_index)
 	return INVOKE(0x004E9990, scenario_activate_initial_zone_set, zoneset_index);
 }
 
+s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d const* point)
+{
+	return INVOKE(0x004E9BD0, scenario_cluster_reference_from_point, point);
+}
+
 void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state)
 {
 	INVOKE(0x004EA1F0, scenario_get_global_zone_state, global_zone_state);
@@ -273,6 +278,11 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 void __cdecl scenario_unload()
 {
 	INVOKE(0x004EB950, scenario_unload);
+}
+
+structure_bsp const* __cdecl scenario_structure_bsp_get(s_scenario const* scenario, long structure_bsp_index)
+{
+	return INVOKE(0x00766280, scenario_structure_bsp_get, scenario, structure_bsp_index);
 }
 
 short scenario_object_name_index_from_string(s_scenario* scenario, char const* name)

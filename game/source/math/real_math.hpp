@@ -307,6 +307,7 @@ extern void __cdecl real_math_dispose();
 extern void __cdecl real_math_initialize();
 extern void __cdecl real_math_reset_precision();
 extern euler_angles2d* __cdecl euler_angles2d_from_vector3d(euler_angles2d* facing, vector3d const* forward);
+extern matrix3x3* __cdecl matrix3x3_rotation_from_quaternion(matrix3x3* matrix, real_quaternion const* quaternion);
 extern void __cdecl matrix4x3_from_point_and_quaternion(real_matrix4x3* matrix, real_point3d const* point, real_quaternion const* quaternion);
 extern vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d* out);
 extern real __cdecl dot_product3d(vector3d const* a, vector3d const* b);

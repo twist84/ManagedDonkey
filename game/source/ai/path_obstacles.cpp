@@ -33,8 +33,8 @@ void render_debug_obstacles(struct obstacles const* obstacles, real radius)
 	{
 		struct disc const* disc = obstacles_get_disc(obstacles, disc_index);
 
-		s_collision_test_flags flags = {}; // 0x8001
-		collision_result collision = collision_result();
+		s_collision_test_flags flags = {}; // 0x801
+		collision_result collision;
 
 		ASSERT(disc->obstacle_index >= 0 && disc->obstacle_index < obstacles->obstacle_count);
 
