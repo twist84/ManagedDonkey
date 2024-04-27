@@ -35,21 +35,21 @@ enum e_collision_test_flag
 enum e_collision_test_objects_flag
 {
 	_collision_test_objects_bit = 0,
-	_collision_test_objects_unknown1_bit,
-	_collision_test_objects_unknown2_bit,
-	_collision_test_objects_unknown3_bit,
-	_collision_test_objects_unknown4_bit,
-	_collision_test_objects_unknown5_bit,
-	_collision_test_objects_unknown6_bit,
-	_collision_test_objects_unknown7_bit,
-	_collision_test_objects_unknown8_bit,
-	_collision_test_objects_unknown9_bit,
-	_collision_test_objects_unknown10_bit,
-	_collision_test_objects_unknown11_bit,
-	_collision_test_objects_unknown12_bit,
-	_collision_test_objects_unknown13_bit,
-	_collision_test_objects_unknown14_bit,
-	_collision_test_objects_unknown15_bit,
+	_collision_test_objects_biped_bit,          // _object_type_biped
+	_collision_test_objects_vehicle_bit,        // _object_type_vehicle
+	_collision_test_objects_weapon_bit,         // _object_type_weapon
+	_collision_test_objects_equipment_bit,      // _object_type_equipment
+	_collision_test_objects_arg_device_bit,     // _object_type_arg_device
+	_collision_test_objects_terminal_bit,       // _object_type_terminal
+	_collision_test_objects_projectile_bit,     // _object_type_projectile
+	_collision_test_objects_scenery_bit,        // _object_type_scenery
+	_collision_test_objects_machine_bit,        // _object_type_machine
+	_collision_test_objects_control_bit,        // _object_type_control
+	_collision_test_objects_sound_scenery_bit,  // _object_type_sound_scenery
+	_collision_test_objects_crate_bit,          // _object_type_crate
+	_collision_test_objects_creature_bit,       // _object_type_creature
+	_collision_test_objects_giant_bit,          // _object_type_giant
+	_collision_test_objects_effect_scenery_bit, // _object_type_effect_scenery
 
 	k_collision_test_objects_flags
 };
