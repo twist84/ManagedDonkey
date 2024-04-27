@@ -39,7 +39,10 @@ static_assert(sizeof(effect_event_datum) == 0x14);
 struct effect_location_datum :
 	s_datum_header
 {
-	byte __data[0x3E];
+	word_flags flags;
+	byte __data4[0x4];
+	dword __unknown8;
+	real_matrix4x3 matrix;
 };
 static_assert(sizeof(effect_location_datum) == 0x40);
 
