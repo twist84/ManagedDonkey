@@ -4,10 +4,21 @@
 #include "game/materials.hpp"
 #include "physics/collision_constants.hpp"
 
+enum e_collision_result_type
+{
+	_collision_result_none = 0,
+	_collision_result_structure,
+	_collision_result_water,
+	_collision_result_instanced_geometry,
+	_collision_result_object,
+
+	k_collision_result_type_count
+};
+
 struct collision_result
 {
 	collision_result() :
-		type(),
+		type(_collision_result_none),
 		__real4(),
 		position(),
 		__location14(),
@@ -26,7 +37,7 @@ struct collision_result
 	{
 	}
 
-	long type;
+	c_enum<e_collision_result_type, long, _collision_result_none, k_collision_result_type_count> type;
 	real __real4;
 	real_point3d position;
 	s_location __location14;
