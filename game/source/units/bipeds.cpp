@@ -5,7 +5,9 @@
 #include "game/cheats.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "physics/character_physics.hpp"
 #include "render/render_debug.hpp"
+#include "render/render_lights.hpp"
 
 HOOK_DECLARE(0x00B6B8F0, biped_bumped_object);
 HOOK_DECLARE(0x00B70DF0, biped_render_debug);
@@ -167,7 +169,44 @@ void __cdecl biped_render_debug(long biped_index)
 
 	if (debug_objects_movement_mode)
 	{
+		byte* biped = (byte*)object_get_and_verify_type(biped_index, _object_mask_biped);
 
+		real_point3d base{};
+		vector3d height{};
+		real autoaim_width = 0.0f;
+
+		biped_get_autoaim_pill(biped_index, &base, &height, &autoaim_width);
+		point_from_line3d(&base, &height, 1.0f, &base);
+
+		REFERENCE_DECLARE(biped + 0x624, c_character_physics_component, physics);
+
+		char const* mode_string = NULL;
+		switch (physics.get_mode())
+		{
+		case c_character_physics_component::_mode_ground:
+			mode_string = "ground";
+			break;
+		case c_character_physics_component::_mode_flying:
+			mode_string = "flying";
+			break;
+		case c_character_physics_component::_mode_dead:
+			mode_string = "dead";
+			break;
+		case c_character_physics_component::_mode_posture:
+			mode_string = "posture";
+			break;
+		case c_character_physics_component::_mode_climbing:
+			mode_string = "climbing";
+			break;
+		case c_character_physics_component::_mode_melee:
+			mode_string = "melee";
+			break;
+		default:
+			ASSERT2("unreachable");
+			break;
+		}
+
+		render_debug_string_at_point(&base, mode_string, global_real_argb_blue);
 	}
 
 	if (debug_biped_throttle)
