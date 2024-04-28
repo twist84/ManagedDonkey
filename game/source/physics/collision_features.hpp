@@ -43,9 +43,9 @@ struct collision_cylinder
 	byte_flags surface_flags; // e_surface_flags
 	bool breakable_surface;
 	short surface_material;
-	real_point3d point;
+	real_point3d base;
 	vector3d height;
-	real scale;
+	real radius;
 };
 static_assert(sizeof(collision_cylinder) == 0x30);
 
