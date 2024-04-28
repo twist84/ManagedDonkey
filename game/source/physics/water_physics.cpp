@@ -8,6 +8,13 @@
 
 bool water_physics_debug = false;
 
+REFERENCE_DECLARE(0x018B53FC, real, k_full_scale_effect_velocity);
+REFERENCE_DECLARE(0x018B5400, real, k_minimum_water_effect_period);
+REFERENCE_DECLARE(0x018B5404, real, k_maximum_water_scale_velocity);
+REFERENCE_DECLARE(0x018B5408, real, k_maximum_surface_distance);
+REFERENCE_DECLARE(0x018B540C, real, k_initial_density_decay_time);
+REFERENCE_DECLARE(0x018B5410, real, k_density_decay_time);
+
 bool __cdecl water_physics_test_vector(real_point3d const* point, vector3d const* vector, s_water_physics_test_vector_result* result)
 {
 	return INVOKE(0x005F8570, water_physics_test_vector, point, vector, result);
