@@ -100,6 +100,8 @@ struct collision_plane
 };
 static_assert(sizeof(collision_plane) == 0x30);
 
+extern bool __cdecl collision_features_test_point(collision_feature_list const* features, real_point3d const* point, collision_plane* plane);
+
 extern void render_debug_collision_features(collision_feature_list const* features);
 extern void render_debug_collision_prism(collision_prism const* prism, real_argb_color const* color);
 extern void render_debug_collision_cylinder(collision_cylinder const* cylinder, real_argb_color const* color);

@@ -3,6 +3,11 @@
 #include "render/render_debug.hpp"
 #include "render/render_lights.hpp"
 
+bool __cdecl collision_features_test_point(collision_feature_list const* features, real_point3d const* point, collision_plane* plane)
+{
+	return INVOKE(0x00947EC0, collision_features_test_point, features, point, plane);
+}
+
 void render_debug_collision_features(collision_feature_list const* features)
 {
 	ASSERT(features->count[_collision_feature_sphere] <= MAXIMUM_COLLISION_FEATURES_PER_TEST);
