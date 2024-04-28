@@ -637,6 +637,9 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input_abstraction),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input_mouse_state),
 
+	CONSOLE_GLOBAL_DECLARE_REAL(water_physics_velocity_minimum),
+	CONSOLE_GLOBAL_DECLARE_REAL(water_physics_velocity_maximum),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_early_movers),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_objects_sound_spheres),

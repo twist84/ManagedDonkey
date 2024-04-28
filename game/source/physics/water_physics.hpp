@@ -41,6 +41,8 @@ extern real& k_maximum_water_scale_velocity;
 extern real& k_maximum_surface_distance;
 extern real& k_initial_density_decay_time;
 extern real& k_density_decay_time;
+extern real& water_physics_velocity_minimum;
+extern real& water_physics_velocity_maximum;
 
 extern bool __cdecl water_physics_test_vector(real_point3d const* point, vector3d const* vector, s_water_physics_test_vector_result* result);
 extern void __cdecl water_physics_render_debug(real_point3d const* point, vector3d const* vector);

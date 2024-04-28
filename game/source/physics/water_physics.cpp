@@ -14,6 +14,8 @@ REFERENCE_DECLARE(0x018B5404, real, k_maximum_water_scale_velocity);
 REFERENCE_DECLARE(0x018B5408, real, k_maximum_surface_distance);
 REFERENCE_DECLARE(0x018B540C, real, k_initial_density_decay_time);
 REFERENCE_DECLARE(0x018B5410, real, k_density_decay_time);
+REFERENCE_DECLARE(0x018B5414, real, water_physics_velocity_minimum);
+REFERENCE_DECLARE(0x018B5418, real, water_physics_velocity_maximum);
 
 bool __cdecl water_physics_test_vector(real_point3d const* point, vector3d const* vector, s_water_physics_test_vector_result* result)
 {
