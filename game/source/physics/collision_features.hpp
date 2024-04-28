@@ -26,8 +26,8 @@ struct collision_sphere
 	byte_flags surface_flags; // e_surface_flags
 	bool breakable_surface;
 	short surface_material;
-	real_point3d point;
-	real scale;
+	real_point3d center;
+	real radius;
 };
 static_assert(sizeof(collision_sphere) == 0x24);
 
