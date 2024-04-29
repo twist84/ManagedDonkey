@@ -279,7 +279,7 @@ void collision_debug_render()
 		//{
 		//	// #TODO: implement me
 		//
-		//	//real_point3d point_1{};
+		//	//real_point3d point{};
 		//	//
 		//	//real x = camera.center.x + (camera.matrix.forward.i * 2.0f);
 		//	//real y = camera.center.y + (camera.matrix.forward.j * 2.0f);
@@ -288,52 +288,25 @@ void collision_debug_render()
 		//	//real z1 = z - 0.125f;
 		//	//real z2 = z + 0.125f;
 		//	//
-		//	//point_1.z = z1;
-		//	//
-		//	//if (z2 >= z1)
+		//	//for (point.z = z1; z2 >= z1; z1 += 0.0625f, point.z = z1)
 		//	//{
 		//	//	real y1 = y - 0.125f;
 		//	//	real y2 = y + 0.125f;
 		//	//
-		//	//	do
+		//	//	for (point.y = y1; y2 >= y1; y1 += 0.0625f, point.y = y1)
 		//	//	{
-		//	//		point_1.y = y1;
-		//	//		if (y2 >= y1)
+		//	//		real x1 = x - 0.125f;
+		//	//		real x2 = x + 0.125f;
+		//	//
+		//	//		for (point.x = x1; x2 >= x1; x1 += 0.0625f, point.x += x1)
 		//	//		{
-		//	//			real x2 = x + 0.125f;
-		//	//			do
-		//	//			{
-		//	//				point_1.x = x - 0.125f;
-		//	//				if (x2 >= (x - 0.125f))
-		//	//				{
-		//	//					do
-		//	//					{
-		//	//						real_argb_color const* color = global_real_argb_green;
-		//	//						if (collision_test_point(collision_test_flags, &point_1, NONE, NONE))
-		//	//							color = global_real_argb_red;
+		//	//			real_argb_color const* color = global_real_argb_green;
+		//	//			if (collision_test_point(collision_test_flags, &point, NONE, NONE))
+		//	//				color = global_real_argb_red;
 		//	//
-		//	//						render_debug_point(true, &point_1, 0.0625f, color);
-		//	//
-		//	//						point_1.x += 0.0625;
-		//	//
-		//	//					} while (x2 >= point_1.x);
-		//	//
-		//	//					y1 = point_1.y;
-		//	//
-		//	//				}
-		//	//
-		//	//				y1 = y1 + 0.0625f;
-		//	//				point_1.y = y1;
-		//	//
-		//	//			} while (y2 >= y1);
-		//	//
-		//	//			z1 = point_1.z;
+		//	//			render_debug_point(true, &point, 0.0625f, color);
 		//	//		}
-		//	//
-		//	//		z1 += 0.0625f;
-		//	//		point_1.z = z1;
-		//	//
-		//	//	} while (z2 >= z1);
+		//	//	}
 		//	//}
 		//}
 	}
