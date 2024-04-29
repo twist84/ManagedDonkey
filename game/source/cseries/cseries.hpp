@@ -862,6 +862,11 @@ public:
 		return !!(m_storage & (1 << value));
 	}
 
+	c_flags<t_type, t_storage_type, k_maximum_count> operator|(c_flags<t_type, t_storage_type, k_maximum_count> const& other) const
+	{
+		return c_flags(m_storage | other.m_storage);
+	}
+
 	template <class T>
 	void operator= (T value)
 	{
