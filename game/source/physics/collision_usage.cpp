@@ -48,7 +48,7 @@ char const* const global_collision_function_names[12]
 	"vector-intersect-bsp-structure"
 };
 
-char const* const global_collision_user_names[MAXIMUM_COLLISION_USER_STACK_DEPTH]
+char const* const global_collision_user_names[28]
 {
 	/* 0	*/ "????",
 	/* 1	*/ "ai-look",
