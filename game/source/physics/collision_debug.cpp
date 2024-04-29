@@ -5,6 +5,7 @@
 #include "game/player_mapping.hpp"
 #include "physics/collision_constants.hpp"
 #include "physics/collision_features.hpp"
+#include "physics/collision_references.hpp"
 #include "physics/collision_usage.hpp"
 #include "physics/collisions.hpp"
 #include "render/render_debug.hpp"
@@ -12,6 +13,7 @@
 
 #include <math.h>
 
+bool collision_debug_test_terrain_shader = true;
 bool collision_debug_water_proxy = true;
 bool collision_debug_flag_structure = true;
 bool collision_debug_flag_water = true;
@@ -23,7 +25,7 @@ real collision_debug_length = 100.0f;
 long collision_debug_ignore_object_index = NONE;
 bool collision_debug_geometry_sampling = false;
 bool collision_debug_flag_objects_terminals = false;
-//bool collision_debug_? = false;
+bool g_collision_debug_status_lines_render = false;
 bool collision_debug = false;
 bool collision_debug_spray = false;
 bool collision_debug_features = false;
@@ -59,6 +61,12 @@ real_point3d collision_debug_point{};
 real collision_debug_height = 0.0f;
 vector3d collision_debug_vector{};
 //bool collision_debug_? = false;
+//s_status_line g_collision_debug_status_lines[10]{};
+//s_status_line g_collision_debug_lightmap_status_line{};
+//s_status_line g_collision_debug_lightmap_status_line_red_sh{};
+//s_status_line g_collision_debug_lightmap_status_line_green_sh{};
+//s_status_line g_collision_debug_lightmap_status_line_blue_sh{};
+//c_debug_lightmap_drawer global_lightmap_drawer{}:
 
 void collision_debug_render()
 {
@@ -134,6 +142,8 @@ void collision_debug_render()
 		}
 	}
 
+	real_point3d debug_point0 = collision_debug_point;
+
 	if (collision_debug_repeat)
 	{
 		// #TODO: implement me
@@ -156,11 +166,176 @@ void collision_debug_render()
 	if (collision_debug)
 	{
 		// #TODO: implement me
+
+		if (collision_debug_length <= 0.0f)
+		{
+			//if (collision_debug_width > 0.0f)
+			//{
+			//	if (collision_test_sphere(collision_test_flags, &debug_point0, collision_debug_width))
+			//		render_debug_sphere(true, &debug_point0, collision_debug_width, global_real_argb_red);
+			//	else
+			//		render_debug_sphere(true, &debug_point0, collision_debug_width, global_real_argb_green);
+			//}
+			//else
+			//{
+			//	real_argb_color const* color = global_real_argb_green;
+			//
+			//	e_collision_result_type collision_result_type{};
+			//	if (collision_test_point(collision_test_flags, &debug_point0, collision_debug_ignore_object_index, NONE, &collision_result_type))
+			//	{
+			//		char const* const collision_result_type_names[k_collision_result_type_count]
+			//		{
+			//			"none",
+			//			"structure",
+			//			"water",
+			//			"instanced_geometry",
+			//			"object"
+			//		};
+			//
+			//		ASSERT(VALID_INDEX(collision_result_type, k_collision_result_type_count));
+			//
+			//		g_collision_debug_status_lines_render = true;
+			//		g_collision_debug_status_lines[0].string.print("inside: %s", collision_result_type_names[collision_result_type]);
+			//
+			//		color = global_real_argb_red;
+			//	}
+			//	render_debug_point(true, &debug_point0, 0.1f, color);
+			//}
+		}
+		else if (collision_debug_width <= 0.0f)
+		{
+			//collision_result collision;
+			//
+			//// c_stop_watch logic
+			//bool collision_test_vector_result = collision_test_vector(collision_test_flags, collision_debug_test_terrain_shader, &debug_point0, &debug_vector0, collision_debug_ignore_object_index, NONE, &collision);
+			//// c_stop_watch logic
+			//
+			//if (collision_test_vector_result)
+			//{
+			//	c_static_string<128> string("UNKNOWN");
+			//	e_collision_result_type collision_result_type = collision.type;
+			//	switch (collision_result_type)
+			//	{
+			//	case _collision_result_structure:
+			//	{
+			//		// #TODO: implement me
+			//	}
+			//	break;
+			//	case _collision_result_water:
+			//	{
+			//		// #TODO: implement me
+			//	}
+			//	break;
+			//	case _collision_result_instanced_geometry:
+			//	{
+			//		// #TODO: implement me
+			//	}
+			//	break;
+			//	case _collision_result_object:
+			//	{
+			//		// #TODO: implement me
+			//	}
+			//	break;
+			//	default:
+			//	{
+			//		// #TODO: implement me
+			//	}
+			//	break;
+			//	}
+			//
+			//	// #TODO: implement me
+			//
+			//	render_debug_vector(true, &debug_point0, &debug_vector0, collision.__real4, global_real_argb_red);
+			//	render_debug_point(true, &collision.position, 0.125f, global_real_argb_red);
+			//	render_debug_vector(true, &collision.position, collision.?, 0.25f, global_real_argb_red);
+			//}
+			//else
+			//{
+			//	render_debug_line(true, &debug_point0, &collision.position, global_real_argb_green);
+			//	render_debug_point(true, &collision.position, 0.125f, global_real_argb_green);
+			//}
+		}
+		else
+		{
+			// #TODO: implement me
+		}
 	}
 	
 	if (collision_debug_spray)
 	{
 		// #TODO: implement me
+
+		//real_matrix4x3 camera{};
+		//c_player_view::get_player_render_camera_orientation(&camera);
+		//
+		//if (collision_debug_length > 0.0f)
+		//{
+		//	if (!collision_debug_repeat)
+		//	{
+		//		// #TODO: implement me
+		//	}
+		//}
+		//else
+		//{
+		//	// #TODO: implement me
+		//
+		//	//real_point3d point_1{};
+		//	//
+		//	//real x = camera.center.x + (camera.matrix.forward.i * 2.0f);
+		//	//real y = camera.center.y + (camera.matrix.forward.j * 2.0f);
+		//	//real z = camera.center.z + (camera.matrix.forward.k * 2.0f);
+		//	//
+		//	//real z1 = z - 0.125f;
+		//	//real z2 = z + 0.125f;
+		//	//
+		//	//point_1.z = z1;
+		//	//
+		//	//if (z2 >= z1)
+		//	//{
+		//	//	real y1 = y - 0.125f;
+		//	//	real y2 = y + 0.125f;
+		//	//
+		//	//	do
+		//	//	{
+		//	//		point_1.y = y1;
+		//	//		if (y2 >= y1)
+		//	//		{
+		//	//			real x2 = x + 0.125f;
+		//	//			do
+		//	//			{
+		//	//				point_1.x = x - 0.125f;
+		//	//				if (x2 >= (x - 0.125f))
+		//	//				{
+		//	//					do
+		//	//					{
+		//	//						real_argb_color const* color = global_real_argb_green;
+		//	//						if (collision_test_point(collision_test_flags, &point_1, NONE, NONE))
+		//	//							color = global_real_argb_red;
+		//	//
+		//	//						render_debug_point(true, &point_1, 0.0625f, color);
+		//	//
+		//	//						point_1.x += 0.0625;
+		//	//
+		//	//					} while (x2 >= point_1.x);
+		//	//
+		//	//					y1 = point_1.y;
+		//	//
+		//	//				}
+		//	//
+		//	//				y1 = y1 + 0.0625f;
+		//	//				point_1.y = y1;
+		//	//
+		//	//			} while (y2 >= y1);
+		//	//
+		//	//			z1 = point_1.z;
+		//	//		}
+		//	//
+		//	//		z1 += 0.0625f;
+		//	//		point_1.z = z1;
+		//	//
+		//	//	} while (z2 >= z1);
+		//	//}
+		//}
 	}
 
 	if (collision_debug_features)

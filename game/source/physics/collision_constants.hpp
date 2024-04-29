@@ -36,11 +36,10 @@ enum e_collision_test_flag
 	_collision_test_unknown19_bit,
 	_collision_test_unknown20_bit,
 	_collision_test_unknown21_bit,
-	_collision_test_unknown22_bit,
-	_collision_test_unknown23_bit,
 
 	k_collision_test_flags
 };
+static_assert(MASK(k_collision_test_flags) == ~0xFFC00000);
 
 enum e_collision_test_objects_flag
 {
@@ -63,6 +62,7 @@ enum e_collision_test_objects_flag
 
 	k_collision_test_objects_flags
 };
+static_assert(MASK(k_collision_test_objects_flags) == ~0xFFFF0000);
 
 struct s_collision_test_flags
 {

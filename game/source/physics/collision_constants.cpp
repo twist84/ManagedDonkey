@@ -31,3 +31,8 @@ REFERENCE_DECLARE(0x0471A908, s_collision_test_flags, _collision_test_unit_enter
 REFERENCE_DECLARE(0x0471A910, s_collision_test_flags, _collision_test_empty_flags);
 REFERENCE_DECLARE(0x0471A918, s_collision_test_flags, _collision_test_structure_geometry_flags);
 
+//s_collision_test_flags collision_test_flags_build(dword, dword);
+//s_collision_test_flags collision_test_flags_or(s_collision_test_flags, s_collision_test_flags);
+//s_collision_test_flags collision_test_flags_and(s_collision_test_flags, s_collision_test_flags);
+//s_collision_test_flags collision_test_flags_invert(s_collision_test_flags, s_collision_test_flags);
+
