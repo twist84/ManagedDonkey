@@ -527,6 +527,14 @@ void __cdecl object_render_debug_internal(long object_index)
 	REFERENCE_DECLARE(object, long, object_definition_index);
 	_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object_definition_index));
 
+	REFERENCE_DECLARE(object + 4, dword_flags, object_flags);
+	REFERENCE_DECLARE(object + 0x20, real_point3d, bounding_sphere_center);
+	REFERENCE_DECLARE(object + 0x2C, real, bounding_sphere_radius);
+	REFERENCE_DECLARE(object + 0x30, real_point3d, attached_bounds_center);
+	REFERENCE_DECLARE(object + 0x3C, real, attached_bounds_radius);
+	REFERENCE_DECLARE(object + 0x127, byte_flags, recycling_flags);
+	REFERENCE_DECLARE(object + 0x12C, long, recycling_time);
+
 	c_static_string<4096> string;
 
 	if (debug_objects_indices)
@@ -534,17 +542,12 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	if (debug_objects_programmer)
 	{
-		REFERENCE_DECLARE(object + 4, dword_flags, object_flags);
-
 		string.append_print("header flags: %04x|n", object_header->flags);
 		string.append_print("datum flags: %08x|n", object_flags);
 	}
 
 	if (debug_objects_garbage)
 	{
-		REFERENCE_DECLARE(object + 0x127, byte_flags, recycling_flags);
-		REFERENCE_DECLARE(object + 0x12C, long, recycling_time);
-
 		if (TEST_BIT(recycling_flags, 0))
 		{
 			string.append("never-garbage|n");
@@ -591,8 +594,6 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	if (debug_objects_position_velocity)
 	{
-		REFERENCE_DECLARE(object + 0x2C, real, bounding_sphere_radius);
-
 		real_matrix4x3 matrix{};
 		vector3d linear_velocity{};
 
@@ -619,8 +620,6 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	if (debug_objects_root_node)
 	{
-		REFERENCE_DECLARE(object + 0x2C, real, bounding_sphere_radius);
-
 		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
 		render_debug_matrix(true, root_node_matrix, bounding_sphere_radius);
 	}
@@ -631,16 +630,10 @@ void __cdecl object_render_debug_internal(long object_index)
 		object_header_datum const* parent_object_header = object_header_get(parent_object_index);
 		byte* parent_object = static_cast<byte*>(object_get_and_verify_type(parent_object_index, NONE));
 
-		REFERENCE_DECLARE(object + 0x20, real_point3d, bounding_sphere_center);
-		REFERENCE_DECLARE(object + 0x2C, real, bounding_sphere_radius);
-
 		render_debug_sphere(true, &bounding_sphere_center, bounding_sphere_radius > 0.0f ? bounding_sphere_radius : 0.25f, global_real_argb_blue);
 
 		if (debug_objects_attached_bounding_spheres)
 		{
-			REFERENCE_DECLARE(object + 0x30, real_point3d, attached_bounds_center);
-			REFERENCE_DECLARE(object + 0x3C, real, attached_bounds_radius);
-
 			render_debug_point(true, &attached_bounds_center, 0.1f, global_real_argb_blue);
 			render_debug_sphere(true, &attached_bounds_center, attached_bounds_radius, global_real_argb_blue);
 		}

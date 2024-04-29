@@ -1156,6 +1156,9 @@ static_assert(sizeof(s_cluster_reference) == 0x2);
 struct s_location
 {
 	s_cluster_reference cluster_reference;
+
+	// this doesn't exist in our version of the engine
+	// adding this was an oversight on out part
 	word leaf_index;
 };
 static_assert(sizeof(s_location) == 0x4);
