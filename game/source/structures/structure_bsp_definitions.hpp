@@ -227,25 +227,53 @@ struct structure_runtime_decal
 };
 static_assert(sizeof(structure_runtime_decal) == 0x24);
 
+enum e_instanced_geometry_flags
+{
+	_instanced_geometry_not_in_lightprobes_bit = 0,
+	_instanced_geometry_render_only_bit,
+	_instanced_geometry_does_not_block_aoe_damage_bit,
+	_instanced_geometry_collidable_bit,
+	_instanced_geometry_decal_spacing_bit,
+	_instanced_geometry_bit5,
+	_instanced_geometry_bit6,
+
+	k_instanced_geometry_flags
+};
+
+enum e_instanced_geometry_pathfinding_policy
+{
+	_instanced_geometry_pathfinding_policy_cut_out = 0,
+	_instanced_geometry_pathfinding_policy_static,
+	_instanced_geometry_pathfinding_policy_none,
+
+	k_instanced_geometry_pathfinding_policy_count,
+};
+
+enum e_instanced_geometry_lightmapping_policy
+{
+	_instanced_geometry_lightmapping_policy_per_pixel_seperate = 0,
+	_instanced_geometry_lightmapping_policy_per_vertex,
+	_instanced_geometry_lightmapping_policy_single_probe,
+	_instanced_geometry_lightmapping_policy_per_pixel_shared,
+
+	k_instanced_geometry_lightmapping_policy_count
+};
+
 struct structure_instanced_geometry_instance
 {
-	real scale;
-	vector3d forward;
-	vector3d left;
-	vector3d up;
-	real_point3d position;
+	real_matrix4x3 matrix;
 	short instance_definition;
-	word_flags flags;
+	c_flags<e_instanced_geometry_flags, word, k_instanced_geometry_flags> flags;
 	short lightmap_texcoord_block_index;
-	byte BJOLSRJV[2];
+	byte BJOLSRJV[0x2];
 	short runtime_subcluster_render_first_bitvector_index;
 	short runtime_magic_render_number;
 	real_point3d world_bounding_sphere_center;
 	real world_bounding_sphere_radius;
 	dword checksum;
 	string_id name;
-	short pathfinding_policy;
-	short lightmapping_policy;
+	c_enum<e_instanced_geometry_pathfinding_policy, short, _instanced_geometry_pathfinding_policy_cut_out, k_instanced_geometry_pathfinding_policy_count> pathfinding_policy;
+	c_enum<e_instanced_geometry_lightmapping_policy, short, _instanced_geometry_lightmapping_policy_per_pixel_seperate, k_instanced_geometry_lightmapping_policy_count> lightmapping_policy;
 	real lightmap_resolution_scale;
 	s_tag_block bsp_physics;
 	short fade_pixels_start;
