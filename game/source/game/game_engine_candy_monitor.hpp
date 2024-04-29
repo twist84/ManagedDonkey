@@ -8,7 +8,7 @@ struct c_candy_spawner
 	byte __pad1[0x3];
 	long m_map_variant_index;
 	long m_last_object_spawned_index;
-	word m_respawn_timer_seconds;
+	short m_respawn_timer_seconds;
 	byte __padE[0x2];
 };
 static_assert(sizeof(c_candy_spawner) == 0x10);
@@ -16,11 +16,11 @@ static_assert(sizeof(c_candy_spawner) == 0x10);
 struct c_candy_monitor
 {
 	long m_spawned_object_index;
-	word m_abandoned_seconds;
+	short m_abandoned_seconds;
 	bool m_disturbed_from_initial_placement;
 	bool __unknown7;
 	byte __pad8[0x2];
-	word __unknown_time; // creation time?
+	short m_abandonment_time_seconds;
 };
 static_assert(sizeof(c_candy_monitor) == 0xC);
 
