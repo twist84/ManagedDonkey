@@ -170,24 +170,24 @@ struct s_scenario
 	c_typed_tag_block<editor_comment_definition> comments;
 	c_typed_tag_block<scenario_object_name, 'sort'> object_names;
 
-	c_typed_tag_block<scenario_scenery_block> scenery;
+	c_typed_tag_block<s_scenario_scenery> scenery;
 	c_typed_tag_block<scenario_object_palette_entry<SCENERY_TAG>, 'sort'> scenery_palette;
 
-	c_typed_tag_block<scenario_biped_block> bipeds;
+	c_typed_tag_block<s_scenario_biped> bipeds;
 	c_typed_tag_block<scenario_object_palette_entry<BIPED_TAG>, 'sort'> biped_palette;
 
-	c_typed_tag_block<scenario_vehicle_block> vehicles;
+	c_typed_tag_block<s_scenario_vehicle> vehicles;
 	c_typed_tag_block<scenario_object_palette_entry<VEHICLE_TAG>, 'sort'> vehicle_palette;
 
-	c_typed_tag_block<scenario_equipment_block> equipment;
+	c_typed_tag_block<s_scenario_equipment> equipment;
 	c_typed_tag_block<scenario_object_palette_entry<EQUIPMENT_TAG>, 'sort'> equipment_palette;
 
-	c_typed_tag_block<scenario_weapon_block> weapons;
+	c_typed_tag_block<s_scenario_weapon> weapons;
 	c_typed_tag_block<scenario_object_palette_entry<WEAPON_TAG>, 'sort'> weapon_palette;
 
 	c_typed_tag_block<scenario_device_group> device_groups;
 
-	c_typed_tag_block<scenario_machine_block> machines;
+	c_typed_tag_block<s_scenario_machine> machines;
 	c_typed_tag_block<scenario_object_palette_entry<DEVICE_MACHINE_TAG>, 'sort'> machine_palette;
 
 	c_typed_tag_block<s_scenario_terminal> terminals;
@@ -196,16 +196,16 @@ struct s_scenario
 	c_typed_tag_block<s_scenario_arg_device> arg_devices;
 	c_typed_tag_block<scenario_object_palette_entry<DEVICE_ARG_DEVICE_TAG>, 'sort'> arg_device_palette;
 
-	c_typed_tag_block<scenario_control_block> controls;
+	c_typed_tag_block<s_scenario_control> controls;
 	c_typed_tag_block<scenario_object_palette_entry<DEVICE_CONTROL_TAG>, 'sort'> control_palette;
 
-	c_typed_tag_block<scenario_sound_scenery_block> sound_scenery;
+	c_typed_tag_block<s_scenario_sound_scenery> sound_scenery;
 	c_typed_tag_block<scenario_object_palette_entry<SOUND_SCENERY_TAG>, 'sort'> sound_scenery_palette;
 
-	c_typed_tag_block<scenario_giant_block> giants;
+	c_typed_tag_block<s_scenario_giant> giants;
 	c_typed_tag_block<scenario_object_palette_entry<GIANT_TAG>, 'sort'> giant_palette;
 
-	c_typed_tag_block<scenario_effect_scenery_block> effect_scenery;
+	c_typed_tag_block<s_scenario_effect_scenery> effect_scenery;
 	c_typed_tag_block<scenario_object_palette_entry<EFFECT_SCENERY_TAG>, 'sort'> effect_scenery_palette;
 
 	c_typed_tag_block<scenario_light_block> light_volumes;

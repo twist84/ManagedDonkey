@@ -14,7 +14,6 @@
 #include "objects/object_recycling.hpp"
 #include "objects/object_scheduler.hpp"
 #include "objects/object_scripting.hpp"
-#include "scenario/scenario_object_definitions.hpp"
 
 enum e_object_mask
 {
@@ -59,18 +58,6 @@ static_assert(0b0000000000001100 == _object_mask_item);
 static_assert(0b0000001100110000 == _object_mask_device);
 static_assert(0b0010000000000011 == _object_mask_unit);
 static_assert(0b0011100110111111 == _object_mask_editor_placeable_objects);
-
-enum e_object_source
-{
-	_object_source_structure = 0,
-	_object_source_editor,
-	_object_source_dynamic,
-	_object_source_legacy,
-	_object_source_sky,
-	_object_source_parent,
-
-	k_object_source_count
-};
 
 // Same as Halo 3
 enum e_object_data_flags
@@ -150,20 +137,6 @@ struct object_header_datum :
 	object_datum* datum;
 };
 static_assert(sizeof(object_header_datum) == 0x10);
-
-struct c_object_identifier
-{
-	e_object_type get_type() const;
-
-	tag m_unique_id; // 'obj#'
-
-	// scenario_structure_bsp_reference
-	short m_origin_bsp_index;
-
-	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> m_type;
-	c_enum<e_object_source, char, _object_source_structure, k_object_source_count> m_source;
-};
-static_assert(sizeof(c_object_identifier) == 0x8);
 
 struct c_object_iterator_base
 {

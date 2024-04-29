@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "objects/multiplayer_game_objects.hpp"
+#include "objects/object_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
 
 template<tag ...t_group_tags>
@@ -35,66 +36,81 @@ struct scenario_object_palette_entry_with_string_id
 };
 static_assert(sizeof(scenario_object_palette_entry_with_string_id<'test'>) == 0x30);
 
-struct s_scenario_multiplayer_scenario_object_parent
+struct s_scenario_object_datum
 {
-	byte der[2];
+	dword_flags placement_flags;
+	real_point3d position;
+	euler_angles3d rotation;
+	real scale;
+	s_tag_block node_orientations;
+	word_flags transform_flags;
+	word manual_bsp_flags; // word_block_flags
+	c_string_id light_airprobe_name;
+	c_object_identifier object_id;
+	char bsp_policy; // char_enum
+	char editing_bound_to_bsp; // char_block_index
+	short editor_folder; // short_block_index
+	s_scenario_multiplayer_scenario_object_parent parent_id;
+	word can_attach_to_bsp_flags; // word_block_flags
 
-	// if an object with this name exists, we attach to it as a child
-	short parent_object; // short_block_index
-
-	c_string_id parent_marker;
-	c_string_id connection_marker;
+	// pad
+	byte asdf[0x2];
 };
-static_assert(sizeof(s_scenario_multiplayer_scenario_object_parent) == 0xC);
+static_assert(sizeof(s_scenario_object_datum) == 0x50);
 
-enum e_multiplayer_object_placement_spawn_flags
+struct s_scenario_object_permutation
 {
-	_multiplayer_object_placement_spawn_flag_unique_spawn_bit = 0,
-	_multiplayer_object_placement_spawn_flag_not_initially_placed_bit,
-
-	k_multiplayer_object_placement_spawn_flags
+	string_id variant_name;
+	dword_flags active_change_colors;
+	rgb_color change_colors[5];
 };
+static_assert(sizeof(s_scenario_object_permutation) == 0x1C);
 
-struct s_scenario_multiplayer_object_properties
+struct s_scenario_object
 {
-	// Multiplayer Data
-	// object data for multiplayer game use
-
-	long_enum game_engine_symmetric_placement;
-	c_flags<e_global_game_engine_type_flags, word_flags, k_global_game_engine_type_flags> game_engine_flags;
-	short_enum owner_team;
-	char spawn_order; // -1 for random
-	char quota_minimum;
-	char quota_maximum; // <=0 for unlimited
-
-	c_flags<e_multiplayer_object_placement_spawn_flags, byte_flags, k_multiplayer_object_placement_spawn_flags> spawn_flags;
-	short spawn_time; // seconds
-	short abandonment_time; // seconds
-
-	char_enum remapping_policy;
-	char_enum boundary_shape;
-	char_enum teleporter_channel;
-	byte blah[1];
-
-	s_scenario_multiplayer_scenario_object_parent map_variant_parent;
-
-	union { real boundary_width; real boundary_radius; };
-	real boundary_box_length;
-	real boundary_positive_height;
-	real boundary_negative_height;
-
-	// Player Respawn Weight
-	// This is valid only for objects which are used as player respawn locations
-	real natural_respawn_weight;
+	short type;
+	short name;
+	s_scenario_object_datum object_data;
+	s_scenario_object_permutation permutation_data;
 };
-static_assert(sizeof(s_scenario_multiplayer_object_properties) == 0x34);
+static_assert(sizeof(s_scenario_object) == 0x70);
+
+enum e_scenario_unit_datum_flags
+{
+	_scenario_unit_datum_dead_bit = 0,
+	_scenario_unit_datum_closed_bit,
+	_scenario_unit_datum_not_enterable_by_player_bit,
+
+	k_scenario_unit_datum_flags
+};
+
+struct s_scenario_unit_datum
+{
+	real body_vitality;
+	c_flags<e_scenario_unit_datum_flags, dword, k_scenario_unit_datum_flags> flags;
+};
+static_assert(sizeof(s_scenario_unit_datum) == 0x8);
+
+struct s_scenario_unit :
+	s_scenario_object
+{
+	s_scenario_unit_datum unit_data;
+	s_scenario_multiplayer_object_properties multiplayer_data;
+};
+static_assert(sizeof(s_scenario_unit) == 0xAC);
 
 struct s_scenario_arg_device;
 struct s_scenario_crate;
 struct s_scenario_creature;
 struct s_scenario_terminal;
-struct scenario_biped_block;
-struct scenario_control_block;
+
+struct s_scenario_biped :
+	s_scenario_unit
+{
+};
+static_assert(sizeof(s_scenario_biped) == sizeof(s_scenario_unit));
+
+struct s_scenario_control;
 
 enum e_device_group_flags
 {
@@ -115,13 +131,60 @@ struct scenario_device_group
 };
 static_assert(sizeof(scenario_device_group) == 0x2C);
 
-struct scenario_effect_scenery_block;
-struct scenario_equipment_block;
-struct scenario_giant_block;
+struct s_scenario_effect_scenery;
+struct s_scenario_equipment;
+
+struct scenario_giant_datum
+{
+	short_enum pathfinding_policy;
+
+	// pad
+	byte post_pathfinding[0x2];
+
+	s_tag_block pathfinding_references;
+};
+static_assert(sizeof(scenario_giant_datum) == 0x10);
+
+struct s_scenario_giant :
+	s_scenario_unit
+{
+	scenario_giant_datum giant_data;
+};
+static_assert(sizeof(s_scenario_giant) == sizeof(s_scenario_unit) + sizeof(scenario_giant_datum));
+
 struct scenario_light_block;
-struct scenario_machine_block;
-struct scenario_scenery_block;
-struct scenario_sound_scenery_block;
-struct scenario_vehicle_block;
-struct scenario_weapon_block;
+struct s_scenario_machine;
+struct s_scenario_scenery;
+struct s_scenario_sound_scenery;
+
+struct s_scenario_vehicle :
+	s_scenario_unit
+{
+};
+static_assert(sizeof(s_scenario_vehicle) == sizeof(s_scenario_unit));
+
+enum e_scenario_weapon_datum_flags
+{
+	_scenario_weapon_datum_initially_at_rest_bit = 0, // doesn't fall
+	_scenario_weapon_datum_obsolete_bit,
+	_scenario_weapon_datum_does_accelerate_bit, // moves due to explosions
+
+	k_scenario_weapon_datum_flags
+};
+
+struct s_scenario_weapon_datum
+{
+	short rounds_left;
+	short rounds_loaded;
+	c_flags<e_scenario_weapon_datum_flags, dword, k_scenario_weapon_datum_flags> flags;
+};
+static_assert(sizeof(s_scenario_weapon_datum) == 0x8);
+
+struct s_scenario_weapon :
+	s_scenario_object
+{
+	s_scenario_weapon_datum weapon_data;
+	s_scenario_multiplayer_object_properties multiplayer_data;
+};
+static_assert(sizeof(s_scenario_weapon) == 0xAC);
 

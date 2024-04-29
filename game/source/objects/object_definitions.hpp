@@ -27,6 +27,18 @@ enum e_object_type
 	k_object_type_count
 };
 
+enum e_object_source
+{
+	_object_source_structure = 0,
+	_object_source_editor,
+	_object_source_dynamic,
+	_object_source_legacy,
+	_object_source_sky,
+	_object_source_parent,
+
+	k_object_source_count
+};
+
 enum e_object_definition_flags
 {
 	_object_definition_flag_does_not_cast_shadow_bit = 0,
@@ -356,4 +368,71 @@ struct s_object_health_pack_definition
 };
 static_assert(sizeof(s_object_health_pack_definition) == sizeof(s_tag_reference));
 
+struct s_scenario_multiplayer_scenario_object_parent
+{
+	byte der[2];
+
+	// if an object with this name exists, we attach to it as a child
+	short parent_object; // short_block_index
+
+	c_string_id parent_marker;
+	c_string_id connection_marker;
+};
+static_assert(sizeof(s_scenario_multiplayer_scenario_object_parent) == 0xC);
+
+enum e_multiplayer_object_placement_spawn_flags
+{
+	_multiplayer_object_placement_spawn_flag_unique_spawn_bit = 0,
+	_multiplayer_object_placement_spawn_flag_not_initially_placed_bit,
+
+	k_multiplayer_object_placement_spawn_flags
+};
+
+struct s_scenario_multiplayer_object_properties
+{
+	// Multiplayer Data
+	// object data for multiplayer game use
+
+	long_enum game_engine_symmetric_placement;
+	c_flags<e_global_game_engine_type_flags, word_flags, k_global_game_engine_type_flags> game_engine_flags;
+	short_enum owner_team;
+	char spawn_order; // -1 for random
+	char quota_minimum;
+	char quota_maximum; // <=0 for unlimited
+
+	c_flags<e_multiplayer_object_placement_spawn_flags, byte_flags, k_multiplayer_object_placement_spawn_flags> spawn_flags;
+	short spawn_time; // seconds
+	short abandonment_time; // seconds
+
+	char_enum remapping_policy;
+	char_enum boundary_shape;
+	char_enum teleporter_channel;
+	byte blah[1];
+
+	s_scenario_multiplayer_scenario_object_parent map_variant_parent;
+
+	union { real boundary_width; real boundary_radius; };
+	real boundary_box_length;
+	real boundary_positive_height;
+	real boundary_negative_height;
+
+	// Player Respawn Weight
+	// This is valid only for objects which are used as player respawn locations
+	real natural_respawn_weight;
+};
+static_assert(sizeof(s_scenario_multiplayer_object_properties) == 0x34);
+
+struct c_object_identifier
+{
+	e_object_type get_type() const;
+
+	tag m_unique_id; // 'obj#'
+
+	// scenario_structure_bsp_reference
+	short m_origin_bsp_index;
+
+	c_enum<e_object_type, char, _object_type_biped, k_object_type_count> m_type;
+	c_enum<e_object_source, char, _object_source_structure, k_object_source_count> m_source;
+};
+static_assert(sizeof(c_object_identifier) == 0x8);
 
