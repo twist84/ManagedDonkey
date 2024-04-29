@@ -968,7 +968,7 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 	unit_get_camera_position(unit_index, &camera_position);
 	scale_vector3d(&unit_aiming_vector, 25.0f, &aiming_vector);
 	long parent_index = object_get_ultimate_parent(unit_index);
-	if (collision_test_vector(flags, &camera_position, &aiming_vector, parent_index, NONE, &collision) && collision.__vector24.k > 0.95f)
+	if (collision_test_vector(flags, &camera_position, &aiming_vector, parent_index, NONE, &collision) && collision.plane.normal.k > 0.95f)
 	{
 		collision.position.z += 0.25f;
 		object_debug_teleport(parent_index, &collision.position);

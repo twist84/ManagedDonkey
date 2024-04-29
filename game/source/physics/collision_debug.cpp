@@ -162,7 +162,7 @@ void collision_debug_render()
 		collision_debug_point = camera.center;
 		collision_debug_vector = camera.matrix.forward;
 	}
-	
+
 	if (collision_debug)
 	{
 		// #TODO: implement me
@@ -204,6 +204,8 @@ void collision_debug_render()
 		}
 		else if (collision_debug_width <= 0.0f)
 		{
+			// #TODO: implement me
+
 			//collision_result collision;
 			//
 			//// c_stop_watch logic
@@ -245,9 +247,14 @@ void collision_debug_render()
 			//
 			//	// #TODO: implement me
 			//
-			//	render_debug_vector(true, &debug_point0, &debug_vector0, collision.__real4, global_real_argb_red);
+			//	render_debug_vector(true, &debug_point0, &debug_vector0, collision.scale, global_real_argb_red);
 			//	render_debug_point(true, &collision.position, 0.125f, global_real_argb_red);
-			//	render_debug_vector(true, &collision.position, collision.?, 0.25f, global_real_argb_red);
+			//	render_debug_vector(true, &collision.position, &collision.plane.normal, 0.25f, global_real_argb_red);
+			//
+			//	if (collision.collision_bsp_reference.valid())
+			//	{
+			//
+			//	}
 			//}
 			//else
 			//{
@@ -260,7 +267,7 @@ void collision_debug_render()
 			// #TODO: implement me
 		}
 	}
-	
+
 	if (collision_debug_spray)
 	{
 		// #TODO: implement me
@@ -368,12 +375,12 @@ void collision_debug_render()
 	{
 		// #TODO: implement me
 	}
-	
+
 	if (collision_debug_geometry_sampling)
 	{
 		// #TODO: implement me
 	}
-	
+
 	if (collision_debug_phantom_bsp)
 	{
 		// #TODO: implement me
