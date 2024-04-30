@@ -15,3 +15,5 @@ struct collision_model_instance
 static_assert(sizeof(collision_model_instance) == 0x14);
 
 extern long __cdecl collision_model_get_bsp_node_index(collision_model_instance const* instance, dword bsp_reference);
+extern bool __cdecl collision_model_instance_new(collision_model_instance* instance, long object_index);
+

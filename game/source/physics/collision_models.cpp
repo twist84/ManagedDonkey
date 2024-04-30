@@ -14,3 +14,8 @@ long __cdecl collision_model_get_bsp_node_index(collision_model_instance const* 
 	//return node_index;
 }
 
+bool __cdecl collision_model_instance_new(collision_model_instance* instance, long object_index)
+{
+	return INVOKE(0x00980E40, collision_model_instance_new, instance, object_index);
+}
+
