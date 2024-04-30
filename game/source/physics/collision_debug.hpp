@@ -1,4 +1,54 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
+
+extern bool collision_debug_test_terrain_shader;
+extern bool collision_debug_water_proxy;
+extern bool collision_debug_flag_structure;
+extern bool collision_debug_flag_water;
+extern bool collision_debug_flag_instanced_geometry;
+extern bool collision_debug_flag_objects;
+extern bool collision_debug_flag_front_facing_surfaces;
+extern bool collision_debug_flag_ignore_invisible_surfaces;
+extern real collision_debug_length;
+extern long collision_debug_ignore_object_index;
+extern bool collision_debug_geometry_sampling;
+extern bool collision_debug_flag_objects_terminals;
+extern bool g_collision_debug_status_lines_render;
+extern bool collision_debug;
+extern bool collision_debug_spray;
+extern bool collision_debug_features;
+extern bool collision_debug_phantom_bsp;
+extern bool collision_debug_lightmaps;
+extern bool collision_debug_flags;
+extern bool collision_debug_flag_objects_bipeds;
+extern bool collision_debug_flag_objects_giants;
+extern bool collision_debug_flag_objects_effect_scenery;
+extern bool collision_debug_flag_objects_vehicles;
+extern bool collision_debug_flag_objects_weapons;
+extern bool collision_debug_flag_objects_equipment;
+extern bool collision_debug_flag_objects_projectiles;
+extern bool collision_debug_flag_objects_scenery;
+extern bool collision_debug_flag_objects_machines;
+extern bool collision_debug_flag_objects_controls;
+extern bool collision_debug_flag_objects_sound_scenery;
+extern bool collision_debug_flag_objects_crates;
+extern bool collision_debug_flag_objects_creatures;
+extern bool collision_debug_flag_ignore_child_objects;
+extern bool collision_debug_flag_ignore_nonpathfindable_objects;
+extern bool collision_debug_flag_ignore_cinematic_objects;
+extern bool collision_debug_flag_ignore_dead_bipeds;
+extern bool collision_debug_flag_ignore_passthrough_bipeds;
+extern bool collision_debug_flag_back_facing_surfaces;
+extern bool collision_debug_flag_ignore_two_sided_surfaces;
+extern bool collision_debug_flag_ignore_breakable_surfaces;
+extern bool collision_debug_flag_allow_early_out;
+extern bool collision_debug_flag_try_to_keep_location_valid;
+extern bool collision_debug_repeat;
+extern real collision_debug_width;
+extern real_point3d collision_debug_point;
+extern real collision_debug_height;
+extern vector3d collision_debug_vector;
+
 extern void collision_debug_render();
 

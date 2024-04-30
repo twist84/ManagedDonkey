@@ -1,7 +1,6 @@
 #include "physics/collision_debug.hpp"
 
 #include "camera/director.hpp"
-#include "cseries/cseries.hpp"
 #include "game/materials.hpp"
 #include "game/materials_definitions.hpp"
 #include "game/player_mapping.hpp"
