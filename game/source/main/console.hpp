@@ -4,6 +4,19 @@
 #include "interface/terminal.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 
+struct s_status_line
+{
+	c_static_string<256> string;
+	real_rgb_color color;
+	real alpha;
+	dword_flags flags;
+	bool* is_in_use;
+	char const* __unknown118;
+	s_status_line* prev;
+	s_status_line* next;
+};
+static_assert(sizeof(s_status_line) == 0x124);
+
 struct s_console_globals
 {
 	bool is_active;
