@@ -20,3 +20,28 @@ struct collision_model_pathfinding_sphere
 };
 static_assert(sizeof(collision_model_pathfinding_sphere) == 0x14);
 
+enum e_collision_model_flags
+{
+	_collision_model_contains_open_edges_bit = 0,
+
+	k_collision_model_flags
+};
+
+struct collision_model_material
+{
+	c_string_id name;
+};
+static_assert(sizeof(collision_model_material) == sizeof(c_string_id));
+
+struct collision_model_definition
+{
+	dword import_info_checksum;
+	s_tag_block errors;
+	c_flags<e_collision_model_flags, dword, k_collision_model_flags> flags;
+	c_typed_tag_block<collision_model_material> materials;
+	s_tag_block regions;
+	s_tag_block pathfinding_spheres;
+	s_tag_block nodes;
+};
+static_assert(sizeof(collision_model_definition) == 0x44);
+
