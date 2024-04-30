@@ -2,6 +2,8 @@
 
 #include "camera/director.hpp"
 #include "cseries/cseries.hpp"
+#include "game/materials.hpp"
+#include "game/materials_definitions.hpp"
 #include "game/player_mapping.hpp"
 #include "physics/collision_constants.hpp"
 #include "physics/collision_features.hpp"
@@ -9,7 +11,9 @@
 #include "physics/collision_usage.hpp"
 #include "physics/collisions.hpp"
 #include "render/render_debug.hpp"
+#include "render/render_structure.hpp"
 #include "render/views/render_view.hpp"
+#include "structures/structure_bsp_definitions.hpp"
 
 #include <math.h>
 
@@ -143,6 +147,7 @@ void collision_debug_render()
 	}
 
 	real_point3d debug_point0 = collision_debug_point;
+	vector3d debug_vector0 = collision_debug_vector;
 
 	if (collision_debug_repeat)
 	{
@@ -206,15 +211,17 @@ void collision_debug_render()
 		{
 			// #TODO: implement me
 
+			//long seam_material_index = NONE;
 			//collision_result collision;
 			//
 			//// c_stop_watch logic
-			//bool collision_test_vector_result = collision_test_vector(collision_test_flags, collision_debug_test_terrain_shader, &debug_point0, &debug_vector0, collision_debug_ignore_object_index, NONE, &collision);
+			//bool collision_test_vector_result = collision_test_vector(collision_test_flags, collision_debug_test_terrain_shader, &debug_point0, &debug_vector0, collision_debug_ignore_object_index, NONE, NONE, &collision);
 			//// c_stop_watch logic
+			//// g_collision_debug_status_lines[9].string.print("time %.6f", 1000.0f * c_stop_watch::cycles_to_seconds());
 			//
 			//if (collision_test_vector_result)
 			//{
-			//	c_static_string<128> string("UNKNOWN");
+			//	c_static_string<128> string0("UNKNOWN");
 			//	e_collision_result_type collision_result_type = collision.type;
 			//	switch (collision_result_type)
 			//	{
@@ -253,7 +260,104 @@ void collision_debug_render()
 			//
 			//	if (collision.collision_bsp_reference.valid())
 			//	{
+			//		//some_function(collision.collision_bsp_reference, collision.surface_index, matrix, global_real_argb_red);
+			//	}
 			//
+			//	if (collision_result_type == _collision_result_structure && TEST_BIT(collision.surface_flags, _surface_flag_conveyor_bit))
+			//	{
+			//		structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
+			//		structure_collision_material& collision_material = structure->collision_materials[collision.material_index];
+			//		structure_conveyor_surface& conveyor_surface = structure->conveyor_surfaces[collision_material.conveyor_surface_index];
+			//		render_debug_vector(true, &collision.position, &conveyor_surface.u, 1.0f, global_real_argb_green);
+			//		render_debug_vector(true, &collision.position, &conveyor_surface.v, 1.0f, global_real_argb_blue);
+			//	}
+			//
+			//	g_collision_debug_status_lines_render = true;
+			//
+			//	switch (collision_result_type)
+			//	{
+			//	case _collision_result_structure:
+			//	{
+			//		//g_collision_debug_status_lines[0].string.print("structure leaf #%d", collision.leaf_index);
+			//	}
+			//	break;
+			//	case _collision_result_water:
+			//	{
+			//		//g_collision_debug_status_lines[0].string.print("water plane");
+			//	}
+			//	break;
+			//	case _collision_result_instanced_geometry:
+			//	{
+			//		structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
+			//		structure_instanced_geometry_instance& instance = structure->instanced_geometry_instances[collision.instanced_geometry_instance_index];
+			//		//g_collision_debug_status_lines[0].string.print("instanced geometry #%d ('%s')", collision.instanced_geometry_instance_index, instance.name.get_string());
+			//	}
+			//	break;
+			//	case _collision_result_object:
+			//	{
+			//		//g_collision_debug_status_lines[0].string.print("object #%d, node #%d, region #%d, bsp 0x%x", collision.object_index, collision.node_index, collision.region_index, collision.bsp_reference);
+			//	}
+			//	break;
+			//	default:
+			//	{
+			//		//g_collision_debug_status_lines[0].string.print("unknown (wtf?)");
+			//	}
+			//	break;
+			//	}
+			//
+			//	c_global_material_type material_type = collision.material_type;
+			//	if (collision_debug_water_proxy)
+			//	{
+			//		//material_type = global_material_resolve_underwater_material_proxy(collision.material_type, &collision.position);
+			//	}
+			//
+			//	s_global_material_definition* material = global_get_material(material_type);
+			//	c_static_string<128> seam_material_string("unknown");
+			//
+			//	if (material)
+			//		seam_material_string.set(material->name.get_string());
+			//
+			//	if (seam_material_index != NONE)
+			//		seam_material_string.print("seam material %d", seam_material_index);
+			//
+			//	char const* string1 = "";
+			//
+			//	//g_collision_debug_status_lines[1].string.print("%s%s (shader: %s)",
+			//	//	seam_material_string.get_string(),
+			//	//	material_type != collision.material_type ? "(underwater proxy)" : "",
+			//	//	string0);
+			//
+			//	if (collision.collision_bsp_reference.valid())
+			//	{
+			//		c_collision_surface_reference surface_reference(collision.collision_bsp_reference, collision.surface_index);
+			//
+			//		//g_collision_debug_status_lines[2].string.print("plane #%d%s",
+			//		//	surface_reference.get_plane_index(),
+			//		//	surface_reference.is_plane_negated() ? " negated" : "");
+			//
+			//		//g_collision_debug_status_lines[3].string.print("surface #%d%s%s%s%s%s",
+			//		//	collision.surface_index,
+			//		//	TEST_BIT(collision.surface_flags, _surface_flag_two_sided_bit) ? " two-sided" : "",
+			//		//	TEST_BIT(collision.surface_flags, _surface_flag_invisible_bit) ? " invisible" : "",
+			//		//	TEST_BIT(collision.surface_flags, _surface_flag_climbable_bit) ? " climbable" : "",
+			//		//	TEST_BIT(collision.surface_flags, _surface_flag_breakable_bit) ? " breakable" : "",
+			//		//	TEST_BIT(collision.surface_flags, _surface_flag_slip_bit) ? " slip" : "");
+			//
+			//		//if (collision.__unknown5A == 0xFF)
+			//		//{
+			//		//	g_collision_debug_status_lines[8].string.clear();
+			//		//}
+			//		//else
+			//		//{
+			//		//	g_collision_debug_status_lines[8].string.print("breakable set index %d,%d",
+			//		//		collision.__unknown5A,
+			//		//		collision.__unknown56);
+			//		//}
+			//	}
+			//	else
+			//	{
+			//		//g_collision_debug_status_lines[2].string.clear();
+			//		//g_collision_debug_status_lines[3].string.clear();
 			//	}
 			//}
 			//else
