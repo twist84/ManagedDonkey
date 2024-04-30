@@ -38,7 +38,7 @@ bool collision_debug_spray = false;
 bool collision_debug_features = false;
 bool collision_debug_phantom_bsp = false;
 bool collision_debug_lightmaps = false;
-bool collision_debug_flags = true;
+bool collision_debug_flags = false;
 bool collision_debug_flag_objects_bipeds = false;
 bool collision_debug_flag_objects_giants = false;
 bool collision_debug_flag_objects_effect_scenery = false;
@@ -77,8 +77,6 @@ s_status_line g_collision_debug_lightmap_status_line_blue_sh{};
 
 void collision_debug_render()
 {
-	// #TODO: implement me
-
 	if (global_collision_log_enable)
 	{
 		ASSERT(VALID_INDEX(global_current_collision_user_depth, MAXIMUM_COLLISION_USER_STACK_DEPTH));
