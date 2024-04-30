@@ -20,6 +20,7 @@
 #include "networking/messages/network_message_gateway.hpp"
 #include "networking/tools/remote_command.hpp"
 #include "objects/object_types.hpp"
+#include "physics/collision_debug.hpp"
 #include "physics/havok.hpp"
 #include "physics/water_physics.hpp"
 #include "profiler/profiler.hpp"
@@ -547,7 +548,6 @@ bool __cdecl console_process_command(char const* command, bool a2)
 #define CONSOLE_GLOBAL_DECLARE_REAL2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = &_variable_name })
 #define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = &_variable_name })
 #define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = &_variable_name })
-#include "physics/collision_debug.hpp"
 
 s_console_global const* const k_console_globals[] =
 {
