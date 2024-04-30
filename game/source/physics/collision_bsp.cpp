@@ -3,6 +3,26 @@
 #include "physics/collision_references.hpp"
 #include "render/render_debug.hpp"
 
+void render_debug_collision_surface(c_collision_bsp_reference bsp_reference, long surface_index, real_matrix4x3 const* matrix, real_argb_color const* color)
+{
+	c_collision_surface_reference surface_reference(bsp_reference, surface_index);
+	long first_edge_index = surface_reference.get_first_edge_index();
+	long edge_index = first_edge_index;
+
+	do
+	{
+		c_collision_edge_reference edge_reference(bsp_reference, edge_index);
+
+		long edge_surface_index1 = edge_reference.get_surface_index(1);
+		bool edge_surface_index_is_input = edge_surface_index1 == surface_index;
+
+		render_debug_collision_edge(bsp_reference, edge_index, matrix, color);
+
+		edge_index = edge_reference.get_edge_index(edge_surface_index_is_input);
+
+	} while (edge_index != first_edge_index);
+}
+
 void render_debug_collision_edge(c_collision_bsp_reference bsp_reference, long edge_index, real_matrix4x3 const* matrix, real_argb_color const* color)
 {
 	c_collision_edge_reference edge_reference(bsp_reference, edge_index);
