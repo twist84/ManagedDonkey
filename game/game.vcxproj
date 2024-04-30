@@ -207,6 +207,7 @@ POPD
     <ClCompile Include="source\physics\collision_constants.cpp" />
     <ClCompile Include="source\physics\collision_features.cpp" />
     <ClCompile Include="source\physics\collision_models.cpp" />
+    <ClCompile Include="source\profiler\profiler_stopwatch.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
@@ -933,6 +934,7 @@ POPD
     <ClInclude Include="source\physics\collision_features.hpp" />
     <ClInclude Include="source\physics\collision_models.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
+    <ClInclude Include="source\profiler\profiler_stopwatch.hpp" />
     <ClInclude Include="source\render\simple_font.hpp" />
     <ClInclude Include="source\saved_games\game_state.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
