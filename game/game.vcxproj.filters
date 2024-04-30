@@ -1272,6 +1272,12 @@
     <ClCompile Include="source\game\materials.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\physics\collision_models.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\physics\collision_bsp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3174,6 +3180,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\collision_features.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\collision_models.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\physics\collision_bsp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
