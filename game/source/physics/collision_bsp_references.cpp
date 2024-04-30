@@ -3,8 +3,8 @@
 #include "structures/structure_bsp_definitions.hpp"
 
 c_bsp3d_reference::c_bsp3d_reference() :
-	m_bsp(nullptr),
-	m_large_bsp(nullptr)
+	m_bsp(NULL),
+	m_large_bsp(NULL)
 {
 }
 
@@ -21,8 +21,8 @@ c_collision_bsp_reference::c_collision_bsp_reference(structure_bsp const* bsp) :
 
 void c_collision_bsp_reference::initialize(s_structure_bsp_resources const* bsp_resources)
 {
-	m_bsp = nullptr;
-	m_large_bsp = nullptr;
+	m_bsp = NULL;
+	m_large_bsp = NULL;
 
 	if (bsp_resources->bsp.count() == 1)
 	{
@@ -41,14 +41,14 @@ bool c_collision_bsp_reference::valid() const
 {
 	ASSERT(!(m_bsp != NULL && m_large_bsp != NULL));
 
-	return !(m_bsp != NULL && m_large_bsp != NULL);
+	return (m_bsp != NULL || m_large_bsp != NULL);
 }
 
 bool c_collision_bsp_reference::is_small() const
 {
 	ASSERT(valid());
 
-	return m_bsp != nullptr;
+	return m_bsp != NULL;
 }
 
 collision_bsp const* c_collision_bsp_reference::get_small_bsp() const
