@@ -34,8 +34,21 @@ bool __cdecl collision_get_features_in_sphere(s_collision_test_flags flags, real
 //.text:006D67E0 ; bool __cdecl collision_test_line(s_collision_test_flags, bool, real_point3d const*, real_point3d const*, long, long, long, collision_result*)
 //.text:006D6840 ; bool __cdecl collision_test_line_exit(collision_result const*, real_point3d const*, real_point3d const*, collision_result*)
 //.text:006D6890 ; bool __cdecl collision_test_pill(s_collision_test_flags, real_point3d const*, vector3d const*, real, long, long, collision_result*)
-//.text:006D6AA0 ; bool __cdecl collision_test_point(s_collision_test_flags, real_point3d const*, long, long)
-//.text:006D6AC0 ; bool __cdecl collision_test_point(s_collision_test_flags, real_point3d const*, long, long, s_collision_test_point_result*)
+
+// `collision_test_point_0` is only for `INVOKE` not actual use
+bool __cdecl collision_test_point_0(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index) { ASSERT2("unreachable"); return false; }
+bool __cdecl collision_test_point(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index)
+{
+	return INVOKE(0x006D6AA0, collision_test_point_0, flags, point, first_ignore_object_index, second_ignore_object_index);
+}
+
+// `collision_test_point_1` is only for `INVOKE` not actual use
+bool __cdecl collision_test_point_1(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index, e_collision_result_type* collision_result_type) { ASSERT2("unreachable"); return false; }
+bool __cdecl collision_test_point(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index, e_collision_result_type* collision_result_type)
+{
+	return INVOKE(0x006D6AC0, collision_test_point_1, flags, point, first_ignore_object_index, second_ignore_object_index, collision_result_type);
+}
+
 //.text:006D6D90 ; bool __cdecl collision_test_rectangle3d(real_rectangle3d const*, real_point3d const*, vector3d const*, real, real*, real*)
 //.text:006D6FC0 ; bool __cdecl collision_test_sphere(long, s_collision_test_flags, real_point3d const*, real, long, long)
 //.text:006D7060 ; bool __cdecl collision_test_sphere(s_collision_test_flags, real_point3d const*, real, long, long)

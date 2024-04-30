@@ -59,7 +59,7 @@ struct collision_result
 	long object_index;
 	short region_index;
 	short node_index;
-	long bsp_reference;
+	dword bsp_reference;
 	long bsp_index;
 	long leaf_index;
 	long surface_index;
@@ -77,6 +77,8 @@ static_assert(sizeof(collision_result) == 0x5C);
 struct collision_feature_list;
 
 extern bool __cdecl collision_get_features_in_sphere(s_collision_test_flags flags, real_point3d const* point, real radius, real height, real width, long ignore_object_index, long a7, collision_feature_list* features);
+extern bool __cdecl collision_test_point(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index);
+extern bool __cdecl collision_test_point(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index, e_collision_result_type* collision_result_type);
 extern bool __cdecl collision_test_vector(s_collision_test_flags flags, real_point3d const* point, vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision);
 extern bool __cdecl collision_test_vector(s_collision_test_flags flags, bool a2, real_point3d const* point, vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, long third_ignore_object_index, collision_result* collision);
 
