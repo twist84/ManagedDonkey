@@ -27,6 +27,7 @@ struct structure_surface_to_triangle_mapping;
 struct cluster_portal;
 struct structure_weather_palette_entry;
 struct structure_cluster;
+struct structure_conveyor_surface;
 struct structure_marker;
 struct structure_runtime_decal;
 struct structure_instanced_geometry_instance;
@@ -55,7 +56,7 @@ struct structure_bsp
 	c_typed_tag_block<structure_cluster> clusters;
 	s_tag_block materials;
 	s_tag_block sky_owner_cluster;
-	s_tag_block conveyor_surfaces;
+	c_typed_tag_block<structure_conveyor_surface> conveyor_surfaces;
 	s_tag_block breakable_surfaces;
 	s_tag_block pathfinding_data;
 	s_tag_block pathfinding_edges;
@@ -208,6 +209,13 @@ struct structure_cluster
 };
 static_assert(sizeof(structure_cluster) == 0xDC);
 
+struct structure_conveyor_surface
+{
+	vector3d u;
+	vector3d v;
+};
+static_assert(sizeof(structure_conveyor_surface) == 0x18);
+
 struct structure_marker
 {
 	c_static_string<k_tag_string_length> name;
@@ -271,7 +279,7 @@ struct structure_instanced_geometry_instance
 	real_point3d world_bounding_sphere_center;
 	real world_bounding_sphere_radius;
 	dword checksum;
-	string_id name;
+	c_string_id name;
 	c_enum<e_instanced_geometry_pathfinding_policy, short, _instanced_geometry_pathfinding_policy_cut_out, k_instanced_geometry_pathfinding_policy_count> pathfinding_policy;
 	c_enum<e_instanced_geometry_lightmapping_policy, short, _instanced_geometry_lightmapping_policy_per_pixel_seperate, k_instanced_geometry_lightmapping_policy_count> lightmapping_policy;
 	real lightmap_resolution_scale;
