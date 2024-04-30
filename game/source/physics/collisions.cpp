@@ -23,9 +23,24 @@ bool __cdecl collision_get_features_in_sphere(s_collision_test_flags flags, real
 
 //.text:006D4040 ; 
 //.text:006D4C40 ; 
-//.text:006D4C70 ; short __cdecl collision_move_pill(s_collision_test_flags, real_point3d const*, vector3d const*, real, real, long, long, real_point3d*, vector3d*, short, collision_plane*)
-//.text:006D4DD0 ; short __cdecl collision_move_point(real_point3d const*, vector3d const*, collision_feature_list const*, real_point3d*, vector3d*, short, collision_plane*)
-//.text:006D5B00 ; short __cdecl collision_move_sphere(s_collision_test_flags, real_point3d const*, vector3d const*, real, long, long, real_point3d*, vector3d*, short, collision_plane*)
+
+short __cdecl collision_move_pill(s_collision_test_flags flags, real_point3d const* old_position, vector3d const* old_velocity, real height, real radius, long first_ignore_object_index, long second_ignore_object_index, real_point3d* new_position, vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions)
+{
+	return INVOKE(0x006D4C70, collision_move_pill, flags, old_position, old_velocity, height, radius, first_ignore_object_index, second_ignore_object_index, new_position, new_velocity, maximum_collision_count, collisions);
+}
+
+short __cdecl collision_move_point(real_point3d const* old_position, vector3d const* old_velocity, collision_feature_list const* features, real_point3d* new_position, vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions)
+{
+	return INVOKE(0x006D4DD0, collision_move_point, old_position, old_velocity, features, new_position, new_velocity, maximum_collision_count, collisions);
+}
+
+short __cdecl collision_move_sphere(s_collision_test_flags flags, real_point3d const* old_position, vector3d const* old_velocity, real radius, long first_ignore_object_index, long second_ignore_object_index, real_point3d* new_position, vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions)
+{
+	return INVOKE(0x006D5B00, collision_move_sphere, flags, old_position, old_velocity, radius, first_ignore_object_index, second_ignore_object_index, new_position, new_velocity, maximum_collision_count, collisions);
+
+	//return collision_move_pill(flags, old_position, old_velocity, 0.0f, radius, first_ignore_object_index, second_ignore_object_index, new_position, new_velocity, maximum_collision_count, collisions);
+}
+
 //.text:006D5B40 ; bool __cdecl collision_structure_bounds_sort_proc(void const*, void const*, void const*)
 //.text:006D5B70 ; vector3d const* __cdecl collision_structure_ground_plane_calculate(real_point3d const*, vector3d const*, real, vector3d*)
 //.text:006D5F60 ; 
