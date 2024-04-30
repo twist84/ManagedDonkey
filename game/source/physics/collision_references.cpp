@@ -99,12 +99,52 @@ c_collision_surface_reference::c_collision_surface_reference(c_collision_bsp_ref
 {
 }
 
+byte c_collision_surface_reference::get_best_plane_calculation_vertex_index() const
+{
+	if (is_small())
+		return get_small_bsp()->surfaces[m_surface_index].best_plane_calculation_vertex_index;
+
+	return get_large_bsp()->surfaces[m_surface_index].best_plane_calculation_vertex_index;
+}
+
+long c_collision_surface_reference::get_breakable_surface_set_index() const
+{
+	if (is_small())
+		return get_small_bsp()->surfaces[m_surface_index].breakable_surface_set;
+
+	return get_large_bsp()->surfaces[m_surface_index].breakable_surface_set;
+}
+
+long c_collision_surface_reference::get_breakable_surface_index() const
+{
+	if (is_small())
+		return get_small_bsp()->surfaces[m_surface_index].breakable_surface;
+
+	return get_large_bsp()->surfaces[m_surface_index].breakable_surface;
+}
+
+long c_collision_surface_reference::get_first_edge_index() const
+{
+	if (is_small())
+		return get_small_bsp()->surfaces[m_surface_index].first_edge;
+
+	return get_large_bsp()->surfaces[m_surface_index].first_edge;
+}
+
 byte_flags c_collision_surface_reference::get_flags() const
 {
 	if (is_small())
 		return get_small_bsp()->surfaces[m_surface_index].flags;
 
 	return get_large_bsp()->surfaces[m_surface_index].flags;
+}
+
+long c_collision_surface_reference::get_material_index() const
+{
+	if (is_small())
+		return get_small_bsp()->surfaces[m_surface_index].material;
+
+	return get_large_bsp()->surfaces[m_surface_index].material;
 }
 
 plane3d const* c_collision_surface_reference::get_plane(plane3d* plane) const
@@ -117,6 +157,19 @@ plane3d const* c_collision_surface_reference::get_plane(plane3d* plane) const
 	return bsp3d_get_plane_from_designator_internal(get_large_bsp(), get_large_bsp()->surfaces[m_surface_index].plane, plane);
 }
 
+plane3d const* c_collision_surface_reference::get_plane(bool* is_negated) const
+{
+	//ASSERT(valid());
+
+	if (is_negated)
+		*is_negated = is_plane_negated();
+
+	if (is_small())
+		return &get_small_bsp()->planes[get_plane_index()];
+
+	return &get_large_bsp()->planes[get_plane_index()];
+}
+
 long c_collision_surface_reference::get_plane_index() const
 {
 	// #TODO: this assert
@@ -126,5 +179,16 @@ long c_collision_surface_reference::get_plane_index() const
 		return get_small_bsp()->surfaces[m_surface_index].plane & SHRT_MAX;
 
 	return get_large_bsp()->surfaces[m_surface_index].plane & LONG_MAX;
+}
+
+bool c_collision_surface_reference::is_plane_negated() const
+{
+	// #TODO: this assert
+	//ASSERT((m_surface_index != NONE) == m_bsp.valid())
+
+	if (is_small())
+		return (get_small_bsp()->surfaces[m_surface_index].plane & 0x8000) != 0;
+
+	return get_large_bsp()->surfaces[m_surface_index].plane < 0;
 }
 

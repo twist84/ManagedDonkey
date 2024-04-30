@@ -40,11 +40,18 @@ struct c_collision_surface_reference :
 {
 public:
 	c_collision_surface_reference();
-
 	c_collision_surface_reference(c_collision_bsp_reference bsp_reference, long index);
+
+	byte get_best_plane_calculation_vertex_index() const;
+	long get_breakable_surface_set_index() const;
+	long get_breakable_surface_index() const;
+	long get_first_edge_index() const;
 	byte_flags get_flags() const;
+	long get_material_index() const;
 	plane3d const* get_plane(plane3d* plane) const;
+	plane3d const* get_plane(bool* is_negated) const;
 	long get_plane_index() const;
+	bool is_plane_negated() const;
 
 protected:
 	long m_surface_index;
