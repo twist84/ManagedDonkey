@@ -79,6 +79,8 @@ struct collision_feature_list;
 extern bool __cdecl collision_get_features_in_sphere(s_collision_test_flags flags, real_point3d const* point, real radius, real height, real width, long ignore_object_index, long a7, collision_feature_list* features);
 extern bool __cdecl collision_test_point(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index);
 extern bool __cdecl collision_test_point(s_collision_test_flags flags, real_point3d const* point, long first_ignore_object_index, long second_ignore_object_index, e_collision_result_type* collision_result_type);
+extern bool __cdecl collision_test_sphere(long structure_bsp_index, s_collision_test_flags flags, real_point3d const* center, real radius, long a5, long a6);
+extern bool __cdecl collision_test_sphere(s_collision_test_flags flags, real_point3d const* center, real radius, long a4, long a5);
 extern bool __cdecl collision_test_vector(s_collision_test_flags flags, real_point3d const* point, vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, collision_result* collision);
 extern bool __cdecl collision_test_vector(s_collision_test_flags flags, bool a2, real_point3d const* point, vector3d const* vector, long first_ignore_object_index, long second_ignore_object_index, long third_ignore_object_index, collision_result* collision);
 
