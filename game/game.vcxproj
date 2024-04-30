@@ -193,6 +193,7 @@ POPD
     <ClCompile Include="source\game\campaign_metagame.cpp" />
     <ClCompile Include="source\game\game_engine_scoring.cpp" />
     <ClCompile Include="source\game\game_grief.cpp" />
+    <ClCompile Include="source\game\materials.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
     <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />

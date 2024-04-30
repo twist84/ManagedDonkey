@@ -19,3 +19,7 @@ public:
 };
 static_assert(sizeof(c_global_material_type) == 0x2);
 
+struct s_global_material_definition;
+
+s_global_material_definition* global_get_material(c_global_material_type material_type);
+
