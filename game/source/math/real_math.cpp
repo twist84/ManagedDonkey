@@ -203,6 +203,15 @@ vector3d* __cdecl scale_vector3d(vector3d const* in_vector, real scale, vector3d
 	return out_vector;
 }
 
+vector3d* __cdecl add_vectors3d(vector3d const* in_vector_a, vector3d const* in_vector_b, vector3d* out_vector)
+{
+	out_vector->i = in_vector_a->i + in_vector_b->i;
+	out_vector->j = in_vector_a->j + in_vector_b->j;
+	out_vector->k = in_vector_a->k + in_vector_b->k;
+
+	return out_vector;
+}
+
 real_point2d* __cdecl set_real_point2d(real_point2d* point, real x, real y)
 {
 	point->x = x;
