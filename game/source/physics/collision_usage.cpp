@@ -12,6 +12,12 @@ bool global_collision_log_switch_pending = false;
 bool global_collision_log_switch_pending_value = false;
 short global_current_collision_user_depth = 0;
 short global_collision_period_depth = 0;
+//collision_period collision_usage_last_frame_buffer[NUMBER_OF_COLLISION_TIME_PERIODS]{};
+//collision_period unknown;
+//collision_period collision_usage_this_frame_buffer[NUMBER_OF_COLLISION_TIME_PERIODS]{};
+//collision_period unknown;
+//collision_period collision_usage_current;
+short global_collision_periods[MAXIMUM_COLLISION_PERIOD_STACK_DEPTH]{};
 short global_current_collision_users[MAXIMUM_COLLISION_USER_STACK_DEPTH]{};
 
 void __cdecl collision_log_end_frame()
@@ -32,7 +38,12 @@ void collision_log_render()
 	}
 }
 
-char const* const global_collision_function_names[12]
+void collision_log_usage(short collision_function)
+{
+	// #TODO: implement
+}
+
+char const* const global_collision_function_names[NUMBER_OF_COLLISION_FUNCTION_TYPES]
 {
 	"vector",
 	"vector-early-out",
@@ -48,7 +59,7 @@ char const* const global_collision_function_names[12]
 	"vector-intersect-bsp-structure"
 };
 
-char const* const global_collision_user_names[28]
+char const* const global_collision_user_names[NUMBER_OF_COLLISION_USER_TYPES]
 {
 	/* 0	*/ "????",
 	/* 1	*/ "ai-look",
