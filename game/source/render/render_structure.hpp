@@ -175,7 +175,7 @@ struct collision_surface
 	short breakable_surface_set;
 	short breakable_surface;
 	c_flags<e_surface_flags, byte, k_surface_flags> flags;
-	char best_plane_calculation_vertex_index;
+	byte best_plane_calculation_vertex_index;
 };
 static_assert(sizeof(collision_surface) == 0xC);
 
@@ -187,7 +187,7 @@ struct large_collision_surface
 	short breakable_surface_set;
 	short breakable_surface;
 	c_flags<e_surface_flags, byte, k_surface_flags> flags;
-	char best_plane_calculation_vertex_index;
+	byte best_plane_calculation_vertex_index;
 };
 static_assert(sizeof(large_collision_surface) == 0x10);
 
