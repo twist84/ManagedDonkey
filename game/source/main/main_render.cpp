@@ -222,10 +222,7 @@ void __cdecl main_render()
 	//		//if (should_draw)
 	//		//{
 	//		//	if (__int64 blocking_cycles = g_main_render_block_watch.stop())
-	//		//	{
-	//		//		real blocking_milliseconds = c_stop_watch::cycles_to_seconds(blocking_cycles);
-	//		//		status_printf("blocking time: %.2f ms", blocking_milliseconds * 1000.0f);
-	//		//	}
+	//		//		status_printf("blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
 	//		//}
 	//
 	//		rasterizer_lag_timing_mark_render_end();
