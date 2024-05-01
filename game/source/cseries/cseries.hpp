@@ -287,7 +287,7 @@ extern dword csstrnlen(char const* s, dword size);
 extern char* csstrnupr(char* s, dword size);
 extern char* csstrnlwr(char* s, dword size);
 extern char const* csstrstr(char const* look_for, char const* look_inside);
-//extern char* csstrtok(char*, char const*, bool, struct csstrtok_data* data);
+extern char* __cdecl csstrtok(char* s, char const* delimiters, long delimiter_mode, char** data);
 extern long cvsnzprintf(char* buffer, dword size, char const* format, va_list list);
 extern char* csnzprintf(char* buffer, dword size, char const* format, ...);
 extern char* csnzappendf(char* buffer, dword size, char const* format, ...);

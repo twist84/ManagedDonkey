@@ -234,7 +234,11 @@ char const* csstrstr(char const* look_inside, char const* look_for)
 	return strstr(look_inside, look_for);
 }
 
-//char* csstrtok(char*, char const*, bool, struct csstrtok_data* data)
+//char* __cdecl csstrtok(char*, char const*, e_csstrtok_delimiter_mode, csstrtok_data*)
+char* __cdecl csstrtok(char* s, char const* delimiters, long delimiter_mode, char** data)
+{
+	return INVOKE(0x00401A20, csstrtok, s, delimiters, delimiter_mode, data);
+}
 
 long cvsnzprintf(char* buffer, dword size, char const* format, va_list list)
 {
