@@ -877,7 +877,18 @@ void sub_82894060(e_event_level event_level, long category_index, dword_flags ev
 
 		if (TEST_BIT(flags, 0))
 		{
-
+			//char buffer0[2048]{};
+			//char buffer1[256]{};
+			//char buffer2[2048]{};
+			//
+			//cvsnzprintf(buffer0, sizeof(buffer0), format, list);
+			//
+			//if (sub_82895C68(0, buffer1, sizeof(buffer1)))
+			//	csnzprintf(buffer2, 2048u, "%s (%s) %s", k_event_level_severity_strings[event_level], buffer1, buffer0);
+			//else
+			//	csnzprintf(buffer2, 2048u, "%s %s", k_event_level_severity_strings[event_level], buffer0);
+			//
+			//sub_82895248(category_index, event_level, buffer2);
 		}
 
 		if (TEST_BIT(flags, 1))
