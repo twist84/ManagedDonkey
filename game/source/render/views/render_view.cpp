@@ -6,6 +6,7 @@
 #include "interface/chud/cortana_effect.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
+#include "main/console.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "multithreading/synchronization.hpp"
@@ -182,7 +183,7 @@ void __cdecl render_debug_frame_render()
 	render_debug_begin(true, true, true);
 
 	terminal_draw();
-	//status_line_draw();
+	status_line_draw();
 	//cinematic_status_draw();
 	main_time_frame_rate_display();
 	render_debug_scripting();

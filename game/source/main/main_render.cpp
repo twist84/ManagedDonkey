@@ -14,6 +14,7 @@
 #include "interface/c_controller.hpp"
 #include "interface/interface_constants.hpp"
 #include "interface/terminal.hpp"
+#include "main/console.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_time.hpp"
@@ -346,7 +347,10 @@ void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char c
 		if (pregame_frame_type == _main_pregame_frame_normal)
 		{
 			fullscreen_view.render();
-			terminal_draw(); // this belongs in `c_fullscreen_view::render`
+
+			// these belongs in `c_fullscreen_view::render`
+			terminal_draw();
+			status_line_draw();
 		}
 
 		if (pregame_frame_type == _main_pregame_frame_normal && bink_playback_active())
