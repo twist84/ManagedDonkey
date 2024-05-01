@@ -21,6 +21,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "profiler/profiler.hpp"
+#include "profiler/profiler_stopwatch.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "rasterizer/rasterizer_globals.hpp"
 #include "render/render.hpp"
@@ -30,10 +31,13 @@
 
 //HOOK_DECLARE(0x006042C0, main_render);
 HOOK_DECLARE(0x00604860, main_render_pregame);
+//HOOK_DECLARE(0x00604AE0, main_render_start_blocking_frame);
 //HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 
 bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
+
+//c_stop_watch g_main_render_block_watch = c_stop_watch(true);
 
 c_player_render_camera_iterator::c_player_render_camera_iterator() :
 	m_window_count(),
@@ -220,11 +224,11 @@ void __cdecl main_render()
 	//			c_render_globals::increment_frame_index();
 	//		}
 	//
-	//		//if (should_draw)
-	//		//{
-	//		//	if (__int64 blocking_cycles = g_main_render_block_watch.stop())
-	//		//		status_printf("blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
-	//		//}
+	//		if (should_draw)
+	//		{
+	//			if (__int64 blocking_cycles = g_main_render_block_watch.stop())
+	//				status_printf("blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
+	//		}
 	//
 	//		rasterizer_lag_timing_mark_render_end();
 	//	}
@@ -415,7 +419,9 @@ void __cdecl main_render_sapien()
 
 void __cdecl main_render_start_blocking_frame()
 {
-	INVOKE(0x00604AE0, main_render_start_blocking_frame);
+	//INVOKE(0x00604AE0, main_render_start_blocking_frame);
+
+	//g_main_render_block_watch.start();
 }
 
 void __cdecl main_render_status_message(wchar_t const* loading_status)
