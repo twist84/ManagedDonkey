@@ -98,6 +98,11 @@ void render_debug_camera()
 	if (debug_camera || debug_tangent_space)
 	{
 		// #TODO: implement
+
+		//char buffer[2048]{};
+		//csnzprintf(buffer, "point(%01.2f,%01.2f,%01.2f)) cluster(#bsp %d, %d [bsp %d, %d]), sky(attached %d, visible %d)"
+		//	#TODO: );
+		//status_strings("debug camera", buffer);
 	}
 }
 
