@@ -35,6 +35,7 @@
 #include "scenario/scenario_soft_ceilings.hpp"
 #include "simulation/simulation_debug_globals.hpp"
 #include "sound/sound_manager.hpp"
+#include "text/draw_string.hpp"
 #include "units/bipeds.hpp"
 #include "xbox/xbox.hpp"
 
@@ -47,6 +48,13 @@ HOOK_DECLARE(0x00605E10, console_execute_initial_commands);
 s_console_globals console_globals;
 
 bool console_dump_to_debug_display = false;
+
+bool* console_status_render = &console_globals.status_render;
+
+c_status_line* g_status_line_head = NULL;
+c_status_line* g_status_line_tail = NULL;
+
+s_status_string g_status_strings[20]{};
 
 bool __cdecl debugging_system_has_focus()
 {
@@ -134,6 +142,12 @@ void __cdecl console_initialize()
 		console_globals.input_state.__unknown11F8 = NONE;
 
 		debug_keys_initialize();
+
+		for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+		{
+			status_lines_initialize(&g_status_strings[i].line, NULL, 1);
+			g_status_strings[i].line.set_flag(_status_line_unknown_bit2, true);
+		}
 
 		initialize_console = false;
 	}
@@ -549,6 +563,16 @@ bool __cdecl console_process_command(char const* command, bool a2)
 #define CONSOLE_GLOBAL_DECLARE_SHORT2(_name, _variable_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = &_variable_name })
 #define CONSOLE_GLOBAL_DECLARE_LONG2(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = &_variable_name })
 
+#define CONSOLE_GLOBAL_DECLARE_BOOL3(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = _name })
+#define CONSOLE_GLOBAL_DECLARE_REAL3(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = _name })
+#define CONSOLE_GLOBAL_DECLARE_SHORT3(_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _name })
+#define CONSOLE_GLOBAL_DECLARE_LONG3(_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _name })
+
+#define CONSOLE_GLOBAL_DECLARE_BOOL4(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_boolean,       .pointer = _variable_name })
+#define CONSOLE_GLOBAL_DECLARE_REAL4(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_real,          .pointer = _variable_name })
+#define CONSOLE_GLOBAL_DECLARE_SHORT4(_name, _variable_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _variable_name })
+#define CONSOLE_GLOBAL_DECLARE_LONG4(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _variable_name })
+
 s_console_global const* const k_console_globals[] =
 {
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_no_drawing),
@@ -590,6 +614,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_infinite_equipment_energy, cheat.infinite_equipment_energy),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
+	CONSOLE_GLOBAL_DECLARE_BOOL4(console_status_string_render, console_status_render),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(console_pauses_game, debug_console_pauses_game),
 
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_r),
@@ -919,5 +944,452 @@ callback_result_t set_callback(void const* userdata, long token_count, tokens_t 
 	}
 
 	return result;
+}
+
+c_status_line::c_status_line() :
+	m_string(),
+	m_color(),
+	m_alpha(),
+	m_flags(),
+	m_in_use(),
+	m_identifier(),
+	m_previous(),
+	m_next()
+{
+}
+
+char const* c_status_line::printf(char const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	printf_va(format, list);
+
+	return get_string();
+}
+
+char const* c_status_line::appendf(char const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	return appendf_va(format, list);
+}
+
+char const* c_status_line::printf_va(char const* format, char* list)
+{
+	m_string.print_va(format, list);
+
+	return get_string();
+}
+
+char const* c_status_line::appendf_va(char const* format, char* list)
+{
+	return m_string.append_print_va(format, list);
+}
+
+void c_status_line::set_flag(e_status_line_flags flag, bool enable)
+{
+	m_flags.set(flag, enable);
+}
+
+void c_status_line::set_alpha(real alpha)
+{
+	m_alpha = alpha;
+}
+
+void c_status_line::set_color(real_rgb_color const& color)
+{
+	m_color = color;
+}
+
+void c_status_line::set_in_use(bool in_use)
+{
+	*m_in_use = in_use;
+}
+
+void c_status_line::clear_text()
+{
+	m_string.clear();
+}
+
+char const* c_status_line::get_identifier() const
+{
+	return m_identifier;
+}
+
+real_rgb_color const& c_status_line::get_color() const
+{
+	return m_color;
+}
+
+real c_status_line::get_alpha() const
+{
+	return m_alpha;
+}
+
+bool c_status_line::is_empty() const
+{
+	return m_string.is_empty();
+}
+
+char const* c_status_line::get_string() const
+{
+	return m_string.get_string();
+}
+
+bool c_status_line::is_in_use_valid() const
+{
+	return m_in_use != NULL;
+}
+
+bool c_status_line::is_in_use() const
+{
+	ASSERT(is_in_use_valid());
+
+	return *m_in_use;
+}
+
+bool c_status_line::test_flag(e_status_line_flags flag) const
+{
+	return m_flags.test(flag);
+}
+
+void c_status_line::add_single()
+{
+	ASSERT(NULL == m_previous);
+	ASSERT(NULL == m_next);
+
+	m_previous = g_status_line_tail;
+	m_next = NULL;
+
+	(m_previous ? m_previous->m_next : g_status_line_head) = this;
+	(m_next ? m_next->m_previous : g_status_line_tail) = this;
+}
+
+void c_status_line::remove_single()
+{
+	ASSERT(m_next != NULL || this == g_status_line_tail);
+	ASSERT(m_previous != NULL || this == g_status_line_head);
+
+	(m_previous ? m_previous->m_next : g_status_line_head) = m_next;
+	(m_next ? m_next->m_previous : g_status_line_tail) = m_previous;
+
+	m_next = NULL;
+	m_previous = NULL;
+}
+
+c_status_line* c_status_line::previous() const
+{
+	return m_previous;
+}
+
+c_status_line* c_status_line::next() const
+{
+	return m_next;
+}
+
+void c_status_line::initialize_simple(bool* in_use, char const* identifier, long count)
+{
+	m_in_use = in_use;
+	m_identifier = identifier;
+	m_color = *global_real_rgb_white;
+	m_alpha = 1.0f;
+}
+
+void status_lines_initialize(c_status_line* status_lines, bool* in_use, long count)
+{
+	status_lines_initialize_simple(status_lines, in_use, NULL, count);
+}
+
+void status_lines_initialize_simple(c_status_line* status_lines, bool* in_use, char const* identifier, long count)
+{
+	csmemset(status_lines, 0, sizeof(c_status_line) * count);
+
+	for (long i = 0; i < count; i++)
+	{
+		status_lines[i].initialize_simple(in_use, identifier, count);
+		status_line_add_single(&status_lines[i]);
+	}
+}
+
+void status_lines_dispose(c_status_line* status_lines, long count)
+{
+	for (long i = 0; i < count; i++)
+		status_line_remove_single(&status_lines[i]);
+}
+
+void status_lines_clear_text(c_status_line* status_lines, long count)
+{
+	for (long i = 0; i < count; i++)
+		status_line_clear_text(&status_lines[i]);
+}
+
+void status_lines_set_flags(c_status_line* status_lines, e_status_line_flags flag, bool enable, long count)
+{
+	for (long i = 0; i < count; i++)
+		status_line_set_flag(&status_lines[i], flag, enable);
+}
+
+void status_lines_enable(char const* identifier)
+{
+	for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
+	{
+		if (status_line->get_identifier() && status_line->is_in_use_valid() && !status_line->is_in_use())
+		{
+			if (csstristr(status_line->get_identifier(), identifier))
+				status_line->set_in_use(true);
+		}
+	}
+}
+
+void status_lines_disable(char const* identifier)
+{
+	for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
+	{
+		if (status_line->get_identifier() && status_line->is_in_use_valid() && !status_line->is_in_use())
+		{
+			if (csstristr(status_line->get_identifier(), identifier))
+				status_line->set_in_use(false);
+		}
+	}
+}
+
+void status_line_add_single(c_status_line* status_line)
+{
+	status_line->add_single();
+}
+
+void status_line_remove_single(c_status_line* status_line)
+{
+	status_line->remove_single();
+}
+
+char const* status_line_printf(c_status_line* status_line, char const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	status_line->printf_va(format, list);
+
+	return status_line->get_string();
+}
+
+char const* status_line_appendf(c_status_line* status_line, char const* format, ...)
+{
+	va_list list;
+	va_start(list, format);
+
+	return status_line->appendf_va(format, list);
+}
+
+void status_line_set_flag(c_status_line* status_line, e_status_line_flags flag, bool enable)
+{
+	status_line->set_flag(flag, enable);
+}
+
+void status_line_set_alpha(c_status_line* status_line, real alpha)
+{
+	status_line->set_alpha(alpha);
+}
+
+void status_line_set_color(c_status_line* status_line, real_rgb_color const& color)
+{
+	status_line->set_color(color);
+}
+
+void status_line_clear_text(c_status_line* status_line)
+{
+	status_line->clear_text();
+}
+
+char const* status_line_get_string(c_status_line* status_line)
+{
+	return status_line->get_string();
+}
+
+void status_line_draw()
+{
+	PROFILER(status_line_draw)
+	{
+		if (!console_globals.status_render/* || !can_use_claws()*/)
+			return;
+
+		for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+		{
+			c_status_line& status_line = g_status_strings[i].line;
+			if (!status_line.is_empty())
+			{
+				dword time = system_milliseconds();
+				long time_delta = time - g_status_strings[i].__time100;
+				if (time_delta > 10000)
+				{
+					status_line.clear_text();
+				}
+				else
+				{
+					if (time_delta > 5000)
+					{
+						time = time_delta - 5000;
+						status_line.set_alpha(1.0f - (real(time) / 5000));
+					}
+					else
+					{
+						status_line.set_alpha(1.0f);
+					}
+				}
+			}
+		}
+
+		c_rasterizer_draw_string draw_string{};
+		c_font_cache_mt_safe font_cache{};
+		s_string_cache string_cache{};
+
+		string_cache.string.clear();
+
+		for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
+		{
+			if (!status_line_visible(status_line))
+				continue;
+
+			long text_justification = !status_line->test_flag(_status_line_unknown_bit2);
+
+			char const* string = status_line->get_string();
+			if (status_line->test_flag(_status_line_unknown_bit0) && system_milliseconds() % 500 < 250)
+				string = "|n";
+
+			if (!string_cache_add_string(&string_cache, string, status_line->get_alpha(), status_line->get_color(), text_justification))
+			{
+				string_cache_flush(&string_cache, &draw_string, &font_cache);
+				string_cache_add_string(&string_cache, string, status_line->get_alpha(), status_line->get_color(), text_justification);
+
+				if (status_line->test_flag(_status_line_unknown_bit3))
+					status_line->clear_text();
+			}
+		}
+		string_cache_flush(&string_cache, &draw_string, &font_cache);
+	}
+}
+
+bool status_line_visible(c_status_line const* status_line)
+{
+	return !((status_line->is_in_use_valid() && !status_line->is_in_use()) || status_line->is_empty() || status_line->test_flag(_status_line_unknown_bit1));
+}
+
+void status_line_dump()
+{
+	for (c_status_line* status_line = g_status_line_head; status_line; status_line = status_line->next())
+	{
+		if (status_line_visible(status_line))
+			generate_event(_event_level_message, "status_lines: %s", status_line->get_string());
+	}
+}
+
+void status_printf(char const* format, ...)
+{
+	if (!is_main_thread())
+		return;
+
+	va_list list;
+	va_start(list, format);
+	status_printf_va(format, list);
+}
+
+void status_printf_va(char const* format, char* list)
+{
+	char buffer[1024]{};
+	cvsnzprintf(buffer, sizeof(buffer), format, list);
+	status_string_internal(format, buffer);
+}
+
+void status_string_internal(char const* status, char const* message)
+{
+	for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+	{
+		s_status_string& status_string = g_status_strings[i];
+		if (!status_string.line.is_empty() && status_string.string.is_equal(status))
+		{
+			status_string.__time100 = system_milliseconds();
+			status_string.line.printf("%s", message);
+			return;
+		}
+	}
+
+	for (long i = 0; i < NUMBEROF(g_status_strings); i++)
+	{
+		s_status_string& status_string = g_status_strings[i];
+		c_status_line& status_line = status_string.line;
+		if (status_line.is_empty())
+		{
+			status_string.__time100 = system_milliseconds();
+			status_line.printf("%s", message);
+			status_string.string.set(status);
+			break;
+		}
+	}
+}
+
+void status_strings(char const* status, char const* strings)
+{
+	if (!is_main_thread())
+		return;
+
+	char buffer[1024]{};
+	char* data[3]{};
+	long line = 0;
+
+	csstrnzcpy(buffer, strings, sizeof(buffer));
+	for (char* line_end = csstrtok(buffer, "\r\n", 1, data); line_end; line_end = csstrtok(NULL, "\r\n", 1, data))
+	{
+		c_static_string<256> string;
+		string.print("%d%s", line++, status);
+		status_string_internal(string.get_string(), line_end);
+	}
+}
+
+bool string_cache_add_string(s_string_cache* string_cache, char const* string, real alpha, real_rgb_color const& color, long text_justification)
+{
+	bool should_add_string = false;
+	if (string_cache->string.is_empty())
+	{
+		string_cache->color.alpha = alpha;
+		string_cache->color.color = color;
+		string_cache->text_justification = text_justification;
+
+		should_add_string = true;
+	}
+	else if (string_cache->color.alpha == alpha
+		&& string_cache->color.color.red == color.red
+		&& string_cache->color.color.green == color.green
+		&& string_cache->color.color.blue == color.blue
+		&& string_cache->text_justification == text_justification)
+	{
+		should_add_string = true;
+	}
+
+	if (should_add_string)
+	{
+		string_cache->string.append(string);
+		string_cache->string.append("|n");
+	}
+
+	return should_add_string;
+}
+
+void string_cache_flush(s_string_cache* string_cache, c_draw_string* draw_string, c_font_cache_base* font_cache)
+{
+	if (string_cache->string.is_empty())
+		return;
+
+	real_argb_color color = string_cache->color;
+	real_argb_color shadow_color = *global_real_argb_black;
+	shadow_color.alpha = string_cache->color.alpha;
+
+	draw_string->set_justification(string_cache->text_justification);
+	draw_string->set_color(&color);
+	draw_string->set_shadow_color(&shadow_color);
+	draw_string->draw(font_cache, string_cache->string.get_string());
+
+	string_cache->string.clear();
 }
 

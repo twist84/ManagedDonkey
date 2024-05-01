@@ -3,7 +3,6 @@
 //bool g_debug_cinematic_controls_enable = false;
 //bool g_cinematic_debugging_enable = false;
 //bool g_cinematic_render_enable = false;
-//bool* console_status_render = &console_globals.status_render;
 
 void __cdecl cinematic_game_pause_handler(bool paused)
 {

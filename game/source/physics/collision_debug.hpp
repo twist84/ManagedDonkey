@@ -50,5 +50,8 @@ extern real_point3d collision_debug_point;
 extern real collision_debug_height;
 extern vector3d collision_debug_vector;
 
+extern void __cdecl collision_debug_initialize();
+extern void __cdecl collision_debug_dispose();
+
 extern void collision_debug_render();
 
