@@ -102,9 +102,6 @@ void __cdecl collision_debug_dispose()
 
 void collision_debug_render()
 {
-	for (long i = 0; i < NUMBEROF(g_collision_debug_status_lines); i++)
-		g_collision_debug_status_lines[i].clear_text();
-
 	if (global_collision_log_enable)
 	{
 		ASSERT(VALID_INDEX(global_current_collision_user_depth, MAXIMUM_COLLISION_USER_STACK_DEPTH));
