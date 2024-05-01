@@ -198,7 +198,7 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		append_vprint(format, list);
+		append_print_va(format, list);
 			
 		va_end(list);
 		return m_string;
@@ -209,14 +209,14 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		wchar_t const* result = append_vprint(format, list);
+		wchar_t const* result = append_print_va(format, list);
 		append_line();
 
 		va_end(list);
 		return result;
 	}
 
-	wchar_t const* append_vprint(wchar_t const* format, va_list list)
+	wchar_t const* append_print_va(wchar_t const* format, va_list list)
 	{
 		long current_length = length();
 

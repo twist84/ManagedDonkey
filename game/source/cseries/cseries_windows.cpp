@@ -30,7 +30,7 @@ void __cdecl display_debug_string(const char* format, ...)
 	if (IsDebuggerPresent())
 	{
 		c_static_string<4096> output = {};
-		output.append_vprint(format, list);
+		output.append_print_va(format, list);
 		output.append("\n");
 
 		OutputDebugStringA(output.get_string());

@@ -1282,7 +1282,7 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		char const* result = append_vprint(format, list);
+		char const* result = append_print_va(format, list);
 
 		va_end(list);
 		return result;
@@ -1293,14 +1293,14 @@ public:
 		va_list list;
 		va_start(list, format);
 
-		char const* result = append_vprint(format, list);
+		char const* result = append_print_va(format, list);
 		append_line();
 
 		va_end(list);
 		return result;
 	}
 
-	char const* append_vprint(char const* format, va_list list)
+	char const* append_print_va(char const* format, va_list list)
 	{
 		dword current_length = length();
 
@@ -1317,7 +1317,7 @@ public:
 		csmemset(m_string, 0, sizeof(m_string));
 	}
 
-	bool is_empty()
+	bool is_empty() const
 	{
 		return !m_string[0];
 	}
