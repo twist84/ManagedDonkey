@@ -280,7 +280,7 @@ extern void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size);
 extern long csstricmp(char const* s1, char const* s2);
 extern long csstrcmp(char const* s1, char const* s2);
 extern long csstrnicmp(char const* s1, char const* s2, dword max_count);
-//extern char* csstristr(char const* s1, char const* s2);
+extern char* __cdecl csstristr(char const* s1, char const* s2);
 extern char* csstrnzcpy(char* s1, char const* s2, dword size);
 extern char* csstrnzcat(char* s1, char const* s2, dword size);
 extern dword csstrnlen(char const* s, dword size);

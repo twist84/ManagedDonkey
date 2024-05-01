@@ -174,7 +174,10 @@ long csstrnicmp(char const* s1, char const* s2, dword max_count)
 	return _strnicmp(s1, s2, max_count);
 }
 
-//char* csstristr(char const* s1, char const* s2)
+char* __cdecl csstristr(char const* s1, char const* s2)
+{
+	return INVOKE(0x00401520, csstristr, s1, s2);
+}
 
 char* csstrnzcpy(char* s1, char const* s2, dword size)
 {
