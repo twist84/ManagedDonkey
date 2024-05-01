@@ -133,7 +133,7 @@ void __cdecl console_initialize()
 	{
 		terminal_initialize();
 
-		console_globals.status_render = false;
+		console_globals.status_render = true;
 		console_globals.input_state.prompt_color = { 1.0f, 1.0f, 0.3f, 1.0f };
 		console_globals.input_state.prompt_text.set("donkey( ");
 		console_globals.input_state.input_text[0] = 0;
