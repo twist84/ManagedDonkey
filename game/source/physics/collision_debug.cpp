@@ -79,11 +79,16 @@ s_status_line g_collision_debug_lightmap_status_line_blue_sh{};
 
 void collision_debug_render()
 {
+	for (long i = 0; i < NUMBEROF(g_collision_debug_status_lines); i++)
+		g_collision_debug_status_lines[i].string.clear();
+
 	if (global_collision_log_enable)
 	{
 		ASSERT(VALID_INDEX(global_current_collision_user_depth, MAXIMUM_COLLISION_USER_STACK_DEPTH));
 		global_current_collision_users[global_current_collision_user_depth++] = 25; // debug
 	}
+
+	g_collision_debug_status_lines_render = false;
 
 	if (!collision_debug &&
 		collision_debug == collision_debug_spray &&
@@ -149,15 +154,7 @@ void collision_debug_render()
 		}
 	}
 
-	real_point3d debug_point0 = collision_debug_point;
-	vector3d debug_vector0 = collision_debug_vector;
-
-	vector3d debug_vector1{};
-	if (collision_debug_repeat)
-	{
-		debug_vector1 = collision_debug_vector;
-	}
-	else
+	if (!collision_debug_repeat)
 	{
 		collision_debug_ignore_object_index = NONE;
 
@@ -167,32 +164,36 @@ void collision_debug_render()
 
 		real_matrix4x3 camera{};
 		c_player_view::get_player_render_camera_orientation(&camera);
+
 		collision_debug_point = camera.center;
 		collision_debug_vector = camera.matrix.forward;
-		debug_vector1 = camera.matrix.forward;
 	}
 
-	scale_vector3d(&debug_vector1, fabsf(collision_debug_length), &debug_vector0);
+	real_point3d debug_point = collision_debug_point;
+	vector3d debug_vector = collision_debug_vector;
+
+	vector3d debug_vector_scaled{};
+	scale_vector3d(&debug_vector, fabsf(collision_debug_length), &debug_vector_scaled);
 
 	if (collision_debug)
 	{
 		if (collision_debug_length <= 0.0f)
 		{
-			add_vectors3d((vector3d*)&debug_point0, &debug_vector0, (vector3d*)&debug_point0);
+			add_vectors3d((vector3d*)&debug_point, &debug_vector_scaled, (vector3d*)&debug_point);
 
 			if (collision_debug_width > 0.0f)
 			{
-				if (collision_test_sphere(collision_test_flags, &debug_point0, collision_debug_width, collision_debug_ignore_object_index, NONE))
-					render_debug_sphere(true, &debug_point0, collision_debug_width, global_real_argb_red);
+				if (collision_test_sphere(collision_test_flags, &debug_point, collision_debug_width, collision_debug_ignore_object_index, NONE))
+					render_debug_sphere(true, &debug_point, collision_debug_width, global_real_argb_red);
 				else
-					render_debug_sphere(true, &debug_point0, collision_debug_width, global_real_argb_green);
+					render_debug_sphere(true, &debug_point, collision_debug_width, global_real_argb_green);
 			}
 			else
 			{
 				real_argb_color const* color = global_real_argb_green;
 			
 				e_collision_result_type collision_result_type{};
-				if (collision_test_point(collision_test_flags, &debug_point0, collision_debug_ignore_object_index, NONE, &collision_result_type))
+				if (collision_test_point(collision_test_flags, &debug_point, collision_debug_ignore_object_index, NONE, &collision_result_type))
 				{
 					char const* const collision_result_type_names[k_collision_result_type_count]
 					{
@@ -210,7 +211,7 @@ void collision_debug_render()
 			
 					color = global_real_argb_red;
 				}
-				render_debug_point(true, &debug_point0, 0.1f, color);
+				render_debug_point(true, &debug_point, 0.1f, color);
 			}
 		}
 		else if (collision_debug_width <= 0.0f)
@@ -222,9 +223,8 @@ void collision_debug_render()
 			stop_watch.reset();
 			stop_watch.stop();
 			stop_watch.start();
-			bool collision_test_vector_result = collision_test_vector(collision_test_flags, collision_debug_test_terrain_shader, &debug_point0, &debug_vector0, collision_debug_ignore_object_index, NONE, NONE, &collision);
-			__int64 cycles = stop_watch.stop();
-			g_collision_debug_status_lines[9].string.print("time %.6f", 1000.0f * c_stop_watch::cycles_to_seconds(cycles));
+			bool collision_test_vector_result = collision_test_vector(collision_test_flags, collision_debug_test_terrain_shader, &debug_point, &debug_vector_scaled, collision_debug_ignore_object_index, NONE, NONE, &collision);
+			g_collision_debug_status_lines[9].string.print("time %.6f", 1000.0f * c_stop_watch::cycles_to_seconds(stop_watch.stop()));
 			
 			if (collision_test_vector_result)
 			{
@@ -290,7 +290,7 @@ void collision_debug_render()
 				break;
 				}
 			
-				render_debug_vector(true, &debug_point0, &debug_vector0, collision.scale, global_real_argb_red);
+				render_debug_vector(true, &debug_point, &debug_vector_scaled, collision.scale, global_real_argb_red);
 				render_debug_point(true, &collision.position, 0.125f, global_real_argb_red);
 				render_debug_vector(true, &collision.position, &collision.plane.normal, 0.25f, global_real_argb_red);
 			
@@ -397,7 +397,7 @@ void collision_debug_render()
 				}
 
 				g_collision_debug_status_lines[4].string.print("distance %f",
-					collision.scale * magnitude3d(&debug_vector0));
+					collision.scale * magnitude3d(&debug_vector_scaled));
 
 				g_collision_debug_status_lines[5].string.print("position %f %f %f",
 					collision.position.x,
@@ -422,14 +422,14 @@ void collision_debug_render()
 			}
 			else
 			{
-				render_debug_line(true, &debug_point0, &collision.position, global_real_argb_green);
+				render_debug_line(true, &debug_point, &collision.position, global_real_argb_green);
 				render_debug_point(true, &collision.position, 0.125f, global_real_argb_green);
 			}
 		}
 		else
 		{
 			real_point3d old_position = collision_debug_point;
-			vector3d old_velocity = collision_debug_vector;
+			vector3d old_velocity = debug_vector_scaled;
 
 			short count = 0;
 			real_point3d new_position{};
@@ -495,31 +495,24 @@ void collision_debug_render()
 		}
 
 		// not supposed to be here, also not the correct implementation
+		if (g_collision_debug_status_lines_render)
 		{
 			c_rasterizer_draw_string draw_string;
 			c_font_cache_mt_safe font_cache;
 
 			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
 
-			bool first_status = true;
+			c_static_string<256 * 10> status_lines;
+
 			for (long i = 0; i < NUMBEROF(g_collision_debug_status_lines); i++)
 			{
-				if (!g_collision_debug_status_lines[i].string.is_empty())
-				{
-					g_collision_debug_status_lines[i].string.append("|n");
-					char const* string = g_collision_debug_status_lines[i].string.get_string();
+				if (g_collision_debug_status_lines[i].string.is_empty())
+					continue;
 
-					if (first_status)
-					{
-						draw_string.draw(&font_cache, string);
-						first_status = false;
-					}
-					else
-					{
-						draw_string.draw_more(&font_cache, string);
-					}
-				}
+				status_lines.append_print("%s|n", g_collision_debug_status_lines[i].string.get_string());
 			}
+
+			draw_string.draw(&font_cache, status_lines.get_string());
 		}
 	}
 
