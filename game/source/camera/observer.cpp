@@ -1,8 +1,14 @@
 #include "camera/observer.hpp"
 
+#include "cache/pc_geometry_cache.hpp"
+#include "cache/pc_texture_cache.hpp"
+#include "main/main_render.hpp"
+#include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_debug.hpp"
+
+HOOK_DECLARE(0x00612710, observer_game_tick);
 
 bool g_debug_observer_render = false;
 
@@ -33,7 +39,33 @@ long __cdecl choose_appropriate_director(e_output_user_index output_user_index)
 
 void __cdecl observer_game_tick()
 {
-	INVOKE(0x00612710, observer_game_tick);
+	//INVOKE(0x00612710, observer_game_tick);
+
+	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
+
+	if (g_observer_globals->block_for_one_frame_block_type1)
+	{
+		if (!game_is_multiplayer())
+		{
+			main_render_start_blocking_frame();
+			geometry_cache_block_for_one_frame(_geometry_block_type_unknown1);
+			texture_cache_block_for_one_frame(_texture_cache_block_type_unknown1);
+		}
+
+		g_observer_globals->block_for_one_frame_block_type1 = false;
+	}
+
+	if (g_observer_globals->block_for_one_frame_block_type0)
+	{
+		if (!game_is_multiplayer())
+		{
+			main_render_start_blocking_frame();
+			geometry_cache_block_for_one_frame(_geometry_block_type_unknown0);
+			texture_cache_block_for_one_frame(_texture_cache_block_type_unknown0);
+		}
+
+		g_observer_globals->block_for_one_frame_block_type0 = false;
+	}
 }
 
 s_observer_result const* __cdecl observer_try_and_get_camera(e_output_user_index output_user_index)

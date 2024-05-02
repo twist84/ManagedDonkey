@@ -3,7 +3,11 @@
 #include "cseries/cseries.hpp"
 
 //.text:00618B30 ; bool __cdecl texture_cache_bitmap_new(long, bitmap_data*)
-//.text:00618B70 ; void __cdecl texture_cache_block_for_one_frame(e_texture_cache_block_type)
+
+void __cdecl texture_cache_block_for_one_frame(e_texture_cache_block_type block_type)
+{
+	INVOKE(0x00618B70, texture_cache_block_for_one_frame, block_type);
+}
 
 void __cdecl texture_cache_close()
 {

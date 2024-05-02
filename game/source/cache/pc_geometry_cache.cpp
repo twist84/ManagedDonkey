@@ -2,6 +2,11 @@
 
 #include "cseries/cseries.hpp"
 
+void __cdecl geometry_cache_block_for_one_frame(e_geometry_block_type block_type)
+{
+	INVOKE(0x00618C90, geometry_cache_block_for_one_frame, block_type);
+}
+
 void __cdecl geometry_cache_close()
 {
 	INVOKE(0x00618CC0, geometry_cache_close);

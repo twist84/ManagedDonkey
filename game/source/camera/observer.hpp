@@ -81,8 +81,9 @@ struct s_observer_globals
 {
 	real timestep;
 	s_observer observers[4];
-	byte __dataF24[0x2];
-	bool block_for_one_frame;
+	byte __dataF24[0x1];
+	bool block_for_one_frame_block_type1;
+	bool block_for_one_frame_block_type0;
 	byte __dataF27[0x1];
 };
 static_assert(sizeof(s_observer_globals) == 0xF28);
