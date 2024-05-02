@@ -370,11 +370,11 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 	ASSERT(data);
 	ASSERT(data->valid);
 
-	if (index != NONE)
-	{
-		word identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-		word absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	word identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	word absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
+	if (index != NONE && absolute_index != NONE)
+	{
 		if (!identifier)
 		{
 			c_static_string<1024> assert_string;
