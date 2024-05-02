@@ -46,7 +46,7 @@ e_input_user_index __cdecl player_mapping_first_active_input_user()
 	return player_mapping_next_active_input_user(k_input_user_none);
 }
 
-e_output_user_index player_mapping_first_active_output_user()
+e_output_user_index __cdecl player_mapping_first_active_output_user()
 {
 	//return INVOKE(0x00589A30, player_mapping_first_active_output_user);
 

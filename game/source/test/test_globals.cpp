@@ -246,6 +246,8 @@ void __cdecl test_main_loop_body_begin()
 		static long controls_method = 0;
 		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
 		input_abstraction_globals.controls_method = controls_method;
+
+		//console_process_command("player_ragdoll", true);
 	}
 
 	copy_input_states(false);

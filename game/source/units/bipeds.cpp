@@ -130,6 +130,11 @@ void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, boo
 	INVOKE(0x00B6EB80, biped_get_sight_position, biped_index, estimate_mode, offset_camera, estimated_body_position, a5, desired_facing_vector, desired_gun_offset, camera_position);
 }
 
+void __cdecl biped_scripting_ragdoll(long biped_index)
+{
+	INVOKE(0x00B70DB0, biped_scripting_ragdoll, biped_index);
+}
+
 void __cdecl biped_render_debug(long biped_index)
 {
 	//INVOKE(0x00B70DF0, biped_render_debug, biped_index);

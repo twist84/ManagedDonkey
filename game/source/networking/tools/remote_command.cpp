@@ -41,6 +41,7 @@
 #include "networking/transport/transport_endpoint_winsock.hpp"
 #include "objects/multiplayer_game_objects.hpp"
 #include "test/test_functions.hpp"
+#include "units/bipeds.hpp"
 #include "xbox/xnet.hpp"
 
 s_remote_command_globals remote_command_globals;
@@ -1839,6 +1840,19 @@ callback_result_t lsp_info_set_callback(void const* userdata, long token_count, 
 	char const* host = parts[0].get_string();
 	char const* port = parts[1].get_string();
 	online_lsp_set_info(host, port);
+
+	return result;
+}
+
+callback_result_t player_ragdoll_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	e_output_user_index user_index = player_mapping_first_active_output_user();
+	long unit_index = player_mapping_get_unit_by_output_user(user_index);
+	biped_scripting_ragdoll(unit_index);
+
+	console_close();
 
 	return result;
 }
