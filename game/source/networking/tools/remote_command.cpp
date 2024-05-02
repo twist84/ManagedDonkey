@@ -553,6 +553,24 @@ callback_result_t script_start_callback(void const* userdata, long token_count, 
 	return result;
 }
 
+callback_result_t map_reset_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_reset_map();
+
+	return result;
+}
+
+callback_result_t map_reset_random_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	main_reset_map_random();
+
+	return result;
+}
+
 callback_result_t map_name_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

@@ -100,6 +100,8 @@ COMMAND_CALLBACK_DECLARE(breakpoint);
 COMMAND_CALLBACK_DECLARE(set);
 COMMAND_CALLBACK_DECLARE(exit_game);
 COMMAND_CALLBACK_DECLARE(script_start);
+COMMAND_CALLBACK_DECLARE(map_reset);
+COMMAND_CALLBACK_DECLARE(map_reset_random);
 COMMAND_CALLBACK_DECLARE(map_name);
 COMMAND_CALLBACK_DECLARE(game_multiplayer);
 COMMAND_CALLBACK_DECLARE(game_splitscreen);
@@ -200,6 +202,9 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(exit_game, 0, "", "exits the game.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(script_start, 1, "<string>", "debug script launching: starts a scenario script by name.\r\nNETWORK SAFE: No, for mainmenu only"),
+
+	COMMAND_CALLBACK_REGISTER(map_reset, 0, "", "starts the map from the beginning.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(map_reset_random, 0, "", "starts the map from the beginning with a new random seed.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(map_name, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNo, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_multiplayer, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNo, for init.txt only"),
