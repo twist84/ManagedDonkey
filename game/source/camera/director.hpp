@@ -11,7 +11,7 @@
 #include "camera/static_camera.hpp"
 #include "memory/data.hpp"
 
-enum e_director_mode : long
+enum e_director_mode
 {
 	_director_mode_game = 0,
 	_director_mode_saved_film,
@@ -24,7 +24,9 @@ enum e_director_mode : long
 };
 
 enum e_controller_index;
+enum e_output_user_index;
 
+extern e_director_mode __cdecl choose_appropriate_director(e_output_user_index output_user_index);
 extern void __cdecl director_game_tick();
 extern void __cdecl director_notify_map_reset();
 extern void __cdecl director_reset();

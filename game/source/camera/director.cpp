@@ -25,7 +25,12 @@ HOOK_DECLARE(0x00591F80, director_render);
 //.text:00591550 ; c_null_camera::c_null_camera()
 //.text:005915A0 ; byte(&__cdecl c_static_array<byte[352], 4>::operator[]<e_output_user_index>(e_output_user_index))[352]
 //.text:005915C0 ; s_director_info& __cdecl c_static_array<s_director_info, 4>::operator[]<e_output_user_index>(e_output_user_index)
-//.text:005916B0 ; e_director_mode __cdecl choose_appropriate_director(e_output_user_index)
+
+e_director_mode __cdecl choose_appropriate_director(e_output_user_index output_user_index)
+{
+	return INVOKE(0x005916B0, choose_appropriate_director, output_user_index);
+}
+
 //.text:005916F0 ; long __cdecl dead_or_alive_unit_from_output_user(e_output_user_index)
 //.text:005917B0 ; void __cdecl director_dispose()
 //.text:005917C0 ; void __cdecl director_dispose_from_old_map()
@@ -581,8 +586,7 @@ void __cdecl director_debug_camera(bool render)
 		}
 		else
 		{
-			e_director_mode appropriate_director = static_cast<e_director_mode>(choose_appropriate_director(user_index));
-			director_set_mode(user_index, appropriate_director);
+			director_set_mode(user_index, choose_appropriate_director(user_index));
 		}
 	}
 
@@ -593,20 +597,20 @@ void __cdecl director_script_camera(bool scripted)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(director_camera_scripted);
 
-	if (*director_camera_scripted == scripted)
-		return;
-
-	*director_camera_scripted = scripted;
-
-	for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
+	if (*director_camera_scripted != scripted)
 	{
-		if (scripted)
+		*director_camera_scripted = scripted;
+
+		for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
 		{
-			director_set_camera_mode(user_index, _camera_mode_scripted);
-		}
-		else
-		{
-			director_set_mode(user_index, e_director_mode(choose_appropriate_director(user_index)));
+			if (scripted)
+			{
+				director_set_camera_mode(user_index, _camera_mode_scripted);
+			}
+			else
+			{
+				director_set_mode(user_index, choose_appropriate_director(user_index));
+			}
 		}
 	}
 }
