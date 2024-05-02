@@ -206,8 +206,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(map_reset, 0, "", "starts the map from the beginning.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(map_reset_random, 0, "", "starts the map from the beginning with a new random seed.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
-	COMMAND_CALLBACK_REGISTER(map_name, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNo, for init.txt only"),
-	COMMAND_CALLBACK_REGISTER(game_multiplayer, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNo, for init.txt only"),
+	COMMAND_CALLBACK_REGISTER(map_name, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
+	COMMAND_CALLBACK_REGISTER(game_multiplayer, 1, "<string>", "debug map launching: sets the multiplayer engine for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_splitscreen, 1, "<long>", "debug map launching: sets the number of multiplayer splitscreen players for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_difficulty, 1, "<game_difficulty>", "debug map launching: sets the difficulty of the next map.\r\nNETWORK SAFE: No, for init.txt only"),
 	COMMAND_CALLBACK_REGISTER(game_coop_players, 1, "<long>", "debug map launching: sets the number of coop players for the next map.\r\nNETWORK SAFE: No, for init.txt only"),
