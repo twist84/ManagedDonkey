@@ -240,8 +240,8 @@ void __cdecl main_render()
 	//		main_time_throttle(target_display_vblank_index);
 	//
 	//		// done in `sub_604A20`
-	//		c_rasterizer::end_frame();
-	//		g_main_render_timing_data->reset();
+	//		//c_rasterizer::end_frame();
+	//		//g_main_render_timing_data->reset();
 	//	}
 	//}
 }
