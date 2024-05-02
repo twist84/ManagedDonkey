@@ -112,6 +112,16 @@ struct hs_thread_tracking_data :
 };
 static_assert(sizeof(hs_thread_tracking_data) == 0xC);
 
+struct s_hs_thread_iterator
+{
+	long thread_index;
+	bool __unknown4;
+	bool __unknown5;
+	bool __unknown6;
+	long __unknown8;
+};
+static_assert(sizeof(s_hs_thread_iterator) == 0xC);
+
 struct hs_debug_data_definition
 {
 	c_static_flags<MAXIMUM_TRIGGER_VOLUMES_PER_SCENARIO> activated_trigger_volumes;
