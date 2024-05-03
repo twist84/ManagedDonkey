@@ -82,7 +82,8 @@ static_assert(sizeof(s_status_string) == 0x228);
 struct s_string_cache
 {
 	c_static_string<4096> string;
-	real_argb_color color;
+	real alpha;
+	real_rgb_color color;
 	long text_justification;
 };
 static_assert(sizeof(s_string_cache) == 0x1014);

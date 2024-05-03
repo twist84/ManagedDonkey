@@ -1267,6 +1267,7 @@ void status_line_draw()
 					status_line->clear_text();
 			}
 		}
+
 		string_cache_flush(&string_cache, &draw_string, &font_cache);
 	}
 }
@@ -1352,16 +1353,16 @@ bool string_cache_add_string(s_string_cache* string_cache, char const* string, r
 	bool should_add_string = false;
 	if (string_cache->string.is_empty())
 	{
-		string_cache->color.alpha = alpha;
-		string_cache->color.color = color;
+		string_cache->color = color;
+		string_cache->alpha = alpha;
 		string_cache->text_justification = text_justification;
 
 		should_add_string = true;
 	}
-	else if (string_cache->color.alpha == alpha
-		&& string_cache->color.color.red == color.red
-		&& string_cache->color.color.green == color.green
-		&& string_cache->color.color.blue == color.blue
+	else if (string_cache->alpha == alpha
+		&& string_cache->color.red == color.red
+		&& string_cache->color.green == color.green
+		&& string_cache->color.blue == color.blue
 		&& string_cache->text_justification == text_justification)
 	{
 		should_add_string = true;
@@ -1378,18 +1379,23 @@ bool string_cache_add_string(s_string_cache* string_cache, char const* string, r
 
 void string_cache_flush(s_string_cache* string_cache, c_draw_string* draw_string, c_font_cache_base* font_cache)
 {
-	if (string_cache->string.is_empty())
-		return;
+	if (!string_cache->string.is_empty())
+	{
+		real_argb_color color{};
+		real_argb_color shadow_color{};
 
-	real_argb_color color = string_cache->color;
-	real_argb_color shadow_color = *global_real_argb_black;
-	shadow_color.alpha = string_cache->color.alpha;
+		color.color = string_cache->color;
+		color.alpha = string_cache->alpha * 0.5f;
 
-	draw_string->set_justification(string_cache->text_justification);
-	draw_string->set_color(&color);
-	draw_string->set_shadow_color(&shadow_color);
-	draw_string->draw(font_cache, string_cache->string.get_string());
+		shadow_color.color = *global_real_rgb_black;
+		shadow_color.alpha = string_cache->alpha;
 
-	string_cache->string.clear();
+		draw_string->set_justification(string_cache->text_justification);
+		draw_string->set_color(&color);
+		draw_string->set_shadow_color(&shadow_color);
+		draw_string->draw(font_cache, string_cache->string.get_string());
+
+		string_cache->string.clear();
+	}
 }
 
