@@ -122,6 +122,9 @@ void debug_menu_dispose_from_old_map()
 		g_debug_menu_globals.root_menu = NULL;
 	}
 	g_debug_menu_globals.active_menu = NULL;
+
+	if (g_user_interface_controller_globals.event_manager_suppress)
+		g_user_interface_controller_globals.event_manager_suppress = false;
 }
 
 void debug_menu_update_current_gamepad_state()
