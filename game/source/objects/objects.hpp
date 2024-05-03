@@ -252,7 +252,32 @@ static_assert(sizeof(s_object_render_data) == 0x2000);
 
 struct s_object_globals
 {
-	byte __data[0x6608];
+	byte __unknown0;
+	byte __unknown1;
+	byte __unknown2;
+
+	bool garbage_collection_cannot_run;
+	short active_garbage_object_count;
+	short active_garbage_player_bodies;
+
+	long __unknown8;
+	long __unknownC;
+	long __unknown10;
+	long __unknown14;
+	long __unknown18;
+
+	long object_update_absolute_index;
+
+	byte __data20[0x228];
+	byte __unknown248;
+	byte __unknown249;
+	byte __data24A[0x2];
+
+	// not the actual name
+	c_static_array<long, k_object_type_count> object_type_scenario_datums_counts;
+
+	// #TODO: find out if this count has a name
+	c_static_array<long, 6368> scenario_object_to_object_index;
 };
 static_assert(sizeof(s_object_globals) == 0x6608);
 
