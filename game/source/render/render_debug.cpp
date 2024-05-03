@@ -1180,7 +1180,7 @@ void __cdecl render_debug_string_immediate(bool draw_immediately, short const* t
 		{
 			c_simple_font_draw_string draw_string;
 			draw_string.set_tab_stops(tab_stops, tab_stop_count);
-			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
+			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
 			draw_string.draw(NULL, string);
 		}
 		else
@@ -1189,7 +1189,7 @@ void __cdecl render_debug_string_immediate(bool draw_immediately, short const* t
 			c_font_cache_mt_safe font_cache;
 
 			draw_string.set_tab_stops(tab_stops, tab_stop_count);
-			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
+			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
 			draw_string.draw(&font_cache, string);
 		}
 	}
@@ -1232,7 +1232,7 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 		if (g_render_debug_globals->use_simple_font)
 		{
 			c_simple_font_draw_string draw_string;
-			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
+			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
 			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
@@ -1245,7 +1245,7 @@ void __cdecl render_debug_string_at_point_immediate(real_point3d const* point, c
 			c_rasterizer_draw_string draw_string;
 			c_font_cache_mt_safe font_cache;
 
-			interface_set_bitmap_text_draw_mode(&draw_string, 0, NONE, 0, 0, 5, 0);
+			interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
 			draw_string.set_shadow_color(global_real_argb_black);
 			draw_string.set_color(color);
 			draw_string.set_bounds(&bounds);
