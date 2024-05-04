@@ -58,9 +58,7 @@ struct s_trigger_volume_triangle
 	plane3d lower_plane;
 	plane3d upper_plane;
 	real_point2d vertex[3];
-	real bounds_x[2];
-	real bounds_y[2];
-	real bounds_z[2];
+	real_rectangle3d bounds;
 };
 static_assert(sizeof(s_trigger_volume_triangle) == 0x50);
 
