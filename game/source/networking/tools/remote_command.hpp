@@ -191,6 +191,7 @@ COMMAND_CALLBACK_DECLARE(test_download_storage_file);
 COMMAND_CALLBACK_DECLARE(lsp_info_get);
 COMMAND_CALLBACK_DECLARE(lsp_info_set);
 COMMAND_CALLBACK_DECLARE(player_ragdoll);
+COMMAND_CALLBACK_DECLARE(player_drop_weapon);
 
 //-----------------------------------------------------------------------------
 
@@ -320,6 +321,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(lsp_info_set, 1, "<string>", "<ip:port> sets the LSP server address and port\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(player_ragdoll, 0, "", "ragdolls the players biped.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(player_drop_weapon, 0, "", "drops the players held weapon.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);

@@ -1850,9 +1850,20 @@ callback_result_t player_ragdoll_callback(void const* userdata, long token_count
 
 	e_output_user_index user_index = player_mapping_first_active_output_user();
 	long unit_index = player_mapping_get_unit_by_output_user(user_index);
-	biped_scripting_ragdoll(unit_index);
+	if (unit_index != NONE)
+		biped_scripting_ragdoll(unit_index);
 
-	console_close();
+	return result;
+}
+
+callback_result_t player_drop_weapon_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	e_output_user_index user_index = player_mapping_first_active_output_user();
+	long player_index = player_mapping_get_player_by_output_user(user_index);
+	if (player_index != NONE)
+		player_try_to_drop_weapon(player_index, true);
 
 	return result;
 }

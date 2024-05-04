@@ -247,7 +247,12 @@ void __cdecl test_main_loop_body_begin()
 		global_preferences_set_controls_method(controls_method = (controls_method + 1) % 2);
 		input_abstraction_globals.controls_method = controls_method;
 
-		//console_process_command("player_ragdoll", true);
+		//{
+		//	c_tag_resources_game_lock game_lock{};
+		//
+		//	//console_process_command("player_ragdoll", true);
+		//	//console_process_command("player_drop_weapon", true);
+		//}
 	}
 
 	copy_input_states(false);
