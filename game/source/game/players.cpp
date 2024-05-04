@@ -363,7 +363,12 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 //.text:0053FF20
 //.text:0053FF40
 //.text:0053FF70 ; long __cdecl player_try_and_get_player_index_from_absolute_player_index(long)
-//.text:0053FFC0 ; bool __cdecl player_try_to_drop_weapon(long, bool)
+
+bool __cdecl player_try_to_drop_weapon(long player_index, bool a2)
+{
+	return INVOKE(0x0053FFC0, player_try_to_drop_weapon, player_index, a2);
+}
+
 //.text:00540070 ; bool __cdecl player_try_to_put_away_weapon(long, bool)
 //.text:00540150 ; bool __cdecl player_try_to_swap_weapons(long, bool, s_player_interaction const *)
 //.text:00540320 ; void __cdecl player_unit_calculate_location_pesemistic(long, s_location *)
