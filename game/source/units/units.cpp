@@ -377,7 +377,12 @@ void __cdecl unit_render_debug(long unit_index)
 //.text:00B49580 ; void __cdecl unit_toss_item(long, long, long, real, bool)
 //.text:00B49940 ; bool __cdecl unit_transfers_flashlight_value(long)
 //.text:00B49990 ; 
-//.text:00B49B00 ; bool __cdecl unit_try_to_drop_weapon(long, bool)
+
+bool __cdecl unit_try_to_drop_weapon(long unit_index, bool drop_secondary)
+{
+	return INVOKE(0x00B49B00, unit_try_to_drop_weapon, unit_index, drop_secondary);
+}
+
 //.text:00B49BA0 ; bool __cdecl unit_unsuspecting(long, real_point3d const*, vector3d const*)
 //.text:00B49D80 ; void __cdecl unit_unzoom(long, bool)
 //.text:00B49F10 ; bool __cdecl unit_update(long)

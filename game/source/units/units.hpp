@@ -64,6 +64,7 @@ extern void __cdecl unit_get_head_position(long unit_index, real_point3d* positi
 extern short __cdecl unit_get_zoom_level(long unit_index);
 extern bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_definition_index);
 extern void __cdecl unit_render_debug(long unit_index);
+extern bool __cdecl unit_try_to_drop_weapon(long unit_index, bool drop_secondary);
 extern bool __cdecl units_debug_can_select_unit(long unit_index);
 extern long __cdecl units_debug_get_closest_unit(long unit_index);
 extern long __cdecl units_debug_get_next_unit(long unit_index);
