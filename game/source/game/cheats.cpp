@@ -14,6 +14,7 @@
 #include "memory/thread_local.hpp"
 #include "objects/object_definitions.hpp"
 #include "objects/objects.hpp"
+#include "physics/collisions.hpp"
 #include "scenario/scenario.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/string_ids.hpp"
@@ -290,6 +291,36 @@ void __cdecl cheat_all_weapons()
 	cheat_objects(references, reference_count);
 }
 
+bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effect_index, real_point3d* position, vector3d* forward)
+{
+	if (effect_index == NONE)
+	{
+		generate_event(_event_level_warning, "cheats: couldn't load effect '%s.effect' to drop it", effect_name);
+		return false;
+	}
+
+	collision_result collision;
+	vector3d scaled_forward{};
+	scale_vector3d(forward, 1000.0f, &scaled_forward);
+
+	if (!collision_test_vector(_collision_test_structure_geometry_flags, position, &scaled_forward, NONE, NONE, &collision))
+	{
+		generate_event(_event_level_warning, "cheats: couldn't find location to drop effect '%s.effect'", effect_name);
+		return false;
+	}
+
+	real_point3d collision_position = collision.position;
+	vector3d normal = collision.plane.normal;
+
+	collision_position.x -= forward->i * 0.25f;
+	collision_position.y -= forward->j * 0.25f;
+	collision_position.z -= forward->k * 0.25f;
+
+	effect_new_from_point_vector(effect_index, &collision_position, forward, &normal, 1, 1, NULL, NULL);
+
+	return true;
+}
+
 bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected_group_tag, long tag_index, long variant_name, long shader, real_point3d const* position, vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
 {
 	char const* tag_group_name = "unknown";
@@ -545,7 +576,9 @@ void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name
 	{
 		if (group_tag == EFFECT_TAG)
 		{
-			//cheat_drop_effect(group_tag, tag_get_name(tag_index), tag_index, &result->focus_point, &result->forward);
+			real_point3d focus_point = result->focus_point;
+			vector3d forward = result->forward;
+			cheat_drop_effect(group_tag, tag_get_name(tag_index), tag_index, &focus_point, &forward);
 		}
 		else if (group_tag == OBJECT_TAG)
 		{
