@@ -15,6 +15,33 @@ struct c_structure_bsp_resource_interface
 };
 static_assert(sizeof(c_structure_bsp_resource_interface) == 0x20);
 
+// #TODO: use `s_*_bsp_types` for collision bsp logic
+//struct s_small_bsp_types
+//{
+//	using k_collision_bsp_type = struct collision_bsp;
+//	using k_bsp3d_nodes_type = struct bsp3d_node;
+//	using k_planes_type = struct plane3d;
+//	using k_leaves_type = struct collision_leaf;
+//	using k_bsp2d_references_type = struct bsp2d_reference;
+//	using k_bsp2d_nodes_type = struct bsp2d_node;
+//	using k_surfaces_type = struct collision_surface;
+//	using k_edges_type = struct collision_edge;
+//	using k_vertices_type = struct collision_vertex;
+//};
+//
+//struct s_large_bsp_types
+//{
+//	using k_collision_bsp_type = struct large_collision_bsp;
+//	using k_bsp3d_nodes_type = struct large_bsp3d_node;
+//	using k_planes_type = struct plane3d;
+//	using k_leaves_type = struct large_collision_leaf;
+//	using k_bsp2d_references_type = struct large_bsp2d_reference;
+//	using k_bsp2d_nodes_type = struct large_bsp2d_node;
+//	using k_surfaces_type = struct large_collision_surface;
+//	using k_edges_type = struct large_collision_edge;
+//	using k_vertices_type = struct large_collision_vertex;
+//};
+
 struct collision_bsp;
 struct large_collision_bsp;
 struct structure_instanced_geometry_definition;
