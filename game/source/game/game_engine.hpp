@@ -174,6 +174,12 @@ struct s_player_state_data
 };
 static_assert(sizeof(s_player_state_data) == 0xC);
 
+struct s_user_talker_data
+{
+	c_static_array<short, 16> __unknown0;
+};
+static_assert(sizeof(s_user_talker_data) == 0x20);
+
 struct s_local_game_engine_globals
 {
 	long __time0;
@@ -181,8 +187,7 @@ struct s_local_game_engine_globals
 	byte __data4[0x10];
 
 	c_static_array<s_player_state_data, 4> player_states;
-
-	byte __data44[0x80];
+	c_static_array<s_user_talker_data, 4> user_talkers;
 };
 static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
 
