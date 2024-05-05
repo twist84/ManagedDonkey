@@ -35,13 +35,13 @@ struct collision_result
 		bsp_index(),
 		leaf_index(),
 		surface_index(),
-		__unknown50(),
-		__unknown54(),
+		plane_index(),
+		edge_index(),
 		surface_flags(),
-		__unknown56(),
+		breakable_surface_index(),
 		__unknown57(),
 		material_index(),
-		__unknown5A(),
+		breakable_surface_set_index(),
 		__data5B()
 	{
 	}
@@ -63,13 +63,13 @@ struct collision_result
 	long bsp_index;
 	long leaf_index;
 	long surface_index;
-	long __unknown50;
-	byte __unknown54;
+	long plane_index;
+	char edge_index;
 	byte_flags surface_flags; // c_flags<e_surface_flags, byte, k_surface_flags>
-	byte __unknown56;
+	char breakable_surface_index;
 	byte __unknown57;
 	short material_index;
-	byte __unknown5A;
+	char breakable_surface_set_index;
 	byte __data5B[0x1];
 };
 static_assert(sizeof(collision_result) == 0x5C);

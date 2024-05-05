@@ -399,15 +399,15 @@ void collision_debug_render()
 						TEST_BIT(collision.surface_flags, _surface_flag_breakable_bit) ? " breakable" : "",
 						TEST_BIT(collision.surface_flags, _surface_flag_slip_bit) ? " slip" : "");
 			
-					if (collision.__unknown5A == 0xFF)
+					if (collision.breakable_surface_set_index == 0xFF)
 					{
 						g_collision_debug_status_lines[8].clear_text();
 					}
 					else
 					{
 						g_collision_debug_status_lines[8].printf("breakable set index %d,%d",
-							collision.__unknown5A,
-							collision.__unknown56);
+							collision.breakable_surface_set_index,
+							collision.breakable_surface_index);
 					}
 				}
 				else
