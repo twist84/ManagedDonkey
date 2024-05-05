@@ -25,25 +25,49 @@ long c_collision_edge_reference::get_edge_index() const
 long c_collision_edge_reference::get_vertex_index(long index) const
 {
 	if (is_small())
-		return get_small_bsp()->edges[m_edge_index].vertex_indices[index];
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_edge* edge = &small_bsp->edges[m_edge_index];
+		long vertex_index = edge->vertex_indices[index];
+		return vertex_index & 0xFFFF;
+	}
 
-	return get_large_bsp()->edges[m_edge_index].vertex_indices[index];
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_edge* edge = &large_bsp->edges[m_edge_index];
+	long vertex_index = edge->vertex_indices[index];
+	return vertex_index;
 }
 
 long c_collision_edge_reference::get_edge_index(long index) const
 {
 	if (is_small())
-		return get_small_bsp()->edges[m_edge_index].edge_indices[index];
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_edge* edge = &small_bsp->edges[m_edge_index];
+		long edge_index = edge->edge_indices[index];
+		return edge_index & 0xFFFF;
+	}
 
-	return get_large_bsp()->edges[m_edge_index].edge_indices[index];
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_edge* edge = &large_bsp->edges[m_edge_index];
+	long edge_index = edge->edge_indices[index];
+	return edge_index;
 }
 
 long c_collision_edge_reference::get_surface_index(long index) const
 {
 	if (is_small())
-		return get_small_bsp()->edges[m_edge_index].surface_indices[index];
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_edge* edge = &small_bsp->edges[m_edge_index];
+		long surface_index = edge->surface_indices[index];
+		return surface_index & 0xFFFF;
+	}
 
-	return get_large_bsp()->edges[m_edge_index].surface_indices[index];
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_edge* edge = &large_bsp->edges[m_edge_index];
+	long surface_index = edge->surface_indices[index];
+	return surface_index;
 }
 
 c_collision_vertex_reference::c_collision_vertex_reference() :
@@ -66,25 +90,49 @@ long c_collision_vertex_reference::get_vertex_index() const
 real_point3d* c_collision_vertex_reference::get_position() const
 {
 	if (is_small())
-		return &get_small_bsp()->vertices[m_vertex_index].point;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_vertex* vertex = &small_bsp->vertices[m_vertex_index];
+		real_point3d* point = &vertex->point;
+		return point;
+	}
 
-	return &get_large_bsp()->vertices[m_vertex_index].point;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_vertex* vertex = &large_bsp->vertices[m_vertex_index];
+	real_point3d* point = &vertex->point;
+	return point;
 }
 
 long c_collision_vertex_reference::get_first_edge_index() const
 {
 	if (is_small())
-		return get_small_bsp()->vertices[m_vertex_index].first_edge;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_vertex* vertex = &small_bsp->vertices[m_vertex_index];
+		long first_edge = vertex->first_edge;
+		return first_edge & 0xFFFF;
+	}
 
-	return get_large_bsp()->vertices[m_vertex_index].first_edge;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_vertex* vertex = &large_bsp->vertices[m_vertex_index];
+	long first_edge = vertex->first_edge;
+	return first_edge;
 }
 
 long c_collision_vertex_reference::get_sink() const
 {
 	if (is_small())
-		return get_small_bsp()->vertices[m_vertex_index].sink;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_vertex* vertex = &small_bsp->vertices[m_vertex_index];
+		long sink = vertex->sink;
+		return sink & 0xFFFF;
+	}
 
-	return get_large_bsp()->vertices[m_vertex_index].sink;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_vertex* vertex = &large_bsp->vertices[m_vertex_index];
+	long sink = vertex->sink;
+	return sink;
 }
 
 c_collision_surface_reference::c_collision_surface_reference() :
@@ -102,49 +150,97 @@ c_collision_surface_reference::c_collision_surface_reference(c_collision_bsp_ref
 byte c_collision_surface_reference::get_best_plane_calculation_vertex_index() const
 {
 	if (is_small())
-		return get_small_bsp()->surfaces[m_surface_index].best_plane_calculation_vertex_index;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_surface* surface= &small_bsp->surfaces[m_surface_index];
+		byte best_plane_calculation_vertex_index = surface->best_plane_calculation_vertex_index;
+		return best_plane_calculation_vertex_index;
+	}
 
-	return get_large_bsp()->surfaces[m_surface_index].best_plane_calculation_vertex_index;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_surface* surface= &large_bsp->surfaces[m_surface_index];
+	byte best_plane_calculation_vertex_index = surface->best_plane_calculation_vertex_index;
+	return best_plane_calculation_vertex_index;
 }
 
 long c_collision_surface_reference::get_breakable_surface_set_index() const
 {
 	if (is_small())
-		return get_small_bsp()->surfaces[m_surface_index].breakable_surface_set;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
+		long breakable_surface_set = surface->breakable_surface_set;
+		return breakable_surface_set & 0xFFFF;
+	}
 
-	return get_large_bsp()->surfaces[m_surface_index].breakable_surface_set;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_surface* surface = &large_bsp->surfaces[m_surface_index];
+	long breakable_surface_set = surface->breakable_surface_set;
+	return breakable_surface_set;
 }
 
 long c_collision_surface_reference::get_breakable_surface_index() const
 {
 	if (is_small())
-		return get_small_bsp()->surfaces[m_surface_index].breakable_surface;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
+		long breakable_surface = surface->breakable_surface;
+		return breakable_surface & 0xFFFF;
+	}
 
-	return get_large_bsp()->surfaces[m_surface_index].breakable_surface;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_surface* surface = &large_bsp->surfaces[m_surface_index];
+	long breakable_surface = surface->breakable_surface;
+	return breakable_surface;
 }
 
 long c_collision_surface_reference::get_first_edge_index() const
 {
 	if (is_small())
-		return get_small_bsp()->surfaces[m_surface_index].first_edge;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
+		long first_edge = surface->first_edge;
+		return first_edge & 0xFFFF;
+	}
 
-	return get_large_bsp()->surfaces[m_surface_index].first_edge;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_surface* surface = &large_bsp->surfaces[m_surface_index];
+	long first_edge = surface->first_edge;
+	return first_edge;
 }
 
 byte_flags c_collision_surface_reference::get_flags() const
 {
 	if (is_small())
-		return get_small_bsp()->surfaces[m_surface_index].flags;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
+		byte_flags flags = surface->flags;
+		return flags;
+	}
 
-	return get_large_bsp()->surfaces[m_surface_index].flags;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_surface* surface = &large_bsp->surfaces[m_surface_index];
+	byte_flags flags = surface->flags;
+	return flags;
 }
 
 long c_collision_surface_reference::get_material_index() const
 {
 	if (is_small())
-		return get_small_bsp()->surfaces[m_surface_index].material;
+	{
+		collision_bsp const* small_bsp = get_small_bsp();
+		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
+		long material = surface->material;
+		return material & 0xFFFF;
+	}
 
-	return get_large_bsp()->surfaces[m_surface_index].material;
+	large_collision_bsp const* large_bsp = get_large_bsp();
+	large_collision_surface* surface = &large_bsp->surfaces[m_surface_index];
+	long material = surface->material;
+	return material;
 }
 
 plane3d const* c_collision_surface_reference::get_plane(plane3d* plane) const
