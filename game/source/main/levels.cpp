@@ -3,7 +3,9 @@
 #include "cache/cache_files.hpp"
 #include "cseries/async.hpp"
 #include "cseries/cseries.hpp"
+#include "main/main.hpp"
 #include "memory/module.hpp"
+#include "multithreading/synchronization.hpp"
 #include "networking/tools/network_blf.hpp"
 #include "tag_files/files_windows.hpp"
 #include "text/unicode.hpp"
@@ -54,7 +56,60 @@ void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte
 
 void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path)
 {
-	HOOK_INVOKE(, levels_add_map_from_scripting, map_id, scenario_path);
+	//HOOK_INVOKE(, levels_add_map_from_scripting, map_id, scenario_path);
+
+	if (g_level_globals.__unknownA14)
+	{
+		if (g_level_globals.enumeration_task == NONE || g_level_globals.enumeration_result.peek())
+			levels_begin_dvd_enumeration();
+
+		while (g_level_globals.enumeration_task != NONE && !g_level_globals.enumeration_result.peek())
+			main_loop_pregame();
+	}
+
+	c_critical_section_scope critical_section_scope(_critical_section_levels);
+
+	// called but never used, comment out for now
+	//levels_try_and_get_by_map_id(g_level_globals.campaign_levels, map_id, &campaign_level);
+
+	long campaign_level_index = datum_new(*g_level_globals.campaign_levels);
+	if (campaign_level_index != NONE)
+	{
+		s_level_datum* level = (s_level_datum*)datum_try_and_get(*g_level_globals.campaign_levels, campaign_level_index);
+		level->flags = 0x2C;
+		level->map_id = map_id;
+		usnzprintf(level->name, NUMBEROF(level->name), L"%S", tag_name_strip_path(scenario_path));
+		ustrnzcpy(level->description, L"This is a fake level!", NUMBEROF(level->description));
+		level->presence_context_id = -1;
+		level->sort_order = -1;
+		level->multiplayer_minimum_desired_players = char(0xFF);
+		level->multiplayer_maximum_desired_players = char(0xFF);
+		csnzprintf(level->scenario_path, NUMBEROF(level->scenario_path), "%s%s", cache_files_map_directory(), scenario_path);
+
+		c_data_iterator<s_campaign_datum> campaign_iterator;
+		campaign_iterator.begin(*g_level_globals.campaigns);
+		if (campaign_iterator.next())
+		{
+			s_campaign_datum* campaign = campaign_iterator.get_datum();
+
+			while (campaign->campaign_id != 1)
+			{
+				if (!campaign_iterator.next())
+					return;
+			}
+
+			long map_index = 0;
+			long* map_ids = campaign->map_ids;
+			while (*map_ids && *map_ids != NONE)
+			{
+				map_index++;
+				map_ids++;
+				if (map_index >= NUMBEROF(campaign->map_ids))
+					return;
+			}
+			campaign->map_ids[map_index] = map_id;
+		}
+	}
 }
 
 void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
