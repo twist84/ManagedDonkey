@@ -22,14 +22,35 @@ static_assert(sizeof(s_campaign_datum) == 0x288);
 
 enum e_level_flags
 {
+	// levels_delete: datum_delete
+	_level_bit0 = 0,
+
+	_level_bit1,
+
+	// main_game_campaign_loaded: does progress? or does not progress?
+	_level_bit2,
+	
+	_level_bit3,
+
+	_level_ui,
+	_level_solo,
+	_level_multi,
+	_level_dlc,
+	_level_test,
+	_level_temp,
+	_level_unknown,
+
+	_level_bit11,
+	_level_bit12,
+	_level_bit13,
+
 	k_level_flags
 };
 
 struct s_level_datum :
 	s_datum_header
 {
-	//c_flags<e_level_flags, word, k_level_flags> flags;
-	word_flags flags;
+	c_flags<e_level_flags, word, k_level_flags> flags;
 	long map_id;
 	wchar_t name[32];
 	wchar_t description[128];

@@ -76,14 +76,22 @@ void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_pat
 	if (campaign_level_index != NONE)
 	{
 		s_level_datum* level = (s_level_datum*)datum_try_and_get(*g_level_globals.campaign_levels, campaign_level_index);
-		level->flags = 0x2C;
+
+		// 0x2C
+		level->flags.set(_level_bit2, true);
+		level->flags.set(_level_bit3, true);
+		level->flags.set(_level_solo, true);
+
 		level->map_id = map_id;
 		usnzprintf(level->name, NUMBEROF(level->name), L"%S", tag_name_strip_path(scenario_path));
 		ustrnzcpy(level->description, L"This is a fake level!", NUMBEROF(level->description));
+
 		level->presence_context_id = -1;
 		level->sort_order = -1;
+
 		level->multiplayer_minimum_desired_players = char(0xFF);
 		level->multiplayer_maximum_desired_players = char(0xFF);
+
 		csnzprintf(level->scenario_path, NUMBEROF(level->scenario_path), "%s%s", cache_files_map_directory(), scenario_path);
 
 		c_data_iterator<s_campaign_datum> campaign_iterator;
@@ -139,16 +147,25 @@ void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* 
 	if (multiplayer_level_index != NONE)
 	{
 		s_level_datum* level = (s_level_datum*)datum_try_and_get(*g_level_globals.multiplayer_levels, multiplayer_level_index);
-		level->flags = 0x4C;
+
+		// 0x4C
+		level->flags.set(_level_bit2, true);
+		level->flags.set(_level_bit3, true);
+		level->flags.set(_level_multi, true);
+
 		level->map_id = map_id;
 		usnzprintf(level->name, NUMBEROF(level->name), L"%S", tag_name_strip_path(scenario_path));
 		ustrnzcpy(level->description, L"This is a fake level!", NUMBEROF(level->description));
+
 		level->presence_context_id = -1;
 		level->sort_order = 0;
+
 		level->multiplayer_minimum_desired_players = 16;
 		level->multiplayer_maximum_desired_players = 16;
-		level->engine_maximum_teams[_game_engine_type_ctf]         = 0;
-		level->engine_maximum_teams[_game_engine_type_slayer]      = 2;
+		
+		level->engine_maximum_teams[_game_engine_type_none]        = 0;
+		level->engine_maximum_teams[_game_engine_type_ctf]         = 2;
+		level->engine_maximum_teams[_game_engine_type_slayer]      = 8;
 		level->engine_maximum_teams[_game_engine_type_oddball]     = 8;
 		level->engine_maximum_teams[_game_engine_type_king]        = 8;
 		level->engine_maximum_teams[_game_engine_type_sandbox]     = 8;
@@ -157,6 +174,7 @@ void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* 
 		level->engine_maximum_teams[_game_engine_type_territories] = 4;
 		level->engine_maximum_teams[_game_engine_type_assault]     = 2;
 		level->engine_maximum_teams[_game_engine_type_infection]   = 8;
+
 		csnzprintf(level->scenario_path, NUMBEROF(level->scenario_path), "%s%s", cache_files_map_directory(), scenario_path);
 	}
 }
