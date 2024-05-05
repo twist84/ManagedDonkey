@@ -19,6 +19,7 @@
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
 #include "main/console.hpp"
+#include "main/levels.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_game_launch.hpp"
@@ -1864,6 +1865,48 @@ callback_result_t player_drop_weapon_callback(void const* userdata, long token_c
 	long player_index = player_mapping_get_player_by_output_user(user_index);
 	if (player_index != NONE)
 		player_try_to_drop_weapon(player_index, true);
+
+	return result;
+}
+
+callback_result_t levels_add_fake_map_solo_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* scenario_path = tokens[1]->get_string();
+	levels_add_fake_map_from_scripting(scenario_path);
+
+	return result;
+}
+
+callback_result_t levels_add_map_solo_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long map_id = atol(tokens[1]->get_string());
+	char const* scenario_path = tokens[2]->get_string();
+	levels_add_map_from_scripting(map_id, scenario_path);
+
+	return result;
+}
+
+callback_result_t levels_add_fake_map_multi_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* scenario_path = tokens[1]->get_string();
+	levels_add_fake_multiplayer_map_from_scripting(scenario_path);
+
+	return result;
+}
+
+callback_result_t levels_add_map_multi_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long map_id = atol(tokens[1]->get_string());
+	char const* scenario_path = tokens[2]->get_string();
+	levels_add_multiplayer_map_from_scripting(map_id, scenario_path);
 
 	return result;
 }

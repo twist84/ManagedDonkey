@@ -192,6 +192,10 @@ COMMAND_CALLBACK_DECLARE(lsp_info_get);
 COMMAND_CALLBACK_DECLARE(lsp_info_set);
 COMMAND_CALLBACK_DECLARE(player_ragdoll);
 COMMAND_CALLBACK_DECLARE(player_drop_weapon);
+COMMAND_CALLBACK_DECLARE(levels_add_fake_map_solo);
+COMMAND_CALLBACK_DECLARE(levels_add_map_solo);
+COMMAND_CALLBACK_DECLARE(levels_add_fake_map_multi);
+COMMAND_CALLBACK_DECLARE(levels_add_map_multi);
 
 //-----------------------------------------------------------------------------
 
@@ -266,8 +270,8 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(net_build_map_variant, 1, "<string>", "writes the current map variant to a file\r\nNETWORK SAFE: Yes"),
 
-	COMMAND_CALLBACK_REGISTER(net_verify_map_variant, 1, "<string>", "verifies the contents of a packed map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
-	COMMAND_CALLBACK_REGISTER(net_load_and_use_map_variant, 1, "<string>", "loads the contents of a packed map variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(net_verify_map_variant, 1, "<string>", "verifies the contents of a map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(net_load_and_use_map_variant, 1, "<string>", "loads the contents of a map variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_verify_packed_map_variant, 1, "<string>", "verifies the contents of a packed map variant file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(net_load_and_use_packed_map_variant, 1, "<string>", "loads the contents of a packed map variant file and submits to networking for use in the current game\r\nNETWORK SAFE: Unknown, assumed unsafe"),
@@ -322,6 +326,11 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(player_ragdoll, 0, "", "ragdolls the players biped.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(player_drop_weapon, 0, "", "drops the players held weapon.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(levels_add_fake_map_solo, 1, "<string>", "<scenario_path> adds a fake map for the campaign\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(levels_add_map_solo, 2, "<long> <string>", "<map_id> <scenario_path> adds a map with the specified map id for the campaign\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(levels_add_fake_map_multi, 1, "<string>", "<scenario_path> adds a fake map for the multiplayer\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(levels_add_map_multi, 2, "<long> <string>", "<map_id> <scenario_path> adds a map with the specified map id for the multiplayer\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 };
 
 extern void command_tokenize(char const* input, tokens_t& tokens, long* token_count);
