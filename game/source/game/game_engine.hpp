@@ -154,7 +154,7 @@ struct s_game_engine_globals
 	dword round_end_ticks;
 	c_enum<e_game_engine_state, long, _game_engine_state_game_over, k_game_engine_state_count> desired_state;
 	bool game_finished;
-	dword __unknown13DA8;
+	long garbage_collect_speed; // e_garbage_collect_speed
 	dword __unknown13DAC;
 	c_enum<e_game_engine_type, long, _game_engine_type_none, k_game_engine_type_count> game_engine_index;
 	long multiplayer_weapon_count;
