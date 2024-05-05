@@ -119,6 +119,53 @@ void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path)
 	levels_add_map_from_scripting(-2, scenario_path);
 }
 
+void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* scenario_path)
+{
+	if (g_level_globals.__unknownA14)
+	{
+		if (g_level_globals.enumeration_task == NONE || g_level_globals.enumeration_result.peek())
+			levels_begin_dvd_enumeration();
+
+		while (g_level_globals.enumeration_task != NONE && !g_level_globals.enumeration_result.peek())
+			main_loop_pregame();
+	}
+
+	c_critical_section_scope critical_section_scope(_critical_section_levels);
+
+	// called but never used, comment out for now
+	//levels_try_and_get_by_map_id(g_level_globals.multiplayer_levels, map_id, &multiplayer_level);
+
+	long multiplayer_level_index = datum_new(*g_level_globals.multiplayer_levels);
+	if (multiplayer_level_index != NONE)
+	{
+		s_level_datum* level = (s_level_datum*)datum_try_and_get(*g_level_globals.multiplayer_levels, multiplayer_level_index);
+		level->flags = 0x4C;
+		level->map_id = map_id;
+		usnzprintf(level->name, NUMBEROF(level->name), L"%S", tag_name_strip_path(scenario_path));
+		ustrnzcpy(level->description, L"This is a fake level!", NUMBEROF(level->description));
+		level->presence_context_id = -1;
+		level->sort_order = 0;
+		level->multiplayer_minimum_desired_players = 16;
+		level->multiplayer_maximum_desired_players = 16;
+		level->engine_maximum_teams[_game_engine_type_ctf]         = 0;
+		level->engine_maximum_teams[_game_engine_type_slayer]      = 2;
+		level->engine_maximum_teams[_game_engine_type_oddball]     = 8;
+		level->engine_maximum_teams[_game_engine_type_king]        = 8;
+		level->engine_maximum_teams[_game_engine_type_sandbox]     = 8;
+		level->engine_maximum_teams[_game_engine_type_vip]         = 8;
+		level->engine_maximum_teams[_game_engine_type_juggernaut]  = 8;
+		level->engine_maximum_teams[_game_engine_type_territories] = 4;
+		level->engine_maximum_teams[_game_engine_type_assault]     = 2;
+		level->engine_maximum_teams[_game_engine_type_infection]   = 8;
+		csnzprintf(level->scenario_path, NUMBEROF(level->scenario_path), "%s%s", cache_files_map_directory(), scenario_path);
+	}
+}
+
+void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario_path)
+{
+	levels_add_multiplayer_map_from_scripting(-2, scenario_path);
+}
+
 void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
 {
 	HOOK_INVOKE(, levels_add_level, scenario, byte_swap, maps_path, is_dlc);
