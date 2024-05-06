@@ -178,6 +178,7 @@ POPD
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\ai\actors.cpp" />
     <ClCompile Include="source\ai\path_obstacles.cpp" />
     <ClCompile Include="source\ai\path_smoothing.cpp" />
     <ClCompile Include="source\effects\decals.cpp" />

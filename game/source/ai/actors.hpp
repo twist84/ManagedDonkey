@@ -16,3 +16,15 @@ struct ai_reference_frame
 };
 static_assert(sizeof(ai_reference_frame) == 0x4B0);
 
+struct actor_iterator
+{
+	actor_datum* datum;
+	s_data_iterator iterator;
+	bool __unknown10;
+	long actor_index;
+};
+static_assert(sizeof(actor_iterator) == 0x18);
+
+extern void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2);
+extern actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator);
+
