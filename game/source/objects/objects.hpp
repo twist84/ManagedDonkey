@@ -212,10 +212,11 @@ struct object_placement_data
 	short destroyed_constraints;
 	short loosened_constraints;
 
-	short __unknown140;
-	byte __data142[2];
+	// creature_new
+	short ai_state_type;
+	short ai_state_size;
+	short ai_state_alignment_bits;
 
-	bool location_set;
 	s_location location;
 	bool multiplayer_cinematic_object;
 	long parent_object_index;      // object_index_from_name_index(scenario_object->object_data.parent_id.parent_object)
