@@ -321,6 +321,7 @@ extern bool debug_objects_node_bounds;
 extern bool debug_objects_animation;
 
 extern object_header_datum const* __cdecl object_header_get(long object_index);
+extern object_datum* __cdecl object_get(long object_index);
 extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
 extern e_object_type __cdecl object_get_type(long object_index);
 extern long __cdecl cluster_get_first_collideable_object(long* datum_index, s_cluster_reference cluster_reference);

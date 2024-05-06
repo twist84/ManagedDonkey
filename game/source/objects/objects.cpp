@@ -48,6 +48,11 @@ object_header_datum const* __cdecl object_header_get(long object_index)
 	return static_cast<object_header_datum*>(datum_try_and_get(*object_header_data, object_index));
 }
 
+object_datum* __cdecl object_get(long object_index)
+{
+	return (object_datum*)object_get_and_verify_type(object_index, 0xFFFFFFFF);
+}
+
 void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask)
 {
 	//ASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
