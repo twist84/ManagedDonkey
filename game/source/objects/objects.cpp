@@ -42,6 +42,18 @@ bool debug_objects_pathfinding = false;
 bool debug_objects_node_bounds = false;
 bool debug_objects_animation = false;
 
+void* object_header_block_get(long object_index, object_header_block_reference const* reference)
+{
+	object_header_datum const* object_header = object_header_get(object_index);
+	object_datum* object = object_get(object_index);
+
+	ASSERT(reference->offset > 0);
+	ASSERT(reference->size > 0);
+	ASSERT(reference->offset + reference->size <= object_header->data_size);
+
+	return (byte*)object + reference->offset;
+}
+
 object_header_datum const* __cdecl object_header_get(long object_index)
 {
 	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);

@@ -101,6 +101,13 @@ enum e_object_data_flags
 	k_object_data_flags
 };
 
+struct object_header_block_reference
+{
+	short size;
+	word offset;
+};
+static_assert(sizeof(object_header_block_reference) == 0x4);
+
 struct object_datum :
 	s_datum_header
 {
@@ -320,6 +327,7 @@ extern bool debug_objects_pathfinding;
 extern bool debug_objects_node_bounds;
 extern bool debug_objects_animation;
 
+extern void* __cdecl object_header_block_get(long object_index, object_header_block_reference const* reference);
 extern object_header_datum const* __cdecl object_header_get(long object_index);
 extern object_datum* __cdecl object_get(long object_index);
 extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
