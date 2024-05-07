@@ -154,14 +154,26 @@ struct actor_state_data
 };
 static_assert(sizeof(actor_state_data) == 0x2E4);
 
+struct actor_position_data
+{
+	real_point3d head;
+	real_point3d body;
+	vector3d forward;
+	s_cluster_reference location;
+	byte __data26[0x2];
+	vector3d velocity;
+};
+static_assert(sizeof(actor_position_data) == 0x34);
+
 struct actor_input_data
 {
-	real_point3d head_position;
-	real_point3d body_position;
+	actor_position_data position;
 
-	byte __data18[0xC]; // real_point3d/vector3d?
-	s_cluster_reference __unknown24;
-	byte __data26[0x16];
+	byte __data34[0x1];
+
+	bool underwater;
+
+	byte __data36[0x6];
 
 	long root_vehicle_index;
 	short vehicle_driver_type;

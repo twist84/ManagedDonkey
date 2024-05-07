@@ -53,7 +53,7 @@ void render_dialogue_variants()
 			{
 				s_dialogue_definition* dialogue_definition = (s_dialogue_definition*)tag_get(DIALOGUE_TAG, seat_storage->dialogue_definition_index);
 				char const* mission_dialogue_designator_name = dialogue_definition->mission_dialogue_designator.get_string();
-				render_debug_string_at_point(&actor->input.head_position, mission_dialogue_designator_name, global_real_argb_white);
+				render_debug_string_at_point(&actor->input.position.head, mission_dialogue_designator_name, global_real_argb_white);
 			}
 		}
 	}
