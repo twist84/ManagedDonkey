@@ -108,9 +108,10 @@ static_assert(sizeof(actor_state_data) == 0x2E4);
 
 struct actor_input_data
 {
-	real_point3d __unknown0; // head_position?
-	real_point3d __unknownC;
-	byte __data18[0xC];
+	real_point3d head_position;
+	real_point3d body_position;
+
+	byte __data18[0xC]; // real_point3d/vector3d?
 	s_cluster_reference __unknown24;
 	byte __data26[0x16];
 
@@ -151,8 +152,10 @@ static_assert(sizeof(actor_memory_data) == 0x70);
 struct actor_situation
 {
 	byte __data0[0x2];
+
 	short highest_prop_class;
 	long highest_prop_class_prop_index;
+
 	byte __data8[0x4];
 };
 static_assert(sizeof(actor_situation) == 0xC);
@@ -206,15 +209,20 @@ struct actor_firing_position_data
 	bool ignore_default_areas;
 	bool current_position_is_goal;
 	short goal_status;
+
 	byte __data6[0x2];
+
 	long dynamic_firing_set_index;
 	long dynamic_firing_set_support_object_index;
 	short dynamic_firing_set_support_object_inaccessible_ticks;
 	short current_discarded_firing_positions_entry;
 	actor_discarded_firing_position discarded_firing_positions[4];
 	long current_position_index;
+
 	byte __data30[0x10];
+
 	bool proxy_valid;
+
 	byte __pad41[0x3];
 };
 static_assert(sizeof(actor_firing_position_data) == 0x44);
