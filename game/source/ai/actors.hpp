@@ -88,7 +88,13 @@ struct actor_state_data
 	short combat_status;
 	long combat_status_timer;
 
-	byte __data294[0x38];
+	byte __unknown294[5][0x8];
+	long __unknown2BC;
+	byte __data2C0[0x5];
+
+	bool flying;
+
+	byte __data2C6[0x6];
 
 	bool suppress_combat;
 
