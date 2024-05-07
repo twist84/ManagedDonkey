@@ -46,9 +46,7 @@ static_assert(sizeof(c_destination_orders) == 0x68);
 struct actor_meta_data
 {
 	c_enum<e_actor_type, short, _actor_elite, k_number_of_actor_types> type;
-
-	bool __unknown2;
-
+	bool update; // actor_update
 	bool swarm;
 	bool frozen;
 	bool active;
@@ -81,9 +79,9 @@ struct actor_meta_data
 	bool pathfinding_timeslice; // not a bool?
 
 	bool __unknown37;
-	short __unknown38; // ticks
-	short __unknown3A; // ticks
 
+	short perception_service_timer;
+	short avoidance_service_timer;
 	long spawn_time;
 	long first_active_time;
 	long last_active_time;
