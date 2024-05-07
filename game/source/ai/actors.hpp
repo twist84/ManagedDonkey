@@ -41,7 +41,9 @@ struct actor_meta_data
 	short spawn_formation_index;
 	bool pathfinding_timeslice; // not a bool?
 
-	byte ___data37[0x5];
+	bool __unknown37;
+	short __unknown38; // ticks
+	short __unknown3A; // ticks
 
 	long spawn_time;
 	long first_active_time;
@@ -137,9 +139,18 @@ struct actor_input_data
 };
 static_assert(sizeof(actor_input_data) == 0xB8);
 
+struct c_recent_obstacle
+{
+	long m_object_index;
+	short m_ticks;
+	word_flags m_flags;
+};
+static_assert(sizeof(c_recent_obstacle) == 0x8);
+
 struct actor_obstacle_data
 {
-	byte __data0[0x24];
+	c_recent_obstacle recent_obstacles[3];
+	byte __data24[0xC];
 };
 static_assert(sizeof(actor_obstacle_data) == 0x24);
 
