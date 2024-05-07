@@ -241,7 +241,10 @@ static_assert(sizeof(actor_action_data) == 0x30);
 
 struct actor_script_data
 {
-	byte __data0[0xC];
+	long script_index;
+	long last_script_index;
+
+	byte __data8[0x4];
 };
 static_assert(sizeof(actor_script_data) == 0xC);
 
