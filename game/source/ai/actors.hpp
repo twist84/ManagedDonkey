@@ -249,7 +249,9 @@ static_assert(sizeof(actor_player_data) == 0x18);
 
 struct actor_emotion_data
 {
-	byte __data0[0x10];
+	real danger;
+	real __unknown4;
+	byte __data8[0x8];
 };
 static_assert(sizeof(actor_player_data) == 0x18);
 
