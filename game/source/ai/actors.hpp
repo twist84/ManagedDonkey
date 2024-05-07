@@ -110,13 +110,26 @@ struct actor_input_data
 	byte __data18[0xC];
 	s_cluster_reference __unknown24;
 	byte __data26[0x16];
+
 	long root_vehicle_index;
 	short vehicle_driver_type;
+
 	byte __data42[0x1E];
+
 	vector3d facing_vector;
 	vector3d aiming_vector;
 	vector3d looking_vector;
-	byte __data84[0x34];
+
+	vector3d __unknown84;
+	vector3d __unknown90;
+
+	real inherent_scariness;
+	real body_vitality;
+	real shield_vitality;
+	real recent_shield_damage;
+	real recent_body_damage;
+
+	byte __dataB0[0x8];
 };
 static_assert(sizeof(actor_input_data) == 0xB8);
 
