@@ -1,11 +1,69 @@
 #include "ai/ai_debug.hpp"
 
+#include "cache/cache_files.hpp"
 #include "interface/interface_constants.hpp"
 #include "main/main.hpp"
 #include "memory/thread_local.hpp"
+#include "render/render_debug.hpp"
+
+bool ai_render_dialogue_variants_enabled = false;
+
+// #TODO: move out anything that isn't supposed to be here
+
+struct s_seat_storage
+{
+	long dialogue_definition_index;
+
+	byte __data4[0x58];
+};
+static_assert(sizeof(s_seat_storage) == 0x5C);
+
+struct s_dialogue_definition
+{
+	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG> global_dialogue_info;
+	dword_flags flags;
+	s_tag_block vocalizations;
+
+	// 3-letter mission dialogue designator name
+	c_string_id mission_dialogue_designator;
+};
+static_assert(sizeof(s_dialogue_definition) == 0x24);
+
+void render_dialogue_variants()
+{
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, false);
+	while (true)
+	{
+		actor_datum* actor = actor_iterator_next(&iterator);
+		if (!actor)
+			break;
+
+		if (actor->meta.unit_index != NONE)
+		{
+			byte* unit = (byte*)object_get_and_verify_type(actor->meta.unit_index, _object_mask_unit);
+
+			REFERENCE_DECLARE(unit + 0x534, object_header_block_reference, seat_storage_reference);
+			ASSERT(seat_storage_reference.size == sizeof(s_seat_storage));
+			
+			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &seat_storage_reference);
+			ASSERT(seat_storage != NULL);
+
+			if (seat_storage->dialogue_definition_index != NONE)
+			{
+				s_dialogue_definition* dialogue_definition = (s_dialogue_definition*)tag_get(DIALOGUE_TAG, seat_storage->dialogue_definition_index);
+				char const* mission_dialogue_designator_name = dialogue_definition->mission_dialogue_designator.get_string();
+				render_debug_string_at_point(&actor->input.head_position, mission_dialogue_designator_name, global_real_argb_white);
+			}
+		}
+	}
+}
 
 void __cdecl ai_debug_render()
 {
+	if (ai_render_dialogue_variants_enabled)
+		render_dialogue_variants();
+
 	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
 	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
 	//

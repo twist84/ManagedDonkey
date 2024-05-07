@@ -1,5 +1,6 @@
 #include "main/console.hpp"
 
+#include "ai/ai_debug.hpp"
 #include "camera/camera_globals.hpp"
 #include "cseries/cseries_events.hpp"
 #include "cubemaps/cubemap_debug.hpp"
@@ -820,6 +821,8 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_variants, ai_render_dialogue_variants_enabled),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 
