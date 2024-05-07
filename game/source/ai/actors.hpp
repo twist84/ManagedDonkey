@@ -87,7 +87,11 @@ struct actor_state_data
 	short combat_status;
 	long combat_status_timer;
 
-	byte __data294[0x3C];
+	byte __data294[0x38];
+
+	bool suppress_combat;
+
+	byte __data2CD[0x3];
 
 	bool desired_berserk;
 	bool desired_stowed;
