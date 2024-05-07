@@ -351,8 +351,19 @@ static_assert(sizeof(actor_control_data) == 0x36C);
 
 struct actor_output_data
 {
-	long __unknown0;
-	byte __data4[0x58];
+	string_id desired_mode;
+	long __unknown4;
+	byte __data8[0x8];
+	short aiming_speed;
+	byte __data12[0x2];
+	dword_flags control_flags;
+	vector3d throttle;
+	real primary_trigger;
+	real secondary_trigger;
+	vector3d facing_vector;
+	vector3d aiming_vector;
+	vector3d looking_vector;
+	real_point3d gaze_position;
 };
 static_assert(sizeof(actor_output_data) == 0x5C);
 
