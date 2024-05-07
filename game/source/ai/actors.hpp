@@ -2,17 +2,16 @@
 
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
+#include "shell/shell.hpp"
 
 struct actor_meta_data
 {
-	short type;
+	c_enum<e_actor_type, short, _actor_elite, k_number_of_actor_types> type;
 
 	bool __unknown2;
 
 	bool swarm;
-
-	byte ___data4[0x1];
-
+	bool frozen;
 	bool active;
 	bool squadless;
 
@@ -52,7 +51,7 @@ struct actor_meta_data
 	short highest_prop_status_timer;
 	short highest_prop_state_timer;
 	long character_definition_index;
-	long equipment_use_index;
+	long character_equipment_definition_index;
 	long first_prop_ref_index;
 	real min_trackable_weight;
 	long clump_index;
