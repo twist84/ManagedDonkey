@@ -4,6 +4,45 @@
 #include "memory/data.hpp"
 #include "shell/shell.hpp"
 
+struct s_firing_position_ref
+{
+	byte __data0[0x4];
+};
+static_assert(sizeof(s_firing_position_ref) == 0x4);
+
+struct c_ai_point3d
+{
+	real_point3d m_point;
+	short m_reference_frame;
+	short m_bsp_index;
+};
+static_assert(sizeof(c_ai_point3d) == 0x10);
+
+struct c_ai_direction
+{
+	long m_type;
+	c_ai_point3d __unknown10;
+};
+static_assert(sizeof(c_ai_direction) == 0x14);
+
+struct c_ai_action
+{
+	byte __data0[0xC];
+	c_ai_point3d __unknownC;
+	c_ai_direction __unknown1C;
+};
+static_assert(sizeof(c_ai_action) == 0x30);
+
+struct c_destination_orders
+{
+	short m_type;
+	word_flags m_flags;
+	byte __data4[0x28];
+	vector3d __unknown2C;
+	c_ai_action __unknown38;
+};
+static_assert(sizeof(c_destination_orders) == 0x68);
+
 struct actor_meta_data
 {
 	c_enum<e_actor_type, short, _actor_elite, k_number_of_actor_types> type;
@@ -70,7 +109,10 @@ static_assert(sizeof(invitation_data) == 0x10);
 
 struct s_actor_patrol_state
 {
-	byte __data0[0x8];
+	short __unknown0;
+	short __unknown2;
+	short __unknown4;
+	word_flags flags;
 };
 static_assert(sizeof(s_actor_patrol_state) == 0x8);
 
@@ -215,7 +257,8 @@ static_assert(sizeof(actor_player_data) == 0x18);
 
 struct actor_discarded_firing_position
 {
-	byte __data0[0x6];
+	byte __data0[0x2];
+	s_firing_position_ref __unknown2;
 };
 static_assert(sizeof(actor_discarded_firing_position) == 0x6);
 
@@ -234,7 +277,7 @@ struct actor_firing_position_data
 	short dynamic_firing_set_support_object_inaccessible_ticks;
 	short current_discarded_firing_positions_entry;
 	actor_discarded_firing_position discarded_firing_positions[4];
-	long current_position_index;
+	s_firing_position_ref current_position_index;
 
 	byte __data30[0x10];
 
@@ -244,17 +287,74 @@ struct actor_firing_position_data
 };
 static_assert(sizeof(actor_firing_position_data) == 0x44);
 
+struct actor_look_orders
+{
+	byte __data0[0x34];
+};
+static_assert(sizeof(actor_look_orders) == 0x34);
+
 struct actor_orders
 {
-	byte __data0[0xA0];
+	actor_look_orders look;
+
+	byte __data34[0x6C];
+
+	//actor_move_orders move;
+	//actor_combat_orders combat;
+	//actor_swarm_orders swarm;
 };
 static_assert(sizeof(actor_orders) == 0xA0);
 
 struct actor_action_data
 {
-	byte __data0[0x30];
+	c_ai_action __unknown0;
 };
 static_assert(sizeof(actor_action_data) == 0x30);
+
+struct actor_control_data
+{
+	byte __data0[0x4];
+	c_destination_orders __unknown4;
+	byte __data6C[0xE4];
+
+	vector3d moving_towards_vector;
+
+	byte __data15C[0x48];
+	byte __unknown1A4[0x34];
+	byte __data1D8[0x4];
+	c_ai_direction __unknown1DC;
+	byte __data1F0[0xC];
+	c_ai_direction __unknown1FC;
+	c_ai_direction __unknown210;
+	byte __data224[0x4];
+
+	vector3d desired_facing_vector;
+	vector3d desired_aiming_vector;
+	vector3d desired_looking_vector;
+
+	byte __data24C[0x6];
+
+	short fire_state;
+
+	byte __data254[0x1A];
+
+	short current_fire_target_type;
+	long current_fire_target_prop_index;
+
+	byte __data274[0x80];
+
+	vector3d burst_aim_vector;
+
+	byte __data300[0x6C];
+};
+static_assert(sizeof(actor_control_data) == 0x36C);
+
+struct actor_output_data
+{
+	long __unknown0;
+	byte __data4[0x58];
+};
+static_assert(sizeof(actor_output_data) == 0x5C);
 
 struct actor_script_data
 {
@@ -291,19 +391,8 @@ struct actor_datum :
 	actor_firing_position_data firing_positions;
 	actor_orders orders;
 	actor_action_data actions;
-
-	byte __data6C4[0x3C8];
-
-	// offset: 0x6C4, size: 0x36C?, struct control;
-	// 0x814	control.moving_towards_vector
-	// 0x8EC	control.desired_facing_vector
-	// 0x8F8	control.desired_aiming_vector
-	// 0x904	control.desired_looking_vector
-	// 0x932	control.current_fire_target_type
-	// 0x9B8	control.burst_aim_vector
-
-	// offset: 0xA30?, size: 0x05C?, struct output;
-
+	actor_control_data control;
+	actor_output_data output;
 	actor_script_data commands;
 };
 static_assert(0x004 == offsetof(actor_datum, meta));
@@ -320,7 +409,8 @@ static_assert(0x5A0 == offsetof(actor_datum, emotions));
 static_assert(0x5B0 == offsetof(actor_datum, firing_positions));
 static_assert(0x5F4 == offsetof(actor_datum, orders));
 static_assert(0x694 == offsetof(actor_datum, actions));
-static_assert(0x6C4 == offsetof(actor_datum, __data6C4));
+static_assert(0x6C4 == offsetof(actor_datum, control));
+static_assert(0xA30 == offsetof(actor_datum, output));
 static_assert(0xA8C == offsetof(actor_datum, commands));
 static_assert(sizeof(actor_datum) == 0xA98);
 
