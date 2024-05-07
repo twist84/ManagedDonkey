@@ -277,7 +277,7 @@ struct actor_datum :
 
 	byte __data6C4[0x3C8];
 
-	// offset: 0x6C4, size: 0x???, struct control;
+	// offset: 0x6C4, size: 0x36C?, struct control;
 	// 0x814	control.moving_towards_vector
 	// 0x8EC	control.desired_facing_vector
 	// 0x8F8	control.desired_aiming_vector
@@ -285,7 +285,7 @@ struct actor_datum :
 	// 0x932	control.current_fire_target_type
 	// 0x9B8	control.burst_aim_vector
 
-	// offset: 0x???, size: 0x???, struct output;
+	// offset: 0xA30?, size: 0x05C?, struct output;
 
 	actor_script_data commands;
 };
