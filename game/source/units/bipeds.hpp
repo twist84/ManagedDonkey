@@ -10,8 +10,11 @@ struct biped_datum
 	unit_datum unit;
 	word_flags biped_flags;
 
-	byte __unknown592[0x42];
+	byte __data592[0x1A]; // pathfinding location
+	real_point3d __unknown5AC;
+	byte __data5B8[0x18];
 
+	long current_bump_object_index;
 	long bump_object_index;
 	char bump_ticks;
 	char jump_control_ticks;
@@ -31,7 +34,7 @@ struct biped_datum
 
 	c_character_physics_component physics;
 
-	byte __data6A4[0x4];
+	object_header_block_reference __unknown6A4;
 
 	object_header_block_reference last_node_matrices_storage;
 	vector3d root_offset;
@@ -52,7 +55,15 @@ struct biped_datum
 	vector3d pendulum_vector;
 	real gravity_scale;
 
-	byte __data44[0x44];
+	// linked
+	long __unknown814[10];
+	short __unknown83C[10];
+
+	// linked
+	long __unknown850;
+	short __unknown854;
+	byte __data856[0x1];
+	bool __unknown857;
 };
 static_assert(sizeof(biped_datum) == sizeof(unit_datum) + 0x2C8);
 
