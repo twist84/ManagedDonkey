@@ -3203,6 +3203,9 @@
     <ClInclude Include="source\objects\target_tracking.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\units\dialogue_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">

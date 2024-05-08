@@ -1231,6 +1231,7 @@ POPD
     <ClInclude Include="source\toolbox\game_helpers.hpp" />
     <ClInclude Include="source\units\bipeds.hpp" />
     <ClInclude Include="source\units\biped_definitions.hpp" />
+    <ClInclude Include="source\units\dialogue_definitions.hpp" />
     <ClInclude Include="source\units\units.hpp" />
     <ClInclude Include="source\units\unit_definition.hpp" />
     <ClInclude Include="source\units\vehicles.hpp" />

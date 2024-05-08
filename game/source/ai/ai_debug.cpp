@@ -1,33 +1,19 @@
 #include "ai/ai_debug.hpp"
 
+#include "ai/actors.hpp"
 #include "cache/cache_files.hpp"
-#include "interface/interface_constants.hpp"
-#include "main/main.hpp"
-#include "memory/thread_local.hpp"
+#include "camera/observer.hpp"
+#include "game/player_mapping.hpp"
+#include "objects/objects.hpp"
 #include "render/render_debug.hpp"
+#include "units/dialogue_definitions.hpp"
+#include "units/units.hpp"
+
+real_point3d global_ai_debug_drawstack_next_position;
+real global_ai_debug_drawstack_height;
+real_point3d global_ai_debug_drawstack_last_position;
 
 bool ai_render_dialogue_variants_enabled = false;
-
-// #TODO: move out anything that isn't supposed to be here
-
-struct s_seat_storage
-{
-	long dialogue_definition_index;
-
-	byte __data4[0x58];
-};
-static_assert(sizeof(s_seat_storage) == 0x5C);
-
-struct s_dialogue_definition
-{
-	c_typed_tag_reference<AI_DIALOGUE_GLOBALS_TAG> global_dialogue_info;
-	dword_flags flags;
-	s_tag_block vocalizations;
-
-	// 3-letter mission dialogue designator name
-	c_string_id mission_dialogue_designator;
-};
-static_assert(sizeof(s_dialogue_definition) == 0x24);
 
 void render_dialogue_variants()
 {
@@ -316,5 +302,41 @@ void __cdecl ai_debug_render()
 	//
 	//if (g_dialogue_debug_enabled)
 	//	ai_dialogue_render_records();
+}
+
+void ai_debug_drawstack_setup(real_point3d const* position)
+{
+	e_output_user_index user_index = player_mapping_first_active_output_user();
+	s_observer_result const* camera = observer_try_and_get_camera(user_index);
+
+	global_ai_debug_drawstack_last_position = *position;
+	global_ai_debug_drawstack_next_position = global_ai_debug_drawstack_last_position;
+
+	if (camera)
+	{
+		vector3d vector{};
+		vector_from_points3d(&global_ai_debug_drawstack_last_position, &camera->focus_point, &vector);
+		global_ai_debug_drawstack_height = magnitude3d(&vector) / 40.0f;
+	}
+	else
+	{
+		global_ai_debug_drawstack_height = 0.05f;
+	}
+}
+
+real_point3d* ai_debug_drawstack()
+{
+	global_ai_debug_drawstack_last_position = global_ai_debug_drawstack_next_position;
+	point_from_line3d(&global_ai_debug_drawstack_last_position, global_up3d, global_ai_debug_drawstack_height, &global_ai_debug_drawstack_next_position);
+
+	return &global_ai_debug_drawstack_last_position;
+}
+
+real_point3d* ai_debug_drawstack_offset(real offset)
+{
+	global_ai_debug_drawstack_last_position = global_ai_debug_drawstack_next_position;
+	global_ai_debug_drawstack_next_position.z += offset;
+
+	return &global_ai_debug_drawstack_last_position;
 }
 
