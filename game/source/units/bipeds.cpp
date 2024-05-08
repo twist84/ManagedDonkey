@@ -35,7 +35,7 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 			return;
 		}
 
-		biped->bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
+		biped->bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
 	}
 
 	if (bump_object_index == NONE)
@@ -47,11 +47,8 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 
 	if (TEST_BIT(_object_mask_biped, object_get_type(bump_object_index)))
 	{
-		byte* bumped_biped = (byte*)object_get_and_verify_type(bump_object_index, _object_mask_biped);
-
-		REFERENCE_DECLARE(bumped_biped + 0x590, word_flags, bumped_biped_flags);
-		REFERENCE_DECLARE(bumped_biped + 0x624, c_character_physics_component, bumped_biped_physics);
-		if (bumped_biped_physics.get_mode() == c_character_physics_component::_mode_melee)
+		biped_datum* bumped_biped = (biped_datum*)object_get_and_verify_type(bump_object_index, _object_mask_biped);
+		if (bumped_biped->physics.get_mode() == c_character_physics_component::_mode_melee)
 		{
 			//biped->biped_flags.set(15, true);
 			SET_BIT(biped->biped_flags, 15, true);
@@ -70,19 +67,16 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 				{
 					if (TEST_BIT(_object_mask_unit, bump_object->unit.motor.object.object_identifier.get_type()))
 					{
-						if (cheat.bump_possession)
+						if (cheat.bump_possession && bump_object->unit.player_index == NONE)
 						{
-							if (bump_object->unit.player_index == NONE)
-							{
-								player_set_unit_index(biped->unit.player_index, bump_object_index);
+							player_set_unit_index(biped->unit.player_index, bump_object_index);
 
-								if (bump_object->unit.motor.object.object_identifier.get_type() == _object_type_biped)
-									bump_object->bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
-							}
+							if (bump_object->unit.motor.object.object_identifier.get_type() == _object_type_biped)
+								bump_object->bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
 						}
 					}
 
-					biped->bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
+					biped->bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
 
 					// set bumped bipeds invisible, same flag set for render mannequins
 					//SET_BIT(biped->unit.motor.object.render_flags, 2, true);

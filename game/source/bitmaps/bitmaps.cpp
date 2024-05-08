@@ -4,3 +4,4 @@ void __cdecl bitmap_2d_initialize(bitmap_data* bitmap, short width, short height
 {
 	INVOKE(0x0086AAE0, bitmap_2d_initialize, bitmap, width, height, mipmap_count, format, flags, a7, a8);
 }
+
