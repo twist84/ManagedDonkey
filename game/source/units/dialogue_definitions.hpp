@@ -18,8 +18,10 @@ static_assert(sizeof(s_dialogue_definition) == 0x24);
 struct s_seat_storage
 {
 	long dialogue_definition_index;
+	c_string_id mission_dialogue_designator;
+	c_string_id dialogue_effect;
 
-	byte __data4[0x58];
+	byte __dataC[0x50];
 };
 static_assert(sizeof(s_seat_storage) == 0x5C);
 
