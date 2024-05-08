@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "memory/ring_buffer.hpp"
 #include "physics/character_physics.hpp"
+#include "units/units.hpp"
 
 struct biped_datum
 {
