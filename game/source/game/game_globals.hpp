@@ -175,8 +175,9 @@ struct s_game_globals
 	// halo online
 
 	c_typed_tag_reference<INPUT_GLOBALS_TAG> input_globals;
-	real __unknown5C0;
-	real __unknown5C4;
+
+	real biped_camo_reference;
+	real vehicle_camo_reference;
 	real biped_speed_reference;
 	real vehicle_speed_reference;
 	c_function_definition speed_to_maximum_camo;
