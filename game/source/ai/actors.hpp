@@ -37,7 +37,9 @@ struct c_destination_orders
 {
 	short m_type;
 	word_flags m_flags;
-	byte __data4[0x28];
+	byte __data4[0x18];
+	real __unknown1C;
+	byte __data20[0xC];
 	vector3d __unknown2C;
 	c_ai_action __unknown38;
 };
@@ -325,7 +327,9 @@ static_assert(sizeof(actor_action_data) == 0x30);
 
 struct actor_control_data
 {
-	byte __data0[0x4];
+	dword_flags flags;
+
+	// part of `actor_path_control_data`
 	c_destination_orders __unknown4;
 	byte __data6C[0xE4];
 
