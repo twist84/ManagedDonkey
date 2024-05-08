@@ -740,6 +740,7 @@ POPD
     <ClInclude Include="source\memory\sliding_window.hpp" />
     <ClInclude Include="source\models\model_definitions.hpp" />
     <ClInclude Include="source\models\model_skinning.hpp" />
+    <ClInclude Include="source\motor\mover.hpp" />
     <ClInclude Include="source\multithreading\event_queue.hpp" />
     <ClInclude Include="source\multithreading\message_queue.hpp" />
     <ClInclude Include="source\multithreading\synchronization.hpp" />
