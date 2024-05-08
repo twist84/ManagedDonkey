@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 #include "game/aim_assist.hpp"
+#include "motor/mover.hpp"
+#include "objects/target_tracking.hpp"
 
 enum e_weapon_set
 {
@@ -36,7 +38,116 @@ struct unit_control_data
 };
 static_assert(sizeof(unit_control_data) == 0x80);
 
-struct unit_datum;
+struct unit_datum
+{
+	motor_datum motor;
+	long awake_tick_count;
+	long actor_index;
+	long simulation_actor_index;
+	dword_flags unit_flags;
+	long team;
+	long player_index;
+	long last_weak_player_index;
+	long game_time_at_last_unit_effect;
+	long unit_control_flags;
+	long desired_mode;
+	vector3d facing_vector;
+	vector3d desired_aiming_vector;
+	vector3d aiming_vector;
+	vector3d aiming_velocity;
+	vector3d desired_looking_vector;
+	vector3d looking_vector;
+	vector3d looking_velocity;
+	real_point3d gaze_position;
+	vector3d throttle;
+	vector3d control_throttle;
+	byte control_context_identifier;
+	char aiming_speed;
+	s_damage_reporting_info special_death_damage_reporting_info;
+	char special_death_type;
+	short special_death_node_index;
+	vector3d special_death_node_acceleration;
+	real primary_trigger;
+	real secondary_trigger;
+	s_aim_assist_targeting_result aim_assist_data;
+	c_target_tracking_system target_tracking;
+	dword_flags persistent_control_flags;
+	char weapon_drop_delay_ticks;
+	char left_eye_node;
+	char right_eye_node;
+	byte horizontal_aiming_change;
+	byte primary_fire_timer;
+	byte secondary_fire_timer;
+	short parent_seat_index;
+	real ambient_illumination;
+	real self_illumination;
+	real mouth_aperture;
+	real mouth_time;
+	s_unit_weapon_set current_weapon_set;
+	s_unit_weapon_set desired_weapon_set;
+	long weapon_object_indices[4];
+	long weapon_last_used_at_game_time[4];
+	long equipment_object_indices[4];
+	long active_equipment_object_indices[4];
+	long equipment_pickup_time;
+	real consumable_energy_level;
+	int consumable_energy_restored_game_time;
+	short weapon_firing_time;
+	char current_grenade_index;
+	char desired_grenade_index;
+	char grenade_counts[4];
+	char current_zoom_level;
+	char desired_zoom_level;
+
+	char __unknown326;
+
+	char aiming_change;
+	long weapon_control_last_active_time;
+	long motion_control_unit_index;
+	long weapon_control_unit_index;
+	long last_vehicle_index;
+	long last_vehicle_exit_game_time;
+	short fake_squad_index;
+	char impulse_vehicle_from_seat_ticks;
+	char seat_power_valid_flags;
+	real seat_power;
+	real integrated_light_power;
+	real integrated_light_battery;
+	real integrated_night_vision_power;
+	real open_state;
+	byte seat_acceleration_state[0x6C];
+	long predicted_player_index;
+	long predicted_simulation_actor_index;
+	long predicted_simulation_actor_squad_index;
+	long predicted_simulation_actor_cell_index;
+	long predicted_simulation_actor_spawn_point_index;
+
+	byte __data3D4[0x3C];
+
+	byte_flags map_editor_helper_flags;
+
+	byte __data411[0x7];
+
+	real crouch;
+
+	byte __data41C[0x10];
+
+	real run_blindly_angle;
+
+	byte __data430[0x78];
+
+	long time_of_death;
+	real movement_stun;
+
+	byte __data4B0[0x80];
+
+	object_header_block_reference debug_unit_input_storage;
+	object_header_block_reference seat_storage;
+	object_header_block_reference speech_storage;
+
+	byte __data53C[0x54];
+};
+static_assert(sizeof(unit_datum) == sizeof(motor_datum) + 0x40C);
 
 extern bool debug_objects_unit_vectors;
 extern bool debug_objects_unit_seats;
