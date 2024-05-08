@@ -108,13 +108,109 @@ struct object_header_block_reference
 };
 static_assert(sizeof(object_header_block_reference) == 0x4);
 
-struct object_datum :
-	s_datum_header
+struct object_datum
 {
 	long definition_index;
 	c_flags<e_object_data_flags, dword, k_object_data_flags> flags;
 
-	byte __data[0x16C];
+	long __unknown8;
+
+	long next_object_index;
+	long child_object_index;
+	long parent_object_index;
+	byte parent_node_index;
+	byte_flags inhibited_flags;
+	short scenario_datum_index;
+	short map_variant_index;
+	s_location location;
+	real_point3d bounding_sphere_center;
+	real bounding_sphere_radius;
+	real_point3d attached_bounds_center;
+	real attached_bounds_radius;
+	real_point3d attached_bounds_sphere_center;
+	real attached_bounds_sphere_radius;
+	long first_cluster_reference_index;
+	real_point3d position;
+	vector3d forward;
+	vector3d up;
+	vector3d transitional_velocity;
+	vector3d angular_velocity;
+	real scale;
+	c_object_identifier object_identifier;
+	short name_index;
+	char bsp_placement_policy;
+	char keyframed_object_collision_damage_ticks;
+	long havok_component_index;
+	long local_physics_space_object_index;
+	long last_motion_time;
+	dword_flags physics_flags;
+	byte physics_deactivation_count;
+	byte physically_attached_node;
+	byte phantom_power_scale;
+	byte phantom_speed_scale;
+	short in_water_ticks;
+	char environment_interpenetration_ticks;
+	byte brittle_collision_damage_timer;
+	short scale_intepolation_ticks;
+	char variant_index;
+	byte_flags object_ai_flags;
+	dword melee_damage_unique_identifier;
+	s_damage_owner damage_owner;
+
+	short __unknownCC_bsp_datum_index;
+
+	bool created_at_rest;
+	byte clusters_touched_on_connection;
+	long simulation_object_glue_index;
+	short owner_team_index;
+	byte_flags simulation_flags;
+	char child_variant_index;
+
+	long __unknownD8_ticks;
+	real_point3d __unknownDC_position;
+
+	long first_widget_index;
+	word destroyed_constraints;
+	word loosened_constraints;
+	real maximum_body_vitality;
+	real maximum_shield_vitality;
+	real shield_charge_delay;
+	real body_vitality;
+	real shield_vitality;
+	real current_body_damage;
+	real current_shield_damage;
+	real recent_body_damage;
+	real recent_shield_damage;
+	real shield_impact_current_body_damage;
+	real shield_impact_current_shield_damage;
+	short shield_stun_ticks;
+	short body_stun_ticks;
+	dword_flags damage_flags;
+	char damaged_explosion_timer;
+	char body_damage_delay_ticks;
+	char shield_impact_decay_timer;
+	byte_flags recycling_flags;
+	long next_recycling_object_index;
+	long recycling_time;
+	long parent_recycling_group;
+	long next_recycling_group_member;
+	long next_sync_action_participant_index;
+	long sync_action_name;
+	long sync_animation_id; // c_animation_id
+	long ai_sync_action_arranger_index;
+	word_flags render_flags;
+	object_header_block_reference original_node_orientations;
+	object_header_block_reference node_orientations;
+	object_header_block_reference node_matrices;
+	object_header_block_reference region_information;
+	object_header_block_reference attachments;
+	object_header_block_reference damage_sections;
+	object_header_block_reference change_colors;
+	object_header_block_reference animation;
+	object_header_block_reference multiplayer;
+
+	long __unknown170;
+	long __unknown174;
 };
 static_assert(sizeof(object_datum) == 0x178);
 

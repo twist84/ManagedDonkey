@@ -40,10 +40,8 @@ void __cdecl object_type_render_debug(long object_index)
 	if (!should_render_debug_object(object_index))
 		return;
 
-    byte* object = static_cast<byte*>(object_get_and_verify_type(object_index, NONE));
-    REFERENCE_DECLARE(object + 0x94, c_object_identifier, object_identifier);
-
-    object_type_definition* definition = object_type_definition_get(object_identifier.m_type);
+    object_datum* object = object_get(object_index);
+    object_type_definition* definition = object_type_definition_get(object->object_identifier.m_type);
 
     for (long i = 0; definition->type_definitions[i]; i++)
     {
@@ -51,14 +49,10 @@ void __cdecl object_type_render_debug(long object_index)
             definition->type_definitions[i]->render_debug_proc(object_index);
     }
 
-    REFERENCE_DECLARE(object + 0x10, long, first_child_object_index);
-    for (long child_object_index = first_child_object_index; child_object_index < NONE;)
+    for (long child_object_index = object->child_object_index; child_object_index < NONE;)
     {
         object_type_render_debug(child_object_index);
-
-        byte* child_object = static_cast<byte*>(object_get_and_verify_type(child_object_index, NONE));
-        REFERENCE_DECLARE(child_object + 0xC, long, child_next_object_index);
-        child_object_index = child_next_object_index;
+        child_object_index = object_get(object_index)->next_object_index;
     }
 }
 

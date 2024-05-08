@@ -334,9 +334,8 @@ LABEL_4:;
 			render_debug_line(false, &unsafe_object_position, &camera_position, global_real_argb_red);
 			render_debug_sphere(false, &unsafe_object_position, 0.5f, global_real_argb_red);
 
-			byte* object = static_cast<byte*>(object_get_and_verify_type(g_game_save_globals->unsafe_object_index, NONE));
-			REFERENCE_DECLARE(object, long, object_definition_index);
-			render_debug_string_at_point(&unsafe_object_position, tag_get_name(object_definition_index), global_real_argb_white);
+			object_datum* object = object_get(g_game_save_globals->unsafe_object_index);
+			render_debug_string_at_point(&unsafe_object_position, tag_get_name(object->definition_index), global_real_argb_white);
 		}
 	}
 
@@ -376,14 +375,11 @@ LABEL_5:;
 					//	unit->object.body_stun_ticks = 0;
 					//}
 
-					byte* object = (byte*)unit;
-					REFERENCE_DECLARE(object + 0xFC, real, body_vitality);
-					REFERENCE_DECLARE(object + 0x11E, short, body_stun_ticks);
-
-					if (body_vitality < 1.0f)
+					object_datum* object = (object_datum*)unit;
+					if (object->body_vitality < 1.0f)
 					{
-						body_vitality = 1.0f;
-						body_stun_ticks = 0;
+						object->body_vitality = 1.0f;
+						object->body_stun_ticks = 0;
 					}
 				}
 			}

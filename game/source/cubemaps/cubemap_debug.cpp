@@ -46,17 +46,15 @@ void __cdecl c_cubemap_debug::render_object_cubemap_samples(long object_index)
         render_debug_sphere(false, &cubemap_info1->cubemap_position, 10.0f, &color);
     }
 
-    if (byte* object = static_cast<byte*>(object_get_and_verify_type(object_index, NONE)))
+    if (object_datum* object = object_get(object_index))
     {
         color.color.green = object_lighting->cubemap_sample.m_cubemap_sample;
 
-        REFERENCE_DECLARE(object + 0x20, real_point3d, bounding_sphere_center);
-
         if (cubemap_info0 && color.color.green > 0.0f)
-            render_debug_line(false, &cubemap_info0->cubemap_position, &bounding_sphere_center, &color);
+            render_debug_line(false, &cubemap_info0->cubemap_position, &object->bounding_sphere_center, &color);
 
         if (cubemap_info1 && color.color.green < 1.0f)
-            render_debug_line(false, &bounding_sphere_center, &cubemap_info1->cubemap_position, &color);
+            render_debug_line(false, &object->bounding_sphere_center, &cubemap_info1->cubemap_position, &color);
     }
 }
 

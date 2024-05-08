@@ -70,17 +70,16 @@ void* __cdecl object_get_and_verify_type(long object_index, dword object_type_ma
 	//ASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
 
 	object_header_datum const* object_header = object_header_get(object_index);
-	byte* object = (byte*)object_header->datum;
-	REFERENCE_DECLARE(object + 0x94, c_object_identifier, object_identifier);
+	object_datum* object = object_header->datum;
 
-	if (!_bittest((long*)&object_type_mask, object_identifier.m_type.get()))
+	if (!_bittest((long*)&object_type_mask, object->object_identifier.m_type.get()))
 	{
 		c_static_string<256> string_builder;
 		string_builder.print_line("got an object type we didn't expect (expected one of 0x%08x but got #%d).",
 			object_type_mask,
-			object_identifier.m_type.get());
+			object->object_identifier.m_type.get());
 
-		ASSERT(!_bittest((long*)&object_type_mask, object_identifier.m_type.get()), string_builder.get_string());
+		ASSERT(!_bittest((long*)&object_type_mask, object->object_identifier.m_type.get()), string_builder.get_string());
 	}
 
 	return object;
@@ -483,7 +482,7 @@ void __cdecl object_debug_teleport(long object_index, real_point3d const* positi
 
 void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_string<256>* name)
 {
-	byte* object = static_cast<byte*>(object_get_and_verify_type(object_index, NONE));
+	object_datum* object = object_get(object_index);
 
 	if (!object)
 	{
@@ -491,47 +490,43 @@ void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_s
 		return;
 	}
 
-	REFERENCE_DECLARE(object, long, object_definition_index);
-	REFERENCE_DECLARE(object + 0x9C, short, name_index);
-	REFERENCE_DECLARE(object + 0xBA, char, model_variant_index);
-
 	name->clear();
-	if (name_index != NONE)
+	if (object->name_index != NONE)
 	{
 		s_scenario* scenario = global_scenario_get();
-		scenario_object_name& object_name = scenario->object_names[name_index];
+		scenario_object_name& object_name = scenario->object_names[object->name_index];
 
 		name->append_print("%s|n", object_name.name.get_string());
 	}
 
-	tag group_tag = tag_get_group_tag(object_definition_index);
+	tag group_tag = tag_get_group_tag(object->definition_index);
 	char const* group_tag_name = tag_group_get_name(group_tag);
-	char const* tag_name = tag_get_name(object_definition_index);
+	char const* tag_name = tag_get_name(object->definition_index);
 
 	if (!full_name)
-		tag_name = tag_name_strip_path(tag_get_name(object_definition_index));
+		tag_name = tag_name_strip_path(tag_get_name(object->definition_index));
 
 	name->append_print("%s.%s|n", tag_name, group_tag_name);
 
-	if (model_variant_index == NONE)
+	if (object->variant_index == NONE)
 	{
 		name->append("[default]|n");
 	}
 	else
 	{
-		_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object_definition_index));
+		_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object->definition_index));
 
 		s_model_definition* model_definition = nullptr;
 		if (object_definition->model.index != NONE)
 			model_definition = object_definition->model.cast_to<s_model_definition>();
 
-		//if (model_definition && model_variant_index < 128 && model_variant_index < model_definition)
+		//if (model_definition && object->variant_index < 128 && object->variant_index < model_definition)
 		//{
 		//
 		//}
 		//else
 		//{
-		//	name->append_print("[invalid! %d]|n", model_variant_index);
+		//	name->append_print("[invalid! %d]|n", object->variant_index);
 		//}
 	}
 }
@@ -539,18 +534,9 @@ void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_s
 void __cdecl object_render_debug_internal(long object_index)
 {
 	object_header_datum const* object_header = object_header_get(object_index);
-	byte* object = static_cast<byte*>(object_get_and_verify_type(object_index, NONE));
+	object_datum* object = object_get(object_index);
 
-	REFERENCE_DECLARE(object, long, object_definition_index);
-	_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object_definition_index));
-
-	REFERENCE_DECLARE(object + 4, dword_flags, object_flags);
-	REFERENCE_DECLARE(object + 0x20, real_point3d, bounding_sphere_center);
-	REFERENCE_DECLARE(object + 0x2C, real, bounding_sphere_radius);
-	REFERENCE_DECLARE(object + 0x30, real_point3d, attached_bounds_center);
-	REFERENCE_DECLARE(object + 0x3C, real, attached_bounds_radius);
-	REFERENCE_DECLARE(object + 0x127, byte_flags, recycling_flags);
-	REFERENCE_DECLARE(object + 0x12C, long, recycling_time);
+	_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object->definition_index));
 
 	c_static_string<4096> string;
 
@@ -559,25 +545,25 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	if (debug_objects_programmer)
 	{
-		string.append_print("header flags: %04x|n", object_header->flags);
-		string.append_print("datum flags: %08x|n", object_flags);
+		string.append_print("header flags: %04x|n", object_header->flags.get_unsafe());
+		string.append_print("datum flags: %08x|n", object->flags.get_unsafe());
 	}
 
 	if (debug_objects_garbage)
 	{
-		if (TEST_BIT(recycling_flags, 0))
+		if (TEST_BIT(object->recycling_flags, 0))
 		{
 			string.append("never-garbage|n");
 		}
-		else if (TEST_BIT(recycling_flags, 1))
+		else if (TEST_BIT(object->recycling_flags, 1))
 		{
-			if (game_time_get() >= recycling_time)
+			if (game_time_get() >= object->recycling_time)
 			{
 				string.append("garbage|n");
 			}
 			else
 			{
-				string.append_print("garbage in %d|n", recycling_time - game_time_get());
+				string.append_print("garbage in %d|n", object->recycling_time - game_time_get());
 			}
 		}
 	}
@@ -601,10 +587,10 @@ void __cdecl object_render_debug_internal(long object_index)
 			real function_magnitude = 0.0f;
 			bool deterministic = false;
 
-			bool import_function_value = object_get_function_value(object_index, function.import_name.get_value(), object_definition_index, &function_magnitude);
+			bool import_function_value = object_get_function_value(object_index, function.import_name.get_value(), object->definition_index, &function_magnitude);
 			string.append_print("%s: %s %.2f->", function.import_name.get_string(), import_function_value ? "ON" : "OFF", function_magnitude);
 
-			bool export_function_value = object_function_get_function_value(object_index, &function, object_definition_index, &function_magnitude, &deterministic);
+			bool export_function_value = object_function_get_function_value(object_index, &function, object->definition_index, &function_magnitude, &deterministic);
 			string.append_print("%s: %s %.2f|n", function.export_name.get_string(), export_function_value ? "ON" : "OFF", function_magnitude);
 		}
 	}
@@ -617,7 +603,7 @@ void __cdecl object_render_debug_internal(long object_index)
 		object_get_world_matrix(object_index, &matrix);
 		object_get_velocities(object_index, &linear_velocity, nullptr);
 
-		render_debug_matrix(true, &matrix, bounding_sphere_radius);
+		render_debug_matrix(true, &matrix, object->bounding_sphere_radius);
 		render_debug_vector(true, &matrix.center, &linear_velocity,1.0f, global_real_argb_yellow);
 	}
 
@@ -638,21 +624,21 @@ void __cdecl object_render_debug_internal(long object_index)
 	if (debug_objects_root_node)
 	{
 		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
-		render_debug_matrix(true, root_node_matrix, bounding_sphere_radius);
+		render_debug_matrix(true, root_node_matrix, object->bounding_sphere_radius);
 	}
 
 	if (debug_objects_bounding_spheres)
 	{
 		long parent_object_index = object_get_ultimate_parent(object_index);
 		object_header_datum const* parent_object_header = object_header_get(parent_object_index);
-		byte* parent_object = static_cast<byte*>(object_get_and_verify_type(parent_object_index, NONE));
+		object_datum* parent_object = object_get(parent_object_index);
 
-		render_debug_sphere(true, &bounding_sphere_center, bounding_sphere_radius > 0.0f ? bounding_sphere_radius : 0.25f, global_real_argb_blue);
+		render_debug_sphere(true, &object->bounding_sphere_center, object->bounding_sphere_radius > 0.0f ? object->bounding_sphere_radius : 0.25f, global_real_argb_blue);
 
 		if (debug_objects_attached_bounding_spheres)
 		{
-			render_debug_point(true, &attached_bounds_center, 0.1f, global_real_argb_blue);
-			render_debug_sphere(true, &attached_bounds_center, attached_bounds_radius, global_real_argb_blue);
+			render_debug_point(true, &object->attached_bounds_center, 0.1f, global_real_argb_blue);
+			render_debug_sphere(true, &object->attached_bounds_center, object->attached_bounds_radius, global_real_argb_blue);
 		}
 	}
 
