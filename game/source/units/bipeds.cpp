@@ -7,7 +7,6 @@
 #include "memory/thread_local.hpp"
 #include "physics/character_physics.hpp"
 #include "render/render_debug.hpp"
-#include "render/render_lights.hpp"
 #include "units/bipeds.hpp"
 
 HOOK_DECLARE(0x00B6B8F0, biped_bumped_object);

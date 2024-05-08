@@ -8,7 +8,6 @@
 #include "physics/collisions.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_debug.hpp"
-#include "render/render_lights.hpp"
 #include "render/views/render_view.hpp"
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"

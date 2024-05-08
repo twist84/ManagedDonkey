@@ -35,7 +35,6 @@
 #include "render/render_cameras.hpp"
 #include "render/render_debug_structure.hpp"
 #include "render/render_error_report.hpp"
-#include "render/render_lights.hpp"
 #include "render/render_visibility.hpp"
 #include "render/views/render_view.hpp"
 #include "saved_games/saved_film.hpp"

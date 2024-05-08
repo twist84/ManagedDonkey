@@ -7,7 +7,6 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "render/render_debug.hpp"
-#include "render/render_lights.hpp"
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 

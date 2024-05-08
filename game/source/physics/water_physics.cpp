@@ -2,7 +2,6 @@
 
 #include "render/old_render_debug.hpp"
 #include "render/render_debug.hpp"
-#include "render/render_lights.hpp"
 #include "scenario/scenario.hpp"
 #include "structures/structure_physics_definitions.hpp"
 

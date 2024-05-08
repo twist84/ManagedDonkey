@@ -312,6 +312,7 @@ extern void __cdecl matrix4x3_from_point_and_quaternion(real_matrix4x3* matrix, 
 extern vector3d* __cdecl cross_product3d(vector3d const* a, vector3d const* b, vector3d* out);
 extern real __cdecl dot_product3d(vector3d const* a, vector3d const* b);
 extern vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const* b, vector3d* out);
+extern real_point3d* __cdecl point_from_line3d(real_point3d const* in_point, vector3d const* in_vector, real scale, real_point3d* out_point);
 extern real __cdecl magnitude_squared3d(vector3d const* a);
 extern real __cdecl distance_squared3d(real_point3d const* a, real_point3d const* b);
 extern real __cdecl distance3d(real_point3d const* a, real_point3d const* b);

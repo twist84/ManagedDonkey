@@ -1,7 +1,6 @@
 #include "physics/collision_features.hpp"
 
 #include "render/render_debug.hpp"
-#include "render/render_lights.hpp"
 
 bool __cdecl collision_features_test_point(collision_feature_list const* features, real_point3d const* point, collision_plane* plane)
 {

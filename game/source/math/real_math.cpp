@@ -110,6 +110,16 @@ vector3d* __cdecl vector_from_points3d(real_point3d const* a, real_point3d const
 	return out;
 }
 
+real_point3d* __cdecl point_from_line3d(real_point3d const* in_point, vector3d const* in_vector, real scale, real_point3d* out_point)
+{
+	*out_point = *in_point;
+	out_point->n[0] += in_vector->n[0] * scale;
+	out_point->n[1] += in_vector->n[1] * scale;
+	out_point->n[2] += in_vector->n[2] * scale;
+
+	return out_point;
+}
+
 real __cdecl magnitude_squared3d(vector3d const* a)
 {
 	return real(a->n[0] * a->n[0]) + real(a->n[1] * a->n[1]) + real(a->n[2] * a->n[2]);
