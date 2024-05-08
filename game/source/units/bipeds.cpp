@@ -24,33 +24,25 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 {
 	//INVOKE(0x00B6B8F0, biped_bumped_object, object_index, bump_object_index, linear_velocity);
 
-	byte* biped = (byte*)(object_header_get(object_index))->datum;
-	REFERENCE_DECLARE(biped + 0x198, long, biped_player_index);
-	REFERENCE_DECLARE(biped + 0x590, word_flags, biped_biped_flags);
-	REFERENCE_DECLARE(biped + 0x5D4, long, biped_bump_object_index);
-	REFERENCE_DECLARE(biped + 0x5D8, char, biped_bump_ticks);
+	biped_datum* biped = (biped_datum*)object_get_and_verify_type(object_index, _object_mask_biped);
 
-	if (biped_bump_ticks < 0)
+	if (biped->bump_ticks < 0)
 	{
 		if (bump_object_index == NONE)
 		{
-			biped_bump_ticks++;
+			biped->bump_ticks++;
 			return;
 		}
 
-		biped_bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
+		biped->bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
 	}
 
 	if (bump_object_index == NONE)
 		return;
 
-	byte* bump_object = (byte*)object_try_and_get_and_verify_type(bump_object_index, 0xFFFFFFFF);
+	biped_datum* bump_object = (biped_datum*)object_get(bump_object_index);
 	if (!bump_object)
 		return;
-
-	REFERENCE_DECLARE(bump_object + 0x94, c_object_identifier, bump_object_object_identifier);
-	REFERENCE_DECLARE(bump_object + 0x198, long, bump_object_player_index);
-	REFERENCE_DECLARE(bump_object + 0x5D8, char, bump_object_bump_ticks);
 
 	if (TEST_BIT(_object_mask_biped, object_get_type(bump_object_index)))
 	{
@@ -61,41 +53,41 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 		if (bumped_biped_physics.get_mode() == c_character_physics_component::_mode_melee)
 		{
 			//biped->biped_flags.set(15, true);
-			biped_biped_flags |= FLAG(15);
+			SET_BIT(biped->biped_flags, 15, true);
 		}
 	}
 
-	if (biped_bump_ticks >= 0)
+	if (biped->bump_ticks >= 0)
 	{
 		ai_handle_bump(object_index, bump_object_index, linear_velocity);
 
-		if (biped_player_index != NONE || recorded_animation_controlling_unit(object_index))
+		if (biped->unit.player_index != NONE || recorded_animation_controlling_unit(object_index))
 		{
-			if (biped_bump_object_index == bump_object_index)
+			if (biped->bump_object_index == bump_object_index)
 			{
-				if (game_ticks_to_seconds(++biped_bump_ticks) > 0.1f)
+				if (game_ticks_to_seconds(++biped->bump_ticks) > 0.1f)
 				{
-					if (TEST_BIT(_object_mask_unit, bump_object_object_identifier.get_type()))
+					if (TEST_BIT(_object_mask_unit, bump_object->unit.motor.object.object_identifier.get_type()))
 					{
 						if (cheat.bump_possession)
 						{
-							if (bump_object_player_index == NONE)
+							if (bump_object->unit.player_index == NONE)
 							{
-								player_set_unit_index(biped_player_index, bump_object_index);
+								player_set_unit_index(biped->unit.player_index, bump_object_index);
 
-								if (bump_object_object_identifier.get_type() == _object_type_biped)
-									bump_object_bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
+								if (bump_object->unit.motor.object.object_identifier.get_type() == _object_type_biped)
+									bump_object->bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
 							}
 						}
 					}
 
-					biped_bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
+					biped->bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
 				}
 			}
 			else
 			{
-				biped_bump_object_index = bump_object_index;
-				biped_bump_ticks = 0;
+				biped->bump_object_index = bump_object_index;
+				biped->bump_ticks = 0;
 			}
 		}
 	}
@@ -175,7 +167,7 @@ void __cdecl biped_render_debug(long biped_index)
 
 	if (debug_objects_movement_mode)
 	{
-		byte* biped = (byte*)object_get_and_verify_type(biped_index, _object_mask_biped);
+		biped_datum* biped = (biped_datum*)object_get_and_verify_type(biped_index, _object_mask_biped);
 
 		real_point3d base{};
 		vector3d height{};
@@ -184,10 +176,8 @@ void __cdecl biped_render_debug(long biped_index)
 		biped_get_autoaim_pill(biped_index, &base, &height, &autoaim_width);
 		point_from_line3d(&base, &height, 1.0f, &base);
 
-		REFERENCE_DECLARE(biped + 0x624, c_character_physics_component, physics);
-
 		char const* mode_string = NULL;
-		switch (physics.get_mode())
+		switch (biped->physics.get_mode())
 		{
 		case c_character_physics_component::_mode_ground:
 			mode_string = "ground";

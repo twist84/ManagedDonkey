@@ -41,12 +41,10 @@ void render_dialogue_variants()
 
 		if (actor->meta.unit_index != NONE)
 		{
-			byte* unit = (byte*)object_get_and_verify_type(actor->meta.unit_index, _object_mask_unit);
-
-			REFERENCE_DECLARE(unit + 0x534, object_header_block_reference, seat_storage_reference);
-			ASSERT(seat_storage_reference.size == sizeof(s_seat_storage));
+			unit_datum* unit = (unit_datum*)object_get_and_verify_type(actor->meta.unit_index, _object_mask_unit);
+			ASSERT(unit->seat_storage.size == sizeof(s_seat_storage));
 			
-			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &seat_storage_reference);
+			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &unit->seat_storage);
 			ASSERT(seat_storage != NULL);
 
 			if (seat_storage->dialogue_definition_index != NONE)

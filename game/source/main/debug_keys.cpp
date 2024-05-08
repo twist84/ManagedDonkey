@@ -955,8 +955,7 @@ void __cdecl debug_key_rotate_all_units(bool enabled)
 // #TODO: more testing required
 void __cdecl unit_debug_ninja_rope(long unit_index)
 {
-	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, _object_mask_unit));
-	REFERENCE_DECLARE(unit + 0x1BB, vector3d, unit_aiming_vector);
+	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
 
 	s_collision_test_flags flags = {}; // 0x1001
 	real_point3d camera_position = {};
@@ -966,7 +965,7 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 	flags.collision_flags.set(_collision_test_structure_bit, true);
 	flags.collision_flags.set(_collision_test_back_facing_surfaces_bit, true);
 	unit_get_camera_position(unit_index, &camera_position);
-	scale_vector3d(&unit_aiming_vector, 25.0f, &aiming_vector);
+	scale_vector3d(&unit->aiming_vector, 25.0f, &aiming_vector);
 	long parent_index = object_get_ultimate_parent(unit_index);
 	if (collision_test_vector(flags, &camera_position, &aiming_vector, parent_index, NONE, &collision) && collision.plane.normal.k > 0.95f)
 	{

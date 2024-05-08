@@ -9,7 +9,7 @@
 #include "render/views/render_view.hpp"
 #include "scenario/scenario.hpp"
 #include "structures/structure_bsp_definitions.hpp"
-#include "units/units.hpp"
+#include "units/bipeds.hpp"
 
 bool debug_structure_markers = false;
 bool debug_structure_surface_references = false;
@@ -73,16 +73,10 @@ void render_debug_player()
 	if (user_index != NONE)
 	{
 		long unit_index = player_mapping_get_unit_by_output_user(user_index);
-		if (byte* unit = (byte*)object_try_and_get_and_verify_type(unit_index, _object_mask_biped))
+		if (biped_datum* biped = (biped_datum*)object_try_and_get_and_verify_type(unit_index, _object_mask_biped))
 		{
-			//if (unit->motor.object.parent_object_index != NONE && unit->parent_seat_index != NONE)
-			//    unit_index = unit->parent_object_index;
-
-			REFERENCE_DECLARE(unit + 0x14, long, parent_object_index);
-			REFERENCE_DECLARE(unit + 0x2B6, short, parent_seat_index);
-
-			if (parent_object_index != NONE && parent_seat_index != 0xFFFF)
-				unit_index = parent_object_index;
+			if (biped->unit.motor.object.parent_object_index != NONE && biped->unit.parent_seat_index != NONE)
+			    unit_index = biped->unit.motor.object.parent_object_index;
 		}
 		object_try_and_get_and_verify_type(unit_index, _object_mask_vehicle);
 	}

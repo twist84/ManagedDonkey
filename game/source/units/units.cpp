@@ -268,11 +268,8 @@ void __cdecl unit_render_debug(long unit_index)
 {
 	//INVOKE(0x00B47080, unit_render_debug, unit_index);
 
-	byte* unit = static_cast<byte*>(object_get_and_verify_type(unit_index, _object_mask_unit));
-	REFERENCE_DECLARE(unit, long, object_definition_index);
-
-	_unit_definition* unit_definition = static_cast<_unit_definition*>(tag_get(UNIT_TAG, object_definition_index));
-
+	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+	_unit_definition* unit_definition = static_cast<_unit_definition*>(tag_get(UNIT_TAG, unit->motor.object.definition_index));
 
 	if (debug_objects_unit_vectors)
 	{
@@ -423,17 +420,8 @@ bool __cdecl units_debug_can_select_unit(long unit_index)
 	if (!object)
 		return false;
 
-	//void* object = object_get_and_verify_type(unit_index, _object_mask_unit);
-	//void* object = object_try_and_get_and_verify_type(unit_index, _object_mask_unit);
-
-	//unit_datum* unit = static_cast<unit_datum*>(object);
-	byte* unit = static_cast<byte*>(object);
-
-	REFERENCE_DECLARE(unit + 0x198, long, player_index);
-	REFERENCE_DECLARE(unit + 0x120, word_flags, damage_flags);
-	REFERENCE_DECLARE(unit + 0x4, dword_flags, data_flags);
-
-	return player_index == NONE && !TEST_BIT(damage_flags, 2) && !TEST_BIT(data_flags, _object_created_with_parent_bit);
+	unit_datum* unit = (unit_datum*)object_try_and_get_and_verify_type(unit_index, _object_mask_unit);
+	return unit->player_index == NONE && !TEST_BIT(unit->motor.object.damage_flags, 2) && !unit->motor.object.flags.test(_object_created_with_parent_bit);
 }
 
 long __cdecl units_debug_get_closest_unit(long unit_index)
