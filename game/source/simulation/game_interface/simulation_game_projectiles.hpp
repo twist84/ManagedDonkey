@@ -9,6 +9,7 @@ struct s_simulation_projectile_attached_event_data
 	long position_encoding_type;
 	real_point3d node_position;
 	s_location location;
+	byte __data1A[0x2];
 };
 static_assert(sizeof(s_simulation_projectile_attached_event_data) == 0x1C);
 
@@ -24,12 +25,7 @@ struct s_simulation_projectile_detonate_event_data
 
 	bool location_valid;
 	byte : 8;
-
-	// In Halo Online is `s_location` the same as Halo 3 or Halo Reach
-	// Halo 3: cluster reference + leaf index
-	// Halo Reach: cluster reference
-	//s_location location;
-	s_cluster_reference location;
+	s_location location;
 
 	vector3d hit_normal;
 	long player_index0; // from?

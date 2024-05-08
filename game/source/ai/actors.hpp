@@ -159,7 +159,7 @@ struct actor_position_data
 	real_point3d head;
 	real_point3d body;
 	vector3d forward;
-	s_cluster_reference location;
+	s_location location;
 	byte __data26[0x2];
 	vector3d velocity;
 };

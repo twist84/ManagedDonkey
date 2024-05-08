@@ -225,6 +225,7 @@ struct object_placement_data
 	short ai_state_alignment_bits;
 
 	s_location location;
+	byte __data148[0x2];
 	bool multiplayer_cinematic_object;
 	long parent_object_index;      // object_index_from_name_index(scenario_object->object_data.parent_id.parent_object)
 	c_string_id parent_marker;     // scenario_object->object_data.parent_id.parent_marker

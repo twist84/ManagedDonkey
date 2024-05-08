@@ -49,8 +49,8 @@ struct collision_result
 	c_enum<e_collision_result_type, long, _collision_result_none, k_collision_result_type_count> type;
 	real scale;
 	real_point3d position;
-	s_cluster_reference __location14;
-	s_cluster_reference position_location;
+	s_location __location14;
+	s_location position_location;
 	c_collision_bsp_reference collision_bsp_reference;
 	c_global_material_type material_type;
 	byte __pad22[0x2];

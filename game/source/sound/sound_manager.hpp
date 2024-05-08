@@ -13,6 +13,7 @@ struct s_sound_listener
 {
 	tag header_signature;
 	s_location location;
+	byte __data6[0x2];
 	bool valid;
 	bool __unknown9;
 	byte __unknownA;

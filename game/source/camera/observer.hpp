@@ -32,6 +32,7 @@ struct s_observer_result
 {
 	real_point3d focus_point;
 	s_location location;
+	byte __dataE[2];
 	vector3d __vector10;
 	vector3d __vector1C;
 	vector3d forward;

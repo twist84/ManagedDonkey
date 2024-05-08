@@ -28,6 +28,7 @@ struct s_sound_location
 	real_quaternion orientation;
 	vector3d vector;
 	s_location location;
+	byte __data2A[0x2];
 };
 static_assert(sizeof(s_sound_location) == 0x2C);
 

@@ -108,6 +108,7 @@ struct c_world_view :
 public:
 //protected:
 	s_location m_location;
+	byte __data286[0x2];
 };
 static_assert(sizeof(c_world_view) == sizeof(c_view) + 0x4);
 

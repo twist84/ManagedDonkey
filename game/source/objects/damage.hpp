@@ -33,6 +33,7 @@ struct s_damage_data
 	long __unknown18;
 	byte __data1C[0x4];
 	s_location location;
+	byte __data22[2];
 	real_point3d origin;
 	real_point3d center;
 	vector3d attacker_direction;
