@@ -83,6 +83,9 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 					}
 
 					biped->bump_ticks = static_cast<char>(-game_seconds_to_ticks_round(0.5f));
+
+					// set bumped bipeds invisible, same flag set for render mannequins
+					//SET_BIT(biped->unit.motor.object.render_flags, 2, true);
 				}
 			}
 			else
