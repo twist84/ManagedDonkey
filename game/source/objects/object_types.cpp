@@ -49,11 +49,8 @@ void __cdecl object_type_render_debug(long object_index)
             definition->type_definitions[i]->render_debug_proc(object_index);
     }
 
-    for (long child_object_index = object->child_object_index; child_object_index < NONE;)
-    {
+    for (long child_object_index = object->first_child_object_index; child_object_index != NONE; child_object_index = object_get(child_object_index)->next_object_index)
         object_type_render_debug(child_object_index);
-        child_object_index = object_get(object_index)->next_object_index;
-    }
 }
 
 bool __cdecl render_object_should_be_visible(long object_index)

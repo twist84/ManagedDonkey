@@ -116,7 +116,7 @@ struct object_datum
 	long __unknown8;
 
 	long next_object_index;
-	long child_object_index;
+	long first_child_object_index;
 	long parent_object_index;
 	byte parent_node_index;
 	byte_flags inhibited_flags;
