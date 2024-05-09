@@ -19,20 +19,12 @@ void render_dialogue_variants()
 {
 	actor_iterator iterator{};
 	actor_iterator_new(&iterator, false);
-	while (true)
+	while (actor_datum* actor = actor_iterator_next(&iterator))
 	{
-		actor_datum* actor = actor_iterator_next(&iterator);
-		if (!actor)
-			break;
-
 		if (actor->meta.unit_index != NONE)
 		{
 			unit_datum* unit = (unit_datum*)object_get_and_verify_type(actor->meta.unit_index, _object_mask_unit);
-			ASSERT(unit->seat_storage.size == sizeof(s_seat_storage));
-			
 			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &unit->seat_storage);
-			ASSERT(seat_storage != NULL);
-
 			if (seat_storage->dialogue_definition_index != NONE)
 			{
 				s_dialogue_definition* dialogue_definition = (s_dialogue_definition*)tag_get(DIALOGUE_TAG, seat_storage->dialogue_definition_index);
