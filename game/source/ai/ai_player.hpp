@@ -27,3 +27,6 @@ struct ai_player_state
 };
 static_assert(sizeof(ai_player_state) * 4 == 0xB0);
 
+
+extern void debug_render_player_battle_vector();
+

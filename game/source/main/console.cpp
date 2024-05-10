@@ -721,6 +721,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_perception_data, g_ai_debug_perception_data),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_combat_status, g_ai_debug_combat_status),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_variants, g_ai_render_dialogue_variants),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_player_battle_vector, g_ai_render_player_battle_vector),
 
 	CONSOLE_GLOBAL_DECLARE_REAL(water_physics_velocity_minimum),
 	CONSOLE_GLOBAL_DECLARE_REAL(water_physics_velocity_maximum),
