@@ -314,8 +314,8 @@ void __cdecl ai_debug_render()
 		if (g_ai_render_player_battle_vector)
 			debug_render_player_battle_vector();
 
-		//if (g_ai_render_player_needs_vehicle)
-		//	debug_render_player_needs_vehicle();
+		if (g_ai_render_player_needs_vehicle)
+			debug_render_player_needs_vehicle();
 
 		//if (g_ai_render_mission_critical)
 		//	debug_render_mission_critical_ai();

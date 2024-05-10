@@ -27,6 +27,8 @@ struct ai_player_state
 };
 static_assert(sizeof(ai_player_state) * 4 == 0xB0);
 
+extern bool __cdecl ai_player_state_needs_vehicle(short ai_player_index);
 
 extern void debug_render_player_battle_vector();
+extern void debug_render_player_needs_vehicle();
 
