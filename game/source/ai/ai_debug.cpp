@@ -86,59 +86,58 @@ void __cdecl ai_debug_render()
 	
 	bool flag = ai_render
 		&& (ai_render_firing_positions_all
-			|| ai_render_lineoffire
-			|| ai_render_lineofsight
-			|| ai_render_ballistic_lineoffire
-			|| ai_debug_selected_actor_unit_index != NONE
-			&& (ai_debug_selected_actor_index == NONE || ai_render_all_actors)
-			|| ai_debug_selected_actor_index != NONE && !ai_render_all_actors
-			|| ai_debug_path
-			|| ai_render_paths_failed
-			|| ai_render_aiming_validity
-			|| ai_render_all_actors
-			|| ai_render_dialogue
-			|| ai_render_dialogue_queue
-			|| ai_render_dialogue_player_weights
-			|| ai_render_speech
-			|| ai_print_speech
-			|| ai_render_spatial_effects
-			|| ai_render_clumps
-			|| ai_render_clump_props
-			|| ai_render_clump_props_all
-			|| ai_render_decisions
-			|| ai_render_decisions_all
-			|| ai_render_behavior_stack_all
-			|| ai_render_stimuli
-			|| ai_render_sectors
-			|| ai_render_sector_geometry_errors
-			|| ai_render_link_specific != NONE
-			|| ai_render_links
-			|| ai_render_user_hints
-			|| ai_render_hints
-			|| ai_render_object_hints_all
-			|| ai_render_object_hints
-			|| ai_render_object_properties
-			|| ai_render_sector_bsps
-			|| ai_render_giant_sector_bsps
-			|| ai_render_sector_link_errors
-			|| ai_render_intersection_links
-			|| ai_render_non_walkable_sectors
-			|| ai_render_threshold_links
-			|| ai_render_orders
-			|| ai_render_suppress_combat
-			|| ai_render_objectives
-			|| ai_render_strength
-			|| ai_debug_tracking_data
-			|| ai_debug_perception_data
-			|| ai_debug_combat_status
-			|| ai_render_tracked_props_all
-			|| ai_render_targets_all
-			|| ai_render_joint_behaviors
-			|| ai_render_flocks
-			|| ai_render_command_scripts
-			|| ai_render_dialogue_variants
-			|| ai_render_vehicle_interest
-			|| ai_render_player_battle_vector);
+		|| ai_render_lineoffire
+		|| ai_render_lineofsight
+		|| ai_render_ballistic_lineoffire
+		|| ai_debug_selected_actor_unit_index != NONE && (ai_debug_selected_actor_index == NONE || ai_render_all_actors)
+		|| ai_debug_selected_actor_index != NONE && !ai_render_all_actors
+		|| ai_debug_path
+		|| ai_render_paths_failed
+		|| ai_render_aiming_validity
+		|| ai_render_all_actors
+		|| ai_render_dialogue
+		|| ai_render_dialogue_queue
+		|| ai_render_dialogue_player_weights
+		|| ai_render_speech
+		|| ai_print_speech
+		|| ai_render_spatial_effects
+		|| ai_render_clumps
+		|| ai_render_clump_props
+		|| ai_render_clump_props_all
+		|| ai_render_decisions
+		|| ai_render_decisions_all
+		|| ai_render_behavior_stack_all
+		|| ai_render_stimuli
+		|| ai_render_sectors
+		|| ai_render_sector_geometry_errors
+		|| ai_render_link_specific != NONE
+		|| ai_render_links
+		|| ai_render_user_hints
+		|| ai_render_hints
+		|| ai_render_object_hints_all
+		|| ai_render_object_hints
+		|| ai_render_object_properties
+		|| ai_render_sector_bsps
+		|| ai_render_giant_sector_bsps
+		|| ai_render_sector_link_errors
+		|| ai_render_intersection_links
+		|| ai_render_non_walkable_sectors
+		|| ai_render_threshold_links
+		|| ai_render_orders
+		|| ai_render_suppress_combat
+		|| ai_render_objectives
+		|| ai_render_strength
+		|| ai_debug_tracking_data
+		|| ai_debug_perception_data
+		|| ai_debug_combat_status
+		|| ai_render_tracked_props_all
+		|| ai_render_targets_all
+		|| ai_render_joint_behaviors
+		|| ai_render_flocks
+		|| ai_render_command_scripts
+		|| ai_render_dialogue_variants
+		|| ai_render_vehicle_interest
+		|| ai_render_player_battle_vector);
 	
 	//main_set_single_thread_request_flag(2, g_dialogue_debug_enabled | flag);
 	if (!actor_datum_available_to_current_thread() || !ai_globals->__unknown1)
