@@ -822,7 +822,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
 
-	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_variants, ai_render_dialogue_variants_enabled),
+	CONSOLE_GLOBAL_DECLARE_BOOL(ai_render_dialogue_variants),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 
