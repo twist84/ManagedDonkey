@@ -213,8 +213,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_behavior_stack_all)
 		//	ai_debug_render_behavior_stacks_all();
 
-		//if (ai_render_character_names)
-		//	ai_debug_render_character_names();
+		if (g_ai_render_character_names)
+			ai_debug_render_character_names();
 	
 		if (g_ai_render_stimuli)
 			stimuli_debug();
@@ -360,7 +360,20 @@ real_point3d* ai_debug_drawstack_offset(real offset)
 	return &global_ai_debug_drawstack_last_position;
 }
 
-// #TODO: `actor_debug_info`, `actor_debug_array`, `actor_debug_drawstack`
+void ai_debug_render_character_names()
+{
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, false);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
+	{
+		real_point3d position{};
+		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+		ai_debug_drawstack_setup(&position);
+
+		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("%s", tag_name_strip_path(tag_get_name(actor->meta.character_definition_index))).get_string(), global_real_argb_green);
+	}
+}
+
 
 void debug_combat_status()
 {
