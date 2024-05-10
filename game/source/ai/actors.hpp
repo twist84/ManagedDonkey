@@ -261,7 +261,15 @@ static_assert(sizeof(actor_vehicle_data) == 0x2C);
 
 struct actor_player_data
 {
-	byte __data0[0x18];
+	bool blocking_player;
+	bool moving_into_fire;
+	short __unknown2;
+	byte __data4[0x8];
+	real __unknown8;
+	short ai_player_index;
+	short interested_ticks;
+	short uninterested_ticks;
+	byte __data[0x2];
 };
 static_assert(sizeof(actor_player_data) == 0x18);
 
