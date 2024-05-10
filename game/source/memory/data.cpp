@@ -297,8 +297,8 @@ long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long cou
 
 void* __cdecl datum_get(s_data_array* data, long index)
 {
-	long identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-	long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+	word identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	word absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
 	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
 	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
@@ -328,7 +328,7 @@ void* __cdecl datum_get(s_data_array* data, long index)
 			absolute_index,
 			index).get_string());
 
-	if (header->identifier != DATUM_INDEX_TO_IDENTIFIER(index))
+	if (header->identifier != identifier)
 		ASSERT2(c_string_builder("%s index #%d (0x%x) is changed, should be 0x%x",
 			data->name.get_string(),
 			absolute_index,
