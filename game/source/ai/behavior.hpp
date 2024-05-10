@@ -1,5 +1,9 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
+
+#define MAX_BEHAVIOR_LAYERS 8
+
 enum e_behavior
 {
 	_behavior_GENERAL,
@@ -242,5 +246,10 @@ enum e_behavior
 //extern char const*(&behavior_names)[k_behavior_count];
 extern char const* behavior_names[k_behavior_count];
 
+struct actor_datum;
+
+extern byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_index);
 extern short __cdecl behavior_index_by_name(char* name);
+
+extern short actor_behavior_index_get(actor_datum const* actor, short layer_index);
 

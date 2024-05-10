@@ -1,6 +1,6 @@
 #include "ai/behavior.hpp"
 
-#include "cseries/cseries.hpp"
+#include "ai/actors.hpp"
 
 //REFERENCE_DECLARE_ARRAY(0x01994070, char const*, behavior_names, k_behavior_count);
 
@@ -8,6 +8,24 @@ short __cdecl behavior_index_by_name(char* name)
 {
 	return INVOKE(0x014745C0, behavior_index_by_name, name);
 }
+
+//c_behavior_state* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_index)
+byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_index)
+{
+	return INVOKE(0x01469180, actor_behavior_state_get, actor, layer_index);
+}
+
+short actor_behavior_index_get(actor_datum const* actor, short layer_index)
+{
+	ASSERT(layer_index >= 0);
+	ASSERT(layer_index < MAX_BEHAVIOR_LAYERS);
+	ASSERT(layer_index <= actor->state.leaf_layer);
+
+	if (VALID_INDEX(layer_index, MAX_BEHAVIOR_LAYERS))
+		return *(short*)actor_behavior_state_get(actor, layer_index);
+
+	return NONE;
+};
 
 char const* behavior_names[k_behavior_count]
 {

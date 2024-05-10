@@ -3,6 +3,7 @@
 #include "ai/actor_perception.hpp"
 #include "ai/actor_stimulus.hpp"
 #include "ai/actors.hpp"
+#include "ai/behavior.hpp"
 #include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
 #include "game/player_mapping.hpp"
@@ -212,8 +213,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_decisions_all)
 		//	ai_debug_render_decisions(1);
 
-		//if (g_ai_render_behavior_stack_all)
-		//	ai_debug_render_behavior_stacks_all();
+		if (g_ai_render_behavior_stack_all)
+			ai_debug_render_behavior_stacks_all();
 
 		if (g_ai_render_character_names)
 			ai_debug_render_character_names();
@@ -360,6 +361,21 @@ real_point3d* ai_debug_drawstack_offset(real offset)
 	global_ai_debug_drawstack_next_position.z += offset;
 
 	return &global_ai_debug_drawstack_last_position;
+}
+
+void ai_debug_render_behavior_stacks_all()
+{
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, false);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
+	{
+		real_point3d position{};
+		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+		ai_debug_drawstack_setup(&position);
+
+		for (short layer_index = 0; layer_index <= actor->state.leaf_layer; layer_index++)
+			render_debug_string_at_point(ai_debug_drawstack(), behavior_names[actor_behavior_index_get(actor, layer_index)], global_real_argb_green);
+	}
 }
 
 void ai_debug_render_character_names()

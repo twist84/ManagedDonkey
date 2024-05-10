@@ -716,6 +716,7 @@ s_console_global const* const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render, g_ai_render),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_player_weights, g_ai_render_dialogue_player_weights),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_behavior_stack_all, g_ai_render_behavior_stack_all),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_character_names, g_ai_render_character_names),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_stimuli, g_ai_render_stimuli),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_suppress_combat, g_ai_render_suppress_combat),
