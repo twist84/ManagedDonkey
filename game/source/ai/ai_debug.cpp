@@ -68,7 +68,7 @@ bool g_ai_render_suppress_combat = false;
 bool g_ai_render_objectives = false;
 bool g_ai_render_strength = false;
 bool g_ai_debug_tracking_data = false;
-bool g_ai_debug_perception_data = true;
+bool g_ai_debug_perception_data = false;
 bool g_ai_debug_combat_status = false;
 bool g_ai_render_tracked_props_all = false;
 bool g_ai_render_targets_all = false;
@@ -266,8 +266,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_objectives_enabled || g_ai_render_strength)
 		//	ai_debug_render_squads();
 
-		//if (g_ai_render_suppress_combat)
-		//	ai_debug_render_suppress_combat();
+		if (g_ai_render_suppress_combat)
+			ai_debug_render_suppress_combat();
 
 		//if (g_ai_render_ai_iterator != NONE)
 		//	ai_debug_render_ai_iterator();
@@ -372,6 +372,17 @@ void ai_debug_render_character_names()
 		ai_debug_drawstack_setup(&position);
 
 		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("%s", tag_name_strip_path(tag_get_name(actor->meta.character_definition_index))).get_string(), global_real_argb_green);
+	}
+}
+
+void ai_debug_render_suppress_combat()
+{
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, true);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
+	{
+		if (actor->state.suppress_combat)
+			render_debug_string_at_point(&actor->input.position.head, "COMBAT SUPPRESSED", global_real_argb_blue);
 	}
 }
 
