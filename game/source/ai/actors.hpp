@@ -130,7 +130,11 @@ struct actor_state_data
 	short combat_status;
 	long combat_status_timer;
 
-	byte __unknown294[5][0x8];
+	// #TODO: mapped this struct
+	// find or decide on an name for the struct, is the name `actor_stimulus_data`?
+	// first bytes are `long type`, `e_stimulus`
+	byte stimulus[5][0x8];
+
 	long __unknown2BC;
 	byte __data2C0[0x5];
 
@@ -458,4 +462,6 @@ static_assert(sizeof(actor_iterator) == 0x18);
 
 extern void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2);
 extern actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator);
+
+extern bool actor_datum_available_to_current_thread();
 
