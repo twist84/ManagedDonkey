@@ -295,68 +295,49 @@ long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long cou
 	return INVOKE(0x0055B5D0, datum_new_in_range, data, minimum_index, count_indices, initialize);
 }
 
-//void* __cdecl datum_get(s_data_array* data, long index)
-//{
-//	long identifier = DATUM_INDEX_TO_IDENTIFIER(index);
-//	long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
-//
-//	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
-//	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
-//
-//	ASSERT(data);
-//	ASSERT(data->valid);
-//
-//	if (index == NONE)
-//	{
-//		c_static_string<1024> assert_string;
-//		assert_string.print("tried to access %s index NONE", data->name.get_string());
-//		ASSERT2(assert_string.get_string());
-//	}
-//
-//	if (!identifier)
-//	{
-//		c_static_string<1024> assert_string;
-//		assert_string.print("tried to access %s using datum_get() with an absolute index #%d",
-//			data->name.get_string(),
-//			index);
-//		ASSERT2(assert_string.get_string());
-//	}
-//
-//	if (absolute_index < 0 || absolute_index >= data->first_unallocated)
-//	{
-//		c_static_string<1024> assert_string;
-//		assert_string.print("%s index #%d (0x%x) is out of range (%d)",
-//			data->name.get_string(),
-//			absolute_index,
-//			index,
-//			data->first_unallocated);
-//		ASSERT2(assert_string.get_string());
-//	}
-//
-//	if (!header->identifier)
-//	{
-//		c_static_string<1024> assert_string;
-//		assert_string.print("%s index #%d (0x%x) is unused",
-//			data->name.get_string(),
-//			absolute_index,
-//			index);
-//		ASSERT2(assert_string.get_string());
-//	}
-//
-//	if (header->identifier != DATUM_INDEX_TO_IDENTIFIER(index))
-//	{
-//		c_static_string<1024> assert_string;
-//		assert_string.print("%s index #%d (0x%x) is changed, should be 0x%x",
-//			data->name.get_string(),
-//			absolute_index,
-//			index,
-//			BUILD_DATUM_INDEX(header->identifier, absolute_index));
-//		ASSERT2(assert_string.get_string());
-//	}
-//
-//	ASSERT(data->alignment_bits == 0 || header == align_pointer(header, data->alignment_bits));
-//	return header;
-//}
+void* __cdecl datum_get(s_data_array* data, long index)
+{
+	long identifier = DATUM_INDEX_TO_IDENTIFIER(index);
+	long absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
+
+	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
+
+	ASSERT(data);
+	ASSERT(data->valid);
+
+	if (index == NONE)
+		ASSERT2(c_string_builder("tried to access %s index NONE",
+			data->name.get_string()).get_string());
+
+	if (!identifier)
+		ASSERT2(c_string_builder("tried to access %s using datum_get() with an absolute index #%d",
+			data->name.get_string(),
+			index).get_string());
+
+	if (absolute_index < 0 || absolute_index >= data->first_unallocated)
+		ASSERT2(c_string_builder("%s index #%d (0x%x) is out of range (%d)",
+			data->name.get_string(),
+			absolute_index,
+			index,
+			data->first_unallocated).get_string());
+
+	if (!header->identifier)
+		ASSERT2(c_string_builder("%s index #%d (0x%x) is unused",
+			data->name.get_string(),
+			absolute_index,
+			index).get_string());
+
+	if (header->identifier != DATUM_INDEX_TO_IDENTIFIER(index))
+		ASSERT2(c_string_builder("%s index #%d (0x%x) is changed, should be 0x%x",
+			data->name.get_string(),
+			absolute_index,
+			index,
+			BUILD_DATUM_INDEX(header->identifier, absolute_index)).get_string());
+
+	ASSERT(data->alignment_bits == 0 || header == align_pointer(header, data->alignment_bits));
+	return header;
+}
 
 void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 {
@@ -376,25 +357,15 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 	if (index != NONE || absolute_index != (word)NONE)
 	{
 		if (!identifier)
-		{
-			c_static_string<1024> assert_string;
-			assert_string.print("tried to access %s using datum_try_and_get() with an absolute index #%d",
+			ASSERT2(c_string_builder("tried to access %s using datum_try_and_get() with an absolute index #%d",
 				data->name.get_string(),
-				absolute_index);
-
-			ASSERT2(assert_string.get_string());
-		}
+				absolute_index).get_string());
 
 		if (absolute_index < 0 || absolute_index >= data->maximum_count)
-		{
-			c_static_string<1024> assert_string;
-			assert_string.print("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
+			ASSERT2(c_string_builder("tried to access %s using datum_try_and_get() with an index 0x%08X outside maximum range [0, %d)",
 				data->name.get_string(),
 				index,
-				data->maximum_count);
-
-			ASSERT2(assert_string.get_string());
-		}
+				data->maximum_count).get_string());
 
 		if (absolute_index < data->first_unallocated)
 		{
