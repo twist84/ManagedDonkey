@@ -714,6 +714,13 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input_abstraction),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_input_mouse_state),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render, g_ai_render),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_character_names, g_ai_render_character_names),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_stimuli, g_ai_render_stimuli),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_perception_data, g_ai_debug_perception_data),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_combat_status, g_ai_debug_combat_status),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_variants, g_ai_render_dialogue_variants),
+
 	CONSOLE_GLOBAL_DECLARE_REAL(water_physics_velocity_minimum),
 	CONSOLE_GLOBAL_DECLARE_REAL(water_physics_velocity_maximum),
 
@@ -821,8 +828,6 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(ai_render_dialogue_variants),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 
