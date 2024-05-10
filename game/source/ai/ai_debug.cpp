@@ -9,6 +9,7 @@
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
+#include "text/draw_string.hpp"
 #include "units/dialogue_definitions.hpp"
 #include "units/units.hpp"
 
@@ -277,8 +278,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_debug_tracking_data)
 		//	ai_debug_tracking_data();
 
-		//if (ai_debug_perception_data)
-		//	ai_debug_perception_data();
+		if (g_ai_debug_perception_data)
+			ai_debug_perception_data();
 
 		if (g_ai_debug_combat_status)
 			debug_combat_status();
@@ -374,6 +375,25 @@ void ai_debug_render_character_names()
 	}
 }
 
+void ai_debug_perception_data()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(tracking_data);
+	TLS_DATA_GET_VALUE_REFERENCE(prop_ref_data);
+	TLS_DATA_GET_VALUE_REFERENCE(prop_data);
+	TLS_DATA_GET_VALUE_REFERENCE(clump_data);
+
+	c_rasterizer_draw_string draw_string;
+	c_font_cache_mt_safe font_cache;
+	char string[500]{};
+
+	csnzprintf(string, sizeof(string), "Total clumps: %i/%i|nTotal clump props: %i/%i|n, Total prop-refs: %i/%i|nTotal tracks:%i/%i",
+		clump_data->actual_count, 20,
+		prop_data->actual_count, 256,
+		prop_ref_data->actual_count, 1024,
+		tracking_data->actual_count, 100);
+
+	draw_string.draw(&font_cache, string);
+}
 
 void debug_combat_status()
 {
