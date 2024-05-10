@@ -1,5 +1,6 @@
 #include "ai/ai_debug.hpp"
 
+#include "ai/actor_perception.hpp"
 #include "ai/actor_stimulus.hpp"
 #include "ai/actors.hpp"
 #include "cache/cache_files.hpp"
@@ -23,7 +24,7 @@ short global_ai_debug_string_position = 0;
 //actor_debug_info* actor_debug_array;
 //ai_debug_state ai_debug;
 
-bool g_ai_render = true;
+bool g_ai_render = false;
 bool g_ai_render_firing_positions_all = false;
 bool g_ai_render_lineoffire = false;
 bool g_ai_render_lineofsight = false;
@@ -308,8 +309,8 @@ void __cdecl ai_debug_render()
 		//if (!ai_hide_actor_errors)
 		//	debug_render_actor_errors();
 
-		//if (g_ai_render_vehicle_interest)
-		//	debug_render_vehicle_interest();
+		if (g_ai_render_vehicle_interest)
+			debug_render_vehicle_interest();
 
 		if (g_ai_render_player_battle_vector)
 			debug_render_player_battle_vector();
