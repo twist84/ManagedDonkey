@@ -172,7 +172,7 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_ballistic_lineoffire)
 		//	ai_debug_render_ballistic_lineoffire();
 
-		//if (g_ai_debug_selected_actor_unit_index != NONE && (g_ai_debug_selected_actor_index == NONE || ai_render_all_actors))
+		//if (g_ai_debug_selected_actor_unit_index != NONE && (g_ai_debug_selected_actor_index == NONE || g_ai_render_all_actors))
 		//	ai_debug_render_squad_members(g_ai_debug_selected_actor_unit_index);
 
 		//if (g_ai_debug_selected_actor_index != NONE && !ai_render_all_actors)
@@ -196,13 +196,13 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_dialogue_player_weights)
 		//	ai_dialogue_render_player_weights();
 
-		//if (g_ai_render_speech_enabled || ai_print_speech)
+		//if (g_ai_render_speech_enabled || g_ai_print_speech)
 		//	ai_debug_render_speech();
 
 		//if (g_ai_render_spatial_effects)
 		//	ai_debug_render_spatial_effects();
 
-		//if (g_ai_render_clumps_enabled || ai_render_clump_props_enabled || ai_render_clump_dialogue || ai_render_clump_props_all)
+		//if (g_ai_render_clumps_enabled || g_ai_render_clump_props_enabled || g_ai_render_clump_dialogue || g_ai_render_clump_props_all)
 		//	ai_debug_render_clumps();
 
 		//if (g_ai_render_decisions)
@@ -263,7 +263,7 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_threshold_links)
 		//	ai_debug_render_threshold_links();
 
-		//if (g_ai_render_objectives_enabled || ai_render_strength)
+		//if (g_ai_render_objectives_enabled || g_ai_render_strength)
 		//	ai_debug_render_squads();
 
 		//if (g_ai_render_suppress_combat)
