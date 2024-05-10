@@ -722,6 +722,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_suppress_combat, g_ai_render_suppress_combat),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_perception_data, g_ai_debug_perception_data),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_combat_status, g_ai_debug_combat_status),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_command_scripts, g_ai_render_command_scripts),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_dialogue_variants, g_ai_render_dialogue_variants),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_vehicle_interest, g_ai_render_vehicle_interest),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_player_battle_vector, g_ai_render_player_battle_vector),

@@ -298,8 +298,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_flocks)
 		//	debug_render_flocks();
 
-		//if (g_ai_render_command_scripts)
-		//	render_command_scripts();
+		if (g_ai_render_command_scripts)
+			render_command_scripts();
 	
 		if (g_ai_render_dialogue_variants)
 			render_dialogue_variants();
@@ -361,6 +361,22 @@ real_point3d* ai_debug_drawstack_offset(real offset)
 	global_ai_debug_drawstack_next_position.z += offset;
 
 	return &global_ai_debug_drawstack_last_position;
+}
+
+void render_command_scripts()
+{
+	//actor_iterator iterator{};
+	//actor_iterator_new(&iterator, false);
+	//while (actor_datum* actor = actor_iterator_next(&iterator))
+	//{
+	//	if (actor->commands.script_index != NONE)
+	//	{
+	//		real_point3d position{};
+	//		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+	//		ai_debug_drawstack_setup(&position);
+	//		render_command_scripts_helper(actor, actor->commands.script_index);
+	//	}
+	//}
 }
 
 void ai_debug_render_behavior_stacks_all()
