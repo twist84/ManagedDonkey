@@ -16,3 +16,8 @@ struct vocalization_timers
 };
 static_assert(sizeof(vocalization_timers) == 0xFB8);
 
+extern double __cdecl dialogue_player_weighting(long unit_index);
+extern short __cdecl dialogue_team_get(short team);
+
+extern void ai_dialogue_render_player_weights();
+

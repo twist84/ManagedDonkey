@@ -180,6 +180,7 @@ POPD
   <ItemGroup>
     <ClCompile Include="source\ai\actors.cpp" />
     <ClCompile Include="source\ai\actor_stimulus.cpp" />
+    <ClCompile Include="source\ai\ai_dialogue.cpp" />
     <ClCompile Include="source\ai\ai_player.cpp" />
     <ClCompile Include="source\ai\path_obstacles.cpp" />
     <ClCompile Include="source\ai\path_smoothing.cpp" />

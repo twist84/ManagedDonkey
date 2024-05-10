@@ -193,8 +193,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_dialogue_queue)
 		//	ai_dialogue_render_queue();
 
-		//if (g_ai_render_dialogue_player_weights)
-		//	ai_dialogue_render_player_weights();
+		if (g_ai_render_dialogue_player_weights)
+			ai_dialogue_render_player_weights();
 
 		//if (g_ai_render_speech_enabled || g_ai_print_speech)
 		//	ai_debug_render_speech();
