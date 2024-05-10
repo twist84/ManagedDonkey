@@ -1284,6 +1284,9 @@
     <ClCompile Include="source\ai\actors.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ai\actor_stimulus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3204,6 +3207,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\units\dialogue_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ai\actor_stimulus.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
