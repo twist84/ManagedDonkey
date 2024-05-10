@@ -397,22 +397,17 @@ void ai_debug_perception_data()
 
 void debug_combat_status()
 {
-	//actor_iterator iterator{};
-	//actor_iterator_new(&iterator, true);
-	//while (actor_datum* actor = actor_iterator_next(&iterator))
-	//{
-	//	// combat status
-	//	{
-	//		c_string_builder string("Combat status: %i", actor->state.combat_status);
-	//		render_debug_string_at_point(actor_debug_drawstack(iterator.actor_index), string.get_string(), global_real_argb_green);
-	//	}
-	//
-	//	// highest prop class
-	//	{
-	//		c_string_builder string("Highest prop class: %i", actor->situation.highest_prop_class);
-	//		render_debug_string_at_point(actor_debug_drawstack(iterator.actor_index), string.get_string(), global_real_argb_green);
-	//	}
-	//}
+	actor_iterator iterator{};
+	actor_iterator_new(&iterator, true);
+	while (actor_datum* actor = actor_iterator_next(&iterator))
+	{
+		real_point3d position{};
+		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+		ai_debug_drawstack_setup(&position);
+
+		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("Combat status: %i", actor->state.combat_status).get_string(), global_real_argb_green);
+		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("Highest prop class: %i", actor->situation.highest_prop_class).get_string(), global_real_argb_green);
+	}
 }
 
 void render_dialogue_variants()
