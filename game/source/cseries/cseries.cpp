@@ -417,12 +417,12 @@ void __cdecl cseries_initialize()
 }
 
 c_string_builder::c_string_builder() :
-	c_static_string<256>()
+	c_static_string<1024>()
 {
 }
 
 c_string_builder::c_string_builder(char const* format, ...) :
-	c_static_string<256>()
+	c_static_string<1024>()
 {
 	va_list list;
 	va_start(list, format);

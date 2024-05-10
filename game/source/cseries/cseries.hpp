@@ -1427,7 +1427,7 @@ protected:
 };
 
 struct c_string_builder :
-	public c_static_string<256>
+	public c_static_string<1024>
 {
 public:
 	c_string_builder();
