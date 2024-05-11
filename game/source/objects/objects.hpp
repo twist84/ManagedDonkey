@@ -428,6 +428,7 @@ extern void* __cdecl object_header_block_get(long object_index, object_header_bl
 extern object_header_datum const* __cdecl object_header_get(long object_index);
 extern object_datum* __cdecl object_get(long object_index);
 extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
+extern void __cdecl object_get_bounding_sphere(long object_index, real_point3d* center, real* radius);
 extern e_object_type __cdecl object_get_type(long object_index);
 extern long __cdecl cluster_get_first_collideable_object(long* datum_index, s_cluster_reference cluster_reference);
 extern long __cdecl cluster_get_first_collideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload);

@@ -85,6 +85,11 @@ void* __cdecl object_get_and_verify_type(long object_index, dword object_type_ma
 	return object;
 }
 
+void __cdecl object_get_bounding_sphere(long object_index, real_point3d* center, real* radius)
+{
+	INVOKE(0x00537990, object_get_bounding_sphere, object_index, center, radius);
+}
+
 e_object_type __cdecl object_get_type(long object_index)
 {
 	return INVOKE(0x0046DC70, object_get_type, object_index);
