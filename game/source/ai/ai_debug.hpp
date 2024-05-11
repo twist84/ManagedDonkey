@@ -73,6 +73,7 @@ extern real_point3d* ai_debug_drawstack_offset(real offset);
 extern void ai_debug_render_behavior_stacks_all();
 extern void ai_debug_render_character_names();
 extern void render_command_scripts();
+extern void ai_debug_render_squads();
 extern void ai_debug_render_suppress_combat();
 extern void ai_debug_perception_data();
 extern void debug_combat_status();

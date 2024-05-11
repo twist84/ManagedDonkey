@@ -265,8 +265,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_threshold_links)
 		//	ai_debug_render_threshold_links();
 
-		//if (g_ai_render_objectives_enabled || g_ai_render_strength)
-		//	ai_debug_render_squads();
+		if (g_ai_render_objectives || g_ai_render_strength)
+			ai_debug_render_squads();
 
 		if (g_ai_render_suppress_combat)
 			ai_debug_render_suppress_combat();
@@ -473,6 +473,65 @@ void ai_debug_render_character_names()
 		ai_debug_drawstack_setup(&position);
 
 		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("%s", tag_name_strip_path(tag_get_name(actor->meta.character_definition_index))).get_string(), global_real_argb_green);
+	}
+}
+
+void ai_debug_render_squads()
+{
+	squad_iterator squad_iter{};
+	squad_iterator_new(&squad_iter);
+	while (squad_datum* squad = squad_iterator_next(&squad_iter))
+	{
+		s_scenario* scenario = global_scenario_get();
+		s_squad_definition* squad_def = &scenario->squads[DATUM_INDEX_TO_ABSOLUTE_INDEX(squad_iter.squad_index)];
+		real_point3d position = *global_origin3d;
+
+		short scale = 0;
+		{
+			squad_actor_iterator squad_actor_iter{};
+			squad_actor_iterator_new(&squad_actor_iter, squad_iter.squad_index, true);
+			while (actor_datum* squad_actor = squad_actor_iterator_next(&squad_actor_iter))
+			{
+				add_vectors3d((vector3d*)&position, (vector3d*)&squad_actor->input.position.head, (vector3d*)&position);
+				add_vectors3d((vector3d*)&position, (vector3d*)&squad_actor->input.position.body, (vector3d*)&position);
+				scale += 2;
+			}
+		}
+
+		if (scale > 0)
+		{
+			scale_vector3d((vector3d*)&position, 1.0f / (real)scale, (vector3d*)&position);
+			ai_debug_drawstack_setup(&position);
+			render_debug_sphere(true, &position, 0.3f, global_real_argb_red);
+
+			squad_actor_iterator squad_actor_iter{};
+			squad_actor_iterator_new(&squad_actor_iter, squad_iter.squad_index, true);
+			while (actor_datum* squad_actor = squad_actor_iterator_next(&squad_actor_iter))
+			{
+				real_point3d center{};
+				real radius = 0.0f;
+
+				if (squad_actor->meta.unit_index == NONE)
+					center = squad_actor->input.position.body;
+				else
+					object_get_bounding_sphere(squad_actor->meta.unit_index, &center, &radius);
+
+				render_debug_line(true, &position, &center, squad_actor->meta.__unknown1E ? global_real_argb_yellow : global_real_argb_red);
+			}
+
+			if (g_ai_render_strength)
+			{
+				char string[128]{};
+				csnzprintf(string, sizeof(string), "Strength: %f", squad->current_strength_fraction);
+				render_debug_string_at_point(ai_debug_drawstack(), string, global_real_argb_aqua);
+			}
+
+			// #TODO: implement `ai_debug_render_objectives`
+			//if (g_ai_render_objectives)
+			//	ai_debug_render_objectives(squad_iter.squad_index, &position);
+
+			render_debug_string_at_point(ai_debug_drawstack(), squad_def->name.get_string(), global_real_argb_red);
+		}
 	}
 }
 
