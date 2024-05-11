@@ -95,3 +95,15 @@ struct squad_group_datum :
 };
 static_assert(sizeof(squad_group_datum) == 0x24);
 
+struct squad_actor_iterator
+{
+	long squad_index;
+	long actor_index;
+	long next_actor_index;
+	bool __unknownC;
+};
+static_assert(sizeof(squad_actor_iterator) == 0x10);
+
+extern void __cdecl squad_actor_iterator_new(squad_actor_iterator* iterator, long squad_index, bool a3);
+extern actor_datum* __cdecl squad_actor_iterator_next(squad_actor_iterator* iterator);
+

@@ -185,6 +185,7 @@ POPD
     <ClCompile Include="source\ai\ai_player.cpp" />
     <ClCompile Include="source\ai\path_obstacles.cpp" />
     <ClCompile Include="source\ai\path_smoothing.cpp" />
+    <ClCompile Include="source\ai\squads.cpp" />
     <ClCompile Include="source\effects\decals.cpp" />
     <ClCompile Include="source\effects\effects.cpp" />
     <ClCompile Include="source\game\game_allegiance.cpp" />
