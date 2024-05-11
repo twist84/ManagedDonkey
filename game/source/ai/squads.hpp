@@ -76,7 +76,22 @@ static_assert(sizeof(squad_datum) == 0xEC);
 struct squad_group_datum :
 	s_datum_header
 {
-	byte __data[0x22];
+	short highest_combat_status;
+	long first_group_child_index;
+	long first_leaf_child_index;
+	long next_sibling_index;
+	long parent_index;
+	bool active;
+	bool placed;
+	bool enemy_visible;
+
+	byte __pad17[0x1];
+
+	short current_count;
+	short original_vitality;
+	short prebattle_living_count;
+	short current_in_combat_count;
+	real current_strength_fraction;
 };
 static_assert(sizeof(squad_group_datum) == 0x24);
 
