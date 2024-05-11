@@ -654,14 +654,13 @@ struct s_squad_definition
 	// pad
 	byte post_excluded_placement_flags[0x2];
 
-	c_string_id _template;
 	long squad_template_index;
 
 	// Merge
 	s_squad_definition_internal designer;
 	s_squad_definition_internal templated;
 };
-static_assert(sizeof(s_squad_definition) == 0x6C);
+static_assert(sizeof(s_squad_definition) == 0x68);
 
 struct zone_definition
 {
