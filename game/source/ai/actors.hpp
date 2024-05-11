@@ -130,7 +130,7 @@ struct actor_state_data
 	short combat_status;
 	long combat_status_timer;
 
-	// #TODO: mapped this struct
+	// #TODO: map this struct
 	// find or decide on an name for the struct, is the name `actor_stimulus_data`?
 	// first bytes are `long type`, `e_stimulus`
 	byte stimulus[5][0x8];

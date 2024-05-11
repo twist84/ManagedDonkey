@@ -363,6 +363,74 @@ real_point3d* ai_debug_drawstack_offset(real offset)
 	return &global_ai_debug_drawstack_last_position;
 }
 
+void render_command_scripts_helper(actor_datum* actor, long command_script_index)
+{
+	// #TODO: implement me
+
+	// #TODO: `hs_thread_get`, `cs_atom_string`
+
+	//TLS_DATA_GET_VALUE_REFERENCE(command_script_data);
+	//
+	//command_script_datum* command_script = (command_script_datum*)datum_get(*command_script_data, command_script_index);
+	//
+	//if (command_script->next_cs != NONE)
+	//	render_command_scripts_helper(actor, command_script->next_cs);
+	//
+	//if (command_script->thread_index != NONE)
+	//{
+	//	hs_thread* thread = hs_thread_get(command_script->thread_index);
+	//	hs_script* script = NULL;
+	//	real_argb_color const* color = NULL;
+	//
+	//	if (thread->script_index != NONE)
+	//		script = &global_scenario_get()->scripts[thread->script_index];
+	//
+	//	short atom_channel_start = actor->meta.swarm ? 1 : 3;
+	//	for (short atom_channel = atom_channel_start - 1; atom_channel >= 0; atom_channel--)
+	//	{
+	//		if (command_script_index == actor->commands.last_script_index)
+	//			color = global_real_argb_white;
+	//		else
+	//			color = global_real_argb_grey;
+	//
+	//		char string[202]{};
+	//		switch (command_script->control[atom_channel].__unknown4)
+	//		{
+	//		case NONE:
+	//			csstrnzcpy(string, "(NONE)", sizeof(string));
+	//			break;
+	//		case 0:
+	//			csstrnzcpy(string, "(FAILED)", sizeof(string));
+	//			break;
+	//		case 1:
+	//			csstrnzcpy(string, "(FINISHED)", sizeof(string));
+	//			break;
+	//		case 2:
+	//			string[0] = '(';
+	//			cs_atom_string(command_script_index, atom_channel, &string[1], sizeof(string) - 2);
+	//			csstrnzcat(string, ")", sizeof(string));
+	//			break;
+	//		}
+	//
+	//		render_debug_string_at_point(ai_debug_drawstack(), string, color);
+	//	}
+	//
+	//	if (script)
+	//	{
+	//		render_debug_string_at_point(ai_debug_drawstack(), script->name.get_string(), color);
+	//	}
+	//	else
+	//	{
+	//		c_static_string<256> string;
+	//		render_debug_string_at_point(ai_debug_drawstack(),
+	//			string.print("%s: Pri(%i) %s",
+	//			hs_thread_format(command_script->thread_index),
+	//			command_script->priority,
+	//			command_script->reserve_mandatory ? "[M]" : " "), color);
+	//	}
+	//}
+}
+
 void render_command_scripts()
 {
 	//actor_iterator iterator{};
