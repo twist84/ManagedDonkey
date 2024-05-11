@@ -65,7 +65,8 @@ struct actor_meta_data
 	long next_actor_index;
 	short team;
 
-	byte ___data1E[0x2];
+	bool __unknown1E;
+	byte __data1F[0x1];
 
 	long prevehicle_squad_index;
 	short squad_adoption_timeout;
