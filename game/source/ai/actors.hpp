@@ -62,9 +62,7 @@ struct actor_meta_data
 
 	long unit_index;
 	long swarm_index;
-
-	byte __data18[0x4];
-
+	long next_actor_index;
 	short team;
 
 	byte ___data1E[0x2];
@@ -136,8 +134,11 @@ struct actor_state_data
 	byte stimulus[5][0x8];
 
 	long __unknown2BC;
-	byte __data2C0[0x5];
+	byte __data2C0[0x2];
+	bool __unknown2C2;
 
+	bool blind;
+	bool deaf;
 	bool flying;
 
 	byte __data2C6[0x6];
@@ -155,8 +156,8 @@ struct actor_state_data
 	short berserk_ticks;
 	short covered_ticks;
 	s_actor_patrol_state patrol_state;
-
-	byte __data2E0[0x4];
+	word_flags engineer_state_flags;
+	short isolated_from_squad_ticks;
 };
 static_assert(sizeof(actor_state_data) == 0x2E4);
 
