@@ -9,6 +9,7 @@ struct c_clump_behavior_state
 	word_flags m_flags;
 	long m_time;
 };
+static_assert(sizeof(c_clump_behavior_state) == 0x8);
 
 struct clump_datum :
 	s_datum_header
