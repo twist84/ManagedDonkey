@@ -271,8 +271,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_non_walkable_sectors)
 		//	ai_debug_render_non_walkable_sectors();
 
-		//if (g_ai_render_threshold_links)
-		//	ai_debug_render_threshold_links();
+		if (g_ai_render_threshold_links)
+			ai_debug_render_threshold_links();
 
 		if (g_ai_render_objectives || g_ai_render_strength)
 			ai_debug_render_squads();
@@ -602,6 +602,25 @@ void ai_debug_render_intersection_links()
 		{
 			if (pf_data->links[link_index].link_flags.test(_sector_link_section_link_bit))
 				sector_link_render_debug(link_index, pf_data, NULL, false);
+		}
+	}
+}
+
+void ai_debug_render_threshold_links()
+{
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsps.count(); structure_bsp_index++)
+	{
+		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
+			continue;
+
+		pathfinding_data const* pf_data = pathfinding_data_get(structure_bsp_index);
+		if (!pf_data)
+			continue;
+
+		for (long link_index = 0; link_index < pf_data->links.count(); link_index++)
+		{
+			if (pf_data->links[link_index].link_flags.test(_sector_link_threshold_bit))
+				sector_link_render_debug(link_index, pf_data, global_real_argb_orange, true);
 		}
 	}
 }

@@ -80,6 +80,7 @@ extern void ai_debug_render_sectors();
 extern void ai_render_object_properties();
 extern void render_command_scripts();
 extern void ai_debug_render_intersection_links();
+extern void ai_debug_render_threshold_links();
 extern void ai_debug_render_squads();
 extern void ai_debug_render_suppress_combat();
 extern void ai_debug_tracking_data();
