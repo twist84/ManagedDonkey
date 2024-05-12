@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ai/joint_behavior.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 #include "shell/shell.hpp"
@@ -99,12 +100,6 @@ struct actor_meta_data
 	byte __data68[0x4];
 };
 static_assert(sizeof(actor_meta_data) == 0x6C);
-
-struct invitation_data
-{
-	byte __data[0x10];
-};
-static_assert(sizeof(invitation_data) == 0x10);
 
 struct s_actor_patrol_state
 {
