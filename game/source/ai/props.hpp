@@ -52,3 +52,13 @@ struct tracking_datum :
 };
 static_assert(sizeof(tracking_datum) == 0x100);
 
+struct actor_prop_ref_iterator
+{
+	long prop_ref_index;
+	long next_prop_ref_index;
+};
+static_assert(sizeof(actor_prop_ref_iterator) == 0x8);
+
+void __cdecl actor_prop_ref_iterator_new(actor_prop_ref_iterator* iterator, long actor_index);
+prop_ref_datum* __cdecl actor_prop_ref_iterator_next(actor_prop_ref_iterator* iterator);
+
