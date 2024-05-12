@@ -3,6 +3,7 @@
 #include "ai/actor_perception.hpp"
 #include "ai/actor_stimulus.hpp"
 #include "ai/actors.hpp"
+#include "ai/ai_reference_frame.hpp"
 #include "ai/behavior.hpp"
 #include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
@@ -81,6 +82,7 @@ bool g_ai_render_joint_behaviors = false;
 bool g_ai_render_flocks = false;
 bool g_ai_render_command_scripts = false;
 bool g_ai_render_dialogue_variants = false;
+bool g_ai_render_dynamic_firing_positions = false;
 bool g_ai_render_vehicle_interest = false;
 bool g_ai_render_player_battle_vector = false;
 bool g_ai_render_player_needs_vehicle = false;
@@ -307,8 +309,8 @@ void __cdecl ai_debug_render()
 		if (g_ai_render_dialogue_variants)
 			render_dialogue_variants();
 	
-		//if (g_ai_render_dynamic_firing_positions)
-		//	ai_debug_render_dynamic_firing_positions();
+		if (g_ai_render_dynamic_firing_positions)
+			ai_debug_render_dynamic_firing_positions();
 
 		//if (!ai_hide_actor_errors)
 		//	debug_render_actor_errors();
@@ -700,6 +702,58 @@ void render_dialogue_variants()
 				char const* mission_dialogue_designator_name = dialogue_definition->mission_dialogue_designator.get_string();
 				render_debug_string_at_point(&actor->input.position.head, mission_dialogue_designator_name, global_real_argb_white);
 			}
+		}
+	}
+}
+
+void ai_debug_render_dynamic_firing_positions()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(dynamic_firing_set_data);
+
+	c_data_iterator<dynamic_firing_set_datum> dynamic_firing_set_iter;
+	dynamic_firing_set_iter.begin(*dynamic_firing_set_data);
+	while (dynamic_firing_set_iter.next())
+	{
+		real_point3d position{};
+		real_argb_color const* color = NULL;
+
+		dynamic_firing_set_datum* dynamic_firing_set = dynamic_firing_set_iter.get_datum();
+		if (dynamic_firing_set->support_object_index == NONE)
+		{
+			real_point3d ai_point_position{};
+			ai_point_get_position(&dynamic_firing_set->position, &ai_point_position);
+			render_debug_sphere(true, &ai_point_position, 0.5f, global_real_argb_orange);
+
+			position = ai_point_position;
+			color = global_real_argb_orange;
+		}
+		else
+		{
+			object_datum* object = object_get(dynamic_firing_set->support_object_index);
+			render_debug_sphere(true, &object->bounding_sphere_center, object->bounding_sphere_radius, global_real_argb_red);
+			position = object->bounding_sphere_center;
+			color = global_real_argb_red;
+		}
+
+		ai_debug_drawstack_setup(&position);
+		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("members: %i", dynamic_firing_set->num_members).get_string(), color);
+
+		if (dynamic_firing_set->support_object_index != NONE)
+			render_debug_string_at_point(ai_debug_drawstack(), "No object", global_real_argb_orange);
+	}
+
+
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, false);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	{
+		if (actor->firing_positions.dynamic_firing_set_index != NONE)
+		{
+			dynamic_firing_set_datum* dynamic_firing_set = (dynamic_firing_set_datum*)datum_get(*dynamic_firing_set_data, actor->firing_positions.dynamic_firing_set_index);
+
+			real_point3d ai_point_position{};
+			ai_point_get_position(&dynamic_firing_set->position, &ai_point_position);
+			render_debug_line(true, &actor->input.position.head, &ai_point_position, global_real_argb_blue);
 		}
 	}
 }

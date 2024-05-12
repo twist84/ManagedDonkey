@@ -59,6 +59,7 @@ extern bool g_ai_render_joint_behaviors;
 extern bool g_ai_render_flocks;
 extern bool g_ai_render_command_scripts;
 extern bool g_ai_render_dialogue_variants;
+extern bool g_ai_render_dynamic_firing_positions;
 extern bool g_ai_render_vehicle_interest;
 extern bool g_ai_render_player_battle_vector;
 extern bool g_ai_render_player_needs_vehicle;
@@ -82,4 +83,5 @@ extern void debug_combat_status();
 extern void ai_debug_render_tracked_props_all();
 extern void ai_debug_render_targets_all();
 extern void render_dialogue_variants();
+extern void ai_debug_render_dynamic_firing_positions();
 
