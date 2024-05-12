@@ -115,7 +115,7 @@ public:
 	void __cdecl set_justification(long justification);
 	bool __cdecl draw_more(c_font_cache_base* font_cache, char const* s);
 	//draw_partial
-	//get_cursor
+	void __cdecl get_cursor(int16_point2d* cursor) const;
 	short __cdecl get_line_height() const;
 
 protected:

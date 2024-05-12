@@ -90,6 +90,14 @@ bool __cdecl c_draw_string::draw_more(c_font_cache_base* font_cache, char const*
 	return DECLFUNC(0x00657DD0, bool, __thiscall, c_draw_string*, c_font_cache_base*, char const*)(this, font_cache, s);
 }
 
+void __cdecl c_draw_string::get_cursor(int16_point2d* cursor) const
+{
+	return DECLFUNC(0x006583E0, void, __thiscall, c_draw_string const*, int16_point2d*)(this, cursor);
+}
+
+//.text:00658410 ; public: void c_draw_string::get_cursor(real_point2d*) const
+//.text:00658430 ; public: e_text_justification c_draw_string::get_justification() const
+
 short __cdecl c_draw_string::get_line_height() const
 {
 	return DECLFUNC(0x00658440, short, __thiscall, c_draw_string const*)(this);
