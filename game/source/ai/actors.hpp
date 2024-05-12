@@ -232,6 +232,21 @@ struct actor_situation
 };
 static_assert(sizeof(actor_situation) == 0xC);
 
+// #TODO: confirm this struct size
+struct actor_target_data
+{
+	byte __data0[0x8];
+
+	long target_prop_index;
+
+	byte __dataC[0x4];
+
+	long retreat_target_prop_index;
+
+	byte __data14[0x10];
+};
+static_assert(sizeof(actor_target_data) == 0x24);
+
 struct actor_activity_data
 {
 	short __unknown0;
@@ -412,14 +427,12 @@ struct actor_datum :
 	actor_obstacle_data obstacles;
 	actor_memory_data memory;
 	actor_situation situation;
-
-	byte __data4AC[0xA4];
-
-	// offset: 0x4AC, size: 0x???, struct target;
-	// 0x4AC	target.flags
+	actor_target_data target;
 
 	// offset: 0x???, size: 0x???, struct stimuli;
-	
+	// the following data may still contain some `actor_target_data` struct data
+	byte __data4D0[0x80];
+
 	actor_activity_data activity;
 	actor_vehicle_data vehicle;
 	actor_player_data player;
@@ -437,7 +450,8 @@ static_assert(0x354 == offsetof(actor_datum, input));
 static_assert(0x40C == offsetof(actor_datum, obstacles));
 static_assert(0x430 == offsetof(actor_datum, memory));
 static_assert(0x4A0 == offsetof(actor_datum, situation));
-static_assert(0x4AC == offsetof(actor_datum, __data4AC));
+static_assert(0x4AC == offsetof(actor_datum, target));
+static_assert(0x4D0 == offsetof(actor_datum, __data4D0));
 static_assert(0x550 == offsetof(actor_datum, activity));
 static_assert(0x55C == offsetof(actor_datum, vehicle));
 static_assert(0x588 == offsetof(actor_datum, player));

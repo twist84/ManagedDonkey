@@ -289,8 +289,8 @@ void __cdecl ai_debug_render()
 		if (g_ai_debug_combat_status)
 			debug_combat_status();
 
-		//if (g_ai_render_tracked_props_all)
-		//	ai_debug_render_tracked_props_all();
+		if (g_ai_render_tracked_props_all)
+			ai_debug_render_tracked_props_all();
 
 		//if (g_ai_render_targets_all)
 		//	ai_debug_render_targets_all();
@@ -639,6 +639,29 @@ void debug_combat_status()
 
 		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("Combat status: %i", actor->state.combat_status).get_string(), global_real_argb_green);
 		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("Highest prop class: %i", actor->situation.highest_prop_class).get_string(), global_real_argb_green);
+	}
+}
+
+void ai_debug_render_tracked_props_all()
+{
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, true);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	{
+		actor_prop_ref_iterator actor_prop_ref_iter{};
+		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.actor_index);
+		while (prop_ref_datum* actor_prop_ref = actor_prop_ref_iterator_next(&actor_prop_ref_iter))
+		{
+			if (actor_prop_ref->tracking_index != NONE)
+			{
+				real_point3d position{};
+				object_get_origin(actor_prop_ref->object_index, &position);
+				if (actor_prop_ref_iter.prop_ref_index == actor->target.target_prop_index)
+					render_debug_line(true, &actor->input.position.head, &position, global_real_argb_red);
+				else
+					render_debug_line(true, &actor->input.position.head, &position, global_real_argb_yellow);
+			}
+		}
 	}
 }
 
