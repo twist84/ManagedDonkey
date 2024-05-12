@@ -183,6 +183,7 @@ POPD
     <ClCompile Include="source\ai\actor_stimulus.cpp" />
     <ClCompile Include="source\ai\ai_dialogue.cpp" />
     <ClCompile Include="source\ai\ai_player.cpp" />
+    <ClCompile Include="source\ai\ai_reference_frame.cpp" />
     <ClCompile Include="source\ai\path_obstacles.cpp" />
     <ClCompile Include="source\ai\path_smoothing.cpp" />
     <ClCompile Include="source\ai\props.cpp" />
