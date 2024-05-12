@@ -5,6 +5,8 @@
 #include "ai/actors.hpp"
 #include "ai/ai_reference_frame.hpp"
 #include "ai/behavior.hpp"
+#include "ai/sector.hpp"
+#include "ai/sector_definitions.hpp"
 #include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
 #include "game/player_mapping.hpp"
@@ -29,7 +31,7 @@ short global_ai_debug_string_position = 0;
 //actor_debug_info* actor_debug_array;
 //ai_debug_state ai_debug;
 
-bool g_ai_render = false;
+bool g_ai_render = true;
 bool g_ai_render_firing_positions_all = false;
 bool g_ai_render_lineoffire = false;
 bool g_ai_render_lineofsight = false;
@@ -229,8 +231,8 @@ void __cdecl ai_debug_render()
 		if (g_ai_render_stimuli)
 			stimuli_debug();
 	
-		//if (g_ai_render_sectors)
-		//	ai_debug_render_sectors();
+		if (g_ai_render_sectors)
+			ai_debug_render_sectors();
 
 		//if (g_ai_render_sector_geometry_errors)
 		//	ai_render_sector_geometry_errors();
@@ -506,6 +508,39 @@ void ai_debug_render_character_names()
 		ai_debug_drawstack_setup(&position);
 
 		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("%s", tag_name_strip_path(tag_get_name(actor->meta.character_definition_index))).get_string(), global_real_argb_green);
+	}
+}
+
+void ai_debug_render_sectors()
+{
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsps.count(); structure_bsp_index++)
+	{
+		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
+			continue;
+
+		pathfinding_data const* pf_data = pathfinding_data_get(structure_bsp_index);
+		if (!pf_data)
+			continue;
+
+		long sectors_range_min = 0;
+		long sectors_range_max = pf_data->sectors.count;
+
+		if (g_ai_render_sectors_range_min != NONE)
+			sectors_range_min = g_ai_render_sectors_range_min;
+
+		if (g_ai_render_sectors_range_max != NONE)
+			sectors_range_max = g_ai_render_sectors_range_max;
+
+		for (long link_index = 0; link_index < pf_data->links.count(); link_index++)
+		{
+			sector_link& link = pf_data->links[link_index];
+
+			if (link.left_sector >= sectors_range_min && link.left_sector <= sectors_range_max ||
+				link.right_sector >= sectors_range_min && link.right_sector <= sectors_range_max)
+			{
+				sector_link_render_debug(link_index, pf_data, NULL, false);
+			}
+		}
 	}
 }
 
