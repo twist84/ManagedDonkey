@@ -720,6 +720,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_character_names, g_ai_render_character_names),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_stimuli, g_ai_render_stimuli),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_sectors, g_ai_render_sectors),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_object_properties, g_ai_render_object_properties),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_suppress_combat, g_ai_render_suppress_combat),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_objectives, g_ai_render_objectives),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_strength, g_ai_render_strength),

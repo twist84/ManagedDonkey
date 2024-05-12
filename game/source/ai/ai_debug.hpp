@@ -77,6 +77,7 @@ extern void ai_debug_string(char const* string, short tab_stop_count, short cons
 extern void ai_debug_render_behavior_stacks_all();
 extern void ai_debug_render_character_names();
 extern void ai_debug_render_sectors();
+extern void ai_render_object_properties();
 extern void render_command_scripts();
 extern void ai_debug_render_squads();
 extern void ai_debug_render_suppress_combat();

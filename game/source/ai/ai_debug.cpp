@@ -254,8 +254,8 @@ void __cdecl ai_debug_render()
 		//else if (g_ai_render_object_hints)
 		//	ai_render_object_hints(1);
 
-		//if (g_ai_render_object_properties)
-		//	ai_render_object_properties();
+		if (g_ai_render_object_properties)
+			ai_render_object_properties();
 
 		//if (g_ai_render_sector_bsps)
 		//	sector_bsps_debug();
@@ -540,6 +540,49 @@ void ai_debug_render_sectors()
 			{
 				sector_link_render_debug(link_index, pf_data, NULL, false);
 			}
+		}
+	}
+}
+
+void ai_render_object_properties()
+{
+	char const* const ai_size_names[k_ai_size_count]
+	{
+		"default",
+		"tiny",
+		"small",
+		"medium",
+		"large",
+		"huge",
+		"immobile"
+	};
+
+	char const* const leap_size_names[k_global_ai_jump_height_count]
+	{
+		"NONE",
+		"down",
+		"step",
+		"crouch",
+		"stand",
+		"storey",
+		"tower",
+		"infinite"
+	};
+
+	c_object_iterator<object_datum> object_iterator;
+	object_iterator.begin(_object_mask_crate | _object_mask_unit, 0);
+	while (object_iterator.next())
+	{
+		object_datum* object = object_iterator.get_datum();
+		_object_definition* object_definition = (_object_definition*)tag_get(OBJECT_TAG, object->definition_index);
+
+		if (object_definition->ai_properties.count())
+		{
+			object_ai_properties& ai_properties = object_definition->ai_properties[0];
+			ai_debug_drawstack_setup(&object->bounding_sphere_center);
+
+			render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("leap size: %s", leap_size_names[ai_properties.leap_jump_speed.get()]).get_string(), global_real_argb_blue);
+			render_debug_string_at_point(ai_debug_drawstack(), ai_size_names[ai_properties.ai_size.get()], global_real_argb_blue);
 		}
 	}
 }
