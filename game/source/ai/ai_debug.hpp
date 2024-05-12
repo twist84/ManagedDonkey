@@ -32,6 +32,8 @@ extern bool g_ai_render_behavior_stack_all;
 extern bool g_ai_render_character_names;
 extern bool g_ai_render_stimuli;
 extern bool g_ai_render_sectors;
+extern long g_ai_render_sectors_range_max;
+extern long g_ai_render_sectors_range_min;
 extern bool g_ai_render_sector_geometry_errors;
 extern long g_ai_render_link_specific;
 extern bool g_ai_render_links;
