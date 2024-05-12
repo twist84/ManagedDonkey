@@ -54,6 +54,11 @@ s_game_globals* scenario_try_and_get_game_globals()
 	return nullptr;
 }
 
+dword global_structure_bsp_active_mask_get()
+{
+	return g_active_structure_bsp_mask;
+}
+
 long __cdecl global_structure_bsp_first_active_index_get()
 {
 	return INVOKE(0x004E96A0, global_structure_bsp_first_active_index_get);

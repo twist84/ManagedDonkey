@@ -49,6 +49,7 @@ extern s_scenario* global_scenario_get();
 extern s_scenario* global_scenario_try_and_get();
 extern s_game_globals* scenario_get_game_globals();
 extern s_game_globals* scenario_try_and_get_game_globals();
+extern dword global_structure_bsp_active_mask_get();
 extern long __cdecl global_structure_bsp_first_active_index_get();
 extern structure_bsp* __cdecl global_structure_bsp_get(long structure_bsp_index);
 extern bool __cdecl global_structure_bsp_is_active(long structure_bsp_index);
