@@ -280,8 +280,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_vehicle_reservations)
 		//	ai_debug_render_vehicle_reservations();
 
-		//if (g_ai_debug_tracking_data)
-		//	ai_debug_tracking_data();
+		if (g_ai_debug_tracking_data)
+			ai_debug_tracking_data();
 
 		if (g_ai_debug_perception_data)
 			ai_debug_perception_data();
@@ -573,6 +573,38 @@ void ai_debug_render_suppress_combat()
 		if (actor->state.suppress_combat)
 			render_debug_string_at_point(&actor->input.position.head, "COMBAT SUPPRESSED", global_real_argb_blue);
 	}
+}
+
+void ai_debug_tracking_data()
+{
+	char string[50]{};
+	short total_tracking_index = 0;
+
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, true);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	{
+		real_point3d position{};
+		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+		ai_debug_drawstack_setup(&position);
+
+		short tracking_index = 0;
+		actor_prop_ref_iterator actor_prop_ref_iter{};
+		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.actor_index);
+		while (prop_ref_datum* actor_prop_ref = actor_prop_ref_iterator_next(&actor_prop_ref_iter))
+		{
+			if (actor_prop_ref->tracking_index != NONE)
+				tracking_index++;
+		}
+
+		csnzprintf(string, sizeof(string), "Tracking data: %i", tracking_index);
+		render_debug_string_at_point(ai_debug_drawstack(), string, global_real_argb_green);
+
+		total_tracking_index += tracking_index;
+	}
+
+	csnzprintf(string, sizeof(string), "Total tracking data: %i", total_tracking_index);
+	ai_debug_string(string, 0, NULL, global_real_argb_green);
 }
 
 void ai_debug_perception_data()

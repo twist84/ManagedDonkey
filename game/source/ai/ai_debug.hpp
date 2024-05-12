@@ -76,6 +76,7 @@ extern void ai_debug_render_character_names();
 extern void render_command_scripts();
 extern void ai_debug_render_squads();
 extern void ai_debug_render_suppress_combat();
+extern void ai_debug_tracking_data();
 extern void ai_debug_perception_data();
 extern void debug_combat_status();
 extern void render_dialogue_variants();
