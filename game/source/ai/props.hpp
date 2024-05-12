@@ -6,6 +6,11 @@
 struct prop_ref_datum :
 	s_datum_header
 {
+	long __cdecl get_object_index() const
+	{
+		return object_index;
+	}
+
 	char type;
 	char dialogue_event;
 	char dialogue_index;

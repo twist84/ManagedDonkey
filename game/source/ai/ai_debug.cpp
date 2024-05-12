@@ -292,8 +292,8 @@ void __cdecl ai_debug_render()
 		if (g_ai_render_tracked_props_all)
 			ai_debug_render_tracked_props_all();
 
-		//if (g_ai_render_targets_all)
-		//	ai_debug_render_targets_all();
+		if (g_ai_render_targets_all)
+			ai_debug_render_targets_all();
 
 		//if (g_ai_render_joint_behaviors)
 		//	debug_render_joint_behaviors();
@@ -661,6 +661,25 @@ void ai_debug_render_tracked_props_all()
 				else
 					render_debug_line(true, &actor->input.position.head, &position, global_real_argb_yellow);
 			}
+		}
+	}
+}
+
+void ai_debug_render_targets_all()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(prop_ref_data);
+
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, true);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
+	{
+		if (actor->target.target_prop_index != NONE)
+		{
+			prop_ref_datum* prop_ref = (prop_ref_datum*)datum_get(*prop_ref_data, actor->target.target_prop_index);
+
+			real_point3d origin{};
+			object_get_origin(prop_ref->get_object_index(), &origin);
+			render_debug_line(true, &actor->input.position.head, &origin, global_real_argb_red);
 		}
 	}
 }

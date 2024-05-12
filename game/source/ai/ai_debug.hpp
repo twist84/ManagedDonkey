@@ -80,5 +80,6 @@ extern void ai_debug_tracking_data();
 extern void ai_debug_perception_data();
 extern void debug_combat_status();
 extern void ai_debug_render_tracked_props_all();
+extern void ai_debug_render_targets_all();
 extern void render_dialogue_variants();
 
