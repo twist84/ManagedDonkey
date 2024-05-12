@@ -69,6 +69,7 @@ extern void __cdecl ai_debug_render();
 extern void ai_debug_drawstack_setup(real_point3d const* position);
 extern real_point3d* ai_debug_drawstack();
 extern real_point3d* ai_debug_drawstack_offset(real offset);
+extern void ai_debug_string(char const* string, short tab_stop_count, short const* tab_stops, real_argb_color const* color);
 
 extern void ai_debug_render_behavior_stacks_all();
 extern void ai_debug_render_character_names();

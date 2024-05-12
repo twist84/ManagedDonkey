@@ -7,6 +7,7 @@
 #include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
 #include "game/player_mapping.hpp"
+#include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
@@ -14,6 +15,8 @@
 #include "text/draw_string.hpp"
 #include "units/dialogue_definitions.hpp"
 #include "units/units.hpp"
+
+#include <climits>
 
 real_point3d global_ai_debug_drawstack_next_position;
 real global_ai_debug_drawstack_height;
@@ -363,6 +366,32 @@ real_point3d* ai_debug_drawstack_offset(real offset)
 	return &global_ai_debug_drawstack_last_position;
 }
 
+void ai_debug_string(char const* string, short tab_stop_count, short const* tab_stops, real_argb_color const* color)
+{
+	c_rasterizer_draw_string draw_string;
+	c_font_cache_mt_safe font_cache;
+
+	short_rectangle2d bounds{};
+	bounds.x0 = 0;
+	bounds.y0 = global_ai_debug_string_position;
+	bounds.x1 = SHRT_MAX;
+	bounds.y1 = SHRT_MAX;
+
+	if (!color)
+		color = global_real_argb_white;
+
+	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
+
+	draw_string.set_color(color);
+	draw_string.set_tab_stops(tab_stops, tab_stop_count);
+	draw_string.set_bounds(&bounds);
+	draw_string.draw(&font_cache, string);
+
+	int16_point2d cursor{};
+	draw_string.get_cursor(&cursor);
+	global_ai_debug_string_position -= cursor.y - bounds.y0;
+}
+
 void render_command_scripts_helper(actor_datum* actor, long command_script_index)
 {
 	// #TODO: implement me
@@ -433,9 +462,9 @@ void render_command_scripts_helper(actor_datum* actor, long command_script_index
 
 void render_command_scripts()
 {
-	//actor_iterator iterator{};
-	//actor_iterator_new(&iterator, false);
-	//while (actor_datum* actor = actor_iterator_next(&iterator))
+	//actor_iterator actor_iter{};
+	//actor_iterator_new(&actor_iter, false);
+	//while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	//{
 	//	if (actor->commands.script_index != NONE)
 	//	{
@@ -449,9 +478,9 @@ void render_command_scripts()
 
 void ai_debug_render_behavior_stacks_all()
 {
-	actor_iterator iterator{};
-	actor_iterator_new(&iterator, false);
-	while (actor_datum* actor = actor_iterator_next(&iterator))
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, false);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		real_point3d position{};
 		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
@@ -464,9 +493,9 @@ void ai_debug_render_behavior_stacks_all()
 
 void ai_debug_render_character_names()
 {
-	actor_iterator iterator{};
-	actor_iterator_new(&iterator, false);
-	while (actor_datum* actor = actor_iterator_next(&iterator))
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, false);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		real_point3d position{};
 		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
@@ -537,9 +566,9 @@ void ai_debug_render_squads()
 
 void ai_debug_render_suppress_combat()
 {
-	actor_iterator iterator{};
-	actor_iterator_new(&iterator, true);
-	while (actor_datum* actor = actor_iterator_next(&iterator))
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, true);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		if (actor->state.suppress_combat)
 			render_debug_string_at_point(&actor->input.position.head, "COMBAT SUPPRESSED", global_real_argb_blue);
@@ -568,9 +597,9 @@ void ai_debug_perception_data()
 
 void debug_combat_status()
 {
-	actor_iterator iterator{};
-	actor_iterator_new(&iterator, true);
-	while (actor_datum* actor = actor_iterator_next(&iterator))
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, true);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		real_point3d position{};
 		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
@@ -583,9 +612,9 @@ void debug_combat_status()
 
 void render_dialogue_variants()
 {
-	actor_iterator iterator{};
-	actor_iterator_new(&iterator, false);
-	while (actor_datum* actor = actor_iterator_next(&iterator))
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, false);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		if (actor->meta.unit_index != NONE)
 		{
