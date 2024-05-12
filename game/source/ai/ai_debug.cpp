@@ -265,8 +265,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_sector_link_errors)
 		//	ai_debug_render_sector_link_errors();
 
-		//if (g_ai_render_intersection_links)
-		//	ai_debug_render_intersection_links();
+		if (g_ai_render_intersection_links)
+			ai_debug_render_intersection_links();
 
 		//if (g_ai_render_non_walkable_sectors)
 		//	ai_debug_render_non_walkable_sectors();
@@ -583,6 +583,25 @@ void ai_render_object_properties()
 
 			render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("leap size: %s", leap_size_names[ai_properties.leap_jump_speed.get()]).get_string(), global_real_argb_blue);
 			render_debug_string_at_point(ai_debug_drawstack(), ai_size_names[ai_properties.ai_size.get()], global_real_argb_blue);
+		}
+	}
+}
+
+void ai_debug_render_intersection_links()
+{
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsps.count(); structure_bsp_index++)
+	{
+		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
+			continue;
+
+		pathfinding_data const* pf_data = pathfinding_data_get(structure_bsp_index);
+		if (!pf_data)
+			continue;
+
+		for (long link_index = 0; link_index < pf_data->links.count(); link_index++)
+		{
+			if (pf_data->links[link_index].link_flags.test(_sector_link_section_link_bit))
+				sector_link_render_debug(link_index, pf_data, NULL, false);
 		}
 	}
 }
