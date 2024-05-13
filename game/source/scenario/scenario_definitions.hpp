@@ -662,13 +662,55 @@ struct s_squad_definition
 };
 static_assert(sizeof(s_squad_definition) == 0x68);
 
+struct area_definition
+{
+	// Generate
+	// Clear Auto
+	// Clear Manual
+
+	c_static_string<k_tag_string_length> name;
+	dword_flags area_flags;
+
+	// c_ai_point3d
+	real_point3d runtime_relative_mean_point;
+	short runtime_reference_frame;
+	short structure_index;
+
+	real runtime_standard_deviation;
+	short runtime_starting_index;
+	short runtime_count;
+	short manual_reference_frame;
+	short bsp_index;
+	c_static_flags<256> cluster_occupancy;
+	s_tag_block flight_hints;
+	s_tag_block points;
+
+
+	// Generation Properties
+
+	short preset;
+	byte PAD1[2];
+	dword_flags flags;
+	real extrusion;
+	real sink;
+	angle firing_point_orientation;
+	angle grid_orientation;
+	real spacing;
+	real airborne_spacing;
+	real min_cover_length;
+	real cover_spacing;
+	real cover_offset_distance;
+	real too_close_distance;
+};
+static_assert(sizeof(area_definition) == 0xA8);
+
 struct zone_definition
 {
 	c_static_string<k_tag_string_length> name;
 	word_flags flags;
 	word_flags runtime_bsp_flags;
 	s_tag_block firing_positions;
-	s_tag_block areas;
+	c_typed_tag_block<area_definition> areas;
 };
 static_assert(sizeof(zone_definition) == 0x3C);
 
