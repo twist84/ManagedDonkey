@@ -184,6 +184,7 @@ POPD
     <ClCompile Include="source\ai\ai_dialogue.cpp" />
     <ClCompile Include="source\ai\ai_player.cpp" />
     <ClCompile Include="source\ai\ai_reference_frame.cpp" />
+    <ClCompile Include="source\ai\ai_vehicles.cpp" />
     <ClCompile Include="source\ai\clump.cpp" />
     <ClCompile Include="source\ai\objectives.cpp" />
     <ClCompile Include="source\ai\path_obstacles.cpp" />
@@ -618,6 +619,7 @@ POPD
     <ClInclude Include="source\ai\ai_debug.hpp" />
     <ClInclude Include="source\ai\ai_profile.hpp" />
     <ClInclude Include="source\ai\ai_script.hpp" />
+    <ClInclude Include="source\ai\ai_vehicles.hpp" />
     <ClInclude Include="source\ai\behavior.hpp" />
     <ClInclude Include="source\ai\character_definitions.hpp" />
     <ClInclude Include="source\ai\path_obstacles.hpp" />

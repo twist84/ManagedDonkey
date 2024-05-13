@@ -1314,6 +1314,9 @@
     <ClCompile Include="source\ai\clump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ai\ai_vehicles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3240,6 +3243,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\ai\actor_perception.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ai\ai_vehicles.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
