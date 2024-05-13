@@ -20,6 +20,7 @@
 #include "networking/logic/life_cycle/life_cycle_handler_pre_game.hpp"
 #include "networking/messages/network_message_gateway.hpp"
 #include "networking/tools/remote_command.hpp"
+#include "objects/damage.hpp"
 #include "objects/object_types.hpp"
 #include "physics/collision_debug.hpp"
 #include "physics/havok.hpp"
@@ -637,6 +638,9 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_tessellated, render_water_tessellation_enabled),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_interaction, render_water_interaction_enabled),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(render_water_wireframe, render_water_wireframe_enabled),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_damage),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_damage_verbose),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug),
 	CONSOLE_GLOBAL_DECLARE_BOOL(collision_debug_water_proxy),
