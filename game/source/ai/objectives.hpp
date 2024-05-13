@@ -257,3 +257,5 @@ static_assert(sizeof(s_objective) == 0x24);
 
 extern s_task_record* __cdecl objective_get_task_record(short objective_index, short task_index);
 
+extern void ai_debug_render_objectives(long squad_index, real_point3d const* position);
+

@@ -675,9 +675,8 @@ void ai_debug_render_squads()
 				render_debug_string_at_point(ai_debug_drawstack(), string, global_real_argb_aqua);
 			}
 
-			// #TODO: implement `ai_debug_render_objectives`
-			//if (g_ai_render_objectives)
-			//	ai_debug_render_objectives(squad_iter.squad_index, &position);
+			if (g_ai_render_objectives)
+				ai_debug_render_objectives(squad_iter.squad_index, &position);
 
 			render_debug_string_at_point(ai_debug_drawstack(), squad_def->name.get_string(), global_real_argb_red);
 		}
