@@ -523,7 +523,7 @@ void ai_debug_render_sectors()
 			continue;
 
 		long sectors_range_min = 0;
-		long sectors_range_max = pf_data->sectors.count;
+		long sectors_range_max = pf_data->sectors.count();
 
 		if (g_ai_render_sectors_range_min != NONE)
 			sectors_range_min = g_ai_render_sectors_range_min;
@@ -535,8 +535,8 @@ void ai_debug_render_sectors()
 		{
 			sector_link& link = pf_data->links[link_index];
 
-			if (link.left_sector >= sectors_range_min && link.left_sector <= sectors_range_max ||
-				link.right_sector >= sectors_range_min && link.right_sector <= sectors_range_max)
+			if (link.sectors[0] >= sectors_range_min && link.sectors[0] <= sectors_range_max ||
+				link.sectors[1] >= sectors_range_min && link.sectors[1] <= sectors_range_max)
 			{
 				sector_link_render_debug(link_index, pf_data, NULL, false);
 			}

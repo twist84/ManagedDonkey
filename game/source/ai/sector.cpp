@@ -13,8 +13,8 @@ void sector_link_render_debug(long link_index, pathfinding_data const* pf_data, 
 	if (VALID_INDEX(link_index, pf_data->links.count()))
 	{
 		sector_link& link = pf_data->links[link_index];
-		sector_vertex& vertex1 = pf_data->vertices[link.vertex1];
-		sector_vertex& vertex2 = pf_data->vertices[link.vertex2];
+		sector_vertex& vertex1 = pf_data->vertices[link.index];
+		sector_vertex& vertex2 = pf_data->vertices[link.index2];
 		real_point3d center{};
 
 		add_vectors3d((vector3d*)&vertex1.point, (vector3d*)&vertex2.point, (vector3d*)&center);
