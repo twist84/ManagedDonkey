@@ -854,7 +854,8 @@ struct s_thread_local_storage
 	s_hash_table* g_actor_firing_position_hash;
 
 	// name: "ai_reference_frame"
-	// size: 0x4B0
+	// maximum_reference_frames_per_map = 150
+	// size: 0x4B0, maximum_reference_frames_per_map * sizeof(ai_reference_frame)
 	ai_reference_frame* g_ai_reference_frame_data;
 
 	// name: "ai globals"
@@ -885,7 +886,7 @@ struct s_thread_local_storage
 	c_smart_data_array<s_objective_datum> objectives_data;
 
 	// name: "task records"
-	// size: 0x40 * 6250
+	// size: 0x61A80, 6250 * sizeof(s_task_record)
 	s_task_record* tasks_data;
 
 	//  name: "squad"
