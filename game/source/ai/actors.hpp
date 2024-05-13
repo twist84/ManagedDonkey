@@ -466,9 +466,11 @@ static_assert(sizeof(actor_datum) == 0xA98);
 
 struct ai_reference_frame
 {
-	byte __data[0x4B0];
+	long object_index;
+	word_flags flags;
+	short __unknown6;
 };
-static_assert(sizeof(ai_reference_frame) == 0x4B0);
+static_assert(sizeof(ai_reference_frame) == 0x8);
 
 struct actor_iterator
 {
