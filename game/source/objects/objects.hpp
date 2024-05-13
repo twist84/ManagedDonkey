@@ -425,6 +425,7 @@ extern bool debug_objects_node_bounds;
 extern bool debug_objects_animation;
 
 extern void* __cdecl object_header_block_get(long object_index, object_header_block_reference const* reference);
+extern void* __cdecl object_header_block_get_with_count(long object_index, object_header_block_reference const* reference, unsigned int element_size, long* element_count);
 extern object_header_datum const* __cdecl object_header_get(long object_index);
 extern object_datum* __cdecl object_get(long object_index);
 extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);

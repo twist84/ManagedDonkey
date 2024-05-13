@@ -42,7 +42,7 @@ bool debug_objects_pathfinding = false;
 bool debug_objects_node_bounds = false;
 bool debug_objects_animation = false;
 
-void* object_header_block_get(long object_index, object_header_block_reference const* reference)
+void* __cdecl object_header_block_get(long object_index, object_header_block_reference const* reference)
 {
 	object_header_datum const* object_header = object_header_get(object_index);
 	object_datum* object = object_get(object_index);
@@ -52,6 +52,25 @@ void* object_header_block_get(long object_index, object_header_block_reference c
 	ASSERT(reference->offset + reference->size <= object_header->data_size);
 
 	return (byte*)object + reference->offset;
+}
+
+void* __cdecl object_header_block_get_with_count(long object_index, object_header_block_reference const* reference, unsigned int element_size, long* element_count)
+{
+	ASSERT(element_count);
+
+	if (reference->offset == NONE)
+	{
+		*element_count = 0;
+		return NULL;
+	}
+
+	void* block = object_header_block_get(object_index, reference);
+
+	ASSERT(reference->size % element_size == 0);
+
+	*element_count = reference->size / element_size;
+
+	return block;
 }
 
 object_header_datum const* __cdecl object_header_get(long object_index)
@@ -70,6 +89,9 @@ void* __cdecl object_get_and_verify_type(long object_index, dword object_type_ma
 	//ASSERT(game_state_is_locked(), "someone is calling object_get when the game state is locked");
 
 	object_header_datum const* object_header = object_header_get(object_index);
+	if (!object_header)
+		return NULL;
+
 	object_datum* object = object_header->datum;
 
 	if (!_bittest((long*)&object_type_mask, object->object_identifier.m_type.get()))
