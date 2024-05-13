@@ -16,6 +16,11 @@ bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index)
 	return INVOKE(0x00B75510, vehicle_about_to_detonate_near_any_player, out_vehicle_index);
 }
 
+void __cdecl vehicle_get_seat_position(long vehicle_index, short seat_index, real_point3d* seat_position)
+{
+	INVOKE(0x00B75E50, vehicle_get_seat_position, vehicle_index, seat_index, seat_position);
+}
+
 e_vehicle_type __cdecl vehicle_get_type(long vehicle_index)
 {
 	return INVOKE(0x00B75EE0, vehicle_get_type, vehicle_index);
