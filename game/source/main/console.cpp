@@ -724,6 +724,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_intersection_links, g_ai_render_intersection_links),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_threshold_links, g_ai_render_threshold_links),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_suppress_combat, g_ai_render_suppress_combat),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_vehicle_reservations, g_ai_render_vehicle_reservations),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_objectives, g_ai_render_objectives),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_render_strength, g_ai_render_strength),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(ai_debug_tracking_data, g_ai_debug_tracking_data),

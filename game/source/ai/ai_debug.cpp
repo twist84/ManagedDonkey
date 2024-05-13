@@ -4,6 +4,7 @@
 #include "ai/actor_stimulus.hpp"
 #include "ai/actors.hpp"
 #include "ai/ai_reference_frame.hpp"
+#include "ai/ai_vehicles.hpp"
 #include "ai/behavior.hpp"
 #include "ai/sector.hpp"
 #include "ai/sector_definitions.hpp"
@@ -18,6 +19,7 @@
 #include "text/draw_string.hpp"
 #include "units/dialogue_definitions.hpp"
 #include "units/units.hpp"
+#include "units/vehicles.hpp"
 
 #include <climits>
 
@@ -75,6 +77,7 @@ bool g_ai_render_non_walkable_sectors = false;
 bool g_ai_render_threshold_links = false;
 bool g_ai_render_orders = false;
 bool g_ai_render_suppress_combat = false;
+bool g_ai_render_vehicle_reservations = false;
 bool g_ai_render_objectives = false;
 bool g_ai_render_strength = false;
 bool g_ai_debug_tracking_data = false;
@@ -283,8 +286,8 @@ void __cdecl ai_debug_render()
 		//if (g_ai_render_ai_iterator != NONE)
 		//	ai_debug_render_ai_iterator();
 
-		//if (g_ai_render_vehicle_reservations)
-		//	ai_debug_render_vehicle_reservations();
+		if (g_ai_render_vehicle_reservations)
+			ai_debug_render_vehicle_reservations();
 
 		if (g_ai_debug_tracking_data)
 			ai_debug_tracking_data();
@@ -691,6 +694,65 @@ void ai_debug_render_suppress_combat()
 	{
 		if (actor->state.suppress_combat)
 			render_debug_string_at_point(&actor->input.position.head, "COMBAT SUPPRESSED", global_real_argb_blue);
+	}
+}
+
+void ai_debug_render_vehicle_reservations()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(actor_data);
+
+	c_object_iterator<vehicle_datum> vehicle_iter;
+	vehicle_iter.begin(_object_mask_vehicle, 0);
+	while (vehicle_iter.next())
+	{
+		unit_seat_source sources[64]{};
+		short source_count = unit_get_all_seats(vehicle_iter.get_index(), sources, NUMBEROF(sources), false);
+		for (short source_index = 0; source_index < source_count; source_index++)
+		{
+			unit_seat_source& source = sources[source_index];
+			if (!source.flags->test(_unit_seat_allow_ai_noncombatants_bit))
+			{
+				vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(source.vehicle_index, _object_mask_vehicle);
+
+				real_point3d seat_position{};
+				vehicle_get_seat_position(source.vehicle_index, source.seat_index, &seat_position);
+
+				if (vehicle->disallowed_seats.test(source.seat_index))
+				{
+					seat_position.z += 0.1f;
+					render_debug_sphere(true, &seat_position, 0.05f, global_real_argb_orange);
+				}
+				else
+				{
+					for (short i = 0; i < 2; i++)
+					{
+						real_argb_color const* color = global_real_argb_white;
+						long actor_index = ai_vehicle_get_reservation(source.vehicle_index, source.seat_index, i == 0 ? 1 : 4);
+						seat_position.z += 0.1f;
+
+						if (actor_index == NONE)
+						{
+							color = global_real_argb_red;
+						}
+						else
+						{
+							actor_datum* actor = (actor_datum*)datum_get(*actor_data, actor_index);
+							switch (actor->vehicle.attachment_status)
+							{
+							case 1: color = global_real_argb_yellow; break;
+							case 2: color = global_real_argb_violet; break;
+							case 3: color = global_real_argb_green;  break;
+							case 4: color = global_real_argb_blue;   break;
+							}
+
+							render_debug_line(true, &actor->input.position.head, &seat_position, color);
+						}
+
+						render_debug_sphere(true, &seat_position, 0.05f, color);
+					}
+				}
+			}
+		}
 	}
 }
 
