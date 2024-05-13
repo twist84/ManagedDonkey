@@ -1308,6 +1308,9 @@
     <ClCompile Include="source\ai\sector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ai\objectives.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\ai\clump.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

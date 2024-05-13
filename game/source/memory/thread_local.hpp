@@ -882,7 +882,7 @@ struct s_thread_local_storage
 	//  name: "objectives"
 	// count: 125
 	//  size: 0xC
-	c_smart_data_array<s_objective> objectives_data;
+	c_smart_data_array<s_objective_datum> objectives_data;
 
 	// name: "task records"
 	// size: 0x40 * 6250
