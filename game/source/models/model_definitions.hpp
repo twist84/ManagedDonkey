@@ -66,6 +66,7 @@ enum e_model_self_shadow_detail
 struct s_model_variant;
 struct c_model_instance_group;
 struct s_model_material;
+struct s_model_damage_info;
 struct s_model_target;
 struct s_model_definition
 {
@@ -102,7 +103,7 @@ struct s_model_definition
 	c_typed_tag_block<c_string_id> region_sort;
 	c_typed_tag_block<c_model_instance_group> instance_groups;
 	c_typed_tag_block<s_model_material> materials;
-	s_tag_block new_damage_info;
+	c_typed_tag_block<s_model_damage_info> new_damage_info;
 	c_typed_tag_block<s_model_target> targets;
 	s_tag_block runtime_regions;
 	s_tag_block runtime_nodes;
@@ -355,6 +356,117 @@ struct s_model_material
 	byte SEWETKHRE[0x2];
 };
 static_assert(sizeof(s_model_material) == 0x14);
+
+struct s_model_damage_section
+{
+	c_string_id name;
+
+	// * absorbs body damage: damage to this section does not count against body vitality
+	// * headshottable: takes extra headshot damage when shot
+	// * ignores shields: damage to this section bypasses shields
+	dword_flags flags;
+
+	// percentage of total object vitality
+	real_fraction vitality_percentage; // [0,1]
+
+	s_tag_block instant_responses;
+	s_tag_block unused0;
+	s_tag_block unused1;
+	real stun_time; // seconds
+	real recharge_time; // seconds
+	real runtime_recharge_velocity;
+	string_id resurrection_restored_region_name;
+	short runtime_resurrection_restored_region_index;
+
+	// pad
+	byte AG[0x2];
+};
+static_assert(sizeof(s_model_damage_section) == 0x44);
+
+struct s_model_damage_info
+{
+	dword_flags flags;
+
+	// absorbes AOE or child damage
+	c_string_id global_indirect_material_name;
+
+	// absorbes AOE or child damage
+	short indirect_damage_section; // short_block_index_custom_search
+
+	// pad
+	byte XN[0x2];
+
+	// pad
+	byte LPVYKO[0x4];
+
+	c_enum<e_damage_reporting_type, char, _damage_reporting_type_unknown, k_damage_reporting_type_count> collision_damage_reporting_type;
+	c_enum<e_damage_reporting_type, char, _damage_reporting_type_unknown, k_damage_reporting_type_count> response_damage_reporting_type;
+
+	// pad
+	byte MQ[0x2];
+
+	// pad
+	byte MYON[0x14];
+
+	// body
+	struct
+	{
+		real maximum_vitality;
+
+		// the minimum damage required to stun this object's health
+		real minimum_stun_damage;
+
+		// the length of time the health stay stunned (do not recharge) after taking damage
+		real stun_time; // seconds
+
+		// the length of time it would take for the shields to fully recharge after being completely depleted
+		real recharge_time; // seconds
+
+		// 0 defaults to 1 - to what maximum level the body health will be allowed to recharge
+		real_fraction recharge_fraction;
+
+	} body;
+
+	// pad
+	byte IKEIDYSCX[0x40];
+
+	struct
+	{
+		// the default initial and maximum shield vitality of this object
+		real maximum_shield_vitality;
+
+		c_string_id global_shield_material_name;
+
+		// the minimum damage required to stun this object's shields
+		real minimum_stun_damage;
+
+		// the length of time the shields stay stunned (do not recharge) after taking damage
+		real stun_time; // seconds
+		
+		// the length of time it would take for the shields to fully recharge after being completely depleted
+		real recharge_time; // seconds
+
+		real shield_damaged_threshold;
+
+		c_typed_tag_reference<EFFECT_TAG> shield_damaged_effect;
+		c_typed_tag_reference<EFFECT_TAG> shield_depleted_effect;
+		c_typed_tag_reference<EFFECT_TAG> shield_recharging_effect;
+
+	} shield;
+
+	c_typed_tag_block<s_model_damage_section> damage_sections;
+	s_tag_block nodes;
+
+	short runtime_shield_material_type;
+	short runtime_indirect_material_type;
+
+	real runtime_shield_recharge_velocity;
+	real runtime_health_recharge_velocity;
+
+	s_tag_block damage_seats;
+	s_tag_block damage_constraints;
+};
+static_assert(sizeof(s_model_damage_info) == 0x100);
 
 enum e_model_target_lock_on_flags
 {
