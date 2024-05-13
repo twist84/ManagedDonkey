@@ -384,6 +384,38 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 	return result;
 }
 
+void* __cdecl datum_get_absolute(s_data_array* data, long index)
+{
+	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, index * data->size);
+
+	ASSERT(data->valid);
+
+	if (index == NONE)
+		ASSERT2(c_string_builder("tried to access %s index NONE",
+			data->name.get_string()).get_string());
+
+	if (TEST_MASK(index, 0xFFFF0000))
+		ASSERT2(c_string_builder("tried to access %s using datum_get_absolute() with a non absolute index #%d",
+			data->name.get_string(),
+			index).get_string());
+
+	if (index < 0 || index >= data->first_unallocated)
+		ASSERT2(c_string_builder("%s absolute index #%d is out of range (%d)",
+			data->name.get_string(),
+			index,
+			data->first_unallocated).get_string());
+
+	if (!header->identifier)
+		ASSERT2(c_string_builder("%s absolute index #%d is unused",
+			data->name.get_string(),
+			index).get_string());
+
+	ASSERT(header == align_pointer(header, data->alignment_bits));
+
+	return header;
+}
+
 void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index)
 {
 	return INVOKE(0x0055B710, datum_try_and_get_absolute, data, index);

@@ -299,6 +299,7 @@ extern long __cdecl datum_new_at_index(s_data_array* data, long index);
 extern long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long count_indices, bool initialize);
 extern void* __cdecl datum_get(s_data_array* data, long index);
 extern void* __cdecl datum_try_and_get(s_data_array const* data, long index);
+extern void* __cdecl datum_get_absolute(s_data_array* data, long index);
 extern void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index);
 extern void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index);
 extern bool __cdecl data_is_full(s_data_array const* data);
