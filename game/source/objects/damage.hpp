@@ -56,14 +56,29 @@ struct s_damage_data
 };
 static_assert(sizeof(s_damage_data) == 0x98);
 
+struct object_damage_section
+{
+	short __unknown0;
+	short __unknown2;
+	byte __data4[0x8];
+};
+static_assert(sizeof(object_damage_section) == 0xC);
+
 extern bool debug_damage_radius;
 extern bool debug_damage_this_event;
 extern bool debug_damage_verbose;
 extern bool debug_player_damage;
 extern bool debug_damage;
+extern long global_debug_damage_object_index;
+
+struct s_model_damage_info;
 
 extern void render_debug_object_damage();
+
+extern real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5);
 extern void __cdecl damage_acceleration_queue_begin();
 extern void __cdecl damage_acceleration_queue_end();
-extern real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5);
+extern void __cdecl damage_initialize_for_new_map();
+extern void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, short node_index, short region_index, short material_index, long predictability);
+extern s_model_damage_info const* __cdecl object_get_damage_info(long object_index);
 
