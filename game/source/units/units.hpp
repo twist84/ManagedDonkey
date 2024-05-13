@@ -4,6 +4,7 @@
 #include "game/aim_assist.hpp"
 #include "motor/mover.hpp"
 #include "objects/target_tracking.hpp"
+#include "units/unit_definition.hpp"
 
 enum e_weapon_set
 {
@@ -149,6 +150,15 @@ struct unit_datum
 };
 static_assert(sizeof(unit_datum) == sizeof(motor_datum) + 0x40C);
 
+struct unit_seat_source
+{
+	long vehicle_index;
+	short seat_index;
+	byte __data6[0x2];
+	c_flags<e_unit_seat_flags, dword, k_unit_seat_flags>* flags;
+};
+static_assert(sizeof(unit_seat_source) == 0xC);
+
 extern bool debug_objects_unit_vectors;
 extern bool debug_objects_unit_seats;
 extern bool debug_objects_unit_mouth_apeture;
@@ -169,6 +179,7 @@ extern long __cdecl unit_get_aim_assist_dash_target(long unit_index);
 extern bool __cdecl unit_get_aim_position(long unit_index, real_point3d* aim_position);
 extern long __cdecl unit_get_aiming_unit_index(long unit_index);
 extern void __cdecl unit_get_aiming_vector(long unit_index, vector3d* aiming_vector);
+extern short __cdecl unit_get_all_seats(long unit_index, unit_seat_source* sources, short maximum_source_count, bool a4);
 extern void __cdecl unit_get_camera_position(long unit_index, real_point3d* position);
 extern real __cdecl unit_get_field_of_view(long unit_index, real fov_radians, short zoom_level);
 extern void __cdecl unit_get_head_position(long unit_index, real_point3d* position);

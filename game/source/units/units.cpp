@@ -146,7 +146,11 @@ void __cdecl unit_get_aiming_vector(long unit_index, vector3d* aiming_vector)
 	INVOKE(0x00B43300, unit_get_aiming_vector, unit_index, aiming_vector);
 }
 
-//.text:00B43340 ; short __cdecl unit_get_all_seats(long, unit_seat_source*, short, bool)
+short __cdecl unit_get_all_seats(long unit_index, unit_seat_source* sources, short maximum_source_count, bool a4)
+{
+	return INVOKE(0x00B43340, unit_get_all_seats, unit_index, sources, maximum_source_count, a4);
+}
+
 //.text:00B43370 ; void __cdecl unit_get_all_seats_internal(long, unit_seat_source*, short*, short, bool)
 //.text:00B434C0 ; long __cdecl unit_get_best_seat_entrance_animation(long, long, short, real_point3d*, real_point3d*)
 //.text:00B43630 ; bool __cdecl unit_get_body_position(long, real_point3d*)
