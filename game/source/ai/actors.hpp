@@ -15,7 +15,7 @@ struct c_ai_point3d
 {
 	real_point3d m_point;
 	short m_reference_frame;
-	short m_bsp_index;
+	short m_structure_index;
 };
 static_assert(sizeof(c_ai_point3d) == 0x10);
 

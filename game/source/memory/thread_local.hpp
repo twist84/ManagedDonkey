@@ -885,7 +885,7 @@ struct s_thread_local_storage
 	c_smart_data_array<s_objective> objectives_data;
 
 	// name: "task records"
-	// size: 0x61A80
+	// size: 0x40 * 6250
 	s_task_record* tasks_data;
 
 	//  name: "squad"

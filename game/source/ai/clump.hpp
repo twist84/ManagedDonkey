@@ -51,3 +51,5 @@ struct clump_datum :
 };
 static_assert(sizeof(clump_datum) == 0x108);
 
+extern char const* const group_state_names[4];
+
