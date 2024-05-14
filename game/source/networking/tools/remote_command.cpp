@@ -1,6 +1,7 @@
 #include "networking/tools/remote_command.hpp"
 
 #include "ai/ai.hpp"
+#include "cache/cache_files.hpp"
 #include "camera/observer.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
@@ -1865,6 +1866,28 @@ callback_result_t player_drop_weapon_callback(void const* userdata, long token_c
 	long player_index = player_mapping_get_player_by_output_user(user_index);
 	if (player_index != NONE)
 		player_try_to_drop_weapon(player_index, true);
+
+	return result;
+}
+
+callback_result_t player_add_weapon_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	char const* weapon_name = tokens[1]->get_string();
+	long method = atol(tokens[2]->get_string());
+
+	long weapon_definition_index = tag_loaded(WEAPON_TAG, weapon_name);
+	if (method == NONE || VALID_INDEX(method, 8))
+		method = 1;
+
+	e_output_user_index user_index = player_mapping_first_active_output_user();
+	long unit_index = player_mapping_get_unit_by_output_user(user_index);
+	if (unit_index != NONE && weapon_definition_index != NONE)
+	{
+		c_tag_resources_game_lock game_lock{};
+		game_engine_add_starting_weapon_to_player(unit_index, weapon_definition_index, method);
+	}
 
 	return result;
 }

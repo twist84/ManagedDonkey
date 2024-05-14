@@ -192,6 +192,7 @@ COMMAND_CALLBACK_DECLARE(lsp_info_get);
 COMMAND_CALLBACK_DECLARE(lsp_info_set);
 COMMAND_CALLBACK_DECLARE(player_ragdoll);
 COMMAND_CALLBACK_DECLARE(player_drop_weapon);
+COMMAND_CALLBACK_DECLARE(player_add_weapon);
 COMMAND_CALLBACK_DECLARE(levels_add_fake_map_solo);
 COMMAND_CALLBACK_DECLARE(levels_add_map_solo);
 COMMAND_CALLBACK_DECLARE(levels_add_fake_map_multi);
@@ -326,6 +327,7 @@ s_command const k_registered_commands[] =
 
 	COMMAND_CALLBACK_REGISTER(player_ragdoll, 0, "", "ragdolls the players biped.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(player_drop_weapon, 0, "", "drops the players held weapon.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+	COMMAND_CALLBACK_REGISTER(player_add_weapon, 2, "<string> <long>", "<weapon_definition_index> <weapon_addition_method> drops the players held weapon.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(levels_add_fake_map_solo, 1, "<string>", "<scenario_path> adds a fake map for campaign\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(levels_add_map_solo, 2, "<long> <string>", "<map_id> <scenario_path> adds a map with the specified map id for campaign\r\nNETWORK SAFE: Unknown, assumed unsafe"),
