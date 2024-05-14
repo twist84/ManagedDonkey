@@ -1878,7 +1878,7 @@ callback_result_t player_add_weapon_callback(void const* userdata, long token_co
 	long method = atol(tokens[2]->get_string());
 
 	long weapon_definition_index = tag_loaded(WEAPON_TAG, weapon_name);
-	if (method == NONE || VALID_INDEX(method, 8))
+	if (!VALID_INDEX(method, 8))
 		method = 1;
 
 	e_output_user_index user_index = player_mapping_first_active_output_user();
