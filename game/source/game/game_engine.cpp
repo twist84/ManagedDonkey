@@ -366,11 +366,20 @@ long __cdecl game_engine_round_time_get()
 //.text:00552590 ; bool __cdecl game_engine_should_auto_pickup_weapon(long, long)
 //.text:005525C0 ; bool __cdecl game_engine_should_end_round(long *, bool *, enum e_game_engine_end_condition *)
 //.text:005526F0 ; void __cdecl game_engine_spawn_monitor_detach(long)
-//.text:00552740 ; void __cdecl game_engine_update(void)
-//.text:005528E0 ; void __cdecl game_engine_update_after_game(void)
+
+void __cdecl game_engine_update()
+{
+	INVOKE(0x00552740, game_engine_update);
+}
+
+void __cdecl game_engine_update_after_game()
+{
+	INVOKE(0x005528E0, game_engine_update_after_game);
+}
+
 //.text:00552AC0 ; void __cdecl game_engine_update_after_game_update_state(void)
 
-void game_engine_update_global_fade_timers(real world_seconds_elapsed)
+void __cdecl game_engine_update_global_fade_timers(real world_seconds_elapsed)
 {
 	INVOKE(0x00552D40, game_engine_update_global_fade_timers, world_seconds_elapsed);
 }

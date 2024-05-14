@@ -230,6 +230,7 @@ extern hs_function_definition const* hs_function_get(short function_index);
 extern hs_function_definition_debug const* hs_function_get_debug(short function_index);
 extern hs_syntax_node* __cdecl hs_syntax_get(long datum_index);
 extern short hs_find_script_by_name(char const* name, short parameter_count);
+extern void __cdecl hs_update();
 extern short hs_find_function_by_name(char const* name, short parameter_count);
 extern short hs_script_find_parameter_by_name(long script_index, char const* name);
 extern hs_global_external* hs_global_external_get(short global_index);

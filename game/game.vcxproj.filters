@@ -1317,6 +1317,33 @@
     <ClCompile Include="source\ai\ai_vehicles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\sound\game_sound_deterministic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\objects\object_scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\objects\object_activation_regions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\physics\havok_proxies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\physics\impacts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\physics\breakable_surfaces.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\objects\lights.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\game_achievements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface\overhead_map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3246,6 +3273,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\ai\ai_vehicles.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\game_achievements.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\overhead_map.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

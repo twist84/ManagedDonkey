@@ -18,6 +18,11 @@
 //.text:00A3EEE0 ; void __cdecl render_set_depth_of_field(real)
 //.text:00A3EF30 ; 
 //.text:00A3EF70 ; public: void __cdecl s_depth_of_field::set_default_values()
-//.text:00A3EFE0 ; public: static void __cdecl s_depth_of_field::update()
+
+void __cdecl s_depth_of_field::update()
+{
+	INVOKE(0x00A3EFE0, s_depth_of_field::update);
+}
+
 //.text:00A3F000 ; private: void __cdecl s_depth_of_field::update_internal()
 

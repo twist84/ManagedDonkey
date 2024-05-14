@@ -16,3 +16,5 @@ struct s_breakable_surface_set_broken_event :
 };
 static_assert(sizeof(s_breakable_surface_set_broken_event) == 0x464);
 
+extern void __cdecl breakable_surfaces_update();
+

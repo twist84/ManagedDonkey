@@ -28,3 +28,5 @@ struct s_nondeterministic_light_data
 };
 static_assert(sizeof(s_nondeterministic_light_data) == 0x2580);
 
+extern void __cdecl lights_update();
+

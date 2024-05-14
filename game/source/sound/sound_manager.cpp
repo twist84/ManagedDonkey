@@ -371,6 +371,11 @@ void __cdecl sound_source_get_world_position(s_sound_source const* source, long 
 	INVOKE(0x005199B0, sound_source_get_world_position, source, listener_index, world_position);
 }
 
+void __cdecl sound_update()
+{
+	INVOKE(0x0051A2C0, sound_update);
+}
+
 real __cdecl sound_definition_get_maximum_distance(long sound_definition_index)
 {
 	return INVOKE(0x00661EF0, sound_definition_get_maximum_distance, sound_definition_index);

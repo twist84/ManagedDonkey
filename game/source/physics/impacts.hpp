@@ -24,3 +24,5 @@ struct impact_array_datum :
 };
 static_assert(sizeof(impact_array_datum) == 0x88);
 
+extern void __cdecl impacts_update();
+

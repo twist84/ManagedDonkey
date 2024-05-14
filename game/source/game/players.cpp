@@ -575,8 +575,17 @@ void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identi
 //.text:005431E0 ; void __cdecl players_store_campaign_armamements_weapon(long, s_campaign_armaments_weapon *)
 //.text:005432D0 ; void __cdecl players_store_campaign_armaments_on_game_won(s_campaign_armaments *)
 //.text:00543560 ; void __cdecl players_update_activation(void)
-//.text:00543650 ; void __cdecl players_update_after_game(struct simulation_update const *)
-//.text:00543D20 ; void __cdecl players_update_before_game(struct simulation_update const *)
+
+void __cdecl players_update_after_game(struct simulation_update const* update)
+{
+	INVOKE(0x00543650, players_update_after_game, update);
+}
+
+void __cdecl players_update_before_game(struct simulation_update const* update)
+{
+	INVOKE(0x00543D20, players_update_before_game, update);
+}
+
 //.text:00544370 ; void __cdecl players_update_for_checkpoint(void)
 //.text:00544380 ; void __cdecl players_validate_configuration(void)
 

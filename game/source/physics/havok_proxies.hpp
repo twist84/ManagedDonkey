@@ -14,3 +14,6 @@ struct s_havok_proxy_datum :
 };
 static_assert(sizeof(s_havok_proxy_datum) == 0x44);
 
+extern void __cdecl havok_proxies_move();
+extern void __cdecl havok_proxies_update();
+

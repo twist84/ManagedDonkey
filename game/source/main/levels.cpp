@@ -333,6 +333,11 @@ bool __cdecl levels_try_and_get_multiplayer_map(long map_id, s_level_datum* leve
 	return INVOKE(0x0054CB00, levels_try_and_get_multiplayer_map, map_id, level);
 }
 
+void __cdecl levels_update()
+{
+	INVOKE(0x0054CB20, levels_update);
+}
+
 void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap)
 {
 	*out_campaign = nullptr;

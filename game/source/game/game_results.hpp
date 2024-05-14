@@ -515,4 +515,5 @@ extern void __cdecl game_results_statistic_increment(long player_absolute_index,
 extern void __cdecl game_results_statistic_set(long player_absolute_index, long team_index, e_game_results_statistic statistic, long a4);
 extern bool __cdecl game_results_statistics_decode(c_bitstream* packet, s_integer_statistic_update* statistics, long statistics_count, s_integer_statistic_definition const* statistic_definitions, long statistics_definitions_count);
 extern void __cdecl game_results_statistics_encode(c_bitstream* packet, s_integer_statistic_update const* statistics, long statistics_count, s_integer_statistic_definition const* statistic_definitions, long statistics_definitions_count);
+extern void __cdecl game_results_update();
 

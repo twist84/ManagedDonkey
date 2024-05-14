@@ -863,6 +863,8 @@ extern void __cdecl players_finish_creation();
 extern void __cdecl players_set_local_machine(s_machine_identifier const* machine_identifier);
 extern void __cdecl players_set_machines(dword new_machine_valid_mask, s_machine_identifier const* new_machine_identifiers);
 extern void __cdecl players_verify();
+extern void __cdecl players_update_after_game(struct simulation_update const* update);
+extern void __cdecl players_update_before_game(struct simulation_update const* update);
 extern s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player);
 extern s_s3d_player_weapon_configuration_loadout* __cdecl player_get_weapon_loadout(player_datum* player);
 extern long multiplayer_universal_data_get_absolute_equipment_block_index(char const* name);

@@ -489,16 +489,32 @@ void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object
 	return INVOKE(0x00B34490, object_try_and_get_and_verify_type, object_index, object_type_mask);
 }
 
+void __cdecl objects_move()
+{
+	INVOKE(0x00B36510, objects_move);
+}
+
+void __cdecl objects_post_update()
+{
+	INVOKE(0x00B36610, objects_post_update);
+}
+
+void __cdecl objects_update()
+{
+	INVOKE(0x00B36840, objects_update);
+}
+
 void __cdecl object_debug_teleport(long object_index, real_point3d const* position)
 {
-	if (void* object = object_try_and_get_and_verify_type(object_index, 0xFFFFFFFF))
+	if (object_datum* object = object_get(object_index))
 	{
-		dword_flags flags = reinterpret_cast<dword_flags*>(object)[1];
-
 		havok_can_modify_state_allow();
-		if (TEST_BIT(flags, 7))
+
+		if (object->flags.test(_object_in_limbo_bit))
 			object_set_in_limbo(object_index, false);
+
 		object_set_position_internal(object_index, position, nullptr, nullptr, nullptr, false, true, false, true);
+
 		havok_can_modify_state_disallow();
 	}
 	else

@@ -14,7 +14,7 @@ struct s_depth_of_field
 	//static void __cdecl s_depth_of_field::initialize();
 	//static void __cdecl s_depth_of_field::initialize_for_new_map();
 	//void __cdecl s_depth_of_field::set_default_values();
-	//static void __cdecl s_depth_of_field::update();
+	static void __cdecl update();
 
 //private:
 	//void __cdecl update_internal();

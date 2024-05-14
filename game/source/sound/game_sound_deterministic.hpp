@@ -8,3 +8,5 @@ struct s_game_sound_deterministic_globals
 };
 static_assert(sizeof(s_game_sound_deterministic_globals) == 0x1300);
 
+extern void __cdecl game_sound_deterministic_update_timers();
+

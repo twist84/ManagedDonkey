@@ -131,7 +131,8 @@ extern void __cdecl levels_process_campaign_configuration_file(s_file_reference*
 extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
 extern bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level);
 extern bool __cdecl levels_try_and_get_multiplayer_map(long map_id, s_level_datum* level);
-
+extern void __cdecl levels_update();
 
 extern void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap);
 extern void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_scenario const** out_scenario, bool* must_byte_swap);
+

@@ -78,6 +78,11 @@ void __cdecl havok_restore_fpu_from_update()
 	//}
 }
 
+void __cdecl havok_update()
+{
+	INVOKE(0x005C7B50, havok_update);
+}
+
 s_havok_constants const* get_havok_constants()
 {
 	return &g_havok_constants;

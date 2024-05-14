@@ -132,6 +132,11 @@ short hs_find_script_by_name(char const* name, short parameter_count)
 	return NONE;
 }
 
+void __cdecl hs_update()
+{
+	INVOKE(0x006796E0, hs_update);
+}
+
 short hs_find_function_by_name(char const* name, short parameter_count)
 {
 	for (short function_index = 0; function_index < hs_function_table_count; function_index++)

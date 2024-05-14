@@ -8,3 +8,5 @@ struct s_object_scehdule_globals
 };
 static_assert(sizeof(s_object_scehdule_globals) == 0x27C);
 
+extern void __cdecl object_scheduler_update();
+

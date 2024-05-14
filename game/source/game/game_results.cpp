@@ -44,3 +44,8 @@ void __cdecl game_results_statistics_encode(c_bitstream* packet, s_integer_stati
 	HOOK_INVOKE(, game_results_statistics_encode, packet, statistics, statistics_count, statistic_definitions, statistics_definitions_count);
 }
 
+void __cdecl game_results_update()
+{
+	INVOKE(0x00570730, game_results_update);
+}
+

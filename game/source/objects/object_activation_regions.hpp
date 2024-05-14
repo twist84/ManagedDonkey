@@ -10,3 +10,5 @@ struct s_object_activation_region :
 };
 static_assert(sizeof(s_object_activation_region) == 0x28);
 
+extern void __cdecl object_activation_regions_update();
+

@@ -21,3 +21,8 @@ long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const*
 	return INVOKE(0x005B87F0, effect_new_from_point_vector, effect_index, position, forward, normal, match_all_markers, effect_deterministic, plane, cluster_reference);
 }
 
+void __cdecl effects_update()
+{
+	INVOKE(0x005BD680, effects_update);
+}
+

@@ -210,7 +210,9 @@ extern void __cdecl game_engine_player_set_spawn_timer(long player_index, long s
 extern long __cdecl game_engine_get_pre_round_ticks();
 extern long __cdecl game_engine_get_post_round_ticks();
 extern long __cdecl game_engine_round_time_get();
-extern void game_engine_update_global_fade_timers(real world_seconds_elapsed);
+extern void __cdecl game_engine_update();
+extern void __cdecl game_engine_update_after_game();
+extern void __cdecl game_engine_update_global_fade_timers(real world_seconds_elapsed);
 extern void __cdecl game_engine_update_round_conditions();
 extern void __cdecl game_engine_dump_variant_settings(char const* filename);
 extern void __cdecl post_game_engine_globals_message(long message_type, char a2, short a3);

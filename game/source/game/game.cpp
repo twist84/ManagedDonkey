@@ -4,9 +4,13 @@
 #include "cseries/cseries.hpp"
 #include "editor/editor_stubs.hpp"
 #include "effects/effects.hpp"
+#include "game/game_achievements.hpp"
 #include "game/game_grief.hpp"
+#include "hs/hs.hpp"
+#include "interface/overhead_map.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "main/console.hpp"
+#include "main/levels.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_render.hpp"
@@ -17,12 +21,14 @@
 #include "render/render_debug.hpp"
 #include "render/render_visibility.hpp"
 #include "simulation/simulation.hpp"
+#include "sound/sound_manager.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/files_windows.hpp"
 #include "test/test_functions.hpp"
 
 #define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
 
+//HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 
 bool g_debug_survival_mode = false;
@@ -572,7 +578,12 @@ void __cdecl game_launch_initial_script()
 //.text:00531EE0 ; game_level_advance
 //.text:00531FF0 ; prepare_game_level
 //.text:00532050 ; game_level_prepare
-//.text:005320B0 ; void __cdecl game_loss_update()
+
+void __cdecl game_loss_update()
+{
+	INVOKE(0x005320B0, game_loss_update);
+}
+
 //.text:005321B0 ; void __cdecl game_lost_for_scripting(bool)
 
 void __cdecl game_lost(bool game_revert)
@@ -960,7 +971,7 @@ void __cdecl game_tick()
 	//		{
 	//			first_person_weapons_update();
 	//			player_effect_update();
-	//			//overhead_map_update(); where tf does this live?
+	//			overhead_map_update();
 	//			observer_game_tick();
 	//			director_game_tick();
 	//		}
@@ -979,7 +990,10 @@ void __cdecl game_tick()
 	//}
 }
 
-//.text:005333A0 ; void __cdecl game_tick_pulse_random_seed_deterministic(struct simulation_update const* update)
+void __cdecl game_tick_pulse_random_seed_deterministic(struct simulation_update const* update)
+{
+	INVOKE(0x005333A0, game_tick_pulse_random_seed_deterministic, update);
+}
 
 long __cdecl game_tick_rate_get()
 {
@@ -1018,7 +1032,11 @@ void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 }
 
 //.text:005339C0 ; 
-//.text:00533B80 ; void __cdecl game_update_pvs()
+
+void __cdecl game_update_pvs()
+{
+	INVOKE(0x00533B80, game_update_pvs);
+}
 
 void __cdecl game_won()
 {

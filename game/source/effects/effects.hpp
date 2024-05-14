@@ -99,4 +99,5 @@ extern bool debug_damage_effects;
 extern void render_debug_damage_effects();
 extern bool __cdecl dangerous_effects_near_player();
 extern long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const* position, vector3d const* forward, vector3d const* normal, long match_all_markers, long effect_deterministic, plane3d const* plane, s_cluster_reference* cluster_reference);
+extern void __cdecl effects_update();
 
