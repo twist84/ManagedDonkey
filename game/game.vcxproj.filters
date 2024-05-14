@@ -1344,6 +1344,9 @@
     <ClCompile Include="source\interface\overhead_map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\sound\sound_xaudio2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3279,6 +3282,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\overhead_map.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\sound\sound_xaudio2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
