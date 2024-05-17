@@ -1,9 +1,8 @@
 name: build
 
-on: [ push, pull_request ]
-
-permissions:
-  contents: read
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
   build-win:
@@ -23,15 +22,41 @@ jobs:
     - name: Initialize Submodules 
       uses: snickerbockers/submodules-init@v4
 
+    - name: Determine Version
+      id: determine_version
+      run: |
+        $version = (git rev-parse --short=7 HEAD).Trim()
+        Write-Output "Version determined: $version"
+        Write-Host "::set-output name=version::$version"
+
+    - name: Install 7Zip
+      run: |
+        Invoke-WebRequest -Uri "https://www.7-zip.org/a/7z1900-x64.msi" -OutFile "$env:TEMP\7z.msi"
+        Start-Process -Wait -FilePath msiexec -ArgumentList "/i", "$env:TEMP\7z.msi", "/quiet" 
+
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v2
 
     - name: Build
       working-directory: ${{ env.GITHUB_WORKSPACE }}
       run: msbuild /m /verbosity:minimal /p:Configuration=${{ matrix.BUILD_CONFIGURATION }} /p:Platform=${{ env.PLATFORM }} ${{ matrix.SOLUTION_FILE_PATH }}
 
-    - name: Upload
-      uses: actions/upload-artifact@v3
+    - name: Zip Release
+      run: |
+        & "C:\Program Files\7-Zip\7z.exe" a ${{ matrix.BUILD_CONFIGURATION }}.7z ./bin/${{ matrix.BUILD_CONFIGURATION }}/*
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
       with:
-        name: ${{ matrix.BUILD_CONFIGURATION }}
-        path: ./bin/${{ matrix.BUILD_CONFIGURATION }}/
+        files: ${{ matrix.BUILD_CONFIGURATION }}.7z
+        tag_name: ${{ steps.determine_version.outputs.version }}
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    #- name: Upload
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: ${{ matrix.BUILD_CONFIGURATION }}
+    #    path: ./bin/${{ matrix.BUILD_CONFIGURATION }}/
