@@ -47,13 +47,19 @@ void apply_all_hooks(bool revert)
 	for (long call_index = 0; call_index < g_call_hook_count; call_index++)
 	{
 		if (call_hook = call_hooks[call_index]; call_hook)
-			call_hook->apply(revert);
+		{
+			if (!call_hook->apply(revert))
+				printf("call hook didn't apply: 0x%08X, %s\n", call_hook->get_address(), call_hook->get_name());
+		}
 	}
 
 	for (long detour_index = 0; detour_index < g_detour_hook_count; detour_index++)
 	{
 		if (detour_hook = detour_hooks[detour_index]; detour_hook)
-			detour_hook->apply(revert);
+		{
+			if (!detour_hook->apply(revert))
+				printf("detour hook didn't apply: 0x%08X, %s\n", detour_hook->get_address(), detour_hook->get_name());
+		}
 	}
 }
 
@@ -65,7 +71,10 @@ void apply_all_patches(bool revert)
 	for (long data_patch_index = 0; data_patch_index < g_data_patch_count; data_patch_index++)
 	{
 		if (data_patch = data_patches[data_patch_index]; data_patch)
-			data_patch->apply(revert);
+		{
+			if (!data_patch->apply(revert))
+				printf("data patch didn't apply: 0x%08X, %s\n", data_patch->get_address(), data_patch->get_name());
+		}
 	}
 
 	for (long data_patch_array_index = 0; data_patch_array_index < g_data_patch_array_count; data_patch_array_index++)
@@ -75,7 +84,8 @@ void apply_all_patches(bool revert)
 	}
 }
 
-c_hook::c_hook(dword address, module_address const function, bool remove_base) :
+c_hook::c_hook(char const* name, dword address, module_address const function, bool remove_base) :
+	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? function.address - 0x00400000 : function.address) }),
 	m_orig({ .address = global_address_get(remove_base ? address - 0x00400000 : address) })
 {
@@ -86,6 +96,9 @@ c_hook::c_hook(dword address, module_address const function, bool remove_base) :
 bool c_hook::apply(bool revert)
 {
 	if (m_addr.pointer == nullptr || m_orig.pointer == nullptr)
+		return false;
+	
+	if (m_addr.address == 0xFEFEFEFE || m_orig.address == 0xFEFEFEFE)
 		return false;
 
 	if (NO_ERROR != DetourTransactionBegin())
@@ -103,9 +116,11 @@ bool c_hook::apply(bool revert)
 	return true;
 }
 
-c_hook_call::c_hook_call(dword address, module_address const function, bool remove_base) :
+c_hook_call::c_hook_call(char const* name, dword address, module_address const function, bool remove_base) :
+	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
-	m_call({ .opcode = 0xE8, .offset = (function.address - m_addr.address - sizeof(call_instruction)) })
+	m_call({ .opcode = 0xE8, .offset = (function.address - m_addr.address - sizeof(call_instruction)) }),
+	m_call_original()
 {
 	ASSERT(VALID_COUNT(g_call_hook_count, k_maximum_individual_modification_count));
 	call_hooks[g_call_hook_count++] = this;
@@ -113,6 +128,12 @@ c_hook_call::c_hook_call(dword address, module_address const function, bool remo
 
 bool c_hook_call::apply(bool revert)
 {
+	if (m_addr.pointer == nullptr)
+		return false;
+
+	if (m_addr.address == 0xFEFEFEFE)
+		return false;
+
 	if (!revert)
 		csmemcpy(&m_call_original, m_addr.pointer, sizeof(call_instruction));
 
@@ -128,7 +149,8 @@ bool c_hook_call::apply(bool revert)
 	return true;
 }
 
-c_data_patch::c_data_patch(dword address, long patch_size, byte const(&patch)[], bool remove_base) :
+c_data_patch::c_data_patch(char const* name, dword address, long patch_size, byte const(&patch)[], bool remove_base) :
+	m_name(name),
 	m_addr({ .address = global_address_get(remove_base ? address - 0x00400000 : address) }),
 	m_byte_count(patch_size),
 	m_bytes(patch),
@@ -140,6 +162,12 @@ c_data_patch::c_data_patch(dword address, long patch_size, byte const(&patch)[],
 
 bool c_data_patch::apply(bool revert)
 {
+	if (m_addr.pointer == nullptr)
+		return false;
+
+	if (m_addr.address == 0xFEFEFEFE)
+		return false;
+
 	if (!revert)
 		csmemcpy(m_bytes_original, m_addr.pointer, m_byte_count);
 

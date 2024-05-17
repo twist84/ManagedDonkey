@@ -3,11 +3,11 @@
 #include "cseries/cseries.hpp"
 #include "memory/member_to_static.hpp"
 
-#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(ADDR, { .address = ADDR2 })
-#define HOOK_DECLARE_CALL(ADDR, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(ADDR, { .pointer = NAME })
-#define HOOK_DECLARE(ADDR, NAME) static c_hook NAME##_hook(ADDR, { .pointer = NAME })
-#define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) static c_hook CLASS##_##NAME##_hook(ADDR, { .pointer = CLASS::NAME })
-#define HOOK_DECLARE_CLASS_MEMBER(ADDR, CLASS, NAME) static c_hook CLASS##_##NAME##_hook(ADDR, { .pointer = member_to_static_function(&CLASS##::##NAME) })
+#define HOOK_DECLARE_CALL_WITH_ADDRESS(ADDR, ADDR2, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .address = ADDR2 })
+#define HOOK_DECLARE_CALL(ADDR, NAME) static c_hook_call STRCONCAT(NAME##_hook,__LINE__)(#NAME, ADDR, { .pointer = NAME })
+#define HOOK_DECLARE(ADDR, NAME) static c_hook NAME##_hook(#NAME, ADDR, { .pointer = NAME })
+#define HOOK_DECLARE_CLASS(ADDR, CLASS, NAME) static c_hook CLASS##_##NAME##_hook(#NAME, ADDR, { .pointer = CLASS::NAME })
+#define HOOK_DECLARE_CLASS_MEMBER(ADDR, CLASS, NAME) static c_hook CLASS##_##NAME##_hook(#NAME, ADDR, { .pointer = member_to_static_function(&CLASS##::##NAME) })
 
 #define HOOK_INVOKE(RESULT, NAME, ...) \
 { \
@@ -30,8 +30,8 @@
     CLASS##_##NAME##_hook.apply(false); \
 }
 
-#define DATA_PATCH_DECLARE(ADDR, NAME, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
-#define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(ADDR, SIZE, __VA_ARGS__)
+#define DATA_PATCH_DECLARE(ADDR, NAME, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(#NAME, ADDR, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
+#define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(#NAME, ADDR, SIZE, __VA_ARGS__)
 
 union module_address
 {
@@ -52,9 +52,14 @@ extern void apply_all_patches(bool revert);
 class c_hook
 {
 public:
-	c_hook(dword address, module_address const function, bool remove_base = true);
+	c_hook(char const* name, dword address, module_address const function, bool remove_base = true);
 
 	bool apply(bool revert);
+
+	char const* get_name()
+	{
+		return m_name.get_string();
+	}
 
 	dword get_address()
 	{
@@ -67,6 +72,7 @@ public:
 	}
 
 private:
+	c_static_string<128> m_name;
 	module_address m_addr;
 	module_address m_orig;
 };
@@ -83,9 +89,14 @@ class c_hook_call
 #pragma pack(pop)
 
 public:
-	c_hook_call(dword address, module_address const function, bool remove_base = true);
+	c_hook_call(char const* name, dword address, module_address const function, bool remove_base = true);
 
 	bool apply(bool revert);
+
+	char const* get_name()
+	{
+		return m_name.get_string();
+	}
 
 	dword get_address()
 	{
@@ -93,6 +104,7 @@ public:
 	}
 
 private:
+	c_static_string<128> m_name;
 	module_address m_addr;
 	call_instruction const m_call;
 	call_instruction m_call_original;
@@ -101,11 +113,22 @@ private:
 class c_data_patch
 {
 public:
-	c_data_patch(dword address, long patch_size, byte const(&patch)[], bool remove_base = true);
+	c_data_patch(char const* name, dword address, long patch_size, byte const(&patch)[], bool remove_base = true);
 
 	bool apply(bool revert);
 
+	char const* get_name()
+	{
+		return m_name.get_string();
+	}
+
+	dword get_address()
+	{
+		return m_addr.address;
+	}
+
 private:
+	c_static_string<128> m_name;
 	module_address m_addr;
 	byte const* m_bytes;
 	byte* m_bytes_original;
