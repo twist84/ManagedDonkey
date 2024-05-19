@@ -12,34 +12,39 @@ REFERENCE_DECLARE(0x019AB728, s_online_user, g_online_user);
 REFERENCE_DECLARE(0x02179468, bool, g_online_is_connected_to_live);
 
 HOOK_DECLARE(0x004429C0, online_dispose);
-//HOOK_DECLARE(0x004429D0, online_dump_machine_info);
-//HOOK_DECLARE(0x004429F0, online_get_maximum_compatible_nat_type);
-//HOOK_DECLARE(0x00442A00, online_get_nat_type);
-//HOOK_DECLARE(0x00442A20, online_get_title_name_string);
-//HOOK_DECLARE(0x00442A50, online_has_all_online_enabled_users);
-//HOOK_DECLARE(0x00442A60, online_has_any_silver_or_gold_live_users);
+HOOK_DECLARE(0x004429D0, online_dump_machine_info);
+HOOK_DECLARE(0x004429F0, online_get_maximum_compatible_nat_type);
+HOOK_DECLARE(0x00442A00, online_get_nat_type);
+HOOK_DECLARE(0x00442A20, online_get_title_name_string);
+HOOK_DECLARE(0x00442A50, online_has_all_online_enabled_users);
+HOOK_DECLARE(0x00442A60, online_has_any_silver_or_gold_live_users);
 HOOK_DECLARE(0x00442A70, online_initialize);
-//HOOK_DECLARE(0x00442A90, online_is_connected_to_live);
+HOOK_DECLARE(0x00442A90, online_is_connected_to_live);
 HOOK_DECLARE(0x00442AA0, online_user_get_name);
 HOOK_DECLARE(0x00442AE0, online_user_get_xuid);
 HOOK_DECLARE(0x00442AB0, online_user_get_player_identifier);
-//HOOK_DECLARE(0x00442B00, sub_442B00);
-//HOOK_DECLARE(0x00442B20, sub_442B20);
-//HOOK_DECLARE(0x00442B40, online_has_signed_in_user);
+HOOK_DECLARE(0x00442B00, sub_442B00);
+HOOK_DECLARE(0x00442B20, sub_442B20);
+HOOK_DECLARE(0x00442B40, online_has_signed_in_user);
 ////HOOK_DECLARE(0x00442B60, online_local_xuid_is_silver_or_gold_live); // crashes
-//HOOK_DECLARE(0x00442B70, sub_442B70);
-//HOOK_DECLARE(0x00442B80, online_process_debug_output_queue);
-//HOOK_DECLARE(0x00442B90, online_user_set_xuid);
-//HOOK_DECLARE(0x00442BB0, online_set_is_connected_to_live);
+HOOK_DECLARE(0x00442B70, sub_442B70);
+HOOK_DECLARE(0x00442B80, online_process_debug_output_queue);
+HOOK_DECLARE(0x00442B90, online_user_set_xuid);
+HOOK_DECLARE(0x00442BB0, online_set_is_connected_to_live);
 HOOK_DECLARE(0x00442BC0, online_user_set_name);
 HOOK_DECLARE(0x00442BF0, online_update);
+
+HOOK_DECLARE_CALL(0x004D8638, online_local_xuid_is_silver_or_gold_live); // network_banhammer_update_controllers
+
+// cause of crash with the `online_local_xuid_is_silver_or_gold_live` detour hook
+////HOOK_DECLARE_CALL(0x00A7D91B, online_local_xuid_is_silver_or_gold_live); // c_controller_interface::is_silver_or_gold_live
 
 s_online_user g_controller_users[4] =
 {
 	g_online_user,
-	{ .initialized = true, .player_xuid = 1, .player_name = L"user1" },
-	{ .initialized = true, .player_xuid = 2, .player_name = L"user2" },
-	{ .initialized = true, .player_xuid = 3, .player_name = L"user3" },
+	{ .initialized = false, .player_xuid = 1, .player_name = L"user1" },
+	{ .initialized = false, .player_xuid = 2, .player_name = L"user2" },
+	{ .initialized = false, .player_xuid = 3, .player_name = L"user3" },
 };
 
 u_online_user_id online_user_player_identifiers[4]{};
@@ -173,7 +178,6 @@ qword __cdecl online_user_get_xuid(long controller_index)
 	//if (XUserGetXUID(controller_index, &xuid))
 	//	xuid = 0;
 	//return xuid;
-
 
 	if (!online_user_xuids[controller_index].value)
 	{
