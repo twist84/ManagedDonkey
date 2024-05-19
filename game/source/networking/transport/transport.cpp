@@ -23,7 +23,7 @@ void __cdecl transport_dispose()
 	if (transport_globals.initialized)
 	{
 		transport_shutdown();
-		//transport_qos_dispose();
+		transport_qos_dispose();
 		transport_globals.transition_function_count = false;
 		transport_globals.initialized = false;
 	}
@@ -77,7 +77,7 @@ void __cdecl transport_initialize()
 {
 	csmemset(&transport_globals, 0, sizeof(transport_globals));
 	transport_security_initialize();
-	//transport_qos_initialize();
+	transport_qos_initialize();
 	transport_globals.initialized = true;
 
 	if (transport_network_available())
@@ -121,7 +121,7 @@ void __cdecl transport_shutdown()
 				shutdown_function(transport_globals.callback_datas[i]);
 		}
 
-		//transport_qos_shutdown();
+		transport_qos_shutdown();
 		transport_globals.winsock_initialized = false;
 
 		WSACleanup();
@@ -147,7 +147,7 @@ void __cdecl transport_startup()
 
 			transport_globals.winsock_initialized = true;
 			transport_security_startup();
-			//transport_qos_startup();
+			transport_qos_startup();
 
 			for (long i = 0; i < transport_globals.transition_function_count; i++)
 			{

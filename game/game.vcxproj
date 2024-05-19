@@ -214,6 +214,7 @@ POPD
     <ClCompile Include="source\items\items.cpp" />
     <ClCompile Include="source\networking\messages\network_message_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_out_of_band_consumer.cpp" />
+    <ClCompile Include="source\networking\transport\transport_qos.cpp" />
     <ClCompile Include="source\objects\lights.cpp" />
     <ClCompile Include="source\objects\object_activation_regions.cpp" />
     <ClCompile Include="source\objects\object_placement.cpp" />
