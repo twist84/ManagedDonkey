@@ -639,7 +639,7 @@ void __cdecl input_update_gamepads(long duration_ms)
 			}
 			else
 			{
-				input_globals.gamepad_valid_mask.set(gamepad_index, true);
+				input_globals.gamepad_valid_mask.set(gamepad_index, false);
 				csmemset(&state, 0, sizeof(gamepad_state));
 			}
 		}

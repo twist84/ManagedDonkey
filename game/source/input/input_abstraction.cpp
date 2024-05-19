@@ -33,6 +33,8 @@ HOOK_DECLARE(0x0060D830, input_abstraction_set_controller_preferences);
 //HOOK_DECLARE(0x0060D880, input_abstraction_update);
 //HOOK_DECLARE(0x0060D9E0, input_abstraction_update_device_changes);
 
+bool use_mean_look_sensitivity = false;
+
 void __cdecl input_abstraction_dispose()
 {
 	csmemset(&input_abstraction_globals, 0, sizeof(s_input_abstraction_globals));
@@ -118,8 +120,18 @@ void __cdecl input_abstraction_get_player_look_angular_velocity(long controller_
 {
 	//INVOKE(0x0060C000, input_abstraction_get_player_look_angular_velocity, controller_index, angular_velocity);
 
-	angular_velocity->yaw = input_abstraction_globals.preferences[controller_index].look_sensitivity_x * DEG;
-	angular_velocity->pitch = input_abstraction_globals.preferences[controller_index].look_sensitivity_y * DEG;
+	real look_sensitivity_x = input_abstraction_globals.preferences[controller_index].look_sensitivity_x;
+	real look_sensitivity_y = input_abstraction_globals.preferences[controller_index].look_sensitivity_y;
+
+	if (use_mean_look_sensitivity)
+	{
+		real mean_look_sensitivity = (look_sensitivity_x + look_sensitivity_y) / 2;
+		look_sensitivity_x = mean_look_sensitivity;
+		look_sensitivity_y = mean_look_sensitivity;
+	}
+
+	angular_velocity->yaw = look_sensitivity_x * DEG;
+	angular_velocity->pitch = look_sensitivity_y * DEG;
 }
 
 void __cdecl sub_60C040(long keyboard_preset, s_gamepad_input_preferences* preferences)

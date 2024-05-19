@@ -19,9 +19,9 @@
 
 HOOK_DECLARE_CLASS_MEMBER(0x0065F8A0, c_first_person_camera, _update);
 
-real k_horizontal_field_of_view_min = DEG * 1.0f;
-real k_horizontal_field_of_view_max = DEG * 150.0f;
-real k_quarter_circle = PI / 2;
+real const k_horizontal_field_of_view_min = DEG * 1.0f;
+real const k_horizontal_field_of_view_max = DEG * 150.0f;
+real const k_quarter_circle = PI / 2;
 
 void __cdecl first_person_camera_for_unit_and_vector(long unit_index, vector3d const* forward, s_observer_command* result)
 {

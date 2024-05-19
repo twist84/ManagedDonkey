@@ -7,6 +7,7 @@
 #include "effects/contrails.hpp"
 #include "game/cheats.hpp"
 #include "hs/hs_runtime.hpp"
+#include "input/input_abstraction.hpp"
 #include "interface/c_controller.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
@@ -850,6 +851,8 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_sensitivity),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 

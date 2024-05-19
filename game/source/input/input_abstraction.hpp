@@ -130,6 +130,7 @@ struct s_input_abstraction_globals
 static_assert(sizeof(s_input_abstraction_globals) == 0x14D4);
 
 extern s_input_abstraction_globals& input_abstraction_globals;
+extern bool use_mean_look_sensitivity;
 
 extern void __cdecl input_abstraction_dispose();
 extern void __cdecl input_abstraction_dispose_from_old_map();
