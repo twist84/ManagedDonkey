@@ -26,7 +26,7 @@
 #include "tag_files/files_windows.hpp"
 #include "test/test_functions.hpp"
 
-//HOOK_DECLARE(0x00533120, game_tick);
+HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 
 bool g_debug_survival_mode = false;
@@ -875,117 +875,122 @@ bool __cdecl game_survival_allow_respawn()
 
 void __cdecl game_tick()
 {
-	INVOKE(0x00533120, game_tick);
+	//INVOKE(0x00533120, game_tick);
 
-	//PROFILER(game_tick)
-	//{
-	//	game_globals_storage* game_globals = game_globals_get();
-	//	struct simulation_update update = { .high_level_flags = 0 };
-	//	s_simulation_update_metadata metadata = { .flags = 0 };
-	//
-	//	game_globals->update_tick_this_frame = true;
-	//	main_status(__FUNCTION__, "time %d", game_time_get());
-	//
-	//	PROFILER(build_simulation_update)
-	//	{
-	//		real_math_reset_precision();
-	//		simulation_build_update(true, &update, &metadata);
-	//		simulation_record_update(&update);
-	//		game_state_preserve();
-	//	}
-	//
-	//	c_rasterizer::notify_game_tick_begin();
-	//	c_water_renderer::game_update();
-	//	damage_acceleration_queue_begin();
-	//	simulation_apply_before_game(&update);
-	//	levels_update();
-	//
-	//	if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
-	//	{
-	//		chud_game_tick();
-	//		players_update_before_game(&update);
-	//		sound_update();
-	//		game_tick_pulse_random_seed_deterministic(&update);
-	//		ai_update();
-	//		recorded_animations_update();
-	//		game_sound_deterministic_update_timers();
-	//		game_engine_update();
-	//		game_results_update();
-	//		editor_update();
-	//		cinematics_game_tick();
-	//
-	//		if (!sub_42E5D0()) c_hue_saturation_control::copy_from_gamestate();
-	//
-	//		hs_update();
-	//
-	//		if (!sub_42E5D0()) c_hue_saturation_control::copy_to_gamestate();
-	//
-	//		BOT_CLIENT(false)
-	//		{
-	//			game_update_pvs();
-	//		}
-	//
-	//		object_scheduler_update();
-	//		object_activation_regions_update();
-	//		objects_update();
-	//		damage_acceleration_queue_end();
-	//		havok_proxies_update();
-	//		havok_update();
-	//		havok_proxies_move();
-	//		objects_move();
-	//		objects_post_update();
-	//
-	//		BOT_CLIENT(false)
-	//		{
-	//			impacts_update();
-	//		}
-	//
-	//		breakable_surfaces_update();
-	//		effects_update();
-	//		lights_update();
-	//		game_engine_update_after_game();
-	//		simulation_apply_after_game(&update);
-	//		players_update_after_game(&update);
-	//
-	//		PROFILER(high_level_game_systems)
-	//		{
-	//			campaign_metagame_update();
-	//			game_allegiance_update();
-	//			game_loss_update();
-	//			game_finished_update();
-	//
-	//			// odst achievement function?
-	//			sub_6967B0();
-	//
-	//			game_save_update();
-	//			cinematic_update();
-	//			s_depth_of_field::update();
-	//			game_grief_update();
-	//			//achievements_update();
-	//			test_functions_update();
-	//		}
-	//
-	//		PROFILER(interface_system_update)
-	//		{
-	//			first_person_weapons_update();
-	//			player_effect_update();
-	//			overhead_map_update();
-	//			observer_game_tick();
-	//			director_game_tick();
-	//		}
-	//	}
-	//	else
-	//	{
-	//		damage_acceleration_queue_end();
-	//	}
-	//	simulation_update_aftermath(&update, &metadata);
-	//
-	//	if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
-	//		game_time_advance();
-	//
-	//	simulation_destroy_update(&update);
-	//	main_status(__FUNCTION__, NULL);
-	//}
+	PROFILER(game_tick)
+	{
+		struct simulation_update update = { .high_level_flags = 0 };
+		s_simulation_update_metadata metadata = { .flags = 0 };
+
+		game_globals_get()->update_tick_this_frame = true;
+		main_status(__FUNCTION__, "time %d", game_time_get());
+
+		PROFILER(build_simulation_update)
+		{
+			real_math_reset_precision();
+			simulation_build_update(true, &update, &metadata);
+			simulation_record_update(&update);
+			game_state_preserve();
+		}
+
+		c_rasterizer::notify_game_tick_begin();
+		c_water_renderer::game_update();
+		damage_acceleration_queue_begin();
+		simulation_apply_before_game(&update);
+		levels_update();
+
+		if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
+		{
+			chud_game_tick();
+			players_update_before_game(&update);
+			sound_update();
+			game_tick_pulse_random_seed_deterministic(&update);
+			ai_update();
+			recorded_animations_update();
+			game_sound_deterministic_update_timers();
+			game_engine_update();
+			game_results_update();
+			editor_update();
+			cinematics_game_tick();
+
+			RENDER_ENABLED(true)
+			{
+				c_hue_saturation_control::copy_from_gamestate();
+			}
+
+			hs_update();
+
+			RENDER_ENABLED(true)
+			{
+				c_hue_saturation_control::copy_to_gamestate();
+			}
+
+			BOT_CLIENT(false)
+			{
+				game_update_pvs();
+			}
+
+			object_scheduler_update();
+			object_activation_regions_update();
+			objects_update();
+			damage_acceleration_queue_end();
+			havok_proxies_update();
+			havok_update();
+			havok_proxies_move();
+			objects_move();
+			objects_post_update();
+
+			BOT_CLIENT(false)
+			{
+				impacts_update();
+			}
+
+			breakable_surfaces_update();
+			effects_update();
+			lights_update();
+			game_engine_update_after_game();
+			simulation_apply_after_game(&update);
+			players_update_after_game(&update);
+
+			PROFILER(high_level_game_systems)
+			{
+				campaign_metagame_update();
+				game_allegiance_update();
+				game_loss_update();
+				game_finished_update();
+
+				// odst achievement function?
+				sub_6967B0();
+
+				game_save_update();
+				cinematic_update();
+				s_depth_of_field::update();
+				game_grief_update();
+				//achievements_update();
+				test_functions_update();
+			}
+
+			PROFILER(interface_system_update)
+			{
+				first_person_weapons_update();
+				player_effect_update();
+				overhead_map_update();
+				observer_game_tick();
+				director_game_tick();
+			}
+		}
+		else
+		{
+			damage_acceleration_queue_end();
+		}
+		simulation_update_aftermath(&update, &metadata);
+
+		if (update.high_level_flags.test(_simulation_update_high_level_simulation_in_progress_bit))
+			game_time_advance();
+
+		simulation_destroy_update(&update);
+		main_status(__FUNCTION__, NULL);
+	}
 }
 
 void __cdecl game_tick_pulse_random_seed_deterministic(struct simulation_update const* update)
@@ -1023,7 +1028,7 @@ void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 			game_tick();
 			game_globals->update_tick_this_frame = false;
 		}
-		
+
 		if (actual_ticks < tick_count)
 			game_time_discard(tick_count, actual_ticks, game_seconds_elapsed);
 	}

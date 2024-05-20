@@ -99,11 +99,11 @@ void test_functions_update()
 	test_download_storage_file_update();
 }
 
-void __cdecl game_grief_update_for_test_functions_update()
-{
-	INVOKE(0x006790D0, game_grief_update_for_test_functions_update);
-
-	test_functions_update();
-}
-HOOK_DECLARE_CALL(0x0053332C, game_grief_update_for_test_functions_update); // game_tick
+//void __cdecl game_grief_update_for_test_functions_update()
+//{
+//	INVOKE(0x006790D0, game_grief_update_for_test_functions_update);
+//
+//	test_functions_update();
+//}
+//HOOK_DECLARE_CALL(0x0053332C, game_grief_update_for_test_functions_update); // game_tick
 
