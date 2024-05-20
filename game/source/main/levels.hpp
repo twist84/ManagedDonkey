@@ -75,8 +75,8 @@ struct s_level_insertion_datum :
 	wchar_t names[k_max_campaign_insertion_points][32];
 	wchar_t descriptions[k_max_campaign_insertion_points][128];
 	byte zone_sets[k_max_campaign_insertion_points];
-	long __unknownB54[k_max_campaign_insertion_points];
-	long __unknownB78[k_max_campaign_insertion_points];
+	long return_from_map_ids[k_max_campaign_insertion_points];
+	long survival_presence_context_ids[k_max_campaign_insertion_points];
 	byte_flags __flagsB9C[k_max_campaign_insertion_points];
 };
 static_assert(sizeof(s_level_insertion_datum) == 0xBA8);
