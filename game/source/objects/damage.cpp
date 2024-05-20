@@ -126,6 +126,11 @@ real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effec
 	return result;
 };
 
+void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration const* damage_acceleration)
+{
+	INVOKE(0x00B4FD70, damage_acceleration_apply, damage_acceleration);
+}
+
 void __cdecl damage_acceleration_queue_begin()
 {
 	INVOKE(0x00B50120, damage_acceleration_queue_begin);

@@ -76,6 +76,7 @@ struct s_model_damage_info;
 extern void render_debug_object_damage();
 
 extern real __cdecl compute_total_damage(s_damage_data* damage_data, void* damage_effect_definition, void const* damage_definition, long object_index, bool* a5);
+extern void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration const* damage_acceleration);
 extern void __cdecl damage_acceleration_queue_begin();
 extern void __cdecl damage_acceleration_queue_end();
 extern void __cdecl damage_initialize_for_new_map();
