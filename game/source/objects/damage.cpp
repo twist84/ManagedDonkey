@@ -142,7 +142,20 @@ void __cdecl damage_acceleration_queue_begin()
 
 void __cdecl damage_acceleration_queue_end()
 {
-	INVOKE(0x00B50140, damage_acceleration_queue_end);
+	//INVOKE(0x00B50140, damage_acceleration_queue_end);
+
+	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
+
+	for (long i = 0; i < damage_globals->damage_acceleration_count; i++)
+	{
+		s_damage_globals::s_damage_acceleration& damage_acceleration = damage_globals->damage_accelerations[i];
+		if (damage_acceleration.object_index != NONE)
+			damage_acceleration_apply(&damage_acceleration);
+	}
+
+	damage_globals->damage_acceleration_count = 0;
+	damage_globals->damage_accelerations_evictable.clear();
+	damage_globals->damage_acceleration_queue_active = false;
 }
 
 void __cdecl damage_initialize_for_new_map()
