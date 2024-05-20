@@ -26,8 +26,6 @@
 #include "tag_files/files_windows.hpp"
 #include "test/test_functions.hpp"
 
-#define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
-
 //HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 

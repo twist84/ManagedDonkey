@@ -1,5 +1,7 @@
 #pragma once
 
+#define BOT_CLIENT(true_false) if (game_is_bot_client() == true_false)
+
 enum e_session_creation_flags
 {
 	_session_creation_unknown_bit0 = 0,

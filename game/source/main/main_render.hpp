@@ -4,6 +4,7 @@
 #include "shell/shell.hpp"
 
 #define MAXIMUM_PLAYER_WINDOWS 4
+#define RENDER_ENABLED(true_false) if (sub_42E5D0() == true_false)
 
 struct c_player_render_camera_iterator
 {
