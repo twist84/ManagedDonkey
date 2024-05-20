@@ -11,7 +11,12 @@
 //.text:0072C570 ; public: virtual e_camera_mode __cdecl c_scripted_camera::get_type() const
 //.text:0072C5C0 ; void __cdecl scripted_camera_cinematic_stop()
 //.text:0072C600 ; 
-//.text:0072C630 ; void __cdecl scripted_camera_game_tick()
+
+void __cdecl scripted_camera_game_tick()
+{
+	INVOKE(0x0072C630, scripted_camera_game_tick);
+}
+
 //.text:0072CAA0 ; 
 //.text:0072CAC0 ; bool __cdecl scripted_camera_get_cinematic_data(long *, long *, long *)
 //.text:0072CB20 ; 
