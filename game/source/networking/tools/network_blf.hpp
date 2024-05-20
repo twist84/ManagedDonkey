@@ -324,21 +324,30 @@ public:
 };
 static_assert(sizeof(s_blf_chunk_campaign) == sizeof(s_blf_header) + 0x130C);
 
+enum e_scenario_insertion_flags
+{
+	_scenario_insertion_survival_bit = 0,
+	_scenario_insertion_survival_always_unlocked_bit,
+	_scenario_insertion_bit2,
+	_scenario_insertion_return_from_map_bit,
+};
+
 struct s_blf_chunk_scenario_insertion
 {
 	bool visible;
 
-	byte __unknown1;
+	byte_flags flags;
 
-	short zone_set_index;
+	short zone_set;
 
-	dword __unknown4;
+	// ODST
+	long return_from_map_id;
+	long survival_presence_context_id;
+
+	byte __padC[0x4];
 
 	c_static_array<c_static_wchar_string<32>, 12> names;
 	c_static_array<c_static_wchar_string<128>, 12> descriptions;
-
-	dword __unknownF08;
-	dword __unknownF0C;
 };
 static_assert(sizeof(s_blf_chunk_scenario_insertion) == 0xF10);
 
