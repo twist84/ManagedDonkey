@@ -12,3 +12,6 @@
 #define bswap_word_inplace(value) value = bswap_word(value)
 #define bswap_dword_inplace(value) value = bswap_dword(value)
 #define bswap_qword_inplace(value) value = bswap_qword(value)
+
+extern long __cdecl byte_swap_get_runtime_byte_order();
+

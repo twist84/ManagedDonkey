@@ -1350,6 +1350,9 @@
     <ClCompile Include="source\networking\transport\transport_qos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\memory\byte_swapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

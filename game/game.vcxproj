@@ -212,6 +212,7 @@ POPD
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />
     <ClCompile Include="source\interface\overhead_map.cpp" />
     <ClCompile Include="source\items\items.cpp" />
+    <ClCompile Include="source\memory\byte_swapping.cpp" />
     <ClCompile Include="source\networking\messages\network_message_queue.cpp" />
     <ClCompile Include="source\networking\messages\network_out_of_band_consumer.cpp" />
     <ClCompile Include="source\networking\transport\transport_qos.cpp" />
