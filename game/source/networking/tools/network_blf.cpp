@@ -258,16 +258,37 @@ s_blf_chunk_campaign::s_blf_chunk_campaign()
 	map_ids.clear();
 }
 
-s_blf_chunk_scenario::s_blf_chunk_scenario()
+s_blf_chunk_scenario_atlas::s_blf_chunk_scenario_atlas()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
-	map_id = -1;
-	type_flags = 0;
+	map_id = NONE;
+	type_flags.clear();
 	csmemset(names, 0, sizeof(names));
 	csmemset(descriptions, 0, sizeof(descriptions));
-	image_file_base.set(0);
-	scenario_path.set(0);
+	image_file_base.clear();
+	scenario_path.clear();
+	precense_context_id = 0;
+	sort_order = 0;
+	multiplayer_minimum_desired_players = 0;
+	multiplayer_maximum_desired_players = 0;
+	csmemset(engine_maximum_teams, 0, sizeof(engine_maximum_teams));
+	allows_saved_films = false;
+	csmemset(insertions, 0, sizeof(insertions));
+}
+
+s_blf_chunk_scenario_halo3::s_blf_chunk_scenario_halo3()
+{
+	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
+
+	map_id = NONE;
+	type_flags.clear();
+	csmemset(names, 0, sizeof(names));
+	csmemset(descriptions, 0, sizeof(descriptions));
+	image_file_base.clear();
+	scenario_path.clear();
+	precense_context_id = 0;
+	sort_order = 0;
 	multiplayer_minimum_desired_players = 0;
 	multiplayer_maximum_desired_players = 0;
 	csmemset(engine_maximum_teams, 0, sizeof(engine_maximum_teams));

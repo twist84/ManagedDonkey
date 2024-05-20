@@ -332,7 +332,22 @@ enum e_scenario_insertion_flags
 	_scenario_insertion_return_from_map_bit,
 };
 
-struct s_blf_chunk_scenario_insertion
+struct s_blf_chunk_scenario_insertion_halo3
+{
+	bool visible;
+
+	byte_flags flags;
+
+	short zone_set;
+
+	byte __pad4[0x4];
+
+	c_static_array<c_static_wchar_string<32>, 12> names;
+	c_static_array<c_static_wchar_string<128>, 12> descriptions;
+};
+static_assert(sizeof(s_blf_chunk_scenario_insertion_halo3) == 0xF08);
+
+struct s_blf_chunk_scenario_insertion_atlas
 {
 	bool visible;
 
@@ -349,12 +364,16 @@ struct s_blf_chunk_scenario_insertion
 	c_static_array<c_static_wchar_string<32>, 12> names;
 	c_static_array<c_static_wchar_string<128>, 12> descriptions;
 };
-static_assert(sizeof(s_blf_chunk_scenario_insertion) == 0xF10);
+static_assert(sizeof(s_blf_chunk_scenario_insertion_atlas) == 0xF10);
 
 enum e_scenario_type_flags
 {
-	_scenario_type_flag_ui_bit = 4,
-	_scenario_type_flag_atlas_bit,
+	_scenario_type_flag_bit0,
+	_scenario_type_flag_bit1,
+	_scenario_type_flag_bit2,
+	_scenario_type_flag_bit3,
+	_scenario_type_flag_ui_bit,
+	_scenario_type_flag_solo_bit,
 	_scenario_type_flag_multi_bit,
 	_scenario_type_flag_dlc_bit,
 	_scenario_type_flag_test_bit,
@@ -363,12 +382,8 @@ enum e_scenario_type_flags
 
 struct s_blf_chunk_scenario
 {
-public:
 	static long const k_chunk_type = 'levl';
 	static long const k_version_major = 3;
-	static long const k_version_minor = 2;
-
-	s_blf_chunk_scenario();
 
 	s_blf_header header;
 
@@ -392,12 +407,30 @@ public:
 
 	bool allows_saved_films;
 
-	short : 16;
-	long : 32;
-
-	s_blf_chunk_scenario_insertion insertions[9];
+	byte __pad112A[0x6];
 };
-static_assert(sizeof(s_blf_chunk_scenario) == sizeof(s_blf_header) + 0x98B4);
+static_assert(sizeof(s_blf_chunk_scenario) == sizeof(s_blf_header) + 0x1124);
+
+template<long version_major, long version_minor, typename insertion_struct, long insertion_count>
+struct s_blf_chunk_scenario_minor_version : s_blf_chunk_scenario
+{
+public:
+	static long const k_version_minor = version_minor;
+
+	insertion_struct insertions[insertion_count];
+};
+static_assert(sizeof(s_blf_chunk_scenario_minor_version<3, 1, s_blf_chunk_scenario_insertion_halo3, 4>) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_halo3) * 4));
+static_assert(sizeof(s_blf_chunk_scenario_minor_version<3, 2, s_blf_chunk_scenario_insertion_atlas, 9>) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_atlas) * 9));
+
+struct s_blf_chunk_scenario_atlas : s_blf_chunk_scenario_minor_version<3, 2, s_blf_chunk_scenario_insertion_atlas, 9>
+{
+	s_blf_chunk_scenario_atlas();
+};
+
+struct s_blf_chunk_scenario_halo3 : s_blf_chunk_scenario_minor_version<3, 1, s_blf_chunk_scenario_insertion_halo3, 4>
+{
+	s_blf_chunk_scenario_halo3();
+};
 
 enum e_map_image_type
 {
