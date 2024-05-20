@@ -18,3 +18,8 @@ bool actor_datum_available_to_current_thread()
 	return *actor_data != NULL;
 }
 
+bool actor_is_active(actor_datum const* actor)
+{
+	return actor->meta.active;
+}
+
