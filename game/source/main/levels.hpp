@@ -116,22 +116,42 @@ extern void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char 
 extern void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario_path);
 extern void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
 extern bool __cdecl levels_begin_dvd_enumeration();
-
+extern void __cdecl levels_dispose();
+extern void __cdecl levels_dispose_from_old_map();
 extern long __cdecl levels_dvd_enumeration_callback2(void* callback_data);
 extern long __cdecl levels_dvd_enumeration_callback(s_configuration_enumeration_task* task_data);
-
-extern long levels_get_default_multiplayer_map_id();
+extern bool __cdecl levels_enumeration_in_progress();
+extern dword __cdecl levels_get_available_map_mask();
+extern long __cdecl levels_get_campaign_count();
+extern long __cdecl levels_get_campaign_id_from_path(char const* path);
+extern long __cdecl levels_get_campaign_level_count(long campaign_id);
+extern long __cdecl levels_get_campaign_level_index(long campaign_id, long map_id);
+extern long __cdecl levels_get_campaign_map_by_display_name(wchar_t* display_name);
+extern void __cdecl levels_get_campaign_map_ids(long campaign_id, long* out_map_ids, long* in_out_count);
+extern long __cdecl levels_get_campaign_next_map_id(long campaign_id, long map_id);
+extern long __cdecl levels_get_default_multiplayer_map_id();
+extern dword __cdecl levels_get_checksum();
 extern long __cdecl levels_get_multiplayer_map_by_display_name(wchar_t const* display_name);
+extern void __cdecl levels_get_multiplayer_map_ids(long* out_map_ids, long* in_out_count);
+extern bool __cdecl levels_get_multiplayer_map_is_allowed(long map_id);
+extern bool __cdecl levels_find_path(s_data_array* data, long map_id, char* path, long maximum_characters);
 extern char* __cdecl levels_get_path(long campaign_id, long map_id, char* path, long maximum_characters);
+extern void __cdecl levels_initialize();
+extern void __cdecl levels_initialize_for_new_map();
 extern bool __cdecl levels_map_id_is_fake(long map_id);
-extern void __cdecl levels_open_dlc(char const* scenario_path, bool a2);
+extern void __cdecl levels_open_dlc(char const* scenario_path, bool blocking);
 extern bool __cdecl levels_path_is_dlc(const char* scenario_path);
-
 extern void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
 extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
+extern void __cdecl levels_delete();
+extern bool __cdecl levels_try_and_get_by_map_id(s_data_array* data, long map_id, s_level_datum* level);
+extern bool __cdecl levels_try_and_get_campaign_insertion(long map_id, s_level_insertion_datum* insertion);
+extern bool __cdecl levels_try_and_get_campaign_map(long map_id, s_level_datum* level);
 extern bool __cdecl levels_try_and_get_main_menu_map(s_level_datum* level);
 extern bool __cdecl levels_try_and_get_multiplayer_map(long map_id, s_level_datum* level);
 extern void __cdecl levels_update();
+extern void __cdecl sub_54CBA0();
+extern void __cdecl sub_54CC00();
 
 extern void levels_find_campaign_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_campaign const** out_campaign, bool* must_byte_swap);
 extern void levels_find_scenario_chunk(s_file_reference* file, char* const file_buffer, s_blf_chunk_scenario const** out_scenario, bool* must_byte_swap);
