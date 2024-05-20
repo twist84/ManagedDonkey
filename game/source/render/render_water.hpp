@@ -2,9 +2,18 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_ripple_data
+{
+	real_point3d __point0;
+	vector3d __vectorC;
+	vector3d __vector18;
+	long water_ripple_definition_index;
+};
+static_assert(sizeof(s_ripple_data) == 0x28);
+
 struct s_interaction_event
 {
-	byte __data[0x1400];
+	c_static_array<s_ripple_data, 128> ripples;
 };
 static_assert(sizeof(s_interaction_event) == 0x1400);
 
