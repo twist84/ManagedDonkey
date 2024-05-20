@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 #include "camera/camera_globals.hpp"
+#include "camera/camera_scripting.hpp"
 #include "camera/debug_director.hpp"
 #include "camera/editor_director.hpp"
 #include "camera/game_director.hpp"
@@ -39,7 +40,9 @@ e_director_mode __cdecl choose_appropriate_director(e_output_user_index output_u
 
 void __cdecl director_game_tick()
 {
-	INVOKE(0x00591980, director_game_tick);
+	//INVOKE(0x00591980, director_game_tick);
+
+	scripted_camera_game_tick();
 }
 
 //.text:00591990 ; c_director* __cdecl director_get(e_output_user_index)
