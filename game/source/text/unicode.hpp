@@ -27,8 +27,8 @@ extern wchar_t* ustrnzcpy(wchar_t*, wchar_t const*, long);
 //extern unsigned int ustrxfrm(wchar_t *,wchar_t const *,long);
 //extern wchar_t * ustrnlwr(wchar_t *,long);
 //extern wchar_t * ustrnupr(wchar_t *,long);
-extern int ustricmp(wchar_t const *,wchar_t const *);
-extern int ustrnicmp(wchar_t const *,wchar_t const *,long);
+extern int __cdecl ustricmp(wchar_t const *,wchar_t const *);
+extern int __cdecl ustrnicmp(wchar_t const *,wchar_t const *,long);
 //extern int uisalpha(wchar_t);
 //extern int uisupper(wchar_t);
 //extern int uislower(wchar_t);
@@ -81,7 +81,8 @@ extern void wchar_string_to_ascii_string(wchar_t const* source, char* destinatio
 //extern void ascii_string_to_utf32_string(char const *,struct s_escape_table const *,struct utf32 *,long,long *);
 //extern void wchar_string_to_utf32_string(wchar_t const *,struct s_escape_table const *,struct utf32 *,long,long *);
 
-extern void ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, long* out_dest_len);
+extern void __cdecl ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, long* out_dest_len);
+extern wchar_t* __cdecl unicode_byte_swap_wchar_string(wchar_t* string, long maximum_count, long byte_order);
 
 //extern long utf32_character_to_utf16_string(struct utf32,struct utf16 *,long);
 //extern struct utf32 utf16_string_to_utf32_character(struct utf16 const *,struct utf16 const * *);

@@ -60,17 +60,23 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 //wchar_t * ustrnlwr(wchar_t *,long)
 //wchar_t * ustrnupr(wchar_t *,long)
 
-int ustricmp(wchar_t const* string1, wchar_t const* string2)
+int __cdecl ustricmp(wchar_t const* string1, wchar_t const* string2)
 {
 	return INVOKE(0x00401370, ustricmp, string1, string2);
 }
 
-void ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, long* out_dest_len)
+void __cdecl ascii_string_to_wchar_string(char const* src, wchar_t* dest, long src_len, long* out_dest_len)
 {
 	return INVOKE(0x004EC600, ascii_string_to_wchar_string, src, dest, src_len, out_dest_len);
 }
 
-int ustrnicmp(wchar_t const* string1, wchar_t const* string2, long max_count)
+//wchar_t* __cdecl unicode_byte_swap_wchar_string(wchar_t* string, long maximum_count, e_byte_order byte_order)
+wchar_t* __cdecl unicode_byte_swap_wchar_string(wchar_t* string, long maximum_count, long byte_order)
+{
+	return INVOKE(0x004EC970, unicode_byte_swap_wchar_string, string, maximum_count, byte_order);
+}
+
+int __cdecl ustrnicmp(wchar_t const* string1, wchar_t const* string2, long max_count)
 {
 	return INVOKE(0x004ECBC0, ustrnicmp, string1, string2, max_count);
 }
