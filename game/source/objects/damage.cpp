@@ -133,7 +133,11 @@ void __cdecl damage_acceleration_apply(s_damage_globals::s_damage_acceleration c
 
 void __cdecl damage_acceleration_queue_begin()
 {
-	INVOKE(0x00B50120, damage_acceleration_queue_begin);
+	//INVOKE(0x00B50120, damage_acceleration_queue_begin);
+
+	TLS_DATA_GET_VALUE_REFERENCE(damage_globals);
+
+	damage_globals->damage_acceleration_queue_active = true;
 }
 
 void __cdecl damage_acceleration_queue_end()
