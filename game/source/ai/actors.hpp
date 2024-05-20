@@ -472,12 +472,10 @@ struct ai_reference_frame
 };
 static_assert(sizeof(ai_reference_frame) == 0x8);
 
-struct actor_iterator
+struct actor_iterator : c_data_iterator<actor_datum>
 {
-	actor_datum* datum;
-	s_data_iterator iterator;
 	bool __unknown10;
-	long actor_index;
+	long index;
 };
 static_assert(sizeof(actor_iterator) == 0x18);
 

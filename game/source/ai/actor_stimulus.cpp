@@ -36,7 +36,7 @@ void stimuli_debug()
 	//actor_iterator_new(&iterator, true);
 	//while (actor_datum* actor = actor_iterator_next(&iterator))
 	//{
-	//	actor_debug_info* actor_debug = &actor_debug_array[DATUM_INDEX_TO_ABSOLUTE_INDEX(iterator.actor_index)];
+	//	actor_debug_info* actor_debug = &actor_debug_array[DATUM_INDEX_TO_ABSOLUTE_INDEX(iterator.index)];
 	//
 	//	real_point3d position{};
 	//	point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);

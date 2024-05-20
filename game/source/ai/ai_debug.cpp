@@ -771,7 +771,7 @@ void ai_debug_tracking_data()
 
 		short tracking_index = 0;
 		actor_prop_ref_iterator actor_prop_ref_iter{};
-		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.actor_index);
+		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.index);
 		while (prop_ref_datum* actor_prop_ref = actor_prop_ref_iterator_next(&actor_prop_ref_iter))
 		{
 			if (actor_prop_ref->tracking_index != NONE)
@@ -830,7 +830,7 @@ void ai_debug_render_tracked_props_all()
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		actor_prop_ref_iterator actor_prop_ref_iter{};
-		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.actor_index);
+		actor_prop_ref_iterator_new(&actor_prop_ref_iter, actor_iter.index);
 		while (prop_ref_datum* actor_prop_ref = actor_prop_ref_iterator_next(&actor_prop_ref_iter))
 		{
 			if (actor_prop_ref->tracking_index != NONE)

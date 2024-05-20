@@ -10,9 +10,9 @@ void debug_render_vehicle_interest()
 	TLS_DATA_GET_VALUE_REFERENCE(g_ai_players);
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
 
-	actor_iterator iterator{};
-	actor_iterator_new(&iterator, true);
-	while (actor_datum* actor = actor_iterator_next(&iterator))
+	actor_iterator actor_iter{};
+	actor_iterator_new(&actor_iter, true);
+	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		if (actor->player.ai_player_index != NONE)
 		{
