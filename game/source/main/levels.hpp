@@ -32,13 +32,13 @@ enum e_level_flags
 	
 	_level_bit3,
 
-	_level_ui,
-	_level_solo,
-	_level_multi,
-	_level_dlc,
-	_level_test,
-	_level_temp,
-	_level_unknown,
+	_level_ui_bit,
+	_level_solo_bit,
+	_level_multi_bit,
+	_level_dlc_bit,
+	_level_test_bit,
+	_level_temp_bit,
+	_level_unknown_bit,
 
 	_level_bit11,
 	_level_bit12,
@@ -70,7 +70,7 @@ static_assert(sizeof(s_level_datum) == 0x360);
 struct s_level_insertion_datum :
 	s_datum_header
 {
-	short next_insertion_index;
+	short insertion_count;
 	long map_id;
 	wchar_t names[k_max_campaign_insertion_points][32];
 	wchar_t descriptions[k_max_campaign_insertion_points][128];
