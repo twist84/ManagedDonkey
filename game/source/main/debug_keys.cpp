@@ -1079,9 +1079,7 @@ void __cdecl debug_key_exit_game(bool enabled)
 void __cdecl debug_key_mouse_focus(bool enabled)
 {
 	if (enabled)
-	{
-		console_warning("Unimplemented: " __FUNCTION__);
-	}
+		input_globals.focus_mouse = !input_globals.focus_mouse;
 }
 
 void __cdecl debug_key_clear_screen(bool enabled)

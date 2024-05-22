@@ -424,6 +424,7 @@ struct s_input_globals
 	bool input_suppressed;
 	c_static_array<bool, k_input_type_count> input_type_suppressed;
 	bool feedback_suppressed;
+	bool focus_mouse; // unused padding
 	dword update_time;
 
 	c_static_array<key_state, k_key_code_count> keys;
