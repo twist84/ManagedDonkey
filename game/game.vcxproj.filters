@@ -1353,6 +1353,9 @@
     <ClCompile Include="source\memory\byte_swapping.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\screen_postprocess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3291,6 +3294,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\sound\sound_xaudio2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\screen_postprocess.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

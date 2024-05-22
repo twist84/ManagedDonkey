@@ -28,6 +28,7 @@
 #include "physics/water_physics.hpp"
 #include "profiler/profiler.hpp"
 #include "rasterizer/dx9/rasterizer_dx9_dynamic_geometry.hpp"
+#include "rasterizer/rasterizer.hpp"
 #include "render/old_render_debug.hpp"
 #include "render/render.hpp"
 #include "render/render_cameras.hpp"
@@ -576,6 +577,8 @@ bool __cdecl console_process_command(char const* command, bool a2)
 #define CONSOLE_GLOBAL_DECLARE_SHORT4(_name, _variable_name, ...) new s_console_global({ .name = #_name, .type = _hs_type_short_integer, .pointer = _variable_name })
 #define CONSOLE_GLOBAL_DECLARE_LONG4(_name, _variable_name, ...)  new s_console_global({ .name = #_name, .type = _hs_type_long_integer,  .pointer = _variable_name })
 
+REFERENCE_DECLARE(0x01917CED, bool, g_enable_better_cpu_gpu_sync_hs_setting);
+
 s_console_global const* const k_console_globals[] =
 {
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_no_drawing),
@@ -620,10 +623,15 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL4(console_status_string_render, console_status_render),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(console_pauses_game, debug_console_pauses_game),
 
+	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_toggle_default_lightmaps_texaccum),
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_static_lighting),
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_dynamic_lighting),
+	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_sfx),
+
+	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_depth_render),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_r),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_g),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_depth_render_scale_b),
-	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_depth_render),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_default_lighting),
 
@@ -846,6 +854,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(static_fp_fov, debug_static_first_person),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(centered_crosshair, controller_centered_crosshair),
 
+	CONSOLE_GLOBAL_DECLARE_BOOL2(enable_better_cpu_gpu_sync, g_enable_better_cpu_gpu_sync_hs_setting),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(reduce_widescreen_fov_during_cinematics, g_reduce_widescreen_fov_during_cinematics),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_aspect_ratio_scale),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),

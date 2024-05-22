@@ -4,6 +4,7 @@
 #include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
+#include "render/screen_postprocess.hpp"
 #include "render_methods/render_method_submit.hpp"
 #include "shell/shell.hpp"
 #include "shell/shell_windows.hpp"
@@ -36,6 +37,11 @@ REFERENCE_DECLARE(0x050DB1EC, c_rasterizer::e_surface, c_rasterizer::g_depth_ste
 REFERENCE_DECLARE_ARRAY(0x050DB1F0, c_rasterizer::e_surface, c_rasterizer::g_color_surfaces, 4);
 REFERENCE_DECLARE(0x050DD9BC, dword, c_rasterizer::g_max_vs_gprs);
 REFERENCE_DECLARE(0x050DD9C0, dword, c_rasterizer::g_max_ps_gprs);
+
+long render_debug_toggle_default_lightmaps_texaccum = 0;
+REFERENCE_DECLARE(0x0191C920, bool, render_debug_toggle_default_static_lighting);
+REFERENCE_DECLARE(0x0191C921, bool, render_debug_toggle_default_dynamic_lighting);
+REFERENCE_DECLARE(0x0191C922, bool, render_debug_toggle_default_sfx);
 
 void(__cdecl* rasterizer_get_display_pixel_bounds)(short_rectangle2d*) = c_rasterizer::get_display_pixel_bounds;
 
@@ -212,7 +218,11 @@ void __cdecl c_rasterizer::begin_high_quality_blend()
 }
 
 //void __cdecl c_rasterizer::clearf(unsigned long, union real_vector4d const*, float, unsigned long)
-//00A213F0
+
+void __cdecl c_rasterizer::clearf(dword flags, dword color, real z, byte stencil)
+{
+	INVOKE(0x00A213F0, c_rasterizer::clearf, flags, color, z, stencil);
+}
 
 bool __cdecl c_rasterizer::end_frame()
 {

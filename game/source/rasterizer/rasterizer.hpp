@@ -229,8 +229,17 @@ struct c_rasterizer
 		k_number_of_surfaces
 	};
 
-	enum e_sampler_address_mode;
-	enum e_sampler_filter_mode;
+	enum e_sampler_address_mode
+	{
+		_sampler_address_mode_unknown0 = 0,
+		_sampler_address_mode_unknown1,
+	};
+
+	enum e_sampler_filter_mode
+	{
+		_sampler_filter_mode_unknown0 = 0,
+		_sampler_filter_mode_unknown1,
+	};
 
 	enum e_z_buffer_mode
 	{
@@ -387,6 +396,8 @@ struct c_rasterizer
 
 	static dword& g_max_vs_gprs;
 	static dword& g_max_ps_gprs;
+
+	static void __cdecl clearf(dword flags, dword color, real z, byte stencil);
 };
 
 struct s_global_bitmaps;
@@ -736,6 +747,11 @@ struct s_texture_references_block
 	void update_reference_names();
 };
 static_assert(sizeof(s_texture_references_block) == sizeof(s_tag_reference));
+
+extern long render_debug_toggle_default_lightmaps_texaccum;
+extern bool& render_debug_toggle_default_static_lighting;
+extern bool& render_debug_toggle_default_dynamic_lighting;
+extern bool& render_debug_toggle_default_sfx;
 
 extern void __cdecl draw_tesselated_quad();
 extern bool __cdecl rasterizer_initialized();
