@@ -164,7 +164,7 @@ public:
 	s_blf_chunk_map_variant();
 
 	s_blf_header header;
-	short : 16;
+	byte pad[0x2];
 	c_map_variant map_variant;
 };
 static_assert(sizeof(s_blf_chunk_map_variant) == sizeof(s_blf_header) + 0xE094);
@@ -189,7 +189,7 @@ public:
 	s_blf_chunk_game_variant game_variant_chunk;
 	s_blf_chunk_end_of_file end_of_file_chunk;
 
-	byte pad[3];
+	byte pad[0x3];
 };
 static_assert(sizeof(s_blffile_game_variant) == 0x3BC);
 #pragma pack(pop)
@@ -205,7 +205,7 @@ public:
 	s_blf_chunk_map_variant map_variant_chunk;
 	s_blf_chunk_end_of_file end_of_file_chunk;
 
-	byte pad[7];
+	byte pad[0x7];
 };
 static_assert(sizeof(s_blffile_map_variant) == 0xE1F0);
 
@@ -316,11 +316,11 @@ public:
 
 	dword_flags type_flags;
 
-	c_static_wchar_string<64> names[12];
-	c_static_wchar_string<128> descriptions[12];
+	c_static_wchar_string<64> names[k_language_count];
+	c_static_wchar_string<128> descriptions[k_language_count];
 	c_static_array<long, 64> map_ids;
 
-	long : 32;
+	byte pad[0x4];
 };
 static_assert(sizeof(s_blf_chunk_campaign) == sizeof(s_blf_header) + 0x130C);
 
@@ -342,8 +342,8 @@ struct s_blf_chunk_scenario_insertion_halo3
 
 	byte __pad4[0x4];
 
-	c_static_array<c_static_wchar_string<32>, 12> names;
-	c_static_array<c_static_wchar_string<128>, 12> descriptions;
+	c_static_wchar_string<32> names[k_language_count];
+	c_static_wchar_string<128> descriptions[k_language_count];
 };
 static_assert(sizeof(s_blf_chunk_scenario_insertion_halo3) == 0xF08);
 
@@ -361,8 +361,8 @@ struct s_blf_chunk_scenario_insertion_atlas
 
 	byte __padC[0x4];
 
-	c_static_array<c_static_wchar_string<32>, 12> names;
-	c_static_array<c_static_wchar_string<128>, 12> descriptions;
+	c_static_wchar_string<32> names[k_language_count];
+	c_static_wchar_string<128> descriptions[k_language_count];
 };
 static_assert(sizeof(s_blf_chunk_scenario_insertion_atlas) == 0xF10);
 
@@ -384,15 +384,15 @@ struct s_blf_chunk_scenario
 {
 	static long const k_chunk_type = 'levl';
 	static long const k_version_major = 3;
-
+	
 	s_blf_header header;
 
 	long map_id;
 
 	c_flags<e_scenario_type_flags, dword, _scenario_type_flag_temp_bit + 1> type_flags;
 
-	c_static_wchar_string<32> names[12];
-	c_static_wchar_string<128> descriptions[12];
+	c_static_wchar_string<32> names[k_language_count];
+	c_static_wchar_string<128> descriptions[k_language_count];
 
 	c_static_string<k_tag_long_string_length> image_file_base;
 	c_static_string<k_tag_long_string_length> scenario_path;
@@ -403,7 +403,7 @@ struct s_blf_chunk_scenario
 	char multiplayer_minimum_desired_players;
 	char multiplayer_maximum_desired_players;
 
-	char engine_maximum_teams[11];
+	char engine_maximum_teams[k_game_engine_type_count];
 
 	bool allows_saved_films;
 
@@ -419,18 +419,18 @@ public:
 
 	insertion_struct insertions[insertion_count];
 };
-static_assert(sizeof(s_blf_chunk_scenario_minor_version<3, 1, s_blf_chunk_scenario_insertion_halo3, 4>) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_halo3) * 4));
-static_assert(sizeof(s_blf_chunk_scenario_minor_version<3, 2, s_blf_chunk_scenario_insertion_atlas, 9>) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_atlas) * 9));
-
-struct s_blf_chunk_scenario_atlas : s_blf_chunk_scenario_minor_version<3, 2, s_blf_chunk_scenario_insertion_atlas, 9>
-{
-	s_blf_chunk_scenario_atlas();
-};
 
 struct s_blf_chunk_scenario_halo3 : s_blf_chunk_scenario_minor_version<3, 1, s_blf_chunk_scenario_insertion_halo3, 4>
 {
 	s_blf_chunk_scenario_halo3();
 };
+static_assert(sizeof(s_blf_chunk_scenario_halo3) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_halo3) * 4));
+
+struct s_blf_chunk_scenario_atlas : s_blf_chunk_scenario_minor_version<3, 2, s_blf_chunk_scenario_insertion_atlas, 9>
+{
+	s_blf_chunk_scenario_atlas();
+};
+static_assert(sizeof(s_blf_chunk_scenario_atlas) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_atlas) * 9));
 
 enum e_map_image_type
 {

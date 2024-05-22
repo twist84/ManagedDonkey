@@ -89,7 +89,7 @@ struct s_level_globals
 	c_smart_data_array<s_level_datum> multiplayer_levels;
 	s_level_datum mainmenu_level;
 
-	dword enumeration_task;
+	long enumeration_task;
 	s_find_file_data enumeration_task_data;
 	c_synchronized_long enumeration_result;
 	bool __unknownA14;
@@ -105,21 +105,25 @@ static_assert(sizeof(s_level_globals) == 0xA1C);
 
 extern s_level_globals& g_level_globals;
 
+enum e_async_completion;
+
 struct s_blf_chunk_campaign;
 struct s_blf_chunk_scenario;
 struct s_configuration_enumeration_task;
+
+union s_async_task;
 
 extern void __cdecl levels_add_campaign(s_blf_chunk_campaign const* campaign, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
 extern void __cdecl levels_add_map_from_scripting(long map_id, char const* scenario_path);
 extern void __cdecl levels_add_fake_map_from_scripting(char const* scenario_path);
 extern void __cdecl levels_add_multiplayer_map_from_scripting(long map_id, char const* scenario_path);
 extern void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario_path);
-extern void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc);
+extern void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* dlc_path, bool is_dlc);
 extern bool __cdecl levels_begin_dvd_enumeration();
 extern void __cdecl levels_dispose();
 extern void __cdecl levels_dispose_from_old_map();
 extern long __cdecl levels_dvd_enumeration_callback2(void* callback_data);
-extern long __cdecl levels_dvd_enumeration_callback(s_configuration_enumeration_task* task_data);
+extern e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* task_data);
 extern bool __cdecl levels_enumeration_in_progress();
 extern dword __cdecl levels_get_available_map_mask();
 extern long __cdecl levels_get_campaign_count();

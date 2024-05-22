@@ -191,7 +191,7 @@ void __cdecl levels_add_fake_multiplayer_map_from_scripting(char const* scenario
 	levels_add_multiplayer_map_from_scripting(-2, scenario_path);
 }
 
-void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* maps_path, bool is_dlc)
+void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_swap, wchar_t const* dlc_path, bool is_dlc)
 {
 	//HOOK_INVOKE(, levels_add_level, scenario, byte_swap, maps_path, is_dlc);
 
@@ -351,8 +351,8 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 
 		if (is_dlc)
 		{
-			csnzprintf(level->scenario_path, sizeof(level->scenario_path), "%ls\\%s", maps_path, scenario->scenario_path.get_string());
-			csnzprintf(level->image_file_base, sizeof(level->image_file_base), "%ls\\%s", maps_path, scenario->image_file_base.get_string());
+			csnzprintf(level->scenario_path, sizeof(level->scenario_path), "%ls\\%s", dlc_path, scenario->scenario_path.get_string());
+			csnzprintf(level->image_file_base, sizeof(level->image_file_base), "%ls\\%s", dlc_path, scenario->image_file_base.get_string());
 		}
 		else
 		{
@@ -364,9 +364,25 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 
 bool __cdecl levels_begin_dvd_enumeration()
 {
-	bool result = false;
-	HOOK_INVOKE(result =, levels_begin_dvd_enumeration);
-	return result;
+	//bool result = false;
+	//HOOK_INVOKE(result =, levels_begin_dvd_enumeration);
+	//return result;
+
+	if (shell_application_type() == _shell_application_type_client)
+	{
+		s_async_task task{};
+		task.configuration_enumeration.enumeration_index = 0;
+		task.configuration_enumeration.find_file_data = &g_level_globals.enumeration_task_data;
+		g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task, _async_category_saved_games, levels_dvd_enumeration_callback, &g_level_globals.enumeration_result);
+
+		if (g_level_globals.enumeration_task != NONE)
+		{
+			g_level_globals.__unknownA14 = false;
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void __cdecl levels_dispose()
@@ -410,22 +426,22 @@ long __cdecl levels_dvd_enumeration_callback2(void* callback_data) // c_levels_d
 	return result;
 }
 
-long __cdecl levels_dvd_enumeration_callback(s_configuration_enumeration_task* task_data)
+e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* task_data)
 {
 	c_static_string<256> found_file_name{};
 	s_file_reference found_file{};
 
-	if (task_data->enumeration_index)
+	if (task_data->configuration_enumeration.enumeration_index)
 	{
-		if (task_data->enumeration_index == 1)
+		if (task_data->configuration_enumeration.enumeration_index == 1)
 		{
 			s_file_reference file{};
 			s_file_last_modification_date date{};
 
-			if (!find_files_next(task_data->find_file_data, &file, &date))
+			if (!find_files_next(task_data->configuration_enumeration.find_file_data, &file, &date))
 			{
-				find_files_end(task_data->find_file_data);
-				return ++task_data->enumeration_index == 2;
+				find_files_end(task_data->configuration_enumeration.find_file_data);
+				return e_async_completion(++task_data->configuration_enumeration.enumeration_index == 2);
 			}
 
 			wchar_t file_directory[256]{};
@@ -454,12 +470,12 @@ long __cdecl levels_dvd_enumeration_callback(s_configuration_enumeration_task* t
 
 		file_reference_create_from_path(&found_file, found_file_name.get_string(), true);
 
-		find_files_start(task_data->find_file_data, 0, &found_file);
+		find_files_start(task_data->configuration_enumeration.find_file_data, 0, &found_file);
 
-		++task_data->enumeration_index;
+		++task_data->configuration_enumeration.enumeration_index;
 	}
 
-	return task_data->enumeration_index == 2;
+	return e_async_completion(task_data->configuration_enumeration.enumeration_index == 2);
 }
 
 bool __cdecl levels_enumeration_in_progress()
