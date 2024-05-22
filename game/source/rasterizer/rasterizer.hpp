@@ -398,6 +398,7 @@ struct c_rasterizer
 	static dword& g_max_ps_gprs;
 
 	static void __cdecl clearf(dword flags, dword color, real z, byte stencil);
+	static bool __cdecl end_albedo(short_rectangle2d const* bounds);
 };
 
 struct s_global_bitmaps;

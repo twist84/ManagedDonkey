@@ -24,6 +24,15 @@ struct c_screen_postprocess
 		real a9,
 		real_rectangle2d* bounds);
 
+	static void __cdecl postprocess_player_view(
+		c_camera_fx_values& fx_values,
+		render_camera const* camera,
+		s_screen_effect_settings& screen_effect_settings,
+		e_splitscreen_res splitscreen_res,
+		s_observer_depth_of_field const* observer_dof,
+		e_output_user_index output_user_index,
+		c_rasterizer::e_surface surface);
+
 	static void __cdecl setup_rasterizer_for_postprocess(bool a1);
 };
 

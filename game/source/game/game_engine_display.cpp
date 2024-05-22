@@ -83,35 +83,34 @@ bool __cdecl game_engine_hud_get_state_message(long user_index, wchar_t* message
 //.text:006E4E90 ; void __cdecl game_engine_render_all_multiplayer_object_boundaries()
 //.text:006E4FE0 ; void __cdecl game_engine_render_debug(long)
 
-//void __cdecl game_engine_render_fade_to_black(e_output_user_index  user_index)
-void __cdecl game_engine_render_fade_to_black(long user_index)
+void __cdecl game_engine_render_fade_to_black(e_output_user_index output_user_index)
 {
-	//INVOKE(0x006E5040, game_engine_render_fade_to_black, user_index);
+	//INVOKE(0x006E5040, game_engine_render_fade_to_black, output_user_index);
 
 	if (!g_fade_to_black_enabled)
 		return;
 
-	if (!VALID_INDEX(user_index, 4))
+	if (!VALID_INDEX(output_user_index, k_number_of_output_users))
 		return;
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
-	if (TEST_BIT(game_engine_globals->user_fade_to_black_flags, user_index))
+	if (TEST_BIT(game_engine_globals->user_fade_to_black_flags, output_user_index))
 	{
 		long ticks = 0;
-		if (ticks = game_seconds_to_ticks_round(3.0f), ++g_game_engine_render_globals.__unknown0[user_index], g_game_engine_render_globals.__unknown0[user_index] > ticks)
+		if (ticks = game_seconds_to_ticks_round(3.0f), ++g_game_engine_render_globals.__unknown0[output_user_index], g_game_engine_render_globals.__unknown0[output_user_index] > ticks)
 		{
-			post_game_engine_globals_message(0, static_cast<char>(user_index), 0);
+			post_game_engine_globals_message(0, static_cast<char>(output_user_index), 0);
 		}
 	}
 	else
 	{
-		g_game_engine_render_globals.__unknown0[user_index] = 0;
+		g_game_engine_render_globals.__unknown0[output_user_index] = 0;
 	}
 
 	//if (director_debug_supress_black_screen(player_mapping_first_active_output_user()))
 	//	return;
 
-	real user_fade_to_black_amount = game_engine_get_user_fade_to_black_amount(user_index);
+	real user_fade_to_black_amount = game_engine_get_user_fade_to_black_amount(output_user_index);
 	if (user_fade_to_black_amount <= 0.0f)
 		return;
 

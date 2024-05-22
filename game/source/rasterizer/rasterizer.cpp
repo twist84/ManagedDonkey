@@ -52,6 +52,9 @@ HOOK_DECLARE_CLASS(0x00A1FAA0, c_rasterizer, get_display_pixel_bounds);
 //HOOK_DECLARE_CALL(0x00A1FB18, rasterizer_get_display_pixel_bounds); // watermark
 HOOK_DECLARE_CLASS(0x00A223F0, c_rasterizer, initialize_window);
 
+// Add back `render_debug_toggle_default_lightmaps_texaccum` control
+HOOK_DECLARE_CLASS(0x00A1F9C0, c_rasterizer, end_albedo);
+
 // Fix aspect ratio not matching resolution
 HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
 
@@ -100,6 +103,69 @@ void __cdecl c_rasterizer::dispose_from_old_map()
 void __cdecl c_rasterizer::dispose_from_old_structure_bsp()
 {
 	INVOKE(0x00A1F9A0, dispose_from_old_structure_bsp);
+}
+
+bool __cdecl c_rasterizer::end_albedo(short_rectangle2d const* bounds)
+{
+	//INVOKE(0x00A1F9C0, c_rasterizer::end_albedo, bounds);
+
+	if (render_debug_toggle_default_lightmaps_texaccum == 1)
+	{
+		c_rasterizer::clearf(1 /*D3DCLEAR_TARGET*/, 0x00BFBFBF, 1.0f, 0);
+	}
+	else if (render_debug_toggle_default_lightmaps_texaccum == 3)
+	{
+		c_rasterizer::clearf(1 /*D3DCLEAR_TARGET*/, 0xFF010101, 1.0f, 0);
+	}
+
+	//if (c_rasterizer::get_is_tiling_bracket_active())
+	//{
+	//	if (render_debug_toggle_default_lightmaps_texaccum == 2 || render_debug_toggle_default_lightmaps_texaccum == 4)
+	//	{
+	//		c_rasterizer::resolve_surface_tiled(c_rasterizer::_surface_albedo_debug, 0, 0);
+	//	}
+	//	else
+	//	{
+	//		c_rasterizer::resolve_surface_tiled(c_rasterizer::_surface_albedo, 0, 1);
+	//		c_rasterizer::resolve_surface_tiled(c_rasterizer::_surface_normal, 0, 1);
+	//	}
+	//}
+	//else
+	//{
+	//	c_rasterizer::resolve_surface(c_rasterizer::_surface_albedo, 0, &bounds->y0, bounds->x0, bounds->y0);
+	//	c_rasterizer::resolve_surface(c_rasterizer::_surface_normal, 1, &bounds->y0, bounds->x0, bounds->y0);
+	//}
+
+	if (render_debug_toggle_default_lightmaps_texaccum == 2 || render_debug_toggle_default_lightmaps_texaccum == 4)
+	{
+		c_rasterizer::e_surface surface = c_rasterizer::_surface_albedo;
+		if (render_debug_toggle_default_lightmaps_texaccum == 4)
+			surface = c_rasterizer::_surface_normal;
+
+		//if (c_rasterizer::get_is_tiling_enabled())
+		//{
+		//	surface = c_rasterizer::_surface_albedo_debug;
+		//	c_rasterizer::end_tiling();
+		//	c_rasterizer::set_depth_stencil_surface(0);
+		//}
+
+		c_screen_postprocess::setup_rasterizer_for_postprocess(true);
+		c_screen_postprocess::copy(
+			c_rasterizer_globals::_explicit_shader_copy_surface,
+			surface,
+			c_rasterizer::_surface_disable,
+			c_rasterizer::_sampler_filter_mode_unknown1,
+			c_rasterizer::_sampler_address_mode_unknown1,
+			1.0f,
+			1.0f,
+			1.0f,
+			1.0f,
+			NULL);
+
+		return false;
+	}
+
+	return true;
 }
 
 real __cdecl c_rasterizer::get_aspect_ratio()
