@@ -958,7 +958,7 @@ struct s_thread_local_storage
 	c_smart_data_array<formation_datum> formation_data;
 
 	// name: "vision mode globals"
-	// size: 0xF0
+	// size: 0xF0, 4 * sizeof(s_vision_mode_state)
 	s_vision_mode_state* g_vision_mode_state;
 
 	void* __unknown580;
