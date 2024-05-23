@@ -33,6 +33,7 @@
 #include "render/render.hpp"
 #include "render/render_cameras.hpp"
 #include "render/render_lights.hpp"
+#include "render/render_transparents.hpp"
 #include "render/render_visibility.hpp"
 #include "render/render_water.hpp"
 #include "render/views/render_player_view.hpp"
@@ -858,6 +859,7 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(reduce_widescreen_fov_during_cinematics, g_reduce_widescreen_fov_during_cinematics),
 	CONSOLE_GLOBAL_DECLARE_REAL(render_debug_aspect_ratio_scale),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_force_4x3_aspect_ratio),
+	CONSOLE_GLOBAL_DECLARE_SHORT(render_debug_transparent_sort_method),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_specular),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
 
