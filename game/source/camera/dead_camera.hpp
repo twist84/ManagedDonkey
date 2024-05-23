@@ -10,8 +10,8 @@ struct c_dead_camera :
 	real m_focus_distance;
 	real m_field_of_view;
 	real __unknown2C;
-	datum_index m_target_player_index;
-	datum_index m_target_object_index;
+	long m_target_player_index;
+	long m_target_object_index;
 	bool __unknown38;
 	byte m_user_index;
 
