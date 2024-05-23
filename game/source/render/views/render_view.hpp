@@ -123,7 +123,7 @@ public:
 
 protected:
 	byte __data298[0xD54];
-	byte __dataFEC[0x280];
+	vector4d m_light_draw_list[40];
 	real m_light_intensity_scale;
 };
 static_assert(sizeof(c_lights_view) == sizeof(c_world_view) + 0xFD8);
