@@ -423,9 +423,9 @@ struct player_datum :
 	long machine_controller_index;
 
 	s_cluster_reference cluster_reference;
-	datum_index unit_index;
-	datum_index dead_unit_index;
-	datum_index failed_teleport_unit_index;
+	long unit_index;
+	long dead_unit_index;
+	long failed_teleport_unit_index;
 	dword_flags latched_control_flags;
 
 	struct // ---------- cooldown_reset ----------
