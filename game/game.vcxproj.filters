@@ -1356,6 +1356,9 @@
     <ClCompile Include="source\render\screen_postprocess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\render\render_transparents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3297,6 +3300,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\screen_postprocess.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\render_transparents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
