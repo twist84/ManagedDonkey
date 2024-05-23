@@ -36,7 +36,7 @@ void __cdecl c_screen_postprocess::postprocess_player_view(
 		c_screen_postprocess::setup_rasterizer_for_postprocess(false);
 		c_screen_postprocess::copy(
 			c_rasterizer_globals::_explicit_shader_copy_surface,
-			c_rasterizer::_surface_albedo,
+			c_rasterizer::_surface_accum_LDR,
 			c_rasterizer::_surface_disable,
 			c_rasterizer::_sampler_filter_mode_unknown1,
 			c_rasterizer::_sampler_address_mode_unknown1,
