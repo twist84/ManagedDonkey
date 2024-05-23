@@ -15,18 +15,34 @@ struct s_observer_command
 	vector3d up;
 	vector3d velocities;
 	real_matrix4x3 focus_space;
+
 	dword __unknown84;
+
 	real_point3d center;
 	real timer;
-	byte __data98[0xC];
+
+	long parent_objects[2];
+	long number_of_parents_objects;
+
 	real_point3d physics_pill_position;
 	real physics_pill_height;
 	real physics_pill_radius;
-	byte __dataB8[0x8];
+
+	// 0: c_dead_camera::update
+	// 1: c_following_camera::update
+	// 3: c_dead_camera::update
+	// 4: c_first_person_camera::update, c_flying_camera::update
+	byte __unknownB8[6];
+	//byte __dataBE[0x2];
 	real __unknownC0[6];
+
 	byte __dataD8[0x14];
 };
 static_assert(sizeof(s_observer_command) == 0xEC);
+static_assert(0x84 == offsetof(s_observer_command, __unknown84));
+static_assert(0xB8 == offsetof(s_observer_command, __unknownB8));
+static_assert(0xC0 == offsetof(s_observer_command, __unknownC0));
+static_assert(0xD8 == offsetof(s_observer_command, __dataD8));
 
 struct s_observer_result
 {
