@@ -7,15 +7,19 @@ struct c_following_camera :
 	public c_camera
 {
 	dword __unknown10;
-	dword __unknown14;
+	real __unknown14;
 	real __unknown18;
 	vector3d __vector1C;
 
-	datum_index m_target_object_index;
+	long m_target_object_index;
 
-	word __unknown2C;
-	dword __unknown2E;
-	word __unknown32;
+	bool __unknown2C;
+	bool __unknown2D;
+	bool __unknown2E;
+	bool __unknown2F;
+	bool __unknown30;
+	bool __unknown31;
+	short m_seat_index;
 
 	byte unused[0x18];
 
