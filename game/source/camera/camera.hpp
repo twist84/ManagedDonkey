@@ -1,9 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "memory/data.hpp"
 
-enum e_camera_mode : dword
+enum e_camera_mode
 {
 	_camera_mode_following = 0,
 	_camera_mode_orbiting,
@@ -15,24 +14,28 @@ enum e_camera_mode : dword
 	_camera_mode_authored,
 
 	k_number_of_camera_modes,
-	k_camera_mode_null = 0xFFFFFFFF,
+	k_camera_mode_null = -1,
 };
+
+enum e_output_user_index;
+
+struct s_observer_command;
 
 struct c_camera
 {
 	virtual e_camera_mode get_type();
 	virtual long get_perspective();
-	virtual void update(long, real, void*);
+	virtual void update(e_output_user_index output_user_index, real a2, s_observer_command* result);
 	virtual long get_target();
-	virtual void set_target(long);
-	virtual void set_position(real_point3d const*);
-	virtual void set_forward(vector3d const*);
-	virtual void set_roll(real);
-	virtual void enable_orientation(bool);
-	virtual void enable_movement(bool);
-	virtual void enable_roll(bool);
-	virtual void handle_deleted_player(long);
-	virtual void handle_deleted_object(long);
+	virtual void set_target(long target_index);
+	virtual void set_position(real_point3d const* position);
+	virtual void set_forward(vector3d const* forward);
+	virtual void set_roll(real roll);
+	virtual void enable_orientation(bool orientation_enable);
+	virtual void enable_movement(bool movement_enable);
+	virtual void enable_roll(bool roll_enable);
+	virtual void handle_deleted_player(long player);
+	virtual void handle_deleted_object(long object_index);
 	virtual real get_unknown(); // c_flying_camera, c_static_camera, c_scripted_camera
 
 	enum e_flags
@@ -40,7 +43,7 @@ struct c_camera
 		_next_move_instantly_bit = 0
 	};
 
-	datum_index m_object_index;
+	long m_object_index;
 	dword_flags m_flags;
 	dword __unknownC;
 
