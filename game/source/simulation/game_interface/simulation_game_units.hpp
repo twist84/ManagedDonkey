@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "game/players.hpp"
+#include "motor/sync_action.hpp"
 #include "objects/damage_reporting.hpp"
 
 struct s_simulation_unit_board_vehicle_event_data
@@ -44,10 +45,7 @@ static_assert(sizeof(s_simulation_unit_melee_damage_event_data) == 0x3C);
 
 struct s_simulation_unit_assassinate_event_data
 {
-	c_string_id sync_action_name;
-	real_point3d sync_action_origin;
-	vector3d sync_action_forward;
-	vector3d sync_action_up;
+	s_animation_sync_action sync_action;
 	s_simulation_unit_melee_damage_event_data melee_damage;
 };
 static_assert(sizeof(s_simulation_unit_assassinate_event_data) == 0x64);

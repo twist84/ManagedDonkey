@@ -3305,6 +3305,9 @@
     <ClInclude Include="source\render\render_transparents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\motor\sync_action.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
