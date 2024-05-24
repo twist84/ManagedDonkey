@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
 #include "game/aim_assist.hpp"
 #include "motor/mover.hpp"
@@ -17,7 +18,7 @@ enum e_weapon_set
 struct s_unit_weapon_set
 {
 	word set_identifier;
-	c_static_array<byte, k_weapon_set_count> weapon_indices;
+	c_static_array<char, k_weapon_set_count> weapon_indices;
 };
 
 struct unit_control_data
@@ -38,6 +39,20 @@ struct unit_control_data
 	s_aim_assist_targeting_result aim_assist_data;
 };
 static_assert(sizeof(unit_control_data) == 0x80);
+
+struct s_unit_predicted_weapon_state
+{
+	short __unknown0;
+	short __unknown2;
+	long __unknown4;
+};
+static_assert(sizeof(s_unit_predicted_weapon_state) == 0x8);
+
+struct unit_attacker
+{
+	byte __data0[0x10];
+};
+static_assert(sizeof(unit_attacker) == 0x10);
 
 struct unit_datum
 {
@@ -111,42 +126,101 @@ struct unit_datum
 	short fake_squad_index;
 	char impulse_vehicle_from_seat_ticks;
 	char seat_power_valid_flags;
-	real seat_power;
+	real seat_power[1];
 	real integrated_light_power;
 	real integrated_light_battery;
 	real integrated_night_vision_power;
 	real open_state;
-	byte seat_acceleration_state[0x6C];
+	byte seat_acceleration_state[0x5C];
+
+	short predicted_seat_index;
+	byte __data3B2[0x2];
+	long predicted_vehicle_index;
+
+	byte __data3B8[0x8];
+
 	long predicted_player_index;
 	long predicted_simulation_actor_index;
 	long predicted_simulation_actor_squad_index;
 	long predicted_simulation_actor_cell_index;
 	long predicted_simulation_actor_spawn_point_index;
+	s_unit_predicted_weapon_state const predicted_weapon_state[4];
+	real active_camouflage;
+	real recent_active_camouflage;
+	real active_camouflage_regrowth;
+	long active_camouflage_level;
 
-	byte __data3D4[0x3C];
+	// health pack equipment values
+	real __unknown404; // health pack use end time
+	real __unknown408; // health pack heath amount  / health pack duration
+	real __unknown40C; // health pack shield amount / health pack duration;
 
 	byte_flags map_editor_helper_flags;
 
-	byte __data411[0x7];
+	byte __data411[0x1];
+
+	short emp_timer;
+	short emp_campaign_metagame_timer;
+
+	byte __data416[0x2];
 
 	real crouch;
-
-	byte __data41C[0x10];
-
+	short delayed_damage_category;
+	short delayed_damage_timer;
+	real delayed_body_damage_peak;
+	long delayed_damage_owner_weak_object_index;
+	real delayed_shield_damage_peak;
 	real run_blindly_angle;
+	real run_blindly_angular_velocity;
+	long hologram_creator_weak_unit_index;
+	long hologram_creation_time;
+	long hologram_ticks_left;
+	long hologram_definition_index;
+	real hologram_shimmer_value;
+	real_point3d hologram_destination;
 
-	byte __data430[0x78];
+	byte __data454[0x54];
 
 	long time_of_death;
 	real movement_stun;
+	short movement_stun_ticks;
 
-	byte __data4B0[0x80];
+	short __unknown4B2;
+	long __unknown4B4; // time value
+
+	// updated in `unit_update_damage`, unit_damage_aftermath_apply
+	short __unknown4B8;
+
+	byte __data4BA[0x2];
+
+	// updated in `unit_record_damage`
+	const unit_attacker attackers[4];
+	s_damage_reporting_info attackers_damage_info[4];
+
+	// used in `unit_compute_boost_fraction`
+	real __unknown50C;
+	real __unknown510;
+
+	byte __data514[0x10];
+
+	// updated in `unit_update_team_index`
+	long __unknown524;
+	long __unknown528; // time value
+
+	// updated in `sub_B4BD70`
+	long __unknown52C_object_index;
 
 	object_header_block_reference debug_unit_input_storage;
 	object_header_block_reference seat_storage;
 	object_header_block_reference speech_storage;
 
-	byte __data53C[0x54];
+	c_sector_ref pathfinding_sector;
+	byte __data540[0x44];
+
+	// saber related, used is `unit_delete`, `unit_disconnect_from_structure_bsp`
+	long __unknown584[2];
+
+	byte __data58C[0x4];
 };
 static_assert(sizeof(unit_datum) == sizeof(motor_datum) + 0x40C);
 
