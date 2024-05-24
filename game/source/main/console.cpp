@@ -17,6 +17,7 @@
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "motor/sync_action.hpp"
 #include "multithreading/threads.hpp"
 #include "networking/logic/life_cycle/life_cycle_handler_pre_game.hpp"
 #include "networking/messages/network_message_gateway.hpp"
@@ -604,6 +605,8 @@ s_console_global const* const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(net_show_latency_and_framerate_metrics_on_chud, g_network_interface_show_latency_and_framerate_metrics_on_chud),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(net_fake_latency_and_framerate_metrics_on_chud, g_network_interface_fake_latency_and_framerate_metrics_on_chud),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_enable_force_phonebooth_assassinate),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_deathless_player, cheat.deathless_player),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_valhalla, cheat.valhalla),

@@ -11,3 +11,5 @@ struct s_animation_sync_action
 };
 static_assert(sizeof(s_animation_sync_action) == 0x28);
 
+extern bool& debug_enable_force_phonebooth_assassinate;
+

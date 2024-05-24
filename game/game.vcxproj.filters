@@ -1359,6 +1359,9 @@
     <ClCompile Include="source\render\render_transparents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\motor\sync_action.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
