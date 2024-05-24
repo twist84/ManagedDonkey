@@ -42,15 +42,18 @@ static_assert(sizeof(unit_control_data) == 0x80);
 
 struct s_unit_predicted_weapon_state
 {
-	short __unknown0;
-	short __unknown2;
-	long __unknown4;
+	short rounds_loaded;
+	short rounds_inventory;
+	long definition_index;
 };
 static_assert(sizeof(s_unit_predicted_weapon_state) == 0x8);
 
 struct unit_attacker
 {
-	byte __data0[0x10];
+	long game_time;
+	real score;
+	long team_index;
+	long player_index;
 };
 static_assert(sizeof(unit_attacker) == 0x10);
 
@@ -82,6 +85,10 @@ struct unit_datum
 	s_damage_reporting_info special_death_damage_reporting_info;
 	char special_death_type;
 	short special_death_node_index;
+
+	bool __unknown22E;
+	byte __pad22F[1];
+
 	vector3d special_death_node_acceleration;
 	real primary_trigger;
 	real secondary_trigger;
@@ -101,21 +108,21 @@ struct unit_datum
 	real mouth_time;
 	s_unit_weapon_set current_weapon_set;
 	s_unit_weapon_set desired_weapon_set;
-	long weapon_object_indices[4];
-	long weapon_last_used_at_game_time[4];
-	long equipment_object_indices[4];
-	long active_equipment_object_indices[4];
+	c_static_array<long, 4> weapon_object_indices;
+	c_static_array<long, 4> weapon_last_used_at_game_time;
+	c_static_array<long, 4> equipment_object_indices;
+	c_static_array<long, 4> active_equipment_object_indices;
 	long equipment_pickup_time;
 	real consumable_energy_level;
-	int consumable_energy_restored_game_time;
+	long consumable_energy_restored_game_time;
 	short weapon_firing_time;
 	char current_grenade_index;
 	char desired_grenade_index;
-	char grenade_counts[4];
+	c_static_array<byte, 4> grenade_counts;
 	char current_zoom_level;
 	char desired_zoom_level;
 
-	char __unknown326;
+	byte __unknown326;
 
 	char aiming_change;
 	long weapon_control_last_active_time;
@@ -126,52 +133,59 @@ struct unit_datum
 	short fake_squad_index;
 	char impulse_vehicle_from_seat_ticks;
 	char seat_power_valid_flags;
-	real seat_power[1];
+	c_static_array<real, 1> seat_power;
 	real integrated_light_power;
 	real integrated_light_battery;
 	real integrated_night_vision_power;
 	real open_state;
-	byte seat_acceleration_state[0x5C];
+	byte seat_acceleration_state[0x58];
+
+	long __unknown3AC;
 
 	short predicted_seat_index;
+
 	byte __data3B2[0x2];
+
 	long predicted_vehicle_index;
 
-	byte __data3B8[0x8];
+	long __unknown3B8; // predicted?
+	long __unknown3BC; // predicted?
 
 	long predicted_player_index;
 	long predicted_simulation_actor_index;
 	long predicted_simulation_actor_squad_index;
 	long predicted_simulation_actor_cell_index;
 	long predicted_simulation_actor_spawn_point_index;
-	s_unit_predicted_weapon_state const predicted_weapon_state[4];
+	c_static_array<s_unit_predicted_weapon_state, 4> predicted_weapon_state;
+
 	real active_camouflage;
 	real recent_active_camouflage;
 	real active_camouflage_regrowth;
 	long active_camouflage_level;
 
 	// health pack equipment values
-	real __unknown404; // health pack use end time
-	real __unknown408; // health pack heath amount  / health pack duration
-	real __unknown40C; // health pack shield amount / health pack duration;
+	real last_used_healthpack_game_time; // health pack use end time
+	real healthpack_vitality;            // health pack heath amount  / health pack duration
+	real healthpack_shield;              // health pack shield amount / health pack duration;
 
 	byte_flags map_editor_helper_flags;
-
-	byte __data411[0x1];
+	byte __pad411[0x1];
 
 	short emp_timer;
 	short emp_campaign_metagame_timer;
-
-	byte __data416[0x2];
+	byte __pad416[0x2];
 
 	real crouch;
+
 	short delayed_damage_category;
 	short delayed_damage_timer;
 	real delayed_body_damage_peak;
 	long delayed_damage_owner_weak_object_index;
-	real delayed_shield_damage_peak;
+	long flaming_death_attacker_object_index;
+
 	real run_blindly_angle;
 	real run_blindly_angular_velocity;
+
 	long hologram_creator_weak_unit_index;
 	long hologram_creation_time;
 	long hologram_ticks_left;
@@ -179,7 +193,14 @@ struct unit_datum
 	real hologram_shimmer_value;
 	real_point3d hologram_destination;
 
-	byte __data454[0x54];
+	long sync_action_type;
+	real_point3d sync_action_origin;
+	vector3d sync_action_forward;
+	vector3d sync_action_up;
+	bool sync_action_critical_participant;
+	byte __pad47D[0x3];
+
+	byte __data454[0x28];
 
 	long time_of_death;
 	real movement_stun;
@@ -194,28 +215,35 @@ struct unit_datum
 	byte __data4BA[0x2];
 
 	// updated in `unit_record_damage`
-	const unit_attacker attackers[4];
-	s_damage_reporting_info attackers_damage_info[4];
+	c_static_array<unit_attacker const, 4> attackers;
+	c_static_array<long, 4> attacker_weapon_unit_indices;
 
 	// used in `unit_compute_boost_fraction`
-	real __unknown50C;
-	real __unknown510;
+	real boost_power_meter;
+	real boost_recharge_delay;
 
-	byte __data514[0x10];
+	long last_enemies_moving_nearby_tick;
+	long last_damaged_tick;
+	long last_in_soft_kill_volume_time;
+	long last_in_phantom_volume_time;
 
 	// updated in `unit_update_team_index`
-	long __unknown524;
-	long __unknown528; // time value
+	long __unknown524_team_index_update_time; // time value
+	long __unknown528_team_index;
 
 	// updated in `sub_B4BD70`
 	long __unknown52C_object_index;
 
+	// only 2 calls to `object_header_block_allocate` within `unit_new`
 	object_header_block_reference debug_unit_input_storage;
 	object_header_block_reference seat_storage;
-	object_header_block_reference speech_storage;
 
+	dword_flags ai_unit_flags;
 	c_sector_ref pathfinding_sector;
-	byte __data540[0x44];
+	byte __data540[0x40];
+
+	bool __unknown580;
+	byte __pad581[0x3];
 
 	// saber related, used is `unit_delete`, `unit_disconnect_from_structure_bsp`
 	long __unknown584[2];
