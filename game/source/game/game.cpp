@@ -1009,7 +1009,11 @@ long __cdecl game_tick_rate_get()
 	return game_options_get()->game_tick_rate;
 }
 
-//.text:00533490 ; void __cdecl game_time_get_date_and_time(s_date_and_time* date_and_time)
+void __cdecl game_time_get_date_and_time(s_date_and_time* date_and_time)
+{
+	INVOKE(0x00533490, game_time_get_date_and_time, date_and_time);
+}
+
 //.text:00533500 ; e_game_time_holiday __cdecl game_time_get_holiday()
 //.text:005335E0 game_progression_get_previous_map_block_index
 //.text:00533640 ; 

@@ -69,3 +69,8 @@ qword c_controller_interface::get_player_xuid()
 	return DECLFUNC(0x00A7D540, qword, __thiscall, c_controller_interface*)(this);
 }
 
+wchar_t const* c_controller_interface::get_display_name() const
+{
+	return m_display_name.get_string();
+}
+

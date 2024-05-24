@@ -42,6 +42,7 @@ public:
 	short get_user_index() const;
 	void get_player_identifier(s_player_identifier* out_player_identifier);
 	qword get_player_xuid();
+	wchar_t const* get_display_name() const;
 
 	c_flags<e_controller_state_flags, short, k_controller_state_flags> m_state_flags;
 	short m_user_index;

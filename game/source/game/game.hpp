@@ -47,6 +47,17 @@ struct s_game_options_launch_settings
 //static_assert(sizeof(s_game_options_launch_settings) == 0x210);
 static_assert(sizeof(s_game_options_launch_settings) == 0x11C);
 
+struct s_date_and_time
+{
+	long year;
+	long month;
+	long day;
+	long hour;
+	long minute;
+	long second;
+};
+static_assert(sizeof(s_date_and_time) == 0x18);
+
 extern bool g_debug_survival_mode;
 extern char const* const k_game_simulation_names[k_game_simulation_count];
 extern c_static_array<c_static_array<long, 256>, 16> g_cluster_activation_reason;
@@ -180,7 +191,7 @@ extern bool __cdecl game_survival_allow_respawn();
 extern void __cdecl game_tick();
 extern void __cdecl game_tick_pulse_random_seed_deterministic(struct simulation_update const* update);
 extern long __cdecl game_tick_rate_get();
-//extern void __cdecl game_time_get_date_and_time(s_date_and_time* date_and_time);
+extern void __cdecl game_time_get_date_and_time(s_date_and_time* date_and_time);
 //extern e_game_time_holiday __cdecl game_time_get_holiday();
 //.text:005335E0 game_progression_get_previous_map_block_index;
 //.text:00533640 ; ;

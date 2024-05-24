@@ -4,6 +4,7 @@
 #include "cutscene/cinematics.hpp"
 #include "game/player_mapping.hpp"
 #include "interface/interface_constants.hpp"
+#include "main/main_render.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
@@ -12,6 +13,7 @@
 REFERENCE_DECLARE(0x0471AA0C, s_game_engine_render_globals, g_game_engine_render_globals);
 
 HOOK_DECLARE(0x006E5040, game_engine_render_fade_to_black);
+HOOK_DECLARE(0x006E5160, game_engine_render_watermarks);
 
 // game_engine_hud_get_state_message
 // skip over `respawning_soon`, and `game_over_{ won, tied, lost, you_lost_but_game_tied }` checks
@@ -126,7 +128,13 @@ void __cdecl game_engine_render_fade_to_black(e_output_user_index output_user_in
 	draw_quad(&quad_bounds, real_argb_color_to_pixel32(&fade_color));
 }
 
-//.text:006E5160 ; void __cdecl game_engine_render_watermarks()
+void __cdecl game_engine_render_watermarks()
+{
+	//INVOKE(0x006E5160, game_engine_render_watermarks);
+
+	game_engine_render_frame_watermarks(false);
+}
+
 //.text:006E54D0 ; void __cdecl game_engine_submit_nav_points(long, long)
 //.text:006E5510 ; bool __cdecl game_engine_suppress_render_scene(long)
 

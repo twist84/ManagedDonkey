@@ -56,7 +56,7 @@ struct biped_datum
 	real gravity_scale;
 
 	// linked
-	long __unknown814[10];
+	long __unknown814[10];  // armor related
 	short __unknown83C[10];
 
 	// linked

@@ -18,8 +18,10 @@
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_time.hpp"
+#include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "networking/tools/network_debug_dump.hpp"
 #include "profiler/profiler.hpp"
 #include "profiler/profiler_stopwatch.hpp"
 #include "rasterizer/rasterizer.hpp"
@@ -255,7 +257,9 @@ void __cdecl main_render_assert_no_pending_messages()
 
 void __cdecl main_render_frame_begin()
 {
-	INVOKE(0x00604430, main_render_frame_begin);
+	//INVOKE(0x00604430, main_render_frame_begin);
+
+	render_frame_begin();
 }
 
 void __cdecl main_render_game()
@@ -265,8 +269,7 @@ void __cdecl main_render_game()
 
 bool g_show_watermark = true;
 
-//void __cdecl game_engine_render_window_watermarks(e_output_user_index user_index)
-void __cdecl game_engine_render_window_watermarks(long user_index)
+void __cdecl game_engine_render_window_watermarks(e_output_user_index user_index)
 {
 }
 
@@ -274,7 +277,88 @@ void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_ind
 {
 	if (g_show_watermark)
 	{
-		// #TODO: implement this
+		static bool first_run = true;
+		static c_static_string<128> strings[3]{};
+		static c_static_string<20> player_xuid_rand{};
+		static c_static_string<16> display_name{};
+
+		if (first_run)
+		{
+			first_run = false;
+
+			strings[0].clear();
+			strings[1].clear();
+			strings[2].clear();
+			player_xuid_rand.clear();
+			display_name.clear();
+		}
+
+		long player_xuid_upper32 = 0;
+		if (controller_index != k_no_controller)
+		{
+			c_controller_interface* controller = controller_get(controller_index);
+			wchar_string_to_ascii_string(controller->get_display_name(), display_name.get_buffer(), display_name.element_count, 0);
+			player_xuid_upper32 = controller->get_player_xuid() >> 32;
+		}
+
+		s_date_and_time date_and_time{};
+		game_time_get_date_and_time(&date_and_time);
+
+		strings[0].print("PRE-RELEASE BUILD");
+		strings[1].print("%s @ %d/%d/%d %02d:%02d:%02d",
+			display_name.get_string(),
+			date_and_time.month,
+			date_and_time.day,
+			date_and_time.year,
+			date_and_time.hour,
+			date_and_time.minute,
+			date_and_time.second);
+		strings[2].print("%s", netdebug_get_sessionid());
+
+		long random_value = 0x181A04 * system_milliseconds() + 0x2D016C86;
+		long player_xuid_rand_value = player_xuid_upper32 ^ random_value ^ 0xCAF69B89;
+
+		player_xuid_rand.print("%.8x%.8x", random_value, player_xuid_rand_value);
+
+		c_font_cache_mt_safe font_cache{};
+		c_rasterizer_draw_string draw_string{};
+
+		short_rectangle2d bounds{};
+		interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
+
+		draw_string.set_font(1);
+		
+		{// draw_string.set_color(0xB0FFFFFF);
+			real_argb_color real_color{};
+			pixel32_to_real_argb_color({ .value = 0xB0FFFFFF }, &real_color);
+			draw_string.set_color(&real_color);
+		}
+
+		draw_string.set_justification(1);
+		short line_height = draw_string.get_line_height();
+
+		{
+			real_rectangle2d rect{};
+			set_real_rectangle2d(&rect, bounds.x0, real(bounds.x1 - 10), real(bounds.y1 - 13 * line_height), bounds.y1);
+
+			for (long i = 0; i < NUMBEROF(strings); i++)
+			{
+				draw_string.set_bounds(&rect);
+				rect.y0 += line_height;
+
+				draw_string.draw(&font_cache, strings[i].get_string());
+			}
+		}
+
+		draw_string.set_justification(0);
+
+		{
+			real_rectangle2d rect{};
+			set_real_rectangle2d(&rect, real(bounds.x0 + 10), bounds.x1, real(bounds.y0 + 7 * line_height), bounds.y1);
+
+			draw_string.set_bounds(&rect);
+			draw_string.draw(&font_cache, player_xuid_rand.get_string());
+		}
 	}
 }
 
@@ -311,10 +395,10 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 	}
 
 	if (pregame || !game_in_progress())
-		game_engine_render_window_watermarks(NONE);
+		game_engine_render_window_watermarks(k_output_user_none);
 	
 	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
-	game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94980, short, __cdecl)()));
+	game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, short, __cdecl)()));
 }
 
 void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char const* text)
