@@ -1,5 +1,6 @@
 #include "text/draw_string.hpp"
 
+#include "math/color_math.hpp"
 #include "text/font_loading.hpp"
 
 void __cdecl c_draw_string::set_bounds(real_rectangle2d const* bounds_a, real_rectangle2d const* bounds_b)
@@ -15,6 +16,18 @@ void __cdecl c_draw_string::set_bounds(real_rectangle2d const* bounds)
 void __cdecl c_draw_string::set_bounds(short_rectangle2d const* bounds)
 {
 	DECLFUNC(0x00658D20, void, __thiscall, c_draw_string*, short_rectangle2d const*)(this, bounds);
+}
+
+void __cdecl c_draw_string::set_color(dword color)
+{
+	real_argb_color real_color{};
+	set_color(pixel32_to_real_argb_color({ .value = color }, &real_color));
+}
+
+void __cdecl c_draw_string::set_color(argb_color color)
+{
+	real_argb_color real_color{};
+	set_color(pixel32_to_real_argb_color(color, &real_color));
 }
 
 void __cdecl c_draw_string::set_color(real_argb_color const* color)

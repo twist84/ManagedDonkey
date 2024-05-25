@@ -335,13 +335,7 @@ void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_ind
 		interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
 
 		draw_string.set_font(1);
-		
-		{// draw_string.set_color(0xB0FFFFFF);
-			real_argb_color real_color{};
-			pixel32_to_real_argb_color({ .value = 0xB0FFFFFF }, &real_color);
-			draw_string.set_color(&real_color);
-		}
-
+		draw_string.set_color(0xB0FFFFFF);
 		draw_string.set_justification(1);
 		short line_height = draw_string.get_line_height();
 
