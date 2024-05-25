@@ -14,6 +14,7 @@
 #include "interface/user_interface.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
+#include "main/main_render.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
@@ -584,8 +585,26 @@ REFERENCE_DECLARE(0x01917CED, bool, g_enable_better_cpu_gpu_sync_hs_setting);
 s_console_global const* const k_console_globals[] =
 {
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_no_drawing),
-
+	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_force_all_player_views_to_default_player),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_render_horizontal_splitscreen),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_load_panic_to_main_menu),
+	CONSOLE_GLOBAL_DECLARE_BOOL(display_framerate),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(display_pulse_rates),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(display_throttle_rates),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(display_lag_times),
+	CONSOLE_GLOBAL_DECLARE_BOOL(display_frame_deltas),
+	CONSOLE_GLOBAL_DECLARE_BOOL4(console_status_string_render, console_status_render),
+	CONSOLE_GLOBAL_DECLARE_BOOL2(console_pauses_game, debug_console_pauses_game),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(framerate_infinite),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(framerate_debug),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(framerate_use_system_time),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(framerate_stabilization),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_controller_latency),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_physical_memory),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(terminal_render, g_terminal_render_enable),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(events_debug_spam_render),
+	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
+
 	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_fov, g_camera_globals.field_of_view),
@@ -596,9 +615,6 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_up_scale, g_camera_globals.up_scale),
 	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_maximum_boost_speed, g_camera_globals.maximum_boost_speed),
 	CONSOLE_GLOBAL_DECLARE_REAL2(flying_camera_movement_delay, g_camera_globals.flying_cam_movement_delay),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(display_framerate),
-	CONSOLE_GLOBAL_DECLARE_BOOL(display_frame_deltas),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL(net_skip_countdown),
 	CONSOLE_GLOBAL_DECLARE_BOOL(net_experimental),
@@ -622,10 +638,6 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_chevy, cheat.chevy),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_porcupine, cheat.porcupine),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(cheat_infinite_equipment_energy, cheat.infinite_equipment_energy),
-
-	CONSOLE_GLOBAL_DECLARE_BOOL(console_dump_to_debug_display),
-	CONSOLE_GLOBAL_DECLARE_BOOL4(console_status_string_render, console_status_render),
-	CONSOLE_GLOBAL_DECLARE_BOOL2(console_pauses_game, debug_console_pauses_game),
 
 	CONSOLE_GLOBAL_DECLARE_LONG(render_debug_toggle_default_lightmaps_texaccum),
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_debug_toggle_default_static_lighting),
@@ -867,6 +879,8 @@ s_console_global const* const k_console_globals[] =
 	CONSOLE_GLOBAL_DECLARE_BOOL(render_pc_albedo_lighting),
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_sensitivity),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL2(show_watermark, g_show_watermark),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 

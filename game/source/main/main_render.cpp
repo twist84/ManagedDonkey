@@ -38,6 +38,7 @@ HOOK_DECLARE(0x00604860, main_render_pregame);
 
 bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
+bool g_show_watermark = true;
 
 //c_stop_watch g_main_render_block_watch = c_stop_watch(true);
 
@@ -266,8 +267,6 @@ void __cdecl main_render_game()
 {
 	INVOKE(0x00604440, main_render_game);
 }
-
-bool g_show_watermark = true;
 
 void __cdecl game_engine_render_window_watermarks(e_output_user_index user_index)
 {

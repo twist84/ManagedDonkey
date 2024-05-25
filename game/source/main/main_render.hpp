@@ -56,6 +56,8 @@ struct s_render_fullscreen_text_context
 };
 static_assert(sizeof(s_render_fullscreen_text_context) == 0x10);
 
+extern bool g_show_watermark;
+
 extern real pregame_frame_scales[k_main_pregame_frame_count];
 extern s_render_fullscreen_text_context_colors pregame_frame_colors[k_main_pregame_frame_count];
 
