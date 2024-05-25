@@ -41,7 +41,13 @@ void __cdecl object_type_render_debug(long object_index)
 		return;
 
     object_datum* object = object_get(object_index);
+    if (!object)
+        return;
+
     object_type_definition* definition = object_type_definition_get(object->object_identifier.m_type);
+    if (!definition)
+        return;
+
 
     for (long i = 0; definition->type_definitions[i]; i++)
     {
