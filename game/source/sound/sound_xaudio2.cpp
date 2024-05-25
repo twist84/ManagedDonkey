@@ -346,6 +346,9 @@ void __cdecl platform_sound_source_queue_sound(long source_index, void const* so
 
 	//g_xaudio_source_manager.source_queue_sound(source_index, sound);
 
+	if (g_pSourceVoice == NULL)
+		return;
+
 	long sound_definition_index = *(long*)sound;
 	if (sound_definition_index == NONE)
 		return;
