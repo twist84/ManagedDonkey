@@ -1,5 +1,7 @@
 #include "interface/chud/chud.hpp"
 
+REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals);
+
 //.text:00A88640 ; 
 //.text:00A88660 ; 
 //.text:00A88690 ; 

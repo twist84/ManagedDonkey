@@ -1362,6 +1362,9 @@
     <ClCompile Include="source\motor\sync_action.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3309,6 +3312,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\motor\sync_action.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\chud\chud_globals_definitions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "interface/chud/chud_globals_definitions.hpp"
 #include "memory/data.hpp"
 
 struct chud_widget_datum :
@@ -62,6 +63,8 @@ struct s_chud_navpoint
 	real_point3d position;
 };
 static_assert(sizeof(s_chud_navpoint) == 0x30);
+
+extern s_chud_globals_definition*& chud_globals;
 
 extern void __cdecl chud_game_tick();
 extern void __cdecl chud_submit_navpoint(long, s_chud_navpoint* navpoint);

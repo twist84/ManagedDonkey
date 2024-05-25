@@ -55,6 +55,8 @@ static_assert(sizeof(s_vision_mode_ping_color) == (sizeof(s_vision_mode_function
 
 struct s_vision_mode_definition
 {
+	static tag const k_group_tag = VISION_MODE_TAG;
+
 	c_flags<e_vision_mode_global_flags, word, k_vision_mode_global_flags> global_flags;
 	char internal_version;
 

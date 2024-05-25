@@ -11,6 +11,7 @@
 #include "cseries/cseries.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
+#include "interface/chud/chud_globals_definitions.hpp"
 #include "items/item_definitions.hpp"
 #include "items/projectile_definitions.hpp"
 #include "main/global_preferences.hpp"
@@ -1756,14 +1757,45 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 }
 
 // #TODO: create some sort of tag modification manager
-void apply_object_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+void apply_chud_globals_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (instance->tag_group != CHUD_GLOBALS_DEFINITION_TAG)
+		return;
+
+	s_chud_globals_definition* chud_globals_definition = instance->cast_to<s_chud_globals_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name.get_string();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(chud_globals_definition);
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
+void apply_object_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != OBJECT_TAG)
 		return;
 
-	_object_definition* object = instance->cast_to<_object_definition>();
+	_object_definition* object_definition = instance->cast_to<_object_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1776,7 +1808,7 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 	case _instance_modification_stage_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
-		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(object);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(object_definition);
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1787,14 +1819,14 @@ void apply_object_instance_modification(cache_file_tag_instance* instance, e_ins
 }
 
 // #TODO: create some sort of tag modification manager
-void apply_unit_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+void apply_unit_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != UNIT_TAG)
 		return;
 
-	_unit_definition* unit = instance->cast_to<_unit_definition>();
+	_unit_definition* unit_definition = instance->cast_to<_unit_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1807,7 +1839,7 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 	case _instance_modification_stage_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
-		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(unit);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(unit_definition);
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1818,14 +1850,14 @@ void apply_unit_instance_modification(cache_file_tag_instance* instance, e_insta
 }
 
 // #TODO: create some sort of tag modification manager
-void apply_biped_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+void apply_biped_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != BIPED_TAG)
 		return;
 
-	_biped_definition* biped = instance->cast_to<_biped_definition>();
+	_biped_definition* biped_definition = instance->cast_to<_biped_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1838,18 +1870,18 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 	case _instance_modification_stage_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
-		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(biped);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(biped_definition);
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
 	{
 		// "edge drop" fix
-		biped->physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
+		biped_definition->physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
 
 		//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
 		//{
-		//	if (biped->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
-		//		physics_input->m_ground_adhesion_velocity_scale = biped->physics.ground_physics.scale_ground_adhesion_velocity;
+		//	if (biped_definition->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
+		//		physics_input->m_ground_adhesion_velocity_scale = biped_definition->physics.ground_physics.scale_ground_adhesion_velocity;
 		//}
 	}
 	break;
@@ -1857,14 +1889,14 @@ void apply_biped_instance_modification(cache_file_tag_instance* instance, e_inst
 }
 
 // #TODO: create some sort of tag modification manager
-void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+void apply_vehicle_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != VEHICLE_TAG)
 		return;
 
-	_vehicle_definition* vehicle = instance->cast_to<_vehicle_definition>();
+	_vehicle_definition* vehicle_definition = instance->cast_to<_vehicle_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1877,7 +1909,7 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 	case _instance_modification_stage_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
-		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(vehicle);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(vehicle_definition);
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1888,14 +1920,14 @@ void apply_vehicle_instance_modification(cache_file_tag_instance* instance, e_in
 }
 
 // #TODO: create some sort of tag modification manager
-void apply_item_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+void apply_item_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != ITEM_TAG)
 		return;
 
-	_item_definition* item = instance->cast_to<_item_definition>();
+	_item_definition* item_definition = instance->cast_to<_item_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1908,7 +1940,7 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 	case _instance_modification_stage_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
-		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(item);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(item_definition);
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1919,14 +1951,14 @@ void apply_item_instance_modification(cache_file_tag_instance* instance, e_insta
 }
 
 // #TODO: create some sort of tag modification manager
-void apply_projectile_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+void apply_projectile_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
 
 	if (instance->tag_group != PROJECTILE_TAG)
 		return;
 
-	_projectile_definition* projectile = instance->cast_to<_projectile_definition>();
+	_projectile_definition* projectile_definition = instance->cast_to<_projectile_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1939,7 +1971,7 @@ void apply_projectile_instance_modification(cache_file_tag_instance* instance, e
 	case _instance_modification_stage_tag_fixup:
 	{
 		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
-		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(projectile);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(projectile_definition);
 	}
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
@@ -1961,12 +1993,13 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	APPLY_INSTANCE_MODIFICATION(multiplayer_globals);
 	APPLY_INSTANCE_MODIFICATION(rasterizer_globals);
 	APPLY_INSTANCE_MODIFICATION(scenario);
-	APPLY_INSTANCE_MODIFICATION(object);
-	APPLY_INSTANCE_MODIFICATION(unit);
-	APPLY_INSTANCE_MODIFICATION(biped);
-	APPLY_INSTANCE_MODIFICATION(vehicle);
-	APPLY_INSTANCE_MODIFICATION(item);
-	APPLY_INSTANCE_MODIFICATION(projectile);
+	APPLY_INSTANCE_MODIFICATION(chud_globals_definition);
+	APPLY_INSTANCE_MODIFICATION(object_definition);
+	APPLY_INSTANCE_MODIFICATION(unit_definition);
+	APPLY_INSTANCE_MODIFICATION(biped_definition);
+	APPLY_INSTANCE_MODIFICATION(vehicle_definition);
+	APPLY_INSTANCE_MODIFICATION(item_definition);
+	APPLY_INSTANCE_MODIFICATION(projectile_definition);
 
 #undef APPLY_INSTANCE_MODIFICATION
 }

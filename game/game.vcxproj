@@ -207,6 +207,7 @@ POPD
     <ClCompile Include="source\game\game_engine_scoring.cpp" />
     <ClCompile Include="source\game\game_grief.cpp" />
     <ClCompile Include="source\game\materials.cpp" />
+    <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
     <ClCompile Include="source\interface\gui_screens\boot_betrayer\gui_screen_boot_betrayer.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />
@@ -665,6 +666,7 @@ POPD
     <ClInclude Include="source\hs\hs_unit_seats.hpp" />
     <ClInclude Include="source\input\input_xinput.hpp" />
     <ClInclude Include="source\interface\chud\chud_draw.hpp" />
+    <ClInclude Include="source\interface\chud\chud_globals_definitions.hpp" />
     <ClInclude Include="source\interface\chud\cortana_effect.hpp" />
     <ClInclude Include="source\interface\debug_menu\debug_menu_value_hs_global_external.hpp" />
     <ClInclude Include="source\ai\actors.hpp" />

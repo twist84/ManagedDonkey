@@ -170,20 +170,6 @@ struct s_model_definition
 };
 static_assert(sizeof(s_model_definition) == 0x1B4);
 
-enum e_odst_recon_variant
-{
-	_odst_recon_variant_none = 0,
-	_odst_recon_variant_rookie,
-	_odst_recon_variant_buck,
-	_odst_recon_variant_dare,
-	_odst_recon_variant_dutch,
-	_odst_recon_variant_johnson,
-	_odst_recon_variant_mickey,
-	_odst_recon_variant_romeo,
-
-	k_odst_recon_variant_count
-};
-
 struct s_model_variant_region;
 struct s_model_variant_object;
 struct s_model_variant
