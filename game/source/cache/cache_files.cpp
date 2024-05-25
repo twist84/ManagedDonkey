@@ -1782,6 +1782,8 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 	break;
 	case _instance_modification_stage_after_scenario_tags_loaded:
 	{
+		if (chud_globals_definition->sprint_fov_multiplier == 0.0f)
+			chud_globals_definition->sprint_fov_multiplier = 1.0f;
 	}
 	break;
 	}
