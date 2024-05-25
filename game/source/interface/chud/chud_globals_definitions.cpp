@@ -1,4 +1,4 @@
-#include "chud_globals_definitions.hpp"
+#include "interface/chud/chud_globals_definitions.hpp"
 
 void s_chud_globals_definition::update_reference_names()
 {

@@ -1,4 +1,4 @@
-#include "projectile_definitions.hpp"
+#include "items/projectile_definitions.hpp"
 
 void _projectile_definition::update_reference_names()
 {

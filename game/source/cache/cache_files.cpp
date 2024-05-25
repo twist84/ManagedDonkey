@@ -9,6 +9,7 @@
 #include "config/version.hpp"
 #include "cseries/async_helpers.hpp"
 #include "cseries/cseries.hpp"
+#include "effects/vision_mode.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "interface/chud/chud_globals_definitions.hpp"
@@ -1790,6 +1791,37 @@ void apply_chud_globals_definition_instance_modification(cache_file_tag_instance
 }
 
 // #TODO: create some sort of tag modification manager
+void apply_vision_mode_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (instance->tag_group != VISION_MODE_TAG)
+		return;
+
+	s_vision_mode_definition* vision_mode_definition = instance->cast_to<s_vision_mode_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name.get_string();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(vision_mode_definition);
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
 void apply_object_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -1996,6 +2028,7 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	APPLY_INSTANCE_MODIFICATION(rasterizer_globals);
 	APPLY_INSTANCE_MODIFICATION(scenario);
 	APPLY_INSTANCE_MODIFICATION(chud_globals_definition);
+	APPLY_INSTANCE_MODIFICATION(vision_mode_definition);
 	APPLY_INSTANCE_MODIFICATION(object_definition);
 	APPLY_INSTANCE_MODIFICATION(unit_definition);
 	APPLY_INSTANCE_MODIFICATION(biped_definition);

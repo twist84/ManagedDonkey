@@ -84,6 +84,8 @@ struct s_vision_mode_definition
 	// CAMERA FX OVERALY
 	// allows override of camera fx settings when vision mode is on
 	c_typed_tag_reference<CAMERA_FX_SETTINGS_TAG> camera_fx_overlay;
+
+	void update_reference_names();
 };
 static_assert(sizeof(s_vision_mode_definition) == 0x194);
 
