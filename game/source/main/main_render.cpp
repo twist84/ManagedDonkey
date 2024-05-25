@@ -36,8 +36,8 @@ HOOK_DECLARE(0x00604860, main_render_pregame);
 //HOOK_DECLARE(0x00604AE0, main_render_start_blocking_frame);
 //HOOK_DECLARE(0x00604D70, main_render_view); // paired with `main_render_view_inline_hook`
 
-bool debug_render_horizontal_splitscreen = false;
 bool debug_force_all_player_views_to_default_player = false;
+bool debug_render_horizontal_splitscreen = false;
 bool g_show_watermark = true;
 
 //c_stop_watch g_main_render_block_watch = c_stop_watch(true);
@@ -85,6 +85,15 @@ c_player_render_camera_iterator::c_player_render_camera_iterator() :
 			m_window_arrangement = 1;
 	}
 }
+
+s_observer_result const* __cdecl observer_get_camera_for_main_render_game(e_output_user_index output_user_index)
+{
+	if (debug_force_all_player_views_to_default_player)
+		output_user_index = player_mapping_first_active_output_user();
+
+	return observer_get_camera(output_user_index);
+}
+HOOK_DECLARE_CALL(0x006046C7, observer_get_camera_for_main_render_game);
 
 bool c_player_render_camera_iterator::next()
 {

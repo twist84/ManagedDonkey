@@ -14,6 +14,7 @@
 #include "interface/user_interface.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
+#include "main/main_game.hpp"
 #include "main/main_render.hpp"
 #include "main/main_time.hpp"
 #include "memory/module.hpp"
@@ -585,8 +586,8 @@ REFERENCE_DECLARE(0x01917CED, bool, g_enable_better_cpu_gpu_sync_hs_setting);
 s_console_global const* const k_console_globals[] =
 {
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_no_drawing),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_force_all_player_views_to_default_player),
-	//CONSOLE_GLOBAL_DECLARE_BOOL(debug_render_horizontal_splitscreen),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_force_all_player_views_to_default_player),
+	CONSOLE_GLOBAL_DECLARE_BOOL(debug_render_horizontal_splitscreen),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_load_panic_to_main_menu),
 	CONSOLE_GLOBAL_DECLARE_BOOL(display_framerate),
 	//CONSOLE_GLOBAL_DECLARE_BOOL(display_pulse_rates),
