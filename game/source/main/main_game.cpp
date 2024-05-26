@@ -9,6 +9,7 @@
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "editor/editor_stubs.hpp"
+#include "effects/screen_effect.hpp"
 #include "game/campaign_metagame.hpp"
 #include "game/game.hpp"
 #include "input/input_windows.hpp"
@@ -224,6 +225,15 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 	//	main_game_cleanup_loading_screen();
 
 	ASSERT(main_game_loaded_map() || main_game_loaded_pregame());
+
+	// I do not like this, I do not!
+	// 
+	// apply default screen effect
+	if (s_scenario* scenario = global_scenario_get())
+	{
+		if (scenario->global_screen_effect.index != NONE)
+			screen_effect_new(scenario->global_screen_effect.index, NONE, NONE, global_origin3d, global_zero_rectangle2d);
+	}
 
 	return result;
 }
