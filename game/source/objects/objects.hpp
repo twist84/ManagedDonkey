@@ -166,8 +166,8 @@ struct object_datum
 	byte_flags simulation_flags;
 	char child_variant_index;
 
-	long __unknownD8_ticks;
-	real_point3d __unknownDC_position;
+	long simulation_object_interpolation_time;
+	real_point3d simulation_object_interpolation_position;
 
 	long first_widget_index;
 	word destroyed_constraints;
