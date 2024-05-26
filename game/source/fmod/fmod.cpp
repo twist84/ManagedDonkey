@@ -206,16 +206,6 @@ namespace snd
 			return MAX_CHANNELS;
 		}
 
-		static bool __cdecl PrepareInit()
-		{
-			return INVOKE(0x00404D10, PrepareInit);
-		}
-
-		bool InitEventSystem(void* a1)
-		{
-			return DECLFUNC(0x00404D70, bool, __thiscall, SYSTEM_FMOD*, void*)(this, a1);
-		}
-
 		bool __thiscall Init(long a1, void** a2)
 		{
 			// get pointer to `FMOD::EventSystemI*`
@@ -240,6 +230,24 @@ namespace snd
 			return false;
 		}
 
+		static bool __cdecl PrepareInit()
+		{
+			return INVOKE(0x00404D10, PrepareInit);
+		}
+
+		bool InitEventSystem(void* a1)
+		{
+			return DECLFUNC(0x00404D70, bool, __thiscall, SYSTEM_FMOD*, void*)(this, a1);
+		}
+
+		//void __thiscall Update(real a1)
+		//{
+		//	if (g_HaloSoundSystem)
+		//		g_HaloSoundSystem->__vftable->Update(g_HaloSoundSystem);
+		//
+		//	// #TODO: implement me
+		//}
+
 		FMOD::EventSystemI* m_pEventSystemI;
 		byte __data34[0xC];
 		dword m_SpeakerMode;
@@ -248,10 +256,11 @@ namespace snd
 	static_assert(sizeof(SYSTEM_FMOD) == 0x368);
 
 	REFERENCE_DECLARE(0x069AD064, snd::SYSTEM_FMOD*, g_SYSTEM_FMOD);
-	REFERENCE_DECLARE(0x069AD068, snd::SYSTEM_FMOD*, g_SYSTEM_FMOD_for_threads);
+	REFERENCE_DECLARE(0x069AD06C, snd::SYSTEM_FMOD*, g_SYSTEM_FMOD_for_threads);
 
-	HOOK_DECLARE_CLASS_MEMBER(0x004047B0, SYSTEM_FMOD, Init);
 	HOOK_DECLARE_CLASS(0x004035E0, SYSTEM_FMOD, sub_4035E0);
+	HOOK_DECLARE_CLASS_MEMBER(0x004047B0, SYSTEM_FMOD, Init);
+	//HOOK_DECLARE_CLASS_MEMBER(0x00409280, SYSTEM_FMOD, Update);
 }
 
 short __cdecl sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound(struct s_cache_file_sound_definition* sound, real pitch_modifier, short pitch_range_index)
