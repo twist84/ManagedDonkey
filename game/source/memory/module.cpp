@@ -80,7 +80,10 @@ void apply_all_patches(bool revert)
 	for (long data_patch_array_index = 0; data_patch_array_index < g_data_patch_array_count; data_patch_array_index++)
 	{
 		if (data_patch_array = data_patch_arrays[data_patch_array_index]; data_patch_array)
-			data_patch_array->apply(revert);
+		{
+			if (!data_patch_array->apply(revert))
+				printf("data patch array didn't apply: %s\n", data_patch_array->get_name());
+		}
 	}
 }
 
@@ -183,25 +186,13 @@ bool c_data_patch::apply(bool revert)
 	return true;
 }
 
-template<long k_address_count, long k_patch_size>
-c_data_patch_array::c_data_patch_array(dword const(&_addresses)[k_address_count], byte const(&patch)[k_patch_size]) :
-	address_count(k_address_count),
-	byte_count(k_patch_size),
-	addresses(_addresses),
-	bytes(patch),
-	bytes_original(new byte* [k_patch_size] {})
-{
-	ASSERT(VALID_COUNT(g_data_patch_array_count, k_maximum_individual_modification_count));
-	data_patch_arrays[g_data_patch_array_count++] = this;
-}
-
-template<long k_patch_size>
-c_data_patch_array::c_data_patch_array(dword address, byte const(&patch)[k_patch_size]) :
-	address_count(1),
-	byte_count(k_patch_size),
-	addresses(&address),
-	bytes(patch),
-	bytes_original(new byte* [k_patch_size] {})
+c_data_patch_array::c_data_patch_array(char const* name, long address_count, dword const(&addresses)[], long patch_size, void* patch, bool remove_base) :
+	m_name(name),
+	m_address_count(address_count),
+	m_addresses(addresses),
+	m_byte_count(patch_size),
+	m_bytes(patch),
+	m_bytes_original(new byte* [patch_size] {})
 {
 	ASSERT(VALID_COUNT(g_data_patch_array_count, k_maximum_individual_modification_count));
 	data_patch_arrays[g_data_patch_array_count++] = this;
@@ -209,39 +200,39 @@ c_data_patch_array::c_data_patch_array(dword address, byte const(&patch)[k_patch
 
 c_data_patch_array::~c_data_patch_array()
 {
-	if (bytes_original)
+	if (m_bytes_original)
 	{
-		for (long i = 0; i < address_count; i++)
+		for (long i = 0; i < m_address_count; i++)
 		{
-			if (bytes_original[i])
+			if (m_bytes_original[i])
 			{
-				delete[] bytes_original[i];
-				bytes_original[i] = nullptr;
+				delete[] m_bytes_original[i];
+				m_bytes_original[i] = nullptr;
 			}
 		}
 
-		delete[] bytes_original;
-		bytes_original = nullptr;
+		delete[] m_bytes_original;
+		m_bytes_original = nullptr;
 	}
 }
 
 bool c_data_patch_array::apply(bool revert)
 {
 	module_address address{};
-	for (long i = 0; i < address_count; i++)
+	for (long i = 0; i < m_address_count; i++)
 	{
-		address.address = addresses[i];
+		address.address = m_addresses[i];
 
 		if (!revert)
-			bytes_original[i] = (byte*)csmemcpy(new byte[byte_count]{}, address.pointer, byte_count);
+			m_bytes_original[i] = (byte*)csmemcpy(new byte[m_byte_count]{}, address.pointer, m_byte_count);
 
 		dword protect;
-		if (!VirtualProtect(address.pointer, byte_count, PAGE_READWRITE, &protect))
+		if (!VirtualProtect(address.pointer, m_byte_count, PAGE_READWRITE, &protect))
 			continue;
 
-		csmemcpy(address.pointer, revert ? bytes_original[i] : bytes, byte_count);
+		csmemcpy(address.pointer, revert ? m_bytes_original[i] : m_bytes, m_byte_count);
 
-		if (!VirtualProtect(address.pointer, byte_count, protect, &protect))
+		if (!VirtualProtect(address.pointer, m_byte_count, protect, &protect))
 			continue;
 	}
 
@@ -256,7 +247,7 @@ void buffer_as_byte_string(byte* buffer, dword buffer_size, char* out_string, lo
 		csnzprintf(&out_string[3 * i], out_string_size, "%02X ", buffer[i]);
 }
 
-bool patch_pointer(module_address address, const void* pointer)
+bool patch_pointer(module_address address, void const* pointer)
 {
 	dword protect;
 	if (!VirtualProtect(address.pointer, sizeof(void*), PAGE_READWRITE, &protect))

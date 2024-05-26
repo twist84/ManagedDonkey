@@ -33,6 +33,9 @@
 #define DATA_PATCH_DECLARE(ADDR, NAME, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(#NAME, ADDR, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
 #define DATA_PATCH_DECLARE2(ADDR, NAME, SIZE, ...) static c_data_patch STRCONCAT(NAME##_patch,__LINE__)(#NAME, ADDR, SIZE, __VA_ARGS__)
 
+#define DATA_PATCH_ARRAY_DECLARE(ADDRS, NAME, ...) static c_data_patch_array STRCONCAT(NAME##_patch,__LINE__)(#NAME, NUMBEROF(ADDRS), ADDRS, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
+#define DATA_PATCH_ARRAY_DECLARE2(ADDRS, NAME, ...) static c_data_patch_array NAME##_patch(#NAME, NUMBEROF(ADDRS), ADDRS, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
+
 union module_address
 {
 	dword address;
@@ -138,24 +141,24 @@ private:
 class c_data_patch_array
 {
 public:
-	template<long k_address_count, long k_patch_size>
-	c_data_patch_array(dword const(&_addresses)[k_address_count], byte const(&patch)[k_patch_size]);
-
-	template<long k_patch_size>
-	c_data_patch_array(dword address, byte const(&patch)[k_patch_size]);
+	c_data_patch_array(char const* name, long address_count, dword const(&addresses)[], long patch_size, void* patch, bool remove_base = true);
 
 	~c_data_patch_array();
 
 	bool apply(bool revert);
 
+	char const* get_name()
+	{
+		return m_name.get_string();
+	}
+
 private:
-	long address_count;
-	long byte_count;
-
-	const dword* addresses;
-
-	const byte* bytes;
-	byte** bytes_original;
+	c_static_string<128> m_name;
+	long m_address_count;
+	dword const* m_addresses;
+	long m_byte_count;
+	void* m_bytes;
+	byte** m_bytes_original;
 };
 
 extern void buffer_as_byte_string(byte* buffer, dword buffer_size, char* out_string, long out_string_size);
@@ -166,5 +169,5 @@ void type_as_byte_string(t_type* type, char(&out_string)[k_string_size])
 	buffer_as_byte_string((byte*)type, sizeof(t_type), out_string, k_string_size);
 }
 
-bool patch_pointer(module_address address, const void* pointer);
+extern bool patch_pointer(module_address address, void const* pointer);
 
