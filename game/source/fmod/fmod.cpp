@@ -51,13 +51,8 @@ REFERENCE_DECLARE(0x069AD068, HALO_SOUND_SYSTEM*, g_HaloSoundSystem);
 byte const popping_sound_on_startup_patch_bytes[] = { 0x2 };
 DATA_PATCH_DECLARE(0x0140DA75, popping_sound_on_startup, popping_sound_on_startup_patch_bytes);
 
-union
-{
-	byte const patch_bytes[sizeof(dword)];
-	dword value = MAX_CHANNELS;
-
-} max_channels_data;
-DATA_PATCH_DECLARE(0x00404DF8 + 1, max_channels, max_channels_data.patch_bytes);
+t_value_type<dword> const max_channels_data = { .value = MAX_CHANNELS };
+DATA_PATCH_DECLARE(0x00404DF8 + 1, max_channels, max_channels_data.bytes);
 
 HOOK_DECLARE_CLASS_MEMBER(0x0064EF50, HALO_SOUND_SYSTEM, sub_64EF50);
 HOOK_DECLARE_CLASS_MEMBER(0x0064F6B0, HALO_SOUND_SYSTEM, sub_64F6B0);
