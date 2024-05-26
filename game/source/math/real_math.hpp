@@ -297,8 +297,18 @@ static_assert(sizeof(real_quaternion) == sizeof(real) * 4);
 
 extern real_point3d const* const& global_origin3d;
 extern vector3d const* const& global_forward3d;
+extern vector3d const* const& global_left3d;
 extern vector3d const* const& global_up3d;
+extern vector3d const* const& global_backward3d;
+extern vector3d const* const& global_right3d;
+extern vector3d const* const& global_down3d;
+extern euler_angles3d const* const& global_zero_angles3d;
+extern real_quaternion const* const& global_identity_quaternion;
+extern real_matrix4x3 const* const& global_identity4x3;
+extern real_matrix4x3 const* const& global_identity_orientation;
+extern real_rectangle2d const* const& global_null_rectangle2d;
 extern real_rectangle3d const* const& global_null_rectangle3d;
+extern real_rectangle2d const* const& global_zero_rectangle2d;
 
 extern real __cdecl interpolate_linear(real start_value, real end_value, real interpolation_factor);
 extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);
