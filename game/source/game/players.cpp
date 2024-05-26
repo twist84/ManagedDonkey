@@ -727,12 +727,18 @@ short multiplayer_universal_data_get_absolute_weapons_selection_block_index(char
 	return short(0xFFFD);
 }
 
+bool scenario_is_solo()
+{
+	s_scenario* scenario = global_scenario_get();
+	return scenario && scenario->type == _scenario_type_solo;
+}
+
 long get_spartan_representation_index()
 {
 	static string_id sp_name = string_id_retrieve("spartan");
 	static string_id mp_name = string_id_retrieve("mp_spartan");
 
-	string_id name = game_is_campaign() ? sp_name : mp_name;
+	string_id name = scenario_is_solo() ? sp_name : mp_name;
 
 	if (s_game_globals* game_globals = scenario_get_game_globals())
 	{
@@ -751,7 +757,7 @@ long get_elite_representation_index()
 	static string_id sp_name = string_id_retrieve("sp_elite");
 	static string_id mp_name = string_id_retrieve("mp_elite");
 
-	string_id name = game_is_campaign() ? sp_name : mp_name;
+	string_id name = scenario_is_solo() ? sp_name : mp_name;
 
 	if (s_game_globals* game_globals = scenario_get_game_globals())
 	{
