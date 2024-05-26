@@ -167,6 +167,13 @@ const long LONG_BITS = SIZEOF_BITS(long);
 //#define LONG_MAX 0x7FFFFFFF
 #define UNSIGNED_LONG_MAX 0xFFFFFFFF
 
+template<typename t_type>
+union t_value_type
+{
+	byte bytes[sizeof(t_type)];
+	t_type value;
+};
+
 extern void* offset_pointer(void* pointer, long offset);
 extern void const* offset_pointer(void const* pointer, long offset);
 extern unsigned int address_from_pointer(void const* pointer);
