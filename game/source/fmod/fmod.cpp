@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 
+#define MAX_CHANNELS 1024
+
 struct HALO_SOUND_SYSTEM;
 struct HALO_SOUND_SYSTEM_vtbl
 {
@@ -48,6 +50,14 @@ REFERENCE_DECLARE(0x069AD068, HALO_SOUND_SYSTEM*, g_HaloSoundSystem);
 
 byte const popping_sound_on_startup_patch_bytes[] = { 0x2 };
 DATA_PATCH_DECLARE(0x0140DA75, popping_sound_on_startup, popping_sound_on_startup_patch_bytes);
+
+union
+{
+	byte const patch_bytes[sizeof(dword)];
+	dword value = MAX_CHANNELS;
+
+} max_channels_data;
+DATA_PATCH_DECLARE(0x00404DF8 + 1, max_channels, max_channels_data.patch_bytes);
 
 HOOK_DECLARE_CLASS_MEMBER(0x0064EF50, HALO_SOUND_SYSTEM, sub_64EF50);
 HOOK_DECLARE_CLASS_MEMBER(0x0064F6B0, HALO_SOUND_SYSTEM, sub_64F6B0);
@@ -133,6 +143,12 @@ namespace FMOD
 		byte __data[0xE0];
 	};
 	static_assert(sizeof(EventSystemI) == 0xE4);
+
+	long __stdcall sub_13883C1(long a1, long max_channels, long flags, long extra_driver_data)
+	{
+		return INVOKE(0x013883C1, sub_13883C1, a1, MAX_CHANNELS, flags, extra_driver_data);
+	}
+	HOOK_DECLARE_CALL(0x01369B0D, sub_13883C1);
 };
 
 namespace snd
@@ -185,6 +201,11 @@ namespace snd
 	struct SYSTEM_FMOD :
 		SYSTEM
 	{
+		static long __cdecl sub_4035E0()
+		{
+			return MAX_CHANNELS;
+		}
+
 		static bool __cdecl PrepareInit()
 		{
 			return INVOKE(0x00404D10, PrepareInit);
@@ -230,7 +251,18 @@ namespace snd
 	REFERENCE_DECLARE(0x069AD068, snd::SYSTEM_FMOD*, g_SYSTEM_FMOD_for_threads);
 
 	HOOK_DECLARE_CLASS_MEMBER(0x004047B0, SYSTEM_FMOD, Init);
+	HOOK_DECLARE_CLASS(0x004035E0, SYSTEM_FMOD, sub_4035E0);
 }
+
+short __cdecl sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound(struct s_cache_file_sound_definition* sound, real pitch_modifier, short pitch_range_index)
+{
+	short result = INVOKE(0x00661C20, sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound, sound, pitch_modifier, pitch_range_index);
+	if (result != -1)
+		return result;
+
+	return 0;
+}
+HOOK_DECLARE_CALL(0x00664E39, sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound);
 
 void __cdecl fmod_initialize()
 {
