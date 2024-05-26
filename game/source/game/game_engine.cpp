@@ -370,11 +370,143 @@ long __cdecl game_engine_round_time_get()
 void __cdecl game_engine_update()
 {
 	INVOKE(0x00552740, game_engine_update);
+
+	//if (current_game_engine())
+	//{
+	//	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
+	//
+	//	game_engine_update_time();
+	//	game_engine_update_round_conditions();
+	//	game_engine_update_multiplayer_sound();
+	//	game_engine_garbage_collect();
+	//	game_engine_globals->candy_monitor_manager.update();
+	//	game_engine_update_talkers();
+	//	game_engine_teleporters_update();
+	//
+	//	c_player_in_game_iterator player_in_game_iter{};
+	//	while (player_in_game_iter.next())
+	//		game_engine_update_player(player_in_game_iter.get_index());
+	//
+	//	game_engine_spawn_influencers_update();
+	//
+	//	if (game_engine_has_teams())
+	//	{
+	//		for (long team_index = 0; team_index < 8; team_index++)
+	//		{
+	//			if (game_engine_is_team_active(team_index))
+	//				game_engine_update_team(team_index);
+	//		}
+	//	}
+	//
+	//	current_game_engine()->update();
+	//
+	//	if (!game_is_predicted())
+	//		game_engine_scoring_update_leaders();
+	//
+	//	game_engine_update_player_states();
+	//	sub_553210();
+	//	game_engine_update_player_sitting_out();
+	//	game_engine_check_for_round_winner();
+	//
+	//	if (game_engine_has_teams() && game_is_authoritative())
+	//	{
+	//		if (TEST_MASK(game_engine_globals->valid_teams, ~game_engine_globals->initial_teams) ||
+	//			TEST_MASK(game_engine_globals->game_simulation, ~game_engine_globals->valid_teams) ||
+	//			TEST_MASK(game_engine_globals->active_teams, ~game_engine_globals->game_simulation))
+	//		{
+	//			game_engine_end_round_with_winner(NONE, true, _game_engine_end_condition_game_end_invalid_team_mapping);
+	//		}
+	//	}
+	//
+	//	game_engine_globals->__unknownF9AA = game_engine_in_round() ? 0 : game_engine_globals->__unknownF9AA + 1;
+	//	game_engine_events_update();
+	//}
+	//else if (game_is_survival())
+	//{
+	//	game_engine_update_multiplayer_sound();
+	//	game_engine_events_update();
+	//}
 }
 
 void __cdecl game_engine_update_after_game()
 {
 	INVOKE(0x005528E0, game_engine_update_after_game);
+
+	//if (current_game_engine() && game_is_authoritative())
+	//{
+	//	TLS_DATA_GET_VALUE_REFERENCE(game_engine_globals);
+	//
+	//	if (game_is_finished())
+	//	{
+	//		if (!game_engine_globals->game_finished)
+	//		{
+	//			game_engine_globals->game_finished = true;
+	//			c_flags<long, qword, 64> flags = FLAG(3);
+	//			simulation_action_game_engine_globals_update(flags);
+	//
+	//			if (game_engine_globals1->current_state == 1)
+	//			{
+	//				if (game_engine_globals1->desired_state == 1)
+	//					game_engine_end_round_with_winner(game_engine_choose_winner_index(), false, _game_engine_end_condition_game_end_external);
+	//				else
+	//					game_engine_update_after_game_update_state();
+	//			}
+	//
+	//			game_engine_reset_stats_for_round_switch();
+	//
+	//			s_game_engine_event_data event_data{};
+	//			game_engine_initialize_event(_event_type_general, _game_engine_string_id_general_event_game_over, &event_data);
+	//			game_engine_send_event(&event_data);
+	//
+	//			if (game_results_get_game_recording() && !game_results_get_game_finalized())
+	//			{
+	//				if (c_game_statborg* statborg = game_engine_get_statborg())
+	//				{
+	//					statborg->stats_pause();
+	//					statborg->stats_finalize_for_game_end();
+	//				}
+	//
+	//				game_results_set_recording_pause(false);
+	//				game_engine_update_score_and_standing();
+	//				game_results_set_game_finished();
+	//				game_results_set_recording_pause(true);
+	//				game_results_finalize();
+	//			}
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (game_engine_globals->current_state == 2)
+	//		{
+	//			if (--game_engine_globals->round_end_ticks <= 0)
+	//			{
+	//				if (game_engine_globals->round_index < 31)
+	//				{
+	//					game_engine_set_desired_state(3);
+	//					game_engine_globals->candy_monitor_manager.dispose_from_old_round();
+	//					game_engine_update_after_game_update_state();
+	//				}
+	//				else
+	//				{
+	//					game_engine_end_game(_game_engine_end_condition_game_end_exceeded_maximum_rounds);
+	//				}
+	//			}
+	//			else
+	//			{
+	//				//printf("game engine exceeded maximum rounds, bailing!");
+	//			};
+	//		}
+	//		else if (game_engine_globals_->current_state == 3 && --game_engine_globals_->round_end_ticks <= 0)
+	//		{
+	//			game_engine_set_desired_state(1);
+	//			game_engine_update_after_game_update_state();
+	//		}
+	//		else
+	//		{
+	//			game_engine_update_after_game_update_state();
+	//		}
+	//	}
+	//}
 }
 
 //.text:00552AC0 ; void __cdecl game_engine_update_after_game_update_state(void)
