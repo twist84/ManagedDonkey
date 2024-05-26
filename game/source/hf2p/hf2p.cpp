@@ -20,7 +20,7 @@ REFERENCE_DECLARE(0x04FE67A4, dword, mainmenu_elite_unit_index);
 REFERENCE_DECLARE(0x052697B1, bool, g_hf2p_use_keyboard_hints);
 
 HOOK_DECLARE(0x00600600, hf2p_handle_deleted_object);
-HOOK_DECLARE(0x00600620, hf2p_initialize_for_new_map);
+//HOOK_DECLARE(0x00600620, hf2p_initialize_for_new_map);
 HOOK_DECLARE(0x00600630, hf2p_initialize);
 HOOK_DECLARE(0x006006F0, hf2p_game_initialize);
 HOOK_DECLARE(0x00600750, hf2p_scenario_tags_load_finished);

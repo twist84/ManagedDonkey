@@ -27,6 +27,16 @@ struct HALO_SOUND_SYSTEM
 {
 	HALO_SOUND_SYSTEM_vtbl* __vftable /*VFT*/;
 
+	void __thiscall sub_64EF50()
+	{
+		// skip loading `data\sound\pc\lst\cine_preload.ps`
+	}
+
+	void __thiscall sub_64F6B0()
+	{
+		// skip loading `data\sound\pc\lst\tags_params.ps`
+	}
+
 	real Volume;
 	byte __data[0x1FC];
 };
@@ -38,6 +48,9 @@ REFERENCE_DECLARE(0x069AD068, HALO_SOUND_SYSTEM*, g_HaloSoundSystem);
 
 byte const popping_sound_on_startup_patch_bytes[] = { 0x2 };
 DATA_PATCH_DECLARE(0x0140DA75, popping_sound_on_startup, popping_sound_on_startup_patch_bytes);
+
+HOOK_DECLARE_CLASS_MEMBER(0x0064EF50, HALO_SOUND_SYSTEM, sub_64EF50);
+HOOK_DECLARE_CLASS_MEMBER(0x0064F6B0, HALO_SOUND_SYSTEM, sub_64F6B0);
 
 namespace FMOD
 {
@@ -197,7 +210,7 @@ namespace snd
 				return false;
 			}
 
-			if (!g_HaloSoundSystem /*|| g_HaloSoundSystem->__vftable->Init(g_HaloSoundSystem, a1, a2)*/) // `HALO_SOUND_SYSTEM::Init` crashes
+			if (!g_HaloSoundSystem || g_HaloSoundSystem->__vftable->Init(g_HaloSoundSystem, a1, a2)) // `HALO_SOUND_SYSTEM::Init` crashes
 			{
 				flags |= FLAG(0);
 				return true;
