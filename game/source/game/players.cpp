@@ -727,3 +727,59 @@ short multiplayer_universal_data_get_absolute_weapons_selection_block_index(char
 	return short(0xFFFD);
 }
 
+long get_spartan_representation_index()
+{
+	static string_id sp_name = string_id_retrieve("spartan");
+	static string_id mp_name = string_id_retrieve("mp_spartan");
+
+	string_id name = game_is_campaign() ? sp_name : mp_name;
+
+	if (s_game_globals* game_globals = scenario_get_game_globals())
+	{
+		for (long i = 0; i < game_globals->player_representation.count(); i++)
+		{
+			if (name == game_globals->player_representation[i].name.get_value())
+				return i;
+		}
+	}
+
+	return 2;
+}
+
+long get_elite_representation_index()
+{
+	static string_id sp_name = string_id_retrieve("sp_elite");
+	static string_id mp_name = string_id_retrieve("mp_elite");
+
+	string_id name = game_is_campaign() ? sp_name : mp_name;
+
+	if (s_game_globals* game_globals = scenario_get_game_globals())
+	{
+		for (long i = 0; i < game_globals->player_representation.count(); i++)
+		{
+			if (name == game_globals->player_representation[i].name.get_value())
+				return i;
+		}
+	}
+
+	return 3;
+}
+
+void apply_player_representation_fixup()
+{
+	static t_value_type<long> spartan_representation_index = { .value = 2 };
+	static t_value_type<long> elite_representation_index = { .value = 3 };
+
+	static dword const spartan_representation_addresses[] = { 0x00537482 + 1, 0x0053761A + 1, 0x00539EB9 + 1, 0x00539FBD + 1, 0x0053A738 + 1, 0x0053A7C6 + 1 };
+	static dword const elite_representation_addresses[] = { 0x0053748F + 1, 0x00537627 + 1, 0x00539EC6 + 1, 0x00539FCA + 1, 0x0053A745 + 1, 0x0053A7BE + 1 };
+
+	DATA_PATCH_ARRAY_DECLARE2(spartan_representation_addresses, spartan_representation_index, spartan_representation_index.bytes);
+	DATA_PATCH_ARRAY_DECLARE2(elite_representation_addresses, elite_representation_index, elite_representation_index.bytes);
+
+	spartan_representation_index.value = get_spartan_representation_index();
+	elite_representation_index.value = get_elite_representation_index();
+
+	spartan_representation_index_patch.apply(false);
+	elite_representation_index_patch.apply(false);
+}
+

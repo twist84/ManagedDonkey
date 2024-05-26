@@ -228,6 +228,7 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 
 	// I do not like this, I do not!
 	{
+		apply_player_representation_fixup();
 		apply_global_screen_effect();
 	}
 

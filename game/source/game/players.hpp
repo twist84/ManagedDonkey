@@ -871,3 +871,5 @@ extern long multiplayer_universal_data_get_absolute_equipment_block_index(char c
 extern long multiplayer_universal_data_get_absolute_customized_spartan_character_block_index(char const* region_or_biped_name, char const* selection_name);
 extern short multiplayer_universal_data_get_absolute_weapons_selection_block_index(char const* selection_name);
 
+extern void apply_player_representation_fixup();
+
