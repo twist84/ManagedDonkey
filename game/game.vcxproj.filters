@@ -1344,9 +1344,6 @@
     <ClCompile Include="source\interface\overhead_map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\sound\sound_xaudio2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\networking\transport\transport_qos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -3303,9 +3300,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\overhead_map.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\sound\sound_xaudio2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\render\screen_postprocess.hpp">
