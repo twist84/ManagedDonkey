@@ -8,14 +8,20 @@
 struct s_screen_effect_datum :
 	s_datum_header
 {
-	long tag_index;
+	byte __unknown2;
+
+	byte_flags flags;
+	long definition_index;
 	real seconds_active;
-	vector3d position;
-	dword object_index;
-	dword __unknown1C;
-	vector3d __unknown20;
-	vector3d __unknown2C;
-	dword __unknown38;
+	real_point3d transformed_position;
+	long attached_object_index;
+	short node_index;
+
+	byte __data1E[0x2];
+
+	real_point3d position;
+
+	real_rectangle2d __rectangle2C;
 };
 static_assert(sizeof(s_screen_effect_datum) == 0x3C);
 
