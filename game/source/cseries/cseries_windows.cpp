@@ -143,6 +143,10 @@ void system_set_maps_directory()
 	k_hard_drive_font_directory = g_hard_drive_font_directory.print("%s%s", g_cache_file_globals.map_directory, "fonts\\");
 	k_dvd_font_directory = g_dvd_font_directory.print("%s%s", g_cache_file_globals.map_directory, "fonts\\");
 
+	s_file_reference video_file{};
+	if (!file_exists(file_reference_create_from_path(&video_file, k_cache_video_file, true)))
+		k_cache_video_file = g_cache_video_file.print("%s%s", g_cache_file_globals.map_directory, "resources_b.dat");
+
 	g_cache_file_globals.resource_files[0] = k_cache_resources_file;
 	g_cache_file_globals.resource_files[1] = k_cache_textures_file;
 	g_cache_file_globals.resource_files[2] = k_cache_textures_b_file;
