@@ -227,12 +227,8 @@ bool __cdecl main_game_change_immediate(game_options const* options)
 	ASSERT(main_game_loaded_map() || main_game_loaded_pregame());
 
 	// I do not like this, I do not!
-	// 
-	// apply default screen effect
-	if (s_scenario* scenario = global_scenario_get())
 	{
-		if (scenario->global_screen_effect.index != NONE)
-			screen_effect_new(scenario->global_screen_effect.index, NONE, NONE, global_origin3d, global_zero_rectangle2d);
+		apply_global_screen_effect();
 	}
 
 	return result;

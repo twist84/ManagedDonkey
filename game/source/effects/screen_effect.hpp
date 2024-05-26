@@ -110,3 +110,5 @@ static_assert(sizeof(s_area_screen_effect_definition) == 0xC);
 extern long __cdecl screen_effect_new(long definition_index, long object_index, short node_index, real_point3d const* point, real_rectangle2d const* rectangle);
 extern void __cdecl screen_effect_update(real update_interval);
 
+extern void apply_global_screen_effect();
+
