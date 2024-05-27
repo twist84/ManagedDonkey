@@ -38,6 +38,10 @@ bool debug_load_panic_to_main_menu = true;
 
 HOOK_DECLARE(0x00566EF0, main_game_change_immediate);
 HOOK_DECLARE(0x00567AD0, main_game_load_panic);
+HOOK_DECLARE(0x00567C10, main_game_progression_request_level_advance_spoke);
+HOOK_DECLARE(0x00567C30, main_game_progression_request_level_advance);
+HOOK_DECLARE(0x00567C50, main_game_progression_request_level_advance_hub);
+HOOK_DECLARE(0x00567C70, main_game_progression_request_level_advance_normal);
 HOOK_DECLARE(0x00567E40, main_game_start);
 
 //.text:00566A80 ; unknown destructor
