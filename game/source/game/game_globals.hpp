@@ -7,6 +7,7 @@
 #include "game/campaign_metagame_definitions.hpp"
 #include "game/game_options.hpp"
 #include "game/game_progression.hpp"
+#include "game/materials.hpp"
 #include "game/materials_definitions.hpp"
 #include "math/function_definitions.hpp"
 #include "memory/data.hpp"
@@ -163,7 +164,7 @@ struct s_game_globals
 	// global water material
 	// the default value for what material type water is
 	c_string_id global_water_material; // 'sted'
-	short global_water_material_type;
+	c_global_material_type global_water_material_type;
 
 	// pad
 	byte pad_water_material[2];
@@ -181,11 +182,28 @@ struct s_game_globals
 	real biped_speed_reference;
 	real vehicle_speed_reference;
 	c_function_definition speed_to_maximum_camo;
+
+	// these 4 values are a struct passed to `sub_B56980` in `object_damage_update`
+	// sub_B56980(
+	//   &global_game_globals->__unknown5E4,
+	//   TEST_BIT(object.damage_flags, 3),
+	//   object.shield_vitality,
+	//   &object.shield_impact_current_body_damage,
+	//   &object.shield_impact_current_shield_damage,
+	//   &object.body_damage_delay_ticks,
+	// );
+	// alongside these are the following
+	// object.shield_vitality
+	// TEST_BIT(object.damage_flags, 3)
+	// object.shield_impact_current_body_damage
+	// object.shield_impact_current_shield_damage
+	// object.body_damage_delay_ticks
+	real __unknown5E4;
 	real __unknown5E8;
 	real __unknown5EC;
 	real __unknown5F0;
+
 	real __unknown5F4;
-	real __unknown5F8;
 	c_typed_tag_block<damage_reporting_type_block> damage_reporting_types;
 	real __unknown604;
 
