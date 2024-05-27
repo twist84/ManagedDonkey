@@ -17,7 +17,7 @@ public:
 
 	word m_index;
 };
-static_assert(sizeof(c_global_material_type) == 0x2);
+static_assert(sizeof(c_global_material_type) == sizeof(word));
 
 struct s_global_material_definition;
 
