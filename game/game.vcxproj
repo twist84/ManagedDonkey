@@ -963,6 +963,7 @@ POPD
     <ClInclude Include="source\game\game_options.hpp" />
     <ClInclude Include="source\game\game_progression.hpp" />
     <ClInclude Include="source\networking\online\online_achievements.hpp" />
+    <ClInclude Include="source\networking\tools\network_web_events.hpp" />
     <ClInclude Include="source\objects\target_tracking.hpp" />
     <ClInclude Include="source\physics\character_physics.hpp" />
     <ClInclude Include="source\physics\character_physics_mode_ground.hpp" />
