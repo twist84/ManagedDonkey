@@ -157,3 +157,6 @@ static_assert(0x1FEEC == offsetof(s_network_banhammer_globals, update_machine_ne
 static_assert(0x20984 == offsetof(s_network_banhammer_globals, __data20984));
 static_assert(0x20988 == offsetof(s_network_banhammer_globals, quality_statistics));
 
+extern bool& g_network_banhammer_initialized;
+extern s_network_banhammer_globals& g_network_banhammer_globals;
+
