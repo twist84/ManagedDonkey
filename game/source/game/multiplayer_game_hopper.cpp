@@ -214,7 +214,11 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 
 //.text:00549870 ; bool __cdecl multiplayer_game_set_decode(c_bitstream*, s_game_set*);
 //.text:00549970 ; void __cdecl multiplayer_game_set_encode(c_bitstream*, s_game_set const*);
-//.text:00549B70 ; char const* __cdecl multiplayer_game_start_error_to_string(e_session_game_start_error);
+
+char const* __cdecl multiplayer_game_start_error_to_string(e_session_game_start_error error)
+{
+	return INVOKE(0x00549B70, multiplayer_game_start_error_to_string, error);
+}
 
 bool __cdecl create_configuration_file(const char* filename, const void* file_contents, int file_size)
 {
