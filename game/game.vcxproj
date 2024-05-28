@@ -786,6 +786,7 @@ POPD
     <ClInclude Include="source\networking\logic\logic_session_tracker.hpp" />
     <ClInclude Include="source\networking\logic\network_bandwidth.hpp" />
     <ClInclude Include="source\networking\logic\network_banhammer.hpp" />
+    <ClInclude Include="source\networking\logic\network_leaderboard.hpp" />
     <ClInclude Include="source\networking\messages\network_messages_connect.hpp" />
     <ClInclude Include="source\networking\messages\network_messages_out_of_band.hpp" />
     <ClInclude Include="source\networking\messages\network_messages_session_membership.hpp" />

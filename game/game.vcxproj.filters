@@ -3323,6 +3323,9 @@
     <ClInclude Include="source\networking\tools\network_web_events.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\networking\logic\network_leaderboard.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
