@@ -986,6 +986,7 @@ void __cdecl network_debug_print(const char* format, ...)
 	// no print switch
 	switch (format_address)
 	{
+	case 0x01614860: // "MP/NET/OBSERVER,CTRL: c_network_observer::stream_balance_all_stream_bandwidth: bandwidth balancing with a total bandwidth cap of %d bps between %d streams (%d simulation, %d load-bearing, %d loaded) grow=%08X, start=%08X"
 	case 0x01610560: // "MP/NET/SESSION,PARAMS: c_generic_network_session_parameter<enum e_network_rough_quality>::set: [%s] parameter type %d [%s] being set"
 	case 0x01611EE8: // "MP/NET/LINK,RCV: c_network_link::decode_packet: Received a game-data-only packet that was too big (%d > %d bytes)."
 	case 0x01612028: // "MP/NET/LINK,RCV: c_network_link::read_data_immediate: Read %d-byte packet from invalid address '%s'."
