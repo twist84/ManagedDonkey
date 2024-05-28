@@ -46,3 +46,5 @@ struct s_network_leaderboard_globals
 };
 static_assert(sizeof(s_network_leaderboard_globals) == 0x25C8);
 
+extern s_network_leaderboard_globals& network_leaderboard_globals;
+

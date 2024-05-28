@@ -27,6 +27,8 @@
 #include "main/main_game_launch.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/synchronization.hpp"
+#include "networking/logic/network_banhammer.hpp"
+#include "networking/logic/network_leaderboard.hpp"
 #include "networking/network_configuration.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/online/online_lsp.hpp"
@@ -135,6 +137,8 @@ void __cdecl test_main_loop_body_begin()
 		g_hue_saturation_control_default;
 		g_hue_saturation_control_exposed_to_hs;
 		g_level_globals;
+		g_network_banhammer_globals;
+		g_network_banhammer_initialized;
 		g_network_configuration;
 		g_network_configuration_initialized;
 		g_online_lsp_manager;
@@ -162,6 +166,7 @@ void __cdecl test_main_loop_body_begin()
 		main_globals;
 		message_storage;
 		network_base_memory_globals;
+		network_leaderboard_globals;
 		network_shared_memory_globals;
 		online_session_manager_globals;
 		physical_memory_globals;
