@@ -48,7 +48,7 @@ void apply_all_hooks(bool revert)
 	{
 		if (call_hook = call_hooks[call_index]; call_hook)
 		{
-			if (!call_hook->apply(revert))
+			if (!call_hook->apply(revert) && !revert)
 				printf("call hook didn't apply: 0x%08X, %s\n", call_hook->get_address(), call_hook->get_name());
 		}
 	}
@@ -57,7 +57,7 @@ void apply_all_hooks(bool revert)
 	{
 		if (detour_hook = detour_hooks[detour_index]; detour_hook)
 		{
-			if (!detour_hook->apply(revert))
+			if (!detour_hook->apply(revert) && !revert)
 				printf("detour hook didn't apply: 0x%08X, %s\n", detour_hook->get_address(), detour_hook->get_name());
 		}
 	}
@@ -72,7 +72,7 @@ void apply_all_patches(bool revert)
 	{
 		if (data_patch = data_patches[data_patch_index]; data_patch)
 		{
-			if (!data_patch->apply(revert))
+			if (!data_patch->apply(revert) && !revert)
 				printf("data patch didn't apply: 0x%08X, %s\n", data_patch->get_address(), data_patch->get_name());
 		}
 	}
@@ -81,7 +81,7 @@ void apply_all_patches(bool revert)
 	{
 		if (data_patch_array = data_patch_arrays[data_patch_array_index]; data_patch_array)
 		{
-			if (!data_patch_array->apply(revert))
+			if (!data_patch_array->apply(revert) && !revert)
 				printf("data patch array didn't apply: %s\n", data_patch_array->get_name());
 		}
 	}
