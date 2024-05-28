@@ -2,12 +2,14 @@
 
 #include "memory/module.hpp"
 #include "networking/logic/network_broadcast_search.hpp"
+#include "networking/online/online.hpp"
 #include "networking/transport/transport.hpp"
 #include "xbox/xnet.hpp"
 
 REFERENCE_DECLARE(0x0199FAB0, s_transport_security_globals, transport_security_globals);
 
 HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
+HOOK_DECLARE(0x00430C30, transport_secure_address_get_machine_id);
 HOOK_DECLARE(0x00430DF0, transport_secure_address_retrieve);
 HOOK_DECLARE(0x00430ED0, transport_secure_identifier_get_string);
 HOOK_DECLARE(0x00430F30, transport_secure_identifier_retrieve);
@@ -69,6 +71,21 @@ bool __cdecl transport_secure_address_get_insecure(transport_address* address)
 }
 
 //00430C30 ; bool __cdecl transport_secure_address_get_secure_machine_id(s_transport_secure_address const*, qword*)
+bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address const* secure_address, qword* secure_machine_id)
+{
+	//return INVOKE(0x00430C30, transport_secure_address_get_machine_id, secure_address, secure_machine_id);
+
+	//return online_is_connected_to_live() && !XNetXnAddrToMachineId(secure_address, secure_machine_id);
+
+	// no idea what `XNetXnAddrToMachineId` actually does, so we make the machine id from the secure and insecure addresses
+	static s_transport_secure_identifier secure_identifier{};
+	static transport_address address{};
+	XNetXnAddrToInAddr(secure_address, &secure_identifier, &address);
+
+	*secure_machine_id = make_int64(secure_address->part0, address.ipv4_address);
+	return online_is_connected_to_live() && *secure_machine_id;
+}
+
 //00430C40 ; s_transport_secure_address const* __cdecl transport_secure_address_get_safe()
 //00430C50 ; char* __cdecl transport_secure_address_get_string(s_transport_secure_address const*)
 //00430CC0 ; bool __cdecl transport_secure_address_pending()
