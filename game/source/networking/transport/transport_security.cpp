@@ -9,6 +9,7 @@
 REFERENCE_DECLARE(0x0199FAB0, s_transport_security_globals, transport_security_globals);
 
 HOOK_DECLARE(0x00430B60, transport_secure_address_decode);
+HOOK_DECLARE(0x00430C10, transport_secure_address_get_local_machine_id);
 HOOK_DECLARE(0x00430C30, transport_secure_address_get_machine_id);
 HOOK_DECLARE(0x00430DF0, transport_secure_address_retrieve);
 HOOK_DECLARE(0x00430ED0, transport_secure_identifier_get_string);
@@ -70,7 +71,21 @@ bool __cdecl transport_secure_address_get_insecure(transport_address* address)
 	return transport_security_globals.address_resolved;
 }
 
-//00430C30 ; bool __cdecl transport_secure_address_get_secure_machine_id(s_transport_secure_address const*, qword*)
+qword __cdecl transport_secure_address_get_local_machine_id()
+{
+	//return INVOKE(0x00430C10, transport_secure_address_get_local_machine_id);
+
+	s_transport_secure_address secure_address{};
+	if (transport_secure_address_get(&secure_address))
+	{
+		qword machine_id{};
+		if (transport_secure_address_get_machine_id(&secure_address, &machine_id))
+			return machine_id;
+	}
+
+	return 0;
+}
+
 bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address const* secure_address, qword* secure_machine_id)
 {
 	//return INVOKE(0x00430C30, transport_secure_address_get_machine_id, secure_address, secure_machine_id);

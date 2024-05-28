@@ -65,6 +65,7 @@ extern void __cdecl transport_secure_address_extract_identifier(s_transport_secu
 extern bool __cdecl transport_secure_address_get(s_transport_secure_address*);
 extern bool __cdecl transport_secure_address_get_insecure(transport_address* address);
 //extern bool __cdecl transport_secure_address_get_secure_machine_id(s_transport_secure_address const*, qword*);
+extern qword __cdecl transport_secure_address_get_local_machine_id();
 extern bool __cdecl transport_secure_address_get_machine_id(s_transport_secure_address const* secure_address, qword* secure_machine_id);
 //extern s_transport_secure_address const* __cdecl transport_secure_address_get_safe();
 //extern char* __cdecl transport_secure_address_get_string(s_transport_secure_address const*);
