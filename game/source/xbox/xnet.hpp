@@ -6,6 +6,8 @@
 struct s_xnet_entry
 {
 	bool initialized;
+	byte __pad1[0x3];
+
 	transport_address address;
 	s_transport_secure_address secure_address;
 	s_transport_secure_identifier secure_identifier;
