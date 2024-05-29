@@ -109,5 +109,6 @@ protected:
 	long m_game_tag_parser_count;
 	s_window_manager_screen_render_data m_screen_render_data;
 	bool m_running_in_codeless_mode;
+	byte __pad1A9D[0x3];
 };
 static_assert(sizeof(c_gui_screen_widget) == 0x1AA0);

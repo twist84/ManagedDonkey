@@ -26,7 +26,7 @@ HOOK_DECLARE(0x00442AB0, online_user_get_player_identifier);
 HOOK_DECLARE(0x00442B00, sub_442B00);
 HOOK_DECLARE(0x00442B20, sub_442B20);
 HOOK_DECLARE(0x00442B40, online_has_signed_in_user);
-////HOOK_DECLARE(0x00442B60, online_local_xuid_is_silver_or_gold_live); // crashes
+HOOK_DECLARE(0x00442B60, online_local_xuid_is_silver_or_gold_live); // crashes
 HOOK_DECLARE(0x00442B70, sub_442B70);
 HOOK_DECLARE(0x00442B80, online_process_debug_output_queue);
 HOOK_DECLARE(0x00442B90, online_user_set_xuid);

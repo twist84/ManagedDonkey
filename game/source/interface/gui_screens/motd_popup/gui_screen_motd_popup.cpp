@@ -15,19 +15,19 @@ e_download_status __thiscall t_motd_popup_data_downloader::get_data(s_motd_popup
 		static_data.button_key_wait_time = 5000;
 
 		static_data.title.set(L"Halo: Reach E3 Trailer!");
-		static_data.title_size = static_data.title.length();
+		static_data.title_size = sizeof(wchar_t) * static_data.title.length();
 
 		static_data.header.set(L"Prepare for Launch.");
-		static_data.header_size = static_data.header.length();
+		static_data.header_size = sizeof(wchar_t) * static_data.header.length();
 
 		static_data.button_key.set(L"Lift-off!");
-		static_data.button_key_size = static_data.button_key.length();
+		static_data.button_key_size = sizeof(wchar_t) * static_data.button_key.length();
 
 		static_data.button_key_wait.set(L"T-minus 5...");
-		static_data.button_key_wait_size = static_data.button_key_wait.length();
+		static_data.button_key_wait_size = sizeof(wchar_t) * static_data.button_key_wait.length();
 
 		static_data.message.set(L"Going where no man has gone before is standard operating procedure for Noble Team, but even they weren't prepared for Operation Uppercut. Backs against the wall and facing the full might of the Covenant invasion, Six must rely on his unique skill set and previous involvement in ONI's secret Sabre program to launch a surprise attack against the Covenant fleet in the last place they expect to be met by resistance. And since you weren't on hand to witness this trailer's maiden voyage at E3, Bungie brought back some footage so you can relive the launch sequence on Bungie.net and Marketplace.");
-		static_data.message_size = static_data.message.length();
+		static_data.message_size = sizeof(wchar_t) * static_data.message.length();
 	}
 
 	if (data)
@@ -38,6 +38,5 @@ e_download_status __thiscall t_motd_popup_data_downloader::get_data(s_motd_popup
 
 	return _http_download_status_succeeded;
 }
-//HOOK_DECLARE_CLASS_MEMBER(0x00AE74E0, t_motd_popup_data_downloader, get_data);
-//DATA_PATCH_DECLARE2(0x00AE82C4, is_signed_in_to_live_test_jz, 2, { 0x74, 0x00 });
+HOOK_DECLARE_CLASS_MEMBER(0x00AE74E0, t_motd_popup_data_downloader, get_data);
 
