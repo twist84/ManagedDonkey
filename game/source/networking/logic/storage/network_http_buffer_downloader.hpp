@@ -16,6 +16,7 @@ enum e_download_status
 	k_download_status_count
 };
 
+#pragma pack(push, 1)
 struct c_http_buffer_downloader
 {
 	enum e_internal_status
@@ -44,19 +45,15 @@ public:
 protected:
 	c_url_string m_url;
 
-#pragma pack(push, 1)
 	bool m_hash_is_set;
 	s_network_http_request_hash m_hash;
 	byte __pad129[3];
-#pragma pack(pop)
 
 	c_http_post_source m_post_source;
 
-#pragma pack(push, 1)
 	bool __unknown268;
 	c_static_string<1024> m_extra_headers;
 	byte __pad669[3];
-#pragma pack(pop)
 
 	c_enum<e_internal_status, long, _internal_status_none, k_internal_status_count> m_internal_status;
 	dword m_request_cookie;
@@ -73,6 +70,7 @@ protected:
 	dword __unknown694;
 };
 static_assert(sizeof(c_http_buffer_downloader) == 0x698);
+#pragma pack(pop)
 
 template<long k_buffer_size>
 struct c_http_stored_buffer_downloader :

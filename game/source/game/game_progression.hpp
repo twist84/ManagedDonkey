@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "shell/shell.hpp"
 
+#pragma warning(push)
+#pragma warning(disable : 26495)
 struct s_campaign_armaments_weapon
 {
 	c_enum<e_damage_reporting_type, short, _damage_reporting_type_unknown, k_damage_reporting_type_count> damage_reporting_type;
@@ -32,7 +34,8 @@ static_assert(sizeof(s_campaign_armaments) == 0x78);
 
 struct s_campaign_game_progression
 {
-	byte __data[0x80];
+	// long[32]?
+	c_static_array<dword, 32> integer_names;
 };
 static_assert(sizeof(s_campaign_game_progression) == 0x80);
 
@@ -46,3 +49,5 @@ struct s_hub_progression
 	byte : 8;
 };
 static_assert(sizeof(s_hub_progression) == 0x80);
+#pragma warning(pop)
+

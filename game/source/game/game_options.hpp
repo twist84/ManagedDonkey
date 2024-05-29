@@ -9,6 +9,8 @@
 #include "saved_games/scenario_map_variant.hpp"
 #include "shell/shell.hpp"
 
+#pragma warning(push)
+#pragma warning(disable : 26495)
 struct game_options
 {
 	game_options()
@@ -62,4 +64,5 @@ struct game_options
 	c_static_array<game_player_options, 16> players;
 };
 static_assert(sizeof(game_options) == 0x24B48);
+#pragma warning(pop)
 

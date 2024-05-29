@@ -12,9 +12,13 @@ struct s_network_web_event_cheating_local_player
 	bool caught_cheating;
 	byte __pad1[0x7];
 	s_player_identifier player_identifier;
+
 	qword machine_id;
+
 	wchar_t name[16];
+
 	qword game_instance;
+
 	dword_flags cheat_flags;
 	bool webstats_submitted;
 	byte _pad45[0x3];
@@ -105,7 +109,9 @@ struct s_network_banhammer_globals
 
 	long network_map_signatures_downloader_attempt_index;
 	s_map_file_manifest map_file_manifest;
-	c_http_stored_buffer_downloader<34980> network_map_signatures_downloader;
+
+	c_http_stored_buffer_downloader<34977> network_map_signatures_downloader;
+	byte __pad160C5[0x3];
 
 	byte __data160C8[0xC];
 	bool __unknown160D4;
@@ -115,8 +121,11 @@ struct s_network_banhammer_globals
 
 	byte __data161D6[0x2];
 
-	c_http_stored_buffer_downloader<2164> matchmaking_machine_downloader;
-	c_http_stored_buffer_downloader<10404> matchmaking_banhammer_message_downloader;
+	c_http_stored_buffer_downloader<2161> matchmaking_machine_downloader;
+	byte __pad170E1[0x3];
+
+	c_http_stored_buffer_downloader<10401> matchmaking_banhammer_message_downloader;
+	byte __pad1A01D[0x3];
 
 	byte __data1A020[0xC];
 
@@ -144,13 +153,16 @@ static_assert(0x05182 == offsetof(s_network_banhammer_globals, __data5182));
 static_assert(0x05184 == offsetof(s_network_banhammer_globals, network_map_signatures_downloader_attempt_index));
 static_assert(0x05188 == offsetof(s_network_banhammer_globals, map_file_manifest));
 static_assert(0x0D18C == offsetof(s_network_banhammer_globals, network_map_signatures_downloader));
+static_assert(0x160C5 == offsetof(s_network_banhammer_globals, __pad160C5));
 static_assert(0x160C8 == offsetof(s_network_banhammer_globals, __data160C8));
 static_assert(0x160D4 == offsetof(s_network_banhammer_globals, __unknown160D4));
 static_assert(0x160D5 == offsetof(s_network_banhammer_globals, __unknown160D5));
 static_assert(0x160D6 == offsetof(s_network_banhammer_globals, map_signature));
 static_assert(0x161D6 == offsetof(s_network_banhammer_globals, __data161D6));
 static_assert(0x161D8 == offsetof(s_network_banhammer_globals, matchmaking_machine_downloader));
+static_assert(0x170E1 == offsetof(s_network_banhammer_globals, __pad170E1));
 static_assert(0x170E4 == offsetof(s_network_banhammer_globals, matchmaking_banhammer_message_downloader));
+static_assert(0x1A01D == offsetof(s_network_banhammer_globals, __pad1A01D));
 static_assert(0x1A020 == offsetof(s_network_banhammer_globals, __data1A020));
 static_assert(0x1A02C == offsetof(s_network_banhammer_globals, controller_downloaders));
 static_assert(0x1FEEC == offsetof(s_network_banhammer_globals, update_machine_network_stats));
