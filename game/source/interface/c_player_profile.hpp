@@ -1,6 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/players.hpp"
+#include "networking/online/online_guide_pc.hpp"
 #include "shell/shell.hpp"
 
 // e_button_presets
@@ -15,6 +17,12 @@
 // e_player_model_choice
 
 const long k_popup_message_title_count = 1;
+
+struct s_player_training_profile_data
+{
+	byte __data0[0x20];
+};
+static_assert(sizeof(s_player_training_profile_data) == 0x20);
 
 struct c_player_profile_interface
 {
@@ -48,7 +56,7 @@ struct c_player_profile_interface
 
 	// these fields are expanded from s_player_appearance
 	long player_model_choice;
-	byte __data4A0[0x650];
+	s_emblem_info emblem_info;
 	byte __dataAF0[0xA];
 
 	wchar_t service_tag[5];
@@ -67,11 +75,10 @@ struct c_player_profile_interface
 	bool film_auto_save[3];
 	byte __unknownBB3;
 
-	byte __dataBB4[0x4];
+	long profile_region;
 	long gamer_zone;
-	byte __dataBBC[0x20];
-
-	// c_string_verify_task
-	byte string_verify_task[0x81C];
+	s_player_training_profile_data training_data;
+	c_string_verify_task m_string_verify_task;
 };
 static_assert(sizeof(c_player_profile_interface) == 0x13F8);
+

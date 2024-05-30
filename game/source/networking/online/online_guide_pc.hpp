@@ -66,6 +66,13 @@ protected:
 };
 static_assert(sizeof(c_virtual_keyboard_task) == 0x6A0);
 
+struct c_string_verify_task :
+	public c_overlapped_task
+{
+	byte __data10[0x80C];
+};
+static_assert(sizeof(c_string_verify_task) == sizeof(c_overlapped_task) + 0x80C);
+
 enum e_online_guide_toast_position
 {
 	_toast_position0 = 0,
