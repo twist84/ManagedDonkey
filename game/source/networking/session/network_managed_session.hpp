@@ -2,55 +2,77 @@
 
 #include "cseries/async_xoverlapped.hpp"
 #include "cseries/cseries.hpp"
+#include "networking/online/online_session.hpp"
 #include "networking/transport/transport_security.hpp"
+
+enum e_session_overlapped_task_context
+{
+	// XSessionCreate
+	_session_overlapped_task_context_create = 0,
+
+	// XSessionDelete
+	_session_overlapped_task_context_delete,
+
+	// XSessionMigrateHost
+	_session_overlapped_task_context_migrate_host,
+
+	// XSessionModify
+	_session_overlapped_task_context_modify,
+
+	// XSessionJoinRemote
+	_session_overlapped_task_context_add_players,
+
+	// XSessionLeaveRemote
+	_session_overlapped_task_context_remove_players,
+
+	// XSessionStart
+	_session_overlapped_task_context_start,
+
+	// XSessionEnd
+	_session_overlapped_task_context_end,
+
+	k_session_overlapped_task_context_count
+};
 
 struct s_online_session;
 struct c_managed_session_overlapped_task :
 	c_overlapped_task
 {
-	dword context;
+	void __thiscall process_add_players(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, qword const* a4, bool const* a5, bool const* a6, long a7);
+	void __thiscall process_create(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, word_flags flags);
+	void __thiscall process_delete(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session);
+	void __thiscall process_game_end(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session);
+	void __thiscall process_modify(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, s_online_session* desired_session, s_online_session* actual_session);
+	void __thiscall process_game_start(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session);
+	void __thiscall process_remove_players(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, qword const* a4, bool const* a5, long player_count);
+	void __thiscall process_session_host_migrate(long managed_session_index, void(__cdecl* callback)(long, bool, dword), s_online_session* session, bool is_host, s_transport_session_description* host_migration_description);
+	dword __thiscall start_(void* overlapped);
 
-	s_online_session* m_transitory_online_session_state;
-	s_online_session* m_desired_online_session_state;
-	s_online_session* m_actual_online_session_state;
+	void __thiscall complete_();
+	void __thiscall failure_(dword a1, dword a2, dword a3);
+	void __thiscall success_(dword a1);
+
+	c_enum<e_session_overlapped_task_context, long, _session_overlapped_task_context_create, k_session_overlapped_task_context_count> m_context;
+
+	s_online_session* m_session;
+	s_online_session* m_desired_session;
+	s_online_session* m_actual_session;
 	long m_managed_session_index;
 
 	void(__cdecl* m_callback)(long, bool, dword);
 	bool m_callback_value0;
 	dword m_callback_value1;
 
-	byte __unknown30;
-	byte __unknown31;
+	word_flags m_online_session_flags;
 	bool m_is_host;
 	byte __unknown33;
 	s_transport_session_description* m_host_migration_description;
 
-	long m_xuid_count;
-	c_static_array<qword, 16> m_xuids;
-	c_static_array<dword_flags, 16> m_xuid_flags;
+	long m_player_count;
+	qword m_player_xuids[16];
+	dword_flags m_private_slots[16];
 };
 static_assert(sizeof(c_managed_session_overlapped_task) == 0x100);
-
-struct s_online_session_player
-{
-	word_flags flags;
-	qword xuid;
-};
-static_assert(sizeof(s_online_session_player) == 0x10);
-
-struct s_online_session
-{
-	long controller_index;
-	word_flags public_slots_flags;
-	word_flags private_slots_flags;
-	long public_slot_count;
-	long private_slot_count;
-	s_transport_session_description description;
-	qword nonce;
-	void* handle;
-	c_static_array<s_online_session_player, 16> players;
-};
-static_assert(sizeof(s_online_session) == 0x150);
 
 struct s_online_context
 {

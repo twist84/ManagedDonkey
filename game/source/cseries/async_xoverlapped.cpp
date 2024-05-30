@@ -60,6 +60,7 @@ void __cdecl overlapped_update()
 	INVOKE(0x005A9050, overlapped_update);
 }
 
+// #TODO: completely rewrite this implementaion
 bool __stdcall overlapped_task_start_internal(c_overlapped_task* task, const char* file, int line)
 {
 	ASSERT(task);

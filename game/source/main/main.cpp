@@ -906,32 +906,32 @@ void __cdecl main_loop_body_main_part()
 								else
 									sound_render();
 	
-								static dword main_loop_network_time_since_abort = 0;
-								if (simulation_aborted())
-								{
-									dword network_time_since_abort = simulation_get_network_time_since_abort();
-									if (network_time_since_abort > 1000)
-										network_time_since_abort /= 1000;
-									else
-										network_time_since_abort = 0;
-	
-									if (network_time_since_abort >= 5)
-									{
-										if (network_time_since_abort >= main_loop_network_time_since_abort + 5)
-										{
-											main_loop_network_time_since_abort = network_time_since_abort;
-											console_printf("simulation aborted %i seconds ago [%s]. Waiting for instructions...", network_time_since_abort, simulation_get_abort_reason_string());
-										}
-									}
-									else
-									{
-										main_loop_network_time_since_abort = 0;
-									}
-								}
-								else
-								{
-									main_loop_network_time_since_abort = 0;
-								}
+								//static dword main_loop_network_time_since_abort = 0;
+								//if (simulation_aborted())
+								//{
+								//	dword network_time_since_abort = simulation_get_network_time_since_abort();
+								//	if (network_time_since_abort > 1000)
+								//		network_time_since_abort /= 1000;
+								//	else
+								//		network_time_since_abort = 0;
+								//
+								//	if (network_time_since_abort >= 5)
+								//	{
+								//		if (network_time_since_abort >= main_loop_network_time_since_abort + 5)
+								//		{
+								//			main_loop_network_time_since_abort = network_time_since_abort;
+								//			console_printf("simulation aborted %i seconds ago [%s]. Waiting for instructions...", network_time_since_abort, simulation_get_abort_reason_string());
+								//		}
+								//	}
+								//	else
+								//	{
+								//		main_loop_network_time_since_abort = 0;
+								//	}
+								//}
+								//else
+								//{
+								//	main_loop_network_time_since_abort = 0;
+								//}
 							}
 						}
 
