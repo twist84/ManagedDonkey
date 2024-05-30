@@ -77,6 +77,8 @@ struct c_network_session_parameter_type_collection
 	};
 
 public:
+	void check_session_parameter_types() const;
+	void clear_session_parameter_types();
 	void register_session_parameter_type(
 		e_network_session_parameter_type session_parameter_type,
 		char const* session_parameter_name, 
@@ -89,6 +91,6 @@ public:
 	);
 
 protected:
-	s_network_session_parameter_type m_parameters[k_network_session_parameter_type_count];
+	s_network_session_parameter_type m_session_parameter_types[k_network_session_parameter_type_count];
 };
 static_assert(sizeof(c_network_session_parameter_type_collection) == 0x620);

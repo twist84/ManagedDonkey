@@ -1669,6 +1669,48 @@ void __cdecl c_network_message_handler::handle_synchronous_client_ready(c_networ
 	}
 }
 
+bool __cdecl c_network_message_handler::initialize_handler(c_network_link* link, c_network_message_type_collection const* message_types, c_network_message_gateway* message_gateway)
+{
+	//return DECLFUNC(0x0049DF60, bool, __thiscall, c_network_message_handler*, c_network_link*, c_network_message_type_collection const*, c_network_message_gateway*)(this, link, message_types, message_gateway);
+
+	ASSERT(!m_initialized);
+	ASSERT(link);
+	ASSERT(message_types);
+	ASSERT(message_gateway);
+
+	m_link = link;
+	m_message_types = message_types;
+	m_message_gateway = message_gateway;
+	message_gateway->attach_handler(this);
+	m_observer = NULL;
+	m_session_manager = NULL;
+	m_initialized = true;
+
+	return m_initialized;
+}
+
+void __cdecl c_network_message_handler::register_observer(c_network_observer* observer)
+{
+	//DECLFUNC(0x0049E020, void, __thiscall, c_network_message_handler*, c_network_observer*)(this, observer);
+
+	ASSERT(m_initialized);
+	ASSERT(observer);
+	ASSERT(m_observer == NULL);
+
+	m_observer = observer;
+}
+
+void __cdecl c_network_message_handler::register_session_manager(c_network_session_manager* session_manager)
+{
+	//DECLFUNC(0x0049E030, void, __thiscall, c_network_message_handler*, c_network_session_manager*)(this, session_manager);
+
+	ASSERT(m_initialized);
+	ASSERT(session_manager);
+	ASSERT(m_session_manager == NULL);
+
+	m_session_manager = session_manager;
+}
+
 void __cdecl c_network_message_handler::handle_text_chat(c_network_channel* channel, s_network_message_text_chat const* message)
 {
 	c_network_session* session = m_session_manager->get_session(&message->session_id);

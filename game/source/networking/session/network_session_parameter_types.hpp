@@ -1,0 +1,6 @@
+#pragma once
+
+struct c_network_session_parameter_type_collection;
+extern void __cdecl network_session_parameters_register_parameter_type_collection(c_network_session_parameter_type_collection* session_parameter_types);
+extern void __cdecl network_session_parameter_types_register(c_network_session_parameter_type_collection* session_parameter_types);
+

@@ -11,3 +11,5 @@ struct s_network_session_tracker_session_data
 };
 static_assert(sizeof(s_network_session_tracker_session_data) == 0x16520);
 
+extern bool __cdecl network_session_tracker_initialize();
+

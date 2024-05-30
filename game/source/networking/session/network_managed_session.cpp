@@ -107,9 +107,20 @@ char const* __cdecl managed_session_get_id_string(long index)
 //.text:004837D0 ; void __cdecl managed_session_use_new_host(long);
 //.text:004839C0 ; long __cdecl managed_session_who_has_this_session_id(s_transport_secure_identifier const*);
 
-//.text:00483AF0 ; void __cdecl online_session_manager_dispose();
-//.text:00483B10 ; void __cdecl online_session_manager_initialize();
-//.text:00483B20 ; void __cdecl online_session_manager_update();
+void __cdecl online_session_manager_dispose()
+{
+	INVOKE(0x00483AF0, online_session_manager_dispose);
+}
+
+void __cdecl online_session_manager_initialize()
+{
+	INVOKE(0x00483B10, online_session_manager_initialize);
+}
+
+void __cdecl online_session_manager_update()
+{
+	INVOKE(0x00483B20, online_session_manager_update);
+}
 
 //.text:00483B50 ; void __cdecl remove_from_player_list(s_online_session_player*, long, qword const*, long);
 

@@ -30,3 +30,7 @@ struct s_network_quality_statistics
 };
 static_assert(sizeof(s_network_quality_statistics) == 0xC0);
 
+struct c_network_observer;
+struct s_bandwidth_configuration;
+extern bool __cdecl network_bandwidth_initialize(c_network_observer* observer, s_bandwidth_configuration const* bandwidth_configuration);
+

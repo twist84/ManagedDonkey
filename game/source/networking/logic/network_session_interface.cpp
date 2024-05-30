@@ -5,7 +5,6 @@
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
 
-
 REFERENCE_DECLARE(0x019A0328, s_network_session_interface_globals, session_interface_globals);
 
 long __cdecl network_squad_session_get_countdown_timer()
@@ -153,6 +152,11 @@ qword __cdecl network_session_interface_get_local_user_xuid(long user_index)
 void __cdecl network_session_interface_handle_message(long session_network_message)
 {
 	INVOKE(0x004365D0, network_session_interface_handle_message, session_network_message);
+}
+
+bool __cdecl network_session_interface_initialize(c_network_session_manager* session_manager)
+{
+	return INVOKE(0x00436710, network_session_interface_initialize, session_manager);
 }
 
 //bool __cdecl network_session_interface_local_user_exists(e_output_user_index user_index)

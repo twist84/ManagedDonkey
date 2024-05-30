@@ -12,8 +12,19 @@
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
 #include "networking/delivery/network_link.hpp"
+#include "networking/logic/logic_session_tracker.hpp"
+#include "networking/logic/network_arbitration.hpp"
+#include "networking/logic/network_bandwidth.hpp"
+#include "networking/logic/network_banhammer.hpp"
+#include "networking/logic/network_leaderboard.hpp"
+#include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_recruiting_search.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/logic/storage/network_http_request_queue.hpp"
+#include "networking/logic/storage/network_storage_cache.hpp"
+#include "networking/logic/storage/network_storage_files.hpp"
+#include "networking/logic/storage/network_storage_manifest.hpp"
+#include "networking/logic/storage/network_storage_queue.hpp"
 #include "networking/messages/network_messages_connect.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
 #include "networking/messages/network_messages_session_membership.hpp"
@@ -27,10 +38,14 @@
 #include "networking/network_configuration.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
+#include "networking/online/online_files.hpp"
 #include "networking/online/online_guide_pc.hpp"
 #include "networking/online/online_lsp.hpp"
+#include "networking/online/online_presence_pc.hpp"
 #include "networking/online/online_url.hpp"
+#include "networking/session/network_managed_session.hpp"
 #include "networking/session/network_session.hpp"
+#include "networking/session/network_session_parameter_types.hpp"
 #include "networking/transport/transport.hpp"
 #include "objects/object_placement.hpp"
 #include "profiler/profiler.hpp"
@@ -49,7 +64,29 @@ REFERENCE_DECLARE(0x0224A4AC, c_network_session_parameter_type_collection*, g_ne
 REFERENCE_DECLARE(0x0224A4B0, c_network_session_manager*, g_network_session_manager);
 REFERENCE_DECLARE(0x0224A4B4, s_network_globals, network_globals);
 
+//HOOK_DECLARE(0x0049E050, network_dispose);
+//HOOK_DECLARE(0x0049E1B0, network_initialize);
 HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
+
+//bool g_network_status_memory = false;
+//bool g_network_status_link = false;
+//bool g_network_status_simulation = false;
+//bool g_network_status_channels = false;
+//bool g_network_status_connections = false;
+//bool g_network_status_message_queues = false;
+//bool g_network_status_observer = false;
+//bool g_network_status_sessions = false;
+//bool g_network_status_leaderboard = false;
+//c_status_line g_network_memory_status_line[1]{};
+//c_status_line g_network_link_status_line[1]{};
+//c_status_line g_network_simulation_status_lines[2]{};
+//c_status_line g_network_channel_status_lines[2]{};
+//c_status_line g_network_connection_status_lines[4]{};
+//c_status_line g_network_message_queue_status_lines[2]{};
+//c_status_line g_network_observer_status_lines[5]{};
+//c_status_line g_network_session_status_lines[7]{};
+//c_status_line g_network_leaderboard_query_status_lines[4]{};
+//c_status_line g_network_leaderboard_write_status_lines[6]{};
 
 c_network_message_type_collection custom_message_types_override = {};
 c_network_message_gateway custom_message_gateway_override = {};
@@ -114,6 +151,57 @@ bool __cdecl network_memory_base_initialize(
 void __cdecl network_dispose()
 {
 	INVOKE(0x0049E050, network_dispose);
+
+	//if (network_globals.initialized)
+	//{
+	//	//service_client_dispose();
+	//	network_storage_cache_dispose();
+	//	network_storage_manifest_dispose();
+	//	network_storage_dispose();
+	//	network_storage_files_dispose();
+	//	network_http_request_queue_dispose();
+	//	online_files_dispose();
+	//	online_rich_presence_dispose();
+	//	online_guide_dispose();
+	//	online_lsp_dispose();
+	//	online_url_dispose();
+	//	online_dispose();
+	//	network_bandwidth_dispose();
+	//	network_leaderboard_destory();
+	//	network_arbitration_destory();
+	//	network_session_interface_dispose();
+	//	network_life_cycle_dispose();
+	//	network_search_dispose();
+	//	network_recruiting_search_dispose();
+	//	network_broadcast_search_dispose();
+	//	network_session_tracker_dispose();
+	//
+	//	for (long session_index = 0; session_index < 3; session_index++)
+	//		g_network_sessions[session_index].destroy_session();
+	//
+	//	g_network_observer->destroy_observer();
+	//	g_network_session_manager->destroy_session_manager();
+	//	g_network_session_parameter_types->clear_session_parameter_types();
+	//
+	//	online_session_manager_dispose();
+	//	network_memory_shared_dispose();
+	//
+	//	g_network_message_handler->destroy_handler();
+	//	g_network_message_gateway->destroy_gateway();
+	//	g_network_message_types->clear_message_types();
+	//	g_network_link->destroy_link();
+	//
+	//	network_globals.initialized = false;
+	//	g_network_link = NULL;
+	//	g_network_message_types = NULL;
+	//	g_network_message_gateway = NULL;
+	//	g_network_message_handler = NULL;
+	//	g_network_observer = NULL;
+	//	g_network_sessions = NULL;
+	//
+	//	network_memory_base_dispose();
+	//	network_configuration_dispose();
+	//}
 }
 
 c_network_session_manager* __cdecl network_get_session_manager()
@@ -121,7 +209,6 @@ c_network_session_manager* __cdecl network_get_session_manager()
 	return INVOKE(0x0049E1A0, network_get_session_manager);
 }
 
-// #TODO: fully inplement and cleanup `network_initialize`
 void __cdecl network_initialize()
 {
 	INVOKE(0x0049E1B0, network_initialize);
@@ -169,9 +256,10 @@ void __cdecl network_initialize()
 	//		network_session_time_register_session_manager(g_network_session_manager);
 	//		g_network_message_handler->register_session_manager(g_network_session_manager);
 	//
-	//		success |= g_network_sessions[0].initialize_session(0, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager)
-	//			&& g_network_sessions[1].initialize_session(1, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager)
-	//			&& g_network_sessions[2].initialize_session(2, _network_session_type_group, g_network_message_gateway, g_network_observer, g_network_session_manager);
+	//		success |= 
+	//			g_network_sessions[0].initialize_session(0, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
+	//			g_network_sessions[1].initialize_session(1, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
+	//			g_network_sessions[2].initialize_session(2, _network_session_type_group, g_network_message_gateway, g_network_observer, g_network_session_manager);
 	//
 	//		online_session_manager_initialize();
 	//
@@ -184,7 +272,7 @@ void __cdecl network_initialize()
 	//			&& network_session_interface_initialize(g_network_session_manager)
 	//			&& network_leaderboard_initialize()
 	//			&& network_arbitration_initialize()
-	//			&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.__unknownC)
+	//			&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth_configuration)
 	//			&& network_session_tracker_initialize())
 	//		{
 	//			transport_register_transition_functions(network_startup_transport, network_shutdown_transport, nullptr, nullptr);
@@ -198,8 +286,19 @@ void __cdecl network_initialize()
 	//			online_rich_presence_initialize();
 	//			online_files_initialize();
 	//			network_http_request_queue_initialize();
-	//			nullsub_536();
-	//			service_client_initialize();
+	//			network_storage_files_initialize();
+	//			//service_client_initialize();
+	//
+	//			//status_lines_initialize(g_network_memory_status_line, &g_network_status_memory, 1);
+	//			//status_lines_initialize(g_network_link_status_line, &g_network_status_link, 1);
+	//			//status_lines_initialize(g_network_simulation_status_lines, &g_network_status_simulation, 2);
+	//			//status_lines_initialize(g_network_channel_status_lines, &g_network_status_channels, 32);
+	//			//status_lines_initialize(g_network_connection_status_lines, &g_network_status_connections, 64);
+	//			//status_lines_initialize(g_network_message_queue_status_lines, &g_network_status_message_queues, 32);
+	//			//status_lines_initialize(g_network_observer_status_lines, &g_network_status_observer, 65);
+	//			//status_lines_initialize(g_network_session_status_lines, &g_network_status_sessions, 7);
+	//			//status_lines_initialize(g_network_leaderboard_query_status_lines, &g_network_status_leaderboard, 4);
+	//			//status_lines_initialize(g_network_leaderboard_write_status_lines, &g_network_status_leaderboard, 16);
 	//		}
 	//
 	//		if (success)
@@ -220,16 +319,6 @@ void __cdecl network_initialize()
 	//}
 }
 
-// #TODO: replace this with a reimplementation of `network_initialize`
-void __cdecl _network_message_types_register_test(c_network_message_type_collection* message_collection)
-{
-	ASSERT(message_collection);
-
-	network_message_types_register_text_chat(message_collection);
-	network_message_types_register_test(message_collection);
-}
-HOOK_DECLARE_CALL(0x0049E289, _network_message_types_register_test);
-
 bool __cdecl network_initialized()
 {
 	//return INVOKE(0x0049E5A0, network_initialized);
@@ -242,7 +331,7 @@ void __cdecl network_idle()
 	//INVOKE(0x0049E5B0, network_idle);
 
 	ASSERT(is_main_thread());
-	
+
 	PROFILER(networking_idle)
 	{
 		if (!network_globals.entered)
@@ -259,15 +348,15 @@ void __cdecl network_receive()
 	//INVOKE(0x0049E600, network_receive);
 
 	ASSERT(is_main_thread());
-	
+
 	PROFILER(networking_receive)
 	{
 		if (network_initialized())
 		{
 			NETWORK_ENTER_AND_LOCK_TIME;
-	
+
 			g_network_link->process_incoming_packets();
-	
+
 			NETWORK_EXIT_AND_UNLOCK_TIME;
 		}
 	}
@@ -278,21 +367,21 @@ void __cdecl network_send()
 	//INVOKE(0x0049E640, network_send);
 
 	ASSERT(is_main_thread());
-	
+
 	PROFILER(networking_send)
 	{
 		if (network_initialized())
 		{
 			NETWORK_ENTER_AND_LOCK_TIME;
-	
+
 			for (long i = 0; i < k_network_session_type_count; i++)
 				g_network_sessions[i].idle();
-	
+
 			g_network_observer->monitor();
 			simulation_prepare_to_send();
 			g_network_link->process_all_channels();
 			g_network_message_gateway->send_all_pending_messages();
-	
+
 			NETWORK_EXIT_AND_UNLOCK_TIME;
 		}
 	}

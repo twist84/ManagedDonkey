@@ -398,22 +398,27 @@ struct s_map_information
 };
 static_assert(sizeof(s_map_information) == 0x8);
 
+struct s_bandwidth_configuration
+{
+	real __unknown0;
+	long __unknown4;
+	long __unknown8;
+	long __unknownC;
+	long __unknown10;
+	real __unknown14;
+	long __unknown18;
+	long __unknown1C;
+	long __unknown20;
+};
+static_assert(sizeof(s_bandwidth_configuration) == 0x24);
+
 struct s_network_configuration
 {
 	dword __unknown0;
 	dword __unknown4;
 	dword __unknown8;
 
-	// start of `s_bandwidth_configuration`
-	real __unknownC;
-	dword __unknown10;
-	dword __unknown14;
-	dword __unknown18;
-	dword __unknown1C;
-	real __unknown20;
-	dword __unknown24;
-	dword __unknown28;
-	dword __unknown2C;
+	s_bandwidth_configuration bandwidth_configuration;
 
 	// used in `c_network_session::idle`
 	dword __unknown30;

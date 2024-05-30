@@ -1,7 +1,22 @@
 #include "networking/session/network_session_parameter_type_collection.hpp"
-#include "networking/session/network_session_parameters_base.hpp"
 
 #include "cseries/cseries.hpp"
+#include "networking/session/network_session_parameters_base.hpp"
+
+void c_network_session_parameter_type_collection::check_session_parameter_types() const
+{
+	//DECLFUNC(0x004D26B0, void, __thiscall, c_network_session_parameter_type_collection const*)(this);
+
+	for (long parameter_index = 0; parameter_index < k_network_session_parameter_type_count; parameter_index++)
+		ASSERT(m_session_parameter_types[parameter_index].initialized);
+}
+
+void c_network_session_parameter_type_collection::clear_session_parameter_types()
+{
+	//DECLFUNC(0x004D26C0, void, __thiscall, c_network_session_parameter_type_collection*)(this);
+
+	csmemset(this, 0, sizeof(c_network_session_parameter_type_collection));
+}
 
 void c_network_session_parameter_type_collection::register_session_parameter_type(
 	e_network_session_parameter_type session_parameter_type,
@@ -24,7 +39,7 @@ void c_network_session_parameter_type_collection::register_session_parameter_typ
 	ASSERT(change_request_size > 0);
 	ASSERT(change_request_size <= k_network_session_parameters_request_payload_size);
 
-	s_network_session_parameter_type* parameter = &m_parameters[session_parameter_type];
+	s_network_session_parameter_type* parameter = &m_session_parameter_types[session_parameter_type];
 	ASSERT(!parameter->initialized);
 
 	parameter->session_parameter_name = session_parameter_name;
@@ -58,3 +73,4 @@ void c_network_session_parameter_type_collection::register_session_parameter_typ
 	//	change_request_size
 	//);
 }
+

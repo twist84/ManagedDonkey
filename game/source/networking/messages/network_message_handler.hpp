@@ -141,13 +141,16 @@ public:
 	void __cdecl handle_synchronous_gamestate(c_network_channel* channel, s_network_message_synchronous_gamestate const* message, long chunk_size, void const* chunk_data);
 	void __cdecl handle_distributed_game_results(c_network_channel* channel, s_network_message_distributed_game_results const* message);
 	void __cdecl handle_synchronous_client_ready(c_network_channel* channel);
+	bool __cdecl initialize_handler(c_network_link* link, c_network_message_type_collection const* message_types, c_network_message_gateway* message_gateway);
+	void __cdecl register_observer(c_network_observer* observer);
+	void __cdecl register_session_manager(c_network_session_manager* session_manager);
 	void __cdecl handle_text_chat(c_network_channel* channel, s_network_message_text_chat const* message);
 	void __cdecl handle_test(c_network_channel* channel, s_network_message_test const* message);
 
 //protected:
 	bool m_initialized;
 	c_network_link* m_link;
-	c_network_message_type_collection* m_message_types;
+	c_network_message_type_collection const* m_message_types;
 	c_network_message_gateway* m_message_gateway;
 	c_network_observer* m_observer;
 	c_network_session_manager* m_session_manager;

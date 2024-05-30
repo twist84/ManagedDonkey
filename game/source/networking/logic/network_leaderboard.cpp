@@ -18,7 +18,12 @@ REFERENCE_DECLARE(0x0226B508, s_network_leaderboard_globals, network_leaderboard
 //.text:004D5C90 ; void __cdecl network_leaderboard_clear_query_stats(e_controller_index controller_index)
 //.text:004D5CC0 ; void __cdecl network_leaderboard_clear_user_stats(e_controller_index controller_index, e_network_leaderboard_player_stats_clear_type stats_clear_type)
 //.text:004D5D70 ; bool __cdecl sub_4D5D70(e_controller_index, long* highest_skill_out) // controller get highest skill
-//.text:004D5DF0 ; void __cdecl network_leaderboard_destory()
+
+void __cdecl network_leaderboard_destory()
+{
+	INVOKE(0x004D5DF0, network_leaderboard_destory);
+}
+
 //.text:004D5E10 ; e_online_leaderboard_column_id __cdecl network_leaderboard_get_column_id_by_statistic(e_leaderboard_statistic leaderboard_statistic, e_online_leaderboard_id leaderboard_id)
 //.text:004D5E80 ; e_online_property_id __cdecl network_leaderboard_get_property_id_by_statistic(e_leaderboard_statistic leaderboard_statistic)
 //.text:004D5F50 ; e_hopper_load_status __cdecl network_leaderboard_get_query_status()
@@ -27,7 +32,12 @@ REFERENCE_DECLARE(0x0226B508, s_network_leaderboard_globals, network_leaderboard
 //.text:004D6070 ; long sub_4D6070(qword xuid) // get valid query user index?
 //.text:004D60B0 ; e_network_leaderboard_write_status __cdecl network_leaderboard_get_write_status()
 //.text:004D6130 ; bool __cdecl network_leaderboard_id_valid_for_query(e_online_leaderboard_id leaderboard_id)
-//.text:004D6170 ; bool __cdecl network_leaderboard_initialize()
+
+bool __cdecl network_leaderboard_initialize()
+{
+	return INVOKE(0x004D6170, network_leaderboard_initialize);
+}
+
 //.text:004D6200 ; 
 //.text:004D6210 ; 
 //.text:004D6220 ; 

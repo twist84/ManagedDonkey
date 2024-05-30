@@ -142,6 +142,7 @@ extern bool __cdecl network_session_interface_get_local_user_properties(long use
 extern long __cdecl network_session_interface_get_local_user_state(long user_index);
 extern qword __cdecl network_session_interface_get_local_user_xuid(long user_index);
 extern void __cdecl network_session_interface_handle_message(long session_network_message);
+extern bool __cdecl network_session_interface_initialize(c_network_session_manager* session_manager);
 extern bool __cdecl network_session_interface_local_user_exists(long user_index);
 extern void __cdecl network_session_interface_notify_set_local_specific_film(s_saved_film_description const* film);
 extern void __cdecl network_session_interface_remove_local_user(long user_index);

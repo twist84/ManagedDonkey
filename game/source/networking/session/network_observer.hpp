@@ -71,6 +71,7 @@ struct c_network_observer
 
 	s_channel_observer const* find_observer_by_channel(c_network_channel const* channel) const;
 	void handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* connect_request);
+	bool initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, s_observer_configuration const* configuration);
 	void monitor();
 	long observer_channel_find_by_network_channel(long owner_type, c_network_channel* channel) const;
 	void observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data);

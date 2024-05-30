@@ -172,3 +172,5 @@ static_assert(0x20988 == offsetof(s_network_banhammer_globals, quality_statistic
 extern bool& g_network_banhammer_initialized;
 extern s_network_banhammer_globals& g_network_banhammer_globals;
 
+extern bool __cdecl network_banhammer_initialize();
+

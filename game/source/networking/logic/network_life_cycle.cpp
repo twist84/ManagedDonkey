@@ -33,6 +33,11 @@ bool __cdecl network_life_cycle_in_system_link_advertisable_session(c_network_se
 	return INVOKE(0x00454F50, network_life_cycle_in_system_link_advertisable_session, out_active_system_link_advertisable_session);
 }
 
+bool __cdecl network_life_cycle_initialize(c_network_observer* observer, c_network_session_manager* session_manager, c_network_session* squad_session_one, c_network_session* squad_session_two, c_network_session* group_session)
+{
+	return INVOKE(0x00454FD0, network_life_cycle_initialize, observer, session_manager, squad_session_one, squad_session_two, group_session);
+}
+
 void __cdecl network_life_cycle_request_leave(bool disconnect)
 {
 	//return INVOKE(0x00455260, network_life_cycle_request_leave, disconnect);

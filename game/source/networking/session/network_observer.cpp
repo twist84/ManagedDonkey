@@ -22,7 +22,25 @@ void c_network_observer::handle_connect_request(transport_address const* incomin
 }
 
 //.text:00446A10 ; void c_network_observer::handle_packet_event(c_network_channel*, e_network_packet_event, long, long, long)
-//.text:00446C00 ; bool c_network_observer::initialize_observer(c_network_link*, c_network_message_type_collection*, c_network_message_gateway*, c_network_message_handler*, s_observer_configuration const*)
+
+bool c_network_observer::initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, s_observer_configuration const* configuration)
+{
+    return DECLFUNC(0x00446C00, bool, __thiscall, c_network_observer*, c_network_link*, c_network_message_type_collection*, c_network_message_gateway*, c_network_message_handler*, s_observer_configuration const*)(
+        this,
+        link,
+        message_types,
+        message_gateway,
+        message_handler,
+        configuration);
+
+    //ASSERT(link);
+    //ASSERT(message_types);
+    //ASSERT(configuration);
+    //ASSERT(m_link == NULL);
+    //ASSERT(m_message_types == NULL);
+    //ASSERT(m_configuration == NULL);
+}
+
 //.text:00446D90 ; bool c_network_observer::is_bandwidth_stable()
 //.text:00446DA0 ; bool c_network_channel::is_empty() const
 

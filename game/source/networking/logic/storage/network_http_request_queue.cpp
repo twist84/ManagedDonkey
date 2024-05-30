@@ -90,8 +90,16 @@ void __cdecl make_url(c_static_string<256> const* url, c_static_string<256>* out
 }
 HOOK_DECLARE(0x004A34B0, make_url);
 
-//.text:004A3620 ; void network_http_request_queue_dispose()
-//.text:004A3630 ; void network_http_request_queue_initialize()
+void __cdecl network_http_request_queue_dispose()
+{
+	INVOKE(0x004A3620, network_http_request_queue_dispose);
+}
+
+void __cdecl network_http_request_queue_initialize()
+{
+	INVOKE(0x004A3630, network_http_request_queue_initialize);
+}
+
 //.text:004A36A0 ; void network_storage_set_storage_subdirectory(char const* storage_subdirectory)
 //.text:004A36C0 ; void network_storage_set_storage_user(char const* storage_user)
 

@@ -57,12 +57,15 @@ extern s_network_life_cycle_globals& life_cycle_globals;
 
 struct s_life_cycle_matchmaking_progress;
 struct c_network_session;
+struct c_network_observer;
+struct c_network_session_manager;
 
 extern void __cdecl network_life_cycle_end();
 extern void __cdecl network_life_cycle_get_matchmaking_progress(s_life_cycle_matchmaking_progress* progress_out);
 extern e_life_cycle_state __cdecl network_life_cycle_get_state();
 extern bool __cdecl network_life_cycle_in_squad_session(c_network_session** out_active_squad_session);
 extern bool __cdecl network_life_cycle_in_system_link_advertisable_session(c_network_session** out_active_system_link_advertisable_session);
+extern bool __cdecl network_life_cycle_initialize(c_network_observer* observer, c_network_session_manager* session_manager, c_network_session* squad_session_one, c_network_session* squad_session_two, c_network_session* group_session);
 extern void __cdecl network_life_cycle_request_leave(bool disconnect);
 extern bool __cdecl network_life_cycle_set_pre_game_state();
 
