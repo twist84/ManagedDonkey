@@ -37,11 +37,11 @@ void __thiscall c_managed_session_overlapped_task::process_add_players(long mana
 	if (!m_player_count)
 	{
 		m_callback_value0 = true;
-		complete();
+		reset();
 	}
 	else if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
 	{
-		complete();
+		reset();
 	}
 }
 
@@ -59,7 +59,7 @@ void __thiscall c_managed_session_overlapped_task::process_create(long managed_s
 	m_online_session_flags = flags;
 
 	if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
-		complete();
+		reset();
 }
 
 //.text:00442C30 ; void __cdecl c_managed_session_overlapped_task::process_delete(long, void(__cdecl*)(long, bool, dword), s_online_session*);
@@ -73,7 +73,7 @@ void __thiscall c_managed_session_overlapped_task::process_delete(long managed_s
 	m_callback_value1 = 0;
 
 	if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
-		complete();
+		reset();
 }
 
 //.text:00442C40 ; void __cdecl c_managed_session_overlapped_task::process_game_end(long, void(__cdecl*)(long, bool, dword), s_online_session*);
@@ -87,7 +87,7 @@ void __thiscall c_managed_session_overlapped_task::process_game_end(long managed
 	m_callback_value1 = 0;
 
 	if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
-		complete();
+		reset();
 }
 
 //.text:00442C50 ; void __cdecl c_managed_session_overlapped_task::process_game_start(long, void(__cdecl*)(long, bool, dword), s_online_session*);
@@ -101,7 +101,7 @@ void __thiscall c_managed_session_overlapped_task::process_game_start(long manag
 	m_callback_value1 = 0;
 
 	if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
-		complete();
+		reset();
 }
 
 //.text:00442C60 ; void __cdecl c_managed_session_overlapped_task::process_modify(long, void(__cdecl*)(long, bool, dword), s_online_session*, s_online_session*, s_online_session*);
@@ -117,7 +117,7 @@ void __thiscall c_managed_session_overlapped_task::process_modify(long managed_s
 	m_callback_value1 = 0;
 
 	if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
-		complete();
+		reset();
 }
 
 //.text:00442C70 ; static bool __cdecl c_managed_session_overlapped_task::process_modify_immediately(s_online_session*, s_online_session*);
@@ -138,11 +138,11 @@ void __thiscall c_managed_session_overlapped_task::process_remove_players(long m
 	if (!m_player_count)
 	{
 		m_callback_value0 = true;
-		complete();
+		reset();
 	}
 	else if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
 	{
-		complete();
+		reset();
 	}
 }
 
@@ -161,7 +161,7 @@ void __thiscall c_managed_session_overlapped_task::process_session_host_migrate(
 	m_callback_value1 = 0;
 
 	if (!overlapped_task_start_internal(this, __FILE__, __LINE__))
-		complete();
+		reset();
 }
 
 //.text:00442CB0 ; virtual dword __cdecl c_managed_session_overlapped_task::start(void*);
