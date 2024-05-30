@@ -4,8 +4,8 @@
 #include "memory/module.hpp"
 #include "text/unicode.hpp"
 
-HOOK_DECLARE(0x00B0EF90, matchmaking_searching_parse_current_players);
-HOOK_DECLARE(0x00B0F150, matchmaking_searching_parse_hopper_name);
+//HOOK_DECLARE(0x00B0EF90, matchmaking_searching_parse_current_players);
+//HOOK_DECLARE(0x00B0F150, matchmaking_searching_parse_hopper_name);
 
 bool __cdecl matchmaking_searching_parse_current_players(void* this_ptr, wchar_t* buffer, long buffer_size)
 {

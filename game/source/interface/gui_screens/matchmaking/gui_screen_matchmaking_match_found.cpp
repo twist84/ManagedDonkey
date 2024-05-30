@@ -4,7 +4,7 @@
 #include "memory/module.hpp"
 #include "text/unicode.hpp"
 
-HOOK_DECLARE(0x00B11350, matchmaking_match_found_parse_playlist_name);
+//HOOK_DECLARE(0x00B11350, matchmaking_match_found_parse_playlist_name);
 
 bool __cdecl matchmaking_match_found_parse_playlist_name(void* this_ptr, wchar_t* buffer, long buffer_size)
 {
