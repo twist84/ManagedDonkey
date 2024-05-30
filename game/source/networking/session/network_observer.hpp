@@ -70,6 +70,7 @@ struct c_network_observer
 	static_assert(sizeof(s_channel_observer) == 0x10D8);
 
 	s_channel_observer const* find_observer_by_channel(c_network_channel const* channel) const;
+	void destroy_observer();
 	void handle_connect_request(transport_address const* incoming_address, s_network_message_connect_request const* connect_request);
 	bool initialize_observer(c_network_link* link, c_network_message_type_collection* message_types, c_network_message_gateway* message_gateway, c_network_message_handler* message_handler, s_observer_configuration const* configuration);
 	void monitor();

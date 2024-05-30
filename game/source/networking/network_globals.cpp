@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
+#include "data_mining/data_mine_management.hpp"
 #include "game/game.hpp"
 #include "game/game_options.hpp"
 #include "interface/user_interface.hpp"
@@ -20,6 +21,7 @@
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_recruiting_search.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/logic/storage/network_http_request_cache.hpp"
 #include "networking/logic/storage/network_http_request_queue.hpp"
 #include "networking/logic/storage/network_storage_cache.hpp"
 #include "networking/logic/storage/network_storage_files.hpp"

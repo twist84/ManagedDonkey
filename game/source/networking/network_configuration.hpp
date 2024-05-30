@@ -931,5 +931,21 @@ static_assert(sizeof(s_network_configuration) == 0x16C4);
 extern bool& g_network_configuration_initialized;
 extern s_network_configuration& g_network_configuration;
 
+extern bool __cdecl network_configuration_custom_games_enabled();
+extern bool __cdecl network_configuration_disable_bad_bandwidth_anticheating();
+extern bool __cdecl network_configuration_disable_bad_client_anticheating();
+extern bool __cdecl network_configuration_disable_bad_connectivity_anticheating();
+extern void __cdecl network_configuration_dispose();
+extern long __cdecl network_configuration_get_map_index_from_map_id(long map_id);
+extern long __cdecl network_configuration_get_state();
 extern void __cdecl network_configuration_initialize(bool a1);
+extern void __cdecl network_configuration_initialize_observer_constants();
+extern void __cdecl network_configuration_initialize_private();
+extern void __cdecl network_configuration_initialize_simulation_constants();
+extern void __cdecl network_configuration_initialize_simulation_entity_constants();
+extern void __cdecl network_configuration_initialize_simulation_entity_creation_constants();
+extern void __cdecl network_configuration_initialize_simulation_entity_update_constants();
+extern void __cdecl network_configuration_initialize_simulation_event_constants();
+extern long __cdecl network_configuration_maximum_multiplayer_split_screen();
+extern void __cdecl network_configuration_update();
 

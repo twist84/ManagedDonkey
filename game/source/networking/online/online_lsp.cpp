@@ -191,7 +191,12 @@ void c_online_lsp_manager::server_connected(long connection_token)
 }
 
 //.text:00431FD0 ; c_online_lsp_manager::service_type_in_list
-//.text:004322A0 ; c_online_lsp_manager::update
+
+void __cdecl c_online_lsp_manager::update()
+{
+	DECLFUNC(0x004322A0, void, __thiscall, c_online_lsp_manager*)(this);
+}
+
 //.text:00432400 ; c_online_lsp_manager::update_online_status
 
 bool __cdecl online_lsp_activate_and_retrieve_server(int server_index, long* ip_address_out)

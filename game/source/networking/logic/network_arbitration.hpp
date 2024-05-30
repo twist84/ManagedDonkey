@@ -37,5 +37,7 @@ static_assert(sizeof(s_network_arbitration_globals) == 0x198);
 
 extern s_network_arbitration_globals& network_arbitration_globals;
 
+extern void __cdecl network_arbitration_destory();
 extern bool __cdecl network_arbitration_initialize();
+extern void __cdecl network_arbitration_update();
 

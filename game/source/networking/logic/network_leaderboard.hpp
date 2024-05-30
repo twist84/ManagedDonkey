@@ -234,4 +234,5 @@ extern s_network_leaderboard_globals& network_leaderboard_globals;
 
 extern void __cdecl network_leaderboard_destory();
 extern bool __cdecl network_leaderboard_initialize();
+extern void __cdecl network_leaderboard_update();
 

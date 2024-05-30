@@ -100,6 +100,11 @@ void __cdecl network_http_request_queue_initialize()
 	INVOKE(0x004A3630, network_http_request_queue_initialize);
 }
 
+void __cdecl network_http_request_queue_update()
+{
+	INVOKE(0x004A3690, network_http_request_queue_update);
+}
+
 //.text:004A36A0 ; void network_storage_set_storage_subdirectory(char const* storage_subdirectory)
 //.text:004A36C0 ; void network_storage_set_storage_user(char const* storage_user)
 

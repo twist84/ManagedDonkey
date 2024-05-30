@@ -13,6 +13,11 @@ c_network_observer::s_channel_observer const* c_network_observer::find_observer_
     return (c_network_observer::s_channel_observer const*)observer;
 }
 
+void c_network_observer::destroy_observer()
+{
+    DECLFUNC(0x00446190, void, __thiscall, c_network_observer*)(this);
+}
+
 //.text:004465D0 ; e_transport_secure_connection c_network_observer::get_secure_connection_status(long) const
 //.text:00446610 ; bool c_network_observer::get_simple_status(long, long*, real*, long*, long*)
 

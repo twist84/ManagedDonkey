@@ -173,4 +173,5 @@ extern bool& g_network_banhammer_initialized;
 extern s_network_banhammer_globals& g_network_banhammer_globals;
 
 extern bool __cdecl network_banhammer_initialize();
+extern void __cdecl network_banhammer_update();
 

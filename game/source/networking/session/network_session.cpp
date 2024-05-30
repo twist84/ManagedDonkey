@@ -74,6 +74,11 @@ bool c_network_session::channel_is_authoritative(c_network_channel* channel)
 	return DECLFUNC(0x0045A9E0, bool, __thiscall, c_network_session*, c_network_channel*)(this, channel);
 }
 
+void c_network_session::destroy_session()
+{
+	DECLFUNC(0x0045B960, void, __thiscall, c_network_session*)(this);
+}
+
 void c_network_session::force_disconnect()
 {
 	DECLFUNC(0x0045BE20, void, __thiscall, c_network_session*)(this);

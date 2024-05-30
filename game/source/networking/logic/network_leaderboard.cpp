@@ -46,7 +46,12 @@ bool __cdecl network_leaderboard_initialize()
 //.text:004D62E0 ; void __cdecl network_leaderboard_refresh()
 //.text:004D6300 ; network_leaderboard_remove_users
 //.text:004D6390 ; void __cdecl network_leaderboard_submit_query_for_user(e_controller_index controller_index)
-//.text:004D64B0 ; void __cdecl network_leaderboard_update()
+
+void __cdecl network_leaderboard_update()
+{
+	INVOKE(0x004D64B0, network_leaderboard_update);
+}
+
 //.text:004D64E0 ; void __cdecl network_leaderboard_update_highest_skill()
 //.text:004D6720 ; void __cdecl network_leaderboard_update_leaderboards()
 //.text:004D6820 ; void __cdecl network_leaderboard_update_queries()

@@ -4,6 +4,11 @@
 
 REFERENCE_DECLARE(0x019AB7F0, s_network_life_cycle_globals, life_cycle_globals);
 
+void __cdecl network_life_cycle_dispose()
+{
+	INVOKE(0x00454A80, network_life_cycle_dispose);
+}
+
 void __cdecl network_life_cycle_end()
 {
 	INVOKE(0x00454B40, network_life_cycle_end);
@@ -48,5 +53,10 @@ void __cdecl network_life_cycle_request_leave(bool disconnect)
 bool __cdecl network_life_cycle_set_pre_game_state()
 {
 	return INVOKE(0x00455280, network_life_cycle_set_pre_game_state);
+}
+
+void __cdecl network_life_cycle_update()
+{
+	INVOKE(0x00455390, network_life_cycle_update);
 }
 

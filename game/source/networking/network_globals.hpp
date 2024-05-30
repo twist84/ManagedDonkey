@@ -28,6 +28,7 @@ struct c_game_variant;
 struct transport_address;
 enum e_game_engine_type;
 
+extern void __cdecl network_memory_base_dispose();
 extern bool __cdecl network_memory_base_initialize(
 	c_network_link** link,
 	c_network_message_type_collection** message_types,

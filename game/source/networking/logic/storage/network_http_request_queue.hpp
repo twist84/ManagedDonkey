@@ -122,4 +122,5 @@ extern c_static_string<256>& g_storage_url_subdirectory;
 
 extern void __cdecl network_http_request_queue_dispose();
 extern void __cdecl network_http_request_queue_initialize();
+extern void __cdecl network_http_request_queue_update();
 

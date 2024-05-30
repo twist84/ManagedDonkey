@@ -74,6 +74,7 @@ struct c_network_session :
 	bool is_leader() const;
 	bool leaving_session() const;
 	bool channel_is_authoritative(c_network_channel* channel);
+	void destroy_session();
 	void force_disconnect();
 	bool force_disconnect_peer(s_transport_secure_address const* peer_secure_address);
 	c_network_session_membership const* get_session_membership() const;

@@ -118,5 +118,5 @@ enum e_network_join_squad_join_source;
 extern void __cdecl network_join_set_join_queue_mode(e_network_join_queue_mode join_queue_mode);
 //extern void __cdecl network_join_squad_join_abort();
 //extern bool __cdecl network_join_to_remote_squad(e_network_join_squad_join_source, bool, bool, bool, e_network_session_class, s_transport_secure_identifier const*, s_transport_secure_key const*, s_transport_secure_address const*);
-//extern void __cdecl network_join_update();
+extern void __cdecl network_join_update();
 

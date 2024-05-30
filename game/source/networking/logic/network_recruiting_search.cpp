@@ -39,7 +39,7 @@ bool __cdecl network_recruiting_search_initialize()
 {
 	//return INVOKE(0x004DBEF0, network_recruiting_search_initialize);
 
-	ASSERT(g_recruiting_search_globals.initialized);
+	ASSERT(!g_recruiting_search_globals.initialized);
 
 	csmemset(&g_recruiting_search_globals, 0, sizeof(g_recruiting_search_globals));
 	g_recruiting_search_globals.initialized = true;
@@ -49,7 +49,7 @@ bool __cdecl network_recruiting_search_initialize()
 
 void __cdecl network_recruiting_search_update()
 {
-	INVOKE(0x004DBF10, network_recruiting_search_update);
+	//INVOKE(0x004DBF10, network_recruiting_search_update);
 
 	ASSERT(g_recruiting_search_globals.initialized);
 
