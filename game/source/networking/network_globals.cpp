@@ -66,8 +66,9 @@ REFERENCE_DECLARE(0x0224A4AC, c_network_session_parameter_type_collection*, g_ne
 REFERENCE_DECLARE(0x0224A4B0, c_network_session_manager*, g_network_session_manager);
 REFERENCE_DECLARE(0x0224A4B4, s_network_globals, network_globals);
 
-//HOOK_DECLARE(0x0049E050, network_dispose);
-//HOOK_DECLARE(0x0049E1B0, network_initialize);
+HOOK_DECLARE(0x0049E050, network_dispose);
+HOOK_DECLARE(0x0049E1B0, network_initialize);
+HOOK_DECLARE(0x0049E7B0, network_update);
 HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
 
 //bool g_network_status_memory = false;
@@ -102,27 +103,32 @@ do                                                     \
 } while (_get_value() != _value);
 
 // comment out until `network_initialize` is implemented
-//#define NETWORK_ENTER_AND_LOCK_TIME \
-//ASSERT(network_globals.entered == false); \
-//ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
-//network_globals.entered = true; \
-//network_time_lock(true)
-//
-//#define NETWORK_EXIT_AND_UNLOCK_TIME \
-//network_time_lock(false); \
-//ASSERT(network_globals.entered == true); \
-//ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
-//network_globals.entered = false
-
 #define NETWORK_ENTER_AND_LOCK_TIME \
 ASSERT(network_globals.entered == false); \
+ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
 network_globals.entered = true; \
 network_time_lock(true)
 
 #define NETWORK_EXIT_AND_UNLOCK_TIME \
 network_time_lock(false); \
 ASSERT(network_globals.entered == true); \
+ASSERT(network_globals.thread_id == system_get_current_thread_id()); \
 network_globals.entered = false
+
+//#define NETWORK_ENTER_AND_LOCK_TIME \
+//ASSERT(network_globals.entered == false); \
+//network_globals.entered = true; \
+//network_time_lock(true)
+//
+//#define NETWORK_EXIT_AND_UNLOCK_TIME \
+//network_time_lock(false); \
+//ASSERT(network_globals.entered == true); \
+//network_globals.entered = false
+
+void __cdecl network_memory_base_dispose()
+{
+	INVOKE(0x00462350, network_memory_base_dispose);
+}
 
 bool __cdecl network_memory_base_initialize(
 	c_network_link** link,
@@ -152,173 +158,184 @@ bool __cdecl network_memory_base_initialize(
 
 void __cdecl network_dispose()
 {
-	INVOKE(0x0049E050, network_dispose);
+	//INVOKE(0x0049E050, network_dispose);
 
-	//if (network_globals.initialized)
-	//{
-	//	//service_client_dispose();
-	//	network_storage_cache_dispose();
-	//	network_storage_manifest_dispose();
-	//	network_storage_dispose();
-	//	network_storage_files_dispose();
-	//	network_http_request_queue_dispose();
-	//	online_files_dispose();
-	//	online_rich_presence_dispose();
-	//	online_guide_dispose();
-	//	online_lsp_dispose();
-	//	online_url_dispose();
-	//	online_dispose();
-	//	network_bandwidth_dispose();
-	//	network_leaderboard_destory();
-	//	network_arbitration_destory();
-	//	network_session_interface_dispose();
-	//	network_life_cycle_dispose();
-	//	network_search_dispose();
-	//	network_recruiting_search_dispose();
-	//	network_broadcast_search_dispose();
-	//	network_session_tracker_dispose();
-	//
-	//	for (long session_index = 0; session_index < 3; session_index++)
-	//		g_network_sessions[session_index].destroy_session();
-	//
-	//	g_network_observer->destroy_observer();
-	//	g_network_session_manager->destroy_session_manager();
-	//	g_network_session_parameter_types->clear_session_parameter_types();
-	//
-	//	online_session_manager_dispose();
-	//	network_memory_shared_dispose();
-	//
-	//	g_network_message_handler->destroy_handler();
-	//	g_network_message_gateway->destroy_gateway();
-	//	g_network_message_types->clear_message_types();
-	//	g_network_link->destroy_link();
-	//
-	//	network_globals.initialized = false;
-	//	g_network_link = NULL;
-	//	g_network_message_types = NULL;
-	//	g_network_message_gateway = NULL;
-	//	g_network_message_handler = NULL;
-	//	g_network_observer = NULL;
-	//	g_network_sessions = NULL;
-	//
-	//	network_memory_base_dispose();
-	//	network_configuration_dispose();
-	//}
+	if (network_globals.initialized)
+	{
+		//service_client_dispose();
+		network_storage_cache_dispose();
+		network_storage_manifest_dispose();
+		network_storage_dispose();
+		network_storage_files_dispose();
+		network_http_request_queue_dispose();
+		online_files_dispose();
+		online_rich_presence_dispose();
+		online_guide_dispose();
+		online_lsp_dispose();
+		online_url_dispose();
+		online_dispose();
+		network_bandwidth_dispose();
+		network_leaderboard_destory();
+		network_arbitration_destory();
+		network_session_interface_dispose();
+		network_life_cycle_dispose();
+		network_search_dispose();
+		network_recruiting_search_dispose();
+		network_broadcast_search_dispose();
+		network_session_tracker_dispose();
+	
+		for (long session_index = 0; session_index < 3; session_index++)
+			g_network_sessions[session_index].destroy_session();
+	
+		g_network_observer->destroy_observer();
+		g_network_session_manager->destroy_session_manager();
+		g_network_session_parameter_types->clear_session_parameter_types();
+	
+		online_session_manager_dispose();
+		network_memory_shared_dispose();
+	
+		g_network_message_handler->destroy_handler();
+		g_network_message_gateway->destroy_gateway();
+		g_network_message_types->clear_message_types();
+		g_network_link->destroy_link();
+	
+		network_globals.initialized = false;
+		g_network_link = NULL;
+		g_network_message_types = NULL;
+		g_network_message_gateway = NULL;
+		g_network_message_handler = NULL;
+		g_network_observer = NULL;
+		g_network_sessions = NULL;
+	
+		network_memory_base_dispose();
+		network_configuration_dispose();
+	}
 }
 
 c_network_session_manager* __cdecl network_get_session_manager()
 {
-	return INVOKE(0x0049E1A0, network_get_session_manager);
+	//return INVOKE(0x0049E1A0, network_get_session_manager);
+
+	return g_network_session_manager;
 }
 
 void __cdecl network_initialize()
 {
-	INVOKE(0x0049E1B0, network_initialize);
+	//INVOKE(0x0049E1B0, network_initialize);
 
-	//if (shell_application_type() != _shell_application_type_client || network_globals.initialized)
-	//{
-	//	network_globals.thread_id = system_get_current_thread_id();
-	//	network_configuration_initialize(false);
-	//
-	//	if (network_memory_base_initialize(&g_network_link, &g_network_message_types, &g_network_message_gateway, &g_network_message_handler, &g_network_observer, &g_network_sessions, &g_network_session_manager, &g_network_session_parameter_types))
-	//	{
-	//		ASSERT(g_network_link != NULL);
-	//		ASSERT(g_network_message_types != NULL);
-	//		ASSERT(g_network_message_gateway != NULL);
-	//		ASSERT(g_network_message_handler != NULL);
-	//		ASSERT(g_network_observer != NULL);
-	//		ASSERT(g_network_sessions != NULL);
-	//		ASSERT(g_network_session_manager != NULL);
-	//		ASSERT(g_network_session_parameter_types);
-	//
-	//		bool success = g_network_link->initialize_link();
-	//		g_network_message_types->clear_message_types();
-	//		network_message_types_register_out_of_band(g_network_message_types);
-	//		network_message_types_register_connect(g_network_message_types);
-	//		network_message_types_register_session_protocol(g_network_message_types);
-	//		network_message_types_register_session_membership(g_network_message_types);
-	//		network_message_types_register_session_parameters(g_network_message_types);
-	//		network_message_types_register_simulation(g_network_message_types);
-	//		network_message_types_register_simulation_synchronous(g_network_message_types);
-	//		network_message_types_register_simulation_distributed(g_network_message_types);
-	//		network_message_types_register_text_chat(g_network_message_types);
-	//		network_message_types_register_test(g_network_message_types);
-	//
-	//		success |= g_network_message_gateway->initialize_gateway(g_network_link, g_network_message_types)
-	//			&& g_network_message_handler->initialize_handler(g_network_link, g_network_message_types, g_network_message_gateway)
-	//			&& g_network_observer->initialize_observer(g_network_link, g_network_message_types, g_network_message_gateway, g_network_message_handler, &g_network_configuration.observer_configuration);
-	//
-	//		g_network_message_handler->register_observer(g_network_observer);
-	//		g_network_session_parameter_types->clear_session_parameter_types();
-	//		network_session_parameter_types_register(g_network_session_parameter_types);
-	//		g_network_session_parameter_types->check_session_parameter_types();
-	//		network_session_parameters_register_parameter_type_collection(g_network_session_parameter_types);
-	//
-	//		success |= g_network_session_manager->initialize_session_manager();
-	//		network_session_time_register_session_manager(g_network_session_manager);
-	//		g_network_message_handler->register_session_manager(g_network_session_manager);
-	//
-	//		success |= 
-	//			g_network_sessions[0].initialize_session(0, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
-	//			g_network_sessions[1].initialize_session(1, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
-	//			g_network_sessions[2].initialize_session(2, _network_session_type_group, g_network_message_gateway, g_network_observer, g_network_session_manager);
-	//
-	//		online_session_manager_initialize();
-	//
-	//		if (success
-	//			&& network_banhammer_initialize()
-	//			&& network_broadcast_search_initialize(g_network_link, g_network_message_gateway)
-	//			&& network_recruiting_search_initialize()
-	//			&& network_search_initialize()
-	//			&& network_life_cycle_initialize(g_network_observer, g_network_session_manager, &g_network_sessions[0], &g_network_sessions[1], &g_network_sessions[2])
-	//			&& network_session_interface_initialize(g_network_session_manager)
-	//			&& network_leaderboard_initialize()
-	//			&& network_arbitration_initialize()
-	//			&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth_configuration)
-	//			&& network_session_tracker_initialize())
-	//		{
-	//			transport_register_transition_functions(network_startup_transport, network_shutdown_transport, nullptr, nullptr);
-	//			online_initialize();
-	//			online_url_initialize();
-	//			network_storage_initialize();
-	//			network_storage_manifest_initialize();
-	//			network_storage_cache_initialize();
-	//			online_lsp_initialize();
-	//			online_guide_initialize();
-	//			online_rich_presence_initialize();
-	//			online_files_initialize();
-	//			network_http_request_queue_initialize();
-	//			network_storage_files_initialize();
-	//			//service_client_initialize();
-	//
-	//			//status_lines_initialize(g_network_memory_status_line, &g_network_status_memory, 1);
-	//			//status_lines_initialize(g_network_link_status_line, &g_network_status_link, 1);
-	//			//status_lines_initialize(g_network_simulation_status_lines, &g_network_status_simulation, 2);
-	//			//status_lines_initialize(g_network_channel_status_lines, &g_network_status_channels, 32);
-	//			//status_lines_initialize(g_network_connection_status_lines, &g_network_status_connections, 64);
-	//			//status_lines_initialize(g_network_message_queue_status_lines, &g_network_status_message_queues, 32);
-	//			//status_lines_initialize(g_network_observer_status_lines, &g_network_status_observer, 65);
-	//			//status_lines_initialize(g_network_session_status_lines, &g_network_status_sessions, 7);
-	//			//status_lines_initialize(g_network_leaderboard_query_status_lines, &g_network_status_leaderboard, 4);
-	//			//status_lines_initialize(g_network_leaderboard_write_status_lines, &g_network_status_leaderboard, 16);
-	//		}
-	//
-	//		if (success)
-	//		{
-	//			network_set_online_environment(false);
-	//			network_globals.initialized = true;
-	//		}
-	//		else
-	//		{
-	//			generate_event(_event_level_warning, "network_globals_initialize(): failed to initialize networking");
-	//			network_dispose();
-	//		}
-	//	}
-	//	else
-	//	{
-	//		generate_event(_event_level_warning, "network_globals_initialize(): failed to initialize base networking memory layer");
-	//	}
-	//}
+	if (shell_application_type() == _shell_application_type_client && !network_globals.initialized)
+	{
+		network_globals.thread_id = system_get_current_thread_id();
+		network_configuration_initialize(false);
+	
+		if (network_memory_base_initialize(
+			&g_network_link,
+			&g_network_message_types,
+			&g_network_message_gateway,
+			&g_network_message_handler,
+			&g_network_observer,
+			&g_network_sessions,
+			&g_network_session_manager,
+			&g_network_session_parameter_types))
+		{
+			ASSERT(g_network_link != NULL);
+			ASSERT(g_network_message_types != NULL);
+			ASSERT(g_network_message_gateway != NULL);
+			ASSERT(g_network_message_handler != NULL);
+			ASSERT(g_network_observer != NULL);
+			ASSERT(g_network_sessions != NULL);
+			ASSERT(g_network_session_manager != NULL);
+			ASSERT(g_network_session_parameter_types);
+	
+			bool success = g_network_link->initialize_link();
+			g_network_message_types->clear_message_types();
+			network_message_types_register_out_of_band(g_network_message_types);
+			network_message_types_register_connect(g_network_message_types);
+			network_message_types_register_session_protocol(g_network_message_types);
+			network_message_types_register_session_membership(g_network_message_types);
+			network_message_types_register_session_parameters(g_network_message_types);
+			network_message_types_register_simulation(g_network_message_types);
+			network_message_types_register_simulation_synchronous(g_network_message_types);
+			network_message_types_register_simulation_distributed(g_network_message_types);
+			network_message_types_register_text_chat(g_network_message_types);
+			network_message_types_register_test(g_network_message_types);
+	
+			success |=
+				g_network_message_gateway->initialize_gateway(g_network_link, g_network_message_types) &&
+				g_network_message_handler->initialize_handler(g_network_link, g_network_message_types, g_network_message_gateway) &&
+				g_network_observer->initialize_observer(g_network_link, g_network_message_types, g_network_message_gateway, g_network_message_handler, &g_network_configuration.observer_configuration);
+	
+			g_network_message_handler->register_observer(g_network_observer);
+			g_network_session_parameter_types->clear_session_parameter_types();
+			network_session_parameter_types_register(g_network_session_parameter_types);
+			g_network_session_parameter_types->check_session_parameter_types();
+			network_session_parameters_register_parameter_type_collection(g_network_session_parameter_types);
+	
+			success |= g_network_session_manager->initialize_session_manager();
+			network_session_time_register_session_manager(g_network_session_manager);
+			g_network_message_handler->register_session_manager(g_network_session_manager);
+	
+			success |= 
+				g_network_sessions[0].initialize_session(0, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
+				g_network_sessions[1].initialize_session(1, _network_session_type_squad, g_network_message_gateway, g_network_observer, g_network_session_manager) &&
+				g_network_sessions[2].initialize_session(2, _network_session_type_group, g_network_message_gateway, g_network_observer, g_network_session_manager);
+	
+			online_session_manager_initialize();
+	
+			if (success
+				&& network_banhammer_initialize()
+				&& network_broadcast_search_initialize(g_network_link, g_network_message_gateway)
+				&& network_recruiting_search_initialize()
+				&& network_search_initialize()
+				&& network_life_cycle_initialize(g_network_observer, g_network_session_manager, &g_network_sessions[0], &g_network_sessions[1], &g_network_sessions[2])
+				&& network_session_interface_initialize(g_network_session_manager)
+				&& network_leaderboard_initialize()
+				&& network_arbitration_initialize()
+				&& network_bandwidth_initialize(g_network_observer, &g_network_configuration.bandwidth_configuration)
+				&& network_session_tracker_initialize())
+			{
+				transport_register_transition_functions(network_startup_transport, network_shutdown_transport, nullptr, nullptr);
+				online_initialize();
+				online_url_initialize();
+				network_storage_initialize();
+				network_storage_manifest_initialize();
+				network_storage_cache_initialize();
+				online_lsp_initialize();
+				online_guide_initialize();
+				online_rich_presence_initialize();
+				online_files_initialize();
+				network_http_request_queue_initialize();
+				network_storage_files_initialize();
+				//service_client_initialize();
+	
+				//status_lines_initialize(g_network_memory_status_line, &g_network_status_memory, 1);
+				//status_lines_initialize(g_network_link_status_line, &g_network_status_link, 1);
+				//status_lines_initialize(g_network_simulation_status_lines, &g_network_status_simulation, 2);
+				//status_lines_initialize(g_network_channel_status_lines, &g_network_status_channels, 32);
+				//status_lines_initialize(g_network_connection_status_lines, &g_network_status_connections, 64);
+				//status_lines_initialize(g_network_message_queue_status_lines, &g_network_status_message_queues, 32);
+				//status_lines_initialize(g_network_observer_status_lines, &g_network_status_observer, 65);
+				//status_lines_initialize(g_network_session_status_lines, &g_network_status_sessions, 7);
+				//status_lines_initialize(g_network_leaderboard_query_status_lines, &g_network_status_leaderboard, 4);
+				//status_lines_initialize(g_network_leaderboard_write_status_lines, &g_network_status_leaderboard, 16);
+			}
+	
+			if (success)
+			{
+				network_set_online_environment(false);
+				network_globals.initialized = true;
+			}
+			else
+			{
+				generate_event(_event_level_warning, "network_globals_initialize(): failed to initialize networking");
+				network_dispose();
+			}
+		}
+		else
+		{
+			generate_event(_event_level_warning, "network_globals_initialize(): failed to initialize base networking memory layer");
+		}
+	}
 }
 
 bool __cdecl network_initialized()
@@ -423,49 +440,48 @@ void __cdecl network_startup_transport(void* userdata)
 
 void __cdecl network_update()
 {
-	INVOKE(0x0049E7B0, network_update);
+	//INVOKE(0x0049E7B0, network_update);
 
-	//ASSERT(is_main_thread());
-	//
-	//PROFILER(networking)
-	//{
-	//
-	//	transport_global_update();
-	//
-	//	if (network_initialized())
-	//	{
-	//		NETWORK_ENTER_AND_LOCK_TIME;
-	//
-	//		network_configuration_update();
-	//		network_bandwidth_update();
-	//		network_broadcast_search_update();
-	//		network_recruiting_search_update();
-	//		network_session_tracker_update();
-	//		network_session_interface_update();
-	//		network_join_update();
-	//		network_life_cycle_update();
-	//		network_banhammer_update();
-	//		online_session_manager_update();
-	//		online_update();
-	//		network_leaderboard_update();
-	//		network_arbitration_update();
-	//		network_storage_queue_update();
-	//		network_storage_manifest_update();
-	//		network_storage_cache_update();
-	//		data_mine_update();
-	//		network_webstats_update();
-	//		online_guide_update();
-	//		online_rich_presence_update();
-	//		online_files_update();
-	//		network_http_request_cache_update();
-	//		network_http_request_queue_update();
-	//		network_storage_files_update();
-	//		c_online_lsp_manager::get()->update();
-	//		service_client_get()->update();
-	//
-	//		NETWORK_EXIT_AND_UNLOCK_TIME;
-	//	}
-	//}
+	ASSERT(is_main_thread());
+	
+	PROFILER(networking)
+	{
+		transport_global_update();
+	
+		if (network_initialized())
+		{
+			NETWORK_ENTER_AND_LOCK_TIME;
+	
+			network_configuration_update();
+			network_bandwidth_update();
+			network_broadcast_search_update();
+			network_recruiting_search_update();
+			network_session_tracker_update();
+			network_session_interface_update();
+			network_join_update();
+			network_life_cycle_update();
+			network_banhammer_update();
+			online_session_manager_update();
+			online_update();
+			network_leaderboard_update();
+			network_arbitration_update();
+			network_storage_queue_update();
+			network_storage_manifest_update();
+			network_storage_cache_update();
+			data_mine_update();
+			network_webstats_update();
+			online_guide_update();
+			online_rich_presence_update();
+			online_files_update();
+			network_http_request_cache_update();
+			network_http_request_queue_update();
+			network_storage_files_update();
+			c_online_lsp_manager::get()->update();
+			//service_client_get()->update();
+	
+			NETWORK_EXIT_AND_UNLOCK_TIME;
+		}
+	}
 }
 
 void __cdecl network_test_set_map_name(char const* scenario_path)
