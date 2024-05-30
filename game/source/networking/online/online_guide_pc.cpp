@@ -210,7 +210,7 @@ dword __cdecl online_guide_show_virtual_keyboard_ui(e_controller_index controlle
 
 	c_controller_interface* controller = controller_get(controller_index);
 	if (!controller->is_signed_in_to_machine())
-		return 0x80004005;
+		return E_FAIL;
 
 	return XShowKeyboardUI(controller_index, character_flags, default_text, title_text, description_text, result_text, maximum_character_count, platform_handle);
 }
@@ -219,7 +219,7 @@ dword c_virtual_keyboard_task::start(void* platform_handle)
 {
 	c_controller_interface* controller = controller_get(m_controller_index);
 	if (!controller->is_signed_in_to_machine())
-		return 0x80004005;
+		return E_FAIL;
 
 	if (m_maximum_input_characters > 256)
 		return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, 256, platform_handle);
@@ -231,7 +231,7 @@ dword __thiscall c_virtual_keyboard_task::_start(void* platform_handle)
 {
 	c_controller_interface* controller = controller_get(m_controller_index);
 	if (!controller->is_signed_in_to_machine())
-		return 0x80004005;
+		return E_FAIL;
 
 	if (m_maximum_input_characters > 256)
 		return online_guide_show_virtual_keyboard_ui(m_controller_index, m_character_flags, m_default_text, m_title_text, m_description_text, m_result_text, 256, platform_handle);
@@ -298,7 +298,7 @@ dword __cdecl online_guide_show_friend_request_ui(e_controller_index controller_
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	 
-	//dword result = 0x80004005;
+	//dword result = E_FAIL;
 	//c_static_string<256> error_string;
 	//
 	//if (controller_get(controller_index)->is_signed_in_to_live())
@@ -318,7 +318,7 @@ dword __cdecl online_guide_show_friends_ui(e_controller_index controller_index)
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	
-	//dword result = 0x80004005;
+	//dword result = E_FAIL;
 	//
 	//if (controller_get(controller_index)->is_signed_in_to_live())
 	//	result = XShowFriendsUI(controller_index);
@@ -337,7 +337,7 @@ dword __cdecl online_guide_show_gamer_card_ui(e_controller_index controller_inde
 
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	
-	//dword result = 0x80004005;
+	//dword result = E_FAIL;
 	//c_static_string<256> error_string;
 	//
 	//if (controller_get(controller_index)->is_signed_in_to_live())
@@ -358,7 +358,7 @@ dword __cdecl online_guide_show_player_review_ui(e_controller_index controller_i
 	ASSERT(VALID_INDEX(controller_index, k_number_of_controllers));
 	ASSERT(target_user_xuid != NULL);
 	
-	//dword result = 0x80004005;
+	//dword result = E_FAIL;
 	//c_static_string<256> error_string;
 	//
 	//if (controller_get(controller_index)->is_signed_in_to_live())

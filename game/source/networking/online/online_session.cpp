@@ -191,7 +191,7 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 		//}
 		//else
 		//{
-		//	result = 0x80004005;
+		//	result = E_FAIL;
 		//}
 		//
 		//generate_event(_event_level_message, "networking:managed_session: created XSession handle %08X",
@@ -211,7 +211,7 @@ dword __thiscall c_managed_session_overlapped_task::start_(void* overlapped)
 		//{
 		//	generate_event(_event_level_warning, "networking:managed_session: attempting to delete XSession handle %08X, but GetDetails() failed, so we are assuming the session is toast!",
 		//		m_session->handle);
-		//	result = 0x80004005;
+		//	result = E_FAIL;
 		//}
 		//else
 		//{

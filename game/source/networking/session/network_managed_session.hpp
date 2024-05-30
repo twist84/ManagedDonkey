@@ -49,7 +49,7 @@ struct c_managed_session_overlapped_task :
 	dword __thiscall start_(void* overlapped);
 
 	void __thiscall complete_();
-	void __thiscall failure_(dword a1, dword a2, dword a3);
+	void __thiscall failure_(dword calling_result, dword overlapped_error, dword overlapped_extended_error);
 	void __thiscall success_(dword a1);
 
 	c_enum<e_session_overlapped_task_context, long, _session_overlapped_task_context_create, k_session_overlapped_task_context_count> m_context;

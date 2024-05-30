@@ -16,7 +16,7 @@ dword online_guide_show_device_selector_ui(e_controller_index controller_index, 
 	if (controller_get(controller_index)->is_signed_in_to_machine())
 		return ERROR_IO_PENDING; //XShowDeviceSelectorUI(controller_index, 1, 0, bytes_requested, device_id, xenon_task_handle);
 
-	return 0x80004005;
+	return E_FAIL;
 }
 
 dword __thiscall c_storage_device_selector_overlapped_task::_start(void* xenon_task_handle)

@@ -23,9 +23,9 @@ void __thiscall c_managed_session_overlapped_task::complete_()
 }
 
 //.text:00480440 ; virtual void __cdecl c_managed_session_overlapped_task::failure(dword, dword, dword);
-void __thiscall c_managed_session_overlapped_task::failure_(dword a1, dword a2, dword a3)
+void __thiscall c_managed_session_overlapped_task::failure_(dword calling_result, dword overlapped_error, dword overlapped_extended_error)
 {
-	m_callback_value1 = a3;
+	m_callback_value1 = overlapped_extended_error;
 	m_callback_value0 = false;
 }
 
@@ -114,9 +114,9 @@ char const* __cdecl managed_session_get_id_string(long index)
 //.text:00483B50 ; void __cdecl remove_from_player_list(s_online_session_player*, long, qword const*, long);
 
 //.text:00483CB0 ; virtual void __cdecl c_managed_session_overlapped_task::success(dword)
-void __thiscall c_managed_session_overlapped_task::success_(dword a1)
+void __thiscall c_managed_session_overlapped_task::success_(dword return_result)
 {
-	m_callback_value1 = a1;
+	m_callback_value1 = return_result;
 	m_callback_value0 = true;
 }
 
