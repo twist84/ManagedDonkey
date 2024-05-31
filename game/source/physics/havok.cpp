@@ -42,7 +42,7 @@ void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color c
 	// missing in Halo Online
 	if (display_as_event)
 	{
-		generate_event(_event_level_warning, "%s", buffer);
+		c_console::write_line("%s", buffer);
 	}
 	else
 	{

@@ -12,6 +12,7 @@
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
 #include "interface/user_interface.hpp"
+#include "interface/user_interface_hs.hpp"
 #include "main/debug_keys.hpp"
 #include "main/main.hpp"
 #include "main/main_game.hpp"
@@ -546,6 +547,10 @@ bool __cdecl console_process_command(char const* command, bool a2)
 			}
 		}
 
+#if defined(ALLOW_CONSOLE_SCRIPT_HS_SCRIPT_BY_NAME)
+		if (user_interface_start_hs_script_by_name(command_name) != NONE)
+			return true;
+#endif
 
 		callback_result_t callback_result = set_callback(nullptr, token_count, tokens);
 		if (callback_result.is_equal("success"))
