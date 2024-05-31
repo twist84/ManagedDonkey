@@ -56,8 +56,8 @@ struct s_network_session_matchmaking_hopper
 	bool rematch_allowed;
 	bool team_game;
 	long draw_probability;
-	long beta;
-	long tau;
+	real beta;
+	real tau;
 	long experience_base_increment;
 	long experience_penalty_decrement;
 	long require_hosts_on_multiple_teams;
