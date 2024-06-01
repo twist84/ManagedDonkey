@@ -4,11 +4,12 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "main/levels.hpp"
-#include "memory/byte_swapping.hpp"
 #include "memory/bitstream.hpp"
+#include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/logic/network_session_interface.hpp"
+#include "networking/logic/storage/network_storage_files.hpp"
 #include "networking/online/online.hpp"
 #include "networking/tools/network_blf.hpp"
 
@@ -218,42 +219,6 @@ e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_iden
 char const* __cdecl multiplayer_game_start_error_to_string(e_session_game_start_error error)
 {
 	return INVOKE(0x00549B70, multiplayer_game_start_error_to_string, error);
-}
-
-bool __cdecl create_configuration_file(const char* filename, const void* file_contents, int file_size)
-{
-	ASSERT(file_size > 0);
-	ASSERT(file_contents);
-
-	s_file_reference info;
-	file_reference_create_from_path(&info, filename, false);
-
-	if (!file_create_parent_directories_if_not_present(&info))
-	{
-		generate_event(_event_level_warning, "create_configuration_file: unable to create parent directories: %s", filename);
-		return false;
-	}
-
-	if (!file_create(&info))
-	{
-		generate_event(_event_level_warning, "create_configuration_file: unable to create file: %s", filename);
-		return false;
-	}
-
-	dword error = 0;
-	if (!file_open(&info, FLAG(_file_open_flag_desired_access_write), &error))
-	{
-		generate_event(_event_level_warning, "create_configuration_file: unable to open file: %s", filename);
-		return false;
-	}
-
-	bool result = file_write(&info, file_size, file_contents);
-	if (!file_close(&info))
-	{
-		generate_event(_event_level_warning, "create_configuration_file: unable to close file: %s", filename);
-	}
-
-	return result;
 }
 
 void __cdecl network_build_game_variant(char const* filename)
