@@ -41,6 +41,15 @@ public:
 	static e_download_status __cdecl get_download_status_from_internal_status(e_internal_status internal_status);
 	void __thiscall update();
 
+	bool set_url(c_url_string const* url)
+	{
+		m_url.set(url);
+	}
+
+	long get_attempt_index() const
+	{
+		return m_attempt_index;
+	}
 
 protected:
 	c_url_string m_url;
