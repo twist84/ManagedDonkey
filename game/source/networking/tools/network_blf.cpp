@@ -12,10 +12,10 @@ HOOK_DECLARE(0x00463540, network_blf_verify_start_of_file);
 
 void s_blf_header::setup(long _chunk_type, long _chunk_size, long _major_version, long _minor_version)
 {
-	chunk_type = bswap_dword(_chunk_type);
-	chunk_size = bswap_dword(_chunk_size);
-	major_version = bswap_word(static_cast<short>(_major_version));
-	minor_version = bswap_word(static_cast<short>(_minor_version));
+	chunk_type = _chunk_type;
+	chunk_size = _chunk_size;
+	major_version = static_cast<short>(_major_version);
+	minor_version = static_cast<short>(_minor_version);
 }
 
 s_blf_chunk_start_of_file::s_blf_chunk_start_of_file()
@@ -27,7 +27,7 @@ void s_blf_chunk_start_of_file::initialize()
 {
 	header.setup(k_chunk_type, sizeof(*this), k_version_major, k_version_minor);
 
-	byte_order_mark = bswap_word(0xFFFE);
+	byte_order_mark = 0xFFFE;
 	name.clear();
 	csmemset(pad, 0, sizeof(pad));
 }
