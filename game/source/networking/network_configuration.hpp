@@ -613,11 +613,11 @@ struct s_network_configuration
 
 	// used in `c_life_cycle_state_handler_matchmaking_arbitration::exit`
 	// used in `c_life_cycle_state_handler_matchmaking_arbitration::update`
-	dword __unknown2A4;
+	long arbitration_establishment_and_conectivity_giveup_timer;
 
 	// used in `c_life_cycle_state_handler_matchmaking_arbitration::exit`
 	// used in `c_life_cycle_state_handler_matchmaking_arbitration::update`
-	dword __unknown2A8;
+	long arbitration_completion_giveup_timer;
 
 	// used in `c_life_cycle_state_handler_post_match::update_for_state_transition`
 	// used in `c_life_cycle_state_handler_post_match::update_squad_host`

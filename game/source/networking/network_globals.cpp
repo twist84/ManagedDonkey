@@ -150,6 +150,15 @@ bool __cdecl network_memory_base_initialize(
 
 	bool result = INVOKE(0x004623F0, network_memory_base_initialize, link, message_types, message_gateway, message_handler, observer, sessions, session_manager, session_parameter_types);
 
+	//*link = &network_base_memory_globals.link;
+	//*message_types = &network_base_memory_globals.message_types;
+	//*message_gateway = &network_base_memory_globals.message_gateway;
+	//*message_handler = &network_base_memory_globals.message_handler;
+	//*observer = &network_base_memory_globals.observer;
+	//*sessions = network_base_memory_globals.sessions;
+	//*session_manager = &network_base_memory_globals.session_manager;
+	//*session_parameter_types = &network_base_memory_globals.sesssion_parameter_types;
+
 	*message_types = &custom_message_types_override;
 	*message_gateway = &custom_message_gateway_override;
 
