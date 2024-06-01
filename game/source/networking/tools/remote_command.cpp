@@ -32,6 +32,7 @@
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/logic/network_session_interface.hpp"
 #include "networking/messages/network_messages_text_chat.hpp"
+#include "networking/network_configuration.hpp"
 #include "networking/network_globals.hpp"
 #include "networking/network_memory.hpp"
 #include "networking/network_time.hpp"
@@ -1068,6 +1069,15 @@ callback_result_t net_test_game_variant_parameter_callback(void const* userdata,
 	network_test_set_game_variant_parameter(parameter_name, value, &old_value);
 
 	result.print("game_variant_parameter:%s: '%d' -> '%d'", parameter_name, old_value, value);
+
+	return result;
+}
+
+callback_result_t net_build_network_config_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	network_build_network_configuration();
 
 	return result;
 }

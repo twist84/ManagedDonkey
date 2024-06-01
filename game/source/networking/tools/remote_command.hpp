@@ -154,6 +154,7 @@ COMMAND_CALLBACK_DECLARE(net_verify_map_variant);
 COMMAND_CALLBACK_DECLARE(net_load_and_use_map_variant);
 COMMAND_CALLBACK_DECLARE(net_verify_packed_map_variant);
 COMMAND_CALLBACK_DECLARE(net_load_and_use_packed_map_variant);
+COMMAND_CALLBACK_DECLARE(net_build_network_config);
 COMMAND_CALLBACK_DECLARE(game_export_variant_settings);
 COMMAND_CALLBACK_DECLARE(alert_carry);
 COMMAND_CALLBACK_DECLARE(online_set_is_connected_to_live);
@@ -260,6 +261,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_test_ui_game_mode, 1, "<string>", "network test: sets the ui game mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_advertisement_mode, 1, "<string>", "network test: sets the advertisement mode to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_test_game_variant_parameter, 2, "<string> <long>", "network test: sets a parameter of the current game variant\r\nNETWORK SAFE: No, for mainmenu only"),
+
+	COMMAND_CALLBACK_REGISTER(net_build_network_config, 0, "", "writes a new network configuration file\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 
 	COMMAND_CALLBACK_REGISTER(net_build_game_variant, 1, "<string>", "writes the current game variant to a file\r\nNETWORK SAFE: Yes"),
 
