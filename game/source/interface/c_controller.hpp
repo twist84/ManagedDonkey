@@ -51,7 +51,9 @@ public:
 	c_static_wchar_string<16> m_display_name;
 	byte __data1420[0x18];
 	c_player_marketplace* m_marketplace;
-	byte __data143C[0xC];
+	byte __data143C[0x5];
+	byte vidmaster;
+	byte __data1442[0x6];
 };
 static_assert(sizeof(c_controller_interface) == 0x1448);
 
