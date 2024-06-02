@@ -1401,6 +1401,9 @@
     <ClCompile Include="source\networking\logic\storage\network_http_request_cache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3384,6 +3387,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\logic\storage\network_http_request_cache.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
