@@ -886,7 +886,7 @@ s_console_global const* const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(mean_look_sensitivity, use_mean_look_sensitivity),
 
-	CONSOLE_GLOBAL_DECLARE_BOOL2(show_watermark, g_show_watermark),
+	CONSOLE_GLOBAL_DECLARE_LONG2(watermark_enabled, g_watermark_enabled),
 };
 long const k_console_global_count = NUMBEROF(k_console_globals);
 

@@ -58,7 +58,7 @@ static_assert(sizeof(s_render_fullscreen_text_context) == 0x10);
 
 extern bool debug_force_all_player_views_to_default_player;
 extern bool debug_render_horizontal_splitscreen;
-extern bool g_show_watermark;
+extern long g_watermark_enabled;
 
 extern real pregame_frame_scales[k_main_pregame_frame_count];
 extern s_render_fullscreen_text_context_colors pregame_frame_colors[k_main_pregame_frame_count];
