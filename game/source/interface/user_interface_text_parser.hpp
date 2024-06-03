@@ -37,6 +37,9 @@ static_assert(sizeof(c_magic_string_game_tag_parser) == sizeof(c_game_tag_parser
 
 struct c_user_interface_text_parse_manager
 {
+	void register_parser(c_game_tag_parser* parser, long screen_index);
+	void unregister_parser(c_game_tag_parser* parser, long screen_index);
+
 	long m_tag_parser_count;
 
 	// #TODO: find the proper name of this struct
@@ -50,4 +53,7 @@ struct c_user_interface_text_parse_manager
 static_assert(sizeof(c_user_interface_text_parse_manager) == 0x804);
 
 extern c_user_interface_text_parse_manager& g_parse_manager;
+
+extern void __cdecl user_interface_text_parser_register(c_game_tag_parser* parser, long screen_index);
+extern void __cdecl user_interface_text_parser_unregister(c_game_tag_parser* parser, long screen_index);
 

@@ -22,3 +22,27 @@ c_magic_string_game_tag_parser::c_magic_string_game_tag_parser(wchar_t const* xm
 	DECLFUNC(0x00AA64C0, c_magic_string_game_tag_parser*, __thiscall, c_magic_string_game_tag_parser*, wchar_t const*, void*, decltype(game_data_function))(this, xml_tag, game_data, game_data_function);
 }
 
+void c_user_interface_text_parse_manager::register_parser(c_game_tag_parser* parser, long screen_index)
+{
+	DECLFUNC(0x00AA68E0, void, __thiscall, c_user_interface_text_parse_manager*, c_game_tag_parser*, long)(this, parser, screen_index);
+}
+
+void c_user_interface_text_parse_manager::unregister_parser(c_game_tag_parser* parser, long screen_index)
+{
+	DECLFUNC(0x00AA6A20, void, __thiscall, c_user_interface_text_parse_manager*, c_game_tag_parser*, long)(this, parser, screen_index);
+}
+
+void __cdecl user_interface_text_parser_register(c_game_tag_parser* parser, long screen_index)
+{
+	//INVOKE(0x00AA6B10, user_interface_text_parser_register, parser, screen_index);
+
+	g_parse_manager.register_parser(parser, screen_index);
+}
+
+void __cdecl user_interface_text_parser_unregister(c_game_tag_parser* parser, long screen_index)
+{
+	//INVOKE(0x00AA6B10, user_interface_text_parser_unregister, parser, screen_index);
+
+	g_parse_manager.unregister_parser(parser, screen_index);
+}
+
