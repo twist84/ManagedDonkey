@@ -1,9 +1,28 @@
 #include "text/unicode.hpp"
 
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
 
 #include <stdio.h>
 #include <string.h>
+
+//bool unicode_warn_on_truncation = false;
+//
+//void check_source_string_against_copy_buffer_size(wchar_t const* string, long copy_buffer_size)
+//{
+//	if (unicode_warn_on_truncation)
+//	{
+//		ASSERT(string != NULL);
+//
+//		long source_string_size = 0;
+//		while (string[source_string_size++]);
+//		if (copy_buffer_size < source_string_size)
+//			generate_event(_event_level_warning, "insufficient copy buffer for WCHAR string (%ld<=%ld) '%S'",
+//				copy_buffer_size,
+//				source_string_size,
+//				string);
+//	}
+//}
 
 //int ustrcmp(wchar_t const*, wchar_t const*)
 //unsigned int ustrlen(wchar_t const *)
@@ -33,7 +52,15 @@ int ustrncmp(wchar_t const* string1, wchar_t const* string2, long max_count)
 	return wcsncmp(string1, string2, max_count);
 }
 
-//wchar_t * ustrncpy(wchar_t *,wchar_t const *,long)
+wchar_t* ustrncpy(wchar_t* dest, wchar_t const* src, long count)
+{
+	//ASSERT(dest != NULL);
+	//ASSERT(src != NULL);
+	//
+	//check_source_string_against_copy_buffer_size(src, count + 1);
+
+	return INVOKE(0x004ECB90, ustrncpy, dest, src, count);
+}
 
 wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 {
@@ -41,14 +68,9 @@ wchar_t* ustrnzcpy(wchar_t* dest, wchar_t const* src, long count)
 	ASSERT(src != NULL);
 	ASSERT(count > 0);
 
-	size_t len = wcslen(src);
+	//check_source_string_against_copy_buffer_size(src, count);
 
-	wcsncpy_s(dest, (count - 1) * 2, src, count * 2);
-	dest[count - 1] = 0;
-
-	csmemset(dest + len, 0, ((count - 1) - len) * 2);
-
-	return dest;
+	return ustrncpy(dest, src, count);
 }
 
 //wchar_t const * ustrpbrk(wchar_t const *,wchar_t const *)
