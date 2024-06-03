@@ -242,6 +242,14 @@ public:
 		return is_equal(s, true);
 	}
 
+	wchar_t* copy_to(wchar_t* s, unsigned int size)const
+	{
+		if (size > k_buffer_size)
+			size = k_buffer_size;
+
+		return ustrnzcpy(s, m_string, size);
+	}
+
 protected:
 	wchar_t m_string[k_buffer_size];
 };
