@@ -6,6 +6,10 @@
 struct c_gui_player_select_screen_widget :
 	public c_gui_screen_widget
 {
+public:
+	void __thiscall initialize_();
+
+//protected:
 	s_player_identifier m_current_player_id;
 	s_player_identifier m_target_player_id;
 	s_player_configuration m_player_data;

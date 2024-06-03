@@ -44,10 +44,10 @@ struct s_game_results_player_data
 		{
 			s_player_identifier player_identifier;
 			byte __padA[0x6];
-		} s;
+		};
 #pragma pack(pop)
 
-		byte data[sizeof(s)];
+		byte data[sizeof(s_player_identifier) + 0x6];
 	};
 
 	s_player_configuration configuration;
@@ -302,7 +302,7 @@ static_assert(sizeof(s_game_results_team_statistics_update) == 0x68);
 
 struct s_game_results_statistics
 {
-	c_static_array<s_game_results_player_statistics, 16> player;
+	s_game_results_player_statistics player[16];
 
 	// player_vs_player[subject_player_absolute_index][reference_player_absolute_index].statistics
 	c_static_array<c_static_array<s_game_results_player_vs_player_statistics, 16>, 16> player_vs_player;
