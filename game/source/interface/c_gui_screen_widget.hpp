@@ -83,6 +83,8 @@ public:
 	c_gui_data* get_data(long name, long* datasource_index);
 	e_window_index get_render_window();
 
+	void add_game_tag_parser(c_game_tag_parser* parser);
+
 protected:
 	void add_datasource(c_gui_data* datasource);
 

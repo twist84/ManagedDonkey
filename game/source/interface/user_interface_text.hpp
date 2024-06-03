@@ -260,6 +260,20 @@ struct s_parse_text_entry
 extern s_parse_text_entry(&g_parse_text_table)[131];
 
 extern void wchar_string_sanitize_for_game(wchar_t* string, long maximum_character_count);
-extern void __cdecl parse_build_number_string(e_controller_index controller_index, e_utf32 utf32, c_static_wchar_string<1024>* out_string);
 extern void utf32_to_string(e_utf32 utf32, wchar_t(&out_string)[2]);
+extern void __cdecl parse_build_number_string(e_controller_index controller_index, e_utf32 utf32, c_static_wchar_string<1024>* out_string);
+extern bool __cdecl parse_lobby_privacy(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_coop_max_players(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_countdown_remaining(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_current_players(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_delaying_player(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_film_max_players(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_film_party_leader_requirement(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_header(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_max_players(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_network(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_party_leader(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_percent_loaded(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_start_button_name(void* this_ptr, wchar_t* buffer, long buffer_length);
+extern bool __cdecl parse_lobby_title(void* this_ptr, wchar_t* buffer, long buffer_length);
 

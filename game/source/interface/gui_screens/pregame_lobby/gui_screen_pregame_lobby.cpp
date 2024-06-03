@@ -2,11 +2,14 @@
 
 #include "interface/c_controller.hpp"
 #include "interface/user_interface_messages.hpp"
+#include "interface/user_interface_text.hpp"
+#include "interface/user_interface_text_parser.hpp"
 #include "memory/module.hpp"
 
-HOOK_DECLARE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message);
+HOOK_DECLARE_CLASS_MEMBER(0x00B21A20, c_gui_screen_pregame_lobby, handle_controller_input_message_);
+HOOK_DECLARE_CLASS_MEMBER(0x00B22140, c_gui_screen_pregame_lobby, initialize_);
 
-bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message(c_controller_input_message* input_message)
+bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message_(c_controller_input_message* input_message)
 {
 	if (input_message->get_event_type() == _event_type_controller_component && input_message->get_component() == _controller_component_button_x)
 	{
@@ -19,7 +22,28 @@ bool __thiscall c_gui_screen_pregame_lobby::handle_controller_input_message(c_co
 	}
 
 	bool result = false;
-	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_screen_pregame_lobby, handle_controller_input_message, input_message);
+	HOOK_INVOKE_CLASS_MEMBER(result =, c_gui_screen_pregame_lobby, handle_controller_input_message_, input_message);
 	return result;
+}
+
+void __thiscall c_gui_screen_pregame_lobby::initialize_()
+{
+	//c_gui_screen_widget::initialize
+	DECLFUNC(0x00AB14D0, void, __thiscall, c_gui_screen_widget*)(this);
+
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-title", this, parse_lobby_title));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-header", this, parse_lobby_header));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-network", this, parse_lobby_network));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-party-leader", this, parse_lobby_party_leader));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-start-button-name", this, parse_lobby_start_button_name));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-current-players", this, parse_lobby_current_players));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-max-players", this, parse_lobby_max_players));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-countdown-remaining", this, parse_lobby_countdown_remaining));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-privacy", this, parse_lobby_privacy));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-delaying-player", this, parse_lobby_delaying_player));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-max-players", this, parse_lobby_film_max_players));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-film-party-leader-requirement", this, parse_lobby_film_party_leader_requirement));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-coop-max-players", this, parse_lobby_coop_max_players));
+	add_game_tag_parser(new c_magic_string_game_tag_parser(L"<lobby-percent-loaded", this, parse_lobby_percent_loaded));
 }
 
