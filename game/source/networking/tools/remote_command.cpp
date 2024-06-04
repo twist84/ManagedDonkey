@@ -452,6 +452,34 @@ long token_try_parse_bool(token_t const& token)
 
 //-----------------------------------------------------------------------------
 
+bool load_preference(char const* name, char const* value)
+{
+	// special case
+	if (csstricmp(name, "screen_resolution") == 0)
+	{
+		char width[8]{};
+		char height[8]{};
+		sscanf_s(value, "%[^x]x%s", width, sizeof(width), height, sizeof(height));
+
+		return global_preference_set(name, atol(width), atol(height));
+	}
+	else
+	{
+		if (csstricmp(value, "true") == 0)
+			return global_preference_set(name, true);
+
+		if (csstricmp(value, "false") == 0)
+			return global_preference_set(name, false);
+
+		if (csstrstr(value, "."))
+			return global_preference_set(name, real(atof(value)));
+
+		return global_preference_set(name, atol(value));
+	}
+
+	return false;
+}
+
 callback_result_t help_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	ASSERT(token_count >= 1);
@@ -1356,28 +1384,7 @@ callback_result_t load_preferences_from_file_callback(void const* userdata, long
 
 			sscanf_s(buffer, "%[^:]: %s", name, sizeof(name), value, sizeof(value));
 			if (*name && *value)
-			{
-				// special case
-				if (csstricmp(name, "screen_resolution") == 0)
-				{
-					char width[8]{};
-					char height[8]{};
-					sscanf_s(value, "%[^x]x%s", width, sizeof(width), height, sizeof(height));
-
-					global_preference_set(name, atol(width), atol(height));
-				}
-				else
-				{
-					if (csstricmp(value, "true") == 0)
-						global_preference_set(name, true);
-					else if (csstricmp(value, "false") == 0)
-						global_preference_set(name, false);
-					else if (csstrstr(value, "."))
-						global_preference_set(name, real(atof(value)));
-					else
-						global_preference_set(name, atol(value));
-				}
-			}
+				load_preference(name, value);
 		}
 
 		fclose(preferences_file);

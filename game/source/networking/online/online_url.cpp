@@ -203,7 +203,7 @@ void __cdecl online_url_make_bnet_subscription_get_details(c_url_string* url, qw
 		get_current_language_suffix(false),
 		game_region,
 		profile_region,
-		extras_portal_debug ? "trye" : "false");
+		extras_portal_debug ? "true" : "false");
 	url->m_cachable = c_url_string::_cachable_type_unknown0;
 	url->m_service_type = _online_lsp_service_type_mass_storage;
 	url->m_request_type = _network_http_request_queue_type_unknown1;

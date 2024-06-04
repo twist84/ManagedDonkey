@@ -552,6 +552,9 @@ bool __cdecl console_process_command(char const* command, bool a2)
 			return true;
 #endif
 
+		if (token_count == 2 && load_preference(tokens[0]->get_string(), tokens[1]->get_string()))
+			return true;
+
 		callback_result_t callback_result = set_callback(nullptr, token_count, tokens);
 		if (callback_result.is_equal("success"))
 			return true;
@@ -613,7 +616,7 @@ s_console_global const* const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_REAL2(director_camera_speed_scale, g_director_camera_speed_scale),
 
-	CONSOLE_GLOBAL_DECLARE_REAL2(camera_fov, g_camera_globals.field_of_view),
+	CONSOLE_GLOBAL_DECLARE_REAL2(camera_global_fov, g_camera_globals.field_of_view),
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_yaw_scale, g_camera_globals.yaw_scale),
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_pitch_scale, g_camera_globals.pitch_scale),
 	CONSOLE_GLOBAL_DECLARE_REAL2(camera_forward_scale, g_camera_globals.forward_scale),

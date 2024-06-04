@@ -1252,7 +1252,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 
 			tag_index = cache_file_get_global_tag_index(SCENARIO_TAG);
 
-			// if no global snenario reference was found in cache file global tags we fallback to the cache file header
+			// if no global scenario reference was found in cache file global tags we fallback to the cache file header
 			if (tag_index == NONE)
 				tag_index = g_cache_file_globals.header.scenario_index;
 

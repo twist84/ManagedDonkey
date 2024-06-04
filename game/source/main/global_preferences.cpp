@@ -329,7 +329,7 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 	case _ui_game_mode_multiplayer:
 		if (global_preferences_get()->preferences0.data.last_game_setup.get_multiplayer()->is_valid())
 		{
-			*campaign_id = -1;
+			*campaign_id = NONE;
 			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_multiplayer()->map_variant_settings.get_variant()->get_map_id();
 			return true;
 		}
@@ -337,7 +337,7 @@ bool __cdecl global_preferences_get_last_game_setup_map(e_gui_game_mode game_mod
 	case _ui_game_mode_map_editor:
 		if (global_preferences_get()->preferences0.data.last_game_setup.get_mapeditor()->is_valid())
 		{
-			*campaign_id = -1;
+			*campaign_id = NONE;
 			*map_id = global_preferences_get()->preferences0.data.last_game_setup.get_mapeditor()->map_variant_settings.get_variant()->get_map_id();
 			return true;
 		}
@@ -534,11 +534,14 @@ void __cdecl global_preferences_get_screen_resolution(long* width, long* height)
 {
 	//INVOKE(0x0050C030, global_preferences_get_screen_resolution, width, height);
 
-	*width = -1;
-	*height = -1;
+	*width = NONE;
+	*height = NONE;
 
 	if (!global_preferences_available())
 		return;
+
+	c_global_preferences_scope_lock scope_lock;
+
 	*width = global_preferences_get()->preferences0.data.video_settings.width;
 	*height = global_preferences_get()->preferences0.data.video_settings.height;
 }
@@ -1399,6 +1402,21 @@ void __cdecl global_preferences_write()
 	INVOKE(0x0050ECE0, global_preferences_write);
 }
 
+void __stdcall sound_system_set_master_volume(long volume, bool update_preference)
+{
+	INVOKE(0x0079B7D0, sound_system_set_master_volume, volume, update_preference);
+}
+
+void __stdcall sound_system_set_music_volume(long volume, bool update_preference)
+{
+	INVOKE(0x0079B940, sound_system_set_music_volume, volume, update_preference);
+}
+
+void __stdcall sound_system_set_sfx_volume(long volume, bool update_preference)
+{
+	INVOKE(0x0079B9E0, sound_system_set_sfx_volume, volume, update_preference);
+}
+
 char const* const k_global_preference_names[k_global_preference_count]
 {
 	"antialiasing",
@@ -1582,26 +1600,66 @@ void function_handler(s_global_preference const& global_preference, value_conver
 		switch (global_preference.parameter_types[0])
 		{
 		case _global_preference_type_bool:
+		{
 			function.type_bool(values[0].type_bool);
-			break;
+		}
+		break;
 		case _global_preference_type_real:
+		{
 			function.type_real(values[0].type_real);
-			break;
+		}
+		break;
 		case _global_preference_type_long:
+		{
 			function.type_long(values[0].type_long);
-			break;
+		}
+		break;
 		case _global_preference_type_quality_setting:
+		{
 			function.type_quality_setting(values[0].type_quality_setting);
-			break;
+		}
+		break;
 		case _global_preference_type_language:
+		{
 			function.type_language(values[0].type_language);
-			break;
+		}
+		break;
 		case _global_preference_type_subtitle_setting:
+		{
 			function.type_subtitle_setting(values[0].type_subtitle_setting);
-			break;
+		}
+		break;
 		case _global_preference_type_advertisement_mode:
+		{
 			function.type_advertisement_mode(values[0].type_advertisement_mode);
-			break;
+		}
+		break;
+		}
+
+		switch (global_preference.preference)
+		{
+		case _global_preference_fullscreen:
+		{
+			long width, height;
+			global_preferences_get_screen_resolution(&width, &height);
+			sub_79BA30(width, height);
+		}
+		break;
+		case _global_preference_master_volume:
+		{
+			sound_system_set_master_volume(values[0].type_long, false);
+		}
+		break;
+		case _global_preference_music_volume:
+		{
+			sound_system_set_music_volume(values[0].type_long, false);
+		}
+		break;
+		case _global_preference_sfx_volume:
+		{
+			sound_system_set_sfx_volume(values[0].type_long, false);
+		}
+		break;
 		}
 	}
 	else if (global_preference.parameter_count == 2)
@@ -1611,9 +1669,11 @@ void function_handler(s_global_preference const& global_preference, value_conver
 		//case _global_preference_content_item_unique_name_number_seed:
 		//	break
 		case _global_preference_screen_resolution:
+		{
 			function.type_screen_resolution(values[0].type_long, values[1].type_long);
 			sub_79BA30(values[0].type_long, values[1].type_long);
-			break;
+		}
+		break;
 		}
 	}
 }

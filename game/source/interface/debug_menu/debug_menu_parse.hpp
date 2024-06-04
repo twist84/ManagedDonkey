@@ -52,9 +52,6 @@ enum e_token
 	//_token_effects_browser
 	//_token_cinematics_menu
 
-	// Donkey
-	_token_global_preference_menu,
-
 	_token_item,
 
 	_token_caption,
@@ -118,9 +115,6 @@ enum e_property_owner
 	// Halo 4
 	//_property_owner_effects_browser
 	//_property_owner_cinematics_menu
-
-	// Donkey
-	_property_owner_global_preference_menu,
 
 	k_property_owner_count
 };

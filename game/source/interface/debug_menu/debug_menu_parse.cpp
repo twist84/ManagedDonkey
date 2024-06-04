@@ -97,7 +97,6 @@ char const* const g_token_names[k_token_count]
 	"inc",
 	"menu",
 	"zone_set_menu",
-	"global_preference_menu",
 	"item",
 	"caption",
 	"name",
@@ -369,11 +368,6 @@ c_debug_menu* debug_menu_build_menu(e_property_owner property_owner, c_debug_men
 	case _property_owner_zone_set_menu:
 	{
 		child = new c_debug_menu_zone_sets(menu, 26, name);
-	}
-	break;
-	case _property_owner_global_preference_menu:
-	{
-		child = new c_debug_menu_global_preferences(menu, 26, name);
 	}
 	break;
 	default:
@@ -659,7 +653,6 @@ char const* debug_menu_build_recursive(FILE* menu_file, long& c, c_debug_menu* m
 			//TOKEN_CASE_PROPERTY_OWNER(saved_film_marker_goto_menu, true);
 			//TOKEN_CASE_PROPERTY_OWNER(scenario_loader, true);
 			//TOKEN_CASE_PROPERTY_OWNER(object_dropper, true);
-			TOKEN_CASE_PROPERTY_OWNER(global_preference_menu, true);
 			TOKEN_CASE_PROPERTY_OWNER(item, false);
 			TOKEN_CASE_PROPERTY(caption);
 			TOKEN_CASE_PROPERTY(name);
