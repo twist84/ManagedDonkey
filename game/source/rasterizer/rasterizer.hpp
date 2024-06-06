@@ -498,32 +498,32 @@ public:
 		//_explicit_shader_decorator_shaded,
 
 		_explicit_shader_screenshot_memexport = 83,
-		_explicit_shader_downsample_4x4_gaussian_bloom_ldr,
+		_explicit_shader_new_downsample_4x4_gauss_with_curve_ldr,
 		_explicit_shader_downsample_4x4_gaussian_bloom,
-		_explicit_shader_downsample_4x4_block_bloom_new,
+		_explicit_shader_downsample_4x4_gaussian_bloom_new,
 		_explicit_shader_bloom_curve,
 		_explicit_shader_custom_gamma_correct,
 		_explicit_shader_pixel_copy,
-		_explicit_shader_unknown_90,
-		_explicit_shader_exposure_hdr_retrieve,
-		_explicit_shader_unknown_debug_92,
+		_explicit_shader_decorator_edit,
+		_explicit_shader_hdr_retrieve,
+		_explicit_shader_smirnov_test,
 		_explicit_shader_fxaa,
-		_explicit_shader_unknown_94,
-		_explicit_shader_unknown_95,
-		_explicit_shader_ssao_ldr,
-		_explicit_shader_ssao_hdr,
-		_explicit_shader_ssao_apply,
+		_explicit_shader_unknown94,
+		_explicit_shader_sniper_scope_stencil_pc,
+		_explicit_shader_ssao,
+		_explicit_shader_ssao_blur,
+		_explicit_shader_unknown98,
 		_explicit_shader_lightshafts,
-		_explicit_shader_lightshafts_blur,
-		_explicit_shader_screen_space_reflection,
-		_explicit_shader_unknown_102,
-		_explicit_shader_halve_depth_color,
-		_explicit_shader_halve_depth_normal,
-		_explicit_shader_unknown_105,
-		_explicit_shader_screen_space_reflection_blur,
-		_explicit_shader_hud_camera,
+		_explicit_shader_radial_blur,
+		_explicit_shader_unknown101,
+		_explicit_shader_unknown102,
+		_explicit_shader_unknown103,
+		_explicit_shader_unknown104,
+		_explicit_shader_unknown105,
+		_explicit_shader_unknown106,
+		_explicit_shader_unknown107,
 		_explicit_shader_hud_camera_nightvision,
-		_explicit_shader_hud_camera_mask,
+		_explicit_shader_unknown109,
 
 		k_explicit_shader_count
 	};
@@ -680,21 +680,26 @@ protected:
 	//	87: .............. bloom_curve
 	//	88: .............. custom gamma correct
 	//	89: .............. pixel copy
-	//	90: .............. hud camera
-	//	91: .............. hud night vision
-	//	92: .............. hud camera mask
-	//	93: .............. shield impact procedural uv
-	//	94: .............. screenshot night vision
-	//	95: .............. bloom: NEW downsample 4x4 gauss with curve LDR
-	//	96: .............. decorators edit
-	//	97: .............. smirnov test
-	//	98: .............. fxaa
-	//	99: .............. sniper scope stencil pc
-	//	100: ............. ssao
-	//	101: ............. ssao_blur
-	//	102: ............. lightshafts
-	//	103: ............. radial_blur
-	//	104: ............. clear_letterbox
+	//	90: .............. decorators edit
+	//	91: .............. hdr retrieve
+	//	92: .............. smirnov test
+	//	93: .............. fxaa
+	//	94: .............. 
+	//	95: .............. sniper scope stencil pc
+	//	96: .............. ssao
+	//	97: .............. ssao_blur
+	//	98: .............. 
+	//	99: .............. lightshafts
+	//	100: ............. radial_blur
+	//	101: ............. 
+	//	102: ............. 
+	//	103: ............. 
+	//	104: ............. 
+	//	105: ............. 
+	//	106: ............. 
+	//	107: ............. 
+	//	108: ............. hud night vision,
+	//	109: ............. 
 	c_typed_tag_block<s_explicit_shader> explicit_shaders;
 
 	// atmosphere lookup tables
