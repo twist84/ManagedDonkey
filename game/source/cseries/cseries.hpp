@@ -1077,32 +1077,32 @@ public:
 		return m_storage == static_cast<t_storage_type>(value);
 	}
 
-	template<typename T>
+	template<typename T> const
 	bool operator!=(T value)
 	{
 		return m_storage != static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	bool operator<(T value)
+	bool operator<(T value) const
 	{
 		return m_storage < static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	bool operator>(T value)
+	bool operator>(T value) const
 	{
 		return m_storage > static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	bool operator>=(T value)
+	bool operator>=(T value) const
 	{
 		return m_storage >= static_cast<t_storage_type>(value);
 	}
 
 	template<typename T>
-	bool operator<=(T value)
+	bool operator<=(T value) const
 	{
 		return m_storage <= static_cast<t_storage_type>(value);
 	}
