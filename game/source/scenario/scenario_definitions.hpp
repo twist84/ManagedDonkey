@@ -336,9 +336,12 @@ struct s_scenario
 	s_tag_block simulation_definition_table;
 
 	c_typed_tag_reference<CAMERA_FX_SETTINGS_TAG> camera_effects;
-	c_typed_tag_reference<AREA_SCREEN_EFFECT_TAG> global_screen_effect;
 
-	s_tag_reference unknown_screen_fx;
+	// halo online
+	c_typed_tag_reference<PODIUM_SETTINGS_TAG> podium_override;
+
+	// ignores the falloff curves
+	c_typed_tag_reference<AREA_SCREEN_EFFECT_TAG> global_screen_effect;
 
 	c_typed_tag_reference<SKY_ATM_PARAMETERS_TAG> atmospheric;
 	c_typed_tag_reference<CHOCOLATE_MOUNTAIN_NEW_TAG> chocalate_mountain;
@@ -360,7 +363,9 @@ struct s_scenario
 	c_typed_tag_block<s_scenario_airprobe_info> airprobes;
 	c_typed_tag_block<s_scenario_budget_reference> budget_references;
 
+	// HACK
 	c_typed_tag_reference<EFFECT_TAG> tchou_shader_effect;
+
 	c_typed_tag_reference<VISION_MODE_TAG> vision_mode_override;
 	c_typed_tag_block<s_background_bitmap_reference_definition> background_bitmap_references;
 	

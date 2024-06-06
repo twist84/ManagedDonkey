@@ -10,8 +10,8 @@ void s_scenario::update_reference_names()
 	UPDATE_REFERENCE_NAME(game_engine_strings);
 	UPDATE_REFERENCE_NAME(objectives);
 	UPDATE_REFERENCE_NAME(camera_effects);
+	UPDATE_REFERENCE_NAME(podium_override);
 	UPDATE_REFERENCE_NAME(global_screen_effect);
-	UPDATE_REFERENCE_NAME(unknown_screen_fx);
 	UPDATE_REFERENCE_NAME(atmospheric);
 	UPDATE_REFERENCE_NAME(chocalate_mountain);
 	UPDATE_REFERENCE_NAME(new_lightmaps);
