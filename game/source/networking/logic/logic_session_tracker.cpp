@@ -11,7 +11,7 @@ t_value_type<byte> const session_storage_count = { .value = SESSION_STORAGE_COUN
 t_value_type<dword> const session_storage_size = { .value = sizeof(s_network_session_tracker_session) * SESSION_STORAGE_COUNT };
 
 // c_session_tracker::add_session
-DATA_PATCH_DECLARE(0x004E253A + 1, session_storage_count, session_storage_count.bytes); // cmp     esi, 100
+DATA_PATCH_DECLARE(0x004E253A + 2, session_storage_count, session_storage_count.bytes); // cmp     esi, 100
 DATA_PATCH_DECLARE(0x004E253F + 1, session_storage_count, session_storage_count.bytes); // push    100
 
 // c_session_tracker::allocate_storage
