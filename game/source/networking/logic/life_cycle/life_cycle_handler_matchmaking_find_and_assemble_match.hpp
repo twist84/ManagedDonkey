@@ -12,7 +12,6 @@ struct c_life_cycle_state_handler_matchmaking_find_and_assemble_match :
 	byte __data2C[0x4];
 	c_matchmaking_seeker m_seeker;
 	s_network_session_tracker_session_data m_session;
-	long m_desirability;
 	byte __data19A5C[0x10];
 	s_matchmaking_session_properties m_matchmaking_desirability;
 	byte __data19B30[0x30];

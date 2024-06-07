@@ -627,12 +627,12 @@ struct s_network_configuration
 	dword __unknown2B4;
 	dword simulation_abort_as_host_timeout;
 	dword simulation_abort_as_peer_timeout;
-	dword __unknown2C0;
+	long logic_unsuitable_session_count;
 	dword __unknown2C4;
 	dword __unknown2C8;
 	dword __unknown2CC;
 	dword __unknown2D0;
-	dword __unknown2D4;
+	long logic_qos_attempt_count;
 	dword __unknown2D8;
 	dword __unknown2DC;
 	dword __unknown2E0;

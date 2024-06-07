@@ -64,6 +64,9 @@ extern s_network_shared_memory_globals& network_shared_memory_globals;
 extern s_network_base_memory_globals& network_base_memory_globals;
 extern word& g_broadcast_port;
 
+extern void* __cdecl network_heap_allocate_block(long block_size);
+extern char* __cdecl network_heap_describe(char* buffer, long buffer_size);
+extern void __cdecl network_heap_free_block(void* block);
 extern void __cdecl network_memory_shared_dispose();
 extern bool __cdecl network_memory_simulation_initialize(c_simulation_world** world, c_simulation_watcher** watcher, c_simulation_type_collection** type_collection);
 
