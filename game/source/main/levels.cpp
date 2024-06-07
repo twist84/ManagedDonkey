@@ -283,6 +283,7 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 			if (insertion_index != NONE)
 			{
 				s_level_insertion_datum* level_insertion = (s_level_insertion_datum*)datum_get(*g_level_globals.campaign_insertions, insertion_index);
+				csmemset(level_insertion, 0, sizeof(s_level_insertion_datum));
 
 				short insertion_count = 0;
 				switch (scenario_header.minor_version)
