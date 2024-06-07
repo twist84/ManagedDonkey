@@ -67,6 +67,8 @@ struct s_session_tracker_globals
 };
 static_assert(sizeof(s_session_tracker_globals) == sizeof(c_session_tracker));
 
+extern s_session_tracker_globals& session_tracker_globals;
+
 extern void __cdecl network_session_tracker_dispose();
 extern bool __cdecl network_session_tracker_initialize();
 extern void __cdecl network_session_tracker_update();

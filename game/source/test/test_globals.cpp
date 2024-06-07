@@ -27,6 +27,7 @@
 #include "main/main_game_launch.hpp"
 #include "memory/thread_local.hpp"
 #include "multithreading/synchronization.hpp"
+#include "networking/logic/logic_session_tracker.hpp"
 #include "networking/logic/network_banhammer.hpp"
 #include "networking/logic/network_leaderboard.hpp"
 #include "networking/network_configuration.hpp"
@@ -173,6 +174,7 @@ void __cdecl test_main_loop_body_begin()
 		progress_globals;
 		rasterizer_globals;
 		render_object_globals;
+		session_tracker_globals;
 		simulation_globals;
 
 		c_lights_view::g_debug_clip_planes;
