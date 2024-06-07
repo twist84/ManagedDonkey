@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+struct HALO_CHANNEL;
+
 struct HALO_SOUND_SYSTEM
 {
 	struct HALO_SOUND_SYSTEM_vtbl
@@ -9,7 +11,7 @@ struct HALO_SOUND_SYSTEM
 		long(__thiscall* Init)(HALO_SOUND_SYSTEM*, long, void**);
 		void(__thiscall* Term)(HALO_SOUND_SYSTEM*);
 		void(__thiscall* Update)(HALO_SOUND_SYSTEM*);
-		void(__thiscall* InitForNewMap)(HALO_SOUND_SYSTEM*);
+		void(__thiscall* InitForNewMap)(HALO_SOUND_SYSTEM*, void*);
 		long(__thiscall* DisposeFromOldMap)(HALO_SOUND_SYSTEM*);
 		void* __func14;
 		void* __func18;
@@ -27,7 +29,7 @@ struct HALO_SOUND_SYSTEM
 	long Init(long a1, void** a2) { return __vftable->Init(this, a1, a2); }
 	void Term() { __vftable->Term(this); }
 	void Update() { __vftable->Update(this); }
-	void InitForNewMap() { __vftable->InitForNewMap(this); }
+	void InitForNewMap() { __vftable->InitForNewMap(this, 0); }
 	long DisposeFromOldMap() { return __vftable->DisposeFromOldMap(this); }
 	long InitUIScreenSounds() { return __vftable->InitUIScreenSounds(this); }
 	long TermUIScreenSounds() { return __vftable->TermUIScreenSounds(this); }
@@ -36,8 +38,38 @@ struct HALO_SOUND_SYSTEM
 	void __thiscall sub_64EF50();
 	void __thiscall sub_64F6B0();
 
+	struct VolumeStruct
+	{
+		long __unknown0;
+		real __unknown4;
+	};
+	
+	// starts as volume but morths into some data in `FMOD::EventSystemI`
 	real Volume;
-	byte __data[0x1FC];
+
+	long __unknown8;
+	long SampleRate; // 48000
+	VolumeStruct SfxVolume;
+	VolumeStruct VoiceVolume;
+	VolumeStruct MusicVolume;
+	VolumeStruct MasterVolume;
+	dword_flags __flags30;
+	long __unknown34;
+	long __unknown38;
+	long __unknown3C;
+	long __unknown40;
+	real __unknown44;
+	long __unknown48;
+	real __unknown4C;
+	long __unknown50;
+	real __unknown54;
+	long __unknown58; // 5, SoundEncoding?
+	byte __data5C[0x18];
+	HALO_CHANNEL* Channels;
+	long ChannelCount;
+	long MaximumChannelCount;
+	byte __data80[0x12C];
+	byte __data1AC[0x58];
 };
 static_assert(sizeof(HALO_SOUND_SYSTEM) == 0x204);
 
@@ -187,8 +219,16 @@ namespace snd
 		byte __data44[0x324];
 	};
 	static_assert(sizeof(SYSTEM_FMOD) == 0x368);
+
+	//extern dword& g_SoundThreadId;
+	//extern void*& dword_69AD05C;
+	//extern SYSTEM_FMOD*& g_SYSTEM_FMOD;
+	//extern HALO_SOUND_SYSTEM*& g_HaloSoundSystem;
+	//extern SYSTEM_FMOD*& g_SYSTEM_FMOD_for_threads;
 }
 
+extern void __cdecl fmod_initialize_for_new_map();
 extern void __cdecl fmod_initialize();
-extern void __cdecl fmod_terminate();
+extern void __cdecl fmod_dispose_from_old_map();
+extern void __cdecl fmod_dispose();
 

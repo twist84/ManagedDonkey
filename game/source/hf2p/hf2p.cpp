@@ -20,7 +20,7 @@ REFERENCE_DECLARE(0x04FE67A4, dword, mainmenu_elite_unit_index);
 REFERENCE_DECLARE(0x052697B1, bool, g_hf2p_use_keyboard_hints);
 
 HOOK_DECLARE(0x00600600, hf2p_handle_deleted_object);
-//HOOK_DECLARE(0x00600620, hf2p_initialize_for_new_map);
+HOOK_DECLARE(0x00600620, hf2p_initialize_for_new_map);
 HOOK_DECLARE(0x00600630, hf2p_initialize);
 HOOK_DECLARE(0x006006F0, hf2p_game_initialize);
 HOOK_DECLARE(0x00600750, hf2p_scenario_tags_load_finished);
@@ -30,6 +30,9 @@ HOOK_DECLARE(0x00600830, hf2p_dispose_from_old_map);
 HOOK_DECLARE(0x00600850, hf2p_game_update);
 HOOK_DECLARE(0x006008F0, hf2p_idle);
 HOOK_DECLARE(0x00600900, hf2p_render);
+HOOK_DECLARE(0x007B8810, hf2p_backend_register);
+HOOK_DECLARE(0x007B8830, hf2p_backend_unregister);
+HOOK_DECLARE(0x007B8870, hf2p_backend_update);
 
 #if defined(DEDICATED_SERVER)
 
@@ -89,6 +92,7 @@ void __cdecl hf2p_handle_deleted_object(long object_index)
 
 void __cdecl hf2p_initialize_for_new_map()
 {
+	fmod_initialize_for_new_map();
 }
 
 void __cdecl hf2p_initialize()
@@ -130,11 +134,12 @@ void __cdecl hf2p_game_dispose()
 {
 	//HOOK_INVOKE(, hf2p_game_dispose);
 	
-	fmod_terminate();
+	fmod_dispose();
 }
 
 void __cdecl hf2p_dispose_from_old_map()
 {
+	fmod_dispose_from_old_map();
 }
 
 dword& mainmenu_unit_index = mainmenu_spartan_unit_index;
@@ -182,6 +187,18 @@ void __cdecl hf2p_idle()
 }
 
 void __cdecl hf2p_render()
+{
+}
+
+void __cdecl hf2p_backend_register(void* backend)
+{
+}
+
+void __cdecl hf2p_backend_unregister(void* backend)
+{
+}
+
+void __cdecl hf2p_backend_update()
 {
 }
 

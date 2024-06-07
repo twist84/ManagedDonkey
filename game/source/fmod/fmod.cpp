@@ -143,6 +143,11 @@ namespace snd
 	//HOOK_DECLARE_CLASS_MEMBER(0x00409280, SYSTEM_FMOD, Update);
 }
 
+void __cdecl fmod_initialize_for_new_map()
+{
+	INVOKE(0x0064DF20, fmod_initialize_for_new_map);
+}
+
 void __cdecl fmod_initialize()
 {
 	//INVOKE(0x0064E190, fmod_initialize);
@@ -151,9 +156,14 @@ void __cdecl fmod_initialize()
 	snd::g_SYSTEM_FMOD->__vftable->Init(snd::g_SYSTEM_FMOD, 256, 1);
 }
 
-void __cdecl fmod_terminate()
+void __cdecl fmod_dispose_from_old_map()
 {
-	//INVOKE(0x00652EE0, fmod_terminate);
+	INVOKE(0x00652ED0, fmod_dispose_from_old_map);
+}
+
+void __cdecl fmod_dispose()
+{
+	//INVOKE(0x00652EE0, fmod_dispose);
 
 	//DECLFUNC(0x004067F0, void, __thiscall, void*)(snd::g_SYSTEM_FMOD);
 	snd::g_SYSTEM_FMOD->__vftable->Term(snd::g_SYSTEM_FMOD);

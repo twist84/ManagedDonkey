@@ -84,6 +84,9 @@ extern void __cdecl hf2p_dispose_from_old_map();
 extern void __cdecl hf2p_game_update();
 extern void __cdecl hf2p_idle();
 extern void __cdecl hf2p_render();
+extern void __cdecl hf2p_backend_register(void* backend);
+extern void __cdecl hf2p_backend_unregister(void* backend);
+extern void __cdecl hf2p_backend_update();
 
 struct s_s3d_player_armor_configuration_loadout;
 struct s_s3d_player_weapon_configuration_loadout;
