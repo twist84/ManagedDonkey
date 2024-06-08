@@ -1,10 +1,23 @@
 #pragma once
 
+#include "cseries/cseries.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
 #include "networking/transport/transport_qos.hpp"
 
 #define QOS_ATTEMPT_MIN_COUNT 2
 #define QOS_ATTEMPT_MAX_COUNT 10
+
+enum e_transport_qos_type
+{
+	// probe only
+	_transport_qos_type_probe_only = 0,
+
+	// default (full)
+	_transport_qos_type_default,
+
+	k_transport_qos_type_count,
+	k_transport_qos_type_none = NONE
+};
 
 struct s_network_session_tracker_session_data
 {
@@ -44,7 +57,7 @@ struct s_network_session_tracker_session
 	s_transport_session_description description;
 	long __unknown48;
 	long __unknown4C;
-	bool qos_received[2];
+	bool qos_received[k_transport_qos_type_count];
 	long qos_attempt_index;
 	long qos_attempt_target_index;
 	long qos_attempt_target_status;
@@ -66,7 +79,7 @@ static_assert(sizeof(s_session_tracker_unsuitable_session) == 0x10);
 struct s_session_tracker_qos_attempt
 {
 	long qos_index;
-	long qos_type;
+	e_transport_qos_type qos_type;
 	long target_count;
 	dword time;
 };
@@ -95,13 +108,18 @@ public:
 	bool __cdecl allocate_storage(long tracker_sort_method, long qos_status_data_type, c_matchmaking_quality* matchmaking_quality);
 
 private:
-	void __cdecl build_qos_target_list(long transport_qos_type, long* qos_targets, long max_qos_target_count, long* qos_target_count);
+	void __cdecl build_qos_target_list(e_transport_qos_type qos_type, long* qos_targets, long max_qos_target_count, long* qos_target_count);
 	void __cdecl clear_qos_attempt(long qos_attempt_index);
 
 public:
 	void __cdecl clear();
 	void __cdecl clear_unsuitable_sessions();
 	void __cdecl dispose();
+
+private:
+	long __cdecl get_maximum_qos_target_count(e_transport_qos_type qos_type);
+
+public:
 	long __cdecl get_session_count();
 	bool __cdecl get_session_data(long tracked_session_index, s_network_session_tracker_session_data* session_data);
 	void __cdecl get_session_status(long tracked_session_index, s_network_session_tracker_session_status* session_status);

@@ -94,8 +94,8 @@ bool __cdecl c_session_tracker::allocate_storage(long tracker_sort_method, long 
 	m_qos_attempt_count = MIN(MAX(QOS_ATTEMPT_MIN_COUNT, g_network_configuration.logic_qos_attempt_count), QOS_ATTEMPT_MAX_COUNT);
 
 	// logic-session-array
-	m_session_storage_size = SESSION_STORAGE_SIZE;
-	m_sessions = (s_network_session_tracker_session*)network_heap_allocate_block(SESSION_STORAGE_SIZE);
+	m_session_storage_size = sizeof(s_network_session_tracker_session) * SESSION_STORAGE_COUNT;
+	m_sessions = (s_network_session_tracker_session*)network_heap_allocate_block(m_session_storage_size);
 
 	// logic-unsuitable-session-array
 	m_unsuitable_session_maximum_count = g_network_configuration.logic_unsuitable_session_count;
@@ -120,10 +120,9 @@ bool __cdecl c_session_tracker::allocate_storage(long tracker_sort_method, long 
 	return false;
 }
 
-//void __cdecl c_session_tracker::build_qos_target_list(e_transport_qos_type transport_qos_type, long* qos_targets, long max_qos_target_count, long* qos_target_count)
-void __cdecl c_session_tracker::build_qos_target_list(long transport_qos_type, long* qos_targets, long max_qos_target_count, long* qos_target_count)
+void __cdecl c_session_tracker::build_qos_target_list(e_transport_qos_type qos_type, long* qos_targets, long max_qos_target_count, long* qos_target_count)
 {
-	DECLFUNC(0x004E2640, void, __thiscall, c_session_tracker*, long, long*, long, long*)(this, transport_qos_type, qos_targets, max_qos_target_count, qos_target_count);
+	DECLFUNC(0x004E2640, void, __thiscall, c_session_tracker*, long, long*, long, long*)(this, qos_type, qos_targets, max_qos_target_count, qos_target_count);
 }
 
 //.text:004E27D0 ; 
@@ -150,7 +149,7 @@ void __cdecl c_session_tracker::clear_qos_attempt(long qos_attempt_index)
 	qos_attempt.target_count = 0;
 	qos_attempt.time = 0;
 	qos_attempt.qos_index = NONE;
-	qos_attempt.qos_type = NONE;
+	qos_attempt.qos_type = k_transport_qos_type_none;
 }
 
 void __cdecl c_session_tracker::clear_unsuitable_sessions()
@@ -178,8 +177,12 @@ void __cdecl c_session_tracker::dispose()
 
 //.text:004E2960 ; 
 //.text:004E2970 ; 
-//.text:004E2980 ; 
-//.text:004E2990 ; 
+//.text:004E2980 ; returns 10, something like `get_maximum_qos_attempt_count`?
+
+long __cdecl c_session_tracker::get_maximum_qos_target_count(e_transport_qos_type qos_type)
+{
+	return DECLFUNC(0x004E2990, long, __thiscall, c_session_tracker*, long)(this, qos_type);
+}
 
 long __cdecl c_session_tracker::get_session_count()
 {
@@ -213,10 +216,9 @@ void __cdecl c_session_tracker::get_session_status(long tracked_session_index, s
 		session_status->type = 4;
 		session_status->__unknown8 = tracked_session->__unknown48;
 	}
-	//else if (tracked_session->qos_received[_transport_qos_type_probe_only])
-	else if (tracked_session->qos_received[0])
+	else if (tracked_session->qos_received[_transport_qos_type_probe_only])
 	{
-		session_status->type = tracked_session->qos_received[1] + 2;
+		session_status->type = tracked_session->qos_received[_transport_qos_type_default] + 2;
 	}
 	else
 	{
@@ -456,7 +458,18 @@ bool __cdecl c_session_tracker::session_is_unsuitable(s_transport_secure_identif
 
 void __cdecl c_session_tracker::update()
 {
-	DECLFUNC(0x004E31C0, void, __thiscall, c_session_tracker*)(this);
+	//DECLFUNC(0x004E31C0, void, __thiscall, c_session_tracker*)(this);
+
+	if (m_flags.test(_session_tracker_initialized_bit))
+	{
+		update_sessions_for_refresh();
+		for (long qos_attempt_index = 0; qos_attempt_index < m_qos_attempt_count; qos_attempt_index++)
+		{
+			update_qos_receive(qos_attempt_index);
+			update_qos_send(qos_attempt_index);
+		}
+		update_sort();
+	}
 }
 
 void __cdecl c_session_tracker::update_qos_receive(long qos_attempt_index)
