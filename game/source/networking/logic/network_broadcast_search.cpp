@@ -92,7 +92,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 
 		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
 		{
-			s_available_session* session = g_broadcast_search_globals.available_sessions + i;
+			s_available_session* session = &g_broadcast_search_globals.available_sessions[i];
 
 			if (session->initialized)
 			{
@@ -134,7 +134,7 @@ void __cdecl network_broadcast_search_handle_reply(transport_address const* addr
 		}
 		else
 		{
-			s_available_session* session = g_broadcast_search_globals.available_sessions + v5;
+			s_available_session* session = &g_broadcast_search_globals.available_sessions[v5];
 
 			if (v5 != existing_session_index)
 				csmemset(session, 0, sizeof(s_available_session));
@@ -212,7 +212,7 @@ void __cdecl network_broadcast_search_update()
 
 		for (long i = 0; i < g_broadcast_search_globals.maximum_session_count; i++)
 		{
-			s_available_session* session = g_broadcast_search_globals.available_sessions + i;
+			s_available_session* session = &g_broadcast_search_globals.available_sessions[i];
 			if (session->initialized)
 			{
 				if (network_time_since(session->time) > 4000)
