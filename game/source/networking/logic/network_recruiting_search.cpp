@@ -19,6 +19,25 @@ bool __cdecl network_recruiting_search_begin(long controller_index,long squad_se
 	//ASSERT(g_recruiting_search_globals.initialized);
 	//ASSERT(maximum_session_count > 0);
 	//ASSERT(session_storage);
+	//
+	//if (!g_recruiting_search_globals.search_active)
+	//{
+	//	g_recruiting_search_globals.matchmaking_quality.initialize();
+	//	if (g_recruiting_search_globals.recruiting_seeker.search_begin(
+	//		controller_index,
+	//		squad_search_flags,
+	//		false,
+	//		&g_recruiting_search_globals.matchmaking_quality))
+	//	{
+	//		g_recruiting_search_globals.maximum_session_count = maximum_session_count;
+	//		g_recruiting_search_globals.search_active = true;
+	//		g_recruiting_search_globals.__unknownC7B9 = false;
+	//		g_recruiting_search_globals.available_sessions = session_storage;
+	//		csmemset(session_storage, 0, sizeof(s_available_session) * maximum_session_count);
+	//	}
+	//}
+	//
+	//return g_recruiting_search_globals.search_active;
 }
 
 void __cdecl network_recruiting_search_dispose()
