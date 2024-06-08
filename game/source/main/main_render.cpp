@@ -350,6 +350,76 @@ void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_alpha(e_co
 	}
 }
 
+void __cdecl game_engine_render_frame_watermarks_for_controller_halo3_beta(e_controller_index controller_index)
+{
+	static bool first_run = true;
+	static c_static_string<128> strings[3]{};
+	static c_static_string<20> player_xuid_rand{};
+	static c_static_string<16> display_name{};
+
+	if (first_run)
+	{
+		first_run = false;
+
+		strings[0].clear();
+		strings[1].clear();
+		strings[2].clear();
+		player_xuid_rand.clear();
+		display_name.clear();
+	}
+
+	long player_xuid_upper32 = 0;
+	if (controller_index != k_no_controller)
+	{
+		c_controller_interface* controller = controller_get(controller_index);
+		wchar_string_to_ascii_string(controller->get_display_name(), display_name.get_buffer(), display_name.element_count, 0);
+		player_xuid_upper32 = controller->get_player_xuid() >> 32;
+	}
+
+	strings[0].print("BETA BUILD");
+	strings[1].print("%s", display_name.get_string());
+	strings[2].print("%s", netdebug_get_sessionid());
+
+	long random_value = 0x19660D * system_milliseconds() + 0x3C6EF35F;
+	long player_xuid_rand_value = player_xuid_upper32 ^ random_value ^ 0xAEA9434D;
+
+	player_xuid_rand.print("%.8x|n%.8x", random_value, player_xuid_rand_value);
+
+	c_font_cache_mt_safe font_cache{};
+	c_rasterizer_draw_string draw_string{};
+
+	short_rectangle2d bounds{};
+	interface_get_current_display_or_window_settings(NULL, NULL, NULL, &bounds);
+
+	draw_string.set_font(1);
+	draw_string.set_color(0xB0FFFFFF);
+	draw_string.set_justification(2);
+	short line_height = draw_string.get_line_height();
+
+	{
+		real_rectangle2d rect{};
+		set_real_rectangle2d(&rect, bounds.x0, real(bounds.x1 - 10), real(bounds.y1 - 6 * line_height), bounds.y1);
+
+		for (long i = 0; i < NUMBEROF(strings); i++)
+		{
+			draw_string.set_bounds(&rect);
+			rect.y0 += line_height;
+
+			draw_string.draw(&font_cache, strings[i].get_string());
+		}
+	}
+
+	draw_string.set_justification(1);
+
+	{
+		real_rectangle2d rect{};
+		set_real_rectangle2d(&rect, bounds.x0, real(bounds.x1 - 15), real(bounds.y1 - 7 * line_height), bounds.y1);
+
+		draw_string.set_bounds(&rect);
+		draw_string.draw(&font_cache, player_xuid_rand.get_string());
+	}
+}
+
 void __cdecl game_engine_render_frame_watermarks_for_controller_halo4_pre_release(e_controller_index controller_index)
 {
 	static bool first_run = true;
@@ -438,6 +508,9 @@ void __cdecl game_engine_render_frame_watermarks_for_controller(e_controller_ind
 		game_engine_render_frame_watermarks_for_controller_halo3_alpha(controller_index);
 		break;
 	case 2:
+		game_engine_render_frame_watermarks_for_controller_halo3_beta(controller_index);
+		break;
+	case 3:
 		game_engine_render_frame_watermarks_for_controller_halo4_pre_release(controller_index);
 		break;
 	}
@@ -479,7 +552,8 @@ void __cdecl game_engine_render_frame_watermarks(bool pregame)
 		game_engine_render_window_watermarks(k_output_user_none);
 	
 	//game_engine_render_frame_watermarks_for_controller(controller_get_first_non_guest_signed_in_controller());
-	game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, short, __cdecl)()));
+	//game_engine_render_frame_watermarks_for_controller(static_cast<e_controller_index>(DECLFUNC(0x00A94930, short, __cdecl)()));
+	game_engine_render_frame_watermarks_for_controller(_controller_index0);
 }
 
 void __cdecl main_render_pregame(e_main_pregame_frame pregame_frame_type, char const* text)
