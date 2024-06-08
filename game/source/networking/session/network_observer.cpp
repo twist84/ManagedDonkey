@@ -135,7 +135,14 @@ void c_network_observer::observer_prioritize_upload_bandwidth(bool prioritize_up
 //.text:004484E0 ; 
 //.text:004484F0 ; void c_network_channel::set_connection_packet_timeout(long)
 //.text:00448500 ; void c_network_observer::set_estimated_bandwidth(long, bool, bool)
-//.text:00448590 ; void c_network_observer::set_online_network_environment(bool)
+
+void c_network_observer::set_online_network_environment(bool online_network_environment)
+{
+    //DECLFUNC(0x00448590, void, __thiscall, c_network_observer*, bool)(this, online_network_environment);
+
+    m_online_network_environment = online_network_environment;
+}
+
 //.text:004485A0 ; void c_network_connection::set_packet_timeout(long)
 //.text:004485B0 ; bool c_network_channel::simulation_attached() const
 //.text:004485C0 ; bool c_network_channel::simulation_is_authority() const

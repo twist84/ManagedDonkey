@@ -77,6 +77,7 @@ struct c_network_observer
 	long observer_channel_find_by_network_channel(long owner_type, c_network_channel* channel) const;
 	void observer_channel_send_message(long owner_type, long observer_index, bool a3, e_network_message_type message_type, long data_size, void const* data);
 	void observer_prioritize_upload_bandwidth(bool prioritize_upload_bandwidth);
+	void set_online_network_environment(bool online_network_environment);
 
 	c_network_link* m_link;
 	c_network_message_gateway* m_message_gateway;
