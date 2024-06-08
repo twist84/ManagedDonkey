@@ -262,8 +262,11 @@ bool __cdecl c_session_tracker::initialize(bool a1)
 
 	for (long qos_attempt_index = 0; qos_attempt_index < m_qos_attempts.get_count(); qos_attempt_index++)
 	{
-		s_session_tracker_qos_attempt* qos_attempt = &m_qos_attempts[qos_attempt_index];
-		ASSERT(qos_attempt->qos_index == NONE);
+		if (a1)
+		{
+			s_session_tracker_qos_attempt* qos_attempt = &m_qos_attempts[qos_attempt_index];
+			ASSERT(qos_attempt->qos_index == NONE);
+		}
 
 		clear_qos_attempt(qos_attempt_index);
 	}
