@@ -437,13 +437,13 @@ void __cdecl network_shutdown_transport(void* userdata)
 
 void __cdecl network_startup_transport(void* userdata)
 {
-	INVOKE(0x0049E770, network_startup_transport, userdata);
+	//INVOKE(0x0049E770, network_startup_transport, userdata);
 
-	//if (network_initialized())
-	//{
-	//	if (g_network_link)
-	//		g_network_link->destroy_endpoints();
-	//}
+	if (network_initialized())
+	{
+		if (g_network_link)
+			g_network_link->create_endpoints();
+	}
 }
 
 void __cdecl network_update()
