@@ -7,6 +7,28 @@ REFERENCE_DECLARE(0x019AB7F0, s_network_life_cycle_globals, life_cycle_globals);
 void __cdecl network_life_cycle_dispose()
 {
 	INVOKE(0x00454A80, network_life_cycle_dispose);
+
+	//multiplayer_game_hopper_dispose();
+	//logic_qos_reply_manager_dispose();
+	//life_cycle_globals.handler_none.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_pre_game.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_start_game.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_in_game.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_end_game_write_stats.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_leaving.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_joining.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_start.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_find_match_client.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_find_match.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_find_and_assemble_match.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_assemble_match.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_select_host.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_arbitration.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_prepare_map.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_in_match.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_end_match_write_stats.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_post_match.dispose(&life_cycle_globals.manager);
+	//life_cycle_globals.initialized = false;
 }
 
 void __cdecl network_life_cycle_end()
