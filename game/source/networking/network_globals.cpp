@@ -171,7 +171,6 @@ void __cdecl network_dispose()
 
 	if (network_globals.initialized)
 	{
-		//service_client_dispose();
 		network_storage_cache_dispose();
 		network_storage_manifest_dispose();
 		network_storage_dispose();
@@ -275,6 +274,7 @@ void __cdecl network_initialize()
 				g_network_observer->initialize_observer(g_network_link, g_network_message_types, g_network_message_gateway, g_network_message_handler, &g_network_configuration.observer_configuration);
 	
 			g_network_message_handler->register_observer(g_network_observer);
+
 			g_network_session_parameter_types->clear_session_parameter_types();
 			network_session_parameter_types_register(g_network_session_parameter_types);
 			g_network_session_parameter_types->check_session_parameter_types();
@@ -315,7 +315,6 @@ void __cdecl network_initialize()
 				online_files_initialize();
 				network_http_request_queue_initialize();
 				network_storage_files_initialize();
-				//service_client_initialize();
 	
 				//status_lines_initialize(g_network_memory_status_line, &g_network_status_memory, 1);
 				//status_lines_initialize(g_network_link_status_line, &g_network_status_link, 1);
@@ -486,7 +485,6 @@ void __cdecl network_update()
 			network_http_request_queue_update();
 			network_storage_files_update();
 			c_online_lsp_manager::get()->update();
-			//service_client_get()->update();
 	
 			NETWORK_EXIT_AND_UNLOCK_TIME;
 		}
