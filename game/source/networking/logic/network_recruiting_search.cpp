@@ -62,7 +62,7 @@ void __cdecl network_recruiting_search_update()
 
 			if (session->initialized)
 			{
-				if (network_time_since(session->time))
+				if (network_time_since(session->time) > 10000)
 				{
 					csmemset(session, 0, sizeof(s_available_session));
 					g_recruiting_search_globals.__unknownC7B9 = true;
