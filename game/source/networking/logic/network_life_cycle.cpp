@@ -63,6 +63,30 @@ bool __cdecl network_life_cycle_in_system_link_advertisable_session(c_network_se
 bool __cdecl network_life_cycle_initialize(c_network_observer* observer, c_network_session_manager* session_manager, c_network_session* squad_session_one, c_network_session* squad_session_two, c_network_session* group_session)
 {
 	return INVOKE(0x00454FD0, network_life_cycle_initialize, observer, session_manager, squad_session_one, squad_session_two, group_session);
+
+	//life_cycle_globals.manager.initialize(observer, session_manager, squad_session_one, squad_session_two, group_session);
+	//life_cycle_globals.handler_none.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_pre_game.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_start_game.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_in_game.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_end_game_write_stats.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_leaving.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_joining.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_start.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_find_match_client.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_find_match.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_find_and_assemble_match.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_assemble_match.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_select_host.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_arbitration.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_matchmaking_prepare_map.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_in_match.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_end_match_write_stats.initialize(&life_cycle_globals.manager);
+	//life_cycle_globals.handler_post_match.initialize(&life_cycle_globals.manager);
+	//multiplayer_game_hopper_initialize();
+	//logic_qos_reply_manager_initialize();
+	//life_cycle_globals.initialized = true;
+	//return true;
 }
 
 void __cdecl network_life_cycle_request_leave(bool disconnect)
