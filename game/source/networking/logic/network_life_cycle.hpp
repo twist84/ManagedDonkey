@@ -31,7 +31,7 @@ struct s_network_life_cycle_globals
 	byte : 8;
 	byte : 8;
 	byte : 8;
-	c_life_cycle_state_manager m_state_manager;
+	c_life_cycle_state_manager manager;
 	c_life_cycle_state_handler_none handler_none;
 	c_life_cycle_state_handler_pre_game handler_pre_game;
 	c_life_cycle_state_handler_start_game handler_start_game;

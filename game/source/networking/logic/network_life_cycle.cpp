@@ -24,7 +24,7 @@ e_life_cycle_state __cdecl network_life_cycle_get_state()
 	//return INVOKE(0x00454DB0, network_life_cycle_get_state);
 
 	if (life_cycle_globals.initialized)
-		return life_cycle_globals.m_state_manager.m_current_state;
+		return life_cycle_globals.manager.m_current_state;
 	return _life_cycle_state_none;
 }
 
@@ -47,7 +47,7 @@ void __cdecl network_life_cycle_request_leave(bool disconnect)
 {
 	//return INVOKE(0x00455260, network_life_cycle_request_leave, disconnect);
 
-	life_cycle_globals.m_state_manager.request_leave_sessions(disconnect);
+	life_cycle_globals.manager.request_leave_sessions(disconnect);
 }
 
 bool __cdecl network_life_cycle_set_pre_game_state()
@@ -58,5 +58,12 @@ bool __cdecl network_life_cycle_set_pre_game_state()
 void __cdecl network_life_cycle_update()
 {
 	INVOKE(0x00455390, network_life_cycle_update);
+
+	//if (life_cycle_globals.initialized)
+	//{
+	//	multiplayer_game_hopper_update();
+	//	life_cycle_globals.manager.update();
+	//	logic_qos_reply_manager_update();
+	//}
 }
 
