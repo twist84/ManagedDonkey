@@ -421,18 +421,18 @@ void __cdecl network_set_online_environment(bool online_environment)
 
 void __cdecl network_shutdown_transport(void* userdata)
 {
-	INVOKE(0x0049E6E0, network_shutdown_transport, userdata);
+	//INVOKE(0x0049E6E0, network_shutdown_transport, userdata);
 
-	//if (network_initialized())
-	//{
-	//	generate_event(_event_level_error, "networking:global: network terminating due to transport shutdown");
-	//
-	//	if (g_network_link)
-	//		g_network_link->destroy_endpoints();
-	//
-	//	if (g_network_observer)
-	//		g_network_observer->set_online_network_environment(false);
-	//}
+	if (network_initialized())
+	{
+		generate_event(_event_level_error, "networking:global: network terminating due to transport shutdown");
+	
+		if (g_network_link)
+			g_network_link->destroy_endpoints();
+	
+		if (g_network_observer)
+			g_network_observer->set_online_network_environment(false);
+	}
 }
 
 void __cdecl network_startup_transport(void* userdata)
