@@ -53,7 +53,7 @@ struct c_network_session;
 struct c_network_observer;
 struct c_network_session_parameters
 {
-	struct s_network_session_parameters_internal
+	struct// s_network_session_parameters_internal
 	{
 		c_network_session_parameter_session_mode session_mode;
 		c_network_session_parameter_session_size session_size;
@@ -105,9 +105,9 @@ struct c_network_session_parameters
 		c_generic_network_session_parameter<s_network_session_parameter_leader_properties> leader_properties;
 		c_network_session_parameter_lobby_vote_set lobby_vote_set;
 	};
-	static_assert(sizeof(s_network_session_parameters_internal) == 0xB7858);
+	//static_assert(sizeof(s_network_session_parameters_internal) == 0xB7858);
 
-	s_network_session_parameters_internal m_parameters_internal;
+	//s_network_session_parameters_internal m_parameters_internal;
 	c_network_session* m_session;
 	c_network_observer* m_observer;
 	c_network_session_parameter_base* m_parameter_interfaces[49];

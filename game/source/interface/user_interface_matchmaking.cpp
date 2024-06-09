@@ -36,7 +36,7 @@ void __cdecl user_interface_matchmaking_get_matchmaking_progress(s_life_cycle_ma
 {
 	network_life_cycle_get_matchmaking_progress(progress_out);
 
-	if (g_network_matchmaking_fake_progress_stage == -1)
+	if (g_network_matchmaking_fake_progress_stage == NONE)
 		csmemcpy(&g_network_matchmaking_fake_progress, progress_out, sizeof(g_network_matchmaking_fake_progress));
 	else
 		csmemcpy(progress_out, &g_network_matchmaking_fake_progress, sizeof(s_life_cycle_matchmaking_progress));

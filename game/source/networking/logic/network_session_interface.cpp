@@ -413,7 +413,7 @@ bool __cdecl network_squad_session_set_session_mode(e_network_session_mode sessi
 		{
 			ASSERT(in_squad_session);
 
-			success = in_squad_session->get_session_parameters()->m_parameters_internal.session_mode.request_change(session_mode);
+			success = in_squad_session->get_session_parameters()->session_mode.request_change(session_mode);
 			ASSERT(success);
 		}
 	}

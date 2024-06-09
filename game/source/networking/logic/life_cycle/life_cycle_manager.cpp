@@ -61,7 +61,7 @@ c_life_cycle_state_handler* c_life_cycle_state_manager::get_current_state_handle
 
 void c_life_cycle_state_manager::terminate()
 {
-	set_current_state(_life_cycle_state_none, 0, nullptr);
+	set_current_state(_life_cycle_state_none, 0, NULL);
 }
 
 c_network_session* c_life_cycle_state_manager::get_active_squad_session() const
