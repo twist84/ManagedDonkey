@@ -35,13 +35,37 @@ struct s_campaign_progression_profile_data
 };
 static_assert(sizeof(s_campaign_progression_profile_data) == 0x1A0);
 
-const long k_popup_message_title_count = 1;
-
 struct s_player_training_profile_data
 {
 	byte __data0[0x20];
 };
 static_assert(sizeof(s_player_training_profile_data) == 0x20);
+
+enum e_campaign_game_mode
+{
+	_campaign_game_mode_solo = 0,
+	_campaign_game_mode_coop,
+
+	k_campaign_game_mode_count
+};
+
+template<long max_map_count, long max_insertion_point_count>
+struct c_player_profile_insertion_point_flags
+{
+	static long const k_max_map_count = max_map_count;
+	static long const k_max_insertion_point_count = max_insertion_point_count;
+
+	//c_player_profile_insertion_point_flags();
+	//void clear();
+	//bool is_clear() const;
+	//void set(long, short, bool);
+	//bool test(long, short) const;
+	//long get_flag_index(long, long) const;
+	//word get_for_map(long) const;
+
+	c_static_array<c_static_flags<k_max_map_count>, k_max_insertion_point_count> m_flags;
+};
+static_assert(sizeof(c_player_profile_insertion_point_flags<32, 9>) == 0x24);
 
 struct c_player_profile_interface
 {
@@ -87,26 +111,41 @@ struct c_player_profile_interface
 		short __unknown214; // last_campaign_insertion_point?
 
 		short last_campaign_map_played_absolute_index;
-		byte_flags map_completed_at_difficulty_level[2 /* e_campaign_game_mode */][32 /* campaign_level_index */];
-		qword last_campaign_played_time[2];
+		c_static_array<c_flags<e_campaign_difficulty_level, byte, k_number_of_campaign_difficulty_levels>, k_campaign_game_mode_count> map_completed_at_difficulty_level[32 /* campaign_level_index */];
+		c_static_array<qword, k_campaign_game_mode_count> last_campaign_played_time;
 		dword_flags last_primary_skulls;
 		dword_flags last_secondary_skulls;
 
 		byte __data270[0x4];
-		c_static_flags<32> __unknown274; // campaign_level_flags
-		byte __data278[0x38];
 
-		long solo_map_id;
-		short solo_insertion_point;
-		byte __pad2B6[0x2];
-		real solo_unknown;
-		long coop_map_id;
-		short coop_insertion_point;
-		byte __pad2C2[0x2];
-		real coop_unknown;
-		long coop_player_count;
+		c_static_flags<32> player_campaign_progress;
+		c_player_profile_insertion_point_flags<32, 9> player_campaign_insertion_progress;
 
-		byte __data2CC[0x4];
+		struct
+		{
+			long solo_map_id;
+			real solo_unknown;
+
+			long coop_map_id;
+			real coop_unknown;
+			long coop_player_count;
+		} survival;
+
+		struct
+		{
+			long solo_map_id;
+			short solo_insertion_point;
+			byte __pad2B6[0x2];
+			real solo_unknown;
+
+			long coop_map_id;
+			short coop_insertion_point;
+			byte __pad2C2[0x2];
+			real coop_unknown;
+			long coop_player_count;
+		} campaign;
+
+		byte __data2CC[0x4]; // pad?
 	};
 
 	s_campaign_progression_profile_data campaign_progression;
@@ -125,8 +164,9 @@ struct c_player_profile_interface
 
 	struct // sizeof 0x688
 	{
-		long __unknown488;
-		long __unknown48C;
+		long __unknown488; // STRING_ID(gui, color_armor1)
+		long __unknown48C; // STRING_ID(gui, color_armor2)
+
 		long __unknown490;
 		long __unknown494;
 		long __unknown498;
@@ -142,7 +182,6 @@ struct c_player_profile_interface
 		wchar_t desired_service_tag[5];
 		bool service_tag_was_randomly_generated;
 		bool service_tag_failed_verification;
-
 	};
 
 	long __unknownB10; // 0-1
@@ -151,16 +190,16 @@ struct c_player_profile_interface
 	long __unknownB1C;
 	byte __dataB20[0x8];
 
-	c_static_array<long, k_popup_message_title_count> m_popup_message_indices;  // default: 0
-	c_static_array<char, k_popup_message_title_count> m_popup_message_indices2; // default: 0
+	long m_popup_message_index;  // default: 0
+	char m_vidmaster_popup_message_index; // default: 0
 	byte __padB2E[0x3];
 
-	s_campaign_game_progression __unknownB30; // film_campaign_game_progression
+	s_campaign_game_progression __unknownB30; // film_progression?
 
 	// 0: campaign
 	// 1: multiplayer
 	// 2: editor
-	bool m_film_auto_save[3];
+	c_static_array<bool, 3> m_film_auto_save;
 	byte __unknownBB3;
 
 	long m_profile_region;
