@@ -5,6 +5,7 @@
 #include "networking/logic/life_cycle/life_cycle_matchmaking_quality.hpp"
 #include "networking/transport/transport_security.hpp"
 #include "shell/shell.hpp"
+#include "text/unicode.hpp"
 
 struct s_network_session_matchmaking_hopper_category
 {
@@ -147,6 +148,29 @@ struct s_replicated_life_cycle_matchmaking_progress_search_criteria
 	long hopper_preferred_player_count;
 };
 static_assert(sizeof(s_replicated_life_cycle_matchmaking_progress_search_criteria) == 0x24);
+
+struct s_life_cycle_matchmaking_progress
+{
+	long progress_type;
+	c_static_wchar_string<32> hopper_name;
+	long hopper_squad_player_count;
+	long hopper_group_player_count;
+	bool hopper_is_ranked;
+	bool hopper_is_team_game;
+	long search_preference;
+	s_replicated_life_cycle_matchmaking_progress_search_criteria search_criteria;
+
+	union
+	{
+		s_replicated_life_cycle_matchmaking_progress_searching_for_match searching_for_match;
+		s_replicated_life_cycle_matchmaking_progress_assembling_match assembling_match;
+		s_replicated_life_cycle_matchmaking_progress_configuring_match configuring_match;
+		s_replicated_life_cycle_progress_post_match post_match;
+	};
+
+	byte __data[0x64];
+};
+static_assert(sizeof(s_life_cycle_matchmaking_progress) == 0xF8);
 
 struct s_network_session_parameter_matchmaking_rematch_team_data
 {
