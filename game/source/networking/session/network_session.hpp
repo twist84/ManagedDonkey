@@ -110,6 +110,7 @@ struct c_network_session :
 	e_network_session_mode session_mode() const;
 	s_network_session_player* get_player(long player_index);
 	bool peer_request_player_desired_properties_update(long player_update_number, e_controller_index controller_index, s_player_configuration_from_client const* player_data_from_client, dword player_voice);
+	e_network_session_class session_class() const;
 	bool waiting_for_host_connection(transport_address const* address) const;
 	bool handle_boot_machine(c_network_channel* channel, s_network_message_boot_machine const* message);
 	bool handle_delegate_leadership(c_network_channel* channel, s_network_message_delegate_leadership const* message);

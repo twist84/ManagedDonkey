@@ -596,7 +596,14 @@ bool c_network_session::peer_request_player_desired_properties_update(long playe
 //.text:0045E110 ; bool c_network_session::player_is_member(s_player_identifier const*) const
 //.text:0045E130 ; 
 //.text:0045E140 ; void c_network_session::process_pending_joins()
-//.text:0045E910 ; 
+
+e_network_session_class c_network_session::session_class() const
+{
+	//return DECLFUNC(0x0045E910, e_network_session_class, __thiscall, c_network_session const*)(this);
+
+	return m_session_class;
+}
+
 //.text:0045E920 ; bool c_network_session::ready_for_remote_peers_to_join() const
 //.text:0045EA40 ; void c_network_session::reset_connection_state()
 //.text:0045EA70 ; void c_network_session::reset_local_host_state(bool)
