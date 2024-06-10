@@ -1,6 +1,7 @@
 #include "cache/cache_files_windows.hpp"
 
 #include "config/version.hpp"
+#include "cseries/async.hpp"
 #include "cseries/cseries_events.hpp"
 #include "main/global_preferences.hpp"
 #include "memory/module.hpp"
@@ -23,6 +24,22 @@ bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index)
 void __cdecl cache_file_block_until_not_busy()
 {
 	INVOKE(0x005A96C0, cache_file_block_until_not_busy);
+
+	//e_async_category categories[]
+	//{
+	//	_async_category_cache_file_misc,
+	//	_async_category_cache_file_texture,
+	//	_async_category_cache_file_geometry,
+	//	_async_category_cache_file_sound,
+	//	_async_category_cache_file_animation
+	//};
+	//
+	//for (long category_index = 0; category_index < NUMBEROF(categories); category_index++)
+	//{
+	//	e_async_category category = categories[category_index];
+	//	while (async_category_in_queue(category))
+	//		switch_to_thread();
+	//}
 }
 
 void __cdecl cache_file_close()
