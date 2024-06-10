@@ -10,6 +10,7 @@ HOOK_DECLARE_CLASS_MEMBER(0x004649A0, c_http_buffer_downloader, update);
 e_download_status __thiscall c_http_buffer_downloader::get_data(char const** buffer, long* buffer_size)
 {
 	update();
+	//return get_data_internal(buffer, buffer_size);
 
 	if (buffer)
 		*buffer = 0;

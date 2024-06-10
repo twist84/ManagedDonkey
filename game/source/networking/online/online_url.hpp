@@ -57,7 +57,11 @@ struct _g_online_url // supposed to be unnamed
 };
 extern _g_online_url& g_online_url;
 
-struct s_network_storage_cache_key;
+struct s_network_storage_cache_key
+{
+	char value[80];
+};
+static_assert(sizeof(s_network_storage_cache_key) == 0x50);
 
 extern void __cdecl create_machine_url_base(c_url_string* url, qword machine_id);
 extern void __cdecl create_title_url_base(c_url_string* url);
