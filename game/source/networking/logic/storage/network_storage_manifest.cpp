@@ -33,6 +33,14 @@ void __cdecl network_storage_manifest_initialize()
 
 void __cdecl network_storage_manifest_update()
 {
-	INVOKE(0x004A5B40, network_storage_manifest_update);
+	//INVOKE(0x004A5B40, network_storage_manifest_update);
+
+	if (c_network_storage_manifest* manifest = c_network_storage_manifest::get())
+		manifest->update();
+}
+
+void c_network_storage_manifest::update()
+{
+	DECLFUNC(0x004A5CF0, void, __thiscall, c_network_storage_manifest*)(this);
 }
 
