@@ -286,9 +286,9 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 				csmemset(level_insertion, 0, sizeof(s_level_insertion_datum));
 
 				short insertion_count = 0;
-				switch (scenario_header.minor_version)
+				switch (scenario_header.chunk_size)
 				{
-				case 1:
+				case 0x4D50:
 				{
 					s_blf_chunk_scenario_halo3* scenario_halo3 = (s_blf_chunk_scenario_halo3*)scenario;
 					s_blf_chunk_scenario_insertion_halo3 const* scenario_insertion = scenario_halo3->insertions;
@@ -314,7 +314,7 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 					}
 				}
 				break;
-				case 2:
+				case 0x98C0:
 				{
 					s_blf_chunk_scenario_atlas* scenario_atlas = (s_blf_chunk_scenario_atlas*)scenario;
 					s_blf_chunk_scenario_insertion_atlas const* scenario_insertion = scenario_atlas->insertions;
@@ -343,6 +343,9 @@ void __cdecl levels_add_level(s_blf_chunk_scenario const* scenario, bool byte_sw
 					}
 				}
 				break;
+				default:
+					ASSERT2("unreachable");
+					break;
 				}
 
 				level_insertion->map_id = level->map_id;

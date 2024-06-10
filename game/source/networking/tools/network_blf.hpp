@@ -380,10 +380,15 @@ enum e_scenario_type_flags
 	_scenario_type_flag_temp_bit,
 };
 
+// Despite the fact that ODST added to this chunk neither version was updated
+// Probably an oversight by Bungie?
 struct s_blf_chunk_scenario
 {
 	static long const k_chunk_type = 'levl';
 	static long const k_version_major = 3;
+	static long const k_version_minor = 1;
+
+	s_blf_chunk_scenario();
 	
 	s_blf_header header;
 
@@ -411,22 +416,25 @@ struct s_blf_chunk_scenario
 };
 static_assert(sizeof(s_blf_chunk_scenario) == sizeof(s_blf_header) + 0x1124);
 
-template<long version_major, long version_minor, typename insertion_struct, long insertion_count>
-struct s_blf_chunk_scenario_minor_version : s_blf_chunk_scenario
+template<typename insertion_struct, long insertion_count>
+struct s_blf_chunk_scenario_minor_version :
+	s_blf_chunk_scenario
 {
 public:
-	static long const k_version_minor = version_minor;
+	s_blf_chunk_scenario_minor_version();
 
 	insertion_struct insertions[insertion_count];
 };
 
-struct s_blf_chunk_scenario_halo3 : s_blf_chunk_scenario_minor_version<3, 1, s_blf_chunk_scenario_insertion_halo3, 4>
+struct s_blf_chunk_scenario_halo3 :
+	s_blf_chunk_scenario_minor_version<s_blf_chunk_scenario_insertion_halo3, 4>
 {
 	s_blf_chunk_scenario_halo3();
 };
 static_assert(sizeof(s_blf_chunk_scenario_halo3) == sizeof(s_blf_chunk_scenario) + (sizeof(s_blf_chunk_scenario_insertion_halo3) * 4));
 
-struct s_blf_chunk_scenario_atlas : s_blf_chunk_scenario_minor_version<3, 2, s_blf_chunk_scenario_insertion_atlas, 9>
+struct s_blf_chunk_scenario_atlas :
+	s_blf_chunk_scenario_minor_version<s_blf_chunk_scenario_insertion_atlas, 9>
 {
 	s_blf_chunk_scenario_atlas();
 };
