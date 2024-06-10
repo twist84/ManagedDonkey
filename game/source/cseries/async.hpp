@@ -281,6 +281,7 @@ extern bool __cdecl async_task_change_priority(long task_id, e_async_priority pr
 extern long __cdecl async_tasks_in_queue();
 extern bool __cdecl async_test_completion_flag(c_synchronized_long* completion_flag);
 extern bool __cdecl async_usable();
+extern bool __cdecl async_thread_tick();
 extern void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yield_function)(c_synchronized_long*), bool idle, bool networking, bool spinner, e_yield_reason yield_reason);
 extern void __cdecl sub_508950(s_async_task_element* element);
 extern s_async_task_element* __cdecl async_task_add_free_list(bool a1);

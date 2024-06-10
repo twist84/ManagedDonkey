@@ -14,6 +14,7 @@
 
 REFERENCE_DECLARE(0x022B4818, s_async_globals, async_globals);
 
+HOOK_DECLARE(0x005085A0, async_main);
 HOOK_DECLARE(0x005085C0, async_task_add);
 HOOK_DECLARE(0x00508A20, internal_async_yield_until_done);
 HOOK_DECLARE(0x00508A40, internal_async_yield_until_done_attributed);
@@ -48,7 +49,10 @@ void __cdecl async_initialize()
 
 dword __cdecl async_main(void* thread_params)
 {
-	return INVOKE(0x005085A0, async_main, thread_params);
+	//return INVOKE(0x005085A0, async_main, thread_params);
+
+	async_thread_tick();
+	return 0;
 }
 
 long __cdecl async_task_add(e_async_priority priority, s_async_task* task, e_async_category category, e_async_completion(*work_callback)(s_async_task*), c_synchronized_long* done)
@@ -117,9 +121,9 @@ bool __cdecl async_usable()
 	return !thread_has_crashed(k_thread_async_io);
 }
 
-bool __cdecl async_work_function()
+bool __cdecl async_thread_tick()
 {
-	//INVOKE(0x005087A0, async_work_function);
+	//INVOKE(0x005087A0, async_thread_tick);
 
 	bool should_exit = false;
 	while (!should_exit)
@@ -165,7 +169,6 @@ bool __cdecl async_work_function()
 
 	return should_exit;
 }
-HOOK_DECLARE(0x005087A0, async_work_function);
 
 void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yield_function)(c_synchronized_long*), bool idle, bool networking, bool spinner, e_yield_reason yield_reason)
 {
