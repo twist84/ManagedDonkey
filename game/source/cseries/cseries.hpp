@@ -2,6 +2,7 @@
 
 #include "cseries/cseries_console.hpp"
 #include "cseries/cseries_memory.hpp"
+#include "cseries/cseries_system_memory.hpp"
 #include "cseries/cseries_windows.hpp"
 #include "cseries/cseries_windows_debug_pc.hpp"
 #include "cseries/stack_walk_windows.hpp"

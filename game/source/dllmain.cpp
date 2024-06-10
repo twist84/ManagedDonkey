@@ -179,8 +179,8 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:022B4808 ; 
 //.data:022B480C ; 
 //.data:022B4818 ; s_async_globals async_globals
-//.data:022B7FA4 ; 
-//.data:022B7FA8 ; 
+//.data:022B7FA4 ; long g_secure_memory_size
+//.data:022B7FA8 ; void* g_secure_memory
 //.data:022B7FAC ; s_font_globals g_font_globals
 //.data:022C0108 ; s_runtime_state_globals g_runtime_state_globals
 //.data:022C0120 ; 

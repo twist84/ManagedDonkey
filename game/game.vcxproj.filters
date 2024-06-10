@@ -1407,6 +1407,9 @@
     <ClCompile Include="source\interface\c_player_profile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cseries\cseries_system_memory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3393,6 +3396,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cseries\cseries_system_memory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
