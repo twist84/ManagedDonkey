@@ -54,6 +54,7 @@
 #include "saved_games/scenario_map_variant.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/tag_groups.hpp"
+#include "xbox/xnet.hpp"
 
 REFERENCE_DECLARE(0x0224A490, c_network_session_parameter_type_collection*, g_network_parameter_types);
 REFERENCE_DECLARE(0x0224A494, c_network_link*, g_network_link);
@@ -332,6 +333,8 @@ void __cdecl network_initialize()
 			{
 				network_set_online_environment(false);
 				network_globals.initialized = true;
+
+				get_external_ip();
 			}
 			else
 			{
