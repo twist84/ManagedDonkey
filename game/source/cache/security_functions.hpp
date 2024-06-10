@@ -24,6 +24,8 @@ struct s_secure_memory_region
 static_assert(sizeof(s_secure_memory_region) == 0x8);
 
 extern s_secure_memory_region(&k_secure_memory_regions)[k_secure_memory_region_count];
+extern long& g_secure_memory_size;
+extern void*& g_secure_memory;
 
 extern long __cdecl hash_compare_function(void const* a, void const* b, void const* find);
 extern long __cdecl rsa_signature_compare_function(void const* a, void const* b, void const* find);

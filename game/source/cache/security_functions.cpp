@@ -3,6 +3,8 @@
 #include "memory/module.hpp"
 
 REFERENCE_DECLARE_ARRAY(0x01650460, s_secure_memory_region, k_secure_memory_regions, k_secure_memory_region_count);
+REFERENCE_DECLARE(0x022B7FA4, long, g_secure_memory_size);
+REFERENCE_DECLARE(0x022B7FA8, void*, g_secure_memory);
 
 HOOK_DECLARE(0x00508F80, security_rsa_compute_and_verify_signature);
 
@@ -27,7 +29,14 @@ bool __cdecl security_calculate_hash(void const* buffer, dword buffer_size, bool
 
 void __cdecl security_dispose()
 {
-	INVOKE(0x00508D80, security_dispose);
+	//INVOKE(0x00508D80, security_dispose);
+
+	if (g_secure_memory)
+	{
+		system_free(g_secure_memory);
+		g_secure_memory = NULL;
+	}
+	g_secure_memory_size = 0;
 }
 
 void __cdecl security_get_working_memory(e_secure_memory_region region, void** out_working_memory, long* out_working_memory_size)
