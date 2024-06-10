@@ -4,7 +4,11 @@
 #include "cseries/async.hpp"
 #include "cseries/cseries_events.hpp"
 #include "main/global_preferences.hpp"
+#include "main/levels.hpp"
 #include "memory/module.hpp"
+
+REFERENCE_DECLARE_ARRAY(0x0165B348, e_async_priority, k_action_to_async_priority, 7);
+REFERENCE_DECLARE_ARRAY(0x0165B364, long, k_action_to_copy_buffer_size, 7);
 
 REFERENCE_DECLARE(0x018A1A50, c_cache_file_copy_optional_cache_callback, g_cache_file_copy_optional_cache_callback);
 REFERENCE_DECLARE(0x018A1A54, c_cache_file_copy_fake_decompressor, g_copy_decompressor);
@@ -53,9 +57,264 @@ void __cdecl cache_file_close()
 	}
 }
 
-//.text:005A9750 ; void __cdecl cache_file_copy_allocate_buffer(long)
-//.text:005A97C0 ; bool __cdecl cache_file_copy_do_action()
-//.text:005AA020 ; void __cdecl cache_file_copy_release_buffer()
+void __cdecl cache_file_copy_allocate_buffer(long size)
+{
+	INVOKE(0x005A9750, cache_file_copy_allocate_buffer, size);
+
+	//if (cache_file_copy_globals.buffer.size() != size)
+	//{
+	//	cache_file_copy_release_buffer();
+	//
+	//	void* buffer = _optional_cache_try_to_allocate((e_optional_cache_user)0, (e_optional_cache_user_priority)0, size, &g_cache_file_copy_optional_cache_callback);
+	//	cache_file_copy_globals.buffer.set_buffer(buffer, buffer ? cache_file_copy_globals.buffer.size() : size);
+	//}
+}
+
+bool __cdecl cache_file_copy_do_action()
+{
+	return INVOKE(0x005A97C0, cache_file_copy_do_action);
+
+	//e_cache_copy_state copy_state = cache_file_copy_globals.copy_state;
+	//e_async_priority async_priority = k_action_to_async_priority[cache_file_copy_globals.current_action.action];
+	//
+	//bool valid = true;
+	//switch (copy_state)
+	//{
+	//case _cache_copy_state_idle:
+	//{
+	//	// #TODO: implement me
+	//}
+	//break;
+	//case _cache_copy_state_mount_dlc:
+	//{
+	//	levels_open_dlc(cache_file_copy_globals.source_file.get_string(), 1);
+	//	copy_state = _cache_copy_state_create_source_file;
+	//}
+	//break;
+	//case _cache_copy_state_create_source_file:
+	//{
+	//	wchar_t source_file[256]{};
+	//	ascii_string_to_wchar_string(cache_file_copy_globals.source_file.get_string(), source_file, NUMBEROF(source_file), NULL);
+	//
+	//	cache_file_copy_globals.copy_task_id = async_create_file(
+	//		source_file,
+	//		FLAG(0),
+	//		0,
+	//		FLAG(3),
+	//		_async_category_background_copy,
+	//		async_priority,
+	//		&cache_file_copy_globals.source_file_handle,
+	//		&cache_file_copy_globals.copy_task_is_done);
+	//	copy_state = _cache_copy_state_verify_create_source_file;
+	//}
+	//break;
+	//case _cache_copy_state_verify_create_source_file:
+	//{
+	//	valid = file_handle_is_valid(cache_file_copy_globals.source_file_handle);
+	//	copy_state = _cache_copy_state_read_dvd_header;
+	//}
+	//break;
+	//case _cache_copy_state_read_dvd_header:
+	//{
+	//	csmemset(&cache_file_copy_globals, 0, sizeof(s_cache_file_header));
+	//	cache_file_copy_globals.copy_task_id = async_read_position_overlapped_ex(
+	//		cache_file_copy_globals.source_file_handle,
+	//		&cache_file_copy_globals,
+	//		sizeof(s_cache_file_header),
+	//		0,
+	//		_async_category_background_copy,
+	//		async_priority,
+	//		&cache_file_copy_globals.copy_size,
+	//		&cache_file_copy_globals.copy_task_is_done,
+	//		0);
+	//	copy_state = e_cache_copy_state((cache_file_copy_globals.copy_task_id != NONE) + _cache_copy_state_read_dvd_header);
+	//}
+	//break;
+	//case _cache_copy_state_verify_read_dvd_header:
+	//{
+	//	get_current_file_time(&cache_file_copy_globals.header.modification_date);
+	//	cache_file_copy_globals.header.source_file = cache_file_copy_globals.source_file;
+	//	if (cache_file_copy_globals.copy_size.peek() == sizeof(s_cache_file_header) &&
+	//		cache_file_header_verify(&cache_file_copy_globals.header, cache_file_copy_globals.source_file.get_string(), false))
+	//	{
+	//		dword shared_files_flags = 0;
+	//		valid = cached_map_file_dependencies_loaded(&cache_file_copy_globals.header, &shared_files_flags);
+	//	}
+	//	else
+	//	{
+	//		valid = false;
+	//	}
+	//
+	//	copy_state = _cache_copy_state_get_dvd_file_size;
+	//}
+	//break;
+	//case _cache_copy_state_get_dvd_file_size:
+	//{
+	//	cache_file_copy_globals.copy_task_id = async_get_file_size(
+	//		cache_file_copy_globals.source_file_handle,
+	//		&cache_file_copy_globals.source_file_size,
+	//		_async_category_background_copy,
+	//		async_priority,
+	//		&cache_file_copy_globals.copy_task_is_done);
+	//	copy_state = _cache_copy_state_verify_get_dvd_file_size;
+	//}
+	//break;
+	//case _cache_copy_state_verify_get_dvd_file_size:
+	//{
+	//	if (cache_file_copy_globals.source_file_size != NONE && cache_file_copy_globals.source_file_size >= sizeof(s_cache_file_header))
+	//	{
+	//		valid = true;
+	//	}
+	//	else
+	//	{
+	//		valid = false;
+	//	}
+	//
+	//	cache_file_copy_globals.checksum = 0;
+	//	copy_state = _cache_copy_state_find_free_map_and_clear_header;
+	//}
+	//break;
+	//case _cache_copy_state_find_free_map_and_clear_header:
+	//{
+	//	// #TODO: implement me
+	//}
+	//break;
+	//case _cache_copy_state_verify_find_free_map_and_clear_header:
+	//{
+	//	valid = cache_file_copy_globals.copy_size.peek() == sizeof(s_cache_file_header);
+	//	copy_state = _cache_copy_state_flush_cleared_header;
+	//}
+	//break;
+	//case _cache_copy_state_flush_cleared_header:
+	//{
+	//	cache_file_copy_globals.copy_task_id = async_flush_file(
+	//		cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
+	//		_async_category_background_copy,
+	//		async_priority,
+	//		&cache_file_copy_globals.copy_task_is_done);
+	//	copy_state = _cache_copy_state_prepare_copy_thread;
+	//}
+	//break;
+	//case _cache_copy_state_start_copying_map_data:
+	//{
+	//	cache_file_copy_globals.copy_size = 0;
+	//	cache_file_copy_globals.total_copy_bytes_transferred = sizeof(s_cache_file_header);
+	//	cache_file_copy_globals.copy_time = system_milliseconds();
+	//	copy_state = _cache_copy_state_copy_map_data;
+	//}
+	//break;
+	//case _cache_copy_state_copy_map_data:
+	//{
+	//	// #TODO: implement me
+	//}
+	//break;
+	//case _cache_copy_state_verify_copy_map_data:
+	//{
+	//	// #TODO: implement me
+	//}
+	//break;
+	//case _cache_copy_state_prepare_copy_thread:
+	//{
+	//	cache_file_copy_globals.copy_size = 0;
+	//	cache_file_copy_globals.total_copy_bytes_transferred = sizeof(s_cache_file_header);
+	//	cache_file_copy_globals.copy_time = system_milliseconds();
+	//	copy_state = _cache_copy_state_kick_off_copy_thread;
+	//}
+	//break;
+	//case _cache_copy_state_kick_off_copy_thread:
+	//{
+	//	// #TODO: implement me
+	//}
+	//break;
+	//case _cache_copy_state_finish_copy_from_thread:
+	//{
+	//	// #TODO: implement me
+	//}
+	//break;
+	//case _cache_copy_state_flush_after_copy:
+	//{
+	//	cache_file_copy_globals.copy_task_id = async_flush_file(
+	//		cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
+	//		_async_category_background_copy,
+	//		async_priority,
+	//		&cache_file_copy_globals.copy_task_is_done);
+	//	copy_state = _cache_copy_state_write_header;
+	//}
+	//break;
+	//case _cache_copy_state_write_header:
+	//{
+	//	// #TODO: implement me
+	//}
+	//break;
+	//case _cache_copy_state_verify_write_header:
+	//{
+	//	valid = cache_file_copy_globals.async_validify_file_succeed;
+	//	copy_state = _cache_copy_state_mark_file_as_loaded;
+	//}
+	//break;
+	//case _cache_copy_state_mark_file_as_loaded:
+	//{
+	//	cache_file_copy_globals.__unknown33B4 = 1;
+	//	copy_state = _cache_copy_state_halt;
+	//}
+	//break;
+	//case _cache_copy_state_halt:
+	//{
+	//	copy_state = _cache_copy_state_close_source_file;
+	//}
+	//break;
+	//case _cache_copy_state_close_source_file:
+	//{
+	//	if (file_handle_is_valid(cache_file_copy_globals.source_file_handle))
+	//	{
+	//		cache_file_copy_globals.copy_task_id = async_close_file_no_stfs_flush(
+	//			cache_file_copy_globals.source_file_handle,
+	//			_async_category_none,
+	//			_async_priority_blocking_generic,
+	//			&cache_file_copy_globals.copy_task_is_done);
+	//	}
+	//	copy_state = _cache_copy_state_finish;
+	//}
+	//break;
+	//case _cache_copy_state_finish:
+	//{
+	//	// #TODO: implement me
+	//}
+	//break;
+	//}
+	//
+	//if (cache_file_copy_globals.copy_paused)
+	//{
+	//	cache_file_copy_release_buffer();
+	//	cache_file_copy_globals.copy_paused = false;
+	//}
+	//
+	//if (valid)
+	//{
+	//	cache_file_copy_globals.valid_copy_state = cache_file_copy_globals.copy_state;
+	//	cache_file_copy_globals.copy_state = copy_state;
+	//}
+	//else
+	//{
+	//	cache_file_copy_release_buffer();
+	//	cache_file_map_has_failed(cache_file_copy_globals.source_file.get_string());
+	//	cache_file_copy_globals.copy_state = _cache_copy_state_halt;
+	//	cache_file_copy_globals.__unknown33B4 = 3;
+	//}
+	//
+	//return valid;
+}
+
+void __cdecl cache_file_copy_release_buffer()
+{
+	INVOKE(0x005AA020, cache_file_copy_release_buffer);
+
+	//if (cache_file_copy_globals.buffer.begin())
+	//{
+	//	_optional_cache_free((e_optional_cache_user)0, cache_file_copy_globals.buffer.begin());
+	//	cache_file_copy_globals.buffer.set_buffer(NULL, 0ul);
+	//}
+}
 
 long __cdecl cache_file_get_absolute_maximum_size()
 {
@@ -106,7 +365,11 @@ void __cdecl cache_file_map_clear_all_failures()
 }
 
 //.text:005AA6D0 ; void __cdecl cache_file_map_clear_failure(char const*)
-//.text:005AA700 ; void __cdecl cache_file_map_has_failed(char const*)
+
+void __cdecl cache_file_map_has_failed(char const* scenario_path)
+{
+	INVOKE(0x005AA700, cache_file_map_has_failed, scenario_path);
+}
 
 bool __cdecl cache_file_open(char const* scenario_path, void* header)
 {
