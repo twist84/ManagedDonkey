@@ -277,6 +277,8 @@ long __cdecl cache_file_get_global_tag_index(tag group_tag)
 void __cdecl cache_file_get_path(char const* mapname, char* buffer, long buffer_size)
 {
 	INVOKE(0x005018C0, cache_file_get_path, mapname, buffer, buffer_size);
+
+	//csnzprintf(buffer, buffer_size, "%s%s%s", cache_files_map_directory(), mapname, k_cache_file_extension);
 }
 
 #pragma pack(push, 4)
@@ -292,10 +294,9 @@ struct s_cache_file_security_globals
 		dword count;
 		dword state[5];
 		byte buffer[64];
+		dword sha[234];
 	}
 	state;
-
-	dword SHA[234];
 
 	s_network_http_request_hash hash;
 	s_rsa_signature rsa_signature;
@@ -307,7 +308,6 @@ static_assert(0x00003394 == offsetof(s_cache_file_security_globals, hash_sizes))
 static_assert(0x00003398 == offsetof(s_cache_file_security_globals, hash_addresses));
 static_assert(0x0000339C == offsetof(s_cache_file_security_globals, hashes));
 static_assert(0x000033B0 == offsetof(s_cache_file_security_globals, state));
-static_assert(0x00003408 == offsetof(s_cache_file_security_globals, SHA));
 static_assert(0x000037B0 == offsetof(s_cache_file_security_globals, hash));
 static_assert(0x000037C4 == offsetof(s_cache_file_security_globals, rsa_signature));
 static_assert(0x000038C4 == offsetof(s_cache_file_security_globals, __data38C4));
@@ -1234,6 +1234,51 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 		//	calculate hash signature
 		//	compare hash signatures
 		s_cache_file_security_globals* security_globals = cache_file_get_security_globals();
+
+		//if (success)
+		//{
+		//	main_loop_pregame();
+		//
+		//	security_globals->valid_content_signature = false;
+		//
+		//	csmemset(&security_globals->hashes[0], 0xBB, sizeof(s_network_http_request_hash));
+		//	csmemset(&security_globals->hash, 0xCC, sizeof(s_network_http_request_hash));
+		//	csmemset(&security_globals->rsa_signature, 0xDD, sizeof(s_rsa_signature));
+		//
+		//	s_cache_file_security_globals* v6 = security_globals;
+		//	v6->header = header_copy;
+		//	cache_file_builder_security_clean_header(&v6->header);
+		//
+		//	v6->hash_sizes[0] = sizeof(s_cache_file_header);
+		//	v6->hash_addresses[0] = v6;
+		//
+		//	long v7 = sizeof(s_cache_file_header);
+		//	decltype(v6->state)* hash_state = &v6->state;
+		//	if (security_incremental_hash_begin(&v6->state, sizeof(*hash_state), 1))
+		//	{
+		//		do
+		//		{
+		//			long v8 = v7;
+		//			if (v7 > 0x100000)
+		//				v8 = 0x100000;
+		//
+		//			security_incremental_hash_update(hash_state, sizeof(*hash_state), v6, v8);
+		//			main_loop_pregame();
+		//
+		//			v7 -= v8;
+		//			v6 = (s_cache_file_security_globals*)offset_pointer(v6, v8);
+		//
+		//		} while (v7 > 0);
+		//		security_incremental_hash_finish(hash_state, sizeof(*hash_state), &v6->hashes[0]);
+		//	}
+		//
+		//	security_calculate_hash(&security_globals->hashes, sizeof(s_network_http_request_hash), 1, &security_globals->hash);
+		//	security_globals->rsa_signature = g_cache_file_globals.header.rsa_signature;
+		//
+		//	main_loop_pregame();
+		//
+		//	success = security_rsa_compute_and_verify_signature(&security_globals->hash, &security_globals->rsa_signature);
+		//}
 
 		if (success)
 		{
