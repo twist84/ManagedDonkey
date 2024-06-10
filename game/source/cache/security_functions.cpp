@@ -66,7 +66,10 @@ void __cdecl security_incremental_hash_update(void* working_memory, long working
 
 void __cdecl security_initialize()
 {
-	INVOKE(0x00508EC0, security_initialize);
+	//INVOKE(0x00508EC0, security_initialize);
+
+	g_secure_memory = system_malloc(k_secure_memory_size);
+	g_secure_memory_size = k_secure_memory_size;
 }
 
 char* __cdecl security_print_hash(s_network_http_request_hash const* hash, char* buffer, long buffer_size)
