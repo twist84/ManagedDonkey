@@ -2,6 +2,8 @@
 
 #include "cache/cache_files.hpp"
 #include "cache/cache_files_windows.hpp"
+#include "cseries/runtime_state.hpp"
+#include "main/main_game.hpp"
 #include "memory/module.hpp"
 
 #include <DDS.h>
@@ -9,13 +11,17 @@
 REFERENCE_DECLARE(0x01670A18, long const, g_cache_file_tag_resource_vtable_count);
 REFERENCE_DECLARE_ARRAY(0x018EB7A8, s_cache_file_tag_resource_vtable const*, g_cache_file_tag_resource_vtable_list, 2);
 
-using resource_runtime_manager_typed_allocation_data_no_destruct_t = c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>;
-REFERENCE_DECLARE(0x023916C0, resource_runtime_manager_typed_allocation_data_no_destruct_t, g_resource_runtime_manager);
+REFERENCE_DECLARE(0x023916C0, c_cache_file_tag_resource_runtime_manager_allocation, g_resource_runtime_manager);
 
 HOOK_DECLARE_CLASS_MEMBER(0x00561C00, c_cache_file_tag_resource_runtime_manager, sub_561C00);
 HOOK_DECLARE(0x00563E10, tag_resource_get);
 
 c_static_sized_dynamic_array<s_resource_file_header const*, 1024> g_resource_file_headers;
+
+void __thiscall c_cache_file_tag_resource_runtime_manager_allocation::construct()
+{
+	DECLFUNC(0x0055FF10, void, __thiscall, c_cache_file_tag_resource_runtime_manager_allocation*)(this);
+}
 
 #define ISEXPERIMENTAL
 
@@ -194,10 +200,10 @@ void __cdecl cache_file_tag_resources_dispose_from_old_map()
 
 void __cdecl cache_file_tag_resources_initialize()
 {
-	INVOKE(0x0055F700, cache_file_tag_resources_initialize);
+	//INVOKE(0x0055F700, cache_file_tag_resources_initialize);
 
-	//g_resource_runtime_manager.construct();
-	//g_resource_runtime_manager.initialize(g_runtime_state_allocation);
+	g_resource_runtime_manager.construct();
+	g_resource_runtime_manager.get()->initialize(g_runtime_state_allocation);
 }
 
 void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mode)
@@ -313,6 +319,28 @@ void __cdecl tag_resources_unlock_game(long& lock)
 void c_cache_file_tag_resource_runtime_manager::idle()
 {
 	DECLFUNC(0x005619D0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+}
+
+void c_cache_file_tag_resource_runtime_manager::initialize(c_allocation_base* allocation)
+{
+	DECLFUNC(0x00561B40, void, __thiscall, c_cache_file_tag_resource_runtime_manager*, c_allocation_base*)(this, allocation);
+
+	//m_running_off_dvd = cache_files_running_off_dvd();
+	//m_in_level_memory_manager.m_resource_header_location_table.m_uber_location_table.__unknown4 = 0;
+	//m_game_mode = _game_mode_none;
+	//m_resource_gestalt = NULL;
+	//m_in_level_memory_manager.m_tag_resource_cache.initialize();
+	//physical_memory_create_resizeable_contiguous_region(this);
+	//m_optional_cache_backend.initialize(_map_memory_configuration_none, NULL);
+	//optional_cache_set_in_game_backend(&m_optional_cache_backend);
+	//m_in_level_memory_manager.m_resource_header_location_table.m_header_file_locations
+	//	= data_new("shared file handles", 8, sizeof(c_cache_file_resource_header_location_table::s_header_file_location), 0, g_runtime_state_allocation);
+	//m_prefetch_map_states2A788[1].campaign_id = NONE;
+	//m_prefetch_map_states2A788[1].scenario_path.clear();
+	//m_prefetch_map_states2A788[1].__unknown104 = 0;
+	//m_prefetch_map_states2A788[0].campaign_id = NONE;
+	//m_prefetch_map_states2A788[0].scenario_path.clear();
+	//m_prefetch_map_states2A788[0].__unknown104 = 0;
 }
 
 // does this actually take in `game_mode` or is IDA being IDA again

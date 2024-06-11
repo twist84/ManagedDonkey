@@ -599,7 +599,14 @@ void __cdecl cache_files_initialize()
 //.text:005AB490 ; bool __cdecl cache_files_locked_by_map_and_header(e_map_file_index, e_map_file_index, s_cache_file_header const*)
 //.text:005AB4F0 ; cache_files_are_absolute?
 //.text:005AB500 ; void __cdecl cache_files_reset_failed_dlc_maps()
-//.text:005AB540 ; bool __cdecl cache_files_running_off_dvd()
+
+bool __cdecl cache_files_running_off_dvd()
+{
+	return INVOKE(0x005AB540, cache_files_running_off_dvd);
+
+	//return false;
+}
+
 //.text:005AB550 ; bool __cdecl cache_map_file_can_use_for_io(e_map_file_index)
 //.text:005AB5B0 ; bool __cdecl cache_map_file_is_loaded(e_map_file_index)
 //.text:005AB5D0 ; long __cdecl cache_map_file_nuke(e_map_file_index, e_async_category, e_async_priority, bool*, c_synchronized_long*)

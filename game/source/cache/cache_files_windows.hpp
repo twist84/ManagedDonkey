@@ -267,6 +267,7 @@ extern void __cdecl cache_files_delete_if_build_number_has_changed();
 extern void __cdecl cache_files_delete_if_language_has_changed();
 extern long __cdecl cache_files_get_file_status(char const* scenario_path);
 extern void __cdecl cache_files_initialize();
+extern bool __cdecl cache_files_running_off_dvd();
 extern void __cdecl cache_requests_flush();
 extern void __cdecl cached_map_file_close(e_map_file_index map_file_index);
 extern s_cached_map_file* __cdecl cached_map_file_get(e_map_file_index map_file_index);
