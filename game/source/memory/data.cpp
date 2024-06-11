@@ -4,40 +4,6 @@
 
 HOOK_DECLARE(0x0055B6D0, datum_try_and_get);
 
-long s_data_array::get_index(long index) const
-{
-	if ((index < 0) || (index >= first_unallocated))
-		return -1;
-
-	while (!((1 << (index & 31)) & in_use_bit_vector[index >> 5]))
-	{
-		if (++index >= first_unallocated)
-			return -1;
-	}
-
-	return index;
-}
-
-long s_data_array::get_allocation_size() const
-{
-	long padding = flags ? ((1 << flags) - 1) : 0;
-
-	return padding + size * maximum_count + 4 * (((maximum_count + 31) >> 5) + 21);
-}
-
-s_datum_header* s_data_array::get_datum(const datum_index index) const
-{
-	if (index == _datum_index_none || DATUM_INDEX_TO_ABSOLUTE_INDEX(index) < (dword)first_unallocated)
-		return nullptr;
-
-	s_datum_header* datum = (s_datum_header*)((char*)data + (index * size));
-
-	if (!datum->identifier || datum->identifier != DATUM_INDEX_TO_IDENTIFIER(index))
-		return nullptr;
-
-	return datum;
-}
-
 void data_verify(s_data_array const* data)
 {
 	//ASSERT(data);

@@ -105,12 +105,43 @@ struct s_data_array
 	dword* in_use_bit_vector;
 	long offset_to_data;
 	long offset_to_bit_vector;
-
-	long get_index(long index) const;
-	long get_allocation_size() const;
-	s_datum_header* get_datum(const datum_index index) const;
 };
 static_assert(sizeof(s_data_array) == 0x54);
+
+extern void data_verify(s_data_array const* data);
+extern long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits);
+extern void __cdecl data_connect(s_data_array* data, long count, void* datums);
+extern void __cdecl data_delete_all(s_data_array* data);
+extern void __cdecl data_disconnect(s_data_array* data);
+extern void __cdecl data_dispose(s_data_array* data);
+extern void __cdecl data_initialize(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation);
+extern void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation, dword* in_use_bit_vector);
+extern void __cdecl data_iterator_begin(s_data_iterator* iterator, s_data_array const* data);
+extern void* __cdecl data_iterator_next(s_data_iterator* iterator);
+extern void* __cdecl data_iterator_next_with_word_flags(s_data_iterator* iterator, long flag_offset, word flag_mask, word flag_value);
+extern void __cdecl data_make_invalid(s_data_array* data);
+extern void __cdecl data_make_valid(s_data_array* data);
+extern s_data_array* __cdecl data_new(char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation);
+extern s_data_array* __cdecl data_new_disconnected(char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation);
+extern long __cdecl data_next_absolute_index(s_data_array const* data, long index);
+extern long __cdecl data_next_index(s_data_array const* data, long index);
+extern long __cdecl data_previous_index(s_data_array* data, long index);
+extern void __cdecl data_set_new_base_address(s_data_array** out_data, s_data_array* data);
+extern bool __cdecl data_should_verify_data_pattern(s_data_array const* data);
+extern long __cdecl datum_absolute_index_to_index(s_data_array const* data, long absolute_index);
+extern bool __cdecl datum_available_at_index(s_data_array const* data, long index);
+extern void __cdecl datum_delete(s_data_array* data, long index);
+extern void __cdecl datum_initialize(s_data_array* data, s_datum_header* header);
+extern long __cdecl datum_new(s_data_array* data);
+extern long __cdecl datum_new_at_absolute_index(s_data_array* data, long absolute_index);
+extern long __cdecl datum_new_at_index(s_data_array* data, long index);
+extern long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long count_indices, bool initialize);
+extern void* __cdecl datum_get(s_data_array* data, long index);
+extern void* __cdecl datum_try_and_get(s_data_array const* data, long index);
+extern void* __cdecl datum_get_absolute(s_data_array* data, long index);
+extern void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index);
+extern void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index);
+extern bool __cdecl data_is_full(s_data_array const* data);
 
 template <typename t_datum_type>
 struct c_smart_data_array
@@ -123,7 +154,7 @@ struct c_smart_data_array
 
 	t_datum_type& operator[](datum_index index) const
 	{
-		return *(t_datum_type*)m_data->get_datum(index);
+		return *(t_datum_type*)datum_get(m_data, index);
 	}
 
 	void operator=(s_data_array* rhs)
@@ -268,41 +299,6 @@ static_assert(sizeof(c_typed_data_array<void>) == sizeof(s_data_array));
 //	{
 //	}
 //};
-
-extern void data_verify(s_data_array const* data);
-extern long __cdecl data_allocation_size(long maximum_count, long size, long alignment_bits);
-extern void __cdecl data_connect(s_data_array* data, long count, void* datums);
-extern void __cdecl data_delete_all(s_data_array* data);
-extern void __cdecl data_disconnect(s_data_array* data);
-extern void __cdecl data_dispose(s_data_array* data);
-extern void __cdecl data_initialize(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation);
-extern void __cdecl data_initialize_disconnected(s_data_array* data, char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation, dword* in_use_bit_vector);
-extern void __cdecl data_iterator_begin(s_data_iterator* iterator, s_data_array const* data);
-extern void* __cdecl data_iterator_next(s_data_iterator* iterator);
-extern void* __cdecl data_iterator_next_with_word_flags(s_data_iterator* iterator, long flag_offset, word flag_mask, word flag_value);
-extern void __cdecl data_make_invalid(s_data_array* data);
-extern void __cdecl data_make_valid(s_data_array* data);
-extern s_data_array* __cdecl data_new(char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation);
-extern s_data_array* __cdecl data_new_disconnected(char const* name, long maximum_count, long size, long alignment_bits, c_allocation_base* allocation);
-extern long __cdecl data_next_absolute_index(s_data_array const* data, long index);
-extern long __cdecl data_next_index(s_data_array const* data, long index);
-extern long __cdecl data_previous_index(s_data_array* data, long index);
-extern void __cdecl data_set_new_base_address(s_data_array** out_data, s_data_array* data);
-extern bool __cdecl data_should_verify_data_pattern(s_data_array const* data);
-extern long __cdecl datum_absolute_index_to_index(s_data_array const* data, long absolute_index);
-extern bool __cdecl datum_available_at_index(s_data_array const* data, long index);
-extern void __cdecl datum_delete(s_data_array* data, long index);
-extern void __cdecl datum_initialize(s_data_array* data, s_datum_header* header);
-extern long __cdecl datum_new(s_data_array* data);
-extern long __cdecl datum_new_at_absolute_index(s_data_array* data, long absolute_index);
-extern long __cdecl datum_new_at_index(s_data_array* data, long index);
-extern long __cdecl datum_new_in_range(s_data_array* data, long minimum_index, long count_indices, bool initialize);
-extern void* __cdecl datum_get(s_data_array* data, long index);
-extern void* __cdecl datum_try_and_get(s_data_array const* data, long index);
-extern void* __cdecl datum_get_absolute(s_data_array* data, long index);
-extern void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index);
-extern void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index);
-extern bool __cdecl data_is_full(s_data_array const* data);
 
 template<typename t_datum_type>
 struct c_data_iterator
