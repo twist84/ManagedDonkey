@@ -274,6 +274,7 @@ extern s_cached_map_file* __cdecl cached_map_file_get(e_map_file_index map_file_
 extern s_file_handle __cdecl cached_map_file_get_handle(e_map_file_index map_file_index);
 extern bool __cdecl cached_map_file_load(e_map_file_index map_file_index, char const* scenario_path);
 extern void __cdecl cached_map_files_delete(e_map_file_index start_map_file_index, e_map_file_index end_map_file_index);
+extern e_map_file_index __cdecl cached_map_files_find_map(char const* scenario_path);
 extern void __cdecl cached_map_files_open_all(bool* success);
 extern void __cdecl canonicalize_map_path(char const* path, c_static_string<256>* out_path);
 extern void __cdecl copy_and_strip_suffix(char const* path, c_static_string<256>* stripped_path);

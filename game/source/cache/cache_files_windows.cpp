@@ -405,7 +405,35 @@ void __cdecl cache_file_map_has_failed(char const* scenario_path)
 
 bool __cdecl cache_file_open(char const* scenario_path, void* header)
 {
-	return INVOKE(0x005AA7C0, cache_file_open, scenario_path, header);
+	//return INVOKE(0x005AA7C0, cache_file_open, scenario_path, header);
+
+	if (levels_path_is_dlc(scenario_path) && g_cache_files_are_absolute)
+	{
+		e_map_file_index map_file_index = cached_map_files_find_map(scenario_path);
+		if (map_file_index != k_no_cached_map_file_index)
+			cached_map_file_close(map_file_index);
+	}
+
+	e_map_file_index map_file_index = cached_map_files_find_map(scenario_path);
+	if (levels_path_is_dlc(scenario_path))
+		levels_open_dlc(scenario_path, 1);
+
+	if (g_cache_files_are_absolute)
+	{
+		if (map_file_index == k_no_cached_map_file_index)
+		{
+			if (!cached_map_file_load(map_file_index = e_map_file_index(7), scenario_path))
+				return false;
+		}
+	}
+	else if (map_file_index == k_no_cached_map_file_index)
+	{
+		return false;
+	}
+
+	cache_file_table_of_contents.open_map_file_index = map_file_index;
+	csmemcpy(header, &cache_file_table_of_contents.map_files[map_file_index].header, sizeof(s_cache_file_header));
+	return true;
 }
 
 //.text:005AA870 ; long __cdecl cache_file_read_ex(long, long, long, void*, c_synchronized_long*, c_synchronized_long*, e_async_category, e_async_priority)
@@ -574,24 +602,24 @@ void __cdecl cache_files_initialize()
 	// controls a few things
 	// this is the best name that we thought of
 	g_cache_files_are_absolute = true;
-	
+
 	csmemset(&cache_file_table_of_contents, 0, sizeof(cache_file_table_of_contents));
 	csmemset(&cache_file_copy_globals, 0, sizeof(cache_file_copy_globals));
-	
+
 	cache_file_table_of_contents.open_map_file_index = k_no_cached_map_file_index;
 	cache_file_table_of_contents.locked_map_file_index = k_no_cached_map_file_index;
 	cache_file_table_of_contents.__unknown30668 = NONE;
-	
+
 	cache_file_copy_globals.copy_task_is_done = 1;
 	cache_file_copy_globals.copy_task_id = NONE;
 	cache_file_copy_globals.map_file_index = k_no_cached_map_file_index;
-	
+
 	cache_files_delete_if_language_has_changed();
 	cache_files_delete_if_build_number_has_changed();
-	
+
 	bool success = false;
 	cached_map_files_open_all(&success);
-	
+
 	optional_cache_register_user((e_optional_cache_user)0, &g_cache_file_copy_optional_cache_callback);
 }
 
@@ -666,7 +694,11 @@ void __cdecl cached_map_files_delete(e_map_file_index start_map_file_index, e_ma
 }
 
 //.text:005ABDF0 ; e_map_file_index __cdecl cached_map_files_find_free_utility_drive_map(long, short)
-//.text:005ABE90 ; e_map_file_index __cdecl cached_map_files_find_map(char const*)
+
+e_map_file_index __cdecl cached_map_files_find_map(char const* scenario_path)
+{
+	return INVOKE(0x005ABE90, cached_map_files_find_map, scenario_path);
+}
 
 void __cdecl cached_map_files_open_all(bool* success)
 {
