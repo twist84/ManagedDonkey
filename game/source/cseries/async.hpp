@@ -184,7 +184,7 @@ static_assert(sizeof(s_close_file_task) == 0x4);
 struct s_get_file_size_task
 {
 	s_file_handle file;
-	long volatile* file_size;
+	dword volatile* file_size;
 };
 static_assert(sizeof(s_get_file_size_task) == 0x8);
 
@@ -219,21 +219,21 @@ static_assert(sizeof(s_simple_callback_task) == 0x120);
 
 union s_async_task
 {
-	s_create_file_task create_file;
-	s_read_position_task read_position;
-	s_write_position_task write_position;
-	s_copy_position_task copy_position;
-	s_set_file_size_task set_file_size;
-	s_delete_file_task delete_file;
-	s_enumerate_files_task enumerate_files;
-	s_read_entire_file_task read_entire_file;
-	s_write_buffer_to_file_task write_buffer_to_file;
-	s_close_file_task close_file;
-	s_get_file_size_task get_file_size;
-	s_file_raw_handle_based_task file_raw_handle_based;
-	s_font_loading_task font_loading;
-	s_configuration_enumeration_task configuration_enumeration;
-	s_simple_callback_task simple_callback;
+	s_create_file_task create_file_task;
+	s_read_position_task read_position_task;
+	s_write_position_task write_position_task;
+	s_copy_position_task copy_position_task;
+	s_set_file_size_task set_file_size_task;
+	s_delete_file_task delete_file_task;
+	s_enumerate_files_task enumerate_files_task;
+	s_read_entire_file_task read_entire_file_task;
+	s_write_buffer_to_file_task write_buffer_to_file_task;
+	s_close_file_task close_file_task;
+	s_get_file_size_task get_file_size_task;
+	s_file_raw_handle_based_task file_raw_handle_based_task;
+	s_font_loading_task font_loading_task;
+	s_configuration_enumeration_task configuration_enumeration_task;
+	s_simple_callback_task simple_callback_task;
 
 	byte storage[k_maximum_async_task_data_size];
 };

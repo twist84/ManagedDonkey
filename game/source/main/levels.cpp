@@ -375,8 +375,8 @@ bool __cdecl levels_begin_dvd_enumeration()
 	if (shell_application_type() == _shell_application_type_client)
 	{
 		s_async_task task{};
-		task.configuration_enumeration.enumeration_index = 0;
-		task.configuration_enumeration.find_file_data = &g_level_globals.enumeration_task_data;
+		task.configuration_enumeration_task.enumeration_index = 0;
+		task.configuration_enumeration_task.find_file_data = &g_level_globals.enumeration_task_data;
 		g_level_globals.enumeration_task = async_task_add(_async_priority_important_non_blocking, &task, _async_category_saved_games, levels_dvd_enumeration_callback, &g_level_globals.enumeration_result);
 
 		if (g_level_globals.enumeration_task != NONE)
@@ -435,17 +435,17 @@ e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* task_da
 	c_static_string<256> found_file_name{};
 	s_file_reference found_file{};
 
-	if (task_data->configuration_enumeration.enumeration_index)
+	if (task_data->configuration_enumeration_task.enumeration_index)
 	{
-		if (task_data->configuration_enumeration.enumeration_index == 1)
+		if (task_data->configuration_enumeration_task.enumeration_index == 1)
 		{
 			s_file_reference file{};
 			s_file_last_modification_date date{};
 
-			if (!find_files_next(task_data->configuration_enumeration.find_file_data, &file, &date))
+			if (!find_files_next(task_data->configuration_enumeration_task.find_file_data, &file, &date))
 			{
-				find_files_end(task_data->configuration_enumeration.find_file_data);
-				return e_async_completion(++task_data->configuration_enumeration.enumeration_index == 2);
+				find_files_end(task_data->configuration_enumeration_task.find_file_data);
+				return e_async_completion(++task_data->configuration_enumeration_task.enumeration_index == 2);
 			}
 
 			wchar_t file_directory[256]{};
@@ -474,12 +474,12 @@ e_async_completion __cdecl levels_dvd_enumeration_callback(s_async_task* task_da
 
 		file_reference_create_from_path(&found_file, found_file_name.get_string(), true);
 
-		find_files_start(task_data->configuration_enumeration.find_file_data, 0, &found_file);
+		find_files_start(task_data->configuration_enumeration_task.find_file_data, 0, &found_file);
 
-		++task_data->configuration_enumeration.enumeration_index;
+		++task_data->configuration_enumeration_task.enumeration_index;
 	}
 
-	return e_async_completion(task_data->configuration_enumeration.enumeration_index == 2);
+	return e_async_completion(task_data->configuration_enumeration_task.enumeration_index == 2);
 }
 
 bool __cdecl levels_enumeration_in_progress()

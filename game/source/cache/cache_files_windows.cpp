@@ -2,6 +2,7 @@
 
 #include "config/version.hpp"
 #include "cseries/async.hpp"
+#include "cseries/async_helpers.hpp"
 #include "cseries/cseries_events.hpp"
 #include "main/global_preferences.hpp"
 #include "main/levels.hpp"
@@ -75,7 +76,7 @@ bool __cdecl cache_file_copy_do_action()
 	return INVOKE(0x005A97C0, cache_file_copy_do_action);
 
 	//e_cache_copy_state copy_state = cache_file_copy_globals.copy_state;
-	//e_async_priority async_priority = k_action_to_async_priority[cache_file_copy_globals.current_action.action];
+	//e_async_priority priority = k_action_to_async_priority[cache_file_copy_globals.current_action.action];
 	//
 	//bool valid = true;
 	//switch (copy_state)
@@ -102,7 +103,7 @@ bool __cdecl cache_file_copy_do_action()
 	//		0,
 	//		FLAG(3),
 	//		_async_category_background_copy,
-	//		async_priority,
+	//		priority,
 	//		&cache_file_copy_globals.source_file_handle,
 	//		&cache_file_copy_globals.copy_task_is_done);
 	//	copy_state = _cache_copy_state_verify_create_source_file;
@@ -123,7 +124,7 @@ bool __cdecl cache_file_copy_do_action()
 	//		sizeof(s_cache_file_header),
 	//		0,
 	//		_async_category_background_copy,
-	//		async_priority,
+	//		priority,
 	//		&cache_file_copy_globals.copy_size,
 	//		&cache_file_copy_globals.copy_task_is_done,
 	//		0);
@@ -154,7 +155,7 @@ bool __cdecl cache_file_copy_do_action()
 	//		cache_file_copy_globals.source_file_handle,
 	//		&cache_file_copy_globals.source_file_size,
 	//		_async_category_background_copy,
-	//		async_priority,
+	//		priority,
 	//		&cache_file_copy_globals.copy_task_is_done);
 	//	copy_state = _cache_copy_state_verify_get_dvd_file_size;
 	//}
@@ -190,7 +191,7 @@ bool __cdecl cache_file_copy_do_action()
 	//	cache_file_copy_globals.copy_task_id = async_flush_file(
 	//		cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
 	//		_async_category_background_copy,
-	//		async_priority,
+	//		priority,
 	//		&cache_file_copy_globals.copy_task_is_done);
 	//	copy_state = _cache_copy_state_prepare_copy_thread;
 	//}
@@ -236,7 +237,7 @@ bool __cdecl cache_file_copy_do_action()
 	//	cache_file_copy_globals.copy_task_id = async_flush_file(
 	//		cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
 	//		_async_category_background_copy,
-	//		async_priority,
+	//		priority,
 	//		&cache_file_copy_globals.copy_task_is_done);
 	//	copy_state = _cache_copy_state_write_header;
 	//}
@@ -453,11 +454,11 @@ s_cache_file_shared_resource_usage const* __cdecl cache_file_try_to_get_master_s
 	return INVOKE(0x005AA8E0, cache_file_try_to_get_master_shared_resource_usage);
 }
 
-//.text:005AA910 ; 
+//.text:005AA910 ; s_cache_file_shared_resource_usage const* __cdecl cache_file_get_shared_resource_usage_from_path(char const* scenario_path)
 //.text:005AA970 ; void __cdecl cache_file_unlock_for_io(long)
 //.text:005AA980 ; void __cdecl cache_files_clear_map_of_type(long)
 //.text:005AAA40 ; void __cdecl cache_files_clear_map_single(long)
-//.text:005AAAC0 ; bool __cdecl cache_files_copy_describe(c_static_string<256>*, real*)
+//.text:005AAAC0 ; bool __cdecl cache_files_copy_describe(c_static_string<256>* scenario_path, real* copy_progress)
 
 void __cdecl cache_files_copy_do_work()
 {
