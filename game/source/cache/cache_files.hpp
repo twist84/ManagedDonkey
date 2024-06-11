@@ -69,7 +69,7 @@ union s_cache_file_header
 
 		bool __unknown140;
 		bool tracked_build;
-		bool has_insertion_points;
+		bool shared_resource_usage_available;
 		byte_flags header_flags;
 
 		s_file_last_modification_date modification_date;

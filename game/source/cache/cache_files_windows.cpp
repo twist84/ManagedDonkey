@@ -335,21 +335,53 @@ c_static_string<256> __cdecl cache_file_get_canonical_path(char const* scenario_
 	return INVOKE(0x005AA130, cache_file_get_canonical_path, scenario_path);
 }
 
-long __cdecl cache_file_get_failed_count(char const* map_path)
+long __cdecl cache_file_get_failed_count(char const* scenario_path)
 {
-	return INVOKE(0x005AA150, cache_file_get_failed_count, map_path);
+	return INVOKE(0x005AA150, cache_file_get_failed_count, scenario_path);
+
+	//if (s_failed_map* failed_map = find_failed_map(scenario_path))
+	//	return failed_map->index;
+	//
+	//return 0;
 }
 
-//.text:005AA170 ; 
+bool __cdecl cache_file_get_indirect_file_handle_from_index(e_map_file_index map_file_index, s_indirect_file* out_handle)
+{
+	return INVOKE(0x005AA170, cache_file_get_indirect_file_handle_from_index, map_file_index, out_handle);
+}
+
 //.text:005AA1D0 ; bool __cdecl cache_file_get_indirect_file_handle_from_path(char const*, s_indirect_file**)
 //.text:005AA240 ; 
-//.text:005AA260 ; bool __cdecl cache_file_get_master_async_file_handle(s_file_handle*)
+
+bool __cdecl cache_file_get_master_async_file_handle(s_file_handle* out_handle)
+{
+	return INVOKE(0x005AA260, cache_file_get_master_async_file_handle, out_handle);
+}
+
 //.text:005AA290 ; bool __cdecl cache_file_get_io_identifier_canonical_path(c_static_string<256>*)
-//.text:005AA2D0 ; bool __cdecl cache_file_get_master_indirect_file_handle(s_indirect_file**)
-//.text:005AA300 ; bool __cdecl cache_file_get_master_overlapped_file_handle(s_file_handle*)
-//.text:005AA330 ; bool __cdecl cache_file_get_master_resource_section_offset(dword*)
+
+bool __cdecl cache_file_get_master_indirect_file_handle(s_indirect_file* out_handle)
+{
+	return INVOKE(0x005AA2D0, cache_file_get_master_indirect_file_handle, out_handle);
+}
+
+bool __cdecl cache_file_get_master_overlapped_file_handle(s_file_handle* out_handle)
+{
+	return INVOKE(0x005AA300, cache_file_get_master_overlapped_file_handle, out_handle);
+}
+
+bool __cdecl cache_file_get_master_resource_section_offset(dword* out_offset)
+{
+	return INVOKE(0x005AA330, cache_file_get_master_resource_section_offset, out_offset);
+}
+
 //.text:005AA360 ; 
-//.text:005AA3C0 ; bool __cdecl cache_file_get_overlapped_file_handle_from_index(long, s_file_handle*)
+
+bool __cdecl cache_file_get_overlapped_file_handle_from_index(e_map_file_index map_file_index, s_file_handle* out_handle)
+{
+	return INVOKE(0x005AA3C0, cache_file_get_overlapped_file_handle_from_index, map_file_index, out_handle);
+}
+
 //.text:005AA420 ; bool __cdecl cache_file_get_overlapped_file_handle_from_path(char const*, s_file_handle*)
 //.text:005AA490 ; 
 //.text:005AA510 ; 
@@ -388,7 +420,11 @@ long __cdecl cache_file_round_up_read_size(long size)
 	return (size | MASK(4)) + 1;
 }
 
-//.text:005AA8E0 ; s_cache_file_shared_resource_usage const* __cdecl cache_file_try_to_get_master_shared_resource_usage()
+s_cache_file_shared_resource_usage const* __cdecl cache_file_try_to_get_master_shared_resource_usage()
+{
+	return INVOKE(0x005AA8E0, cache_file_try_to_get_master_shared_resource_usage);
+}
+
 //.text:005AA910 ; 
 //.text:005AA970 ; void __cdecl cache_file_unlock_for_io(long)
 //.text:005AA980 ; void __cdecl cache_files_clear_map_of_type(long)
@@ -403,16 +439,28 @@ void __cdecl cache_files_copy_do_work()
 void __cdecl cache_files_copy_halt()
 {
 	INVOKE(0x005AAC20, cache_files_copy_halt);
+
+	//e_cache_copy_state copy_state = cache_file_copy_globals.copy_state;
+	//if (copy_state && copy_state < _cache_copy_state_halt)
+	//{
+	//	cache_file_copy_globals.copy_task_abort_signal = 1;
+	//	cache_file_copy_globals.__unknown33B4 = 2;
+	//	cache_file_copy_globals.copy_state = _cache_copy_state_halt;
+	//}
 }
 
 bool __cdecl cache_files_copy_halting()
 {
 	return INVOKE(0x005AAC50, cache_files_copy_halting);
+
+	//return cache_file_copy_globals.copy_state >= _cache_copy_state_halt;
 }
 
 bool __cdecl cache_files_copy_in_progress()
 {
 	return INVOKE(0x005AAC60, cache_files_copy_in_progress);
+
+	//return cache_files_copy_in_progress_internal(NULL);
 }
 
 bool __cdecl cache_files_copy_in_progress_internal(real* out_progress)
@@ -438,21 +486,42 @@ bool __cdecl cache_files_copy_map_start_only(char const* scenario_path, long loa
 void __cdecl cache_files_copy_pause()
 {
 	INVOKE(0x005AAEA0, cache_files_copy_pause);
+
+	//cache_file_copy_globals.copy_task_abort_signal = 1;
+	//cache_file_copy_globals.reference_count++;
+	//cache_file_copy_globals.copy_paused = true;
 }
 
 void __cdecl cache_files_copy_resume()
 {
 	INVOKE(0x005AAEC0, cache_files_copy_resume);
+
+	//cache_file_copy_globals.reference_count--;
 }
 
 void __cdecl cache_files_copy_stop(char const* scenario_path)
 {
 	INVOKE(0x005AAED0, cache_files_copy_stop, scenario_path);
+
+	//long file_status = cache_files_get_file_status(scenario_path);
+	//if (file_status == 2 || file_status == 1)
+	//{
+	//	if (map_names_are_equal(scenario_path, cache_file_copy_globals.current_action.map_name.get_string()))
+	//	{
+	//		cache_files_copy_halt();
+	//	}
+	//	else if (map_names_are_equal(scenario_path, cache_file_copy_globals.current_action.pending_map_name.get_string()))
+	//	{
+	//		cache_file_copy_globals.current_action.pending_action = 0;
+	//	}
+	//}
 }
 
 void __cdecl cache_files_delete_all()
 {
 	INVOKE(0x005AAF50, cache_files_delete_all);
+
+	//cached_map_files_delete(_map_file_index_shared_ui, k_total_tracked_cached_map_files_count);
 }
 
 void __cdecl cache_files_delete_if_build_number_has_changed()
@@ -583,7 +652,12 @@ bool __cdecl cached_map_file_load(e_map_file_index map_file_index, char const* s
 
 //.text:005ABBD0 ; bool __cdecl cached_map_file_read_header(e_map_file_index)
 //.text:005ABD00 ; 
-//.text:005ABD40 ; void __cdecl cached_map_files_delete(e_map_file_index, e_map_file_index)
+
+void __cdecl cached_map_files_delete(e_map_file_index start_map_file_index, e_map_file_index end_map_file_index)
+{
+	INVOKE(0x005ABD40, cached_map_files_delete, start_map_file_index, end_map_file_index);
+}
+
 //.text:005ABDF0 ; e_map_file_index __cdecl cached_map_files_find_free_utility_drive_map(long, short)
 //.text:005ABE90 ; e_map_file_index __cdecl cached_map_files_find_map(char const*)
 
@@ -653,7 +727,11 @@ void __cdecl copy_and_strip_suffix(char const* path, c_static_string<256>* strip
 
 //.text:005AC150 ; c_cache_file_copy_fake_decompressor::decompress_buffer
 
-//.text:005AC210 ; s_failed_map* __cdecl find_failed_map(char const*)
+s_failed_map* __cdecl find_failed_map(char const* scenario_path)
+{
+	return INVOKE(0x005AC210, find_failed_map, scenario_path);
+}
+
 //.text:005AC2A0 ; s_map_file_table const* __cdecl find_map_file_table_entry(e_map_file_index)
 
 //.text:005AC2D0 ; c_cache_file_copy_fake_decompressor::finish
@@ -664,7 +742,11 @@ void __cdecl copy_and_strip_suffix(char const* path, c_static_string<256>* strip
 //.text:005AC370 ; c_cache_file_copy_fake_decompressor::get_running_checksum
 //.text:005AC380 ; c_cache_file_copy_fake_decompressor::get_volatile_copy_progress
 
-//.text:005AC390 ; bool __cdecl map_names_are_equal(char const*, char const*)
+bool __cdecl map_names_are_equal(char const* map_name_a, char const* map_name_b)
+{
+	return INVOKE(0x005AC390, map_names_are_equal, map_name_a, map_name_b);
+}
+
 //.text:005AC420 ; bool __cdecl new_slot_is_better_fit(e_map_file_index, e_map_file_index)
 
 //.text:005AC4F0 ; c_cache_file_copy_fake_decompressor::overall_copy_in_progress

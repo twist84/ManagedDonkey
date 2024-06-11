@@ -22,6 +22,36 @@ enum e_map_file_index
 	k_no_cached_map_file_index = -1,
 };
 
+static inline e_map_file_index operator-(e_map_file_index& value, int increment)
+{
+	return e_map_file_index((int)value - increment);
+}
+
+static inline e_map_file_index operator+(e_map_file_index& value, int increment)
+{
+	return e_map_file_index((int)value + increment);
+}
+
+static inline e_map_file_index operator-=(e_map_file_index& value, int increment)
+{
+	return value = e_map_file_index((int)value - increment);
+}
+
+static inline e_map_file_index operator+=(e_map_file_index& value, int increment)
+{
+	return value = e_map_file_index((int)value + increment);
+}
+
+static inline e_map_file_index operator--(e_map_file_index& value, int increment)
+{
+	return value = e_map_file_index((int)value - 1);
+}
+
+static inline e_map_file_index operator++(e_map_file_index& value, int increment)
+{
+	return value = e_map_file_index((int)value + 1);
+}
+
 struct s_cache_file_share_map // this probably isn't the correct name
 {
 	char const* file_path;
@@ -211,10 +241,17 @@ extern long __cdecl cache_file_get_absolute_maximum_size();
 extern bool __cdecl cache_file_get_async_file_handle_from_index(e_map_file_index map_file_index, s_file_handle* out_handle);
 extern c_static_string<256> __cdecl cache_file_get_canonical_path(char const* scenario_path);
 extern long __cdecl cache_file_get_failed_count(char const* map_path);
+extern bool __cdecl cache_file_get_indirect_file_handle_from_index(e_map_file_index map_file_index, s_indirect_file* out_handle);
+extern bool __cdecl cache_file_get_master_async_file_handle(s_file_handle* out_handle);
+extern bool __cdecl cache_file_get_master_indirect_file_handle(s_indirect_file* out_handle);
+extern bool __cdecl cache_file_get_master_overlapped_file_handle(s_file_handle* out_handle);
+extern bool __cdecl cache_file_get_master_resource_section_offset(dword* out_offset);
+extern bool __cdecl cache_file_get_overlapped_file_handle_from_index(e_map_file_index map_file_index, s_file_handle* out_handle);
 extern void __cdecl cache_file_map_clear_all_failures();
 extern void __cdecl cache_file_map_has_failed(char const* scenario_path);
 extern bool __cdecl cache_file_open(char const* scenario_path, void* header);
 extern long __cdecl cache_file_round_up_read_size(long size);
+extern s_cache_file_shared_resource_usage const* __cdecl cache_file_try_to_get_master_shared_resource_usage();
 extern void __cdecl cache_files_copy_do_work();
 extern void __cdecl cache_files_copy_halt();
 extern bool __cdecl cache_files_copy_halting();
@@ -235,7 +272,10 @@ extern void __cdecl cached_map_file_close(e_map_file_index map_file_index);
 extern s_cached_map_file* __cdecl cached_map_file_get(e_map_file_index map_file_index);
 extern s_file_handle __cdecl cached_map_file_get_handle(e_map_file_index map_file_index);
 extern bool __cdecl cached_map_file_load(e_map_file_index map_file_index, char const* scenario_path);
+extern void __cdecl cached_map_files_delete(e_map_file_index start_map_file_index, e_map_file_index end_map_file_index);
 extern void __cdecl cached_map_files_open_all(bool* success);
 extern void __cdecl canonicalize_map_path(char const* path, c_static_string<256>* out_path);
 extern void __cdecl copy_and_strip_suffix(char const* path, c_static_string<256>* stripped_path);
+extern s_failed_map* __cdecl find_failed_map(char const* scenario_path);
+extern bool __cdecl map_names_are_equal(char const* map_name_a, char const* map_name_b);
 

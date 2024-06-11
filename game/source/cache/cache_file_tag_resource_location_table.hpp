@@ -37,7 +37,7 @@ struct c_cache_file_resource_header_location_table
 		s_file_handle async_file_handle;
 		s_file_handle overlapped_handle;
 		s_indirect_file indirect_file;
-		s_cache_file_shared_resource_usage* shared_resource_usage;
+		s_cache_file_shared_resource_usage const* shared_resource_usage;
 		dword resource_section_offset;
 		long map_file_index;
 	};
