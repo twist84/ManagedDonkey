@@ -7,6 +7,7 @@
 #include "cache/restricted_memory.hpp"
 #include "cache/restricted_memory_regions.hpp"
 #include "cseries/async.hpp"
+#include "cseries/async_helpers.hpp"
 #include "cseries/async_xoverlapped.hpp"
 #include "cseries/cseries_events.hpp"
 #include "cseries/progress.hpp"

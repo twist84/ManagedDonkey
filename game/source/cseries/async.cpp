@@ -344,25 +344,3 @@ void __cdecl sub_508C30(s_async_task_element* element)
 	}
 }
 
-long __cdecl async_queue_simple_callback(e_async_completion(__cdecl* callback)(s_async_task* task, void* data, long data_size), void const* data, long data_size, e_async_priority priority, c_synchronized_long* done)
-{
-	//return INVOKE(0x005AD8B0, async_queue_simple_callback, callback, data, data_size, priority, done);
-
-	s_async_task task{};
-	ASSERT(sizeof(task.simple_callback_task.callback_data) >= data_size);
-	if (data_size <= sizeof(task.simple_callback_task.callback_data))
-	{
-		task.simple_callback_task.callback = callback;
-		csmemcpy(task.simple_callback_task.callback_data, data, data_size);
-		return async_task_add(priority, &task, _async_category_none, async_simple_callback_task_callback, done);
-	}
-	return NONE;
-}
-
-e_async_completion __cdecl async_simple_callback_task_callback(s_async_task* task)
-{
-	//return INVOKE(0x005ADE50, async_simple_callback_task_callback, task);
-
-	return task->simple_callback_task.callback(task, task->simple_callback_task.callback_data, task->simple_callback_task.callback_data_size);
-}
-

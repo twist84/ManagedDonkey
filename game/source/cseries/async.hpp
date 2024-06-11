@@ -71,7 +71,7 @@ static_assert(sizeof(s_create_file_task) == 0x218);
 
 struct s_read_position_task
 {
-	s_file_handle file;
+	s_file_handle file_handle;
 	void* buffer;
 	long buffer_size;
 	long file_offset;
@@ -89,7 +89,7 @@ enum e_write_position_flags
 
 struct s_write_position_task
 {
-	s_file_handle file;
+	s_file_handle file_handle;
 	void* buffer;
 	long size;
 	dword offset;
@@ -102,7 +102,7 @@ static_assert(sizeof(s_write_position_task) == 0x20);
 
 struct s_write_position_task2
 {
-	s_file_handle file;
+	s_file_handle file_handle;
 	long buffer_length;
 	void* buffer;
 	bool* success;
@@ -126,7 +126,7 @@ static_assert(sizeof(s_copy_position_task) == 0x28);
 
 struct s_set_file_size_task
 {
-	s_file_handle file;
+	s_file_handle file_handle;
 	long file_size;
 	c_synchronized_long* success;
 };
@@ -159,7 +159,7 @@ struct s_read_entire_file_task
 	dword buffer_size;
 	dword volatile* size;
 	c_synchronized_long* success;
-	s_file_handle file;
+	s_file_handle file_handle;
 	dword file_size;
 };
 static_assert(sizeof(s_read_entire_file_task) == 0x218);
@@ -171,26 +171,26 @@ struct s_write_buffer_to_file_task
 	dword size;
 	long __unknown208;
 	c_synchronized_long* success;
-	s_file_handle file;
+	s_file_handle file_handle;
 };
 static_assert(sizeof(s_write_buffer_to_file_task) == 0x214);
 
 struct s_close_file_task
 {
-	s_file_handle file;
+	s_file_handle file_handle;
 };
 static_assert(sizeof(s_close_file_task) == 0x4);
 
 struct s_get_file_size_task
 {
-	s_file_handle file;
+	s_file_handle file_handle;
 	dword volatile* file_size;
 };
 static_assert(sizeof(s_get_file_size_task) == 0x8);
 
 struct s_file_raw_handle_based_task
 {
-	s_file_handle file;
+	s_file_handle file_handle;
 };
 static_assert(sizeof(s_file_raw_handle_based_task) == 0x4);
 
@@ -292,6 +292,4 @@ extern bool __cdecl simple_yield_function(c_synchronized_long* done);
 extern s_async_task_element* __cdecl sub_508BD0();
 extern void __cdecl sub_508C00(s_async_task_element* element);
 extern void __cdecl sub_508C30(s_async_task_element* element);
-extern long __cdecl async_queue_simple_callback(e_async_completion(__cdecl* callback)(s_async_task* task, void* data, long data_size), void const* data, long data_size, e_async_priority priority, c_synchronized_long* done);
-extern e_async_completion __cdecl async_simple_callback_task_callback(s_async_task* task);
 
