@@ -133,6 +133,13 @@ enum e_cache_copy_state
 	k_number_of_cache_copy_states
 };
 
+struct s_cache_file_load_action
+{
+	c_static_string<k_tag_long_string_length> map_name;
+	long action; // e_cache_file_load_action
+};
+static_assert(sizeof(s_cache_file_load_action) == 0x104);
+
 struct s_cache_file_copy_globals
 {
 	s_cache_file_header header;
@@ -181,14 +188,8 @@ struct s_cache_file_copy_globals
 
 	byte __pad34D9[3];
 
-	struct
-	{
-		c_static_string<k_tag_long_string_length> map_name;
-		long action; // e_cache_file_load_action
-
-		c_static_string<k_tag_long_string_length> pending_map_name;
-		long pending_action; // e_cache_file_load_action
-	} current_action;
+	s_cache_file_load_action current_load_action;
+	s_cache_file_load_action pending_load_action;
 
 	dword checksum;
 };
@@ -210,6 +211,7 @@ struct c_cache_file_copy_fake_decompressor :
 		throw;
 	}
 
+	void setup(s_file_handle file_handle, dword offset, dword checksum, c_basic_buffer<void> buffer);
 	void teardown();
 
 	s_file_handle m_file_handle;

@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "multithreading/synchronized_value.hpp"
+#include "tag_files/files_windows.hpp"
 
 struct s_simple_read_file_ex_overlapped_result
 {
@@ -27,4 +28,19 @@ struct c_cache_file_async_decompression_task
 	c_basic_buffer<void> m_decompression_buffer;
 };
 static_assert(sizeof(c_cache_file_async_decompression_task) == 0x28);
+
+enum e_async_priority;
+long __cdecl async_decompress_file_section(
+	e_async_priority priority,
+	s_file_handle file_handle,
+	dword a3,
+	dword processed_compressed_size,
+	dword* hash,
+	c_basic_buffer<void> a6,
+	c_cache_file_decompressor* decompressor,
+	c_basic_buffer<void> a10,
+	bool* out_decompression_success,
+	c_synchronized_long* in_abort_signal,
+	c_synchronized_long* a13,
+	c_synchronized_long* done);
 

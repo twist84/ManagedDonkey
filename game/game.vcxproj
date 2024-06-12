@@ -192,6 +192,7 @@ POPD
     <ClCompile Include="source\ai\props.cpp" />
     <ClCompile Include="source\ai\sector.cpp" />
     <ClCompile Include="source\ai\squads.cpp" />
+    <ClCompile Include="source\cache\cache_file_codec_work.cpp" />
     <ClCompile Include="source\cseries\cseries_system_memory.cpp" />
     <ClCompile Include="source\effects\decals.cpp" />
     <ClCompile Include="source\effects\effects.cpp" />

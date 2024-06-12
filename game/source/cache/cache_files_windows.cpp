@@ -1,5 +1,6 @@
 #include "cache/cache_files_windows.hpp"
 
+#include "cache/cache_file_codec_work.hpp"
 #include "config/version.hpp"
 #include "cseries/async.hpp"
 #include "cseries/async_helpers.hpp"
@@ -20,15 +21,6 @@ REFERENCE_DECLARE(0x0243F780, c_asynchronous_io_arena, g_cache_file_io_arena);
 
 HOOK_DECLARE(0x005AAE70, cache_files_copy_map_start_only);
 HOOK_DECLARE(0x005ABFF0, canonicalize_map_path);
-
-void c_cache_file_copy_fake_decompressor::teardown()
-{
-	DECLFUNC(0x005AC640, void, __thiscall, c_cache_file_copy_fake_decompressor*)(this);
-
-	//m_done.peek();
-	//m_buffer.set_buffer(NULL, 0ul);
-	//m_overall_copy_in_progress = false;
-}
 
 bool __cdecl cached_map_file_is_shared(e_map_file_index map_file_index)
 {
@@ -85,23 +77,23 @@ bool __cdecl cache_file_copy_do_action()
 	return INVOKE(0x005A97C0, cache_file_copy_do_action);
 
 	//e_cache_copy_state copy_state = cache_file_copy_globals.copy_state;
-	//e_async_priority priority = k_action_to_async_priority[cache_file_copy_globals.current_action.action];
+	//e_async_priority priority = k_action_to_async_priority[cache_file_copy_globals.current_load_action.action];
 	//
 	//bool valid = true;
 	//switch (copy_state)
 	//{
 	//case _cache_copy_state_idle:
 	//{
-	//	if (!cache_file_copy_globals.current_action.pending_map_name.is_empty() &&
-	//		!cache_files_has_map_terminal_failure(cache_file_copy_globals.current_action.pending_map_name.get_string()) &&
-	//		cache_files_get_file_status(cache_file_copy_globals.current_action.pending_map_name.get_string()) != 3)
+	//	if (!cache_file_copy_globals.pending_load_action.map_name.is_empty() &&
+	//		!cache_files_has_map_terminal_failure(cache_file_copy_globals.pending_load_action.map_name.get_string()) &&
+	//		cache_files_get_file_status(cache_file_copy_globals.pending_load_action.map_name.get_string()) != 3)
 	//	{
-	//		canonicalize_map_path(cache_file_copy_globals.current_action.pending_map_name.get_string(), &cache_file_copy_globals.source_file);
-	//		csmemcpy(&cache_file_copy_globals.current_action.map_name, &cache_file_copy_globals.current_action.pending_map_name, 0x104);
+	//		canonicalize_map_path(cache_file_copy_globals.pending_load_action.map_name.get_string(), &cache_file_copy_globals.source_file);
+	//		cache_file_copy_globals.current_load_action = cache_file_copy_globals.pending_load_action;
 	//		copy_state = e_cache_copy_state(_cache_copy_state_create_source_file - levels_path_is_dlc(cache_file_copy_globals.source_file.get_string()));
 	//	}
 	//
-	//	csmemset(&cache_file_copy_globals.current_action.map_name, 0, 0x104);
+	//	csmemset(&cache_file_copy_globals.pending_load_action, 0, sizeof(s_cache_file_load_action));
 	//	cache_file_copy_globals.__unknown33B4 = 0;
 	//}
 	//break;
@@ -136,7 +128,7 @@ bool __cdecl cache_file_copy_do_action()
 	//break;
 	//case _cache_copy_state_read_dvd_header:
 	//{
-	//	csmemset(&cache_file_copy_globals, 0, sizeof(s_cache_file_header));
+	//	csmemset(&cache_file_copy_globals.header, 0, sizeof(s_cache_file_header));
 	//	cache_file_copy_globals.copy_task_id = async_read_position_overlapped_ex(
 	//		cache_file_copy_globals.source_file_handle,
 	//		&cache_file_copy_globals,
@@ -239,7 +231,7 @@ bool __cdecl cache_file_copy_do_action()
 	//break;
 	//case _cache_copy_state_copy_map_data:
 	//{
-	//	cache_file_copy_allocate_buffer(k_action_to_copy_buffer_size[cache_file_copy_globals.current_action.action]);
+	//	cache_file_copy_allocate_buffer(k_action_to_copy_buffer_size[cache_file_copy_globals.current_load_action.action]);
 	//	if (cache_file_copy_globals.buffer.begin())
 	//	{
 	//		dword buffer_size = cache_file_copy_globals.buffer.m_size;
@@ -299,48 +291,46 @@ bool __cdecl cache_file_copy_do_action()
 	//break;
 	//case _cache_copy_state_kick_off_copy_thread:
 	//{
-	//	// #TODO: implement me
-	//
-	//	//if (!cache_file_copy_globals.reference_count.m_reference_count)
-	//	//	cache_file_copy_allocate_buffer(k_action_to_copy_buffer_size[cache_file_copy_globals.current_action.action]);
-	//	//
-	//	//if (cache_file_copy_globals.buffer.begin())
-	//	//{
-	//	//	cache_file_copy_globals.copy_task_abort_signal = 0;
-	//	//	{
-	//	//		c_basic_buffer<void> buffer;
-	//	//		buffer.set_buffer(cache_file_copy_globals.buffer.begin(), cache_file_copy_globals.buffer.size() / 2);
-	//	//		g_copy_decompressor.setup(
-	//	//			cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
-	//	//			cache_file_copy_globals.total_copy_bytes_transferred,
-	//	//			cache_file_copy_globals.checksum,
-	//	//			buffer);
-	//	//	}
-	//	//
-	//	//	{
-	//	//		c_basic_buffer<void> buffer;
-	//	//		buffer.set_buffer(cache_file_copy_globals.buffer.begin(), cache_file_copy_globals.buffer.size() / 2);
-	//	//		cache_file_copy_globals.copy_task_id = async_decompress_file_section(
-	//	//			priority,
-	//	//			cache_file_copy_globals.source_file_handle,
-	//	//			cache_file_copy_globals.total_copy_bytes_transferred,
-	//	//			cache_file_copy_globals.source_file_size - cache_file_copy_globals.total_copy_bytes_transferred,
-	//	//			0,
-	//	//			buffer,
-	//	//			&g_copy_decompressor,
-	//	//			{},
-	//	//			&cache_file_copy_globals.copy_task_decompression_success,
-	//	//			&cache_file_copy_globals.copy_task_abort_signal,
-	//	//			0,
-	//	//			&cache_file_copy_globals.copy_task_is_done);
-	//	//	}
-	//	//
-	//	//	copy_state = _cache_copy_state_finish_copy_from_thread;
-	//	//}
-	//	//else
-	//	//{
-	//	//	copy_state = _cache_copy_state_kick_off_copy_thread;
-	//	//}
+	//	if (!cache_file_copy_globals.reference_count.m_reference_count)
+	//		cache_file_copy_allocate_buffer(k_action_to_copy_buffer_size[cache_file_copy_globals.current_load_action.action]);
+	//	
+	//	if (cache_file_copy_globals.buffer.begin())
+	//	{
+	//		cache_file_copy_globals.copy_task_abort_signal = 0;
+	//		{
+	//			c_basic_buffer<void> buffer;
+	//			buffer.set_buffer(cache_file_copy_globals.buffer.begin(), cache_file_copy_globals.buffer.size() / 2);
+	//			g_copy_decompressor.setup(
+	//				cached_map_file_get_handle(cache_file_copy_globals.map_file_index),
+	//				cache_file_copy_globals.total_copy_bytes_transferred,
+	//				cache_file_copy_globals.checksum,
+	//				buffer);
+	//		}
+	//	
+	//		{
+	//			c_basic_buffer<void> buffer;
+	//			buffer.set_buffer(cache_file_copy_globals.buffer.begin(), cache_file_copy_globals.buffer.size() / 2);
+	//			cache_file_copy_globals.copy_task_id = async_decompress_file_section(
+	//				priority,
+	//				cache_file_copy_globals.source_file_handle,
+	//				cache_file_copy_globals.total_copy_bytes_transferred,
+	//				cache_file_copy_globals.source_file_size - cache_file_copy_globals.total_copy_bytes_transferred,
+	//				0,
+	//				buffer,
+	//				&g_copy_decompressor,
+	//				{},
+	//				&cache_file_copy_globals.copy_task_decompression_success,
+	//				&cache_file_copy_globals.copy_task_abort_signal,
+	//				0,
+	//				&cache_file_copy_globals.copy_task_is_done);
+	//		}
+	//	
+	//		copy_state = _cache_copy_state_finish_copy_from_thread;
+	//	}
+	//	else
+	//	{
+	//		copy_state = _cache_copy_state_kick_off_copy_thread;
+	//	}
 	//}
 	//break;
 	//case _cache_copy_state_finish_copy_from_thread:
@@ -348,7 +338,7 @@ bool __cdecl cache_file_copy_do_action()
 	//	g_copy_decompressor.teardown();
 	//	cache_file_copy_globals.total_copy_bytes_transferred = g_copy_decompressor.m_file_offset;
 	//	cache_file_copy_globals.checksum = g_copy_decompressor.m_checksum;
-	//	if (g_copy_decompressor.m_file_offset < cache_file_copy_globals.source_file_size)
+	//	if ((dword)g_copy_decompressor.m_file_offset < cache_file_copy_globals.source_file_size)
 	//	{
 	//		valid = cache_file_copy_globals.copy_task_abort_signal.peek() != 0;
 	//		copy_state = _cache_copy_state_kick_off_copy_thread;
@@ -422,12 +412,7 @@ bool __cdecl cache_file_copy_do_action()
 	//break;
 	//case _cache_copy_state_finish:
 	//{
-	//	struct
-	//	{
-	//		c_static_string<k_tag_long_string_length> map_name;
-	//		long action; // e_cache_file_load_action
-	//	} action;
-	//	csmemcpy(&action, &cache_file_copy_globals.current_action.map_name, 0x104);
+	//	s_cache_file_load_action action = cache_file_copy_globals.current_load_action;
 	//
 	//	if (cache_file_copy_globals.__unknown33B4 == 1)
 	//	{
@@ -444,7 +429,7 @@ bool __cdecl cache_file_copy_do_action()
 	//	cache_file_copy_release_buffer();
 	//	cache_file_copy_globals.map_file_index = k_no_cached_map_file_index;
 	//	csmemset(&cache_file_copy_globals.header, 0, sizeof(sizeof(s_cache_file_header)));
-	//	csmemset(&cache_file_copy_globals.current_action.map_name, 0, 0x104);
+	//	csmemset(&cache_file_copy_globals.current_load_action, 0, sizeof(s_cache_file_load_action));
 	//	cache_file_copy_globals.source_file.clear();
 	//	invalidate_file_handle(&cache_file_copy_globals.source_file_handle);
 	//
@@ -985,7 +970,11 @@ bool __cdecl map_names_are_equal(char const* map_name_a, char const* map_name_b)
 //.text:005AC510 ; 
 //.text:005AC520 ; 
 //.text:005AC550 ; 
-//.text:005AC580 ; c_cache_file_copy_fake_decompressor::setup
+
+void c_cache_file_copy_fake_decompressor::setup(s_file_handle file_handle, dword offset, dword checksum, c_basic_buffer<void> buffer)
+{
+	DECLFUNC(0x005AC580, void, __thiscall, c_cache_file_copy_fake_decompressor*, s_file_handle, dword, dword, c_basic_buffer<void>)(this, file_handle, offset, checksum, buffer);
+}
 
 char const* __cdecl shared_file_type_get_string(e_cache_file_shared_file_type shared_file_type)
 {
@@ -1012,7 +1001,16 @@ char const* __cdecl shared_file_type_get_string(e_cache_file_shared_file_type sh
 
 //.text:005AC620 ; 
 //.text:005AC630 ; 
-//.text:005AC640 ; c_cache_file_copy_fake_decompressor::teardown
+
+void c_cache_file_copy_fake_decompressor::teardown()
+{
+	DECLFUNC(0x005AC640, void, __thiscall, c_cache_file_copy_fake_decompressor*)(this);
+
+	//m_done.peek();
+	//m_buffer.set_buffer(NULL, 0ul);
+	//m_overall_copy_in_progress = false;
+}
+
 //.text:005AC660 ; c_cache_file_copy_optional_cache_callback::terminate
 //.text:005AC6B0 ; 
 //.text:005AC6C0 ; 
