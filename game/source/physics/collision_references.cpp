@@ -29,7 +29,7 @@ long c_collision_edge_reference::get_vertex_index(long index) const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_edge* edge = &small_bsp->edges[m_edge_index];
 		long vertex_index = edge->vertex_indices[index];
-		return vertex_index & 0xFFFF;
+		return vertex_index == NONE ? vertex_index : vertex_index & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
@@ -45,7 +45,7 @@ long c_collision_edge_reference::get_edge_index(long index) const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_edge* edge = &small_bsp->edges[m_edge_index];
 		long edge_index = edge->edge_indices[index];
-		return edge_index & 0xFFFF;
+		return edge_index == NONE ? edge_index : edge_index & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
@@ -61,7 +61,7 @@ long c_collision_edge_reference::get_surface_index(long index) const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_edge* edge = &small_bsp->edges[m_edge_index];
 		long surface_index = edge->surface_indices[index];
-		return surface_index & 0xFFFF;
+		return surface_index == NONE ? surface_index : surface_index & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
@@ -110,7 +110,7 @@ long c_collision_vertex_reference::get_first_edge_index() const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_vertex* vertex = &small_bsp->vertices[m_vertex_index];
 		long first_edge = vertex->first_edge;
-		return first_edge & 0xFFFF;
+		return first_edge == NONE ? first_edge : first_edge & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
@@ -126,7 +126,7 @@ long c_collision_vertex_reference::get_sink() const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_vertex* vertex = &small_bsp->vertices[m_vertex_index];
 		long sink = vertex->sink;
-		return sink & 0xFFFF;
+		return sink == NONE ? sink : sink & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
@@ -170,7 +170,7 @@ long c_collision_surface_reference::get_breakable_surface_set_index() const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
 		long breakable_surface_set = surface->breakable_surface_set;
-		return breakable_surface_set & 0xFFFF;
+		return breakable_surface_set == NONE ? breakable_surface_set : breakable_surface_set & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
@@ -186,7 +186,7 @@ long c_collision_surface_reference::get_breakable_surface_index() const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
 		long breakable_surface = surface->breakable_surface;
-		return breakable_surface & 0xFFFF;
+		return breakable_surface == NONE ? breakable_surface : breakable_surface & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
@@ -202,7 +202,7 @@ long c_collision_surface_reference::get_first_edge_index() const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
 		long first_edge = surface->first_edge;
-		return first_edge & 0xFFFF;
+		return first_edge == NONE ? first_edge : first_edge & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
@@ -234,7 +234,7 @@ long c_collision_surface_reference::get_material_index() const
 		collision_bsp const* small_bsp = get_small_bsp();
 		collision_surface* surface = &small_bsp->surfaces[m_surface_index];
 		long material = surface->material;
-		return material & 0xFFFF;
+		return material == NONE ? material : material & 0xFFFF;
 	}
 
 	large_collision_bsp const* large_bsp = get_large_bsp();
