@@ -58,6 +58,20 @@ HOOK_DECLARE_CLASS(0x00A1F9C0, c_rasterizer, end_albedo);
 // Fix aspect ratio not matching resolution
 HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
 
+//HOOK_DECLARE_CLASS(0x00A22D10, c_rasterizer, set_alpha_blend_mode);
+//HOOK_DECLARE_CLASS(0x00A231E0, c_rasterizer, set_color_write_enable);
+//HOOK_DECLARE_CLASS(0x00A23220, c_rasterizer, set_compiled_pixel_shader);
+//HOOK_DECLARE_CLASS(0x00A23260, c_rasterizer, set_compiled_vertex_shader);
+//HOOK_DECLARE_CLASS(0x00A232D0, c_rasterizer, set_cull_mode);
+//HOOK_DECLARE_CLASS(0x00A233A0, c_rasterizer, set_fill_mode);
+//HOOK_DECLARE_CLASS(0x00A233C0, c_rasterizer, set_indices);
+//HOOK_DECLARE_CLASS(0x00A23460, c_rasterizer, set_pixel_shader);
+//HOOK_DECLARE_CLASS(0x00A239B0, c_rasterizer, set_scissor_rect);
+//HOOK_DECLARE_CLASS(0x00A23A20, c_rasterizer, set_separate_alpha_blend_mode);
+//HOOK_DECLARE_CLASS(0x00A24650, c_rasterizer, set_vertex_declaration);
+//HOOK_DECLARE_CLASS(0x00A246E0, c_rasterizer, set_vertex_shader);
+//HOOK_DECLARE_CLASS(0x00A247E0, c_rasterizer, set_z_buffer_mode);
+
 // Disable converting the game's resolution to 16:9
 byte const resolution_patch_bytes[2] = { 0xEB, 0x1C };
 DATA_PATCH_DECLARE(0x00A2217D, resolution_patch, resolution_patch_bytes); // 7D 0C
@@ -470,22 +484,21 @@ void __cdecl c_rasterizer::clear_sampler_textures(dword a1)
 
 enum c_rasterizer::e_cull_mode __cdecl c_rasterizer::get_cull_mode()
 {
-	//return INVOKE(0x00A22BA0, get_cull_mode);
+	return INVOKE(0x00A22BA0, get_cull_mode);
 
-	return g_current_cull_mode;
+	//return g_current_cull_mode;
 }
 
 void __cdecl c_rasterizer::set_alpha_blend_mode(e_alpha_blend_mode alpha_blend_mode)
 {
-	//INVOKE(0x00A22D10, set_alpha_blend_mode, alpha_blend_mode);
+	INVOKE(0x00A22D10, set_alpha_blend_mode, alpha_blend_mode);
 
-	if (alpha_blend_mode == g_current_alpha_blend_mode)
-		return;
-
-	g_current_alpha_blend_mode = alpha_blend_mode;
-	set_alpha_blend_mode_custom_device_no_cache(g_device, alpha_blend_mode);
+	//if (alpha_blend_mode == g_current_alpha_blend_mode)
+	//	return;
+	//
+	//g_current_alpha_blend_mode = alpha_blend_mode;
+	//set_alpha_blend_mode_custom_device_no_cache(g_device, alpha_blend_mode);
 }
-HOOK_DECLARE_CLASS(0x00A22D10, c_rasterizer, set_alpha_blend_mode);
 
 void __cdecl c_rasterizer::set_alpha_blend_mode_custom_device_no_cache(IDirect3DDevice9Ex* device, e_alpha_blend_mode alpha_blend_mode)
 {
@@ -496,66 +509,62 @@ void __cdecl c_rasterizer::set_color_write_enable(long render_state, long render
 {
 	//INVOKE(0x00A231E0, set_color_write_enable, render_state, render_state_value);
 
-	if (render_state_value == x_last_render_state_value[render_state])
-		return;
-
-	x_last_render_state_value[render_state] = render_state_value;
-
-	g_device->SetRenderState(x_last_render_state_types[render_state], render_state_value);
+	//if (render_state_value == x_last_render_state_value[render_state])
+	//	return;
+	//
+	//x_last_render_state_value[render_state] = render_state_value;
+	//
+	//g_device->SetRenderState(x_last_render_state_types[render_state], render_state_value);
 }
-HOOK_DECLARE_CLASS(0x00A231E0, c_rasterizer, set_color_write_enable);
 
 bool __cdecl c_rasterizer::set_compiled_pixel_shader(c_rasterizer_compiled_pixel_shader const* compiled_pixel_shader, e_entry_point entry_point)
 {
-	//return INVOKE(0x00A23220, set_compiled_pixel_shader, compiled_pixel_shader, entry_point);
+	return INVOKE(0x00A23220, set_compiled_pixel_shader, compiled_pixel_shader, entry_point);
 
-	if (!g_device)
-		return true;
-
-	if (!compiled_pixel_shader)
-		return false;
-
-	IDirect3DPixelShader9* d3d_shader = compiled_pixel_shader->get_d3d_shader();
-	if (d3d_shader == g_current_pixel_shader)
-		return true;
-
-	g_current_pixel_shader = d3d_shader;
-	return SUCCEEDED(g_device->SetPixelShader(d3d_shader));
+	//if (!g_device)
+	//	return true;
+	//
+	//if (!compiled_pixel_shader)
+	//	return false;
+	//
+	//IDirect3DPixelShader9* d3d_shader = compiled_pixel_shader->get_d3d_shader();
+	//if (d3d_shader == g_current_pixel_shader)
+	//	return true;
+	//
+	//g_current_pixel_shader = d3d_shader;
+	//return SUCCEEDED(g_device->SetPixelShader(d3d_shader));
 }
-HOOK_DECLARE_CLASS(0x00A23220, c_rasterizer, set_compiled_pixel_shader);
 
 bool __cdecl c_rasterizer::set_compiled_vertex_shader(c_rasterizer_compiled_vertex_shader const* compiled_vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
-	//return INVOKE(0x00A23260, set_compiled_vertex_shader, compiled_vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
+	return INVOKE(0x00A23260, set_compiled_vertex_shader, compiled_vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 
-	if (!g_device)
-		return true;
-
-	if (!compiled_vertex_shader)
-		return true;
-
-	IDirect3DVertexShader9* d3d_shader = compiled_vertex_shader->get_d3d_shader();
-	bool vertex_declaration_set = c_vertex_declaration_table::set(base_vertex_type, transfer_vertex_type, entry_point);
-
-	if (d3d_shader == g_current_vertex_shader)
-		return d3d_shader != NULL && vertex_declaration_set;
-
-	g_current_vertex_shader = d3d_shader;
-	return SUCCEEDED(g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
+	//if (!g_device)
+	//	return true;
+	//
+	//if (!compiled_vertex_shader)
+	//	return true;
+	//
+	//IDirect3DVertexShader9* d3d_shader = compiled_vertex_shader->get_d3d_shader();
+	//bool vertex_declaration_set = c_vertex_declaration_table::set(base_vertex_type, transfer_vertex_type, entry_point);
+	//
+	//if (d3d_shader == g_current_vertex_shader)
+	//	return d3d_shader != NULL && vertex_declaration_set;
+	//
+	//g_current_vertex_shader = d3d_shader;
+	//return SUCCEEDED(g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
 }
-HOOK_DECLARE_CLASS(0x00A23260, c_rasterizer, set_compiled_vertex_shader);
 
 void __cdecl c_rasterizer::set_cull_mode(e_cull_mode cull_mode)
 {
-	//INVOKE(0x00A232D0, set_cull_mode, cull_mode);
+	INVOKE(0x00A232D0, set_cull_mode, cull_mode);
 
-	if (cull_mode != g_current_cull_mode)
-	{
-		g_current_cull_mode = cull_mode;
-		g_device->SetRenderState(D3DRS_CULLMODE, cull_mode);
-	}
+	//if (cull_mode != g_current_cull_mode)
+	//{
+	//	g_current_cull_mode = cull_mode;
+	//	g_device->SetRenderState(D3DRS_CULLMODE, cull_mode);
+	//}
 }
-HOOK_DECLARE_CLASS(0x00A232D0, c_rasterizer, set_cull_mode);
 
 bool __cdecl c_rasterizer::set_explicit_shaders(long explicit_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
@@ -564,51 +573,48 @@ bool __cdecl c_rasterizer::set_explicit_shaders(long explicit_shader, e_vertex_t
 
 void __cdecl c_rasterizer::set_fill_mode(e_fill_mode fill_mode)
 {
-	//INVOKE(0x00A233A0, set_fill_mode, fill_mode);
+	INVOKE(0x00A233A0, set_fill_mode, fill_mode);
 
-	g_device->SetRenderState(D3DRS_FILLMODE, fill_mode);
+	//g_device->SetRenderState(D3DRS_FILLMODE, fill_mode);
 }
-HOOK_DECLARE_CLASS(0x00A233A0, c_rasterizer, set_fill_mode);
 
 void __cdecl c_rasterizer::set_indices(IDirect3DIndexBuffer9* index_buffer)
 {
-	//INVOKE(0x00A233C0, set_indices, index_buffer);
+	INVOKE(0x00A233C0, set_indices, index_buffer);
 
-	if (index_buffer != g_current_index_buffer)
-	{
-		g_current_index_buffer = index_buffer;
-		g_device->SetIndices(index_buffer);
-	}
+	//if (index_buffer != g_current_index_buffer)
+	//{
+	//	g_current_index_buffer = index_buffer;
+	//	g_device->SetIndices(index_buffer);
+	//}
 }
-HOOK_DECLARE_CLASS(0x00A233C0, c_rasterizer, set_indices);
 
 bool __cdecl c_rasterizer::set_pixel_shader(c_rasterizer_pixel_shader const* pixel_shader, e_entry_point entry_point)
 {
-	//return INVOKE(0x00A23460, set_pixel_shader, pixel_shader, entry_point);
+	return INVOKE(0x00A23460, set_pixel_shader, pixel_shader, entry_point);
 
-	if (!g_device)
-		return true;
-
-	render_method_submit_invalidate_cache();
-
-	if (pixel_shader)
-	{
-		IDirect3DPixelShader9* d3d_shader = pixel_shader->get_d3d_shader(entry_point, 0);
-		if (d3d_shader == g_current_pixel_shader)
-			return d3d_shader != NULL;
-
-		g_current_pixel_shader = d3d_shader;
-		return SUCCEEDED(g_device->SetPixelShader(d3d_shader)) && d3d_shader != NULL;
-	}
-	else if (g_current_pixel_shader)
-	{
-		g_current_pixel_shader = NULL;
-		return SUCCEEDED(g_device->SetPixelShader(NULL));
-	}
-
-	return true;
+	//if (!g_device)
+	//	return true;
+	//
+	//render_method_submit_invalidate_cache();
+	//
+	//if (pixel_shader)
+	//{
+	//	IDirect3DPixelShader9* d3d_shader = pixel_shader->get_d3d_shader(entry_point, 0);
+	//	if (d3d_shader == g_current_pixel_shader)
+	//		return d3d_shader != NULL;
+	//
+	//	g_current_pixel_shader = d3d_shader;
+	//	return SUCCEEDED(g_device->SetPixelShader(d3d_shader)) && d3d_shader != NULL;
+	//}
+	//else if (g_current_pixel_shader)
+	//{
+	//	g_current_pixel_shader = NULL;
+	//	return SUCCEEDED(g_device->SetPixelShader(NULL));
+	//}
+	//
+	//return true;
 }
-HOOK_DECLARE_CLASS(0x00A23460, c_rasterizer, set_pixel_shader);
 
 void __cdecl c_rasterizer::set_aliased_surface_as_texture(long sampler_index, e_surface surface)
 {
@@ -632,79 +638,77 @@ void __cdecl c_rasterizer::set_sampler_texture(long sampler_index, c_rasterizer_
 
 void __cdecl c_rasterizer::set_scissor_rect(short_rectangle2d const* scissor_rect)
 {
-	//INVOKE(0x00A239B0, set_scissor_rect, scissor_rect);
+	INVOKE(0x00A239B0, set_scissor_rect, scissor_rect);
 
-	if (scissor_rect)
-	{
-		RECT rect
-		{
-			.left = scissor_rect->x0,
-			.top = scissor_rect->y0,
-			.right = scissor_rect->x1,
-			.bottom = scissor_rect->y1
-		};
-
-		g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
-		g_device->SetScissorRect(&rect);
-	}
-	else
-	{
-		g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
-	}
+	//if (scissor_rect)
+	//{
+	//	RECT rect
+	//	{
+	//		.left = scissor_rect->x0,
+	//		.top = scissor_rect->y0,
+	//		.right = scissor_rect->x1,
+	//		.bottom = scissor_rect->y1
+	//	};
+	//
+	//	g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
+	//	g_device->SetScissorRect(&rect);
+	//}
+	//else
+	//{
+	//	g_device->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE);
+	//}
 }
-HOOK_DECLARE_CLASS(0x00A239B0, c_rasterizer, set_scissor_rect);
 
 void __cdecl c_rasterizer::set_separate_alpha_blend_mode(e_separate_alpha_blend_mode separate_alpha_blend_mode)
 {
-	//INVOKE(0x00A23A20, set_separate_alpha_blend_mode, separate_alpha_blend_mode);
+	INVOKE(0x00A23A20, set_separate_alpha_blend_mode, separate_alpha_blend_mode);
 
-	if (separate_alpha_blend_mode == g_current_separate_alpha_blend_mode)
-		return;
-
-	g_current_separate_alpha_blend_mode = separate_alpha_blend_mode;
-
-	switch (separate_alpha_blend_mode)
-	{
-	case _separate_alpha_blend_mode_unknown0:
-	{
-		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, FALSE);
-	}
-	break;
-	case _separate_alpha_blend_mode_unknown1:
-	{
-		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
-		g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_ONE);
-		g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ZERO);
-	}
-	break;
-	case _separate_alpha_blend_mode_unknown2:
-	{
-		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
-		g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_ONE);
-		g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
-	}
-	break;
-	case _separate_alpha_blend_mode_unknown3:
-	{
-		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
-		g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_DESTALPHA);
-		g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ZERO);
-	}
-	break;
-	case _separate_alpha_blend_mode_unknown4:
-	{
-		g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
-		g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_BLENDFACTOR);
-		g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_INVSRCALPHA);
-	}
-	break;
-	}
+	//if (separate_alpha_blend_mode == g_current_separate_alpha_blend_mode)
+	//	return;
+	//
+	//g_current_separate_alpha_blend_mode = separate_alpha_blend_mode;
+	//
+	//switch (separate_alpha_blend_mode)
+	//{
+	//case _separate_alpha_blend_mode_unknown0:
+	//{
+	//	g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, FALSE);
+	//}
+	//break;
+	//case _separate_alpha_blend_mode_unknown1:
+	//{
+	//	g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
+	//	g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_ONE);
+	//	g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ZERO);
+	//}
+	//break;
+	//case _separate_alpha_blend_mode_unknown2:
+	//{
+	//	g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
+	//	g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_ONE);
+	//	g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ONE);
+	//}
+	//break;
+	//case _separate_alpha_blend_mode_unknown3:
+	//{
+	//	g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
+	//	g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_DESTALPHA);
+	//	g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_ZERO);
+	//}
+	//break;
+	//case _separate_alpha_blend_mode_unknown4:
+	//{
+	//	g_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_BLENDOPALPHA, D3DBLEND_ZERO);
+	//	g_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_BLENDFACTOR);
+	//	g_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_INVSRCALPHA);
+	//}
+	//break;
+	//}
 }
-HOOK_DECLARE_CLASS(0x00A23A20, c_rasterizer, set_separate_alpha_blend_mode);
 
 void __cdecl c_rasterizer::set_stencil_mode(e_stencil_mode stencil_mode)
 {
@@ -718,158 +722,155 @@ void __cdecl c_rasterizer::set_stencil_mode_with_value(e_stencil_mode stencil_mo
 
 bool __cdecl c_rasterizer::set_vertex_declaration(IDirect3DVertexDeclaration9* vertex_declaration)
 {
-	//return INVOKE(0x00A24650, set_vertex_declaration, vertex_declaration);
+	return INVOKE(0x00A24650, set_vertex_declaration, vertex_declaration);
 
-	if (vertex_declaration == g_current_vertex_declaration)
-		return true;
-
-	g_current_vertex_declaration = vertex_declaration;
-	return SUCCEEDED(g_device->SetVertexDeclaration(vertex_declaration));
+	//if (vertex_declaration == g_current_vertex_declaration)
+	//	return true;
+	//
+	//g_current_vertex_declaration = vertex_declaration;
+	//return SUCCEEDED(g_device->SetVertexDeclaration(vertex_declaration));
 }
-HOOK_DECLARE_CLASS(0x00A24650, c_rasterizer, set_vertex_declaration);
 
 bool __cdecl c_rasterizer::set_vertex_shader(c_rasterizer_vertex_shader const* vertex_shader, e_vertex_type base_vertex_type, e_transfer_vector_vertex_types transfer_vertex_type, e_entry_point entry_point)
 {
-	//return INVOKE(0x00A246E0, set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
+	return INVOKE(0x00A246E0, set_vertex_shader, vertex_shader, base_vertex_type, transfer_vertex_type, entry_point);
 
-	if (!g_device)
-		return true;
-	
-	render_method_submit_invalidate_cache();
-	
-	if (vertex_shader)
-	{
-		IDirect3DVertexShader9* d3d_shader = vertex_shader->get_d3d_shader(base_vertex_type, entry_point, 0);
-		bool vertex_declaration_set = c_vertex_declaration_table::set(base_vertex_type, transfer_vertex_type, entry_point);
-
-		if (d3d_shader == g_current_vertex_shader)
-			return d3d_shader != NULL && vertex_declaration_set;
-	
-		g_current_vertex_shader = d3d_shader;
-		return SUCCEEDED(g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
-	}
-	else if (g_current_vertex_shader)
-	{
-		g_current_vertex_shader = NULL;
-		return SUCCEEDED(g_device->SetVertexShader(NULL));
-	}
-
-	return true;
+	//if (!g_device)
+	//	return true;
+	//
+	//render_method_submit_invalidate_cache();
+	//
+	//if (vertex_shader)
+	//{
+	//	IDirect3DVertexShader9* d3d_shader = vertex_shader->get_d3d_shader(base_vertex_type, entry_point, 0);
+	//	bool vertex_declaration_set = c_vertex_declaration_table::set(base_vertex_type, transfer_vertex_type, entry_point);
+	//
+	//	if (d3d_shader == g_current_vertex_shader)
+	//		return d3d_shader != NULL && vertex_declaration_set;
+	//
+	//	g_current_vertex_shader = d3d_shader;
+	//	return SUCCEEDED(g_device->SetVertexShader(d3d_shader)) && d3d_shader != NULL && vertex_declaration_set;
+	//}
+	//else if (g_current_vertex_shader)
+	//{
+	//	g_current_vertex_shader = NULL;
+	//	return SUCCEEDED(g_device->SetVertexShader(NULL));
+	//}
+	//
+	//return true;
 }
-HOOK_DECLARE_CLASS(0x00A246E0, c_rasterizer, set_vertex_shader);
 
 void __cdecl c_rasterizer::set_z_buffer_mode(e_z_buffer_mode z_buffer_mode)
 {
-	//INVOKE(0x00A247E0, set_z_buffer_mode, z_buffer_mode);
+	INVOKE(0x00A247E0, set_z_buffer_mode, z_buffer_mode);
 
-	REFERENCE_DECLARE(0x0165E20C, real, flt_165E20C); // -0.5
-	REFERENCE_DECLARE(0x01692A1C, real, flt_1692A1C); // -0.0000049999999
-	REFERENCE_DECLARE(0x01910530, real, flt_1910530); // 1.414
-	REFERENCE_DECLARE(0x01910534, real, flt_1910534); // 0.003
-	REFERENCE_DECLARE(0x01910538, real, flt_1910538); // 1.414
-	REFERENCE_DECLARE(0x0191053C, real, flt_191053C); // 0.00079999998
-	REFERENCE_DECLARE(0x01910540, real, flt_1910540); // -0.1
-	REFERENCE_DECLARE(0x01910544, real, flt_1910544); // -2.0e-7
-	REFERENCE_DECLARE(0x01910548, real, flt_1910548); // -0.000099999997
-	REFERENCE_DECLARE(0x050DD9F0, real, flt_50DD9F0); // dynamically initialized?
-	REFERENCE_DECLARE(0x050DD9F4, real, flt_50DD9F4); // dynamically initialized?
-
-	if (z_buffer_mode == g_current_z_buffer_mode && m_use_floating_point_z_buffer == g_current_z_buffer_floating_point)
-		return;
-
-	g_current_z_buffer_mode = z_buffer_mode;
-	g_current_z_buffer_floating_point = m_use_floating_point_z_buffer;
-
-	DWORD zfunc_value = m_use_floating_point_z_buffer ? D3DCMP_GREATEREQUAL : D3DCMP_LESSEQUAL;
-
-	real slope_z_bias = flt_50DD9F0;
-	real z_bias = flt_50DD9F0;
-	real z_bias_scale = m_use_floating_point_z_buffer ? -1.0f : 1.0f;
-
-	switch (z_buffer_mode)
-	{
-	case _z_buffer_mode_unknown0:
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-	}
-	break;
-	case _z_buffer_mode_unknown1:
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-	}
-	break;
-	case _z_buffer_mode_unknown2:
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, FALSE);
-	}
-	break;
-	case _z_buffer_mode_unknown3: // shadow_generate?
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-
-		slope_z_bias = flt_1910530;
-		z_bias = flt_1910534;
-	}
-	break;
-	case _z_buffer_mode_unknown4: // shadow_generate_dynamic_lights?
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-
-		slope_z_bias = flt_1910538;
-		z_bias = flt_191053C;
-	}
-	break;
-	case _z_buffer_mode_unknown5: // shadow_apply?
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-
-		slope_z_bias = flt_1910540;
-		z_bias = flt_1910544;
-	}
-	break;
-	case _z_buffer_mode_unknown6: // decal?
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-
-		slope_z_bias = flt_165E20C;
-		z_bias = flt_1692A1C;
-	}
-	break;
-	case _z_buffer_mode_unknown7:
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-		g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
-
-		slope_z_bias = flt_50DD9F4;
-		z_bias = flt_1910548;
-	}
-	break;
-	case _z_buffer_mode_unknown8:
-	{
-		g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-		g_device->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-	}
-	break;
-	}
-
-	g_device->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, COERCE_DWORD(slope_z_bias * z_bias_scale));
-	g_device->SetRenderState(D3DRS_DEPTHBIAS, COERCE_DWORD(z_bias * z_bias_scale));
+	//REFERENCE_DECLARE(0x0165E20C, real, flt_165E20C); // -0.5
+	//REFERENCE_DECLARE(0x01692A1C, real, flt_1692A1C); // -0.0000049999999
+	//REFERENCE_DECLARE(0x01910530, real, flt_1910530); // 1.414
+	//REFERENCE_DECLARE(0x01910534, real, flt_1910534); // 0.003
+	//REFERENCE_DECLARE(0x01910538, real, flt_1910538); // 1.414
+	//REFERENCE_DECLARE(0x0191053C, real, flt_191053C); // 0.00079999998
+	//REFERENCE_DECLARE(0x01910540, real, flt_1910540); // -0.1
+	//REFERENCE_DECLARE(0x01910544, real, flt_1910544); // -2.0e-7
+	//REFERENCE_DECLARE(0x01910548, real, flt_1910548); // -0.000099999997
+	//REFERENCE_DECLARE(0x050DD9F0, real, flt_50DD9F0); // dynamically initialized?
+	//REFERENCE_DECLARE(0x050DD9F4, real, flt_50DD9F4); // dynamically initialized?
+	//
+	//if (z_buffer_mode == g_current_z_buffer_mode && m_use_floating_point_z_buffer == g_current_z_buffer_floating_point)
+	//	return;
+	//
+	//g_current_z_buffer_mode = z_buffer_mode;
+	//g_current_z_buffer_floating_point = m_use_floating_point_z_buffer;
+	//
+	//DWORD zfunc_value = m_use_floating_point_z_buffer ? D3DCMP_GREATEREQUAL : D3DCMP_LESSEQUAL;
+	//
+	//real slope_z_bias = flt_50DD9F0;
+	//real z_bias = flt_50DD9F0;
+	//real z_bias_scale = m_use_floating_point_z_buffer ? -1.0f : 1.0f;
+	//
+	//switch (z_buffer_mode)
+	//{
+	//case _z_buffer_mode_unknown0:
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
+	//}
+	//break;
+	//case _z_buffer_mode_unknown1:
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//	g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
+	//}
+	//break;
+	//case _z_buffer_mode_unknown2:
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, FALSE);
+	//}
+	//break;
+	//case _z_buffer_mode_unknown3: // shadow_generate?
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
+	//
+	//	slope_z_bias = flt_1910530;
+	//	z_bias = flt_1910534;
+	//}
+	//break;
+	//case _z_buffer_mode_unknown4: // shadow_generate_dynamic_lights?
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
+	//
+	//	slope_z_bias = flt_1910538;
+	//	z_bias = flt_191053C;
+	//}
+	//break;
+	//case _z_buffer_mode_unknown5: // shadow_apply?
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//	g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
+	//
+	//	slope_z_bias = flt_1910540;
+	//	z_bias = flt_1910544;
+	//}
+	//break;
+	//case _z_buffer_mode_unknown6: // decal?
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//	g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
+	//
+	//	slope_z_bias = flt_165E20C;
+	//	z_bias = flt_1692A1C;
+	//}
+	//break;
+	//case _z_buffer_mode_unknown7:
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	//	g_device->SetRenderState(D3DRS_ZFUNC, zfunc_value);
+	//
+	//	slope_z_bias = flt_50DD9F4;
+	//	z_bias = flt_1910548;
+	//}
+	//break;
+	//case _z_buffer_mode_unknown8:
+	//{
+	//	g_device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	//	g_device->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
+	//}
+	//break;
+	//}
+	//
+	//g_device->SetRenderState(D3DRS_SLOPESCALEDEPTHBIAS, COERCE_DWORD(slope_z_bias * z_bias_scale));
+	//g_device->SetRenderState(D3DRS_DEPTHBIAS, COERCE_DWORD(z_bias * z_bias_scale));
 }
-HOOK_DECLARE_CLASS(0x00A247E0, c_rasterizer, set_z_buffer_mode);
 
 void __cdecl c_rasterizer::setup_occlusion_state()
 {
