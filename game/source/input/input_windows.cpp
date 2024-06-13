@@ -298,8 +298,6 @@ void __cdecl input_initialize()
 	//
 	//input_xinput_initialize();
 	//input_globals.initialized = true;
-
-	input_globals.focus_mouse = input_globals.mouse_acquired;
 }
 
 bool __cdecl sub_511AF0()
@@ -517,11 +515,6 @@ bool __cdecl sub_512650()
 void __cdecl input_update()
 {
 	//INVOKE(0x00512690, input_update);
-
-	if (input_globals.focus_mouse)
-		sub_5114A0();
-	else
-		sub_5125A0();
 
 	if (input_globals.initialized && (input_globals.mouse_acquired || game_in_editor() && sub_42E000()))
 	{
