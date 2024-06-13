@@ -12,7 +12,10 @@ static_assert(sizeof(c_tag_resource_page_table_io_listener) == 0x4);
 struct s_tag_resource_page_datum :
 	s_datum_header
 {
+	// 1: c_io_result::set_disk_failure
+	// 2: c_io_result::set_checksum_failure
 	byte_flags flags;
+
 	byte state;
 	byte __data4[0x2];
 	c_reference_count<short> reference_count;

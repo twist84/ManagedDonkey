@@ -307,6 +307,7 @@ public:
 };
 static_assert(sizeof(c_cache_file_resource_stoler) == 0x4);
 
+struct c_io_result;
 struct s_cache_file_resource_gestalt;
 struct c_cache_file_tag_resource_runtime_manager :
 	public c_tag_resource_runtime_listener,
@@ -320,6 +321,9 @@ struct c_cache_file_tag_resource_runtime_manager :
 	public c_cache_file_resource_stoler
 {
 public:
+	void commit_zone_state();
+	void load_pending_resources_blocking(c_io_result* io_result);
+	void load_required_resources_blocking(c_io_result* io_result);
 	void idle();
 	void initialize(c_allocation_base* allocation);
 	void __thiscall sub_561C00(e_game_mode game_mode);
@@ -410,6 +414,8 @@ extern void __cdecl cache_file_tag_resources_dispose();
 extern void __cdecl cache_file_tag_resources_dispose_from_old_map();
 extern void __cdecl cache_file_tag_resources_initialize();
 extern void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mode);
+extern void __cdecl cache_file_tag_resources_load_pending_resources_blocking(c_io_result* io_result);
+extern void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_io_result* io_result);
 extern bool __cdecl cache_file_tag_resources_prefetch_update_required();
 extern void __cdecl cache_file_tag_resources_update_prefetch_state();
 extern void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state);

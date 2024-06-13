@@ -27,6 +27,7 @@ protected:
 };
 static_assert(sizeof(c_tag_resource_thread_access) == 0x80);
 
+struct c_io_result;
 struct c_thread_safeish_tag_resource_cache
 {
 public:
@@ -47,6 +48,9 @@ public:
 	{
 		return &m_resource_thread_access;
 	}
+
+	void load_pending_data_only_blocking(c_io_result* io_result);
+	void load_required_data_only_blocking(c_io_result* io_result);
 
 protected:
 	c_tag_resource_cache_new m_resource_cache_new;

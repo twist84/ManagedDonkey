@@ -18,6 +18,11 @@ HOOK_DECLARE(0x00563E10, tag_resource_get);
 
 c_static_sized_dynamic_array<s_resource_file_header const*, 1024> g_resource_file_headers;
 
+void c_cache_file_tag_resource_runtime_manager::commit_zone_state()
+{
+	DECLFUNC(0x0055FDC0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+}
+
 void __thiscall c_cache_file_tag_resource_runtime_manager_allocation::construct()
 {
 	DECLFUNC(0x0055FF10, void, __thiscall, c_cache_file_tag_resource_runtime_manager_allocation*)(this);
@@ -219,8 +224,22 @@ void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mo
 		&runtime_decompressor_registry);
 }
 
-//.text:0055F760 ; void __cdecl cache_file_tag_resources_load_pending_resources_blocking(c_io_result*)
-//.text:0055F7C0 ; void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_io_result*)
+void __cdecl cache_file_tag_resources_load_pending_resources_blocking(c_io_result* io_result)
+{
+	//INVOKE(0x0055F760, cache_file_tag_resources_load_pending_resources_blocking, io_result);
+
+	g_resource_runtime_manager.get()->commit_zone_state();
+	g_resource_runtime_manager.get()->load_pending_resources_blocking(io_result);
+}
+
+void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_io_result* io_result)
+{
+	//INVOKE(0x0055F7C0, cache_file_tag_resources_load_pending_resources_blocking, io_result);
+
+	g_resource_runtime_manager.get()->commit_zone_state();
+	g_resource_runtime_manager.get()->load_required_resources_blocking(io_result);
+}
+
 //.text:0055F820 ; real __cdecl cache_file_tag_resources_map_prefetch_progress(short, char const*)
 //.text:0055F850 ; bool __cdecl cache_file_tag_resources_map_prefetched(short, char const*)
 
@@ -257,6 +276,37 @@ void __cdecl cache_file_tag_resources_stop_map_prefetch()
 //.text:0055FA20 ; 
 //.text:0055FA70 ; 
 //.text:0055FAA0 ; 
+
+void c_cache_file_tag_resource_runtime_manager::load_pending_resources_blocking(c_io_result* io_result)
+{
+	DECLFUNC(0x005626C0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*, c_io_result*)(this, io_result);
+
+	//if (m_resource_gestalt)
+	//	m_in_level_memory_manager.m_tag_resource_cache.load_pending_data_only_blocking(io_result);
+	//
+	//if (m_resources_loading)
+	//{
+	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.gobble_up_memory();
+	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.restart_prefetching();
+	//	m_resources_loading = false;
+	//}
+}
+
+void c_cache_file_tag_resource_runtime_manager::load_required_resources_blocking(c_io_result* io_result)
+{
+	DECLFUNC(0x00562710, void, __thiscall, c_cache_file_tag_resource_runtime_manager*, c_io_result*)(this, io_result);
+
+	//if (m_resource_gestalt)
+	//	m_in_level_memory_manager.m_tag_resource_cache.load_required_data_only_blocking(io_result);
+	//
+	//__unknown260 = true;
+	//if (m_resources_loading)
+	//{
+	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.gobble_up_memory();
+	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_cache_new.restart_prefetching();
+	//	m_resources_loading = false;
+	//}
+}
 
 bool __cdecl tag_resource_available(s_tag_resource const* resource)
 {

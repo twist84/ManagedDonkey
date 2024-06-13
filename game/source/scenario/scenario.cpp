@@ -1,13 +1,16 @@
 #include "scenario/scenario.hpp"
 
+#include "cache/cache_file_io_failure.hpp"
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "hf2p/hf2p.hpp"
+#include "main/console.hpp"
 #include "main/levels.hpp"
 #include "memory/module.hpp"
+#include "profiler/profiler_stopwatch.hpp"
 #include "scenario/scenario_tags_fixup.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/tag_groups.hpp"
@@ -21,6 +24,9 @@ REFERENCE_DECLARE(0x022AAEC0, dword, g_touched_structure_bsp_mask);
 REFERENCE_DECLARE(0x022AAEC4, dword, g_active_designer_zone_mask);
 REFERENCE_DECLARE(0x022AAEC8, dword, g_active_cinematic_zone_mask);
 REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
+REFERENCE_DECLARE(0x022AAED1, bool, byte_22AAED1);
+
+c_stop_watch scenario_load_resources_blocking_watch(true);
 
 s_scenario* global_scenario_get()
 {
@@ -154,31 +160,45 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	return false;
 }
 
+// halo online only loads pending resources
+// ~~we add back the if statement for pending or required~~
+// ~~if we ever crash from this decision replace the if statment~~
+// ~~with just a call to `cache_file_tag_resources_load_pending_resources_blocking`~~
 bool __cdecl scenario_load_resources_blocking(bool pending)
 {
-	return INVOKE(0x004EA730, scenario_load_resources_blocking, pending);
+	//return INVOKE(0x004EA730, scenario_load_resources_blocking, pending);
 
-	//bool succeeded = false;
-	//long failure_count = 0;
-	//while (!succeeded && failure_count < 3)
-	//{
-	//	c_simple_io_result io_result{};
-	//	//if (pending)
-	//	cache_file_tag_resources_load_pending_resources_blocking(&io_result);
-	//	//else
-	//	//	cache_file_tag_resources_load_required_resources_blocking(io_result);
-	//
-	//	if (io_result.check_success())
-	//	{
-	//		succeeded = true;
-	//	}
-	//	else if (++failure_count >= 3)
-	//	{
-	//		io_result.handle_failure();
-	//	}
-	//}
-	//
-	//return succeeded;
+	scenario_load_resources_blocking_watch.start();
+
+	// some kind of recursion lock that is never checked in release?
+	byte_22AAED1 = true;
+	
+	bool succeeded = false;
+	long failure_count = 0;
+	while (!succeeded && failure_count < 3)
+	{
+		c_simple_io_result io_result;
+		//if (pending)
+			cache_file_tag_resources_load_pending_resources_blocking(&io_result);
+		//else
+		//	cache_file_tag_resources_load_required_resources_blocking(&io_result);
+	
+		if (io_result.check_success())
+		{
+			succeeded = true;
+		}
+		else if (++failure_count >= 3)
+		{
+			io_result.handle_failure();
+		}
+	}
+	
+	byte_22AAED1 = false;
+
+	if (__int64 blocking_cycles = scenario_load_resources_blocking_watch.stop())
+		status_printf("scenario_load_resources_blocking time: %.2f ms", 1000.0f * c_stop_watch::cycles_to_seconds(blocking_cycles));
+	
+	return succeeded;
 }
 
 bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)

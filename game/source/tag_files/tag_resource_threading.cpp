@@ -26,3 +26,13 @@ c_tag_resource_cache_file_access_cache* __cdecl c_tag_resource_thread_access::ge
 	return m_per_thread_access_cache[thread_index];
 }
 
+void c_thread_safeish_tag_resource_cache::load_pending_data_only_blocking(c_io_result* io_result)
+{
+	DECLFUNC(0x006F1690, void, __thiscall, c_thread_safeish_tag_resource_cache*, c_io_result*)(this, io_result);
+}
+
+void c_thread_safeish_tag_resource_cache::load_required_data_only_blocking(c_io_result* io_result)
+{
+	DECLFUNC(0x006F16A0, void, __thiscall, c_thread_safeish_tag_resource_cache*, c_io_result*)(this, io_result);
+}
+
