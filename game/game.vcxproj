@@ -193,6 +193,7 @@ POPD
     <ClCompile Include="source\ai\sector.cpp" />
     <ClCompile Include="source\ai\squads.cpp" />
     <ClCompile Include="source\cache\cache_file_codec_work.cpp" />
+    <ClCompile Include="source\cache\cache_file_io_failure.cpp" />
     <ClCompile Include="source\cseries\cseries_system_memory.cpp" />
     <ClCompile Include="source\effects\decals.cpp" />
     <ClCompile Include="source\effects\effects.cpp" />
@@ -659,6 +660,7 @@ POPD
     <ClInclude Include="source\ai\path_smoothing.hpp" />
     <ClInclude Include="source\ai\sector.hpp" />
     <ClInclude Include="source\algorithms\qsort.hpp" />
+    <ClInclude Include="source\cache\cache_file_io_failure.hpp" />
     <ClInclude Include="source\cache\fmod_sound_cache.hpp" />
     <ClInclude Include="source\cache\pc_geometry_cache.hpp" />
     <ClInclude Include="source\cache\pc_sound_cache.hpp" />

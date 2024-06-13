@@ -1413,6 +1413,9 @@
     <ClCompile Include="source\cache\cache_file_codec_work.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\cache\cache_file_io_failure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3402,6 +3405,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\cseries\cseries_system_memory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cache\cache_file_io_failure.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
