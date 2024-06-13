@@ -32,6 +32,7 @@ enum e_simulation_world_state
 	_simulation_world_state_joining,
 	_simulation_world_state_active,
 	_simulation_world_state_handoff,
+	_simulation_world_state_leaving,
 
 	k_simulation_world_state_count
 };
@@ -49,10 +50,27 @@ struct c_simulation_view;
 struct s_simulation_update_node;
 struct c_simulation_world
 {
-	bool exists();
+	bool exists() const;
 	bool is_active();
+	bool is_authority() const;
+	bool is_distributed() const;
+	bool is_local() const;
 
 	void debug_render();
+
+	static char const* get_state_string(long state);
+
+	void get_join_status(
+		long* join_time_elapsed,
+		long* join_time_to_abort,
+		long* join_attempt_count,
+		long* join_attempt_maximum,
+		long* join_client_establishing_count,
+		long* join_client_waiting_count,
+		long* join_client_joining_count,
+		long* join_client_complete_count,
+		long* join_client_total_count,
+		long* join_time_to_failure) const;
 
 	c_simulation_watcher* m_watcher;
 	c_simulation_distributed_world* m_distributed_world;

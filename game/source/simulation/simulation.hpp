@@ -217,7 +217,7 @@ extern void __cdecl simulation_build_machine_update(bool* machine_update_valid, 
 extern void __cdecl simulation_build_player_updates();
 extern void __cdecl simulation_build_update(bool should_build, struct simulation_update* update, s_simulation_update_metadata* metadata);
 extern void __cdecl simulation_clear_errors();
-extern void __cdecl simulation_describe_status(char* status, long status_size);
+extern void __cdecl simulation_describe_status(char* buffer, long buffer_size);
 extern void __cdecl simulation_destroy_update(struct simulation_update* update);
 extern void __cdecl simulation_dispose();
 extern void __cdecl simulation_dispose_from_old_map();

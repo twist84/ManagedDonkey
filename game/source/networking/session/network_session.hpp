@@ -77,6 +77,7 @@ struct c_network_session :
 	void destroy_session();
 	void force_disconnect();
 	bool force_disconnect_peer(s_transport_secure_address const* peer_secure_address);
+	long get_peer_observer_channel(long peer_index) const;
 	c_network_session_membership const* get_session_membership() const;
 	c_network_session_membership* get_session_membership_for_update();
 	c_network_session_membership const* get_session_membership_unsafe() const;

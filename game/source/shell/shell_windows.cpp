@@ -11,6 +11,9 @@ REFERENCE_DECLARE(0x0199C010, s_windows_params, g_windows_params);
 
 HOOK_DECLARE(0x0042E940, shell_idle);
 HOOK_DECLARE(0x0042EB10, _WinMain);
+HOOK_DECLARE(0x0051CE40, shell_get_system_identifier);
+
+bool fake_system_identifier = false;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -462,7 +465,12 @@ void __cdecl WndProc_HandleRawMouse(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 bool __cdecl shell_get_system_identifier(char* system_identifier, long system_identifier_len)
 {
-	return INVOKE(0x0051CE40, shell_get_system_identifier, system_identifier, system_identifier_len);
+	if (fake_system_identifier)
+		return false;
+
+	bool result = false;
+	HOOK_INVOKE(result =, shell_get_system_identifier, system_identifier, system_identifier_len);
+	return result;
 }
 
 INT_PTR CALLBACK ChooseRasterizerDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)

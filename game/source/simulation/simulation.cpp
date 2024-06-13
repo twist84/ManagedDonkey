@@ -17,6 +17,8 @@
 
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
+HOOK_DECLARE(0x004411E0, simulation_describe_status);
+
 void patch_simulation()
 {
 	patch_pointer({ .address = 0x01655EC0 }, simulation_initialize);
@@ -158,9 +160,19 @@ void __cdecl simulation_clear_errors()
 
 // 004411D0
 
-void __cdecl simulation_describe_status(char* status, long status_size)
+void __cdecl simulation_describe_status(char* buffer, long buffer_size)
 {
-	INVOKE(0x004411E0, simulation_describe_status, status, status_size);
+	//INVOKE(0x004411E0, simulation_describe_status, buffer, buffer_size);
+
+	if (simulation_globals.initialized)
+	{
+		ASSERT(simulation_globals.watcher);
+		simulation_globals.watcher->describe_status(buffer, buffer_size);
+	}
+	else
+	{
+		csstrnzcpy(buffer, "", buffer_size);
+	}
 }
 
 void __cdecl simulation_destroy_update(struct simulation_update* update)
@@ -268,7 +280,9 @@ c_simulation_view* __cdecl simulation_get_remote_view_by_channel(c_network_chann
 
 char const* simulation_get_starting_up_description()
 {
-	return INVOKE(0x004417F0, simulation_get_starting_up_description);
+	//return INVOKE(0x004417F0, simulation_get_starting_up_description);
+
+	return simulation_starting_up() ? simulation_globals.status.get_string() : "";
 }
 
 //enum e_simulation_status __cdecl simulation_get_status(void)

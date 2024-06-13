@@ -128,6 +128,7 @@ static_assert(sizeof(s_player_add_queue_entry) == 0x48);
 struct c_network_session;
 struct c_network_session_membership
 {
+public:
 	bool has_membership() const
 	{
 		return (m_shared_network_membership.update_number + 1) == 0;
@@ -141,6 +142,20 @@ struct c_network_session_membership
 	long host_peer_index() const
 	{
 		return m_shared_network_membership.host_peer_index;
+	}
+
+	s_network_session_peer const* get_host_peer() const
+	{
+		ASSERT(is_peer_valid(host_peer_index()));
+
+		return &m_shared_network_membership.peers[host_peer_index()];
+	}
+
+	s_network_session_peer* get_host_peer()
+	{
+		ASSERT(is_peer_valid(host_peer_index()));
+
+		return &m_shared_network_membership.peers[host_peer_index()];
 	}
 
 	bool is_peer_valid(long peer_index) const

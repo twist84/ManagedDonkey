@@ -89,16 +89,28 @@ bool c_network_session::force_disconnect_peer(s_transport_secure_address const* 
 	return DECLFUNC(0x0045BE80, bool, __thiscall, c_network_session*, s_transport_secure_address const*)(this, peer_secure_address);
 }
 
-c_network_session_membership const* c_network_session::get_session_membership() const
+long c_network_session::get_peer_observer_channel(long peer_index) const
 {
-	//return DECLFUNC(0x0045C250, c_network_session_membership const*, __thiscall, c_network_session const*)(this);
+	//return DECLFUNC(0x0045C100, long, __thiscall, c_network_session const*, long)(this, peer_index);
 
 	ASSERT(established());
-	ASSERT(m_session_membership.has_membership());
-	ASSERT(m_session_membership.is_peer_valid(m_session_membership.local_peer_index()));
-	ASSERT(m_session_membership.is_peer_valid(m_session_membership.host_peer_index()));
 
-	return &m_session_membership;
+	if (peer_index != NONE && m_session_membership.is_peer_valid(peer_index))
+		return m_session_membership.get_observer_channel_index(peer_index);
+
+	return NONE;
+}
+
+c_network_session_membership const* c_network_session::get_session_membership() const
+{
+	return DECLFUNC(0x0045C250, c_network_session_membership const*, __thiscall, c_network_session const*)(this);
+
+	//ASSERT(established());
+	//ASSERT(m_session_membership.has_membership());
+	//ASSERT(m_session_membership.is_peer_valid(m_session_membership.local_peer_index()));
+	//ASSERT(m_session_membership.is_peer_valid(m_session_membership.host_peer_index()));
+	//
+	//return &m_session_membership;
 }
 
 c_network_session_membership* c_network_session::get_session_membership_for_update()
