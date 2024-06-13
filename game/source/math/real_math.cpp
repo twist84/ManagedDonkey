@@ -4,20 +4,42 @@
 
 #include <math.h>
 
+REFERENCE_DECLARE(0x0189CED8, real_point2d const* const, global_origin2d);
+REFERENCE_DECLARE(0x0189CEDC, real_point2d const* const, global_x_axis2d);
+REFERENCE_DECLARE(0x0189CEE0, real_point2d const* const, global_y_axis2d);
+REFERENCE_DECLARE(0x0189CEE4, real_point2d const* const, global_negative_x_axis2d);
+REFERENCE_DECLARE(0x0189CEE8, real_point2d const* const, global_negative_y_axis2d);
+REFERENCE_DECLARE(0x0189CEEC, vector2d const* const, global_zero_vector2d);
+REFERENCE_DECLARE(0x0189CEF0, vector2d const* const, global_forward2d);
+REFERENCE_DECLARE(0x0189CEF4, vector2d const* const, global_left2d);
+REFERENCE_DECLARE(0x0189CEF8, vector2d const* const, global_backward2d);
+REFERENCE_DECLARE(0x0189CEFC, vector2d const* const, global_right2d);
 REFERENCE_DECLARE(0x0189CF00, real_point3d const* const, global_origin3d);
-REFERENCE_DECLARE(0x0189CF04, vector3d const* const, global_forward3d);
+REFERENCE_DECLARE(0x0189CF04, vector3d const* const, global_x_axis3d);
+REFERENCE_DECLARE(0x0189CF08, vector3d const* const, global_y_axis3d);
+REFERENCE_DECLARE(0x0189CF0C, vector3d const* const, global_z_axis3d);
+REFERENCE_DECLARE(0x0189CF10, vector3d const* const, global_negative_x_axis3d);
+REFERENCE_DECLARE(0x0189CF14, vector3d const* const, global_negative_y_axis3d);
+REFERENCE_DECLARE(0x0189CF18, vector3d const* const, global_negative_z_axis3d);
+REFERENCE_DECLARE(0x0189CF1C, vector3d const* const, global_zero_vector3d);
+REFERENCE_DECLARE(0x0189CF20, vector3d const* const, global_forward3d);
 REFERENCE_DECLARE(0x0189CF24, vector3d const* const, global_left3d);
 REFERENCE_DECLARE(0x0189CF28, vector3d const* const, global_up3d);
 REFERENCE_DECLARE(0x0189CF2C, vector3d const* const, global_backward3d);
 REFERENCE_DECLARE(0x0189CF30, vector3d const* const, global_right3d);
 REFERENCE_DECLARE(0x0189CF34, vector3d const* const, global_down3d);
+REFERENCE_DECLARE(0x0189CF38, euler_angles2d const* const, global_zero_angles2d);
 REFERENCE_DECLARE(0x0189CF3C, euler_angles3d const* const, global_zero_angles3d);
+//0x0189CF40
 REFERENCE_DECLARE(0x0189CF44, real_quaternion const* const, global_identity_quaternion);
+REFERENCE_DECLARE(0x0189CF48, matrix3x3 const* const, global_identity3x3);
 REFERENCE_DECLARE(0x0189CF4C, real_matrix4x3 const* const, global_identity4x3);
+REFERENCE_DECLARE(0x0189CF50, real_matrix4x3 const* const, global_negative_identity4x3);
 REFERENCE_DECLARE(0x0189CF54, real_matrix4x3 const* const, global_identity_orientation);
 REFERENCE_DECLARE(0x0189CF58, real_rectangle2d const* const, global_null_rectangle2d);
 REFERENCE_DECLARE(0x0189CF5C, real_rectangle3d const* const, global_null_rectangle3d);
 REFERENCE_DECLARE(0x0189CF60, real_rectangle2d const* const, global_zero_rectangle2d);
+REFERENCE_DECLARE(0x0189CF64, real_rectangle3d const* const, global_zero_rectangle3d);
 
 // networking/network_configuration.cpp
 real __cdecl interpolate_linear(real start_value, real end_value, real interpolation_factor)

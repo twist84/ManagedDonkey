@@ -295,20 +295,42 @@ struct real_quaternion
 };
 static_assert(sizeof(real_quaternion) == sizeof(real) * 4);
 
+extern real_point2d const* const& global_origin2d;
+extern real_point2d const* const& global_x_axis2d;
+extern real_point2d const* const& global_y_axis2d;
+extern real_point2d const* const& global_negative_x_axis2d;
+extern real_point2d const* const& global_negative_y_axis2d;
+extern vector2d const* const& global_zero_vector2d;
+extern vector2d const* const& global_forward2d;
+extern vector2d const* const& global_left2d;
+extern vector2d const* const& global_backward2d;
+extern vector2d const* const& global_right2d;
 extern real_point3d const* const& global_origin3d;
+extern vector3d const* const& global_x_axis3d;
+extern vector3d const* const& global_y_axis3d;
+extern vector3d const* const& global_z_axis3d;
+extern vector3d const* const& global_negative_x_axis3d;
+extern vector3d const* const& global_negative_y_axis3d;
+extern vector3d const* const& global_negative_z_axis3d;
+extern vector3d const* const& global_zero_vector3d;
 extern vector3d const* const& global_forward3d;
 extern vector3d const* const& global_left3d;
 extern vector3d const* const& global_up3d;
 extern vector3d const* const& global_backward3d;
 extern vector3d const* const& global_right3d;
 extern vector3d const* const& global_down3d;
+extern euler_angles2d const* const& global_zero_angles2d;
 extern euler_angles3d const* const& global_zero_angles3d;
+//unknown
 extern real_quaternion const* const& global_identity_quaternion;
+extern matrix3x3 const* const& global_identity3x3;
 extern real_matrix4x3 const* const& global_identity4x3;
+extern real_matrix4x3 const* const& global_negative_identity4x3;
 extern real_matrix4x3 const* const& global_identity_orientation;
 extern real_rectangle2d const* const& global_null_rectangle2d;
 extern real_rectangle3d const* const& global_null_rectangle3d;
 extern real_rectangle2d const* const& global_zero_rectangle2d;
+extern real_rectangle3d const* const& global_zero_rectangle3d;
 
 extern real __cdecl interpolate_linear(real start_value, real end_value, real interpolation_factor);
 extern real __cdecl angle_between_vectors3d(vector3d const* a, vector3d const* b);
