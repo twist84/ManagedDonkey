@@ -198,11 +198,16 @@ HOOK_DECLARE_CALL(0x00561FA0, cache_file_tag_resource_codec_service_initialize);
 void __cdecl cache_file_tag_resources_dispose()
 {
 	INVOKE(0x0055F650, cache_file_tag_resources_dispose);
+
+	//g_resource_runtime_manager.get()->dispose();
+	//g_resource_runtime_manager.destruct();
 }
 
 void __cdecl cache_file_tag_resources_dispose_from_old_map()
 {
 	INVOKE(0x0055F6B0, cache_file_tag_resources_dispose_from_old_map);
+
+	//g_resource_runtime_manager.get()->dispose_from_old_map();
 }
 
 //.text:0055F6C0 ; void __cdecl cache_file_tag_resources_get_active_tag_set(dword, dword, dword, dword, c_scenario_resource_registry*)
