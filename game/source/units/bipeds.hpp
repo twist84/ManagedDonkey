@@ -54,9 +54,9 @@ struct biped_data
 	vector3d pendulum_vector;
 	real gravity_scale;
 
-	// linked
-	long __unknown284[10];  // armor related
-	short __unknown2AC[10];
+	// linked, armor related
+	long  customized_area_object_indices[10];
+	short customized_area_indices[10];
 
 	// linked
 	long __unknown2C0;
