@@ -75,8 +75,8 @@ void render_debug_player()
 		long unit_index = player_mapping_get_unit_by_output_user(user_index);
 		if (biped_datum* biped = (biped_datum*)object_try_and_get_and_verify_type(unit_index, _object_mask_biped))
 		{
-			if (biped->unit.motor.object.parent_object_index != NONE && biped->unit.parent_seat_index != NONE)
-			    unit_index = biped->unit.motor.object.parent_object_index;
+			if (biped->object.parent_object_index != NONE && biped->unit.parent_seat_index != NONE)
+			    unit_index = biped->object.parent_object_index;
 		}
 		object_try_and_get_and_verify_type(unit_index, _object_mask_vehicle);
 	}

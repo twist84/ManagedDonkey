@@ -5,14 +5,13 @@
 #include "physics/character_physics.hpp"
 #include "units/units.hpp"
 
-struct biped_datum
+struct biped_data
 {
-	unit_datum unit;
-	word_flags biped_flags;
+	word_flags flags;
 
-	byte __data592[0x1A]; // pathfinding location
-	real_point3d __unknown5AC;
-	byte __data5B8[0x18];
+	byte __data2[0x1A]; // pathfinding location
+	real_point3d __unknown1C;
+	byte __data28[0x18];
 
 	long current_bump_object_index;
 	long bump_object_index;
@@ -30,11 +29,11 @@ struct biped_datum
 	short current_gate_index;
 	long current_gate_start_time;
 
-	byte __data5FC[0x28];
+	byte __data6C[0x28];
 
 	c_character_physics_component physics;
 
-	object_header_block_reference __unknown6A4;
+	object_header_block_reference __unknown114;
 
 	object_header_block_reference last_node_matrices_storage;
 	vector3d root_offset;
@@ -44,10 +43,10 @@ struct biped_datum
 	real_point3d pivot_point;
 	vector2d pivot_fixup;
 
-	real_matrix4x3 __matrix6E0;
-	real_matrix4x3 __matrix714;
+	real_matrix4x3 __matrix150;
+	real_matrix4x3 __matrix184;
 
-	byte __data748[0xC];
+	byte __data1B8[0xC];
 
 	t_static_ring_buffer<real_matrix4x3, 3> root_matrix_history;
 	real landing_recovery_offset;
@@ -56,16 +55,25 @@ struct biped_datum
 	real gravity_scale;
 
 	// linked
-	long __unknown814[10];  // armor related
-	short __unknown83C[10];
+	long __unknown284[10];  // armor related
+	short __unknown2AC[10];
 
 	// linked
-	long __unknown850;
-	short __unknown854;
-	byte __data856[0x1];
-	bool __unknown857;
+	long __unknown2C0;
+	short __unknown2C4;
+	byte __data2C6[0x1];
+	bool __unknown2C7;
 };
-static_assert(sizeof(biped_datum) == sizeof(unit_datum) + 0x2C8);
+static_assert(sizeof(biped_data) == 0x2C8);
+
+struct biped_datum
+{
+	object_data object;
+	motor_data motor;
+	unit_data unit;
+	biped_data biped;
+};
+static_assert(sizeof(biped_datum) == sizeof(object_data) + sizeof(motor_data) + sizeof(unit_data) + sizeof(biped_data));
 
 extern bool debug_objects_physics_control_node;
 extern bool debug_objects_biped_autoaim_pills;

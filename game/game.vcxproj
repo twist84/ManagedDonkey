@@ -769,6 +769,7 @@ POPD
     <ClInclude Include="source\interface\user_interface_error_manager.hpp" />
     <ClInclude Include="source\interface\user_interface_mapping.hpp" />
     <ClInclude Include="source\interface\user_interface_objectives.hpp" />
+    <ClInclude Include="source\items\equipment.hpp" />
     <ClInclude Include="source\items\items.hpp" />
     <ClInclude Include="source\items\item_definitions.hpp" />
     <ClInclude Include="source\items\projectiles.hpp" />

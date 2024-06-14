@@ -50,20 +50,20 @@ void render_debug_object_damage()
 			if (object_datum* object = object_get(global_debug_damage_object_index))
 			{
 				csnzprintf(string, sizeof(string), "%s|nbody %0.3f|n  current %0.3f|n  recent %0.3f|nshield %0.3f|n  current %0.3f|n  recent %0.3f|n",
-					strrchr(tag_get_name(object->definition_index), '\\'),
-					object->body_vitality,
-					object->current_shield_damage,
-					object->recent_shield_damage,
-					object->shield_vitality,
-					object->current_body_damage,
-					object->recent_body_damage);
+					strrchr(tag_get_name(object->object.definition_index), '\\'),
+					object->object.body_vitality,
+					object->object.current_shield_damage,
+					object->object.recent_shield_damage,
+					object->object.shield_vitality,
+					object->object.current_body_damage,
+					object->object.recent_body_damage);
 
 				if (s_model_damage_info const* damage_info = object_get_damage_info(global_debug_damage_object_index))
 				{
 					if (damage_info->damage_sections.count() > 0)
 					{
 						long element_count = 0;
-						struct object_damage_section* object_damage_section = (struct object_damage_section*)object_header_block_get_with_count(global_debug_damage_object_index, &object->damage_sections, sizeof(struct object_damage_section), &element_count);
+						struct object_damage_section* object_damage_section = (struct object_damage_section*)object_header_block_get_with_count(global_debug_damage_object_index, &object->object.damage_sections, sizeof(struct object_damage_section), &element_count);
 
 						if (element_count > damage_info->damage_sections.count())
 							element_count = damage_info->damage_sections.count();
@@ -180,7 +180,7 @@ void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, 
 		{
 			object_datum* object = object_get(object_index);
 			generate_event(_event_level_warning, "damaging '%s' 0x%08lx with '%s'",
-				tag_name_strip_path(tag_get_name(object->definition_index)),
+				tag_name_strip_path(tag_get_name(object->object.definition_index)),
 				object_index,
 				tag_name_strip_path(tag_get_name(damage_data->damage_effect_definition_index)));
 		}

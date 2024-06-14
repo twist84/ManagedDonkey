@@ -3,18 +3,25 @@
 #include "units/units.hpp"
 #include "units/vehicle_definitions.hpp"
 
-struct vehicle_datum
+struct vehicle_data
 {
-	unit_datum unit;
-
-	byte __data590[0xCC];
+	byte __data0[0xCC];
 
 	c_static_flags<64> const disallowed_seats;
 	long const reserved_seats[128];
 
-	byte __data864[0x6C];
+	byte __data2D4[0x6C];
 };
-static_assert(sizeof(vehicle_datum) == 0x8D0);
+static_assert(sizeof(vehicle_data) == 0x340);
+
+struct vehicle_datum
+{
+	object_data object;
+	motor_data motor;
+	unit_data unit;
+	vehicle_data vehicle;
+};
+static_assert(sizeof(vehicle_datum) == sizeof(object_data) + sizeof(motor_data) + sizeof(unit_data) + sizeof(vehicle_data));
 
 extern bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index);
 extern void __cdecl vehicle_get_seat_position(long vehicle_index, short seat_index, real_point3d* seat_position);

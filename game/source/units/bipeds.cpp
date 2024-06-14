@@ -26,15 +26,15 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 
 	biped_datum* biped = (biped_datum*)object_get_and_verify_type(object_index, _object_mask_biped);
 
-	if (biped->bump_ticks < 0)
+	if (biped->biped.bump_ticks < 0)
 	{
 		if (bump_object_index == NONE)
 		{
-			biped->bump_ticks++;
+			biped->biped.bump_ticks++;
 			return;
 		}
 
-		biped->bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
+		biped->biped.bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
 	}
 
 	if (bump_object_index == NONE)
@@ -47,35 +47,35 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 	if (TEST_BIT(_object_mask_biped, object_get_type(bump_object_index)))
 	{
 		biped_datum* bumped_biped = (biped_datum*)object_get_and_verify_type(bump_object_index, _object_mask_biped);
-		if (bumped_biped->physics.get_mode() == c_character_physics_component::_mode_melee)
+		if (bumped_biped->biped.physics.get_mode() == c_character_physics_component::_mode_melee)
 		{
-			//biped->biped_flags.set(15, true);
-			SET_BIT(biped->biped_flags, 15, true);
+			//biped->biped.flags.set(15, true);
+			SET_BIT(biped->biped.flags, 15, true);
 		}
 	}
 
-	if (biped->bump_ticks >= 0)
+	if (biped->biped.bump_ticks >= 0)
 	{
 		ai_handle_bump(object_index, bump_object_index, linear_velocity);
 
 		if (biped->unit.player_index != NONE || recorded_animation_controlling_unit(object_index))
 		{
-			if (biped->bump_object_index == bump_object_index)
+			if (biped->biped.bump_object_index == bump_object_index)
 			{
-				if (game_ticks_to_seconds(++biped->bump_ticks) > 0.1f)
+				if (game_ticks_to_seconds(++biped->biped.bump_ticks) > 0.1f)
 				{
-					if (TEST_BIT(_object_mask_unit, bump_object->unit.motor.object.object_identifier.get_type()))
+					if (TEST_BIT(_object_mask_unit, bump_object->object.object_identifier.get_type()))
 					{
 						if (cheat.bump_possession && bump_object->unit.player_index == NONE)
 						{
 							player_set_unit_index(biped->unit.player_index, bump_object_index);
 
-							if (bump_object->unit.motor.object.object_identifier.get_type() == _object_type_biped)
-								bump_object->bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
+							if (bump_object->object.object_identifier.get_type() == _object_type_biped)
+								bump_object->biped.bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
 						}
 					}
 
-					biped->bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
+					biped->biped.bump_ticks = -static_cast<char>(game_seconds_to_ticks_round(0.5f));
 
 					// set bumped bipeds invisible, same flag set for render mannequins
 					//SET_BIT(biped->unit.motor.object.render_flags, 2, true);
@@ -83,8 +83,8 @@ void __cdecl biped_bumped_object(long object_index, long bump_object_index, vect
 			}
 			else
 			{
-				biped->bump_object_index = bump_object_index;
-				biped->bump_ticks = 0;
+				biped->biped.bump_object_index = bump_object_index;
+				biped->biped.bump_ticks = 0;
 			}
 		}
 	}
@@ -174,7 +174,7 @@ void __cdecl biped_render_debug(long biped_index)
 		point_from_line3d(&base, &height, 1.0f, &base);
 
 		char const* mode_string = NULL;
-		switch (biped->physics.get_mode())
+		switch (biped->biped.physics.get_mode())
 		{
 		case c_character_physics_component::_mode_ground:
 			mode_string = "ground";

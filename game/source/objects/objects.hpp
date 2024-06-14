@@ -108,7 +108,7 @@ struct object_header_block_reference
 };
 static_assert(sizeof(object_header_block_reference) == 0x4);
 
-struct object_datum
+struct object_data
 {
 	long definition_index;
 	c_flags<e_object_data_flags, dword, k_object_data_flags> flags;
@@ -212,7 +212,13 @@ struct object_datum
 	long __unknown170;
 	long __unknown174;
 };
-static_assert(sizeof(object_datum) == 0x178);
+static_assert(sizeof(object_data) == 0x178);
+
+struct object_datum
+{
+	object_data object;
+};
+static_assert(sizeof(object_datum) == sizeof(object_data));
 
 // Same as Halo 3
 enum e_object_header_flags

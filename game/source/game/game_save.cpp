@@ -335,7 +335,7 @@ LABEL_4:;
 			render_debug_sphere(false, &unsafe_object_position, 0.5f, global_real_argb_red);
 
 			if (object_datum* object = object_get(g_game_save_globals->unsafe_object_index))
-				render_debug_string_at_point(&unsafe_object_position, tag_get_name(object->definition_index), global_real_argb_white);
+				render_debug_string_at_point(&unsafe_object_position, tag_get_name(object->object.definition_index), global_real_argb_white);
 		}
 	}
 
@@ -376,10 +376,10 @@ LABEL_5:;
 					//}
 
 					object_datum* object = (object_datum*)unit;
-					if (object->body_vitality < 1.0f)
+					if (object->object.body_vitality < 1.0f)
 					{
-						object->body_vitality = 1.0f;
-						object->body_stun_ticks = 0;
+						object->object.body_vitality = 1.0f;
+						object->object.body_stun_ticks = 0;
 					}
 				}
 			}

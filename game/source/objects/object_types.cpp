@@ -44,7 +44,7 @@ void __cdecl object_type_render_debug(long object_index)
     if (!object)
         return;
 
-    object_type_definition* definition = object_type_definition_get(object->object_identifier.m_type);
+    object_type_definition* definition = object_type_definition_get(object->object.object_identifier.m_type);
     if (!definition)
         return;
 
@@ -55,7 +55,7 @@ void __cdecl object_type_render_debug(long object_index)
             definition->type_definitions[i]->render_debug_proc(object_index);
     }
 
-    for (long child_object_index = object->first_child_object_index; child_object_index != NONE; child_object_index = object_get(child_object_index)->next_object_index)
+    for (long child_object_index = object->object.first_child_object_index; child_object_index != NONE; child_object_index = object_get(child_object_index)->object.next_object_index)
         object_type_render_debug(child_object_index);
 }
 

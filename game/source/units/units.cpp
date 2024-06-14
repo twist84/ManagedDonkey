@@ -273,7 +273,7 @@ void __cdecl unit_render_debug(long unit_index)
 	//INVOKE(0x00B47080, unit_render_debug, unit_index);
 
 	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
-	_unit_definition* unit_definition = static_cast<_unit_definition*>(tag_get(UNIT_TAG, unit->motor.object.definition_index));
+	_unit_definition* unit_definition = static_cast<_unit_definition*>(tag_get(UNIT_TAG, unit->object.definition_index));
 
 	if (debug_objects_unit_vectors)
 	{
@@ -425,7 +425,7 @@ bool __cdecl units_debug_can_select_unit(long unit_index)
 		return false;
 
 	unit_datum* unit = (unit_datum*)object_try_and_get_and_verify_type(unit_index, _object_mask_unit);
-	return unit->player_index == NONE && !TEST_BIT(unit->motor.object.damage_flags, 2) && !unit->motor.object.flags.test(_object_created_with_parent_bit);
+	return unit->unit.player_index == NONE && !TEST_BIT(unit->object.damage_flags, 2) && !unit->object.flags.test(_object_created_with_parent_bit);
 }
 
 long __cdecl units_debug_get_closest_unit(long unit_index)

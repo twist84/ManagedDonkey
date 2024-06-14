@@ -57,13 +57,12 @@ struct unit_attacker
 };
 static_assert(sizeof(unit_attacker) == 0x10);
 
-struct unit_datum
+struct unit_data
 {
-	motor_datum motor;
 	long awake_tick_count;
 	long actor_index;
 	long simulation_actor_index;
-	dword_flags unit_flags;
+	dword_flags flags;
 	long team;
 	long player_index;
 	long last_weak_player_index;
@@ -86,8 +85,8 @@ struct unit_datum
 	char special_death_type;
 	short special_death_node_index;
 
-	bool __unknown22E;
-	byte __pad22F[1];
+	bool __unknownAA;
+	byte __padAB[0x1];
 
 	vector3d special_death_node_acceleration;
 	real primary_trigger;
@@ -122,7 +121,7 @@ struct unit_datum
 	char current_zoom_level;
 	char desired_zoom_level;
 
-	byte __unknown326;
+	byte __unknown1A2;
 
 	char aiming_change;
 	long weapon_control_last_active_time;
@@ -140,16 +139,16 @@ struct unit_datum
 	real open_state;
 	byte seat_acceleration_state[0x58];
 
-	long __unknown3AC;
+	long __unknown228;
 
 	short predicted_seat_index;
 
-	byte __data3B2[0x2];
+	byte __data22E[0x2];
 
 	long predicted_vehicle_index;
 
-	long __unknown3B8; // predicted?
-	long __unknown3BC; // predicted?
+	long __unknown234; // predicted?
+	long __unknown238; // predicted?
 
 	long predicted_player_index;
 	long predicted_simulation_actor_index;
@@ -169,11 +168,11 @@ struct unit_datum
 	real healthpack_shield;              // health pack shield amount / health pack duration;
 
 	byte_flags map_editor_helper_flags;
-	byte __pad411[0x1];
+	byte __data28D[0x1];
 
 	short emp_timer;
 	short emp_campaign_metagame_timer;
-	byte __pad416[0x2];
+	byte __data292[0x2];
 
 	real crouch;
 
@@ -198,21 +197,21 @@ struct unit_datum
 	vector3d sync_action_forward;
 	vector3d sync_action_up;
 	bool sync_action_critical_participant;
-	byte __pad47D[0x3];
+	byte __pad2F9[0x3];
 
-	byte __data454[0x28];
+	byte __data2FC[0x28];
 
 	long time_of_death;
 	real movement_stun;
 	short movement_stun_ticks;
 
-	short __unknown4B2;
-	long __unknown4B4; // time value
+	short __unknown32E;
+	long __unknown330; // time value
 
 	// updated in `unit_update_damage`, unit_damage_aftermath_apply
-	short __unknown4B8;
+	short __unknown334;
 
-	byte __data4BA[0x2];
+	byte __data336[0x2];
 
 	// updated in `unit_record_damage`
 	c_static_array<unit_attacker const, 4> attackers;
@@ -228,11 +227,11 @@ struct unit_datum
 	long last_in_phantom_volume_time;
 
 	// updated in `unit_update_team_index`
-	long __unknown524_team_index_update_time; // time value
-	long __unknown528_team_index;
+	long __unknown3A0_team_index_update_time; // time value
+	long __unknown3A4_team_index;
 
 	// updated in `sub_B4BD70`
-	long __unknown52C_object_index;
+	long __unknown3A8_object_index;
 
 	// only 2 calls to `object_header_block_allocate` within `unit_new`
 	object_header_block_reference debug_unit_input_storage;
@@ -240,17 +239,25 @@ struct unit_datum
 
 	dword_flags ai_unit_flags;
 	c_sector_ref pathfinding_sector;
-	byte __data540[0x40];
+	byte __data3BC[0x40];
 
-	bool __unknown580;
-	byte __pad581[0x3];
+	bool __unknown3FC;
+	byte __pad3FD[0x3];
 
 	// saber related, used is `unit_delete`, `unit_disconnect_from_structure_bsp`
-	long __unknown584[2];
+	long __unknown400[2];
 
-	byte __data58C[0x4];
+	byte __data408[0x4];
 };
-static_assert(sizeof(unit_datum) == sizeof(motor_datum) + 0x40C);
+static_assert(sizeof(unit_data) == 0x40C);
+
+struct unit_datum
+{
+	object_data object;
+	motor_data motor;
+	unit_data unit;
+};
+static_assert(sizeof(unit_datum) == sizeof(object_data) + sizeof(motor_data) + sizeof(unit_data));
 
 struct unit_seat_source
 {

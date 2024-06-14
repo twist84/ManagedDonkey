@@ -51,10 +51,10 @@ void __cdecl c_cubemap_debug::render_object_cubemap_samples(long object_index)
         color.color.green = object_lighting->cubemap_sample.m_cubemap_sample;
 
         if (cubemap_info0 && color.color.green > 0.0f)
-            render_debug_line(false, &cubemap_info0->cubemap_position, &object->bounding_sphere_center, &color);
+            render_debug_line(false, &cubemap_info0->cubemap_position, &object->object.bounding_sphere_center, &color);
 
         if (cubemap_info1 && color.color.green < 1.0f)
-            render_debug_line(false, &object->bounding_sphere_center, &cubemap_info1->cubemap_position, &color);
+            render_debug_line(false, &object->object.bounding_sphere_center, &cubemap_info1->cubemap_position, &color);
     }
 }
 

@@ -577,12 +577,12 @@ void ai_render_object_properties()
 	while (object_iterator.next())
 	{
 		object_datum* object = object_iterator.get_datum();
-		_object_definition* object_definition = (_object_definition*)tag_get(OBJECT_TAG, object->definition_index);
+		_object_definition* object_definition = (_object_definition*)tag_get(OBJECT_TAG, object->object.definition_index);
 
 		if (object_definition->ai_properties.count())
 		{
 			object_ai_properties& ai_properties = object_definition->ai_properties[0];
-			ai_debug_drawstack_setup(&object->bounding_sphere_center);
+			ai_debug_drawstack_setup(&object->object.bounding_sphere_center);
 
 			render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("leap size: %s", leap_size_names[ai_properties.leap_jump_speed.get()]).get_string(), global_real_argb_blue);
 			render_debug_string_at_point(ai_debug_drawstack(), ai_size_names[ai_properties.ai_size.get()], global_real_argb_blue);
@@ -717,7 +717,7 @@ void ai_debug_render_vehicle_reservations()
 				real_point3d seat_position{};
 				vehicle_get_seat_position(source.vehicle_index, source.seat_index, &seat_position);
 
-				if (vehicle->disallowed_seats.test(source.seat_index))
+				if (vehicle->vehicle.disallowed_seats.test(source.seat_index))
 				{
 					seat_position.z += 0.1f;
 					render_debug_sphere(true, &seat_position, 0.05f, global_real_argb_orange);
@@ -874,7 +874,7 @@ void render_dialogue_variants()
 		if (actor->meta.unit_index != NONE)
 		{
 			unit_datum* unit = (unit_datum*)object_get_and_verify_type(actor->meta.unit_index, _object_mask_unit);
-			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &unit->seat_storage);
+			s_seat_storage* seat_storage = (s_seat_storage*)object_header_block_get(actor->meta.unit_index, &unit->unit.seat_storage);
 			if (seat_storage->dialogue_definition_index != NONE)
 			{
 				s_dialogue_definition* dialogue_definition = (s_dialogue_definition*)tag_get(DIALOGUE_TAG, seat_storage->dialogue_definition_index);
@@ -909,8 +909,8 @@ void ai_debug_render_dynamic_firing_positions()
 		else
 		{
 			object_datum* object = object_get(dynamic_firing_set->support_object_index);
-			render_debug_sphere(true, &object->bounding_sphere_center, object->bounding_sphere_radius, global_real_argb_red);
-			position = object->bounding_sphere_center;
+			render_debug_sphere(true, &object->object.bounding_sphere_center, object->object.bounding_sphere_radius, global_real_argb_red);
+			position = object->object.bounding_sphere_center;
 			color = global_real_argb_red;
 		}
 

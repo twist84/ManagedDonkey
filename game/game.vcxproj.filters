@@ -3410,6 +3410,9 @@
     <ClInclude Include="source\cache\cache_file_io_failure.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\items\equipment.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
