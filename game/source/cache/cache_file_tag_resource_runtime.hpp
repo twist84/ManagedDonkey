@@ -324,6 +324,13 @@ public:
 	void commit_zone_state();
 	void load_pending_resources_blocking(c_io_result* io_result);
 	void load_required_resources_blocking(c_io_result* io_result);
+	void lock_for_game();
+	void lock_for_render();
+	bool locked_for_current_thread_UGLY();
+	bool locked_for_game_UGLY() const;
+	void pump_io();
+	void stagnate_deferred_resources();
+	void unlock_for_game();
 	void idle();
 	void initialize(c_allocation_base* allocation);
 	void __thiscall sub_561C00(e_game_mode game_mode);

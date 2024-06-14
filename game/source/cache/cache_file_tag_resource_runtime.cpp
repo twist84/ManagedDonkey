@@ -15,6 +15,11 @@ REFERENCE_DECLARE(0x023916C0, c_cache_file_tag_resource_runtime_manager_allocati
 
 HOOK_DECLARE_CLASS_MEMBER(0x00561C00, c_cache_file_tag_resource_runtime_manager, sub_561C00);
 HOOK_DECLARE(0x00563E10, tag_resource_get);
+HOOK_DECLARE(0x00563F80, tag_resources_lock_game);
+HOOK_DECLARE(0x00563FC0, tag_resources_lock_render);
+HOOK_DECLARE(0x00563FE0, tag_resources_locked_for_current_thread_UGLY);
+HOOK_DECLARE(0x00564010, tag_resources_pump_io);
+HOOK_DECLARE(0x005640B0, tag_resources_unlock_game);
 
 c_static_sized_dynamic_array<s_resource_file_header const*, 1024> g_resource_file_headers;
 
@@ -308,6 +313,42 @@ void c_cache_file_tag_resource_runtime_manager::load_required_resources_blocking
 	//}
 }
 
+void c_cache_file_tag_resource_runtime_manager::lock_for_game()
+{
+	return DECLFUNC(0x005627A0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+
+	//if (m_resource_gestalt)
+	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_thread_access.lock_for_current_thread();
+}
+
+void c_cache_file_tag_resource_runtime_manager::lock_for_render()
+{
+	return DECLFUNC(0x005627C0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+
+	//if (m_resource_gestalt)
+	//	m_in_level_memory_manager.m_tag_resource_cache.m_resource_thread_access.lock_for_current_thread();
+}
+
+bool c_cache_file_tag_resource_runtime_manager::locked_for_current_thread_UGLY()
+{
+	return DECLFUNC(0x005627E0, bool, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+}
+
+bool c_cache_file_tag_resource_runtime_manager::locked_for_game_UGLY() const
+{
+	return DECLFUNC(0x005627F0, bool, __thiscall, c_cache_file_tag_resource_runtime_manager const*)(this);
+}
+
+void c_cache_file_tag_resource_runtime_manager::pump_io()
+{
+	DECLFUNC(0x005630E0, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+}
+
+void c_cache_file_tag_resource_runtime_manager::stagnate_deferred_resources()
+{
+	DECLFUNC(0x00563C70, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
+}
+
 bool __cdecl tag_resource_available(s_tag_resource const* resource)
 {
 	return INVOKE(0x00563DC0, tag_resource_get, resource);
@@ -324,17 +365,28 @@ void* __cdecl tag_resource_get(s_tag_resource const* resource)
 
 long __cdecl tag_resources_lock_game()
 {
-	return INVOKE(0x00563F80, tag_resources_lock_game);
+	//return INVOKE(0x00563F80, tag_resources_lock_game);
+
+	if (!g_resource_runtime_manager.get()->locked_for_game_UGLY())
+	{
+		g_resource_runtime_manager.get()->lock_for_game();
+		return 1;
+	}
+	return 0;
 }
 
 void __cdecl tag_resources_lock_render()
 {
-	INVOKE(0x00563FC0, tag_resources_lock_render);
+	//INVOKE(0x00563FC0, tag_resources_lock_render);
+
+	g_resource_runtime_manager.get()->lock_for_render();
 }
 
 bool __cdecl tag_resources_locked_for_current_thread_UGLY()
 {
-	return INVOKE(0x00563FE0, tag_resources_locked_for_current_thread_UGLY);
+	//return INVOKE(0x00563FE0, tag_resources_locked_for_current_thread_UGLY);
+
+	return g_resource_runtime_manager.get()->locked_for_current_thread_UGLY();
 }
 
 void __cdecl tag_resources_main_loop_idle()
@@ -344,26 +396,41 @@ void __cdecl tag_resources_main_loop_idle()
 	g_resource_runtime_manager.get()->idle();
 }
 
-void __cdecl tag_resources_prepare_for_new_map()
+void __cdecl tag_resources_prepare_for_new_map() // nullsub
 {
-	INVOKE(0x00564000, tag_resources_prepare_for_new_map);
+	//INVOKE(0x00564000, tag_resources_prepare_for_new_map);
 }
 
 void __cdecl tag_resources_pump_io()
 {
-	INVOKE(0x00564010, tag_resources_pump_io);
+	//INVOKE(0x00564010, tag_resources_pump_io);
+
+	g_resource_runtime_manager.get()->pump_io();
 }
 
 //.text:00564070 ; tag_resources_demand_optional_resources
 
 void __cdecl tag_resources_stagnate_deferred_resources()
 {
-	INVOKE(0x00564090, tag_resources_stagnate_deferred_resources);
+	//INVOKE(0x00564090, tag_resources_stagnate_deferred_resources);
+
+	g_resource_runtime_manager.get()->stagnate_deferred_resources();
 }
 
 void __cdecl tag_resources_unlock_game(long& lock)
 {
-	INVOKE(0x005640B0, tag_resources_unlock_game, lock);
+	//INVOKE(0x005640B0, tag_resources_unlock_game, lock);
+
+	if (lock == 1)
+	{
+		g_resource_runtime_manager.get()->unlock_for_game();
+		lock = 0;
+	}
+}
+
+void c_cache_file_tag_resource_runtime_manager::unlock_for_game()
+{
+	DECLFUNC(0x00564840, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
 }
 
 void c_cache_file_tag_resource_runtime_manager::idle()
