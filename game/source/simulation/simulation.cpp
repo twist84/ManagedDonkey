@@ -1,19 +1,21 @@
 #include "simulation/simulation.hpp"
 
 #include "cache/cache_file_tag_resource_runtime.hpp"
+#include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "game/game_engine.hpp"
 #include "main/main.hpp"
+#include "math/random_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/delivery/network_channel.hpp"
 #include "networking/network_memory.hpp"
 #include "profiler/profiler.hpp"
 #include "simulation/game_interface/simulation_game_interface.hpp"
+#include "simulation/simulation_encoding.hpp"
 #include "simulation/simulation_gamestate_entities.hpp"
 #include "simulation/simulation_type_collection.hpp"
 #include "simulation/simulation_world.hpp"
-#include "simulation/simulation_encoding.hpp"
 
 REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
@@ -151,6 +153,90 @@ void __cdecl simulation_build_player_updates()
 void __cdecl simulation_build_update(bool should_build, struct simulation_update* update, s_simulation_update_metadata* metadata)
 {
 	INVOKE(0x004410E0, simulation_build_update, should_build, update, metadata);
+
+	//PROFILER(simulation_build_update)
+	//{
+	//	PROFILER(simulation)
+	//	{
+	//		ASSERT(simulation_globals.initialized);
+	//		ASSERT(simulation_globals.world);
+	//
+	//		if (simulation_globals.aborted)
+	//			ASSERT2("simulation aborted inside game update!");
+	//
+	//		ASSERT(simulation_globals.world->exists());
+	//		ASSERT(game_in_progress());
+	//		ASSERT(update);
+	//		ASSERT(metadata);
+	//
+	//		csmemset(update, 0, sizeof(struct simulation_update));
+	//		csmemset(metadata, 0, sizeof(struct s_simulation_update_metadata));
+	//
+	//		simulation_globals.world->build_update(should_build, update, metadata);
+	//
+	//		if ((!simulation_globals.world->is_authority() || simulation_globals.world->is_playback()) &&
+	//			(!simulation_globals.world->is_distributed() || simulation_globals.world->is_playback()) &&
+	//			!simulation_globals.world->is_out_of_sync())
+	//		{
+	//			bool should_go_out_of_sync = false;
+	//
+	//			if (update->high_level_flags.test(_simulation_update_high_level_unknown_bit2))
+	//				simulation_globals.world->gamestate_flush();
+	//
+	//			if (update->update_number == simulation_globals.world->get_next_update_number())
+	//			{
+	//				if (update->verify_game_time == simulation_globals.world->get_time())
+	//				{
+	//					if (update->verify_random != get_random_seed())
+	//					{
+	//						generate_event(_event_level_error, "networking:simulation:global: OUT OF SYNC, random seed differs, update [#%d] time [%d] seed [0x%08X] (local seed [0x%08X])",
+	//							update->update_number,
+	//							update->verify_game_time,
+	//							update->verify_random,
+	//							get_random_seed());
+	//
+	//						should_go_out_of_sync = true;
+	//					}
+	//				}
+	//				else
+	//				{
+	//					generate_event(_event_level_error, "networking:simulation:global: OUT OF SYNC, update time differs, update [#%d] time [%d] != local time %d",
+	//						update->update_number,
+	//						update->verify_game_time,
+	//						simulation_globals.world->get_time());
+	//
+	//					should_go_out_of_sync = true;
+	//				}
+	//			}
+	//			else
+	//			{
+	//				generate_event(_event_level_error, "networking:simulation:global: OUT OF SYNC, update number differs, update [#%d] != next [#%d]",
+	//					update->update_number,
+	//					simulation_globals.world->get_next_update_number());
+	//
+	//				should_go_out_of_sync = true;
+	//			}
+	//
+	//			saved_film_history_notify_determinism_manager_about_to_generate_checksum();
+	//			determinism_debug_manager_generate_game_state_checksum(&determinism_verification);
+	//
+	//			if (!determinism_debug_manager_compare_game_state_checksum(&update->determinism_verification, &determinism_verification))
+	//				should_go_out_of_sync = true;
+	//
+	//			if (net_allow_out_of_sync)
+	//				should_go_out_of_sync = true;
+	//
+	//			if (should_go_out_of_sync)
+	//				determinism_debug_manager_notify_out_of_sync();
+	//
+	//			if (should_go_out_of_sync)
+	//			{
+	//				simulation_globals.world->go_out_of_sync();
+	//				saved_film_history_notify_out_of_sync();
+	//			}
+	//		}
+	//	}
+	//}
 }
 
 void __cdecl simulation_clear_errors()
