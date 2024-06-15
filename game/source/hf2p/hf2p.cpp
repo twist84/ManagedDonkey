@@ -2,6 +2,7 @@
 
 #include "cache/cache_files.hpp"
 #include "fmod/fmod.hpp"
+#include "game/game.hpp"
 #include "game/game_engine_util.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "game/players.hpp"
@@ -9,14 +10,15 @@
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "objects/objects.hpp"
+#include "units/bipeds.hpp"
 #include "units/units.hpp"
 
 #include <stdlib.h>
 
 REFERENCE_DECLARE(0x018B59D4, bool, g_hf2p_first_run);
 REFERENCE_DECLARE(0x0229ECF0, c_service_client*, g_service_client);
-REFERENCE_DECLARE(0x04FE67A0, dword, mainmenu_spartan_unit_index);
-REFERENCE_DECLARE(0x04FE67A4, dword, mainmenu_elite_unit_index);
+REFERENCE_DECLARE(0x04FE67A0, long, mainmenu_spartan_unit_index);
+REFERENCE_DECLARE(0x04FE67A4, long, mainmenu_elite_unit_index);
 REFERENCE_DECLARE(0x052697B1, bool, g_hf2p_use_keyboard_hints);
 
 HOOK_DECLARE(0x00600600, hf2p_handle_deleted_object);
@@ -133,7 +135,7 @@ void __cdecl hf2p_scenario_load()
 void __cdecl hf2p_game_dispose()
 {
 	//HOOK_INVOKE(, hf2p_game_dispose);
-	
+
 	fmod_dispose();
 }
 
@@ -142,14 +144,38 @@ void __cdecl hf2p_dispose_from_old_map()
 	fmod_dispose_from_old_map();
 }
 
-dword& mainmenu_unit_index = mainmenu_spartan_unit_index;
+long& mainmenu_unit_index = mainmenu_spartan_unit_index;
+
+void __cdecl sub_7B7940()
+{
+	mainmenu_spartan_unit_index = NONE;
+	mainmenu_elite_unit_index = NONE;
+
+	if (game_is_ui_shell())
+	{
+		c_object_iterator<biped_datum> biped_iterator;
+		biped_iterator.begin(_object_mask_biped, 0);
+		while (biped_iterator.next())
+		{
+			long player_representation_index = player_unit_get_representation_index(biped_iterator.get_index());
+			switch (player_representation_index)
+			{
+			case 6: // ui_spartan
+				mainmenu_spartan_unit_index = biped_iterator.get_index();
+				break;
+			case 7: // ui_elite
+				mainmenu_elite_unit_index = biped_iterator.get_index();
+				break;
+			}
+		}
+	}
+}
 
 void __cdecl hf2p_game_update()
 {
 	// this function runs in `main_loop_body_main_part`
 
-	// update `mainmenu_unit_index`
-	DECLFUNC(0x007B7940, void, __cdecl)();
+	sub_7B7940();
 
 	if (mainmenu_unit_index != NONE)
 	{

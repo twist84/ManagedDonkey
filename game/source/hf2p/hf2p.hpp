@@ -70,8 +70,8 @@ struct c_service_client
 
 extern bool& g_hf2p_first_run;
 extern c_service_client*& g_service_client;
-extern dword& mainmenu_spartan_unit_index;
-extern dword& mainmenu_elite_unit_index;
+extern long& mainmenu_spartan_unit_index;
+extern long& mainmenu_elite_unit_index;
 
 extern void __cdecl hf2p_handle_deleted_object(long object_index);
 extern void __cdecl hf2p_initialize_for_new_map();

@@ -371,7 +371,11 @@ bool __cdecl player_try_to_drop_weapon(long player_index, bool a2)
 //.text:00540070 ; bool __cdecl player_try_to_put_away_weapon(long, bool)
 //.text:00540150 ; bool __cdecl player_try_to_swap_weapons(long, bool, s_player_interaction const *)
 //.text:00540320 ; void __cdecl player_unit_calculate_location_pesemistic(long, s_location *)
-//.text:00540350
+
+long __cdecl player_unit_get_representation_index(long unit_index)
+{
+	return INVOKE(0x00540350, player_unit_get_representation_index, unit_index);
+}
 
 // not the correct name
 long __cdecl player_get_control_index_from_unit(long unit_index)
