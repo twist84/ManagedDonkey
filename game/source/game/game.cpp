@@ -240,7 +240,12 @@ void __cdecl game_finish()
 
 void __cdecl game_finished_update()
 {
-	INVOKE(0x00531040, game_finished_update);
+	//INVOKE(0x00531040, game_finished_update);
+
+	game_globals_storage* game_globals = game_globals_get();
+
+	if (game_globals->game_finished && game_globals->game_finished_wait_time > 0)
+		game_globals->game_finished_wait_time--;
 }
 
 void __cdecl game_frame(real game_seconds_elapsed)
