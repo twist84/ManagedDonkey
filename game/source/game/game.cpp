@@ -31,6 +31,7 @@
 #include "tag_files/files_windows.hpp"
 #include "test/test_functions.hpp"
 
+HOOK_DECLARE(0x00530F80, game_finish);
 HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 

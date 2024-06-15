@@ -22,9 +22,6 @@ REFERENCE_DECLARE(0x0471AA5C, long, total_resource_bytes);
 c_static_string<256> loading_globals_definition::loading_progress{};
 c_static_string<256> loading_globals_definition::copy_progress{};
 
-bool force_load_map_failed = false;
-bool force_load_map_mainmenu_launch = false;
-
 HOOK_DECLARE(0x0052F180, main_load_map);
 HOOK_DECLARE(0x0052FA00, main_loading_idle);
 HOOK_DECLARE(0x0052FB60, main_loading_progress_done);
@@ -146,25 +143,6 @@ bool __cdecl main_blocking_load_in_progress(real* out_progress)
 bool __cdecl main_load_map(char const* scenario_path, long map_load_type)
 {
 	//return INVOKE(0x0052F180, main_load_map, scenario_path, map_load_type);
-
-	if (force_load_map_failed)
-		return false;
-
-	if (csstricmp(tag_name_strip_path(scenario_path), "mainmenu") == 0)
-	{
-		static long count = 0;
-		count++;
-
-		// 300 gives the scoreboard enough time to show up
-		if (count <= 300)
-			return true;
-
-		count = 0;
-
-		// main_game_change_update
-		if (!user_interface_reset_networking_to_pregame() && force_load_map_mainmenu_launch)
-			main_menu_launch();
-	}
 
 	return main_load_map_with_insertion_point(-1, scenario_path, map_load_type);
 }
