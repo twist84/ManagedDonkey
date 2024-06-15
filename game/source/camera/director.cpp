@@ -19,6 +19,8 @@
 #include "scenario/scenario.hpp"
 #include "text/draw_string.hpp"
 
+bool g_director_use_dt = true;
+
 HOOK_DECLARE(0x00591F80, director_render);
 
 //.text:005914B0 ; c_director::c_director(e_output_user_index)
@@ -166,6 +168,40 @@ long __cdecl dead_or_alive_unit_from_user(long user_index)
 void __cdecl director_update(real world_seconds_elapsed)
 {
 	INVOKE(0x005926C0, director_update, world_seconds_elapsed);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(director_globals);
+	//
+	//if (!g_director_use_dt)
+	//	world_seconds_elapsed = 0.016666668;
+	//
+	//real timestep = MIN(0.06666667, world_seconds_elapsed);
+	//
+	////collision_log_begin_period(6);
+	//
+	//director_globals->timestep = timestep;
+	//
+	//real fade_timer5B4 = director_globals->fade_timer5B4;
+	//if (fade_timer5B4 <= 0.0f)
+	//{
+	//	if (fade_timer5B4 < 0.0f)
+	//		director_globals->fade_timer5B4 = MIN(fade_timer5B4 + timestep, 0.0f);
+	//}
+	//else
+	//{
+	//	director_globals->fade_timer5B4 = MAX(0.0f, fade_timer5B4 - timestep);
+	//}
+	//
+	//for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
+	//{
+	//	if (player_mapping_output_user_is_active(user_index))
+	//	{
+	//		//survival_mode_update_flying_camera(user_index);
+	//		control_toggling_of_debug_directors(user_index);
+	//		director_get(user_index)->update(timestep);
+	//	}
+	//}
+	//
+	////collision_log_end_period();
 }
 
 char const* k_director_mode_names[k_number_of_director_modes]
