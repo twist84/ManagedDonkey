@@ -40,3 +40,5 @@ struct c_camera_fx_values
 };
 static_assert(sizeof(c_camera_fx_values) == 0x1F0);
 
+extern void __cdecl scripted_exposure_update(real game_seconds_elapsed);
+

@@ -22,3 +22,5 @@ struct s_scenario_interpolator_globals
 };
 static_assert(sizeof(s_scenario_interpolator_globals) == 0x204);
 
+extern void __cdecl scenario_interpolators_frame_update(real game_seconds_elapsed);
+

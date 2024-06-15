@@ -58,6 +58,7 @@ extern s_structure_design* global_structure_design_get(long structure_bsp_index)
 extern bool __cdecl scenario_activate_initial_designer_zones(long zoneset_index);
 extern bool __cdecl scenario_activate_initial_zone_set(long zoneset_index);
 extern s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d const* point);
+extern void __cdecl scenario_frame_update(real game_seconds_elapsed);
 extern void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state);
 extern void __cdecl scenario_invalidate();
 extern bool __cdecl scenario_language_pack_load();

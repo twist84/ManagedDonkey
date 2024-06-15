@@ -240,6 +240,7 @@ POPD
     <ClCompile Include="source\objects\object_activation_regions.cpp" />
     <ClCompile Include="source\objects\object_placement.cpp" />
     <ClCompile Include="source\objects\object_scheduler.cpp" />
+    <ClCompile Include="source\objects\widgets\widgets.cpp" />
     <ClCompile Include="source\physics\breakable_surfaces.cpp" />
     <ClCompile Include="source\physics\character_physics.cpp" />
     <ClCompile Include="source\physics\character_physics_mode_ground.cpp" />
@@ -250,10 +251,12 @@ POPD
     <ClCompile Include="source\physics\havok_proxies.cpp" />
     <ClCompile Include="source\physics\impacts.cpp" />
     <ClCompile Include="source\profiler\profiler_stopwatch.cpp" />
+    <ClCompile Include="source\render\camera_fx_settings.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
     <ClCompile Include="source\render\render_transparents.cpp" />
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
+    <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\simulation\simulation_players.cpp" />
     <ClCompile Include="source\ai\ai.cpp" />

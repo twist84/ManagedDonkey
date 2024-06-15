@@ -16,11 +16,16 @@
 #include "main/main_render.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
+#include "objects/widgets/widgets.hpp"
 #include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
+#include "render/camera_fx_settings.hpp"
+#include "render/render.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_visibility.hpp"
+#include "scenario/scenario_interpolators.hpp"
 #include "simulation/simulation.hpp"
+#include "sound/game_sound.hpp"
 #include "sound/sound_manager.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/files_windows.hpp"
@@ -240,22 +245,22 @@ void __cdecl game_finished_update()
 
 void __cdecl game_frame(real game_seconds_elapsed)
 {
-	INVOKE(0x00531070, game_frame, game_seconds_elapsed);
+	//INVOKE(0x00531070, game_frame, game_seconds_elapsed);
 
-	//game_globals_storage* game_globals = game_globals_get();
-	//
-	//if (game_seconds_elapsed > 0.0f)
-	//{
-	//	widgets_update(game_seconds_elapsed);
-	//	game_sound_update(game_seconds_elapsed);
-	//	scenario_frame_update(game_seconds_elapsed);
-	//	scenario_interpolators_frame_update(game_seconds_elapsed);
-	//	scripted_exposure_update(game_seconds_elapsed);
-	//}
-	//
-	//player_effect_frame_update(game_seconds_elapsed);
-	//c_render_globals::advance_frame_time(game_seconds_elapsed);
-	//game_globals->update_tick_this_frame = false;
+	game_globals_storage* game_globals = game_globals_get();
+	
+	if (game_seconds_elapsed > 0.0f)
+	{
+		widgets_update(game_seconds_elapsed);
+		game_sound_update(game_seconds_elapsed);
+		scenario_frame_update(game_seconds_elapsed);
+		scenario_interpolators_frame_update(game_seconds_elapsed);
+		scripted_exposure_update(game_seconds_elapsed);
+	}
+	
+	player_effect_frame_update(game_seconds_elapsed);
+	c_render_globals::advance_frame_time(game_seconds_elapsed);
+	game_globals->update_tick_this_frame = false;
 }
 
 dword __cdecl game_get_active_cinematic_zone_mask()

@@ -15,3 +15,5 @@ struct widget_datum :
 };
 static_assert(sizeof(widget_datum) == 0xC);
 
+extern void __cdecl widgets_update(real game_seconds_elapsed);
+

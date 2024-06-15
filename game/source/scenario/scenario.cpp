@@ -105,6 +105,11 @@ s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d c
 	return INVOKE(0x004E9BD0, scenario_cluster_reference_from_point, point);
 }
 
+void __cdecl scenario_frame_update(real game_seconds_elapsed)
+{
+	INVOKE(0x004EA0F0, scenario_frame_update, game_seconds_elapsed);
+}
+
 void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state)
 {
 	INVOKE(0x004EA1F0, scenario_get_global_zone_state, global_zone_state);
