@@ -136,7 +136,9 @@ enum e_update_queue_node
 
 struct s_simulation_update_playback_event
 {
-	byte __data0[0xC];
+	byte __data0[0x4];
+	long event_playback_event; // e_simulation_playback_event
+	dword event_identifier;
 	long event_update_number;
 };
 static_assert(sizeof(s_simulation_update_playback_event) == 0x10);
