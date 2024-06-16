@@ -852,26 +852,26 @@ void __cdecl game_simulation_set(e_game_simulation_type game_simulation)
 
 void __cdecl game_start(e_game_create_mode mode)
 {
-	INVOKE(0x00533030, game_start, mode);
+	//INVOKE(0x00533030, game_start, mode);
 
-	//game_globals_storage* game_globals = game_globals_get();
-	//ASSERT(game_globals);
-	//ASSERT(!game_globals->initializing);
-	//ASSERT(game_globals->map_active);
-	//ASSERT(game_globals->active_structure_bsp_mask != 0);
-	//ASSERT(!game_globals->game_in_progress);
-	//
-	//game_globals->game_in_progress = true;
-	//simulation_start();
-	//
-	//long lock = game_create_lock_resources(mode);
-	////random_seed_allow_use();
-	//
-	//game_engine_game_starting();
-	//game_launch_initial_script();
-	//
-	////random_seed_disallow_use();
-	//game_create_unlock_resources(mode, lock);
+	game_globals_storage* game_globals = game_globals_get();
+	ASSERT(game_globals);
+	ASSERT(!game_globals->initializing);
+	ASSERT(game_globals->map_active);
+	ASSERT(game_globals->active_structure_bsp_mask != 0);
+	ASSERT(!game_globals->game_in_progress);
+	
+	game_globals->game_in_progress = true;
+	simulation_start();
+	
+	long lock = game_create_lock_resources(mode);
+	//random_seed_allow_use();
+	
+	game_engine_game_starting();
+	game_launch_initial_script();
+	
+	//random_seed_disallow_use();
+	game_create_unlock_resources(mode, lock);
 }
 
 bool __cdecl game_survival_allow_respawn()
@@ -1015,7 +1015,7 @@ void __cdecl game_tick_pulse_random_seed_deterministic(struct simulation_update 
 
 long __cdecl game_tick_rate_get()
 {
-	return INVOKE(0x00533470, game_tick_rate_get);
+	//return INVOKE(0x00533470, game_tick_rate_get);
 
 	return game_options_get()->game_tick_rate;
 }
