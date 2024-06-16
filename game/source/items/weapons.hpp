@@ -47,10 +47,10 @@ struct weapon_data
 	short weapon_disabled_by_reload_timer;
 
 	// weapon_compute_function_value
-	// - _global_string_id_bomb_arming_amount
-	// - _global_string_id_bomb_is_unarmed
-	// - _global_string_id_bomb_is_arming
-	// - _global_string_id_bomb_is_armed
+	// - STRING_ID(global, bomb_arming_amount)
+	// - STRING_ID(global, bomb_is_unarmed)
+	// - STRING_ID(global, bomb_is_arming)
+	// - STRING_ID(global, bomb_is_armed)
 	// if (game_is_multiplayer() && weapon->weapon.__unknown12 != NONE && object_is_ctf_flag(object))
 	short __unknown12;
 
