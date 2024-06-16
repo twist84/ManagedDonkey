@@ -2,6 +2,7 @@
 
 #include "cache/pc_geometry_cache.hpp"
 #include "cache/pc_texture_cache.hpp"
+#include "main/console.hpp"
 #include "main/main_render.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
@@ -14,8 +15,12 @@ REFERENCE_DECLARE(0x018BB180, real, g_camera_speed);
 
 HOOK_DECLARE(0x00612710, observer_game_tick);
 HOOK_DECLARE(0x00613A60, observer_update);
+HOOK_DECLARE(0x006128B0, observer_initialize);
 
 bool g_debug_observer_render = false;
+
+bool observer_meter_display = false;
+c_status_line observer_meters[4]{};
 
 void __cdecl observer_adopt_global_update_list()
 {
@@ -123,6 +128,59 @@ bool __cdecl observer_command_has_finished(e_output_user_index output_user_index
 void __cdecl observer_compute_result(e_output_user_index output_user_index, s_focus_and_distance* focus_and_distance)
 {
 	INVOKE(0x00611E10, observer_compute_result, output_user_index, focus_and_distance);
+
+	if (observer_meter_display && output_user_index == player_mapping_first_active_output_user())
+	{
+		s_observer* observer = observer_get(output_user_index);
+
+		status_line_printf(&observer_meters[0], "positions: p (%.2f, %.2f, %.2f) f (%.2f, %.2f, %.2f) u (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
+			observer->positions.focus_position.x,
+			observer->positions.focus_position.y,
+			observer->positions.focus_position.z,
+			observer->positions.forward.i,
+			observer->positions.forward.j,
+			observer->positions.forward.k,
+			observer->positions.up.i,
+			observer->positions.up.j,
+			observer->positions.up.k,
+			observer->positions.focus_offset.i,
+			observer->positions.focus_offset.j,
+			observer->positions.focus_offset.k);
+
+		status_line_printf(&observer_meters[1], "velocities: v (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
+			observer->velocities.n[0],
+			observer->velocities.n[1],
+			observer->velocities.n[2],
+			observer->velocities.n[10],
+			observer->velocities.n[11],
+			observer->velocities.n[12],
+			observer->velocities.n[3],
+			observer->velocities.n[4],
+			observer->velocities.n[5]);
+
+		status_line_printf(&observer_meters[2], "accelerations: a (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
+			observer->accelerations.n[0],
+			observer->accelerations.n[1],
+			observer->accelerations.n[2],
+			observer->accelerations.n[10],
+			observer->accelerations.n[11],
+			observer->accelerations.n[12],
+			observer->accelerations.n[3],
+			observer->accelerations.n[4],
+			observer->accelerations.n[5]);
+
+		status_line_printf(&observer_meters[3], "displacements: p (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
+			observer->displacements.n[0],
+			observer->displacements.n[1],
+			observer->displacements.n[2],
+			observer->displacements.n[10],
+			observer->displacements.n[11],
+			observer->displacements.n[12],
+			observer->displacements.n[3],
+			observer->displacements.n[4],
+			observer->displacements.n[5]);
+
+	}
 }
 
 void __cdecl observer_compute_view_offset_matrix(e_output_user_index output_user_index, real_matrix4x3* view_offset_matrix)
@@ -212,7 +270,9 @@ real __cdecl observer_get_near_plane_farthest_distance(real horizontal_fov, real
 
 void __cdecl observer_initialize()
 {
-	INVOKE(0x006128B0, observer_initialize);
+	HOOK_INVOKE(, observer_initialize);
+
+	status_lines_initialize(observer_meters, &observer_meter_display, NUMBEROF(observer_meters));
 }
 
 void __cdecl observer_initialize_after_load_saved_game(long flags)
