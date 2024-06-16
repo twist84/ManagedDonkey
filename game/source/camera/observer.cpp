@@ -179,11 +179,7 @@ void __cdecl debug_render_observer()
 	{
 		vector3d vector{};
 		render_camera_screen_to_world(&camera, &projection, &screen_points[i], &point, &vector);
-
-		points[i].x = point.x + vector.i;
-		points[i].y = point.y + vector.j;
-		points[i].z = point.z + vector.k;
-
+		point_from_line3d(&point, &vector, 1.0f, &points[i]);
 		render_debug_vector(false, &point, &vector, 1.0f, global_real_argb_red);
 	}
 	render_debug_polygon_edges(points, NUMBEROF(points), global_real_argb_red);
