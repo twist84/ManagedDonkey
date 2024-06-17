@@ -50,3 +50,7 @@ struct s_player_motion
 };
 static_assert(sizeof(s_player_motion) == 0x4C);
 
+struct c_bitstream;
+extern bool __cdecl player_prediction_decode(c_bitstream* packet, s_player_prediction* player_prediction, bool replicated);
+extern void __cdecl player_prediction_encode(c_bitstream* packet, s_player_prediction const* player_prediction, bool replicated);
+

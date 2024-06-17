@@ -256,6 +256,7 @@ POPD
     <ClCompile Include="source\render\render_transparents.cpp" />
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
+    <ClCompile Include="source\replication\replication_encoding.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\simulation\simulation_players.cpp" />
@@ -609,6 +610,7 @@ POPD
     <ClCompile Include="source\simulation\simulation_encoding.cpp" />
     <ClCompile Include="source\simulation\simulation_entity_database.cpp" />
     <ClCompile Include="source\simulation\simulation_gamestate_entities.cpp" />
+    <ClCompile Include="source\simulation\simulation_queue.cpp" />
     <ClCompile Include="source\simulation\simulation_type_collection.cpp" />
     <ClCompile Include="source\simulation\simulation_view.cpp" />
     <ClCompile Include="source\simulation\simulation_watcher.cpp" />
