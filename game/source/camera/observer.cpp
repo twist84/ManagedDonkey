@@ -22,6 +22,14 @@ bool g_debug_observer_render = false;
 bool observer_meter_display = false;
 c_status_line observer_meters[4]{};
 
+s_observer_globals* observer_globals_get()
+{
+	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
+	ASSERT(g_observer_globals);
+
+	return g_observer_globals;
+}
+
 void __cdecl observer_adopt_global_update_list()
 {
 	INVOKE(0x00610940, observer_adopt_global_update_list);
@@ -210,9 +218,9 @@ void __cdecl observer_game_tick()
 {
 	//INVOKE(0x00612710, observer_game_tick);
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
+	s_observer_globals* observer_globals = observer_globals_get();
 
-	if (g_observer_globals->block_for_one_frame_block_type1)
+	if (observer_globals->block_for_one_frame_block_type1)
 	{
 		if (!game_is_multiplayer())
 		{
@@ -221,10 +229,10 @@ void __cdecl observer_game_tick()
 			texture_cache_block_for_one_frame(_texture_cache_block_type_unknown1);
 		}
 
-		g_observer_globals->block_for_one_frame_block_type1 = false;
+		observer_globals->block_for_one_frame_block_type1 = false;
 	}
 
-	if (g_observer_globals->block_for_one_frame_block_type0)
+	if (observer_globals->block_for_one_frame_block_type0)
 	{
 		if (!game_is_multiplayer())
 		{
@@ -233,7 +241,7 @@ void __cdecl observer_game_tick()
 			texture_cache_block_for_one_frame(_texture_cache_block_type_unknown0);
 		}
 
-		g_observer_globals->block_for_one_frame_block_type0 = false;
+		observer_globals->block_for_one_frame_block_type0 = false;
 	}
 }
 
@@ -243,9 +251,7 @@ s_observer* observer_get(e_output_user_index output_user_index)
 
 	ASSERT(VALID_INDEX(output_user_index, k_number_of_output_users));
 
-	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
-
-	return &g_observer_globals->observers[output_user_index];
+	return &observer_globals_get()->observers[output_user_index];
 }
 
 s_observer_result const* observer_get_camera(e_output_user_index output_user_index)
@@ -261,6 +267,8 @@ s_observer_result const* observer_get_camera(e_output_user_index output_user_ind
 real __cdecl observer_get_max_wave_height()
 {
 	return INVOKE(0x006127F0, observer_get_max_wave_height);
+
+	//return g_observer_wave_height;
 }
 
 real __cdecl observer_get_near_plane_farthest_distance(real horizontal_fov, real vertical_fov)
@@ -288,6 +296,15 @@ void __cdecl observer_initialize_before_saved_game(long flags)
 void __cdecl observer_initialize_for_new_map()
 {
 	INVOKE(0x00612A50, observer_initialize_for_new_map);
+
+	//observer_clear_all();
+	//
+	//TLS_DATA_GET_VALUE_REFERENCE(observer_gamestate_globals);
+	//observer_gamestate_globals->__unknown0 = 0;
+	//observer_gamestate_globals->__unknown4 = NONE;
+	//observer_gamestate_globals->__unknown6 = NONE;
+	//observer_gamestate_globals->__unknown8 = NONE;
+	//observer_gamestate_globals->__unknownA = NONE;
 }
 
 void __cdecl observer_initialize_for_new_structure_bsp(dword a1)
@@ -298,11 +315,15 @@ void __cdecl observer_initialize_for_new_structure_bsp(dword a1)
 void __cdecl observer_initialize_for_saved_game(long flags)
 {
 	INVOKE(0x00612B30, observer_initialize_for_saved_game, flags);
+	
+	//observer_clear_all();
 }
 
 void __cdecl observer_obsolete_position(e_output_user_index output_user_index)
 {
 	INVOKE(0x00612B40, observer_obsolete_position, output_user_index);
+
+	//observer_clear(observer_get(output_user_index));
 }
 
 void __cdecl observer_pass_time(e_output_user_index output_user_index)
@@ -340,6 +361,8 @@ void __cdecl observer_result_set_position(e_output_user_index output_user_index,
 bool __cdecl observer_result_valid(e_output_user_index output_user_index)
 {
 	return INVOKE(0x00613630, observer_result_valid, output_user_index);
+
+	//return observer_get(output_user_index)->result_valid;
 }
 
 void __cdecl observer_rotational_displacement(vector3d const* forward0, vector3d const* up0, vector3d const* forward1, vector3d const* up1, vector3d* displacement)
@@ -355,11 +378,18 @@ void __cdecl observer_set_camera(e_output_user_index output_user_index, s_observ
 real __cdecl observer_suggested_field_of_view()
 {
 	return INVOKE(0x00613730, observer_suggested_field_of_view);
+
+	//if (g_camera_globals.field_of_view != 0.0f)
+	//	return g_camera_globals.field_of_view * RAD;
+	//
+	//return g_camera_fov_radians * RAD;
 }
 
 real __cdecl observer_suggested_field_of_view_change_time()
 {
 	return INVOKE(0x00613780, observer_suggested_field_of_view_change_time);
+
+	//return 0.18f;
 }
 
 //.text:00613790 ; void __cdecl observer_test_water(real_point3d const*, vector3d*, real_point3d*, real, real)
@@ -385,13 +415,19 @@ void __cdecl observer_update(real world_seconds_elapsed)
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
 	
+	//collision_log_begin_period(6);
+
 	g_observer_globals->timestep = g_camera_speed * world_seconds_elapsed;
 	
 	for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))
 	{
 		if (player_mapping_output_user_is_active(user_index))
 		{
-			g_observer_globals->observers[user_index].updated_for_frame = true;
+			s_observer* observer = observer_get(user_index);
+			ASSERT(observer->header_signature == OBSERVER_SIGNATURE && observer->trailer_signature == OBSERVER_SIGNATURE);
+			ASSERT(!observer->updated_for_frame);
+
+			observer->updated_for_frame = true;
 	
 			observer_update_command(user_index);
 	
@@ -402,14 +438,16 @@ void __cdecl observer_update(real world_seconds_elapsed)
 			observer_compute_result(user_index, &focus_and_distance);
 			observer_apply_camera_effect(user_index);
 			observer_perform_collision(user_index, &focus_and_distance, world_seconds_elapsed);
+
+			ASSERT(observer->header_signature == OBSERVER_SIGNATURE && observer->trailer_signature == OBSERVER_SIGNATURE);
 		}
 	}
 	
-	if (g_observer_globals->__unknownF24)
-		return;
-	
-	observer_post_global_update_list();
+	if (!g_observer_globals->__unknownF24)
+		observer_post_global_update_list();
 	g_observer_globals->__unknownF24 = false;
+
+	//collision_log_end_period();
 }
 
 void __cdecl observer_update_accelerations(e_output_user_index output_user_index)
@@ -445,6 +483,15 @@ void __cdecl observer_update_velocities(e_output_user_index output_user_index)
 bool __cdecl observer_valid_camera_command(s_observer_command* command)
 {
 	return INVOKE(0x00614CB0, observer_valid_camera_command, command);
+
+	//if (command && (!TEST_BIT(command->flags, 0) ||
+	//	valid_real_vector3d_axes2(&command->forward, &command->up) &&
+	//	valid_world_real_point3d(&command->position) &&
+	//	valid_world_real_point3d((real_point3d*)&command->focus_offset) &&
+	//	valid_real_vector3d(&command->velocities) &&
+	//	valid_focus_distance(command->focus_distance) &&
+	//	valid_field_of_view(command->field_of_view) &&
+	//	valid_timer(command->timer)));
 }
 
 void __cdecl observer_validate_camera_command(s_observer_command* command)

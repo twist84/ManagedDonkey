@@ -180,15 +180,14 @@ void __cdecl director_update(real world_seconds_elapsed)
 	//
 	//director_globals->timestep = timestep;
 	//
-	//real fade_timer5B4 = director_globals->fade_timer5B4;
-	//if (fade_timer5B4 <= 0.0f)
+	//if (director_globals->fade_timer5B4 <= 0.0f)
 	//{
-	//	if (fade_timer5B4 < 0.0f)
-	//		director_globals->fade_timer5B4 = MIN(fade_timer5B4 + timestep, 0.0f);
+	//	if (director_globals->fade_timer5B4 < 0.0f)
+	//		director_globals->fade_timer5B4 = MIN(director_globals->fade_timer5B4 + timestep, 0.0f);
 	//}
 	//else
 	//{
-	//	director_globals->fade_timer5B4 = MAX(0.0f, fade_timer5B4 - timestep);
+	//	director_globals->fade_timer5B4 = MAX(0.0f, director_globals->fade_timer5B4 - timestep);
 	//}
 	//
 	//for (e_output_user_index user_index = first_output_user(); user_index != k_output_user_none; user_index = next_output_user(user_index))

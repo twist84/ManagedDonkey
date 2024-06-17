@@ -102,6 +102,9 @@ void __cdecl chud_submit_navpoint(long user_index, s_chud_navpoint* navpoint)
 void __cdecl chud_update(real world_seconds_elapsed)
 {
 	INVOKE(0x00A8AAE0, chud_update, world_seconds_elapsed);
+
+	//if (chud_enabled && chud_globals)
+	//	c_chud_manager::update(world_seconds_elapsed);
 }
 
 //.text:00A8AB10 ; void __cdecl chud_user_switched_grenades(long, long)

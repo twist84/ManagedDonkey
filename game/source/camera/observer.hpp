@@ -3,6 +3,8 @@
 #include "cseries/cseries.hpp"
 #include "memory/data.hpp"
 
+#define OBSERVER_SIGNATURE 'rad!'
+
 struct s_focus_and_distance
 {
 	real_point3d focus;
@@ -81,7 +83,7 @@ struct s_observer
 	dword __unknownFC;
 	long __unknown100;
 	long __unknown104;
-	byte __unknown108;
+	bool result_valid;
 	byte __unknown109;
 	byte __unknown10A;
 	byte __unknown10B;
