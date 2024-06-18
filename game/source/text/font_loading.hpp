@@ -42,19 +42,19 @@ static_assert(sizeof(s_font_package_entry) == 0x8);
 
 struct s_font_package_file_header
 {
-	// 0xC0000003
-	// 0xC0000004 in mcc
+	//  ho: 0xC0000003
+	// mcc: 0xC0000004
 	dword version;
 
-	// 16
-	// 64 in mcc
+	//  ho: 16
+	// mcc: 64
 	long font_count;
 
 	struct s_font // is this the actual name
 	{
 		long offset;
 
-		// 0x15C
+		// sizeof(s_font_header)
 		long size;
 
 		word __unknown8;
@@ -100,35 +100,62 @@ static_assert(sizeof(s_font_character) == 0xC); // 0x10 in mcc
 
 struct s_font_header
 {
-	// 0xF0000005
-	// 0xF0000006 in mcc
+	//  ho: 0xF0000005
+	// mcc: 0xF0000006
 	dword version;
 
 	c_static_string<k_tag_string_length> name;
 
+	//  ho: 64
+	// mcc: 512
 	word __unknown24;
+
+	//  ho: 64
+	// mcc: 512
 	word __unknown26;
+
+	//  ho: 64
+	// mcc: 512
 	word __unknown28;
+
+	//  ho: 256
+	// mcc: 768
 	word __unknown2A;
 
 	// sizeof(s_font_header)
 	long kerning_pairs_offset;
+
+	// NUMBEROF(kerning_pairs)
 	long kerning_pair_count;
 	byte kerning_pairs[256];
 
 	long location_table_offset;
+
+	//  ho: 0x10000
+	// mcc: 0x10000
 	long location_table_count;
 
+	//  ho: 0x10000
+	// mcc: 0x10000
 	dword __unknown13C;
 	dword __unknown140;
 
 	long character_data_size_bytes;
 
+	//  ho: 0x402
+	// mcc: 0x1802
 	dword __unknown148;
 	//qword __unknown148; // mcc
 
+	//  ho: 0x2000
+	// mcc: 0xC000
 	dword __unknown14C;
+
+	// sizeof(s_font_package_file)
 	dword __unknown150;
+
+	//  ho: 0x8000000
+	// mcc: 0x8000000
 	dword __unknown154;
 	dword __unknown158;
 };
