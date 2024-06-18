@@ -56,4 +56,8 @@ extern bool __cdecl player_prediction_decode(c_bitstream* packet, s_player_predi
 extern void __cdecl player_prediction_encode(c_bitstream* packet, s_player_prediction const* player_prediction, bool replicated);
 extern long __cdecl player_prediction_minimum_required_bits();
 extern bool __cdecl player_prediction_valid(s_player_prediction const* player_prediction);
+extern void __cdecl predicted_aim_assist_clear(s_player_predicted_aim_assist* aim_assist);
+extern bool __cdecl predicted_aim_assist_compare(s_player_predicted_aim_assist const* aim_assist_a, s_player_predicted_aim_assist* aim_assist_b);
+extern bool __cdecl predicted_aim_assist_decode(c_bitstream* packet, s_player_predicted_aim_assist* aim_assist, long encoding_precision);
+extern void __cdecl predicted_aim_assist_encode(c_bitstream* packet, s_player_predicted_aim_assist const* aim_assist, bool a3, long encoding_precision);
 
