@@ -174,7 +174,7 @@ void survival_mode_update_flying_camera(e_output_user_index output_user_index)
 	if (survival_mode_allow_flying_camera)
 	{
 		long player_index = player_mapping_get_player_by_output_user(output_user_index);
-		if (player_index != NONE game_is_survival())
+		if (player_index != NONE && game_is_survival())
 		{
 			TLS_DATA_GET_VALUE_REFERENCE(player_data);
 			player_datum* player = &player_data[player_index];
