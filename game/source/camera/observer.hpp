@@ -164,6 +164,7 @@ extern s_observer* __cdecl observer_get(e_output_user_index output_user_index);
 extern s_observer_result const* observer_get_camera(e_output_user_index output_user_index);
 extern real __cdecl observer_get_max_wave_height();
 extern real __cdecl observer_get_near_plane_farthest_distance(real horizontal_fov, real vertical_fov);
+extern s_observer_globals* observer_globals_get();
 extern void __cdecl observer_initialize();
 extern void __cdecl observer_initialize_after_load_saved_game(long flags);
 extern void __cdecl observer_initialize_before_saved_game(long flags);

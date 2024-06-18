@@ -22,14 +22,6 @@ bool g_debug_observer_render = false;
 bool observer_meter_display = false;
 c_status_line observer_meters[4]{};
 
-s_observer_globals* observer_globals_get()
-{
-	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
-	ASSERT(g_observer_globals);
-
-	return g_observer_globals;
-}
-
 void __cdecl observer_adopt_global_update_list()
 {
 	INVOKE(0x00610940, observer_adopt_global_update_list);
@@ -274,6 +266,16 @@ real __cdecl observer_get_max_wave_height()
 real __cdecl observer_get_near_plane_farthest_distance(real horizontal_fov, real vertical_fov)
 {
 	return INVOKE(0x00612800, observer_get_near_plane_farthest_distance, horizontal_fov, vertical_fov);
+}
+
+s_observer_globals* observer_globals_get()
+{
+	//return INVOKE(0x00612890, observer_globals_get);
+
+	TLS_DATA_GET_VALUE_REFERENCE(g_observer_globals);
+	ASSERT(g_observer_globals);
+
+	return g_observer_globals;
 }
 
 void __cdecl observer_initialize()
