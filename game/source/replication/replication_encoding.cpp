@@ -2,6 +2,31 @@
 
 #include "memory/bitstream.hpp"
 
+bool __cdecl player_motion_compare(s_player_motion const* player_motion_a, s_player_motion* player_motion_b)
+{
+    return INVOKE(0x004A9F50, player_motion_compare, player_motion_a, player_motion_b);
+}
+
+bool __cdecl player_motion_decode(c_bitstream* packet, s_player_motion* player_motion)
+{
+    return INVOKE(0x004AA0A0, player_motion_decode, packet, player_motion);
+}
+
+void __cdecl player_motion_encode(c_bitstream* packet, s_player_motion const* player_motion)
+{
+    INVOKE(0x004AA260, player_motion_encode, packet, player_motion);
+}
+
+long __cdecl player_motion_minimum_required_bits()
+{
+    return INVOKE(0x004AA750, player_motion_minimum_required_bits);
+}
+
+bool __cdecl player_motion_valid(s_player_motion const* player_motion)
+{
+    return INVOKE(0x004AA760, player_motion_valid, player_motion);
+}
+
 bool __cdecl player_prediction_compare_identical(s_player_prediction const* player_prediction_a, s_player_prediction const* player_prediction_b)
 {
     return INVOKE(0x004AA8D0, player_prediction_compare_identical, player_prediction_a, player_prediction_b);
