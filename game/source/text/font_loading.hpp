@@ -33,6 +33,13 @@ struct s_font_loading_state
 static_assert(sizeof(s_font_loading_state) == 0x148);
 #pragma pack(pop)
 
+struct s_kerning_pair
+{
+	byte __unknown0;
+	byte __unknown1;
+};
+static_assert(sizeof(s_kerning_pair) == 0x2);
+
 struct s_font_package_entry
 {
 	long first_character_key;
@@ -40,7 +47,8 @@ struct s_font_package_entry
 };
 static_assert(sizeof(s_font_package_entry) == 0x8);
 
-struct s_font_package_file_header
+template<long k_maximum_font_count, long k_font_package_version>
+struct t_font_package_file_header
 {
 	//  ho: 0xC0000003
 	// mcc: 0xC0000004
@@ -52,7 +60,7 @@ struct s_font_package_file_header
 
 	struct s_font // is this the actual name
 	{
-		long offset;
+		dword offset;
 
 		// sizeof(s_font_header)
 		long size;
@@ -62,18 +70,26 @@ struct s_font_package_file_header
 	};
 	static_assert(sizeof(s_font) == 0xC);
 
-	c_static_array<s_font, 16> fonts;
-	//c_static_array<s_font, 64> fonts; // mcc
+	s_font fonts[k_maximum_font_count];
+	long font_index_mapping[k_maximum_font_count];
 
-	c_static_array<long, 16> font_index_mapping;
-	//c_static_array<long, 64> font_index_mapping; // mcc
-
-	long package_file_font_offset;
+	dword package_file_font_offset;
 	long package_file_font_size;
 
 	s_font_package_entry first_package_entry;
 };
-static_assert(sizeof(s_font_package_file_header) == 0x118); // 0x418 in mcc
+
+struct s_font_package_file_header :
+	public t_font_package_file_header<16, 0xC0000003>
+{
+};
+static_assert(sizeof(s_font_package_file_header) == 0x118);
+
+struct s_font_package_file_header_mcc :
+	public t_font_package_file_header<64, 0xC0000004>
+{
+};
+static_assert(sizeof(s_font_package_file_header_mcc) == 0x418);
 
 struct s_font_character
 {
@@ -129,7 +145,7 @@ struct s_font_header
 	long kerning_pair_count;
 	byte kerning_pairs[256];
 
-	long location_table_offset;
+	dword location_table_offset;
 
 	//  ho: 0x10000
 	// mcc: 0x10000
@@ -137,14 +153,14 @@ struct s_font_header
 
 	//  ho: 0x10000
 	// mcc: 0x10000
-	dword __unknown13C;
+	long __unknown13C;
 	dword __unknown140;
 
 	long character_data_size_bytes;
 
 	//  ho: 0x402
 	// mcc: 0x1802
-	dword __unknown148;
+	long __unknown148;
 	//qword __unknown148; // mcc
 
 	//  ho: 0x2000
@@ -160,7 +176,70 @@ struct s_font_header
 	dword __unknown158;
 };
 static_assert(sizeof(s_font_header) == 0x15C);
-//static_assert(sizeof(s_font_header) == 0x168); // in mcc
+
+struct s_font_header_mcc
+{
+	//  ho: 0xF0000005
+	// mcc: 0xF0000006
+	dword version;
+
+	c_static_string<k_tag_string_length> name;
+
+	//  ho: 64
+	// mcc: 512
+	word __unknown24;
+
+	//  ho: 64
+	// mcc: 512
+	word __unknown26;
+
+	//  ho: 64
+	// mcc: 512
+	word __unknown28;
+
+	//  ho: 256
+	// mcc: 768
+	word __unknown2A;
+
+	// sizeof(s_font_header)
+	long kerning_pairs_offset;
+
+	// NUMBEROF(kerning_pairs)
+	long kerning_pair_count;
+	byte kerning_pairs[256];
+
+	long location_table_offset;
+
+	//  ho: 0x10000
+	// mcc: 0x10000
+	long location_table_count;
+
+	//  ho: 0x10000
+	// mcc: 0x10000
+	dword __unknown13C;
+	dword __unknown140;
+
+	long character_data_size_bytes;
+
+	//  ho: 0x402
+	// mcc: 0x1802
+	qword __unknown148;
+
+	//  ho: 0x2000
+	// mcc: 0xC000
+	dword __unknown14C;
+
+	// sizeof(s_font_package_file)
+	dword __unknown150;
+	dword __unknown154;
+	dword __unknown158;
+
+	//  ho: 0x8000000
+	// mcc: 0x8000000
+	dword __unknown15C;
+	dword __unknown160;
+};
+static_assert(sizeof(s_font_header_mcc) == 0x168);
 
 struct s_font_package_file
 {
@@ -252,7 +331,7 @@ extern void __cdecl font_load(s_font_loading_state* loading_state, long font_ind
 extern e_async_completion __cdecl font_load_callback(s_async_task* task);
 extern void __cdecl font_loading_idle();
 extern void __cdecl font_reload();
-extern long __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* files, long max_files, long* font_id_mapping, long max_font_ids);
+extern long __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* references, long max_references, long* font_id_mapping, long max_font_ids);
 extern bool __cdecl fonts_begin_loading(bool load_blocking);
 extern void __cdecl fonts_close();
 extern void __cdecl fonts_copy_to_hard_drive();
