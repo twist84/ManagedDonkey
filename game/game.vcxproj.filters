@@ -1437,6 +1437,9 @@
     <ClCompile Include="source\text\font_group.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\text\font_fallback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3438,6 +3441,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\text\font_group.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\text\font_fallback.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
