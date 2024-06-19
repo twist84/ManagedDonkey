@@ -1,7 +1,38 @@
 #include "text/font_loading.hpp"
 
+#include "cseries/async.hpp"
 #include "main/global_preferences.hpp"
+#include "memory/module.hpp"
 #include "text/draw_string.hpp"
+#include "text/font_package_cache.hpp"
+
+HOOK_DECLARE(0x00509140, font_block_until_load_completes);
+HOOK_DECLARE(0x005091A0, font_close_loaded_file);
+HOOK_DECLARE(0x00509210, font_dispose);
+HOOK_DECLARE(0x00509280, font_get_debug_name);
+HOOK_DECLARE(0x005092C0, font_get_font_index);
+HOOK_DECLARE(0x005092F0, font_get_header);
+HOOK_DECLARE(0x00509330, font_get_loaded_header);
+HOOK_DECLARE(0x00509360, font_get_package_file_handle);
+HOOK_DECLARE(0x00509380, font_get_package_header_internal);
+HOOK_DECLARE(0x00509390, font_idle);
+HOOK_DECLARE(0x005093C0, font_in_emergency_mode);
+HOOK_DECLARE(0x005093D0, font_initialize);
+HOOK_DECLARE(0x00509420, font_initialize_emergency);
+HOOK_DECLARE(0x00509480, font_load);
+//HOOK_DECLARE(0x00509550, font_load_callback);
+HOOK_DECLARE(0x005096F0, font_loading_idle);
+HOOK_DECLARE(0x00509780, font_reload);
+//HOOK_DECLARE(0x00509840, font_table_get_font_file_references);
+HOOK_DECLARE(0x005099A0, fonts_begin_loading);
+HOOK_DECLARE(0x00509A50, fonts_close);
+HOOK_DECLARE(0x00509A90, fonts_copy_to_hard_drive);
+HOOK_DECLARE(0x00509AA0, fonts_invalidate_cached_fonts);
+HOOK_DECLARE(0x00509AC0, fonts_select_language);
+HOOK_DECLARE(0x00509B50, get_active_font_directory);
+HOOK_DECLARE(0x00509B90, get_dvd_font_directory);
+HOOK_DECLARE(0x00509BB0, get_font_master_filename);
+HOOK_DECLARE(0x00509C20, get_hard_drive_font_directory);
 
 REFERENCE_DECLARE(0x022B7FAC, s_font_globals, g_font_globals);
 REFERENCE_DECLARE(0x02457BB8, s_font_package_cache, g_font_package_cache);
@@ -13,27 +44,38 @@ REFERENCE_DECLARE(0x0189D364, char const* const, k_font_package_suffix);
 
 void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state)
 {
-	INVOKE(0x00509140, font_block_until_load_completes, loading_state);
+	//INVOKE(0x00509140, font_block_until_load_completes, loading_state);
+
+	if (loading_state->started.peek() && !loading_state->finished.peek())
+	{
+		async_task_change_priority(loading_state->async_task, _async_priority_blocking_generic);
+		internal_async_yield_until_done_attributed(&loading_state->finished, false, false, (e_yield_reason)4, __FILE__, __LINE__);
+	}
 }
 
-void __cdecl fonts_close_internal(s_font_loading_state* loading_state)
+void __cdecl font_close_loaded_file(s_font_loading_state* loading_state)
 {
-	INVOKE(0x005091A0, fonts_close_internal, loading_state);
+	//INVOKE(0x005091A0, font_close_loaded_file, loading_state);
+
+	font_block_until_load_completes(loading_state);
+
+	if (loading_state->font_file_loaded)
+		file_close(&loading_state->font_file);
 }
 
 void __cdecl font_dispose()
 {
-	INVOKE(0x00509210, font_dispose);
+	//INVOKE(0x00509210, font_dispose);
 
-	//if (g_font_globals.initialized)
-	//{
-	//	font_close_loaded_file(&g_font_globals.loading_state);
-	//	csmemset(&g_font_globals.loading_state, 0, sizeof(g_font_globals.loading_state));
-	//	g_font_globals.font_package_header = NULL;
-	//	font_cache_delete();
-	//	font_package_cache_delete();
-	//}
-	//csmemset(&g_font_globals, 0, sizeof(g_font_globals));
+	if (g_font_globals.initialized)
+	{
+		font_close_loaded_file(&g_font_globals.loading_state);
+		csmemset(&g_font_globals.loading_state, 0, sizeof(g_font_globals.loading_state));
+		g_font_globals.font_package_header = NULL;
+		font_cache_delete();
+		font_package_cache_delete();
+	}
+	csmemset(&g_font_globals, 0, sizeof(g_font_globals));
 }
 
 //char const* __cdecl font_get_debug_name(e_font_index font_index);
@@ -99,7 +141,9 @@ s_font_header const* __cdecl font_get_loaded_header(long font_index)
 
 bool __cdecl font_get_package_file_handle(s_file_handle* out_file_handle)
 {
-	return INVOKE(0x00509360, font_get_package_file_handle, out_file_handle);
+	//return INVOKE(0x00509360, font_get_package_file_handle, out_file_handle);
+
+	return g_font_globals.loading_state.font_file_loaded && file_reference_get_file_handle(&g_font_globals.loading_state.font_file, out_file_handle);
 }
 
 s_font_package_file_header const* __cdecl font_get_package_header_internal()
@@ -111,14 +155,14 @@ s_font_package_file_header const* __cdecl font_get_package_header_internal()
 
 void __cdecl font_idle()
 {
-	INVOKE(0x00509390, font_idle);
+	//INVOKE(0x00509390, font_idle);
 
-	//if (g_font_globals.initialized && !g_font_globals.emergency_mode)
-	//{
-	//	font_loading_idle();
-	//	font_cache_idle();
-	//	font_package_cache_idle();
-	//}
+	if (g_font_globals.initialized && !g_font_globals.emergency_mode)
+	{
+		font_loading_idle();
+		font_cache_idle();
+		font_package_cache_idle();
+	}
 }
 
 bool __cdecl font_in_emergency_mode()
@@ -130,97 +174,136 @@ bool __cdecl font_in_emergency_mode()
 
 void __cdecl font_initialize()
 {
-	INVOKE(0x005093D0, font_initialize);
+	//INVOKE(0x005093D0, font_initialize);
 
-	//csmemset(&g_font_globals, 0, sizeof(g_font_globals));
-	//g_font_globals.language = _language_invalid;
-	//fonts_select_language();
-	//fonts_copy_to_hard_drive();
-	//
-	//char font_package_filename[256]{};
-	//get_font_master_filename(g_font_globals.language, font_package_filename, 256);
-	//
-	//font_load(&g_font_globals.loading_state, _font_index_none, font_package_filename, false);
-	//font_package_cache_new();
-	//font_cache_new();
-	//g_font_globals.initialized = true;
+	csmemset(&g_font_globals, 0, sizeof(g_font_globals));
+	g_font_globals.language = _language_invalid;
+	fonts_select_language();
+	fonts_copy_to_hard_drive();
+	
+	char font_package_filename[256]{};
+	get_font_master_filename(g_font_globals.language, font_package_filename, 256);
+	
+	font_load(&g_font_globals.loading_state, _font_index_none, font_package_filename, false);
+	font_package_cache_new();
+	font_cache_new();
+	g_font_globals.initialized = true;
 }
 
 void __cdecl font_initialize_emergency()
 {
-	INVOKE(0x00509420, font_initialize_emergency);
+	//INVOKE(0x00509420, font_initialize_emergency);
 
-	//if (!g_font_globals.initialized)
-	//{
-	//	csmemset(&g_font_globals, 0, sizeof(g_font_globals));
-	//	g_font_globals.language = _language_invalid;
-	//	font_cache_new();
-	//	font_package_cache_new();
-	//	g_font_globals.initialized = true;
-	//}
-	//
-	//c_font_cache_mt_safe font_cache{};
-	//g_font_globals.emergency_mode = true;
+	if (!g_font_globals.initialized)
+	{
+		csmemset(&g_font_globals, 0, sizeof(g_font_globals));
+		g_font_globals.language = _language_invalid;
+		font_cache_new();
+		font_package_cache_new();
+		g_font_globals.initialized = true;
+	}
+	
+	c_font_cache_mt_safe font_cache{};
+	g_font_globals.emergency_mode = true;
 }
 
 //void font_load(struct s_font_loading_state* loading_state, e_font_index font_index, char const* filename, bool load_blocking)
 void __cdecl font_load(s_font_loading_state* loading_state, long font_index, char const* filename, bool load_blocking)
 {
-	INVOKE(0x00509480, font_load, loading_state, font_index, filename, load_blocking);
+	//INVOKE(0x00509480, font_load, loading_state, font_index, filename, load_blocking);
 
-	//ASSERT(!loading_state->started.peek());
-	//ASSERT(!loading_state->finished.peek());
-	//ASSERT(!loading_state->failed.peek());
-	//
-	//loading_state->filename.set(filename);
-	//loading_state->font_index = font_index;
-	//
-	//char const* font_directory = g_font_globals.load_font_from_hard_drive ? k_hard_drive_font_directory : k_dvd_font_directory;
-	//file_reference_create_from_path(&loading_state->font_file, font_directory, true);
-	//file_reference_set_name(&loading_state->font_file, filename);
-	//loading_state->started = true;
-	//
-	//byte async_task[220]{};
-	//REFERENCE_DECLARE(async_task + 0, long, async_task_loading_state);
-	//
-	//loading_state->async_task = async_task_add(4 * load_blocking + 5, &async_task, 7, font_load_callback, &loading_state->finished);
-	//
-	//if (load_blocking)
-	//	font_block_until_load_completes(loading_state);
+	ASSERT(!loading_state->started.peek());
+	ASSERT(!loading_state->finished.peek());
+	ASSERT(!loading_state->failed.peek());
+	
+	loading_state->filename.set(filename);
+	loading_state->font_index = font_index;
+	
+	get_active_font_directory(&loading_state->font_file);
+	file_reference_set_name(&loading_state->font_file, filename);
+	loading_state->started = true;
+
+	s_async_task task{};
+	task.font_loading_task.loading_state = loading_state;
+	
+	loading_state->async_task = async_task_add(e_async_priority(4 * load_blocking + 5), &task, _async_category_text, font_load_callback, &loading_state->finished);
+	
+	if (load_blocking)
+		font_block_until_load_completes(loading_state);
 }
 
-//enum e_async_completion font_load_callback(void*)
-long __cdecl font_load_callback(void* callback_data)
+e_async_completion __cdecl font_load_callback(s_async_task* task)
 {
-	return INVOKE(0x00509550, font_load_callback, callback_data);
+	return INVOKE(0x00509550, font_load_callback, task);
 }
+
+//.text:005096B0 ; 
 
 void __cdecl font_loading_idle()
 {
-	INVOKE(0x005096F0, font_loading_idle);
+	//INVOKE(0x005096F0, font_loading_idle);
+
+	if (g_font_globals.loading_state.finished.peek() && g_font_globals.loading_state.failed.peek() ||
+		g_font_globals.permanently_unavailable)
+	{
+		if (g_font_globals.load_font_from_hard_drive)
+		{
+			fonts_invalidate_cached_fonts();
+			g_font_globals.load_font_from_hard_drive = false;
+		}
+
+		if (g_font_globals.reload_retry_count < 3)
+		{
+			g_font_globals.reload_retry_count++;
+			font_reload();
+		}
+		else
+		{
+			if (!g_font_globals.permanently_unavailable)
+				g_font_globals.permanently_unavailable = true;
+
+			//damaged_media_halt_and_display_error();
+		}
+	}
 }
 
 void __cdecl font_reload()
 {
-	INVOKE(0x00509780, font_reload);
+	//INVOKE(0x00509780, font_reload);
+
+	c_font_cache_mt_safe font_cache;
+
+	fonts_invalidate_cached_fonts();
+	font_cache_flush();
+	font_package_cache_flush();
+	fonts_close();
+	fonts_select_language();
+	fonts_copy_to_hard_drive();
+	fonts_begin_loading(true);
 }
 
-// specific to halo online
-void __cdecl font_load_wrapper(bool load_blocking)
+long __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* files, long max_files, long* font_id_mapping, long max_font_ids)
 {
-	//INVOKE(0x005099A0, font_load_wrapper, load_blocking);
+	return INVOKE(0x00509840, font_table_get_font_file_references, text, directory, files, max_files, font_id_mapping, max_font_ids);
+}
+
+bool __cdecl fonts_begin_loading(bool load_blocking)
+{
+	//INVOKE(0x005099A0, fonts_begin_loading, load_blocking);
 
 	char font_package_filename[256]{};
-	get_font_master_filename(g_font_globals.language, font_package_filename, 256);
+	get_font_master_filename(g_font_globals.language, font_package_filename, sizeof(font_package_filename));
 
-	font_load(&g_font_globals.loading_state, _font_index_none, font_package_filename, false);
+	font_load(&g_font_globals.loading_state, _font_index_none, font_package_filename, load_blocking);
+
+	return true;
 }
 
 void __cdecl fonts_close()
 {
 	//INVOKE(0x00509A50, fonts_close);
 
-	fonts_close_internal(&g_font_globals.loading_state);
+	font_close_loaded_file(&g_font_globals.loading_state);
 	csmemset(&g_font_globals.loading_state, 0, sizeof(g_font_globals.loading_state));
 	g_font_globals.font_package_header = nullptr;
 }
@@ -232,9 +315,9 @@ void __cdecl fonts_copy_to_hard_drive()
 	g_font_globals.load_font_from_hard_drive = false;
 }
 
-void __cdecl font_invalidate_cached_fonts()
+void __cdecl fonts_invalidate_cached_fonts()
 {
-	//INVOKE(0x00509AA0, font_invalidate_cached_fonts);
+	//INVOKE(0x00509AA0, fonts_invalidate_cached_fonts);
 
 	if (global_preferences_get_last_font_language() != _language_invalid)
 	{
@@ -264,21 +347,45 @@ void __cdecl fonts_select_language()
 	g_font_globals.language = current_language;
 }
 
+void __cdecl get_active_font_directory(s_file_reference* file)
+{
+	//INVOKE(0x00509B50, get_active_font_directory, file);
+
+	if (g_font_globals.load_font_from_hard_drive)
+		get_dvd_font_directory(file);
+	else
+		get_hard_drive_font_directory(file);
+}
+
+void __cdecl get_dvd_font_directory(s_file_reference* file)
+{
+	//INVOKE(0x00509B90, get_dvd_font_directory, file);
+
+	file_reference_create_from_path(file, k_dvd_font_directory, true);
+}
+
 void __cdecl get_font_master_filename(e_language language, char* buffer, long buffer_size)
 {
-	INVOKE(0x00509BB0, get_font_master_filename, language, buffer, buffer_size);
+	//INVOKE(0x00509BB0, get_font_master_filename, language, buffer, buffer_size);
 
-	//csstrnzcpy(buffer, k_font_package_base_name, buffer_size);
-	//if (language)
-	//{
-	//	char const* suffix = get_language_suffix(language, true);
-	//	if (*suffix)
-	//	{
-	//		csnzappendf(buffer, buffer_size, "_");
-	//		csnzappendf(buffer, buffer_size, suffix);
-	//	}
-	//}
-	//
-	//csnzappendf(buffer, buffer_size, k_font_package_suffix);
+	csstrnzcpy(buffer, k_font_package_base_name, buffer_size);
+	if (language)
+	{
+		char const* suffix = get_language_suffix(language, true);
+		if (*suffix)
+		{
+			csnzappendf(buffer, buffer_size, "_");
+			csnzappendf(buffer, buffer_size, suffix);
+		}
+	}
+	
+	csnzappendf(buffer, buffer_size, k_font_package_suffix);
+}
+
+void __cdecl get_hard_drive_font_directory(s_file_reference* file)
+{
+	//INVOKE(0x00509C20, get_hard_drive_font_directory, file);
+
+	file_reference_create_from_path(file, k_hard_drive_font_directory, true);
 }
 

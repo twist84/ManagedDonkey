@@ -84,3 +84,9 @@ static_assert(sizeof(c_font_cache_mt_safe) == sizeof(c_font_cache_base) + 0x4);
 
 // 0165FCE8
 //c_null_font_cache
+
+extern void __cdecl font_cache_delete();
+extern void __cdecl font_cache_flush();
+extern void __cdecl font_cache_idle();
+extern void __cdecl font_cache_new();
+

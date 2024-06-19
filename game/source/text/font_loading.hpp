@@ -230,10 +230,13 @@ extern char const*& k_dvd_font_directory;
 extern char const* const& k_font_package_base_name;
 extern char const* const& k_font_package_suffix;
 
+enum e_async_completion;
+union s_async_task;
+
 enum e_language;
 
 extern void __cdecl font_block_until_load_completes(s_font_loading_state* loading_state);
-extern void __cdecl fonts_close_internal(s_font_loading_state* loading_state);
+extern void __cdecl font_close_loaded_file(s_font_loading_state* loading_state);
 extern void __cdecl font_dispose();
 extern char const* __cdecl font_get_debug_name(long font_index);
 extern long __cdecl font_get_font_index(long font_id);
@@ -246,13 +249,17 @@ extern bool __cdecl font_in_emergency_mode();
 extern void __cdecl font_initialize();
 extern void __cdecl font_initialize_emergency();
 extern void __cdecl font_load(s_font_loading_state* loading_state, long font_index, char const* filename, bool load_blocking);
-extern long __cdecl font_load_callback(void* callback_data);
+extern e_async_completion __cdecl font_load_callback(s_async_task* task);
 extern void __cdecl font_loading_idle();
 extern void __cdecl font_reload();
-extern void __cdecl font_load_wrapper(bool load_blocking);
+extern long __cdecl font_table_get_font_file_references(char const* text, s_file_reference const* directory, s_file_reference* files, long max_files, long* font_id_mapping, long max_font_ids);
+extern bool __cdecl fonts_begin_loading(bool load_blocking);
 extern void __cdecl fonts_close();
 extern void __cdecl fonts_copy_to_hard_drive();
-extern void __cdecl font_invalidate_cached_fonts();
+extern void __cdecl fonts_invalidate_cached_fonts();
 extern void __cdecl fonts_select_language();
+extern void __cdecl get_active_font_directory(s_file_reference* file);
+extern void __cdecl get_dvd_font_directory(s_file_reference* file);
 extern void __cdecl get_font_master_filename(e_language language, char* buffer, long buffer_size);
+extern void __cdecl get_hard_drive_font_directory(s_file_reference* file);
 

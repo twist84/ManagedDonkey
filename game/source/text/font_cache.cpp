@@ -29,3 +29,28 @@ c_font_cache_mt_safe::~c_font_cache_mt_safe()
 	DECLFUNC(0x00659720, void, __thiscall, c_font_cache_mt_safe*)(this);
 }
 
+void __cdecl font_cache_delete()
+{
+	INVOKE(0x0065A0E0, font_cache_delete);
+}
+
+void __cdecl font_cache_flush()
+{
+	INVOKE(0x0065A200, font_cache_flush);
+}
+
+void __cdecl font_cache_idle()
+{
+	INVOKE(0x0065A510, font_cache_idle);
+}
+
+//.text:0065A670 ; 
+
+void __cdecl font_cache_new()
+{
+	INVOKE(0x0065A890, font_cache_new);
+}
+
+//.text:0065A950 ; 
+//.text:0065A960 ; 
+

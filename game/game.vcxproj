@@ -631,6 +631,7 @@ POPD
     <ClCompile Include="source\tag_files\tag_resource_threading.cpp" />
     <ClCompile Include="source\test\test_functions.cpp" />
     <ClCompile Include="source\test\test_globals.cpp" />
+    <ClCompile Include="source\text\font_package_cache.cpp" />
     <ClCompile Include="source\text\text_group.cpp" />
     <ClCompile Include="source\text\draw_string.cpp" />
     <ClCompile Include="source\text\font_cache.cpp" />
@@ -1299,6 +1300,7 @@ POPD
     <ClInclude Include="source\text\draw_string.hpp" />
     <ClInclude Include="source\text\font_cache.hpp" />
     <ClInclude Include="source\text\font_loading.hpp" />
+    <ClInclude Include="source\text\font_package_cache.hpp" />
     <ClInclude Include="source\text\text_group.hpp" />
     <ClInclude Include="source\text\unicode.hpp" />
     <ClInclude Include="source\text\xml_parser.hpp" />
