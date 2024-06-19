@@ -67,7 +67,7 @@ public:
 protected:
 	volatile bool m_locked;
 };
-static_assert(sizeof(c_font_cache_scope_lock) == 0x1);
+static_assert(sizeof(c_font_cache_scope_lock) == sizeof(bool));
 
 // 0165FCCC
 struct c_font_cache_mt_safe : // thread safe

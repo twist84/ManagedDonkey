@@ -42,7 +42,7 @@ static_assert(sizeof(s_kerning_pair) == 0x2);
 
 struct s_font_package_entry
 {
-	long first_character_key;
+	dword first_character_key;
 	long last_character_key;
 };
 static_assert(sizeof(s_font_package_entry) == 0x8);
@@ -96,7 +96,7 @@ struct s_font_character
 	// 256
 	word __unknown0;
 
-	// 8192
+	// 0x2000
 	short packed_size;
 
 	// 256
@@ -111,31 +111,49 @@ struct s_font_character
 	// 64
 	word __unknownA;
 };
-static_assert(sizeof(s_font_character) == 0xC); // 0x10 in mcc
-//static_assert(sizeof(s_font_character) == 0x10); // mcc
+static_assert(sizeof(s_font_character) == 0xC);
+
+struct s_font_character_mcc
+{
+	// 768
+	short __unknown0;
+
+	short __unknown2;
+
+	// 0xC000
+	long packed_size;
+
+	// 768
+	short height;
+
+	// 512
+	short width;
+
+	// 768
+	word __unknownA;
+
+	// 512
+	word __unknownC;
+};
+static_assert(sizeof(s_font_character_mcc) == 0x10);
 
 struct s_font_header
 {
-	//  ho: 0xF0000005
-	// mcc: 0xF0000006
+	// 0xF0000005
 	dword version;
 
 	c_static_string<k_tag_string_length> name;
 
-	//  ho: 64
-	// mcc: 512
+	// 64
 	word __unknown24;
 
-	//  ho: 64
-	// mcc: 512
+	// 64
 	word __unknown26;
 
-	//  ho: 64
-	// mcc: 512
+	// 64
 	word __unknown28;
 
-	//  ho: 256
-	// mcc: 768
+	// 256
 	word __unknown2A;
 
 	// sizeof(s_font_header)
@@ -147,31 +165,26 @@ struct s_font_header
 
 	dword location_table_offset;
 
-	//  ho: 0x10000
-	// mcc: 0x10000
+	// 0x10000
 	long location_table_count;
 
-	//  ho: 0x10000
-	// mcc: 0x10000
+	// 0x10000
 	long __unknown13C;
 	dword __unknown140;
 
 	long character_data_size_bytes;
 
-	//  ho: 0x402
-	// mcc: 0x1802
+	// 0x402
 	long __unknown148;
 	//qword __unknown148; // mcc
 
-	//  ho: 0x2000
-	// mcc: 0xC000
+	// 0x2000
 	dword __unknown14C;
 
 	// sizeof(s_font_package_file)
 	dword __unknown150;
 
-	//  ho: 0x8000000
-	// mcc: 0x8000000
+	// 0x8000000
 	dword __unknown154;
 	dword __unknown158;
 };
@@ -179,26 +192,21 @@ static_assert(sizeof(s_font_header) == 0x15C);
 
 struct s_font_header_mcc
 {
-	//  ho: 0xF0000005
-	// mcc: 0xF0000006
+	// 0xF0000006
 	dword version;
 
 	c_static_string<k_tag_string_length> name;
 
-	//  ho: 64
-	// mcc: 512
+	// 512
 	word __unknown24;
 
-	//  ho: 64
-	// mcc: 512
+	// 512
 	word __unknown26;
 
-	//  ho: 64
-	// mcc: 512
+	// 512
 	word __unknown28;
 
-	//  ho: 256
-	// mcc: 768
+	// 768
 	word __unknown2A;
 
 	// sizeof(s_font_header)
@@ -210,23 +218,19 @@ struct s_font_header_mcc
 
 	long location_table_offset;
 
-	//  ho: 0x10000
-	// mcc: 0x10000
+	// 0x10000
 	long location_table_count;
 
-	//  ho: 0x10000
-	// mcc: 0x10000
+	// 0x10000
 	dword __unknown13C;
 	dword __unknown140;
 
 	long character_data_size_bytes;
 
-	//  ho: 0x402
-	// mcc: 0x1802
+	// 0x1802
 	qword __unknown148;
 
-	//  ho: 0x2000
-	// mcc: 0xC000
+	// 0xC000
 	dword __unknown14C;
 
 	// sizeof(s_font_package_file)
@@ -234,8 +238,7 @@ struct s_font_header_mcc
 	dword __unknown154;
 	dword __unknown158;
 
-	//  ho: 0x8000000
-	// mcc: 0x8000000
+	// 0x8000000
 	dword __unknown15C;
 	dword __unknown160;
 };
@@ -245,11 +248,17 @@ struct s_font_package_file
 {
 	s_font_package_file_header header;
 	s_font_header font_headers[16];
-	//s_font_header font_headers[64]; // mcc
 	byte __data16D8[0x6928];
 };
 static_assert(sizeof(s_font_package_file) == 0x8000);
-//static_assert(sizeof(s_font_package_file) == 0xC000); // mcc
+
+struct s_font_package_file_mcc
+{
+	s_font_package_file_header_mcc header;
+	s_font_header_mcc font_headers[64];
+	byte __data16D8[0x61E8];
+};
+static_assert(sizeof(s_font_package_file_mcc) == 0xC000);
 
 struct s_font_globals
 {
@@ -262,16 +271,30 @@ struct s_font_globals
 
 	long __unknownC;
 
-	//// mcc
-	//long __unknown10;
-	//long __unknown14;
-
 	s_font_loading_state loading_state;
 	s_font_package_file_header* font_package_header;
 	s_font_package_file font_package;
 };
 static_assert(sizeof(s_font_globals) == 0x815C);
-//static_assert(sizeof(s_font_globals) == 0xC170); // mcc
+
+struct s_font_globals_mcc
+{
+	bool initialized;
+	bool load_font_from_hard_drive;
+	bool emergency_mode;
+	bool permanently_unavailable;
+	c_enum<e_language, long, _language_invalid, k_language_count> language;
+	long reload_retry_count;
+	long scaled_font_file_index;
+
+	long __unknown10;
+	long __unknown14;
+
+	s_font_loading_state loading_state;
+	s_font_package_file_header_mcc* font_package_header;
+	s_font_package_file_mcc font_package;
+};
+static_assert(sizeof(s_font_globals_mcc) == 0xC168);
 
 struct s_font_package_cache_entry
 {
@@ -280,8 +303,8 @@ struct s_font_package_cache_entry
 	long __unknown8;
 	long __unknownC;
 	long async_task;
-	c_synchronized_long __unknown14;
-	c_synchronized_long __unknown18;
+	c_synchronized_long read_size;
+	c_synchronized_long done;
 	long status;
 
 	s_font_package_file font_package_file;
@@ -295,11 +318,19 @@ struct s_font_package_cache
 	long __unknown4;
 
 	c_static_array<s_font_package_cache_entry, 8> entries;
-
-	//long __unknown60108; // mcc
 };
 static_assert(sizeof(s_font_package_cache) == 0x40108);
-//static_assert(sizeof(s_font_package_cache) == 0xC0110); // mcc
+
+struct s_font_package_cache_mcc
+{
+	c_synchronized_long initialized;
+	long __unknown4;
+
+	c_static_array<s_font_package_cache_entry, 8> entries;
+
+	dword __unknown60108;
+};
+static_assert(sizeof(s_font_package_cache_mcc) == 0x4010C);
 
 extern s_font_globals& g_font_globals;
 extern s_font_package_cache& g_font_package_cache;

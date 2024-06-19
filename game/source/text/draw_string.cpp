@@ -75,7 +75,6 @@ void __cdecl c_draw_string::text_bounds_draw_character(real a1, real a2, real a3
 	DECLFUNC(0x00659340, void, __thiscall, c_draw_string*, real, real, real, real)(this, a1, a2, a3, a4);
 }
 
-
 void __cdecl c_draw_string::set_scale(real scale)
 {
 	m_scale = scale;
