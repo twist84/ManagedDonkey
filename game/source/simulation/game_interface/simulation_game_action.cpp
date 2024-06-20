@@ -1,8 +1,20 @@
 #include "simulation/game_interface/simulation_game_action.hpp"
 
+//.text:004B2440 ; void __cdecl simulation_action_game_ai_update(dword)
+//.text:004B2490 ; void __cdecl simulation_action_game_engine_globals_create()
+//.text:004B2510 ; void __cdecl simulation_action_game_engine_globals_delete()
+
 void __cdecl simulation_action_game_engine_globals_update(c_flags<long, qword, 64>& flags)
 {
 	INVOKE(0x004B2570, simulation_action_game_engine_globals_update, flags);
+}
+
+//.text:004B25C0 ; void __cdecl simulation_action_game_engine_player_create(short)
+//.text:004B2640 ; void __cdecl simulation_action_game_engine_player_delete(short)
+
+void __cdecl simulation_action_game_engine_player_update(long player_index, c_flags<long, qword, 64>& flags)
+{
+	INVOKE(0x004B26B0, simulation_action_game_engine_player_update, player_index, flags);
 }
 
 //.text:004B2BE0 ; void __cdecl simulation_action_hit_marker(long)
