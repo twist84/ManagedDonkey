@@ -392,6 +392,7 @@ struct c_rasterizer
 	static e_surface(&g_color_surfaces)[4];
 
 	static short_rectangle2d& g_last_viewport;
+	static short_rectangle2d& g_last_scissor_rect;
 
 	static dword& g_max_vs_gprs;
 	static dword& g_max_ps_gprs;
