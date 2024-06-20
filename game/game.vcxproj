@@ -200,6 +200,7 @@ POPD
     <ClCompile Include="source\effects\vision_mode.cpp" />
     <ClCompile Include="source\game\game_achievements.cpp" />
     <ClCompile Include="source\game\game_allegiance.cpp" />
+    <ClCompile Include="source\game\game_engine_notifications.cpp" />
     <ClCompile Include="source\game\game_save.cpp" />
     <ClCompile Include="source\cache\cache_file_runtime_codecs.cpp" />
     <ClCompile Include="source\cache\pc_sound_cache.cpp" />
@@ -687,6 +688,7 @@ POPD
     <ClInclude Include="source\editor\editor_flags.hpp" />
     <ClInclude Include="source\editor\editor_render_stubs.hpp" />
     <ClInclude Include="source\game\game_achievements.hpp" />
+    <ClInclude Include="source\game\game_engine_notifications.hpp" />
     <ClInclude Include="source\game\game_grief.hpp" />
     <ClInclude Include="source\hs\hs_compile.hpp" />
     <ClInclude Include="source\hs\hs_library_internal_compile.hpp" />
