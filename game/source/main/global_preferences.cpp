@@ -1640,9 +1640,7 @@ void function_handler(s_global_preference const& global_preference, value_conver
 		{
 		case _global_preference_fullscreen:
 		{
-			long width, height;
-			global_preferences_get_screen_resolution(&width, &height);
-			sub_79BA30(width, height);
+			rasterizer_reset_device();
 		}
 		break;
 		case _global_preference_master_volume:
@@ -1671,7 +1669,7 @@ void function_handler(s_global_preference const& global_preference, value_conver
 		case _global_preference_screen_resolution:
 		{
 			function.type_screen_resolution(values[0].type_long, values[1].type_long);
-			sub_79BA30(values[0].type_long, values[1].type_long);
+			rasterizer_reset_device();
 		}
 		break;
 		}

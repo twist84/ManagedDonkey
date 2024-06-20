@@ -2,6 +2,7 @@
 
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
+#include "main/global_preferences.hpp"
 #include "memory/module.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render/screen_postprocess.hpp"
@@ -87,6 +88,13 @@ DATA_PATCH_DECLARE(0x00A250A8 + 1, rasterizer_clear_color, rasterizer_clear_colo
 void __stdcall sub_79BA30(long width, long height)
 {
 	INVOKE(0x0079BA30, sub_79BA30, width, height);
+}
+
+void rasterizer_reset_device()
+{
+	long width, height;
+	global_preferences_get_screen_resolution(&width, &height);
+	sub_79BA30(width, height);
 }
 
 void __cdecl c_rasterizer::begin(short_rectangle2d viewport_top, short_rectangle2d mipmap_lod_bias_top)

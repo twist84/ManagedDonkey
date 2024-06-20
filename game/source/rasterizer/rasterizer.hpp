@@ -6,9 +6,6 @@
 #include "rasterizer/rasterizer_text.hpp"
 #include "tag_files/tag_groups.hpp"
 
-// force update the backbuffer
-extern void __stdcall sub_79BA30(long width, long height);
-
 enum _D3DRENDERSTATETYPE;
 __interface IDirect3DDevice9Ex;
 __interface IDirect3DQuery9;
@@ -758,6 +755,8 @@ extern long render_debug_toggle_default_lightmaps_texaccum;
 extern bool& render_debug_toggle_default_static_lighting;
 extern bool& render_debug_toggle_default_dynamic_lighting;
 extern bool& render_debug_toggle_default_sfx;
+
+extern void rasterizer_reset_device();
 
 extern void __cdecl draw_tesselated_quad();
 extern bool __cdecl rasterizer_initialized();

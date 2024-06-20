@@ -944,7 +944,7 @@ void __cdecl main_loop_body_main_part()
 			if (game_time_get_paused())
 				g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit3, true);
 	
-			if (game_time_initialized() && fabsf(game_time_get_speed() - 1.0f) >= k_real_epsilon)
+			if (game_time_initialized() && fabsf(game_time_get_speed() - 1.0f) > k_real_epsilon)
 				g_main_gamestate_timing_data->flags.set(_game_tick_publishing_unknown_bit7, true);
 	
 			if (game_in_progress() && game_is_playback() && !game_is_authoritative_playback())

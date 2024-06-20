@@ -18,7 +18,12 @@ short __cdecl font_get_kerning_pair_offset(s_font_header const* header, dword a2
 
 long __cdecl font_get_line_height(s_font_header const* header)
 {
-	return INVOKE(0x0065B5E0, font_get_line_height, header);
+	//return INVOKE(0x0065B5E0, font_get_line_height, header);
+
+	if (header)
+		return header->__unknown26 + header->__unknown28 + header->__unknown24;
+
+	return 10;
 }
 
 void __cdecl font_header_byteswap(s_font_header* header)
