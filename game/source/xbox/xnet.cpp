@@ -128,23 +128,29 @@ void __cdecl XNetRemoveEntry(transport_address const* address)
 	entry.initialized = false;
 }
 
+struct s_external_ip
+{
+	c_http_client http_client;
+	c_http_get_stream get_stream;
+	transport_address address;
+};
+
+s_external_ip g_external_ip = { .address = transport_address() };
+
 dword get_external_ip()
 {
-	static dword ipv4_address = NONE;
-	if (ipv4_address == NONE)
+	if (g_external_ip.address.ipv4_address == 0)
 	{
 		char const* host = "ifconfig.me";
+		transport_address_from_host(host, g_external_ip.address);
 
-		transport_address address{};
-		transport_address_from_host(host, address);
+		g_external_ip.http_client;
+		g_external_ip.get_stream;
+		g_external_ip.get_stream.add_header("Host", host);
+		g_external_ip.get_stream.add_header("Connection", "close");
+		g_external_ip.get_stream.add_header("User-Agent", "DonkeyClient");
 
-		c_http_client http_client;
-		c_http_get_stream get_stream;
-		get_stream.add_header("Host", host);
-		get_stream.add_header("Connection", "close");
-		get_stream.add_header("User-Agent", "DonkeyClient");
-
-		if (http_client.start(&get_stream, address.ipv4_address, 80, "/ip", false))
+		if (g_external_ip.http_client.start(&g_external_ip.get_stream, g_external_ip.address.ipv4_address, 80, "/ip", false))
 		{
 			bool completed_successfully = false;
 			char response_content_buffer[4096]{};
@@ -155,9 +161,9 @@ dword get_external_ip()
 			while (system_milliseconds() < v7)
 			{
 				long response_content_buffer_count = NUMBEROF(response_content_buffer);
-				if (!http_client.do_work(&completed_successfully, response_content_buffer, &response_content_buffer_count, &http_response_code))
+				if (!g_external_ip.http_client.do_work(&completed_successfully, response_content_buffer, &response_content_buffer_count, &http_response_code))
 				{
-					http_client.stop();
+					g_external_ip.http_client.stop();
 					break;
 				}
 
@@ -167,14 +173,12 @@ dword get_external_ip()
 					break;
 			}
 
-			address = {};
 			if (completed_successfully)
-				transport_address_from_host(response_content_buffer, address);
+				transport_address_from_host(response_content_buffer, g_external_ip.address);
 		}
-
-		ipv4_address = address.ipv4_address;
+		g_external_ip.http_client.stop();
 	}
 
-	return ipv4_address;
+	return g_external_ip.address.ipv4_address;
 }
 
