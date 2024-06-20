@@ -313,7 +313,7 @@ struct object_placement_data
 	long object_index;
 	long team_index;
 	s_damage_owner damage_owner;
-	dword_flags active_change_colors;
+	c_flags<long, dword, 5> active_change_colors;
 	c_static_array<real_rgb_color, 5> change_colors;
 	long model_customization_override_count;
 	c_static_array<s_model_customization_region_permutation, 16> model_customization_overrides;
