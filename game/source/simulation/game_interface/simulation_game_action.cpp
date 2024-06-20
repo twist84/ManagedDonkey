@@ -34,7 +34,7 @@ void __cdecl simulation_action_object_create(long object_index)
 //.text:004B3140 ; void __cdecl simulation_action_pickup_equipment(long, long)
 //.text:004B31C0 ; void __cdecl simulation_action_pickup_powerup(long, long)
 //.text:004B3240 ; void __cdecl simulation_action_pickup_weapon(long, long)
-//.text:004B3240 ; simulation_action_player_taunt
+//.text:004B32C0 ; simulation_action_player_taunt
 //.text:004B3300 ; void __cdecl simulation_action_projectile_attached(long, long, short, real_point3d const*, s_location const*)
 
 //.text:004B4650 ; void __cdecl simulation_player_force_base_respawn(long)
