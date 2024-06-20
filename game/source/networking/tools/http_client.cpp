@@ -22,7 +22,7 @@ c_http_client::c_http_client() :
 	m_start_time(0),
 	m_previous_time(0),
 	m_upstream_quota(NONE),
-	m_current_state()
+	m_current_state(_upload_state_none)
 {
 	transport_register_transition_functions(nullptr, transport_shutdown, nullptr, this);
 }
@@ -530,19 +530,15 @@ bool c_http_client::start_connect()
 
 bool c_http_client::stop()
 {
-	bool result = true;
+	if (m_current_state == _upload_state_none)
+		return true;
 
-	if (m_current_state)
-	{
-		if (!m_http_stream->reset())
-			result = false;
+	bool result = m_http_stream->reset();
+	ASSERT(m_socket_count == 1);
 
-		ASSERT(m_socket_count == 1);
-
-		transport_endpoint_disconnect(m_endpoint_ptr);
-		m_socket_count--;
-		m_current_state = _upload_state_none;
-	}
+	transport_endpoint_disconnect(m_endpoint_ptr);
+	m_socket_count--;
+	m_current_state = _upload_state_none;
 
 	return result;
 }
