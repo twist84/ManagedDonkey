@@ -3,6 +3,7 @@
 #include "cache/security_functions.hpp"
 #include "cseries/cseries_events.hpp"
 #include "memory/module.hpp"
+#include "networking/online/online.hpp"
 
 c_network_storage_manifest* __cdecl c_network_storage_manifest::get()
 {
@@ -35,8 +36,11 @@ void __cdecl network_storage_manifest_update()
 {
 	//INVOKE(0x004A5B40, network_storage_manifest_update);
 
-	if (c_network_storage_manifest* manifest = c_network_storage_manifest::get())
-		manifest->update();
+	if (online_is_connected_to_live())
+	{
+		if (c_network_storage_manifest* manifest = c_network_storage_manifest::get())
+			manifest->update();
+	}
 }
 
 void c_network_storage_manifest::update()

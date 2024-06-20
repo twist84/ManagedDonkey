@@ -133,12 +133,12 @@ void __cdecl online_get_title_name_string(dword title_id, wchar_t* buffer, long 
 
 bool __cdecl online_has_all_online_enabled_users()
 {
-	return true;
+	return g_online_is_connected_to_live;
 }
 
 bool __cdecl online_has_any_silver_or_gold_live_users()
 {
-	return true;
+	return g_online_is_connected_to_live;
 }
 
 void __cdecl online_initialize()
@@ -185,27 +185,27 @@ qword __cdecl online_user_get_xuid(long controller_index)
 
 bool __cdecl sub_442B00(long controller_index)
 {
-	return controller_index == 0;
+	return g_online_is_connected_to_live && controller_index == 0;
 }
 
 bool __cdecl sub_442B20()
 {
-	return true;
+	return g_online_is_connected_to_live;
 }
 
 bool __cdecl online_has_signed_in_user(long controller_index)
 {
-	return g_controller_users[controller_index].initialized;
+	return g_online_is_connected_to_live && g_controller_users[controller_index].initialized;
 }
 
 bool __cdecl online_local_xuid_is_silver_or_gold_live(long controller_index)
 {
-	return g_controller_users[controller_index].initialized;
+	return g_online_is_connected_to_live && g_controller_users[controller_index].initialized;
 }
 
 bool __cdecl sub_442B70()
 {
-	return true;
+	return g_online_is_connected_to_live;
 }
 
 void __cdecl online_process_debug_output_queue()
@@ -233,7 +233,5 @@ void __cdecl online_user_set_name(wchar_t const* name)
 void __cdecl online_update()
 {
 	if (g_controller_users[0].player_name.is_empty())
-	{
 		g_controller_users[0].player_name.print(L"%S", g_hostname);
-	}
 }
