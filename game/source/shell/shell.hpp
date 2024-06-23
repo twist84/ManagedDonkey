@@ -2156,6 +2156,32 @@ enum e_odst_recon_variant
 	k_odst_recon_variant_count
 };
 
+enum e_user_interface_sound_effect
+{
+	_user_interface_sound_effect_error = 0,
+	_user_interface_sound_effect_vertical_navigation,
+	_user_interface_sound_effect_horizontal_navigation,
+	_user_interface_sound_effect_a_button,
+	_user_interface_sound_effect_b_button,
+	_user_interface_sound_effect_x_button,
+	_user_interface_sound_effect_y_button,
+	_user_interface_sound_effect_start_button,
+	_user_interface_sound_effect_back_button,
+	_user_interface_sound_effect_left_bumper,
+	_user_interface_sound_effect_right_bumper,
+	_user_interface_sound_effect_left_trigger,
+	_user_interface_sound_effect_right_trigger,
+	_user_interface_sound_effect_timer_sound,
+	_user_interface_sound_effect_timer_sound_zero,
+	_user_interface_sound_effect_alt_timer_sound,
+	_user_interface_sound_effect_second_alt_timer,
+	_user_interface_sound_effect_matchmaking_advance,
+	_user_interface_sound_effect_rank_up,
+	_user_interface_sound_effect_matchmaking_party_up,
+
+	k_user_interface_sound_effect_count
+};
+
 //e_network_interface_user_state
 // none
 // local user exists
