@@ -62,5 +62,8 @@ struct s_object_early_mover_obb
 static_assert(sizeof(s_object_early_mover_obb) == 0x4C);
 
 extern bool __cdecl object_early_mover_get_obb(long object_index_array_index, s_object_early_mover_obb* obb);
+extern void __cdecl object_early_mover_notify_local_objects(long early_mover_object_index);
+extern void __cdecl object_early_mover_update(long object_index, long early_mover_array_index);
+extern void __cdecl object_get_early_movers(long const** object_early_movers, long* object_early_movers_count);
 extern void __cdecl object_early_mover_render_debug();
 

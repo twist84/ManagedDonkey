@@ -494,6 +494,7 @@ extern void __cdecl object_set_position_direct(long object_index, real_point3d c
 extern void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool at_rest);
 extern void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location);
 extern void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type_mask);
+extern bool __cdecl object_update(long object_index);
 extern void __cdecl objects_move();
 extern void __cdecl objects_post_update();
 extern void __cdecl objects_update();

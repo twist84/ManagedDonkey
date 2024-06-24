@@ -169,6 +169,11 @@ void __cdecl damage_initialize_for_new_map()
 	csmemset(damage_globals, 0, sizeof(s_damage_globals));
 }
 
+void __cdecl damage_update() // nullsub
+{
+	//INVOKE(0x00B51F70, damage_update);
+}
+
 void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, short node_index, short region_index, short material_index, long predictability)
 {
 	//INVOKE(0x00B532F0, object_cause_damage, damage_data, object_index, node_index, region_index, material_index, predictability);

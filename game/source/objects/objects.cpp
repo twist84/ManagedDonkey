@@ -494,6 +494,48 @@ void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object
 	return INVOKE(0x00B34490, object_try_and_get_and_verify_type, object_index, object_type_mask);
 }
 
+//.text:00B344E0 ; s_multiplayer_object_properties* __cdecl object_try_and_get_multiplayer(long)
+//.text:00B34540 ; void* __cdecl object_try_and_get_unsafe_and_verify_type(long, dword)
+//.text:00B34590 ; bool __cdecl object_unmarked(long)
+//.text:00B345C0 ; void __cdecl object_unregister_scenario_object(long)
+
+bool __cdecl object_update(long object_index)
+{
+	INVOKE(0x00B34630, object_update, object_index);
+}
+
+//.text:00B347F0 ; void __cdecl object_update_collision_culling(long)
+//.text:00B34870 ; 
+//.text:00B348A0 ; void __cdecl object_update_visibility_culling(long)
+//.text:00B34930 ; bool __cdecl object_visible_to_any_player(long)
+//.text:00B34D00 ; void __cdecl object_wake(long)
+//.text:00B34D60 ; void __cdecl objects_activation(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*)
+//.text:00B35150 ; 
+//.text:00B35260 ; bool __cdecl objects_can_connect_to_map()
+//.text:00B35290 ; long __cdecl objects_compact_memory_pool()
+//.text:00B352D0 ; void __cdecl objects_detach_from_simulation()
+//.text:00B35380 ; void __cdecl objects_dispose()
+//.text:00B35430 ; void __cdecl objects_dispose_from_old_map()
+//.text:00B35530 ; void __cdecl objects_dispose_from_old_structure_bsp(dword)
+//.text:00B35710 ; void __cdecl objects_enable_warthog_chaingun_light(bool)
+//.text:00B35740 ; void __cdecl objects_garbage_collection()
+//.text:00B35790 ; long __cdecl objects_get_active_garbage_count()
+//.text:00B357B0 ; 
+//.text:00B357D0 ; long __cdecl objects_get_contiguous_free_memory_size()
+//.text:00B357F0 ; 
+//.text:00B35810 ; long __cdecl objects_get_free_object_header_count()
+//.text:00B35830 ; 
+//.text:00B35870 ; void __cdecl objects_handle_deleted_object(long)
+//.text:00B35910 ; void __cdecl objects_handle_deleted_player(long)
+//.text:00B35990 ; 
+//.text:00B35B60 ; long __cdecl objects_in_sphere(dword, dword, s_location const*, real_point3d const*, real, long*, long)
+//.text:00B35E40 ; 
+//.text:00B35F50 ; void __cdecl objects_initialize()
+//.text:00B36130 ; void __cdecl objects_initialize_for_new_map()
+//.text:00B36310 ; void __cdecl objects_initialize_for_new_structure_bsp(dword)
+//.text:00B36480 ; 
+//.text:00B364B0 ; void __cdecl objects_memory_compact()
+
 void __cdecl objects_move()
 {
 	INVOKE(0x00B36510, objects_move);
@@ -504,13 +546,17 @@ void __cdecl objects_post_update()
 	INVOKE(0x00B36610, objects_post_update);
 }
 
+//.text:00B36710 ; void __cdecl objects_purge_deleted_objects()
+//.text:00B367A0 ; void __cdecl objects_render_thread_update()
+//.text:00B367D0 ; void __cdecl objects_setup_structure_bsp_fake_lightprobes(long)
+
 void __cdecl objects_update()
 {
 	INVOKE(0x00B36840, objects_update);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
-	//TLS_DATA_GET_VALUE_REFERENCE(object_globals);
-	//
+	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
+	TLS_DATA_GET_VALUE_REFERENCE(object_globals);
+	
 	//PROFILER(object_update)
 	//{
 	//	PROFILER(objects_update)
@@ -570,7 +616,7 @@ void __cdecl objects_update()
 	//		{
 	//			long object_update_absolute_index = object_header_iter.get_absolute_index();
 	//			object_header_datum* object_header = object_header_iter.get_datum();
-	//			ASSERT(location_valid(&object_header->datum->object.location) == scenario_location_valid(&object_header->datum->object.location));
+	//			//ASSERT(location_valid(&object_header->datum->object.location) == scenario_location_valid(&object_header->datum->object.location));
 	//
 	//			if (object_header->flags.test(_object_header_active_bit) &&
 	//				object_header->flags.test(_object_header_awake_bit) &&
@@ -603,6 +649,8 @@ void __cdecl objects_update()
 	//	}
 	//}
 }
+
+//.text:00B369A0 ; void __cdecl objects_update_header_callback(long, dword)
 
 void __cdecl object_debug_teleport(long object_index, real_point3d const* position)
 {
@@ -850,7 +898,8 @@ void __cdecl object_render_debug_internal(long object_index)
 	REFERENCE_DECLARE(object + 0xA0, long, havok_component_index);
 	if (havok_component_index == NONE)
 	{
-
+		//if (physics_model_instance_new(&instance, object_index) && debug_objects_physics_models)
+		//	render_debug_physics_model(&instance, global_real_argb_black);
 	}
 	else
 	{
