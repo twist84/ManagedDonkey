@@ -1,10 +1,12 @@
 #include "objects/objects.hpp"
 
 #include "cache/cache_files.hpp"
+#include "items/items.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "models/model_definitions.hpp"
 #include "physics/havok.hpp"
+#include "profiler/profiler.hpp"
 #include "render/render_debug.hpp"
 
 #include <intrin.h>
@@ -505,6 +507,101 @@ void __cdecl objects_post_update()
 void __cdecl objects_update()
 {
 	INVOKE(0x00B36840, objects_update);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
+	//TLS_DATA_GET_VALUE_REFERENCE(object_globals);
+	//
+	//PROFILER(object_update)
+	//{
+	//	PROFILER(objects_update)
+	//	{
+	//		long* object_early_movers = NULL;
+	//		long object_early_movers_count = 0;
+	//		object_get_early_movers(&object_early_movers, &object_early_movers_count);
+	//		//object_profile_reset();
+	//
+	//		object_globals->garbage_collection_cannot_run = true;
+	//
+	//		//if (debug_objects_force_awake)
+	//		//{
+	//		//	c_data_iterator<object_header_datum> object_header_iter;
+	//		//	object_header_iter.begin(*object_header_data);
+	//		//	while (object_header_iter.next())
+	//		//	{
+	//		//		object_header_datum* object_header = object_header_iter.get_datum();
+	//		//		object_header->flags.set(_object_header_awake_bit, true);
+	//		//	}
+	//		//}
+	//
+	//		//if (debug_objects_dump_memory_stats)
+	//		//{
+	//		//	dump_object_memory_stats();
+	//		//	debug_objects_dump_memory_stats = false;
+	//		//}
+	//
+	//		ASSERT(object_globals->object_update_absolute_index == NONE);
+	//		object_globals->object_update_absolute_index = 0;
+	//
+	//		for (long object_early_mover_index = 0; object_early_mover_index < object_early_movers_count; object_early_mover_index++)
+	//		{
+	//			long object_index = object_early_movers[object_early_mover_index];
+	//			object_header_datum* object_header = (object_header_datum*)datum_get(*object_header_data, object_index);
+	//
+	//			if (object_header->flags.test(_object_header_active_bit) &&
+	//				object_header->flags.test(_object_header_awake_bit) &&
+	//				!object_header->flags.test(_object_header_post_update_bit))
+	//			{
+	//				object_update(object_index);
+	//				object_early_mover_update(object_index, object_early_mover_index);
+	//
+	//				//ASSERT(TEST_FLAG(object_header->datum->object.physics_flags, _object_is_early_mover_bit));
+	//
+	//				if (object_header->flags.test(_object_header_requires_motion_bit) &&
+	//					object_header->flags.test(_object_header_post_update_bit))
+	//				{
+	//					object_early_mover_notify_local_objects(object_index);
+	//				}
+	//			}
+	//		}
+	//
+	//		c_data_iterator<object_header_datum> object_header_iter;
+	//		object_header_iter.begin(*object_header_data);
+	//		while (object_header_iter.next())
+	//		{
+	//			long object_update_absolute_index = object_header_iter.get_absolute_index();
+	//			object_header_datum* object_header = object_header_iter.get_datum();
+	//			ASSERT(location_valid(&object_header->datum->object.location) == scenario_location_valid(&object_header->datum->object.location));
+	//
+	//			if (object_header->flags.test(_object_header_active_bit) &&
+	//				object_header->flags.test(_object_header_awake_bit) &&
+	//				!object_header->flags.test(_object_header_post_update_bit))
+	//			{
+	//				object_datum* object = (object_datum*)object_get_and_verify_type(object_header_iter.get_index(), NONE);
+	//				ASSERT(object->object.parent_object_index == NONE);
+	//				ASSERT(object->object.next_object_index == NONE);
+	//
+	//				if (object->object.flags.test(_object_in_limbo_bit))
+	//				{
+	//					item_datum* item = (item_datum*)object_get_and_verify_type(object_header_iter.get_index(), _object_mask_item);
+	//					//ASSERT(TEST_FLAG(item->item.flags, _item_in_unit_inventory_bit));
+	//					//ASSERT(TEST_FLAG(item->item.flags, _item_hidden_in_unit_inventory_bit));
+	//				}
+	//
+	//				//if (object->object.physics_flags.test(0))
+	//				if (TEST_BIT(object->object.physics_flags, 0))
+	//				{
+	//					object_globals->object_update_absolute_index = object_update_absolute_index;
+	//					object_update(object_update_absolute_index);
+	//				}
+	//			}
+	//		}
+	//
+	//		object_globals->object_update_absolute_index = NONE;
+	//		object_globals->garbage_collection_cannot_run = false;
+	//
+	//		damage_update();
+	//	}
+	//}
 }
 
 void __cdecl object_debug_teleport(long object_index, real_point3d const* position)
