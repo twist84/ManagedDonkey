@@ -501,7 +501,7 @@ void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object
 
 bool __cdecl object_update(long object_index)
 {
-	INVOKE(0x00B34630, object_update, object_index);
+	return INVOKE(0x00B34630, object_update, object_index);
 }
 
 //.text:00B347F0 ; void __cdecl object_update_collision_culling(long)
