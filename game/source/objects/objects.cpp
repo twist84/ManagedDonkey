@@ -613,7 +613,7 @@ void __cdecl object_debug_teleport(long object_index, real_point3d const* positi
 		if (object->object.flags.test(_object_in_limbo_bit))
 			object_set_in_limbo(object_index, false);
 
-		object_set_position_internal(object_index, position, nullptr, nullptr, nullptr, false, true, false, true);
+		object_set_position_internal(object_index, position, NULL, NULL, NULL, false, true, false, true);
 
 		havok_can_modify_state_disallow();
 	}
@@ -659,7 +659,7 @@ void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_s
 	{
 		_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object->object.definition_index));
 
-		s_model_definition* model_definition = nullptr;
+		s_model_definition* model_definition = NULL;
 		if (object_definition->model.index != NONE)
 			model_definition = object_definition->model.cast_to<s_model_definition>();
 
@@ -744,7 +744,7 @@ void __cdecl object_render_debug_internal(long object_index)
 		vector3d linear_velocity{};
 
 		object_get_world_matrix(object_index, &matrix);
-		object_get_velocities(object_index, &linear_velocity, nullptr);
+		object_get_velocities(object_index, &linear_velocity, NULL);
 
 		render_debug_matrix(true, &matrix, object->object.bounding_sphere_radius);
 		render_debug_vector(true, &matrix.center, &linear_velocity,1.0f, global_real_argb_yellow);
@@ -785,12 +785,14 @@ void __cdecl object_render_debug_internal(long object_index)
 		}
 	}
 
-	if (debug_objects_dynamic_render_bounding_spheres)
+	if (debug_objects_dynamic_render_bounding_spheres && object_definition->dynamic_light_sphere_radius > 0.0f)
 	{
-
+		real_point3d point{};
+		point_from_line3d(&object->object.bounding_sphere_center, (vector3d*)&object_definition->dynamic_light_sphere_offset, 1.0f, &point);
+		render_debug_sphere(true, &point, object_definition->dynamic_light_sphere_radius + object->object.scale, global_real_argb_black);
 	}
 
-	s_model_definition* model_definition = nullptr;
+	s_model_definition* model_definition = NULL;
 	if (object_definition->model.index != NONE)
 		model_definition = object_definition->model.cast_to<s_model_definition>();
 
@@ -826,7 +828,7 @@ void __cdecl object_render_debug_internal(long object_index)
 	//collision_model_instance instance{};
 	//if (debug_objects_collision_models && collision_model_instance_new(&instance, object_index))
 	//{
-	//
+	//	render_debug_collision_model(&instance);
 	//}
 
 	if (debug_objects_early_movers && object_definition->flags.test(_object_definition_flag_early_mover_bit))
@@ -862,7 +864,7 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	if (debug_objects_pathfinding)
 	{
-
+		//sector_debug_object_pathfinding(object_index);
 	}
 
 	if (!string.is_empty())
