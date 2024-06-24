@@ -55,6 +55,8 @@ struct c_simulation_world
 	bool is_authority() const;
 	bool is_distributed() const;
 	bool is_local() const;
+	
+	static void destroy_update(struct simulation_update* update);
 
 	void debug_render();
 

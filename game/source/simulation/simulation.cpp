@@ -264,6 +264,8 @@ void __cdecl simulation_describe_status(char* buffer, long buffer_size)
 void __cdecl simulation_destroy_update(struct simulation_update* update)
 {
 	INVOKE(0x00441220, simulation_destroy_update, update);
+
+	//c_simulation_world::destroy_update(update);
 }
 
 void __cdecl simulation_dispose()

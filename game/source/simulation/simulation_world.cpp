@@ -1,5 +1,7 @@
 #include "simulation/simulation_world.hpp"
 
+#include "simulation/simulation.hpp"
+
 bool c_simulation_world::exists() const
 {
 	return m_world_type > _simulation_world_type_none;
@@ -39,6 +41,14 @@ bool c_simulation_world::is_local() const
 	return is_local;
 }
 
+void __cdecl c_simulation_world::destroy_update(struct simulation_update* update)
+{
+	//INVOKE(0x00468B40, c_simulation_world::destroy_update, update);
+
+	update->bookkeeping_simulation_queue.dispose();
+	update->game_simulation_queue.dispose();
+}
+
 void c_simulation_world::debug_render()
 {
 	ASSERT(m_distributed_world);
@@ -68,7 +78,6 @@ char const* c_simulation_world::get_state_string(long state)
 
 	return "<unknown>";
 }
-
 
 void c_simulation_world::get_join_status(
 	long* join_time_elapsed,
