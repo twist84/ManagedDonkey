@@ -226,7 +226,7 @@ void __cdecl game_finish()
 		// - halo 3: 7.0f
 		// - halo reach: game_is_campaign_or_survival() ? 1.0f : 7.0f
 		// - halo online: 40.0f
-		real seconds_to_wait = 7.0f;
+		real seconds_to_wait = game_is_campaign_or_survival() ? 1.0f : 7.0f;
 
 		game_globals->game_finished = true;
 		game_globals->game_finished_wait_time = game_seconds_to_ticks_round(seconds_to_wait);
@@ -415,6 +415,11 @@ bool __cdecl game_is_available()
 
 	game_globals_storage* game_globals = game_globals_get();
 	return game_globals && game_globals->map_active && game_globals->active_structure_bsp_mask;
+}
+
+bool __cdecl game_is_campaign_or_survival()
+{
+	return game_is_campaign() || game_is_survival();
 }
 
 bool __cdecl game_is_campaign()
@@ -611,7 +616,7 @@ void __cdecl game_lost(bool game_revert)
 			// - halo 3: 5.0f
 			// - halo reach: 6.0f
 			// - halo online: 6.0f
-			real seconds_to_wait = 5.0f;
+			real seconds_to_wait = 6.0f;
 
 			game_globals->game_lost = true;
 			game_globals->game_lost_wait_time = game_seconds_to_ticks_round(seconds_to_wait);

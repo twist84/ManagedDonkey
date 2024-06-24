@@ -120,6 +120,7 @@ extern void __cdecl game_initialize_for_new_map(game_options const* options);
 extern bool __cdecl game_is_authoritative();
 extern bool __cdecl game_is_authoritative_playback();
 extern bool __cdecl game_is_available();
+extern bool __cdecl game_is_campaign_or_survival();
 extern bool __cdecl game_is_campaign();
 extern bool __cdecl game_is_cooperative();
 //extern bool __cdecl game_is_cross_language();
