@@ -7,6 +7,7 @@
 #include "cseries/cseries_events.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_globals_external.hpp"
+#include "hs/hs_runtime.hpp"
 #include "hs/hs_scenario_definitions.hpp"
 #include "objects/objects.hpp"
 #include "scenario/scenario.hpp"
@@ -134,7 +135,9 @@ short hs_find_script_by_name(char const* name, short parameter_count)
 
 void __cdecl hs_update()
 {
-	INVOKE(0x006796E0, hs_update);
+	//INVOKE(0x006796E0, hs_update);
+
+	hs_runtime_update();
 }
 
 short hs_find_function_by_name(char const* name, short parameter_count)

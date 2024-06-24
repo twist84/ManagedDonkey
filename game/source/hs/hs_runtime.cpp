@@ -102,6 +102,11 @@ long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script
 	return thread_index;
 }
 
+void __cdecl hs_runtime_update()
+{
+	INVOKE(0x005980C0, hs_runtime_update);
+}
+
 long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool deterministic)
 {
 	return INVOKE(0x00598E70, hs_thread_new, thread_type, script_index, deterministic);

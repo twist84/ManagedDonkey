@@ -144,6 +144,7 @@ extern bool __cdecl hs_evaluate(long thread_index, long expression_index, long d
 extern bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type);
 extern bool __cdecl hs_runtime_nondeterministic_threads_running();
 extern long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script_type, e_hs_thread_type thread_type);
+extern void __cdecl hs_runtime_update();
 extern long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool deterministic);
 extern void __cdecl render_debug_scripting();
 extern void __cdecl render_debug_scripting_globals();
