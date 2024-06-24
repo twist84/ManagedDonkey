@@ -44,6 +44,19 @@ void __cdecl object_early_mover_update(long object_index, long early_mover_array
 void __cdecl object_get_early_movers(long const** object_early_movers, long* object_early_movers_count)
 {
 	INVOKE(0x00B98EB0, object_get_early_movers, object_early_movers, object_early_movers_count);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_object_early_movers_globals);
+	//
+	//ASSERT(g_object_early_movers_globals != NULL);
+	//ASSERT(g_object_early_movers_globals->map_initialized);
+	//
+	//ASSERT(object_early_movers != NULL);
+	//ASSERT(object_early_movers_count != NULL);
+	//
+	//ASSERT(IN_RANGE_INCLUSIVE(g_object_early_movers_globals->object_index_count, 0, MAXIMUM_OBJECT_EARLY_MOVERS_PER_MAP));
+	//
+	//*object_early_movers = g_object_early_movers_globals->object_indices;
+	//*object_early_movers_count = g_object_early_movers_globals->object_index_count;
 }
 
 //.text:00B98EF0 ; void __cdecl object_in_early_mover_detach(long)
