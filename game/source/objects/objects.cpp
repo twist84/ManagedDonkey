@@ -199,30 +199,75 @@ void __cdecl object_detach_internal(long object_index, bool compute_bounding_sph
 	INVOKE(0x00B2D460, object_detach_internal, object_index, compute_bounding_sphere);
 }
 
-//.text:00B2D4E0 ; void __cdecl object_detach_predicted_objects(long object_index)
-//.text:00B2D560 ; void __cdecl object_disconnect_from_map(long object_index, bool broadphase_remove_object)
-//.text:00B2D600 ; void __cdecl object_disconnect_from_physics(long object_index)
-//.text:00B2D660 ; bool __cdecl object_find_initial_location(long object_index, s_location* location)
-//.text:00B2D6E0 ; void __cdecl object_find_structure_bsp_fake_lightprobe_index(long structure_bsp_index, long object_index)
-//.text:00B2D7D0 ; bool __cdecl object_force_inside_bsp(long object_index, real_point3d const* position, long a3)
-//.text:00B2D9B0 ; void __cdecl object_freeze_node_orientations(long object_index, bool a2)
+void __cdecl object_detach_predicted_objects(long object_index)
+{
+	INVOKE(0x00B2D4E0, object_detach_predicted_objects, object_index);
+}
+
+void __cdecl object_disconnect_from_map(long object_index, bool broadphase_remove_object)
+{
+	INVOKE(0x00B2D560, object_disconnect_from_map, object_index, broadphase_remove_object);
+}
+
+void __cdecl object_disconnect_from_physics(long object_index)
+{
+	INVOKE(0x00B2D600, object_disconnect_from_physics, object_index);
+}
+
+bool __cdecl object_find_initial_location(long object_index, s_location* location)
+{
+	return INVOKE(0x00B2D660, object_find_initial_location, object_index, location);
+}
+
+void __cdecl object_find_structure_bsp_fake_lightprobe_index(long structure_bsp_index, long object_index)
+{
+	INVOKE(0x00B2D6E0, object_find_structure_bsp_fake_lightprobe_index, structure_bsp_index, object_index);
+}
+
+bool __cdecl object_force_inside_bsp(long object_index, real_point3d const* position, long ignore_object_index)
+{
+	return INVOKE(0x00B2D7D0, object_force_inside_bsp, object_index, position, ignore_object_index);
+}
+
+void __cdecl object_freeze_node_orientations(long object_index, bool a2)
+{
+	INVOKE(0x00B2D9B0, object_freeze_node_orientations, object_index, a2);
+}
 
 bool __cdecl object_function_get_function_value(long object_index, s_object_function_definition const* function, long object_definition_index, real* out_function_magnitude, bool* deterministic)
 {
 	return INVOKE(0x00B2DA20, object_function_get_function_value, object_index, function, object_definition_index, out_function_magnitude, deterministic);
 }
 
-//.text:00B2DCB0 ; long __cdecl object_get_attachment_marker_name(long object_index, short attachment_index)
-//.text:00B2DD10 ; bool __cdecl object_get_base_change_color_by_index(long object_index, long change_color_index, real_rgb_color* color)
+long __cdecl object_get_attachment_marker_name(long object_index, short attachment_index)
+{
+	return INVOKE(0x00B2DCB0, object_get_attachment_marker_name, object_index, attachment_index);
+}
+
+bool __cdecl object_get_base_change_color_by_index(long object_index, long change_color_index, real_rgb_color* color)
+{
+	return INVOKE(0x00B2DD10, object_get_base_change_color_by_index, object_index, change_color_index, color);
+}
 
 real_point3d* __cdecl object_get_center_of_mass(long object_index, real_point3d* center)
 {
 	return INVOKE(0x00B2DD90, object_get_center_of_mass, object_index, center);
 }
 
-//.text:00B2DE50 ; bool __cdecl object_get_change_color(long object_index, e_change_color_reference change_color_reference, real_rgb_color* color)
-//.text:00B2DEF0 ; void __cdecl object_get_closest_point_and_normal(long object_index, real_point3d const* origin, real_point3d* closest_point, vector3d* normal)
-//.text:00B2DF80 ; void __cdecl object_get_damage_owner(long object_index, s_damage_owner* owner)
+bool __cdecl object_get_change_color(long object_index, long change_color_index, real_rgb_color* change_color)
+{
+	return INVOKE(0x00B2DE50, object_get_change_color, object_index, change_color_index, change_color);
+}
+
+void __cdecl object_get_closest_point_and_normal(long object_index, real_point3d const* origin, real_point3d* closest_point, vector3d* normal)
+{
+	INVOKE(0x00B2DEF0, object_get_closest_point_and_normal, object_index, origin, closest_point, normal);
+}
+
+void __cdecl object_get_damage_owner(long object_index, s_damage_owner* owner)
+{
+	INVOKE(0x00B2DF80, object_get_damage_owner, object_index, owner);
+}
 
 bool __cdecl object_get_function_value(long object_index, long function_name, long object_definition_index, real* out_function_magnitude)
 {
@@ -373,8 +418,12 @@ void __cdecl object_reinitialize_from_placement(long object_index, object_placem
 	INVOKE(0x00B31EF0, object_reinitialize_from_placement, object_index, data, at_rest);
 }
 
-//.text:00B320A0
-//.text:00B32100
+void __cdecl object_remove_from_list(long* object_list, long object_index)
+{
+	INVOKE(0x00B320A0, object_remove_from_list, object_list, object_index);
+}
+
+//.text:00B32100 ; 
 
 void __cdecl object_render_debug(long object_index)
 {
@@ -384,7 +433,7 @@ void __cdecl object_render_debug(long object_index)
 	object_render_debug_internal(object_index);
 }
 
-//.text:00B32140
+//.text:00B32140 ; 
 
 void __cdecl object_reset(long object_index)
 {
@@ -396,8 +445,16 @@ void __cdecl object_reset_interpolation(long object_index)
 	INVOKE(0x00B321A0, object_reset_interpolation, object_index);
 }
 
-//.text:00B321F0
-//.text:00B32400
+void __cdecl object_respond_to_physics(long object_index)
+{
+	INVOKE(0x00B321F0, object_respond_to_physics, object_index);
+}
+
+void __cdecl object_resurrect(long object_index)
+{
+	INVOKE(0x00B32400, object_resurrect, object_index);
+}
+
 //.text:00B324A0 ; object_reverse_compute_node_orientations_from_matrices, 2 args
 //.text:00B32540 ; object_reverse_compute_node_orientations_from_matrices, 5 args
 
@@ -416,8 +473,15 @@ bool __cdecl object_set_base_change_color_by_index(long object_index, long color
 	return INVOKE(0x00B328F0, object_set_base_change_color_by_index, object_index, color_index, color);
 }
 
-//.text:00B329A0
-//.text:00B329E0
+void __cdecl object_set_body_vitality(long object_index, real body_vitality, short body_stun_ticks)
+{
+	INVOKE(0x00B329A0, object_set_body_vitality, object_index, body_vitality, body_stun_ticks);
+}
+
+void __cdecl object_set_custom_animation_speed(long object_index, real custom_animation_speed)
+{
+	INVOKE(0x00B329E0, object_set_custom_animation_speed, object_index, custom_animation_speed);
+}
 
 void __cdecl object_set_custom_animations_hold_on_last_frame(bool custom_animations_hold_on_last_frame)
 {
@@ -429,9 +493,20 @@ void __cdecl object_set_custom_animations_prevent_lipsync_head_movement(bool cus
 	INVOKE(0x00B32AA0, object_set_custom_animations_prevent_lipsync_head_movement, custom_animations_prevent_lipsync_head_movement);
 }
 
-//.text:00B32AD0
-//.text:00B32B80
-//.text:00B32C20 ; object_set_garbage
+void __cdecl object_set_damage_owner(long object_index, s_damage_owner const* damage_owner, bool a3)
+{
+	INVOKE(0x00B32AD0, object_set_damage_owner, object_index, damage_owner, a3);
+}
+
+void __cdecl object_set_desired_velocities(long object_index, vector3d const* transitional_velocity, vector3d const* angular_velocity, bool a4)
+{
+	INVOKE(0x00B32B80, object_set_desired_velocities, object_index, transitional_velocity, angular_velocity, a4);
+}
+
+void __cdecl object_set_garbage(long object_index, bool a2, long collection_ticks)
+{
+	INVOKE(0x00B32C20, object_set_garbage, object_index, a2, collection_ticks);
+}
 
 void __cdecl object_set_hidden(long object_index, bool hidden)
 {
@@ -443,12 +518,35 @@ void __cdecl object_set_in_limbo(long object_index, bool deactivate)
 	INVOKE(0x00B32E20, object_set_in_limbo, object_index, deactivate);
 }
 
-//.text:00B32EE0
-//.text:00B32F20 ; object_set_initial_change_colors
-//.text:00B33290 ; object_set_invalid_for_recycling
-//.text:00B332F0
-//.text:00B333F0 ; object_set_model_state_property
-//.text:00B33410 ; object_set_model_state_property_per_region
+void __cdecl object_shield_stun_infinite(long object_index)
+{
+	INVOKE(0x00B32EE0, object_shield_stun_infinite, object_index);
+}
+
+void __cdecl object_set_initial_change_colors(long object_index, c_flags<char, byte, 5> active_change_colors, real_rgb_color const* change_colors)
+{
+	INVOKE(0x00B32F20, object_set_initial_change_colors, object_index, active_change_colors, change_colors);
+}
+
+void __cdecl object_set_invalid_for_recycling(long object_index, bool a2)
+{
+	INVOKE(0x00B33290, object_set_invalid_for_recycling, object_index, a2);
+}
+
+bool __cdecl object_set_model_state(long object_index, long a2, long a3, bool a4)
+{
+	return INVOKE(0x00B332F0, object_set_model_state, object_index, a3, a3, a4);
+}
+
+void __cdecl object_set_model_state_property(long object_index, long a2, long a3, bool a4, bool a5)
+{
+	INVOKE(0x00B333F0, object_set_model_state_property, object_index, a3, a3, a4, a5);
+}
+
+void __cdecl object_set_model_state_property_per_region(long object_index, long a2, long a3, short a4, bool a5)
+{
+	INVOKE(0x00B33410, object_set_model_state_property_per_region, object_index, a3, a3, a4, a5);
+}
 
 void __cdecl object_set_object_index_for_name_index(short name_index, long object_index)
 {
@@ -494,47 +592,171 @@ void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object
 	return INVOKE(0x00B34490, object_try_and_get_and_verify_type, object_index, object_type_mask);
 }
 
-//.text:00B344E0 ; s_multiplayer_object_properties* __cdecl object_try_and_get_multiplayer(long)
-//.text:00B34540 ; void* __cdecl object_try_and_get_unsafe_and_verify_type(long, dword)
-//.text:00B34590 ; bool __cdecl object_unmarked(long)
-//.text:00B345C0 ; void __cdecl object_unregister_scenario_object(long)
+//.text:00B344E0 ; s_multiplayer_object_properties* __cdecl object_try_and_get_multiplayer(long object_index)
+
+void* __cdecl object_try_and_get_unsafe_and_verify_type(long object_index, dword object_type_mask)
+{
+	return INVOKE(0x00B34540, object_try_and_get_unsafe_and_verify_type, object_index, object_type_mask);
+}
+
+bool __cdecl object_unmarked(long object_index)
+{
+	return INVOKE(0x00B34590, object_unmarked, object_index);
+}
+
+void __cdecl object_unregister_scenario_object(long object_index)
+{
+	INVOKE(0x00B345C0, object_unregister_scenario_object, object_index);
+}
 
 bool __cdecl object_update(long object_index)
 {
 	return INVOKE(0x00B34630, object_update, object_index);
 }
 
-//.text:00B347F0 ; void __cdecl object_update_collision_culling(long)
+void __cdecl object_update_collision_culling(long object_index)
+{
+	INVOKE(0x00B347F0, object_update_collision_culling, object_index);
+}
+
 //.text:00B34870 ; 
-//.text:00B348A0 ; void __cdecl object_update_visibility_culling(long)
-//.text:00B34930 ; bool __cdecl object_visible_to_any_player(long)
-//.text:00B34D00 ; void __cdecl object_wake(long)
+
+void __cdecl object_update_visibility_culling(long object_index)
+{
+	INVOKE(0x00B348A0, object_update_visibility_culling, object_index);
+}
+
+bool __cdecl object_visible_to_any_player(long object_index)
+{
+	return INVOKE(0x00B34930, object_visible_to_any_player, object_index);
+}
+
+void __cdecl object_wake(long object_index)
+{
+	INVOKE(0x00B34D00, object_wake, object_index);
+}
+
 //.text:00B34D60 ; void __cdecl objects_activation(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*)
-//.text:00B35150 ; 
-//.text:00B35260 ; bool __cdecl objects_can_connect_to_map()
-//.text:00B35290 ; long __cdecl objects_compact_memory_pool()
-//.text:00B352D0 ; void __cdecl objects_detach_from_simulation()
-//.text:00B35380 ; void __cdecl objects_dispose()
-//.text:00B35430 ; void __cdecl objects_dispose_from_old_map()
-//.text:00B35530 ; void __cdecl objects_dispose_from_old_structure_bsp(dword)
-//.text:00B35710 ; void __cdecl objects_enable_warthog_chaingun_light(bool)
-//.text:00B35740 ; void __cdecl objects_garbage_collection()
-//.text:00B35790 ; long __cdecl objects_get_active_garbage_count()
-//.text:00B357B0 ; 
-//.text:00B357D0 ; long __cdecl objects_get_contiguous_free_memory_size()
-//.text:00B357F0 ; 
-//.text:00B35810 ; long __cdecl objects_get_free_object_header_count()
-//.text:00B35830 ; 
-//.text:00B35870 ; void __cdecl objects_handle_deleted_object(long)
-//.text:00B35910 ; void __cdecl objects_handle_deleted_player(long)
-//.text:00B35990 ; 
+//.text:00B35150 ; bool __cdecl objects_activation_find_scenario_reference_in_currently_active_clusters(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, s_scenario_object_reference const*)
+
+bool __cdecl objects_can_connect_to_map()
+{
+	return INVOKE(0x00B35260, objects_can_connect_to_map);
+}
+
+long __cdecl objects_compact_memory_pool()
+{
+	return INVOKE(0x00B35290, objects_compact_memory_pool);
+}
+
+void __cdecl objects_detach_from_simulation()
+{
+	INVOKE(0x00B352D0, objects_detach_from_simulation);
+}
+
+void __cdecl objects_dispose()
+{
+	INVOKE(0x00B35380, objects_dispose);
+}
+
+void __cdecl objects_dispose_from_old_map()
+{
+	INVOKE(0x00B35430, objects_dispose_from_old_map);
+}
+
+void __cdecl objects_dispose_from_old_structure_bsp(dword a1)
+{
+	INVOKE(0x00B35530, objects_dispose_from_old_structure_bsp, a1);
+}
+
+void __cdecl objects_enable_warthog_chaingun_light(bool enable_warthog_chaingun_light)
+{
+	INVOKE(0x00B35710, objects_enable_warthog_chaingun_light, enable_warthog_chaingun_light);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(object_globals);
+	//object_globals->warthog_chaingun_light_disabled = !enable_warthog_chaingun_light;
+}
+
+void __cdecl objects_garbage_collection()
+{
+	INVOKE(0x00B35740, objects_garbage_collection);
+}
+
+long __cdecl objects_get_active_garbage_count()
+{
+	return INVOKE(0x00B35790, objects_get_active_garbage_count);
+}
+
+render_lighting* __cdecl objects_get_cinematic_lighting()
+{
+	return INVOKE(0x00B357B0, objects_get_cinematic_lighting);
+}
+
+long __cdecl objects_get_contiguous_free_memory_size()
+{
+	return INVOKE(0x00B357D0, objects_get_contiguous_free_memory_size);
+}
+
+long __cdecl objects_get_first_garbage_object()
+{
+	return INVOKE(0x00B357F0, objects_get_first_garbage_object);
+}
+
+long __cdecl objects_get_free_object_header_count()
+{
+	return INVOKE(0x00B35810, objects_get_free_object_header_count);
+}
+
+long __cdecl objects_get_next_garbage_object(long object_index)
+{
+	return INVOKE(0x00B35830, objects_get_next_garbage_object, object_index);
+}
+
+void __cdecl objects_handle_deleted_object(long object_index)
+{
+	INVOKE(0x00B35870, objects_handle_deleted_object, object_index);
+}
+
+void __cdecl objects_handle_deleted_player(long object_index)
+{
+	INVOKE(0x00B35910, objects_handle_deleted_player, object_index);
+}
+
+//.text:00B35990 ; long __cdecl objects_in_clusters_by_indices(dword, bool, c_flags<e_object_collision_cull_flag, word, 13>, long, s_cluster_reference const*, long, long*)
 //.text:00B35B60 ; long __cdecl objects_in_sphere(dword, dword, s_location const*, real_point3d const*, real, long*, long)
-//.text:00B35E40 ; 
-//.text:00B35F50 ; void __cdecl objects_initialize()
-//.text:00B36130 ; void __cdecl objects_initialize_for_new_map()
-//.text:00B36310 ; void __cdecl objects_initialize_for_new_structure_bsp(dword)
-//.text:00B36480 ; 
-//.text:00B364B0 ; void __cdecl objects_memory_compact()
+
+void __cdecl objects_information_get(objects_information* objects_information_out)
+{
+	INVOKE(0x00B35E40, objects_information_get, objects_information_out);
+}
+
+void __cdecl objects_initialize()
+{
+	INVOKE(0x00B35F50, objects_initialize);
+}
+
+void __cdecl objects_initialize_for_new_map()
+{
+	INVOKE(0x00B36130, objects_initialize_for_new_map);
+}
+
+void __cdecl objects_initialize_for_new_structure_bsp(dword a1)
+{
+	INVOKE(0x00B36310, objects_initialize_for_new_structure_bsp, a1);
+}
+
+bool __cdecl objects_is_warthog_chaingun_light_enabled()
+{
+	return INVOKE(0x00B36480, objects_is_warthog_chaingun_light_enabled);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(object_globals);
+	//return !object_globals->warthog_chaingun_light_disabled;
+}
+
+void __cdecl objects_memory_compact()
+{
+	INVOKE(0x00B364B0, objects_memory_compact);
+}
 
 void __cdecl objects_move()
 {
@@ -546,17 +768,28 @@ void __cdecl objects_post_update()
 	INVOKE(0x00B36610, objects_post_update);
 }
 
-//.text:00B36710 ; void __cdecl objects_purge_deleted_objects()
-//.text:00B367A0 ; void __cdecl objects_render_thread_update()
-//.text:00B367D0 ; void __cdecl objects_setup_structure_bsp_fake_lightprobes(long)
+void __cdecl objects_purge_deleted_objects()
+{
+	INVOKE(0x00B36710, objects_purge_deleted_objects);
+}
+
+void __cdecl objects_render_thread_update()
+{
+	INVOKE(0x00B367A0, objects_render_thread_update);
+}
+
+void __cdecl objects_setup_structure_bsp_fake_lightprobes(long structure_bsp_index)
+{
+	INVOKE(0x00B367D0, objects_setup_structure_bsp_fake_lightprobes, structure_bsp_index);
+}
 
 void __cdecl objects_update()
 {
 	INVOKE(0x00B36840, objects_update);
 
-	TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
-	TLS_DATA_GET_VALUE_REFERENCE(object_globals);
-	
+	//TLS_DATA_GET_VALUE_REFERENCE(object_header_data);
+	//TLS_DATA_GET_VALUE_REFERENCE(object_globals);
+	//
 	//PROFILER(object_update)
 	//{
 	//	PROFILER(objects_update)
@@ -650,7 +883,55 @@ void __cdecl objects_update()
 	//}
 }
 
-//.text:00B369A0 ; void __cdecl objects_update_header_callback(long, dword)
+void __cdecl objects_update_header_callback(long object_index, dword datum_handle)
+{
+	INVOKE(0x00B369A0, objects_update_header_callback, object_index, datum_handle);
+}
+
+//.text:00B369E0 ; 
+//.text:00B36A30 ; 
+
+void __cdecl recursive_wake_children_awoken_by_movement(long object_index)
+{
+	INVOKE(0x00B36A90, recursive_wake_children_awoken_by_movement, object_index);
+}
+
+//.text:00B36B10 ; 
+//.text:00B36B50 ; 
+//.text:00B36B90 ; 
+//.text:00B36BD0 ; 
+//.text:00B36C10 ; 
+//.text:00B36C50 ; 
+//.text:00B36C90 ; 
+//.text:00B36CD0 ; 
+//.text:00B36D10 ; 
+//.text:00B36D50 ; 
+//.text:00B36D90 ; 
+//.text:00B36DD0 ; 
+
+void __cdecl reset_object_cached_render_state(long object_index)
+{
+	INVOKE(0x00B36E20, reset_object_cached_render_state, object_index);
+}
+
+void __cdecl reset_object_render_message_queue()
+{
+	INVOKE(0x00B36E90, reset_object_render_message_queue);
+}
+
+//.text:00B36EE0 ; 
+
+bool __cdecl sample_object_lighting_from_probes(long object_index)
+{
+	return INVOKE(0x00B36F50, sample_object_lighting_from_probes, object_index);
+}
+
+void __cdecl scripted_object_function_set(long object_function_index, real object_function_value)
+{
+	INVOKE(0x00B371F0, scripted_object_function_set, object_function_index, object_function_value);
+}
+
+//.text:00B373D0 ; void __cdecl set_memory_pool_address(void*)
 
 void __cdecl object_debug_teleport(long object_index, real_point3d const* position)
 {
