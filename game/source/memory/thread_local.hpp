@@ -749,7 +749,7 @@ struct s_thread_local_storage
 
 	// name: "object schedule globals"
 	// size: 0x27C
-	s_object_scehdule_globals* g_object_scehdule_globals;
+	s_object_schedule_globals* g_object_schedule_globals;
 
 	//  name: "object activation regions"
 	// count: 128
