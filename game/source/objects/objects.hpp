@@ -405,6 +405,21 @@ struct s_object_render_thread_message
 };
 static_assert(sizeof(s_object_render_thread_message) == 0x8);
 
+struct objects_information
+{
+	short __unknown0;
+	short __unknown2;
+	short __unknown4;
+	short __unknown6;
+	real __unknown8;
+	real __unknownC;
+	long __unknown10;
+	long __unknown14;
+	long __unknown18;
+	long __unknown1C;
+};
+static_assert(sizeof(objects_information) == 0x20);
+
 extern bool debug_objects;
 extern bool debug_objects_early_movers;
 extern bool debug_objects_sound_spheres;
