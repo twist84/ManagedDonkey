@@ -156,19 +156,15 @@ struct object_data
 	byte_flags object_ai_flags;
 	dword melee_damage_unique_identifier;
 	s_damage_owner damage_owner;
-
-	short __unknownCC_bsp_datum_index;
-
+	short structure_bsp_fake_lightprobe_index;
 	bool created_at_rest;
 	byte clusters_touched_on_connection;
 	long simulation_object_glue_index;
 	short owner_team_index;
 	byte_flags simulation_flags;
 	char child_variant_index;
-
 	long simulation_object_interpolation_time;
 	real_point3d simulation_object_interpolation_position;
-
 	long first_widget_index;
 	word destroyed_constraints;
 	word loosened_constraints;
