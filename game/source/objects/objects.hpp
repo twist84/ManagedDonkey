@@ -7,13 +7,14 @@
 #include "objects/lights.hpp"
 #include "objects/multiplayer_game_objects.hpp"
 #include "objects/object_activation_regions.hpp"
-#include "objects/object_definitions.hpp"
 #include "objects/object_broadphase.hpp"
+#include "objects/object_definitions.hpp"
 #include "objects/object_early_movers.hpp"
 #include "objects/object_placement.hpp"
 #include "objects/object_recycling.hpp"
 #include "objects/object_scheduler.hpp"
 #include "objects/object_scripting.hpp"
+#include "render/render_objects_static_lighting.hpp"
 
 enum e_object_mask
 {
@@ -366,19 +367,27 @@ struct s_object_globals
 	bool garbage_collection_cannot_run;
 	short active_garbage_object_count;
 	short active_garbage_player_bodies;
+	long first_garbage_object_index;
 
-	long __unknown8;
 	long __unknownC;
 	long __unknown10;
 	long __unknown14;
 	long __unknown18;
 
 	long object_update_absolute_index;
+	render_lighting cinematic_lighting;
+	real object_function_values[4];
 
-	byte __data20[0x228];
 	byte __unknown248;
 	byte __unknown249;
-	byte __data24A[0x2];
+
+	// objects_is_warthog_chaingun_light_enabled
+	// - !warthog_chaingun_light_disabled
+	// objects_enable_warthog_chaingun_light(bool enable_warthog_chaingun_light)
+	// - warthog_chaingun_light_disabled = !enable_warthog_chaingun_light
+	bool warthog_chaingun_light_disabled; // #TODO: find the actual name/think of a better name
+
+	byte __unknown24B;
 
 	// not the actual name
 	c_static_array<long, k_object_type_count> object_type_scenario_datums_counts;
