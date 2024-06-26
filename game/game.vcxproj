@@ -1319,6 +1319,7 @@ POPD
     <ClInclude Include="source\units\units.hpp" />
     <ClInclude Include="source\units\unit_definition.hpp" />
     <ClInclude Include="source\units\vehicles.hpp" />
+    <ClInclude Include="source\units\vehicle_auto_turret.hpp" />
     <ClInclude Include="source\units\vehicle_definitions.hpp" />
     <ClInclude Include="source\units\vehicle_engine.hpp" />
     <ClInclude Include="source\units\vehicle_type_alien_fighter.hpp" />

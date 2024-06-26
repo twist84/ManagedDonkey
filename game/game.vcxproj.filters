@@ -3491,6 +3491,9 @@
     <ClInclude Include="source\units\vehicle_type_guardian.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\units\vehicle_auto_turret.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
