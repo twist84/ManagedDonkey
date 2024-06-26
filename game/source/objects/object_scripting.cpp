@@ -2,7 +2,7 @@
 
 //.text:00B95750 ; 
 //.text:00B95770 ; 
-//.text:00B95780 ; 
+//.text:00B95780 ; void __cdecl __tls_set_g_object_scripting_state_allocator(void*)
 //.text:00B957A0 ; 
 //.text:00B957E0 ; 
 //.text:00B95810 ; 
