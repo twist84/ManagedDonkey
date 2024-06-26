@@ -1,7 +1,6 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-#include "objects/objects.hpp"
 #include "units/vehicle_engine.hpp"
 #include "units/vehicle_utilities.hpp"
 

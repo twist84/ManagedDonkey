@@ -102,14 +102,6 @@ enum e_object_data_flags
 	k_object_data_flags
 };
 
-// #TODO: find an actual home
-struct c_animation_id
-{
-	short m_subgraph;
-	short m_index;
-};
-static_assert(sizeof(c_animation_id) == sizeof(short) * 2);
-
 struct object_header_block_reference
 {
 	short size;

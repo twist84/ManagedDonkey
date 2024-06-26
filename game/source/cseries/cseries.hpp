@@ -1167,6 +1167,14 @@ struct s_location
 };
 static_assert(sizeof(s_location) == sizeof(s_cluster_reference));
 
+// #TODO: find an actual home
+struct c_animation_id
+{
+	short m_subgraph;
+	short m_index;
+};
+static_assert(sizeof(c_animation_id) == sizeof(short) * 2);
+
 template<long k_maximum_count>
 struct c_static_string
 {
