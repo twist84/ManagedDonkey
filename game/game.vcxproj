@@ -242,6 +242,7 @@ POPD
     <ClCompile Include="source\objects\object_broadphase.cpp" />
     <ClCompile Include="source\objects\object_placement.cpp" />
     <ClCompile Include="source\objects\object_scheduler.cpp" />
+    <ClCompile Include="source\objects\object_scripting.cpp" />
     <ClCompile Include="source\objects\widgets\widgets.cpp" />
     <ClCompile Include="source\physics\breakable_surfaces.cpp" />
     <ClCompile Include="source\physics\character_physics.cpp" />
