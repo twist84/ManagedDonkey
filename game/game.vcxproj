@@ -239,6 +239,7 @@ POPD
     <ClCompile Include="source\networking\transport\transport_qos.cpp" />
     <ClCompile Include="source\objects\lights.cpp" />
     <ClCompile Include="source\objects\object_activation_regions.cpp" />
+    <ClCompile Include="source\objects\object_broadphase.cpp" />
     <ClCompile Include="source\objects\object_placement.cpp" />
     <ClCompile Include="source\objects\object_scheduler.cpp" />
     <ClCompile Include="source\objects\widgets\widgets.cpp" />
