@@ -302,6 +302,7 @@ struct s_cache_file_security_globals
 	s_rsa_signature rsa_signature;
 	byte __data38C4[4];
 };
+static_assert(0x000038C8 == sizeof(s_cache_file_security_globals));
 static_assert(0x00000000 == offsetof(s_cache_file_security_globals, header));
 static_assert(0x00003390 == offsetof(s_cache_file_security_globals, valid_content_signature));
 static_assert(0x00003394 == offsetof(s_cache_file_security_globals, hash_sizes));
@@ -311,7 +312,6 @@ static_assert(0x000033B0 == offsetof(s_cache_file_security_globals, state));
 static_assert(0x000037B0 == offsetof(s_cache_file_security_globals, hash));
 static_assert(0x000037C4 == offsetof(s_cache_file_security_globals, rsa_signature));
 static_assert(0x000038C4 == offsetof(s_cache_file_security_globals, __data38C4));
-static_assert(0x000038C8 == sizeof(s_cache_file_security_globals));
 #pragma pack(pop)
 
 s_cache_file_security_globals* __cdecl cache_file_get_security_globals()

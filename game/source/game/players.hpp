@@ -580,7 +580,7 @@ struct player_datum :
 	short spawn_count;
 	byte __pad2F06[2];
 };
-
+static_assert(sizeof(player_datum) == 0x2F08);
 static_assert(0x0002 == OFFSETOF(player_datum, __unknown2));
 static_assert(0x0004 == OFFSETOF(player_datum, flags));
 static_assert(0x0008 == OFFSETOF(player_datum, player_identifier));
@@ -696,7 +696,6 @@ static_assert(0x2E68 == OFFSETOF(player_datum, melee_damage_event_data));
 static_assert(0x2EA4 == OFFSETOF(player_datum, shot_info));
 static_assert(0x2F04 == OFFSETOF(player_datum, spawn_count));
 static_assert(0x2F06 == OFFSETOF(player_datum, __pad2F06));
-static_assert(sizeof(player_datum) == 0x2F08);
 #pragma pack(pop)
 
 #pragma pack(push, 1)

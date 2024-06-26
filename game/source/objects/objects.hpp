@@ -102,6 +102,14 @@ enum e_object_data_flags
 	k_object_data_flags
 };
 
+// #TODO: find an actual home
+struct c_animation_id
+{
+	short m_subgraph;
+	short m_index;
+};
+static_assert(sizeof(c_animation_id) == sizeof(short) * 2);
+
 struct object_header_block_reference
 {
 	short size;
@@ -193,7 +201,7 @@ struct object_data
 	long next_recycling_group_member;
 	long next_sync_action_participant_index;
 	long sync_action_name;
-	long sync_animation_id; // c_animation_id
+	c_animation_id sync_animation_id;
 	long ai_sync_action_arranger_index;
 	word_flags render_flags;
 	object_header_block_reference original_node_orientations;

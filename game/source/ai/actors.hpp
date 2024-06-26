@@ -444,6 +444,7 @@ struct actor_datum :
 	actor_output_data output;
 	actor_script_data commands;
 };
+static_assert(sizeof(actor_datum) == 0xA98);
 static_assert(0x004 == offsetof(actor_datum, meta));
 static_assert(0x070 == offsetof(actor_datum, state));
 static_assert(0x354 == offsetof(actor_datum, input));
@@ -462,7 +463,6 @@ static_assert(0x694 == offsetof(actor_datum, actions));
 static_assert(0x6C4 == offsetof(actor_datum, control));
 static_assert(0xA30 == offsetof(actor_datum, output));
 static_assert(0xA8C == offsetof(actor_datum, commands));
-static_assert(sizeof(actor_datum) == 0xA98);
 
 struct ai_reference_frame
 {
