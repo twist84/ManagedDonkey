@@ -14,21 +14,26 @@ public:
 
 protected:
 	s_vehicle_engine m_engine;
-
-	c_animation_id __animation_id14;
-	c_animation_id __animation_id18;
-	c_animation_id __animation_id1C;
+	c_animation_id m_ground_speed_animation_id;
+	c_animation_id m_ground_speed_rear_animation_id;
+	c_animation_id m_steering_animation_id;
 
 	vector3d m_up;
 
-	real __unknown2C;
-	real __unknown30;
+	// STRING_ID(global, front_left_tire_position)
+	// STRING_ID(global, front_right_tire_position)
+	real __unknown2C; // vehicle_function_safe_divide(__unknown2C, engine_definition->wheel_circumferance)
+
+	// STRING_ID(global, back_left_tire_position)
+	// STRING_ID(global, back_right_tire_position)
+	real __unknown30; // vehicle_function_safe_divide(__unknown30, engine_definition->wheel_circumferance)
+
 	real __unknown34;
 
 	c_vehicle_stop_counter m_stop_counter;
 	c_vehicle_braking_counter m_braking_counter;
 
-	byte __unknown3A;
+	byte __unknown3A; // bool?
 
 	byte __data[0x60 - 0x3B];
 };
