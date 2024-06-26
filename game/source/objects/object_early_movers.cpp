@@ -4,6 +4,10 @@
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
 
+//.text:00B97CE0 ; 
+//.text:00B97D00 ; 
+//.text:00B97D10 ; 
+//.text:00B97D20 ; 
 //.text:00B97D30 ; void __cdecl __tls_set_g_object_early_movers_globals_allocator(void*)
 //.text:00B97D50 ; 
 //.text:00B97D90 ; 
