@@ -12,7 +12,11 @@ struct vehicle_data
 	byte upending_type;
 	byte upending_ticks;
 
-	byte __data6[0xA];
+	byte __data6[0x6];
+
+	word slipping_wheels_bit_vector;
+
+	byte __data8[0x2];
 
 	real mean_antigrav_fraction;
 	c_vehicle_type_component type_component;
@@ -29,16 +33,16 @@ struct vehicle_data
 	byte __pad2DA[0x2];
 	long __unknown2DC;
 	c_sector_ref __sector_ref2E0;
-	byte __data2E4[0x4];
+	long __unknown2E4;
 	long __unknown2E8;
 	long __unknown2EC;
 	real_point3d __point2F0;
 	long __unknown2FC;
-	c_animation_id __animation_id300;
-	c_animation_id __animation_id304;
-	c_animation_id __animation_id308;
-	c_animation_id __animation_id30C;
 
+	c_animation_id steering_animation_id;
+	c_animation_id roll_animation_id;
+	c_animation_id throttle_animation_id;
+	c_animation_id velocity_animation_id;
 	c_animation_id acceleration_animation_id[3];
 	real driver_force_position;
 	real driver_force_scale;
@@ -53,15 +57,11 @@ static_assert(0x2D8 == offsetof(vehicle_data, __unknown2D8));
 static_assert(0x2DA == offsetof(vehicle_data, __pad2DA));
 static_assert(0x2DC == offsetof(vehicle_data, __unknown2DC));
 static_assert(0x2E0 == offsetof(vehicle_data, __sector_ref2E0));
-static_assert(0x2E4 == offsetof(vehicle_data, __data2E4));
+static_assert(0x2E4 == offsetof(vehicle_data, __unknown2E4));
 static_assert(0x2E8 == offsetof(vehicle_data, __unknown2E8));
 static_assert(0x2EC == offsetof(vehicle_data, __unknown2EC));
 static_assert(0x2F0 == offsetof(vehicle_data, __point2F0));
 static_assert(0x2FC == offsetof(vehicle_data, __unknown2FC));
-static_assert(0x300 == offsetof(vehicle_data, __animation_id300));
-static_assert(0x304 == offsetof(vehicle_data, __animation_id304));
-static_assert(0x308 == offsetof(vehicle_data, __animation_id308));
-static_assert(0x30C == offsetof(vehicle_data, __animation_id30C));
 
 struct vehicle_datum
 {
