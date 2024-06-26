@@ -33,17 +33,13 @@ bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
 
 void __cdecl vehicle_render_debug(long vehicle_index)
 {
-	byte* vehicle = static_cast<byte*>(object_get_and_verify_type(vehicle_index, _object_mask_vehicle));
-	REFERENCE_DECLARE(vehicle, long, object_definition_index);
-	REFERENCE_DECLARE(vehicle + 0x14, long, parent_object_index);
-	REFERENCE_DECLARE(vehicle + 0x5A4, c_vehicle_type_component, type_component);
+	vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
+	_vehicle_definition* vehicle_definition = static_cast<_vehicle_definition*>(tag_get(VEHICLE_TAG, vehicle->object.definition_index));
 
-	_vehicle_definition* vehicle_definition = static_cast<_vehicle_definition*>(tag_get(VEHICLE_TAG, object_definition_index));
-
-	if (debug_objects_vehicle_physics && parent_object_index == NONE)
+	if (debug_objects_vehicle_physics && vehicle->object.parent_object_index == NONE)
 	{
 		s_vehicle_engine_definition* engine_defintiion = NULL;
-		s_vehicle_engine* const engine = type_component.get_engine(vehicle_index);
+		s_vehicle_engine* const engine = vehicle->vehicle.type_component.get_engine(vehicle_index);
 		switch (vehicle_get_type(vehicle_index))
 		{
 		case _vehicle_type_human_tank:
@@ -75,7 +71,7 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 			long v18 = 20 - static_cast<long>(v13);
 
 			char string[1024]{};
-			csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->current_gear, engine_defintiion->gears.count() - 1, v16, v17, v18);
+			csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->gear, engine_defintiion->gears.count() - 1, v16, v17, v18);
 
 			real_argb_color const* v14 = global_real_argb_red;
 			if (!static_cast<long>(v13))

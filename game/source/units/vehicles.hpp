@@ -2,17 +2,66 @@
 
 #include "units/units.hpp"
 #include "units/vehicle_definitions.hpp"
+#include "units/vehicle_type_component.hpp"
 
 struct vehicle_data
 {
-	byte __data0[0xCC];
+	word_flags flags;
+	byte upside_down_on_ground_ticks;
+	byte airborne_ticks;
+	byte upending_type;
+	byte upending_ticks;
 
+	byte __data6[0xA];
+
+	real mean_antigrav_fraction;
+	c_vehicle_type_component type_component;
+	long last_physics_cache_update_time;
+	long squad_index;
+	long next_vehicle_index;
+	long spawn_point_name;
+	long bipeds_killed;
 	c_static_flags<64> const disallowed_seats;
 	long const reserved_seats[128];
 
-	byte __data2D4[0x6C];
+	long __unknown2D4;
+	short __unknown2D8;
+	byte __pad2DA[0x2];
+	long __unknown2DC;
+	c_sector_ref __sector_ref2E0;
+	byte __data2E4[0x4];
+	long __unknown2E8;
+	long __unknown2EC;
+	real_point3d __point2F0;
+	long __unknown2FC;
+	c_animation_id __animation_id300;
+	c_animation_id __animation_id304;
+	c_animation_id __animation_id308;
+	c_animation_id __animation_id30C;
+
+	c_animation_id acceleration_animation_id[3];
+	real driver_force_position;
+	real driver_force_scale;
+	vector3d auto_aiming_vector;
+	real_point3d last_soft_ceiling_update_position;
+	object_header_block_reference vehicle_physics_cache;
 };
 static_assert(sizeof(vehicle_data) == 0x340);
+static_assert(0x006 == offsetof(vehicle_data, __data6));
+static_assert(0x2D4 == offsetof(vehicle_data, __unknown2D4));
+static_assert(0x2D8 == offsetof(vehicle_data, __unknown2D8));
+static_assert(0x2DA == offsetof(vehicle_data, __pad2DA));
+static_assert(0x2DC == offsetof(vehicle_data, __unknown2DC));
+static_assert(0x2E0 == offsetof(vehicle_data, __sector_ref2E0));
+static_assert(0x2E4 == offsetof(vehicle_data, __data2E4));
+static_assert(0x2E8 == offsetof(vehicle_data, __unknown2E8));
+static_assert(0x2EC == offsetof(vehicle_data, __unknown2EC));
+static_assert(0x2F0 == offsetof(vehicle_data, __point2F0));
+static_assert(0x2FC == offsetof(vehicle_data, __unknown2FC));
+static_assert(0x300 == offsetof(vehicle_data, __animation_id300));
+static_assert(0x304 == offsetof(vehicle_data, __animation_id304));
+static_assert(0x308 == offsetof(vehicle_data, __animation_id308));
+static_assert(0x30C == offsetof(vehicle_data, __animation_id30C));
 
 struct vehicle_datum
 {
