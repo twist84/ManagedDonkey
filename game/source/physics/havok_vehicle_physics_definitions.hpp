@@ -1,7 +1,9 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "game/materials.hpp"
 #include "physics/physics_model_definitions.hpp"
+#include "shell/shell.hpp"
 #include "tag_files/tag_groups.hpp"
 
 enum e_havok_vehicle_physics_definition_flags
@@ -62,6 +64,80 @@ struct s_havok_vehicle_physics_definition
 	c_typed_tag_block<s_vehicle_phantom_shape_definition> shape_phantom_shape;
 };
 static_assert(sizeof(s_havok_vehicle_physics_definition) == 0x60);
+
+struct s_anti_gravity_point_definition
+{
+	c_string_id marker_name;
+	dword_flags flags;
+	real antigrav_strength;
+	real antigrav_offset;
+	real antigrav_height;
+	real antigrav_damp_factor;
+	real antigrav_normal_k1;
+	real antigrav_normal_k0;
+	real radius;
+
+	// pad
+	byte OX[0xC];
+
+	// pad
+	byte BB[0x2];
+
+	short WU;
+	c_string_id damage_source_region_name;
+	real model_state_error[k_number_of_model_states];
+};
+static_assert(sizeof(s_anti_gravity_point_definition) == 0x4C);
+
+enum e_friction_point_flags
+{
+	_friction_point_gets_damage_from_region_bit = 0,
+	_friction_point_powered_bit,
+	_friction_point_front_turning_bit,
+	_friction_point_rear_turning_bit,
+	_friction_point_attached_to_e_brake_bit,
+	_friction_point_can_be_destroyed_bit,
+
+	k_friction_point_flags
+};
+
+enum e_friction_type
+{
+	_friction_type_point = 0,
+	_friction_type_forward,
+
+	k_friction_type_count
+};
+
+struct s_friction_point_definition
+{
+	c_string_id marker_name;
+	c_flags<e_friction_point_flags, dword, k_friction_point_flags> flags;
+	real fraction_of_total_mass; // (0.0-1.0) fraction of total vehicle mass
+	real radius;
+	real damaged_radius; // radius when the tire is blown off.
+	c_enum<e_friction_type, short, _friction_type_point, k_friction_type_count> friction_type;
+
+	// pad
+	byte BTUPMKNC[0x2];
+
+	real moving_friction_velocity_diff;
+	real e_brake_moving_friction;
+	real e_brake_friction;
+	real e_brake_moving_friction_vel_diff;
+
+	// pad
+	byte ESECRABPX[0x14];
+
+	c_string_id collision_global_material_name;
+	c_global_material_type runtime_global_material_index;
+
+	// friction point destruction data
+	c_enum<e_model_state, short, _model_state_standard, k_number_of_model_states> model_state_destroyed; // only need point can destroy flag set
+	c_string_id region_name; // only need point can destroy flag set
+	long runtime_region_index;
+};
+static_assert(sizeof(s_friction_point_definition) == 0x4C);
 
 struct s_havok_vector4 // hkVector4
 {

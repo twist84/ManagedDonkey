@@ -808,6 +808,7 @@ POPD
     <ClInclude Include="source\models\model_skinning.hpp" />
     <ClInclude Include="source\motor\mover.hpp" />
     <ClInclude Include="source\motor\sync_action.hpp" />
+    <ClInclude Include="source\motor\vehicle_motor_program.hpp" />
     <ClInclude Include="source\multithreading\event_queue.hpp" />
     <ClInclude Include="source\multithreading\message_queue.hpp" />
     <ClInclude Include="source\multithreading\synchronization.hpp" />
