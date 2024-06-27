@@ -27,7 +27,7 @@ protected:
 
 	real __unknown2C;
 	real __unknown30;
-	byte __data34[0x4];
+	real __unknown34;
 
 	c_vehicle_stop_counter m_stop_counter;
 	c_vehicle_braking_counter m_braking_counter;
