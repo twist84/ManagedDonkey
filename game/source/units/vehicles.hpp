@@ -11,12 +11,13 @@ struct vehicle_data
 	byte airborne_ticks;
 	byte upending_type;
 	byte upending_ticks;
+	byte on_ground_ticks;
 
-	byte __data6[0x6];
+	byte __data7[0x5];
 
 	word slipping_wheels_bit_vector;
 
-	byte __data8[0x2];
+	byte __dataE[0x2];
 
 	real mean_antigrav_fraction;
 	c_vehicle_type_component type_component;
@@ -51,7 +52,8 @@ struct vehicle_data
 	object_header_block_reference vehicle_physics_cache;
 };
 static_assert(sizeof(vehicle_data) == 0x340);
-static_assert(0x006 == offsetof(vehicle_data, __data6));
+static_assert(0x007 == offsetof(vehicle_data, __data7));
+static_assert(0x00E == offsetof(vehicle_data, __dataE));
 static_assert(0x2D4 == offsetof(vehicle_data, __unknown2D4));
 static_assert(0x2D8 == offsetof(vehicle_data, __unknown2D8));
 static_assert(0x2DA == offsetof(vehicle_data, __pad2DA));
