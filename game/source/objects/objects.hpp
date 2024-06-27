@@ -206,8 +206,18 @@ struct object_data
 	object_header_block_reference animation;
 	object_header_block_reference multiplayer;
 
-	long __unknown170;
-	long __unknown174;
+	// (bsp_index << 24) | probe_index & 0xFFFFFF
+	long air_probe_index; // airprobes block
+
+	// (bsp_index << 24) | typed_probe_index & 0xFFFFFF
+	union
+	{
+		// scenery probes block
+		long scenery_air_probe_index;
+
+		// device machine probes block
+		long device_machine_air_probe_index;
+	};
 };
 static_assert(sizeof(object_data) == 0x178);
 
