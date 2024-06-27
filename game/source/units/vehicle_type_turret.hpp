@@ -8,8 +8,6 @@ struct c_vehicle_type_turret
 public:
 
 protected:
-	// #TODO: map this
-
 	c_vehicle_auto_turret m_auto_turret;
 
 	byte __data[0x60 - 0x30];

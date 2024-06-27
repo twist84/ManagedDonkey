@@ -394,7 +394,7 @@ struct s_walker_physics_leg_block
 	c_enum<e_walker_physics_leg_group, char, _walker_physics_leg_group_primary, k_walker_physics_leg_group_count> leg_group;
 	c_enum<e_walker_physics_leg_side, char, _walker_physics_leg_side_left, k_walker_physics_leg_side_count> leg_side;
 	char leg_side_order;
-	char valid;
+	bool valid;
 	c_string_id hip_node_a_name;
 	c_string_id hip_node_b_name;
 	c_string_id knee_node_a_name;
