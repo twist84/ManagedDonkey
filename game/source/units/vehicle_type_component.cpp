@@ -472,7 +472,44 @@ bool c_vehicle_type_component::physics_disabled(long vehicle_index)
 	//return false;
 }
 
-//.text:00B8ABF0 ; c_vehicle_type_component::process_animation_channels
+void c_vehicle_type_component::process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* callback_data, c_animation_channel* channel, bool a5)
+{
+	DECLFUNC(0x00B8ABF0, void, __thiscall, c_vehicle_type_component*, long, decltype(callback), c_animation_channel*, bool)(this, vehicle_index, callback, channel, a5);
+
+	//switch (vehicle_get_type(vehicle_index))
+	//{
+	//case _vehicle_type_human_tank:
+	//	get_type_human_tank()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_human_jeep:
+	//	get_type_human_jeep()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_human_plane:
+	//	get_type_human_plane()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_alien_scout:
+	//	get_type_alien_scout()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_alien_fighter:
+	//	get_type_alien_fighter()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_turret:
+	//	get_type_turret()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_mantis:
+	//	get_type_mantis()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_vtol:
+	//	get_type_vtol()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_chopper:
+	//	get_type_chopper()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//case _vehicle_type_guardian:
+	//	get_type_guardian()->process_animation_channels(vehicle_index, callback, channel, a5);
+	//	break;
+	//}
+}
 
 void c_vehicle_type_component::reset(long vehicle_index)
 {

@@ -14,6 +14,8 @@
 #include "units/vehicle_type_turret.hpp"
 #include "units/vehicle_type_vtol.hpp"
 
+struct render_model_definition;
+struct c_animation_channel;
 struct s_havok_vehicle_physics_instance;
 struct c_vehicle_type_component
 {
@@ -45,7 +47,7 @@ public:
 	bool is_stopped(long vehicle_index);
 	bool kills_riders_at_terminal_velocity(long vehicle_index);
 	bool physics_disabled(long vehicle_index);
-	//process_animation_channels
+	void process_animation_channels(long vehicle_index, void(__cdecl* callback)(long, render_model_definition const*, c_animation_channel*, real, real, real, void*), void* callback_data, c_animation_channel* channel, bool a5);
 	void reset(long vehicle_index);
 	void set_auto_turret_damage_owner(long vehicle_index, long object_index);
 	bool should_override_deactivation(long vehicle_index);
