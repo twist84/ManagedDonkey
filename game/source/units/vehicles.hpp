@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ai/sector.hpp"
 #include "units/units.hpp"
 #include "units/vehicle_definitions.hpp"
 #include "units/vehicle_type_component.hpp"
@@ -29,15 +30,16 @@ struct vehicle_data
 	c_static_flags<64> const disallowed_seats;
 	long const reserved_seats[128];
 
-	long __unknown2D4;
-	short __unknown2D8;
-	byte __pad2DA[0x2];
-	long __unknown2DC;
-	c_sector_ref __sector_ref2E0;
-	long __unknown2E4;
-	long __unknown2E8;
-	long __unknown2EC;
-	real_point3d __point2F0;
+	long pathfinding_time;
+	short pathfinding_structure_index;
+	byte pathfinding__pad2DA[0x2];
+	long pathfinding_surface_index;
+	c_sector_ref pathfinding_sector;
+	long pathfinding__unknown2E4;
+	long pathfinding_object_index;
+	dword pathfinding_bsp_reference;
+	real_point3d pathfinding_point;
+
 	long __unknown2FC;
 
 	c_animation_id steering_animation_id;
@@ -54,15 +56,6 @@ struct vehicle_data
 static_assert(sizeof(vehicle_data) == 0x340);
 static_assert(0x007 == offsetof(vehicle_data, __data7));
 static_assert(0x00E == offsetof(vehicle_data, __dataE));
-static_assert(0x2D4 == offsetof(vehicle_data, __unknown2D4));
-static_assert(0x2D8 == offsetof(vehicle_data, __unknown2D8));
-static_assert(0x2DA == offsetof(vehicle_data, __pad2DA));
-static_assert(0x2DC == offsetof(vehicle_data, __unknown2DC));
-static_assert(0x2E0 == offsetof(vehicle_data, __sector_ref2E0));
-static_assert(0x2E4 == offsetof(vehicle_data, __unknown2E4));
-static_assert(0x2E8 == offsetof(vehicle_data, __unknown2E8));
-static_assert(0x2EC == offsetof(vehicle_data, __unknown2EC));
-static_assert(0x2F0 == offsetof(vehicle_data, __point2F0));
 static_assert(0x2FC == offsetof(vehicle_data, __unknown2FC));
 
 struct vehicle_datum
