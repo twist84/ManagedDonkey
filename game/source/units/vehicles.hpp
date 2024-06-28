@@ -40,7 +40,7 @@ struct vehicle_data
 	dword pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
 
-	long __unknown2FC;
+	long __unknown2FC; // last_known_animation_graph_index?
 
 	c_animation_id steering_animation_id;
 	c_animation_id roll_animation_id;
