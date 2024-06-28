@@ -7,10 +7,7 @@
 struct c_vehicle_type_human_tank
 {
 public:
-	s_vehicle_engine* const get_engine(long vehicle_index)
-	{
-		return &m_engine;
-	}
+	s_vehicle_engine* const get_engine(long vehicle_index);
 
 protected:
 	s_vehicle_engine m_engine;
