@@ -29,7 +29,6 @@ struct vehicle_data
 	long bipeds_killed;
 	c_static_flags<64> const disallowed_seats;
 	long const reserved_seats[128];
-
 	long pathfinding_time;
 	short pathfinding_structure_index;
 	byte pathfinding__pad2DA[0x2];
@@ -39,9 +38,7 @@ struct vehicle_data
 	long pathfinding_object_index;
 	dword pathfinding_bsp_reference;
 	real_point3d pathfinding_point;
-
-	long __unknown2FC; // last_known_animation_graph_index?
-
+	long last_known_animation_graph_index;
 	c_animation_id steering_animation_id;
 	c_animation_id roll_animation_id;
 	c_animation_id throttle_animation_id;
@@ -56,7 +53,7 @@ struct vehicle_data
 static_assert(sizeof(vehicle_data) == 0x340);
 static_assert(0x007 == offsetof(vehicle_data, __data7));
 static_assert(0x00E == offsetof(vehicle_data, __dataE));
-static_assert(0x2FC == offsetof(vehicle_data, __unknown2FC));
+static_assert(0x2DA == offsetof(vehicle_data, pathfinding__pad2DA));
 
 struct vehicle_datum
 {
