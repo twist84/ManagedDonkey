@@ -7,6 +7,8 @@
 #include "objects/target_tracking.hpp"
 #include "units/unit_definition.hpp"
 
+long const k_seat_acceleration_memory_length = 6;
+
 enum e_weapon_set
 {
 	_weapon_set_primary = 0,
@@ -137,9 +139,11 @@ struct unit_data
 	real integrated_light_battery;
 	real integrated_night_vision_power;
 	real open_state;
-	byte seat_acceleration_state[0x58];
-
-	long __unknown228;
+	vector3d seat_acceleration;
+	c_static_array<real_point3d, k_seat_acceleration_memory_length> seat_acceleration_memory;
+	short seat_acceleration_memory_index;
+	byte seat_acceleration__data226[0x2];
+	long seat_acceleration_reset_time;
 
 	short predicted_seat_index;
 
