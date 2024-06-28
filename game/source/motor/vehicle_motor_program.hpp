@@ -37,8 +37,8 @@ struct s_havok_vehicle_physics_instance
 	real __unknown80;
 
 	bool is_e_braking;
+	bool is_upsides_down;
 
-	byte __unknown85;
 	byte __unknown86;
 	byte __unknown87;
 	long __unknown88;
