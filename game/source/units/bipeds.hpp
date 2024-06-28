@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ai/sector.hpp"
 #include "cseries/cseries.hpp"
 #include "memory/ring_buffer.hpp"
 #include "physics/character_physics.hpp"
@@ -9,8 +10,15 @@ struct biped_data
 {
 	word_flags flags;
 
-	byte __data2[0x1A]; // pathfinding location
-	real_point3d __unknown1C;
+	short pathfinding_structure_index;
+	long pathfinding_time;
+	long pathfinding_surface_index;
+	c_sector_ref pathfinding_sector;
+	long pathfinding__unknown10;
+	long pathfinding_object_index;
+	dword pathfinding_bsp_reference;
+	real_point3d pathfinding_point;
+
 	byte __data28[0x18];
 
 	long current_bump_object_index;
