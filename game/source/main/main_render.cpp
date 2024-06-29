@@ -677,6 +677,8 @@ void __cdecl main_render_update_loading_screen()
 // I don't perticularly want to reimplement `main_render_game` as its quite large
 __declspec(naked) void main_render_view_inline()
 {
+	ASM_ADDR(0x00604747, loc_604747);
+
 	__asm
 	{
         // main_render_view(player_view, player_view->get_player_view_user_index())
@@ -685,11 +687,7 @@ __declspec(naked) void main_render_view_inline()
         call main_render_view
 
         // jump out after the inlined `main_render_view`
-		// we push the return address to the stack for the jump,
-		// the stack will be cleaned up outside of this hook
-		// this is **very** non-standard and bad, *Wait, That's Illegal*
-        push 0x00604747
-        jmp dword ptr[esp]
+        jmp loc_604747
 	}
 }
 //HOOK_DECLARE(0x006046EB, main_render_view_inline);

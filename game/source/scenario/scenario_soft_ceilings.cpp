@@ -167,36 +167,52 @@ void __cdecl scenario_soft_ceilings_render_debug(
 
 __declspec(naked) void soft_ceilings_disable_inline0()
 {
+	// original instructions
+	//     cmp dword ptr[esp + 0xB4], 0
+	//     jle loc_67603E
+
+	ASM_ADDR(0x00675E51, addr_675E51);
+	ASM_ADDR(0x0067603E, addr_67603E);
+
 	__asm
 	{
-		// our code
+		// execute our instructions
 		cmp soft_ceilings_disable, 0
 		jnz loc_67603E
 
-		// original code
+		// execute the original instructions
 		cmp dword ptr[esp + 0xB4], 0
 		jle loc_67603E
 
-		mov eax, 0x00675E51
-		jmp eax
+		// jump out to after our hook
+		jmp addr_675E51
 
-		// jump out
 	loc_67603E:
-		mov eax, 0x0067603E
-		jmp eax
+		jmp addr_67603E
 	}
 }
 HOOK_DECLARE(0x00675E43, soft_ceilings_disable_inline0);
 
 __declspec(naked) void soft_ceilings_disable_inline1()
 {
+	// original instructions
+	//		cmp[esp + 0x28], eax
+	//		jz      loc_6755B4
+	//		movss   xmm1, dword ptr[esp + 0x50]
+	//		xorps   xmm0, xmm0
+	//		comiss  xmm0, xmm1
+	//		jbe     loc_6755B4
+
+	ASM_ADDR(0x00675518, addr_675518);
+	ASM_ADDR(0x006755B4, addr_6755B4);
+
 	__asm
 	{
-		// our code
+		// execute our instructions
 		cmp soft_ceilings_disable, 0
 		jz      loc_6755B4
 
-		// original code
+		// execute the original instructions
 		cmp[esp + 0x28], eax
 		jz      loc_6755B4
 
@@ -205,13 +221,11 @@ __declspec(naked) void soft_ceilings_disable_inline1()
 		comiss  xmm0, xmm1
 		jbe     loc_6755B4
 
-		mov eax, 0x00675518
-		jmp eax
+		// jump out to after our hook
+		jmp addr_675518
 
-		// jump out
 	loc_6755B4:
-		mov eax, 0x006755B4
-		jmp eax
+		jmp addr_6755B4
 	}
 }
 HOOK_DECLARE(0x006754FC, soft_ceilings_disable_inline1);
