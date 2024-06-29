@@ -433,7 +433,7 @@ long __cdecl units_debug_get_closest_unit(long unit_index)
 	//return INVOKE(0x00B4D430, units_debug_get_closest_unit, unit_index);
 
 	long closest_unit_index = NONE;
-	real closest_distance = 3.4028235e38f;
+	real closest_distance = k_real_max;
 
 	c_object_iterator<unit_datum> unit_iterator;
 	unit_iterator.begin(_object_mask_unit, 0);

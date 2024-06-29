@@ -54,7 +54,7 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 		}
 		ASSERT((engine == NULL) == (engine_defintiion == NULL));
 
-		if (engine && engine_defintiion->engine_max_angular_velocity > 0.001f)
+		if (engine && engine_definition->engine_max_angular_velocity > k_test_real_epsilon)
 		{
 			real v11 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->__unknown4) / engine_defintiion->engine_max_angular_velocity) * 20.0f;
 

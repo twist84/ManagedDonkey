@@ -171,7 +171,7 @@ void __cdecl render_debug_structure()
 
 							plane3d plane{};
 							surface_reference.get_plane(&plane);
-							if (plane.normal.k > global_slip_surface_maximum_k_get() - 0.001f)
+							if (plane.normal.k > global_slip_surface_maximum_k_get() - k_test_real_epsilon)
 								slip_surface_does_not_exceed_maximum_k = false;
 						}
 					}

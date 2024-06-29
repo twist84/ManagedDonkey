@@ -269,8 +269,8 @@ char const* debug_menu_build_item_hs_variable_global(c_debug_menu* menu, char* e
 		case _hs_type_real:
 		{
 			real inc_value = g_parser_state.m_inc ? g_parser_state.m_inc_value : 0.1f;
-			real max_value = g_parser_state.m_max ? g_parser_state.m_max_value : 3.4028235e38f;
-			real min_value = g_parser_state.m_min ? g_parser_state.m_min_value : -3.4028235e38f;
+			real max_value = g_parser_state.m_max ? g_parser_state.m_max_value : k_real_max;
+			real min_value = g_parser_state.m_min ? g_parser_state.m_min_value : k_real_min;
 
 			item = new c_debug_menu_item_type_real(menu, name, NULL, g_parser_state.m_variable_buffer, min_value, max_value, inc_value);
 		}
