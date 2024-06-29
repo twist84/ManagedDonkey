@@ -36,6 +36,8 @@
 #define DATA_PATCH_ARRAY_DECLARE(ADDRS, NAME, ...) static c_data_patch_array STRCONCAT(NAME##_patch,__LINE__)(#NAME, NUMBEROF(ADDRS), ADDRS, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
 #define DATA_PATCH_ARRAY_DECLARE2(ADDRS, NAME, ...) static c_data_patch_array NAME##_patch(#NAME, NUMBEROF(ADDRS), ADDRS, NUMBEROF(__VA_ARGS__), __VA_ARGS__)
 
+#define ASM_ADDR(ADDR, NAME) static void* NAME = (void*)ADDR
+
 union module_address
 {
 	dword address;
