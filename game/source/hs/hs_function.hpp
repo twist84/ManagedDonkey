@@ -17,7 +17,11 @@ struct hs_function_definition
 	short parameter_count;
 #pragma warning(push)
 #pragma warning(disable : 4200)
-	c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> parameters[];
+	union
+	{
+		c_enum<e_hs_type, short, _hs_unparsed, k_hs_type_count> parameters[];
+		short formal_parameters[];
+	};
 #pragma warning(pop)
 };
 static_assert(sizeof(hs_function_definition) == 0x10);

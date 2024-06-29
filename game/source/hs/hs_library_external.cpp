@@ -7,24 +7,11 @@
 #include "interface/terminal.hpp"
 #include "memory/module.hpp"
 
-HOOK_DECLARE(0x005942E0, hs_breakpoint);
 HOOK_DECLARE(0x0096D3E0, hs_debug_variable);
 HOOK_DECLARE(0x0096D8B0, hs_log_print);
 HOOK_DECLARE(0x0096EF60, hs_print);
 HOOK_DECLARE(0x0096F0F0, hs_trigger_volume_test_objects_all);
 HOOK_DECLARE(0x0096F150, hs_trigger_volume_test_objects_any);
-
-void __cdecl hs_breakpoint(const char* s)
-{
-	if (breakpoints_enabled)
-	{
-		debug_game_speed = 0.0f;
-		char buffer[1024]{};
-		csstrnzcpy(buffer, "BREAKPOINT: ", sizeof(buffer));
-		csstrnzcat(buffer, s, sizeof(buffer));
-		hs_print(buffer);
-	}
-}
 
 void __cdecl hs_debug_variable(const char* s, bool debug)
 {
