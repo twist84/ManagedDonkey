@@ -34,53 +34,41 @@ bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
 void __cdecl vehicle_render_debug(long vehicle_index)
 {
 	vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
-	_vehicle_definition* vehicle_definition = static_cast<_vehicle_definition*>(tag_get(VEHICLE_TAG, vehicle->object.definition_index));
+	_vehicle_definition* vehicle_definition = (_vehicle_definition*)tag_get(VEHICLE_TAG, vehicle->object.definition_index);
 
 	if (debug_objects_vehicle_physics && vehicle->object.parent_object_index == NONE)
 	{
-		s_vehicle_engine_definition* engine_defintiion = NULL;
+		s_vehicle_engine_definition* engine_definition = NULL;
 		s_vehicle_engine* const engine = vehicle->vehicle.type_component.get_engine(vehicle_index);
 		switch (vehicle_get_type(vehicle_index))
 		{
 		case _vehicle_type_human_tank:
-			engine_defintiion = &vehicle_definition->physics_types.type_human_tank[0].engine;
+			engine_definition = &vehicle_definition->physics_types.type_human_tank[0].engine;
 			break;
 		case _vehicle_type_human_jeep:
-			engine_defintiion = &vehicle_definition->physics_types.type_human_jeep[0].engine;
+			engine_definition = &vehicle_definition->physics_types.type_human_jeep[0].engine;
 			break;
 		case _vehicle_type_chopper:
-			engine_defintiion = &vehicle_definition->physics_types.type_chopper[0].engine;
+			engine_definition = &vehicle_definition->physics_types.type_chopper[0].engine;
 			break;
 		}
-		ASSERT((engine == NULL) == (engine_defintiion == NULL));
+		ASSERT((engine == NULL) == (engine_definition == NULL));
 
 		if (engine && engine_definition->engine_max_angular_velocity > k_test_real_epsilon)
 		{
-			real v11 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->__unknown4) / engine_defintiion->engine_max_angular_velocity) * 20.0f;
-
-			real v12 = fmaxf(v11, 0.0f);
-			if (v12 >= 20.0f)
-				v12 = 20.0f;
-
-			real v13 = fmaxf(v11 - 20.0f, 0.0f);
-			if (v13 >= 20.0f)
-				v13 = 20.0f;
-
-			long v16 = 20 - static_cast<long>(v12);
-			long v17 = static_cast<long>(v12);
-			long v18 = 20 - static_cast<long>(v13);
+			real v0 = ((vehicle_engine_get_rpm_function_scale(engine) * engine->__unknown4) / engine_definition->engine_max_angular_velocity) * 20.0f;
+			long v1 = static_cast<long>(fminf(fmaxf(v0, 0.0f), 20.0f));
+			long v2 = static_cast<long>(fminf(fmaxf(v0 - 20.0f, 0.0f), 20.0f));
+			long v3 = 20 - v1;
+			long v4 = 20 - v2;
 
 			char string[1024]{};
-			csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->gear, engine_defintiion->gears.count() - 1, v16, v17, v18);
-
-			real_argb_color const* v14 = global_real_argb_red;
-			if (!static_cast<long>(v13))
-				v14 = global_real_argb_aqua;
+			csnzprintf(string, 1024, "gear %d/%d **%ld---%ld^^^%ld", engine->gear, engine_definition->gears.count() - 1, v3, v1, v4);
 
 			real_point3d origin{};
 			object_get_origin(vehicle_index, &origin);
 			origin.z += 1.0f;
-			render_debug_string_at_point(&origin, string, v14);
+			render_debug_string_at_point(&origin, string, v2 ? global_real_argb_red : global_real_argb_aqua);
 		}
 	}
 }
