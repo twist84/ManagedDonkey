@@ -290,14 +290,14 @@ void __cdecl hs_runtime_update()
 //.text:00598770 ; long __cdecl hs_short_to_real(long _short)
 //.text:00598790 ; 
 //.text:005987B0 ; 
-//.text:005987D0 ; void * __cdecl hs_stack_allocate(long, long, long, hs_stack_pointer*)
+//.text:005987D0 ; void* __cdecl hs_stack_allocate(long, long, long, hs_stack_pointer*)
 //.text:005988C0 ; 
 //.text:005988E0 ; 
 //.text:00598900 ; 
 //.text:00598940 ; bool __cdecl hs_stack_push(long)
 //.text:005989E0 ; long __cdecl hs_string_to_boolean(long _string)
 //.text:00598A10 ; hs_syntax_node* __cdecl hs_syntax_get(long)
-//.text:00598A30 ; 
+//.text:00598A30 ; long __cdecl hs_syntax_nth(long, short)
 //.text:00598A60 ; void __cdecl hs_thread_delete(long, bool)
 
 char const* __cdecl hs_thread_format(long thread_index)
