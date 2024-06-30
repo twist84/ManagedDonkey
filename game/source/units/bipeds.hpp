@@ -40,9 +40,7 @@ struct biped_data
 	byte __data6C[0x28];
 
 	c_character_physics_component physics;
-
-	object_header_block_reference __unknown114;
-
+	object_header_block_reference simulation_interpolation;
 	object_header_block_reference last_node_matrices_storage;
 	vector3d root_offset;
 	vector3d ground_fit_normal;
