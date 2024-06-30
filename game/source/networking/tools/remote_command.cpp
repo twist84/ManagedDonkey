@@ -1685,6 +1685,30 @@ callback_result_t cheat_teleport_to_camera_callback(void const* userdata, long t
 	return result;
 }
 
+
+callback_result_t cheat_active_camouflage_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long value = token_try_parse_bool(tokens[1]);
+	if (value != NONE)
+		cheat_active_camouflage(value);
+
+	return result;
+}
+
+callback_result_t cheat_active_camouflage_by_player_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long player_index = atol(tokens[1]->get_string());
+	long value = token_try_parse_bool(tokens[2]);
+	if (value != NONE)
+		cheat_active_camouflage_by_player(player_index, value);
+
+	return result;
+}
+
 callback_result_t debug_menu_rebuild_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

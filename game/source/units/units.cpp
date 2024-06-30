@@ -39,11 +39,28 @@ bool __cdecl any_unit_is_dangerous(long* out_unit_index)
 //.text:00B38210 ; public: bool __cdecl c_multi_unit_passenger_iterator::next()
 //.text:00B38450 ; void __cdecl play_unit_sound(long, short)
 //.text:00B386E0 ; 
-//.text:00B38720 ; 
-//.text:00B38760 ; 
-//.text:00B38880 ; void __cdecl unit_active_camouflage_disable(long, real)
-//.text:00B38940 ; void __cdecl unit_active_camouflage_enable(long, real, bool)
-//.text:00B38A10 ; 
+
+bool __cdecl unit_active_camouflage_is_active(long unit_index)
+{
+	return INVOKE(0x00B38720, unit_active_camouflage_is_active, unit_index);
+}
+
+//.text:00B38760 ; player_handle_melee_recovery
+
+void __cdecl unit_active_camouflage_disable(long unit_index, real interpolation_time)
+{
+	INVOKE(0x00B38880, unit_active_camouflage_disable, unit_index, interpolation_time);
+}
+
+void __cdecl unit_active_camouflage_enable(long unit_index, real interpolation_time, long end_time)
+{
+	INVOKE(0x00B38940, unit_active_camouflage_enable, unit_index, interpolation_time, end_time);
+}
+
+void __cdecl unit_active_camouflage_recent(long unit_index, real active_camouflage)
+{
+	INVOKE(0x00B38A10, unit_active_camouflage_recent, unit_index, active_camouflage);
+}
 
 void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index)
 {
@@ -60,7 +77,7 @@ short __cdecl unit_add_grenade_type_to_inventory(long unit_index, short grenade_
 	return INVOKE(0x00B38CD0, unit_add_grenade_type_to_inventory, unit_index, grenade_type, grenade_count);
 }
 
-//.text:00B38D30 ; 
+//.text:00B38D30 ; healthpack
 //.text:00B38EA0 ; 
 
 void __cdecl unit_add_starting_profile_equipment(long unit_index, short profile_index, bool clear_player, bool create_new)

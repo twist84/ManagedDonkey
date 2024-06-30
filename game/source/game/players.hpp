@@ -857,6 +857,7 @@ extern bool __cdecl player_teleport(long player_index, long object_index, real_p
 extern bool __cdecl player_try_to_drop_weapon(long player_index, bool a2);
 extern long __cdecl player_unit_get_representation_index(long unit_index);
 extern long __cdecl player_get_control_index_from_unit(long unit_index);
+extern void __cdecl player_update_invisibility(long player_index);
 extern bool __cdecl players_all_are_dead();
 extern bool __cdecl players_any_are_dead();
 extern bool __cdecl players_any_are_in_the_air(long* out_unit_index);

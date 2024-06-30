@@ -358,7 +358,13 @@ long __cdecl game_engine_round_time_get()
 	return 0;
 }
 
-//.text:00552410 ; bool __cdecl game_engine_running(void)
+bool __cdecl game_engine_running()
+{
+	//return INVOKE(0x00552410, game_engine_running);
+
+	return current_game_engine() != NULL;
+}
+
 //.text:00552420 ; void __cdecl game_engine_sandbox_get_string(long, class c_static_wchar_string<1024> *)
 //.text:00552480 ; 
 //.text:005524D0 ; void __cdecl game_engine_set_desired_state(long)

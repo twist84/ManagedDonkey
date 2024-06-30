@@ -160,6 +160,21 @@ void __cdecl cheat_teleport_to_camera()
 		//simulation_request_unit_debug_teleport(unit_index, &position);
 	}
 }
+
+void __cdecl cheat_active_camouflage(bool enable)
+{
+	e_input_user_index user_index = player_mapping_first_active_input_user();
+	long player_index = player_mapping_get_player_by_input_user(user_index);
+	cheat_active_camouflage_by_player(player_index, enable);
+}
+
+void __cdecl cheat_active_camouflage_by_player(long player_index, bool enable)
+{
+	e_input_user_index user_index = player_mapping_get_input_user(player_index);
+	if (VALID_INDEX(user_index, k_number_of_input_users))
+		cheat.active_camouflage_player_mapping[user_index] = enable;
+}
+
 long __cdecl cheat_player_index()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);
@@ -455,7 +470,7 @@ void __cdecl cheat_drop_tag_name_with_variant_and_permutations(char const* tag_n
 			cheat_drop_tag(group_tag, name.get_string(), variant_name, permutations, permutation_count);
 			return;
 		}
-		
+
 		if (strlen(group_name))
 		{
 			generate_event(_event_level_warning, "cheats: unknown tag group '%s'", group_name);
