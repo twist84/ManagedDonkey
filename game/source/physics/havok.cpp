@@ -36,18 +36,16 @@ void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color c
 	va_list list;
 	va_start(list, format);
 
-	char buffer[260]{};
-	cvsnzprintf(buffer, 255, format, list);
+	c_static_string<255> string;
+	string.print(format, list);
+
+	va_end(list);
 
 	// missing in Halo Online
 	if (display_as_event)
-	{
-		c_console::write_line("%s", buffer);
-	}
+		generate_event(_event_level_warning, "%s", string.get_string());
 	else
-	{
-		terminal_printf(NULL, "%s", buffer);
-	}
+		terminal_printf(NULL, "%s", string.get_string());
 }
 
 void __cdecl havok_prepare_fpu_for_update()
