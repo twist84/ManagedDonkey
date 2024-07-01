@@ -18,6 +18,7 @@
 #include "scenario/scenario.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/string_ids.hpp"
+#include "units/vehicle_definitions.hpp"
 
 #include <math.h>
 #include <string.h>
@@ -279,9 +280,8 @@ void __cdecl cheat_all_vehicles()
 		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		byte* vehicle = static_cast<byte*>(tag_get(iterator.group_tag, tag_index));
-		s_tag_block& powered_seats = *reinterpret_cast<s_tag_block*>(vehicle + 0x358);
-		if (powered_seats.count > 0)
+		_vehicle_definition* vehicle_definition = static_cast<_vehicle_definition*>(tag_get(iterator.group_tag, tag_index));
+		if (vehicle_definition->unit.powered_seats.count() > 0)
 			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
 	}
 
