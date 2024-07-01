@@ -18,6 +18,7 @@
 #include "scenario/scenario.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "tag_files/string_ids.hpp"
+#include "units/bipeds.hpp"
 #include "units/vehicle_definitions.hpp"
 
 #include <math.h>
@@ -336,7 +337,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 	return true;
 }
 
-bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected_group_tag, long tag_index, long variant_name, long shader, real_point3d const* position, vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
+bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected_group_tag, long object_definition_index, long variant_name, long shader, real_point3d const* position, vector3d const* forward, s_model_customization_region_permutation const* permutations, long permutation_count)
 {
 	char const* tag_group_name = "unknown";
 
@@ -345,7 +346,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	if (game_is_predicted())
 		return false;
 
-	if (tag_index == NONE)
+	if (object_definition_index == NONE)
 	{
 		if (expected_group_tag == OBJECT_TAG)
 			generate_event(_event_level_warning, "cheats: couldn't load object '%s.%s' to drop it", tag_name, tag_group_name);
@@ -357,8 +358,8 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	data.multiplayer_properties.game_engine_flags = 0;
 	data.multiplayer_properties.spawn_flags = 0;
 
-	_object_definition* object = static_cast<_object_definition*>(tag_get(OBJECT_TAG, tag_index));
-	object_placement_data_new(&data, tag_index, NONE, nullptr);
+	_object_definition* object = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object_definition_index));
+	object_placement_data_new(&data, object_definition_index, NONE, NULL);
 	real bounding_radius = object->bounding_radius + 1.0f;
 
 	if (variant_name != NONE)
@@ -385,29 +386,31 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 		return false;
 	}
 
-	//object_force_inside_bsp(object_index, position, NONE);
+	object_force_inside_bsp(object_index, position, NONE);
+
 	//if (shader != NONE)
 	//	object_override_set_shader(object_index, shader);
 
-	//if (!object->runtime_object_type && object_get_and_verify_type(object_index, 1)->item.__data17C[0xE6] == NONE)
-	//{
-	//	tag_iterator iterator{};
-	//	tag_iterator_new(&iterator, WEAPON_TAG);
-	//	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
-	//	{
-	//		object_placement_data weapon_data{};
-	//		weapon_data.multiplayer_properties.game_engine_flags = 0;
-	//		weapon_data.multiplayer_properties.spawn_flags = 0;
-	//		long weapon_object_index = object_new(&weapon_data);
-	//		if (weapon_object_index != NONE)
-	//		{
-	//			if (unit_add_weapon_to_inventory(object_index, weapon_object_index, 1))
-	//				break;
-	//
-	//			object_delete(weapon_object_index);
-	//		}
-	//	}
-	//}
+	if (object->runtime_object_type == _object_type_biped && ((biped_datum*)object_get_and_verify_type(object_index, _object_mask_biped))->unit.current_weapon_set.weapon_indices[0] == NONE)
+	{
+		tag_iterator iterator{};
+		tag_iterator_new(&iterator, WEAPON_TAG);
+		for (long weapon_definition_index = tag_iterator_next(&iterator); weapon_definition_index != NONE; weapon_definition_index = tag_iterator_next(&iterator))
+		{
+			object_placement_data weapon_data{};
+			weapon_data.multiplayer_properties.game_engine_flags = 0;
+			weapon_data.multiplayer_properties.spawn_flags = 0;
+			object_placement_data_new(&weapon_data, weapon_definition_index, NONE, NULL);
+			long weapon_object_index = object_new(&weapon_data);
+			if (weapon_object_index != NONE)
+			{
+				if (unit_add_weapon_to_inventory(object_index, weapon_object_index, 1))
+					break;
+	
+				object_delete(weapon_object_index);
+			}
+		}
+	}
 
 	simulation_action_object_create(object_index);
 	console_printf("placed '%s.%s'", tag_name, tag_group_name);
