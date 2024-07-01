@@ -239,7 +239,7 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		data.multiplayer_properties.spawn_flags = 0;
 
 		real angle_scaling_factor = atan2f(forward.i, forward.j) + ((TWO_PI * reference_index) / reference_count);
-		object_placement_data_new(&data, reference.index, NONE, nullptr);
+		object_placement_data_new(&data, reference.index, NONE, NULL);
 
 		data.position = origin;
 		data.forward = forward;
@@ -420,7 +420,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 
 void __cdecl cheat_drop_tag_safe_hs(long tag_index)
 {
-	main_cheat_drop_tag(tag_index, NONE, nullptr, 0);
+	main_cheat_drop_tag(tag_index, NONE, NULL, 0);
 }
 
 long __cdecl cheat_get_tag_definition(tag group_tag, char const* tag_name)
@@ -540,19 +540,19 @@ long __cdecl cheat_get_region_and_permutation_array_from_string(char const* perm
 
 void __cdecl cheat_drop_tag_name(char const* tag_name)
 {
-	cheat_drop_tag_name_with_variant_and_permutations(tag_name, nullptr, nullptr, 0);
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, NULL, NULL, 0);
 }
 
 void __cdecl cheat_drop_tag_name_with_variant_hs(char const* tag_name, char const* variant_name)
 {
-	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, nullptr, 0);
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, variant_name, NULL, 0);
 }
 
 void __cdecl cheat_drop_tag_name_with_permutation_hs(char const* tag_name, char const* permutation_info)
 {
 	s_model_customization_region_permutation permutations[16]{};
 	long permutation_count = cheat_get_region_and_permutation_array_from_string(permutation_info, permutations, NUMBEROF(permutations));
-	cheat_drop_tag_name_with_variant_and_permutations(tag_name, nullptr, permutations, permutation_count);
+	cheat_drop_tag_name_with_variant_and_permutations(tag_name, NULL, permutations, permutation_count);
 }
 
 void __cdecl cheat_drop_tag_in_main_event_loop(long tag_index, long variant_name, s_model_customization_region_permutation const* permutations, long permutation_count)
