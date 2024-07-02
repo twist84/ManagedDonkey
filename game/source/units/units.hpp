@@ -50,6 +50,15 @@ struct s_unit_predicted_weapon_state
 };
 static_assert(sizeof(s_unit_predicted_weapon_state) == 0x8);
 
+struct s_unknown_unit_struct_sizeof_14
+{
+	long __unknown0;
+	long __unknown4;
+	long __unknown8;
+	long __unknownC;
+	long __time10;
+};
+
 struct unit_attacker
 {
 	long game_time;
@@ -203,7 +212,9 @@ struct unit_data
 	bool sync_action_critical_participant;
 	byte __pad2F9[0x3];
 
-	byte __data2FC[0x28];
+	// pass to `sub_B4BCB0`, is this an array?
+	s_unknown_unit_struct_sizeof_14 __unknown2FC;
+	s_unknown_unit_struct_sizeof_14 __unknown310;
 
 	long time_of_death;
 	real movement_stun;
@@ -254,6 +265,29 @@ struct unit_data
 	byte __data408[0x4];
 };
 static_assert(sizeof(unit_data) == 0x40C);
+static_assert(0x0AA == offsetof(unit_data, __unknownAA));
+static_assert(0x0AB == offsetof(unit_data, __padAB));
+static_assert(0x1A2 == offsetof(unit_data, __unknown1A2));
+static_assert(0x22E == offsetof(unit_data, __data22E));
+static_assert(0x234 == offsetof(unit_data, __unknown234));
+static_assert(0x238 == offsetof(unit_data, __unknown238));
+static_assert(0x28D == offsetof(unit_data, __data28D));
+static_assert(0x292 == offsetof(unit_data, __data292));
+static_assert(0x2F9 == offsetof(unit_data, __pad2F9));
+static_assert(0x2FC == offsetof(unit_data, __unknown2FC));
+static_assert(0x310 == offsetof(unit_data, __unknown310));
+static_assert(0x32E == offsetof(unit_data, __unknown32E));
+static_assert(0x330 == offsetof(unit_data, __unknown330));
+static_assert(0x334 == offsetof(unit_data, __unknown334));
+static_assert(0x336 == offsetof(unit_data, __data336));
+static_assert(0x3A0 == offsetof(unit_data, __unknown3A0_team_index_update_time));
+static_assert(0x3A4 == offsetof(unit_data, __unknown3A4_team_index));
+static_assert(0x3A8 == offsetof(unit_data, __unknown3A8_object_index));
+static_assert(0x3BC == offsetof(unit_data, __data3BC));
+static_assert(0x3FC == offsetof(unit_data, __unknown3FC));
+static_assert(0x3FD == offsetof(unit_data, __pad3FD));
+static_assert(0x400 == offsetof(unit_data, __unknown400));
+static_assert(0x408 == offsetof(unit_data, __data408));
 
 struct unit_datum
 {
