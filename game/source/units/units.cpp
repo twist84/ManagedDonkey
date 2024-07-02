@@ -57,9 +57,9 @@ void __cdecl unit_active_camouflage_enable(long unit_index, real interpolation_t
 	INVOKE(0x00B38940, unit_active_camouflage_enable, unit_index, interpolation_time, end_time);
 }
 
-void __cdecl unit_active_camouflage_recent(long unit_index, real active_camouflage)
+void __cdecl unit_active_camouflage_strength(long unit_index, real active_camouflage)
 {
-	INVOKE(0x00B38A10, unit_active_camouflage_recent, unit_index, active_camouflage);
+	INVOKE(0x00B38A10, unit_active_camouflage_strength, unit_index, active_camouflage);
 }
 
 void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index)

@@ -16,7 +16,6 @@
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
-HOOK_DECLARE(0x005405A0, player_update_invisibility);
 
 bool debug_player_network_aiming = false;
 bool debug_objects_biped_melee_in_range = false;
@@ -431,45 +430,7 @@ long __cdecl player_get_control_index_from_unit(long unit_index)
 
 void __cdecl player_update_invisibility(long player_index)
 {
-	//INVOKE(0x005405A0, player_update_invisibility, player_index);
-
-	TLS_DATA_GET_VALUE_REFERENCE(player_data);
-	player_datum* player = (player_datum*)datum_get(*player_data, player_index);
-
-	real camo_value = 0.0f;
-	bool enable_camo = false;
-
-	if (game_is_multiplayer() && game_engine_running())
-	{
-		switch (player->multiplayer.player_traits.get_appearance_traits()->get_active_camo_setting())
-		{
-		case _active_camo_setting_poor:
-			enable_camo = true;
-			camo_value = 0.5f;
-			break;
-		case _active_camo_setting_good:
-			enable_camo = true;
-			camo_value = 0.67f;
-			break;
-		case _active_camo_setting_invisible:
-			enable_camo = true;
-			camo_value = 1.0f;
-			break;
-		}
-	}
-
-	e_input_user_index user_index = player_mapping_get_input_user(player_index);
-	if (user_index != k_input_user_none && cheat.active_camouflage_player_mapping[user_index])
-	{
-		enable_camo = true;
-		camo_value = 1.0f;
-	}
-
-	if (enable_camo && player->unit_index != NONE && !unit_active_camouflage_is_active(player->unit_index))
-	{
-		unit_active_camouflage_enable(player->unit_index, 4.0f, -1);
-		unit_active_camouflage_recent(player->unit_index, camo_value);
-	}
+	INVOKE(0x005405A0, player_update_invisibility, player_index);
 }
 
 //.text:00540650

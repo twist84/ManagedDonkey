@@ -172,9 +172,27 @@ void __cdecl cheat_active_camouflage(bool enable)
 
 void __cdecl cheat_active_camouflage_by_player(long player_index, bool enable)
 {
+	TLS_DATA_GET_VALUE_REFERENCE(player_data);
+
 	e_input_user_index user_index = player_mapping_get_input_user(player_index);
 	if (VALID_INDEX(user_index, k_number_of_input_users))
-		cheat.active_camouflage_player_mapping[user_index] = enable;
+	{
+		player_datum* player = (player_datum*)datum_get(*player_data, player_index);
+
+		if (player->unit_index != NONE)
+		{
+			if (enable && !unit_active_camouflage_is_active(player->unit_index))
+			{
+				unit_active_camouflage_strength(player->unit_index, 1.0f);
+				unit_active_camouflage_enable(player->unit_index, 4.0f, -1);
+			}
+			else
+			{
+				unit_active_camouflage_strength(player->unit_index, 1.0f);
+				unit_active_camouflage_disable(player->unit_index, 4.0f);
+			}
+		}
+	}
 }
 
 long __cdecl cheat_player_index()

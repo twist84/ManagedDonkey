@@ -1692,7 +1692,7 @@ callback_result_t cheat_active_camouflage_callback(void const* userdata, long to
 
 	long value = token_try_parse_bool(tokens[1]);
 	if (value != NONE)
-		cheat_active_camouflage(value);
+		cheat_active_camouflage(static_cast<bool>(value - 1));
 
 	return result;
 }
@@ -1701,10 +1701,13 @@ callback_result_t cheat_active_camouflage_by_player_callback(void const* userdat
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	long player_index = atol(tokens[1]->get_string());
+	long user_index = atol(tokens[1]->get_string());
 	long value = token_try_parse_bool(tokens[2]);
 	if (value != NONE)
-		cheat_active_camouflage_by_player(player_index, value);
+	{
+		long player_index = player_mapping_get_player_by_input_user(static_cast<e_input_user_index>(user_index));
+		cheat_active_camouflage_by_player(player_index, static_cast<bool>(value - 1));
+	}
 
 	return result;
 }

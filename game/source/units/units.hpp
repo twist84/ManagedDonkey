@@ -318,7 +318,7 @@ extern bool __cdecl any_unit_is_dangerous(long* out_unit_index);
 extern bool __cdecl unit_active_camouflage_is_active(long unit_index);
 extern void __cdecl unit_active_camouflage_disable(long unit_index, real interpolation_time);
 extern void __cdecl unit_active_camouflage_enable(long unit_index, real interpolation_time, long end_time);
-extern void __cdecl unit_active_camouflage_recent(long unit_index, real active_camouflage);
+extern void __cdecl unit_active_camouflage_strength(long unit_index, real active_camouflage);
 extern void __cdecl unit_add_equipment_to_inventory(long unit_index, long slot_index, long object_index);
 extern bool __cdecl unit_add_grenade_to_inventory(long unit_index, long object_index);
 extern short __cdecl unit_add_grenade_type_to_inventory(long unit_index, short grenade_type, short grenade_count);

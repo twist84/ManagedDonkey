@@ -19,7 +19,6 @@ struct cheat_globals
 	bool bottomless_clip;
 	bool chevy;
 	bool porcupine;
-	byte active_camouflage_player_mapping[4];
 	bool infinite_equipment_energy;
 
 	c_static_array<c_static_string<200>, k_controller_button_count> lines;
