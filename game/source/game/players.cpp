@@ -235,20 +235,20 @@ void __cdecl player_delete(long player_index)
 //.text:0053A1E0 ; bool __cdecl player_flashlight_on()
 //.text:0053A290 ; void __cdecl player_force_spawn(long)
 //.text:0053A330 ; void __cdecl player_forge_cleanup_on_death(long)
-//.text:0053A3F0
-//.text:0053A450
-//.text:0053A5A0
-//.text:0053A6F0
+//.text:0053A3F0 ; player_get_stamina_deplete_restore_time
+//.text:0053A450 ; player_get_vehicle_shield_regen_speed_modifier_value
+//.text:0053A5A0 ; player_get_vehicle_shield_regen_delay_modifier_value
+//.text:0053A6F0 ; player_get_representation_block
 //.text:0053A770 ; enum e_player_character_type __cdecl player_get_character_type(long)
-//.text:0053A7D0
-//.text:0053A940
+//.text:0053A7D0 ; player_get_scavenger_aura_modifier_value
+//.text:0053A940 ; adrenaline related
 //.text:0053A9A0 ; long __cdecl player_get_unit_index_even_if_dead(long)
 //.text:0053A9E0 ; bool __cdecl player_try_to_pick_up_equipment(long, s_player_interaction const*)
 //.text:0053AD10 ; bool __cdecl player_handle_interaction_press(long, s_player_interaction const*)
 //.text:0053ADE0 ; bool __cdecl player_handle_interaction_held(long, s_player_interaction const*)
 //.text:0053AED0 ; void __cdecl player_handle_weapon_added(long, short)
 //.text:0053AEF0 ; void __cdecl player_handle_weapon_put_away(long, short)
-//.text:0053AF10
+//.text:0053AF10 ; revenge_shield_boost related
 //.text:0053AFA0 ; void __cdecl player_health_pack_screen_effect(long)
 //.text:0053B060 ; bool __cdecl player_identifier_compare(s_player_identifier const*, s_player_identifier const*)
 //.text:0053B090 ; char const* __cdecl player_identifier_get_string(s_player_identifier const*)
@@ -280,12 +280,30 @@ bool __cdecl player_is_reading_terminal()
 //.text:0053B590 ; bool __cdecl player_is_sprinting(long, real*)
 //.text:0053B670 ; void __cdecl player_leave_game_internal(long)
 //.text:0053B7D0 ; void __cdecl player_left_game(long)
-//.text:0053B7E0
+//.text:0053B7E0 ; first_player_set_armor
 //.text:0053B840 ; void __cdecl player_mostly_input_inhibit(long, s_player_action*)
 
 long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress)
 {
 	return INVOKE(0x0053B880, player_new, player_array_index, options, joined_in_progress);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	//TLS_DATA_GET_VALUE_REFERENCE(players_globals);
+	//
+	//long player_absolute_index = datum_new_at_absolute_index(*player_data, player_array_index);
+	//if (player_absolute_index != NONE)
+	//{
+	//	player_reset(player_absolute_index, true, joined_in_progress, options);
+	//	if (!options->player_left_game)
+	//	{
+	//		players_globals->players_in_game_count++;
+	//
+	//		simulation_player_joined_game(player_absolute_index);
+	//		ai_player_state_create(player_absolute_index);
+	//		game_engine_player_added(player_absolute_index);
+	//	}
+	//}
+	//return player_absolute_index;
 }
 
 //.text:0053B8F0 ; void __cdecl player_notify_of_tracking_or_locking(long, long, short)

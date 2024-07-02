@@ -257,7 +257,9 @@ struct multiplayer_player_info
 	// gameplay_modifier: `revenge_shield_boost` values
 	bool revenge_shield_boost_unknown80;
 	short revenge_shield_boost_unknown82; // `object->__unknown100 *= (revenge_shield_boost_modifier_value * player->revenge_shield_boost_unknown2E16) + 1.0f`
-	long revenge_shield_boost_unknown84;
+
+	// used in `c_simulation_hit_marker_event_definition::apply_game_event`
+	long revenge_shield_boost_unknown84; // = game_time_get();
 	long revenge_shield_boost_player_index; // == `player_index`
 	s_damage_reporting_info revenge_shield_boost_damage;
 
