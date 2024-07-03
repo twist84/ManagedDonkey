@@ -219,6 +219,7 @@ POPD
     <ClCompile Include="source\interface\gui_screens\player_select\gui_player_select_screen_widget.cpp" />
     <ClCompile Include="source\interface\gui_screens\start_menu\panes\settings_appearance_model\start_menu_settings_appearance_model.cpp" />
     <ClCompile Include="source\interface\overhead_map.cpp" />
+    <ClCompile Include="source\items\equipment.cpp" />
     <ClCompile Include="source\items\items.cpp" />
     <ClCompile Include="source\memory\byte_swapping.cpp" />
     <ClCompile Include="source\motor\sync_action.cpp" />

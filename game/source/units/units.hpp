@@ -256,6 +256,7 @@ struct unit_data
 	c_sector_ref pathfinding_sector;
 	byte __data3BC[0x40];
 
+	// _equipment_type_armor_lock, e_unit_flags bit 17
 	bool __unknown3FC;
 	byte __pad3FD[0x3];
 
