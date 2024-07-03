@@ -13,6 +13,7 @@
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "interface/chud/chud_globals_definitions.hpp"
+#include "items/equipment_definitions.hpp"
 #include "items/item_definitions.hpp"
 #include "items/projectile_definitions.hpp"
 #include "main/global_preferences.hpp"
@@ -2030,6 +2031,37 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 }
 
 // #TODO: create some sort of tag modification manager
+void apply_equipment_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
+{
+	ASSERT(instance != nullptr);
+
+	if (instance->tag_group != EQUIPMENT_TAG)
+		return;
+
+	_equipment_definition* equipment_definition = instance->cast_to<_equipment_definition>();
+	char const* tag_name = instance->get_name();
+	char const* group_tag_name = instance->tag_group.name.get_string();
+
+	switch (stage)
+	{
+	case _instance_modification_stage_tag_load:
+	{
+	}
+	break;
+	case _instance_modification_stage_tag_fixup:
+	{
+		if (print_reference_updates) c_console::write_line("%s.%s", tag_name, group_tag_name);
+		UPDATE_STRUCT_POINTER_REFERENCE_NAMES(equipment_definition);
+	}
+	break;
+	case _instance_modification_stage_after_scenario_tags_loaded:
+	{
+	}
+	break;
+	}
+}
+
+// #TODO: create some sort of tag modification manager
 void apply_projectile_definition_instance_modification(cache_file_tag_instance* instance, e_instance_modification_stage stage)
 {
 	ASSERT(instance != nullptr);
@@ -2079,6 +2111,7 @@ void tag_instance_modification_apply(cache_file_tag_instance* instance, e_instan
 	APPLY_INSTANCE_MODIFICATION(biped_definition);
 	APPLY_INSTANCE_MODIFICATION(vehicle_definition);
 	APPLY_INSTANCE_MODIFICATION(item_definition);
+	APPLY_INSTANCE_MODIFICATION(equipment_definition);
 	APPLY_INSTANCE_MODIFICATION(projectile_definition);
 
 #undef APPLY_INSTANCE_MODIFICATION
