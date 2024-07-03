@@ -114,7 +114,8 @@ struct object_data
 	long definition_index;
 	c_flags<e_object_data_flags, dword, k_object_data_flags> flags;
 
-	long __unknown8;
+	// override
+	long collision_damage_definition_index;
 
 	long next_object_index;
 	long first_child_object_index;
@@ -140,7 +141,7 @@ struct object_data
 	c_object_identifier object_identifier;
 	short name_index;
 	char bsp_placement_policy;
-	char keyframed_object_collision_damage_ticks;
+	byte keyframed_object_collision_damage_ticks;
 	long havok_component_index;
 	long local_physics_space_object_index;
 	long last_motion_time;
