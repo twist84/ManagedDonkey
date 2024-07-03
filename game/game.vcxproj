@@ -252,6 +252,7 @@ POPD
     <ClCompile Include="source\physics\collision_constants.cpp" />
     <ClCompile Include="source\physics\collision_features.cpp" />
     <ClCompile Include="source\physics\collision_models.cpp" />
+    <ClCompile Include="source\physics\havok_collision_damage.cpp" />
     <ClCompile Include="source\physics\havok_proxies.cpp" />
     <ClCompile Include="source\physics\impacts.cpp" />
     <ClCompile Include="source\profiler\profiler_stopwatch.cpp" />
@@ -1018,6 +1019,7 @@ POPD
     <ClInclude Include="source\physics\collision_constants.hpp" />
     <ClInclude Include="source\physics\collision_features.hpp" />
     <ClInclude Include="source\physics\collision_models.hpp" />
+    <ClInclude Include="source\physics\havok_collision_damage.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\profiler\profiler_stopwatch.hpp" />
     <ClInclude Include="source\render\render_transparents.hpp" />
