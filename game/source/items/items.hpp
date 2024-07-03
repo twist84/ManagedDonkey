@@ -17,10 +17,11 @@ static_assert(sizeof(_item_datum) == 0x14);
 
 struct item_datum
 {
+	long definition_index;
 	_object_datum object;
 	_item_datum item;
 };
-static_assert(sizeof(item_datum) == sizeof(_object_datum) + sizeof(_item_datum));
+static_assert(sizeof(item_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum));
 
 extern bool __cdecl dangerous_items_near_player(long* out_item_index);
 

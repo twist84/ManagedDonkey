@@ -118,10 +118,6 @@ enum e_biped_definition_flags
 
 struct _biped_definition
 {
-	static tag const k_group_tag = BIPED_TAG;
-
-	_unit_definition unit;
-
 	// $$$ BIPED $$$
 
 	angle moving_turning_speed; // degrees per second
@@ -237,5 +233,17 @@ struct _biped_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_biped_definition) == 0x624);
+static_assert(sizeof(_biped_definition) == 0x23C);
+
+struct biped_definition
+{
+	static tag const k_group_tag = BIPED_TAG;
+
+	_object_definition object;
+	_unit_definition unit;
+	_biped_definition biped;
+
+	void update_reference_names();
+};
+static_assert(sizeof(biped_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_biped_definition));
 

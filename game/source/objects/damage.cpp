@@ -50,7 +50,7 @@ void render_debug_object_damage()
 			if (object_datum* object = object_get(global_debug_damage_object_index))
 			{
 				csnzprintf(string, sizeof(string), "%s|nbody %0.3f|n  current %0.3f|n  recent %0.3f|nshield %0.3f|n  current %0.3f|n  recent %0.3f|n",
-					strrchr(tag_get_name(object->object.definition_index), '\\'),
+					strrchr(tag_get_name(object->definition_index), '\\'),
 					object->object.body_vitality,
 					object->object.current_shield_damage,
 					object->object.recent_shield_damage,
@@ -185,7 +185,7 @@ void __cdecl object_cause_damage(s_damage_data* damage_data, long object_index, 
 		{
 			object_datum* object = object_get(object_index);
 			generate_event(_event_level_warning, "damaging '%s' 0x%08lx with '%s'",
-				tag_name_strip_path(tag_get_name(object->object.definition_index)),
+				tag_name_strip_path(tag_get_name(object->definition_index)),
 				object_index,
 				tag_name_strip_path(tag_get_name(damage_data->damage_effect_definition_index)));
 		}

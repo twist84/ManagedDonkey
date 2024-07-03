@@ -337,7 +337,7 @@ void c_vehicle_type_component::handled_changed_vehicle_type(long vehicle_index)
 	DECLFUNC(0x00B8A850, void, __thiscall, c_vehicle_type_component*, long)(this, vehicle_index);
 
 	//vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
-	//if (vehicle_definition_get_default_type(vehicle->object.definition_index) != m_initialization_type)
+	//if (vehicle_definition_get_default_type(vehicle->definition_index) != m_initialization_type)
 	//	reset(vehicle_index);
 }
 

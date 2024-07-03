@@ -971,12 +971,12 @@ void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_s
 		name->append_print("%s|n", object_name.name.get_string());
 	}
 
-	tag group_tag = tag_get_group_tag(object->object.definition_index);
+	tag group_tag = tag_get_group_tag(object->definition_index);
 	char const* group_tag_name = tag_group_get_name(group_tag);
-	char const* tag_name = tag_get_name(object->object.definition_index);
+	char const* tag_name = tag_get_name(object->definition_index);
 
 	if (!full_name)
-		tag_name = tag_name_strip_path(tag_get_name(object->object.definition_index));
+		tag_name = tag_name_strip_path(tag_get_name(object->definition_index));
 
 	name->append_print("%s.%s|n", tag_name, group_tag_name);
 
@@ -986,19 +986,19 @@ void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_s
 	}
 	else
 	{
-		_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object->object.definition_index));
+		struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
 
 		s_model_definition* model_definition = NULL;
-		if (object_definition->model.index != NONE)
-			model_definition = object_definition->model.cast_to<s_model_definition>();
+		if (object_definition->object.model.index != NONE)
+			model_definition = object_definition->object.model.cast_to<s_model_definition>();
 
-		//if (model_definition && object->variant_index < 128 && object->variant_index < model_definition)
+		//if (model_definition && object_definition->object.variant_index < 128 && object_definition->object.variant_index < model_definition)
 		//{
 		//
 		//}
 		//else
 		//{
-		//	name->append_print("[invalid! %d]|n", object->variant_index);
+		//	name->append_print("[invalid! %d]|n", object_definition->object.variant_index);
 		//}
 	}
 }
@@ -1008,7 +1008,7 @@ void __cdecl object_render_debug_internal(long object_index)
 	object_header_datum const* object_header = object_header_get(object_index);
 	object_datum* object = object_get(object_index);
 
-	_object_definition* object_definition = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object->object.definition_index));
+	struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
 
 	c_static_string<4096> string;
 
@@ -1054,15 +1054,15 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	if (debug_objects_functions)
 	{
-		for (s_object_function_definition& function : object_definition->functions)
+		for (s_object_function_definition& function : object_definition->object.functions)
 		{
 			real function_magnitude = 0.0f;
 			bool deterministic = false;
 
-			bool import_function_value = object_get_function_value(object_index, function.import_name.get_value(), object->object.definition_index, &function_magnitude);
+			bool import_function_value = object_get_function_value(object_index, function.import_name.get_value(), object->definition_index, &function_magnitude);
 			string.append_print("%s: %s %.2f->", function.import_name.get_string(), import_function_value ? "ON" : "OFF", function_magnitude);
 
-			bool export_function_value = object_function_get_function_value(object_index, &function, object->object.definition_index, &function_magnitude, &deterministic);
+			bool export_function_value = object_function_get_function_value(object_index, &function, object->definition_index, &function_magnitude, &deterministic);
 			string.append_print("%s: %s %.2f|n", function.export_name.get_string(), export_function_value ? "ON" : "OFF", function_magnitude);
 		}
 	}
@@ -1114,16 +1114,16 @@ void __cdecl object_render_debug_internal(long object_index)
 		}
 	}
 
-	if (debug_objects_dynamic_render_bounding_spheres && object_definition->dynamic_light_sphere_radius > 0.0f)
+	if (debug_objects_dynamic_render_bounding_spheres && object_definition->object.dynamic_light_sphere_radius > 0.0f)
 	{
 		real_point3d point{};
-		point_from_line3d(&object->object.bounding_sphere_center, (vector3d*)&object_definition->dynamic_light_sphere_offset, 1.0f, &point);
-		render_debug_sphere(true, &point, object_definition->dynamic_light_sphere_radius + object->object.scale, global_real_argb_black);
+		point_from_line3d(&object->object.bounding_sphere_center, (vector3d*)&object_definition->object.dynamic_light_sphere_offset, 1.0f, &point);
+		render_debug_sphere(true, &point, object_definition->object.dynamic_light_sphere_radius + object->object.scale, global_real_argb_black);
 	}
 
 	s_model_definition* model_definition = NULL;
-	if (object_definition->model.index != NONE)
-		model_definition = object_definition->model.cast_to<s_model_definition>();
+	if (object_definition->object.model.index != NONE)
+		model_definition = object_definition->object.model.cast_to<s_model_definition>();
 
 	if (debug_objects_model_targets && model_definition)
 	{
@@ -1160,10 +1160,10 @@ void __cdecl object_render_debug_internal(long object_index)
 	//	render_debug_collision_model(&instance);
 	//}
 
-	if (debug_objects_early_movers && object_definition->flags.test(_object_definition_flag_early_mover_bit))
+	if (debug_objects_early_movers && object_definition->object.flags.test(_object_definition_flag_early_mover_bit))
 	{
 		char const* early_mover_string = "early mover";
-		if (object_definition->flags.test(_object_definition_flag_early_mover_localized_physics_bit))
+		if (object_definition->object.flags.test(_object_definition_flag_early_mover_localized_physics_bit))
 			early_mover_string = "early mover + localized physics";
 
 		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);

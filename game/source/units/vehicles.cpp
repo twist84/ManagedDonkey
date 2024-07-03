@@ -34,7 +34,7 @@ bool __cdecl vehicle_moving_near_any_player(long* out_vehicle_index)
 void __cdecl vehicle_render_debug(long vehicle_index)
 {
 	vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(vehicle_index, _object_mask_vehicle);
-	_vehicle_definition* vehicle_definition = (_vehicle_definition*)tag_get(VEHICLE_TAG, vehicle->object.definition_index);
+	struct vehicle_definition* vehicle_definition = (struct vehicle_definition*)tag_get(VEHICLE_TAG, vehicle->definition_index);
 
 	if (debug_objects_vehicle_physics && vehicle->object.parent_object_index == NONE)
 	{
@@ -43,13 +43,13 @@ void __cdecl vehicle_render_debug(long vehicle_index)
 		switch (vehicle_get_type(vehicle_index))
 		{
 		case _vehicle_type_human_tank:
-			engine_definition = &vehicle_definition->physics_types.type_human_tank[0].engine;
+			engine_definition = &vehicle_definition->vehicle.physics_types.type_human_tank[0].engine;
 			break;
 		case _vehicle_type_human_jeep:
-			engine_definition = &vehicle_definition->physics_types.type_human_jeep[0].engine;
+			engine_definition = &vehicle_definition->vehicle.physics_types.type_human_jeep[0].engine;
 			break;
 		case _vehicle_type_chopper:
-			engine_definition = &vehicle_definition->physics_types.type_chopper[0].engine;
+			engine_definition = &vehicle_definition->vehicle.physics_types.type_chopper[0].engine;
 			break;
 		}
 		ASSERT((engine == NULL) == (engine_definition == NULL));

@@ -15,3 +15,8 @@ void s_predicted_bitmaps::update_reference_names()
 	UPDATE_REFERENCE_NAME(bitmap);
 }
 
+void item_definition::update_reference_names()
+{
+	UPDATE_STRUCT_REFERENCE_NAMES(item);
+}
+

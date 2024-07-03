@@ -609,10 +609,6 @@ enum e_vehicle_size
 
 struct _vehicle_definition
 {
-	static tag const k_group_tag = VEHICLE_TAG;
-
-	_unit_definition unit;
-
 	// $$$ VEHICLE $$$
 
 	c_flags<e_vehicle_definition_flags, dword_flags, k_vehicle_definition_flags> flags;
@@ -653,5 +649,17 @@ struct _vehicle_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_vehicle_definition) == 0x528);
+static_assert(sizeof(_vehicle_definition) == 0x140);
+
+struct vehicle_definition
+{
+	static tag const k_group_tag = VEHICLE_TAG;
+
+	_object_definition object;
+	_unit_definition unit;
+	_vehicle_definition vehicle;
+
+	void update_reference_names();
+};
+static_assert(sizeof(vehicle_definition) == sizeof(_object_definition) + sizeof(_unit_definition) + sizeof(_vehicle_definition));
 

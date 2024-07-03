@@ -577,11 +577,11 @@ void ai_render_object_properties()
 	while (object_iterator.next())
 	{
 		object_datum* object = object_iterator.get_datum();
-		_object_definition* object_definition = (_object_definition*)tag_get(OBJECT_TAG, object->object.definition_index);
+		struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
 
-		if (object_definition->ai_properties.count())
+		if (object_definition->object.ai_properties.count())
 		{
-			object_ai_properties& ai_properties = object_definition->ai_properties[0];
+			object_ai_properties& ai_properties = object_definition->object.ai_properties[0];
 			ai_debug_drawstack_setup(&object->object.bounding_sphere_center);
 
 			render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("leap size: %s", leap_size_names[ai_properties.leap_jump_speed.get()]).get_string(), global_real_argb_blue);

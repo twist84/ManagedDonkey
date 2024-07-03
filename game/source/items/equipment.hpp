@@ -35,9 +35,10 @@ static_assert(sizeof(_equipment_datum) == 0x6C);
 
 struct equipment_datum
 {
+	long definition_index;
 	_object_datum object;
 	_item_datum item;
 	_equipment_datum equipment;
 };
-static_assert(sizeof(equipment_datum) == sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_equipment_datum));
+static_assert(sizeof(equipment_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_equipment_datum));
 

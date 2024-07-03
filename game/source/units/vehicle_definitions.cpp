@@ -25,3 +25,8 @@ void s_vehicle_human_tank_definition::update_reference_names()
 	UPDATE_STRUCT_REFERENCE_NAMES(engine);
 }
 
+void vehicle_definition::update_reference_names()
+{
+	UPDATE_STRUCT_REFERENCE_NAMES(vehicle);
+}
+

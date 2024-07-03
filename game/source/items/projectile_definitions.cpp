@@ -19,3 +19,8 @@ void _projectile_definition::update_reference_names()
 	UPDATE_REFERENCE_NAME(boarding_attached_detonation_damage);
 }
 
+void projectile_definition::update_reference_names()
+{
+	UPDATE_STRUCT_REFERENCE_NAMES(projectile);
+}
+

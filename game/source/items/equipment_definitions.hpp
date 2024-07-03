@@ -89,10 +89,6 @@ struct s_equipment_type_ammo_pack;
 struct s_equipment_type_vision;
 struct _equipment_definition
 {
-	static tag const k_group_tag = EQUIPMENT_TAG;
-
-	_item_definition item;
-
 	// $$$ EQUIPMENT $$$
 
 	real duration;
@@ -166,7 +162,19 @@ struct _equipment_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_equipment_definition) == 0x384);
+static_assert(sizeof(_equipment_definition) == 0x1B0);
+
+struct equipment_definition
+{
+	static tag const k_group_tag = EQUIPMENT_TAG;
+
+	_object_definition object;
+	_item_definition item;
+	_equipment_definition equipment;
+
+	void update_reference_names();
+};
+static_assert(sizeof(equipment_definition) == sizeof(_object_definition) + sizeof(_item_definition) + sizeof(_equipment_definition));
 
 struct s_equipment_type_super_shield
 {

@@ -12,8 +12,9 @@ static_assert(sizeof(_motor_datum) == 0xC);
 
 struct motor_datum
 {
+	long definition_index;
 	_object_datum object;
 	_motor_datum motor;
 };
-static_assert(sizeof(motor_datum) == sizeof(_object_datum) + sizeof(_motor_datum));
+static_assert(sizeof(motor_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_motor_datum));
 

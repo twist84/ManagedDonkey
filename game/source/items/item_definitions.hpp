@@ -17,10 +17,6 @@ enum e_item_definition_flags
 struct s_predicted_bitmaps;
 struct _item_definition
 {
-	static tag const k_group_tag = ITEM_TAG;
-
-	_object_definition object;
-
 	// $$$ ITEM $$$
 
 	c_flags<e_item_definition_flags, dword_flags, k_item_definition_flags> flags;
@@ -75,7 +71,18 @@ struct _item_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_item_definition) == 0x1D4);
+static_assert(sizeof(_item_definition) == 0xB4);
+
+struct item_definition
+{
+	static tag const k_group_tag = ITEM_TAG;
+
+	_object_definition object;
+	_item_definition item;
+
+	void update_reference_names();
+};
+static_assert(sizeof(item_definition) == sizeof(_object_definition) + sizeof(_item_definition));
 
 struct s_predicted_bitmaps
 {

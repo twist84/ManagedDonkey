@@ -121,9 +121,7 @@ struct object_node_map_defintion;
 struct s_object_health_pack_definition;
 struct _object_definition
 {
-	static tag const k_group_tag = OBJECT_TAG;
-
-	short runtime_object_type;
+	short type;
 	c_flags<e_object_definition_flags, word_flags, k_object_definition_flags> flags;
 	real bounding_radius; // world units
 	real_point3d bounding_offset;
@@ -173,6 +171,16 @@ struct _object_definition
 	void update_reference_names();
 };
 static_assert(sizeof(_object_definition) == 0x120);
+
+struct object_definition
+{
+	static tag const k_group_tag = OBJECT_TAG;
+
+	_object_definition object;
+
+	void update_reference_names();
+};
+static_assert(sizeof(object_definition) == sizeof(_object_definition));
 
 struct s_object_early_mover_obb_definition
 {

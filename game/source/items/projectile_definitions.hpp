@@ -48,13 +48,8 @@ struct s_projectile_material_response_definition;
 struct s_projectile_brute_grenade_definition;
 struct s_projectile_fire_bomb_grenade_definition;
 struct s_projectile_conical_projection_defintion;
-
 struct _projectile_definition
 {
-	static tag const k_group_tag = PROJECTILE_TAG;
-
-	_object_definition object;
-
 	// $$$ PROJECTILE $$$
 
 	c_flags<e_projectile_flags, dword, k_projectile_flags> flags;
@@ -161,7 +156,18 @@ struct _projectile_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_projectile_definition) == 0x2CC);
+static_assert(sizeof(_projectile_definition) == 0x1AC);
+
+struct projectile_definition
+{
+	static tag const k_group_tag = PROJECTILE_TAG;
+
+	_object_definition object;
+	_projectile_definition projectile;
+
+	void update_reference_names();
+};
+static_assert(sizeof(projectile_definition) == sizeof(_projectile_definition) + sizeof(_object_definition));
 
 struct s_projectile_material_response_definition
 {

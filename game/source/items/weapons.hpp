@@ -82,11 +82,12 @@ static_assert(sizeof(_weapon_datum) == 0x150);
 
 struct weapon_datum
 {
+	long definition_index;
 	_object_datum object;
 	_item_datum item;
 	_weapon_datum weapon;
 };
-static_assert(sizeof(weapon_datum) == sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
+static_assert(sizeof(weapon_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
 
 extern real __cdecl weapon_get_age(long weapon_index);
 extern real __cdecl weapon_get_field_of_view_change_time(long weapon_index);

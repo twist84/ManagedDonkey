@@ -16,6 +16,11 @@ void _object_definition::update_reference_names()
 	UPDATE_BLOCK_REFERENCE_NAMES(health_packs);
 }
 
+void object_definition::update_reference_names()
+{
+	UPDATE_STRUCT_REFERENCE_NAMES(object);
+}
+
 void object_attachment_definition::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(type);

@@ -262,7 +262,7 @@ long __cdecl cache_file_get_global_tag_index(tag group_tag)
 {
 	return INVOKE(0x005017E0, cache_file_get_global_tag_index, group_tag);
 
-	//s_cache_file_global_tags_definition* global_tags = static_cast<s_cache_file_global_tags_definition*>(tag_get(CACHE_FILE_GLOBAL_TAGS_TAG, static_cast<long>(0)));
+	//s_cache_file_global_tags_definition* global_tags = (s_cache_file_global_tags_definition*)tag_get(CACHE_FILE_GLOBAL_TAGS_TAG, static_cast<long>(0));
 	//if (!global_tags)
 	//	return NONE;
 	//
@@ -1875,7 +1875,7 @@ void apply_object_definition_instance_modification(cache_file_tag_instance* inst
 	if (instance->tag_group != OBJECT_TAG)
 		return;
 
-	_object_definition* object_definition = instance->cast_to<_object_definition>();
+	struct object_definition* object_definition = instance->cast_to<struct object_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1906,7 +1906,7 @@ void apply_unit_definition_instance_modification(cache_file_tag_instance* instan
 	if (instance->tag_group != UNIT_TAG)
 		return;
 
-	_unit_definition* unit_definition = instance->cast_to<_unit_definition>();
+	struct unit_definition* unit_definition = instance->cast_to<struct unit_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1937,7 +1937,7 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 	if (instance->tag_group != BIPED_TAG)
 		return;
 
-	_biped_definition* biped_definition = instance->cast_to<_biped_definition>();
+	struct biped_definition* biped_definition = instance->cast_to<struct biped_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -1956,12 +1956,12 @@ void apply_biped_definition_instance_modification(cache_file_tag_instance* insta
 	case _instance_modification_stage_after_scenario_tags_loaded:
 	{
 		// "edge drop" fix
-		biped_definition->physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
+		biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity = 30.0f / 60;
 
 		//void __cdecl biped_initialize_character_physics_update_input(long, s_character_physics_update_input_datum* physics_input, bool, bool, real, bool, bool)
 		//{
-		//	if (biped_definition->physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
-		//		physics_input->m_ground_adhesion_velocity_scale = biped_definition->physics.ground_physics.scale_ground_adhesion_velocity;
+		//	if (biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity > 0.0f)
+		//		physics_input->m_ground_adhesion_velocity_scale = biped_definition->biped.physics.ground_physics.scale_ground_adhesion_velocity;
 		//}
 	}
 	break;
@@ -1976,7 +1976,7 @@ void apply_vehicle_definition_instance_modification(cache_file_tag_instance* ins
 	if (instance->tag_group != VEHICLE_TAG)
 		return;
 
-	_vehicle_definition* vehicle_definition = instance->cast_to<_vehicle_definition>();
+	struct vehicle_definition* vehicle_definition = instance->cast_to<struct vehicle_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2007,7 +2007,7 @@ void apply_item_definition_instance_modification(cache_file_tag_instance* instan
 	if (instance->tag_group != ITEM_TAG)
 		return;
 
-	_item_definition* item_definition = instance->cast_to<_item_definition>();
+	struct item_definition* item_definition = instance->cast_to<struct item_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2038,7 +2038,7 @@ void apply_equipment_definition_instance_modification(cache_file_tag_instance* i
 	if (instance->tag_group != EQUIPMENT_TAG)
 		return;
 
-	_equipment_definition* equipment_definition = instance->cast_to<_equipment_definition>();
+	struct equipment_definition* equipment_definition = instance->cast_to<struct equipment_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 
@@ -2069,7 +2069,7 @@ void apply_projectile_definition_instance_modification(cache_file_tag_instance* 
 	if (instance->tag_group != PROJECTILE_TAG)
 		return;
 
-	_projectile_definition* projectile_definition = instance->cast_to<_projectile_definition>();
+	struct projectile_definition* projectile_definition = instance->cast_to<struct projectile_definition>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 

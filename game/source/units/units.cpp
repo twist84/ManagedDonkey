@@ -290,7 +290,7 @@ void __cdecl unit_render_debug(long unit_index)
 	//INVOKE(0x00B47080, unit_render_debug, unit_index);
 
 	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
-	_unit_definition* unit_definition = static_cast<_unit_definition*>(tag_get(UNIT_TAG, unit->object.definition_index));
+	struct unit_definition* unit_definition = (struct unit_definition*)tag_get(UNIT_TAG, unit->definition_index);
 
 	if (debug_objects_unit_vectors)
 	{
@@ -299,7 +299,7 @@ void __cdecl unit_render_debug(long unit_index)
 
 	if (debug_objects_unit_seats)
 	{
-		for (unit_seat& seat : unit_definition->seats_block)
+		for (unit_seat& seat : unit_definition->unit.seats_block)
 		{
 			object_marker markers[4]{};
 			short marker_count = object_get_markers_by_string_id(unit_index, seat.entry_markers_name.get_value(), markers, NUMBEROF(markers));

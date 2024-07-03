@@ -289,11 +289,12 @@ static_assert(0x408 == offsetof(_unit_datum, __data408));
 
 struct unit_datum
 {
+	long definition_index;
 	_object_datum object;
 	_motor_datum motor;
 	_unit_datum unit;
 };
-static_assert(sizeof(unit_datum) == sizeof(_object_datum) + sizeof(_motor_datum) + sizeof(_unit_datum));
+static_assert(sizeof(unit_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_motor_datum) + sizeof(_unit_datum));
 
 struct unit_seat_source
 {

@@ -205,10 +205,6 @@ struct s_target_tracking_parameters;
 struct unit_seat;
 struct _unit_definition
 {
-	static tag const k_group_tag = UNIT_TAG;
-
-	_object_definition object;
-
 	// $$$ UNIT $$$
 
 	c_flags<e_unit_definition_flags, dword_flags, k_unit_definition_flags> flags;
@@ -314,7 +310,18 @@ struct _unit_definition
 
 	void update_reference_names();
 };
-static_assert(sizeof(_unit_definition) == 0x3E8);
+static_assert(sizeof(_unit_definition) == 0x2C8);
+
+struct unit_definition
+{
+	static tag const k_group_tag = UNIT_TAG;
+
+	_object_definition object;
+	_unit_definition unit;
+
+	void update_reference_names();
+};
+static_assert(sizeof(unit_definition) == sizeof(_object_definition) + sizeof(_unit_definition));
 
 struct s_posture_definition
 {

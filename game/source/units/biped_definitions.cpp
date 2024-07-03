@@ -8,3 +8,8 @@ void _biped_definition::update_reference_names()
 	UPDATE_REFERENCE_NAME(death_spawn_character);
 }
 
+void biped_definition::update_reference_names()
+{
+	UPDATE_STRUCT_REFERENCE_NAMES(biped);
+}
+

@@ -70,3 +70,8 @@ void unit_seat::update_reference_names()
 	UPDATE_BLOCK_REFERENCE_NAMES(unit_hud_interface);
 }
 
+void unit_definition::update_reference_names()
+{
+	UPDATE_STRUCT_REFERENCE_NAMES(unit);
+}
+

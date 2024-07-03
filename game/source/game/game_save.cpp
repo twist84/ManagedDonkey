@@ -335,7 +335,7 @@ LABEL_4:;
 			render_debug_sphere(false, &unsafe_object_position, 0.5f, global_real_argb_red);
 
 			if (object_datum* object = object_get(g_game_save_globals->unsafe_object_index))
-				render_debug_string_at_point(&unsafe_object_position, tag_get_name(object->object.definition_index), global_real_argb_white);
+				render_debug_string_at_point(&unsafe_object_position, tag_get_name(object->definition_index), global_real_argb_white);
 		}
 	}
 

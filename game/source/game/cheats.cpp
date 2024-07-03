@@ -8,6 +8,7 @@
 #include "game/player_mapping.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/terminal.hpp"
+#include "items/equipment_definitions.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
 #include "memory/module.hpp"
@@ -225,11 +226,11 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		if (reference.index == NONE)
 			continue;
 
-		_object_definition* object = static_cast<_object_definition*>(tag_get(OBJECT_TAG, reference.index));
-		if (!object)
+		struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, reference.index);
+		if (!object_definition)
 			continue;
 
-		real bounding_radius = object->bounding_radius + 1.5f;
+		real bounding_radius = object_definition->object.bounding_radius + 1.5f;
 		if (radius <= bounding_radius)
 			radius = bounding_radius;
 	}
@@ -283,7 +284,7 @@ void __cdecl cheat_all_powerups()
 	}
 	else
 	{
-		cheat_objects(nullptr, 0);
+		cheat_objects(NULL, 0);
 	}
 }
 
@@ -299,7 +300,7 @@ void __cdecl cheat_all_vehicles()
 		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
-		_vehicle_definition* vehicle_definition = static_cast<_vehicle_definition*>(tag_get(iterator.group_tag, tag_index));
+		struct vehicle_definition* vehicle_definition = (struct vehicle_definition*)tag_get(iterator.group_tag, tag_index);
 		if (vehicle_definition->unit.powered_seats.count() > 0)
 			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
 	}
@@ -376,9 +377,9 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	data.multiplayer_properties.game_engine_flags = 0;
 	data.multiplayer_properties.spawn_flags = 0;
 
-	_object_definition* object = static_cast<_object_definition*>(tag_get(OBJECT_TAG, object_definition_index));
+	struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object_definition_index);
 	object_placement_data_new(&data, object_definition_index, NONE, NULL);
-	real bounding_radius = object->bounding_radius + 1.0f;
+	real bounding_radius = object_definition->object.bounding_radius + 1.0f;
 
 	if (variant_name != NONE)
 		data.model_variant_index = variant_name;
@@ -409,7 +410,7 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	//if (shader != NONE)
 	//	object_override_set_shader(object_index, shader);
 
-	if (object->runtime_object_type == _object_type_biped && ((biped_datum*)object_get_and_verify_type(object_index, _object_mask_biped))->unit.current_weapon_set.weapon_indices[0] == NONE)
+	if (object_definition->object.type == _object_type_biped && ((biped_datum*)object_get_and_verify_type(object_index, _object_mask_biped))->unit.current_weapon_set.weapon_indices[0] == NONE)
 	{
 		tag_iterator iterator{};
 		tag_iterator_new(&iterator, WEAPON_TAG);

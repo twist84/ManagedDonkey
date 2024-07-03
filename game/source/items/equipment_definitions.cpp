@@ -379,3 +379,8 @@ void s_equipment_type_vision::update_reference_names()
 	UPDATE_REFERENCE_NAME(damage_response);
 }
 
+void equipment_definition::update_reference_names()
+{
+	UPDATE_STRUCT_REFERENCE_NAMES(equipment);
+}
+
