@@ -401,8 +401,8 @@ static_assert(sizeof(s_equipment_type_bomb_run) == 0x34);
 
 struct s_equipment_type_armor_lock
 {
-	s_tag_reference collision_damage;
-	s_tag_reference unknown_collision_damage;
+	c_typed_tag_reference<COLLISION_DAMAGE_TAG> collision_damage;
+	c_typed_tag_reference<COLLISION_DAMAGE_TAG> friendly_collision_damage;
 
 	void update_reference_names();
 };

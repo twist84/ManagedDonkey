@@ -288,7 +288,7 @@ void s_equipment_type_bomb_run::update_reference_names()
 void s_equipment_type_armor_lock::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(collision_damage);
-	UPDATE_REFERENCE_NAME(unknown_collision_damage);
+	UPDATE_REFERENCE_NAME(friendly_collision_damage);
 }
 
 void s_equipment_type_adrenaline::update_reference_names()
