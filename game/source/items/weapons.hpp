@@ -31,7 +31,7 @@ static_assert(sizeof(weapon_first_person_emulation) == 0x1C);
 struct _weapon_datum
 {
 	word_flags flags;
-	word_flags weapon_control_flags;
+	word_flags control_flags;
 	byte primary_trigger;
 	byte last_primary_trigger;
 	byte last_hill_or_valley;
