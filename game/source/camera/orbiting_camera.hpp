@@ -5,7 +5,7 @@
 struct c_orbiting_camera :
 	public c_camera
 {
-	euler_angles2d m_facing;
+	euler_angles2d m_orientation;
 	real m_distance;
 	real m_z_offset;
 
