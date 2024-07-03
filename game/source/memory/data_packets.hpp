@@ -1,5 +1,15 @@
 #pragma once
 
+#define DATA_PACKET_FIELD(_type, _count, _first_version, _last_version, _size) \
+data_packet_field _name =           \
+{                                   \
+	.type = _type                   \
+	.count = _count                 \
+	.first_version = _first_version \
+	.last_version = _last_version   \
+	.size = _size                   \
+}
+
 //#define DATA_PACKET_DEFINITION(_name, _flags, _size, _version, _initialized_flag, ...) \
 //data_packet_definition _name =            \
 //{                                         \
