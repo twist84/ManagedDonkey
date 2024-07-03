@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "objects/objects.hpp"
 
-struct item_data
+struct _item_datum
 {
 	byte_flags flags;
 	byte inventory_state;
@@ -13,14 +13,14 @@ struct item_data
 	long inventory_unit_index;
 	long last_inventory_unit_index;
 };
-static_assert(sizeof(item_data) == 0x14);
+static_assert(sizeof(_item_datum) == 0x14);
 
 struct item_datum
 {
-	object_data object;
-	item_data item;
+	_object_datum object;
+	_item_datum item;
 };
-static_assert(sizeof(item_datum) == sizeof(object_data) + sizeof(item_data));
+static_assert(sizeof(item_datum) == sizeof(_object_datum) + sizeof(_item_datum));
 
 extern bool __cdecl dangerous_items_near_player(long* out_item_index);
 

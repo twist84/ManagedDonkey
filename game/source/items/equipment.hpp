@@ -3,7 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "items/items.hpp"
 
-struct equipment_data
+struct _equipment_datum
 {
 	word_flags flags;
 	byte __pad2[0x2];
@@ -31,13 +31,13 @@ struct equipment_data
 	// child effect definition indices?
 	long __unknown2C[16];
 };
-static_assert(sizeof(equipment_data) == 0x6C);
+static_assert(sizeof(_equipment_datum) == 0x6C);
 
 struct equipment_datum
 {
-	object_data object;
-	item_data item;
-	equipment_data equipment;
+	_object_datum object;
+	_item_datum item;
+	_equipment_datum equipment;
 };
-static_assert(sizeof(equipment_datum) == sizeof(object_data) + sizeof(item_data) + sizeof(equipment_data));
+static_assert(sizeof(equipment_datum) == sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_equipment_datum));
 

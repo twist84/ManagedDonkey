@@ -6,7 +6,7 @@
 #include "physics/character_physics.hpp"
 #include "units/units.hpp"
 
-struct biped_data
+struct _biped_datum
 {
 	word_flags flags;
 
@@ -70,16 +70,16 @@ struct biped_data
 	byte __data2C6[0x1];
 	bool __unknown2C7;
 };
-static_assert(sizeof(biped_data) == 0x2C8);
+static_assert(sizeof(_biped_datum) == 0x2C8);
 
 struct biped_datum
 {
-	object_data object;
-	motor_data motor;
-	unit_data unit;
-	biped_data biped;
+	_object_datum object;
+	_motor_datum motor;
+	_unit_datum unit;
+	_biped_datum biped;
 };
-static_assert(sizeof(biped_datum) == sizeof(object_data) + sizeof(motor_data) + sizeof(unit_data) + sizeof(biped_data));
+static_assert(sizeof(biped_datum) == sizeof(_object_datum) + sizeof(_motor_datum) + sizeof(_unit_datum) + sizeof(_biped_datum));
 
 extern bool debug_objects_physics_control_node;
 extern bool debug_objects_biped_autoaim_pills;

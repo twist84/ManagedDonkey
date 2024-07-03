@@ -5,7 +5,7 @@
 #include "units/vehicle_definitions.hpp"
 #include "units/vehicle_type_component.hpp"
 
-struct vehicle_data
+struct _vehicle_datum
 {
 	word_flags flags;
 	byte upside_down_on_ground_ticks;
@@ -50,19 +50,19 @@ struct vehicle_data
 	real_point3d last_soft_ceiling_update_position;
 	object_header_block_reference vehicle_physics_cache;
 };
-static_assert(sizeof(vehicle_data) == 0x340);
-static_assert(0x007 == offsetof(vehicle_data, __data7));
-static_assert(0x00E == offsetof(vehicle_data, __dataE));
-static_assert(0x2DA == offsetof(vehicle_data, pathfinding__pad2DA));
+static_assert(sizeof(_vehicle_datum) == 0x340);
+static_assert(0x007 == offsetof(_vehicle_datum, __data7));
+static_assert(0x00E == offsetof(_vehicle_datum, __dataE));
+static_assert(0x2DA == offsetof(_vehicle_datum, pathfinding__pad2DA));
 
 struct vehicle_datum
 {
-	object_data object;
-	motor_data motor;
-	unit_data unit;
-	vehicle_data vehicle;
+	_object_datum object;
+	_motor_datum motor;
+	_unit_datum unit;
+	_vehicle_datum vehicle;
 };
-static_assert(sizeof(vehicle_datum) == sizeof(object_data) + sizeof(motor_data) + sizeof(unit_data) + sizeof(vehicle_data));
+static_assert(sizeof(vehicle_datum) == sizeof(_object_datum) + sizeof(_motor_datum) + sizeof(_unit_datum) + sizeof(_vehicle_datum));
 
 extern bool __cdecl vehicle_about_to_detonate_near_any_player(long* out_vehicle_index);
 extern void __cdecl vehicle_get_seat_position(long vehicle_index, short seat_index, real_point3d* seat_position);

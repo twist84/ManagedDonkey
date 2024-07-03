@@ -28,7 +28,7 @@ struct weapon_first_person_emulation
 };
 static_assert(sizeof(weapon_first_person_emulation) == 0x1C);
 
-struct weapon_data
+struct _weapon_datum
 {
 	word_flags flags;
 	word_flags weapon_control_flags;
@@ -78,15 +78,15 @@ struct weapon_data
 	long game_time_last_fired;
 	weapon_first_person_emulation first_person_emulation;
 };
-static_assert(sizeof(weapon_data) == 0x150);
+static_assert(sizeof(_weapon_datum) == 0x150);
 
 struct weapon_datum
 {
-	object_data object;
-	item_data item;
-	weapon_data weapon;
+	_object_datum object;
+	_item_datum item;
+	_weapon_datum weapon;
 };
-static_assert(sizeof(weapon_datum) == sizeof(object_data) + sizeof(item_data) + sizeof(weapon_data));
+static_assert(sizeof(weapon_datum) == sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
 
 extern real __cdecl weapon_get_age(long weapon_index);
 extern real __cdecl weapon_get_field_of_view_change_time(long weapon_index);

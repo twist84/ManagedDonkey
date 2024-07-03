@@ -68,7 +68,7 @@ struct unit_attacker
 };
 static_assert(sizeof(unit_attacker) == 0x10);
 
-struct unit_data
+struct _unit_datum
 {
 	long awake_tick_count;
 	long actor_index;
@@ -265,38 +265,37 @@ struct unit_data
 
 	byte __data408[0x4];
 };
-static_assert(sizeof(unit_data) == 0x40C);
-static_assert(0x0AA == offsetof(unit_data, __unknownAA));
-static_assert(0x0AB == offsetof(unit_data, __padAB));
-static_assert(0x1A2 == offsetof(unit_data, __unknown1A2));
-static_assert(0x22E == offsetof(unit_data, __data22E));
-static_assert(0x234 == offsetof(unit_data, __unknown234));
-static_assert(0x238 == offsetof(unit_data, __unknown238));
-static_assert(0x28D == offsetof(unit_data, __data28D));
-static_assert(0x292 == offsetof(unit_data, __data292));
-static_assert(0x2F9 == offsetof(unit_data, __pad2F9));
-static_assert(0x2FC == offsetof(unit_data, __unknown2FC));
-static_assert(0x310 == offsetof(unit_data, __unknown310));
-static_assert(0x32E == offsetof(unit_data, __unknown32E));
-static_assert(0x330 == offsetof(unit_data, __unknown330));
-static_assert(0x334 == offsetof(unit_data, __unknown334));
-static_assert(0x336 == offsetof(unit_data, __data336));
-static_assert(0x3A0 == offsetof(unit_data, __unknown3A0_team_index_update_time));
-static_assert(0x3A4 == offsetof(unit_data, __unknown3A4_team_index));
-static_assert(0x3A8 == offsetof(unit_data, __unknown3A8_object_index));
-static_assert(0x3BC == offsetof(unit_data, __data3BC));
-static_assert(0x3FC == offsetof(unit_data, __unknown3FC));
-static_assert(0x3FD == offsetof(unit_data, __pad3FD));
-static_assert(0x400 == offsetof(unit_data, __unknown400));
-static_assert(0x408 == offsetof(unit_data, __data408));
+static_assert(sizeof(_unit_datum) == 0x40C);
+static_assert(0x0AA == offsetof(_unit_datum, __unknownAA));
+static_assert(0x0AB == offsetof(_unit_datum, __padAB));
+static_assert(0x22E == offsetof(_unit_datum, __data22E));
+static_assert(0x234 == offsetof(_unit_datum, __unknown234));
+static_assert(0x238 == offsetof(_unit_datum, __unknown238));
+static_assert(0x28D == offsetof(_unit_datum, __data28D));
+static_assert(0x292 == offsetof(_unit_datum, __data292));
+static_assert(0x2F9 == offsetof(_unit_datum, __pad2F9));
+static_assert(0x2FC == offsetof(_unit_datum, __unknown2FC));
+static_assert(0x310 == offsetof(_unit_datum, __unknown310));
+static_assert(0x32E == offsetof(_unit_datum, __unknown32E));
+static_assert(0x330 == offsetof(_unit_datum, __unknown330));
+static_assert(0x334 == offsetof(_unit_datum, __unknown334));
+static_assert(0x336 == offsetof(_unit_datum, __data336));
+static_assert(0x3A0 == offsetof(_unit_datum, __unknown3A0_team_index_update_time));
+static_assert(0x3A4 == offsetof(_unit_datum, __unknown3A4_team_index));
+static_assert(0x3A8 == offsetof(_unit_datum, __unknown3A8_object_index));
+static_assert(0x3BC == offsetof(_unit_datum, __data3BC));
+static_assert(0x3FC == offsetof(_unit_datum, __unknown3FC));
+static_assert(0x3FD == offsetof(_unit_datum, __pad3FD));
+static_assert(0x400 == offsetof(_unit_datum, __unknown400));
+static_assert(0x408 == offsetof(_unit_datum, __data408));
 
 struct unit_datum
 {
-	object_data object;
-	motor_data motor;
-	unit_data unit;
+	_object_datum object;
+	_motor_datum motor;
+	_unit_datum unit;
 };
-static_assert(sizeof(unit_datum) == sizeof(object_data) + sizeof(motor_data) + sizeof(unit_data));
+static_assert(sizeof(unit_datum) == sizeof(_object_datum) + sizeof(_motor_datum) + sizeof(_unit_datum));
 
 struct unit_seat_source
 {
