@@ -9,7 +9,7 @@ struct render_camera
 	vector3d up;
 
 	// mirrored cameras do not work
-	bool is_mirrored;
+	bool mirrored;
 
 	// here <<< H3EK has 8 bytes of something here, structure size increased to 0x90
 
@@ -27,7 +27,7 @@ struct render_camera
 	short_rectangle2d display_pixel_bounds;
 	real z_near;
 	real z_far;
-	plane3d __plane64;
+	plane3d mirror_plane;
 
 	// used in `render_camera_build_viewport_frustum_bounds`
 	// these values are paired together

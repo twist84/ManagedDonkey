@@ -125,7 +125,7 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	plane3d transformed_plane{};
 	if (v1 == 0.0f)
 	{
-		matrix4x3_transform_plane(&projection->world_to_view, &camera->__plane64, &transformed_plane);
+		matrix4x3_transform_plane(&projection->world_to_view, &camera->mirror_plane, &transformed_plane);
 	}
 	else
 	{
