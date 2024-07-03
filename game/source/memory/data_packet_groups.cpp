@@ -35,7 +35,7 @@ unsigned char __cdecl data_packet_group_encode_packet(data_packet_group_definiti
 	ASSERT(packet_type >= 0 && packet_type < group_definition->packet_type_count);
 	ASSERT(encoded_packet && encoded_packet_size);
 
-	data_packet* packet = &group_definition->packets[packet_type];
+	data_packet_group_packet* packet = &group_definition->packets[packet_type];
 	ASSERT(packet->definition);
 
 	char const* error = nullptr;

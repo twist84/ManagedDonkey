@@ -39,6 +39,6 @@ unsigned char __cdecl data_packet_encode(data_packet_definition* packet_definiti
 	_data_packet_encode(packet_definition, &state, version, a3, 0, packet_definition->fields, 0);
 	*buffer_size = static_cast<short>(state.offset);
 
-	return state.__unknown == 0;
+	return state.overflow_flag == 0;
 }
 

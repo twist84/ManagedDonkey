@@ -1,6 +1,5 @@
 #pragma once
 
-
 #define _1byte  1
 #define _2byte -2
 #define _4byte -4
@@ -11,7 +10,7 @@ struct data_encoding_state
 	void* buffer;
 	long offset;
 	long buffer_size;
-	bool __unknown;
+	unsigned char overflow_flag;
 };
 
 extern void __cdecl data_encode_new(data_encoding_state* state, void* buffer, long buffer_size);

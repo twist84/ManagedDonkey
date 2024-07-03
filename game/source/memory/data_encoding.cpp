@@ -40,9 +40,9 @@ unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* a2, s
 		}
 	}
 
-	if (state->offset + size > state->buffer_size || state->__unknown)
+	if (state->offset + size > state->buffer_size || state->overflow_flag)
 	{
-		state->__unknown = 1;
+		state->overflow_flag = 1;
 	}
 	else
 	{
@@ -59,6 +59,6 @@ unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* a2, s
 		state->offset += size;
 	}
 
-	return state->__unknown == 0;
+	return state->overflow_flag == 0;
 }
 

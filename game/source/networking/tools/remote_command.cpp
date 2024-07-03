@@ -288,18 +288,18 @@ DATA_PACKET_DEFINITION(remote_command_packet_hs_expression,  0x3FF /* Halo 3 PC 
 DATA_PACKET_DEFINITION(remote_command_packet_tag_placement,  0x104 /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
 DATA_PACKET_DEFINITION(remote_command_packet_flag_placement, 0x12C /* Halo 3 PC 64-bit size */, 1, /* #TODO: add fields */);
 
-data_packet remote_command_packets[NUMBER_OF_REMOTE_COMMANDS]
+data_packet_group_packet remote_command_packets[NUMBER_OF_REMOTE_COMMANDS]
 {
-	DATA_PACKET(0, remote_command_packet_map_reset),
-	DATA_PACKET(0, remote_command_packet_map_synch),
-	DATA_PACKET(0, remote_command_packet_camera),
-	DATA_PACKET(0, remote_command_packet_add_object),
-	DATA_PACKET(0, remote_command_packet_modify_object),
-	DATA_PACKET(0, remote_command_packet_delete_object),
-	DATA_PACKET(0, remote_command_packet_sound_command),
-	DATA_PACKET(0, remote_command_packet_hs_expression),
-	DATA_PACKET(0, remote_command_packet_tag_placement),
-	DATA_PACKET(0, remote_command_packet_flag_placement)
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_map_reset),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_map_synch),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_camera),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_add_object),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_modify_object),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_delete_object),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_sound_command),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_hs_expression),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_tag_placement),
+	DATA_PACKET_GROUP_PACKET(0, remote_command_packet_flag_placement)
 };
 
 DATA_PACKET_GROUP_DEFINITION(remote_command_packets_group, NUMBER_OF_REMOTE_COMMANDS, 1, MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE, MAXIMUM_ENCODED_REMOTE_COMMAND_PACKET_SIZE, remote_command_packets);

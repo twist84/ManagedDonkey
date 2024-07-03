@@ -11,8 +11,7 @@ data_packet_group_definition _name =                             \
 	.packets = _packets                                          \
 }
 
-struct data_packet;
-
+struct data_packet_group_packet;
 struct data_packet_group_definition
 {
 	char const* name;
@@ -20,11 +19,12 @@ struct data_packet_group_definition
 	short packet_class_count;
 	long maximum_decoded_packet_size;
 	long maximum_encoded_packet_size;
-	data_packet* packets;
+	data_packet_group_packet* packets;
 };
 
 struct packet_header
 {
+	char type;
 };
 
 extern unsigned char __cdecl data_packet_group_encode_packet(data_packet_group_definition* group_definition, void* a2, void* encoded_packet, short* encoded_packet_size, short packet_type, short version);
