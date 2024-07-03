@@ -173,7 +173,7 @@ long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index
 	//hs_function_definition const* function = hs_function_get(function_index);
 	//char const* function_name = hs_function_table_names[function_index];
 	//
-	//long* parameters = hs_arguments_evaluate(thread_index, function->parameter_count, function->formal_parameters, a3);
+	//long* parameters = hs_arguments_evaluate(thread_index, function->formal_parameter_count, function->formal_parameters, a3);
 	//if (parameters)
 	//{
 	//	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
@@ -184,10 +184,10 @@ long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index
 	//		string.print("%s: %s ", hs_thread_format(thread_index), function_name);
 	//		if (parameters)
 	//		{
-	//			for (long parameter_index = 0; parameter_index < function->parameter_count; parameter_index++)
+	//			for (long parameter_index = 0; parameter_index < function->formal_parameter_count; parameter_index++)
 	//			{
 	//				static char parameter[100]{};
-	//				inspect_internal(function->parameters[parameter_index], parameters[parameter_index], parameter, sizeof(parameter));
+	//				inspect_internal(function->formal_parameters[parameter_index], parameters[parameter_index], parameter, sizeof(parameter));
 	//				string.append_print("%s ", parameter);
 	//			}
 	//		}

@@ -148,7 +148,7 @@ short hs_find_function_by_name(char const* name, short parameter_count)
 		if (csstrcmp(hs_function_table_names[function_index], name) == 0
 			&& (TEST_BIT(function->flags, 9)
 				|| parameter_count == NONE
-				|| function->parameter_count == parameter_count))
+				|| function->formal_parameter_count == parameter_count))
 		{
 			return function_index;
 		}
@@ -160,7 +160,7 @@ short hs_find_function_by_name(char const* name, short parameter_count)
 		if (csstrcmp(function->name, name) == 0
 			&& (TEST_BIT(function->flags, 9)
 				|| parameter_count == NONE
-				|| function->parameter_count == parameter_count))
+				|| function->formal_parameter_count == parameter_count))
 		{
 			return function_index;
 		}

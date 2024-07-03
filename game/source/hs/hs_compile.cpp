@@ -1304,10 +1304,10 @@ bool hs_macro_function_parse(short function_index, long expression_index)
 
 	bool has_remaining_arguments = true;
 	short parameter_index;
-	for (parameter_index = 0; has_remaining_arguments && parameter_index < definition->parameter_count && next_node_index != NONE; parameter_index++)
+	for (parameter_index = 0; has_remaining_arguments && parameter_index < definition->formal_parameter_count && next_node_index != NONE; parameter_index++)
 	{
 		hs_syntax_node* next_expression = hs_syntax_get(next_node_index);
-		if (hs_parse(next_node_index, definition->parameters[parameter_index]))
+		if (hs_parse(next_node_index, definition->formal_parameters[parameter_index]))
 		{
 			next_node_index = next_expression->next_node_index;
 			continue;
@@ -1324,11 +1324,11 @@ bool hs_macro_function_parse(short function_index, long expression_index)
 		has_remaining_arguments = false;
 	}
 
-	if (!has_remaining_arguments || (parameter_index == definition->parameter_count && next_node_index == NONE))
+	if (!has_remaining_arguments || (parameter_index == definition->formal_parameter_count && next_node_index == NONE))
 		return true;
 
 	csnzprintf(hs_compile_globals.error_buffer, k_hs_compile_error_buffer_size,
-		"the \"%s\" call requires exactly %d arguments.", definition->name, definition->parameter_count);
+		"the \"%s\" call requires exactly %d arguments.", definition->name, definition->formal_parameter_count);
 	hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 	hs_compile_globals.error_offset = expression->source_offset;
 

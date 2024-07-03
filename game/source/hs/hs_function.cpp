@@ -3,19 +3,19 @@
 #include "hs/hs_compile.hpp"
 #include "hs/hs_library_internal_compile.hpp"
 
-#define MAKE_HS_FUNCTION_TABLE_ENTRY(_return_type, _name, _flags, _parse, _evaluate, _description, _usage, _parameter_count, ...) new hs_function_definition_debug \
+#define MAKE_HS_FUNCTION_TABLE_ENTRY(_return_type, _name, _flags, _parse, _evaluate, _documentation, _parameters, _formal_parameter_count, ...) new hs_function_definition_debug \
 { \
 	.return_type = (_return_type), \
 	.name = #_name, \
 	.flags = (_flags), \
 	.parse = (_parse), \
 	.evaluate = (_evaluate), \
-	.description = (_description), \
-	.usage = (_usage), \
-	.parameter_count = (_parameter_count), \
-	.parameters = { __VA_ARGS__ } \
+	.documentation = (_documentation), \
+	.parameters = (_parameters), \
+	.formal_parameter_count = (_formal_parameter_count), \
+	.formal_parameters = { __VA_ARGS__ } \
 }
-#define MAKE_HS_FUNCTION_TABLE_ENTRY2(_return_type, _name, _flags, _description, _usage, _parameter_count, ...) MAKE_HS_FUNCTION_TABLE_ENTRY(_return_type, _name, _flags, hs_##_name##_parse, hs_##_name##_evaluate, _description, _usage, _parameter_count, __VA_ARGS__)
+#define MAKE_HS_FUNCTION_TABLE_ENTRY2(_return_type, _name, _flags, _documentation, _parameters, _formal_parameter_count, ...) MAKE_HS_FUNCTION_TABLE_ENTRY(_return_type, _name, _flags, hs_##_name##_parse, hs_##_name##_evaluate, _documentation, _parameters, _formal_parameter_count, __VA_ARGS__)
 
 REFERENCE_DECLARE_ARRAY(0x018ED378, hs_function_definition const*, hs_function_table, hs_function_table_count);
 
