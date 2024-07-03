@@ -131,15 +131,13 @@ struct _unit_datum
 	c_static_array<byte, 4> grenade_counts;
 	char current_zoom_level;
 	char desired_zoom_level;
-
-	byte __unknown1A2;
-
+	char gunner_inactive_ticks;
 	char aiming_change;
 	long weapon_control_last_active_time;
-	long motion_control_unit_index;
-	long weapon_control_unit_index;
+	long driver_object_index;
+	long gunner_object_index;
 	long last_vehicle_index;
-	long last_vehicle_exit_game_time;
+	long game_time_at_last_vehicle_exit;
 	short fake_squad_index;
 	char impulse_vehicle_from_seat_ticks;
 	char seat_power_valid_flags;
@@ -171,7 +169,7 @@ struct _unit_datum
 	c_static_array<s_unit_predicted_weapon_state, 4> predicted_weapon_state;
 
 	real active_camouflage;
-	real recent_active_camouflage;
+	real active_camouflage_super_amount;
 	real active_camouflage_regrowth;
 	long active_camouflage_end_time;
 
@@ -189,14 +187,14 @@ struct _unit_datum
 
 	real crouch;
 
-	short delayed_damage_category;
+	short last_damage_category;
 	short delayed_damage_timer;
-	real delayed_body_damage_peak;
-	long delayed_damage_owner_weak_object_index;
+	real delayed_damage_peak;
+	long delayed_damage_attacker_object_index;
 	long flaming_death_attacker_object_index;
 
 	real run_blindly_angle;
-	real run_blindly_angular_velocity;
+	real run_blindly_angle_delta;
 
 	long hologram_creator_weak_unit_index;
 	long hologram_creation_time;
