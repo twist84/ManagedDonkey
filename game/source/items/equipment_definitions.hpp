@@ -34,7 +34,9 @@ enum e_equipment_type
 	_equipment_type_ammo_pack,
 	_equipment_type_vision,
 
-	k_equipment_type_count
+	k_equipment_type_count,
+
+	k_equipment_type_none = -1
 };
 
 enum e_equipment_flags
@@ -487,7 +489,7 @@ struct s_equipment_type_vision
 };
 static_assert(sizeof(s_equipment_type_vision) == 0x20);
 
-extern e_equipment_type equipment_definition_get_type(long definition_index, long equipment_type_index);
+extern e_equipment_type equipment_definition_get_type(long definition_index, long expected_equipment_type_index);
 extern bool equipment_definition_has_type(long definition_index, e_equipment_type equipment_type);
 extern s_equipment_type_adrenaline const* equipment_get_adrenaline_definition(long definition_index);
 extern s_equipment_type_ammo_pack const* equipment_get_ammo_pack_definition(long definition_index);
