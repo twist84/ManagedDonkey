@@ -10,3 +10,5 @@ struct s_damage_owner
 };
 static_assert(sizeof(s_damage_owner) == 0xC);
 
+extern s_damage_owner const* const& global_damage_owner_unknown;
+

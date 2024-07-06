@@ -238,6 +238,7 @@ POPD
     <ClCompile Include="source\networking\online\online_session.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameter_types.cpp" />
     <ClCompile Include="source\networking\transport\transport_qos.cpp" />
+    <ClCompile Include="source\objects\damage_owner.cpp" />
     <ClCompile Include="source\objects\lights.cpp" />
     <ClCompile Include="source\objects\object_activation_regions.cpp" />
     <ClCompile Include="source\objects\object_broadphase.cpp" />
