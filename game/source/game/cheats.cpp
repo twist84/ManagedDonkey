@@ -254,16 +254,13 @@ void __cdecl cheat_objects(s_tag_reference* references, short reference_count)
 		object_get_orientation(player->unit_index, &forward, &up);
 
 		object_placement_data data{};
-		data.multiplayer_properties.game_engine_flags = 0;
-		data.multiplayer_properties.spawn_flags = 0;
-
-		real angle_scaling_factor = atan2f(forward.i, forward.j) + ((TWO_PI * reference_index) / reference_count);
 		object_placement_data_new(&data, reference.index, NONE, NULL);
 
 		data.position = origin;
 		data.forward = forward;
 		data.up = up;
 
+		real angle_scaling_factor = atan2f(forward.i, forward.j) + ((TWO_PI * reference_index) / reference_count);
 		data.position.x += (cosf(angle_scaling_factor) * radius);
 		data.position.y += (sinf(angle_scaling_factor) * radius);
 		data.position.z += 0.8f;
@@ -374,11 +371,9 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 	}
 
 	object_placement_data data{};
-	data.multiplayer_properties.game_engine_flags = 0;
-	data.multiplayer_properties.spawn_flags = 0;
+	object_placement_data_new(&data, object_definition_index, NONE, NULL);
 
 	struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object_definition_index);
-	object_placement_data_new(&data, object_definition_index, NONE, NULL);
 	real bounding_radius = object_definition->object.bounding_radius + 1.0f;
 
 	if (variant_name != NONE)
@@ -417,8 +412,6 @@ bool __cdecl cheat_drop_object(tag group_tag, char const* tag_name, tag expected
 		for (long weapon_definition_index = tag_iterator_next(&iterator); weapon_definition_index != NONE; weapon_definition_index = tag_iterator_next(&iterator))
 		{
 			object_placement_data weapon_data{};
-			weapon_data.multiplayer_properties.game_engine_flags = 0;
-			weapon_data.multiplayer_properties.spawn_flags = 0;
 			object_placement_data_new(&weapon_data, weapon_definition_index, NONE, NULL);
 			long weapon_object_index = object_new(&weapon_data);
 			if (weapon_object_index != NONE)

@@ -24,7 +24,9 @@ enum e_object_type
 	_object_type_giant,
 	_object_type_effect_scenery,
 
-	k_object_type_count
+	k_object_type_count,
+
+	k_object_type_none = -1
 };
 
 enum e_object_source
@@ -36,7 +38,9 @@ enum e_object_source
 	_object_source_sky,
 	_object_source_parent,
 
-	k_object_source_count
+	k_object_source_count,
+
+	k_object_source_none = -1
 };
 
 enum e_object_definition_flags
@@ -433,6 +437,7 @@ static_assert(sizeof(s_scenario_multiplayer_object_properties) == 0x34);
 struct c_object_identifier
 {
 	e_object_type get_type() const;
+	void clear();
 
 	tag m_unique_id; // 'obj#'
 

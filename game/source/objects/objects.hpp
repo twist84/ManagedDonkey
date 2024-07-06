@@ -305,11 +305,14 @@ static_assert(sizeof(s_model_customization_region_permutation) == 0x8);
 
 struct object_placement_data
 {
+	object_placement_data();
+
 	long definition_index;
 	c_object_identifier object_identifier;
 	long model_variant_index;
 	long scenario_datum_index;
 	byte bsp_placement_policy;
+	byte __data15[0x3];
 	dword_flags flags;
 	real_point3d position;
 	vector3d forward;
@@ -345,6 +348,41 @@ struct object_placement_data
 	s_scenario_multiplayer_object_properties multiplayer_properties;
 };
 static_assert(sizeof(object_placement_data) == 0x18C);
+static_assert(0x000 == offsetof(object_placement_data, definition_index));
+static_assert(0x004 == offsetof(object_placement_data, object_identifier));
+static_assert(0x00C == offsetof(object_placement_data, model_variant_index));
+static_assert(0x010 == offsetof(object_placement_data, scenario_datum_index));
+static_assert(0x014 == offsetof(object_placement_data, bsp_placement_policy));
+static_assert(0x015 == offsetof(object_placement_data, __data15));
+static_assert(0x018 == offsetof(object_placement_data, flags));
+static_assert(0x01C == offsetof(object_placement_data, position));
+static_assert(0x028 == offsetof(object_placement_data, forward));
+static_assert(0x034 == offsetof(object_placement_data, up));
+static_assert(0x040 == offsetof(object_placement_data, linear_velocity));
+static_assert(0x04C == offsetof(object_placement_data, translational_velocity));
+static_assert(0x058 == offsetof(object_placement_data, scale));
+static_assert(0x05C == offsetof(object_placement_data, owner_player_index));
+static_assert(0x060 == offsetof(object_placement_data, owner_object_index));
+static_assert(0x064 == offsetof(object_placement_data, owner_team_index));
+static_assert(0x068 == offsetof(object_placement_data, damage_owner));
+static_assert(0x074 == offsetof(object_placement_data, active_change_colors));
+static_assert(0x078 == offsetof(object_placement_data, change_colors));
+static_assert(0x0B4 == offsetof(object_placement_data, model_customization_override_count));
+static_assert(0x0B8 == offsetof(object_placement_data, model_customization_overrides));
+static_assert(0x138 == offsetof(object_placement_data, model_customization_flags));
+static_assert(0x13C == offsetof(object_placement_data, destroyed_constraints));
+static_assert(0x13E == offsetof(object_placement_data, loosened_constraints));
+static_assert(0x140 == offsetof(object_placement_data, ai_state_type));
+static_assert(0x142 == offsetof(object_placement_data, ai_state_size));
+static_assert(0x144 == offsetof(object_placement_data, ai_state_alignment_bits));
+static_assert(0x146 == offsetof(object_placement_data, location_set));
+static_assert(0x147 == offsetof(object_placement_data, __data147));
+static_assert(0x148 == offsetof(object_placement_data, location));
+static_assert(0x14A == offsetof(object_placement_data, multiplayer_cinematic_object));
+static_assert(0x14C == offsetof(object_placement_data, parent_object_index));
+static_assert(0x150 == offsetof(object_placement_data, parent_marker));
+static_assert(0x154 == offsetof(object_placement_data, connection_marker));
+static_assert(0x158 == offsetof(object_placement_data, multiplayer_properties));
 
 struct object_marker
 {
@@ -463,6 +501,8 @@ extern bool debug_objects_pathfinding;
 extern bool debug_objects_node_bounds;
 extern bool debug_objects_animation;
 
+struct s_scenario_object;
+
 extern void* __cdecl object_header_block_get(long object_index, object_header_block_reference const* reference);
 extern void* __cdecl object_header_block_get_with_count(long object_index, object_header_block_reference const* reference, unsigned int element_size, long* element_count);
 extern object_header_datum const* __cdecl object_header_get(long object_index);
@@ -507,9 +547,13 @@ extern real_matrix4x3* __cdecl object_get_node_matrix(long object_index, short n
 extern void __cdecl object_get_orientation(long object_index, vector3d* forward, vector3d* up);
 extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* origin);
 extern long __cdecl object_get_ultimate_parent(long object_index);
+extern long __cdecl object_get_variant_index(long object_index);
 extern void __cdecl object_get_velocities(long object_index, vector3d* linear_velocity, vector3d* angular_velocity);
 extern real_matrix4x3* __cdecl object_get_world_matrix(long object_index, real_matrix4x3* matrix);
+extern bool __cdecl object_is_multiplayer_cinematic_object(long object_index);
 extern long __cdecl object_new(object_placement_data* data);
+extern void __cdecl object_place(long object_index, s_scenario_object const* scenario_object);
+extern void __cdecl object_placement_data_copy_change_colors(object_placement_data* data, long object_index);
 extern void __cdecl object_placement_data_new(object_placement_data* data, long definition_index, long owner_object_index, s_damage_owner const* damage_owner);
 extern void __cdecl object_placement_data_set_location(object_placement_data* data, struct s_location const* location);
 extern void __cdecl object_postprocess_node_matrices(long object_index);

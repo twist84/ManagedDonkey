@@ -12,6 +12,7 @@
 #include <intrin.h>
 #include <math.h>
 
+HOOK_DECLARE(0x00B31590, object_placement_data_new);
 HOOK_DECLARE(0x00B32130, object_render_debug);
 
 bool debug_objects = true;
@@ -302,6 +303,11 @@ long __cdecl object_get_ultimate_parent(long object_index)
 	return INVOKE(0x00B2EAB0, object_get_ultimate_parent, object_index);
 }
 
+long __cdecl object_get_variant_index(long object_index)
+{
+	return INVOKE(0x00B2EB00, object_get_variant_index, object_index);
+}
+
 void __cdecl object_get_velocities(long object_index, vector3d* linear_velocity, vector3d* angular_velocity)
 {
 	INVOKE(0x00B2EB30, object_get_velocities, object_index, linear_velocity, angular_velocity);
@@ -312,9 +318,41 @@ real_matrix4x3* __cdecl object_get_world_matrix(long object_index, real_matrix4x
 	return INVOKE(0x00B2EC60, object_get_world_matrix, object_index, matrix);
 }
 
+//.text:00B2ECE0 ; real_matrix4x3* __cdecl object_get_world_matrix_interpolated(long, real_matrix4x3*)
+//.text:00B2EDF0 ; bool __cdecl object_has_animation_manager(long)
+//.text:00B2EE30 ; bool __cdecl object_has_multiplayer_properties(long)
+//.text:00B2EE70 ; bool __cdecl object_header_block_allocate(long, short, short, short)
+//.text:00B2EF90 ; void __cdecl object_header_delete(long)
+//.text:00B2EFF0 ; long __cdecl object_header_new(short)
+//.text:00B2F0A0 ; long __cdecl object_index_from_name_index(short)
+//.text:00B2F0E0 ; long __cdecl object_index_from_scenario_object_index(enum e_object_type, long)
+//.text:00B2F120 ; bool __cdecl object_is_at_rest(long)
+//.text:00B2F160 ; bool __cdecl object_is_being_deleted(long)
+//.text:00B2F190 ; bool __cdecl object_is_connected_to_map(long)
+//.text:00B2F1D0 ; bool __cdecl object_is_hidden(long)
+//.text:00B2F220 ; bool __cdecl object_is_hidden_internal(object_header_datum const*, object_datum const*)
+//.text:00B2F240 ; bool __cdecl object_is_hidden_non_recursive(long)
+//.text:00B2F280 ; 
+
+bool __cdecl object_is_multiplayer_cinematic_object(long object_index)
+{
+	return INVOKE(0x00B2F300, object_is_multiplayer_cinematic_object, object_index);
+}
+
+//.text:00B2F340 ; bool __cdecl object_is_or_contains_player(long)
+//.text:00B2F470 ; bool __cdecl object_is_vehicle(long)
+
 e_object_type c_object_identifier::get_type() const
 {
 	return m_type;
+}
+
+void c_object_identifier::clear()
+{
+	m_type = k_object_type_none;
+	m_source = k_object_source_none;
+	m_origin_bsp_index = NONE;
+	m_unique_id = NONE;
 }
 
 long c_object_iterator_base::get_index()
@@ -342,58 +380,118 @@ object_datum* __cdecl c_object_iterator_base::get_datum_internal()
 	return m_datum;
 }
 
+//.text:00B2F830 ; long __cdecl object_list_children_by_definition(long, long)
+
 bool __cdecl object_load_scenario_placement_matrices(long object_index)
 {
 	return INVOKE(0x00B2F890, object_load_scenario_placement_matrices, object_index);
 }
+
+//.text:00B2FBD0 ; long __cdecl object_local_physics_object_get(long)
+//.text:00B2FC20 ; 
+//.text:00B2FC70 ; void __cdecl object_make_noise(long, e_sound_type, e_ai_sound_volume)
+//.text:00B2FCE0 ; bool __cdecl object_mark(long)
+//.text:00B2FD20 ; bool __cdecl object_mark_get_user_data(long, long *)
+//.text:00B2FD60 ; bool __cdecl object_mark_with_user_data(long, long)
+//.text:00B2FDC0 ; void __cdecl object_marker_begin()
+//.text:00B2FDE0 ; void __cdecl object_marker_end()
+//.text:00B2FE00 ; void __cdecl object_marker_reopen()
+//.text:00B2FE20 ; void __cdecl object_model_state_changed(long, long, char const*)
+//.text:00B2FE50 ; void __cdecl object_move(long)
+//.text:00B30050 ; void __cdecl object_move_position(long, real_point3d const*, vector3d const*, vector3d const*, s_location const*)
+//.text:00B301F0 ; void __cdecl object_name_list_allocate()
+//.text:00B30250 ; 
+//.text:00B30280 ; void __cdecl object_name_list_delete(long)
+//.text:00B30310 ; 
+//.text:00B30350 ; 
+//.text:00B303A0 ; bool __cdecl object_needs_rigid_body_update(long)
 
 long __cdecl object_new(object_placement_data* data)
 {
 	return INVOKE(0x00B30440, object_new, data);
 }
 
+//.text:00B30E60 ; long __cdecl object_new_by_name(short, bool, bool)
+//.text:00B30FD0 ; long __cdecl object_new_from_scenario(e_object_type, long, s_scenario_object*, s_tag_block*, bool)
+//.text:00B31000 ; long __cdecl object_new_from_scenario_bypass_simulation_object_placement_test(e_object_type, long, s_scenario_object*, s_tag_block*, long, bool)
+//.text:00B31030 ; 
+//.text:00B310C0 ; long __cdecl object_new_from_scenario_internal(e_object_type, short, s_scenario_object const*, s_tag_block*, long, bool, bool, long)
+//.text:00B31240 ; bool __cdecl object_node_orientations_frozen(long)
+//.text:00B31270 ; 
+//.text:00B312F0 ; 
+//.text:00B31380 ; bool __cdecl object_owns_object(long, long)
+//.text:00B313E0 ; 
+
+void __cdecl object_place(long object_index, s_scenario_object const* scenario_object)
+{
+	INVOKE(0x00B31470, object_place, object_index, scenario_object);
+}
+
+void __cdecl object_placement_data_copy_change_colors(object_placement_data* data, long object_index)
+{
+	INVOKE(0x00B314E0, object_placement_data_copy_change_colors, data, object_index);
+}
+
 void __cdecl object_placement_data_new(object_placement_data* data, long definition_index, long owner_object_index, s_damage_owner const* damage_owner)
 {
-	INVOKE(0x00B31590, object_placement_data_new, data, definition_index, owner_object_index, damage_owner);
+	//INVOKE(0x00B31590, object_placement_data_new, data, definition_index, owner_object_index, damage_owner);
 
-	//csmemset(data, 0, sizeof(object_placement_data));
-	//
-	//data->definition_index = definition_index;
-	//data->model_variant_index = 0;
-	//data->flags = 0;
-	//data->forward = *global_forward3d;
-	//data->up = *global_up3d;
-	//data->ai_state_type = NONE;
-	//data->scale = 1.0f;
-	//data->active_change_colors.clear();
-	//data->bsp_placement_policy = 0;
-	//
-	//if (object_datum* owner_object = object_get(owner_object_index))
-	//{
-	//	data->owner_object_index = owner_object_index;
-	//	data->owner_player_index = NONE;
-	//	data->owner_team_index = NONE;
-	//
-	//	SET_BIT(data->flags, 5, TEST_BIT(owner_object->object.physics_flags, 2));
-	//	if (TEST_MASK(owner_object->object.object_identifier.get_type(), _object_mask_unit))
-	//	{
-	//		unit_datum* unit = (unit_datum*)owner_object;
-	//		data->owner_player_index = unit->unit.player_index;
-	//		data->owner_team_index = unit->unit.team;
-	//	}
-	//}
-	//else
-	//{
-	//	data->owner_object_index = NONE;
-	//	data->owner_player_index = NONE;
-	//	data->owner_team_index = NONE;
-	//}
-	//
-	//data->damage_owner = *global_damage_owner_unknown;
-	//if (damage_owner)
-	//	data->damage_owner = *damage_owner;
-	//
-	// #TODO: implement me
+	csmemset(data, 0, sizeof(object_placement_data));
+	
+	data->definition_index = definition_index;
+	data->model_variant_index = 0;
+	data->flags = 0;
+	data->forward = *global_forward3d;
+	data->up = *global_up3d;
+	data->ai_state_type = NONE;
+	data->scale = 1.0f;
+	data->active_change_colors.clear();
+	data->bsp_placement_policy = 0;
+	
+	if (object_datum* owner_object = object_get(owner_object_index))
+	{
+		data->owner_object_index = owner_object_index;
+		data->owner_player_index = NONE;
+		data->owner_team_index = NONE;
+	
+		SET_BIT(data->flags, 5, TEST_BIT(owner_object->object.physics_flags, 2));
+	
+		if (TEST_BIT(_object_mask_unit, owner_object->object.object_identifier.get_type()))
+		{
+			unit_datum* unit = (unit_datum*)owner_object;
+			data->owner_player_index = unit->unit.player_index;
+			data->owner_team_index = unit->unit.team;
+		}
+	}
+	else
+	{
+		data->owner_object_index = NONE;
+		data->owner_player_index = NONE;
+		data->owner_team_index = NONE;
+	}
+	
+	data->damage_owner = *global_damage_owner_unknown;
+	if (damage_owner)
+		data->damage_owner = *damage_owner;
+
+	data->object_identifier.clear();
+
+	data->scenario_datum_index = NONE;
+	data->location_set = false;
+
+	if (owner_object_index != NONE)
+		data->multiplayer_cinematic_object = object_is_multiplayer_cinematic_object(owner_object_index);
+
+	data->parent_object_index = NONE;
+	data->parent_marker = _string_id_invalid;
+	data->connection_marker = _string_id_invalid;
+	
+	for (s_model_customization_region_permutation& permutation : data->model_customization_overrides)
+	{
+		permutation.region_name = NONE;
+		permutation.permutation_name = NONE;
+	}
+	data->model_customization_override_count = 0;
 }
 
 void __cdecl object_placement_data_set_location(object_placement_data* data, struct s_location const* location)
@@ -1258,4 +1356,15 @@ void __cdecl object_render_debug_internal(long object_index)
 
 	}
 }
+
+#pragma warning(push)
+#pragma warning(disable : 26495)
+object_placement_data::object_placement_data()
+{
+	csmemset(this, 0, sizeof(*this));
+
+	multiplayer_properties.game_engine_flags.clear();
+	multiplayer_properties.spawn_flags.clear();
+}
+#pragma warning(pop)
 
