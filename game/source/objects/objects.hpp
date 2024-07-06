@@ -317,9 +317,9 @@ struct object_placement_data
 	vector3d linear_velocity;
 	vector3d translational_velocity;
 	real scale;
-	long player_index;
-	long object_index;
-	long team_index;
+	long owner_player_index;
+	long owner_object_index;
+	long owner_team_index;
 	s_damage_owner damage_owner;
 	c_flags<long, dword, 5> active_change_colors;
 	c_static_array<real_rgb_color, 5> change_colors;
@@ -334,8 +334,10 @@ struct object_placement_data
 	short ai_state_size;
 	short ai_state_alignment_bits;
 
+	bool location_set;
+	byte __data147[0x1];
 	s_location location;
-	byte __data148[0x2];
+
 	bool multiplayer_cinematic_object;
 	long parent_object_index;      // object_index_from_name_index(scenario_object->object_data.parent_id.parent_object)
 	c_string_id parent_marker;     // scenario_object->object_data.parent_id.parent_marker
@@ -507,8 +509,8 @@ extern real_point3d* __cdecl object_get_origin(long object_index, real_point3d* 
 extern long __cdecl object_get_ultimate_parent(long object_index);
 extern void __cdecl object_get_velocities(long object_index, vector3d* linear_velocity, vector3d* angular_velocity);
 extern real_matrix4x3* __cdecl object_get_world_matrix(long object_index, real_matrix4x3* matrix);
-extern long __cdecl object_new(object_placement_data* placement_data);
-extern void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, s_damage_owner const* damage_owner);
+extern long __cdecl object_new(object_placement_data* data);
+extern void __cdecl object_placement_data_new(object_placement_data* data, long definition_index, long owner_object_index, s_damage_owner const* damage_owner);
 extern void __cdecl object_placement_data_set_location(object_placement_data* data, struct s_location const* location);
 extern void __cdecl object_postprocess_node_matrices(long object_index);
 extern void __cdecl object_pre_delete_recursive(long object_index, bool a2);

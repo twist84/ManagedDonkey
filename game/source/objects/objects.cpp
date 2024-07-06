@@ -347,19 +347,64 @@ bool __cdecl object_load_scenario_placement_matrices(long object_index)
 	return INVOKE(0x00B2F890, object_load_scenario_placement_matrices, object_index);
 }
 
-long __cdecl object_new(object_placement_data* placement_data)
+long __cdecl object_new(object_placement_data* data)
 {
-	return INVOKE(0x00B30440, object_new, placement_data);
+	return INVOKE(0x00B30440, object_new, data);
 }
 
-void __cdecl object_placement_data_new(object_placement_data* placement_data, long object_definition_index, long object_datum_index, s_damage_owner const* damage_owner)
+void __cdecl object_placement_data_new(object_placement_data* data, long definition_index, long owner_object_index, s_damage_owner const* damage_owner)
 {
-	INVOKE(0x00B31590, object_placement_data_new, placement_data, object_definition_index, object_datum_index, damage_owner);
+	INVOKE(0x00B31590, object_placement_data_new, data, definition_index, owner_object_index, damage_owner);
+
+	//csmemset(data, 0, sizeof(object_placement_data));
+	//
+	//data->definition_index = definition_index;
+	//data->model_variant_index = 0;
+	//data->flags = 0;
+	//data->forward = *global_forward3d;
+	//data->up = *global_up3d;
+	//data->ai_state_type = NONE;
+	//data->scale = 1.0f;
+	//data->active_change_colors.clear();
+	//data->bsp_placement_policy = 0;
+	//
+	//if (object_datum* owner_object = object_get(owner_object_index))
+	//{
+	//	data->owner_object_index = owner_object_index;
+	//	data->owner_player_index = NONE;
+	//	data->owner_team_index = NONE;
+	//
+	//	SET_BIT(data->flags, 5, TEST_BIT(owner_object->object.physics_flags, 2));
+	//	if (TEST_MASK(owner_object->object.object_identifier.get_type(), _object_mask_unit))
+	//	{
+	//		unit_datum* unit = (unit_datum*)owner_object;
+	//		data->owner_player_index = unit->unit.player_index;
+	//		data->owner_team_index = unit->unit.team;
+	//	}
+	//}
+	//else
+	//{
+	//	data->owner_object_index = NONE;
+	//	data->owner_player_index = NONE;
+	//	data->owner_team_index = NONE;
+	//}
+	//
+	//data->damage_owner = *global_damage_owner_unknown;
+	//if (damage_owner)
+	//	data->damage_owner = *damage_owner;
+	//
+	// #TODO: implement me
 }
 
 void __cdecl object_placement_data_set_location(object_placement_data* data, struct s_location const* location)
 {
 	INVOKE(0x00B31750, object_placement_data_set_location, data, location);
+
+	//ASSERT(data != NULL);
+	//ASSERT(location != NULL);
+	//
+	//data->location = *location;
+	//data->location_set = true;
 }
 
 void __cdecl object_postprocess_node_matrices(long object_index)
