@@ -3,7 +3,7 @@
 #include "cache/cache_files.hpp"
 #include "memory/module.hpp"
 
-HOOK_DECLARE(0x00BA0260, equipment_definition_get_type);
+//HOOK_DECLARE(0x00BA0260, equipment_definition_get_type);
 //HOOK_DECLARE(0x00BA0360, equipment_definition_has_type);
 //HOOK_DECLARE(0x00BA0390, equipment_get_adrenaline_definition);
 //HOOK_DECLARE(0x00BA03B0, equipment_get_ammo_pack_definition);
@@ -32,54 +32,54 @@ HOOK_DECLARE(0x00BA0260, equipment_definition_get_type);
 
 e_equipment_type equipment_definition_get_type(long definition_index, long expected_equipment_type_index)
 {
-	//return INVOKE(0x00BA0260, equipment_definition_get_type, definition_index, expected_equipment_type_index);
+	return INVOKE(0x00BA0260, equipment_definition_get_type, definition_index, expected_equipment_type_index);
 
-	long current_type_index = 0;
-	e_equipment_type equipment_types[]
-	{
-		// specific equipment can be disabled with a comment below
-
-		_equipment_type_super_shield,
-		_equipment_type_multiplayer_powerup,
-		_equipment_type_spawner,
-		_equipment_type_proximity_mine,
-		_equipment_type_motion_tracker_noise,
-		_equipment_type_showme,
-		_equipment_type_invisibility,
-		_equipment_type_invincibility,
-		_equipment_type_tree_of_life,
-		_equipment_type_health_pack,
-		_equipment_type_forced_reload,
-		_equipment_type_concussive_blast,
-		_equipment_type_tank_mode,
-		_equipment_type_mag_pulse,
-		_equipment_type_hologram,
-		_equipment_type_reactive_armor,
-		_equipment_type_bomb_run,
-		_equipment_type_armor_lock,
-		_equipment_type_adrenaline,
-		_equipment_type_lightning_strike,
-		_equipment_type_scrambler,
-		_equipment_type_weapon_jammer,
-		_equipment_type_ammo_pack,
-		_equipment_type_vision
-	};
-
-	if (_equipment_definition* equipment_definition = (_equipment_definition*)tag_get(EQUIPMENT_TAG, definition_index))
-	{
-		for (long equipment_type_index = 0; equipment_type_index < NUMBEROF(equipment_types); equipment_type_index++)
-		{
-			if (equipment_definition->equipment_types[equipment_types[equipment_type_index]].count > 0)
-			{
-				if (current_type_index == expected_equipment_type_index)
-					return equipment_types[equipment_type_index];
-
-				current_type_index++;
-			}
-		}
-	}
-
-	return k_equipment_type_none;
+	//long current_type_index = 0;
+	//e_equipment_type equipment_types[]
+	//{
+	//	// specific equipment can be disabled with a comment below
+	//
+	//	_equipment_type_super_shield,
+	//	_equipment_type_multiplayer_powerup,
+	//	_equipment_type_spawner,
+	//	_equipment_type_proximity_mine,
+	//	_equipment_type_motion_tracker_noise,
+	//	_equipment_type_showme,
+	//	_equipment_type_invisibility,
+	//	_equipment_type_invincibility,
+	//	_equipment_type_tree_of_life,
+	//	_equipment_type_health_pack,
+	//	_equipment_type_forced_reload,
+	//	_equipment_type_concussive_blast,
+	//	_equipment_type_tank_mode,
+	//	_equipment_type_mag_pulse,
+	//	_equipment_type_hologram,
+	//	_equipment_type_reactive_armor,
+	//	_equipment_type_bomb_run,
+	//	_equipment_type_armor_lock,
+	//	_equipment_type_adrenaline,
+	//	_equipment_type_lightning_strike,
+	//	_equipment_type_scrambler,
+	//	_equipment_type_weapon_jammer,
+	//	_equipment_type_ammo_pack,
+	//	_equipment_type_vision
+	//};
+	//
+	//if (_equipment_definition* equipment_definition = (_equipment_definition*)tag_get(EQUIPMENT_TAG, definition_index))
+	//{
+	//	for (long equipment_type_index = 0; equipment_type_index < NUMBEROF(equipment_types); equipment_type_index++)
+	//	{
+	//		if (equipment_definition->equipment_types[equipment_types[equipment_type_index]].count > 0)
+	//		{
+	//			if (current_type_index == expected_equipment_type_index)
+	//				return equipment_types[equipment_type_index];
+	//
+	//			current_type_index++;
+	//		}
+	//	}
+	//}
+	//
+	//return k_equipment_type_none;
 }
 
 bool equipment_definition_has_type(long definition_index, e_equipment_type equipment_type)
