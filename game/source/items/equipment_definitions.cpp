@@ -4,6 +4,31 @@
 #include "memory/module.hpp"
 
 HOOK_DECLARE(0x00BA0260, equipment_definition_get_type);
+//HOOK_DECLARE(0x00BA0360, equipment_definition_has_type);
+//HOOK_DECLARE(0x00BA0390, equipment_get_adrenaline_definition);
+//HOOK_DECLARE(0x00BA03B0, equipment_get_ammo_pack_definition);
+//HOOK_DECLARE(0x00BA03D0, equipment_get_armor_lock_definition);
+//HOOK_DECLARE(0x00BA03F0, equipment_get_bomb_run_definition);
+//HOOK_DECLARE(0x00BA0410, equipment_get_concussive_blast_definition);
+//HOOK_DECLARE(0x00BA0430, equipment_get_forced_reload_definition);
+//HOOK_DECLARE(0x00BA0450, equipment_get_health_pack_definition);
+//HOOK_DECLARE(0x00BA0470, equipment_get_hologram_definition);
+//HOOK_DECLARE(0x00BA0490, equipment_get_invincibility_mode_definition);
+//HOOK_DECLARE(0x00BA04B0, equipment_get_invisibility_mode_definition);
+//HOOK_DECLARE(0x00BA04D0, equipment_get_lightning_strike_definition);
+//HOOK_DECLARE(0x00BA04F0, equipment_get_mag_pulse_definition);
+//HOOK_DECLARE(0x00BA0510, equipment_get_motion_tracker_noise_definition);
+//HOOK_DECLARE(0x00BA0530, equipment_get_multiplayer_powerup_definition);
+//HOOK_DECLARE(0x00BA0550, equipment_get_proximity_mine_definition);
+//HOOK_DECLARE(0x00BA0570, equipment_get_reactive_armor_definition);
+//HOOK_DECLARE(0x00BA0590, equipment_get_scrambler_definition);
+//HOOK_DECLARE(0x00BA05B0, equipment_get_showme_definition);
+//HOOK_DECLARE(0x00BA05D0, equipment_get_spawner_definition);
+//HOOK_DECLARE(0x00BA05F0, equipment_get_super_shield_definition);
+//HOOK_DECLARE(0x00BA0610, equipment_get_tank_mode_definition);
+//HOOK_DECLARE(0x00BA0630, equipment_get_treeoflife_definition);
+//HOOK_DECLARE(0x00BA0650, equipment_get_vision_definition);
+//HOOK_DECLARE(0x00BA0650, equipment_get_weapon_jammer_definition);
 
 e_equipment_type equipment_definition_get_type(long definition_index, long expected_equipment_type_index)
 {
