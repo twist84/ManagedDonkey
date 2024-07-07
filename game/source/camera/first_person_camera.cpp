@@ -92,8 +92,8 @@ void __thiscall c_first_person_camera::_update(e_output_user_index output_user_i
 	
 		if (m_field_of_view != result->field_of_view)
 		{
-			result->__unknownC0[4] = weapon_get_field_of_view_change_time(unit_get_current_primary_weapon(m_object_index));
-			result->__unknownB8[4] = 1;
+			result->field_of_view_timer = weapon_get_field_of_view_change_time(unit_get_current_primary_weapon(m_object_index));
+			result->field_of_view_flags = 1;
 			m_field_of_view = result->field_of_view;
 		}
 	

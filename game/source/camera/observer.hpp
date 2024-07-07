@@ -15,14 +15,23 @@ static_assert(sizeof(s_focus_and_distance) == 0x10);
 struct s_observer_command
 {
 	dword_flags flags;
-	real_point3d position;
-	vector3d focus_offset;
-	real_point2d crosshair_location;
-	real focus_distance;
-	real field_of_view;
-	vector3d forward;
-	vector3d up;
-	vector3d velocities;
+	union
+	{
+		struct
+		{
+			real_point3d focus_position;
+			vector3d focus_offset;
+			real_point2d crosshair_location;
+			real focus_distance;
+			real field_of_view;
+			vector3d forward;
+			vector3d up;
+		};
+
+		real parameters[16];
+	};
+
+	vector3d focus_velocity;
 	real_matrix4x3 focus_space;
 
 	dword __unknown84;
@@ -37,20 +46,40 @@ struct s_observer_command
 	real physics_pill_height;
 	real physics_pill_radius;
 
-	// 0: c_dead_camera::update
-	// 1: c_following_camera::update
-	// 3: c_dead_camera::update
-	// 4: c_first_person_camera::update, c_flying_camera::update
-	byte __unknownB8[6];
-	//byte __dataBE[0x2];
-	real __unknownC0[6];
+	union
+	{
+		struct
+		{
+			byte position_flags;
+			byte focus_offset_flags;
+			byte look_shift_flags;
+			byte distance_flags;
+			byte field_of_view_flags;
+			byte orientation_flags;
+		};
+		byte parameter_flags[6];
+	};
+
+	union
+	{
+		struct
+		{
+			real position_timer;
+			real focus_offset_timer;
+			real look_shift_timer;
+			real distance_timer;
+			real field_of_view_timer;
+			real orientation_timer;
+		};
+		real parameter_timers[6];
+	};
 
 	byte __dataD8[0x14];
 };
 static_assert(sizeof(s_observer_command) == 0xEC);
 static_assert(0x84 == offsetof(s_observer_command, __unknown84));
-static_assert(0xB8 == offsetof(s_observer_command, __unknownB8));
-static_assert(0xC0 == offsetof(s_observer_command, __unknownC0));
+static_assert(0xB8 == offsetof(s_observer_command, parameter_flags));
+static_assert(0xC0 == offsetof(s_observer_command, parameter_timers));
 static_assert(0xD8 == offsetof(s_observer_command, __dataD8));
 
 struct s_observer_result
@@ -70,11 +99,16 @@ struct s_observer_result
 };
 static_assert(sizeof(s_observer_result) == 0x70);
 
+struct observer_derivative
+{
+	real n[13];
+};
+
 struct s_observer
 {
 	tag header_signature;
 	s_observer_command* pending_command;
-	s_observer_command command;
+	s_observer_command last_command;
 	bool updated_for_frame;
 	bool __unknownF5;
 	bool __unknownF6;
@@ -96,26 +130,25 @@ struct s_observer
 			real_point3d focus_position;
 			vector3d focus_offset;
 			real_point2d look_shift;
-			real focus_point;
-			real horizontal_field_of_view;
+			real focus_distance;
+			real field_of_view;
 			vector3d forward;
 			vector3d up;
 		};
-
-		real n[16];
-	} positions;
+		real positions[16];
+	};
 
 	real_matrix4x3 focus_space;
 
-	union { real n[13]; } velocities;
-	union { real n[13]; } accelerations;
-	union { real n[13]; } __unknown260;
-	union { real n[13]; } __unknown294;
-	union { real n[13]; } __unknown2C8;
-	union { real n[13]; } __unknown2FC;
-	union { real n[13]; } __unknown330;
-	union { real n[13]; } __unknown364;
-	union { real n[13]; } displacements;
+	observer_derivative velocities;
+	observer_derivative accelerations;
+	real a[13];
+	real b[13];
+	real c[13];
+	real d[13];
+	real e[13];
+	real f[13];
+	observer_derivative displacements;
 
 	tag trailer_signature;
 };

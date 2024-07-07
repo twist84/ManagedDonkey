@@ -134,18 +134,18 @@ void __cdecl observer_compute_result(e_output_user_index output_user_index, s_fo
 		s_observer* observer = observer_get(output_user_index);
 
 		status_line_printf(&observer_meters[0], "positions: p (%.2f, %.2f, %.2f) f (%.2f, %.2f, %.2f) u (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
-			observer->positions.focus_position.x,
-			observer->positions.focus_position.y,
-			observer->positions.focus_position.z,
-			observer->positions.forward.i,
-			observer->positions.forward.j,
-			observer->positions.forward.k,
-			observer->positions.up.i,
-			observer->positions.up.j,
-			observer->positions.up.k,
-			observer->positions.focus_offset.i,
-			observer->positions.focus_offset.j,
-			observer->positions.focus_offset.k);
+			observer->focus_position.x,
+			observer->focus_position.y,
+			observer->focus_position.z,
+			observer->forward.i,
+			observer->forward.j,
+			observer->forward.k,
+			observer->up.i,
+			observer->up.j,
+			observer->up.k,
+			observer->focus_offset.i,
+			observer->focus_offset.j,
+			observer->focus_offset.k);
 
 		status_line_printf(&observer_meters[1], "velocities: v (%.2f, %.2f, %.2f) r (%.2f, %.2f, %.2f), fo (%.2f, %.2f, %.2f)",
 			observer->velocities.n[0],
