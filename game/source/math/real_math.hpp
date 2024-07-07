@@ -353,7 +353,7 @@ extern real_quaternion const* const& global_identity_quaternion;
 extern matrix3x3 const* const& global_identity3x3;
 extern real_matrix4x3 const* const& global_identity4x3;
 extern real_matrix4x3 const* const& global_negative_identity4x3;
-extern real_matrix4x3 const* const& global_identity_orientation;
+extern real_orientation const* const& global_identity_orientation;
 extern real_rectangle2d const* const& global_null_rectangle2d;
 extern real_rectangle3d const* const& global_null_rectangle3d;
 extern real_rectangle2d const* const& global_zero_rectangle2d;

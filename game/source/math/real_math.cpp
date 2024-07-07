@@ -35,7 +35,7 @@ REFERENCE_DECLARE(0x0189CF44, real_quaternion const* const, global_identity_quat
 REFERENCE_DECLARE(0x0189CF48, matrix3x3 const* const, global_identity3x3);
 REFERENCE_DECLARE(0x0189CF4C, real_matrix4x3 const* const, global_identity4x3);
 REFERENCE_DECLARE(0x0189CF50, real_matrix4x3 const* const, global_negative_identity4x3);
-REFERENCE_DECLARE(0x0189CF54, real_matrix4x3 const* const, global_identity_orientation);
+REFERENCE_DECLARE(0x0189CF54, real_orientation const* const, global_identity_orientation);
 REFERENCE_DECLARE(0x0189CF58, real_rectangle2d const* const, global_null_rectangle2d);
 REFERENCE_DECLARE(0x0189CF5C, real_rectangle3d const* const, global_null_rectangle3d);
 REFERENCE_DECLARE(0x0189CF60, real_rectangle2d const* const, global_zero_rectangle2d);
