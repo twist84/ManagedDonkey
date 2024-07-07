@@ -26,9 +26,9 @@ void debug_render_vehicle_interest()
 
 					real_argb_color const* color = actor->player.interested_ticks <= game_seconds_to_ticks_round(2.0f) ? global_real_argb_yellow : global_real_argb_red;
 
-					render_debug_line(true, &actor->input.position.head, &unit->object.bounding_sphere_center, color);
+					render_debug_line(true, &actor->input.position.head_position, &unit->object.bounding_sphere_center, color);
 
-					ai_debug_drawstack_setup(&actor->input.position.head);
+					ai_debug_drawstack_setup(&actor->input.position.head_position);
 					render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("uninterested ticks: %i", actor->player.uninterested_ticks).get_string(), color);
 					render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("interested ticks: %i", actor->player.interested_ticks).get_string(), color);
 				}

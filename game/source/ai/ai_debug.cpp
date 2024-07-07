@@ -478,7 +478,7 @@ void render_command_scripts()
 	//	if (actor->commands.script_index != NONE)
 	//	{
 	//		real_point3d position{};
-	//		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+	//		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
 	//		ai_debug_drawstack_setup(&position);
 	//		render_command_scripts_helper(actor, actor->commands.script_index);
 	//	}
@@ -492,7 +492,7 @@ void ai_debug_render_behavior_stacks_all()
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		real_point3d position{};
-		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
 		ai_debug_drawstack_setup(&position);
 
 		for (short layer_index = 0; layer_index <= actor->state.leaf_layer; layer_index++)
@@ -507,7 +507,7 @@ void ai_debug_render_character_names()
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		real_point3d position{};
-		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
 		ai_debug_drawstack_setup(&position);
 
 		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("%s", tag_name_strip_path(tag_get_name(actor->meta.character_definition_index))).get_string(), global_real_argb_green);
@@ -644,8 +644,8 @@ void ai_debug_render_squads()
 			squad_actor_iterator_new(&squad_actor_iter, squad_iter.squad_index, true);
 			while (actor_datum* squad_actor = squad_actor_iterator_next(&squad_actor_iter))
 			{
-				add_vectors3d((vector3d*)&position, (vector3d*)&squad_actor->input.position.head, (vector3d*)&position);
-				add_vectors3d((vector3d*)&position, (vector3d*)&squad_actor->input.position.body, (vector3d*)&position);
+				add_vectors3d((vector3d*)&position, (vector3d*)&squad_actor->input.position.head_position, (vector3d*)&position);
+				add_vectors3d((vector3d*)&position, (vector3d*)&squad_actor->input.position.body_position, (vector3d*)&position);
 				scale += 2;
 			}
 		}
@@ -664,7 +664,7 @@ void ai_debug_render_squads()
 				real radius = 0.0f;
 
 				if (squad_actor->meta.unit_index == NONE)
-					center = squad_actor->input.position.body;
+					center = squad_actor->input.position.body_position;
 				else
 					object_get_bounding_sphere(squad_actor->meta.unit_index, &center, &radius);
 
@@ -693,7 +693,7 @@ void ai_debug_render_suppress_combat()
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		if (actor->state.suppress_combat)
-			render_debug_string_at_point(&actor->input.position.head, "COMBAT SUPPRESSED", global_real_argb_blue);
+			render_debug_string_at_point(&actor->input.position.head_position, "COMBAT SUPPRESSED", global_real_argb_blue);
 	}
 }
 
@@ -745,7 +745,7 @@ void ai_debug_render_vehicle_reservations()
 							case 4: color = global_real_argb_blue;   break;
 							}
 
-							render_debug_line(true, &actor->input.position.head, &seat_position, color);
+							render_debug_line(true, &actor->input.position.head_position, &seat_position, color);
 						}
 
 						render_debug_sphere(true, &seat_position, 0.05f, color);
@@ -766,7 +766,7 @@ void ai_debug_tracking_data()
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		real_point3d position{};
-		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
 		ai_debug_drawstack_setup(&position);
 
 		short tracking_index = 0;
@@ -815,7 +815,7 @@ void debug_combat_status()
 	while (actor_datum* actor = actor_iterator_next(&actor_iter))
 	{
 		real_point3d position{};
-		point_from_line3d(&actor->input.position.head, global_up3d, 0.1f, &position);
+		point_from_line3d(&actor->input.position.head_position, global_up3d, 0.1f, &position);
 		ai_debug_drawstack_setup(&position);
 
 		render_debug_string_at_point(ai_debug_drawstack(), c_string_builder("Combat status: %i", actor->state.combat_status).get_string(), global_real_argb_green);
@@ -838,9 +838,9 @@ void ai_debug_render_tracked_props_all()
 				real_point3d position{};
 				object_get_origin(actor_prop_ref->object_index, &position);
 				if (actor_prop_ref_iter.prop_ref_index == actor->target.target_prop_index)
-					render_debug_line(true, &actor->input.position.head, &position, global_real_argb_red);
+					render_debug_line(true, &actor->input.position.head_position, &position, global_real_argb_red);
 				else
-					render_debug_line(true, &actor->input.position.head, &position, global_real_argb_yellow);
+					render_debug_line(true, &actor->input.position.head_position, &position, global_real_argb_yellow);
 			}
 		}
 	}
@@ -860,7 +860,7 @@ void ai_debug_render_targets_all()
 
 			real_point3d origin{};
 			object_get_origin(prop_ref->get_object_index(), &origin);
-			render_debug_line(true, &actor->input.position.head, &origin, global_real_argb_red);
+			render_debug_line(true, &actor->input.position.head_position, &origin, global_real_argb_red);
 		}
 	}
 }
@@ -879,7 +879,7 @@ void render_dialogue_variants()
 			{
 				s_dialogue_definition* dialogue_definition = (s_dialogue_definition*)tag_get(DIALOGUE_TAG, seat_storage->dialogue_definition_index);
 				char const* mission_dialogue_designator_name = dialogue_definition->mission_dialogue_designator.get_string();
-				render_debug_string_at_point(&actor->input.position.head, mission_dialogue_designator_name, global_real_argb_white);
+				render_debug_string_at_point(&actor->input.position.head_position, mission_dialogue_designator_name, global_real_argb_white);
 			}
 		}
 	}
@@ -932,7 +932,7 @@ void ai_debug_render_dynamic_firing_positions()
 
 			real_point3d ai_point_position{};
 			ai_point_get_position(&dynamic_firing_set->position, &ai_point_position);
-			render_debug_line(true, &actor->input.position.head, &ai_point_position, global_real_argb_blue);
+			render_debug_line(true, &actor->input.position.head_position, &ai_point_position, global_real_argb_blue);
 		}
 	}
 }

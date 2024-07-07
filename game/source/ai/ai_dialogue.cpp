@@ -23,7 +23,7 @@ void ai_dialogue_render_player_weights()
 
 		char string[50]{};
 		csnzprintf(string, sizeof(string), "%.2f", dialogue_player_weighting(actor->meta.unit_index));
-		render_debug_string_at_point(&actor->input.position.head, string, color);
+		render_debug_string_at_point(&actor->input.position.head_position, string, color);
 	}
 }
 

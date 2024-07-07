@@ -159,11 +159,11 @@ static_assert(sizeof(actor_state_data) == 0x2E4);
 
 struct actor_position_data
 {
-	real_point3d head;
-	real_point3d body;
-	vector3d forward;
-	s_location location;
-	byte __data26[0x2];
+	real_point3d head_position;
+	real_point3d body_position;
+	vector3d body_facing;
+	s_location body_location;
+	byte __pad26[0x2];
 	vector3d velocity;
 };
 static_assert(sizeof(actor_position_data) == 0x34);
@@ -171,9 +171,7 @@ static_assert(sizeof(actor_position_data) == 0x34);
 struct actor_input_data
 {
 	actor_position_data position;
-
-	byte __data34[0x1];
-
+	bool in_midair;
 	bool underwater;
 
 	byte __data36[0x6];
@@ -186,9 +184,8 @@ struct actor_input_data
 	vector3d facing_vector;
 	vector3d aiming_vector;
 	vector3d looking_vector;
-
-	vector3d __unknown84;
-	vector3d __unknown90;
+	vector3d looking_left_vector;
+	vector3d looking_up_vector;
 
 	real inherent_scariness;
 	real body_vitality;
