@@ -11,10 +11,10 @@ static_assert(sizeof(s_cinematic_new_globals_definition) == 0x3C);
 struct s_cinematic_globals_definition
 {
 	byte __unknown0[4];
-	bool show_letterbox;
-	bool start_stop;
-	bool skip_start_stop;
-	bool suppress_bsp_object_creation;
+	bool letter_box;
+	bool cinematic_in_progress;
+	bool cinematic_skip_in_progress;
+	bool cinematic_suppress_bsp_object_creation;
 	byte __unknown8[24];
 	dword subtitle_string_id;
 	real subtitle_time_shown;
