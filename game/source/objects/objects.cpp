@@ -388,23 +388,68 @@ bool __cdecl object_load_scenario_placement_matrices(long object_index)
 }
 
 //.text:00B2FBD0 ; long __cdecl object_local_physics_object_get(long)
-//.text:00B2FC20 ; 
+//.text:00B2FC20 ; long __cdecl object_lookup_variant_index_from_name(long, long)
 //.text:00B2FC70 ; void __cdecl object_make_noise(long, e_sound_type, e_ai_sound_volume)
 //.text:00B2FCE0 ; bool __cdecl object_mark(long)
-//.text:00B2FD20 ; bool __cdecl object_mark_get_user_data(long, long *)
+//.text:00B2FD20 ; bool __cdecl object_mark_get_user_data(long, long*)
 //.text:00B2FD60 ; bool __cdecl object_mark_with_user_data(long, long)
-//.text:00B2FDC0 ; void __cdecl object_marker_begin()
-//.text:00B2FDE0 ; void __cdecl object_marker_end()
-//.text:00B2FE00 ; void __cdecl object_marker_reopen()
+
+void __cdecl object_marker_begin()
+{
+	INVOKE(0x00B2FDC0, object_marker_begin);
+}
+
+void __cdecl object_marker_end()
+{
+	INVOKE(0x00B2FDE0, object_marker_end);
+}
+
+void __cdecl object_marker_reopen()
+{
+	INVOKE(0x00B2FE00, object_marker_reopen);
+}
+
 //.text:00B2FE20 ; void __cdecl object_model_state_changed(long, long, char const*)
-//.text:00B2FE50 ; void __cdecl object_move(long)
-//.text:00B30050 ; void __cdecl object_move_position(long, real_point3d const*, vector3d const*, vector3d const*, s_location const*)
-//.text:00B301F0 ; void __cdecl object_name_list_allocate()
-//.text:00B30250 ; 
-//.text:00B30280 ; void __cdecl object_name_list_delete(long)
-//.text:00B30310 ; 
-//.text:00B30350 ; 
-//.text:00B303A0 ; bool __cdecl object_needs_rigid_body_update(long)
+
+void __cdecl object_move(long object_index)
+{
+	INVOKE(0x00B2FE50, object_move, object_index);
+}
+
+void __cdecl object_move_position(long object_index, real_point3d const* position, vector3d const* forward, vector3d const* up, s_location const* location)
+{
+	INVOKE(0x00B30050, object_move_position, object_index, position, forward, up, location);
+}
+
+void __cdecl object_name_list_allocate()
+{
+	INVOKE(0x00B301F0, object_name_list_allocate);
+}
+
+void __cdecl object_name_list_clear()
+{
+	INVOKE(0x00B30250, object_name_list_clear);
+}
+
+void __cdecl object_name_list_delete(long object_index)
+{
+	INVOKE(0x00B30280, object_name_list_delete, object_index);
+}
+
+long __cdecl object_name_list_lookup(short name_index)
+{
+	return INVOKE(0x00B30310, object_name_list_lookup, name_index);
+}
+
+void __cdecl object_name_list_new(long name, short name_index)
+{
+	INVOKE(0x00B30350, object_name_list_new, name, name_index);
+}
+
+bool __cdecl object_needs_rigid_body_update(long object_index)
+{
+	return INVOKE(0x00B303A0, object_needs_rigid_body_update, object_index);
+}
 
 long __cdecl object_new(object_placement_data* data)
 {
@@ -416,20 +461,49 @@ long __cdecl object_new(object_placement_data* data)
 //.text:00B31000 ; long __cdecl object_new_from_scenario_bypass_simulation_object_placement_test(e_object_type, long, s_scenario_object*, s_tag_block*, long, bool)
 //.text:00B31030 ; 
 //.text:00B310C0 ; long __cdecl object_new_from_scenario_internal(e_object_type, short, s_scenario_object const*, s_tag_block*, long, bool, bool, long)
-//.text:00B31240 ; bool __cdecl object_node_orientations_frozen(long)
-//.text:00B31270 ; 
-//.text:00B312F0 ; 
+
+bool __cdecl object_node_orientations_frozen(long object_index)
+{
+	return INVOKE(0x00B31240, object_node_orientations_frozen, object_index);
+}
+
+void __cdecl object_notify_in_local_physics_object(long object_index, long local_physics_object_index)
+{
+	INVOKE(0x00B31270, object_notify_in_local_physics_object, object_index, local_physics_object_index);
+}
+
+//.text:00B312F0 ; void __cdecl object_offset_interpolation(long, vector3d const*)
 //.text:00B31380 ; bool __cdecl object_owns_object(long, long)
 //.text:00B313E0 ; 
 
 void __cdecl object_place(long object_index, s_scenario_object const* scenario_object)
 {
 	INVOKE(0x00B31470, object_place, object_index, scenario_object);
+
+	//object_datum* object = object_get(object_index);
+	//struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, object->definition_index);
+	//if (object_definition->object.ai_properties.count() > 0)
+	//{
+	//	bool non_flight_blocking = object_definition->object.ai_properties[0].ai_flags.test(_ai_properties_non_flight_blocking_bit);
+	//	SET_BIT(object->object.object_ai_flags, 2, non_flight_blocking);
+	//}
 }
 
 void __cdecl object_placement_data_copy_change_colors(object_placement_data* data, long object_index)
 {
 	INVOKE(0x00B314E0, object_placement_data_copy_change_colors, data, object_index);
+
+	//object_datum* object = object_get(object_index);
+	//long change_color_count = 0;
+	//if (real_rgb_color* change_colors = (real_rgb_color*)object_header_block_get_with_count(object_index, &object->object.change_colors, sizeof(real_rgb_color), &change_color_count))
+	//{
+	//	ASSERT(change_color_count % 2 == 0);
+	//	for (long change_color_index = 0; change_color_index < change_color_count / 2; change_color_index++)
+	//	{
+	//		data->change_colors[change_color_index] = change_colors[change_color_index];
+	//		data->active_change_colors.set(change_color_index, true);
+	//	}
+	//}
 }
 
 void __cdecl object_placement_data_new(object_placement_data* data, long definition_index, long owner_object_index, s_damage_owner const* damage_owner)
@@ -566,7 +640,10 @@ void __cdecl object_remove_from_list(long* object_list, long object_index)
 	INVOKE(0x00B320A0, object_remove_from_list, object_list, object_index);
 }
 
-//.text:00B32100 ; 
+void __cdecl object_remove_pending_messages(long object_index)
+{
+	INVOKE(0x00B32100, object_remove_pending_messages, object_index);
+}
 
 void __cdecl object_render_debug(long object_index)
 {
@@ -1062,7 +1139,7 @@ void __cdecl reset_object_render_message_queue()
 	INVOKE(0x00B36E90, reset_object_render_message_queue);
 }
 
-//.text:00B36EE0 ; 
+//.text:00B36EE0 ; void __cdecl resursive_add_child_objects_to_list(long, long, long)
 
 bool __cdecl sample_object_lighting_from_probes(long object_index)
 {

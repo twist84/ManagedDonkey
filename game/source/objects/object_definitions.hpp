@@ -196,14 +196,14 @@ static_assert(sizeof(s_object_early_mover_obb_definition) == 0x28);
 
 enum e_ai_properties_flags
 {
-	_ai_properties_flag_detroyable_cover_bit = 0,
-	_ai_properties_flag_pathfinding_ignore_when_dead_bit,
-	_ai_properties_flag_dynamic_cover_bit,
-	_ai_properties_flag_non_flight_blocking_bit,
-	_ai_properties_flag_dynamic_cover_from_centre_bit,
-	_ai_properties_flag_has_corner_markers_bit,
-	_ai_properties_flag_inspectable_bit,
-	_ai_properties_flag_idle_when_flying_bit,
+	_ai_properties_detroyable_cover_bit = 0,
+	_ai_properties_pathfinding_ignore_when_dead_bit,
+	_ai_properties_dynamic_cover_bit,
+	_ai_properties_non_flight_blocking_bit,
+	_ai_properties_dynamic_cover_from_centre_bit,
+	_ai_properties_has_corner_markers_bit,
+	_ai_properties_inspectable_bit,
+	_ai_properties_idle_when_flying_bit,
 
 	k_ai_properties_flags
 };
