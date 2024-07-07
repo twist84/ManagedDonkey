@@ -15,11 +15,11 @@ struct s_sound_listener
 	s_location location;
 	byte __data6[0x2];
 	bool valid;
-	bool __unknown9;
+	bool __unknown9; // underwater?
 	byte __unknownA;
 	byte __unknownB;
 	real_matrix4x3 matrix;
-	vector3d vector;
+	vector3d velocity;
 	tag footer_signature;
 };
 static_assert(sizeof(s_sound_listener) == 0x50);
