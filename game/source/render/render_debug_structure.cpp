@@ -29,7 +29,7 @@ void __cdecl render_debug_structure()
 				real_matrix4x3 matrix{};
 				matrix4x3_from_point_and_quaternion(&matrix, &marker.position, &marker.rotation);
 				render_debug_matrix(true, &matrix, 0.05f);
-				render_debug_string_at_point(&matrix.center, marker.name.get_string(), global_real_argb_white);
+				render_debug_string_at_point(&matrix.position, marker.name.get_string(), global_real_argb_white);
 			}
 		}
 	}
@@ -171,7 +171,7 @@ void __cdecl render_debug_structure()
 
 							plane3d plane{};
 							surface_reference.get_plane(&plane);
-							if (plane.normal.k > global_slip_surface_maximum_k_get() - k_test_real_epsilon)
+							if (plane.n.k > global_slip_surface_maximum_k_get() - k_test_real_epsilon)
 								slip_surface_does_not_exceed_maximum_k = false;
 						}
 					}

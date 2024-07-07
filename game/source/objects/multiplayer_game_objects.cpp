@@ -35,7 +35,7 @@ void __cdecl multiplayer_object_render_debug_boundary(s_multiplayer_object_bound
 		{
 		case _multiplayer_object_boundary_shape_sphere:
 		{
-			render_debug_sphere(false, &geometry_data->boundary_matrix.center, geometry_data->boundary_width, color);
+			render_debug_sphere(false, &geometry_data->boundary_matrix.position, geometry_data->boundary_width, color);
 		}
 		break;
 		case _multiplayer_object_boundary_shape_cylinder:

@@ -1219,7 +1219,7 @@ void __cdecl object_render_debug_internal(long object_index)
 		object_get_velocities(object_index, &linear_velocity, NULL);
 
 		render_debug_matrix(true, &matrix, object->object.bounding_sphere_radius);
-		render_debug_vector(true, &matrix.center, &linear_velocity,1.0f, global_real_argb_yellow);
+		render_debug_vector(true, &matrix.position, &linear_velocity,1.0f, global_real_argb_yellow);
 	}
 
 	if (debug_objects_origin)
@@ -1278,19 +1278,19 @@ void __cdecl object_render_debug_internal(long object_index)
 			{
 			case 1:
 			{
-				render_debug_vector(true, &markers[0].node_matrix.center, &markers[0].node_matrix.matrix.forward, target.size, global_real_argb_darkgreen);
+				render_debug_vector(true, &markers[0].node_matrix.position, &markers[0].node_matrix.forward, target.size, global_real_argb_darkgreen);
 
 				if (target.cone_angle <= 3.1414928f)
-					render_debug_cone_outline(true, &markers[0].node_matrix.center, &markers[0].node_matrix.matrix.forward, target.size, target.cone_angle, global_real_argb_darkgreen);
+					render_debug_cone_outline(true, &markers[0].node_matrix.position, &markers[0].node_matrix.forward, target.size, target.cone_angle, global_real_argb_darkgreen);
 				else
-					render_debug_sphere(true, &markers[0].node_matrix.center, target.size, global_real_argb_darkgreen);
+					render_debug_sphere(true, &markers[0].node_matrix.position, target.size, global_real_argb_darkgreen);
 			}
 			break;
 			case 2:
 			{
 				vector3d height{};
-				vector_from_points3d(&markers[0].node_matrix.center, &markers[1].node_matrix.center, &height);
-				render_debug_pill(true, &markers[0].node_matrix.center, &height, target.size, global_real_argb_darkgreen);
+				vector_from_points3d(&markers[0].node_matrix.position, &markers[1].node_matrix.position, &height);
+				render_debug_pill(true, &markers[0].node_matrix.position, &height, target.size, global_real_argb_darkgreen);
 			}
 			break;
 			}
@@ -1310,7 +1310,7 @@ void __cdecl object_render_debug_internal(long object_index)
 			early_mover_string = "early mover + localized physics";
 
 		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
-		render_debug_string_at_point(&root_node_matrix->center, early_mover_string, global_real_argb_darkgreen);
+		render_debug_string_at_point(&root_node_matrix->position, early_mover_string, global_real_argb_darkgreen);
 	}
 
 	//real object_cpu_times[2];
@@ -1319,8 +1319,7 @@ void __cdecl object_render_debug_internal(long object_index)
 	//
 	//}
 
-	REFERENCE_DECLARE(object + 0xA0, long, havok_component_index);
-	if (havok_component_index == NONE)
+	if (object->object.havok_component_index == NONE)
 	{
 		//if (physics_model_instance_new(&instance, object_index) && debug_objects_physics_models)
 		//	render_debug_physics_model(&instance, global_real_argb_black);
@@ -1343,7 +1342,7 @@ void __cdecl object_render_debug_internal(long object_index)
 	if (!string.is_empty())
 	{
 		real_matrix4x3* root_node_matrix = object_get_node_matrix(object_index, 0);
-		render_debug_string_at_point(&root_node_matrix->center, string.get_string(), global_real_argb_green);
+		render_debug_string_at_point(&root_node_matrix->position, string.get_string(), global_real_argb_green);
 	}
 
 	if (debug_objects_node_bounds)

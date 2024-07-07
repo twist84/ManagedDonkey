@@ -515,7 +515,7 @@ void __cdecl render_debug_sound(long sound_index)
 		switch ((16 * sound->source.spatialization_mode) >> 4)
 		{
 		case 0:
-			volume_type_point = listener->matrix.center;
+			volume_type_point = listener->matrix.position;
 			break;
 		case 1:
 			sound_source_get_world_position(&sound->source, sound->listener_index, &volume_type_point);

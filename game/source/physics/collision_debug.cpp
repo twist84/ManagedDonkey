@@ -185,8 +185,8 @@ void collision_debug_render()
 		real_matrix4x3 camera{};
 		c_player_view::get_player_render_camera_orientation(&camera);
 
-		collision_debug_point = camera.center;
-		collision_debug_vector = camera.matrix.forward;
+		collision_debug_point = camera.position;
+		collision_debug_vector = camera.forward;
 	}
 
 	real_point3d debug_point = collision_debug_point;
@@ -312,7 +312,7 @@ void collision_debug_render()
 			
 				render_debug_vector(true, &debug_point, &debug_vector_scaled, collision.scale, global_real_argb_red);
 				render_debug_point(true, &collision.position, 0.125f, global_real_argb_red);
-				render_debug_vector(true, &collision.position, &collision.plane.normal, 0.25f, global_real_argb_red);
+				render_debug_vector(true, &collision.position, &collision.plane.n, 0.25f, global_real_argb_red);
 			
 				if (collision.collision_bsp_reference.valid())
 				{
@@ -425,11 +425,11 @@ void collision_debug_render()
 					collision.position.z);
 
 				g_collision_debug_status_lines[6].printf("normal %f %f %f",
-					collision.plane.normal.i,
-					collision.plane.normal.j,
-					collision.plane.normal.k);
+					collision.plane.n.i,
+					collision.plane.n.j,
+					collision.plane.n.k);
 
-				real x = fminf(1.0f, collision.plane.normal.k);
+				real x = fminf(1.0f, collision.plane.n.k);
 				ASSERT(x >= -1.0f - k_real_epsilon && x <= +1.0f + k_real_epsilon);
 
 				angle x_angle = fmaxf(x, -1.0);
@@ -505,7 +505,7 @@ void collision_debug_render()
 					render_debug_point(true, &collision->position, 0.0625f, global_real_argb_red);
 					if (v113 > 0)
 						render_debug_line(true, &collisions[v113 - 1].position, &collision->position, global_real_argb_red);
-					render_debug_vector(true, &collision->position, &collision->plane.normal, 0.125f, global_real_argb_red);
+					render_debug_vector(true, &collision->position, &collision->plane.n, 0.125f, global_real_argb_red);
 					v113++;
 					collision++;
 

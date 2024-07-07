@@ -99,14 +99,14 @@ void render_debug_object_damage()
 			real_matrix4x3 camera{};
 			c_player_view::get_player_render_camera_orientation(&camera);
 			vector3d forward{};
-			scale_vector3d(&camera.matrix.forward, 50.0f, &forward);
+			scale_vector3d(&camera.forward, 50.0f, &forward);
 
 			s_collision_test_flags flags{};
 			flags.collision_flags.set(_collision_test_front_facing_surfaces_bit, true);
 			flags.object_flags.set(_collision_test_objects_bit, true);
 
 			collision_result collision{};
-			if (collision_test_vector(flags, &camera.center, &forward, unit_index, NONE, &collision))
+			if (collision_test_vector(flags, &camera.position, &forward, unit_index, NONE, &collision))
 			{
 				ASSERT(collision.type == _collision_result_object);
 				global_debug_damage_object_index = collision.object_index;

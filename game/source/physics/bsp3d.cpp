@@ -9,10 +9,10 @@ plane3d* bsp3d_get_plane_from_designator_internal(collision_bsp const* bsp, shor
 	plane3d* plane = &bsp->planes[index & SHRT_MAX];
 	if ((index & 0x8000) != 0)
 	{
-		out_plane->normal.i = -plane->normal.i;
-		out_plane->normal.j = -plane->normal.j;
-		out_plane->normal.k = -plane->normal.k;
-		out_plane->distance = -plane->distance;
+		out_plane->n.i = -plane->n.i;
+		out_plane->n.j = -plane->n.j;
+		out_plane->n.k = -plane->n.k;
+		out_plane->d = -plane->d;
 	}
 	else
 	{
@@ -31,10 +31,10 @@ plane3d* bsp3d_get_plane_from_designator_internal(large_collision_bsp const* bsp
 	}
 	else
 	{
-		out_plane->normal.i = -plane->normal.i;
-		out_plane->normal.j = -plane->normal.j;
-		out_plane->normal.k = -plane->normal.k;
-		out_plane->distance = -plane->distance;
+		out_plane->n.i = -plane->n.i;
+		out_plane->n.j = -plane->n.j;
+		out_plane->n.k = -plane->n.k;
+		out_plane->d = -plane->d;
 	}
 
 	return out_plane;

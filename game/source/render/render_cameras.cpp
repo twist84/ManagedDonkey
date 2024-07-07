@@ -102,10 +102,10 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	normalize3d(&left);
 	normalize3d(&up);
 	
-	projection->view_to_world.matrix.forward = forward;
-	projection->view_to_world.matrix.left = left;
-	projection->view_to_world.matrix.up = up;
-	projection->view_to_world.center = camera->position;
+	projection->view_to_world.forward = forward;
+	projection->view_to_world.left = left;
+	projection->view_to_world.up = up;
+	projection->view_to_world.position = camera->position;
 	projection->view_to_world.scale = 1.0f;
 	
 	matrix4x3_inverse(&projection->view_to_world, &projection->world_to_view);
@@ -129,39 +129,39 @@ void __cdecl render_camera_build_projection(render_camera const* camera, real_re
 	}
 	else
 	{
-		transformed_plane.normal.i = 0.0f;
-		transformed_plane.normal.j = 0.0f;
-		transformed_plane.normal.k = 1.0f;
-		transformed_plane.distance = -v1;
+		transformed_plane.n.i = 0.0f;
+		transformed_plane.n.j = 0.0f;
+		transformed_plane.n.k = 1.0f;
+		transformed_plane.d = -v1;
 	}
 	
-	real v6 = (real)-transformed_plane.distance / transformed_plane.normal.k;
-	real v7 = real(1.0f + fabsf(real(transformed_plane.normal.i / transformed_plane.normal.k)));
-	real v8 = fabsf(real(transformed_plane.normal.j / transformed_plane.normal.k));
+	real v6 = (real)-transformed_plane.d / transformed_plane.n.k;
+	real v7 = real(1.0f + fabsf(real(transformed_plane.n.i / transformed_plane.n.k)));
+	real v8 = fabsf(real(transformed_plane.n.j / transformed_plane.n.k));
 	real v10 = v0 / real(real(v0 - v6) * real(v7 + v8));
 	
-	transformed_plane.normal.i = real(v10 * transformed_plane.normal.i) / transformed_plane.normal.k;
-	transformed_plane.normal.j = real(v10 * transformed_plane.normal.j) / transformed_plane.normal.k;
-	transformed_plane.normal.k = v10;
-	transformed_plane.distance = -v10 * v6;
-	if (transformed_plane.distance > 0.0f && v1 == 0.0f)
+	transformed_plane.n.i = real(v10 * transformed_plane.n.i) / transformed_plane.n.k;
+	transformed_plane.n.j = real(v10 * transformed_plane.n.j) / transformed_plane.n.k;
+	transformed_plane.n.k = v10;
+	transformed_plane.d = -v10 * v6;
+	if (transformed_plane.d > 0.0f && v1 == 0.0f)
 	{
-		transformed_plane.normal.i = -transformed_plane.normal.i;
-		transformed_plane.normal.j = -transformed_plane.normal.j;
-		transformed_plane.normal.k = -transformed_plane.normal.k;
-		transformed_plane.distance = -transformed_plane.distance;
+		transformed_plane.n.i = -transformed_plane.n.i;
+		transformed_plane.n.j = -transformed_plane.n.j;
+		transformed_plane.n.k = -transformed_plane.n.k;
+		transformed_plane.d = -transformed_plane.d;
 	}
 	
 	csmemset(projection->projection_matrix.matrix, 0, sizeof(s_oriented_bounding_box));
 	projection->projection_matrix.matrix[0][0] = parameters.__unknown28;
-	projection->projection_matrix.matrix[0][2] = -transformed_plane.normal.i;
+	projection->projection_matrix.matrix[0][2] = -transformed_plane.n.i;
 	projection->projection_matrix.matrix[1][1] = parameters.__unknown2C;
-	projection->projection_matrix.matrix[1][2] = -transformed_plane.normal.j;
+	projection->projection_matrix.matrix[1][2] = -transformed_plane.n.j;
 	projection->projection_matrix.matrix[2][0] = -parameters.__unknown20;
 	projection->projection_matrix.matrix[2][1] = -parameters.__unknown24;
-	projection->projection_matrix.matrix[2][2] = -transformed_plane.normal.k;
+	projection->projection_matrix.matrix[2][2] = -transformed_plane.n.k;
 	projection->projection_matrix.matrix[2][3] = -1.0f;
-	projection->projection_matrix.matrix[3][2] = transformed_plane.distance;
+	projection->projection_matrix.matrix[3][2] = transformed_plane.d;
 }
 
 void __cdecl render_camera_build_view_parameters(render_camera const* camera, real_rectangle2d const* frustum_bounds, render_view_parameters* parameters, real aspect_ratio)
@@ -357,7 +357,7 @@ real __cdecl render_projection_sphere_diameter_in_pixels(render_projection const
 	ASSERT(projection);
 	ASSERT(point);
 
-	real v0 = fabsf(((((projection->world_to_view.matrix.left.k * point->y) + (projection->world_to_view.matrix.forward.k * point->x)) + (projection->world_to_view.matrix.up.k * point->z)) + projection->world_to_view.center.z));
+	real v0 = fabsf(((((projection->world_to_view.left.k * point->y) + (projection->world_to_view.forward.k * point->x)) + (projection->world_to_view.up.k * point->z)) + projection->world_to_view.position.z));
 
 	if (v0 <= 0.1f)
 		v0 = 0.1f;

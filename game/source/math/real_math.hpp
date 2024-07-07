@@ -60,6 +60,11 @@ union real_point2d
 		real x;
 		real y;
 	};
+	struct
+	{
+		real u;
+		real v;
+	};
 	real n[k_2d_count];
 };
 static_assert(sizeof(real_point2d) == sizeof(real) * k_2d_count);
@@ -71,6 +76,12 @@ union real_point3d
 		real x;
 		real y;
 		real z;
+	};
+	struct
+	{
+		real u;
+		real v;
+		real w;
 	};
 	real n[k_3d_count];
 };
@@ -119,32 +130,23 @@ union vector4d
 		real i;
 		real j;
 		real k;
-		real w;
+		real l;
 	};
 	real n[k_4d_count];
 };
 static_assert(sizeof(vector4d) == sizeof(real) * k_4d_count);
 
-struct real32_quaternion
-{
-	real i;
-	real j;
-	real k;
-	real w;
-};
-static_assert(sizeof(real32_quaternion) == sizeof(real) * 4);
-
 struct plane2d
 {
-	vector2d normal;
-	real distance;
+	vector2d n;
+	real d;
 };
 static_assert(sizeof(plane2d) == 0xC);
 
 struct plane3d
 {
-	vector3d normal;
-	real distance;
+	vector3d n;
+	real d;
 };
 static_assert(sizeof(plane3d) == 0x10);
 
@@ -233,17 +235,36 @@ static_assert(sizeof(euler_angles3d) == sizeof(angle) * k_3d_count);
 
 struct matrix3x3
 {
-	vector3d forward;
-	vector3d left;
-	vector3d up;
+	union
+	{
+		struct
+		{
+			vector3d forward;
+			vector3d left;
+			vector3d up;
+		};
+
+		real n[k_3d_count][k_3d_count];
+	};
 };
-static_assert(sizeof(matrix3x3) == sizeof(vector3d) * 3);
+static_assert(sizeof(matrix3x3) == sizeof(vector3d) * k_3d_count);
 
 struct real_matrix4x3
 {
 	real scale;
-	matrix3x3 matrix;
-	real_point3d center;
+
+	union
+	{
+		struct
+		{
+			vector3d forward;
+			vector3d left;
+			vector3d up;
+			real_point3d position;
+		};
+
+		real n[k_3d_count][k_4d_count];
+	};
 };
 static_assert(sizeof(real_matrix4x3) == 0x34);
 
@@ -288,12 +309,18 @@ static_assert(sizeof(real_rectangle3d) == sizeof(real_bounds) * k_3d_count);
 
 struct real_quaternion
 {
-	real i;
-	real j;
-	real k;
+	vector3d v;
 	real w;
 };
-static_assert(sizeof(real_quaternion) == sizeof(real) * 4);
+static_assert(sizeof(real_quaternion) == 0x10);
+
+struct real_orientation
+{
+	real_quaternion rotation;
+	real_point3d translation;
+	real scale;
+};
+static_assert(sizeof(real_orientation) == 0x20);
 
 extern real_point2d const* const& global_origin2d;
 extern real_point2d const* const& global_x_axis2d;
@@ -373,5 +400,5 @@ extern real_rectangle3d* __cdecl real_rectangle3d_enclose_rectangle(real_rectang
 extern vector3d* __cdecl vector3d_from_euler_angles2d(vector3d* vector, euler_angles2d const* angles);
 extern vector3d* __cdecl set_real_vector2d(vector3d* vector, real i, real j);
 extern vector3d* __cdecl set_real_vector3d(vector3d* vector, real i, real j, real k);
-extern vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real w);
+extern vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real l);
 

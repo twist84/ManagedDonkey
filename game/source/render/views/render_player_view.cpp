@@ -16,10 +16,10 @@ void __cdecl c_player_view::get_player_render_camera_orientation(real_matrix4x3*
 
 	render_camera const* rasterizer_camera = c_player_view::x_current_player_view->get_rasterizer_camera();
 
-	camera->center = rasterizer_camera->position;
-	camera->matrix.forward = rasterizer_camera->forward;
-	camera->matrix.up = rasterizer_camera->up;
-	cross_product3d(&camera->matrix.up, &camera->matrix.forward, &camera->matrix.left);
+	camera->position = rasterizer_camera->position;
+	camera->forward = rasterizer_camera->forward;
+	camera->up = rasterizer_camera->up;
+	cross_product3d(&camera->up, &camera->forward, &camera->left);
 	camera->scale = 1.0f;
 }
 

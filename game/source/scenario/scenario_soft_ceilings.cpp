@@ -60,12 +60,12 @@ bool __cdecl scenario_soft_ceilings_triangle_plane_get(plane3d* plane, s_structu
 	vector3d vector1{};
 	vector_from_points3d(&triangle->vertex0, &triangle->vertex1, &vector0);
 	vector_from_points3d(&triangle->vertex0, &triangle->vertex2, &vector1);
-	cross_product3d(&vector0, &vector1, &plane->normal);
+	cross_product3d(&vector0, &vector1, &plane->n);
 
-	if (normalize3d(&plane->normal) == 0.0f)
+	if (normalize3d(&plane->n) == 0.0f)
 		return false;
 
-	plane->distance = dot_product3d(&plane->normal, &triangle->plane.normal);
+	plane->d = dot_product3d(&plane->n, &triangle->plane.n);
 
 	return true;
 }

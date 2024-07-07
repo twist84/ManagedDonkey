@@ -280,8 +280,8 @@ void matrix4x3_from_hkTransform(real_matrix4x3* matrix, hkTransform const* trans
 	ASSERT(matrix && transform);
 
 	matrix->scale = 1.0f;
-	matrix3x3_from_hkMatrix3(&matrix->matrix, &transform->rotation.matrix);
-	real_point3d_from_hkVector4(&matrix->center, &transform->translation);
+	matrix3x3_from_hkMatrix3((matrix3x3*)&matrix->forward, &transform->rotation.matrix);
+	real_point3d_from_hkVector4(&matrix->position, &transform->translation);
 }
 
 
@@ -295,7 +295,7 @@ void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 con
 		{
 			c_sphere_shape const* convex_shape = static_cast<c_sphere_shape const*>(shape);
 
-			render_debug_sphere(true, &matrix->center, convex_shape->m_radius, color);
+			render_debug_sphere(true, &matrix->position, convex_shape->m_radius, color);
 		}
 		break;
 		case HK_SHAPE_TRIANGLE:

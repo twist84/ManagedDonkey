@@ -342,7 +342,7 @@ bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effe
 	}
 
 	real_point3d collision_position = collision.position;
-	vector3d normal = collision.plane.normal;
+	vector3d normal = collision.plane.n;
 
 	collision_position.x -= forward->i * 0.25f;
 	collision_position.y -= forward->j * 0.25f;

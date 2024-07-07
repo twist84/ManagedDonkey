@@ -600,10 +600,10 @@ void __cdecl render_debug_polygon_regular(bool draw_immediately, real_point3d co
 	ASSERT(point_count <= CIRCLE_DIVISIONS);
 
 	real_matrix4x3 matrix{};
-	matrix.matrix.forward = *normal;
-	generate_up_vector3d(&matrix.matrix.forward, &matrix.matrix.up);
-	cross_product3d(&matrix.matrix.up, &matrix.matrix.forward, &matrix.matrix.left);
-	matrix.center = *global_origin3d;
+	matrix.forward = *normal;
+	generate_up_vector3d(&matrix.forward, &matrix.up);
+	cross_product3d(&matrix.up, &matrix.forward, &matrix.left);
+	matrix.position = *global_origin3d;
 	matrix.scale = 1.0f;
 
 	// asserts
@@ -723,8 +723,8 @@ void __cdecl render_debug_line_unclipped(bool draw_immediately, real_point3d con
 
 	vector3d vector0{};
 	vector3d vector1{};
-	vector_from_points3d(&camera.center, &p0, &vector0);
-	vector_from_points3d(&camera.center, &p1, &vector1);
+	vector_from_points3d(&camera.position, &p0, &vector0);
+	vector_from_points3d(&camera.position, &p1, &vector1);
 
 	real clip_distance = magnitude3d(&vector0);
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
@@ -734,8 +734,8 @@ void __cdecl render_debug_line_unclipped(bool draw_immediately, real_point3d con
 	if (clip_distance > (0.5f * z_far))
 	{
 		real distance = (0.5f * z_far) / clip_distance;
-		point_from_line3d(&camera.center, &vector0, distance, &p0);
-		point_from_line3d(&camera.center, &vector1, distance, &p1);
+		point_from_line3d(&camera.position, &vector0, distance, &p0);
+		point_from_line3d(&camera.position, &vector1, distance, &p1);
 	}
 	render_debug_line(draw_immediately, &p0, &p1, color);
 }
@@ -753,8 +753,8 @@ void __cdecl render_debug_line_non_occluded(bool draw_immediately, real_point3d 
 
 	vector3d vector0{};
 	vector3d vector1{};
-	vector_from_points3d(&camera.center, &p0, &vector0);
-	vector_from_points3d(&camera.center, &p1, &vector1);
+	vector_from_points3d(&camera.position, &p0, &vector0);
+	vector_from_points3d(&camera.position, &p1, &vector1);
 
 	real clip_distance = magnitude3d(&vector0);
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
@@ -764,8 +764,8 @@ void __cdecl render_debug_line_non_occluded(bool draw_immediately, real_point3d 
 	if (clip_distance > (0.5f * z_near))
 	{
 		real distance = (0.5f * z_near) / clip_distance;
-		point_from_line3d(&camera.center, &vector0, distance, &p0);
-		point_from_line3d(&camera.center, &vector1, distance, &p1);
+		point_from_line3d(&camera.position, &vector0, distance, &p0);
+		point_from_line3d(&camera.position, &vector1, distance, &p1);
 	}
 	render_debug_line(draw_immediately, &p0, &p1, color);
 }
@@ -815,9 +815,9 @@ void __cdecl render_debug_quaternion(bool draw_immediately, real_point3d const* 
 
 void __cdecl render_debug_matrix(bool draw_immediately, real_matrix4x3 const* matrix, real radius)
 {
-	render_debug_vector(draw_immediately, &matrix->center, &matrix->matrix.forward, radius * matrix->scale, global_real_argb_red);
-	render_debug_vector(draw_immediately, &matrix->center, &matrix->matrix.left, radius * matrix->scale, global_real_argb_green);
-	render_debug_vector(draw_immediately, &matrix->center, &matrix->matrix.up, radius * matrix->scale, global_real_argb_blue);
+	render_debug_vector(draw_immediately, &matrix->position, &matrix->forward, radius * matrix->scale, global_real_argb_red);
+	render_debug_vector(draw_immediately, &matrix->position, &matrix->left, radius * matrix->scale, global_real_argb_green);
+	render_debug_vector(draw_immediately, &matrix->position, &matrix->up, radius * matrix->scale, global_real_argb_blue);
 }
 
 void __cdecl render_debug_matrix3x3(bool draw_immediately, matrix3x3 const* matrix, real_point3d const* point, real radius)
@@ -1650,12 +1650,12 @@ void __cdecl render_debug_polygon_fan(real_point3d const* points, short total_po
 real __cdecl build_height_matrix(real_point3d const* base, vector3d const* height, real_matrix4x3* out_matrix)
 {
 	out_matrix->scale = 1.0f;
-	out_matrix->matrix.up = *height;
-	perpendicular3d(&out_matrix->matrix.up, &out_matrix->matrix.left);
-	real result = normalize3d(&out_matrix->matrix.up);
-	normalize3d(&out_matrix->matrix.left);
-	cross_product3d(&out_matrix->matrix.left, &out_matrix->matrix.up, &out_matrix->matrix.forward);
-	out_matrix->center = *base;
+	out_matrix->up = *height;
+	perpendicular3d(&out_matrix->up, &out_matrix->left);
+	real result = normalize3d(&out_matrix->up);
+	normalize3d(&out_matrix->left);
+	cross_product3d(&out_matrix->left, &out_matrix->up, &out_matrix->forward);
+	out_matrix->position = *base;
 
 	return result;
 }
@@ -1835,8 +1835,8 @@ void c_render_debug_line_drawer::add_line_3d_unclipped(real_point3d const* p0, r
 
 	vector3d vector0{};
 	vector3d vector1{};
-	vector_from_points3d(&camera.center, &point0, &vector0);
-	vector_from_points3d(&camera.center, &point1, &vector1);
+	vector_from_points3d(&camera.position, &point0, &vector0);
+	vector_from_points3d(&camera.position, &point1, &vector1);
 
 	real clip_distance = magnitude3d(&vector0);
 	if (magnitude3d(&vector0) <= magnitude3d(&vector1))
@@ -1846,8 +1846,8 @@ void c_render_debug_line_drawer::add_line_3d_unclipped(real_point3d const* p0, r
 	if (clip_distance > (0.5f * z_far))
 	{
 		real distance = (0.5f * z_far) / clip_distance;
-		point_from_line3d(&camera.center, &vector0, distance, &point0);
-		point_from_line3d(&camera.center, &vector1, distance, &point1);
+		point_from_line3d(&camera.position, &vector0, distance, &point0);
+		point_from_line3d(&camera.position, &vector1, distance, &point1);
 	}
 
 	add_line_3d(&point0, &point1);

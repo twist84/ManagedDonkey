@@ -434,13 +434,13 @@ void render_debug_trigger_volumes()
 				short v21 = short(i / 2);
 				if (i % 2)
 				{
-					point_from_line3d(&matrix.center, &extents_transformed, 1.0f, points);
+					point_from_line3d(&matrix.position, &extents_transformed, 1.0f, points);
 					v23.n[(v21 + 1) % 3] = -extents.n[(v21 + 1) % 3];
 					v24.n[(v21 + 2) % 3] = -extents.n[(v21 + 2) % 3];
 				}
 				else
 				{
-					points[0] = matrix.center;
+					points[0] = matrix.position;
 					v23.n[(v21 + 1) % 3] = extents.n[(v21 + 1) % 3];
 					v24.n[(v21 + 2) % 3] = extents.n[(v21 + 2) % 3];
 				}
@@ -465,7 +465,7 @@ void render_debug_trigger_volumes()
 			}
 
 			real_point3d name_point{};
-			point_from_line3d(&matrix.center, &extents_transformed, 0.5f, &name_point);
+			point_from_line3d(&matrix.position, &extents_transformed, 0.5f, &name_point);
 
 			render_camera const* rasterizer_camera = c_player_view::get_current()->get_rasterizer_camera();
 			

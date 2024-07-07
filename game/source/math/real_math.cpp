@@ -330,8 +330,8 @@ real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* 
 	short v6 = global_projection3d_mappings[projection][projection_sign][_y];
 
 	real v7 = 0.0f;
-	if (fabsf((plane->normal.n[projection] - 0.0f)) >= k_real_epsilon)
-		v7 = ((plane->distance - (plane->normal.n[v5] * point->n[0])) - (plane->normal.n[v6] * point->n[1])) / plane->normal.n[projection];
+	if (fabsf((plane->n.n[projection] - 0.0f)) >= k_real_epsilon)
+		v7 = ((plane->d - (plane->n.n[v5] * point->n[0])) - (plane->n.n[v6] * point->n[1])) / plane->n.n[projection];
 
 	ASSERT(projection >= _x && projection <= _z);
 	out_point->n[v5] = point->n[0];
@@ -348,7 +348,7 @@ real_point3d* __cdecl project_point2d(real_point2d const* point, plane3d const* 
 
 real __cdecl plane3d_distance_to_point(plane3d const* plane, real_point3d const* point)
 {
-	return ((((point->x * plane->normal.i) + (point->y * plane->normal.j)) + (point->z * plane->normal.k)) - plane->distance);
+	return ((((point->x * plane->n.i) + (point->y * plane->n.j)) + (point->z * plane->n.k)) - plane->d);
 }
 
 long __cdecl rectangle3d_build_vertices(real_rectangle3d const* bounds, long maximum_vertex_count, real_point3d* const vertices)
@@ -577,12 +577,12 @@ vector3d* __cdecl set_real_vector3d(vector3d* vector, real i, real j, real k)
 	return vector;
 }
 
-vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real w)
+vector4d* __cdecl set_real_vector4d(vector4d* result, real i, real j, real k, real l)
 {
 	result->i = i;
 	result->j = j;
 	result->k = k;
-	result->w = w;
+	result->l = l;
 
 	return result;
 }

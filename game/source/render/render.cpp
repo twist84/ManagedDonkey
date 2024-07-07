@@ -180,7 +180,7 @@ void __cdecl render_setup_window(render_camera* camera, render_projection* proje
 	//ASSERT(valid_real(left.i) && valid_real(left.j) && valid_real(left.k));
 	
 	normalize3d((vector3d*)&left);
-	left.w = 0.0f;
+	left.l = 0.0f;
 	
 	c_rasterizer::set_vertex_shader_constant(4, 1, &forward);
 	c_rasterizer::set_vertex_shader_constant(5, 1, &left);
