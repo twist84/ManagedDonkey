@@ -9,9 +9,9 @@ struct disc
 {
 	word_flags flags;
 	short obstacle_index;
-	long __unknown4;
-	real_point2d point;
-	real __unknown10;
+	long object_index;
+	real_point2d center;
+	real radius;
 
 	// debug only?
 	//real __unknown14;

@@ -44,8 +44,8 @@ void render_debug_obstacles(struct obstacles const* obstacles, real radius)
 		flags.collision_flags.set(_collision_test_structure_bit, true);
 		flags.collision_flags.set(_collision_test_front_facing_surfaces_bit, true);
 
-		set_real_point3d(&point, disc->point.x, disc->point.y, 0.0f/*disc->__unknown14*/);
-		set_real_vector3d(&vector, 0.0f, 0.0f, (-2.0f * (disc->__unknown10 + radius)));
+		set_real_point3d(&point, disc->center.x, disc->center.y, 0.0f/*disc->__unknown14*/);
+		set_real_vector3d(&vector, 0.0f, 0.0f, (-2.0f * (disc->radius + radius)));
 
 		static real_argb_color const _color = { 1.0f, { 1.0f, 1.0f, 0.5f } };
 		real_argb_color const* color = &_color;
@@ -62,15 +62,15 @@ void render_debug_obstacles(struct obstacles const* obstacles, real radius)
 		if (collision_test_vector(flags, &point, &vector, NONE, NONE, &collision))
 		{
 			plane3d plane{};
-			render_debug_circle(true, &plane, _z, true, &disc->point, disc->__unknown10, color, 0.015625f);
+			render_debug_circle(true, &plane, _z, true, &disc->center, disc->radius, color, 0.015625f);
 			if (radius > 0.0f)
-				render_debug_circle(true, &plane, _z, true, &disc->point, (disc->__unknown10 + radius), color, 0.015625f);
+				render_debug_circle(true, &plane, _z, true, &disc->center, (disc->radius + radius), color, 0.015625f);
 		}
 		else
 		{
 			render_debug_sphere(true, &point, radius, color);
 			if (radius > 0.0f)
-				render_debug_sphere(true, &point, (disc->__unknown10 + radius), color);
+				render_debug_sphere(true, &point, (disc->radius + radius), color);
 		}
 	}
 }
