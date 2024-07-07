@@ -28,8 +28,8 @@ struct unit_control_data
 	string_id desired_mode;
 	short aiming_speed;
 	s_unit_weapon_set weapon_set;
-	word grenade_index;
-	word zoom_level;
+	short grenade_index;
+	short zoom_level;
 	dword_flags control_flags;
 	vector3d throttle;
 	real primary_trigger;
