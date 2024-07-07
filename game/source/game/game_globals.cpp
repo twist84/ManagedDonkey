@@ -34,8 +34,8 @@ void s_game_globals::update_reference_names()
 	UPDATE_BLOCK_REFERENCE_NAMES(sounds);
 	UPDATE_BLOCK_REFERENCE_NAMES(camera);
 	UPDATE_BLOCK_REFERENCE_NAMES(grenades);
-	UPDATE_BLOCK_REFERENCE_NAMES(interface_tags);
-	UPDATE_BLOCK_REFERENCE_NAMES(cheat_weapons);
+	UPDATE_BLOCK_REFERENCE_NAMES(interface_tag_references);
+	UPDATE_BLOCK_REFERENCE_NAMES(weapon_list);
 	UPDATE_BLOCK_REFERENCE_NAMES(cheat_powerups);
 	UPDATE_BLOCK_REFERENCE_NAMES(player_information);
 	UPDATE_BLOCK_REFERENCE_NAMES(player_representation);

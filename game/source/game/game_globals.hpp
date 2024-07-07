@@ -121,13 +121,13 @@ struct s_game_globals
 	c_typed_tag_block<s_game_globals_tag_reference<SOUND_TAG>> sounds;
 	c_typed_tag_block<s_game_globals_camera> camera;
 	c_typed_tag_block<s_game_globals_player_control> player_control;
-	c_typed_tag_block<s_game_globals_difficulty_information> difficulty;
+	c_typed_tag_block<s_game_globals_difficulty_information> difficulty_information;
 	c_typed_tag_block<s_game_globals_grenade> grenades;
 	c_typed_tag_block<g_null_block> what;
-	c_typed_tag_block<s_game_globals_interface_tag_references> interface_tags;
+	c_typed_tag_block<s_game_globals_interface_tag_references> interface_tag_references;
 
 	// @weapon list (update _weapon_list enum in game_globals.h)
-	c_typed_tag_block<s_game_globals_tag_reference<WEAPON_TAG>> cheat_weapons;
+	c_typed_tag_block<s_game_globals_tag_reference<WEAPON_TAG>> weapon_list;
 	c_typed_tag_block<s_game_globals_tag_reference<EQUIPMENT_TAG>> cheat_powerups;
 
 	c_typed_tag_block<s_game_globals_player_information> player_information;
@@ -548,14 +548,14 @@ struct s_game_globals_player_information
 {
 	// world units per second
 	real walking_speed;         // world units per second
-	real run_forward;           // world units per second
-	real run_backward;          // world units per second
-	real run_sideways;          // world units per second
+	real run_forward_speed;           // world units per second
+	real run_backward_speed;          // world units per second
+	real run_sideways_speed;          // world units per second
 	real run_acceleration;      // world units per second squared
-	real sneak_forward;         // world units per second
-	real sneak_backward;        // world units per second
-	real sneak_sideways;        // world units per second
-	real sneak_acceleration;    // world units per second
+	real sneak_acceleration;         // world units per second
+	real sneak_sideways_speed;        // world units per second
+	real sneak_backward_speed;        // world units per second
+	real sneak_forward_speed;    // world units per second
 	real airborne_acceleration; // world units per second
 
 	real_point3d grenade_origin;
