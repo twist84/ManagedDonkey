@@ -20,10 +20,10 @@ struct collision_result
 {
 	collision_result() :
 		type(_collision_result_none),
-		scale(),
+		t(),
 		position(),
-		__location14(),
-		position_location(),
+		start_location(),
+		location(),
 		material_type(c_global_material_type()),
 		__pad22(),
 		plane(),
@@ -35,9 +35,9 @@ struct collision_result
 		bsp_index(),
 		leaf_index(),
 		surface_index(),
-		plane_index(),
+		plane_designator(),
 		edge_index(),
-		surface_flags(),
+		flags(),
 		breakable_surface_index(),
 		__unknown57(),
 		material_index(),
@@ -47,10 +47,10 @@ struct collision_result
 	}
 
 	c_enum<e_collision_result_type, long, _collision_result_none, k_collision_result_type_count> type;
-	real scale;
+	real t;
 	real_point3d position;
-	s_location __location14;
-	s_location position_location;
+	s_location start_location;
+	s_location location;
 	c_collision_bsp_reference collision_bsp_reference;
 	c_global_material_type material_type;
 	byte __pad22[0x2];
@@ -63,10 +63,10 @@ struct collision_result
 	long bsp_index;
 	long leaf_index;
 	long surface_index;
-	long plane_index;
+	long plane_designator;
 	char edge_index;
-	byte_flags surface_flags; // c_flags<e_surface_flags, byte, k_surface_flags>
-	char breakable_surface_index;
+	byte_flags flags; // c_flags<e_surface_flags, byte, k_surface_flags>
+	byte breakable_surface_index;
 	byte __unknown57;
 	short material_index;
 	char breakable_surface_set_index;

@@ -19,13 +19,11 @@ struct collision_sphere
 	long __unknown0;
 
 	long bsp_reference;
-
-	long __unknown8;
-
+	long object_index;
 	long surface_index;
-	byte_flags surface_flags; // e_surface_flags
-	bool breakable_surface;
-	short surface_material;
+	byte_flags flags; // e_surface_flags
+	byte breakable_surface_index;
+	short material_index;
 	real_point3d center;
 	real radius;
 };
@@ -36,16 +34,14 @@ struct collision_cylinder
 	long __unknown0;
 
 	long bsp_reference;
-
-	long __unknown8;
-
+	long object_index;
 	long surface_index;
-	byte_flags surface_flags; // e_surface_flags
-	bool breakable_surface;
-	short surface_material;
+	byte_flags flags; // e_surface_flags
+	byte breakable_surface_index;
+	short material_index;
 	real_point3d base;
 	vector3d height;
-	real radius;
+	real width;
 };
 static_assert(sizeof(collision_cylinder) == 0x30);
 
@@ -54,17 +50,15 @@ struct collision_prism
 	long __unknown0;
 
 	long bsp_reference;
-
-	long __unknown8;
-
+	long object_index;
 	long surface_index;
-	byte_flags surface_flags; // e_surface_flags
-	bool breakable_surface;
-	short surface_material;
+	byte_flags flags; // e_surface_flags
+	byte breakable_surface_index;
+	short material_index;
 	plane3d plane;
-	real scale;
+	real height;
 	short projection_axis;
-	bool projection_sign;
+	byte projection_sign;
 	long point_count;
 	real_point2d points[MAXIMUM_POINTS_PER_COLLISION_PRISM];
 };
@@ -85,17 +79,14 @@ static_assert(0x5408 == offsetof(collision_feature_list, prisms));
 
 struct collision_plane
 {
-	long __unknown0;
-
+	long object_index;
 	long bsp_reference;
 	long surface_index;
-	byte_flags surface_flags; // e_surface_flags
-	bool breakable_surface;
-	short surface_material;
-
-	real __unknown10;
-
-	real_point3d position;
+	byte_flags flags; // e_surface_flags
+	byte breakable_surface_index;
+	short material_index;
+	real t;
+	real_point3d point;
 	plane3d plane;
 };
 static_assert(sizeof(collision_plane) == 0x30);

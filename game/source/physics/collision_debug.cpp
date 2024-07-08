@@ -310,7 +310,7 @@ void collision_debug_render()
 				break;
 				}
 			
-				render_debug_vector(true, &debug_point, &debug_vector_scaled, collision.scale, global_real_argb_red);
+				render_debug_vector(true, &debug_point, &debug_vector_scaled, collision.t, global_real_argb_red);
 				render_debug_point(true, &collision.position, 0.125f, global_real_argb_red);
 				render_debug_vector(true, &collision.position, &collision.plane.n, 0.25f, global_real_argb_red);
 			
@@ -319,7 +319,7 @@ void collision_debug_render()
 					render_debug_collision_surface(collision.collision_bsp_reference, collision.surface_index, matrix, global_real_argb_red);
 				}
 			
-				if (collision_result_type == _collision_result_structure && TEST_BIT(collision.surface_flags, _surface_flag_conveyor_bit))
+				if (collision_result_type == _collision_result_structure && TEST_BIT(collision.flags, _collision_surface_conveyor_bit))
 				{
 					structure_bsp* structure = global_structure_bsp_get(collision.bsp_index);
 					structure_collision_material& collision_material = structure->collision_materials[collision.material_index];
@@ -393,11 +393,11 @@ void collision_debug_render()
 			
 					g_collision_debug_status_lines[3].printf("surface #%d%s%s%s%s%s",
 						collision.surface_index,
-						TEST_BIT(collision.surface_flags, _surface_flag_two_sided_bit) ? " two-sided" : "",
-						TEST_BIT(collision.surface_flags, _surface_flag_invisible_bit) ? " invisible" : "",
-						TEST_BIT(collision.surface_flags, _surface_flag_climbable_bit) ? " climbable" : "",
-						TEST_BIT(collision.surface_flags, _surface_flag_breakable_bit) ? " breakable" : "",
-						TEST_BIT(collision.surface_flags, _surface_flag_slip_bit) ? " slip" : "");
+						TEST_BIT(collision.flags, _collision_surface_two_sided_bit) ? " two-sided" : "",
+						TEST_BIT(collision.flags, _collision_surface_invisible_bit) ? " invisible" : "",
+						TEST_BIT(collision.flags, _collision_surface_climbable_bit) ? " climbable" : "",
+						TEST_BIT(collision.flags, _collision_surface_breakable_bit) ? " breakable" : "",
+						TEST_BIT(collision.flags, _collision_surface_slip_bit) ? " slip" : "");
 			
 					if (collision.breakable_surface_set_index == 0xFF)
 					{
@@ -417,7 +417,7 @@ void collision_debug_render()
 				}
 
 				g_collision_debug_status_lines[4].printf("distance %f",
-					collision.scale * magnitude3d(&debug_vector_scaled));
+					collision.t * magnitude3d(&debug_vector_scaled));
 
 				g_collision_debug_status_lines[5].printf("position %f %f %f",
 					collision.position.x,
@@ -488,11 +488,11 @@ void collision_debug_render()
 			render_debug_vector(true, &old_position, &old_velocity, 1.0f, global_real_argb_blue);
 			ASSERT(count <= 14);
 
-			collisions[0].position = old_position;
+			collisions[0].point = old_position;
 			collisions[0].plane = {};
 			ASSERT(VALID_INDEX(count, NUMBEROF(collisions)));
 
-			collisions[count + 1].position = new_position;
+			collisions[count + 1].point = new_position;
 			collisions[count + 1].plane = {};
 
 			short v112 = count + 2;
@@ -502,10 +502,10 @@ void collision_debug_render()
 				collision_plane* collision = collisions;
 				do
 				{
-					render_debug_point(true, &collision->position, 0.0625f, global_real_argb_red);
+					render_debug_point(true, &collision->point, 0.0625f, global_real_argb_red);
 					if (v113 > 0)
-						render_debug_line(true, &collisions[v113 - 1].position, &collision->position, global_real_argb_red);
-					render_debug_vector(true, &collision->position, &collision->plane.n, 0.125f, global_real_argb_red);
+						render_debug_line(true, &collisions[v113 - 1].point, &collision->point, global_real_argb_red);
+					render_debug_vector(true, &collision->point, &collision->plane.n, 0.125f, global_real_argb_red);
 					v113++;
 					collision++;
 

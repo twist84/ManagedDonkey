@@ -183,15 +183,15 @@ static_assert(sizeof(large_bsp2d_node) == 0x14);
 
 enum e_surface_flags
 {
-	_surface_flag_two_sided_bit = 0,
-	_surface_flag_invisible_bit,
-	_surface_flag_climbable_bit,
-	_surface_flag_breakable_bit,
-	_surface_flag_invalid_bit,
-	_surface_flag_conveyor_bit,
-	_surface_flag_slip_bit,
+	_collision_surface_two_sided_bit = 0,
+	_collision_surface_invisible_bit,
+	_collision_surface_climbable_bit,
+	_collision_surface_breakable_bit,
+	_collision_surface_invalid_bit,
+	_collision_surface_conveyor_bit,
+	_collision_surface_slip_bit,
 
-	k_surface_flags
+	k_collision_surface_flags
 };
 
 struct collision_surface
@@ -201,7 +201,7 @@ struct collision_surface
 	short material;
 	short breakable_surface_set;
 	short breakable_surface;
-	c_flags<e_surface_flags, byte, k_surface_flags> flags;
+	c_flags<e_surface_flags, byte, k_collision_surface_flags> flags;
 	byte best_plane_calculation_vertex_index;
 };
 static_assert(sizeof(collision_surface) == 0xC);
@@ -213,7 +213,7 @@ struct large_collision_surface
 	short material;
 	short breakable_surface_set;
 	short breakable_surface;
-	c_flags<e_surface_flags, byte, k_surface_flags> flags;
+	c_flags<e_surface_flags, byte, k_collision_surface_flags> flags;
 	byte best_plane_calculation_vertex_index;
 };
 static_assert(sizeof(large_collision_surface) == 0x10);

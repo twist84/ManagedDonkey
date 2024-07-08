@@ -35,7 +35,7 @@ void render_debug_collision_prism(collision_prism const* prism, real_argb_color 
 	for (long point_index = 0; point_index < point_count; point_index++)
 	{
 		project_point2d(&prism->points[point_index], &prism->plane, prism->projection_axis, prism->projection_sign, &points[point_index]);
-		point_from_line3d(&points[point_index], &prism->plane.n, prism->scale, &points[point_index]);
+		point_from_line3d(&points[point_index], &prism->plane.n, prism->height, &points[point_index]);
 	}
 
 	for (long point_index = 0; point_index < point_count; point_index++)
@@ -44,7 +44,7 @@ void render_debug_collision_prism(collision_prism const* prism, real_argb_color 
 
 void render_debug_collision_cylinder(collision_cylinder const* cylinder, real_argb_color const* color)
 {
-	render_debug_cylinder(true, &cylinder->base, &cylinder->height, cylinder->radius, color);
+	render_debug_cylinder(true, &cylinder->base, &cylinder->height, cylinder->width, color);
 }
 
 void render_debug_collision_sphere(collision_sphere const* sphere, real_argb_color const* color)

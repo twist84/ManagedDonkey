@@ -165,7 +165,7 @@ void __cdecl render_debug_structure()
 					if (edge_reference.get_surface_index(i) != NONE)
 					{
 						c_collision_surface_reference surface_reference(bsp_reference, edge_reference.get_surface_index(i));
-						if (TEST_BIT(surface_reference.get_flags(), _surface_flag_slip_bit))
+						if (TEST_BIT(surface_reference.get_flags(), _collision_surface_slip_bit))
 						{
 							surface_reference_has_slip_bit_enabled = true;
 
