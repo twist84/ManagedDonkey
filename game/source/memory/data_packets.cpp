@@ -27,7 +27,7 @@ void __cdecl data_packet_verify(data_packet_definition* packet_definition)
 			ASSERT2(c_string_builder("packet '%s' fields added up to #%d bytes but should have been #%d bytes.",
 				packet_definition->name,
 				packet_size,
-				packet_definition->size).get_string())
+				packet_definition->size).get_string());
 		}
 	
 		packet_definition->initialized_flag = 1;
