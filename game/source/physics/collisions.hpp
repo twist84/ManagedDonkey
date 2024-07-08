@@ -91,6 +91,15 @@ struct collision_bsp_test_vector_result
 };
 static_assert(sizeof(collision_bsp_test_vector_result) == 0x424);
 
+struct collision_model_test_vector_result
+{
+	long bsp_index;
+	short node_index;
+	short region_index;
+	collision_bsp_test_vector_result bsp_result;
+};
+static_assert(sizeof(collision_model_test_vector_result) == 0x42C);
+
 struct collision_feature_list;
 struct collision_plane;
 
