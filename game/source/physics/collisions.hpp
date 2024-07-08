@@ -74,6 +74,23 @@ struct collision_result
 };
 static_assert(sizeof(collision_result) == 0x5C);
 
+struct collision_bsp_test_vector_result
+{
+	real t;
+	plane3d const* plane;
+	long leaf_index;
+	long surface_index;
+	long plane_index;
+	char edge_index;
+	byte_flags flags;
+	byte breakable_surface_index;
+	short material_index;
+	long leaf_count;
+	long leaf_indices[256];
+	long breakable_surface_set_index;
+};
+static_assert(sizeof(collision_bsp_test_vector_result) == 0x424);
+
 struct collision_feature_list;
 struct collision_plane;
 
