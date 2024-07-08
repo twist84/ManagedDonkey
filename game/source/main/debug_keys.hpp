@@ -9,7 +9,7 @@ struct debug_key
 	//c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
 	short key_code;
 	short modifier;
-	void(__cdecl* callback)(bool);
+	void(__cdecl* function)(bool);
 	bool allow_out_of_game;
 	bool allow_in_editor;
 	bool toggle_variable;
@@ -22,7 +22,7 @@ struct s_debug_button
 	const char* name;
 	//c_enum<e_controller_button, short, _controller_button_left_trigger, k_controller_button_count> button;
 	short button;
-	void(__cdecl* callback)(bool);
+	void(__cdecl* function)(bool);
 	bool allow_out_of_game;
 	bool allow_in_editor;
 	bool toggle_variable;
