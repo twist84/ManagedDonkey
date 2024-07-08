@@ -2,7 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-
 void __cdecl data_encode_new(data_encoding_state* state, void* buffer, long buffer_size)
 {
 	ASSERT(buffer);
@@ -13,7 +12,7 @@ void __cdecl data_encode_new(data_encoding_state* state, void* buffer, long buff
 	state->buffer_size = buffer_size;
 }
 
-unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* a2, short count, long code)
+unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* data, short count, long code)
 {
 	ASSERT(state && state->buffer && state->offset >= 0 && state->offset < state->buffer_size);
 
@@ -22,17 +21,17 @@ unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* a2, s
 	{
 		switch (code)
 		{
-		case _1byte:
-			size = count;
-			break;
-		case _2byte:
-			size = 2 * count;
+		case _8byte:
+			size = 8 * count;
 			break;
 		case _4byte:
 			size = 4 * count;
 			break;
-		case _8byte:
-			size = 8 * count;
+		case _2byte:
+			size = 2 * count;
+			break;
+		case _1byte:
+			size = count;
 			break;
 		default:
 			throw; // halt()
@@ -47,14 +46,14 @@ unsigned char __cdecl data_encode_memory(data_encoding_state* state, void* a2, s
 	else
 	{
 		byte* memory = &static_cast<byte*>(state->buffer)[state->offset];
-		if (a2)
-			csmemcpy(memory, a2, size);
+		if (data)
+			csmemcpy(memory, data, size);
 		else
 			csmemset(memory, 0, size);
 
 		// #TODO: add and implement byte-swap function
-		//if (code != 1)
-		//	sub_14049E740((unsigned int*)memory, count, code);
+		//if (code != _1byte)
+		//	_data_encode_memory((unsigned int*)memory, count, code);
 
 		state->offset += size;
 	}
