@@ -12,6 +12,8 @@ struct s_observer_depth_of_field;
 
 struct c_screen_postprocess
 {
+	static c_rasterizer::e_surface __cdecl blur_display();
+
 	static void __cdecl copy(
 		long explicit_shader_index,
 		c_rasterizer::e_surface surface_a,

@@ -12,7 +12,7 @@ public:
 
 	bool __cdecl valid();
 
-protected:
+//protected:
 	dword m_datum_ref;
 };
 static_assert(sizeof(c_rasterizer_texture_ref) == 0x4);

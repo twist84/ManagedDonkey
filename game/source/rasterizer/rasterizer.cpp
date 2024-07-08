@@ -957,6 +957,20 @@ void __cdecl c_rasterizer::draw_vertices(c_rasterizer_index_buffer::e_primitive_
 	INVOKE(0x00A283B0, draw_vertices, primitive_type, start_vertex, primitive_count);
 }
 
+void __cdecl c_rasterizer::resolve_entire_surface(e_surface surface, long a2)
+{
+	INVOKE(0x00A48C50, c_rasterizer::resolve_entire_surface, surface, a2);
+}
+
+void __cdecl c_rasterizer::set_depth_stencil_surface(e_surface surface)
+{
+	INVOKE(0x00A48CB0, c_rasterizer::set_depth_stencil_surface, surface);
+}
+
+void __cdecl c_rasterizer::set_render_target(long render_target_index, e_surface surface, long render_state)
+{
+	INVOKE(0x00A48E40, c_rasterizer::set_render_target, render_target_index, surface, render_state);
+}
 
 void __cdecl c_rasterizer::set_pixel_shader_constant(long start_register, long vector4f_count, vector4d const* constant_data)
 {

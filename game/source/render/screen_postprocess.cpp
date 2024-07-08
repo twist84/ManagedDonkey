@@ -5,6 +5,11 @@
 decltype(c_screen_postprocess::postprocess_player_view)* screen_postprocess_postprocess_player_view = c_screen_postprocess::postprocess_player_view;
 HOOK_DECLARE_CALL(0x00A39F4E, screen_postprocess_postprocess_player_view);
 
+c_rasterizer::e_surface __cdecl c_screen_postprocess::blur_display()
+{
+	return INVOKE(0x00A60310, c_screen_postprocess::blur_display);
+}
+
 void __cdecl c_screen_postprocess::copy(
 	long explicit_shader_index,
 	c_rasterizer::e_surface surface_a,

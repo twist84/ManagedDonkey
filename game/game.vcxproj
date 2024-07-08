@@ -257,6 +257,7 @@ POPD
     <ClCompile Include="source\physics\havok_proxies.cpp" />
     <ClCompile Include="source\physics\impacts.cpp" />
     <ClCompile Include="source\profiler\profiler_stopwatch.cpp" />
+    <ClCompile Include="source\rasterizer\rasterizer_render_targets.cpp" />
     <ClCompile Include="source\render\camera_fx_settings.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
     <ClCompile Include="source\render\render_transparents.cpp" />
@@ -1023,6 +1024,7 @@ POPD
     <ClInclude Include="source\physics\havok_collision_damage.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\profiler\profiler_stopwatch.hpp" />
+    <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />
     <ClInclude Include="source\render\render_transparents.hpp" />
     <ClInclude Include="source\render\screen_postprocess.hpp" />
     <ClInclude Include="source\render\simple_font.hpp" />
