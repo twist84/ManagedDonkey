@@ -92,7 +92,7 @@ void terminal_handle_key(s_key_state* key)
 	if (terminal_globals.input_state->key_count < 32)
 		terminal_globals.input_state->keys[terminal_globals.input_state->key_count++] = *key;
 
-	if (terminal_globals.input_state->edit.text)
+	if (terminal_globals.input_state->edit.buffer)
 		edit_text_handle_key(&terminal_globals.input_state->edit, key);
 
 	terminal_globals.should_draw = true;
@@ -118,7 +118,7 @@ bool __cdecl terminal_update_input(real shell_seconds_elapsed)
 			terminal_globals.draw_time = 0.0f;
 		}
 
-		long cursor_position = terminal_globals.input_state->prompt_text.length() + terminal_globals.input_state->edit.cursor_selection_index;
+		long cursor_position = terminal_globals.input_state->prompt.length() + terminal_globals.input_state->edit.insertion_point_index;
 		long scroll_amount = terminal_globals.input_state->scroll_amount;
 
 		if (cursor_position > scroll_amount + 59)
@@ -263,8 +263,8 @@ bool __cdecl terminal_gets_begin(terminal_gets_state* state)
 	if (!terminal_gets_active())
 	{
 		terminal_globals.input_state = state;
-		state->edit.text = state->input_text;
-		terminal_globals.input_state->edit.text_length = NUMBEROF(state->input_text) - 1;
+		state->edit.buffer = state->input_text;
+		terminal_globals.input_state->edit.maximum_length = NUMBEROF(state->input_text) - 1;
 		terminal_globals.input_state->scroll_amount = 0;
 		edit_text_new(&terminal_globals.input_state->edit);
 		state->key_count = 0;
@@ -301,7 +301,7 @@ void __cdecl terminal_draw()
 		if (terminal_gets_active())
 		{
 			c_static_string<288> buffer;
-			buffer.set(terminal_globals.input_state->prompt_text.get_string());
+			buffer.set(terminal_globals.input_state->prompt.get_string());
 			buffer.append(terminal_globals.input_state->input_text);
 
 			bounds.x0 = pixel_bounds_->x0;
@@ -312,11 +312,11 @@ void __cdecl terminal_draw()
 			// cursor blink
 			if (terminal_globals.should_draw)
 			{
-				short index = short(terminal_globals.input_state->prompt_text.length()) + terminal_globals.input_state->edit.cursor_selection_index;
+				short index = short(terminal_globals.input_state->prompt.length()) + terminal_globals.input_state->edit.insertion_point_index;
 				buffer.set_character(index, '_');
 			}
 
-			draw_string.set_color(&terminal_globals.input_state->prompt_color);
+			draw_string.set_color(&terminal_globals.input_state->color);
 			draw_string.set_bounds(&bounds);
 			draw_string.draw(&font_cache, buffer.get_offset(int_pin(terminal_globals.input_state->scroll_amount, 0l, buffer.length())));
 		}

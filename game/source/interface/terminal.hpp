@@ -25,8 +25,8 @@ struct terminal_gets_state
 	short key_count;
 	//c_static_array<key_stroke, 32> keys;
 	c_static_array<s_key_state, 32> keys;
-	real_argb_color prompt_color;
-	c_static_string<k_tag_string_length> prompt_text;
+	real_argb_color color;
+	c_static_string<k_tag_string_length> prompt;
 	char input_text[k_terminal_gets_state_input_text_size];
 	long scroll_amount;
 	edit_text edit;

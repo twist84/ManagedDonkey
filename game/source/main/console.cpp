@@ -143,8 +143,8 @@ void __cdecl console_initialize()
 		terminal_initialize();
 
 		console_globals.status_render = true;
-		console_globals.input_state.prompt_color = { 1.0f, 1.0f, 0.3f, 1.0f };
-		console_globals.input_state.prompt_text.set("donkey( ");
+		console_globals.input_state.color = { 1.0f, 1.0f, 0.3f, 1.0f };
+		console_globals.input_state.prompt.set("donkey( ");
 		console_globals.input_state.input_text[0] = 0;
 		console_globals.input_state.__unknown11F4 = 0;
 		console_globals.input_state.previous_inputs_count = NONE;
@@ -247,7 +247,7 @@ void __cdecl console_complete()
 	if (console_token_buffer.is_empty())
 	{
 		console_token_buffer.set(console_get_token());
-		console_token_buffer.set_length(console_globals.input_state.edit.cursor_selection_index);
+		console_token_buffer.set_length(console_globals.input_state.edit.insertion_point_index);
 		suggestion_current_index = NONE;
 
 		something = true;
@@ -318,7 +318,7 @@ void __cdecl console_complete()
 			csmemcpy(token, matching_items[0], last_similar_character_index + 1);
 			token[last_similar_character_index + 1] = 0;
 
-			console_globals.input_state.edit.cursor_selection_index = last_similar_character_index + short(token - console_globals.input_state.input_text + 1);
+			console_globals.input_state.edit.insertion_point_index = last_similar_character_index + short(token - console_globals.input_state.input_text + 1);
 
 			suggestion_current_index = short(strlen(matching_items[0])) == last_similar_character_index + 1;
 		}
@@ -326,7 +326,7 @@ void __cdecl console_complete()
 		{
 			suggestion_current_index = 0;
 			console_token_buffer.copy_to(token, k_terminal_gets_state_input_text_size);
-			console_globals.input_state.edit.cursor_selection_index = word(console_token_buffer.length() + 1);
+			console_globals.input_state.edit.insertion_point_index = word(console_token_buffer.length() + 1);
 		}
 		else
 		{
@@ -335,7 +335,7 @@ void __cdecl console_complete()
 			short suggestion_length = short(strlen(matching_items[suggestion_current_index++]));
 			token[suggestion_length] = 0;
 
-			console_globals.input_state.edit.cursor_selection_index = short(token - console_globals.input_state.input_text) + suggestion_length;
+			console_globals.input_state.edit.insertion_point_index = short(token - console_globals.input_state.input_text) + suggestion_length;
 		}
 	}
 }

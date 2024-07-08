@@ -4,10 +4,10 @@
 
 struct edit_text
 {
-	char* text;
-	short text_length;
-	short cursor_selection_index;
-	short selection_index8;
+	char* buffer;
+	short maximum_length;
+	short insertion_point_index;
+	short selection_start_index;
 };
 static_assert(sizeof(edit_text) == 0xC);
 
