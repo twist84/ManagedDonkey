@@ -100,6 +100,27 @@ struct collision_model_test_vector_result
 };
 static_assert(sizeof(collision_model_test_vector_result) == 0x42C);
 
+struct collision_bsp_test_sphere_result
+{
+	// #TODO: confirm this
+
+	long surface_count;
+	long surface_indices[255];
+	long unknown0_count;
+	long unknown0_indices[256];
+	long edge_count;
+	long edge_indices[256];
+	long unknown1_count;
+	long unknown1_indices[255];
+	long vertex_count;
+	long vertex_indices[256];
+	long unknown2_count;
+	long unknown2_indices[255];
+	long leaf_count;
+	long leaf_indices[256];
+};
+static_assert(sizeof(collision_bsp_test_sphere_result) == 0x1C10);
+
 struct collision_feature_list;
 struct collision_plane;
 
