@@ -13,15 +13,15 @@
 //.text:006D3370 ; 
 //.text:006D3440 ; 
 //.text:006D3590 ; bool __cdecl collision_find_good_projectile_point(real_point3d const*, real_point3d const*, real_point3d*, long, long)
-//.text:006D3760 ; 
-//.text:006D3BC0 ; 
+//.text:006D3760 ; bool __cdecl collision_fix_pill(s_collision_test_flags, real_point3d const*, real, real, real, long, long, real_point3d*)
+//.text:006D3BC0 ; void __cdecl collision_fix_pill_nudge_collision(s_collision_test_flags, real_point3d const*, vector3d const*, long, long, collision_plane*)
 
 bool __cdecl collision_get_features_in_sphere(s_collision_test_flags flags, real_point3d const* point, real radius, real height, real width, long ignore_object_index, long a7, collision_feature_list* features)
 {
 	return INVOKE(0x006D3C80, collision_get_features_in_sphere, flags, point, radius, height, width, ignore_object_index, a7, features);
 }
 
-//.text:006D4040 ; 
+//.text:006D4040 ; bool __cdecl collision_get_unobstructed_point(s_collision_test_flags, real_point3d const*, real, long, long, real_point3d*, real*)
 //.text:006D4C40 ; 
 
 short __cdecl collision_move_pill(s_collision_test_flags flags, real_point3d const* old_position, vector3d const* old_velocity, real height, real radius, long first_ignore_object_index, long second_ignore_object_index, real_point3d* new_position, vector3d* new_velocity, short maximum_collision_count, collision_plane* collisions)
@@ -101,7 +101,7 @@ bool __cdecl collision_test_vector(s_collision_test_flags flags, bool a2, real_p
 //.text:006D80F0 ; void __cdecl initialize_collision_result(collision_result*)
 //.text:006D8130 ; void __cdecl instanced_geometry_get_features_in_sphere(structure_context const*, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags>, real_point3d const*, real, real, real, collision_feature_list*)
 //.text:006D82B0 ; 
-//.text:006D8330 ; 
+//.text:006D8330 ; bool __cdecl instanced_geometry_test_point(long, long, dword, real_point3d const*)
 //.text:006D8440 ; bool __cdecl instanced_geometry_test_vector(long, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags>, real_point3d const*, vector3d const*, collision_result*)
 //.text:006D8580 ; bool __cdecl instanced_geometry_test_vector_internal(structure_context const*, long, c_flags<e_collision_test_flag, dword, k_collision_test_flags>, dword, real_point3d const*, vector3d const*, collision_result*)
 //.text:006D89E0 ; 
