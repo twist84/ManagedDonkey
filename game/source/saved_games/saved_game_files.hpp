@@ -76,3 +76,5 @@ struct c_saved_game_files_globals
 };
 static_assert(sizeof(c_saved_game_files_globals) == 0x68);
 
+extern c_saved_game_files_globals& g_saved_game_files_globals;
+

@@ -3,6 +3,8 @@
 #include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 
+REFERENCE_DECLARE(0x0189D930, c_saved_game_files_globals, g_saved_game_files_globals);
+
 void s_content_item_metadata::byteswap()
 {
 	bswap_qword_inplace(unique_id);
