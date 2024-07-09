@@ -59,16 +59,18 @@ struct s_sandbox_globals
 	byte minimum_count;
 	bool placed_on_map;
 	word player_mode_flags;
-	c_static_array<dword, 16> held_objects;
+	c_static_array<long, 16> held_objects;
 	c_static_array<real, 16> held_object_distances;
 	c_static_array<vector3d, 16> crosshair_points;
 	c_static_array<vector3d, 16> crosshair_intersect_normals;
 	c_static_array<vector3d, 16> crosshair_redirections;
-	c_static_array<dword, 16> crosshair_objects;
+	c_static_array<long, 16> crosshair_objects;
 	c_static_array<byte, 16> __unknown30C;
-	c_static_array<dword, 64> __unknown31C;
-	byte __data41C[0x300];
-	dword __unknown71C;
+
+	c_static_array<long, 64> tracked_objects;
+	c_static_array<real_point3d, 64> tracked_object_positions;
+	long tracked_object_count;
+
 	byte __unknown720[8];
 	bool forge_legal_notice;
 	dword __unknown72C;
