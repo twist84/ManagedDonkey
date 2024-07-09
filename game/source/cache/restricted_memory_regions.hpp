@@ -3,6 +3,7 @@
 struct c_restricted_section;
 struct c_restricted_memory_callbacks;
 
+extern void* __cdecl restricted_memory_get_address(long index, unsigned long offset);
 extern void __cdecl restricted_region_add_alias(long index);
 extern long __cdecl restricted_region_add_member(long index, char const* name, char const* type, unsigned int allocation, long alignment_bits, void(__cdecl* tls_update_callback)(void*), void(__cdecl* tls_pre_overwrite_fixup_callback)(void*), void(__cdecl* tls_post_copy_fixup_callback)(void*));
 extern void __cdecl restricted_region_add_mirror(long index, c_restricted_section* mirror_section);
