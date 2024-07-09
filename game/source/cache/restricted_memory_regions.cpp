@@ -15,6 +15,15 @@ void* __cdecl restricted_memory_get_address(long index, unsigned long offset)
 	//return (byte*)address + offset;
 }
 
+void __cdecl restricted_memory_set_base_address(long index, void* address)
+{
+	INVOKE(0x0059FFA0, restricted_memory_set_base_address, index, address);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(g_restricted_address);
+	//ASSERT(index >= 0 && index < k_total_restricted_memory_regions);
+	//g_restricted_address[index] = address;
+}
+
 void __cdecl restricted_region_add_alias(long index)
 {
 	INVOKE(0x0059FFD0, restricted_region_add_alias, index);
