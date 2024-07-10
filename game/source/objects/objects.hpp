@@ -205,6 +205,7 @@ struct _object_datum
 	object_header_block_reference change_colors;
 	object_header_block_reference animation;
 	object_header_block_reference multiplayer;
+	byte __pad16E[0x2];
 
 	// (bsp_index << 24) | probe_index & 0xFFFFFF
 	long air_probe_index; // airprobes block
