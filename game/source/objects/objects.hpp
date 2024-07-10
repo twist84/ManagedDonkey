@@ -412,10 +412,9 @@ static_assert(sizeof(s_object_render_data) == 0x2000);
 
 struct s_object_globals
 {
-	byte __unknown0;
-	byte __unknown1;
-	byte __unknown2;
-
+	bool initial_placement;
+	bool object_marker_initialized;
+	bool force_garbage_collection;
 	bool garbage_collection_cannot_run;
 	short active_garbage_object_count;
 	short active_garbage_player_bodies;
