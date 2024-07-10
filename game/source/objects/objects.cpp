@@ -110,15 +110,107 @@ void* __cdecl object_get_and_verify_type(long object_index, dword object_type_ma
 	return object;
 }
 
+e_object_type __cdecl object_get_type(long object_index)
+{
+	return INVOKE(0x0046DC70, object_get_type, object_index);
+}
+
 void __cdecl object_get_bounding_sphere(long object_index, real_point3d* center, real* radius)
 {
 	INVOKE(0x00537990, object_get_bounding_sphere, object_index, center, radius);
 }
 
-e_object_type __cdecl object_get_type(long object_index)
+//.text:00B26C60 ; 
+//.text:00B26CA0 ; 
+//.text:00B26CD0 ; 
+//.text:00B26D00 ; 
+//.text:00B26D30 ; 
+//.text:00B26D40 ; 
+//.text:00B26D60 ; 
+//.text:00B26D80 ; 
+//.text:00B26DA0 ; 
+//.text:00B26DC0 ; 
+//.text:00B26DE0 ; 
+//.text:00B26E00 ; 
+//.text:00B26E20 ; 
+//.text:00B26E40 ; 
+//.text:00B26E60 ; 
+//.text:00B26E80 ; 
+//.text:00B26EA0 ; 
+//.text:00B26EC0 ; 
+//.text:00B26ED0 ; 
+//.text:00B26F00 ; 
+//.text:00B26F30 ; 
+//.text:00B26F60 ; 
+//.text:00B26F80 ; 
+//.text:00B26F90 ; 
+//.text:00B26FA0 ; 
+//.text:00B26FB0 ; 
+//.text:00B26FC0 ; 
+//.text:00B26FD0 ; 
+//.text:00B26FE0 ; 
+//.text:00B26FF0 ; 
+//.text:00B27000 ; 
+//.text:00B27010 ; 
+//.text:00B27020 ; 
+//.text:00B27030 ; 
+//.text:00B27040 ; 
+//.text:00B27050 ; 
+//.text:00B27060 ; void __cdecl __tls_set_g_collideable_cluster_reference_allocator(void*)
+//.text:00B27090 ; void __cdecl __tls_set_g_collideable_data_reference_allocator(void*)
+//.text:00B270C0 ; void __cdecl __tls_set_g_collideable_first_data_allocator(void*)
+//.text:00B270E0 ; void __cdecl __tls_set_g_noncollideable_cluster_reference_allocator(void*)
+//.text:00B27110 ; void __cdecl __tls_set_g_noncollideable_data_reference_allocator(void*)
+//.text:00B27140 ; void __cdecl __tls_set_g_noncollideable_first_data_allocator(void*)
+//.text:00B27160 ; void __cdecl __tls_set_g_object_globals_allocator(void*)
+//.text:00B27180 ; void __cdecl __tls_set_g_object_header_data_allocator(void*)
+//.text:00B271B0 ; void __cdecl __tls_set_g_object_message_queue_allocator(void*)
+//.text:00B271D0 ; void __cdecl __tls_set_g_object_name_list_allocator(void*)
+//.text:00B271F0 ; void __cdecl __tls_set_g_object_render_data_allocator(void*)
+//.text:00B27210 ; public: void __cdecl t_message_queue<s_object_render_thread_message, 2048>::add_message(s_object_render_thread_message const*)
+//.text:00B27290 ; void __cdecl adopt_old_object_render_message_queue(void*)
+//.text:00B272C0 ; 
+//.text:00B27300 ; 
+//.text:00B27340 ; 
+//.text:00B27380 ; 
+//.text:00B273C0 ; 
+//.text:00B27400 ; 
+//.text:00B27440 ; 
+//.text:00B27480 ; 
+//.text:00B274C0 ; 
+//.text:00B27500 ; 
+//.text:00B27540 ; 
+//.text:00B27580 ; 
+//.text:00B275D0 ; 
+//.text:00B27630 ; 
+//.text:00B276D0 ; 
+//.text:00B27770 ; void __cdecl attachments_delete(long)
+//.text:00B27820 ; void __cdecl attachments_model_state_changed(long)
+//.text:00B278A0 ; void __cdecl attachments_new(long)
+//.text:00B27A10 ; void __cdecl attachments_update(long)
+//.text:00B27BD0 ; 
+//.text:00B27BF0 ; 
+//.text:00B27C20 ; 
+//.text:00B27C40 ; 
+//.text:00B27C60 ; 
+//.text:00B27C70 ; 
+//.text:00B27C80 ; 
+
+void c_object_identifier::clear()
 {
-	return INVOKE(0x0046DC70, object_get_type, object_index);
+	//DECLFUNC(0x00B27CB0, void, __thiscall, c_object_identifier*)(this);
+
+	m_type = k_object_type_none;
+	m_source = k_object_source_none;
+	m_origin_bsp_index = NONE;
+	m_unique_id = NONE;
 }
+
+//.text:00B27CC0 ; 
+//.text:00B27CE0 ; void __cdecl clear_all_object_render_data()
+//.text:00B27D20 ; public: void __cdecl c_object_identifier::clear_for_deletion()
+//.text:00B27D30 ; public: void __cdecl c_static_flags_no_init<255>::clear_range(long)
+//.text:00B27D90 ; void __cdecl cluster_build_object_payload(long, s_object_cluster_payload* payload)
 
 long __cdecl cluster_get_first_collideable_object(long* datum_index, s_cluster_reference cluster_reference)
 {
@@ -129,6 +221,8 @@ long __cdecl cluster_get_first_collideable_object_and_payload(long* datum_index,
 {
 	return INVOKE(0x00B27EE0, cluster_get_first_collideable_object_and_payload, datum_index, cluster_reference, payload);
 }
+
+//.text:00B27F10 ; 
 
 long __cdecl cluster_get_first_noncollideable_object_and_payload(long* datum_index, s_cluster_reference cluster_reference, s_object_cluster_payload const** payload)
 {
@@ -145,9 +239,234 @@ long __cdecl cluster_get_next_collideable_object_and_payload(long* datum_index, 
 	return INVOKE(0x00B27FA0, cluster_get_next_collideable_object_and_payload, datum_index, payload);
 }
 
+//.text:00B27FD0 
+
 long __cdecl cluster_get_next_noncollideable_object_and_payload(long* datum_index, s_object_cluster_payload const** payload)
 {
 	return INVOKE(0x00B28000, cluster_get_next_noncollideable_object_and_payload, datum_index, payload);
+}
+
+//.text:00B28030 ; 
+//.text:00B28040 ; real __cdecl compute_all_quiet() // probably needs to be a double for actual use
+//.text:00B28100 ; real __cdecl compute_electrical_power() // probably needs to be a double for actual use
+//.text:00B28110 ; real __cdecl compute_holiday() // probably needs to be a double for actual use
+//.text:00B281E0 ; real __cdecl compute_time_hours() // probably needs to be a double for actual use
+//.text:00B28240 ; real __cdecl compute_time_minutes() // probably needs to be a double for actual use
+//.text:00B28290 ; real __cdecl compute_time_seconds() // probably needs to be a double for actual use
+//.text:00B282E0 ; public: void __cdecl c_object_identifier::create_dynamic(e_object_type)
+//.text:00B28320 ; public: void __cdecl c_object_identifier::create_from_parent(e_object_type)
+//.text:00B28360 ; public: void __cdecl c_object_identifier::create_from_scenario(e_object_type, long)
+//.text:00B28380 ; public: void __cdecl c_object_identifier::create_from_sky(e_object_type, long)
+//.text:00B283A0 ; public: void __cdecl c_object_identifier::create_from_structure(e_object_type, short, long)
+//.text:00B283C0 ; 
+//.text:00B283F0 ; 
+//.text:00B28420 ; 
+//.text:00B28450 ; 
+//.text:00B28480 ; 
+//.text:00B284B0 ; 
+//.text:00B284E0 ; 
+//.text:00B28510 ; 
+//.text:00B28540 ; 
+//.text:00B28570 ; 
+//.text:00B285A0 ; 
+//.text:00B285C0 ; 
+//.text:00B28600 ; 
+//.text:00B28610 ; public: void __cdecl t_message_container<s_object_render_thread_message, 2048>::filter_messages(bool(__cdecl*const)(s_object_render_thread_message*, dword), dword)
+//.text:00B286A0 ; bool __cdecl filter_object_messages(s_object_render_thread_message*, dword)
+
+long __cdecl find_first_predicted_object_recursive(long object_index)
+{
+	return INVOKE(0x00B286C0, find_first_predicted_object_recursive, object_index);
+}
+
+//.text:00B28740 ; public: long __cdecl c_object_identifier::find_object_index() const
+//.text:00B28800 ; public: s_scenario_object* __cdecl c_object_identifier::find_scenario_object(long*) const
+//.text:00B28820 ; public: s_scenario_object* __cdecl c_object_identifier::find_scenario_object_from_scenario(scenario*, long*) const
+//.text:00B288F0 ; 
+//.text:00B28900 ; 
+//.text:00B28910 ; 
+//.text:00B28920 ; 
+//.text:00B28950 ; 
+//.text:00B28980 ; 
+//.text:00B289B0 ; 
+//.text:00B289E0 ; 
+//.text:00B28A10 ; 
+//.text:00B28A40 ; 
+//.text:00B28A70 ; 
+//.text:00B28AA0 ; 
+//.text:00B28AD0 ; 
+//.text:00B28B00 ; 
+//.text:00B28B20 ; 
+//.text:00B28B50 ; void __cdecl game_state_after_load_objects_setup_structure_bsp_fake_lightprobes(long)
+
+void __cdecl garbage_collect_now()
+{
+	INVOKE(0x00B28BD0, garbage_collect_now);
+}
+
+void __cdecl garbage_collect_unsafe()
+{
+	INVOKE(0x00B28C00, garbage_collect_unsafe);
+}
+
+bool __cdecl garbage_collection_can_run()
+{
+	return INVOKE(0x00B28C30, garbage_collection_can_run);
+}
+
+//.text:00B28C50 ; 
+//.text:00B28C60 ; 
+//.text:00B28C70 ; 
+//.text:00B28C80 ; 
+//.text:00B28C90 ; 
+//.text:00B28CA0 ; 
+//.text:00B28DD0 ; 
+//.text:00B28DE0 ; 
+//.text:00B28DF0 ; real_orientation* __cdecl get_node_orientation_scratchpad_for_model(render_model_definition const*, long)
+//.text:00B28E60 ; public: long __cdecl c_object_identifier::get_unique_id_direct() const
+//.text:00B28E70 ; similar to `objects_compact_memory_pool`
+//.text:00B28ED0 ; void __cdecl handle_object_render_message(s_object_render_thread_message*, long)
+//.text:00B28F50 ; 
+//.text:00B28F70 ; 
+//.text:00B28F90 ; 
+//.text:00B28FA0 ; void __cdecl hs_object_definition_predict_low(long)
+//.text:00B28FB0 ; void __cdecl internal_object_compute_animated_node_orientations(long, real, render_model_definition const*, c_animation_manager*, c_static_flags<256> const*, long, real_orientation*, bool)
+//.text:00B29080 ; short __cdecl internal_object_get_markers_by_string_id(long, long, object_marker*, short, bool)
+//.text:00B29260 ; 
+//.text:00B29280 ; 
+//.text:00B292D0 ; 
+//.text:00B292E0 ; public: bool __cdecl c_object_identifier::is_equal(c_object_identifier const*) const
+//.text:00B29330 ; 
+//.text:00B29350 ; 
+//.text:00B29370 ; 
+//.text:00B29390 ; 
+//.text:00B293B0 ; 
+
+long __cdecl object_accepted_local_physics_object_get(long object_index)
+{
+	return INVOKE(0x00B293E0, object_accepted_local_physics_object_get, object_index);
+}
+
+void __cdecl object_activate(long object_index)
+{
+	INVOKE(0x00B29440, object_activate, object_index);
+}
+
+//.text:00B294C0 ; 
+
+void __cdecl object_adjust_garbage_timer(long object_index, long time)
+{
+	INVOKE(0x00B29500, object_adjust_garbage_timer, object_index, time);
+}
+//.text:00B29540 ; 
+//.text:00B295B0 ; void __cdecl object_adjust_node_orientations_for_facing_change(long, vector3d const*, vector3d const*)
+//.text:00B296D0 ; void __cdecl object_adjust_placement(object_placement_data*)
+//.text:00B29720 ; void __cdecl object_align_marker_to_matrix(long, object_marker const*, real_matrix4x3 const*)
+//.text:00B29900 ; void __cdecl object_animation_callback(s_animation_event_data const*, long)
+//.text:00B29B50 ; void __cdecl object_apply_acceleration(long, long, real_point3d const*, vector3d const*, vector3d const*)
+//.text:00B29D40 ; void __cdecl object_apply_function_overlay_node_orientations(long, render_model_definition const*, c_animation_manager const*, c_static_flags<256> const*, long, real_orientation*)
+//.text:00B29F20 ; void __cdecl object_attach_gamestate_entity(long object_index, long gamestate_entity_index)
+//.text:00B29F60 ; void __cdecl object_attach_to_marker(long, long, long, long)
+//.text:00B29FD0 ; void __cdecl object_attach_to_marker_immediate(long, long, long, long)
+//.text:00B2A250 ; void __cdecl object_attach_to_node(long, long, short)
+//.text:00B2A2B0 ; void __cdecl object_attach_to_node_immediate(long, long, short)
+//.text:00B2A700 ; 
+
+bool __cdecl object_can_be_melee_instant_killed(long object_index)
+{
+	return INVOKE(0x00B2A780, object_can_be_melee_instant_killed, object_index);
+}
+
+bool __cdecl object_can_interpolate(long object_index)
+{
+	return INVOKE(0x00B2A7E0, object_can_interpolate, object_index);
+}
+
+//.text:00B2A820 ; void __cdecl object_choose_initial_permutation(long, word, s_model_customization_region_permutation const*, long)
+
+void __cdecl object_choose_variant(long object_index, long name)
+{
+	INVOKE(0x00B2A960, object_choose_variant, object_index, name);
+}
+
+void __cdecl object_cinematic_collision(long object_index, bool enable)
+{
+	INVOKE(0x00B2A9C0, object_cinematic_collision, object_index, enable);
+}
+
+void __cdecl object_cinematic_lod(long object_index, bool enable)
+{
+	INVOKE(0x00B2AA20, object_cinematic_lod, object_index, enable);
+}
+
+void __cdecl object_cinematic_visibility(long object_index, bool enable)
+{
+	INVOKE(0x00B2AA70, object_cinematic_visibility, object_index, enable);
+}
+
+//.text:00B2AAC0 ; void __cdecl object_clear_sync_action(long)
+//.text:00B2AB10 ; bool __cdecl object_compute_bounding_sphere(long)
+//.text:00B2AD00 ; void __cdecl object_compute_bounding_sphere_recursive(long, real_point3d const*, real*)
+//.text:00B2AEC0 ; bool __cdecl object_compute_change_colors(long)
+//.text:00B2B120 ; bool __cdecl object_compute_function_value(long, long, long, real*, bool*, bool*)
+//.text:00B2B830 ; void __cdecl object_compute_instance_bitfield_visible(long)
+//.text:00B2B8E0 ; void __cdecl object_compute_node_matrices(long)
+//.text:00B2B970 ; void __cdecl object_compute_node_matrices_non_recursive(long)
+//.text:00B2C240 ; void __cdecl object_compute_origin_matrix(long, real_point3d const*, vector3d const*, vector3d const*, real, bool, real_matrix4x3 const*, bool, real_matrix4x3*)
+//.text:00B2C3D0 ; real_matrix4x3 const* __cdecl object_compute_render_time_node_matrices(long, long, byte const*, real_matrix4x3 const*)
+
+void __cdecl object_connect_lights(long object_index, bool disconnect_this_object, bool reconnect_this_object)
+{
+	INVOKE(0x00B2C790, object_connect_lights, object_index, disconnect_this_object, reconnect_this_object);
+
+	//object_connect_lights_recursive(object_index, disconnect_this_object, reconnect_this_object, false, false);
+}
+
+void __cdecl object_connect_lights_recursive(long object_index, bool disconnect_this_object, bool reconnect_this_object, bool a3, bool a4)
+{
+	INVOKE(0x00B2C7B0, object_connect_lights_recursive, object_index, disconnect_this_object, reconnect_this_object, a3, a4);
+}
+
+long __cdecl object_count(long type_flags, byte header_mask)
+{
+	return INVOKE(0x00B2C8E0, object_count, type_flags, header_mask);
+}
+
+void __cdecl object_create_attachments(long object_index)
+{
+	INVOKE(0x00B2C940, object_create_attachments, object_index);
+}
+
+void __cdecl object_create_children(long object_index)
+{
+	INVOKE(0x00B2C980, object_create_children, object_index);
+}
+
+bool __cdecl object_custom_animations_hold_on_last_frame()
+{
+	return INVOKE(0x00B2CBA0, object_custom_animations_hold_on_last_frame);
+}
+
+//.text:00B2CBC0 ; 
+
+//void __cdecl object_deactivate(long object_index)
+//{
+//	INVOKE(0x00B2CBE0, object_deactivate, object_index);
+//
+//	//object_deactivate(object_index, false);
+//}
+//
+//void __cdecl object_deactivate(long object_index, bool a2)
+//{
+//	INVOKE(0x00B2CC00, object_deactivate, object_index, a2);
+//}
+
+//.text:00B2CCE0 ; 
+//.text:00B2CCF0 ; 
+
+bool __cdecl object_definition_predict_low(long object_definition_index)
+{
+	return INVOKE(0x00B2CD00, object_definition_predict_low, object_definition_index);
 }
 
 void __cdecl object_delete(long object_index)
@@ -158,6 +477,11 @@ void __cdecl object_delete(long object_index)
 void __cdecl object_delete_all_multiplayer_cinematic_objects()
 {
 	INVOKE(0x00B2CE90, object_delete_all_multiplayer_cinematic_objects);
+}
+
+void __cdecl object_delete_attachments(long object_index)
+{
+	INVOKE(0x00B2CF20, object_delete_attachments, object_index);
 }
 
 void __cdecl object_delete_immediately(long object_index)
@@ -318,41 +642,103 @@ real_matrix4x3* __cdecl object_get_world_matrix(long object_index, real_matrix4x
 	return INVOKE(0x00B2EC60, object_get_world_matrix, object_index, matrix);
 }
 
-//.text:00B2ECE0 ; real_matrix4x3* __cdecl object_get_world_matrix_interpolated(long, real_matrix4x3*)
-//.text:00B2EDF0 ; bool __cdecl object_has_animation_manager(long)
-//.text:00B2EE30 ; bool __cdecl object_has_multiplayer_properties(long)
-//.text:00B2EE70 ; bool __cdecl object_header_block_allocate(long, short, short, short)
-//.text:00B2EF90 ; void __cdecl object_header_delete(long)
-//.text:00B2EFF0 ; long __cdecl object_header_new(short)
-//.text:00B2F0A0 ; long __cdecl object_index_from_name_index(short)
-//.text:00B2F0E0 ; long __cdecl object_index_from_scenario_object_index(enum e_object_type, long)
-//.text:00B2F120 ; bool __cdecl object_is_at_rest(long)
-//.text:00B2F160 ; bool __cdecl object_is_being_deleted(long)
-//.text:00B2F190 ; bool __cdecl object_is_connected_to_map(long)
-//.text:00B2F1D0 ; bool __cdecl object_is_hidden(long)
-//.text:00B2F220 ; bool __cdecl object_is_hidden_internal(object_header_datum const*, object_datum const*)
-//.text:00B2F240 ; bool __cdecl object_is_hidden_non_recursive(long)
-//.text:00B2F280 ; 
+real_matrix4x3* __cdecl object_get_world_matrix_interpolated(long object_index, real_matrix4x3* out_matrix)
+{
+	return INVOKE(0x00B2ECE0, object_get_world_matrix_interpolated, object_index, out_matrix);
+}
+
+bool __cdecl object_has_animation_manager(long object_index)
+{
+	return INVOKE(0x00B2EDF0, object_has_animation_manager, object_index);
+}
+
+bool __cdecl object_has_multiplayer_properties(long object_index)
+{
+	return INVOKE(0x00B2EE30, object_has_multiplayer_properties, object_index);
+}
+
+bool __cdecl object_header_block_allocate(long object_index, short block_reference_offset, short size, short alignment_bits)
+{
+	return INVOKE(0x00B2EE70, object_header_block_allocate, object_index, block_reference_offset, size, alignment_bits);
+}
+
+void __cdecl object_header_delete(long object_index)
+{
+	return INVOKE(0x00B2EF90, object_header_delete, object_index);
+}
+
+long __cdecl object_header_new(short size)
+{
+	return INVOKE(0x00B2EFF0, object_header_new, size);
+}
+
+long __cdecl object_index_from_name_index(short name_index)
+{
+	return INVOKE(0x00B2F0A0, object_index_from_name_index, name_index);
+}
+
+long __cdecl object_index_from_scenario_object_index(e_object_type object_type, long object_index)
+{
+	return INVOKE(0x00B2F0E0, object_index_from_scenario_object_index, object_type, object_index);
+}
+
+bool __cdecl object_is_at_rest(long object_index)
+{
+	return INVOKE(0x00B2F120, object_is_at_rest, object_index);
+}
+
+bool __cdecl object_is_being_deleted(long object_index)
+{
+	return INVOKE(0x00B2F160, object_is_being_deleted, object_index);
+}
+
+bool __cdecl object_is_connected_to_map(long object_index)
+{
+	return INVOKE(0x00B2F190, object_is_connected_to_map, object_index);
+}
+
+bool __cdecl object_is_hidden(long object_index)
+{
+	return INVOKE(0x00B2F1D0, object_is_hidden, object_index);
+}
+
+bool __cdecl object_is_hidden_internal(object_header_datum const* object_header, object_datum const* object)
+{
+	return INVOKE(0x00B2F220, object_is_hidden_internal, object_header, object);
+}
+
+bool __cdecl object_is_hidden_non_recursive(long object_index)
+{
+	return INVOKE(0x00B2F240, object_is_hidden_non_recursive, object_index);
+}
+
+//.text:00B2F280 ; bool __cdecl sub_B2F280(long object_index, long render_model_index);
 
 bool __cdecl object_is_multiplayer_cinematic_object(long object_index)
 {
 	return INVOKE(0x00B2F300, object_is_multiplayer_cinematic_object, object_index);
 }
 
-//.text:00B2F340 ; bool __cdecl object_is_or_contains_player(long)
-//.text:00B2F470 ; bool __cdecl object_is_vehicle(long)
+bool __cdecl object_is_or_contains_player(long object_index)
+{
+	return INVOKE(0x00B2F340, object_is_or_contains_player, object_index);
+}
+
+bool __cdecl object_is_running_sync_action(long object_index)
+{
+	return INVOKE(0x00B2F430, object_is_running_sync_action, object_index);
+}
+
+bool __cdecl object_is_vehicle(long object_index)
+{
+	return INVOKE(0x00B2F470, object_is_vehicle, object_index);
+}
+
+//.text:00B2F4B0 ; protected: void __cdecl c_object_iterator_base::object_iterator_begin_internal(dword, dword, dword, long)
 
 e_object_type c_object_identifier::get_type() const
 {
 	return m_type;
-}
-
-void c_object_identifier::clear()
-{
-	m_type = k_object_type_none;
-	m_source = k_object_source_none;
-	m_origin_bsp_index = NONE;
-	m_unique_id = NONE;
 }
 
 long c_object_iterator_base::get_index()
@@ -380,16 +766,32 @@ object_datum* __cdecl c_object_iterator_base::get_datum_internal()
 	return m_datum;
 }
 
-//.text:00B2F830 ; long __cdecl object_list_children_by_definition(long, long)
+long __cdecl object_list_children_by_definition(long object_index, long definition_index)
+{
+	return INVOKE(0x00B2F830, object_list_children_by_definition, object_index, definition_index);
+}
 
 bool __cdecl object_load_scenario_placement_matrices(long object_index)
 {
 	return INVOKE(0x00B2F890, object_load_scenario_placement_matrices, object_index);
 }
 
-//.text:00B2FBD0 ; long __cdecl object_local_physics_object_get(long)
-//.text:00B2FC20 ; long __cdecl object_lookup_variant_index_from_name(long, long)
-//.text:00B2FC70 ; void __cdecl object_make_noise(long, e_sound_type, e_ai_sound_volume)
+long __cdecl object_local_physics_object_get(long object_index)
+{
+	return INVOKE(0x00B2FBD0, object_local_physics_object_get, object_index);
+}
+
+long __cdecl object_lookup_variant_index_from_name(long object_index, long name)
+{
+	return INVOKE(0x00B2FC20, object_lookup_variant_index_from_name, object_index, name);
+}
+
+//void __cdecl object_make_noise(long object_index, e_sound_type sound_type, e_ai_sound_volume ai_sound_volume)
+void __cdecl object_make_noise(long object_index, long sound_type, long ai_sound_volume)
+{
+	INVOKE(0x00B2FC70, object_make_noise, object_index, sound_type, ai_sound_volume);
+}
+
 //.text:00B2FCE0 ; bool __cdecl object_mark(long)
 //.text:00B2FD20 ; bool __cdecl object_mark_get_user_data(long, long*)
 //.text:00B2FD60 ; bool __cdecl object_mark_with_user_data(long, long)
