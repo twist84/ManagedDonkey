@@ -249,7 +249,7 @@ struct object_header_datum :
 {
 	c_flags<e_object_header_flags, byte, k_object_header_flags> flags;
 	c_enum<e_object_type, byte, _object_type_biped, k_object_type_count> object_type;
-	short __unknown2;
+	short cluster_index;
 	short data_size;
 	long datum_handle;
 	object_datum* datum;
