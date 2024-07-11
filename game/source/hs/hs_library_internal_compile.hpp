@@ -70,11 +70,42 @@ bool hs_parse_begin(short function_index, long expression_index)
 
 bool hs_parse_if(short function_index, long expression_index)
 {
-	// #TODO: implement
+	bool parse_success = false;
+	hs_syntax_node* expression = hs_syntax_get(expression_index);
+	long next_node_index = hs_syntax_get(expression->long_value)->next_node_index;
 
 	ASSERT(function_index == _hs_function_if);
 
-	return false;
+	long next_next_expression = NONE;
+	long next_next_next_node_index = NONE;
+	if (next_node_index == NONE
+		|| (next_next_expression = hs_syntax_get(next_node_index)->next_node_index, next_next_expression == NONE)
+		|| (next_next_next_node_index = hs_syntax_get(next_next_expression)->next_node_index, next_next_next_node_index != NONE)
+		&& hs_syntax_get(next_next_next_node_index)->next_node_index != NONE)
+	{
+		hs_compile_globals.error_message = "i expected (if <condition> <then> [<else>]).";
+		hs_compile_globals.error_offset = hs_syntax_get(expression_index)->source_offset;
+	}
+	else if (hs_parse(next_node_index, _hs_type_boolean))
+	{
+		if (hs_parse(next_next_expression, expression->type))
+		{
+			if (!expression->type)
+				expression->type = hs_syntax_get(next_next_expression)->type;
+
+			parse_success = next_next_next_node_index == -1 || hs_parse(next_next_next_node_index, expression->type);
+		}
+		else if (!hs_compile_globals.error_message
+			&& !expression->type
+			&& next_next_next_node_index != NONE
+			&& hs_parse(next_next_next_node_index, expression->type))
+		{
+			expression->type = hs_syntax_get(next_next_next_node_index)->type;
+			parse_success = hs_parse(next_next_expression, expression->type);
+		}
+	}
+
+	return parse_success;
 }
 
 bool hs_parse_cond(short function_index, long expression_index)
