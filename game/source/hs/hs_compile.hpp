@@ -34,23 +34,20 @@ struct hs_compile_globals_struct
 
 	long compiled_source_size;
 	char* compiled_source;
-	
-	struct // contant in this case refers to script string tag data
-	{
-		char* script_string_contant_memory;
-		long script_string_memory_size;
-		long script_string_contant_memory_size;
-	};
+
+	char* string_constant_buffer;
+	long string_constant_buffer_offset;
+	long string_constant_buffer_size;
 
 	char const* error_message;
 	long error_offset;
 	char error_buffer[k_hs_compile_error_buffer_size];
 
-	bool __unknown420;
-	bool __unknown421;
-	bool illegal_block;
-	bool illegal_variable_value_set;
-	bool __unknown424;
+	bool malloced;
+	bool permanent;
+	bool disallow_blocks;
+	bool disallow_sets;
+	bool variables_predetermined;
 
 	long some_reference_count;
 

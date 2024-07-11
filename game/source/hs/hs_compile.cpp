@@ -716,7 +716,7 @@ bool hs_parse_tag_reference(long expression_index)
 		}
 	}
 
-	if (expression->long_value == NONE && !hs_compile_globals.__unknown421)
+	if (expression->long_value == NONE && !hs_compile_globals.permanent)
 	{
 		bool v11 = false;
 		if (char* extension_offset = strrchr(source_offset, '.'))
@@ -752,7 +752,7 @@ bool hs_parse_tag_reference_not_resolving(long expression_index)
 		return false;
 	}
 
-	if (expression->long_value == NONE && !hs_compile_globals.__unknown421)
+	if (expression->long_value == NONE && !hs_compile_globals.permanent)
 	{
 		tag group_tag = NONE;
 		if (char* extension_offset = strrchr(source_offset, '.'))
@@ -1030,7 +1030,7 @@ bool hs_parse_variable(long expression_index)
 		}
 	}
 	
-	if (!valid && (!hs_compile_globals.__unknown424
+	if (!valid && (!hs_compile_globals.variables_predetermined
 		|| expression->type.get() == NONE
 		|| expression->short_value == NONE
 		|| !expression->flags.test(_hs_syntax_node_unknown_bit4)))
@@ -1075,7 +1075,7 @@ bool hs_parse_variable(long expression_index)
 		return true;
 	}
 	
-	if (!hs_compile_globals.__unknown424)
+	if (!hs_compile_globals.variables_predetermined)
 		return false;
 	
 	if (expression->type.get() == NONE || expression->long_value == NONE || !expression->flags.test(_hs_syntax_node_unknown_bit4))
@@ -1110,10 +1110,10 @@ bool hs_parse_primitive(long expression_index)
 	}
 
 	bool error_occurred = false;
-	if (!hs_compile_globals.__unknown424 || expression->flags.test(_hs_syntax_node_variable_bit))
+	if (!hs_compile_globals.variables_predetermined || expression->flags.test(_hs_syntax_node_variable_bit))
 		error_occurred = hs_parse_variable(expression_index);
 
-	if (error_occurred || !expression->type.get() || hs_compile_globals.error_message || (!hs_compile_globals.__unknown424 || !expression->flags.test(_hs_syntax_node_variable_bit)))
+	if (error_occurred || !expression->type.get() || hs_compile_globals.error_message || (!hs_compile_globals.variables_predetermined || !expression->flags.test(_hs_syntax_node_variable_bit)))
 		return false;
 
 	if (hs_type_primitive_parser_t* primitive_parser = hs_type_primitive_parsers[expression->type.get()])
@@ -1223,13 +1223,13 @@ bool hs_parse_nonprimitive(long expression_index)
 				hs_compile_globals.error_message = hs_compile_globals.error_buffer;
 				hs_compile_globals.error_offset = expression->source_offset;
 			}
-			else if (hs_compile_globals.illegal_block
+			else if (hs_compile_globals.disallow_blocks
 				&& (expression->constant_type.get() == _hs_type_ai || expression->constant_type.get() == _hs_type_ai_command_script))
 			{
 				hs_compile_globals.error_message = "it is illegal to block in this context.";
 				hs_compile_globals.error_offset = expression->source_offset;
 			}
-			else if (hs_compile_globals.illegal_variable_value_set && expression->constant_type.get() == _hs_type_void)
+			else if (hs_compile_globals.disallow_sets && expression->constant_type.get() == _hs_type_void)
 			{
 				hs_compile_globals.error_message = "it is illegal to set the value of variables in this context.";
 				hs_compile_globals.error_offset = expression->source_offset;
@@ -1481,7 +1481,7 @@ bool hs_parse_tag_block_element_string_id(long expression_index, long offset, lo
 		return false;
 	}
 
-	if (hs_compile_globals.__unknown421)
+	if (hs_compile_globals.permanent)
 	{
 		if (scenario_index == global_scenario_index_get())
 		{
@@ -1526,7 +1526,7 @@ bool hs_parse_tag_block_element(long expression_index, long offset, long scenari
 		return false;
 	}
 
-	if (hs_compile_globals.__unknown421)
+	if (hs_compile_globals.permanent)
 	{
 		if (scenario_index == global_scenario_index_get())
 		{
