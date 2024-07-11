@@ -25,7 +25,7 @@ inline bool c_generic_network_session_parameter<t_type>::set(t_type const* param
 		return false;
 	}
 
-	if (this->m_data != *parameter || get_allowed())
+	if (this->m_data != *parameter || !get_allowed())
 	{
 		this->m_data = *parameter;
 		set_update_required();
