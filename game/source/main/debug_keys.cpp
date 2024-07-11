@@ -861,25 +861,25 @@ void __cdecl debug_key_select_next_encounter(bool enabled)
 	}
 }
 
-void __cdecl debug_key_select_next_actor(bool enabled)
+void __cdecl debug_key_select_next_actor(bool key_is_down)
 {
-	if (enabled && game_in_progress())
+	if (key_is_down && game_in_progress())
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_select_prev_actor(bool enabled)
+void __cdecl debug_key_select_prev_actor(bool key_is_down)
 {
-	if (enabled && game_in_progress())
+	if (key_is_down && game_in_progress())
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_render_spray(bool enabled)
+void __cdecl debug_key_render_spray(bool key_is_down)
 {
-	if (enabled && game_in_progress())
+	if (key_is_down && game_in_progress())
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
@@ -902,15 +902,15 @@ void __cdecl ai_scripting_erase_all()
 	//	ai_script_erase_squad_vehicles(iterator.datum_index);
 }
 
-void __cdecl debug_key_erase_all_actors(bool enabled)
+void __cdecl debug_key_erase_all_actors(bool key_is_down)
 {
-	if (enabled && game_in_progress())
+	if (key_is_down && game_in_progress())
 		ai_scripting_erase_all();
 }
 
-void __cdecl debug_key_rotate_units(bool enabled)
+void __cdecl debug_key_rotate_units(bool key_is_down)
 {
-	if (enabled && game_in_progress() && !game_is_ui_shell())
+	if (key_is_down && game_in_progress() && !game_is_ui_shell())
 	{
 		e_input_user_index user_index = player_mapping_first_active_input_user();
 		if (user_index != k_number_of_input_users)
@@ -930,9 +930,9 @@ void __cdecl debug_key_rotate_units(bool enabled)
 	}
 }
 
-void __cdecl debug_key_rotate_all_units(bool enabled)
+void __cdecl debug_key_rotate_all_units(bool key_is_down)
 {
-	if (enabled && game_in_progress() && !game_is_ui_shell())
+	if (key_is_down && game_in_progress() && !game_is_ui_shell())
 	{
 		e_input_user_index user_index = player_mapping_first_active_input_user();
 		if (user_index != k_number_of_input_users)
@@ -974,9 +974,9 @@ void __cdecl unit_debug_ninja_rope(long unit_index)
 	}
 }
 
-void __cdecl debug_key_ninja_rope(bool enabled)
+void __cdecl debug_key_ninja_rope(bool key_is_down)
 {
-	if (enabled && game_in_progress())
+	if (key_is_down && game_in_progress())
 	{
 		e_input_user_index user_index = player_mapping_first_active_input_user();
 		if (user_index != k_number_of_input_users)
@@ -988,7 +988,7 @@ void __cdecl debug_key_ninja_rope(bool enabled)
 	}
 }
 
-void __cdecl debug_key_play_animation(bool enabled)
+void __cdecl debug_key_play_animation(bool key_is_down)
 {
 }
 
@@ -998,51 +998,51 @@ void __cdecl profile_summary_cycle()
 
 }
 
-void __cdecl debug_key_profile_summary(bool enabled)
+void __cdecl debug_key_profile_summary(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 		profile_summary_cycle();
 }
 
-void __cdecl debug_key_profile_summary_off(bool enabled)
+void __cdecl debug_key_profile_summary_off(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 		profile_summary_enabled = false;
 }
 
-void __cdecl debug_key_profile_off(bool enabled)
+void __cdecl debug_key_profile_off(bool key_is_down)
 {
 }
 
-void __cdecl debug_key_profile_next_thread(bool enabled)
+void __cdecl debug_key_profile_next_thread(bool key_is_down)
 {
 }
 
-void __cdecl debug_key_profile_prev_thread(bool enabled)
+void __cdecl debug_key_profile_prev_thread(bool key_is_down)
 {
 }
 
-void __cdecl debug_key_profile_next_attribute(bool enabled)
+void __cdecl debug_key_profile_next_attribute(bool key_is_down)
 {
 }
 
-void __cdecl debug_key_profile_prev_attribute(bool enabled)
+void __cdecl debug_key_profile_prev_attribute(bool key_is_down)
 {
 }
 
-void __cdecl debug_key_profile_next_sort(bool enabled)
+void __cdecl debug_key_profile_next_sort(bool key_is_down)
 {
 }
 
-void __cdecl debug_key_profile_prev_sort(bool enabled)
+void __cdecl debug_key_profile_prev_sort(bool key_is_down)
 {
 }
 
-void __cdecl debug_key_profile_next_display(bool enabled)
+void __cdecl debug_key_profile_next_display(bool key_is_down)
 {
 }
 
-void __cdecl debug_key_profile_dump_frame(bool enabled)
+void __cdecl debug_key_profile_dump_frame(bool key_is_down)
 {
 }
 
@@ -1052,9 +1052,9 @@ void __cdecl player_control_debug_render_toggle()
 	debug_player_input = !debug_player_input;
 }
 
-void __cdecl debug_player_input_toggle(bool enabled)
+void __cdecl debug_player_input_toggle(bool key_is_down)
 {
-	if (enabled && game_in_progress())
+	if (key_is_down && game_in_progress())
 		player_control_debug_render_toggle();
 }
 
@@ -1064,61 +1064,61 @@ void __cdecl weapons_debug_render_toggle()
 	debug_weapons = !debug_weapons;
 }
 
-void __cdecl debug_key_toggle_weapons(bool enabled)
+void __cdecl debug_key_toggle_weapons(bool key_is_down)
 {
-	if (enabled && game_in_progress() && !game_in_editor())
+	if (key_is_down && game_in_progress() && !game_in_editor())
 		weapons_debug_render_toggle();
 }
 
-void __cdecl debug_key_exit_game(bool enabled)
+void __cdecl debug_key_exit_game(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 		main_exit_game();
 }
 
-void __cdecl debug_key_mouse_focus(bool enabled)
+void __cdecl debug_key_mouse_focus(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_clear_screen(bool enabled)
+void __cdecl debug_key_clear_screen(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 		terminal_clear();
 }
 
-void __cdecl debug_key_save_camera(bool enabled)
+void __cdecl debug_key_save_camera(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 		director_save_camera();
 }
 
-void __cdecl debug_key_load_camera(bool enabled)
+void __cdecl debug_key_load_camera(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 		director_load_camera();
 }
 
-void __cdecl debug_key_teleport_to_camera(bool enabled)
+void __cdecl debug_key_teleport_to_camera(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 		cheat_teleport_to_camera();
 }
 
-void __cdecl debug_key_toggle_pause(bool enabled)
+void __cdecl debug_key_toggle_pause(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_print_screen(bool enabled)
+void __cdecl debug_key_print_screen(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 	{
 		c_static_string<128> screenshot_path;
 		c_static_string<128> screenshot_filepath;
@@ -1189,57 +1189,57 @@ void __cdecl debug_key_adjust_game_speed_internal(real increment)
 	console_printf("game speed %.1f", v6);
 }
 
-void __cdecl debug_key_increment_game_speed_minor(bool enabled)
+void __cdecl debug_key_increment_game_speed_minor(bool key_is_down)
 {
-	if (enabled && debug_game_speed < 5.0f)
+	if (key_is_down && debug_game_speed < 5.0f)
 		debug_key_adjust_game_speed_internal(0.1f);
 }
 
-void __cdecl debug_key_decrement_game_speed_minor(bool enabled)
+void __cdecl debug_key_decrement_game_speed_minor(bool key_is_down)
 {
-	if (enabled && debug_game_speed > 0.0f)
+	if (key_is_down && debug_game_speed > 0.0f)
 		debug_key_adjust_game_speed_internal(-0.1f);
 }
 
-void __cdecl debug_key_increment_game_speed_major(bool enabled)
+void __cdecl debug_key_increment_game_speed_major(bool key_is_down)
 {
-	if (enabled && debug_game_speed < 5.0f)
+	if (key_is_down && debug_game_speed < 5.0f)
 		debug_key_adjust_game_speed_internal(0.5f);
 }
 
-void __cdecl debug_key_decrement_game_speed_major(bool enabled)
+void __cdecl debug_key_decrement_game_speed_major(bool key_is_down)
 {
-	if (enabled && debug_game_speed > 0.0f)
+	if (key_is_down && debug_game_speed > 0.0f)
 		debug_key_adjust_game_speed_internal(-0.5f);
 }
 
-void __cdecl debug_dump_assert_log(bool enabled)
+void __cdecl debug_dump_assert_log(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
-void __cdecl debug_time_stats_display(bool enabled)
+void __cdecl debug_time_stats_display(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
-void __cdecl debug_time_stats_pause(bool enabled)
+void __cdecl debug_time_stats_pause(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
 }
 
-void __cdecl debug_key_force_respawn(bool enabled)
+void __cdecl debug_key_force_respawn(bool key_is_down)
 {
-	if (enabled)
+	if (key_is_down)
 	{
 		if (!game_is_authoritative())
 			return;
@@ -1267,15 +1267,15 @@ void __cdecl debug_key_force_respawn(bool enabled)
 	}
 }
 
-void __cdecl debug_button_drop_flag_at_camera(bool enabled)
+void __cdecl debug_button_drop_flag_at_camera(bool button_is_down)
 {
-	if (enabled)
+	if (button_is_down)
 		editor_flag_new_at_camera();
 }
 
-void __cdecl debug_button_drop_flag_as_projectile(bool enabled)
+void __cdecl debug_button_drop_flag_as_projectile(bool button_is_down)
 {
-	if (enabled)
+	if (button_is_down)
 		editor_flag_new_at_look_at_point();
 }
 
