@@ -323,6 +323,27 @@ void __cdecl cheat_all_weapons()
 	cheat_objects(references, reference_count);
 }
 
+void __cdecl cheat_all_chars()
+{
+	short reference_count = 0;
+	s_tag_reference references[64]{};
+
+	tag_iterator iterator{};
+	tag_iterator_new(&iterator, UNIT_TAG);
+	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+	{
+		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
+			break;
+
+		char const* tag_name = tag_get_name(tag_index);
+
+		if (tag_name && strstr(tag_name, "character"))
+			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
+	}
+
+	cheat_objects(references, reference_count);
+}
+
 bool __cdecl cheat_drop_effect(tag group_tag, char const* effect_name, long effect_index, real_point3d* position, vector3d* forward)
 {
 	if (effect_index == NONE)

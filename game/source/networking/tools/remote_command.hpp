@@ -174,6 +174,7 @@ COMMAND_CALLBACK_DECLARE(load_customization_from_file);
 COMMAND_CALLBACK_DECLARE(cheat_all_powerups);
 COMMAND_CALLBACK_DECLARE(cheat_all_vehicles);
 COMMAND_CALLBACK_DECLARE(cheat_all_weapons);
+COMMAND_CALLBACK_DECLARE(cheat_all_chars);
 COMMAND_CALLBACK_DECLARE(cheat_teleport_to_camera);
 COMMAND_CALLBACK_DECLARE(cheat_active_camouflage);
 COMMAND_CALLBACK_DECLARE(cheat_active_camouflage_by_player);
@@ -307,6 +308,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(cheat_all_powerups, 0, "", "drops all powerups near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_all_vehicles, 0, "", "drops all vehicles on player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_all_weapons, 0, "", "drops all weapons near player\r\nNETWORK SAFE: Yes"),
+	COMMAND_CALLBACK_REGISTER(cheat_all_chars, 0, "", "drops all characters near player\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_teleport_to_camera, 0, "", "teleports player to camera location\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage, 1, "<bool>", "gives the player active camouflage\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(cheat_active_camouflage_by_player, 2, "<long> <bool>", "gives a specific player active camouflage\r\nNETWORK SAFE: Yes"),

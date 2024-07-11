@@ -46,6 +46,7 @@ extern void __cdecl cheat_objects(s_tag_reference* references, short reference_c
 extern void __cdecl cheat_all_powerups();
 extern void __cdecl cheat_all_vehicles();
 extern void __cdecl cheat_all_weapons();
+extern void __cdecl cheat_all_chars();
 
 extern void __cdecl cheat_drop_tag_name(char const* tag_name);
 extern void __cdecl cheat_drop_tag_name_with_variant_hs(char const* tag_name, char const* variant_name);

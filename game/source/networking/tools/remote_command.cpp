@@ -1676,6 +1676,15 @@ callback_result_t cheat_all_weapons_callback(void const* userdata, long token_co
 	return result;
 }
 
+callback_result_t cheat_all_chars_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	cheat_all_chars();
+
+	return result;
+}
+
 callback_result_t cheat_teleport_to_camera_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
