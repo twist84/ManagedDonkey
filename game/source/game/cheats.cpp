@@ -336,9 +336,8 @@ void __cdecl cheat_all_chars()
 			break;
 
 		char const* tag_name = tag_get_name(tag_index);
-
 		if (tag_name && strstr(tag_name, "character"))
-			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
+			tag_reference_set(&references[reference_count++], iterator.group_tag, tag_name);
 	}
 
 	cheat_objects(references, reference_count);
