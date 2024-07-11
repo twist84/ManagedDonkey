@@ -77,10 +77,10 @@ struct s_observer_command
 	byte __dataD8[0x14];
 };
 static_assert(sizeof(s_observer_command) == 0xEC);
-static_assert(0x84 == offsetof(s_observer_command, __unknown84));
-static_assert(0xB8 == offsetof(s_observer_command, parameter_flags));
-static_assert(0xC0 == offsetof(s_observer_command, parameter_timers));
-static_assert(0xD8 == offsetof(s_observer_command, __dataD8));
+static_assert(0x84 == OFFSETOF(s_observer_command, __unknown84));
+static_assert(0xB8 == OFFSETOF(s_observer_command, parameter_flags));
+static_assert(0xC0 == OFFSETOF(s_observer_command, parameter_timers));
+static_assert(0xD8 == OFFSETOF(s_observer_command, __dataD8));
 
 struct s_observer_result
 {

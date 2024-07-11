@@ -51,9 +51,9 @@ struct _vehicle_datum
 	object_header_block_reference vehicle_physics_cache;
 };
 static_assert(sizeof(_vehicle_datum) == 0x340);
-static_assert(0x007 == offsetof(_vehicle_datum, __data7));
-static_assert(0x00E == offsetof(_vehicle_datum, __dataE));
-static_assert(0x2DA == offsetof(_vehicle_datum, pathfinding__pad2DA));
+static_assert(0x007 == OFFSETOF(_vehicle_datum, __data7));
+static_assert(0x00E == OFFSETOF(_vehicle_datum, __dataE));
+static_assert(0x2DA == OFFSETOF(_vehicle_datum, pathfinding__pad2DA));
 
 struct vehicle_datum
 {

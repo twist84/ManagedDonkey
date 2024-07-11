@@ -58,7 +58,7 @@ void __cdecl game_grief_initialize_for_new_map()
 {
 	INVOKE(0x00678FF0, game_grief_initialize_for_new_map);
 
-	//long constexpr k_size = sizeof(game_grief_globals) - offsetof(s_game_grief_globals, reprieve_time);
+	//long constexpr k_size = sizeof(game_grief_globals) - OFFSETOF(s_game_grief_globals, reprieve_time);
 	//csmemset(&game_grief_globals.reprieve_time, 0, k_size);
 }
 

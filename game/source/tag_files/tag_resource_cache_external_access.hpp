@@ -30,15 +30,15 @@ struct c_tag_resource_cache_new
 	c_tag_resource_cache_thread_lock_lock_freeish m_thread_access_lock;
 };
 static_assert(sizeof(c_tag_resource_cache_new) == 0x380);
-static_assert(0x000 == offsetof(c_tag_resource_cache_new, __unknown0));
-static_assert(0x004 == offsetof(c_tag_resource_cache_new, m_page_io_listener));
-static_assert(0x008 == offsetof(c_tag_resource_cache_new, m_page_table));
-static_assert(0x06C == offsetof(c_tag_resource_cache_new, m_cache_controller));
-static_assert(0x0CC == offsetof(c_tag_resource_cache_new, m_address_cache));
-static_assert(0x110 == offsetof(c_tag_resource_cache_new, m_inverse_page_table));
-static_assert(0x128 == offsetof(c_tag_resource_cache_new, __unknown128));
-static_assert(0x12C == offsetof(c_tag_resource_cache_new, m_runtime_active_set));
-static_assert(0x130 == offsetof(c_tag_resource_cache_new, m_cache_file_prefetch_set));
-static_assert(0x134 == offsetof(c_tag_resource_cache_new, __data134));
-static_assert(0x140 == offsetof(c_tag_resource_cache_new, m_thread_access_lock));
+static_assert(0x000 == OFFSETOF(c_tag_resource_cache_new, __unknown0));
+static_assert(0x004 == OFFSETOF(c_tag_resource_cache_new, m_page_io_listener));
+static_assert(0x008 == OFFSETOF(c_tag_resource_cache_new, m_page_table));
+static_assert(0x06C == OFFSETOF(c_tag_resource_cache_new, m_cache_controller));
+static_assert(0x0CC == OFFSETOF(c_tag_resource_cache_new, m_address_cache));
+static_assert(0x110 == OFFSETOF(c_tag_resource_cache_new, m_inverse_page_table));
+static_assert(0x128 == OFFSETOF(c_tag_resource_cache_new, __unknown128));
+static_assert(0x12C == OFFSETOF(c_tag_resource_cache_new, m_runtime_active_set));
+static_assert(0x130 == OFFSETOF(c_tag_resource_cache_new, m_cache_file_prefetch_set));
+static_assert(0x134 == OFFSETOF(c_tag_resource_cache_new, __data134));
+static_assert(0x140 == OFFSETOF(c_tag_resource_cache_new, m_thread_access_lock));
 

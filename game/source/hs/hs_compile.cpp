@@ -327,42 +327,42 @@ bool hs_parse_trigger_volume(long expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_trigger_volume);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, offsetof(scenario_trigger_volume, name), global_scenario_index_get(), &global_scenario_get()->trigger_volumes, sizeof(scenario_trigger_volume)));
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(scenario_trigger_volume, name), global_scenario_index_get(), &global_scenario_get()->trigger_volumes, sizeof(scenario_trigger_volume)));
 }
 
 bool hs_parse_cutscene_flag(long expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_flag);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, offsetof(scenario_cutscene_flag, name), global_scenario_index_get(), &global_scenario_get()->cutscene_flags, sizeof(scenario_cutscene_flag)));
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(scenario_cutscene_flag, name), global_scenario_index_get(), &global_scenario_get()->cutscene_flags, sizeof(scenario_cutscene_flag)));
 }
 
 bool hs_parse_cutscene_camera_point(long expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_camera_point);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, offsetof(scenario_cutscene_camera_point, name), global_scenario_index_get(), &global_scenario_get()->cutscene_camera_points, sizeof(scenario_cutscene_camera_point)));
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_cutscene_camera_point, name), global_scenario_index_get(), &global_scenario_get()->cutscene_camera_points, sizeof(scenario_cutscene_camera_point)));
 }
 
 bool hs_parse_cutscene_title(long expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_camera_point);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, offsetof(s_scenario_cutscene_title, name), global_scenario_index_get(), &global_scenario_get()->cutscene_titles, sizeof(s_scenario_cutscene_title)));
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element_string_id(expression_index, OFFSETOF(s_scenario_cutscene_title, name), global_scenario_index_get(), &global_scenario_get()->cutscene_titles, sizeof(s_scenario_cutscene_title)));
 }
 
 bool hs_parse_cutscene_recording(long expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_cutscene_recording);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, offsetof(recorded_animation_definition, name), global_scenario_index_get(), &global_scenario_get()->recorded_animations, sizeof(recorded_animation_definition)));
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, OFFSETOF(recorded_animation_definition, name), global_scenario_index_get(), &global_scenario_get()->recorded_animations, sizeof(recorded_animation_definition)));
 }
 
 bool hs_parse_device_group(long expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_device_group);
 
-	if (hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, offsetof(scenario_device_group, name), global_scenario_index_get(), &global_scenario_get()->device_groups, sizeof(scenario_device_group))))
+	if (hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_device_group, name), global_scenario_index_get(), &global_scenario_get()->device_groups, sizeof(scenario_device_group))))
 	{
 		hs_syntax_node* expression = hs_syntax_get(expression_index);
 		expression->long_value = device_group_get_from_scenario_index(expression->short_value);
@@ -494,7 +494,7 @@ bool hs_parse_starting_profile(long expression_index)
 {
 	ASSERT(hs_syntax_get(expression_index)->type == _hs_type_starting_profile);
 
-	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, offsetof(scenario_starting_profile, name), global_scenario_index_get(), &global_scenario_get()->player_starting_profile, sizeof(scenario_starting_profile)));
+	return hs_check_block_index_type_and_return<short>(hs_parse_tag_block_element(expression_index, OFFSETOF(scenario_starting_profile, name), global_scenario_index_get(), &global_scenario_get()->player_starting_profile, sizeof(scenario_starting_profile)));
 }
 
 bool hs_parse_conversation(long expression_index)

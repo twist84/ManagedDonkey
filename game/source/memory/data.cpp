@@ -90,7 +90,7 @@ void __cdecl data_initialize(s_data_array* data, char const* name, long maximum_
 	//data->offset_to_data = pointer_distance(data, data_ptr);
 	//data->flags &= ~FLAG(_data_array_disconnected_bit);
 	//data->flags &= ~FLAG(_data_array_can_disconnect_bit);
-	//csmemset(offset_pointer(data, offsetof(s_data_array, in_use_bit_vector)), 0, BIT_VECTOR_SIZE_IN_BYTES(maximum_count));
+	//csmemset(offset_pointer(data, OFFSETOF(s_data_array, in_use_bit_vector)), 0, BIT_VECTOR_SIZE_IN_BYTES(maximum_count));
 	//data_update_protection(data);
 }
 
@@ -266,7 +266,7 @@ void* __cdecl datum_get(s_data_array* data, long index)
 	word identifier = DATUM_INDEX_TO_IDENTIFIER(index);
 	word absolute_index = DATUM_INDEX_TO_ABSOLUTE_INDEX(index);
 
-	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
 
 	ASSERT(data);
@@ -335,7 +335,7 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 
 		if (absolute_index < data->first_unallocated)
 		{
-			void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+			void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 			s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, absolute_index * data->size);
 
 			if (header->identifier)
@@ -352,7 +352,7 @@ void* __cdecl datum_try_and_get(s_data_array const* data, long index)
 
 void* __cdecl datum_get_absolute(s_data_array* data, long index)
 {
-	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	s_datum_header* header = (s_datum_header*)offset_pointer(*data_ptr, index * data->size);
 
 	ASSERT(data->valid);
@@ -419,7 +419,7 @@ void* __cdecl datum_try_and_get_absolute(s_data_array const* data, long index)
 	//
 	//	if (absolute_index < data->first_unallocated)
 	//	{
-	//		void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	//		void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	//		s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
 	//
 	//		if (header->identifier)
@@ -445,7 +445,7 @@ void* __cdecl datum_try_and_get_unsafe(s_data_array const* data, long index)
 	//
 	//if (index != NONE && absolute_index < data->first_unallocated)
 	//{
-	//	void** data_ptr = (void**)offset_pointer(data, offsetof(s_data_array, data));
+	//	void** data_ptr = (void**)offset_pointer(data, OFFSETOF(s_data_array, data));
 	//	s_datum_header* header = (s_datum_header*)offset_pointer(data_ptr, absolute_index * data->size);
 	//
 	//	if (header->identifier && header->identifier == identifier)

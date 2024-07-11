@@ -159,17 +159,17 @@ struct c_cache_file_tag_resource_runtime_in_level_memory_manager
 	c_cache_file_resource_header_location_table m_resource_header_location_table;
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_in_level_memory_manager) == 0x480);
-static_assert(0x000 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_resource_storage_range));
-static_assert(0x008 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, __unknown8));
-static_assert(0x010 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_actual_resource_storage_range));
-static_assert(0x018 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_stoler_range));
-static_assert(0x020 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_actual_storage_range_read_locked));
-static_assert(0x024 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_writeable_range));
-static_assert(0x02C == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, __data2C));
-static_assert(0x038 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_tag_resource_cache));
-static_assert(0x438 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_cache_file_resource_allocator));
-static_assert(0x44C == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_cache_file_resource_allocation_region));
-static_assert(0x454 == offsetof(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_resource_header_location_table));
+static_assert(0x000 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_resource_storage_range));
+static_assert(0x008 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, __unknown8));
+static_assert(0x010 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_actual_resource_storage_range));
+static_assert(0x018 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_stoler_range));
+static_assert(0x020 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_actual_storage_range_read_locked));
+static_assert(0x024 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_writeable_range));
+static_assert(0x02C == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, __data2C));
+static_assert(0x038 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_tag_resource_cache));
+static_assert(0x438 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_cache_file_resource_allocator));
+static_assert(0x44C == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_cache_file_resource_allocation_region));
+static_assert(0x454 == OFFSETOF(c_cache_file_tag_resource_runtime_in_level_memory_manager, m_resource_header_location_table));
 
 struct c_cache_file_resource_rollover_table
 {
@@ -383,28 +383,28 @@ public:
 	byte __data6ACAA[0x16];
 };
 static_assert(sizeof(c_cache_file_tag_resource_runtime_manager) == 0x6ACC0);
-static_assert(0x00024 == offsetof(c_cache_file_tag_resource_runtime_manager, m_resource_gestalt));
-static_assert(0x00028 == offsetof(c_cache_file_tag_resource_runtime_manager, m_active_zone_state));
-static_assert(0x00048 == offsetof(c_cache_file_tag_resource_runtime_manager, m_prefetching_state));
-static_assert(0x00260 == offsetof(c_cache_file_tag_resource_runtime_manager, __unknown260));
-static_assert(0x00264 == offsetof(c_cache_file_tag_resource_runtime_manager, m_dynamic_predictor));
-static_assert(0x00274 == offsetof(c_cache_file_tag_resource_runtime_manager, m_precompiled_predictor));
-static_assert(0x28298 == offsetof(c_cache_file_tag_resource_runtime_manager, m_required_resources));
-static_assert(0x29298 == offsetof(c_cache_file_tag_resource_runtime_manager, m_pending_resources));
-static_assert(0x2A298 == offsetof(c_cache_file_tag_resource_runtime_manager, m_tag_resource_vtables));
-static_assert(0x2A2D8 == offsetof(c_cache_file_tag_resource_runtime_manager, m_resource_runtime_data));
-static_assert(0x2A2E0 == offsetof(c_cache_file_tag_resource_runtime_manager, m_resource_interop_data_buffer));
-static_assert(0x2A2E8 == offsetof(c_cache_file_tag_resource_runtime_manager, m_combined_tag_resource_datum_handler));
-static_assert(0x2A300 == offsetof(c_cache_file_tag_resource_runtime_manager, m_resource_location_handler));
-static_assert(0x2A308 == offsetof(c_cache_file_tag_resource_runtime_manager, m_in_level_memory_manager));
-static_assert(0x2A788 == offsetof(c_cache_file_tag_resource_runtime_manager, m_prefetch_map_states2A788));
-static_assert(0x2A998 == offsetof(c_cache_file_tag_resource_runtime_manager, m_rollover_table));
-static_assert(0x6A9A8 == offsetof(c_cache_file_tag_resource_runtime_manager, m_resource_codec_service));
-static_assert(0x6AC14 == offsetof(c_cache_file_tag_resource_runtime_manager, m_optional_cache_backend));
-static_assert(0x6ACA4 == offsetof(c_cache_file_tag_resource_runtime_manager, m_game_mode));
-static_assert(0x6ACA8 == offsetof(c_cache_file_tag_resource_runtime_manager, m_running_off_dvd));
-static_assert(0x6ACA9 == offsetof(c_cache_file_tag_resource_runtime_manager, __unknown6ACA9));
-static_assert(0x6ACAA == offsetof(c_cache_file_tag_resource_runtime_manager, __data6ACAA));
+static_assert(0x00024 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_gestalt));
+static_assert(0x00028 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_active_zone_state));
+static_assert(0x00048 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_prefetching_state));
+static_assert(0x00260 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, __unknown260));
+static_assert(0x00264 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_dynamic_predictor));
+static_assert(0x00274 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_precompiled_predictor));
+static_assert(0x28298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_required_resources));
+static_assert(0x29298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_pending_resources));
+static_assert(0x2A298 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_tag_resource_vtables));
+static_assert(0x2A2D8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_runtime_data));
+static_assert(0x2A2E0 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_interop_data_buffer));
+static_assert(0x2A2E8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_combined_tag_resource_datum_handler));
+static_assert(0x2A300 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_location_handler));
+static_assert(0x2A308 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_in_level_memory_manager));
+static_assert(0x2A788 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_prefetch_map_states2A788));
+static_assert(0x2A998 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_rollover_table));
+static_assert(0x6A9A8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_resource_codec_service));
+static_assert(0x6AC14 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_optional_cache_backend));
+static_assert(0x6ACA4 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_game_mode));
+static_assert(0x6ACA8 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, m_running_off_dvd));
+static_assert(0x6ACA9 == OFFSETOF(c_cache_file_tag_resource_runtime_manager, __unknown6ACA9));
+static_assert(0x6ACAA == OFFSETOF(c_cache_file_tag_resource_runtime_manager, __data6ACAA));
 
 struct c_cache_file_tag_resource_runtime_manager_allocation :
 	public c_typed_allocation_data_no_destruct<c_cache_file_tag_resource_runtime_manager, 1>

@@ -442,24 +442,24 @@ struct actor_datum :
 	actor_script_data commands;
 };
 static_assert(sizeof(actor_datum) == 0xA98);
-static_assert(0x004 == offsetof(actor_datum, meta));
-static_assert(0x070 == offsetof(actor_datum, state));
-static_assert(0x354 == offsetof(actor_datum, input));
-static_assert(0x40C == offsetof(actor_datum, obstacles));
-static_assert(0x430 == offsetof(actor_datum, memory));
-static_assert(0x4A0 == offsetof(actor_datum, situation));
-static_assert(0x4AC == offsetof(actor_datum, target));
-static_assert(0x4D0 == offsetof(actor_datum, __data4D0));
-static_assert(0x550 == offsetof(actor_datum, activity));
-static_assert(0x55C == offsetof(actor_datum, vehicle));
-static_assert(0x588 == offsetof(actor_datum, player));
-static_assert(0x5A0 == offsetof(actor_datum, emotions));
-static_assert(0x5B0 == offsetof(actor_datum, firing_positions));
-static_assert(0x5F4 == offsetof(actor_datum, orders));
-static_assert(0x694 == offsetof(actor_datum, actions));
-static_assert(0x6C4 == offsetof(actor_datum, control));
-static_assert(0xA30 == offsetof(actor_datum, output));
-static_assert(0xA8C == offsetof(actor_datum, commands));
+static_assert(0x004 == OFFSETOF(actor_datum, meta));
+static_assert(0x070 == OFFSETOF(actor_datum, state));
+static_assert(0x354 == OFFSETOF(actor_datum, input));
+static_assert(0x40C == OFFSETOF(actor_datum, obstacles));
+static_assert(0x430 == OFFSETOF(actor_datum, memory));
+static_assert(0x4A0 == OFFSETOF(actor_datum, situation));
+static_assert(0x4AC == OFFSETOF(actor_datum, target));
+static_assert(0x4D0 == OFFSETOF(actor_datum, __data4D0));
+static_assert(0x550 == OFFSETOF(actor_datum, activity));
+static_assert(0x55C == OFFSETOF(actor_datum, vehicle));
+static_assert(0x588 == OFFSETOF(actor_datum, player));
+static_assert(0x5A0 == OFFSETOF(actor_datum, emotions));
+static_assert(0x5B0 == OFFSETOF(actor_datum, firing_positions));
+static_assert(0x5F4 == OFFSETOF(actor_datum, orders));
+static_assert(0x694 == OFFSETOF(actor_datum, actions));
+static_assert(0x6C4 == OFFSETOF(actor_datum, control));
+static_assert(0xA30 == OFFSETOF(actor_datum, output));
+static_assert(0xA8C == OFFSETOF(actor_datum, commands));
 
 struct ai_reference_frame
 {

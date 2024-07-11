@@ -72,10 +72,10 @@ struct collision_feature_list
 	collision_prism prisms[MAXIMUM_COLLISION_FEATURES_PER_TEST];
 };
 static_assert(sizeof(collision_feature_list) == 0xC408);
-static_assert(0x0000 == offsetof(collision_feature_list, count));
-static_assert(0x0008 == offsetof(collision_feature_list, spheres));
-static_assert(0x2408 == offsetof(collision_feature_list, cylinders));
-static_assert(0x5408 == offsetof(collision_feature_list, prisms));
+static_assert(0x0000 == OFFSETOF(collision_feature_list, count));
+static_assert(0x0008 == OFFSETOF(collision_feature_list, spheres));
+static_assert(0x2408 == OFFSETOF(collision_feature_list, cylinders));
+static_assert(0x5408 == OFFSETOF(collision_feature_list, prisms));
 
 struct collision_plane
 {
