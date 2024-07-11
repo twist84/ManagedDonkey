@@ -70,11 +70,9 @@ s_multiplayer_universal_globals_definition* __cdecl scenario_multiplayer_globals
 	if (game_globals)
 	{
 		s_multiplayer_globals_definition* multiplayer_globals = game_globals->multiplayer_globals.cast_to<s_multiplayer_globals_definition>();
-
 		if (multiplayer_globals)
 		{
 			s_multiplayer_universal_globals_definition* universal_globals = multiplayer_globals_try_and_get_universal_data(multiplayer_globals);
-
 			return universal_globals;
 		}
 	}

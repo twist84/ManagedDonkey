@@ -497,10 +497,10 @@ static_assert(sizeof(s_game_globals_falling_damage) == 0x78);
 struct s_game_globals_grenade
 {
 	short maximum_count;
-	byte GQGKOFEHN[0x2]; // pad
+	byte GQGKOFEHN[0x2]; // pad, previously `short mp_spawn_default`
 	c_typed_tag_reference<EFFECT_TAG> throwing_effect;
-	byte TF[0x10]; // pad
-	c_typed_tag_reference<EQUIPMENT_TAG> equipment;
+	byte TF[0x10]; // pad, previously `s_tag_reference hud_interface`
+	c_typed_tag_reference<EQUIPMENT_TAG> equipment; // pad, `s_tag_reference item`
 	c_typed_tag_reference<PROJECTILE_TAG> projectile;
 
 	void update_reference_names();
