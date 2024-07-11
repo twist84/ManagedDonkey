@@ -57,8 +57,8 @@ struct hs_compile_globals_struct
 	struct
 	{
 		hs_compile_globals_reference_struct* references;
-		hs_compile_globals_reference_struct*(*script_references)[k_maximum_hs_scripts_per_scenario];
-		hs_compile_globals_reference_struct*(*global_references)[k_maximum_hs_globals_per_scenario];
+		c_static_array<hs_compile_globals_reference_struct*, k_maximum_hs_scripts_per_scenario>* script_references;
+		c_static_array<hs_compile_globals_reference_struct*, k_maximum_hs_globals_per_scenario>* global_references;
 		short reference_count; // hs_compile_globals_reference_struct* references
 	};
 };
