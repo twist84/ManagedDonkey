@@ -837,28 +837,37 @@ void __cdecl debug_keys_update()
 	//random_seed_disallow_use();
 }
 
-void __cdecl debug_key_select_this_actor(bool enabled)
+void __cdecl debug_key_select_this_actor(bool key_is_down)
 {
-	if (enabled && game_in_progress())
-	{
-		console_warning("Unimplemented: " __FUNCTION__);
-	}
+	//if (key_is_down && game_in_progress())
+	//{
+	//	console_warning("Unimplemented: " __FUNCTION__);
+	//}
+
+	if (key_is_down)
+		cheat_all_weapons();
 }
 
-void __cdecl debug_key_select_prev_encounter(bool enabled)
+void __cdecl debug_key_select_prev_encounter(bool key_is_down)
 {
-	if (enabled && game_in_progress())
-	{
-		console_warning("Unimplemented: " __FUNCTION__);
-	}
+	//if (key_is_down && game_in_progress())
+	//{
+	//	console_warning("Unimplemented: " __FUNCTION__);
+	//}
+
+	if (key_is_down)
+		cheat_all_vehicles();
 }
 
-void __cdecl debug_key_select_next_encounter(bool enabled)
+void __cdecl debug_key_select_next_encounter(bool key_is_down)
 {
-	if (enabled && game_in_progress())
-	{
-		console_warning("Unimplemented: " __FUNCTION__);
-	}
+	//if (key_is_down && game_in_progress())
+	//{
+	//	console_warning("Unimplemented: " __FUNCTION__);
+	//}
+
+	if (key_is_down)
+		cheat_all_chars();
 }
 
 void __cdecl debug_key_select_next_actor(bool key_is_down)

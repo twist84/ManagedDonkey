@@ -39,9 +39,9 @@ extern void __cdecl debug_keys_initialize();
 extern void __cdecl debug_keys_dispose();
 extern void __cdecl debug_keys_update();
 
-extern void __cdecl debug_key_select_this_actor(bool enabled);
-extern void __cdecl debug_key_select_prev_encounter(bool enabled);
-extern void __cdecl debug_key_select_next_encounter(bool enabled);
+extern void __cdecl debug_key_select_this_actor(bool key_is_down);
+extern void __cdecl debug_key_select_prev_encounter(bool key_is_down);
+extern void __cdecl debug_key_select_next_encounter(bool key_is_down);
 extern void __cdecl debug_key_select_next_actor(bool key_is_down);
 extern void __cdecl debug_key_select_prev_actor(bool key_is_down);
 extern void __cdecl debug_key_render_spray(bool key_is_down);
