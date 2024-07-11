@@ -563,13 +563,13 @@ struct s_scenario_soft_ceiling
 };
 static_assert(sizeof(s_scenario_soft_ceiling) == 0xC);
 
-struct scenario_starting_profile_weapon
+struct starting_weapon_info
 {
 	c_typed_tag_reference<WEAPON_TAG> weapon;
 	short rounds_loaded;
 	short rounds_total;
 };
-static_assert(sizeof(scenario_starting_profile_weapon) == 0x14);
+static_assert(sizeof(starting_weapon_info) == 0x14);
 
 struct scenario_starting_profile
 {
@@ -582,7 +582,7 @@ struct scenario_starting_profile
 	real_fraction starting_shield_damage;
 
 	// multiplayer_globals->universal[0]->weapon_selections
-	scenario_starting_profile_weapon starting_weapons[k_weapon_set_count];
+	starting_weapon_info starting_weapons[k_weapon_set_count];
 
 	// multiplayer_globals->universal[0]->equipment
 	short starting_equipment[4]; // short_block_index
