@@ -7,17 +7,19 @@
 #include "ai/cs_scenario_definitions.hpp"
 #include "ai/styles.hpp"
 #include "cache/cache_files.hpp"
+#include "cseries/progress.hpp"
 #include "devices/devices.hpp"
 #include "hs/hs.hpp"
 #include "hs/hs_function.hpp"
 #include "hs/hs_runtime.hpp"
 #include "hs/hs_unit_seats.hpp"
+#include "main/console.hpp"
 #include "scenario/scenario.hpp"
 
+#include <algorithm>
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-#include <algorithm>
 
 hs_compile_globals_struct hs_compile_globals = {};
 
@@ -1539,5 +1541,143 @@ bool hs_parse_tag_block_element(long expression_index, long offset, long scenari
 	}
 
 	return true;
+}
+
+void hs_compile_initialize(bool permanent)
+{
+	ASSERT(!hs_compile_globals.initialized);
+
+	hs_compile_globals.initialized = true;
+	hs_compile_globals.compiled_source = NULL;
+	hs_compile_globals.compiled_source_size = 0;
+	hs_compile_globals.permanent = permanent;
+	hs_compile_globals.error_message = NULL;
+	hs_compile_globals.error_offset = NONE;
+	hs_compile_globals.some_reference_count = 0;
+	hs_compile_globals.current_script_index = NONE;
+	hs_compile_globals.current_global_index = NONE;
+
+	hs_compile_globals.references = NULL;
+	hs_compile_globals.script_references = NULL;
+	hs_compile_globals.global_references = NULL;
+	hs_compile_globals.reference_count = 0;
+
+	//if (permanent)
+	//{
+	//	//editor_reset_script_referenced_blocks();
+	//	//resize_scenario_syntax_data(0xF000);
+	//	hs_compile_globals.references = static_cast<decltype(hs_compile_globals.references)>(debug_malloc(0x32000, 0, __FILE__, __LINE__));
+	//	hs_compile_globals.script_references = static_cast<decltype(hs_compile_globals.script_references)>(debug_malloc(0x1000, 0, __FILE__, __LINE__));
+	//	hs_compile_globals.global_references = static_cast<decltype(hs_compile_globals.global_references)>(debug_malloc(0x400, 0, __FILE__, __LINE__));
+	//
+	//	for (hs_compile_globals_reference_struct* reference : *hs_compile_globals.script_references)
+	//		reference = NULL;
+	//
+	//	for (hs_compile_globals_reference_struct* reference : *hs_compile_globals.global_references)
+	//		reference = NULL;
+	//}
+}
+
+struct s_hs_compile_state
+{
+	long script_references[32];
+	long global_references[8];
+};
+
+void hs_compile_state_initialize(s_scenario* scenario, s_hs_compile_state* state)
+{
+	csmemset(state->global_references, 0, sizeof(state->global_references));
+	csmemset(state->script_references, 0, sizeof(state->script_references));
+}
+
+void hs_compile_first_pass(s_hs_compile_state* referrals, long source_file_size, char const* source_file_data, char const** error_message_pointer, long* error_source_pointer)
+{
+	//char* cursor = hs_compile_add_source(source_file_size, source_file_data);
+	//if (cursor)
+	//{
+	//	c_hs_tokenizer hs_tokenizer{};
+	//	hs_tokenizer.cursor = cursor;
+	//	hs_tokenizer.source_file_buffer = source_file_data;
+	//	hs_tokenizer.source_file_size = source_file_size;
+	//
+	//	if (!hs_tokenizer.cursor)
+	//	{
+	//		*error_message_pointer = "couldn't allocate memory for compiled source.";
+	//		return;
+	//	}
+	//
+	//	bool parse_succeeded = true;
+	//	hs_compile_globals.error_message = NULL;
+	//	*error_message_pointer = NULL;
+	//
+	//	hs_tokenizer.skip_whitespace();
+	//	while (parse_succeeded && *hs_tokenizer.cursor)
+	//	{
+	//		long syntax_node_index = hs_tokenize(&hs_tokenizer);
+	//		hs_tokenizer.skip_whitespace();
+	//		parse_succeeded = hs_compile_globals.error_message != NULL;
+	//		if (parse_succeeded)
+	//			parse_succeeded = hs_parse_special_form(syntax_node_index);
+	//	}
+	//
+	//	if (!parse_succeeded)
+	//	{
+	//		if (!hs_compile_globals.error_message)
+	//		{
+	//			ASSERT2("tell DAMIAN (or whomever owns HS) that somebody failed to correctly report a parsing error.");
+	//			*error_message_pointer = hs_compile_globals.error_message;
+	//			*error_source_pointer = hs_compile_globals.error_offset;
+	//		}
+	//	}
+	//}
+}
+
+char* g_error_output_buffer = NULL;
+long g_error_buffer_length = 0;
+
+bool hs_compile_source(bool a1, bool a2)
+{
+	return false;
+
+	//long total_source_size = 0;
+	//bool success = true;
+	//s_hs_compile_state state;
+	//
+	//progress_new("compiling scripts");
+	//hs_compile_initialize(true);
+	//hs_compile_state_initialize(global_scenario_get(), &state);
+	//
+	//if (g_error_output_buffer && a2)
+	//	csstrnzcpy(g_error_output_buffer, "", g_error_buffer_length);
+	//
+	//for (hs_source_file& source_file : global_scenario_get()->source_files)
+	//{
+	//
+	//}
+	//
+	//if (success || !a1)
+	//{
+	//	success = hs_compile_second_pass(&state, a2);
+	//	if (!success)
+	//		hs_compile_strip_failed_special_forms(&state);
+	//}
+	//
+	//hs_runtime_require_gc();
+	//
+	//if (a2)
+	//{
+	//	if (success)
+	//		console_printf("scripts successfully compiled.");
+	//	else
+	//		console_printf("script compile errors");
+	//}
+	//
+	//if (!success)
+	//	success = !a1;
+	//
+	//hs_compile_dispose();
+	//progress_done();
+	//
+	//return success;
 }
 
