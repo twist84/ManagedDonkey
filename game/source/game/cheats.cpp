@@ -294,7 +294,7 @@ void __cdecl cheat_all_vehicles()
 	tag_iterator_new(&iterator, VEHICLE_TAG);
 	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
-		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
+		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
 		struct vehicle_definition* vehicle_definition = (struct vehicle_definition*)tag_get(iterator.group_tag, tag_index);
@@ -314,7 +314,7 @@ void __cdecl cheat_all_weapons()
 	tag_iterator_new(&iterator, WEAPON_TAG);
 	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
-		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
+		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
 		tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
@@ -332,7 +332,7 @@ void __cdecl cheat_all_chars()
 	tag_iterator_new(&iterator, UNIT_TAG);
 	for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
 	{
-		if (tag_index == NONE || !VALID_INDEX(reference_count, NUMBEROF(references)))
+		if (!VALID_INDEX(reference_count, NUMBEROF(references)))
 			break;
 
 		char const* tag_name = tag_get_name(tag_index);
