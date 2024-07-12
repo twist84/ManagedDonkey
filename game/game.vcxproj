@@ -236,6 +236,7 @@ POPD
     <ClCompile Include="source\networking\online\online_files.cpp" />
     <ClCompile Include="source\networking\online\online_presence_pc.cpp" />
     <ClCompile Include="source\networking\online\online_session.cpp" />
+    <ClCompile Include="source\networking\session\network_session_parameters.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameter_types.cpp" />
     <ClCompile Include="source\networking\transport\transport_qos.cpp" />
     <ClCompile Include="source\objects\damage_owner.cpp" />

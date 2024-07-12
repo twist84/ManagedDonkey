@@ -73,6 +73,7 @@ struct c_network_session :
 	bool is_host() const;
 	bool is_leader() const;
 	bool leaving_session() const;
+	bool peer_joining() const;
 	bool channel_is_authoritative(c_network_channel* channel);
 	void destroy_session();
 	void force_disconnect();
@@ -150,7 +151,7 @@ struct c_network_session :
 		s_network_session_state_peer_join_abort peer_join_abort;
 		s_network_session_state_peer_established peer_established;
 		s_network_session_state_peer_leaving peer_leaving;
-	};
+	} m_local_state_data;
 
 	dword m_connection_identifier;
 	dword m_time_synchronization_end_time;

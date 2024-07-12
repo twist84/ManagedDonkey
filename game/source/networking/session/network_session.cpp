@@ -69,6 +69,11 @@ bool c_network_session::leaving_session() const
 	return DECLFUNC(0x00434E30, bool, __thiscall, c_network_session const*)(this);
 }
 
+bool c_network_session::peer_joining() const
+{
+	return DECLFUNC(0x0044FD10, bool, __thiscall, c_network_session const*)(this);
+}
+
 bool c_network_session::channel_is_authoritative(c_network_channel* channel)
 {
 	return DECLFUNC(0x0045A9E0, bool, __thiscall, c_network_session*, c_network_channel*)(this, channel);
@@ -682,6 +687,44 @@ bool c_network_session::handle_parameters_request(c_network_channel* channel, s_
 bool c_network_session::handle_parameters_update(s_network_message_parameters_update const* message)
 {
 	return DECLFUNC(0x004DA770, bool, __thiscall, c_network_session*, s_network_message_parameters_update const*)(this, message);
+
+	//ASSERT(message);
+	//
+	//if (is_host())
+	//{
+	//	generate_event(_event_level_error, "networking:session:parameters: [%s] parameters-update received and we are the host",
+	//		managed_session_get_id_string(m_managed_session_index));
+	//
+	//	return false;
+	//}
+	//
+	//if ((established() || peer_joining()) && !leaving_session())
+	//{
+	//	if (m_session_parameters.handle_update(message))
+	//		return true;
+	//
+	//	generate_event(_event_level_error, "networking:session:parameters: [%s] failed to handle parameters-update, we must disconnect [%s]",
+	//		managed_session_get_id_string(m_managed_session_index),
+	//		get_state_string());
+	//
+	//	handle_disconnection();
+	//	return false;
+	//}
+	//
+	//if (leaving_session())
+	//{
+	//	generate_event(_event_level_message, "networking:session:parameters: [%s] parameters-update received but we're leaving [%s], ignoring the update",
+	//		managed_session_get_id_string(m_managed_session_index),
+	//		get_state_string());
+	//
+	//	return false;
+	//}
+	//
+	//generate_event(_event_level_message, "networking:session:parameters: [%s] parameters-update received and we are in a bad state to handle the update [%s]",
+	//	managed_session_get_id_string(m_managed_session_index),
+	//	get_state_string());
+	//
+	//return false;
 }
 
 void c_network_session::handle_peer_connect(transport_address const* address, s_network_message_peer_connect const* message)
