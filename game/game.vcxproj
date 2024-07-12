@@ -652,6 +652,7 @@ POPD
     <ClCompile Include="source\units\biped_definitions.cpp" />
     <ClCompile Include="source\units\units.cpp" />
     <ClCompile Include="source\units\unit_definition.cpp" />
+    <ClCompile Include="source\units\unit_dialogue.cpp" />
     <ClCompile Include="source\units\vehicles.cpp" />
     <ClCompile Include="source\units\vehicle_definitions.cpp" />
     <ClCompile Include="source\units\vehicle_engine.cpp" />
@@ -1327,6 +1328,7 @@ POPD
     <ClInclude Include="source\units\dialogue_definitions.hpp" />
     <ClInclude Include="source\units\units.hpp" />
     <ClInclude Include="source\units\unit_definition.hpp" />
+    <ClInclude Include="source\units\unit_dialogue.hpp" />
     <ClInclude Include="source\units\vehicles.hpp" />
     <ClInclude Include="source\units\vehicle_auto_turret.hpp" />
     <ClInclude Include="source\units\vehicle_definitions.hpp" />

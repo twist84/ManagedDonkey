@@ -156,9 +156,9 @@ static_assert(sizeof(s_player_control_non_deterministic_input_user_state) == 0x3
 
 struct s_player_interaction
 {
-	word interaction_type;
-	word interaction_seat_index;
-	dword interaction_object;
+	short type;
+	short seat_index;
+	long object_index;
 };
 static_assert(sizeof(s_player_interaction) == 0x8);
 

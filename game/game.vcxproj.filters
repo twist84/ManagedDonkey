@@ -1467,6 +1467,9 @@
     <ClCompile Include="source\networking\session\network_session_parameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\units\unit_dialogue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3519,6 +3522,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\units\unit_dialogue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

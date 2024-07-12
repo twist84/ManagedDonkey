@@ -5,11 +5,14 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
-#include "units/unit_definition.hpp"
+#include "profiler/profiler.hpp"
 #include "render/render_debug.hpp"
+#include "units/unit_definition.hpp"
+#include "units/unit_dialogue.hpp"
 
 HOOK_DECLARE_CALL(0x0053F212, unit_control); // player_submit_control
 HOOK_DECLARE(0x00B47080, unit_render_debug);
+HOOK_DECLARE(0x00B49F10, unit_update);
 
 bool debug_objects_unit_vectors = false;
 bool debug_objects_unit_seats = false;
@@ -379,53 +382,217 @@ void __cdecl unit_render_debug(long unit_index)
 //.text:00B48B20 ; void __cdecl unit_set_predicted_controller(long, long, long, long, long, long)
 //.text:00B48BB0 ; void __cdecl unit_set_predicted_vehicle(long, long, short)
 //.text:00B48C00 ; void __cdecl unit_set_prefer_tight_camera_track(long, bool)
-//.text:00B48C40 ; unit_set_weapon_state
+//.text:00B48C40 ; void __cdecl unit_set_weapon_state(long, long, long, long, float)
 //.text:00B48CB0 ; void __cdecl unit_set_weapon_type(long, long, long, short, byte, s_unit_weapon_set const*)
 //.text:00B48EC0 ; 
 //.text:00B48F10 ; void __cdecl unit_show_weapon_from_inventory(long, long, e_unit_hand)
-//.text:00B48FF0 ; void __cdecl unit_start_running_blindly(long)
-//.text:00B49110 ; void __cdecl unit_stop_running_blindly(long)
-//.text:00B49150 ; void __cdecl unit_swap_weapons_begin(long)
-//.text:00B49170 ; void __cdecl unit_swap_weapons_end(long)
-//.text:00B49190 ; 
+//.text:00B48FF0 ; void __cdecl unit_start_running_blindly(long unit_index)
+//.text:00B49110 ; void __cdecl unit_stop_running_blindly(long unit_index)
+//.text:00B49150 ; void __cdecl unit_swap_weapons_begin(long unit_index)
+//.text:00B49170 ; void __cdecl unit_swap_weapons_end(long unit_index)
+//.text:00B49190 ; void __cdecl unit_take_item(long, long)
 //.text:00B491B0 ; bool __cdecl unit_test_pickup_with_mode(long, unit_weapon_pickup_result const*, e_weapon_addition_method, short*)
 //.text:00B492A0 ; 
-//.text:00B49580 ; void __cdecl unit_toss_item(long, long, long, real, bool)
-//.text:00B49940 ; bool __cdecl unit_transfers_flashlight_value(long)
-//.text:00B49990 ; 
+//.text:00B49580 ; void __cdecl unit_toss_item(long unit_index, long item_index, long marker_name, real a4, bool a5)
+//.text:00B49940 ; bool __cdecl unit_transfers_flashlight_value(long unit_index)
+//.text:00B49990 ; bool __cdecl unit_player_plant_plasma_on_death(long unit_index, long player_index)
 
 bool __cdecl unit_try_to_drop_weapon(long unit_index, bool drop_secondary)
 {
 	return INVOKE(0x00B49B00, unit_try_to_drop_weapon, unit_index, drop_secondary);
 }
 
-//.text:00B49BA0 ; bool __cdecl unit_unsuspecting(long, real_point3d const*, vector3d const*)
-//.text:00B49D80 ; void __cdecl unit_unzoom(long, bool)
-//.text:00B49F10 ; bool __cdecl unit_update(long)
-//.text:00B4A020 ; void __cdecl unit_update_active_camouflage(long)
-//.text:00B4A2C0 ; bool __cdecl unit_update_aiming(long)
-//.text:00B4ABE0 ; unit_update_armor_lock?
-//.text:00B4AC70 ; unit_update_consumables?
-//.text:00B4AD30 ; bool __cdecl unit_update_control(long)
-//.text:00B4B510 ; bool __cdecl unit_update_damage(long)
-//.text:00B4B730 ; void __cdecl unit_update_driver_and_gunner(long)
-//.text:00B4BA20 ; bool __cdecl unit_update_equipment(long, long)
-//.text:00B4BA80 ; unit_update_vitality?
-//.text:00B4BB90 ; void __cdecl unit_update_illumination(long)
-//.text:00B4BCB0 ; unit_update_??
-//.text:00B4BE30 ; void __cdecl unit_update_predicted_controller(long)
-//.text:00B4BEF0 ; void __cdecl unit_sync_with_predicted_vehicle(long)
-//.text:00B4C020 ; bool __cdecl unit_update_powered_seats(long)
-//.text:00B4C260 ; void __cdecl unit_update_target_tracking(long)
-//.text:00B4C300 ; void __cdecl unit_update_team_index(long)
-//.text:00B4C4A0 ; void __cdecl unit_update_vision_mode(long)
-//.text:00B4C6D0 ; bool __cdecl unit_update_weapons(long)
-//.text:00B4CE90 ; 
-//.text:00B4CF60 ; 
-//.text:00B4D160 ; 
-//.text:00B4D1E0 ; 
-//.text:00B4D260 ; short __cdecl unit_weapon_next_index(long, long, short, short)
-//.text:00B4D3D0 ; 
+bool __cdecl unit_unsuspecting(long unit_index, real_point3d const* attacker_position, vector3d const* attacker_direction)
+{
+	return INVOKE(0x00B49BA0, unit_unsuspecting, unit_index, attacker_position, attacker_direction);
+}
+
+void __cdecl unit_unzoom(long unit_index, bool a2)
+{
+	INVOKE(0x00B49D80, unit_unzoom, unit_index, a2);
+}
+
+bool __cdecl unit_update(long unit_index)
+{
+	//return INVOKE(0x00B49F10, unit_update, unit_index);
+
+	bool updated = false;
+	PROFILER(unit_update)
+	{
+		//unit_verify_vectors(unit_index, "unit-update-begin");
+
+		updated = unit_update_control(unit_index);
+		updated |= unit_update_weapons(unit_index);
+
+		for (long slot_index = 0; slot_index < 4; slot_index++)
+			unit_update_equipment(unit_index, slot_index);
+
+		updated |= unit_update_aiming(unit_index);
+		updated |= unit_update_powered_seats(unit_index);
+		updated |= unit_update_damage(unit_index);
+
+		// HO
+		updated |= sub_B4BD70(unit_index);
+		unit_update_consumable_energy(unit_index);
+
+		unit_dialogue_update(unit_index);
+		unit_update_team_index(unit_index);
+		unit_update_active_camouflage(unit_index);
+		unit_update_health(unit_index);
+		unit_update_vision_mode(unit_index);
+		unit_update_illumination(unit_index);
+
+		// HO
+		unit_update_armor_lock(unit_index);
+		unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+		sub_B4BCB0(&unit->unit.__unknown2FC);
+		sub_B4BCB0(&unit->unit.__unknown310);
+
+		//unit_verify_vectors(unit_index, "unit-update-end");
+	}
+	return updated;
+}
+
+void __cdecl unit_update_active_camouflage(long unit_index)
+{
+	INVOKE(0x00B4A020, unit_update_active_camouflage, unit_index);
+}
+
+bool __cdecl unit_update_aiming(long unit_index)
+{
+	return INVOKE(0x00B4A2C0, unit_update_aiming, unit_index);
+}
+
+bool __cdecl unit_update_armor_lock(long unit_index)
+{
+	return INVOKE(0x00B4ABE0, unit_update_armor_lock, unit_index);
+}
+
+bool __cdecl unit_update_consumable_energy(long unit_index)
+{
+	return INVOKE(0x00B4AC70, unit_update_consumable_energy, unit_index);
+}
+
+bool __cdecl unit_update_control(long unit_index)
+{
+	return INVOKE(0x00B4AD30, unit_update_control, unit_index);
+}
+
+bool __cdecl unit_update_damage(long unit_index)
+{
+	return INVOKE(0x00B4B510, unit_update_damage, unit_index);
+}
+
+void __cdecl unit_update_driver_and_gunner(long unit_index)
+{
+	INVOKE(0x00B4B730, unit_update_active_camouflage, unit_index);
+}
+
+bool __cdecl unit_update_equipment(long unit_index, long slot_index)
+{
+	return INVOKE(0x00B4BA20, unit_update_equipment, unit_index, slot_index);
+
+	// HO
+	//if (VALID_INDEX(slot_index, 4))
+	//{
+	//	long current_equipment_index = ((unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit))->unit.equipment_object_indices[slot_index];
+	//	if (current_equipment_index != NONE)
+	//		sub_B891F0(current_equipment_index, unit_index);
+	//}
+
+	// H3
+	//long current_equipment_index = ((unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit))->unit.equipment_object_indices[slot_index];
+	//if (equipment_remaining_charges(current_equipment_index) || equipment_active_fraction(current_equipment_index) != 0.0f)
+	//{
+	//	sub_B891F0(current_equipment_index, unit_index);
+	//}
+	//else
+	//{
+	//	unit_delete_current_equipment(unit_index);
+	//}
+	//
+	//return false
+}
+
+void __cdecl unit_update_health(long unit_index)
+{
+	INVOKE(0x00B4BA80, unit_update_health, unit_index);
+}
+
+void __cdecl unit_update_illumination(long unit_index)
+{
+	INVOKE(0x00B4BB90, unit_update_illumination, unit_index);
+}
+
+void __cdecl sub_B4BCB0(s_unknown_unit_struct_sizeof_14* a1)
+{
+	INVOKE(0x00B4BCB0, sub_B4BCB0, a1);
+}
+
+bool __cdecl sub_B4BD70(long unit_index)
+{
+	return INVOKE(0x00B4BD70, sub_B4BD70, unit_index);
+}
+
+void __cdecl unit_update_predicted_controller(long unit_index)
+{
+	INVOKE(0x00B4BE30, unit_update_predicted_controller, unit_index);
+}
+
+void __cdecl unit_sync_with_predicted_vehicle(long unit_index)
+{
+	INVOKE(0x00B4BEF0, unit_sync_with_predicted_vehicle, unit_index);
+}
+
+bool __cdecl unit_update_powered_seats(long unit_index)
+{
+	return INVOKE(0x00B4C020, unit_update_powered_seats, unit_index);
+}
+
+void __cdecl unit_update_target_tracking(long unit_index)
+{
+	INVOKE(0x00B4C260, unit_update_target_tracking, unit_index);
+}
+
+void __cdecl unit_update_team_index(long unit_index)
+{
+	INVOKE(0x00B4C300, unit_update_team_index, unit_index);
+}
+
+void __cdecl unit_update_vision_mode(long unit_index)
+{
+	INVOKE(0x00B4C4A0, unit_update_vision_mode, unit_index);
+}
+
+bool __cdecl unit_update_weapons(long unit_index)
+{
+	return INVOKE(0x00B4C6D0, unit_update_weapons, unit_index);
+}
+
+bool __cdecl unit_use_current_equipment(long unit_index, long slot_index, bool a3)
+{
+	return INVOKE(0x00B4CE90, unit_use_current_equipment, unit_index, slot_index, a3);
+}
+
+void __cdecl sub_B4CF60(long unit_index, long equipment_definition_index)
+{
+	INVOKE(0x00B4CF60, sub_B4CF60, unit_index, equipment_definition_index);
+}
+
+bool __cdecl sub_B4D160(long unit_index)
+{
+	return INVOKE(0x00B4D160, sub_B4D160, unit_index);
+}
+
+double __cdecl sub_B4D1E0(long unit_index)
+{
+	return INVOKE(0x00B4D1E0, sub_B4D1E0, unit_index);
+}
+
+short __cdecl unit_weapon_next_index(long unit_index, long a2, short a3, short a4)
+{
+	return INVOKE(0x00B4D260, unit_weapon_next_index, unit_index, a2, a3, a4);
+}
 
 bool __cdecl units_debug_can_select_unit(long unit_index)
 {
