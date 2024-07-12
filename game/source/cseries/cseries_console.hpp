@@ -13,10 +13,10 @@ public:
 	static void write(wchar_t const* format, ...);
 	static void write_line(wchar_t const* format, ...);
 
-	static void write(char const* format, va_list list);
-	static void write_line(char const* format, va_list list);
-	static void write(wchar_t const* format, va_list list);
-	static void write_line(wchar_t const* format, va_list list);
+	static void write_va(char const* format, va_list list);
+	static void write_line_va(char const* format, va_list list);
+	static void write_va(wchar_t const* format, va_list list);
+	static void write_line_va(wchar_t const* format, va_list list);
 
 protected:
 	static bool m_initialized;

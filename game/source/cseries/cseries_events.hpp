@@ -164,3 +164,19 @@ void generate_event(e_event_level event_level, char const* event_name, parameter
 	}
 }
 
+// I like this a little more than the one above :(
+//template<typename char_t, typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>
+//void generate_event(e_event_level event_level, char_t const* event_name, parameters_t... parameters)
+//{
+//	c_interlocked_long event_category = NONE;
+//	c_event _event(event_level, event_category, 0);
+//	if (_event.query())
+//	{
+//		long category_index = _event.generate(event_name, parameters...);
+//		if (event_category == NONE)
+//			event_interlocked_compare_exchange(event_category, category_index, NONE);
+//
+//		c_console::write_line(event_name, parameters...);
+//	}
+//}
+

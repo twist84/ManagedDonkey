@@ -130,7 +130,7 @@ void c_console::write_line(wchar_t const* format, ...)
 
 }
 
-void c_console::write(char const* format, va_list list)
+void c_console::write_va(char const* format, va_list list)
 {
 	if (!m_initialized)
 		return;
@@ -147,7 +147,7 @@ void c_console::write(char const* format, va_list list)
 
 }
 
-void c_console::write_line(char const* format, va_list list)
+void c_console::write_line_va(char const* format, va_list list)
 {
 	if (!m_initialized)
 		return;
@@ -165,7 +165,7 @@ void c_console::write_line(char const* format, va_list list)
 
 }
 
-void c_console::write(wchar_t const* format, va_list list)
+void c_console::write_va(wchar_t const* format, va_list list)
 {
 	if (!m_initialized)
 		return;
@@ -182,7 +182,7 @@ void c_console::write(wchar_t const* format, va_list list)
 
 }
 
-void c_console::write_line(wchar_t const* format, va_list list)
+void c_console::write_line_va(wchar_t const* format, va_list list)
 {
 	if (!m_initialized)
 		return;
