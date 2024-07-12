@@ -281,7 +281,22 @@ void __cdecl cheat_all_powerups()
 	}
 	else
 	{
-		cheat_objects(NULL, 0);
+		short reference_count = 0;
+		s_tag_reference references[32]{};
+
+		tag_iterator iterator{};
+		tag_iterator_new(&iterator, EQUIPMENT_TAG);
+		for (long tag_index = tag_iterator_next(&iterator); tag_index != NONE; tag_index = tag_iterator_next(&iterator))
+		{
+			if (!VALID_INDEX(reference_count, NUMBEROF(references)))
+				break;
+
+			struct equipment_definition* equipment_definition = (struct equipment_definition*)tag_get(iterator.group_tag, tag_index);
+			if (equipment_definition->equipment.spawner.count())
+				tag_reference_set(&references[reference_count++], iterator.group_tag, tag_get_name(tag_index));
+		}
+
+		cheat_objects(references, reference_count);
 	}
 }
 
