@@ -9,6 +9,7 @@
 #include "render/render_debug.hpp"
 #include "units/unit_definition.hpp"
 #include "units/unit_dialogue.hpp"
+#include "units/vehicles.hpp"
 
 HOOK_DECLARE_CALL(0x0053F212, unit_control); // player_submit_control
 HOOK_DECLARE(0x00B47080, unit_render_debug);
@@ -20,6 +21,9 @@ bool debug_objects_unit_mouth_apeture = false;
 bool debug_objects_unit_firing = false;
 bool debug_objects_unit_acceleration = false;
 bool debug_objects_unit_camera = false;
+
+bool debug_unit_illumination = false;
+long debug_unit_illumination_time = NONE;
 
 long __cdecl unit_get_current_primary_weapon(long unit_index)
 {
@@ -441,6 +445,7 @@ bool __cdecl unit_update(long unit_index)
 		unit_update_health(unit_index);
 		unit_update_vision_mode(unit_index);
 		unit_update_illumination(unit_index);
+		unit_update_hologram(unit_index);
 
 		// HO
 		unit_update_armor_lock(unit_index);
@@ -468,9 +473,9 @@ bool __cdecl unit_update_armor_lock(long unit_index)
 	return INVOKE(0x00B4ABE0, unit_update_armor_lock, unit_index);
 }
 
-bool __cdecl unit_update_consumable_energy(long unit_index)
+void __cdecl unit_update_consumable_energy(long unit_index)
 {
-	return INVOKE(0x00B4AC70, unit_update_consumable_energy, unit_index);
+	INVOKE(0x00B4AC70, unit_update_consumable_energy, unit_index);
 }
 
 bool __cdecl unit_update_control(long unit_index)
@@ -519,9 +524,13 @@ void __cdecl unit_update_health(long unit_index)
 	INVOKE(0x00B4BA80, unit_update_health, unit_index);
 }
 
+void __cdecl unit_update_hologram(long unit_index)
+{
+	INVOKE(0x00B4BB90, unit_update_hologram, unit_index);
+}
+
 void __cdecl unit_update_illumination(long unit_index)
 {
-	INVOKE(0x00B4BB90, unit_update_illumination, unit_index);
 }
 
 void __cdecl sub_B4BCB0(s_unknown_unit_struct_sizeof_14* a1)
@@ -532,6 +541,19 @@ void __cdecl sub_B4BCB0(s_unknown_unit_struct_sizeof_14* a1)
 bool __cdecl sub_B4BD70(long unit_index)
 {
 	return INVOKE(0x00B4BD70, sub_B4BD70, unit_index);
+
+	//unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+	//if (unit->unit.__unknown3A8_object_index != NONE && !unit->unit.emp_timer)
+	//	unit->unit.__unknown3A8_object_index = NONE;
+	//
+	//for (long parent_object_index = unit->object.parent_object_index; parent_object_index != NONE; parent_object_index = unit->object.parent_object_index)
+	//{
+	//	vehicle_datum* vehicle = (vehicle_datum*)object_get_and_verify_type(parent_object_index, _object_mask_vehicle);
+	//	if (vehicle->unit.driver_object_index == unit_index && vehicle->unit.emp_timer > 0)
+	//		unit->unit.__unknown3A8_object_index = parent_object_index;
+	//}
+	//
+	//return unit->unit.__unknown3A8_object_index != NONE;
 }
 
 void __cdecl unit_update_predicted_controller(long unit_index)
