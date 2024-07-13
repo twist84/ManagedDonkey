@@ -11,8 +11,8 @@ t_value_type<byte> const max_channels_as_byte = { .value = byte(MAX_CHANNELS) };
 //t_value_type<dword> const sound_channels_datum_size = { .value = dword(MAX_CHANNELS * 0x38) };
 //t_value_type<short[5]> const sound_preferences_channel_counts = { .value = { 112, 112, 18, 12, 0 } };
 
-HOOK_DECLARE_CLASS_MEMBER(0x0064EF50, HALO_SOUND_SYSTEM, sub_64EF50);
-HOOK_DECLARE_CLASS_MEMBER(0x0064F6B0, HALO_SOUND_SYSTEM, sub_64F6B0);
+HOOK_DECLARE_CLASS_MEMBER(0x0064EF50, HALO_SOUND_SYSTEM, LoadCinePreload);
+HOOK_DECLARE_CLASS_MEMBER(0x0064F6B0, HALO_SOUND_SYSTEM, LoadTagParams);
 
 // Adds the FMOD WASAPI output fix from FMODEx 4.44.56, which stops weird popping sound at startup
 DATA_PATCH_DECLARE(0x0140DA75, fmod_wasapi_fix, fmod_wasapi_fix.bytes);
@@ -56,23 +56,25 @@ HALO_SOUND_SYSTEM* __cdecl HALO_SOUND_SYSTEM::GetInstance()
 	return INVOKE(0x0064CE90, GetInstance);
 }
 
-void __thiscall HALO_SOUND_SYSTEM::sub_64EF50()
+void __thiscall HALO_SOUND_SYSTEM::LoadCinePreload()
 {
 	// skip loading `data\sound\pc\lst\cine_preload.ps`
 }
 
-void __thiscall HALO_SOUND_SYSTEM::sub_64F6B0()
+void __thiscall HALO_SOUND_SYSTEM::LoadTagParams()
 {
 	// skip loading `data\sound\pc\lst\tags_params.ps`
 }
 
 namespace FMOD
 {
-	HOOK_DECLARE_CALL(0x01369B0D, sub_13883C1);
+	// call to `FMOD::System::init` from `FMOD::EventSystemI::init`
+	HOOK_DECLARE_CALL(0x01369B0D, System_init);
 
-	long __stdcall sub_13883C1(long a1, long max_channels, long flags, long extra_driver_data)
+	// `FMOD::System::init`
+	long __stdcall System_init(int system, int maxchannels, unsigned int flags, void* extradriverdata)
 	{
-		return INVOKE(0x013883C1, sub_13883C1, a1, MAX_CHANNELS, flags, extra_driver_data);
+		return INVOKE(0x013883C1, System_init, system, MAX_CHANNELS, flags, extradriverdata);
 	}
 };
 

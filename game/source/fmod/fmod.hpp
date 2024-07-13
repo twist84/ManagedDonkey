@@ -35,8 +35,8 @@ struct HALO_SOUND_SYSTEM
 	long TermUIScreenSounds() { return __vftable->TermUIScreenSounds(this); }
 
 	static HALO_SOUND_SYSTEM* __cdecl GetInstance();
-	void __thiscall sub_64EF50();
-	void __thiscall sub_64F6B0();
+	void __thiscall LoadCinePreload();
+	void __thiscall LoadTagParams();
 
 	struct VolumeStruct
 	{
@@ -158,7 +158,7 @@ namespace FMOD
 	};
 	static_assert(sizeof(EventSystemI) == 0xE4);
 
-	extern long __stdcall sub_13883C1(long a1, long max_channels, long flags, long extra_driver_data);
+	extern long __stdcall System_init(int system, int maxchannels, unsigned int flags, void* extradriverdata);
 	extern long __cdecl sub_4035E0();
 };
 
