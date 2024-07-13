@@ -531,6 +531,22 @@ void __cdecl unit_update_hologram(long unit_index)
 
 void __cdecl unit_update_illumination(long unit_index)
 {
+	if (debug_unit_illumination)
+	{
+		unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
+		if (unit->unit.player_index != NONE)
+		{
+			long current_time = game_time_get();
+			if (game_ticks_to_seconds(real(current_time - debug_unit_illumination_time)) >= 1.0f)
+			{
+				generate_event(_event_level_warning, "player illumination: self %.2f ambient %.2f",
+					unit->unit.self_illumination,
+					unit->unit.ambient_illumination);
+
+				debug_unit_illumination_time = current_time;
+			}
+		}
+	}
 }
 
 void __cdecl sub_B4BCB0(s_unknown_unit_struct_sizeof_14* a1)
