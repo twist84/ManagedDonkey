@@ -48,86 +48,34 @@ void c_console::dispose()
 
 void c_console::write(char const* format, ...)
 {
-	if (!m_initialized)
-		return;
-
-	c_static_string<4096> str;
-
 	va_list list;
 	va_start(list, format);
-	str.print_va(format, list);
+	write_va(format, list);
 	va_end(list);
-
-#if defined(CONSOLE_ENABLED)
-	printf(str.get_string());
-#else
-	OutputDebugStringA(str.get_string());
-#endif // _DEBUG
-
 }
 
 void c_console::write_line(char const* format, ...)
 {
-	if (!m_initialized)
-		return;
-
-	c_static_string<4096> str;
-
 	va_list list;
 	va_start(list, format);
-	str.print_va(format, list);
-	str.append("\n");
+	write_line_va(format, list);
 	va_end(list);
-
-#if defined(CONSOLE_ENABLED)
-	printf(str.get_string());
-#else
-	OutputDebugStringA(str.get_string());
-#endif // _DEBUG
-
 }
 
 void c_console::write(wchar_t const* format, ...)
 {
-	if (!m_initialized)
-		return;
-
-	c_static_wchar_string<4096> str;
-
 	va_list list;
 	va_start(list, format);
-
-	str.print_va(format, list);
-
+	write_va(format, list);
 	va_end(list);
-
-#if defined(CONSOLE_ENABLED)
-	wprintf(str.get_string());
-#else
-	OutputDebugStringW(str.get_string());
-#endif // _DEBUG
-
 }
 
 void c_console::write_line(wchar_t const* format, ...)
 {
-	if (!m_initialized)
-		return;
-
-	c_static_wchar_string<4096> str;
-
 	va_list list;
 	va_start(list, format);
-	str.print_va(format, list);
-	str.append(L"\n");
+	write_line_va(format, list);
 	va_end(list);
-
-#if defined(CONSOLE_ENABLED)
-	wprintf(str.get_string());
-#else
-	OutputDebugStringW(str.get_string());
-#endif // _DEBUG
-
 }
 
 void c_console::write_va(char const* format, va_list list)
@@ -144,7 +92,6 @@ void c_console::write_va(char const* format, va_list list)
 #else
 	OutputDebugStringA(str.get_string());
 #endif // _DEBUG
-
 }
 
 void c_console::write_line_va(char const* format, va_list list)
@@ -162,7 +109,6 @@ void c_console::write_line_va(char const* format, va_list list)
 #else
 	OutputDebugStringA(str.get_string());
 #endif // _DEBUG
-
 }
 
 void c_console::write_va(wchar_t const* format, va_list list)
@@ -179,7 +125,6 @@ void c_console::write_va(wchar_t const* format, va_list list)
 #else
 	OutputDebugStringW(str.get_string());
 #endif // _DEBUG
-
 }
 
 void c_console::write_line_va(wchar_t const* format, va_list list)
@@ -197,7 +142,6 @@ void c_console::write_line_va(wchar_t const* format, va_list list)
 #else
 	OutputDebugStringW(str.get_string());
 #endif // _DEBUG
-
 }
 
 void get_error_message(unsigned long message_id, char(&message_buffer)[2048])
