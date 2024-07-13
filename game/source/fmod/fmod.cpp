@@ -78,11 +78,11 @@ namespace FMOD
 
 namespace snd
 {
-	REFERENCE_DECLARE(0x0698D054, dword, g_SoundThreadId);
-	REFERENCE_DECLARE(0x069AD05C, void*, dword_69AD05C);
-	REFERENCE_DECLARE(0x069AD064, SYSTEM_FMOD*, g_SYSTEM_FMOD);
-	REFERENCE_DECLARE(0x069AD068, HALO_SOUND_SYSTEM*, g_HaloSoundSystem);
-	REFERENCE_DECLARE(0x069AD06C, SYSTEM_FMOD*, g_SYSTEM_FMOD_for_threads);
+	REFERENCE_DECLARE(0x0698D054, int, THREAD_ID);
+	REFERENCE_DECLARE(0x069AD05C, FMOD::System*, fmodOriginalSystem);
+	REFERENCE_DECLARE(0x069AD064, SYSTEM_FMOD*, SystemFMod);
+	REFERENCE_DECLARE(0x069AD068, HALO_SOUND_SYSTEM*, SystemCustom);
+	REFERENCE_DECLARE(0x069AD06C, SYSTEM_FMOD*, System);
 
 	//// result for `SYSTEM_FMOD::sub_4035E0`
 	//DATA_PATCH_DECLARE(0x004035E1, max_channels, max_channels_as_dword.bytes);
@@ -95,13 +95,13 @@ namespace snd
 	bool __thiscall SYSTEM_FMOD::Init(long a1, void** a2)
 	{
 		// get pointer to `FMOD::EventSystemI*`
-		static bool(__stdcall * sub_1353A80)(FMOD::EventSystemI**) = reinterpret_cast<decltype(sub_1353A80)>(0x01353A80);
+		static bool(__stdcall * FMOD_EventSystem_Create)(FMOD::EventSystemI**) = reinterpret_cast<decltype(FMOD_EventSystem_Create)>(0x01353A80);
 
-		g_SoundThreadId = system_get_current_thread_id();
+		THREAD_ID = system_get_current_thread_id();
 
 		if (!PrepareInit() ||
-			sub_1353A80(&m_pEventSystemI) ||
-			m_pEventSystemI->__vftable->__func1C(m_pEventSystemI, &dword_69AD05C) ||
+			FMOD_EventSystem_Create(&system) ||
+			system->__vftable->getSystemObject(system, &fmodOriginalSystem) ||
 			!InitEventSystem(&a1))
 		{
 			return false;
@@ -152,8 +152,8 @@ void __cdecl fmod_initialize()
 {
 	//INVOKE(0x0064E190, fmod_initialize);
 
-	//DECLFUNC(0x004047B0, bool, __thiscall, void*, long, long)(snd::g_SYSTEM_FMOD, 256, 1);
-	snd::g_SYSTEM_FMOD->__vftable->Init(snd::g_SYSTEM_FMOD, 256, 1);
+	//DECLFUNC(0x004047B0, bool, __thiscall, void*, long, long)(snd::SystemFMod, 256, 1);
+	snd::SystemFMod->__vftable->Init(snd::SystemFMod, 256, 1);
 }
 
 void __cdecl fmod_dispose_from_old_map()
@@ -165,8 +165,8 @@ void __cdecl fmod_dispose()
 {
 	//INVOKE(0x00652EE0, fmod_dispose);
 
-	//DECLFUNC(0x004067F0, void, __thiscall, void*)(snd::g_SYSTEM_FMOD);
-	snd::g_SYSTEM_FMOD->__vftable->Term(snd::g_SYSTEM_FMOD);
+	//DECLFUNC(0x004067F0, void, __thiscall, void*)(snd::SystemFMod);
+	snd::SystemFMod->__vftable->Term(snd::SystemFMod);
 }
 
 short __cdecl sound_definition_find_pitch_range_by_pitch_for_looping_sound_find_or_create_sound(struct s_cache_file_sound_definition* sound, real pitch_modifier, short pitch_range_index)

@@ -75,78 +75,82 @@ static_assert(sizeof(HALO_SOUND_SYSTEM) == 0x204);
 
 namespace FMOD
 {
+	struct System
+	{
+	};
+
 	struct EventSystemI
 	{
 		struct EventSystemI_vtbl
 		{
-			void* __func0;
-			void* __func4;
-			void* __func8;
-			void* __funcC;
-			void* __func10;
-			void* __func14;
-			void* __func18;
-			long(__stdcall* __func1C)(EventSystemI*, void*);
-			void* __func20;
-			void* __func24;
-			void* __func28;
-			void* __func2C;
-			void* __func30;
-			void* __func34;
-			void* __func38;
-			void* __func3C;
-			void* __func40;
-			void* __func44;
-			void* __func48;
-			void* __func4C;
-			void* __func50;
-			void* __func54;
-			void* __func58;
-			void* __func5C;
-			void* __func60;
-			void* __func64;
-			void* __func68;
-			void* __func6C;
-			void* __func70;
-			void* __func74;
-			void* __func78;
-			void* __func7C;
-			void* __func80;
-			void* __func84;
-			void* __func88;
-			void* __func8C;
-			void* __func90;
-			void* __func94;
-			void* __func98;
-			void* __func9C;
-			void* __funcA0;
-			void* __funcA4;
-			void* __funcA8;
-			void* __funcAC;
-			void* __funcB0;
-			void* __funcB4;
-			void* __funcB8;
-			void* __funcBC;
-			void* __funcC0;
-			void* __funcC4;
-			void* __funcC8;
-			void* __funcCC;
-			void* __funcD0;
-			void* __funcD4;
-			void* __funcD8;
-			void* __funcDC;
-			void* __funcE0;
-			void* __funcE4;
-			void* __funcE8;
-			void* __funcEC;
-			void* __funcF0;
-			void* __funcF4;
-			void* __funcF8;
-			void* __funcFC;
-			void* __func100;
-			void* __func104;
-			void* __func108;
-			void* __func10C;
+			void* init;
+			void* release;
+			void* update;
+			void* setMediaPath;
+			void* setPluginPath;
+			void* getVersion;
+			void* getInfo;
+			long(__stdcall* getSystemObject)(EventSystemI*, void*);
+			void* getMusicSystem;
+			void* load;
+			void* unload;
+			void* getProject;
+			void* getProjectByIndex;
+			void* getNumProjects;
+			void* getCategory;
+			void* getCategoryByIndex;
+			void* getMusicCategory;
+			void* getNumCategories;
+			void* getGroup;
+			void* getEvent;
+			void* getEventBySystemID;
+			void* getEventByGUID;
+			void* getEventByGUIDString;
+			void* getNumEvents;
+			void* setReverbProperties;
+			void* getReverbProperties;
+			void* getReverbPreset;
+			void* getReverbPresetByIndex;
+			void* getNumReverbPresets;
+			void* createReverb;
+			void* setReverbAmbientProperties;
+			void* getReverbAmbientProperties;
+			void* set3DNumListeners;
+			void* get3DNumListeners;
+			void* set3DListenerAttributes;
+			void* get3DListenerAttributes;
+			void* setUserData;
+			void* getUserData;
+			void* preloadFSB;
+			void* unloadFSB;
+			void* getMemoryInfo;
+			void* EventSystemDtor;
+			void* getMemoryUsedImpl;
+			void* getMemoryUsed;
+			void* getMemoryUsed2;
+			void* loadPlugins;
+			void* dereferenceSoundnames;
+			void* createDSPByName;
+			void* getSoundbank;
+			void* getSoundDef;
+			void* releaseSoundDefs;
+			void* releaseSoundBanks;
+			void* getMute;
+			void* rebuildGUIDTable;
+			void* rebuildEventTable;
+			void* createEventTable;
+			void* setEventTableEntry;
+			void* getEventID;
+			void* setFlags;
+			void* countEvents;
+			void* readSoundDefDef;
+			void* buildEventI;
+			void* dereferenceSoundname;
+			void* openFile;
+			void* closeFile;
+			void* writeFileData;
+			void* callEventCallback;
+			void* targetObjectCommand;
 		};
 
 		EventSystemI_vtbl* __vftable /*VFT*/;
@@ -164,7 +168,7 @@ namespace snd
 	{
 		struct SYSTEM_vtbl
 		{
-			void* Free;
+			void* Destructor;
 			void(__thiscall* Init)(SYSTEM*, long, long);
 			long(__thiscall* Term)(SYSTEM*);
 			void* Mute;
@@ -176,11 +180,11 @@ namespace snd
 			void* RegisterData;
 			void* RegisterLevelSounds;
 			void* RegisterWavebank;
-			void* Func12;
+			void* CommitRegisteredWavebanks;
 			void(__thiscall* UnregisterWavebank)(SYSTEM*, long*);
-			void* Func14;
-			void* GetWavebank;
-			void* GetWavebank2;
+			void* GetRegisteredWavebanks;
+			void* PreloadSoundbank;
+			void* UnloadSoundbank;
 			void* PrepareWavebanks;
 			void* EnableEAX;
 			void(__thiscall* SetPreset)(SYSTEM*, dword*);
@@ -190,7 +194,7 @@ namespace snd
 			void* SetListener;
 			void(__thiscall* GetListener)(SYSTEM*, long, qword*, dword, dword, dword);
 			void* GetInfo;
-			void* Func26;
+			void* GetPlayingIter;
 			void* GetInfoIter;
 			void* FindInfoIter;
 			long(__thiscall* Func29)(SYSTEM*);
@@ -213,18 +217,18 @@ namespace snd
 		bool InitEventSystem(void* a1);
 		//void __thiscall Update(real a1);
 
-		FMOD::EventSystemI* m_pEventSystemI;
+		FMOD::EventSystemI* system;
 		byte __data34[0xC];
 		dword m_SpeakerMode;
 		byte __data44[0x324];
 	};
 	static_assert(sizeof(SYSTEM_FMOD) == 0x368);
 
-	//extern dword& g_SoundThreadId;
-	//extern void*& dword_69AD05C;
-	//extern SYSTEM_FMOD*& g_SYSTEM_FMOD;
-	//extern HALO_SOUND_SYSTEM*& g_HaloSoundSystem;
-	//extern SYSTEM_FMOD*& g_SYSTEM_FMOD_for_threads;
+	//extern int& THREAD_ID;
+	//extern FMOD::System*& fmodOriginalSystem;
+	//extern SYSTEM_FMOD*& SystemFMod;
+	//extern HALO_SOUND_SYSTEM*& SystemCustom;
+	//extern SYSTEM_FMOD*& System;
 }
 
 extern void __cdecl fmod_initialize_for_new_map();
