@@ -123,7 +123,7 @@ struct _unit_datum
 	c_static_array<long, 4> equipment_object_indices;
 	c_static_array<long, 4> active_equipment_object_indices;
 	long equipment_pickup_time;
-	real consumable_energy_level;
+	long consumable_energy_level;
 	long consumable_energy_restored_game_time;
 	short weapon_firing_time;
 	char current_grenade_index;
