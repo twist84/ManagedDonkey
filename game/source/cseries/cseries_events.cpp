@@ -1222,7 +1222,7 @@ void __cdecl network_debug_print(const char* format, ...)
 
 	va_list list;
 	va_start(list, format);
-	c_console::write_line(format, list);
+	c_console::write_line_va(format, list);
 	va_end(list);
 }
 
