@@ -84,7 +84,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -117,7 +117,7 @@ POPD
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -152,7 +152,7 @@ POPD
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(ProjectDir)resource\;$(ProjectDir)common\lib_3dpart\;$(ProjectDir)common\incl.sys\;$(SolutionDir)third_party\DIA\include\;$(SolutionDir)third_party\detours\include\;$(SolutionDir)third_party\directx\include\;$(SolutionDir)third_party\directxtex\include\</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -327,7 +327,7 @@ POPD
     <ClCompile Include="source\editor\editor_stubs.cpp" />
     <ClCompile Include="source\effects\contrails.cpp" />
     <ClCompile Include="source\effects\screen_effect.cpp" />
-    <ClCompile Include="source\fmod\fmod.cpp" />
+    <ClCompile Include="common\lib_3dpart\fmod\src\sound_fmod.cpp" />
     <ClCompile Include="source\game\aim_assist.cpp" />
     <ClCompile Include="source\game\cheats.cpp" />
     <ClCompile Include="source\game\game_engine.cpp" />
@@ -684,6 +684,10 @@ POPD
     <ClInclude Include="source\cache\pc_sound_cache.hpp" />
     <ClInclude Include="source\cache\pc_texture_cache.hpp" />
     <ClInclude Include="source\cache\physical_memory_map.hpp" />
+    <ClInclude Include="common\incl.sys\ds\ds_flags.hpp" />
+    <ClInclude Include="common\incl.sys\ds\ds_string.hpp" />
+    <ClInclude Include="common\incl.sys\ds\ds_vector.hpp" />
+    <ClInclude Include="common\incl.sys\fileio\fileio.hpp" />
     <ClInclude Include="source\cseries\async.hpp" />
     <ClInclude Include="source\cseries\async_buffer.hpp" />
     <ClInclude Include="source\cseries\async_helpers.hpp" />
@@ -880,7 +884,7 @@ POPD
     <ClInclude Include="source\effects\contrails.hpp" />
     <ClInclude Include="source\effects\effect_definitions.hpp" />
     <ClInclude Include="source\effects\screen_effect.hpp" />
-    <ClInclude Include="source\fmod\fmod.hpp" />
+    <ClInclude Include="common\lib_3dpart\fmod\src\sound_fmod.hpp" />
     <ClInclude Include="source\game\campaign_metagame_definitions.hpp" />
     <ClInclude Include="source\game\cheats.hpp" />
     <ClInclude Include="source\game\game_engine.hpp" />

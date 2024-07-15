@@ -1,4 +1,4 @@
-#include "fmod/fmod.hpp"
+#include "fmod/src/sound_fmod.hpp"
 
 #include "memory/module.hpp"
 
@@ -112,7 +112,7 @@ namespace snd
 		HALO_SOUND_SYSTEM* halo_sound_system = HALO_SOUND_SYSTEM::GetInstance();
 		if (!halo_sound_system || halo_sound_system->Init(a1, a2))
 		{
-			flags |= FLAG(0);
+			this->state.val |= FLAG(0);
 			return true;
 		}
 

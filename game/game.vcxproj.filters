@@ -177,7 +177,7 @@
     <ClCompile Include="source\simulation\simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\fmod\fmod.cpp">
+    <ClCompile Include="common\lib_3dpart\fmod\src\sound_fmod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\hf2p\hf2p.cpp">
@@ -1895,7 +1895,7 @@
     <ClInclude Include="source\memory\byte_swapping.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\fmod\fmod.hpp">
+    <ClInclude Include="common\lib_3dpart\fmod\src\sound_fmod.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\hf2p\hf2p.hpp">
@@ -3525,6 +3525,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\units\unit_dialogue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\incl.sys\ds\ds_vector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\incl.sys\ds\ds_flags.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\incl.sys\ds\ds_string.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common\incl.sys\fileio\fileio.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

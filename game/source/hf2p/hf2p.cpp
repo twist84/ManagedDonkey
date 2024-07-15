@@ -1,7 +1,7 @@
 #include "hf2p/hf2p.hpp"
 
 #include "cache/cache_files.hpp"
-#include "fmod/fmod.hpp"
+#include "fmod/src/sound_fmod.hpp"
 #include "game/game.hpp"
 #include "game/game_engine_util.hpp"
 #include "game/multiplayer_definitions.hpp"

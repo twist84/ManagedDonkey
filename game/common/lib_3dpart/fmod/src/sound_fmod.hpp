@@ -1,6 +1,42 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
+#include "ds/ds_flags.hpp"
+#include "ds/ds_string.hpp"
+#include "ds/ds_vector.hpp"
+#include "fileio/fileio.hpp"
+
+struct FMOD_REVERB_PROPERTIES
+{
+	int Instance;
+	int Environment;
+	float EnvSize;
+	float EnvDiffusion;
+	int Room;
+	int RoomHF;
+	int RoomLF;
+	float DecayTime;
+	float DecayHFRatio;
+	float DecayLFRatio;
+	int Reflections;
+	float ReflectionsDelay;
+	float ReflectionsPan[3];
+	int Reverb;
+	float ReverbDelay;
+	float ReverbPan[3];
+	float EchoTime;
+	float EchoDepth;
+	float ModulationTime;
+	float ModulationDepth;
+	float AirAbsorptionHF;
+	float HFReference;
+	float LFReference;
+	float RoomRolloffFactor;
+	float Diffusion;
+	float Density;
+	unsigned int Flags;
+};
+static_assert(sizeof(FMOD_REVERB_PROPERTIES) == 0x7C);
 
 struct HALO_CHANNEL;
 
@@ -75,6 +111,11 @@ static_assert(sizeof(HALO_SOUND_SYSTEM) == 0x204);
 
 namespace FMOD
 {
+	struct ChannelGroup
+	{
+
+	};
+
 	struct System
 	{
 	};
@@ -159,11 +200,20 @@ namespace FMOD
 	static_assert(sizeof(EventSystemI) == 0xE4);
 
 	extern long __stdcall System_init(int system, int maxchannels, unsigned int flags, void* extradriverdata);
-	extern long __cdecl sub_4035E0();
 };
 
 namespace snd
 {
+	enum SYSTEM_STATE
+	{
+		SST_INITED = FLAG(0),
+		SST_EAX = FLAG(1),
+		SST_EAX_ENABLED = FLAG(2),
+		SST_MUTED = FLAG(3),
+		SST_UPDATE_CATEGORIES = FLAG(4),
+		SST_USER = FLAG(5),
+	};
+
 	struct SYSTEM
 	{
 		struct SYSTEM_vtbl
@@ -203,8 +253,9 @@ namespace snd
 		};
 
 		SYSTEM_vtbl* __vftable /*VFT*/;
-		dword_flags flags;
-		byte __data8[0x28];
+		dsFLAGS<SYSTEM_STATE, int> state;
+		byte __data8[0x24];
+		int listenersCount;
 	};
 	static_assert(sizeof(SYSTEM) == 0x30);
 
@@ -218,9 +269,24 @@ namespace snd
 		//void __thiscall Update(real a1);
 
 		FMOD::EventSystemI* system;
-		byte __data34[0xC];
+		FMOD::ChannelGroup* master;
+		FMOD::ChannelGroup* reverb;
+		byte __data3C[04];
 		dword m_SpeakerMode;
-		byte __data44[0x324];
+		byte __data44[0x3C];
+		float mostAudible;
+		int numPlaying;
+		int numStreamPlaying;
+		int getBufferCounter;
+		byte __data90[0x70];
+		osTIMER lastExpiration;
+		byte __data108[0x58];
+		fioFILE_MEM psbin;
+		byte __data1FC[0x5C];
+		FMOD_REVERB_PROPERTIES targetPreset;
+		FMOD_REVERB_PROPERTIES currentPreset;
+		dsVECTOR<FMOD_REVERB_PROPERTIES, 8> auxPresets;
+		dsVECTOR<dsTSTRING<char>, 8> auxPresetNames;
 	};
 	static_assert(sizeof(SYSTEM_FMOD) == 0x368);
 
