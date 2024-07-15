@@ -461,7 +461,10 @@ void __cdecl main_game_internal_map_unload_begin()
 
 void __cdecl main_game_internal_map_unload_complete()
 {
-	INVOKE(0x00567610, main_game_internal_map_unload_complete);
+	//INVOKE(0x00567610, main_game_internal_map_unload_complete);
+
+	physical_memory_stage_pop(_memory_stage_level_initialize);
+	main_game_globals.game_loaded_status = _game_loaded_status_none;
 }
 
 bool __cdecl main_game_internal_open_caches(game_options const* options)
@@ -896,6 +899,44 @@ bool __cdecl main_game_start(game_options const* options)
 void __cdecl main_game_unload_and_prepare_for_next_game(game_options const* options)
 {
 	INVOKE(0x00567F40, main_game_unload_and_prepare_for_next_game, options);
+
+	//c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	//
+	//if (game_in_progress())
+	//{
+	//	data_mine_insert_single_player_game_options("game finish");
+	//	game_engine_game_ending();
+	//	simulation_stop();
+	//	scenario_switch_to_null_zone_set();
+	//	game_dispose_from_old_map();
+	//}
+	//
+	//e_game_loaded_status game_loaded_status = main_game_globals.game_loaded_status;
+	//switch (game_loaded_status)
+	//{
+	//case _game_loaded_status_none:
+	//{
+	//	main_game_configure_map_memory(options);
+	//}
+	//case _game_loaded_status_map_loading:
+	//case _game_loaded_status_map_loaded_failure:
+	//case _game_loaded_status_map_unloading:
+	//	break;
+	//case _game_loaded_status_map_loaded:
+	//case _game_loaded_status_map_reloading:
+	//{
+	//	main_game_internal_map_unload_begin();
+	//	scenario_unload();
+	//	main_game_internal_map_unload_complete();
+	//}
+	//break;
+	//case _game_loaded_status_pregame:
+	//{
+	//	main_game_internal_pregame_unload();
+	//	main_game_configure_map_memory(options);
+	//}
+	//break;
+	//}
 }
 
 void __cdecl main_menu_build_game_options(game_options* options)
@@ -908,18 +949,38 @@ void __cdecl main_menu_build_game_options(game_options* options)
 	//if (levels_try_and_get_main_menu_map(&level))
 	//	options->scenario_path.set(level.scenario_path);
 	//else
-	//	options->scenario_path.set("levels\\ui\\mainmenu\\mainmenu" /* k_main_menu_scenario_tag */);
+	//	options->scenario_path.set(k_main_menu_scenario_tag);
 	//game_options_setup_default_players(1, options);
 }
 
 void __cdecl main_menu_launch()
 {
 	INVOKE(0x005680E0, main_menu_launch);
+
+	//if (!main_halted_with_errors())
+	//{
+	//	if (game_in_progress() && game_is_ui_shell())
+	//	{
+	//		user_interface_enter_game_shell();
+	//	}
+	//	else
+	//	{
+	//		game_options options{};
+	//		main_menu_build_game_options(&options);
+	//		game_options_validate(&options);
+	//		main_game_change(&options);
+	//	}
+	//}
 }
 
 void __cdecl main_menu_launch_force()
 {
 	INVOKE(0x00568190, main_menu_launch_force);
+
+	//game_options options{};
+	//main_menu_build_game_options(&options);
+	//game_options_validate(&options);
+	//main_game_change(&options);
 }
 
 bool __cdecl map_memory_configuration_is_campaign(e_map_memory_configuration configuration)
