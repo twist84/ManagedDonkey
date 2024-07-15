@@ -1393,6 +1393,13 @@ bool __cdecl global_preferences_get_hide_watermark()
 void __cdecl global_preferences_update()
 {
 	INVOKE(0x0050EAC0, global_preferences_update);
+
+	//c_global_preferences_scope_lock scope_lock;
+	//if (global_preferences_are_dirty())
+	//	global_preferences_write();
+	//
+	//if (global_preferences_get()->__unknown84010 && global_preferences_get()->ready_to_write.peek())
+	//	global_preferences_get()->__unknown84010 = 0;
 }
 
 //.text:0050EBA0 ; void __cdecl c_gui_pregame_setup_manager::restore_game_setup(c_gui_single_game_setup_storage* storage)
@@ -1400,6 +1407,30 @@ void __cdecl global_preferences_update()
 void __cdecl global_preferences_write()
 {
 	INVOKE(0x0050ECE0, global_preferences_write);
+
+	//if (global_preferences_get()->__unknown84010 && global_preferences_get()->ready_to_write.peek())
+	//{
+	//	if (csmemcmp(&global_preferences_get()->preferences0.data, &global_preferences_get()->preferences1.data, sizeof(s_global_preferences_data)) != 0)
+	//		global_preferences_dirty(true);
+	//	csmemcpy(&global_preferences_get()->preferences0.data, &global_preferences_get()->preferences1.data, sizeof(s_global_preferences_data));
+	//
+	//	s_network_http_request_hash hash{};
+	//	if (file_handle_is_valid(global_preferences_get()->handle) &&
+	//		security_calculate_hash(&global_preferences_get()->preferences1.data, sizeof(s_global_preferences_data), true, &hash))
+	//	{
+	//		global_preferences_get()->preferences1.secure_signature = hash;
+	//		global_preferences_get()->__unknown84008 = async_write_position_ex(
+	//			global_preferences_get()->handle,
+	//			&global_preferences_get()->preferences1,
+	//			sizeof(s_global_preferences),
+	//			0,
+	//			FLAG(_write_position_flush_file_bit),
+	//			_async_category_saved_games,
+	//			_async_priority_important_non_blocking,
+	//			true,
+	//			NULL);
+	//	}
+	//}
 }
 
 void __stdcall sound_system_set_master_volume(long volume, bool update_preference)
