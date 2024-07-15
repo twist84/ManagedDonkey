@@ -176,6 +176,24 @@ dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, 
 	//return result;
 }
 
+dword __cdecl audio_thread_loop(void* thread_parameter)
+{
+	return INVOKE(0x00504F80, audio_thread_loop, thread_parameter);
+
+	//if (game_is_multithreaded() && !current_thread_should_exit())
+	//{
+	//	do
+	//	{
+	//		current_thread_update_test_functions();
+	//		sound_render_dispatch();
+	//	} while (!current_thread_should_exit());
+	//}
+	//
+	//return 1;
+}
+
+//.text:00505170 ; public: bool __cdecl s_scenario_zone_activation::is_empty() const
+
 void __cdecl main_activate_cinematic_tag_private()
 {
 	INVOKE(0x00505190, main_activate_cinematic_tag_private);
@@ -197,6 +215,8 @@ void __cdecl main_activate_designer_zone(long designer_zone_index)
 {
 	INVOKE(0x005052D0, main_activate_designer_zone, designer_zone_index);
 }
+
+//.text:00505370 ; void __cdecl sub_505370() // saber function called within `c_rasterizer::cleanup_before_device_reset`
 
 void __cdecl main_clear_global_pending_zone_activation(long game_state_proc_flags)
 {
@@ -1781,8 +1801,7 @@ bool __cdecl main_time_halted()
 
 	bool time_halted = shell_application_is_paused();
 
-	if (debug_console_pauses_game
-		&& debugging_system_has_focus()
+	if ((debug_console_pauses_game && debugging_system_has_focus())
 		&& (!game_in_progress() || !game_has_nonlocal_players() || game_is_authoritative_playback()))
 	{
 		time_halted = true;

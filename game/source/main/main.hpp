@@ -132,6 +132,7 @@ struct s_game_tick_time_samples;
 struct s_model_customization_region_permutation;
 
 extern dword __cdecl _internal_halt_render_thread_and_lock_resources(char const* file, long line);
+extern dword __cdecl audio_thread_loop(void* thread_parameter);
 extern void __cdecl main_activate_cinematic_tag_private();
 extern void __cdecl main_activate_cinematic_zone(long cinematic_zone_index);
 extern void __cdecl main_activate_cinematic_zone_for_debugging(long cinematic_zone_index);
