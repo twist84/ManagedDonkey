@@ -352,6 +352,11 @@ void __cdecl sound_render()
 	INVOKE(0x00518E20, sound_render);
 }
 
+void __cdecl sound_render_dispatch()
+{
+	INVOKE(0x005190E0, sound_render_dispatch);
+}
+
 real __cdecl sound_source_get_inner_cone_angle(s_sound_source const* source, long sound_definition_index)
 {
 	ASSERT(source);

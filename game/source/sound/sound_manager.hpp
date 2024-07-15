@@ -121,6 +121,7 @@ extern bool __cdecl sound_is_active();
 extern bool __cdecl sound_is_fading_out(long sound_index);
 extern s_sound_listener const* __cdecl sound_manager_get_listener(long listener_index);
 extern void __cdecl sound_render();
+extern void __cdecl sound_render_dispatch();
 extern void __cdecl sound_update();
 
 extern void __cdecl sound_debug_render();
