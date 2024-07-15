@@ -4,6 +4,7 @@
 #include "networking/messages/network_messages_out_of_band.hpp"
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
+#include "simulation/simulation.hpp"
 
 REFERENCE_DECLARE(0x019A0328, s_network_session_interface_globals, session_interface_globals);
 
@@ -99,6 +100,8 @@ void __cdecl network_session_interface_add_local_user(long user_index, s_player_
 void __cdecl network_session_interface_clear_peer_status_flags()
 {
 	INVOKE(0x00436200, network_session_interface_clear_peer_status_flags);
+
+	//session_interface_globals.peer_status_flags.clear();
 }
 
 void __cdecl network_session_interface_dispose()
@@ -224,10 +227,11 @@ void __cdecl network_session_interface_set_local_user_xuid(long user_index, qwor
 	INVOKE(0x00436B70, network_session_interface_set_local_user_xuid, user_index, xuid);
 }
 
-//void __cdecl network_session_interface_set_peer_status_flag(e_network_session_peer_properties_status_flags peer_status_flag, bool enabled)
-void __cdecl network_session_interface_set_peer_status_flag(long peer_status_flag, bool enabled)
+void __cdecl network_session_interface_set_peer_status_flag(e_network_session_peer_properties_status_flags peer_status_flag, bool enabled)
 {
 	INVOKE(0x00436BC0, network_session_interface_set_peer_status_flag, peer_status_flag, enabled);
+
+	//session_interface_globals.peer_status_flags.set(peer_status_flag, enabled);
 }
 
 void __cdecl network_session_interface_set_ready_hopper_identifier(word hopper_identifier, e_session_game_start_error error)
@@ -235,10 +239,11 @@ void __cdecl network_session_interface_set_ready_hopper_identifier(word hopper_i
 	INVOKE(0x00436BF0, network_session_interface_set_ready_hopper_identifier, hopper_identifier, error);
 }
 
-//bool __cdecl network_session_interface_test_peer_status_flag(e_network_session_peer_properties_status_flags peer_status_flags)
-bool __cdecl network_session_interface_test_peer_status_flag(long peer_status_flag)
+bool __cdecl network_session_interface_test_peer_status_flag(e_network_session_peer_properties_status_flags peer_status_flag)
 {
 	return INVOKE(0x00436C10, network_session_interface_test_peer_status_flag, peer_status_flag);
+
+	//return session_interface_globals.peer_status_flags.test(peer_status_flag);
 }
 
 void __cdecl network_session_interface_update()
@@ -249,6 +254,13 @@ void __cdecl network_session_interface_update()
 void __cdecl network_session_interface_update_local_state()
 {
 	INVOKE(0x00436CF0, network_session_interface_update_local_state);
+}
+
+void __cdecl network_session_interface_update_peer_status_flags()
+{
+	INVOKE(0x00437000, network_session_interface_update_peer_status_flags);
+
+	//network_session_interface_set_peer_status_flag(_network_session_peer_properties_status_match_acknowledge_sync_bit, simulation_aborted());
 }
 
 void __cdecl network_session_interface_update_session(c_network_session* session)

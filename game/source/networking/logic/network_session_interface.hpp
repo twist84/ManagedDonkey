@@ -49,7 +49,7 @@ struct s_network_session_interface_globals
 	s_transport_qos_result qos_result;
 	long bandwidth_bps;
 	long max_machine_count;
-	dword peer_status_flags;
+	c_flags<e_network_session_peer_properties_status_flags, dword, k_network_session_peer_properties_status_flags> peer_status_flags;
 	short ready_hopper_identifier;
 	byte : 8;
 	byte : 8;
@@ -155,9 +155,9 @@ extern void __cdecl network_session_interface_set_local_user_override_hopper_dir
 extern void __cdecl network_session_interface_set_local_user_properties(long user_index, e_controller_index controller_index, s_player_configuration const* player_data, dword player_voice_settings);
 extern void __cdecl network_session_interface_set_local_user_state(long user_index, long state);
 extern void __cdecl network_session_interface_set_local_user_xuid(long user_index, qword xuid);
-extern void __cdecl network_session_interface_set_peer_status_flag(long peer_status_flag, bool enabled);
+extern void __cdecl network_session_interface_set_peer_status_flag(e_network_session_peer_properties_status_flags peer_status_flag, bool enabled);
 extern void __cdecl network_session_interface_set_ready_hopper_identifier(word hopper_identifier, e_session_game_start_error error);
-extern bool __cdecl network_session_interface_test_peer_status_flag(long peer_status_flag);
+extern bool __cdecl network_session_interface_test_peer_status_flag(e_network_session_peer_properties_status_flags peer_status_flag);
 extern void __cdecl network_session_interface_update();
 extern void __cdecl network_session_interface_update_local_state();
 extern void __cdecl network_session_interface_update_session(c_network_session* session);
