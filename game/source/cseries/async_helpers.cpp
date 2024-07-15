@@ -435,14 +435,57 @@ e_async_completion __cdecl async_validify_file_callback(s_async_task* task)
 }
 
 //.text:005ADFC0 ; long __cdecl async_write_buffer_to_file(wchar_t const*, void const*, dword, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
-//.text:005AE050 ; long __cdecl async_write_position(s_file_handle, void*, long, dword, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
+
+long __cdecl async_write_position(
+	s_file_handle file,
+	void* buffer,
+	long size,
+	dword offset,
+	e_async_category category,
+	e_async_priority priority,
+	bool a7,
+	c_synchronized_long* success) // success or size?
+{
+	//return INVOKE(0x005AE050, async_write_position,
+	//	file,
+	//	buffer,
+	//	size,
+	//	offset,
+	//	category,
+	//	priority,
+	//	a7,
+	//	success);
+
+	return async_write_position_ex(file, buffer, size, offset, 0, category, priority, a7, success);
+}
 
 e_async_completion __cdecl async_write_position_callback(s_async_task* task)
 {
 	return INVOKE(0x005AE080, async_write_position_callback, task);
 }
 
-//.text:005AE140 ; long __cdecl async_write_position_ex(s_file_handle, void*, long, dword, c_flags<e_write_position_flags, dword, 1>, e_async_category, e_async_priority, c_synchronized_long*, c_synchronized_long*)
+long __cdecl async_write_position_ex(
+	s_file_handle file,
+	void* buffer,
+	long size,
+	dword offset,
+	c_flags<e_write_position_flags, dword, k_write_position_flags> flags,
+	e_async_category category,
+	e_async_priority priority,
+	bool a8,
+	c_synchronized_long* success) // success or size?
+{
+	return INVOKE(0x005AE140, async_write_position_ex,
+		file,
+		buffer,
+		size,
+		offset,
+		flags,
+		category,
+		priority,
+		a8,
+		success);
+}
 
 e_async_completion __cdecl async_close_file_callback(s_async_task* task)
 {

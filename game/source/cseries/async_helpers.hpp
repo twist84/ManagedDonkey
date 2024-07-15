@@ -131,7 +131,26 @@ extern long __cdecl async_validify_file(
 	bool* success,
 	c_synchronized_long* done);
 extern e_async_completion __cdecl async_validify_file_callback(s_async_task* task);
+long __cdecl async_write_position(
+	s_file_handle file,
+	void* buffer,
+	long size,
+	dword offset,
+	e_async_category category,
+	e_async_priority priority,
+	bool a7,
+	c_synchronized_long* success);
 extern e_async_completion __cdecl async_write_position_callback(s_async_task* task);
+long __cdecl async_write_position_ex(
+	s_file_handle file,
+	void* buffer,
+	long size,
+	dword offset,
+	c_flags<e_write_position_flags, dword, k_write_position_flags> flags,
+	e_async_category category,
+	e_async_priority priority,
+	bool a8,
+	c_synchronized_long* success);
 extern e_async_completion __cdecl async_close_file_callback(s_async_task* task);
 extern e_async_completion __cdecl async_close_file_no_stfs_flush_callback(s_async_task* task);
 extern e_async_completion __cdecl async_delete_file_callback(s_async_task* task);
