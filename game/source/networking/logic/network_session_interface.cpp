@@ -259,6 +259,8 @@ void __cdecl network_session_interface_update_session(c_network_session* session
 bool __cdecl network_session_interface_was_guide_opened_during_a_multiplayer_session()
 {
 	return INVOKE(0x00437290, network_session_interface_was_guide_opened_during_a_multiplayer_session);
+
+	//return session_interface_globals.was_guide_opened_during_a_multiplayer_session;
 }
 
 void __cdecl network_session_set_player_failure_reason(long user_index, e_network_join_refuse_reason reason)
@@ -270,10 +272,9 @@ void __cdecl network_session_set_player_failure_reason(long user_index, e_networ
 //.text:004375D0 ; network_session_update_local_peer_properties
 //.text:00437860 ; network_session_update_team_indices
 
-//void __cdecl network_session_update_user_properties(c_network_session* session, e_output_user_index user_index)
-void __cdecl network_session_update_user_properties(c_network_session* session, long user_index)
+void __cdecl network_session_update_user_properties(c_network_session* session, e_output_user_index output_user_index)
 {
-	INVOKE(0x00437B30, network_session_update_user_properties, session, user_index);
+	INVOKE(0x00437B30, network_session_update_user_properties, session, output_user_index);
 }
 
 void __cdecl network_session_update_user_removal(c_network_session* session)
