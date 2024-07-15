@@ -282,8 +282,7 @@ void __cdecl network_session_update_user_removal(c_network_session* session)
 	INVOKE(0x00437CE0, network_session_update_user_removal, session);
 }
 
-//bool __cdecl network_squad_session_boot_player(long player_index, e_network_session_boot_reason reason)
-bool __cdecl network_squad_session_boot_player(long player_index, long reason)
+bool __cdecl network_squad_session_boot_player(long player_index, e_network_session_boot_reason reason)
 {
 	return INVOKE(0x00437D60, network_squad_session_boot_player, player_index, reason);
 }

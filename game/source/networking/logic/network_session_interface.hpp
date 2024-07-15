@@ -168,7 +168,7 @@ extern void __cdecl network_session_set_player_failure_reason(long user_index, e
 //network_session_update_team_indices
 extern void __cdecl network_session_update_user_properties(c_network_session* session, e_output_user_index output_user_index);
 extern void __cdecl network_session_update_user_removal(c_network_session* session);
-extern bool __cdecl network_squad_session_boot_player(long player_index, long reason);
+extern bool __cdecl network_squad_session_boot_player(long player_index, e_network_session_boot_reason reason);
 extern bool __cdecl network_squad_session_build_status(s_network_session_status_data* game_status);
 extern bool __cdecl network_squad_session_can_set_game_settings();
 extern bool __cdecl network_squad_session_controls_coop_game_options(bool* is_leader);
