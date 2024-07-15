@@ -266,9 +266,9 @@ void __cdecl network_session_set_player_failure_reason(long user_index, e_networ
 	INVOKE(0x004372C0, network_session_set_player_failure_reason, user_index, reason);
 }
 
-//network_session_update_local_specific_parameters
-//network_session_update_local_peer_properties
-//network_session_update_team_indices
+//.text:00437390 ; network_session_update_local_specific_parameters
+//.text:004375D0 ; network_session_update_local_peer_properties
+//.text:00437860 ; network_session_update_team_indices
 
 //void __cdecl network_session_update_user_properties(c_network_session* session, e_output_user_index user_index)
 void __cdecl network_session_update_user_properties(c_network_session* session, long user_index)
