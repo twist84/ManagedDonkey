@@ -517,7 +517,7 @@ void __cdecl c_rasterizer::set_alpha_blend_mode_custom_device_no_cache(IDirect3D
 
 void __cdecl c_rasterizer::set_color_write_enable(long render_state, long render_state_value)
 {
-	//INVOKE(0x00A231E0, set_color_write_enable, render_state, render_state_value);
+	INVOKE(0x00A231E0, set_color_write_enable, render_state, render_state_value);
 
 	//if (render_state_value == x_last_render_state_value[render_state])
 	//	return;
