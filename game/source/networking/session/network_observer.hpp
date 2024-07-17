@@ -54,8 +54,10 @@ struct c_network_observer
 		dword qos_attempt_index;
 		s_transport_qos_result qos_attempt_result;
 
-		dword __timeAF8;
-		byte __dataAFC[0xC];
+		long __timeAF8;
+		long __timeAFC;
+		long __timeB00;
+		byte __dataB04[0x4];
 
 		c_static_array<c_network_time_statistics, 3> time_statistics;
 		c_static_array<c_network_window_statistics, 2> window_statistics;
@@ -85,19 +87,69 @@ struct c_network_observer
 	c_network_message_type_collection* m_message_types;
 	s_observer_configuration* m_configuration;
 	s_channel_observer_owner m_owners[4];
-	byte __data34[4];
+	c_network_session* m_session;
 	s_channel_observer m_channel_observers[k_network_maximum_observers];
+
+	// All data beyond this point is related to bandwidth
+
 	bool m_quality_statistics_are_set;
-	int __unknown23CEC;
+	long __unknown23CEC;
 	s_network_quality_statistics m_quality_statistics;
-	byte __data23DB0[0x8];
+
+	// some enum type used in a switch within `c_network_observer::stream_update`
+	// c_network_observer::is_bandwidth_stable: `__unknown23D80 == 0`
+	long __unknown23D80;
+
+	long __unknown23DB4;
 	bool m_prioritize_upload_bandwidth;
 	bool m_online_network_environment;
-	char __data23DBA[0x4E];
+	bool __unknown23DBA;
+	bool __unknown23DBB;
+	long __unknown23DBC;
+	long __unknown23DC0;
+	long __unknown23DC4;
+	long __time23DC8;
+
+	// bool? enum?
+	// 0: UNSATISFIED
+	// 1: SATIATED 
+	byte __unknown23DD0_index;
+	byte __data23DCD[0x3];
+	long __unknown23DD0[2];
+
+	long __unknown23DD8;
+	long __unknown23DDC;
+	long __unknown23DE0;
+	long __time23DE4;
+	long __time23DE8;
+	long __time23DEC;
+	long __time23DF0;
+	long __time23DF4;
+	long __unknown23DF8;
+	long __unknown23DFC;
+	long __unknown23E00;
+	byte __data23E04[0x4];
 	c_network_time_statistics time_statistics;
-	char __data23EE0[0x20];
+	long __unknown23EE0;
+	long __unknown23EE4;
+	long __unknown23EE8;
+	long __unknown23EEC;
+	long __unknown23EF0;
+	long __unknown23EF4;
+	long __time23EF8;
+	long __time23EFC;
 	bool __unknown23F00;
 	bool __unknown23F01;
-	char __data23F02[0x1E];
+	bool __unknown23F02;
+	byte __unknown23F03; // bool?
+	bool __unknown23F04;
+	byte __data23F05[0xB];
+	long __time23F10;
+	bool __unknown23F14;
+	byte __data23F15[0x3];
+	long __unknown23F18;
+	byte __data23F1C[0x4];
 };
 static_assert(sizeof(c_network_observer) == 0x23F20);
+static_assert(0x14 == OFFSETOF(c_network_observer, m_owners));
+
