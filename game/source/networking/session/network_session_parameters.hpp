@@ -113,7 +113,7 @@ struct c_network_session_parameters
 	//s_network_session_parameters_internal m_parameters_internal;
 	c_network_session* m_session;
 	c_network_observer* m_observer;
-	c_network_session_parameter_base* m_parameter_interfaces[49];
+	c_network_session_parameter_base* m_parameter_interfaces[49 /* k_network_session_parameter_type_count */];
 	dword_flags m_flags;
 	dword m_initial_parameters_update_mask;
 	long : 32;
