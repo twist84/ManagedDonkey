@@ -55,9 +55,9 @@ struct actor_meta_data
 	bool active;
 	bool squadless;
 
-	byte ___data7[0x1];
+	byte __data7[0x1];
 	bool __unknown8;
-	byte ___data9[0x3];
+	byte __data9[0x3];
 
 	real original_vitality;
 
