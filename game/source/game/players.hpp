@@ -262,8 +262,9 @@ struct multiplayer_player_info
 	long revenge_shield_boost_unknown84; // = game_time_get();
 	long revenge_shield_boost_player_index; // == `player_index`
 	s_damage_reporting_info revenge_shield_boost_damage;
+	bool revenge_shield_boost_unknown90;
 
-	bool __unknown90;
+	// pad?
 	byte __data91[3];
 };
 static_assert(sizeof(multiplayer_player_info) == 0x94);
@@ -387,6 +388,7 @@ enum e_player_flags
 	// game_engine_update_coop_spawning
 	// halo reach x360: bit 14
 	// halo 4 x360:     bit 16
+	// look_training_hack?
 	_player_unknown_bit14,
 
 	// players_coop_update_respawn
@@ -686,7 +688,7 @@ static_assert(0x2E16 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_
 static_assert(0x2E18 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_unknown84));
 static_assert(0x2E1C == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_player_index));
 static_assert(0x2E20 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_damage));
-static_assert(0x2E24 == OFFSETOF(player_datum, multiplayer.__unknown90));
+static_assert(0x2E24 == OFFSETOF(player_datum, multiplayer.revenge_shield_boost_unknown90));
 static_assert(0x2E25 == OFFSETOF(player_datum, multiplayer.__data91));
 static_assert(0x2E28 == OFFSETOF(player_datum, __data2E28));
 static_assert(0x2E2A == OFFSETOF(player_datum, __data2E2A));

@@ -94,6 +94,7 @@ extern void __cdecl biped_bumped_object(long biped_index, long object_index, vec
 extern void __cdecl biped_get_autoaim_pill(long biped_index, real_point3d* base, vector3d* height, real* autoaim_width);
 extern void __cdecl biped_get_physics_pill(long biped_index, real_point3d* position, real* height, real* radius);
 extern void __cdecl biped_get_sentinel_animation_node_position_and_velocity(long biped_index, real_point3d* position, vector3d* velocity);
+extern void __cdecl biped_get_sight_position(long biped_index, short estimate_mode, bool offset_camera, real_point3d const* estimated_body_position, vector3d const* a5, vector3d const* desired_facing_vector, vector3d const* desired_gun_offset, real_point3d* camera_position);
 extern void __cdecl biped_scripting_ragdoll(long biped_index);
 extern void __cdecl biped_render_debug(long biped_index);
 

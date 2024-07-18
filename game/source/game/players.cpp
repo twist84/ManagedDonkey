@@ -12,6 +12,7 @@
 #include "scenario/scenario.hpp"
 #include "simulation/game_interface/simulation_game_action.hpp"
 #include "text/draw_string.hpp"
+#include "units/bipeds.hpp"
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
@@ -110,13 +111,10 @@ void players_debug_render()
 		//		//&& player->machine_user_index
 		//		&& TEST_MASK(_object_mask_biped, FLAG(object_get_type(player->unit_index))))
 		//	{
-		//		byte* biped = (byte*)object_get_and_verify_type(player->unit_index, _object_mask_biped);
+		//		biped_datum* biped = (biped_datum*)object_get_and_verify_type(player->unit_index, _object_mask_biped);
 		// 
-		//		// #TODO: find the offset
-		//		REFERENCE_DECLARE(biped + ??, word_flags, biped_flags);
-		//
 		//		// #TODO: find the bit index
-		//		if (TEST_BIT(biped_flags, ??))
+		//		if (TEST_BIT(biped->biped.flags, ??))
 		//		{
 		//			real_point3d position{};
 		//			vector3d aiming_vector{};
@@ -167,31 +165,31 @@ void players_debug_render()
 	}
 }
 
-//.text:00536AC0
-//.text:00536B80
+//.text:00536AC0 ; 
+//.text:00536B80 ; 
 //.text:00536EA0 ; public: __cdecl player_datum::player_datum()
-//.text:00536FD0
-//.text:00537210
-//.text:00537430
+//.text:00536FD0 ; 
+//.text:00537210 ; 
+//.text:00537430 ; 
 //.text:005375B0 ; long __cdecl find_best_starting_location_index(long, bool, bool)
 //.text:00537860 ; void __cdecl map_editor_process_player_control(long, s_player_action*)
 //.text:005379E0 ; void __cdecl player_action_clear(s_player_action*)
 //.text:00537A50 ; void __cdecl player_action_context_clear(s_player_action_context*)
-//.text:00537A80
+//.text:00537A80 ; 
 //.text:00537AB0 ; bool __cdecl player_action_valid(s_player_action const*)
-//.text:00537C90
-//.text:00537D10
+//.text:00537C90 ; 
+//.text:00537D10 ; 
 //.text:00537DB0 ; void __cdecl player_active_camo_screen_effect(long)
 //.text:00537EA0 ; bool __cdecl player_active_camouflage_on()
-//.text:00537F20
+//.text:00537F20 ; 
 //.text:00537F90 ; void __cdecl player_appearance_initialize(s_player_appearance*)
 //.text:00537FB0 ; bool __cdecl player_appearance_valid(s_player_appearance const*)
 //.text:00537FE0 ; void __cdecl player_approve_pickup_weapon(long, long, unit_weapon_pickup_result*)
 //.text:005381F0 ; void __cdecl player_build_aiming_vector_from_facing(long, real, real, vector3d*)
-//.text:005384C0
+//.text:005384C0 ; 
 //.text:00538510 ; bool __cdecl player_can_assassinate_object(long, long)
 //.text:005385F0 ; bool __cdecl player_can_fancy_assassinate_object(long, long)
-//.text:005386D0
+//.text:005386D0 ; 
 //.text:00538730 ; void __cdecl player_clear_assassination_state(long)
 //.text:005387A0 ; void __cdecl player_configuration_initialize(s_player_configuration*)
 //.text:005387F0 ; bool __cdecl player_consider_biped_interaction(long, long, s_player_interaction*)
@@ -200,7 +198,7 @@ void players_debug_render()
 //.text:00538B10 ; bool __cdecl player_consider_vehicle_interaction(long, long, s_player_interaction*)
 //.text:00538D00 ; bool __cdecl player_consider_weapon_interaction(long, long, s_player_interaction*)
 //.text:00538ED0 ; void __cdecl player_copy_object_appearance(long, long)
-//.text:00538FD0
+//.text:00538FD0 ; 
 
 void __cdecl player_delete(long player_index)
 {
@@ -219,9 +217,9 @@ void __cdecl player_delete(long player_index)
 }
 
 //.text:005390B0 ; void __cdecl player_died(long)
-//.text:005391D0
-//.text:00539210
-//.text:00539220
+//.text:005391D0 ; 
+//.text:00539210 ; 
+//.text:00539220 ; 
 //.text:00539240 ; bool __cdecl player_evaluate_interaction(long, s_player_interaction const*, s_player_interaction*)
 //.text:005392F0 ; real __cdecl player_evaluate_interaction_compute_weight(long, long)
 //.text:005394A0 ; void __cdecl player_examine_nearby_item(long, long)
@@ -264,9 +262,9 @@ long __cdecl player_index_from_unit_index(long unit_index)
 //.text:0053B260 ; void __cdecl player_input_enable(bool)
 //.text:0053B290 ; bool __cdecl player_input_enabled()
 //.text:0053B2B0 ; void __cdecl player_input_mostly_inhibit(bool)
-//.text:0053B2D0
+//.text:0053B2D0 ; 
 //.text:0053B2F0 ; bool __cdecl player_interaction_exists(long, dword, s_player_interaction const*)
-//.text:0053B340
+//.text:0053B340 ; 
 //.text:0053B370 ; bool __cdecl player_is_allowed_to_attempt_assassination(long, long)
 //.text:0053B480 ; bool __cdecl player_is_immune_to_headshot(long, bool)
 //.text:0053B4E0 ; bool __cdecl player_is_local(long)
@@ -315,15 +313,15 @@ long __cdecl player_new(long player_array_index, game_player_options const* opti
 //.text:0053BBD0 ; void __cdecl player_positions_initialize_for_new_map()
 //.text:0053BBE0 ; void __cdecl player_positions_initialize_for_new_structure_bsp(dword)
 //.text:0053BD90 ; void __cdecl player_prepare_action(long, s_player_action*)
-//.text:0053BFF0
+//.text:0053BFF0 ; 
 //.text:0053C020 ; void __cdecl player_rejoined_game(long,  game_player_options const*, bool)
 //.text:0053C070 ; void __cdecl player_reset(long, bool, bool,  game_player_options const*)
-//.text:0053C570
-//.text:0053C630
-//.text:0053C860
+//.text:0053C570 ; 
+//.text:0053C630 ; 
+//.text:0053C860 ; 
 //.text:0053C8A0 ; void __cdecl player_set_facing(long, vector3d const*, vector3d const*)
-//.text:0053C980
-//.text:0053CA10
+//.text:0053C980 ; 
+//.text:0053CA10 ; 
 
 void __cdecl player_set_unit_index(long player_index, long unit_index)
 {
@@ -399,10 +397,10 @@ bool __cdecl player_teleport(long player_index, long object_index, real_point3d 
 //.text:0053F630 ; bool __cdecl player_teleport_internal(long, long, real_point3d const*, bool, bool)
 //.text:0053FB80 ; void __cdecl player_teleport_internal_postprocess(long, long, bool)
 //.text:0053FCC0 ; void __cdecl player_teleport_on_bsp_switch(long, long, real_point3d const*, vector3d const*, bool)
-//.text:0053FED0
-//.text:0053FEF0
-//.text:0053FF20
-//.text:0053FF40
+//.text:0053FED0 ; 
+//.text:0053FEF0 ; 
+//.text:0053FF20 ; 
+//.text:0053FF40 ; 
 //.text:0053FF70 ; long __cdecl player_try_and_get_player_index_from_absolute_player_index(long)
 
 bool __cdecl player_try_to_drop_weapon(long player_index, bool a2)
@@ -426,21 +424,21 @@ long __cdecl player_get_control_index_from_unit(long unit_index)
 }
 
 //.text:00540490 ; bool __cdecl player_unit_should_teleport_to_unit(long, long, long)
-//.text:00540510
+//.text:00540510 ; 
 
 void __cdecl player_update_invisibility(long player_index)
 {
 	INVOKE(0x005405A0, player_update_invisibility, player_index);
 }
 
-//.text:00540650
-//.text:00540730
+//.text:00540650 ; void __cdecl player_update_reactive_armor(long)
+//.text:00540730 ; void __cdecl player_update_tank_mode(long)
 //.text:005408E0 ; void __cdecl player_use_multiplayer_powerup(long, long)
-//.text:00540A70
+//.text:00540A70 ; 
 //.text:00540A80 ; void __cdecl player_validate_configuration(long, s_player_configuration*)
-//.text:00540AE0
-//.text:00540B30
-//.text:00540B50
+//.text:00540AE0 ; bool __cdecl player_waiting_to_respawn_compare(long, long, void const *)
+//.text:00540B30 ; 
+//.text:00540B50 ; 
 
 bool __cdecl players_all_are_dead()
 {
@@ -484,17 +482,17 @@ void __cdecl players_finish_creation()
 //.text:00541C70 ; long __cdecl players_get_active_and_in_game_count(bool)
 //.text:00541CF0 ; long __cdecl players_get_alive_count()
 //.text:00541D60 ; s_campaign_armaments_player const* __cdecl players_get_campaign_armaments_player_from_player_index(long)
-//.text:00541DF0
-//.text:00541E10
+//.text:00541DF0 ; 
+//.text:00541E10 ; 
 //.text:00541E30 ; bool __cdecl players_get_local_machine(s_machine_identifier*)
 //.text:00541E90 ; long __cdecl players_get_local_machine_index()
 //.text:00541EB0 ; s_machine_identifier const* __cdecl players_get_machine_identifier(long)
 //.text:00541EE0 ; long __cdecl players_get_machine_index(s_machine_identifier const*)
 //.text:00541F60 ; void __cdecl players_get_machines(dword*, s_machine_identifier*)
 //.text:00541FA0 ; short __cdecl players_get_respawn_failure()
-//.text:00541FC0
-//.text:00542070
-//.text:00542090
+//.text:00541FC0 ; void __cdecl players_get_sorted_lifeless_waiting_to_respawn_list(long, long*, long, long*)
+//.text:00542070 ; long __cdecl players_get_total_players_in_game()
+//.text:00542090 ; 
 //.text:005420B0 ; void __cdecl players_handle_deleted_object(long)
 
 void __cdecl players_handle_deleted_player_internal(long player_index)
@@ -657,8 +655,8 @@ void __cdecl players_verify()
 
 //.text:00544410 ; bool __cdecl players_zone_set_switch_trigger_active()
 //.text:00544440 ; void __cdecl players_zone_set_switch_trigger_clear()
-//.text:00544610
-//.text:00544680
+//.text:00544610 ; 
+//.text:00544680 ; 
 
 s_s3d_player_armor_configuration_loadout* __cdecl player_get_armor_loadout(player_datum* player)
 {
