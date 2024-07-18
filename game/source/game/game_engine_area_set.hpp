@@ -22,8 +22,8 @@ struct c_area_set
 	// enum e_multiplayer_team_designator
 	long m_team_designator;
 
-	long __unknownE08;
-	long __unknownE0C;
+	long m_object_type_flags;
+	long m_object_match_flags;
 };
 static_assert(sizeof(c_area_set<c_area, 1>) == 0x74);
 
