@@ -12,7 +12,17 @@ void render_debug_scenario_comments()
 {
 	if (render_comment_flags)
 	{
-		// #TODO: implement
+		//long flag_count = 0;
+		//editor_comment_definition* flags = editor_flags_get(&flag_count);
+		//for (long flag_index = 0; flag_index < flag_count; flag_index++)
+		//{
+		//	editor_comment_definition* flag = &flags[flag_index];
+		//	editor_flag_render(flag->name,
+		//		render_comment_flags_text ? flag->description : NULL,
+		//		&flag->position,
+		//		global_real_argb_red,
+		//		global_real_argb_salmon);
+		//}
 	}
 
 	if (enable_controller_flag_drop || render_comment_flags_look_at)
