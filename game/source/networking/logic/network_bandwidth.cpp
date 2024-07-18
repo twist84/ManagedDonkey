@@ -1,5 +1,7 @@
 #include "networking/logic/network_bandwidth.hpp"
 
+REFERENCE_DECLARE(0x019E8D28, s_network_bandwidth_globals, network_bandwidth_globals);
+
 long __cdecl network_bandwidth_compute_average(long sample_count, long const* samples)
 {
     return INVOKE(0x00455550, network_bandwidth_compute_average, sample_count, samples);

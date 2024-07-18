@@ -28,6 +28,7 @@
 #include "memory/thread_local.hpp"
 #include "multithreading/synchronization.hpp"
 #include "networking/logic/logic_session_tracker.hpp"
+#include "networking/logic/network_bandwidth.hpp"
 #include "networking/logic/network_banhammer.hpp"
 #include "networking/logic/network_leaderboard.hpp"
 #include "networking/network_configuration.hpp"
@@ -166,6 +167,7 @@ void __cdecl test_main_loop_body_begin()
 		loading_globals;
 		main_globals;
 		message_storage;
+		network_bandwidth_globals;
 		network_base_memory_globals;
 		network_leaderboard_globals;
 		network_shared_memory_globals;

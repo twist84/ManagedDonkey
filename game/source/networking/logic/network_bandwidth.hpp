@@ -32,6 +32,24 @@ static_assert(sizeof(s_network_quality_statistics) == 0xC0);
 
 struct c_network_observer;
 struct s_bandwidth_configuration;
+struct s_network_bandwidth_globals
+{
+	bool initialized;
+	c_network_observer* observer;
+	s_bandwidth_configuration* configuration;
+	s_network_statistics* data;
+	bool online_network_environment;
+	bool tracking;
+	bool congested;
+	long tracking_start_time;
+	bool estimated_bandwidth_bps_available;
+	long estimated_bandwidth_bps;
+	long estimated_host_capacity_machines;
+};
+static_assert(sizeof(s_network_bandwidth_globals) == 0x24);
+
+extern s_network_bandwidth_globals& network_bandwidth_globals;
+
 struct s_transport_qos_result;
 extern long __cdecl network_bandwidth_compute_average(long sample_count, long const* samples);
 extern void __cdecl network_bandwidth_dispose();
