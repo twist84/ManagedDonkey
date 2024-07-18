@@ -9,6 +9,7 @@
 #include "hs/hs_runtime.hpp"
 #include "input/input_abstraction.hpp"
 #include "interface/c_controller.hpp"
+#include "interface/chud/chud_draw.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/terminal.hpp"
 #include "interface/user_interface.hpp"
@@ -869,6 +870,14 @@ s_console_global const* const k_console_globals[] =
 
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_paused, debug_pause_game),
 	CONSOLE_GLOBAL_DECLARE_REAL2(game_speed, debug_game_speed),
+
+	CONSOLE_GLOBAL_DECLARE_BOOL(chud_enabled),
+	CONSOLE_GLOBAL_DECLARE_BOOL(chud_debug_grid),
+	CONSOLE_GLOBAL_DECLARE_BOOL(chud_debug_messages),
+	//CONSOLE_GLOBAL_DECLARE_BOOL(chud_cortana_debug),
+	CONSOLE_GLOBAL_DECLARE_BOOL(chud_debug_crosshair),
+	CONSOLE_GLOBAL_DECLARE_BOOL(chud_debug_metagame),
+
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_lock, debug_game_time_lock),
 	CONSOLE_GLOBAL_DECLARE_BOOL2(game_time_statistics, debug_game_time_statistics),
 	CONSOLE_GLOBAL_DECLARE_BOOL(debug_game_save),
