@@ -98,7 +98,7 @@ void __cdecl c_rasterizer::draw_debug_linestrip2d(int16_point2d const* points, l
 
 void __cdecl c_rasterizer::draw_debug_polygon2d(rasterizer_vertex_debug const* polygon2d, long primitive_count, c_rasterizer_index_buffer::e_primitive_type primitive_type)
 {
-	//INVOKE(0x00A45B40, draw_debug_polygon2d, polygon2d, primitive_count);
+	//INVOKE(0x00A45B40, draw_debug_polygon2d, polygon2d, primitive_count, primitive_type);
 
 	if (rasterizer_set_explicit_debug_shader(c_rasterizer_globals::_explicit_shader_debug2d))
 	{
