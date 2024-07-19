@@ -51,6 +51,32 @@ void c_player_in_game_iterator::begin()
 	m_iterator.begin(*player_data);
 }
 
+bool c_player_in_game_iterator::next()
+{
+	for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
+		m_iterator.m_datum && TEST_BIT(m_iterator.m_datum->flags, _player_left_game_bit);
+		m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
+	{
+	}
+
+	return m_iterator.m_datum != NULL;
+}
+
+player_datum* c_player_in_game_iterator::get_datum()
+{
+	return m_iterator.m_datum;
+}
+
+long c_player_in_game_iterator::get_index() const
+{
+	return m_iterator.m_iterator.index;
+}
+
+short c_player_in_game_iterator::get_absolute_index() const
+{
+	return m_iterator.get_absolute_index();
+}
+
 void c_player_with_unit_iterator::begin()
 {
 	TLS_DATA_GET_VALUE_REFERENCE(player_data);

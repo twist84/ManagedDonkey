@@ -782,34 +782,14 @@ static_assert(sizeof(s_players_global_data) == 0x234);
 
 struct c_player_in_game_iterator
 {
+public:
 	void begin();
+	bool next();
+	player_datum* get_datum();
+	long get_index() const;
+	short get_absolute_index() const;
 
-	bool next()
-	{
-		for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
-			m_iterator.m_datum && TEST_BIT(m_iterator.m_datum->flags, _player_left_game_bit);
-			m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
-		{
-		}
-
-		return m_iterator.m_datum != NULL;
-	}
-
-	player_datum* get_datum()
-	{
-		return m_iterator.m_datum;
-	}
-
-	long get_index() const
-	{
-		return m_iterator.m_iterator.index;
-	}
-
-	short get_absolute_index() const
-	{
-		return m_iterator.get_absolute_index();
-	}
-
+protected:
 	c_data_iterator<player_datum> m_iterator;
 };
 
