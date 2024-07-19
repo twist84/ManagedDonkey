@@ -83,6 +83,32 @@ void c_player_with_unit_iterator::begin()
 	m_iterator.begin(*player_data);
 }
 
+bool c_player_with_unit_iterator::next()
+{
+	for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
+		m_iterator.m_datum && m_iterator.m_datum->unit_index == NONE;
+		m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
+	{
+	}
+
+	return m_iterator.m_datum != NULL;
+}
+
+player_datum* c_player_with_unit_iterator::get_datum()
+{
+	return m_iterator.m_datum;
+}
+
+long c_player_with_unit_iterator::get_index() const
+{
+	return m_iterator.m_iterator.index;
+}
+
+short c_player_with_unit_iterator::get_absolute_index() const
+{
+	return m_iterator.get_absolute_index();
+}
+
 void player_override_desired_mode(long desired_mode)
 {
 	g_player_desired_mode_override = NONE;

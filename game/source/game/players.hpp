@@ -795,34 +795,14 @@ protected:
 
 struct c_player_with_unit_iterator
 {
+public:
 	void begin();
+	bool next();
+	player_datum* get_datum();
+	long get_index() const;
+	short get_absolute_index() const;
 
-	bool next()
-	{
-		for (m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator);
-			m_iterator.m_datum && m_iterator.m_datum->unit_index == NONE;
-			m_iterator.m_datum = (player_datum*)data_iterator_next(&m_iterator.m_iterator))
-		{
-		}
-
-		return m_iterator.m_datum != NULL;
-	}
-
-	player_datum* get_datum()
-	{
-		return m_iterator.m_datum;
-	}
-
-	long get_index() const
-	{
-		return m_iterator.m_iterator.index;
-	}
-
-	short get_absolute_index() const
-	{
-		return m_iterator.get_absolute_index();
-	}
-
+protected:
 	c_data_iterator<player_datum> m_iterator;
 };
 
