@@ -7,7 +7,7 @@
 
 #include <windows.h>
 
-REFERENCE_DECLARE(0x0240AED0, s_overlapped_task_globals, overlapped_task_globals);
+REFERENCE_DECLARE(0x0240AED0, s_overlapped_globals, g_overlapped_globals);
 
 //HOOK_DECLARE(0x005A8F40, overlapped_task_start_internal);
 HOOK_DECLARE_CALL(0x0074CA3C, overlapped_task_start_internal); // c_content_enumeration_overlapped_task::success

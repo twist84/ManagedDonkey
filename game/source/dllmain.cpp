@@ -270,7 +270,7 @@ extern "C" __declspec(dllexport) void null_export(void) // detours helper export
 //.data:0240AE10 ; 
 //.data:0240AE1A ; short[87]
 //.data:0240AEC8 ; 
-//.data:0240AED0 ; s_overlapped_task_globals overlapped_task_globals
+//.data:0240AED0 ; s_overlapped_globals g_overlapped_globals
 //.data:0240B1E0 ; bool g_cache_files_are_absolute
 //.data:0240B1E8 ; s_cache_file_table_of_contents cache_file_table_of_contents
 //.data:0243C098 ; s_cache_file_copy_globals cache_file_copy_globals

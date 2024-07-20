@@ -60,16 +60,14 @@ struct s_task_slot
 {
 	c_overlapped_task* task;
 	dword calling_result;
-
-	// task cancelled?
-	bool __unknown8;
+	bool terminated;
 
 	// pad?
 	byte __data9[0x3];
 };
 static_assert(sizeof(s_task_slot) == 0xC);
 
-struct s_overlapped_task_globals
+struct s_overlapped_globals
 {
 	c_static_array<s_task_slot, 64> task_slots;
 
@@ -81,9 +79,9 @@ struct s_overlapped_task_globals
 	// pad?
 	byte __data30B[0x1];
 };
-static_assert(sizeof(s_overlapped_task_globals) == 0x30C);
+static_assert(sizeof(s_overlapped_globals) == 0x30C);
 
-extern s_overlapped_task_globals& overlapped_task_globals;
+extern s_overlapped_globals& g_overlapped_globals;
 
 extern void __cdecl overlapped_render();
 extern bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const* file, long line);
