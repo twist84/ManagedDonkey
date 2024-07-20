@@ -2,7 +2,7 @@
 
 #include "cseries/cseries.hpp"
 
-#include <Windows.h>
+#include <windows.h>
 
 struct s_windows_params
 {

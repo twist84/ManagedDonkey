@@ -9,7 +9,7 @@
 #include "memory/module.hpp"
 #include "shell/shell_windows.hpp"
 
-//#include <Windows.h> // for `key_to_virtual_table`
+//#include <windows.h> // for `key_to_virtual_table`
 
 REFERENCE_DECLARE_ARRAY(0x01650918, byte const, key_to_virtual_table, k_key_code_count);
 REFERENCE_DECLARE_ARRAY(0x01650980, short const, virtual_to_key_table, k_number_of_windows_input_virtual_codes);

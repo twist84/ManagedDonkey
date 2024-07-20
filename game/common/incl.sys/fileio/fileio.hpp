@@ -60,7 +60,7 @@ struct fioFILE
 		int(__thiscall* IsEOF)(fioFILE*);
 		void(__thiscall* SetBuffer)(fioFILE*);
 		void* Unknown1;
-		const char* (__thiscall* GetStreamName)(fioFILE*);
+		char const* (__thiscall* GetStreamName)(fioFILE*);
 		void* Unknown1C;
 		void* Unknown20;
 		void* Unknown24;

@@ -4,7 +4,7 @@
 #include "input/input_windows.hpp"
 #include "memory/module.hpp"
 
-#include <Windows.h>
+#include <windows.h>
 #include <XInput.h>
 
 #if defined(_DEBUG)
