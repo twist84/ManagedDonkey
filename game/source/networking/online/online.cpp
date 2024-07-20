@@ -24,7 +24,7 @@ HOOK_DECLARE(0x00442AA0, online_user_get_name);
 HOOK_DECLARE(0x00442AE0, online_user_get_xuid);
 HOOK_DECLARE(0x00442AB0, online_user_get_player_identifier);
 HOOK_DECLARE(0x00442B00, sub_442B00);
-HOOK_DECLARE(0x00442B20, sub_442B20);
+HOOK_DECLARE(0x00442B20, online_local_xuid_is_online_enabled);
 HOOK_DECLARE(0x00442B40, online_has_signed_in_user);
 HOOK_DECLARE(0x00442B60, online_local_xuid_is_silver_or_gold_live);
 HOOK_DECLARE(0x00442B70, sub_442B70);
@@ -188,7 +188,7 @@ bool __cdecl sub_442B00(long controller_index)
 	return g_online_is_connected_to_live && controller_index == 0;
 }
 
-bool __cdecl sub_442B20()
+bool __cdecl online_local_xuid_is_online_enabled(long controller_index)
 {
 	return g_online_is_connected_to_live;
 }

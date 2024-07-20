@@ -42,7 +42,7 @@ extern wchar_t const* __cdecl online_user_get_name(long controller_index);
 extern qword __cdecl online_user_get_player_identifier(long controller_index);
 extern qword __cdecl online_user_get_xuid(long controller_index);
 extern bool __cdecl sub_442B00(long controller_index);
-extern bool __cdecl sub_442B20();
+extern bool __cdecl online_local_xuid_is_online_enabled(long controller_index);
 extern bool __cdecl online_has_signed_in_user(long controller_index);
 extern bool __cdecl online_local_xuid_is_silver_or_gold_live(long controller_index);
 extern bool __cdecl sub_442B70();
