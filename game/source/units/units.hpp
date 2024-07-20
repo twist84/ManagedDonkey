@@ -222,7 +222,7 @@ struct _unit_datum
 	long __unknown330; // time value
 
 	// updated in `unit_update_damage`, unit_damage_aftermath_apply
-	short __unknown334;
+	short melee_inhibit_ticks;
 
 	byte __data336[0x2];
 
@@ -276,7 +276,6 @@ static_assert(0x2FC == OFFSETOF(_unit_datum, __unknown2FC));
 static_assert(0x310 == OFFSETOF(_unit_datum, __unknown310));
 static_assert(0x32E == OFFSETOF(_unit_datum, __unknown32E));
 static_assert(0x330 == OFFSETOF(_unit_datum, __unknown330));
-static_assert(0x334 == OFFSETOF(_unit_datum, __unknown334));
 static_assert(0x336 == OFFSETOF(_unit_datum, __data336));
 static_assert(0x3A0 == OFFSETOF(_unit_datum, __unknown3A0_team_index_update_time));
 static_assert(0x3A4 == OFFSETOF(_unit_datum, __unknown3A4_team_index));
