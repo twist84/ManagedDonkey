@@ -22,7 +22,7 @@
 //	};
 //	static_assert(sizeof(s_connection_outgoing_packet) == 0x10);
 //
-//	const char* m_name;
+//	char const* m_name;
 //
 //	c_sliding_window m_incoming_window;
 //	c_sliding_window m_outgoing_window;

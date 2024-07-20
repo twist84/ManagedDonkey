@@ -554,7 +554,7 @@ extern char const* const k_global_preference_names[k_global_preference_count];
 extern s_global_preference const* k_global_preferences[k_global_preference_count];
 
 extern char const* global_preference_get_name(e_global_preference preference);
-extern e_global_preference global_preference_from_string(const char* str);
+extern e_global_preference global_preference_from_string(char const* str);
 extern bool global_preference_set_impl(char const* name, short parameter_count, ...);
 
 template<typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>

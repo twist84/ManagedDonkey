@@ -18,7 +18,7 @@ void c_debug_menu_item_numbered::render(c_font_cache_base* font_cache, int16_poi
 	c_debug_menu_item::render(font_cache, next_point);
 }
 
-c_debug_menu_item_numbered::c_debug_menu_item_numbered(c_debug_menu* menu, const char* name, struct c_debug_menu* child) :
+c_debug_menu_item_numbered::c_debug_menu_item_numbered(c_debug_menu* menu, char const* name, struct c_debug_menu* child) :
 	c_debug_menu_item(menu, name, child, true)
 {
 }
@@ -122,7 +122,7 @@ void c_debug_menu_item_type::render_value(c_font_cache_base* font_cache, int16_p
 	draw_string.draw(font_cache, buffer);
 }
 
-c_debug_menu_item_type::c_debug_menu_item_type(c_debug_menu* menu, const char* name, bool readonly) :
+c_debug_menu_item_type::c_debug_menu_item_type(c_debug_menu* menu, char const* name, bool readonly) :
 	c_debug_menu_item_numbered(menu, name, NULL),
 	m_readonly(readonly)
 {

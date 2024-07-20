@@ -16,7 +16,7 @@
 //
 //	char __data[4];
 //
-//	const char* name;
+//	char const* name;
 //	c_network_message_type_collection* m_message_types;
 //
 //	c_sliding_window m_outgoing_window;

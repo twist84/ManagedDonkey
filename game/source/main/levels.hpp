@@ -144,7 +144,7 @@ extern void __cdecl levels_initialize();
 extern void __cdecl levels_initialize_for_new_map();
 extern bool __cdecl levels_map_id_is_fake(long map_id);
 extern void __cdecl levels_open_dlc(char const* scenario_path, bool blocking);
-extern bool __cdecl levels_path_is_dlc(const char* scenario_path);
+extern bool __cdecl levels_path_is_dlc(char const* scenario_path);
 extern void __cdecl levels_process_campaign_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
 extern void __cdecl levels_process_level_configuration_file(s_file_reference* file, wchar_t const* maps_path, bool is_dlc);
 extern void __cdecl levels_delete();

@@ -5,7 +5,7 @@
 
 struct debug_key
 {
-	const char* name;
+	char const* name;
 	//c_enum<e_key_code, short, _key_code_escape, k_total_key_code_count> key_code;
 	short key_code;
 	short modifier;
@@ -19,7 +19,7 @@ static_assert(sizeof(debug_key) == 0x14);
 
 struct s_debug_button
 {
-	const char* name;
+	char const* name;
 	//c_enum<e_controller_button, short, _controller_button_left_trigger, k_controller_button_count> button;
 	short button;
 	void(__cdecl* function)(bool);

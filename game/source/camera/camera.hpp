@@ -61,6 +61,6 @@ static_assert(sizeof(c_null_camera) == 0x4C);
 //extern char const* const (&global_camera_mode_names)[k_number_of_camera_modes];
 extern char const* const global_camera_mode_names[k_number_of_camera_modes];
 
-extern const char* camera_mode_get_name(long camera_mode);
-extern e_camera_mode camera_mode_from_string(const char* str);
+extern char const* camera_mode_get_name(long camera_mode);
+extern e_camera_mode camera_mode_from_string(char const* str);
 

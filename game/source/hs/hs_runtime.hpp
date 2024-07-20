@@ -140,7 +140,7 @@ extern bool debug_trigger_volumes;
 extern hs_debug_data_definition hs_debug_data;
 
 extern long* __cdecl hs_arguments_evaluate(long thread_index, short parameter_count, short const* formal_parameters, bool a4);
-extern void __cdecl hs_breakpoint(const char* s);
+extern void __cdecl hs_breakpoint(char const* s);
 extern bool __cdecl hs_can_cast(short actual_type, short desired_type);
 extern bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast);
 extern long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index, bool a3);

@@ -29,7 +29,7 @@ protected:
 	virtual void notify_transition_state_to_become_host(void);
 
 	long m_type;
-	const char* m_name;
+	char const* m_name;
 	c_network_session* m_session;
 	long m_update_priority;
 	long m_change_request_access;

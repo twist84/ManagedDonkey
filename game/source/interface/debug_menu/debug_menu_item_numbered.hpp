@@ -12,7 +12,7 @@ public:
 	virtual ~c_debug_menu_item_numbered();
 	virtual void render(c_font_cache_base* font_cache, int16_point2d const& point) override;
 
-	c_debug_menu_item_numbered(c_debug_menu* menu, const char* name, c_debug_menu* child);
+	c_debug_menu_item_numbered(c_debug_menu* menu, char const* name, c_debug_menu* child);
 
 protected:
 	void render_number(c_font_cache_base* font_cache, int16_point2d const& point);
@@ -29,7 +29,7 @@ public:
 	virtual void to_string(char* buffer, long buffer_size);
 	virtual void render_value(c_font_cache_base* font_cache, int16_point2d const& point);
 
-	c_debug_menu_item_type(c_debug_menu* menu, const char* name, bool readonly);
+	c_debug_menu_item_type(c_debug_menu* menu, char const* name, bool readonly);
 
 	bool get_readonly();
 

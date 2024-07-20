@@ -85,7 +85,7 @@ long* __cdecl hs_arguments_evaluate(long thread_index, short parameter_count, sh
 	return INVOKE(0x00594140, hs_arguments_evaluate, thread_index, parameter_count, formal_parameters, a4);
 }
 
-void __cdecl hs_breakpoint(const char* s)
+void __cdecl hs_breakpoint(char const* s)
 {
 	//INVOKE(0x005942E0, hs_breakpoint, s);
 

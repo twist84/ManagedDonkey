@@ -417,7 +417,7 @@ char const* k_game_engine_type_names[k_game_engine_type_count] =
 	"infection"
 };
 
-const char* game_engine_type_get_string(long game_engine_index)
+char const* game_engine_type_get_string(long game_engine_index)
 {
 	if (game_engine_index < _game_engine_type_none || game_engine_index >= k_game_engine_type_count)
 		return "<invalid 'game_engine_index'>";

@@ -32,8 +32,8 @@ extern void __cdecl director_notify_map_reset();
 extern void __cdecl director_reset();
 extern bool __cdecl camera_input_inhibited(e_controller_index controller_index);
 extern void __cdecl director_update(real world_seconds_elapsed);
-extern const char* director_mode_get_name(e_director_mode director_mode);
-extern e_director_mode director_mode_from_string(const char* str);
+extern char const* director_mode_get_name(e_director_mode director_mode);
+extern e_director_mode director_mode_from_string(char const* str);
 
 enum e_director_perspective : long
 {

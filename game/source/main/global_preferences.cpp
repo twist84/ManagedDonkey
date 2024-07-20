@@ -1739,7 +1739,7 @@ char const* global_preference_get_name(e_global_preference preference)
 	return nullptr;
 }
 
-e_global_preference global_preference_from_string(const char* str)
+e_global_preference global_preference_from_string(char const* str)
 {
 	e_global_preference preference = e_global_preference(-1);
 	for (long i = _global_preference_antialiasing; i < k_global_preference_count; i++)

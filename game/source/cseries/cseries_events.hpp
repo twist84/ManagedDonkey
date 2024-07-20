@@ -41,11 +41,11 @@ static_assert(sizeof(s_spamming_event) == 0x80C);
 
 struct s_event
 {
-	const char* name;
+	char const* name;
 	e_event_level display_level;
 	real_rgb_color color;
 	e_event_level log_level;
-	const char* log_file;
+	char const* log_file;
 	void(__cdecl* build_buffer_for_log_proc)(char*, long);
 	e_event_level remote_log_level;
 };
@@ -146,7 +146,7 @@ extern void __cdecl events_debug_render();
 extern char const* __cdecl events_get();
 extern void __cdecl events_initialize();
 extern long __cdecl event_interlocked_compare_exchange(c_interlocked_long& value, long ExChange, long Comperand);
-extern void __cdecl network_debug_print(const char* format, ...);
+extern void __cdecl network_debug_print(char const* format, ...);
 
 // I don't like this :(
 template<typename... parameters_t, long k_parameter_count = sizeof...(parameters_t)>

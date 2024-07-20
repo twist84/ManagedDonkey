@@ -489,7 +489,7 @@ static_assert(sizeof(c_game_results_replicator) == 0x1B468);
 
 struct s_integer_statistic_definition
 {
-	const char* name;
+	char const* name;
 
 	// type?
 	dword __unknown4;

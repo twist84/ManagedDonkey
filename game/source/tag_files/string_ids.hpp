@@ -4188,7 +4188,7 @@ static_assert(sizeof(s_string_id_globals) == 0x1C);
 struct s_string_id
 {
 	long id;
-	const char* string;
+	char const* string;
 };
 
 extern s_string_id_globals g_string_id_globals;

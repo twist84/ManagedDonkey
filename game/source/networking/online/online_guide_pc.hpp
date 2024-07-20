@@ -10,7 +10,7 @@ struct c_virtual_keyboard_task :
 {
 public:
 	c_virtual_keyboard_task* __cdecl constructor(
-		const char* file,
+		char const* file,
 		long line,
 		e_controller_index controller_index,
 		const wchar_t* default_text,

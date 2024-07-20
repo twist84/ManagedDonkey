@@ -109,7 +109,7 @@ protected:
 };
 static_assert(sizeof(c_game_variant) == 0x264);
 
-extern const char* game_engine_type_get_string(long game_engine_variant);
+extern char const* game_engine_type_get_string(long game_engine_variant);
 extern c_game_variant* __cdecl build_default_game_variant(c_game_variant* game_variant, e_game_engine_type game_engine_index);
 extern bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_type game_engine_index, long variant_index, c_game_variant* game_variant);
 extern long __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index);

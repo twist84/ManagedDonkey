@@ -46,7 +46,7 @@ struct c_network_connection :
 	};
 	static_assert(sizeof(s_connection_outgoing_packet) == 0x10);
 
-	const char* m_name;
+	char const* m_name;
 
 	c_sliding_window m_incoming_window;
 	c_sliding_window m_outgoing_window;
@@ -77,7 +77,7 @@ public:
 
 	char __data[4];
 
-	const char* name;
+	char const* name;
 	c_network_message_type_collection* m_message_types;
 
 	c_sliding_window m_outgoing_window;

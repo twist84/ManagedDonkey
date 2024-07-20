@@ -1172,7 +1172,7 @@ bool create_bitmap_info_header(HWND window_handle, HBITMAP bitmap_handle, LPBITM
 	return true;
 }
 
-bool get_device_context_for_window(HWND window_handle, const char* file_name, HBITMAP bitmap_handle, HDC window_device_context)
+bool get_device_context_for_window(HWND window_handle, char const* file_name, HBITMAP bitmap_handle, HDC window_device_context)
 {
 	if (!window_handle)
 	{

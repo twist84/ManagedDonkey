@@ -38,7 +38,7 @@ e_string_namespace const k_string_index_namespace_mapping[k_string_namespace_cou
 	_string_namespace_global
 };
 
-const char* const k_string_namespace_names[k_string_namespace_count]
+char const* const k_string_namespace_names[k_string_namespace_count]
 {
 	"global",
 	"gui",

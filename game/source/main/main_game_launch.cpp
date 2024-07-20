@@ -117,7 +117,7 @@ void main_game_launch_legacy(char const* map_name)
 	main_game_launch(map_name);
 }
 
-void main_game_launch(const char* map_name)
+void main_game_launch(char const* map_name)
 {
 	cache_file_map_clear_all_failures();
 	main_game_launch_set_map_name(map_name);

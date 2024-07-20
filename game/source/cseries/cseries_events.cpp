@@ -425,7 +425,7 @@ bool __cdecl event_thread_query()
 	return _bittest(&event_globals.thread_query_flags, get_current_thread_index());
 }
 
-long parse_network_event(const char* event_name, long category_substring_count, long maximum_characters, char(*category_names)[8][64])
+long parse_network_event(char const* event_name, long category_substring_count, long maximum_characters, char(*category_names)[8][64])
 {
 	char const* category_substring = event_name;
 	long category_index = 0;
@@ -829,7 +829,7 @@ void sub_82895ED0(char const* event_text, s_hit_result* result_out)
 	}
 }
 
-dword_flags sub_82894C80(dword_flags flags, e_event_level event_level, long category_index, const char* event_text)
+dword_flags sub_82894C80(dword_flags flags, e_event_level event_level, long category_index, char const* event_text)
 {
 	if (event_globals.spam_suppression_enabled && event_level != _event_level_critical && TEST_BIT(flags, 0))
 	{
@@ -979,7 +979,7 @@ long c_event::generate(char const* event_name, ...)
 
 // used inplace of `c_event::generate`
 // net::REMOTE_BINLOGGER
-void __cdecl network_debug_print(const char* format, ...)
+void __cdecl network_debug_print(char const* format, ...)
 {
 	long format_address = (long)format;
 

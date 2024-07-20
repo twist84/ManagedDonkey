@@ -301,8 +301,8 @@ struct s_cache_file_globals
 
 	s_cache_file_reports reports;
 
-	c_static_array<const char*, 5> resource_files;
-	const char* map_directory;
+	c_static_array<char const*, 5> resource_files;
+	char const* map_directory;
 };
 static_assert(sizeof(s_cache_file_globals) == 0x3500);
 

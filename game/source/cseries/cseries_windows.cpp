@@ -22,7 +22,7 @@ c_static_string<256> g_cache_video_file;
 c_static_string<256> g_hard_drive_font_directory;
 c_static_string<256> g_dvd_font_directory;
 
-void __cdecl display_debug_string(const char* format, ...)
+void __cdecl display_debug_string(char const* format, ...)
 {
 	va_list list;
 	va_start(list, format);

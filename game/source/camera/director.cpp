@@ -278,7 +278,7 @@ char const* k_director_mode_names[k_number_of_director_modes]
 	"editor"
 };
 
-const char* director_mode_get_name(e_director_mode director_mode)
+char const* director_mode_get_name(e_director_mode director_mode)
 {
 	if (director_mode < _director_mode_game || director_mode >= k_number_of_director_modes)
 		return "<invalid 'director_mode'>";
@@ -286,7 +286,7 @@ const char* director_mode_get_name(e_director_mode director_mode)
 	return k_director_mode_names[director_mode];
 }
 
-e_director_mode director_mode_from_string(const char* str)
+e_director_mode director_mode_from_string(char const* str)
 {
 	e_director_mode director_mode = e_director_mode(-1);
 	for (long i = _camera_mode_following; i < k_number_of_director_modes; i++)

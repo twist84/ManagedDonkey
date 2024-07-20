@@ -759,7 +759,7 @@ void __cdecl levels_open_dlc(char const* scenario_path, bool blocking)
 	INVOKE(0x0054C330, levels_open_dlc, scenario_path, blocking);
 }
 
-bool __cdecl levels_path_is_dlc(const char* scenario_path)
+bool __cdecl levels_path_is_dlc(char const* scenario_path)
 {
 	return INVOKE(0x0054C360, levels_path_is_dlc, scenario_path);
 }

@@ -14,7 +14,7 @@ char const* const global_camera_mode_names[k_number_of_camera_modes]
 	"authored",
 };
 
-const char* camera_mode_get_name(long camera_mode)
+char const* camera_mode_get_name(long camera_mode)
 {
 	if (camera_mode < _camera_mode_following || camera_mode >= k_number_of_camera_modes)
 		return "<invalid 'camera_mode'>";
@@ -22,7 +22,7 @@ const char* camera_mode_get_name(long camera_mode)
 	return global_camera_mode_names[camera_mode];
 }
 
-e_camera_mode camera_mode_from_string(const char* str)
+e_camera_mode camera_mode_from_string(char const* str)
 {
 	e_camera_mode camera_mode = k_camera_mode_null;
 	for (long i = _camera_mode_following; i < k_number_of_camera_modes; i++)
