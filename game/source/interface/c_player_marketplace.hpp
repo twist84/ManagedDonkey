@@ -22,8 +22,8 @@ protected:
 	long m_marketplace_state;
 
 	long __unknownC;
-	long __unknown10;
 
+	long m_subscription_info_checked;
 	bool m_extras_portal_enabled;
 
 	// 0: ?
@@ -72,7 +72,7 @@ protected:
 	// PortalExecuteLaunchData
 	qword m_portal_execute_launch_data;
 
-	long __unknown1448;
+	long m_consumable_assets_checked;
 
 	bool __unknown144C;
 	byte __pad144D[3];
