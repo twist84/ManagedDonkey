@@ -33,7 +33,7 @@ struct c_overlapped_task
 
 public:
 	virtual void* destructor(dword);
-	virtual const char* get_context_string();
+	virtual char const* get_context_string();
 	virtual dword start(void* overlapped);
 	virtual void update(dword return_result);
 	virtual void success(dword return_result);

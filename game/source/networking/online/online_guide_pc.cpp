@@ -196,7 +196,7 @@ void* c_virtual_keyboard_task::destructor(dword a1)
 	return this;
 }
 
-const char* c_virtual_keyboard_task::get_context_string()
+char const* c_virtual_keyboard_task::get_context_string()
 {
 	return "XShowKeyboardUI";
 }

@@ -46,7 +46,7 @@ public:
 	);
 
 	virtual void* destructor(dword a1) override;
-	virtual const char* get_context_string() override;
+	virtual char const* get_context_string() override;
 	virtual dword start(void* platform_handle) override;
 
 	dword __thiscall _start(void* platform_handle);
