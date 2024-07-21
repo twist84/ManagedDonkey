@@ -107,10 +107,10 @@ static_assert(sizeof(s_ctf_shared_globals) == 0x164C);
 struct s_ctf_globals
 {
 	s_ctf_shared_globals shared_globals;
-	c_static_array<dword, 9> __unknown164C;
-	c_static_array<word, 9> __unknown1670;
+	c_static_array<dword, 9> touch_return_timers;
+	c_static_array<word, 9> flag_reset_timers;
 	c_static_array<dword, 9> __unknown1684;
-	c_static_array<byte, 9> __unknown16A8;
+	c_static_array<byte_flags, 9> flag_weapon_flags;
 	c_static_array<word, 9> __unknown16B2;
 	c_static_array<word, 9> __unknown16C4;
 };
