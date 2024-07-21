@@ -93,7 +93,13 @@ struct s_ctf_shared_globals
 {
 	c_static_array<c_area_set<c_area, 3>, 9> area_set0;
 	c_static_array<c_area_set<c_area, 3>, 9> area_setB1C;
-	byte __data1638[0x12];
+	bool __unknown1638;
+	bool __unknown1639;
+	byte __data163A[0x2];
+	long defensive_team;
+	long __unknown1640;
+	byte __data1644[0x4];
+	word_flags helper_flags;
 	word_flags flags;
 };
 static_assert(sizeof(s_ctf_shared_globals) == 0x164C);
