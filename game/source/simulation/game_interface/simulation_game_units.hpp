@@ -32,8 +32,8 @@ struct s_simulation_unit_melee_damage_event_data
 	vector3d impact_normal;
 	long damage_definition_index;
 	long clang_damage_definition_index;
-	short breakable_surface_index;
 	short breakable_surface_set_index;
+	short breakable_surface_index;
 	long instanced_geometry_instance_index;
 	long surface_index;
 	long global_material_index;
