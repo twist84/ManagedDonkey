@@ -17,13 +17,23 @@ struct s_player_prediction
 };
 static_assert(sizeof(s_player_prediction) == 0x48);
 
+enum e_aim_assist_targeting_result_flags
+{
+	_aim_assist_targeting_result_only_lead_vector_valid_bit = 0,
+	_aim_assist_targeting_result_lead_vector_valid_bit,
+	_aim_assist_targeting_result_unknown_bit2,
+
+	k_aim_assist_targeting_result_flags
+};
+
 struct s_player_predicted_aim_assist
 {
 	c_aim_target_predicted predicted_aim_assist;
 	real primary_autoaim_level;
 	real secondary_autoaim_level;
 	vector3d lead_vector;
-	byte_flags flags;
+
+	c_flags<e_aim_assist_targeting_result_flags, byte, k_aim_assist_targeting_result_flags> flags;
 };
 static_assert(sizeof(s_player_predicted_aim_assist) == 0x24);
 

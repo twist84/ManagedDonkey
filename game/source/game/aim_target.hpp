@@ -13,7 +13,7 @@ struct c_aim_target_base
 		k_aim_target_type_count
 	};
 	c_enum<e_aim_target_type, byte, _aim_target_type_none, k_aim_target_type_count> m_target_type;
-	long m_object_model;
+	long m_model_index;
 };
 
 struct c_aim_target_object :
