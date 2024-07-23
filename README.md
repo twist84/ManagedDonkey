@@ -8,7 +8,9 @@
 
 ## Getting started-ish
  - Files for use with Donkey are on the [File Share](https://github.com/twist84/DonkeyFileShare).
- - Visual Studio 2022 Extensions
+ - For Building
+   - Git and Powershell, only for the last commit revision
+ - For Debugging: Visual Studio 2022 Extensions
    - [Smart Command Line Arguments VS2022](https://marketplace.visualstudio.com/items?itemName=MBulli.SmartCommandlineArguments2022)
    - [Microsoft Child Process Debugging Power Tool 2022](https://marketplace.visualstudio.com/items?itemName=vsdbgplat.MicrosoftChildProcessDebuggingPowerTool2022)
 

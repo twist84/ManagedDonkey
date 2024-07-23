@@ -94,7 +94,9 @@
       <AdditionalDependencies>dbghelp.lib;diaguids.lib;detours.lib;Ws2_32.lib;Winmm.lib;d3d9.lib;d3dx9.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
+      <Command>IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" powershell "$content = \"#pragma once`n`n#define VERSION_GIT_COMMIT \" + (git rev-parse --short=7 HEAD).Trim() + \"`n`n\"; Set-Content -Path \"$(ProjectDir)source\config\version_git_commit.hpp\" -Value $content -NoNewline;"
+
+copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
@@ -139,7 +141,9 @@ POPD
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
+      <Command>IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" powershell "$content = \"#pragma once`n`n#define VERSION_GIT_COMMIT \" + (git rev-parse --short=7 HEAD).Trim() + \"`n`n\"; Set-Content -Path \"$(ProjectDir)source\config\version_git_commit.hpp\" -Value $content -NoNewline;"
+
+copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDedicated|Win32'">
@@ -174,7 +178,9 @@ POPD
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
+      <Command>IF "$(LocalDebuggerWorkingDirectory)" EQU "$(ProjectDir)" powershell "$content = \"#pragma once`n`n#define VERSION_GIT_COMMIT \" + (git rev-parse --short=7 HEAD).Trim() + \"`n`n\"; Set-Content -Path \"$(ProjectDir)source\config\version_git_commit.hpp\" -Value $content -NoNewline;"
+
+copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\version.cpp</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -688,6 +694,7 @@ POPD
     <ClInclude Include="common\incl.sys\ds\ds_string.hpp" />
     <ClInclude Include="common\incl.sys\ds\ds_vector.hpp" />
     <ClInclude Include="common\incl.sys\fileio\fileio.hpp" />
+    <ClInclude Include="source\config\version_git_commit.hpp" />
     <ClInclude Include="source\cseries\async.hpp" />
     <ClInclude Include="source\cseries\async_buffer.hpp" />
     <ClInclude Include="source\cseries\async_helpers.hpp" />

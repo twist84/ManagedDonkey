@@ -3539,6 +3539,9 @@
     <ClInclude Include="common\incl.sys\fileio\fileio.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\config\version_git_commit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
