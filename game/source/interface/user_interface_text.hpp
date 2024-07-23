@@ -159,6 +159,7 @@ enum e_utf32 : dword
 	_utf32_bonus_round_target_score = 0xE464
 };
 
+enum e_controller_index;
 struct c_font_cache_base;
 struct c_user_interface_text
 {
@@ -168,73 +169,28 @@ public:
 	virtual wchar_t const* get_string();
 	virtual void update(long);
 
-	void set_flags(dword_flags flags)
-	{
-		m_flags = flags;
-	}
-
-	void set_unknown8(long unknown8)
-	{
-		__unknown8 = unknown8;
-	}
-
-	void set_font(long font)
-	{
-		m_font = font;
-	}
-
-	void set_argb_color(argb_color color)
-	{
-		m_argb_color = color;
-	}
-
-	void set_drop_shadow_style(long drop_shadow_style)
-	{
-		m_drop_shadow_style = drop_shadow_style;
-	}
-
-	void set_style(long style)
-	{
-		m_style = style;
-	}
-
-	void set_justification(long justification)
-	{
-		m_justification = justification;
-	}
-
-	void set_rotation_origin(real x, real y)
-	{
-		m_rotation_origin.x = x;
-		m_rotation_origin.y = y;
-	}
-
-	void set_rotation(real rotation)
-	{
-		m_rotation = rotation;
-	}
-
-	void set_scroll_amount(real i, real j)
-	{
-		m_scroll_amount.i = i;
-		m_scroll_amount.j = j;
-	}
-
-	void set_scale(real scale)
-	{
-		m_scale = scale;
-	}
+	void set_argb_color(real_argb_color* color);
+	void set_font(long font);
+	void set_justification(long justification);
+	void set_style(long style);
+	void set_flags(dword_flags flags);
+	void set_controller_index(e_controller_index controller_index);
+	void set_drop_shadow_style(long drop_shadow_style);
+	void set_rotation_origin(real x, real y);
+	void set_rotation(real rotation);
+	void set_scroll_amount(real i, real j);
+	void set_scale(real scale);
 
 protected:
-	// 1:  render_uppercase
-	// 2:  align_vertically
-	// 4:  wrap_horizontally
-	// 8:  has_overflowed
-	// 16: ?
-	// 32: get_string_was_set
+	// FLAG(0),  0x1: render_uppercase
+	// FLAG(1),  0x2: align_vertically
+	// FLAG(2),  0x4: wrap_horizontally
+	// FLAG(3),  0x8: has_overflowed
+	// FLAG(4), 0x10: ?
+	// FLAG(5), 0x20: get_string_was_set
 	dword_flags m_flags;
 
-	long __unknown8;
+	e_controller_index m_controller_index;
 	long m_font;
 	argb_color m_argb_color;
 	long m_drop_shadow_style;
@@ -249,7 +205,6 @@ protected:
 };
 static_assert(sizeof(c_user_interface_text) == 0x5C);
 
-enum e_controller_index;
 struct s_parse_text_entry
 {
 	wchar_t* name;
