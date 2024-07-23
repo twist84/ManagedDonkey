@@ -14,7 +14,9 @@ struct first_person_weapon
 };
 static_assert(sizeof(first_person_weapon) == 0x14000);
 
-extern void __cdecl first_person_weapon_perspective_changed(long user_index);
+enum e_output_user_index;
+
+extern void __cdecl first_person_weapon_perspective_changed(e_output_user_index output_user_index);
 extern void __cdecl first_person_weapons_update();
 extern void __cdecl first_person_weapons_update_camera_estimates();
 

@@ -53,7 +53,7 @@ void __thiscall c_debug_director::_update(real a1)
 		{
 			m_collision_disabled = true;
 			set_camera_mode(_camera_mode_flying, 0.0f);
-			get_camera<c_flying_camera>()->set_collision(false);
+			static_cast<c_flying_camera*>(get_camera())->set_collision(false);
 		}
 	}
 
@@ -75,7 +75,7 @@ void c_debug_director::changed_camera()
 	if (camera->get_type() == _camera_mode_flying)
 	{
 		m_collision_disabled = true;
-		get_camera<c_flying_camera>()->set_collision(false);
+		static_cast<c_flying_camera*>(get_camera())->set_collision(false);
 	}
 	else
 	{

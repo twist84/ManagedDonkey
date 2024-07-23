@@ -1799,9 +1799,10 @@ callback_result_t camera_set_mode_callback(void const* userdata, long token_coun
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
-	long user_index = atol(tokens[1]->get_string());
+	e_output_user_index user_index = static_cast<e_output_user_index>(atol(tokens[1]->get_string()));
 	e_camera_mode camera_mode = static_cast<e_camera_mode>(atol(tokens[2]->get_string()));
-	director_set_camera_mode(user_index, camera_mode);
+	if (user_index != k_output_user_none && VALID_INDEX(camera_mode, k_number_of_output_users))
+		director_set_camera_mode(user_index, camera_mode);
 
 	return result;
 }
