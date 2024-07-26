@@ -28,6 +28,51 @@ REFERENCE_DECLARE(0x022AAED1, bool, byte_22AAED1);
 
 c_stop_watch scenario_load_resources_blocking_watch(true);
 
+dword s_scenario_zone_change::get_deactivating_designer_zone_mask() const
+{
+	return active_designer_zone_mask & ~pending_designer_zone_mask;
+}
+
+dword s_scenario_zone_change::get_deactivating_cinematic_zone_mask() const
+{
+	return active_cinematic_zone_mask & ~pending_cinematic_zone_mask;
+}
+
+dword s_scenario_zone_change::pre_switch_designer_zone_mask() const
+{
+	return pending_designer_zone_mask & active_designer_zone_mask;
+}
+
+dword s_scenario_zone_change::pre_switch_cinematic_zone_mask() const
+{
+	return pending_cinematic_zone_mask & active_cinematic_zone_mask;
+}
+
+dword s_scenario_zone_change::get_activating_designer_zone_mask() const
+{
+	return pending_designer_zone_mask & ~active_designer_zone_mask;
+}
+
+dword s_scenario_zone_change::get_activating_cinematic_zone_mask() const
+{
+	return pending_cinematic_zone_mask & ~active_cinematic_zone_mask;
+}
+
+bool s_scenario_zone_change::any_designer_zone_changes() const
+{
+	return active_designer_zone_mask != pending_designer_zone_mask;
+}
+
+bool s_scenario_zone_change::any_cinematic_zone_changes() const
+{
+	return active_cinematic_zone_mask != pending_cinematic_zone_mask;
+}
+
+bool s_scenario_zone_change::any_zone_changes() const
+{
+	return any_cinematic_zone_changes() || any_designer_zone_changes();
+}
+
 s_scenario* global_scenario_get()
 {
 	// halo 3
