@@ -46,6 +46,10 @@ struct s_scenario_zone_change
 	dword pending_cinematic_zone_mask;
 };
 
+struct s_game_non_bsp_zone_set : s_scenario_zone_change
+{
+};
+
 struct s_game_globals;
 struct structure_bsp;
 struct s_structure_design;

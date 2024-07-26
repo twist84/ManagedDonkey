@@ -35,6 +35,8 @@ HOOK_DECLARE(0x00530F80, game_finish);
 HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 
+REFERENCE_DECLARE_ARRAY(0x01655950, s_game_system, g_game_systems, k_game_system_count);
+
 bool g_debug_survival_mode = false;
 
 char const* const k_game_simulation_names[k_game_simulation_count]
@@ -59,6 +61,114 @@ real_argb_color const* const k_activation_colors[6]
 	global_real_argb_yellow
 };
 long k_activation_color_override_index = 1;
+
+static __forceinline void __cdecl game_systems_initialize()
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].initialize_proc)
+			g_game_systems[system_index].initialize_proc();
+	}
+}
+
+static __forceinline void __cdecl game_systems_dispose()
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].dispose_proc)
+			g_game_systems[system_index].dispose_proc();
+	}
+}
+
+static __forceinline void __cdecl game_systems_initialize_for_new_map()
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].initialize_for_new_map_proc)
+			g_game_systems[system_index].initialize_for_new_map_proc();
+	}
+}
+
+static __forceinline void __cdecl game_systems_dispose_from_old_map()
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].dispose_from_old_map_proc)
+			g_game_systems[system_index].dispose_from_old_map_proc();
+	}
+}
+
+static __forceinline void __cdecl game_systems_prepare_for_new_zone_set(dword a1, dword a2)
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].prepare_for_new_zone_set_proc)
+			g_game_systems[system_index].prepare_for_new_zone_set_proc(a1, a2);
+	}
+}
+
+static __forceinline void __cdecl game_systems_initialize_for_new_structure_bsp(dword a1)
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].initialize_for_new_structure_bsp_proc)
+			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(a1);
+	}
+}
+
+static __forceinline void __cdecl game_systems_dispose_from_old_structure_bsp(dword a1)
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].dispose_from_old_structure_bsp_proc)
+			g_game_systems[system_index].dispose_from_old_structure_bsp_proc(a1);
+	}
+}
+
+static __forceinline void __cdecl game_systems_change_pvs(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, bool a3)
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].change_pvs_proc)
+			g_game_systems[system_index].change_pvs_proc(a1, a2, a3);
+	}
+}
+
+static __forceinline void __cdecl game_systems_activation(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2)
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].activation_proc)
+			g_game_systems[system_index].activation_proc(a1, a2);
+	}
+}
+
+static __forceinline void __cdecl game_systems_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* a3)
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc)
+			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(a1, a2, a3);
+	}
+}
+
+static __forceinline void __cdecl game_systems_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc)
+			g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc(new_non_bsp_zone_set);
+	}
+}
+
+static __forceinline void __cdecl game_systems_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set)
+{
+	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	{
+		if (g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc)
+			g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc(old_non_bsp_zone_set);
+	}
+}
 
 game_globals_storage* game_globals_get()
 {

@@ -15,6 +15,151 @@
 #include "saved_games/game_state.hpp"
 #include "shell/shell.hpp"
 
+// this enum most likely doesn't exist
+enum e_game_system
+{
+	_game_system_determinism_debug_manager = 0,
+	_game_system_optional_cache,
+	_game_system_screenshots_loader,
+	_game_system_transport,
+	_game_system_runtime_state,
+	
+	// c_structure_renderer
+	_game_system_structure_renderer,
+
+	_game_system_data_mine,
+	_game_system_overlapped,
+	_game_system_random_math,
+	_game_system_network,
+	_game_system_network_webstats,
+	_game_system_xbox_connection,
+	_game_system_remote_command,
+	_game_system_telnet_console,
+	_game_system_console,
+	_game_system_input_abstraction,
+	_game_system_collision_log,
+	_game_system_levels,
+	_game_system_visibility_collection,
+	_game_system_game_grief,
+	_game_system_achievements,
+	_game_system_game_state,
+	_game_system_game_time,
+	_game_system_profiler,
+	_game_system_game_allegiance,
+	_game_system_players,
+	_game_system_player_control,
+	_game_system_player_training,
+	_game_system_game_engine,
+	_game_system_simulation,
+	_game_system_scenario,
+	_game_system_physics_constants,
+	_game_system_collision_debug,
+	_game_system_objects,
+	_game_system_object_early_movers,
+	_game_system_object_scripting,
+	_game_system_object_scheduler,
+	_game_system_object_activation_regions,
+	_game_system_scenario_kill_trigger_volumes,
+	_game_system_scenario_sky_objects,
+	_game_system_scenario_soft_ceilings,
+	_game_system_campaign_metagame,
+	_game_system_autosave_queue,
+	_game_system_saved_game_files,
+	_game_system_survival_mode,
+
+	// c_rasterizer
+	_game_system_rasterizer,
+
+	_game_system_render,
+	_game_system_structures,
+	_game_system_breakable_surfaces,
+	_game_system_director,
+	_game_system_observer,
+
+	// s_depth_of_field
+	_game_system_depth_of_field,
+
+	// c_water_renderer
+	_game_system_water_renderer,
+
+	_game_system_render_texture_camera,
+	_game_system_render_hud_camera,
+
+	// s_scripted_exposure
+	_game_system_scripted_exposure,
+
+	// s_render_game_state
+	_game_system_render_game_state,
+
+	// c_decal_system
+	_game_system_decal_system,
+
+	_game_system_effects,
+	_game_system_point_physics,
+
+	// c_atmosphere_fog_interface
+	_game_system_atmosphere_fog_interface,
+
+	_game_system_screen_effect,
+	_game_system_sound_classes,
+	_game_system_sound,
+	_game_system_game_sound_deterministic,
+	_game_system_game_sound,
+	_game_system_game_sound_player_effects,
+	_game_system_rumble,
+	_game_system_player_effect,
+	_game_system_user_interface,
+	_game_system_interface,
+	_game_system_chud,
+	_game_system_overhead_map,
+	_game_system_cheats,
+	_game_system_cinematic,
+	_game_system_closed_caption,
+	_game_system_screenshots_uploader,
+	_game_system_spartan_program_handler,
+	_game_system_hs,
+	_game_system_recorded_animations,
+	_game_system_debug_menu,
+	_game_system_error_report_render,
+	_game_system_object_placement,
+	_game_system_havok,
+	_game_system_object_broadphase,
+	_game_system_havok_proxies,
+	_game_system_player_positions,
+	_game_system_ai,
+	_game_system_portal_activation,
+	_game_system_scenario_interpolators,
+	_game_system_game_save,
+	_game_system_watch_window,
+	_game_system_bink_playback,
+	_game_system_editor,
+	_game_system_render_state_cache,
+
+	k_game_system_count
+};
+
+struct s_game_non_bsp_zone_set;
+struct c_scenario_resource_registry;
+
+struct s_game_system
+{
+	//char const* name;
+
+	void(__cdecl* initialize_proc)();
+	void(__cdecl* dispose_proc)();
+	void(__cdecl* initialize_for_new_map_proc)();
+	void(__cdecl* dispose_from_old_map_proc)();
+	void(__cdecl* prepare_for_new_zone_set_proc)(dword, dword);
+	void(__cdecl* initialize_for_new_structure_bsp_proc)(dword);
+	void(__cdecl* dispose_from_old_structure_bsp_proc)(dword);
+	void(__cdecl* change_pvs_proc)(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, bool);
+	void(__cdecl* activation_proc)(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*);
+	void(__cdecl* prepare_for_non_bsp_zone_set_switch_proc)(s_game_non_bsp_zone_set const*, s_game_non_bsp_zone_set const*, c_scenario_resource_registry*);
+	void(__cdecl* initialize_for_new_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const*);
+	void(__cdecl* dispose_from_old_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const*);
+};
+static_assert(sizeof(s_game_system) == sizeof(void*) * 12);
+
 enum e_game_create_mode
 {
 	_game_create_mode_lock = 0,
@@ -57,6 +202,8 @@ struct s_date_and_time
 	long second;
 };
 static_assert(sizeof(s_date_and_time) == 0x18);
+
+extern s_game_system(&g_game_systems)[k_game_system_count];
 
 extern bool g_debug_survival_mode;
 extern char const* const k_game_simulation_names[k_game_simulation_count];
