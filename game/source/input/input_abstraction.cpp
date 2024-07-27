@@ -5,7 +5,6 @@
 #include "input/input_windows.hpp"
 #include "memory/module.hpp"
 
-
 REFERENCE_DECLARE(0x0244C9D0, s_input_abstraction_globals, input_abstraction_globals);
 
 HOOK_DECLARE(0x0060B3A0, input_abstraction_dispose);
