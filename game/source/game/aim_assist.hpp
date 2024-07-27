@@ -54,5 +54,7 @@ struct s_aim_assist_query
 };
 static_assert(sizeof(s_aim_assist_query) == 0x58);
 
+extern bool __cdecl aim_assist_build_query_parameters(long unit_index, byte flags, short magnification_level, s_aim_assist_query* out_query);
+
 extern void aim_assist_debug_render();
 
