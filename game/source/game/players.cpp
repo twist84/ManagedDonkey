@@ -233,7 +233,7 @@ void players_debug_render()
 //.text:00537D10 ; 
 //.text:00537DB0 ; void __cdecl player_active_camo_screen_effect(long)
 //.text:00537EA0 ; bool __cdecl player_active_camouflage_on()
-//.text:00537F20 ; 
+//.text:00537F20 ; bool __cdecl sub_537F20(player_datum*, long)
 //.text:00537F90 ; void __cdecl player_appearance_initialize(s_player_appearance*)
 //.text:00537FB0 ; bool __cdecl player_appearance_valid(s_player_appearance const*)
 //.text:00537FE0 ; void __cdecl player_approve_pickup_weapon(long, long, unit_weapon_pickup_result*)
@@ -241,7 +241,7 @@ void players_debug_render()
 //.text:005384C0 ; 
 //.text:00538510 ; bool __cdecl player_can_assassinate_object(long, long)
 //.text:005385F0 ; bool __cdecl player_can_fancy_assassinate_object(long, long)
-//.text:005386D0 ; 
+//.text:005386D0 ; bool __cdecl sub_5386D0(player_datum*)
 //.text:00538730 ; void __cdecl player_clear_assassination_state(long)
 //.text:005387A0 ; void __cdecl player_configuration_initialize(s_player_configuration*)
 //.text:005387F0 ; bool __cdecl player_consider_biped_interaction(long, long, s_player_interaction*)
@@ -250,7 +250,7 @@ void players_debug_render()
 //.text:00538B10 ; bool __cdecl player_consider_vehicle_interaction(long, long, s_player_interaction*)
 //.text:00538D00 ; bool __cdecl player_consider_weapon_interaction(long, long, s_player_interaction*)
 //.text:00538ED0 ; void __cdecl player_copy_object_appearance(long, long)
-//.text:00538FD0 ; 
+//.text:00538FD0 ; void __cdecl sub_538FD0(long, long)
 
 void __cdecl player_delete(long player_index)
 {
