@@ -227,6 +227,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\interface\overhead_map.cpp" />
     <ClCompile Include="source\items\equipment.cpp" />
     <ClCompile Include="source\items\items.cpp" />
+    <ClCompile Include="source\items\weapon_definitions.cpp" />
     <ClCompile Include="source\memory\byte_swapping.cpp" />
     <ClCompile Include="source\motor\sync_action.cpp" />
     <ClCompile Include="source\networking\logic\network_bandwidth.cpp" />
@@ -804,6 +805,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\items\item_definitions.hpp" />
     <ClInclude Include="source\items\projectiles.hpp" />
     <ClInclude Include="source\items\projectile_definitions.hpp" />
+    <ClInclude Include="source\items\weapon_definitions.hpp" />
     <ClInclude Include="source\main\console.hpp" />
     <ClInclude Include="source\main\debug_keys.hpp" />
     <ClInclude Include="source\main\main_predict.hpp" />
