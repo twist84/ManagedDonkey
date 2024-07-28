@@ -89,6 +89,7 @@ struct weapon_datum
 };
 static_assert(sizeof(weapon_datum) == sizeof(long) + sizeof(_object_datum) + sizeof(_item_datum) + sizeof(_weapon_datum));
 
+extern bool __cdecl weapon_can_be_dual_wielded(long weapon_index);
 extern real __cdecl weapon_get_age(long weapon_index);
 extern real __cdecl weapon_get_field_of_view_change_time(long weapon_index);
 extern bool __cdecl weapon_has_infinite_ammo(long weapon_index);
