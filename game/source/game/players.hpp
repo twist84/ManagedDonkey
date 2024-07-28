@@ -806,12 +806,15 @@ protected:
 	c_data_iterator<player_datum> m_iterator;
 };
 
+struct s_player_interaction;
+
 extern string_id g_player_desired_mode_override;
 extern void player_override_desired_mode(long desired_mode_override);
 extern void players_debug_render();
 
 extern void __cdecl player_delete(long player_index);
 extern long __cdecl player_index_from_unit_index(long unit_index);
+extern bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction);
 extern bool __cdecl player_is_reading_terminal();
 extern long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress);
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);

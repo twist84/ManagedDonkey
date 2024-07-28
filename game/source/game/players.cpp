@@ -315,7 +315,12 @@ long __cdecl player_index_from_unit_index(long unit_index)
 //.text:0053B290 ; bool __cdecl player_input_enabled()
 //.text:0053B2B0 ; void __cdecl player_input_mostly_inhibit(bool)
 //.text:0053B2D0 ; 
-//.text:0053B2F0 ; bool __cdecl player_interaction_exists(long, dword, s_player_interaction const*)
+
+bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction)
+{
+	return INVOKE(0x0053B2F0, player_interaction_exists, player_index, object_mask, interaction);
+}
+
 //.text:0053B340 ; 
 //.text:0053B370 ; bool __cdecl player_is_allowed_to_attempt_assassination(long, long)
 //.text:0053B480 ; bool __cdecl player_is_immune_to_headshot(long, bool)
