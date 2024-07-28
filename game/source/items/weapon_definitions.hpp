@@ -3,7 +3,7 @@
 #include "items/item_definitions.hpp"
 #include "shell/shell.hpp"
 
-enum e_weapon_flags
+enum e_weapon_definition_flags
 {
 	_weapon_vertical_heat_display_bit = 0,
 	_weapon_mutually_exclusive_triggers_bit,
@@ -40,10 +40,10 @@ enum e_weapon_flags
 	// deviation angle is allowed to be less than primary autoaim angle - for the rocket launcher
 	_weapon_strict_deviation_angle_bit,
 
-	k_weapon_flags
+	k_weapon_definition_flags
 };
 
-enum e_weapon_secondary_flags
+enum e_weapon_definition_secondary_flags
 {
 	_weapon_secondary_magnitizes_only_when_zoomed_bit = 0,
 	_weapon_secondary_force_enable_equipment_tossing_bit,
@@ -57,7 +57,7 @@ enum e_weapon_secondary_flags
 	_weapon_secondary_bit6,
 	_weapon_secondary_bit7,
 
-	k_weapon_secondary_flags
+	k_weapon_definition_secondary_flags
 };
 
 enum e_multiplayer_weapon_type
@@ -152,8 +152,8 @@ struct _weapon_definition
 	// All weapons should have 'primary trigger' and 'secondary trigger' markers as appropriate.
 	// Blurred permutations are called '$primary-blur' and '$secondary-blur'.
 
-	c_flags<e_weapon_flags, dword, k_weapon_flags> flags;
-	c_flags<e_weapon_secondary_flags, dword, k_weapon_secondary_flags> secondary_flags;
+	c_flags<e_weapon_definition_flags, dword, k_weapon_definition_flags> flags;
+	c_flags<e_weapon_definition_secondary_flags, dword, k_weapon_definition_secondary_flags> secondary_flags;
 	c_string_id unused_label;
 	short secondary_trigger_mode;
 
