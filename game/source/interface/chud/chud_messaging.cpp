@@ -10,6 +10,8 @@
 
 HOOK_DECLARE_CALL(0x00A970BB, chud_post_action_response); // c_chud_messaging_manager::update
 
+//.text:00A95750 ; void __cdecl chud_messaging_clear(long)
+
 //.text:00A95850 ; void __cdecl chud_messaging_picked_up_powerup(long, long)
 //.text:00A95890 ; void __cdecl chud_messaging_picked_up_weapon(long, long)
 //.text:00A958D0 ; void __cdecl chud_messaging_post(long, long, e_chud_message_context)
@@ -70,18 +72,18 @@ void __cdecl chud_post_action_response(long user_index)
 			message_dual = item_definition->item.swap_message_dual.get_value();
 
 		if (message != _string_id_empty_string)
-			sub_A964E0(user_index, message, NONE, 0);
+			chud_set_state_text(user_index, message, NONE, c_chud_messaging_manager::_chud_state_text_placement_right);
 
 		if (message_dual != _string_id_empty_string)
-			sub_A964E0(user_index, message_dual, NONE, 1);
+			chud_set_state_text(user_index, message_dual, NONE, c_chud_messaging_manager::_chud_state_text_placement_left);
 	}
 
 	// call the original function
 	INVOKE(0x00A95D10, chud_post_action_response, user_index);
 }
 
-bool __cdecl sub_A964E0(long user_index, long message, long a3, long placement)
+bool __cdecl chud_set_state_text(long user_index, long message, long a3, c_chud_messaging_manager::e_chud_state_text_placement text_placement)
 {
-	return INVOKE(0x00A964E0, sub_A964E0, user_index, message, a3, placement);
+	return INVOKE(0x00A964E0, chud_set_state_text, user_index, message, a3, text_placement);
 }
 
