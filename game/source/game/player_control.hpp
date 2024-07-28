@@ -365,7 +365,7 @@ extern void __cdecl player_control_build_action(long player_index, e_input_user_
 //extern void __cdecl player_control_fade_out_all_input(real);
 //extern void __cdecl player_control_fade_out_all_input_for_player(long, real);
 //extern bool __cdecl player_control_flags_test_all_players(e_player_control_bit);
-//extern s_player_action_context const* __cdecl player_control_get_action_context(long);
+extern s_player_action_context const* __cdecl player_control_get_action_context(long user_index);
 //extern long __cdecl player_control_get_aiming_unit_index(e_output_user_index);
 extern void __cdecl player_control_get_aiming_vector(e_output_user_index output_user_index, vector3d* aiming_vector);
 //extern void __cdecl player_control_get_controller_input(e_input_user_index, e_controller_index, real, real, s_game_input_state**, s_player_control_input*);

@@ -161,7 +161,12 @@ void __cdecl player_control_build_action(long player_index, e_input_user_index i
 //.text:005D0AF0 ; void __cdecl player_control_fade_out_all_input(real)
 //.text:005D0B20 ; void __cdecl player_control_fade_out_all_input_for_player(long, real)
 //.text:005D0B80 ; bool __cdecl player_control_flags_test_all_players(e_player_control_bit)
-//.text:005D0BD0 ; s_player_action_context const* __cdecl player_control_get_action_context(long)
+
+s_player_action_context const* __cdecl player_control_get_action_context(long user_index)
+{
+	return INVOKE(0x005D0BD0, player_control_get_action_context, user_index);
+}
+
 //.text:005D0C00 ; long __cdecl player_control_get_aiming_unit_index(e_output_user_index)
 
 void __cdecl player_control_get_aiming_vector(e_output_user_index output_user_index, vector3d* aiming_vector)
