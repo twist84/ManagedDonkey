@@ -19,6 +19,7 @@
 #include "interface/gui_screens/game_browser/gui_game_browser.hpp"
 #include "interface/user_interface_hs.hpp"
 #include "interface/user_interface_networking.hpp"
+#include "interface/user_interface_window_manager.hpp"
 #include "main/console.hpp"
 #include "main/levels.hpp"
 #include "main/main.hpp"
@@ -872,6 +873,15 @@ callback_result_t game_reverted_callback(void const* userdata, long token_count,
 	COMMAND_CALLBACK_PARAMETER_CHECK;
 
 	console_printf("game_state_reverted: %s", game_state_reverted() ? "true" : "false");
+
+	return result;
+}
+
+callback_result_t gui_reset_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	window_manager_reset_screens();
 
 	return result;
 }

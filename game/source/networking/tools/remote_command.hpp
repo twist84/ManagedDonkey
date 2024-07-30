@@ -131,6 +131,7 @@ COMMAND_CALLBACK_DECLARE(game_save_immediate);
 COMMAND_CALLBACK_DECLARE(game_save_cinematic_skip);
 COMMAND_CALLBACK_DECLARE(game_saving);
 COMMAND_CALLBACK_DECLARE(game_reverted);
+COMMAND_CALLBACK_DECLARE(gui_reset);
 COMMAND_CALLBACK_DECLARE(net_session_create);
 COMMAND_CALLBACK_DECLARE(net_session_add);
 COMMAND_CALLBACK_DECLARE(net_test_ping);
@@ -248,6 +249,8 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(game_save_cinematic_skip, 0, "", "don't use this, except in one place.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_saving, 0, "", "checks to see if the game is trying to save the map.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
 	COMMAND_CALLBACK_REGISTER(game_reverted, 0, "", "don't use this for anything, you black-hearted bastards.\r\nNETWORK SAFE: Unknown, assumed unsafe"),
+
+	COMMAND_CALLBACK_REGISTER(gui_reset, 0, "", "cleans out the halox ui screens and errors\r\nNETWORK SAFE: No"),
 
 	COMMAND_CALLBACK_REGISTER(net_session_create, 2, "<string> <string>", "<ui_game_mode> <advertisement_mode> creates a session to play\r\nNETWORK SAFE: No, for mainmenu only"),
 	COMMAND_CALLBACK_REGISTER(net_session_add, 1, "<string>", "<ip:port> adds a session from the given ip:port to the local games browser \r\nNETWORK SAFE: Unknown, assumed unsafe"),
