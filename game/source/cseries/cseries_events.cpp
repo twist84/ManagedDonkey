@@ -425,7 +425,7 @@ bool __cdecl event_thread_query()
 	return _bittest(&event_globals.thread_query_flags, get_current_thread_index());
 }
 
-long parse_network_event(char const* event_name, long category_substring_count, long maximum_characters, char(*category_names)[8][64])
+long event_parse_categories(char const* event_name, long category_substring_count, long maximum_characters, char(*category_names)[8][64])
 {
 	char const* category_substring = event_name;
 	long category_index = 0;
@@ -552,7 +552,7 @@ long event_find_category_recursive(long category_index, bool create_category, lo
 			next_category->__unknown180 = category->__unknown17C;
 			next_category->event_log_index = category->event_log_index;
 			next_category->build_buffer_for_log_proc = category->build_buffer_for_log_proc;
-			next_category->__unknown174 = category->__unknown174;
+			next_category->registered_event_listeners_flags = category->registered_event_listeners_flags;
 			category->__unknown17C = next_category_index;
 		}
 	}
@@ -581,13 +581,13 @@ long event_find_category(bool write, long a2, char(*category_names)[8][64])
 	return category_index;
 }
 
-long event_generate_internal(char const* event_name, bool write)
+long event_category_from_name(char const* event_name, bool write)
 {
 	ASSERT(event_name);
 
 	char category_names[8][64]{};
 
-	long v6 = parse_network_event(event_name, 8, 64, &category_names);
+	long v6 = event_parse_categories(event_name, 8, 64, &category_names);
 	return event_find_category(write, v6, &category_names);
 }
 
@@ -610,13 +610,13 @@ void event_initialize_categories()
 	category->color = global_real_argb_white->color;
 	category->event_log_index = NONE;
 	category->build_buffer_for_log_proc = nullptr;
-	category->__unknown174 = 0;
+	category->registered_event_listeners_flags = 0;
 	event_globals.category_count++;
 
 	for (long i = 0; i < NUMBEROF(g_log_events); i++)
 	{
 		s_event const* log_event = &g_log_events[i];
-		long category_index = event_generate_internal(log_event->name, true);
+		long category_index = event_category_from_name(log_event->name, true);
 		s_event_category* next_category = get_writeable_category(category_index);
 		next_category->display_level = log_event->display_level;
 		next_category->color = log_event->color;
@@ -633,7 +633,7 @@ void event_initialize_categories()
 	}
 }
 
-bool events_try_to_initialize()
+bool events_initialize_if_possible()
 {
 	static bool run_once = false;
 	if (!run_once && is_main_thread() /*&& synchronization_objects_initialized()*/)
@@ -683,7 +683,7 @@ bool events_try_to_initialize()
 
 void __cdecl events_initialize()
 {
-	events_try_to_initialize();
+	events_initialize_if_possible();
 
 	ASSERT(g_events_initialized);
 	generate_event(_event_level_message, "lifecycle: events initalize");
@@ -706,7 +706,7 @@ bool c_event::query()
 	return event_thread_query() && event_level_query(m_event_level);
 }
 
-dword_flags sub_82894860(e_event_level event_level, long category_index, dword_flags event_flags)
+dword_flags event_query(e_event_level event_level, long category_index, dword_flags event_flags)
 {
 	ASSERT(g_events_initialized);
 
@@ -791,7 +791,7 @@ struct s_hit_result
 	long hit_count;
 };
 
-void sub_82895ED0(char const* event_text, s_hit_result* result_out)
+void add_event_to_spamming_list(char const* event_text, s_hit_result* result_out)
 {
 	ASSERT(event_text);
 	ASSERT(result_out);
@@ -845,7 +845,7 @@ dword_flags sub_82894C80(dword_flags flags, e_event_level event_level, long cate
 		if (category->__unknown5C >= 5)
 		{
 			s_hit_result result{};
-			sub_82895ED0(event_text, &result);
+			add_event_to_spamming_list(event_text, &result);
 			if (result.hit_count > 1)
 				flags = 0;
 		}
@@ -853,7 +853,7 @@ dword_flags sub_82894C80(dword_flags flags, e_event_level event_level, long cate
 	return flags;
 }
 
-void sub_82894060(e_event_level event_level, long category_index, dword_flags event_flags, char const* format, va_list list)
+void event_generate(e_event_level event_level, long category_index, dword_flags event_flags, char const* format, va_list list)
 {
 	ASSERT(g_events_initialized);
 
@@ -862,11 +862,13 @@ void sub_82894060(e_event_level event_level, long category_index, dword_flags ev
 
 	//c_font_cache font_cache{};
 	g_event_read_write_lock.read_lock();
-	flags = sub_82894860(event_level, category_index, event_flags);
+	flags = event_query(event_level, category_index, event_flags);
 	g_event_read_write_lock.read_unlock();
 
 	if (flags)
 	{
+		char event_log_string[2048]{};
+
 		event_text.print_va(format, list);
 		c_console::write_line(event_text.get_string());
 
@@ -878,17 +880,17 @@ void sub_82894060(e_event_level event_level, long category_index, dword_flags ev
 		if (TEST_BIT(flags, 0))
 		{
 			//char buffer0[2048]{};
-			//char buffer1[256]{};
+			//char event_context1[256]{};
 			//char buffer2[2048]{};
 			//
 			//cvsnzprintf(buffer0, sizeof(buffer0), format, list);
 			//
-			//if (sub_82895C68(0, buffer1, sizeof(buffer1)))
-			//	csnzprintf(buffer2, 2048u, "%s (%s) %s", k_event_level_severity_strings[event_level], buffer1, buffer0);
+			//if (event_context_get(0, event_context1, sizeof(event_context1)))
+			//	csnzprintf(buffer2, sizeof(buffer2), "%s (%s) %s", k_event_level_severity_strings[event_level], event_context1, buffer0);
 			//else
-			//	csnzprintf(buffer2, 2048u, "%s %s", k_event_level_severity_strings[event_level], buffer0);
+			//	csnzprintf(buffer2, sizeof(buffer2), "%s %s", k_event_level_severity_strings[event_level], buffer0);
 			//
-			//sub_82895248(category_index, event_level, buffer2);
+			//write_to_console(category_index, event_level, buffer2);
 		}
 
 		if (TEST_BIT(flags, 1))
@@ -902,7 +904,7 @@ void sub_82894060(e_event_level event_level, long category_index, dword_flags ev
 				{
 					char buffer[512]{};
 					category->build_buffer_for_log_proc(buffer, sizeof(buffer));
-					//function(event_log_string, 2048, event_level, ...)
+					//format_event_for_log(event_log_string, sizeof(event_log_string), event_level, ...)
 					//write_to_event_log(&category->event_log_index, 1, event_log_string);
 				}
 				else
@@ -921,28 +923,31 @@ void sub_82894060(e_event_level event_level, long category_index, dword_flags ev
 			event_log_indices[event_log_count++] = event_globals.internal_primary_full_event_log_index;
 
 			ASSERT(event_log_count <= NUMBEROF(event_log_indices));
-			//function(event_log_string, 2048, event_level, ...)
+			//format_event_for_log(event_log_string, sizeof(event_log_string), event_level, list)
 			//write_to_event_log(&category->event_log_index, 1, event_log_string);
 		}
 
 		if (TEST_BIT(flags, 2))
 		{
-
+			//event_context_get(2u, (int)v38, 2048);
+			//event_write_to_datamine(a1, v38, format, list);
 		}
 
 		if (TEST_BIT(flags, 3) /*&& !byte_841DD295*/)
 		{
-
+			//cvsnzprintf(v39, 2048, format, list);
+			//csnzprintf(v38, 2048, "critical event encountered: %s", v39);
 		}
 
 		if (TEST_BIT(flags, 4) /*&& !byte_841DD294*/)
 		{
-
+			//cvsnzprintf(v39, 2048, format, list);
+			//csnzprintf(v38, 2048, "critical event encountered: %s", v39);
 		}
 
 		//for (long event_listener_index = 0; event_globals.event_listeners.get_count(); event_listener_index++)
 		//{
-		//	if (TEST_BIT(category->__unknown174, event_listener_index))
+		//	if (TEST_BIT(category->registered_event_listeners_flags, event_listener_index))
 		//	{
 		//		ASSERT(event_globals.event_listeners[event_listener_index]);
 		//		struct c_event_listener* event_listener = event_globals.event_listeners[event_listener_index];
@@ -960,14 +965,14 @@ long c_event::generate(char const* event_name, ...)
 	va_list list;
 	va_start(list, event_name);
 
-	if (!g_generating_event && events_try_to_initialize() && event_globals.enabled)
+	if (!g_generating_event && events_initialize_if_possible() && event_globals.enabled)
 	{
 		g_generating_event = true;
 
 		if (m_category_index == NONE)
-			m_category_index = event_generate_internal(event_name, true);
+			m_category_index = event_category_from_name(event_name, true);
 
-		sub_82894060(m_event_level, m_category_index, m_event_flags, event_name, list);
+		event_generate(m_event_level, m_category_index, m_event_flags, event_name, list);
 
 		g_generating_event = false;
 	}

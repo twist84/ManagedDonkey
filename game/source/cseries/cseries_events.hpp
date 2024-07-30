@@ -66,7 +66,7 @@ struct s_event_category
 	e_event_level remote_log_level;
 	e_event_level debugger_break_level;
 	e_event_level halt_level;
-	long __unknown174;
+	long registered_event_listeners_flags;
 	long parent_index;
 	long __unknown17C;
 	long __unknown180;
