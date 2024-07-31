@@ -246,6 +246,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\networking\session\network_session_parameters.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameter_types.cpp" />
     <ClCompile Include="source\networking\transport\transport_qos.cpp" />
+    <ClCompile Include="source\objects\crates.cpp" />
     <ClCompile Include="source\objects\damage_owner.cpp" />
     <ClCompile Include="source\objects\lights.cpp" />
     <ClCompile Include="source\objects\object_activation_regions.cpp" />
@@ -1029,6 +1030,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\networking\online\online_session.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameter_types.hpp" />
     <ClInclude Include="source\networking\tools\network_web_events.hpp" />
+    <ClInclude Include="source\objects\crates.hpp" />
     <ClInclude Include="source\objects\target_tracking.hpp" />
     <ClInclude Include="source\physics\character_physics.hpp" />
     <ClInclude Include="source\physics\character_physics_mode_ground.hpp" />

@@ -1473,6 +1473,9 @@
     <ClCompile Include="source\items\weapon_definitions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\objects\crates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3546,6 +3549,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\items\weapon_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\objects\crates.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
