@@ -16,15 +16,9 @@ struct s_character_physics_update_input_datum
 	dword __dword20;
 	dword __dword24;
 	dword __dword28;
-	dword __dword2C;
-	dword __dword30;
-	dword __dword34;
-	dword __dword38;
-	dword __dword3C;
-	dword __dword40;
-	dword __dword44;
-	dword __dword48;
-	dword __dword4C;
+	real_point3d __pointd2C;
+	real_point3d __pointd38;
+	vector3d __vector44;
 	dword __dword50;
 	long m_support_havok_component_index;
 	long m_support_rigid_body_index;
