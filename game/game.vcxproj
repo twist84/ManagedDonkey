@@ -229,6 +229,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\items\items.cpp" />
     <ClCompile Include="source\items\weapon_definitions.cpp" />
     <ClCompile Include="source\memory\byte_swapping.cpp" />
+    <ClCompile Include="source\motor\motor_system_biped.cpp" />
     <ClCompile Include="source\motor\sync_action.cpp" />
     <ClCompile Include="source\networking\logic\network_bandwidth.cpp" />
     <ClCompile Include="source\networking\logic\network_banhammer.cpp" />
@@ -827,6 +828,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\memory\sliding_window.hpp" />
     <ClInclude Include="source\models\model_definitions.hpp" />
     <ClInclude Include="source\models\model_skinning.hpp" />
+    <ClInclude Include="source\motor\motor_system_biped.hpp" />
     <ClInclude Include="source\motor\mover.hpp" />
     <ClInclude Include="source\motor\sync_action.hpp" />
     <ClInclude Include="source\motor\vehicle_motor_program.hpp" />
