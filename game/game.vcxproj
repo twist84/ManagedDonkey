@@ -202,6 +202,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\cache\cache_file_io_failure.cpp" />
     <ClCompile Include="source\creatures\creatures.cpp" />
     <ClCompile Include="source\cseries\cseries_system_memory.cpp" />
+    <ClCompile Include="source\devices\device_machines.cpp" />
     <ClCompile Include="source\effects\decals.cpp" />
     <ClCompile Include="source\effects\effects.cpp" />
     <ClCompile Include="source\effects\vision_mode.cpp" />
@@ -711,6 +712,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\cseries\upload_debug.hpp" />
     <ClInclude Include="source\data_mining\data_mine_management.hpp" />
     <ClInclude Include="source\data_mining\data_mine_usability.hpp" />
+    <ClInclude Include="source\devices\device_machines.hpp" />
     <ClInclude Include="source\editor\editor_flags.hpp" />
     <ClInclude Include="source\editor\editor_render_stubs.hpp" />
     <ClInclude Include="source\game\game_achievements.hpp" />

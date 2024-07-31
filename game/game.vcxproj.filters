@@ -1485,6 +1485,9 @@
     <ClCompile Include="source\creatures\creatures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\devices\device_machines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3570,6 +3573,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\creatures\creatures.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\devices\device_machines.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
