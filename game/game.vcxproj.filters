@@ -1479,6 +1479,9 @@
     <ClCompile Include="source\motor\motor_system_biped.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\units\unit_scripting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3558,6 +3561,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\motor\motor_system_biped.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\units\unit_scripting.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

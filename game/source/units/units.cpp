@@ -270,10 +270,8 @@ bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_defin
 //.text:00B45A40 ; bool __cdecl unit_is_soft_pinging(long)
 //.text:00B45A50 ; bool __cdecl unit_is_sprinting(long)
 //.text:00B45AB0 ; bool __cdecl unit_is_unarmed(long)
-//.text:00B45B00 ; void __cdecl unit_scripting_kill(long)
 //.text:00B45B40 ; unit_kill_hologram?
 //.text:00B45B70 ; void __cdecl unit_kill_no_statistics(long)
-//.text:00B45BB0 ; void __cdecl unit_scripting_kill_silent(long)
 //.text:00B45C00 ; unit_melee_effects
 //.text:00B45EE0 ; bool __cdecl unit_new(long, object_placement_data*, bool*)
 //.text:00B464E0 ; void __cdecl unit_notify_of_tracking_or_locking(long, long, short)

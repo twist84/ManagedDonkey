@@ -662,6 +662,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\units\units.cpp" />
     <ClCompile Include="source\units\unit_definition.cpp" />
     <ClCompile Include="source\units\unit_dialogue.cpp" />
+    <ClCompile Include="source\units\unit_scripting.cpp" />
     <ClCompile Include="source\units\vehicles.cpp" />
     <ClCompile Include="source\units\vehicle_definitions.cpp" />
     <ClCompile Include="source\units\vehicle_engine.cpp" />
@@ -1346,6 +1347,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\units\units.hpp" />
     <ClInclude Include="source\units\unit_definition.hpp" />
     <ClInclude Include="source\units\unit_dialogue.hpp" />
+    <ClInclude Include="source\units\unit_scripting.hpp" />
     <ClInclude Include="source\units\vehicles.hpp" />
     <ClInclude Include="source\units\vehicle_auto_turret.hpp" />
     <ClInclude Include="source\units\vehicle_definitions.hpp" />
