@@ -45,14 +45,14 @@ bool __cdecl any_unit_is_dangerous(long* out_unit_index)
 //.text:00B38180 ; 
 //.text:00B38210 ; public: bool __cdecl c_multi_unit_passenger_iterator::next()
 //.text:00B38450 ; void __cdecl play_unit_sound(long, short)
-//.text:00B386E0 ; 
+//.text:00B386E0 ; bool __cdecl unit_acceleration_prevent_action(long)
 
 bool __cdecl unit_active_camouflage_is_active(long unit_index)
 {
 	return INVOKE(0x00B38720, unit_active_camouflage_is_active, unit_index);
 }
 
-//.text:00B38760 ; player_handle_melee_recovery
+//.text:00B38760 ; void __cdecl player_handle_melee_recovery(long, real, real)
 
 void __cdecl unit_active_camouflage_disable(long unit_index, real interpolation_time)
 {
@@ -85,7 +85,7 @@ short __cdecl unit_add_grenade_type_to_inventory(long unit_index, short grenade_
 }
 
 //.text:00B38D30 ; healthpack
-//.text:00B38EA0 ; 
+//.text:00B38EA0 ; void __cdecl unit_add_initial_weapons(long)
 
 void __cdecl unit_add_starting_profile_equipment(long unit_index, short profile_index, bool clear_player, bool create_new)
 {
@@ -98,7 +98,7 @@ bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, lo
 }
 
 //.text:00B39820 ; bool __cdecl unit_adjust_first_person_camera(long, vector3d*)
-//.text:00B399C0 ; 
+//.text:00B399C0 ; void __cdecl unit_adjust_projectile_ray(long, real_point3d*, vector3d*, vector3d*, real_point3d const*, real_point3d const*, bool, bool, bool, e_aiming_vector)
 //.text:00B39E40 ; 
 //.text:00B39EC0 ; 
 //.text:00B39F60 ; void __cdecl unit_build_unit_interface_state(long, struct unit_interface_state *)
@@ -108,11 +108,11 @@ bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, lo
 //.text:00B3AAA0 ; bool __cdecl unit_can_pickup_equipment(long, long)
 //.text:00B3AC10 ; bool __cdecl unit_can_pickup_weapon(long, long, e_weapon_addition_method, unit_weapon_pickup_result*)
 //.text:00B3B190 ; bool __cdecl unit_can_see_point(long, union real_point3d const *, real)
-//.text:00B3B360 ; 
+//.text:00B3B360 ; bool __cdecl unit_can_use_seat_entry_marker(long, long, short, real_point3d const*, vector3d const*)
 //.text:00B3B5B0 ; bool __cdecl unit_can_use_weapon(long, long)
 //.text:00B3B5D0 ; bool __cdecl unit_can_use_weapon_in_seat(long, long, long)
 //.text:00B3B780 ; bool __cdecl unit_can_zoom(long)
-//.text:00B3B920 ; 
+//.text:00B3B920 ; void __cdecl unit_cause_ai_melee_attack(long, short)
 //.text:00B3BD20 ; void __cdecl unit_cause_assassination_damage(long, long, s_damage_owner const*, long, bool)
 //.text:00B3BE30 ; void __cdecl unit_cause_melee_damage_response(long, long, long, long, c_global_material_type, real_point3d const*, vector3d const*)
 //.text:00B3BFE0 ; void __cdecl unit_cause_player_melee_attack_apply(long, long, short, real, bool, s_player_melee_attack_query_result*, s_simulation_biped_melee_damage_event_data*)
@@ -120,7 +120,7 @@ bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, lo
 //.text:00B3CDE0 ; void __cdecl unit_cause_player_melee_damage(long, long, s_damage_owner const*, s_unit_player_melee_damage_target const*)
 //.text:00B3D3A0 ; void __cdecl unit_check_ping_thresholds(long, real, real, long*)
 //.text:00B3D470 ; void __cdecl unit_clear_aim_assist(long)
-//.text:00B3D4F0 ; 
+//.text:00B3D4F0 ; bool __cdecl unit_clip_vector_to_aiming_screen_bounds(long, vector3d*, bool)
 //.text:00B3D9A0 ; real __cdecl unit_compute_boost_fraction(long)
 //.text:00B3DA70 ; bool __cdecl unit_compute_function_value(long, long, long, real*, bool*, bool*, bool)
 //.text:00B3DDC0 ; long __cdecl unit_compute_ping_type(long, bool, bool, bool, bool, bool, bool, real, real)
@@ -136,9 +136,9 @@ void __cdecl unit_control(long unit_index, unit_control_data const* control_data
 
 //.text:00B42670 ; bool __cdecl unit_evict_parent_seat_occupant(long, bool, bool)
 //.text:00B427D0 ; void __cdecl unit_falling_damage_disable(long, bool)
-//.text:00B42820 ; unit_find_nearby_seat
+//.text:00B42820 ; short __cdecl unit_find_nearby_seat(long, long, long*, short*)
 //.text:00B42890 ; unit_get_weapon_count?
-//.text:00B428E0 ; unit_fix_position
+//.text:00B428E0 ; bool __cdecl unit_fix_position(long, long, real_point3d const*, real_point3d const*, real_point3d*, real, real, bool)
 //.text:00B42BA0 ; void __cdecl unit_force_detach_from_parent_object(long)
 //.text:00B42C50 ; void __cdecl unit_force_drop_weapon(long, long, bool, bool)
 //.text:00B42D20 ; 
@@ -212,14 +212,14 @@ void __cdecl unit_get_head_position(long unit_index, real_point3d* position)
 
 //.text:00B441F0 ; 
 //.text:00B44250 ; 
-//.text:00B442D0 ; 
-//.text:00B44340 ; 
+//.text:00B442D0 ; bool __cdecl unit_get_hologram_target_point(long, real_point3d*)
+//.text:00B44340 ; long __cdecl unit_get_last_associated_weak_player_index_for_appearance(long)
 //.text:00B443B0 ; void __cdecl unit_get_looking_vector(long, vector3d*)
 //.text:00B443F0 ; real __cdecl unit_get_open_amount(long)
 //.text:00B44470 ; c_sector_ref __cdecl unit_get_pathfinding_get_attached_sector(long)
 //.text:00B444C0 ; e_campaign_team __cdecl unit_get_campaign_team(long)
 //.text:00B444F0 ; long __cdecl unit_get_time_to_end_of_assasination(long)
-//.text:00B445B0 ; 
+//.text:00B445B0 ; long __cdecl unit_get_ultimate_motion_control_unit_index(long)
 //.text:00B44600 ; long __cdecl unit_get_ultimate_weapon_control_unit_index(long)
 //.text:00B44650 ; 
 //.text:00B44680 ; 
@@ -247,7 +247,7 @@ bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_defin
 }
 
 //.text:00B45150 ; 
-//.text:00B451C0 ; 
+//.text:00B451C0 ; bool __cdecl unit_in_third_person_seat(long)
 //.text:00B45260 ; void __cdecl unit_inventory_cycle_weapon_set_identifier(long)
 //.text:00B452F0 ; void __cdecl unit_inventory_drop_weapon(long, short, e_unit_drop_type, bool)
 //.text:00B45470 ; short __cdecl unit_inventory_get_must_be_readied_weapon(long)
@@ -273,13 +273,14 @@ bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_defin
 //.text:00B45B40 ; unit_kill_hologram?
 //.text:00B45B70 ; void __cdecl unit_kill_no_statistics(long)
 //.text:00B45C00 ; unit_melee_effects
+//.text:00B45C00 ; void __cdecl unit_melee_effects(long, long, long, e_sweetener_size, c_global_material_type, vector3d const*, real_point3d const*, vector3d const*, bool)
 //.text:00B45EE0 ; bool __cdecl unit_new(long, object_placement_data*, bool*)
 //.text:00B464E0 ; void __cdecl unit_notify_of_tracking_or_locking(long, long, short)
 //.text:00B465A0 ; unit_override_damage_info_material_type
 //.text:00B46620 ; void __cdecl unit_passenger_iterator_new(long, unit_passenger_iterator*)
 //.text:00B46670 ; unit_datum* __cdecl unit_passenger_iterator_next(unit_passenger_iterator*)
-//.text:00B466F0 ; 
-//.text:00B46730 ; 
+//.text:00B466F0 ; void __cdecl unit_pathfinding_attach(long, c_sector_ref)
+//.text:00B46730 ; void __cdecl unit_pathfinding_detach(long)
 //.text:00B46780 ; bool __cdecl unit_pathfinding_is_attached(long)
 //.text:00B467B0 ; void __cdecl unit_perform_detach_and_damage(long, long)
 //.text:00B469E0 ; void __cdecl unit_persistent_control(long, long, dword)
@@ -288,7 +289,7 @@ bool __cdecl unit_has_weapon_definition_index(long unit_index, long weapon_defin
 //.text:00B46BF0 ; bool __cdecl unit_post_update(long)
 //.text:00B46C10 ; void __cdecl unit_prepare_to_change_seats(long)
 //.text:00B46C30 ; bool __cdecl unit_put_away_weapon(long, short, bool)
-//.text:00B46D00 ; 
+//.text:00B46D00 ; void __cdecl unit_record_damage(long, real, short, bool, long, c_game_team, long, s_damage_reporting_info const&)
 
 void __cdecl unit_render_debug(long unit_index)
 {
@@ -359,15 +360,15 @@ void __cdecl unit_render_debug(long unit_index)
 //.text:00B47F80 ; 
 //.text:00B47FF0 ; bool __cdecl unit_seat_filled(long, short)
 //.text:00B48010 ; long __cdecl unit_seat_get_occupant(long, short)
-//.text:00B48080 ; 
+//.text:00B48080 ; bool __cdecl unit_seat_is_being_boarded(long, short)
 //.text:00B48140 ; bool __cdecl unit_seat_is_boarding(long, short)
 //.text:00B48160 ; bool __cdecl unit_seat_is_driver(long, short)
 //.text:00B48180 ; bool __cdecl unit_seat_is_gunner(long, short)
 //.text:00B481A0 ; bool __cdecl unit_seat_is_leader(long, short)
 //.text:00B481C0 ; bool __cdecl unit_seat_is_valid(long, short)
 //.text:00B48240 ; bool __cdecl unit_seat_test_flag(long, short, e_unit_seat_flags)
-//.text:00B482C0 ; 
-//.text:00B48380 ; void __cdecl unit_seat_try_opening
+//.text:00B482C0 ; void __cdecl unit_seat_try_closing(long, long, bool, bool, bool)
+//.text:00B48380 ; void __cdecl unit_seat_try_opening(long, long, bool, bool, bool)
 //.text:00B48440 ; 
 //.text:00B484D0 ; void __cdecl unit_set_actively_controlled(long, bool)
 //.text:00B48590 ; void __cdecl unit_set_aiming_vectors(long, vector3d const*, vector3d const*)
@@ -376,7 +377,7 @@ void __cdecl unit_render_debug(long unit_index)
 //.text:00B48690 ; void __cdecl unit_set_desired_weapon_set(long, s_unit_weapon_set const*)
 //.text:00B486D0 ; 
 //.text:00B48710 ; void __cdecl unit_set_grenade_counts(long, char const*)
-//.text:00B48770 ; 
+//.text:00B48770 ; void __cdecl unit_set_hologram(long, long, long, real_point3d const*)
 //.text:00B48980 ; void __cdecl unit_set_melee_attack_resolved(long)
 //.text:00B489E0 ; void __cdecl unit_set_mouth_aperture(long, real)
 //.text:00B48A60 ; void __cdecl unit_set_player_melee_suppression(long, long)
@@ -386,7 +387,7 @@ void __cdecl unit_render_debug(long unit_index)
 //.text:00B48C00 ; void __cdecl unit_set_prefer_tight_camera_track(long, bool)
 //.text:00B48C40 ; void __cdecl unit_set_weapon_state(long, long, long, long, float)
 //.text:00B48CB0 ; void __cdecl unit_set_weapon_type(long, long, long, short, byte, s_unit_weapon_set const*)
-//.text:00B48EC0 ; 
+//.text:00B48EC0 ; bool __cdecl unit_should_clip_to_aiming_bounds(long)
 //.text:00B48F10 ; void __cdecl unit_show_weapon_from_inventory(long, long, e_unit_hand)
 //.text:00B48FF0 ; void __cdecl unit_start_running_blindly(long unit_index)
 //.text:00B49110 ; void __cdecl unit_stop_running_blindly(long unit_index)
