@@ -4,11 +4,51 @@
   "Items": [
     {
       "Id": "befab16a-e08e-4e9a-aa1f-82a1d92faf9b",
-      "Command": "eldorado.exe game.dll -centered -cache-memory-increase 1200"
+      "Command": "eldorado.exe game.dll"
     },
     {
       "Id": "8cd32b7a-d32e-4d33-90f0-be85eafe3e08",
-      "Command": "eldorado.exe dedicated_server.dll -cache-memory-increase 1200"
+      "Command": "eldorado.exe dedicated_server.dll"
+    },
+    {
+      "Id": "6165b7d8-7a1f-4373-b29c-88d1bb2d9f5f",
+      "Command": "-centered"
+    },
+    {
+      "Id": "6abe4d8c-64e9-40ce-8ef1-d61dabe4d0f5",
+      "Command": "-cache-memory-increase 1200"
+    },
+    {
+      "Id": "61aa551e-8d46-4f98-a0bc-b93b994e3cd7",
+      "Command": "-maps maps\\test0\\"
+    },
+    {
+      "Id": "cebda20b-c696-420a-80ac-d85c281e3ccd",
+      "Command": "-maps maps\\test1\\"
+    },
+    {
+      "Id": "e31b9b02-b1b4-48d5-ae0f-3667eb2c26d6",
+      "Command": "-maps maps\\test2\\"
+    },
+    {
+      "Id": "b74acf90-9ec2-4556-8101-a1e259d112d3",
+      "Command": "-maps maps\\test3\\"
+    },
+    {
+      "Id": "0f9c7522-e9ef-4414-a109-ef5d5b52d199",
+      "Command": "-maps maps\\test4\\"
+    },
+    {
+      "Id": "46438aec-b61e-4a61-b572-5736c9b00ef9",
+      "Command": "-maps maps\\test5\\"
+    },
+    {
+      "Id": "62349111-2b6e-4538-9ea3-abdfa4a67d9f",
+      "Command": "-maps maps\\test6\\"
+    },
+    {
+      "Id": "391e4bb3-fa03-49b8-848f-7cf769515e6c",
+      "Command": "-maps maps\\test7\\"
     }
   ]
 }
