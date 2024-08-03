@@ -4,6 +4,26 @@
 #include "memory/thread_local.hpp"
 #include "render/render_debug.hpp"
 
+//.text:014355B0 ; 
+//.text:014355F0 ; 
+//.text:01435610 ; 
+//.text:01435620 ; 
+//.text:01435640 ; bool __cdecl actor_player_is_attacking(long, vector3d*)
+//.text:014356E0 ; void __cdecl actor_player_looking_update(long)
+//.text:014358A0 ; 
+//.text:01435B10 ; 
+//.text:01435B80 ; void __cdecl actor_player_update(long)
+//.text:01435BA0 ; void __cdecl actor_player_update_combat_movement(long)
+//.text:01435DE0 ; void __cdecl actor_player_update_vehicle_interest(long)
+//.text:014363C0 ; 
+//.text:01436420 ; 
+//.text:01436480 ; short __cdecl ai_player_index_get(long)
+//.text:014364C0 ; void __cdecl ai_player_initialize()
+//.text:01436520 ; void __cdecl ai_player_state_create(long)
+//.text:01436590 ; void __cdecl ai_player_state_delete(long)
+//.text:01436600 ; ai_player_state* __cdecl ai_player_state_get(long)
+//.text:01436650 ; void __cdecl ai_player_state_handle_deleted_object(long)
+
 bool __cdecl ai_player_state_needs_vehicle(short ai_player_index)
 {
 	//return INVOKE(0x014366A0, ai_player_state_needs_vehicle, ai_player_index);
@@ -21,6 +41,14 @@ bool __cdecl ai_player_state_needs_vehicle(short ai_player_index)
 
 	return false;
 }
+
+//.text:01436700 ; void __cdecl ai_player_state_update()
+//.text:01436E10 ; 
+//.text:01436E20 ; 
+//.text:01436E90 ; 
+//.text:01436ED0 ; 
+//.text:01436F00 ; 
+//.text:01436F30 ; 
 
 void debug_render_player_battle_vector()
 {
