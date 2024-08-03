@@ -248,8 +248,8 @@ extern char const* behavior_names[k_behavior_count];
 
 struct actor_datum;
 
-extern byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_index);
 extern short __cdecl behavior_index_by_name(char* name);
+extern byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_index);
 
 extern short actor_behavior_index_get(actor_datum const* actor, short layer_index);
 
