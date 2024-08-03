@@ -3,8 +3,48 @@
   "Id": "fb59080f-57e1-4857-9a57-333f885779bb",
   "Items": [
     {
-      "Id": "0529fe8f-b816-49e5-b156-8f98c56ec22f",
-      "Command": "eldorado.exe $(TargetFileName) -centered -cache-memory-increase 1200"
+      "Id": "91cf54e3-0e61-45d9-9d16-3cb72ab217c5",
+      "Command": "eldorado.exe $(TargetFileName)"
+    },
+    {
+      "Id": "42deb9be-308e-48af-ae4e-d212197f55a8",
+      "Command": "-centered"
+    },
+    {
+      "Id": "1b5f4b15-7371-47e7-bea4-911db9f41246",
+      "Command": "-cache-memory-increase 1200"
+    },
+    {
+      "Id": "aaf57f8e-6d13-4a29-b832-b8ec0e2b311a",
+      "Command": "-maps maps\\test0\\"
+    },
+    {
+      "Id": "d64647fe-dc44-4690-b794-1cc186249bb4",
+      "Command": "-maps maps\\test1\\"
+    },
+    {
+      "Id": "9cfbe6a5-0ee4-4586-9869-10d0494de9ff",
+      "Command": "-maps maps\\test2\\"
+    },
+    {
+      "Id": "edbbaaea-940e-4791-b0fa-0efca9e1a6e7",
+      "Command": "-maps maps\\test3\\"
+    },
+    {
+      "Id": "09dd160c-b5d3-4e2b-87db-c316ba4615bd",
+      "Command": "-maps maps\\test4\\"
+    },
+    {
+      "Id": "80d717dd-3283-414d-a5d8-d0c65375e6d8",
+      "Command": "-maps maps\\test5\\"
+    },
+    {
+      "Id": "30c664a2-20d1-4a23-bb6a-d93ff6b50706",
+      "Command": "-maps maps\\test6\\"
+    },
+    {
+      "Id": "1c94fdef-2aef-42c7-9945-4cc0a8b573db",
+      "Command": "-maps maps\\test7\\"
     }
   ]
 }
