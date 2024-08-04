@@ -125,7 +125,7 @@ struct object_node_map_defintion;
 struct s_object_health_pack_definition;
 struct _object_definition
 {
-	short type;
+	c_enum<e_object_type, short, _object_type_biped, k_object_type_count> type;
 	c_flags<e_object_definition_flags, word_flags, k_object_definition_flags> flags;
 	real bounding_radius; // world units
 	real_point3d bounding_offset;
