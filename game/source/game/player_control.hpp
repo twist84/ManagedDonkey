@@ -396,7 +396,7 @@ extern void __cdecl player_control_propagate_output(e_input_user_index input_use
 //extern void __cdecl player_control_scale_all_input_for_player(long, real, real);
 //extern void __cdecl player_control_set_deterministic_action_test_flags(long, qword);
 //extern void __cdecl player_control_set_external_action(e_output_user_index, s_player_action const*);
-//extern void __cdecl player_control_set_facing(e_input_user_index, vector3d const*);
+extern void __cdecl player_control_set_facing(e_input_user_index input_user_index, vector3d const* facing);
 //extern void __cdecl player_control_state_build_action(s_player_control_state const*, s_player_action*);
 //extern void __cdecl player_control_state_clear(s_player_control_state*);
 //extern void __cdecl player_control_suppress_rotate_weapons(e_input_user_index);

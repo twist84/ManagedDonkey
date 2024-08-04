@@ -270,7 +270,12 @@ void __cdecl player_control_propagate_output(e_input_user_index input_user_index
 //.text:005D45E0 ; void __cdecl player_control_scale_all_input_for_player(long, real, real)
 //.text:005D4690 ; void __cdecl player_control_set_deterministic_action_test_flags(long, qword)
 //.text:005D46C0 ; void __cdecl player_control_set_external_action(e_output_user_index, s_player_action const*)
-//.text:005D4700 ; void __cdecl player_control_set_facing(e_input_user_index, vector3d const*)
+
+void __cdecl player_control_set_facing(e_input_user_index input_user_index, vector3d const* facing)
+{
+	INVOKE(0x005D4700, player_control_set_facing, input_user_index, facing);
+}
+
 //.text:005D4760 ; void __cdecl player_control_state_build_action(s_player_control_state const*, s_player_action*)
 //.text:005D4820 ; void __cdecl player_control_state_clear(s_player_control_state*)
 //.text:005D4860 ; void __cdecl player_control_suppress_rotate_weapons(e_input_user_index)
