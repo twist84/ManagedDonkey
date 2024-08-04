@@ -218,7 +218,11 @@ void c_object_identifier::clear()
 
 void c_object_identifier::clear_for_deletion()
 {
-	DECLFUNC(0x00B27D20, void, __thiscall, c_object_identifier*)(this);
+	//DECLFUNC(0x00B27D20, void, __thiscall, c_object_identifier*)(this);
+
+	m_source = k_object_source_none;
+	m_origin_bsp_index = NONE;
+	m_unique_id = NONE;
 }
 
 //.text:00B27D30 ; public: void __cdecl c_static_flags_no_init<255>::clear_range(long)
@@ -268,27 +272,56 @@ long __cdecl cluster_get_next_noncollideable_object_and_payload(long* datum_inde
 
 void c_object_identifier::create_dynamic(e_object_type type)
 {
-	DECLFUNC(0x00B282E0, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+	//DECLFUNC(0x00B282E0, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+
+	TLS_DATA_GET_VALUE_REFERENCE(object_globals);
+
+	m_type = type;
+	m_source = _object_source_dynamic;
+	m_origin_bsp_index = NONE;
+	m_unique_id = ++object_globals->__unknown18;
 }
 
 void c_object_identifier::create_from_parent(e_object_type type)
 {
-	DECLFUNC(0x00B28320, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+	//DECLFUNC(0x00B28320, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+
+	TLS_DATA_GET_VALUE_REFERENCE(object_globals);
+
+	m_type = type;
+	m_source = _object_source_parent;
+	m_origin_bsp_index = NONE;
+	m_unique_id = ++object_globals->__unknown18;
 }
 
 void c_object_identifier::create_from_scenario(e_object_type type, long unique_id)
 {
-	DECLFUNC(0x00B28360, void, __thiscall, c_object_identifier*, e_object_type, long)(this, type, unique_id);
+	//DECLFUNC(0x00B28360, void, __thiscall, c_object_identifier*, e_object_type, long)(this, type, unique_id);
+
+	m_type = type;
+	m_origin_bsp_index = NONE;
+	m_source = _object_source_editor;
+	m_unique_id = unique_id;
 }
 
 void c_object_identifier::create_from_sky(e_object_type type, long unique_id)
 {
-	DECLFUNC(0x00B28380, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+	//DECLFUNC(0x00B28380, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+
+	m_type = type;
+	m_origin_bsp_index = NONE;
+	m_source = _object_source_sky;
+	m_unique_id = unique_id;
 }
 
 void c_object_identifier::create_from_structure(e_object_type type, short origin_bsp_index, long unique_id)
 {
-	DECLFUNC(0x00B283A0, void, __thiscall, c_object_identifier*, e_object_type, short, long)(this, type, origin_bsp_index, unique_id);
+	//DECLFUNC(0x00B283A0, void, __thiscall, c_object_identifier*, e_object_type, short, long)(this, type, origin_bsp_index, unique_id);
+
+	m_type = type;
+	m_origin_bsp_index = origin_bsp_index;
+	m_source = _object_source_structure;
+	m_unique_id = unique_id;
 }
 
 //.text:00B283C0 ; 
@@ -315,16 +348,22 @@ long __cdecl find_first_predicted_object_recursive(long object_index)
 long c_object_identifier::find_object_index() const
 {
 	return DECLFUNC(0x00B28740, long, __thiscall, c_object_identifier const*)(this);
+
+	// #TODO: implement me
 }
 
 s_scenario_object* c_object_identifier::find_scenario_object(long* tag_block_index) const
 {
-	return DECLFUNC(0x00B28800, s_scenario_object*, __thiscall, c_object_identifier const*, long*)(this, tag_block_index);
+	//return DECLFUNC(0x00B28800, s_scenario_object*, __thiscall, c_object_identifier const*, long*)(this, tag_block_index);
+
+	return find_scenario_object_from_scenario(global_scenario, tag_block_index);
 }
 
 s_scenario_object* c_object_identifier::find_scenario_object_from_scenario(struct scenario* scenario, long* tag_block_index) const
 {
 	return DECLFUNC(0x00B28820, s_scenario_object*, __thiscall, c_object_identifier const*, struct scenario*, long*)(this, scenario, tag_block_index);
+
+	// #TODO: implement me
 }
 
 //.text:00B288F0 ; 
@@ -371,7 +410,9 @@ bool __cdecl garbage_collection_can_run()
 
 long c_object_identifier::get_unique_id_direct() const
 {
-	return DECLFUNC(0x00B28E60, long, __thiscall, c_object_identifier const*)(this);
+	//return DECLFUNC(0x00B28E60, long, __thiscall, c_object_identifier const*)(this);
+
+	return m_unique_id;
 }
 
 //.text:00B28E70 ; similar to `objects_compact_memory_pool`
@@ -389,6 +430,8 @@ long c_object_identifier::get_unique_id_direct() const
 bool c_object_identifier::is_equal(c_object_identifier const* other) const
 {
 	return DECLFUNC(0x00B292E0, bool, __thiscall, c_object_identifier const*, c_object_identifier const*)(this, other);
+
+	// #TODO: implement me
 }
 
 //.text:00B29330 ; 
