@@ -78,6 +78,8 @@ extern bool debug_objects_player_only;
 
 extern object_type_definition* (&object_type_definitions)[k_object_type_count];
 
+extern void __cdecl object_type_adjust_placement(object_placement_data* data);
+
 extern void __cdecl render_debug_objects();
 extern void __cdecl object_type_render_debug(long object_index);
 extern bool __cdecl should_render_debug_object(long object_index);
