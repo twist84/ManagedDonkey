@@ -634,7 +634,7 @@ void ai_debug_render_squads()
 	squad_iterator_new(&squad_iter);
 	while (squad_datum* squad = squad_iterator_next(&squad_iter))
 	{
-		s_scenario* scenario = global_scenario_get();
+		struct scenario* scenario = global_scenario_get();
 		s_squad_definition* squad_def = &scenario->squads[DATUM_INDEX_TO_ABSOLUTE_INDEX(squad_iter.squad_index)];
 		real_point3d position = *global_origin3d;
 

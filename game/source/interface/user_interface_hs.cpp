@@ -25,7 +25,7 @@ long start_script(hs_script const* script, long index)
 
 long user_interface_start_hs_script_by_name(char const* name)
 {
-	s_scenario* scenario = global_scenario_try_and_get();
+	struct scenario* scenario = global_scenario_try_and_get();
 	if (!scenario)
 		return NONE;
 

@@ -292,7 +292,7 @@ bool hs_parse_unit_seat_mapping(long expression_index)
 			return false;
 		}
 
-		s_scenario* scenario = global_scenario_get();
+		struct scenario* scenario = global_scenario_get();
 		long unit_seat_start_index = NONE;
 		long unit_seat_mapping_count = seats_stack.count();
 
@@ -660,7 +660,7 @@ bool hs_parse_folder(long expression_index)
 
 	ASSERT(expression->type == _hs_type_folder);
 
-	s_scenario* scenario = global_scenario_get();
+	struct scenario* scenario = global_scenario_get();
 	if (scenario->editor_folders.count() > 0)
 	{
 		for (long editor_folder_index = 0; editor_folder_index < scenario->editor_folders.count(); editor_folder_index++)
@@ -895,7 +895,7 @@ bool hs_parse_budget_reference(long expression_index)
 	{
 		ASSERT(HS_TYPE_IS_BUDGET_REFERENCE(expression->type));
 
-		s_scenario* scenario = global_scenario_get();
+		struct scenario* scenario = global_scenario_get();
 		if (scenario->budget_references.count() <= 0)
 			return true;
 
@@ -1584,7 +1584,7 @@ struct s_hs_compile_state
 	long global_references[8];
 };
 
-void hs_compile_state_initialize(s_scenario* scenario, s_hs_compile_state* state)
+void hs_compile_state_initialize(struct scenario* scenario, s_hs_compile_state* state)
 {
 	csmemset(state->global_references, 0, sizeof(state->global_references));
 	csmemset(state->script_references, 0, sizeof(state->script_references));

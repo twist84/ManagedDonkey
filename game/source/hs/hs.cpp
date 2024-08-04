@@ -406,7 +406,7 @@ void __cdecl hs_enumerate_function_names(void)
 
 void __cdecl hs_enumerate_script_names(void)
 {
-	hs_enumerate_scenario_data(OFFSETOF(s_scenario, scripts), OFFSETOF(hs_script, name), sizeof(hs_script));
+	hs_enumerate_scenario_data(OFFSETOF(struct scenario, scripts), OFFSETOF(hs_script, name), sizeof(hs_script));
 }
 
 void __cdecl hs_enumerate_variable_names(void)
@@ -418,14 +418,14 @@ void __cdecl hs_enumerate_variable_names(void)
 	//for (short global_index = 0; global_index < short(k_hs_external_global_debug_count); global_index++)
 	//	hs_tokens_enumerate_add_string(hs_global_external_get_debug(global_index)->name);
 
-	hs_enumerate_scenario_data(OFFSETOF(s_scenario, globals), 0, sizeof(hs_global_internal));
+	hs_enumerate_scenario_data(OFFSETOF(struct scenario, globals), 0, sizeof(hs_global_internal));
 }
 
 void __cdecl hs_enumerate_ai_names(void)
 {
 	if (global_scenario_index_get() != NONE)
 	{
-		s_scenario* scenario = global_scenario_get();
+		struct scenario* scenario = global_scenario_get();
 
 		for (s_squad_definition& squad : scenario->squads)
 			hs_tokens_enumerate_add_string(squad.name.get_string());
@@ -455,7 +455,7 @@ void __cdecl hs_enumerate_ai_command_script_names(void)
 {
 	if (global_scenario_index_get() != NONE)
 	{
-		s_scenario* scenario = global_scenario_get();
+		struct scenario* scenario = global_scenario_get();
 
 		for (hs_script& script : scenario->scripts)
 		{
@@ -473,7 +473,7 @@ void __cdecl hs_enumerate_ai_behavior_names(void)
 
 void __cdecl hs_enumerate_starting_profile_names(void)
 {
-	hs_enumerate_scenario_data(OFFSETOF(s_scenario, player_starting_profile), OFFSETOF(scenario_starting_profile, name), sizeof(scenario_starting_profile));
+	hs_enumerate_scenario_data(OFFSETOF(struct scenario, player_starting_profile), OFFSETOF(scenario_starting_profile, name), sizeof(scenario_starting_profile));
 }
 
 void __cdecl hs_enumerate_conversation_names(void)
@@ -482,32 +482,32 @@ void __cdecl hs_enumerate_conversation_names(void)
 
 void __cdecl hs_enumerate_object_names(void)
 {
-	hs_enumerate_scenario_data(OFFSETOF(s_scenario, object_names), OFFSETOF(scenario_object_name, name), sizeof(scenario_object_name));
+	hs_enumerate_scenario_data(OFFSETOF(struct scenario, object_names), OFFSETOF(scenario_object_name, name), sizeof(scenario_object_name));
 }
 
 void __cdecl hs_enumerate_trigger_volume_names(void)
 {
-	hs_enumerate_scenario_data_string_id(OFFSETOF(s_scenario, trigger_volumes), OFFSETOF(scenario_trigger_volume, name), sizeof(scenario_trigger_volume));
+	hs_enumerate_scenario_data_string_id(OFFSETOF(struct scenario, trigger_volumes), OFFSETOF(scenario_trigger_volume, name), sizeof(scenario_trigger_volume));
 }
 
 void __cdecl hs_enumerate_cutscene_flag_names(void)
 {
-	hs_enumerate_scenario_data_string_id(OFFSETOF(s_scenario, cutscene_flags), OFFSETOF(scenario_cutscene_flag, name), sizeof(scenario_cutscene_flag));
+	hs_enumerate_scenario_data_string_id(OFFSETOF(struct scenario, cutscene_flags), OFFSETOF(scenario_cutscene_flag, name), sizeof(scenario_cutscene_flag));
 }
 
 void __cdecl hs_enumerate_cutscene_camera_point_names(void)
 {
-	hs_enumerate_scenario_data(OFFSETOF(s_scenario, cutscene_camera_points), OFFSETOF(scenario_cutscene_camera_point, name), sizeof(scenario_cutscene_camera_point));
+	hs_enumerate_scenario_data(OFFSETOF(struct scenario, cutscene_camera_points), OFFSETOF(scenario_cutscene_camera_point, name), sizeof(scenario_cutscene_camera_point));
 }
 
 void __cdecl hs_enumerate_cutscene_title_names(void)
 {
-	hs_enumerate_scenario_data_string_id(OFFSETOF(s_scenario, cutscene_titles), OFFSETOF(s_scenario_cutscene_title, name), sizeof(s_scenario_cutscene_title));
+	hs_enumerate_scenario_data_string_id(OFFSETOF(struct scenario, cutscene_titles), OFFSETOF(s_scenario_cutscene_title, name), sizeof(s_scenario_cutscene_title));
 }
 
 void __cdecl hs_enumerate_cutscene_recording_names(void)
 {
-	hs_enumerate_scenario_data(OFFSETOF(s_scenario, recorded_animations), OFFSETOF(recorded_animation_definition, name), sizeof(recorded_animation_definition));
+	hs_enumerate_scenario_data(OFFSETOF(struct scenario, recorded_animations), OFFSETOF(recorded_animation_definition, name), sizeof(recorded_animation_definition));
 }
 
 void __cdecl hs_enumerate_enum_skull_names(void)

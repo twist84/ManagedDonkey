@@ -17,7 +17,7 @@
 
 REFERENCE_DECLARE(0x0189CCF8, long, global_scenario_index);
 REFERENCE_DECLARE(0x0189CCFC, long, global_scenario_game_globals_index);
-REFERENCE_DECLARE(0x022AAEB4, s_scenario*, global_scenario);
+REFERENCE_DECLARE(0x022AAEB4, struct scenario*, global_scenario);
 REFERENCE_DECLARE(0x022AAEB8, s_game_globals*, global_game_globals);
 REFERENCE_DECLARE(0x022AAEBC, dword, g_active_structure_bsp_mask);
 REFERENCE_DECLARE(0x022AAEC0, dword, g_touched_structure_bsp_mask);
@@ -73,17 +73,17 @@ bool s_scenario_zone_change::any_zone_changes() const
 	return any_cinematic_zone_changes() || any_designer_zone_changes();
 }
 
-s_scenario* global_scenario_get()
+struct scenario* global_scenario_get()
 {
 	// halo 3
 	ASSERT(global_scenario);
 	return global_scenario;
 
 	// halo online
-	//return static_cast<s_scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
+	//return static_cast<struct scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
 }
 
-s_scenario* global_scenario_try_and_get()
+struct scenario* global_scenario_try_and_get()
 {
 	if (global_scenario)
 		return global_scenario_get();
@@ -255,7 +255,7 @@ bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 {
 	//return INVOKE(0x004EB260, scenario_preload_initial_zone_set, zone_set_index);
 
-	s_scenario* scenario = global_scenario_get();
+	struct scenario* scenario = global_scenario_get();
 	if (VALID_INDEX(zone_set_index, scenario->zone_sets.count()))
 	{
 		s_scenario_zone_state zone_state{};
@@ -269,7 +269,7 @@ bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 		string_id zone_set_name = _string_id_empty_string;
 		if (global_scenario_index_get() != NONE)
 		{
-			s_scenario* global_scenario = (s_scenario*)tag_get(SCENARIO_TAG, global_scenario_index_get());
+			struct scenario* global_scenario = (struct scenario*)tag_get(SCENARIO_TAG, global_scenario_index_get());
 			if (VALID_INDEX(scenario_zone_set_index_get(), global_scenario->zone_sets.count()))
 				zone_set_name = global_scenario->zone_sets[scenario_zone_set_index_get()].name.get_value();
 		}
@@ -293,7 +293,7 @@ long __cdecl scenario_zone_set_index_get()
 
 char const* scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
 {
-	scenario_structure_bsp_reference& structure_bsp_reference = static_cast<s_scenario*>(tag_get('scnr', scenario_index))->structure_bsps[structure_bsp_index];
+	scenario_structure_bsp_reference& structure_bsp_reference = static_cast<struct scenario*>(tag_get('scnr', scenario_index))->structure_bsps[structure_bsp_index];
 
 	char const* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
 	if (structure_bsp_name)
@@ -343,7 +343,7 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 
 	ASSERT(scenario_path != 0);
 
-	s_scenario* scenario = global_scenario_get();
+	struct scenario* scenario = global_scenario_get();
 	if (levels_map_id_is_fake(map_id))
 		return true;
 
@@ -355,12 +355,12 @@ void __cdecl scenario_unload()
 	INVOKE(0x004EB950, scenario_unload);
 }
 
-structure_bsp const* __cdecl scenario_structure_bsp_get(s_scenario const* scenario, long structure_bsp_index)
+structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, long structure_bsp_index)
 {
 	return INVOKE(0x00766280, scenario_structure_bsp_get, scenario, structure_bsp_index);
 }
 
-short scenario_object_name_index_from_string(s_scenario* scenario, char const* name)
+short scenario_object_name_index_from_string(struct scenario* scenario, char const* name)
 {
 	for (short object_name_index = 0; object_name_index < static_cast<short>(global_scenario_get()->object_names.count()); object_name_index++)
 	{
@@ -372,7 +372,7 @@ short scenario_object_name_index_from_string(s_scenario* scenario, char const* n
 	return NONE;
 }
 
-long scenario_get_zone_set_index_by_name(s_scenario const* scenario, char const* name, bool strip_path)
+long scenario_get_zone_set_index_by_name(struct scenario const* scenario, char const* name, bool strip_path)
 {
 	for (long zone_set_index = 0; zone_set_index < scenario->zone_sets.count(); zone_set_index++)
 	{
@@ -389,7 +389,7 @@ long scenario_get_zone_set_index_by_name(s_scenario const* scenario, char const*
 	return NONE;
 }
 
-long scenario_get_designer_zone_index_by_name(s_scenario const* scenario, char const* name)
+long scenario_get_designer_zone_index_by_name(struct scenario const* scenario, char const* name)
 {
 	string_id retrieved_string_id = string_id_retrieve(name);
 	if (retrieved_string_id != NONE)
@@ -646,7 +646,7 @@ if (universal_data->customized_##NAME##_characters.count())\
 
 void on_scenario_loaded()
 {
-	s_scenario* scenario = global_scenario_try_and_get();
+	struct scenario* scenario = global_scenario_try_and_get();
 	if (!scenario)
 		return;
 

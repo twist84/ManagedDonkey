@@ -1322,7 +1322,7 @@ bool __cdecl scenario_tags_load(char const* scenario_path)
 	if (tag_index != NONE)
 	{
 		global_scenario_game_globals_index = cache_file_get_global_tag_index(GLOBALS_TAG);
-		global_scenario = static_cast<s_scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
+		global_scenario = static_cast<struct scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
 		global_game_globals = static_cast<s_game_globals*>(tag_get(GLOBALS_TAG, global_scenario_game_globals_index));
 
 		c_rasterizer_globals* rasterizer_globals = global_game_globals->rasterizer_globals_ref.cast_to<c_rasterizer_globals>();
@@ -1781,7 +1781,7 @@ void apply_scenario_instance_modification(cache_file_tag_instance* instance, e_i
 	if (instance->tag_group != SCENARIO_TAG)
 		return;
 
-	s_scenario* scenario = instance->cast_to<s_scenario>();
+	struct scenario* scenario = instance->cast_to<struct scenario>();
 	char const* tag_name = instance->get_name();
 	char const* group_tag_name = instance->tag_group.name.get_string();
 

@@ -17,7 +17,7 @@ void __cdecl screen_effect_update(real update_interval)
 
 void apply_global_screen_effect()
 {
-	if (s_scenario* scenario = global_scenario_get())
+	if (struct scenario* scenario = global_scenario_get())
 	{
 		if (scenario->global_screen_effect.index != NONE)
 			screen_effect_new(scenario->global_screen_effect.index, NONE, NONE, global_origin3d, global_zero_rectangle2d);

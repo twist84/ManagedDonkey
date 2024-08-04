@@ -117,7 +117,7 @@ void render_debug_structure_decals()
 		long runtime_decal_index = 0;
 		for (structure_runtime_decal& runtime_decal : global_structure_bsp_get(structure_bsp_index)->runtime_decals)
 		{
-			s_scenario* scenario = global_scenario_get();
+			struct scenario* scenario = global_scenario_get();
 
 			ASSERT(VALID_INDEX(runtime_decal.decal_palette_index, scenario->decal_palette.count()));
 			scenario_decal_palette_entry& decal_palette = scenario->decal_palette[runtime_decal.decal_palette_index];

@@ -255,7 +255,7 @@ long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script
 {
 	//return INVOKE(0x00598050, hs_runtime_script_begin, script_index, script_type, thread_type);
 
-	s_scenario* scenario = global_scenario_get();
+	struct scenario* scenario = global_scenario_get();
 	if (!scenario)
 		return NONE;
 
@@ -389,7 +389,7 @@ void render_debug_scripting_globals()
 	//	c_rasterizer_draw_string draw_string{};
 	//	c_font_cache_mt_safe font_cache{};
 	//	short tab_stops[]{ 300 };
-	//	s_scenario* scenario = global_scenario_get();
+	//	struct scenario* scenario = global_scenario_get();
 	//	interface_set_bitmap_text_draw_mode(&draw_string, 0, -1, 0, 0, 5, 0);
 	//	draw_string.set_tab_stops(tab_stops, NUMBEROF(tab_stops));
 	//

@@ -845,7 +845,7 @@ short multiplayer_universal_data_get_absolute_weapons_selection_block_index(char
 
 bool scenario_is_solo()
 {
-	s_scenario* scenario = global_scenario_get();
+	struct scenario* scenario = global_scenario_get();
 	return scenario && scenario->type == _scenario_type_solo;
 }
 

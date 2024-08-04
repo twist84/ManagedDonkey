@@ -39,7 +39,7 @@ actor_datum* squad_actor_iterator_next(squad_actor_iterator* iterator)
 //.text:01490AF0 ; bool __cdecl squad_force_activate(long)
 //.text:01490B40 ; void __cdecl squad_force_deactivate(long)
 //.text:01490B80 ; 
-//.text:01490BA0 ; long __cdecl squad_get_by_name(s_scenario*, char const*)
+//.text:01490BA0 ; long __cdecl squad_get_by_name(struct scenario*, char const*)
 //.text:01490C10 ; 
 //.text:01490E70 ; 
 //.text:01490F00 ; 
@@ -51,7 +51,7 @@ actor_datum* squad_actor_iterator_next(squad_actor_iterator* iterator)
 //.text:014910C0 ; 
 //.text:01491110 ; 
 //.text:01491180 ; 
-//.text:014911A0 ; long __cdecl squad_group_get_by_name(s_scenario*, char const*)
+//.text:014911A0 ; long __cdecl squad_group_get_by_name(struct scenario*, char const*)
 //.text:01491210 ; 
 //.text:01491250 ; 
 //.text:014912A0 ; 

@@ -4,7 +4,7 @@
 
 short orders_get_by_name(char const* name)
 {
-	s_scenario* scenario = global_scenario_get();
+	struct scenario* scenario = global_scenario_get();
 	if (scenario)
 	{
 		for (short orders_index = 0; orders_index < scenario->orders.count(); orders_index++)

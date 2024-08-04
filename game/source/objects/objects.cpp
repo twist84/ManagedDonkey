@@ -1587,7 +1587,7 @@ void __cdecl object_get_debug_name(long object_index, bool full_name, c_static_s
 	name->clear();
 	if (object->object.name_index != NONE)
 	{
-		s_scenario* scenario = global_scenario_get();
+		struct scenario* scenario = global_scenario_get();
 		scenario_object_name& object_name = scenario->object_names[object->object.name_index];
 
 		name->append_print("%s|n", object_name.name.get_string());

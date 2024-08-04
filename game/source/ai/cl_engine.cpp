@@ -3,7 +3,7 @@
 #include "scenario/scenario.hpp"
 #include "scenario/scenario_definitions.hpp"
 
-cs_script_data* cs_scenario_get_script_data(s_scenario* scenario)
+cs_script_data* cs_scenario_get_script_data(struct scenario* scenario)
 {
 	return &scenario->scripting_data[0];
 }

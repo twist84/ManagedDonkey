@@ -1,6 +1,6 @@
 #include "scenario/scenario_definitions.hpp"
 
-void s_scenario::update_reference_names()
+void scenario::update_reference_names()
 {
 	UPDATE_REFERENCE_NAME(structure_seams);
 	UPDATE_REFERENCE_NAME(custom_object_names);
@@ -77,7 +77,7 @@ void s_background_bitmap_reference_definition::update_reference_names()
 	UPDATE_REFERENCE_NAME(background_bitmap_group_reference);
 }
 
-long __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(s_scenario const* scenario, string_id name)
+long __cdecl scenario_cinematic_lighting_palette_entry_get_by_name(struct scenario const* scenario, string_id name)
 {
 	for (long cinematic_lighting_palette_entry = 0; cinematic_lighting_palette_entry < scenario->cinematic_lighting_palette.count(); cinematic_lighting_palette_entry++)
 	{

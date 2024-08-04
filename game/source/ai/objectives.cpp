@@ -41,7 +41,7 @@ void ai_debug_render_objectives(long squad_index, real_point3d const* position)
 			if (game_time_get() - squad->objective_start_time < game_seconds_to_ticks_round(2.0))
 			{
 				short zone_area_count = 0;
-				s_scenario* scenario = global_scenario_get();
+				struct scenario* scenario = global_scenario_get();
 				real_point3d point = *global_origin3d;
 
 				ASSERT(task);
