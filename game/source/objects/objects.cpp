@@ -215,7 +215,12 @@ void c_object_identifier::clear()
 
 //.text:00B27CC0 ; 
 //.text:00B27CE0 ; void __cdecl clear_all_object_render_data()
-//.text:00B27D20 ; public: void __cdecl c_object_identifier::clear_for_deletion()
+
+void c_object_identifier::clear_for_deletion()
+{
+	DECLFUNC(0x00B27D20, void, __thiscall, c_object_identifier*)(this);
+}
+
 //.text:00B27D30 ; public: void __cdecl c_static_flags_no_init<255>::clear_range(long)
 //.text:00B27D90 ; void __cdecl cluster_build_object_payload(long, s_object_cluster_payload* payload)
 
@@ -260,11 +265,32 @@ long __cdecl cluster_get_next_noncollideable_object_and_payload(long* datum_inde
 //.text:00B281E0 ; real __cdecl compute_time_hours() // probably needs to be a double for actual use
 //.text:00B28240 ; real __cdecl compute_time_minutes() // probably needs to be a double for actual use
 //.text:00B28290 ; real __cdecl compute_time_seconds() // probably needs to be a double for actual use
-//.text:00B282E0 ; public: void __cdecl c_object_identifier::create_dynamic(e_object_type)
-//.text:00B28320 ; public: void __cdecl c_object_identifier::create_from_parent(e_object_type)
-//.text:00B28360 ; public: void __cdecl c_object_identifier::create_from_scenario(e_object_type, long)
-//.text:00B28380 ; public: void __cdecl c_object_identifier::create_from_sky(e_object_type, long)
-//.text:00B283A0 ; public: void __cdecl c_object_identifier::create_from_structure(e_object_type, short, long)
+
+void c_object_identifier::create_dynamic(e_object_type type)
+{
+	DECLFUNC(0x00B282E0, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+}
+
+void c_object_identifier::create_from_parent(e_object_type type)
+{
+	DECLFUNC(0x00B28320, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+}
+
+void c_object_identifier::create_from_scenario(e_object_type type, long unique_id)
+{
+	DECLFUNC(0x00B28360, void, __thiscall, c_object_identifier*, e_object_type, long)(this, type, unique_id);
+}
+
+void c_object_identifier::create_from_sky(e_object_type type, long unique_id)
+{
+	DECLFUNC(0x00B28380, void, __thiscall, c_object_identifier*, e_object_type)(this, type);
+}
+
+void c_object_identifier::create_from_structure(e_object_type type, short origin_bsp_index, long unique_id)
+{
+	DECLFUNC(0x00B283A0, void, __thiscall, c_object_identifier*, e_object_type, short, long)(this, type, origin_bsp_index, unique_id);
+}
+
 //.text:00B283C0 ; 
 //.text:00B283F0 ; 
 //.text:00B28420 ; 
@@ -286,9 +312,21 @@ long __cdecl find_first_predicted_object_recursive(long object_index)
 	return INVOKE(0x00B286C0, find_first_predicted_object_recursive, object_index);
 }
 
-//.text:00B28740 ; public: long __cdecl c_object_identifier::find_object_index() const
-//.text:00B28800 ; public: s_scenario_object* __cdecl c_object_identifier::find_scenario_object(long*) const
-//.text:00B28820 ; public: s_scenario_object* __cdecl c_object_identifier::find_scenario_object_from_scenario(scenario*, long*) const
+long c_object_identifier::find_object_index() const
+{
+	return DECLFUNC(0x00B28740, long, __thiscall, c_object_identifier const*)(this);
+}
+
+s_scenario_object* c_object_identifier::find_scenario_object(long* tag_block_index) const
+{
+	return DECLFUNC(0x00B28800, s_scenario_object*, __thiscall, c_object_identifier const*, long*)(this, tag_block_index);
+}
+
+s_scenario_object* c_object_identifier::find_scenario_object_from_scenario(struct scenario* scenario, long* tag_block_index) const
+{
+	return DECLFUNC(0x00B28820, s_scenario_object*, __thiscall, c_object_identifier const*, struct scenario*, long*)(this, scenario, tag_block_index);
+}
+
 //.text:00B288F0 ; 
 //.text:00B28900 ; 
 //.text:00B28910 ; 
@@ -330,7 +368,12 @@ bool __cdecl garbage_collection_can_run()
 //.text:00B28DD0 ; 
 //.text:00B28DE0 ; 
 //.text:00B28DF0 ; real_orientation* __cdecl get_node_orientation_scratchpad_for_model(render_model_definition const*, long)
-//.text:00B28E60 ; public: long __cdecl c_object_identifier::get_unique_id_direct() const
+
+long c_object_identifier::get_unique_id_direct() const
+{
+	return DECLFUNC(0x00B28E60, long, __thiscall, c_object_identifier const*)(this);
+}
+
 //.text:00B28E70 ; similar to `objects_compact_memory_pool`
 //.text:00B28ED0 ; void __cdecl handle_object_render_message(s_object_render_thread_message*, long)
 //.text:00B28F50 ; 
@@ -342,7 +385,12 @@ bool __cdecl garbage_collection_can_run()
 //.text:00B29260 ; 
 //.text:00B29280 ; 
 //.text:00B292D0 ; 
-//.text:00B292E0 ; public: bool __cdecl c_object_identifier::is_equal(c_object_identifier const*) const
+
+bool c_object_identifier::is_equal(c_object_identifier const* other) const
+{
+	return DECLFUNC(0x00B292E0, bool, __thiscall, c_object_identifier const*, c_object_identifier const*)(this, other);
+}
+
 //.text:00B29330 ; 
 //.text:00B29350 ; 
 //.text:00B29370 ; 
