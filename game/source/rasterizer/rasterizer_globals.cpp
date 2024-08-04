@@ -28,8 +28,8 @@ bool __cdecl rasterizer_get_is_widescreen()
 	}
 	else
 	{
-		client_rect.right = c_rasterizer::render_globals.width;
-		client_rect.bottom = c_rasterizer::render_globals.height;
+		client_rect.right = c_rasterizer::render_globals.resolution_width;
+		client_rect.bottom = c_rasterizer::render_globals.resolution_height;
 	}
 
 	if (client_rect.right <= 8)

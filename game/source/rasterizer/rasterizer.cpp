@@ -196,7 +196,7 @@ real __cdecl c_rasterizer::get_aspect_ratio()
 {
 	//return INVOKE(0x00A1FA30, get_aspect_ratio);
 
-	return (real)render_globals.width / (real)render_globals.height;
+	return (real)render_globals.resolution_width / (real)render_globals.resolution_height;
 }
 
 void __cdecl c_rasterizer::get_display_pixel_bounds(short_rectangle2d* display_pixel_bounds)

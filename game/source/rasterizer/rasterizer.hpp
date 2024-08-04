@@ -75,13 +75,25 @@ static_assert(sizeof(rasterizer_vertex_world) == 0x38);
 
 struct s_rasterizer_render_globals
 {
-	long width;
-	long height;
-
-	// #TODO: there are more values below these ^ in memory
-	// figure out what other values are part of `s_rasterizer_render_globals`
+	long resolution_width;
+	long resolution_height;
+	long back_buffer_width;
+	long back_buffer_height;
+	long resolution_offset_x;
+	long resolution_offset_y;
+	real resolution_scale_x;
+	real resolution_scale_y;
+	long occlusion_view_resolution;
+	long window_width24;
+	long window_height28;
+	long width2C;
+	long height30;
+	long resolution_width34;
+	long resolution_height38;
+	void* window_handle;
+	bool is_d3d9ex;
 };
-static_assert(sizeof(s_rasterizer_render_globals) == 0x8); // 0x8 for now
+static_assert(sizeof(s_rasterizer_render_globals) == 0x44);
 
 struct c_rasterizer
 {
