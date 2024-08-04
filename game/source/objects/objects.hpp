@@ -506,6 +506,7 @@ struct s_scenario_object;
 extern void* __cdecl object_header_block_get(long object_index, object_header_block_reference const* reference);
 extern void* __cdecl object_header_block_get_with_count(long object_index, object_header_block_reference const* reference, unsigned int element_size, long* element_count);
 extern object_header_datum const* __cdecl object_header_get(long object_index);
+extern object_header_datum* __cdecl object_header_get_mutable(long object_index);
 extern object_datum* __cdecl object_get(long object_index);
 extern void* __cdecl object_get_and_verify_type(long object_index, dword object_type_mask);
 extern e_object_type __cdecl object_get_type(long object_index);
