@@ -376,7 +376,35 @@ long __cdecl player_new(long player_array_index, game_player_options const* opti
 //.text:0053C570 ; 
 //.text:0053C630 ; 
 //.text:0053C860 ; 
-//.text:0053C8A0 ; void __cdecl player_set_facing(long, vector3d const*, vector3d const*)
+
+void __cdecl player_set_facing(long player_index, vector3d const* facing)
+{
+	INVOKE(0x0053C8A0, player_set_facing, player_index, facing);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(player_data);
+	//
+	//player_datum* player = static_cast<player_datum*>(datum_try_and_get(*player_data, player_index));
+	//if (game_is_authoritative())
+	//{
+	//	if (player->unit_index != NONE)
+	//	{
+	//		unit_datum* unit = (unit_datum*)object_get_and_verify_type(player->unit_index, _object_mask_unit);
+	//		unit->unit.facing_vector = *facing;
+	//		unit->unit.desired_aiming_vector = *facing;
+	//		unit->unit.desired_looking_vector = *facing;
+	//
+	//		c_simulation_object_update_flags flags{};
+	//		flags.set_flag(player->unit_index, 16);
+	//		simulation_action_object_update_internal(player->unit_index, &flags);
+	//	}
+	//
+	//}
+	//
+	//e_input_user_index input_user = player_mapping_get_input_user(player_index);
+	//if (input_user != k_input_user_none)
+	//	player_control_set_facing(input_user, facing);
+}
+
 //.text:0053C980 ; 
 //.text:0053CA10 ; 
 

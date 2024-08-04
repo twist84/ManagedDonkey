@@ -817,6 +817,7 @@ extern long __cdecl player_index_from_unit_index(long unit_index);
 extern bool __cdecl player_interaction_exists(long player_index, dword object_mask, s_player_interaction const* interaction);
 extern bool __cdecl player_is_reading_terminal();
 extern long __cdecl player_new(long player_array_index, game_player_options const* options, bool joined_in_progress);
+extern void __cdecl player_set_facing(long player_index, vector3d const* facing);
 extern void __cdecl player_set_unit_index(long player_index, long unit_index);
 extern bool __cdecl player_spawn(long player_index, real_point3d const* position, real const* facing);
 extern void __cdecl player_suppress_action(long player_index, long player_suppress_action_type);
