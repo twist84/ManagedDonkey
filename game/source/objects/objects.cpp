@@ -410,7 +410,11 @@ void __cdecl object_cinematic_visibility(long object_index, bool enable)
 	INVOKE(0x00B2AA70, object_cinematic_visibility, object_index, enable);
 }
 
-//.text:00B2AAC0 ; void __cdecl object_clear_sync_action(long)
+void __cdecl object_clear_sync_action(long object_index)
+{
+	INVOKE(0x00B2AAC0, object_clear_sync_action, object_index);
+}
+
 //.text:00B2AB10 ; bool __cdecl object_compute_bounding_sphere(long)
 //.text:00B2AD00 ; void __cdecl object_compute_bounding_sphere_recursive(long, real_point3d const*, real*)
 //.text:00B2AEC0 ; bool __cdecl object_compute_change_colors(long)

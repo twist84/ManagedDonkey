@@ -530,6 +530,7 @@ extern void __cdecl object_choose_variant(long object_index, long name);
 extern void __cdecl object_cinematic_collision(long object_index, bool enable);
 extern void __cdecl object_cinematic_lod(long object_index, bool enable);
 extern void __cdecl object_cinematic_visibility(long object_index, bool enable);
+extern void __cdecl object_clear_sync_action(long object_index);
 extern void __cdecl object_connect_lights(long object_index, bool disconnect_this_object, bool reconnect_this_object);
 extern void __cdecl object_connect_lights_recursive(long object_index, bool disconnect_this_object, bool reconnect_this_object, bool a3, bool a4);
 extern long __cdecl object_count(long type_flags, byte header_mask);
