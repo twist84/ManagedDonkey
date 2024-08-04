@@ -18,6 +18,7 @@ enum e_object_placement_zone_set_create_mode
 	k_object_placement_zone_set_create_mode_count
 };
 
+extern bool __cdecl object_definition_can_be_placed(long object_definition_index, long model_variant_index);
 extern void __cdecl object_placement_create_active_zone_set_objects(e_object_placement_zone_set_create_mode create_mode);
 extern void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool a2);
 

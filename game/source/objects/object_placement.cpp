@@ -1,5 +1,10 @@
 #include "objects/object_placement.hpp"
 
+bool __cdecl object_definition_can_be_placed(long object_definition_index, long model_variant_index)
+{
+	return INVOKE(0x00B58FF0, object_definition_can_be_placed, object_definition_index, model_variant_index);
+}
+
 //.text:00B59150 ; bool __cdecl object_placement_attached_to_valid_parent(s_scenario_object const*)
 //.text:00B59190
 
