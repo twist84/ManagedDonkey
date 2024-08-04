@@ -5,6 +5,7 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "models/model_definitions.hpp"
+#include "objects/object_types.hpp"
 #include "physics/havok.hpp"
 #include "profiler/profiler.hpp"
 #include "render/render_debug.hpp"
@@ -866,6 +867,115 @@ bool __cdecl object_needs_rigid_body_update(long object_index)
 long __cdecl object_new(object_placement_data* data)
 {
 	return INVOKE(0x00B30440, object_new, data);
+
+	//if (!TEST_BIT(data->flags, 4) && data->definition_index != NONE)
+	//	object_type_adjust_placement(data);
+	//
+	//if ((data->definition_index != NONE && object_definition_can_be_placed(data->definition_index, data->model_variant_index)) || data->definition_index == NONE)
+	//	return NONE;
+	//
+	//struct object_definition* object_definition = (struct object_definition*)tag_get(OBJECT_TAG, data->definition_index);
+	//object_type_definition* type_definition = object_type_definition_get(object_definition->object.type);
+	//
+	//s_model_definition* model_definition = NULL;
+	//if (object_definition->object.model.index != NONE)
+	//	model_definition = (s_model_definition*)tag_get(MODEL_TAG, object_definition->object.model.index);
+	//
+	//if (object_should_have_havok_component(NONE, data->definition_index))
+	//	havok_memory_garbage_collect();
+	//
+	//long object_index = object_header_new(type_definition->datum_size);
+	//if (object_index == NONE)
+	//	return object_index;
+	//
+	//bool v53 = false;
+	//bool v60 = false;
+	//bool v63 = object_definition->object.multiplayer_object.count() > 0;
+	//bool v64 = false;
+	//
+	//object_header_datum* object_header = object_header_get_mutable(object_index);
+	//object_datum* object = object_header->datum;
+	//
+	//object->object.flags.set(_object_being_created_bit, true);
+	//object->definition_index = data->definition_index;
+	//object->object.map_variant_index = NONE;
+	//object->object.next_recycling_object_index = NONE;
+	//object->object.recycling_time = NONE;
+	//object->object.parent_recycling_group = NONE;
+	//object->object.next_recycling_group_member = NONE;
+	//object->object.scenery_air_probe_index = NONE;
+	//object->object.air_probe_index = NONE;
+	//
+	//object->object.object_identifier = data->object_identifier;
+	//long scenario_datum_index = data->scenario_datum_index;
+	//if (data->object_identifier.m_source == k_object_source_none)
+	//{
+	//	object->object.object_identifier.create_dynamic(object_definition->object.type);
+	//	scenario_datum_index = NONE;
+	//}
+	//
+	//object->object.scenario_datum_index = scenario_datum_index;
+	//object->object.position = data->position;
+	//object->object.forward = data->forward;
+	//object->object.up = data->up;
+	//object->object.transitional_velocity = data->linear_velocity;
+	//object->object.angular_velocity = data->translational_velocity;
+	//object->object.scale = data->scale;
+	//object->object.flags.set(_object_mirrored_bit, TEST_BIT(data->flags, 0));
+	//object->object.flags.set(_object_uses_collidable_list_bit, model_definition && model_definition->collision_model.index != NONE);
+	//object->object.flags.set(_object_is_prt_and_lightmapped_bit, false);
+	//object->object.flags.set(_object_created_with_parent_bit, object->object.object_identifier.m_source == _object_source_parent);
+	//
+	//if (object_definition->object.model.index != NONE)
+	//	object->object.flags.set(_object_render_model_has_instances_bit, render_model_has_instances(model_definition->render_model.index));
+	//
+	//object_header->cluster_index = NONE;
+	//object->object.location = { .cluster_reference = { .bsp_index = NONE, .cluster_index = NONE } };
+	//object->object.first_cluster_reference_index = NONE;
+	//object->object.clusters_touched_on_connection = 0;
+	//object->object.bsp_placement_policy = data->bsp_placement_policy;
+	//object->object.parent_object_index = NONE;
+	//object->object.next_object_index = NONE;
+	//object->object.first_child_object_index = NONE;
+	//object->object.first_widget_index = NONE;
+	//object->object.name_index = NONE;
+	//object->object.damaged_explosion_timer = NONE;
+	//object->object.body_damage_delay_ticks = NONE;
+	//object->object.shield_impact_decay_timer = NONE;
+	//
+	//if (TEST_FLAG(object->object.flags, _object_hidden_bit))
+	//{
+	//	object->object.flags.set(_object_hidden_bit, false);
+	//	object_header_datum const* ultimate_parent_object = object_header_get(object_get_ultimate_parent(object_index));
+	//	if (TEST_FLAG(ultimate_parent_object->flags, _object_header_connected_to_map_bit))
+	//		object_connect_lights_recursive(object_index, false, true, false, false);
+	//	object_update_collision_culling(object_index);
+	//}
+	//
+	//object->object.damage_owner = data->damage_owner;
+	//object->object.structure_bsp_fake_lightprobe_index = NONE;
+	//object->object.havok_component_index = NONE;
+	//object->object.physics_flags = 0;
+	//object->object.variant_index = NONE;
+	//
+	//object->object.physics_flags = TEST_FLAG(object_definition->object.flags, _object_definition_flag_does_not_collide_with_camera_bit) ? FLAG(21) : 0;
+	//SET_BIT(object->object.physics_flags, 22, TEST_FLAG(object_definition->object.secondary_flags, _object_definition_secondary_flag_does_not_affect_projectile_aiming_bit));
+	//SET_BIT(object->object.physics_flags, 9, TEST_BIT(data->flags, 3));
+	//
+	//object->object.in_water_ticks = 32768;
+	//object->object.created_at_rest = TEST_BIT(data->flags, 8);// BYTE1(data->flags) & 1;
+	//object->object.simulation_object_glue_index = NONE;
+	//object->object.owner_team_index = NONE;
+	//object->object.simulation_flags = 0;
+	//object->object.child_variant_index = NONE;
+	//object->object.destroyed_constraints = data->destroyed_constraints;
+	//object->object.loosened_constraints = data->loosened_constraints;
+	//
+	//object_clear_sync_action(object_index);
+	//
+	//SET_BIT(object->object.simulation_flags, 1, data->multiplayer_cinematic_object);
+	//
+	//return object_index;
 }
 
 //.text:00B30E60 ; long __cdecl object_new_by_name(short, bool, bool)
