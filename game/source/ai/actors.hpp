@@ -476,6 +476,7 @@ struct actor_iterator : c_data_iterator<actor_datum>
 };
 static_assert(sizeof(actor_iterator) == 0x18);
 
+extern void __cdecl actor_delete(long actor_index, bool a2);
 extern void __cdecl actor_iterator_new(actor_iterator* iterator, bool a2);
 extern actor_datum* __cdecl actor_iterator_next(actor_iterator* iterator);
 
