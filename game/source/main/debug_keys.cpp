@@ -873,7 +873,7 @@ void __cdecl debug_key_select_next_actor(bool key_is_down)
 {
 	if (key_is_down && game_in_progress())
 	{
-		console_warning("Unimplemented: " __FUNCTION__);
+		ai_debug_change_selected_actor(true);
 	}
 }
 
@@ -881,7 +881,7 @@ void __cdecl debug_key_select_prev_actor(bool key_is_down)
 {
 	if (key_is_down && game_in_progress())
 	{
-		console_warning("Unimplemented: " __FUNCTION__);
+		ai_debug_change_selected_actor(false);
 	}
 }
 

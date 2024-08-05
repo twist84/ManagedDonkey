@@ -943,3 +943,8 @@ void ai_debug_change_selected_squad(bool next_squad)
 	console_warning("Unimplemented: " __FUNCTION__);
 }
 
+void ai_debug_change_selected_actor(bool next_actor)
+{
+	console_warning("Unimplemented: " __FUNCTION__);
+}
+
