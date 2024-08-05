@@ -145,6 +145,7 @@ extern bool __cdecl hs_can_cast(short actual_type, short desired_type);
 extern bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast);
 extern long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index, bool a3);
 extern bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type);
+extern char const* __cdecl hs_runtime_get_executing_thread_name();
 extern bool __cdecl hs_runtime_nondeterministic_threads_running();
 extern long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type script_type, e_hs_thread_type thread_type);
 extern void __cdecl hs_runtime_update();

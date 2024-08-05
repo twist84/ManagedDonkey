@@ -231,7 +231,12 @@ bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type)
 //.text:00597730 ; void __cdecl hs_runtime_dispose()
 //.text:00597750 ; void __cdecl hs_runtime_dispose_from_old_map()
 //.text:005977A0 ; bool __cdecl hs_runtime_evaluate(long, long*, bool)
-//.text:00597870 ; char const* __cdecl hs_runtime_get_executing_thread_name()
+
+char const* __cdecl hs_runtime_get_executing_thread_name()
+{
+	return INVOKE(0x00597870, hs_runtime_get_executing_thread_name);
+}
+
 //.text:005978A0 ; long __cdecl hs_runtime_index_from_global_designator(long)
 //.text:005978D0 ; void __cdecl hs_runtime_initialize()
 //.text:00597A80 ; void __cdecl hs_runtime_initialize_for_new_map()
