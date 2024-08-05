@@ -22,26 +22,26 @@ bool __cdecl ai_enemies_can_see_player(long* out_unit_index)
 
 void __cdecl ai_erase(long squad_index, bool delete_immediately)
 {
-	INVOKE(0x01431720, ai_erase, squad_index, delete_immediately);
+	//INVOKE(0x01431720, ai_erase, squad_index, delete_immediately);
 
-	//TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
-	//if (ai_globals->__unknown1)
-	//{
-	//	if (squad_index == NONE)
-	//	{
-	//		actor_iterator actor_iter{};
-	//		actor_iterator_new(&actor_iter, false);
-	//		while (actor_iterator_next(&actor_iter))
-	//			actor_erase(actor_iter.index, delete_immediately);
-	//	}
-	//	else
-	//	{
-	//		squad_actor_iterator squad_actor_iter{};
-	//		squad_actor_iterator_new(&squad_actor_iter, squad_index, false);
-	//		while (squad_actor_iterator_next(&squad_actor_iter))
-	//			actor_erase(squad_actor_iter.actor_index, delete_immediately);
-	//	}
-	//}
+	TLS_DATA_GET_VALUE_REFERENCE(ai_globals);
+	if (ai_globals->__unknown1)
+	{
+		if (squad_index == NONE)
+		{
+			actor_iterator actor_iter{};
+			actor_iterator_new(&actor_iter, false);
+			while (actor_iterator_next(&actor_iter))
+				actor_erase(actor_iter.index, delete_immediately);
+		}
+		else
+		{
+			squad_actor_iterator squad_actor_iter{};
+			squad_actor_iterator_new(&squad_actor_iter, squad_index, false);
+			while (squad_actor_iterator_next(&squad_actor_iter))
+				actor_erase(squad_actor_iter.actor_index, delete_immediately);
+		}
+	}
 }
 
 //.text:014317D0 ; void __cdecl ai_find_inactive_squads(long, byte*, long)
