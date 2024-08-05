@@ -44,7 +44,7 @@ bool __cdecl any_unit_is_dangerous(long* out_unit_index)
 //.text:00B380B0 ; void __cdecl data_mine_insert_sp_player_death(long, s_damage_aftermath_result_data const*)
 //.text:00B38180 ; 
 //.text:00B38210 ; public: bool __cdecl c_multi_unit_passenger_iterator::next()
-//.text:00B38450 ; void __cdecl play_unit_sound(long, short)
+//.text:00B38450 ; void __cdecl unit_arbiter_active_camouflage_play_sound(long, short)
 //.text:00B386E0 ; bool __cdecl unit_acceleration_prevent_action(long)
 
 bool __cdecl unit_active_camouflage_is_active(long unit_index)
@@ -52,7 +52,10 @@ bool __cdecl unit_active_camouflage_is_active(long unit_index)
 	return INVOKE(0x00B38720, unit_active_camouflage_is_active, unit_index);
 }
 
-//.text:00B38760 ; void __cdecl player_handle_melee_recovery(long, real, real)
+void __cdecl unit_active_camouflage_ding(long unit_index, real active_camo_ding, real active_camo_regrowth_rate)
+{
+	INVOKE(0x00B38760, unit_active_camouflage_ding, unit_index, active_camo_ding, active_camo_regrowth_rate);
+}
 
 void __cdecl unit_active_camouflage_disable(long unit_index, real interpolation_time)
 {
