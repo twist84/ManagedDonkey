@@ -23,6 +23,30 @@ void __cdecl actor_delete(long actor_index, bool a2)
 //.text:01429870 ; void __cdecl actor_died(long)
 //.text:01429DB0 ; void __cdecl actor_dont_do_avoidance(long, bool)
 
+void __cdecl actor_erase(long actor_index, bool delete_immediately)
+{
+	INVOKE(0x01429DF0, actor_erase, actor_index, delete_immediately);
+
+	//TLS_DATA_GET_VALUE_REFERENCE(actor_data);
+	//
+	//actor_datum* actor = (actor_datum*)datum_get(*actor_data, actor_index);
+	//
+	//actor_delete(actor_index, false);
+	//if (actor->meta.unit_index == NONE)
+	//{
+	//	if (actor->meta.swarm_index != NONE)
+	//		swarm_delete(actor->meta.swarm_index);
+	//}
+	//else if (delete_immediately)
+	//{
+	//	object_delete_immediately(actor->meta.unit_index);
+	//}
+	//else
+	//{
+	//	object_delete(actor->meta.unit_index);
+	//}
+}
+
 //.text:01429E60 ; void __cdecl actor_estimate_position(long, short, real_point3d const*, vector3d const*, vector3d const*, vector3d const*, real_point3d*)
 //.text:01429ED0 ; void __cdecl actor_firing_position_hash_set_address(void*)
 //.text:01429F00 ; void __cdecl actor_flush_position_indices(long, bool)
