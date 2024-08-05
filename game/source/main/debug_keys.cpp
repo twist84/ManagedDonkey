@@ -1,10 +1,11 @@
 #include "main/debug_keys.hpp"
 
+#include "ai/ai_debug.hpp"
 #include "camera/director.hpp"
+#include "editor/editor_flags.hpp"
 #include "editor/editor_stubs.hpp"
 #include "game/cheats.hpp"
 #include "game/game.hpp"
-#include "editor/editor_flags.hpp"
 #include "interface/terminal.hpp"
 #include "main/console.hpp"
 #include "main/main.hpp"
@@ -840,9 +841,7 @@ void __cdecl debug_keys_update()
 void __cdecl debug_key_select_this_actor(bool key_is_down)
 {
 	//if (key_is_down && game_in_progress())
-	//{
-	//	console_warning("Unimplemented: " __FUNCTION__);
-	//}
+	//	ai_debug.ai_select_this_actor = true;
 
 	if (key_is_down)
 		cheat_all_weapons();
@@ -852,7 +851,7 @@ void __cdecl debug_key_select_prev_encounter(bool key_is_down)
 {
 	//if (key_is_down && game_in_progress())
 	//{
-	//	console_warning("Unimplemented: " __FUNCTION__);
+	//	ai_debug_change_selected_squad(false);
 	//}
 
 	if (key_is_down)
@@ -863,7 +862,7 @@ void __cdecl debug_key_select_next_encounter(bool key_is_down)
 {
 	//if (key_is_down && game_in_progress())
 	//{
-	//	console_warning("Unimplemented: " __FUNCTION__);
+	//	ai_debug_change_selected_squad(true);
 	//}
 
 	if (key_is_down)

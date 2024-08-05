@@ -13,6 +13,7 @@
 #include "game/player_mapping.hpp"
 #include "interface/interface.hpp"
 #include "interface/interface_constants.hpp"
+#include "main/console.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/objects.hpp"
 #include "render/render_debug.hpp"
@@ -935,5 +936,10 @@ void ai_debug_render_dynamic_firing_positions()
 			render_debug_line(true, &actor->input.position.head_position, &ai_point_position, global_real_argb_blue);
 		}
 	}
+}
+
+void ai_debug_change_selected_squad(bool next_squad)
+{
+	console_warning("Unimplemented: " __FUNCTION__);
 }
 

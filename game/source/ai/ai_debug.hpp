@@ -92,4 +92,5 @@ extern void ai_debug_render_tracked_props_all();
 extern void ai_debug_render_targets_all();
 extern void render_dialogue_variants();
 extern void ai_debug_render_dynamic_firing_positions();
+extern void ai_debug_change_selected_squad(bool next_squad);
 
