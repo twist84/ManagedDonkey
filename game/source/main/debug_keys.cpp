@@ -1,6 +1,7 @@
 #include "main/debug_keys.hpp"
 
 #include "ai/ai_debug.hpp"
+#include "ai/ai_script.hpp"
 #include "camera/director.hpp"
 #include "editor/editor_flags.hpp"
 #include "editor/editor_stubs.hpp"
@@ -891,23 +892,6 @@ void __cdecl debug_key_render_spray(bool key_is_down)
 	{
 		console_warning("Unimplemented: " __FUNCTION__);
 	}
-}
-
-bool ai_print_scripting = false;
-
-void __cdecl ai_scripting_erase_all()
-{
-	if (ai_print_scripting)
-	{
-		//generate_event(_event_level_warning, "ai: %s: ai_erase_all", hs_runtime_get_executing_thread_name());
-	}
-
-	//ai_erase(NONE, false);
-	//
-	//squad_iterator iterator = {};
-	//squad_iterator_new(&iterator);
-	//while (squad_iterator_next(&iterator))
-	//	ai_script_erase_squad_vehicles(iterator.datum_index);
 }
 
 void __cdecl debug_key_erase_all_actors(bool key_is_down)
