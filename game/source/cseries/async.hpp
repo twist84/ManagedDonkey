@@ -241,7 +241,7 @@ static_assert(sizeof(s_async_task) == k_maximum_async_task_data_size);
 
 using async_work_callback_t = e_async_completion __cdecl(s_async_task*);
 
-struct s_async_task_element
+struct s_async_queue_element
 {
 	e_async_priority priority;
 	long task_id;
@@ -249,17 +249,17 @@ struct s_async_task_element
 	e_async_category category;
 	async_work_callback_t* work_callback;
 	c_synchronized_long* done;
-	s_async_task_element* next;
+	s_async_queue_element* next;
 };
-static_assert(sizeof(s_async_task_element) == 0x238);
+static_assert(sizeof(s_async_queue_element) == 0x238);
 
 struct s_async_globals
 {
 	long __unknown0;
-	s_async_task_element task_list[25];
-	s_async_task_element* free_list;
-	s_async_task_element* work_list;
-	s_async_task_element* temp_list;
+	s_async_queue_element task_list[25];
+	s_async_queue_element* free_list;
+	s_async_queue_element* work_list;
+	s_async_queue_element* temp_list;
 	long tasks_in_queue;
 
 	// Added back by us
@@ -281,15 +281,15 @@ extern bool __cdecl async_task_change_priority(long task_id, e_async_priority pr
 extern long __cdecl async_tasks_in_queue();
 extern bool __cdecl async_test_completion_flag(c_synchronized_long* completion_flag);
 extern bool __cdecl async_usable();
-extern bool __cdecl async_thread_tick();
+extern bool __cdecl async_work_function();
 extern void __cdecl async_yield_until_done_function(c_synchronized_long* done, bool(*yield_function)(c_synchronized_long*), bool idle, bool networking, bool spinner, e_yield_reason yield_reason);
-extern void __cdecl sub_508950(s_async_task_element* element);
-extern s_async_task_element* __cdecl async_task_add_free_list(bool a1);
+extern void __cdecl free_list_add(s_async_queue_element* element);
+extern s_async_queue_element* __cdecl free_list_get_and_remove(bool a1);
 extern void __cdecl internal_async_yield_until_done(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line);
 extern void __cdecl internal_async_yield_until_done_attributed(c_synchronized_long* done, bool idle, bool spinner, e_yield_reason yield_reason, char const* file, long line);
 extern void __cdecl internal_async_yield_until_done_with_networking(c_synchronized_long* done, bool idle, bool spinner, char const* file, long line);
 extern bool __cdecl simple_yield_function(c_synchronized_long* done);
-extern s_async_task_element* __cdecl sub_508BD0();
-extern void __cdecl sub_508C00(s_async_task_element* element);
-extern void __cdecl sub_508C30(s_async_task_element* element);
+extern s_async_queue_element* __cdecl sub_508BD0();
+extern void __cdecl sub_508C00(s_async_queue_element* element);
+extern void __cdecl work_list_remove_internal_assumes_locked_does_not_clear_id_does_not_suspend(s_async_queue_element* element);
 
