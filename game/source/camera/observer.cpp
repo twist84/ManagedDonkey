@@ -72,14 +72,28 @@ s_collision_test_flags __cdecl observer_collision_flags_get(e_output_user_index 
 //.text:00611690 ; void __cdecl observer_collision_get_initial_configuration(e_output_user_index output_user_index, real_point3d const*, vector3d const*, real, real*, vector3d*, real_point3d*, real)
 //.text:00611AA0 ; bool __cdecl observer_collision_in_safe_pill(e_output_user_index, real_point3d*, vector3d*, real)
 
-bool __cdecl sub_611B90(e_output_user_index output_user_index, real_point3d* point_a, real_point3d* point_b, vector3d* vector, real scale, long first_ignore_object_index, long second_ignore_object_index, real collision_scale)
+bool __cdecl sub_611B90(e_output_user_index output_user_index, real_point3d* point_a, real_point3d* point_b, vector3d* vector, real scale, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale)
 {
 	return INVOKE(0x00611B90, sub_611B90, output_user_index, point_a, point_b, vector, scale, first_ignore_object_index, second_ignore_object_index, collision_scale);
+
+	//real_point3d point{};
+	//scale_vector3d(vector, scale, (vector3d*)&point);
+	//
+	//return sub_611C30(output_user_index, point_a, &point, first_ignore_object_index, second_ignore_object_index, collision_scale);
 }
 
-bool __cdecl sub_611C30(e_output_user_index output_user_index, real_point3d* point_a, real_point3d* point_b, long first_ignore_object_index, long second_ignore_object_index, real collision_scale)
+bool __cdecl sub_611C30(e_output_user_index output_user_index, real_point3d* point_a, real_point3d* point_b, long first_ignore_object_index, long second_ignore_object_index, real* collision_scale)
 {
 	return INVOKE(0x00611C30, sub_611C30, output_user_index, point_a, point_b, first_ignore_object_index, second_ignore_object_index, collision_scale);
+
+	//collision_result collision{};
+	//if (collision_test_line(observer_collision_flags_get(output_user_index), point_a, point_b, first_ignore_object_index, second_ignore_object_index, &collision))
+	//{
+	//	*collision_scale = collision.t;
+	//	return true;
+	//}
+	//
+	//return false;
 }
 
 void __cdecl observer_command_clear(s_observer_command* command)
