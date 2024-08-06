@@ -9,7 +9,7 @@
 struct c_bitstream;
 
 struct c_game_engine_assault_variant :
-	c_game_engine_base_variant
+	public c_game_engine_base_variant
 {
 public:
 	c_game_engine_assault_variant* constructor()

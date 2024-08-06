@@ -7,7 +7,7 @@
 #include "game/game_engine_player_traits.hpp"
 
 struct c_game_engine_ctf_variant :
-	c_game_engine_base_variant
+	public c_game_engine_base_variant
 {
 public:
 	c_game_engine_ctf_variant* constructor()

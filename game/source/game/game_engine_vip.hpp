@@ -10,7 +10,7 @@ struct c_bitstream;
 struct s_file_reference;
 
 struct c_game_engine_vip_variant :
-	c_game_engine_base_variant
+	public c_game_engine_base_variant
 {
 public:
 	c_game_engine_vip_variant* constructor()
