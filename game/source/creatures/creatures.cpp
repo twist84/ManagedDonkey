@@ -8,7 +8,7 @@
 //.text:00BB4050 ; 
 //.text:00BB4060 ; void __cdecl creature_damage_aftermath_apply(long, s_damage_aftermath_result_data const*)
 //.text:00BB40B0 ; void __cdecl creature_damage_aftermath_compute(long, long, s_damage_data const*, s_damage_aftermath_result_data const*)
-//.text:00BB41B0 ; 
+//.text:00BB41B0 ; void __cdecl creature_died(long)
 //.text:00BB41F0 ; void __cdecl creature_affected_by_shape_phantom_this_tick(long)
 //.text:00BB4220 ; void __cdecl creature_get_center_of_mass(long, real_point3d*)
 //.text:00BB4260 ; void __cdecl creature_get_facing_vector(long, vector3d*)
