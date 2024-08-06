@@ -56,6 +56,18 @@ struct s_damage_data
 };
 static_assert(sizeof(s_damage_data) == 0x98);
 
+struct s_damage_response_data
+{
+	byte __data[0x38];
+};
+static_assert(sizeof(s_damage_response_data) == 0x38);
+
+struct s_damage_aftermath_result_data
+{
+	byte __data[0x58];
+};
+static_assert(sizeof(s_damage_aftermath_result_data) == 0x58);
+
 struct object_damage_section
 {
 	short __unknown0;
