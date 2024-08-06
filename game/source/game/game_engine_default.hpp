@@ -197,8 +197,8 @@ public:
 	virtual long get_player_state_index(long, bool*) const;
 	virtual bool should_purge_multiplayer_item(long) const;
 
-	// unknown function, also exists in halo 3 mcc
-	virtual void* function59(void*, ...);
+	// function in the same place as `close_any_custom_ui` from Reach
+	virtual void close_any_ui(e_output_user_index output_user_index) const;
 
 	virtual e_simulation_entity_type get_simulation_entity_type() const;
 	virtual void promote_to_simulation_authority() const;
