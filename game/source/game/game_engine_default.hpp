@@ -131,6 +131,8 @@ struct s_game_engine_state_data
 };
 static_assert(sizeof(s_game_engine_state_data) == 0x2C);
 
+enum e_output_user_index;
+
 struct c_game_engine
 {
 public:
