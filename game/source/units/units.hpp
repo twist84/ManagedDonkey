@@ -271,7 +271,7 @@ struct _unit_datum
 	bool __unknown3FC;
 	byte __pad3FD[0x3];
 
-	// saber related, used is `unit_delete`, `unit_disconnect_from_structure_bsp`
+	// saber related, used is `unit_delete`, `unit_dispose_from_old_structure_bsp`, `sub_B486D0`
 	long __unknown400[2];
 
 	byte __data408[0x4];
@@ -337,6 +337,7 @@ extern short __cdecl unit_add_grenade_type_to_inventory(long unit_index, short g
 extern void __cdecl unit_add_starting_profile_equipment(long unit_index, short profile_index, bool clear_player, bool create_new);
 extern bool __cdecl unit_add_weapon_to_inventory(long unit_index, long object_index, long weapon_addition_method);
 extern void __cdecl unit_control(long unit_index, unit_control_data const* control_data);
+extern void __cdecl unit_debug_ninja_rope(long unit_index);
 extern long __cdecl unit_get_active_primary_weapon(long unit_index, long* parent_unit_index);
 extern long __cdecl unit_get_aim_assist_dash_target(long unit_index);
 extern bool __cdecl unit_get_aim_position(long unit_index, real_point3d* aim_position);
@@ -368,7 +369,7 @@ extern void __cdecl sub_B4BCB0(s_unknown_unit_struct_sizeof_14* a1);
 extern bool __cdecl sub_B4BD70(long unit_index);
 extern void __cdecl unit_update_predicted_controller(long unit_index);
 extern void __cdecl unit_sync_with_predicted_vehicle(long unit_index);
-extern bool __cdecl unit_update_powered_seats(long unit_index);
+extern bool __cdecl unit_update_seats(long unit_index);
 extern void __cdecl unit_update_target_tracking(long unit_index);
 extern void __cdecl unit_update_team_index(long unit_index);
 extern void __cdecl unit_update_vision_mode(long unit_index);

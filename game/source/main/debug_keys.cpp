@@ -12,7 +12,6 @@
 #include "main/main.hpp"
 #include "main/main_time.hpp"
 #include "memory/thread_local.hpp"
-#include "physics/collisions.hpp"
 #include "rasterizer/rasterizer.hpp"
 #include "units/units.hpp"
 
@@ -941,28 +940,6 @@ void __cdecl debug_key_rotate_all_units(bool key_is_down)
 					player_set_unit_index(player_index, next_unit);
 			}
 		}
-	}
-}
-
-// #TODO: more testing required
-void __cdecl unit_debug_ninja_rope(long unit_index)
-{
-	unit_datum* unit = (unit_datum*)object_get_and_verify_type(unit_index, _object_mask_unit);
-
-	s_collision_test_flags flags = {}; // 0x1001
-	real_point3d camera_position = {};
-	vector3d aiming_vector = {};
-	collision_result collision;
-	
-	flags.collision_flags.set(_collision_test_structure_bit, true);
-	flags.collision_flags.set(_collision_test_back_facing_surfaces_bit, true);
-	unit_get_camera_position(unit_index, &camera_position);
-	scale_vector3d(&unit->unit.aiming_vector, 25.0f, &aiming_vector);
-	long parent_index = object_get_ultimate_parent(unit_index);
-	if (collision_test_vector(flags, &camera_position, &aiming_vector, parent_index, NONE, &collision) && collision.plane.n.k > 0.95f)
-	{
-		collision.position.z += 0.25f;
-		object_debug_teleport(parent_index, &collision.position);
 	}
 }
 
