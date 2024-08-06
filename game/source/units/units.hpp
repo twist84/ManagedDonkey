@@ -9,6 +9,19 @@
 
 long const k_seat_acceleration_memory_length = 6;
 
+enum e_unit_drop_type
+{
+	_unit_drop_type_drop = 0,
+	_unit_drop_type_delete,
+	_unit_drop_type_drop_right,
+	_unit_drop_type_drop_left,
+	_unit_drop_type_response_to_deletion,
+
+	k_unit_drop_type_count,
+
+	k_unit_drop_type_none = -1
+};
+
 enum e_weapon_set
 {
 	_weapon_set_primary = 0,
