@@ -254,16 +254,13 @@ void c_game_engine::dump_settings(s_file_reference* file) const
 	dump_player_trait_settings("respawn", active_variant->get_respawn_options()->get_respawn_player_traits(), file);
 	
 	// SOCIAL OPTIONS
-	char const* team_changing = active_variant->get_social_options()->get_team_changing_enabled() ? "ENABLED" : "DISABLED";
-
-	//file_printf(file, "observers= %s\r\n", active_variant->get_social_options()->get_observers_enabled() ? "ENABLED" : "DISABLED");
-	file_printf(file, "observers= %s\r\n", "DISABLED");
-	file_printf(file, "team changing= %s\r\n", active_variant->get_social_options()->get_team_changing_balancing_only_enabled() ? "BALANCING ONLY" : team_changing);
+	file_printf(file, "observers= %s\r\n", "DISABLED"); // active_variant->get_social_options()->get_observers_enabled() ? "ENABLED" : "DISABLED");
+	file_printf(file, "team changing= %d\r\n", active_variant->get_social_options()->get_team_changing_setting());
 	file_printf(file, "friendly fire= %s\r\n", active_variant->get_social_options()->get_friendly_fire_enabled() ? "ENABLED" : "DISABLED");
 	file_printf(file, "betrayal booting= %s\r\n", active_variant->get_social_options()->get_betrayal_booting_enabled() ? "ENABLED" : "DISABLED");
-	//file_printf(file, "enemy voice= %s\r\n", active_variant->get_social_options()->get_enemy_voice_enabled() ? "ENABLED" : "DISABLED");
-	//file_printf(file, "open channel voice= %s\r\n", active_variant->get_social_options()->get_open_channel_voice_enabled() ? "ENABLED" : "DISABLED");
-	//file_printf(file, "dead player voice= %s\r\n", active_variant->get_social_options()->get_dead_player_voice_enabled() ? "ENABLED" : "DISABLED");
+	file_printf(file, "enemy voice= %s\r\n", active_variant->get_social_options()->get_enemy_voice_enabled() ? "ENABLED" : "DISABLED");
+	file_printf(file, "open channel voice= %s\r\n", active_variant->get_social_options()->get_open_channel_voice_enabled() ? "ENABLED" : "DISABLED");
+	file_printf(file, "dead player voice= %s\r\n", active_variant->get_social_options()->get_dead_player_voice_enabled() ? "ENABLED" : "DISABLED");
 	file_printf(file, "spartans vs elites= %s\r\n", active_variant->get_social_options()->get_spartans_vs_elites_enabled() ? "ENABLED" : "DISABLED");
 	
 	// MAP-OVERRIDE OPTIONS
