@@ -1494,6 +1494,9 @@
     <ClCompile Include="source\ai\swarms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\objects\reference_lists.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\devices\device_terminals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -3588,6 +3591,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\devices\device_machines.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\objects\reference_lists.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\devices\device_terminals.hpp">
