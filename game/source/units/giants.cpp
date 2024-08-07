@@ -1,5 +1,17 @@
 #include "units/giants.hpp"
 
+REFERENCE_DECLARE(0x0194AA18, long, g_giant_hunt_player);                    // unreferenced
+REFERENCE_DECLARE(0x0194AA1C, real, g_giant_hunting_min_radius);             // unreferenced
+REFERENCE_DECLARE(0x0194AA20, real, g_giant_hunting_max_radius);             // unreferenced
+REFERENCE_DECLARE(0x0194AA24, real, g_giant_hunting_throttle_scale);         // unreferenced
+REFERENCE_DECLARE(0x0194AA28, long, g_giant_weapon_wait_time);               // unreferenced
+REFERENCE_DECLARE(0x0194AA2C, long, g_giant_weapon_trigger_time);            // unreferenced
+REFERENCE_DECLARE(0x0194AA30, bool, g_giant_foot_ik);                        // referenced
+REFERENCE_DECLARE(0x0194AA31, bool, g_giant_ankle_ik);                       // referenced
+REFERENCE_DECLARE(0x0194AA32, bool, g_giant_elevation_control);              // unreferenced
+REFERENCE_DECLARE(0x0194AA33, bool, g_giant_buckle_rotation);                // referenced
+REFERENCE_DECLARE(0x0194AA34, real, g_giant_custom_animation_recovery_time); // referenced
+
 //.text:00BBB480 ; double __cdecl compute_score_of_buckle_angles(real, real, real_matrix4x3 const*, real_matrix4x3*)
 //.text:00BBB640 ; 
 //.text:00BBB650 ; 
