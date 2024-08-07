@@ -1506,6 +1506,9 @@
     <ClCompile Include="source\objects\object_recycling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\units\giants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3603,6 +3606,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\objects\scenery.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\units\giants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
