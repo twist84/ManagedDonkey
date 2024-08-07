@@ -2,7 +2,7 @@
 
 //.text:00B9F0A0 ; 
 //.text:00B9F0C0 ; 
-//.text:00B9F0D0 ; 
+//.text:00B9F0D0 ; void __cdecl __tls_set_g_widget_data_allocator(void*)
 //.text:00B9F100 ; 
 //.text:00B9F140 ; 
 //.text:00B9F160 ; 
@@ -25,21 +25,22 @@
 //.text:00B9F730 ; void __cdecl widget_delete_type_datum(long, long, bool)
 //.text:00B9F830 ; long __cdecl widget_get_next_widget(long)
 //.text:00B9F860 ; void __cdecl widget_get_type_data(long, long*, long*)
-//.text:00B9F8A0 ; 
+//.text:00B9F8A0 ; void __cdecl widget_submit_transparent(long)
 //.text:00B9F950 ; void __cdecl widget_transfer_objects(long, long, long)
-//.text:00B9F9D0 ; 
-//.text:00B9F9F0 ; 
+//.text:00B9F9D0 ; widget_type_definition* __cdecl widget_type_definition_get(short)
+//.text:00B9F9F0 ; long __cdecl widget_type_flags(short)
+//.text:00B9FA10 ; void __cdecl widget_type_new_on_object(long, short, long)
 //.text:00B9FA10 ; void __cdecl widget_type_new_on_object(long, short, long)
 //.text:00B9FB20 ; void __cdecl widgets_delete(long)
-//.text:00B9FBC0 ; 
-//.text:00B9FBF0 ; 
-//.text:00B9FC30 ; 
+//.text:00B9FBC0 ; void __cdecl widgets_dispose()
+//.text:00B9FBF0 ; void __cdecl widgets_dispose_from_old_map(void)
+//.text:00B9FC30 ; void __cdecl widgets_dispose_from_old_structure_bsp(dword)
 //.text:00B9FCF0 ; void __cdecl widgets_initialize()
 //.text:00B9FD50 ; void __cdecl widgets_initialize_for_new_map()
 //.text:00B9FDA0 ; void __cdecl widgets_initialize_for_new_structure_bsp(dword)
 //.text:00B9FF30 ; void __cdecl widgets_new(long)
-//.text:00B9FFE0 ; 
-//.text:00BA00D0 ; 
+//.text:00B9FFE0 ; void __cdecl widgets_object_submit_transparents(long)
+//.text:00BA00D0 ; void __cdecl widgets_render_debug(long)
 //.text:00BA0150 ; void __cdecl widgets_render_opaque(long, long)
 //.text:00BA01F0 ; void __cdecl widgets_render_unattached(long)
 

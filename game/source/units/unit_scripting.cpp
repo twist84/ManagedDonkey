@@ -48,7 +48,7 @@
 //.text:00BB2F20 ; void __cdecl unit_scripting_set_emotion(long, long, real, real)
 //.text:00BB2F60 ; void __cdecl unit_scripting_set_emotion_by_name(long, long, real, real)
 //.text:00BB2FA0 ; void __cdecl unit_scripting_set_enterable_by_player(long, bool)
-//.text:00BB3000 ; 
+//.text:00BB3000 ; unit_set_seat_enterable_by_player?
 //.text:00BB30C0 ; void __cdecl unit_scripting_set_integrated_flashlight(long, bool)
 //.text:00BB3180 ; void __cdecl unit_scripting_set_maximum_vitality(long, real, real)
 //.text:00BB31D0 ; void __cdecl unit_scripting_set_only_takes_damage_from_players_team_bit(long, bool)
