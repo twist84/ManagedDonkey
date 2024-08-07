@@ -262,6 +262,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\objects\object_scheduler.cpp" />
     <ClCompile Include="source\objects\object_scripting.cpp" />
     <ClCompile Include="source\objects\reference_lists.cpp" />
+    <ClCompile Include="source\objects\scenery.cpp" />
     <ClCompile Include="source\objects\widgets\widgets.cpp" />
     <ClCompile Include="source\physics\breakable_surfaces.cpp" />
     <ClCompile Include="source\physics\character_physics.cpp" />
@@ -1045,6 +1046,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\networking\tools\network_web_events.hpp" />
     <ClInclude Include="source\objects\crates.hpp" />
     <ClInclude Include="source\objects\reference_lists.hpp" />
+    <ClInclude Include="source\objects\scenery.hpp" />
     <ClInclude Include="source\objects\target_tracking.hpp" />
     <ClInclude Include="source\physics\character_physics.hpp" />
     <ClInclude Include="source\physics\character_physics_mode_ground.hpp" />
