@@ -258,6 +258,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\objects\object_activation_regions.cpp" />
     <ClCompile Include="source\objects\object_broadphase.cpp" />
     <ClCompile Include="source\objects\object_placement.cpp" />
+    <ClCompile Include="source\objects\object_recycling.cpp" />
     <ClCompile Include="source\objects\object_scheduler.cpp" />
     <ClCompile Include="source\objects\object_scripting.cpp" />
     <ClCompile Include="source\objects\widgets\widgets.cpp" />

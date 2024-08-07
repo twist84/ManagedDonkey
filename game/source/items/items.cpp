@@ -7,6 +7,7 @@ bool __cdecl dangerous_items_near_player(long* out_item_index)
 	return INVOKE(0x00BAB880, dangerous_items_near_player, out_item_index);
 }
 
+//.text:00BAB8E0 ; 
 //.text:00BAB8F0 ; void __cdecl item_accelerate(long, vector3d const*)
 //.text:00BAB940 ; void __cdecl item_adjust_gravity(long, vector3d*)
 //.text:00BABB50 ; void __cdecl item_adjust_scale_and_variant(long, long)
