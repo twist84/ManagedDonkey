@@ -303,6 +303,11 @@ void __cdecl c_rasterizer::shell_initialize(bool window_exists, bool windowed)
 	INVOKE(0x00A20370, shell_initialize, window_exists, windowed);
 }
 
+void __cdecl c_rasterizer::set_render_resolution(long width, long height, bool fullscreen)
+{
+	INVOKE(0x00A22130, set_render_resolution, width, height, fullscreen);
+}
+
 bool __cdecl c_rasterizer::begin_frame()
 {
 	return INVOKE(0x00A212A0, begin_frame);
