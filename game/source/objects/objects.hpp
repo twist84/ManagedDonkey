@@ -227,7 +227,7 @@ struct object_datum
 	long definition_index;
 	_object_datum object;
 };
-static_assert(sizeof(object_datum) == sizeof(long) +  sizeof(_object_datum));
+static_assert(sizeof(object_datum) == sizeof(long) + sizeof(_object_datum));
 
 // Same as Halo 3
 enum e_object_header_flags

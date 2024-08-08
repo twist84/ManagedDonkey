@@ -3611,6 +3611,9 @@
     <ClInclude Include="source\units\giants.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\animations\mixing_board\channels\animation_channel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
