@@ -308,6 +308,11 @@ void __cdecl c_rasterizer::set_render_resolution(long width, long height, bool f
 	INVOKE(0x00A22130, set_render_resolution, width, height, fullscreen);
 }
 
+bool __cdecl c_rasterizer::test_cooperative_level()
+{
+	return INVOKE(0x00A22670, test_cooperative_level);
+}
+
 bool __cdecl c_rasterizer::begin_frame()
 {
 	return INVOKE(0x00A212A0, begin_frame);
