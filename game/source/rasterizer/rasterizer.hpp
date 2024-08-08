@@ -303,6 +303,7 @@ struct c_rasterizer
 	static void __cdecl shell_initialize(bool window_exists, bool windowed);
 	static void __cdecl set_render_resolution(long width, long height, bool fullscreen);
 	static bool __cdecl test_cooperative_level();
+	static bool __cdecl reset_device();
 	static bool __cdecl begin_frame();
 	static void __cdecl begin_high_quality_blend();
 	//static void __cdecl clearf(unsigned long, union real_vector4d const*, float, unsigned long);

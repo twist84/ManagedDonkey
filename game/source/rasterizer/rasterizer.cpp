@@ -3,7 +3,9 @@
 #include "cseries/cseries.hpp"
 #include "cseries/cseries_events.hpp"
 #include "main/global_preferences.hpp"
+#include "main/main.hpp"
 #include "memory/module.hpp"
+#include "rasterizer/rasterizer_main.hpp"
 #include "rasterizer/rasterizer_resource_definitions.hpp"
 #include "render/screen_postprocess.hpp"
 #include "render_methods/render_method_submit.hpp"
@@ -311,6 +313,75 @@ void __cdecl c_rasterizer::set_render_resolution(long width, long height, bool f
 bool __cdecl c_rasterizer::test_cooperative_level()
 {
 	return INVOKE(0x00A22670, test_cooperative_level);
+}
+
+bool __cdecl c_rasterizer::reset_device()
+{
+	//return INVOKE(0x00A226D0, reset_device);
+
+	c_rasterizer::cleanup_before_device_reset();
+
+	D3DPRESENT_PARAMETERS* presentation_parameters = get_presentation_parameters();
+	*presentation_parameters = *get_new_presentation_parameters();
+
+	bool fullscreen = global_preferences_get_fullscreen();
+
+	LONG window_style = fullscreen ? 0 : 0xCA0000;
+	SetWindowLongA(g_windows_params.created_window_handle, GWL_STYLE, window_style);
+
+	if (fullscreen)
+	{
+		ShowWindow(g_windows_params.created_window_handle, SW_MAXIMIZE);
+	}
+	else
+	{
+		RECT rect{};
+		rect.left = 0;
+		rect.top = 0;
+		rect.right = presentation_parameters->BackBufferWidth;
+		rect.bottom = presentation_parameters->BackBufferHeight;
+
+		int window_x = 0;
+		int window_y = 0;
+		//if (strstr(shell_get_command_line(), "-centered") != 0)
+		//{
+		//	window_x = (GetSystemMetrics(SM_CXSCREEN) - rect.right) / 2;
+		//	window_y = (GetSystemMetrics(SM_CYSCREEN) - rect.bottom) / 2;
+		//}
+
+		AdjustWindowRect(&rect, window_style, 0);
+		SetWindowPos(
+			g_windows_params.created_window_handle,
+			HWND_NOTOPMOST,
+			window_x,
+			window_y,
+			rect.right - rect.left,
+			rect.bottom - rect.top,
+			SWP_SHOWWINDOW);
+		ShowWindow(g_windows_params.created_window_handle, SW_SHOWNORMAL);
+	}
+
+	RECT rect{};
+	GetClientRect(g_windows_params.created_window_handle, &rect);
+	c_rasterizer::render_globals.window_width24 = rect.right - rect.left;
+	c_rasterizer::render_globals.window_height28 = rect.bottom - rect.top;
+
+	set_render_resolution(presentation_parameters->BackBufferWidth, presentation_parameters->BackBufferHeight, fullscreen);
+	presentation_parameters->BackBufferWidth = c_rasterizer::render_globals.back_buffer_width;
+	presentation_parameters->BackBufferHeight = c_rasterizer::render_globals.back_buffer_height;
+
+	sub_5129B0();
+
+	if (g_d3d_device_is_lost = FAILED(c_rasterizer::g_device->Reset(presentation_parameters)))
+	{
+		if (g_d3d_device_is_lost = FAILED(c_rasterizer::g_device->Reset(presentation_parameters)))
+			exit(D3DERR_DEVICENOTRESET);
+	}
+
+	c_rasterizer::initialize_after_device_creation_or_reset();
+	g_d3d_device_reset = 0;
+
+	return true;
 }
 
 bool __cdecl c_rasterizer::begin_frame()
