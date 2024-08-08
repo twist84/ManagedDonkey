@@ -164,8 +164,8 @@ struct c_player_profile_interface
 
 	struct // sizeof 0x688
 	{
-		long __unknown488; // STRING_ID(gui, color_armor1)
-		long __unknown48C; // STRING_ID(gui, color_armor2)
+		long m_primary_change_color; // STRING_ID(gui, color_armor1)
+		long m_secondary_change_color; // STRING_ID(gui, color_armor2)
 
 		long __unknown490;
 		long __unknown494;
