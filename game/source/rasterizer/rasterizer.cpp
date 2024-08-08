@@ -13,8 +13,12 @@
 
 #include <d3d9.h>
 
+REFERENCE_DECLARE(0x050DD9D0, bool, c_rasterizer::g_d3d_device_is_lost);
+REFERENCE_DECLARE(0x050DD9D1, bool, c_rasterizer::g_d3d_device_reset);
 REFERENCE_DECLARE_ARRAY(0x01692A0C, D3DRENDERSTATETYPE, c_rasterizer::x_last_render_state_types, 4);
+REFERENCE_DECLARE(0x019104FC, dword, c_rasterizer::g_render_thread);
 REFERENCE_DECLARE(0x019106C0, s_rasterizer_render_globals, c_rasterizer::render_globals);
+REFERENCE_DECLARE(0x0194FEA8, dword, c_rasterizer::g_render_thread_begin_scene);
 REFERENCE_DECLARE(0x050DADDC, IDirect3DDevice9Ex*, c_rasterizer::g_device);
 REFERENCE_DECLARE_ARRAY(0x050DADE0, bool, c_rasterizer::byte_50DADE0, 3);
 REFERENCE_DECLARE_ARRAY(0x050DADE4, IDirect3DQuery9*, c_rasterizer::dword_50DADE4, 3);
@@ -60,6 +64,8 @@ HOOK_DECLARE_CLASS(0x00A1F9C0, c_rasterizer, end_albedo);
 
 // Fix aspect ratio not matching resolution
 HOOK_DECLARE_CLASS(0x00A1FA30, c_rasterizer, get_aspect_ratio);
+
+HOOK_DECLARE_CLASS(0x00A212A0, c_rasterizer, begin_frame);
 
 //HOOK_DECLARE_CLASS(0x00A22D10, c_rasterizer, set_alpha_blend_mode);
 //HOOK_DECLARE_CLASS(0x00A231E0, c_rasterizer, set_color_write_enable);

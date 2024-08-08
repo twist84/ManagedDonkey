@@ -378,9 +378,14 @@ struct c_rasterizer
 	static void __cdecl set_vertex_shader_constant_bool(long start_register, long bool_count, int const* constant_data);
 	static void __cdecl set_vertex_shader_constant_int(long start_register, long vector4i_count, int const* constant_data);
 
+	static bool& g_d3d_device_is_lost;
+	static bool& g_d3d_device_reset;
 	static _D3DRENDERSTATETYPE(&x_last_render_state_types)[4];
+	static dword& g_render_thread;
 
 	static s_rasterizer_render_globals& render_globals;
+
+	static dword& g_render_thread_begin_scene;
 
 	static IDirect3DDevice9Ex*& g_device;
 
