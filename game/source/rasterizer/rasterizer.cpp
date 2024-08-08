@@ -386,7 +386,35 @@ bool __cdecl c_rasterizer::reset_device()
 
 bool __cdecl c_rasterizer::begin_frame()
 {
-	return INVOKE(0x00A212A0, begin_frame);
+	//return INVOKE(0x00A212A0, begin_frame);
+
+	if (!c_rasterizer::g_device)
+		return true;
+
+	g_render_thread_begin_scene = GetCurrentThreadId();
+
+	if (g_d3d_device_is_lost || g_d3d_device_reset)
+	{
+		if (g_render_thread != get_current_thread_index())
+		{
+			main_set_single_thread_request_flag(8, true);
+			return 0;
+		}
+
+		if (g_d3d_device_is_lost)
+		{
+			if (!test_cooperative_level())
+				return true;
+		}
+		else if (g_d3d_device_reset)
+		{
+			reset_device();
+		}
+	}
+
+	main_set_single_thread_request_flag(8, false);
+
+	return SUCCEEDED(c_rasterizer::g_device->BeginScene());
 }
 
 void __cdecl c_rasterizer::begin_high_quality_blend()
