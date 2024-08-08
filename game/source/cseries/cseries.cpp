@@ -282,10 +282,23 @@ char* csnzappendf(char* buffer, dword size, char const* format, ...)
 	return buffer;
 }
 
+//.text:00670E70 ; char const* __cdecl find_string_end(char const*, char const*)
+//.text:00670E90 ; char const* __cdecl find_string_end_not_in_delimiter(char const *, char const *)
+//.text:00670EB0 ; 
+//.text:00670EC0 ; 
+//.text:00670ED0 ; 
+//.text:00670EE0 ; 
+//.text:00670EF0 ; 
+//.text:00670F20 ; void __cdecl string_copy_until_delimiter(c_wrapped_array<char>, char const*, char const*)
+
 bool string_is_not_empty(char const* s)
 {
 	return s && *s;
 }
+
+//.text:00670F70 ; long __cdecl string_list_find(char const*, long, char const* const* const)
+//.text:00670FB0 ; long __cdecl string_list_find_explicit(c_wrapped_array<char const> const&, c_wrapped_array<char const*> const&)
+//.text:00671010 ; void __cdecl string_replace_character(char *, char, char)
 
 void string_terminate_at_first_delimiter(char* s, char const* delimiter)
 {
