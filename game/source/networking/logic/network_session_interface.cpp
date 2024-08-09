@@ -2,6 +2,7 @@
 
 #include "networking/logic/network_life_cycle.hpp"
 #include "networking/messages/network_messages_out_of_band.hpp"
+#include "networking/network_time.hpp"
 #include "networking/session/network_session.hpp"
 #include "networking/session/network_session_parameter_type_collection.hpp"
 #include "simulation/simulation.hpp"
@@ -68,21 +69,22 @@ c_map_variant const* __cdecl network_squad_session_get_map_variant()
 	return INVOKE(0x00435540, network_squad_session_get_map_variant);
 }
 
-//sub_4355A0
+//.text:004355A0 ; bool __cdecl network_life_cycle_session_is_player_in_session(s_player_identifier const*)
 
 e_gui_game_mode __cdecl network_life_cycle_squad_session_get_ui_game_mode()
 {
 	return INVOKE(0x00435640, network_life_cycle_squad_session_get_ui_game_mode);
 }
 
-//sub_4356A0
+//.text:004356A0 ; void __cdecl network_session_calculate_peer_connectivity(c_network_session const*, s_network_session_peer_connectivity*)
 
 void __cdecl network_session_check_properties(c_network_session* session)
 {
 	INVOKE(0x00435890, network_session_check_properties, session);
 }
 
-//network_session_get_membership
+//.text:00435DE0 ; e_map_id __cdecl network_session_get_last_network_map_loaded()
+//.text:00435DF0 ; bool __cdecl network_session_get_membership(c_network_session const*, long*, long*, long*, long*, long*, dword*, s_network_session_peer const**, long*, dword*, s_network_session_player const**)
 
 void __cdecl network_session_interface_update_join_a_friend()
 {
@@ -95,7 +97,7 @@ void __cdecl network_session_interface_add_local_user(long user_index, s_player_
 	INVOKE(0x00436000, network_session_interface_add_local_user, user_index, player_identifier);
 }
 
-//network_session_interface_calculate_map_progress
+//.text:004360A0 ; double __cdecl network_session_interface_calculate_map_progress(e_scenario_type, short, char const*)
 
 void __cdecl network_session_interface_clear_peer_status_flags()
 {
@@ -109,8 +111,8 @@ void __cdecl network_session_interface_dispose()
 	INVOKE(0x00436210, network_life_cycle_squad_session_get_ui_game_mode);
 }
 
-//sub_436230
-//simulation_debug_globals_get_game_network_quality
+//.text:00436230 ; 
+//.text:00436250 ; void __cdecl simulation_debug_globals_get_game_network_quality(s_network_game_quality*)
 
 bool __cdecl network_session_interface_get_is_user_signed_in(long user_index)
 {
@@ -128,8 +130,8 @@ bool __cdecl network_session_interface_get_live_connection_info(s_transport_qos_
 	return INVOKE(0x004363E0, network_session_interface_get_live_connection_info, qos_result, nat_type, bandwidth_bps, max_machine_count);
 }
 
-//get_local_framerate_quality
-//sub_4364A0
+//.text:00436450 ; e_network_rough_quality __cdecl get_local_framerate_quality()
+//.text:004364A0 ; 
 
 bool __cdecl network_session_interface_get_local_user_identifier(long user_index, s_player_identifier* player_identifier, bool a3)
 {
@@ -139,6 +141,18 @@ bool __cdecl network_session_interface_get_local_user_identifier(long user_index
 bool __cdecl network_session_interface_get_local_user_properties(long user_index, e_controller_index* controller_index, s_player_configuration* player_data, dword* player_voice_settings)
 {
 	return INVOKE(0x00436520, network_session_interface_get_local_user_properties, user_index, controller_index, player_data, player_voice_settings);
+
+	//if (session_interface_globals.users[user_index].state == 1) // local user exists
+	//{
+	//	if (controller_index)
+	//		*controller_index = session_interface_globals.users[user_index].controller_index;
+	//
+	//	if (player_data)
+	//		*player_data = session_interface_globals.users[user_index].player_data;
+	//
+	//	if (player_voice_settings)
+	//		*player_voice_settings = session_interface_globals.users[user_index].player_voice_settings;
+	//}
 }
 
 //e_network_interface_user_state __cdecl network_session_interface_get_local_user_state(long user_index)
@@ -152,6 +166,8 @@ qword __cdecl network_session_interface_get_local_user_xuid(long user_index)
 	return INVOKE(0x004365A0, network_session_interface_get_local_user_xuid, user_index);
 }
 
+//.text:004365C0 ; 
+
 void __cdecl network_session_interface_handle_message(long session_network_message)
 {
 	INVOKE(0x004365D0, network_session_interface_handle_message, session_network_message);
@@ -162,25 +178,48 @@ bool __cdecl network_session_interface_initialize(c_network_session_manager* ses
 	return INVOKE(0x00436710, network_session_interface_initialize, session_manager);
 }
 
-//bool __cdecl network_session_interface_local_user_exists(e_output_user_index user_index)
-bool __cdecl network_session_interface_local_user_exists(long user_index)
+//.text:00436790 ; 
+
+bool __cdecl network_session_interface_local_user_exists(e_output_user_index output_user_index)
 {
-	return INVOKE(0x004367B0, network_session_interface_local_user_exists, user_index);
+	return INVOKE(0x004367B0, network_session_interface_local_user_exists, output_user_index);
+
+	//return session_interface_globals.users[output_user_index].state == 1;
 }
 
 void __cdecl network_session_interface_notify_set_local_specific_film(s_saved_film_description const* film)
 {
 	INVOKE(0x004367D0, network_session_interface_notify_set_local_specific_film, film);
+
+	//session_interface_globals.local_specific_film = *film;
+	//session_interface_globals.local_specific_film_time = network_time_get();
 }
 
 void __cdecl network_session_interface_remove_local_user(long user_index)
 {
 	INVOKE(0x00436810, network_session_interface_remove_local_user, user_index);
+
+	//ASSERT(VALID_INDEX(user_index, k_number_of_output_users));
+	//
+	//s_network_session_interface_user& user = session_interface_globals.users[user_index];
+	//generate_event(_event_level_message, "networking:logic:session: local user %d removed, player identifier=%s", user_index, player_identifier_get_string(&user.identifier));
+	//csmemset(&user, 0, sizeof(s_network_session_interface_user));
+	//user.team_index = NONE;
 }
 
 void __cdecl network_session_interface_reset(long session_index)
 {
 	INVOKE(0x00436860, network_session_interface_reset, session_index);
+
+	//ASSERT(session_index >= 0 && session_index < k_network_maximum_sessions);
+	//
+	//session_interface_globals.session_peer_properties_update_times[session_index] = 0;
+	//for (long user_index = 0; user_index < k_number_of_output_users; user_index++)
+	//{
+	//	s_network_session_interface_user& user = session_interface_globals.users[user_index];
+	//	user.__times1680[session_index] = 0;
+	//	user.__times168C[session_index] = 0;
+	//}
 }
 
 //void __cdecl network_session_interface_set_desired_multiplayer_team(e_output_user_index user_index, e_multiplayer_team team_index)

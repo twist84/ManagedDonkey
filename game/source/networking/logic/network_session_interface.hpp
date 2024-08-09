@@ -13,12 +13,15 @@ struct s_network_session_interface_user
 {
 	long state;
 	s_player_identifier identifier;
-	long controller_index;
+	c_enum<e_controller_index, long, _controller_index0, k_number_of_controllers> controller_index;
 	s_player_configuration player_data;
-	e_output_user_index output_user_index;
+	long player_update_number;
 	c_static_string<64> override_hopper_directory;
 	long player_voice_settings;
-	byte __data78[0x20];
+	long session_index;
+	long team_index;
+	long __times1680[3];
+	long __times168C[3];
 };
 static_assert(sizeof(s_network_session_interface_user) == 0x1698);
 
@@ -68,7 +71,7 @@ struct s_network_session_interface_globals
 	byte : 8;
 	byte : 8;
 	byte : 8;
-	c_static_array<s_network_session_interface_user, 4> users;
+	c_static_array<s_network_session_interface_user, k_number_of_output_users> users;
 	qword game_instance;
 	long scenario_type;
 	c_static_string<128> scenario_path;
@@ -143,7 +146,7 @@ extern long __cdecl network_session_interface_get_local_user_state(long user_ind
 extern qword __cdecl network_session_interface_get_local_user_xuid(long user_index);
 extern void __cdecl network_session_interface_handle_message(long session_network_message);
 extern bool __cdecl network_session_interface_initialize(c_network_session_manager* session_manager);
-extern bool __cdecl network_session_interface_local_user_exists(long user_index);
+extern bool __cdecl network_session_interface_local_user_exists(e_output_user_index output_user_index);
 extern void __cdecl network_session_interface_notify_set_local_specific_film(s_saved_film_description const* film);
 extern void __cdecl network_session_interface_remove_local_user(long user_index);
 extern void __cdecl network_session_interface_reset(long session_index);
