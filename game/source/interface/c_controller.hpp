@@ -36,12 +36,12 @@ public:
 		k_controller_state_flags
 	};
 
-	bool is_attached();
-	bool in_use();
-	bool is_signed_in_to_machine();
+	bool is_attached() const;
+	bool in_use() const;
+	bool is_signed_in_to_machine() const;
 	short get_user_index() const;
-	void get_player_identifier(s_player_identifier* out_player_identifier);
-	qword get_player_xuid();
+	s_player_identifier const* get_player_identifier(s_player_identifier* out_player_identifier) const;
+	qword const get_player_xuid() const;
 	wchar_t const* get_display_name() const;
 
 	c_flags<e_controller_state_flags, short, k_controller_state_flags> m_state_flags;
