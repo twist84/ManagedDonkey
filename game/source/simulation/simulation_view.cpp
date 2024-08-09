@@ -34,16 +34,22 @@ e_simulation_view_type c_simulation_view::view_type() const
 char const* c_simulation_view::get_view_description() const
 {
 	return DECLFUNC(0x00466710, char const*, __thiscall, c_simulation_view const*)(this);
+
+	//return NULL;
 }
 
 long c_simulation_view::get_view_establishment_identifier() const
 {
 	return DECLFUNC(0x00466720, long, __thiscall, c_simulation_view const*)(this);
+
+	//return m_view_establishment_identifier;
 }
 
 e_simulation_view_establishment_mode c_simulation_view::get_view_establishment_mode() const
 {
 	return DECLFUNC(0x00466730, e_simulation_view_establishment_mode, __thiscall, c_simulation_view const*)(this);
+
+	//return m_view_establishment_mode;
 }
 
 //.text:00466740 ; void c_simulation_view::go_out_of_sync()
@@ -51,6 +57,29 @@ e_simulation_view_establishment_mode c_simulation_view::get_view_establishment_m
 bool c_simulation_view::handle_distributed_game_results(long message_establishment_identifier, long incremental_update_number, s_game_results_incremental_update const* incremental_update)
 {
 	return DECLFUNC(0x004667A0, bool, __thiscall, c_simulation_view*, long, long, s_game_results_incremental_update const*)(this, message_establishment_identifier, incremental_update_number, incremental_update);
+
+	//ASSERT(exists());
+	//ASSERT(m_view_type == _simulation_view_type_distributed_to_remote_authority);
+	//ASSERT(m_distributed_view);
+	//
+	//if (message_establishment_identifier == m_view_establishment_identifier)
+	//{
+	//	return m_distributed_view->m_control_view.m_game_results_replicator.handle_update();
+	//}
+	//
+	//if (message_establishment_identifier >= m_view_establishment_identifier)
+	//{
+	//	generate_event(_event_level_warning, "networking:simulation:view: failing to handle incremental game results (message establishment identifier [%d] > current [%d])",
+	//		message_establishment_identifier,
+	//		m_view_establishment_identifier);
+	//	return false;
+	//}
+	//
+	//
+	//generate_event(_event_level_message, "networking:simulation:view: ignoring incremental game results (message establishment identifier %d < current %d)",
+	//	message_establishment_identifier,
+	//	m_view_establishment_identifier);
+	//return true;
 }
 
 bool c_simulation_view::handle_player_acknowledge(dword player_valid_mask, dword player_in_game_mask, s_player_identifier const* player_identifiers)
