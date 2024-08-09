@@ -1038,6 +1038,16 @@ callback_result_t net_test_text_chat_directed_callback(void const* userdata, lon
 	return result;
 }
 
+callback_result_t net_test_player_color_callback(void const* userdata, long token_count, tokens_t const tokens)
+{
+	COMMAND_CALLBACK_PARAMETER_CHECK;
+
+	long profile_color_index = atol(tokens[1]->get_string());
+	network_test_set_player_color(profile_color_index);
+
+	return result;
+}
+
 callback_result_t net_test_map_name_callback(void const* userdata, long token_count, tokens_t const tokens)
 {
 	COMMAND_CALLBACK_PARAMETER_CHECK;

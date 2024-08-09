@@ -10,6 +10,7 @@
 #include "interface/user_interface_session.hpp"
 #include "main/console.hpp"
 #include "main/levels.hpp"
+#include "math/color_math.hpp"
 #include "memory/module.hpp"
 #include "multithreading/threads.hpp"
 #include "networking/delivery/network_link.hpp"
@@ -717,6 +718,68 @@ void network_test_text_chat_directed(transport_address const* address, char cons
 	else
 	{
 		generate_event(_event_level_error, "networking:test: networking is not initialized");
+	}
+}
+
+void network_test_set_player_color(long profile_color_index)
+{
+	real_rgb_color const profile_colors[]
+	{
+		{ 0.156863f,  0.156863f,  0.156863f   },
+		{ 0.486275f,  0.486275f,  0.486275f   },
+		{ 0.768627f,  0.768627f,  0.768627f   },
+		{ 0.384314f,  0.0431373f, 0.0431373f  },
+		{ 0.745098f,  0.172549f,  0.172549f   },
+		{ 0.890196f,  0.266667f,  0.266667f   },
+		{ 0.737255f,  0.305882f,  0.0f        },
+		{ 0.960784f,  0.478431f,  0.121569f   },
+		{ 1.0f,       0.643137f,  0.388235f   },
+		{ 0.654902f,  0.470588f,  0.0313726f  },
+		{ 0.870588f,  0.607843f,  0.0352941f  },
+		{ 1.0f,       0.737255f,  0.231373f   },
+		{ 0.12549f,   0.215686f,  0.0117647f  },
+		{ 0.329412f,  0.435294f,  0.14902f    },
+		{ 0.701961f,  0.882353f,  0.396078f   },
+		{ 0.0392157f, 0.231373f,  0.25098f    },
+		{ 0.0901961f, 0.552941f,  0.584314f   },
+		{ 0.333333f,  0.866667f,  0.862745f   },
+		{ 0.0431373f, 0.129412f,  0.341176f   },
+		{ 0.117647f,  0.294118f,  0.737255f   },
+		{ 0.364706f,  0.521569f,  0.92549f    },
+		{ 0.117647f,  0.0627451f, 0.32549f    },
+		{ 0.333333f,  0.219608f,  0.815686f   },
+		{ 0.631373f,  0.54902f,   1.0f        },
+		{ 0.278431f,  0.0f,       0.0823529f  },
+		{ 0.686275f,  0.0588235f, 0.27451f    },
+		{ 1.0f,       0.305882f,  0.545098f   },
+		{ 0.109804f,  0.0509804f, 0.00784314f },
+		{ 0.466667f,  0.305882f,  0.192157f   },
+		{ 0.776471f,  0.564706f,  0.411765f   }
+	};
+	long const profile_color_count = NUMBEROF(profile_colors);
+
+	if (!VALID_INDEX(profile_color_index, profile_color_count))
+		return;
+
+	dword profile_color = real_rgb_color_to_pixel32(&profile_colors[profile_color_index]);
+
+	for (long user_index = 0; user_index < 4; user_index++)
+	{
+		e_controller_index controller_index = _controller_index0;
+		s_player_configuration player_data{};
+		dword player_voice_settings = 0;
+
+		if (network_session_interface_get_local_user_properties(user_index, &controller_index, &player_data, &player_voice_settings))
+		{
+			s_s3d_player_armor_configuration_loadout& loadout = player_data.host.armor.loadouts[player_data.host.armor.loadout_index];
+			loadout.colors[_color_type_primary].value = profile_color;
+			loadout.colors[_color_type_secondary].value = profile_color;
+			loadout.colors[_color_type_visor].value = profile_color;
+			loadout.colors[_color_type_lights].value = profile_color;
+			loadout.colors[_color_type_holo].value = profile_color;
+
+			network_session_interface_set_local_user_properties(user_index, controller_index, &player_data, player_voice_settings);
+		}
 	}
 }
 

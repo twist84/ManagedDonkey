@@ -138,6 +138,7 @@ COMMAND_CALLBACK_DECLARE(net_test_ping);
 COMMAND_CALLBACK_DECLARE(net_test_ping_directed);
 COMMAND_CALLBACK_DECLARE(net_test_text_chat);
 COMMAND_CALLBACK_DECLARE(net_test_text_chat_directed);
+COMMAND_CALLBACK_DECLARE(net_test_player_color);
 COMMAND_CALLBACK_DECLARE(net_test_map_name);
 COMMAND_CALLBACK_DECLARE(net_test_variant);
 COMMAND_CALLBACK_DECLARE(net_test_reset_objects);
@@ -260,6 +261,7 @@ s_command const k_registered_commands[] =
 	COMMAND_CALLBACK_REGISTER(net_test_text_chat, 1, "<string>", "<message> network test: sends a message\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_text_chat_directed, 2, "<string> <string>", "<ip:port> <message> network test: sends a message to a specific address\r\nNETWORK SAFE: Yes"),
 
+	COMMAND_CALLBACK_REGISTER(net_test_player_color, 1, "<long>", "network test: temporarily sets the color for all local players\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_map_name, 1, "<string>", "network test: sets the name of the scenario to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_variant, 1, "<string>", "network test: sets the game variant to play\r\nNETWORK SAFE: Yes"),
 	COMMAND_CALLBACK_REGISTER(net_test_reset_objects, 0, "", "network test: resets all objects on the map\r\nNETWORK SAFE: Yes"),

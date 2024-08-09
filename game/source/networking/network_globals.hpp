@@ -62,4 +62,5 @@ extern void network_test_reset_objects();
 extern void network_test_ping_directed(transport_address const* address);
 extern void network_test_text_chat(char const* text);
 extern void network_test_text_chat_directed(transport_address const* address, char const* text);
+extern void network_test_set_player_color(long profile_color_index);
 
