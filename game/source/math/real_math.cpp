@@ -30,7 +30,7 @@ REFERENCE_DECLARE(0x0189CF30, vector3d const* const, global_right3d);
 REFERENCE_DECLARE(0x0189CF34, vector3d const* const, global_down3d);
 REFERENCE_DECLARE(0x0189CF38, euler_angles2d const* const, global_zero_angles2d);
 REFERENCE_DECLARE(0x0189CF3C, euler_angles3d const* const, global_zero_angles3d);
-//0x0189CF40
+REFERENCE_DECLARE(0x0189CF40, vector4d const* const, global_zero_vector4d);
 REFERENCE_DECLARE(0x0189CF44, real_quaternion const* const, global_identity_quaternion);
 REFERENCE_DECLARE(0x0189CF48, matrix3x3 const* const, global_identity3x3);
 REFERENCE_DECLARE(0x0189CF4C, real_matrix4x3 const* const, global_identity4x3);
