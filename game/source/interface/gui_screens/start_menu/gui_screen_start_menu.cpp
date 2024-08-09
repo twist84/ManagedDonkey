@@ -35,39 +35,39 @@ bool __thiscall c_start_menu_screen_widget::handle_controller_input_message(c_co
 
 bool __cdecl c_start_menu_screen_widget::handle_global_start_button_press(c_controller_input_message* input_message)
 {
-	bool result = false;
+	if (input_message->get_event_type() != _event_type_controller_component)
+		return false;
 
-	if (input_message->get_event_type() == _event_type_controller_component && input_message->get_component() == _controller_component_button_start)
+	if (input_message->get_component() != _controller_component_button_start && input_message->get_component() != _controller_component_right_stick_y)
+		return false;
+
+	e_controller_index controller_index = input_message->get_controller();
+	c_controller_interface const* controller = controller_get(controller_index);
+
+	if (cinematic_in_progress())
 	{
-		e_controller_index controller_index = input_message->get_controller();
-		c_controller_interface* controller = controller_get(controller_index);
-
-		if (cinematic_in_progress())
-		{
-			generate_event(_event_level_status, "ui:start_menu: Can't show start menu -- cinematic in progress.");
-		}
-		else if (simulation_starting_up())
-		{
-			generate_event(_event_level_status, "ui:start_menu: Can't show start menu -- simulation starting up.");
-		}
-		else if (controller->in_use() && controller->get_user_index() != -1)
-		{
-			s_player_identifier player_identifier{};
-			controller->get_player_identifier(&player_identifier);
-			qword player_xuid = controller->get_player_xuid();
-
-			result = load_start_menu(controller_index, &player_identifier, &player_xuid, NULL, NULL, 0);
-		}
-		else
-		{
-			generate_event(_event_level_error, "ui:start_menu: controller not in use.");
-		}
+		generate_event(_event_level_status, "ui:start_menu: Can't show start menu -- cinematic in progress.");
+		return false;
+	}
+	
+	if (simulation_starting_up())
+	{
+		generate_event(_event_level_status, "ui:start_menu: Can't show start menu -- simulation starting up.");
+		return false;
 	}
 
-	return result;
+	if (!controller->in_use() || controller->get_user_index() == NONE)
+	{
+		generate_event(_event_level_error, "ui:start_menu: controller not in use.");
+		return false;
+	}
+
+	s_player_identifier player_identifier{};
+	qword const player_xuid = controller->get_player_xuid();
+	return load_start_menu(controller_index, controller->get_player_identifier(&player_identifier), &player_xuid, NULL, NULL, 0);
 }
 
-bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier* player_identifier, qword* player_xuid, s_service_record_identity* identity, s_start_menu_breadcrumb* breadcrumbs, long breadcrumb_count)
+bool __cdecl c_start_menu_screen_widget::load_start_menu(e_controller_index controller_index, s_player_identifier const* player_identifier, qword const* player_xuid, s_service_record_identity const* identity, s_start_menu_breadcrumb const* breadcrumbs, long breadcrumb_count)
 {
 	return INVOKE(0x00AE0BE0, load_start_menu, controller_index, player_identifier, player_xuid, identity, breadcrumbs, breadcrumb_count);
 }
