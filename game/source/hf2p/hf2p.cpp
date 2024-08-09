@@ -9,6 +9,7 @@
 #include "main/console.hpp"
 #include "math/color_math.hpp"
 #include "memory/module.hpp"
+#include "networking/logic/network_session_interface.hpp"
 #include "objects/objects.hpp"
 #include "units/bipeds.hpp"
 #include "units/units.hpp"
@@ -232,12 +233,28 @@ s_s3d_player_armor_configuration_loadout& get_armor_loadout()
 {
 	static s_s3d_player_armor_configuration_loadout loadout{};
 
+	long user_index = 0;
+	e_controller_index controller_index = _controller_index0;
+	s_player_configuration player_data{};
+	dword player_voice_settings = 0;
+
+	if (network_session_interface_get_local_user_properties(user_index, &controller_index, &player_data, &player_voice_settings))
+	{
+		player_data.host.armor.loadouts[player_data.host.armor.loadout_index] = loadout;
+		network_session_interface_set_local_user_properties(user_index, controller_index, &player_data, player_voice_settings);
+	}
+
 	return loadout;
 }
 
 s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 {
 	static s_s3d_player_weapon_configuration_loadout loadout;
+
+	long user_index = 0;
+	e_controller_index controller_index = _controller_index0;
+	s_player_configuration player_data{};
+	dword player_voice_settings = 0;
 
 	// #TODO: pull this from tags
 	//loadout.grenade_index = _grenade_type_firebomb;
@@ -248,6 +265,12 @@ s_s3d_player_weapon_configuration_loadout& get_weapon_loadout()
 #else
 	loadout.bungienet_user.set(_bungienet_user_seventh_column, true);
 #endif // _DEBUG
+
+	if (network_session_interface_get_local_user_properties(user_index, &controller_index, &player_data, &player_voice_settings))
+	{
+		player_data.host.weapon.loadouts[player_data.host.weapon.loadout_index] = loadout;
+		network_session_interface_set_local_user_properties(user_index, controller_index, &player_data, player_voice_settings);
+	}
 
 	return loadout;
 }
