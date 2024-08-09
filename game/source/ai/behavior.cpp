@@ -92,14 +92,14 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:014693B0 ; 
 //.text:014693F0 ; void __cdecl actor_request_search(long)
 //.text:01469460 ; bool __cdecl actor_search_allowed(long)
-//.text:01469560 ; 
-//.text:014695D0 ; 
+//.text:01469560 ; bool __cdecl actor_should_run(long)
+//.text:014695D0 ; bool __cdecl actor_should_search(long)
 //.text:01469640 ; void __cdecl actor_throw_equipment(long, short)
 //.text:01469A70 ; void __cdecl ai_handle_deployed_turret(long, long)
 //.text:01469B10 ; 
 //.text:01469B50 ; bool __cdecl behavior_activity_activate(long, c_behavior_state*)
-//.text:01469C70 ; 
-//.text:01469CF0 ; 
+//.text:01469C70 ; bool __cdecl behavior_activity_command_script_allows_activity(long)
+//.text:01469CF0 ; void __cdecl behavior_activity_deactivate(long, c_behavior_state*)
 //.text:01469D90 ; short __cdecl behavior_activity_decide(long, short, c_behavior_state*)
 //.text:01469E60 ; bool __cdecl behavior_activity_default_activate(long, c_behavior_state*)
 //.text:01469ED0 ; void __cdecl behavior_activity_default_control(long, c_behavior_state*)
@@ -108,14 +108,14 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:0146A000 ; short __cdecl behavior_activity_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146A060 ; short __cdecl behavior_activity_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146A340 ; bool __cdecl behavior_alert_activate(long, c_behavior_state*)
-//.text:0146A390 ; 
-//.text:0146A3A0 ; 
+//.text:0146A390 ; short __cdecl behavior_alert_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
+//.text:0146A3A0 ; short __cdecl behavior_alert_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146A3B0 ; bool __cdecl behavior_allowed_to_investigate(long, long)
-//.text:0146A500 ; 
-//.text:0146A510 ; 
+//.text:0146A500 ; bool __cdecl behavior_ambush_activate(long, c_behavior_state*)
+//.text:0146A510 ; void __cdecl behavior_ambush_deactivate(long, c_behavior_state*)
 //.text:0146A520 ; short __cdecl behavior_ambush_decide(long, short, c_behavior_state*)
 //.text:0146A550 ; short __cdecl behavior_ambush_next(long, c_behavior_state*, c_behavior_state*)
-//.text:0146A560 ; 
+//.text:0146A560 ; bool __cdecl behavior_avoid_activate(long, c_behavior_state*)
 //.text:0146A5B0 ; void __cdecl behavior_avoid_control(long, c_behavior_state*)
 //.text:0146A6D0 ; 
 //.text:0146ACC0 ; short __cdecl behavior_avoid_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
@@ -125,12 +125,12 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:0146AE30 ; void __cdecl behavior_board_control(long, c_behavior_state*)
 //.text:0146AEA0 ; void __cdecl behavior_board_deactivate(long, c_behavior_state*)
 //.text:0146AF90 ; void __cdecl behavior_board_flush_object(long, c_behavior_state*, long)
-//.text:0146AFB0 ; 
+//.text:0146AFB0 ; void __cdecl behavior_board_flush_prop(long, c_behavior_state*, long)
 //.text:0146AFD0 ; short __cdecl behavior_board_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146B160 ; short __cdecl behavior_board_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146B320 ; bool __cdecl behavior_board_perform(long, c_behavior_state*)
-//.text:0146B6A0 ; 
-//.text:0146B6C0 ; 
+//.text:0146B6A0 ; bool __cdecl behavior_broken_activate(long, c_behavior_state*)
+//.text:0146B6C0 ; short __cdecl behavior_broken_decide(long, short, c_behavior_state*)
 //.text:0146B6D0 ; short __cdecl behavior_broken_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146B6E0 ; long __cdecl behavior_build_condition_flags(long)
 //.text:0146B7A0 ; bool __cdecl behavior_change(long, short, short, c_behavior_state*)
@@ -140,17 +140,17 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:0146BD20 ; short __cdecl post_combat_behavior_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146BD80 ; bool __cdecl postcombat_behavior_perform(long, c_behavior_state*)
 //.text:0146BE30 ; void __cdecl behavior_clear_layer_state(actor_datum*, short)
-//.text:0146BE80 ; 
+//.text:0146BE80 ; bool __cdecl behavior_combat_activate(long, c_behavior_state*)
 //.text:0146BED0 ; short __cdecl behavior_combat_decide(long, short, c_behavior_state*)
-//.text:0146BEE0 ; 
+//.text:0146BEE0 ; short __cdecl behavior_combat_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146BF40 ; short __cdecl behavior_combat_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146BFB0 ; void __cdecl behavior_control(long)
 //.text:0146C040 ; long __cdecl behavior_coordinated_ambush_activate(long, c_behavior_state*)
-//.text:0146C0B0 ; 
+//.text:0146C0B0 ; short __cdecl behavior_coordinated_ambush_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146C0C0 ; short __cdecl behavior_coordinated_ambush_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146C140 ; short __cdecl behavior_coordinated_ambush_select_actors(long, long, c_behavior_state*)
 //.text:0146C1E0 ; bool __cdecl behavior_cover_activate(long, c_behavior_state*)
-//.text:0146C360 ; 
+//.text:0146C360 ; void __cdecl behavior_cover_clear_non_deterministic_behavior_state(c_behavior_state*)
 //.text:0146C370 ; void __cdecl behavior_cover_control(long, c_behavior_state*)
 //.text:0146C7A0 ; void __cdecl behavior_cover_deactivate(long, c_behavior_state*)
 //.text:0146C820 ; bool __cdecl behavior_cover_find_cover_point(long, c_cover_state_data*)
@@ -165,14 +165,14 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:0146CFD0 ; bool __cdecl behavior_cover_perform(long, c_behavior_state*)
 //.text:0146D1F0 ; bool __cdecl behavior_coverfriend_activate(long, c_behavior_state*)
 //.text:0146D2B0 ; void __cdecl behavior_coverfriend_control(long, c_behavior_state*)
-//.text:0146D480 ; 
+//.text:0146D480 ; void __cdecl behavior_coverfriend_flush_actor(long, c_behavior_state*, long)
 //.text:0146D4A0 ; short __cdecl behavior_coverfriend_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146D510 ; short __cdecl behavior_coverfriend_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146D550 ; bool __cdecl behavior_cower_activate(long, c_behavior_state*)
-//.text:0146D660 ; 
+//.text:0146D660 ; void __cdecl behavior_cower_clear_non_deterministic_behavior_state(c_behavior_state*)
 //.text:0146D670 ; short __cdecl behavior_cower_decide(long, short, c_behavior_state*)
 //.text:0146D9A0 ; void __cdecl behavior_cower_flush_structure_indices(long, c_behavior_state*)
-//.text:0146D9B0 ; 
+//.text:0146D9B0 ; short __cdecl behavior_cower_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146D9C0 ; short __cdecl behavior_cower_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146DA20 ; bool __cdecl behavior_cure_isolation_activate(long, c_behavior_state*)
 //.text:0146DA40 ; void __cdecl behavior_cure_isolation_control(long, c_behavior_state*)
@@ -192,11 +192,11 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:0146EC70 ; short __cdecl behavior_deploy_turret_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0146EE90 ; bool __cdecl behavior_deploy_turret_perform(long, c_behavior_state*)
 //.text:0146F140 ; void __cdecl behavior_deploy_turret_setup(c_behavior_state*, long)
-//.text:0146F170 ; 
+//.text:0146F170 ; bool __cdecl behavior_destroy_cover_activate(long, c_behavior_state*)
 //.text:0146F180 ; void __cdecl behavior_destroy_cover_control(long, c_behavior_state*)
 //.text:0146F210 ; short __cdecl behavior_destroy_cover_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146F2B0 ; short __cdecl behavior_destroy_cover_next(long, c_behavior_state*, c_behavior_state*)
-//.text:0146F2E0 ; 
+//.text:0146F2E0 ; bool __cdecl behavior_destroy_cover_perform(long, c_behavior_state*)
 //.text:0146F2F0 ; bool __cdecl behavior_destroy_obstacle_activate(long, c_behavior_state*)
 //.text:0146F340 ; void __cdecl behavior_destroy_obstacle_control(long, c_behavior_state*)
 //.text:0146F400 ; short __cdecl behavior_destroy_obstacle_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
@@ -204,9 +204,9 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:0146F500 ; bool __cdecl behavior_destroy_obstacle_perform(long, c_behavior_state*)
 //.text:0146F620 ; long __cdecl behavior_emerge_activate(long, c_behavior_state*)
 //.text:0146F6A0 ; void __cdecl behavior_emerge_control(long, c_behavior_state*, joint_state_datum*)
-//.text:0146F790 ; 
+//.text:0146F790 ; short __cdecl behavior_emerge_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0146F7A0 ; short __cdecl behavior_emerge_next(long, c_behavior_state*, c_behavior_state*)
-//.text:0146F920 ; 
+//.text:0146F920 ; bool __cdecl behavior_emerge_perform(long, c_behavior_state*, joint_state_datum*)
 //.text:0146F930 ; short __cdecl behavior_emerge_select_actors(long, long, c_behavior_state*)
 //.text:0146FAE0 ; bool __cdecl behavior_engage_activate(long, c_behavior_state*)
 //.text:0146FB00 ; short __cdecl behavior_engage_decide(long, short, c_behavior_state*)
@@ -228,23 +228,23 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:01470720 ; short __cdecl behavior_enter_vehicle_next(long, c_behavior_state*, c_behavior_state*)
 //.text:014707A0 ; bool __cdecl behavior_enter_vehicle_perform(long, c_behavior_state*)
 //.text:01470AB0 ; bool __cdecl behavior_fight_activate(long, c_behavior_state*)
-//.text:01470B60 ; 
+//.text:01470B60 ; void __cdecl behavior_fight_clear_non_deterministic_behavior_state(c_behavior_state*)
 //.text:01470B70 ; void __cdecl behavior_fight_control(long, c_behavior_state*)
 //.text:01470D00 ; short __cdecl behavior_fight_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01470D40 ; short __cdecl behavior_fight_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01470E10 ; bool __cdecl behavior_fight_perform(long, c_behavior_state*)
-//.text:01471040 ; 
-//.text:01471080 ; 
+//.text:01471040 ; void __cdecl behavior_fight_positioning_control(long, c_behavior_state*)
+//.text:01471080 ; short __cdecl behavior_fight_positioning_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:014710B0 ; short __cdecl behavior_find_layer(actor_datum*, short, short)
-//.text:01471180 ; 
+//.text:01471180 ; bool __cdecl behavior_flank_activate(long, c_behavior_state*)
 //.text:014711A0 ; void __cdecl behavior_flank_control(long, c_behavior_state*)
-//.text:01471230 ; 
+//.text:01471230 ; void __cdecl behavior_flank_deactivate(long, c_behavior_state*)
 //.text:01471240 ; short __cdecl behavior_flank_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:014712C0 ; short __cdecl behavior_flank_next(long, c_behavior_state*, c_behavior_state*)
 //.text:014713B0 ; bool __cdecl behavior_flank_perform(long, c_behavior_state*)
 //.text:01471610 ; bool __cdecl behavior_flee_activate(long, c_behavior_state*)
 //.text:014716D0 ; void __cdecl behavior_flee_control(long, c_behavior_state*)
-//.text:014718A0 ; 
+//.text:014718A0 ; void __cdecl behavior_flee_deactivate(long, c_behavior_state*)
 //.text:014718B0 ; short __cdecl behavior_flee_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01471930 ; short __cdecl behavior_flee_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01471960 ; bool __cdecl behavior_flee_perform(long, c_behavior_state*)
@@ -254,7 +254,7 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:01471BA0 ; short __cdecl behavior_flight_wander_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01471BB0 ; short __cdecl behavior_flight_wander_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01471BE0 ; bool __cdecl behavior_flight_wander_perform(long, c_behavior_state*)
-//.text:01471CC0 ; 
+//.text:01471CC0 ; bool __cdecl behavior_follow_activate(long, c_behavior_state*)
 //.text:01471CE0 ; void __cdecl behavior_follow_control(long, c_behavior_state*)
 //.text:01471D60 ; short __cdecl behavior_follow_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01471F70 ; short __cdecl behavior_follow_next(long, c_behavior_state*, c_behavior_state*)
@@ -267,13 +267,13 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:01472E10 ; short __cdecl behavior_formation_select_actors(long, long, c_behavior_state*)
 //.text:01472F30 ; void __cdecl behavior_formation_setup(long, short, long, long, long, c_formation_data*)
 //.text:01472F60 ; bool __cdecl behavior_go_to_activate(long, c_behavior_state*)
-//.text:01472F80 ; 
+//.text:01472F80 ; short __cdecl behavior_go_to_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01472F90 ; short __cdecl behavior_go_to_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01472FC0 ; bool __cdecl behavior_go_to_perform(long, c_behavior_state*)
 //.text:01473120 ; bool __cdecl behavior_grapple_activate(long, c_behavior_state*)
 //.text:01473180 ; void __cdecl behavior_grapple_control(long, c_behavior_state*)
 //.text:01473310 ; void __cdecl behavior_grapple_deactivate(long, c_behavior_state*)
-//.text:01473350 ; 
+//.text:01473350 ; void __cdecl behavior_grapple_flush_object(long, c_behavior_state*, long)
 //.text:01473360 ; void __cdecl behavior_grapple_flush_prop(long, c_behavior_state*, long)
 //.text:01473380 ; short __cdecl behavior_grapple_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01473530 ; short __cdecl behavior_grapple_next(long, c_behavior_state*, c_behavior_state*)
@@ -281,7 +281,7 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:014739A0 ; bool __cdecl behavior_guard_activate(long, c_behavior_state*)
 //.text:01473A70 ; void __cdecl behavior_guard_control(long, c_behavior_state*)
 //.text:01473BF0 ; void __cdecl behavior_guard_flush_firing_position_indices(long, c_behavior_state*, bool)
-//.text:01473C20 ; 
+//.text:01473C20 ; short __cdecl behavior_guard_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01473C30 ; short __cdecl behavior_guard_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01473C70 ; bool __cdecl behavior_guard_perform(long, c_behavior_state*)
 //.text:01474160 ; long __cdecl behavior_huddle_activate(long, c_behavior_state*)
@@ -293,8 +293,8 @@ byte* __cdecl actor_behavior_state_get(actor_datum const* actor, short layer_ind
 //.text:014743A0 ; short __cdecl behavior_huddle_next(long, c_behavior_state*, c_behavior_state*)
 //.text:014743B0 ; bool __cdecl behavior_huddle_perform(long, c_behavior_state*, joint_state_datum*)
 //.text:01474550 ; bool __cdecl behavior_idle_activate(long, c_behavior_state*)
-//.text:014745A0 ; 
-//.text:014745B0 ; 
+//.text:014745A0 ; short __cdecl behavior_idle_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
+//.text:014745B0 ; short __cdecl behavior_idle_next(long, c_behavior_state*, c_behavior_state*)
 
 short __cdecl behavior_index_by_name(char* name)
 {
@@ -319,11 +319,11 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:014750B0 ; bool __cdecl behavior_kamikaze_create_grenades(long, c_kamikaze_state_data*)
 //.text:01475240 ; void __cdecl behavior_kamikaze_deactivate(long, c_behavior_state*)
 //.text:01475250 ; void __cdecl behavior_kamikaze_flush_object(long, c_behavior_state*, long)
-//.text:014752A0 ; 
+//.text:014752A0 ; short __cdecl behavior_kamikaze_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:014752E0 ; short __cdecl behavior_kamikaze_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01475330 ; bool __cdecl behavior_kamikaze_perform(long, c_behavior_state*)
 //.text:01475430 ; bool __cdecl behavior_leap_on_cover_activate(long, c_behavior_state*)
-//.text:014754D0 ; 
+//.text:014754D0 ; void __cdecl behavior_leap_on_cover_clear_non_deterministic_behavior_state(c_behavior_state*)
 //.text:014754E0 ; void __cdecl behavior_leap_on_cover_control(long, c_behavior_state*)
 //.text:014755C0 ; void __cdecl behavior_leap_on_cover_deactivate(long, c_behavior_state*)
 //.text:014755F0 ; void __cdecl behavior_leap_on_cover_flush_structure_indices(long, c_behavior_state*)
@@ -340,9 +340,9 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:01476AD0 ; void __cdecl behavior_melee_leaping_charge_deactivate(long, c_behavior_state*)
 //.text:01476B10 ; short __cdecl behavior_melee_leaping_charge_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01476D10 ; bool __cdecl behavior_melee_leaping_charge_perform(long, c_behavior_state*)
-//.text:01477640 ; 
-//.text:01477650 ; 
-//.text:01477660 ; 
+//.text:01477640 ; short __cdecl behavior_null_discrete_next(long, c_behavior_state*, c_behavior_state*)
+//.text:01477650 ; short __cdecl behavior_null_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
+//.text:01477660 ; short __cdecl behavior_null_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01477670 ; bool __cdecl behavior_obey_activate(long, c_behavior_state*)
 //.text:01477680 ; void __cdecl behavior_obey_deactivate(long, c_behavior_state*)
 //.text:014776D0 ; short __cdecl behavior_obey_decide(long, short, c_behavior_state*)
@@ -364,19 +364,19 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:01478720 ; short __cdecl behavior_perimeter_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01478A60 ; bool __cdecl behavior_perimeter_perform(long, c_behavior_state*)
 //.text:01478D30 ; bool __cdecl behavior_pickup_player_activate(long, c_behavior_state*)
-//.text:01478D90 ; 
+//.text:01478D90 ; void __cdecl behavior_pickup_player_control(long, c_behavior_state*)
 //.text:01478DA0 ; short __cdecl behavior_pickup_player_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01478E40 ; short __cdecl behavior_pickup_player_next(long, c_behavior_state*, c_behavior_state*)
-//.text:01478E90 ; 
+//.text:01478E90 ; bool __cdecl behavior_pickup_player_perform(long, c_behavior_state*)
 //.text:01478EA0 ; bool __cdecl behavior_postcombat_activate(long, c_behavior_state*)
-//.text:01478F50 ; 
-//.text:01478F70 ; 
+//.text:01478F50 ; void __cdecl behavior_postcombat_approach_flush_actor(long, c_behavior_state*, long)
+//.text:01478F70 ; void __cdecl behavior_postcombat_clear_non_deterministic_behavior_state(c_behavior_state*)
 //.text:01478F80 ; short __cdecl behavior_postcombat_decide(long, short, c_behavior_state*)
 //.text:01479070 ; void __cdecl behavior_postcombat_flush_prop(long, c_behavior_state*, long)
 //.text:01479090 ; short __cdecl behavior_postcombat_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01479100 ; short __cdecl behavior_postcombat_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01479120 ; bool __cdecl behavior_postombat_approach_activate(long, c_behavior_state*)
-//.text:01479170 ; 
+//.text:01479170 ; void __cdecl behavior_postombat_approach_control(long, c_behavior_state*)
 //.text:01479180 ; short __cdecl behavior_postombat_approach_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:014791D0 ; short __cdecl behavior_postombat_approach_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01479250 ; bool __cdecl behavior_postombat_approach_perform(long, c_behavior_state*)
@@ -385,11 +385,11 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:01479540 ; void __cdecl behavior_postsearch_control(long, c_behavior_state*)
 //.text:01479570 ; short __cdecl behavior_postsearch_next(long, c_behavior_state*, c_behavior_state*)
 //.text:014795C0 ; bool __cdecl behavior_posture_activate(long, c_behavior_state*)
-//.text:01479760 ; 
+//.text:01479760 ; void __cdecl behavior_posture_control(long, c_behavior_state*)
 //.text:01479770 ; void __cdecl behavior_posture_deactivate(long, c_behavior_state*)
 //.text:01479780 ; short __cdecl behavior_posture_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:014797F0 ; short __cdecl behavior_posture_next(long, c_behavior_state*, c_behavior_state*)
-//.text:01479840 ; 
+//.text:01479840 ; bool __cdecl behavior_posture_perform(long, c_behavior_state*)
 //.text:014798D0 ; long __cdecl behavior_presearch_activate(long, c_behavior_state*)
 //.text:01479BB0 ; void __cdecl behavior_presearch_deactivate(long, c_behavior_state*, joint_state_datum*)
 //.text:01479C50 ; short __cdecl behavior_presearch_decide(long, short, c_behavior_state*, joint_state_datum*)
@@ -397,7 +397,7 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:01479E80 ; short __cdecl behavior_presearch_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01479FB0 ; short __cdecl behavior_presearch_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147A1D0 ; bool __cdecl behavior_pursuit_activate(long, c_behavior_state*)
-//.text:0147A230 ; 
+//.text:0147A230 ; void __cdecl behavior_pursuit_clear_non_deterministic_behavior_state(c_behavior_state*)
 //.text:0147A240 ; void __cdecl behavior_pursuit_control(long, c_behavior_state*)
 //.text:0147A310 ; short __cdecl behavior_pursuit_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147A350 ; short __cdecl behavior_pursuit_next(long, c_behavior_state*, c_behavior_state*)
@@ -405,21 +405,21 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:0147A6B0 ; void __cdecl behavior_pursuit_sync_control(long, c_behavior_state*, joint_state_datum*)
 //.text:0147A6E0 ; void __cdecl behavior_pursuit_sync_flush_object(long, c_behavior_state*, long)
 //.text:0147A720 ; void __cdecl behavior_pursuit_sync_flush_structure_indices(long, c_behavior_state*)
-//.text:0147A760 ; 
+//.text:0147A760 ; short __cdecl behavior_pursuit_sync_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147A770 ; short __cdecl behavior_pursuit_sync_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147A940 ; short __cdecl behavior_pursuit_sync_select_actors(long, long, c_behavior_state*)
 //.text:0147AA80 ; bool __cdecl behavior_ready_activate(long, c_behavior_state*)
-//.text:0147AB70 ; 
+//.text:0147AB70 ; void __cdecl behavior_ready_deactivate(long, c_behavior_state*)
 //.text:0147AB80 ; short __cdecl behavior_ready_decide(long, short, c_behavior_state*)
-//.text:0147ABF0 ; 
+//.text:0147ABF0 ; short __cdecl behavior_ready_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147AC00 ; short __cdecl behavior_ready_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147AC30 ; bool __cdecl behavior_retreat_activate(long, c_behavior_state*)
 //.text:0147ACD0 ; void __cdecl behavior_retreat_deactivate(long, c_behavior_state*)
 //.text:0147AD10 ; short __cdecl behavior_retreat_decide(long, short, c_behavior_state*)
-//.text:0147AD60 ; 
+//.text:0147AD60 ; short __cdecl behavior_retreat_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147AD70 ; short __cdecl behavior_retreat_next(long, c_behavior_state*, c_behavior_state*)
-//.text:0147ADD0 ; 
-//.text:0147ADE0 ; 
+//.text:0147ADD0 ; short __cdecl behavior_root_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
+//.text:0147ADE0 ; short __cdecl behavior_root_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147ADF0 ; bool __cdecl behavior_search_activate(long, c_behavior_state*)
 //.text:0147AF10 ; void __cdecl behavior_search_deactivate(long, c_behavior_state*)
 //.text:0147AF50 ; short __cdecl behavior_search_decide(long, short, c_behavior_state*)
@@ -430,10 +430,9 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:0147B320 ; short __cdecl behavior_search_sync_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147B360 ; bool __cdecl behavior_self_preservation_activate(long, c_behavior_state*)
 //.text:0147B3E0 ; short __cdecl behavior_self_preservation_decide(long, short, c_behavior_state*)
-//.text:0147B480 ; 
+//.text:0147B480 ; short __cdecl behavior_self_preservation_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147B490 ; short __cdecl behavior_self_preservation_next(long, c_behavior_state*, c_behavior_state*)
-//.text:0147B550 ; 
-//.text:0147B570 ; 
+//.text:0147B570 ; short __cdecl behavior_self_preserve_time_left(long)
 //.text:0147B640 ; bool __cdecl behavior_shoot_corpse_activate(long, c_behavior_state*)
 //.text:0147B6F0 ; short __cdecl behavior_shoot_corpse_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147B790 ; short __cdecl behavior_shoot_corpse_next(long, c_behavior_state*, c_behavior_state*)
@@ -443,12 +442,12 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:0147B9A0 ; short __cdecl behavior_sleep_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147B9D0 ; short __cdecl behavior_sleep_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147B9E0 ; bool __cdecl behavior_sleep_perform(long, c_behavior_state*)
-//.text:0147BA90 ; 
-//.text:0147BAD0 ; 
-//.text:0147BC10 ; 
-//.text:0147BC40 ; 
-//.text:0147BC90 ; 
-//.text:0147BCE0 ; 
+//.text:0147BA90 ; bool __cdecl behavior_squad_patrol_activate(long, c_behavior_state*)
+//.text:0147BAD0 ; void __cdecl behavior_squad_patrol_control(long, c_behavior_state*)
+//.text:0147BC10 ; void __cdecl behavior_squad_patrol_deactivate(long, c_behavior_state*)
+//.text:0147BC40 ; short __cdecl behavior_squad_patrol_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
+//.text:0147BC90 ; short __cdecl behavior_squad_patrol_next(long, c_behavior_state*, c_behavior_state*)
+//.text:0147BCE0 ; bool __cdecl behavior_squad_patrol_perform(long, c_behavior_state*)
 //.text:0147C0A0 ; 
 //.text:0147C0E0 ; 
 //.text:0147C120 ; bool __cdecl behavior_stalk_activate(long, c_behavior_state*)
@@ -464,19 +463,19 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:0147C780 ; short __cdecl behavior_stunned_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147C7C0 ; short __cdecl behavior_stunned_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147C7F0 ; bool __cdecl behavior_suppress_activate(long, c_behavior_state*)
-//.text:0147C9A0 ; 
+//.text:0147C9A0 ; void __cdecl behavior_suppress_clear_non_deterministic_behavior_state(c_behavior_state*)
 //.text:0147C9B0 ; void __cdecl behavior_suppress_control(long, c_behavior_state*)
 //.text:0147CB10 ; short __cdecl behavior_suppress_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147CBF0 ; short __cdecl behavior_suppress_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147CCD0 ; long __cdecl behavior_surprise_activate(long, c_behavior_state*)
 //.text:0147CE10 ; void __cdecl behavior_surprise_control(long, c_behavior_state*, joint_state_datum*)
-//.text:0147CE60 ; 
+//.text:0147CE60 ; void __cdecl behavior_surprise_flush_object(long, c_behavior_state*, long)
 //.text:0147CEA0 ; short __cdecl behavior_surprise_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147D130 ; short __cdecl behavior_surprise_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147D270 ; bool __cdecl behavior_surprise_perform(long, c_behavior_state*, joint_state_datum*)
 //.text:0147D340 ; bool __cdecl behavior_uncover_activate(long, c_behavior_state*)
-//.text:0147D3B0 ; 
-//.text:0147D3C0 ; 
+//.text:0147D3B0 ; void __cdecl behavior_uncover_clear_non_deterministic_behavior_state(c_behavior_state*)
+//.text:0147D3C0 ; void __cdecl behavior_uncover_deactivate(long, c_behavior_state*)
 //.text:0147D3D0 ; short __cdecl behavior_uncover_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147D480 ; short __cdecl behavior_uncover_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147D4B0 ; short __cdecl behavior_update_running_child(long, short, c_behavior_state*, short*)
@@ -484,7 +483,7 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:0147D6B0 ; void __cdecl behavior_vehicle_avoid_control(long, c_behavior_state*)
 //.text:0147D7B0 ; short __cdecl behavior_vehicle_avoid_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147D860 ; short __cdecl behavior_vehicle_avoid_next(long, c_behavior_state*, c_behavior_state*)
-//.text:0147D930 ; 
+//.text:0147D930 ; bool __cdecl behavior_vehicle_avoid_perform(long, c_behavior_state*)
 //.text:0147D940 ; bool __cdecl behavior_vehicle_charge_activate(long, c_behavior_state*)
 //.text:0147DA20 ; void __cdecl behavior_vehicle_charge_control(long, c_behavior_state*)
 //.text:0147DAC0 ; void __cdecl behavior_vehicle_charge_deactivate(long, c_behavior_state*)
@@ -499,7 +498,7 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:0147E700 ; bool __cdecl behavior_vehicle_fight_activate(long, c_behavior_state*)
 //.text:0147E710 ; void __cdecl behavior_vehicle_fight_control(long, c_behavior_state*)
 //.text:0147E8A0 ; short __cdecl behavior_vehicle_fight_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
-//.text:0147E910 ; 
+//.text:0147E910 ; short __cdecl behavior_vehicle_fight_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147E920 ; bool __cdecl behavior_vehicle_fight_perform(long, c_behavior_state*)
 //.text:0147EB60 ; long __cdecl behavior_vehicle_flip_activate(long, c_behavior_state*)
 //.text:0147ECA0 ; void __cdecl behavior_vehicle_flip_control(long, c_behavior_state*, joint_state_datum*)
@@ -521,60 +520,60 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:0147FAF0 ; short __cdecl behavior_vehicle_ram_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147FBE0 ; short __cdecl behavior_vehicle_ram_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147FCB0 ; bool __cdecl behavior_vehicle_ram_perform(long, c_behavior_state*)
-//.text:0147FDC0 ; 
+//.text:0147FDC0 ; bool __cdecl behavior_wander_activate(long, c_behavior_state*)
 //.text:0147FDE0 ; void __cdecl behavior_wander_control(long, c_behavior_state*)
 //.text:0147FE20 ; short __cdecl behavior_wander_get_desire(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:0147FEC0 ; short __cdecl behavior_wander_next(long, c_behavior_state*, c_behavior_state*)
 //.text:0147FF10 ; bool __cdecl behavior_wander_perform(long, c_behavior_state*)
 //.text:01480210 ; void __cdecl behaviors_initialize()
-//.text:01480340 ; short __cdecl broken_berserk_impulse_get_impulse(long, c_behavior_state*)
+//.text:01480340 ; short __cdecl berserk_get_impulse(long, c_behavior_state*)
 //.text:01480360 ; short __cdecl berserk_wander_get_impulse(long, c_behavior_state*)
 //.text:014803C0 ; bool __cdecl board_activate_helper(long, c_vehicle_board_data*)
 //.text:014804B0 ; 
 //.text:014804E0 ; bool __cdecl boarding_find_seat(long, long, long*, short*, short*, bool*)
 //.text:014806E0 ; 
 //.text:01480700 ; 
-//.text:01480950 ; 
+//.text:01480950 ; short __cdecl broken_berserk_impulse_get_impulse(long, c_behavior_state*)
 //.text:014809B0 ; short __cdecl broken_flee_impulse_get_impulse(long, c_behavior_state*)
 //.text:01480A40 ; short __cdecl broken_kamikaze_impulse_get_impulse(long, c_behavior_state*)
 //.text:01480B50 ; short __cdecl broken_scatter_get_impulse(long, c_behavior_state*)
 //.text:01480BB0 ; short __cdecl charge_children_next(long, c_behavior_state*, c_behavior_state*)
 //.text:01480C60 ; 
-//.text:01480D30 ; 
+//.text:01480D30 ; void __cdecl charge_movement_helper(long, c_charge_state_data*, real, bool*, bool*, bool*)
 //.text:01480E10 ; 
 //.text:01480E30 ; child_entry** __cdecl child_list_get(long, short, short*)
 //.text:01480E90 ; 
-//.text:01480EC0 ; 
-//.text:01480F20 ; 
-//.text:01481000 ; 
-//.text:014810C0 ; 
+//.text:01480EC0 ; bool __cdecl command_script_allows_activity_termination(long)
+//.text:01480F20 ; short __cdecl construct_child_list_internal(child_entry**, custom_child_list*, child_entry*, short)
+//.text:01481000 ; bool __cdecl cover_friend_continue(long, long, short)
+//.text:014810C0 ; bool __cdecl cover_point_exposed(long, c_cover_state_data*, prop_ref_datum*)
 //.text:01481140 ; short __cdecl coverme_investigate_get_impulse(long, c_behavior_state*)
-//.text:014813A0 ; 
-//.text:01481590 ; 
-//.text:01481990 ; 
-//.text:01481D70 ; 
-//.text:01482080 ; 
+//.text:014813A0 ; bool __cdecl cure_isolation_attached_vehicle(long, seat_entry_info const*, c_cure_isolation_data*, path_state*)
+//.text:01481590 ; bool __cdecl cure_isolation_jump(long, path_state*, real, real)
+//.text:01481990 ; short __cdecl cure_isolation_test_vector(long, vector3d const*, vector3d const*, path_state const*, real, real, real*)
+//.text:01481D70 ; bool __cdecl cure_isolation_undirected(long, path_state*, real, real)
+//.text:01482080 ; bool __cdecl cure_isolation_visible_enemy(long, path_state*, real, real)
 //.text:014823C0 ; short __cdecl damage_vehicle_cover_get_impulse(long, c_behavior_state*)
 //.text:014824D0 ; short __cdecl danger_cover_get_impulse(long, c_behavior_state*)
 //.text:014826D0 ; short __cdecl danger_crouch_get_impulse(long, c_behavior_state*)
 //.text:01482780 ; short __cdecl danger_vehicle_exit_get_impulse(long, c_behavior_state*)
 //.text:014828C0 ; short __cdecl dive_get_impulse(long, c_behavior_state*)
-//.text:01482C40 ; 
+//.text:01482C40 ; bool __cdecl emerge_wait_for_actor(long, long, real*, short*)
 //.text:01482D50 ; 
 //.text:01482D80 ; 
 //.text:01483040 ; 
 //.text:01483280 ; 
 //.text:01483310 ; short __cdecl equipment_get_impulse(long, s_behavior_input const*, s_behavior_arguments const*)
 //.text:01483600 ; short __cdecl exposed_rear_cover_get_impulse(long, c_behavior_state*)
-//.text:014836F0 ; 
+//.text:014836F0 ; bool __cdecl fight_choose_fight_point(long, c_fight_state_data*)
 //.text:01483960 ; short __cdecl fight_predict_visibility(long, real_point3d const*, long, short)
-//.text:01483AD0 ; 
-//.text:01483B90 ; 
+//.text:01483AD0 ; void __cdecl fight_reset_firing_position_timer(long, c_fight_state_data*)
+//.text:01483B90 ; bool __cdecl fighting_perception_valid(long)
 //.text:01483C30 ; bool __cdecl find_pursuit_position(long, long)
 //.text:01483EE0 ; 
 //.text:01483EF0 ; 
 //.text:01483F00 ; 
-//.text:01483F10 ; 
+//.text:01483F10 ; bool __cdecl flee_at_flee_position(long, c_flee_state_data*)
 //.text:01484050 ; void __cdecl flee_flush_actor(long, c_behavior_state*, long)
 //.text:01484070 ; void __cdecl flee_flush_firing_position_indices(long, c_behavior_state*, bool)
 //.text:014840A0 ; bool __cdecl flip_try_direction(long, long, c_ai_point3d const*, c_sector_ref, vector3d const*, short, bool, c_ai_point3d*, c_sector_ref*)
@@ -582,12 +581,12 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:014842D0 ; bool __cdecl formation_can_fire_on_target(long, short, short, vector2d*, vector2d*)
 //.text:01484400 ; short __cdecl formation_find_position(long, c_formation_data*, joint_state_datum*, real_point2d*, vector2d*, vector2d*, real_point2d*)
 //.text:01484660 ; void __cdecl formation_get_facing(joint_state_datum*, vector2d*)
-//.text:014847F0 ; 
+//.text:014847F0 ; short __cdecl formation_get_member_in_position(joint_state_datum*, short)
 //.text:014848A0 ; bool __cdecl formation_get_position(long, short, short, real_point2d const*, vector2d const*, vector2d const*, real_point2d*)
-//.text:014849B0 ; 
+//.text:014849B0 ; short __cdecl formation_member_get_position_index(short, joint_state_datum*)
 //.text:014849E0 ; c_behavior_state* __cdecl formation_member_get_state(joint_state_datum*, short)
 //.text:01484A50 ; void __cdecl generate_style_vector(long, c_static_flags<224>*)
-//.text:01484C50 ; 
+//.text:01484C50 ; public: static double __cdecl c_combat_range::get_actor_max_firing_range(long)
 //.text:01484C80 ; 
 //.text:01484C90 ; short __cdecl guard_get_guard_state(long)
 //.text:01484D50 ; 
@@ -607,19 +606,19 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:01485CE0 ; short __cdecl impulse_vulnerable_enemy_ambush_get_impulse(long, c_behavior_state*)
 //.text:01485D90 ; 
 //.text:01485DB0 ; void __cdecl kamikaze_detonate_grenades(c_kamikaze_state_data*)
-//.text:01485E20 ; 
+//.text:01485E20 ; void __cdecl kamikaze_drop_grenades(c_kamikaze_state_data*)
 //.text:01485EB0 ; 
 //.text:01485F40 ; short __cdecl last_man_berserk_get_impulse(long, c_behavior_state*)
 //.text:01485FD0 ; short __cdecl leader_abandoned_charge_get_impulse(long, c_behavior_state*)
 //.text:014860E0 ; short __cdecl leader_dead_retreat_get_impulse(long, c_behavior_state*)
-//.text:014861F0 ; 
+//.text:014861F0 ; void __cdecl leap_on_cover_flush_object(long, c_behavior_state*, long)
 //.text:01486210 ; bool __cdecl leap_on_cover_object_get_target_point(long, long, real_point3d*)
 //.text:014862C0 ; void __cdecl mark_executing_behaviors(long)
 //.text:01486360 ; bool __cdecl melee_activate_helper(long, c_behavior_state*, bool)
 //.text:01486690 ; short __cdecl overheated_weapon_retreat_get_impulse(long, c_behavior_state*)
 //.text:014866E0 ; 
 //.text:014866F0 ; bool __cdecl patrol_choose_next_point(long, c_patrol_state_data*, c_ai_point3d*, c_sector_ref*)
-//.text:01486A20 ; 
+//.text:01486A20 ; void __cdecl patrol_choose_random_point(short, c_patrol_state_data*, bool)
 //.text:01486AE0 ; short __cdecl peer_dead_retreat_get_impulse(long, c_behavior_state*)
 //.text:01486BD0 ; long __cdecl pickup_find_passenger(long, short*)
 //.text:01486DB0 ; short __cdecl player_endangered_cover_get_impulse(long, c_behavior_state*)
@@ -634,7 +633,7 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:014872C0 ; bool __cdecl pursuit_set_area(long, short, short)
 //.text:01487320 ; bool __cdecl ready_to_move(long, c_patrol_state_data const*)
 //.text:01487370 ; short __cdecl refresh_target_get_impulse(long, c_behavior_state*)
-//.text:014873E0 ; 
+//.text:014873E0 ; void __cdecl retreat_flush_prop(long, c_behavior_state*, long)
 //.text:01487400 ; short __cdecl retreat_grenade_get_impulse(long, c_behavior_state*)
 //.text:01487660 ; 
 //.text:01487680 ; short __cdecl scary_target_self_preservation_get_impulse(long, c_behavior_state*)
@@ -642,13 +641,13 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:01487940 ; 
 //.text:01487970 ; 
 //.text:01487990 ; 
-//.text:01487990 ; 
+//.text:014879C0 ; 
 //.text:014879E0 ; short __cdecl shield_depleted_berserk_get_impulse(long, c_behavior_state*)
 //.text:01487B60 ; short __cdecl shield_depleted_cover_get_impulse(long, c_behavior_state*)
 //.text:01487C50 ; short __cdecl stalker_camo_control_get_impulse(long, c_behavior_state*)
 //.text:01487CF0 ; short __cdecl stuck_with_grenade_berserk_get_impulse(long, c_behavior_state*)
 //.text:01487D60 ; short __cdecl surprise_retreat_get_impulse(long, c_behavior_state*)
-//.text:01487E00 ; 
+//.text:01487E00 ; bool __cdecl target_on_board(long)
 //.text:01487E90 ; 
 //.text:01487EB0 ; 
 //.text:01487ED0 ; 
@@ -660,7 +659,7 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:01488470 ; bool __cdecl vehicle_charge_angle_valid(long, character_vehicle_properties*, real, long, bool)
 //.text:01488570 ; real __cdecl vehicle_charge_get_min_weapon_range(long)
 //.text:01488670 ; bool __cdecl vehicle_charge_range_valid(long, real*, long)
-//.text:01488940 ; 
+//.text:01488940 ; bool __cdecl vehicle_cover_safe(long, long)
 //.text:014889E0 ; short __cdecl vehicle_engage_patrol_get_impulse(long, c_behavior_state*)
 //.text:01488A40 ; short __cdecl vehicle_engage_wander_get_impulse(long, c_behavior_state*)
 //.text:01488A80 ; short __cdecl vehicle_enter_friendly_get_impulse(long, c_behavior_state*)
@@ -670,7 +669,7 @@ short __cdecl behavior_index_by_name(char* name)
 //.text:014897C0 ; bool __cdecl vehicle_find_destination(long, long, real_point3d*, c_ai_point3d*, c_sector_ref*, bool*, bool)
 //.text:01489D30 ; bool __cdecl vehicle_flip_find_target(long, c_vehicle_flip_data*, joint_vehicle_flip_data*)
 //.text:0148A000 ; short __cdecl vehicle_flip_get_impulse(long, c_behavior_state*)
-//.text:0148A0B0 ; 
+//.text:0148A0B0 ; void __cdecl vehicle_pickup_flush_object(long, c_behavior_state*, long)
 //.text:0148A0D0 ; short __cdecl vehicle_turtle_get_impulse(long, c_behavior_state*)
 //.text:0148A230 ; bool __cdecl vehicle_wants_to_move_at_all_costs(long)
 
