@@ -494,7 +494,7 @@ void __cdecl network_update()
 	}
 }
 
-void __cdecl network_test_set_map_name(char const* scenario_path)
+void network_test_set_map_name(char const* scenario_path)
 {
 	if (network_squad_session_set_map(-1, -2, scenario_path))
 	{
@@ -518,7 +518,7 @@ void __cdecl network_test_set_map_name(char const* scenario_path)
 	}
 }
 
-void __cdecl network_test_set_map_variant(c_map_variant const* map_variant)
+void network_test_set_map_variant(c_map_variant const* map_variant)
 {
 	if (!user_interface_squad_set_map_variant(map_variant))
 	{
@@ -529,7 +529,7 @@ void __cdecl network_test_set_map_variant(c_map_variant const* map_variant)
 	}
 }
 
-void __cdecl network_test_set_game_variant(e_game_engine_type game_engine_index)
+void network_test_set_game_variant(e_game_engine_type game_engine_index)
 {
 	static c_game_variant game_variant;
 	BUILD_DEFAULT_GAME_VARIANT(game_variant, game_engine_index);
@@ -542,7 +542,7 @@ void __cdecl network_test_set_game_variant(e_game_engine_type game_engine_index)
 	}
 }
 
-void __cdecl network_test_set_game_variant(char const* game_engine_name)
+void network_test_set_game_variant(char const* game_engine_name)
 {
 	e_game_engine_type game_engine_index = _game_engine_type_none;
 
@@ -557,7 +557,7 @@ void __cdecl network_test_set_game_variant(char const* game_engine_name)
 	network_test_set_game_variant(game_engine_index);
 }
 
-void __cdecl network_test_set_session_mode(char const* session_mode_name)
+void network_test_set_session_mode(char const* session_mode_name)
 {
 	e_network_session_mode session_mode = _network_session_mode_none;
 
@@ -572,7 +572,7 @@ void __cdecl network_test_set_session_mode(char const* session_mode_name)
 	network_squad_session_set_session_mode(session_mode);
 }
 
-void __cdecl network_test_set_ui_game_mode(char const* ui_game_mode_name)
+void network_test_set_ui_game_mode(char const* ui_game_mode_name)
 {
 	e_gui_game_mode ui_game_mode = _ui_game_mode_none;
 
@@ -587,7 +587,7 @@ void __cdecl network_test_set_ui_game_mode(char const* ui_game_mode_name)
 	UI_WAIT(0.1f, user_interface_networking_enter_pregame_location, user_interface_squad_get_ui_game_mode, ui_game_mode);
 }
 
-void __cdecl network_test_set_advertisement_mode(char const* advertisement_mode_name)
+void network_test_set_advertisement_mode(char const* advertisement_mode_name)
 {
 	e_gui_network_session_advertisement_mode advertisement_mode = _gui_network_session_advertisement_mode_invalid;
 
@@ -602,7 +602,7 @@ void __cdecl network_test_set_advertisement_mode(char const* advertisement_mode_
 	UI_WAIT(0.1f, user_interface_squad_set_session_advertisement, user_interface_networking_get_session_advertisement, advertisement_mode);
 }
 
-void __cdecl network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value)
+void network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value)
 {
 	e_game_variant_parameter parameter = k_game_variant_parameter_none;
 
@@ -625,7 +625,7 @@ void __cdecl network_test_set_game_variant_parameter(char const* parameter_name,
 	delete game_variant;
 }
 
-void __cdecl network_test_ping()
+void network_test_ping()
 {
 	static word id = 0;
 	if (network_initialized())
@@ -647,7 +647,7 @@ void __cdecl network_test_ping()
 	}
 }
 
-void __cdecl network_test_reset_objects()
+void network_test_reset_objects()
 {
 	c_object_iterator<object_datum> object_iterator;
 	object_iterator.begin(NONE, 0);
@@ -661,7 +661,7 @@ void __cdecl network_test_reset_objects()
 	object_placement_create_active_zone_set_objects(_object_placement_zone_set_create_mode_unknown0);
 }
 
-void __cdecl network_test_ping_directed(transport_address const* address)
+void network_test_ping_directed(transport_address const* address)
 {
 	static word id = 0;
 	if (network_initialized())
@@ -682,7 +682,7 @@ void __cdecl network_test_ping_directed(transport_address const* address)
 	}
 }
 
-void __cdecl network_test_text_chat(char const* text)
+void network_test_text_chat(char const* text)
 {
 	if (network_initialized())
 	{
@@ -701,7 +701,7 @@ void __cdecl network_test_text_chat(char const* text)
 	}
 }
 
-void __cdecl network_test_text_chat_directed(transport_address const* address, char const* text)
+void network_test_text_chat_directed(transport_address const* address, char const* text)
 {
 	if (network_initialized())
 	{

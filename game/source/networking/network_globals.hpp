@@ -50,16 +50,16 @@ extern void __cdecl network_shutdown_transport(void* userdata);
 extern void __cdecl network_startup_transport(void* userdata);
 extern void __cdecl network_update();
 
-extern void __cdecl network_test_set_map_name(char const* scenario_path);
-extern void __cdecl network_test_set_map_variant(c_map_variant const* map_variant);
-extern void __cdecl network_test_set_game_variant(char const* game_engine_name);
-extern void __cdecl network_test_set_session_mode(char const* session_mode_name);
-extern void __cdecl network_test_set_ui_game_mode(char const* ui_game_mode_name);
-extern void __cdecl network_test_set_advertisement_mode(char const* advertisement_mode_name);
-extern void __cdecl network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value);
-extern void __cdecl network_test_ping();
-extern void __cdecl network_test_reset_objects();
-extern void __cdecl network_test_ping_directed(transport_address const* address);
-extern void __cdecl network_test_text_chat(char const* text);
-extern void __cdecl network_test_text_chat_directed(transport_address const* address, char const* text);
+extern void network_test_set_map_name(char const* scenario_path);
+extern void network_test_set_map_variant(c_map_variant const* map_variant);
+extern void network_test_set_game_variant(char const* game_engine_name);
+extern void network_test_set_session_mode(char const* session_mode_name);
+extern void network_test_set_ui_game_mode(char const* ui_game_mode_name);
+extern void network_test_set_advertisement_mode(char const* advertisement_mode_name);
+extern void network_test_set_game_variant_parameter(char const* parameter_name, long value, long* old_value);
+extern void network_test_ping();
+extern void network_test_reset_objects();
+extern void network_test_ping_directed(transport_address const* address);
+extern void network_test_text_chat(char const* text);
+extern void network_test_text_chat_directed(transport_address const* address, char const* text);
 
