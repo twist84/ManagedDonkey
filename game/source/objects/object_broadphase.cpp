@@ -45,7 +45,12 @@
 //.text:00B97720 ; void __cdecl object_broadphase_remove_object(long)
 //.text:00B97840 ; void __cdecl __tls_set_g_object_broadphase_allocator(void*)
 //.text:00B97870 ; 
-//.text:00B97890 ; void __cdecl object_broadphase_update_object(long)
+
+void __cdecl object_broadphase_update_object(long object_index)
+{
+	INVOKE(0x00B97890, object_broadphase_update_object, object_index);
+}
+
 //.text:00B97A60 ; 
 //.text:00B97AC0 ; void __cdecl object_broaphase_load_from_game_state(long) // broaphase Bungie really?
 //.text:00B97AE0 ; void __cdecl object_broaphase_save_to_game_state(long)   // broaphase Bungie really?

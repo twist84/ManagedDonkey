@@ -8,3 +8,5 @@ struct s_object_broadphase
 };
 static_assert(sizeof(s_object_broadphase) == 0x32450);
 
+extern void __cdecl object_broadphase_update_object(long object_index);
+
