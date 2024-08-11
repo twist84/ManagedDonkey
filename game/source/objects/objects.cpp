@@ -9,6 +9,7 @@
 #include "physics/havok.hpp"
 #include "profiler/profiler.hpp"
 #include "render/render_debug.hpp"
+#include "simulation/game_interface/simulation_game_action.hpp"
 
 #include <intrin.h>
 #include <math.h>
@@ -45,6 +46,13 @@ bool debug_objects_mass = false;
 bool debug_objects_pathfinding = false;
 bool debug_objects_node_bounds = false;
 bool debug_objects_animation = false;
+
+bool point_in_bounds(real_point3d const* point, real bounds)
+{
+	return point->x >= -bounds && point->x <= bounds
+		&& point->y >= -bounds && point->y <= bounds
+		&& point->z >= -bounds && point->z <= bounds;
+}
 
 void* __cdecl object_header_block_get(long object_index, object_header_block_reference const* reference)
 {
@@ -923,6 +931,10 @@ void __cdecl object_move(long object_index)
 void __cdecl object_move_position(long object_index, real_point3d const* position, vector3d const* forward, vector3d const* up, s_location const* location)
 {
 	INVOKE(0x00B30050, object_move_position, object_index, position, forward, up, location);
+
+	//ASSERT(object_get(object_index)->object.parent_object_index == NONE);
+	//object_set_position_internal(object_index, position, forward, up, location, false, true, false, false);
+	//object_set_requires_motion(object_index);
 }
 
 void __cdecl object_name_list_allocate()
@@ -1415,10 +1427,85 @@ void __cdecl object_set_position_in_sandbox_editor(long object_index, real_point
 	object_set_position_direct(object_index, desired_position, desired_forward, desired_up, location, true);
 }
 
-bool __cdecl object_set_position_internal(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected)
+bool __cdecl object_set_position_internal(long object_index, real_point3d const* position, vector3d const* forward, vector3d const* up, s_location const* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected)
 {
-	return INVOKE(0x00B33690, object_set_position_internal, object_index, desired_position, desired_forward, desired_up, location, compute_node_matrices, set_havok_object_position, in_editor, disconnected);
+	return INVOKE(0x00B33690, object_set_position_internal, object_index, position, forward, up, location, compute_node_matrices, set_havok_object_position, in_editor, disconnected);
+
+	//bool result = true;
+	//
+	//object_datum* object = object_get(object_index);
+	//
+	//bool connected_to_map = object->object.flags.test(_object_connected_to_map_bit);
+	//if (connected_to_map)
+	//	object_disconnect_from_map(object_index, false);
+	//
+	//if (position)
+	//{
+	//	if (object->object.parent_object_index == NONE && !point_in_bounds(position, 32768.0f))
+	//		result = false;
+	//
+	//	if (result)
+	//	{
+	//		object->object.position = *position;
+	//		simulation_action_object_update(object_index, _simulation_object_update_position);
+	//	}
+	//}
+	//
+	//if (forward)
+	//{
+	//	object->object.forward = *forward;
+	//	object->object.up = *up;
+	//	simulation_action_object_update(object_index, _simulation_object_update_forward_and_up);
+	//}
+	//
+	//havok_object_set_position(object_index, position == NULL, false, false);
+	//
+	//if (connected_to_map)
+	//{
+	//	object_reconnect_to_map(object_index, false, location);
+	//
+	//	if (object->object.flags.test(_object_uses_collidable_list_bit))
+	//		object_broadphase_update_object(object_index);
+	//}
+	//
+	//object_header_datum* object_header = object_header_get_mutable(object_index);
+	//if (object_header->flags.test(_object_header_child_bit))
+	//{
+	//	long ultimate_parent_index = object_get_ultimate_parent(object_index);
+	//	object_header = object_header_get_mutable(ultimate_parent_index);
+	//}
+	//
+	//if (object_header->flags.test(_object_header_active_bit))
+	//{
+	//	object_wake(object_index);
+	//	object_header->flags.set(_object_header_awake_bit, true);
+	//}
+	//
+	//recursive_wake_children_awoken_by_movement(object_index);
+	//
+	//return result;
 }
+
+//.text:00B33830 ; void __cdecl object_set_region_permutation_direct(long, long, long, bool)
+//.text:00B33960 ; 
+//.text:00B339E0 ; 
+
+//.text:00B33BC0 ; void __cdecl object_set_scale(long, real, real)
+//.text:00B33C90 ; void __cdecl object_set_scale_fast(long, real, real)
+//.text:00B33D50 ; void __cdecl object_set_scale_internal(long, real, real, bool)
+//.text:00B33E20 ; void __cdecl object_set_scenario_permutation(long, s_scenario_object_permutation*)
+//.text:00B33E30 ; void __cdecl object_set_shadowless(long, bool)
+//.text:00B33E90 ; void __cdecl object_set_shield_stun(long, long)
+//.text:00B33EE0 ; 
+//.text:00B33F80 ; void __cdecl object_set_sync_action(long, long, long)
+//.text:00B33FC0 ; void __cdecl object_set_variant_direct(long, long)
+//.text:00B34040 ; void __cdecl object_set_velocities(long, vector3d const*, vector3d const*)
+//.text:00B34130 ; void __cdecl object_set_velocities_direct(long, vector3d const*, vector3d const*)
+//.text:00B341E0 ; void __cdecl object_set_velocities_internal(long, vector3d const*, vector3d const*, bool)
+//.text:00B34280 ; 
+//.text:00B342D0 ; bool __cdecl object_should_be_active(long, s_game_cluster_bit_vectors const*)
+//.text:00B34380 ; bool __cdecl object_should_be_deleted_when_deactivated(long)
+//.text:00B343D0 ; bool __cdecl object_start_interpolation(long, real)
 
 void* __cdecl object_try_and_get_and_verify_type(long object_index, dword object_type_mask)
 {
