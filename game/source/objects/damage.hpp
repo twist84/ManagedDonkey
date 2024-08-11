@@ -24,6 +24,7 @@ struct s_damage_globals
 };
 static_assert(sizeof(s_damage_globals) == 0x810);
 
+struct c_aoe_damage_batchifier;
 struct s_damage_data
 {
 	long damage_effect_definition_index;
@@ -31,19 +32,22 @@ struct s_damage_data
 	s_damage_owner damage_owner;
 	long __unknown14;
 	long __unknown18;
-	byte __data1C[0x4];
+	long damage_unique_identifier;
 	s_location location;
 	byte __data22[2];
 	real_point3d origin;
 	real_point3d center;
 	vector3d attacker_direction;
 	vector3d __vector48;
-	real __unknown54;
-	real __unknown58;
+	real damage_amount_scale;
+	real shake_scale;
 	real damage_amount;
 	real damage_aoe_size;
 	real __unknown64;
-	byte __data68[0x8];
+	real __unknown68;
+	bool __unknown6C;
+	bool __unknown6D;
+	byte __data6E[0x2];
 	vector3d __vector70;
 	long __unknown7C;
 	real vitality;
@@ -51,7 +55,8 @@ struct s_damage_data
 	short __unknown86;
 	byte __data88[0x4];
 	s_damage_reporting_info damage_reporting_info;
-	byte __data90[0x4];
+	c_aoe_damage_batchifier* aoe_damage_batchifier;
+
 	long __unknown94;
 };
 static_assert(sizeof(s_damage_data) == 0x98);
