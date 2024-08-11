@@ -393,9 +393,7 @@ void __cdecl player_set_facing(long player_index, vector3d const* facing)
 	//		unit->unit.desired_aiming_vector = *facing;
 	//		unit->unit.desired_looking_vector = *facing;
 	//
-	//		c_simulation_object_update_flags flags{};
-	//		flags.set_flag(player->unit_index, 16);
-	//		simulation_action_object_update_internal(player->unit_index, &flags);
+	//		simulation_action_object_update(player->unit_index, _simulation_unit_update_desired_aiming_vector);
 	//	}
 	//
 	//}
