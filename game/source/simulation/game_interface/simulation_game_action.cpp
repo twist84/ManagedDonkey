@@ -1,5 +1,47 @@
 #include "simulation/game_interface/simulation_game_action.hpp"
 
+#include "simulation/simulation_type_collection.hpp"
+
+void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_device_update_flag flag)
+{
+	DECLFUNC(0x004B1D80, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_device_update_flag)(this, object_index, flag);
+}
+
+void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_generic_update_flag flag)
+{
+	DECLFUNC(0x004B1DB0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_generic_update_flag)(this, object_index, flag);
+}
+
+void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_item_update_flag flag)
+{
+	DECLFUNC(0x004B1DE0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_item_update_flag)(this, object_index, flag);
+}
+
+void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_object_update_flag flag)
+{
+	DECLFUNC(0x004B1E10, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_object_update_flag)(this, object_index, flag);
+}
+
+void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_projectile_update_flag flag)
+{
+	DECLFUNC(0x004B1E40, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_projectile_update_flag)(this, object_index, flag);
+}
+
+void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_unit_update_flag flag)
+{
+	DECLFUNC(0x004B1E70, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_unit_update_flag)(this, object_index, flag);
+}
+
+void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_vehicle_update_flag flag)
+{
+	DECLFUNC(0x004B1EA0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_vehicle_update_flag)(this, object_index, flag);
+}
+
+void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_weapon_update_flag flag)
+{
+	DECLFUNC(0x004B1ED0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_weapon_update_flag)(this, object_index, flag);
+}
+
 //.text:004B2440 ; void __cdecl simulation_action_game_ai_update(dword)
 //.text:004B2490 ; void __cdecl simulation_action_game_engine_globals_create()
 //.text:004B2510 ; void __cdecl simulation_action_game_engine_globals_delete()
@@ -29,7 +71,12 @@ void __cdecl simulation_action_object_create(long object_index)
 //.text:004B2EA0 ; void __cdecl simulation_action_object_delete(long)
 //.text:004B2F40 ; void __cdecl simulation_action_object_detach_from_gamestate_and_delete(long)
 //.text:004B2FA0 ; void __cdecl simulation_action_object_force_update(long, c_simulation_object_update_flags)
-//.text:004B3010 ; void __cdecl simulation_action_object_update_internal(long, c_simulation_object_update_flags)
+
+void simulation_action_object_update_internal(long object_index, c_simulation_object_update_flags& flags)
+{
+	INVOKE(0x004B3010, simulation_action_object_update_internal, object_index, flags);
+}
+
 //.text:004B3080 ; void __cdecl simulation_action_pickup_ammo(long, long, long, long)
 //.text:004B3140 ; void __cdecl simulation_action_pickup_equipment(long, long)
 //.text:004B31C0 ; void __cdecl simulation_action_pickup_powerup(long, long)
@@ -84,4 +131,156 @@ bool __cdecl simulation_query_object_placement(object_placement_data const* data
 //.text:004B5630 ; void __cdecl simulation_request_unit_melee_damage_with_prebuilt_event_data(long, long, s_simulation_biped_melee_damage_event_data*)
 //.text:004B56C0 ; void __cdecl simulation_request_unit_throw_release(long, short, long, real_point3d const*, vector3d const*)
 //.text:004B5810 ; void __cdecl simulation_request_vehicle_trick(long, long)
+
+c_simulation_object_update_flags::c_simulation_object_update_flags() :
+	m_flags()
+{
+}
+
+template<typename t_flag_enum>
+void simulation_action_object_update(long object_index, t_flag_enum flag)
+{
+	throw "no available 'simulation_action_object_update' templated function";
+}
+
+c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_unit_update_flag flag) :
+	m_flags()
+{
+	// #TODO: find the offset for this function
+	
+	set_flag(object_index, flag);
+}
+
+template<>
+void __cdecl simulation_action_object_update<e_simulation_unit_update_flag>(long unit_index, e_simulation_unit_update_flag flag)
+{
+	// #TODO: find the unit_indexfor this function
+
+	c_simulation_object_update_flags flags(unit_index, flag);
+	simulation_action_object_update_internal(unit_index, flags);
+}
+
+c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_object_update_flag flag) :
+	m_flags()
+{
+	//DECLFUNC(0x0054CF60, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_object_update_flag)(this, object_index, flag);
+
+	set_flag(object_index, flag);
+}
+
+template<>
+void __cdecl simulation_action_object_update<e_simulation_object_update_flag>(long object_index, e_simulation_object_update_flag flag)
+{
+	//INVOKE(0x00580AD0, simulation_action_object_update<e_simulation_object_update_flag>, object_index, flag);
+
+	c_simulation_object_update_flags flags(object_index, flag);
+	simulation_action_object_update_internal(object_index, flags);
+}
+
+template<>
+void __cdecl simulation_action_object_update<e_simulation_weapon_update_flag>(long weapon_index, e_simulation_weapon_update_flag flag)
+{
+	//INVOKE(0x005A06A0, simulation_action_object_update<e_simulation_weapon_update_flag>, weapon_index, flag);
+
+	c_simulation_object_update_flags flags(weapon_index, flag);
+	simulation_action_object_update_internal(weapon_index, flags);
+}
+
+c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_weapon_update_flag flag) :
+	m_flags()
+{
+	//DECLFUNC(0x005A06E0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_weapon_update_flag)(this, object_index, flag);
+
+	set_flag(object_index, flag);
+}
+
+template<>
+void __cdecl simulation_action_object_update<e_simulation_generic_update_flag>(long generic_index, e_simulation_generic_update_flag flag)
+{
+	//INVOKE(0x00B26CA0, simulation_action_object_update<e_simulation_generic_update_flag>, generic_index, flag);
+
+	c_simulation_object_update_flags flags(generic_index, flag);
+	simulation_action_object_update_internal(generic_index, flags);
+}
+
+template<>
+void __cdecl simulation_action_object_update<e_simulation_item_update_flag>(long item_index, e_simulation_item_update_flag flag)
+{
+	//INVOKE(0x00B26CD0, simulation_action_object_update<e_simulation_item_update_flag>, item_index, flag);
+
+	c_simulation_object_update_flags flags(item_index, flag);
+	simulation_action_object_update_internal(item_index, flags);
+}
+
+template<>
+void __cdecl simulation_action_object_update<e_simulation_projectile_update_flag>(long projectile_index, e_simulation_projectile_update_flag flag)
+{
+	//INVOKE(0x00B26D00, simulation_action_object_update<e_simulation_projectile_update_flag>, projectile_index, flag);
+
+	c_simulation_object_update_flags flags(projectile_index, flag);
+	simulation_action_object_update_internal(projectile_index, flags);
+}
+
+c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_generic_update_flag flag) :
+	m_flags()
+{
+	//DECLFUNC(0x00B26ED0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_generic_update_flag)(this, object_index, flag);
+
+	set_flag(object_index, flag);
+}
+
+c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_item_update_flag flag) :
+	m_flags()
+{
+	//DECLFUNC(0x00B26F00, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_item_update_flag)(this, object_index, flag);
+
+	set_flag(object_index, flag);
+}
+
+c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_projectile_update_flag flag) :
+	m_flags()
+{
+	//DECLFUNC(0x00B26F30, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_projectile_update_flag)(this, object_index, flag);
+
+	set_flag(object_index, flag);
+}
+
+template<>
+void __cdecl simulation_action_object_update<e_simulation_vehicle_update_flag>(long vehicle_index, e_simulation_vehicle_update_flag flag)
+{
+	//INVOKE(0x00B377D0, simulation_action_object_update<e_simulation_vehicle_update_flag>, vehicle_index, flag);
+
+	c_simulation_object_update_flags flags(vehicle_index, flag);
+	simulation_action_object_update_internal(vehicle_index, flags);
+}
+
+c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_vehicle_update_flag flag) :
+	m_flags()
+{
+	//DECLFUNC(0x00B37810, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_vehicle_update_flag)(this, object_index, flag);
+
+	set_flag(object_index, flag);
+}
+
+template<>
+void __cdecl simulation_action_object_update<e_simulation_device_update_flag>(long device_index, e_simulation_device_update_flag flag)
+{
+	//INVOKE(0x00B92160, simulation_action_object_update<e_simulation_device_update_flag>, device_index, flag);
+
+	c_simulation_object_update_flags flags(device_index, flag);
+	simulation_action_object_update_internal(device_index, flags);
+}
+
+c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_device_update_flag flag) :
+	m_flags()
+{
+	//DECLFUNC(0x00B921B0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_device_update_flag)(this, object_index, flag);
+	
+	set_flag(object_index, flag);
+}
+
+bool simulation_entity_type_is_object(e_simulation_entity_type entity_type)
+{
+	return IN_RANGE_INCLUSIVE(entity_type, _simulation_entity_type_unit, _simulation_entity_type_device);
+}
 
