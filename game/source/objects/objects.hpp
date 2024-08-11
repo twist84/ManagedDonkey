@@ -652,6 +652,7 @@ extern void __cdecl object_set_model_state_property(long object_index, long a2, 
 extern void __cdecl object_set_model_state_property_per_region(long object_index, long a2, long a3, short a4, bool a5);
 extern void __cdecl object_set_object_index_for_name_index(short name_index, long object_index);
 extern bool __cdecl object_set_position_internal(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool compute_node_matrices, bool set_havok_object_position, bool in_editor, bool disconnected);
+extern void __cdecl object_set_requires_motion(long object_index);
 extern void __cdecl object_set_position(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location);
 extern void __cdecl object_set_position_direct(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool in_editor);
 extern void __cdecl object_set_position_in_editor(long object_index, real_point3d const* desired_position, vector3d const* desired_forward, vector3d const* desired_up, s_location const* location, bool at_rest);

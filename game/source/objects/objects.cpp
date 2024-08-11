@@ -1490,6 +1490,11 @@ bool __cdecl object_set_position_internal(long object_index, real_point3d const*
 //.text:00B33960 ; 
 //.text:00B339E0 ; 
 
+void __cdecl object_set_requires_motion(long object_index)
+{
+	INVOKE(0x00B33B50, object_set_requires_motion, object_index);
+}
+
 //.text:00B33BC0 ; void __cdecl object_set_scale(long, real, real)
 //.text:00B33C90 ; void __cdecl object_set_scale_fast(long, real, real)
 //.text:00B33D50 ; void __cdecl object_set_scale_internal(long, real, real, bool)
