@@ -1,45 +1,93 @@
 #include "simulation/game_interface/simulation_game_action.hpp"
 
+#include "game/game.hpp"
+#include "objects/objects.hpp"
 #include "simulation/simulation_type_collection.hpp"
+#include <simulation/simulation_gamestate_entities.hpp>
 
-void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_device_update_flag flag)
+e_simulation_entity_type c_simulation_object_update_flags::get_simulation_entity_type(long object_index)
 {
-	DECLFUNC(0x004B1D80, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_device_update_flag)(this, object_index, flag);
+	return DECLFUNC(0x004B1C20, e_simulation_entity_type, __thiscall, c_simulation_object_update_flags*, long)(this, object_index);
 }
 
-void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_generic_update_flag flag)
+void c_simulation_object_update_flags::set_flag(long device_index, e_simulation_device_update_flag flag)
 {
-	DECLFUNC(0x004B1DB0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_generic_update_flag)(this, object_index, flag);
+	DECLFUNC(0x004B1D80, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_device_update_flag)(this, device_index, flag);
+
+	//if (simulation_object_is_attached_to_distributed_networking(device_index))
+	//	ASSERT(get_simulation_entity_type(device_index) == _simulation_entity_type_device);
+	//
+	//set(flag, true);
 }
 
-void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_item_update_flag flag)
+void c_simulation_object_update_flags::set_flag(long generic_index, e_simulation_generic_update_flag flag)
 {
-	DECLFUNC(0x004B1DE0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_item_update_flag)(this, object_index, flag);
+	DECLFUNC(0x004B1DB0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_generic_update_flag)(this, generic_index, flag);
+
+	//if (simulation_object_is_attached_to_distributed_networking(generic_index))
+	//	ASSERT(get_simulation_entity_type(generic_index) == _simulation_entity_type_generic || get_simulation_entity_type(generic_index) == _simulation_entity_type_generic_garbage);
+	//
+	//set(flag, true);
+}
+
+void c_simulation_object_update_flags::set_flag(long item_index, e_simulation_item_update_flag flag)
+{
+	DECLFUNC(0x004B1DE0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_item_update_flag)(this, item_index, flag);
+
+	//if (simulation_object_is_attached_to_distributed_networking(item_index))
+	//	ASSERT(get_simulation_entity_type(item_index) == _simulation_entity_type_item || get_simulation_entity_type(item_index) == _simulation_entity_type_weapon);
+	//
+	//set(flag, true);
 }
 
 void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_object_update_flag flag)
 {
 	DECLFUNC(0x004B1E10, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_object_update_flag)(this, object_index, flag);
+
+	//if (simulation_object_is_attached_to_distributed_networking(object_index))
+	//	ASSERT(simulation_entity_type_is_object(get_simulation_entity_type(object_index)));
+	//
+	//set(flag, true);
 }
 
-void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_projectile_update_flag flag)
+void c_simulation_object_update_flags::set_flag(long projectile_index, e_simulation_projectile_update_flag flag)
 {
-	DECLFUNC(0x004B1E40, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_projectile_update_flag)(this, object_index, flag);
+	DECLFUNC(0x004B1E40, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_projectile_update_flag)(this, projectile_index, flag);
+
+	//if (simulation_object_is_attached_to_distributed_networking(projectile_index))
+	//	ASSERT(get_simulation_entity_type(projectile_index) == _simulation_entity_type_projectile);
+	//
+	//set(flag, true);
 }
 
-void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_unit_update_flag flag)
+void c_simulation_object_update_flags::set_flag(long unit_index, e_simulation_unit_update_flag flag)
 {
-	DECLFUNC(0x004B1E70, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_unit_update_flag)(this, object_index, flag);
+	DECLFUNC(0x004B1E70, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_unit_update_flag)(this, unit_index, flag);
+
+	//if (simulation_object_is_attached_to_distributed_networking(unit_index))
+	//	ASSERT(get_simulation_entity_type(unit_index) == _simulation_entity_type_unit);
+	//
+	//set(flag, true);
 }
 
-void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_vehicle_update_flag flag)
+void c_simulation_object_update_flags::set_flag(long vehicle_index, e_simulation_vehicle_update_flag flag)
 {
-	DECLFUNC(0x004B1EA0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_vehicle_update_flag)(this, object_index, flag);
+	DECLFUNC(0x004B1EA0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_vehicle_update_flag)(this, vehicle_index, flag);
+
+	//if (simulation_object_is_attached_to_distributed_networking(vehicle_index))
+	//	ASSERT(get_simulation_entity_type(vehicle_index) == _simulation_entity_type_vehicle);
+	//
+	//set(flag, true);
 }
 
-void c_simulation_object_update_flags::set_flag(long object_index, e_simulation_weapon_update_flag flag)
+void c_simulation_object_update_flags::set_flag(long weapon_index, e_simulation_weapon_update_flag flag)
 {
-	DECLFUNC(0x004B1ED0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_weapon_update_flag)(this, object_index, flag);
+	DECLFUNC(0x004B1ED0, void, __thiscall, c_simulation_object_update_flags*, long, e_simulation_weapon_update_flag)(this, weapon_index, flag);
+
+	//if (simulation_object_is_attached_to_distributed_networking(weapon_index))
+	//	ASSERT(get_simulation_entity_type(weapon_index) == _simulation_entity_type_weapon);
+	//
+	//set(flag, true);
 }
 
 //.text:004B2440 ; void __cdecl simulation_action_game_ai_update(dword)
@@ -68,13 +116,77 @@ void __cdecl simulation_action_object_create(long object_index)
 }
 
 //.text:004B2D90 ; void __cdecl simulation_action_object_create_build_entity_types(long, long, long, long*, e_simulation_entity_type*, long*)
-//.text:004B2EA0 ; void __cdecl simulation_action_object_delete(long)
-//.text:004B2F40 ; void __cdecl simulation_action_object_detach_from_gamestate_and_delete(long)
-//.text:004B2FA0 ; void __cdecl simulation_action_object_force_update(long, c_simulation_object_update_flags)
+
+void __cdecl simulation_action_object_delete(long object_index)
+{
+	INVOKE(0x004B2EA0, simulation_action_object_delete, object_index);
+
+	//if (game_is_server() && game_is_distributed())
+	//{
+	//	object_datum* object = object_get(object_index);
+	//	if (simulation_object_is_attached_to_distributed_networking(object_index))
+	//	{
+	//		if (!game_is_playback())
+	//		{
+	//			long simulation_entity_index = simulation_object_glue_get_simulation_entity_index(object->object.simulation_object_glue_index);
+	//			if (simulation_entity_index != NONE)
+	//			{
+	//				simulation_entity_delete(simulation_entity_index);
+	//			}
+	//		}
+	//		simulation_object_glue_delete(object->object.simulation_object_glue_index);
+	//		object_detach_gamestate_entity(object_index, object->object.simulation_object_glue_index);
+	//	}
+	//}
+}
+
+void __cdecl simulation_action_object_detach_from_gamestate_and_delete(long object_index)
+{
+	INVOKE(0x004B2F40, simulation_action_object_detach_from_gamestate_and_delete, object_index);
+
+	//object_datum* object = object_get(object_index);
+	//if (simulation_object_is_attached_to_distributed_networking(object_index))
+	//{
+	//	object_detach_gamestate_entity(object_index, object->object.simulation_object_glue_index);
+	//	simulation_gamestate_entity_set_object_index(object->object.simulation_object_glue_index, NONE);
+	//}
+	//object_delete(object_index);
+}
+
+void __cdecl simulation_action_object_force_update(long object_index, c_simulation_object_update_flags& flags)
+{
+	INVOKE(0x004B2FA0, simulation_action_object_force_update, object_index, flags);
+
+	//if (game_is_distributed() && game_is_server() && !game_is_playback())
+	//{
+	//	object_datum* object = object_get(object_index);
+	//	if (simulation_object_is_attached_to_distributed_networking(object_index))
+	//	{
+	//		long simulation_entity_index = simulation_object_glue_get_simulation_entity_index(object->object.simulation_object_glue_index);
+	//		if (simulation_entity_index != NONE)
+	//		{
+	//			simulation_entity_force_update(simulation_entity_index, object_index, flags);
+	//		}
+	//	}
+	//}
+}
 
 void simulation_action_object_update_internal(long object_index, c_simulation_object_update_flags& flags)
 {
 	INVOKE(0x004B3010, simulation_action_object_update_internal, object_index, flags);
+
+	//if (game_is_distributed() && game_is_server() && !game_is_playback())
+	//{
+	//	object_datum* object = object_get(object_index);
+	//	if (simulation_object_is_attached_to_distributed_networking(object_index))
+	//	{
+	//		long simulation_entity_index = simulation_object_glue_get_simulation_entity_index(object->object.simulation_object_glue_index);
+	//		if (simulation_entity_index != NONE)
+	//		{
+	//			simulation_entity_update(simulation_entity_index, object_index, flags);
+	//		}
+	//	}
+	//}
 }
 
 //.text:004B3080 ; void __cdecl simulation_action_pickup_ammo(long, long, long, long)
@@ -133,7 +245,7 @@ bool __cdecl simulation_query_object_placement(object_placement_data const* data
 //.text:004B5810 ; void __cdecl simulation_request_vehicle_trick(long, long)
 
 c_simulation_object_update_flags::c_simulation_object_update_flags() :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 }
 
@@ -144,7 +256,7 @@ void simulation_action_object_update(long object_index, t_flag_enum flag)
 }
 
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_unit_update_flag flag) :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 	// #TODO: find the offset for this function
 	
@@ -161,7 +273,7 @@ void __cdecl simulation_action_object_update<e_simulation_unit_update_flag>(long
 }
 
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_object_update_flag flag) :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 	//DECLFUNC(0x0054CF60, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_object_update_flag)(this, object_index, flag);
 
@@ -187,7 +299,7 @@ void __cdecl simulation_action_object_update<e_simulation_weapon_update_flag>(lo
 }
 
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_weapon_update_flag flag) :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 	//DECLFUNC(0x005A06E0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_weapon_update_flag)(this, object_index, flag);
 
@@ -222,7 +334,7 @@ void __cdecl simulation_action_object_update<e_simulation_projectile_update_flag
 }
 
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_generic_update_flag flag) :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 	//DECLFUNC(0x00B26ED0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_generic_update_flag)(this, object_index, flag);
 
@@ -230,7 +342,7 @@ c_simulation_object_update_flags::c_simulation_object_update_flags(long object_i
 }
 
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_item_update_flag flag) :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 	//DECLFUNC(0x00B26F00, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_item_update_flag)(this, object_index, flag);
 
@@ -238,7 +350,7 @@ c_simulation_object_update_flags::c_simulation_object_update_flags(long object_i
 }
 
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_projectile_update_flag flag) :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 	//DECLFUNC(0x00B26F30, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_projectile_update_flag)(this, object_index, flag);
 
@@ -255,7 +367,7 @@ void __cdecl simulation_action_object_update<e_simulation_vehicle_update_flag>(l
 }
 
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_vehicle_update_flag flag) :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 	//DECLFUNC(0x00B37810, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_vehicle_update_flag)(this, object_index, flag);
 
@@ -272,15 +384,16 @@ void __cdecl simulation_action_object_update<e_simulation_device_update_flag>(lo
 }
 
 c_simulation_object_update_flags::c_simulation_object_update_flags(long object_index, e_simulation_device_update_flag flag) :
-	m_flags()
+	c_flags<long, qword, 64>()
 {
 	//DECLFUNC(0x00B921B0, c_simulation_object_update_flags*, __thiscall, c_simulation_object_update_flags*, long, e_simulation_device_update_flag)(this, object_index, flag);
 	
 	set_flag(object_index, flag);
 }
 
-bool simulation_entity_type_is_object(e_simulation_entity_type entity_type)
+bool __cdecl simulation_object_is_attached_to_distributed_networking(long object_index)
 {
-	return IN_RANGE_INCLUSIVE(entity_type, _simulation_entity_type_unit, _simulation_entity_type_device);
+	object_datum* object = object_get(object_index);
+	return object->object.simulation_object_glue_index != NONE;
 }
 

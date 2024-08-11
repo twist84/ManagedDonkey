@@ -102,7 +102,9 @@ enum e_simulation_vehicle_update_flag
 	k_simulation_vehicle_update_flag_count
 };
 
-struct c_simulation_object_update_flags
+enum e_simulation_entity_type;
+struct c_simulation_object_update_flags :
+	public c_flags<long, qword, 64>
 {
 public:
 	c_simulation_object_update_flags();
@@ -124,8 +126,7 @@ public:
 	void set_flag(long vehicle_index, e_simulation_vehicle_update_flag flag);
 	void set_flag(long weapon_index, e_simulation_weapon_update_flag flag);
 
-protected:
-	c_flags<long, qword, 64> m_flags;
+	e_simulation_entity_type get_simulation_entity_type(long object_index);
 };
 
 struct object_placement_data;
@@ -133,6 +134,7 @@ struct object_placement_data;
 extern void __cdecl simulation_action_game_engine_globals_update(c_flags<long, qword, 64>& flags);
 extern void __cdecl simulation_action_game_engine_player_update(long player_index, c_flags<long, qword, 64>& flags);
 extern void __cdecl simulation_action_object_create(long object_index);
+extern void __cdecl simulation_action_object_force_update(long object_index, c_simulation_object_update_flags& flags);
 extern void __cdecl simulation_action_object_update_internal(long object_index, c_simulation_object_update_flags& flags);
 extern bool __cdecl simulation_query_object_is_predicted(long object_index);
 extern bool __cdecl simulation_query_object_placement(object_placement_data const* data);
@@ -140,7 +142,5 @@ extern bool __cdecl simulation_query_object_placement(object_placement_data cons
 template<typename t_flag_enum>
 void __cdecl simulation_action_object_update(long object_index, t_flag_enum flag);
 
-enum e_simulation_entity_type;
-
-extern bool simulation_entity_type_is_object(e_simulation_entity_type entity_type);
+extern bool __cdecl simulation_object_is_attached_to_distributed_networking(long object_index);
 
