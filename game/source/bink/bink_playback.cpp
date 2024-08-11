@@ -2,6 +2,9 @@
 
 #include "cseries/cseries.hpp"
 
+//.text:00617940 ; void __cdecl bink_set_volume(real)
+//.text:006179B0 ; void __cdecl bink_setup_rasterizer(long)
+
 void __cdecl bink_notify_load_masking_complete()
 {
 	INVOKE(0x006168C0, bink_notify_load_masking_complete);
