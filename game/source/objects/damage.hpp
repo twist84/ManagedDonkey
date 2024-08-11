@@ -4,6 +4,7 @@
 #include "game/materials.hpp"
 #include "objects/damage_owner.hpp"
 #include "objects/damage_reporting.hpp"
+#include "shell/shell.hpp"
 
 struct s_damage_globals
 {
@@ -70,7 +71,7 @@ static_assert(sizeof(s_damage_response_data) == 0x38);
 struct s_damage_aftermath_result_data
 {
 	s_damage_reporting_info damage_reporting_info;
-	dword_flags flags;
+	c_enum<e_damage_aftermath_flags, long, _damage_aftermath_unknown0_bit, k_damage_aftermath_flags> flags;
 	long damage_definition_index;
 	s_damage_owner damage_owner;
 	vector3d direction;

@@ -800,6 +800,26 @@ enum e_damage_reporting_type
 	k_damage_reporting_type_count
 };
 
+// find an actual name for this and also place it in the correct location
+enum e_damage_aftermath_flags
+{
+	// used in `damage_aftermath_is_important`
+	_damage_aftermath_unknown0_bit = 0,
+
+	_damage_aftermath_shield_depleted_bit,
+	_damage_aftermath_area_of_effect_bit,
+	_damage_aftermath_any_damage_dealt_bit,
+	_damage_aftermath_damaged_by_friendly_bit,
+	_damage_aftermath_silent_bit,
+	_damage_aftermath_killed_instantly_bit,
+	_damage_aftermath_primary_recipient_bit,
+	_damage_aftermath_outside_aoe_dmg_range_bit,
+	_damage_aftermath_unknown9_bit,
+	_damage_aftermath_emp_bit,
+
+	k_damage_aftermath_flags
+};
+
 enum e_interface_font
 {
 	_interface_font_terminal = 0,

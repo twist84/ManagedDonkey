@@ -2,26 +2,10 @@
 
 #include "cseries/cseries.hpp"
 #include "objects/damage_reporting.hpp"
+#include "shell/shell.hpp"
 
 struct s_simulation_damage_aftermath_event_data
 {
-	enum e_flags
-	{
-		_flag_unused_bit0 = 0,
-		_flag_shield_depleted_bit,
-		_flag_area_of_effect_bit,
-		_flag_any_damage_dealt_bit,
-		_flag_damaged_by_friendly_bit,
-		_flag_silent_bit,
-		_flag_killed_instantly_bit,
-		_flag_primary_recipient_bit,
-		_flag_outside_aoe_dmg_range_bit,
-		_flag_unused_bit9,
-		_flag_emp_bit,
-
-		k_flags
-	};
-
 	long damage_definition_index;
 	long __unknown4;
 	short damage_owner_player_index;
@@ -32,7 +16,7 @@ struct s_simulation_damage_aftermath_event_data
 	real epicenter_direction;
 	real shake;
 	real shake_scale;
-	c_enum<e_flags, long, _flag_unused_bit0, k_flags> flags;
+	c_enum<e_damage_aftermath_flags, long, _damage_aftermath_unknown0_bit, k_damage_aftermath_flags> flags;
 	real shield_damage;
 	real body_damage;
 	short body_part;
