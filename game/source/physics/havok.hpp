@@ -135,6 +135,7 @@ extern void __cdecl havok_can_modify_state_allow();
 extern void __cdecl havok_can_modify_state_disallow();
 extern void __cdecl havok_display_stats(bool display_as_event);
 extern void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color const* color, char const* format, ...);
+extern void __cdecl havok_object_set_position(long object_index, bool a2, bool a3, bool a4);
 extern void __cdecl havok_prepare_fpu_for_update();
 extern void __cdecl havok_restore_fpu_from_update();
 extern void __cdecl havok_update();
