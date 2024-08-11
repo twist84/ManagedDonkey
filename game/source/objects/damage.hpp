@@ -64,7 +64,30 @@ static_assert(sizeof(s_damage_response_data) == 0x38);
 
 struct s_damage_aftermath_result_data
 {
-	byte __data[0x58];
+	s_damage_reporting_info damage_reporting_info;
+	dword_flags flags;
+	long damage_definition_index;
+	s_damage_owner damage_owner;
+	vector3d direction;
+
+	bool __unknown24;
+	byte __data25[0x3];
+
+	vector3d epicenter_direction_vector;
+	real shake;
+	real shake_scale;
+	long body_part;
+	short node_index;
+
+	byte __data42[0x2];
+
+	real body_damage;
+	real shield_damage;
+
+	real __unknown4C;
+
+	long ping_type;
+	long special_death_type;
 };
 static_assert(sizeof(s_damage_aftermath_result_data) == 0x58);
 
