@@ -31,19 +31,26 @@ struct s_damage_data
 	long damage_effect_definition_index;
 	dword_flags flags;
 	s_damage_owner damage_owner;
+
 	long __unknown14;
 	long __unknown18;
+
 	long damage_unique_identifier;
 	s_location location;
+
 	byte __data22[2];
+
 	real_point3d origin;
 	real_point3d center;
 	vector3d attacker_direction;
+
 	vector3d __vector48;
+
 	real damage_amount_scale;
 	real shake_scale;
 	real damage_amount;
 	real damage_aoe_size;
+
 	real __unknown64;
 	real __unknown68;
 	bool __unknown6C;
@@ -51,20 +58,50 @@ struct s_damage_data
 	byte __data6E[0x2];
 	vector3d __vector70;
 	long __unknown7C;
+
 	real vitality;
 	c_global_material_type material_type;
+
 	short __unknown86;
 	byte __data88[0x4];
+
 	s_damage_reporting_info damage_reporting_info;
 	c_aoe_damage_batchifier* aoe_damage_batchifier;
-
-	long __unknown94;
+	long damage_material_index; // model_definition->materials[damage_material_index]
 };
 static_assert(sizeof(s_damage_data) == 0x98);
 
 struct s_damage_response_data
 {
-	byte __data[0x38];
+	byte __data0[0x4];
+
+	// some struct that either starts with `s_damage_response_data` or has it as the first member variable
+	void* __unknown4;
+
+	short body_part;
+
+	byte __dataA[0x6];
+
+	long node_index;
+
+	real __unknown14;
+	real __unknown18;
+
+	real shield_damage;
+
+	real __unknown20;
+
+	real body_damage;
+
+	// passed to `object_damage_constraints_old`
+	word_flags __unknown28; // destroyed_constraints?
+	word_flags __unknown2A; // loosened_constraints?
+
+	dword_flags flags;
+	long special_death_type;
+
+	bool __unknown34;
+	byte __data35[0x3]; // padding?
 };
 static_assert(sizeof(s_damage_response_data) == 0x38);
 
@@ -75,9 +112,9 @@ struct s_damage_aftermath_result_data
 	long damage_definition_index;
 	s_damage_owner damage_owner;
 	vector3d direction;
+	bool epicenter_valid;
 
-	bool __unknown24;
-	byte __data25[0x3];
+	byte __data25[0x3]; // padding?
 
 	vector3d epicenter_direction_vector;
 	real shake;
