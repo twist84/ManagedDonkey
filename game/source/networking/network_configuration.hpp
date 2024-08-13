@@ -947,6 +947,7 @@ extern bool& g_network_configuration_initialized;
 extern s_network_configuration& g_network_configuration;
 extern c_network_configuration_globals& g_network_configuration_globals;
 
+extern long __cdecl network_configuration_calculate_next_retry_interval(long a1, long a2);
 extern bool __cdecl network_configuration_custom_games_enabled();
 extern bool __cdecl network_configuration_disable_bad_bandwidth_anticheating();
 extern bool __cdecl network_configuration_disable_bad_client_anticheating();

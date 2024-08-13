@@ -18,6 +18,11 @@ REFERENCE_DECLARE(0x019A62C0, s_network_configuration, g_network_configuration);
 REFERENCE_DECLARE(0x019A7988, t_network_configuration_downloader, g_network_configuration_download_buffer);
 REFERENCE_DECLARE(0x019A9F90, c_network_configuration_globals, g_network_configuration_globals);
 
+long __cdecl network_configuration_calculate_next_retry_interval(long a1, long a2)
+{
+	return INVOKE(0x0043C820, network_configuration_calculate_next_retry_interval, a1, a2);
+}
+
 //.text:0043C890 ; 
 
 bool __cdecl network_configuration_custom_games_enabled()
