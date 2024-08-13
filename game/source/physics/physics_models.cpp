@@ -249,7 +249,6 @@ void real_point3d_from_hkVector4(real_point3d* p, hkVector4 const* v)
 	set_real_point3d(p, v->x, v->y, v->z);
 }
 
-
 void real_rectangle3d_from_hkVector4_half_extents(real_rectangle3d* b, hkVector4 const* v)
 {
 	ASSERT(b && v);
@@ -284,141 +283,140 @@ void matrix4x3_from_hkTransform(real_matrix4x3* matrix, hkTransform const* trans
 	real_point3d_from_hkVector4(&matrix->position, &transform->translation);
 }
 
-
 void __cdecl render_debug_physics_shape(hkShape const* shape, real_matrix4x3 const* matrix, real_argb_color const* color)
 {
-	while (2)
+	switch (shape->m_type)
 	{
-		switch (shape->m_type)
+	case HK_SHAPE_SPHERE:
+	{
+		c_sphere_shape const* convex_shape = static_cast<c_sphere_shape const*>(shape);
+
+		render_debug_sphere(true, &matrix->position, convex_shape->m_radius, color);
+	}
+	break;
+	case HK_SHAPE_TRIANGLE:
+	{
+		c_triangle_shape const* triangle_shape = static_cast<c_triangle_shape const*>(shape);
+
+		real_point3d points[3]{};
+		real_point3d_from_hkVector4(&points[0], &triangle_shape->m_vertices[0]);
+		real_point3d_from_hkVector4(&points[1], &triangle_shape->m_vertices[1]);
+		real_point3d_from_hkVector4(&points[2], &triangle_shape->m_vertices[2]);
+		matrix4x3_transform_point(matrix, &points[0], &points[0]);
+		matrix4x3_transform_point(matrix, &points[1], &points[1]);
+		matrix4x3_transform_point(matrix, &points[2], &points[2]);
+
+		render_debug_triangle(true, &points[0], &points[1], &points[2], color);
+	}
+	break;
+	case HK_SHAPE_BOX:
+	{
+		c_box_shape const* box_shape = static_cast<c_box_shape const*>(shape);
+
+		real_rectangle3d bounds{};
+		real_rectangle3d_from_hkVector4_half_extents(&bounds, &box_shape->m_half_extents);
+
+		render_debug_box_outline_oriented(true, &bounds, matrix, color);
+	}
+	break;
+	case HK_SHAPE_CAPSULE:
+	{
+		c_capsule_shape const* capsule_shape = static_cast<c_capsule_shape const*>(shape);
+
+		real_point3d points[2]{};
+		real_point3d_from_hkVector4(&points[0], &capsule_shape->m_vertices[0]);
+		real_point3d_from_hkVector4(&points[1], &capsule_shape->m_vertices[1]);
+		matrix4x3_transform_point(matrix, &points[0], &points[0]);
+		matrix4x3_transform_point(matrix, &points[1], &points[1]);
+
+		vector3d height{};
+		if (magnitude_squared3d(vector_from_points3d(&points[0], &points[1], &height)) >= k_real_tiny_epsilon)
+			render_debug_pill(true, &points[1], &height, capsule_shape->m_radius, color);
+		else
+			render_debug_sphere(true, &points[1], capsule_shape->m_radius, color);
+	}
+	break;
+	case HK_SHAPE_CONVEX_VERTICES:
+	{
+		c_convex_vertices_shape const* convex_vertices_shape = static_cast<c_convex_vertices_shape const*>(shape);
+
+		for (long i = 0; i < convex_vertices_shape->m_four_vectors.m_size; i++)
 		{
-		case HK_SHAPE_SPHERE:
+			hkConvexVerticesShape::FourVectors* four_vectors = &convex_vertices_shape->m_four_vectors.m_data[i];
+
+			real_point3d point{};
+			set_real_point3d(&point, four_vectors->x.x, four_vectors->y.x, four_vectors->z.x);
+			matrix4x3_transform_point(matrix, &point, &point);
+			render_debug_point(true, &point, 0.125f, color);
+		}
+
+	}
+	break;
+	//case HK_SHAPE_LIST:
+	//case HK_SHAPE_BV_TREE:
+	//case HK_SHAPE_MOPP:
+	//{
+	//	if (shape->m_type == HK_SHAPE_LIST)
+	//	{
+	//
+	//	}
+	//}
+	//break;
+	//case HK_SHAPE_CONVEX_TRANSLATE:
+	//{
+	//	c_convex_translate_shape const* convex_translate_shape = static_cast<c_convex_translate_shape const*>(shape);
+	//
+	//
+	//}
+	//break;
+	//case HK_SHAPE_CONVEX_TRANSFORM:
+	//{
+	//	c_convex_transform_shape const* convex_transform_shape = static_cast<c_convex_transform_shape const*>(shape);
+	//
+	//
+	//}
+	//break;
+	case HK_SHAPE_MULTI_SPHERE:
+	{
+		c_multi_sphere_shape const* multi_sphere_shape = static_cast<c_multi_sphere_shape const*>(shape);
+
+		ASSERT(IN_RANGE_INCLUSIVE(multi_sphere_shape->m_num_spheres, 0, hkMultiSphereShape::MAX_SPHERES));
+		for (long i = 0; i < multi_sphere_shape->m_num_spheres; i++)
 		{
-			c_sphere_shape const* convex_shape = static_cast<c_sphere_shape const*>(shape);
+			hkVector4 const* sphere = &multi_sphere_shape->m_spheres[i];
 
-			render_debug_sphere(true, &matrix->position, convex_shape->m_radius, color);
+			real_point3d point{};
+			real_point3d_from_hkVector4(&point, sphere);
+			matrix4x3_transform_point(matrix, &point, &point);
+
+			render_debug_sphere(true, &point, sphere->w, color);
 		}
-		break;
-		case HK_SHAPE_TRIANGLE:
-		{
-			c_triangle_shape const* triangle_shape = static_cast<c_triangle_shape const*>(shape);
+	}
+	break;
+	case HK_SHAPE_BV:
+	{
+		c_bv_shape const* bv_shape = static_cast<c_bv_shape const*>(shape);
 
-			real_point3d points[3]{};
-			real_point3d_from_hkVector4(&points[0], &triangle_shape->m_vertices[0]);
-			real_point3d_from_hkVector4(&points[1], &triangle_shape->m_vertices[1]);
-			real_point3d_from_hkVector4(&points[2], &triangle_shape->m_vertices[2]);
-			matrix4x3_transform_point(matrix, &points[0], &points[0]);
-			matrix4x3_transform_point(matrix, &points[1], &points[1]);
-			matrix4x3_transform_point(matrix, &points[2], &points[2]);
+		render_debug_physics_shape(bv_shape->m_bounding_volume_shape, matrix, color);
+	}
+	break;
+	case HK_SHAPE_TRANSFORM:
+	{
+		hkTransformShape const* transform_shape = static_cast<hkTransformShape const*>(shape);
 
-			render_debug_triangle(true, &points[0], &points[1], &points[2], color);
-		}
-		break;
-		case HK_SHAPE_BOX:
-		{
-			c_box_shape const* box_shape = static_cast<c_box_shape const*>(shape);
+		real_matrix4x3 transform_matrix{};
+		matrix4x3_from_hkTransform(&transform_matrix, &transform_shape->m_transform);
+		matrix4x3_multiply(matrix, &transform_matrix, &transform_matrix);
 
-			real_rectangle3d bounds{};
-			real_rectangle3d_from_hkVector4_half_extents(&bounds, &box_shape->m_half_extents);
-
-			render_debug_box_outline_oriented(true, &bounds, matrix, color);
-		}
-		break;
-		case HK_SHAPE_CAPSULE:
-		{
-			c_capsule_shape const* capsule_shape = static_cast<c_capsule_shape const*>(shape);
-		
-			real_point3d points[2]{};
-			real_point3d_from_hkVector4(&points[0], &capsule_shape->m_vertices[0]);
-			real_point3d_from_hkVector4(&points[1], &capsule_shape->m_vertices[1]);
-			matrix4x3_transform_point(matrix, &points[0], &points[0]);
-			matrix4x3_transform_point(matrix, &points[1], &points[1]);
-		
-			vector3d height{};
-			if (magnitude_squared3d(vector_from_points3d(&points[0], &points[1], &height)) >= k_real_tiny_epsilon)
-				render_debug_pill(true, &points[1], &height, capsule_shape->m_radius, color);
-			else
-				render_debug_sphere(true, &points[1], capsule_shape->m_radius, color);
-		}
-		break;
-		case HK_SHAPE_CONVEX_VERTICES:
-		{
-			c_convex_vertices_shape const* convex_vertices_shape = static_cast<c_convex_vertices_shape const*>(shape);
-		
-			for (long i = 0; i < convex_vertices_shape->m_four_vectors.m_size; i++)
-			{
-				hkConvexVerticesShape::FourVectors* four_vectors = &convex_vertices_shape->m_four_vectors.m_data[i];
-
-				real_point3d point{};
-				set_real_point3d(&point, four_vectors->x.x, four_vectors->y.x, four_vectors->z.x);
-				matrix4x3_transform_point(matrix, &point, &point);
-				render_debug_point(true, &point, 0.125f, color);
-			}
-		
-		}
-		break;
-		//case HK_SHAPE_LIST:
-		//case HK_SHAPE_BV_TREE:
-		//case HK_SHAPE_MOPP:
-		//{
-		//}
-		//break;
-		//case HK_SHAPE_CONVEX_TRANSLATE:
-		//{
-		//	c_convex_translate_shape const* convex_translate_shape = static_cast<c_convex_translate_shape const*>(shape);
-		//
-		//
-		//}
-		//break;
-		//case HK_SHAPE_CONVEX_TRANSFORM:
-		//{
-		//	c_convex_transform_shape const* convex_transform_shape = static_cast<c_convex_transform_shape const*>(shape);
-		//
-		//
-		//}
-		//break;
-		case HK_SHAPE_MULTI_SPHERE:
-		{
-			c_multi_sphere_shape const* multi_sphere_shape = static_cast<c_multi_sphere_shape const*>(shape);
-
-			ASSERT(IN_RANGE_INCLUSIVE(multi_sphere_shape->m_num_spheres, 0, hkMultiSphereShape::MAX_SPHERES));
-			for (long i = 0; i < multi_sphere_shape->m_num_spheres; i++)
-			{
-				hkVector4 const* sphere = &multi_sphere_shape->m_spheres[i];
-
-				real_point3d point{};
-				real_point3d_from_hkVector4(&point, sphere);
-				matrix4x3_transform_point(matrix, &point, &point);
-
-				render_debug_sphere(true, &point, sphere->w, color);
-			}
-		}
-		break;
-		case HK_SHAPE_BV:
-		{
-			c_bv_shape const* bv_shape = static_cast<c_bv_shape const*>(shape);
-			if (bv_shape->m_bounding_volume_shape->m_type <= HK_SHAPE_USER0)
-				continue;
-		}
-		break;
-		case HK_SHAPE_TRANSFORM:
-		{
-			hkTransformShape const* transform_shape = static_cast<hkTransformShape const*>(shape);
-
-			real_matrix4x3 transform_matrix{};
-			matrix4x3_from_hkTransform(&transform_matrix, &transform_shape->m_transform);
-			matrix4x3_multiply(matrix, &transform_matrix, &transform_matrix);
-
-			render_debug_physics_shape(transform_shape->m_shape_container.m_child_shape, &transform_matrix, color);
-		}
-		break;
-		case HK_SHAPE_USER0:
-		{
-		
-		}
-		break;
-		default:
-			return;
-		}
+		render_debug_physics_shape(transform_shape->m_shape_container.m_child_shape, &transform_matrix, color);
+	}
+	break;
+	case HK_SHAPE_USER0:
+	{
+		// #TODO: implement me
+	}
+	break;
+	default:
 		break;
 	}
 }
