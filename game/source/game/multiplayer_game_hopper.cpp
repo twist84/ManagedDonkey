@@ -88,8 +88,13 @@ struct
 	byte __data35BE4[0x4];
 } multiplayer_game_hopper_globals{};
 
+bool force_hopper_load_status_complete = false;
+
 e_hopper_load_status multiplayer_file_load::get_load_status()
 {
+	if (force_hopper_load_status_complete)
+		return _hopper_load_complete;
+
 	if (__unknown1)
 		return _hopper_load_failed;
 
@@ -137,15 +142,15 @@ void __cdecl initialize_fake_hopper(s_hopper_configuration_table* configuration,
 
 e_hopper_load_status __cdecl multiplayer_game_hopper_catalog_load_status()
 {
-	return _hopper_load_complete;
 	//return INVOKE(0x00545700, multiplayer_game_hopper_catalog_load_status);
 
 	return multiplayer_game_hopper_globals.multiplayer_files[_multiplayer_file_configuration].get_load_status();
 }
 
-//.text:00545710 ; e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool, bool)
 e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier)
 {
+	//return INVOKE(0x00545710, multiplayer_game_hopper_check_required_files, check_hopper, valid_hopper_identifier);
+
 	check_hopper = false;
 	valid_hopper_identifier = false;
 
@@ -177,7 +182,6 @@ void __cdecl multiplayer_game_hopper_dispose()
 
 e_hopper_load_status __cdecl multiplayer_game_hopper_game_set_load_status()
 {
-	return _hopper_load_complete;
 	//return INVOKE(0x00548210, multiplayer_game_hopper_game_set_load_status);
 
 	return multiplayer_game_hopper_globals.multiplayer_files[_multiplayer_file_game_set].get_load_status();
@@ -185,7 +189,6 @@ e_hopper_load_status __cdecl multiplayer_game_hopper_game_set_load_status()
 
 e_hopper_load_status __cdecl multiplayer_game_hopper_game_variant_load_status()
 {
-	return _hopper_load_complete;
 	//return INVOKE(0x00548220, multiplayer_game_hopper_game_variant_load_status);
 
 	return multiplayer_game_hopper_globals.multiplayer_files[_multiplayer_file_game_variant].get_load_status();
@@ -315,7 +318,6 @@ bool __cdecl multiplayer_game_hopper_is_hopper_visible(word hopper_identifier, c
 
 e_hopper_load_status __cdecl multiplayer_game_hopper_map_variant_load_status()
 {
-	return _hopper_load_complete;
 	//return INVOKE(0x005483E0, multiplayer_game_hopper_map_variant_load_status);
 
 	return multiplayer_game_hopper_globals.multiplayer_files[_multiplayer_file_map_variant].get_load_status();
@@ -658,7 +660,6 @@ void __cdecl multiplayer_game_hopper_update()
 	}
 }
 
-//.text: ; c_hopper_configuration * __cdecl multiplayer_game_hoppers_get_current_hopper_configuration()
 c_hopper_configuration const* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration()
 {
 	//INVOKE(0x00549620, multiplayer_game_hoppers_get_current_hopper_configuration);
