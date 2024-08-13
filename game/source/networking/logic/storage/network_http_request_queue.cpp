@@ -67,8 +67,19 @@ c_network_http_request_queue* c_network_http_request_queue::get(e_network_http_r
 //.text:004A32D0 ; long c_network_http_request_item::get_retries_remaining() const
 //.text:004A32E0 ; e_online_lsp_service_type c_network_http_request_item::get_service_type() const
 //.text:004A32F0 ; 
-//.text:004A3300 ; 
-//.text:004A3350 ; e_network_http_request_result c_network_http_request_queue::is_fill_buffer_complete(long request_cookie, long* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason)
+
+bool c_network_http_request_queue::has_file_changed(c_network_http_request_description const* request_description) const
+{
+	return DECLFUNC(0x004A3300, bool, __cdecl, c_network_http_request_description const*)(request_description);
+
+	//return network_http_request_cache_has_file_changed(request_description);
+}
+
+e_network_http_request_result c_network_http_request_queue::is_fill_buffer_complete(long request_cookie, long* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason)
+{
+	return DECLFUNC(0x004A3350, e_network_http_request_result, __thiscall, c_network_http_request_queue*, long, long*, s_network_http_request_hash*, e_network_http_request_queue_failure_reason*)
+		(this, request_cookie, bytes_read, request_hash, out_failure_reason);
+}
 
 void __cdecl make_url(c_static_string<256> const* url, c_static_string<256>* out_url)
 {

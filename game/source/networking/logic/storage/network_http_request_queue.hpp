@@ -103,6 +103,8 @@ struct c_network_http_request_queue
 	e_network_http_request_result read_bytes(long request_cookie, char* buffer, long buffer_length, long* out_bytes_read, e_network_http_request_queue_failure_reason* out_failure_reason);
 	long start_request(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description);
 	long start_request_into_buffer(e_online_lsp_service_type service_type, c_network_http_request_description const* request_description, char* buffer, long buffer_length);
+	bool has_file_changed(c_network_http_request_description const* request_description) const;
+	e_network_http_request_result is_fill_buffer_complete(long request_cookie, long* bytes_read, s_network_http_request_hash* request_hash, e_network_http_request_queue_failure_reason* out_failure_reason);
 
 	long m_request_queue_type;
 	long m_request_cookie;
