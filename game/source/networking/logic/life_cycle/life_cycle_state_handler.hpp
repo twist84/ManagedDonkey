@@ -33,6 +33,8 @@ struct c_life_cycle_state_handler
 	virtual char const* get_state_string();
 	virtual void handle_missing_required_session_parameter(e_network_session_type session_type);
 
+	c_life_cycle_state_manager* get_manager() const;
+
 	byte : 8;
 	byte : 8;
 	byte : 8;
