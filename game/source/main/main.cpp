@@ -452,6 +452,7 @@ void __cdecl main_halt_and_catch_fire()
 		transport_initialize();
 		input_clear_all_rumblers();
 		progress_set_default_callbacks(NULL);
+		//saved_film_close();
 		c_online_lsp_manager::get()->go_into_crash_mode();
 		network_webstats_force_reset();
 		user_interface_networking_set_ui_upload_quota(NONE);
