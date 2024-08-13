@@ -236,6 +236,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\memory\byte_swapping.cpp" />
     <ClCompile Include="source\motor\motor_system_biped.cpp" />
     <ClCompile Include="source\motor\sync_action.cpp" />
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_state_handler.cpp" />
     <ClCompile Include="source\networking\logic\network_bandwidth.cpp" />
     <ClCompile Include="source\networking\logic\network_banhammer.cpp" />
     <ClCompile Include="source\networking\logic\network_leaderboard.cpp" />

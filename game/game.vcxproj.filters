@@ -1509,6 +1509,9 @@
     <ClCompile Include="source\units\giants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\networking\logic\life_cycle\life_cycle_state_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">

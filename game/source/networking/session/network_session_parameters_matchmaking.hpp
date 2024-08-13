@@ -7,13 +7,13 @@
 #include "shell/shell.hpp"
 #include "text/unicode.hpp"
 
-struct s_network_session_matchmaking_hopper_category
+struct s_game_hopper_custom_category
 {
 	word category_identifier;
 	short category_image_index;
 	c_static_string<32> category_name;
 };
-static_assert(sizeof(s_network_session_matchmaking_hopper_category) == 0x24);
+static_assert(sizeof(s_game_hopper_custom_category) == 0x24);
 
 struct s_network_session_matchmaking_hopper_entry
 {
@@ -35,7 +35,7 @@ struct s_network_session_matchmaking_hopper_list
 	long session_membership_version;
 	dword visible_category_mask;
 	long category_count;
-	s_network_session_matchmaking_hopper_category categories[4];
+	s_game_hopper_custom_category categories[4];
 	long hopper_count;
 	s_network_session_matchmaking_hopper_entry hoppers[32];
 };

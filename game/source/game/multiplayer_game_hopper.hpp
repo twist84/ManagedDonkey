@@ -6,9 +6,12 @@
 #include "shell/shell.hpp"
 #include "tag_files/files_windows.hpp"
 
+long const k_hopper_maximum_hopper_count = 32;
+
 struct s_game_hopper_picked_game_collection;
 struct c_network_session_membership;
 struct c_game_variant;
+struct c_map_variant;
 
 enum e_hopper_type
 {
@@ -43,11 +46,11 @@ struct c_hopper_configuration
 	long hopper_access_bit;
 	long account_type_access;
 	bool require_all_party_members_meet_games_played_requirements;
-	bool require_all_party_members_meet_base_xp_requirements;
+	bool require_all_party_members_meet_experience_requirements;
 	bool require_all_party_members_meet_access_requirements;
 	bool require_all_party_members_meet_live_account_access_requirements;
 	bool hide_hopper_from_games_played_restricted_players;
-	bool hide_hopper_from_xp_restricted_players;
+	bool hide_hopper_from_experience_restricted_players;
 	bool hide_hopper_from_access_restricted_players;
 	bool hide_hopper_from_live_account_access_restricted_players;
 	bool hide_hopper_due_to_time_restriction;
@@ -161,10 +164,10 @@ static_assert(sizeof(c_hopper_configuration) == 0x260);
 struct s_hopper_configuration_table
 {
 	long hopper_category_count;
-	c_static_array<s_network_session_matchmaking_hopper_category, 4> hopper_category;
+	c_static_array<s_game_hopper_custom_category, 4> hopper_category;
 
 	long hopper_configuration_count;
-	c_static_array<c_hopper_configuration, 32> hopper_configurations;
+	c_static_array<c_hopper_configuration, k_hopper_maximum_hopper_count> hopper_configurations;
 };
 static_assert(sizeof(s_hopper_configuration_table) == 0x4C98);
 
@@ -206,11 +209,58 @@ struct s_game_set
 };
 static_assert(sizeof(s_game_set) == 0x3C04);
 
+enum e_hopper_load_status
+{
+	_hopper_load_none = 0,
+	_hopper_load_pending,
+	_hopper_load_complete,
+	_hopper_load_failed, // is this correct?
+
+	k_hopper_load_count
+};
+
+struct multiplayer_file_load
+{
+	e_hopper_load_status get_load_status();
+
+	bool __unknown0;
+	bool __unknown1;
+	byte __data2[0x2];
+	long request_cookie;
+	s_network_http_request_hash hash;
+	long __time1C;
+	long __time20;
+};
+static_assert(sizeof(multiplayer_file_load) == 0x24);
+
+extern void __cdecl initialize_fake_hopper(s_hopper_configuration_table* configuration, s_game_hopper_description_table* description, s_game_set* game_set_a, s_game_set* game_set_b);
+extern e_hopper_load_status __cdecl multiplayer_game_hopper_catalog_load_status();
 extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);
+extern void __cdecl multiplayer_game_hopper_dispose();
+extern e_hopper_load_status __cdecl multiplayer_game_hopper_game_set_load_status();
+extern e_hopper_load_status __cdecl multiplayer_game_hopper_game_variant_load_status();
+extern s_game_hopper_custom_category const* __cdecl multiplayer_game_hopper_get_category_from_index(long category_index);
+extern c_game_variant const* __cdecl multiplayer_game_hopper_get_current_game_variant();
+extern word __cdecl multiplayer_game_hopper_get_current_hopper_identifier();
+extern c_map_variant const* __cdecl multiplayer_game_hopper_get_current_map_variant();
+extern utf8 const* __cdecl multiplayer_game_hopper_get_description(word hopper_identifier);
+extern word __cdecl multiplayer_game_hopper_get_hopper_identifier(long hopper_index);
+extern void __cdecl multiplayer_game_hopper_initialize();
+extern bool __cdecl multiplayer_game_hopper_is_hopper_visible(word hopper_identifier, c_network_session_membership const* session_membership);
+extern e_hopper_load_status __cdecl multiplayer_game_hopper_map_variant_load_status();
 extern long __cdecl multiplayer_game_hopper_pack_game_variant(void* buffer, long buffer_size, c_game_variant const* game_variant);
+extern long __cdecl multiplayer_game_hopper_pack_map_variant(void* buffer, long buffer_size, c_map_variant const* map_variant);
+extern void __cdecl multiplayer_game_hopper_request_game_variant(word hopper_identifier, char const* variant_name, s_network_http_request_hash const* hash);
+extern void __cdecl multiplayer_game_hopper_request_map_variant(word hopper_identifier, char const* variant_name, s_network_http_request_hash const* hash);
+extern bool __cdecl multiplayer_game_hopper_unpack_game_set(void const* buffer, long bytes_read, s_game_set* game_set);
+extern void __cdecl multiplayer_game_hopper_update_in_matchmaking(bool is_leader);
+extern bool __cdecl multiplayer_game_hopper_set_active_hopper_and_request_game_set(word hopper_identifier);
 extern bool __cdecl multiplayer_game_hopper_unpack_game_variant(void const* buffer, long bytes_read, c_game_variant* game_variant);
+extern bool __cdecl multiplayer_game_hopper_unpack_hopper_description(void const* buffer, long bytes_read, s_game_hopper_description_table* description);
+extern bool __cdecl multiplayer_game_hopper_unpack_hopper_file(void const* buffer, long bytes_read, s_hopper_configuration_table* configuration);
+extern bool __cdecl multiplayer_game_hopper_unpack_map_variant(void const* buffer, long bytes_read, c_map_variant* map_variant);
 extern void __cdecl multiplayer_game_hopper_update();
-extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration();
+extern c_hopper_configuration const* __cdecl multiplayer_game_hoppers_get_current_hopper_configuration();
 extern c_hopper_configuration* __cdecl multiplayer_game_hoppers_get_hopper_configuration(word hopper_identifier);
 extern bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_count, long valid_map_mask, s_game_hopper_picked_game_collection* game_collection_out);
 extern e_session_game_start_error __cdecl multiplayer_game_is_playable(word hopper_identifier, bool is_matchmaking, bool check_hopper, c_network_session_membership const* session_membership, word* out_player_error_mask);
