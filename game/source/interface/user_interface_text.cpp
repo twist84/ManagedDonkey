@@ -7,6 +7,7 @@
 #include <string.h>
 
 REFERENCE_DECLARE_ARRAY(0x01942C48, s_parse_text_entry, g_parse_text_table, 131);
+REFERENCE_DECLARE(0x052697B8, s_last_known_session_state, g_last_known_session_state);
 
 HOOK_DECLARE(0x00ABC070, parse_build_number_string);
 

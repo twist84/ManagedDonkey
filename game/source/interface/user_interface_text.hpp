@@ -211,8 +211,20 @@ struct s_parse_text_entry
 	dword magic_character;
 	void(__cdecl* parse_proc)(wchar_t*, e_controller_index controller_index, dword magic_character, c_static_wchar_string<1024>* buffer);
 };
+static_assert(sizeof(s_parse_text_entry) == 0xC);
+
+struct s_last_known_session_state
+{
+	word hopper_identifier;
+	c_static_wchar_string<256> mapname;
+	c_static_wchar_string<512> variant;
+	c_static_wchar_string<256> leader;
+	long player_count;
+};
+static_assert(sizeof(s_last_known_session_state) == 0x808);
 
 extern s_parse_text_entry(&g_parse_text_table)[131];
+extern s_last_known_session_state& g_last_known_session_state;
 
 extern void wchar_string_sanitize_for_game(wchar_t* string, long maximum_character_count);
 extern void utf32_to_string(e_utf32 utf32, wchar_t(&out_string)[2]);
