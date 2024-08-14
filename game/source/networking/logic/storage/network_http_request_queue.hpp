@@ -20,7 +20,12 @@ enum e_network_http_request_queue_type
 
 enum e_network_http_request_result
 {
+	_network_http_request_result_none = 0,
+	_network_http_request_result_success,
+	_network_http_request_result_failure,
+	_network_http_request_result_reset,
 
+	k_network_http_request_result_count
 };
 
 enum e_network_http_request_queue_failure_reason

@@ -560,11 +560,11 @@ void __cdecl multiplayer_game_hopper_update()
 		if (!multiplayer_file->request_cookie)
 			continue;
 
-		bool something = false;
+		bool failed = false;
 
 		long bytes_read = 0;
-		long request_result = request_queue->is_fill_buffer_complete(multiplayer_file->request_cookie, &bytes_read, &multiplayer_file->hash, NULL);
-		if (request_result == 1)
+		e_network_http_request_result request_result = request_queue->is_fill_buffer_complete(multiplayer_file->request_cookie, &bytes_read, &multiplayer_file->hash, NULL);
+		if (request_result == _network_http_request_result_success)
 		{
 			switch (multiplayer_game_file)
 			{
@@ -572,7 +572,11 @@ void __cdecl multiplayer_game_hopper_update()
 			{
 				ASSERT(bytes_read < sizeof(multiplayer_game_hopper_globals.configuration_download_buffer));
 
-				if (multiplayer_game_hopper_unpack_hopper_file(multiplayer_game_hopper_globals.configuration_download_buffer, bytes_read, &multiplayer_game_hopper_globals.configuration))
+				if (!multiplayer_game_hopper_unpack_hopper_file(multiplayer_game_hopper_globals.configuration_download_buffer, bytes_read, &multiplayer_game_hopper_globals.configuration))
+				{
+					failed = true;
+				}
+				else
 				{
 					multiplayer_file_load& game_set_file = multiplayer_game_hopper_globals.multiplayer_files[_multiplayer_file_game_set];
 					if (game_set_file.request_cookie)
@@ -583,10 +587,6 @@ void __cdecl multiplayer_game_hopper_update()
 						game_set_file.__time20 = 0;
 					}
 				}
-				else
-				{
-					something = true;
-				}
 			}
 			break;
 			case _multiplayer_file_description:
@@ -595,7 +595,7 @@ void __cdecl multiplayer_game_hopper_update()
 
 				if (!multiplayer_game_hopper_unpack_hopper_description(multiplayer_game_hopper_globals.description_download_buffer, bytes_read, &multiplayer_game_hopper_globals.description))
 				{
-					something = true;
+					failed = true;
 				}
 			}
 			break;
@@ -605,7 +605,7 @@ void __cdecl multiplayer_game_hopper_update()
 
 				if (!multiplayer_game_hopper_unpack_game_set(multiplayer_game_hopper_globals.game_set_download_buffer, bytes_read, &multiplayer_game_hopper_globals.game_set))
 				{
-					something = true;
+					failed = true;
 				}
 			}
 			break;
@@ -615,7 +615,7 @@ void __cdecl multiplayer_game_hopper_update()
 
 				if (!multiplayer_game_hopper_unpack_game_variant(multiplayer_game_hopper_globals.game_variant_download_buffer, bytes_read, &multiplayer_game_hopper_globals.game_variant))
 				{
-					something = true;
+					failed = true;
 				}
 			}
 			break;
@@ -625,7 +625,7 @@ void __cdecl multiplayer_game_hopper_update()
 
 				if (!multiplayer_game_hopper_unpack_map_variant(multiplayer_game_hopper_globals.map_variant_download_buffer, bytes_read, &multiplayer_game_hopper_globals.map_variant))
 				{
-					something = true;
+					failed = true;
 				}
 			}
 			break;
@@ -634,20 +634,21 @@ void __cdecl multiplayer_game_hopper_update()
 				break;
 			}
 
-			if (!something)
+			if (!failed)
 			{
 				multiplayer_file->request_cookie = 0;
-				multiplayer_file->__unknown1 = true;
+				multiplayer_file->__unknown0 = true;
+				multiplayer_file->__unknown1 = false;
 				multiplayer_file->__time1C = network_time_get();
 				multiplayer_file->__time20 = g_network_configuration.__unknown4;
 			}
 		}
-		else if (request_result == 2)
+		else if (request_result == _network_http_request_result_failure)
 		{
-			something = true;
+			failed = true;
 		}
 
-		if (something)
+		if (failed)
 		{
 			multiplayer_file->request_cookie = 0;
 			multiplayer_file->__unknown1 = true;
