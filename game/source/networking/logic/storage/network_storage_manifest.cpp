@@ -45,6 +45,6 @@ void __cdecl network_storage_manifest_update()
 
 void c_network_storage_manifest::update()
 {
-	DECLFUNC(0x004A5CF0, void, __thiscall, c_network_storage_manifest*)(this);
+	//DECLFUNC(0x004A5CF0, void, __thiscall, c_network_storage_manifest*)(this);
 }
 
