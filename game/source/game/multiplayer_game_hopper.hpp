@@ -13,16 +13,6 @@ struct c_network_session_membership;
 struct c_game_variant;
 struct c_map_variant;
 
-enum e_hopper_type
-{
-	_hopper_type_ffa_unranked = 0,
-	_hopper_type_ffa_ranked,
-	_hopper_type_unranked,
-	_hopper_type_ranked,
-
-	k_hopper_type_count
-};
-
 struct c_hopper_configuration
 {
 	c_static_string<k_tag_string_length> hopper_name;
@@ -208,16 +198,6 @@ struct s_game_set
 	c_static_array<s_game_set_entry, 128> entries;
 };
 static_assert(sizeof(s_game_set) == 0x3C04);
-
-enum e_hopper_load_status
-{
-	_hopper_load_none = 0,
-	_hopper_load_pending,
-	_hopper_load_complete,
-	_hopper_load_failed, // is this correct?
-
-	k_hopper_load_count
-};
 
 struct multiplayer_file_load
 {

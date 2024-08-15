@@ -1,13 +1,17 @@
 #include "networking/network_utilities.hpp"
 
 #include "config/version.hpp"
-#include "cseries/cseries.hpp"
 #include "memory/module.hpp"
 #include "shell/shell_windows.hpp"
 #include "text/unicode.hpp"
 #include "tools/network_debug_dump.hpp"
 
 HOOK_DECLARE(0x0042ED50, network_get_machine_name);
+
+short __cdecl _random_range(dword* seed_ptr, char const* name, char const* filename, dword line, short range_begin, short range_end)
+{
+	return INVOKE(0x0042EC90, _random_range, seed_ptr, name, filename, line, range_begin, range_end);
+}
 
 bool __cdecl network_get_machine_name(wchar_t* machine_name, long machine_name_len)
 {

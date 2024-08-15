@@ -7,9 +7,11 @@
 struct s_game_hopper_picked_game
 {
 	long map_id;
-	c_static_string<32> game_variant_name;
+
+	char game_variant_name[32];
 	s_network_http_request_hash game_variant_hash;
-	c_static_string<32> map_variant_name;
+
+	char map_variant_name[32];
 	s_network_http_request_hash map_variant_hash;
 };
 

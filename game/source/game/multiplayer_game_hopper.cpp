@@ -4,6 +4,7 @@
 #include "cseries/cseries_events.hpp"
 #include "game/game.hpp"
 #include "main/levels.hpp"
+#include "math/random_math.hpp"
 #include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 #include "memory/module.hpp"
@@ -13,6 +14,7 @@
 #include "networking/logic/storage/network_storage_files.hpp"
 #include "networking/network_configuration.hpp"
 #include "networking/network_time.hpp"
+#include "networking/network_utilities.hpp"
 #include "networking/online/online.hpp"
 #include "networking/online/online_lsp.hpp"
 #include "networking/online/online_url.hpp"
@@ -38,7 +40,7 @@ HOOK_DECLARE(0x00548EB0, multiplayer_game_hopper_set_active_hopper_and_request_g
 HOOK_DECLARE(0x00549610, multiplayer_game_hopper_update);
 HOOK_DECLARE(0x00549620, multiplayer_game_hoppers_get_current_hopper_configuration);
 HOOK_DECLARE(0x00549630, multiplayer_game_hoppers_get_hopper_configuration);
-//HOOK_DECLARE(0x00549640, multiplayer_game_hoppers_pick_random_game_collection);
+HOOK_DECLARE(0x00549640, multiplayer_game_hoppers_pick_random_game_collection);
 HOOK_DECLARE(0x00549650, multiplayer_game_is_playable);
 
 byte const multiplayer_game_is_playable_hopper_checks_patch_bytes[]
@@ -89,6 +91,7 @@ struct
 } multiplayer_game_hopper_globals{};
 
 bool force_hopper_load_status_complete = false;
+long override_game_entry_index = NONE;
 
 e_hopper_load_status multiplayer_file_load::get_load_status()
 {
@@ -692,7 +695,130 @@ bool __cdecl multiplayer_game_hoppers_pick_random_game_collection(long player_co
 {
 	//return INVOKE(0x00549640, multiplayer_game_hoppers_pick_random_game_collection, player_count, valid_map_mask, game_collection_out);
 
-	return false;
+	bool result = true;
+	bool v7 = false;
+	long map_ids[3] = { 0, 0, 0 };
+
+	csmemset(game_collection_out, 0, sizeof(s_game_hopper_picked_game_collection));
+
+	if (multiplayer_game_hopper_globals.game_set.game_entry_count > 0)
+	{
+		for (long game_entry_index = 0; game_entry_index < multiplayer_game_hopper_globals.game_set.game_entry_count; game_entry_index++)
+		{
+			s_game_set_entry* entry = &multiplayer_game_hopper_globals.game_set.entries[game_entry_index];
+
+			char scenario_path[256]{};
+			if (!levels_get_path(NONE, entry->map_id, scenario_path, sizeof(scenario_path)))
+			{
+				generate_event(_event_level_error, "networking:hopper: hopper game set has invalid map id %d",
+					entry->map_id);
+			}
+		}
+
+		for (long pick_index = 0; pick_index < game_collection_out->picked_games.get_count(); pick_index++)
+		{
+			s_game_hopper_picked_game* picked_game = &game_collection_out->picked_games[pick_index];
+
+			for (long game_entry_index = 0; game_entry_index < multiplayer_game_hopper_globals.game_set.game_entry_count; game_entry_index++)
+			{
+				s_game_set_entry* entry = &multiplayer_game_hopper_globals.game_set.entries[game_entry_index];
+
+				long total_entry_weight = 0;
+
+				char scenario_path[256]{};
+				if ((!v7 || !entry->skip_after_veto)
+					&& player_count >= entry->minimum_player_count
+					&& entry->map_id != map_ids[0]
+					&& entry->map_id != map_ids[1]
+					&& entry->map_id != map_ids[2]
+					&& levels_get_path(NONE, entry->map_id, scenario_path, sizeof(scenario_path)))
+				{
+					total_entry_weight += entry->game_entry_weight;
+				}
+
+				if (total_entry_weight > 0)
+				{
+					long random_entry_weight = _random_range(get_local_random_seed_address(), NULL, __FILE__, __LINE__, 0, (short)total_entry_weight);
+					for (long game_entry_index = 0; game_entry_index < multiplayer_game_hopper_globals.game_set.game_entry_count; game_entry_index++)
+					{
+						s_game_set_entry* entry = &multiplayer_game_hopper_globals.game_set.entries[game_entry_index];
+
+						char scenario_path[256]{};
+						if ((!v7 || !entry->skip_after_veto)
+							&& player_count >= entry->minimum_player_count
+							&& entry->map_id != map_ids[0]
+							&& entry->map_id != map_ids[1]
+							&& entry->map_id != map_ids[2]
+							&& levels_get_path(NONE, entry->map_id, scenario_path, sizeof(scenario_path)))
+						{
+							if (random_entry_weight < entry->game_entry_weight)
+							{
+								entry->game_variant_file_name.copy_to(picked_game->game_variant_name, 32);
+								entry->map_variant_file_name.copy_to(picked_game->map_variant_name, 32);
+								picked_game->map_id = entry->map_id;
+								map_ids[pick_index] = entry->map_id;
+								break;
+							}
+
+							random_entry_weight -= entry->game_entry_weight;
+						}
+					}
+
+					v7 = true;
+				}
+				else
+				{
+					generate_event(_event_level_warning, "networking:multiplayer_game_hopper: game/map entry index %d has no weight to use, repeating first selection",
+						pick_index);
+					ASSERT(pick_index != 0);
+
+					csmemcpy(picked_game, game_collection_out, sizeof(*picked_game));
+				}
+			}
+		}
+
+		if (override_game_entry_index != NONE)
+		{
+			if (VALID_INDEX(override_game_entry_index, multiplayer_game_hopper_globals.game_set.game_entry_count))
+			{
+				s_game_set_entry* entry = &multiplayer_game_hopper_globals.game_set.entries[override_game_entry_index];
+
+				for (long pick_index = 0; pick_index < game_collection_out->picked_games.get_count(); pick_index++)
+				{
+					s_game_hopper_picked_game* picked_game = &game_collection_out->picked_games[pick_index];
+
+					entry->game_variant_file_name.copy_to(picked_game->game_variant_name, 32);
+					entry->map_variant_file_name.copy_to(picked_game->map_variant_name, 32);
+					picked_game->map_id = entry->map_id;
+				}
+
+				generate_event(_event_level_warning, "networking:game:hopper: overriding hopper game selection with game %d",
+					override_game_entry_index);
+			}
+			else
+			{
+				generate_event(_event_level_warning, "networking:game:hopper: ignoring invalid game index %d for override",
+					override_game_entry_index);
+			}
+		}
+	}
+	else
+	{
+		generate_event(_event_level_error, "networking:multiplayer_game_hopper: current game set has 0 entries!");
+		result = false;
+	}
+
+	if (result)
+	{
+		for (long pick_index = 0; pick_index < game_collection_out->picked_games.get_count(); pick_index++)
+		{
+			s_game_hopper_picked_game* game_map = &game_collection_out->picked_games[pick_index];
+			ASSERT(strlen(game_map->game_variant_name) > 0);
+			ASSERT(game_map->map_id > 0);
+		}
+	}
+
+	return result;
 }
 
 //.text:00549650 ; enum e_session_game_start_error __cdecl multiplayer_game_is_playable(word, bool, bool, c_network_session_membership const*, word*);

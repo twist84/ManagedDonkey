@@ -2225,6 +2225,36 @@ enum e_user_interface_sound_effect
 	k_user_interface_sound_effect_count
 };
 
+enum e_hopper_type
+{
+	_hopper_type_ffa_unranked = 0,
+	_hopper_type_ffa_ranked,
+	_hopper_type_unranked,
+	_hopper_type_ranked,
+
+	k_hopper_type_count
+};
+
+enum e_hopper_load_status
+{
+	_hopper_load_none = 0,
+	_hopper_load_pending,
+	_hopper_load_complete,
+	_hopper_load_failed, // is this correct?
+
+	k_hopper_load_count
+};
+
+enum e_network_file_load_status
+{
+	_network_file_load_status_none = 0,
+	_network_file_load_status_pending,
+	_network_file_load_status_available, // is this correct?
+	_network_file_load_status_unavailable,
+
+	k_network_file_load_status_count
+};
+
 //e_network_interface_user_state
 // none
 // local user exists
