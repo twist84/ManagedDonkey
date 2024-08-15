@@ -1512,6 +1512,9 @@
     <ClCompile Include="source\networking\logic\life_cycle\life_cycle_state_handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\animations\animation_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3615,6 +3618,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\animations\mixing_board\channels\animation_channel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\animations\mixing_board\channels\channel_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\animations\animation_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\animations\animation_interpolation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
