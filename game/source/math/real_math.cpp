@@ -476,6 +476,11 @@ real_rectangle3d* __cdecl set_real_rectangle3d(real_rectangle3d* rect, real x_lo
 	return rect;
 }
 
+void __cdecl quaternion_transform_point(real_quaternion const* in_quaternion, real_point3d const* in_point, real_point3d* point)
+{
+	INVOKE(0x004FAAF0, quaternion_transform_point, in_quaternion, in_point, point);
+}
+
 real_rectangle3d* __cdecl real_rectangle3d_enclose_point(real_rectangle3d* enclosed_rect, real_point3d const* point)
 {
 	//return INVOKE(0x004FBD80, real_rectangle3d_enclose_point, enclosed_rect, point);

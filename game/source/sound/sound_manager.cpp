@@ -282,10 +282,6 @@ bool debug_sound_listeners = false;
 bool debug_sound = false;
 bool debug_sound_manager_channels = false;
 
-void __cdecl quaternion_transform_point(real_quaternion const* in_quaternion, real_point3d const* in_point, real_point3d* point)
-{
-	INVOKE(0x004FAAF0, quaternion_transform_point, in_quaternion, in_point, point);
-}
 
 sound_channel_datum* __cdecl channel_get(short index)
 {
