@@ -55,16 +55,16 @@ bool __cdecl file_is_readable(s_file_reference* reference, unsigned long* error)
 	return INVOKE(0x00528210, file_is_readable, reference, error);
 }
 
-//00528240
+//.text:00528240 ; 
 
 void __cdecl file_printf(s_file_reference* reference, char const* format, ...)
 {
+	//INVOKE(0x00528270, file_printf, reference, format, ...);
+
 	va_list list;
 	va_start(list, format);
 	file_vprintf(reference, format, list);
 	va_end(list);
-
-	//INVOKE(0x00528270, file_printf, reference, format, ...);
 }
 
 bool __cdecl file_read_into_buffer(s_file_reference* reference, void* buffer, dword buffer_length)
@@ -94,6 +94,8 @@ s_file_reference* __cdecl file_reference_add_directory_wide(s_file_reference* re
 
 s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info, short location)
 {
+	//return INVOKE(0x00528500, file_reference_agnostic_create, reference, location);
+
 	ASSERT(info);
 	ASSERT(location >= NONE && location < NUMBER_OF_FILE_REFERENCE_LOCATIONS);
 
@@ -102,16 +104,14 @@ s_file_reference* __cdecl file_reference_agnostic_create(s_file_reference* info,
 	info->location = location;
 
 	return info;
-
-	//return INVOKE(0x00528500, file_reference_agnostic_create, reference, location);
 }
 
 s_file_reference* __cdecl file_reference_copy(s_file_reference* info, s_file_reference const* other)
 {
+	//return INVOKE(0x00528530, file_reference_copy, info, other);
+
 	csmemcpy(info, other, sizeof(file_reference_info));
 	return info;
-
-	//return INVOKE(0x00528530, file_reference_copy, info, other);
 }
 
 s_file_reference* __cdecl file_reference_create_from_path(s_file_reference* reference, char const* path, bool a3)
