@@ -244,7 +244,7 @@ void __cdecl simulation_clear_errors()
 	INVOKE(0x004411C0, simulation_clear_errors);
 }
 
-// 004411D0
+//.text:004411D0 ; 
 
 void __cdecl simulation_describe_status(char* buffer, long buffer_size)
 {
