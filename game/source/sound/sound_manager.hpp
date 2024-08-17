@@ -102,6 +102,12 @@ struct s_sound_manager_globals
 };
 static_assert(sizeof(s_sound_manager_globals) == 0x2B8);
 
+struct s_sound_channel_properties
+{
+	byte __data[0x4B8];
+};
+static_assert(sizeof(s_sound_channel_properties) == 0x4B8);
+
 extern bool debug_sound_class_totals;
 extern bool debug_sound_timing;
 extern bool debug_duckers;
