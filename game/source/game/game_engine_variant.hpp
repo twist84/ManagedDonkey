@@ -116,6 +116,6 @@ extern long __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_
 extern long __cdecl game_engine_tag_defined_variant_get_default_variant_index(c_game_variant const* game_variant);
 extern bool __cdecl game_engine_tag_defined_variant_get_strings(e_game_engine_type game_engine_index, long variant_index, c_static_wchar_string<48>* variant_name, c_static_wchar_string<256>* variant_description);
 extern void __cdecl game_engine_variant_describe_invalidity(c_game_variant const* game_variant);
-extern bool __cdecl game_engine_variant_is_valid(c_game_variant const* game_variant);
-extern bool game_engine_variant_validate(c_game_variant* game_variant);
+extern bool __cdecl game_engine_variant_is_valid(c_game_variant const* variant);
+extern bool game_engine_variant_validate(c_game_variant* variant);
 

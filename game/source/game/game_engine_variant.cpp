@@ -1,6 +1,7 @@
 #include "game/game_engine_variant.hpp"
 
 #include "game/game_engine.hpp"
+#include "main/main_game.hpp"
 #include "memory/bitstream.hpp"
 #include "memory/byte_swapping.hpp"
 
@@ -438,6 +439,34 @@ bool __cdecl game_engine_tag_defined_variant_get_built_in_variant(e_game_engine_
 long __cdecl game_engine_tag_defined_variant_get_default_variant_count(e_game_engine_type game_engine_index)
 {
 	return INVOKE(0x00572560, game_engine_tag_defined_variant_get_default_variant_count, game_engine_index);
+
+	//if (s_game_engine_settings_definition* game_engine_settings = game_engine_settings_try_and_get())
+	//{
+	//	switch (game_engine_index)
+	//	{
+	//	case _game_engine_type_ctf:
+	//		return game_engine_settings->ctf_variants.count;
+	//	case _game_engine_type_slayer:
+	//		return game_engine_settings->slayer_variants.count;
+	//	case _game_engine_type_oddball:
+	//		return game_engine_settings->oddball_variants.count;
+	//	case _game_engine_type_king:
+	//		return game_engine_settings->koth_variants.count;
+	//	case _game_engine_type_sandbox:
+	//		return game_engine_settings->sandbox_variants.count;
+	//	case _game_engine_type_vip:
+	//		return game_engine_settings->vip_variants.count;
+	//	case _game_engine_type_juggernaut:
+	//		return game_engine_settings->juggernaut_variants.count;
+	//	case _game_engine_type_territories:
+	//		return game_engine_settings->territories_variants.count;
+	//	case _game_engine_type_assault:
+	//		return game_engine_settings->assault_variants.count;
+	//	case _game_engine_type_infection:
+	//		return game_engine_settings->infection_variants.count;
+	//	}
+	//}
+	//return 0;
 }
 
 long __cdecl game_engine_tag_defined_variant_get_default_variant_index(c_game_variant const* game_variant)
@@ -455,13 +484,34 @@ void __cdecl game_engine_variant_describe_invalidity(c_game_variant const* game_
 	INVOKE(0x00572830, game_engine_variant_describe_invalidity, game_variant);
 }
 
-bool __cdecl game_engine_variant_is_valid(c_game_variant const* game_variant)
+bool __cdecl game_engine_variant_is_valid(c_game_variant const* variant)
 {
-	return INVOKE(0x005728B0, game_engine_variant_is_valid, game_variant);
+	return INVOKE(0x005728B0, game_engine_variant_is_valid, variant);
+
+	//ASSERT(variant != NULL);
+	//
+	//if (main_game_loaded_map())
+	//{
+	//	c_game_variant game_variant;
+	//	game_variant.copy_from_unsafe(variant);
+	//	return game_engine_variant_validate(&game_variant);
+	//}
+	//
+	//return true;
 }
 
-bool game_engine_variant_validate(c_game_variant* game_variant)
+bool game_engine_variant_validate(c_game_variant* variant)
 {
-	return INVOKE(0x00572920, game_engine_variant_validate, game_variant);
+	return INVOKE(0x00572920, game_engine_variant_validate, variant);
+
+	//ASSERT(variant != NULL);
+	//
+	//c_game_variant game_variant;
+	//game_variant.copy_from_unsafe(variant);
+	//
+	//bool variant_is_equal = game_variant.is_equal_to(variant);
+	//csmemcpy(variant, &game_variant, sizeof(c_game_variant));
+	//
+	//return variant_is_equal;
 }
 
