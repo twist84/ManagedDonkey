@@ -11,6 +11,7 @@ struct c_network_session;
 struct c_network_observer;
 struct c_life_cycle_state_manager
 {
+public:
 	void request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data);
 	void request_leave_sessions(bool disconnect);
 	void set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data);
@@ -23,7 +24,8 @@ struct c_life_cycle_state_manager
 	c_network_observer* get_observer() const;
 	void register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
 	void deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
-
+	
+//protected:
 	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_current_state;
 	c_static_array<c_life_cycle_state_handler*, k_life_cycle_state_count> m_handlers;
 	c_network_session_manager* m_session_manager;

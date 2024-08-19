@@ -4,8 +4,11 @@
 #include "shell/shell.hpp"
 
 struct c_life_cycle_state_handler_joining :
-	c_life_cycle_state_handler
+	public c_life_cycle_state_handler
 {
+public:
+	
+//protected:
 	byte m_flags;
 	e_gui_game_mode m_game_mode;
 	e_life_cycle_state m_enter_state;

@@ -5,8 +5,11 @@
 #include "networking/logic/logic_session_tracker.hpp"
 
 struct c_life_cycle_state_handler_matchmaking_find_and_assemble_match :
-	c_life_cycle_state_handler
+	public c_life_cycle_state_handler
 {
+public:
+	
+//protected:
 	byte_flags m_flags;
 	byte __pad29[0x3];
 	byte __data2C[0x4];

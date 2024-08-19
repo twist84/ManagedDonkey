@@ -4,8 +4,11 @@
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
 struct c_life_cycle_state_handler_in_game :
-	c_life_cycle_state_handler
+	public c_life_cycle_state_handler
 {
+public:
+	
+//protected:
 	byte_flags m_flags;
 	bool m_handled_simulation_abort;
 	long m_time;

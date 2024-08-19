@@ -4,8 +4,9 @@
 #include "networking/logic/life_cycle/life_cycle_state_handler.hpp"
 
 struct c_life_cycle_state_handler_matchmaking_start :
-	c_life_cycle_state_handler
+	public c_life_cycle_state_handler
 {
+public:
 	virtual void update() override;
 	virtual e_life_cycle_state_transition_type update_for_state_transition() override;
 	virtual void enter(c_life_cycle_state_handler* handler, long entry_data_size, void* entry_data) override;
@@ -17,7 +18,8 @@ struct c_life_cycle_state_handler_matchmaking_start :
 
 	// e_life_cycle_matchmaking_find_match_role
 	long __thiscall determine_matchmaking_find_match_role(bool a1);
-
+	
+//protected:
 	byte_flags m_flags;
 	long m_find_match_role;
 	long m_start_mode;

@@ -24,13 +24,9 @@
 struct s_network_life_cycle_globals
 {
 	bool initialized;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+
+	byte __data[0x7];
+
 	c_life_cycle_state_manager manager;
 	c_life_cycle_state_handler_none handler_none;
 	c_life_cycle_state_handler_pre_game handler_pre_game;

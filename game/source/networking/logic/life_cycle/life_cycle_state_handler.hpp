@@ -26,6 +26,7 @@ enum e_life_cycle_state_handler_flags
 struct c_life_cycle_state_manager;
 struct c_life_cycle_state_handler
 {
+public:
 	virtual void update();
 	virtual e_life_cycle_state_transition_type update_for_state_transition();
 	virtual void enter(c_life_cycle_state_handler* handler, long entry_data_size, void* entry_data);
@@ -35,10 +36,8 @@ struct c_life_cycle_state_handler
 
 	c_life_cycle_state_manager* get_manager() const;
 
-	byte : 8;
-	byte : 8;
-	byte : 8;
-	byte : 8;
+//protected:
+	byte __data4[0x4];
 
 	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_state;
 	c_life_cycle_state_manager* m_manager;
