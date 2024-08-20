@@ -213,6 +213,23 @@ struct multiplayer_file_load
 };
 static_assert(sizeof(multiplayer_file_load) == 0x24);
 
+struct multiplayer_hopper_check
+{
+	dword_flags __flags0;
+	dword_flags __flags4;
+	dword_flags __flags8;
+	dword_flags __flagsC;
+	dword_flags __flags10;
+	long game_start_error;
+	byte __data18[0x4];
+	dword_flags __flags1C;
+	dword_flags __flags20;
+	dword_flags __flags24;
+	byte __data28[0x18];
+	dword_flags __flags40;
+};
+static_assert(sizeof(multiplayer_hopper_check) == 0x44);
+
 extern void __cdecl initialize_fake_hopper(s_hopper_configuration_table* configuration, s_game_hopper_description_table* description, s_game_set* game_set_a, s_game_set* game_set_b);
 extern e_hopper_load_status __cdecl multiplayer_game_hopper_catalog_load_status();
 extern e_session_game_start_error __cdecl multiplayer_game_hopper_check_required_files(bool check_hopper, bool valid_hopper_identifier);
