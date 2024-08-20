@@ -3,6 +3,7 @@
 #include "cseries/cseries.hpp"
 #include "effects/effects.hpp"
 #include "memory/data.hpp"
+#include "rasterizer/rasterizer_text.hpp"
 
 struct c_dynamic_cubemap_sample
 {
@@ -36,8 +37,10 @@ struct s_shader_extern_info
 	dword change_colors[5];
 	byte change_color_count;
 	byte __data23D[0x17];
-	long __unknown254;
-	long __unknown258;
+
+	// #TODO: confirm these
+	c_rasterizer_texture_ref emblem_player_shoulder_texture;
+	c_rasterizer_texture_ref emblem_clan_chest_texture;
 };
 static_assert(sizeof(s_shader_extern_info) == 0x25C);
 
