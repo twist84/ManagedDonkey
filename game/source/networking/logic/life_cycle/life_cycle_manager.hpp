@@ -12,18 +12,26 @@ struct c_network_observer;
 struct c_life_cycle_state_manager
 {
 public:
-	void request_state_change(e_life_cycle_state state, long entry_data_size, void* entry_data);
-	void request_leave_sessions(bool disconnect);
-	void set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data);
-	e_life_cycle_state get_current_state() const;
+	bool current_state_ready_for_state_transition_or_query() const;
+	bool current_state_ready_for_update() const;
+	void deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
 	c_life_cycle_state_handler* get_current_state_handler() const;
+	void initialize(c_network_observer* observer, c_network_session_manager* session_manager, c_network_session* active_squad_session, c_network_session* target_session, c_network_session* group_session);
+	void notify_expect_squad_join();
+	void request_leave_sessions(bool disconnect);
+	void request_state_change(e_life_cycle_state state, long entry_data_size, void const* entry_data);
+	void set_current_state(e_life_cycle_state state, long entry_data_size, void* entry_data);
+	void swap_squad_sessions();
+	void swap_target_and_group_sessions();
+	e_life_cycle_state get_current_state() const;
 	void terminate();
+	void update();
+
 	c_network_session* get_active_squad_session() const;
 	c_network_session* get_target_session() const;
 	c_network_session* get_group_session() const;
 	c_network_observer* get_observer() const;
 	void register_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
-	void deregister_state_handler(e_life_cycle_state state, c_life_cycle_state_handler* handler);
 	
 //protected:
 	c_enum<e_life_cycle_state, long, _life_cycle_state_none, k_life_cycle_state_count> m_current_state;
