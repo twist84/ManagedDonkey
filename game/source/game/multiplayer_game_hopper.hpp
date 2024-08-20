@@ -242,6 +242,7 @@ extern word __cdecl multiplayer_game_hopper_get_current_hopper_identifier();
 extern c_map_variant const* __cdecl multiplayer_game_hopper_get_current_map_variant();
 extern utf8 const* __cdecl multiplayer_game_hopper_get_description(word hopper_identifier);
 extern word __cdecl multiplayer_game_hopper_get_hopper_identifier(long hopper_index);
+extern void __cdecl multiplayer_game_hopper_get_players_status(c_hopper_configuration const* hopper, c_network_session_membership const* session_membership, multiplayer_hopper_check* check);
 extern void __cdecl multiplayer_game_hopper_initialize();
 extern bool __cdecl multiplayer_game_hopper_is_hopper_visible(word hopper_identifier, c_network_session_membership const* session_membership);
 extern e_hopper_load_status __cdecl multiplayer_game_hopper_map_variant_load_status();

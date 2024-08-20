@@ -266,7 +266,12 @@ word __cdecl multiplayer_game_hopper_get_hopper_identifier(long hopper_index)
 }
 
 //.text:00548290 ; sub_548290
-//.text:005482A0 ; sub_5482A0
+
+void __cdecl multiplayer_game_hopper_get_players_status(c_hopper_configuration const* hopper, c_network_session_membership const* session_membership, multiplayer_hopper_check* check)
+{
+	INVOKE(0x005482A0, multiplayer_game_hopper_get_players_status, hopper, session_membership, check);
+}
+
 //.text:005483A0 ; sub_5483A0
 
 void __cdecl multiplayer_game_hopper_initialize()
