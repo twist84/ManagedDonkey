@@ -845,6 +845,13 @@ char const* __cdecl multiplayer_game_start_error_to_string(e_session_game_start_
 	return INVOKE(0x00549B70, multiplayer_game_start_error_to_string, error);
 }
 
+//.text:00549DB0 ; 
+//.text:00549DC0 ; 
+//.text:00549DD0 ; public: bool __cdecl c_hopper_configuration::require_all_party_members_meet_access_requirements() const
+//.text:00549DE0 ; public: bool __cdecl c_hopper_configuration::require_all_party_members_meet_experience_requirements() const
+//.text:00549DF0 ; public: bool __cdecl c_hopper_configuration::require_all_party_members_meet_games_played_requirements() const
+//.text:00549E00 ; public: bool __cdecl c_hopper_configuration::require_all_party_members_meet_live_account_access_requirements() const
+
 void __cdecl network_build_game_variant(char const* filename)
 {
 	byte* buffer = new byte[0x600]{};
