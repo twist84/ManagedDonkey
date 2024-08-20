@@ -377,7 +377,7 @@ void __cdecl multiplayer_game_hopper_request_map_variant(word hopper_identifier,
 	}
 	multiplayer_file.__time1C = 0;
 	multiplayer_file.__time20 = 0;
-	online_url_make_matchmaking_game_variant(&url, hopper_identifier, variant_name);
+	online_url_make_matchmaking_map_variant(&url, hopper_identifier, variant_name);
 	MULTIPLAYER_GAME_HOPPER_LOAD_RETRIED_FILE(_multiplayer_file_map_variant, url.get_string(), multiplayer_game_hopper_globals.game_variant_download_buffer);
 	multiplayer_file.__unknown1 = false;
 }
