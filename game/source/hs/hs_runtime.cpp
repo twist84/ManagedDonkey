@@ -155,7 +155,12 @@ bool __cdecl hs_evaluate(long thread_index, long expression_index, long destinat
 //.text:00595C10 ; void __cdecl hs_evaluate_sleep_forever(short function_index, long thread_index, bool a3)
 //.text:00595CC0 ; void __cdecl hs_evaluate_sleep_until(short function_index, long thread_index, bool a3)
 //.text:00595FF0 ; void __cdecl hs_evaluate_wake(short function_index, long thread_index, bool a3)
-//.text:00596070 ; long __cdecl hs_find_thread_by_name(long name)
+
+long __cdecl hs_find_thread_by_name(char const* script_name)
+{
+	return INVOKE(0x00596070, hs_find_thread_by_name, script_name);
+}
+
 //.text:00596130 ; long __cdecl hs_find_thread_by_script(short script_index)
 //.text:005961D0 ; long __cdecl hs_global_evaluate(short global_index)
 //.text:00596230 ; void __cdecl hs_global_reconcile_read(short global_index)
@@ -325,7 +330,11 @@ long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool
 //.text:00598F70 ; 
 //.text:00598FC0 ; void __cdecl hs_typecasting_table_initialize()
 //.text:00599170 ; void __cdecl hs_wake(long, long)
-//.text:00599250 ; bool __cdecl hs_wake_by_name(char const*)
+
+bool __cdecl hs_wake_by_name(char const* script_name)
+{
+	return INVOKE(0x00599250, hs_wake_by_name, script_name);
+}
 
 void __cdecl inspect_internal(short type, long value, char* buffer, short buffer_size)
 {
@@ -341,6 +350,31 @@ void __cdecl inspect_internal(short type, long value, char* buffer, short buffer
 //.text:00599420 ; 
 //.text:00599460 ; 
 //.text:00599470 ; void __cdecl thread_update_sleep_time_for_reset(long, long)
+
+hs_thread* hs_thread_get(long thread_index)
+{
+	TLS_DATA_GET_VALUE_REFERENCE(hs_thread_deterministic_data);
+
+	hs_thread* result = static_cast<hs_thread*>(datum_try_and_get(*hs_thread_deterministic_data, thread_index));
+	return result;
+}
+
+void hs_find_dormant_script(char const* dormant_script_name, long* script_index_out)
+{
+	ASSERT(dormant_script_name);
+	ASSERT(script_index_out);
+
+	*script_index_out = NONE;
+
+	long thread_index = hs_find_thread_by_name(dormant_script_name);
+	if (thread_index == NONE)
+		return;
+
+	hs_thread* thread = hs_thread_get(thread_index);
+
+	if (global_scenario_get()->scripts[thread->script_index].script_type == _hs_script_type_dormant)
+		*script_index_out = thread->script_index;
+}
 
 void render_debug_scripting()
 {

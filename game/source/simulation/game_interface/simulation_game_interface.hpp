@@ -37,5 +37,6 @@ struct c_simulation_game_engine_globals_definition :
 	////virtual void __cdecl write_update_description_to_string(s_simulation_entity const*, s_entity_update_data const*, long, char*);
 };
 
-void __cdecl simulation_game_register_types(c_simulation_type_collection* type_collection, long* entity_type_count, long* event_type_count);
+extern void __cdecl simulation_game_register_types(c_simulation_type_collection* type_collection, long* entity_type_count, long* event_type_count);
+extern void __cdecl simulation_game_register_additionnal_types(c_simulation_type_collection* type_collection, long* entity_type_count, long* event_type_count);
 

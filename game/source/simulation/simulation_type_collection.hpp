@@ -1,87 +1,8 @@
 #pragma once
 
 #include "cseries/cseries.hpp"
-
-enum e_simulation_entity_type
-{
-	_simulation_entity_type_slayer = 0,
-	_simulation_entity_type_ctf,
-	_simulation_entity_type_assault,
-	_simulation_entity_type_oddball,
-	_simulation_entity_type_king,
-	_simulation_entity_type_territories,
-	_simulation_entity_type_juggernaut,
-	_simulation_entity_type_sandbox,
-	_simulation_entity_type_infection,
-	_simulation_entity_type_vip,
-	_simulation_entity_type_game_engine_player,
-	_simulation_entity_type_game_statborg,
-	_simulation_entity_type_breakable_surface_group,
-	_simulation_entity_type_map_variant,
-	_simulation_entity_type_unit,
-	_simulation_entity_type_item,
-	_simulation_entity_type_generic,
-	_simulation_entity_type_generic_garbage,
-	_simulation_entity_type_vehicle,
-	_simulation_entity_type_projectile,
-	_simulation_entity_type_weapon,
-	_simulation_entity_type_device,
-
-	k_simulation_entity_type_count,
-
-	k_simulation_entity_type_none = -1,
-	k_simulation_entity_type_maximum_count = 32
-};
-
-enum e_simulation_event_type
-{
-	_event_simulation_type_damage_aftermath = 0,
-	_event_simulation_type_damage_section_response,
-	_event_simulation_type_breakable_surface_damage,
-	_event_simulation_type_projectile_attached,
-	_event_simulation_type_projectile_detonate,
-	_event_simulation_type_projectile_impact_effect,
-	_event_simulation_type_projectile_object_impact_effect,
-	_event_simulation_type_effect_on_pos,
-	_event_simulation_type_game_engine,
-	_event_simulation_type_unit_board_vehicle,
-	_event_simulation_type_unit_pickup,
-	_event_simulation_type_weapon_effect,
-	_event_simulation_type_weapon_empty_click,
-	_event_simulation_type_hit_marker,
-	_event_simulation_type_unit_exit_vehicle,
-	_event_simulation_type_unit_assassinate,
-	_event_simulation_type_player_taunt_request,
-	_event_simulation_type_weapon_fire,
-	_event_simulation_type_unit_equipment_use,
-	_event_simulation_type_weapon_reload,
-	_event_simulation_type_unit_throw_initiate,
-	_event_simulation_type_unit_melee_initiate,
-	_event_simulation_type_weapon_pickup,
-	_event_simulation_type_weapon_put_away,
-	_event_simulation_type_weapon_drop,
-	_event_simulation_type_vehicle_flip,
-	_event_simulation_type_vehicle_trick,
-	_event_simulation_type_device_touch,
-	_event_simulation_type_unit_throw_release,
-	_event_simulation_type_unit_melee_damage,
-	_event_simulation_type_unit_melee_clang,
-	_event_simulation_type_unit_enter_vehicle,
-	_event_simulation_type_game_engine_request_boot_player,
-	_event_simulation_type_player_respawn_request,
-	_event_simulation_type_player_force_base_respawn,
-	_event_simulation_type_unit_equipment_pickup,
-	_event_simulation_type_projectile_supercombine_request,
-	_event_simulation_type_object_refresh,
-	_event_simulation_type_player_editor_request,
-
-	//_event_simulation_type_hs_script_wake,
-
-	k_simulation_event_type_count,
-
-	k_simulation_event_type_none = -1,
-	k_simulation_event_type_maximum_count = 64
-};
+#include "simulation/game_interface/simulation_game_entities.hpp"
+#include "simulation/game_interface/simulation_game_events.hpp"
 
 struct c_bitstream;
 struct s_entity_update_data;
@@ -127,20 +48,24 @@ public:
 struct c_simulation_event_definition
 {
 public:
-	virtual e_simulation_event_type __cdecl event_type() = 0;
-	virtual char const* __cdecl event_type_name() = 0;
-	virtual long __cdecl payload_size() = 0;
-	virtual long __cdecl number_of_entity_references() = 0;
-	virtual bool __cdecl reference_delays_entity_deletion() = 0;
-	virtual bool __cdecl event_can_be_transmitted(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*) = 0;
-	virtual long __cdecl minimum_required_bits(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, long*) = 0;
-	virtual real __cdecl calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real) = 0;
-	virtual void __cdecl write_description_to_string(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real, long, char*) = 0;
-	virtual long* __cdecl maximum_required_bits(long* out_bits, c_replication_outgoing_event*, long) = 0; // unsure of the name, pc only?
-	virtual void __cdecl event_payload_encode(long, void const*, c_bitstream*) = 0;
-	virtual bool __cdecl event_payload_decode(long, void*, c_bitstream*) = 0;
-	virtual void __cdecl prepare_event_data_for_gameworld(long, void*) = 0;
-	virtual bool __cdecl apply_game_event(long, long const*, long, void const*) = 0;
+	virtual e_simulation_event_type event_type() = 0;
+	virtual char const* event_type_name() = 0;
+	virtual long payload_size() = 0;
+	virtual long number_of_entity_references() = 0;
+	virtual bool reference_delays_entity_deletion() = 0;
+	virtual bool event_can_be_transmitted(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*) = 0;
+	virtual long minimum_required_bits(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, long*) = 0;
+	virtual real calculate_relevance(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real) = 0;
+	virtual void write_description_to_string(c_replication_outgoing_event const*, s_simulation_view_telemetry_data const*, real, long, char*) = 0;
+	virtual long* maximum_required_bits(long* out_bits, c_replication_outgoing_event*, long) = 0; // unsure of the name, pc only?
+	virtual void event_payload_encode(long, void const*, c_bitstream*) = 0;
+	virtual bool event_payload_decode(long, void*, c_bitstream*) = 0;
+	virtual void prepare_event_data_for_gameworld(long, void*) = 0;
+	virtual bool apply_game_event(long, long const*, long, void const*) = 0;
+
+	c_simulation_event_definition()
+	{
+	};
 };
 
 struct c_simulation_type_collection

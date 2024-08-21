@@ -1515,6 +1515,9 @@
     <ClCompile Include="source\animations\animation_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\game_interface\simulation_game_hs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -2360,7 +2363,7 @@
     <ClInclude Include="source\motor\actions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\shell\game_interface\simulation_game_events.hpp">
+    <ClInclude Include="source\simulation\game_interface\simulation_game_events.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\interface\chud\chud_messaging.hpp">
@@ -3627,6 +3630,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\animations\animation_interpolation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\simulation\game_interface\simulation_game_entities.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -143,6 +143,7 @@ extern long* __cdecl hs_arguments_evaluate(long thread_index, short parameter_co
 extern void __cdecl hs_breakpoint(char const* s);
 extern bool __cdecl hs_can_cast(short actual_type, short desired_type);
 extern bool __cdecl hs_evaluate(long thread_index, long expression_index, long destination_pointer, long* out_cast);
+extern long __cdecl hs_find_thread_by_name(char const* script_name);
 extern long* __cdecl hs_macro_function_evaluate(short function_index, long thread_index, bool a3);
 extern bool __cdecl hs_object_type_can_cast(short actual_type, short desired_type);
 extern char const* __cdecl hs_runtime_get_executing_thread_name();
@@ -151,7 +152,11 @@ extern long __cdecl hs_runtime_script_begin(short script_index, e_hs_script_type
 extern void __cdecl hs_runtime_update();
 extern char const* __cdecl hs_thread_format(long thread_index);
 extern long __cdecl hs_thread_new(e_hs_thread_type thread_type, long script_index, bool deterministic);
+extern bool __cdecl hs_wake_by_name(char const* script_name);
 extern void __cdecl inspect_internal(short type, long value, char* buffer, short buffer_size);
+
+extern hs_thread* hs_thread_get(long thread_index);
+extern void hs_find_dormant_script(char const* dormant_script_name, long* script_index_out);
 
 extern void render_debug_scripting();
 extern void render_debug_scripting_globals();
