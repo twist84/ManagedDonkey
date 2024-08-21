@@ -1518,6 +1518,18 @@
     <ClCompile Include="source\simulation\game_interface\simulation_game_hs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\simulation\game_interface\simulation_game_projectiles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\simulation\game_interface\simulation_game_engine_player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\simulation\game_interface\simulation_game_units.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\simulation\game_interface\simulation_game_engine_sandbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3633,6 +3645,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\simulation\game_interface\simulation_game_entities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\simulation\game_interface\simulation_game_engine_sandbox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

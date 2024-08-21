@@ -2,7 +2,7 @@
 
 long const k_simulation_entity_maximum_state_data_size = 1024;   // halo 3/odst: 1024, reach: 8192
 long const k_simulation_entity_maximum_creation_data_size = 128; // halo 3/odst/reach: 128
-long const k_simulation_entity_maximum_update_flag_count = 32;   // halo 3: 32, odst: 36, reach: 64
+long const k_simulation_entity_maximum_update_flag_count = 36;   // halo 3: 32, odst: 36, reach: 64
 long const k_simulation_event_maximum_entity_references = 2;     // halo 3/odst/reach: 2
 
 // simulation/network_memory.cpp
@@ -37,7 +37,6 @@ void c_simulation_type_collection::finish_types(long entity_type_count, long eve
 	{
 		ASSERT((entity_type_index < m_entity_type_count) == (m_entity_definitions[entity_type_index] != NULL));
 	}
-
 
 	ASSERT(event_type_count <= k_simulation_event_type_maximum_count);
 	ASSERT(m_event_type_count == NONE);
@@ -88,7 +87,10 @@ void c_simulation_type_collection::register_entity_definition(e_simulation_entit
 	ASSERT(entity_definition->entity_type_name() != NULL);
 	ASSERT(entity_definition->state_data_size() <= k_simulation_entity_maximum_state_data_size);
 	ASSERT(entity_definition->update_flag_count() <= k_simulation_entity_maximum_update_flag_count);
-	//ASSERT((entity_definition->initial_update_mask() & ~MASK(entity_definition->update_flag_count())) == 0); // #TODO
+
+	//qword mask = 0;
+	//ASSERT((entity_definition->initial_update_mask(mask) & ~MASK(entity_definition->update_flag_count())) == 0); // #TODO
+
 	ASSERT(m_entity_type_count == NONE);
 	ASSERT(m_entity_definitions[entity_type] == NULL);
 

@@ -1,0 +1,4 @@
+#include "simulation/game_interface/simulation_game_projectiles.hpp"
+
+REFERENCE_DECLARE(0x0189AEF8, c_simulation_projectile_entity_definition, g_simulation_projectile_entity_definition);
+

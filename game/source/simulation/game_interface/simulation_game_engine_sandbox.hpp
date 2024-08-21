@@ -1,9 +1,9 @@
 #pragma once
 
-#include "simulation/game_interface/simulation_game_entities.hpp"
+#include "simulation/game_interface/simulation_game_interface.hpp"
 
-struct c_simulation_game_engine_globals_definition :
-	public c_simulation_entity_definition
+struct c_simulation_sandbox_engine_globals_definition :
+	public c_simulation_game_engine_globals_definition
 {
 public:
 	//virtual e_simulation_entity_type entity_type();
@@ -36,8 +36,7 @@ public:
 	//virtual bool delete_game_entity(long);
 	//virtual bool promote_game_entity_to_authority(long);
 	//virtual void write_update_description_to_string(s_simulation_entity const*, s_entity_update_data const*, long, char*);
-};
 
-struct c_simulation_type_collection;
-extern void __cdecl simulation_game_register_types(c_simulation_type_collection* type_collection, long* entity_type_count, long* event_type_count);
+	static c_simulation_sandbox_engine_globals_definition& instance();
+};
 

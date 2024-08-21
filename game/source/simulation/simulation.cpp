@@ -422,7 +422,6 @@ void __cdecl simulation_initialize()
 	
 		simulation_globals.type_collection->clear_types();
 		simulation_game_register_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
-		simulation_game_register_additionnal_types(simulation_globals.type_collection, &entity_type_count, &event_type_count);
 		simulation_globals.type_collection->finish_types(entity_type_count, event_type_count);
 	
 		simulation_globals.reset_in_progress = false;

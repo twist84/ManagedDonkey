@@ -286,7 +286,11 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\replication\replication_encoding.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_engine_player.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_engine_sandbox.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_hs.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_projectiles.cpp" />
+    <ClCompile Include="source\simulation\game_interface\simulation_game_units.cpp" />
     <ClCompile Include="source\simulation\simulation_players.cpp" />
     <ClCompile Include="source\ai\ai.cpp" />
     <ClCompile Include="source\ai\ai_debug.cpp" />
@@ -1282,6 +1286,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\scenario\scenario_trigger_volumes.hpp" />
     <ClInclude Include="source\scenario\scenario_zone_debugger_definitions.hpp" />
     <ClInclude Include="source\screenshots\screenshots_uploader.hpp" />
+    <ClInclude Include="source\simulation\game_interface\simulation_game_engine_sandbox.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_entities.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_events.hpp" />
     <ClInclude Include="source\shell\shell.hpp" />
