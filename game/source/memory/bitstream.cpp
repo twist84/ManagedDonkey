@@ -1,5 +1,5 @@
 #include "memory/bitstream.hpp"
-
+#include "byte_swapping.hpp"
 
 // ===================== halo 4 begin =====================
 
@@ -38,6 +38,9 @@ t_type right_shift_safe(t_type value, long shift_bits)
 }
 
 // ====================== halo 4 end ======================
+
+//.text:0043B5B0 ; c_bitstream::c_bitstream(byte* data, long data_length)
+//.text:0043B5D0 ; c_bitstream::~c_bitstream()
 
 void c_bitstream::read_raw_data(char const* name, void* value, long size_in_bits)
 {
@@ -100,6 +103,10 @@ void __cdecl c_bitstream::write_qword(char const* name, qword value, long size_i
 	//DECLFUNC(0x00470490, void, __thiscall, c_bitstream*, qword, long)(this, value, size_in_bits);
 }
 
+//.text:0049ED60 ; c_bitstream::c_bitstream()
+
+//.text:00556FC0 ; public: static void __cdecl c_bitstream::angle_to_axes_internal(vector3d const*, real, vector3d*)
+
 void __cdecl c_bitstream::append(c_bitstream const* stream)
 {
 	ASSERT(stream->m_state == _bitstream_state_write_finished);
@@ -111,6 +118,9 @@ void __cdecl c_bitstream::append(c_bitstream const* stream)
 
 	//DECLFUNC(0x00557100, void, __thiscall, c_bitstream*, c_bitstream const*)(this, stream);
 }
+
+//.text:00557150 ; public: static void __cdecl c_bitstream::axes_compute_reference_internal(vector3d const*, vector3d*, vector3d*)
+//.text:005573F0 ; public: static real __cdecl c_bitstream::axes_to_angle_internal(vector3d const*, vector3d const*)
 
 bool __cdecl c_bitstream::begin_consistency_check()
 {
@@ -137,6 +147,13 @@ void __cdecl c_bitstream::begin_writing(long data_size_alignment)
 	//DECLFUNC(0x005574B0, void, __thiscall, c_bitstream*, long)(this, data_size_alignment);
 }
 
+//.text:005574F0 ; void __cdecl bitstream_test()
+//.text:00557770 ; public: static bool __cdecl c_bitstream::compare_axes(long, long, vector3d const*, vector3d const*, vector3d const*, vector3d const*)
+//.text:00557970 ; 
+//.text:005579C0 ; public: static bool __cdecl c_bitstream::compare_quantized_reals(real, real, real, real, long, bool, bool, bool)
+//.text:00557A10 ; public: static bool __cdecl c_bitstream::compare_unit_vectors(vector3d const*, vector3d const*, long)
+//.text:00557A20 ; public: static bool __cdecl c_bitstream::compare_vectors(vector3d const*, vector3d const*, real, real, long, long)
+
 void __cdecl c_bitstream::data_is_untrusted(bool is_untrusted)
 {
 	// `m_data_is_untrusted` doesn't exist in release builds
@@ -145,6 +162,9 @@ void __cdecl c_bitstream::data_is_untrusted(bool is_untrusted)
 	// this function is empty in release builds
 	DECLFUNC(0x00557D60, void, __thiscall, c_bitstream*, bool)(this, is_untrusted);
 }
+
+//.text:00557D70 ; 
+//.text:00557EB0 ; 
 
 void __cdecl c_bitstream::discard_remaining_data()
 {
@@ -160,6 +180,29 @@ void __cdecl c_bitstream::discard_remaining_data()
 void __cdecl __cdecl c_bitstream::encode_qword_to_memory(qword value, long size_in_bits)
 {
 	DECLFUNC(0x00557F80, void, __cdecl, c_bitstream const*, qword, long)(this, value, size_in_bits);
+
+	//qword temp_value = bswap_qword(value);
+	//if (m_bitstream_data.next_data + CHAR_BITS > m_data_max)
+	//{
+	//	do
+	//	{
+	//		byte byte_to_write = static_cast<byte>(temp_value & MASK(CHAR_BITS));
+	//		*m_bitstream_data.next_data++ = byte_to_write;
+	//		temp_value >>= CHAR_BITS;
+	//	} while (m_bitstream_data.next_data < m_data_max);
+	//
+	//	//while (m_bitstream_data.next_data < m_data_max)
+	//	//{
+	//	//	*m_bitstream_data.next_data++ = static_cast<byte>(right_shift_fast<qword>(temp_value, SIZEOF_BITS(qword) - CHAR_BITS) & MASK(CHAR_BITS));
+	//	//	temp_value <<= CHAR_BITS;
+	//	//}
+	//}
+	//else
+	//{
+	//	*reinterpret_cast<qword*>(m_bitstream_data.next_data) = temp_value;
+	//	m_bitstream_data.next_data += sizeof(qword);
+	//}
+	//m_bitstream_data.current_memory_bit_position += size_in_bits;
 }
 
 bool __cdecl c_bitstream::overflowed() const
