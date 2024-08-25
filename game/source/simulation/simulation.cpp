@@ -285,6 +285,16 @@ void __cdecl simulation_dispose()
 void __cdecl simulation_dispose_from_old_map()
 {
 	INVOKE(0x00441270, simulation_dispose_from_old_map);
+
+	//if (!main_game_reset_in_progress())
+	//{
+	//	simulation_globals.watcher->destroy_watcher();
+	//	simulation_globals.world->destroy_world();
+	//	game_results_dispose_from_old_map();
+	//	simulation_gamestate_entities_dispose_from_old_map();
+	//	simulation_globals.recording_film = false;
+	//	simulation_globals.reset_in_progress = false;
+	//}
 }
 
 void __cdecl simulation_end(e_simulation_abort_reason abort_reason)
