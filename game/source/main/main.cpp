@@ -1103,29 +1103,8 @@ void __cdecl main_loop_enter()
 	console_initialize();
 	game_initialize();
 
-	restricted_allocation_manager_reserve_memory(
-		k_game_state_shared_region,
-		__tls_set_g_main_gamestate_timing_data_allocator,
-		main_thread_combine_timing_data,
-		NULL,
-		&g_main_gamestate_timing_data_allocator,
-		"timing samples",
-		"global",
-		sizeof(s_game_tick_time_samples),
-		0,
-		g_main_gamestate_timing_data);
-
-	restricted_allocation_manager_reserve_memory(
-		k_game_state_shared_region,
-		__tls_set_g_main_render_timing_data_allocator,
-		NULL,
-		NULL,
-		&g_main_render_timing_data_allocator,
-		"timing samples",
-		"global",
-		sizeof(s_game_tick_time_samples),
-		0,
-		g_main_render_timing_data);
+	g_main_gamestate_timing_data = (s_game_tick_time_samples*)g_main_gamestate_timing_data_allocator.allocate(sizeof(s_game_tick_time_samples), "timing samples");
+	g_main_render_timing_data = (s_game_tick_time_samples*)g_main_render_timing_data_allocator.allocate(sizeof(s_game_tick_time_samples), "timing samples");
 
 	shell_halt_if_necessary();
 	//tag_files_initialize_from_main();

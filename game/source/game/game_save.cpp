@@ -44,7 +44,6 @@ void __cdecl __tls_set_g_game_save_globals_allocator(void* address)
 	//INVOKE(0x00682130, __tls_set_g_game_save_globals_allocator, address);
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
-
 	g_game_save_globals = (s_game_save_globals*)address;
 }
 
@@ -179,17 +178,7 @@ void __cdecl game_save_initialize()
 
 	TLS_DATA_GET_VALUE_REFERENCE(g_game_save_globals);
 
-	restricted_allocation_manager_reserve_memory(
-		k_game_state_update_region,
-		__tls_set_g_game_save_globals_allocator,
-		NULL,
-		NULL,
-		&g_game_save_globals_allocator,
-		"game save globals",
-		NULL,
-		sizeof(s_game_save_globals),
-		0,
-		g_game_save_globals);
+	g_game_save_globals = (s_game_save_globals*)g_game_save_globals_allocator.allocate(sizeof(s_game_save_globals), "game save globals");
 }
 
 void __cdecl game_save_initialize_for_new_map()

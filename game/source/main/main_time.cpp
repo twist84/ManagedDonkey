@@ -12,6 +12,21 @@ REFERENCE_DECLARE(0x022B47FC, bool, display_framerate);
 bool debug_disable_frame_rate_throttle = false;
 bool display_frame_deltas = false;
 
+void __cdecl __tls_set_g_main_time_globals_allocator(void* address)
+{
+	//INVOKE(0x00507A30, __tls_set_g_main_time_globals_allocator, address);
+
+	TLS_DATA_GET_VALUE_REFERENCE(g_main_time_globals);
+
+	g_main_time_globals = (s_main_time_globals*)address;
+}
+
+//.text:00507A50 ; 
+//.text:00507AA0 ; 
+//.text:00507AD0 ; 
+//.text:00507B00 ; 
+//.text:00507B20 ; double __cdecl main_time_compute_frame_rate_average()
+
 void __cdecl main_time_frame_rate_debug()
 {
 	INVOKE(0x00507B30, main_time_frame_rate_debug);

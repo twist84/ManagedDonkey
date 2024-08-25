@@ -120,6 +120,7 @@ extern bool debug_pause_game_active;
 extern bool debug_pause_game;
 extern e_game_time_pause_reason const k_controller_pause_reasons[k_number_of_controllers];
 
+extern void __cdecl __tls_set_g_game_time_globals_allocator(void* address);
 extern long __cdecl game_seconds_integer_to_ticks(long seconds);
 extern real __cdecl game_seconds_to_ticks_real(real seconds);
 extern long __cdecl game_seconds_to_ticks_round(real seconds);

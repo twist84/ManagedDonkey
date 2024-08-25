@@ -238,17 +238,8 @@ void __cdecl game_time_initialize()
 	//INVOKE(0x00564ED0, game_time_initialize);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_time_globals);
-	restricted_allocation_manager_reserve_memory(
-		k_game_state_shared_region,
-		__tls_set_g_game_time_globals_allocator,
-		NULL,
-		NULL,
-		&g_game_time_globals_allocator,
-		"game time globals",
-		NULL,
-		sizeof(game_time_globals_definition),
-		0,
-		game_time_globals);
+
+	game_time_globals = (game_time_globals_definition*)g_game_time_globals_allocator.allocate(sizeof(game_time_globals_definition), "game time globals");
 	csmemset(game_time_globals, 0, sizeof(game_time_globals_definition));
 }
 
