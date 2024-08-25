@@ -30,7 +30,7 @@ struct game_globals_storage
 	game_options options;
 
 	// ODST
-	dword active_game_progression_level; // string id
+	string_id active_game_progression_level;
 	s_campaign_game_progression active_game_progression;
 
 	bool game_in_progress;
