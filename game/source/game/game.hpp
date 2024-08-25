@@ -204,6 +204,7 @@ struct s_date_and_time
 static_assert(sizeof(s_date_and_time) == 0x18);
 
 extern s_game_system(&g_game_systems)[k_game_system_count];
+extern char const* g_game_system_names[k_game_system_count];
 
 extern bool g_debug_survival_mode;
 extern char const* const k_game_simulation_names[k_game_simulation_count];

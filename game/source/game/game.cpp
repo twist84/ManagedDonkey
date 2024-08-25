@@ -39,16 +39,6 @@ REFERENCE_DECLARE_ARRAY(0x01655950, s_game_system, g_game_systems, k_game_system
 
 bool g_debug_survival_mode = false;
 
-char const* const k_game_simulation_names[k_game_simulation_count]
-{
-	"none",
-	"local",
-	"sync-client",
-	"sync-server",
-	"dist-client",
-	"dist-server"
-};
-
 c_static_array<c_static_array<long, 256>, 16> g_cluster_activation_reason;
 
 real_argb_color const* const k_activation_colors[6]
@@ -64,25 +54,34 @@ long k_activation_color_override_index = 1;
 
 static __forceinline void __cdecl game_systems_initialize()
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
-		if (g_game_systems[system_index].initialize_proc)
+		//system_debug_memory_internal(c_string_builder("before initializing %s", g_game_systems[system_index].name).get_string(), __FILE__, __LINE__);
+		//c_console::write_line("before initializing %s", g_game_system_names[system_index]);
+
+		if (!sub_42E5D0() || g_game_systems[system_index].initialize_proc != (void*)0x00A35D70)
+		{
+			ASSERT(g_game_systems[system_index].initialize_proc);
 			g_game_systems[system_index].initialize_proc();
+		}
+
+		//system_debug_memory_internal(c_string_builder("after initializing %s", g_game_systems[system_index].name).get_string(), __FILE__, __LINE__);
+		//c_console::write_line("after initializing %s", g_game_system_names[system_index]);
 	}
 }
 
 static __forceinline void __cdecl game_systems_dispose()
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = k_game_system_count - 1; system_index >= 0; system_index--)
 	{
-		if (g_game_systems[system_index].dispose_proc)
-			g_game_systems[system_index].dispose_proc();
+		ASSERT(g_game_systems[system_index].dispose_proc);
+		g_game_systems[system_index].dispose_proc();
 	}
 }
 
 static __forceinline void __cdecl game_systems_initialize_for_new_map()
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_map_proc)
 			g_game_systems[system_index].initialize_for_new_map_proc();
@@ -91,7 +90,7 @@ static __forceinline void __cdecl game_systems_initialize_for_new_map()
 
 static __forceinline void __cdecl game_systems_dispose_from_old_map()
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = k_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_map_proc)
 			g_game_systems[system_index].dispose_from_old_map_proc();
@@ -100,7 +99,7 @@ static __forceinline void __cdecl game_systems_dispose_from_old_map()
 
 static __forceinline void __cdecl game_systems_prepare_for_new_zone_set(dword a1, dword a2)
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_new_zone_set_proc)
 			g_game_systems[system_index].prepare_for_new_zone_set_proc(a1, a2);
@@ -109,7 +108,7 @@ static __forceinline void __cdecl game_systems_prepare_for_new_zone_set(dword a1
 
 static __forceinline void __cdecl game_systems_initialize_for_new_structure_bsp(dword a1)
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_structure_bsp_proc)
 			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(a1);
@@ -118,7 +117,7 @@ static __forceinline void __cdecl game_systems_initialize_for_new_structure_bsp(
 
 static __forceinline void __cdecl game_systems_dispose_from_old_structure_bsp(dword a1)
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = k_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_structure_bsp_proc)
 			g_game_systems[system_index].dispose_from_old_structure_bsp_proc(a1);
@@ -127,7 +126,7 @@ static __forceinline void __cdecl game_systems_dispose_from_old_structure_bsp(dw
 
 static __forceinline void __cdecl game_systems_change_pvs(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, bool a3)
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].change_pvs_proc)
 			g_game_systems[system_index].change_pvs_proc(a1, a2, a3);
@@ -136,7 +135,7 @@ static __forceinline void __cdecl game_systems_change_pvs(s_game_cluster_bit_vec
 
 static __forceinline void __cdecl game_systems_activation(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2)
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].activation_proc)
 			g_game_systems[system_index].activation_proc(a1, a2);
@@ -145,7 +144,7 @@ static __forceinline void __cdecl game_systems_activation(s_game_cluster_bit_vec
 
 static __forceinline void __cdecl game_systems_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* a3)
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc)
 			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(a1, a2, a3);
@@ -154,7 +153,7 @@ static __forceinline void __cdecl game_systems_prepare_for_non_bsp_zone_set_swit
 
 static __forceinline void __cdecl game_systems_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc)
 			g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc(new_non_bsp_zone_set);
@@ -163,7 +162,7 @@ static __forceinline void __cdecl game_systems_initialize_for_new_non_bsp_zone_s
 
 static __forceinline void __cdecl game_systems_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set)
 {
-	for (long system_index = 0; system_index < k_game_system_count; system_index)
+	for (long system_index = k_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc)
 			g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc(old_non_bsp_zone_set);
@@ -312,7 +311,9 @@ e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy()
 
 void __cdecl game_dispose()
 {
-	INVOKE(0x00530CD0, game_dispose);
+	//INVOKE(0x00530CD0, game_dispose);
+
+	game_systems_dispose();
 }
 
 void __cdecl game_dispose_from_old_map()
@@ -493,7 +494,19 @@ bool __cdecl game_in_startup_phase()
 
 void __cdecl game_initialize()
 {
-	INVOKE(0x00531530, game_initialize);
+	//INVOKE(0x00531530, game_initialize);
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	
+	game_globals = (game_globals_storage*)g_game_globals_allocator.allocate(sizeof(game_globals_storage), "game globals");
+	csmemset(game_globals, 0, sizeof(game_globals_storage));
+	
+	game_globals->active_structure_bsp_mask = 0;
+	game_globals->active_game_progression_level = _string_id_invalid;
+	game_globals->prepare_for_game_progression = false;
+	
+	real_math_reset_precision();
+	game_systems_initialize();
 }
 
 void __cdecl game_initialize_for_new_map(game_options const* options)
@@ -1365,4 +1378,113 @@ void __cdecl game_pvs_debug_render()
 		}
 	}
 }
+
+char const* const k_game_simulation_names[k_game_simulation_count]
+{
+	"none",
+	"local",
+	"sync-client",
+	"sync-server",
+	"dist-client",
+	"dist-server"
+};
+
+char const* g_game_system_names[k_game_system_count]
+{
+	"determinism_debug_manager",
+	"optional_cache",
+	"screenshots_loader",
+	"transport",
+	"runtime_state",
+	"c_structure_renderer",
+	"data_mine",
+	"overlapped",
+	"random_math",
+	"network",
+	"network_webstats",
+	"xbox_connection",
+	"remote_command",
+	"telnet_console",
+	"console",
+	"input_abstraction",
+	"collision_log",
+	"levels",
+	"visibility_collection",
+	"game_grief",
+	"achievements",
+	"game_state",
+	"game_time",
+	"profiler",
+	"game_allegiance",
+	"players",
+	"player_control",
+	"player_training",
+	"game_engine",
+	"simulation",
+	"scenario",
+	"physics_constants",
+	"collision_debug",
+	"objects",
+	"object_early_movers",
+	"object_scripting",
+	"object_scheduler",
+	"object_activation_regions",
+	"scenario_kill_trigger_volumes",
+	"scenario_sky_objects",
+	"scenario_soft_ceilings",
+	"campaign_metagame",
+	"autosave_queue",
+	"saved_game_files",
+	"survival_mode",
+	"c_rasterizer",
+	"render",
+	"structures",
+	"breakable_surfaces",
+	"director",
+	"observer",
+	"s_depth_of_field",
+	"c_water_renderer",
+	"render_texture_camera",
+	"render_hud_camera",
+	"s_scripted_exposure",
+	"s_render_game_state",
+	"c_decal_system",
+	"effects",
+	"point_physics",
+	"c_atmosphere_fog_interface",
+	"screen_effect",
+	"sound_classes",
+	"sound",
+	"game_sound_deterministic",
+	"game_sound",
+	"game_sound_player_effects",
+	"rumble",
+	"player_effect",
+	"user_interface",
+	"interface",
+	"chud",
+	"overhead_map",
+	"cheats",
+	"cinematic",
+	"closed_caption",
+	"screenshots_uploader",
+	"spartan_program_handler",
+	"hs",
+	"recorded_animations",
+	"debug_menu",
+	"error_report_render",
+	"object_placement",
+	"havok",
+	"object_broadphase",
+	"havok_proxies",
+	"player_positions",
+	"ai",
+	"portal_activation",
+	"scenario_interpolators",
+	"game_save",
+	"watch_window",
+	"bink_playback",
+	"editor",
+	"render_state_cache"
+};
 
