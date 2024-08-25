@@ -25,15 +25,12 @@
 #include <math.h>
 #include <string.h>
 
-cheat_globals cheat = {};
+HOOK_DECLARE(0x005301C0, cheats_initialize);
+HOOK_DECLARE(0x005301D0, cheats_dispose);
+HOOK_DECLARE(0x005301E0, cheats_initialize_for_new_map);
+HOOK_DECLARE(0x005301F0, cheats_dispose_from_old_map);
 
-void patch_cheats()
-{
-	patch_pointer({ .address = 0x01656700 }, cheats_initialize);
-	patch_pointer({ .address = 0x01656704 }, cheats_dispose);
-	patch_pointer({ .address = 0x01656708 }, cheats_initialize_for_new_map);
-	patch_pointer({ .address = 0x0165670C }, cheats_dispose_from_old_map);
-}
+cheat_globals cheat = {};
 
 void __cdecl cheats_initialize()
 {
@@ -42,7 +39,6 @@ void __cdecl cheats_initialize()
 
 void __cdecl cheats_dispose()
 {
-
 }
 
 void __cdecl cheats_initialize_for_new_map()
@@ -52,7 +48,6 @@ void __cdecl cheats_initialize_for_new_map()
 
 void __cdecl cheats_dispose_from_old_map()
 {
-
 }
 
 void __cdecl cheats_load()

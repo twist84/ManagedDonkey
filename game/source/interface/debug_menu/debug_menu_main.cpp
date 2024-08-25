@@ -18,13 +18,10 @@
 #include "shell/shell.hpp"
 #include "text/draw_string.hpp"
 
-void patch_debug_menu()
-{
-	patch_pointer({ .address = 0x01656850 }, debug_menu_initialize);
-	patch_pointer({ .address = 0x01656854 }, debug_menu_dispose);
-	patch_pointer({ .address = 0x01656858 }, debug_menu_initialize_for_new_map);
-	patch_pointer({ .address = 0x0165685C }, debug_menu_dispose_from_old_map);
-}
+HOOK_DECLARE(0x00671670, debug_menu_initialize);
+HOOK_DECLARE(0x00671680, debug_menu_initialize_for_new_map);
+HOOK_DECLARE(0x006713B0, debug_menu_dispose);
+HOOK_DECLARE(0x006713C0, debug_menu_dispose_from_old_map);
 
 class c_main_menu :
 	public c_debug_menu_scroll

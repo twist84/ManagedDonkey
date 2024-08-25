@@ -20,8 +20,6 @@ extern bool debug_menu_enabled;
 extern bool g_debug_menu_rebuild_request;
 extern c_static_stack<long, 262144> g_debug_menu_stack;
 
-extern void patch_debug_menu();
-
 extern void debug_menu_draw_rect(short a1, short a2, short a3, short a4, real a5, real_argb_color const* color);
 extern bool debug_menu_get_active();
 extern void debug_menu_initialize();

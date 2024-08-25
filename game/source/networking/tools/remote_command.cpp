@@ -48,17 +48,24 @@
 #include "units/bipeds.hpp"
 #include "xbox/xnet.hpp"
 
-s_remote_command_globals remote_command_globals;
+HOOK_DECLARE(0x014E2A60, remote_command_dispose);
+HOOK_DECLARE(0x014E2A70, remote_command_initialize);
 
-void patch_remote_command()
-{
-	patch_pointer({ .address = 0x01655B90 }, remote_command_initialize);
-	patch_pointer({ .address = 0x01655B94 }, remote_command_dispose);
-}
+s_remote_command_globals remote_command_globals;
 
 void __cdecl remote_command_transport_shutdown(void*)
 {
 	remote_command_dispose();
+}
+
+void __cdecl remote_command_dispose()
+{
+	remote_command_disconnect();
+	if (remote_command_globals.listen_endpoint)
+	{
+		transport_endpoint_delete(remote_command_globals.listen_endpoint);
+		remote_command_globals.listen_endpoint = 0;
+	}
 }
 
 void __cdecl remote_command_initialize()
@@ -85,16 +92,6 @@ void __cdecl remote_command_initialize()
 		{
 			generate_event(_event_level_error, "remote command client couldn't create_transport_endpoint() for incoming commands");
 		}
-	}
-}
-
-void __cdecl remote_command_dispose()
-{
-	remote_command_disconnect();
-	if (remote_command_globals.listen_endpoint)
-	{
-		transport_endpoint_delete(remote_command_globals.listen_endpoint);
-		remote_command_globals.listen_endpoint = 0;
 	}
 }
 

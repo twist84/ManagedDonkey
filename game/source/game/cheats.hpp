@@ -29,7 +29,6 @@ extern cheat_globals cheat;
 struct s_game_input_state;
 struct s_tag_reference;
 
-extern void patch_cheats();
 extern void __cdecl cheats_initialize();
 extern void __cdecl cheats_dispose();
 extern void __cdecl cheats_initialize_for_new_map();
