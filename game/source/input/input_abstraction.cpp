@@ -416,38 +416,80 @@ void __cdecl sub_60CE70(s_gamepad_input_preferences* preferences, s_game_input_s
 {
 	//INVOKE(0x0060CE70, sub_60CE70, preferences, input_state);
 
+	//for (long i = 0; i < k_button_action_count * 2; i++)
+	//{
+	//	long mouse_button_index = i % k_button_action_count;
+	//
+	//	e_mouse_button mouse_button = (i < k_button_action_count ? preferences->keyboard_preferences.mouse_buttons_primary : preferences->keyboard_preferences.mouse_buttons_alternative)[mouse_button_index];
+	//	if (mouse_button < k_mouse_button_count)
+	//	{
+	//		word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), input_mouse_msec_down(mouse_button, _input_type_game));
+	//		byte down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), input_mouse_frames_down(mouse_button, _input_type_game));
+	//		byte down_amount = MAX((byte)input_state->abstract_buttons[mouse_button_index].down_amount(), input_mouse_frames_down(mouse_button, _input_type_game));
+	//
+	//		input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
+	//	}
+	//	else
+	//	{
+	//		mouse_state* state = input_get_mouse_state(_input_type_ui);
+	//		if (state && !input_type_suppressed(_input_type_game))
+	//		{
+	//			if (mouse_button == _mouse_button_wheel_up)
+	//			{
+	//				if (state->wheel_ticks <= 0)
+	//					continue;
+	//			}
+	//			else if (mouse_button != _mouse_button_wheel_down || state->wheel_ticks >= 0)
+	//				continue;
+	//		}
+	//
+	//		byte down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), 1);
+	//		word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), 1);
+	//		byte down_amount = 255;
+	//
+	//		input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
+	//	}
+	//}
+
 	for (long i = 0; i < k_button_action_count * 2; i++)
 	{
-		long mouse_button_index = i % k_button_action_count;
+		e_button_action mouse_button_index = e_button_action((i < k_button_action_count) ? i : i - k_button_action_count);
 
-		e_mouse_button mouse_button = (i < k_button_action_count ? preferences->keyboard_preferences.mouse_buttons_primary : preferences->keyboard_preferences.mouse_buttons_alternative)[mouse_button_index];
+		e_mouse_button mouse_button = preferences->keyboard_preferences.mouse_buttons_primary[mouse_button_index];
+		if (i >= k_button_action_count)
+			mouse_button = preferences->keyboard_preferences.mouse_buttons_alternative[mouse_button_index];
+
+		c_abstract_button& abstract_button = input_state->get_button(mouse_button_index);
+
 		if (mouse_button < k_mouse_button_count)
 		{
-			word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), input_mouse_msec_down(mouse_button, _input_type_game));
-			byte down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), input_mouse_frames_down(mouse_button, _input_type_game));
-			byte down_amount = MAX((byte)input_state->abstract_buttons[mouse_button_index].down_amount(), input_mouse_frames_down(mouse_button, _input_type_game));
+			word down_msec = abstract_button.down_msec();
+			word frames_down = input_mouse_frames_down(mouse_button, _input_type_game);
+			word msec_down = input_mouse_msec_down(mouse_button, _input_type_game);
+			real down_amount = abstract_button.down_amount();
 
-			input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
+			if (down_msec <= msec_down)
+				down_msec = msec_down;
+
+			if (abstract_button.down_frames() > frames_down)
+				abstract_button.update(down_msec, abstract_button.down_frames(), -static_cast<byte>(down_amount != 0));
+			else
+				abstract_button.update(down_msec, frames_down, 255);
 		}
 		else
 		{
 			mouse_state* state = input_get_mouse_state(_input_type_ui);
 			if (state && !input_type_suppressed(_input_type_game))
 			{
-				if (mouse_button == _mouse_button_wheel_up)
+				if ((mouse_button == _mouse_button_wheel_up && state->wheel_ticks > 0) ||
+					(mouse_button == _mouse_button_wheel_down && state->wheel_ticks < 0))
 				{
-					if (state->wheel_ticks <= 0)
-						continue;
+					word down_frames = abstract_button.is_down() ? abstract_button.down_frames() : 1;
+					word down_msec = abstract_button.down_msec() ? abstract_button.down_msec() : 1;
+
+					abstract_button.update(down_msec, down_frames, 255);
 				}
-				else if (mouse_button != _mouse_button_wheel_down || state->wheel_ticks >= 0)
-					continue;
 			}
-
-			byte down_frames = MAX(input_state->abstract_buttons[mouse_button_index].down_frames(), 1);
-			word down_msec = MAX(input_state->abstract_buttons[mouse_button_index].down_msec(), 1);
-			byte down_amount = 255;
-
-			input_state->abstract_buttons[mouse_button_index].update(down_msec, down_frames, down_amount);
 		}
 	}
 }
