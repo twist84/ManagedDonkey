@@ -2,8 +2,8 @@
 
 #include "game/game.hpp"
 #include "objects/objects.hpp"
+#include "simulation/simulation_gamestate_entities.hpp"
 #include "simulation/simulation_type_collection.hpp"
-#include <simulation/simulation_gamestate_entities.hpp>
 
 e_simulation_entity_type c_simulation_object_update_flags::get_simulation_entity_type(long object_index)
 {
