@@ -485,7 +485,7 @@ void __cdecl game_globals_initialize_for_new_map(game_options const* options)
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
-	assert_game_options_verify(&game_globals->options);
+	assert_game_options_verify(options);
 
 	csmemcpy(&game_globals->options, options, sizeof(game_options));
 	game_globals->options.load_level_only = 0;
