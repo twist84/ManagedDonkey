@@ -520,7 +520,7 @@ void __cdecl game_globals_initialize_for_new_map(game_options const* options)
 	main_status("game_simulation", "%s", k_game_simulation_names[options->game_simulation.get()]);
 
 	ASSERT(options->game_playback >= 0 && options->game_playback < k_game_playback_count);
-	main_status("game_playback", "%s", k_game_playback_names[options->game_playback]);
+	main_status("game_playback", "%s", k_game_playback_names[options->game_playback.get()]);
 
 	game_globals->active_game_progression = game_globals->options.campaign_game_progression;
 }

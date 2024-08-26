@@ -150,12 +150,12 @@ void main_game_launch(char const* map_name)
 
 void main_game_launch_set_active_skulls_primary(long active_skulls_primary)
 {
-	g_launch_globals.options.skulls_primary = active_skulls_primary;
+	g_launch_globals.options.initial_primary_skulls = active_skulls_primary;
 }
 
 void main_game_launch_set_active_skulls_secondary(long active_skulls_secondary)
 {
-	g_launch_globals.options.skulls_secondary = active_skulls_secondary;
+	g_launch_globals.options.initial_secondary_skulls = active_skulls_secondary;
 }
 
 long main_game_launch_get_player_count()
