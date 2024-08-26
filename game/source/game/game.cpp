@@ -468,8 +468,17 @@ e_language __cdecl game_get_master_language()
 }
 
 //.text:00531270 ; long __cdecl game_get_recently_spawned_grace_period_seconds()
-//.text:00531290 ; void __cdecl game_globals_dispose_from_old_map()
 //.text:005312C0 ; void __cdecl game_globals_initialize_for_new_map(game_options const* options)
+
+void __cdecl game_globals_dispose_from_old_map()
+{
+	//INVOKE(0x00531290, game_globals_dispose_from_old_map);
+
+	main_status("game_instance", NULL);
+	main_status("game_simulation", NULL);
+	main_status("game_playback", NULL);
+}
+
 
 bool __cdecl game_had_an_update_tick_this_frame()
 {
