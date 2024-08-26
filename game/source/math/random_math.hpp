@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+struct game_options;
+
 extern dword __cdecl generate_random_seed();
 extern dword __cdecl get_local_random_seed();
 extern dword* __cdecl get_local_random_seed_address();
@@ -14,4 +16,11 @@ extern void __cdecl random_math_dispose_tool();
 extern void __cdecl random_math_initialize();
 extern void __cdecl random_math_initialize_internal();
 extern void __cdecl random_math_initialize_tool();
+extern void __cdecl set_random_seed(dword random_seed);
+
+extern bool random_seed_usable();
+extern void random_seed_allow_use();
+extern void random_seed_disallow_use();
+extern void random_seed_debug_log_begin(game_options const* options);
+extern void random_seed_debug_log_end();
 
