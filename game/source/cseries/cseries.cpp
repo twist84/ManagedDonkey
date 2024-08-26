@@ -159,6 +159,14 @@ void* (__cdecl* csmemset)(void* _Dst, int _Val, size_t _Size) = memset;
 
 #define MAXIMUM_STRING_SIZE 0x100000
 
+int strncmp_debug(char const* s1, char const* s2, size_t size)
+{
+	ASSERT(s1 && s2);
+	ASSERT(size >= 0 && size <= MAXIMUM_STRING_SIZE);
+
+	return strncmp(s1, s2, size);
+}
+
 long csstricmp(char const* s1, char const* s2)
 {
 	return _stricmp(s1, s2);
