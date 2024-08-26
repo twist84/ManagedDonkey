@@ -1,9 +1,11 @@
 #include "game/game.hpp"
 
+#include "cache/cache_files_windows.hpp"
 #include "config/version.hpp"
 #include "cseries/cseries.hpp"
 #include "editor/editor_stubs.hpp"
 #include "effects/effects.hpp"
+#include "fmod/src/sound_fmod.hpp"
 #include "game/game_achievements.hpp"
 #include "game/game_grief.hpp"
 #include "hs/hs.hpp"
@@ -34,6 +36,7 @@
 
 HOOK_DECLARE(0x00530F80, game_finish);
 HOOK_DECLARE(0x00530D10, game_dispose_from_old_map);
+HOOK_DECLARE(0x00530E70, game_dispose_from_old_structure_bsp);
 HOOK_DECLARE(0x005312C0, game_globals_initialize_for_new_map);
 HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
@@ -345,7 +348,41 @@ void __cdecl game_dispose_from_old_map()
 }
 
 //.text:00530E10 ; void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
-//.text:00530E70 ; void __cdecl game_dispose_from_old_structure_bsp(dword)
+
+void __cdecl game_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	//INVOKE(0x00530E70, game_dispose_from_old_structure_bsp, structure_bsp_mask);
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	assert_game_options_verify(&game_globals->options);
+	ASSERT(game_globals->map_active);
+	ASSERT(game_globals->active_structure_bsp_mask != 0);
+	ASSERT(global_structure_bsp_active_mask_get() != 0);
+
+	game_clear_structure_pvs(&game_globals->cluster_pvs, structure_bsp_mask);
+	game_clear_structure_pvs(&game_globals->cluster_pvs_local, structure_bsp_mask);
+	game_clear_structure_pvs(&game_globals->cluster_activation, structure_bsp_mask);
+
+	{
+		char active_structure_bsps[1024]{};
+		scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, active_structure_bsps, sizeof(active_structure_bsps));
+		main_status("bsp", "%s 0x%x (%s)", "disposing", game_globals->active_structure_bsp_mask, active_structure_bsps);
+	}
+
+	havok_can_modify_state_allow();
+	game_systems_dispose_from_old_structure_bsp(structure_bsp_mask);
+	objects_purge_deleted_objects();
+	havok_can_modify_state_disallow();
+
+	{
+		char active_structure_bsps[1024]{};
+		scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, active_structure_bsps, sizeof(active_structure_bsps));
+		main_status("bsp", "%s 0x%x (%s)", "disposed", game_globals->active_structure_bsp_mask, active_structure_bsps);
+	}
+
+	game_globals->active_structure_bsp_mask = 0;
+}
 
 void __cdecl game_finish()
 {

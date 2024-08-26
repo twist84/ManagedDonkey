@@ -238,7 +238,7 @@ extern e_campaign_difficulty_level __cdecl game_difficulty_level_get_ignore_easy
 extern void __cdecl game_dispose();
 extern void __cdecl game_dispose_from_old_map();
 //extern void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set);
-//extern void __cdecl game_dispose_from_old_structure_bsp(dword);
+extern void __cdecl game_dispose_from_old_structure_bsp(dword structure_bsp_mask);
 extern void __cdecl game_finish();
 //.text:00530FF0 ; 
 extern void __cdecl game_finished_update();
