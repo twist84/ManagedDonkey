@@ -249,6 +249,8 @@ constexpr bool pointer_is_aligned(void* pointer, long alignment_bits)
 }
 
 #if defined(_DEBUG)
+
+#define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) ASSERT_EXCEPTION(STATEMENT, true, __VA_ARGS__)
 #define ASSERT_EXCEPTION(STATEMENT, IS_EXCEPTION, ...) \
 if (!(STATEMENT) && !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
 {                                                                                              \
@@ -258,7 +260,8 @@ if (!(STATEMENT) && !handle_assert_as_exception(#STATEMENT, __FILE__, __LINE__, 
     else                                                                                       \
         system_exit();                                                                         \
 }
-#define ASSERT(STATEMENT, ...)  if (!(STATEMENT)) ASSERT_EXCEPTION(STATEMENT, true, __VA_ARGS__)
+
+#define ASSERT2(STATEMENT) ASSERT_EXCEPTION2(STATEMENT, true)
 #define ASSERT_EXCEPTION2(STATEMENT, IS_EXCEPTION, ...) \
 if (!handle_assert_as_exception(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
 {                                                                                              \
@@ -268,14 +271,18 @@ if (!handle_assert_as_exception(STATEMENT, __FILE__, __LINE__, IS_EXCEPTION)) \
     else                                                                                       \
         system_exit();                                                                         \
 }
-#define ASSERT2(STATEMENT) ASSERT_EXCEPTION2(STATEMENT, true)
+
 #else
-#define ASSERT_EXCEPTION(STATEMENT, ...) (void)(#STATEMENT)
+
 #define ASSERT(STATEMENT, ...) (void)(#STATEMENT)
-#define ASSERT_EXCEPTION2(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT_EXCEPTION(STATEMENT, ...) (void)(#STATEMENT)
+
 #define ASSERT2(STATEMENT, ...) (void)(#STATEMENT)
-#define ASSERT_EXCEPTION3(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT_EXCEPTION2(STATEMENT, ...) (void)(#STATEMENT)
+
 #define ASSERT3(STATEMENT, ...) (void)(#STATEMENT)
+#define ASSERT_EXCEPTION3(STATEMENT, ...) (void)(#STATEMENT)
+
 #endif // _DEBUG
 
 extern bool& g_catch_exceptions;
