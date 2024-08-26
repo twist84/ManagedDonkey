@@ -34,6 +34,7 @@
 
 HOOK_DECLARE(0x00530F80, game_finish);
 HOOK_DECLARE(0x00530D10, game_dispose_from_old_map);
+HOOK_DECLARE(0x005312C0, game_globals_initialize_for_new_map);
 HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 
@@ -468,7 +469,6 @@ e_language __cdecl game_get_master_language()
 }
 
 //.text:00531270 ; long __cdecl game_get_recently_spawned_grace_period_seconds()
-//.text:005312C0 ; void __cdecl game_globals_initialize_for_new_map(game_options const* options)
 
 void __cdecl game_globals_dispose_from_old_map()
 {
@@ -479,6 +479,51 @@ void __cdecl game_globals_dispose_from_old_map()
 	main_status("game_playback", NULL);
 }
 
+void __cdecl game_globals_initialize_for_new_map(game_options const* options)
+{
+	//INVOKE(0x005312C0, game_globals_initialize_for_new_map, options);
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	assert_game_options_verify(&game_globals->options);
+
+	csmemcpy(&game_globals->options, options, sizeof(game_options));
+	game_globals->options.load_level_only = 0;
+
+	//if (game_has_game_variant() || options->game_variant.get_game_engine_index())
+	if (game_globals->options.game_mode == _ui_game_mode_multiplayer || options->game_variant.get_game_engine_index())
+	{
+		game_globals->options.game_variant.copy_from_and_validate(&options->game_variant);
+		if (!game_engine_variant_validate(&game_globals->options.game_variant))
+		{
+			generate_event(_event_level_warning, "variant validation failed, about to start playing a default variant");
+		}
+	}
+
+	random_seed_allow_use();
+	set_random_seed(game_globals->options.random_seed);
+	random_seed_disallow_use();
+	if (game_globals->options.dump_random_seeds)
+		random_seed_debug_log_begin(&game_globals->options);
+
+	game_globals->game_lost = false;
+	game_globals->game_revert = false;
+	game_globals->game_finished = false;
+	game_globals->scripted = false;
+
+	game_globals->active_primary_skulls = options->initial_primary_skulls;
+	game_globals->active_secondary_skulls = options->initial_secondary_skulls;
+
+	ASSERT(options->game_simulation >= 0 && options->game_simulation < k_game_simulation_count);
+
+	main_status("game_instance", "%016I64X", options->game_instance);
+	main_status("game_simulation", "%s", k_game_simulation_names[options->game_simulation.get()]);
+
+	ASSERT(options->game_playback >= 0 && options->game_playback < k_game_playback_count);
+	main_status("game_playback", "%s", k_game_playback_names[options->game_playback]);
+
+	game_globals->active_game_progression = game_globals->options.campaign_game_progression;
+}
 
 bool __cdecl game_had_an_update_tick_this_frame()
 {
