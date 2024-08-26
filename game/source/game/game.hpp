@@ -208,6 +208,7 @@ extern char const* g_game_system_names[k_game_system_count];
 
 extern bool g_debug_survival_mode;
 extern char const* const k_game_simulation_names[k_game_simulation_count];
+extern char const* const k_game_playback_names[k_game_playback_count];
 extern c_static_array<c_static_array<long, 256>, 16> g_cluster_activation_reason;
 extern real_argb_color const* const k_activation_colors[6];
 extern long k_activation_color_override_index;
@@ -249,7 +250,7 @@ extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_activation();
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs();
 extern s_game_cluster_bit_vectors* __cdecl game_get_cluster_pvs_local();
 //extern void __cdecl game_get_determinism_versions(long* determinism_version, long* determinism_compatible_version);
-//.text:00531200 ; ;
+//.text:00531200 ; 
 extern e_language __cdecl game_get_master_language();
 //extern long __cdecl game_get_recently_spawned_grace_period_seconds();
 //extern void __cdecl game_globals_dispose_from_old_map();

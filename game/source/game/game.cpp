@@ -196,11 +196,13 @@ void __cdecl assert_game_options_verify(game_options const* options)
 //.text:00530580 ; game_globals_get_primary_skulls
 //.text:005305D0 ; game_globals_get_secondary_skulls
 //.text:00530620 ; void __cdecl game_react_to_level_completion()
+//.text:00530790 ; 
+//.text:005307A0 ; 
 //.text:005307B0 ; 
-//.text:005307F0 ; void __cdecl game_clusters_and
-//.text:00530840 ; game_clusters_fill
-//.text:00530860 ; game_clusters_or
-//.text:005308B0 ; game_compute_pvs
+//.text:005307F0 ; void __cdecl game_clusters_and(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors*)
+//.text:00530840 ; void __cdecl game_clusters_fill(s_game_cluster_bit_vectors*, bool)
+//.text:00530860 ; void __cdecl game_clusters_or(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors*)
+//.text:005308B0 ; void __cdecl game_compute_pvs(s_game_cluster_bit_vectors*, bool, c_static_array<c_static_array<long, 255>, 16>*)
 //.text:00530A20 ; bool __cdecl game_coop_allow_respawn()
 //.text:00530A40 ; long __cdecl game_coop_player_count()
 
@@ -1387,6 +1389,14 @@ char const* const k_game_simulation_names[k_game_simulation_count]
 	"sync-server",
 	"dist-client",
 	"dist-server"
+};
+
+char const* const k_game_playback_names[k_game_playback_count]
+{
+	"none",
+	"local",
+	"network-server",
+	"network-client"
 };
 
 char const* g_game_system_names[k_game_system_count]
