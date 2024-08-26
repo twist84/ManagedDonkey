@@ -594,7 +594,46 @@ void __cdecl game_initialize()
 
 void __cdecl game_initialize_for_new_map(game_options const* options)
 {
-	INVOKE(0x00531600, game_initialize_for_new_map, options);
+	//INVOKE(0x00531600, game_initialize_for_new_map, options);
+
+	ASSERT(options);
+	ASSERT(main_game_loaded_map());
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	char scenario_path[256]{};
+	char loaded_map[256]{};
+
+	cache_file_get_canonical_path(options->scenario_path.get_string()).copy_to(scenario_path, sizeof(scenario_path));
+	cache_file_get_canonical_path(main_game_loaded_map_name()).copy_to(loaded_map, sizeof(loaded_map));
+
+	bool scenario_path_and_loaded_map_match = strncmp_debug(loaded_map, scenario_path, 256) == 0;
+	ASSERT(scenario_path_and_loaded_map_match);
+
+	ASSERT(!game_globals->initializing);
+	ASSERT(!game_globals->map_active);
+	ASSERT(!game_globals->game_in_progress);
+	ASSERT(game_globals->active_structure_bsp_mask == 0);
+
+	csmemset(&game_globals->cluster_pvs, 0, sizeof(game_globals->cluster_pvs));
+	csmemset(&game_globals->cluster_pvs_local, 0, sizeof(game_globals->cluster_pvs_local));
+	csmemset(&game_globals->cluster_activation, 0, sizeof(game_globals->cluster_activation));
+	g_cluster_activation_reason.clear();
+
+	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	real_math_reset_precision();
+	random_seed_allow_use();
+
+	game_globals->initializing = true;
+	game_globals_initialize_for_new_map(options);
+	fmod_initialize_for_new_map(); // hf2p_initialize_for_new_map
+	game_systems_initialize_for_new_map();
+	game_globals->initializing = false;
+	game_globals->map_active = true;
+	game_globals->active_game_progression_level = _string_id_invalid;
+	game_globals->prepare_for_game_progression = false;
+
+	random_seed_disallow_use();
 }
 
 //.text:00531790 ; void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
