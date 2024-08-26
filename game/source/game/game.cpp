@@ -14,6 +14,7 @@
 #include "main/main.hpp"
 #include "main/main_game.hpp"
 #include "main/main_render.hpp"
+#include "math/random_math.hpp"
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "objects/widgets/widgets.hpp"
@@ -32,6 +33,7 @@
 #include "test/test_functions.hpp"
 
 HOOK_DECLARE(0x00530F80, game_finish);
+HOOK_DECLARE(0x00530D10, game_dispose_from_old_map);
 HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 
@@ -320,7 +322,26 @@ void __cdecl game_dispose()
 
 void __cdecl game_dispose_from_old_map()
 {
-	INVOKE(0x00530D10, game_dispose_from_old_map);
+	//INVOKE(0x00530D10, game_dispose_from_old_map);
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	ASSERT(main_game_loaded_map());
+	ASSERT(!game_globals->initializing);
+	ASSERT(game_globals->map_active);
+	ASSERT(game_globals->active_structure_bsp_mask == 0);
+
+	game_globals->active_designer_zone_mask = 0;
+	game_globals->active_cinematic_zone_mask = 0;
+	game_globals->active_game_progression_level = _string_id_invalid;
+	game_globals->prepare_for_game_progression = false;
+
+	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	game_globals->game_in_progress = false;
+	game_systems_dispose_from_old_map();
+	random_seed_debug_log_end();
+	game_globals_dispose_from_old_map();
+	game_globals->map_active = false;
 }
 
 //.text:00530E10 ; void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
