@@ -31,7 +31,7 @@ struct game_options
 	c_static_string<260> scenario_path;
 	short initial_zone_set_index;
 	bool load_level_only;
-	bool dump_machine_index;
+	byte dump_machine_index;
 	bool dump_object_log;
 	bool dump_random_seeds;
 	bool playtest_mode;
@@ -52,8 +52,8 @@ struct game_options
 	byte : 8;
 	byte : 8;
 	s_campaign_game_progression campaign_game_progression;
-	c_flags<e_primary_skulls, long, k_number_of_primary_skulls> skulls_primary;
-	c_flags<e_secondary_skulls, long, k_number_of_secondary_skulls> skulls_secondary;
+	c_flags<e_primary_skulls, long, k_number_of_primary_skulls> initial_primary_skulls;
+	c_flags<e_secondary_skulls, long, k_number_of_secondary_skulls> initial_secondary_skulls;
 	s_hub_progression hub_progression;
 	bool matchmade_game;
 	byte __align2C9[7];
