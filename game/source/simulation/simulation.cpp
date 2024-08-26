@@ -661,13 +661,13 @@ void __cdecl simulation_update_pregame()
 	////simulation_record_update(&update);
 	//simulation_globals.recording_film = false;
 	//
-	////random_seed_allow_use();
+	//random_seed_allow_use();
 	//damage_acceleration_queue_begin();
 	//
 	//simulation_apply_before_game(&update);
 	//
 	//damage_acceleration_queue_end();
-	////random_seed_disallow_use();
+	//random_seed_disallow_use();
 	//
 	//simulation_update_aftermath(&update, &metadata);
 	//simulation_destroy_update(&update);

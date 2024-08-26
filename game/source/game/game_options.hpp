@@ -31,7 +31,7 @@ struct game_options
 	c_static_string<260> scenario_path;
 	short initial_zone_set_index;
 	bool load_level_only;
-	byte dump_machine_index;
+	byte dump_machine_index; // 5 bits, 32 max, is this be a char/int8?
 	bool dump_object_log;
 	bool dump_random_seeds;
 	bool playtest_mode;
