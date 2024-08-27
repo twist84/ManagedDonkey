@@ -211,7 +211,7 @@ extern char const* g_game_system_names[k_game_system_count];
 extern bool g_debug_survival_mode;
 extern char const* const k_game_simulation_names[k_game_simulation_count];
 extern char const* const k_game_playback_names[k_game_playback_count];
-extern c_static_array<c_static_array<long, 256>, 16> g_cluster_activation_reason;
+extern c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
 extern real_argb_color const* const k_activation_colors[6];
 extern long k_activation_color_override_index;
 
