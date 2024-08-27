@@ -286,6 +286,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\replication\replication_encoding.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
+    <ClCompile Include="source\scenario\scenario_pvs.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_player.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_sandbox.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_hs.cpp" />

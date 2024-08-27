@@ -1530,6 +1530,9 @@
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_sandbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\scenario\scenario_pvs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
