@@ -35,9 +35,17 @@
 #include "test/test_functions.hpp"
 
 HOOK_DECLARE(0x00530F80, game_finish);
+HOOK_DECLARE(0x00530CD0, game_dispose);
 HOOK_DECLARE(0x00530D10, game_dispose_from_old_map);
+HOOK_DECLARE(0x00530E10, game_dispose_from_old_non_bsp_zone_set);
 HOOK_DECLARE(0x00530E70, game_dispose_from_old_structure_bsp);
 HOOK_DECLARE(0x005312C0, game_globals_initialize_for_new_map);
+HOOK_DECLARE(0x00531530, game_initialize);
+HOOK_DECLARE(0x00531600, game_initialize_for_new_map);
+HOOK_DECLARE(0x00531790, game_initialize_for_new_non_bsp_zone_set);
+HOOK_DECLARE(0x005317F0, game_initialize_for_new_structure_bsp);
+HOOK_DECLARE(0x00532AD0, game_prepare_for_non_bsp_zone_set_switch);
+HOOK_DECLARE(0x00532B10, game_prepare_to_switch_structure_bsp);
 HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 
@@ -320,6 +328,8 @@ void __cdecl game_dispose()
 {
 	//INVOKE(0x00530CD0, game_dispose);
 
+	// #TODO: add any debug logic
+
 	game_systems_dispose();
 }
 
@@ -347,7 +357,22 @@ void __cdecl game_dispose_from_old_map()
 	game_globals->map_active = false;
 }
 
-//.text:00530E10 ; void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
+void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
+{
+	//INVOKE(0x00530E10, game_dispose_from_old_non_bsp_zone_set, non_bsp_zone_set);
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	// #TODO: add any debug logic
+
+	havok_can_modify_state_allow();
+	game_systems_dispose_from_old_non_bsp_zone_set(non_bsp_zone_set);
+	objects_purge_deleted_objects();
+	havok_can_modify_state_disallow();
+
+	game_globals->active_designer_zone_mask = 0;
+	game_globals->active_cinematic_zone_mask = 0;
+}
 
 void __cdecl game_dispose_from_old_structure_bsp(dword structure_bsp_mask)
 {
@@ -617,7 +642,9 @@ void __cdecl game_initialize()
 	//INVOKE(0x00531530, game_initialize);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
-	
+
+	// #TODO: add any debug logic
+
 	game_globals = (game_globals_storage*)g_game_globals_allocator.allocate(sizeof(game_globals_storage), "game globals");
 	csmemset(game_globals, 0, sizeof(game_globals_storage));
 	
@@ -673,8 +700,31 @@ void __cdecl game_initialize_for_new_map(game_options const* options)
 	random_seed_disallow_use();
 }
 
-//.text:00531790 ; void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
-//.text:005317F0 ; void __cdecl game_initialize_for_new_structure_bsp(dword)
+void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
+{
+	//INVOKE(0x00531790, game_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	// #TODO: add any debug logic
+
+	game_globals->active_designer_zone_mask = global_designer_zone_active_mask_get();
+	game_globals->active_cinematic_zone_mask = global_cinematic_zone_active_mask_get();
+	game_systems_initialize_for_new_non_bsp_zone_set(new_non_bsp_zone_set);
+}
+
+void __cdecl game_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	//INVOKE(0x005317F0, game_initialize_for_new_structure_bsp, structure_bsp_mask);
+
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	// #TODO: add any debug logic
+
+	game_globals->active_structure_bsp_mask = g_active_structure_bsp_mask;
+	game_systems_initialize_for_new_structure_bsp(structure_bsp_mask);
+}
+
 //.text:00531840 ; short __cdecl game_insertion_point_get()
 //.text:00531870 ; void __cdecl game_insertion_point_lock(short)
 //.text:00531900 ; void __cdecl game_insertion_point_unlock(short)
@@ -1012,8 +1062,29 @@ e_game_playback_type __cdecl game_playback_get()
 }
 
 //.text:00532AA0 ; void __cdecl game_playback_set(e_game_playback_type playback_type)
-//.text:00532AD0 ; void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const*, s_game_non_bsp_zone_set const*, c_scenario_resource_registry*)
-//.text:00532B10 ; void __cdecl game_prepare_to_switch_structure_bsp(dword, dword)
+
+void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* resource_registry)
+{
+	//INVOKE(0x00532AD0, game_prepare_for_non_bsp_zone_set_switch, a1, a2, resource_registry);
+
+	// #TODO: add any debug logic
+
+	game_systems_prepare_for_non_bsp_zone_set_switch(a1, a2, resource_registry);
+	objects_purge_deleted_objects();
+}
+
+void __cdecl game_prepare_to_switch_structure_bsp(dword a1, dword a2)
+{
+	//INVOKE(0x00532B10, game_prepare_to_switch_structure_bsp, a1, a2);
+
+	// #TODO: add any debug logic
+
+	havok_can_modify_state_allow();
+	game_systems_prepare_for_new_zone_set(a1, a2);
+	objects_purge_deleted_objects();
+	havok_can_modify_state_disallow();
+}
+
 //.text:00532B50 ; void __cdecl skull_primary_enable
 //.text:00532B90 ; game_get_game_progression
 
@@ -1371,6 +1442,8 @@ void __cdecl game_update(long tick_count, real* game_seconds_elapsed)
 void __cdecl game_update_pvs()
 {
 	INVOKE(0x00533B80, game_update_pvs);
+
+	// #TODO: implement me
 }
 
 void __cdecl game_won()
