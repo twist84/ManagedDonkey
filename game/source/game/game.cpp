@@ -700,9 +700,9 @@ void __cdecl game_initialize_for_new_map(game_options const* options)
 	random_seed_disallow_use();
 }
 
-void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
+void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
 {
-	//INVOKE(0x00531790, game_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
+	//INVOKE(0x00531790, game_initialize_for_new_non_bsp_zone_set, non_bsp_zone_set);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
@@ -1118,7 +1118,11 @@ void __cdecl game_pvs_scripted_clear()
 		game_globals->scripted = 0;
 }
 
-//.text:00532C10 ; struct s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference()
+s_cluster_reference __cdecl game_pvs_scripted_get_cluster_reference()
+{
+	return INVOKE(0x00532C10, game_pvs_scripted_get_cluster_reference);
+}
+
 //.text:00532CB0 ; void __cdecl game_pvs_scripted_set_camera_point(short camera_point_index)
 
 void __cdecl game_pvs_scripted_set_object(long object_index)
