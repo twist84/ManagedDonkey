@@ -1,5 +1,35 @@
 #include "math/integer_math.hpp"
 
+#include "cseries/cseries.hpp"
+
+//.text:0052DD80 ; unsigned long __cdecl count_bits<long>(long)
+//.text:0052DDE0 ; public: __cdecl c_bit_range::c_bit_range(long, long, long)
+//.text:0052DE10 ; 
+
+bool __cdecl bit_vector_and(long count, unsigned long const* v0, unsigned long const* v1, unsigned long* result)
+{
+	return INVOKE(0x0052DF40, bit_vector_and, count, v0, v1, result);
+}
+
+//.text:0052DFA0 ; long __cdecl bit_vector_count_bits(unsigned long const*, long)
+//.text:0052E1E0 ; long __cdecl bit_vector_highest_bit_set(unsigned long const*, long)
+//.text:0052E280 ; long __cdecl bit_vector_lowest_bit_set(unsigned long const*, long)
+
+void __cdecl bit_vector_not(long count, unsigned long const* vector, unsigned long* result)
+{
+	INVOKE(0x0052E330, bit_vector_not, count, vector, result);
+}
+
+//.text:0052E360 ; 
+
+void __cdecl bit_vector_or(long count, unsigned long const* v0, unsigned long const* v1, unsigned long* result)
+{
+	INVOKE(0x0052E3A0, bit_vector_or, count, v0, v1, result);
+}
+
+//.text:0052E3E0 ; 
+//.text:0052E4A0 ; short __cdecl ceiling_log2(unsigned long)
+
 short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short x0, short y0, short x1, short y1)
 {
 	rect->x0 = x0;

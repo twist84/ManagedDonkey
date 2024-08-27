@@ -133,6 +133,10 @@ union argb_color
 };
 static_assert(sizeof(argb_color) == 0x4);
 
+extern bool __cdecl bit_vector_and(long count, unsigned long const* v0, unsigned long const* v1, unsigned long* result);
+extern void __cdecl bit_vector_not(long count, unsigned long const* vector, unsigned long* result);
+extern void __cdecl bit_vector_or(long count, unsigned long const* v0, unsigned long const* v1, unsigned long* result);
+
 extern short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short y0, short x0, short y1, short x1);
 extern int16_point2d* set_point2d(int16_point2d* point, short x, short y);
 
