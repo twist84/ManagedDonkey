@@ -49,7 +49,12 @@ void __cdecl ai_erase(long squad_index, bool delete_immediately)
 //.text:01431B50 ; bool __cdecl ai_find_location(real_point3d const*, s_location*)
 //.text:01431BC0 ; 
 //.text:01431C00 ; void __cdecl ai_generate_line_of_fire_pill(long, long, line_of_fire_pill*)
-//.text:01431C90 ; bool __cdecl ai_get_active_clusters(long, dword*, long)
+
+bool __cdecl ai_get_active_clusters(long a1, dword* a2, long a3)
+{
+	return INVOKE(0x01431C90, ai_get_active_clusters, a1, a2, a3);
+}
+
 //.text:01431D50 ; void __cdecl ai_get_center_of_mass(long, real_point3d*)
 //.text:01431DE0 ; long __cdecl ai_get_unit_responsible_for_damage(long, bool)
 //.text:01431E30 ; void __cdecl ai_globals_dialogue_enable(bool)
