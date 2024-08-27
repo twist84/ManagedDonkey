@@ -1396,21 +1396,66 @@ void __cdecl game_update_pvs()
 	INVOKE(0x00533B80, game_update_pvs);
 
 	// #TODO: implement me
+
+	//TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+	// 
+	//// #TODO: add any debug logic
+	//
+	//s_game_cluster_bit_vectors cluster_pvs = game_globals->cluster_pvs;
+	//s_game_cluster_bit_vectors cluster_pvs_local = game_globals->cluster_pvs_local;
+	//s_game_cluster_bit_vectors cluster_activation = game_globals->cluster_activation;
+	//g_cluster_activation_reason.clear();
+	//
+	//for (long structure_bsp_index = global_structure_bsp_first_active_index_get();
+	//	structure_bsp_index != NONE;
+	//	structure_bsp_index = global_structure_bsp_next_active_index_get(structure_bsp_index))
+	//{
+	//	structure_bsp* bsp = global_structure_bsp_get(structure_bsp_index);
+	//
+	//	dword active_clusters[8]{};
+	//	if (ai_get_active_clusters(structure_bsp_index, active_clusters, bsp->clusters.count()))
+	//		bit_vector_or(bsp->clusters.count(), game_globals->cluster_pvs, active_clusters, game_globals->cluster_activation);
+	//	else
+	//		cluster_activation.flags[0] = cluster_pvs.flags[0]; // ?
+	//}
+	//
+	//s_cluster_reference scripted_cluster = game_pvs_scripted_get_cluster_reference();
+	//if (scripted_cluster.bsp_index != 0xFF)
+	//{
+	//	s_scenario_pvs_row pvs_row{};
+	//	scenario_zone_set_pvs_get_row(global_scenario_index, &pvs_row, scenario_zone_set_index_get(), scripted_cluster, false);
+	//
+	//	s_game_cluster_bit_vectors clusters_from_row{}
+	//	scenario_zone_set_pvs_write_row(&clusters_from_row, &pvs_row);
+	//	game_clusters_or(/* ? */);
+	//}
+	//
+	//if (csmemcmp(&cluster_pvs, &game_globals->cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
+	//{
 	//	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	//	{
 	//		if (g_game_systems[system_index].change_pvs_proc)
 	//			g_game_systems[system_index].change_pvs_proc(&cluster_pvs, &game_globals->cluster_pvs, false);
 	//	}
+	//}
+	//
+	//if (csmemcmp(&cluster_pvs_local, &game_globals->cluster_pvs_local, sizeof(s_game_cluster_bit_vectors)))
+	//{
 	//	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	//	{
 	//		if (g_game_systems[system_index].change_pvs_proc)
 	//			g_game_systems[system_index].change_pvs_proc(&cluster_pvs_local, &game_globals->cluster_pvs_local, true);
 	//	}
+	//}
+	//
+	//if (csmemcmp(&cluster_activation, &game_globals->cluster_activation, sizeof(s_game_cluster_bit_vectors)))
+	//{
 	//	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	//	{
 	//		if (g_game_systems[system_index].activation_proc)
 	//			g_game_systems[system_index].activation_proc(&cluster_activation, &game_globals->cluster_activation);
 	//	}
+	//}
 }
 
 void __cdecl game_won()
