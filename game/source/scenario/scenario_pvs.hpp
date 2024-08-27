@@ -4,7 +4,8 @@
 
 struct s_scenario_pvs_row
 {
-	c_static_flags<1024> flags;
+	dword bit_vector[16];
+	long bit_vector_counts[16];
 };
 static_assert(sizeof(s_scenario_pvs_row) == 0x80);
 
