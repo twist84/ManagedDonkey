@@ -539,6 +539,11 @@ public:
 			m_storage[i] = value;
 	}
 
+	long get_element_size() const
+	{
+		return sizeof(t_type);
+	}
+
 	long get_total_element_size() const
 	{
 		return sizeof(t_type) * k_count;
