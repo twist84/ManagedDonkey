@@ -514,6 +514,20 @@ public:
 		return m_storage;
 	}
 
+	t_type const& element(long index) const
+	{
+		ASSERT(valid(index));
+
+		return m_storage[index];
+	}
+
+	t_type& element(long index)
+	{
+		ASSERT(valid(index));
+
+		return m_storage[index];
+	}
+
 	bool valid(long index) const
 	{
 		return VALID_INDEX(index, k_count);
