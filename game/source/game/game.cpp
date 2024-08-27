@@ -112,12 +112,12 @@ static __forceinline void __cdecl game_systems_prepare_for_new_zone_set(dword a1
 	}
 }
 
-static __forceinline void __cdecl game_systems_initialize_for_new_structure_bsp(dword a1)
+static __forceinline void __cdecl game_systems_initialize_for_new_structure_bsp(dword structure_bsp_mask)
 {
 	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_structure_bsp_proc)
-			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(a1);
+			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(structure_bsp_mask);
 	}
 }
 
@@ -148,12 +148,12 @@ static __forceinline void __cdecl game_systems_activation(s_game_cluster_bit_vec
 	}
 }
 
-static __forceinline void __cdecl game_systems_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* a3)
+static __forceinline void __cdecl game_systems_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* resource_registry)
 {
 	for (long system_index = 0; system_index < k_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc)
-			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(a1, a2, a3);
+			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(a1, a2, resource_registry);
 	}
 }
 
