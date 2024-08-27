@@ -117,6 +117,13 @@ dword __cdecl global_cinematic_zone_active_mask_get()
 	//return g_active_cinematic_zone_mask;
 }
 
+dword __cdecl global_designer_zone_active_mask_get()
+{
+	return INVOKE(0x004E95E0, global_designer_zone_active_mask_get);
+
+	//return g_active_designer_zone_mask;
+}
+
 long __cdecl global_structure_bsp_first_active_index_get()
 {
 	return INVOKE(0x004E96A0, global_structure_bsp_first_active_index_get);
