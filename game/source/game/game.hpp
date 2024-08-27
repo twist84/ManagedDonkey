@@ -15,6 +15,8 @@
 #include "saved_games/game_state.hpp"
 #include "shell/shell.hpp"
 
+#define MAXIMUM_CLUSTERS_PER_STRUCTURE 255
+
 // this enum most likely doesn't exist
 enum e_game_system
 {
@@ -220,10 +222,10 @@ extern void __cdecl assert_game_options_verify(game_options const* options);
 //.text:005305D0 ; game_globals_get_secondary_skulls;
 //extern void __cdecl game_react_to_level_completion();
 extern void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs, dword structure_bsp_mask);
-//extern void __cdecl game_clusters_and;
-//.text:00530840 ; game_clusters_fill;
-//.text:00530860 ; game_clusters_or;
-//.text:005308B0 ; game_compute_pvs;
+extern void __cdecl game_clusters_and(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3);
+extern void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* a1, bool a2);
+extern void __cdecl game_clusters_or(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3);
+extern void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16>* a3);
 //extern bool __cdecl game_coop_allow_respawn();
 //extern long __cdecl game_coop_player_count();
 extern void __cdecl game_create_ai(e_game_create_mode mode);

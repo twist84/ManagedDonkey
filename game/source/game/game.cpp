@@ -55,7 +55,7 @@ REFERENCE_DECLARE_ARRAY(0x01655950, s_game_system, g_game_systems, k_game_system
 
 bool g_debug_survival_mode = false;
 
-c_static_array<c_static_array<long, 256>, 16> g_cluster_activation_reason;
+c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
 
 real_argb_color const* const k_activation_colors[6]
 {
@@ -95,10 +95,26 @@ void __cdecl game_clear_structure_pvs(s_game_cluster_bit_vectors* structure_pvs,
 	INVOKE(0x005307B0, game_clear_structure_pvs, structure_pvs, structure_bsp_mask);
 }
 
-//.text:005307F0 ; void __cdecl game_clusters_and(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors*)
-//.text:00530840 ; void __cdecl game_clusters_fill(s_game_cluster_bit_vectors*, bool)
-//.text:00530860 ; void __cdecl game_clusters_or(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors*)
-//.text:005308B0 ; void __cdecl game_compute_pvs(s_game_cluster_bit_vectors*, bool, c_static_array<c_static_array<long, 255>, 16>*)
+void __cdecl game_clusters_and(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3)
+{
+	INVOKE(0x005307F0, game_clusters_and, a1, a2, a3);
+}
+
+void __cdecl game_clusters_fill(s_game_cluster_bit_vectors* a1, bool a2)
+{
+	INVOKE(0x00530840, game_clusters_fill, a1, a2);
+}
+
+void __cdecl game_clusters_or(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, s_game_cluster_bit_vectors* a3)
+{
+	INVOKE(0x00530860, game_clusters_or, a1, a2, a3);
+}
+
+void __cdecl game_compute_pvs(s_game_cluster_bit_vectors* a1, bool a2, c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16>* a3)
+{
+	INVOKE(0x005308B0, game_compute_pvs, a1, a2, a3);
+}
+
 //.text:00530A20 ; bool __cdecl game_coop_allow_respawn()
 //.text:00530A40 ; long __cdecl game_coop_player_count()
 
