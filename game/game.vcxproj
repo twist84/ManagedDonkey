@@ -1280,6 +1280,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\scenario\scenario_designer_zones_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_interpolators.hpp" />
     <ClInclude Include="source\scenario\scenario_kill_trigger_volumes.hpp" />
+    <ClInclude Include="source\scenario\scenario_pvs.hpp" />
     <ClInclude Include="source\scenario\scenario_resource_definitions.hpp" />
     <ClInclude Include="source\scenario\scenario_soft_ceilings.hpp" />
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />

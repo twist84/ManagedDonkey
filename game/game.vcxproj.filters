@@ -3650,6 +3650,9 @@
     <ClInclude Include="source\simulation\game_interface\simulation_game_engine_sandbox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\scenario\scenario_pvs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
