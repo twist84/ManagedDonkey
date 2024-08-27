@@ -1,5 +1,6 @@
 #include "memory/bitstream.hpp"
-#include "byte_swapping.hpp"
+
+#include "memory/byte_swapping.hpp"
 
 // ===================== halo 4 begin =====================
 
