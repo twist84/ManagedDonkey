@@ -23,6 +23,9 @@ REFERENCE_DECLARE(0x023FF443, bool, hs_verbose);
 HOOK_DECLARE(0x005942E0, hs_breakpoint);
 //HOOK_DECLARE(0x005972F0, hs_macro_function_evaluate);
 
+t_value_type<bool> const g_cinematic_debug_mode = { .value = true };
+DATA_PATCH_DECLARE(0x024B0A3E, g_cinematic_debug_mode, g_cinematic_debug_mode.bytes);
+
 // this is potentially at address `0x023FF444`,
 // there's a 512 byte + 4 byte gap there between `hs_verbose` and `g_typecasting_procedures`
 bool debug_global_variables[512]{};
