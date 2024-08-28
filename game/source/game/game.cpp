@@ -58,8 +58,6 @@ HOOK_DECLARE(0x00533120, game_tick);
 HOOK_DECLARE(0x00533B80, game_update_pvs);
 HOOK_DECLARE(0x006961B0, game_launch_has_initial_script);
 
-REFERENCE_DECLARE_ARRAY(0x01655950, s_game_system_old, g_game_systems_old, k_game_system_count);
-
 bool g_debug_survival_mode = false;
 
 c_static_array<c_static_array<long, MAXIMUM_CLUSTERS_PER_STRUCTURE>, 16> g_cluster_activation_reason;
@@ -251,7 +249,7 @@ void __cdecl game_dispose()
 
 	// #TODO: add any debug logic
 
-	for (long system_index = k_game_system_count - 1; system_index >= 0; system_index--)
+	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		ASSERT(g_game_systems[system_index].dispose_proc);
 		g_game_systems[system_index].dispose_proc();
@@ -277,7 +275,7 @@ void __cdecl game_dispose_from_old_map()
 	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 	game_globals->game_in_progress = false;
 
-	for (long system_index = k_game_system_count - 1; system_index >= 0; system_index--)
+	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_map_proc)
 			g_game_systems[system_index].dispose_from_old_map_proc();
@@ -298,7 +296,7 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 
 	havok_can_modify_state_allow();
 
-	for (long system_index = k_game_system_count - 1; system_index >= 0; system_index--)
+	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc)
 			g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc(non_bsp_zone_set);
@@ -334,7 +332,7 @@ void __cdecl game_dispose_from_old_structure_bsp(dword structure_bsp_mask)
 
 	havok_can_modify_state_allow();
 
-	for (long system_index = k_game_system_count - 1; system_index >= 0; system_index--)
+	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_structure_bsp_proc)
 			g_game_systems[system_index].dispose_from_old_structure_bsp_proc(structure_bsp_mask);
@@ -597,7 +595,7 @@ void __cdecl game_initialize()
 
 	real_math_reset_precision();
 
-	for (long system_index = 0; system_index < k_game_system_count; system_index++)
+	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		//system_debug_memory_internal(c_string_builder("before initializing %s", g_game_systems[system_index].name).get_string(), __FILE__, __LINE__);
 		c_console::write_line("before initializing %s", g_game_systems[system_index].name);
@@ -649,7 +647,7 @@ void __cdecl game_initialize_for_new_map(game_options const* options)
 	game_globals_initialize_for_new_map(options);
 	fmod_initialize_for_new_map(); // hf2p_initialize_for_new_map
 
-	for (long system_index = 0; system_index < k_game_system_count; system_index++)
+	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_map_proc)
 			g_game_systems[system_index].initialize_for_new_map_proc();
@@ -674,7 +672,7 @@ void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set co
 	game_globals->active_designer_zone_mask = global_designer_zone_active_mask_get();
 	game_globals->active_cinematic_zone_mask = global_cinematic_zone_active_mask_get();
 
-	for (long system_index = 0; system_index < k_game_system_count; system_index++)
+	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc)
 			g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc(non_bsp_zone_set);
@@ -691,7 +689,7 @@ void __cdecl game_initialize_for_new_structure_bsp(dword structure_bsp_mask)
 
 	game_globals->active_structure_bsp_mask = g_active_structure_bsp_mask;
 
-	for (long system_index = 0; system_index < k_game_system_count; system_index++)
+	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_structure_bsp_proc)
 			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(structure_bsp_mask);
@@ -1042,7 +1040,7 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set co
 
 	// #TODO: add any debug logic
 
-	for (long system_index = 0; system_index < k_game_system_count; system_index++)
+	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc)
 			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(a1, a2, resource_registry);
@@ -1059,7 +1057,7 @@ void __cdecl game_prepare_to_switch_structure_bsp(dword a1, dword a2)
 
 	havok_can_modify_state_allow();
 
-	for (long system_index = 0; system_index < k_game_system_count; system_index++)
+	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_new_zone_set_proc)
 			g_game_systems[system_index].prepare_for_new_zone_set_proc(a1, a2);
@@ -1509,7 +1507,7 @@ void __cdecl game_update_pvs()
 
 		if (csmemcmp(&cluster_pvs, &game_globals->cluster_pvs, sizeof(s_game_cluster_bit_vectors)))
 		{
-			for (long system_index = 0; system_index < k_game_system_count; system_index++)
+			for (long system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].change_pvs_proc)
 					g_game_systems[system_index].change_pvs_proc(&cluster_pvs, &game_globals->cluster_pvs, false);
@@ -1518,7 +1516,7 @@ void __cdecl game_update_pvs()
 
 		if (csmemcmp(&cluster_pvs_local, &game_globals->cluster_pvs_local, sizeof(s_game_cluster_bit_vectors)))
 		{
-			for (long system_index = 0; system_index < k_game_system_count; system_index++)
+			for (long system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].change_pvs_proc)
 					g_game_systems[system_index].change_pvs_proc(&cluster_pvs_local, &game_globals->cluster_pvs_local, true);
@@ -1527,7 +1525,7 @@ void __cdecl game_update_pvs()
 
 		if (csmemcmp(&cluster_activation, &game_globals->cluster_activation, sizeof(s_game_cluster_bit_vectors)))
 		{
-			for (long system_index = 0; system_index < k_game_system_count; system_index++)
+			for (long system_index = 0; system_index < g_game_system_count; system_index++)
 			{
 				if (g_game_systems[system_index].activation_proc)
 					g_game_systems[system_index].activation_proc(&cluster_activation, &game_globals->cluster_activation);
@@ -1746,104 +1744,6 @@ char const* const k_game_playback_names[k_game_playback_count]
 	"network-client"
 };
 
-char const* g_game_system_names[k_game_system_count]
-{
-	"determinism_debug_manager",
-	"optional_cache",
-	"screenshots_loader",
-	"transport",
-	"runtime_state",
-	"c_structure_renderer",
-	"data_mine",
-	"overlapped",
-	"random_math",
-	"network",
-	"network_webstats",
-	"xbox_connection",
-	"remote_command",
-	"telnet_console",
-	"console",
-	"input_abstraction",
-	"collision_log",
-	"levels",
-	"visibility_collection",
-	"game_grief",
-	"achievements",
-	"game_state",
-	"game_time",
-	"profiler",
-	"game_allegiance",
-	"players",
-	"player_control",
-	"player_training",
-	"game_engine",
-	"simulation",
-	"scenario",
-	"physics_constants",
-	"collision_debug",
-	"objects",
-	"object_early_movers",
-	"object_scripting",
-	"object_scheduler",
-	"object_activation_regions",
-	"scenario_kill_trigger_volumes",
-	"scenario_sky_objects",
-	"scenario_soft_ceilings",
-	"campaign_metagame",
-	"autosave_queue",
-	"saved_game_files",
-	"survival_mode",
-	"c_rasterizer",
-	"render",
-	"structures",
-	"breakable_surfaces",
-	"director",
-	"observer",
-	"s_depth_of_field",
-	"c_water_renderer",
-	"render_texture_camera",
-	"render_hud_camera",
-	"s_scripted_exposure",
-	"s_render_game_state",
-	"c_decal_system",
-	"effects",
-	"point_physics",
-	"c_atmosphere_fog_interface",
-	"screen_effect",
-	"sound_classes",
-	"sound",
-	"game_sound_deterministic",
-	"game_sound",
-	"game_sound_player_effects",
-	"rumble",
-	"player_effect",
-	"user_interface",
-	"interface",
-	"chud",
-	"overhead_map",
-	"cheats",
-	"cinematic",
-	"closed_caption",
-	"screenshots_uploader",
-	"spartan_program_handler",
-	"hs",
-	"recorded_animations",
-	"debug_menu",
-	"error_report_render",
-	"object_placement",
-	"havok",
-	"object_broadphase",
-	"havok_proxies",
-	"player_positions",
-	"ai",
-	"portal_activation",
-	"scenario_interpolators",
-	"game_save",
-	"watch_window",
-	"bink_playback",
-	"editor",
-	"render_state_cache"
-};
 
 #define DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(ADDRESS, NAME) .NAME = reinterpret_cast<decltype(s_game_system::NAME)>(ADDRESS)
 #define DECLARE_GAME_SYSTEM_MEMBER(FUNCTION, NAME) .NAME = FUNCTION
