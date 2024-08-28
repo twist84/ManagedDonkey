@@ -15,7 +15,7 @@ REFERENCE_DECLARE(0x018BB180, real, g_camera_speed);
 
 HOOK_DECLARE(0x00612710, observer_game_tick);
 HOOK_DECLARE(0x00613A60, observer_update);
-HOOK_DECLARE(0x006128B0, observer_initialize);
+//HOOK_DECLARE(0x006128B0, observer_initialize);
 
 bool g_debug_observer_render = false;
 
@@ -212,9 +212,9 @@ void __cdecl observer_dispose_from_old_map()
 	INVOKE(0x00612530, observer_dispose_from_old_map);
 }
 
-void __cdecl observer_dispose_from_old_structure_bsp(dword a1)
+void __cdecl observer_dispose_from_old_structure_bsp(dword structure_bsp_mask)
 {
-	INVOKE(0x00612540, observer_dispose_from_old_structure_bsp, a1);
+	INVOKE(0x00612540, observer_dispose_from_old_structure_bsp, structure_bsp_mask);
 }
 
 //.text:00612550 ; void __cdecl observer_find_displacement(real const* const, real const* const, s_observer_derivative* derivative)
@@ -294,7 +294,7 @@ s_observer_globals* observer_globals_get()
 
 void __cdecl observer_initialize()
 {
-	HOOK_INVOKE(, observer_initialize);
+	INVOKE(0x006128B0, observer_initialize);
 
 	status_lines_initialize(observer_meters, &observer_meter_display, NUMBEROF(observer_meters));
 }

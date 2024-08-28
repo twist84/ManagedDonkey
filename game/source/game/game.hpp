@@ -143,7 +143,7 @@ enum e_game_system
 struct s_game_non_bsp_zone_set;
 struct c_scenario_resource_registry;
 
-struct s_game_system
+struct s_game_system_old
 {
 	//char const* name;
 
@@ -160,7 +160,26 @@ struct s_game_system
 	void(__cdecl* initialize_for_new_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const*);
 	void(__cdecl* dispose_from_old_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const*);
 };
-static_assert(sizeof(s_game_system) == sizeof(void*) * 12);
+static_assert(sizeof(s_game_system_old) == sizeof(void*) * 12);
+
+struct s_game_system
+{
+	char const* name;
+
+	void(__cdecl* initialize_proc)();
+	void(__cdecl* dispose_proc)();
+	void(__cdecl* initialize_for_new_map_proc)();
+	void(__cdecl* dispose_from_old_map_proc)();
+	void(__cdecl* prepare_for_new_zone_set_proc)(dword, dword);
+	void(__cdecl* initialize_for_new_structure_bsp_proc)(dword);
+	void(__cdecl* dispose_from_old_structure_bsp_proc)(dword);
+	void(__cdecl* change_pvs_proc)(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, bool);
+	void(__cdecl* activation_proc)(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*);
+	void(__cdecl* prepare_for_non_bsp_zone_set_switch_proc)(s_game_non_bsp_zone_set const*, s_game_non_bsp_zone_set const*, c_scenario_resource_registry*);
+	void(__cdecl* initialize_for_new_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const*);
+	void(__cdecl* dispose_from_old_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const*);
+};
+static_assert(sizeof(s_game_system) == sizeof(void*) * 13);
 
 enum e_game_create_mode
 {
@@ -205,8 +224,11 @@ struct s_date_and_time
 };
 static_assert(sizeof(s_date_and_time) == 0x18);
 
-extern s_game_system(&g_game_systems)[k_game_system_count];
+extern s_game_system_old(&g_game_systems_old)[k_game_system_count];
 extern char const* g_game_system_names[k_game_system_count];
+
+extern s_game_system const g_game_systems[];
+extern long const g_game_system_count;
 
 extern bool g_debug_survival_mode;
 extern char const* const k_game_simulation_names[k_game_simulation_count];

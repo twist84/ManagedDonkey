@@ -8,7 +8,7 @@ enum e_object_type;
 extern void __cdecl editor_change_pvs(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2, bool a3);
 extern void __cdecl editor_dispose();
 extern void __cdecl editor_dispose_from_old_map();
-extern void __cdecl editor_dispose_from_old_structure_bsp(dword a1);
+extern void __cdecl editor_dispose_from_old_structure_bsp(dword structure_bsp_mask);
 extern void __cdecl editor_get_cluster_color(s_cluster_reference const* cluster_reference, real_argb_color* cluster_color);
 extern char const* __cdecl editor_get_map_name();
 extern bool __cdecl sub_42E000();

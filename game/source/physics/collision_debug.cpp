@@ -78,8 +78,8 @@ c_status_line g_collision_debug_lightmap_status_line_green_sh{};
 c_status_line g_collision_debug_lightmap_status_line_blue_sh{};
 //c_debug_lightmap_drawer global_lightmap_drawer{}:
 
-HOOK_DECLARE(0x005302B0, collision_debug_initialize);
-HOOK_DECLARE(0x005302C0, collision_debug_dispose);
+//HOOK_DECLARE(0x005302B0, collision_debug_initialize);
+//HOOK_DECLARE(0x005302C0, collision_debug_dispose);
 
 void __cdecl collision_debug_initialize()
 {

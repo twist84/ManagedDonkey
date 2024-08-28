@@ -21,14 +21,6 @@ REFERENCE_DECLARE(0x019A9FA0, s_simulation_globals, simulation_globals);
 
 HOOK_DECLARE(0x004411E0, simulation_describe_status);
 
-void patch_simulation()
-{
-	patch_pointer({ .address = 0x01655EC0 }, simulation_initialize);
-	patch_pointer({ .address = 0x01655EC4 }, simulation_dispose);
-	patch_pointer({ .address = 0x01655EC8 }, simulation_initialize_for_new_map);
-	patch_pointer({ .address = 0x01655ECC }, simulation_dispose_from_old_map);
-}
-
 c_wait_for_render_thread::c_wait_for_render_thread(char const* file, long line) :
 	m_flags(_internal_halt_render_thread_and_lock_resources(file, line))
 {

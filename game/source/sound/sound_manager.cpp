@@ -410,8 +410,16 @@ void __cdecl sound_dispose()
 	INVOKE(0x00516A30, sound_dispose);
 }
 
-//.text:00516A90 ; void __cdecl sound_dispose_from_old_map()
-//.text:00516BD0 ; void __cdecl sound_dispose_from_old_structure_bsp(dword)
+void __cdecl sound_dispose_from_old_map()
+{
+	INVOKE(0x00516A90, sound_dispose_from_old_map);
+}
+
+void __cdecl sound_dispose_from_old_structure_bsp(dword structure_bps_mask)
+{
+	INVOKE(0x00516BD0, sound_dispose_from_old_structure_bsp, structure_bps_mask);
+}
+
 //.text:00516BE0 ; short __cdecl sound_find_best_channel(long, e_sound_event_stop_reason*)
 //.text:00516D40 ; short __cdecl sound_find_channel(long, e_sound_event_stop_reason*)
 //.text:00517010 ; short __cdecl sound_find_like_channel(long, short*, short)
@@ -443,9 +451,9 @@ void __cdecl sound_initialize_for_new_map()
 	INVOKE(0x00517CF0, sound_initialize_for_new_map);
 }
 
-void __cdecl sound_initialize_for_new_structure_bsp()
+void __cdecl sound_initialize_for_new_structure_bsp(dword structure_bsp_mask)
 {
-	INVOKE(0x00517F20, sound_initialize_for_new_structure_bsp);
+	INVOKE(0x00517F20, sound_initialize_for_new_structure_bsp, structure_bsp_mask);
 }
 
 bool __cdecl sound_is_active()

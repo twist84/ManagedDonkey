@@ -1561,7 +1561,11 @@ void __cdecl object_wake(long object_index)
 	INVOKE(0x00B34D00, object_wake, object_index);
 }
 
-//.text:00B34D60 ; void __cdecl objects_activation(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*)
+void __cdecl objects_activation(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2)
+{
+	INVOKE(0x00B34D60, objects_activation, a1, a2);
+}
+
 //.text:00B35150 ; bool __cdecl objects_activation_find_scenario_reference_in_currently_active_clusters(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, s_scenario_object_reference const*)
 
 bool __cdecl objects_can_connect_to_map()
@@ -1589,9 +1593,9 @@ void __cdecl objects_dispose_from_old_map()
 	INVOKE(0x00B35430, objects_dispose_from_old_map);
 }
 
-void __cdecl objects_dispose_from_old_structure_bsp(dword a1)
+void __cdecl objects_dispose_from_old_structure_bsp(dword structure_bsp_mask)
 {
-	INVOKE(0x00B35530, objects_dispose_from_old_structure_bsp, a1);
+	INVOKE(0x00B35530, objects_dispose_from_old_structure_bsp, structure_bsp_mask);
 }
 
 void __cdecl objects_enable_warthog_chaingun_light(bool enable_warthog_chaingun_light)

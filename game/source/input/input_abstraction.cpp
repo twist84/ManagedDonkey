@@ -7,8 +7,8 @@
 
 REFERENCE_DECLARE(0x0244C9D0, s_input_abstraction_globals, input_abstraction_globals);
 
-HOOK_DECLARE(0x0060B3A0, input_abstraction_dispose);
-HOOK_DECLARE(0x0060B3C0, input_abstraction_dispose_from_old_map);
+//HOOK_DECLARE(0x0060B3A0, input_abstraction_dispose);
+//HOOK_DECLARE(0x0060B3C0, input_abstraction_dispose_from_old_map);
 //HOOK_DECLARE(0x0060B3D0, sub_60B3D0);
 HOOK_DECLARE(0x0060BE20, input_abstraction_get_abstract_stick_pitch);
 HOOK_DECLARE(0x0060BE60, input_abstraction_get_controls_method);
@@ -18,7 +18,7 @@ HOOK_DECLARE(0x0060BF00, input_abstraction_get_default_preferences);
 HOOK_DECLARE(0x0060BFE0, input_abstraction_get_input_state);
 HOOK_DECLARE(0x0060C000, input_abstraction_get_player_look_angular_velocity);
 HOOK_DECLARE(0x0060C040, sub_60C040);
-HOOK_DECLARE(0x0060C390, input_abstraction_initialize);
+//HOOK_DECLARE(0x0060C390, input_abstraction_initialize);
 //HOOK_DECLARE(0x0060C430, input_abstraction_initialize_for_new_map);
 //HOOK_DECLARE(0x0060C4A0, sub_60C4A0);
 //HOOK_DECLARE(0x0060C6D0, sub_60C6D0);
@@ -36,11 +36,15 @@ bool use_mean_look_sensitivity = false;
 
 void __cdecl input_abstraction_dispose()
 {
+	//INVOKE(0x0060B3A0, input_abstraction_dispose);
+
 	csmemset(&input_abstraction_globals, 0, sizeof(s_input_abstraction_globals));
 }
 
 void __cdecl input_abstraction_dispose_from_old_map()
 {
+	//INVOKE(0x0060B3C0, input_abstraction_dispose_from_old_map);
+
 	input_abstraction_globals.input_globals = nullptr;
 }
 

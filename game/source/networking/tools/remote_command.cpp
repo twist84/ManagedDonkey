@@ -48,8 +48,8 @@
 #include "units/bipeds.hpp"
 #include "xbox/xnet.hpp"
 
-HOOK_DECLARE(0x014E2A60, remote_command_dispose);
-HOOK_DECLARE(0x014E2A70, remote_command_initialize);
+//HOOK_DECLARE(0x014E2A60, remote_command_dispose);
+//HOOK_DECLARE(0x014E2A70, remote_command_initialize);
 
 s_remote_command_globals remote_command_globals;
 

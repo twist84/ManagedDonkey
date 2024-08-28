@@ -25,10 +25,10 @@
 #include <math.h>
 #include <string.h>
 
-HOOK_DECLARE(0x005301C0, cheats_initialize);
-HOOK_DECLARE(0x005301D0, cheats_dispose);
-HOOK_DECLARE(0x005301E0, cheats_initialize_for_new_map);
-HOOK_DECLARE(0x005301F0, cheats_dispose_from_old_map);
+//HOOK_DECLARE(0x005301C0, cheats_initialize);
+//HOOK_DECLARE(0x005301D0, cheats_dispose);
+//HOOK_DECLARE(0x005301E0, cheats_initialize_for_new_map);
+//HOOK_DECLARE(0x005301F0, cheats_dispose_from_old_map);
 
 cheat_globals cheat = {};
 

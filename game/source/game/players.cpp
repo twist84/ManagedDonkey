@@ -16,6 +16,7 @@
 
 HOOK_DECLARE(0x00536020, player_get_armor_loadout);
 HOOK_DECLARE(0x00536680, player_get_weapon_loadout);
+HOOK_DECLARE(0x00538510, player_can_assassinate_object);
 HOOK_DECLARE(0x0053F220, player_suppress_action);
 
 bool debug_player_network_aiming = false;
@@ -239,7 +240,14 @@ void players_debug_render()
 //.text:00537FE0 ; void __cdecl player_approve_pickup_weapon(long, long, unit_weapon_pickup_result*)
 //.text:005381F0 ; void __cdecl player_build_aiming_vector_from_facing(long, real, real, vector3d*)
 //.text:005384C0 ; 
-//.text:00538510 ; bool __cdecl player_can_assassinate_object(long, long)
+
+bool __cdecl player_can_assassinate_object(long player_index, long object_index)
+{
+	//return INVOKE(0x00538510, player_can_assassinate_object, player_index, object_index);
+
+	return false;
+}
+
 //.text:005385F0 ; bool __cdecl player_can_fancy_assassinate_object(long, long)
 //.text:005386D0 ; bool __cdecl sub_5386D0(player_datum*)
 //.text:00538730 ; void __cdecl player_clear_assassination_state(long)

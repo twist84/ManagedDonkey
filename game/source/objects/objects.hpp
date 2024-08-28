@@ -502,6 +502,7 @@ extern bool debug_objects_node_bounds;
 extern bool debug_objects_animation;
 
 struct s_scenario_object;
+struct s_game_cluster_bit_vectors;
 
 extern void* __cdecl object_header_block_get(long object_index, object_header_block_reference const* reference);
 extern void* __cdecl object_header_block_get_with_count(long object_index, object_header_block_reference const* reference, unsigned int element_size, long* element_count);
@@ -665,12 +666,13 @@ extern void __cdecl object_update_collision_culling(long object_index);
 extern void __cdecl object_update_visibility_culling(long object_index);
 extern bool __cdecl object_visible_to_any_player(long object_index);
 extern void __cdecl object_wake(long object_index);
+extern void __cdecl objects_activation(s_game_cluster_bit_vectors const* a1, s_game_cluster_bit_vectors const* a2);
 extern bool __cdecl objects_can_connect_to_map();
 extern long __cdecl objects_compact_memory_pool();
 extern void __cdecl objects_detach_from_simulation();
 extern void __cdecl objects_dispose();
 extern void __cdecl objects_dispose_from_old_map();
-extern void __cdecl objects_dispose_from_old_structure_bsp(dword a1);
+extern void __cdecl objects_dispose_from_old_structure_bsp(dword structure_bsp_mask);
 extern void __cdecl objects_enable_warthog_chaingun_light(bool enable_warthog_chaingun_light);
 extern void __cdecl objects_garbage_collection();
 extern long __cdecl objects_get_active_garbage_count();

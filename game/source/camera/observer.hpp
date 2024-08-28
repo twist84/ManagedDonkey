@@ -191,7 +191,7 @@ extern void __cdecl observer_compute_result(e_output_user_index user_index, s_fo
 extern void __cdecl observer_compute_view_offset_matrix(e_output_user_index output_user_index, real_matrix4x3* view_offset_matrix);
 extern void __cdecl observer_dispose();
 extern void __cdecl observer_dispose_from_old_map();
-extern void __cdecl observer_dispose_from_old_structure_bsp(dword a1);
+extern void __cdecl observer_dispose_from_old_structure_bsp(dword structure_bsp_mask);
 extern void __cdecl observer_game_tick();
 extern s_observer* __cdecl observer_get(e_output_user_index output_user_index);
 extern s_observer_result const* observer_get_camera(e_output_user_index output_user_index);

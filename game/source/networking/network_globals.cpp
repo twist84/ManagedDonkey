@@ -68,8 +68,8 @@ REFERENCE_DECLARE(0x0224A4AC, c_network_session_parameter_type_collection*, g_ne
 REFERENCE_DECLARE(0x0224A4B0, c_network_session_manager*, g_network_session_manager);
 REFERENCE_DECLARE(0x0224A4B4, s_network_globals, network_globals);
 
-HOOK_DECLARE(0x0049E050, network_dispose);
-HOOK_DECLARE(0x0049E1B0, network_initialize);
+//HOOK_DECLARE(0x0049E050, network_dispose);
+//HOOK_DECLARE(0x0049E1B0, network_initialize);
 HOOK_DECLARE(0x0049E7B0, network_update);
 HOOK_DECLARE_CALL(0x0049E200, network_memory_base_initialize);
 

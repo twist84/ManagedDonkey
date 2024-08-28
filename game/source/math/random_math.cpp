@@ -10,8 +10,8 @@
 
 REFERENCE_DECLARE(0x0238ED14, dword, random_seed_local);
 
-HOOK_DECLARE(0x0051F070, random_math_dispose);
-HOOK_DECLARE(0x0051F0B0, random_math_initialize);
+//HOOK_DECLARE(0x0051F070, random_math_dispose);
+//HOOK_DECLARE(0x0051F0B0, random_math_initialize);
 
 long random_seed_allow_use_count = 0;
 bool random_seed_debug_file_open = false;

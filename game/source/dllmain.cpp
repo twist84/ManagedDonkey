@@ -5,8 +5,6 @@
 #include "memory/module.hpp"
 
 #include "interface/gui_custom_bitmap_widget.hpp"
-#include "saved_games/game_state.hpp"
-#include "simulation/simulation.hpp"
 
 void process_attach(HMODULE hModule)
 {
@@ -20,8 +18,6 @@ void process_attach(HMODULE hModule)
 	apply_all_hooks(false);
 
 	patch_gui_custom_bitmap_widget();
-	patch_game_state();
-	patch_simulation();
 }
 
 void process_detach(HMODULE hModule)

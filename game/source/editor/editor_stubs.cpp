@@ -3,16 +3,16 @@
 #include "memory/module.hpp"
 #include "scenario/scenario.hpp"
 
-HOOK_DECLARE(0x0042DF80, editor_change_pvs);
-HOOK_DECLARE(0x0042DF90, editor_dispose);
-HOOK_DECLARE(0x0042DFA0, editor_dispose_from_old_map);
-HOOK_DECLARE(0x0042DFB0, editor_dispose_from_old_structure_bsp);
+//HOOK_DECLARE(0x0042DF80, editor_change_pvs);
+//HOOK_DECLARE(0x0042DF90, editor_dispose);
+//HOOK_DECLARE(0x0042DFA0, editor_dispose_from_old_map);
+//HOOK_DECLARE(0x0042DFB0, editor_dispose_from_old_structure_bsp);
 HOOK_DECLARE(0x0042DFD0, editor_get_cluster_color);
 HOOK_DECLARE(0x0042DFE0, editor_get_map_name);
 HOOK_DECLARE(0x0042E000, sub_42E000);
-HOOK_DECLARE(0x0042E010, editor_initialize);
-HOOK_DECLARE(0x0042E020, editor_initialize_for_new_map);
-HOOK_DECLARE(0x0042E030, editor_initialize_for_new_structure_bsp);
+//HOOK_DECLARE(0x0042E010, editor_initialize);
+//HOOK_DECLARE(0x0042E020, editor_initialize_for_new_map);
+//HOOK_DECLARE(0x0042E030, editor_initialize_for_new_structure_bsp);
 HOOK_DECLARE(0x0042E040, editor_input_inhibited);
 HOOK_DECLARE(0x0042E060, editor_orphan_object);
 HOOK_DECLARE(0x0042E080, editor_register_new_object);
@@ -35,7 +35,7 @@ void __cdecl editor_dispose_from_old_map()
 {
 }
 
-void __cdecl editor_dispose_from_old_structure_bsp(dword a1)
+void __cdecl editor_dispose_from_old_structure_bsp(dword structure_bsp_mask)
 {
 }
 

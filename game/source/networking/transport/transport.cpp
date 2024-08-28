@@ -11,7 +11,7 @@
 REFERENCE_DECLARE(0x0199FA28, s_transport_globals, transport_globals);
 
 HOOK_DECLARE(0x00430630, transport_available);
-HOOK_DECLARE(0x00430650, transport_dispose);
+//HOOK_DECLARE(0x00430650, transport_dispose);
 
 bool __cdecl transport_available()
 {
@@ -20,6 +20,8 @@ bool __cdecl transport_available()
 
 void __cdecl transport_dispose()
 {
+	//INVOKE(0x00430650, transport_dispose);
+
 	if (transport_globals.initialized)
 	{
 		transport_shutdown();
@@ -75,6 +77,8 @@ void __cdecl transport_global_update()
 
 void __cdecl transport_initialize()
 {
+	//INVOKE(0x004306F0, transport_initialize);
+
 	csmemset(&transport_globals, 0, sizeof(transport_globals));
 	transport_security_initialize();
 	transport_qos_initialize();

@@ -129,8 +129,6 @@ extern c_gamestate_nondeterministic_allocation_callbacks g_gamestate_nondetermin
 extern c_gamestate_allocation_record_allocation_callbacks g_gamestate_allocation_record_allocation_callbacks;
 extern s_game_state_globals& game_state_globals;
 
-extern void patch_game_state();
-
 enum e_controller_index;
 enum e_critical_sections;
 struct s_player_identifier;
@@ -142,8 +140,8 @@ extern void __cdecl game_state_compressor_lock_update();
 extern bool __cdecl game_state_debug_server_file_uploading_enabled(c_static_string<256>* reason);
 extern void __cdecl game_state_dispose();
 extern void __cdecl game_state_dispose_from_old_map();
-extern void __cdecl game_state_dispose_from_old_designer_zone_set(dword a1);
-extern void __cdecl game_state_dispose_from_old_structure_bsp(dword a1);
+extern void __cdecl game_state_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set);
+extern void __cdecl game_state_dispose_from_old_structure_bsp(dword structure_bsp_mask);
 extern void const* __cdecl game_state_get_buffer_address(long* buffer_size);
 extern c_game_state_compressor* __cdecl game_state_get_compressor();
 extern bool __cdecl game_state_get_game_options_from_core(char const* core_name, game_options* options);
@@ -156,7 +154,7 @@ extern bool __cdecl game_state_header_valid(s_game_state_header const* header);
 extern bool __cdecl game_state_header_valid_for_saving(s_game_state_header const* header);
 extern void __cdecl game_state_initialize();
 extern void __cdecl game_state_initialize_for_new_map();
-extern void __cdecl game_state_initialize_for_new_designer_zone_set(dword a1);
+extern void __cdecl game_state_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set);
 extern void __cdecl game_state_initialize_for_new_structure_bsp(dword a1);
 extern bool __cdecl game_state_is_locked();
 extern void __cdecl game_state_load_core(char const* core_name);

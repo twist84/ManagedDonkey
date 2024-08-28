@@ -20,7 +20,11 @@ static_assert(sizeof(s_interaction_event) == 0x1400);
 struct c_water_renderer
 {
 public:
+	static void __cdecl dispose();
+	static void __cdecl dispose_from_old_map();
 	static void __cdecl game_update();
+	static void __cdecl initialize();
+	static void __cdecl initialize_for_new_map();
 };
 
 extern bool& render_water_enabled;
