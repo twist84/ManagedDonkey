@@ -22,6 +22,8 @@ extern short global_current_collision_users[MAXIMUM_COLLISION_USER_STACK_DEPTH];
 extern char const* const global_collision_function_names[NUMBER_OF_COLLISION_FUNCTION_TYPES];
 extern char const* const global_collision_user_names[NUMBER_OF_COLLISION_USER_TYPES];
 
+extern void __cdecl collision_log_initialize();
+extern void __cdecl collision_log_dispose();
 extern void __cdecl collision_log_end_frame();
 extern void __cdecl collision_log_begin_frame();
 

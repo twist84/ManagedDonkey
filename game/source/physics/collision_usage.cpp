@@ -20,6 +20,16 @@ short global_collision_period_depth = 0;
 short global_collision_periods[MAXIMUM_COLLISION_PERIOD_STACK_DEPTH]{};
 short global_current_collision_users[MAXIMUM_COLLISION_USER_STACK_DEPTH]{};
 
+void __cdecl collision_log_initialize()
+{
+	INVOKE(0x00530300, collision_log_initialize);
+}
+
+void __cdecl collision_log_dispose()
+{
+	INVOKE(0x00530310, collision_log_dispose);
+}
+
 void __cdecl collision_log_end_frame()
 {
 	INVOKE(0x00641A20, collision_log_end_frame);

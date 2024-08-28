@@ -5,14 +5,22 @@
 //.text:004E3F60 ; void __cdecl do_uploading_work()
 //.text:004E3FF0 ; 
 //.text:004E4000 ; void __cdecl network_webstats_disable(bool)
-//.text:004E4010 ; void __cdecl network_webstats_dispose()
+
+void __cdecl network_webstats_dispose()
+{
+	INVOKE(0x004E4010, network_webstats_dispose);
+}
 
 void __cdecl network_webstats_force_reset()
 {
 	INVOKE(0x004E4020, network_webstats_force_reset);
 }
 
-//.text:004E4040 ; void __cdecl network_webstats_initialize()
+void __cdecl network_webstats_initialize()
+{
+	INVOKE(0x004E4040, network_webstats_initialize);
+}
+
 //.text:004E40A0 ; void __cdecl network_webstats_set_upstream_quota(long)
 //.text:004E40C0 ; bool __cdecl network_webstats_submit_buffer(e_online_lsp_service_type, void const*, long, char const*, long)
 //.text:004E4200 ; bool __cdecl network_webstats_submit_file_allowed()

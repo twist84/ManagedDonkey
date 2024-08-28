@@ -253,6 +253,8 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\networking\online\online_session.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameters.cpp" />
     <ClCompile Include="source\networking\session\network_session_parameter_types.cpp" />
+    <ClCompile Include="source\networking\tools\telnet_console.cpp" />
+    <ClCompile Include="source\networking\tools\xbox_connection_manager.cpp" />
     <ClCompile Include="source\networking\transport\transport_qos.cpp" />
     <ClCompile Include="source\objects\crates.cpp" />
     <ClCompile Include="source\objects\damage_owner.cpp" />
@@ -284,6 +286,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
     <ClCompile Include="source\replication\replication_encoding.cpp" />
+    <ClCompile Include="source\saved_games\determinism_debug_manager.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\scenario\scenario_pvs.cpp" />
@@ -1057,6 +1060,8 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\networking\online\online_session.hpp" />
     <ClInclude Include="source\networking\session\network_session_parameter_types.hpp" />
     <ClInclude Include="source\networking\tools\network_web_events.hpp" />
+    <ClInclude Include="source\networking\tools\telnet_console.hpp" />
+    <ClInclude Include="source\networking\tools\xbox_connection_manager.hpp" />
     <ClInclude Include="source\objects\crates.hpp" />
     <ClInclude Include="source\objects\reference_lists.hpp" />
     <ClInclude Include="source\objects\scenery.hpp" />

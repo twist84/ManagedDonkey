@@ -3,6 +3,7 @@
 #include "cache/cache_files_windows.hpp"
 #include "config/version.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/runtime_state.hpp"
 #include "editor/editor_stubs.hpp"
 #include "effects/effects.hpp"
 #include "fmod/src/sound_fmod.hpp"
@@ -23,16 +24,21 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/network_globals.hpp"
+#include "networking/tools/network_webstats.hpp"
 #include "networking/tools/remote_command.hpp"
+#include "networking/tools/telnet_console.hpp"
+#include "networking/tools/xbox_connection_manager.hpp"
 #include "networking/transport/transport.hpp"
 #include "objects/widgets/widgets.hpp"
 #include "physics/collision_debug.hpp"
+#include "physics/collision_usage.hpp"
 #include "profiler/profiler.hpp"
 #include "rasterizer/rasterizer_hue_saturation.hpp"
 #include "render/camera_fx_settings.hpp"
 #include "render/render.hpp"
 #include "render/render_debug.hpp"
 #include "render/render_visibility.hpp"
+#include "saved_games/determinism_debug_manager.hpp"
 #include "scenario/scenario_interpolators.hpp"
 #include "scenario/scenario_pvs.hpp"
 #include "simulation/simulation.hpp"
@@ -1762,10 +1768,10 @@ s_game_system const g_game_systems[]
 {
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(determinism_debug_manager)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530270, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530280, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530290, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005302A0, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(determinism_debug_manager, initialize),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530270, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(determinism_debug_manager, dispose),                //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530280, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(determinism_debug_manager, initialize_for_new_map), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530290, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(determinism_debug_manager, dispose_from_old_map),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005302A0, dispose_from_old_map),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(optional_cache)
@@ -1784,10 +1790,10 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(runtime_state)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00509E00, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00509DC0, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00509E10, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00509DD0, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(runtime_state, initialize),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00509E00, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(runtime_state, dispose),                //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00509DC0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(runtime_state, initialize_for_new_map), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00509E10, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(runtime_state, dispose_from_old_map),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00509DD0, dispose_from_old_map),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(c_structure_renderer)
@@ -1820,13 +1826,13 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(network_webstats)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x004E4040, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x004E4010, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(network_webstats, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x004E4040, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(network_webstats, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x004E4010, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(xbox_connection)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x014E2AC0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x014E2AB0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(xbox_connection, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x014E2AC0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(xbox_connection, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x014E2AB0, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(remote_command)
@@ -1835,8 +1841,8 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(telnet_console)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005301A0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005301B0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(telnet_console, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005301A0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(telnet_console, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005301B0, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(console)
@@ -1852,8 +1858,8 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(collision_log)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530300, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530310, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(collision_log, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530300, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(collision_log, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530310, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(levels)

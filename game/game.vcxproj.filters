@@ -1533,6 +1533,15 @@
     <ClCompile Include="source\scenario\scenario_pvs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\saved_games\determinism_debug_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\tools\xbox_connection_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\networking\tools\telnet_console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3654,6 +3663,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\scenario\scenario_pvs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\tools\xbox_connection_manager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\networking\tools\telnet_console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

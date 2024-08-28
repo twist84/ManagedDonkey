@@ -11,3 +11,8 @@ struct s_determinism_verification
 };
 static_assert(sizeof(s_determinism_verification) == 0x84);
 
+extern void __cdecl determinism_debug_manager_initialize();
+extern void __cdecl determinism_debug_manager_dispose();
+extern void __cdecl determinism_debug_manager_initialize_for_new_map();
+extern void __cdecl determinism_debug_manager_dispose_from_old_map();
+

@@ -11,11 +11,11 @@ REFERENCE_DECLARE(0x0189D3C0, c_runtime_state_allocation, g_actual_runtime_state
 REFERENCE_DECLARE(0x022C0108, s_runtime_state_globals, g_runtime_state_globals);
 
 HOOK_DECLARE(0x00509D30, runtime_state_data_new);
-HOOK_DECLARE(0x00509DC0, runtime_state_dispose);
-HOOK_DECLARE(0x00509DD0, runtime_state_dispose_from_old_map);
+//HOOK_DECLARE(0x00509DC0, runtime_state_dispose);
+//HOOK_DECLARE(0x00509DD0, runtime_state_dispose_from_old_map);
 HOOK_DECLARE(0x00509DE0, runtime_state_get_buffer_address);
-HOOK_DECLARE(0x00509E00, runtime_state_initialize);
-HOOK_DECLARE(0x00509E10, runtime_state_initialize_for_new_map);
+//HOOK_DECLARE(0x00509E00, runtime_state_initialize);
+//HOOK_DECLARE(0x00509E10, runtime_state_initialize_for_new_map);
 HOOK_DECLARE(0x00509E20, runtime_state_malloc_aligned);
 HOOK_DECLARE(0x00509EA0, runtime_state_malloc);
 HOOK_DECLARE(0x00509F00, runtime_state_shell_dispose);
