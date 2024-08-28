@@ -11,10 +11,26 @@
 //.text:00B9A460 ; 
 //.text:00B9A470 ; 
 //.text:00B9A490 ; void __cdecl object_activation_regions_add_region(long, bool)
-//.text:00B9A590 ; void __cdecl object_activation_regions_dispose()
-//.text:00B9A5B0 ; void __cdecl object_activation_regions_dispose_from_old_map()
-//.text:00B9A5D0 ; void __cdecl object_activation_regions_initialize()
-//.text:00B9A610 ; void __cdecl object_activation_regions_initialize_for_new_map()
+
+void __cdecl object_activation_regions_dispose()
+{
+	INVOKE(0x00B9A590, object_activation_regions_dispose);
+}
+
+void __cdecl object_activation_regions_dispose_from_old_map()
+{
+	INVOKE(0x00B9A5B0, object_activation_regions_dispose_from_old_map);
+}
+
+void __cdecl object_activation_regions_initialize()
+{
+	INVOKE(0x00B9A5D0, object_activation_regions_initialize);
+}
+
+void __cdecl object_activation_regions_initialize_for_new_map()
+{
+	INVOKE(0x00B9A610, object_activation_regions_initialize_for_new_map);
+}
 
 void __cdecl object_activation_regions_update()
 {

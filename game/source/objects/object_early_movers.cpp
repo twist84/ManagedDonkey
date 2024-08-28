@@ -37,10 +37,26 @@ void __cdecl object_early_mover_update(long object_index, long early_mover_array
 	INVOKE(0x00B988B0, object_early_mover_update, object_index, early_mover_array_index);
 }
 
-//.text:00B989E0 ; void __cdecl object_early_movers_dispose()
-//.text:00B98A00 ; void __cdecl object_early_movers_dispose_from_old_map()
-//.text:00B98A20 ; void __cdecl object_early_movers_initialize()
-//.text:00B98A90 ; void __cdecl object_early_movers_initialize_for_new_map()
+void __cdecl object_early_movers_dispose()
+{
+	INVOKE(0x00B989E0, object_early_movers_dispose);
+}
+
+void __cdecl object_early_movers_dispose_from_old_map()
+{
+	INVOKE(0x00B98A00, object_early_movers_dispose_from_old_map);
+}
+
+void __cdecl object_early_movers_initialize()
+{
+	INVOKE(0x00B98A20, object_early_movers_initialize);
+}
+
+void __cdecl object_early_movers_initialize_for_new_map()
+{
+	INVOKE(0x00B98A90, object_early_movers_initialize_for_new_map);
+}
+
 //.text:00B98AD0 ; bool __cdecl object_get_early_mover_local_space_acceleration(long, real_point3d const*, vector3d*, vector3d*, bool, bool)
 //.text:00B98CF0 ; bool __cdecl object_get_early_mover_local_space_velocity(long, vector3d*, vector3d*, bool, bool)
 //.text:00B98D30 ; bool __cdecl object_get_early_mover_local_space_velocity(long, real_point3d const*, vector3d*, vector3d*, bool, bool)

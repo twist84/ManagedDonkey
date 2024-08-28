@@ -164,15 +164,71 @@ s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d c
 	return INVOKE(0x004E9BD0, scenario_cluster_reference_from_point, point);
 }
 
+//.text:004E9C30 ; bool __cdecl scenario_cluster_reference_valid(s_cluster_reference const*)
+//.text:004E9C40 ; bool __cdecl scenario_connect_game_to_new_bsps(dword, dword)
+//.text:004E9CB0 ; bool __cdecl scenario_connect_zone_set_resources(long, dword, dword, dword, dword, dword, bool)
+//.text:004E9D90 ; 
+//.text:004E9DA0 ; 
+//.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(dword, dword, s_scenario_zone_change const*, bool)
+//.text:004E9F00 ; 
+//.text:004E9F10 ; bool __cdecl scenario_disconnect_game_from_old_bsps(dword, dword)
+
+void __cdecl scenario_dispose()
+{
+	INVOKE(0x004E9F90, scenario_dispose);
+}
+
+void __cdecl scenario_dispose_from_old_map()
+{
+	INVOKE(0x004E9FA0, scenario_dispose_from_old_map);
+}
+
+void __cdecl scenario_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x004E9FB0, scenario_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
+
+//.text:004E9FC0 ; bool __cdecl scenario_do_not_attach_unused_designer_zone_resources()
+//.text:004E9FD0 ; bool __cdecl scenario_ensure_point_within_world(real_point3d*)
+
 void __cdecl scenario_frame_update(real game_seconds_elapsed)
 {
 	INVOKE(0x004EA0F0, scenario_frame_update, game_seconds_elapsed);
 }
 
+//.text:004EA100 ; void __cdecl scenario_game_state_grab_global_state(s_scenario_game_state*)
+//.text:004EA140 ; 
+//.text:004EA1A0 ; 
+
 void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state)
 {
 	INVOKE(0x004EA1F0, scenario_get_global_zone_state, global_zone_state);
 }
+
+//.text:004EA280 ; 
+//.text:004EA290 ; 
+//.text:004EA2A0 ; 
+//.text:004EA2B0 ; 
+//.text:004EA2C0 ; 
+//.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(real_point3d const*, vector3d*, vector3d*, real_rgb_color*, real_rgb_color*)
+
+void __cdecl scenario_initialize()
+{
+	INVOKE(0x004EA340, scenario_initialize);
+}
+
+void __cdecl scenario_initialize_for_new_map()
+{
+	INVOKE(0x004EA350, scenario_initialize_for_new_map);
+}
+
+void __cdecl scenario_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x004EA370, scenario_initialize_for_new_structure_bsp, structure_bsp_mask);
+}
+
+//.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(long, s_structure_seams const*, dword)
+//.text:004EA3A0 ; void __cdecl scenario_initialize_game_state(s_scenario_game_state*)
 
 void __cdecl scenario_invalidate()
 {

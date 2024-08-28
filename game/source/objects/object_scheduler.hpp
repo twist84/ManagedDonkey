@@ -33,5 +33,9 @@ struct s_object_schedule_globals
 };
 static_assert(sizeof(s_object_schedule_globals) == 0x27C);
 
+extern void __cdecl object_scheduler_dispose();
+extern void __cdecl object_scheduler_dispose_from_old_map();
+extern void __cdecl object_scheduler_initialize();
+extern void __cdecl object_scheduler_initialize_for_new_map();
 extern void __cdecl object_scheduler_update();
 

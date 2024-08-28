@@ -21,5 +21,9 @@ struct s_object_activation_region :
 };
 static_assert(sizeof(s_object_activation_region) == 0x28);
 
+extern void __cdecl object_activation_regions_dispose();
+extern void __cdecl object_activation_regions_dispose_from_old_map();
+extern void __cdecl object_activation_regions_initialize();
+extern void __cdecl object_activation_regions_initialize_for_new_map();
 extern void __cdecl object_activation_regions_update();
 

@@ -20,3 +20,8 @@ struct s_object_scripting_state
 };
 static_assert(sizeof(s_object_scripting_state) == 0x304);
 
+extern void __cdecl object_scripting_dispose();
+extern void __cdecl object_scripting_dispose_from_old_map();
+extern void __cdecl object_scripting_initialize();
+extern void __cdecl object_scripting_initialize_for_new_map();
+

@@ -13,10 +13,27 @@
 //.text:00B99D10 ; bit manipulation related
 //.text:00B99D20 ; public: long __cdecl c_schedule_iterator::next()
 //.text:00B99D70 ; long __cdecl object_scheduler_allocate(long)
-//.text:00B99E60 ; void __cdecl object_scheduler_dispose()
-//.text:00B99E80 ; void __cdecl object_scheduler_dispose_from_old_map()
-//.text:00B99E90 ; void __cdecl object_scheduler_initialize()
-//.text:00B99EF0 ; void __cdecl object_scheduler_initialize_for_new_map()
+
+void __cdecl object_scheduler_dispose()
+{
+	INVOKE(0x00B99E60, object_scheduler_dispose);
+}
+
+void __cdecl object_scheduler_dispose_from_old_map()
+{
+	INVOKE(0x00B99E80, object_scheduler_dispose_from_old_map);
+}
+
+void __cdecl object_scheduler_initialize()
+{
+	INVOKE(0x00B99E90, object_scheduler_initialize);
+}
+
+void __cdecl object_scheduler_initialize_for_new_map()
+{
+	INVOKE(0x00B99EF0, object_scheduler_initialize_for_new_map);
+}
+
 //.text:00B99F20 ; long __cdecl object_scheduler_optimal_phase_index_calculate(long, long, real)
 
 void __cdecl object_scheduler_update()
