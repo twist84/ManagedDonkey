@@ -1542,6 +1542,9 @@
     <ClCompile Include="source\networking\tools\telnet_console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\objects\watch_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3669,6 +3672,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\networking\tools\telnet_console.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\objects\watch_window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

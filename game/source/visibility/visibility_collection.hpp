@@ -185,3 +185,6 @@ struct c_visible_items
 	static s_marker_indices(&m_marker_indices)[k_maximum_item_markers];
 };
 
+extern void __cdecl visibility_collection_dispose();
+extern void __cdecl visibility_collection_initialize();
+

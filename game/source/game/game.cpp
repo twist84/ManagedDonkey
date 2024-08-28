@@ -2,8 +2,10 @@
 
 #include "cache/cache_files_windows.hpp"
 #include "config/version.hpp"
+#include "cseries/async_xoverlapped.hpp"
 #include "cseries/cseries.hpp"
 #include "cseries/runtime_state.hpp"
+#include "data_mining/data_mine_management.hpp"
 #include "editor/editor_stubs.hpp"
 #include "effects/effects.hpp"
 #include "fmod/src/sound_fmod.hpp"
@@ -24,11 +26,13 @@
 #include "memory/module.hpp"
 #include "memory/thread_local.hpp"
 #include "networking/network_globals.hpp"
+#include "networking/online/online_achievements.hpp"
 #include "networking/tools/network_webstats.hpp"
 #include "networking/tools/remote_command.hpp"
 #include "networking/tools/telnet_console.hpp"
 #include "networking/tools/xbox_connection_manager.hpp"
 #include "networking/transport/transport.hpp"
+#include "objects/watch_window.hpp"
 #include "objects/widgets/widgets.hpp"
 #include "physics/collision_debug.hpp"
 #include "physics/collision_usage.hpp"
@@ -44,9 +48,11 @@
 #include "simulation/simulation.hpp"
 #include "sound/game_sound.hpp"
 #include "sound/sound_manager.hpp"
+#include "spartan_program/spartan_program_handler.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "tag_files/files_windows.hpp"
 #include "test/test_functions.hpp"
+#include "visibility/visibility_collection.hpp"
 
 HOOK_DECLARE(0x00530F80, game_finish);
 HOOK_DECLARE(0x00530CD0, game_dispose);
@@ -1806,13 +1812,13 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(data_mine)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005AC790, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005AC740, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(data_mine, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005AC790, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(data_mine, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005AC740, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(overlapped)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005A8DE0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005A8DD0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(overlapped, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005A8DE0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(overlapped, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005A8DD0, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(random_math)
@@ -1870,8 +1876,8 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(visibility_collection)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x006874F0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x006874E0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(visibility_collection, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x006874F0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(visibility_collection, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x006874E0, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(game_grief)
@@ -1882,8 +1888,8 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(achievements)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x014E2320, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x014E22D0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(achievements, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x014E2320, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(achievements, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x014E22D0, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(game_state)
@@ -2324,8 +2330,8 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(spartan_program_handler)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00619BB0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00619BA0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(spartan_program_handler, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00619BB0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(spartan_program_handler, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00619BA0, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(hs)
@@ -2434,8 +2440,8 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(watch_window)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0068C8F0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0068C8E0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(watch_window, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0068C8F0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(watch_window, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0068C8E0, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(bink_playback)

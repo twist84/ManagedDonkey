@@ -83,6 +83,8 @@ static_assert(sizeof(s_overlapped_globals) == 0x30C);
 
 extern s_overlapped_globals& g_overlapped_globals;
 
+extern void __cdecl overlapped_dispose();
+extern void __cdecl overlapped_initialize();
 extern void __cdecl overlapped_render();
 extern bool __cdecl overlapped_task_start_internal(c_overlapped_task* task, char const* file, long line);
 extern void __cdecl overlapped_update();

@@ -76,10 +76,17 @@ c_overlapped_task* c_overlapped_task::constructor(char const* file, long line)
 //.text:005A8D40 ; public: virtual void __cdecl c_overlapped_task::failure(dword calling_result, dword overlapped_error, dword overlapped_extended_error)
 //.text:005A8D50 ; s_task_slot* __cdecl find_task_slot(c_overlapped_task const* task)
 //.text:005A8DA0 ; public: virtual bool __cdecl c_overlapped_task::is_result_successful(dword calling_result, dword overlapped_error, dword overlapped_extended_error)
-//.text:005A8DD0 ; void __cdecl overlapped_dispose()
-//.text:005A8DE0 ; void __cdecl overlapped_initialize()
 
-//.text:005A8E20 ; void __cdecl overlapped_render()
+void __cdecl overlapped_dispose()
+{
+	INVOKE(0x005A8DD0, overlapped_dispose);
+}
+
+void __cdecl overlapped_initialize()
+{
+	INVOKE(0x005A8DE0, overlapped_initialize);
+}
+
 void __cdecl overlapped_render()
 {
 	INVOKE(0x005A8E20, overlapped_render);
