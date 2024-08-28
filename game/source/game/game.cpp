@@ -11,7 +11,10 @@
 #include "fmod/src/sound_fmod.hpp"
 #include "game/cheats.hpp"
 #include "game/game_achievements.hpp"
+#include "game/game_allegiance.hpp"
+#include "game/game_engine.hpp"
 #include "game/game_grief.hpp"
+#include "game/player_training.hpp"
 #include "hs/hs.hpp"
 #include "interface/closed_caption.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
@@ -41,10 +44,12 @@
 #include "render/camera_fx_settings.hpp"
 #include "render/render.hpp"
 #include "render/render_debug.hpp"
+#include "render/render_structure.hpp"
 #include "render/render_visibility.hpp"
 #include "saved_games/determinism_debug_manager.hpp"
 #include "scenario/scenario_interpolators.hpp"
 #include "scenario/scenario_pvs.hpp"
+#include "screenshots/screenshots_loader.hpp"
 #include "simulation/simulation.hpp"
 #include "sound/game_sound.hpp"
 #include "sound/sound_manager.hpp"
@@ -1786,8 +1791,8 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(screenshots_loader)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00680DF0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00680DE0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(screenshots_loader, initialize), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00680DF0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(screenshots_loader, dispose),    //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00680DE0, dispose),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(transport)
@@ -1803,12 +1808,12 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(c_structure_renderer)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EF10, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EDA0, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EF20, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EDB0, dispose_from_old_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EF70, initialize_for_new_structure_bsp),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EE00, dispose_from_old_structure_bsp),
+		DECLARE_GAME_SYSTEM_MEMBER2(c_structure_renderer, initialize),                       //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EF10, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER2(c_structure_renderer, dispose),                          //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EDA0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER2(c_structure_renderer, initialize_for_new_map),           //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EF20, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER2(c_structure_renderer, dispose_from_old_map),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EDB0, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER2(c_structure_renderer, initialize_for_new_structure_bsp), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EF70, initialize_for_new_structure_bsp),
+		DECLARE_GAME_SYSTEM_MEMBER2(c_structure_renderer, dispose_from_old_structure_bsp),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00A2EE00, dispose_from_old_structure_bsp),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(data_mine)
@@ -1911,47 +1916,47 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(profiler)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530230, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530240, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530250, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530260, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(profiler, initialize),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530230, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(profiler, dispose),                //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530240, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(profiler, initialize_for_new_map), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530250, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(profiler, dispose_from_old_map),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00530260, dispose_from_old_map),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(game_allegiance)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00670220, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0066FFC0, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00670290, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0066FFD0, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(game_allegiance, initialize),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00670220, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(game_allegiance, dispose),                //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0066FFC0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(game_allegiance, initialize_for_new_map), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00670290, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(game_allegiance, dispose_from_old_map),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0066FFD0, dispose_from_old_map),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(players)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005422C0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00541AF0, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00542340, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00541B30, dispose_from_old_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00542460, initialize_for_new_structure_bsp),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00541B70, dispose_from_old_structure_bsp),
+		DECLARE_GAME_SYSTEM_MEMBER(players, initialize),                       //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005422C0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(players, dispose),                          //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00541AF0, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(players, initialize_for_new_map),           //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00542340, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(players, dispose_from_old_map),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00541B30, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(players, initialize_for_new_structure_bsp), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00542460, initialize_for_new_structure_bsp),
+		DECLARE_GAME_SYSTEM_MEMBER(players, dispose_from_old_structure_bsp),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00541B70, dispose_from_old_structure_bsp),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(player_control)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005D2EE0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005D0A40, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005D3120, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005D0A50, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(player_control, initialize),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005D2EE0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(player_control, dispose),                //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005D0A40, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(player_control, initialize_for_new_map), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005D3120, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(player_control, dispose_from_old_map),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005D0A50, dispose_from_old_map),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(player_training)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00689B90, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00689A20, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00689BF0, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00689A30, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(player_training, initialize),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00689B90, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(player_training, dispose),                //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00689A20, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(player_training, initialize_for_new_map), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00689BF0, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(player_training, dispose_from_old_map),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00689A30, dispose_from_old_map),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(game_engine)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00550FF0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0054E290, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005511A0, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0054E2A0, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(game_engine, initialize),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00550FF0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(game_engine, dispose),                //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0054E290, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(game_engine, initialize_for_new_map), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x005511A0, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(game_engine, dispose_from_old_map),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x0054E2A0, dispose_from_old_map),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(simulation)

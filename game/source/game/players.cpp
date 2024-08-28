@@ -560,9 +560,21 @@ bool __cdecl players_any_are_near_death(long* out_unit_index)
 //.text:00541480 ; void __cdecl players_coop_update_respawn(long)
 //.text:00541920 ; void __cdecl players_death_status_calculate(bool*, bool*)
 //.text:005419A0 ; void __cdecl players_detach_from_map()
-//.text:00541AF0 ; void __cdecl players_dispose()
-//.text:00541B30 ; void __cdecl players_dispose_from_old_map()
-//.text:00541B70 ; void __cdecl players_dispose_from_old_structure_bsp(dword)
+
+void __cdecl players_dispose()
+{
+	INVOKE(0x00541AF0, players_dispose);
+}
+
+void __cdecl players_dispose_from_old_map()
+{
+	INVOKE(0x00541B30, players_dispose_from_old_map);
+}
+
+void __cdecl players_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00541B70, players_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
 
 void __cdecl players_finish_creation()
 {
@@ -591,9 +603,21 @@ void __cdecl players_handle_deleted_player_internal(long player_index)
 	INVOKE(0x005422A0, players_handle_deleted_player_internal, player_index);
 }
 
-//.text:005422C0 ; void __cdecl players_initialize()
-//.text:00542340 ; void __cdecl players_initialize_for_new_map()
-//.text:00542460 ; void __cdecl players_initialize_for_new_structure_bsp(dword)
+void __cdecl players_initialize()
+{
+	INVOKE(0x005422C0, players_initialize);
+}
+
+void __cdecl players_initialize_for_new_map()
+{
+	INVOKE(0x00542340, players_initialize_for_new_map);
+}
+
+void __cdecl players_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00542460, players_initialize_for_new_structure_bsp, structure_bsp_mask);
+}
+
 //.text:00542470 ; void __cdecl players_initialize_for_saved_game(long)
 //.text:00542520 ; void __cdecl players_joined_in_progress_allow_spawn()
 //.text:005425A0 ; bool __cdecl players_joined_in_progress_and_waiting_to_respawn()

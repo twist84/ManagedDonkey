@@ -191,6 +191,8 @@ struct s_local_game_engine_globals
 };
 static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
 
+extern void __cdecl game_engine_dispose();
+extern void __cdecl game_engine_dispose_from_old_map();
 extern void __cdecl game_engine_end_round_with_winner(long team, bool a1, e_game_engine_end_condition condition);
 extern void __cdecl game_engine_game_starting();
 extern void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string);
@@ -202,7 +204,11 @@ extern long __cdecl game_engine_get_team_place(long team);
 extern long __cdecl game_engine_get_team_score_for_display(long team, bool final_score);
 extern void __cdecl game_engine_get_universal_string(long a1, c_static_wchar_string<256>* formatted_string);
 extern bool __cdecl game_engine_in_round();
-extern void __cdecl game_engine_interface_update(float world_seconds_elapsed);
+extern void __cdecl game_engine_initialize();
+extern void __cdecl game_engine_initialize_for_new_game();
+extern void __cdecl game_engine_initialize_for_new_map();
+extern void __cdecl game_engine_initialize_for_new_round();
+extern void __cdecl game_engine_interface_update(real world_seconds_elapsed);
 extern bool __cdecl game_engine_player_is_dead_and_betrayed_by_griefer(long player_index, long* griefer_player_index);
 extern bool __cdecl game_engine_player_is_out_of_lives(long player_index);
 extern bool __cdecl game_engine_player_is_playing(long player_index);

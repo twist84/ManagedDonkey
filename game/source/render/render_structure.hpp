@@ -296,5 +296,15 @@ struct render_structure_globals
 };
 static_assert(sizeof(render_structure_globals) == 0x1210C);
 
+struct c_structure_renderer
+{
+	static void __cdecl dispose();
+	static void __cdecl dispose_from_old_map();
+	static void __cdecl dispose_from_old_structure_bsp(dword structure_bsp_mask);
+	static void __cdecl initialize();
+	static void __cdecl initialize_for_new_map();
+	static void __cdecl initialize_for_new_structure_bsp(dword structure_bsp_mask);
+};
+
 extern render_structure_globals& g_render_structure_globals;
 

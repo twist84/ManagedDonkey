@@ -154,8 +154,17 @@ void __cdecl player_control_build_action(long player_index, e_input_user_index i
 //.text:005D0880 ; bool __cdecl player_control_compute_input_inhibition(e_input_user_index, e_controller_index, s_game_input_state const*, s_player_control_input*)
 //.text:005D08C0 ; void __cdecl player_control_copy_state_from_action(s_player_action const*, s_player_control_state*)
 //.text:005D0980 ; void __cdecl player_control_copy_state_from_unit(long, s_player_control_state*)
-//.text:005D0A40 ; void __cdecl player_control_dispose()
-//.text:005D0A50 ; void __cdecl player_control_dispose_from_old_map()
+
+void __cdecl player_control_dispose()
+{
+	INVOKE(0x005D0A40, player_control_dispose);
+}
+
+void __cdecl player_control_dispose_from_old_map()
+{
+	INVOKE(0x005D0A50, player_control_dispose_from_old_map);
+}
+
 //.text:005D0A60 ; void __cdecl player_control_fade_in_all_input(real)
 //.text:005D0A90 ; void __cdecl player_control_fade_in_all_input_for_player(long, real)
 //.text:005D0AF0 ; void __cdecl player_control_fade_out_all_input(real)
@@ -232,8 +241,17 @@ void __cdecl player_control_suppress_rotate_weapons(long user_index)
 }
 
 //.text:005D2EA0 ; void __cdecl player_control_handle_weapon_put_away(long, short)
-//.text:005D2EE0 ; void __cdecl player_control_initialize()
-//.text:005D3120 ; void __cdecl player_control_initialize_for_new_map()
+
+void __cdecl player_control_initialize()
+{
+	INVOKE(0x005D2EE0, player_control_initialize);
+}
+
+void __cdecl player_control_initialize_for_new_map()
+{
+	INVOKE(0x005D3120, player_control_initialize_for_new_map);
+}
+
 //.text:005D3290 ; void __cdecl player_control_input_set_unit_index(e_input_user_index, long)
 //.text:005D3360 ; void __cdecl player_control_lock_gaze(e_input_user_index, long, real)
 

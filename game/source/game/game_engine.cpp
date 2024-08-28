@@ -52,11 +52,20 @@ c_game_statborg campaign_statborg{};
 //.text:0054DEB0 ; long __cdecl game_engine_compare_players(long, long, bool)
 //.text:0054E0A0 ; 
 //.text:0054E0B0 ; long __cdecl game_engine_compare_teams(long, long, bool)
-//.text:0054E210 ; float __cdecl game_engine_compute_object_function(long, long)
+//.text:0054E210 ; real __cdecl game_engine_compute_object_function(long, long)
 //.text:0054E250 ; 
 //.text:0054E270 ; 
-//.text:0054E290 ; void __cdecl game_engine_dispose(void)
-//.text:0054E2A0 ; void __cdecl game_engine_dispose_from_old_map(void)
+
+void __cdecl game_engine_dispose()
+{
+	INVOKE(0x0054E290, game_engine_dispose);
+}
+
+void __cdecl game_engine_dispose_from_old_map()
+{
+	INVOKE(0x0054E2A0, game_engine_dispose_from_old_map);
+}
+
 //.text:0054E2F0 ; void __cdecl game_engine_end_game(enum e_game_engine_end_condition)
 //.text:0054E320 ; void __cdecl game_engine_end_round_internal(bool)
 
@@ -177,13 +186,29 @@ bool __cdecl game_engine_in_round()
 	return INVOKE(0x00550F90, game_engine_in_round);
 }
 
-//.text:00550FF0 ; void __cdecl game_engine_initialize(void)
-//.text:00551140 ; void __cdecl game_engine_initialize_for_new_game(void)
-//.text:005511A0 ; void __cdecl game_engine_initialize_for_new_map(void)
-//.text:00551590 ; void __cdecl game_engine_initialize_for_new_round(void)
+void __cdecl game_engine_initialize()
+{
+	INVOKE(0x00550FF0, game_engine_initialize);
+}
+
+void __cdecl game_engine_initialize_for_new_game()
+{
+	INVOKE(0x00551140, game_engine_initialize_for_new_game);
+}
+
+void __cdecl game_engine_initialize_for_new_map()
+{
+	INVOKE(0x005511A0, game_engine_initialize_for_new_map);
+}
+
+void __cdecl game_engine_initialize_for_new_round()
+{
+	INVOKE(0x00551590, game_engine_initialize_for_new_round);
+}
+
 //.text:00551750 ; 
 
-void __cdecl game_engine_interface_update(float world_seconds_elapsed)
+void __cdecl game_engine_interface_update(real world_seconds_elapsed)
 {
 	//INVOKE(0x00551780, game_engine_interface_update, world_seconds_elapsed);
 

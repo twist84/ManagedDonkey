@@ -1545,6 +1545,15 @@
     <ClCompile Include="source\objects\watch_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\profiler\profiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\screenshots\screenshots_loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\player_training.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3675,6 +3684,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\objects\watch_window.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\screenshots\screenshots_loader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
