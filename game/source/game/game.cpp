@@ -2123,12 +2123,12 @@ s_game_system const g_game_systems[]
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(observer)
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(observer_initialize, initialize),                                             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x006128B0, initialize),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(observer_dispose, dispose),                                                   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612520, dispose),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(observer_initialize_for_new_map, initialize_for_new_map),                     //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612A50, initialize_for_new_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(observer_dispose_from_old_map, dispose_from_old_map),                         //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612530, dispose_from_old_map),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(observer_initialize_for_new_structure_bsp, initialize_for_new_structure_bsp), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612AA0, initialize_for_new_structure_bsp),
-		DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(observer_dispose_from_old_structure_bsp, dispose_from_old_structure_bsp),     //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612540, dispose_from_old_structure_bsp),
+		DECLARE_GAME_SYSTEM_MEMBER(observer, initialize),                       //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x006128B0, initialize),
+		DECLARE_GAME_SYSTEM_MEMBER(observer, dispose),                          //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612520, dispose),
+		DECLARE_GAME_SYSTEM_MEMBER(observer, initialize_for_new_map),           //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612A50, initialize_for_new_map),
+		DECLARE_GAME_SYSTEM_MEMBER(observer, dispose_from_old_map),             //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612530, dispose_from_old_map),
+		DECLARE_GAME_SYSTEM_MEMBER(observer, initialize_for_new_structure_bsp), //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612AA0, initialize_for_new_structure_bsp),
+		DECLARE_GAME_SYSTEM_MEMBER(observer, dispose_from_old_structure_bsp),   //DECLARE_GAME_SYSTEM_MEMBER_ADDRESS(0x00612540, dispose_from_old_structure_bsp),
 	},
 	{
 		DECLARE_GAME_SYSTEM_NAME_DEBUG_ONLY(s_depth_of_field)
