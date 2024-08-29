@@ -5,14 +5,14 @@
 struct s_depth_of_field
 {
 //public:
-	//static void __cdecl s_depth_of_field::dispose();
-	//static void __cdecl s_depth_of_field::dispose_from_old_map();
+	static void __cdecl dispose();
+	static void __cdecl dispose_from_old_map();
 	//static s_depth_of_field* __cdecl s_depth_of_field::get();
 	//bool __cdecl s_depth_of_field::get_current_depth_of_field_parameters(s_observer_depth_of_field const*, real*, real*, real*, real*);
 	//static real __cdecl s_depth_of_field::get_depth_of_field_blur_sigma(s_observer_depth_of_field const*);
 	//static bool __cdecl s_depth_of_field::get_enabled();
-	//static void __cdecl s_depth_of_field::initialize();
-	//static void __cdecl s_depth_of_field::initialize_for_new_map();
+	static void __cdecl initialize();
+	static void __cdecl initialize_for_new_map();
 	//void __cdecl s_depth_of_field::set_default_values();
 	static void __cdecl update();
 
