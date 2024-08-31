@@ -66,7 +66,11 @@ static_assert(sizeof(s_chud_navpoint) == 0x30);
 
 extern s_chud_globals_definition*& chud_globals;
 
+extern void __cdecl chud_dispose();
+extern void __cdecl chud_dispose_from_old_map();
 extern void __cdecl chud_game_tick();
+extern void __cdecl chud_initialize();
+extern void __cdecl chud_initialize_for_new_map();
 extern void __cdecl chud_submit_navpoint(long, s_chud_navpoint* navpoint);
 extern void __cdecl chud_update(real world_seconds_elapsed);
 

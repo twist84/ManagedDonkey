@@ -27,6 +27,10 @@ static_assert(sizeof(animation_thread) == 0xA4);
 extern bool debug_recording;
 
 extern bool __cdecl recorded_animation_controlling_unit(long object_index);
+extern void __cdecl recorded_animations_dispose();
+extern void __cdecl recorded_animations_dispose_from_old_map();
+extern void __cdecl recorded_animations_initialize();
+extern void __cdecl recorded_animations_initialize_for_new_map();
 extern void __cdecl recorded_animations_update();
 
 extern void render_debug_recording();

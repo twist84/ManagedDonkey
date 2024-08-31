@@ -2,8 +2,6 @@
 
 #include "cseries/cseries.hpp"
 
-//.text:00615D00 ; 
-//.text:00615D20 ; 
 //.text:00615D30 ; 
 //.text:00615D50 ; 
 //.text:00615DB0 ; 

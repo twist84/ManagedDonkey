@@ -1575,6 +1575,12 @@
     <ClCompile Include="source\sky_atm\atmosphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\sound\game_sound_player_effects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\error\error_report_render.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3717,6 +3723,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\physics\point_physics.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\error\error_report_render.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

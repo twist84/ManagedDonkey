@@ -27,5 +27,9 @@ static_assert(sizeof(c_screenshots_uploader) == 0xE08);
 
 extern c_screenshots_uploader*& g_screenshots_uploader;
 
+extern void __cdecl screenshots_uploader_dispose();
+extern void __cdecl screenshots_uploader_dispose_from_old_map();
+extern void __cdecl screenshots_uploader_initialize();
+extern void __cdecl screenshots_uploader_initialize_for_new_map();
 extern void __cdecl screenshots_uploader_update();
 

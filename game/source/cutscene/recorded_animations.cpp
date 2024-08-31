@@ -17,10 +17,26 @@ bool __cdecl recorded_animation_controlling_unit(long object_index)
 //.text:00681CF0 ; bool __cdecl recorded_animation_play_internal(long, long, word)
 //.text:00681E50 ; 
 //.text:00681ED0 ; void __cdecl recorded_animations_clear_debug_storage(long)
-//.text:00681EE0 ; void __cdecl recorded_animations_dispose()
-//.text:00681EF0 ; void __cdecl recorded_animations_dispose_from_old_map()
-//.text:00681F10 ; void __cdecl recorded_animations_initialize()
-//.text:00681F50 ; void __cdecl recorded_animations_initialize_for_new_map()
+
+void __cdecl recorded_animations_dispose()
+{
+	INVOKE(0x00681EE0, recorded_animations_dispose);
+}
+
+void __cdecl recorded_animations_dispose_from_old_map()
+{
+	INVOKE(0x00681EF0, recorded_animations_dispose_from_old_map);
+}
+
+void __cdecl recorded_animations_initialize()
+{
+	INVOKE(0x00681F10, recorded_animations_initialize);
+}
+
+void __cdecl recorded_animations_initialize_for_new_map()
+{
+	INVOKE(0x00681F50, recorded_animations_initialize_for_new_map);
+}
 
 void __cdecl recorded_animations_update()
 {

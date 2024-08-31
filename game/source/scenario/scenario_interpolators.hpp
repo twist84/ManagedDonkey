@@ -22,5 +22,9 @@ struct s_scenario_interpolator_globals
 };
 static_assert(sizeof(s_scenario_interpolator_globals) == 0x204);
 
+extern void __cdecl scenario_interpolators_dispose();
+extern void __cdecl scenario_interpolators_dispose_from_old_map();
 extern void __cdecl scenario_interpolators_frame_update(real game_seconds_elapsed);
+extern void __cdecl scenario_interpolators_initialize();
+extern void __cdecl scenario_interpolators_initialize_for_new_map();
 

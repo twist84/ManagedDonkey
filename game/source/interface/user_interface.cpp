@@ -50,6 +50,18 @@ bool __cdecl get_is_alpha_version()
 	return INVOKE(0x00A841E0, get_is_alpha_version);
 }
 
+void __cdecl user_interface_dispose()
+{
+	INVOKE(0x00A84270, user_interface_dispose);
+}
+
+void __cdecl user_interface_dispose_from_old_map()
+{
+	INVOKE(0x00A842A0, user_interface_dispose_from_old_map);
+}
+
+//.text:00A842F0 ; 
+
 void __cdecl user_interface_enter_game_shell()
 {
 	INVOKE(0x00A84330, user_interface_enter_game_shell);
@@ -57,15 +69,59 @@ void __cdecl user_interface_enter_game_shell()
 	//g_user_interface_globals.milliseconds_at_last_event = g_user_interface_globals.milliseconds.peek();
 }
 
+//.text:00A84350 ; 
+
 void __cdecl user_interface_get_number_of_render_windows(long user_index, long* a2, long* a3)
 {
 	INVOKE(0x00A84370, user_interface_get_number_of_render_windows, user_index, a2, a3);
 }
 
+//.text:00A84420 ; qword __cdecl user_interface_get_player_hash_bits(e_controller_index, long)
+//.text:00A84450 ; void __cdecl user_interface_get_projection_plane_distances(real*, real*, real*)
+//.text:00A844D0 ; e_controller_index __cdecl user_interface_get_reload_from_persistent_storage()
+//.text:00A844E0 ; 
+//.text:00A844F0 ; long __cdecl user_interface_get_selected_campaign_difficulty()
+//.text:00A84500 ; e_campaign_id __cdecl user_interface_get_selected_campaign_id()
+//.text:00A84510 ; e_map_id __cdecl user_interface_get_selected_campaign_map_id()
+//.text:00A84520 ; char* __cdecl user_interface_get_selected_campaign_path(char*, long)
+//.text:00A84570 ; bool __cdecl user_interface_get_storage_device_selection_deferred()
+
+void __cdecl user_interface_initialize()
+{
+	INVOKE(0x00A84580, user_interface_initialize);
+}
+
+void __cdecl user_interface_initialize_for_new_map()
+{
+	INVOKE(0x00A84650, user_interface_initialize_for_new_map);
+}
+
+//.text:00A84710 ; void __cdecl user_interface_initialize_global_datasources()
+//.text:00A84840 ; bool __cdecl user_interface_is_active()
+//.text:00A84850 ; bool __cdecl user_interface_is_shutting_down()
+//.text:00A84860 ; 
+//.text:00A848B0 ; bool __cdecl user_interface_main_menu_music_done_fading_out()
+//.text:00A848C0 ; double __cdecl user_interface_main_menu_music_fade_out_progress()
+//.text:00A848D0 ; void __cdecl user_interface_main_menu_music_initialize_for_saved_game()
+
 dword __cdecl user_interface_milliseconds()
 {
 	return INVOKE(0x00A848E0, user_interface_milliseconds);
 }
+
+//.text:00A848F0 ; unsigned long __cdecl user_interface_milliseconds_at_last_event()
+//.text:00A84900 ; 
+//.text:00A84920 ; void __cdecl user_interface_non_idle_event_occured()
+//.text:00A84940 ; 
+//.text:00A84960 ; 
+//.text:00A84970 ; 
+//.text:00A84990 ; 
+//.text:00A849A0 ; 
+//.text:00A849B0 ; void __cdecl user_interface_render(e_controller_index, long, e_window_index, short_rectangle2d const*, c_rasterizer::e_surface, bool)
+//.text:00A84B40 ; 
+//.text:00A84B70 ; 
+//.text:00A84B80 ; void __cdecl user_interface_render_quad_in_viewport(short_rectangle2d const*, dword)
+//.text:00A84BC0 ; void __cdecl user_interface_render_quad_in_window(short_rectangle2d const*, dword)
 
 bool __cdecl user_interface_requests_unlocked_framerate()
 {

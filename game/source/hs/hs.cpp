@@ -107,15 +107,25 @@ hs_function_definition_debug const* hs_function_get_debug(short function_index)
 
 hs_syntax_node* __cdecl hs_syntax_get(long expression_index)
 {
+	//return INVOKE(0x00598A10, hs_syntax_get, expression_index);
+
 	if (DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index) > g_hs_syntax_data->maximum_count)
 		return &g_hs_syntax_data->data[DATUM_INDEX_TO_ABSOLUTE_INDEX(expression_index)];
 
-	return nullptr;
-
-	//return INVOKE(0x00598A10, hs_syntax_get, expression_index);
+	return NULL;
 }
 
-short hs_find_script_by_name(char const* name, short parameter_count)
+void __cdecl hs_dispose()
+{
+	INVOKE(0x006791C0, hs_dispose);
+}
+
+void __cdecl hs_dispose_from_old_map()
+{
+	INVOKE(0x006791E0, hs_dispose_from_old_map);
+}
+
+short __cdecl hs_find_script_by_name(char const* name, short parameter_count)
 {
 	//return INVOKE(0x00679220, hs_find_script_by_name, name, parameter_count);
 
@@ -132,6 +142,42 @@ short hs_find_script_by_name(char const* name, short parameter_count)
 
 	return NONE;
 }
+
+short __cdecl hs_global_get_type(short global_index)
+{
+	//return INVOKE(0x006792E0, hs_global_get_type, global_index);
+
+	if ((global_index & 0x8000) != 0)
+	{
+		if (VALID_INDEX(global_index, k_hs_external_global_count))
+			return hs_global_external_get(global_index & 0x7FFF)->type;
+
+		if (VALID_INDEX(global_index, k_hs_external_global_debug_count))
+			return hs_global_external_get_debug(global_index & 0x7FFF)->type;
+	}
+
+	return global_scenario_get()->globals[global_index].type;
+}
+
+//.text:00679320 ; 
+
+void __cdecl hs_initialize()
+{
+	INVOKE(0x00679330, hs_initialize);
+}
+
+void __cdecl hs_initialize_for_new_map()
+{
+	INVOKE(0x00679400, hs_initialize_for_new_map);
+}
+
+//.text:006794A0 ; 
+//.text:006794D0 ; void __cdecl hs_node_gc()
+//.text:006795B0 ; 
+//.text:006795C0 ; void __cdecl hs_reset_time(long)
+//.text:006795D0 ; bool __cdecl hs_scenario_postprocess(bool, bool, bool)
+//.text:00679670 ; long __cdecl hs_seconds_to_ticks(real)
+//.text:006796C0 ; double __cdecl hs_ticks_to_seconds(long)
 
 void __cdecl hs_update()
 {
@@ -237,20 +283,6 @@ char const* hs_global_get_name(short global_index)
 	}
 
 	return global_scenario_get()->globals[global_index].name.get_string();
-}
-
-short hs_global_get_type(short global_index)
-{
-	if ((global_index & 0x8000) != 0)
-	{
-		if (VALID_INDEX(global_index, k_hs_external_global_count))
-			return hs_global_external_get(global_index & 0x7FFF)->type;
-
-		if (VALID_INDEX(global_index, k_hs_external_global_debug_count))
-			return hs_global_external_get_debug(global_index & 0x7FFF)->type;
-	}
-
-	return global_scenario_get()->globals[global_index].type;
 }
 
 short enumeration_count = 0;

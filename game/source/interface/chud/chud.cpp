@@ -18,8 +18,17 @@ REFERENCE_DECLARE(0x05257C40, s_chud_globals_definition*, chud_globals);
 //.text:00A88D00 ; 
 //.text:00A88D50 ; 
 //.text:00A88D60 ; 
-//.text:00A88D70 ; void __cdecl chud_dispose()
-//.text:00A88D80 ; void __cdecl chud_dispose_from_old_map()
+
+void __cdecl chud_dispose()
+{
+	INVOKE(0x00A88D70, chud_dispose);
+}
+
+void __cdecl chud_dispose_from_old_map()
+{
+	INVOKE(0x00A88D80, chud_dispose_from_old_map);
+}
+
 //.text:00A88DA0 ; void __cdecl chud_draw_screen(e_output_user_index)
 //.text:00A88FE0 ; 
 //.text:00A89100 ; void __cdecl chud_draw_screen_saved_film(e_output_user_index)
@@ -38,8 +47,17 @@ void __cdecl chud_game_tick()
 //.text:00A896C0 ; 
 //.text:00A89720 ; void __cdecl chud_handle_tag_changes()
 //.text:00A89770 ; 
-//.text:00A89790 ; void __cdecl chud_initialize()
-//.text:00A897A0 ; void __cdecl chud_initialize_for_new_map()
+
+void __cdecl chud_initialize()
+{
+	INVOKE(0x00A89790, chud_initialize);
+}
+
+void __cdecl chud_initialize_for_new_map()
+{
+	INVOKE(0x00A897A0, chud_initialize_for_new_map);
+}
+
 //.text:00A89820 ; 
 //.text:00A89860 ; void __cdecl chud_motion_sensor_invalidate(e_output_user_index)
 //.text:00A898A0 ; bool __cdecl chud_motion_sensor_object_velocity_exceeds_threshold(long)
