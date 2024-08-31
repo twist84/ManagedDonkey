@@ -4,6 +4,12 @@
 
 struct s_scripted_exposure
 {
+public:
+	static void __cdecl dispose();
+	static void __cdecl dispose_from_old_map();
+	static void __cdecl initialize();
+	static void __cdecl initialize_for_new_map();
+
 	byte __data[0x34];
 };
 static_assert(sizeof(s_scripted_exposure) == 0x34);

@@ -81,3 +81,8 @@ static_assert(sizeof(sound_class_datum) == 0x1144);
 
 extern char const* const sound_class_names[k_sound_class_count];
 
+extern void __cdecl sound_classes_dispose();
+extern void __cdecl sound_classes_dispose_from_old_map();
+extern void __cdecl sound_classes_initialize();
+extern void __cdecl sound_classes_initialize_for_new_map();
+

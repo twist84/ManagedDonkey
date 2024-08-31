@@ -281,14 +281,17 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\physics\havok_collision_damage.cpp" />
     <ClCompile Include="source\physics\havok_proxies.cpp" />
     <ClCompile Include="source\physics\impacts.cpp" />
+    <ClCompile Include="source\physics\point_physics.cpp" />
     <ClCompile Include="source\profiler\profiler.cpp" />
     <ClCompile Include="source\profiler\profiler_stopwatch.cpp" />
     <ClCompile Include="source\rasterizer\rasterizer_render_targets.cpp" />
     <ClCompile Include="source\render\camera_fx_settings.cpp" />
     <ClCompile Include="source\render\depth_of_field.cpp" />
+    <ClCompile Include="source\render\render_game_state.cpp" />
     <ClCompile Include="source\render\render_transparents.cpp" />
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
+    <ClCompile Include="source\render\views\hud_camera_view.cpp" />
     <ClCompile Include="source\replication\replication_encoding.cpp" />
     <ClCompile Include="source\saved_games\autosave_queue.cpp" />
     <ClCompile Include="source\saved_games\determinism_debug_manager.cpp" />
@@ -658,6 +661,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\simulation\simulation_view.cpp" />
     <ClCompile Include="source\simulation\simulation_watcher.cpp" />
     <ClCompile Include="source\simulation\simulation_world.cpp" />
+    <ClCompile Include="source\sky_atm\atmosphere.cpp" />
     <ClCompile Include="source\sound\game_sound.cpp" />
     <ClCompile Include="source\sound\game_sound_deterministic.cpp" />
     <ClCompile Include="source\sound\sound_classes.cpp" />
@@ -1081,6 +1085,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\physics\collision_features.hpp" />
     <ClInclude Include="source\physics\collision_models.hpp" />
     <ClInclude Include="source\physics\havok_collision_damage.hpp" />
+    <ClInclude Include="source\physics\point_physics.hpp" />
     <ClInclude Include="source\profiler\profiler.hpp" />
     <ClInclude Include="source\profiler\profiler_stopwatch.hpp" />
     <ClInclude Include="source\rasterizer\rasterizer_render_targets.hpp" />

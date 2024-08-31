@@ -5,6 +5,26 @@
 
 HOOK_DECLARE(0x006836A0, screen_effect_update);
 
+void __cdecl screen_effect_dispose()
+{
+	INVOKE(0x00682EF0, screen_effect_dispose);
+}
+
+void __cdecl screen_effect_dispose_from_old_map()
+{
+	INVOKE(0x00682F20, screen_effect_dispose_from_old_map);
+}
+
+void __cdecl screen_effect_initialize()
+{
+	INVOKE(0x00683010, screen_effect_initialize);
+}
+
+void __cdecl screen_effect_initialize_for_new_map()
+{
+	INVOKE(0x00683040, screen_effect_initialize_for_new_map);
+}
+
 long __cdecl screen_effect_new(long definition_index, long object_index, short node_index, real_point3d const* point, real_rectangle2d const* rectangle)
 {
 	return INVOKE(0x00683060, screen_effect_new, definition_index, object_index, node_index, point, rectangle);

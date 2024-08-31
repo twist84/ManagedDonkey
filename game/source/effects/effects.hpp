@@ -96,8 +96,21 @@ static_assert(sizeof(s_effect_lightprobe) == 0x1FC);
 
 extern bool debug_damage_effects;
 
-extern void render_debug_damage_effects();
+struct s_game_non_bsp_zone_set;
+struct c_scenario_resource_registry;
+extern void __cdecl effects_prepare_for_new_zone_set(dword a1, dword a2);
+extern void __cdecl effects_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set);
+extern void __cdecl effects_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set);
+extern void __cdecl effects_dispose();
+extern void __cdecl effects_dispose_from_old_map();
+extern void __cdecl effects_dispose_from_old_structure_bsp(dword structure_bsp_mask);
+extern void __cdecl effects_initialize();
+extern void __cdecl effects_initialize_for_new_map();
+extern void __cdecl effects_initialize_for_new_structure_bsp(dword structure_bsp_mask);
+extern void __cdecl effects_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* resource_registry);
 extern bool __cdecl dangerous_effects_near_player();
 extern long __cdecl effect_new_from_point_vector(long effect_index, real_point3d const* position, vector3d const* forward, vector3d const* normal, long match_all_markers, long effect_deterministic, plane3d const* plane, s_cluster_reference* cluster_reference);
 extern void __cdecl effects_update();
+
+extern void render_debug_damage_effects();
 
