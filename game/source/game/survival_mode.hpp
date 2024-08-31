@@ -38,3 +38,8 @@ struct s_survival_mode_globals
 };
 static_assert(sizeof(s_survival_mode_globals) == 0x7E0);
 
+extern void __cdecl survival_mode_dispose();
+extern void __cdecl survival_mode_dispose_from_old_map();
+extern void __cdecl survival_mode_initialize();
+extern void __cdecl survival_mode_initialize_for_new_map();
+

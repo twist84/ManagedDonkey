@@ -5,6 +5,26 @@
 
 REFERENCE_DECLARE(0x0189D930, c_saved_game_files_globals, g_saved_game_files_globals);
 
+void __cdecl saved_game_files_dispose()
+{
+	INVOKE(0x00525DA0, saved_game_files_dispose);
+}
+
+void __cdecl saved_game_files_dispose_from_old_map()
+{
+	INVOKE(0x00525DB0, saved_game_files_dispose_from_old_map);
+}
+
+void __cdecl saved_game_files_initialize()
+{
+	INVOKE(0x00526840, saved_game_files_initialize);
+}
+
+void __cdecl saved_game_files_initialize_for_new_map()
+{
+	INVOKE(0x00526890, saved_game_files_initialize_for_new_map);
+}
+
 void s_content_item_metadata::byteswap()
 {
 	bswap_qword_inplace(unique_id);

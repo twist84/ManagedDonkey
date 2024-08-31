@@ -225,6 +225,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\game\game_grief.cpp" />
     <ClCompile Include="source\game\materials.cpp" />
     <ClCompile Include="source\game\player_training.cpp" />
+    <ClCompile Include="source\game\survival_mode.cpp" />
     <ClCompile Include="source\interface\chud\chud_globals_definitions.cpp" />
     <ClCompile Include="source\interface\chud\cortana_effect.cpp" />
     <ClCompile Include="source\interface\c_player_profile.cpp" />
@@ -289,10 +290,12 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\render\screen_postprocess.cpp" />
     <ClCompile Include="source\render\simple_font.cpp" />
     <ClCompile Include="source\replication\replication_encoding.cpp" />
+    <ClCompile Include="source\saved_games\autosave_queue.cpp" />
     <ClCompile Include="source\saved_games\determinism_debug_manager.cpp" />
     <ClCompile Include="source\scenario\scenario_interpolators.cpp" />
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\scenario\scenario_pvs.cpp" />
+    <ClCompile Include="source\scenario\scenario_sky.cpp" />
     <ClCompile Include="source\screenshots\screenshots_loader.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_player.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_sandbox.cpp" />
@@ -1084,6 +1087,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\render\render_transparents.hpp" />
     <ClInclude Include="source\render\screen_postprocess.hpp" />
     <ClInclude Include="source\render\simple_font.hpp" />
+    <ClInclude Include="source\saved_games\autosave_queue.hpp" />
     <ClInclude Include="source\saved_games\game_state.hpp" />
     <ClInclude Include="source\game\game_time.hpp" />
     <ClInclude Include="source\game\players.hpp" />
@@ -1293,6 +1297,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\scenario\scenario_kill_trigger_volumes.hpp" />
     <ClInclude Include="source\scenario\scenario_pvs.hpp" />
     <ClInclude Include="source\scenario\scenario_resource_definitions.hpp" />
+    <ClInclude Include="source\scenario\scenario_sky.hpp" />
     <ClInclude Include="source\scenario\scenario_soft_ceilings.hpp" />
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />
     <ClInclude Include="source\scenario\scenario_trigger_volumes.hpp" />

@@ -80,6 +80,21 @@ void __cdecl c_render_globals::increment_frame_index()
 	m_frame_index++;
 }
 
+void __cdecl render_dispose()
+{
+	INVOKE(0x00A296F0, render_dispose);
+}
+
+void __cdecl render_dispose_from_old_map()
+{
+	INVOKE(0x00A29730, render_dispose_from_old_map);
+}
+
+void __cdecl render_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00A29750, render_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
+
 void __cdecl render_frame_begin()
 {
 	INVOKE(0x00A29760, render_frame_begin);
@@ -87,6 +102,8 @@ void __cdecl render_frame_begin()
 
 void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* context, bool simple_font)
 {
+	//INVOKE(0x00A297A0, render_fullscreen_text, context, simple_font);
+
 	if (simple_font)
 	{
 		c_simple_font_draw_string draw_string;
@@ -104,6 +121,8 @@ void __cdecl render_fullscreen_text(s_render_fullscreen_text_context const* cont
 
 void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context const* context, c_draw_string* draw_string, c_font_cache_base* font_cache)
 {
+	//INVOKE(0x00A29860, render_fullscreen_text_internal, context, draw_string, font_cache);
+
 	real_argb_color color = *global_real_argb_white;
 	if (context->color)
 	{
@@ -128,6 +147,21 @@ void __cdecl render_fullscreen_text_internal(s_render_fullscreen_text_context co
 		draw_string->draw_more(font_cache, "\r\n");
 		draw_string->draw_more(font_cache, context->text);
 	}
+}
+
+void __cdecl render_initialize()
+{
+	INVOKE(0x00A29900, render_initialize);
+}
+
+void __cdecl render_initialize_for_new_map()
+{
+	INVOKE(0x00A29970, render_initialize_for_new_map);
+}
+
+void __cdecl render_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00A29980, render_initialize_for_new_structure_bsp, structure_bsp_mask);
 }
 
 //void __cdecl render_prepare_for_window(long player_window_index, e_output_user_index output_user_index)

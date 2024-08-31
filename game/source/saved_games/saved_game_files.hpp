@@ -78,3 +78,8 @@ static_assert(sizeof(c_saved_game_files_globals) == 0x68);
 
 extern c_saved_game_files_globals& g_saved_game_files_globals;
 
+extern void __cdecl saved_game_files_dispose();
+extern void __cdecl saved_game_files_dispose_from_old_map();
+extern void __cdecl saved_game_files_initialize();
+extern void __cdecl saved_game_files_initialize_for_new_map();
+

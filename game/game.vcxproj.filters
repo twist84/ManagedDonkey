@@ -1554,6 +1554,15 @@
     <ClCompile Include="source\game\player_training.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\scenario\scenario_sky.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\saved_games\autosave_queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\game\survival_mode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3687,6 +3696,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\screenshots\screenshots_loader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scenario\scenario_sky.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\saved_games\autosave_queue.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

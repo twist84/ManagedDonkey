@@ -51,6 +51,10 @@ static_assert(sizeof(s_campaign_metagame_runtime_globals_secondary) == 0x2114);
 extern bool& chud_debug_metagame;
 extern s_campaign_metagame_runtime_globals_secondary& g_campaign_metagame_runtime_globals_secondary;
 
+extern void __cdecl campaign_metagame_dispose();
+extern void __cdecl campaign_metagame_dispose_from_old_map();
+extern void __cdecl campaign_metagame_initialize();
+extern void __cdecl campaign_metagame_initialize_for_new_map();
 extern void __cdecl campaign_metagame_update();
 extern bool __cdecl sub_60B080();
 

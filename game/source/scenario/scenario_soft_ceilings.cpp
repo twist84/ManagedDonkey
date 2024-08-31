@@ -26,6 +26,26 @@ bool __cdecl scenario_soft_ceiling_is_active(string_id name)
 	return INVOKE(0x006746C0, scenario_soft_ceiling_is_active, name);
 }
 
+void __cdecl scenario_soft_ceilings_dispose()
+{
+	INVOKE(0x00674960, scenario_soft_ceilings_dispose);
+}
+
+void __cdecl scenario_soft_ceilings_dispose_from_old_map()
+{
+	INVOKE(0x00674970, scenario_soft_ceilings_dispose_from_old_map);
+}
+
+void __cdecl scenario_soft_ceilings_initialize()
+{
+	INVOKE(0x00674C50, scenario_soft_ceilings_initialize);
+}
+
+void __cdecl scenario_soft_ceilings_initialize_for_new_map()
+{
+	INVOKE(0x00674CB0, scenario_soft_ceilings_initialize_for_new_map);
+}
+
 bool __cdecl scenario_soft_ceilings_should_render_soft_ceiling(string_id name, bool biped, bool vehicle, bool huge_vehicle, bool camera)
 {
 	struct scenario* scenario = global_scenario_get();
