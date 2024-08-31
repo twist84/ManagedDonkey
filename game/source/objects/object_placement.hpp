@@ -18,7 +18,18 @@ enum e_object_placement_zone_set_create_mode
 	k_object_placement_zone_set_create_mode_count
 };
 
+struct s_game_non_bsp_zone_set;
+struct c_scenario_resource_registry;
+
 extern bool __cdecl object_definition_can_be_placed(long object_definition_index, long model_variant_index);
 extern void __cdecl object_placement_create_active_zone_set_objects(e_object_placement_zone_set_create_mode create_mode);
 extern void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool a2);
+extern void __cdecl object_placement_dispose();
+extern void __cdecl object_placement_dispose_from_old_map();
+extern void __cdecl object_placement_dispose_from_old_structure_bsp(dword structure_bsp_mask);
+extern void __cdecl object_placement_initialize();
+extern void __cdecl object_placement_initialize_for_new_map();
+extern void __cdecl object_placement_initialize_for_new_structure_bsp(dword structure_bsp_mask);
+extern void __cdecl object_placement_prepare_for_new_zone_set(dword a1, dword a2);
+extern void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* resource_registry);
 

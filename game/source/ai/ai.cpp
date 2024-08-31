@@ -10,9 +10,22 @@
 //.text:01431360 ; 
 //.text:014313B0 ; double __cdecl ai_danger_level(short)
 //.text:014314C0 ; 
-//.text:014314D0 ; void __cdecl ai_dispose()
-//.text:01431500 ; void __cdecl ai_dispose_from_old_map()
-//.text:01431570 ; void __cdecl ai_dispose_from_old_structure_bsp(dword)
+
+void __cdecl ai_dispose()
+{
+	INVOKE(0x014314D0, ai_dispose);
+}
+
+void __cdecl ai_dispose_from_old_map()
+{
+	INVOKE(0x01431500, ai_dispose_from_old_map);
+}
+
+void __cdecl ai_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x01431570, ai_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
+
 //.text:01431670 ; bool __cdecl ai_enemies_attacking_players(long*, dword*)
 
 bool __cdecl ai_enemies_can_see_player(long* out_unit_index)
@@ -117,9 +130,22 @@ void __cdecl ai_handle_bump(long object_index, long bump_object_index, vector3d 
 //.text:01433E70 ; 
 //.text:01433E80 ; 
 //.text:01433E90 ; 
-//.text:01433EA0 ; void __cdecl ai_initialize()
-//.text:01433F70 ; void __cdecl ai_initialize_for_new_map()
-//.text:01434010 ; void __cdecl ai_initialize_for_new_structure_bsp(dword)
+
+void __cdecl ai_initialize()
+{
+	INVOKE(0x01433EA0, ai_initialize);
+}
+
+void __cdecl ai_initialize_for_new_map()
+{
+	INVOKE(0x01433F70, ai_initialize_for_new_map);
+}
+
+void __cdecl ai_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x01434010, ai_initialize_for_new_structure_bsp, structure_bsp_mask);
+}
+
 //.text:01434150 ; void __cdecl ai_initialize_for_saved_game(long)
 //.text:01434180 ; void __cdecl ai_place(long)
 //.text:014341B0 ; long __cdecl ai_release_inactive_squads(long, byte*, long, bool*, char*, long)

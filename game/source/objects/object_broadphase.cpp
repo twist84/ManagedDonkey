@@ -34,12 +34,37 @@
 //.text:00B96C40 ; void __cdecl object_broadphase_add_object(long, s_object_cluster_payload const*)
 //.text:00B96C40 ; void __cdecl object_broadphase_add_object(long)
 //.text:00B96E00 ; 
-//.text:00B96E40 ; void __cdecl object_broadphase_dispose()
-//.text:00B96E50 ; void __cdecl object_broadphase_dispose_from_old_map()
-//.text:00B96E60 ; void __cdecl object_broadphase_dispose_from_old_structure_bsp(dword)
-//.text:00B96EA0 ; void __cdecl object_broadphase_initialize()
-//.text:00B96F20 ; void __cdecl object_broadphase_initialize_for_new_map()
-//.text:00B96F30 ; void __cdecl object_broadphase_initialize_for_new_structure_bsp(dword)
+
+void __cdecl object_broadphase_dispose()
+{
+	INVOKE(0x00B96E40, object_broadphase_dispose);
+}
+
+void __cdecl object_broadphase_dispose_from_old_map()
+{
+	INVOKE(0x00B96E50, object_broadphase_dispose_from_old_map);
+}
+
+void __cdecl object_broadphase_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00B96E60, object_broadphase_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
+
+void __cdecl object_broadphase_initialize()
+{
+	INVOKE(0x00B96EA0, object_broadphase_initialize);
+}
+
+void __cdecl object_broadphase_initialize_for_new_map()
+{
+	INVOKE(0x00B96F20, object_broadphase_initialize_for_new_map);
+}
+
+void __cdecl object_broadphase_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00B96F30, object_broadphase_initialize_for_new_structure_bsp, structure_bsp_mask);
+}
+
 //.text:00B97420 ; 
 //.text:00B97510 ; bool __cdecl object_broadphase_ray_cast(s_collision_test_flags, dword, real_point3d const*, vector3d const*, long, long, long, collision_result*)
 //.text:00B97720 ; void __cdecl object_broadphase_remove_object(long)

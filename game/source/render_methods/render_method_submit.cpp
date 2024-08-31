@@ -1,11 +1,40 @@
 #include "render_methods/render_method_submit.hpp"
 
-#include "cseries/cseries.hpp"
-
 void __cdecl render_method_submit_invalidate_cache()
 {
 	INVOKE(0x00A3D090, render_method_submit_invalidate_cache);
 };
+
+void __cdecl render_state_cache_dispose()
+{
+	INVOKE(0x00A3DAF0, render_state_cache_dispose);
+}
+
+void __cdecl render_state_cache_dispose_from_old_map()
+{
+	INVOKE(0x00A3DB00, render_state_cache_dispose_from_old_map);
+}
+
+void __cdecl render_state_cache_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00A3DB10, render_state_cache_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
+
+void __cdecl render_state_cache_initialize()
+{
+	INVOKE(0x00A3DB20, render_state_cache_initialize);
+}
+
+void __cdecl render_state_cache_initialize_for_new_map()
+{
+	INVOKE(0x00A3DB30, render_state_cache_initialize_for_new_map);
+}
+
+void __cdecl render_state_cache_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00A3DB40, render_state_cache_initialize_for_new_structure_bsp, structure_bsp_mask);
+}
+
 
 char const* k_render_method_extern_names[k_render_method_extern_count]
 {

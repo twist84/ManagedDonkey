@@ -69,10 +69,23 @@ void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color c
 		terminal_printf(NULL, "%s", string.get_string());
 }
 
-//.text:005C5550 ; void __cdecl havok_dispose()
+void __cdecl havok_dispose()
+{
+	INVOKE(0x005C5550, havok_dispose);
+}
+
 //.text:005C5590 ; 
-//.text:005C55A0 ; void __cdecl havok_dispose_from_old_map()
-//.text:005C55C0 ; void __cdecl havok_dispose_from_old_structure_bsp(dword)
+
+void __cdecl havok_dispose_from_old_map()
+{
+	INVOKE(0x005C55A0, havok_dispose_from_old_map);
+}
+
+void __cdecl havok_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x005C55C0, havok_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
+
 //.text:005C55D0 ; void __cdecl havok_dispose_from_old_structure_bsp_internal(dword)
 //.text:005C5700 ; void __cdecl havok_entity_post_update(hkEntity*)
 //.text:005C5AB0 ; 
@@ -84,11 +97,25 @@ void __cdecl havok_display_stats_printf(bool display_as_event, real_argb_color c
 //.text:005C5B60 ; c_environment_surface_shape const* __cdecl havok_get_environment_surface_shape(long)
 //.text:005C5B90 ; hkThreadMemory* __cdecl havok_get_render_thread_memory()
 //.text:005C5BA0 ; hkMonitorStream* __cdecl havok_get_render_thread_monitor_stream()
-//.text:005C5BB0 ; void __cdecl havok_initialize()
+
+void __cdecl havok_initialize()
+{
+	INVOKE(0x005C5BB0, havok_initialize);
+}
+
 //.text:005C5CF0 ; void __cdecl havok_initialize_all_allocated_state(bool)
 //.text:005C5D40 ; void __cdecl havok_initialize_environment_rigid_bodies()
-//.text:005C5DB0 ; void __cdecl havok_initialize_for_new_map()
-//.text:005C5E00 ; void __cdecl havok_initialize_for_new_structure_bsp(dword)
+
+void __cdecl havok_initialize_for_new_map()
+{
+	INVOKE(0x005C5DB0, havok_initialize_for_new_map);
+}
+
+void __cdecl havok_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x005C5E00, havok_initialize_for_new_structure_bsp, structure_bsp_mask);
+}
+
 //.text:005C5E10 ; void __cdecl havok_initialize_for_new_structure_bsp_internal(dword)
 //.text:005C5EF0 ; void __cdecl havok_initialize_havok_world()
 //.text:005C6240 ; void __cdecl havok_initialize_object_rigid_bodies()

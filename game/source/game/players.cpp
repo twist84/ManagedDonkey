@@ -371,12 +371,37 @@ long __cdecl player_new(long player_array_index, game_player_options const* opti
 //.text:0053B8F0 ; void __cdecl player_notify_of_tracking_or_locking(long, long, short)
 //.text:0053BA10 ; void __cdecl player_notify_vehicle_ejection_finished(long)
 //.text:0053BA90 ; void __cdecl player_over_shield_screen_effect(long)
-//.text:0053BB90 ; void __cdecl player_positions_dispose()
-//.text:0053BBA0 ; void __cdecl player_positions_dispose_from_old_map()
-//.text:0053BBB0 ; void __cdecl player_positions_dispose_from_old_structure_bsp(dword)
-//.text:0053BBC0 ; void __cdecl player_positions_initialize()
-//.text:0053BBD0 ; void __cdecl player_positions_initialize_for_new_map()
-//.text:0053BBE0 ; void __cdecl player_positions_initialize_for_new_structure_bsp(dword)
+
+void __cdecl player_positions_dispose()
+{
+	INVOKE(0x0053BB90, player_positions_dispose);
+}
+
+void __cdecl player_positions_dispose_from_old_map()
+{
+	INVOKE(0x0053BBA0, player_positions_dispose_from_old_map);
+}
+
+void __cdecl player_positions_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x0053BBB0, player_positions_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
+
+void __cdecl player_positions_initialize()
+{
+	INVOKE(0x0053BBC0, player_positions_initialize);
+}
+
+void __cdecl player_positions_initialize_for_new_map()
+{
+	INVOKE(0x0053BBD0, player_positions_initialize_for_new_map);
+}
+
+void __cdecl player_positions_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x0053BBE0, player_positions_initialize_for_new_structure_bsp, structure_bsp_mask);
+}
+
 //.text:0053BD90 ; void __cdecl player_prepare_action(long, s_player_action*)
 //.text:0053BFF0 ; 
 //.text:0053C020 ; void __cdecl player_rejoined_game(long,  game_player_options const*, bool)

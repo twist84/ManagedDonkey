@@ -22,13 +22,39 @@ void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool 
 
 //.text:00B596C0 ; bool __cdecl object_placement_data_new_from_scenario_object(e_object_type, long, s_scenario_object const*, s_tag_block*, bool, bool, struct object_placement_data*)
 //.text:00B59CA0 ; void __cdecl object_placement_deactivate_on_zone_set_switch(long)
-//.text:00B59D10 ; void __cdecl object_placement_dispose()
-//.text:00B59D20 ; void __cdecl object_placement_dispose_from_old_map()
-//.text:00B59D30 ; void __cdecl object_placement_dispose_from_old_structure_bsp(dword)
+
+void __cdecl object_placement_dispose()
+{
+	INVOKE(0x00B59D10, object_placement_dispose);
+}
+
+void __cdecl object_placement_dispose_from_old_map()
+{
+	INVOKE(0x00B59D20, object_placement_dispose_from_old_map);
+}
+
+void __cdecl object_placement_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00B59D30, object_placement_dispose_from_old_structure_bsp, structure_bsp_mask);
+}
+
 //.text:00B59D40 ; bool __cdecl object_placement_find_initial_location(dword, real_point3d const*, real, s_location*)
-//.text:00B59E10 ; void __cdecl object_placement_initialize()
-//.text:00B59EB0 ; void __cdecl object_placement_initialize_for_new_map()
-//.text:00B59FC0 ; void __cdecl object_placement_initialize_for_new_structure_bsp(dword)
+
+void __cdecl object_placement_initialize()
+{
+	INVOKE(0x00B59E10, object_placement_initialize);
+}
+
+void __cdecl object_placement_initialize_for_new_map()
+{
+	INVOKE(0x00B59EB0, object_placement_initialize_for_new_map);
+}
+
+void __cdecl object_placement_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+{
+	INVOKE(0x00B59FC0, object_placement_initialize_for_new_structure_bsp, structure_bsp_mask);
+}
+
 //.text:00B5A020 ; bool __cdecl object_placement_inside_structure_bsp(e_object_type, s_scenario_object const*)
 //.text:00B5A040 ; bool __cdecl object_placement_inside_structure_bsp_mask(dword, e_object_type, s_scenario_object const*)
 //.text:00B5A100 ; 
@@ -37,8 +63,17 @@ void __cdecl object_placement_create_global_objects(e_game_mode game_mode, bool 
 //.text:00B5A200 ; void __cdecl object_placement_mark_object_on_delete(long)
 //.text:00B5A270 ; 
 //.text:00B5A2C0 ; 
-//.text:00B5A310 ; void __cdecl object_placement_prepare_for_new_zone_set(dword, dword)
-//.text:00B5A470 ; void __cdecl object_placement_prepare_for_designer_zone_set_switch(dword, dword, c_scenario_resource_registry*)
+
+void __cdecl object_placement_prepare_for_new_zone_set(dword a1, dword a2)
+{
+	INVOKE(0x00B5A310, object_placement_prepare_for_new_zone_set, a1, a2);
+}
+
+void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* resource_registry)
+{
+	INVOKE(0x00B5A470, object_placement_prepare_for_non_bsp_zone_set_switch, a1, a2, resource_registry);
+}
+
 //.text:00B5A4E0 ; 
 //.text:00B5A4F0 ; void __cdecl object_placement_reset_from_teleport(long)
 //.text:00B5A550 ; void __cdecl object_placement_restore(long)
