@@ -28,6 +28,12 @@ struct s_scenario_zone_state
 };
 static_assert(sizeof(s_scenario_zone_state) == 0x20);
 
+struct s_game_non_bsp_zone_set
+{
+	dword designer_zone_mask;
+	dword cinematic_zone_mask;
+};
+
 struct s_scenario_zone_change
 {
 	dword get_deactivating_designer_zone_mask() const;
@@ -40,14 +46,8 @@ struct s_scenario_zone_change
 	bool any_cinematic_zone_changes() const;
 	bool any_zone_changes() const;
 
-	dword active_designer_zone_mask;
-	dword active_cinematic_zone_mask;
-	dword pending_designer_zone_mask;
-	dword pending_cinematic_zone_mask;
-};
-
-struct s_game_non_bsp_zone_set : s_scenario_zone_change
-{
+	s_game_non_bsp_zone_set active_non_bsp_zone_set;
+	s_game_non_bsp_zone_set pending_non_bsp_zone_set;
 };
 
 struct s_game_globals;
