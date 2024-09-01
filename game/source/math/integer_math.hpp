@@ -134,6 +134,7 @@ union argb_color
 static_assert(sizeof(argb_color) == 0x4);
 
 extern bool __cdecl bit_vector_and(long count, unsigned long const* v0, unsigned long const* v1, unsigned long* result);
+extern long __cdecl bit_vector_highest_bit_set(unsigned long const* vector, long count);
 extern void __cdecl bit_vector_not(long count, unsigned long const* vector, unsigned long* result);
 extern void __cdecl bit_vector_or(long count, unsigned long const* v0, unsigned long const* v1, unsigned long* result);
 
