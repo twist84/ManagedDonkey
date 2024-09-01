@@ -47,7 +47,10 @@ void __cdecl structure_seams_dispose_from_old_structure_bsp(dword old_structure_
 
 void __cdecl structure_seams_initialize()
 {
-	INVOKE(0x005F4960, structure_seams_initialize);
+	//INVOKE(0x005F4960, structure_seams_initialize);
+
+	TLS_DATA_GET_VALUE_REFERENCE(g_structure_seam_globals);
+	g_structure_seam_globals = (s_structure_seam_globals*)g_structure_seam_globals_allocator.allocate(sizeof(s_structure_seam_globals), "s_structure_seam_globals");
 }
 
 void __cdecl structure_seams_initialize_for_new_map()

@@ -1587,6 +1587,9 @@
     <ClCompile Include="source\game\game_progression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\structures\structure_seams.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
