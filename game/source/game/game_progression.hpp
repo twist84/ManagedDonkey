@@ -51,3 +51,7 @@ struct s_hub_progression
 static_assert(sizeof(s_hub_progression) == 0x80);
 #pragma warning(pop)
 
+extern long __cdecl game_progression_get_last_level();
+extern bool __cdecl game_progression_level_has_gameplay(long level_index);
+extern bool __cdecl game_progression_level_is_hub(long level_index);
+

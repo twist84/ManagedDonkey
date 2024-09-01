@@ -214,6 +214,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\game\game_achievements.cpp" />
     <ClCompile Include="source\game\game_allegiance.cpp" />
     <ClCompile Include="source\game\game_engine_notifications.cpp" />
+    <ClCompile Include="source\game\game_progression.cpp" />
     <ClCompile Include="source\game\game_save.cpp" />
     <ClCompile Include="source\cache\cache_file_runtime_codecs.cpp" />
     <ClCompile Include="source\cache\pc_sound_cache.cpp" />
