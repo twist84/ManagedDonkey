@@ -2,6 +2,12 @@
 
 #include "cseries/cseries.hpp"
 
+struct s_collision_materials_extant_flags
+{
+	c_static_flags<512> flags;
+};
+static_assert(sizeof(s_collision_materials_extant_flags) == 0x40);
+
 struct s_seam_mapping
 {
 	struct s_seam_cluster_mapping
@@ -18,13 +24,11 @@ struct s_seam_mapping
 };
 static_assert(sizeof(s_seam_mapping) == 0x284);
 
-using c_active_seam_flags = c_static_flags<128>;
-
 struct s_structure_seam_globals
 {
-	c_static_array<c_static_flags<512>, 16> flags;
+	c_static_array<s_collision_materials_extant_flags, 16> flags;
 	c_static_array<s_seam_mapping, 128> seam_mappings;
-	c_active_seam_flags active_seams_mask;
+	c_static_flags<128> active_seams_mask;
 	dword_flags connected_bsps_mask;
 };
 static_assert(sizeof(s_structure_seam_globals) == 0x14614);
