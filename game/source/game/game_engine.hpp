@@ -194,6 +194,7 @@ static_assert(sizeof(s_local_game_engine_globals) == 0xC4);
 extern void __cdecl game_engine_dispose();
 extern void __cdecl game_engine_dispose_from_old_map();
 extern void __cdecl game_engine_end_round_with_winner(long team, bool a1, e_game_engine_end_condition condition);
+extern void __cdecl game_engine_game_ending();
 extern void __cdecl game_engine_game_starting();
 extern void __cdecl game_engine_get_multiplayer_string(string_id id, c_static_wchar_string<1024>* out_multiplayer_string);
 extern long __cdecl game_engine_get_player_place(long absolute_player_index);
