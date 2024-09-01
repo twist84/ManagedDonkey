@@ -1514,15 +1514,15 @@ void __cdecl main_reset_map_internal(bool random)
 
 void __cdecl main_reset_map_private()
 {
-	INVOKE(0x00506B20, main_reset_map_private);
+	//INVOKE(0x00506B20, main_reset_map_private);
 
-	//if (game_in_progress() && !game_time_get_paused())
-	//{
-	//	main_clear_global_pending_zone_activation(NONE);
-	//	main_game_reset_map(main_globals.map_reset_random);
-	//	main_globals.map_reset = false;
-	//	main_globals.map_reset_random = false;
-	//}
+	if (game_in_progress() && !game_time_get_paused())
+	{
+		main_clear_global_pending_zone_activation(NONE);
+		main_game_reset_map(main_globals.map_reset_random);
+		main_globals.map_reset = false;
+		main_globals.map_reset_random = false;
+	}
 }
 
 void __cdecl main_reset_map_random()
