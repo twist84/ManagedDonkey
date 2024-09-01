@@ -19,7 +19,7 @@ void scenario::update_reference_names()
 	UPDATE_REFERENCE_NAME(tchou_shader_effect);
 	UPDATE_REFERENCE_NAME(vision_mode_override);
 
-	UPDATE_BLOCK_REFERENCE_NAMES(structure_bsps);
+	UPDATE_BLOCK_REFERENCE_NAMES(structure_bsp_references);
 	UPDATE_BLOCK_REFERENCE_NAMES(sky_references);
 	UPDATE_BLOCK_REFERENCE_NAMES(scenery_palette);
 	UPDATE_BLOCK_REFERENCE_NAMES(biped_palette);

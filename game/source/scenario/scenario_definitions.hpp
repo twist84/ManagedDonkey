@@ -149,7 +149,7 @@ struct scenario
 	angle local_north;
 	real sandbox_budget;
 
-	c_typed_tag_block<scenario_structure_bsp_reference> structure_bsps;
+	c_typed_tag_block<scenario_structure_bsp_reference> structure_bsp_references;
 	c_typed_tag_reference<STRUCTURE_SEAMS_TAG> structure_seams;
 	c_typed_tag_block<s_scenario_sky_reference> sky_references;
 	c_typed_tag_block<s_scenario_zone_set_pvs> zone_set_pvs;
