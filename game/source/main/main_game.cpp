@@ -898,45 +898,43 @@ bool __cdecl main_game_start(game_options const* options)
 
 void __cdecl main_game_unload_and_prepare_for_next_game(game_options const* options)
 {
-	INVOKE(0x00567F40, main_game_unload_and_prepare_for_next_game, options);
+	//INVOKE(0x00567F40, main_game_unload_and_prepare_for_next_game, options);
 
-	//c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
-	//
-	//if (game_in_progress())
-	//{
-	//	data_mine_insert_single_player_game_options("game finish");
-	//	game_engine_game_ending();
-	//	simulation_stop();
-	//	scenario_switch_to_null_zone_set();
-	//	game_dispose_from_old_map();
-	//}
-	//
-	//e_game_loaded_status game_loaded_status = main_game_globals.game_loaded_status;
-	//switch (game_loaded_status)
-	//{
-	//case _game_loaded_status_none:
-	//{
-	//	main_game_configure_map_memory(options);
-	//}
-	//case _game_loaded_status_map_loading:
-	//case _game_loaded_status_map_loaded_failure:
-	//case _game_loaded_status_map_unloading:
-	//	break;
-	//case _game_loaded_status_map_loaded:
-	//case _game_loaded_status_map_reloading:
-	//{
-	//	main_game_internal_map_unload_begin();
-	//	scenario_unload();
-	//	main_game_internal_map_unload_complete();
-	//}
-	//break;
-	//case _game_loaded_status_pregame:
-	//{
-	//	main_game_internal_pregame_unload();
-	//	main_game_configure_map_memory(options);
-	//}
-	//break;
-	//}
+	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+	
+	if (game_in_progress())
+	{
+		//data_mine_insert_single_player_game_options("game finish");
+		game_engine_game_ending();
+		simulation_stop();
+		scenario_switch_to_null_zone_set();
+		game_dispose_from_old_map();
+	}
+	
+	e_game_loaded_status game_loaded_status = main_game_globals.game_loaded_status;
+	switch (game_loaded_status)
+	{
+	case _game_loaded_status_none:
+		break;
+	case _game_loaded_status_map_loading:
+	case _game_loaded_status_map_loaded_failure:
+	case _game_loaded_status_map_unloading:
+		return;
+	case _game_loaded_status_map_loaded:
+	case _game_loaded_status_map_reloading:
+	{
+		main_game_internal_map_unload_begin();
+		scenario_unload();
+		main_game_internal_map_unload_complete();
+	}
+	break;
+	case _game_loaded_status_pregame:
+		main_game_internal_pregame_unload();
+	break;
+	}
+
+	ASSERT(main_game_globals.game_loaded_status == _game_loaded_status_none);
+	main_game_configure_map_memory(options);
 }
 
 void __cdecl main_menu_build_game_options(game_options* options)
