@@ -71,6 +71,9 @@ tag group_name_to_group_tag(char const* group_name)
 
 void* s_tag_reference::get_definition()
 {
+	if (index == NONE)
+		return nullptr;
+
 	return tag_get(group_tag, index);
 }
 
