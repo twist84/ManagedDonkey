@@ -149,14 +149,14 @@ s_structure_design* global_structure_design_get(long structure_bsp_index)
 	return INVOKE(0x004E97D0, global_structure_design_get, structure_bsp_index);
 }
 
-bool __cdecl scenario_activate_initial_designer_zones(long zoneset_index)
+bool __cdecl scenario_activate_initial_designer_zones(long zone_set_index)
 {
-	return INVOKE(0x004E9950, scenario_activate_initial_designer_zones, zoneset_index);
+	return INVOKE(0x004E9950, scenario_activate_initial_designer_zones, zone_set_index);
 }
 
-bool __cdecl scenario_activate_initial_zone_set(long zoneset_index)
+bool __cdecl scenario_activate_initial_zone_set(long zone_set_index)
 {
-	return INVOKE(0x004E9990, scenario_activate_initial_zone_set, zoneset_index);
+	return INVOKE(0x004E9990, scenario_activate_initial_zone_set, zone_set_index);
 }
 
 s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d const* point)
@@ -351,14 +351,66 @@ bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 	return true;
 }
 
-bool __cdecl scenario_switch_zone_set(long zoneset_index)
+void __cdecl scenario_prepare_for_map_reset(short zone_set_index)
 {
-	return INVOKE(0x004EB620, scenario_switch_zone_set, zoneset_index);
+	INVOKE(0x004EB3C0, scenario_prepare_for_map_reset, zone_set_index);
+
+	//s_scenario_zone_change zone_change;
+	//zone_change.active_non_bsp_zone_set.designer_zone_mask = game_get_active_designer_zone_mask();
+	//zone_change.active_non_bsp_zone_set.cinematic_zone_mask = game_get_active_cinematic_zone_mask();
+	//zone_change.pending_non_bsp_zone_set.designer_zone_mask = scenario_zone_set_designer_zone_required_mask_get(zone_set_index);
+	//zone_change.pending_non_bsp_zone_set.cinematic_zone_mask = 0;
+	//
+	//if (!scenario_modify_zone_activation_internal(
+	//	zone_set_index,
+	//	game_get_active_structure_bsp_mask(),
+	//	scenario_zone_set_bsp_active_mask_get(zone_set_index),
+	//	0,
+	//	&zone_change,
+	//	0,
+	//	true))
+	//{
+	//	generate_event(_event_level_critical, "failed to reset to initial zone, things are about to go BOOM!");
+	//}
+}
+
+void __cdecl scenario_switch_to_null_zone_set()
+{
+	INVOKE(0x004EB5C0, scenario_switch_to_null_zone_set);
+}
+
+bool __cdecl scenario_switch_zone_set(long zone_set_index)
+{
+	return INVOKE(0x004EB620, scenario_switch_zone_set, zone_set_index);
+}
+
+//bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
+bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
+{
+	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
+
+	ASSERT(scenario_path != 0);
+
+	struct scenario* scenario = global_scenario_get();
+	if (levels_map_id_is_fake(map_id))
+		return true;
+
+	return (scenario->campaign_id == campaign_id || campaign_id == -1) && (scenario->map_id == map_id || map_id == -1);
+}
+
+void __cdecl scenario_unload()
+{
+	INVOKE(0x004EB950, scenario_unload);
 }
 
 long __cdecl scenario_zone_set_index_get()
 {
 	return INVOKE(0x004EBA20, scenario_zone_set_index_get);
+}
+
+long global_scenario_index_get()
+{
+	return global_scenario_index;
 }
 
 char const* scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
@@ -372,11 +424,6 @@ char const* scenario_tag_get_structure_bsp_name(long scenario_index, long struct
 			structure_bsp_name = i + 1;
 	}
 	return structure_bsp_name;
-}
-
-long global_scenario_index_get()
-{
-	return global_scenario_index;
 }
 
 char const* scenario_get_structure_bsp_name(long structure_bsp_index)
@@ -404,25 +451,6 @@ char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* struct
 	}
 
 	return structure_bsp_string;
-}
-
-//bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
-bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scenario_path)
-{
-	//return INVOKE(0x004EB820, scenario_tags_match, campaign_id, map_id, scenario_path);
-
-	ASSERT(scenario_path != 0);
-
-	struct scenario* scenario = global_scenario_get();
-	if (levels_map_id_is_fake(map_id))
-		return true;
-
-	return (scenario->campaign_id == campaign_id || campaign_id == -1) && (scenario->map_id == map_id || map_id == -1);
-}
-
-void __cdecl scenario_unload()
-{
-	INVOKE(0x004EB950, scenario_unload);
 }
 
 structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, long structure_bsp_index)

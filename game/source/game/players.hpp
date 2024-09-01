@@ -755,7 +755,7 @@ struct s_players_global_data
 	long player_index;
 
 	// players_update_after_game
-	long zoneset_index;
+	long zone_set_index;
 
 	// memset in `players_initialize_for_new_map`
 	// zone_set_trigger_volume_index
@@ -837,6 +837,7 @@ extern bool __cdecl players_all_are_dead();
 extern bool __cdecl players_any_are_dead();
 extern bool __cdecl players_any_are_in_the_air(long* out_unit_index);
 extern bool __cdecl players_any_are_near_death(long* out_unit_index);
+extern void __cdecl players_detach_from_map();
 extern void __cdecl players_dispose();
 extern void __cdecl players_dispose_from_old_map();
 extern void __cdecl players_dispose_from_old_structure_bsp(dword old_structure_bsp_mask);

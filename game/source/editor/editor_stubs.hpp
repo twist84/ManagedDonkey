@@ -21,7 +21,7 @@ extern void __cdecl editor_register_new_object(e_object_type type, long a2, long
 extern void __cdecl editor_save_progress();
 extern bool __cdecl editor_should_render_object(long object_index);
 extern bool __cdecl editor_should_render_transparent_geometry();
-extern bool __cdecl editor_switch_zone_set(long zoneset_index);
+extern bool __cdecl editor_switch_zone_set(long zone_set_index);
 extern void __cdecl editor_update();
 extern bool __cdecl game_in_editor();
 

@@ -94,9 +94,9 @@ bool __cdecl editor_should_render_transparent_geometry()
 	return false;
 }
 
-bool __cdecl editor_switch_zone_set(long zoneset_index)
+bool __cdecl editor_switch_zone_set(long zone_set_index)
 {
-	return scenario_switch_zone_set(zoneset_index);
+	return scenario_switch_zone_set(zone_set_index);
 }
 
 void __cdecl editor_update()
