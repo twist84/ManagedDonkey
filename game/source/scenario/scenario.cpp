@@ -13,6 +13,7 @@
 #include "profiler/profiler_stopwatch.hpp"
 #include "scenario/scenario_tags_fixup.hpp"
 #include "structures/structure_bsp_definitions.hpp"
+#include "structures/structure_seams.hpp"
 #include "tag_files/tag_groups.hpp"
 
 REFERENCE_DECLARE(0x0189CCF8, long, global_scenario_index);
@@ -175,17 +176,23 @@ s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d c
 
 void __cdecl scenario_dispose()
 {
-	INVOKE(0x004E9F90, scenario_dispose);
+	//INVOKE(0x004E9F90, scenario_dispose);
+
+	structure_seams_dispose();
 }
 
 void __cdecl scenario_dispose_from_old_map()
 {
-	INVOKE(0x004E9FA0, scenario_dispose_from_old_map);
+	//INVOKE(0x004E9FA0, scenario_dispose_from_old_map);
+
+	structure_seams_dispose_from_old_map();
 }
 
 void __cdecl scenario_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x004E9FB0, scenario_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+	//INVOKE(0x004E9FB0, scenario_dispose_from_old_structure_bsp, old_structure_bsp_mask);
+
+	structure_seams_dispose_from_old_structure_bsp(old_structure_bsp_mask);
 }
 
 //.text:004E9FC0 ; bool __cdecl scenario_do_not_attach_unused_designer_zone_resources()
@@ -214,17 +221,30 @@ void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_s
 
 void __cdecl scenario_initialize()
 {
-	INVOKE(0x004EA340, scenario_initialize);
+	//INVOKE(0x004EA340, scenario_initialize);
+
+	structure_seams_initialize();
 }
 
 void __cdecl scenario_initialize_for_new_map()
 {
-	INVOKE(0x004EA350, scenario_initialize_for_new_map);
+	//INVOKE(0x004EA350, scenario_initialize_for_new_map);
+
+	//g_scenario_designer_zones_active = scenario_use_non_bsp_zones;
+	g_touched_structure_bsp_mask = 0;
+	g_active_cinematic_zone_mask = 0;
+	structure_seams_initialize_for_new_map();
 }
 
 void __cdecl scenario_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x004EA370, scenario_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+	//INVOKE(0x004EA370, scenario_initialize_for_new_structure_bsp, new_structure_bsp_mask);
+
+	// scenario structure seams is always none, is this compiled out?
+	s_structure_seams* structure_seams = global_scenario_get()->structure_seams.cast_to<s_structure_seams>();
+
+	// structure_seams is NULL
+	structure_seams_initialize_for_new_structure_bsp(global_scenario_index_get(), structure_seams, new_structure_bsp_mask);
 }
 
 //.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(long, s_structure_seams const*, dword)
