@@ -12,6 +12,7 @@
 #include "effects/screen_effect.hpp"
 #include "game/campaign_metagame.hpp"
 #include "game/game.hpp"
+#include "game/game_progression.hpp"
 #include "input/input_windows.hpp"
 #include "interface/damaged_media.hpp"
 #include "interface/user_interface.hpp"
@@ -847,32 +848,86 @@ bool __cdecl main_game_reset_in_progress()
 	return main_game_globals.reset_in_progress;
 }
 
-void __cdecl main_game_reset_map(bool reset_map)
+void __cdecl main_game_reset_map(bool reset_map_random)
 {
-	INVOKE(0x00567CA0, main_game_reset_map, reset_map);
+	//INVOKE(0x00567CA0, main_game_reset_map, reset_map_random);
+
+	//profiler_pause_reporting();
+	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
+
+	main_game_globals.reset_in_progress = true;
+
+	simulation_stop();
+	director_notify_map_reset();
+	players_detach_from_map();
+	//data_mine_insert_single_player_game_options("map reset");
+
+	game_options options{};
+	csmemcpy(&options, game_options_get(), sizeof(game_options));
+
+	if (!game_is_survival())
+	{
+		long last_level = game_progression_get_last_level();
+		if (last_level != NONE && game_progression_level_has_gameplay(last_level) && !game_progression_level_is_hub(last_level))
+		{
+			options.campaign_insertion_point = 0;
+		}
+	}
+
+	if (reset_map_random)
+		options.random_seed = generate_random_seed();
+
+	short zone_set_index = options.initial_zone_set_index;
+	if (game_in_editor())
+	{
+		zone_set_index = (short)scenario_zone_set_index_get();
+		if (VALID_INDEX(zone_set_index, global_scenario->zone_sets.count()))
+			options.initial_zone_set_index = zone_set_index;
+		else
+			options.initial_zone_set_index = 0;
+	}
+	scenario_prepare_for_map_reset(zone_set_index);
+
+	{
+		c_tag_resources_game_lock game_lock{};
+		game_dispose_from_old_structure_bsp(global_structure_bsp_active_mask_get());
+	}
+
+	game_dispose_from_old_map();
+	//events_clear();
+	input_flush();
+	main_render_purge_pending_messages();
+
+	bool success = main_game_start(&options);
+	main_game_globals.reset_in_progress = false;
+	if (!success)
+	{
+		generate_event(_event_level_critical, "main_game_reset_map couldn't restart the game!");
+		main_game_load_panic();
+	}
 }
 
 bool __cdecl main_game_start(game_options const* options)
 {
 	//return INVOKE(0x00567E40, main_game_start, options);
 
-	long zoneset_index = 0;
+	long zone_set_index = 0;
 	if (options->initial_zone_set_index > 0)
-		zoneset_index = options->initial_zone_set_index;
+		zone_set_index = options->initial_zone_set_index;
 
-	if (zoneset_index > global_scenario->zone_sets.count() - 1)
-		zoneset_index = global_scenario->zone_sets.count() - 1;
+	if (zone_set_index > global_scenario->zone_sets.count() - 1)
+		zone_set_index = global_scenario->zone_sets.count() - 1;
 
 	c_wait_for_render_thread wait_for_render_thread(__FILE__, __LINE__);
 
 	game_initialize_for_new_map(options);
-	scenario_activate_initial_designer_zones(zoneset_index);
+	scenario_activate_initial_designer_zones(zone_set_index);
 	game_create_objects(_game_create_mode_lock);
 	game_create_players();
 
 	bool success = false;
 
-	if (scenario_activate_initial_zone_set(zoneset_index))
+	if (scenario_activate_initial_zone_set(zone_set_index))
 	{
 		game_start(_game_create_mode_lock);
 		game_create_ai(_game_create_mode_lock);

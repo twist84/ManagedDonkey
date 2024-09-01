@@ -104,7 +104,7 @@ extern void __cdecl main_game_progression_request_level_advance();
 extern void __cdecl main_game_progression_request_level_advance_hub(long level_index);
 extern void __cdecl main_game_progression_request_level_advance_normal(long level_index);
 extern bool __cdecl main_game_reset_in_progress();
-extern void __cdecl main_game_reset_map(bool reset_map);
+extern void __cdecl main_game_reset_map(bool reset_map_random);
 extern bool __cdecl main_game_start(game_options const* options);
 extern void __cdecl main_game_unload_and_prepare_for_next_game(game_options const* options);
 extern void __cdecl main_menu_build_game_options(game_options* options);

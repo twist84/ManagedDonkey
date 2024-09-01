@@ -584,7 +584,11 @@ bool __cdecl players_any_are_near_death(long* out_unit_index)
 //.text:00541400 ; void __cdecl players_coop_desire_respawn(long)
 //.text:00541480 ; void __cdecl players_coop_update_respawn(long)
 //.text:00541920 ; void __cdecl players_death_status_calculate(bool*, bool*)
-//.text:005419A0 ; void __cdecl players_detach_from_map()
+
+void __cdecl players_detach_from_map()
+{
+	INVOKE(0x005419A0, players_detach_from_map);
+}
 
 void __cdecl players_dispose()
 {
