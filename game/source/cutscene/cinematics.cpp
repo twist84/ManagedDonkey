@@ -14,14 +14,14 @@ void __cdecl cinematic_dispose_from_old_map()
 	INVOKE(0x0067CE40, cinematic_dispose_from_old_map);
 }
 
-void __cdecl cinematic_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
+void __cdecl cinematic_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set)
 {
-	INVOKE(0x0067CE70, cinematic_dispose_from_old_non_bsp_zone_set, non_bsp_zone_set);
+	INVOKE(0x0067CE70, cinematic_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 }
 
-void __cdecl cinematic_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl cinematic_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x0067CE80, cinematic_dispose_from_old_structure_bsp, structure_bsp_mask);
+	INVOKE(0x0067CE80, cinematic_dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 //.text:0067CE90 ; 
@@ -59,14 +59,14 @@ void __cdecl cinematic_initialize_for_new_map()
 	INVOKE(0x0067D300, cinematic_initialize_for_new_map);
 }
 
-void __cdecl cinematic_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
+void __cdecl cinematic_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
 {
-	INVOKE(0x0067D400, cinematic_initialize_for_new_non_bsp_zone_set, non_bsp_zone_set);
+	INVOKE(0x0067D400, cinematic_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 }
 
-void __cdecl cinematic_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl cinematic_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x0067D410, cinematic_initialize_for_new_structure_bsp, structure_bsp_mask);
+	INVOKE(0x0067D410, cinematic_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
 //.text:0067D420 ; 
@@ -88,9 +88,9 @@ void __cdecl cinematic_prepare_for_new_zone_set(dword a1, dword a2)
 	INVOKE(0x0067DCE0, cinematic_prepare_for_new_zone_set, a1, a2);
 }
 
-void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* resource_registry)
+void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry)
 {
-	INVOKE(0x0067DCF0, cinematic_prepare_for_non_bsp_zone_set_switch, a1, a2, resource_registry);
+	INVOKE(0x0067DCF0, cinematic_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
 }
 
 //.text:0067DDF0 ; void __cdecl cinematic_print(char const*)

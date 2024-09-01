@@ -35,7 +35,7 @@ void __cdecl editor_dispose_from_old_map()
 {
 }
 
-void __cdecl editor_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl editor_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
 }
 
@@ -63,7 +63,7 @@ void __cdecl editor_initialize_for_new_map()
 {
 }
 
-void __cdecl editor_initialize_for_new_structure_bsp(dword a1)
+void __cdecl editor_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
 }
 

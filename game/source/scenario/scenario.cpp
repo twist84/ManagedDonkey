@@ -183,9 +183,9 @@ void __cdecl scenario_dispose_from_old_map()
 	INVOKE(0x004E9FA0, scenario_dispose_from_old_map);
 }
 
-void __cdecl scenario_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl scenario_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x004E9FB0, scenario_dispose_from_old_structure_bsp, structure_bsp_mask);
+	INVOKE(0x004E9FB0, scenario_dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 //.text:004E9FC0 ; bool __cdecl scenario_do_not_attach_unused_designer_zone_resources()
@@ -222,9 +222,9 @@ void __cdecl scenario_initialize_for_new_map()
 	INVOKE(0x004EA350, scenario_initialize_for_new_map);
 }
 
-void __cdecl scenario_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl scenario_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x004EA370, scenario_initialize_for_new_structure_bsp, structure_bsp_mask);
+	INVOKE(0x004EA370, scenario_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
 //.text:004EA390 ; void __cdecl scenario_initialize_for_new_structure_bsp_internal(long, s_structure_seams const*, dword)

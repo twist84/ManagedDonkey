@@ -340,9 +340,9 @@ void __cdecl game_dispose_from_old_map()
 	game_globals->map_active = false;
 }
 
-void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
+void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set const* old_non_bsp_zone_set)
 {
-	//INVOKE(0x00530E10, game_dispose_from_old_non_bsp_zone_set, non_bsp_zone_set);
+	//INVOKE(0x00530E10, game_dispose_from_old_non_bsp_zone_set, old_non_bsp_zone_set);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
@@ -353,7 +353,7 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc)
-			g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc(non_bsp_zone_set);
+			g_game_systems[system_index].dispose_from_old_non_bsp_zone_set_proc(old_non_bsp_zone_set);
 	}
 
 	objects_purge_deleted_objects();
@@ -363,9 +363,9 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 	game_globals->active_cinematic_zone_mask = 0;
 }
 
-void __cdecl game_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl game_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	//INVOKE(0x00530E70, game_dispose_from_old_structure_bsp, structure_bsp_mask);
+	//INVOKE(0x00530E70, game_dispose_from_old_structure_bsp, old_structure_bsp_mask);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
@@ -374,9 +374,9 @@ void __cdecl game_dispose_from_old_structure_bsp(dword structure_bsp_mask)
 	ASSERT(game_globals->active_structure_bsp_mask != 0);
 	ASSERT(global_structure_bsp_active_mask_get() != 0);
 
-	game_clear_structure_pvs(&game_globals->cluster_pvs, structure_bsp_mask);
-	game_clear_structure_pvs(&game_globals->cluster_pvs_local, structure_bsp_mask);
-	game_clear_structure_pvs(&game_globals->cluster_activation, structure_bsp_mask);
+	game_clear_structure_pvs(&game_globals->cluster_pvs, old_structure_bsp_mask);
+	game_clear_structure_pvs(&game_globals->cluster_pvs_local, old_structure_bsp_mask);
+	game_clear_structure_pvs(&game_globals->cluster_activation, old_structure_bsp_mask);
 
 	{
 		char active_structure_bsps[1024]{};
@@ -389,7 +389,7 @@ void __cdecl game_dispose_from_old_structure_bsp(dword structure_bsp_mask)
 	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
 		if (g_game_systems[system_index].dispose_from_old_structure_bsp_proc)
-			g_game_systems[system_index].dispose_from_old_structure_bsp_proc(structure_bsp_mask);
+			g_game_systems[system_index].dispose_from_old_structure_bsp_proc(old_structure_bsp_mask);
 	}
 
 	objects_purge_deleted_objects();
@@ -719,9 +719,9 @@ void __cdecl game_initialize_for_new_map(game_options const* options)
 	random_seed_disallow_use();
 }
 
-void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* non_bsp_zone_set)
+void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set)
 {
-	//INVOKE(0x00531790, game_initialize_for_new_non_bsp_zone_set, non_bsp_zone_set);
+	//INVOKE(0x00531790, game_initialize_for_new_non_bsp_zone_set, new_non_bsp_zone_set);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
@@ -733,13 +733,13 @@ void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set co
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc)
-			g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc(non_bsp_zone_set);
+			g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc(new_non_bsp_zone_set);
 	}
 }
 
-void __cdecl game_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl game_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	//INVOKE(0x005317F0, game_initialize_for_new_structure_bsp, structure_bsp_mask);
+	//INVOKE(0x005317F0, game_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
@@ -750,7 +750,7 @@ void __cdecl game_initialize_for_new_structure_bsp(dword structure_bsp_mask)
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_structure_bsp_proc)
-			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(structure_bsp_mask);
+			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(new_structure_bsp_mask);
 	}
 }
 
@@ -1092,24 +1092,24 @@ e_game_playback_type __cdecl game_playback_get()
 
 //.text:00532AA0 ; void __cdecl game_playback_set(e_game_playback_type playback_type)
 
-void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* resource_registry)
+void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry)
 {
-	//INVOKE(0x00532AD0, game_prepare_for_non_bsp_zone_set_switch, a1, a2, resource_registry);
+	//INVOKE(0x00532AD0, game_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
 
 	// #TODO: add any debug logic
 
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc)
-			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(a1, a2, resource_registry);
+			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
 	}
 
 	objects_purge_deleted_objects();
 }
 
-void __cdecl game_prepare_to_switch_structure_bsp(dword a1, dword a2)
+void __cdecl game_prepare_to_switch_structure_bsp(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
 {
-	//INVOKE(0x00532B10, game_prepare_to_switch_structure_bsp, a1, a2);
+	//INVOKE(0x00532B10, game_prepare_to_switch_structure_bsp, old_structure_bsp_mask, new_structure_bsp_mask);
 
 	// #TODO: add any debug logic
 
@@ -1118,7 +1118,7 @@ void __cdecl game_prepare_to_switch_structure_bsp(dword a1, dword a2)
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_new_zone_set_proc)
-			g_game_systems[system_index].prepare_for_new_zone_set_proc(a1, a2);
+			g_game_systems[system_index].prepare_for_new_zone_set_proc(old_structure_bsp_mask, new_structure_bsp_mask);
 	}
 
 	objects_purge_deleted_objects();

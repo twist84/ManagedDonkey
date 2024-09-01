@@ -517,7 +517,7 @@ void ai_debug_render_character_names()
 
 void ai_debug_render_sectors()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsps.count(); structure_bsp_index++)
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count(); structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
@@ -593,7 +593,7 @@ void ai_render_object_properties()
 
 void ai_debug_render_intersection_links()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsps.count(); structure_bsp_index++)
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count(); structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;
@@ -612,7 +612,7 @@ void ai_debug_render_intersection_links()
 
 void ai_debug_render_threshold_links()
 {
-	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsps.count(); structure_bsp_index++)
+	for (short structure_bsp_index = 0; structure_bsp_index < global_scenario_get()->structure_bsp_references.count(); structure_bsp_index++)
 	{
 		if (!TEST_MASK(FLAG(structure_bsp_index), global_structure_bsp_active_mask_get()))
 			continue;

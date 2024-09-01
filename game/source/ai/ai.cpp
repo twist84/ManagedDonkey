@@ -21,9 +21,9 @@ void __cdecl ai_dispose_from_old_map()
 	INVOKE(0x01431500, ai_dispose_from_old_map);
 }
 
-void __cdecl ai_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl ai_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x01431570, ai_dispose_from_old_structure_bsp, structure_bsp_mask);
+	INVOKE(0x01431570, ai_dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 //.text:01431670 ; bool __cdecl ai_enemies_attacking_players(long*, dword*)
@@ -141,9 +141,9 @@ void __cdecl ai_initialize_for_new_map()
 	INVOKE(0x01433F70, ai_initialize_for_new_map);
 }
 
-void __cdecl ai_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl ai_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x01434010, ai_initialize_for_new_structure_bsp, structure_bsp_mask);
+	INVOKE(0x01434010, ai_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
 //.text:01434150 ; void __cdecl ai_initialize_for_saved_game(long)

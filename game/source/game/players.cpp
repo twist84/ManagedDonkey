@@ -382,9 +382,9 @@ void __cdecl player_positions_dispose_from_old_map()
 	INVOKE(0x0053BBA0, player_positions_dispose_from_old_map);
 }
 
-void __cdecl player_positions_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl player_positions_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x0053BBB0, player_positions_dispose_from_old_structure_bsp, structure_bsp_mask);
+	INVOKE(0x0053BBB0, player_positions_dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 void __cdecl player_positions_initialize()
@@ -397,9 +397,9 @@ void __cdecl player_positions_initialize_for_new_map()
 	INVOKE(0x0053BBD0, player_positions_initialize_for_new_map);
 }
 
-void __cdecl player_positions_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl player_positions_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x0053BBE0, player_positions_initialize_for_new_structure_bsp, structure_bsp_mask);
+	INVOKE(0x0053BBE0, player_positions_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
 //.text:0053BD90 ; void __cdecl player_prepare_action(long, s_player_action*)
@@ -596,9 +596,9 @@ void __cdecl players_dispose_from_old_map()
 	INVOKE(0x00541B30, players_dispose_from_old_map);
 }
 
-void __cdecl players_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl players_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x00541B70, players_dispose_from_old_structure_bsp, structure_bsp_mask);
+	INVOKE(0x00541B70, players_dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 void __cdecl players_finish_creation()
@@ -638,9 +638,9 @@ void __cdecl players_initialize_for_new_map()
 	INVOKE(0x00542340, players_initialize_for_new_map);
 }
 
-void __cdecl players_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl players_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x00542460, players_initialize_for_new_structure_bsp, structure_bsp_mask);
+	INVOKE(0x00542460, players_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
 //.text:00542470 ; void __cdecl players_initialize_for_saved_game(long)

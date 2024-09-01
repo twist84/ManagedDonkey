@@ -64,8 +64,8 @@ extern char const* k_render_method_extern_names[k_render_method_extern_count];
 extern void __cdecl render_method_submit_invalidate_cache();
 extern void __cdecl render_state_cache_dispose();
 extern void __cdecl render_state_cache_dispose_from_old_map();
-extern void __cdecl render_state_cache_dispose_from_old_structure_bsp(dword structure_bsp_mask);
+extern void __cdecl render_state_cache_dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
 extern void __cdecl render_state_cache_initialize();
 extern void __cdecl render_state_cache_initialize_for_new_map();
-extern void __cdecl render_state_cache_initialize_for_new_structure_bsp(dword structure_bsp_mask);
+extern void __cdecl render_state_cache_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
 

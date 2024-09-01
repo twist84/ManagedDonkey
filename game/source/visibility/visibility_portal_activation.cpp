@@ -20,9 +20,9 @@ void __cdecl portal_activation_dispose_from_old_map()
 	INVOKE(0x005F9CB0, portal_activation_dispose_from_old_map);
 }
 
-void __cdecl portal_activation_dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl portal_activation_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x005F9CC0, portal_activation_dispose_from_old_structure_bsp, structure_bsp_mask);
+	INVOKE(0x005F9CC0, portal_activation_dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 //.text:005F9CD0 ; void __cdecl portal_activation_door_portal_search_for_doors()
@@ -36,9 +36,9 @@ void __cdecl portal_activation_initialize_for_new_map()
 	INVOKE(0x005F9E90, portal_activation_initialize_for_new_map);
 }
 
-void __cdecl portal_activation_initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl portal_activation_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x005F9EA0, portal_activation_initialize_for_new_structure_bsp, structure_bsp_mask);
+	INVOKE(0x005F9EA0, portal_activation_initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
 //.text:005FA040 ; 

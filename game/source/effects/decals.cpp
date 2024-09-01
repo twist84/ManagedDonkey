@@ -57,9 +57,9 @@ void __cdecl c_decal_system::initialize_for_new_structure_bsp(dword structure_bs
 	INVOKE(0x00693740, initialize_for_new_structure_bsp, structure_bsp_mask);
 }
 
-void __cdecl c_decal_system::prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* a1, s_game_non_bsp_zone_set const* a2, c_scenario_resource_registry* resource_registry)
+void __cdecl c_decal_system::prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry)
 {
-	INVOKE(0x006941B0, prepare_for_non_bsp_zone_set_switch, a1, a2, resource_registry);
+	INVOKE(0x006941B0, prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
 }
 
 void __cdecl sub_6948C0(long a1)
