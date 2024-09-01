@@ -1367,6 +1367,7 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\structures\structure_detail_objects.hpp" />
     <ClInclude Include="source\structures\structure_physics_definitions.hpp" />
     <ClInclude Include="source\structures\structure_seams.hpp" />
+    <ClInclude Include="source\structures\structure_seam_definitions.hpp" />
     <ClInclude Include="source\tag_files\files.hpp" />
     <ClInclude Include="source\tag_files\files_windows.hpp" />
     <ClInclude Include="source\tag_files\string_ids.hpp" />

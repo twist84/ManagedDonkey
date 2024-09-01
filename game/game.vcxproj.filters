@@ -3737,6 +3737,9 @@
     <ClInclude Include="source\visibility\visibility_portal_activation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\structures\structure_seam_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\resource.rc">
