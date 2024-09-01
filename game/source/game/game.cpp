@@ -301,7 +301,7 @@ void __cdecl game_dispose()
 {
 	//INVOKE(0x00530CD0, game_dispose);
 
-	// #TODO: add any debug logic
+	// some bool set to false
 
 	for (long system_index = g_game_system_count - 1; system_index >= 0; system_index--)
 	{
@@ -346,7 +346,16 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
-	// #TODO: add any debug logic
+	assert_game_options_verify(&game_globals->options);
+	ASSERT(game_globals->map_active);
+
+	char structure_bsp_string[1024]{};
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_designer_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "disposing", game_globals->active_designer_zone_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "disposing", game_globals->active_cinematic_zone_mask, structure_bsp_string);
 
 	havok_can_modify_state_allow();
 
@@ -358,6 +367,12 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 
 	objects_purge_deleted_objects();
 	havok_can_modify_state_disallow();
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_designer_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "disposed", game_globals->active_designer_zone_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "disposed", game_globals->active_cinematic_zone_mask, structure_bsp_string);
 
 	game_globals->active_designer_zone_mask = 0;
 	game_globals->active_cinematic_zone_mask = 0;
@@ -378,11 +393,10 @@ void __cdecl game_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 	game_clear_structure_pvs(&game_globals->cluster_pvs_local, old_structure_bsp_mask);
 	game_clear_structure_pvs(&game_globals->cluster_activation, old_structure_bsp_mask);
 
-	{
-		char active_structure_bsps[1024]{};
-		scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, active_structure_bsps, sizeof(active_structure_bsps));
-		main_status("bsp", "%s 0x%x (%s)", "disposing", game_globals->active_structure_bsp_mask, active_structure_bsps);
-	}
+	char structure_bsp_string[1024]{};
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("bsp", "%s 0x%x (%s)", "disposing", game_globals->active_structure_bsp_mask, structure_bsp_string);
 
 	havok_can_modify_state_allow();
 
@@ -395,11 +409,8 @@ void __cdecl game_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 	objects_purge_deleted_objects();
 	havok_can_modify_state_disallow();
 
-	{
-		char active_structure_bsps[1024]{};
-		scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, active_structure_bsps, sizeof(active_structure_bsps));
-		main_status("bsp", "%s 0x%x (%s)", "disposed", game_globals->active_structure_bsp_mask, active_structure_bsps);
-	}
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("bsp", "%s 0x%x (%s)", "disposed", game_globals->active_structure_bsp_mask, structure_bsp_string);
 
 	game_globals->active_structure_bsp_mask = 0;
 }
@@ -638,8 +649,6 @@ void __cdecl game_initialize()
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
-	// #TODO: add any debug logic
-
 	game_globals = (game_globals_storage*)g_game_globals_allocator.allocate(sizeof(game_globals_storage), "game globals");
 	csmemset(game_globals, 0, sizeof(game_globals_storage));
 
@@ -667,6 +676,8 @@ void __cdecl game_initialize()
 		c_console::write_line("after initializing %s", g_game_systems[system_index].name);
 #endif
 	}
+
+	// some bool set to true
 }
 
 void __cdecl game_initialize_for_new_map(game_options const* options)
@@ -725,16 +736,37 @@ void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set co
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
-	// #TODO: add any debug logic
+	assert_game_options_verify(&game_globals->options);
+	ASSERT(game_globals->map_active);
+	ASSERT(game_globals->active_designer_zone_mask == 0);
+	ASSERT((global_designer_zone_active_mask_get() & new_non_bsp_zone_set->designer_zone_mask) == new_non_bsp_zone_set->designer_zone_mask);
+
+	char structure_bsp_string[1024]{};
+
+	scenario_get_structure_bsp_string_from_mask(global_designer_zone_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "initializing", global_designer_zone_active_mask_get(), structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(global_cinematic_zone_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "initializing", global_cinematic_zone_active_mask_get(), structure_bsp_string);
 
 	game_globals->active_designer_zone_mask = global_designer_zone_active_mask_get();
 	game_globals->active_cinematic_zone_mask = global_cinematic_zone_active_mask_get();
+
+	random_seed_allow_use();
 
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc)
 			g_game_systems[system_index].initialize_for_new_non_bsp_zone_set_proc(new_non_bsp_zone_set);
 	}
+
+	random_seed_disallow_use();
+
+	scenario_get_structure_bsp_string_from_mask(global_designer_zone_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "initialization done", global_designer_zone_active_mask_get(), structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(global_cinematic_zone_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "initialization done", global_cinematic_zone_active_mask_get(), structure_bsp_string);
 }
 
 void __cdecl game_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
@@ -743,15 +775,30 @@ void __cdecl game_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
-	// #TODO: add any debug logic
+	assert_game_options_verify(&game_globals->options);
+	ASSERT(game_globals->map_active);
+	ASSERT(game_globals->active_structure_bsp_mask == 0);
+	ASSERT(global_structure_bsp_active_mask_get() != 0);
 
-	game_globals->active_structure_bsp_mask = g_active_structure_bsp_mask;
+	char structure_bsp_string[1024]{};
+
+	scenario_get_structure_bsp_string_from_mask(global_structure_bsp_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("bsp", "%s 0x%x (%s)", "initializing", global_structure_bsp_active_mask_get(), structure_bsp_string);
+
+	game_globals->active_structure_bsp_mask = global_structure_bsp_active_mask_get();
+
+	random_seed_allow_use();
 
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].initialize_for_new_structure_bsp_proc)
 			g_game_systems[system_index].initialize_for_new_structure_bsp_proc(new_structure_bsp_mask);
 	}
+
+	random_seed_disallow_use();
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("bsp", "%s 0x%x (%s)", "initialization done", game_globals->active_structure_bsp_mask, structure_bsp_string);
 }
 
 //.text:00531840 ; short __cdecl game_insertion_point_get()
@@ -1096,7 +1143,30 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set co
 {
 	//INVOKE(0x00532AD0, game_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
 
-	// #TODO: add any debug logic
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	assert_game_options_verify(&game_globals->options);
+	ASSERT(game_globals->map_active);
+	//ASSERT(new_non_bsp_zone_set->designer_zone_mask == 0 || VALID_INDEX(highest_bit_set(new_non_bsp_zone_set->designer_zone_mask), global_scenario_get()->designer_zones.count()));
+	ASSERT((game_globals->active_designer_zone_mask & old_non_bsp_zone_set->designer_zone_mask) == game_globals->active_designer_zone_mask);
+	ASSERT((game_globals->active_cinematic_zone_mask & old_non_bsp_zone_set->cinematic_zone_mask) == game_globals->active_cinematic_zone_mask);
+
+	char structure_bsp_string[1024]{};
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "preparing switch from", game_globals->active_structure_bsp_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(new_non_bsp_zone_set->designer_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "preparing switch to", new_non_bsp_zone_set->designer_zone_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "preparing switch from", game_globals->active_cinematic_zone_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(new_non_bsp_zone_set->cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "preparing switch to", new_non_bsp_zone_set->cinematic_zone_mask, structure_bsp_string);
+
+	bool usable_random_seed = random_seed_usable();
+	random_seed_allow_use();
 
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
@@ -1105,13 +1175,40 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set co
 	}
 
 	objects_purge_deleted_objects();
+
+	if (!usable_random_seed)
+		random_seed_disallow_use();
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "switching from", game_globals->active_structure_bsp_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(new_non_bsp_zone_set->designer_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "switching to", new_non_bsp_zone_set->designer_zone_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "switching from", game_globals->active_cinematic_zone_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(new_non_bsp_zone_set->cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "switching to", new_non_bsp_zone_set->cinematic_zone_mask, structure_bsp_string);
 }
 
 void __cdecl game_prepare_to_switch_structure_bsp(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
 {
 	//INVOKE(0x00532B10, game_prepare_to_switch_structure_bsp, old_structure_bsp_mask, new_structure_bsp_mask);
 
-	// #TODO: add any debug logic
+	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
+
+	ASSERT(game_globals->map_active);
+	//ASSERT(new_structure_bsp_mask == 0 || VALID_INDEX(highest_bit_set(new_structure_bsp_mask), global_scenario_get()->structure_bsp_references.count()));
+	ASSERT(game_globals->active_structure_bsp_mask == old_structure_bsp_mask);
+
+	char structure_bsp_string[1024]{};
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("bsp", "%s 0x%x (%s)", "preparing switch from", game_globals->active_structure_bsp_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(new_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("bsp", "%s 0x%x (%s)", "preparing switch to", new_structure_bsp_mask, structure_bsp_string);
 
 	havok_can_modify_state_allow();
 
@@ -1123,6 +1220,12 @@ void __cdecl game_prepare_to_switch_structure_bsp(dword old_structure_bsp_mask, 
 
 	objects_purge_deleted_objects();
 	havok_can_modify_state_disallow();
+
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("bsp", "%s 0x%x (%s)", "switching from", game_globals->active_structure_bsp_mask, structure_bsp_string);
+
+	scenario_get_structure_bsp_string_from_mask(new_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
+	main_status("bsp", "%s 0x%x (%s)", "switching to", new_structure_bsp_mask, structure_bsp_string);
 }
 
 //.text:00532B50 ; void __cdecl skull_primary_enable
