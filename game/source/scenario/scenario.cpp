@@ -363,7 +363,7 @@ long __cdecl scenario_zone_set_index_get()
 
 char const* scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
 {
-	scenario_structure_bsp_reference& structure_bsp_reference = static_cast<struct scenario*>(tag_get('scnr', scenario_index))->structure_bsp_references[structure_bsp_index];
+	scenario_structure_bsp_reference& structure_bsp_reference = static_cast<struct scenario*>(tag_get(SCENARIO_TAG, scenario_index))->structure_bsp_references[structure_bsp_index];
 
 	char const* structure_bsp_name = structure_bsp_reference.structure_bsp.get_name();
 	if (structure_bsp_name)
