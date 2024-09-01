@@ -28,7 +28,7 @@ extern void __cdecl bink_playback_initialize_for_new_non_bsp_zone_set(s_game_non
 extern void __cdecl bink_playback_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
 extern void __cdecl bink_playback_memory_dispose();
 extern void __cdecl bink_playback_memory_initialize(e_map_memory_configuration configuration);
-extern void __cdecl bink_playback_prepare_for_new_zone_set(dword a1, dword a2);
+extern void __cdecl bink_playback_prepare_for_new_zone_set(dword old_structure_bsp_mask, dword new_structure_bsp_mask);
 extern void __cdecl bink_playback_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry);
 extern void __cdecl bink_playback_render();
 extern bool __cdecl bink_playback_should_be_playing_deterministic_bink();

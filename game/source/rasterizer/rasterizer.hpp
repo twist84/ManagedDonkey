@@ -286,7 +286,7 @@ struct c_rasterizer
 	static void __cdecl cleanup_d3d_states();
 	static void __cdecl dispose();
 	static void __cdecl dispose_from_old_map();
-	static void __cdecl dispose_from_old_structure_bsp(dword structure_bsp_mask);
+	static void __cdecl dispose_from_old_structure_bsp(dword old_structure_bsp_mask);
 	static real __cdecl get_aspect_ratio();
 	static void __cdecl get_display_pixel_bounds(short_rectangle2d* display_pixel_bounds);
 	static void __cdecl get_display_title_safe_pixel_bounds(short_rectangle2d* resolution);
@@ -295,7 +295,7 @@ struct c_rasterizer
 	static void __cdecl initialize();
 	static bool __cdecl initialize_after_device_creation_or_reset();
 	static void __cdecl initialize_for_new_map();
-	static void __cdecl initialize_for_new_structure_bsp(dword structure_bsp_mask);
+	static void __cdecl initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
 	static void __cdecl notify_game_tick_begin();
 	static void __cdecl restore_last_scissor_rect();
 	static void __cdecl restore_last_viewport();

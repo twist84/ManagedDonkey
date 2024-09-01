@@ -83,9 +83,9 @@ void __cdecl cinematic_initialize_for_new_structure_bsp(dword new_structure_bsp_
 //.text:0067DC40 ; 
 //.text:0067DC60 ; void __cdecl cinematic_predict_shot(s_cinematic_scene*, long, long, c_tag_resource_collector*)
 
-void __cdecl cinematic_prepare_for_new_zone_set(dword a1, dword a2)
+void __cdecl cinematic_prepare_for_new_zone_set(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
 {
-	INVOKE(0x0067DCE0, cinematic_prepare_for_new_zone_set, a1, a2);
+	INVOKE(0x0067DCE0, cinematic_prepare_for_new_zone_set, old_structure_bsp_mask, new_structure_bsp_mask);
 }
 
 void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry)

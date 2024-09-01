@@ -29,9 +29,9 @@ void __cdecl c_structure_renderer::dispose_from_old_map()
 	INVOKE(0x00A2EDB0, dispose_from_old_map);
 }
 
-void __cdecl c_structure_renderer::dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl c_structure_renderer::dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x00A2EE00, dispose_from_old_structure_bsp, structure_bsp_mask);
+	INVOKE(0x00A2EE00, dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 void __cdecl c_structure_renderer::initialize()
@@ -44,8 +44,8 @@ void __cdecl c_structure_renderer::initialize_for_new_map()
 	INVOKE(0x00A2EF20, initialize_for_new_map);
 }
 
-void __cdecl c_structure_renderer::initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl c_structure_renderer::initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x00A2EF70, initialize_for_new_structure_bsp, structure_bsp_mask);
+	INVOKE(0x00A2EF70, initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 

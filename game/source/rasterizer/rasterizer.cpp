@@ -132,9 +132,9 @@ void __cdecl c_rasterizer::dispose_from_old_map()
 	INVOKE(0x00A1F950, dispose_from_old_map);
 }
 
-void __cdecl c_rasterizer::dispose_from_old_structure_bsp(dword structure_bsp_mask)
+void __cdecl c_rasterizer::dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 {
-	INVOKE(0x00A1F9A0, dispose_from_old_structure_bsp, structure_bsp_mask);
+	INVOKE(0x00A1F9A0, dispose_from_old_structure_bsp, old_structure_bsp_mask);
 }
 
 bool __cdecl c_rasterizer::end_albedo(short_rectangle2d const* bounds)
@@ -270,9 +270,9 @@ void __cdecl c_rasterizer::initialize_for_new_map()
 	INVOKE(0x00A1FEC0, initialize_for_new_map);
 }
 
-void __cdecl c_rasterizer::initialize_for_new_structure_bsp(dword structure_bsp_mask)
+void __cdecl c_rasterizer::initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 {
-	INVOKE(0x00A1FF40, initialize_for_new_structure_bsp, structure_bsp_mask);
+	INVOKE(0x00A1FF40, initialize_for_new_structure_bsp, new_structure_bsp_mask);
 }
 
 bool __cdecl rasterizer_initialized()
