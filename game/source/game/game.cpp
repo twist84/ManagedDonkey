@@ -349,13 +349,13 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 	assert_game_options_verify(&game_globals->options);
 	ASSERT(game_globals->map_active);
 
-	char structure_bsp_string[1024]{};
+	char status_string[1024]{};
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_designer_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("designer_zone", "%s 0x%x (%s)", "disposing", game_globals->active_designer_zone_mask, structure_bsp_string);
+	scenario_get_designer_zone_string_from_mask(game_globals->active_designer_zone_mask, status_string, sizeof(status_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "disposing", game_globals->active_designer_zone_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("cinematic_zone", "%s 0x%x (%s)", "disposing", game_globals->active_cinematic_zone_mask, structure_bsp_string);
+	scenario_get_cinematic_zone_string_from_mask(game_globals->active_cinematic_zone_mask, status_string, sizeof(status_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "disposing", game_globals->active_cinematic_zone_mask, status_string);
 
 	havok_can_modify_state_allow();
 
@@ -368,11 +368,11 @@ void __cdecl game_dispose_from_old_non_bsp_zone_set(s_game_non_bsp_zone_set cons
 	objects_purge_deleted_objects();
 	havok_can_modify_state_disallow();
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_designer_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("designer_zone", "%s 0x%x (%s)", "disposed", game_globals->active_designer_zone_mask, structure_bsp_string);
+	scenario_get_designer_zone_string_from_mask(game_globals->active_designer_zone_mask, status_string, sizeof(status_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "disposed", game_globals->active_designer_zone_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("cinematic_zone", "%s 0x%x (%s)", "disposed", game_globals->active_cinematic_zone_mask, structure_bsp_string);
+	scenario_get_cinematic_zone_string_from_mask(game_globals->active_cinematic_zone_mask, status_string, sizeof(status_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "disposed", game_globals->active_cinematic_zone_mask, status_string);
 
 	game_globals->active_designer_zone_mask = 0;
 	game_globals->active_cinematic_zone_mask = 0;
@@ -393,10 +393,10 @@ void __cdecl game_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 	game_clear_structure_pvs(&game_globals->cluster_pvs_local, old_structure_bsp_mask);
 	game_clear_structure_pvs(&game_globals->cluster_activation, old_structure_bsp_mask);
 
-	char structure_bsp_string[1024]{};
+	char status_string[1024]{};
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("bsp", "%s 0x%x (%s)", "disposing", game_globals->active_structure_bsp_mask, structure_bsp_string);
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("bsp", "%s 0x%x (%s)", "disposing", game_globals->active_structure_bsp_mask, status_string);
 
 	havok_can_modify_state_allow();
 
@@ -409,8 +409,8 @@ void __cdecl game_dispose_from_old_structure_bsp(dword old_structure_bsp_mask)
 	objects_purge_deleted_objects();
 	havok_can_modify_state_disallow();
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("bsp", "%s 0x%x (%s)", "disposed", game_globals->active_structure_bsp_mask, structure_bsp_string);
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("bsp", "%s 0x%x (%s)", "disposed", game_globals->active_structure_bsp_mask, status_string);
 
 	game_globals->active_structure_bsp_mask = 0;
 }
@@ -741,13 +741,13 @@ void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set co
 	ASSERT(game_globals->active_designer_zone_mask == 0);
 	ASSERT((global_designer_zone_active_mask_get() & new_non_bsp_zone_set->designer_zone_mask) == new_non_bsp_zone_set->designer_zone_mask);
 
-	char structure_bsp_string[1024]{};
+	char status_string[1024]{};
 
-	scenario_get_structure_bsp_string_from_mask(global_designer_zone_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("designer_zone", "%s 0x%x (%s)", "initializing", global_designer_zone_active_mask_get(), structure_bsp_string);
+	scenario_get_designer_zone_string_from_mask(global_designer_zone_active_mask_get(), status_string, sizeof(status_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "initializing", global_designer_zone_active_mask_get(), status_string);
 
-	scenario_get_structure_bsp_string_from_mask(global_cinematic_zone_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("cinematic_zone", "%s 0x%x (%s)", "initializing", global_cinematic_zone_active_mask_get(), structure_bsp_string);
+	scenario_get_cinematic_zone_string_from_mask(global_cinematic_zone_active_mask_get(), status_string, sizeof(status_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "initializing", global_cinematic_zone_active_mask_get(), status_string);
 
 	game_globals->active_designer_zone_mask = global_designer_zone_active_mask_get();
 	game_globals->active_cinematic_zone_mask = global_cinematic_zone_active_mask_get();
@@ -762,11 +762,11 @@ void __cdecl game_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set co
 
 	random_seed_disallow_use();
 
-	scenario_get_structure_bsp_string_from_mask(global_designer_zone_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("designer_zone", "%s 0x%x (%s)", "initialization done", global_designer_zone_active_mask_get(), structure_bsp_string);
+	scenario_get_designer_zone_string_from_mask(game_globals->active_designer_zone_mask, status_string, sizeof(status_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "initialization done", game_globals->active_designer_zone_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(global_cinematic_zone_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("cinematic_zone", "%s 0x%x (%s)", "initialization done", global_cinematic_zone_active_mask_get(), structure_bsp_string);
+	scenario_get_cinematic_zone_string_from_mask(game_globals->active_cinematic_zone_mask, status_string, sizeof(status_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "initialization done", game_globals->active_cinematic_zone_mask, status_string);
 }
 
 void __cdecl game_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
@@ -780,10 +780,10 @@ void __cdecl game_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 	ASSERT(game_globals->active_structure_bsp_mask == 0);
 	ASSERT(global_structure_bsp_active_mask_get() != 0);
 
-	char structure_bsp_string[1024]{};
+	char status_string[1024]{};
 
-	scenario_get_structure_bsp_string_from_mask(global_structure_bsp_active_mask_get(), structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("bsp", "%s 0x%x (%s)", "initializing", global_structure_bsp_active_mask_get(), structure_bsp_string);
+	scenario_get_structure_bsp_string_from_mask(global_structure_bsp_active_mask_get(), status_string, sizeof(status_string));
+	main_status("bsp", "%s 0x%x (%s)", "initializing", global_structure_bsp_active_mask_get(), status_string);
 
 	game_globals->active_structure_bsp_mask = global_structure_bsp_active_mask_get();
 
@@ -797,8 +797,8 @@ void __cdecl game_initialize_for_new_structure_bsp(dword new_structure_bsp_mask)
 
 	random_seed_disallow_use();
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("bsp", "%s 0x%x (%s)", "initialization done", game_globals->active_structure_bsp_mask, structure_bsp_string);
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("bsp", "%s 0x%x (%s)", "initialization done", game_globals->active_structure_bsp_mask, status_string);
 }
 
 //.text:00531840 ; short __cdecl game_insertion_point_get()
@@ -1151,19 +1151,19 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set co
 	ASSERT((game_globals->active_designer_zone_mask & old_non_bsp_zone_set->designer_zone_mask) == game_globals->active_designer_zone_mask);
 	ASSERT((game_globals->active_cinematic_zone_mask & old_non_bsp_zone_set->cinematic_zone_mask) == game_globals->active_cinematic_zone_mask);
 
-	char structure_bsp_string[1024]{};
+	char status_string[1024]{};
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("designer_zone", "%s 0x%x (%s)", "preparing switch from", game_globals->active_structure_bsp_mask, structure_bsp_string);
+	scenario_get_designer_zone_string_from_mask(game_globals->active_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "preparing switch from", game_globals->active_structure_bsp_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(new_non_bsp_zone_set->designer_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("designer_zone", "%s 0x%x (%s)", "preparing switch to", new_non_bsp_zone_set->designer_zone_mask, structure_bsp_string);
+	scenario_get_designer_zone_string_from_mask(new_non_bsp_zone_set->designer_zone_mask, status_string, sizeof(status_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "preparing switch to", new_non_bsp_zone_set->designer_zone_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("cinematic_zone", "%s 0x%x (%s)", "preparing switch from", game_globals->active_cinematic_zone_mask, structure_bsp_string);
+	scenario_get_cinematic_zone_string_from_mask(game_globals->active_cinematic_zone_mask, status_string, sizeof(status_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "preparing switch from", game_globals->active_cinematic_zone_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(new_non_bsp_zone_set->cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("cinematic_zone", "%s 0x%x (%s)", "preparing switch to", new_non_bsp_zone_set->cinematic_zone_mask, structure_bsp_string);
+	scenario_get_cinematic_zone_string_from_mask(new_non_bsp_zone_set->cinematic_zone_mask, status_string, sizeof(status_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "preparing switch to", new_non_bsp_zone_set->cinematic_zone_mask, status_string);
 
 	bool usable_random_seed = random_seed_usable();
 	random_seed_allow_use();
@@ -1179,17 +1179,17 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set co
 	if (!usable_random_seed)
 		random_seed_disallow_use();
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("designer_zone", "%s 0x%x (%s)", "switching from", game_globals->active_structure_bsp_mask, structure_bsp_string);
+	scenario_get_designer_zone_string_from_mask(game_globals->active_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "switching from", game_globals->active_structure_bsp_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(new_non_bsp_zone_set->designer_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("designer_zone", "%s 0x%x (%s)", "switching to", new_non_bsp_zone_set->designer_zone_mask, structure_bsp_string);
+	scenario_get_designer_zone_string_from_mask(new_non_bsp_zone_set->designer_zone_mask, status_string, sizeof(status_string));
+	main_status("designer_zone", "%s 0x%x (%s)", "switching to", new_non_bsp_zone_set->designer_zone_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("cinematic_zone", "%s 0x%x (%s)", "switching from", game_globals->active_cinematic_zone_mask, structure_bsp_string);
+	scenario_get_cinematic_zone_string_from_mask(game_globals->active_cinematic_zone_mask, status_string, sizeof(status_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "switching from", game_globals->active_cinematic_zone_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(new_non_bsp_zone_set->cinematic_zone_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("cinematic_zone", "%s 0x%x (%s)", "switching to", new_non_bsp_zone_set->cinematic_zone_mask, structure_bsp_string);
+	scenario_get_cinematic_zone_string_from_mask(new_non_bsp_zone_set->cinematic_zone_mask, status_string, sizeof(status_string));
+	main_status("cinematic_zone", "%s 0x%x (%s)", "switching to", new_non_bsp_zone_set->cinematic_zone_mask, status_string);
 }
 
 void __cdecl game_prepare_to_switch_structure_bsp(dword old_structure_bsp_mask, dword new_structure_bsp_mask)
@@ -1202,13 +1202,13 @@ void __cdecl game_prepare_to_switch_structure_bsp(dword old_structure_bsp_mask, 
 	//ASSERT(new_structure_bsp_mask == 0 || VALID_INDEX(highest_bit_set(new_structure_bsp_mask), global_scenario_get()->structure_bsp_references.count()));
 	ASSERT(game_globals->active_structure_bsp_mask == old_structure_bsp_mask);
 
-	char structure_bsp_string[1024]{};
+	char status_string[1024]{};
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("bsp", "%s 0x%x (%s)", "preparing switch from", game_globals->active_structure_bsp_mask, structure_bsp_string);
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("bsp", "%s 0x%x (%s)", "preparing switch from", game_globals->active_structure_bsp_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(new_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("bsp", "%s 0x%x (%s)", "preparing switch to", new_structure_bsp_mask, structure_bsp_string);
+	scenario_get_structure_bsp_string_from_mask(new_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("bsp", "%s 0x%x (%s)", "preparing switch to", new_structure_bsp_mask, status_string);
 
 	havok_can_modify_state_allow();
 
@@ -1221,11 +1221,11 @@ void __cdecl game_prepare_to_switch_structure_bsp(dword old_structure_bsp_mask, 
 	objects_purge_deleted_objects();
 	havok_can_modify_state_disallow();
 
-	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("bsp", "%s 0x%x (%s)", "switching from", game_globals->active_structure_bsp_mask, structure_bsp_string);
+	scenario_get_structure_bsp_string_from_mask(game_globals->active_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("bsp", "%s 0x%x (%s)", "switching from", game_globals->active_structure_bsp_mask, status_string);
 
-	scenario_get_structure_bsp_string_from_mask(new_structure_bsp_mask, structure_bsp_string, sizeof(structure_bsp_string));
-	main_status("bsp", "%s 0x%x (%s)", "switching to", new_structure_bsp_mask, structure_bsp_string);
+	scenario_get_structure_bsp_string_from_mask(new_structure_bsp_mask, status_string, sizeof(status_string));
+	main_status("bsp", "%s 0x%x (%s)", "switching to", new_structure_bsp_mask, status_string);
 }
 
 //.text:00532B50 ; void __cdecl skull_primary_enable

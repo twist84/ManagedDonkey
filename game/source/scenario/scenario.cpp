@@ -428,6 +428,11 @@ long __cdecl scenario_zone_set_index_get()
 	return INVOKE(0x004EBA20, scenario_zone_set_index_get);
 }
 
+structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, long structure_bsp_index)
+{
+	return INVOKE(0x00766280, scenario_structure_bsp_get, scenario, structure_bsp_index);
+}
+
 long global_scenario_index_get()
 {
 	return global_scenario_index;
@@ -455,27 +460,88 @@ char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* struct
 {
 	csnzprintf(structure_bsp_string, structure_bsp_string_size, "");
 
-	bool first_structure_bsp = true;
-	for (long i = 0; i < global_scenario_get()->structure_bsp_references.count(); i++)
-	{
-		if (TEST_BIT(mask, i))
-			continue;
+	struct scenario* scenario = global_scenario_get();
 
-		if (char const* structure_bsp_name = scenario_get_structure_bsp_name(i))
+	bool first_structure_bsp = true;
+	for (long structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count(); structure_bsp_index++)
+	{
+		if (TEST_BIT(mask, structure_bsp_index))
 		{
-			if (!first_structure_bsp)
-				csstrnzcat(structure_bsp_string, ", ", structure_bsp_string_size);
-			csstrnzcat(structure_bsp_string, structure_bsp_name, structure_bsp_string_size);
-			first_structure_bsp = false;
+			if (char const* structure_bsp_name = scenario_get_structure_bsp_name(structure_bsp_index))
+			{
+				if (!first_structure_bsp)
+					csstrnzcat(structure_bsp_string, ", ", structure_bsp_string_size);
+				csstrnzcat(structure_bsp_string, structure_bsp_name, structure_bsp_string_size);
+				first_structure_bsp = false;
+			}
 		}
 	}
 
 	return structure_bsp_string;
 }
 
-structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, long structure_bsp_index)
+char const* scenario_get_designer_zone_name(struct scenario* scenario, long designer_zone_index)
 {
-	return INVOKE(0x00766280, scenario_structure_bsp_get, scenario, structure_bsp_index);
+	return scenario->designer_zones[designer_zone_index].name.get_string();
+}
+
+char const* scenario_get_designer_zone_string_from_mask(dword mask, char* designer_zone_string, dword designer_zone_string_size)
+{
+	csnzprintf(designer_zone_string, designer_zone_string_size, "");
+
+	struct scenario* scenario = global_scenario_get();
+
+	bool first_designer_zone = true;
+	for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count(); designer_zone_index++)
+	{
+		if (TEST_BIT(mask, designer_zone_index))
+		{
+			if (char const* designer_zone_name = scenario_get_designer_zone_name(scenario, designer_zone_index))
+			{
+				if (!first_designer_zone)
+					csstrnzcat(designer_zone_string, ", ", designer_zone_string_size);
+				csstrnzcat(designer_zone_string, designer_zone_name, designer_zone_string_size);
+				first_designer_zone = false;
+			}
+		}
+	}
+
+	return designer_zone_string;
+}
+
+char const* scenario_get_cinematic_zone_name(struct scenario* scenario, long cinematic_zone_index)
+{
+	long cinematic_index = scenario->cinematics[cinematic_zone_index].name.index;
+	if (cinematic_index != NONE)
+	{
+		char const* cinematic_name = tag_get_name(cinematic_index);
+		return tag_name_strip_path(cinematic_name);
+	}
+	return "";
+}
+
+char const* scenario_get_cinematic_zone_string_from_mask(dword mask, char* cinematic_zone_string, dword cinematic_zone_string_size)
+{
+	csnzprintf(cinematic_zone_string, cinematic_zone_string_size, "");
+
+	struct scenario* scenario = global_scenario_get();
+
+	bool first_cinematic = true;
+	for (long cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count(); cinematic_zone_index++)
+	{
+		if (TEST_BIT(mask, cinematic_zone_index))
+		{
+			if (char const* cinematic_zone_name = scenario_get_cinematic_zone_name(scenario, cinematic_zone_index))
+			{
+				if (!first_cinematic)
+					csstrnzcat(cinematic_zone_string, ", ", cinematic_zone_string_size);
+				csstrnzcat(cinematic_zone_string, cinematic_zone_name, cinematic_zone_string_size);
+				first_cinematic = false;
+			}
+		}
+	}
+
+	return cinematic_zone_string;
 }
 
 short scenario_object_name_index_from_string(struct scenario* scenario, char const* name)
