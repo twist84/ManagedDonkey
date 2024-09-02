@@ -4,20 +4,26 @@
 #include "cache/cache_file_tag_resource_runtime.hpp"
 #include "cache/cache_files.hpp"
 #include "cseries/cseries.hpp"
+#include "cseries/cseries_events.hpp"
+#include "game/game.hpp"
 #include "game/game_globals.hpp"
 #include "game/multiplayer_definitions.hpp"
 #include "hf2p/hf2p.hpp"
 #include "main/console.hpp"
 #include "main/levels.hpp"
+#include "main/main.hpp"
 #include "memory/module.hpp"
 #include "profiler/profiler_stopwatch.hpp"
 #include "scenario/scenario_tags_fixup.hpp"
+#include "scenario/scenario_zone_resources.hpp"
+#include "scenario/scenario_zone_sets.hpp"
 #include "structures/structure_bsp_definitions.hpp"
 #include "structures/structure_seams.hpp"
 #include "tag_files/tag_groups.hpp"
 
 REFERENCE_DECLARE(0x0189CCF8, long, global_scenario_index);
 REFERENCE_DECLARE(0x0189CCFC, long, global_scenario_game_globals_index);
+REFERENCE_DECLARE(0x0189CD0C, long, global_zone_set_index);
 REFERENCE_DECLARE(0x022AAEB4, struct scenario*, global_scenario);
 REFERENCE_DECLARE(0x022AAEB8, s_game_globals*, global_game_globals);
 REFERENCE_DECLARE(0x022AAEBC, dword, g_active_structure_bsp_mask);
@@ -26,6 +32,8 @@ REFERENCE_DECLARE(0x022AAEC4, dword, g_active_designer_zone_mask);
 REFERENCE_DECLARE(0x022AAEC8, dword, g_active_cinematic_zone_mask);
 REFERENCE_DECLARE(0x022AAECC, dword, g_touched_cinematic_zone_mask);
 REFERENCE_DECLARE(0x022AAED1, bool, byte_22AAED1);
+
+HOOK_DECLARE(0x004E9CB0, scenario_connect_zone_set_resources);
 
 c_stop_watch scenario_load_resources_blocking_watch(true);
 
@@ -74,43 +82,6 @@ bool s_scenario_zone_change::any_zone_changes() const
 	return any_cinematic_zone_changes() || any_designer_zone_changes();
 }
 
-struct scenario* global_scenario_get()
-{
-	// halo 3
-	ASSERT(global_scenario);
-	return global_scenario;
-
-	// halo online
-	//return static_cast<struct scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
-}
-
-struct scenario* global_scenario_try_and_get()
-{
-	if (global_scenario)
-		return global_scenario_get();
-
-	return nullptr;
-}
-
-s_game_globals* scenario_get_game_globals()
-{
-	ASSERT(global_game_globals);
-	return global_game_globals;
-}
-
-s_game_globals* scenario_try_and_get_game_globals()
-{
-	if (global_game_globals)
-		return scenario_get_game_globals();
-
-	return nullptr;
-}
-
-dword global_structure_bsp_active_mask_get()
-{
-	return g_active_structure_bsp_mask;
-}
-
 dword __cdecl global_cinematic_zone_active_mask_get()
 {
 	return INVOKE(0x004E9570, global_cinematic_zone_active_mask_get);
@@ -118,12 +89,18 @@ dword __cdecl global_cinematic_zone_active_mask_get()
 	//return g_active_cinematic_zone_mask;
 }
 
+//.text:004E9580 ; 
+//.text:004E95B0 ; c_collision_bsp_reference __cdecl global_collision_bsp_get(long)
+
 dword __cdecl global_designer_zone_active_mask_get()
 {
 	return INVOKE(0x004E95E0, global_designer_zone_active_mask_get);
 
 	//return g_active_designer_zone_mask;
 }
+
+//.text:004E95F0 ; 
+//.text:004E9640 ; 
 
 long __cdecl global_structure_bsp_first_active_index_get()
 {
@@ -145,20 +122,57 @@ long __cdecl global_structure_bsp_next_active_index_get(long structure_bsp_index
 	return INVOKE(0x004E9730, global_structure_bsp_next_active_index_get, structure_bsp_index);
 }
 
+//.text:004E97A0 ; scenario_structure_bsp_get?
+
 s_structure_design* global_structure_design_get(long structure_bsp_index)
 {
 	return INVOKE(0x004E97D0, global_structure_design_get, structure_bsp_index);
 }
 
+//.text:004E9800 ; 
+//.text:004E9810 ; 
+//.text:004E9820 ; lowest_bit_set?
+//.text:004E9850 ; 
+//.text:004E9880 ; 
+//.text:004E9890 ; 
+//.text:004E98A0 ; 
+//.text:004E98B0 ; 
+//.text:004E98C0 ; 
+
 bool __cdecl scenario_activate_initial_designer_zones(long zone_set_index)
 {
 	return INVOKE(0x004E9950, scenario_activate_initial_designer_zones, zone_set_index);
+
+	//s_scenario_zone_change zone_change{};
+	//return scenario_modify_zone_activation_internal(zone_set_index, 0, 0, 0, &zone_change, false, true);
 }
 
 bool __cdecl scenario_activate_initial_zone_set(long zone_set_index)
 {
-	return INVOKE(0x004E9990, scenario_activate_initial_zone_set, zone_set_index);
+	//return INVOKE(0x004E9990, scenario_activate_initial_zone_set, zone_set_index);
+
+	ASSERT(global_scenario_index != NONE);
+	ASSERT(global_scenario);
+	ASSERT(global_zone_set_index == NONE || global_zone_set_index == zone_set_index);
+
+	if (!scenario_switch_zone_set_internal(zone_set_index, true))
+	{
+		generate_event(_event_level_critical, "unable to load initial structure bsp (maybe scenario has none?)");
+		return false;
+	}
+
+	return true;
 }
+
+//.text:004E99C0 ; 
+//.text:004E99D0 ; 
+//.text:004E99E0 ; bool __cdecl scenario_attach_game_to_new_non_bsp_zones(s_scenario_zone_change const*)
+//.text:004E9A70 ; 
+//.text:004E9A90 ; 
+//.text:004E9AB0 ; long __cdecl scenario_budget_resource_get_looping_sound_reference(long)
+//.text:004E9AD0 ; 
+//.text:004E9AE0 ; s_cluster_reference __cdecl scenario_cluster_reference_from_leaf_index(long, long)
+//.text:004E9B30 ; s_cluster_reference __cdecl scenario_cluster_reference_from_point(long, real_point3d const*)
 
 s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d const* point)
 {
@@ -167,7 +181,52 @@ s_cluster_reference __cdecl scenario_cluster_reference_from_point(real_point3d c
 
 //.text:004E9C30 ; bool __cdecl scenario_cluster_reference_valid(s_cluster_reference const*)
 //.text:004E9C40 ; bool __cdecl scenario_connect_game_to_new_bsps(dword, dword)
-//.text:004E9CB0 ; bool __cdecl scenario_connect_zone_set_resources(long, dword, dword, dword, dword, dword, bool)
+
+bool __cdecl scenario_connect_zone_set_resources(
+	long zone_set_index,
+	dword active_structure_bsp_mask,
+	dword touched_structure_bsp_mask,
+	dword active_designer_zone_mask,
+	dword active_cinematic_zone_mask,
+	dword touched_cinematic_zone_mask,
+	bool a7
+)
+{
+	//return INVOKE(0x004E9CB0, scenario_connect_zone_set_resources,
+	//	zone_set_index,
+	//	active_structure_bsp_mask,
+	//	touched_structure_bsp_mask,
+	//	active_designer_zone_mask,
+	//	active_cinematic_zone_mask,
+	//	touched_cinematic_zone_mask,
+	//	a7);
+
+	bool result = true;
+
+	scenario_zone_set_debug_status("switching to", zone_set_index);
+
+	global_zone_set_index = zone_set_index;
+	g_active_structure_bsp_mask = active_structure_bsp_mask;
+	g_touched_structure_bsp_mask = touched_structure_bsp_mask;
+	g_active_designer_zone_mask = active_designer_zone_mask;
+	g_active_cinematic_zone_mask = active_cinematic_zone_mask;
+	g_touched_cinematic_zone_mask = touched_cinematic_zone_mask;
+
+	s_scenario_zone_state global_zone_state{};
+	scenario_get_global_zone_state(&global_zone_state);
+	cache_file_tag_resources_set_zone_state(global_scenario_index_get(), scenario_zone_set_name_get(), &global_zone_state);
+
+	if (!scenario_load_resources_blocking(game_is_multithreaded()))
+	{
+		result = false;
+		scenario_invalidate_zone_set_internal();
+	}
+
+	scenario_zone_set_debug_status("switched to", zone_set_index);
+
+	return result;
+}
+
 //.text:004E9D90 ; 
 //.text:004E9DA0 ; 
 //.text:004E9E10 ; void __cdecl scenario_detach_game_from_old_non_bsp_zones(dword, dword, s_scenario_zone_change const*, bool)
@@ -204,8 +263,8 @@ void __cdecl scenario_frame_update(real game_seconds_elapsed)
 }
 
 //.text:004EA100 ; void __cdecl scenario_game_state_grab_global_state(s_scenario_game_state*)
-//.text:004EA140 ; 
-//.text:004EA1A0 ; 
+//.text:004EA140 ; bool __cdecl scenario_game_state_matches_global_state(s_scenario_game_state const*)
+//.text:004EA1A0 ; bool __cdecl scenario_game_states_match(s_scenario_game_state const*, s_scenario_game_state const*)
 
 void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_state)
 {
@@ -213,8 +272,8 @@ void __cdecl scenario_get_global_zone_state(s_scenario_zone_state* global_zone_s
 }
 
 //.text:004EA280 ; 
-//.text:004EA290 ; 
-//.text:004EA2A0 ; 
+//.text:004EA290 ; //return g_touched_structure_bsp_mask
+//.text:004EA2A0 ; //return g_touched_cinematic_zone_mask
 //.text:004EA2B0 ; 
 //.text:004EA2C0 ; 
 //.text:004EA2D0 ; bool __cdecl scenario_illumination_at_point(real_point3d const*, vector3d*, vector3d*, real_rgb_color*, real_rgb_color*)
@@ -255,6 +314,14 @@ void __cdecl scenario_invalidate()
 	return INVOKE(0x004EA3E0, scenario_invalidate);
 }
 
+void __cdecl scenario_invalidate_zone_set_internal()
+{
+	//INVOKE(0x004EA420, scenario_invalidate_zone_set_internal);
+
+	global_zone_set_index = NONE;
+	g_active_structure_bsp_mask = 0;
+}
+
 bool __cdecl scenario_language_pack_load()
 {
 	return INVOKE(0x004EA440, scenario_language_pack_load);
@@ -264,6 +331,9 @@ void __cdecl scenario_language_pack_unload()
 {
 	INVOKE(0x004EA4B0, scenario_language_pack_unload);
 }
+
+//.text:004EA4F0 ; long __cdecl scenario_leaf_index_from_point(long, real_point3d const*)
+//.text:004EA540 ; long __cdecl scenario_leaf_index_from_point(real_point3d const*, long*)
 
 void on_scenario_loaded();
 
@@ -299,6 +369,8 @@ bool __cdecl scenario_load(long campaign_id, long map_id, char const* scenario_p
 	tag_load_missing_tags_report();
 	return false;
 }
+
+//.text:004EA6A0 ; bool __cdecl scenario_load_new_bsps(dword, dword, dword*)
 
 // halo online only loads pending resources
 // ~~we add back the if statement for pending or required~~
@@ -341,6 +413,21 @@ bool __cdecl scenario_load_resources_blocking(bool pending)
 	return succeeded;
 }
 
+//.text:004EA7D0 ; bool __cdecl scenario_location_deafening(s_location const*)
+//.text:004EA8C0 ; void __cdecl scenario_location_from_leaf(s_location*, long, long)
+//.text:004EA920 ; void __cdecl scenario_location_from_line(s_location*, s_location const*, real_point3d const*, real_point3d const*)
+//.text:004EA940 ; void __cdecl scenario_location_from_point(s_location*, real_point3d const*)
+//.text:004EAA40 ; bool __cdecl scenario_location_potentially_visible(s_location const*)
+//.text:004EAA80 ; bool __cdecl scenario_location_potentially_visible_local(s_location const*)
+//.text:004EAAC0 ; bool __cdecl scenario_location_valid(s_location)
+//.text:004EAAD0 ; 
+//.text:004EAE20 ; bool __cdecl scenario_modify_active_zones(s_scenario_zone_activation const*)
+
+bool __cdecl scenario_modify_zone_activation_internal(long zone_set_index, dword old_structure_bsp_mask, dword new_structure_bsp_mask, dword touched_structure_bsp_mask, s_scenario_zone_change const* zone_change, dword touched_cinematic_zone_mask, bool a7)
+{
+	return INVOKE(0x004EAEA0, scenario_modify_zone_activation_internal, zone_set_index, old_structure_bsp_mask, new_structure_bsp_mask, touched_structure_bsp_mask, zone_change, touched_cinematic_zone_mask, a7);
+}
+
 bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 {
 	//return INVOKE(0x004EB260, scenario_preload_initial_zone_set, zone_set_index);
@@ -356,15 +443,7 @@ bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 		zone_state.pending_cinematic_zone_mask |= zone_set.cinematic_zones;
 		zone_state.pending_designer_zone_mask |= zone_set.required_designer_zones;
 
-		string_id zone_set_name = _string_id_empty_string;
-		if (global_scenario_index_get() != NONE)
-		{
-			struct scenario* global_scenario = (struct scenario*)tag_get(SCENARIO_TAG, global_scenario_index_get());
-			if (VALID_INDEX(scenario_zone_set_index_get(), global_scenario->zone_sets.count()))
-				zone_set_name = global_scenario->zone_sets[scenario_zone_set_index_get()].name.get_value();
-		}
-
-		cache_file_tag_resources_set_zone_state(global_scenario_index_get(), zone_set_name, &zone_state);
+		cache_file_tag_resources_set_zone_state(global_scenario_index_get(), scenario_zone_set_name_get(), &zone_state);
 		return scenario_load_resources_blocking(true);
 	}
 
@@ -373,35 +452,64 @@ bool __cdecl scenario_preload_initial_zone_set(short zone_set_index)
 
 void __cdecl scenario_prepare_for_map_reset(short zone_set_index)
 {
-	INVOKE(0x004EB3C0, scenario_prepare_for_map_reset, zone_set_index);
+	//INVOKE(0x004EB3C0, scenario_prepare_for_map_reset, zone_set_index);
 
-	//s_scenario_zone_change zone_change;
-	//zone_change.active_non_bsp_zone_set.designer_zone_mask = game_get_active_designer_zone_mask();
-	//zone_change.active_non_bsp_zone_set.cinematic_zone_mask = game_get_active_cinematic_zone_mask();
-	//zone_change.pending_non_bsp_zone_set.designer_zone_mask = scenario_zone_set_designer_zone_required_mask_get(zone_set_index);
-	//zone_change.pending_non_bsp_zone_set.cinematic_zone_mask = 0;
-	//
-	//if (!scenario_modify_zone_activation_internal(
-	//	zone_set_index,
-	//	game_get_active_structure_bsp_mask(),
-	//	scenario_zone_set_bsp_active_mask_get(zone_set_index),
-	//	0,
-	//	&zone_change,
-	//	0,
-	//	true))
-	//{
-	//	generate_event(_event_level_critical, "failed to reset to initial zone, things are about to go BOOM!");
-	//}
+	s_scenario_zone_change zone_change;
+	zone_change.active_non_bsp_zone_set.designer_zone_mask = game_get_active_designer_zone_mask();
+	zone_change.active_non_bsp_zone_set.cinematic_zone_mask = game_get_active_cinematic_zone_mask();
+	zone_change.pending_non_bsp_zone_set.designer_zone_mask = scenario_zone_set_designer_zone_required_mask_get(zone_set_index);
+	zone_change.pending_non_bsp_zone_set.cinematic_zone_mask = 0;
+	
+	if (!scenario_modify_zone_activation_internal(
+		zone_set_index,
+		game_get_active_structure_bsp_mask(),
+		scenario_zone_set_bsp_active_mask_get(zone_set_index),
+		0,
+		&zone_change,
+		0,
+		true))
+	{
+		generate_event(_event_level_critical, "failed to reset to initial zone, things are about to go BOOM!");
+	}
 }
 
 void __cdecl scenario_switch_to_null_zone_set()
 {
-	INVOKE(0x004EB5C0, scenario_switch_to_null_zone_set);
+	//INVOKE(0x004EB5C0, scenario_switch_to_null_zone_set);
+
+	scenario_resources_prepare_for_next_map();
+
+	s_scenario_zone_change zone_change{};
+	zone_change.active_non_bsp_zone_set.designer_zone_mask = game_get_active_designer_zone_mask();
+	zone_change.active_non_bsp_zone_set.cinematic_zone_mask = game_get_active_cinematic_zone_mask();
+	zone_change.pending_non_bsp_zone_set.designer_zone_mask = 0;
+	zone_change.pending_non_bsp_zone_set.cinematic_zone_mask = 0;
+	scenario_modify_zone_activation_internal(NONE, game_get_active_structure_bsp_mask(), 0, 0, &zone_change, false, true);
+	scenario_resources_unload_active_zone_set();
 }
 
 bool __cdecl scenario_switch_zone_set(long zone_set_index)
 {
-	return INVOKE(0x004EB620, scenario_switch_zone_set, zone_set_index);
+	//return INVOKE(0x004EB620, scenario_switch_zone_set, zone_set_index);
+
+	return scenario_switch_zone_set_internal(zone_set_index, true);
+}
+
+bool __cdecl scenario_switch_zone_set_internal(long zone_set_index, bool a2)
+{
+	return INVOKE(0x004EB640, scenario_switch_zone_set_internal, zone_set_index, a2);
+
+	//bool success = false;
+	//
+	//dword new_structure_bsp_mask = 0;
+	//if (zone_set_index != NONE)
+	//	new_structure_bsp_mask = global_scenario_get()->zone_sets[zone_set_index].bsp_zone_flags;
+	//
+	//dword game_structure_bsp_mask = game_get_active_structure_bsp_mask();
+	//
+	// #TODO: implement me
+	//
+	//return success;
 }
 
 //bool scenario_tags_match(enum e_campaign_id, enum e_map_id, char const*)
@@ -418,14 +526,29 @@ bool __cdecl scenario_tags_match(long campaign_id, long map_id, char const* scen
 	return (scenario->campaign_id == campaign_id || campaign_id == -1) && (scenario->map_id == map_id || map_id == -1);
 }
 
+//.text:004EB880 ; 
+//.text:004EB910 ; bool __cdecl scenario_test_pvs(s_cluster_reference, s_cluster_reference)
+
 void __cdecl scenario_unload()
 {
 	INVOKE(0x004EB950, scenario_unload);
 }
 
+//.text:004EB9A0 ; void __cdecl scenario_unload_old_bsps(dword, dword, bool)
+//.text:004EBA00 ; bool __cdecl scenario_use_designer_zones()
+//.text:004EBA10 ; 
+
 long __cdecl scenario_zone_set_index_get()
 {
 	return INVOKE(0x004EBA20, scenario_zone_set_index_get);
+}
+
+//.text:004EBA30 ; long __cdecl scenario_zone_set_index_get_if_fully_activated()
+//.text:004EBA90 ; bool __cdecl scenario_zone_set_is_fully_active(long)
+
+long __cdecl scenario_zone_set_name_get()
+{
+	return INVOKE(0x004EBAF0, scenario_zone_set_name_get);
 }
 
 structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* scenario, long structure_bsp_index)
@@ -433,9 +556,78 @@ structure_bsp const* __cdecl scenario_structure_bsp_get(struct scenario const* s
 	return INVOKE(0x00766280, scenario_structure_bsp_get, scenario, structure_bsp_index);
 }
 
+//.text:007662B0 ; long __cdecl scenario_structure_bsp_tag_index_get(struct scenario const*, long)
+//.text:007662D0 ; long __cdecl scenario_zone_set_structure_bsp_cluster_attached_sky_index_get(scenario const*, long, long, long)
+//.text:00766380 ; long __cdecl scenario_zone_set_structure_bsp_cluster_visible_sky_index_get(scenario const*, long, long, long)
+//.text:00766430 ; 
+//.text:00766470 ; 
+
 long global_scenario_index_get()
 {
 	return global_scenario_index;
+}
+
+struct scenario* global_scenario_get()
+{
+	// halo 3
+	ASSERT(global_scenario);
+	return global_scenario;
+
+	// halo online
+	//return static_cast<struct scenario*>(tag_get(SCENARIO_TAG, global_scenario_index));
+}
+
+struct scenario* global_scenario_try_and_get()
+{
+	if (global_scenario)
+		return global_scenario_get();
+
+	return NULL;
+}
+
+s_game_globals* scenario_get_game_globals()
+{
+	ASSERT(global_game_globals);
+	return global_game_globals;
+}
+
+s_game_globals* scenario_try_and_get_game_globals()
+{
+	if (global_game_globals)
+		return scenario_get_game_globals();
+
+	return NULL;
+}
+
+dword global_structure_bsp_active_mask_get()
+{
+	return g_active_structure_bsp_mask;
+}
+
+void scenario_zone_set_debug_status(char const* status, long zone_set_index)
+{
+	ASSERT(status);
+
+	c_static_string<1024> status_string;
+
+	if (zone_set_index != NONE)
+	{
+		struct scenario* scenario = global_scenario_try_and_get();
+		if (VALID_INDEX(zone_set_index, scenario->zone_sets.count))
+		{
+			status_string.print(scenario->zone_sets[zone_set_index].name.get_string());
+		}
+		else
+		{
+			status_string.print("<invalid>");
+		}
+	}
+	else
+	{
+		status_string.print("<none>");
+	}
+
+	main_status("zone_set", "%s #%d ('%s')", status, zone_set_index, status_string.get_string());
 }
 
 char const* scenario_tag_get_structure_bsp_name(long scenario_index, long structure_bsp_index)
@@ -456,7 +648,7 @@ char const* scenario_get_structure_bsp_name(long structure_bsp_index)
 	return scenario_tag_get_structure_bsp_name(global_scenario_index_get(), structure_bsp_index);
 }
 
-char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* structure_bsp_string, dword structure_bsp_string_size)
+char const* scenario_get_structure_bsp_string_from_mask(dword structure_bsp_mask, char* structure_bsp_string, dword structure_bsp_string_size)
 {
 	csnzprintf(structure_bsp_string, structure_bsp_string_size, "");
 
@@ -465,7 +657,7 @@ char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* struct
 	bool first_structure_bsp = true;
 	for (long structure_bsp_index = 0; structure_bsp_index < scenario->structure_bsp_references.count; structure_bsp_index++)
 	{
-		if (TEST_BIT(mask, structure_bsp_index))
+		if (TEST_BIT(structure_bsp_mask, structure_bsp_index))
 		{
 			if (char const* structure_bsp_name = scenario_get_structure_bsp_name(structure_bsp_index))
 			{
@@ -480,12 +672,7 @@ char const* scenario_get_structure_bsp_string_from_mask(dword mask, char* struct
 	return structure_bsp_string;
 }
 
-char const* scenario_get_designer_zone_name(struct scenario* scenario, long designer_zone_index)
-{
-	return scenario->designer_zones[designer_zone_index].name.get_string();
-}
-
-char const* scenario_get_designer_zone_string_from_mask(dword mask, char* designer_zone_string, dword designer_zone_string_size)
+char const* scenario_get_designer_zone_string_from_mask(dword designer_zone_mask, char* designer_zone_string, dword designer_zone_string_size)
 {
 	csnzprintf(designer_zone_string, designer_zone_string_size, "");
 
@@ -494,7 +681,7 @@ char const* scenario_get_designer_zone_string_from_mask(dword mask, char* design
 	bool first_designer_zone = true;
 	for (long designer_zone_index = 0; designer_zone_index < scenario->designer_zones.count; designer_zone_index++)
 	{
-		if (TEST_BIT(mask, designer_zone_index))
+		if (TEST_BIT(designer_zone_mask, designer_zone_index))
 		{
 			if (char const* designer_zone_name = scenario_get_designer_zone_name(scenario, designer_zone_index))
 			{
@@ -509,18 +696,7 @@ char const* scenario_get_designer_zone_string_from_mask(dword mask, char* design
 	return designer_zone_string;
 }
 
-char const* scenario_get_cinematic_zone_name(struct scenario* scenario, long cinematic_zone_index)
-{
-	long cinematic_index = scenario->cinematics[cinematic_zone_index].name.index;
-	if (cinematic_index != NONE)
-	{
-		char const* cinematic_name = tag_get_name(cinematic_index);
-		return tag_name_strip_path(cinematic_name);
-	}
-	return "";
-}
-
-char const* scenario_get_cinematic_zone_string_from_mask(dword mask, char* cinematic_zone_string, dword cinematic_zone_string_size)
+char const* scenario_get_cinematic_zone_string_from_mask(dword cinematic_zone_mask, char* cinematic_zone_string, dword cinematic_zone_string_size)
 {
 	csnzprintf(cinematic_zone_string, cinematic_zone_string_size, "");
 
@@ -529,7 +705,7 @@ char const* scenario_get_cinematic_zone_string_from_mask(dword mask, char* cinem
 	bool first_cinematic = true;
 	for (long cinematic_zone_index = 0; cinematic_zone_index < scenario->cinematics.count; cinematic_zone_index++)
 	{
-		if (TEST_BIT(mask, cinematic_zone_index))
+		if (TEST_BIT(cinematic_zone_mask, cinematic_zone_index))
 		{
 			if (char const* cinematic_zone_name = scenario_get_cinematic_zone_name(scenario, cinematic_zone_index))
 			{
@@ -893,4 +1069,3 @@ void on_scenario_loaded()
 #undef SCENARIO_PRINT_CAMPAIN_PLAYERS
 #undef SCENARIO_PRINT_LIGHTING_ZONE_SETS
 #undef SCENARIO_PRINT_ZONE_SETS
-

@@ -1590,6 +1590,12 @@
     <ClCompile Include="source\structures\structure_seams.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\scenario\scenario_zone_sets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scenario\scenario_zone_resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\camera\camera.hpp">
@@ -3741,6 +3747,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\structures\structure_seam_definitions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scenario\scenario_zone_sets.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scenario\scenario_zone_resources.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

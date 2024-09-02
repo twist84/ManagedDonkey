@@ -301,6 +301,8 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClCompile Include="source\scenario\scenario_kill_trigger_volumes.cpp" />
     <ClCompile Include="source\scenario\scenario_pvs.cpp" />
     <ClCompile Include="source\scenario\scenario_sky.cpp" />
+    <ClCompile Include="source\scenario\scenario_zone_resources.cpp" />
+    <ClCompile Include="source\scenario\scenario_zone_sets.cpp" />
     <ClCompile Include="source\screenshots\screenshots_loader.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_player.cpp" />
     <ClCompile Include="source\simulation\game_interface\simulation_game_engine_sandbox.cpp" />
@@ -1313,6 +1315,8 @@ copy /b $(ProjectDir)source\config\version.cpp +,, $(ProjectDir)source\config\ve
     <ClInclude Include="source\scenario\scenario_tags_fixup.hpp" />
     <ClInclude Include="source\scenario\scenario_trigger_volumes.hpp" />
     <ClInclude Include="source\scenario\scenario_zone_debugger_definitions.hpp" />
+    <ClInclude Include="source\scenario\scenario_zone_resources.hpp" />
+    <ClInclude Include="source\scenario\scenario_zone_sets.hpp" />
     <ClInclude Include="source\screenshots\screenshots_loader.hpp" />
     <ClInclude Include="source\screenshots\screenshots_uploader.hpp" />
     <ClInclude Include="source\simulation\game_interface\simulation_game_engine_sandbox.hpp" />

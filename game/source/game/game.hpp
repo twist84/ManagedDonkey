@@ -240,7 +240,10 @@ extern void __cdecl game_won();
 extern void __cdecl game_finish_immediate();
 extern bool __cdecl game_options_read_launch_settings_from_string(char const* buffer, s_game_options_launch_settings* out_launch_settings);
 extern bool __cdecl game_launch_get_settings(s_game_options_launch_settings* out_launch_settings);
-extern bool __cdecl game_launch_has_initial_script(char const* script_name);
+extern bool __cdecl game_launch_get_initial_script_name(char const* script_name);
 extern bool __cdecl game_options_get_launch_settings(game_options* options, bool change_in_progress);
+extern void game_bsp_debug_status(char const* status, dword structure_bsp_mask);
+extern void game_designer_zone_set_debug_status(char const* status, dword designer_zone_mask);
+extern void game_cinematic_zone_set_debug_status(char const* status, dword cinematic_zone_mask);
 extern void __cdecl game_pvs_debug_render();
 
