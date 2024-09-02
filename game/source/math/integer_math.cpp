@@ -2,6 +2,8 @@
 
 #include "cseries/cseries.hpp"
 
+#include <intrin.h>
+
 //.text:0052DD80 ; unsigned long __cdecl count_bits<long>(long)
 //.text:0052DDE0 ; public: __cdecl c_bit_range::c_bit_range(long, long, long)
 //.text:0052DE10 ; 
@@ -41,6 +43,14 @@ long highest_bit_set(unsigned long mask)
 		return NONE;
 
 	return LONG_BITS - (1 - __lzcnt(mask));
+}
+
+long lowest_bit_set(unsigned long mask)
+{
+	if (mask == 0)
+		return NONE;
+	
+	return __lzcnt(mask);
 }
 
 short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short x0, short y0, short x1, short y1)
