@@ -5,6 +5,7 @@
 #include "cseries/runtime_state.hpp"
 #include "main/main_game.hpp"
 #include "memory/module.hpp"
+#include "scenario/scenario_zone_resources.hpp"
 
 #include <DDS.h>
 
@@ -210,7 +211,13 @@ void __cdecl cache_file_tag_resources_dispose_from_old_map()
 	//g_resource_runtime_manager.get()->dispose_from_old_map();
 }
 
-//.text:0055F6C0 ; void __cdecl cache_file_tag_resources_get_active_tag_set(dword, dword, dword, dword, c_scenario_resource_registry*)
+void __cdecl cache_file_tag_resources_get_active_tag_set(dword a1, dword a2, dword a3, dword a4, c_scenario_resource_registry* pending_zone_registry)
+{
+	INVOKE(0x0055F6C0, cache_file_tag_resources_get_active_tag_set, a1, a2, a3, a4, pending_zone_registry);
+
+	//g_resource_runtime_manager.get()->mark_available_tags(a1, a2, a3, pending_zone_registry->get_tag_instance_flags());
+}
+
 //.text:0055F6D0 ; bool __cdecl cache_file_tag_resources_get_control_data_section(void const**, dword*)
 
 void __cdecl cache_file_tag_resources_initialize()
@@ -256,9 +263,17 @@ void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_io_resu
 bool __cdecl cache_file_tag_resources_prefetch_update_required()
 {
 	return INVOKE(0x0055F870, cache_file_tag_resources_prefetch_update_required);
+
+	//if (g_resource_runtime_manager.alive())
+	//	g_resource_runtime_manager.get()->need_prefetch_update();
 }
 
-//.text:0055F890 ; void __cdecl cache_file_tag_resources_prepare_for_next_map()
+void __cdecl cache_file_tag_resources_prepare_for_next_map()
+{
+	//INVOKE(0x0055F890, cache_file_tag_resources_prepare_for_next_map);
+
+	g_resource_runtime_manager.get()->prepare_for_next_map();
+}
 
 void __cdecl cache_file_tag_resources_update_prefetch_state()
 {
@@ -342,6 +357,11 @@ bool c_cache_file_tag_resource_runtime_manager::locked_for_current_thread_UGLY()
 bool c_cache_file_tag_resource_runtime_manager::locked_for_game_UGLY() const
 {
 	return DECLFUNC(0x005627F0, bool, __thiscall, c_cache_file_tag_resource_runtime_manager const*)(this);
+}
+
+void c_cache_file_tag_resource_runtime_manager::prepare_for_next_map()
+{
+	DECLFUNC(0x00562D90, void, __thiscall, c_cache_file_tag_resource_runtime_manager*)(this);
 }
 
 void c_cache_file_tag_resource_runtime_manager::pump_io()

@@ -62,6 +62,11 @@ public:
 		return m_live_object;
 	}
 
+	bool alive()
+	{
+		return m_live_object != nullptr;
+	}
+
 protected:
 	c_basic_buffer<void> m_opaque_storage;
 	t_type* m_live_object;
@@ -328,6 +333,7 @@ public:
 	void lock_for_render();
 	bool locked_for_current_thread_UGLY();
 	bool locked_for_game_UGLY() const;
+	void prepare_for_next_map();
 	void pump_io();
 	void stagnate_deferred_resources();
 	void unlock_for_game();
@@ -415,15 +421,18 @@ public:
 extern c_cache_file_tag_resource_runtime_manager_allocation& g_resource_runtime_manager;
 
 enum e_game_mode;
+struct c_scenario_resource_registry;
 struct s_scenario_game_state;
 
 extern void __cdecl cache_file_tag_resources_dispose();
 extern void __cdecl cache_file_tag_resources_dispose_from_old_map();
+extern void __cdecl cache_file_tag_resources_get_active_tag_set(dword a1, dword a2, dword a3, dword a4, c_scenario_resource_registry* pending_zone_registry);
 extern void __cdecl cache_file_tag_resources_initialize();
 extern void __cdecl cache_file_tag_resources_initialize_for_new_map(e_game_mode game_mode);
 extern void __cdecl cache_file_tag_resources_load_pending_resources_blocking(c_io_result* io_result);
 extern void __cdecl cache_file_tag_resources_load_required_resources_blocking(c_io_result* io_result);
 extern bool __cdecl cache_file_tag_resources_prefetch_update_required();
+extern void __cdecl cache_file_tag_resources_prepare_for_next_map();
 extern void __cdecl cache_file_tag_resources_update_prefetch_state();
 extern void __cdecl cache_file_tag_resources_set_zone_state(long scenario_index, long zone_set_name, s_scenario_zone_state const* zone_state);
 extern void __cdecl cache_file_tag_resources_start_map_prefetch(short campaign_id, char const* scenario_path);
