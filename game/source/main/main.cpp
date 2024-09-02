@@ -19,6 +19,7 @@
 #include "game/game_time.hpp"
 #include "hf2p/hf2p.hpp"
 #include "input/input_abstraction.hpp"
+#include "interface/chud/chud_messaging.hpp"
 #include "interface/closed_caption.hpp"
 #include "interface/debug_menu/debug_menu_main.hpp"
 #include "interface/user_interface.hpp"
@@ -1423,37 +1424,38 @@ void __cdecl main_prepare_for_switch_zone_set(long zone_set_index)
 {
 	INVOKE(0x00506A10, main_prepare_for_switch_zone_set, zone_set_index);
 
-	//if (global_scenario_try_and_get())
+	//struct scenario* scenario = global_scenario_try_and_get();
+	//if (!scenario)
 	//{
-	//	if (zone_set_index >= 0 && zone_set_index < global_scenario->zone_sets.count())
+	//	console_warning("tried to switch to a zone-set without a scenario loaded");
+	//	return;
+	//}
+	//
+	//if (!VALID_INDEX(zone_set_index, global_scenario->zone_sets.count))
+	//{
+	//	console_warning("tried to switch to invalid zone-set %d", zone_set_index);
+	//	return;
+	//}
+	//
+	//if (zone_set_index == scenario_zone_set_index_get())
+	//{
+	//	if (main_globals.prepare_to_switch_zone_set)
 	//	{
-	//		if (zone_set_index == scenario_zone_set_index_get())
-	//		{
-	//			if (main_globals.prepare_to_switch_zone_set)
-	//			{
-	//				main_globals.prepare_to_switch_zone_set = false;
-	//				main_globals.prepare_to_switch_zone_set_index = 0;
-	//			}
-	//			else
-	//			{
-	//				console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
-	//			}
-	//		}
-	//		else
-	//		{
-	//			//main_trace_event_internal(__FUNCTION__);
-	//			main_globals.prepare_to_switch_zone_set = true;
-	//			main_globals.prepare_to_switch_zone_set_index = zone_set_index;
-	//		}
+	//		main_globals.prepare_to_switch_zone_set = false;
+	//		main_globals.prepare_to_switch_zone_set_index = 0;
+	//		//chud_messaging_special_load(false);
 	//	}
 	//	else
 	//	{
-	//		console_warning("tried to switch to invalid zone-set %d", zone_set_index);
+	//		console_warning("tried to prepare to switch to current zone-set %d", zone_set_index);
 	//	}
 	//}
 	//else
 	//{
-	//	console_warning("tried to switch to a zone-set without a scenario loaded");
+	//	//main_trace_event_internal(__FUNCTION__);
+	//	main_globals.prepare_to_switch_zone_set = true;
+	//	main_globals.prepare_to_switch_zone_set_index = zone_set_index;
+	//	//chud_messaging_special_load(true);
 	//}
 }
 
