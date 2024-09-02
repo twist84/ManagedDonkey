@@ -13,5 +13,10 @@ struct cinematics_globals_block
 };
 static_assert(sizeof(cinematics_globals_block) == 0x18);
 
-struct s_cinematic_reference;
+struct s_cinematic_reference
+{
+	c_typed_tag_reference<CINEMATIC_TAG> name;
+};
+static_assert(sizeof(s_cinematic_reference) == sizeof(s_tag_reference));
+
 struct s_scenario_cutscene_title;
