@@ -42,15 +42,23 @@ long highest_bit_set(unsigned long mask)
 	if (mask == 0)
 		return NONE;
 
-	return LONG_BITS - (1 - __lzcnt(mask));
+	dword index;
+	if (!_BitScanReverse(&index, mask))
+		return NONE;
+
+	return static_cast<long>(index);
 }
 
 long lowest_bit_set(unsigned long mask)
 {
 	if (mask == 0)
 		return NONE;
-	
-	return __lzcnt(mask);
+
+	dword index;
+	if (!_BitScanForward(&index, mask))
+		return NONE;
+
+	return static_cast<long>(index);
 }
 
 short_rectangle2d* set_rectangle2d(short_rectangle2d* rect, short x0, short y0, short x1, short y1)
