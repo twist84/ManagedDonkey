@@ -123,9 +123,9 @@ void __cdecl bink_playback_prepare_for_new_zone_set(dword old_structure_bsp_mask
 	INVOKE(0x00616C50, bink_playback_prepare_for_new_zone_set, old_structure_bsp_mask, new_structure_bsp_mask);
 }
 
-void __cdecl bink_playback_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry)
+void __cdecl bink_playback_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry)
 {
-	INVOKE(0x00616C80, bink_playback_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
+	INVOKE(0x00616C80, bink_playback_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, pending_zone_registry);
 }
 
 //.text:00616C90 ; void __cdecl bink_playback_release_runtime_memory()

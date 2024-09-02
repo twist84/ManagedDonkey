@@ -1139,9 +1139,9 @@ e_game_playback_type __cdecl game_playback_get()
 
 //.text:00532AA0 ; void __cdecl game_playback_set(e_game_playback_type playback_type)
 
-void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry)
+void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry)
 {
-	//INVOKE(0x00532AD0, game_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
+	//INVOKE(0x00532AD0, game_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, pending_zone_registry);
 
 	TLS_DATA_GET_VALUE_REFERENCE(game_globals);
 
@@ -1171,7 +1171,7 @@ void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set co
 	for (long system_index = 0; system_index < g_game_system_count; system_index++)
 	{
 		if (g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc)
-			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
+			g_game_systems[system_index].prepare_for_non_bsp_zone_set_switch_proc(old_non_bsp_zone_set, new_non_bsp_zone_set, pending_zone_registry);
 	}
 
 	objects_purge_deleted_objects();

@@ -45,7 +45,7 @@ extern void __cdecl cinematic_initialize_for_new_map();
 extern void __cdecl cinematic_initialize_for_new_non_bsp_zone_set(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
 extern void __cdecl cinematic_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
 extern void __cdecl cinematic_prepare_for_new_zone_set(dword old_structure_bsp_mask, dword new_structure_bsp_mask);
-extern void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry);
+extern void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 extern void __cdecl cinematic_update();
 extern void __cdecl cinematics_game_tick();
 extern void __cdecl draw_quad(short_rectangle2d* rect, dword color);

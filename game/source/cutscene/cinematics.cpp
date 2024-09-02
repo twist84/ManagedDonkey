@@ -88,9 +88,9 @@ void __cdecl cinematic_prepare_for_new_zone_set(dword old_structure_bsp_mask, dw
 	INVOKE(0x0067DCE0, cinematic_prepare_for_new_zone_set, old_structure_bsp_mask, new_structure_bsp_mask);
 }
 
-void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry)
+void __cdecl cinematic_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry)
 {
-	INVOKE(0x0067DCF0, cinematic_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, resource_registry);
+	INVOKE(0x0067DCF0, cinematic_prepare_for_non_bsp_zone_set_switch, old_non_bsp_zone_set, new_non_bsp_zone_set, pending_zone_registry);
 }
 
 //.text:0067DDF0 ; void __cdecl cinematic_print(char const*)

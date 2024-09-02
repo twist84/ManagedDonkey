@@ -35,7 +35,7 @@ struct s_game_system
 	void(__cdecl* dispose_from_old_structure_bsp_proc)(dword old_structure_bsp_mask);
 	void(__cdecl* change_pvs_proc)(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*, bool);
 	void(__cdecl* activation_proc)(s_game_cluster_bit_vectors const*, s_game_cluster_bit_vectors const*);
-	void(__cdecl* prepare_for_non_bsp_zone_set_switch_proc)(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry);
+	void(__cdecl* prepare_for_non_bsp_zone_set_switch_proc)(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 	void(__cdecl* initialize_for_new_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const* new_non_bsp_zone_set);
 	void(__cdecl* dispose_from_old_non_bsp_zone_set_proc)(s_game_non_bsp_zone_set const* old_non_bsp_zone_set);
 };
@@ -198,7 +198,7 @@ extern void __cdecl game_options_validate(game_options* options);
 extern bool __cdecl game_options_verify(game_options const* options, char* error_string, long error_string_length);
 extern e_game_playback_type __cdecl game_playback_get();
 //extern void __cdecl game_playback_set(e_game_playback_type playback_type);
-extern void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry);
+extern void __cdecl game_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 extern void __cdecl game_prepare_to_switch_structure_bsp(dword old_structure_bsp_mask, dword new_structure_bsp_mask);
 //extern void __cdecl skull_primary_enable;
 //extern game_get_game_progression;

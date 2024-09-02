@@ -31,5 +31,5 @@ extern void __cdecl object_placement_initialize();
 extern void __cdecl object_placement_initialize_for_new_map();
 extern void __cdecl object_placement_initialize_for_new_structure_bsp(dword new_structure_bsp_mask);
 extern void __cdecl object_placement_prepare_for_new_zone_set(dword old_structure_bsp_mask, dword new_structure_bsp_mask);
-extern void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* resource_registry);
+extern void __cdecl object_placement_prepare_for_non_bsp_zone_set_switch(s_game_non_bsp_zone_set const* old_non_bsp_zone_set, s_game_non_bsp_zone_set const* new_non_bsp_zone_set, c_scenario_resource_registry* pending_zone_registry);
 
